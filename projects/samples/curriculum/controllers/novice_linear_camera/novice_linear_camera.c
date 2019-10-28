@@ -61,7 +61,6 @@ int find_middle(int tab[], int sizeTab) {
 
   // take the best values of the tab
   for (i = 0; i < nb_best; i++) {
-    index_bests[i] = -1;
     int index = -1;
     int max = 0;
     for (j = 0; j < sizeTab; j++) {

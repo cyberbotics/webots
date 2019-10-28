@@ -16,6 +16,7 @@
 
 #include "../../../include/controller/c/webots/nodes.h"
 #include "WbBackground.hpp"
+#include "WbBallJoint.hpp"
 #include "WbBallJointParameters.hpp"
 #include "WbBasicJoint.hpp"
 #include "WbBoundingSphere.hpp"
@@ -269,6 +270,8 @@ namespace {
               << "Focus"
               << "immersionProperties"
               << "ImmersionProperties"
+              << "jointParameters3"
+              << "JointParameters"
               << "jointParameters2"
               << "JointParameters"
               << "lens"
@@ -277,6 +280,8 @@ namespace {
               << "LensFlare"
               << "material"
               << "Material"
+              << "normal"
+              << "Normal"
               << "recognition"
               << "Recognition"
               << "textureTransform"
@@ -322,7 +327,7 @@ namespace {
 
     } else if (fieldName == "device") {
       const WbJoint *joint = dynamic_cast<const WbJoint *>(node);
-      if (parentModelName.startsWith("Hinge") || parentModelName == "Propeller") {
+      if (parentModelName.startsWith("Hinge") || parentModelName == "Propeller" || parentModelName == "BallJoint") {
         if ((nodeName == "RotationalMotor" &&
              (WbNodeReader::current() || (joint && joint->motor() == NULL) || parentModelName == "Propeller")) ||
             (nodeName == "PositionSensor" && (WbNodeReader::current() || (joint && joint->positionSensor() == NULL))) ||
@@ -342,10 +347,18 @@ namespace {
 
     } else if (fieldName == "device2") {
       const WbHinge2Joint *joint = dynamic_cast<const WbHinge2Joint *>(node);
-      if (parentModelName == "Hinge2Joint" &&
+      if ((parentModelName == "Hinge2Joint" || parentModelName == "BallJoint") &&
           ((nodeName == "RotationalMotor" && (WbNodeReader::current() || (joint && joint->motor2() == NULL))) ||
            (nodeName == "PositionSensor" && (WbNodeReader::current() || (joint && joint->positionSensor2() == NULL))) ||
            (nodeName == "Brake" && (WbNodeReader::current() || (joint && joint->brake2() == NULL)))))
+        return WbNodeUtilities::hasARobotAncestor(node);
+
+    } else if (fieldName == "device3") {
+      const WbBallJoint *joint = dynamic_cast<const WbBallJoint *>(node);
+      if (parentModelName == "BallJoint" &&
+          ((nodeName == "RotationalMotor" && (WbNodeReader::current() || (joint && joint->motor3() == NULL))) ||
+           (nodeName == "PositionSensor" && (WbNodeReader::current() || (joint && joint->positionSensor3() == NULL))) ||
+           (nodeName == "Brake" && (WbNodeReader::current() || (joint && joint->brake3() == NULL)))))
         return WbNodeUtilities::hasARobotAncestor(node);
 
     } else if (fieldName == "jointParameters") {
@@ -386,9 +399,6 @@ namespace {
     } else if (fieldName == "emissiveColorMap" && parentModelName == "PBRAppearance") {
       return nodeName == "ImageTexture";
 
-    } else if (fieldName == "environmentMap" && parentModelName == "PBRAppearance") {
-      return nodeName == "Cubemap";
-
     } else if (fieldName == "cubemap" && parentModelName == "Background") {
       return nodeName == "Cubemap";
 
@@ -399,8 +409,6 @@ namespace {
       QString invalidParentNode;
       if (WbNodeUtilities::findUpperNodeByType(node, WB_NODE_TRACK, 1))
         invalidParentNode = "Track";
-      else if (WbNodeUtilities::findUpperNodeByType(node, WB_NODE_HINGE_2_JOINT, 1))
-        invalidParentNode = "Hinge2Joint";
 
       if (!invalidParentNode.isEmpty()) {
         errorMessage = QObject::tr("Cannot insert %1 node in '%2' field of %3 node:: "
@@ -445,6 +453,8 @@ namespace {
         if (nodeName == "Propeller")
           return true;
         if (nodeName == "Charger")
+          return true;
+        if (nodeName == "Connector")
           return true;
         if (nodeName == "Skin" && WbNodeUtilities::isRobotTypeName(node->nodeModelName()) && WbNodeReader::current())
           return true;  // this node is still experimental
@@ -898,12 +908,12 @@ bool WbNodeUtilities::isSelected(const WbNode *node) {
 WbProtoModel *WbNodeUtilities::findContainingProto(const WbNode *node) {
   const WbNode *n = node;
   do {
-    WbProtoModel *const proto = n->proto();
+    WbProtoModel *proto = n->proto();
     if (proto)
       return proto;
     else {
       const WbNode *const protoParameterNode = n->protoParameterNode();
-      WbProtoModel *const proto = protoParameterNode ? protoParameterNode->proto() : NULL;
+      proto = protoParameterNode ? protoParameterNode->proto() : NULL;
       if (proto)
         return proto;
 
@@ -1359,7 +1369,7 @@ bool WbNodeUtilities::validateExistingChildNode(const WbField *const field, cons
   int result = NONE;
   if (fieldName == "device") {
     const WbJoint *joint = dynamic_cast<const WbJoint *>(node);
-    if (parentModelName.startsWith("Hinge")) {
+    if (parentModelName.startsWith("Hinge") || parentModelName == "BallJoint") {
       if (joint) {
         if (childModelName == "RotationalMotor")
           result = 1 + (static_cast<WbNode *>(joint->motor()) == childNode);
@@ -1390,6 +1400,16 @@ bool WbNodeUtilities::validateExistingChildNode(const WbField *const field, cons
         result = 1 + (static_cast<WbNode *>(joint->positionSensor2()) == childNode);
       else if (childModelName == "Brake")
         result = 1 + (static_cast<WbNode *>(joint->brake2()) == childNode);
+    }
+  } else if (fieldName == "device3") {
+    const WbBallJoint *joint = dynamic_cast<const WbBallJoint *>(node);
+    if (joint) {
+      if (childModelName == "RotationalMotor")
+        result = 1 + (static_cast<WbNode *>(joint->motor3()) == childNode);
+      else if (childModelName == "PositionSensor")
+        result = 1 + (static_cast<WbNode *>(joint->positionSensor3()) == childNode);
+      else if (childModelName == "Brake")
+        result = 1 + (static_cast<WbNode *>(joint->brake3()) == childNode);
     }
   }
   if (result == ROBOT_ANCESTOR)  // valid if node has a robot ancestor
@@ -1450,7 +1470,8 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
   }
 
   if (isRobotTypeName(srcModelName)) {
-    if (destModelName == "Group" || destModelName == "Transform" || destModelName == "Solid" || destModelName == "Charger") {
+    if (destModelName == "Group" || destModelName == "Transform" || destModelName == "Solid" || destModelName == "Charger" ||
+        destModelName == "Connector") {
       if (!hasSolidChildren(srcNode))
         return LOOSING_INFO;
 
@@ -1500,7 +1521,7 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
         return isRobotTypeName(topNodeModelName) ? SUITABLE : UNSUITABLE;
       }
       if (srcNode->isTopLevel()) {
-        if (destModelName == "Robot" || destModelName == "Charger")
+        if (destModelName == "Robot" || destModelName == "Charger" || destModelName == "Connector")
           return SUITABLE;
 
         return UNSUITABLE;
@@ -1511,7 +1532,8 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
   }
 
   if (srcModelName == "Charger") {
-    if (destModelName == "Robot" || destModelName == "Group" || destModelName == "Transform" || destModelName == "Solid")
+    if (destModelName == "Robot" || destModelName == "Group" || destModelName == "Transform" || destModelName == "Solid" ||
+        destModelName == "Connector")
       return LOOSING_INFO;
 
     return UNSUITABLE;
@@ -1587,6 +1609,7 @@ bool WbNodeUtilities::hasASolidDescendant(const WbNode *node) {
   WbNode *const n = const_cast<WbNode *>(node);
 
   const WbSlot *const slot = dynamic_cast<WbSlot *>(n);
+  // cppcheck-suppress knownConditionTrueFalse
   if (slot) {
     WbNode *endPoint = slot->endPoint();
     if (endPoint)
@@ -1618,6 +1641,7 @@ bool WbNodeUtilities::hasAJointDescendant(const WbNode *node) {
   WbNode *const n = const_cast<WbNode *>(node);
 
   const WbSlot *const slot = dynamic_cast<WbSlot *>(n);
+  // cppcheck-suppress knownConditionTrueFalse
   if (slot)
     return hasAJointDescendant(slot->endPoint());
 

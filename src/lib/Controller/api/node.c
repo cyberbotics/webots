@@ -114,6 +114,8 @@ const char *wb_node_get_name(WbNodeType t) {
       return "Material";
     case WB_NODE_MICROPHONE:
       return "Microphone";
+    case WB_NODE_NORMAL:
+      return "Normal";
     case WB_NODE_PBR_APPEARANCE:
       return "PBRAppearance";
     case WB_NODE_PEN:

@@ -1,9 +1,9 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.135268 -0.98387 -0.117054 1.55506
-  position -0.244562 0.0879589 0.00151526
+  orientation -0.08443836184132184 -0.98781059532215 -0.13076846263091862 2.1095059429457708
+  position -0.20574002163712224 0.09373777086457245 -0.07810460871948142
 }
 Background {
   skyColor [
@@ -39,9 +39,10 @@ DEF BOARD Solid {
       translation 0 0 0.075
       children [
         DEF BOARD_WHITE Shape {
-          appearance Appearance {
-            material Material {
-            }
+          appearance PBRAppearance {
+            baseColor 0.729412 0.741176 0.713725
+            roughness 0.5
+            metalness 0
           }
           geometry DEF BORAD_WHITE_PLANE Plane {
             size 0.15 0.15

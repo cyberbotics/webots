@@ -179,11 +179,11 @@ namespace wren {
           // Special handling for edges only connected to a single triangle (non-closed meshes)
           if (edge.mTriangleIndices[1] != static_cast<size_t>(~0)) {
             const Mesh::Triangle &triangle1 = mesh->triangle(edge.mTriangleIndices[1]);
-            glm::vec3 normal = triangle1.mNormal;
+            glm::vec3 triangleNormal = triangle1.mNormal;
             if (mesh->isDynamic())
-              normal = computeNormal(mesh, triangle1.mVertexIndices);
+              triangleNormal = computeNormal(mesh, triangle1.mVertexIndices);
 
-            triangle1.mIsFacingLight = glm::dot(lightDirectionInModelSpace, normal) < 0.0f;
+            triangle1.mIsFacingLight = glm::dot(lightDirectionInModelSpace, triangleNormal) < 0.0f;
           }
         }
       }
@@ -261,12 +261,13 @@ namespace wren {
         // Not computing caps, light facing info for triangles connected to edges is sufficient
         for (const Mesh::Edge &edge : mesh->edges()) {
           const Mesh::Triangle &triangle0 = mesh->triangle(edge.mTriangleIndices[0]);
-          glm::vec3 normal = triangle0.mNormal;
+          glm::vec3 triangleNormal = triangle0.mNormal;
           if (mesh->isDynamic())
-            normal = computeNormal(mesh, triangle0.mVertexIndices);
+            triangleNormal = computeNormal(mesh, triangle0.mVertexIndices);
 
           triangle0.mIsFacingLight =
-            glm::dot(glm::vec3(mesh->shadowCoords()[triangle0.mVertexIndices[0]]) - lightPositionInModelSpace, normal) < 0.0f;
+            glm::dot(glm::vec3(mesh->shadowCoords()[triangle0.mVertexIndices[0]]) - lightPositionInModelSpace, triangleNormal) <
+            0.0f;
 
           // Special handling for edges only connected to a single triangle (non-closed meshes)
           if (edge.mTriangleIndices[1] != static_cast<size_t>(~0)) {

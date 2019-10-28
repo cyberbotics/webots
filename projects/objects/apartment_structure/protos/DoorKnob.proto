@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -14,6 +14,7 @@ PROTO DoorKnob [
   field SFFloat    distanceFromDoor 0.065                # Defines the distance between the handle and the door.
   field SFNode     appearance       BrushedAluminium {}  # Defines the appearance of the handle.
   field SFFloat    mass             0.7                  # Defines the mass of the handle.
+  field SFBool     castShadows      TRUE                 # Defines whether this object should cast shadows.
 ]
 {
   %{
@@ -53,6 +54,7 @@ PROTO DoorKnob [
                 radius 0.03
                 height %{= 0.025 + doorThickness }%
               }
+              castShadows IS castShadows
             }
           ]
         }
@@ -65,6 +67,7 @@ PROTO DoorKnob [
                 radius %{= 0.4 * handleRadius }%
                 height %{= axisHeight }%
               }
+              castShadows IS castShadows
             }
           ]
         }
@@ -78,6 +81,7 @@ PROTO DoorKnob [
                 radius %{= handleRadius }%
                 subdivision 2
               }
+              castShadows IS castShadows
             }
           ]
         }
@@ -91,6 +95,7 @@ PROTO DoorKnob [
                 radius %{= handleRadius }%
                 subdivision 2
               }
+              castShadows IS castShadows
             }
           ]
         }

@@ -19,6 +19,7 @@
 #include "WbSimulationWorld.hpp"  // TODO: should we rename WbSimulationWorld to WbSimulatedWorld ?
 
 class QLocalServer;
+class QLocalSocket;
 class WbController;
 
 class WbControlledWorld : public WbSimulationWorld {
@@ -53,13 +54,16 @@ protected:
   void setUpControllerForNewRobot(WbRobot *robot) override;
 
 private:
+  void startControllerFromSocket(WbRobot *robot, QLocalSocket *socket);
   void updateRobotController(WbRobot *robot);
+  void handleRobotRemoval(WbBaseNode *node);
 
   QLocalServer *mServer;
   QList<WbController *> mControllers;
   QList<WbController *> mWaitingControllers;  // controllers inserted in previous step and waiting to be started in current step
   QList<WbController *> mNewControllers;      // controllers inserted in current step mode and waiting next step to start
-  QList<WbController *> mTerminatingControllers;  // controllers waiting to be deleted
+  QList<WbController *> mTerminatingControllers;    // controllers waiting to be deleted
+  QList<WbRobot *> mRobotsWaitingExternController;  // robots with extern controller not started
   QList<double> mRequests;
   bool mNeedToYield;
   bool mFirstStep;

@@ -24,7 +24,7 @@
 
 class Tokenizer {
 public:
-  Tokenizer(const QString &string, const QChar &separator = ';');
+  explicit Tokenizer(const QString &string, const QChar &separator = ';');
   virtual ~Tokenizer() {}
 
   QString nextToken();

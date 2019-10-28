@@ -81,7 +81,7 @@ Finally, *spot[i]* is a factor used only in case of a [SpotLight](spotlight.md),
 
 %figure "SpotLight factor"
 
-![spot_light_formula.png](images/spot_light_formula.png)
+![spot_light_formula.png](images/spot_light_formula.thumbnail.png)
 
 %end
 
@@ -125,7 +125,7 @@ Finally, if the sensor's `lookupTable` is filled with correct calibration data, 
 #### `wb_light_sensor_get_sampling_period`
 #### `wb_light_sensor_get_value`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -188,7 +188,7 @@ public class LightSensor extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_light_sensor_enable(tag, sampling_period)
 wb_light_sensor_disable(tag)
 period = wb_light_sensor_get_sampling_period(tag)

@@ -129,8 +129,8 @@ typedef const struct {
 } melody_t;
 
 void play_melody_set_song(song_selection_t choice);
-void play_melody_set_melody(melody_t *melody);
-void play_melody_set_speaker(WbDeviceTag speaker);
+void play_melody_set_melody(melody_t *m);
+void play_melody_set_speaker(WbDeviceTag s);
 void play_melody_set_volume(double volume);
 void play_melody_step(double tempo);
 void play_melody_stop();

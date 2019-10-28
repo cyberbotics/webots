@@ -55,7 +55,6 @@ void Camera::computeZoom() {
   if (mLinearCamera)
     mZoom = 480 / mWidth;
   else {
-    mZoom = 1;
     if ((double)mWidth / 480 > (double)mHeight / 640) {
       // dynamic zoom
       mZoom = 480 / mWidth;

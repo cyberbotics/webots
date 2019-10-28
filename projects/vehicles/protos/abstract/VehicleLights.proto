@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
@@ -7,18 +7,18 @@
 
 PROTO VehicleLights [
   field MFNode    front           [ ]
-  field MFColor   frontColor      [ 0.8 0.8 0.8 ]
+  field MFColor   frontColor      [ 0.5 0.5 0.5 ]
   field MFNode    rightIndicator  [ ]
   field MFNode    leftIndicator   [ ]
-  field MFColor   indicatorColor  [ 1 0.7 0.1 ]
+  field MFColor   indicatorColor  [ 0.8 0.35 0 ]
   field MFNode    antifog         [ ]
   field MFColor   antifogColor    [ 0.8 0.8 0.8 ]
   field MFNode    braking         [ ]
-  field MFColor   brakingColor    [ 0.7 0.12 0.12 ]
+  field MFColor   brakingColor    [ 0.3 0 0 ]
   field MFNode    rear            [ ]
-  field MFColor   rearColor       [ 0.7 0.12 0.12 ]
+  field MFColor   rearColor       [ 0.3 0 0 ]
   field MFNode    backwards       [ ]
-  field MFColor   backwardsColor  [ 0.8 0.8 0.8 ]
+  field MFColor   backwardsColor  [ 0.5 0.5 0.5 ]
 ]
 {
   Group {

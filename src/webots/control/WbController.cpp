@@ -112,6 +112,7 @@ WbController::WbController(WbRobot *robot) :
 
   mProcess = new QProcess();
 
+  connect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
   connect(mProcess, &QProcess::readyReadStandardOutput, this, &WbController::readStdout);
   connect(mProcess, &QProcess::readyReadStandardError, this, &WbController::readStderr);
   connect(mProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
@@ -152,7 +153,7 @@ WbController::~WbController() {
         mSocket->flush();  // otherwise the temination packet is not sent
       }
       // kill the process
-      if (!mProcess->waitForFinished(1000)) {
+      if (mProcess->state() != QProcess::NotRunning && !mProcess->waitForFinished(1000)) {
         WbLog::warning(tr("%1: Forced termination (because process didn't terminate itself after 1 second).").arg(name()));
 #ifdef _WIN32
         // on Windows, we need to kill the process as it may not handle the WM_CLOSE message sent by terminate()
@@ -162,7 +163,7 @@ WbController::~WbController() {
 #endif
       }
     }
-  } else if (mProcess)
+  } else if (mProcess && mProcess->state() != QProcess::NotRunning)
     mProcess->terminate();
 
   delete mSocket;
@@ -225,7 +226,7 @@ void WbController::start() {
   if (mCommandLine.isEmpty())  // python has wrong version or Matlab 64 not available
     return;
 
-  info(tr("Starting: \"%1\"").arg(mCommandLine));
+  info(tr("Starting controller: %1").arg(mCommandLine));
 
 #ifdef __linux__
   if (!qgetenv("WEBOTS_FIREJAIL_CONTROLLERS").isEmpty() && mRobot->findField("controller")) {
@@ -462,6 +463,11 @@ void WbController::setProcessEnvironment() {
   if (searchDefaultLibraries) {
     // this search is cached because it takes significant time
     WbFileUtil::searchDirectoryNameRecursively(defaultLibrariesPaths, "libraries", WbStandardPaths::resourcesProjectsPath());
+    if (WbProject::extraDefaultProject()) {
+      const QString extraDefaultLibrariesPath = WbProject::extraDefaultProject()->librariesPath();
+      if (QDir(extraDefaultLibrariesPath).exists())
+        defaultLibrariesPaths << extraDefaultLibrariesPath;
+    }
     const QString defaultLibrariesPath = WbProject::defaultProject()->librariesPath();
     if (QDir(defaultLibrariesPath).exists())
       defaultLibrariesPaths << defaultLibrariesPath;
@@ -479,6 +485,32 @@ void WbController::setProcessEnvironment() {
     if (mPythonCommand.isEmpty())
       mPythonCommand = WbLanguageTools::pythonCommand(
         mPythonShortVersion, WbPreferences::instance()->value("General/pythonCommand", "python").toString());
+    // read the python shebang (first line starting with #!) to possibly override the python command
+    QFile pythonSourceFile(mControllerPath + name() + ".py");
+    if (pythonSourceFile.open(QIODevice::ReadOnly)) {
+      QTextStream in(&pythonSourceFile);
+      const QString &line = in.readLine();
+      if (line.startsWith("#!")) {
+#ifndef _WIN32
+        if (line.startsWith("#!/usr/bin/env "))
+          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(15).trimmed());
+        else
+          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(2).trimmed());
+#else  // Windows: check that the version specified in the shebang corresponds to the version of Python installed
+        const QString &expectedVersion = line.mid(line.lastIndexOf("python", -1, Qt::CaseInsensitive) + 6);
+        bool mismatch = false;
+        int l = expectedVersion.length();
+        if (l == 1 && expectedVersion[0] != mPythonShortVersion[0])
+          mismatch = true;
+        if (l >= 3 && (expectedVersion[0] != mPythonShortVersion[0] || expectedVersion[2] != mPythonShortVersion[1]))
+          mismatch = true;
+        if (mismatch)
+          warn(tr("Python shebang requests python%1, but current path points to Python%2")
+                 .arg(expectedVersion, mPythonShortVersion));
+#endif
+      }
+      pythonSourceFile.close();
+    }
     addPathEnvironmentVariable(env, "PYTHONPATH", WbStandardPaths::webotsLibPath() + "python" + mPythonShortVersion, false,
                                true);
     addEnvironmentVariable(env, "PYTHONIOENCODING", "UTF-8");
@@ -751,6 +783,10 @@ void WbController::startPython() {
 }
 
 void WbController::startMatlab() {
+  if (WbSysInfo::isSnap()) {
+    warn(tr("MATLAB controllers should be launched as extern controllers with the snap package of Webots."));
+    return;
+  }
   if (mMatlabCommand.isEmpty()) {
     mCommand = WbLanguageTools::matlabCommand();
     if (mCommand == "!")  // Matlab 64 bit not available
@@ -804,7 +840,6 @@ void WbController::copyBinaryAndDependencies(const QString &filename) {
   QString oldRPath = process.readAllStandardOutput().trimmed();
 
   // change RPATH
-  cmd = "";
   if (oldRPath.isEmpty())
     cmd = QString("install_name_tool -add_rpath %1 %2").arg(WbStandardPaths::webotsHomePath()).arg(filename);
   else
@@ -842,6 +877,13 @@ const QString &WbController::name() const {
 
 const QString &WbController::args() const {
   return mRobot->controllerArgs();
+}
+
+void WbController::handleControllerExit() {
+  if (mRobot->controllerName() == "<extern>") {
+    processFinished(0, QProcess::NormalExit);
+    mRobot->setControllerStarted(false);
+  }
 }
 
 void WbController::writeUserInputEventAnswer() {

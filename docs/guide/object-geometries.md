@@ -7,7 +7,7 @@ The shape (defined by the 'crossSection' field) is extruded along the path defin
 
 %figure
 
-![Extrusion](images/objects/geometries/Extrusion/model.png)
+![Extrusion](images/objects/geometries/Extrusion/model.thumbnail.png)
 
 %end
 
@@ -29,7 +29,7 @@ Extrusion {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/Extrusion.proto](https://github.com/omichel/webots/tree/master/projects/objects/geometries/protos/Extrusion.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/Extrusion.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/geometries/protos/Extrusion.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -65,7 +65,7 @@ A demo of these mappings is available in projects/samples/geometries/worlds/text
 
 %figure
 
-![TexturedBox](images/objects/geometries/TexturedBox/model.png)
+![TexturedBox](images/objects/geometries/TexturedBox/model.thumbnail.png)
 
 %end
 
@@ -84,7 +84,7 @@ TexturedBox {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/TexturedBox.proto](https://github.com/omichel/webots/tree/master/projects/objects/geometries/protos/TexturedBox.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/TexturedBox.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/geometries/protos/TexturedBox.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -126,7 +126,7 @@ A demo of these mappings is available in projects/samples/geometries/worlds/text
 
 %figure
 
-![TexturedParallelepiped](images/objects/geometries/TexturedParallelepiped/model.png)
+![TexturedParallelepiped](images/objects/geometries/TexturedParallelepiped/model.thumbnail.png)
 
 %end
 
@@ -146,7 +146,7 @@ TexturedParallelepiped {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/TexturedParallelepiped.proto](https://github.com/omichel/webots/tree/master/projects/objects/geometries/protos/TexturedParallelepiped.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/TexturedParallelepiped.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/geometries/protos/TexturedParallelepiped.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

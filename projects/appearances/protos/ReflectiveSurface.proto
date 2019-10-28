@@ -1,0 +1,41 @@
+#VRML_SIM R2019b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# A reflective surface material.
+
+PROTO ReflectiveSurface [
+  field SFFloat metalness         0.5
+  field SFColor emissiveColor     0 0 0
+  field SFFloat emissiveIntensity 1
+  field SFColor baseColorMap      1 1 1
+  field SFBool  useBaseColorMap   TRUE   # Defines wheather the base color texture should be used or not.
+  field SFNode  textureTransform  NULL   # Defines an optional 2d texture transform.
+  field SFFloat IBLStrength       1      # Defines the strength of ambient lighting from the Background node.
+]
+{
+  PBRAppearance {
+    baseColor IS colorOverride
+    %{ if fields.useBaseColorMap.value then }%
+    baseColorMap ImageTexture {
+      url [
+        "textures/reflective_surface/reflective_surface_base_color.jpg"
+      ]
+    }
+    %{ end }%
+    roughnessMap ImageTexture {
+      url [
+        "textures/reflective_surface/reflective_surface_roughness.jpg"
+      ]
+    }
+    metalness IS metalness
+    normalMap ImageTexture {
+      url [
+        "textures/reflective_surface/reflective_surface_normal.jpg"
+      ]
+    }
+    emissiveColor IS emissiveColor
+    emissiveIntensity IS emissiveIntensity
+    IBLStrength IS IBLStrength
+    textureTransform IS textureTransform
+  }
+}

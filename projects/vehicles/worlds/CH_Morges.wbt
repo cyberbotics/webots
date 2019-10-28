@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "World generated using the Open Street Map to Webots importer"
@@ -87,7 +87,15 @@ Fog {
 Floor {
   translation 0 -0.1 0
   size 3497 2425
-appearance PBRAppearance { metalness 0 roughness 1 baseColorMap ImageTexture { url "textures/grass.jpg" } }
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/grass.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
 }
 RoadPillars {
   translation 1447.7 -1.1226609e-12 -234.75835

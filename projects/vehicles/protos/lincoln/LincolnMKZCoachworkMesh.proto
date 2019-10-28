@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -9676,6 +9676,6 @@ PROTO LincolnMKZCoachworkMesh [
       5891, -1, 5213, 5895, 5894, -1, 5210, 5894, 5893, -1
       5893, 5892, 5208, -1
     ]
-    creaseAngle 0.22
+    creaseAngle 0.4
   }
 }

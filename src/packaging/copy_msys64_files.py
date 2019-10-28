@@ -25,7 +25,7 @@ def list_dependencies(package):
 
 d = list_dependencies('make')
 d += list_dependencies('coreutils')
-d += list_dependencies('gcc')
+d += list_dependencies('mingw-w64-x86_64-gcc')
 d += list_dependencies('mingw-w64-i686-gcc')
 
 # remove duplicate packages
@@ -38,7 +38,13 @@ for item in d:
 
 folders = ['/tmp', '/mingw32', '/mingw32/bin', '/mingw32/lib', '/mingw64', '/mingw64/bin', '/mingw64/include',
            '/mingw64/bin/platforms/',  # hack to get qwindows.dll found by Webots
-           '/mingw64/include/libssh', '/mingw64/lib', '/mingw64/share',
+           '/mingw64/include/libssh',
+           '/mingw64/include/opencv4',
+           '/mingw64/include/opencv4/opencv2',
+           '/mingw64/include/opencv4/opencv2/core',
+           '/mingw64/include/opencv4/opencv2/core/hal',
+           '/mingw64/include/opencv4/opencv2/imgproc',
+           '/mingw64/lib', '/mingw64/share',
            '/mingw64/share/qt5', '/mingw64/share/qt5/plugins', '/mingw64/share/qt5/translations',
            '/mingw64/share/qt5/plugins/imageformats', '/mingw64/share/qt5/plugins/platforms',
            '/mingw64/share/qt5/plugins/printsupport', '/mingw64/share/qt5/plugins/styles']
@@ -77,6 +83,12 @@ with open('files_msys64.txt', 'r') as f:
                 print('# \033[1;31m' + l + ' is already included\033[0m')
             else:
                 files.append(l)
+print("# processing ffmpeg dependencies (DLLs)")
+sys.stdout.flush()
+script = os.path.join(os.environ['WEBOTS_HOME'], 'src', 'packaging', 'ffmpeg_dependencies.sh')
+ffmpeg_dlls = subprocess.check_output(['bash', script]).decode('utf-8').split()
+for ffmpeg_dll in ffmpeg_dlls:
+    files.append('/mingw64/bin/' + ffmpeg_dll)
 f = open('msys64_files.iss', 'w')
 for i in files:
     w = i.replace('/', '\\')

@@ -47,6 +47,20 @@ Hence if both simulation are saved using the `Save as...` button, the resulting 
 This is true independently of the simulation mode used to execute the simulation: `Step`, `Real-Time`, `Run` or `Fast`.
 This is also true whether or not sensor noise is used (see below).
 
+### My Robot Sinks into the Ground, How to Remove This Effect?
+
+#### My Robot Is Heavy and Sinks into the Ground Constantly
+
+My robot weighs over hundreds of kilograms.
+
+- Reduce the `basicTimeStep` field value of the [WorldInfo](../reference/worldinfo.md) node.
+- Reduce the `softCFM` field of the [ContactProperties](../reference/contactproperties.md) node which defines the contact between the robot (typically the robot wheels or feet) and the ground.
+
+#### My Robot Suddenly Sinks into the Ground (ElevationGrid) as It Moves from One Tile to Another
+
+This is an ODE bug.
+A workaround is to make the [ElevationGrid](../reference/elevationgrid.md) tiles larger than the size of the robot.
+
 ### How to Remove the Noise from the Simulation?
 
 There are two sources of noise in Webots: the *sensor/actuator noise* and the *physics engine noise*.
@@ -112,7 +126,7 @@ void webots_physics_cleanup() {
 ```
 
 You will find the description of Webots physics plugin API [here](../reference/physics-plugin.md).
-You will find the description about the ODE functions on [this page](http://ode-wiki.org/wiki/index.php?title=Manual).
+You will find the description about the ODE functions on [this page](http://ode.org/wiki/index.php?title=Manual).
 
 ### Should I Specify the "mass" or the "density" in the Physics Nodes?
 

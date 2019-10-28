@@ -26,13 +26,13 @@ Connector {
 [Connector](#connector) nodes can only connect to other [Connector](#connector) nodes.
 At any time, each connection involves exactly two [Connector](#connector) nodes (peer to peer).
 The physical connection between two [Connector](#connector) nodes can be created and destroyed at run time by the robot's controller.
-The primary idea of [Connector](#connector) nodes is to enable the dynamic reconfiguration of modular robots, but more generally, [Connector](#connector) nodes can be used in any situation where robots need to be attached to other robots.
+The primary idea of [Connector](#connector) nodes is to enable the dynamic reconfiguration of modular robots, but more generally, [Connector](#connector) nodes can be used in any situation where solids need to be attached to other solids.
 
 [Connector](#connector) nodes were designed to simulate various types of docking hardware:
 
-- Mechanical links held in place by a latch
-- Gripping mechanisms
-- Magnetic links between permanent magnets (or electromagnets)
+- Mechanical links held in place by a latch.
+- Gripping mechanisms.
+- Magnetic links between permanent magnets (or electromagnets).
 - Pneumatic suction systems, etc.
 
 Connectors can be classified into two types, independent of the actual hardware system:
@@ -53,7 +53,7 @@ Two [Connector](#connector) nodes can connect only if their model strings are id
 - `type`: specifies the connector's type, this must be one of: "symmetric", "active", or "passive".
 A "symmetric" connector can only lock to (and unlock from) another "symmetric" connector.
 An "active" connector can only lock to (and unlock from) a "passive" connector.
-A "passive" connector cannot lock or unlock.
+A "passive" connector cannot lock or unlock (this is particularly useful for connectors which are part of the static environment).
 
 - `isLocked`: represents the locking state of the [Connector](#connector).
 The locking state can be changed through the `wb_connector_lock` and `wb_connector_unlock` API functions.
@@ -137,7 +137,7 @@ If these design criteria are not met, the [Connector](#connector) nodes will not
 
 %end
 
-> **Note**: To be functional, a [Connector](#connector) node requires the presence of a [Physics](physics.md) node in its parent node.
+> **Note**: To be functional, at least one of the two [Connector](#connector) nodes requires the presence of a [Physics](physics.md) node in its parent node.
 But it is not necessary to add a [Physics](physics.md) node to the [Connector](#connector) itself.
 
 ### Connector Functions
@@ -147,7 +147,7 @@ But it is not necessary to add a [Physics](physics.md) node to the [Connector](#
 #### `wb_connector_get_presence_sampling_period`
 #### `wb_connector_get_presence`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -213,7 +213,7 @@ public class Connector extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_connector_enable_presence(tag, sampling_period)
 wb_connector_disable_presence(tag)
 period = wb_connector_get_presence_sampling_period(tag)
@@ -280,7 +280,7 @@ rotation_aligned := the n-ways rotational angle is within tolerance
 #### `wb_connector_lock`
 #### `wb_connector_unlock`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -338,7 +338,7 @@ public class Connector extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_connector_lock(tag)
 wb_connector_unlock(tag)
 ```

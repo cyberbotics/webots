@@ -1,8 +1,10 @@
 {
+  "robotID": "n11", 
   "name": "bb8", 
   "devices": [
     {
-      "transformID": "n30", 
+      "transformID": "n27", 
+      "initialPosition": 0, 
       "name": "body pitch motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -11,7 +13,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n26", 
+      "transformID": "n23", 
+      "initialPosition": 0, 
       "name": "body yaw motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -20,7 +23,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n48", 
+      "transformID": "n47", 
+      "initialPosition": 0, 
       "name": "head yaw motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -29,34 +33,34 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n30", 
+      "transformID": "n27", 
       "type": "Accelerometer", 
       "name": "body accelerometer"
     }, 
     {
-      "transformID": "n30", 
+      "transformID": "n27", 
       "type": "Gyro", 
       "name": "body gyro"
     }, 
     {
-      "transformID": "n13", 
+      "transformID": "n11", 
       "transformOffset": "0 0.25 0", 
       "type": "Accelerometer", 
       "name": "counterweight accelerometer"
     }, 
     {
-      "transformID": "n13", 
+      "transformID": "n11", 
       "transformOffset": "0 0.25 0", 
       "type": "Gyro", 
       "name": "counterweight gyro"
     }, 
     {
-      "transformID": "n48", 
+      "transformID": "n47", 
       "type": "Accelerometer", 
       "name": "head accelerometer"
     }, 
     {
-      "transformID": "n48", 
+      "transformID": "n47", 
       "type": "Gyro", 
       "name": "head gyro"
     }

@@ -1,0 +1,226 @@
+#VRML_SIM R2019b utf8
+WorldInfo {
+  info [
+    "Example world demonstrating the use of a controlled Hinge2Joint."
+  ]
+  title "Motor 2"
+  lineScale 0.3
+}
+Viewpoint {
+  orientation 0.31324569058818835 0.9231043879286132 0.22305924395745047 5.044773530408996
+  position -0.511237145293597 0.34036277934454845 0.22835165427329018
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorAppearance ThreadMetalPlate {
+    textureTransform TextureTransform {
+      scale 2 2
+    }
+  }
+}
+Robot {
+  children [
+    SolidRoundedBox {
+      size 0.2 0.01 0.2
+      borderRadius 0.005
+      appearance GalvanizedMetal {
+      }
+    }
+    SolidTorus {
+      majorRadius 0.03
+      minorRadius 0.02
+      appearance BrushedAluminium {
+      }
+    }
+    CapScrew {
+      translation -0.08 0.005 -0.08
+      rotation 1 0 0 1.570796
+    }
+    CapScrew {
+      translation 0.08 0.005 -0.08
+      rotation 1 0 0 1.570796
+      name "cap screw(1)"
+    }
+    CapScrew {
+      translation 0.08 0.005 0.08
+      rotation 1 0 0 1.570796
+      name "cap screw(2)"
+    }
+    CapScrew {
+      translation -0.08 0.005 0.08
+      rotation 1 0 0 1.570796
+      name "cap screw(3)"
+    }
+    Solid {
+      translation 0 0.06 0
+      children [
+        Shape {
+          appearance BrushedAluminium {
+            textureTransform TextureTransform {
+              rotation 1.5708
+            }
+          }
+          geometry DEF CYLINDER Cylinder {
+            height 0.1
+            radius 0.02
+          }
+        }
+        SolidBox {
+          translation 0 0.065 -0.014
+          size 0.02 0.03 0.005
+          appearance BrushedAluminium {
+            textureTransform TextureTransform {
+              rotation 1.5708
+              scale 0.2 0.2
+            }
+          }
+          physics Physics {
+          }
+        }
+        SolidBox {
+          translation 0 0.065 0.014
+          name "box(1)"
+          size 0.02 0.03 0.005
+          appearance BrushedAluminium {
+            textureTransform TextureTransform {
+              rotation 1.5708
+              scale 0.2 0.2
+            }
+          }
+          physics Physics {
+          }
+        }
+        Solid {
+          translation 0 0.07 0
+          rotation 1 0 0 -1.5707963071795863
+          children [
+            Shape {
+              appearance BrushedAluminium {
+              }
+              geometry DEF CYLINDER_2 Cylinder {
+                height 0.03
+                radius 0.008
+              }
+            }
+            Bolt {
+              translation 0 0.0053 0
+              rotation 1 0 0 1.570796
+              screwRadius 0.0031
+              screwLength 0.02
+            }
+            Bolt {
+              translation 0 -0.0052 0
+              rotation 0 0.7071067811865476 0.7071067811865476 -3.1415923071795864
+              name "bolt(1)"
+              screwRadius 0.0031
+              screwLength 0.02
+            }
+          ]
+          boundingObject USE CYLINDER_2
+          physics Physics {
+          }
+        }
+        Hinge2Joint {
+          jointParameters HingeJointParameters {
+            axis 0 0 1
+            anchor 0 0.07 0
+          }
+          jointParameters2 JointParameters {
+            axis 1 0 0
+          }
+          device [
+            RotationalMotor {
+              name "motor 1"
+              maxVelocity 1
+            }
+          ]
+          device2 [
+            RotationalMotor {
+              name "motor 2"
+              maxVelocity 1
+            }
+          ]
+          endPoint Solid {
+            translation 0 0.07 0
+            rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 -2.094395307179586
+            children [
+              Shape {
+                appearance BrushedAluminium {
+                }
+                geometry DEF CYLINDER_2 Cylinder {
+                  height 0.03
+                  radius 0.008
+                }
+              }
+              Bolt {
+                translation 0 0.0053 0
+                rotation 1 0 0 1.570796
+                screwRadius 0.0031
+                screwLength 0.02
+              }
+              Bolt {
+                translation 0 -0.0052 0
+                rotation 0 0.7071067811865476 0.7071067811865476 -3.1415923071795864
+                name "bolt(1)"
+                screwRadius 0.0031
+                screwLength 0.02
+              }
+              SolidBox {
+                translation 0 0.015 0.006
+                rotation 1 0 0 1.570796
+                size 0.02 0.03 0.005
+                appearance BrushedAluminium {
+                  textureTransform TextureTransform {
+                    rotation 1.5708
+                    scale 0.2 0.2
+                  }
+                }
+                physics Physics {
+                }
+              }
+              SolidBox {
+                translation 0 -0.015 0.006
+                rotation 1 0 0 1.570796
+                name "box(1)"
+                size 0.02 0.03 0.005
+                appearance BrushedAluminium {
+                  textureTransform TextureTransform {
+                    rotation 1.5708
+                    scale 0.2 0.2
+                  }
+                }
+                physics Physics {
+                }
+              }
+              SolidBox {
+                translation 0 0 0.026
+                rotation 1 0 0 3.141592
+                name "box(2)"
+                size 0.05 0.05 0.014
+                appearance BrushedAluminium {
+                  textureTransform TextureTransform {
+                    rotation 1.5708
+                    scale 0.2 0.2
+                  }
+                }
+                physics Physics {
+                }
+              }
+            ]
+            name "solid(1)"
+            boundingObject USE CYLINDER_2
+            physics Physics {
+            }
+          }
+        }
+      ]
+      boundingObject USE CYLINDER
+      physics Physics {
+      }
+    }
+  ]
+  controller "motor2"
+}

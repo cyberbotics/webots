@@ -16,7 +16,7 @@ In order to get the `Joystick` instance, you should call the `getJoystick` funct
 #### `wb_joystick_disable`
 #### `wb_joystick_get_sampling_period`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -78,7 +78,7 @@ public class Joystick {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_joystick_enable(sampling_period)
 wb_joystick_disable()
 period = wb_joystick_get_sampling_period()
@@ -115,7 +115,7 @@ The `wb_joystick_get_sampling_period` function returns the value previously pass
 
 #### `wb_joystick_is_connected`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -169,7 +169,7 @@ public class Joystick {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 connected = wb_joystick_is_connected()
 ```
 
@@ -195,7 +195,7 @@ Once the joystick is enabled, this function can be used to check if a free joyst
 
 #### `wb_joystick_get_model`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -249,7 +249,7 @@ public class Joystick {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 model = wb_joystick_get_model()
 ```
 
@@ -278,7 +278,7 @@ The returned model of the joystick may looks like: `Logitech G29 Driving Force R
 #### `wb_joystick_get_number_of_axes`
 #### `wb_joystick_get_axis_value`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -336,7 +336,7 @@ public class Joystick {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 axes_number = wb_joystick_get_number_of_axes()
 axis_value = wb_joystick_get_axis_value(axis)
 ```
@@ -367,7 +367,7 @@ The `wb_joystick_get_axis_value` function returns the current value of the axis 
 #### `wb_joystick_get_number_of_povs`
 #### `wb_joystick_get_pov_value`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -425,7 +425,7 @@ public class Joystick {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 povs_number = wb_joystick_get_number_of_povs()
 pov_value = wb_joystick_get_pov_value(pov)
 ```
@@ -455,7 +455,7 @@ The `wb_joystick_get_pov_value` function returns the current value of the point 
 
 #### `wb_joystick_get_pressed_button`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -509,7 +509,7 @@ public class Joystick {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 button = wb_joystick_get_pressed_button()
 ```
 
@@ -545,7 +545,7 @@ On macOS, only the first 12 buttons and first 2 axes of the joystick are taken i
 #### `wb_joystick_set_resistance_gain`
 #### `wb_joystick_set_force_axis`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -615,7 +615,7 @@ public class Joystick {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_joystick_set_constant_force(level)
 wb_joystick_set_constant_force_duration(duration)
 wb_joystick_set_auto_centering_gain(gain)

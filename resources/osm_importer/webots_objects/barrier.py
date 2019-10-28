@@ -76,7 +76,7 @@ class Barrier(WebotsObject):
     def export(cls, file):
         """Export all the barriers from the barriers list."""
         for barrier in Barrier.list[:]:
-            if len(barrier.ref) < 1:
+            if not barrier.ref:
                 Barrier.list.remove(barrier)
                 continue
 
@@ -95,7 +95,9 @@ class Barrier(WebotsObject):
                 file.write('  path [\n')
                 for ref in barrier.ref:
                     if ref in OSMCoord.coordDictionnary:
-                        file.write('    %.2f %.2f %.2f,\n' % (OSMCoord.coordDictionnary[ref].x, OSMCoord.coordDictionnary[ref].y, OSMCoord.coordDictionnary[ref].z))
+                        file.write('    %.2f %.2f %.2f,\n' % (OSMCoord.coordDictionnary[ref].x,
+                                                              OSMCoord.coordDictionnary[ref].y,
+                                                              OSMCoord.coordDictionnary[ref].z))
                     else:
                         print('Warning: node ' + str(ref) + ' not referenced.')
                 file.write('  ]\n')
@@ -127,7 +129,9 @@ class Barrier(WebotsObject):
                 file.write('        spine [\n')
                 for ref in barrier.ref:
                     if ref in OSMCoord.coordDictionnary:
-                        file.write('          %.2f %.2f %.2f,\n' % (OSMCoord.coordDictionnary[ref].x, OSMCoord.coordDictionnary[ref].y, OSMCoord.coordDictionnary[ref].z))
+                        file.write('          %.2f %.2f %.2f,\n' % (OSMCoord.coordDictionnary[ref].x,
+                                                                    OSMCoord.coordDictionnary[ref].y,
+                                                                    OSMCoord.coordDictionnary[ref].z))
                     else:
                         print('Warning: node ' + str(ref) + ' not referenced.')
                 file.write('        ]\n')

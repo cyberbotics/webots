@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbReceiver.hpp"
+
 #include "WbDataPacket.hpp"
 #include "WbEmitter.hpp"
 #include "WbFieldChecker.hpp"
@@ -166,12 +167,12 @@ void WbReceiver::updateTransmissionSetup() {
     mMediumType = WbDataPacket::RADIO;
   }
 
-  WbFieldChecker::checkDoubleIsInRangeWithIncludedBoundsOrDisabled(this, mAperture, 0, 2 * M_PI, -1, -1);
-  WbFieldChecker::checkDoubleIsNonNegative(this, mSignalStrengthNoise, 0);
-  WbFieldChecker::checkDoubleIsNonNegative(this, mDirectionNoise, 0);
-  WbFieldChecker::checkIntIsPositiveOrDisabled(this, mBufferSize, -1, -1);
-  WbFieldChecker::checkIntIsPositiveOrDisabled(this, mBaudRate, -1, -1);
-  WbFieldChecker::checkIntIsGreaterOrEqual(this, mByteSize, 8, 8);
+  WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBoundsAndNotDisabled(this, mAperture, 0, 2 * M_PI, -1, -1);
+  WbFieldChecker::resetDoubleIfNegative(this, mSignalStrengthNoise, 0);
+  WbFieldChecker::resetDoubleIfNegative(this, mDirectionNoise, 0);
+  WbFieldChecker::resetIntIfNonPositiveAndNotDisabled(this, mBufferSize, -1, -1);
+  WbFieldChecker::resetIntIfNonPositiveAndNotDisabled(this, mBaudRate, -1, -1);
+  WbFieldChecker::resetIntIfLess(this, mByteSize, 8, 8);
 
   mNeedToConfigure = true;
 }
@@ -213,18 +214,18 @@ void WbReceiver::writeAnswer(QDataStream &stream) {
 
 void WbReceiver::handleMessage(QDataStream &stream) {
   unsigned char command;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   switch (command) {
     case C_SET_SAMPLING_PERIOD: {
       short rate;
-      stream >> (short &)rate;
+      stream >> rate;
       mSensor->setRefreshRate(rate);
       return;
     }
     case C_RECEIVER_SET_CHANNEL: {
       int channel;
-      stream >> (int &)channel;
+      stream >> channel;
       mChannel->setValue(channel);
       return;
     }

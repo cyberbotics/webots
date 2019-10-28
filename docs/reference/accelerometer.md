@@ -42,7 +42,7 @@ This field accepts any value in the interval (0.0, inf).
 #### `wb_accelerometer_get_sampling_period`
 #### `wb_accelerometer_get_values`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -107,7 +107,7 @@ public class Accelerometer extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_accelerometer_enable(tag, sampling_period)
 wb_accelerometer_disable(tag)
 period = wb_accelerometer_get_sampling_period(tag)

@@ -48,14 +48,13 @@ class TestIcons(unittest.TestCase):
         # 2. filter-out the hidden PROTO files
         self.visibleProtos = []
         for proto in protos:
-            file = open(proto, 'r')
-            row = file.readlines()
-            for line in row:
-                if re.match(r'^#.*tags.*:.*hidden', line) or re.match(r'^#.*tags.*:.*deprecated', line):
-                    break
-                if not line.startswith('#'):
-                    self.visibleProtos.append(proto)
-                    break
+            with open(proto, 'r') as file:
+                for line in file.readlines():
+                    if re.match(r'^#.*tags.*:.*hidden', line) or re.match(r'^#.*tags.*:.*deprecated', line):
+                        break
+                    if not line.startswith('#'):
+                        self.visibleProtos.append(proto)
+                        break
 
     def test_proto_icons(self):
         """Test that the visible PROTO files have an icon."""

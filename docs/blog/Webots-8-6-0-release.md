@@ -6,7 +6,7 @@
 
 Today we're happy to announce the release of Webots 8.6.0.
 This new release brings a ton of new features and improvements, coupled with the same dedicated patches addressing bugs and regressions.
-Listed below are some of the key features of this release (for a full list of changes please refer to the ChangeLog, found [here](https://www.cyberbotics.com/dvd/common/doc/webots/ChangeLog.html)).
+Listed below are some of the key features of this release (for a full list of changes please refer to the ChangeLog, found [here](../reference/changelog-8.md)).
 
 ## New Nodes
 
@@ -15,7 +15,7 @@ Listed below are some of the key features of this release (for a full list of ch
 It is now possible to add object recognition directly to a Camera using the Recognition node:
 
 %figure "Robot Camera Object Recognition"
-![smart camera](images/recognition.png)
+![smart camera](images/recognition.thumbnail.jpg)
 %end
 
 The smart camera returns (in addition to the raw image) the list of recognized objects in the camera frame.
@@ -38,7 +38,7 @@ See the feature presentation [video](http://www.youtube.com/watch?v=pd0jD1TbJe4)
 Add a LensFlare node to the Viewpoint or any robot camera to simulate glare from the sun:
 
 %figure "Lens Flares"
-![LensFlare](images/lens_flare.png)
+![LensFlare](images/lens_flare.thumbnail.jpg)
 %end
 
 ### Robots within Robots
@@ -49,7 +49,7 @@ For example, users may wish to embed a custom device on a humaniod robot.
 Here is just one example of the possibilities this change introduces (Image courtesy of [Groupe INTRA](http://www.groupe-intra.com/fra)):
 
 %figure "Radiometer Device Embedded On Tracked EOLE Robot"
-![EOLE](images/eole.png)
+![EOLE](images/eole.thumbnail.jpg)
 %end
 
 The Radiometer runs its own controller to calculate and display radiation levels in the environment, while the EOLE robot runs its own controller for all of its functions.
@@ -64,7 +64,7 @@ Now you can create any custom device using a Robot node with its own controller,
 Thanks to Valve introducing OpenVR, you can now experience Webots automobile simulations in VR, putting yourself in the driver's seat.
 
 %figure "HTC Vive headset with Logitech Racing Wheel Controller"
-![VR Headset](images/vr_headset.png)
+![VR Headset](images/vr_headset.thumbnail.jpg)
 %end
 
 ### OSM
@@ -74,17 +74,17 @@ We've overhauled our OpenStreetMap importer to make modelling real-world road ne
 Here is a comparison between previously imported road structures and revamped import:
 
 %figure "OSM Import in 8.5.0"
-![8.5](images/osm_master.png)
+![8.5](images/osm_master.thumbnail.jpg)
 %end
 
 %figure "Revamped OSM Import in 8.6.0"
-![8.6](images/osm_develop.png)
+![8.6](images/osm_develop.thumbnail.jpg)
 %end
 
 We have expanded our library of calibrated vehicles to include models from Lincoln and Range Rover as well as improving and optimizing our existing car models:
 
 %figure "Left: Lincoln MKZ 2017. Right: RangeRover Sport SVR 2015."
-![8.6](images/new_car_models.png)
+![8.6](images/new_car_models.thumbnail.jpg)
 %end
 
 Traffic simulation workflow using our SUMO interface is now easier to use, thanks to our new SUMO exporter, letting you create a traffic network based on worlds brought in through the OSM importer.
@@ -126,7 +126,7 @@ Jagged edges are a thing of the past as Multi-Sample Anti-Aliasing (MSAA) suppor
 MSAA smooths jagged edges of scene geometry for a nicer appearance:
 
 %figure "The effect of MSAA"
-![Jaggy](images/msaa.png)
+![Jaggy](images/msaa.thumbnail.jpg)
 %end
 
 The default MSAA level is 2x, but via the preferences this can be increased to as much as 8x or disabled.

@@ -152,7 +152,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES webots_ros
-   CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
+   CATKIN_DEPENDS roscpp rospy std_msgs sensor_msgs message_runtime tf
 #  DEPENDS system_lib
 )
 
@@ -235,3 +235,32 @@ add_dependencies(pioneer3at webots_ros_generate_messages_cpp)
 target_link_libraries(pioneer3at
 	${catkin_LIBRARIES}
 )
+
+
+#############
+## Install ##
+#############
+
+install(TARGETS keyboard_teleop
+        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+install(TARGETS e_puck_line
+        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+install(TARGETS complete_test
+        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+install(TARGETS robot_information_parser
+        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+install(TARGETS catch_the_bird
+        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+install(TARGETS panoramic_view_recorder
+        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+install(TARGETS pioneer3at
+        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+install(DIRECTORY launch
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})

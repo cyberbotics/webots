@@ -49,6 +49,17 @@ namespace wren {
     return static_cast<size_t>(mCacheData->id() << 1) | (textureId << 16) | (programId << 32) | mHasPremultipliedAlpha;
   }
 
+  PhongMaterial *PhongMaterial::createMaterial() {
+    PhongMaterial *material = new PhongMaterial();
+    material->init();
+    return material;
+  }
+
+  void PhongMaterial::deleteMaterial(PhongMaterial *material) {
+    material->releaseMaterial();
+    delete material;
+  }
+
   void PhongMaterial::clearMaterial() {
     GlslLayout::PhongMaterial material(mCacheData->mMaterial);
 
@@ -141,14 +152,6 @@ namespace wren {
     updateMaterial(material);
   }
 
-  void PhongMaterial::linearDiffuse(float *returnColor) const {
-    GlslLayout::PhongMaterial material(mCacheData->mMaterial);
-
-    for (int i = 0; i < 4; ++i) {
-      returnColor[i] = material.mDiffuse[i];
-    }
-  }
-
   void PhongMaterial::bind(bool bindProgram) const {
     if (bindProgram)
       Material::useProgram();
@@ -160,18 +163,19 @@ namespace wren {
     Material::bindTextures();
   }
 
-  PhongMaterial::PhongMaterial() : Material(), mColorPerVertex(false) {
+  PhongMaterial::PhongMaterial() : Material(), mColorPerVertex(false), mCacheData(NULL) {
+    mMaterialStructure = new WrMaterial;
+    mMaterialStructure->type = WR_MATERIAL_PHONG;
+    mMaterialStructure->data = reinterpret_cast<void *>(this);
+  }
+
+  void PhongMaterial::init() {
     GlslLayout::PhongMaterial material;
     material.mAmbient = glm::vec4(gVec3Ones, 1.0f);
     material.mDiffuse = glm::vec4(gVec3Ones, 1.0f);
     material.mSpecularAndExponent = glm::vec4(gVec3Ones, 25.0f);
     material.mEmissiveAndOpacity = glm::vec4(gVec3Zeros, 1.0f);
     material.mTextureFlags = glm::vec4(0.0f);
-
-    mMaterialStructure = new WrMaterial;
-    mMaterialStructure->type = WR_MATERIAL_PHONG;
-    mMaterialStructure->data = reinterpret_cast<void *>(this);
-
     updateMaterial(material);
   }
 
@@ -251,11 +255,6 @@ void wr_phong_material_set_color(WrMaterial *material, const float *color) {
 void wr_phong_material_set_ambient(WrMaterial *material, const float *ambient) {
   assert(material && material->type == WR_MATERIAL_PHONG);
   reinterpret_cast<wren::PhongMaterial *>(material->data)->setAmbient(glm::make_vec3(ambient), false);
-}
-
-void wr_phong_material_get_linear_diffuse(WrMaterial *material, float *diffuse) {
-  assert(material && material->type == WR_MATERIAL_PHONG);
-  reinterpret_cast<wren::PhongMaterial *>(material->data)->linearDiffuse(diffuse);
 }
 
 void wr_phong_material_set_diffuse(WrMaterial *material, const float *diffuse) {

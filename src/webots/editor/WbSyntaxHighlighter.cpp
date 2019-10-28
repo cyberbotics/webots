@@ -165,7 +165,7 @@ void WbLanguageHighlighter::highlightBlockSection(const QString &text, const QVe
                                                   int offset) {
   QList<HighlightedSection> formattedSections = identifySectionsToHighlight(text, highlightingRules);
 
-  qSort(formattedSections.begin(), formattedSections.end(), highlightedSectionComparator);
+  std::sort(formattedSections.begin(), formattedSections.end(), highlightedSectionComparator);
 
   int currentIndex = -1;
   foreach (HighlightedSection section, formattedSections) {
@@ -274,7 +274,7 @@ void WbMultiLineCommentHighlighter::highlightBlockSection(const QString &text, i
     }
   }
 
-  qSort(formattedSections.begin(), formattedSections.end(), highlightedSectionComparator);
+  std::sort(formattedSections.begin(), formattedSections.end(), highlightedSectionComparator);
 
   foreach (HighlightedSection section, formattedSections) {
     if (startFormattingIndex <= section.start) {

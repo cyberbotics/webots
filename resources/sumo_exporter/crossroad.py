@@ -29,15 +29,18 @@ class Crossroad(object):
         except:
             pass
         try:
-            self.translation = [float(x) for x in re.findall(r'translation\s*(%s\s*%s\s*%s)' % (floatRE, floatRE, floatRE), wbtString)[0].split()]
+            self.translation = [float(x) for x in re.findall(r'translation\s*(%s\s*%s\s*%s)' %
+                                                             (floatRE, floatRE, floatRE), wbtString)[0].split()]
         except:
             pass
         try:
-            self.rotation = [float(x) for x in re.findall(r'rotation\s*(%s\s*%s\s*%s\s*%s)' % (floatRE, floatRE, floatRE, floatRE), wbtString)[0].split()]
+            self.rotation = [float(x) for x in re.findall(r'rotation\s*(%s\s*%s\s*%s\s*%s)' %
+                                                          (floatRE, floatRE, floatRE, floatRE), wbtString)[0].split()]
         except:
             self.rotation = [0.0, 1.0, 0.0, 0.0]
         try:
-            self.connectedRoadIDs = [x.replace('"', '') for x in re.findall(r'connectedRoadIDs\s*\[([^\]]*)\]', wbtString)[0].split()]
+            self.connectedRoadIDs = [x.replace('"', '') for x in re.findall(r'connectedRoadIDs\s*\[([^\]]*)\]',
+                                                                            wbtString)[0].split()]
         except:
             pass
         if self.crossroadType == "Crossroad":
@@ -74,7 +77,7 @@ class Crossroad(object):
         node.attrib['id'] = self.id
         node.attrib['x'] = str(- self.translation[0])
         node.attrib['y'] = str(self.translation[2])
-        if len(self.shape) > 0:
+        if self.shape:
             shape = ""
             for wayPoint in self.shape:
                 shape += "%f,%f " % (- wayPoint[0] - self.translation[0], wayPoint[2] + self.translation[2])

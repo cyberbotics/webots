@@ -23,13 +23,13 @@ Please check this function's description in the [Reference Manual](../reference/
 2. To get the 3D position of any [Transform](../reference/transform.md) (or derived) node placed at the root of the Scene Tree (the nodes visible when the Scene Tree is completely collapsed), you can use the `wb_supervisor_field_get_sf_vec3f` function.
 Here is an [example](supervisor-programming.md#tracking-the-position-of-robots).
 
-A simulation example that shows both the [GPS](../reference/gps.md) and the [Supervisor](../reference/supervisor.md) APIs techniques is included in the Webots installation, you just need to open this world: "[WEBOTS\_HOME/projects/samples/devices/worlds/gps.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/gps.wbt)".
+A simulation example that shows both the [GPS](../reference/gps.md) and the [Supervisor](../reference/supervisor.md) APIs techniques is included in the Webots installation, you just need to open this world: "[WEBOTS\_HOME/projects/samples/devices/worlds/gps.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/worlds/gps.wbt)".
 
 #### Get Position in Physics Plugin Code:
 
 In the physics plugin you can use ODE's `dBodyGetPosition` function.
 Note that this function returns the position of the center of mass of the body: this may be different from the center of the [Solid](../reference/solid.md).
-Please find a description of ODE functions [here](http://ode-wiki.org/wiki/index.php?title=Manual).
+Please find a description of ODE functions [here](http://ode.org/wiki/index.php?title=Manual).
 
 ### How Can I Get the Linear/Angular Speed/Velocity of a Robot/Object?
 
@@ -50,7 +50,7 @@ You will find more information about this function in the [Reference Manual](../
 
 In the physics plugin you can use the ODE's `dBodyGetLinearVel` and `dBodyAngularVel` functions.
 These functions return the linear velocity in meters per second, respectively the angular velocity in radians per second.
-Please find a description of ODE functions here: [here](http://ode-wiki.org/wiki/index.php?title=Manual).
+Please find a description of ODE functions here: [here](http://ode.org/wiki/index.php?title=Manual).
 
 ### How Can I Reset My Robot?
 
@@ -176,7 +176,7 @@ void webots_physics_step() {
 ```
 
 There is more info on the plugin functions in the [Reference Manual](../reference/physics-plugin.md).
-Additional information about the ODE functions can be found [here](http://ode-wiki.org/wiki/index.php?title=Manual).
+Additional information about the ODE functions can be found [here](http://ode.org/wiki/index.php?title=Manual).
 You may also want to study this example distributed with Webots:
 
 ```
@@ -247,7 +247,7 @@ Here is a naive example assuming that the robots are cylindrical and moving in t
 > ```
 
 - In the physics plugin: you can replace or extend Webots collision detection mechanism.
-This is an advanced technique that requires knowledge of the [ODE (Open Dynamics Engine) API](http://ode-wiki.org/wiki/index.php?title=Manual).
+This is an advanced technique that requires knowledge of the [ODE (Open Dynamics Engine) API](http://ode.org/wiki/index.php?title=Manual).
 Your collision detection mechanism must be implemented in the `webots_physics_collide` function.
 This function is described in the [Physics Plugin](../reference/physics-plugin.md) chapter of the [Reference Manual](../reference/physics-plugin.md).
 

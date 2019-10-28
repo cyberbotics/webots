@@ -9,7 +9,9 @@ The classes are either representations of a node of the scene tree (such as Robo
 A complete description of these functions can be found in the reference guide while the instructions about the common way to program a Python controller can be found in [this chapter](programming-fundamentals.md).
 
 The Python API of Webots supports both Python 3.7 and Python 2.7.
-On Ubuntu 18.04, it also supports Python 3.6 and on Ubuntu 16.04, it also supports Python 3.5.
+On Ubuntu 18.04 and 16.04 it also supports Python 3.6 and Python 3.8, and Python 3.5 Ubuntu 16.04.
+
+Alternatively to the Webots built-in editor, [PyCharm](https://www.jetbrains.com/pycharm) can be used to edit and launch Python controllers, see the [Using PyCharm with Webots](using-pycharm-with-webots.md) chapter for a step-by-step procedure.
 
 ### Installation
 
@@ -17,9 +19,17 @@ Webots starts Python using the standard `python` command line.
 As a consequence, it executes the first `python` binary found in the current `PATH`.
 If you want to use a different version of Python, please install it if needed and configure your environment so that it becomes the default `python` version when called from the command line in a terminal.
 Alternatively, you can change the default Python command from the Webots Preferences in the General tab.
-If you set it for example to `python3.7` instead of `python`, this version of python will be used (if available from the command line).
-Finally, it is also possible to set a different version of Python for each robot controller by editing the `[python]` section of the `runtime.ini` file in each robot controller directory and setting the `COMMAND` value to `python3`, `python3.7` or `python2.7`, etc.
+If you set it for example to `python3.7` instead of `python`, this version of python will be used by default, if available from the command line.
+It is also possible to set a different version of Python for each robot controller by editing the `[python]` section of the `runtime.ini` file in each robot controller directory and setting the `COMMAND` value to `python3`, `python3.7` or `python2.7`, etc.
 If specified in the `runtime.ini` file of a controller, this Python command will be executed instead of the default one to launch this controller.
+On Linux and macOS, it is also possible to override this value by setting a standard Python shebang header line in your main python controller file, for example:
+
+```python
+#!/usr/bin/env python3.6
+```
+
+On Windows, the shebang header line option is not supported.
+However, it is parsed and a warning is displayed in case of mismatch, e.g., if the version specified on the shebang header line mismatches the actual version of Python used by Webots.
 
 #### Linux Installation
 
@@ -30,7 +40,7 @@ To check the versions of Python installed on your system, you can type in a term
 
 Python 2.7 installed by default.
 You can install Python 3.7 from the [Python web site](https://www.python.org).
-To check the versions of Python installed on your system, you can type in a terminal: `python --version`, `python3.7 --version`, `python2.7 --version`, `python3 --version`, etc.
+To check the versions of Python installed on your system, you can type in a terminal: `python --version`, `python3.8 --version`, `python2.7 --version`, `python3 --version`, etc.
 
 #### Windows Installation
 

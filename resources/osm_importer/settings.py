@@ -35,7 +35,8 @@ class Settings(object):
             settingsSection = primarySection
             if settingsSection not in Settings.settings.sections():
                 return None
-        if Settings.settings.has_option(settingsSection, 'ignore') and Settings.settings.get(settingsSection, 'ignore') == 'TRUE':
+        if (Settings.settings.has_option(settingsSection, 'ignore') and
+                Settings.settings.get(settingsSection, 'ignore') == 'TRUE'):
             return None
         return settingsSection
 

@@ -23,7 +23,7 @@ WrStaticMesh *wr_static_mesh_unit_rectangle_new(bool outline);
 /* Creates a screen-sized quad useful for post-processing */
 WrStaticMesh *wr_static_mesh_quad_new();
 /* Creates a sphere mesh with a radius of 1.0f, centered on the origin. */
-WrStaticMesh *wr_static_mesh_unit_sphere_new(int subdivision);
+WrStaticMesh *wr_static_mesh_unit_sphere_new(int subdivision, bool ico, bool outline);
 /* Creates a capsule with given radius and height, centered on the origin with its main axis on +Y.
    Since a capsule cannot simply be scaled when its radius or height changes, they have to be passed as parameters. */
 WrStaticMesh *wr_static_mesh_capsule_new(int subdivision, float radius, float height, bool has_side, bool has_top,

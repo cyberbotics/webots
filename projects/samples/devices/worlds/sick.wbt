@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "Description: Sample of robot mounted by a Sick LMS 291."
@@ -19,9 +19,17 @@ TexturedBackgroundLight {
 RectangleArena {
   floorSize 100 100
   floorTileSize 1 1
+  floorAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/checkered_marble.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
   wallThickness 0.2
   wallHeight 2
-  floorAppearance PBRAppearance { metalness 0 roughness 1 baseColorMap ImageTexture { url "textures/checkered_marble.jpg" } }
 }
 DEF OBSTACLE_1 Solid {
   translation 15.7489 1 12.6243

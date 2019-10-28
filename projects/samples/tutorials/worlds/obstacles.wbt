@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   basicTimeStep 16
 }
@@ -13,11 +13,31 @@ TexturedBackgroundLight {
 Floor {
   size 1 1
 }
+WoodenBox {
+  translation -0.2 0.05 0.15418
+  rotation 0 -1 0 0.3468
+  size 0.1 0.1 0.1
+  mass 0.2
+}
+WoodenBox {
+  translation -0.2923 0.05 -0.3406
+  rotation 0 -1 0 0.3468
+  name "wooden box(1)"
+  size 0.1 0.1 0.1
+  mass 0.2
+}
+WoodenBox {
+  translation 0.2296 0.05 -0.2316
+  rotation 0 -1 0 0.34688418883387256
+  name "wooden box(2)"
+  size 0.1 0.1 0.1
+  mass 0.2
+}
 E-puck {
   controller "e-puck_go_forward"
 }
 DEF BALL Solid {
-  translation 0 0.1 -0.2
+  translation 0 0.2 -0.2
   children [
     Shape {
       appearance PBRAppearance {

@@ -51,7 +51,7 @@ void WbZoom::postFinalize() {
 }
 
 void WbZoom::updateMinFieldOfView() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mMinFieldOfView, 0.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mMinFieldOfView, 0.0))
     return;
   if (mMinFieldOfView->value() > mMaxFieldOfView->value()) {
     warn(tr("Invalid 'minFieldOfView' changed to %1. The value should be smaller or equal to 'maxFieldOfView'.")

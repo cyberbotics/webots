@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A generic steering wheel to insert in the 'steeringWheel' field of some vehicles.
@@ -63,28 +63,7 @@ PROTO CarSteeringWheel [
             }
           }
           DEF LEATHER_PARTS Shape {
-            appearance PBRAppearance {
-              baseColorMap ImageTexture {
-                url [
-                  "textures/car_dark_leather_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "textures/car_leather_roughness.jpg"
-                ]
-              }
-              metalness 0
-              normalMap ImageTexture {
-                url [
-                  "textures/car_leather_normal.jpg"
-                ]
-              }
-              occlusionMap ImageTexture {
-                url [
-                  "textures/car_leather_occlusion.jpg"
-                ]
-              }
+            appearance Leather {
               textureTransform TextureTransform {
                 scale 4 4
               }

@@ -40,22 +40,27 @@ LIBRARIES = -lcrypto
 WEBOTS_DISTRO_EXE = webots_distro
 WEBOTS = $(WEBOTS_HOME_PATH)/webots
 ifeq ($(UBUNTU_VERSION),16.04)
-CFLAGS=-DWEBOTS_UBUNTU_16_04
+CFLAGS = -DWEBOTS_UBUNTU_16_04
 endif
 ifeq ($(UBUNTU_VERSION),18.04)
-CFLAGS=-DWEBOTS_UBUNTU_18_04
+CFLAGS = -DWEBOTS_UBUNTU_18_04
 endif
+endif
+
+ifneq ($(SNAPCRAFT_PROJECT_NAME),)
+export DISPLAY = :99
+XVFB = xvfb
 endif
 
 ifeq ($(OSTYPE),windows)
 LIBRARIES = -L$(WEBOTS_HOME_PATH)/lib -L/mingw64/bin -lcrypto
 WEBOTS_DISTRO_EXE = webots_distro.exe
-INNO_SETUP_HOME ?= /C/Program Files (x86)/Inno Setup 5
+INNO_SETUP_HOME ?= /C/Program Files (x86)/Inno Setup 6
 WEBOTS = webots
 ISCC_FORMATTER = iscc_formatter.exe
 endif
 
-all: $(WEBOTS_DISTRO_EXE) $(ISCC_FORMATTER)
+all: $(WEBOTS_DISTRO_EXE) $(ISCC_FORMATTER) $(XVFB)
 	+@echo "# removing files and folders not in git repository"
 	+@cd $(WEBOTS_HOME_PATH) ; git clean -fdf | sed -e 's/^/# - /' ; cd src/packaging
 	+@echo "# generating project files"
@@ -82,14 +87,21 @@ ifeq ($(OSTYPE),windows)
 endif
 	+@echo "# done for" $(OSTYPE)
 
+install: all
+	./webots.snap
+
 $(WEBOTS_DISTRO_EXE): webots_distro.c
-	+@ echo "# compiling webots_distro.c"
+	+@echo "# compiling webots_distro.c"
 	+@$(CC) $(CFLAGS) -Wall -o $@ webots_distro.c $(LIBRARIES)
 
 iscc_formatter.exe: iscc_formatter.c
-	+@ echo "# compiling iscc_formatter.c"
+	+@echo "# compiling iscc_formatter.c"
 	+@$(CC) -Wall -o $@ iscc_formatter.c
 
+xvfb:
+	+@echo "# starting Xvfb: X Virtual Frame Buffer"
+	+@Xvfb :99 -screen 0 1024x768x16 &
+
 clean:
-	+@rm -rf $(WEBOTS_DISTRO_EXE) webots*.deb webots.iss msys64_f*s.iss webots-for-*.iss webots*.mac files.txt iscc_formatter.exe
+	+@rm -rf $(WEBOTS_DISTRO_EXE) webots.deb webots.snap webots.iss webots.mac files.txt iscc_formatter.exe
 	+@find $(WEBOTS_HOME_PATH)/projects $(WEBOTS_HOME_PATH)/resources -name .*.cache | xargs rm -f

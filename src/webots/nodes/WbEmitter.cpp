@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbEmitter.hpp"
+
 #include "WbDataPacket.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbReceiver.hpp"
@@ -86,17 +87,17 @@ void WbEmitter::updateTransmissionSetup() {
     mMediumType = WbDataPacket::RADIO;
   }
 
-  WbFieldChecker::checkDoubleIsInRangeWithIncludedBoundsOrDisabled(this, mAperture, 0, 2 * M_PI, -1, -1);
-  WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mMaxRange, -1, -1);
-  WbFieldChecker::checkIntIsGreaterOrEqual(this, mByteSize, 8, 8);
+  WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBoundsAndNotDisabled(this, mAperture, 0, 2 * M_PI, -1, -1);
+  WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mMaxRange, -1, -1);
+  WbFieldChecker::resetIntIfLess(this, mByteSize, 8, 8);
 }
 
 void WbEmitter::updateBufferSize() {
-  WbFieldChecker::checkIntIsPositiveOrDisabled(this, mBufferSize, -1, -1);
+  WbFieldChecker::resetIntIfNonPositiveAndNotDisabled(this, mBufferSize, -1, -1);
   mNeedToSetBufferSize = true;
 }
 void WbEmitter::updateRange() {
-  WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mRange, -1, -1);
+  WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mRange, -1, -1);
   if (mMaxRange->value() != -1.0 && (mRange->value() > mMaxRange->value() || mRange->value() == -1.0)) {
     warn(tr("'range' must be less than or equal to 'maxRange'."));
     mRange->setValue(mMaxRange->value());
@@ -150,14 +151,14 @@ void WbEmitter::handleMessage(QDataStream &stream) {
   double range;
   char *data;
 
-  stream >> (unsigned char &)command;
+  stream >> command;
   switch (command) {
     case C_EMITTER_SEND:
-      stream >> (int &)channel;
+      stream >> channel;
       mChannel->setValue(channel);
-      stream >> (double &)range;
+      stream >> range;
       mRange->setValue(range);
-      stream >> (int &)size;
+      stream >> size;
       data = new char[size];
       stream.readRawData(data, size);
       mQueue.enqueue(new WbDataPacket(this, mChannel->value(), data, size));
@@ -165,12 +166,12 @@ void WbEmitter::handleMessage(QDataStream &stream) {
       return;
 
     case C_EMITTER_SET_CHANNEL:
-      stream >> (int &)channel;
+      stream >> channel;
       mChannel->setValue(channel);
       return;
 
     case C_EMITTER_SET_RANGE:
-      stream >> (double &)range;
+      stream >> range;
       mRange->setValue(range);
       return;
 

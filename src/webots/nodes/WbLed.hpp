@@ -47,7 +47,6 @@ public:
   int colorsCount() const { return mColor->size(); }
   const WbRgb &color(int index) const { return mColor->item(index); }
   int value() const { return mValue; }
-  const QList<WbMaterial *> &materials() const { return mMaterials; }
   const QList<WbPbrAppearance *> &pbrAppearances() const { return mPbrAppearances; }
   bool isGradual() const;
 

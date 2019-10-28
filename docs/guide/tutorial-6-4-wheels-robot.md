@@ -1,4 +1,4 @@
-## Tutorial 6: 4-Wheels Robot
+## Tutorial 6: 4-Wheels Robot (60 Minutes)
 
 The aim of this tutorial is to create your first robot from scratch.
 This robot will be made of a body, four wheels, and two distance sensors.
@@ -7,13 +7,13 @@ The [next figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-
 
 %figure "3D view of the 4 wheels robot. Note that the coordinate system representations of the robot body and of its wheels are oriented the same way. Their +x-vector (in red) defines the left of the robot, their +y-vector (in green) defines the top of the robot, and their +z-vector (in blue) defines the front of the robot. The distance sensors are oriented in a different way, their +x-vector indicates the direction of the sensor."
 
-![tutorial_4_wheels_robot.png](images/tutorial_4_wheels_robot.png)
+![tutorial_4_wheels_robot.png](images/tutorial_4_wheels_robot.thumbnail.jpg)
 
 %end
 
 %figure "Top view of the 4 wheels robot. The grid behind the robot has a dimension of 0.2 x 0.3 meters. The text labels correspond to the name of the devices."
 
-![tutorial_4_wheels_top_schema.png](images/tutorial_4_wheels_top_schema.png)
+![tutorial_4_wheels_top_schema.png](images/tutorial_4_wheels_top_schema.thumbnail.jpg)
 
 %end
 
@@ -30,7 +30,7 @@ Some definitions are required before giving rules to create a robot model.
 The set containing the [Solid](../reference/solid.md) node and all its derived nodes is called the *solid nodes*.
 A similar definition is applied for the [Device](../reference/device.md), [Robot](../reference/robot.md), [Joint](../reference/joint.md) and [Motor](../reference/motor.md) nodes.
 You can get more information about the node hierarchy in the [nodes chart diagram](../reference/node-chart.md).
-Note that most of the sensors and actuators are [Solid](../reference/solid.md) and [Device](../reference/device.md) nodes at the same time.
+Most sensors and actuators are both [Solid](../reference/solid.md) and [Device](../reference/device.md) nodes at the same time.
 
 The main structure of a [Robot](../reference/robot.md) model is a tree of [Solid](../reference/solid.md) nodes linked together.
 The root node of this tree should be a [Robot](../reference/robot.md) node.
@@ -99,9 +99,8 @@ graph TD
     HingeJoint -->|endPoint| Solid[[DEF WHEEL1 Solid](../reference/solid.md)]
       Solid -->|physics| Physics2[[DEF WHEEL_PH Physics](../reference/physics.md)]
       Solid -->|boundingObject| USEWHEEL[USE WHEEL]
-      Solid -->|children| Transform[[DEF WHEEL Transform](../reference/transform.md)]
-        Transform -->|children| Shape2[[Shape](../reference/shape.md)]
-          Transform -.- USEWHEEL
+      Solid -->|children| Shape2[[DEF WHEEL Shape](../reference/shape.md)]
+          Shape2 -.- USEWHEEL
           Shape2 -->|geometry| Cylinder[[Cylinder](../reference/cylinder.md)]
   Robot -.->|children| OtherWheels["Other wheels (using WHEEL and WHEEL_PH)"]
 
@@ -131,22 +130,33 @@ In our case it's along the x-axis (so `(1, 0, 0)`).
 Some signs obviously have to be updated for other wheels.
 
 We want now to implement the cylinder shape of the wheels.
-As the [Cylinder](../reference/cylinder.md) node is defined along the *y*-axis, a [Transform](../reference/transform.md) node should encapsulate the [Shape](../reference/shape.md) to rotate the [Cylinder](../reference/cylinder.md) along the along the *x*-axis.
 
 > **Hands on #4**: Complete the missing nodes to get the same structure as the one depicted in [this figure](#low-level-representation-of-the-4-wheels-robot).
 Don't forget the [Physics](../reference/physics.md) nodes.
-Rotate the [Transform](../reference/transform.md) node by an Euler axis and angle of `(0, 0, 1, 1.5708)` in order to inverse the *x*-axis and the *y*-axis.
-The [Cylinder](../reference/cylinder.md) should have a `radius` of `0.04` and a `height` of `0.02`.
+
+For each [HingeJoint](../reference/hingejoint.md), there are three fields in which nodes need to be added.
+- **jointParameters**: Add a [HingeJointParameters](../reference/hingejointparameters.md) and configure the anchor (0.06 0 -0.05) and axis fields (1 0 0). These values have to be modified according to the location of the wheel.
+- **device**: Add a [RotationalMotor](../reference/rotationalmotor.md) in order to be able to actuate the wheels. Change their `name` fields from `wheel1` to `wheel4` according to [this figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-devices). These labels will be used to reference the wheels from the controller.
+- **endPoint**: Add a [Solid](../reference/solid.md) node, then a [Shape](../reference/shape.md) node in the `children` field of the [Solid](../reference/solid.md), and finally, add a [Cylinder](../reference/cylinder.md) in the `geometry` field of the [Shape](../reference/shape.md) node. The [Cylinder](../reference/cylinder.md) should have a `radius` of `0.04` and a `height` of `0.02`.
 Set the color of the wheels to green.
-In order to be able to actuate the wheels, add a [RotationalMotor](../reference/rotationalmotor.md) to each [HingeJoint](../reference/hingejoint.md), and change their `name` fields from `wheel1` to `wheel4`.
-These labels will be used to reference the wheels from the controller.
+
 
 ### Sensors
+
+The sensors used on the e-puck of [Tutorial 4](tutorial-4-more-about-controllers.md) are not the same as those used in this section. Pay attention to their measuring interval which is between `0 cm = 0` and `10 cm = 1000`.
+Find more information about the `lookupTable` field [here](../reference/distancesensor.md#lookup-table).
+
 
 The last part of the robot modeling is to add the two distance sensors to the robot.
 This can be done by adding two [DistanceSensor](../reference/distancesensor.md) nodes as direct children of the [Robot](../reference/robot.md) node.
 Note that the distance sensor acquires its data along the +*x*-axis.
 So rotating the distance sensors in order to point their *x*-axis outside the robot is necessary (see the [figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-devices)).
+
+%spoiler "**Reminder**: How to know the orientation of the distance sensor?"
+
+As already says in [Tutorial 3](tutorial-3-appearance.md), the distance sensor rays can be viewed using the shortcut `(Ctrl + F10)` or `View / Optional Rendering / Show DistanceSensor Rays`.
+
+%end
 
 > **Hands on #5**: Add the two distance sensors as explained above.
 The distance sensors are at an angle to 0.3 [rad] with the robot front vector.
@@ -154,13 +164,19 @@ Set their graphical and physical shape to a cube (not transformed) having a edge
 Set their color to blue.
 Set their `name` field according to the labels of [this figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-devices).
 
+%spoiler "**Tips**: How to precisely orient distance sensors?"
+
+In the [DistanceSensor](../reference/distancesensor.md) node, the rotation field has 4 parameters. If you set the angle parameter to 0, then you can use the mouse wheel to increment/decrement by steps of 0.1309 rad (= 7.5 degree).
+
+%end
+
 ### Controller
 
 In the previous tutorials, you have learnt how to setup a feedback loop and how to read the distance sensor values.
 However, actuating a [RotationalMotor](../reference/rotationalmotor.md) node is something new.
 To program the rotational motors, the first step is to include the API module corresponding to the [RotationalMotor](../reference/rotationalmotor.md) node:
 
-%tab-component
+%tab-component "language"
 %tab "C"
 ```c
 #include <webots/motor.h>
@@ -192,7 +208,7 @@ In MATLAB controller you don't need to include the API, Webots will do this for 
 
 Then to get the references of the [RotationalMotor](../reference/rotationalmotor.md) nodes:
 
-%tab-component
+%tab-component "language"
 %tab "C"
 ```c
 // initialize motors
@@ -219,7 +235,7 @@ for (int i = 0; i < 4 ; i++)
 %tab "Python"
 ```python
 # initialize motors
-Motor wheels = []
+wheels = []
 wheelsNames = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
 for name in wheelsNames:
     wheels.append(robot.getMotor(name))
@@ -237,7 +253,7 @@ for (int i = 0; i < wheelsNames.length; i++)
 %tab-end
 
 %tab "MATLAB"
-```matlab
+```MATLAB
 % initialize motors
 wheels_names = ["wheel1", "wheel2", "wheel3", "wheel4"];
 wheels = [];
@@ -252,7 +268,7 @@ A [Motor](../reference/motor.md) can be actuated by setting its position, its ve
 Here we are interested in setting its velocity.
 This can be achieved by setting its position at infinity, and by bounding its velocity:
 
-%tab-component
+%tab-component "language"
 %tab "C"
 ```c
 double speed = -1.5; // [rad/s]
@@ -286,7 +302,7 @@ wheels[0].setVelocity(speed);
 %tab-end
 
 %tab "MATLAB"
-```matlab
+```MATLAB
 speed = -1.5; % [rad/s]
 wb_motor_set_position(wheels[0], inf);
 wb_motor_set_velocity(wheels[0], speed);
@@ -297,10 +313,247 @@ wb_motor_set_velocity(wheels[0], speed);
 > **Hands on #6**: Implement a controller called `4_wheels_collision_avoidance` moving the robot and avoiding obstacles by detecting them by the distance sensors.
 
 Note that the `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) nodes indicates which values are returned by the sensor.
+To help in the debugging with the sensors, it is possible to see the value of the sensors in the real-time in the [robot-window](controller-plugin.md#robot-window).
+To open the [robot-window](controller-plugin.md#robot-window), double-click on the robot body and it will bring up a menu on the left with the [DistanceSensor](../reference/distancesensor.md) and [RotationalMotor](../reference/rotationalmotor.md) graph.
+Run the simulation to see the evolution.
 
 Don't forget to set the `controller` field of the [Robot](../reference/robot.md) node to indicate your new controller.
 
 As usual a possible solution of this exercise is located in the tutorials directory.
+
+### The Controller Code
+
+Here is the complete code of the controller developed in the previous subsection.
+
+%tab-component "language"
+%tab "C"
+```c
+#include <webots/distance_sensor.h>
+#include <webots/motor.h>
+#include <webots/robot.h>
+
+#define TIME_STEP 64
+
+int main(int argc, char **argv) {
+  wb_robot_init();
+  int i;
+  bool avoid_obstacle_counter = 0;
+  WbDeviceTag ds[2];
+  char ds_names[2][10] = {"ds_left", "ds_right"};
+  for (i = 0; i < 2; i++) {
+    ds[i] = wb_robot_get_device(ds_names[i]);
+    wb_distance_sensor_enable(ds[i], TIME_STEP);
+  }
+  WbDeviceTag wheels[4];
+  char wheels_names[4][8] = {"wheel1", "wheel2", "wheel3", "wheel4"};
+  for (i = 0; i < 4; i++) {
+    wheels[i] = wb_robot_get_device(wheels_names[i]);
+    wb_motor_set_position(wheels[i], INFINITY);
+  }
+  while (wb_robot_step(TIME_STEP) != -1) {
+    double left_speed = 1.0;
+    double right_speed = 1.0;
+    if (avoid_obstacle_counter > 0) {
+      avoid_obstacle_counter--;
+      left_speed = 1.0;
+      right_speed = -1.0;
+    } else { // read sensors
+      double ds_values[2];
+      for (i = 0; i < 2; i++)
+        ds_values[i] = wb_distance_sensor_get_value(ds[i]);
+      if (ds_values[0] < 950.0 || ds_values[1] < 950.0)
+        avoid_obstacle_counter = 100;
+    }
+    wb_motor_set_velocity(wheels[0], left_speed);
+    wb_motor_set_velocity(wheels[1], right_speed);
+    wb_motor_set_velocity(wheels[2], left_speed);
+    wb_motor_set_velocity(wheels[3], right_speed);
+  }
+  wb_robot_cleanup();
+  return 0;  // EXIT_SUCCESS
+}
+```
+%tab-end
+
+%tab "C++"
+```cpp
+#include <webots/DistanceSensor.hpp>
+#include <webots/Motor.hpp>
+#include <webots/Robot.hpp>
+
+#define TIME_STEP 64
+using namespace webots;
+
+int main(int argc, char **argv) {
+  Robot *robot = new Robot();
+  DistanceSensor *ds[2];
+  char dsNames[2][10] = {"ds_right", "ds_left"};
+  for (int i = 0; i < 2; i++) {
+    ds[i] = robot->getDistanceSensor(dsNames[i]);
+    ds[i]->enable(TIME_STEP);
+  }
+  Motor *wheels[4];
+  char wheels_names[4][8] = {"wheel1", "wheel2", "wheel3", "wheel4"};
+  for (int i = 0; i < 4; i++) {
+    wheels[i] = robot->getMotor(wheels_names[i]);
+    wheels[i]->setPosition(INFINITY);
+    wheels[i]->setVelocity(0.0);
+  }
+  int avoidObstacleCounter = 0;
+  while (robot->step(TIME_STEP) != -1) {
+    double leftSpeed = 1.0;
+    double rightSpeed = 1.0;
+    if (avoidObstacleCounter > 0) {
+      avoidObstacleCounter--;
+      leftSpeed = 1.0;
+      rightSpeed = -1.0;
+    } else { // read sensors
+      for (int i = 0; i < 2; i++) {
+        if (ds[i]->getValue() < 950.0)
+          avoidObstacleCounter = 100;
+      }
+    }
+    wheels[0]->setVelocity(leftSpeed);
+    wheels[1]->setVelocity(rightSpeed);
+    wheels[2]->setVelocity(leftSpeed);
+    wheels[3]->setVelocity(rightSpeed);
+  }
+  delete robot;
+  return 0;  // EXIT_SUCCESS
+}
+```
+%tab-end
+
+%tab "Python"
+```python
+from controller import Robot
+
+TIME_STEP = 64
+robot = Robot()
+ds = []
+dsNames = ['ds_right', 'ds_left']
+for i in range(2):
+    ds.append(robot.getDistanceSensor(dsNames[i]))
+    ds[i].enable(TIME_STEP)
+wheels = []
+wheelsNames = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
+for i in range(4):
+    wheels.append(robot.getMotor(wheelsNames[i]))
+    wheels[i].setPosition(float('inf'))
+    wheels[i].setVelocity(0.0)
+avoidObstacleCounter = 0
+while robot.step(TIME_STEP) != -1:
+    leftSpeed = 1.0
+    rightSpeed = 1.0
+    if avoidObstacleCounter > 0:
+        avoidObstacleCounter -= 1
+        leftSpeed = 1.0
+        rightSpeed = -1.0
+    else:  # read sensors
+        for i in range(2):
+            if ds[i].getValue() < 950.0:
+                avoidObstacleCounter = 100
+    wheels[0].setVelocity(leftSpeed)
+    wheels[1].setVelocity(rightSpeed)
+    wheels[2].setVelocity(leftSpeed)
+    wheels[3].setVelocity(rightSpeed)
+```
+%tab-end
+
+%tab "Java"
+```
+import com.cyberbotics.webots.controller.Robot;
+import com.cyberbotics.webots.controller.DistanceSensor;
+import com.cyberbotics.webots.controller.Motor;
+
+public class FourWheelsCollisionAvoidance {
+  public static void main(String[] args) {
+    int TIME_STEP = 64;
+    Robot robot = new Robot();
+    DistanceSensor[] ds = new DistanceSensor[2];
+    String[] dsNames = {"ds_right", "ds_left"};
+    for (int i = 0; i < 2; i++) {
+      ds[i] = robot.getDistanceSensor(dsNames[i]);
+      ds[i].enable(TIME_STEP);
+    }
+    Motor[] wheels = new Motor[4];
+    String[] wheelsNames = {"wheel1", "wheel2", "wheel3", "wheel4"};
+    for (int i = 0; i < 4; i++) {
+      wheels[i] = robot.getMotor(wheelsNames[i]);
+      wheels[i].setPosition(Double.POSITIVE_INFINITY);
+      wheels[i].setVelocity(0.0);
+    }
+    int avoidObstacleCounter = 0;
+    while (robot.step(TIME_STEP) != -1) {
+      double leftSpeed = 1.0;
+      double rightSpeed = 1.0;
+      if (avoidObstacleCounter > 0) {
+        avoidObstacleCounter--;
+        leftSpeed = 1.0;
+        rightSpeed = -1.0;
+      } else { // read sensors
+        for (int i = 0; i < 2; i++) {
+          if (ds[i].getValue() < 950.0)
+            avoidObstacleCounter = 100;
+        }
+      }
+      wheels[0].setVelocity(leftSpeed);
+      wheels[1].setVelocity(rightSpeed);
+      wheels[2].setVelocity(leftSpeed);
+      wheels[3].setVelocity(rightSpeed);
+    }
+  }
+}
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+TIME_STEP = 64;
+ds = [];
+ds_names = [ "ds_right", "ds_left" ];
+for i = 1:2
+  ds[i] = wb_robot_get_device(ds_names[i]);
+  wb_distance_sensor_enable(ds[i], TIME_STEP);
+end
+wheels = [];
+wheels_names = [ "wheel1", "wheel2", "wheel3", "wheel4" ];
+for i = 1:4
+  wheels[i] = wb_robot_get_device(wheels_names[i]);
+  wb_motor_set_position(wheels[i], inf);
+  wb_motor_set_velocity(wheels[i], 0.0);
+end
+avoid_obstacle_counter = 0;
+while wb_robot_step(TIME_STEP) ~= -1
+  left_speed = 1.0;
+  right_speed = 1.0;
+  if avoid_obstacle_counter > 0
+    avoid_obstacle_counter--;
+    left_speed = 1.0;
+    right_speed = -1.0;
+  else // read sensors
+    for i = 0:2
+      if wb_distance_sensor_get_value(ds[i]) < 950.0
+        avoid_obstacle_counter = 100;
+      end
+    end
+  end
+  wb_motor_set_velocity(wheels[0], left_speed);
+  wb_motor_set_velocity(wheels[1], right_speed);
+  wb_motor_set_velocity(wheels[2], left_speed);
+  wb_motor_set_velocity(wheels[3], right_speed);
+  % if your code plots some graphics, it needs to flushed like this:
+  drawnow;
+end
+```
+%tab-end
+
+%end
+
+### Solution: World File
+
+To compare your world with the solution, go to your files and find the folder named "my\_first\_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "worlds" folder and open with a text editor the right world.
+[This solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/4_wheels_robot.wbt) as the others is located in the [solution directory](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/).
 
 ### Conclusion
 

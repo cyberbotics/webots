@@ -72,7 +72,7 @@ void WbTrackWheel::updatePosition() {
 }
 
 void WbTrackWheel::updateRadius() {
-  if (WbFieldChecker::checkDoubleIsPositive(this, mRadius, 0.1) && isPostFinalizedCalled())
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mRadius, 0.1) && isPostFinalizedCalled())
     emit changed();
 }
 

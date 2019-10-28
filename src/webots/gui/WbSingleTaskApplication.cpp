@@ -42,7 +42,7 @@ void WbSingleTaskApplication::run() {
   else if (mTask == WbGuiApplication::HELP)
     showHelp();
   else if (mTask == WbGuiApplication::VERSION)
-    cout << tr("Webots version: %1").arg(WbApplicationInfo::version().toString()).toUtf8().constData() << endl;
+    cout << tr("Webots version: %1").arg(WbApplicationInfo::version().toString(true, false, true)).toUtf8().constData() << endl;
   else if (mTask == WbGuiApplication::UPDATE_PROTO_CACHE)
     updateProtoCacheFiles(mTaskArgument);
   else if (mTask == WbGuiApplication::UPDATE_WORLD)
@@ -105,7 +105,7 @@ void WbSingleTaskApplication::showSysInfo() const {
   QOpenGLFunctions *gl = context->functions();  // QOpenGLFunctions_3_3_Core cannot be initialized here on some systems like
                                                 // macOS High Sierra and some Ubuntu environments.
 
-#ifndef __APPLE__
+#ifdef _WIN32
   const quint32 vendorId = WbSysInfo::gpuVendorId(gl);
   const quint32 rendererId = WbSysInfo::gpuDeviceId(gl);
 #else
@@ -115,12 +115,12 @@ void WbSingleTaskApplication::showSysInfo() const {
 
   const char *vendor = (const char *)gl->glGetString(GL_VENDOR);
   const char *renderer = (const char *)gl->glGetString(GL_RENDERER);
-  // cppcheck-suppress redundantCondition
+  // cppcheck-suppress knownConditionTrueFalse
   if (vendorId == 0)
     cout << tr("OpenGL vendor: %1").arg(vendor).toUtf8().constData() << endl;
   else
     cout << tr("OpenGL vendor: %1 (0x%2)").arg(vendor).arg(vendorId, 0, 16).toUtf8().constData() << endl;
-  // cppcheck-suppress redundantCondition
+  // cppcheck-suppress knownConditionTrueFalse
   if (rendererId == 0)
     cout << tr("OpenGL renderer: %1").arg(renderer).toUtf8().constData() << endl;
   else

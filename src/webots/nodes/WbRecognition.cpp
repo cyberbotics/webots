@@ -55,16 +55,16 @@ void WbRecognition::postFinalize() {
 }
 
 void WbRecognition::updateMaxRange() {
-  if (WbFieldChecker::checkDoubleIsPositive(this, mMaxRange, 100.0))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mMaxRange, 100.0))
     return;
 }
 
 void WbRecognition::updateMaxObjects() {
-  if (WbFieldChecker::checkIntIsPositiveOrDisabled(this, mMaxObjects, -1, -1))
+  if (WbFieldChecker::resetIntIfNonPositiveAndNotDisabled(this, mMaxObjects, -1, -1))
     return;
 }
 
 void WbRecognition::updateFrameThickness() {
-  if (WbFieldChecker::checkIntIsNonNegative(this, mFrameThickness, 0))
+  if (WbFieldChecker::resetIntIfNegative(this, mFrameThickness, 0))
     return;
 }

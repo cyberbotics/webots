@@ -30,11 +30,11 @@ showdown.extension('wbVariables', function() {
   var vars = {
     webots: {
       version: {
-        major: 'R2019a',
+        major: 'R2019b',
         // full is equal to major for the first major version
         // and contains the revision number for subsequent versions
-        full: 'R2019a',
-        package: 'R2019a'
+        full: 'R2019b revision 1',
+        package: 'R2019b-rev1'
       }
     },
     date: {
@@ -200,6 +200,26 @@ showdown.extension('wbChart', function() {
   ];
 });
 
+// This extension allows to define extensible part (hided by default)
+showdown.extension('wbSpoiler', function() {
+  return [
+    {
+      type: 'lang',
+      filter: function(text, converter, options) {
+        text = text.replace(/%spoiler\s*"(.*)"\n*(^(?:(?!%end).)*\n)*\n%end/gim, function(match, title, content) {
+          var replacement =
+            '<details>\n' +
+            '  <summary>' + title + '</summary>\n' +
+            '  ' + content + '\n' +
+            '</details>\n';
+          return replacement;
+        });
+        return text;
+      }
+    }
+  ];
+});
+
 // This extension allows to add robot component.
 // Example: "%robot nao"
 showdown.extension('wbRobotComponent', function() {
@@ -226,6 +246,7 @@ showdown.extension('wbRobotComponent', function() {
               '      <div class="menu-items">\n' +
               '        <button class="reset-button" title="Reset Viewpoint and sliders." onclick="resetRobotComponent(\'%ROBOT%\')"></button>\n' +
               '        <button class="menu-button" title="Show/Hide the device list." onclick="toggleDeviceComponent(\'%ROBOT%\')"></button>\n' +
+              '        <button class="fullscreen-button" title="Enter/Leave full-screen." onclick="toogleRobotComponentFullScreen(\'%ROBOT%\')"></button>\n' +
               '      </div>\n' +
               '    </div>\n' +
               '  </div>\n' +
@@ -266,12 +287,12 @@ showdown.extension('wbTabComponent', function() {
     {
       type: 'lang',
       filter: function(text, converter, options) {
-        text = text.replace(/%tab-component([^]+?)%end/gi, function(match, content) {
+        text = text.replace(/%tab-component\s+"([^]+?)"([^]+?)%end/gi, function(match, tabTitle, content) {
           tabComponentCounter++;
           var buttons = '';
           var first = true;
           var subText = content.replace(/%tab\s+"([^]+?)"([^]+?)%tab-end/gi, function(subMatch, title, subContent) {
-            buttons += '<button name="' + title.toLowerCase() + '" class="tab-links' + (first ? ' active' : '') + '" onclick="openTabFromEvent(event, \'' + title + '\')">' + title + '</button>';
+            buttons += '<button name="' + title.toLowerCase() + '" class="tab-links' + (first ? ' active' : '') + '" onclick="openTabFromEvent(event, \'tab-' + tabTitle + '\', \'' + title + '\')">' + title + '</button>';
             var result = '<div class="tab-content" name="' + title.toLowerCase() + '"' + (first ? ' style="display:block"' : '') + ' tabid="' + tabComponentCounter + '">' + converter.makeHtml(subContent) + '</div>';
             first = false;
             return result;

@@ -99,9 +99,11 @@ void WbPlane::write(WbVrmlWriter &writer) const {
 void WbPlane::exportNodeFields(WbVrmlWriter &writer) const {
   if (writer.isWebots())
     WbGeometry::exportNodeFields(writer);
-  else if (writer.isX3d())
-    writer << " coordIndex=\'0 1 2 3 -1\' texCoordIndex=\'0 1 2 3 -1\'";
-  else {  // VRML
+  else if (writer.isX3d()) {
+    writer << " size=\'";
+    mSize->write(writer);
+    writer << "\'";
+  } else {  // VRML export as IndexedFaceSet
     writer.indent();
     writer << "coordIndex [ 0 1 2 3 -1 ]\n";
     writer.indent();
@@ -112,16 +114,9 @@ void WbPlane::exportNodeFields(WbVrmlWriter &writer) const {
 void WbPlane::exportNodeSubNodes(WbVrmlWriter &writer) const {
   double sx = mSize->value().x() / 2.0;
   double sz = mSize->value().y() / 2.0;
-  if (writer.isWebots())
+  if (!writer.isVrml())
     WbGeometry::exportNodeSubNodes(writer);
-  else if (writer.isX3d()) {
-    writer << "<Coordinate point=\'";
-    writer << -sx << " 0 " << -sz << ", ";
-    writer << -sx << " 0 " << sz << ", ";
-    writer << sx << " 0 " << sz << ", ";
-    writer << sx << " 0 " << -sz << "\'></Coordinate>";
-    writer << "<TextureCoordinate point=\'0 1, 0 0, 1 0, 1 1\'></TextureCoordinate>";
-  } else {  // VRML
+  else {  // VRML export as IndexedFaceSet
     writer.indent();
     writer << "coord Coordinate {\n";
     writer.increaseIndent();
@@ -148,6 +143,8 @@ void WbPlane::exportNodeSubNodes(WbVrmlWriter &writer) const {
 void WbPlane::createWrenObjects() {
   WbGeometry::createWrenObjects();
   WbGeometry::computeWrenRenderable();
+
+  sanitizeFields();
 
   const bool createOutlineMesh = isInBoundingObject();
 
@@ -188,7 +185,7 @@ bool WbPlane::areSizeFieldsVisibleAndNotRegenerator() const {
 }
 
 bool WbPlane::sanitizeFields() {
-  if (WbFieldChecker::checkVector2IsPositive(this, mSize, WbVector2(1.0, 1.0)))
+  if (WbFieldChecker::resetVector2IfNonPositive(this, mSize, WbVector2(1.0, 1.0)))
     return false;
 
   return true;
@@ -222,7 +219,7 @@ void WbPlane::updateSize() {
 }
 
 void WbPlane::updateLineScale() {
-  if (!sanitizeFields() || !isAValidBoundingObject())
+  if (!isAValidBoundingObject())
     return;
 
   float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
@@ -236,9 +233,6 @@ void WbPlane::updateLineScale() {
 }
 
 void WbPlane::updateScale() {
-  if (!sanitizeFields())
-    return;
-
   // allow the bounding sphere to scale down
   float scaleY = 0.1f * std::min(mSize->value().x(), mSize->value().y());
 
@@ -289,18 +283,15 @@ void WbPlane::computePlaneParams(WbVector3 &n, double &d) {
   WbTransform *transform = upperTransform();
 
   // initial values with identity matrices
-  n.setXyz(0.0, 1.0, 0.0);     // plane normal
-  WbVector3 p(0.0, 0.0, 0.0);  // a point in the plane
+  n.setXyz(0.0, 1.0, 0.0);  // plane normal
 
   if (transform) {
     const WbMatrix3 &m3 = transform->rotationMatrix();
     // Applies this transform's rotation to plane normal
     n = m3 * n;
 
-    // Translates p
-    p = transform->position();
     // Computes the d parameter in the plane equation
-    d = p.dot(n);
+    d = transform->position().dot(n);
   } else
     d = 0.0;
 }

@@ -41,8 +41,8 @@ public:
   const QColor &defaultColor() const { return mDefaultColor; }
   const QColor &modifiedColor() const { return mModifiedColor; }
 
-  void setDefaultColor(QColor &color) { mDefaultColor = color; }
-  void setModifiedColor(QColor &color) { mModifiedColor = color; }
+  void setDefaultColor(const QColor &color) { mDefaultColor = color; }
+  void setModifiedColor(const QColor &color) { mModifiedColor = color; }
 
 public slots:
   void itemInserted(const QModelIndex &index);

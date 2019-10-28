@@ -135,6 +135,8 @@ protected:
   // semaphore used to cancel the finalization
   bool mFinalizationCanceled;
 
+  bool isInvisibleNode() const;
+
   bool exportNodeHeader(WbVrmlWriter &writer) const override;
 
 private:

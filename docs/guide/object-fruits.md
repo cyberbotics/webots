@@ -6,7 +6,7 @@ An apple (0.05 x 0.05 x 0.05 m).
 
 %figure
 
-![Apple](images/objects/fruits/Apple/model.png)
+![Apple](images/objects/fruits/Apple/model.thumbnail.png)
 
 %end
 
@@ -22,7 +22,7 @@ Apple {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/fruits/protos/Apple.proto](https://github.com/omichel/webots/tree/master/projects/objects/fruits/protos/Apple.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/fruits/protos/Apple.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/fruits/protos/Apple.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -37,7 +37,7 @@ A fruit bowl (0.146 x 0.146 x 0.146 m).
 
 %figure
 
-![FruitBowl](images/objects/fruits/FruitBowl/model.png)
+![FruitBowl](images/objects/fruits/FruitBowl/model.thumbnail.png)
 
 %end
 
@@ -53,7 +53,7 @@ FruitBowl {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/fruits/protos/FruitBowl.proto](https://github.com/omichel/webots/tree/master/projects/objects/fruits/protos/FruitBowl.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/fruits/protos/FruitBowl.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/fruits/protos/FruitBowl.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -70,7 +70,7 @@ An orange (0.05 x 0.05 x 0.05 m).
 
 %figure
 
-![Orange](images/objects/fruits/Orange/model.png)
+![Orange](images/objects/fruits/Orange/model.thumbnail.png)
 
 %end
 
@@ -85,7 +85,7 @@ Orange {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/fruits/protos/Orange.proto](https://github.com/omichel/webots/tree/master/projects/objects/fruits/protos/Orange.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/fruits/protos/Orange.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/fruits/protos/Orange.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

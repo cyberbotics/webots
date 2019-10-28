@@ -112,7 +112,7 @@ class Nao (Robot):
               '|  back')
         print('+-------+ +-------+')
         print('total: %f Newtons, %f kilograms'
-              % ((newtonsLeft + newtonsRight), ((newtonsLeft + newtonsRight)/9.81)))
+              % ((newtonsLeft + newtonsRight), ((newtonsLeft + newtonsRight) / 9.81)))
 
     def printFootBumpers(self):
         ll = self.lfootlbumper.getValue()
@@ -145,11 +145,11 @@ class Nao (Robot):
 
         print('----------camera image (gray levels)---------')
         print('original resolution: %d x %d, scaled to %d x %f'
-              % (width, height, width/scaled, height/scaled))
+              % (width, height, width / scaled, height / scaled))
 
-        for y in range(0, height/scaled):
+        for y in range(0, height // scaled):
             line = ''
-            for x in range(0, width/scaled):
+            for x in range(0, width // scaled):
                 gray = camera.imageGetGray(image, width, x * scaled, y * scaled) * 9 / 255  # rescale between 0 and 9
                 line = line + str(int(gray))
             print(line)

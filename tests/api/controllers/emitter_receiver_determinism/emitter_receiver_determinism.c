@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
   for (i = 0; i < 100; i++) {
     wb_emitter_send(emitter, message, strlen(message) + 1);
     double x = 0.0;
-    int max = (rand() * rand()) % 100000000;
+    int max = (rand() * rand()) % 10000000;
     for (j = 0; j < max; j++)  // load the CPU with randomly complex computation to perturbate system process scheduling
       x += sqrt((double)j) / 10000.0;
     wb_robot_step(TIME_STEP);

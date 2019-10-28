@@ -80,6 +80,7 @@ void WbPointSet::createWrenObjects() {
   wr_config_enable_point_size(true);
   updateCoord();
 
+  sanitizeFields();
   buildWrenMesh();
 
   emit wrenObjectsCreated();
@@ -121,9 +122,6 @@ void WbPointSet::buildWrenMesh() {
   mWrenMesh = NULL;
 
   WbGeometry::computeWrenRenderable();
-
-  if (!sanitizeFields())
-    return;
 
   float *coordsData = new float[coord()->pointSize() * 3];
   float *colorData = NULL;
@@ -174,6 +172,9 @@ int WbPointSet::computeCoordsAndColorData(float *coordsData, float *colorData) {
 }
 
 void WbPointSet::updateCoord() {
+  if (!sanitizeFields())
+    return;
+
   if (coord())
     connect(coord(), &WbCoordinate::fieldChanged, this, &WbPointSet::updateCoord, Qt::UniqueConnection);
 
@@ -187,6 +188,9 @@ void WbPointSet::updateCoord() {
 }
 
 void WbPointSet::updateColor() {
+  if (!sanitizeFields())
+    return;
+
   if (color())
     connect(color(), &WbCoordinate::fieldChanged, this, &WbPointSet::updateColor, Qt::UniqueConnection);
 

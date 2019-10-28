@@ -10,7 +10,7 @@ This section describes the user interface of the Scene Tree, and gives an overvi
 
 %figure "Scene Tree Window"
 
-![scene_tree1.png](images/scene_tree1.png)
+![scene_tree1.png](images/scene_tree1.thumbnail.jpg)
 
 %end
 

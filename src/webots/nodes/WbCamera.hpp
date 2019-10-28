@@ -66,6 +66,8 @@ private:
   WbSFNode *mRecognition;
   WbSFString *mNoiseMaskUrl;
   WbSFBool *mAntiAliasing;
+  WbSFDouble *mAmbientOcclusionRadius;
+  WbSFDouble *mBloomThreshold;
   WbSFNode *mLensFlare;
   WbSFDouble *mFar;
   WbSFDouble *mExposure;
@@ -117,6 +119,8 @@ private slots:
   void updateNear();
   void updateFar();
   void updateExposure();
+  void updateAmbientOcclusionRadius();
+  void updateBloomThreshold();
   void updateNoiseMaskUrl();
   void updateLensFlare();
   void applyFocalSettingsToWren();

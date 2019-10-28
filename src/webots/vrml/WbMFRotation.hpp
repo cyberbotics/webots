@@ -35,7 +35,7 @@ public:
 
   WbMFRotation() {}
   WbMFRotation(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
-  WbMFRotation(const WbMFRotation &other) { mVector = other.mVector; }
+  WbMFRotation(const WbMFRotation &other) : mVector(other.mVector) {}
   virtual ~WbMFRotation() {}
   WbValue *clone() const override { return new WbMFRotation(*this); }
   bool equals(const WbValue *other) const override;

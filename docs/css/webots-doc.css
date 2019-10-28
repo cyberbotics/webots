@@ -209,12 +209,12 @@ body {
 }
 .webots-doc a {
   font-family: "Roboto";
-  color: #317589;
+  color: #3e95af;
   text-decoration: none;
   outline: 0;
 }
 .webots-doc a:hover {
-  color: black;
+  color: #2a6576;
   text-decoration: none;
   outline: 0;
 }
@@ -222,7 +222,7 @@ body {
 .webots-doc a:focus {
   outline: 0;
   text-decoration: none;
-  color: black;
+  color: #2a6576;
 }
 .webots-doc pre {
   padding: 20px 10px 20px 40px;
@@ -348,6 +348,66 @@ body {
   line-height: 140%;
   word-wrap: break-word;
 }
+.webots-doc .modal-window {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  padding-top: 60px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.9);
+}
+.webots-doc .modal-window-load-image {
+  margin: auto;
+  display: block;
+  cursor: pointer;
+  padding: 60px 120px;
+  background-color: white;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.5);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.5);
+  box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.5);
+  border-radius: 6px;
+}
+.webots-doc .modal-window-image-content {
+  margin: auto;
+  max-height: 80%;
+  max-width: 90%;
+  display: block;
+  cursor: pointer;
+  transition: 0.05s;
+  background-color: white;
+}
+.webots-doc .modal-window-close-button {
+  position: absolute;
+  top: 10px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 30px;
+  font-weight: bold;
+  transition: 0.2s;
+}
+.webots-doc .modal-window-close-button:hover,
+.webots-doc .modal-window-close-button:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+.webots-doc .modal-window-caption {
+  margin: auto;
+  display: block;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  -webkit-animation-name: zoom;
+  -webkit-animation-duration: 0.6s;
+  animation-name: zoom;
+  animation-duration: 0.4s;
+}
 .webots-doc img {
   max-width: 100%;
   max-height: 500px;
@@ -471,6 +531,10 @@ body {
   background-color: #f0f0f0;
   margin-bottom: 10px;
 }
+.robot-component:-webkit-full-screen {
+  width: 100%;
+  height: 100%;
+}
 .robot-component .robot-view {
   width: 70%;
   height: 100%;
@@ -508,11 +572,17 @@ body {
 .robot-component .menu .menu-button {
   background-image: url(../css/images/menu.png);
 }
+.robot-component .menu .fullscreen-button {
+  background-image: url(../css/images/fullscreen.png);
+}
 .robot-component .menu .reset-button:hover {
   background-image: url(../css/images/reset_hover.png);
 }
 .robot-component .menu .menu-button:hover {
   background-image: url(../css/images/menu_hover.png);
+}
+.robot-component .menu .fullscreen-button:hover {
+  background-image: url(../css/images/fullscreen_hover.png);
 }
 .robot-component .device-component {
   width: 30%;
@@ -695,6 +765,17 @@ body {
   to { opacity: 1; }
 }
 
+.webots-doc details {
+  margin: 5px 20px;
+  background-color: rgb(255, 252, 204);
+  padding: 5px 10px;
+}
+
+.webots-doc summary {
+  display: revert;
+  padding: inherit;
+}
+
 /*---------------------*
  * Chart specific CSS
  *--------------------*/
@@ -850,10 +931,6 @@ body {
   opacity: 0.7;
 }
 
-.blog #view .modal img:hover {
-  opacity: 1.0;
-}
-
 .blog #view #publish-data {
   font-family: "Roboto";
   font-size: 0.92em;
@@ -861,46 +938,6 @@ body {
   padding-bottom: 2px;
   margin-bottom: 2px;
   display:block;
-}
-
-.blog .modal {
-  display: none;
-  position: fixed;
-  z-index: 100;
-  padding-top: 100px;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.9);
-}
-
-.blog #view .modal-content {
-  margin: 0 auto;
-  display: block;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: 0.05s;
-  box-shadow: 0px 5px 20px 6px rgba(0, 0, 0, 1);
-}
-
-.blog #caption {
-  margin: auto;
-  display: block;
-  max-width: 700px;
-  text-align: center;
-  color: #ccc;
-  padding: 10px 0;
-  margin-bottom: 150px;
-}
-
-.blog .modal-content, #caption {
-  -webkit-animation-name: zoom;
-  -webkit-animation-duration: 0.6s;
-  animation-name: zoom;
-  animation-duration: 0.4s;
 }
 
 .blog .webm {
@@ -920,23 +957,6 @@ body {
 @keyframes zoom {
   from {transform:scale(0)}
   to {transform:scale(1)}
-}
-
-.blog .close {
-  position: absolute;
-  top: 40px;
-  right: 35px;
-  color: #f1f1f1;
-  font-size: 40px;
-  font-weight: bold;
-  transition: 0.2s;
-}
-
-.blog .close:hover,
-.blog .close:focus {
-  color: #bbb;
-  text-decoration: none;
-  cursor: pointer;
 }
 
 .blog pre {

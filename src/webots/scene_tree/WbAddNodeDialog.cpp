@@ -15,6 +15,7 @@
 #include "WbAddNodeDialog.hpp"
 
 #include "WbBaseNode.hpp"
+#include "WbDesktopServices.hpp"
 #include "WbDictionary.hpp"
 #include "WbField.hpp"
 #include "WbLog.hpp"
@@ -43,7 +44,7 @@
 
 #include <cassert>
 
-enum { NEW = 10001, USE = 10002, PROTO_WEBOTS = 10003, PROTO_PROJECT = 10004 };
+enum { NEW = 10001, USE = 10002, PROTO_WEBOTS = 10003, PROTO_EXTRA = 10004, PROTO_PROJECT = 10005 };
 
 WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index, QWidget *parent) :
   QDialog(parent),
@@ -55,7 +56,8 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mDefNodeIndex(-1),
   mActionType(CREATE),
   mIsFolderItemSelected(true),
-  mIsAddingLocalProtos(false) {
+  mIsAddingLocalProtos(false),
+  mIsAddingExtraProtos(false) {
   assert(mCurrentNode && mField);
 
   // check if top node is a robot node
@@ -107,14 +109,14 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
 
   mDocumentationLabel = new QLabel(this);
   mDocumentationLabel->setObjectName("documentationLabel");
-  mDocumentationLabel->setOpenExternalLinks(true);
+  connect(mDocumentationLabel, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   mDocumentationLabel->setWordWrap(true);
   font.setItalic(true);
   mDocumentationLabel->setFont(font);
 
   mLicenseLabel = new QLabel(this);
   mLicenseLabel->setObjectName("licenseLabel");
-  mLicenseLabel->setOpenExternalLinks(true);
+  connect(mLicenseLabel, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   mLicenseLabel->setWordWrap(true);
   font.setItalic(true);
   mLicenseLabel->setFont(font);
@@ -214,6 +216,10 @@ void WbAddNodeDialog::updateItemInfo() {
         mInfoText->setPlainText(
           tr("This folder lists all suitable node that were defined (using DEF) above the current line of the Scene Tree."));
         break;
+      case PROTO_EXTRA:
+        mInfoText->setPlainText(tr("This folder lists all suitable PROTO nodes from the extra projects located in: '%1'.")
+                                  .arg(WbPreferences::instance()->value("General/extraProjectsPath").toString()));
+        break;
       case PROTO_PROJECT:
         mInfoText->setPlainText(tr("This folder lists all suitable PROTO nodes from the local 'protos' directory: '%1'.")
                                   .arg(WbProject::current()->protosPath()));
@@ -243,6 +249,7 @@ void WbAddNodeDialog::updateItemInfo() {
         break;
       }
       case PROTO_WEBOTS:
+      case PROTO_EXTRA:
       case PROTO_PROJECT:
         mDefNodeIndex = -1;
         mNewNodeType = PROTO;
@@ -375,14 +382,18 @@ void WbAddNodeDialog::buildTree() {
   mUsesItem = NULL;
   mDefNodes.clear();
   mUniqueLocalProtoNames.clear();
+  mUniqueExtraProtoNames.clear();
 
   // basic tree items
   QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), NEW);
-  QTreeWidgetItem *const wprotosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Webots)"), PROTO_WEBOTS);
+  QTreeWidgetItem *const wprotosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Webots Projects)"), PROTO_WEBOTS);
 
   QStringList basicNodes;
   mUsesItem = new QTreeWidgetItem(QStringList("USE"), USE);
-  QTreeWidgetItem *lprotosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes (Project)")), PROTO_PROJECT);
+  QTreeWidgetItem *lprotosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes (Current Project)")), PROTO_PROJECT);
+  QTreeWidgetItem *aprotosItem = WbPreferences::instance()->value("General/extraProjectsPath").toString().isEmpty() ?
+                                   NULL :
+                                   new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), PROTO_EXTRA);
   basicNodes = WbNodeModel::baseModelNames();
 
   QTreeWidgetItem *item = NULL;
@@ -439,6 +450,7 @@ void WbAddNodeDialog::buildTree() {
   }
 
   mUniqueLocalProtoNames.clear();
+  mUniqueExtraProtoNames.clear();
 
   // add project PROTO
   if (lprotosItem) {
@@ -446,6 +458,14 @@ void WbAddNodeDialog::buildTree() {
     addProtosFromDirectory(lprotosItem, WbProject::current()->path() + "/protos/", mFindLineEdit->text(),
                            QDir(WbProject::current()->path() + "/protos/"));
     mIsAddingLocalProtos = false;
+  }
+
+  // add extra PROTO
+  if (aprotosItem) {
+    mIsAddingExtraProtos = true;
+    const QString &extraProjectsPath = WbPreferences::instance()->value("General/extraProjectsPath").toString();
+    addProtosFromDirectory(aprotosItem, extraProjectsPath, mFindLineEdit->text(), QDir(extraProjectsPath));
+    mIsAddingExtraProtos = false;
   }
 
   // add Webots PROTO
@@ -457,19 +477,22 @@ void WbAddNodeDialog::buildTree() {
     mTree->addTopLevelItem(mUsesItem);
   if (lprotosItem)
     mTree->addTopLevelItem(lprotosItem);
+  if (aprotosItem)
+    mTree->addTopLevelItem(aprotosItem);
   mTree->addTopLevelItem(wprotosItem);
 
   // initial selection
   const int nBasicNodes = nodesItem->childCount();
   const int nUseNodes = mUsesItem ? mUsesItem->childCount() : 0;
   const int nLProtosNodes = lprotosItem ? lprotosItem->childCount() : 0;
+  const int nAProtosNodes = aprotosItem ? aprotosItem->childCount() : 0;
 
   // if everything can fit in the tree height then show all
-  if (nBasicNodes + nUseNodes + nLProtosNodes + nWProtosNodes < 20)
+  if (nBasicNodes + nUseNodes + nLProtosNodes + nAProtosNodes + nWProtosNodes < 20)
     mTree->expandAll();
 
   // if no USE nor PROTO items
-  if (nBasicNodes && !nUseNodes && !nLProtosNodes && !nWProtosNodes)
+  if (nBasicNodes && !nUseNodes && !nLProtosNodes && !nAProtosNodes && !nWProtosNodes)
     // then select first basic node
     mTree->setCurrentItem(nodesItem->child(0));
   else
@@ -588,11 +611,20 @@ int WbAddNodeDialog::addProtos(QTreeWidgetItem *parentItem, const QStringList &p
     ++nAddedNodes;
 
     if (mUniqueLocalProtoNames.contains(fileInfo.baseName())) {
-      // disable item if PROTO model with same name already exists
+      // disable item if PROTO model with same name already exists in local project
       item->setDisabled(true);
-      item->setToolTip(0, tr("Node not available because another project PROTO model with the same name already exists."));
+      item->setToolTip(
+        0,
+        tr("Node not available because another project PROTO model with the same name already exists in your local project."));
+    } else if (mUniqueExtraProtoNames.contains(fileInfo.baseName())) {
+      // disable item if PROTO model with same name already exists in extra projects
+      item->setDisabled(true);
+      item->setToolTip(0, tr("Node not available because another project PROTO model with the same name already exists in your "
+                             "extra projects."));
     } else if (mIsAddingLocalProtos)
       mUniqueLocalProtoNames.append(fileInfo.baseName());
+    else if (mIsAddingExtraProtos)
+      mUniqueExtraProtoNames.append(fileInfo.baseName());
   }
 
   return nAddedNodes;

@@ -26,7 +26,12 @@ class WbLens;
 class WbWrenCamera;
 class WbSensor;
 
+#ifdef _WIN32
 class QSharedMemory;
+#else
+class WbPosixSharedMemory;
+#endif
+
 class QDataStream;
 
 class WbAbstractCamera : public WbRenderingDevice {
@@ -82,7 +87,7 @@ protected:
   virtual void addConfigureToStream(QDataStream &stream, bool reconfigure = false);
   bool handleCommand(QDataStream &stream, unsigned char command);
 
-  unsigned char *image() const;
+  unsigned char *image() const { return mImageData; }
   WbLens *lens() const;
 
   virtual WbRgb enabledCameraFrustrumColor() const = 0;
@@ -126,7 +131,12 @@ protected:
   // other stuff
   WbSensor *mSensor;
   short mRefreshRate;
+#ifdef _WIN32
   QSharedMemory *mImageShm;
+#else
+  WbPosixSharedMemory *mImageShm;
+#endif
+  unsigned char *mImageData;
   char mCharType;
   bool mNeedToConfigure;
   bool mHasSharedMemoryChanged;

@@ -13,7 +13,7 @@ In order to get the `Keyboard` instance, you should call the `getKeyboard` funct
 #### `wb_keyboard_get_sampling_period`
 #### `wb_keyboard_get_key`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -114,7 +114,7 @@ public class Keyboard {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_KEYBOARD_END, WB_KEYBOARD_HOME, WB_KEYBOARD_LEFT, WB_KEYBOARD_UP,
 WB_KEYBOARD_RIGHT, WB_KEYBOARD_DOWN, WB_KEYBOARD_PAGEUP, WB_KEYBOARD_PAGEDOWN,
 WB_KEYBOARD_NUMPAD_HOME, WB_KEYBOARD_NUMPAD_LEFT, WB_KEYBOARD_NUMPAD_UP,

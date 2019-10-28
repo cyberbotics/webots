@@ -268,8 +268,16 @@ void WbPaintTexture::paint(const WbRay &ray, float leadSize, const WbRgb &color,
 void WbPaintTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv) const {
   const int w = mTextureSize.x();
   const int h = mTextureSize.y();
-  const int x = uv.x() * w;
-  const int y = uv.y() * h;
+  int x = uv.x() * w;
+  int y = uv.y() * h;
+  while (x < 0)
+    x += w;
+  while (y < 0)
+    y += h;
+  while (x >= w)
+    x -= w;
+  while (y >= h)
+    y -= h;
 
   const int index = (y * w + x) * 4;
   pickedColor.setValue(mData[index + 2], mData[index + 1], mData[index]);

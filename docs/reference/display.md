@@ -64,7 +64,7 @@ Then, after closing the window, the overlay will be automatically restored.
 #### `wb_display_get_width`
 #### `wb_display_get_height`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -122,7 +122,7 @@ public class Display extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 width = wb_display_get_width(tag)
 height = wb_display_get_height(tag)
 ```
@@ -152,7 +152,7 @@ These functions return respectively the values of the `width` and `height` field
 #### `wb_display_set_opacity`
 #### `wb_display_set_font`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -218,7 +218,7 @@ public class Display extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_display_set_color(tag, [r g b])
 wb_display_set_alpha(tag, alpha)
 wb_display_set_opacity(tag, opacity)
@@ -297,7 +297,7 @@ For example the vector `[1 0 1]` represents the magenta color.
 #### `wb_display_attach_camera`
 #### `wb_display_detach_camera`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -355,7 +355,7 @@ public class Display extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_display_attach_camera(tag, camera_tag)
 wb_display_detach_camera(tag)
 ```
@@ -395,7 +395,7 @@ After detaching a camera, the pixels that have not been manually drawn will be t
 #### `wb_display_fill_oval`
 #### `wb_display_fill_polygon`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -481,7 +481,7 @@ public class Display extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_display_draw_pixel(tag, x, y)
 wb_display_draw_line(tag, x1, y1, x2, y2)
 wb_display_draw_rectangle(tag, x, y, width, height)
@@ -563,7 +563,7 @@ The `wb_display_fill_polygon` function draws a polygon having the same propertie
 #### `wb_display_image_save`
 #### `wb_display_image_delete`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -663,7 +663,7 @@ public class Display extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 RGB, RGBA, ARGB, BGRA
 
 image = wb_display_image_new(tag, data, format)

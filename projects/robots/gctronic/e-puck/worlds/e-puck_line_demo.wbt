@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "This behavior-based controller allows the e-puck robot to follow the black line, avoid obstacles and recover its path afterwards."
@@ -26,7 +26,7 @@ RectangleArena {
         "textures/floor.png"
       ]
     }
-    roughness 1
+    roughness 0.2
     metalness 0
   }
   wallHeight 0.05
@@ -37,7 +37,7 @@ DEF OBSTACLE1 Solid {
     Shape {
       appearance PBRAppearance {
         baseColor 1 0.1 0.3
-        roughness 1
+        roughness 0.5
         metalness 0
       }
       geometry DEF BOX1 Box {
@@ -55,7 +55,7 @@ DEF OBSTACLE2 Solid {
     Shape {
       appearance PBRAppearance {
         baseColor 1 0.501961 1
-        roughness 1
+        roughness 0.5
         metalness 0
       }
       geometry DEF BOX2 Box {
@@ -73,7 +73,7 @@ DEF OBSTACLE3 Solid {
     Shape {
       appearance PBRAppearance {
         baseColor 0.501961 0.501961 0.501961
-        roughness 1
+        roughness 0.5
         metalness 0
       }
       geometry DEF BOX3 Box {
@@ -85,7 +85,7 @@ DEF OBSTACLE3 Solid {
   boundingObject USE BOX3
 }
 DEF EPUCK E-puck {
-  translation 0.014831380364903241 -1.249000902703301e-16 0.20001950778748953
+  translation 0.0148 0 0.175
   rotation 0 1 0 1.5
   controller "e-puck_line_demo"
   groundSensorsSlot [

@@ -42,10 +42,6 @@ private:
   WbVisualBoundingSphere();
   ~WbVisualBoundingSphere();
   void clear();
-
-  // TODO_WREN
-  // Ogre::Entity *mEntity;
-  // Ogre::SceneNode *mSceneNode;
 };
 
 #endif  // WB_VISUAL_BOUNDING_SPHERE_HPP

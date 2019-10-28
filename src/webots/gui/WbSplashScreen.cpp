@@ -73,7 +73,7 @@ void WbSplashScreen::drawContents(QPainter *painter) {
   font = QFont("Raleway Light", 30 * dotsPerInchRatio);
   painter->setFont(font);
   painter->setPen(versionColor());
-  painter->drawText(QRect(0, 273, 380, 100), Qt::AlignCenter, WbApplicationInfo::version().toString());
+  painter->drawText(QRect(0, 273, 380, 100), Qt::AlignCenter, WbApplicationInfo::version().toString(true, false, false));
 
   // then draw updating text
   font = QFont("Helvetica", 10 * dotsPerInchRatio);

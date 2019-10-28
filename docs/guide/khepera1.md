@@ -1,6 +1,6 @@
 ## K-Team's Khepera I
 
-%robot khepera1 images/robots/khepera1/model.png
+%robot khepera1 images/robots/khepera1/model.thumbnail.png
 
 The "Khepera" robot is a two-wheeled robot produced by [K-Team](https://www.k-team.com/).
 It is mounted by multiple sensors including 8 distance sensors.
@@ -38,27 +38,27 @@ You will find the following samples in this folder: "WEBOTS\_HOME/projects/robot
 
 ### khepera.wbt
 
-![khepera.wbt.png](images/robots/khepera1/khepera.wbt.png) In this example, you can see a Khepera robot moving inside an arena while avoiding the walls.
+![khepera.wbt.png](images/robots/khepera1/khepera.wbt.thumbnail.jpg) In this example, you can see a Khepera robot moving inside an arena while avoiding the walls.
 Like many other examples, this one uses the `braitenberg` controller.
 The source code for this controller is located in the "WEBOTS\_HOME/projects/default/controllers/braitenberg" directory.
 
 ### khepera\_kinematic.wbt
 
-![khepera_kinematic.wbt.png](images/robots/khepera1/khepera_kinematic.wbt.png) In this example, you can see two Khepera robots moving inside an arena while avoiding each other and the walls.
+![khepera_kinematic.wbt.png](images/robots/khepera1/khepera_kinematic.wbt.thumbnail.jpg) In this example, you can see two Khepera robots moving inside an arena while avoiding each other and the walls.
 It is a good example of how to use the kinematic mode of Webots.
 Like many other examples, this one uses the `braitenberg` controller.
 The source code for this controller is in the "WEBOTS\_HOME/projects/default/controllers/braitenberg" directory.
 
 ### khepera\_gripper.wbt
 
-![khepera_gripper.wbt.png](images/robots/khepera1/khepera_gripper.wbt.png) In this example, you can see a Khepera robot equipped with a gripper.
+![khepera_gripper.wbt.png](images/robots/khepera1/khepera_gripper.wbt.thumbnail.jpg) In this example, you can see a Khepera robot equipped with a gripper.
 The robot uses its gripper to grab a stick, move a bit with it and drop it on the ground.
 This behavior is repeated endlessly.
 The source code for this controller is in the "khepera\_gripper" directory.
 
 ### khepera\_gripper\_camera.wbt
 
-![khepera_gripper_camera.wbt.png](images/robots/khepera1/khepera_gripper_camera.wbt.png) In this example, you can see a Khepera robot equipped with a gripper and a [Camera](../reference/camera.md) device.
+![khepera_gripper_camera.wbt.png](images/robots/khepera1/khepera_gripper_camera.wbt.thumbnail.jpg) In this example, you can see a Khepera robot equipped with a gripper and a [Camera](../reference/camera.md) device.
 The robot uses its gripper to grab a stick, move a bit with it and drop it on the floor.
 This behavior is repeated endlessly.
 In this world, the robot does not analyse the images it takes with its camera.
@@ -66,7 +66,7 @@ The source code for this controller is in the "khepera\_gripper" directory.
 
 ### khepera\_k213.wbt
 
-![khepera_k213.wbt.png](images/robots/khepera1/khepera_k213.wbt.png) In this example, you can see a Khepera robot equipped with a K213 [Camera](../reference/camera.md) device.
+![khepera_k213.wbt.png](images/robots/khepera1/khepera_k213.wbt.thumbnail.jpg) In this example, you can see a Khepera robot equipped with a K213 [Camera](../reference/camera.md) device.
 This camera is a linear vision turret with grayscale images.
 Using this device, the robot is able to translate the information contained in the image into text and print this result in the Webots console.
 When you load this world, the robot will not begin to move immediately.
@@ -75,7 +75,7 @@ The source code for this controller is in the "khepera\_k213" directory.
 
 ### khepera\_pipe.wbt
 
-![khepera_pipe.wbt.png](images/robots/khepera1/khepera_pipe.wbt.png) In this example, you can see a Khepera robot inside an arena.
+![khepera_pipe.wbt.png](images/robots/khepera1/khepera_pipe.wbt.thumbnail.jpg) In this example, you can see a Khepera robot inside an arena.
 The controller for this robot opens a UNIX pipe in order to receive commands using the Khepera serial communication protocol.
 This example is provided with a sample client program which interacts with the controller of the robot to make it move straight forward until it detects an obstacle.
 This client program `client` must be launched separately from Webots.
@@ -85,7 +85,7 @@ The source code for this controller and for the client program are in the "pipe"
 
 ### khepera\_tcpip.wbt
 
-![khepera_tcpip.wbt.png](images/robots/khepera1/khepera_tcpip.wbt.png) In this example, you can see a Khepera robot inside an arena.
+![khepera_tcpip.wbt.png](images/robots/khepera1/khepera_tcpip.wbt.thumbnail.jpg) In this example, you can see a Khepera robot inside an arena.
 The controller for this robot acts as a TCP/IP server, waiting for a connection.
 Through this connection, the robot can receive commands using the Khepera serial communication protocol.
 This example is provided with a sample client program which displays a command prompt, with which you can control the movements of the robot.

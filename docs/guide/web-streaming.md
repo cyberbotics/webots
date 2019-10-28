@@ -3,12 +3,14 @@
 ### Description
 
 Webots can be used as a Web streaming server, i.e., to stream a simulation to several interactive 3D `HTML` pages, as shown in the [figure below](web-streaming.md#screenshot-of-webots-streaming-server).
+In this mode the user can watch an already running simulation and navigate into the scene but cannot interact with the simulation, i.e. controlling the execution of the simulation and modifying the robot controller program.
+Please refer to the [Web simulation](web-simulation.md) documentation to setup a platform where users can run individual simulations.
 
 The mechanism is similar to the [web animation export](web-animation.md) except that the `X3D` file and the animation are sent on the fly to the Web browser clients.
 
 %figure "Screenshot of Webots streaming server"
 
-![streaming-server-screenshot.png](images/streaming-server-screenshot.png)
+![streaming-server-screenshot.png](images/streaming-server-screenshot.thumbnail.jpg)
 
 %end
 
@@ -23,9 +25,7 @@ The second line is not used with this streaming solution.
 
 The sample Javascript we provide to communicate with Webots supports advanced features that are not available during the basic broadcast streaming.
 This includes controlling the execution of the simulation, modifying the Python robot controller program and displaying the robot windows.
-All these functionalities are enabled when starting the streaming using the `simulation_server.py` and `session_server.py` script located in "[WEBOTS\_HOME/resources/web/server/](https://github.com/omichel/webots/tree/master/resources/server/)".
-These scripts run a complete simulation server that executes Webots in a secure environment using [Firejail Security Sandbox](https://firejail.wordpress.com/) and instantiates a new Webots instance for each connected client.
-The simulation server is still a work in progress so the documentation is limited and the system could change in the next releases.
+All these functionalities are enabled when starting the streaming using the `simulation_server.py` and `session_server.py` as documented in the [Web simulation](web-simulation.md) section.
 
 ### How to Stream a Webots Simulation
 

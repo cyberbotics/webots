@@ -6,7 +6,7 @@ A painting (1.5 x 1 x 0.05 m).
 
 %figure
 
-![LandscapePainting](images/objects/paintings/LandscapePainting/model.png)
+![LandscapePainting](images/objects/paintings/LandscapePainting/model.thumbnail.png)
 
 %end
 
@@ -22,7 +22,7 @@ LandscapePainting {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/paintings/protos/LandscapePainting.proto](https://github.com/omichel/webots/tree/master/projects/objects/paintings/protos/LandscapePainting.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/paintings/protos/LandscapePainting.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/paintings/protos/LandscapePainting.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -39,7 +39,7 @@ A painting (0.82 x 1.01 x 0.05 m).
 
 %figure
 
-![PortraitPainting](images/objects/paintings/PortraitPainting/model.png)
+![PortraitPainting](images/objects/paintings/PortraitPainting/model.thumbnail.png)
 
 %end
 
@@ -55,7 +55,7 @@ PortraitPainting {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/paintings/protos/PortraitPainting.proto](https://github.com/omichel/webots/tree/master/projects/objects/paintings/protos/PortraitPainting.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/paintings/protos/PortraitPainting.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/paintings/protos/PortraitPainting.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

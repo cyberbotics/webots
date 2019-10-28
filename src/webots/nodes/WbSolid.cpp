@@ -401,6 +401,9 @@ bool WbSolid::applyHiddenKinematicParameters(const HiddenKinematicParameters *hk
         const WbJointParameters *const param2 = joint->parameters2();
         if (param2)
           v[1] = joint->position(2);
+        const WbJointParameters *const param3 = joint->parameters3();
+        if (param3)
+          v[2] = joint->position(3);
         previousP->insert(jointIndex, new WbVector3(v));
       }
 
@@ -511,7 +514,7 @@ void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive,
       parameterNode = parameterNode->protoParameterNode();
 
     bool found = false;
-    re.setPattern(QString("%1\\((\\d+)\\)").arg(nameWithoutIndex));
+    re.setPattern(QString("%1\\((\\d+)\\)").arg(QRegularExpression::escape(nameWithoutIndex)));
     foreach (WbSolid *s, siblings) {
       if (!s || s == this)
         continue;
@@ -788,7 +791,7 @@ void WbSolid::setupSolidMerger() {
       createOdeMass();
     mSolidMerger->appendSolid(this);
     // Recursively assigns the WbSolid body to every non-space ODE dGeom
-    dGeomID g = odeGeom();
+    g = odeGeom();
     if (g)
       mSolidMerger->attachGeomsToBody(g);
     if (mSolidMerger->isSet())
@@ -1511,7 +1514,7 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
       continue;
     }
 
-    WbBasicJoint *const joint = dynamic_cast<WbBasicJoint *>(n);
+    WbBasicJoint *joint = dynamic_cast<WbBasicJoint *>(n);
     if (joint) {
       jointChildren.append(joint);
       WbSolid *const ep = joint->solidEndPoint();
@@ -1521,7 +1524,7 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
       }
     }
 
-    WbPropeller *const propeller = dynamic_cast<WbPropeller *>(n);
+    WbPropeller *propeller = dynamic_cast<WbPropeller *>(n);
     if (propeller) {
       propellerChildren.append(propeller);
       continue;
@@ -1544,7 +1547,7 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
         else if (slot->groupEndPoint())
           collectSolidChildren(slot->groupEndPoint(), connectSignals, solidChildren, jointChildren, propellerChildren);
         else {
-          WbBasicJoint *const joint = dynamic_cast<WbBasicJoint *>(slot->endPoint());
+          joint = dynamic_cast<WbBasicJoint *>(slot->endPoint());
           if (joint) {
             jointChildren.append(joint);
             WbSolid *const ep = joint->solidEndPoint();
@@ -1554,7 +1557,7 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
             }
           }
 
-          WbPropeller *const propeller = dynamic_cast<WbPropeller *>(slot->endPoint());
+          propeller = dynamic_cast<WbPropeller *>(slot->endPoint());
           if (propeller) {
             propellerChildren.append(propeller);
             continue;
@@ -2859,7 +2862,7 @@ void WbSolid::collectHiddenKinematicParameters(HiddenKinematicParametersMap &map
       // Note:
       //   This is an exception to the global double precision which is not sufficient here,
       //   because the accumulated error is big in computeEndPointSolidPositionFromParameters().
-      //   cf. https://github.com/omichel/webots/issues/6512
+      //   cf. https://github.com/omichel/webots-dev/issues/6512
       if (!translationToBeCopied.almostEquals(mTranslationLoadedFromFile, 100000.0 * std::numeric_limits<double>::epsilon()) &&
           !isTranslationFieldVisible())
         copyTranslation = true;

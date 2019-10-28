@@ -233,9 +233,9 @@ void WbLidar::addConfigureToStream(QDataStream &stream, bool reconfigure) {
 
 void WbLidar::handleMessage(QDataStream &stream) {
   unsigned char command;
-  stream >> (unsigned char &)command;
+  stream >> command;
   if (command == C_SET_SAMPLING_PERIOD) {
-    stream >> (short &)mRefreshRate;
+    stream >> mRefreshRate;
     if (isRotating())
       mRefreshRate = WbWorld::instance()->basicTimeStep();
 
@@ -594,7 +594,7 @@ double WbLidar::actualFieldOfView() const {
 /////////////////////
 
 void WbLidar::updateNear() {
-  if (WbFieldChecker::checkDoubleIsPositive(this, mNear, 0.01))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mNear, 0.01))
     return;
 
   if (mNear->value() > mMinRange->value()) {
@@ -608,7 +608,7 @@ void WbLidar::updateNear() {
 }
 
 void WbLidar::updateMinRange() {
-  if (WbFieldChecker::checkDoubleIsPositive(this, mMinRange, 0.01))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mMinRange, 0.01))
     return;
 
   if (mMinRange->value() < mNear->value()) {
@@ -656,7 +656,7 @@ void WbLidar::updateFieldOfView() {
 }
 
 void WbLidar::updateResolution() {
-  if (WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mResolution, -1.0, -1.0))
+  if (WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1.0, -1.0))
     return;
 
   if (hasBeenSetup())
@@ -682,7 +682,7 @@ void WbLidar::updateType() {
 }
 
 void WbLidar::updateMinFrequency() {
-  WbFieldChecker::checkDoubleIsPositive(this, mMinFrequency, 0.01);
+  WbFieldChecker::resetDoubleIfNonPositive(this, mMinFrequency, 0.01);
   if (mMinFrequency->value() > mMaxFrequency->value()) {
     warn(tr("'minFrequency' should be smaller or equal to 'maxFrequency'."));
     mMinFrequency->setValue(mMaxFrequency->value());
@@ -692,7 +692,7 @@ void WbLidar::updateMinFrequency() {
 }
 
 void WbLidar::updateMaxFrequency() {
-  WbFieldChecker::checkDoubleIsPositive(this, mMaxFrequency, mMinFrequency->value());
+  WbFieldChecker::resetDoubleIfNonPositive(this, mMaxFrequency, mMinFrequency->value());
   if (mMaxFrequency->value() < mMinFrequency->value()) {
     warn(tr("'maxFrequency' should be bigger or equal to 'minFrequency'."));
     mMaxFrequency->setValue(mMinFrequency->value());
@@ -702,7 +702,7 @@ void WbLidar::updateMaxFrequency() {
 }
 
 void WbLidar::updateDefaultFrequency() {
-  WbFieldChecker::checkDoubleIsPositive(this, mDefaultFrequency, mMinFrequency->value());
+  WbFieldChecker::resetDoubleIfNonPositive(this, mDefaultFrequency, mMinFrequency->value());
   if (mDefaultFrequency->value() < mMinFrequency->value()) {
     warn(tr("'defaultFrequency' should be bigger or equal to 'minFrequency'."));
     mDefaultFrequency->setValue(mMinFrequency->value());
@@ -715,7 +715,7 @@ void WbLidar::updateDefaultFrequency() {
 }
 
 void WbLidar::updateHorizontalResolution() {
-  WbFieldChecker::checkIntIsPositive(this, mHorizontalResolution, 1);
+  WbFieldChecker::resetIntIfNonPositive(this, mHorizontalResolution, 1);
 
   // make sure we have at least 1 pixel height per layer
   if (height() < actualNumberOfLayers()) {
@@ -741,8 +741,8 @@ void WbLidar::updateHorizontalResolution() {
 }
 
 void WbLidar::updateVerticalFieldOfView() {
-  WbFieldChecker::checkDoubleIsPositive(this, mVerticalFieldOfView, 0.1);
-  WbFieldChecker::checkDoubleIsLessOrEqual(this, mVerticalFieldOfView, M_PI, M_PI);
+  WbFieldChecker::resetDoubleIfNonPositive(this, mVerticalFieldOfView, 0.1);
+  WbFieldChecker::resetDoubleIfGreater(this, mVerticalFieldOfView, M_PI, M_PI);
 
   // make sure we have at least 1 pixel height per layer
   if (height() < actualNumberOfLayers()) {
@@ -769,7 +769,7 @@ void WbLidar::updateVerticalFieldOfView() {
 }
 
 void WbLidar::updateNumberOfLayers() {
-  WbFieldChecker::checkIntIsPositive(this, mNumberOfLayers, 1);
+  WbFieldChecker::resetIntIfNonPositive(this, mNumberOfLayers, 1);
 
   // make sure we have at least 1 pixel height per layer
   if (height() < actualNumberOfLayers()) {

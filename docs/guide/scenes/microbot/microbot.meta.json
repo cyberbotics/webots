@@ -1,8 +1,10 @@
 {
+  "robotID": "n11", 
   "name": "microbot", 
   "devices": [
     {
-      "transformID": "n81", 
+      "transformID": "n72", 
+      "initialPosition": 0, 
       "name": "left wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -11,7 +13,8 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n101", 
+      "transformID": "n91", 
+      "initialPosition": 0, 
       "name": "right wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -20,11 +23,23 @@
       "axis": "-1 0 0"
     }, 
     {
-      "ledMaterialsIDs": [
+      "transformID": "n24", 
+      "name": "left led", 
+      "ledPBRAppearanceIDs": [
+        "n27"
+      ], 
+      "ledColors": [
+        "1 0 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "transformID": "n30", 
+      "name": "right led", 
+      "ledPBRAppearanceIDs": [
         "n33"
       ], 
-      "transformID": "n29", 
-      "name": "left led", 
       "ledColors": [
         "1 0 0"
       ], 
@@ -32,44 +47,32 @@
       "type": "LED"
     }, 
     {
-      "ledMaterialsIDs": [
-        "n40"
-      ], 
-      "transformID": "n36", 
-      "name": "right led", 
-      "ledColors": [
-        "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
-    {
-      "transformID": "n67", 
+      "transformID": "n58", 
       "type": "DistanceSensor", 
       "name": "floor sensor"
     }, 
     {
-      "transformID": "n43", 
+      "transformID": "n36", 
       "type": "TouchSensor", 
       "name": "left bumper"
     }, 
     {
-      "transformID": "n81", 
+      "transformID": "n72", 
       "type": "PositionSensor", 
       "name": "left wheel sensor"
     }, 
     {
-      "transformID": "n15", 
+      "transformID": "n13", 
       "type": "TouchSensor", 
       "name": "push button"
     }, 
     {
-      "transformID": "n55", 
+      "transformID": "n47", 
       "type": "TouchSensor", 
       "name": "right bumper"
     }, 
     {
-      "transformID": "n101", 
+      "transformID": "n91", 
       "type": "PositionSensor", 
       "name": "right wheel sensor"
     }

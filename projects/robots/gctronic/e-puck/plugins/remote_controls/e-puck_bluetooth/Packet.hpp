@@ -21,7 +21,7 @@
 
 class Packet {
 public:
-  Packet(int maxSize, int initSize = 0);
+  explicit Packet(int maxSize, int initSize = 0);
   virtual ~Packet();
 
   char *data() const { return mData; }

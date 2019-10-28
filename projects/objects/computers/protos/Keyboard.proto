@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -9,7 +9,7 @@ PROTO Keyboard [
   field SFRotation rotation    0 1 0 0
   field SFString   name        "keyboard"
   field SFColor    color       0.1 0.1 0.1  # Defines the color of the keyboard.
-  field SFFloat    mass        0            # Defines the mass of the keyboard in kg. A value smaller or equal to 0 remove the physics of the keyboard.
+  field SFFloat    mass        0            # Defines the mass of the keyboard in kg. A value smaller or equal to 0 removes the physics of the keyboard.
 ]
 {
 %{ local mass = fields.mass.value }%

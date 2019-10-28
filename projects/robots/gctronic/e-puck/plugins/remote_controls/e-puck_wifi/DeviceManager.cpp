@@ -87,7 +87,7 @@ DeviceManager::DeviceManager() {
     mGroundSensors[i] = NULL;
 
   WbNodeType deviceType;
-  int groundSensorIndex, matchedItems = 0;
+  int groundSensorIndex, matchedItems;
   int numberOfDevices = wb_robot_get_number_of_devices();
   for (int index = 0; index < numberOfDevices; index++) {
     WbDeviceTag tag = wb_robot_get_device_by_index(index);

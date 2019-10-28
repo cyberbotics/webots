@@ -13,10 +13,11 @@
 // limitations under the License.
 
 #include "WbSFString.hpp"
+
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 
-void WbSFString::read(WbTokenizer *tokenizer, const QString &worldPath) {
+void WbSFString::readSFString(WbTokenizer *tokenizer, const QString &worldPath) {
   try {
     mValue = tokenizer->nextToken()->toString();
   } catch (...) {
@@ -27,9 +28,7 @@ void WbSFString::read(WbTokenizer *tokenizer, const QString &worldPath) {
 }
 
 void WbSFString::setValue(const QString &s) {
-  if (mValue != s)
-    mValue = s;
-
+  mValue = s;
   emit changed();
 }
 

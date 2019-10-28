@@ -120,7 +120,7 @@ def list_folder(p):
                 print(p + '/' + os.path.splitext(f)[0] + ' [exe]')
             elif f.endswith(dll_extension):
                 lib = os.path.splitext(f)[0]
-                if sys.platform != 'win32':
+                if sys.platform != 'win32' and lib.startswith('lib'):
                     lib = lib[3:]  # remove the 'lib' prefix on Linux and macOS
                 print(p + '/' + lib + ' [dll]')
             elif sys.platform != 'win32' and os.access(pf, os.X_OK) and f.find('.') == -1:

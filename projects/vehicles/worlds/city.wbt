@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "Autonomous Vehicle Simulation"
@@ -15,7 +15,7 @@ WorldInfo {
       coulombFriction [
         8
       ]
-      softCFM 1e-5
+      softCFM 1e-05
       bumpSound ""
       rollSound ""
       slideSound ""
@@ -25,7 +25,7 @@ WorldInfo {
       coulombFriction [
         8
       ]
-      softCFM 1e-5
+      softCFM 1e-05
       bumpSound ""
       rollSound ""
       slideSound ""
@@ -35,7 +35,7 @@ WorldInfo {
       coulombFriction [
         8
       ]
-      softCFM 1e-5
+      softCFM 1e-05
       bumpSound ""
       rollSound ""
       slideSound ""
@@ -45,7 +45,7 @@ WorldInfo {
       coulombFriction [
         8
       ]
-      softCFM 1e-5
+      softCFM 1e-05
       bumpSound ""
       rollSound ""
       slideSound ""
@@ -55,7 +55,7 @@ WorldInfo {
       coulombFriction [
         8
       ]
-      softCFM 1e-5
+      softCFM 1e-05
       bumpSound ""
       rollSound ""
       slideSound ""
@@ -65,7 +65,7 @@ WorldInfo {
       coulombFriction [
         8
       ]
-      softCFM 1e-5
+      softCFM 1e-05
       bumpSound ""
       rollSound ""
       slideSound ""
@@ -1080,7 +1080,7 @@ TrafficCone {
 }
 TrafficCone {
   translation -26.3544 0 45.1042
-  rotation -4.0178629044979345e-6 0.0005076858005683462 -0.9999998711194842 0.013703449
+  rotation -4.0178629044979345e-06 0.0005076858005683462 -0.9999998711194842 0.013703449
   name "traffic cone(3)"
   physics Physics {
     density -1
@@ -1089,7 +1089,7 @@ TrafficCone {
 }
 TrafficCone {
   translation -33.9083 0 45.5603
-  rotation -4.0178629044979345e-6 0.0005076858005683462 -0.9999998711194842 0.013703449
+  rotation -4.0178629044979345e-06 0.0005076858005683462 -0.9999998711194842 0.013703449
   name "traffic cone(4)"
   physics Physics {
     density -1

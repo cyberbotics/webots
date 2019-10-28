@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/altino
@@ -116,7 +116,7 @@ PROTO Altino [
                 translation 0 0.024 0.071
                 children [
                   SpotLight {
-                    attenuation 1 0 0
+                    attenuation 0 0 1
                     beamWidth   0.1
                     color       1 1 0.66667
                     cutOffAngle 0.2
@@ -128,7 +128,7 @@ PROTO Altino [
                     location    0.03 0.02 -0.05
                   }
                   SpotLight {
-                    attenuation 1 0 0
+                    attenuation 0 0 1
                     beamWidth   0.1
                     color       1 1 0.66667
                     cutOffAngle 0.2
@@ -176,7 +176,7 @@ PROTO Altino [
                     appearance PBRAppearance {
                       metalness 0
                       roughness 0.4
-                      baseColor 0.6 0.6 0.6 
+                      baseColor 0.6 0.6 0.6
                     }
                     geometry IndexedFaceSet {
                       coord Coordinate {
@@ -193,7 +193,7 @@ PROTO Altino [
                     appearance PBRAppearance {
                       metalness 0
                       roughness 0.4
-                      baseColor 0.6 0.6 0.6 
+                      baseColor 0.6 0.6 0.6
                     }
                     geometry IndexedFaceSet {
                       coord Coordinate {

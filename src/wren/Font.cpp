@@ -21,10 +21,7 @@
 
 namespace wren {
 
-  Font::Font() {
-    mFaceIsInitialized = false;
-    mFontSize = 0;
-    mError = WR_FONT_ERROR_NONE;
+  Font::Font() : mFaceIsInitialized(false), mError(WR_FONT_ERROR_NONE), mFontSize(0) {
     FT_Error error = FT_Init_FreeType(&mLibrary);
     if (error)
       mError = WR_FONT_ERROR_FREETYPE_LOADING;

@@ -80,14 +80,15 @@ class OSMCoord(OSMAbstractObject):
         xOffset = (x1 + x2) / 2
         zOffset = (z1 + z2) / 2
         for osmid in OSMCoord.coordDictionnary:
-            OSMCoord.coordDictionnary[osmid].x = -OSMCoord.coordDictionnary[osmid].x + xOffset  # inverse X, because OSM and Webots X are inversed
+            # inverse X, because OSM and Webots X are inversed
+            OSMCoord.coordDictionnary[osmid].x = -OSMCoord.coordDictionnary[osmid].x + xOffset
             OSMCoord.coordDictionnary[osmid].z = OSMCoord.coordDictionnary[osmid].z - zOffset
         return xOffset, zOffset
 
     @staticmethod
     def get_min_and_max_coord(refs):
         """Return the coordinates bounds."""
-        if not len(refs) > 0:
+        if not refs:
             return (0, 0, 0, 0)
         xMin = OSMCoord.coordDictionnary[refs[0]].x
         xMax = OSMCoord.coordDictionnary[refs[0]].x
@@ -179,7 +180,8 @@ class OSMMultipolygon(object):
                     else:
                         break
         # this multipolygon is only partial (but we still want to add it to the list)
-        if not len(multipolygon.ref) == 0 and not (len(OSMMultipolygon.multipolygonList) > 0 and OSMMultipolygon.multipolygonList[-1] == multipolygon):
+        if (not len(multipolygon.ref) == 0 and not
+                (len(OSMMultipolygon.multipolygonList) > 0 and OSMMultipolygon.multipolygonList[-1] == multipolygon)):
             OSMMultipolygon.multipolygonList.append(multipolygon)
 
     @staticmethod

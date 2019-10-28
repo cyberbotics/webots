@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -119,7 +119,8 @@ PROTO LincolnMKZ [
             children [
               %{ if frontSpotLights then }%
                 SpotLight {
-                  attenuation 0.2 0 0
+                  attenuation 0 0 1
+                  intensity 20
                   beamWidth 0.7
                   cutOffAngle 0.8
                   direction -0.2 -1 1
@@ -128,7 +129,8 @@ PROTO LincolnMKZ [
                   on TRUE
                 }
                 SpotLight {
-                  attenuation 0.2 0 0
+                  attenuation 0 0 1
+                  intensity 20
                   beamWidth 0.7
                   cutOffAngle 0.8
                   direction 0.2 -1 1
@@ -144,6 +146,7 @@ PROTO LincolnMKZ [
                     appearance PBRAppearance {
                       roughness 0.1
                       metalness 0
+                      emissiveIntensity 25
                     }
                     geometry LincolnMKZFrontLightsMesh {
                     }
@@ -159,7 +162,7 @@ PROTO LincolnMKZ [
             rotation 0 1 0 3.14159
             children [
               DEF INDICATOR_RIGHT Shape {
-                appearance DEF DETAILS_APP PBRAppearance {
+                appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
                       "textures/lincoln_mkz_details_base_color.jpeg"
@@ -180,6 +183,7 @@ PROTO LincolnMKZ [
                       "textures/lincoln_mkz_details_normal.jpg"
                     ]
                   }
+                  emissiveIntensity 30
                 }
                 geometry LincolnMKZRightTurnSignalMesh {
                 }
@@ -193,7 +197,29 @@ PROTO LincolnMKZ [
             rotation 0 1 0 3.14159
             children [
               DEF INDICATOR_LEFT Shape {
-                appearance USE DETAILS_APP
+                appearance PBRAppearance {
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/lincoln_mkz_details_base_color.jpeg"
+                    ]
+                  }
+                  roughnessMap ImageTexture {
+                    url [
+                      "textures/lincoln_mkz_details_roughness.jpg"
+                    ]
+                  }
+                  metalnessMap ImageTexture {
+                    url [
+                      "textures/lincoln_mkz_details_metalness.jpg"
+                    ]
+                  }
+                  normalMap ImageTexture {
+                    url [
+                      "textures/lincoln_mkz_details_normal.jpg"
+                    ]
+                  }
+                  emissiveIntensity 30
+                }
                 geometry LincolnMKZLeftTurnSignalMesh {
                 }
               }
@@ -209,6 +235,7 @@ PROTO LincolnMKZ [
                 appearance DEF BREAKING_LIGHT_APP PBRAppearance {
                   baseColor 0.560784 0.113725 0.113725
                   metalness 0
+                  emissiveIntensity 10
                 }
                 geometry LincolnMKZBackLightsMesh {
                 }
@@ -219,7 +246,7 @@ PROTO LincolnMKZ [
       }
       # vehicle shape
       DEF COACHWORK Shape {
-        appearance DEF VEHICLE_APP GlossyCarPaint {
+        appearance DEF VEHICLE_APP GlossyPaint {
           baseColor IS color
         }
         geometry LincolnMKZCoachworkMesh {
@@ -294,7 +321,7 @@ PROTO LincolnMKZ [
             url [
               "textures/lincoln_mkz_logo_normal.jpg"
             ]
-          }          
+          }
         }
         geometry LincolnMKZBackLogoMesh {
         }

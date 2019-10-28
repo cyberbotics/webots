@@ -71,7 +71,6 @@ class TestMenus(unittest.TestCase):
         """All the book files are referred to by the menu files."""
         for menu in self.menus:
             book_path = os.path.dirname(menu)
-            book_name = os.path.basename(book_path)
             # list md files in bookPath
             with open(menu, 'r') as menu_file:
                 menu_content = menu_file.read()

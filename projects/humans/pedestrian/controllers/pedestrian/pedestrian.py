@@ -66,8 +66,8 @@ class Pedestrian (Supervisor):
         opt_parser.add_option("--step", type=int, help="Specify time step (otherwise world time step is used)")
         options, args = opt_parser.parse_args()
         if not options.trajectory or len(options.trajectory.split(',')) < 2:
-            print ("You should specify the trajectory using the '--trajectory' option.")
-            print ("The trajectory shoulld have at least 2 points.")
+            print("You should specify the trajectory using the '--trajectory' option.")
+            print("The trajectory shoulld have at least 2 points.")
             return
         if options.speed and options.speed > 0:
             self.speed = options.speed
@@ -101,19 +101,24 @@ class Pedestrian (Supervisor):
             time = self.getTime()
 
             current_sequence = int(((time * self.speed) / self.CYCLE_TO_DISTANCE_RATIO) % self.WALK_SEQUENCES_NUMBER)
-            # compute the ratio 'distance already covered between way-point(X) and way-point(X+1)' / 'total distance between way-point(X) and way-point(X+1)'
-            ratio = (time * self.speed) / self.CYCLE_TO_DISTANCE_RATIO - int(((time * self.speed) / self.CYCLE_TO_DISTANCE_RATIO))
+            # compute the ratio 'distance already covered between way-point(X) and way-point(X+1)'
+            # / 'total distance between way-point(X) and way-point(X+1)'
+            ratio = (time * self.speed) / self.CYCLE_TO_DISTANCE_RATIO - \
+                int(((time * self.speed) / self.CYCLE_TO_DISTANCE_RATIO))
 
             for i in range(0, self.BODY_PARTS_NUMBER):
-                current_angle = self.angles[i][current_sequence] * (1 - ratio) + self.angles[i][(current_sequence + 1) % self.WALK_SEQUENCES_NUMBER] * ratio
+                current_angle = self.angles[i][current_sequence] * (1 - ratio) + \
+                    self.angles[i][(current_sequence + 1) % self.WALK_SEQUENCES_NUMBER] * ratio
                 self.joints_position_field[i].setSFFloat(current_angle)
 
             # adjust height
-            self.current_height_offset = self.height_offsets[current_sequence] * (1 - ratio) + self.height_offsets[(current_sequence + 1) % self.WALK_SEQUENCES_NUMBER] * ratio
+            self.current_height_offset = self.height_offsets[current_sequence] * (1 - ratio) + \
+                self.height_offsets[(current_sequence + 1) % self.WALK_SEQUENCES_NUMBER] * ratio
 
             # move everything
             distance = time * self.speed
-            relative_distance = distance - int(distance / self.waypoints_distance[self.number_of_waypoints - 1]) * self.waypoints_distance[self.number_of_waypoints - 1]
+            relative_distance = distance - int(distance / self.waypoints_distance[self.number_of_waypoints - 1]) * \
+                self.waypoints_distance[self.number_of_waypoints - 1]
 
             for i in range(0, self.number_of_waypoints):
                 if self.waypoints_distance[i] > relative_distance:
@@ -123,11 +128,15 @@ class Pedestrian (Supervisor):
             if i == 0:
                 distance_ratio = relative_distance / self.waypoints_distance[0]
             else:
-                distance_ratio = (relative_distance - self.waypoints_distance[i - 1]) / (self.waypoints_distance[i] - self.waypoints_distance[i - 1])
-            x = distance_ratio * self.waypoints[(i + 1) % self.number_of_waypoints][0] + (1 - distance_ratio) * self.waypoints[i][0]
-            z = distance_ratio * self.waypoints[(i + 1) % self.number_of_waypoints][1] + (1 - distance_ratio) * self.waypoints[i][1]
+                distance_ratio = (relative_distance - self.waypoints_distance[i - 1]) / \
+                    (self.waypoints_distance[i] - self.waypoints_distance[i - 1])
+            x = distance_ratio * self.waypoints[(i + 1) % self.number_of_waypoints][0] + \
+                (1 - distance_ratio) * self.waypoints[i][0]
+            z = distance_ratio * self.waypoints[(i + 1) % self.number_of_waypoints][1] + \
+                (1 - distance_ratio) * self.waypoints[i][1]
             root_translation = [x, self.ROOT_HEIGHT + self.current_height_offset, z]
-            angle = math.atan2(self.waypoints[(i + 1) % self.number_of_waypoints][0] - self.waypoints[i][0], self.waypoints[(i + 1) % self.number_of_waypoints][1] - self.waypoints[i][1])
+            angle = math.atan2(self.waypoints[(i + 1) % self.number_of_waypoints][0] - self.waypoints[i][0],
+                               self.waypoints[(i + 1) % self.number_of_waypoints][1] - self.waypoints[i][1])
             rotation = [0, 1, 0, angle]
 
             self.root_translation_field.setSFVec3f(root_translation)

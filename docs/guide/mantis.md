@@ -1,6 +1,6 @@
 ## micromagic's Mantis
 
-%robot mantis images/robots/mantis/model.png
+%robot mantis images/robots/mantis/model.thumbnail.png
 
 The [Mantis robot](http://www.mantisrobot.com/) is an hydraulic powered hexapod walking machine developed in 2009 by Matt Denton.
 A human can drive this robot.
@@ -41,6 +41,6 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### mantis.wbt
 
-![mantis.wbt.png](images/robots/mantis/mantis.wbt.png) The Mantis robot moves forwards on an uneven field.
+![mantis.wbt.png](images/robots/mantis/mantis.wbt.thumbnail.jpg) The Mantis robot moves forwards on an uneven field.
 Each Mantis motor is actuated by a simple sinusoidal function.
 The parameters of these sinusoidal functions (amplitude, phase and offset) are unique for each motor and have been found empirically.

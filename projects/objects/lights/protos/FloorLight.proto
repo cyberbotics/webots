@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A floor light (0.19 x 1.6 x 0.19 m).
@@ -11,10 +11,9 @@ PROTO FloorLight [
   field MFString   bulbTextureUrl             "textures/light_bulb.jpg"                # Defines the texture used for the light bulb.
   field SFColor    supportColor               1 1 1                                    # Defines the color of the light support.
   field MFString   supportTextureUrl          "textures/light_support_base_color.jpg"  # Defines the texture used for the light support.
-  field SFFloat    pointLightAmbientIntensity 0                                        # Defines the ambiant intensity of the point light.
-  field SFVec3f    pointLightAttenuation      1 0 0                                    # Defines the attenuation of the point light.
   field SFColor    pointLightColor            1 1 1                                    # Defines the color of the point light.
   field SFFloat    pointLightIntensity        1                                        # Defines the intensity of the point light.
+  field SFFloat    pointLightRadius           100                                      # Defines the radius of the point light.
   field SFBool     pointLightCastShadows      FALSE                                    # Defines whether the point light should cast shadows.
   field SFNode     physics                    NULL                                     # Is `Solid.physics`.
 ]
@@ -25,10 +24,10 @@ Solid {
   children [
     PointLight {
       location 0 1.5 0
-      ambientIntensity IS pointLightAmbientIntensity
-      attenuation IS pointLightAttenuation
+      attenuation 0 0 1
       color IS pointLightColor
       intensity IS pointLightIntensity
+      radius IS pointLightRadius
       castShadows IS pointLightCastShadows
     }
     Shape {

@@ -28,11 +28,11 @@ class WbSFRotation : public WbSingleValue {
 
 public:
   WbSFRotation() {}
-  WbSFRotation(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
+  WbSFRotation(WbTokenizer *tokenizer, const QString &worldPath) { readSFRotation(tokenizer, worldPath); }
   WbSFRotation(const WbSFRotation &other) : mValue(other.mValue) {}
   explicit WbSFRotation(const WbRotation &r) : mValue(r) {}
   virtual ~WbSFRotation() {}
-  void read(WbTokenizer *tokenizer, const QString &worldPath) override;
+  void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFRotation(tokenizer, worldPath); }
   void write(WbVrmlWriter &writer) const override {
     writer << toString(writer.isWebots() ? WbPrecision::DOUBLE_MAX : WbPrecision::FLOAT_MAX);
   }
@@ -62,6 +62,7 @@ public:
 
 private:
   WbRotation mValue;
+  void readSFRotation(WbTokenizer *tokenizer, const QString &worldPath);
 };
 
 void inline WbSFRotation::setValueFromOde(double x, double y, double z, double angle) {

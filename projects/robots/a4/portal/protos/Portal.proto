@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/portal
@@ -212,9 +212,9 @@ PROTO Portal [
           Group {
             children [
               PointLight {
-                attenuation 1 1 1
+                attenuation 0 0 1
                 color 0 0 0
-                intensity 0.5
+                intensity 0.05
                 location 0 0.009 0
                 radius 1
                 castShadows TRUE

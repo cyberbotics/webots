@@ -137,6 +137,10 @@ protected:
   WbGeometry(const WbNode &other);
   WbGeometry(const QString &modelName, WbTokenizer *tokenizer);
 
+  // for bounding object representation use a subdivision >= MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION
+  // so that it is clear for the user that the ODE object is a real rounded shape and not an approximation as the graphical mesh
+  const int MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION = 16;
+
   // Wren
   WrMaterial *mWrenMaterial;
   WrMaterial *mWrenEncodeDepthMaterial;

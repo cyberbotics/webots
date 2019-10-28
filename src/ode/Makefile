@@ -40,6 +40,9 @@ else ifeq ($(MAKECMDGOALS),install)
 $(TARGET_ODE_LIBRARY):
 	@echo "#" copying $(@F) to $@
 	@cp $(@F) $@
+ifeq ($(OSTYPE),darwin)
+	@install_name_tool -id @rpath/lib/libode.dylib $@
+endif
 
 install: $(TARGET_ODE_LIBRARY)
 
@@ -56,6 +59,7 @@ CFLAGS = -DdTRIMESH_ENABLED -DdTRIMESH_OPCODE -DODE_MT -DODE_LIB -DODE_THREADMOD
 ifneq ($(OSTYPE),darwin)
   CFLAGS += -Wno-misleading-indentation -Wno-nonnull-compare
 endif
+CXXFLAGS = -std=c++11
 INCLUDE = -I../../include/ode -I../../include/ode/ode/fluid_dynamics -Iode/src -Iode/src/fluid_dynamics -Ilibccd/src -IOPCODE
 
 # define the source files

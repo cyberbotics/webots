@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
 }
 Viewpoint {
@@ -7,24 +7,22 @@ Viewpoint {
 }
 Background {
   skyColor [
-    0.784314 0.784314 0.784314
+    0.7 0.7 0.7
   ]
 }
 PointLight {
-  ambientIntensity 1
-  intensity 0
+  attenuation 0 0 1
+  intensity 1
+  location 1 1 1
 }
 DEF BOARD Solid {
   translation -0.06 0.052 -0.13
   rotation 0.557833 0.80645 0.196116 7.19948
   children [
     Shape {
-      appearance Appearance {
-        material Material {
-          ambientIntensity 1
-          diffuseColor 1 1 1
-        }
-        texture ImageTexture {
+      appearance PBRAppearance {
+        baseColor 0.7 0.7 0.7
+        baseColorMap ImageTexture {
           url [
             "textures/white256.png"
           ]
@@ -49,7 +47,7 @@ DEF WRITER Robot {
           maxPosition 2
           muscles [
             Muscle {
-              maxRadius 0.005
+              volume 0.0001
               endOffset 0 0.06 0
               color [
                 0 1 0
@@ -70,6 +68,9 @@ DEF WRITER Robot {
             translation 0 0.03 0
             children [
               Shape {
+                appearance PBRAppearance {
+                  baseColor 0.33 0.66 1
+                }
                 geometry Box {
                   size 0.01 0.01 0.01
                 }
@@ -80,10 +81,8 @@ DEF WRITER Robot {
             translation 0 0.031 0
             children [
               DEF BODY Shape {
-                appearance Appearance {
-                  material Material {
-                    diffuseColor 1 0 1
-                  }
+                appearance PBRAppearance {
+                  baseColor 1 0 1
                 }
                 geometry Cylinder {
                   height 0.05
@@ -107,6 +106,9 @@ DEF WRITER Robot {
           rotation 1 0 0 -0.5236
           children [
             Shape {
+              appearance PBRAppearance {
+                baseColor 0.33 0.66 1
+              }
               geometry Cylinder {
                 height 0.01
                 radius 0.01

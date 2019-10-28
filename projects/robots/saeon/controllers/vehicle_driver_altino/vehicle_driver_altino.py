@@ -14,11 +14,6 @@
 
 """vehicle_driver_altino controller."""
 
-import math
-import os
-import sys
-from controller import Keyboard
-
 from vehicle import Driver
 
 sensorMax = 1000
@@ -166,7 +161,8 @@ while driver.step() != -1:
     if (printCounter % 10) == 0:
         print("\fWelcome to the Altino Sample Controller")
         print("----------------------------------------------")
-        print("This sample controller is based on a Braitenberg vehicle, \n it uses the vehicle's infrared distance sensors to avoid obstacles.")
+        print("This sample controller is based on a Braitenberg vehicle, \n")
+        print("it uses the vehicle's infrared distance sensors to avoid obstacles.")
         print("\n-----------------Controls---------------------")
         print("'M' to enable manual control")
         print("'N' to disable manual control")

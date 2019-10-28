@@ -263,10 +263,10 @@ void update_display() {
   wb_display_image_paste(display, speedometer_image, 0, 0, false);
 
   // draw speedometer needle
-  double speed = wbu_driver_get_current_speed();
-  if (isnan(speed))
-    speed = 0.0;
-  double alpha = speed / 260.0 * 3.72 - 0.27;
+  double current_speed = wbu_driver_get_current_speed();
+  if (isnan(current_speed))
+    current_speed = 0.0;
+  double alpha = current_speed / 260.0 * 3.72 - 0.27;
   int x = -NEEDLE_LENGTH * cos(alpha);
   int y = -NEEDLE_LENGTH * sin(alpha);
   wb_display_draw_line(display, 100, 95, 100 + x, 95 + y);
@@ -281,9 +281,9 @@ void update_display() {
 
 void compute_gps_speed() {
   const double *coords = wb_gps_get_values(gps);
-  const double speed = wb_gps_get_speed(gps);
+  const double speed_ms = wb_gps_get_speed(gps);
   // store into global variables
-  gps_speed = speed * 3.6;  // convert from m/s to km/h
+  gps_speed = speed_ms * 3.6;  // convert from m/s to km/h
   memcpy(gps_coords, coords, sizeof(gps_coords));
 }
 

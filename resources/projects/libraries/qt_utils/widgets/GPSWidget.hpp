@@ -12,7 +12,7 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    GPSWidget(Device *device, QWidget *parent = NULL);
+    explicit GPSWidget(Device *device, QWidget *parent = NULL);
     virtual ~GPSWidget() {}
 
   protected slots:

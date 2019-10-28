@@ -160,7 +160,7 @@ static void create_wren_scene() {
     printf("  %d%%\n", i);
 
     WrRenderable *sphereRenderable = wr_renderable_new();
-    WrStaticMesh *sphereMesh = wr_static_mesh_unit_sphere_new(2);
+    WrStaticMesh *sphereMesh = wr_static_mesh_unit_sphere_new(2, true, false);
     WrMaterial *sphereMaterial = wr_phong_material_new();
     initMaterialToPhong(sphereMaterial);
     float sphere_color[3] = {0.01f * i, 0.0001f * i * i, 1.0f - 0.01f * i};  // "random" color based on i.

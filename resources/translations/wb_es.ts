@@ -104,10 +104,6 @@
         <translation>El archivo está vacío: &apos;%1&apos;.</translation>
     </message>
     <message>
-        <source>Invalid texture mapping: size of &apos;coordIndex&apos; and &apos;texCoordIndex&apos; mismatch. The default texture mapping is applied.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>No previous DEF nodes match; USE node turned into DEF node.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -580,11 +576,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Null normal for face %1 %2 %3.
- This can be caused by duplicate vertices in your mesh. Try opening your model in 3D modeling software and removing duplicate vertices, then re-importing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>The language &apos;%1&apos; stored in preferences is not supported. Resetting to the language default (English).</source>
         <translation type="unfinished"></translation>
     </message>
@@ -685,6 +676,27 @@ To fix the problem, you should:
         <source>The default value of field &apos;%1&apos; is not in the list of accepted values</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source> Nightly Build %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid texture mapping: the sizes of &apos;coordIndex&apos; and &apos;texCoordIndex&apos; mismatch. The default texture mapping is applied.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid normal definition: the sizes of &apos;coordIndex&apos; and &apos;normalIndex&apos; mismatch. The normals will be computed using the creaseAngle.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid normal definition: the size of &apos;normal&apos; should equal the number of triangles when &apos;normalPerVertex&apos; is FALSE. The normals will be computed using the creaseAngle.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Null normal for face %1 %2 %3.
+This can be caused by duplicate vertices in your mesh. Try to open your model in a 3D modeling software, remove any duplicate vertices, and re-import the model in Webots.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbAboutBox</name>
@@ -698,10 +710,6 @@ To fix the problem, you should:
     <message>
         <source>Cannot allocate shared memory. The shared memory is required for the cameras. The shared memory of your OS is probably full. Please check your shared memory setup.</source>
         <translation type="unfinished">No se puede asignar memoria compartida. La memoria compartida se requiere para las cámaras. La memoria compartida de su SO está probablemente llena. Por favor, verifique su ajuste de memoria compartida.</translation>
-    </message>
-    <message>
-        <source>The shared memory can be extended by modifying the &apos;/etc/sysctl.conf&apos; file and rebooting.</source>
-        <translation type="unfinished">La memoria compartida se puede ampliar modificando el archivo &apos;/etc/sysctl.conf&apos; y reiniciando.</translation>
     </message>
     <message>
         <source>Invalid &apos;fieldOfView&apos; changed to 0.7854. The field of view is limited to pi if the &apos;spherical&apos; field is FALSE.</source>
@@ -1564,10 +1572,6 @@ Restore initial state of the simulation. (%1+Shift+F)</source>
         <translation type="unfinished">Importar objeto Webots</translation>
     </message>
     <message>
-        <source>Node not available because another project PROTO model with the same name already exists.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Files (*.wbo *.WBO)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1612,11 +1616,27 @@ Restore initial state of the simulation. (%1+Shift+F)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>PROTO nodes (Project)</source>
+        <source>Documentation: &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;%1&apos;&gt;%1&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Documentation: &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;%1&apos;&gt;%1&lt;/a&gt;</source>
+        <source>This folder lists all suitable PROTO nodes from the extra projects located in: &apos;%1&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PROTO nodes (Current Project)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PROTO nodes (Extra Projects)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node not available because another project PROTO model with the same name already exists in your local project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node not available because another project PROTO model with the same name already exists in your extra projects.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1721,14 +1741,18 @@ Note: Animations can not be viewed locally on Google Chrome.</source>
     </message>
 </context>
 <context>
-    <name>WbBallJointParameters</name>
+    <name>WbBallJoint</name>
     <message>
-        <source>&apos;springConstant&apos; must be greater than or equal to zero.</source>
-        <translation type="unfinished">&apos;springConstant&apos; debe ser mayor que o igual a cero.</translation>
+        <source>The lower limit of the motor associated to the second axis shouldn&apos;t be smaller than -pi/2.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&apos;dampingConstant&apos; must be greater than or equal to zero.</source>
-        <translation type="unfinished">&apos;dampingConstant&apos; debe ser mayor que o igual a cero.</translation>
+        <source>The upper limit of the motor associated to the second axis shouldn&apos;t be greater than pi/2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Axes are aligned: using x and z axes instead.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1927,6 +1951,10 @@ Color %1: %2 %3 %4</source>
         <source>A Capsule is used in a Bounding object using an asymmetric friction. Capsule does not support asymmetric friction</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&apos;subdivision&apos; value has no effect to physical &apos;boundingObject&apos; geometry. A minimum value of %2 is used for the representation.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbCharger</name>
@@ -1973,15 +2001,15 @@ Color %1: %2 %3 %4</source>
         <translation>&apos;shearStrength&apos; debe ser positivo o -1 (infinito).</translation>
     </message>
     <message>
-        <source>Connectors could not be attached because their parent nodes do not have Physics nodes.</source>
-        <translation>Los conectores no se pueden anexar porque sus nodos padre no tienen nodos físicos.</translation>
-    </message>
-    <message>
         <source>Passive connectors cannot lock.</source>
         <translation>Los conectores pasivos no pueden bloquear.</translation>
     </message>
     <message>
         <source>Unknown &apos;type&apos; &quot;%1&quot;: locking disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connectors could not be attached because none of their parent nodes have Physics nodes.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2018,7 +2046,23 @@ Color %1: %2 %3 %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1: Terminating.</source>
+        <source>Starting extern controller for robot &quot;%1&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to attach extern robot controller: no available &quot;&lt;extern&gt;&quot; robot controller found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to attach extern robot controller: no available &quot;&lt;extern&gt;&quot; robot controller named &quot;%1&quot; found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Terminating extern controller for robot &quot;%1&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Terminating controller &quot;%1&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2027,10 +2071,6 @@ Color %1: %2 %3 %4</source>
     <message>
         <source>Starts the void controller instead.</source>
         <translation>Inicia en cambio el controlador inválido.</translation>
-    </message>
-    <message>
-        <source>Starting: &quot;%1&quot;</source>
-        <translation>Iniciando: &quot;%1&quot;</translation>
     </message>
     <message>
         <source>&apos;%1&apos; controller exited with status: %2.</source>
@@ -2151,6 +2191,14 @@ Starts the void controller instead.</source>
 Please close any running instances of the controller and reload the world.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Starting controller: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Python shebang requests python%1, but current path points to Python%2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbCubemap</name>
@@ -2184,6 +2232,10 @@ Please close any running instances of the controller and reload the world.</sour
     <message>
         <source>&apos;height&apos; must be positive when used in a &apos;boundingObject&apos;.</source>
         <translation>&apos;altura&apos; debe ser positiva cuando se usa en un &apos;boundingObject&apos;.</translation>
+    </message>
+    <message>
+        <source>&apos;subdivision&apos; value has no effect to physical &apos;boundingObject&apos; geometry. A minimum value of %2 is used for the representation.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2458,10 +2510,6 @@ Please close any running instances of the controller and reload the world.</sour
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Invalid &apos;%1&apos; changed to %2. The value should be non-positive.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Invalid &apos;%1&apos; changed to %2. The value should be either %3 or non-negative.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2474,15 +2522,7 @@ Please close any running instances of the controller and reload the world.</sour
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Invalid &apos;%1&apos; changed to %2. The value should be greater than %3.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Invalid &apos;%1&apos; changed to %2. The value should be %3 or less.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Invalid &apos;%1&apos; changed to %2. The value should be less than %3.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2758,10 +2798,6 @@ Please close any running instances of the controller and reload the world.</sour
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>X3D Rendering Parameters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>File name:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2778,6 +2814,10 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>Texture image size of &apos;%1&apos; is not a power of two: rescaling it from %2x%3 to %4x%5.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot save texture with reduced quality to temporary file &apos;%1&apos;.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2824,6 +2864,10 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>A IndexedFaceSet is used in a Bounding object using an asymmetric friction. IndexedFaceSet does not support asymmetric friction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Normal values can&apos;t be null.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3127,10 +3171,6 @@ Please close any running instances of the controller and reload the world.</sour
         <translation>&amp;Informe de defectos...</translation>
     </message>
     <message>
-        <source>&amp;Support Ticket...</source>
-        <translation>&amp;Boleto de apoyo...</translation>
-    </message>
-    <message>
         <source>Cyberbotics &amp;Website...</source>
         <translation>&amp;Página Web de Cyberbotics...</translation>
     </message>
@@ -3248,14 +3288,6 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>Show information about the current OpenGL hardware and driver.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Report a bug to Cyberbotics.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open a Support Ticket with Cyberbotics.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3557,7 +3589,79 @@ Note: HTML5 models can not be viewed locally on Google Chrome.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Available GPU memory: %1 bytes</source>
+        <source>Available GPU memory: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 bytes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>N/A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;GitHub repository...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the Webots git repository on GitHub.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Report a bug to the GitHub repository.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Support Ticket (Premier Service)...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open a Support Ticket with Cyberbotics. This requires a subscription to the Webots Premier Service.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Keep informed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subscribe to the &amp;Newsletter...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Keep informed about the latest Webots news with the Webots newsletter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Join the &amp;Discord channel...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Join our live community on Discord.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Follow Webots on &amp;Twitter...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Keep informed about the latest Webots news on Twitter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subscribe to the Webots &amp;YouTube chanel...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Watch the latest Webots movies on YouTube.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Follow Cyberbotics on &amp;LinkedIn...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Follow Cyberbotics on LinkedIn.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3700,7 +3804,7 @@ Note: HTML5 models can not be viewed locally on Google Chrome.</source>
 <context>
     <name>WbMuscle</name>
     <message>
-        <source>Muscle graphical animation can only be displayed if soft limits &apos;minPosition&apos; and &apos;maxPosition&apos; are activated.</source>
+        <source>&apos;maxRadius&apos; field is deprecated, please use the &apos;volume&apos; field instead.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3937,6 +4041,14 @@ Note: HTML5 models can not be viewed locally on Google Chrome.</source>
     </message>
     <message>
         <source>Allow to send lightweight anonymous technical data to Webots developers.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Webots newsletter:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stay informed about the latest developments of Webots by subscribing to the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/news/subscribe.php&apos;&gt;Webots newsletter&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4200,6 +4312,10 @@ Do you want to continue?</source>
         <source>Maximum number of active point lights (%1) has been reached, newly added lights won&apos;t be rendered.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>A quadratic &apos;attenuation&apos; should be preferred to have a realistic simulation of light. Only the third component of the &apos;attenuation&apos; field should be greater than 0.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbPointSet</name>
@@ -4302,10 +4418,6 @@ Please check the write permissions on file:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Disable camera anti-aliasing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Number of threads:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4332,10 +4444,6 @@ Please check the write permissions on file:
     <message>
         <source>If this option is enabled, Webots will check if a new version is available for download
 at every startup. If available, it will inform you about it.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Main 3D view anti-aliasing:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4371,10 +4479,6 @@ still display a warning if the world was modified from the scene tree.</source>
     </message>
     <message>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4444,6 +4548,18 @@ https://www.cyberbotics.com/doc/guide/telemetry</source>
     </message>
     <message>
         <source>Texture Quality:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extra projects may include PROTOs, controllers, plugins, etc. that you can use in your current project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extra projects path:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable anti-aliasing</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5366,6 +5482,10 @@ Please save the current world to get rid of this message.</source>
         <source>Maximum number of active spotlights (%1) has been reached, newly added lights won&apos;t be rendered.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>A quadratic &apos;attenuation&apos; should be preferred to have a realistic simulation of light. Only the third component of the &apos;attenuation&apos; field should be greater than 0.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbStreamingServer</name>
@@ -5430,10 +5550,6 @@ Please save the current world to get rid of this message.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Streaming server: Client set mode to: X3DOM.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Streaming server: Client set mode to: VIDEO %1x%2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5462,11 +5578,15 @@ Please save the current world to get rid of this message.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cannot open the texture file &apos;%1&apos;.</source>
+        <source>Streaming server: world %1 doesn&apos;t exist.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cannot sent the entire texture &apos;%1&apos;.</source>
+        <source>Streaming server: you are not allowed to open a world in another project directory.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Streaming server: Client set mode to: X3D.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5829,14 +5949,6 @@ Do you want to play it back?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The anti-aliasing on the Camera devices has been deactivated.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Main 3D view anti-aliasing has been de-activated.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Anisotropic texture filtering is not supported by the GPU.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5857,15 +5969,19 @@ Do you want to play it back?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Webots has detected that your GPU has less than 2Gb of memory. A minimum of 2Gb of memory is recomended to use high-resolution textures. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Main 3D view global ambient occlusion has been de-activated.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Texture quality has been reduced.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Webots has detected that your GPU has less than 2Gb of memory. A minimum of 2Gb of memory is recommended to use high-resolution textures. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Anti-aliasing has been deactivated.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5922,7 +6038,7 @@ Do you want to play it back?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;b&gt;A new version of Webots is available.&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Webots %1 is available for download (you are currently using Webots %2).&lt;br/&gt;Download the new version: &lt;a href=&quot;https://cyberbotics.com/download&quot;&gt;https://cyberbotics.com/download&lt;/a&gt;&lt;br/&gt;Check the change log: &lt;a href=&quot;https://cyberbotics.com/change_log&quot;&gt;https://cyberbotics.com/change_log&lt;/a&gt;</source>
+        <source>&lt;b&gt;A new version of Webots is available.&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Webots %1 is available for download (you are currently using Webots %2).&lt;br/&gt;Download the new version: &lt;a href=&quot;https://cyberbotics.com/download&quot;&gt;https://cyberbotics.com/download&lt;/a&gt;&lt;br/&gt;Check the changelog: &lt;a href=&quot;https://cyberbotics.com/doc/reference/changelog&quot;&gt;https://cyberbotics.com/doc/reference/changelog&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

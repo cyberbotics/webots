@@ -135,7 +135,7 @@ else
 release debug profile: $(JAR_FILE) $(TARGET)
 
 JAVA_CLASSES: $(JAVA_SOURCES)
-	javac -target 1.8 $(SWIG_OUTPUT_PATH)/*.java -d .
+	javac -target 1.8 -source 1.8 $(SWIG_OUTPUT_PATH)/*.java -d .
 
 $(WRAPPER_OBJECT): $(WRAPPER)
 	$(CXX) $(CFLAGS2) $(WEBOTS_INCLUDES) $(JAVA_INCLUDES) $< -o $@

@@ -1,0 +1,38 @@
+#VRML_SIM R2019b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# tags: static
+# A soil material.
+
+PROTO Soil [
+  field SFString{"braun", "grey"}  type              "braun"  # Defines the soil type.
+  field SFNode                     textureTransform  NULL     # Defines an optional 2d texture transform.
+  field SFFloat                    IBLStrength       1        # Defines the strength of ambient lighting from the Background node.
+]
+{
+  PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        %{= "\"textures/soil/" .. fields.type.value .. "_soil_base_color.jpg\"" }%
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        %{= "\"textures/soil/" .. fields.type.value .. "_soil_roughness.jpg\"" }%
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        %{= "\"textures/soil/" .. fields.type.value .. "_soil_normal.jpg\"" }%
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        %{= "\"textures/soil/" .. fields.type.value .. "_soil_occlusion.jpg\"" }%
+      ]
+    }
+    IBLStrength IS IBLStrength
+    textureTransform IS textureTransform
+  }
+}

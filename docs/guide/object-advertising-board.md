@@ -7,7 +7,7 @@ Those poles can either be a `cylinder`, `box`, or an `H-shape`.
 
 %figure
 
-![AdvertisingBoard](images/objects/advertising_board/AdvertisingBoard/model.png)
+![AdvertisingBoard](images/objects/advertising_board/AdvertisingBoard/model.thumbnail.png)
 
 %end
 
@@ -35,7 +35,7 @@ AdvertisingBoard {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/advertising\_board/protos/AdvertisingBoard.proto](https://github.com/omichel/webots/tree/master/projects/objects/advertising_board/protos/AdvertisingBoard.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/advertising\_board/protos/AdvertisingBoard.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/advertising_board/protos/AdvertisingBoard.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

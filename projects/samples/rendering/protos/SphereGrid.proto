@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # A grid of spheres for testing material properties.
 
 PROTO SphereGrid [
@@ -9,7 +9,6 @@ PROTO SphereGrid [
   field SFNode     normalMap      ImageTexture {}
   field SFNode     baseColorMap   ImageTexture {}
   field SFNode     roughnessMap   ImageTexture {}
-  field SFNode     cubeMap        Cubemap {}
   field SFFloat    transparency   0.01
   field SFInt32    widthAndHeight 10
 ]
@@ -35,13 +34,11 @@ PROTO SphereGrid [
                   normalMap IS normalMap
                   baseColorMap IS baseColorMap
                   roughnessMap IS roughnessMap
-                  environmentMap IS cubeMap
                   transparency IS transparency
                 }
                 geometry Sphere {
                   radius 0.1
                   subdivision 4
-
                 }
               }
             ]

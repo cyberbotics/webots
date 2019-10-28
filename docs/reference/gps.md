@@ -52,7 +52,7 @@ This field accepts any value in the interval (0.0, inf).
 #### `wb_gps_get_values`
 #### `wb_gps_get_speed`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -122,7 +122,7 @@ public class GPS extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_gps_enable(tag, sampling_period)
 wb_gps_disable(tag)
 period = wb_gps_get_sampling_period(tag)
@@ -177,7 +177,7 @@ If these values are needed for a longer period they must be copied.
 
 #### `wb_gps_get_coordinate_system`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -242,7 +242,7 @@ public class GPS extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_GPS_LOCAL_COORDINATE, WB_GPS_WGS84_COORDINATE
 
 coordinate_system = wb_gps_get_coordinate_system(tag)
@@ -271,7 +271,7 @@ If the value of the `gpsCoordinateSystem` field is "local" then this function re
 
 #### `wb_gps_convert_to_degrees_minutes_seconds`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -326,7 +326,7 @@ public class GPS extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 coordinate = wb_gps_convert_to_degrees_minutes_seconds(decimal_degrees)
 ```
 

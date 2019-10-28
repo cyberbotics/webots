@@ -6,7 +6,7 @@ A desk (1.2 x 0.72 x 0.7 m).
 
 %figure
 
-![Desk](images/objects/tables/Desk/model.png)
+![Desk](images/objects/tables/Desk/model.thumbnail.png)
 
 %end
 
@@ -22,7 +22,7 @@ Desk {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/tables/protos/Desk.proto](https://github.com/omichel/webots/tree/master/projects/objects/tables/protos/Desk.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/tables/protos/Desk.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/tables/protos/Desk.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -37,7 +37,7 @@ A round table (2 x 0.76 x 2 m).
 
 %figure
 
-![RoundTable](images/objects/tables/RoundTable/model.png)
+![RoundTable](images/objects/tables/RoundTable/model.thumbnail.png)
 
 %end
 
@@ -53,7 +53,7 @@ RoundTable {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/tables/protos/RoundTable.proto](https://github.com/omichel/webots/tree/master/projects/objects/tables/protos/RoundTable.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/tables/protos/RoundTable.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/tables/protos/RoundTable.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -70,7 +70,7 @@ Customizable table.
 
 %figure
 
-![Table](images/objects/tables/Table/model.png)
+![Table](images/objects/tables/Table/model.thumbnail.png)
 
 %end
 
@@ -90,7 +90,7 @@ Table {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/tables/protos/Table.proto](https://github.com/omichel/webots/tree/master/projects/objects/tables/protos/Table.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/tables/protos/Table.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/tables/protos/Table.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

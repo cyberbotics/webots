@@ -54,7 +54,8 @@ class Parser(object):
             self.parse_relation(relation)
         self.process_relations(disableMultipolygonBuildings)
 
-        # Define the most likely country, based on the occurencies of the "addr:country" tags (which can occur at different locations).
+        # Define the most likely country, based on the occurencies of the "addr:country" tags
+        # (which can occur at different locations).
         self.country = None
         try:
             countryTags = tree.xpath("//tag[@k='addr:country']")
@@ -62,7 +63,7 @@ class Parser(object):
         except:
             pass
         if self.country is None:
-            print ('Warning: Failed to determine the country.')
+            print('Warning: Failed to determine the country.')
 
     def get_tags(self, element):
         """Return a dictionnary of tags belonging to this element."""

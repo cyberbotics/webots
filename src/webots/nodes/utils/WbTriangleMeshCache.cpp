@@ -17,6 +17,7 @@
 #include "WbCoordinate.hpp"
 #include "WbIndexedFaceSet.hpp"
 #include "WbMFInt.hpp"
+#include "WbNormal.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFDouble.hpp"
 #include "WbTextureCoordinate.hpp"
@@ -33,28 +34,6 @@ namespace WbTriangleMeshCache {
   };
 
   uint64_t sipHash13c(const char *bytes, const int size) { return highwayhash::SipHash13(SIPHASH_KEY, bytes, size); }
-
-  size_t compressHash(uint64_t hash) {
-    constexpr int uint64bytes = sizeof(uint64_t);
-    constexpr int sizetbytes = sizeof(size_t);
-
-    size_t result = 0;
-    const char *startHash = reinterpret_cast<char *>(hash);
-    char *startResult = reinterpret_cast<char *>(result);
-    memcpy(reinterpret_cast<void *>(startResult), reinterpret_cast<const void *>(startHash), sizetbytes);
-
-    int offsetHash = sizetbytes;
-    int offsetResult = 0;
-    while (offsetHash < uint64bytes) {
-      *(startResult + offsetResult) ^= *(startHash + offsetHash);
-      ++offsetHash;
-      if (++offsetResult >= sizetbytes)
-        offsetResult = 0;
-    }
-
-    return result;
-  }
-
   TriangleMeshInfo::TriangleMeshInfo() : mTriangleMesh(NULL), mNumUsers(0) {}
   TriangleMeshInfo::TriangleMeshInfo(WbTriangleMesh *triangleMesh) : mTriangleMesh(triangleMesh), mNumUsers(1) {}
 
@@ -71,6 +50,13 @@ namespace WbTriangleMeshCache {
       mHash ^= sipHash13x(startCoord, size);
     }
 
+    const WbNormal *normal = indexedFaceSet->normal();
+    if (normal && normal->vectorSize()) {
+      const double *startNormal = normal->vector().item(0).ptr();
+      int size = 2 * normal->vectorSize();
+      mHash ^= sipHash13x(startNormal, size);
+    }
+
     const WbTextureCoordinate *texCoord = indexedFaceSet->texCoord();
     if (texCoord && texCoord->pointSize()) {
       const double *startTexCoord = texCoord->point().item(0).ptr();
@@ -84,6 +70,12 @@ namespace WbTriangleMeshCache {
       mHash ^= sipHash13x(startCoordIndex, coordIndex->size());
     }
 
+    const WbMFInt *normalIndex = indexedFaceSet->normalIndex();
+    if (normalIndex && normalIndex->size()) {
+      const int *startNormalIndex = &(normalIndex->item(0));
+      mHash ^= sipHash13x(startNormalIndex, normalIndex->size());
+    }
+
     const WbMFInt *texCoordIndex = indexedFaceSet->texCoordIndex();
     if (texCoordIndex && texCoordIndex->size()) {
       const int *startTexCoordIndex = &(texCoordIndex->item(0));
@@ -92,16 +84,14 @@ namespace WbTriangleMeshCache {
 
     mHash ^= sipHash13x(indexedFaceSet->creaseAngle()->valuePointer(), 1);
     mHash ^= sipHash13x(indexedFaceSet->ccw()->valuePointer(), 1);
+    mHash ^= sipHash13x(indexedFaceSet->normalPerVertex()->valuePointer(), 1);
   }
 
   bool IndexedFaceSetKey::operator==(const IndexedFaceSetKey &rhs) const { return mHash == rhs.mHash; }
 
   std::size_t IndexedFaceSetKeyHasher::operator()(const IndexedFaceSetKey &k) const {
-    // special handling in case sizeof(size_t) < 8
-    if (sizeof(size_t) != sizeof(uint64_t))
-      return compressHash(k.mHash);
-    else
-      return static_cast<size_t>(k.mHash);
+    assert(sizeof(size_t) == sizeof(uint64_t));
+    return static_cast<size_t>(k.mHash);
   }
 
   void useTriangleMesh(WbIndexedFaceSet *user) {

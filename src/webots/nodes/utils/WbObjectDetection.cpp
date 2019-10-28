@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbObjectDetection.hpp"
+
 #include "WbAffinePlane.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbBox.hpp"
@@ -286,7 +287,7 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
       switch (nodeType) {
         case WB_NODE_SPHERE: {
           const WbSphere *sphere = static_cast<const WbSphere *>(boundingObject);
-          double radius = sphere->scaledRadius();
+          radius = sphere->scaledRadius();
           objectSize.setX(2 * radius);
           objectSize.setY(2 * radius);
           objectSize.setZ(2 * radius);

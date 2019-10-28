@@ -57,7 +57,9 @@ class Projection(object):
             # WARNING: this default UTM projection should match the one of Webots GPS model
             utm_zone = 1 + math.floor((float(long0) + 180) / 6)
             hemisphere = 'south' if lat0 < 0 else 'north'
-            Projection.projectionString = "+proj=utm +%s +zone=%d +lon_0=%f +lat_0=%f +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs" % (hemisphere, utm_zone, long0, lat0)
+            Projection.projectionString = \
+                "+proj=utm +%s +zone=%d +lon_0=%f +lat_0=%f +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs" % \
+                (hemisphere, utm_zone, long0, lat0)
         else:
             Projection.projectionString = projection
         Projection.projection = pyproj.Proj(Projection.projectionString)

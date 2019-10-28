@@ -35,7 +35,7 @@ In matrix notation, the corresponding `TextureTransform` reads as:
 
 %figure "Texture transformation in matrix notation"
 
-![texture_transform.png](images/texture_transform.png)
+![texture_transform.png](images/texture_transform.thumbnail.png)
 
 %end
 

@@ -15,6 +15,7 @@
 #include "WbNewVersionDialog.hpp"
 
 #include "WbApplicationInfo.hpp"
+#include "WbDesktopServices.hpp"
 #include "WbPreferences.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbVersion.hpp"
@@ -47,8 +48,8 @@ bool WbNewVersionDialog::run() {
 WbNewVersionDialog::WbNewVersionDialog() {
   style()->polish(this);
 
-  const QString &versionString = WbApplicationInfo::version().toString();
   const WbVersion &version = WbApplicationInfo::version();
+  const QString &versionString = version.toString(true, false, true);
   setWindowTitle(tr("Welcome to Webots %1").arg(versionString));
 
   QVBoxLayout *vBoxLayout = new QVBoxLayout(this);
@@ -58,7 +59,7 @@ WbNewVersionDialog::WbNewVersionDialog() {
                                .arg(versionString)
                                .arg(version.majorNumber())
                                .arg(QChar(version.minorNumber() + 'a')));
-  label->setOpenExternalLinks(true);
+  connect(label, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   vBoxLayout->addWidget(label);
   vBoxLayout->addSpacing(10);
 
@@ -101,12 +102,23 @@ WbNewVersionDialog::WbNewVersionDialog() {
   previewBox->setLayout(previewLayout);
   vBoxLayout->addWidget(previewBox);
 
+  // newsletter
+  QGroupBox *newsletterBox = new QGroupBox(tr("Webots newsletter:"));
+  QVBoxLayout *newsletterLayout = new QVBoxLayout();
+  label =
+    new QLabel(tr("Stay informed about the latest developments of Webots by subscribing to the <a style='color: #5DADE2;' "
+                  "href='https://cyberbotics.com/news/subscribe.php'>Webots newsletter</a>."));
+  connect(label, &QLabel::linkActivated, &WbDesktopServices::openUrl);
+  newsletterLayout->addWidget(label);
+  newsletterBox->setLayout(newsletterLayout);
+  vBoxLayout->addWidget(newsletterBox);
+
   // telemetry
   QGroupBox *telemetryBox = new QGroupBox(tr("Telemetry:"));
   QVBoxLayout *telemetryLayout = new QVBoxLayout();
   label = new QLabel(tr("We need your help to continue to improve Webots: more information <a style='color: #5DADE2;' "
                         "href='https://www.cyberbotics.com/doc/guide/telemetry'>here</a>."));
-  label->setOpenExternalLinks(true);
+  connect(label, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   telemetryLayout->addWidget(label);
   telemetryLayout->addStretch();
   mTelemetryCheckBox = new QCheckBox(tr("Allow to send lightweight anonymous technical data to Webots developers."));

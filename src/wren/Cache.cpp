@@ -34,7 +34,7 @@ namespace wren {
 
     Key::Key() : mHash(0) {}
 
-    Key::Key(const uint64_t hash) { mHash = hash; }
+    Key::Key(const uint64_t hashValue) { mHash = hashValue; }
 
     bool Key::operator==(const Key &other) const { return mHash == other.mHash; }
 

@@ -23,11 +23,12 @@ WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
+LIBRARIES = -ldriver -lcar -lCppDriver
+
 ifeq ($(OSTYPE),linux)
 CFLAGS = -fPIC
+LIBRARIES += -Wl,-rpath,$(WEBOTS_HOME_PATH)/lib
 endif
-
-LIBRARIES = -ldriver -lcar -lCppDriver
 
 QT = core
 CXX_SOURCES = $(wildcard *.cpp)

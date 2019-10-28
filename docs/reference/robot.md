@@ -31,7 +31,9 @@ This program is located in a directory whose name is equal to the field's value.
 This directory is in turn located in the "controllers" subdirectory of the current project directory.
 For example, if the field value is "my\_controller" then the controller program should be located in "my\_project/controllers/my\_controller/my\_controller[.exe]".
 The ".exe" extension is added on the Windows platforms only.
-Setting this field's value to the empty string runs no controller at all. Doing so may lead to better performance than using the `void` controller.
+If this field is left empty, the robot will run no controller at all.
+Doing so may lead to better performance than using the `void` controller.
+Setting the value of this field to `<extern>` will make this robot runnable from an [extern robot controller](../guide/running-extern-robot-controllers.md).
 
 > **Note**: If the controller is not started the robot window will not work.
 If the robot window is required it is recommended to assign the `void` controller instead of an empty string.
@@ -123,7 +125,7 @@ Asynchronous controllers may also be recommended for networked simulations invol
 #### `wb_robot_init`
 #### `wb_robot_cleanup`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -185,7 +187,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 period = wb_robot_step(duration)
 ```
 
@@ -315,7 +317,7 @@ int main() {
 #### `getSpeaker`
 #### `getTouchSensor`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -441,7 +443,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 tag = wb_robot_get_device('name')
 ```
 
@@ -475,7 +477,7 @@ If the specified device is not found, the function returns `NULL` in C++, `null`
 
 #### `wb_robot_get_device_by_index`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -533,7 +535,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 size = wb_robot_get_number_of_devices()
 tag = wb_robot_get_device_by_index(index)
 ```
@@ -588,7 +590,7 @@ for(i=0; i<n_devices; i++) {
 
 #### `wb_robot_wait_for_user_input_event`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -664,7 +666,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_EVENT_QUIT, WB_EVENT_NO_EVENT, WB_EVENT_MOUSE_CLICK, WB_EVENT_MOUSE_MOVE, WB_EVENT_KEYBOARD, WB_EVENT_JOYSTICK_BUTTON, WB_EVENT_JOYSTICK_AXIS, WB_EVENT_JOYSTICK_POV
 
 event_type = wb_robot_wait_for_user_input_event(event_type, timeout)
@@ -726,7 +728,7 @@ In that case, the sampling period is expressed in real time and not in simulatio
 #### `wb_robot_get_battery_sampling_period`
 #### `wb_robot_battery_sensor_get_value`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -792,7 +794,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_robot_battery_sensor_enable(sampling_period)
 wb_robot_battery_sensor_disable()
 period = wb_robot_battery_sensor_get_sampling_period()
@@ -831,7 +833,7 @@ The `wb_robot_get_battery_sampling_period` function returns the period given int
 
 #### `wb_robot_get_basic_time_step`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -885,7 +887,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 step = wb_robot_get_basic_time_step()
 ```
 
@@ -910,8 +912,9 @@ This function returns the value of the `basicTimeStep` field of the [WorldInfo](
 ---
 
 #### `wb_robot_get_mode`
+#### `wb_robot_set_mode`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -961,6 +964,7 @@ class Robot:
     MODE_SIMULATION, MODE_CROSS_COMPILATION, MODE_REMOTE_CONTROL
 
     def getMode(self):
+    def setMode(self, mode, arg);
     # ...
 ```
 
@@ -975,6 +979,7 @@ public class Robot {
   public final static int MODE_SIMULATION, MODE_CROSS_COMPILATION, MODE_REMOTE_CONTROL;
 
   public int getMode();
+  public void setMode(int mode, SWIGTYPE_p_void arg);
   // ...
 }
 ```
@@ -983,10 +988,11 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_MODE_SIMULATION, WB_MODE_CROSS_COMPILATION, WB_MODE_REMOTE_CONTROL
 
 mode = wb_robot_get_mode()
+wb_robot_set_mode(mode, arg)
 ```
 
 %tab-end
@@ -1028,7 +1034,7 @@ The WbRobotMode can be compared to the following enumeration items:
 
 #### `wb_robot_get_name`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1082,7 +1088,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 name = wb_robot_get_name()
 ```
 
@@ -1105,7 +1111,7 @@ This sample world is located in the "projects/samples/demos/worlds" directory of
 
 #### `wb_robot_get_model`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1159,7 +1165,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 model = wb_robot_get_model()
 ```
 
@@ -1189,7 +1195,7 @@ The string returned should not be deallocated, as it was allocated by the "libCo
 
  - *set the data defined in the robot node*
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1247,7 +1253,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 data = wb_robot_get_custom_data()
 wb_robot_set_custom_data('data')
 ```
@@ -1277,7 +1283,7 @@ The `wb_robot_set_custom_data` function set the string contained in the `customD
 
 #### `wb_robot_get_type`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1332,7 +1338,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 type = wb_robot_get_type()
 ```
 
@@ -1358,7 +1364,7 @@ This function returns the type of the current mode (WB\_NODE\_ROBOT, WB\_NODE\_S
 
 #### `wb_robot_get_project_path`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1412,7 +1418,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 path = wb_robot_get_project_path()
 ```
 
@@ -1441,7 +1447,7 @@ It should not be deallocated.
 
 #### `wb_robot_get_world_path`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1495,7 +1501,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 path = wb_robot_get_world_path()
 ```
 
@@ -1524,7 +1530,7 @@ It should not be deallocated.
 #### `wb_robot_get_controller_name`
 #### `wb_robot_get_controller_arguments`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1582,7 +1588,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 name = wb_robot_get_controller_name()
 name = wb_robot_get_controller_arguments()
 ```
@@ -1610,7 +1616,7 @@ These functions return the content of respectively the Robot::controller and the
 
 #### `wb_robot_get_supervisor`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1664,7 +1670,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 sync = wb_robot_get_supervisor()
 ```
 
@@ -1691,7 +1697,7 @@ This function can be used to determine whether it is allowed to use the [Supervi
 
 #### `wb_robot_get_synchronization`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1745,7 +1751,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 sync = wb_robot_get_synchronization()
 ```
 
@@ -1771,7 +1777,7 @@ This function returns the boolean value corresponding to the synchronization fie
 
 #### `wb_robot_get_time`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1825,7 +1831,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 time = wb_robot_get_time()
 ```
 
@@ -1853,7 +1859,7 @@ It does not matter whether the controller is synchronized or not.
 
 #### `wb_robot_task_new`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1884,7 +1890,7 @@ Hence you should use mutexes (see below) to ensure that such data is not accesse
 #### `wb_robot_mutex_lock`
 #### `wb_robot_mutex_unlock`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1927,7 +1933,7 @@ Users unfamiliar with the mutex concept may wish to consult a reference on multi
 #### `wb_robot_wwi_send`
 #### `wb_robot_wwi_send_text`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1989,7 +1995,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_robot_wwi_send_text(text)
 text = wb_robot_wwi_receive_text()
 ```
@@ -2027,7 +2033,7 @@ The message is received using the `webots.window("<robot window name>").receive`
 
 #### `wb_robot_window_custom_function`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 

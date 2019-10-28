@@ -682,13 +682,13 @@ void WbSkin::handleMessage(QDataStream &stream) {
   bool invalidSkeleton = false;
   bool webotsSkeletonWarning = false;
   unsigned char command;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   switch (command) {
     case C_SKIN_GET_BONE_POSITION: {
       functionName = "wb_skin_get_bone_position";
-      stream >> (unsigned short int &)index;
-      stream >> (unsigned char &)absolute;
+      stream >> index;
+      stream >> absolute;
       assert(mBonePositionRequest == NULL);
 
       if (!mSkeleton)
@@ -705,8 +705,8 @@ void WbSkin::handleMessage(QDataStream &stream) {
     }
     case C_SKIN_GET_BONE_ORIENTATION: {
       functionName = "wb_skin_get_bone_orientation";
-      stream >> (unsigned short int &)index;
-      stream >> (unsigned char &)absolute;
+      stream >> index;
+      stream >> absolute;
       assert(mBoneOrientationRequest == NULL);
 
       if (!mSkeleton)
@@ -724,11 +724,11 @@ void WbSkin::handleMessage(QDataStream &stream) {
     case C_SKIN_SET_BONE_POSITION: {
       functionName = "wb_skin_set_bone_position";
       double x, y, z;
-      stream >> (unsigned short int &)index;
-      stream >> (double &)x;
-      stream >> (double &)y;
-      stream >> (double &)z;
-      stream >> (unsigned char &)absolute;
+      stream >> index;
+      stream >> x;
+      stream >> y;
+      stream >> z;
+      stream >> absolute;
       if (!mSkeleton)
         invalidSkeleton = true;
       else if (mBonesField->size() > 0)
@@ -740,12 +740,12 @@ void WbSkin::handleMessage(QDataStream &stream) {
     case C_SKIN_SET_BONE_ORIENTATION: {
       functionName = "wb_skin_set_bone_orientation";
       double x, y, z, angle;
-      stream >> (unsigned short int &)index;
-      stream >> (double &)x;
-      stream >> (double &)y;
-      stream >> (double &)z;
-      stream >> (double &)angle;
-      stream >> (unsigned char &)absolute;
+      stream >> index;
+      stream >> x;
+      stream >> y;
+      stream >> z;
+      stream >> angle;
+      stream >> absolute;
       if (!mSkeleton)
         invalidSkeleton = true;
       else if (mBonesField->size() > 0)

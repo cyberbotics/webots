@@ -3,7 +3,7 @@
 ### Controller Processes
 
 In the Webots environment, the Webots application and each robot C/C++ controller are executed in distinct operating system processes.
-For example, when the "soccer.wbt" world is executed, there is a total of eight processes in memory; one for Webots, six for the six player robots, and one for the supervisor.
+For example, when the "soccer.wbt" world is executed, there is a total of eight processes in memory; one for Webots, six for the six player robots, and one for the supervisor robot.
 To debug a C/C++ controller with Microsoft Visual Studio, please see [here](using-your-ide.md#visual-studio).
 
 When a controller process performs an illegal instruction, it is terminated by the operating system while the Webots process and the other controller processes remain active.
@@ -34,6 +34,8 @@ The following example assumes that there is a problem with the "soccer\_supervis
 
 ### Using the GNU Debugger with a Controller
 
+On Windows GDB can be installed for example from the MSYS2 environment with the `mingw-w64-x86_64-gdb` package as indicated in the [optional dependencies](https://github.com/cyberbotics/webots/wiki/Windows-Optional-Dependencies) of the [Windows installation instructions](https://github.com/cyberbotics/webots/wiki/Windows-installation).
+
 The first step is to recompile the controller code with the *-g* flag, in order to add debugging information to the executable file.
 This can be achieved by adding this line to the controller's Makefile:
 
@@ -50,29 +52,31 @@ $ make
 ```
 
 Note that, the *-g* flag should now appear in the compilation line.
-Once you have recompiled the controller, hit the `Pause` and `Reload` buttons.
-This pauses the simulation and reloads the freshly compiled versions of the controller.
-Now find the process ID (PID) of the "soccer\_supervisor" process, using `ps -e` (Linux) or `ps -x` (macOS), or using the *Task Manager* (Windows).
-The PID is in the left-most column of output of `ps` as shown above.
-Then open a terminal and start the debugger by typing:
+Once you have recompiled the controller, you will need to change controller of the [Robot](../reference/robot.md) node to be [extern](running-extern-robot-controllers.md).
+This can be done from the scene tree:
+Hit the `Pause` and `Reset` buttons, set the `controller` field of the Robot node to `<extern>` and save the world file.
+From a terminal, go to the folder containing your controller program and start it with `gdb`:
 
 ```sh
-$ gdb
-...
-(gdb) attach PID
-...
-(gdb) cont
-Continuing.
+$ gdb my_controller
 ```
 
-Where PID stands for the PID of the "soccer\_supervisor" process.
-The `attach` command will attach the debugger to the "soccer\_supervisor" process and interrupt its execution.
-Then the `cont` command will instruct the debugger to resume the execution of the process.
-On Windows you will need to install the "gdb.exe" file separately and use an MSYS console to achieve this.
+In `gdb`, type for example:
 
-Then hit the `Run` button to start the simulation and let it run until the controller crashes again.
+```sh
+(gdb) break my_controller.c:50
+(gdb) run
+```
+
+Then, run the Webots simulation, using the `Run` button (you may also use the `Step`, `Real-Time` or `Fast` button).
+Your controller program will start controlling the extern robot in Webots.
+Once the break point is reached, you will be able to query variables, setup new break points, etc.
+
+Then, the `cont` command will instruct the debugger to resume the execution of the process.
+You may also use the `step` function to proceed step-by-step.
+
 The controller's execution can be interrupted at any time (Ctrl-C), in order to query variables, set up break points, etc.
-When the crash occurs, `gdb` prints a diagnostic message similar to this:
+When a crash occurs, `gdb` prints a diagnostic message similar to this:
 
 ```
 Program received signal SIGSEGV, Segmentation fault.

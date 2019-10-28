@@ -106,7 +106,7 @@ void WbFog::createWrenObjects() {
 }
 
 void WbFog::updateColor() {
-  if (WbFieldChecker::checkColorIsValid(this, mColor))
+  if (WbFieldChecker::resetColorIfInvalid(this, mColor))
     return;
 
   if (areWrenObjectsInitialized())
@@ -132,7 +132,7 @@ void WbFog::updateFogType() {
 }
 
 void WbFog::updateVisibilityRange() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mVisibilityRange, 0.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mVisibilityRange, 0.0))
     return;
 
   if (areWrenObjectsInitialized())

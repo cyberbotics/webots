@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
 }
 Viewpoint {
@@ -33,7 +33,8 @@ DEF BOARD Solid {
       }
       geometry Sphere {
         radius 0.077
-        subdivision 5
+        subdivision 24
+        ico FALSE
       }
     }
   ]

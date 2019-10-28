@@ -1,6 +1,6 @@
 ## Neuronics' IPR
 
-%robot ipr images/robots/ipr/model.png
+%robot ipr images/robots/ipr/model.thumbnail.png
 
 The IPR robot is a six degrees of freedom robotic arm equipped with a gripper composed of 2 rotational fingers.
 It was developed by `Neuronics`.
@@ -89,26 +89,26 @@ The worlds and controllers can be accessed in the "WEBOTS\_HOME/projects/robots/
 
 #### ipr\_collaboration.wbt
 
-![ipr_collaboration.wbt.png](images/robots/ipr/ipr_collaboration.wbt.png) In this example, two IPR robots work together to put three red cubes into a basket which is on the opposite side of the world.
+![ipr_collaboration.wbt.png](images/robots/ipr/ipr_collaboration.wbt.thumbnail.jpg) In this example, two IPR robots work together to put three red cubes into a basket which is on the opposite side of the world.
 All the IPR robots use the same controller, whose source code is in the "ipr/controllers" directory.
 This particular example uses, in addition to this controller, a client program which coordinates the movements of the robots.
 The source code for this client is in the "ipr/controllers/ipr\_collaboration.c" file.
 
 #### ipr\_cube.wbt
 
-![ipr_cube.wbt.png](images/robots/ipr/ipr_cube.wbt.png) In this example, an IPR robot moves a small red cube onto a bigger one.
+![ipr_cube.wbt.png](images/robots/ipr/ipr_cube.wbt.thumbnail.jpg) In this example, an IPR robot moves a small red cube onto a bigger one.
 This example also uses a client program which drives the movements of the robot.
 The source code for this client is in the "ipr/controllers/ipr\_cube.c" file.
 
 #### ipr\_factory.wbt
 
-![ipr_factory.wbt.png](images/robots/ipr/ipr_factory.wbt.png) In this example, two IPR robots take industrial parts from a conveyor belt and place them into slots.
+![ipr_factory.wbt.png](images/robots/ipr/ipr_factory.wbt.thumbnail.jpg) In this example, two IPR robots take industrial parts from a conveyor belt and place them into slots.
 One of the robots detects the objects using an infrared sensor on the conveyor belt, while the other one waits.
 This example also uses a client program which coordinates the movements of the robots.
 The source code for this client is in the "ipr/controllers/ipr\_factory.c" file.
 
 #### ipr\_models.wbt
 
-![ipr_models.wbt.png](images/robots/ipr/ipr_models.wbt.png) This example shows the different types of IPR model provided by Webots : HD6M180, HD6Ms180, HD6M90 and HD6Ms90.
+![ipr_models.wbt.png](images/robots/ipr/ipr_models.wbt.thumbnail.jpg) This example shows the different types of IPR model provided by Webots : HD6M180, HD6Ms180, HD6M90 and HD6Ms90.
 The robots are not moving.
 Open the generic robot window to actuate the motors.

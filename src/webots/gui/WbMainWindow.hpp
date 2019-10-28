@@ -59,10 +59,10 @@ public:
   const QString &coreIconPath() const { return mCoreIconPath; }
   const QString &toolBarAlign() const { return mToolBarAlign; }
 
-  void setEnabledIconPath(QString &path) { mEnabledIconPath = path; }
-  void setDisabledIconPath(QString &path) { mDisabledIconPath = path; }
-  void setCoreIconPath(QString &path) { mCoreIconPath = path; }
-  void setToolBarAlign(QString &align) { mToolBarAlign = align; }
+  void setEnabledIconPath(const QString &path) { mEnabledIconPath = path; }
+  void setDisabledIconPath(const QString &path) { mDisabledIconPath = path; }
+  void setCoreIconPath(const QString &path) { mCoreIconPath = path; }
+  void setToolBarAlign(const QString &align) { mToolBarAlign = align; }
 
   void restorePreferredGeometry(bool minimizedOnStart = false);
 
@@ -106,9 +106,17 @@ private slots:
   void showOfflineUserGuide();
   void showOfflineReferenceManual();
   void showOfflineAutomobileDocumentation();
+
+  void openGithubRepository();
+  void openCyberboticsWebsite();
   void openBugReport();
   void openSupportTicket();
-  void showCyberboticsWebsite();
+  void openNewsletterSubscription();
+  void openDiscord();
+  void openTwitter();
+  void openYouTube();
+  void openLinkedIn();
+
   void newProjectDirectory();
   void newRobotController();
   void newPhysicsPlugin();
@@ -176,7 +184,6 @@ private:
   void updateGui();
   void updateSimulationMenu();
   void writePreferences() const;
-  void openSupport(const QString &type);
   void showDocument(const QString &url);
   bool runSimulationHasRunWarningMessage();
   void logActiveControllersTermination();

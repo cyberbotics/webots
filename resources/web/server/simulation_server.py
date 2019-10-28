@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright 1996-2019 Cyberbotics Ltd.
 #
@@ -21,6 +21,7 @@ from pynvml import nvmlInit, nvmlShutdown, nvmlDeviceGetHandleByIndex, nvmlDevic
                    nvmlDeviceGetUtilizationRates
 from requests import session
 
+import asyncio
 import errno
 import json
 import logging
@@ -211,8 +212,9 @@ class Client:
                 protocol = 'wss:'
             else:
                 protocol = 'ws:'
-            client.client_websocket.write_message('webots:' + protocol + '//'
-                                                  + hostname + ':' + str(port))
+            asyncio.set_event_loop(asyncio.new_event_loop())
+            client.client_websocket.write_message('webots:' + protocol + '//' +
+                                                  hostname + ':' + str(port))
             for line in iter(client.webots_process.stdout.readline, b''):
                 line = line.rstrip()
                 if line == 'pause':
@@ -231,7 +233,7 @@ class Client:
 
     def on_exit(self):
         """Callback issued when Webots quits."""
-        if (self.webots_process):
+        if self.webots_process:
             logging.warning('[%d] Webots [%d] exited' % (id(self), self.webots_process.pid))
             self.webots_process.wait()
             self.webots_process = None
@@ -267,7 +269,7 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
 
     @classmethod
     def next_available_port(cls):
-        """Return a port number available for a new Webots Websocket server."""
+        """Return a port number available for a new Webots WebSocket server."""
         port = config['port'] + 1
         while True:
             found = False
@@ -326,14 +328,16 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
                 if n > 0:
                     host = host[:n]
                 keyFilename = os.path.join(config['keyDir'], host)
-                try:
-                    keyFile = open(keyFilename, "r")
-                except IOError:
-                    logging.error("Unknown host: " + host + " from " + self.request.remote_ip)
-                    client.client_websocket.close()
-                    return
-                client.key = keyFile.readline().rstrip(os.linesep)
-
+                if (os.path.isfile(keyFilename)):
+                    try:
+                        keyFile = open(keyFilename, "r")
+                    except IOError:
+                        logging.error("Unknown host: " + host + " from " + self.request.remote_ip)
+                        client.client_websocket.close()
+                        return
+                    client.key = keyFile.readline().rstrip(os.linesep)
+                else:
+                    logging.warning("No key for: " + host)
                 logging.info('[%d] Setup client %s %s '
                              '(remote ip: %s, streaming_server_port: %s)'
                              % (id(client),
@@ -393,7 +397,7 @@ class MonitorHandler(tornado.web.RequestHandler):
         swap = psutil.swap_memory()
         if nvidia:
             nvmlHandle = nvmlDeviceGetHandleByIndex(0)
-            gpu = nvmlDeviceGetName(nvmlHandle)
+            gpu = str(nvmlDeviceGetName(nvmlHandle))
             gpu_memory = nvmlDeviceGetMemoryInfo(nvmlHandle)
             gpu_ram = gpu_memory.total / (1024 * 1048576)
             gpu += " - " + str(gpu_ram) + "GB"
@@ -404,11 +408,11 @@ class MonitorHandler(tornado.web.RequestHandler):
         real_cores = psutil.cpu_count(False)
         cores_ratio = psutil.cpu_count(True) / real_cores
         cores = " (" + str(cores_ratio) + "x " + str(real_cores) + " cores)"
-        if sys.platform == 'linux2':
+        if re.search("^linux\\d?$", sys.platform):  # python2: 'linux2' or 'linux3', python3: 'linux'
             distribution = platform.linux_distribution()
             os_name = 'Linux ' + distribution[0] + " " + distribution[1] + " " + distribution[2]
             command = "cat /proc/cpuinfo"
-            all_info = subprocess.check_output(command, shell=True).strip()
+            all_info = str(subprocess.check_output(command, shell=True).strip())
             for line in all_info.split("\n"):
                 if "model name" in line:
                     cpu = re.sub(".*model name.*:", "", line, 1)
@@ -426,6 +430,7 @@ class MonitorHandler(tornado.web.RequestHandler):
             cpu = subprocess.check_output(command).strip()
         else:  # unknown platform
             os_name = 'Unknown'
+            cpu = 'Unknown'
         self.write("<!DOCTYPE html>\n")
         self.write("<html><head><meta charset='utf-8'/><title>Webots simulation server</title>")
         self.write("<link rel='stylesheet' type='text/css' href='css/monitor.css'></head>\n")
@@ -567,7 +572,6 @@ def main():
     # are described here:
     #
     # port:              local port on which the server is listening (launching webots instances).
-    # publicPort:        external port to which the server can be contacted from.
     # sslKey:            private key for a SSL enabled server.
     # sslCertificate:    certificate for a SSL enabled server.
     # projectsDir:       directory in which projects are located.
@@ -603,8 +607,6 @@ def main():
         config['keyDir'] = expand_path(config['keyDir'])
     if 'port' not in config:
         config['port'] = 2000
-    if 'publicPort' not in config:
-        config['publicPort'] = config['port']
     os.environ['WEBOTS_FIREJAIL_CONTROLLERS'] = '1'
     config['instancesPath'] = tempfile.gettempdir().replace('\\', '/') + '/webots/instances/'
     # create the instances path

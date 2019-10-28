@@ -148,8 +148,6 @@ void WbSceneTree::cleanup() {
   delete mModel;
   mModel = NULL;
 
-  mClipboard->clear();
-
   // disconnect all signals
   disconnect(this, 0);
 }
@@ -249,8 +247,6 @@ void WbSceneTree::setWorld(WbWorld *world) {
 
   // just to know if we are reloading
   mWorldFileName = world->fileName();
-
-  WbNodeOperations::instance()->updateDictionary(true, world->root());
   mTreeView->scrollToSelection();
 }
 
@@ -362,7 +358,7 @@ void WbSceneTree::pasteInMFValue() {
   WbMultipleValue *parentItem;
   WbNode *parentNode = NULL;
   WbField *field = NULL;
-  WbTreeItem *fieldItem = mSelectedItem;
+  WbTreeItem *fieldItem;
   int index = 0;
 
   if (mSelectedItem->isField()) {
@@ -1442,7 +1438,7 @@ void WbSceneTree::help() {
             }
             break;
           }
-          name = dir.dirName();
+          name = dir.dirName().replace('_', '-');
           if (!dir.cdUp())
             break;
         }

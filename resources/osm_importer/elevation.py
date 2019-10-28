@@ -42,7 +42,8 @@ class Elevation(object):
             for i in range(offset, len(locations)):
                 locationString = locationString + str(locations[i][0]) + "," + str(locations[i][1]) + "|"
                 # maximum of 512 locations per request and url max length of 2000
-                if (i - offset) > 500 or len(GOOGLE_ELEVATION_BASE_URL + '?' + urllib.urlencode({'locations': locationString})) > 1800:
+                if ((i - offset) > 500 or
+                        len(GOOGLE_ELEVATION_BASE_URL + '?' + urllib.urlencode({'locations': locationString})) > 1800):
                     offset = i + 1
                     finished = False
                     time.sleep(0.3)  # maximum 5 request per second
@@ -52,7 +53,7 @@ class Elevation(object):
             elvtn_args = {
                 'locations': locationString
             }
-            if not key == "":
+            if key:
                 elvtn_args['key'] = key
 
             url = GOOGLE_ELEVATION_BASE_URL + '?' + urllib.urlencode(elvtn_args)
@@ -95,7 +96,8 @@ class Elevation(object):
 
         return elevationArray
 
-    def __init__(self, projection, minlat=46.5062, minlon=6.5506, maxlat=46.5264, maxlon=6.5903, useGoogle=True, googleAPIKey=''):
+    def __init__(self, projection, minlat=46.5062, minlon=6.5506, maxlat=46.5264, maxlon=6.5903, useGoogle=True,
+                 googleAPIKey=''):
         """Initialize the projection."""
         x1, z1 = projection(minlon, minlat)
         x2, z2 = projection(maxlon, maxlat)
@@ -129,7 +131,7 @@ class Elevation(object):
         else:
             result = Elevation.get_elevation_from_geonames(locations, "cyberbotics")
 
-        if len(result) == 0:
+        if not result:
             sys.stderr.write("Warning: the acquisition of the elevation data failed.\n")
             return
 

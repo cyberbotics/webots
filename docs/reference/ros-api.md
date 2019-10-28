@@ -16,3 +16,5 @@ The following table describes the ROS services shared between the Webots devices
 | `set_float_array` | `float64[] values`<br/>`---`<br/>`bool success` |
 | `set_int` | `int32 value`<br/>`---`<br/>`bool success` |
 | `set_string` | `string value`<br/>`---`<br/>`bool success` |
+
+A complete list of all the available ROS services and messages can be found [here](http://docs.ros.org/kinetic/api/webots_ros/html/index-msg.html).

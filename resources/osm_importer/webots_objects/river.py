@@ -60,7 +60,7 @@ class River(WebotsObject):
     def export(cls, file):
         """Export all the rivers from the rivers list."""
         for river in River.list[:]:
-            if len(river.ref) < 1:
+            if not river.ref:
                 River.list.remove(river)
                 continue
 
@@ -75,7 +75,9 @@ class River(WebotsObject):
                 file.write("DEF " + protect_def_name(river.name) + " " + "Transform {\n")
             else:
                 file.write("Transform {\n")
-            file.write("  translation %.2lf %.2lf %.2lf\n" % (OSMCoord.coordDictionnary[river.ref[0]].x, OSMCoord.coordDictionnary[river.ref[0]].y, OSMCoord.coordDictionnary[river.ref[0]].z))
+            file.write("  translation %.2lf %.2lf %.2lf\n" % (OSMCoord.coordDictionnary[river.ref[0]].x,
+                                                              OSMCoord.coordDictionnary[river.ref[0]].y,
+                                                              OSMCoord.coordDictionnary[river.ref[0]].z))
             file.write("  children [\n")
             file.write("    Shape {\n")
             file.write("      appearance PBRAppearance {\n")
@@ -94,7 +96,12 @@ class River(WebotsObject):
             file.write("        spine [\n")
             for ref in river.ref:
                 if ref in OSMCoord.coordDictionnary:
-                    file.write("          %.2f %.2f %.2f,\n" % (OSMCoord.coordDictionnary[ref].x - OSMCoord.coordDictionnary[river.ref[0]].x, OSMCoord.coordDictionnary[ref].y - OSMCoord.coordDictionnary[river.ref[0]].y, OSMCoord.coordDictionnary[ref].z - OSMCoord.coordDictionnary[river.ref[0]].z))
+                    file.write("          %.2f %.2f %.2f,\n" % (OSMCoord.coordDictionnary[ref].x -
+                                                                OSMCoord.coordDictionnary[river.ref[0]].x,
+                                                                OSMCoord.coordDictionnary[ref].y -
+                                                                OSMCoord.coordDictionnary[river.ref[0]].y,
+                                                                OSMCoord.coordDictionnary[ref].z -
+                                                                OSMCoord.coordDictionnary[river.ref[0]].z))
                 else:
                     print("Warning: node " + str(ref) + " not referenced.")
             file.write("  ]\n")

@@ -33,9 +33,10 @@ class Building(WebotsObject):
     nameList = []
     wallTypes = ["glass building", "classic building", "orange building", "gray glass building", "blue glass building",
                  "arcade-style building", "transparent highrise", "windowed building", "old brick building",
-                 "red and white building", "construction building", "red brick wall", "old brick wall", "stone brick", "stone wall",
-                 "glass highrise", "old house", "old building", "highrise", "brick building", "residential building", "old office building",
-                 "factory building", "tall house", "office building", "concrete building"]
+                 "red and white building", "construction building", "red brick wall", "old brick wall", "stone brick",
+                 "stone wall", "glass highrise", "old house", "old building", "highrise", "brick building",
+                 "residential building", "old office building", "factory building", "tall house", "office building",
+                 "concrete building"]
     coloredWallTypes = ["old house", "brick building", "factory building", "tall house", "office building", "concrete building"]
     coloredRoofTypes = ["bitumen", "tiled"]
     importedWallTypes = {
@@ -147,7 +148,8 @@ class Building(WebotsObject):
             if 'building:min_level' in tags:
                 building.minLevel = int(extract_float_from_string(tags['building:min_level']))
             building.ref = ref
-            if len(building.ref) > 0 and building.ref[0] == building.ref[-1]:  # often last and first reference are the same => this is useless for us
+            if building.ref and building.ref[0] == building.ref[-1]:
+                # often last and first reference are the same => this is useless for us
                 del building.ref[-1]
             Building.list.append(building)
 
@@ -180,9 +182,12 @@ class Building(WebotsObject):
                 if height == float('inf'):
                     height = 0
                 height = height + building.layer * WebotsObject.layerHeight
-                file.write("  translation %.2lf %.2lf %.2lf\n" % (OSMCoord.coordDictionnary[building.ref[0]].x, height, OSMCoord.coordDictionnary[building.ref[0]].z))
+                file.write("  translation %.2lf %.2lf %.2lf\n" %
+                           (OSMCoord.coordDictionnary[building.ref[0]].x, height, OSMCoord.coordDictionnary[building.ref[0]].z))
             else:
-                file.write("  translation %.2lf %.2lf %.2lf\n" % (OSMCoord.coordDictionnary[building.ref[0]].x, building.layer * WebotsObject.layerHeight, OSMCoord.coordDictionnary[building.ref[0]].z))
+                file.write("  translation %.2lf %.2lf %.2lf\n" %
+                           (OSMCoord.coordDictionnary[building.ref[0]].x, building.layer * WebotsObject.layerHeight,
+                            OSMCoord.coordDictionnary[building.ref[0]].z))
 
             name = building.name
             if name != '' and building.number != '':
@@ -204,7 +209,10 @@ class Building(WebotsObject):
             file.write("  corners [\n")
             for ref in building.ref:
                 if ref in OSMCoord.coordDictionnary:
-                    file.write("    %.2f %.2f,\n" % (OSMCoord.coordDictionnary[ref].x - OSMCoord.coordDictionnary[building.ref[0]].x, OSMCoord.coordDictionnary[ref].z - OSMCoord.coordDictionnary[building.ref[0]].z))
+                    file.write("    %.2f %.2f,\n" % (OSMCoord.coordDictionnary[ref].x -
+                                                     OSMCoord.coordDictionnary[building.ref[0]].x,
+                                                     OSMCoord.coordDictionnary[ref].z -
+                                                     OSMCoord.coordDictionnary[building.ref[0]].z))
                 else:
                     print("Warning: node " + str(ref) + " not referenced.")
             file.write("  ]\n")
@@ -219,7 +227,8 @@ class Building(WebotsObject):
                 else:
                     file.write("  roofShape \"flat roof\"\n")
             # Set the wallType
-            if building.material in building.importedWallTypes and building.importedWallTypes[building.material] in building.coloredWallTypes and building.color != "":
+            if (building.material in building.importedWallTypes and
+                    building.importedWallTypes[building.material] in building.coloredWallTypes and building.color != ""):
                 file.write("  wallType \"%s\"\n" % building.importedWallTypes[building.material])
             elif building.color != "":
                 file.write('  wallType "%s"\n' % random.choice(building.coloredWallTypes))
@@ -230,7 +239,9 @@ class Building(WebotsObject):
             else:
                 file.write('  wallType "%s"\n' % random.choice(building.wallTypes))
             # Set the roofType
-            if building.roofMaterial in building.coloredRoofTypes and building.importedRoofTypes[building.roofMaterial] in building.coloredRoofTypes and building.roofColor != "":
+            if (building.roofMaterial in building.coloredRoofTypes and
+                    building.importedRoofTypes[building.roofMaterial] in building.coloredRoofTypes and
+                    building.roofColor != ""):
                 file.write('  roofType "%s"\n' % building.importedRoofTypes[building.roofMaterial])
             elif building.roofColor != "":
                 file.write(' roofType "%s"\n' % random.choice(building.coloredRoofTypes))
