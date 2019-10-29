@@ -65,7 +65,7 @@ def cleanupWindowsPreferences():
                 deleteKeyRecursively(subKey)
             winreg.DeleteKey(winreg.HKEY_CURRENT_USER, key)
 
-        print("Clear the 'Software\\Cyberbotics' registry entree...")
+        print("Clearing the 'Software\\Cyberbotics' registry key...")
         deleteKeyRecursively('Software\\Cyberbotics')
     except FileNotFoundError:
         print("Nothing to clean.")
