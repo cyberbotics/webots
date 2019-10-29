@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -441,6 +441,10 @@ WrShaderProgram *WbWrenShaders::gtaoShader() {
     const float radius = 2.0;
     wr_shader_program_create_custom_uniform(gShaders[SHADER_GTAO], "radius", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
                                             reinterpret_cast<const char *>(&radius));
+
+    const float flipNormalY = 0.0;
+    wr_shader_program_create_custom_uniform(gShaders[SHADER_GTAO], "flipNormalY", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
+                                            reinterpret_cast<const char *>(&flipNormalY));
 
     ::buildShader(gShaders[SHADER_GTAO], QFileInfo("gl:shaders/pass_through.vert"), QFileInfo("gl:shaders/gtao.frag"));
   }

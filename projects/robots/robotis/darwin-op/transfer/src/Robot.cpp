@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -68,7 +68,7 @@ webots::Robot::Robot() {
 
   // Make each motors go to the start position slowly
   const int msgLength = 5;  // id + Goal Position (L + H) + Moving speed (L + H)
-  int value = 0, changed_motors = 0, n = 0;
+  int value, changed_motors = 0, n = 0;
   int param[20 * msgLength];
 
   for (motorIt = Motor::mNamesToIDs.begin(); motorIt != Motor::mNamesToIDs.end(); ++motorIt) {

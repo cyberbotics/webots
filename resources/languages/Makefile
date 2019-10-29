@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,6 +31,10 @@ ifeq ($(UBUNTU_VERSION), 16.04)
 endif
 	@echo "# make" $@ python3.6;
 	+PYTHON_COMMAND=python3.6 make -s -C python $@
+	@echo "# make" $@ python3.7;
+	+PYTHON_COMMAND=python3.7 make -s -C python $@
+	@echo "# make" $@ python3.8;
+	+PYTHON_COMMAND=python3.8 make -s -C python $@
 endif
 ifeq ($(OSTYPE),windows)
 	@echo "# make" $@ python3.7;

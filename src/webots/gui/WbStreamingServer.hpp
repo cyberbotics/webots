@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,11 +22,13 @@
 
 #include "WbLog.hpp"
 
-class QWebSocketServer;
+class QSslSocket;
 class QWebSocket;
+class QWebSocketServer;
 
 class WbMainWindow;
 class WbNode;
+class WbStreamingTcpServer;
 class WbView3D;
 
 class WbStreamingServer : public QObject {
@@ -41,16 +43,18 @@ public:
   void setView3D(WbView3D *);
   void setMainWindow(WbMainWindow *mainWindow);
 
-public slots:
-
 private slots:
   void propagateNodeAddition(WbNode *node);
   void propagateNodeDeletion(WbNode *node);
   void newWorld();
   void deleteWorld();
+  void setWorldLoadingProgress(const int progress);
+  void setWorldLoadingStatus(const QString &status) { mCurrentWorldLoadingStatus = status; }
   void start(int port);
   void stop();
-  void onNewConnection();
+  void onNewWebSocketConnection();
+  void onNewTcpConnection();
+  void onNewTcpData();
   void socketDisconnected();
   void processTextMessage(QString);
   void sendUpdatePackageToClients();
@@ -75,22 +79,25 @@ private:
   void sendFileToClient(QWebSocket *client, const QString &type, const QString &folder, const QString &path,
                         const QString &filename);
   void sendWorldStateToClient(QWebSocket *client, const QString &state);
-  void sendTexturesToClient(QWebSocket *client, const QHash<QString, QString> &textures);
-  void startX3domStreaming(QWebSocket *client);
+  void startX3dStreaming(QWebSocket *client);
   void generateX3dWorld();
   void propagateLogToClients(WbLog::Level level, const QString &message);
   bool isControllerMessageIgnored(const QString &pattern, const QString &message) const;
+
+  static QString simulationStateString();
 
   QString mX3dWorld;
   QHash<QString, QString> mX3dWorldTextures;
   double mX3dWorldGenerationTime;
   QString mX3dWorldReferenceFile;
-  QWebSocketServer *mServer;
+  QWebSocketServer *mWebSocketServer;
+  WbStreamingTcpServer *mTcpServer;
   QList<QWebSocket *> mClients;
   QStringList mEditableControllers;
 
   qint64 mLastUpdateTime;
 
+  QString mCurrentWorldLoadingStatus;
   QString mMessageToClients;
   bool mMonitorActivity;
   bool mDisableTextStreams;

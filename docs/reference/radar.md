@@ -35,7 +35,7 @@ Any [Solid](solid.md) node is a potential radar target if its `radarCrossSection
 
 A radar target is defined like this:
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -96,7 +96,7 @@ public class RadarTarget {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 structs.WbRadarTarget.members = struct(
   'distance', 'double',
   'received_power', 'double',
@@ -191,7 +191,7 @@ The power returned by the target is computed using the following formulas:
 
 %figure "Received power"
 
-![radar_received_power.png](images/radar_received_power.png)
+![radar_received_power.png](images/radar_received_power.thumbnail.png)
 
 %end
 
@@ -201,7 +201,7 @@ The power returned by the target is computed using the following formulas:
 #### `wb_radar_disable`
 #### `wb_radar_get_sampling_period`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -263,7 +263,7 @@ public class Radar extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_radar_enable(tag, sampling_period)
 wb_radar_disable(tag)
 period = wb_radar_get_sampling_period(tag)
@@ -299,7 +299,7 @@ The `wb_radar_get_sampling_period` function returns the period given into the `w
 #### `wb_radar_get_min_range`
 #### `wb_radar_get_max_range`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -357,7 +357,7 @@ public class Radar extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 min_range = wb_radar_get_min_range(tag)
 max_range = wb_radar_get_max_range(tag)
 ```
@@ -386,7 +386,7 @@ These functions allow the controller to get the value of the minimum and maximum
 #### `wb_radar_get_horizontal_fov`
 #### `wb_radar_get_vertical_fov`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -444,7 +444,7 @@ public class Radar extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 horizontal_fov = wb_radar_get_horizontal_fov(tag)
 vertical_fov = wb_radar_get_vertical_fov(tag)
 ```
@@ -472,7 +472,7 @@ These functions allow the controller to get the value of the horizontal and vert
 
 #### `wb_radar_get_number_of_targets`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -526,7 +526,7 @@ public class Radar extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 targets_number = wb_radar_get_number_of_targets(tag)
 ```
 
@@ -552,7 +552,7 @@ This function allows the controller to get the number of targets currently seen 
 
 #### `wb_radar_get_targets`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -606,7 +606,7 @@ public class Radar extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 targets = wb_radar_get_targets(tag)
 ```
 

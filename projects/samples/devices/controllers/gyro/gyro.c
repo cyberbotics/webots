@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ static void run_for_a_while() {
     if (wb_robot_step(TIME_STEP) == -1)
       exit(EXIT_SUCCESS);
     const double *vel = wb_gyro_get_values(gyro);
-    printf("rotation axes: [ x y z ] = [ %+.2f %+.2f %+.2f ]\n", vel[0], vel[1], vel[2]);
+    printf("\frotation axes: [ x y z ] = [ %+.2f %+.2f %+.2f ]\n", vel[0], vel[1], vel[2]);
   }
 }
 

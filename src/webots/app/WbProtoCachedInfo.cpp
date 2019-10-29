@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,9 +37,7 @@
 
 static QString gFileHeader = "Webots Proto Cache File version 1.4";
 
-WbProtoCachedInfo::WbProtoCachedInfo(const QString &protoFileName) {
-  mContainsDevices = false;
-  mBaseType = "UNKNOWN";
+WbProtoCachedInfo::WbProtoCachedInfo(const QString &protoFileName) : mContainsDevices(false), mBaseType("UNKNOWN") {
   mHexProtoFileHash.clear();
   QFileInfo info(protoFileName);
   mAbsoluteProtoFileName = info.absoluteFilePath();
@@ -72,7 +70,7 @@ bool WbProtoCachedInfo::load() {
 
   QString word;
   while (!in.atEnd()) {
-    QString line = in.readLine();
+    line = in.readLine();
     QTextStream ls(&line, QIODevice::ReadOnly);
     QString key;
     ls >> key;

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -150,12 +150,12 @@ void RobotisOp2OutputPacket::apply(int simulationTime) {
       // ControlPID
       if (motor->isControlPIDRequested()) {
         append("c", 1);
-        int p = (int)(motor->controlP() * 1000);
-        int i = (int)(motor->controlI() * 1000);
-        int d = (int)(motor->controlD() * 1000);
-        appendInt(p);
-        appendInt(i);
-        appendInt(d);
+        int pValue = (int)(motor->controlP() * 1000);
+        int iValue = (int)(motor->controlI() * 1000);
+        int dValue = (int)(motor->controlD() * 1000);
+        appendInt(pValue);
+        appendInt(iValue);
+        appendInt(dValue);
         // TODO (fabien): why doing this 1000 multiplication (and division at the other side) while
         //                simply creating an appendDouble() function would be much more elegant?
         motor->resetControlPIDRequested();

@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -277,8 +277,10 @@ endif
 
 ifeq ($(GOAL),profile)
  WBCFLAGS += -pg
- ifndef BUILD_STATIC_LIBRARY
-  LFLAGS += -pg
+ ifneq ($(OSTYPE),darwin)
+  ifndef BUILD_STATIC_LIBRARY
+   LFLAGS += -pg
+  endif
  endif
 endif
 
@@ -303,7 +305,7 @@ ifdef USE_CXX
   LINKER = $(CXX)
  endif
  ifndef EXCLUDE_CONTROLLERS
-  DYNAMIC_LIBRARIES += -L$(WEBOTS_LIB_PATH) -lController
+  DYNAMIC_LIBRARIES += -L"$(WEBOTS_LIB_PATH)" -lController
   ifdef USE_C_API
    INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
   else
@@ -326,7 +328,7 @@ else
  endif
  ifndef EXCLUDE_CONTROLLERS
   INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
-  DYNAMIC_LIBRARIES += -L$(WEBOTS_LIB_PATH) -lController
+  DYNAMIC_LIBRARIES += -L"$(WEBOTS_LIB_PATH)" -lController
  endif
 endif
 
@@ -361,12 +363,12 @@ ifeq ($(OSTYPE),darwin)
  ifdef WEBOTS_LIBRARY
   LFLAGS += -Xlinker -rpath -Xlinker @loader_path/.. -install_name @rpath/lib/$(MAIN_TARGET)
  else
-  CALLING_MAKEFILE_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-  WEBOTS_RELATIVE_PATH = $(call computeRelativePath,$(WEBOTS_HOME),$(CALLING_MAKEFILE_DIR))
+  CALLING_MAKEFILE_DIR := $(shell dirname "$(realpath $(firstword $(MAKEFILE_LIST)))")
+  WEBOTS_RELATIVE_PATH = $(call computeRelativePath,"$(WEBOTS_HOME_PATH)","$(CALLING_MAKEFILE_DIR)")
   ifneq (,$(findstring ..,$(WEBOTS_RELATIVE_PATH)))
    DYNAMIC_LINK_FLAGS += -Xlinker -rpath -Xlinker @loader_path/$(WEBOTS_RELATIVE_PATH)
    ifdef BUILD_SHARED_LIBRARY
-    DYNAMIC_LINK_FLAGS += -install_name @rpath$(subst $(WEBOTS_HOME),,$(CALLING_MAKEFILE_DIR))/$(MAIN_TARGET)
+    DYNAMIC_LINK_FLAGS += -install_name @rpath$(subst $(WEBOTS_HOME_PATH),,$(CALLING_MAKEFILE_DIR))/$(MAIN_TARGET)
    endif
   endif
  endif
@@ -378,7 +380,10 @@ endif
 ###-----------------------------------------------------------------------------
 
 ifdef USE_ODE
- DYNAMIC_LIBRARIES += -L$(WEBOTS_LIB_PATH) -lode "$(WEBOTS_HOME)/resources/projects/plugins/physics/physics.o"
+ DYNAMIC_LIBRARIES += -L"$(WEBOTS_LIB_PATH)" -lode "$(WEBOTS_HOME)/resources/projects/plugins/physics/physics.o"
+ ifeq ($(GOAL),profile)
+  DYNAMIC_LIBRARIES += -lstdc++
+ endif
  ifeq ($(OSTYPE),darwin)
   DYNAMIC_LINK_FLAGS += -flat_namespace -undefined suppress
  endif
@@ -555,23 +560,7 @@ endif
 ### Rules
 ###-----------------------------------------------------------------------------
 
-# define default rules for user pre and post builds in case user doesn't specify them
-
-$(SUPPORTED_TARGETS): post-build
-
-USER_PREBUILD:
-
-USER_POSTBUILD:
-
-pre-build:
-	@$(MAKE) --silent USER_PREBUILD TARGET=$(BUILD_GOAL_DIR)/$(MAIN_TARGET)
-
-post-build: main-build
-	@$(MAKE) --silent USER_POSTBUILD TARGET=$(BUILD_GOAL_DIR)/$(MAIN_TARGET)
-
-$(TARGETS): pre-build
-
-main-build: $(TARGETS)
+$(SUPPORTED_TARGETS): $(TARGETS)
 
 # we need to be able to execute a make clean inside subdirectories targets (defined as EXTRA_TARGET)
 clean: $(EXTRA_TARGETS)
@@ -581,7 +570,7 @@ ifdef MAIN_TARGET
 
 MAIN_TARGET_WINDOWS_LIB = $(MAIN_TARGET:.dll=.lib)
 ifdef WEBOTS_LIBRARY
-MAIN_TARGET_COPY = "$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_LIB_PATH))))/$(MAIN_TARGET)"
+MAIN_TARGET_COPY = "$(subst $(space),\ ,$(WEBOTS_LIB_PATH))/$(MAIN_TARGET)"
 MAIN_TARGET_WINDOWS32_LIB = $(WEBOTS_HOME_PATH)/msys64/mingw32/lib/$(MAIN_TARGET_WINDOWS_LIB)
 MAIN_TARGET_WINDOWS64_LIB = $(WEBOTS_HOME_PATH)/msys64/mingw64/lib/$(MAIN_TARGET_WINDOWS_LIB)
 else
@@ -680,15 +669,15 @@ $(BUILD_GOAL_DIR)/%.o:%.c
 
 $(BUILD_GOAL_DIR)/%.o:%.cc
 	@echo "# compiling" $(notdir $<)
-	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
+	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
 
 $(BUILD_GOAL_DIR)/%.o:%.c++
 	@echo "# compiling" $(notdir $<)
-	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
+	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
 
 $(BUILD_GOAL_DIR)/%.o:%.cpp
 	@echo "# compiling" $(notdir $<)
-	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
+	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
 
 $(BUILD_DIR)/%.moc.cpp: %.hpp
 	@echo "# moc-generating" $(notdir $<)

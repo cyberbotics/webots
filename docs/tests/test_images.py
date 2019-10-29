@@ -37,23 +37,35 @@ class TestImages(unittest.TestCase):
             for root, dirnames, filenames in os.walk(book.path):
                 if 'scenes' in root.replace(books.project_path, ''):
                     continue
-                for filename in fnmatch.filter(filenames, '*.png'):
+                for filename in fnmatch.filter(filenames, '*.png') + fnmatch.filter(filenames, '*.jpg'):
                     image_path = os.path.join(root, filename)
                     image_path = image_path[(len(book.path) + 1):]
-                    images_paths.append(image_path)
+                    images_paths.append(image_path.replace('\\', '/'))
             self.assertGreater(
                 len(images_paths), 0,
-                msg='No image found in book "%s"' % (book.name)
+                msg='No image found in book "%s"' % book.name
             )
 
             # check the image reference can be found in at least one MD file
             for image_path in images_paths:
                 found = False
                 for md_path in book.md_paths:
-                    if image_path in open(md_path).read():
-                        found = True
-                        break
+                    with open(md_path) as file:
+                        if (image_path in file.read() or
+                                image_path.replace('.png', '.thumbnail.jpg') in images_paths or
+                                image_path.replace('.png', '.thumbnail.png') in images_paths):
+                            found = True
+                            break
                 self.assertTrue(
-                    found, msg='Image "%s" not referenced in any MD file.' %
-                    (image_path)
+                    found, msg='Image "%s" not referenced in any MD file.' % image_path
                 )
+                # in case of thumbnail make sure the original file is available
+                if image_path.endswith('.thumbnail.jpg'):
+                    self.assertTrue(
+                        image_path.replace('.thumbnail.jpg', '.png') in images_paths,
+                        msg='Missing original file for thumbnail "%s".' % image_path
+                    )
+
+
+if __name__ == '__main__':
+    unittest.main()

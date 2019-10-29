@@ -26,13 +26,13 @@ Connector {
 [Connector](#connector) nodes can only connect to other [Connector](#connector) nodes.
 At any time, each connection involves exactly two [Connector](#connector) nodes (peer to peer).
 The physical connection between two [Connector](#connector) nodes can be created and destroyed at run time by the robot's controller.
-The primary idea of [Connector](#connector) nodes is to enable the dynamic reconfiguration of modular robots, but more generally, [Connector](#connector) nodes can be used in any situation where robots need to be attached to other robots.
+The primary idea of [Connector](#connector) nodes is to enable the dynamic reconfiguration of modular robots, but more generally, [Connector](#connector) nodes can be used in any situation where solids need to be attached to other solids.
 
 [Connector](#connector) nodes were designed to simulate various types of docking hardware:
 
-- Mechanical links held in place by a latch
-- Gripping mechanisms
-- Magnetic links between permanent magnets (or electromagnets)
+- Mechanical links held in place by a latch.
+- Gripping mechanisms.
+- Magnetic links between permanent magnets (or electromagnets).
 - Pneumatic suction systems, etc.
 
 Connectors can be classified into two types, independent of the actual hardware system:
@@ -53,7 +53,7 @@ Two [Connector](#connector) nodes can connect only if their model strings are id
 - `type`: specifies the connector's type, this must be one of: "symmetric", "active", or "passive".
 A "symmetric" connector can only lock to (and unlock from) another "symmetric" connector.
 An "active" connector can only lock to (and unlock from) a "passive" connector.
-A "passive" connector cannot lock or unlock.
+A "passive" connector cannot lock or unlock (this is particularly useful for connectors which are part of the static environment).
 
 - `isLocked`: represents the locking state of the [Connector](#connector).
 The locking state can be changed through the `wb_connector_lock` and `wb_connector_unlock` API functions.
@@ -88,11 +88,11 @@ The distance is measured between the origins of the coordinate systems of the co
 - `axisTolerance`: the maximum angle [in radians] between the *z*-axes of two `Connectors` at which they may successfully lock.
 Two [Connector](#connector) nodes can lock when their *z*-axes are parallel (within tolerance), but pointed in opposite directions.
 
-- `rotationTolerance`: the tolerated angle difference with respect to each of the allowed docking rotations (see [this figure](#example-of-rotational-alignment-numberofrotations-4-and-rotationaltolerance-22-5-deg)).
+- `rotationTolerance`: the tolerated angle difference with respect to each of the allowed docking rotations (see [this figure](#example-of-rotational-alignment)).
 
 - `numberOfRotations`: specifies how many different docking rotations are allowed in a full 360 degree rotation around the [Connector](#connector)'s *z*-axis.
 For example, modular robots' connectors are often 1-, 2- or 4-way dockable depending on mechanical and electrical interfaces.
-As illustrated in [this figure](#example-of-rotational-alignment-numberofrotations-4-and-rotationaltolerance-22-5-deg), if `numberOfRotations` is 4 then there will be 4 different docking positions (one every 90 degrees).
+As illustrated in [this figure](#example-of-rotational-alignment), if `numberOfRotations` is 4 then there will be 4 different docking positions (one every 90 degrees).
 If you don't wish to check the rotational alignment criterion this field should be set to zero.
 
 %figure "Example of rotational alignment (numberOfRotations=4 and rotationalTolerance=22.5 deg)"
@@ -101,23 +101,26 @@ If you don't wish to check the rotational alignment criterion this field should 
 
 %end
 
+> **Note**: For the `autoLock`, `distanceTolerance`, `axisTolerance`, `rotationTolerance` and `numberOfRotations` fields, the value of these fields in the other connector doesn't matter, each connector will check independently if it does satisfy the conditions or not.
+
 - `snap`: when TRUE: the two connectors do automatically snap (align, adjust, etc.) when they become docked.
 The alignment is threefold: 1) the two bodies are rotated such that their z-axes become parallel (but pointed in opposite directions), 2) the two bodies are rotated such that their y-axes match one of the possible rotational docking position, 3) the two bodies are shifted towards each other such that the origin of their coordinate system match.
 Note that when the `numberOfRotations` field is 0, step 2 is omitted, and therefore the rotational alignment remains free.
 As a result of steps 1 and 3, the connector surfaces always become superimposed.
+It is recommended to set the same `snap` value for both connectors.
 
 - `tensileStrength`: maximum tensile force [in Newtons] that the docking mechanism can withstand before it breaks.
 This can be used to simulate the rupture of the docking mechanism.
 The tensile force corresponds to a force that pulls the two connectors apart (in the negative *z*-axes direction).
 When the tensile force exceeds the tensile strength, the link breaks.
 Note that if both connectors are locked, the effective tensile strength corresponds to the sum of both connectors' `tensileStrength` fields.
-The default value -1 indicates an infinitely strong docking mechanism that does not break no matter how much force is applied.
+The default value -1 indicates an infinitely strong docking mechanism that does not break no matter how much force is applied (in case both connectors are locked, it is sufficient to set the `tensileStrength` field of one of the connectors to -1).
 
 - `shearStrength`: indicates the maximum shear force [in Newtons] that the docking mechanism can withstand before it breaks.
 This can be used to simulate the rupture of the docking mechanism.
 The `shearStrength` field specifies the ability of two connectors to withstand a force that would makes them slide against each other in opposite directions (in the *xy*-plane).
 Note that if both connectors are locked, the effective shear strength corresponds to the sum of both connectors' `shearStrength` fields.
-The default value -1 indicates an infinitely strong docking mechanism that does not break no matter how much force is applied.
+The default value -1 indicates an infinitely strong docking mechanism that does not break no matter how much force is applied (in case both connectors are locked, it is sufficient to set the `shearStrength` field of one of the connectors to -1)..
 
 ### Connector Axis System
 
@@ -134,7 +137,7 @@ If these design criteria are not met, the [Connector](#connector) nodes will not
 
 %end
 
-> **Note**: To be functional, a [Connector](#connector) node requires the presence of a [Physics](physics.md) node in its parent node.
+> **Note**: To be functional, at least one of the two [Connector](#connector) nodes requires the presence of a [Physics](physics.md) node in its parent node.
 But it is not necessary to add a [Physics](physics.md) node to the [Connector](#connector) itself.
 
 ### Connector Functions
@@ -144,7 +147,7 @@ But it is not necessary to add a [Physics](physics.md) node to the [Connector](#
 #### `wb_connector_get_presence_sampling_period`
 #### `wb_connector_get_presence`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -210,7 +213,7 @@ public class Connector extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_connector_enable_presence(tag, sampling_period)
 wb_connector_disable_presence(tag)
 period = wb_connector_get_presence_sampling_period(tag)
@@ -277,7 +280,7 @@ rotation_aligned := the n-ways rotational angle is within tolerance
 #### `wb_connector_lock`
 #### `wb_connector_unlock`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -335,7 +338,7 @@ public class Connector extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_connector_lock(tag)
 wb_connector_unlock(tag)
 ```

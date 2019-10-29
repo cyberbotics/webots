@@ -96,7 +96,7 @@ Then, after closing the window, the overlay will be automatically restored.
 #### `wb_range_finder_disable`
 #### `wb_range_finder_get_sampling_period`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -158,7 +158,7 @@ public class RangeFinder extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_range_finder_enable(tag, sampling_period)
 wb_range_finder_disable(tag)
 period = wb_range_finder_get_sampling_period(tag)
@@ -193,7 +193,7 @@ The `wb_range_finder_get_sampling_period` function returns the period given into
 
 #### `wb_range_finder_get_fov`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -247,7 +247,7 @@ public class RangeFinder extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 fov = wb_range_finder_get_fov(tag)
 ```
 
@@ -274,7 +274,7 @@ These functions allow the controller to get the value of the field of view (fov)
 #### `wb_range_finder_get_width`
 #### `wb_range_finder_get_height`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -332,7 +332,7 @@ public class RangeFinder extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 width = wb_range_finder_get_width(tag)
 height = wb_range_finder_get_height(tag)
 ```
@@ -360,7 +360,7 @@ These functions return the width and height of a range-finder image as defined i
 #### `wb_range_finder_get_min_range`
 #### `wb_range_finder_get_max_range`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -418,7 +418,7 @@ public class RangeFinder extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 min_range = wb_range_finder_get_min_range(tag)
 max_range = wb_range_finder_get_max_range(tag)
 ```
@@ -446,7 +446,7 @@ These functions return the minRange and maxRange parameters of a range-finder de
 #### `wb_range_finder_get_range_image`
 #### `wb_range_finder_image_get_depth`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -506,7 +506,7 @@ public class RangeFinder extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 image = wb_range_finder_get_range_image(tag)
 depth = wb_range_finder_image_get_depth(image, width, x, y)
 ```
@@ -555,7 +555,7 @@ Their content are identical but their handling is of course different.
 
 #### `wb_range_finder_save_image`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -609,7 +609,7 @@ public class RangeFinder extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 success = wb_range_finder_save_image(tag, 'filename', quality)
 ```
 

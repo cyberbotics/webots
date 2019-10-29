@@ -15,7 +15,7 @@ This abstract node (not instanciable) represents a robot device (actuator and/or
 
 #### `wb_device_get_model`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -69,7 +69,7 @@ public class Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 model = wb_device_get_model(tag)
 ```
 
@@ -97,7 +97,7 @@ This function returns NULL if the WbDeviceTag does not match a valid device, or 
 
 #### `wb_device_get_name`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -151,7 +151,7 @@ public class Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 name = wb_device_get_name(tag)
 ```
 
@@ -179,7 +179,7 @@ This function returns NULL if the WbDeviceTag does not match a valid device.
 
 #### `wb_device_get_node_type`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -233,7 +233,7 @@ public class Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 type = wb_device_get_node_type(tag)
 ```
 

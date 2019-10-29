@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/ipr
@@ -112,7 +112,7 @@ PROTO IprHd6m90 [
               roughness 0.2
               baseColorMap ImageTexture {
                 url [
-                  "textures/neuronics_logo.png"
+                  "textures/neuronics_logo.jpg"
                 ]
                 repeatS FALSE
                 repeatT FALSE

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -148,8 +148,8 @@ void WbTemplateManager::recursiveFieldSubscribeToRegenerateNode(WbNode *node, bo
       case WB_MF_NODE: {
         WbMFNode *mfnode = static_cast<WbMFNode *>(field->value());
         assert(mfnode);
-        for (int i = 0; i < mfnode->size(); i++) {
-          WbNode *subnode = mfnode->item(i);
+        for (int j = 0; j < mfnode->size(); j++) {
+          WbNode *subnode = mfnode->item(j);
           if (directSubscriptionEnabled || nodeNeedsToSubscribe(subnode))
             subscribe(subnode, subscribedDescendant || (subscribedNode && field->isTemplateRegenerator()));
         }
@@ -402,10 +402,9 @@ void WbTemplateManager::regenerateNode(WbNode *node) {
   // if the viewpoint is being re-generated we need to re-get the correct pointer, not the old dangling pointer from before
   // the node was regenerated
   viewpoint = world->viewpoint();
-  if (isFollowedSolid) {
-    WbSolid *newSolid = dynamic_cast<WbSolid *>(newNode);
+  if (isFollowedSolid)
     viewpoint->startFollowUp(newSolid, true);
-  } else if (!followedSolidName.isEmpty() && viewpoint->followedSolid() == NULL)
+  else if (!followedSolidName.isEmpty() && viewpoint->followedSolid() == NULL)
     // restore follow solid
     viewpoint->startFollowUp(WbSolid::findSolidFromUniqueName(followedSolidName), true);
 

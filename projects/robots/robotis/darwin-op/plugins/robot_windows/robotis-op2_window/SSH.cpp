@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -89,6 +89,44 @@ int SSH::openSSHSession(const QString &IPAddress, const QString &username, const
   return 1;
 }
 
+#if LIBSSH_VERSION_INT >= SSH_VERSION_INT(0, 9, 0)
+int SSH::verifyKnownHost() {
+  int state;
+
+  state = ssh_session_is_known_server(mSSHSession);
+
+  switch (state) {
+    case SSH_KNOWN_HOSTS_OK:
+      break;  // ok
+    case SSH_KNOWN_HOSTS_OTHER:
+    case SSH_KNOWN_HOSTS_CHANGED:
+      cerr << "SSH-RSA key has changed." << endl;
+      cerr << "For security reasons, the connection will be stopped" << endl;
+      cerr << "Please remove the old SSH-RSA key from the known_hosts file ("
+#ifdef _WIN32
+              "C:\\Users\\<username>\\.ssh\\known_hosts"
+#elif defined(__APPLE__)
+              "/Users/<username>/.ssh/known_hosts"
+#else  // Linux
+              "/home/<username>/.ssh/known_hosts"
+#endif
+              ")."
+           << endl;
+      return -1;
+    case SSH_KNOWN_HOSTS_NOT_FOUND:
+    case SSH_KNOWN_HOSTS_UNKNOWN:
+      if (ssh_session_update_known_hosts(mSSHSession) != SSH_OK) {
+        mError = strerror(errno);
+        return -1;
+      }
+      break;
+    case SSH_KNOWN_HOSTS_ERROR:
+      mError = ssh_get_error(mSSHSession);
+      return -1;
+  }
+  return 0;
+}
+#else  // SSH version < 0.9.0
 int SSH::verifyKnownHost() {
   int state;
 
@@ -125,6 +163,7 @@ int SSH::verifyKnownHost() {
   }
   return 0;
 }
+#endif
 
 void SSH::closeSSHSession() {
   if (mSSHSession != NULL) {
@@ -447,7 +486,6 @@ int SSH::updateWrapper(const QString &username, const QString &password) {
   const QString webotsHomePath = QProcessEnvironment::systemEnvironment().value("WEBOTS_HOME");
   const QString managerDir = webotsHomePath + "/projects/robots/robotis/darwin-op/libraries/managers";
   const QString robotisDir = webotsHomePath + "/projects/robots/robotis/darwin-op";
-  const QString controllerDir = webotsHomePath + "/projects/robots/robotis/darwin-op/controllers";
   const QString installArchive =
     QDir::tempPath() + "/webots_robotis_" + QString::number((int)QCoreApplication::applicationPid()) + "_install.zip";
 

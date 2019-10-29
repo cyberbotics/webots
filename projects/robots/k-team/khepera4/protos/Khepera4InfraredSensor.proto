@@ -1,12 +1,13 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 
 PROTO Khepera4InfraredSensor [
-  field SFVec3f translation 0 0 0
-  field SFRotation rotation  0 1 0 0
-  field SFString name "infrared sensor"
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 1 0 0
+  field SFString   name        "infrared sensor"
+  field SFBool     shortRange  FALSE
 ]
 {
   DistanceSensor {
@@ -27,6 +28,26 @@ PROTO Khepera4InfraredSensor [
         }
       }
     ]
+    %{ if fields.shortRange.value then }%
+    lookupTable [
+      0 964 0.001
+      0.002 958 0.0035
+      0.005 954 0.0045
+      0.01 823 0.085
+      0.015 424 0.124
+      0.02 293 0.127
+      0.03 153 0.126
+      0.04 105 0.151
+      0.05 81 0.168
+      0.06 66 0.174
+      0.07 55 0.214
+      0.08 50 0.234
+      0.09 41 0.292
+      0.1 38 0.28
+      0.15 33 0.305
+      0.2 29 0.41
+    ]
+    %{ else }%
     lookupTable [
       0 1023 0
       0.01 1010 0.005
@@ -42,5 +63,6 @@ PROTO Khepera4InfraredSensor [
       0.15 180 0.075
       0.2 120 0.1
     ]
+    %{ end }%
   }
 }

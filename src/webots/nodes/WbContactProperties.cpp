@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -113,7 +113,7 @@ void WbContactProperties::updateFrictionRotation() {
 }
 
 void WbContactProperties::updateBounce() {
-  if (WbFieldChecker::checkDoubleInRangeWithIncludedBounds(this, mBounce, 0.0, 1.0, 0.5))
+  if (WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mBounce, 0.0, 1.0, 0.5))
     return;
 
   if (areOdeObjectsCreated())
@@ -123,7 +123,7 @@ void WbContactProperties::updateBounce() {
 }
 
 void WbContactProperties::updateBounceVelocity() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mBounceVelocity, 0.01))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mBounceVelocity, 0.01))
     return;
 
   if (areOdeObjectsCreated())
@@ -146,7 +146,7 @@ void WbContactProperties::updateForceDependentSlip() {
 }
 
 void WbContactProperties::updateSoftCfm() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mSoftCfm, 0.001))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mSoftCfm, 0.001))
     return;
   if (areOdeObjectsCreated())
     emit valuesChanged();
@@ -155,7 +155,7 @@ void WbContactProperties::updateSoftCfm() {
 }
 
 void WbContactProperties::updateSoftErp() {
-  if (WbFieldChecker::checkDoubleInRangeWithIncludedBounds(this, mSoftErp, 0.0, 1.0, 0.2))
+  if (WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mSoftErp, 0.0, 1.0, 0.2))
     return;
 
   if (areOdeObjectsCreated())

@@ -79,7 +79,7 @@ In addition it is highly recommended to choose -1 for the baudRate, in order to 
 
 #### `wb_emitter_send`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -133,7 +133,7 @@ public class Emitter extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 success = wb_emitter_send(tag, data)
 ```
 
@@ -209,7 +209,7 @@ Here is an example of sending a Java string in a way that is compatible with a C
 
 > **Note** [Matlab]: If you want to send strings you have to convert them to unsigned integer arrays:
 
-> ```matlab
+> ```MATLAB
 >   wb_emitter_send(emitter, uint8('Hello World'));
 > ```
 
@@ -218,7 +218,7 @@ Here is an example of sending a Java string in a way that is compatible with a C
 #### `wb_emitter_set_channel`
 #### `wb_emitter_get_channel`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -284,7 +284,7 @@ public class Emitter extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_CHANNEL_BROADCAST
 
 wb_emitter_set_channel(tag, channel)
@@ -322,7 +322,7 @@ The `wb_emitter_get_channel` function returns the current channel number of the 
 #### `wb_emitter_set_range`
 #### `wb_emitter_get_range`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -380,7 +380,7 @@ public class Emitter extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_emitter_set_range(tag, range)
 range = wb_emitter_get_range(tag)
 ```
@@ -413,7 +413,7 @@ For both the `wb_emitter_set_range` and `emitter_get_range` functions, a value o
 
 #### `wb_emitter_get_buffer_size`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -467,7 +467,7 @@ public class Emitter extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 size = wb_emitter_get_buffer_size(tag)
 ```
 

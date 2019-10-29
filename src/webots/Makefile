@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ endif
 
 WB_ODE_INCLUDE           = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) $(CONTROLLER_INCLUDE) -Iapp -Icore -Imaths -Inodes -Inodes/utils -Ivrml -Iengine
 WB_MATHS_INCLUDE         = $(QT_CORE_INCLUDE)
-WB_CORE_INCLUDE          = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_GUI_INCLUDE) $(LUA_INCLUDE)
+WB_CORE_INCLUDE          = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_GUI_INCLUDE) $(LUA_INCLUDE) -Iexternal/compilation_timestamp
 WB_UTIL_INCLUDE          = $(QT_CORE_INCLUDE) $(ODE_INCLUDE) -Icore
 WB_WREN_INCLUDE          = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_OPENGL_INCLUDE) $(WREN_INCLUDE) $(GLU_INCLUDE) -Icore -Imaths -Ivrml -Iutil
 WB_VRML_INCLUDE          = $(QT_CORE_INCLUDE) -Icore -Imaths -Ivrml
@@ -85,7 +85,7 @@ QT_WEBSOCKETS_INCLUDE = -isystem $(FRAMEWORKS)/QtWebSockets.framework/Headers
 QT_XML_INCLUDE     = -isystem $(FRAMEWORKS)/QtXml.framework/Headers
 FREETYPE_INCLUDE   = -I$(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/include
 GLU_INCLUDE        = -I$(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/include
-LD_FLAGS           = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -L$(WEBOTS_PATH)/lib -lode -lopenal -lOIS -lcrypto -lpico -llua -lassimp -Xlinker -rpath -Xlinker @loader_path/../..
+LD_FLAGS           = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -L$(WEBOTS_PATH)/lib -lopenal -lOIS -lcrypto -lpico -llua -lassimp -Xlinker -rpath -Xlinker @loader_path/../..
 MOC                =  $(WEBOTS_PATH)/bin/qt/moc
 LIBS_FRAMEWORKS    = -F$(FRAMEWORKS) -framework OpenGL -framework QtCore -framework QtGui -framework QtPrintSupport -framework QtNetwork -framework QtOpenGL -framework QtWebSockets -framework QtWidgets -framework QtWebChannel -framework QtWebEngine -framework QtWebEngineCore -framework QtWebEngineWidgets  -framework QtXml -framework IOKit -framework CoreFoundation -framework Cocoa
 LIBS              += $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/objs/.libs/libfreetype.a $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/libminiglu.a -bind_at_load $(LIBS_FRAMEWORKS) $(LIB_WREN)
@@ -94,6 +94,15 @@ CXXFLAGS           = -std=c++11 -F$(FRAMEWORKS) -x objective-c++
 EXTRA_CMD          = cp launcher/webots-mac.sh $(WEBOTS_PATH)/webots && chmod 755 $(WEBOTS_PATH)/webots
 FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
 QT_SOURCES         = WbRobotWindowTransportLayer.cpp
+ifeq ($(MAKECMDGOALS), profile)
+LIB_ODE = ../ode/libode.a
+LIBS += $(LIB_ODE)
+LD_FLAGS += -lpthread
+else
+LD_FLAGS += -lode
+endif
+# To compile with libpico without warnings about the "register" keyword.
+CFLAGS += -Wno-deprecated-register
 
 else ifeq ($(OSTYPE),linux)
 LIB_WREN           = ../wren/libwren.a ../glad/libglad.a
@@ -112,11 +121,17 @@ TARGET             = $(WEBOTS_PATH)/bin/webots-bin
 CFLAGS             = -fPIC
 CXXFLAGS           = -std=c++11
 MOC                = $(WEBOTS_PATH)/bin/qt/moc
-LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN) -Wl,-rpath $(WEBOTS_PATH)/lib -L$(WEBOTS_PATH)/lib -lQt5Core -lQt5Network -lQt5Gui -lQt5OpenGL -lQt5WebSockets -lQt5Widgets -lQt5PrintSupport -lQt5WebEngine -lQt5WebEngineCore -lQt5WebEngineWidgets -lQt5Multimedia -lQt5MultimediaWidgets -lQt5Sql -lQt5Sensors -lQt5WebChannel -lQt5Xml -lopenal -lGL -lode -lusb -lGLU -ldl -lpci -lOIS -lcrypto -lpico -lfreetype -lassimp
+LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN) -Wl,-rpath $(WEBOTS_PATH)/lib -L$(WEBOTS_PATH)/lib -lQt5Core -lQt5Network -lQt5Gui -lQt5OpenGL -lQt5WebSockets -lQt5Widgets -lQt5PrintSupport -lQt5WebEngine -lQt5WebEngineCore -lQt5WebEngineWidgets -lQt5Multimedia -lQt5MultimediaWidgets -lQt5Sql -lQt5Sensors -lQt5WebChannel -lQt5Xml -lopenal -lGL -lusb -lGLU -ldl -lOIS -lcrypto -lpico -lfreetype -lassimp -lrt
 LD_FLAGS           = -rdynamic
 EXTRA_CMD          = cp launcher/webots-linux.sh $(WEBOTS_PATH)/webots && chmod 755 $(WEBOTS_PATH)/webots
 FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
 QT_SOURCES         = WbRobotWindowTransportLayer.cpp
+ifeq ($(MAKECMDGOALS), profile)
+LIB_ODE = ../ode/libode.a
+LIBS += $(LIB_ODE) -lpthread
+else
+LIBS += -lode
+endif
 
 else ifeq ($(OSTYPE),windows)
 vpath %.c ../lib/Controller/api
@@ -155,9 +170,15 @@ EXTRA_CMD       += ; cp launcher/webots.bat $(TARGET_PATH)/webots.bat
 else
 EXTRA_CMD       += ; cp launcher/webots_debug.bat $(TARGET_PATH)/webots_debug.bat
 endif
+ifeq ($(MAKECMDGOALS), profile)
+LIB_ODE = ../ode/ode.a
+LIBS += $(LIB_ODE) -lpthread
+else
+LIBS += -lode
+endif
 endif
 
-ALL_INCLUDE        = -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem external/siphash -isystem external/stb_image -Igui -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Isound -Iuser_commands -Ivrml -Iutil
+ALL_INCLUDE        = -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem external/siphash -isystem external/stb_image -Igui -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Isound -Iuser_commands -Ivrml -Iutil -Iexternal/compilation_timestamp
 
 CONTROLLER_INCLUDE = -I$(WEBOTS_PATH)/include/controller/c
 ODE_INCLUDE        = -Iode -isystem $(WEBOTS_PATH)/include/ode
@@ -175,7 +196,9 @@ endif
 
 ifeq ($(MAKECMDGOALS),profile)
 CFLAGS += -pg -O3 -DNDEBUG
+ifneq ($(OSTYPE),darwin)
 LD_FLAGS += -pg
+endif
 endif
 
 ifeq ($(MAKECMDGOALS),release)
@@ -210,7 +233,6 @@ QT_SOURCES += \
   WbActionManager.cpp \
   WbAddInertiaMatrixDialog.cpp \
   WbAddNodeDialog.cpp \
-  WbAnchorParameter.cpp \
   WbAnimationRecorder.cpp \
   WbAppearance.cpp \
   WbApplication.cpp \
@@ -327,6 +349,7 @@ QT_SOURCES += \
   WbNodeOperations.cpp \
   WbNodePane.cpp \
   WbNodeReader.cpp \
+  WbNormal.cpp \
   WbOdeContext.cpp \
   WbOpenSampleWorldDialog.cpp \
   WbPaintTexture.cpp \
@@ -395,6 +418,7 @@ QT_SOURCES += \
   WbSplashScreen.cpp \
   WbSphere.cpp \
   WbSpotLight.cpp \
+  WbStreamingTcpServer.cpp \
   WbStringEditor.cpp \
   WbStreamingServer.cpp \
   WbSupervisorUtilities.cpp \
@@ -458,6 +482,7 @@ OTHER_SOURCES = \
   WbControllerPlugin.cpp \
   WbDataPacket.cpp \
   WbDevice.cpp \
+  WbDesktopServices.cpp \
   WbDictionary.cpp \
   WbDisplayFont.cpp \
   WbDragOverlayEvent.cpp \
@@ -466,7 +491,8 @@ OTHER_SOURCES = \
   WbFieldModel.cpp \
   WbFileUtil.cpp \
   WbHiddenKinematicParameters.cpp \
-  WbUrl.cpp \
+  WbHttpReply.cpp \
+  WbImage.cpp \
   WbIniParser.cpp \
   WbKinematicDifferentialWheels.cpp \
   WbLanguage.cpp \
@@ -517,11 +543,11 @@ OTHER_SOURCES = \
   WbTranslator.cpp \
   WbTriangleMesh.cpp \
   WbTriangleMeshCache.cpp \
+  WbUrl.cpp \
   WbVector4.cpp \
   WbVersion.cpp \
   WbVrmlWriter.cpp \
   WbWaveFile.cpp \
-  WbWebotsInstancesCounter.cpp \
   WbWheelEvent.cpp \
   WbWrenAbstractPostProcessingEffect.cpp \
   WbWrenBloom.cpp \
@@ -547,6 +573,9 @@ ifeq ($(OSTYPE),windows)
 OTHER_SOURCES += \
   WbMicrosoftTextToSpeech.cpp \
   WbWindowsRegistry.cpp
+else
+OTHER_SOURCES += \
+  WbPosixSharedMemory.cpp
 endif
 
 MOC_FILES=$(addprefix $(OBJDIR)/,$(notdir $(QT_SOURCES:%.cpp=%.moc.cpp)))
@@ -580,7 +609,7 @@ endif
 
 debug profile release: $(TARGET)
 
-$(TARGET): $(OBJECTS) $(LIB_WREN)
+$(TARGET): $(OBJECTS) $(LIB_WREN) $(LIB_ODE)
 	@echo "# linking " $@
 	@$(CXX) $(LD_FLAGS) -o $(TARGET) $(addprefix $(OBJDIR)/, $(OBJECTS)) $(LIBS)
 	@$(EXTRA_CMD)

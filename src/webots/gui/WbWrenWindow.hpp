@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -47,8 +47,6 @@ public:
   void initVideoPBO();
   void completeVideoPBOProcessing(bool canceled);
   void requestGrabWindowBuffer();
-  void lockPBOMutex(int index) { mPBOMutexes[index].lock(); }
-  void unlockPBOMutex(int index) { mPBOMutexes[index].unlock(); }
 
   void updateWrenViewportDimensions();
 
@@ -58,7 +56,7 @@ public slots:
   virtual void renderLater();
 
 signals:
-  void videoImageReady(unsigned char *frame, int PBOIndex);
+  void videoImageReady(unsigned char *frame);
   void resized();
 
 protected:
@@ -80,7 +78,6 @@ private:
   int mSnapshotBufferWidth;
   int mSnapshotBufferHeight;
   GLuint mVideoPBOIds[2];
-  QMutex mPBOMutexes[2];
   int mVideoWidth;
   int mVideoHeight;
   int mVideoPBOIndex;

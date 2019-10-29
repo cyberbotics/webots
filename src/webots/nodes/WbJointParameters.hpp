@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,11 +23,11 @@ class WbJointParameters : public WbBaseNode {
   Q_OBJECT
 
 public:
-  virtual ~WbJointParameters();
-  WbJointParameters(const QString &modelName, WbTokenizer *tokenizer = NULL);
+  explicit WbJointParameters(const QString &modelName, WbTokenizer *tokenizer = NULL);
   explicit WbJointParameters(WbTokenizer *tokenizer = NULL);
   WbJointParameters(const WbJointParameters &other);
   explicit WbJointParameters(const WbNode &other);
+  virtual ~WbJointParameters();
 
   int nodeType() const override { return WB_NODE_JOINT_PARAMETERS; }
   void preFinalize() override;
@@ -39,7 +39,7 @@ public:
   double springConstant() const { return mSpringConstant->value(); }
   double dampingConstant() const { return mDampingConstant->value(); }
   double staticFriction() const { return mStaticFriction->value(); }
-  const WbVector3 &axis() const { return mAxis->value(); }
+  const WbVector3 axis() const { return mAxis ? mAxis->value() : WbVector3(); }
 
   void setPosition(double p) { mPosition->setValue(p); }
   void setPositionFromOde(double p) { mPosition->setValueFromOde(p); }

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -48,12 +48,11 @@ public:
   QAction *crossCompileAction() const { return mCrossCompileAction; }
   QAction *cleanCrossCompilationAction() const { return mCleanCrossCompilationAction; }
 
+  void updateGui() override;
+
 signals:
   void reloadRequested();
   void resetRequested();
-
-protected:
-  void updateGui() override;
 
 private:
   QAction *mBuildAction, *mCleanAction, *mMakeJarAction;

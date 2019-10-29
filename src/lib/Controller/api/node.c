@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -114,6 +114,8 @@ const char *wb_node_get_name(WbNodeType t) {
       return "Material";
     case WB_NODE_MICROPHONE:
       return "Microphone";
+    case WB_NODE_NORMAL:
+      return "Normal";
     case WB_NODE_PBR_APPEARANCE:
       return "PBRAppearance";
     case WB_NODE_PEN:

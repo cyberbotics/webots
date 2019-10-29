@@ -8,7 +8,7 @@ The UV-mapping is defined in a metric way (the textures are not deformed - the r
 
 %figure
 
-![SolidBox](images/objects/solids/SolidBox/model.png)
+![SolidBox](images/objects/solids/SolidBox/model.thumbnail.png)
 
 %end
 
@@ -23,10 +23,11 @@ SolidBox {
   SFString   contactMaterial "default"
   SFNode     appearance      PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics         NULL
+  SFBool     castShadows     TRUE
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/solids/protos/SolidBox.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidBox.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/solids/protos/SolidBox.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -37,6 +38,8 @@ SolidBox {
 
 - `appearance`: Defines the appearance of the box.
 
+- `castShadows`: Defines whether this object should cast shadows.
+
 ## SolidPipe
 
 A pipe object implemented at the Solid-node level.
@@ -46,7 +49,7 @@ The 'accuracy' field defines how much boxes position can differ on y axis: a 0 v
 
 %figure
 
-![SolidPipe](images/objects/solids/SolidPipe/model.png)
+![SolidPipe](images/objects/solids/SolidPipe/model.thumbnail.png)
 
 %end
 
@@ -68,7 +71,7 @@ SolidPipe {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/solids/protos/SolidPipe.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidPipe.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/solids/protos/SolidPipe.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -94,7 +97,7 @@ The box has similar properties as the VRML Box node in term of axis and fields.
 
 %figure
 
-![SolidRoundedBox](images/objects/solids/SolidRoundedBox/model.png)
+![SolidRoundedBox](images/objects/solids/SolidRoundedBox/model.thumbnail.png)
 
 %end
 
@@ -114,7 +117,7 @@ SolidRoundedBox {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/solids/protos/SolidRoundedBox.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidRoundedBox.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/solids/protos/SolidRoundedBox.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -137,7 +140,7 @@ Physically, the SolidTorus is defined as a set of N spheres, where N is the subd
 
 %figure
 
-![SolidTorus](images/objects/solids/SolidTorus/model.png)
+![SolidTorus](images/objects/solids/SolidTorus/model.thumbnail.png)
 
 %end
 
@@ -157,7 +160,7 @@ SolidTorus {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/solids/protos/SolidTorus.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidTorus.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/solids/protos/SolidTorus.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

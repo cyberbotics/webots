@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ namespace WbPrecision {
   // `R` programming language set this to k * epsilon, where k is an arbitrary constant set to 1000.
   // cf. https://www.rdocumentation.org/packages/scales/versions/0.4.1/topics/zero_range
   // In Webots, it turns out we need to set this constant to 10000 to fix issue
-  // https://github.com/omichel/webots/issues/6519
+  // https://github.com/omichel/webots-dev/issues/6519
 
   const double DOUBLE_EQUALITY_TOLERANCE = 10000.0 * std::numeric_limits<double>::epsilon();
 
@@ -37,6 +37,8 @@ namespace WbPrecision {
   //     - a string <-> floating point conversion without loosing precision.
   //     - the result is the shortest possible string.
   QString doubleToString(double value, Level level);
+
+  double roundValue(double value, Level level);
 
 };  // namespace WbPrecision
 

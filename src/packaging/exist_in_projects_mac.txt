@@ -1,2 +1,9 @@
 projects/default/libraries/ros/libroscpp.dylib
 projects/default/controllers/ros/include/xmlrpcpp
+projects/default/controllers/ros/include/geometry_msgs
+projects/default/controllers/ros/include/log4cxx
+projects/default/controllers/ros/include/ros
+projects/default/controllers/ros/include/rosconsole
+projects/default/controllers/ros/include/rosgraph_msgs
+projects/default/controllers/ros/include/sensor_msgs
+projects/default/controllers/ros/include/std_msgs

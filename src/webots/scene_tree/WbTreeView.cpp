@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -101,7 +101,7 @@ void WbTreeView::keyPressEvent(QKeyEvent *event) {
     else if (isExpanded(currentIndex()))
       collapse(currentIndex());
   } else if (event->key() == Qt::Key_Right && isExpanded(currentIndex()))
-    setCurrentIndex(currentIndex().child(0, 0));
+    setCurrentIndex(currentIndex().model()->index(0, 0, currentIndex()));
   else if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter)
     emit doubleClickOrEnterPressed();
   else

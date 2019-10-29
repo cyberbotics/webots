@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ class WbWebotsUpdateDialog : public QDialog {
   Q_OBJECT
 
 public:
-  WbWebotsUpdateDialog(bool displayCheckBox, QWidget *parent = NULL);
+  explicit WbWebotsUpdateDialog(bool displayCheckBox, QWidget *parent = NULL);
   virtual ~WbWebotsUpdateDialog();
 
 private slots:

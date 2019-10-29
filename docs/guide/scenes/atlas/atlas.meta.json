@@ -1,8 +1,10 @@
 {
+  "robotID": "n11", 
   "name": "atlas", 
   "devices": [
     {
-      "transformID": "n44", 
+      "transformID": "n40", 
+      "initialPosition": 0, 
       "name": "BackLbz", 
       "maxPosition": 0.610865, 
       "position": 0, 
@@ -11,7 +13,8 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n67", 
+      "transformID": "n61", 
+      "initialPosition": 0, 
       "name": "BackMby", 
       "maxPosition": 1.28, 
       "position": 0, 
@@ -20,7 +23,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n88", 
+      "transformID": "n81", 
+      "initialPosition": 0, 
       "name": "BackUbx", 
       "maxPosition": 0.790809, 
       "position": 0, 
@@ -29,7 +33,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n252", 
+      "transformID": "n229", 
+      "initialPosition": 0, 
       "name": "LArmElx", 
       "maxPosition": 2.35619, 
       "position": 0, 
@@ -38,7 +43,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n233", 
+      "transformID": "n211", 
+      "initialPosition": 0, 
       "name": "LArmEly", 
       "maxPosition": 3.14159, 
       "position": 0, 
@@ -47,7 +53,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n327", 
+      "transformID": "n297", 
+      "initialPosition": 0, 
       "name": "LArmMwx", 
       "maxPosition": 1.571, 
       "position": 0, 
@@ -56,7 +63,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n212", 
+      "transformID": "n191", 
+      "initialPosition": 0, 
       "name": "LArmShx", 
       "maxPosition": 1.74533, 
       "position": 0, 
@@ -65,7 +73,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n193", 
+      "transformID": "n173", 
+      "initialPosition": 0, 
       "name": "LArmUsy", 
       "maxPosition": 1.9635, 
       "position": 0, 
@@ -74,7 +83,8 @@
       "axis": "0 0.5 0.866025"
     }, 
     {
-      "transformID": "n301", 
+      "transformID": "n273", 
+      "initialPosition": 0, 
       "name": "LArmUwy", 
       "maxPosition": 1.571, 
       "position": 0, 
@@ -83,7 +93,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n725", 
+      "transformID": "n660", 
+      "initialPosition": 0, 
       "name": "LLegKny", 
       "maxPosition": 2.45, 
       "position": 0, 
@@ -92,7 +103,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n768", 
+      "transformID": "n700", 
+      "initialPosition": 0, 
       "name": "LLegLax", 
       "maxPosition": 0.436, 
       "position": 0, 
@@ -101,7 +113,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n688", 
+      "transformID": "n626", 
+      "initialPosition": 0, 
       "name": "LLegLhy", 
       "maxPosition": 0.524, 
       "position": 0, 
@@ -110,7 +123,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n648", 
+      "transformID": "n590", 
+      "initialPosition": 0, 
       "name": "LLegMhx", 
       "maxPosition": 0.495, 
       "position": 0, 
@@ -119,7 +133,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n749", 
+      "transformID": "n682", 
+      "initialPosition": 0, 
       "name": "LLegUay", 
       "maxPosition": 0.698, 
       "position": 0, 
@@ -128,7 +143,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n622", 
+      "transformID": "n566", 
+      "initialPosition": 0, 
       "name": "LLegUhz", 
       "maxPosition": 1.14, 
       "position": 0, 
@@ -137,7 +153,8 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n368", 
+      "transformID": "n335", 
+      "initialPosition": 0, 
       "name": "NeckAy", 
       "maxPosition": 1.13446401, 
       "position": 0, 
@@ -146,7 +163,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n531", 
+      "transformID": "n481", 
+      "initialPosition": 0, 
       "name": "RArmElx", 
       "maxPosition": 0, 
       "position": 0, 
@@ -155,7 +173,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n512", 
+      "transformID": "n463", 
+      "initialPosition": 0, 
       "name": "RArmEly", 
       "maxPosition": 3.14159, 
       "position": 0, 
@@ -164,7 +183,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n578", 
+      "transformID": "n525", 
+      "initialPosition": 0, 
       "name": "RArmMwx", 
       "maxPosition": 0.436, 
       "position": 0, 
@@ -173,7 +193,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n491", 
+      "transformID": "n443", 
+      "initialPosition": 0, 
       "name": "RArmShx", 
       "maxPosition": 1.39626, 
       "position": 0, 
@@ -182,7 +203,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n472", 
+      "transformID": "n425", 
+      "initialPosition": 0, 
       "name": "RArmUsy", 
       "maxPosition": 1.9635, 
       "position": 0, 
@@ -191,7 +213,8 @@
       "axis": "0 0.5 -0.866025"
     }, 
     {
-      "transformID": "n552", 
+      "transformID": "n501", 
+      "initialPosition": 0, 
       "name": "RArmUwy", 
       "maxPosition": 1.571, 
       "position": 0, 
@@ -200,7 +223,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n922", 
+      "transformID": "n840", 
+      "initialPosition": 0, 
       "name": "RLegKny", 
       "maxPosition": 2.45, 
       "position": 0, 
@@ -209,7 +233,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n972", 
+      "transformID": "n886", 
+      "initialPosition": 0, 
       "name": "RLegLax", 
       "maxPosition": 0.436, 
       "position": 0, 
@@ -218,7 +243,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n885", 
+      "transformID": "n806", 
+      "initialPosition": 0, 
       "name": "RLegLhy", 
       "maxPosition": 0.524, 
       "position": 0, 
@@ -227,7 +253,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n845", 
+      "transformID": "n770", 
+      "initialPosition": 0, 
       "name": "RLegMhx", 
       "maxPosition": 0.47, 
       "position": 0, 
@@ -236,7 +263,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n946", 
+      "transformID": "n862", 
+      "initialPosition": 0, 
       "name": "RLegUay", 
       "maxPosition": 0.698, 
       "position": 0, 
@@ -245,7 +273,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n819", 
+      "transformID": "n746", 
+      "initialPosition": 0, 
       "name": "RLegUhz", 
       "maxPosition": 0.32, 
       "position": 0, 

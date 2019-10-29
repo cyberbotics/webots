@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@
 #define MAX_FORCE 40
 #define CENTERING_ANGLE 0.7
 #define CENTERING_FORCE 4
-#define TIME_STEP 64
+#define TIME_STEP 32
 
 static WbDeviceTag horizontal_motor, horizontal_position_sensor, hip;
 static double previous_position, differential, integral_sum;

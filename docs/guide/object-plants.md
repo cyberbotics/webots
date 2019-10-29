@@ -6,7 +6,7 @@ Five sun flowers into a pot (0.17 x 0.95 x 0.17 m).
 
 %figure
 
-![BunchOfSunFlowers](images/objects/plants/BunchOfSunFlowers/model.png)
+![BunchOfSunFlowers](images/objects/plants/BunchOfSunFlowers/model.thumbnail.png)
 
 %end
 
@@ -23,7 +23,7 @@ BunchOfSunFlowers {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/plants/protos/BunchOfSunFlowers.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/plants/protos/BunchOfSunFlowers.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/plants/protos/BunchOfSunFlowers.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -40,7 +40,7 @@ A potted tree (0.3 x 1.3 x 0.3 m).
 
 %figure
 
-![PottedTree](images/objects/plants/PottedTree/model.png)
+![PottedTree](images/objects/plants/PottedTree/model.thumbnail.png)
 
 %end
 
@@ -59,7 +59,7 @@ PottedTree {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/plants/protos/PottedTree.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/plants/protos/PottedTree.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/plants/protos/PottedTree.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

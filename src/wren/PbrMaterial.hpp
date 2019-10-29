@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,8 +31,8 @@ namespace wren {
     void setTextureCubeMap(TextureCubeMap *texture, size_t index) override;
 
     // Encapsulate memory management
-    static PbrMaterial *createMaterial() { return new PbrMaterial(); }
-    static void deletePhongMaterial(PbrMaterial *PbrMaterial) { delete PbrMaterial; }
+    static PbrMaterial *createMaterial();
+    static void deleteMaterial(PbrMaterial *material);
     static size_t cachedItemCount() { return PbrMaterial::cCache.size(); }
     static void printCacheContents();
 
@@ -52,14 +52,15 @@ namespace wren {
 
     // Clear all the data but preserve the program
     void clearMaterial() override;
-
-    PbrMaterial();
-    ~PbrMaterial() { releaseMaterial(); }
     void bind(bool bindProgram = true) const override;
     size_t sortingId() const override;
     void updateTranslucency() override;
 
   private:
+    PbrMaterial();
+    ~PbrMaterial() {}
+    void init();
+
     static std::unordered_map<cache::Key, cache::PbrMaterialData> cCache;
     void releaseMaterial() override;
     void updateMaterial(const GlslLayout::PbrMaterial &material);

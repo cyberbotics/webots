@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -297,11 +297,6 @@ void quit(int sig) {
 
 int main(int argc, char **argv) {
   string model_name = "my_robot";
-
-  if (argc != 1) {
-    ROS_INFO("Usage: $ complete_test.");
-    return 1;
-  }
 
   ros::init(argc, argv, "complete_test", ros::init_options::AnonymousName);
   ros::NodeHandle n;

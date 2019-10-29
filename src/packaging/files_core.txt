@@ -1,12 +1,8 @@
-bin/
-bin/qt/
+bin/ [mac,linux]
+bin/qt/ [mac,linux]
 bin/qt/lrelease [mac,linux,exe] # allow users to create translations in their own language
 bin/qt/lupdate [mac,linux,exe]
-# bin/qt/lupdate.exe.manifest [windows]
 bin/qt/moc [mac,linux,exe]
-
-change_logs/
-change_logs/*.html
 
 include/
 include/ode/
@@ -114,41 +110,41 @@ lib/libnihzip.dylib [mac]
 lib/libOIS-1.4.0.so [linux]
 lib/libOIS.dylib [mac]
 lib/libode.so [linux]
-lib/libode.3.dylib [mac]
+lib/libode.dylib [mac]
 lib/libpico.so [linux]
 lib/libpico.dylib [mac]
 lib/libssh.4.dylib [mac]
-lib/libopencv_core.so.2.4.3 [linux]
-lib/libopencv_imgproc.so.2.4.3 [linux]
+lib/libopencv_core.so* [linux]
+lib/libopencv_imgproc.so* [linux]
 lib/libopencv_core.2.4.3.dylib [mac]
 lib/libopencv_imgproc.2.4.3.dylib [mac]
-lib/libQt5Concurrent.so.5 [linux]
-lib/libQt5Core.so.5 [linux]
-lib/libQt5DBus.so.5 [linux]
-lib/libQt5Gui.so.5 [linux]
-lib/libQt5Multimedia.so.5 [linux]
-lib/libQt5MultimediaWidgets.so.5 [linux]
-lib/libQt5Network.so.5 [linux]
-lib/libQt5OpenGL.so.5 [linux]
-lib/libQt5Positioning.so.5 [linux]
-lib/libQt5PrintSupport.so.5 [linux]
-lib/libQt5Qml.so.5 [linux]
-lib/libQt5Quick.so.5 [linux]
-lib/libQt5QuickWidgets.so.5 [linux]
-lib/libQt5Sensors.so.5 [linux]
-lib/libQt5Sql.so.5 [linux]
-lib/libQt5WebChannel.so.5 [linux]
-lib/libQt5WebEngine.so.5 [linux]
-lib/libQt5WebEngineCore.so.5 [linux]
-lib/libQt5WebEngineWidgets.so.5 [linux]
-lib/libQt5WebSockets.so.5 [linux]
-lib/libQt5Widgets.so.5 [linux]
-lib/libQt5XcbQpa.so.5 [linux]
-lib/libQt5Xml.so.5 [linux]
-lib/libicudata.so.56 [linux]
-lib/libicui18n.so.56 [linux]
-lib/libicuuc.so.56 [linux]
-lib/libopenal.so [linux]
+lib/libQt5Concurrent.so* [linux]
+lib/libQt5Core.so* [linux]
+lib/libQt5DBus.so* [linux]
+lib/libQt5Gui.so* [linux]
+lib/libQt5Multimedia.so* [linux]
+lib/libQt5MultimediaWidgets.so* [linux]
+lib/libQt5Network.so* [linux]
+lib/libQt5OpenGL.so* [linux]
+lib/libQt5Positioning.so* [linux]
+lib/libQt5PrintSupport.so* [linux]
+lib/libQt5Qml.so* [linux]
+lib/libQt5Quick.so* [linux]
+lib/libQt5QuickWidgets.so* [linux]
+lib/libQt5Sensors.so* [linux]
+lib/libQt5Sql.so* [linux]
+lib/libQt5WebChannel.so* [linux]
+lib/libQt5WebEngine.so* [linux]
+lib/libQt5WebEngineCore.so* [linux]
+lib/libQt5WebEngineWidgets.so* [linux]
+lib/libQt5WebSockets.so* [linux]
+lib/libQt5Widgets.so* [linux]
+lib/libQt5XcbQpa.so* [linux]
+lib/libQt5Xml.so* [linux]
+lib/libicudata.so* [linux]
+lib/libicui18n.so* [linux]
+lib/libicuuc.so* [linux]
+lib/libopenal.so* [linux]
 lib/libopenal.dylib [mac]
 lib/libssl.1.0.0.dylib [mac]
 lib/libcrypto.1.0.0.dylib [mac]
@@ -196,14 +192,17 @@ lib/python36/ [linux]
 lib/python36/*.py [linux]
 lib/python36/_*.so [linux]
 
-lib/python37/ [windows,mac]
-lib/python37/*.py [windows,mac]
+lib/python37/
+lib/python37/*.py
+lib/python37/_*.so [linux,mac]
 lib/python37/_*.pyd [windows]
-lib/python37/_*.so [mac]
+
+lib/python38/ [linux]
+lib/python38/*.py [linux]
+lib/python38/_*.so [linux]
 
 lib/matlab/
 lib/matlab/allincludes.h
-lib/matlab/mex_mingw64_c.xml [windows]
 lib/matlab/*.m
 
 resources/
@@ -219,7 +218,7 @@ resources/icons/light/*.png
 resources/images/
 resources/images/*.png
 resources/images/splash_images/
-resources/images/splash_images/*.png
+resources/images/splash_images/*.jpg
 resources/images/themes/
 resources/images/themes/*.png
 resources/fonts/
@@ -358,10 +357,8 @@ resources/web/streaming_viewer/style.css
 resources/web/templates/
 resources/web/templates/x3d_playback.html
 resources/web/wwi/
-resources/web/wwi/pause.png
-resources/web/wwi/play.png
 resources/web/wwi/request_methods.js
-resources/web/wwi/webots.js
+resources/web/wwi/webots.min.js
 resources/web/wwi/wwi.css
 resources/wren/
 resources/wren/meshes/

@@ -1,8 +1,6 @@
 """Supervisor of the Maze Runner benchmark."""
 
 from controller import Supervisor
-from controller import Field
-from controller import Node
 import os
 import sys
 
@@ -15,11 +13,14 @@ except ImportError:
     sys.stderr.write("Warning: 'robotbenchmark' module not found.\n")
     sys.exit(0)
 
+
 def isPositionChanged(v1, v2):
     return abs(v1[0] - v2[0]) > 0.001 or abs(v1[2] - v2[2]) > 0.001
 
+
 def isMazeEndReached(position):
     return position[0] < 0.60 and position[0] > 0.45 and position[2] < 0.15 and position[2] > -0.15
+
 
 robot = Supervisor()
 timestep = int(4 * robot.getBasicTimeStep())
@@ -36,12 +37,12 @@ topNodesCount = topChildrenField.getCount()
 for i in range(topNodesCount):
     node = topChildrenField.getMFNode(i)
     if node.getTypeName() == "MazeBlock":
-         object = {
-             "node": node,
-             "initialPosition": node.getPosition()
-         }
-         mazeBlocksList.append(object)
-         mazeBlocksListCount += 1
+        object = {
+            "node": node,
+            "initialPosition": node.getPosition()
+        }
+        mazeBlocksList.append(object)
+        mazeBlocksListCount += 1
 
 
 running = True

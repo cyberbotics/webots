@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -156,11 +156,6 @@ WrMaterial *WbAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
     wr_material_set_texture_transform(wrenMaterial, NULL);
 
   return wrenMaterial;
-}
-
-bool WbAppearance::isTransparent() {
-  return (material() && material()->transparency() > 0.0) ||
-         (texture() && texture()->wrenTexture() && wr_texture_is_translucent(texture()->wrenTexture()));
 }
 
 bool WbAppearance::isTextureLoaded() const {

@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -75,15 +75,15 @@ endif
 # set the Java compiler options
 ifneq ($(strip $(CLASSPATH)),)
   ifeq ($(OSTYPE),windows)
-   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar;$(CLASSPATH);."
+   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar;$(CLASSPATH);." -target 1.8 -source 1.8
   else
-   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar:$(CLASSPATH):."
+   JAVAC_OPTS += -Xlint:-options -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar:$(CLASSPATH):." -target 1.8 -source 1.8
   endif
  else
   ifeq ($(OSTYPE),windows)
-   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar;."
+   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar;." -target 1.8 -source 1.8
   else
-   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar":.
+   JAVAC_OPTS += -Xlint:-options -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar":. -target 1.8 -source 1.8
   endif
 endif
 
@@ -92,9 +92,6 @@ endif
 ###-----------------------------------------------------------------------------
 
 .PHONY: all clean release debug profile
-
-clean:
-	@rm -fr *.class  *.jar > /dev/null 2>&1 || :
 
 ifeq ($(JAVA_HOME),)
 release debug profile:
@@ -112,3 +109,6 @@ $(JAR_FILE):
 
 jar: $(JAR_FILE)
 endif
+
+clean:
+	@rm -fr *.class  *.jar > /dev/null 2>&1 || :

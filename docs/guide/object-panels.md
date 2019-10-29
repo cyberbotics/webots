@@ -6,7 +6,7 @@ Customizable simple panel.
 
 %figure
 
-![Panel](images/objects/panels/Panel/model.png)
+![Panel](images/objects/panels/Panel/model.thumbnail.png)
 
 %end
 
@@ -26,7 +26,7 @@ Panel {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/panels/protos/Panel.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/panels/protos/Panel.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/panels/protos/Panel.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -51,7 +51,7 @@ A gray panel with tubes.
 
 %figure
 
-![PannelWithTubes](images/objects/panels/PannelWithTubes/model.png)
+![PannelWithTubes](images/objects/panels/PannelWithTubes/model.thumbnail.png)
 
 %end
 
@@ -66,7 +66,7 @@ PannelWithTubes {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/panels/protos/PannelWithTubes.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/panels/protos/PannelWithTubes.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/panels/protos/PannelWithTubes.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

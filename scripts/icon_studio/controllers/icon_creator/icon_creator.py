@@ -1,9 +1,24 @@
+# Copyright 1996-2019 Cyberbotics Ltd.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """Setup the studio, and generate continuously icons in the target directory."""
 
 import colorsys
 import json
 import math
 import optparse
+import fnmatch
 import os
 import shutil
 import sys
@@ -20,6 +35,8 @@ RED = 0
 GREEN = 1
 BLUE = 2
 HUE = 0
+LIGHTNESS = 1
+SATURATION = 2
 
 WHITE = [1, 1, 1]
 
@@ -27,9 +44,13 @@ WHITE = [1, 1, 1]
 def get_options():
     """Parse the controler arguments."""
     optParser = optparse.OptionParser()
-    optParser.add_option("--disable-icon-copy", dest="disableIconCopy", action="store_true", default=False, help="Disable the copy of the icons.")
+    optParser.add_option("--disable-icon-copy", dest="disableIconCopy", action="store_true", default=False,
+                         help="Disable the copy of the icons.")
     optParser.add_option("--json-file", dest="file", default="objects.json", help="Specify the JSON file to use.")
-    optParser.add_option("--single-shot", dest="singleShot", action="store_true", default=False, help="Take only a screenshot of the current world.")
+    optParser.add_option("--single-shot", dest="singleShot", action="store_true", default=False,
+                         help="Take only a screenshot of the current world.")
+    optParser.add_option("--appearance", dest="appearance", action="store_true", default=False,
+                         help="Create the screenshot for all the appearances.")
     options, args = optParser.parse_args()
     return options
 
@@ -52,7 +73,8 @@ def autocrop(im):
         return im.crop(bbox)
 
 
-def take_screenshot(camera, directory, protoDirectory, protoName, options):
+def take_screenshot(camera, category, directory, protoDirectory, protoName, options, background, colorThreshold,
+                    shadowColor=None):
     """Take the screenshot."""
     # Convert Camera image to PIL image.
     image = camera.getImage()
@@ -62,17 +84,23 @@ def take_screenshot(camera, directory, protoDirectory, protoName, options):
 
     # Remove the background.
     background = [float(pixels[0][0]) / 255.0, float(pixels[0][1]) / 255.0, float(pixels[0][2]) / 255.0]
-    iBackground = [1.0 - background[RED], 1.0 - background[GREEN], 1.0 - background[BLUE]]
     newPixels = []
+    hls_background_color = colorsys.rgb_to_hls(background[RED], background[GREEN], background[BLUE])
     for pixel in pixels:
         hls_pixel = colorsys.rgb_to_hls(float(pixel[RED]) / 255.0, float(pixel[GREEN]) / 255.0, float(pixel[BLUE]) / 255.0)
-        if abs(hls_pixel[HUE] - hls_background_color[HUE]) < colorThreshold:  # If pixel color is close to background.
-            colorChanel = int((iBackground[RED] * pixel[RED] + iBackground[GREEN] * pixel[GREEN] + iBackground[BLUE] * pixel[BLUE]) / (iBackground[RED] + iBackground[GREEN] + iBackground[BLUE]))
-            alphaChanel = int(255 - (background[RED] * pixel[RED] + background[GREEN] * pixel[GREEN] + background[BLUE] * pixel[BLUE]) / (background[RED] + background[GREEN] + background[BLUE]))
-            if alphaChanel < alphaRejectionThreshold * 255:
-                alphaChanel = 0
-            newPixels.append((colorChanel, colorChanel, colorChanel, alphaChanel))
+        if (abs(hls_pixel[HUE] - hls_background_color[HUE]) < colorThreshold and
+                abs(hls_pixel[LIGHTNESS] - hls_background_color[LIGHTNESS]) < colorThreshold and
+                abs(hls_pixel[SATURATION] - hls_background_color[SATURATION]) < colorThreshold):
+            # Background
+            newPixels.append((0, 0, 0, 0))
+        elif (shadowColor is not None and
+                shadowColor[RED] == pixel[RED] and
+                shadowColor[GREEN] == pixel[GREEN] and
+                shadowColor[BLUE] == pixel[BLUE]):
+            # Shadows
+            newPixels.append((125, 125, 125, 120))
         else:
+            # Object
             newPixels.append(pixel)
     pilImage.putdata(newPixels)
 
@@ -84,7 +112,8 @@ def take_screenshot(camera, directory, protoDirectory, protoName, options):
 
     pilImage.thumbnail((128, 128), Image.ANTIALIAS)
     iconImage = Image.new('RGBA', (128, 128))
-    iconImage.paste(pilImage, ((128 - pilImage.size[0]) / 2, (128 - pilImage.size[1]) / 2, ((128 - pilImage.size[0]) / 2) + pilImage.size[0], ((128 - pilImage.size[1]) / 2) + pilImage.size[1]))
+    iconImage.paste(pilImage, (int((128 - pilImage.size[0]) / 2), int((128 - pilImage.size[1]) / 2),
+                    int((128 - pilImage.size[0]) / 2) + pilImage.size[0], int((128 - pilImage.size[1]) / 2) + pilImage.size[1]))
     iconImage.save(os.path.join(directory, 'icon.png'))
 
     if not options.disableIconCopy:
@@ -99,16 +128,78 @@ def take_screenshot(camera, directory, protoDirectory, protoName, options):
 
         categoryFolder = os.path.basename(os.path.dirname(protoDirectory))
         # copy the models in the docs directory
-        modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', 'objects', categoryFolder, protoName)
+        modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', category, categoryFolder, protoName)
         modelPath = os.path.join(modelFolder, 'model.png')
-        if protoName.startswith('Tinkerbots'):  # Exception to be generalized if possible.
-            modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', 'robots', categoryFolder)
+        if category == categoryFolder:
+            modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', category)
+            modelPath = os.path.join(modelFolder, protoName + '.png')
+        elif category == 'robots':
+            modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', category, categoryFolder)
             modelPath = os.path.join(modelFolder, protoName + '.png')
         if not os.path.exists(modelFolder):
             os.makedirs(modelFolder)
         if os.path.exists(modelPath):
             os.remove(modelPath)
         shutil.copy2(directory + os.sep + 'model.png', modelPath)
+
+
+def process_object(supervisor, category, nodeString, background, colorThreshold):
+    """Import object, take screenshot and remove it."""
+    rootChildrenfield = controller.getRoot().getField('children')
+
+    # Apply the background color.
+    supervisor.getFromDef('FLOOR_MATERIAL').getField('diffuseColor').setSFColor(WHITE)
+
+    # import the object
+    count = rootChildrenfield.getCount()
+    rootChildrenfield.importMFNodeFromString(-1, nodeString)
+    supervisor.step(timeStep)
+    if rootChildrenfield.getCount() != count + 1:
+        sys.exit(protoName + ' was not imported sucessfully.')
+    importedNode = rootChildrenfield.getMFNode(-1)
+    supervisor.step(timeStep)
+
+    importedNode.moveViewpoint()
+    supervisor.simulationSetMode(Supervisor.SIMULATION_MODE_REAL_TIME)
+    supervisor.step(60 * timeStep)
+
+    # Set the camera at the right location.
+    position = viewpointPosition.getSFVec3f()
+    supervisorTranslation.setSFVec3f(position)
+    supervisorRotation.setSFRotation(viewpointOrientation.getSFRotation())
+    # compute distance to the object (assuming object is at the origin) to set a correct near value
+    distance = math.sqrt(math.pow(position[0], 2) + math.pow(position[0], 2) + math.pow(position[0], 2))
+    if distance < 1:
+        cameraNear.setSFFloat(0.1)
+    elif distance < 5:
+        cameraNear.setSFFloat(0.2)
+    elif distance < 10:
+        cameraNear.setSFFloat(0.5)
+    else:
+        cameraNear.setSFFloat(1)
+    supervisor.step(timeStep)
+
+    take_original_screenshot(camera, objectDirectory)
+
+    supervisor.getFromDef('FLOOR_MATERIAL').getField('diffuseColor').setSFColor(background)
+    lightIntensityField = supervisor.getFromDef('LIGHT').getField('intensity')
+    lightIntensity = lightIntensityField.getSFFloat()
+    lightIntensityField.setSFFloat(0)
+    supervisor.step(10 * timeStep)
+    pixel = camera.getImageArray()[0][0]
+    shadowColor = [pixel[0], pixel[1], pixel[2]]
+    lightIntensityField.setSFFloat(lightIntensity)
+    supervisor.step(10 * timeStep)
+    take_screenshot(camera, category, objectDirectory, os.path.dirname(protoPath), protoName, options, background,
+                    colorThreshold, shadowColor)
+
+    # remove the object
+    supervisor.step(timeStep)
+    count = rootChildrenfield.getCount()
+    importedNode.remove()
+    supervisor.step(timeStep)
+    if rootChildrenfield.getCount() != count - 1:
+        sys.exit(protoName + ' was not removed sucessfully.')
 
 
 # Initialize the Supervisor.
@@ -134,7 +225,34 @@ if options.singleShot:
     if node is None:
         sys.exit('No node "OBJECTS" found.')
     take_original_screenshot(camera, '.' + os.sep + 'images')
-    take_screenshot(camera, '.' + os.sep + 'images', os.path.dirname(controller.getWorldPath()), node.getTypeName(), None)
+    take_screenshot(camera, 'objects', '.' + os.sep + 'images', os.path.dirname(controller.getWorldPath()), node.getTypeName(),
+                    None)
+elif options.appearance:
+    with open('appearances.json') as json_data:
+        data = json.load(json_data)
+        appearanceFolder = os.path.join(os.environ['WEBOTS_HOME'], 'projects')
+        appearanceFolder = os.path.join(appearanceFolder, 'appearances')
+        appearanceFolder = os.path.join(appearanceFolder, 'protos')
+        for rootPath, dirNames, fileNames in os.walk(appearanceFolder):
+                for fileName in fnmatch.filter(fileNames, '*.proto'):
+                    protoName = fileName.split('.')[0]
+                    protoPath = rootPath + os.sep + protoName
+                    protoPath = protoPath.replace(os.environ['WEBOTS_HOME'], '')
+                    nodeString = 'Transform { translation 0 1 0 rotation 0 0 1 0.262 children [ '
+                    nodeString += 'Shape { appearance %s { ' % protoName
+                    if protoName in data:
+                        parameters = data[protoName]
+                        if 'fields' in parameters:
+                            nodeString += parameters['fields']
+                    nodeString += ' } '
+                    nodeString += 'geometry Sphere { subdivision 5 } castShadows FALSE } ] }'
+
+                    objectDirectory = '.' + os.sep + 'images' + os.sep + 'appearances' + os.sep + protoName
+                    if not os.path.exists(objectDirectory):
+                        os.makedirs(objectDirectory)
+                    else:
+                        sys.exit('Multiple definition of ' + protoName)
+                    process_object(controller, 'appearances', nodeString, background=[1, 1, 1], colorThreshold=0.01)
 else:
     with open(options.file) as json_data:
         data = json.load(json_data)
@@ -145,10 +263,16 @@ else:
                 continue
 
             itemCounter += 1
-            protoName = os.path.basename(key).split('.')[0].encode('utf-8')
+            protoName = os.path.basename(key).split('.')[0]
+
+            if sys.version_info[0] < 3:
+                protoName = protoName.encode('utf-8')
+
+            protoPath = key
             print('%s [%d%%]' % (protoName, 100.0 * itemCounter / (len(data) - 1)))
 
-            objectDirectory = '.' + os.sep + 'images' + os.sep + os.path.basename(os.path.dirname(os.path.dirname(key))) + os.sep + protoName
+            objectDirectory = '.' + os.sep + 'images' + os.sep + os.path.basename(os.path.dirname(os.path.dirname(key)))
+            objectDirectory += os.sep + protoName
             if not os.path.exists(objectDirectory):
                 os.makedirs(objectDirectory)
             else:
@@ -158,10 +282,6 @@ else:
                 colorThreshold = value['colorThreshold']
             else:
                 colorThreshold = data['default']['colorThreshold']
-            if 'alphaRejectionThreshold' in value:
-                alphaRejectionThreshold = value['alphaRejectionThreshold']
-            else:
-                alphaRejectionThreshold = data['default']['alphaRejectionThreshold']
             if 'background' in value:
                 background = value['background']
             else:
@@ -171,56 +291,15 @@ else:
             else:
                 fields = data['default']['fields']
 
-            # Apply the background color.
-            hls_background_color = colorsys.rgb_to_hls(background[RED], background[GREEN], background[BLUE])
-            controller.getFromDef('FLOOR_MATERIAL').getField('diffuseColor').setSFColor(WHITE)
-
-            # import the object
-            count = rootChildrenfield.getCount()
-
             nodeString = protoName + '{ '
-            nodeString += fields.encode('utf-8')
+            if sys.version_info[0] < 3:
+                nodeString += fields.encode('utf-8')
+            else:
+                nodeString += fields
             nodeString += ' }'
             if 'nodeString' in value:
-                nodeString = value['nodeString'].encode('utf-8')
-
-            rootChildrenfield.importMFNodeFromString(-1, nodeString)
-            controller.step(timeStep)
-            if rootChildrenfield.getCount() != count + 1:
-                sys.exit(protoName + ' was not imported sucessfully.')
-            importedNode = rootChildrenfield.getMFNode(-1)
-            controller.step(timeStep)
-
-            importedNode.moveViewpoint()
-            controller.simulationSetMode(Supervisor.SIMULATION_MODE_REAL_TIME)
-            controller.step(60 * timeStep)
-
-            # Set the camera at the right location.
-            position = viewpointPosition.getSFVec3f()
-            supervisorTranslation.setSFVec3f(position)
-            supervisorRotation.setSFRotation(viewpointOrientation.getSFRotation())
-            # compute distance to the object (assuming object is at the origin) to set a correct near value
-            distance = math.sqrt(math.pow(position[0], 2) + math.pow(position[0], 2) + math.pow(position[0], 2))
-            if distance < 1:
-                cameraNear.setSFFloat(0.1)
-            elif distance < 5:
-                cameraNear.setSFFloat(0.2)
-            elif distance < 10:
-                cameraNear.setSFFloat(0.5)
-            else:
-                cameraNear.setSFFloat(1)
-            controller.step(timeStep)
-
-            take_original_screenshot(camera, objectDirectory)
-
-            controller.getFromDef('FLOOR_MATERIAL').getField('diffuseColor').setSFColor(background)
-            controller.step(10 * timeStep)
-            take_screenshot(camera, objectDirectory, os.path.dirname(key), protoName, options)
-
-            # remove the object
-            controller.step(timeStep)
-            count = rootChildrenfield.getCount()
-            importedNode.remove()
-            controller.step(timeStep)
-            if rootChildrenfield.getCount() != count - 1:
-                sys.exit(protoName + ' was not removed sucessfully.')
+                if sys.version_info[0] < 3:
+                    nodeString = value['nodeString'].encode('utf-8')
+                else:
+                    nodeString = value['nodeString']
+            process_object(controller, key.split('/')[1], nodeString, background=background, colorThreshold=colorThreshold)

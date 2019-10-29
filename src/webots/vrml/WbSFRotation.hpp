@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,11 +28,11 @@ class WbSFRotation : public WbSingleValue {
 
 public:
   WbSFRotation() {}
-  WbSFRotation(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
+  WbSFRotation(WbTokenizer *tokenizer, const QString &worldPath) { readSFRotation(tokenizer, worldPath); }
   WbSFRotation(const WbSFRotation &other) : mValue(other.mValue) {}
   explicit WbSFRotation(const WbRotation &r) : mValue(r) {}
   virtual ~WbSFRotation() {}
-  void read(WbTokenizer *tokenizer, const QString &worldPath) override;
+  void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFRotation(tokenizer, worldPath); }
   void write(WbVrmlWriter &writer) const override {
     writer << toString(writer.isWebots() ? WbPrecision::DOUBLE_MAX : WbPrecision::FLOAT_MAX);
   }
@@ -62,6 +62,7 @@ public:
 
 private:
   WbRotation mValue;
+  void readSFRotation(WbTokenizer *tokenizer, const QString &worldPath);
 };
 
 void inline WbSFRotation::setValueFromOde(double x, double y, double z, double angle) {

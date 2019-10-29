@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 #tags: hidden
 
 PROTO RobotisOp3HeadShape [
@@ -116,7 +116,7 @@ PROTO RobotisOp3HeadShape [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/op3_head_base_color.png"
+              "textures/op3_head_base_color.jpg"
             ]
           }
           metalnessMap ImageTexture {
@@ -131,7 +131,7 @@ PROTO RobotisOp3HeadShape [
           }
           normalMap ImageTexture {
             url [
-              "textures/op3_head_normal.png"
+              "textures/op3_head_normal.jpg"
             ]
           }
         }

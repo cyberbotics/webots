@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -177,8 +177,6 @@ void WbWrenWindow::initialize() {
   wr_scene_set_fog_program(wr_scene_get_instance(), WbWrenShaders::fogShader());
   wr_scene_set_shadow_volume_program(wr_scene_get_instance(), WbWrenShaders::shadowVolumeShader());
 
-  WbSysInfo::setOpenGLRenderer(QString(wr_gl_state_get_renderer()));
-
   WbWrenOpenGlContext::doneWren();
   WbWrenPostProcessingEffects::loadResources();
   updateWrenViewportDimensions();
@@ -284,6 +282,7 @@ void WbWrenWindow::resizeWren(int width, int height) {
 void WbWrenWindow::flipAndScaleDownImageBuffer(const unsigned char *source, unsigned char *destination, int sourceWidth,
                                                int sourceHeight, int scaleDownFactor) {
   // flip vertically the image and scale it down (about 3x faster than QImage::mirrored(), QImage::scaled())
+  // cppcheck-suppress unsafeClassDivZero
   const int h = sourceHeight / scaleDownFactor;
   const int w = sourceWidth / scaleDownFactor;
   const int yFactor = scaleDownFactor * sourceWidth;
@@ -340,9 +339,7 @@ void WbWrenWindow::completeVideoPBOProcessing(bool canceled) {
   WbWrenOpenGlContext::makeWrenCurrent();
 
   // process last frame
-  if (canceled)
-    mPBOMutexes[mVideoPBOIndex].unlock();
-  else
+  if (!canceled)
     processVideoPBO();
   mVideoPBOIndex = -1;
   wr_scene_terminate_frame_capture(wr_scene_get_instance());
@@ -360,9 +357,8 @@ void WbWrenWindow::processVideoPBO() {
   WrScene *scene = wr_scene_get_instance();
   wr_scene_bind_pixel_buffer(scene, mVideoPBOIds[mVideoPBOIndex]);
   unsigned char *buffer = (unsigned char *)wr_scene_map_pixel_buffer(scene, GL_READ_ONLY);
-  mPBOMutexes[mVideoPBOIndex].unlock();
   if (buffer) {
-    emit videoImageReady(buffer, mVideoPBOIndex);
+    emit videoImageReady(buffer);
     wr_scene_unmap_pixel_buffer(scene);
   }
 
@@ -422,7 +418,6 @@ void WbWrenWindow::requestGrabWindowBuffer() {
   mVideoPBOIndex = (mVideoPBOIndex + 1) % PBO_COUNT;
   // Request pixels copy
   // read pixels from framebuffer to PBO: wr_scene_get_main_buffer() should return immediately
-  mPBOMutexes[mVideoPBOIndex].lock();
   wr_scene_bind_pixel_buffer(scene, mVideoPBOIds[mVideoPBOIndex]);
   readPixels(mVideoWidth, mVideoHeight, GL_BGRA, 0);
   wr_scene_bind_pixel_buffer(scene, 0);

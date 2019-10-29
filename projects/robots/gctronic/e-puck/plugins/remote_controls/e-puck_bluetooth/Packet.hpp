@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 
 class Packet {
 public:
-  Packet(int maxSize, int initSize = 0);
+  explicit Packet(int maxSize, int initSize = 0);
   virtual ~Packet();
 
   char *data() const { return mData; }

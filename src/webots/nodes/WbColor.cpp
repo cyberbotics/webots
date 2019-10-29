@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ void WbColor::postFinalize() {
 }
 
 void WbColor::updateColor() {
-  if (WbFieldChecker::checkMultipleColorIsValid(this, mColor))
+  if (WbFieldChecker::resetMultipleColorIfInvalid(this, mColor))
     return;
   emit changed();
 }

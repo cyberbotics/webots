@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,10 +13,11 @@
 // limitations under the License.
 
 #include "WbSFString.hpp"
+
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 
-void WbSFString::read(WbTokenizer *tokenizer, const QString &worldPath) {
+void WbSFString::readSFString(WbTokenizer *tokenizer, const QString &worldPath) {
   try {
     mValue = tokenizer->nextToken()->toString();
   } catch (...) {
@@ -27,9 +28,7 @@ void WbSFString::read(WbTokenizer *tokenizer, const QString &worldPath) {
 }
 
 void WbSFString::setValue(const QString &s) {
-  if (mValue != s)
-    mValue = s;
-
+  mValue = s;
   emit changed();
 }
 

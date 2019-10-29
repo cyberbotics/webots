@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,8 +24,10 @@ public:
 
   static WbOdeDebugger *instance() { return cOdeDebugger; }
 
+  // cppcheck-suppress functionStatic
   void toggleDebugging(bool);
 
+  // cppcheck-suppress functionStatic
   void step();
 
 private:

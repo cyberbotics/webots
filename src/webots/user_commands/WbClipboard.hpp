@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@ class QClipboard;
 class WbClipboard : public WbVariant {
 public:
   static WbClipboard *instance();
+  static void deleteInstance();
   WbClipboard &operator=(const WbVariant &other);
 
   // redefine WbVariant setters
@@ -67,7 +68,6 @@ public:
 
 private:
   explicit WbClipboard();
-  ~WbClipboard() { clear(); };
 
   WbNode *toNode() const override { return NULL; }
   WbClipboardNodeInfo *mNodeInfo;

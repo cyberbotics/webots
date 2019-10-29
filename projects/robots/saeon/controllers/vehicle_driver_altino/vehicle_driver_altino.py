@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,11 +13,6 @@
 # limitations under the License.
 
 """vehicle_driver_altino controller."""
-
-import math
-import os
-import sys
-from controller import Keyboard
 
 from vehicle import Driver
 
@@ -166,7 +161,8 @@ while driver.step() != -1:
     if (printCounter % 10) == 0:
         print("\fWelcome to the Altino Sample Controller")
         print("----------------------------------------------")
-        print("This sample controller is based on a Braitenberg vehicle, \n it uses the vehicle's infrared distance sensors to avoid obstacles.")
+        print("This sample controller is based on a Braitenberg vehicle, \n")
+        print("it uses the vehicle's infrared distance sensors to avoid obstacles.")
         print("\n-----------------Controls---------------------")
         print("'M' to enable manual control")
         print("'N' to disable manual control")

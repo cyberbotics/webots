@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -72,7 +72,7 @@ void WbTrackWheel::updatePosition() {
 }
 
 void WbTrackWheel::updateRadius() {
-  if (WbFieldChecker::checkDoubleIsPositive(this, mRadius, 0.1) && isPostFinalizedCalled())
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mRadius, 0.1) && isPostFinalizedCalled())
     emit changed();
 }
 

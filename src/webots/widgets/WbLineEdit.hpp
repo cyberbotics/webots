@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ class WbLineEdit : public QLineEdit {
 
 public:
   explicit WbLineEdit(QWidget *parent = 0);
-  WbLineEdit(const QString &contents, QWidget *parent = 0);
+  explicit WbLineEdit(const QString &contents, QWidget *parent = 0);
   virtual ~WbLineEdit();
 
 protected:

@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -299,13 +299,13 @@ PROTO Road [
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "textures/line_normal.png"
+                    "textures/line_normal.jpg"
                   ]
                   filtering 5
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "textures/line_occlusion.png"
+                    "textures/line_occlusion.jpg"
                   ]
                   filtering 5
                 }
@@ -364,13 +364,13 @@ PROTO Road [
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "textures/line_normal.png"
+                    "textures/line_normal.jpg"
                   ]
                   filtering 5
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "textures/line_occlusion.png"
+                    "textures/line_occlusion.jpg"
                   ]
                   filtering 5
                 }
@@ -429,13 +429,13 @@ PROTO Road [
                     metalness 0
                     normalMap ImageTexture {
                       url [
-                        "textures/line_normal.png"
+                        "textures/line_normal.jpg"
                       ]
                       filtering 5
                     }
                     occlusionMap ImageTexture {
                       url [
-                        "textures/line_occlusion.png"
+                        "textures/line_occlusion.jpg"
                       ]
                       filtering 5
                     }
@@ -835,13 +835,13 @@ PROTO Road [
                     metalness 0
                     normalMap ImageTexture {
                       url [
-                        "textures/line_normal.png"
+                        "textures/line_normal.jpg"
                       ]
                       filtering 5
                     }
                     occlusionMap ImageTexture {
                       url [
-                        "textures/line_occlusion.png"
+                        "textures/line_occlusion.jpg"
                       ]
                       filtering 5
                     }
@@ -901,13 +901,13 @@ PROTO Road [
                     metalness 0
                     normalMap ImageTexture {
                       url [
-                        "textures/line_normal.png"
+                        "textures/line_normal.jpg"
                       ]
                       filtering 5
                     }
                     occlusionMap ImageTexture {
                       url [
-                        "textures/line_occlusion.png"
+                        "textures/line_occlusion.jpg"
                       ]
                       filtering 5
                     }

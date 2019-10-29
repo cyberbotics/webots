@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "Demo of the IPR (Katana) robotic arm (Neuronics AG)."
@@ -53,7 +53,6 @@ DEF WALLS Solid {
             metalness 0
           }
           geometry ElevationGrid {
-            colorPerVertex FALSE
             xDimension 5
             zDimension 9
           }
@@ -67,7 +66,6 @@ DEF WALLS Solid {
         Shape {
           appearance USE WALL_COLOR
           geometry ElevationGrid {
-            colorPerVertex FALSE
             xDimension 5
             zDimension 9
           }

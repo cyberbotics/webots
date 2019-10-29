@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -653,14 +653,15 @@ static const char *API_CLASSES =
   "MouseState Node Pen PositionSensor Radar RadarTarget RangeFinder Receiver Robot RotationalMotor "
   "SimulationMode Skin Speaker Supervisor TouchSensor Type UserInputEvent WiperMode WheelIndex";
 
-static const char *WBT_OBJECTS = "Appearance Background BallJoint BallJointParameters Box "
-                                 "Capsule Charger Color Cone ContactProperties Coordinate Cubemap Cylinder Damping "
-                                 "DirectionalLight ElevationGrid Fluid Focus Fog Group HingeJoint "
-                                 "HingeJointParameters Hinge2Joint ImageTexture ImmersionProperties "
-                                 "IndexedFaceSet IndexedLineSet JointParameters Lens LensFlare Material PBRAppearance Physics "
-                                 "Plane PointLight Propeller Recognition Shape SliderJoint Slot Solid SolidReference "
-                                 "Sphere SpotLight TextureCoordinate TextureTransform Track TrackWheel "
-                                 "Transform Viewpoint WorldInfo Zoom";
+static const char *WBT_OBJECTS =
+  "Appearance Background BallJoint BallJointParameters Box "
+  "Capsule Charger Color Cone ContactProperties Coordinate Cubemap Cylinder Damping "
+  "DirectionalLight ElevationGrid Fluid Focus Fog Group HingeJoint "
+  "HingeJointParameters Hinge2Joint ImageTexture ImmersionProperties "
+  "IndexedFaceSet IndexedLineSet JointParameters Lens LensFlare Material Normal PBRAppearance Physics "
+  "Plane PointLight Propeller Recognition Shape SliderJoint Slot Solid SolidReference "
+  "Sphere SpotLight TextureCoordinate TextureTransform Track TrackWheel "
+  "Transform Viewpoint WorldInfo Zoom";
 
 static WbLanguage **gLanguages = NULL;
 
@@ -670,12 +671,12 @@ void WbLanguage::cleanup() {
 }
 
 WbLanguage::WbLanguage(int code, const QString &name, const QString &defaultFileSuffix, const QString &commentPrefix,
-                       bool isCompilable) {
-  mCode = code;
-  mName = name;
-  mDefaultFileSuffix = defaultFileSuffix;
-  mCommentPrefix = commentPrefix;
-  mIsCompilable = isCompilable;
+                       bool isCompilable) :
+  mCode(code),
+  mName(name),
+  mDefaultFileSuffix(defaultFileSuffix),
+  mCommentPrefix(commentPrefix),
+  mIsCompilable(isCompilable) {
 }
 
 WbLanguage::~WbLanguage() {

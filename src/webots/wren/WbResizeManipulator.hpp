@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,8 @@ class WbRegularResizeManipulator : public WbWrenAbstractResizeManipulator {
   Q_OBJECT
 
 public:
-  WbRegularResizeManipulator(int uniqueId, ResizeConstraint constraint = WbWrenAbstractResizeManipulator::NO_CONSTRAINT);
+  explicit WbRegularResizeManipulator(int uniqueId,
+                                      ResizeConstraint constraint = WbWrenAbstractResizeManipulator::NO_CONSTRAINT);
 };
 
 class WbPlaneResizeManipulator : public WbWrenAbstractResizeManipulator {

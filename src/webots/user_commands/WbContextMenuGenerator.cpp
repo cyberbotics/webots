@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -95,8 +95,9 @@ namespace WbContextMenuGenerator {
       // actions for robots
       if (gAreRobotActionsEnabled) {
 #ifdef __linux__
-        // fix for https://github.com/omichel/webots/issues/7443, the context menu doesn't need the double underscore fix for
-        // menubars on Unity desktops (Ubuntu 16.04), so undo the workaround before opening the menu and redo it on menu close
+        // fix for https://github.com/omichel/webots-dev/issues/7443, the context menu doesn't need the double underscore
+        // fix for menubars on Unity desktops (Ubuntu 16.04), so undo the workaround before opening the menu and redo it on menu
+        // close
         if (qgetenv("XDG_CURRENT_DESKTOP") == "Unity") {
           renameRobotOverlayActions(gRobotCameraMenu, false);
           renameRobotOverlayActions(gRobotRangeFinderMenu, false);

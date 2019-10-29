@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #include "WbWebotsUpdateDialog.hpp"
 
 #include "WbApplicationInfo.hpp"
+#include "WbDesktopServices.hpp"
 #include "WbPreferences.hpp"
 #include "WbVersion.hpp"
 #include "WbWebotsUpdateManager.hpp"
@@ -70,13 +71,15 @@ void WbWebotsUpdateDialog::updateLabel() {
   const WbVersion &currentVersion = WbApplicationInfo::version();
 
   if (currentVersion < targetVersion) {
-    mLabel->setOpenExternalLinks(true);
+    connect(mLabel, &QLabel::linkActivated, &WbDesktopServices::openUrl);
     mLabel->setText(tr("<b>A new version of Webots is available.</b><br/><br/>"
                        "Webots %1 is available for download (you are currently using Webots %2).<br/>"
                        "Download the new version: "
                        "<a href=\"https://cyberbotics.com/download\">https://cyberbotics.com/download</a><br/>"
-                       "Check the change log: "
-                       "<a href=\"https://cyberbotics.com/change_log\">https://cyberbotics.com/change_log</a>")
+                       "Check the changelog: "
+                       "<a "
+                       "href=\"https://cyberbotics.com/doc/reference/changelog\">https://cyberbotics.com/doc/"
+                       "reference/changelog</a>")
                       .arg(targetVersion.toString())
                       .arg(currentVersion.toString()));
   } else

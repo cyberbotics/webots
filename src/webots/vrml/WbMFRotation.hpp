@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ public:
 
   WbMFRotation() {}
   WbMFRotation(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
-  WbMFRotation(const WbMFRotation &other) { mVector = other.mVector; }
+  WbMFRotation(const WbMFRotation &other) : mVector(other.mVector) {}
   virtual ~WbMFRotation() {}
   WbValue *clone() const override { return new WbMFRotation(*this); }
   bool equals(const WbValue *other) const override;

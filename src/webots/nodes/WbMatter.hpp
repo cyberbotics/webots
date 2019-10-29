@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -92,6 +92,11 @@ protected:
   WbMatter(const WbMatter &other);
   WbMatter(const WbNode &other);
   WbMatter(const QString &modelName, WbTokenizer *tokenizer);
+
+  const QString &vrmlName() const override {
+    static const QString returnedName("Transform");
+    return returnedName;
+  }
 
   // Renders the frame axes and the center of mass
   virtual void applyVisibilityFlagsToWren(bool selected);

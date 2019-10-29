@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ class WbHinge2Joint : public WbHingeJoint {
   Q_OBJECT
 
 public:
+  explicit WbHinge2Joint(const QString &modelName, WbTokenizer *tokenizer = NULL);
   explicit WbHinge2Joint(WbTokenizer *tokenizer = NULL);
   WbHinge2Joint(const WbHinge2Joint &other);
   explicit WbHinge2Joint(const WbNode &other);
@@ -44,7 +45,7 @@ public:
   WbJointParameters *parameters2() const override;
   void computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const override;
 
-  WbMotor *motor2() const;
+  WbMotor *motor2() const override;
   WbPositionSensor *positionSensor2() const;
   WbBrake *brake2() const;
   WbJointDevice *device2(int index) const;
@@ -54,14 +55,16 @@ public slots:
   bool setJoint() override;
 
 protected:
-  WbVector3 axis2() const;  // return the axis of the joint with coordinates relative to the parent Solid; defaults to the
-                            // rotation axis of the solid endpoint
+  virtual WbVector3 axis2() const;  // return the axis of the joint with coordinates relative to the parent Solid; defaults to
+                                    // the rotation axis of the solid endpoint
   WbQuaternion endPointRotation() const;
+  WbRotationalMotor *rotationalMotor2() const;
   WbMFNode *mDevice2;  // JointDevices: logical position sensor device, a motor and brake, only one per type is allowed
   double mOdePositionOffset2;
   double mPosition2;                       // Keeps track of the joint position2 if JointParameters2 don't exist.
   bool mSpringAndDampingConstantsAxis1On;  // defines if there is spring and dampingConstant along this axis
   bool mSpringAndDampingConstantsAxis2On;
+  double mInitialPosition2;
   void updatePosition(double position) override;
   void updatePositions(double position, double position2);
   void updateEndPointZeroTranslationAndRotation() override;
@@ -77,13 +80,11 @@ protected slots:
 
 private:
   WbHinge2Joint &operator=(const WbHinge2Joint &);  // non copyable
-  WbRotationalMotor *rotationalMotor2() const;
   void updateParameters2();
   void init();
   WbSFNode *mParameters2;
   void applyToOdeAxis() override;
   void applyToOdeMinAndMaxStop() override;
-  double mInitialPosition2;
 };
 
 #endif

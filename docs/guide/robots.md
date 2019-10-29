@@ -24,6 +24,7 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 | ![icon.png](images/robots/hoap2/icon.png)       | [HOAP-2](hoap2.md)             | Fujitsu              | *Small size humanoid*           |
 | ![icon.png](images/robots/icub/icon.png)        | [iCub](icub.md)                | RobotCup             | *Human-size humanoid*           |
 | ![icon.png](images/robots/ipr/icon.png)         | [IPR](ipr.md)                  | Neuronics            | *Robotics arm*                  |
+| ![icon.png](images/robots/irb4600-40/icon.png)  | [IRB 4600/40](irb4600-40.md)   | ABB                  | *Robotics arm*                  |
 | ![icon.png](images/robots/khepera1/icon.png)    | [Khepera I](khepera1.md)       | K-Team               | *Two-wheeled robot*             |
 | ![icon.png](images/robots/khepera2/icon.png)    | [Khepera II](khepera2.md)      | K-Team               | *Two-wheeled robot*             |
 | ![icon.png](images/robots/khepera3/icon.png)    | [Khepera III](khepera3.md)     | K-Team               | *Two-wheeled robot*             |
@@ -32,8 +33,10 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 | ![icon.png](images/robots/khr-3hv/icon.png)     | [KHR-3HV](khr-3hv.md)          | KONDO                | *Small size humanoid*           |
 | ![icon.png](images/robots/koala/icon.png)       | [Koala](koala.md)              | K-Team               | *Six-wheeled robot*             |
 | ![icon.png](images/robots/mantis/icon.png)      | [Mantis](mantis.md)            | micromagic           | *Hexapod*                       |
+| ![icon.png](images/robots/mavic-2-pro/icon.png) | [Mavic 2 PRO](mavic-2-pro.md)  | DJI                  | *Quadcopter drone*              |
 | ![icon.png](images/robots/microbot/icon.png)    | [Microbot](microbot.md)        | PICAXE               | *Two-wheeled robot*             |
 | ![icon.png](images/robots/mindstorms/icon.png)  | [Mindstorms](mindstorms.md)    | Lego                 | *Robotics kit*                  |
+| ![icon.png](images/robots/moose/icon.png)       | [Moose](moose.md)              | Clearpath Robotics   | *Eight-wheeled outdoor robot*   |
 | ![icon.png](images/robots/nao/icon.png)         | [Nao](nao.md)                  | SoftBankics          | *Small size humanoid*           |
 | ![icon.png](images/robots/pioneer2/icon.png)    | [Pioneer 2](pioneer2.md)       | Adept                | *Two-wheeled robot*             |
 | ![icon.png](images/robots/pioneer-3at/icon.png) | [Pioneer 3-AT](pioneer-3at.md) | Adept                | *Four-wheeled robot*            |
@@ -50,5 +53,6 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 | ![icon.png](images/robots/surveyor/icon.png)    | [Surveyor SRV-1](surveyor.md)  | Surveyor Corporation | *Robot with two tracks*         |
 | ![icon.png](images/robots/thymio2/icon.png)     | [Thymio II](thymio2.md)        | Mobsya               | *Two-wheeled robot*             |
 | ![icon.png](images/robots/tinkerbots/icon.png)  | [Tinkerbots](tinkerbots.md)    | Kinematics GMBH      | *Robotics kit*                  |
+| ![icon.png](images/robots/ure/icon.png)         | [UR3e, UR5e and UR10e](ure.md) | Universal Robots     | *Robotics arm*                  |
 | ![icon.png](images/robots/yamor/icon.png)       | [Yamor](yamor.md)              | EPFL / BioRob        | *Modular robot*                 |
 | ![icon.png](images/robots/youbot/icon.png)      | [youBot](youbot.md)            | KUKA                 | *Mobile arm*                    |

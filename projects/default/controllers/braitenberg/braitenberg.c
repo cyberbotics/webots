@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,14 +60,22 @@ static void initialize() {
   camera_enabled = 0;
   range = RANGE;
 
+  const double e_puck_matrix[8][2] = {{150, -35}, {100, -15}, {80, -10},  {-10, -10},
+                                      {-10, -10}, {-10, 80},  {-30, 100}, {-20, 150}};
+  const double khepera3_matrix[9][2] = {{-5000, -5000},  {-20000, 40000}, {-30000, 50000}, {-70000, 70000}, {70000, -60000},
+                                        {50000, -40000}, {40000, -20000}, {-5000, -5000},  {-10000, -10000}};
+  const double khepera_matrix[8][2] = {{-2, 4}, {-3, 5}, {-7, 7}, {7, -6}, {5, -4}, {4, -2}, {-0.5, -0.5}, {-0.5, -0.5}};
+  const double pioneer2_matrix[16][2] = {{-1, 15}, {-3, 13}, {-3, 8},  {-2, 7}, {-3, -4}, {-4, -2}, {-3, -2}, {-1, -1},
+                                         {-1, -1}, {-2, -3}, {-2, -4}, {4, -3}, {7, -5},  {7, -3},  {10, -2}, {11, -1}};
+  const double koala_matrix[16][2] = {{17, -1}, {8, -2},  {4, -3},  {9, -2}, {5, -3}, {-4, -2}, {-4, -2}, {-2, -2},
+                                      {-2, -2}, {-2, -4}, {-2, -4}, {-4, 5}, {-3, 8}, {-3, 5},  {-2, 10}, {-1, 15}};
+
   /*
    * Here we adapt the generic variables to the specificity of the current
    * robot. We need to adapt the number of sensors it has, their name and
    * finally the matrix used by the Braitenberg algorithm.
    */
   if (strncmp(robot_name, "e-puck", 6) == 0) {
-    const double e_puck_matrix[8][2] = {{150, -35}, {100, -15}, {80, -10},  {-10, -10},
-                                        {-10, -10}, {-10, 80},  {-30, 100}, {-20, 150}};
     const double epuck_max_speed = 6.28;
     const double epuck_speed_unit = 0.00628;
 
@@ -80,8 +88,6 @@ static void initialize() {
     if (strcmp(robot_name, "e-puck camera") == 0)
       camera_enabled = 1;
   } else if (strncmp(robot_name, "Khepera III", 8) == 0) {
-    const double khepera3_matrix[9][2] = {{-5000, -5000},  {-20000, 40000}, {-30000, 50000}, {-70000, 70000}, {70000, -60000},
-                                          {50000, -40000}, {40000, -20000}, {-5000, -5000},  {-10000, -10000}};
     const double khepera3_max_speed = 19.1;
     const double khepera3_speed_unit = 0.00053429;
 
@@ -92,7 +98,6 @@ static void initialize() {
     max_speed = khepera3_max_speed;
     speed_unit = khepera3_speed_unit;
   } else if (strncmp(robot_name, "khepera", 7) == 0) {
-    const double khepera_matrix[8][2] = {{-2, 4}, {-3, 5}, {-7, 7}, {7, -6}, {5, -4}, {4, -2}, {-0.5, -0.5}, {-0.5, -0.5}};
     const double khepera_max_speed = 1.0;
     const double khepera_speed_unit = 1.0;
 
@@ -102,8 +107,6 @@ static void initialize() {
     max_speed = khepera_max_speed;
     speed_unit = khepera_speed_unit;
   } else if (strcmp(robot_name, "koala") == 0) {
-    const double koala_matrix[16][2] = {{17, -1}, {8, -2},  {4, -3},  {9, -2}, {5, -3}, {-4, -2}, {-4, -2}, {-2, -2},
-                                        {-2, -2}, {-2, -4}, {-2, -4}, {-4, 5}, {-3, 8}, {-3, 5},  {-2, 10}, {-1, 15}};
     const double koala_max_speed = 10.0;
     const double koala_speed_unit = 0.1;
 
@@ -113,8 +116,6 @@ static void initialize() {
     max_speed = koala_max_speed;
     speed_unit = koala_speed_unit;
   } else if (strcmp(robot_name, "pioneer2") == 0) {
-    const double pioneer2_matrix[16][2] = {{-1, 15}, {-3, 13}, {-3, 8},  {-2, 7}, {-3, -4}, {-4, -2}, {-3, -2}, {-1, -1},
-                                           {-1, -1}, {-2, -3}, {-2, -4}, {4, -3}, {7, -5},  {7, -3},  {10, -2}, {11, -1}};
     const double pioneer2_max_speed = 10.0;
     const double pioneer2_speed_unit = 0.1;
 

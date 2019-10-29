@@ -1,0 +1,38 @@
+#VRML_SIM R2019b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# A flexible aluminium duct material. The color can be overridden using the `colorOverride` field.
+
+PROTO FlexibleAluminiumDuct [
+  field SFColor colorOverride    1 1 1  # Defines the default color multiplied with the texture color.
+  field SFNode  textureTransform NULL   # Defines an optional 2d texture transform.
+  field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
+]
+{
+  PBRAppearance {
+    baseColor IS colorOverride
+    baseColorMap ImageTexture {
+      url [
+        "textures/flexible_aluminium_duct/flexible_aluminium_duct_base_color.jpg"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/flexible_aluminium_duct/flexible_aluminium_duct_roughness.jpg"
+      ]
+    }
+    metalness 1
+    normalMap ImageTexture {
+      url [
+        "textures/flexible_aluminium_duct/flexible_aluminium_duct_normal.jpg"
+      ]
+    }
+    IBLStrength IS IBLStrength
+    occlusionMap ImageTexture {
+      url [
+        "textures/flexible_aluminium_duct/flexible_aluminium_duct_occlusion.jpg"
+      ]
+    }
+    textureTransform IS textureTransform
+  }
+}

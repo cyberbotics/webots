@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -119,7 +119,8 @@ PROTO RangeRoverSportSVR [
             children [
               %{ if frontSpotLights then }%
                 SpotLight {
-                  attenuation 0.2 0 0
+                  attenuation 0 0 1
+                  intensity 20
                   beamWidth 0.7
                   cutOffAngle 0.8
                   direction -0.2 -1 1
@@ -128,7 +129,8 @@ PROTO RangeRoverSportSVR [
                   on TRUE
                 }
                 SpotLight {
-                  attenuation 0.2 0 0
+                  attenuation 0 0 1
+                  intensity 20
                   beamWidth 0.7
                   cutOffAngle 0.8
                   direction 0.2 -1 1
@@ -141,6 +143,7 @@ PROTO RangeRoverSportSVR [
                   baseColor 0.702 0.702 0.702
                   metalness 0
                   roughness 0.3
+                  emissiveIntensity 20
                 }
                 geometry RangeRoverSportSVRFrontLightsMesh {
                 }
@@ -154,6 +157,7 @@ PROTO RangeRoverSportSVR [
               baseColor 0.702 0.702 0.702
               metalness 0
               roughness 0.35
+              emissiveIntensity 10
             }
             geometry RangeRoverSportSVRRearLightsMesh {
             }
@@ -165,6 +169,7 @@ PROTO RangeRoverSportSVR [
               baseColor 0.702 0.702 0.702
               metalness 0
               roughness 0.35
+              emissiveIntensity 30
             }
             geometry RangeRoverSportSVRRightIndicatorMesh {
             }
@@ -176,6 +181,7 @@ PROTO RangeRoverSportSVR [
               baseColor 0.702 0.702 0.702
               metalness 0
               roughness 0.35
+              emissiveIntensity 30
             }
             geometry RangeRoverSportSVRLeftIndicatorMesh {
             }
@@ -187,6 +193,7 @@ PROTO RangeRoverSportSVR [
               baseColor 0.560784 0.113725 0.113725
               metalness 0
               roughness 0.35
+              emissiveIntensity 30
             }
             geometry RangeRoverSportSVRBrakingLightsMesh {
             }
@@ -195,7 +202,7 @@ PROTO RangeRoverSportSVR [
       }
       # vehicle shape
       DEF COACHWORK_PRIMARY Shape {
-        appearance GlossyCarPaint {
+        appearance GlossyPaint {
           baseColor IS color
         }
         geometry RangeRoverSportSVRCoachworkPrimaryMesh {

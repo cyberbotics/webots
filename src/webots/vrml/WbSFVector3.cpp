@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 
-void WbSFVector3::read(WbTokenizer *tokenizer, const QString &worldPath) {
+void WbSFVector3::readSFVector3(WbTokenizer *tokenizer, const QString &worldPath) {
   try {
     double x = tokenizer->nextToken()->toDouble();
     double y = tokenizer->nextToken()->toDouble();

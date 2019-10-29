@@ -53,6 +53,7 @@ namespace webotsQtUtils {
     void modifiedChanged(bool modified);
 
   private:
+    MotorTargetState &operator=(const MotorTargetState &);  // non copyable
     static double precisionReducer(double value);
     void updateIsModified();
     void updateIsValid();

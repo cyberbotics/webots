@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/ipr
@@ -112,7 +112,7 @@ PROTO IprHd6ms90 [
               roughness 0.2
               baseColorMap ImageTexture {
                 url [
-                  "textures/neuronics_logo.png"
+                  "textures/neuronics_logo.jpg"
                 ]
                 repeatS FALSE
                 repeatT FALSE
@@ -1374,12 +1374,12 @@ PROTO IprHd6ms90 [
                                               0 249 0, 0.015 220 0.005
                                               0.03 50 0.03, 0.2 33 0.1
                                             ]
-                                            type "ds8"
+                                            type "infra-red"
                                           }
                                           DistanceSensor {
                                             translation -0.0988 0 0
                                             rotation 0 0 1 -3.1415
-                                            name "ds9"
+                                            name "ds8"
                                             lookupTable [
                                               0 249 0, 0.015 220 0.005
                                               0.03 50 0.03, 0.2 33 0.1

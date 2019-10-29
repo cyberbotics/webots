@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,7 @@ typedef enum {
   WB_NODE_INDEXED_LINE_SET,
   WB_NODE_MATERIAL,
   WB_NODE_MUSCLE,
+  WB_NODE_NORMAL,
   WB_NODE_PBR_APPEARANCE,
   WB_NODE_PLANE,
   WB_NODE_POINT_LIGHT,

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -130,7 +130,7 @@ void EPuckFacade::initDevices() {
   }
 
   WbNodeType deviceType;
-  int groundSensorIndex, matchedItems = 0;
+  int groundSensorIndex, matchedItems;
   int numberOfDevices = wb_robot_get_number_of_devices();
   for (int index = 0; index < numberOfDevices; index++) {
     const WbDeviceTag tag = wb_robot_get_device_by_index(index);

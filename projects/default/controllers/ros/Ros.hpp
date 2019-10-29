@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -59,6 +59,7 @@ protected:
 
 private:
   void fixName();
+  void publishClockIfNeeded();
   bool timeStepCallback(webots_ros::set_int::Request &req, webots_ros::set_int::Response &res);
   bool waitForUserInputEventCallback(webots_ros::robot_wait_for_user_input_event::Request &req,
                                      webots_ros::robot_wait_for_user_input_event::Response &res);

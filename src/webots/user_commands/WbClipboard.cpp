@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,6 +36,14 @@ WbClipboard *WbClipboard::instance() {
     gInstance = new WbClipboard();
 
   return gInstance;
+}
+
+void WbClipboard::deleteInstance() {
+  if (!gInstance)
+    return;
+  gInstance->clear();
+  delete gInstance;
+  gInstance = NULL;
 }
 
 WbClipboard::WbClipboard() : WbVariant(), mNodeInfo(NULL), mSystemClipboard(QApplication::clipboard()) {

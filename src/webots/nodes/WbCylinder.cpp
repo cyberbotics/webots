@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 #include "WbFieldChecker.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbOdeGeomData.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSFBool.hpp"
@@ -88,9 +89,14 @@ void WbCylinder::postFinalize() {
 void WbCylinder::createWrenObjects() {
   WbGeometry::createWrenObjects();
 
-  if (isInBoundingObject())
+  if (isInBoundingObject()) {
     connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this, &WbCylinder::updateLineScale);
 
+    if (mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && !WbNodeUtilities::hasAUseNodeAncestor(this))
+      // silently reset the subdivision on node initialization
+      mSubdivision->setValue(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION);
+  }
+  sanitizeFields();
   buildWrenMesh();
 
   emit wrenObjectsCreated();
@@ -129,13 +135,21 @@ void WbCylinder::exportNodeFields(WbVrmlWriter &writer) const {
 }
 
 bool WbCylinder::sanitizeFields() {
-  if (WbFieldChecker::checkIntInRangeWithIncludedBounds(this, mSubdivision, 3, 1000, 3))
+  if (WbFieldChecker::resetIntIfNotInRangeWithIncludedBounds(this, mSubdivision, 3, 1000, 3))
+    return false;
+  if (mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && isInBoundingObject() &&
+      !WbNodeUtilities::hasAUseNodeAncestor(this)) {
+    warn(tr("'subdivision' value has no effect to physical 'boundingObject' geometry. "
+            "A minimum value of %2 is used for the representation.")
+           .arg(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION));
+    mSubdivision->setValue(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION);
+    return false;
+  }
+
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mRadius, 1.0))
     return false;
 
-  if (WbFieldChecker::checkDoubleIsPositive(this, mRadius, 1.0))
-    return false;
-
-  if (WbFieldChecker::checkDoubleIsPositive(this, mHeight, 1.0))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mHeight, 1.0))
     return false;
 
   return true;
@@ -147,18 +161,18 @@ void WbCylinder::buildWrenMesh() {
   wr_static_mesh_delete(mWrenMesh);
   mWrenMesh = NULL;
 
-  if (!sanitizeFields())
-    return;
-
   if (mBottom->isFalse() && mSide->isFalse() && mTop->isFalse())
     return;
 
   const bool createOutlineMesh = isInBoundingObject();
+  const int subdivision = (createOutlineMesh && mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION) ?
+                            MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION :
+                            mSubdivision->value();
 
   WbGeometry::computeWrenRenderable();
 
-  mWrenMesh = wr_static_mesh_unit_cylinder_new(mSubdivision->value(), mSide->isTrue(), mTop->isTrue(), mBottom->isTrue(),
-                                               createOutlineMesh);
+  mWrenMesh =
+    wr_static_mesh_unit_cylinder_new(subdivision, mSide->isTrue(), mTop->isTrue(), mBottom->isTrue(), createOutlineMesh);
 
   // This must be done after WbGeometry::computeWrenRenderable() otherwise
   // the outline scaling is applied to the wrong WREN transform
@@ -276,7 +290,7 @@ void WbCylinder::updateSubdivision() {
 }
 
 void WbCylinder::updateLineScale() {
-  if (!isAValidBoundingObject() || !sanitizeFields())
+  if (!isAValidBoundingObject())
     return;
 
   float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
@@ -288,9 +302,6 @@ void WbCylinder::updateLineScale() {
 }
 
 void WbCylinder::updateScale() {
-  if (!sanitizeFields())
-    return;
-
   float scale[] = {static_cast<float>(mRadius->value()), static_cast<float>(mHeight->value()),
                    static_cast<float>(mRadius->value())};
   wr_transform_set_scale(wrenNode(), scale);
@@ -323,6 +334,10 @@ void WbCylinder::applyToOdeData(bool correctSolidMass) {
 
   assert(dGeomGetClass(mOdeGeom) == dCylinderClass);
   dGeomCylinderSetParams(mOdeGeom, scaledRadius(), scaledHeight());
+
+  WbOdeGeomData *const odeGeomData = static_cast<WbOdeGeomData *>(dGeomGetData(mOdeGeom));
+  assert(odeGeomData);
+  odeGeomData->setLastChangeTime(WbSimulationState::instance()->time());
 
   if (correctSolidMass)
     applyToOdeMass();
@@ -509,8 +524,7 @@ void WbCylinder::recomputeBoundingSphere() const {
     mBoundingSphere->set(WbVector3(), WbVector3(radius, halfHeight, 0).length());
 }
 
-// if a cylinder has nothing to draw, then it shouldn't be exported to X3D at it will make X3DOM 1.4 display some errors in the
-// console
+// if a cylinder has nothing to draw, then it shouldn't be exported to X3D
 bool WbCylinder::shallExport() const {
   return mBottom->value() || mTop->value() || mSide->value();
 }

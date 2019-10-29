@@ -6,7 +6,7 @@ A paper boat (42.8 x 14.2 x 10.6 cm).
 
 %figure
 
-![PaperBoat](images/objects/toys/PaperBoat/model.png)
+![PaperBoat](images/objects/toys/PaperBoat/model.thumbnail.png)
 
 %end
 
@@ -30,7 +30,7 @@ PaperBoat {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/toys/protos/PaperBoat.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/toys/protos/PaperBoat.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/toys/protos/PaperBoat.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -49,7 +49,7 @@ A rubber yellow duck (7.42 x 10.66 x 10.13 cm).
 
 %figure
 
-![RubberDuck](images/objects/toys/RubberDuck/model.png)
+![RubberDuck](images/objects/toys/RubberDuck/model.thumbnail.png)
 
 %end
 
@@ -73,7 +73,7 @@ RubberDuck {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/toys/protos/RubberDuck.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/toys/protos/RubberDuck.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/toys/protos/RubberDuck.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

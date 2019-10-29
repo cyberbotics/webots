@@ -6,7 +6,7 @@ Generic and customizable stairs model.
 
 %figure
 
-![StraightStairs](images/objects/stairs/StraightStairs/model.png)
+![StraightStairs](images/objects/stairs/StraightStairs/model.thumbnail.png)
 
 %end
 
@@ -20,6 +20,7 @@ StraightStairs {
   SFVec3f    stepSize           0.4 0.03 1.27
   SFFloat    stepRise           0.15
   SFInt32    nSteps             5
+  SFFloat    stringerWidth      0.02
   SFNode     stepAppearance     VarnishedPine { textureTransform TextureTransform { scale 4 4 } }
   SFNode     stringerAppearance VarnishedPine { textureTransform TextureTransform { scale 4 4 } }
   MFNode     leftRail           StraightStairsRail {}
@@ -29,7 +30,7 @@ StraightStairs {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/stairs/protos/StraightStairs.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/stairs/protos/StraightStairs.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/stairs/protos/StraightStairs.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -41,6 +42,8 @@ StraightStairs {
 - `stepRise`: Defines the height difference between two consecutives steps.
 
 - `nSteps`: Defines the number of steps.
+
+- `stringerWidth`: Defines the width of the stringers.
 
 - `stepAppearance`: Defines the appearance of the steps.
 
@@ -58,7 +61,7 @@ Generic and customizable landing model for straight stairs.
 
 %figure
 
-![StraightStairsLanding](images/objects/stairs/StraightStairsLanding/model.png)
+![StraightStairsLanding](images/objects/stairs/StraightStairsLanding/model.thumbnail.png)
 
 %end
 
@@ -83,7 +86,7 @@ StraightStairsLanding {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/stairs/protos/StraightStairsLanding.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/stairs/protos/StraightStairsLanding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/stairs/protos/StraightStairsLanding.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -116,7 +119,7 @@ Default stairs handrail.
 
 %figure
 
-![StraightStairsRail](images/objects/stairs/StraightStairsRail/model.png)
+![StraightStairsRail](images/objects/stairs/StraightStairsRail/model.thumbnail.png)
 
 %end
 
@@ -139,7 +142,7 @@ StraightStairsRail {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/stairs/protos/StraightStairsRail.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/stairs/protos/StraightStairsRail.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/stairs/protos/StraightStairsRail.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

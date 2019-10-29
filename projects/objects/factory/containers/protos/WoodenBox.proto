@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -21,7 +21,7 @@ Solid {
     local mass = fields.mass.value
 
     local max_size = 3
-    local min_size = 0.1
+    local min_size = 0.01
 
     if size.x > max_size then
       io.stderr:write("'size.x' greater than " .. max_size .. "\n")
@@ -45,11 +45,12 @@ Solid {
       size.z = min_size
     end
 
-    -- we want the mass for a 1000cm3 box be comprised between 0.1 and 10 kg inclusive
-    -- and the mass for a 27m3 box be comprised between 90 and 9000 kg, hence the
-    -- following min_mass and max_mass values:
-    local min_mass = volume^(2/3)*10
-    local max_mass = min_mass*100
+    -- we want the mass for a 1000cm3 box be comprised between 0.01 and 10 kg inclusive,
+    -- hence the following min_mass and max_mass values:
+    local epsilon = 0.000001  -- one milligram
+    local min_mass = volume^(2/3)
+    local max_mass = min_mass*1000 + epsilon
+    min_mass = min_mass - epsilon
     if mass > 0 and mass < min_mass then
       io.stderr:write("'mass' less than " .. min_mass .. "\n")
       mass = min_mass
@@ -65,23 +66,23 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/wooden_box_base_color.png"
+            "textures/wooden_box_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/wooden_box_roughness.png"
+            "textures/wooden_box_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/wooden_box_normal.png"
+            "textures/wooden_box_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/wooden_box_occlusion.png"
+            "textures/wooden_box_occlusion.jpg"
           ]
         }
       }

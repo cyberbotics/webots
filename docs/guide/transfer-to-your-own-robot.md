@@ -53,7 +53,7 @@ Hence, the source code you wrote for the Webots simulation will be executed on t
 This is only possible if the processor on your robot can be programmed respectively in C, C++, Java or Python.
 It is not possible for a processor that can be programmed only in assembler or another specific language.
 Webots includes the source code of such a cross-compilation system for the e-puck and the Hemisson robot.
-Samples are located in the "WEBOTS\_HOME/projects/robots" directory.
+Samples are located in the "[WEBOTS\_HOME/projects/robots](https://github.com/cyberbotics/webots/tree/master/projects/robots)" directory.
 
 #### Developing a Custom Library
 

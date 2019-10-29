@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -268,8 +268,16 @@ void WbPaintTexture::paint(const WbRay &ray, float leadSize, const WbRgb &color,
 void WbPaintTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv) const {
   const int w = mTextureSize.x();
   const int h = mTextureSize.y();
-  const int x = uv.x() * w;
-  const int y = uv.y() * h;
+  int x = uv.x() * w;
+  int y = uv.y() * h;
+  while (x < 0)
+    x += w;
+  while (y < 0)
+    y += h;
+  while (x >= w)
+    x -= w;
+  while (y >= h)
+    y -= h;
 
   const int index = (y * w + x) * 4;
   pickedColor.setValue(mData[index + 2], mData[index + 1], mData[index]);

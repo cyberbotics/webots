@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,8 +21,6 @@ import os
 import re
 import sys
 
-from shutil import copyfile
-
 
 WEBOTS_HOME = os.getenv('WEBOTS_HOME')
 
@@ -35,13 +33,18 @@ def command(cmd):
 
 
 os.chdir(WEBOTS_HOME)
-dylibFiles = command('find . -type f -name *dylib -o -name *jnilib | grep -v dependencies | grep -v ros | grep -v sumo | grep -v nao_soccer | grep -v dashel | grep -v build').split()
-frameworkFiles = command('find Contents -name *.framework | sed -e "s:\\(.*\\)/\\([^/]*\\).framework:\\1/\\2.framework/\\2:"').split()
+dylibFiles = command('find . -type f -name *dylib -o -name *jnilib | grep -v dependencies | grep -v ros | grep -v sumo | '
+                     'grep -v nao_soccer | grep -v dashel | grep -v build').split()
+frameworkFiles = command('find Contents -name *.framework | '
+                         'sed -e "s:\\(.*\\)/\\([^/]*\\).framework:\\1/\\2.framework/\\2:"').split()
 for i in range(len(frameworkFiles)):
     frameworkFiles[i] = os.path.realpath(frameworkFiles[i]).replace(WEBOTS_HOME, '')
     frameworkFiles[i] = re.sub(r"^\.", "", frameworkFiles[i])
     frameworkFiles[i] = re.sub(r"^/", "", frameworkFiles[i])
-controllerFiles = command('find projects resources -name controllers | xargs -I{} find {} -maxdepth 1 -mindepth 1 -type d | grep -v ros | grep -v naoqisim | grep -v thymio2_aseba | sed -e "s:\\(.*\\)/\\([^/]*\\):\\1/\\2/\\2:" | perl -ne \'chomp(); if (-e $_) {print "$_\n"}\' ').split()
+controllerFiles = command('find projects resources -name controllers | xargs -I{} find {} -maxdepth 1 -mindepth 1 -type d | '
+                          'grep -v ros | grep -v naoqisim | grep -v thymio2_aseba | '
+                          'sed -e "s:\\(.*\\)/\\([^/]*\\):\\1/\\2/\\2:" | '
+                          'perl -ne \'chomp(); if (-e $_) {print "$_\n"}\' ').split()
 binaryFiles = [
     'Contents/MacOS/webots'
 ]
@@ -56,8 +59,9 @@ success = True
 # Check dependencies are:
 # - absolute (system) and are not containing local (macports)
 # - relative to @rpath (= WEBOTS_HOME) and are existing
-for f in (dylibFiles + frameworkFiles + controllerFiles + binaryFiles + qtBinaryFiles):
-    dependencies = command('otool -L ' + f + ' | grep -v ' + f + ': | sed -e "s: (compatibility.*::" | sed -e "s:^[ \t]*::"').split('\n')
+for f in dylibFiles + frameworkFiles + controllerFiles + binaryFiles + qtBinaryFiles:
+    dependencies = command('otool -L ' + f + ' | grep -v ' + f + ': | sed -e "s: (compatibility.*::" | '
+                           'sed -e "s:^[ \t]*::"').split('\n')
     for d in dependencies:
         if (not d.startswith('/') and not d.startswith('@rpath/')) or 'local' in d:
             success = False
@@ -73,9 +77,9 @@ for f in (dylibFiles + frameworkFiles + controllerFiles + binaryFiles + qtBinary
                 sys.stderr.write('- Dependency: ' + d + '\n')
 
 # check that the binaries have an RPATH
-for f in (controllerFiles + binaryFiles + qtBinaryFiles):
+for f in controllerFiles + binaryFiles + qtBinaryFiles:
     rpath = command('otool -l ' + f + ' | grep LC_RPATH -A 3 | grep path | cut -c15- | cut -d\' \' -f1')
-    if rpath is None or len(rpath) <= 0:
+    if rpath is None or not rpath:
         success = False
         sys.stderr.write('RPATH not defined in:\n')
         sys.stderr.write('- File: ' + f + '\n')
@@ -87,5 +91,5 @@ for f in (controllerFiles + binaryFiles + qtBinaryFiles):
 
 
 if success:
-    print 'Dylibs dependencies: ok'
-    print 'Frameworks dependencies: ok'
+    print('Dylibs dependencies: ok')
+    print('Frameworks dependencies: ok')

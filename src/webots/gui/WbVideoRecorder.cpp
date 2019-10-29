@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #include "WbVideoRecorder.hpp"
 
 #include "WbApplication.hpp"
+#include "WbDesktopServices.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbMainWindow.hpp"
@@ -36,13 +37,11 @@
 #include <QtCore/QProcess>
 #include <QtCore/QTextStream>
 #include <QtCore/QThread>
-#include <QtGui/QDesktopServices>
 #include <QtGui/QImage>
 #include <QtGui/QImageWriter>
 #include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
-#include <QtWidgets/QDesktopWidget>
 #include <QtWidgets/QFileDialog>
 
 #ifndef _WIN32
@@ -54,24 +53,24 @@
 
 class FrameWriterThread : public QThread {
 public:
-  FrameWriterThread(unsigned char *frame, int mutexIndex, const QString &fileName, const QSize &resolution, int pixelRatio,
-                    int quality, WbView3D *view) :
-    mFrame(frame),
-    mMutexIndex(mutexIndex),
+  FrameWriterThread(unsigned char *frame, const QString &fileName, const QSize &resolution, int pixelRatio, int quality) :
     mFileName(fileName),
     mResolution(resolution),
     mPixelRatio(pixelRatio),
     mQuality(quality),
-    mView(view),
-    mSuccess(false) {}
-
-  void run() override {
-    mView->lockPBOMutex(mMutexIndex);
+    mSuccess(false) {
     const int w = mResolution.width() / mPixelRatio;
     const int h = mResolution.height() / mPixelRatio;
-    unsigned char *destination = new unsigned char[4 * w * h];
-    WbView3D::flipAndScaleDownImageBuffer(mFrame, destination, mResolution.width(), mResolution.height(), mPixelRatio);
-    QImage img = QImage(destination, w, h, QImage::Format_RGB32);
+    mFrame = new unsigned char[4 * w * h];
+    WbView3D::flipAndScaleDownImageBuffer(frame, mFrame, mResolution.width(), mResolution.height(), mPixelRatio);
+  }
+
+  virtual ~FrameWriterThread() { delete[] mFrame; }
+
+  void run() override {
+    const int w = mResolution.width() / mPixelRatio;
+    const int h = mResolution.height() / mPixelRatio;
+    QImage img = QImage(mFrame, w, h, QImage::Format_RGB32);
     QImageWriter writer(mFileName);
     writer.setQuality(mQuality);
     mSuccess = writer.write(img);
@@ -85,20 +84,16 @@ public:
         supportedFormatsLog.append(QString::fromUtf8(supportedFormats[i]) + " ");
       WbLog::info(supportedFormatsLog, false);
     }
-    delete[] destination;
-    mView->unlockPBOMutex(mMutexIndex);
   }
 
   bool success() const { return mSuccess; }
 
 private:
   unsigned char *mFrame;
-  const int mMutexIndex;
   const QString mFileName;
   const QSize mResolution;
   const int mPixelRatio;
   const int mQuality;
-  WbView3D *mView;
   bool mSuccess;
 };
 
@@ -232,9 +227,8 @@ bool WbVideoRecorder::initRecording(WbSimulationView *view, double basicTimeStep
   // remove old files
   removeOldTempFiles();
 
-  const QDesktopWidget *qDesktop = QApplication::desktop();
-  const int screenNumber = qDesktop->screenNumber(QCursor::pos());
-  QSize fullScreen(qDesktop->screenGeometry(screenNumber).width(), qDesktop->screenGeometry(screenNumber).height());
+  const QScreen *screen = QGuiApplication::screenAt(QCursor::pos());
+  const QSize fullScreen(screen->geometry().width(), screen->geometry().height());
 
   mIsFullScreen = (mVideoResolution == fullScreen);
   if (mIsFullScreen) {
@@ -349,10 +343,10 @@ void WbVideoRecorder::stopRecording(bool canceled) {
   mIsInitialized = false;
 }
 
-void WbVideoRecorder::writeSnapshot(unsigned char *frame, int PBOIndex) {
+void WbVideoRecorder::writeSnapshot(unsigned char *frame) {
   QString fileName = nextFileName();
-  FrameWriterThread *thread = new FrameWriterThread(frame, PBOIndex, fileName, mVideoResolution * mScreenPixelRatio,
-                                                    mScreenPixelRatio, mVideoQuality, mSimulationView->view3D());
+  FrameWriterThread *thread =
+    new FrameWriterThread(frame, fileName, mVideoResolution * mScreenPixelRatio, mScreenPixelRatio, mVideoQuality);
   connect(thread, &QThread::finished, this, &WbVideoRecorder::terminateSnapshotWrite);
   thread->start();
 }
@@ -414,10 +408,10 @@ void WbVideoRecorder::terminateVideoCreation(int exitCode, QProcess::ExitStatus 
     box.setCheckBox(checkBox);
     if (box.exec() == QMessageBox::Yes) {
       if (checkBox->isChecked()) {
-        QDesktopServices::openUrl(QUrl("https://www.youtube.com/upload"));
+        WbDesktopServices::openUrl("https://www.youtube.com/upload");
         WbFileUtil::revealInFileManager(mVideoName);
       }
-      QDesktopServices::openUrl(QUrl::fromLocalFile(mVideoName));
+      WbDesktopServices::openUrl(QUrl::fromLocalFile(mVideoName).toString());
     }
   }
 }

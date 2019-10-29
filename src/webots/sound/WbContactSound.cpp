@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,14 +31,13 @@ WbContactSound::WbContactSound(const dGeomID &geom1, const dGeomID &geom2, const
   mType(NONE),
   mGeom1(geom1),
   mGeom2(geom2),
+  mBody1(dGeomGetBody(geom1)),
+  mBody2(dGeomGetBody(geom2)),
   mEnergy(0.0),
   mDerivativeEnergy(0.0),
   mDoubleDerivativeEnergy(0.0),
   mMass1(0.0),
   mMass2(0.0) {
-  mBody1 = dGeomGetBody(geom1);
-  mBody2 = dGeomGetBody(geom2);
-
   dMass mass;
   if (mBody1) {
     dBodyGetMass(mBody1, &mass);
@@ -69,6 +68,7 @@ WbContactSound::~WbContactSound() {
   WbSoundEngine::deleteSource(mSource);
 }
 
+// cppcheck-suppress constParameter
 bool WbContactSound::doesGeomsMatch(const dGeomID &geom1, const dGeomID &geom2) const {
   return ((geom1 == mGeom1 && geom2 == mGeom2) || (geom1 == mGeom2 && geom2 == mGeom1));
 }

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -108,8 +108,8 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
         definitionNode = NULL;
         const WbNode *const upperUseNode = mNestedUseNodes.last();
         WbNode *const upperDefinition = upperUseNode->defNode();
-        const int index = WbNode::subNodeIndex(node, upperUseNode);
-        matchingNode = WbNode::findNodeFromSubNodeIndex(index, upperDefinition);
+        const int childIndex = WbNode::subNodeIndex(node, upperUseNode);
+        matchingNode = WbNode::findNodeFromSubNodeIndex(childIndex, upperDefinition);
         if (matchingNode && matchingNode->isUseNode()) {
           definitionNode = static_cast<WbBaseNode *>(matchingNode->defNode());
           QString error;
@@ -188,8 +188,7 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
       }
 
     } else {
-      if (!isAValidUseableNode)
-        node->warn(warning + " " + QObject::tr("Non-admissible USE node turned into DEF node."));
+      node->warn(warning + " " + QObject::tr("Non-admissible USE node turned into DEF node."));
       makeDefNodeAndUpdateDictionary(node, true);
     }
     return true;
@@ -296,8 +295,8 @@ void WbDictionary::updateProtosDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode
           const WbNode *const upperUseNode = mNestedUseNodes.last();
           WbNode *upperDefinition = upperUseNode->defNode();
           if (mNestedProtos.last()->isAnAncestorOf(upperDefinition)) {
-            int index = WbNode::subNodeIndex(node, upperUseNode);
-            WbNode *matchingUse = WbNode::findNodeFromSubNodeIndex(index, upperDefinition);
+            int childIndex = WbNode::subNodeIndex(node, upperUseNode);
+            WbNode *matchingUse = WbNode::findNodeFromSubNodeIndex(childIndex, upperDefinition);
             definitionNode = static_cast<WbBaseNode *>(matchingUse->defNode());
           }
         }
@@ -570,13 +569,13 @@ void WbDictionary::updateForInsertion(const WbNode *const node, bool suitableOnl
       const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(fields[i]->value());
       if (mfnode) {
         const int size = mfnode->size();
-        for (int i = 0; !mStopUpdate && i < size; ++i) {
-          if (isInsertionField && i >= mTargetIndex) {
+        for (int j = 0; !mStopUpdate && j < size; ++j) {
+          if (isInsertionField && j >= mTargetIndex) {
             mStopUpdate = true;
             return;
           }
 
-          const WbNode *const n = mfnode->item(i);
+          const WbNode *const n = mfnode->item(j);
           if (n && !n->isUseNode())
             updateForInsertion(n, suitableOnly, defNodes);
         }

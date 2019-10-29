@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,25 +19,39 @@
 #include "WbPreferences.hpp"
 #include "WbSysInfo.hpp"
 
+#include <cassert>
+
+#include <compilation_timestamp.h>
+
+#include <QtCore/QEventLoop>
+#include <QtCore/QTimer>
 #include <QtNetwork/QNetworkReply>
 
-void WbTelemetry::send(const QString &file, const QString &operation) {
+void WbTelemetry::send(const QString &operation, const QString &file) {
   static WbTelemetry telemetry;
-  telemetry.sendRequest(file, operation);
+  if (!file.isEmpty()) {  // operation: trial
+    assert(telemetry.mFile.isEmpty());
+    telemetry.mFile = file;
+    telemetry.sendRequest(operation);
+  } else {  // operation: success or cancel
+    assert(!telemetry.mFile.isEmpty());
+    telemetry.sendRequest(operation);
+    telemetry.mFile.clear();
+  }
 }
 
-void WbTelemetry::sendRequest(const QString &file, const QString &operation) {
+void WbTelemetry::sendRequest(const QString &operation) {
   QNetworkRequest request(QUrl("https://www.cyberbotics.com/telemetry.php"));
   QByteArray data;
   data.append("id=");
-  const QString telemetryId = WbPreferences::instance()->value("General/telemetryId", 0).toString();
-  data.append(telemetryId);
-  data.append("operation=");
+  const int id = WbPreferences::instance()->value("General/telemetryId", 0).toString().toInt();
+  data.append(QString::number(id).toUtf8());
+  data.append("&operation=");
   data.append(QUrl::toPercentEncoding(operation));
   data.append("&file=");
-  data.append(QUrl::toPercentEncoding(file));
+  data.append(QUrl::toPercentEncoding(mFile));
   data.append("&version=");
-  data.append(QUrl::toPercentEncoding(WbApplicationInfo::version().toString()));
+  data.append(QUrl::toPercentEncoding(WbApplicationInfo::version().toString(true, false, true)));
   data.append("&os=");
   data.append(QUrl::toPercentEncoding(WbSysInfo::sysInfo()));
   data.append("&glVendor=");
@@ -48,18 +62,27 @@ void WbTelemetry::sendRequest(const QString &file, const QString &operation) {
   data.append(QUrl::toPercentEncoding(WbSysInfo::openGLVersion()));
   data.append("&textureQuality=");
   data.append(WbPreferences::instance()->value("OpenGL/textureQuality", 0).toString());
-  data.append("&disableCameraAntiAliasing=");
-  data.append(WbPreferences::instance()->value("OpenGL/disableCameraAntiAliasing", 0).toString());
+  data.append("&disableAntiAliasing=");
+  data.append(WbPreferences::instance()->value("OpenGL/disableAntiAliasing", 0).toString());
   data.append("&disableShadows=");
   data.append(WbPreferences::instance()->value("OpenGL/disableShadows", 0).toString());
   data.append("&GTAO=");
   data.append(WbPreferences::instance()->value("OpenGL/GTAO", 0).toString());
-  data.append("&SMAA=");
-  data.append(WbPreferences::instance()->value("OpenGL/SMAA", 0).toString());
+  data.append("&build=");
+  data.append(QString::number(UNIX_TIMESTAMP));
   request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->post(request, data);
-  if (telemetryId == '0')
+  if (id == 0) {
+    QEventLoop loop;
+    QTimer timer;
+    timer.start(5000);  // allow a maximum of 5 seconds before giving up on the server answer
     connect(reply, &QNetworkReply::finished, this, &WbTelemetry::requestReplyFinished, Qt::UniqueConnection);
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
+    loop.exec();
+    if (timer.remainingTime() == 0)  // time out occurred
+      disconnect(reply, &QNetworkReply::finished, 0, 0);
+  }
 }
 
 void WbTelemetry::requestReplyFinished() {
@@ -70,6 +93,8 @@ void WbTelemetry::requestReplyFinished() {
   if (reply->error())
     return;
   disconnect(reply, &QNetworkReply::finished, this, &WbTelemetry::requestReplyFinished);
-  const QString id = QString::fromUtf8(reply->readAll()).trimmed();
-  WbPreferences::instance()->setValue("General/telemetryId", id);
+  const QString answer = QString::fromUtf8(reply->readAll()).trimmed();
+  QStringList answers = answer.split(" ");
+  WbPreferences::instance()->setValue("General/telemetryId", answers[0]);
+  WbPreferences::instance()->setValue("General/telemetryPassword", answers[1]);  // stored for later use
 }

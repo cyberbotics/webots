@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@
 #include "WbRadar.hpp"
 #include "WbReceiver.hpp"
 #include "WbRobot.hpp"
+#include "WbSimulationState.hpp"
 #include "WbSolid.hpp"
 #include "WbTouchSensor.hpp"
 #include "WbTrack.hpp"
@@ -442,8 +443,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   }
 
   // retrieve data
-  const WbOdeGeomData *const odeGeomData1 = static_cast<WbOdeGeomData *>(dGeomGetData(o1));
-  const WbOdeGeomData *const odeGeomData2 = static_cast<WbOdeGeomData *>(dGeomGetData(o2));
+  WbOdeGeomData *const odeGeomData1 = static_cast<WbOdeGeomData *>(dGeomGetData(o1));
+  WbOdeGeomData *const odeGeomData2 = static_cast<WbOdeGeomData *>(dGeomGetData(o2));
   WbSolid *s1 = NULL, *s2 = NULL;
   WbGeometry *wg1 = NULL, *wg2 = NULL;
 
@@ -693,18 +694,36 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   wg1->setColliding();
   wg2->setColliding();
 
+  // if the geometry of one colliding object has changed this step, we need to enable the other body
+  // (otherwise if the changed geometry is kinematic the other body will not move)
+  if (odeGeomData1->lastChangeTime() > 0.0) {
+    if (odeGeomData1->lastChangeTime() >= WbSimulationState::instance()->time()) {
+      if (b2)
+        dBodyEnable(b2);
+    } else
+      odeGeomData1->setLastChangeTime(0.0);
+  }
+
+  if (odeGeomData2->lastChangeTime() > 0.0) {
+    if (odeGeomData2->lastChangeTime() >= WbSimulationState::instance()->time()) {
+      if (b1)
+        dBodyEnable(b1);
+    } else
+      odeGeomData2->setLastChangeTime(0.0);
+  }
+
+  // no need to create contact joints for contacts between disable bodies and kinematic solids
+  const bool b1Disabled = b1 && !dBodyIsEnabled(b1);
+  const bool b2Disabled = b2 && !dBodyIsEnabled(b2);
+  if ((s1->isKinematic() && b2Disabled) || (s2->isKinematic() && b1Disabled) || (b1Disabled && b2Disabled))
+    return;
+
   // From now on, solids have a non-null body
   // So, we can fill the contact surface parameters.
   //------------------------------------------------
 
   for (int i = 0; i < n; ++i) {
     assert(o1 == contact[i].geom.g1 && o2 == contact[i].geom.g2);
-
-    // no need to create contact joints for contacts between disable bodies and kinematic solids
-    bool b1Disabled = b1 && !dBodyIsEnabled(b1);
-    bool b2Disabled = b2 && !dBodyIsEnabled(b2);
-    if ((s1->isKinematic() && b2Disabled) || (s2->isKinematic() && b1Disabled) || (b1Disabled && b2Disabled))
-      continue;
 
     // using contact properties specified in WorldInfo
     const WbContactProperties *contactProperties = cl->fillSurfaceParameters(s1, s2, wg1, wg2, &contact[i]);

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,6 +44,8 @@ public:
   double maxVelocity() const { return mMaxVelocity->value(); }
   double minPosition() const { return mMinPosition->value(); }
   double maxPosition() const { return mMaxPosition->value(); }
+  void setMinPosition(double position) { mMinPosition->setValue(position); }
+  void setMaxPosition(double position) { mMaxPosition->setValue(position); }
   const QString &sound() const { return mSound->value(); }
   const WbSoundClip *soundClip() const { return mSoundClip; }
   double computeCurrentDynamicVelocity(double ms, double position);
@@ -70,6 +72,10 @@ public:
   void reset() override;
 
   static const QList<const WbMotor *> &motors() { return cMotors; }
+
+signals:
+  void minPositionChanged();
+  void maxPositionChanged();
 
 protected:
   WbMotor(const QString &modelName, WbTokenizer *tokenizer = NULL);

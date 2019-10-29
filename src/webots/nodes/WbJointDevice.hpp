@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ public:
   WbLogicalDevice *getSiblingDeviceByType(int nodeType) const;
 
 protected:
-  WbJointDevice(const QString &modelName, WbTokenizer *tokenizer = NULL);
+  explicit WbJointDevice(const QString &modelName, WbTokenizer *tokenizer = NULL);
   explicit WbJointDevice(WbTokenizer *tokenizer = NULL);
   WbJointDevice(const WbJointDevice &other);
   explicit WbJointDevice(const WbNode &other);

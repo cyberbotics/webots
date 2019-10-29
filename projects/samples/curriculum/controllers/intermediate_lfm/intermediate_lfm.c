@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@ unsigned short width, height;
 int find_middle(int tab[], int sizeTab) {
   int i, j;
   int *copy = (int *)malloc(sizeof(int) * sizeTab);
-  int mean = 0;
+  int mid = 0;
   int nb_best = sizeTab / 10;
   int *index_bests = (int *)malloc(sizeof(int) * nb_best);
 
@@ -65,7 +65,7 @@ int find_middle(int tab[], int sizeTab) {
   int identical = 1;
   for (i = 0; i < sizeTab; i++) {
     copy[i] = tab[i];
-    mean += tab[i];
+    mid += tab[i];
     if (tab[i] != tab[0])
       identical = 0;
   }
@@ -74,15 +74,14 @@ int find_middle(int tab[], int sizeTab) {
     free(index_bests);
     return sizeTab / 2;
   }
-  mean /= sizeTab;
+  mid /= sizeTab;
 
   // take the best values of the tab
   for (i = 0; i < nb_best; i++) {
-    index_bests[i] = -1;
     int index = -1;
     int max = 0;
     for (j = 0; j < sizeTab; j++) {
-      if (max < copy[j] && copy[j] > mean) {
+      if (max < copy[j] && copy[j] > mid) {
         max = copy[j];
         index = j;
       }

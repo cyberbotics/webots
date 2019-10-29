@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -194,7 +194,7 @@ void wb_supervisor_simulation_physics_reset() WB_DEPRECATED;
 #define WB_SUPERVISOR_MOVIE_SIMULATION_ERROR 5
 int wb_supervisor_movie_get_status();
 
-// deprecated since webots 8.3.0: please use the wb_supervisor_movie_*() functions instead
+// deprecated since webots 8.3.0: please use the wb_supervisor_movie_*() functions instead
 void wb_supervisor_start_movie(const char *file, int width, int height, int codec, int quality, int acceleration,
                                bool caption) WB_DEPRECATED;
 void wb_supervisor_stop_movie() WB_DEPRECATED;

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -57,19 +57,19 @@ void WbFocus::postFinalize() {
 }
 
 void WbFocus::updateFocalDistance() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mFocalDistance, 0.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mFocalDistance, 0.0))
     return;
   emit focusSettingsChanged();
 }
 
 void WbFocus::updateFocalLength() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mFocalLength, 0.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mFocalLength, 0.0))
     return;
   emit focusSettingsChanged();
 }
 
 void WbFocus::updateMinFocalDistance() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mMinFocalDistance, 0.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mMinFocalDistance, 0.0))
     return;
   if (mMinFocalDistance->value() > mMaxFocalDistance->value()) {
     warn(tr("Invalid 'minFocalDistance' changed to %1. The value should be smaller or equal to 'maxFocalDistance'.")

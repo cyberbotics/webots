@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,8 +13,12 @@
 // limitations under the License.
 
 /*
- * Description:  This controller demonstrates how to use openCV to process
-                 the camera image.
+ * Description: This controller demonstrates how to use openCV to process the camera image.
+ *              In order to execute and recompile this example, opencv must be installed.
+ *              To run this controller, it is recommended to install the Webots development
+ *              environment as explained here:
+ * https://github.com/cyberbotics/webots/wiki#installation-of-the-webots-development-environment
+ *
  */
 
 #include <stdio.h>
@@ -95,9 +99,9 @@ void process_image(const unsigned char *image, int length) {
       }
     }
 
-    for (int i = 0; i < NB_FILTERS; ++i) {
-      if (filters[i]) {
-        inRange(hsv, lMargin[i], uMargin[i], temp_filtered);
+    for (int f = 0; f < NB_FILTERS; ++f) {
+      if (filters[f]) {
+        inRange(hsv, lMargin[f], uMargin[f], temp_filtered);
         /* Copy the value from the original image to the output if it's accepted by a filter */
         for (int i = 0; i < height; ++i) {
           for (int j = 0; j < width; ++j) {

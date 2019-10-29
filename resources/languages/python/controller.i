@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -87,7 +87,7 @@ using namespace std;
   for (int i = 0; i < len; ++i)
     PyList_SetItem($result, i, PyFloat_FromDouble($1[i]));
 }
-%typemap(in) const double [ANY] {
+%typemap(in) const double * {
   if (!PyList_Check($input)) {
     PyErr_SetString(PyExc_TypeError, "in method '$name', expected 'PyList'\n");
     return NULL;
@@ -96,6 +96,9 @@ using namespace std;
   $1 = (double*)malloc(len * sizeof(double));
   for (int i = 0; i < len; ++i)
     $1[i] = PyFloat_AsDouble(PyList_GetItem($input, i));
+}
+%typemap(freearg) const double * {
+  free($1);
 }
 %typemap(in) const int * {
   if (!PyList_Check($input)) {
@@ -107,7 +110,9 @@ using namespace std;
   for (int i = 0; i < len; ++i)
     $1[i] = PyInt_AsLong(PyList_GetItem($input, i));
 }
-
+%typemap(freearg) const int * {
+  free($1);
+}
 //----------------------------------------------------------------------------------------------
 //  Device
 //----------------------------------------------------------------------------------------------
@@ -346,9 +351,13 @@ using namespace std;
     for (int i = 0; i < len1; ++i)
       for (int j = 0; j < len2; ++j)
         for (int k = 0; k < len3; ++k)
-          ((unsigned char *)$1)[(i * len2 * len3) + (j * len3) + k] = (unsigned char) PyInt_AsLong(PyList_GetItem(PyList_GetItem(PyList_GetItem($input, i), j), k));
+          ((unsigned char *)$1)[(j * len1 * len3) + (i * len3) + k] = (unsigned char) PyInt_AsLong(PyList_GetItem(PyList_GetItem(PyList_GetItem($input, i), j), k));
   } else // PyString case
     $1 = PyString_AsString($input);
+}
+
+%typemap(freearg) const void * {
+  free($1);
 }
 
 %rename (__internalImageNew) imageNew(int width, int height, const void *data, int format) const;
@@ -661,7 +670,7 @@ using namespace std;
     int height = $self->getHeight();
     PyObject *ret = Py_None;
     if (im) {
-      PyObject *ret = PyList_New(width);
+      ret = PyList_New(width);
       for (int x = 0; x < width; ++x) {
         PyObject *dim2 = PyList_New(height);
         PyList_SetItem(ret, x, dim2);
@@ -783,6 +792,9 @@ using namespace std;
     joystick = Joystick()
     keyboard = Keyboard()
     mouse = Mouse()
+    import sys
+    if sys.version_info[0] < 3:
+      sys.stderr.write("DEPRECATION: Python 2.7 will reach the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 won't be maintained after that date. A future version of Webots will drop support for Python 2.7.\n")
     def createAccelerometer(self, name):
       return Accelerometer(name)
     def getAccelerometer(self, name):

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,8 +27,8 @@ namespace WbUrl {
   QString computePath(const WbNode *node, const QString &field, const QString &url, bool displayWarning = true);
   QString computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index);
   QString exportTexture(const WbNode *node, const QString &url, const QString &sourcePath, const QString &relativeTexturesPath,
-                        WbVrmlWriter &writer);
-  QString exportTexture(const WbNode *node, const WbMFString *urlField, int index, WbVrmlWriter &writer);
+                        const WbVrmlWriter &writer);
+  QString exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbVrmlWriter &writer);
 };  // namespace WbUrl
 
 #endif

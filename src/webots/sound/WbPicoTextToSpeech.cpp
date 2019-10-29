@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -250,14 +250,14 @@ static QString toSsml(const QDomElement e) {
   QDomNode n = e.firstChild();
   while (!n.isNull()) {
     if (n.isElement()) {
-      QDomElement e = n.toElement();
-      QString name = e.tagName().toLower();
+      QDomElement el = n.toElement();
+      QString name = el.tagName().toLower();
       if (name == "prosody") {
-        QString pitchString = e.attribute("pitch", "0st");
+        QString pitchString = el.attribute("pitch", "0st");
         pitchString.chop(2);
         double pitch = pitchString.toDouble();
-        double rate = e.attribute("rate", "1").toDouble();
-        double volume = e.attribute("volume", "-1").toDouble();
+        double rate = el.attribute("rate", "1").toDouble();
+        double volume = el.attribute("volume", "-1").toDouble();
         if (pitch != 0) {
           if (pitch > 0)
             pitch *= 100.0 / 12.0;
@@ -269,7 +269,7 @@ static QString toSsml(const QDomElement e) {
           result += "<speed level=\"" + QString::number(rate * 100) + "\">";
         if (volume >= 0)
           result += "<volume level=\"" + QString::number(volume) + "\">";
-        result += toSsml(e);
+        result += toSsml(el);
         if (volume >= 0)
           result += "</volume>";
         if (rate != 1)
@@ -277,7 +277,7 @@ static QString toSsml(const QDomElement e) {
         if (pitch != 0)
           result += "</pitch>";
       } else if (name == "audio")
-        result += "<play file=\"" + e.attribute("src", "") + "\">" + toSsml(e) + "</play>";
+        result += "<play file=\"" + el.attribute("src", "") + "\">" + toSsml(el) + "</play>";
     } else if (n.isText())
       result += n.toText().nodeValue();
     n = n.nextSibling();

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -149,6 +149,11 @@ public:
   // normalization: |length| = 1.0
   void normalize() { *this /= length(); }
   WbVector3 normalized() const { return *this / length(); }
+
+  WbVector3 rounded(WbPrecision::Level level) const {
+    return WbVector3(WbPrecision::roundValue(mX, level), WbPrecision::roundValue(mY, level),
+                     WbPrecision::roundValue(mZ, level));
+  }
 
   // dot product
   double dot(const WbVector3 &v) const { return mX * v.mX + mY * v.mY + mZ * v.mZ; }

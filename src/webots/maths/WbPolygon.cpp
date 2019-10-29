@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,14 +26,16 @@ bool WbPolygon::contains(double x, double y) const {
   if (mSize == 1)
     return (x == value(0).x() && y == value(0).y());
 
-  double dx = x - value(0).x();
-  double dy = y - value(0).y();
-  double sideX = value(1).x() - value(0).x();
-  double sideY = value(1).y() - value(0).y();
-  double det = sideX * dy - sideY * dx;
+  double dx, dy, sideX, sideY, det;
 
-  if (mSize == 2)
+  if (mSize == 2) {
+    dx = x - value(0).x();
+    dy = y - value(0).y();
+    sideX = value(1).x() - value(0).x();
+    sideY = value(1).y() - value(0).y();
+    det = sideX * dy - sideY * dx;
     return (det == 0.0 && dx * sideX + dy * sideY < 0.0);
+  }
 
   if (mSize == 3) {  // In this case, the vertex order is possibly clockwise
     // Side A_0 A_1 of the polygon

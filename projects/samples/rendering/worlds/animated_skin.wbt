@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "Model of the Salamandra Robotica amphibious robot developped at the BIOROB (http://biorob.epfl.ch) with an animated skin"
@@ -1253,18 +1253,18 @@ DEF SALAMANDER Robot {
           roughness 0.2
           roughnessMap ImageTexture {
             url [
-              "textures/salamander_specular.png"
+              "textures/salamander_specular.jpg"
             ]
           }
           metalness 0
           normalMap ImageTexture {
             url [
-              "textures/salamander_normal.png"
+              "textures/salamander_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/salamander_occlusion.png"
+              "textures/salamander_occlusion.jpg"
             ]
           }
           name "skin"

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,8 +41,8 @@ public:
   const QColor &defaultColor() const { return mDefaultColor; }
   const QColor &modifiedColor() const { return mModifiedColor; }
 
-  void setDefaultColor(QColor &color) { mDefaultColor = color; }
-  void setModifiedColor(QColor &color) { mModifiedColor = color; }
+  void setDefaultColor(const QColor &color) { mDefaultColor = color; }
+  void setModifiedColor(const QColor &color) { mModifiedColor = color; }
 
 public slots:
   void itemInserted(const QModelIndex &index);

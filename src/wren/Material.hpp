@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -40,9 +40,6 @@ namespace wren {
     };
 
     virtual WrMaterialType type() const { return WR_MATERIAL_NONE; }
-    // Encapsulate memory management
-
-    static void deleteMaterial(Material *material) { delete material; }
 
     // Clear all the data but preserve the program
     virtual void clearMaterial() = 0;

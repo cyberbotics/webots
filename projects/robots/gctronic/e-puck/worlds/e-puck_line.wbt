@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "Copyright (C) 2006 Laboratory of Intelligent Systems (LIS), EPFL"
@@ -22,7 +22,7 @@ RectangleArena {
         "textures/floor.png"
       ]
     }
-    roughness 1
+    roughness 0.2
     metalness 0
   }
   wallHeight 0.05
@@ -33,7 +33,7 @@ DEF OBSTACLE1 Solid {
     Shape {
       appearance PBRAppearance {
         baseColor 1 0.1 0.3
-        roughness 1
+        roughness 0.5
         metalness 0
       }
       geometry DEF BOX1 Box {
@@ -51,7 +51,7 @@ DEF OBSTACLE2 Solid {
     Shape {
       appearance PBRAppearance {
         baseColor 1 0.501961 1
-        roughness 1
+        roughness 0.5
         metalness 0
       }
       geometry DEF BOX2 Box {
@@ -69,7 +69,7 @@ DEF OBSTACLE3 Solid {
     Shape {
       appearance PBRAppearance {
         baseColor 0.501961 0.501961 0.501961
-        roughness 1
+        roughness 0.5
         metalness 0
       }
       geometry DEF BOX3 Box {

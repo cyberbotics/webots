@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ public:
   // qproperty methods
   const QColor &backgroundColor() const { return mBackgroundColor; }
 
-  void setBackgroundColor(QColor &color) { mBackgroundColor = color; }
+  void setBackgroundColor(const QColor &color) { mBackgroundColor = color; }
 
 private slots:
   void startButtonPressed();

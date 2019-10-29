@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -126,8 +126,8 @@ WbCoordinateSystem::WbCoordinateSystem(WbWrenRenderingContext *context) {
     mLabelsTransform[i] = wr_transform_new();
     wr_transform_set_position(mLabelsTransform[i], labelsOffset[i]);
     const float aspectRatio = width / (float)(height);
-    const float scale[3] = {aspectRatio * labelsScale, labelsScale, 1.0f};
-    wr_transform_set_scale(mLabelsTransform[i], scale);
+    const float transformScale[3] = {aspectRatio * labelsScale, labelsScale, 1.0f};
+    wr_transform_set_scale(mLabelsTransform[i], transformScale);
 
     wr_transform_attach_child(mLabelsTransform[i], WR_NODE(renderable));
     wr_transform_attach_child(mTransform, WR_NODE(mLabelsTransform[i]));

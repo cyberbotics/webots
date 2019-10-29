@@ -15,6 +15,8 @@ In addition, it becomes possible to reuse your existing MATLAB code directly in 
 In order to use MATLAB controllers in Webots, the MATLAB software must be installed (a MATLAB license is required).
 Webots {{ webots.version.full }} supports only 64bits MATLAB versions from 2015b.
 
+On Windows, the [MATLAB MinGW-w64 C/C++ Compiler](https://fr.mathworks.com/matlabcentral/fileexchange/52848-matlab-support-for-mingw-w64-c-c-compiler) needs to be installed in addition to MATLAB.
+
 Webots must be able to access the "matlab" executable (usually a script) in order to run controller m-files.
 Webots looks for the "matlab" executable in every directory of your *PATH* (or *Path* on Windows) environment variable.
 Note that this is similar to calling "matlab" from a terminal (or *Command Prompt* on Windows), therefore, if MATLAB can be started from a terminal then it can also be started from Webots.
@@ -42,7 +44,7 @@ $ sudo ln -s /Applications/MATLAB_R2018b.app/bin/matlab /usr/local/bin/matlab
 
 ### How to Run the Examples?
 
-To test MATLAB in Webots, start Webots and open the "WEBOTS\_HOME/projects/languages/matlab/worlds/e-puck\_matlab.wbt" or "WEBOTS\_HOME/projects/robots/softbank/nao/worlds/nao\_matlab.wbt" world file.
+To test MATLAB in Webots, start Webots and open the "WEBOTS\_HOME/projects/languages/matlab/worlds/e-puck\_matlab.wbt" or "[WEBOTS\_HOME/projects/robots/softbank/nao/worlds/nao\_matlab.wbt](https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/worlds/nao_matlab.wbt)" world file.
 Webots automatically starts MATLAB when it detects an m-file in a controller directory.
 Note that the m-file must be named after its directory in order to be identified as a controller file by Webots.
 So, for example, if the directory is named "my\_controller", then the controller m-file must be named "my\_controller/my\_controller.m".

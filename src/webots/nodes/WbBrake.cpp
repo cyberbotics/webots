@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -56,8 +56,9 @@ void WbBrake::writeConfigure(QDataStream &stream) {
   stream << (int)type();
 }
 
-void WbBrake::handleMessage(QDataStream &stream, short int &command) {
-  stream >> (unsigned char &)command;
+void WbBrake::handleMessage(QDataStream &stream) {
+  unsigned char command;
+  stream >> command;
   if (command & C_BRAKE_SET_DAMPING_CONSTANT) {
     double dampingConstant;
     stream >> dampingConstant;

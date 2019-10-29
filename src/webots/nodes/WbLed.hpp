@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -47,7 +47,6 @@ public:
   int colorsCount() const { return mColor->size(); }
   const WbRgb &color(int index) const { return mColor->item(index); }
   int value() const { return mValue; }
-  const QList<WbMaterial *> &materials() const { return mMaterials; }
   const QList<WbPbrAppearance *> &pbrAppearances() const { return mPbrAppearances; }
   bool isGradual() const;
 

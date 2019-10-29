@@ -102,7 +102,7 @@ Then, if the same procedural PROTO is used several times in a world and all the 
 
 ```
 
-#VRML_SIM R2018a utf8
+#VRML_SIM R2019a utf8
 # tags: static
 
 PROTO SimpleStairs [

@@ -1,6 +1,6 @@
 ## K-Team's Khepera III
 
-%robot khepera3 images/robots/khepera3/model.png
+%robot khepera3 images/robots/khepera3/model.thumbnail.png
 
 The "Khepera III" robot is a two-wheeled robot produced by [K-Team](https://www.k-team.com/mobile-robotics-products/old-products/khepera-iii).
 It is mounted by multiple sensors including 8 distance sensors.
@@ -41,10 +41,10 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### khepera3.wbt
 
-![khepera3.wbt.png](images/robots/khepera3/khepera3.wbt.png) In this example, you can see a Khepera III robot moving inside an arena while avoiding the walls.
+![khepera3.wbt.png](images/robots/khepera3/khepera3.wbt.thumbnail.jpg) In this example, you can see a Khepera III robot moving inside an arena while avoiding the walls.
 It uses a Braitenberg's vehicle algorithm to avoid obstacles.
 
 #### khepera3\_gripper.wbt
 
-![khepera3_gripper.wbt.png](images/robots/khepera3/khepera3_gripper.wbt.png) In this example, you can see a Khepera III robot mounted with a gripper.
+![khepera3_gripper.wbt.png](images/robots/khepera3/khepera3_gripper.wbt.thumbnail.jpg) In this example, you can see a Khepera III robot mounted with a gripper.
 It grabs an orange stick, moves and leaves the stick.

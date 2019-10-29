@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -92,13 +92,10 @@ void step(double seconds) {
 }
 
 void braitenberg() {
-  while (1) {
+  while (wb_robot_step(time_step) != -1) {  // Run simulation
     int i, j;
     double speed[2];
     double sensors_value[num_sensors];
-
-    /* Run simulation */
-    wb_robot_step(time_step);
 
     for (i = 0; i < num_sensors; i++)
       sensors_value[i] = wb_distance_sensor_get_value(sensors[i]);
@@ -189,5 +186,6 @@ int main() {
   turn(-10.7);
   step(1.0);
   braitenberg();
+  wb_robot_cleanup();
   return 0;
 }

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -228,18 +228,21 @@ WbBaseNode *WbBaseNode::getSingleFinalizedProtoInstance() {
   return finalizedInstance;
 }
 
+bool WbBaseNode::isInvisibleNode() const {
+  return WbWorld::instance()->viewpoint()->getInvisibleNodes().contains(const_cast<WbBaseNode *>(this));
+}
+
 bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
   if (!writer.isX3d())
     return WbNode::exportNodeHeader(writer);
 
-  writer << "<" << vrmlName() << " id=\'n" << QString::number(uniqueId()) << "\'";
-  if (WbWorld::instance()->viewpoint()->getInvisibleNodes().contains(const_cast<WbBaseNode *>(this)))
+  writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+  if (isInvisibleNode())
     writer << " render=\'false\'";
-  if (isUseNode()) {
-    writer << " USE=\'" + useName() + "\'></" + vrmlName() + ">";
+
+  if (isUseNode() && defNode()) {  // export referred DEF node id
+    writer << " USE=\'n" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
     return true;
   }
-  if (!defName().isEmpty())
-    writer << " DEF=\'" << defName() << "\'";
   return false;
 }

@@ -1,1 +1,3 @@
 projects/default/libraries/ros_windows.zip
+projects/default/libraries/ros/
+projects/default/controllers/ros/

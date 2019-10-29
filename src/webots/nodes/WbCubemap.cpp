@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -56,6 +56,7 @@ void WbCubemap::init() {
   mSpecularIrradianceCubeTexture = NULL;
   mIsValid = false;
   mIsEquirectangular = false;
+  mRole = "";
 
   for (int i = 0; i < 6; ++i) {
     mQImages[i] = NULL;
@@ -113,6 +114,10 @@ void WbCubemap::updateWrenTexture() {
     emit changed();
 }
 
+QString WbCubemap::equirectangularTextureUrl() const {
+  return WbUrl::computePath(this, "textureBaseName", mDirectory->value() + "/" + mTextureBaseName->value() + ".hdr", false);
+}
+
 void WbCubemap::loadWrenTexture() {
   // silently exit, not all name fields have values
   if (mDirectory->value().isEmpty() || mTextureBaseName->value().isEmpty()) {
@@ -120,8 +125,7 @@ void WbCubemap::loadWrenTexture() {
     return;
   }
 
-  QString expectedEquirectangularPath =
-    WbUrl::computePath(this, "textureBaseName", mDirectory->value() + "/" + mTextureBaseName->value() + ".hdr", false);
+  QString expectedEquirectangularPath = equirectangularTextureUrl();
 
   if (!expectedEquirectangularPath.isEmpty()) {
     mIsEquirectangular = true;
@@ -240,8 +244,11 @@ void WbCubemap::loadWrenTexture() {
 
   const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
   // maps the quality eihter to '0: 64, 1: 128, 2: 256' or in case of HDR to '0: 32, 1: 64, 2: 256'
-  const int offset = (mIsEquirectangular && quality < 2) ? 5 : 6;
-  const int resolution = pow(2, offset + quality);  // 0: 64, 1: 128, 2: 256
+  const int offset =
+    (mIsEquirectangular && (quality < 2 || WbPreferences::instance()->value("OpenGL/limitBakingResolution", false).toBool())) ?
+      5 :
+      6;
+  const int resolution = 1 << (offset + quality);
   mSpecularIrradianceCubeTexture = wr_texture_cubemap_bake_specular_irradiance(
     mDefaultCubeTexture, WbWrenShaders::iblSpecularIrradianceBakingShader(), resolution);
   wr_texture_cubemap_disable_automatic_mip_map_generation(mSpecularIrradianceCubeTexture);
@@ -271,4 +278,10 @@ void WbCubemap::modifyWrenMaterial(WrMaterial *material) {
   wr_material_set_texture_cubemap_anisotropy(material, 8, 1);
   wr_material_set_texture_cubemap_enable_interpolation(material, true, 1);
   wr_material_set_texture_cubemap_enable_mip_maps(material, true, 1);
+}
+
+void WbCubemap::exportNodeFields(WbVrmlWriter &writer) const {
+  WbBaseNode::exportNodeFields(writer);
+  if (writer.isX3d() && !mRole.isEmpty())
+    writer << " type=\'" << mRole << "\'";
 }

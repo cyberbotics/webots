@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -85,17 +85,17 @@ PROTO SimpleBuilding [
 
     -- the wallType is the texture's name (ex. "glass building"'s texture name is "glass_building.jpg")
     local wallTypes = {
-      ["glass building"]         = { textureFloorNumber = 4,   textureWidth = 12,  textureLateralWindowNumber = 4, colors = {{0.44, 0.56, 0.7}} },
-      ["classic building"]       = { textureFloorNumber = 4,   textureWidth = 12,  textureLateralWindowNumber = 8, colors = {{0.62, 0.56, 0.49}} },
-      ["orange building"]        = { textureFloorNumber = 3,   textureWidth = 12,  textureLateralWindowNumber = 5, colors = {{0.83, 0.48, 0.36}} },
+      ["glass building"]         = { textureFloorNumber = 4,   textureWidth = 12,  textureLateralWindowNumber = 4, colors = {{0.44, 0.56, 0.7}}, pbr = true },
+      ["classic building"]       = { textureFloorNumber = 4,   textureWidth = 12,  textureLateralWindowNumber = 8, colors = {{0.62, 0.56, 0.49}}, pbr = true },
+      ["orange building"]        = { textureFloorNumber = 3,   textureWidth = 12,  textureLateralWindowNumber = 5, colors = {{0.83, 0.48, 0.36}}, pbr = true },
       ["gray glass building"]    = { textureFloorNumber = 12,  textureWidth = 15,  textureLateralWindowNumber = 4, colors = {{0.85, 0.88, 0.91}} },
-      ["blue glass building"]    = { textureFloorNumber = 4,   textureWidth = 12,  textureLateralWindowNumber = 8, colors = {{0.31, 0.58, 0.9}, {0.22, 0.23, 0.26}} },
+      ["blue glass building"]    = { textureFloorNumber = 4,   textureWidth = 12,  textureLateralWindowNumber = 8, colors = {{0.31, 0.58, 0.9}, {0.22, 0.23, 0.26}}, pbr = true },
       ["arcade-style building"]  = { textureFloorNumber = 2,   textureWidth = 6,   textureLateralWindowNumber = 2, colors = {{0.57, 0.57, 0.55}} },
-      ["transparent highrise"]   = { textureFloorNumber = 3,   textureWidth = 9,   textureLateralWindowNumber = 3, colors = {{0.37, 0.62, 0.77}} },
-      ["windowed building"]      = { textureFloorNumber = 4,   textureWidth = 12,  textureLateralWindowNumber = 3, colors = {{0.76, 0.79, 0.84}} },
+      ["transparent highrise"]   = { textureFloorNumber = 3,   textureWidth = 9,   textureLateralWindowNumber = 3, colors = {{0.37, 0.62, 0.77}}, pbr = true },
+      ["windowed building"]      = { textureFloorNumber = 4,   textureWidth = 12,  textureLateralWindowNumber = 3, colors = {{0.76, 0.79, 0.84}}, pbr = true },
       ["old brick building"]     = { textureFloorNumber = 8,   textureWidth = 20,  textureLateralWindowNumber = 5, colors = {{0.53, 0.48, 0.42}, {0.85, 0.86, 0.84}} },
       ["red and white building"] = { textureFloorNumber = 3,   textureWidth = 15,  textureLateralWindowNumber = 5, colors = {{0.75, 0.8, 0.77}, {0.62, 0.12, 0.12}} },
-      ["construction building"]  = { textureFloorNumber = 8,   textureWidth = 12,  textureLateralWindowNumber = 8, colors = {{0.38, 0.38, 0.40}} },
+      ["construction building"]  = { textureFloorNumber = 8,   textureWidth = 12,  textureLateralWindowNumber = 8, colors = {{0.38, 0.38, 0.40}}, pbr = true },
       ["red brick wall"]         = { textureFloorNumber = 0.3, textureWidth = 0.3, textureLateralWindowNumber = 1, colors = {{0.77, 0.33, 0.23}} },
       ["old brick wall"]         = { textureFloorNumber = 0.3, textureWidth = 0.6, textureLateralWindowNumber = 1, colors = {{0.53, 0.48, 0.33}} },
       ["stone brick"]            = { textureFloorNumber = 0.5, textureWidth = 1,   textureLateralWindowNumber = 1, colors = {{0.7, 0.6, 0.51}} },
@@ -110,7 +110,7 @@ PROTO SimpleBuilding [
       ["factory building"]       = { textureFloorNumber = 5,   textureWidth = 16,  textureLateralWindowNumber = 4, colors = {{0.88, 0.87, 0.86}} },
       ["tall house"]             = { textureFloorNumber = 2,   textureWidth = 6,   textureLateralWindowNumber = 2, colors = {{0.72, 0.72, 0.72}} },
       ["office building"]        = { textureFloorNumber = 2,   textureWidth = 8,   textureLateralWindowNumber = 4, colors = {{0.77, 0.81, 0.82}} },
-      ["concrete building"]      = { textureFloorNumber = 3,   textureWidth = 8,  textureLateralWindowNumber = 2, colors = {{0.92, 0.87, 0.86}} }
+      ["concrete building"]      = { textureFloorNumber = 3,   textureWidth = 8,   textureLateralWindowNumber = 2, colors = {{0.92, 0.87, 0.86}} }
     }
 
     local availableWallColors = {
@@ -224,7 +224,11 @@ PROTO SimpleBuilding [
     if wallColorPrefix ~= "" then
       wallTexture = string.gsub("colored_textures/" .. wallType .. wallColorPrefix .. ".jpg"," ","_")
     else
-      wallTexture = string.gsub(wallType .. ".jpg"," ","_")
+      if wallTypes[wallType].pbr then
+        wallTexture = string.gsub(wallType .. "_base_color.jpg"," ","_")
+      else
+        wallTexture = string.gsub(wallType .. ".jpg"," ","_")
+      end
     end
     wallTextureWidth = wallTypes[wallType].textureWidth
     wallTextureFloorNumber = wallTypes[wallType].textureFloorNumber

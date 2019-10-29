@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ namespace wren {
 
     Key::Key() : mHash(0) {}
 
-    Key::Key(const uint64_t hash) { mHash = hash; }
+    Key::Key(const uint64_t hashValue) { mHash = hashValue; }
 
     bool Key::operator==(const Key &other) const { return mHash == other.mHash; }
 

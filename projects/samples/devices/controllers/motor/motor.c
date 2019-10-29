@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
       target += M_PI_4;
       counter = 0;
     }
-    printf("Force feedback = %g\n", wb_motor_get_torque_feedback(motor));
+    printf("\fForce feedback = %g\n", wb_motor_get_torque_feedback(motor));
     printf("Battery level  = %g\n", wb_robot_battery_sensor_get_value());
   };
   wb_robot_cleanup();

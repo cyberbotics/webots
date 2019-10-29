@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,8 +34,8 @@ LIBRARIES = -L"$(QT_UTILS)" -lqt_utils -L"$(WEBOTS_HOME)/lib" -lssh
 INCLUDE = -I"$(QT_UTILS)"
 
 ifeq ($(OSTYPE),windows)
-LIBRARIES += -lpthread -lzip
-INCLUDE += -I"$(WEBOTS_HOME)/msys64/mingw64/include" -I"$(WEBOTS_HOME)/msys64/mingw64/lib/libzip/include"
+LIBRARIES += -L/mingw64/bin -lpthread -lzip
+INCLUDE += -I/mingw64/include -I/mingw64/lib/libzip/include
 else
 INCLUDE += -I"$(WEBOTS_HOME)/include/libzip" -I"$(WEBOTS_HOME)/include/libssh"
 endif

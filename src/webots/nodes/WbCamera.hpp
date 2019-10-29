@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -66,6 +66,8 @@ private:
   WbSFNode *mRecognition;
   WbSFString *mNoiseMaskUrl;
   WbSFBool *mAntiAliasing;
+  WbSFDouble *mAmbientOcclusionRadius;
+  WbSFDouble *mBloomThreshold;
   WbSFNode *mLensFlare;
   WbSFDouble *mFar;
   WbSFDouble *mExposure;
@@ -117,6 +119,8 @@ private slots:
   void updateNear();
   void updateFar();
   void updateExposure();
+  void updateAmbientOcclusionRadius();
+  void updateBloomThreshold();
   void updateNoiseMaskUrl();
   void updateLensFlare();
   void applyFocalSettingsToWren();

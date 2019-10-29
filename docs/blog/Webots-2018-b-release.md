@@ -6,7 +6,7 @@
 
 It's that time of year again!
 Today marks the release of the all-new Webots R2018b, packed with some game-changing features.
-As always, for a comprehensive list of changes please refer to the ChangeLog, found [here](https://cyberbotics.com/change_log).
+As always, for a comprehensive list of changes please refer to the ChangeLog, found [here](../reference/changelog-r2018.md).
 
 ## WREN: Webots Renderer
 
@@ -43,7 +43,7 @@ WREN now shines in large worlds, and is still way ahead of OGRE even in simple s
 ### Physically-Based Rendering
 
 %figure "A model of a telephone, from the GLTF sample library, rendered in Webots."
-![telephone](images/telephone.png)
+![telephone](images/telephone.thumbnail.jpg)
 %end
 
 In a bid to make Webots look as realistic as possible, we have implemented a Physically-Based Rendering pipeline into Webots.
@@ -61,7 +61,7 @@ We plan to continue developing advanced graphics features for Webots in the comi
 ### New Themes
 
 %figure "Webots Night, The new default theme for Webots"
-![dark theme](images/webots_night.png)
+![dark theme](images/webots_night.thumbnail.jpg)
 %end
 
 We've done lots of work on user experience with this latest update.
@@ -78,7 +78,7 @@ These include editing a robot's controller, seeing a robot's window, deleting an
 So, to improve this, we've added a context menu to the 3D view and Scene Tree!
 
 %figure "A Typical Context Menu for a Selected Robot Node"
-![context menu](images/context_menu.png)
+![context menu](images/context_menu.thumbnail.jpg)
 %end
 
 The menu adapts to the currently selected tree item or object in the 3D view, providing selection-specific actions and options.
@@ -94,7 +94,7 @@ With this in mind, we have developed an alternative method of resetting a simula
 "Revert" has become "Reload" and now users can benefit from the new "Reset Simulation" action, also accessible via the [Supervisor API](../reference/supervisor.md#wb_supervisor_simulation_reset).
 
 %figure "Reset Simulation Action"
-![reset simulation](images/reset.png)
+![reset simulation](images/reset.thumbnail.jpg)
 %end
 
 This feature makes resetting even the most complex simulations instantaneous.
@@ -107,7 +107,7 @@ For more realistic and immersive vehicle simulations, we have expanded our avail
 Below is a preview of just some of these new assets.
 
 %figure "New PROTO models of Buildings and Street Furniture"
-![new objects](images/new_objects.png)
+![new objects](images/new_objects.thumbnail.jpg)
 %end
 
 ---

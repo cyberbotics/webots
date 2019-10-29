@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -121,6 +121,7 @@ bool RosDisplay::setFontCallback(webots_ros::display_set_font::Request &req, web
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosDisplay::attachCameraCallback(webots_ros::set_string::Request &req, webots_ros::set_string::Response &res) {
   Device *device = mRos->getDevice(req.value);
   Camera *camera = static_cast<Camera *>(device);

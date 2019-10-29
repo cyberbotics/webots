@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ class WbField;
 
 class WbResetCommand : public QUndoCommand {
 public:
-  WbResetCommand(WbField *field, QUndoCommand *parent = 0);
+  explicit WbResetCommand(WbField *field, QUndoCommand *parent = 0);
   ~WbResetCommand();
 
   void undo() override;

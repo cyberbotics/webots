@@ -30,10 +30,10 @@ centralRightSensor.enable(timeStep)
 outerRightSensor.enable(timeStep)
 
 # Get and enable ground sensors to detect the black circles.
-#groundLeftSensor = robot.getDistanceSensor("prox.ground.0")
-#groundRightSensor = robot.getDistanceSensor("prox.ground.1")
-#groundLeftSensor.enable(timeStep)
-#groundRightSensor.enable(timeStep)
+# groundLeftSensor = robot.getDistanceSensor("prox.ground.0")
+# groundRightSensor = robot.getDistanceSensor("prox.ground.1")
+# groundLeftSensor.enable(timeStep)
+# groundRightSensor.enable(timeStep)
 
 # Disable motor PID control mode.
 leftMotor.setPosition(float('inf'))
@@ -50,7 +50,7 @@ while robot.step(timeStep) != -1:
         isRotating = True
     elif isRotating and outerLeftSensor.getValue() == 0:
         isRotating = False
-    
+
     leftMotor.setVelocity(velocity)
     if isRotating:
         rightMotor.setVelocity(-velocity)

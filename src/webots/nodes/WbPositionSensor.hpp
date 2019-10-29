@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ class WbPositionSensor : public WbJointDevice {
 
 public:
   virtual ~WbPositionSensor() { delete mSensor; }
-  WbPositionSensor(const QString &modelName, WbTokenizer *tokenizer = NULL);
+  explicit WbPositionSensor(const QString &modelName, WbTokenizer *tokenizer = NULL);
   explicit WbPositionSensor(WbTokenizer *tokenizer = NULL);
   WbPositionSensor(const WbPositionSensor &other);
   explicit WbPositionSensor(const WbNode &other);
@@ -40,18 +40,12 @@ public:
 
   // inherited from WbDevice
   void writeConfigure(QDataStream &stream) override;
-  void handleMessage(QDataStream &stream) override {
-    short command;
-    handleMessage(stream, command);
-  }
+  void handleMessage(QDataStream &stream) override;
   void writeAnswer(QDataStream &stream) override;
   bool refreshSensorIfNeeded() override;
 
   // inherited from WbJointDevice
   double position() const;
-
-protected:
-  void handleMessage(QDataStream &stream, short int &command);
 
 private:
   // user accessible field

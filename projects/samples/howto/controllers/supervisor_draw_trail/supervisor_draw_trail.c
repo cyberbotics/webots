@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 
 // Create the trail shape with the correct number of coordinates.
 static void create_trail_shape() {
-  // If TRAIL exists in the world then silently removes it.
+  // If TRAIL exists in the world then silently remove it.
   WbNodeRef existing_trail = wb_supervisor_node_get_from_def("TRAIL");
   if (existing_trail)
     wb_supervisor_node_remove(existing_trail);

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -66,11 +66,6 @@ int main(int argc, char **argv) {
   int width, height;
   float i, step;
   bool birdCatched = false;
-
-  if (argc != 1) {
-    ROS_INFO("Usage: $ example_catch_bird.");
-    return 1;
-  }
 
   // create a node named 'catch_the_bird' on ROS network
   ros::init(argc, argv, "catch_the_bird", ros::init_options::AnonymousName);

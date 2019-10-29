@@ -16,7 +16,7 @@ A demo of these mappings is available in projects/samples/geometries/worlds/text
 
 %figure
 
-![TexturedBoxShape](images/objects/shapes/TexturedBoxShape/model.png)
+![TexturedBoxShape](images/objects/shapes/TexturedBoxShape/model.thumbnail.png)
 
 %end
 
@@ -39,7 +39,7 @@ TexturedBoxShape {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/shapes/protos/TexturedBoxShape.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/shapes/protos/TexturedBoxShape.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/shapes/protos/TexturedBoxShape.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

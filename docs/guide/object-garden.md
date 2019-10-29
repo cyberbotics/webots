@@ -6,7 +6,7 @@ A barbecue with optional physics.
 
 %figure
 
-![Barbecue](images/objects/garden/Barbecue/model.png)
+![Barbecue](images/objects/garden/Barbecue/model.thumbnail.png)
 
 %end
 
@@ -21,7 +21,7 @@ Barbecue {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/garden/protos/Barbecue.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Barbecue.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/Barbecue.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -36,7 +36,7 @@ A dog house.
 
 %figure
 
-![DogHouse](images/objects/garden/DogHouse/model.png)
+![DogHouse](images/objects/garden/DogHouse/model.thumbnail.png)
 
 %end
 
@@ -50,7 +50,7 @@ DogHouse {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/garden/protos/DogHouse.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/DogHouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/DogHouse.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -61,7 +61,7 @@ A gnome with optional physics.
 
 %figure
 
-![Gnome](images/objects/garden/Gnome/model.png)
+![Gnome](images/objects/garden/Gnome/model.thumbnail.png)
 
 %end
 
@@ -76,7 +76,7 @@ Gnome {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/garden/protos/Gnome.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Gnome.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/Gnome.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -91,7 +91,7 @@ A pergola.
 
 %figure
 
-![Pergolas](images/objects/garden/Pergolas/model.png)
+![Pergolas](images/objects/garden/Pergolas/model.thumbnail.png)
 
 %end
 
@@ -105,7 +105,7 @@ Pergolas {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/garden/protos/Pergolas.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Pergolas.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/Pergolas.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -117,7 +117,7 @@ Each segment is made of 11 pickets.
 
 %figure
 
-![PicketFence](images/objects/garden/PicketFence/model.png)
+![PicketFence](images/objects/garden/PicketFence/model.thumbnail.png)
 
 %end
 
@@ -133,7 +133,7 @@ PicketFence {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/garden/protos/PicketFence.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/PicketFence.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/PicketFence.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -150,7 +150,7 @@ A picket fence with a door and optional boundingObject.
 
 %figure
 
-![PicketFenceWithDoor](images/objects/garden/PicketFenceWithDoor/model.png)
+![PicketFenceWithDoor](images/objects/garden/PicketFenceWithDoor/model.thumbnail.png)
 
 %end
 
@@ -165,7 +165,7 @@ PicketFenceWithDoor {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/garden/protos/PicketFenceWithDoor.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/PicketFenceWithDoor.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/PicketFenceWithDoor.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -180,7 +180,7 @@ A slide.
 
 %figure
 
-![Slide](images/objects/garden/Slide/model.png)
+![Slide](images/objects/garden/Slide/model.thumbnail.png)
 
 %end
 
@@ -194,7 +194,7 @@ Slide {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/garden/protos/Slide.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Slide.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/Slide.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -205,7 +205,7 @@ A swing.
 
 %figure
 
-![Swing](images/objects/garden/Swing/model.png)
+![Swing](images/objects/garden/Swing/model.thumbnail.png)
 
 %end
 
@@ -219,7 +219,7 @@ Swing {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/garden/protos/Swing.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Swing.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/Swing.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -230,7 +230,7 @@ A swing couch.
 
 %figure
 
-![SwingCouch](images/objects/garden/SwingCouch/model.png)
+![SwingCouch](images/objects/garden/SwingCouch/model.thumbnail.png)
 
 %end
 
@@ -244,7 +244,7 @@ SwingCouch {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/garden/protos/SwingCouch.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/SwingCouch.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/SwingCouch.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -255,7 +255,7 @@ A table with a central umbrella and optional physics.
 
 %figure
 
-![TableWithUmbrella](images/objects/garden/TableWithUmbrella/model.png)
+![TableWithUmbrella](images/objects/garden/TableWithUmbrella/model.thumbnail.png)
 
 %end
 
@@ -270,7 +270,7 @@ TableWithUmbrella {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/garden/protos/TableWithUmbrella.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/TableWithUmbrella.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/TableWithUmbrella.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -285,7 +285,7 @@ A watering can with optional physics.
 
 %figure
 
-![WateringCan](images/objects/garden/WateringCan/model.png)
+![WateringCan](images/objects/garden/WateringCan/model.thumbnail.png)
 
 %end
 
@@ -300,7 +300,7 @@ WateringCan {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/garden/protos/WateringCan.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/WateringCan.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/WateringCan.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -315,7 +315,7 @@ A wheelbarrow with optional physics.
 
 %figure
 
-![Wheelbarrow](images/objects/garden/Wheelbarrow/model.png)
+![Wheelbarrow](images/objects/garden/Wheelbarrow/model.thumbnail.png)
 
 %end
 
@@ -330,7 +330,7 @@ Wheelbarrow {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/garden/protos/Wheelbarrow.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Wheelbarrow.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/Wheelbarrow.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)

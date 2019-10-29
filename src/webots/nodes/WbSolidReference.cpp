@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@ void WbSolidReference::updateName() {
   WbSolid *const ts = topSolid();
   assert(ts);
   const QString &name = mName->value();
-  const bool linkToStaticEnvironment = name == "<static environment>";
+  const bool linkToStaticEnvironment = name == STATIC_ENVIRONMENT;
   if (!linkToStaticEnvironment)
     mSolid = QPointer<WbSolid>(ts->findSolid(name, upperSolid()));
   if (!name.isEmpty() && !linkToStaticEnvironment && mSolid.isNull())

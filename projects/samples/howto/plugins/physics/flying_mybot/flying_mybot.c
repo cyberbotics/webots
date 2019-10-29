@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -276,8 +276,7 @@ int webots_physics_collide(dGeomID g1, dGeomID g2) {
   dContact contact[10];
   dVector3 start, d;
 
-  int i, n;
-  int ray_color = 0;
+  int i, n, ray_color;
 
   /* First we check if the collision is involving the Ray. */
   if (dAreGeomsSame(g1, ray_geom) || dAreGeomsSame(g2, ray_geom)) {

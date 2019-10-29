@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,12 +33,12 @@ CFLAGS      = -fPIC -Wall
 INCLUDE     = -I$(WEBOTS_PATH)/include/controller/c -I$(WEBOTS_PATH)/include
 LD_FLAGS    = -shared -Wl,-soname,libController.so
 STATIC_LIBS =
-ifeq ($(UBUNTU_VERSION), 18.04)
-LIB_PNG      = png16
-else
+ifeq ($(UBUNTU_VERSION), 16.04)
 LIB_PNG      = png12
+else
+LIB_PNG      = png16
 endif
-SHARED_LIBS = -ltiff -lm -ljpeg -lpthread -l$(LIB_PNG) -ldl -llzma
+SHARED_LIBS = -ltiff -lm -ljpeg -lpthread -l$(LIB_PNG) -ldl -llzma -lrt
 TARGET      = $(WEBOTS_PATH)/lib/libController.so
 endif
 
@@ -51,8 +51,27 @@ PLATFORM    = win32
 CC          = gcc
 TARGET      = $(WEBOTS_PATH)/msys64/mingw64/bin/Controller.dll $(WEBOTS_PATH)/msys64/mingw64/lib/Controller.lib
 ifeq (,$(wildcard /mingw32/bin/gcc))
-NO_GCC32 = 1
-else
+NO_GCC32=1
+endif
+ifeq (,$(wildcard /mingw32/lib/libpng.a))
+NO_GCC32=1
+endif
+ifeq (,$(wildcard /mingw32/lib/libz.a))
+NO_GCC32=1
+endif
+ifeq (,$(wildcard /mingw32/lib/libjpeg.a))
+NO_GCC32=1
+endif
+ifeq (,$(wildcard /mingw32/lib/libtiff.a))
+NO_GCC32=1
+endif
+ifeq (,$(wildcard /mingw32/lib/liblzma.a))
+NO_GCC32=1
+endif
+ifeq (,$(wildcard /mingw32/lib/libzstd.a))
+NO_GCC32=1
+endif
+ifneq ($(NO_GCC32),1)
 TARGET     += $(WEBOTS_PATH)/msys64/mingw32/bin/Controller.dll $(WEBOTS_PATH)/msys64/mingw32/lib/Controller.lib
 endif
 endif
@@ -127,7 +146,7 @@ $(WEBOTS_PATH)/msys64/mingw64/bin/Controller.dll: $(MINGW64_OBJECTS) Controller.
 	@echo "# linking Controller.dll and libController.a"
 	@$(CC) $(LD_FLAGS) -o $@ $(addprefix $(OBJDIR)/, $(OBJECTS)) -Wl,--out-implib,$(WEBOTS_PATH)/msys64/mingw64/lib/libController.a -L/mingw64/lib $(STATIC_LIBS)
 ifeq ($(NO_GCC32),1)
-	@echo -e "# \033[0;33mgcc-i686 not installed, skipping 32 bit version of Controller.dll\033[0m"
+	@echo -e "# \033[0;33mmissing 32 bit gcc or dependencies, skipping 32 bit version of Controller.dll\033[0m"
 endif
 
 $(WEBOTS_PATH)/msys64/mingw64/lib/Controller.lib: $(WEBOTS_PATH)/msys64/mingw64/bin/Controller.dll Controller.def

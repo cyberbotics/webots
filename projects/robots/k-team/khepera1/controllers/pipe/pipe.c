@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -144,7 +144,7 @@ int main() {
             i++;
             n = read(sim_serial_in, &q[i], 1);
             if (n < 0)
-              fprintf(stderr, "Warning: an error occured when reading the pipe");
+              fprintf(stderr, "Warning: an error occured when reading the pipe");
           } while (q[i] != '\n');
           sscanf(q, "D,%d,%d", &left_speed, &right_speed);
           wb_motor_set_velocity(left_motor, left_speed);
@@ -174,7 +174,7 @@ int main() {
     if (a[0] != '\0') {
       n = write(sim_serial_out, a, strlen(a));
       if (n < 0)
-        fprintf(stderr, "Warning: an error occured when reading the pipe");
+        fprintf(stderr, "Warning: an error occured when reading the pipe");
     }
   }
 

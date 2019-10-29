@@ -10,11 +10,11 @@ A complete description of these functions can be found in the reference guide wh
 
 ### Java and Java Compiler Installation
 
-In order to develop and run Java controllers for Webots it is necessary to have the 64-bit version of the Java Development Kit (JDK) version 1.8.
+In order to develop and run Java controllers for Webots it is necessary to have the 64-bit version of the Java Development Kit (JDK) version 1.8 or later.
 
-The Java Development Kit (JDK) can be downloaded for free from the [Sun Developer Network](http://www.oracle.com/technetwork/java/javase/downloads).
-Make sure you choose the most recent 64-bit release of the Standard Edition (SE) of the JDK 8.
-Then, follow the installation instructions attending the package.
+The Java Development Kit (JDK) is free for personal and development use and it can be downloaded from the [Oracle Technology Network](http://www.oracle.com/technetwork/java/javase/downloads).
+Make sure you choose the most recent 64-bit release of the Standard Edition (SE) of the JDK version 8 or later.
+Then, follow the installation instructions.
 
 The `java` command is the Java Virtual Machine (JVM); it is used to execute Java controllers in Webots.
 The `javac` command is the Java compiler; it is used to compile Java controllers in Webots' text editor.
@@ -48,14 +48,7 @@ On Windows this can be achieved by adding it to the *Path* variable in the `Syst
 
 #### Linux
 
-On Linux the Oracle Java Development Kit (JDK) version 1.8 can also be installed with this procedure:
-```sh
-$ sudo add-apt-repository ppa:webupd8team/java
-$ sudo apt-get update
-$ sudo apt-get install oracle-java8-installer
-```
-
-If after the installation ``java`` or ``javac`` commands are not available from your terminal, you update the *PATH* by adding this line to your "~/.bashrc" or equivalent file:
+If after the installation ``java`` or ``javac`` commands are not available from your terminal, you should update the *PATH* by adding this line to your "~/.bashrc" or equivalent file:
 
 ```sh
 $ export PATH=/usr/lib/jvm/java-XXXXXX/bin:$PATH

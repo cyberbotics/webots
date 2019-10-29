@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -117,6 +117,7 @@ static int list_contains(MTN *mtn) {
 }
 
 static void _fread(void *ptr, size_t size, size_t nitems, FILE *stream) {
+  // cppcheck-suppress uninitvar
   size_t ret = fread(ptr, size, nitems, stream);
   if (ret != nitems)
     fprintf(stderr, "Error during _fread\n");

@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,6 +30,10 @@ HPP_FILES_TO_MOC = OSMImportWindow.hpp
 
 ifneq ($(OSTYPE),windows)
 CFLAGS = -fPIC
+endif
+
+ifeq ($(OSTYPE),linux)
+ LIBRARIES += -Wl,-rpath,$(WEBOTS_HOME_PATH)/lib
 endif
 
 CURDIR = controllers/osm_gui # hawful hack to generate an executable outside of the 'controllers' directory

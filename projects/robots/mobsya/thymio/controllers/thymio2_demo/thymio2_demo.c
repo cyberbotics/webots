@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -185,7 +185,6 @@ int main(int argc, char **argv) {
     }
     double time = wb_robot_get_time();
 
-    int i;
     int enlighted_cicle_led_index = ((int)time) % N_LEDS_CIRCLE;
     for (i = 0; i < N_LEDS_CIRCLE; ++i)
       wb_led_set(leds_circle[i], (enlighted_cicle_led_index == i) ? 32 : 0);

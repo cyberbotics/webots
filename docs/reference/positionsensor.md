@@ -31,7 +31,7 @@ This field accepts any value in the interval (0.0, inf).
 #### `wb_position_sensor_get_value`
 #### `wb_position_sensor_get_type`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -107,7 +107,7 @@ public class PositionSensor extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_ROTATIONAL, WB_LINEAR
 
 wb_position_sensor_enable(tag, sampling_period)
@@ -155,7 +155,7 @@ It will return `WB_ROTATIONAL` if the sensor is associated with a [HingeJoint](h
 #### `wb_position_sensor_get_brake`
 #### `wb_position_sensor_get_motor`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -219,7 +219,7 @@ public class PositionSensor extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 tag = wb_brake_get_brake(tag)
 tag = wb_brake_get_motor(tag)
 ```

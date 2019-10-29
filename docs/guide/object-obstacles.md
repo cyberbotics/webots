@@ -6,7 +6,7 @@ Resizable oil barrel.
 
 %figure
 
-![OilBarrel](images/objects/obstacles/OilBarrel/model.png)
+![OilBarrel](images/objects/obstacles/OilBarrel/model.thumbnail.png)
 
 %end
 
@@ -24,7 +24,7 @@ OilBarrel {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/obstacles/protos/OilBarrel.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/obstacles/protos/OilBarrel.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/obstacles/protos/OilBarrel.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -42,7 +42,7 @@ The ramp is a static object (not physics-enabled) so it will not move when hit.
 
 %figure
 
-![Ramp30deg](images/objects/obstacles/Ramp30deg/model.png)
+![Ramp30deg](images/objects/obstacles/Ramp30deg/model.thumbnail.png)
 
 %end
 
@@ -57,7 +57,7 @@ Ramp30deg {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/obstacles/protos/Ramp30deg.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/obstacles/protos/Ramp30deg.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/obstacles/protos/Ramp30deg.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -73,7 +73,7 @@ This is not a physics-enabled object so it will not move when hit.
 
 %figure
 
-![ThreeSteps](images/objects/obstacles/ThreeSteps/model.png)
+![ThreeSteps](images/objects/obstacles/ThreeSteps/model.thumbnail.png)
 
 %end
 
@@ -89,7 +89,7 @@ ThreeSteps {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/obstacles/protos/ThreeSteps.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/obstacles/protos/ThreeSteps.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/obstacles/protos/ThreeSteps.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

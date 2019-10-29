@@ -5,7 +5,7 @@
 #### `wbu_motion_new`
 #### `wbu_motion_delete`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -66,7 +66,7 @@ public class Motion {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 motion = wbu_motion_new('filename')
 wbu_motion_delete(motion)
 ```
@@ -108,7 +108,7 @@ if (! walk->isValid()) {
 #### `wbu_motion_set_loop`
 #### `wbu_motion_set_reverse`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -174,7 +174,7 @@ public class Motion {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wbu_motion_play(motion)
 wbu_motion_stop(motion)
 wbu_motion_set_loop(motion, loop)
@@ -231,7 +231,7 @@ By default, the *loop mode* and *reverse mode* of motions are `false`.
 #### `wbu_motion_get_time`
 #### `wbu_motion_set_time`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -297,7 +297,7 @@ public class Motion {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 over = wbu_motion_is_over(motion)
 duration = wbu_motion_get_duration(motion)
 time = wbu_motion_get_time(motion)

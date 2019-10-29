@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -51,7 +51,7 @@ PROTO Kinect [
           roughness 0.2
           baseColorMap ImageTexture {
             url [
-              "textures/kinect_tilt_motor.png"
+              "textures/kinect_tilt_motor.jpg"
             ]
           }
         }
@@ -369,12 +369,12 @@ PROTO Kinect [
                 roughness 0.1
                 baseColorMap ImageTexture {
                   url [
-                    "textures/kinect.png"
+                    "textures/kinect.jpg"
                   ]
                 }
                 roughnessMap ImageTexture {
                   url [
-                    "textures/kinect_roughness.png"
+                    "textures/kinect_roughness.jpg"
                   ]
                 }
               }

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -108,11 +108,6 @@ void keyboardCallback(const webots_ros::Int32Stamped::ConstPtr &value) {
 }
 
 int main(int argc, char **argv) {
-  if (argc != 1) {
-    ROS_INFO("Keyboard_teleop doesn't take any arguments.");
-    return 1;
-  }
-
   // create a node named 'keyboard_teleop' on ROS network
   ros::init(argc, argv, "keyboard_teleop", ros::init_options::AnonymousName);
   ros::NodeHandle n;

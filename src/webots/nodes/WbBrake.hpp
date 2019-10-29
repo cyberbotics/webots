@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ class WbBrake : public WbJointDevice {
 
 public:
   virtual ~WbBrake() {}
-  WbBrake(const QString &modelName, WbTokenizer *tokenizer = NULL);
+  explicit WbBrake(const QString &modelName, WbTokenizer *tokenizer = NULL);
   explicit WbBrake(WbTokenizer *tokenizer = NULL);
   WbBrake(const WbBrake &other);
   explicit WbBrake(const WbNode &other);
@@ -39,17 +39,11 @@ public:
   // inherited from WbDevice
   void writeConfigure(QDataStream &stream) override;
   void writeAnswer(QDataStream &stream) override;
-  void handleMessage(QDataStream &stream) override {
-    short command;
-    handleMessage(stream, command);
-  }
+  void handleMessage(QDataStream &stream) override;
 
 signals:
   // emitted when received command from controller
   void brakingChanged();
-
-protected:
-  void handleMessage(QDataStream &stream, short int &command);
 
 private:
   WbBrake &operator=(const WbBrake &);  // non copyable

@@ -7,7 +7,7 @@ The reflected image does not depend on the viewpoint position.
 
 %figure
 
-![Mirror](images/objects/mirror/Mirror/model.png)
+![Mirror](images/objects/mirror/Mirror/model.thumbnail.png)
 
 %end
 
@@ -29,7 +29,7 @@ Mirror {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/mirror/protos/Mirror.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/mirror/protos/Mirror.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/mirror/protos/Mirror.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

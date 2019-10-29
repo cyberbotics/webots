@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -88,7 +88,6 @@ void WbBasicJoint::preFinalize() {
   updateParameters();
   updateEndPointZeroTranslationAndRotation();
 
-  // the following code could be simplified
   WbBaseNode *const p = dynamic_cast<WbBaseNode *>(mParameters->value());
   WbBaseNode *const e = dynamic_cast<WbBaseNode *>(mEndPoint->value());
   if (p && !p->isPreFinalizedCalled())
@@ -106,7 +105,6 @@ void WbBasicJoint::setMatrixNeedUpdate() {
 void WbBasicJoint::postFinalize() {
   WbBaseNode::postFinalize();
 
-  // the following code could be simplified
   WbBaseNode *const p = dynamic_cast<WbBaseNode *>(mParameters->value());
   WbBaseNode *const e = dynamic_cast<WbBaseNode *>(mEndPoint->value());
   if (p && !p->isPostFinalizedCalled())

@@ -6,9 +6,6 @@ import os
 import sys
 import tempfile
 
-if sys.version_info.major > 2:
-    sys.exit("This controller program only works with Python 2.7.")
-
 try:
     import numpy as np
 except ImportError:
@@ -48,8 +45,8 @@ def sendDeviceImage(robot, device):
         return
     with open(deviceImagePath + '/' + fileName, 'rb') as f:
         fileString = f.read()
-        fileString64 = base64.b64encode(fileString)
-        robot.wwiSendText("image[" + deviceName + "]:data:image/jpeg;base64," + str(fileString64))
+        fileString64 = base64.b64encode(fileString).decode()
+        robot.wwiSendText("image[" + deviceName + "]:data:image/jpeg;base64," + fileString64)
         f.close()
 
 
@@ -122,10 +119,15 @@ while robot.step(timestep) != -1:
     maskRGB = np.zeros([height, width], np.uint8)
     for j in range(0, height):
         for i in range(0, width):
-            # Camera image pixel format: BGRA.
-            b = ord(rawString[index])
-            g = ord(rawString[index + 1])
-            r = ord(rawString[index + 2])
+            # Camera image pixel format
+            if sys.version_info.major > 2:  # Python 3 code
+                b = rawString[index]
+                g = rawString[index + 1]
+                r = rawString[index + 2]
+            else:  # Python 2.7 code
+                b = ord(rawString[index])
+                g = ord(rawString[index + 1])
+                r = ord(rawString[index + 2])
             index += 4
             # Yellow color threshold.
             if b < 50 and g > 180 and r > 180:
@@ -135,7 +137,7 @@ while robot.step(timestep) != -1:
     contours = cv2.findContours(maskRGB.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2]
 
     # Only proceed if at least one blob is found.
-    if len(contours) == 0:
+    if not contours:
         continue
 
     # Choose the largest blob.

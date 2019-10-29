@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,12 +23,12 @@ lidars = []
 
 for i in range(robot.getNumberOfDevices()):
     device = robot.getDeviceByIndex(i)
-    if (device.getNodeType() == Node.LIDAR):
+    if device.getNodeType() == Node.LIDAR:
         lidars.append(device)
         device.enable(timestep)
         device.enablePointCloud()
 
-if len(lidars) == 0:
+if not lidars:
     sys.exit("This vehicle has no 'Lidar' node.")
 
 while robot.step(timestep) != -1:

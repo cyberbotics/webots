@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbCamera.hpp"
+
 #include "WbAffinePlane.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbFieldChecker.hpp"
@@ -89,6 +90,8 @@ void WbCamera::init() {
   mRecognition = findSFNode("recognition");
   mNoiseMaskUrl = findSFString("noiseMaskUrl");
   mAntiAliasing = findSFBool("antiAliasing");
+  mAmbientOcclusionRadius = findSFDouble("ambientOcclusionRadius");
+  mBloomThreshold = findSFDouble("bloomThreshold");
   mLensFlare = findSFNode("lensFlare");
   mFar = findSFDouble("far");
   mExposure = findSFDouble("exposure");
@@ -153,6 +156,8 @@ void WbCamera::preFinalize() {
   updateNear();
   updateFar();
   updateExposure();
+  updateBloomThreshold();
+  updateAmbientOcclusionRadius();
 }
 
 void WbCamera::postFinalize() {
@@ -174,7 +179,10 @@ void WbCamera::postFinalize() {
   connect(mNear, &WbSFDouble::changed, this, &WbCamera::updateNear);
   connect(mFar, &WbSFDouble::changed, this, &WbCamera::updateFar);
   connect(mExposure, &WbSFDouble::changed, this, &WbCamera::updateExposure);
+  connect(mAmbientOcclusionRadius, &WbSFDouble::changed, this, &WbCamera::updateAmbientOcclusionRadius);
+  connect(mBloomThreshold, &WbSFDouble::changed, this, &WbCamera::updateBloomThreshold);
   connect(mAntiAliasing, &WbSFBool::changed, this, &WbAbstractCamera::updateAntiAliasing);
+  connect(WbPreferences::instance(), &WbPreferences::changedByUser, this, &WbCamera::setup);
 
   if (lensFlare())
     lensFlare()->postFinalize();
@@ -523,7 +531,7 @@ void WbCamera::writeAnswer(QDataStream &stream) {
 
 void WbCamera::handleMessage(QDataStream &stream) {
   unsigned char command;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   if (WbAbstractCamera::handleCommand(stream, command))
     return;
@@ -562,7 +570,7 @@ void WbCamera::handleMessage(QDataStream &stream) {
       break;
     }
     case C_CAMERA_SET_RECOGNITION_SAMPLING_PERIOD: {
-      stream >> (short &)mRecognitionRefreshRate;
+      stream >> mRecognitionRefreshRate;
       mRecognitionSensor->setRefreshRate(mRecognitionRefreshRate);
       break;
     }
@@ -739,6 +747,8 @@ void WbCamera::createWrenCamera() {
   applyFocalSettingsToWren();
   applyFarToWren();
   updateExposure();
+  updateBloomThreshold();
+  updateAmbientOcclusionRadius();
 
   updateLensFlare();
   connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateLensFlare);
@@ -759,6 +769,8 @@ void WbCamera::setup() {
 
   updateNoiseMaskUrl();
   updateExposure();
+  updateAmbientOcclusionRadius();
+  updateBloomThreshold();
   connect(mNoiseMaskUrl, &WbSFString::changed, this, &WbCamera::updateNoiseMaskUrl);
 }
 
@@ -803,7 +815,7 @@ void WbCamera::updateLensFlare() {
 }
 
 void WbCamera::updateNear() {
-  if (WbFieldChecker::checkDoubleIsPositive(this, mNear, 0.01))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mNear, 0.01))
     return;
 
   mNeedToConfigure = true;
@@ -824,7 +836,7 @@ void WbCamera::updateNear() {
 }
 
 void WbCamera::updateFar() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mFar, 0.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mFar, 0.0))
     return;
 
   if (mFar->value() > 0.0 and mFar->value() < mNear->value()) {
@@ -841,11 +853,25 @@ void WbCamera::updateFar() {
 }
 
 void WbCamera::updateExposure() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mExposure, 1.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mExposure, 1.0))
     return;
 
   if (mWrenCamera)
     mWrenCamera->setExposure(mExposure->value());
+}
+
+void WbCamera::updateAmbientOcclusionRadius() {
+  WbFieldChecker::resetDoubleIfNegative(this, mAmbientOcclusionRadius, 2.0);
+
+  if (mWrenCamera)
+    mWrenCamera->setAmbientOcclusionRadius(mAmbientOcclusionRadius->value());
+}
+
+void WbCamera::updateBloomThreshold() {
+  WbFieldChecker::resetDoubleIfNegativeAndNotDisabled(this, mBloomThreshold, 21.0, -1.0);
+
+  if (mWrenCamera)
+    mWrenCamera->setBloomThreshold(mBloomThreshold->value());
 }
 
 void WbCamera::updateNoiseMaskUrl() {

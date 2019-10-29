@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -51,4 +51,8 @@ QString WbPrecision::doubleToString(double value, Level level) {
     default:  // GUI_MEDIUM
       return QString::number(value, 'g', 6);
   }
+}
+
+double WbPrecision::roundValue(double value, Level level) {
+  return doubleToString(value, level).toDouble();
 }

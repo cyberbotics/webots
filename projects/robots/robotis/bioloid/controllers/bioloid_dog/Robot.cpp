@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -64,14 +64,7 @@ const int Robot::gait_setup[4][2] = {{FRONT_LEFT_1, FRONT_LEFT_3},
                                      {BACK_RIGHT_1, BACK_RIGHT_3},
                                      {BACK_LEFT_1, BACK_LEFT_3}};
 
-Robot::Robot(const char *name) {
-  _name = name;
-  _controlStep = SIMULATION_STEP_DURATION;
-  _stepCount = 0;
-  _selectedMotorId = 0;
-  _offset = 1;
-  _camera = 0;
-
+Robot::Robot(const char *name) : _name(name), _controlStep(SIMULATION_STEP_DURATION), _stepCount(0), _camera(0) {
   int i = 0;
   for (i = 0; Robot::MOTOR_NAMES[i]; i++) {
     motors[i] = wb_robot_get_device(MOTOR_NAMES[i]);

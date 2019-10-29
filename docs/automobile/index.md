@@ -3,7 +3,7 @@
 Release {{ webots.version.full }}
 
 %figure
-![ImageData](images/titleweb.png)
+![ImageData](images/titleweb.thumbnail.png)
 %end
 
 Copyright &copy; {{ date.year }} Cyberbotics Ltd.

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -136,6 +136,10 @@ protected:
   WbGeometry(const WbGeometry &other);
   WbGeometry(const WbNode &other);
   WbGeometry(const QString &modelName, WbTokenizer *tokenizer);
+
+  // for bounding object representation use a subdivision >= MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION
+  // so that it is clear for the user that the ODE object is a real rounded shape and not an approximation as the graphical mesh
+  const int MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION = 16;
 
   // Wren
   WrMaterial *mWrenMaterial;

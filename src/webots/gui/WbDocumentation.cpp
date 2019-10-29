@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #include "WbDocumentation.hpp"
 
 #include "WbClipboard.hpp"
+#include "WbDesktopServices.hpp"
 #include "WbStandardPaths.hpp"
 
 #include <QtCore/QUrl>
@@ -22,7 +23,6 @@
 #include <cassert>
 
 #include <QtGui/QContextMenuEvent>
-#include <QtGui/QDesktopServices>
 #include <QtWidgets/QMenu>
 
 #ifdef _WIN32
@@ -204,5 +204,5 @@ void WbDocumentation::handleUserCommand(WbActionManager::WbActionKind actionKind
 }
 
 void WbDocumentation::openUrlInSystemBrowser(const QUrl &url) {
-  QDesktopServices::openUrl(url);
+  WbDesktopServices::openUrl(url.toString());
 }

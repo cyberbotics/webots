@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -45,16 +45,19 @@ public:
   virtual void setPosition(double position, int index = 1);
   bool resetJointPositions() override;
   virtual WbJointParameters *parameters2() const { return NULL; }
+  virtual WbJointParameters *parameters3() const { return NULL; }
 
   WbPositionSensor *positionSensor() const;
   WbMotor *motor() const;
+  virtual WbMotor *motor2() const { return NULL; }
+  virtual WbMotor *motor3() const { return NULL; }
   WbBrake *brake() const;
 
   WbJointDevice *device(int index) const;
   virtual int devicesNumber() const;
 
 signals:
-  void updateMuscleStretch(double forcePercentage, bool immediateUpdate);
+  void updateMuscleStretch(double forcePercentage, bool immediateUpdate, int motorIndex);
 
 protected:
   WbJoint(const QString &modelName, WbTokenizer *tokenizer = NULL);

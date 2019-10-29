@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,10 +21,10 @@
 
 // Alias class for instantiation WbBallJoint's anchor parameter
 
-#include "WbAnchorParameter.hpp"
+#include "WbJointParameters.hpp"
 #include "WbSFDouble.hpp"
 
-class WbBallJointParameters : public WbAnchorParameter {
+class WbBallJointParameters : public WbJointParameters {
   Q_OBJECT
 
 public:
@@ -33,25 +33,23 @@ public:
   explicit WbBallJointParameters(WbTokenizer *tokenizer = NULL);
   WbBallJointParameters(const WbBallJointParameters &other);
   explicit WbBallJointParameters(const WbNode &other);
+
+  int nodeType() const override { return WB_NODE_BALL_JOINT_PARAMETERS; }
   void preFinalize() override;
   void postFinalize() override;
-  WbNode *clone() const override { return new WbBallJointParameters(*this); }
-  int nodeType() const override { return WB_NODE_BALL_JOINT_PARAMETERS; }
-  double springConstant() const { return mSpringConstant->value(); }
-  double dampingConstant() const { return mDampingConstant->value(); }
+
+  virtual const WbVector3 &anchor() const { return mAnchor->value(); }
 
 signals:
-  void springAndDampingConstantsChanged();
+  void anchorChanged();
 
 private:
   WbBallJointParameters &operator=(const WbBallJointParameters &);  // non copyable
+  WbNode *clone() const override { return new WbBallJointParameters(*this); }
   void init();
-  WbSFDouble *mSpringConstant;
-  WbSFDouble *mDampingConstant;
 
-private slots:
-  void updateSpringConstant();
-  void updateDampingConstant();
+  // fields
+  WbSFVector3 *mAnchor;
 };
 
 #endif

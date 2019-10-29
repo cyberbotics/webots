@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -11,24 +11,29 @@ PROTO StraightStairs [
   field SFVec3f    stepSize           0.4 0.03 1.27                                                      # Defines the size of one step.
   field SFFloat    stepRise           0.15                                                               # Defines the height difference between two consecutives steps.
   field SFInt32    nSteps             5                                                                  # Defines the number of steps.
+  field SFFloat    stringerWidth      0.02                                                               # Defines the width of the stringers.
   field SFNode     stepAppearance     VarnishedPine { textureTransform TextureTransform { scale 4 4 } }  # Defines the appearance of the steps.
   field SFNode     stringerAppearance VarnishedPine { textureTransform TextureTransform { scale 4 4 } }  # Defines the appearance of the stringers.
   field MFNode     leftRail           StraightStairsRail {}                                              # Defines the left rail.
   field MFNode     rightRail          StraightStairsRail {}                                              # Defines the right rail.
   field SFBool     startingStairs     TRUE                                                               # Defines whether the bottom part of the stairs should be flat.
-  field SFString   contactMaterial    "default"                                                          # Is `Solid.contactMaterial`.  
+  field SFString   contactMaterial    "default"                                                          # Is `Solid.contactMaterial`.
 ]
 {
   %{
     local wbrotation = require('wbrotation')
-
-    local stringerWidth = 0.02
 
     -- check inputs
     local stepRise = fields.stepRise.value
     if fields.stepRise.value <= 0.0 then
       io.stderr:write("'stepRise' must be positive\n")
       stepRise = fields.stepRise.defaultValue
+    end
+
+    local stringerWidth = fields.stringerWidth.value
+    if fields.stringerWidth.value <= 0.0 then
+      io.stderr:write("'stringerWidth' must be positive\n")
+      stringerWidth = fields.stringerWidth.defaultValue
     end
 
     local nSteps = fields.nSteps.value

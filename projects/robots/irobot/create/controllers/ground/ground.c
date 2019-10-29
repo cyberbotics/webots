@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ int main() {
   WbFieldRef translationField = wb_supervisor_node_get_field(mybot, "translation");
 
   // set the background (otherwise an empty ground is displayed at this step)
-  WbImageRef background = wb_display_image_load(display, "../../worlds/textures/dirty.png");
+  WbImageRef background = wb_display_image_load(display, "../../worlds/textures/dirty.jpg");
   wb_display_image_paste(display, background, 0, 0, false);
 
   // set the pen to remove the texture

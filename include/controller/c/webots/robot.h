@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,10 @@
 
 #define WB_USING_C_API
 #include "types.h"
+
+#ifdef __CYGWIN__
+#include <stdio.h>
+#endif
 
 #if defined(__VISUALC__) || defined(_MSC_VER)
 #include "stdio.h"

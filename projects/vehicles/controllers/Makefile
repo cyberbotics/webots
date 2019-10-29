@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,12 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+space :=
+space +=
+WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
+
 TARGETS = autonomous_vehicle.Makefile \
 	boomer.Makefile \
-	ros_automobile.Makefile \
 	radar_target_tracker.Makefile \
 	racing_wheel.Makefile \
 	VehicleDriver.Makefile
+
+ifneq ($(OSTYPE),windows)
+TARGETS += ros_automobile.Makefile
+endif
 
 .PHONY: release debug profile clean
 

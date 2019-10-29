@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,8 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 #include "WbHinge2Joint.hpp"
+
 #include "WbBrake.hpp"
 #include "WbJointParameters.hpp"
 #include "WbMathsUtilities.hpp"
@@ -47,6 +47,10 @@ void WbHinge2Joint::init() {
   mInitialPosition2 = mPosition2;
 }
 
+WbHinge2Joint::WbHinge2Joint(const QString &modelName, WbTokenizer *tokenizer) : WbHingeJoint(modelName, tokenizer) {
+  init();
+}
+
 WbHinge2Joint::WbHinge2Joint(WbTokenizer *tokenizer) : WbHingeJoint("Hinge2Joint", tokenizer) {
   init();
 }
@@ -69,7 +73,7 @@ void WbHinge2Joint::preFinalize() {
     if (device2(i) && !device2(i)->isPreFinalizedCalled())
       device2(i)->preFinalize();
   }
-  // the following code could be simplified
+
   WbBaseNode *const p2 = dynamic_cast<WbBaseNode *>(mParameters2->value());
   if (p2 && !p2->isPreFinalizedCalled())
     p2->preFinalize();
@@ -86,7 +90,7 @@ void WbHinge2Joint::postFinalize() {
     if (device2(i) && !device2(i)->isPostFinalizedCalled())
       device2(i)->postFinalize();
   }
-  // the following code could be simplified
+
   WbBaseNode *const p2 = dynamic_cast<WbBaseNode *>(mParameters2->value());
   if (p2 && !p2->isPostFinalizedCalled())
     p2->postFinalize();
@@ -355,10 +359,13 @@ void WbHinge2Joint::prePhysicsStep(double ms) {
     double s5 = s * s;
     s5 *= s5 * s;
 
-    if (rm && rm->userControl())
+    if (rm && rm->userControl()) {
       // user-defined torque
       dJointAddHinge2Torques(mJoint, -rm->rawInput(), 0.0);
-    else {
+      if (rm->hasMuscles())
+        // force is directly applied to the bodies and not included in joint motor feedback
+        emit updateMuscleStretch(rm->rawInput() / rm->maxForceOrTorque(), false, 1);
+    } else {
       // ODE motor torque (user velocity/position control)
       const double currentVelocity = rm ? rm->computeCurrentDynamicVelocity(ms, mPosition) : 0.0;
       const double fMax = qMax(p ? p->staticFriction() : 0.0, rm ? rm->torque() : 0.0);
@@ -366,10 +373,13 @@ void WbHinge2Joint::prePhysicsStep(double ms) {
       dJointSetHinge2Param(mJoint, dParamVel, currentVelocity);
     }
 
-    if (rm2 && rm2->userControl())
+    if (rm2 && rm2->userControl()) {
       // user-defined torque
       dJointAddHinge2Torques(mJoint, 0.0, -rm2->rawInput());
-    else {
+      if (rm2->hasMuscles())
+        // force is directly applied to the bodies and not included in joint motor feedback
+        emit updateMuscleStretch(rm2->rawInput() / rm2->maxForceOrTorque(), false, 2);
+    } else {
       // ODE motor torque (user velocity/position control)
       const double currentVelocity2 = rm2 ? rm2->computeCurrentDynamicVelocity(ms, mPosition2) : 0.0;
       const double fMax2 = qMax(p2 ? p2->staticFriction() : 0.0, rm2 ? rm2->torque() : 0.0);
@@ -390,12 +400,28 @@ void WbHinge2Joint::prePhysicsStep(double ms) {
     }
   } else {
     const bool run1 = rm && rm->runKinematicControl(ms, mPosition);
-    if (run1 && p)
-      p->setPosition(mPosition);
+    if (run1) {
+      if (p)
+        p->setPosition(mPosition);
+      if (rm->hasMuscles()) {
+        double velocityPercentage = rm->currentVelocity() / rm->maxVelocity();
+        if (rm->kinematicVelocitySign() == -1)
+          velocityPercentage = -velocityPercentage;
+        emit updateMuscleStretch(velocityPercentage, true, 1);
+      }
+    }
 
     const bool run2 = rm2 && rm2->runKinematicControl(ms, mPosition2);
-    if (run2 && p2)
-      p2->setPosition(mPosition2);
+    if (run2) {
+      if (p2)
+        p2->setPosition(mPosition2);
+      if (rm2->hasMuscles()) {
+        double velocityPercentage = rm2->currentVelocity() / rm2->maxVelocity();
+        if (rm2->kinematicVelocitySign() == -1)
+          velocityPercentage = -velocityPercentage;
+        emit updateMuscleStretch(velocityPercentage, true, 2);
+      }
+    }
 
     if (run1 || run2)
       updatePositions(mPosition, mPosition2);
@@ -405,7 +431,9 @@ void WbHinge2Joint::prePhysicsStep(double ms) {
 
 void WbHinge2Joint::postPhysicsStep() {
   assert(mJoint);
-  if (motor() && motor()->isPIDPositionControl()) {
+  WbRotationalMotor *const rm = rotationalMotor();
+  WbRotationalMotor *const rm2 = rotationalMotor2();
+  if (rm && rm->isPIDPositionControl()) {
     // if controlling in position we update position using directly the angle feedback
     mPosition = WbMathsUtilities::normalizeAngle(-dJointGetHinge2Angle1(mJoint) + mOdePositionOffset, mPosition);
   } else {
@@ -416,14 +444,20 @@ void WbHinge2Joint::postPhysicsStep() {
   WbJointParameters *const p = parameters();
   if (p)
     p->setPositionFromOde(mPosition);
+  if (isEnabled() && rm && rm->hasMuscles() && !rm->userControl())
+    // dynamic position or velocity control
+    emit updateMuscleStretch(rm->computeFeedback() / rm->maxForceOrTorque(), false, 1);
 
-  if (motor2() && motor2()->isPIDPositionControl())
+  if (rm2 && rm2->isPIDPositionControl())
     mPosition2 = WbMathsUtilities::normalizeAngle(dJointGetHinge2Angle2(mJoint) + mOdePositionOffset2, mPosition2);
   else
     mPosition2 -= dJointGetHinge2Angle2Rate(mJoint) * mTimeStep / 1000.0;
   WbJointParameters *const p2 = parameters2();
   if (p2)
     p2->setPositionFromOde(mPosition2);
+  if (isEnabled() && rm2 && rm2->hasMuscles() && !rm2->userControl())
+    // dynamic position or velocity control
+    emit updateMuscleStretch(rm2->computeFeedback() / rm2->maxForceOrTorque(), false, 2);
 }
 
 void WbHinge2Joint::reset() {
@@ -497,6 +531,8 @@ void WbHinge2Joint::updatePosition() {
   assert(p || p2);
   if (solidReference() == NULL && solidEndPoint())
     updatePositions(p ? p->position() : mPosition, p2 ? p2->position() : mPosition2);
+  emit updateMuscleStretch(0.0, true, 1);
+  emit updateMuscleStretch(0.0, true, 2);
 }
 
 void WbHinge2Joint::updatePositions(double position, double position2) {
@@ -660,14 +696,13 @@ QVector<WbLogicalDevice *> WbHinge2Joint::devices() const {
 //////////
 
 void WbHinge2Joint::createWrenObjects() {
-  WbBasicJoint::createWrenObjects();
+  WbJoint::createWrenObjects();
 
-  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
-    wr_node_set_visible(WR_NODE(mTransform), true);
-
-  connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this,
-          &WbHinge2Joint::updateJointAxisRepresentation);
-  updateJointAxisRepresentation();
+  // create Wren objects for Muscle devices
+  for (int i = 0; i < devices2Number(); ++i) {
+    if (device2(i))
+      device2(i)->createWrenObjects();
+  }
 }
 
 void WbHinge2Joint::updateJointAxisRepresentation() {

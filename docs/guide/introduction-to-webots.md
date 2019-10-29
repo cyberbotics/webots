@@ -23,7 +23,7 @@ Many mobile robotics projects have relied on Webots for years in the following a
 - Multi-agent research (swarm intelligence, collaborative mobile robots groups, etc.)
 - Adaptive behavior research (genetic algorithm, neural networks, AI, etc.).
 - Teaching robotics (robotics lectures, C/C++/Java/Python programming lectures, etc.)
-- Robot contests (e.g. [www.robotstadium.org](http://www.robotstadium.org) or [www.ratslife.org](http://www.ratslife.org))
+- Robot contests (e.g. Robotstadium or Rat's Life)
 
 ### What Do I Need to Know to Use Webots?
 

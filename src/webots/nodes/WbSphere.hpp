@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,9 +24,6 @@ class WbSphere : public WbGeometry {
   Q_OBJECT
 
 public:
-  // return the default vertex used for the sphere computation
-  static const double *defaultVertex(int triangle, int vertex);
-
   // constructors and destructor
   explicit WbSphere(WbTokenizer *tokenizer = NULL);
   WbSphere(const WbSphere &other);
@@ -49,6 +46,7 @@ public:
   bool isAValidBoundingObject(bool checkOde = false, bool warning = true) const override;
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
   void rescale(const WbVector3 &scale) override;
+  void write(WbVrmlWriter &writer) const override;
 
   // ray tracing
   void recomputeBoundingSphere() const override;
@@ -64,6 +62,12 @@ public:
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
   void exportNodeFields(WbVrmlWriter &writer) const override;
+  void exportNodeSubNodes(WbVrmlWriter &writer) const override;
+  const QString &vrmlName() const override {
+    static const QString name("IndexedFaceSet");
+    return name;
+  }
+  const QString &x3dName() const override { return nodeModelName(); }
 
 private:
   WbSphere &operator=(const WbSphere &);  // non copyable
@@ -73,6 +77,7 @@ private:
   // user accessible fields
   WbSFDouble *mRadius;
   WbSFInt *mSubdivision;
+  WbSFBool *mIco;
 
   bool sanitizeFields();
 
@@ -88,7 +93,7 @@ private:
 
 private slots:
   void updateRadius();
-  void updateSubdivision();
+  void updateMesh();
   void updateLineScale();
 };
 

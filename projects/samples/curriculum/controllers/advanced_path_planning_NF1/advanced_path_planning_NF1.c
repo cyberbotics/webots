@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -135,8 +135,7 @@ static void draw_on_display() {
  * for each cell using the NF1 (grassfire) algorithm.
  */
 static void init_map() {
-  int i = 0;
-  int j = 0;
+  int i, j;
   float vx, vy;
 
   // init to "infinity" or obstacle

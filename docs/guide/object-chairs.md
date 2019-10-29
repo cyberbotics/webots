@@ -6,7 +6,7 @@ A chair (0.5 x 1 x 0.5 m).
 
 %figure
 
-![Chair](images/objects/chairs/Chair/model.png)
+![Chair](images/objects/chairs/Chair/model.thumbnail.png)
 
 %end
 
@@ -22,7 +22,7 @@ Chair {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/chairs/protos/Chair.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/Chair.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/chairs/protos/Chair.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -40,7 +40,7 @@ This object is physics-enabled so it can be pushed.
 
 %figure
 
-![SimpleChair](images/objects/chairs/SimpleChair/model.png)
+![SimpleChair](images/objects/chairs/SimpleChair/model.thumbnail.png)
 
 %end
 
@@ -57,7 +57,7 @@ SimpleChair {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/chairs/protos/SimpleChair.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/SimpleChair.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/chairs/protos/SimpleChair.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -76,7 +76,7 @@ A wooden chair (0.42 x 0.944 x 0.44 m).
 
 %figure
 
-![WoodenChair](images/objects/chairs/WoodenChair/model.png)
+![WoodenChair](images/objects/chairs/WoodenChair/model.thumbnail.png)
 
 %end
 
@@ -92,7 +92,7 @@ WoodenChair {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/chairs/protos/WoodenChair.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/WoodenChair.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/chairs/protos/WoodenChair.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,11 +28,11 @@ class WbSFDouble : public WbSingleValue {
   Q_OBJECT
 
 public:
-  WbSFDouble(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
+  WbSFDouble(WbTokenizer *tokenizer, const QString &worldPath) { readSFDouble(tokenizer, worldPath); }
   WbSFDouble(const WbSFDouble &other) : mValue(other.mValue) {}
   explicit WbSFDouble(double d) : mValue(d) {}
   virtual ~WbSFDouble() {}
-  void read(WbTokenizer *tokenizer, const QString &worldPath) override;
+  void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFDouble(tokenizer, worldPath); }
   void write(WbVrmlWriter &writer) const override {
     writer << toString(writer.isWebots() ? WbPrecision::DOUBLE_MAX : WbPrecision::FLOAT_MAX);
   }
@@ -59,6 +59,7 @@ public:
 
 private:
   double mValue;
+  void readSFDouble(WbTokenizer *tokenizer, const QString &worldPath);
 };
 
 #endif

@@ -1,8 +1,10 @@
 {
+  "robotID": "n11", 
   "name": "robotis-op2", 
   "devices": [
     {
-      "transformID": "n145", 
+      "transformID": "n128", 
+      "initialPosition": -1.23, 
       "name": "AnkleL", 
       "maxPosition": 1.22, 
       "position": -1.23, 
@@ -11,7 +13,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n239", 
+      "transformID": "n214", 
+      "initialPosition": 1.22, 
       "name": "AnkleR", 
       "maxPosition": 1.38, 
       "position": 1.22, 
@@ -20,7 +23,8 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n313", 
+      "transformID": "n282", 
+      "initialPosition": -2.0908, 
       "name": "ArmLowerL", 
       "maxPosition": 1.63, 
       "position": -0.52, 
@@ -29,7 +33,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n368", 
+      "transformID": "n332", 
+      "initialPosition": 2.0808, 
       "name": "ArmLowerR", 
       "maxPosition": 1.16, 
       "position": 0.51, 
@@ -38,7 +43,8 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n297", 
+      "transformID": "n268", 
+      "initialPosition": -0.4254, 
       "name": "ArmUpperL", 
       "maxPosition": 0.77, 
       "position": 0.36, 
@@ -47,7 +53,8 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n352", 
+      "transformID": "n318", 
+      "initialPosition": 0.4554, 
       "name": "ArmUpperR", 
       "maxPosition": 2.3, 
       "position": -0.33, 
@@ -56,7 +63,8 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n155", 
+      "transformID": "n137", 
+      "initialPosition": -0.02, 
       "name": "FootL", 
       "maxPosition": 0.6, 
       "position": -0.02, 
@@ -65,7 +73,8 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n249", 
+      "transformID": "n223", 
+      "initialPosition": 0.05, 
       "name": "FootR", 
       "maxPosition": 1.04, 
       "position": 0.05, 
@@ -74,7 +83,8 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n57", 
+      "transformID": "n50", 
+      "initialPosition": -0.5954, 
       "name": "Head", 
       "maxPosition": 0.94, 
       "position": 0.19, 
@@ -83,7 +93,8 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n135", 
+      "transformID": "n119", 
+      "initialPosition": -2.25, 
       "name": "LegLowerL", 
       "maxPosition": 0.03, 
       "position": -2.25, 
@@ -92,7 +103,8 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n229", 
+      "transformID": "n205", 
+      "initialPosition": 2.25, 
       "name": "LegLowerR", 
       "maxPosition": 2.25, 
       "position": 2.25, 
@@ -101,7 +113,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n119", 
+      "transformID": "n105", 
+      "initialPosition": 1.15, 
       "name": "LegUpperL", 
       "maxPosition": 1.68, 
       "position": 1.15, 
@@ -110,7 +123,8 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n213", 
+      "transformID": "n191", 
+      "initialPosition": -1.15, 
       "name": "LegUpperR", 
       "maxPosition": 0.45, 
       "position": -1.15, 
@@ -119,7 +133,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n47", 
+      "transformID": "n41", 
+      "initialPosition": 0, 
       "name": "Neck", 
       "maxPosition": 1.81, 
       "position": 0, 
@@ -128,7 +143,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n109", 
+      "transformID": "n96", 
+      "initialPosition": -0.01, 
       "name": "PelvL", 
       "maxPosition": 0.93, 
       "position": -0.01, 
@@ -137,7 +153,8 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n203", 
+      "transformID": "n182", 
+      "initialPosition": 0.02, 
       "name": "PelvR", 
       "maxPosition": 1.01, 
       "position": 0.02, 
@@ -146,7 +163,8 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n99", 
+      "transformID": "n87", 
+      "initialPosition": -0.02, 
       "name": "PelvYL", 
       "maxPosition": 2.5, 
       "position": -0.02, 
@@ -155,7 +173,8 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n193", 
+      "transformID": "n173", 
+      "initialPosition": -0.01, 
       "name": "PelvYR", 
       "maxPosition": 0.66, 
       "position": -0.01, 
@@ -164,7 +183,8 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n287", 
+      "transformID": "n259", 
+      "initialPosition": 0.72, 
       "name": "ShoulderL", 
       "maxPosition": 2.85, 
       "position": 0.72, 
@@ -173,7 +193,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n342", 
+      "transformID": "n309", 
+      "initialPosition": -0.84, 
       "name": "ShoulderR", 
       "maxPosition": 3.14, 
       "position": -0.84, 
@@ -182,11 +203,11 @@
       "axis": "-1 0 0"
     }, 
     {
-      "ledMaterialsIDs": [
-        "n30"
-      ], 
-      "transformID": "n27", 
+      "transformID": "n23", 
       "name": "BackLedBlue", 
+      "ledPBRAppearanceIDs": [
+        "n25"
+      ], 
       "ledColors": [
         "0 0 1"
       ], 
@@ -194,11 +215,11 @@
       "type": "LED"
     }, 
     {
-      "ledMaterialsIDs": [
-        "n25"
-      ], 
-      "transformID": "n22", 
+      "transformID": "n19", 
       "name": "BackLedGreen", 
+      "ledPBRAppearanceIDs": [
+        "n21"
+      ], 
       "ledColors": [
         "0 1 0"
       ], 
@@ -206,11 +227,11 @@
       "type": "LED"
     }, 
     {
-      "ledMaterialsIDs": [
-        "n35"
-      ], 
-      "transformID": "n32", 
+      "transformID": "n27", 
       "name": "BackLedRed", 
+      "ledPBRAppearanceIDs": [
+        "n29"
+      ], 
       "ledColors": [
         "1 0 0"
       ], 
@@ -218,160 +239,160 @@
       "type": "LED"
     }, 
     {
-      "ledMaterialsIDs": [
-        "n80"
-      ], 
-      "transformID": "n77", 
+      "transformID": "n67", 
       "name": "EyeLed", 
-      "ledColors": [], 
-      "ledGradual": true, 
-      "type": "LED"
-    }, 
-    {
-      "ledMaterialsIDs": [
-        "n86"
+      "ledPBRAppearanceIDs": [
+        "n69"
       ], 
-      "transformID": "n83", 
-      "name": "HeadLed", 
       "ledColors": [], 
       "ledGradual": true, 
       "type": "LED"
     }, 
     {
-      "transformID": "n13", 
+      "transformID": "n72", 
+      "name": "HeadLed", 
+      "ledPBRAppearanceIDs": [
+        "n74"
+      ], 
+      "ledColors": [], 
+      "ledGradual": true, 
+      "type": "LED"
+    }, 
+    {
+      "transformID": "n11", 
       "transformOffset": "0 -0.0684064 -0.01", 
       "type": "Accelerometer", 
       "name": "Accelerometer"
     }, 
     {
-      "transformID": "n145", 
+      "transformID": "n128", 
       "type": "PositionSensor", 
       "name": "AnkleLS"
     }, 
     {
-      "transformID": "n239", 
+      "transformID": "n214", 
       "type": "PositionSensor", 
       "name": "AnkleRS"
     }, 
     {
-      "transformID": "n313", 
+      "transformID": "n282", 
       "type": "PositionSensor", 
       "name": "ArmLowerLS"
     }, 
     {
-      "transformID": "n368", 
+      "transformID": "n332", 
       "type": "PositionSensor", 
       "name": "ArmLowerRS"
     }, 
     {
-      "transformID": "n297", 
+      "transformID": "n268", 
       "type": "PositionSensor", 
       "name": "ArmUpperLS"
     }, 
     {
-      "transformID": "n352", 
+      "transformID": "n318", 
       "type": "PositionSensor", 
       "name": "ArmUpperRS"
     }, 
     {
-      "transformID": "n70", 
+      "transformID": "n61", 
       "type": "Camera", 
       "name": "Camera"
     }, 
     {
-      "transformID": "n13", 
+      "transformID": "n11", 
       "type": "Emitter", 
       "name": "emitter"
     }, 
     {
-      "transformID": "n155", 
+      "transformID": "n137", 
       "type": "PositionSensor", 
       "name": "FootLS"
     }, 
     {
-      "transformID": "n249", 
+      "transformID": "n223", 
       "type": "PositionSensor", 
       "name": "FootRS"
     }, 
     {
-      "transformID": "n13", 
+      "transformID": "n11", 
       "transformOffset": "0 -0.0684064 0.01", 
       "type": "Gyro", 
       "name": "Gyro"
     }, 
     {
-      "transformID": "n57", 
+      "transformID": "n50", 
       "type": "PositionSensor", 
       "name": "HeadS"
     }, 
     {
-      "transformID": "n135", 
+      "transformID": "n119", 
       "type": "PositionSensor", 
       "name": "LegLowerLS"
     }, 
     {
-      "transformID": "n229", 
+      "transformID": "n205", 
       "type": "PositionSensor", 
       "name": "LegLowerRS"
     }, 
     {
-      "transformID": "n119", 
+      "transformID": "n105", 
       "type": "PositionSensor", 
       "name": "LegUpperLS"
     }, 
     {
-      "transformID": "n213", 
+      "transformID": "n191", 
       "type": "PositionSensor", 
       "name": "LegUpperRS"
     }, 
     {
-      "transformID": "n47", 
+      "transformID": "n41", 
       "type": "PositionSensor", 
       "name": "NeckS"
     }, 
     {
-      "transformID": "n109", 
+      "transformID": "n96", 
       "type": "PositionSensor", 
       "name": "PelvLS"
     }, 
     {
-      "transformID": "n203", 
+      "transformID": "n182", 
       "type": "PositionSensor", 
       "name": "PelvRS"
     }, 
     {
-      "transformID": "n99", 
+      "transformID": "n87", 
       "type": "PositionSensor", 
       "name": "PelvYLS"
     }, 
     {
-      "transformID": "n193", 
+      "transformID": "n173", 
       "type": "PositionSensor", 
       "name": "PelvYRS"
     }, 
     {
-      "transformID": "n13", 
+      "transformID": "n11", 
       "type": "Receiver", 
       "name": "receiver"
     }, 
     {
-      "transformID": "n287", 
+      "transformID": "n259", 
       "type": "PositionSensor", 
       "name": "ShoulderLS"
     }, 
     {
-      "transformID": "n342", 
+      "transformID": "n309", 
       "type": "PositionSensor", 
       "name": "ShoulderRS"
     }, 
     {
-      "transformID": "n13", 
+      "transformID": "n11", 
       "transformOffset": "0 0 0.2", 
       "type": "Speaker", 
       "name": "Speaker"
     }, 
     {
-      "transformID": "n13", 
+      "transformID": "n11", 
       "type": "Emitter", 
       "name": "super_emitter"
     }

@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -135,7 +135,7 @@ else
 release debug profile: $(JAR_FILE) $(TARGET)
 
 JAVA_CLASSES: $(JAVA_SOURCES)
-	javac -target 1.8 $(SWIG_OUTPUT_PATH)/*.java -d .
+	javac -target 1.8 -source 1.8 $(SWIG_OUTPUT_PATH)/*.java -d .
 
 $(WRAPPER_OBJECT): $(WRAPPER)
 	$(CXX) $(CFLAGS2) $(WEBOTS_INCLUDES) $(JAVA_INCLUDES) $< -o $@

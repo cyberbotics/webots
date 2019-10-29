@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ static WbLog *gInstance = NULL;
 
 void WbLog::cleanup() {
   gInstance->mPostponedPopUpMessageQueue.clear();
+  gInstance->mPendingConsoleMessages.clear();
   delete gInstance;
   gInstance = NULL;
 }
@@ -40,49 +41,58 @@ WbLog *WbLog::instance() {
 
 void WbLog::debug(const QString &message, bool popup) {
   if (popup && instance()->mPopUpMessagesPostponed) {
-    instance()->enqueuePopUpMessage(message, DEBUG);
+    instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, DEBUG);
     return;
   }
 
   fprintf(stderr, "DEBUG: %s\n", qPrintable(message));
   fflush(stderr);
-  instance()->emitLog(DEBUG, "DEBUG: " + message, popup);
+  if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool))))
+    instance()->emitLog(DEBUG, "DEBUG: " + message, popup);
+  else
+    instance()->enqueueMessage(instance()->mPendingConsoleMessages, "DEBUG: " + message, DEBUG);
 }
 
 void WbLog::info(const QString &message, bool popup) {
   if (popup && instance()->mPopUpMessagesPostponed) {
-    instance()->enqueuePopUpMessage(message, INFO);
+    instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, INFO);
     return;
   }
 
   if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool))))
     instance()->emitLog(INFO, "INFO: " + message, popup);
-  else
+  else {
     printf("INFO: %s\n", qPrintable(message));
+    instance()->enqueueMessage(instance()->mPendingConsoleMessages, "INFO: " + message, INFO);
+  }
 }
 
 void WbLog::warning(const QString &message, bool popup) {
   if (popup && instance()->mPopUpMessagesPostponed) {
-    instance()->enqueuePopUpMessage(message, WARNING);
+    instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, WARNING);
     return;
   }
 
   if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool))))
     instance()->emitLog(WARNING, "WARNING: " + message, popup);
-  else
+  else {
     fprintf(stderr, "WARNING: %s\n", qPrintable(message));
+    instance()->enqueueMessage(instance()->mPendingConsoleMessages, "WARNING: " + message, WARNING);
+  }
 }
 
 void WbLog::error(const QString &message, bool popup) {
   if (popup && instance()->mPopUpMessagesPostponed) {
-    instance()->enqueuePopUpMessage(message, ERROR);
+    instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, ERROR);
     return;
   }
 
   if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool))))
     instance()->emitLog(ERROR, "ERROR: " + message, popup);
-  else
+  else {
     fprintf(stderr, "ERROR: %s\n", qPrintable(message));
+    instance()->enqueueMessage(instance()->mPendingConsoleMessages, "ERROR: " + message, ERROR);
+  }
 }
 
 void WbLog::fatal(const QString &message) {
@@ -128,17 +138,17 @@ void WbLog::clear() {
   emit instance()->cleared();
 }
 
-void WbLog::enqueuePopUpMessage(const QString &message, Level level) {
-  PostponedPopUpMessage msg;
+void WbLog::enqueueMessage(QList<PostponedMessage> &list, const QString &message, Level level) {
+  PostponedMessage msg;
   msg.text = message;
   msg.level = level;
-  instance()->mPostponedPopUpMessageQueue.append(msg);
+  list.append(msg);
 }
 
 void WbLog::showPostponedPopUpMessages() {
   bool tmp = instance()->mPopUpMessagesPostponed;
   setPopUpPostponed(false);
-  foreach (PostponedPopUpMessage msg, instance()->mPostponedPopUpMessageQueue) {
+  foreach (PostponedMessage msg, instance()->mPostponedPopUpMessageQueue) {
     switch (msg.level) {
       case DEBUG:
         debug(msg.text, true);
@@ -159,4 +169,10 @@ void WbLog::showPostponedPopUpMessages() {
   setPopUpPostponed(tmp);
 
   instance()->mPostponedPopUpMessageQueue.clear();
+}
+
+void WbLog::showPendingConsoleMessages() {
+  foreach (PostponedMessage msg, instance()->mPendingConsoleMessages)
+    emit instance()->logEmitted(msg.level, msg.text, false);
+  instance()->mPendingConsoleMessages.clear();
 }

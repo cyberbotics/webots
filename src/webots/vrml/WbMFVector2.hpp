@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ public:
   typedef WbMFIterator<WbMFVector2, WbVector2> Iterator;
 
   WbMFVector2(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
-  WbMFVector2(const WbMFVector2 &other) { mVector = other.mVector; }
+  WbMFVector2(const WbMFVector2 &other) : mVector(other.mVector) {}
   virtual ~WbMFVector2() {}
   WbValue *clone() const override { return new WbMFVector2(*this); }
   bool equals(const WbValue *other) const override;

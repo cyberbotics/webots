@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -18,6 +18,7 @@ PROTO DoorLever [
   field SFNode     appearance       BrushedAluminium {}  # Defines the appearance of the lever.
   field SFFloat    mass             0.7                  # Defines the mass of the lever.
   field SFBool     hasStaticParent  FALSE                # Defines whether the parent door has physics or not.
+  field SFBool     castShadows      TRUE                 # Defines whether this object should cast shadows.
 ]
 {
   %{
@@ -66,6 +67,7 @@ PROTO DoorLever [
                 radius %{= 3 * handleThickness }%
                 height %{= 0.025 + doorThickness }%
               }
+              castShadows IS castShadows
             }
           ]
         }
@@ -96,6 +98,7 @@ PROTO DoorLever [
                       radius %{= handleThickness }%
                       height %{= axisHeight }%
                     }
+                    castShadows IS castShadows
                   }
                 ]
               }
@@ -109,6 +112,7 @@ PROTO DoorLever [
                       radius %{= handleThickness }%
                       height %{= handleLength }%
                     }
+                    castShadows IS castShadows
                   }
                 ]
               }
@@ -122,6 +126,7 @@ PROTO DoorLever [
                       radius %{= handleThickness }%
                       height %{= handleLength }%
                     }
+                    castShadows IS castShadows
                   }
                 ]
               }
@@ -149,8 +154,6 @@ PROTO DoorLever [
       %{ end }%
     %{ else }%
       ]
-      name IS name
-      model "door lever"
       boundingObject Group {
         children [
           USE HANDLE_SUPPORT
@@ -166,6 +169,8 @@ PROTO DoorLever [
       }
       %{ end }%
     %{ end }%
+      name IS name
+      model "door lever"
     }
   }
 }

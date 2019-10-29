@@ -1,4 +1,6 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+#!/usr/bin/env python
+
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,6 +19,8 @@ import unittest
 import os
 import fnmatch
 import re
+
+from PIL import Image
 
 ignoredProtos = [
     "projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba/clients/studio/plugins/ThymioVPL/UsageProfile.proto",
@@ -44,14 +48,13 @@ class TestIcons(unittest.TestCase):
         # 2. filter-out the hidden PROTO files
         self.visibleProtos = []
         for proto in protos:
-            file = open(proto, 'r')
-            row = file.readlines()
-            for line in row:
-                if re.match(r'^#.*tags.*:.*hidden', line) or re.match(r'^#.*tags.*:.*deprecated', line):
-                    break
-                if not line.startswith('#'):
-                    self.visibleProtos.append(proto)
-                    break
+            with open(proto, 'r') as file:
+                for line in file.readlines():
+                    if re.match(r'^#.*tags.*:.*hidden', line) or re.match(r'^#.*tags.*:.*deprecated', line):
+                        break
+                    if not line.startswith('#'):
+                        self.visibleProtos.append(proto)
+                        break
 
     def test_proto_icons(self):
         """Test that the visible PROTO files have an icon."""
@@ -63,6 +66,12 @@ class TestIcons(unittest.TestCase):
             self.assertTrue(
                 os.path.isfile(icon),
                 msg='missing icon: "%s"' % proto
+            )
+            image = Image.open(icon)
+            width, height = image.size
+            self.assertTrue(
+                width == 128 and height == 128,
+                msg='wrong resolution (icons should be 128x128) for icon: "%s"' % icon
             )
 
 

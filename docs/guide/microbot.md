@@ -1,6 +1,6 @@
 ## PICAXE Microbot
 
-%robot microbot images/robots/microbot/model.png
+%robot microbot images/robots/microbot/model.thumbnail.png
 
 The [PICAXE microbot system](http://www.picaxe.com/Hardware/Robot-Kits/PICAXE-20X2-Microbot/) allows to create a robot from hardware pieces.
 The system can be fully customized by the end user using different input sensors and output devices (in addition to the on-board motor/gearbox, [LED](../reference/led.md) and piezo outputs).
@@ -37,4 +37,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### microbot\_pe.wbt
 
-![microbot_pe.wbt.png](images/robots/microbot/microbot_pe.wbt.png) This simulation shows a Microbot robot which follows a black line drawn on the ground.
+![microbot_pe.wbt.png](images/robots/microbot/microbot_pe.wbt.thumbnail.jpg) This simulation shows a Microbot robot which follows a black line drawn on the ground.

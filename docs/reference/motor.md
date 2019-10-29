@@ -70,7 +70,7 @@ This sound is used to play the sound of the motor.
 It is modulated in volume and pitch according to the velocity of the motor to produce a realistic motor sound.
 
 - The `muscles` field optionally specifies one or more [Muscle](muscle.md) nodes that graphically display the contraction of an artificial muscle connecting the parent [Solid](solid.md) node and the `endPoint` node of the [Joint](joint.md).
-This functionality is not available for [Hinge2Joint](hinge2joint.md) and [Track](track.md) nodes.
+This functionality is not available for the [Track](track.md) node.
 
 ### Units
 
@@ -239,7 +239,7 @@ If a more specific or accurate model is needed, it can be implemented in the rob
 #### `wb_motor_get_available_torque`
 #### `wb_motor_get_max_torque`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -353,7 +353,7 @@ public class Motor extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_motor_set_position(tag, position)
 wb_motor_set_velocity(tag, velocity)
 wb_motor_set_acceleration(tag, acceleration)
@@ -492,7 +492,7 @@ Positions are expressed in *radian* (rad) for rotational motors and in *meter* (
 #### `wb_motor_get_torque_feedback`
 #### `wb_motor_get_torque_feedback_sampling_period`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -574,7 +574,7 @@ public class Motor extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_motor_enable_force_feedback(tag, sampling_period)
 wb_motor_disable_force_feedback(tag)
 period = wb_motor_get_force_feedback_sampling_period(tag)
@@ -643,7 +643,7 @@ The `wb_motor_get_force_feedback_sampling_period` (resp. `wb_motor_get_torque_fe
 #### `wb_motor_set_force`
 #### `wb_motor_set_torque`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -701,7 +701,7 @@ public class Motor extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_motor_set_force(tag, force)
 wb_motor_set_torque(tag, torque)
 ```
@@ -744,7 +744,7 @@ The example in "projects/samples/howto/worlds/force\_control.wbt" demonstrates t
 
 #### `wb_motor_get_type`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -804,7 +804,7 @@ public class Motor extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_MOTOR_ROTATIONAL, WB_MOTOR_LINEAR
 
 type = wb_motor_get_type(tag)
@@ -843,7 +843,7 @@ If the value of the `type` field is "linear", this function returns WB\_LINEAR, 
 #### `wb_motor_get_brake`
 #### `wb_motor_get_position_sensor`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -907,7 +907,7 @@ public class Motor extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 tag = wb_brake_get_brake(tag)
 tag = wb_brake_get_position_sensor(tag)
 ```

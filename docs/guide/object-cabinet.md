@@ -12,7 +12,7 @@ The coordinate origin (1,1) of the grid layout is at the bottom left corner.
 
 %figure
 
-![Cabinet](images/objects/cabinet/Cabinet/model.png)
+![Cabinet](images/objects/cabinet/Cabinet/model.thumbnail.png)
 
 %end
 
@@ -58,7 +58,7 @@ Cabinet {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/cabinet/protos/Cabinet.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/cabinet/protos/Cabinet.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/cabinet/protos/Cabinet.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -89,7 +89,7 @@ A handle for the Cabinet PROTO.
 
 %figure
 
-![CabinetHandle](images/objects/cabinet/CabinetHandle/model.png)
+![CabinetHandle](images/objects/cabinet/CabinetHandle/model.thumbnail.png)
 
 %end
 
@@ -107,7 +107,7 @@ CabinetHandle {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/cabinet/protos/CabinetHandle.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/cabinet/protos/CabinetHandle.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/cabinet/protos/CabinetHandle.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

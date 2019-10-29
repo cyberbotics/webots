@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,8 +30,8 @@ namespace wren {
     void setTexture(Texture *texture, size_t index) override;
 
     // Encapsulate memory management
-    static PhongMaterial *createMaterial() { return new PhongMaterial(); }
-    static void deletePhongMaterial(PhongMaterial *phongMaterial) { delete phongMaterial; }
+    static PhongMaterial *createMaterial();
+    static void deleteMaterial(PhongMaterial *material);
     static size_t cachedItemCount() { return PhongMaterial::cCache.size(); }
     static void printCacheContents();
 
@@ -51,15 +51,15 @@ namespace wren {
 
     void setColorPerVertex(bool enabled) override { mColorPerVertex = enabled; }
 
-    void linearDiffuse(float *returnColor) const;
-
-    PhongMaterial();
-    ~PhongMaterial() { releaseMaterial(); }
     void bind(bool bindProgram = true) const override;
     size_t sortingId() const override;
     void updateTranslucency() override;
 
   private:
+    PhongMaterial();
+    ~PhongMaterial() {}
+    void init();
+
     static std::unordered_map<cache::Key, cache::PhongMaterialData> cCache;
     void updateUniforms() const override;
     void releaseMaterial() override;

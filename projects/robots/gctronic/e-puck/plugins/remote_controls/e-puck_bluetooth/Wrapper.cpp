@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -57,8 +57,8 @@ bool Wrapper::start(void *arg) {
   if (!arg)
     return false;
   DeviceManager::instance()->camera()->checkResolution();
-  string port((const char *)arg);
-  cCommunication->initialize(port);
+  const char *port = static_cast<const char *>(arg);
+  cCommunication->initialize(std::string(port));
   cTime = new Time();
   cSuccess = cCommunication->isInitialized();
   cCameraInitialized = false;

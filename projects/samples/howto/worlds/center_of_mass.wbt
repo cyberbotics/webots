@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
 }
 Viewpoint {
@@ -208,6 +208,7 @@ Robot {
       ]
     }
   ]
+  name "robot(1)"
   boundingObject USE GROUP
   physics Physics {
   }

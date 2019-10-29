@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -122,17 +122,17 @@ public:
   const QColor &numberColor() const { return mNumberColor; }
   const QColor &preprocessorColor() const { return mPreprocessorColor; }
   const QColor &quotationColor() const { return mQuotationColor; }
-  void setApiColor(QColor &color) { mApiColor = color; }
-  void setCommentColor(QColor &color) { mCommentColor = color; }
-  void setKeywordColor(QColor &color) { mKeywordColor = color; }
-  void setNumberColor(QColor &color) { mNumberColor = color; }
-  void setPreprocessorColor(QColor &color) { mPreprocessorColor = color; }
-  void setQuotationColor(QColor &color) { mQuotationColor = color; }
+  void setApiColor(const QColor &color) { mApiColor = color; }
+  void setCommentColor(const QColor &color) { mCommentColor = color; }
+  void setKeywordColor(const QColor &color) { mKeywordColor = color; }
+  void setNumberColor(const QColor &color) { mNumberColor = color; }
+  void setPreprocessorColor(const QColor &color) { mPreprocessorColor = color; }
+  void setQuotationColor(const QColor &color) { mQuotationColor = color; }
 
   const QColor &gutterForegroundColor() { return mGutterForegroundColor; }
   const QColor &gutterBackgroundColor() { return mGutterBackgroundColor; }
-  void setGutterForegroundColor(QColor &color) { mGutterForegroundColor = color; }
-  void setGutterBackgroundColor(QColor &color) { mGutterBackgroundColor = color; }
+  void setGutterForegroundColor(const QColor &color) { mGutterForegroundColor = color; }
+  void setGutterBackgroundColor(const QColor &color) { mGutterBackgroundColor = color; }
 
 signals:
   void fileNameChanged();

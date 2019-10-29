@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -88,7 +88,6 @@ bool Communication::initialize(const string &ip) {
 }
 
 void Communication::cleanup() {
-  fprintf(stderr, "Communication::cleanup()\n");
   if (mFd > 0)
 #ifdef _WIN32
     closesocket(mFd);
@@ -147,5 +146,5 @@ int Communication::receive(char *data, int size, bool block) {
 #endif
     n += m;
   } while (n < size);
-  return n == size;  // success
+  return size;  // success
 }

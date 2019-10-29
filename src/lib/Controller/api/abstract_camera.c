@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,10 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#else
-#include <sys/shm.h>
+#else  // POSIX shared memory segments
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
 #endif
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,33 +31,27 @@
 static void wb_abstract_camera_cleanup_shm(WbDevice *d) {
   AbstractCamera *c = d->pdata;
 #ifdef _WIN32
-  if (c->shmFile != NULL) {
+  if (c->shm_file != NULL) {
     UnmapViewOfFile(c->image);
-    CloseHandle(c->shmFile);
+    CloseHandle(c->shm_file);
   }
-#else
+#else  // POSIX shared memory
   if (c->shmid > 0) {
-    shmctl(c->shmid, IPC_RMID, NULL);
-    shmdt(c->image);
+    munmap(c->image, 4 * c->height * c->width);
+    shm_unlink(c->shm_key);
   }
 #endif
 }
 
-static void wb_abstract_camera_get_shm(WbDevice *d, shm_key_t shm_key) {
+static void wb_abstract_camera_get_shm(WbDevice *d) {
   AbstractCamera *c = d->pdata;
 #ifdef _WIN32
-  c->shmFile = OpenFileMapping(FILE_MAP_WRITE, FALSE, shm_key);
-  ROBOT_ASSERT(c->shmFile);
-  c->image = MapViewOfFile(c->shmFile, FILE_MAP_WRITE, 0, 0, 0);
-#else
-  // inspired from QSharedMemoryPrivate::attach() with QT_POSIX_IPC = FALSE
-  // grab the shared memory segment id
-  c->shmid = shmget(shm_key, 0, 0400);
-  ROBOT_ASSERT(-1 != c->shmid);
-
-  // grab the memory
-  c->image = (unsigned char *)shmat(c->shmid, NULL, 0);  // not read only, because remote controller need to write
-  ROBOT_ASSERT((void *)-1 != c->image);
+  c->shm_file = OpenFileMapping(FILE_MAP_WRITE, FALSE, c->shm_key);
+  ROBOT_ASSERT(c->shm_file);
+  c->image = MapViewOfFile(c->shm_file, FILE_MAP_WRITE, 0, 0, 0);
+#else  // POSIX shared memory segments
+  c->shmid = shm_open(c->shm_key, O_RDWR, 0400);
+  c->image = (unsigned char *)mmap(0, 4 * c->height * c->width, PROT_READ | PROT_WRITE, MAP_SHARED, c->shmid, 0);
 #endif
 
   ROBOT_ASSERT(c->image);
@@ -69,12 +65,13 @@ void wb_abstract_camera_cleanup(WbDevice *d) {
   free(c);
 }
 
-static void wb_abstract_camera_change_shm(WbDevice *d, shm_key_t shm_key) {
+static void wb_abstract_camera_change_shm(WbDevice *d, char *shm_key) {
   AbstractCamera *c = d->pdata;
   if (c == NULL)
     return;
   wb_abstract_camera_cleanup_shm(d);
-  wb_abstract_camera_get_shm(d, shm_key);
+  c->shm_key = shm_key;
+  wb_abstract_camera_get_shm(d);
 }
 
 void wb_abstract_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov, double camnear, bool spherical) {
@@ -117,16 +114,10 @@ void wb_abstract_camera_update_timestamp(WbDevice *d) {
 bool wb_abstract_camera_handle_command(WbDevice *d, WbRequest *r, unsigned char command) {
   bool command_handled = true;
   AbstractCamera *c = d->pdata;
-  shm_key_t shm_key;
 
   switch (command) {
     case C_CAMERA_SHARED_MEMORY:
-#ifdef _WIN32
-      shm_key = request_read_string(r);
-#else
-      shm_key = request_read_int32(r);
-#endif
-      wb_abstract_camera_change_shm(d, shm_key);
+      wb_abstract_camera_change_shm(d, request_read_string(r));
       break;
 
     case C_CAMERA_GET_IMAGE:

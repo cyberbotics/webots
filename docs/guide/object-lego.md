@@ -6,7 +6,7 @@ LEGO Mindstorm EV3 large motor. Part id: 6009430.
 
 %figure
 
-![LegoLargeMotor](images/objects/lego/LegoLargeMotor/model.png)
+![LegoLargeMotor](images/objects/lego/LegoLargeMotor/model.thumbnail.png)
 
 %end
 
@@ -20,7 +20,7 @@ LegoLargeMotor {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/lego/protos/LegoLargeMotor.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lego/protos/LegoLargeMotor.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/lego/protos/LegoLargeMotor.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -31,7 +31,7 @@ LEGO Mindstrom EV 3 wheel. Parts id: 4634091 & 6035364.
 
 %figure
 
-![LegoWheel](images/objects/lego/LegoWheel/model.png)
+![LegoWheel](images/objects/lego/LegoWheel/model.thumbnail.png)
 
 %end
 
@@ -45,7 +45,7 @@ LegoWheel {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/lego/protos/LegoWheel.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lego/protos/LegoWheel.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/lego/protos/LegoWheel.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

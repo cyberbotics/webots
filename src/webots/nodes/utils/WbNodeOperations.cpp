@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -147,9 +147,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   }
 
   if (sfnode && sfnode->value() != NULL)
-    // reset SF field value
-    // as consequence the selection is cleared and mSelectedItem is set to NULL
-    sfnode->setValue(NULL);
+    // clear selection and set mSelectedItem to NULL
+    WbSelection::instance()->selectTransformFromView3D(NULL);
 
   // read node
   WbNode::setGlobalParent(parentNode);
@@ -182,7 +181,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       else if (result == REGENERATION_REQUIRED)
         isNodeRegenerated = true;
       ++nodeIndex;
-      if (!field->isTemplateRegenerator())
+      if (!field->isTemplateRegenerator() && !isNodeRegenerated)
         emit nodeAdded(childNode);
       // we need to emit this signal after finalize so that the mass properties are displayed properly
       // in the scene tree.
@@ -383,7 +382,7 @@ void WbNodeOperations::updateDictionary(bool load, WbBaseNode *protoRoot) {
   WbNode::setDictionaryUpdateFlag(true);
   WbDictionary *dictionary = WbDictionary::instance();
   dictionary->update(load);  // update all DEF-USE dependencies
-  if (protoRoot)
+  if (protoRoot && !protoRoot->isUseNode())
     dictionary->updateProtosPrivateDef(protoRoot);
   WbNode::setDictionaryUpdateFlag(false);
   mSkipUpdates = false;

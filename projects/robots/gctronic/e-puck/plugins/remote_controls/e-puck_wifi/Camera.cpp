@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ Camera::Camera(WbDeviceTag tag) : Sensor(tag, 0) {
 }
 
 bool Camera::rawToBgraImage(unsigned char *bgraImage, const unsigned char *rawImage) const {
-  int index = 0;
+  int index;
   int counter = 0;
   unsigned char red, green, blue;
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -508,7 +508,7 @@ void rcb3_simulator::run() {
     return;
 
   if (m_current_scenario != NO_MOTION_INDEX) {
-    RCBMotion *m = m_scenarios[m_current_scenario];
+    m = m_scenarios[m_current_scenario];
     unsigned int new_pos = m->GetNextItem();
     if (new_pos != NO_MOTION_INDEX) {
       RCBMotionItem &item = m->m_items[new_pos];
@@ -525,7 +525,7 @@ void rcb3_simulator::run() {
 
     if (m_current_scenario != NO_MOTION_INDEX) {
       // We have started a new scenario
-      RCBMotion *m = m_scenarios[m_current_scenario];
+      m = m_scenarios[m_current_scenario];
       int start_pos = m->m_start;
       if (start_pos != NO_MOTION_INDEX) {
         RCBMotionItem &item = m->m_items[start_pos];
@@ -539,7 +539,7 @@ void rcb3_simulator::run() {
   if (m_realtime_mixing_count != 0)
     apply_mixing(true);
   wait(100);
-  k = wb_keyboard_get_key();
+  wb_keyboard_get_key();
 }
 
 void rcb3_simulator::wait(int ms) {

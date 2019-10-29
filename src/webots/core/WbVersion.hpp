@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ public:
   // Webots version is a special case and the string will have the form
   // "R2018a revision 1" or "R2018a" if revision is false, and
   // "2018.0.1 if digitsOnly is true ('a' = 0)
-  QString toString(bool revision = true, bool digitsOnly = false) const;
+  QString toString(bool revision = true, bool digitsOnly = false, bool nightly = false) const;
 
   // copy
   WbVersion &operator=(const WbVersion &other) {
@@ -52,6 +52,8 @@ public:
     mMinor = other.mMinor;
     mRevision = other.mRevision;
     mIsWebots = other.mIsWebots;
+    mCommit = other.mCommit;
+    mDate = other.mDate;
     return *this;
   }
   // comparison operators
@@ -82,6 +84,8 @@ private:
   int mMajor;
   int mMinor;  // in case of Webots version 0 corresponds to 'a'
   int mRevision;
+  QString mCommit;
+  QString mDate;
 
   bool mIsWebots;
 };

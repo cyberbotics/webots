@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -540,7 +540,7 @@ Robot {
       rotation 0 1 0 1.27
       name "ls0"
       lookupTable [
-        0 4095 0.01 0.2 0 0.01
+        1 4095 0.01 2 0 0.01
       ]
     }
     DEF EPUCK_LS1 LightSensor {
@@ -548,14 +548,14 @@ Robot {
       rotation 0 1 0 0.77
       name "ls1"
       lookupTable [
-        0 4095 0.01 0.2 0 0.01
+        1 4095 0.01 2 0 0.01
       ]
     }
     DEF EPUCK_LS2 LightSensor {
       translation 0.031 0.0329 0
       name "ls2"
       lookupTable [
-        0 4095 0.01 0.2 0 0.01
+        1 4095 0.01 2 0 0.01
       ]
     }
     DEF EPUCK_LS3 LightSensor {
@@ -563,7 +563,7 @@ Robot {
       rotation 0 1 0 5.21
       name "ls3"
       lookupTable [
-        0 4095 0.01 0.2 0 0.01
+        1 4095 0.01 2 0 0.01
       ]
     }
     DEF EPUCK_LS4 LightSensor {
@@ -571,7 +571,7 @@ Robot {
       rotation 0 1 0 4.21
       name "ls4"
       lookupTable [
-        0 4095 0.01 0.2 0 0.01
+        1 4095 0.01 2 0 0.01
       ]
     }
     DEF EPUCK_LS5 LightSensor {
@@ -579,7 +579,7 @@ Robot {
       rotation 0 1 0 3.14159
       name "ls5"
       lookupTable [
-        0 4095 0.01 0.2 0 0.01
+        1 4095 0.01 2 0 0.01
       ]
     }
     DEF EPUCK_LS6 LightSensor {
@@ -587,7 +587,7 @@ Robot {
       rotation 0 1 0 2.37
       name "ls6"
       lookupTable [
-        0 4095 0.01 0.2 0 0.01
+        1 4095 0.01 2 0 0.01
       ]
     }
     DEF EPUCK_LS7 LightSensor {
@@ -595,7 +595,7 @@ Robot {
       rotation 0 1 0 1.87
       name "ls7"
       lookupTable [
-        0 4095 0.01 0.2 0 0.01
+        1 4095 0.01 2 0 0.01
       ]
     }
     DEF EPUCK_CAMERA Camera {

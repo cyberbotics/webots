@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@
 
 #include "WbBaseNode.hpp"
 #include "WbVector2.hpp"
+
+#include <QtCore/QSet>
 
 class WbRgb;
 
@@ -51,7 +53,6 @@ public:
   // Texture features
   int width() const;
   int height() const;
-  bool isTransparent() const;
   int filtering() const;
 
   // external texture
@@ -61,12 +62,14 @@ public:
   void unsetBackgroundTexture();
 
   QString path();
-  void setContainerField(QString &field);
+
+  void setRole(const QString &role) { mRole = role; }
 
 signals:
   void changed();
 
 protected:
+  bool exportNodeHeader(WbVrmlWriter &writer) const override;
   void exportNodeFields(WbVrmlWriter &writer) const override;
   void exportNodeSubNodes(WbVrmlWriter &writer) const override;
 
@@ -91,6 +94,7 @@ private:
   QString mContainerField;
   QImage *mImage;
   bool mIsMainTextureTransparent;
+  QString mRole;  // Role in a PBR appearance.
 
   WbImageTexture &operator=(const WbImageTexture &);  // non copyable
   WbNode *clone() const override { return new WbImageTexture(*this); }
@@ -98,6 +102,8 @@ private:
   void updateWrenTexture();
   void applyTextureParams();
   void destroyWrenTexture();
+
+  static QSet<QString> cQualityChangedTexturesList;
 
 private slots:
   void updateUrl();

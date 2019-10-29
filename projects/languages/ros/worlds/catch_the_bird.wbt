@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
 }
 Viewpoint {
@@ -242,6 +242,7 @@ Solid {
       boundingObject Capsule {
         height 0.07
         radius 0.02
+        subdivision 16
       }
       physics Physics {
       }

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -165,22 +165,18 @@ void WbRadar::updateOptionalRendering(int option) {
 }
 
 void WbRadar::updateMinRange() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mMinRange, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mMinRange, 0.0);
   if (mMaxRange->value() <= mMinRange->value()) {
     if (mMaxRange->value() == 0.0) {
       double newMaxRange = mMinRange->value() + 1.0;
       warn(tr("'minRange' is greater or equal to 'maxRange'. Setting 'maxRange' to %1.").arg(newMaxRange));
-      mMaxRange->blockSignals(true);
-      mMaxRange->setValue(newMaxRange);
-      mMaxRange->blockSignals(false);
+      mMaxRange->setValueNoSignal(newMaxRange);
     } else {
       double newMinRange = mMaxRange->value() - 1.0;
       if (newMinRange < 0.0)
         newMinRange = 0.0;
       warn(tr("'minRange' is greater or equal to 'maxRange'. Setting 'minRange' to %1.").arg(newMinRange));
-      mMinRange->blockSignals(true);
-      mMinRange->setValue(newMinRange);
-      mMinRange->blockSignals(false);
+      mMinRange->setValueNoSignal(newMinRange);
     }
     return;
   }
@@ -189,14 +185,12 @@ void WbRadar::updateMinRange() {
 }
 
 void WbRadar::updateMaxRange() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mMaxRange, mMinRange->value() + 1.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mMaxRange, mMinRange->value() + 1.0);
 
   if (mMaxRange->value() <= mMinRange->value()) {
     double newMaxRange = mMinRange->value() + 1.0;
     warn(tr("'maxRange' is less or equal to 'minRange'. Setting 'maxRange' to %1.").arg(newMaxRange));
-    mMaxRange->blockSignals(true);
-    mMaxRange->setValue(newMaxRange);
-    mMaxRange->blockSignals(false);
+    mMaxRange->setValueNoSignal(newMaxRange);
     return;
   }
   if (areWrenObjectsInitialized())
@@ -204,19 +198,19 @@ void WbRadar::updateMaxRange() {
 }
 
 void WbRadar::updateHorizontalFieldOfView() {
-  WbFieldChecker::checkDoubleInRangeWithExcludedBounds(this, mHorizontalFieldOfView, 0.0, 2 * M_PI, 0.78);
+  WbFieldChecker::resetDoubleIfNotInRangeWithExcludedBounds(this, mHorizontalFieldOfView, 0.0, 2 * M_PI, 0.78);
   if (areWrenObjectsInitialized())
     applyFrustumToWren();
 }
 
 void WbRadar::updateVerticalFieldOfView() {
-  WbFieldChecker::checkDoubleInRangeWithExcludedBounds(this, mVerticalFieldOfView, 0.0, M_PI_2, 0.1);
+  WbFieldChecker::resetDoubleIfNotInRangeWithExcludedBounds(this, mVerticalFieldOfView, 0.0, M_PI_2, 0.1);
   if (areWrenObjectsInitialized())
     applyFrustumToWren();
 }
 
 void WbRadar::updateMinAbsoluteRadialSpeed() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mMinAbsoluteRadialSpeed, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mMinAbsoluteRadialSpeed, 0.0);
 }
 
 void WbRadar::updateMinAndMaxRadialSpeed() {
@@ -228,35 +222,33 @@ void WbRadar::updateMinAndMaxRadialSpeed() {
     double newMaxRadialSpeed = mMinRadialSpeed->value() + 1.0;
     warn(
       tr("'maxRadialSpeed' is less than or equal to 'minRadialSpeed'. Setting 'maxRadialSpeed' to %1.").arg(newMaxRadialSpeed));
-    mMaxRadialSpeed->blockSignals(true);
-    mMaxRadialSpeed->setValue(newMaxRadialSpeed);
-    mMaxRadialSpeed->blockSignals(false);
+    mMaxRadialSpeed->setValueNoSignal(newMaxRadialSpeed);
     return;
   }
 }
 
 void WbRadar::updateCellDistance() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mCellDistance, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mCellDistance, 0.0);
 }
 
 void WbRadar::updateCellSpeed() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mCellSpeed, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mCellSpeed, 0.0);
 }
 
 void WbRadar::updateRangeNoise() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mRangeNoise, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mRangeNoise, 0.0);
 }
 
 void WbRadar::updateSpeedNoise() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mSpeedNoise, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mSpeedNoise, 0.0);
 }
 
 void WbRadar::updateAngularNoise() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mAngularNoise, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mAngularNoise, 0.0);
 }
 
 void WbRadar::updateFrequency() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mFrequency, 24.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mFrequency, 24.0);
   updateReceivedPowerFactor();
 }
 
@@ -371,11 +363,11 @@ void WbRadar::createWrenObjects() {
 void WbRadar::handleMessage(QDataStream &stream) {
   unsigned char command;
   short refreshRate;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   switch (command) {
     case C_SET_SAMPLING_PERIOD:
-      stream >> (short &)refreshRate;
+      stream >> refreshRate;
       mSensor->setRefreshRate(refreshRate);
       return;
     default:

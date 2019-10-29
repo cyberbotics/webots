@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 
 WbSFNode::WbSFNode(WbTokenizer *tokenizer, const QString &worldPath) {
   mValue = NULL;
-  read(tokenizer, worldPath);
+  readSFNode(tokenizer, worldPath);
 }
 
 WbSFNode::WbSFNode(const WbSFNode &other) {
@@ -33,7 +33,7 @@ WbSFNode::WbSFNode(const WbSFNode &other) {
     mValue = NULL;
 }
 
-void WbSFNode::read(WbTokenizer *tokenizer, const QString &worldPath) {
+void WbSFNode::readSFNode(WbTokenizer *tokenizer, const QString &worldPath) {
   delete mValue;
 
   if (WbNodeReader::current())

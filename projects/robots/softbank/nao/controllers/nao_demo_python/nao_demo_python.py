@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,11 +15,9 @@
 """Example of Python controller for Nao robot.
    This demonstrates how to access sensors and actuators"""
 
-from controller import Robot, Accelerometer, Camera, DistanceSensor, \
-                       GPS, Gyro, InertialUnit, Keyboard, LED, Motion, \
-                       Motor, TouchSensor
+from controller import Robot, Keyboard, Motion
 
-# this is the main class
+
 class Nao (Robot):
     PHALANX_MAX = 8
 
@@ -69,8 +67,7 @@ class Nao (Robot):
         print('roll/pitch/yaw: [%f %f %f]' % (rpy[0], rpy[1], rpy[2]))
 
     def printFootSensors(self):
-        newtons = 0.0
-        fsv = [] # force sensor values
+        fsv = []  # force sensor values
 
         fsv.append(self.fsr[0].getValues())
         fsv.append(self.fsr[1].getValues())
@@ -83,15 +80,15 @@ class Nao (Robot):
 
         # The coefficients were calibrated against the real
         # robot so as to obtain realistic sensor values.
-        l.append(fsv[0][2] / 3.4 + 1.5 * fsv[0][0] + 1.15 * fsv[0][1]) # Left Foot Front Left
-        l.append(fsv[0][2] / 3.4 + 1.5 * fsv[0][0] - 1.15 * fsv[0][1]) # Left Foot Front Right
-        l.append(fsv[0][2] / 3.4 - 1.5 * fsv[0][0] - 1.15 * fsv[0][1]) # Left Foot Rear Right
-        l.append(fsv[0][2] / 3.4 - 1.5 * fsv[0][0] + 1.15 * fsv[0][1]) # Left Foot Rear Left
+        l.append(fsv[0][2] / 3.4 + 1.5 * fsv[0][0] + 1.15 * fsv[0][1])  # Left Foot Front Left
+        l.append(fsv[0][2] / 3.4 + 1.5 * fsv[0][0] - 1.15 * fsv[0][1])  # Left Foot Front Right
+        l.append(fsv[0][2] / 3.4 - 1.5 * fsv[0][0] - 1.15 * fsv[0][1])  # Left Foot Rear Right
+        l.append(fsv[0][2] / 3.4 - 1.5 * fsv[0][0] + 1.15 * fsv[0][1])  # Left Foot Rear Left
 
-        r.append(fsv[1][2] / 3.4 + 1.5 * fsv[1][0] + 1.15 * fsv[1][1]) # Right Foot Front Left
-        r.append(fsv[1][2] / 3.4 + 1.5 * fsv[1][0] - 1.15 * fsv[1][1]) # Right Foot Front Right
-        r.append(fsv[1][2] / 3.4 - 1.5 * fsv[1][0] - 1.15 * fsv[1][1]) # Right Foot Rear Right
-        r.append(fsv[1][2] / 3.4 - 1.5 * fsv[1][0] + 1.15 * fsv[1][1]) # Right Foot Rear Left
+        r.append(fsv[1][2] / 3.4 + 1.5 * fsv[1][0] + 1.15 * fsv[1][1])  # Right Foot Front Left
+        r.append(fsv[1][2] / 3.4 + 1.5 * fsv[1][0] - 1.15 * fsv[1][1])  # Right Foot Front Right
+        r.append(fsv[1][2] / 3.4 - 1.5 * fsv[1][0] - 1.15 * fsv[1][1])  # Right Foot Rear Right
+        r.append(fsv[1][2] / 3.4 - 1.5 * fsv[1][0] + 1.15 * fsv[1][1])  # Right Foot Rear Left
 
         for i in range(0, len(l)):
             l[i] = max(min(l[i], 25), 0)
@@ -102,20 +99,20 @@ class Nao (Robot):
         print('----------foot sensors----------')
         print('+ left ---- right +')
         print('+-------+ +-------+')
-        print('|'  + str(round(l[0],1)) + \
-              '  ' + str(round(l[1],1)) + \
-              '| |'+ str(round(r[0],1)) + \
-              '  ' + str(round(r[1],1)) + \
+        print('|' + str(round(l[0], 1)) +
+              '  ' + str(round(l[1], 1)) +
+              '| |' + str(round(r[0], 1)) +
+              '  ' + str(round(r[1], 1)) +
               '|  front')
         print('| ----- | | ----- |')
-        print('|'  + str(round(l[3],1)) + \
-              '  ' + str(round(l[2],1)) + \
-              '| |'+ str(round(r[3],1)) + \
-              '  ' + str(round(r[2],1)) + \
+        print('|' + str(round(l[3], 1)) +
+              '  ' + str(round(l[2], 1)) +
+              '| |' + str(round(r[3], 1)) +
+              '  ' + str(round(r[2], 1)) +
               '|  back')
         print('+-------+ +-------+')
-        print('total: %f Newtons, %f kilograms' \
-              % ((newtonsLeft + newtonsRight), ((newtonsLeft + newtonsRight)/9.81)))
+        print('total: %f Newtons, %f kilograms'
+              % ((newtonsLeft + newtonsRight), ((newtonsLeft + newtonsRight) / 9.81)))
 
     def printFootBumpers(self):
         ll = self.lfootlbumper.getValue()
@@ -125,7 +122,7 @@ class Nao (Robot):
         print('----------foot bumpers----------')
         print('+ left ------ right +')
         print('+--------+ +--------+')
-        print('|'  + str(ll) + '  ' + str(lr) + '| |'+ str(rl) + '  ' + str(rr) + '|')
+        print('|' + str(ll) + '  ' + str(lr) + '| |' + str(rl) + '  ' + str(rr) + '|')
         print('|        | |        |')
         print('|        | |        |')
         print('+--------+ +--------+')
@@ -139,7 +136,7 @@ class Nao (Robot):
         print('left: %f m, right %f m' % (dist[0], dist[1]))
 
     def printCameraImage(self, camera):
-        scaled = 2 # defines by which factor the image is subsampled
+        scaled = 2  # defines by which factor the image is subsampled
         width = camera.getWidth()
         height = camera.getHeight()
 
@@ -147,13 +144,13 @@ class Nao (Robot):
         image = camera.getImage()
 
         print('----------camera image (gray levels)---------')
-        print('original resolution: %d x %d, scaled to %d x %f' \
-              % (width, height, width/scaled, height/scaled))
+        print('original resolution: %d x %d, scaled to %d x %f'
+              % (width, height, width / scaled, height / scaled))
 
-        for y in range(0, height/scaled):
+        for y in range(0, height // scaled):
             line = ''
-            for x in range(0, width/scaled):
-                gray = camera.imageGetGray(image, width, x * scaled, y * scaled) * 9 / 255 # between 0 and  instead of 0 and 255
+            for x in range(0, width // scaled):
+                gray = camera.imageGetGray(image, width, x * scaled, y * scaled) * 9 / 255  # rescale between 0 and 9
                 line = line + str(int(gray))
             print(line)
 
@@ -228,7 +225,7 @@ class Nao (Robot):
 
         # ultrasound sensors
         self.us = []
-        usNames = ['Sonar/Left','Sonar/Right']
+        usNames = ['Sonar/Left', 'Sonar/Right']
         for i in range(0, len(usNames)):
             self.us.append(self.getDistanceSensor(usNames[i]))
             self.us[i].enable(self.timeStep)
@@ -276,8 +273,8 @@ class Nao (Robot):
             self.minPhalanxMotorPosition.append(self.rphalanx[i].getMinPosition())
 
         # shoulder pitch motors
-        self.RShoulderPitch = self.getMotor("RShoulderPitch");
-        self.LShoulderPitch = self.getMotor("LShoulderPitch");
+        self.RShoulderPitch = self.getMotor("RShoulderPitch")
+        self.LShoulderPitch = self.getMotor("LShoulderPitch")
 
         # keyboard
         self.keyboard = self.getKeyboard()

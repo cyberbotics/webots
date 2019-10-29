@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@
 #include "WbConsole.hpp"
 #include "WbContextMenuGenerator.hpp"
 #include "WbControlledWorld.hpp"
+#include "WbDesktopServices.hpp"
 #include "WbDockWidget.hpp"
 #include "WbDocumentation.hpp"
 #include "WbFileUtil.hpp"
@@ -79,13 +80,11 @@
 #include <QtNetwork/QHostInfo>
 
 #include <QtGui/QCloseEvent>
-#include <QtGui/QDesktopServices>
 #include <QtGui/QOpenGLFunctions_3_3_Core>
 #include <QtGui/QScreen>
 #include <QtGui/QWindow>
 
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QDesktopWidget>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
@@ -205,6 +204,8 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, QWidget *parent) :
           &WbMainWindow::discardNodeRegeneration);
   connect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this,
           &WbMainWindow::finalizeNodeRegeneration);
+
+  WbLog::instance()->showPendingConsoleMessages();
 }
 
 WbMainWindow::~WbMainWindow() {
@@ -394,6 +395,7 @@ void WbMainWindow::createMainTools() {
   }
 
   mTextEditor = new WbBuildEditor(this, toolBarAlign());
+  mTextEditor->updateGui();
   addDockWidget(Qt::RightDockWidgetArea, mTextEditor, Qt::Vertical);
   addDock(mTextEditor);
   connect(mTextEditor, &WbBuildEditor::reloadRequested, this, &WbMainWindow::reloadWorld, Qt::QueuedConnection);
@@ -909,22 +911,63 @@ QMenu *WbMainWindow::createHelpMenu() {
   menu->addSeparator();
 
   action = new QAction(this);
-  action->setText(tr("&Bug Report..."));
-  action->setStatusTip(tr("Report a bug to Cyberbotics."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::openBugReport);
-  menu->addAction(action);
-
-  action = new QAction(this);
-  action->setText(tr("&Support Ticket..."));
-  action->setStatusTip(tr("Open a Support Ticket with Cyberbotics."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::openSupportTicket);
+  action->setText(tr("&GitHub repository..."));
+  action->setStatusTip(tr("Open the Webots git repository on GitHub."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::openGithubRepository);
   menu->addAction(action);
 
   action = new QAction(this);
   action->setText(tr("Cyberbotics &Website..."));
   action->setStatusTip(tr("Open the Cyberbotics website."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::showCyberboticsWebsite);
+  connect(action, &QAction::triggered, this, &WbMainWindow::openCyberboticsWebsite);
   menu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("&Bug Report..."));
+  action->setStatusTip(tr("Report a bug to the GitHub repository."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::openBugReport);
+  menu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("&Support Ticket (Premier Service)..."));
+  action->setStatusTip(
+    tr("Open a Support Ticket with Cyberbotics. This requires a subscription to the Webots Premier Service."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::openSupportTicket);
+  menu->addAction(action);
+
+  QMenu *followUsMenu = new QMenu(tr("&Keep informed"), this);
+
+  action = new QAction(this);
+  action->setText(tr("Subscribe to the &Newsletter..."));
+  action->setStatusTip(tr("Keep informed about the latest Webots news with the Webots newsletter."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::openNewsletterSubscription);
+  followUsMenu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("Join the &Discord channel..."));
+  action->setStatusTip(tr("Join our live community on Discord."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::openDiscord);
+  followUsMenu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("Follow Webots on &Twitter..."));
+  action->setStatusTip(tr("Keep informed about the latest Webots news on Twitter."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::openTwitter);
+  followUsMenu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("Subscribe to the Webots &YouTube chanel..."));
+  action->setStatusTip(tr("Watch the latest Webots movies on YouTube."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::openYouTube);
+  followUsMenu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("Follow Cyberbotics on &LinkedIn..."));
+  action->setStatusTip(tr("Follow Cyberbotics on LinkedIn."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::openLinkedIn);
+  followUsMenu->addAction(action);
+
+  menu->addMenu(followUsMenu);
 
   return menu;
 }
@@ -976,7 +1019,7 @@ void WbMainWindow::restorePreferredGeometry(bool minimizedOnStart) {
     return;
   }
 
-  QRect desktopRect = QApplication::desktop()->availableGeometry();
+  const QRect &desktopRect = QGuiApplication::primaryScreen()->geometry();
   QRect preferedRect(prefs->value("MainWindow/position", QPoint(0, 0)).toPoint(),
                      prefs->value("MainWindow/size", QSize(0, 0)).toSize());
 
@@ -1038,6 +1081,7 @@ void WbMainWindow::closeEvent(QCloseEvent *event) {
   mSimulationView->view3D()->cleanupOptionalRendering();
   mSimulationView->view3D()->cleanupFullScreenOverlay();
   mSimulationView->cleanup();
+  WbClipboard::deleteInstance();
 
   // really close
   if (WbApplication::instance()) {
@@ -1610,14 +1654,20 @@ void WbMainWindow::showOpenGlInfo() {
   info += tr("OpenGL vendor: ") + (const char *)gl.glGetString(GL_VENDOR) + "\n";
   info += tr("OpenGL renderer: ") + (const char *)gl.glGetString(GL_RENDERER) + "\n";
   info += tr("OpenGL version: ") + (const char *)gl.glGetString(GL_VERSION) + "\n";
-  info += tr("Available GPU memory: %1 bytes").arg(wr_gl_state_get_gpu_memory()) + "\n";
+  info += tr("Available GPU memory: ");
+  int gpu_memory = wr_gl_state_get_gpu_memory();
+  if (gpu_memory > 0)
+    info += tr("%1 bytes").arg(gpu_memory);
+  else
+    info += tr("N/A");
+  info += "\n";
   WbMessageBox::info(info, this, tr("OpenGL information"));
 }
 
 void WbMainWindow::showDocument(const QString &url) {
   bool ret;
   if (url.startsWith("http") || url.startsWith("www"))
-    ret = QDesktopServices::openUrl(QUrl(url));
+    ret = WbDesktopServices::openUrl(url);
   else {
 #ifdef __linux__  // on linux, the '/lib' directory need to be removed from the LD_LIBRARY_PATH,
                   // otherwise their is some libraries conflicts when trying to open pdf with Evince
@@ -1628,8 +1678,8 @@ void WbMainWindow::showDocument(const QString &url) {
     newLdLibraryPath.replace(WEBOTS_HOME + "lib", "");
     qputenv("LD_LIBRARY_PATH", newLdLibraryPath);
 #endif
-    QUrl u("file:///" + url);
-    ret = QDesktopServices::openUrl(u);
+    QString u("file:///" + url);
+    ret = WbDesktopServices::openUrl(u);
 #ifdef __linux__
     qputenv("LD_LIBRARY_PATH", ldLibraryPathBackup);
 #endif
@@ -1669,39 +1719,50 @@ void WbMainWindow::showOfflineAutomobileDocumentation() {
   mDocumentation->open("automobile");
 }
 
+void WbMainWindow::openGithubRepository() {
+  showDocument(WbStandardPaths::githubRepositoryUrl());
+}
+
+void WbMainWindow::openCyberboticsWebsite() {
+  showDocument(WbStandardPaths::cyberboticsUrl());
+}
+
 void WbMainWindow::openBugReport() {
-  openSupport("bug");
+  showDocument(QString("%1/issues/new/choose").arg(WbStandardPaths::githubRepositoryUrl()));
 }
 
 void WbMainWindow::openSupportTicket() {
-  openSupport("ticket");
-}
-
-void WbMainWindow::openSupport(const QString &type) {
-  QString url = WbStandardPaths::cyberboticsUrl() + '/';
-  if (type == "bug")
-    url.append("bug_report.php?");
-  else
-    url.append("support_ticket.php?");
-  url.append("&os=");
-  url.append(WbSysInfo::sysInfo());
-  url.append("&graphics=");
   QOpenGLFunctions_3_3_Core gl;
   gl.initializeOpenGLFunctions();
-  url.append((const char *)gl.glGetString(GL_VENDOR));
-  url.append(" - ");
-  url.append((const char *)gl.glGetString(GL_RENDERER));
-  url.append(" - ");
-  url.append((const char *)gl.glGetString(GL_VERSION));
-  url.append("&version=");
-  url.append(WbApplicationInfo::version().toString());
-  url.append("&type=");
-  url.append(type);
+
+  QString url = QString("%1/support_ticket.php?os=%2&graphics=%3 - %4 - %5&version=%6&type=ticket")
+                  .arg(WbStandardPaths::cyberboticsUrl())
+                  .arg(WbSysInfo::sysInfo())
+                  .arg((const char *)gl.glGetString(GL_VENDOR))
+                  .arg((const char *)gl.glGetString(GL_RENDERER))
+                  .arg((const char *)gl.glGetString(GL_VERSION))
+                  .arg(WbApplicationInfo::version().toString(true, false, true));
   showDocument(url);
 }
 
-void WbMainWindow::showCyberboticsWebsite() {
-  showDocument(WbStandardPaths::cyberboticsUrl());
+void WbMainWindow::openNewsletterSubscription() {
+  showDocument("https://www.cyberbotics.com/news/subscribe.php");
+}
+
+void WbMainWindow::openDiscord() {
+  showDocument("https://discordapp.com/invite/nTWbN9m");
+}
+
+void WbMainWindow::openTwitter() {
+  showDocument("https://twitter.com/webots");
+}
+
+void WbMainWindow::openYouTube() {
+  showDocument("http://www.youtube.com/user/cyberboticswebots");
+}
+
+void WbMainWindow::openLinkedIn() {
+  showDocument("https://www.linkedin.com/company/20132793");
 }
 
 void WbMainWindow::newProjectDirectory() {
@@ -1773,7 +1834,7 @@ void WbMainWindow::openWebotsUpdateDialogFromMenu() {
 }
 
 void WbMainWindow::updateWindowTitle() {
-  QString webotsNameAndVersion("Webots " + WbApplicationInfo::version().toString());
+  QString webotsNameAndVersion("Webots " + WbApplicationInfo::version().toString(true, false, true));
   QString title;
 
   if (WbWorld::instance()) {
@@ -2143,7 +2204,7 @@ void WbMainWindow::logActiveControllersTermination() {
 
 void WbMainWindow::openUrl(const QString &fileName, const QString &message, const QString &title) {
   if (WbMessageBox::question(message, this, title) == QMessageBox::Ok)
-    QDesktopServices::openUrl(QUrl::fromLocalFile(fileName));
+    WbDesktopServices::openUrl(QUrl::fromLocalFile(fileName).toString());
 }
 
 void WbMainWindow::prepareNodeRegeneration(WbNode *node) {

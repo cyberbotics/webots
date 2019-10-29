@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -165,7 +165,7 @@ void WbLanguageHighlighter::highlightBlockSection(const QString &text, const QVe
                                                   int offset) {
   QList<HighlightedSection> formattedSections = identifySectionsToHighlight(text, highlightingRules);
 
-  qSort(formattedSections.begin(), formattedSections.end(), highlightedSectionComparator);
+  std::sort(formattedSections.begin(), formattedSections.end(), highlightedSectionComparator);
 
   int currentIndex = -1;
   foreach (HighlightedSection section, formattedSections) {
@@ -274,7 +274,7 @@ void WbMultiLineCommentHighlighter::highlightBlockSection(const QString &text, i
     }
   }
 
-  qSort(formattedSections.begin(), formattedSections.end(), highlightedSectionComparator);
+  std::sort(formattedSections.begin(), formattedSections.end(), highlightedSectionComparator);
 
   foreach (HighlightedSection section, formattedSections) {
     if (startFormattingIndex <= section.start) {

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 
 #include <ft2build.h>
 #ifdef FT_FREETYPE_H
-// cppcheck-suppress missingInclude
+// cppcheck-suppress preprocessorErrorDirective
 #include FT_FREETYPE_H
 #endif
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -114,8 +114,9 @@ public:
   void setDefName(const QString &defName, bool recurse = true);
   const QString &useName() const { return mUseName; }
   void setUseName(const QString &useName, bool signal = true);
-  QString fullName() const;              // e.g. "Robot, "DEF MY_BOT Robot" or "USE MY_BOT"
-  const QString &vrmlName() const;       // e.g. "Transform" instead of "Robot"
+  QString fullName() const;                                             // e.g. "Robot, "DEF MY_BOT Robot" or "USE MY_BOT"
+  virtual const QString &vrmlName() const { return nodeModelName(); };  // e.g. "Transform" instead of "Robot"
+  virtual const QString &x3dName() const { return vrmlName(); }
   QString fullVrmlName() const;          // e.g. "DEF MY_ROBOT Transform"
   const QString &modelName() const;      // e.g. for Nao -> "Nao"
   const QString &nodeModelName() const;  // e.g. for Nao -> "Robot"

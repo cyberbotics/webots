@@ -2,7 +2,6 @@
 import unittest
 from books import Books
 
-from email.utils import parseaddr
 import os
 import re
 
@@ -10,6 +9,7 @@ import re
 def slugify(txt):
     """Slugify function."""
     output = txt.lower()
+    output = re.sub(r'\([^)]*\)', '', output)  # remove the content of parenthesis
     output = re.sub(r'<[^>]+>', '', output)
     output = output.replace('+', 'p')
     output = re.sub(r"[\(\):`']", '', output)
@@ -93,10 +93,10 @@ class TestReferences(unittest.TestCase):
                         continue
                     # 4. mailto
                     if ref.startswith('mailto:'):
-                        mailto = ref[len('mailto:') + 1:]
-                        (name, address) = parseaddr(mailto)
-                        self.assertGreater(
-                            address, 0,
+                        mailto = ref[len('mailto:'):]
+                        m = re.match(r'^([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)$', mailto)
+                        self.assertIsNotNone(
+                            m,
                             msg='Invalid address "%s"' % (mailto)
                         )
                         continue

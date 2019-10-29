@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,10 +22,10 @@ class WbHingeJointParameters : public WbJointParameters {
   Q_OBJECT
 
 public:
-  WbHingeJointParameters(const QString &modelName, WbTokenizer *tokenizer = NULL);
+  explicit WbHingeJointParameters(const QString &modelName, WbTokenizer *tokenizer = NULL);
   WbHingeJointParameters(WbTokenizer *tokenizer = NULL, bool fromDeprecatedHinge2JointParameters = false);
   WbHingeJointParameters(const WbHingeJointParameters &other);
-  WbHingeJointParameters(const WbNode &other, bool fromDeprecatedHinge2JointParameters = false);
+  explicit WbHingeJointParameters(const WbNode &other, bool fromDeprecatedHinge2JointParameters = false);
   virtual ~WbHingeJointParameters();
 
   int nodeType() const override { return WB_NODE_HINGE_JOINT_PARAMETERS; }

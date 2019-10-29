@@ -29,6 +29,12 @@
 #define MD5_Final(a, b) CC_MD5_Final(a, b)
 #endif
 
+#ifdef _WIN32
+#define DIR_SEP '\\'
+#else
+#define DIR_SEP '/'
+#endif
+
 #define SetForegroundColorToRed() printf("\033[22;31;1m")
 #define SetForegroundColorToDefault() printf("\033[22;30;0m")
 
@@ -66,9 +72,10 @@ static char bundle_name[32];
 static char application_name_lowercase_and_dashes[32];
 static char distribution_path[256];
 
-#define ISS 1  // Windows Inno Setup file format                           -> webots*.iss
-#define MAC 2  // macOS shell script to create dmg file                    -> webots*.mac
-#define DEB 3  // Linux shell script to create a deb and a tarball package -> webots*.deb
+#define ISS 1   // Windows Inno Setup file format                           -> webots*.iss
+#define MAC 2   // macOS shell script to create dmg file                    -> webots*.mac
+#define DEB 3   // Linux shell script to create a deb and a tarball package -> webots.deb
+#define SNAP 4  // Linux shell script to create a snap package              -> webots.snap
 
 // ORable flags for file type defined in files.txt [linux,mac,windows,exe,dll,sig]
 #define TYPE_LINUX 1
@@ -218,14 +225,21 @@ static void copy_file(const char *file) {
       fprintf(fd, "Source: \"%s\"; DestDir: \"{app}\\%s\"", file2, dest2);
       if (file2[i + 1] == '.')
         fprintf(fd, "; Attribs: hidden");
+      if ((file2[l - 4] == '.' && file2[l - 3] == 'j' && file2[l - 2] == 'p' && file2[l - 1] == 'g') ||
+          (file2[l - 4] == '.' && file2[l - 3] == 'p' && file2[l - 2] == 'n' && file2[l - 1] == 'g'))
+        fprintf(fd, "; Flags: nocompression");
       fprintf(fd, "\n");
       break;
 #ifndef _WIN32
     case MAC:
-      fprintf(fd, "cp $WEBOTS_HOME/%s \"%s/%s/%s/\"\n", protected_filename2, distribution_path, bundle_name, dest2);
+      fprintf(fd, "cp -a $WEBOTS_HOME/%s \"%s/%s/%s/\"\n", protected_filename2, distribution_path, bundle_name, dest2);
       break;
     case DEB:
-      fprintf(fd, "cp $WEBOTS_HOME/%s %s/debian/usr/local/%s/%s\n", protected_filename2, distribution_path,
+      fprintf(fd, "cp -a $WEBOTS_HOME/%s %s/debian/usr/local/%s/%s\n", protected_filename2, distribution_path,
+              application_name_lowercase_and_dashes, dest2);
+      break;
+    case SNAP:
+      fprintf(fd, "cp -a $WEBOTS_HOME/%s $DESTDIR/usr/share/%s/%s\n", protected_filename2,
               application_name_lowercase_and_dashes, dest2);
       break;
 #endif
@@ -286,6 +300,8 @@ static void make_dir(const char *directory) {
     case DEB:
       fprintf(fd, "mkdir %s/debian/usr/local/%s/%s\n", distribution_path, application_name_lowercase_and_dashes, directory);
       break;
+    case SNAP:
+      fprintf(fd, "mkdir $DESTDIR/usr/share/%s/%s\n", application_name_lowercase_and_dashes, directory);
     default:
       break;
   }
@@ -407,6 +423,9 @@ static void create_file(const char *name, int m) {
     case DEB:
       snprintf(filename, 256, "%s.deb", application_name_lowercase_and_dashes);
       break;
+    case SNAP:
+      snprintf(filename, 256, "%s.snap", application_name_lowercase_and_dashes);
+      break;
     default:
       break;
   }
@@ -441,7 +460,6 @@ static void create_file(const char *name, int m) {
               distribution_path);
       fprintf(fd, "rm -rf \"%s/%s/Contents\"\n", distribution_path, bundle_name);
       fprintf(fd, "rm -rf \"%s/%s/webots\"\n", distribution_path, bundle_name);
-      fprintf(fd, "rm -rf \"%s/%s/change_logs\"\n", distribution_path, bundle_name);
       fprintf(fd, "rm -rf \"%s/%s/docs\"\n", distribution_path, bundle_name);
       fprintf(fd, "rm -rf \"%s/%s/bin\"\n", distribution_path, bundle_name);
       fprintf(fd, "rm -rf \"%s/%s/bin/qt\"\n", distribution_path, bundle_name);
@@ -464,12 +482,15 @@ static void create_file(const char *name, int m) {
               "AppVerName=%s %s\n"
               "AppCopyright=Copyright (c) %d Cyberbotics, Ltd.\n"
               "AppPublisher=Cyberbotics, Ltd.\n"
-              "AppPublisherURL=http://www.cyberbotics.com/\n"
+              "AppPublisherURL=https://www.cyberbotics.com\n"
               "ChangesEnvironment=yes\n"  // tells Windows Explorer to reload environment variables (e.g., WEBOTS_HOME)
-              "DefaultDirName={pf}\\%s\n"
+              "Compression=lzma2/fast\n"
+              "DefaultDirName={autopf}\\%s\n"
               "DefaultGroupName=Cyberbotics\n"
               "UninstallDisplayIcon={app}\\msys64\\mingw64\\bin\\webots.exe\n"
-              "PrivilegesRequired=admin\n",
+              "PrivilegesRequired=lowest\n"
+              "UsePreviousPrivileges=no\n"
+              "PrivilegesRequiredOverridesAllowed=dialog\n",
               application_name, version, application_name, version, year, application_name);
       fprintf(fd, "OutputBaseFileName=%s-%s_setup\n", application_name_lowercase_and_dashes, package_version);
       fprintf(fd,
@@ -483,7 +504,7 @@ static void create_file(const char *name, int m) {
       break;
     case DEB:
       fprintf(fd, "#!/bin/bash\n");
-      fprintf(fd, "# run this script to install %s in \"$HOME/develop/%s\"\n\n", application_name,
+      fprintf(fd, "# run this auto-generated script to install %s in \"$HOME/develop/%s\"\n\n", application_name,
               application_name_lowercase_and_dashes);
       fprintf(fd, "rm -rf %s/debian # cleanup\n", distribution_path);
       fprintf(fd, "rm -f %s/%s-%s_*.deb\n\n", distribution_path, application_name_lowercase_and_dashes, package_version);
@@ -492,6 +513,19 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "mkdir %s/debian/usr/local\n", distribution_path);
       fprintf(fd, "mkdir %s/debian/usr/local/%s\n", distribution_path, application_name_lowercase_and_dashes);
       break;
+    case SNAP:
+      fprintf(fd, "#!/bin/bash\n");
+      fprintf(fd, "# run this auto-generated script to install the %s snap in \"$DESTDIR\"\n\n",
+              application_name_lowercase_and_dashes);
+      fprintf(fd, "mkdir -p $DESTDIR\n");
+      fprintf(fd, "mkdir -p $DESTDIR/lib\n");
+      fprintf(fd, "mkdir -p $DESTDIR/lib/x86_64-linux-gnu\n");
+      fprintf(fd, "mkdir -p $DESTDIR/usr\n");
+      fprintf(fd, "mkdir -p $DESTDIR/usr/share\n");
+      fprintf(fd, "mkdir -p $DESTDIR/usr/bin\n");
+      fprintf(fd, "mkdir -p $DESTDIR/usr/lib\n");
+      fprintf(fd, "mkdir -p $DESTDIR/usr/lib/x86_64-linux-gnu\n");
+      fprintf(fd, "mkdir $DESTDIR/usr/share/%s\n", application_name_lowercase_and_dashes);
     default:
       break;
   }
@@ -559,7 +593,7 @@ static void create_file(const char *name, int m) {
     buffer[l--] = '\0';
     if (buffer[l] == '/') {
       buffer[l] = '\0';
-      if (((type & TYPE_LINUX) && (mode == DEB)) || ((type & TYPE_WINDOWS) && (mode == ISS)) ||
+      if (((type & TYPE_LINUX) && (mode == DEB || mode == SNAP)) || ((type & TYPE_WINDOWS) && (mode == ISS)) ||
           ((type & TYPE_MAC) && (mode == MAC)))
         make_dir(buffer);
     }
@@ -626,19 +660,24 @@ static void create_file(const char *name, int m) {
       } while (buffer[l] != ']');
       if ((type & (TYPE_LINUX | TYPE_MAC | TYPE_WINDOWS)) == 0)
         type |= (TYPE_LINUX | TYPE_MAC | TYPE_WINDOWS);
-      if (type & TYPE_DLL && (mode == MAC || mode == DEB)) {  // prefix "lib" to the basename
+      if (type & TYPE_DLL && (mode == MAC || mode == DEB || mode == SNAP)) {  // prefix "lib" to the basename
         j = i - 1;
-        while (buffer[j] != '/' && j >= 0) {
-          buffer[j + 3] = buffer[j];
+        while (buffer[j] != '/' && j >= 0)
           j--;
+        if (buffer[j + 1] != '_') {
+          if (j >= 0) {
+            j = i - 1;
+            while (buffer[j] != '/' && j >= 0) {
+              buffer[j + 3] = buffer[j];
+              j--;
+            }
+            buffer[++j] = 'l';
+            buffer[++j] = 'i';
+            buffer[++j] = 'b';
+            i += 3;
+          } else
+            fprintf(stderr, "DLL parsing: Reached the beggining of the string without finding a '/' character.");
         }
-        if (j >= 0) {
-          buffer[++j] = 'l';
-          buffer[++j] = 'i';
-          buffer[++j] = 'b';
-          i += 3;
-        } else
-          fprintf(stderr, "DLL parsing: Reached the beggining of the string without finding a '/' character.");
       }
       if (mode == ISS) {
         if (type & TYPE_EXE) {
@@ -676,7 +715,7 @@ static void create_file(const char *name, int m) {
     buffer[l] = '\0';
     if (buffer[l - 1] == '/')
       continue;
-    if (((type & TYPE_LINUX) && (mode == DEB)) || ((type & TYPE_WINDOWS) && (mode == ISS)) ||
+    if (((type & TYPE_LINUX) && (mode == DEB || mode == SNAP)) || ((type & TYPE_WINDOWS) && (mode == ISS)) ||
         ((type & TYPE_MAC) && (mode == MAC))) {
       copy_file(buffer);
       // copy the .*.wbproj hidden files
@@ -801,7 +840,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "ln -s libopencv_core.2.4.3.dylib libopencv_core.dylib\n");
       fprintf(fd, "ln -s libopencv_imgproc.2.4.3.dylib libopencv_imgproc.2.4.dylib\n");
       fprintf(fd, "ln -s libopencv_imgproc.2.4.3.dylib libopencv_imgproc.dylib\n");
-      fprintf(fd, "ln -s libode.3.dylib libode.dylib\n");
       fprintf(fd, "ln -s libssh.4.dylib libssh.dylib\n");
       fprintf(fd, "ln -s libzip.2.dylib libzip.dylib\n");
       fprintf(fd, "cd \"%s/%s/Contents/Frameworks\"\n", distribution_path, bundle_name);
@@ -894,47 +932,29 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cd QtXml.framework\n");
       fprintf(fd, "ln -fs Versions/5/QtXml QtXml\n");
       fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-
       fprintf(fd, "cd %s/\n", distribution_path);
-      fprintf(fd, "mkdir -p /tmp/empty\n");
-      fprintf(fd, "hdiutil create -attach -fs HFS+ -srcfolder /tmp/empty -format UDRW -volname \"%s\" -size 3000m %s.dmg\n",
-              application_name, application_name_lowercase_and_dashes);
-      fprintf(fd, "rmdir /tmp/empty\n");
-      fprintf(fd, "ditto -rsrcFork \"%s\" \"/Volumes/%s/%s\"\n", bundle_name, application_name, bundle_name);
-      fprintf(fd, "mkdir \"/Volumes/%s/.background\"\n", application_name);
-      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/MacOSXBackground.png \"/Volumes/%s/.background/\"\n", application_name);
-      fprintf(fd, "ln -s /Applications \"/Volumes/%s/Applications\"\n", application_name);
-      fprintf(fd, "echo '\n");
-      fprintf(fd, "   tell application \"Finder\"\n");
-      fprintf(fd, "     tell disk \"%s\"\n", application_name);
-      fprintf(fd, "           open\n");
-      fprintf(fd, "           set current view of container window to icon view\n");
-      fprintf(fd, "           set toolbar visible of container window to false\n");
-      fprintf(fd, "           set statusbar visible of container window to false\n");
-      fprintf(fd, "           set the bounds of container window to {400, 100, 880, 680}\n");
-      fprintf(fd, "           set theViewOptions to the icon view options of container window\n");
-      fprintf(fd, "           set arrangement of theViewOptions to not arranged\n");
-      fprintf(fd, "           set icon size of theViewOptions to 72\n");
-      fprintf(fd, "           set background picture of theViewOptions to file \".background:MacOSXBackground.png\"\n");
-      fprintf(fd, "           set position of item \"%s\" of container window to {100, 100}\n", application_name);
-      fprintf(fd, "           set position of item \"Applications\" of container window to {375, 100}\n");
-      fprintf(fd, "           close\n");
-      fprintf(fd, "           open\n");
-      fprintf(fd, "           update without registering applications\n");
-      fprintf(fd, "           delay 1\n");  // give time to the window to be displayed correctly
-      fprintf(fd, "           update without registering applications\n");
-      fprintf(fd, "           delay 1\n");  // give time to the window to be displayed correctly
-      fprintf(fd, "           eject\n");
-      fprintf(fd, "     end tell\n");
-      fprintf(fd, "   end tell\n");
-      fprintf(fd, "' | osascript\n");
-      fprintf(fd, "chmod -Rf go-w \"/Volumes/%s\"\n", application_name);
-      fprintf(fd, "sync\n");
-      fprintf(fd, "sync\n");
-      fprintf(fd, "hdiutil detach \"/Volumes/%s\"\n", application_name);
-      fprintf(fd, "hdiutil convert -format UDBZ %s.dmg -o %s-%s.dmg\n", application_name_lowercase_and_dashes,
-              application_name_lowercase_and_dashes, package_version);  // BZIP2 compression
-      fprintf(fd, "rm %s.dmg\n", application_name_lowercase_and_dashes);
+      fprintf(fd, "echo \"{\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\"title\\\": \\\"Webots\\\",\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\"icon\\\": \\\"%s/Contents/Resources/webots_icon.icns\\\",\" >> appdmg.json\n", webots_home);
+      fprintf(fd, "echo \"  \\\"icon-size\\\": 72,\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\"background\\\": \\\"%s/src/packaging/MacOSXBackground.png\\\",\" >> appdmg.json\n",
+              webots_home);
+      fprintf(fd, "echo \"  \\\"format\\\": \\\"UDBZ\\\",\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\"window\\\": {\" >> appdmg.json\n");
+      fprintf(fd, "echo \"    \\\"position\\\": { \\\"x\\\": 400, \\\"y\\\": 100 },\" >> appdmg.json\n");
+      fprintf(fd, "echo \"    \\\"size\\\": { \\\"width\\\": 480, \\\"height\\\": 580 }\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  },\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\"contents\\\": [\" >> appdmg.json\n");
+      fprintf(fd, "echo \"    { \\\"x\\\": 375, \\\"y\\\": 100, \\\"type\\\": \\\"link\\\", \\\"path\\\": "
+                  "\\\"/Applications\\\" },\" >> appdmg.json\n");
+      fprintf(fd,
+              "echo \"    { \\\"x\\\": 100, \\\"y\\\": 100, \\\"type\\\": \\\"file\\\", \\\"path\\\": \\\"%s\\\" }\" >> "
+              "appdmg.json\n",
+              bundle_name);
+      fprintf(fd, "echo \"  ]\" >> appdmg.json\n");
+      fprintf(fd, "echo \"}\" >> appdmg.json\n");
+      fprintf(fd, "appdmg appdmg.json %s-%s.dmg\n", application_name_lowercase_and_dashes, package_version);
+      fprintf(fd, "rm -rf appdmg.json\n");
       break;
     case ISS:
       fprintf(fd, "\n[Icons]\n");
@@ -951,47 +971,68 @@ static void create_file(const char *name, int m) {
         application_name, application_name);
       fprintf(fd,
               "\n[Registry]\n"
-              "Root: HKCR; SubKey: \".wbt\"; ValueType: string; ValueData: \"webotsfile\"; Flags: uninsdeletekey\n"
-              "Root: HKCR; SubKey: \".wbt\"; ValueType: string; ValueName: \"Content Type\"; ValueData: "
-              "\"application/webotsfile\"; Flags: uninsdeletekey\n"
-              "Root: HKCR; SubKey: \"webotsfile\\DefaultIcon\"; ValueType: string; ValueData: "
-              "\"{app}\\resources\\icons\\core\\webots_doc.ico\"; Flags: uninsdeletekey\n"
-              "Root: HKCR; SubKey: \"webotsfile\\shell\\open\"; ValueType: string; ValueName: \"FriendlyAppName\"; ValueData: "
-              "\"Webots\"; Flags: uninsdeletekey\n"
-              "Root: HKCR; SubKey: \"webotsfile\\shell\\open\\command\"; ValueType: string; ValueData: "
+              "Root: HKA; SubKey: \"Software\\Classes\\.wbt\"; ValueType: string; ValueData: \"webotsfile\"; "
+              "Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\.wbt\"; ValueType: string; ValueName: \"Content Type\"; "
+              "ValueData: \"application/webotsfile\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\DefaultIcon\"; ValueType: string; "
+              "ValueData: \"{app}\\resources\\icons\\core\\webots_doc.ico\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\shell\\open\"; ValueType: string; "
+              "ValueName: \"FriendlyAppName\"; ValueData: \"Webots\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\shell\\open\\command\"; ValueType: string; ValueData: "
               "\"\"\"{app}\\msys64\\mingw64\\bin\\webots.exe\"\" \"\"%%1\"\"\"; Flags: uninsdeletekey\n"
-              "Root: HKCR; SubKey: \"Applications\\webots.exe\"; ValueType: string; ValueName: \"SupportedTypes\"; ValueData: "
-              "\".wbt\"; Flags: uninsdeletekey\n"
-              "Root: HKCR; SubKey: \"Applications\\webots.exe\"; ValueType: string; ValueName: \"FriendlyAppName\"; ValueData: "
-              "\"Webots\"; Flags: uninsdeletekey\n"
-              "Root: HKLM; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots.exe\"; ValueType: string; "
+              "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webots.exe\"; ValueType: string; "
+              "ValueName: \"SupportedTypes\"; ValueData: \".wbt\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webots.exe\"; ValueType: string; "
+              "ValueName: \"FriendlyAppName\"; ValueData: \"Webots\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots.exe\"; ValueType: string; "
               "ValueData: \"{app}\\msys64\\mingw64\\bin\\webots.exe\"; Flags: uninsdeletekey\n"
-              "Root: HKLM; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots.exe\"; ValueType: string; "
+              "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots.exe\"; ValueType: string; "
               "ValueName: \"Path\"; ValueData: \"{app}\\msys64\\mingw64\\bin;{app}\\msys64\\usr\\bin\"; Flags: uninsdeletekey\n"
               "Root: HKCU; SubKey: \"Software\\Cyberbotics\"; Flags: uninsdeletekeyifempty dontcreatekey\n"
               "Root: HKCU; SubKey: \"Software\\Cyberbotics\\%s %s\"; Flags: uninsdeletekey dontcreatekey\n"
-              "Root: HKLM; SubKey: \"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\"; ValueType: string; "
+              "Root: HKA; SubKey: \"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\"; ValueType: string; "
               "ValueName: \"WEBOTS_HOME\"; ValueData: \"{app}\"; Flags: preservestringtype\n",
               application_name, version);
-      fprintf(fd, "Root: HKCR; SubKey: \"webotsfile\"; "
+      fprintf(fd, "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\"; "
                   "Flags: uninsdeletekey dontcreatekey\n");
       // On some systems (as already reported by two Chinese users), some unknown third party software badly installs a
-      // zlib1.dll and libeay32.dll in the C:\Windows\System32 folder. This is a very bad practise. Such DLLs conflicts
-      // with the same DLLs provided in the msys64 folder of Webots. So, we will delete any of these libraries from the
-      // C:\Windows\System32 folder before installing Webots.
+      // zlib1.dll and libeay32.dll in the C:\Windows\System32 folder.
+      // A similar problem occurs with the OpenSSL library needed to build ROS2 on Windows:
+      // https://index.ros.org/doc/ros2/Installation/Dashing/Windows-Install-Binary/#install-openssl
+      // recommends to install OpenSSL from https://slproweb.com/products/Win32OpenSSL.html
+      // By default, this installer copies libcrypto-1_1-x64.dll and libssl-1_1-x64.dll in C:\Windows\System32.
+      // This is a very bad practise as such DLLs conflicts with the same DLLs provided in the msys64 folder of Webots.
+      // So, we will delete any of these libraries from the C:\Windows\System32 folder before installing Webots.
       fprintf(fd, "\n[InstallDelete]\n");
       fprintf(fd, "Type: files; Name: \"{sys}\\zlib1.dll\"\n");
       fprintf(fd, "Type: files; Name: \"{sys}\\libeay32.dll\"\n");
+      fprintf(fd, "Type: files; Name: \"{sys}\\libcrypto-1_1-x64.dll\"\n");
+      fprintf(fd, "Type: files; Name: \"{sys}\\libssl-1_1-x64.dll\"\n");
       fprintf(fd, "\n[Code]\n");
       fprintf(fd, "function InitializeSetup(): Boolean;\n");
       fprintf(fd, "var\n");
       fprintf(fd, "  ResultCode: Integer;\n");
       fprintf(fd, "  Uninstall: String;\n");
       fprintf(fd, "begin\n");
-      fprintf(fd, "  if RegQueryStringValue(HKLM, 'Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Webots_is1', "
-                  "'UninstallString', Uninstall) then begin\n");
-      fprintf(fd, "    if MsgBox('A version of Webots is already installed on this computer.' #13 'It will be removed and "
-                  "replaced by the version you are installing.', mbInformation, MB_OKCANCEL) = IDOK then begin\n");
+      fprintf(fd, "  if isAdmin and RegQueryStringValue(HKLM, 'Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"
+                  "Webots_is1', 'UninstallString', Uninstall) then begin\n");
+      fprintf(fd, "    if MsgBox('A version of Webots is already installed for all users on this computer.' #13 "
+                  "'It will be removed and replaced by the version you are installing.', mbInformation, MB_OKCANCEL) = IDOK "
+                  "then begin\n");
+      fprintf(fd, "      Exec(RemoveQuotes(Uninstall), ' /SILENT', '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);\n");
+      fprintf(fd, "      Result := TRUE;\n");
+      fprintf(fd, "    end else begin\n");
+      fprintf(fd, "      Result := FALSE;\n");
+      fprintf(fd, "    end;\n");
+      fprintf(fd, "  end else begin\n");
+      fprintf(fd, "    Result := TRUE;\n");
+      fprintf(fd, "  end;\n");
+      fprintf(fd, "  if RegQueryStringValue(HKCU, 'Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"
+                  "Webots_is1', 'UninstallString', Uninstall) then begin\n");
+      fprintf(fd, "    if MsgBox('A version of Webots is already installed for the current user on this computer.' #13 'It "
+                  "will be removed and replaced by the version you are installing.', mbInformation, MB_OKCANCEL) = IDOK "
+                  "then begin\n");
       fprintf(fd, "      Exec(RemoveQuotes(Uninstall), ' /SILENT', '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);\n");
       fprintf(fd, "      Result := TRUE;\n");
       fprintf(fd, "    end else begin\n");
@@ -1020,9 +1061,9 @@ static void create_file(const char *name, int m) {
       // for webots.exe and hence webots cannot compile
       break;
     case DEB:
-#ifdef WEBOTS_UBUNTU_18_04
-      copy_file("lib/libssl.so.1.0.0");
-      copy_file("lib/libcrypto.so.1.0.0");
+#ifdef WEBOTS_UBUNTU_16_04
+      copy_file("lib/libssl.so.1.1");
+      copy_file("lib/libcrypto.so.1.1");
 #endif
       // copy libraries that depends on OS and cannot be included in files_*.txt
       fprintf(fd, "cd %s/debian\n", distribution_path);
@@ -1042,51 +1083,16 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.desktop usr/share/app-install/desktop/\n");
       fprintf(fd, "mkdir usr/local/bin\n");
       fprintf(fd, "ln -s /usr/local/%s/webots usr/local/bin/webots\n", application_name_lowercase_and_dashes);
-      fprintf(fd, "cd %s/debian/usr/local/%s/lib\n", distribution_path, application_name_lowercase_and_dashes);
-      fprintf(fd, "ln -s libopencv_core.so.2.4.3 libopencv_core.so.2.4\n");
-      fprintf(fd, "ln -s libopencv_core.so.2.4.3 libopencv_core.so\n");
-      fprintf(fd, "ln -s libopencv_imgproc.so.2.4.3 libopencv_imgproc.so.2.4\n");
-      fprintf(fd, "ln -s libopencv_imgproc.so.2.4.3 libopencv_imgproc.so\n");
-      fprintf(fd, "ln -s libQt5Concurrent.so.5 libQt5Concurrent.so\n");
-      fprintf(fd, "ln -s libQt5Core.so.5 libQt5Core.so\n");
-      fprintf(fd, "ln -s libQt5DBus.so.5 libQt5DBus.so\n");
-      fprintf(fd, "ln -s libQt5Gui.so.5 libQt5Gui.so\n");
-      fprintf(fd, "ln -s libQt5Multimedia.so.5 libQt5Multimedia.so\n");
-      fprintf(fd, "ln -s libQt5MultimediaWidgets.so.5 libQt5MultimediaWidgets.so\n");
-      fprintf(fd, "ln -s libQt5Network.so.5 libQt5Network.so\n");
-      fprintf(fd, "ln -s libQt5OpenGL.so.5 libQt5OpenGL.so\n");
-      fprintf(fd, "ln -s libQt5Positioning.so.5 libQt5Positioning.so\n");
-      fprintf(fd, "ln -s libQt5PrintSupport.so.5 libQt5PrintSupport.so\n");
-      fprintf(fd, "ln -s libQt5Qml.so.5 libQt5Qml.so\n");
-      fprintf(fd, "ln -s libQt5Quick.so.5 libQt5Quick.so\n");
-      fprintf(fd, "ln -s libQt5QuickWidgets.so.5 libQt5QuickWidgets.so\n");
-      fprintf(fd, "ln -s libQt5Sensors.so.5 libQt5Sensors.so\n");
-      fprintf(fd, "ln -s libQt5Sql.so.5 libQt5Sql.so\n");
-      fprintf(fd, "ln -s libQt5WebChannel.so.5 libQt5WebChannel.so\n");
-      fprintf(fd, "ln -s libQt5WebEngine.so.5 libQt5WebEngine.so\n");
-      fprintf(fd, "ln -s libQt5WebEngineCore.so.5 libQt5WebEngineCore.so\n");
-      fprintf(fd, "ln -s libQt5WebEngineWidgets.so.5 libQt5WebEngineWidgets.so\n");
-      fprintf(fd, "ln -s libQt5WebSockets.so.5 libQt5WebSockets.so\n");
-      fprintf(fd, "ln -s libQt5Widgets.so.5 libQt5Widgets.so\n");
-      fprintf(fd, "ln -s libQt5XcbQpa.so.5 libQt5XcbQpa.so\n");
-      fprintf(fd, "ln -s libQt5Xml.so.5 libQt5Xml.so\n");
-      fprintf(fd, "ln -s libopenal.so libopenal.so.1\n");
-
       fprintf(fd, "cd %s/debian\n", distribution_path);
       // add the wrapper library corresponding to the default Python 3 versions
 #ifdef WEBOTS_UBUNTU_16_04
       fprintf(fd, "mkdir usr/local/webots/lib/python35\n");
       fprintf(fd, "cp $WEBOTS_HOME/lib/python35/*.py usr/local/webots/lib/python35/\n");
       fprintf(fd, "cp $WEBOTS_HOME/lib/python35/_*.so usr/local/webots/lib/python35/\n");
-#endif
-
       // include system libraries in package that are needed on Ubuntu 18.04
-#ifdef WEBOTS_UBUNTU_16_04
-      fprintf(fd, "cp /lib/x86_64-linux-gnu/libssl.so.1.0.0 usr/local/webots/lib\n");
-      fprintf(fd, "cp /lib/x86_64-linux-gnu/libcrypto.so.1.0.0 usr/local/webots/lib\n");
       fprintf(fd, "cd %s/debian/usr/local/%s/lib\n", distribution_path, application_name_lowercase_and_dashes);
-      fprintf(fd, "ln -s libssl.so.1.0.0 libssl.so\n");
-      fprintf(fd, "ln -s libcrypto.so.1.0.0 libcrypto.so\n");
+      fprintf(fd, "ln -s libssl.so.1.1 libssl.so\n");
+      fprintf(fd, "ln -s libcrypto.so.1.1 libcrypto.so\n");
       fprintf(fd, "cd %s/debian\n", distribution_path);
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng12.so.0 usr/local/webots/lib\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libvpx.so.3 usr/local/webots/lib\n");
@@ -1095,9 +1101,9 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebpdemux.so.1 usr/local/webots/lib\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjasper.so.1 usr/local/webots/lib\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libevent-2.0.so.5 usr/local/webots/lib\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libminizip.so.1 usr/local/webots/lib\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libassimp.so.3 usr/local/webots/lib\n");
 #endif
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libminizip.so.1 usr/local/webots/lib\n");
 
       fprintf(fd, "mkdir DEBIAN\n");
       fprintf(fd, "echo \"Package: %s\" > DEBIAN/control\n", application_name_lowercase_and_dashes);
@@ -1108,8 +1114,8 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "echo -n \"Installed-Size: \" >> DEBIAN/control\n");
       fprintf(fd, "du -sx %s/debian | awk '{print $1}' >> DEBIAN/control\n", distribution_path);
       fprintf(fd, "echo \"Depends: make, g++, libatk1.0-0 (>= 1.9.0), ffmpeg, libdbus-1-3, libfreeimage3 (>= 3.15.4-3), ");
-      fprintf(fd, "libglib2.0-0 (>= 2.10.0), libglu1-mesa | libglu1, libgtk-3-0, ");
-      fprintf(fd, "libjpeg8-dev, libpci3 (>= 3.2.0), libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, ");
+      fprintf(fd, "libglib2.0-0 (>= 2.10.0), libglu1-mesa | libglu1, libgtk-3-0, libjpeg8-dev, ");
+      fprintf(fd, "libnss3, libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, ");
       fprintf(fd, "libzzip-0-13 (>= 0.13.62-2), libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, ");
       fprintf(fd, "libgd3, libfreetype6\" >> DEBIAN/control\n");
 
@@ -1126,7 +1132,7 @@ static void create_file(const char *name, int m) {
       }
 
 #ifdef WEBOTS_UBUNTU_16_04
-      fprintf(fd, "fakeroot dpkg-deb --build debian %s\n", distribution_path);
+      fprintf(fd, "fakeroot dpkg-deb -Zgzip --build debian %s\n", distribution_path);
 #endif
 
       fprintf(fd, "echo creating the %s/%s-%s-%s.tar.bz2 tarball\n", distribution_path, application_name_lowercase_and_dashes,
@@ -1134,9 +1140,9 @@ static void create_file(const char *name, int m) {
 
       // copy include directories of libzip and libssh in tarball package
       fprintf(fd, "mkdir debian/usr/local/webots/include/libssh\n");
-      fprintf(fd, "cp -r /usr/include/libssh debian/usr/local/webots/include/libssh/\n");
+      fprintf(fd, "cp -a /usr/include/libssh debian/usr/local/webots/include/libssh/\n");
       fprintf(fd, "mkdir debian/usr/local/webots/include/libzip\n");
-      fprintf(fd, "cp -r /usr/include/zip.h debian/usr/local/webots/include/libzip/\n");
+      fprintf(fd, "cp -a /usr/include/zip.h debian/usr/local/webots/include/libzip/\n");
       fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h debian/usr/local/webots/include/libzip/\n");
 
       // add the required libraries in order to avoid conflicts on other Linux distributions
@@ -1180,12 +1186,30 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libgd.so.3 debian/usr/local/webots/lib\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libssh.so.4 debian/usr/local/webots/lib\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libfreetype.so.6 debian/usr/local/webots/lib\n");
-      fprintf(fd, "cp /lib/x86_64-linux-gnu/libpci.so.3 debian/usr/local/webots/lib\n");
       fprintf(fd, "cd debian/usr/local\n");
-      fprintf(fd, "tar cjf ../../../%s-%s-%s.tar.bz2 %s\n", application_name_lowercase_and_dashes, package_version, arch2,
-              application_name_lowercase_and_dashes);
+      fprintf(fd, "tar cf ../../../%s-%s-%s.tar.bz2 --use-compress-prog=pbzip2 %s\n", application_name_lowercase_and_dashes,
+              package_version, arch2, application_name_lowercase_and_dashes);
       fprintf(fd, "rm -rf debian\n");
       break;
+    case SNAP: {
+      const char *usr_lib_x68_64_linux_gnu[] = {
+        "libraw.so.16",           "libvpx.so.5",         "libx264.so.152", "libavcodec.so.57",  "libwebp.so.6",
+        "libwebpmux.so.3",        "libpng16.so.16",      "libassimp.so.4", "libfreeimage.so.3", "libjxrglue.so.0",
+        "libopenjp2.so.7",        "libjpegxr.so.0",      "libHalf.so.12",  "libIex-2_2.so.12",  "libIexMath-2_2.so.12",
+        "libIlmThread-2_2.so.12", "libIlmImf-2_2.so.22", "libzip.so.4",    "libzzip-0.so.13",   "libjbig.so.0",
+        "libtiff.so.5",           "libjpeg.so.8",        "libgomp.so.1",   "liblcms2.so.2",     "libXi.so.6",
+        "libXrender.so.1",        "libfontconfig.so.1",  "libxslt.so.1",   "libgd.so.3",        "libssh.so.4",
+        "libfreetype.so.6"};
+      for (int i = 0; i < sizeof(usr_lib_x68_64_linux_gnu) / sizeof(char *); i++)
+        fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/%s $DESTDIR/usr/lib/x86_64-linux-gnu/\n", usr_lib_x68_64_linux_gnu[i]);
+      fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libssh\n");
+      fprintf(fd, "cp -a /usr/include/libssh $DESTDIR/usr/share/webots/include/libssh/\n");
+      fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libzip\n");
+      fprintf(fd, "cp -a /usr/include/zip.h $DESTDIR/usr/share/webots/include/libzip/\n");
+      fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h $DESTDIR/usr/share/webots/include/libzip/\n");
+      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.desktop $DESTDIR/usr/share/webots/resources/\n");
+      break;
+    }
     default:
       break;
   }
@@ -1195,6 +1219,9 @@ static void create_file(const char *name, int m) {
     system(buffer);
   } else if (mode == DEB) {
     snprintf(buffer, BUFFER_SIZE, "chmod a+x %s.deb", application_name_lowercase_and_dashes);
+    system(buffer);
+  } else if (mode == SNAP) {
+    snprintf(buffer, BUFFER_SIZE, "chmod a+x %s.snap", application_name_lowercase_and_dashes);
     system(buffer);
   }
   printf(": done\n");
@@ -1307,7 +1334,7 @@ int main(int argc, char *argv[]) {
   if (custom_distribution_path)
     strcpy(distribution_path, custom_distribution_path);
   else
-    snprintf(distribution_path, 256, "%s/distribution", webots_home);
+    snprintf(distribution_path, 256, "%s%cdistribution", webots_home, DIR_SEP);
   if (!dir_exists(distribution_path)) {
     fprintf(stderr, "distribution path (%s) doesn't exists\n", distribution_path);
     exit(-1);
@@ -1321,6 +1348,7 @@ int main(int argc, char *argv[]) {
 #endif
 #ifdef __linux__
   create_distributions(DEB);
+  create_distributions(SNAP);
 #endif
   return 0;
 }

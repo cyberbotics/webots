@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,10 +21,7 @@
 
 namespace wren {
 
-  Font::Font() {
-    mFaceIsInitialized = false;
-    mFontSize = 0;
-    mError = WR_FONT_ERROR_NONE;
+  Font::Font() : mFaceIsInitialized(false), mError(WR_FONT_ERROR_NONE), mFontSize(0) {
     FT_Error error = FT_Init_FreeType(&mLibrary);
     if (error)
       mError = WR_FONT_ERROR_FREETYPE_LOADING;

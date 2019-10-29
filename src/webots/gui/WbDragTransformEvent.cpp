@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,8 +26,8 @@
 #include "WbWrenLabelOverlay.hpp"
 #include "WbWrenRenderingContext.hpp"
 
+#include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QDesktopWidget>
 
 // WbDragTransformEvent constructor
 WbDragTransformEvent::WbDragTransformEvent(WbViewpoint *viewpoint, WbAbstractTransform *selectedTransform) :
@@ -88,7 +88,7 @@ void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
   // remove any x or z scaling from parents (we shouldn't touch y as we're moving on the world horizontal plane)
   displacementFromInitialPosition.setX(displacementFromInitialPosition.x() / mScaleFromParents.x());
   displacementFromInitialPosition.setZ(displacementFromInitialPosition.z() / mScaleFromParents.z());
-  mSelectedTransform->setTranslation(mInitialPosition + displacementFromInitialPosition);
+  mSelectedTransform->setTranslation((mInitialPosition + displacementFromInitialPosition).rounded(WbPrecision::GUI_MEDIUM));
   mSelectedTransform->emitTranslationOrRotationChangedByUser();
 }
 
@@ -115,7 +115,8 @@ void WbDragVerticalEvent::apply(const QPoint &currentMousePosition) {
   mIntersectionOutput = mMouseRay.intersects(mDragPlane);
   const double verticalDrift = mIntersectionOutput.second * mMouseRay.direction().dot(mUpWorldVector) + mTranslationOffset;
   // divide by any y-axis scaling so that the overall translation applied to the node is local and independent of parent scale
-  mSelectedTransform->setTranslation(mInitialPosition + mUpWorldVector * verticalDrift / mScaleFromParents.y());
+  mSelectedTransform->setTranslation(
+    (mInitialPosition + mUpWorldVector * verticalDrift / mScaleFromParents.y()).rounded(WbPrecision::GUI_MEDIUM));
   mSelectedTransform->emitTranslationOrRotationChangedByUser();
 }
 
@@ -210,7 +211,8 @@ void WbDragTranslateAlongAxisEvent::apply(const QPoint &currentMousePosition) {
     // convert local translation to parent transform coordinate system
     mTranslationOffset += translationOffset[mCoordinate];
     translationOffset = mSelectedTransform->rotation().toMatrix3() * translationOffset;
-    mSelectedTransform->setTranslation(mSelectedTransform->translation() + translationOffset);
+    mSelectedTransform->setTranslation(
+      (mSelectedTransform->translation() + translationOffset).rounded(WbPrecision::GUI_MEDIUM));
     mSelectedTransform->emitTranslationOrRotationChangedByUser();
   }
 
@@ -262,15 +264,13 @@ WbDragRotateAroundWorldVerticalAxisEvent::~WbDragRotateAroundWorldVerticalAxisEv
 
 void WbDragRotateAroundWorldVerticalAxisEvent::apply(const QPoint &currentMousePosition) {
   // Horizontal movement rotates the object clockwise (and anti-clockwise)
-  const QDesktopWidget *qDesktop = QApplication::desktop();
-  const int screenNumber = qDesktop->screenNumber(QCursor::pos());
+  const QScreen *screen = QGuiApplication::screenAt(QCursor::pos());
   // 4*pi used here so that a centered object can be fully rotated
   // by dragging all the way to the left or right of the screen
-  double angle =
-    4 * M_PI * ((currentMousePosition.x() - mInitialMouseXPosition) / qDesktop->screenGeometry(screenNumber).width());
+  const double angle = 4 * M_PI * ((currentMousePosition.x() - mInitialMouseXPosition) / screen->geometry().width());
   // add our new rotation
-  WbQuaternion resultingRotation = WbQuaternion(mUpWorldVector, angle) * mInitialQuaternionRotation;
-  mSelectedTransform->setRotation(WbRotation(resultingRotation));
+  const WbQuaternion resultingRotation = WbQuaternion(mUpWorldVector, angle) * mInitialQuaternionRotation;
+  mSelectedTransform->setRotation(WbRotation(resultingRotation).rounded(WbPrecision::GUI_MEDIUM));
   mSelectedTransform->emitTranslationOrRotationChangedByUser();
 
   mPreviousAngle = angle;
@@ -296,7 +296,7 @@ WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMo
   const WbVector3 absoluteScale = mInitialMatrix.scale();
   mInitialMatrix.scale(1.0f / absoluteScale.x(), 1.0f / absoluteScale.y(), 1.0f / absoluteScale.z());
 
-  WbVector4 scaledPos = mManipulator->relativeHandlePosition(mHandleNumber) * mViewDistanceUnscaling;
+  WbVector4 scaledPos = WbVector4(mManipulator->relativeHandlePosition(mHandleNumber)) * mViewDistanceUnscaling;
   WbVector4 handlePos = mInitialMatrix * scaledPos;
   mZEye = viewpoint->zEye(handlePos.toVector3());
 
@@ -364,7 +364,7 @@ void WbDragRotateAroundAxisEvent::apply(const QPoint &currentMousePosition) {
   // add new rotation
   WbQuaternion resultingRotation =
     mInitialQuaternionRotation * WbQuaternion(mManipulator->coordinateVector(mCoordinate), angle);
-  mSelectedTransform->setRotation(WbRotation(resultingRotation));
+  mSelectedTransform->setRotation(WbRotation(resultingRotation).rounded(WbPrecision::GUI_MEDIUM));
   mSelectedTransform->emitTranslationOrRotationChangedByUser();
 
   // update label and handle rotation

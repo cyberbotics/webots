@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   gravity 0 0 0
 }
@@ -6,21 +6,21 @@ DEF VIEWPOINT Viewpoint {
   orientation -0.22829072045121848 0.9421103491030215 0.2455838697244722 1.70306075886739
   position 54.32519512629353 36.85193472314329 -3.1707126958688465
   near 0.2
+  bloomThreshold 2100
 }
 Background {
+  skyColor [
+    0.33 0.66 1
+  ]
   cubemap Cubemap {
-    textureBaseName "studio"
+    textureBaseName "san_giuseppe_bridge_4k"
   }
 }
-DirectionalLight {
+DEF LIGHT DirectionalLight {
   ambientIntensity 1
-  direction -1 -1 -0.6
-  intensity 0.6
+  direction -0.6 -1 0.55
+  intensity 2.7
   castShadows TRUE
-}
-DirectionalLight {
-  direction 0.2 -0.3 0.1
-  intensity 0.3
 }
 Solid {
   children [
@@ -29,6 +29,7 @@ Solid {
         material DEF FLOOR_MATERIAL Material {
           ambientIntensity 0.4
           diffuseColor 0 1 1
+          emissiveColor 0.333333 0.341176 0.32549
         }
       }
       geometry DEF P Plane {
@@ -44,7 +45,6 @@ DEF SUPERVISOR Robot {
       width 2048
       height 2048
       near 0.8
-      antiAliasing TRUE
     }
   ]
   controller "icon_creator"

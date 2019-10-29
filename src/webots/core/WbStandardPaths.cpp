@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,12 +17,14 @@
 #include "WbApplicationInfo.hpp"
 #include "WbLog.hpp"
 #include "WbSysInfo.hpp"
-#include "WbWebotsInstancesCounter.hpp"
 
 #include <QtCore/QCoreApplication>
+#include <QtCore/QDateTime>
 #include <QtCore/QDir>
 #include <QtCore/QStandardPaths>
 #include <QtCore/QString>
+#include <QtCore/QTextStream>
+#include <QtCore/QTimer>
 
 #ifdef _WIN32
 #include "../../../include/controller/c/webots/utils/system.h"
@@ -136,6 +138,11 @@ const QString &WbStandardPaths::cyberboticsUrl() {
   return url;
 };
 
+const QString &WbStandardPaths::githubRepositoryUrl() {
+  static const QString url("https://github.com/cyberbotics/webots");
+  return url;
+};
+
 const QString &WbStandardPaths::dynamicLibraryExtension() {
 #ifdef __APPLE__
   static QString extension(".dylib");
@@ -184,11 +191,23 @@ const QString &WbStandardPaths::unnamedTextFile() {
   return fileName;
 };
 
+static void liveWebotsTmpPath() {
+  QFile file(WbStandardPaths::webotsTmpPath() + "live.txt");
+  if (file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
+    QTextStream out(&file);
+    out << QDateTime::currentSecsSinceEpoch();
+    file.close();
+  }
+}
+
 const QString &WbStandardPaths::webotsTmpPath() {
   static QString webotsTmpPath;
   if (webotsTmpPath.isEmpty()) {
 #ifdef _WIN32
-    webotsTmpPath = QDir::tempPath() + QString("/webots-%1/").arg(QCoreApplication::applicationPid());
+    // We do not use QDir::tempPath() as it relies on the TEMP/TMP environment variables which are overriden by the MSYS2
+    // console to C:\msys2\tmp whereas the libController uses the LOCALAPPDATA version, e.g., C:\Users\user\AppData\Local\Temp
+    webotsTmpPath = QDir::fromNativeSeparators(WbSysInfo::environmentVariable("LOCALAPPDATA")) +
+                    QString("/Temp/webots-%1/").arg(QCoreApplication::applicationPid());
 #elif defined(__APPLE__)
     webotsTmpPath = QString("/var/tmp/webots-%1/").arg(QCoreApplication::applicationPid());
 #else  // __linux__
@@ -202,20 +221,18 @@ const QString &WbStandardPaths::webotsTmpPath() {
     }
 #endif
 
-    // remove the other Webots instances from the temp folder if needed
-    if (WbWebotsInstancesCounter::numberOfInstances() == 1) {
-      QDir tmpDir(webotsTmpPath);
-      tmpDir.cdUp();
-
-      tmpDir.setFilter(QDir::Dirs);
-      QStringList filters;
-      filters << "webots-*";
-      tmpDir.setNameFilters(filters);
-
-      QFileInfoList list = tmpDir.entryInfoList();
-      for (int i = 0; i < list.size(); ++i) {
-        QDir dirToRemove(list.at(i).absoluteFilePath());
-        dirToRemove.removeRecursively();
+    // cleanup old and unused tmp directories
+    QDir directory(webotsTmpPath);
+    directory.cdUp();
+    const QStringList &webotsTmp = directory.entryList(QStringList() << "webots-*", QDir::Dirs | QDir::Writable);
+    foreach (const QString &dirname, webotsTmp) {
+      const QString fullName(directory.absolutePath() + "/" + dirname);
+      const QFileInfo fileInfo(fullName + "/live.txt");
+      const QDateTime &lastModified = fileInfo.fileTime(QFileDevice::FileModificationTime);
+      const qint64 diff = lastModified.secsTo(QDateTime::currentDateTime());
+      if (diff > 3600) {  // if the live.txt file was not modified for more than one hour, delete the tmp folder
+        QDir d(fullName);
+        d.removeRecursively();
       }
     }
 
@@ -229,6 +246,12 @@ const QString &WbStandardPaths::webotsTmpPath() {
         WbLog::fatal(QObject::tr("Cannot create a directory in the Webots temporary directory \"%1\"").arg(webotsTmpPath));
 #endif
     }
+
+    // write a new live.txt file in the webots tmp folder every hour to prevent any other webots process to delete it
+    static QTimer timer;
+    liveWebotsTmpPath();
+    QTimer::connect(&timer, &QTimer::timeout, liveWebotsTmpPath);
+    timer.start(30 * 60 * 1000);  // call every 30 minutes
   }
   return webotsTmpPath;
 }

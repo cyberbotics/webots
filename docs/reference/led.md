@@ -40,7 +40,7 @@ If the `color` list contains a single color, then the LED is monochromatic, and 
 #### `wb_led_set`
 #### `wb_led_get`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -95,7 +95,7 @@ public class LED extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_led_set(tag, value)
 value = wb_led_get(tag)
 ```

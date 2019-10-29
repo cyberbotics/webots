@@ -2,7 +2,7 @@
 
 # install the latest Qt from qt.org
 
-QT_VERSION=5.11.2
+QT_VERSION=5.13.1
 ICU_VERSION=56
 QT_INSTALLATION_PATH=~/Qt${QT_VERSION}/${QT_VERSION}/gcc_64
 WEBOTS_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}" )"/../.. && pwd)"
@@ -162,6 +162,9 @@ ln -sf libQt5XcbQpa.so.$QT_VERSION            libQt5XcbQpa.so
 ln -sf libicudata.so.$ICU_VERSION.1           libicudata.so.$ICU_VERSION
 ln -sf libicui18n.so.$ICU_VERSION.1           libicui18n.so.$ICU_VERSION
 ln -sf libicuuc.so.$ICU_VERSION.1             libicuuc.so.$ICU_VERSION
+
+# we need to clear the execstack from this library to enable the creation of the snap package.
+execstack -c libQt5WebEngineCore.so.$QT_VERSION
 
 cd ..
 

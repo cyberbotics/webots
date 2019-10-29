@@ -23,19 +23,19 @@ Moreover we recommend you to ensure you understood all the concepts of a tutoria
 
 The last section will provide you with some hints to address problems that are not covered in this chapter.
 
-The solutions of the tutorials are located into the "WEBOTS\_HOME/projects/samples/tutorials" subdirectory of the Webots installation directory.
+The solutions of the tutorials are located into the "[WEBOTS\_HOME/projects/samples/tutorials](https://github.com/cyberbotics/webots/tree/master/projects/samples/tutorials)" subdirectory of the Webots installation directory.
 
 We hope you will enjoy your first steps with Webots.
 Meanwhile, we would really appreciate to receive your feedback regarding this chapter.
 
 ## Sections
 
-- [Prerequisites](prerequisites.md)
-- [Tutorial 1: Your first Simulation in Webots (20 minutes)](tutorial-1-your-first-simulation-in-webots-20-minutes.md)
-- [Tutorial 2: Modification of the Environment (20 minutes)](tutorial-2-modification-of-the-environment-20-minutes.md)
-- [Tutorial 3: Appearance (15 minutes)](tutorial-3-appearance-15-minutes.md)
-- [Tutorial 4: More about Controllers (20 minutes)](tutorial-4-more-about-controllers-20-minutes.md)
-- [Tutorial 5: Compound Solid and Physics Attributes (15 minutes)](tutorial-5-compound-solid-and-physics-attributes-15-minutes.md)
-- [Tutorial 6: 4-Wheels Robot](tutorial-6-4-wheels-robot.md)
-- [Tutorial 7: Using ROS](tutorial-7-using-ros.md)
+- [Tutorial 1: Your first Simulation in Webots (30 minutes)](tutorial-1-your-first-simulation-in-webots.md)
+- [Tutorial 2: Modification of the Environment (30 minutes)](tutorial-2-modification-of-the-environment.md)
+- [Tutorial 3: Appearance (20 minutes)](tutorial-3-appearance.md)
+- [Tutorial 4: More about Controllers (30 minutes)](tutorial-4-more-about-controllers.md)
+- [Tutorial 5: Compound Solid and Physics Attributes (15 minutes)](tutorial-5-compound-solid-and-physics-attributes.md)
+- [Tutorial 6: 4-Wheels Robot (60 minutes)](tutorial-6-4-wheels-robot.md)
+- [Tutorial 7: Your First PROTO (20 minutes)](tutorial-7-your-first-proto.md)
+- [Tutorial 8: Using ROS (60 minutes)](tutorial-8-using-ros.md)
 - [Going Further](going-further.md)

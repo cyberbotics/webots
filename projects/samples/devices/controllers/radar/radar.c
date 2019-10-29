@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,7 +64,7 @@ int main() {
     if (radar) {
       int targets_number = wb_radar_get_number_of_targets(radar);
       const WbRadarTarget *targets = wb_radar_get_targets(radar);
-      printf("%s see %d targets.\n", wb_robot_get_name(), targets_number);
+      printf("\f%s see %d targets.\n", wb_robot_get_name(), targets_number);
       for (i = 0; i < targets_number; ++i)
         printf("---target %d: distance=%lf azimuth=%lf\n", i + 1, targets[i].distance, targets[i].azimuth);
     }

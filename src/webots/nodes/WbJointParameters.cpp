@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -63,7 +63,8 @@ void WbJointParameters::postFinalize() {
   connect(mSpringConstant, &WbSFDouble::changed, this, &WbJointParameters::updateSpringConstant);
   connect(mDampingConstant, &WbSFDouble::changed, this, &WbJointParameters::updateDampingConstant);
   connect(mStaticFriction, &WbSFDouble::changed, this, &WbJointParameters::updateStaticFriction);
-  connect(mAxis, &WbSFDouble::changed, this, &WbJointParameters::updateAxis);
+  if (mAxis)
+    connect(mAxis, &WbSFDouble::changed, this, &WbJointParameters::updateAxis);
   disconnectFieldNotification(mPosition);
 }
 
@@ -118,6 +119,8 @@ void WbJointParameters::updateMinAndMaxStop() {
 }
 
 void WbJointParameters::updateAxis() {
+  if (!mAxis)
+    return;
   const WbVector3 &a = mAxis->value();
   if (a.isNull()) {
     warn(tr("'axis' must be non zero."));

@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ timestep = int(supervisor.getBasicTimeStep())
 for i in range(10):
     supervisor.step(timestep)
 
-print ('Set BOX.size to [1, 1, 1].')
+print('Set BOX.size to [1, 1, 1].')
 node = supervisor.getFromDef("BOX")
 field = node.getField("size")
 field.setSFVec3f([1, 1, 1])

@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ clean: api parser physics protos rendering
 	         api/controllers/supervisor_export_image/image.png \
 	         api/controllers/supervisor_save_world/test.wbt \
 	         api/controllers/supervisor_start_stop_movie/movie.mp4
-	@find . \( -name *.txt ! -name *expected_*.txt ! -path "./default/*" \) | xargs rm -f
+	@find . \( -name *.txt ! -name *expected_*.txt ! -path "./default/*" ! -path "./sources/*" \) | xargs rm -f
 	@find . -name *.pyc | xargs rm -f
 	@find . -name *.dif | xargs rm -f
 	@find . -name *.tif | xargs rm -f

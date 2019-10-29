@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,6 +30,9 @@ import multiprocessing
 
 from command import Command
 
+# monitor failures
+failures = 0
+
 # parse arguments
 filesArguments = []
 nomakeOption = False
@@ -48,13 +51,14 @@ if len(sys.argv) > 1:
 testGroups = ['api', 'physics', 'protos', 'parser', 'rendering']
 
 # global files
-outputFilename = 'output.txt'
-defaultProjectPath = 'default' + os.sep
+testsFolderPath = os.environ['WEBOTS_HOME'] + os.sep + 'tests' + os.sep
+outputFilename = testsFolderPath + 'output.txt'
+defaultProjectPath = testsFolderPath + 'default' + os.sep
 supervisorControllerName = 'test_suite_supervisor'
 protoFileNames = ['TestSuiteSupervisor.proto', 'TestSuiteEmitter.proto']
-tempWorldCounterFilename = 'world_counter.txt'
-webotsStdOutFilename = 'webots_stdout.txt'
-webotsStdErrFilename = 'webots_stderr.txt'
+tempWorldCounterFilename = testsFolderPath + 'world_counter.txt'
+webotsStdOutFilename = testsFolderPath + 'webots_stdout.txt'
+webotsStdErrFilename = testsFolderPath + 'webots_stderr.txt'
 
 # Webots setup (cf. setupWebots() below)
 webotsFullPath = ''
@@ -64,9 +68,7 @@ webotsVersion = ''
 def setupWebots():
     """Find webots binary thanks to WEBOTS_HOME."""
     os.putenv('WEBOTS_TEST_SUITE', 'TRUE')
-    os.putenv('WEBOTS_EMPTY_PROJECT_PATH',
-              os.environ['WEBOTS_HOME'] + os.sep + 'tests' + os.sep +
-              defaultProjectPath)
+    os.putenv('WEBOTS_EMPTY_PROJECT_PATH', defaultProjectPath)
 
     global webotsFullPath
     global webotsVersion
@@ -153,8 +155,11 @@ def appendToOutputFile(txt):
 
 def executeMake():
     """Execute 'make release' to ensure every controller/plugin is compiled."""
-    command = Command('make release -j ' + str(multiprocessing.cpu_count()))
+    curdir = os.getcwd()
+    os.chdir(os.path.join(os.environ['WEBOTS_HOME'], 'tests'))
+    command = Command('make release -j%d' % multiprocessing.cpu_count())
     command.run(silent=False)
+    os.chdir(curdir)
     if command.returncode != 0:
         raise RuntimeError('Error when executing the Make command')
 
@@ -164,7 +169,7 @@ def generateWorldsList(groupName, worldsFilename):
     f = open(worldsFilename, 'w')
     worldsCount = 0
     # generate the list from the arguments
-    if len(filesArguments) > 0:
+    if filesArguments:
         for file in filesArguments:
             if file.startswith(groupName):
                 f.write(file + '\n')
@@ -172,7 +177,7 @@ def generateWorldsList(groupName, worldsFilename):
 
     # generate the list from 'ls worlds/*.wbt'
     else:
-        filenames = glob.glob(groupName + os.sep + 'worlds' + os.sep + '*.wbt')
+        filenames = glob.glob(testsFolderPath + groupName + os.sep + 'worlds' + os.sep + '*.wbt')
 
         # remove the generic name
         for filename in filenames:
@@ -184,7 +189,8 @@ def generateWorldsList(groupName, worldsFilename):
 
         # to file
         for filename in filenames:
-            if not filename.endswith('_temp.wbt'):
+            # speaker test not working on travis because of missing sound drivers
+            if not filename.endswith('_temp.wbt') and not ('TRAVIS' in os.environ and filename.endswith('speaker.wbt')):
                 f.write(filename + '\n')
                 worldsCount += 1
 
@@ -208,7 +214,9 @@ finalMessage = 'Test suite complete'
 thread = threading.Thread(target=monitorOutputFile, args=[finalMessage])
 thread.start()
 
-webotsArguments = '--mode=fast --stdout --stderr --minimize'
+webotsArguments = '--mode=fast --stdout --stderr --minimize --batch'
+if sys.platform != 'win32':
+    webotsArguments += ' --no-sandbox'
 
 for groupName in testGroups:
 
@@ -220,15 +228,15 @@ for groupName in testGroups:
     open(webotsStdErrFilename, 'w').close()
     open(webotsStdOutFilename, 'w').close()
 
-    worldsFilename = groupName + os.sep + 'worlds.txt'
-    indexFilename = groupName + os.sep + 'worlds_index.txt'
+    worldsFilename = testsFolderPath + groupName + os.sep + 'worlds.txt'
+    indexFilename = testsFolderPath + groupName + os.sep + 'worlds_index.txt'
 
     # init temporary world counter file
     tempFile = open(tempWorldCounterFilename, 'w')
     tempFile.write('0')
     tempFile.close()
 
-    supervisorTargetDirectory = groupName + os.sep + 'controllers' + os.sep + \
+    supervisorTargetDirectory = testsFolderPath + groupName + os.sep + 'controllers' + os.sep + \
         supervisorControllerName
     if not os.path.exists(supervisorTargetDirectory):
         os.makedirs(supervisorTargetDirectory)
@@ -239,7 +247,7 @@ for groupName in testGroups:
         supervisorTargetDirectory + os.sep + supervisorControllerName + '.py'
     )
     # parser tests uses a slightly different Supervisor PROTO
-    protosTargetDirectory = groupName + os.sep + 'protos'
+    protosTargetDirectory = testsFolderPath + groupName + os.sep + 'protos'
     protosSourceDirectory = defaultProjectPath + 'protos' + os.sep
     if not os.path.exists(protosTargetDirectory):
         os.makedirs(protosTargetDirectory)
@@ -263,14 +271,16 @@ for groupName in testGroups:
     command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments)
 
     # redirect stdout and stderr to files
-    command.runTest(timeout=3 * 60)  # 3 minutes
+    command.runTest(timeout=10 * 60)  # 10 minutes
 
     if command.isTimeout or command.returncode != 0:
         if command.isTimeout:
+            failures += 1
             appendToOutputFile(
                 'FAILURE: Webots has been terminated ' +
                 'by the test suite script\n')
         else:
+            failures += 1
             appendToOutputFile(
                 'FAILURE: Webots exits abnormally with this error code: ' +
                 str(command.returncode) + '\n')
@@ -285,6 +295,10 @@ for groupName in testGroups:
             appendToOutputFile('FAILURE: Some tests have not been executed\n')
             appendToOutputFile('- expected number of worlds: %d\n' % (worldsCount))
             appendToOutputFile('- number of worlds actually tested: %s)\n' % (counterString))
+        else:
+            with open(webotsStdErrFilename, 'r') as file:
+                if 'Failure' in file.read():
+                    failures += 1
 
     if testFailed:
         appendToOutputFile('\nWebots complete STDOUT log:\n')
@@ -315,3 +329,9 @@ appendToOutputFile('\n' + finalMessage + '\n')
 time.sleep(1)
 if monitorOutputCommand.isRunning():
     monitorOutputCommand.terminate(force=True)
+
+with open(outputFilename, 'r') as file:
+    content = file.read()
+    failures += content.count('FAILURE ')
+
+sys.exit(failures)

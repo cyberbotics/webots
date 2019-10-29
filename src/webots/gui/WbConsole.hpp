@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -73,17 +73,17 @@ public:
   const QString &ansiCyan() const { return mAnsiCyan; }
   const QString &ansiWhite() const { return mAnsiWhite; }
 
-  void setErrorColor(QString &color) { mErrorColor = color; }
-  void setInfoColor(QString &color) { mInfoColor = color; }
+  void setErrorColor(const QString &color) { mErrorColor = color; }
+  void setInfoColor(const QString &color) { mInfoColor = color; }
 
-  void setAnsiBlack(QString &color) { mAnsiBlack = color; }
-  void setAnsiRed(QString &color) { mAnsiRed = color; }
-  void setAnsiGreen(QString &color) { mAnsiGreen = color; }
-  void setAnsiYellow(QString &color) { mAnsiYellow = color; }
-  void setAnsiBlue(QString &color) { mAnsiBlue = color; }
-  void setAnsiMagenta(QString &color) { mAnsiMagenta = color; }
-  void setAnsiCyan(QString &color) { mAnsiCyan = color; }
-  void setAnsiWhite(QString &color) { mAnsiWhite = color; }
+  void setAnsiBlack(const QString &color) { mAnsiBlack = color; }
+  void setAnsiRed(const QString &color) { mAnsiRed = color; }
+  void setAnsiGreen(const QString &color) { mAnsiGreen = color; }
+  void setAnsiYellow(const QString &color) { mAnsiYellow = color; }
+  void setAnsiBlue(const QString &color) { mAnsiBlue = color; }
+  void setAnsiMagenta(const QString &color) { mAnsiMagenta = color; }
+  void setAnsiCyan(const QString &color) { mAnsiCyan = color; }
+  void setAnsiWhite(const QString &color) { mAnsiWhite = color; }
 
 public slots:
   // clear console

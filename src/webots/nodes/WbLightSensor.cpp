@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbLightSensor.hpp"
+
 #include "WbFieldChecker.hpp"
 #include "WbLight.hpp"
 #include "WbLookupTable.hpp"
@@ -169,11 +170,11 @@ void WbLightSensor::postFinalize() {
 void WbLightSensor::handleMessage(QDataStream &stream) {
   unsigned char command;
   short refreshRate;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   switch (command) {
     case C_SET_SAMPLING_PERIOD:
-      stream >> (short &)refreshRate;
+      stream >> refreshRate;
       mSensor->setRefreshRate(refreshRate);
       break;
     default:
@@ -202,7 +203,7 @@ void WbLightSensor::updateLookupTable() {
 }
 
 void WbLightSensor::updateResolution() {
-  WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mResolution, -1.0, -1.0);
+  WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1.0, -1.0);
 }
 
 void WbLightSensor::prePhysicsStep(double ms) {

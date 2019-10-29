@@ -1,0 +1,77 @@
+#VRML_SIM R2019b utf8
+WorldInfo {
+  title "Auto lock static connectors"
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation 0.10833828102060336 0.9839846395851807 0.1415522727684823 4.121503424005624
+  position -0.2070782481692423 0.36807156309183897 -0.24181305341289722
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  location 0 0.3 0
+}
+DEF ACTIVE_ROBOT Robot {
+  translation 0.1 0 0
+  rotation 0 1 0 -1.57
+  children [
+    TestSuiteEmitter {
+    }
+    DEF BODY Transform {
+      translation 0 0.25 -0.25
+      children [
+        Shape {
+          appearance PBRAppearance {
+          }
+          geometry Box {
+            size 0.5 0.5 0.1
+          }
+        }
+      ]
+    }
+    Connector {
+      translation 0 0.2 -0.20000000000000007
+      autoLock TRUE
+      distanceTolerance 0.1
+      axisTolerance 0.4
+      rotationTolerance 0.6
+    }
+  ]
+  name "MyBot 1"
+  boundingObject USE BODY
+  controller "connector_static_autolock"
+  supervisor TRUE
+}
+DEF SOLID Solid {
+  translation 0.247 0.19999999999999996 0
+  children [
+    DEF BODY Transform {
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+          }
+          geometry Sphere {
+            radius 0.05
+            subdivision 3
+          }
+        }
+      ]
+    }
+    Connector {
+      translation 0.05 0 0
+      rotation 0 1 0 1.5707963220000003
+      autoLock TRUE
+      distanceTolerance 0.09999999999999999
+    }
+  ]
+  boundingObject USE BODY
+  physics Physics {
+  }
+}
+TestSuiteSupervisor {
+}

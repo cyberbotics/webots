@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -62,6 +62,17 @@ namespace wren {
       textureId = static_cast<size_t>(mTextures[0].first->glName());
 
     return static_cast<size_t>(mCacheData->id() << 1) | (textureId << 16) | (programId << 32) | mHasPremultipliedAlpha;
+  }
+
+  PbrMaterial *PbrMaterial::createMaterial() {
+    PbrMaterial *material = new PbrMaterial();
+    material->init();
+    return material;
+  }
+
+  void PbrMaterial::deleteMaterial(PbrMaterial *material) {
+    material->releaseMaterial();
+    delete material;
   }
 
   void PbrMaterial::clearMaterial() {
@@ -190,7 +201,13 @@ namespace wren {
     Material::bindTextures();
   }
 
-  PbrMaterial::PbrMaterial() : Material() {
+  PbrMaterial::PbrMaterial() : Material(), mCacheData(NULL) {
+    mMaterialStructure = new WrMaterial;
+    mMaterialStructure->type = WR_MATERIAL_PBR;
+    mMaterialStructure->data = reinterpret_cast<void *>(this);
+  }
+
+  void PbrMaterial::init() {
     GlslLayout::PbrMaterial material;
     material.mBaseColorAndTransparency = glm::vec4(gVec3Ones, 0.0f);
     material.mRoughnessMetalnessNormalMapFactorOcclusion = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
@@ -200,11 +217,6 @@ namespace wren {
     material.mNormalBrdfEmissiveBackgroundFlags = glm::vec4(0.0f);
     material.mPenFlags = glm::vec4(0.0f);
     material.mCubeTextureFlags = glm::vec4(0.0f);
-
-    mMaterialStructure = new WrMaterial;
-    mMaterialStructure->type = WR_MATERIAL_PBR;
-    mMaterialStructure->data = reinterpret_cast<void *>(this);
-
     updateMaterial(material);
   }
 

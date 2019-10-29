@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1535,9 +1535,9 @@ static void run_penalty_kick(double delay, int team_color) {
 }
 
 static void run_victory(int team_color) {
-  char message[128];
-  sprintf(message, "%s WINS!", get_team_name(team_color));
-  show_message(message);
+  char winMessage[128];
+  sprintf(winMessage, "%s WINS!", get_team_name(team_color));
+  show_message(winMessage);
   run_finished_state();
 }
 

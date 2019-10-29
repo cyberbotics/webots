@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # tags: static
@@ -155,11 +155,19 @@ PROTO OldResidentialBuilding [
               %{= '"textures/residential_building_textures/small_residential_building_stair_' ..  texture .. '_metalness.jpg"' }%
             ]
           }
+          %{ if type ~= 'light grey' then }%
           normalMap ImageTexture {
             url [
               %{= '"textures/residential_building_textures/small_residential_building_stair_' ..  texture .. '_normal.jpg"' }%
             ]
           }
+          %{ else }%
+          normalMap ImageTexture {
+            url [
+              %{= '"textures/residential_building_textures/small_residential_building_stair_medium_grey_normal.jpg"' }%
+            ]
+          }
+          %{ end }%
           occlusionMap ImageTexture {
             url [
               %{= '"textures/residential_building_textures/small_residential_building_stair_' ..  texture .. '_occlusion.jpg"' }%
@@ -249,11 +257,19 @@ PROTO OldResidentialBuilding [
               %{= '"textures/residential_building_textures/small_residential_building_windows_' ..  texture .. '_metalness.jpg"' }%
             ]
           }
+          %{ if type == 'light grey' then }%
+          normalMap ImageTexture {
+            url [
+              %{= '"textures/residential_building_textures/small_residential_building_windows_medium_grey_normal.jpg"' }%
+            ]
+          }
+          %{ elseif type ~= 'braun' and type ~= 'red grey' then }%
           normalMap ImageTexture {
             url [
               %{= '"textures/residential_building_textures/small_residential_building_windows_' ..  texture .. '_normal.jpg"' }%
             ]
           }
+          %{ end }%
           occlusionMap ImageTexture {
             url [
               %{= '"textures/residential_building_textures/small_residential_building_windows_' ..  texture .. '_occlusion.jpg"' }%

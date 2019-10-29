@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -94,7 +94,7 @@ void WbLensFlare::detachFromViewport() {
 }
 
 void WbLensFlare::updateTransparency() {
-  if (WbFieldChecker::checkDoubleInRangeWithIncludedBounds(this, mTransparency, 0.0, 1.0, 0.5))
+  if (WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mTransparency, 0.0, 1.0, 0.5))
     return;
 
   QMapIterator<WrViewport *, WbWrenLensFlare *> it(mWrenLensFlares);
@@ -129,7 +129,7 @@ void WbLensFlare::updateDispersal() {
 }
 
 void WbLensFlare::updateHaloWidth() {
-  if (WbFieldChecker::checkDoubleIsPositive(this, mHaloWidth, 0.5))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mHaloWidth, 0.5))
     return;
 
   QMapIterator<WrViewport *, WbWrenLensFlare *> it(mWrenLensFlares);
@@ -148,7 +148,7 @@ void WbLensFlare::updateChromaDistortion() {
 }
 
 void WbLensFlare::updateSamples() {
-  if (WbFieldChecker::checkIntIsNonNegative(this, mSamples, 1))
+  if (WbFieldChecker::resetIntIfNegative(this, mSamples, 1))
     return;
 
   QMapIterator<WrViewport *, WbWrenLensFlare *> it(mWrenLensFlares);
@@ -159,7 +159,7 @@ void WbLensFlare::updateSamples() {
 }
 
 void WbLensFlare::updateBlur() {
-  if (WbFieldChecker::checkIntIsNonNegative(this, mBlurIterations, 2))
+  if (WbFieldChecker::resetIntIfNegative(this, mBlurIterations, 2))
     return;
 
   QMapIterator<WrViewport *, WbWrenLensFlare *> it(mWrenLensFlares);

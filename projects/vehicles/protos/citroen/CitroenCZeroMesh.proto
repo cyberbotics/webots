@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -11,8 +11,8 @@ PROTO CitroenCZeroMesh [
   Group {
     children [
       DEF COACHWORK Shape {
-        appearance DEF VEHICLE_APP GlossyCarPaint {
-          baseColor IS color       
+        appearance DEF VEHICLE_APP GlossyPaint {
+          baseColor IS color
         }
         geometry IndexedFaceSet {
           coord Coordinate {
@@ -4814,7 +4814,7 @@ PROTO CitroenCZeroMesh [
               }
               normalMap ImageTexture {
                 url [
-                  "textures/citroen_logo_normal.png"
+                  "textures/citroen_logo_normal.jpg"
                 ]
               }
               textureTransform TextureTransform {
@@ -4936,7 +4936,7 @@ PROTO CitroenCZeroMesh [
               }
               normalMap ImageTexture {
                 url [
-                  "textures/citroen_logo_normal.png"
+                  "textures/citroen_logo_normal.jpg"
                 ]
               }
             }

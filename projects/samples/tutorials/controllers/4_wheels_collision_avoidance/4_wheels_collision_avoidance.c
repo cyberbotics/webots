@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
 
   // internal variables
   int i;
-  bool avoid_obstacle_counter = 0;
+  int avoid_obstacle_counter = 0;
 
   // initialise distance sensors
   WbDeviceTag ds[2];

@@ -1,7 +1,7 @@
 """template controller."""
 
 # You may need to import some classes of the controller module. Ex:
-#  from controller import Robot, LED, DistanceSensor
+#  from controller import Robot, Motor, DistanceSensor
 from controller import Robot
 
 # create the Robot instance.
@@ -12,7 +12,7 @@ timestep = int(robot.getBasicTimeStep())
 
 # You should insert a getDevice-like function in order to get the
 # instance of a device of the robot. Something like:
-#  led = robot.getLED('ledname')
+#  motor = robot.getMotor('motorname')
 #  ds = robot.getDistanceSensor('dsname')
 #  ds.enable(timestep)
 
@@ -26,7 +26,7 @@ while robot.step(timestep) != -1:
     # Process sensor data here.
 
     # Enter here functions to send actuator commands, like:
-    #  led.set(1)
+    #  motor.setPosition(10.0)
     pass
 
 # Enter here exit cleanup code.

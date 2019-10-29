@@ -34,11 +34,13 @@ class Road(object):
         except:
             self.speedLimit = 50.0 / 3.6  # 50 km/h
         try:
-            self.translation = [float(x) for x in re.findall(r'translation\s*(%s\s*%s\s*%s)' % (floatRE, floatRE, floatRE), wbtString)[0].split()]
+            self.translation = [float(x) for x in re.findall(r'translation\s*(%s\s*%s\s*%s)' %
+                                                             (floatRE, floatRE, floatRE), wbtString)[0].split()]
         except:
             self.translation = [0.0, 0.0, 0.0]
         try:
-            self.rotation = [float(x) for x in re.findall(r'rotation\s*(%s\s*%s\s*%s\s*%s)' % (floatRE, floatRE, floatRE, floatRE), wbtString)[0].split()]
+            self.rotation = [float(x) for x in re.findall(r'rotation\s*(%s\s*%s\s*%s\s*%s)' %
+                                                          (floatRE, floatRE, floatRE, floatRE), wbtString)[0].split()]
         except:
             self.rotation = [0.0, 1.0, 0.0, 0.0]
         try:
@@ -114,16 +116,16 @@ class Road(object):
                 z = math.cos(angle) * wayPoint[2] + math.sin(angle) * wayPoint[0]
                 self.wayPoints[i] = [x, y, z]
         else:
-            print ('Warning: cannot export edge "%s" because the road is rotated not only along axis Y.' % self.id)
+            print('Warning: cannot export edge "%s" because the road is rotated not only along axis Y.' % self.id)
 
     def create_edge(self, edges):
         """Create the SUMO edge XML node(s) matching with the Webots road."""
         if self.startJunctionID == self.endJunctionID:
-            print ('Warning: cannot export edge "%s" because start and end junctions are identical.' % self.id)
+            print('Warning: cannot export edge "%s" because start and end junctions are identical.' % self.id)
             return
 
         if len(self.wayPoints) < 2:
-            print ('Warning: cannot export edge "%s" because it has less than 2 way-points.' % self.id)
+            print('Warning: cannot export edge "%s" because it has less than 2 way-points.' % self.id)
             return
 
         laneWidth = self.width / self.lanes

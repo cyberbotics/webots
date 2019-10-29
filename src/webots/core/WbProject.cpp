@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbProject.hpp"
+
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
 #include <cassert>
@@ -36,6 +37,7 @@ static QString gPreviousPath = QString();
 static WbProject *gCurrentProject = NULL;
 static WbProject *gSystemProject = NULL;
 static WbProject *gDefaultProject = NULL;
+static WbProject *gExtraDefaultProject = NULL;
 
 void WbProject::cleanupCurrentProject() {
   delete gCurrentProject;
@@ -43,6 +45,10 @@ void WbProject::cleanupCurrentProject() {
 
 void WbProject::cleanupDefaultProject() {
   delete gDefaultProject;
+}
+
+void WbProject::cleanupExtraDefaultProject() {
+  delete gExtraDefaultProject;
 }
 
 void WbProject::cleanupSystemProject() {
@@ -65,6 +71,16 @@ WbProject *WbProject::defaultProject() {
   }
 
   return gDefaultProject;
+}
+
+WbProject *WbProject::extraDefaultProject() {
+  if (gExtraDefaultProject == NULL && !WbPreferences::instance()->value("General/extraProjectsPath").toString().isEmpty() &&
+      QDir(WbPreferences::instance()->value("General/extraProjectsPath").toString() + "/default/").exists()) {
+    gExtraDefaultProject =
+      new WbProject(WbPreferences::instance()->value("General/extraProjectsPath").toString() + "/default/");
+    qAddPostRoutine(WbProject::cleanupExtraDefaultProject);
+  }
+  return gExtraDefaultProject;
 }
 
 WbProject *WbProject::system() {

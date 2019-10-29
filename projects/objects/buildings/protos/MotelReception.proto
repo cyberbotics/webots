@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # tags: static
@@ -22,29 +22,12 @@ PROTO MotelReception [
     children [
       Shape {
         appearance PBRAppearance {
-          baseColorMap ImageTexture {
-            url [
-              "textures/motel_receptio_neon_base_color.jpg"
-            ]
-          }
-          roughnessMap ImageTexture {
-            url [
-              "textures/motel_receptio_neon_roughness.jpg"
-            ]
-          }
-          metalnessMap ImageTexture {
-            url [
-              "textures/motel_receptio_neon_metalness.jpg"
-            ]
-          }
-          normalMap ImageTexture {
-            url [
-              "textures/motel_receptio_neon_normal.jpg"
-            ]
-          }
+          baseColor 0.324 0.05 0.046
+          roughness 0.12
+          metalness 0
           occlusionMap ImageTexture {
             url [
-              "textures/motel_receptio_neon_occlusion.jpg"
+              "textures/motel_reception_neon_occlusion.jpg"
             ]
           }
         }

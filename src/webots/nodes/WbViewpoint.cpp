@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -351,11 +351,11 @@ void WbViewpoint::updateLensFlare() {
 }
 
 void WbViewpoint::updateAmbientOcclusionRadius() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mAmbientOcclusionRadius, 2.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mAmbientOcclusionRadius, 2.0);
 }
 
 void WbViewpoint::updateBloomThreshold() {
-  WbFieldChecker::checkDoubleIsNonNegativeOrDisabled(this, mBloomThreshold, 10.0, -1.0);
+  WbFieldChecker::resetDoubleIfNegativeAndNotDisabled(this, mBloomThreshold, 21.0, -1.0);
 }
 
 WbLensFlare *WbViewpoint::lensFlare() const {
@@ -560,7 +560,7 @@ void WbViewpoint::showCoordinateSystem(bool visible) {
 /////////////////////
 
 void WbViewpoint::updateFieldOfView() {
-  if (WbFieldChecker::checkDoubleInRangeWithExcludedBounds(this, mFieldOfView, 0.0, M_PI, M_PI_2))
+  if (WbFieldChecker::resetDoubleIfNotInRangeWithExcludedBounds(this, mFieldOfView, 0.0, M_PI, M_PI_2))
     return;
 
   updateFieldOfViewY();
@@ -586,7 +586,7 @@ void WbViewpoint::updatePosition() {
 }
 
 void WbViewpoint::updateNear() {
-  if (WbFieldChecker::checkDoubleIsPositive(this, mNear, 0.05))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mNear, 0.05))
     return;
 
   if (mFar->value() > 0.0 and mFar->value() < mNear->value()) {
@@ -599,7 +599,7 @@ void WbViewpoint::updateNear() {
 }
 
 void WbViewpoint::updateFar() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mFar, 0.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mFar, 0.0))
     return;
 
   if (mFar->value() > 0.0 and mFar->value() < mNear->value()) {
@@ -613,7 +613,7 @@ void WbViewpoint::updateFar() {
 }
 
 void WbViewpoint::updateExposure() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mExposure, 1.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mExposure, 1.0))
     return;
 
 #ifdef _WIN32
@@ -1115,7 +1115,7 @@ void WbViewpoint::updatePostProcessingEffects() {
     lensFlare()->setup(mWrenViewport);
 
   if (mWrenSmaa) {
-    if (!WbPreferences::instance()->value("OpenGL/SMAA", true).toBool())
+    if (WbPreferences::instance()->value("OpenGL/disableAntiAliasing", true).toBool())
       mWrenSmaa->detachFromViewport();
     else
       mWrenSmaa->setup(mWrenViewport);
@@ -1493,6 +1493,7 @@ void WbViewpoint::exportNodeFields(WbVrmlWriter &writer) const {
   WbBaseNode::exportNodeFields(writer);
 
   if (writer.isX3d()) {
+    writer << " exposure=\'" << mExposure->value() << "\'";
     writer << " zNear=\'" << mNear->value() << "\'";
     writer << " followSmoothness=\'" << mFollowSmoothness->value() << "\'";
     if (mFollowedSolid)

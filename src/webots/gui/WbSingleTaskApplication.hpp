@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ class WbSingleTaskApplication : public QObject {
   Q_OBJECT
 
 public:
-  WbSingleTaskApplication(WbGuiApplication::Task task, const QString &taskArgument = QString(), QObject *parent = 0) :
+  explicit WbSingleTaskApplication(WbGuiApplication::Task task, const QString &taskArgument = QString(), QObject *parent = 0) :
     QObject(parent),
     mTask(task),
     mTaskArgument(taskArgument) {}

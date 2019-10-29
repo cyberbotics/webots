@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,7 +27,12 @@ endif
 
 .PHONY: release debug profile clean
 
-release debug profile clean: $(TARGETS)
+release debug profile: $(TARGETS)
+	cp python27/*managers.* python  # kept for backward compatibility with < R2019b
+
+clean: $(TARGETS)
+	# Remove python/*managers.* except python/managers.i
+	ls -1 python/*managers.* | grep -v managers.i | xargs rm -f
 
 managers.Makefile: robotis-op2.Makefile
 
@@ -36,5 +41,29 @@ managers.Makefile robotis-op2.Makefile:
 	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
 
 python.Makefile: managers.Makefile
-	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
-	+@$(PYTHON_MAKE) -s -C $(@:.Makefile=) $(MAKECMDGOALS)
+ifeq ($(OSTYPE),linux)
+	@echo "# make" $@ python2.7;
+	+PYTHON_COMMAND=python2.7 make -s -C python $(MAKECMDGOALS)
+ifeq ($(UBUNTU_VERSION), 16.04)
+	@echo "# make" $@ python3.5;
+	+PYTHON_COMMAND=python3.5 make -s -C python $(MAKECMDGOALS)
+endif
+	@echo "# make" $@ python3.6;
+	+PYTHON_COMMAND=python3.6 make -s -C python $(MAKECMDGOALS)
+	@echo "# make" $@ python3.7;
+	+PYTHON_COMMAND=python3.7 make -s -C python $(MAKECMDGOALS)
+	@echo "# make" $@ python3.8;
+	+PYTHON_COMMAND=python3.8 make -s -C python $(MAKECMDGOALS)
+endif
+ifeq ($(OSTYPE),windows)
+	@echo "# make" $@ python3.7;
+	+make -s -C python $(MAKECMDGOALS)
+	@echo "# make" $@ python2.7;
+	+PATH="$(PYTHON27_HOME):$(PATH)" make -s -C python $(MAKECMDGOALS)
+endif
+ifeq ($(OSTYPE),darwin)
+	@echo "# make" $@ python2.7;
+	+make -s -C python $(MAKECMDGOALS)
+	@echo "# make" $@ python3.7;
+	+PYTHON_COMMAND=python3.7 make -s -C python $(MAKECMDGOALS)
+endif

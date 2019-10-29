@@ -6,7 +6,7 @@ A configurable standard ceiling.
 
 %figure
 
-![Ceiling](images/objects/apartment_structure/Ceiling/model.png)
+![Ceiling](images/objects/apartment_structure/Ceiling/model.thumbnail.png)
 
 %end
 
@@ -21,10 +21,11 @@ Ceiling {
   SFVec2f    size             10 10
   SFNode     appearance       Roughcast { textureTransform TextureTransform { scale 10 10 } }
   SFBool     locked           TRUE
+  SFBool     castShadows      TRUE
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/apartment_structure/protos/Ceiling.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/Ceiling.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/apartment_structure/protos/Ceiling.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -35,13 +36,15 @@ Ceiling {
 
 - `appearance`: Defines the appearance of the ceiling.
 
+- `castShadows`: Defines whether this object should cast shadows.
+
 ## Door
 
 A cutomizable openable door.
 
 %figure
 
-![Door](images/objects/apartment_structure/Door/model.png)
+![Door](images/objects/apartment_structure/Door/model.thumbnail.png)
 
 %end
 
@@ -64,10 +67,11 @@ Door {
   SFNode     wallAppearance         Roughcast {}
   SFNode     frameAppearance        VarnishedPine {}
   SFNode     doorHandle             DoorLever {}
+  SFBool     castShadows            TRUE
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/apartment_structure/protos/Door.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/Door.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/apartment_structure/protos/Door.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -98,6 +102,8 @@ Door {
 
 - `doorHandle`: Defines an optional door handle.
 
+- `castShadows`: Defines whether this object should cast shadows.
+
 ## DoorKnob
 
 A door knob.
@@ -105,7 +111,7 @@ This object can be used in the 'doorHandle' field of the Door object.
 
 %figure
 
-![DoorKnob](images/objects/apartment_structure/DoorKnob/model.png)
+![DoorKnob](images/objects/apartment_structure/DoorKnob/model.thumbnail.png)
 
 %end
 
@@ -121,10 +127,11 @@ DoorKnob {
   SFFloat    distanceFromDoor 0.065
   SFNode     appearance       BrushedAluminium {}
   SFFloat    mass             0.7
+  SFBool     castShadows      TRUE
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/apartment_structure/protos/DoorKnob.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/DoorKnob.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/apartment_structure/protos/DoorKnob.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -141,6 +148,8 @@ DoorKnob {
 
 - `mass`: Defines the mass of the handle.
 
+- `castShadows`: Defines whether this object should cast shadows.
+
 ## DoorLever
 
 A door lever.
@@ -148,7 +157,7 @@ This object can be used in the 'doorHandle' field of the Door object.
 
 %figure
 
-![DoorLever](images/objects/apartment_structure/DoorLever/model.png)
+![DoorLever](images/objects/apartment_structure/DoorLever/model.thumbnail.png)
 
 %end
 
@@ -168,10 +177,11 @@ DoorLever {
   SFNode     appearance       BrushedAluminium {}
   SFFloat    mass             0.7
   SFBool     hasStaticParent  FALSE
+  SFBool     castShadows      TRUE
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/apartment_structure/protos/DoorLever.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/DoorLever.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/apartment_structure/protos/DoorLever.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -196,13 +206,15 @@ DoorLever {
 
 - `hasStaticParent`: Defines whether the parent door has physics or not.
 
+- `castShadows`: Defines whether this object should cast shadows.
+
 ## GenericDoorAppearance
 
 A generic varnished, painted wooden door's appearance.
 
 %figure
 
-![GenericDoorAppearance](images/objects/apartment_structure/GenericDoorAppearance/model.png)
+![GenericDoorAppearance](images/objects/apartment_structure/GenericDoorAppearance/model.thumbnail.png)
 
 %end
 
@@ -211,11 +223,10 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 ```
 GenericDoorAppearance {
   SFColor colorOverride  1 1 1
-  SFNode  environmentMap   NULL
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/apartment_structure/protos/GenericDoorAppearance.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/GenericDoorAppearance.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/apartment_structure/protos/GenericDoorAppearance.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -224,7 +235,42 @@ GenericDoorAppearance {
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+## Radiator
+
+A radiator with a variable number of fins and optional bounding object.
+
+%figure
+
+![Radiator](images/objects/apartment_structure/Radiator/model.thumbnail.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+Radiator {
+  SFVec3f    translation           0 0 0
+  SFRotation rotation              0 1 0 0
+  SFString   name                  "radiator"
+  SFInt32    numberOfFins          10
+  SFNode     finAppearance         Roughcast { textureTransform TextureTransform { scale 3 3 } }
+  SFNode     tubeAppearance        HammeredCopper { }
+  SFBool     enableBoundingObject  TRUE
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/Radiator.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/apartment_structure/protos/Radiator.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+### Radiator Field Summary
+
+- `finAppearance`: Defines the appearance of the fins.
+
+- `tubeAppearance`: Defines the appearance of the input and ouput tubes.
+
+- `enableBoundingObject`: Defines whether the radiator should have a bounding object.
 
 ## Wall
 
@@ -232,7 +278,7 @@ A customizable wall.
 
 %figure
 
-![Wall](images/objects/apartment_structure/Wall/model.png)
+![Wall](images/objects/apartment_structure/Wall/model.thumbnail.png)
 
 %end
 
@@ -248,7 +294,7 @@ Wall {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/apartment_structure/protos/Wall.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/Wall.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/apartment_structure/protos/Wall.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -259,13 +305,49 @@ Wall {
 
 - `appearance`: Defines the appearance of the wall.
 
+## WallPlug
+
+An electrical wall plug with optional bounding object.
+
+%figure
+
+![WallPlug](images/objects/apartment_structure/WallPlug/model.thumbnail.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+WallPlug {
+  SFVec3f    translation            0 0 0
+  SFRotation rotation               0 1 0 0
+  SFString   name                   "wall plug"
+  SFColor    mainColor              1 1 1
+  SFColor    secondaryColor         0 0 0
+  SFBool     enableBoundingObject   TRUE
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/WallPlug.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/apartment_structure/protos/WallPlug.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+### WallPlug Field Summary
+
+- `mainColor`: Defines the main color of the plug.
+
+- `secondaryColor`: Defines the secondary color of the plug.
+
+- `enableBoundingObject`: Defines whether the plug should have a bounding object.
+
 ## Window
 
 A customizable window including walls above and below.
 
 %figure
 
-![Window](images/objects/apartment_structure/Window/model.png)
+![Window](images/objects/apartment_structure/Window/model.thumbnail.png)
 
 %end
 
@@ -284,10 +366,11 @@ Window {
   SFVec2f    windowSillSize         0.1 0.05
   SFNode     wallAppearance         Roughcast {}
   SFNode     frameAppearance        VarnishedPine {}
+  SFBool     castShadows            TRUE
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/apartment_structure/protos/Window.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/Window.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/apartment_structure/protos/Window.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -309,4 +392,6 @@ Window {
 - `wallAppearance`: Defines the appearance of the wall.
 
 - `frameAppearance`: Defines the appearance of the frame.
+
+- `castShadows`: Defines whether this object should cast shadows.
 

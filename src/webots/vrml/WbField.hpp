@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,10 +38,10 @@ class WbField : public QObject {
 
 public:
   // create from a field model
-  WbField(const WbFieldModel *model, WbNode *parentNode = NULL);
+  explicit WbField(const WbFieldModel *model, WbNode *parentNode = NULL);
 
   // create by copying another field
-  WbField(const WbField &other, WbNode *parentNode = NULL);
+  explicit WbField(const WbField &other, WbNode *parentNode = NULL);
   virtual ~WbField();
 
   // the field's model

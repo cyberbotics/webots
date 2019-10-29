@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -351,11 +351,11 @@ void WbGroup::writeParameters(WbVrmlWriter &writer) const {
       }
       const PositionMap *const m = hkp->positions();
       if (m) {
-        const PositionMap::const_iterator end = m->constEnd();
-        for (PositionMap::const_iterator i = m->constBegin(); i != end; ++i) {
-          const WbVector3 *const p = i.value();
+        const PositionMap::const_iterator hkpEnd = m->constEnd();
+        for (PositionMap::const_iterator it = m->constBegin(); it != hkpEnd; ++it) {
+          const WbVector3 *const p = it.value();
           assert(p);
-          const int jointIndex = i.key();
+          const int jointIndex = it.key();
           for (int j = 0; j < 2; ++j) {
             const double pj = (*p)[j];
             if (!std::isnan(pj)) {

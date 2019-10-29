@@ -22,7 +22,7 @@ As for a regular [Robot](robot.md) controller, the `wb_robot_init`, `wb_robot_st
 #### `wb_supervisor_node_get_from_id`
 #### `wb_supervisor_node_get_selected`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -92,7 +92,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 node = wb_supervisor_node_get_root()
 node = wb_supervisor_node_get_self()
 node = wb_supervisor_node_get_from_def('def')
@@ -155,7 +155,7 @@ If no node is currently selected, the function returns NULL.
 #### `wb_supervisor_node_get_id`
 #### `wb_supervisor_node_get_parent_node`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -217,7 +217,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 id = wb_supervisor_node_get_id(node)
 s = wb_supervisor_node_get_def(node)
 node = wb_supervisor_node_get_parent_node(node)
@@ -254,7 +254,7 @@ The `wb_supervisor_node_get_parent_node` function retrieves the reference to the
 #### `wb_supervisor_node_get_type_name`
 #### `wb_supervisor_node_get_base_type_name`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -467,7 +467,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_NODE_NO_NODE,
 % 3D rendering
 WB_NODE_APPEARANCE, WB_NODE_BACKGROUND, WB_NODE_BOX, WB_NODE_CAPSULE,
@@ -540,7 +540,7 @@ These integers can be directly compared with the output of the `Node::getType` f
 
 #### `wb_supervisor_node_remove`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -594,7 +594,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_node_remove(node)
 ```
 
@@ -620,7 +620,7 @@ The `wb_supervisor_node_remove` function removes the node specified as an argume
 
 #### `wb_supervisor_node_get_field`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -674,7 +674,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 field = wb_supervisor_node_get_field(node, 'field_name')
 ```
 
@@ -707,7 +707,7 @@ Otherwise, it returns a handler to a field.
 #### `wb_supervisor_node_get_position`
 #### `wb_supervisor_node_get_orientation`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -765,7 +765,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 position = wb_supervisor_node_get_position(node)
 orientation = wb_supervisor_node_get_orientation(node)
 ```
@@ -816,7 +816,7 @@ p' = R * p + T
 
 Where *p* is a point whose coordinates are given with respect to the local coordinate system of a node, *R* the rotation matrix returned by the `wb_supervisor_node_get_orientation` function, *T* is the position returned by the `wb_supervisor_node_get_position` function and *p'* represents the same point but this time with coordinates expressed in the global (world) coordinate system.
 
-The "WEBOTS\_HOME/projects/robots/ipr/worlds/ipr\_cube.wbt" project shows how to use these functions to do this.
+The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt](https://github.com/cyberbotics/webots/tree/master/projects/robots/neuronics/ipr/worlds/ipr_cube.wbt)" simulation shows how to use these functions to achieve this.
 
 > **Note**: The returned pointers are valid during one time step only as memory will be deallocated at the next time step.
 
@@ -824,7 +824,7 @@ The "WEBOTS\_HOME/projects/robots/ipr/worlds/ipr\_cube.wbt" project shows how to
 
 #### `wb_supervisor_node_get_center_of_mass`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -878,7 +878,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 com = wb_supervisor_node_get_center_of_mass(node)
 ```
 
@@ -903,7 +903,7 @@ The `node` argument must be a [Solid](solid.md) node (or a derived node), otherw
 This function returns a vector containing exactly 3 values.
 If the `node` argument has a `NULL` `physics` node, the return value is always the zero vector.
 
-The "WEBOTS\_HOME/projects/samples/.wbt" project shows how to use this function.
+The "[WEBOTS\_HOME/projects/samples/howto/worlds/center\_of\_mass.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/worlds/center_of_mass.wbt)" simulation shows how to use this function.
 
 > **Note**: The returned pointer is valid during one time step only as memory will be deallocated at the next time step.
 
@@ -912,7 +912,7 @@ The "WEBOTS\_HOME/projects/samples/.wbt" project shows how to use this function.
 #### `wb_supervisor_node_get_contact_point`
 #### `wb_supervisor_node_get_number_of_contact_points`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -970,7 +970,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 contact_point = wb_supervisor_node_get_contact_point(node, index)
 number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node)
 ```
@@ -1002,7 +1002,7 @@ The `node` argument must be a [Solid](solid.md) node (or a derived node), which 
 The `wb_supervisor_node_get_number_of_contact_points` function returns the number of contact points of the given `Solid`.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent, otherwise the function will print a warning message and return `-1`.
 
-The "WEBOTS\_HOME/projects/samples/howto/worlds/cylinder\_stack.wbt" project shows how to use this function.
+The "[WEBOTS\_HOME/projects/samples/howto/worlds/cylinder\_stack.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/worlds/cylinder_stack.wbt)" project shows how to use this function.
 
 > **Note**: The returned pointer is valid during one time step only as memory will be deallocated at the next time step.
 
@@ -1010,7 +1010,7 @@ The "WEBOTS\_HOME/projects/samples/howto/worlds/cylinder\_stack.wbt" project sho
 
 #### `wb_supervisor_node_get_static_balance`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1064,7 +1064,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 balance = wb_supervisor_node_get_static_balance(node)
 ```
 
@@ -1095,7 +1095,7 @@ The test consists in checking whether the projection of the center of mass onto 
 #### `wb_supervisor_node_get_velocity`
 #### `wb_supervisor_node_set_velocity`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1153,7 +1153,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 velocity = wb_supervisor_node_get_velocity(node)
 wb_supervisor_node_set_velocity(node, velocity)
 ```
@@ -1191,7 +1191,7 @@ The last three are respectively the angular velocities around the x, y and z axe
 
 #### `wb_supervisor_node_reset_physics`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1245,7 +1245,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_node_reset_physics(node)
 ```
 
@@ -1275,7 +1275,7 @@ To stop the inertia of all available solids please refer to [this section](#wb_s
 
 #### `wb_supervisor_node_restart_controller`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1329,7 +1329,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_node_restart_controller(node)
 ```
 
@@ -1357,7 +1357,7 @@ Note that if a robot window is specified for the [Robot](robot.md) node, the rob
 
 #### `wb_supervisor_node_move_viewpoint`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1411,7 +1411,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_node_move_viewpoint(node)
 ```
 
@@ -1438,7 +1438,7 @@ Calling this function is equivalent to using the 'Move Viewpoint to Object' menu
 
 #### `wb_supervisor_node_set_visibility`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1492,7 +1492,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_node_set_visibility(node, from, visible)
 ```
 
@@ -1525,7 +1525,7 @@ It is relevant to show a node only if it was previously hidden using this functi
 
 #### `wb_supervisor_set_label`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1581,7 +1581,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_set_label(id, 'text', x, y, size, [r g b], transparency)
 ```
 
@@ -1659,7 +1659,7 @@ For example the vector `[1 0 1]` represents the magenta color.
 
 #### `wb_supervisor_simulation_quit`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1713,7 +1713,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_simulation_quit(status)
 ```
 
@@ -1799,7 +1799,7 @@ int main(int argc, char *argv[]) {
 #### `wb_supervisor_simulation_get_mode`
 #### `wb_supervisor_simulation_set_mode`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1872,7 +1872,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_SUPERVISOR_SIMULATION_MODE_PAUSE, WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME, WB_SUPERVISOR_SIMULATION_MODE_RUN, WB_SUPERVISOR_SIMULATION_MODE_FAST
 
 mode = wb_supervisor_simulation_get_mode()
@@ -1922,7 +1922,7 @@ The current simulation mode can also be modified by the Webots user, when he's c
 
 #### `wb_supervisor_simulation_reset`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1976,7 +1976,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_simulation_reset()
 ```
 
@@ -2005,7 +2005,7 @@ You may wish to save some data in a file from your supervisor and robot controll
 
 #### `wb_supervisor_simulation_reset_physics`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -2059,7 +2059,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_simulation_reset_physics()
 ```
 
@@ -2091,7 +2091,7 @@ To stop the inertia of a single [Solid](solid.md) node please refer to [this sec
 #### `wb_supervisor_world_save`
 #### `wb_supervisor_world_reload`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -2155,7 +2155,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_world_load('filename')
 success = wb_supervisor_world_save()
 success = wb_supervisor_world_save('filename')
@@ -2203,7 +2203,7 @@ You may wish to save some data in a file from your supervisor and robot controll
 
 #### `wb_supervisor_export_image`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -2257,7 +2257,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_export_image('filename', quality)
 ```
 
@@ -2296,7 +2296,7 @@ In this example, the [Supervisor](#supervisor) controller takes a snapshot image
 #### `wb_supervisor_movie_is_ready`
 #### `wb_supervisor_movie_failed`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -2362,7 +2362,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_movie_start_recording('filename', width, height, codec, quality,
 acceleration, caption)
 wb_supervisor_movie_stop_recording()
@@ -2417,7 +2417,7 @@ After starting a new recording process the returned value is reset to `FALSE`.
 #### `wb_supervisor_animation_start_recording`
 #### `wb_supervisor_animation_stop_recording`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -2475,7 +2475,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 success = wb_supervisor_animation_start_recording('filename')
 success = wb_supervisor_animation_stop_recording()
 ```
@@ -2513,7 +2513,7 @@ Both `wb_supervisor_animation_start_recording` and `wb_supervisor_animation_stop
 #### `wb_supervisor_field_get_type_name`
 #### `wb_supervisor_field_get_count`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -2593,7 +2593,7 @@ public class Field {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_SF_BOOL, WB_SF_INT32, WB_SF_FLOAT, WB_SF_VEC2F, WB_SF_VEC3F, WB_SF_ROTATION, WB_SF_COLOR,
 WB_SF_STRING, WB_SF_NODE, WB_MF, WB_MF_INT32, WB_MF_FLOAT, B_MF_VEC2F, WB_MF_VEC3F,
 WB_MF_COLOR, WB_MF_STRING, WB_MF_NODE
@@ -2657,7 +2657,7 @@ These integers can be directly compared with the output of the `Field::getType` 
 #### `wb_supervisor_field_get_mf_string`
 #### `wb_supervisor_field_get_mf_node`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -2779,7 +2779,7 @@ public class Field {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 b = wb_supervisor_field_get_sf_bool(field)
 i = wb_supervisor_field_get_sf_int32(field)
 f = wb_supervisor_field_get_sf_float(field)
@@ -2854,7 +2854,7 @@ The type of the field has to match the name of the function used and the index s
 #### `wb_supervisor_field_set_mf_color`
 #### `wb_supervisor_field_set_mf_string`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -2968,7 +2968,7 @@ public class Field {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_field_set_sf_bool(field, value)
 wb_supervisor_field_set_sf_int32(field, value)
 wb_supervisor_field_set_sf_float(field, value)
@@ -3046,7 +3046,7 @@ The "soccer.wbt" world, located in the "projects/samples/demos/worlds" directory
 #### `wb_supervisor_field_insert_mf_string`
 #### `wb_supervisor_field_remove_mf`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -3140,7 +3140,7 @@ public class Field {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_field_insert_mf_bool(field, index, value)
 wb_supervisor_field_insert_mf_int32(field, index, value)
 wb_supervisor_field_insert_mf_float(field, index, value)
@@ -3196,7 +3196,7 @@ The `wb_supervisor_field_remove_mf` function removes an item from a specified mu
 #### `wb_supervisor_field_import_mf_node`
 #### `wb_supervisor_field_import_mf_node_from_string`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -3254,7 +3254,7 @@ public class Field {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_field_import_mf_node(field, position, 'filename')
 wb_supervisor_field_import_mf_node_from_string(field, position, 'node_string')
 ```
@@ -3328,7 +3328,7 @@ For example, a device imported into a Robot node doesn't reset the Robot, so the
 #### `wb_supervisor_virtual_reality_headset_get_position`
 #### `wb_supervisor_virtual_reality_headset_get_orientation`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -3390,7 +3390,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 used = wb_supervisor_virtual_reality_headset_is_used()
 position = wb_supervisor_virtual_reality_headset_get_position()
 orientation = wb_supervisor_virtual_reality_headset_get_orientation()

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -125,10 +125,8 @@ WbPhysicsPlugin *WbPhysicsPlugin::instance() {
   return gInstance;
 }
 
-WbPhysicsPlugin::WbPhysicsPlugin(const QString &name) : WbPlugin(name) {
+WbPhysicsPlugin::WbPhysicsPlugin(const QString &name) : WbPlugin(name), mResetReceiverBufferFlag(false), mCurrentGroupID(0) {
   gInstance = this;
-  mResetReceiverBufferFlag = false;
-  mCurrentGroupID = 0;
 }
 
 WbPhysicsPlugin::~WbPhysicsPlugin() {

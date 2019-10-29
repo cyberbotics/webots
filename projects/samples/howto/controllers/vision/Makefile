@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ USE_C_API = true
 ifeq ($(OSTYPE),windows)
   OPENCV_VERSION := $(subst .,,$(shell opencv_version))
   INCLUDE = -I/mingw64/include/opencv4
-  LIBRARIES = -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -L/mingw64/bin -lopencv_core$(OPENCV_VERSION) -lopencv_imgproc$(OPENCV_VERSION)
+  LIBRARIES = -L/mingw64/bin -lopencv_core$(OPENCV_VERSION) -lopencv_imgproc$(OPENCV_VERSION)
 else
   INCLUDE = -I"$(WEBOTS_HOME)/include"
   LIBRARIES = -L"$(WEBOTS_HOME)/lib" -lopencv_core -lopencv_imgproc

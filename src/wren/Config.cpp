@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -59,7 +59,7 @@ namespace wren {
       cShowBoundingSpheres = show;
       if (show) {
         if (!cSphereMesh)
-          cSphereMesh = StaticMesh::createUnitSphere(2);
+          cSphereMesh = StaticMesh::createUnitIcosphere(2);
       } else if (cSphereMesh) {
         Mesh::deleteMesh(cSphereMesh);
         cSphereMesh = NULL;

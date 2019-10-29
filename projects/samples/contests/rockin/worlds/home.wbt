@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "RoCKIn@Home"
@@ -16,7 +16,7 @@ Viewpoint {
 TexturedBackground {
 }
 PointLight {
-  attenuation 1 0 1
+  attenuation 0 0 1
   intensity 5
   location 2.5 1.8 6
 }
@@ -604,12 +604,10 @@ PottedTree {
 FloorLight {
   translation 4 0 8
   name "floor light(1)"
-  pointLightAttenuation 0 0 1
   pointLightIntensity 0.1
 }
 FloorLight {
   translation 0.3 0 5
-  pointLightAttenuation 0 0 1
   pointLightIntensity 0.1
 }
 LandscapePainting {

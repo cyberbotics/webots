@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -264,10 +264,10 @@ bool WbRenderingDevice::areOverlaysEnabled() const {
   if (WbVirtualRealityHeadset::isInUse())
     return false;
 #endif
-  // cppcheck-suppress redundantCondition
+  // cppcheck-suppress knownConditionTrueFalse
   if (nodeType() == WB_NODE_CAMERA)
     return !WbPreferences::instance()->value("View3d/hideAllCameraOverlays").toBool();
-  // cppcheck-suppress redundantCondition
+  // cppcheck-suppress knownConditionTrueFalse
   if (nodeType() == WB_NODE_RANGE_FINDER)
     return !WbPreferences::instance()->value("View3d/hideAllRangeFinderOverlays").toBool();
   return !WbPreferences::instance()->value("View3d/hideAllDisplayOverlays").toBool();

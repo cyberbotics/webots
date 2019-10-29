@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -55,7 +55,6 @@ void Camera::computeZoom() {
   if (mLinearCamera)
     mZoom = 480 / mWidth;
   else {
-    mZoom = 1;
     if ((double)mWidth / 480 > (double)mHeight / 640) {
       // dynamic zoom
       mZoom = 480 / mWidth;

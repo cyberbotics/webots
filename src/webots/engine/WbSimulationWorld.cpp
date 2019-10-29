@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -59,8 +59,6 @@ WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer
   WbSimulationState::instance()->resetTime();
   // Reset random seed to ensure reproducible simulations.
   updateRandomSeed();
-  setThreadingPolicy();
-  connect(WbPreferences::instance(), &WbPreferences::changedByUser, this, &WbSimulationWorld::setThreadingPolicy);
   updateNumberOfThreads();
   connect(WbPreferences::instance(), &WbPreferences::changedByUser, this, &WbSimulationWorld::updateNumberOfThreads);
 
@@ -318,14 +316,6 @@ void WbSimulationWorld::updateRandomSeed() {
     seed = QDateTime::currentMSecsSinceEpoch() + QCoreApplication::applicationPid();
   WbRandom::setSeed(seed);  // Webots random seed
   dRandSetSeed(seed);       // ODE random seed
-}
-
-void WbSimulationWorld::setThreadingPolicy() {
-  int policy = WbPreferences::instance()->value("General/threadingPolicy", 0).toInt();
-  if (policy == 1)
-    qputenv("OMP_WAIT_POLICY", QString("ACTIVE").toUtf8());
-  else
-    qputenv("OMP_WAIT_POLICY", QString("PASSIVE").toUtf8());
 }
 
 void WbSimulationWorld::storeLastSaveTime() {

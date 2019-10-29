@@ -1,3 +1,5 @@
+#VRML_SIM R2019b utf8
+
 PROTO TemplateObjectBasePart [
   field SFFloat r 0.2
 ]

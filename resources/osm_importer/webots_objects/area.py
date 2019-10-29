@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -78,7 +78,10 @@ class Area(WebotsObject):
         """Check if a list of points is defined in a clockwise maner."""
         total = 0
         for i in range(0, len(referenceList)):
-            total = total + (OSMCoord.coordDictionnary[referenceList[i]].x - OSMCoord.coordDictionnary[referenceList[i - 1]].x) * (OSMCoord.coordDictionnary[referenceList[i]].z + OSMCoord.coordDictionnary[referenceList[i - 1]].z)
+            total = total + (OSMCoord.coordDictionnary[referenceList[i]].x -
+                             OSMCoord.coordDictionnary[referenceList[i - 1]].x) * \
+                (OSMCoord.coordDictionnary[referenceList[i]].z +
+                 OSMCoord.coordDictionnary[referenceList[i - 1]].z)
         if total >= 0:
             return True
         else:
@@ -104,11 +107,12 @@ class Area(WebotsObject):
         return inside
 
     @staticmethod
-    def draw_area(file, refs, red=1, green=0, blue=0, defName="", transparency=0.0, texture="", drawFlat=False, verticalOffset=0.0):
+    def draw_area(file, refs, red=1, green=0, blue=0, defName="", transparency=0.0, texture="", drawFlat=False,
+                  verticalOffset=0.0):
         """Draw an area."""
         if len(refs) < 3:
             return
-        if not defName == "":
+        if defName:
             file.write("DEF " + defName + " " + "Transform {\n")
         else:
             file.write("Transform {\n")
@@ -120,7 +124,7 @@ class Area(WebotsObject):
             file.write("        transparency " + str(transparency) + "\n")
         file.write("        roughness 1\n")
         file.write("        metalness 0\n")
-        if not texture == "":
+        if texture:
             file.write("        baseColorMap ImageTexture {\n")
             file.write("          url [\n")
             file.write("            \"" + texture + "\"\n")
@@ -146,9 +150,17 @@ class Area(WebotsObject):
         for ref in refs:
             if ref in OSMCoord.coordDictionnary:
                 if drawFlat:
-                    file.write("            %.2f %.2f %.2f,\n" % (OSMCoord.coordDictionnary[ref].x - OSMCoord.coordDictionnary[refs[0]].x, height + verticalOffset, OSMCoord.coordDictionnary[ref].z - OSMCoord.coordDictionnary[refs[0]].z))
+                    file.write("            %.2f %.2f %.2f,\n" % (OSMCoord.coordDictionnary[ref].x -
+                                                                  OSMCoord.coordDictionnary[refs[0]].x,
+                                                                  height + verticalOffset,
+                                                                  OSMCoord.coordDictionnary[ref].z -
+                                                                  OSMCoord.coordDictionnary[refs[0]].z))
                 else:
-                    file.write("            %.2f %.2f %.2f,\n" % (OSMCoord.coordDictionnary[ref].x - OSMCoord.coordDictionnary[refs[0]].x, OSMCoord.coordDictionnary[ref].y + verticalOffset, OSMCoord.coordDictionnary[ref].z - OSMCoord.coordDictionnary[refs[0]].z))
+                    file.write("            %.2f %.2f %.2f,\n" % (OSMCoord.coordDictionnary[ref].x -
+                                                                  OSMCoord.coordDictionnary[refs[0]].x,
+                                                                  OSMCoord.coordDictionnary[ref].y + verticalOffset,
+                                                                  OSMCoord.coordDictionnary[ref].z -
+                                                                  OSMCoord.coordDictionnary[refs[0]].z))
             else:
                 print("Warning: node " + str(ref) + " not referenced.")
         file.write("          ]\n")
@@ -212,7 +224,8 @@ class Area(WebotsObject):
             else:
                 verticalOffset = -0.01 if area.type == 'parking' else 0.0
                 drawFlat = True if area.type == 'water' else False
-                Area.draw_area(file, area.ref, area.color[0], area.color[1], area.color[2], defName, area.transparency, area.texture, verticalOffset=verticalOffset, drawFlat=drawFlat)
+                Area.draw_area(file, area.ref, area.color[0], area.color[1], area.color[2], defName, area.transparency,
+                               area.texture, verticalOffset=verticalOffset, drawFlat=drawFlat)
 
     def generate_tree_file(self, folder):
         """Generate the 'forest' file which contains the tree positions and is used by the 'Forest' PROTO."""
@@ -225,19 +238,22 @@ class Area(WebotsObject):
         numberOfTree = int(round((xMax - xMin) * (zMax - zMin)) * self.density)
         if not os.path.exists(folder + '/forest'):
             os.makedirs(folder + '/forest')
-        file = open(folder + '/forest/' + str(self.OSMID) + '.forest', 'w')
-        for index in range(0, numberOfTree):
-            x = random.uniform(xMin, xMax)
-            z = random.uniform(zMin, zMax)
-            y = 0
-            if WebotsObject.elevation is not None:
-                y = WebotsObject.elevation.interpolate_height(-x + WebotsObject.xOffset, z + WebotsObject.zOffset)
-            if Area.is_point_in_polygon(x, z, polygon) is True:
-                treeNumber = treeNumber + 1
-                file.write("%.2f,%.2f,%.2f\n" % (x, y, z))
-        file.close()
+        forestRelativePath = 'forest/' + str(self.OSMID) + '.forest'
+        forestPath = folder + '/' + forestRelativePath
+        with open(forestPath, 'w') as file:
+            for index in range(0, numberOfTree):
+                x = random.uniform(xMin, xMax)
+                z = random.uniform(zMin, zMax)
+                y = 0
+                if WebotsObject.elevation is not None:
+                    y = WebotsObject.elevation.interpolate_height(-x + WebotsObject.xOffset, z + WebotsObject.zOffset)
+                if Area.is_point_in_polygon(x, z, polygon) is True:
+                    treeNumber = treeNumber + 1
+                    file.write("%.2f,%.2f,%.2f\n" % (x, y, z))
+
         if treeNumber > 0:
-            return 'forest/' + str(self.OSMID) + '.forest'
+            return forestRelativePath
         else:
-            os.remove('forest/' + str(self.OSMID) + '.forest')
+            if os.path.isfile(forestPath):
+                os.remove(forestPath)
             return None

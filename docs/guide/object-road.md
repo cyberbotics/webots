@@ -10,7 +10,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![Road](images/objects/road/Road/model.png)
+![Road](images/objects/road/Road/model.thumbnail.png)
 
 %end
 
@@ -60,7 +60,7 @@ Road {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/road/protos/Road.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/Road.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/Road.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -145,7 +145,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![AddLaneRoadSegment](images/objects/road/AddLaneRoadSegment/model.png)
+![AddLaneRoadSegment](images/objects/road/AddLaneRoadSegment/model.thumbnail.png)
 
 %end
 
@@ -187,7 +187,7 @@ AddLaneRoadSegment {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/road/protos/AddLaneRoadSegment.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/AddLaneRoadSegment.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/AddLaneRoadSegment.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -256,7 +256,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![AddLanesRoadSegment](images/objects/road/AddLanesRoadSegment/model.png)
+![AddLanesRoadSegment](images/objects/road/AddLanesRoadSegment/model.thumbnail.png)
 
 %end
 
@@ -299,7 +299,7 @@ AddLanesRoadSegment {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/road/protos/AddLanesRoadSegment.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/AddLanesRoadSegment.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/AddLanesRoadSegment.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -368,7 +368,7 @@ A customizable crash barrier.
 
 %figure
 
-![CrashBarrier](images/objects/road/CrashBarrier/model.png)
+![CrashBarrier](images/objects/road/CrashBarrier/model.thumbnail.png)
 
 %end
 
@@ -388,7 +388,7 @@ CrashBarrier {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/road/protos/CrashBarrier.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/CrashBarrier.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/CrashBarrier.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -413,7 +413,7 @@ A customizable crossroad which can contain optionally references to its connecte
 
 %figure
 
-![Crossroad](images/objects/road/Crossroad/model.png)
+![Crossroad](images/objects/road/Crossroad/model.thumbnail.png)
 
 %end
 
@@ -437,7 +437,7 @@ Crossroad {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/road/protos/Crossroad.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/Crossroad.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/Crossroad.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -469,7 +469,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![CurvedRoadSegment](images/objects/road/CurvedRoadSegment/model.png)
+![CurvedRoadSegment](images/objects/road/CurvedRoadSegment/model.thumbnail.png)
 
 %end
 
@@ -515,7 +515,7 @@ CurvedRoadSegment {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/road/protos/CurvedRoadSegment.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/CurvedRoadSegment.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/CurvedRoadSegment.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -591,7 +591,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![HelicoidalRoadSegment](images/objects/road/HelicoidalRoadSegment/model.png)
+![HelicoidalRoadSegment](images/objects/road/HelicoidalRoadSegment/model.thumbnail.png)
 
 %end
 
@@ -633,7 +633,7 @@ HelicoidalRoadSegment {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/road/protos/HelicoidalRoadSegment.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/HelicoidalRoadSegment.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/HelicoidalRoadSegment.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -702,7 +702,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![LaneSeparation](images/objects/road/LaneSeparation/model.png)
+![LaneSeparation](images/objects/road/LaneSeparation/model.thumbnail.png)
 
 %end
 
@@ -747,7 +747,7 @@ LaneSeparation {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/road/protos/LaneSeparation.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/LaneSeparation.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/LaneSeparation.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -820,7 +820,7 @@ A simple and customizable roads intersection, all the road are crossing at the s
 
 %figure
 
-![RoadIntersection](images/objects/road/RoadIntersection/model.png)
+![RoadIntersection](images/objects/road/RoadIntersection/model.thumbnail.png)
 
 %end
 
@@ -856,7 +856,7 @@ RoadIntersection {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/road/protos/RoadIntersection.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/RoadIntersection.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/RoadIntersection.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -910,7 +910,7 @@ This node should be used in the `lines` field of a road node.
 
 %figure
 
-![RoadLine](images/objects/road/RoadLine/model.png)
+![RoadLine](images/objects/road/RoadLine/model.thumbnail.png)
 
 %end
 
@@ -924,7 +924,7 @@ RoadLine {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/road/protos/RoadLine.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/RoadLine.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/RoadLine.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -945,7 +945,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![RoadPillars](images/objects/road/RoadPillars/model.png)
+![RoadPillars](images/objects/road/RoadPillars/model.thumbnail.png)
 
 %end
 
@@ -968,7 +968,7 @@ RoadPillars {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/road/protos/RoadPillars.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/RoadPillars.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/RoadPillars.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -999,7 +999,7 @@ A simple and customizable roundabout, all the roads are equally separated in ori
 
 %figure
 
-![Roundabout](images/objects/road/Roundabout/model.png)
+![Roundabout](images/objects/road/Roundabout/model.thumbnail.png)
 
 %end
 
@@ -1041,7 +1041,7 @@ Roundabout {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/road/protos/Roundabout.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/Roundabout.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/Roundabout.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1106,7 +1106,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![StraightRoadSegment](images/objects/road/StraightRoadSegment/model.png)
+![StraightRoadSegment](images/objects/road/StraightRoadSegment/model.thumbnail.png)
 
 %end
 
@@ -1152,7 +1152,7 @@ StraightRoadSegment {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/road/protos/StraightRoadSegment.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/StraightRoadSegment.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/StraightRoadSegment.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

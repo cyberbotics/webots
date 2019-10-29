@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,7 +35,6 @@ public:
   const QString slotType(WbNode *node) override;
   bool validateExistingChildNode(const WbField *field, const WbNode *childNode, const WbNode *node, bool isInBoundingObject,
                                  QString &errorMessage) const override;
-  const QString &modelToVrmlName(const QString &modelName) override;
   void exportAsVrml(const WbNode *node, WbVrmlWriter &writer) override;
 
 private:

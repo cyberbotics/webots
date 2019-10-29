@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -184,6 +184,9 @@ namespace wren {
     if (mPolygonMode != WR_VIEWPORT_POLYGON_MODE_FILL)
       return;
 
+    if (mCamera->flipY())
+      glstate::setFrontFace(GL_CCW);
+
     if (mAmbientOcclusionEffect) {
       if (mFrameBuffer) {
         mAmbientOcclusionEffect->setInputFrameBuffer(mFrameBuffer);
@@ -196,6 +199,9 @@ namespace wren {
 
       mAmbientOcclusionEffect->apply();
     }
+
+    if (mCamera->flipY())
+      glstate::setFrontFace(GL_CW);
   }
 
   void Viewport::applyAntiAliasing() {

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -330,11 +330,6 @@ void WbDragScaleHandleEvent::computeRatio(const QPoint &currentMousePosition) {
 
   if (mScaleRatio <= 0.01)
     mScaleRatio = 1.0;
-
-  // compute and set position of detached handle on the axis
-  WbVector4 handlePositionOnAxis(mTotalScale * mViewDistanceUnscaling * mManipulator->relativeHandlePosition(mHandleNumber));
-  handlePositionOnAxis[mCoordinate] = localMousePosition[mCoordinate] - mLocalMouseOffset;
-  handlePositionOnAxis = mTransform->matrix() * handlePositionOnAxis;  // global position
 }
 
 void WbDragScaleHandleEvent::apply(const QPoint &currentMousePosition) {
@@ -356,6 +351,6 @@ void WbUniformScaleEvent::apply(const QPoint &currentMousePosition) {
   computeRatio(currentMousePosition);
   const WbVector3 &s = mScaleRatio * mTransform->scale();
   mTotalScale *= mScaleRatio;
-  mTransform->setScale(s);
+  mTransform->setScale(s.rounded(WbPrecision::GUI_MEDIUM));
   mManipulator->updateHandleDimensions(mTotalScale, mViewDistanceUnscaling);
 }

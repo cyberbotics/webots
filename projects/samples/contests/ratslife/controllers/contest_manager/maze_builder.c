@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -198,9 +198,9 @@ void build_maze(Maze *maze) {
   // place the internal walls
   LLIST *links = maze->links;
   while (links) {
-    Link *l = links->data;
-    if (l->wall)
-      place_wall(link_get_x_pos(l), link_get_y_pos(l), link_get_angle(l));
+    Link *link = links->data;
+    if (link->wall)
+      place_wall(link_get_x_pos(link), link_get_y_pos(link), link_get_angle(link));
     links = links->next;
   }
 

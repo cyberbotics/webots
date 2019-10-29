@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,10 +26,10 @@ class WbSFInt : public WbSingleValue {
   Q_OBJECT
 
 public:
-  WbSFInt(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
+  WbSFInt(WbTokenizer *tokenizer, const QString &worldPath) { readSFInt(tokenizer, worldPath); }
   WbSFInt(const WbSFInt &other);
   virtual ~WbSFInt() {}
-  void read(WbTokenizer *tokenizer, const QString &worldPath) override;
+  void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFInt(tokenizer, worldPath); }
   void write(WbVrmlWriter &writer) const override { writer << mValue; }
   WbValue *clone() const override { return new WbSFInt(*this); }
   bool equals(const WbValue *other) const override;
@@ -45,6 +45,7 @@ public:
 
 private:
   int mValue;
+  void readSFInt(WbTokenizer *tokenizer, const QString &worldPath);
 };
 
 #endif

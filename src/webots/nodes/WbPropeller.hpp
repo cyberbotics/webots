@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -71,6 +71,7 @@ private:
   WbSFVector3 *mCenterOfThrust;
   WbSFVector2 *mThrustConstants;
   WbSFVector2 *mTorqueConstants;
+  WbSFDouble *mFastHelixThreshold;
   WbSFNode *mDevice;
   WbSFNode *mFastHelix;
   WbSFNode *mSlowHelix;

@@ -64,7 +64,7 @@ Then, after closing the window, the overlay will be automatically restored.
 #### `wb_display_get_width`
 #### `wb_display_get_height`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -122,7 +122,7 @@ public class Display extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 width = wb_display_get_width(tag)
 height = wb_display_get_height(tag)
 ```
@@ -152,7 +152,7 @@ These functions return respectively the values of the `width` and `height` field
 #### `wb_display_set_opacity`
 #### `wb_display_set_font`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -218,7 +218,7 @@ public class Display extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_display_set_color(tag, [r g b])
 wb_display_set_alpha(tag, alpha)
 wb_display_set_opacity(tag, opacity)
@@ -260,7 +260,7 @@ Before the first call to the `wb_display_set_alpha` function, the default value 
 
 The `wb_display_set_opacity` function defines with which opacity the new pixels will replace the old ones for the following drawing instructions.
 It is expressed as a floating point value between 0.0 and 1.0; while 0 means that the new pixel has no effect over the old one and 1 means that the new pixel replaces entirely the old one.
-Only the color channel is affected by the `opacity` according to the [blending](#blending-formula-used-to-compute-the-new-the-color-channels-cn-of-a-pixel-from-the-old-color-channels-co-of-the-background-pixel-and-from-the-opacity) formula.
+Only the color channel is affected by the `opacity` according to the [blending](#blending-formula-used-to-compute-the-new-the-color-channels-of-a-pixel-from-the-old-color-channels-of-the-background-pixel-and-from-the-opacity) formula.
 
 %figure "Blending formula used to compute the new the color channels (Cn) of a pixel from the old color channels (Co) of the background pixel and from the opacity."
 
@@ -297,7 +297,7 @@ For example the vector `[1 0 1]` represents the magenta color.
 #### `wb_display_attach_camera`
 #### `wb_display_detach_camera`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -355,7 +355,7 @@ public class Display extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_display_attach_camera(tag, camera_tag)
 wb_display_detach_camera(tag)
 ```
@@ -395,7 +395,7 @@ After detaching a camera, the pixels that have not been manually drawn will be t
 #### `wb_display_fill_oval`
 #### `wb_display_fill_polygon`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -481,7 +481,7 @@ public class Display extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_display_draw_pixel(tag, x, y)
 wb_display_draw_line(tag, x1, y1, x2, y2)
 wb_display_draw_rectangle(tag, x, y, width, height)
@@ -563,7 +563,7 @@ The `wb_display_fill_polygon` function draws a polygon having the same propertie
 #### `wb_display_image_save`
 #### `wb_display_image_delete`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -663,7 +663,7 @@ public class Display extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 RGB, RGBA, ARGB, BGRA
 
 image = wb_display_image_new(tag, data, format)
@@ -717,7 +717,7 @@ The copied sub-image is defined by its top left coordinate (`x`,`y`) and its dim
 
 The `wb_display_image_paste` function pastes a clipboard image referred to by the `ir` parameter to the main display image.
 The (`x`,`y`) coordinates define the top left point of the pasted image.
-If the `blend` parameter is true, the resulting pixels displayed in the main display image are computed using a blending operation (similar to the one defined in the [blending](#blending-formula-used-to-compute-the-new-the-color-channels-cn-of-a-pixel-from-the-old-color-channels-co-of-the-background-pixel-and-from-the-opacity) formula but involving the alpha channels of the old and new pixels instead of the opacity).
+If the `blend` parameter is true, the resulting pixels displayed in the main display image are computed using a blending operation (similar to the one defined in the [blending](#blending-formula-used-to-compute-the-new-the-color-channels-of-a-pixel-from-the-old-color-channels-of-the-background-pixel-and-from-the-opacity) formula but involving the alpha channels of the old and new pixels instead of the opacity).
 In the `blend` parameter is set to false, the resulting pixels are simply copied from the clipboard image.
 The paste operation is much faster if `blend` is set to false.
 

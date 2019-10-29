@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -176,6 +176,16 @@ PROTO TexturedParallelepiped [
       %{
         end
         end
+        if mapping == "flat" then
+          -- prevent using the exact same texture coordinates when mapping side faces
+          for j=0,rows do
+          for i=0,cols do
+      }%
+        %{=u[i] + 0.001}% %{=v[j] + 0.001}%
+      %{
+          end
+          end
+        end
         if mapping == "metric" then
       }%
         %{= offsetRatio }% %{= 0 }%
@@ -226,10 +236,10 @@ PROTO TexturedParallelepiped [
         %{ end }%
       %{ elseif mapping == "flat" then }%
         %{ if fields.back.value then }%
-          1 1 3 3 -1
+          1 5 7 3 -1
         %{ end
            if front then }%
-          0 0 2 2 -1
+          0 4 6 2 -1
         %{ end
            if fields.right.value then }%
           0 1 3 2 -1
@@ -238,10 +248,10 @@ PROTO TexturedParallelepiped [
           1 0 2 3 -1
         %{ end
            if fields.top.value then }%
-          2 3 3 2 -1
+          2 3 7 6 -1
         %{ end
            if fields.bottom.value then }%
-          0 1 1 0 -1
+          0 1 5 6 -1
         %{ end }%
       %{ elseif mapping == "metric" then }%
         %{ if fields.back.value then }%

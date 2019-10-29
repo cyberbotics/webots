@@ -6,7 +6,7 @@ An armchair (1 x 0.8 x 1.1 m).
 
 %figure
 
-![Armchair](images/objects/living_room_furniture/Armchair/model.png)
+![Armchair](images/objects/living_room_furniture/Armchair/model.thumbnail.png)
 
 %end
 
@@ -23,7 +23,7 @@ Armchair {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/living_room_furniture/protos/Armchair.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/living\_room\_furniture/protos/Armchair.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/living_room_furniture/protos/Armchair.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -40,7 +40,7 @@ A carpet (2.4 x 0.02 x 1.6 m).
 
 %figure
 
-![Carpet](images/objects/living_room_furniture/Carpet/model.png)
+![Carpet](images/objects/living_room_furniture/Carpet/model.thumbnail.png)
 
 %end
 
@@ -55,7 +55,7 @@ Carpet {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/living_room_furniture/protos/Carpet.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/living\_room\_furniture/protos/Carpet.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/living_room_furniture/protos/Carpet.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -70,7 +70,7 @@ A sofa for two people (1 x 0.8 x 1.8 m).
 
 %figure
 
-![Sofa](images/objects/living_room_furniture/Sofa/model.png)
+![Sofa](images/objects/living_room_furniture/Sofa/model.thumbnail.png)
 
 %end
 
@@ -87,7 +87,7 @@ Sofa {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/living_room_furniture/protos/Sofa.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/living\_room\_furniture/protos/Sofa.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/living_room_furniture/protos/Sofa.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

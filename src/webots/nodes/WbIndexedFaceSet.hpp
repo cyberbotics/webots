@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 #include <unordered_map>
 
 class WbCoordinate;
+class WbNormal;
 class WbTextureCoordinate;
 class WbTriangleMesh;
 class WbVector3;
@@ -57,11 +58,14 @@ public:
 
   // field accessors
   WbCoordinate *coord() const;
+  WbNormal *normal() const;
   WbTextureCoordinate *texCoord() const;
   const WbMFInt *coordIndex() const { return static_cast<const WbMFInt *>(mCoordIndex); }
+  const WbMFInt *normalIndex() const { return static_cast<const WbMFInt *>(mNormalIndex); }
   const WbMFInt *texCoordIndex() const { return static_cast<const WbMFInt *>(mTexCoordIndex); }
   const WbSFDouble *creaseAngle() const { return static_cast<const WbSFDouble *>(mCreaseAngle); }
   const WbSFBool *ccw() const { return static_cast<const WbSFBool *>(mCcw); }
+  const WbSFBool *normalPerVertex() const { return static_cast<const WbSFBool *>(mNormalPerVertex); }
 
   // Rescaling and translating
   void rescale(const WbVector3 &v) override;
@@ -113,9 +117,12 @@ private:
 
   // user accessible fields
   WbSFNode *mCoord;
+  WbSFNode *mNormal;
   WbSFNode *mTexCoord;
   WbSFBool *mCcw;
+  WbSFBool *mNormalPerVertex;
   WbMFInt *mCoordIndex;
+  WbMFInt *mNormalIndex;
   WbMFInt *mTexCoordIndex;
   WbSFDouble *mCreaseAngle;
 
@@ -151,9 +158,12 @@ private:
 
 private slots:
   void updateCoord();
+  void updateNormal();
   void updateTexCoord();
   void updateCcw();
+  void updateNormalPerVertex();
   void updateCoordIndex();
+  void updateNormalIndex();
   void updateTexCoordIndex();
   void updateCreaseAngle();
 };

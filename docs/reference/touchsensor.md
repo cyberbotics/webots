@@ -114,7 +114,7 @@ This approximation usually improves as the `basicTimeStep` ([WorldInfo](worldinf
 #### `wb_touch_sensor_get_value`
 #### `wb_touch_sensor_get_values`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -184,7 +184,7 @@ public class TouchSensor extends Device
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_touch_sensor_enable(tag, sampling_period)
 wb_touch_sensor_disable(tag)
 period = wb_touch_sensor_get_sampling_period(tag)
@@ -232,7 +232,7 @@ This function can be used with a sensor of type "force-3d" exclusively.
 
 #### `wb_touch_sensor_get_type`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -295,7 +295,7 @@ public class TouchSensor extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_TOUCH_SENSOR_BUMPER, WB_TOUCH_SENSOR_FORCE, WB_TOUCH_SENSOR_FORCE3D
 
 type = wb_touch_sensor_get_type(tag)

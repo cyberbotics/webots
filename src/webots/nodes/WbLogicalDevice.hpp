@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ public:
   int deviceNodeType() const override { return nodeType(); }
 
 protected:
-  WbLogicalDevice(const QString &modelName, WbTokenizer *tokenizer = NULL);
+  explicit WbLogicalDevice(const QString &modelName, WbTokenizer *tokenizer = NULL);
   WbLogicalDevice(const WbLogicalDevice &other);
   explicit WbLogicalDevice(const WbNode &other);
 

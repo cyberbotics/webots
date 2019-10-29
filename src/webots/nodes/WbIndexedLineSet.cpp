@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -76,6 +76,7 @@ void WbIndexedLineSet::createWrenObjects() {
     connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this,
             &WbIndexedLineSet::updateLineScale);
 
+  sanitizeFields();
   buildWrenMesh();
 
   emit wrenObjectsCreated();
@@ -121,9 +122,6 @@ void WbIndexedLineSet::buildWrenMesh() {
   WbGeometry::computeWrenRenderable();
 
   wr_renderable_set_drawing_mode(mWrenRenderable, WR_RENDERABLE_DRAWING_MODE_LINES);
-
-  if (!sanitizeFields())
-    return;
 
   // In the worst case we end up with 2 * mCoordIndex->size() - 1 coordinates
   float *coordsData = new float[mCoordIndex->size() * 6];
@@ -185,6 +183,9 @@ int WbIndexedLineSet::computeCoordsData(float *data) {
 }
 
 void WbIndexedLineSet::updateCoord() {
+  if (!sanitizeFields())
+    return;
+
   if (coord())
     connect(coord(), &WbCoordinate::fieldChanged, this, &WbIndexedLineSet::updateCoord, Qt::UniqueConnection);
 
@@ -198,6 +199,9 @@ void WbIndexedLineSet::updateCoord() {
 }
 
 void WbIndexedLineSet::updateCoordIndex() {
+  if (!sanitizeFields())
+    return;
+
   if (areWrenObjectsInitialized())
     buildWrenMesh();
 

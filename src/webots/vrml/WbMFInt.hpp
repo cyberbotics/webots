@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ public:
 
   WbMFInt() {}
   WbMFInt(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
-  WbMFInt(const WbMFInt &other) { mVector = other.mVector; }
+  WbMFInt(const WbMFInt &other) : mVector(other.mVector) {}
   virtual ~WbMFInt() {}
   WbValue *clone() const override { return new WbMFInt(*this); }
   bool equals(const WbValue *other) const override;

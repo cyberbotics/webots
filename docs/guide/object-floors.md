@@ -6,7 +6,7 @@ A configurable circle arena composed of floor surrounded by wall.
 
 %figure
 
-![CircleArena](images/objects/floors/CircleArena/model.png)
+![CircleArena](images/objects/floors/CircleArena/model.thumbnail.png)
 
 %end
 
@@ -24,14 +24,13 @@ CircleArena {
   SFFloat    wallThickness   0.01
   SFFloat    wallHeight      0.1
   SFNode     wallAppearance  BrushedAluminium {}
-  SFVec2f    wallTileSize    0.5 0.5
   SFInt32    subdivision     48
   hiddenField MFString   floorTextureUrl "textures/checkered_parquetry.jpg"
   hiddenField MFString   wallTextureUrl  "textures/metal.jpg"
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/floors/protos/CircleArena.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/CircleArena.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/floors/protos/CircleArena.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -50,8 +49,6 @@ CircleArena {
 
 - `wallAppearance`: Defines the appearance of the wall.
 
-- `wallTileSize`: Defines the size of the texture used for the wall.
-
 - `subdivision`: Defines the subdivision of the wall cylinder.
 
 ## Floor
@@ -60,7 +57,7 @@ Configurable standard flat floor.
 
 %figure
 
-![Floor](images/objects/floors/Floor/model.png)
+![Floor](images/objects/floors/Floor/model.thumbnail.png)
 
 %end
 
@@ -78,7 +75,7 @@ Floor {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/floors/protos/Floor.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/Floor.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/floors/protos/Floor.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -97,7 +94,7 @@ A configurable rectangle arena composed of a floor surrounded by walls.
 
 %figure
 
-![RectangleArena](images/objects/floors/RectangleArena/model.png)
+![RectangleArena](images/objects/floors/RectangleArena/model.thumbnail.png)
 
 %end
 
@@ -114,15 +111,15 @@ RectangleArena {
   SFNode     floorAppearance ChequeredParquetry {}
   SFFloat    wallThickness   0.01
   SFFloat    wallHeight      0.1
-  SFColor    wallColor       0.8 0.8 0.8
-  SFVec2f    wallTileSize    0.5 0.5
   SFNode     wallAppearance  BrushedAluminium {}
   hiddenField MFString   floorTextureUrl "textures/checkered_parquetry.jpg"
   hiddenField MFString   wallTextureUrl  "textures/metal.jpg"
+  hiddenField SFColor    wallColor 0.8 0.8 0.8
+  hiddenField SFVec2f    wallTileSize 0.5 0.5
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/floors/protos/RectangleArena.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/RectangleArena.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/floors/protos/RectangleArena.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -139,10 +136,6 @@ RectangleArena {
 
 - `wallHeight`: Defines the height of the walls.
 
-- `wallColor`: Defines the color of the walls.
-
-- `wallTileSize`: Defines the size of the texture used for the walls.
-
 - `wallAppearance`: Defines the appearance of the wall.
 
 ## UnevenTerrain
@@ -151,7 +144,7 @@ Randomly generated uneven terrain based on Perlin noise.
 
 %figure
 
-![UnevenTerrain](images/objects/floors/UnevenTerrain/model.png)
+![UnevenTerrain](images/objects/floors/UnevenTerrain/model.thumbnail.png)
 
 %end
 
@@ -174,7 +167,7 @@ UnevenTerrain {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/floors/protos/UnevenTerrain.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/UnevenTerrain.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/floors/protos/UnevenTerrain.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

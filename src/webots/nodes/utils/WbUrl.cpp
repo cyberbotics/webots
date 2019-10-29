@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -56,6 +56,8 @@ QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
         } else if (!webotsPROTOSearchPath.contains(proto->path()))
           webotsPROTOSearchPath.append(proto->path());
       }
+      if (!proto->projectPath().isEmpty() && !projectPROTOSearchPath.contains(proto->projectPath() + "/protos"))
+        projectPROTOSearchPath.append(proto->projectPath() + "/protos");
       proto = WbProtoList::current()->findModel(proto->ancestorProtoName(), "");
     }
     currentNode = currentNode->parent();
@@ -64,6 +66,8 @@ QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
   QStringList searchPaths;
   searchPaths << projectPROTOSearchPath;
   searchPaths.append(WbProject::current()->worldsPath());
+  if (WbProject::extraDefaultProject())
+    searchPaths.append(WbProject::extraDefaultProject()->worldsPath());
   searchPaths << webotsPROTOSearchPath;
   searchPaths.append(WbStandardPaths::projectsPath() + "default/worlds");
   return searchPaths;
@@ -130,7 +134,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 }
 
 QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QString &sourcePath,
-                             const QString &relativeTexturesPath, WbVrmlWriter &writer) {
+                             const QString &relativeTexturesPath, const WbVrmlWriter &writer) {
   const QFileInfo urlFileInfo(url);
   const QString fileName = urlFileInfo.fileName();
   const QString expectedRelativePath = relativeTexturesPath + fileName;
@@ -173,7 +177,7 @@ QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QStri
   }
 }
 
-QString WbUrl::exportTexture(const WbNode *node, const WbMFString *urlField, int index, WbVrmlWriter &writer) {
+QString WbUrl::exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbVrmlWriter &writer) {
   // in addition to writing the node, we want to ensure that the texture file exists
   // at the expected location. If not, we should copy it, possibly creating the expected
   // directory structure.

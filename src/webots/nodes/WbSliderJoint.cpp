@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -115,7 +115,7 @@ void WbSliderJoint::updatePosition() {
   if (solidReference() == NULL && solidEndPoint())
     updatePosition(p->position());
 
-  emit updateMuscleStretch(0.0, true);
+  emit updateMuscleStretch(0.0, true, 1);
 }
 
 void WbSliderJoint::updatePosition(double position) {
@@ -235,7 +235,7 @@ void WbSliderJoint::prePhysicsStep(double ms) {
       dJointAddSliderForce(mJoint, force);
       if (lm->hasMuscles())
         // force is directly applied to the bodies and not included in joint motor feedback
-        emit updateMuscleStretch(force / lm->maxForceOrTorque(), false);
+        emit updateMuscleStretch(force / lm->maxForceOrTorque(), false, 1);
     } else {
       // ODE motor force (user velocity/position control)
       const double currentVelocity = lm ? lm->computeCurrentDynamicVelocity(ms, mPosition) : 0.0;
@@ -263,7 +263,7 @@ void WbSliderJoint::prePhysicsStep(double ms) {
       double velocityPercentage = lm->currentVelocity() / lm->maxVelocity();
       if (lm->kinematicVelocitySign() == -1)
         velocityPercentage = -velocityPercentage;
-      emit updateMuscleStretch(velocityPercentage, true);
+      emit updateMuscleStretch(velocityPercentage, true, 1);
     }
   }
 }
@@ -280,7 +280,7 @@ void WbSliderJoint::postPhysicsStep() {
     WbLinearMotor *const lm = linearMotor();
     if (lm && lm->hasMuscles() && !lm->userControl())
       // dynamic position or velocity control
-      emit updateMuscleStretch(-lm->computeFeedback() / lm->maxForceOrTorque(), false);
+      emit updateMuscleStretch(-lm->computeFeedback() / lm->maxForceOrTorque(), false, 1);
   }
 }
 

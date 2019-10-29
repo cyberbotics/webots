@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,22 +26,24 @@
 int main(int argc, char **argv) {
   wb_robot_init();
   WbDeviceTag muscle = wb_robot_get_device("muscle");
+  WbDeviceTag muscle2 = 0;
   WbDeviceTag ps = wb_robot_get_device("position sensor");
   double p = 0.0;
-  double max;
-  double step;
+  double max = 2.0;
+  double step = 0.4;
   if (strcmp(wb_robot_get_name(), "slider") == 0) {
     max = 0.08;
     step = 0.05;
-  } else {
-    max = 2.0;
-    step = 0.4;
+  } else if (strcmp(wb_robot_get_name(), "hinge2") == 0) {
+    muscle2 = wb_robot_get_device("muscle2");
   }
   double dp = step;
   wb_position_sensor_enable(ps, TIME_STEP);
 
   while (wb_robot_step(TIME_STEP) != -1) {
     wb_motor_set_position(muscle, p);
+    if (muscle2)
+      wb_motor_set_position(muscle2, 2 - p);
     const double pos = wb_position_sensor_get_value(ps);
     if (pos <= 0.0)
       dp = -step;

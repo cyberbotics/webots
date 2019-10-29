@@ -6,7 +6,7 @@ An ATM.
 
 %figure
 
-![Atm](images/objects/street_furniture/Atm/model.png)
+![Atm](images/objects/street_furniture/Atm/model.thumbnail.png)
 
 %end
 
@@ -20,7 +20,7 @@ Atm {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/Atm.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/Atm.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/Atm.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -31,7 +31,7 @@ A bench.
 
 %figure
 
-![Bench](images/objects/street_furniture/Bench/model.png)
+![Bench](images/objects/street_furniture/Bench/model.thumbnail.png)
 
 %end
 
@@ -48,7 +48,7 @@ Bench {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/Bench.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/Bench.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/Bench.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -67,7 +67,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![BusStop](images/objects/street_furniture/BusStop/model.png)
+![BusStop](images/objects/street_furniture/BusStop/model.thumbnail.png)
 
 %end
 
@@ -86,7 +86,7 @@ BusStop {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/BusStop.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/BusStop.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/BusStop.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -109,7 +109,7 @@ A cloth recycling container.
 
 %figure
 
-![ClothRecyclingContainer](images/objects/street_furniture/ClothRecyclingContainer/model.png)
+![ClothRecyclingContainer](images/objects/street_furniture/ClothRecyclingContainer/model.thumbnail.png)
 
 %end
 
@@ -123,7 +123,7 @@ ClothRecyclingContainer {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/ClothRecyclingContainer.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/ClothRecyclingContainer.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/ClothRecyclingContainer.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -134,7 +134,7 @@ A drinking fountain.
 
 %figure
 
-![DrinkingFountain](images/objects/street_furniture/DrinkingFountain/model.png)
+![DrinkingFountain](images/objects/street_furniture/DrinkingFountain/model.thumbnail.png)
 
 %end
 
@@ -148,7 +148,7 @@ DrinkingFountain {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/DrinkingFountain.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/DrinkingFountain.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/DrinkingFountain.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -159,7 +159,7 @@ An electrical cabinet.
 
 %figure
 
-![ElectricalCabinet](images/objects/street_furniture/ElectricalCabinet/model.png)
+![ElectricalCabinet](images/objects/street_furniture/ElectricalCabinet/model.thumbnail.png)
 
 %end
 
@@ -173,7 +173,7 @@ ElectricalCabinet {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/ElectricalCabinet.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/ElectricalCabinet.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/ElectricalCabinet.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -184,7 +184,7 @@ An emergency phone.
 
 %figure
 
-![EmergencyPhone](images/objects/street_furniture/EmergencyPhone/model.png)
+![EmergencyPhone](images/objects/street_furniture/EmergencyPhone/model.thumbnail.png)
 
 %end
 
@@ -200,7 +200,7 @@ EmergencyPhone {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/EmergencyPhone.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/EmergencyPhone.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/EmergencyPhone.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -218,7 +218,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![Fence](images/objects/street_furniture/Fence/model.png)
+![Fence](images/objects/street_furniture/Fence/model.thumbnail.png)
 
 %end
 
@@ -246,7 +246,7 @@ Fence {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/Fence.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/Fence.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/Fence.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -281,7 +281,7 @@ A fire hydrant.
 
 %figure
 
-![FireHydrant](images/objects/street_furniture/FireHydrant/model.png)
+![FireHydrant](images/objects/street_furniture/FireHydrant/model.thumbnail.png)
 
 %end
 
@@ -296,7 +296,7 @@ FireHydrant {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/FireHydrant.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/FireHydrant.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/FireHydrant.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -311,7 +311,7 @@ A configurable fountain.
 
 %figure
 
-![Fountain](images/objects/street_furniture/Fountain/model.png)
+![Fountain](images/objects/street_furniture/Fountain/model.thumbnail.png)
 
 %end
 
@@ -328,7 +328,7 @@ Fountain {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/Fountain.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/Fountain.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/Fountain.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -347,7 +347,7 @@ A glass recycling container.
 
 %figure
 
-![GlassRecyclingContainer](images/objects/street_furniture/GlassRecyclingContainer/model.png)
+![GlassRecyclingContainer](images/objects/street_furniture/GlassRecyclingContainer/model.thumbnail.png)
 
 %end
 
@@ -361,7 +361,7 @@ GlassRecyclingContainer {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/GlassRecyclingContainer.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/GlassRecyclingContainer.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/GlassRecyclingContainer.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -372,7 +372,7 @@ A guard shelter.
 
 %figure
 
-![GuardShelter](images/objects/street_furniture/GuardShelter/model.png)
+![GuardShelter](images/objects/street_furniture/GuardShelter/model.thumbnail.png)
 
 %end
 
@@ -386,7 +386,7 @@ GuardShelter {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/GuardShelter.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/GuardShelter.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/GuardShelter.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -397,7 +397,7 @@ An ice freezer container.
 
 %figure
 
-![IceFreezerContainer](images/objects/street_furniture/IceFreezerContainer/model.png)
+![IceFreezerContainer](images/objects/street_furniture/IceFreezerContainer/model.thumbnail.png)
 
 %end
 
@@ -411,7 +411,7 @@ IceFreezerContainer {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/IceFreezerContainer.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/IceFreezerContainer.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/IceFreezerContainer.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -422,7 +422,7 @@ A mailbox.
 
 %figure
 
-![Mailbox](images/objects/street_furniture/Mailbox/model.png)
+![Mailbox](images/objects/street_furniture/Mailbox/model.thumbnail.png)
 
 %end
 
@@ -436,7 +436,7 @@ Mailbox {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/Mailbox.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/Mailbox.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/Mailbox.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -447,7 +447,7 @@ A metallic trash with optional physics.
 
 %figure
 
-![MetallicTrash](images/objects/street_furniture/MetallicTrash/model.png)
+![MetallicTrash](images/objects/street_furniture/MetallicTrash/model.thumbnail.png)
 
 %end
 
@@ -462,7 +462,7 @@ MetallicTrash {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/MetallicTrash.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/MetallicTrash.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/MetallicTrash.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -477,7 +477,7 @@ A news stand.
 
 %figure
 
-![NewsStand](images/objects/street_furniture/NewsStand/model.png)
+![NewsStand](images/objects/street_furniture/NewsStand/model.thumbnail.png)
 
 %end
 
@@ -491,7 +491,7 @@ NewsStand {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/NewsStand.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/NewsStand.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/NewsStand.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -502,7 +502,7 @@ An old bench.
 
 %figure
 
-![OldBench](images/objects/street_furniture/OldBench/model.png)
+![OldBench](images/objects/street_furniture/OldBench/model.thumbnail.png)
 
 %end
 
@@ -516,7 +516,7 @@ OldBench {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/OldBench.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/OldBench.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/OldBench.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -527,7 +527,7 @@ A phone booth.
 
 %figure
 
-![PhoneBooth](images/objects/street_furniture/PhoneBooth/model.png)
+![PhoneBooth](images/objects/street_furniture/PhoneBooth/model.thumbnail.png)
 
 %end
 
@@ -541,7 +541,7 @@ PhoneBooth {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/PhoneBooth.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/PhoneBooth.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/PhoneBooth.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -552,7 +552,7 @@ A public bin.
 
 %figure
 
-![PublicBin](images/objects/street_furniture/PublicBin/model.png)
+![PublicBin](images/objects/street_furniture/PublicBin/model.thumbnail.png)
 
 %end
 
@@ -568,7 +568,7 @@ PublicBin {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/PublicBin.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/PublicBin.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/PublicBin.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -583,7 +583,7 @@ Resizable public toilet with two different displays.
 
 %figure
 
-![PublicToilet](images/objects/street_furniture/PublicToilet/model.png)
+![PublicToilet](images/objects/street_furniture/PublicToilet/model.thumbnail.png)
 
 %end
 
@@ -620,7 +620,7 @@ PublicToilet {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/PublicToilet.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/PublicToilet.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/PublicToilet.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -659,7 +659,7 @@ A simple bench.
 
 %figure
 
-![SimpleBench](images/objects/street_furniture/SimpleBench/model.png)
+![SimpleBench](images/objects/street_furniture/SimpleBench/model.thumbnail.png)
 
 %end
 
@@ -673,7 +673,7 @@ SimpleBench {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/SimpleBench.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/SimpleBench.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/SimpleBench.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -684,7 +684,7 @@ A small kiosk.
 
 %figure
 
-![SmallKiosk](images/objects/street_furniture/SmallKiosk/model.png)
+![SmallKiosk](images/objects/street_furniture/SmallKiosk/model.thumbnail.png)
 
 %end
 
@@ -698,7 +698,7 @@ SmallKiosk {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/SmallKiosk.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/SmallKiosk.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/SmallKiosk.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -709,7 +709,7 @@ A snack stand.
 
 %figure
 
-![SnackStand](images/objects/street_furniture/SnackStand/model.png)
+![SnackStand](images/objects/street_furniture/SnackStand/model.thumbnail.png)
 
 %end
 
@@ -724,7 +724,7 @@ SnackStand {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/SnackStand.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/SnackStand.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/SnackStand.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -739,7 +739,7 @@ A simple bench made of stone.
 
 %figure
 
-![StoneBench](images/objects/street_furniture/StoneBench/model.png)
+![StoneBench](images/objects/street_furniture/StoneBench/model.thumbnail.png)
 
 %end
 
@@ -753,7 +753,7 @@ StoneBench {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/StoneBench.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/StoneBench.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/StoneBench.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -764,7 +764,7 @@ A fountain made of stones.
 
 %figure
 
-![StoneFountain](images/objects/street_furniture/StoneFountain/model.png)
+![StoneFountain](images/objects/street_furniture/StoneFountain/model.thumbnail.png)
 
 %end
 
@@ -778,7 +778,7 @@ StoneFountain {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/StoneFountain.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/StoneFountain.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/StoneFountain.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -789,7 +789,7 @@ A trash bin.
 
 %figure
 
-![TrashBin](images/objects/street_furniture/TrashBin/model.png)
+![TrashBin](images/objects/street_furniture/TrashBin/model.thumbnail.png)
 
 %end
 
@@ -806,7 +806,7 @@ TrashBin {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/TrashBin.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/TrashBin.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/TrashBin.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -823,7 +823,7 @@ A trash container with optional physics.
 
 %figure
 
-![TrashContainer](images/objects/street_furniture/TrashContainer/model.png)
+![TrashContainer](images/objects/street_furniture/TrashContainer/model.thumbnail.png)
 
 %end
 
@@ -838,7 +838,7 @@ TrashContainer {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/TrashContainer.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/TrashContainer.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/TrashContainer.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -853,7 +853,7 @@ An underground container.
 
 %figure
 
-![UndergroundContainer](images/objects/street_furniture/UndergroundContainer/model.png)
+![UndergroundContainer](images/objects/street_furniture/UndergroundContainer/model.thumbnail.png)
 
 %end
 
@@ -867,7 +867,7 @@ UndergroundContainer {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/UndergroundContainer.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/UndergroundContainer.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/UndergroundContainer.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -878,7 +878,7 @@ An urban fence with optional boundingObject.
 
 %figure
 
-![UrbanFence](images/objects/street_furniture/UrbanFence/model.png)
+![UrbanFence](images/objects/street_furniture/UrbanFence/model.thumbnail.png)
 
 %end
 
@@ -893,7 +893,7 @@ UrbanFence {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/UrbanFence.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/UrbanFence.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/UrbanFence.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -908,7 +908,7 @@ A work trash container.
 
 %figure
 
-![WorkTrashContainer](images/objects/street_furniture/WorkTrashContainer/model.png)
+![WorkTrashContainer](images/objects/street_furniture/WorkTrashContainer/model.thumbnail.png)
 
 %end
 
@@ -922,7 +922,7 @@ WorkTrashContainer {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/street_furniture/protos/WorkTrashContainer.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/WorkTrashContainer.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/WorkTrashContainer.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)

@@ -1,30 +1,29 @@
-#VRML_SIM R2019a utf8
-# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-# license url: https://cyberbotics.com/webots_assets_license
-# A an old battered steel material.
+#VRML_SIM R2019b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# An old battered steel material.
 
 PROTO OldSteel [
   field SFColor colorOverride    1 1 1  # Defines the default color multiplied with the texture color.
   field SFNode  textureTransform NULL   # Defines an optional 2d texture transform.
-  field SFNode  environmentMap   NULL   # Defines an optional `Cubemap` node that can override the world's skybox for this object.
-  field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Cubemap node.
+  field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
 ]
 {
   PBRAppearance {
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "textures/old_steel/old_steel_base_color.png"
+        "textures/old_steel/old_steel_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/old_steel/old_steel_roughness.png"
+        "textures/old_steel/old_steel_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "textures/old_steel/old_steel_metalness.png"
+        "textures/old_steel/old_steel_metalness.jpg"
       ]
     }
     normalMap ImageTexture {
@@ -33,7 +32,6 @@ PROTO OldSteel [
       ]
     }
     normalMapFactor 1
-    environmentMap IS environmentMap
     IBLStrength IS IBLStrength
     textureTransform IS textureTransform
   }

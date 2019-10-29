@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 """Launch a system command."""
 
+import os
 import subprocess
 import sys
 import threading
@@ -88,7 +89,7 @@ class Command(object):
                 with self.mainProcessMutex:
                     if self.mainProcess:
                         line = self.mainProcess.stdout.readline()  # blocking
-                if len(line) > 0:
+                if line:
                     self.output += line
                     if not self.silent:
                         if self.ansiEscape:
@@ -161,8 +162,8 @@ class Command(object):
             outFile.close()
             errFile.close()
 
-        self.outFileName = 'webots_stdout.txt'
-        self.errFileName = 'webots_stderr.txt'
+        self.outFileName = os.environ['WEBOTS_HOME'] + os.sep + 'tests' + os.sep + 'webots_stdout.txt'
+        self.errFileName = os.environ['WEBOTS_HOME'] + os.sep + 'tests' + os.sep + 'webots_stderr.txt'
         self.resetAttributes()
 
         self.silent = silent

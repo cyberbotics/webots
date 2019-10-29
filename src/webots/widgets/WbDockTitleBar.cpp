@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -151,11 +151,11 @@ int WbDockTitleBar::computeNumberOfButtons() {
 
 void WbDockTitleBar::updateTitle() {
   QString title = mTitle;
-  QFontMetrics metrics(mTitleLabel->font());
+  const QFontMetrics metrics(mTitleLabel->font());
 
-  int maxSize = size().width() - ((mToggleButton->size().width() + 12) * computeNumberOfButtons());
+  const int maxSize = size().width() - ((mToggleButton->size().width() + 12) * computeNumberOfButtons());
 
-  while (metrics.width(title) > maxSize && title.size() > 3) {
+  while (metrics.horizontalAdvance(title) > maxSize && title.size() > 3) {
     title.remove(0, 1);
     title.replace(0, 3, "...");
   }

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -63,7 +63,8 @@ namespace WbNodeUtilities {
   WbMatter *findUpperMatter(const WbNode *node);
 
   // find the closest ancestor of specified type
-  WbNode *findUpperNodeByType(const WbNode *node, int nodeType);
+  // searchDegree specifies how many ancestor have to be checked, if lower or equal to 0 all the hierarchy is inspected
+  WbNode *findUpperNodeByType(const WbNode *node, int nodeType, int searchDegrees = 0);
 
   // return if this node contains descendant nodes of the specified types
   bool hasDescendantNodesOfType(const WbNode *node, QList<int> nodeTypes);

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbHingeJoint.hpp"
+
 #include "WbBrake.hpp"
 #include "WbHingeJointParameters.hpp"
 #include "WbMathsUtilities.hpp"
@@ -170,6 +171,9 @@ void WbHingeJoint::applyToOdeAnchor() {
   const WbVector3 &t = m4 * anchor();
   if (nodeType() == WB_NODE_HINGE_2_JOINT)
     dJointSetHinge2Anchor(mJoint, t.x(), t.y(), t.z());
+  // cppcheck-suppress knownConditionTrueFalse
+  else if (nodeType() == WB_NODE_BALL_JOINT)
+    dJointSetBallAnchor(mJoint, t.x(), t.y(), t.z());
   else
     dJointSetHingeAnchor(mJoint, t.x(), t.y(), t.z());
 }
@@ -283,7 +287,7 @@ void WbHingeJoint::prePhysicsStep(double ms) {
       dJointAddHingeTorque(mJoint, mIsReverseJoint ? torque : -torque);
       if (rm->hasMuscles())
         // force is directly applied to the bodies and not included in joint motor feedback
-        emit updateMuscleStretch(torque / rm->maxForceOrTorque(), false);
+        emit updateMuscleStretch(torque / rm->maxForceOrTorque(), false, 1);
     } else {
       // ODE motor torque (user velocity/position control)
       const double currentVelocity = rm ? rm->computeCurrentDynamicVelocity(ms, mPosition) : 0.0;
@@ -310,7 +314,7 @@ void WbHingeJoint::prePhysicsStep(double ms) {
       double velocityPercentage = rm->currentVelocity() / rm->maxVelocity();
       if (rm->kinematicVelocitySign() == -1)
         velocityPercentage = -velocityPercentage;
-      emit updateMuscleStretch(velocityPercentage, true);
+      emit updateMuscleStretch(velocityPercentage, true, 1);
     }
   }
   mTimeStep = ms;
@@ -338,7 +342,7 @@ void WbHingeJoint::postPhysicsStep() {
 
   if (isEnabled() && rm && rm->hasMuscles() && !rm->userControl())
     // dynamic position or velocity control
-    emit updateMuscleStretch(rm->computeFeedback() / rm->maxForceOrTorque(), false);
+    emit updateMuscleStretch(rm->computeFeedback() / rm->maxForceOrTorque(), false, 1);
 }
 
 void WbHingeJoint::updatePosition() {
@@ -348,7 +352,7 @@ void WbHingeJoint::updatePosition() {
   if (solidReference() == NULL && solidEndPoint())
     updatePosition(p->position());
 
-  emit updateMuscleStretch(0.0, true);
+  emit updateMuscleStretch(0.0, true, 1);
 }
 
 void WbHingeJoint::updatePosition(double position) {

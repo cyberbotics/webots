@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -275,11 +275,6 @@ void quit(int sig) {
 }
 
 int main(int argc, char **argv) {
-  if (argc != 1) {
-    ROS_INFO("pr2_beer doesn't take any arguments.");
-    return 1;
-  }
-
   // create a node named 'pr2_beer' on ROS network
   ros::init(argc, argv, "pr2_beer", ros::init_options::AnonymousName);
   ros::NodeHandle n;

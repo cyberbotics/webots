@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -101,6 +101,7 @@ void WbMatter::disconnectFromBoundingObjectUpdates(const WbNode *node) const {
     return;
 
   const WbGroup *const group = dynamic_cast<const WbGroup *>(node);
+  // cppcheck-suppress knownConditionTrueFalse
   if (group) {
     for (int i = 0; i < group->childCount(); ++i)
       disconnectFromBoundingObjectUpdates(group->child(i));
@@ -247,6 +248,7 @@ dGeomID WbMatter::odeGeom() const {
   WbGeometry *g = NULL;
 
   const WbTransform *const t = dynamic_cast<WbTransform *>(bo);
+  // cppcheck-suppress knownConditionTrueFalse
   if (t)
     g = t->geometry();
   else {
@@ -319,6 +321,7 @@ dGeomID WbMatter::createOdeGeomFromTransform(dSpaceID space, WbTransform *transf
     return NULL;
 
   const WbIndexedFaceSet *const ifs = dynamic_cast<WbIndexedFaceSet *>(geometry);
+  // cppcheck-suppress knownConditionTrueFalse
   if (ifs)
     connect(ifs, &WbIndexedFaceSet::validIndexedFaceSetInserted, transform, &WbTransform::geometryInTransformInserted,
             Qt::UniqueConnection);
@@ -447,6 +450,7 @@ dGeomID WbMatter::createOdeGeomFromNode(dSpaceID space, WbBaseNode *node) {
     return NULL;
 
   WbTransform *const transform = dynamic_cast<WbTransform *>(node);
+  // cppcheck-suppress knownConditionTrueFalse
   if (transform)
     return createOdeGeomFromTransform(space, transform);
 
@@ -470,6 +474,7 @@ dGeomID WbMatter::createOdeGeomFromNode(dSpaceID space, WbBaseNode *node) {
     return NULL;  // the boundingObject is neither a WbGroup, WbShape nor a WbGeometry => ignored (maybe empty Shape)
 
   const WbIndexedFaceSet *const ifs = dynamic_cast<WbIndexedFaceSet *>(geometry);
+  // cppcheck-suppress knownConditionTrueFalse
   if (ifs)
     connect(ifs, &WbIndexedFaceSet::validIndexedFaceSetInserted, this, &WbMatter::insertValidGeometryInBoundingObject,
             Qt::UniqueConnection);

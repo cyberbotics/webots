@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@
 #include "WbTranslator.hpp"
 #include "WbVersion.hpp"
 #include "WbWorld.hpp"
+#include "WbWrenOpenGlContext.hpp"
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
@@ -39,9 +40,8 @@
 #include <QtCore/QStringList>
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>
-#include <QtGui/QDesktopServices>
 #include <QtGui/QFontDatabase>
-#include <QtWidgets/QDesktopWidget>
+#include <QtGui/QScreen>
 
 #ifdef __APPLE__
 #include <QtGui/QFileOpenEvent>
@@ -59,7 +59,7 @@ using namespace std;
 // - http://www.qtcentre.org/archive/index.php/t-28785.html
 WbGuiApplication::WbGuiApplication(int &argc, char **argv) : QApplication(argc, argv), mMainWindow(NULL), mTask(NORMAL) {
   setApplicationName("Webots");
-  setApplicationVersion(WbApplicationInfo::version().toString());
+  setApplicationVersion(WbApplicationInfo::version().toString(true, false, true));
   setOrganizationName("Cyberbotics");
   setOrganizationDomain("cyberbotics.com");
 #ifdef _WIN32
@@ -118,6 +118,7 @@ void WbGuiApplication::parseArguments() {
   // faster when copied according to Qt's doc
   QStringList args = arguments();
   bool logPerformanceMode = false;
+  bool batch = false, stream = false;
 
   const int size = args.size();
   for (int i = 1; i < size; ++i) {
@@ -143,9 +144,10 @@ void WbGuiApplication::parseArguments() {
       mTask = SYSINFO;
     else if (arg == "--version")
       mTask = VERSION;
-    else if (arg == "--batch")
+    else if (arg == "--batch") {
+      batch = true;
       WbMessageBox::disable();
-    else if (arg.startsWith("--update-proto-cache")) {
+    } else if (arg.startsWith("--update-proto-cache")) {
       QStringList items = arg.split('=');
       if (items.size() > 1)
         mTaskArgument = items[1];
@@ -157,6 +159,7 @@ void WbGuiApplication::parseArguments() {
     else if (arg == "--enable-x3d-meta-file-export")
       WbWorld::enableX3DMetaFileExport();
     else if (arg.startsWith("--stream")) {
+      stream = true;
       QString serverArgument;
       int equalCharacterIndex = arg.indexOf('=');
       if (equalCharacterIndex != -1) {
@@ -168,6 +171,7 @@ void WbGuiApplication::parseArguments() {
           serverArgument = serverArgument.left(serverArgument.size() - 1);
       }
       WbStreamingServer::instance()->startFromCommandLine(serverArgument);
+      WbWorld::enableX3DStreaming();
     } else if (arg == "--stdout")
       WbConsole::enableStdOutRedirectToTerminal();
     else if (arg == "--stderr")
@@ -215,9 +219,21 @@ void WbGuiApplication::parseArguments() {
     }
   }
 
+  if (stream && !batch)
+    cout << "Warning: you should also use --batch (in addition to --stream) for production." << endl;
+
   if (logPerformanceMode) {
     WbPerformanceLog::enableSystemInfoLog(mTask == SYSINFO);
     mTask = NORMAL;
+  }
+
+  if (!qgetenv("WEBOTS_SAFE_MODE").isEmpty()) {
+    WbPreferences::instance()->setValue("OpenGL/disableShadows", true);
+    WbPreferences::instance()->setValue("OpenGL/disableAntiAliasing", true);
+    WbPreferences::instance()->setValue("OpenGL/GTAO", 0);
+    WbPreferences::instance()->setValue("OpenGL/textureQuality", 0);
+    mStartupMode = WbSimulationState::PAUSE;
+    mStartWorldName = WbStandardPaths::resourcesPath() + "projects/worlds/empty.wbt";
   }
 }
 
@@ -277,7 +293,6 @@ bool WbGuiApplication::setup() {
   // Show guided tour if first ever launch and no command line world argument is given
   bool showGuidedTour =
     prefs->value("Internal/firstLaunch", true).toBool() && mStartWorldName.isEmpty() && WbMessageBox::enabled();
-  const QString fileName = mStartWorldName.isEmpty() ? prefs->value("RecentFiles/file0", "").toString() : mStartWorldName;
 
 #ifndef _WIN32
   // create main window on Linux and macOS before the splash screen otherwise, the
@@ -291,7 +306,7 @@ bool WbGuiApplication::setup() {
     // splash screen
     // Warning: using heap allocated splash screen and/or pixmap cause crash while
     // showing tooltips in the main window under Linux.
-    const QDir screenshotLocation = QDir("images:splash_images/", "*.png");
+    const QDir screenshotLocation = QDir("images:splash_images/", "*.jpg");
     const QString webotsLogoName("webots.png");
     mSplash = new WbSplashScreen(screenshotLocation.entryList(), webotsLogoName);
     mSplash->setWindowFlags(Qt::SplashScreen);
@@ -302,10 +317,8 @@ bool WbGuiApplication::setup() {
     if (WbPreferences::instance()->value("MainWindow/maximized", false).toBool()) {
       // we need to center the splash screen on the same window as the mainWindow,
       // which is positioned wherever the mouse is on launch
-      QDesktopWidget *desktopWidget = desktop();
-      QPoint mousePosition = QCursor::pos();
-      int mainWindowScreenIndex = desktopWidget->screenNumber(mousePosition);
-      QRect mainWindowScreenRect = desktopWidget->screenGeometry(mainWindowScreenIndex);
+      const QScreen *mainWindowScreen = QGuiApplication::screenAt(QCursor::pos());
+      const QRect mainWindowScreenRect = mainWindowScreen->geometry();
       QPoint targetPosition = mainWindowScreenRect.center();
       targetPosition.setX(targetPosition.x() - mSplash->width() / 2);
       targetPosition.setY(targetPosition.y() - mSplash->height() / 2);
@@ -353,10 +366,16 @@ bool WbGuiApplication::setup() {
   mMainWindow = new WbMainWindow(mShouldMinimize);
 #endif
 
-  if (mShouldMinimize)
+  if (mShouldMinimize) {
+#ifdef __linux__
+    // on Ubuntu 18.04 showMinimized doesn't work
+    // https://bugreports.qt.io/browse/QTBUG-76354
+    mMainWindow->showNormal();
+    mMainWindow->setWindowState(Qt::WindowMinimized);
+#else
     mMainWindow->showMinimized();
-  else {
-    WbPreferences *const prefs = WbPreferences::instance();
+#endif
+  } else {
     if (prefs->value("MainWindow/maximized", false).toBool())
       mMainWindow->showMaximized();
     else
@@ -380,6 +399,10 @@ bool WbGuiApplication::setup() {
       QFile::remove(desktopFilePath);
   }
 #endif
+
+  WbWrenOpenGlContext::makeWrenCurrent();
+  WbSysInfo::initializeOpenGlInfo();
+  WbWrenOpenGlContext::doneWren();
 
   if (showGuidedTour)
     mMainWindow->showGuidedTour();

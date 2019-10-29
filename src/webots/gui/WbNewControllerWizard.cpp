@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 #include "WbNewControllerWizard.hpp"
 
+#include "WbDesktopServices.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLanguage.hpp"
 #include "WbLineEdit.hpp"
@@ -23,7 +24,6 @@
 
 #include <QtCore/QUrl>
 
-#include <QtGui/QDesktopServices>
 #include <QtGui/QRegExpValidator>
 
 #include <QtWidgets/QLabel>
@@ -148,7 +148,7 @@ void WbNewControllerWizard::accept() {
     WbMessageBox::warning(tr("Some directories or files could not be created."), this, tr("Controller creation failed"));
 #ifdef _WIN32
   if (mIdeButtonGroup->checkedId() == 1 && mEditCheckBox->isChecked()) {  // Microsoft Visual Studio
-    QDesktopServices::openUrl(QUrl::fromLocalFile(mSlnFile));
+    WbDesktopServices::openUrl(QUrl::fromLocalFile(mSlnFile).toString());
     mNeedsEdit = false;
   } else
 #endif

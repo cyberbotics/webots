@@ -30,10 +30,10 @@ def apply_spline_subdivison_to_path(path, subdivision):
         coefficients = []
         for j in range(3):
             coefficients.append([
-                (-points[i-2][j] + 3 * points[i-1][j] - 3 * points[i][j] + points[i+1][j]) / 6.0,
-                (3 * points[i-2][j] - 6 * points[i-1][j] + 3 * points[i][j]) / 6.0,
-                (-3 * points[i-2][j] + 3 * points[i][j]) / 6.0,
-                (points[i-2][j] + 4 * points[i-1][j] + points[i][j]) / 6.0
+                (-points[i - 2][j] + 3 * points[i - 1][j] - 3 * points[i][j] + points[i + 1][j]) / 6.0,
+                (3 * points[i - 2][j] - 6 * points[i - 1][j] + 3 * points[i][j]) / 6.0,
+                (-3 * points[i - 2][j] + 3 * points[i][j]) / 6.0,
+                (points[i - 2][j] + 4 * points[i - 1][j] + points[i][j]) / 6.0
             ])
         for j in range(subdivision):
             t = float(j + 1) / subdivision

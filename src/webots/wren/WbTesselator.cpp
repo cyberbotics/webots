@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -48,6 +48,7 @@ struct TesselatorData {
 
   // extra data start from here
   int coordIndex;
+  int normalIndex;
   int texIndex;
 };
 
@@ -68,9 +69,9 @@ static void tessEnd() {
 // the glu tesselator calls this function in the right order to populate the
 // index list
 static void tessVertexData(void *vertex, void *r) {
-  QList<QPair<int, int>> *results = (QList<QPair<int, int>> *)r;
+  QList<QVector<int>> *results = (QList<QVector<int>> *)r;
   TesselatorData *tesselatorData = static_cast<TesselatorData *>(vertex);
-  results->append(QPair<int, int>(tesselatorData->coordIndex, tesselatorData->texIndex));
+  results->append(QVector<int>() << tesselatorData->coordIndex << tesselatorData->normalIndex << tesselatorData->texIndex);
 }
 
 // used to force triangle list (and disable strips and fans)
@@ -85,8 +86,8 @@ static void tessError(GLenum errorCode) {
       QObject::tr("Tessellation Error (%1): \"%2\".").arg((int)errorCode).arg((const char *)gluErrorString(errorCode));
 }
 
-QString WbTesselator::tesselate(const QList<QPair<int, int>> &indexes, const QList<WbVector3> &vertices,
-                                QList<QPair<int, int>> &results) {
+QString WbTesselator::tesselate(const QList<QVector<int>> &indexes, const QList<WbVector3> &vertices,
+                                QList<QVector<int>> &results) {
   results.clear();
 
   // don't reallocate the results list into the tesselator callback
@@ -122,8 +123,9 @@ QString WbTesselator::tesselate(const QList<QPair<int, int>> &indexes, const QLi
     data->pos[0] = (GLdouble)currentVertex.x();
     data->pos[1] = (GLdouble)currentVertex.y();
     data->pos[2] = (GLdouble)currentVertex.z();
-    data->coordIndex = indexes[i].first;
-    data->texIndex = indexes[i].second;
+    data->coordIndex = indexes[i][0];
+    data->normalIndex = indexes[i][1];
+    data->texIndex = indexes[i][2];
 
     gluTessVertex(tesselator, data->pos, data);
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,6 +48,12 @@ static inline void robotbenchmark_record(const char *answer, const char *benchma
   }
   n = fscanf(file, "%1023s", host);
   fclose(file);
+  if (n < 1) {
+    fprintf(stderr, "Error: cannot read host name.\n");
+    free(user);
+    return;
+  }
+
   char fqdn[1024];
   int start;
   if (strncmp(host, "https://", 8) == 0)

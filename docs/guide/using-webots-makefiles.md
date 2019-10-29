@@ -116,7 +116,7 @@ QT = core gui widgets network
 ```
 
 Note that not all the Qt modules are embedded with Webots.
-You can find the available modules in the `WEBOTS_HOME/include/qt` directory.
+You can find the available modules in the "[WEBOTS\_HOME/include/qt](https://github.com/cyberbotics/webots/tree/master/include/)" directory (after running the Qt installation script).
 
 #### Verbose Compilation
 

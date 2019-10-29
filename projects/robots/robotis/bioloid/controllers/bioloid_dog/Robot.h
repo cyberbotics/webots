@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -102,9 +102,6 @@ private:
 
   WbDeviceTag _gps;     // for measuring the current position
   WbDeviceTag _camera;  // for displaying camera images
-
-  int _selectedMotorId;  // motor being updated
-  int _offset;           // offset applied to the selected motor
 };
 
 #endif

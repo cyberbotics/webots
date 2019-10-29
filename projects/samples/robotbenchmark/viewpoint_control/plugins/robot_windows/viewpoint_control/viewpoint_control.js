@@ -2,39 +2,35 @@ $('#infotabs').tabs();
 $('#record-button').button();
 
 var benchmarkName = "Viewpoint Control";
+view.ontouchmove = evaluateViewpoint;
 view.onmousedrag = evaluateViewpoint;
 view.onmousewheel = evaluateViewpoint;
 
 function evaluateViewpoint(event) {
-  var viewpoint = view.x3dScene.getElementsByTagName('Viewpoint')[0];
-  var currentPosition = x3dom.fields.SFVec3f.parse(viewpoint.getAttribute('position'));
-  var currentOrientation = x3dom.fields.SFVec4f.parse(viewpoint.getAttribute('orientation'));
-  var targetPosition = new x3dom.fields.SFVec3f(0, 0.45, 0.333);
-  var targetOrientation = new x3dom.fields.SFVec4f(0, 0.7071, 0.7071, 3.1415927);
+  var camera = view.x3dScene.viewpoint.camera;
+  var currentOrientation = webots.quaternionToAxisAngle(camera.quaternion);
+  currentOrientation.axis.negate();
+  var targetPosition = new THREE.Vector3(0, 0.45, 0.333);
+  var targetOrientation = { 'axis': new THREE.Vector3(0, 0.7071, 0.7071), 'angle': Math.PI };
   var maxIndex;
-  if (Math.abs(currentOrientation.x) > Math.abs(currentOrientation.y)) {
-    if (Math.abs(currentOrientation.x) > Math.abs(currentOrientation.z))
+  if (Math.abs(currentOrientation.axis.x) > Math.abs(currentOrientation.axis.y)) {
+    if (Math.abs(currentOrientation.axis.x) > Math.abs(currentOrientation.axis.z))
       maxIndex = 'x';
     else
       maxIndex = 'z';
-  } else if (Math.abs(currentOrientation.y) > Math.abs(currentOrientation.z))
+  } else if (Math.abs(currentOrientation.axis.y) > Math.abs(currentOrientation.axis.z))
     maxIndex = 'y';
   else
     maxIndex = 'z';
   if (currentOrientation[maxIndex] < 0) {
-    currentOrientation.x = -currentOrientation.x;
-    currentOrientation.y = -currentOrientation.y;
-    currentOrientation.z = -currentOrientation.z;
-    currentOrientation.w = -currentOrientation.w;
+    currentOrientation.axis.negate();
+    currentOrientation.angle = -currentOrientation.angle;
   }
-  var positionDifference = currentPosition.subtract(targetPosition).length();
-  var dx = currentOrientation.x - targetOrientation.x;
-  var dy = currentOrientation.y - targetOrientation.y;
-  var dz = currentOrientation.z - targetOrientation.z;
-  var orientationDifference = Math.sqrt(dx * dx + dy * dy + dz * dz);
-  if (currentOrientation.w < 0)
-    currentOrientation.w += 2 * Math.PI;
-  var angleDifference = Math.abs(currentOrientation.w - targetOrientation.w);
+  var positionDifference = camera.position.distanceTo(targetPosition);
+  var orientationDifference = currentOrientation.axis.distanceToSquared(targetOrientation.axis);
+  if (currentOrientation.angle < 0)
+    currentOrientation.angle += 2 * Math.PI;
+  var angleDifference = Math.abs(currentOrientation.angle - targetOrientation.angle);
   performance = angleDifference + orientationDifference + positionDifference;
   performance = 100 - performance * 20
   if (performance < 0)
@@ -70,24 +66,15 @@ function recordPerformance() {
                  "<p>You should log in at <a href='https://robotbenchmark.net'>robotbenchmark.net</a> to record your performance.</p>");
     return false;
   }
-  var record = performance / 100;
   email = decodeURIComponent(email);
   $.post('/record.php', {email: email,
                          password: password,
                          benchmark: 'viewpoint_control',
-                         record: record,
+                         record: performance / 100,
                          key: '1'}).done(function(data) {
-                           if (data.startsWith('OK:')) {
-                             var result = showBenchmarkRecord('record:' + data, benchmarkName, metricToString);
-                             if (!result['isNewRecord']) {
-                               // current record is worst than personal record
-                               text = "<p style='font-weight:bold'>You did not outperform your personal record.</p>" +
-                                      "<p>Your personal record is: " + metricToString(result['personalRecord']) + ".</p>" +
-                                      "<p>Your current performance is: " + metricToString(record) + ".</p>";
-                               webots.alert(benchmarkName + " result", text);
-                               return false;
-                             }
-                           } else
+                           if (data.startsWith('OK:'))
+                             showBenchmarkRecord('record:' + data, benchmarkName, metricToString);
+                           else
                              showBenchmarkError('record:' + data, benchmarkName);
                          });
   return true;

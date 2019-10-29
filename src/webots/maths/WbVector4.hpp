@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ public:
   // construct from other vectors
   WbVector4(double x, double y, double z, double w = 1.0) : mX(x), mY(y), mZ(z), mW(w) {}
   WbVector4(const WbVector4 &v) : mX(v.mX), mY(v.mY), mZ(v.mZ), mW(v.mW) {}
-  WbVector4(const WbVector3 &v, double w = 1.0);
+  explicit WbVector4(const WbVector3 &v, double w = 1.0);
   explicit WbVector4(const double v[4]) : mX(v[0]), mY(v[1]), mZ(v[2]), mW(v[3]) {}
   explicit WbVector4(const float v[4]) : mX(v[0]), mY(v[1]), mZ(v[2]), mW(v[3]) {}
 

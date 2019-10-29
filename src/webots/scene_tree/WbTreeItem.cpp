@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 #include "WbMultipleValue.hpp"
 #include "WbNode.hpp"
 #include "WbNodeModel.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbSFNode.hpp"
 #include "WbSFRotation.hpp"
 #include "WbSFVector2.hpp"
@@ -125,8 +126,17 @@ QString WbTreeItem::data() const {
     return QString();
 
   switch (mType) {
-    case NODE:
-      return mNode->fullName();
+    case NODE: {
+      QString fullName = mNode->fullName();
+      if (!fullName.startsWith("DEF ") && !fullName.startsWith("USE ")) {
+        if (WbNodeUtilities::isDeviceTypeName(mNode->nodeModelName())) {
+          WbSFString *name = mNode->findSFString("name");
+          if (name)
+            fullName += " \"" + name->value() + "\"";
+        }
+      }
+      return fullName;
+    }
     case FIELD: {
       if (mField->isSingle())
         return QString("%1 %2").arg(mField->name(), mField->value()->toString(WbPrecision::GUI_LOW));

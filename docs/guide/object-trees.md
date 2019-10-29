@@ -6,7 +6,7 @@ A big sassafras tree with optional boundingObject.
 
 %figure
 
-![BigSassafras](images/objects/trees/BigSassafras/model.png)
+![BigSassafras](images/objects/trees/BigSassafras/model.thumbnail.png)
 
 %end
 
@@ -21,7 +21,7 @@ BigSassafras {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/trees/protos/BigSassafras.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/BigSassafras.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/trees/protos/BigSassafras.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -36,7 +36,7 @@ A cypress tree with optional boundingObject.
 
 %figure
 
-![Cypress](images/objects/trees/Cypress/model.png)
+![Cypress](images/objects/trees/Cypress/model.thumbnail.png)
 
 %end
 
@@ -51,7 +51,7 @@ Cypress {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/trees/protos/Cypress.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Cypress.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/trees/protos/Cypress.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -81,7 +81,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![Forest](images/objects/trees/Forest/model.png)
+![Forest](images/objects/trees/Forest/model.thumbnail.png)
 
 %end
 
@@ -105,7 +105,7 @@ Forest {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/trees/protos/Forest.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Forest.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/trees/protos/Forest.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -140,7 +140,7 @@ A oak tree with optional boundingObject.
 
 %figure
 
-![Oak](images/objects/trees/Oak/model.png)
+![Oak](images/objects/trees/Oak/model.thumbnail.png)
 
 %end
 
@@ -155,7 +155,7 @@ Oak {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/trees/protos/Oak.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Oak.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/trees/protos/Oak.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -170,7 +170,7 @@ A palm tree with optional boundingObject.
 
 %figure
 
-![PalmTree](images/objects/trees/PalmTree/model.png)
+![PalmTree](images/objects/trees/PalmTree/model.thumbnail.png)
 
 %end
 
@@ -185,7 +185,7 @@ PalmTree {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/trees/protos/PalmTree.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/PalmTree.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/trees/protos/PalmTree.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -200,7 +200,7 @@ A pine tree with optional boundingObject.
 
 %figure
 
-![Pine](images/objects/trees/Pine/model.png)
+![Pine](images/objects/trees/Pine/model.thumbnail.png)
 
 %end
 
@@ -215,7 +215,7 @@ Pine {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/trees/protos/Pine.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Pine.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/trees/protos/Pine.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -230,7 +230,7 @@ A sassafras tree with optional boundingObject.
 
 %figure
 
-![Sassafras](images/objects/trees/Sassafras/model.png)
+![Sassafras](images/objects/trees/Sassafras/model.thumbnail.png)
 
 %end
 
@@ -245,7 +245,7 @@ Sassafras {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/trees/protos/Sassafras.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Sassafras.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/trees/protos/Sassafras.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -272,7 +272,7 @@ The 'random' type choose randomly a tree type each time the node is regenerated.
 
 %figure
 
-![SimpleTree](images/objects/trees/SimpleTree/model.png)
+![SimpleTree](images/objects/trees/SimpleTree/model.thumbnail.png)
 
 %end
 
@@ -294,7 +294,7 @@ SimpleTree {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/trees/protos/SimpleTree.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/SimpleTree.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/trees/protos/SimpleTree.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -341,7 +341,7 @@ Tree {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/trees/protos/Tree.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Tree.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/trees/protos/Tree.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -14,13 +14,14 @@ PROTO RectangleArena [
   field SFNode     floorAppearance ChequeredParquetry {}  # Defines the appearance of the floor.
   field SFFloat    wallThickness   0.01                   # Defines the thickness of the walls.
   field SFFloat    wallHeight      0.1                    # Defines the height of the walls.
-  field SFColor    wallColor       0.8 0.8 0.8            # Defines the color of the walls.
-  field SFVec2f    wallTileSize    0.5 0.5                # Defines the size of the texture used for the walls.
   field SFNode     wallAppearance  BrushedAluminium {}    # Defines the appearance of the wall.
 
   # Deprecated in R2019a
   hiddenField MFString   floorTextureUrl "textures/checkered_parquetry.jpg"
   hiddenField MFString   wallTextureUrl  "textures/metal.jpg"
+  # Deprecated in R2019a-rev2
+  hiddenField SFColor    wallColor 0.8 0.8 0.8
+  hiddenField SFVec2f    wallTileSize 0.5 0.5
 ]
 {
   %{
@@ -32,14 +33,23 @@ PROTO RectangleArena [
       floorSize = fields.floorSize.defaultValue
     end
 
-    local floorTextureUrl = fields.floorTextureUrl.value[0]
-    if floorTextureUrl ~= fields.floorTextureUrl.defaultValue[0] then
+    if fields.floorTextureUrl.value[0] ~= fields.floorTextureUrl.defaultValue[0] then
       io.stderr:write("The 'floorTextureUrl' field is deprecated, using the new 'floorAppearance' field instead.\n")
     end
 
-    local wallTextureUrl = fields.wallTextureUrl.value[0]
-    if wallTextureUrl ~= fields.wallTextureUrl.defaultValue[0] then
+    if fields.wallTextureUrl.value[0] ~= fields.wallTextureUrl.defaultValue[0] then
       io.stderr:write("The 'wallTextureUrl' field is deprecated, using the new 'wallAppearance' field instead.\n")
+    end
+
+    if (fields.wallColor.value.r ~= fields.wallColor.defaultValue.r or
+        fields.wallColor.value.g ~= fields.wallColor.defaultValue.g or
+        fields.wallColor.value.b ~= fields.wallColor.defaultValue.b) then
+      io.stderr:write("The 'wallColor' field is deprecated, using the new 'wallAppearance' field instead.\n")
+    end
+
+    local wallTileSize = fields.wallTileSize.value;
+    if (wallTileSize.x ~= fields.wallTileSize.defaultValue.x or wallTileSize.y ~= fields.wallTileSize.defaultValue.y) then
+      io.stderr:write("The 'wallTileSize' field is deprecated, using the new 'wallApperance' field instead.\n")
     end
 
     local wallThickness = fields.wallThickness.value
@@ -53,19 +63,6 @@ PROTO RectangleArena [
       io.stderr:write("'wallHeight' must be positive\n")
       wallHeight = fields.wallHeight.defaultValue
     end
-
-    local wallTextureScaleA = { x = 1; y = 1 }
-    local wallTextureScaleB = { x = 1; y = 1 }
-    local wallTextureUrl = fields.wallTextureUrl.value
-    if fields.wallTileSize.value.x >= 0 and fields.wallTileSize.value.y > 0.0 then -- avoid a zero division and negative values
-      wallTextureScaleA.x = floorSize.y / fields.wallTileSize.value.x
-      wallTextureScaleA.y = floorSize.y / fields.wallTileSize.value.y
-      wallTextureScaleB.x = (floorSize.x + 2 * wallThickness) / fields.wallTileSize.value.x
-      wallTextureScaleB.y = (floorSize.x + 2 * wallThickness) / fields.wallTileSize.value.y
-    else
-     io.stderr:write("'wallTextureScale' must contain positive values\n")
-    end
-
   }%
   Solid {
     translation IS translation

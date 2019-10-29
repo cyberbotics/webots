@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,8 @@
 // limitations under the License.
 
 #include "WbAboutBox.hpp"
+
+#include "WbDesktopServices.hpp"
 
 #include <QtCore/QDate>
 #include <QtWidgets/QGridLayout>
@@ -33,7 +35,8 @@ WbAboutBox::WbAboutBox(QWidget *parent) : QDialog(parent) {
 
   int year = QDate::currentDate().year();
   QLabel *licenseInfo = new QLabel();
-  licenseInfo->setOpenExternalLinks(true);
+  connect(licenseInfo, &QLabel::linkActivated, &WbDesktopServices::openUrl);
+
   licenseInfo->setWordWrap(true);
   licenseInfo->setText(QString("<br> © Cyberbotics 1998-%1. Licensed under the <a style='color: #5DADE2;' "
                                "href='https://www.apache.org/licenses/LICENSE-2.0'>Apache License, Version 2.0</a>.")
@@ -41,7 +44,7 @@ WbAboutBox::WbAboutBox(QWidget *parent) : QDialog(parent) {
   layout->addWidget(licenseInfo, 0, 1, 1, 1, Qt::AlignCenter);
 
   QLabel *description = new QLabel();
-  description->setOpenExternalLinks(true);
+  connect(description, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   description->setWordWrap(true);
   description->setText("<a style='color: #5DADE2;' href='https://cyberbotics.com'>"
                        "Our Website</a>&nbsp;&nbsp;");  // extra spaces for correct alignment
@@ -49,9 +52,9 @@ WbAboutBox::WbAboutBox(QWidget *parent) : QDialog(parent) {
   layout->addWidget(description, 1, 0, 1, 1, Qt::AlignBottom | Qt::AlignRight);
 
   description = new QLabel();
-  description->setOpenExternalLinks(true);
+  connect(description, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   description->setWordWrap(true);
-  description->setText("<a style='color: #5DADE2;' href='https://cyberbotics.com/change_log'>Changelog</a>");
+  description->setText("<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/reference/changelog'>Changelog</a>");
   layout->addWidget(description, 1, 1, 1, 1, Qt::AlignBottom | Qt::AlignCenter);
 
   setLayout(layout);

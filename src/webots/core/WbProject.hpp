@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,6 +35,9 @@ public:
 
   // the special "default" project: "WEBOTS_HOME/projects/default"
   static WbProject *defaultProject();
+
+  // the special "default" project in the 'extra projects': "EXTRA_PROJECT_PATH/default"
+  static WbProject *extraDefaultProject();
 
   // e.g. /home/yvan/project/worlds/ghostdog.wbt -> /home/yvan/project
   static QString projectPathFromWorldFile(const QString &fileName, bool &valid);
@@ -82,6 +85,7 @@ private:
 
   static void cleanupCurrentProject();
   static void cleanupDefaultProject();
+  static void cleanupExtraDefaultProject();
   static void cleanupSystemProject();
 };
 

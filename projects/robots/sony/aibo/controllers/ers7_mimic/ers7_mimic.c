@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,7 +80,6 @@ int main() {
   }
 
   while (wb_robot_step(SIMULATION_STEP) != -1) {
-    int j;
     for (j = 0; j < NUM_JOINTS_PER_LEG; j++) {
       /* master position */
       double master = wb_position_sensor_get_value(leg_position_sensor[MASTER_LEG][j]);

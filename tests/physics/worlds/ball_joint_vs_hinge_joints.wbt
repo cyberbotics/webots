@@ -1,0 +1,472 @@
+#VRML_SIM R2019b utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.654668392633041 -0.7394386230216 -0.15697075673892394 0.774863141020495
+  position -1.0045221731012215 1.140274437070733 1.4889604949474993
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  translation 0 -3.469446951953614e-18 0
+}
+DEF BALL_JOINT_ROBOT Robot {
+  translation 0.15 0 0.15
+  children [
+    DEF BODY Transform {
+      translation 0 0.05 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0 0
+            transparency 0.05
+            metalness 0
+          }
+          geometry Box {
+            size 0.1 0.1 0.1
+          }
+        }
+      ]
+    }
+    BallJoint {
+      jointParameters BallJointParameters {
+        anchor 0 0.15 0
+      }
+      jointParameters2 JointParameters {
+        axis 1 0 1
+      }
+      jointParameters3 JointParameters {
+        axis 0 1 0
+      }
+      device [
+        Brake {
+        }
+        PositionSensor {
+        }
+        RotationalMotor {
+          maxVelocity 1
+        }
+      ]
+      device2 [
+        Brake {
+          name "brake 2"
+        }
+        PositionSensor {
+          name "position sensor 2"
+        }
+        RotationalMotor {
+          name "rotational motor 2"
+          maxVelocity 1
+          minPosition -1.5707963267948966
+          maxPosition 1.5707963267948966
+        }
+      ]
+      device3 [
+        Brake {
+          name "brake 3"
+        }
+        PositionSensor {
+          name "position sensor 3"
+        }
+        RotationalMotor {
+          name "rotational motor 3"
+          maxVelocity 1
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.15 0
+        children [
+          DEF BALL_JOINT_MARKER Solid {
+            translation 0.029999999999999985 0.06999999899307167 0
+            rotation 0 0 -1 1.5707963603591737
+            children [
+              Shape {
+                appearance PBRAppearance {
+                }
+                geometry Cone {
+                  bottomRadius 0.01
+                  height 0.02
+                  subdivision 48
+                }
+              }
+            ]
+          }
+          DEF CYLINDER Shape {
+            appearance PBRAppearance {
+              baseColor 0.20392156862745098 0.396078431372549 0.6431372549019608
+              transparency 0.1
+            }
+            geometry Cylinder {
+              height 0.2
+              radius 0.019999999999999997
+            }
+          }
+        ]
+        boundingObject USE CYLINDER
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "robot(2)"
+  boundingObject USE BODY
+  physics Physics {
+  }
+  controller "joint_controller"
+}
+DEF BALL_JOINT_ROBOT_KINEMATIC Robot {
+  translation 0.15 0 -0.15
+  children [
+    DEF BODY Transform {
+      translation 0 0.05 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0 0
+            transparency 0.05
+            metalness 0
+          }
+          geometry Box {
+            size 0.1 0.1 0.1
+          }
+        }
+      ]
+    }
+    BallJoint {
+      jointParameters BallJointParameters {
+        anchor 0 0.15 0
+      }
+      jointParameters2 JointParameters {
+        axis 1 0 1
+      }
+      jointParameters3 JointParameters {
+        axis 0 1 0
+      }
+      device [
+        Brake {
+        }
+        PositionSensor {
+        }
+        RotationalMotor {
+          maxVelocity 1
+        }
+      ]
+      device2 [
+        Brake {
+          name "brake 2"
+        }
+        PositionSensor {
+          name "position sensor 2"
+        }
+        RotationalMotor {
+          name "rotational motor 2"
+          maxVelocity 1
+          minPosition -1.5707963267948966
+          maxPosition 1.5707963267948966
+        }
+      ]
+      device3 [
+        Brake {
+          name "brake 3"
+        }
+        PositionSensor {
+          name "position sensor 3"
+        }
+        RotationalMotor {
+          name "rotational motor 3"
+          maxVelocity 1
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.15 0
+        children [
+          DEF BALL_JOINT_MARKER_KINEMATIC Solid {
+            translation 0.029999999999999985 0.06999999899307167 0
+            rotation 0 0 -1 1.5707963603591737
+            children [
+              Shape {
+                appearance PBRAppearance {
+                }
+                geometry Cone {
+                  bottomRadius 0.01
+                  height 0.02
+                  subdivision 48
+                }
+              }
+            ]
+          }
+          DEF CYLINDER Shape {
+            appearance PBRAppearance {
+              baseColor 0.20392156862745098 0.396078431372549 0.6431372549019608
+              transparency 0.1
+            }
+            geometry Cylinder {
+              height 0.2
+              radius 0.019999999999999997
+            }
+          }
+        ]
+        boundingObject USE CYLINDER
+      }
+    }
+  ]
+  name "robot(3)"
+  boundingObject USE BODY
+  controller "joint_controller"
+}
+DEF HINGE_JOINT_ROBOT Robot {
+  translation -0.15 0 -0.15
+  children [
+    DEF BODY Transform {
+      translation 0 0.05 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0 0
+            transparency 0.05
+            metalness 0
+          }
+          geometry Box {
+            size 0.1 0.1 0.1
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 1 0 1
+        anchor 0 0.15 0
+        suspensionAxis 0 1 0
+      }
+      device [
+        Brake {
+        }
+        PositionSensor {
+        }
+        RotationalMotor {
+          maxVelocity 1
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.15 0
+        children [
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 1 0 -1
+            }
+            device [
+              Brake {
+                name "brake 2"
+              }
+              PositionSensor {
+                name "position sensor 2"
+              }
+              RotationalMotor {
+                name "rotational motor 2"
+                maxVelocity 1
+              }
+            ]
+            endPoint Solid {
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0 1 0
+                  }
+                  device [
+                    Brake {
+                      name "brake 3"
+                    }
+                    PositionSensor {
+                      name "position sensor 3"
+                    }
+                    RotationalMotor {
+                      name "rotational motor 3"
+                      maxVelocity 1
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF HINGE_JOINT_MARKER Solid {
+                        translation 0.029999999999999985 0.06999999899307167 0
+                        rotation 0 0 -1 1.5707963603591737
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                            }
+                            geometry Cone {
+                              bottomRadius 0.01
+                              height 0.02
+                              subdivision 48
+                            }
+                          }
+                        ]
+                      }
+                      DEF CYLINDER Shape {
+                        appearance PBRAppearance {
+                          baseColor 0.20392156862745098 0.396078431372549 0.6431372549019608
+                          transparency 0.1
+                        }
+                        geometry Cylinder {
+                          height 0.2
+                          radius 0.019999999999999997
+                        }
+                      }
+                    ]
+                    boundingObject USE CYLINDER
+                    physics Physics {
+                    }
+                  }
+                }
+              ]
+              boundingObject Sphere {
+                radius 0.01
+              }
+              physics Physics {
+              }
+            }
+          }
+        ]
+        boundingObject DEF DUMMY_SPHERE Sphere {
+          radius 0.01
+        }
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "robot(1)"
+  boundingObject USE BODY
+  physics Physics {
+  }
+  controller "joint_controller"
+}
+DEF HINGE_JOINT_ROBOT_KINEMATIC Robot {
+  translation -0.15 0 0.15
+  children [
+    DEF BODY Transform {
+      translation 0 0.05 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0 0
+            transparency 0.05
+            metalness 0
+          }
+          geometry Box {
+            size 0.1 0.1 0.1
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 1 0 1
+        anchor 0 0.15 0
+        suspensionAxis 0 1 0
+      }
+      device [
+        Brake {
+        }
+        PositionSensor {
+        }
+        RotationalMotor {
+          maxVelocity 1
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.15 0
+        children [
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 1 0 -1
+            }
+            device [
+              Brake {
+                name "brake 2"
+              }
+              PositionSensor {
+                name "position sensor 2"
+              }
+              RotationalMotor {
+                name "rotational motor 2"
+                maxVelocity 1
+              }
+            ]
+            endPoint Solid {
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0 1 0
+                  }
+                  device [
+                    Brake {
+                      name "brake 3"
+                    }
+                    PositionSensor {
+                      name "position sensor 3"
+                    }
+                    RotationalMotor {
+                      name "rotational motor 3"
+                      maxVelocity 1
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF HINGE_JOINT_MARKER_KINEMATIC Solid {
+                        translation 0.029999999999999985 0.06999999899307167 0
+                        rotation 0 0 -1 1.5707963603591737
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                            }
+                            geometry Cone {
+                              bottomRadius 0.01
+                              height 0.02
+                              subdivision 48
+                            }
+                          }
+                        ]
+                      }
+                      DEF CYLINDER Shape {
+                        appearance PBRAppearance {
+                          baseColor 0.20392156862745098 0.396078431372549 0.6431372549019608
+                          transparency 0.1
+                        }
+                        geometry Cylinder {
+                          height 0.2
+                          radius 0.019999999999999997
+                        }
+                      }
+                    ]
+                    boundingObject USE CYLINDER
+                  }
+                }
+              ]
+              boundingObject Sphere {
+                radius 0.01
+              }
+            }
+          }
+        ]
+        boundingObject DEF DUMMY_SPHERE Sphere {
+          radius 0.01
+        }
+      }
+    }
+  ]
+  name "robot(4)"
+  boundingObject USE BODY
+  controller "joint_controller"
+}
+DEF SUPERVISOR Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "ball_joint_vs_hinge_joints"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

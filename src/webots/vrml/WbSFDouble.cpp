@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,11 +13,12 @@
 // limitations under the License.
 
 #include "WbSFDouble.hpp"
-#include <cmath>
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 
-void WbSFDouble::read(WbTokenizer *tokenizer, const QString &worldPath) {
+#include <cmath>
+
+void WbSFDouble::readSFDouble(WbTokenizer *tokenizer, const QString &worldPath) {
   try {
     mValue = tokenizer->nextToken()->toDouble();
   } catch (...) {

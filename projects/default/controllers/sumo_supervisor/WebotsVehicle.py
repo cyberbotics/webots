@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -63,12 +63,12 @@ class WebotsVehicle:
         # get all the edges in a radius of 5 meters from the vehicle position
         edges = net.getNeighboringEdges(self.currentPosition[0], self.currentPosition[2], maxDistance, False)
         # remove edges starting by ':' (internal edge of SUMO)
-        for i in range(len(edges)-1, -1, -1):
+        for i in range(len(edges) - 1, -1, -1):
             if (edges[i][0]).getID().startswith(":"):
                 edges.pop([i])
 
         # find the closest edge
-        if len(edges) > 0:
+        if edges:
             # correct distance using the third dimension
             for i in range(0, len(edges)):
                 edge = (edges[i][0]).getID()
@@ -95,7 +95,8 @@ class WebotsVehicle:
         # get pitch angle
         self.angle = self.get_angle()
         # compute current speed and convert it to m/s
-        speed = math.sqrt(math.pow(self.currentPosition[0] - self.previousPosition[0], 2) + math.pow(self.currentPosition[2] - self.previousPosition[2], 2))
+        speed = math.sqrt(math.pow(self.currentPosition[0] - self.previousPosition[0], 2) +
+                          math.pow(self.currentPosition[2] - self.previousPosition[2], 2))
         self.previousPosition = self.currentPosition
         speed = speed / 0.2
         # if vehicle is not present in the network add it
@@ -110,7 +111,8 @@ class WebotsVehicle:
         except:
             pass
         try:
-            traci.vehicle.moveToXY(vehID=self.name, edgeID='', lane=0, x=self.currentPosition[0], y=self.currentPosition[2], angle=180 * self.angle / math.pi, keepRoute=0)
+            traci.vehicle.moveToXY(vehID=self.name, edgeID='', lane=0, x=self.currentPosition[0], y=self.currentPosition[2],
+                                   angle=180 * self.angle / math.pi, keepRoute=0)
         except:
             pass
         self.previousPosition = self.currentPosition

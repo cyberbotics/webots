@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,45 +41,43 @@ class WbFieldChecker : public QObject {
   Q_OBJECT
 
 public:
-  static bool checkDoubleIsNonNegative(const WbBaseNode *node, WbSFDouble *value, double defaultValue);
-  static bool checkDoubleIsNonPositive(const WbBaseNode *node, WbSFDouble *value, double defaultValue);
-  static bool checkDoubleIsPositive(const WbBaseNode *node, WbSFDouble *value, double defaultValue);
-  static bool checkDoubleInRangeWithIncludedBounds(const WbBaseNode *node, WbSFDouble *value, double min, double max,
-                                                   double defaultValue);
-  static bool checkDoubleInRangeWithExcludedBounds(const WbBaseNode *node, WbSFDouble *value, double min, double max,
-                                                   double defaultValue);
-  static bool checkDoubleIsGreaterOrEqual(const WbBaseNode *node, WbSFDouble *value, double threshold, double defaultValue);
-  static bool checkDoubleIsGreater(const WbBaseNode *node, WbSFDouble *value, double threshold, double defaultValue);
-  static bool checkDoubleIsLessOrEqual(const WbBaseNode *node, WbSFDouble *value, double threshold, double defaultValue);
-  static bool checkDoubleIsLess(const WbBaseNode *node, WbSFDouble *value, double threshold, double defaultValue);
-  static bool checkDoubleIsNonNegativeOrDisabled(const WbBaseNode *node, WbSFDouble *value, double defaultValue,
-                                                 double disableValue);
-  static bool checkDoubleIsPositiveOrDisabled(const WbBaseNode *node, WbSFDouble *value, double defaultValue,
-                                              double disableValue);
-  static bool checkDoubleIsInRangeWithIncludedBoundsOrDisabled(const WbBaseNode *node, WbSFDouble *value, double min,
-                                                               double max, double disableValue, double defaultValue);
+  static bool resetDoubleIfNegative(const WbBaseNode *node, WbSFDouble *value, double defaultValue);
+  static bool resetDoubleIfNonPositive(const WbBaseNode *node, WbSFDouble *value, double defaultValue);
+  static bool resetDoubleIfNotInRangeWithIncludedBounds(const WbBaseNode *node, WbSFDouble *value, double min, double max,
+                                                        double defaultValue);
+  static bool resetDoubleIfNotInRangeWithExcludedBounds(const WbBaseNode *node, WbSFDouble *value, double min, double max,
+                                                        double defaultValue);
+  static bool resetDoubleIfLess(const WbBaseNode *node, WbSFDouble *value, double threshold, double defaultValue);
+  static bool resetDoubleIfGreater(const WbBaseNode *node, WbSFDouble *value, double threshold, double defaultValue);
+  static bool resetDoubleIfNegativeAndNotDisabled(const WbBaseNode *node, WbSFDouble *value, double defaultValue,
+                                                  double disableValue);
+  static bool resetDoubleIfNonPositiveAndNotDisabled(const WbBaseNode *node, WbSFDouble *value, double defaultValue,
+                                                     double disableValue);
+  static bool resetDoubleIfNotInRangeWithIncludedBoundsAndNotDisabled(const WbBaseNode *node, WbSFDouble *value, double min,
+                                                                      double max, double disableValue, double defaultValue);
 
-  static bool checkAndClampDoubleInRangeWithIncludedBounds(const WbBaseNode *node, WbSFDouble *value, double min, double max);
+  static bool clampDoubleToRangeWithIncludedBounds(const WbBaseNode *node, WbSFDouble *value, double min, double max);
 
-  static bool checkIntIsNonNegative(const WbBaseNode *node, WbSFInt *value, int defaultValue);
-  static bool checkIntIsPositive(const WbBaseNode *node, WbSFInt *value, int defaultValue);
-  static bool checkIntIsGreaterOrEqual(const WbBaseNode *node, WbSFInt *value, int threshold, int defaultValue);
-  static bool checkIntInRangeWithIncludedBounds(const WbBaseNode *node, WbSFInt *value, int min, int max, int defaultValue);
-  static bool checkIntIsPositiveOrDisabled(const WbBaseNode *node, WbSFInt *value, int defaultValue, int disableValue);
-  static bool checkIntIsNonNegativeOrDisabled(const WbBaseNode *node, WbSFInt *value, int defaultValue, int disableValue);
+  static bool resetIntIfNegative(const WbBaseNode *node, WbSFInt *value, int defaultValue);
+  static bool resetIntIfNonPositive(const WbBaseNode *node, WbSFInt *value, int defaultValue);
+  static bool resetIntIfLess(const WbBaseNode *node, WbSFInt *value, int threshold, int defaultValue);
+  static bool resetIntIfNotInRangeWithIncludedBounds(const WbBaseNode *node, WbSFInt *value, int min, int max,
+                                                     int defaultValue);
+  static bool resetIntIfNonPositiveAndNotDisabled(const WbBaseNode *node, WbSFInt *value, int defaultValue, int disableValue);
+  static bool resetIntIfNegativeAndNotDisabled(const WbBaseNode *node, WbSFInt *value, int defaultValue, int disableValue);
 
-  static bool checkVector2IsPositive(const WbBaseNode *node, WbSFVector2 *value, const WbVector2 &defaultValue);
+  static bool resetVector2IfNonPositive(const WbBaseNode *node, WbSFVector2 *value, const WbVector2 &defaultValue);
 
-  static bool checkVector3IsNonNegative(const WbBaseNode *node, WbSFVector3 *value, const WbVector3 &defaultValue);
-  static bool checkVector3IsPositive(const WbBaseNode *node, WbSFVector3 *value, const WbVector3 &defaultValue);
+  static bool resetVector3IfNegative(const WbBaseNode *node, WbSFVector3 *value, const WbVector3 &defaultValue);
+  static bool resetVector3IfNonPositive(const WbBaseNode *node, WbSFVector3 *value, const WbVector3 &defaultValue);
 
-  static bool checkColorIsValid(const WbBaseNode *node, WbSFColor *value);
-  static bool checkMultipleColorIsValid(const WbBaseNode *node, WbMFColor *value);
+  static bool resetColorIfInvalid(const WbBaseNode *node, WbSFColor *value);
+  static bool resetMultipleColorIfInvalid(const WbBaseNode *node, WbMFColor *value);
 
 private:
   static const WbField *findField(const WbBaseNode *node, WbValue *value);
 
-  static bool checkRgbIsValid(WbRgb &rgb);
+  static bool clampRgb(WbRgb &rgb);
 
   WbFieldChecker() {}
 };

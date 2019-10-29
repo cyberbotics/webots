@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -106,9 +106,6 @@ private:
   int top() const;
   int width() const;
   int height() const;
-
-  // Accessors for mWrenTexture
-  bool isTransparent() const;
 
   WrTexture2d *createIconTexture(QString filePath);
   void copyDataToTexture(void *data, TextureType type, int x, int y, int width, int height);

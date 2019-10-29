@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,12 +50,12 @@ void RemoteControlWidget::clear() {
 // constructor
 RemoteControlWidget::RemoteControlWidget(QWidget *parent) :
   QWidget(parent),
+  mHexFileName(""),
   mProgressDialog(NULL),
   mPressButtonDialog(NULL),
   mConnectProgressDialog(NULL) {
   mConnectFutureWatcher = new QFutureWatcher<int>(this);
   mUploadFutureWatcher = new QFutureWatcher<int>(this);
-  mHexFileName = "";
 
   // create and set the combo box into this widget
   mLayout = new QGridLayout();

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -57,11 +57,6 @@ void quit(int sig) {
 
 int main(int argc, char **argv) {
   std::string controllerName;
-
-  if (argc != 1) {
-    ROS_INFO("Usage: $ panoramic_view_recorder.");
-    return 1;
-  }
 
   // create a node named 'panoramic_view_recorder' on ROS network
   ros::init(argc, argv, "panoramic_view_recorder", ros::init_options::AnonymousName);

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ int main() {
   wb_robot_battery_sensor_enable(TIME_STEP);
 
   while (wb_robot_step(TIME_STEP) != -1) {
-    printf("Battery sensor value: %.3f J\n", wb_robot_battery_sensor_get_value());
+    printf("\fBattery sensor value: %.3f J\n", wb_robot_battery_sensor_get_value());
     const double ds0_value = wb_distance_sensor_get_value(ds0);
     const double ds1_value = wb_distance_sensor_get_value(ds1);
 

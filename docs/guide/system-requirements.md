@@ -2,7 +2,7 @@
 
 The following hardware is required to run Webots:
 
-- A fairly recent PC or Macintosh computer with at least a 2 GHz dual core CPU clock speed and 2 GB of RAM is a minimum requirement.
+- A fairly recent PC or Mac computer with at least a 2 GHz dual core CPU clock speed and 2 GB of RAM is a minimum requirement.
 A quad-core CPU is however recommended.
 - An NVIDIA or AMD OpenGL (minimum version 3.3) capable graphics adapter with at least 512 MB of RAM is required.
 We do not recommend any other graphics adapters, including Intel graphics adapters, as they often lack a good OpenGL support which may cause 3D rendering problems and application crashes.
@@ -21,7 +21,7 @@ Since Webots 8.1.0, the Linux 32 (i386) version is no longer provided.
 Webots doesn't run on Ubuntu versions earlier than 12.04.
 - Windows: Webots runs on Windows 10 64-bit, Windows 8.1 64-bit, Windows 8 64-bit and Windows 7 64-bit.
 It is not supported on 32-bit versions of Windows and on older versions including Windows Vista and Windows XP.
-- Macintosh: Webots runs on macOS 10.13 "High Sierra" and 10.12 "Sierra".
+- Mac: Webots runs on macOS 10.13 "High Sierra" and 10.12 "Sierra".
 Webots may work but is not officially supported on earlier versions of macOS.
 
 Other versions of Webots for other UNIX systems may be available upon request.

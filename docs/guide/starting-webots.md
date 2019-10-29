@@ -16,6 +16,11 @@ On Windows 10 and Windows 7, open the `Start` menu, go to the `Program Files / C
 
 On Windows 8, open the `Start` screen, scroll to the screen's right until you spot the Cyberbotics section and click on the `Webots` icon.
 
+You can also start Webots from a DOS console (`cmd.exe`) by typing `webots.bat`.
+This command works only if executed from the `C:\Program Files\Webots\msys64\mingw64\bin` directory (assuming Webots was installed in `C:\Program Files`).
+It can also work from any directory if the above directory was added to your `Path` environment variable.
+**Note:** Calling `webots.exe` directly from a DOS console may not work, as some settings may be missing (see the contents of `webots.bat` for details).
+
 ### Command Line Arguments
 
 Following command line options are available when starting Webots from a Terminal (Linux/Mac) or a Command Prompt (Windows):
@@ -108,7 +113,25 @@ For example, the following command will start Webots with the streaming server e
 
 You can get more information about web streaming in [this section](web-streaming.md).
 
-The `--enable-ogre-warnings` option redirects the uncritical Ogre log messages to the Webots console.
-The critical Ogre log messages are redirected there in any case.
-If the `--stdout` option is enabled then the uncritical Ogre log messages are redirected to the *stdout* stream of the Webots executable instead.
-Similarily, the `--stderr` option is redirecting the Ogre critical messages to the *stderr* stream.
+### Safe Mode
+
+It may happen that Webots cannot start because it is blocked on a world causing a Webots or OpenGL crash.
+In this case, Webots can be started in safe mode.
+The safe mode forces Webots to start with an empty world, reduces all the OpenGL options, and stores those preferences.
+To do this, simply set the environment variable `WEBOTS_SAFE_MODE` in the environment running Webots.
+
+Once successfully started this way, you must unset this environment variable, open again your world and increase [the OpenGL preferences](preferences.md#opengl).
+This action may cause a new crash.
+
+#### On Windows
+
+1. Open the `Environment Variables` system dialog box. To do so, look for "environment variable" in the `search bar` of the Windows `start menu`, click on `Edit the system environment variables`, this will open up the `System Properties` dialog box to the `Advanced` tab. Click on the `Environment Variables` button at the bottom.
+2. Add a new `WEBOTS_SAFE_MODE` user environment variable. To do so, in the `user variables` panel, click on the `New` button and add a `New User Variable` named `WEBOTS_SAFE_MODE` with a value of `true`.
+3. Start Webots as usual.
+
+#### On Linux and macOS
+
+```
+export WEBOTS_SAFE_MODE=true
+webots
+```

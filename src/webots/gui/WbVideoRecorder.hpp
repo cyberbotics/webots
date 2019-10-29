@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -95,7 +95,7 @@ private:
 
 private slots:
   void requestSnapshotIfNeeded(bool fromPhysics);
-  void writeSnapshot(unsigned char *frame, int PBOIndex);
+  void writeSnapshot(unsigned char *frame);
   void terminateSnapshotWrite();
   void terminateVideoCreation(int exitCode, QProcess::ExitStatus exitStatus);
   void readStderr();

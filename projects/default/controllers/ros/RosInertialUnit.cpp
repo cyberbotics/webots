@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,6 +32,8 @@ void RosInertialUnit::publishValue(ros::Publisher publisher) {
   value.header.stamp = ros::Time::now();
   value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
 
+  // switch roll and pitch axes because the Webots and ROS coordinate systems are not equivalent
+  // https://stackoverflow.com/questions/56074321/quaternion-calculation-in-rosinertialunit-cpp-of-webots-ros-default-controller?answertab=oldest#tab-top
   double halfYaw = mInertialUnit->getRollPitchYaw()[1] * 0.5;
   double halfPitch = mInertialUnit->getRollPitchYaw()[0] * 0.5;
   double halfRoll = mInertialUnit->getRollPitchYaw()[2] * 0.5;

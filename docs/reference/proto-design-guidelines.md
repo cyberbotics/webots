@@ -104,9 +104,9 @@ Also, floating point and integer values should be generally constrained between 
 Here is a simple example of a good PROTO declaration (the implementation is not shown):
 
 ```
-#VRML_SIM R2018b utf8
-# license: Creative Commons Attribution 4.0 International License.
-# license url: https://creativecommons.org/licenses/by/4.0/legalcode
+#VRML_SIM R2019b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
 # tags: static
 # A color pencil
 

@@ -6,7 +6,7 @@ Customizable bed with feet and one or 2 pillows.
 
 %figure
 
-![Bed](images/objects/bedroom/Bed/model.png)
+![Bed](images/objects/bedroom/Bed/model.thumbnail.png)
 
 %end
 
@@ -24,7 +24,7 @@ Bed {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/bedroom/protos/Bed.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/bedroom/protos/Bed.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/bedroom/protos/Bed.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

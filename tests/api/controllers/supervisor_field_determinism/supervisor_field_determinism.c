@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
   for (i = 0; i < 100; i++) {
     if (argv[1][0] != 'S') {  // load the CPU with randomly complex computation to perturbate system process scheduling
       double x = 0.0;
-      int max = (rand() * rand()) % 100000000;
+      int max = (rand() * rand()) % 10000000;
       for (j = 0; j < max; j++)
         x += sqrt((double)j) / 10000.0;
     }

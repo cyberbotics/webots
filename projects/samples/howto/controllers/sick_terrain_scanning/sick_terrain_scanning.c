@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,12 +69,11 @@ int main(int argc, char **argv) {
   wb_motor_set_position(back_right_wheel, INFINITY);
 
   // init speed for each wheel
-  double back_left_speed = 0.0, back_right_speed = 0.0;
-  double front_left_speed = 0.0, front_right_speed = 0.0;
+  double back_left_speed, back_right_speed;
+  double front_left_speed, front_right_speed;
 
   // init dynamic variables
   double left_obstacle = 0.0, right_obstacle = 0.0;
-  double speed_factor = 1.0;
 
   // Communications
   WbDeviceTag communication;
@@ -103,7 +102,7 @@ int main(int argc, char **argv) {
     // compute the speed according to the information on
     // obstacles
     if (obstacle > OBSTACLE_THRESHOLD) {
-      speed_factor = (1.0 - DECREASE_FACTOR * obstacle) * MAX_SPEED / obstacle;
+      const double speed_factor = (1.0 - DECREASE_FACTOR * obstacle) * MAX_SPEED / obstacle;
       front_left_speed = speed_factor * left_obstacle;
       front_right_speed = speed_factor * right_obstacle;
       back_left_speed = BACK_SLOWDOWN * front_left_speed;

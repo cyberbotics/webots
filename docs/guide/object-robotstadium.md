@@ -7,7 +7,7 @@ The color of the goal and the support polygons can be modified.
 
 %figure
 
-![RobotstadiumGoal](images/objects/robotstadium/RobotstadiumGoal/model.png)
+![RobotstadiumGoal](images/objects/robotstadium/RobotstadiumGoal/model.thumbnail.png)
 
 %end
 
@@ -23,7 +23,7 @@ RobotstadiumGoal {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/robotstadium/protos/RobotstadiumGoal.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/robotstadium/protos/RobotstadiumGoal.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/robotstadium/protos/RobotstadiumGoal.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -42,7 +42,7 @@ The field dimensions (within the white lines) are 9 x 6 m.
 
 %figure
 
-![RobotstadiumSoccerField](images/objects/robotstadium/RobotstadiumSoccerField/model.png)
+![RobotstadiumSoccerField](images/objects/robotstadium/RobotstadiumSoccerField/model.thumbnail.png)
 
 %end
 
@@ -60,7 +60,7 @@ RobotstadiumSoccerField {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/robotstadium/protos/RobotstadiumSoccerField.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/robotstadium/protos/RobotstadiumSoccerField.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/robotstadium/protos/RobotstadiumSoccerField.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

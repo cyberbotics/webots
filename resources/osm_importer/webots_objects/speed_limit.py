@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,15 +24,16 @@ class SpeedLimit:
         self.country = country  # Expected: 'CH', 'US', etc.
 
         if country is None or country not in ['FR', 'DE', 'JP', 'CH', 'GB', 'US']:
-            print ('Warning: The exported Road.speedLimit may be wrong because the maxspeed rules is not yet implemented for this country.')
-            print ('  Supported countries:')
-            print ('  - France')
-            print ('  - Germany (default)')
-            print ('  - Japan')
-            print ('  - Switzerland')
-            print ('  - United Kingdom')
-            print ('  - United States')
-            print ('Please contact support@cyberbotics.com to support your country.')
+            print('Warning: The exported Road.speedLimit may be wrong because the maxspeed rules is not'
+                  ' yet implemented for this country.')
+            print('  Supported countries:')
+            print('  - France')
+            print('  - Germany(default)')
+            print('  - Japan')
+            print('  - Switzerland')
+            print('  - United Kingdom')
+            print('  - United States')
+            print('Please contact support@cyberbotics.com to support your country.')
 
     def compute_speed_limit(self, road):
         """Compute the speed limit, based on the OSM tags of an OSM way."""

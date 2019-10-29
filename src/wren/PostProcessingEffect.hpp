@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -209,9 +209,9 @@ namespace wren {
     }
 
     Pass *pass(const std::string &name) {
-      for (Pass *pass : mPasses) {
-        if (pass->name() == name)
-          return pass;
+      for (Pass *p : mPasses) {
+        if (p->name() == name)
+          return p;
       }
       return NULL;
     }

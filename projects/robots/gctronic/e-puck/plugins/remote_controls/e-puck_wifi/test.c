@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -133,6 +133,7 @@ int main(int argc, char *argv[]) {
   command[i++] = 0;     // LED8 green
   command[i++] = 0;     // LED8 blue
   command[i++] = 0;     // speaker
+  // cppcheck-suppress constArgument
   assert(i == sizeof(command));
   for (int j = 0; j < 3000; j++) {
     fflush(stdout);

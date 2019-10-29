@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -176,11 +176,11 @@ static int speaker_get_sound_to_stop_number(Speaker *speaker) {
   return number;
 }
 
-static Sound *speaker_get_sound_if_exist(WbDevice *d, const char *snd) {
+static Sound *speaker_get_sound_if_exist(WbDevice *d, const char *sound_name) {
   Speaker *speaker = (Speaker *)d->pdata;
   Sound *sound = speaker->sound_list;
   while (sound) {
-    if (strcmp(sound->sound_file, snd) == 0)
+    if (strcmp(sound->sound_file, sound_name) == 0)
       return sound;
     sound = sound->next;
   }
@@ -196,11 +196,11 @@ static void speaker_read_answer(WbDevice *d, WbRequest *r) {
     case C_CONFIGURE:
       break;
     case C_SPEAKER_SOUND_OVER: {
-      char *str = request_read_string(r);
-      Sound *s = speaker_get_sound_if_exist(d, str);
-      free(str);
-      if (s)
-        s->is_playing = false;
+      char *sound_name = request_read_string(r);
+      Sound *sound = speaker_get_sound_if_exist(d, sound_name);
+      free(sound_name);
+      if (sound)
+        sound->is_playing = false;
       break;
     }
     case C_SPEAKER_SPEAK_OVER: {
@@ -296,15 +296,15 @@ static void speaker_toggle_remote(WbDevice *d, WbRequest *r) {
   // nothing to do.
 }
 
-static void speaker_play_sound(WbDevice *device, const char *snd, double volume, double pitch, double balance, bool loop,
+static void speaker_play_sound(WbDevice *device, const char *sound_name, double volume, double pitch, double balance, bool loop,
                                int side) {
-  Sound *sound = speaker_get_sound_if_exist(device, snd);
+  Sound *sound = speaker_get_sound_if_exist(device, sound_name);
   if (!sound) {  // sound not in the Speaker sound list
     // insert first in the list
     sound = malloc(sizeof(Sound));
-    int l = strlen(snd) + 1;
+    int l = strlen(sound_name) + 1;
     sound->sound_file = malloc(l);
-    memcpy(sound->sound_file, snd, l);
+    memcpy(sound->sound_file, sound_name, l);
     sound->next = ((Speaker *)device->pdata)->sound_list;
     ((Speaker *)device->pdata)->sound_list = sound;
   }
@@ -400,10 +400,10 @@ void wb_speaker_stop(WbDeviceTag tag, const char *sound) {
   // reset all the sounds
   if (!sound || strlen(sound) == 0) {
     speaker->need_stop_all = true;
-    Sound *sound = speaker->sound_list;
-    while (sound) {
-      sound->need_update = false;
-      sound = sound->next;
+    Sound *s = speaker->sound_list;
+    while (s) {
+      s->need_update = false;
+      s = s->next;
     }
     speaker->need_text_update = false;
     free(speaker->text);
@@ -432,11 +432,11 @@ bool wb_speaker_is_sound_playing(WbDeviceTag tag, const char *sound) {
     // check for any sound (including TTS)
     if (speaker->text != NULL)
       return true;
-    Sound *sound = speaker->sound_list;
-    while (sound) {
-      if (sound->is_playing)
+    Sound *s = speaker->sound_list;
+    while (s) {
+      if (s->is_playing)
         return true;
-      sound = sound->next;
+      s = s->next;
     }
   } else {
     // check for one specific sound

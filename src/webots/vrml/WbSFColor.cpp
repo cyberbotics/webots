@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 
-void WbSFColor::read(WbTokenizer *tokenizer, const QString &worldPath) {
+void WbSFColor::readSFColor(WbTokenizer *tokenizer, const QString &worldPath) {
   try {
     const double r = tokenizer->nextToken()->toDouble();
     const double g = tokenizer->nextToken()->toDouble();

@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TARGETS=distributor.Makefile nao_demo.Makefile nao_soccer_supervisor.Makefile nao_wave_hand.Makefile
+TARGETS=distributor.Makefile nao_demo.Makefile nao_soccer_player.Makefile nao_soccer_supervisor.Makefile nao_wave_hand.Makefile
 
 .PHONY: release debug profile clean
 

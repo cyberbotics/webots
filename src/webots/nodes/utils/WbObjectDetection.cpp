@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbObjectDetection.hpp"
+
 #include "WbAffinePlane.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbBox.hpp"
@@ -286,7 +287,7 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
       switch (nodeType) {
         case WB_NODE_SPHERE: {
           const WbSphere *sphere = static_cast<const WbSphere *>(boundingObject);
-          double radius = sphere->scaledRadius();
+          radius = sphere->scaledRadius();
           objectSize.setX(2 * radius);
           objectSize.setY(2 * radius);
           objectSize.setZ(2 * radius);

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,10 +43,10 @@ void WbPointLight::init() {
 
 WbPointLight::WbPointLight(WbTokenizer *tokenizer) : WbLight("PointLight", tokenizer) {
   init();
-  if (tokenizer == NULL)
+  if (tokenizer == NULL) {
     mLocation->setYnoSignal(0.3);
-  if (tokenizer == NULL)
     mAttenuation->setValueNoSignal(0.0, 0.0, 1.0);
+  }
 }
 
 WbPointLight::WbPointLight(const WbPointLight &other) : WbLight(other) {
@@ -61,10 +61,8 @@ WbPointLight::~WbPointLight() {
   if (areWrenObjectsInitialized()) {
     detachFromUpperTransform();
     wr_node_delete(WR_NODE(mWrenLight));
-  }
-
-  if (areWrenObjectsInitialized())
     delete mLightRepresentation;
+  }
 }
 
 void WbPointLight::preFinalize() {
@@ -114,8 +112,12 @@ void WbPointLight::updateOptionalRendering(int option) {
 }
 
 void WbPointLight::updateAttenuation() {
-  if (WbFieldChecker::checkVector3IsNonNegative(this, mAttenuation, WbVector3()))
+  if (WbFieldChecker::resetVector3IfNegative(this, mAttenuation, WbVector3()))
     return;
+
+  if (mAttenuation->value().x() > 0.0 || mAttenuation->value().y() > 0.0)
+    warn(tr("A quadratic 'attenuation' should be preferred to have a realistic simulation of light. "
+            "Only the third component of the 'attenuation' field should be greater than 0."));
 
   checkAmbientAndAttenuationExclusivity();
 
@@ -130,7 +132,7 @@ void WbPointLight::updateLocation() {
 }
 
 void WbPointLight::updateRadius() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mRadius, 0.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mRadius, 0.0))
     return;
 
   if (areWrenObjectsInitialized())

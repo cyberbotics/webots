@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -73,7 +73,7 @@ void WbSplashScreen::drawContents(QPainter *painter) {
   font = QFont("Raleway Light", 30 * dotsPerInchRatio);
   painter->setFont(font);
   painter->setPen(versionColor());
-  painter->drawText(QRect(0, 273, 380, 100), Qt::AlignCenter, WbApplicationInfo::version().toString());
+  painter->drawText(QRect(0, 273, 380, 100), Qt::AlignCenter, WbApplicationInfo::version().toString(true, false, false));
 
   // then draw updating text
   font = QFont("Helvetica", 10 * dotsPerInchRatio);
