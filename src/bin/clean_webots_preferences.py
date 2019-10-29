@@ -1,5 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 '''Cleanup all Webots preferences.'''
+
+import sys
+from pathlib import Path
+
+assert sys.version_info >= (3, 5), 'At least Python 3.5 is required to run this script.'
+home = str(Path.home())
+assert home, 'Cannot find the user home directory.'
+print(home)
 
 
 def cleanupLinuxPreferences():
@@ -29,7 +37,6 @@ def cleanupWindowsPreferences():
 
 if __name__ == "__main__":
     import platform
-    import sys
     osName = platform.system()
     if osName == 'Linux':
         cleanupLinuxPreferences()
