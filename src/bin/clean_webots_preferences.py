@@ -2,14 +2,14 @@
 '''Cleanup all the Webots preferences.'''
 
 import platform
-import subprocess
 import sys
-from pathlib import Path
 
 assert sys.version_info >= (3, 5), 'At least Python 3.5 is required to run this script.'
 
 
 def cleanupLinuxPreferences():
+    from pathlib import Path
+
     preferencesDir = Path.home() / '.config' / 'Cyberbotics'
     for preferencesPath in preferencesDir.glob('Webots-*.conf'):
         print('Clear the "%s" preference...' % preferencesPath)
@@ -18,6 +18,9 @@ def cleanupLinuxPreferences():
 
 
 def cleanupMacOSPreferences():
+    import subprocess
+    from pathlib import Path
+
     preferencesDir = Path.home() / 'Library' / 'Preferences'
     for preferencesPath in preferencesDir.glob('com.cyberbotics.*'):
         preferencesPath = Path(preferencesPath)
