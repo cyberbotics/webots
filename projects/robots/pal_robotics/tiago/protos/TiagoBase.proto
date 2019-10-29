@@ -7,14 +7,29 @@
 PROTO TiagoBase [
   field  SFVec3f      translation     0 0 0
   field  SFRotation   rotation        1 0 0 -1.5708
-  field  SFString     controller      "void"
-  field  MFNode       lidarExtension  []              # Defines the lidar used {Sick TIM551 or Hokuyo URG 04LX_UG01}.
-  field  MFNode       bodyExtension   []              # Defines body extension used {TiagoBody, Fixed shelves, Safety box, roller conveyor, boxes, lifter}.
+  field  SFString     name            "TIAGo Base"
+  field  SFString     controller      "tiagoBase"
+  field  SFString     controllerArgs  ""
+  field  SFString     customData      ""
+  field  SFBool       supervisor      FALSE
+  field  SFBool       synchronization TRUE
+  field  SFString     model           "TIAGo Base"
+  field  SFString     description     "two-wheel robot designed by PAL Robotics"
+  field  MFNode       lidarExtension  []  # Defines the lidar used {Sick TIM551 or Hokuyo URG 04LX_UG01}.
+  field  MFNode       bodyExtension   []  # Defines body extension used {TiagoBody, Fixed shelves, Safety box, roller conveyor, boxes, lifter}.
 ]
 {
   Robot {
     translation IS translation
     rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    name IS name
+    model IS model
+    description IS description
     children [
       DEF BODY_EXTENSION Transform {
         children IS bodyExtension
@@ -1144,6 +1159,5 @@ PROTO TiagoBase [
         0 0 0
       ]
     }
-    controller IS controller
   }
 }

@@ -7,7 +7,12 @@
 PROTO Tiago++ [
   field  SFVec3f     translation        0 0 0
   field  SFRotation  rotation           1 0 0 -1.5708
-  field  SFString    controller         "void"
+  field  SFString    name               "TIAGo++"
+  field  SFString    controller         "tiago++"
+  field  SFString    controllerArgs     ""
+  field  SFString    customData         ""
+  field  SFBool      supervisor         FALSE
+  field  SFBool      synchronization    TRUE
   field  MFNode      endEffectorRight   TiagoGripper{}    # Defines the end-effector used by default but it can be changed with TiagoRightHey5.
   field  MFNode      endEffectorLeft    TiagoGripper{}    # Defines the end-effector used by default but it can be changed with TiagoLeftHey5.
 ]
@@ -15,6 +20,14 @@ PROTO Tiago++ [
   TiagoBase {
     translation IS translation
     rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    name IS name
+    model "TIAGo++"
+    description "two-wheel human-like robot with two articulated arms finished by parallel grippers designed by PAL Robotics"
     bodyExtension [
       TiagoBody {
         RightArmExtension [
@@ -41,6 +54,5 @@ PROTO Tiago++ [
       HokuyoUrg04lxug01 {
       }
     ]
-    controller IS controller
   }
 }

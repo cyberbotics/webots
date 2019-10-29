@@ -5,14 +5,27 @@
 # It is composed of the TIAGo base (with Hokuyo URG 04LX_UG01 lidar) and the TIAGo body (torso) with the front arm finished by the Hey5 hand.
 
 PROTO TiagoTitanium [
-  field  SFVec3f     translation  0 0 0
-  field  SFRotation  rotation     1 0 0 -1.5708
-  field  SFString    controller   "void"
+  field  SFVec3f     translation        0 0 0
+  field  SFRotation  rotation           1 0 0 -1.5708
+  field  SFString    name               "TIAGo Titanium"
+  field  SFString    controller         "tiagoTitanium"
+  field  SFString    controllerArgs     ""
+  field  SFString    customData         ""
+  field  SFBool      supervisor         FALSE
+  field  SFBool      synchronization    TRUE
 ]
 {
   TiagoBase {
     translation IS translation
     rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    name IS name
+    model "TIAGo Titanium"
+    description "two-wheel human-like robot with one articulated arm finished by Hey5 hand designed by PAL Robotics"
     bodyExtension [
       TiagoBody {
         FrontArmExtension [
@@ -29,6 +42,5 @@ PROTO TiagoTitanium [
       HokuyoUrg04lxug01 {
       }
     ]
-    controller IS controller
   }
 }
