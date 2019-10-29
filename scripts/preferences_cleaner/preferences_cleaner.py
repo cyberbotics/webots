@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 # Copyright 1996-2019 Cyberbotics Ltd.
 #
@@ -19,7 +19,7 @@
 import platform
 import sys
 
-# Due to the use of pathlib.
+# Due to the use of pathlib and winreg.
 assert sys.version_info >= (3, 5), 'At least Python 3.5 is required to run this script.'
 
 
