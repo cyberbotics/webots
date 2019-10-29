@@ -28,7 +28,7 @@ def cleanupLinuxPreferences():
 
     preferencesDir = Path.home() / '.config' / 'Cyberbotics'
     for preferencesPath in preferencesDir.glob('Webots-*.conf'):
-        print('Clear the "%s" preference...' % preferencesPath)
+        print('Clearing the "%s" preferences...' % preferencesPath)
         preferencesPath = Path(preferencesPath)
         preferencesPath.unlink()
 
