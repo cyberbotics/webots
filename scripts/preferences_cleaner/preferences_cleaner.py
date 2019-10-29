@@ -65,12 +65,13 @@ def cleanupWindowsPreferences():
                 deleteKeyRecursively(subKey)
             winreg.DeleteKey(winreg.HKEY_CURRENT_USER, key)
 
-        print("Delete 'Software\\Cyberbotics'...")
+        print("Clear the 'Software\\Cyberbotics' registry entree...")
         deleteKeyRecursively('Software\\Cyberbotics')
     except FileNotFoundError:
         print("Nothing to clean.")
     except PermissionError:
         print("You don't have the access to delete the Cyberbotics registry.", file=sys.stderr)
+
 
 if __name__ == "__main__":
     osName = platform.system()
