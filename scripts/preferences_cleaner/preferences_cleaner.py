@@ -70,7 +70,7 @@ def cleanupWindowsPreferences():
     except FileNotFoundError:
         print("Nothing to clean.")
     except PermissionError:
-        print("You don't have the access to delete the Cyberbotics registry.", file=sys.stderr)
+        print("You don't have the right to delete the Cyberbotics registry key.", file=sys.stderr)
 
 
 if __name__ == "__main__":
