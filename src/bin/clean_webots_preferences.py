@@ -25,7 +25,7 @@ def cleanupMacOSPreferences():
         print('Clear the "%s" preference...' % preferenceReference)
         feedback = subprocess.run(['defaults', 'remove', preferenceReference])
         assert feedback.returncode == 0, 'Issue occured when removing the "%s" preference.'
-        preferencesPath.unlink()
+        preferencesPath.unlink(missing_ok=True)
 
 
 def cleanupWindowsPreferences():
