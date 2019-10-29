@@ -75,7 +75,7 @@ def cleanupWindowsPreferences():
 
 if __name__ == "__main__":
     osName = platform.system()
-    print('Cleanup %s preferences...' % osName)
+    print('Cleaning-up Webots preferences on %s...' % osName)
     if osName == 'Linux':
         cleanupLinuxPreferences()
     elif osName == 'Darwin':
