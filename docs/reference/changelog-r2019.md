@@ -5,6 +5,7 @@ Released on ???
 
   - New Features
     - Linux: Added support for Python 3.8.
+    - Added a [script to cleanup the Webots preferences](https://github.com/cyberbotics/webots/blob/master/scripts/preferences_cleaner/README.md).
   - Enhancements
     - Webots now wait for extern controllers if the `Robot.synchronization` field is set to `TRUE`.
     - Device names are displayed in the scene tree next to the node name.
