@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright 1996-2019 Cyberbotics Ltd.
 #
@@ -48,9 +48,29 @@ def cleanupMacOSPreferences():
 
 
 def cleanupWindowsPreferences():
-    # TODO: Something with regex
-    pass
+    import winreg
+    try:
+        def deleteKeyRecursively(key):
+            k = winreg.OpenKey(winreg.HKEY_CURRENT_USER, key, 0, winreg.KEY_ALL_ACCESS)
+            subKeys = []
+            try:
+                i = 0
+                while True:
+                    subKeys.append(key + '\\' + winreg.EnumKey(k, i))
+                    i += 1
+            except WindowsError:
+                pass  # Reach the end of the key enum.
+            winreg.CloseKey(k)
+            for subKey in subKeys:
+                deleteKeyRecursively(subKey)
+            winreg.DeleteKey(winreg.HKEY_CURRENT_USER, key)
 
+        print("Delete 'Software\\Cyberbotics'...")
+        deleteKeyRecursively('Software\\Cyberbotics')
+    except FileNotFoundError:
+        print("Nothing to clean.")
+    except PermissionError:
+        print("You don't have the access to delete the Cyberbotics registry.", file=sys.stderr)
 
 if __name__ == "__main__":
     osName = platform.system()
