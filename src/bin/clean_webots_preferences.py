@@ -4,6 +4,7 @@
 import platform
 import sys
 
+# Due to the use of pathlib.
 assert sys.version_info >= (3, 5), 'At least Python 3.5 is required to run this script.'
 
 
