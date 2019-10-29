@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-'''Cleanup all Webots preferences.'''
+'''Cleanup all the Webots preferences.'''
 
 import platform
 import subprocess
