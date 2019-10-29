@@ -59,7 +59,7 @@ def cleanupWindowsPreferences():
                     subKeys.append(key + '\\' + winreg.EnumKey(k, i))
                     i += 1
             except WindowsError:
-                pass  # Reach the end of the key enum.
+                pass  # Reached the end of the key enum.
             winreg.CloseKey(k)
             for subKey in subKeys:
                 deleteKeyRecursively(subKey)
