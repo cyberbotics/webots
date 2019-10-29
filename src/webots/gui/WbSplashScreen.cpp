@@ -58,19 +58,19 @@ void WbSplashScreen::drawContents(QPainter *painter) {
 
   // draw application name
   QFont font;
-  font = QFont("Raleway Light", 44 * dotsPerInchRatio);
+  font = QFont("Raleway", 44 * dotsPerInchRatio, QFont::Light);
   painter->setFont(font);
   painter->setPen(companyColor());
   painter->drawText(QRect(144, 76, 228, 60), Qt::AlignCenter, "Webots");
 
   // draw tagline
-  font = QFont("Raleway Light", 15 * dotsPerInchRatio);
+  font = QFont("Raleway", 15 * dotsPerInchRatio, QFont::Light);
   painter->setFont(font);
   painter->setPen(taglineColor());
   painter->drawText(QRect(0, 140, 380, 100), Qt::AlignCenter, "Model. Program. Simulate. Transfer.");
 
   // draw version
-  font = QFont("Raleway Light", 30 * dotsPerInchRatio);
+  font = QFont("Raleway", 30 * dotsPerInchRatio, QFont::Light);
   painter->setFont(font);
   painter->setPen(versionColor());
   painter->drawText(QRect(0, 273, 380, 100), Qt::AlignCenter, WbApplicationInfo::version().toString(true, false, false));
