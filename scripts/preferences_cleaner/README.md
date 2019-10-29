@@ -1,6 +1,6 @@
 # Webots Preferences Cleaner
 
-The present script helps in removing the Webots preferences from your system.
+The present script helps to remove the Webots preferences from your system.
 
 ## Requirements
 
