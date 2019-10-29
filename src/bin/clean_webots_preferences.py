@@ -10,11 +10,11 @@ assert sys.version_info >= (3, 5), 'At least Python 3.5 is required to run this 
 
 
 def cleanupLinuxPreferences():
-    #  for n in `find $HOME/.config/Cyberbotics -name Webots-*.conf`; do
-    #    echo Remove "$n";
-    #    rm $n;
-    #  done
-    pass
+    preferencesDir = Path.home() / '.config' / 'Cyberbotics'
+    for preferencesPath in preferencesDir.glob('Webots-*.conf'):
+        print('Clear the "%s" preference...' % preferencesPath)
+        preferencesPath = Path(preferencesPath)
+        preferencesPath.unlink()
 
 
 def cleanupMacOSPreferences():
