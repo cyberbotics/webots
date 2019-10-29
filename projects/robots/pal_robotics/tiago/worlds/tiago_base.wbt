@@ -6,11 +6,11 @@ WorldInfo {
   physicsDisableAngularThreshold 0.001
   defaultDamping Damping {
   }
-  lineScale 0.03
+  lineScale 0.28
 }
 Viewpoint {
   orientation 0.2676184418732235 -0.9543782620927752 -0.13244811215763677 5.275471156505329
-  position 1.405031366820088 0.5869399172855407 1.0365331618271683
+  position 2.165183433739411 1.2024353806940842 1.4886186546903841
 }
 TexturedBackground {
 }
@@ -18,7 +18,7 @@ TexturedBackgroundLight {
   castShadows FALSE
 }
 RectangleArena {
-  translation 0 -0.11 0
+  translation 0 -0.1 0
   floorSize 8 8
   floorTileSize 1 1
   wallHeight 1.5

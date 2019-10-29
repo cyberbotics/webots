@@ -6,7 +6,8 @@ Designed by PAL Robotics, TIAGo Base is a two-wheel robot.
 The model is a modular mobile platform that automates deliveries in industrial environment. It is completely ROS based and customizable with accessories to adapt to any specific need.
 TIAGo's software has out-of-the box extras available like navigation upgrade.
 
-More information on the TIAGo base robot can be found [here](http://pal-robotics.com/robots/tiago-base/)
+More information on the TIAGo base robot can be found on their [website](http://pal-robotics.com/robots/tiago/) or in the [technical specifications datasheet](
+http://pal-robotics.com/wp-content/uploads/2019/06/TIAGo-Base_Datasheet.pdf).
 
 ### TiagoBase PROTO
 

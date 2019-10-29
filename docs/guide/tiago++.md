@@ -7,7 +7,7 @@ The model includes two articulated arms with 7-DoF to perform coordinated dual-a
 As the TIAGo model, this bi-manual version is completely ROS based, fully customizable and expandable with extra sensors and devices like end-effector (parallel gripper or Hey5 hand).
 TIAGo's software has out-of-the box extras available like navigation upgrade, human-robot interaction skills or teleoperation applications.
 
-More information on the TIAGo++ robot can be found [here](http://blog.pal-robotics.com/tiago-bi-manual-robot-research/)
+More information on the TIAGo++ robot can be found on their [website](http://blog.pal-robotics.com/tiago-bi-manual-robot-research/) or in the [technical specifications datasheet](http://pal-robotics.com/wp-content/uploads/2019/07/Datasheet_TIAGo_Complete.pdf).
 
 ### Tiago++ PROTO
 

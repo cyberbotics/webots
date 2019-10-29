@@ -39,6 +39,12 @@ PROTO TiagoBase [
         rotation 0.5774 -0.5773 -0.5774 2.0944
         children IS lidarExtension
       }
+      Accelerometer {
+      }
+      InertialUnit {
+      }
+      Gyro {
+      }
       DEF BASE_MOBILE_SHAPE Group {
         children [
           DEF BASE Shape {
@@ -350,13 +356,15 @@ PROTO TiagoBase [
       DEF RIGHT_WHEEL_JOINT HingeJoint {
         jointParameters HingeJointParameters {
           axis 0 1 0
-          anchor 0 -0.2022 0.01
+          anchor 0 -0.2022 0
+          suspensionSpringConstant 60000
           suspensionDampingConstant 100
-          suspensionAxis 0 -1 0
+          suspensionAxis 0 0 1
         }
         device [
           RotationalMotor {
             name "wheel_right_joint"
+            acceleration 5.0762
             maxVelocity 10.1523
             maxTorque 6
           }
@@ -365,7 +373,7 @@ PROTO TiagoBase [
           }
         ]
         endPoint DEF RIGHT_WHEEL Solid {
-          translation 0 -0.202 0.01
+          translation 0 -0.202 0
           rotation 1 0 0 1.5708
           children [
             DEF BIG_WHEEL Group {
@@ -468,7 +476,7 @@ PROTO TiagoBase [
             density -1
             mass 1.82362
             centerOfMass [
-              0 0 -0.00207
+              0.028 0.001 3.625
             ]
           }
         }
@@ -476,13 +484,15 @@ PROTO TiagoBase [
       DEF LEFT_WHEEL_JOINT HingeJoint {
         jointParameters HingeJointParameters {
           axis 0 1 0
-          anchor 0 0.2022 0.01
+          anchor 0 0.2022 0
+          suspensionSpringConstant 60000
           suspensionDampingConstant 100
-          suspensionAxis 0 1 0
+          suspensionAxis 0 0 1
         }
         device [
           RotationalMotor {
             name "wheel_left_joint"
+            acceleration 5.0762
             maxVelocity 10.1522
             maxTorque 6
           }
@@ -491,7 +501,7 @@ PROTO TiagoBase [
           }
         ]
         endPoint DEF LEFT_WHEEL Solid {
-          translation 0 0.2022 0.01
+          translation 0 0.202 0
           rotation 1 0 0 1.5708
           children [
             Transform {
@@ -599,7 +609,7 @@ PROTO TiagoBase [
             density -1
             mass 1.82362
             centerOfMass [
-              0 0 0.00207
+              0.028 0.001 -3.625
             ]
           }
         }
@@ -608,15 +618,12 @@ PROTO TiagoBase [
         jointParameters HingeJointParameters {
           axis 0 0 1
           anchor 0.1695 -0.102 -0.0335
-          dampingConstant 0.005
+          dampingConstant 0
+          suspensionSpringConstant 25000
+          suspensionDampingConstant 0.05
+          suspensionAxis 0 0 1
         }
         device [
-          RotationalMotor {
-            name "caster_front_right_1_joint"
-          }
-          PositionSensor {
-            name "caster_front_right_1_joint_sensor"
-          }
         ]
         endPoint DEF CASTER_WHEEL_FRONT_RIGHT Solid {
           translation 0.1695 -0.102 -0.0335
@@ -629,12 +636,6 @@ PROTO TiagoBase [
                 anchor -0.016 0 -0.04
               }
               device [
-                RotationalMotor {
-                  name "caster_front_right_2_joint"
-                }
-                PositionSensor {
-                  name "caster_front_right_2_joint_sensor"
-                }
               ]
               endPoint DEF SMALL_WHEEL Solid {
                 translation -0.016 0 -0.04
@@ -737,15 +738,12 @@ PROTO TiagoBase [
         jointParameters HingeJointParameters {
           axis 0 0 1
           anchor 0.1695 0.102 -0.0335
-          dampingConstant 0.005
+          dampingConstant 0
+          suspensionSpringConstant 25000
+          suspensionDampingConstant 0.05
+          suspensionAxis 0 0 1
         }
         device [
-          RotationalMotor {
-            name "caster_front_left_1_joint"
-          }
-          PositionSensor {
-            name "caster_front_left_1_joint_sensor"
-          }
         ]
         endPoint DEF CASTER_WHEEL_FRONT_LEFT Solid {
           translation 0.1695 0.102 -0.0335
@@ -757,12 +755,6 @@ PROTO TiagoBase [
                 anchor -0.016 0 -0.04
               }
               device [
-                RotationalMotor {
-                  name "caster_front_left_2_joint"
-                }
-                PositionSensor {
-                  name "caster_front_left_2_joint_sensor"
-                }
               ]
               endPoint DEF SMALL_WHEEL Solid {
                 translation -0.016 0 -0.04
@@ -865,15 +857,12 @@ PROTO TiagoBase [
         jointParameters HingeJointParameters {
           axis 0 0 1
           anchor -0.1735 -0.102 -0.0335
-          dampingConstant 0.005
+          dampingConstant 0
+          suspensionSpringConstant 25000
+          suspensionDampingConstant 0.05
+          suspensionAxis 0 0 1
         }
         device [
-          RotationalMotor {
-            name "caster_back_right_1_joint"
-          }
-          PositionSensor {
-            name "caster_back_right_1_joint_sensor"
-          }
         ]
         endPoint DEF CASTER_WHEEL_BACK_RIGHT Solid {
           translation -0.1735 -0.102 -0.0335
@@ -885,12 +874,6 @@ PROTO TiagoBase [
                 anchor -0.016 0 -0.04
               }
               device [
-                RotationalMotor {
-                  name "caster_back_right_2_joint"
-                }
-                PositionSensor {
-                  name "caster_back_right_2_joint_sensor"
-                }
               ]
               endPoint DEF SMALL_WHEEL_JOINT Solid {
                 translation -0.016 0 -0.0439999999999058615
@@ -993,15 +976,12 @@ PROTO TiagoBase [
         jointParameters HingeJointParameters {
           axis 0 0 1
           anchor -0.1735 0.102 -0.0335
-          dampingConstant 0.005
+          dampingConstant 0
+          suspensionSpringConstant 25000
+          suspensionDampingConstant 0.05
+          suspensionAxis 0 0 1
         }
         device [
-          RotationalMotor {
-            name "caster_back_left_1_joint"
-          }
-          PositionSensor {
-            name "caster_back_left_1_joint_sensor"
-          }
         ]
         endPoint DEF CASTER_WHEEL_BACK_LEFT Solid {
           translation -0.1735 0.102 -0.0335
@@ -1013,12 +993,6 @@ PROTO TiagoBase [
                 anchor -0.016 0 -0.04
               }
               device [
-                RotationalMotor {
-                  name "caster_back_left_2_joint"
-                }
-                PositionSensor {
-                  name "caster_back_left_2_joint_sensor"
-                }
               ]
               endPoint DEF SMALL_WHEEL Solid {
                 translation -0.016 0 -0.04

@@ -23,10 +23,7 @@
 #include <webots/robot.h>
 
 #define TIME_STEP 16
-//#define TARGET_POINTS_SIZE 13
-//#define DISTANCE_TOLERANCE 1.5
 #define MAX_SPEED 7.0
-//#define TURN_COEFFICIENT 4.0
 
 enum XYZAComponents { X, Y, Z, ALPHA };
 enum Sides { LEFT, RIGHT };
@@ -37,36 +34,16 @@ typedef struct _Vector {
 } Vector;
 
 static WbDeviceTag motors[2];
-//static WbDeviceTag gps;
-//static WbDeviceTag compass;
 
-//static Vector targets[TARGET_POINTS_SIZE] = {
-//  {-4.209318, -9.147717}, {0.946812, -9.404304},  {0.175989, 1.784311},   {-2.805353, 8.829694},  {-3.846730, 15.602851},
-//  {-4.394915, 24.550777}, {-1.701877, 33.617226}, {-4.394915, 24.550777}, {-3.846730, 15.602851}, {-2.805353, 8.829694},
-//  {0.175989, 1.784311},   {0.946812, -9.404304},  {-7.930821, -6.421292}
-//};
+static bool autopilot     = true;
+static bool old_autopilot = true;
+static int  old_key = -1;
 
-static int current_target_index = 0;
-//static bool autopilot = true;
-//static bool old_autopilot = true;
-//static int old_key = -1;
-
-static double modulus_double(double a, double m) {
-  int div_i = (int)(a / m);
-  double div_d = (double)div_i;
-  double r = a - div_d * m;
-  if (r < 0.0)
-    r += m;
-  return r;
-}
 
 // set left and right motor speed [rad/s]
 static void robot_set_speed(double left, double right) {
-  int i;
-  for (i = 0; i < 4; i++) {
-    wb_motor_set_velocity(motors[i + 0], left);
-    wb_motor_set_velocity(motors[i + 4], right);
-  }
+  wb_motor_set_velocity(motors[0], left);
+  wb_motor_set_velocity(motors[1], right);
 }
 
 static void check_keyboard() {
@@ -76,30 +53,24 @@ static void check_keyboard() {
   if (key >= 0) {
     switch (key) {
       case WB_KEYBOARD_UP:
-        speeds[LEFT] = MAX_SPEED;
+        speeds[LEFT]  = MAX_SPEED;
         speeds[RIGHT] = MAX_SPEED;
         autopilot = false;
         break;
       case WB_KEYBOARD_DOWN:
-        speeds[LEFT] = -MAX_SPEED;
+        speeds[LEFT]  = -MAX_SPEED;
         speeds[RIGHT] = -MAX_SPEED;
         autopilot = false;
         break;
       case WB_KEYBOARD_RIGHT:
-        speeds[LEFT] = MAX_SPEED;
+        speeds[LEFT]  =  MAX_SPEED;
         speeds[RIGHT] = -MAX_SPEED;
         autopilot = false;
         break;
       case WB_KEYBOARD_LEFT:
-        speeds[LEFT] = -MAX_SPEED;
-        speeds[RIGHT] = MAX_SPEED;
+        speeds[LEFT]  = -MAX_SPEED;
+        speeds[RIGHT] =  MAX_SPEED;
         autopilot = false;
-        break;
-      case 'P':
-        if (key != old_key) {  // perform this action just once
-          const double *pos3D = wb_gps_get_values(gps);
-          printf("position: {%f, %f}\n", pos3D[X], pos3D[Z]);
-        }
         break;
       case 'A':
         if (key != old_key)  // perform this action just once
@@ -119,75 +90,12 @@ static void check_keyboard() {
   old_key = key;
 }
 
-// ||v||
-static double norm(const Vector *v) {
-  return sqrt(v->u * v->u + v->v * v->v);
-}
-
-// v = v/||v||
-static void normalize(Vector *v) {
-  double n = norm(v);
-  v->u /= n;
-  v->v /= n;
-}
-
-// v = v1-v2
-static void minus(Vector *v, const Vector *v1, const Vector *v2) {
-  v->u = v1->u - v2->u;
-  v->v = v1->v - v2->v;
-}
-
-// compute the angle between two vectors
-// return value: [0, 2Pi[
-static double angle(const Vector *v1, const Vector *v2) {
-  return modulus_double(atan2(v2->v, v2->u) - atan2(v1->v, v1->u), 2.0 * M_PI);
-}
-
 // autopilot
-// pass trough the predefined target positions
+// Go straight forward
 static void run_autopilot() {
-  // prepare the speed array
-  double speeds[2] = {0.0, 0.0};
-
-  // read gps position and compass values
-  const double *pos3D = wb_gps_get_values(gps);
-  const double *north3D = wb_compass_get_values(compass);
-
-  // compute the 2D position of the robo and its orientation
-  Vector pos = {pos3D[X], pos3D[Z]};
-  Vector north = {north3D[X], north3D[Z]};
-  Vector front = {-north.u, north.v};
-
-  // compute the direction and the distance to the target
-  Vector dir;
-  minus(&dir, &(targets[current_target_index]), &pos);
-  double distance = norm(&dir);
-  normalize(&dir);
-
-  // compute the target angle
-  double beta = angle(&front, &dir) - M_PI;
-
-  // a target position has been reached
-  if (distance < DISTANCE_TOLERANCE) {
-    char index_char[3] = "th";
-    if (current_target_index == 0)
-      sprintf(index_char, "st");
-    else if (current_target_index == 1)
-      sprintf(index_char, "nd");
-    else if (current_target_index == 2)
-      sprintf(index_char, "rd");
-    printf("%d%s target reached\n", current_target_index + 1, index_char);
-    current_target_index++;
-    current_target_index %= TARGET_POINTS_SIZE;
-  }
-  // move the robot to the next target
-  else {
-    speeds[LEFT] = MAX_SPEED - M_PI + TURN_COEFFICIENT * beta;
-    speeds[RIGHT] = MAX_SPEED - M_PI - TURN_COEFFICIENT * beta;
-  }
 
   // set the motor speeds
-  robot_set_speed(speeds[LEFT], speeds[RIGHT]);
+  robot_set_speed(MAX_SPEED/2.0, MAX_SPEED/2.0);
 }
 
 int main(int argc, char *argv[]) {
@@ -204,29 +112,19 @@ int main(int argc, char *argv[]) {
 
   wb_robot_step(1000);
 
-  const char *names[8] = {"left motor 1",  "left motor 2",  "left motor 3",  "left motor 4",
-                          "right motor 1", "right motor 2", "right motor 3", "right motor 4"};
+  const char *names[2] = {"wheel_left_joint", "wheel_right_joint"};
 
   // get motor tags
-  int i;
-  for (i = 0; i < 8; i++) {
-    motors[i] = wb_robot_get_device(names[i]);
-    wb_motor_set_position(motors[i], INFINITY);
-  }
-
-  // get gps tag and enable
-  gps = wb_robot_get_device("gps");
-  wb_gps_enable(gps, TIME_STEP);
-
-  // get compass tag and enable
-  compass = wb_robot_get_device("compass");
-  wb_compass_enable(compass, TIME_STEP);
+  motors[0] = wb_robot_get_device(names[0]); // left
+  motors[1] = wb_robot_get_device(names[1]); // right
+  wb_motor_set_position(motors[0], INFINITY);
+  wb_motor_set_position(motors[1], INFINITY);
 
   // enable keyboard
   wb_keyboard_enable(TIME_STEP);
 
   // start forward motion
-  robot_set_speed(MAX_SPEED, MAX_SPEED);
+  robot_set_speed(MAX_SPEED/2.0, MAX_SPEED/2.0);
 
   // main loop
   while (wb_robot_step(TIME_STEP) != -1) {
