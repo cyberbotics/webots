@@ -41,7 +41,7 @@ def cleanupMacOSPreferences():
     for preferencesPath in preferencesDir.glob('com.cyberbotics.*'):
         preferencesPath = Path(preferencesPath)
         preferenceReference = preferencesPath.stem
-        print('Clear the "%s" preference...' % preferenceReference)
+        print('Clearing the "%s" preferences...' % preferenceReference)
         feedback = subprocess.run(['defaults', 'remove', preferenceReference])
         assert feedback.returncode == 0, 'Issue occured when removing the "%s" preference.'
         preferencesPath.unlink(missing_ok=True)
