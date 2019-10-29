@@ -9,5 +9,5 @@ This script requires Python 3 to be installed and accessible from your terminal.
 ## Usage
 
 ```shell
-./preferences_cleaner.py
+python3 preferences_cleaner.py
 ```
