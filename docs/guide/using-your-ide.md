@@ -69,7 +69,7 @@ N/A because Python is interpreted.
 - `WEBOTS_PROJECT` is the path to your Webots project.
 - `CONTROLLER_NAME` is the name of your controller.
 - `EXE_EXTENSION` is the executable file suffix.
-    - For C or C++: `.exe` on Windows, and nothing else.
+    - For C or C++: `.exe` on Windows, and an empty string on other operating systems.
     - For Python: `.py`.
     - For Java: `.class` or `.jar`.
 - `SL_PREFIX` is the prefix of a shared library: `lib` on Linux or macOS, and nothing on Windows.
