@@ -86,6 +86,40 @@ A `Visual Studio` project can be simply created using the "New Robot Controller.
 To do so, you should simply select the **Wizards / New Robot Controller...** menu item, choose the C or C++ language, and select a Visual Studio project.
 The target project can be open in `Visual Studio`.
 
+#### How to Debug a Controller with Visual Studio
+
+If you want to debug your controller with Visual Studio you can *attach* the debugger to the running controller process.
+Proceed like this: In Webots, hit the `Pause` button then the `Reload` button.
+Then, in Visual Studio, use the `Debug / Attach to Process...` menu.
+In the dialog choose the `MyController.exe_webots` process.
+Still in Visual Studio, you can now add breakpoints and watches in the controller code.
+Then, in Webots, hit the `Run` button to resume the simulation.
+Now the controller should pause when it reaches one of your breakpoints.
+
+#### Link with the other Webots Libraries
+
+Webots contains several `C` or `C++` libraries based on the `libController` or `libCppController` libraries (e.g. the `vehicle libraries`, `DARwIn-OP library`, `youBot library`, etc.).
+
+The precompiled `C` libraries are released with their corresponding Visual Studio `.lib` file (the linker to the `.dll` file) to facilitate their integration into a Visual Studio project.
+They are located in the same directory as the library source, where the `.dll` file is generated.
+
+However there is no precompiled `C++` libraries for Visual Studio, because the `gcc` compiler tool chain embedded in Webots is incompatible with Visual Studio.
+To use the `C++` libraries with your project, their source files should be compiled directly in your project, exactly as for the `libCppController` library (cf. instructions above).
+
+For example, to add the `C++ vehicle libraries`:
+
+- Add the `C`, `car` and `driver` precompiled libraries (`Linker > Input > Additional Dependencies`):
+
+    - `car.lib`
+    - `driver.lib`
+
+- Add the following `C++` source files to your project (`Add / New Filter` and `Add / Existing Item...`):
+
+    - `$(WEBOTS_HOME)/projects/default/libraries/vehicle/cpp/car/src/*.cpp`
+    - `$(WEBOTS_HOME)/projects/default/libraries/vehicle/cpp/driver/src/*.cpp`
+
+- If the include files are not located in `$(WEBOTS_HOME)/include/controller/c` or `$(WEBOTS_HOME)/include/controller/cpp` (which is the case for the vehicle libraries), they should be added to your project (`C/C++ > General > Additional Include Directories`).
+
 ### CMake
 
 [CMake](https://cmake.org) is a cross-platform free and open-source software tool for managing the build process of software using a compiler-independent method.
