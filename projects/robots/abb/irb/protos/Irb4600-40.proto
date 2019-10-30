@@ -15,7 +15,7 @@ PROTO Irb4600-40 [
   field SFBool     supervisor      FALSE                            # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE                             # Is `Robot.synchronization`.
   field SFColor    color           1 0.45 0                         # Is `PBRAppearance.baseColor`.
-  field MFNode     handSlot         []                              # Extends the arm with new nodes in the arm slot.
+  field MFNode     handSlot        []                              # Extends the arm with new nodes in the arm slot.
 ]
 {
   Robot {
