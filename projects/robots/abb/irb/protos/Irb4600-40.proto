@@ -9,13 +9,13 @@ PROTO Irb4600-40 [
   field SFVec3f    translation      0 0 0                           # Is `Transform.translation`.
   field SFRotation rotation         0 1 0 0                         # Is `Transform.rotation`.
   field SFString   name             "IRB 4600/40"                   # Is `Solid.name`.
-  field MFNode     handSlot         []                              # Extends the arm with new nodes in the arm slot.
   field SFString   controller      "pioneer3dx_collision_avoidance" # Is `Robot.controller`.
   field SFString   controllerArgs  ""                               # Is `Robot.controllerArgs`.
   field SFString   customData      ""                               # Is `Robot.customData`.
   field SFBool     supervisor      FALSE                            # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE                             # Is `Robot.synchronization`.
   field SFColor    color           1 0.45 0                         # Is `PBRAppearance.baseColor`.
+  field MFNode     handSlot         []                              # Extends the arm with new nodes in the arm slot.
 ]
 {
   Robot {
