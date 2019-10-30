@@ -21,5 +21,6 @@ Released on XXX YYth, 2019.
     - Replaced the [Viewpoint](viewpoint.md) `followOrientation` field by a `followType` field for more flexibility.
   - Enhancements
     - Separate the Webots and controller libraries to avoid possible conflicts with external libraries.
+    - Set the [ABB IRB 4600/40](../guide/irb4600-40.md) root node to [Robot](robot.md) instead of [Solid](solid.md) to be able to insert it everywhere.
   - New Samples
     - Added a `complete_apartment` world.
