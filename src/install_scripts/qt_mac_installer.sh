@@ -1,20 +1,24 @@
 #!/bin/bash
 
-WEBOTS_PATH=~/webots
+if [[ -z "${WEBOTS_HOME}" ]]; then
+  echo "WEBOTS_HOME is not defined."
+  exit 1
+fi
+
 QT_VERSION=5.13.1
 
 # prepare Webots
-cd $WEBOTS_PATH
+cd $WEBOTS_HOME
 rm -fr Contents/Frameworks/Qt* bin/qt/lupdate bin/qt/lrelease bin/qt/moc include/qt lib/qt
 mkdir lib/qt
 mkdir include/qt
 
 # populate webots
 cd $HOME/Qt$QT_VERSION/$QT_VERSION/clang_64
-cp bin/lrelease $WEBOTS_PATH/bin/qt
-cp bin/lupdate $WEBOTS_PATH/bin/qt
-cp bin/moc $WEBOTS_PATH/bin/qt
-cp -r include/QtPlatformHeaders $WEBOTS_PATH/include/qt/
+cp bin/lrelease $WEBOTS_HOME/bin/qt
+cp bin/lupdate $WEBOTS_HOME/bin/qt
+cp bin/moc $WEBOTS_HOME/bin/qt
+cp -r include/QtPlatformHeaders $WEBOTS_HOME/include/qt/
 
 declare -a qtFrameworks=( \
   "QtConcurrent" \
@@ -43,28 +47,28 @@ declare -a qtFrameworks=( \
 
 for f in "${qtFrameworks[@]}"
 do
-  cp -R lib/$f.framework $WEBOTS_PATH/Contents/Frameworks
+  cp -R lib/$f.framework $WEBOTS_HOME/Contents/Frameworks
 done
 
-mkdir $WEBOTS_PATH/lib/qt/plugins
-mkdir $WEBOTS_PATH/lib/qt/plugins/imageformats
-mkdir $WEBOTS_PATH/lib/qt/plugins/platforms
-mkdir $WEBOTS_PATH/lib/qt/plugins/printsupport
-mkdir $WEBOTS_PATH/lib/qt/plugins/styles
-mkdir $WEBOTS_PATH/lib/qt/libexec
-cp plugins/imageformats/libqjpeg.dylib $WEBOTS_PATH/lib/qt/plugins/imageformats/
-cp plugins/platforms/libqcocoa.dylib $WEBOTS_PATH/lib/qt/plugins/platforms/
-cp plugins/printsupport/libcocoaprintersupport.dylib $WEBOTS_PATH/lib/qt/plugins/printsupport/
-cp plugins/styles/libqmacstyle.dylib $WEBOTS_PATH/lib/qt/plugins/styles/
-cp ../../Examples/Qt-$QT_VERSION/webchannel/shared/qwebchannel.js $WEBOTS_PATH/resources/web/local/qwebchannel.js
-echo $'[Paths]\nPrefix = ..\n' > $WEBOTS_PATH/lib/qt/libexec/qt.conf
+mkdir $WEBOTS_HOME/lib/qt/plugins
+mkdir $WEBOTS_HOME/lib/qt/plugins/imageformats
+mkdir $WEBOTS_HOME/lib/qt/plugins/platforms
+mkdir $WEBOTS_HOME/lib/qt/plugins/printsupport
+mkdir $WEBOTS_HOME/lib/qt/plugins/styles
+mkdir $WEBOTS_HOME/lib/qt/libexec
+cp plugins/imageformats/libqjpeg.dylib $WEBOTS_HOME/lib/qt/plugins/imageformats/
+cp plugins/platforms/libqcocoa.dylib $WEBOTS_HOME/lib/qt/plugins/platforms/
+cp plugins/printsupport/libcocoaprintersupport.dylib $WEBOTS_HOME/lib/qt/plugins/printsupport/
+cp plugins/styles/libqmacstyle.dylib $WEBOTS_HOME/lib/qt/plugins/styles/
+cp ../../Examples/Qt-$QT_VERSION/webchannel/shared/qwebchannel.js $WEBOTS_HOME/resources/web/local/qwebchannel.js
+echo $'[Paths]\nPrefix = ..\n' > $WEBOTS_HOME/lib/qt/libexec/qt.conf
 
 # remove the debug frameworks
-cd  $WEBOTS_PATH/Contents/Frameworks/
+cd  $WEBOTS_HOME/Contents/Frameworks/
 find . -name *_debug | xargs rm
 
 # Render the frameworks relative to the executable:
-cd  $WEBOTS_PATH/Contents/Frameworks/
+cd  $WEBOTS_HOME/Contents/Frameworks/
 
 for fA in "${qtFrameworks[@]}"
 do
@@ -78,7 +82,7 @@ do
 done
 
 # Render the plugins relative to the executable:
-cd $WEBOTS_PATH/lib/qt/plugins
+cd $WEBOTS_HOME/lib/qt/plugins
 
 declare -a libs=("imageformats/libqjpeg.dylib" "platforms/libqcocoa.dylib" "printsupport/libcocoaprintersupport.dylib" "styles/libqmacstyle.dylib")
 
@@ -95,7 +99,7 @@ do
 done
 
 # Change the RPATH of the executables
-cd $WEBOTS_PATH/bin/qt
+cd $WEBOTS_HOME/bin/qt
 install_name_tool -rpath @loader_path/../lib @loader_path/../.. lrelease
 install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @rpath/Contents/Frameworks/QtCore.framework/Versions/5/QtCore lrelease
 install_name_tool -change @rpath/QtXml.framework/Versions/5/QtXml @rpath/Contents/Frameworks/QtXml.framework/Versions/5/QtXml lrelease
@@ -103,7 +107,7 @@ install_name_tool -rpath @loader_path/../lib @loader_path/../.. lupdate
 install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @rpath/Contents/Frameworks/QtCore.framework/Versions/5/QtCore lupdate
 install_name_tool -change @rpath/QtXml.framework/Versions/5/QtXml @rpath/Contents/Frameworks/QtXml.framework/Versions/5/QtXml lupdate
 install_name_tool -add_rpath @loader_path/../.. moc
-cd $WEBOTS_PATH/Contents/Frameworks/QtWebEngineCore.framework/Helpers/QtWebEngineProcess.app/Contents/MacOS
+cd $WEBOTS_HOME/Contents/Frameworks/QtWebEngineCore.framework/Helpers/QtWebEngineProcess.app/Contents/MacOS
 install_name_tool -change @rpath/QtWebEngineCore.framework/Versions/5/QtWebEngineCore @rpath/Contents/Frameworks/QtWebEngineCore.framework/Versions/5/QtWebEngineCore QtWebEngineProcess
 install_name_tool -change @rpath/QtQuick.framework/Versions/5/QtQuick @rpath/Contents/Frameworks/QtQuick.framework/Versions/5/QtQuick QtWebEngineProcess
 install_name_tool -change @rpath/QtQml.framework/Versions/5/QtQml @rpath/Contents/Frameworks/QtQml.framework/Versions/5/QtQml QtWebEngineProcess
@@ -114,7 +118,7 @@ install_name_tool -change @rpath/QtWebChannel.framework/Versions/5/QtWebChannel 
 install_name_tool -change @rpath/QtPositioning.framework/Versions/5/QtPositioning @rpath/Contents/Frameworks/QtPositioning.framework/Versions/5/QtPositioning QtWebEngineProcess
 install_name_tool -add_rpath @loader_path/../../../../../../../../.. QtWebEngineProcess
 
-cd $WEBOTS_PATH
+cd $WEBOTS_HOME
 
 ARCHIVE=qt-$QT_VERSION-release.tar.bz2
 echo Compressing $ARCHIVE \(please wait\)
