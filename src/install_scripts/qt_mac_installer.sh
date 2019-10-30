@@ -1,3 +1,5 @@
+#!/bin/bash
+
 WEBOTS_PATH=~/webots
 QT_VERSION=5.13.1
 
