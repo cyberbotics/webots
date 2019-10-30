@@ -36,9 +36,8 @@ WbSplashScreen::~WbSplashScreen() {
 }
 
 void WbSplashScreen::drawContents(QPainter *painter) {
-#ifdef _WIN32
-  // for some reason dpi scaling on windows doesn't work properly on the splash
-  // screen so we have to correct this manually
+#ifndef __linux__
+  // fix manually the dpi scaling.
   const double dotsPerInchRatio = 96.0 / logicalDpiX();
 #else
   const double dotsPerInchRatio = 1.0;
