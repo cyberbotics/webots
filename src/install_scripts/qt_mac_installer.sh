@@ -1,5 +1,5 @@
 WEBOTS_PATH=~/webots
-QT_VERSION=5.12.5
+QT_VERSION=5.13.1
 
 # prepare Webots
 cd $WEBOTS_PATH
