@@ -89,7 +89,6 @@ Robot {
           ]
           leadSize 0.01
           maxDistance 0.05
-          write FALSE
         }
       ]
     }
