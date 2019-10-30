@@ -3,7 +3,7 @@
 Using an [Integrated Development Environment (IDE)](https://en.wikipedia.org/wiki/Integrated_development_environment) is convenient as it generally features advanced source code edition tools, a built-in debugger, etc.
 Fortunately, you can use your favorite IDE to develop a Webots controller.
 
-A priori, Webots can support any IDE to create, build and debug its controllers.
+A priori, Webots works with any IDE to create, build and debug robot controllers.
 It is simply a matter of setting up the IDE correctly to fulfill the Webots controller build rules.
 
 Documenting every IDE for each OS is a huge and unmaintainable task.
