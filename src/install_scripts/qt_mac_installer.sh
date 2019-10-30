@@ -69,8 +69,6 @@ do
    install_name_tool -id @rpath/Contents/Frameworks/$fA.framework/Versions/5/$fA $fA.framework/Versions/5/$fA
    install_name_tool -delete_rpath @executable_path/../Frameworks $fA.framework/Versions/5/$fA
    install_name_tool -delete_rpath @loader_path/Frameworks $fA.framework/Versions/5/$fA
-   # The following RPATH is required to run Webots, but Qt defines it since 5.12.
-   # install_name_tool -add_rpath @loader_path/../../.. $fA.framework/Versions/5/$fA
    for fB in "${qtFrameworks[@]}"
    do
      install_name_tool -change @rpath/$fB.framework/Versions/5/$fB @rpath/Contents/Frameworks/$fB.framework/Versions/5/$fB $fA.framework/Versions/5/$fA
