@@ -4,7 +4,7 @@ WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_HOME)/dependencies
 
 DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/mac/release
 
-QT_PACKAGE = qt-5.11.2-release.tar.bz2
+QT_PACKAGE = qt-5.12.4-release.tar.bz2
 ASSIMP_PACKAGE = assimp.tar.bz2
 FREETYPE_PACKAGE = macos-precompiled-freetype-2.9.tar.bz2
 FFMPEG_PACKAGE = ffmpeg.tar.bz2
@@ -49,7 +49,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@echo "# downloading $(QT_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "6344f08a792f78c6198730a0b6073fa3" != `md5 -q $(QT_PACKAGE)` ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
+	@if [ "3cad6f287f0c815c35de686f1c7076da" != `md5 -q $(QT_PACKAGE)` ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 
 
