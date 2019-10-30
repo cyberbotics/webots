@@ -91,7 +91,7 @@ The target project can be open in `Visual Studio`.
 [CMake](https://cmake.org) is a cross-platform free and open-source software tool for managing the build process of software using a compiler-independent method.
 Using [its generators](https://cmake.org/cmake/help/v3.0/manual/cmake-generators.7.html), it generates native build environments, such as `XCode`, `CodeBlocks`, `Sublime Text 2` or `Eclipse` projects.
 The actual build is processed in these environments.
-For the `Visual Studio` target, prefer the [solution above](#visual-studio).
+For the `Visual Studio` target, prefer the [above solution](#visual-studio).
 
 As a template, you could copy the following `CMakeLists.txt` file to your controller directory.
 This template is only a sample, it may be adapted depending on your CMake target.
