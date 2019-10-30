@@ -6,9 +6,9 @@
 # It has a payload of 40kg.
 
 PROTO Irb4600-40 [
-  field SFVec3f    translation     0 0 0                           # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0                         # Is `Transform.rotation`.
-  field SFString   name            "IRB 4600/40"                   # Is `Solid.name`.
+  field SFVec3f    translation     0 0 0                            # Is `Transform.translation`.
+  field SFRotation rotation        0 1 0 0                          # Is `Transform.rotation`.
+  field SFString   name            "IRB 4600/40"                    # Is `Solid.name`.
   field SFString   controller      "pioneer3dx_collision_avoidance" # Is `Robot.controller`.
   field SFString   controllerArgs  ""                               # Is `Robot.controllerArgs`.
   field SFString   customData      ""                               # Is `Robot.customData`.
