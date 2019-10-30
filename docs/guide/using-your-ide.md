@@ -13,7 +13,7 @@ They could serve as a reference for others.
 The build rules are:
 
 - The target executable file should have the same name as the controller directory, and follow strictly this path: `$WEBOTS_PROJECT/controllers/$(CONTROLLER_NAME)/$(CONTROLLER_NAME)$(EXE_EXTENSION)`.
-- The executable should be linked with the Webots controller library (and eventually include the corresponding path):
+- The executable should be linked with the Webots controller library (and eventually include the corresponding path).
 
 %tab-component "language"
 
@@ -96,7 +96,7 @@ Still in Visual Studio, you can now add breakpoints and watches in the controlle
 Then, in Webots, hit the `Run` button to resume the simulation.
 Now the controller should pause when it reaches one of your breakpoints.
 
-#### Link with the other Webots Libraries
+#### Link with the Other Webots Libraries
 
 Webots contains several `C` or `C++` libraries based on the `libController` or `libCppController` libraries (e.g. the `vehicle libraries`, `DARwIn-OP library`, `youBot library`, etc.).
 
