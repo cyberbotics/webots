@@ -72,7 +72,7 @@ N/A because Python is interpreted.
     - For C or C++: `.exe` on Windows, and an empty string on other operating systems.
     - For Python: `.py`.
     - For Java: `.class` or `.jar`.
-- `SL_PREFIX` is the prefix of a shared library: `lib` on Linux or macOS, and nothing on Windows.
+- `SL_PREFIX` is the prefix of a shared library: `lib` on Linux or macOS, and an empty string on Windows.
 - `SL_SUFFIX` is the suffix of a shared library: `.so` on Linux, `.dylib` on macOS and `.dll` on Windows.
 - `PYTHON_VERSION` is your Python version, but concatenated (`27`, `37`, etc.).
 
