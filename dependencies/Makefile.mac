@@ -4,7 +4,7 @@ WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_HOME)/dependencies
 
 DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/mac/release
 
-QT_PACKAGE = qt-5.12.4-release.tar.bz2
+QT_PACKAGE = qt-5.12.5-release.tar.bz2
 ASSIMP_PACKAGE = assimp.tar.bz2
 FREETYPE_PACKAGE = macos-precompiled-freetype-2.9.tar.bz2
 FFMPEG_PACKAGE = ffmpeg.tar.bz2

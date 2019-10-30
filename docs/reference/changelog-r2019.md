@@ -10,7 +10,7 @@ Released on ???
     - Device names are displayed in the scene tree next to the node name.
   - Dependency Updates
     - Windows: upgraded to Qt 5.13.1.
-    - macOS: upgraded to Qt 5.12.4.
+    - macOS: upgraded to Qt 5.12.5.
   - Bug fixes
     - Fixed `simulation_server.py` script to work with Python3.
     - Fixed exporting first translation and rotation fields change during animation recording and simulation streaming.
