@@ -1,6 +1,6 @@
 ## Using Your IDE
 
-Using an [Integrated Development Environments (IDE)](https://en.wikipedia.org/wiki/Integrated_development_environment) is for sure convenient for its features (graphical debugger, edition tools, etc.).
+Using an [Integrated Development Environment (IDE)](https://en.wikipedia.org/wiki/Integrated_development_environment) is convenient as it generally features advanced source code edition tools, a built-in debugger, etc.
 You may be interested in using your favorite IDE to develop a Webots controller.
 
 A priori, Webots can support any IDE to create, build and debug its controllers.
