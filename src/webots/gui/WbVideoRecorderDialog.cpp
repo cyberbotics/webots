@@ -21,7 +21,6 @@
 #include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
-#include <QtWidgets/QDesktopWidget>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QGridLayout>
@@ -37,9 +36,8 @@ WbVideoRecorderDialog::WbVideoRecorderDialog(QWidget *parent, const QSize &curre
   mResolutionList(this) {
   setWindowTitle(tr("Choose video parameters"));
 
-  const QDesktopWidget *qDesktop = QApplication::desktop();
-  const int screenNumber = qDesktop->screenNumber(QCursor::pos());
-  QSize fullScreen(qDesktop->screenGeometry(screenNumber).width(), qDesktop->screenGeometry(screenNumber).height());
+  const QScreen *screen = QGuiApplication::screenAt(QCursor::pos());
+  const QSize fullScreen(screen->geometry().width(), screen->geometry().height());
 
   tryToAddResolution(WbResolution(352, 288, "CIF"), fullScreen);
   tryToAddResolution(WbResolution(426, 240, "240p"), fullScreen);

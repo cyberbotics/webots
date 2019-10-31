@@ -20,7 +20,7 @@ WbSFInt::WbSFInt(const WbSFInt &other) {
   mValue = other.mValue;
 }
 
-void WbSFInt::read(WbTokenizer *tokenizer, const QString &worldPath) {
+void WbSFInt::readSFInt(WbTokenizer *tokenizer, const QString &worldPath) {
   try {
     mValue = tokenizer->nextToken()->toInt();
   } catch (...) {

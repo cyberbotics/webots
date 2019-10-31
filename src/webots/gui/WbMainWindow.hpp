@@ -59,10 +59,10 @@ public:
   const QString &coreIconPath() const { return mCoreIconPath; }
   const QString &toolBarAlign() const { return mToolBarAlign; }
 
-  void setEnabledIconPath(QString &path) { mEnabledIconPath = path; }
-  void setDisabledIconPath(QString &path) { mDisabledIconPath = path; }
-  void setCoreIconPath(QString &path) { mCoreIconPath = path; }
-  void setToolBarAlign(QString &align) { mToolBarAlign = align; }
+  void setEnabledIconPath(const QString &path) { mEnabledIconPath = path; }
+  void setDisabledIconPath(const QString &path) { mDisabledIconPath = path; }
+  void setCoreIconPath(const QString &path) { mCoreIconPath = path; }
+  void setToolBarAlign(const QString &align) { mToolBarAlign = align; }
 
   void restorePreferredGeometry(bool minimizedOnStart = false);
 

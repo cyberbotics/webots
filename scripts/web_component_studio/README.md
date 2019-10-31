@@ -10,6 +10,10 @@ The device origin location are displayed when the mouse is over an item of the d
 An example of a web component showing the Aibo ERS7 robot is displayed on the top of the following page: https://cyberbotics.com/doc/guide/aibo-ers7
 
 
+## Requirements
+
+- Python 3.5 or above.
+
 ## Usage
 
 ```sh

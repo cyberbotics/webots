@@ -105,7 +105,7 @@ void WbSingleTaskApplication::showSysInfo() const {
   QOpenGLFunctions *gl = context->functions();  // QOpenGLFunctions_3_3_Core cannot be initialized here on some systems like
                                                 // macOS High Sierra and some Ubuntu environments.
 
-#ifndef __APPLE__
+#ifdef _WIN32
   const quint32 vendorId = WbSysInfo::gpuVendorId(gl);
   const quint32 rendererId = WbSysInfo::gpuDeviceId(gl);
 #else

@@ -58,7 +58,9 @@ ifeq ($(OSTYPE),linux)
     OSARCH = x86_64
   endif
   ifeq ($(OSTYPE),linux)
-    UBUNTU_VERSION:=$(shell lsb_release -sr)
+    ifneq (, $(shell which lsb_release))
+      UBUNTU_VERSION:=$(shell lsb_release -sr)
+    endif
   endif
 endif
 
@@ -66,7 +68,7 @@ endif
 
 ifeq ($(OSTYPE),darwin)
 
- SUPPORTED_SDK = 10.9 10.10 10.11 10.12 10.13 10.14
+ SUPPORTED_SDK = 10.9 10.10 10.11 10.12 10.13 10.14 10.15
  MACOSX_MIN_SDK_VERSION = 10.9
 
  # cf. https://stackoverflow.com/a/30225756/2210777

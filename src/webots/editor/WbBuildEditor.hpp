@@ -48,12 +48,11 @@ public:
   QAction *crossCompileAction() const { return mCrossCompileAction; }
   QAction *cleanCrossCompilationAction() const { return mCleanCrossCompilationAction; }
 
+  void updateGui() override;
+
 signals:
   void reloadRequested();
   void resetRequested();
-
-protected:
-  void updateGui() override;
 
 private:
   QAction *mBuildAction, *mCleanAction, *mMakeJarAction;

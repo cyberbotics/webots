@@ -25,7 +25,7 @@ class WbStreamingTcpServer : public QTcpServer {
 public:
   explicit WbStreamingTcpServer(QObject *parent = NULL) : QTcpServer(parent), mSsl(false){};
 
-  void setSslConfiguration(QSslConfiguration &configuration);
+  void setSslConfiguration(const QSslConfiguration &configuration);
 
 protected:
   void incomingConnection(qintptr socketDescriptor) override;

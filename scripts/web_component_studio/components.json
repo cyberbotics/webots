@@ -422,17 +422,6 @@
       }
     },
     {
-      "name": "telemax-pro",
-      "proto": "TelemaxPro",
-      "translation": "0 0.22 0",
-      "rotation": "0 1 0 -1.8326",
-      "fields": "wheels TRUE",
-      "viewpoint": {
-        "orientation": "-0.36010402093046423 0.9012881128262091 0.24084192282051378 1.3558442718980541",
-        "position": "2.9970418560444485 2.1952129586782854 0.48807729109682624"
-      }
-    },
-    {
       "name": "tiago-base",
       "proto": "TiagoBase",
       "translation": "0 0.095 0",

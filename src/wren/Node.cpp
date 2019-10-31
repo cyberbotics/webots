@@ -24,7 +24,7 @@ namespace wren {
     if (!node)
       return;
 
-    if (node && node->mParent)
+    if (node->mParent)
       node->mParent->detachChild(node);
 
     delete node;

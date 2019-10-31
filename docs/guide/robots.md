@@ -51,7 +51,6 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 | ![icon.png](images/robots/shrimp/icon.png)         | [Shrimp](shrimp.md)                 | BlueBotics           | *Six-wheeled robot*             |
 | ![icon.png](images/robots/sojourner/icon.png)      | [Sojourner](sojourner.md)           | Nasa                 | *Six-wheeled robot*             |
 | ![icon.png](images/robots/surveyor/icon.png)       | [Surveyor SRV-1](surveyor.md)       | Surveyor Corporation | *Robot with two tracks*         |
-| ![icon.png](images/robots/telemax-pro/icon.png)    | [Telemax PRO](telemax-pro.md)       | Telerob              | *Robot with four tracks*        |
 | ![icon.png](images/robots/tiago_base/icon.png)     | [TIAGo Base](tiago-base.md)         | PAL Robotics         | *Two-wheeled robot*             |
 | ![icon.png](images/robots/tiago_iron/icon.png)     | [TIAGo Iron](tiago-iron.md)         | PAL Robotics         | *Two-wheeled humanoid robot*    |
 | ![icon.png](images/robots/tiago_steel/icon.png)    | [TIAGo Steel](tiago-steel.md)       | PAL Robotics         | *Two-wheeled humanoid robot*    |
