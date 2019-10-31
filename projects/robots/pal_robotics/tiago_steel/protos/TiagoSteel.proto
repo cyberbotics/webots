@@ -2,7 +2,7 @@
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # documentation url: https://www.cyberbotics.com/doc/guide/tiago-steel
-# This is a proto file for Webots for the robot TIAGo (Steel version) from PAL Robotics (Spain).
+# This is a PROTO file for Webots for the robot TIAGo (Steel version) from PAL Robotics (Spain).
 # It is composed of the TIAGo base (with Hokuyo URG 04LX_UG01 lidar) and the TIAGo body (torso) with the front arm finished by the parallel gripper.
 
 PROTO TiagoSteel [
@@ -26,7 +26,7 @@ PROTO TiagoSteel [
     synchronization IS synchronization
     name IS name
     model "PAL Robotics' TIAGo Steel"
-    description "two-wheel human-like robot with one articulated arm finished by parallel gripper designed by PAL Robotics"
+    description "two-wheeled human-like robot with one articulated arm finished by parallel gripper designed by PAL Robotics"
     bodyExtension [
       TiagoBody {
         FrontArmExtension [

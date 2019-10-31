@@ -2,7 +2,7 @@
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # documentation url: https://www.cyberbotics.com/doc/guide/tiago++
-# This is a proto file for Webots for the robot Tiago++ (gripper version) from PAL Robotics (Spain).
+# This is a PROTO file for Webots for the robot Tiago++ (gripper version) from PAL Robotics (Spain).
 # It is composed of the TIAGo base (with Hokuyo URG 04LX_UG01 lidar) and the torso body with two arms finished by parallel grippers.
 
 PROTO Tiago++ [
@@ -28,7 +28,7 @@ PROTO Tiago++ [
     synchronization IS synchronization
     name IS name
     model "PAL Robotics' TIAGo++"
-    description "two-wheel human-like robot with two articulated arms finished by parallel grippers designed by PAL Robotics"
+    description "two-wheeled human-like robot with two articulated arms finished by parallel grippers designed by PAL Robotics"
     bodyExtension [
       TiagoBody {
         RightArmExtension [

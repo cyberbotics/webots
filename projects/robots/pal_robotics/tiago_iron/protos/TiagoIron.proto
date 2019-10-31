@@ -2,7 +2,7 @@
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # documentation url: https://www.cyberbotics.com/doc/guide/tiago-iron
-# This is a proto file for Webots for the robot TIAGo (Iron version) from PAL Robotics (Spain).
+# This is a PROTO file for Webots for the robot TIAGo (Iron version) from PAL Robotics (Spain).
 # It is composed of the TIAGo base (with Hokuyo URG 04LX_UG01 lidar) and the TIAGo body (torso) without arm.
 
 PROTO TiagoIron [
@@ -26,7 +26,7 @@ PROTO TiagoIron [
     synchronization IS synchronization
     name IS name
     model "PAL Robotics' TIAGo Iron"
-    description "two-wheel human-like robot with no arms designed by PAL Robotics"
+    description "two-wheeled human-like robot with no arms designed by PAL Robotics"
     bodyExtension [
       TiagoBody {
       }

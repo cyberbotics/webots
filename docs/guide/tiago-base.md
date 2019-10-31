@@ -2,11 +2,11 @@
 
 %robot tiago-base images/robots/tiago_base/model.png
 
-Designed by PAL Robotics, TIAGo Base is a two-wheel robot.
+Designed by PAL Robotics, TIAGo Base is a two-wheeled robot.
 The model is a modular mobile platform that automates deliveries in industrial environment. It is completely ROS based and customizable with accessories to adapt to any specific need.
 TIAGo's software has out-of-the box extras available like navigation upgrade.
 
-More information on the TIAGo base robot can be found on their [website](http://pal-robotics.com/robots/tiago/) or in the [technical specifications datasheet](http://pal-robotics.com/wp-content/uploads/2019/06/TIAGo-Base_Datasheet.pdf).
+More information on the TIAGo Base robot can be found on their [website](http://pal-robotics.com/robots/tiago-base/) or in the [technical specifications datasheet](http://pal-robotics.com/wp-content/uploads/2019/06/TIAGo-Base_Datasheet.pdf).
 
 ### TiagoBase PROTO
 
@@ -23,9 +23,9 @@ TiagoBase {
   SFBool       supervisor      FALSE
   SFBool       synchronization TRUE
   SFString     model           "TIAGo Base"
-  SFString     description     "two-wheel robot designed by PAL Robotics"
-  MFNode       lidarExtension  []
+  SFString     description     "two-wheeled robot designed by PAL Robotics"
   MFNode       bodyExtension   []
+  MFNode       lidarExtension  []
 }
 ```
 
@@ -33,8 +33,8 @@ TiagoBase {
 
 #### TiagoBase Field Summary
 
+- `bodyExtension`:  Defines body extension used {TiagoBody, fixed shelves, safety box, roller conveyor, boxes, lifter}.
 - `lidarExtension`: Defines the lidar used {Sick TIM551 or Hokuyo URG 04LX_UG01}.
-- `bodyExtension`: Defines body extension used {TiagoBody, Fixed shelves, Safety box, roller conveyor, boxes, lifter}.
 
 ### Sample
 
@@ -42,4 +42,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### tiago\_base.wbt
 
-![tiago_base.wbt.png](images/robots/tiago_base/tiago_base.wbt.thumbnail.jpg) This simulation shows a TIAGo Base robot following a predefined path on a chequered parquetry.
+![tiago_base.wbt.png](images/robots/tiago_base/tiago_base.wbt.thumbnail.jpg) This simulation shows a TIAGo Base robot that automatically moves straight ahead but can also be controlled using the keyboard arrows.

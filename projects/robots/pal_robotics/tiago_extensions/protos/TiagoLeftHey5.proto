@@ -1,7 +1,7 @@
 #VRML_SIM R2019b utf8
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
-# This is a proto file for Webots for the robot TIAGo from PAL Robotics (Spain).
+# This is a PROTO file for Webots for the robot TIAGo from PAL Robotics (Spain).
 # It is the left version of the Hey5 hand end-effector.
 
 PROTO TiagoLeftHey5 [

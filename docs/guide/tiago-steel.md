@@ -2,7 +2,7 @@
 
 %robot tiago-steel images/robots/tiago_steel/model.png
 
-Designed by PAL Robotics, TIAGo Steel is a two-wheel human-like robot with a torso, a head and one articulated arm finish by a parallel gripper as end-effector.
+Designed by PAL Robotics, TIAGo Steel is a two-wheeled human-like robot with a torso, a head and one articulated arm finished by a parallel gripper as end-effector.
 It is completely ROS based, fully customizable and expandable with extra sensors and devices like other end-effector (Hey5 hand).
 TIAGo's software has out-of-the box extras available like navigation upgrade, human-robot interaction skills or teleoperation applications.
 
@@ -33,4 +33,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### tiago\_steel.wbt
 
-![tiago_steel.wbt.png](images/robots/tiago_steel/tiago_steel.wbt.thumbnail.jpg) This simulation shows a TIAGo Steel robot following a predefined path on a chequered parquetry.
+![tiago_steel.wbt.png](images/robots/tiago_steel/tiago_steel.wbt.thumbnail.jpg) This simulation shows a TIAGo Steel robot that automatically moves straight ahead but can also be controlled using the keyboard arrows.

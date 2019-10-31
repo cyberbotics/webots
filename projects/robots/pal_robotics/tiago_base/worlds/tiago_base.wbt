@@ -6,7 +6,7 @@ WorldInfo {
   physicsDisableAngularThreshold 0.001
   defaultDamping Damping {
   }
-  lineScale 0.28
+  lineScale 0.03
   contactProperties [
     ContactProperties {
       material2 "caster_wheel_friction"
@@ -19,7 +19,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.37644997090187093 0.9114691484743166 0.16585961168254515 0.9005317682923486
-  position 2.3343968241335546 1.3525805235471775 2.021874553064331
+  position 2.347427819181101 1.3525805235471775 2.007626034134939
 }
 TexturedBackground {
 }

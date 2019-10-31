@@ -2,7 +2,7 @@
 
 %robot tiago-titanium images/robots/tiago_titanium/model.png
 
-Designed by PAL Robotics, TIAGo Titanium is a two-wheel human-like robot with a torso, a head and one articulated arm finish by a Hey5 hand as end-effector.
+Designed by PAL Robotics, TIAGo Titanium is a two-wheeled human-like robot with a torso, a head and one articulated arm finished by a Hey5 hand as end-effector.
 It is completely ROS based, fully customizable and expandable with extra sensors and devices like other end-effector (parallel gripper).
 TIAGo's software has out-of-the box extras available like navigation upgrade, human-robot interaction skills or teleoperation applications.
 
@@ -33,4 +33,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### tiago\_titanium.wbt
 
-![tiago_titanium.wbt.png](images/robots/tiago_titanium/tiago_titanium.wbt.thumbnail.jpg) This simulation shows a TIAGo Titanium robot following a predefined path on a chequered parquetry.
+![tiago_titanium.wbt.png](images/robots/tiago_titanium/tiago_titanium.wbt.thumbnail.jpg) This simulation shows a TIAGo Titanium robot that automatically moves straight ahead but can also be controlled using the keyboard arrows.

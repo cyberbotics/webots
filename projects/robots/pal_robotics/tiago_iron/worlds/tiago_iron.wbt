@@ -1,21 +1,22 @@
 #VRML_SIM R2019b utf8
 WorldInfo {
   basicTimeStep 16
-  physicsDisableTime 3
-  physicsDisableLinearThreshold 0.001
-  physicsDisableAngularThreshold 0.001
-  defaultDamping Damping {
-  }
-  lineScale 0.03
+  contactProperties [
+    ContactProperties {
+      material2 "caster_wheel_friction"
+      coulombFriction [
+        0.1
+      ]
+    }
+  ]
 }
 Viewpoint {
-  orientation 0.2676184418732235 -0.9543782620927752 -0.13244811215763677 5.275471156505329
-  position 2.165183433739411 1.2024353806940842 1.4886186546903841
+  orientation -0.3726073372073973 -0.8733077635845243 -0.31384283060508084 1.5346386289035787
+  position -2.360002668569122 0.5308098170929663 3.4116577058075874
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
-  castShadows FALSE
 }
 RectangleArena {
   floorSize 8 8
@@ -26,6 +27,4 @@ RectangleArena {
       scale 6 6
     }
   }
-}
-TiagoIron {
 }
