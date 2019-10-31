@@ -78,6 +78,11 @@ N/A because Python is interpreted.
 
 ---
 
+Some IDE comes with interpreters or compiler tool chain.
+They may be incompatible with the precompiled Webots controller libraries.
+In this case, the IDE integration may be much more complex.
+For example, this is the case of the `Visual Studio C++ compiler` which is not compatible with the `MINGW gcc compiler` used to precompile the C++ Webots controller library.
+
 ### Visual Studio
 
 On Windows, [Visual Studio](https://visualstudio.microsoft.com) can be used to create a C or C++ controller.
