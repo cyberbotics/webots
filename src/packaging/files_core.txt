@@ -366,6 +366,9 @@ resources/wren/textures/*.png
 resources/version.txt
 resources/qt_warning_filters.conf
 
+scripts/
+scripts/preferences_cleaner [recurse]
+
 util/ [mac]
 util/ffmpeg [mac]
 
