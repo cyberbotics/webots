@@ -156,14 +156,6 @@ int main(int argc, char *argv[]) {
   // efficiently what Webots statement is responsible to generate some Qt output
   qInstallMessageHandler(catchMessageOutput);
 
-  // Make the default context an OpenGL 3.3 Core Profile context
-  QSurfaceFormat format(QSurfaceFormat::defaultFormat());
-  format.setRenderableType(QSurfaceFormat::OpenGL);
-  format.setVersion(3, 3);
-  format.setProfile(QSurfaceFormat::CoreProfile);
-  format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);
-  QSurfaceFormat::setDefaultFormat(format);
-
   QApplication::setAttribute(Qt::AA_Use96Dpi);
 
   WbGuiApplication app(argc, argv);

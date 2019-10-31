@@ -238,8 +238,8 @@ class TestSuite (Supervisor):
             receiver = self.getReceiver("ts_receiver")
             receiver.enable(basicTimeStep)
 
-        # 10 seconds before executing the next world
-        timeout = time.time() + 10
+        # 30 seconds before executing the next world
+        timeout = time.time() + 30
 
         running_controllers_pid = []
         test_started = False

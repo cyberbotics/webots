@@ -77,6 +77,7 @@ ifeq ($(NPM_EXISTS),)
 release debug profile update:
 	@echo "# npm not found in PATH:" $(PATH)
 	@echo "# Please install nodejs to build 'webots.min.js' using the instructions on the GitHub wiki."
+	@echo -e "# \033[0;33mnpm not installed, skipping webots.min.js\033[0m"
 else
 release profile update: webots.min.js
 debug: webots.debug.js
@@ -111,8 +112,10 @@ $(INSTALL_TOKEN): package.json
 
 cleanse: clean
 	@echo "# uninstalling npm dependencies"
-	@npm --silent uninstall 1> /dev/null
 	@rm -fr node_modules $(INSTALL_TOKEN) package-lock.json
+ifeq ($(NPM_EXISTS),)
+	@npm --silent uninstall 1> /dev/null
+endif
 
 clean:
 	@rm -fr *.min.js $(DEPENDENCIES_PATH)
