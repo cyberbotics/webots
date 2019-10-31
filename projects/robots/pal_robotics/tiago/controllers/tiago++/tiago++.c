@@ -16,13 +16,11 @@
 
 #include <math.h>
 #include <stdio.h>
-//#include <webots/compass.h>
-//#include <webots/gps.h>
 #include <webots/keyboard.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
 
-#define TIME_STEP 16
+#define TIME_STEP 8
 #define MAX_SPEED 7.0
 
 enum XYZAComponents { X, Y, Z, ALPHA };
@@ -93,9 +91,8 @@ static void check_keyboard() {
 // autopilot
 // Go straight forward
 static void run_autopilot() {
-
   // set the motor speeds
-  robot_set_speed(MAX_SPEED/2.0, MAX_SPEED/2.0);
+  robot_set_speed(MAX_SPEED, MAX_SPEED);
 }
 
 int main(int argc, char *argv[]) {
@@ -107,7 +104,6 @@ int main(int argc, char *argv[]) {
   printf("You can drive this robot:\n");
   printf("Select the 3D window and use cursor keys:\n");
   printf("Press 'A' to return to the autopilot mode\n");
-  printf("Press 'P' to get the robot position\n");
   printf("\n");
 
   wb_robot_step(1000);

@@ -357,8 +357,8 @@ PROTO TiagoBase [
         jointParameters HingeJointParameters {
           axis 0 1 0
           anchor 0 -0.2022 0
-          suspensionSpringConstant 60000
-          suspensionDampingConstant 100
+          suspensionSpringConstant 0
+          suspensionDampingConstant 0
           suspensionAxis 0 0 1
         }
         device [
@@ -366,7 +366,7 @@ PROTO TiagoBase [
             name "wheel_right_joint"
             acceleration 5.0762
             maxVelocity 10.1523
-            maxTorque 6
+            maxTorque 10
           }
           PositionSensor {
             name "wheel_right_joint_sensor"
@@ -485,16 +485,16 @@ PROTO TiagoBase [
         jointParameters HingeJointParameters {
           axis 0 1 0
           anchor 0 0.2022 0
-          suspensionSpringConstant 60000
-          suspensionDampingConstant 100
+          suspensionSpringConstant 0
+          suspensionDampingConstant 0
           suspensionAxis 0 0 1
         }
         device [
           RotationalMotor {
             name "wheel_left_joint"
             acceleration 5.0762
-            maxVelocity 10.1522
-            maxTorque 6
+            maxVelocity 10.1523
+            maxTorque 10
           }
           PositionSensor {
             name "wheel_left_joint_sensor"
@@ -620,7 +620,7 @@ PROTO TiagoBase [
           anchor 0.1695 -0.102 -0.0335
           dampingConstant 0
           suspensionSpringConstant 25000
-          suspensionDampingConstant 0.05
+          suspensionDampingConstant 0
           suspensionAxis 0 0 1
         }
         device [
@@ -631,7 +631,6 @@ PROTO TiagoBase [
           children [
             DEF SMALL_WHEEL_JOINT HingeJoint {
               jointParameters HingeJointParameters {
-                position -3.14159
                 axis 0 1 0
                 anchor -0.016 0 -0.04
               }
@@ -670,6 +669,7 @@ PROTO TiagoBase [
                   }
                 ]
                 name "caster_front_right_2_link"
+                contactMaterial "caster_wheel_friction"
                 boundingObject DEF SMALL_WHEEL_BO Transform {
                   rotation 1 0 0 1.5708
                   children [
@@ -740,7 +740,7 @@ PROTO TiagoBase [
           anchor 0.1695 0.102 -0.0335
           dampingConstant 0
           suspensionSpringConstant 25000
-          suspensionDampingConstant 0.05
+          suspensionDampingConstant 0
           suspensionAxis 0 0 1
         }
         device [
@@ -789,6 +789,7 @@ PROTO TiagoBase [
                   }
                 ]
                 name "caster_front_left_2_link"
+                contactMaterial "caster_wheel_friction"
                 boundingObject DEF SMALL_WHEEL_BO Transform {
                   rotation 1 0 0 1.570796
                   children [
@@ -859,7 +860,7 @@ PROTO TiagoBase [
           anchor -0.1735 -0.102 -0.0335
           dampingConstant 0
           suspensionSpringConstant 25000
-          suspensionDampingConstant 0.05
+          suspensionDampingConstant 0
           suspensionAxis 0 0 1
         }
         device [
@@ -876,7 +877,7 @@ PROTO TiagoBase [
               device [
               ]
               endPoint DEF SMALL_WHEEL_JOINT Solid {
-                translation -0.016 0 -0.0439999999999058615
+                translation -0.016 0 -0.04
                 rotation -1 0 0 1.5708
                 children [
                   DEF SMALL_WHEEL_SHAPE Shape {
@@ -908,6 +909,7 @@ PROTO TiagoBase [
                   }
                 ]
                 name "caster_back_right_2_link"
+                contactMaterial "caster_wheel_friction"
                 boundingObject DEF SMALL_WHEEL_BO Transform {
                   rotation 1 0 0 1.570796
                   children [
@@ -978,7 +980,7 @@ PROTO TiagoBase [
           anchor -0.1735 0.102 -0.0335
           dampingConstant 0
           suspensionSpringConstant 25000
-          suspensionDampingConstant 0.05
+          suspensionDampingConstant 0
           suspensionAxis 0 0 1
         }
         device [
@@ -1027,6 +1029,7 @@ PROTO TiagoBase [
                   }
                 ]
                 name "caster_back_left_2_link"
+                contactMaterial "caster_wheel_friction"
                 boundingObject DEF SMALL_WHEEL_BO Transform {
                   rotation 1 0 0 1.570796
                   children [
