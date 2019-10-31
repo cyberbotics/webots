@@ -5,7 +5,7 @@
 # It is composed of the TIAGo base (with Hokuyo URG 04LX_UG01 lidar) and the TIAGo body (torso) with the front arm finished by the parallel gripper.
 
 PROTO TiagoSteel [
-  field  SFVec3f     translation        0 0 0
+  field  SFVec3f     translation        0 0.095 0
   field  SFRotation  rotation           1 0 0 -1.5708
   field  SFString    name               "TIAGo Steel"
   field  SFString    controller         "tiagoSteel"
