@@ -375,6 +375,7 @@ PROTO Pi-puck [
         ]
       }
     ]
+    name "pi-puck"
     boundingObject DEF CYLINDER_TRANSFORM Transform {
       translation 0 0.001 -0.0094
       children [
