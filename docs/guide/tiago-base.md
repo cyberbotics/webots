@@ -1,13 +1,12 @@
 ## PAL Robotics' TIAGo Base
 
-%robot tiago-base images/robots/tiago-base/model.thumbnail.png
+%robot tiago-base images/robots/tiago_base/model.png
 
 Designed by PAL Robotics, TIAGo Base is a two-wheel robot.
 The model is a modular mobile platform that automates deliveries in industrial environment. It is completely ROS based and customizable with accessories to adapt to any specific need.
 TIAGo's software has out-of-the box extras available like navigation upgrade.
 
-More information on the TIAGo base robot can be found on their [website](http://pal-robotics.com/robots/tiago/) or in the [technical specifications datasheet](
-http://pal-robotics.com/wp-content/uploads/2019/06/TIAGo-Base_Datasheet.pdf).
+More information on the TIAGo base robot can be found on their [website](http://pal-robotics.com/robots/tiago/) or in the [technical specifications datasheet](http://pal-robotics.com/wp-content/uploads/2019/06/TIAGo-Base_Datasheet.pdf).
 
 ### TiagoBase PROTO
 
@@ -30,7 +29,7 @@ TiagoBase {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/pal_robotics/tiago/protos/TiagoBase.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto"
 
 #### TiagoBase Field Summary
 
@@ -39,8 +38,8 @@ TiagoBase {
 
 ### Sample
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/pal_robotics/tiago/worlds".
+You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/pal_robotics/tiago_base/worlds".
 
 #### tiago\_base.wbt
 
-![tiago_base.wbt.png](images/robots/tiago-base/tiago_base.wbt.thumbnail.jpg) This simulation shows a TIAGo Base robot following a predefined path on a chequered parquetry.
+![tiago_base.wbt.png](images/robots/tiago_base/tiago_base.wbt.thumbnail.jpg) This simulation shows a TIAGo Base robot following a predefined path on a chequered parquetry.

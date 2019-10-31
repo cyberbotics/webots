@@ -1,0 +1,59 @@
+#VRML_SIM R2019b utf8
+# license: Apache License 2.0.
+# license url: http://www.apache.org/licenses/LICENSE-2.0.
+# documentation url: https://www.cyberbotics.com/doc/guide/tiago++
+# This is a proto file for Webots for the robot Tiago++ (gripper version) from PAL Robotics (Spain).
+# It is composed of the TIAGo base (with Hokuyo URG 04LX_UG01 lidar) and the torso body with two arms finished by parallel grippers.
+
+PROTO Tiago++ [
+  field  SFVec3f     translation        0 0.095 0
+  field  SFRotation  rotation           1 0 0 -1.5708
+  field  SFString    name               "TIAGo++"
+  field  SFString    controller         "tiago++"
+  field  SFString    controllerArgs     ""
+  field  SFString    customData         ""
+  field  SFBool      supervisor         FALSE
+  field  SFBool      synchronization    TRUE
+  field  MFNode      endEffectorRight   TiagoGripper{}    # Defines the end-effector used by default but it can be changed with TiagoRightHey5.
+  field  MFNode      endEffectorLeft    TiagoGripper{}    # Defines the end-effector used by default but it can be changed with TiagoLeftHey5.
+]
+{
+  TiagoBase {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    name IS name
+    model "PAL Robotics' TIAGo++"
+    description "two-wheel human-like robot with two articulated arms finished by parallel grippers designed by PAL Robotics"
+    bodyExtension [
+      TiagoBody {
+        RightArmExtension [
+          TiagoRightArm {
+            endEffector [
+              Transform {
+                children IS endEffectorRight
+              }
+            ]
+          }
+        ]
+        LeftArmExtension [
+          TiagoLeftArm {
+            endEffector [
+              Transform {
+                children IS endEffectorLeft
+              }
+            ]
+          }
+        ]
+      }
+    ]
+    lidarExtension [
+      HokuyoUrg04lxug01 {
+      }
+    ]
+  }
+}

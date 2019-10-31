@@ -1,6 +1,6 @@
 ## PAL Robotics' TIAGo++
 
-%robot tiago++ images/robots/tiago++/model.thumbnail.png
+%robot tiago++ images/robots/tiago++/model.png
 
 Designed by PAL Robotics, TIAGo++ is a two-wheel human-like robot with two articulated arms finish by parallel grippers as end-effector.
 The model includes two articulated arms with 7-DoF to perform coordinated dual-arm actions.
@@ -26,7 +26,7 @@ Tiago++ {
   MFNode      endEffectorLeft    TiagoGripper{}
 }
 ```
-> **File location**: "WEBOTS\_HOME/projects/robots/pal_robotics/tiago/protos/Tiago++.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/pal_robotics/tiago++/protos/Tiago++.proto"
 
 #### Tiago++ Field Summary
 
@@ -36,8 +36,8 @@ Tiago++ {
 
 ### Sample
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/pal_robotics/tiago/worlds".
+You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/pal_robotics/tiago++/worlds".
 
 #### tiago++.wbt
 
-![tiago++.wbt.png](images/robots/tiago++/tiago++_demo.wbt.thumbnail.jpg) This simulation shows a TIAGo++ robot following a predefined path on a chequered parquetry.
+![tiago++.wbt.png](images/robots/tiago++/tiago++.wbt.thumbnail.jpg) This simulation shows a TIAGo++ robot following a predefined path on a chequered parquetry.

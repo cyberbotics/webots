@@ -1,0 +1,31 @@
+#VRML_SIM R2019b utf8
+WorldInfo {
+  basicTimeStep 16
+  physicsDisableTime 3
+  physicsDisableLinearThreshold 0.001
+  physicsDisableAngularThreshold 0.001
+  defaultDamping Damping {
+  }
+  lineScale 0.03
+}
+Viewpoint {
+  orientation 0.2676184418732235 -0.9543782620927752 -0.13244811215763677 5.275471156505329
+  position 2.165183433739411 1.2024353806940842 1.4886186546903841
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+  castShadows FALSE
+}
+RectangleArena {
+  floorSize 8 8
+  floorTileSize 1 1
+  wallHeight 1.5
+  wallAppearance RedBricks {
+    textureTransform TextureTransform {
+      scale 6 6
+    }
+  }
+}
+TiagoIron {
+}

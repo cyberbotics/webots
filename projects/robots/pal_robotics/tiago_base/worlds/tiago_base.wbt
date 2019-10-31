@@ -1,0 +1,40 @@
+#VRML_SIM R2019b utf8
+WorldInfo {
+  basicTimeStep 16
+  physicsDisableTime 3
+  physicsDisableLinearThreshold 0.001
+  physicsDisableAngularThreshold 0.001
+  defaultDamping Damping {
+  }
+  lineScale 0.28
+  contactProperties [
+    ContactProperties {
+      material2 "caster_wheel_friction"
+      coulombFriction [
+        0.1
+      ]
+      bounce 0.1
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.37644997090187093 0.9114691484743166 0.16585961168254515 0.9005317682923486
+  position 2.3343968241335546 1.3525805235471775 2.021874553064331
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+  castShadows FALSE
+}
+RectangleArena {
+  floorSize 8 8
+  floorTileSize 1 1
+  wallHeight 1.5
+  wallAppearance RedBricks {
+    textureTransform TextureTransform {
+      scale 6 6
+    }
+  }
+}
+TiagoBase {
+}
