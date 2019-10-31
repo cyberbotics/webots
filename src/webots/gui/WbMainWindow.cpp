@@ -1046,7 +1046,7 @@ void WbMainWindow::simulationQuit(int exitStatus) {
 }
 
 bool WbMainWindow::event(QEvent *event) {
-  if (event->type() == QEvent::ScreenChangeInternal)
+  if (mSimulationView && event->type() == QEvent::ScreenChangeInternal)
     mSimulationView->internalScreenChangedCallback();
   return QMainWindow::event(event);
 }

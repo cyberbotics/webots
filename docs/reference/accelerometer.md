@@ -42,7 +42,7 @@ This field accepts any value in the interval (0.0, inf).
 #### `wb_accelerometer_get_sampling_period`
 #### `wb_accelerometer_get_values`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
