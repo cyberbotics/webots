@@ -2,14 +2,20 @@
 
 ```
 Background {
-  MFColor  skyColor   [ 0 0 0 ]  # any color
-  MFString backUrl    []
-  MFString bottomUrl  []
-  MFString frontUrl   []
-  MFString leftUrl    []
-  MFString rightUrl   []
-  MFString topUrl     []
-  SFFloat  luminosity 1          # [0, inf)
+  MFColor  skyColor            [ 0 0 0 ]  # any color
+  MFString backUrl             []
+  MFString bottomUrl           []
+  MFString frontUrl            []
+  MFString leftUrl             []
+  MFString rightUrl            []
+  MFString topUrl              []
+  MFString backIrradianceUrl   []
+  MFString bottomIrradianceUrl []
+  MFString frontIrradianceUrl  []
+  MFString leftIrradianceUrl   []
+  MFString rightIrradianceUrl  []
+  MFString topIrradianceUrl    []
+  SFFloat  luminosity          1          # [0, inf)
 }
 ```
 
@@ -28,7 +34,16 @@ The images are applied individually to each face of the cube; the entire image g
 On the "front", "back", "right", and "left" faces of the cube, when viewed from the inside with the `Y-axis` up, the texture is mapped onto each face with the same orientation as the if image was displayed normally in 2D.
 On the "top" face of the cube, when viewed from the inside looking up along the `+Y axis` with the `+Z axis` as the view up direction, the texture is mapped onto the face with the same orientation as the if image was displayed normally in 2D.
 On the "bottom" face of the box, when viewed from the inside down the `-Y axis` with the `-Z axis` as the view up direction, the texture is mapped onto the face with the same orientation as the if image was displayed normally in 2D.
+The image format supported by the url fields are: JPEG or PNG.
 
-The image format supported by the url fields are: JPEG, PNG or HDR.
+Similarly, the `*IrradianceUrl` fields specify a set of images which define a second cubemap used for the light reflections on the [PBR appearances](pbrappearance.md).
+This cubemap is oriented in the same way as the background panorama (cf. description above).
+The image format should be [HDR](https://en.wikipedia.org/wiki/RGBE_image_format).
+This format allows to have light intensities bigger than 1.0.
+
+HDR backgrounds can be found easily on the internet.
+They often come as single files using an equirectangular projection.
+This [set of image tools](https://github.com/cyberbotics/webots/blob/master/scripts/image_tools) provides basic conversion tools to transform your background resources to Webots ones.
+Several image editors such as [Gimp](https://www.gimp.org) support this format.
 
 The `luminosity` specifies a scale factor to be applied to the light contribution of the [Background](background.md) node on [Shape](shape.md) nodes using the [PBRAppearance](pbrappearance.md).

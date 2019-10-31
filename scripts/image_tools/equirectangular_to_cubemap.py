@@ -18,32 +18,28 @@
 # Reference about the projection:
 # - https://stackoverflow.com/a/36976448
 
-import optparse
+import argparse
 import os
 import math
 
-from hdr import HDR
-from regular_image import RegularImage
-from clamp import clamp_int
+from images.hdr import HDR
+from images.regular_image import RegularImage
+from utils.range import clamp_int
 
-optParser = optparse.OptionParser(usage='usage: %prog --input=image.hdr [options]')
-optParser.add_option(
-    '--input', '-i', dest='input', default='image.hdr', type='string',
+parser = argparse.ArgumentParser(description='Convert an image having an equirectanglar projection to 6 cubemap images')
+parser.add_argument(
+    '--input', '-i', dest='input', default='image.hdr',
     help='specifies the input equirectangle image path'
 )
-optParser.add_option(
-    '--width', dest='width', default=1024, type='int',
+parser.add_argument(
+    '--width', dest='width', default=1024, type=int,
     help='specifies the width of the target cubemap images'
 )
-optParser.add_option(
-    '--height', dest='height', default=1024, type='int',
+parser.add_argument(
+    '--height', dest='height', default=1024, type=int,
     help='specifies the height of the target cubemap images'
 )
-optParser.add_option(
-    '--clamp', dest='clamp', default=float('inf'), type='float',
-    help='specifies the upper limit for the float data'
-)
-options, args = optParser.parse_args()
+args = parser.parse_args()
 
 cubemap_names = ['back', 'left', 'front', 'right', 'top', 'bottom']
 
@@ -67,18 +63,18 @@ def face_direction(i, j, faceID, faceWidth, faceHeight):
 
 
 print('Load the equirectangular image...')
-basename, extension = os.path.splitext(options.input)
+basename, extension = os.path.splitext(args.input)
 image_class = HDR if extension == '.hdr' else RegularImage
-equi = image_class.load_from_file(options.input)
+equi = image_class.load_from_file(args.input)
 
 for c in range(len(cubemap_names)):
     cm_name = cubemap_names[c]
     print('Generate %s cubemap image...' % cm_name)
-    cm_filename = options.input.replace(extension, '_' + cm_name + extension)
-    cubemap = image_class.create_black_image(options.width, options.height)
-    for i in range(options.height):
-        for j in range(options.width):
-            (x, y, z) = face_direction(i, j, c, options.width, options.height)
+    cm_filename = args.input.replace(extension, '_' + cm_name + extension)
+    cubemap = image_class.create_black_image(args.width, args.height)
+    for i in range(args.height):
+        for j in range(args.width):
+            (x, y, z) = face_direction(i, j, c, args.width, args.height)
 
             theta = math.atan2(y, x)  # range -pi to pi
             r = math.hypot(x, y)
@@ -104,6 +100,4 @@ for c in range(len(cubemap_names)):
                 A[2] * (1 - mu) * (1 - nu) + B[2] * (mu) * (1 - nu) + C[2] * (1 - mu) * nu + D[2] * mu * nu
             )
             cubemap.set_pixel(i, j, P)
-    if options.clamp != float('inf'):
-        cubemap.clamp(options.clamp)
     cubemap.save(cm_filename)

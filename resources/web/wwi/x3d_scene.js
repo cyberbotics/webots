@@ -439,16 +439,17 @@ class X3dScene { // eslint-disable-line no-unused-vars
     var isHDR = false;
     var backgroundMap;
     if (this.scene.background) {
-      if (typeof this.scene.background.userData !== 'undefined' && this.scene.background.userData.isHDR) {
-        isHDR = true;
-        backgroundMap = this.scene.background.userData.texture;
-      } else if (this.scene.background.isCubeTexture)
-        backgroundMap = this.scene.background;
-      else if (this.scene.background.isColor) {
+      if (this.scene.background.isColor) {
         let color = this.scene.background.clone();
         color.convertLinearToSRGB();
         backgroundMap = TextureLoader.createColoredCubeTexture(color);
-      }
+      } else
+        backgroundMap = this.scene.background;
+    }
+
+    if (typeof this.scene.userData.irradiance !== 'undefined') {
+      isHDR = true;
+      backgroundMap = this.scene.userData.irradiance;
     }
 
     this.scene.traverse((child) => {

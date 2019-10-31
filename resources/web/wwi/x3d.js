@@ -947,53 +947,66 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseBackground(background) {
-    var color = convertStringToColor(getNodeAttribute(background, 'skyColor', '0 0 0'));
-    this.scene.scene.background = color;
+    this.scene.scene.background = convertStringToColor(getNodeAttribute(background, 'skyColor', '0 0 0'));
+    this.scene.scene.userData.luminosity = parseFloat(getNodeAttribute(background, 'luminosity', '1.0'));
+    this.scene.scene.irradiance = undefined;
 
-    var cubeTextureEnabled = false;
+    var backgroundEnabled = false;
+    var irradianceEnabled = false;
 
-    var attributeNames = ['leftUrl', 'rightUrl', 'topUrl', 'bottomUrl', 'backUrl', 'frontUrl'];
-    var urls = [];
+    var backgroundFields = ['leftUrl', 'rightUrl', 'topUrl', 'bottomUrl', 'backUrl', 'frontUrl'];
+    var irradianceFields = ['leftIrradianceUrl', 'rightIrradianceUrl', 'topIrradianceUrl', 'bottomIrradianceUrl', 'backIrradianceUrl', 'frontIrradianceUrl'];
+
+    var backgroundURLs = [];
+    var irradianceURLs = [];
     for (let i = 0; i < 6; i++) {
-      let url = getNodeAttribute(background, attributeNames[i], undefined);
+      let url = getNodeAttribute(background, backgroundFields[i], undefined);
       if (typeof url !== 'undefined') {
-        cubeTextureEnabled = true;
+        backgroundEnabled = true;
         url = url.split(/['"\s]/).filter((n) => { return n; })[0];
       }
-      urls.push(url);
+      backgroundURLs.push(url);
+
+      url = getNodeAttribute(background, irradianceFields[i], undefined);
+      if (typeof url !== 'undefined') {
+        irradianceEnabled = true;
+        url = url.split(/['"\s]/).filter((n) => { return n; })[0];
+      }
+      irradianceURLs.push(url);
     }
 
-    if (cubeTextureEnabled) {
+    if (backgroundEnabled) {
       let cubeTexture = new THREE.CubeTexture();
-      if (urls.length > 0 && urls[0].endsWith('.hdr')) {
-        cubeTexture.format = THREE.RGBFormat;
-        cubeTexture.type = THREE.FloatType;
-      }
+      cubeTexture.encoding = THREE.sRGBEncoding;
 
-      let missing = 0;
       for (let i = 0; i < 6; i++) {
-        if (typeof urls[i] === 'undefined')
+        if (typeof backgroundURLs[i] === 'undefined')
           continue;
         // Look for already loaded texture or load the texture in an asynchronous way.
-        missing++;
-        let image = TextureLoader.loadOrRetrieveImage(urls[i], cubeTexture, i);
-        if (typeof image !== 'undefined') {
-          cubeTexture.images[i] = image;
-          missing--;
-        }
+        TextureLoader.loadOrRetrieveImage(backgroundURLs[i], cubeTexture, i);
       }
       this.scene.scene.background = cubeTexture;
-      if (missing === 0)
-        cubeTexture.needsUpdate = true;
+      cubeTexture.needsUpdate = true;
     }
 
-    if (cubeTextureEnabled) {
-      // Light offset: empirically found to match the Webots rendering.
-      var ambientLight = new THREE.AmbientLight(0xffffff);
-      this.scene.scene.add(ambientLight);
+    if (irradianceEnabled) {
+      let cubeTexture = new THREE.CubeTexture();
+      cubeTexture.format = THREE.RGBFormat;
+      cubeTexture.type = THREE.FloatType;
+
+      for (let i = 0; i < 6; i++) {
+        if (typeof irradianceURLs[i] === 'undefined')
+          continue;
+        // Look for already loaded texture or load the texture in an asynchronous way.
+        TextureLoader.loadOrRetrieveImage(irradianceURLs[i], cubeTexture, i);
+      }
+      this.scene.scene.userData.irradiance = cubeTexture;
+      cubeTexture.needsUpdate = true;
     }
 
-    this.scene.scene.userData.luminosity = parseFloat(getNodeAttribute(background, 'luminosity', '1.0'));
+    // Light offset: empirically found to match the Webots rendering.
+    var ambientLight = new THREE.AmbientLight(0xffffff);
+    this.scene.scene.add(ambientLight);
 
     return undefined;
   }

@@ -20,7 +20,7 @@
 import math
 import re
 import struct
-from clamp import clamp_int
+from utils.range import clamp_int
 
 GAMMA = 2.0
 

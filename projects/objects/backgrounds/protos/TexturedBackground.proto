@@ -38,7 +38,7 @@ PROTO TexturedBackground [
       texture == "noon_cloudy_countryside" or
       texture == "noon_park_empty" or
       texture == "mountains"
-    local extension = isHDR and "hdr" or "jpg"
+    local extension = isHDR and "png" or "jpg"
     local path = "textures/cubic"
   }%
   Background {
@@ -61,6 +61,26 @@ PROTO TexturedBackground [
     topUrl [
       %{= "\"" .. path .. "/" .. texture .. "_top." .. extension .. "\"" }%
     ]
+    %{ if isHDR then }%
+      backIrradianceUrl [
+        %{= "\"" .. path .. "/" .. texture .. "_back.hdr\"" }%
+      ]
+      bottomIrradianceUrl [
+        %{= "\"" .. path .. "/" .. texture .. "_bottom.hdr\"" }%
+      ]
+      frontIrradianceUrl [
+        %{= "\"" .. path .. "/" .. texture .. "_front.hdr\"" }%
+      ]
+      leftIrradianceUrl [
+        %{= "\"" .. path .. "/" .. texture .. "_left.hdr\"" }%
+      ]
+      rightIrradianceUrl [
+        %{= "\"" .. path .. "/" .. texture .. "_right.hdr\"" }%
+      ]
+      topIrradianceUrl [
+        %{= "\"" .. path .. "/" .. texture .. "_top.hdr\"" }%
+      ]
+    %{ end }%
     luminosity IS luminosity
   }
 }
