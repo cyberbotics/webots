@@ -1,7 +1,6 @@
 #VRML_SIM R2019b utf8
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
-# This is a PROTO file for Webots for the robot TIAGo from PAL Robotics (Spain).
 # Parallel gripper end-effector for the TIAGo robot from PAL Robotics.
 
 PROTO TiagoGripper [
