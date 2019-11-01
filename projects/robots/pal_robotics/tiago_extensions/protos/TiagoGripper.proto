@@ -2,7 +2,7 @@
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # This is a PROTO file for Webots for the robot TIAGo from PAL Robotics (Spain).
-# It is the parallel gripper end-effector.
+# Parallel gripper end-effector for the TIAGo robot from PAL Robotics.
 
 PROTO TiagoGripper [
   field  SFVec3f                            translation  0 0.016 0
