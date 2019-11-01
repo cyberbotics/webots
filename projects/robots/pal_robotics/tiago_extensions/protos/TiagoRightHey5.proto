@@ -6,7 +6,7 @@
 PROTO TiagoRightHey5 [
   field  SFVec3f     translation  0 0 0
   field  SFRotation  rotation     0 0 -1 -1.5708
-  field  SFString    name         "Right Hey5 hand"
+  field  SFString    name         "right Hey5 hand"
 ]
 {
   Solid {
@@ -233,7 +233,7 @@ PROTO TiagoRightHey5 [
                                     }
                                   ]
                                   name "hand_right_thumb_flex_3"
-                                  boundingObject DEF HAND_RIGHT_THUMB_TIP_BO Group {
+                                  boundingObject DEF HAND_RIGHT_FINGER_TIP_BO Group {
                                     children [
                                       Transform {
                                         translation 0.0226421 -0.0027114 0
@@ -722,109 +722,7 @@ PROTO TiagoRightHey5 [
                                                 USE HAND_RIGHT_FINGER_TIP
                                               ]
                                               name "hand_right_index_flex_3_link"
-                                              boundingObject DEF HAND_RIGHT_FINGER_TIP_BO Group {
-                                                children [
-                                                  Transform {
-                                                    translation 0.0226 -0.0027 0
-                                                    rotation 0 0 1 -0.6766
-                                                    children [
-                                                      Box {
-                                                        size 0.0004 0.0066 0.0141
-                                                      }
-                                                    ]
-                                                    translationStep 0.0001
-                                                    rotationStep 0.001
-                                                  }
-                                                  Transform {
-                                                    translation 0.024 -0.0001 0
-                                                    children [
-                                                      Box {
-                                                        size 0.0018 0.0004 0.014
-                                                      }
-                                                    ]
-                                                    translationStep 0.0001
-                                                  }
-                                                  Transform {
-                                                    translation 0.0139 0.0036 0
-                                                    rotation 1 0 0 1.57
-                                                    children [
-                                                      Cylinder {
-                                                        height 0.0142
-                                                        radius 0.0069
-                                                      }
-                                                    ]
-                                                    translationStep 0.0001
-                                                    rotationStep 0.001
-                                                  }
-                                                  Transform {
-                                                    translation -0.0005 0.0062 0
-                                                    rotation 0 0 -1 -0.6458
-                                                    children [
-                                                      Box {
-                                                        size 0.00865483 0.00264905 0.0142201
-                                                      }
-                                                    ]
-                                                    translationStep 0.0001
-                                                    rotationStep 0.001
-                                                  }
-                                                  Transform {
-                                                    translation 0.0095 0.0089 0
-                                                    rotation 0 0 1 0.000815
-                                                    children [
-                                                      Box {
-                                                        size 0.00766065 0.00325 0.0140609
-                                                      }
-                                                    ]
-                                                    translationStep 0.0001
-                                                    rotationStep 0.001
-                                                  }
-                                                  Transform {
-                                                    translation 0.0073 0.0004 0
-                                                    children [
-                                                      Box {
-                                                        size 0.0153 0.014 0.014
-                                                      }
-                                                    ]
-                                                    translationStep 0.0001
-                                                    rotationStep 0.001
-                                                  }
-                                                  Transform {
-                                                    translation 0.0046 0.0068 0
-                                                    rotation -1 0 0 -1.574
-                                                    children [
-                                                      Cylinder {
-                                                        height 0.0142
-                                                        radius 0.0038
-                                                      }
-                                                    ]
-                                                    translationStep 0.0001
-                                                    rotationStep 0.0001
-                                                  }
-                                                  Transform {
-                                                    translation 0.0159 0.0008 0
-                                                    rotation 1 0 0 1.57
-                                                    children [
-                                                      Cylinder {
-                                                        height 0.0142
-                                                        radius 0.0074
-                                                      }
-                                                    ]
-                                                    translationStep 0.0001
-                                                  }
-                                                  Transform {
-                                                    translation -0.0002 0 0
-                                                    rotation 1 0 0 1.572
-                                                    children [
-                                                      Cylinder {
-                                                        height 0.0142
-                                                        radius 0.0064
-                                                      }
-                                                    ]
-                                                    translationStep 0.0001
-                                                    rotationStep 0.001
-                                                  }
-                                                ]
-                                              }
+                                              boundingObject USE HAND_RIGHT_FINGER_TIP_BO
                                               physics USE HAND_RIGHT_FINGER_TIP_PHYSIC
                                             }
                                           }
@@ -1534,64 +1432,54 @@ PROTO TiagoRightHey5 [
         }
       }
     ]
-    name "Right Hey5 hand"
+    name IS name
     boundingObject Group {
       children [
-        Transform {
+        DEF CYL_1 Transform {
           translation 0.0211 -0.0249 0
           rotation 0 0 1 1.5708
           children [
-            Cylinder {
+            DEF CYLINDER_SHAPE Cylinder {
               height 0.015
               radius 0.0052
             }
           ]
         }
-        Transform {
+        DEF CYL_2 Transform {
           translation 0.0211 0.0126 0.025
           rotation 0 0 1 1.5708
           children [
-            Cylinder {
-              height 0.015
-              radius 0.0052
-            }
+            USE CYLINDER_SHAPE
           ]
         }
-        Transform {
+        DEF CYL_3 Transform {
           translation 0.0211 0.0124 -0.025
           rotation 0 0 1 1.5708
           children [
-            Cylinder {
-              height 0.015
-              radius 0.0052
-            }
+            USE CYLINDER_SHAPE
           ]
         }
-        Transform {
+        DEF RECT_1 Transform {
           translation 0.0121 -0.007 -0.0147
           rotation 1 0 0 0.976
           children [
-            Box {
+            DEF RECT_SHAPE Box {
               size 0.0045 0.01 0.056
             }
           ]
         }
-        Transform {
+        DEF RECT_2 Transform {
           translation 0.0121 -0.007 0.0145
           rotation 1 0 0 -0.99
           children [
-            Box {
-              size 0.0045 0.01 0.056
-            }
+            USE RECT_SHAPE
           ]
         }
-        Transform {
+        DEF RECT_3 Transform {
           translation 0.012 0.0147 0
           rotation 0 0 1 1.5708
           children [
-            Box {
-              size 0.01 0.005 0.06
-            }
+            USE RECT_SHAPE
           ]
         }
         Transform {

@@ -19,9 +19,9 @@ PROTO TiagoGripper [
       side = ""
     end
   }%
-  Solid {
-    translation IS translation
-    rotation IS rotation
+    Solid {
+      translation IS translation
+      rotation IS rotation
       children [
         DEF GRIPPER_FRAME Group {
           children [

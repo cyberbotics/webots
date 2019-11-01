@@ -1,8 +1,8 @@
 #VRML_SIM R2019b utf8
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
-# This is a PROTO file for Webots for the robot TIAGo from PAL Robotics (Spain).
-# It is the TiagoBody (torso) part where arms can be fixed.
+# TIAGo robot's body from PAL Robotics.
+# The body can be extended with arms.
 
 PROTO TiagoBody [
   field  SFVec3f     translation       -0.054 0 0.193
