@@ -25,7 +25,7 @@ TiagoTitanium {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/pal_robotics/tiago_titanium/protos/TiagoTitanium.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_titanium/protos/TiagoTitanium.proto"
 
 ### Sample
 

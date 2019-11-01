@@ -25,7 +25,7 @@ TiagoIron {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/pal_robotics/tiago_iron/protos/TiagoIron.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_iron/protos/TiagoIron.proto"
 
 ### Sample
 

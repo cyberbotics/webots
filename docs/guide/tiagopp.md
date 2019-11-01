@@ -26,7 +26,7 @@ Tiago++ {
   MFNode      endEffectorLeft    TiagoGripper{}
 }
 ```
-> **File location**: "WEBOTS\_HOME/projects/robots/pal_robotics/tiago++/protos/Tiago++.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/pal\_robotics/tiago++/protos/Tiago++.proto"
 
 #### Tiago++ Field Summary
 

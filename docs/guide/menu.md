@@ -119,7 +119,7 @@
     - [TIAGo Iron](tiago-iron.md)
     - [TIAGo Steel](tiago-steel.md)
     - [TIAGo Titanium](tiago-titanium.md)
-    - [TIAGo++ ](tiago++.md)
+    - [TIAGo++ ](tiagopp.md)
     - [Thymio II](thymio2.md)
     - [Tinkerbots](tinkerbots.md)
     - [Universal Robots UR3e/UR5e/UR10e](ure.md)

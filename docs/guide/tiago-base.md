@@ -29,7 +29,7 @@ TiagoBase {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_base/protos/TiagoBase.proto"
 
 #### TiagoBase Field Summary
 
