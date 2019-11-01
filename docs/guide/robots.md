@@ -45,9 +45,9 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 | ![icon.png](images/robots/pr2/icon.png)            | [PR2](pr2.md)                       | Clearpath Robotics   | *Two arms on mobile a platform*   |
 | ![icon.png](images/robots/puma/icon.png)           | [PUMA](puma.md)                     | Unimation            | *Robotics arm*                    |
 | ![icon.png](images/robots/qrio/icon.png)           | [QRIO](qrio.md)                     | Sony                 | *Small size humanoid*             |
-| ![icon.png](images/robots/salamander/icon.png)     | [Salamander](salamander.md)         | EPFL / BioRob        | *Bio-inspired robot*              |
 | ![icon.png](images/robots/robotis-op2/icon.png)    | [Robotis OP2](robotis-op2.md)       | Robotis              | *Small size humanoid*             |
 | ![icon.png](images/robots/robotis-op3/icon.png)    | [Robotis OP3](robotis-op3.md)       | Robotis              | *Small size humanoid*             |
+| ![icon.png](images/robots/salamander/icon.png)     | [Salamander](salamander.md)         | EPFL / BioRob        | *Bio-inspired robot*              |
 | ![icon.png](images/robots/shrimp/icon.png)         | [Shrimp](shrimp.md)                 | BlueBotics           | *Six-wheeled robot*               |
 | ![icon.png](images/robots/sojourner/icon.png)      | [Sojourner](sojourner.md)           | Nasa                 | *Six-wheeled robot*               |
 | ![icon.png](images/robots/surveyor/icon.png)       | [Surveyor SRV-1](surveyor.md)       | Surveyor Corporation | *Robot with two tracks*           |

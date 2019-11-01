@@ -5,9 +5,9 @@
 # It is the parallel gripper end-effector.
 
 PROTO TiagoGripper [
-  field  SFVec3f                            translation  0 0.016 0
-  field  SFRotation                         rotation     0.5774 0.5774 -0.5774 2.0944
-  field SFString{"left", "front", "right"}  name         "front"
+  field  SFVec3f                             translation  0 0.016 0
+  field  SFRotation                          rotation     0.5774 0.5774 -0.5774 2.0944
+  field  SFString{"left", "front", "right"}  name         "front"
 ]
 {
   %{

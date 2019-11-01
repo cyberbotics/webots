@@ -7,9 +7,9 @@
 PROTO TiagoBody [
   field  SFVec3f     translation       -0.054 0 0.193
   field  SFRotation  rotation          0 1 0 0
-  field  MFNode      RightArmExtension []              # Defines the slot where the TiagoRightArm can be added.
-  field  MFNode      FrontArmExtension []              # Defines the slot where the TiagoRightArm or TiagoLeftArm can be added.
-  field  MFNode      LeftArmExtension  []              # Defines the slot where the TiagoRightArm can be added.
+  field  MFNode      rightArmExtension []              # Extends the robot with a right arm (such as the TiagoRightArm for example).
+  field  MFNode      frontArmExtension []              # Extends the robot with a front arm (such as the TiagoLeftArm for example).
+  field  MFNode      leftArmExtension  []              # Extends the robot with a left arm (such as the TiagoLeftArm for example).
 ]
 {
   Solid {

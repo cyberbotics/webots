@@ -26,7 +26,6 @@ PROTO TiagoTitanium [
     synchronization IS synchronization
     name IS name
     model "PAL Robotics' TIAGo Titanium"
-    description "two-wheeled human-like robot with one articulated arm finished by Hey5 hand designed by PAL Robotics"
     bodyExtension [
       TiagoBody {
         FrontArmExtension [

@@ -26,7 +26,6 @@ PROTO TiagoIron [
     synchronization IS synchronization
     name IS name
     model "PAL Robotics' TIAGo Iron"
-    description "two-wheeled human-like robot with no arms designed by PAL Robotics"
     bodyExtension [
       TiagoBody {
       }

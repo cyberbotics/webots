@@ -28,7 +28,6 @@ PROTO Tiago++ [
     synchronization IS synchronization
     name IS name
     model "PAL Robotics' TIAGo++"
-    description "two-wheeled human-like robot with two articulated arms finished by parallel grippers designed by PAL Robotics"
     bodyExtension [
       TiagoBody {
         RightArmExtension [

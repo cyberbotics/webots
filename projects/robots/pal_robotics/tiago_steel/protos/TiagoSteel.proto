@@ -26,7 +26,6 @@ PROTO TiagoSteel [
     synchronization IS synchronization
     name IS name
     model "PAL Robotics' TIAGo Steel"
-    description "two-wheeled human-like robot with one articulated arm finished by parallel gripper designed by PAL Robotics"
     bodyExtension [
       TiagoBody {
         FrontArmExtension [
