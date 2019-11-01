@@ -2,8 +2,8 @@
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # documentation url: https://www.cyberbotics.com/doc/guide/tiago-iron
-# This is a proto file for Webots for the robot TIAGo (Iron version) from PAL Robotics (Spain).
-# It is composed of the TIAGo base (with Hokuyo URG 04LX_UG01 lidar) and the TIAGo body (torso) without arm.
+# Iron version of the TIAGo robot from PAL Robotics.
+# The robot is composed by the TIAGo base and a body without arm.
 
 PROTO TiagoIron [
   field  SFVec3f     translation        0 0.095 0
@@ -14,6 +14,7 @@ PROTO TiagoIron [
   field  SFString    customData         ""
   field  SFBool      supervisor         FALSE
   field  SFBool      synchronization    TRUE
+  field  MFNode      lidarExtension     HokuyoUrg04lxug01{}   # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
 ]
 {
   TiagoBase {
@@ -30,9 +31,6 @@ PROTO TiagoIron [
       TiagoBody {
       }
     ]
-    lidarExtension [
-      HokuyoUrg04lxug01 {
-      }
-    ]
+    lidarExtension IS lidarExtension
   }
 }

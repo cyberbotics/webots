@@ -1,17 +1,18 @@
 #VRML_SIM R2019b utf8
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
-# This is a PROTO file for Webots for the robot TIAGo from PAL Robotics (Spain).
-# It is the left version of the Hey5 hand end-effector.
+# Left version of the Hey5 hand end-effector for the TIAGo robot from PAL Robotics.
 
 PROTO TiagoLeftHey5 [
   field  SFVec3f     translation  0 0 0
   field  SFRotation  rotation     0 0 1 -1.5708
+  field  SFString    name         "Left Hey5 hand"
 ]
 {
   Solid {
     translation IS translation
     rotation IS rotation
+    name IS name
     children [
       DEF HAND_LEFT_PALM_SHAPE Shape {
         appearance MattePaint {

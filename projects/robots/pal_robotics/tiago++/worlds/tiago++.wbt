@@ -1,11 +1,10 @@
 #VRML_SIM R2019b utf8
 WorldInfo {
+  info [
+    "This simulation shows a TIAGo++ robot that automatically moves straight ahead but can also be controlled using the keyboard arrows."
+  ]
+  title "Simulation of PAL Robotics' TIAGo++ robot"
   basicTimeStep 16
-  physicsDisableTime 3
-  physicsDisableLinearThreshold 0.001
-  physicsDisableAngularThreshold 0.001
-  defaultDamping Damping {
-  }
   lineScale 0.03
   contactProperties [
     ContactProperties {

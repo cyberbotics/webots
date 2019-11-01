@@ -14,8 +14,9 @@ PROTO Tiago++ [
   field  SFString    customData         ""
   field  SFBool      supervisor         FALSE
   field  SFBool      synchronization    TRUE
-  field  MFNode      endEffectorRight   TiagoGripper{}    # Extends the robot with a right end-effector (such as the TiagoRightHey5 for example).
-  field  MFNode      endEffectorLeft    TiagoGripper{}    # Extends the robot with a left end-effector (such as the TiagoLeftHey5 for example).
+  field  MFNode      endEffectorRight   TiagoGripper{}        # Extends the robot with a right end-effector (such as the TiagoRightHey5 for example).
+  field  MFNode      endEffectorLeft    TiagoGripper{}        # Extends the robot with a left end-effector (such as the TiagoLeftHey5 for example).
+  field  MFNode      lidarExtension     HokuyoUrg04lxug01{}   # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
 ]
 {
   TiagoBase {
@@ -30,7 +31,7 @@ PROTO Tiago++ [
     model "PAL Robotics' TIAGo++"
     bodyExtension [
       TiagoBody {
-        RightArmExtension [
+        rightArmExtension [
           TiagoRightArm {
             endEffector [
               Transform {
@@ -39,7 +40,7 @@ PROTO Tiago++ [
             ]
           }
         ]
-        LeftArmExtension [
+        leftArmExtension [
           TiagoLeftArm {
             endEffector [
               Transform {
@@ -50,9 +51,6 @@ PROTO Tiago++ [
         ]
       }
     ]
-    lidarExtension [
-      HokuyoUrg04lxug01 {
-      }
-    ]
+    lidarExtension IS lidarExtension
   }
 }

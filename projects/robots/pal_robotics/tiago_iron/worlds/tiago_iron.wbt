@@ -1,5 +1,9 @@
 #VRML_SIM R2019b utf8
 WorldInfo {
+  info [
+    "This simulation shows a TIAGo Iron robot that automatically moves straight ahead but can also be controlled using the keyboard arrows."
+  ]
+  title "Simulation of PAL Robotics' TIAGo Iron robot"
   basicTimeStep 16
   contactProperties [
     ContactProperties {

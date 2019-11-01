@@ -2,8 +2,8 @@
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # documentation url: https://www.cyberbotics.com/doc/guide/tiago-titanium
-# This is a PROTO file for Webots for the robot TIAGo (Titanium version) from PAL Robotics (Spain).
-# It is composed of the TIAGo base (with Hokuyo URG 04LX_UG01 lidar) and the TIAGo body (torso) with the front arm finished by the Hey5 hand.
+# Titanium version of the TIAGo robot from PAL Robotics.
+# The robot is composed by the TIAGo base and a body with a front arm equipped with a Hey5 hand.
 
 PROTO TiagoTitanium [
   field  SFVec3f     translation        0 0.095 0
@@ -14,6 +14,7 @@ PROTO TiagoTitanium [
   field  SFString    customData         ""
   field  SFBool      supervisor         FALSE
   field  SFBool      synchronization    TRUE
+  field  MFNode      lidarExtension     HokuyoUrg04lxug01{}   # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
 ]
 {
   TiagoBase {
@@ -28,7 +29,7 @@ PROTO TiagoTitanium [
     model "PAL Robotics' TIAGo Titanium"
     bodyExtension [
       TiagoBody {
-        FrontArmExtension [
+        frontArmExtension [
           TiagoFrontArm {
             endEffector [
               TiagoRightHey5 {
@@ -38,9 +39,6 @@ PROTO TiagoTitanium [
         ]
       }
     ]
-    lidarExtension [
-      HokuyoUrg04lxug01 {
-      }
-    ]
+    lidarExtension IS lidarExtension
   }
 }

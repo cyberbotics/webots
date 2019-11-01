@@ -132,15 +132,15 @@ PROTO TiagoBody [
             DEF ARM_RIGHT_EXTENSION Transform {
               translation 0.05 0 0
               rotation 0 0 1 3.1416
-              children IS RightArmExtension
+              children IS rightArmExtension
             }
             DEF ARM_FRONT_EXTENSION Transform {
               translation -0.037 0.0388 0.0224
               rotation 0 0 1 -1.5708
-              children IS FrontArmExtension
+              children IS frontArmExtension
             }
             DEF ARM_LEFT_EXTENSION Transform {
-              children IS LeftArmExtension
+              children IS leftArmExtension
             }
             DEF INPUT_OUTPUT Shape {
               appearance PBRAppearance {

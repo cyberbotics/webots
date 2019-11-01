@@ -14,9 +14,9 @@ PROTO TiagoBase [
   field  SFString     customData        ""
   field  SFBool       supervisor        FALSE
   field  SFBool       synchronization   TRUE
-  field  MFNode       bodyExtension     []  # Defines body extension used {TiagoBody, fixed shelves, safety box, roller conveyor, boxes, lifter}.
-  field  MFNode       lidarExtension    []  # Defines the lidar used {Sick TIM551 or Hokuyo URG 04LX_UG01}.
-
+  field  SFString     model             "PAL Robotics' TIAGo Base"
+  field  MFNode       bodyExtension     []  # Extends the robot with a body (such as the TiagoBody or fixed shelves, safety box, roller conveyor, boxes, lifter for example).
+  field  MFNode       lidarExtension    []  # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
 ]
 {
   Robot {
@@ -28,7 +28,7 @@ PROTO TiagoBase [
     supervisor IS supervisor
     synchronization IS synchronization
     name IS name
-    model "PAL Robotics' TIAGo Base"
+    model IS model
     children [
       DEF BODY_EXTENSION Transform {
         children IS bodyExtension

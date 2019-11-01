@@ -14,6 +14,7 @@ PROTO TiagoRightArm [
   Solid {
     translation IS translation
     rotation IS rotation
+    name IS name
     children [
       DEF RIGHT_SHOULDER Shape {
         appearance GlossyPaint {
