@@ -29,7 +29,7 @@ TiagoTitanium {
 
 ### Sample
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/pal_robotics/tiago_titanium/worlds".
+You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_titanium/worlds".
 
 #### tiago\_titanium.wbt
 

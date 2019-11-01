@@ -38,7 +38,7 @@ TiagoBase {
 
 ### Sample
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/pal_robotics/tiago_base/worlds".
+You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_base/worlds".
 
 #### tiago\_base.wbt
 
