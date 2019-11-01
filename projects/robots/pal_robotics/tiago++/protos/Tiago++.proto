@@ -3,7 +3,7 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # documentation url: https://www.cyberbotics.com/doc/guide/tiago++
 # TIAGo++ robot from PAL Robotics.
-# It is composed of the TIAGo base (with Hokuyo URG 04LX_UG01 lidar) and the torso body with two arms finished by parallel grippers.
+# The robot is composed by the TIAGo base and a body with two arms equipped with parallel grippers.
 
 PROTO Tiago++ [
   field  SFVec3f     translation        0 0.095 0
