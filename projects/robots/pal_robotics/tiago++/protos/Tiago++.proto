@@ -14,7 +14,7 @@ PROTO Tiago++ [
   field  SFString    customData         ""
   field  SFBool      supervisor         FALSE
   field  SFBool      synchronization    TRUE
-  field  MFNode      endEffectorRight   TiagoGripper{}    # Defines the end-effector used by default but it can be changed with TiagoRightHey5.
+  field  MFNode      endEffectorRight   TiagoGripper{}    # Extends the robot with a right end-effector (such as the TiagoRightHey5 for example).
   field  MFNode      endEffectorLeft    TiagoGripper{}    # Defines the end-effector used by default but it can be changed with TiagoLeftHey5.
 ]
 {
