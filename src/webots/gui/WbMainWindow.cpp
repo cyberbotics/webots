@@ -1545,7 +1545,7 @@ void WbMainWindow::exportHtml() {
     openUrl(fileName,
             tr("The HTML5 model has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
                "Note: please refer to the "
-               "<a style='color: #5DADE2;' href='https://www.cyberbotics.com/doc/guide/"
+               "<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/"
                "web-scene#remarks-on-the-used-technologies-and-their-limitations'>User Guide</a> "
                "if your browser prevents local files CORS requests.")
               .arg(fileName),
