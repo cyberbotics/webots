@@ -28,7 +28,7 @@ TiagoSteel {
 
 ### Sample
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_steel/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_steel/worlds](https://github.com/cyberbotics/webots/tree/master/projects/robots/pal_robotics/tiago_steel/worlds)".
 
 #### tiago\_steel.wbt
 
