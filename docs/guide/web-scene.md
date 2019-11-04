@@ -58,9 +58,7 @@ The Webots player is using internally the `three.js` library (based on `WebGL`).
 `three.js` is supported in recent versions of Firefox, Chrome, Edge, Internet Explorer and Safari on macOS (see details on the [three.js website](https://threejs.org/)).
 In case of related issues, make sure that `WebGL` is enabled in your Web browser settings.
 
-### Web Browser Support
-
-Some web browsers (for example Google Chrome and Firefox 68 or later) cannot open local files using the file protocol by default, while this is this is required by the Webots player to open the `X3D` file and the textures.
+Some web browsers (for example Chrome and Firefox 68 or later) cannot open local files using the `file` protocol by default, while this is this is required by the Webots player to open the `X3D` file and the textures.
 Here are some workarounds:
 - run a local HTTP server in the directory containing the exported files.
     - Python 3:
