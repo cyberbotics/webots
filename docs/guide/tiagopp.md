@@ -34,7 +34,7 @@ Tiago++ {
 
 ### Sample
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/pal\_robotics/tiago++/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago++/worlds](https://github.com/cyberbotics/webots/tree/master/projects/robots/pal_robotics/tiago++/worlds)".
 
 #### tiago++.wbt
 
