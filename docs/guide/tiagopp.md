@@ -29,7 +29,7 @@ Tiago++ {
 
 #### Tiago++ Field Summary
 
-- `endEffectorRight`: Defines the end-effector used by default but it can be changed with TiagoRightHey5.
+- `endEffectorRight`: Extends the right arm with new nodes (such as the `TiagoRightHey5` for example).
 - `endEffectorLeft`: Extends the left arm with new nodes (such as the `TiagoLeftHey5` for example).
 
 ### Sample
