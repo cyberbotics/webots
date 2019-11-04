@@ -1543,8 +1543,11 @@ void WbMainWindow::exportHtml() {
     world->exportAsHtml(fileName, false);
     WbPreferences::instance()->setValue("Directories/www", QFileInfo(fileName).absolutePath() + "/");
     openUrl(fileName,
-            tr("The HTML5 model has been created:\n%1\n\nDo you want to view it locally now?\n\nNote: HTML5 models can not be "
-               "viewed locally on Google Chrome.")
+            tr("The HTML5 model has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
+               "Note: please refer to the "
+               "<a style='color: #5DADE2;' href='https://www.cyberbotics.com/doc/guide/"
+               "web-scene#remarks-on-the-used-technologies-and-their-limitations'>User Guide</a> "
+               "if your browser prevents local files CORS requests.")
               .arg(fileName),
             tr("Export HTML5 Model"));
   }
