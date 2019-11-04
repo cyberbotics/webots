@@ -4,7 +4,6 @@
 
 Designed by PAL Robotics, TIAGo Iron is a two-wheeled human-like robot with a torso and a head but no articulated arm.
 The model is a modular mobile platform that allows human-robot interaction. It is completely ROS based and customizable with accessories to adapt to any specific need.
-TIAGo's software has out-of-the box extras available like navigation upgrade and human-robot interaction skills.
 
 More information on the TIAGo Iron robot can be found on their [website](http://pal-robotics.com/robots/tiago/) or in the [technical specifications datasheet](http://pal-robotics.com/wp-content/uploads/2019/07/Datasheet_TIAGo_Complete.pdf).
 

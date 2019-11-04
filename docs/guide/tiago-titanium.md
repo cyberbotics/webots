@@ -4,7 +4,6 @@
 
 Designed by PAL Robotics, TIAGo Titanium is a two-wheeled human-like robot with a torso, a head and one articulated arm finished by a Hey5 hand as end-effector.
 It is completely ROS based, fully customizable and expandable with extra sensors and devices like other end-effector (parallel gripper).
-TIAGo's software has out-of-the box extras available like navigation upgrade, human-robot interaction skills or teleoperation applications.
 
 More information on the TIAGo Titanium robot can be found on their [website](http://pal-robotics.com/robots/tiago/) or in the [technical specifications datasheet](http://pal-robotics.com/wp-content/uploads/2019/07/Datasheet_TIAGo_Complete.pdf).
 
