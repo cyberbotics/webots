@@ -32,7 +32,7 @@ TiagoBase {
 
 #### TiagoBase Field Summary
 
-- `bodyExtension`:  Defines body extension used {TiagoBody, fixed shelves, safety box, roller conveyor, boxes, lifter}.
+- `bodyExtension`:  Extends the robot with new nodes (such as the `TiagoBody` for example).
 - `lidarExtension`: Defines the lidar used {Sick TIM551 or Hokuyo URG 04LX_UG01}.
 
 ### Sample
