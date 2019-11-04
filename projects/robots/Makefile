@@ -47,7 +47,7 @@ CONTROLLERS=\
   neuronics/ipr/controllers.Makefile \
   nex/controllers.Makefile \
  pal_robotics/tiago_base/controllers.Makefile \
-	pal_robotics/tiago_iron/controllers.Makefile \
+ pal_robotics/tiago_iron/controllers.Makefile \
  pal_robotics/tiago_steel/controllers.Makefile \
  pal_robotics/tiago_titanium/controllers.Makefile \
  pal_robotics/tiago++/controllers.Makefile \
