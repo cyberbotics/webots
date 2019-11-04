@@ -33,7 +33,7 @@ TiagoBase {
 #### TiagoBase Field Summary
 
 - `bodyExtension`:  Extends the robot with new nodes (such as the `TiagoBody` for example).
-- `lidarExtension`: Defines the lidar used {Sick TIM551 or Hokuyo URG 04LX_UG01}.
+- `lidarExtension`: Extends the robot with a lidar.
 
 ### Sample
 
