@@ -64,18 +64,19 @@ Some web browsers (for example Google Chrome and Firefox 68 or later) cannot ope
 Here are some workarounds:
 - run a local HTTP server in the directory containing the exported files.
     - Python 3:
-        ```sh
-        python3 -m http.server
-        ```
+            ```sh
+            python3 -m http.server
+            ```
     - Python 2:
-        ```sh
-        python -m SimpleHTTPServer
-        ```
+            ```sh
+            python -m SimpleHTTPServer
+            ```
     - NodeJS:
-        ```sh
-        sudo npm install -g http-server
-        http-server
-        ```
+            ```sh
+            sudo npm install -g http-server
+            http-server
+            ```
+        
 - disable browser security flags:
     - Chrome: launch with the `--allow-file-access-from-files` option
     - Firefox:
