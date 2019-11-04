@@ -63,7 +63,7 @@ In case of related issues, make sure that `WebGL` is enabled in your Web browser
 Some web browsers (for example Google Chrome and Firefox 68 or later) cannot open local files using the file protocol by default, while this is this is required by the Webots player to open the `X3D` file and the textures.
 Here are some workarounds:
 - run a local HTTP server in the directory containing the exported files.
-    - Python 3
+    - Python 3:
         ```shell
         python3 -m http.server
         ```
@@ -76,7 +76,7 @@ Here are some workarounds:
         sudo npm install -g http-server
         http-server
         ```
-- disabled browser security flags:
+- disable browser security flags:
     - Chrome: launch with the `--allow-file-access-from-files` option
     - Firefox:
         1. Open Firefox browser and in the address bar type ``about:config``, hit Enter button and click on `I'll be careful, I promise!`.
