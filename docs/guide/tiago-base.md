@@ -28,7 +28,7 @@ TiagoBase {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_base/protos/TiagoBase.proto"
+> **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_base/protos/TiagoBase.proto](https://github.com/cyberbotics/webots/tree/master/projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto)"
 
 #### TiagoBase Field Summary
 
