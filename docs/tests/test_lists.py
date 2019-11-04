@@ -32,7 +32,7 @@ class TestLists(unittest.TestCase):
                     if itemBuffer and not line.strip():
                         self.items.append({'item': itemBuffer, 'md': md_path})
                         itemBuffer = ''
-                    if re.match(r'```', line):
+                    if re.match(r'\s*```', line):
                         skipUntil = '```'
                         continue
                     elif re.match(r'^\s*- ', line) or re.match(r'^\s*\d+\. ', line):
