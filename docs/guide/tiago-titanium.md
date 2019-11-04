@@ -21,6 +21,7 @@ TiagoTitanium {
   SFString    customData         ""
   SFBool      supervisor         FALSE
   SFBool      synchronization    TRUE
+  MFNode      lidarExtension     []
 }
 ```
 

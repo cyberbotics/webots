@@ -21,6 +21,7 @@ Tiago++ {
   SFString    customData         ""
   SFBool      supervisor         FALSE
   SFBool      synchronization    TRUE
+  MFNode      lidarExtension     []
   MFNode      endEffectorRight   TiagoGripper{}
   MFNode      endEffectorLeft    TiagoGripper{}
 }
