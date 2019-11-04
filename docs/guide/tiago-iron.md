@@ -28,7 +28,7 @@ TiagoIron {
 
 ### Sample
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_iron/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_iron/worlds](https://github.com/cyberbotics/webots/tree/master/projects/robots/pal_robotics/tiago_iron/worlds)".
 
 #### tiago\_iron.wbt
 
