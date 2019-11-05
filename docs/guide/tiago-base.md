@@ -21,6 +21,7 @@ TiagoBase {
   SFString     customData      ""
   SFBool       supervisor      FALSE
   SFBool       synchronization TRUE
+  SFBool       selfCollision   FALSE
   SFString     model           "TIAGo Base"
   SFString     description     "two-wheeled robot designed by PAL Robotics"
   MFNode       bodyExtension   []
