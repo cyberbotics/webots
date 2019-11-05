@@ -30,7 +30,7 @@ PROTO Tiago++ [
     synchronization IS synchronization
     selfCollision IS selfCollision
     name IS name
-    model "PAL Robotics' TIAGo++"
+    model "PAL Robotics - TIAGo++"
     bodyExtension [
       TiagoBody {
         rightArmExtension [

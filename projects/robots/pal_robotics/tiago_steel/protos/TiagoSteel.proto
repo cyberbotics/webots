@@ -28,7 +28,7 @@ PROTO TiagoSteel [
     synchronization IS synchronization
     selfCollision IS selfCollision
     name IS name
-    model "PAL Robotics' TIAGo Steel"
+    model "PAL Robotics - TIAGo Steel"
     bodyExtension [
       TiagoBody {
         frontArmExtension [

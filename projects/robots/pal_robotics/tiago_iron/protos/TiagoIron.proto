@@ -28,7 +28,7 @@ PROTO TiagoIron [
     synchronization IS synchronization
     selfCollision IS selfCollision
     name IS name
-    model "PAL Robotics' TIAGo Iron"
+    model "PAL Robotics - TIAGo Iron"
     bodyExtension [
       TiagoBody {
       }

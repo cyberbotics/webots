@@ -1,9 +1,9 @@
 {
-  "robotID": "n12", 
+  "robotID": "n28", 
   "name": "tiago-titanium", 
   "devices": [
     {
-      "transformID": "n25759", 
+      "transformID": "n25816", 
       "initialPosition": 0, 
       "name": "arm_1_joint", 
       "maxPosition": 2.68, 
@@ -13,7 +13,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n25792", 
+      "transformID": "n25849", 
       "initialPosition": 1.5708, 
       "name": "arm_2_joint", 
       "maxPosition": 1.02, 
@@ -23,7 +23,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n25806", 
+      "transformID": "n25863", 
       "initialPosition": 2.09446, 
       "name": "arm_3_joint", 
       "maxPosition": 1.5, 
@@ -33,7 +33,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n25840", 
+      "transformID": "n25897", 
       "initialPosition": 2.0944, 
       "name": "arm_4_joint", 
       "maxPosition": 2.29, 
@@ -43,7 +43,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n25874", 
+      "transformID": "n25931", 
       "initialPosition": 1.5708, 
       "name": "arm_5_joint", 
       "maxPosition": 2.07, 
@@ -53,7 +53,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n25889", 
+      "transformID": "n25946", 
       "initialPosition": 2.0944, 
       "name": "arm_6_joint", 
       "maxPosition": 1.39, 
@@ -63,7 +63,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n25904", 
+      "transformID": "n25961", 
       "initialPosition": 2.0944, 
       "name": "arm_7_joint", 
       "maxPosition": 2.07, 
@@ -73,7 +73,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n26049", 
+      "transformID": "n26111", 
       "initialPosition": 1.6479, 
       "name": "hand_right_index_abd_joint", 
       "maxPosition": 0.52, 
@@ -83,7 +83,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n26072", 
+      "transformID": "n26134", 
       "initialPosition": 0, 
       "name": "hand_right_index_flex_1_joint", 
       "maxPosition": 0.79, 
@@ -93,7 +93,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26095", 
+      "transformID": "n26157", 
       "initialPosition": 0, 
       "name": "hand_right_index_flex_2_joint", 
       "maxPosition": 0.79, 
@@ -103,7 +103,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26118", 
+      "transformID": "n26180", 
       "initialPosition": 0, 
       "name": "hand_right_index_flex_3_joint", 
       "maxPosition": 0.79, 
@@ -113,7 +113,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26063", 
+      "transformID": "n26125", 
       "initialPosition": 1.5708, 
       "name": "hand_right_index_virtual_1_joint", 
       "maxPosition": 0.79, 
@@ -123,7 +123,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n26086", 
+      "transformID": "n26148", 
       "initialPosition": 0, 
       "name": "hand_right_index_virtual_2_joint", 
       "maxPosition": 0.79, 
@@ -133,7 +133,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26109", 
+      "transformID": "n26171", 
       "initialPosition": 0, 
       "name": "hand_right_index_virtual_3_joint", 
       "maxPosition": 0.79, 
@@ -143,7 +143,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26529", 
+      "transformID": "n26591", 
       "initialPosition": 1.6378, 
       "name": "hand_right_little_abd_joint", 
       "maxPosition": 0.52, 
@@ -153,7 +153,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n26552", 
+      "transformID": "n26614", 
       "initialPosition": 0, 
       "name": "hand_right_little_flex_1_joint", 
       "maxPosition": 0.79, 
@@ -163,7 +163,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26575", 
+      "transformID": "n26637", 
       "initialPosition": 0, 
       "name": "hand_right_little_flex_2_joint", 
       "maxPosition": 0.79, 
@@ -173,7 +173,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26598", 
+      "transformID": "n26660", 
       "initialPosition": 0, 
       "name": "hand_right_little_flex_3_joint", 
       "maxPosition": 0.79, 
@@ -183,7 +183,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26543", 
+      "transformID": "n26605", 
       "initialPosition": 1.5708, 
       "name": "hand_right_little_virtual_1_joint", 
       "maxPosition": 0.79, 
@@ -193,7 +193,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n26566", 
+      "transformID": "n26628", 
       "initialPosition": 0, 
       "name": "hand_right_little_virtual_2_joint", 
       "maxPosition": 0.79, 
@@ -203,7 +203,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26589", 
+      "transformID": "n26651", 
       "initialPosition": 0, 
       "name": "hand_right_little_virtual_3_joint", 
       "maxPosition": 0.79, 
@@ -213,7 +213,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26209", 
+      "transformID": "n26271", 
       "initialPosition": 1.5708, 
       "name": "hand_right_middle_abd_joint", 
       "maxPosition": 0.52, 
@@ -223,7 +223,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n26232", 
+      "transformID": "n26294", 
       "initialPosition": 0, 
       "name": "hand_right_middle_flex_1_joint", 
       "maxPosition": 0.79, 
@@ -233,7 +233,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26255", 
+      "transformID": "n26317", 
       "initialPosition": 0, 
       "name": "hand_right_middle_flex_2_joint", 
       "maxPosition": 0.79, 
@@ -243,7 +243,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26278", 
+      "transformID": "n26340", 
       "initialPosition": 0, 
       "name": "hand_right_middle_flex_3_joint", 
       "maxPosition": 0.79, 
@@ -253,7 +253,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26223", 
+      "transformID": "n26285", 
       "initialPosition": 1.5708, 
       "name": "hand_right_middle_virtual_1_joint", 
       "maxPosition": 0.79, 
@@ -263,7 +263,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n26246", 
+      "transformID": "n26308", 
       "initialPosition": 0, 
       "name": "hand_right_middle_virtual_2_joint", 
       "maxPosition": 0.79, 
@@ -273,7 +273,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26269", 
+      "transformID": "n26331", 
       "initialPosition": 0, 
       "name": "hand_right_middle_virtual_3_joint", 
       "maxPosition": 0.79, 
@@ -283,7 +283,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26369", 
+      "transformID": "n26431", 
       "initialPosition": 1.5878, 
       "name": "hand_right_ring_abd_joint", 
       "maxPosition": 0.52, 
@@ -293,7 +293,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n26392", 
+      "transformID": "n26454", 
       "initialPosition": 0, 
       "name": "hand_right_ring_flex_1_joint", 
       "maxPosition": 0.79, 
@@ -303,7 +303,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26415", 
+      "transformID": "n26477", 
       "initialPosition": 0, 
       "name": "hand_right_ring_flex_2_joint", 
       "maxPosition": 0.79, 
@@ -313,7 +313,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26438", 
+      "transformID": "n26500", 
       "initialPosition": 0, 
       "name": "hand_right_ring_flex_3_joint", 
       "maxPosition": 0.79, 
@@ -323,7 +323,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26383", 
+      "transformID": "n26445", 
       "initialPosition": 1.5708, 
       "name": "hand_right_ring_virtual_1_joint", 
       "maxPosition": 0.79, 
@@ -333,7 +333,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n26406", 
+      "transformID": "n26468", 
       "initialPosition": 0, 
       "name": "hand_right_ring_virtual_2_joint", 
       "maxPosition": 0.79, 
@@ -343,7 +343,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n26429", 
+      "transformID": "n26491", 
       "initialPosition": 0, 
       "name": "hand_right_ring_virtual_3_joint", 
       "maxPosition": 0.79, 
@@ -353,7 +353,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n25927", 
+      "transformID": "n25989", 
       "initialPosition": 1.1345, 
       "name": "hand_right_thumb_abd_joint", 
       "maxPosition": 1.57, 
@@ -363,7 +363,7 @@
       "axis": "-0.9191 0 0.3939"
     }, 
     {
-      "transformID": "n25950", 
+      "transformID": "n26012", 
       "initialPosition": 0, 
       "name": "hand_right_thumb_flex_1_joint", 
       "maxPosition": 0.79, 
@@ -373,7 +373,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n25973", 
+      "transformID": "n26035", 
       "initialPosition": 0, 
       "name": "hand_right_thumb_flex_2_joint", 
       "maxPosition": 0.79, 
@@ -383,7 +383,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n25941", 
+      "transformID": "n26003", 
       "initialPosition": 1.1442, 
       "name": "hand_right_thumb_virtual_1_joint", 
       "maxPosition": 0.79, 
@@ -393,7 +393,7 @@
       "axis": "0 0.9 0.45"
     }, 
     {
-      "transformID": "n25964", 
+      "transformID": "n26026", 
       "initialPosition": 0, 
       "name": "hand_right_thumb_virtual_2_joint", 
       "maxPosition": 0.79, 
@@ -403,7 +403,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n23064", 
+      "transformID": "n23116", 
       "initialPosition": 0, 
       "name": "head_1_joint", 
       "maxPosition": 1.24, 
@@ -413,7 +413,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n23079", 
+      "transformID": "n23131", 
       "initialPosition": 1.5708, 
       "name": "head_2_joint", 
       "maxPosition": 0.79, 
@@ -423,7 +423,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n6559", 
+      "transformID": "n6590", 
       "initialPosition": 1.5708, 
       "name": "wheel_left_joint", 
       "maxPosition": 0, 
@@ -433,7 +433,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n6526", 
+      "transformID": "n6557", 
       "initialPosition": 1.5708, 
       "name": "wheel_right_joint", 
       "maxPosition": 0, 
@@ -443,7 +443,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n21222", 
+      "transformID": "n21269", 
       "initialPosition": 0, 
       "name": "torso_lift_joint", 
       "maxPosition": 0.35, 
@@ -453,267 +453,267 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n28", 
       "type": "Accelerometer", 
       "name": "accelerometer"
     }, 
     {
-      "transformID": "n25759", 
+      "transformID": "n25816", 
       "type": "PositionSensor", 
       "name": "arm_1_joint_sensor"
     }, 
     {
-      "transformID": "n25792", 
+      "transformID": "n25849", 
       "type": "PositionSensor", 
       "name": "arm_2_joint_sensor"
     }, 
     {
-      "transformID": "n25806", 
+      "transformID": "n25863", 
       "type": "PositionSensor", 
       "name": "arm_3_joint_sensor"
     }, 
     {
-      "transformID": "n25840", 
+      "transformID": "n25897", 
       "type": "PositionSensor", 
       "name": "arm_4_joint_sensor"
     }, 
     {
-      "transformID": "n25874", 
+      "transformID": "n25931", 
       "type": "PositionSensor", 
       "name": "arm_5_joint_sensor"
     }, 
     {
-      "transformID": "n25889", 
+      "transformID": "n25946", 
       "type": "PositionSensor", 
       "name": "arm_6_joint_sensor"
     }, 
     {
-      "transformID": "n25904", 
+      "transformID": "n25961", 
       "type": "PositionSensor", 
       "name": "arm_7_joint_sensor"
     }, 
     {
-      "transformID": "n6447", 
+      "transformID": "n6478", 
       "type": "TouchSensor", 
       "name": "base_cover_link"
     }, 
     {
-      "transformID": "n6500", 
+      "transformID": "n6531", 
       "type": "DistanceSensor", 
       "name": "base_sonar_01_link"
     }, 
     {
-      "transformID": "n6478", 
+      "transformID": "n6509", 
       "type": "DistanceSensor", 
       "name": "base_sonar_02_link"
     }, 
     {
-      "transformID": "n6456", 
+      "transformID": "n6487", 
       "type": "DistanceSensor", 
       "name": "base_sonar_03_link"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n28", 
       "type": "Gyro", 
       "name": "gyro"
     }, 
     {
-      "transformID": "n26049", 
+      "transformID": "n26111", 
       "type": "PositionSensor", 
       "name": "hand_right_index_abd_joint_sensor"
     }, 
     {
-      "transformID": "n26072", 
+      "transformID": "n26134", 
       "type": "PositionSensor", 
       "name": "hand_right_index_flex_1_joint_sensor"
     }, 
     {
-      "transformID": "n26095", 
+      "transformID": "n26157", 
       "type": "PositionSensor", 
       "name": "hand_right_index_flex_2_joint_sensor"
     }, 
     {
-      "transformID": "n26118", 
+      "transformID": "n26180", 
       "type": "PositionSensor", 
       "name": "hand_right_index_flex_3_joint_sensor"
     }, 
     {
-      "transformID": "n26063", 
+      "transformID": "n26125", 
       "type": "PositionSensor", 
       "name": "hand_right_index_virtual_1_joint_sensor"
     }, 
     {
-      "transformID": "n26086", 
+      "transformID": "n26148", 
       "type": "PositionSensor", 
       "name": "hand_right_index_virtual_2_joint_sensor"
     }, 
     {
-      "transformID": "n26109", 
+      "transformID": "n26171", 
       "type": "PositionSensor", 
       "name": "hand_right_index_virtual_3_joint_sensor"
     }, 
     {
-      "transformID": "n26529", 
+      "transformID": "n26591", 
       "type": "PositionSensor", 
       "name": "hand_right_little_abd_joint_sensor"
     }, 
     {
-      "transformID": "n26552", 
+      "transformID": "n26614", 
       "type": "PositionSensor", 
       "name": "hand_right_little_flex_1_joint_sensor"
     }, 
     {
-      "transformID": "n26575", 
+      "transformID": "n26637", 
       "type": "PositionSensor", 
       "name": "hand_right_little_flex_2_joint_sensor"
     }, 
     {
-      "transformID": "n26598", 
+      "transformID": "n26660", 
       "type": "PositionSensor", 
       "name": "hand_right_little_flex_3_joint_sensor"
     }, 
     {
-      "transformID": "n26543", 
+      "transformID": "n26605", 
       "type": "PositionSensor", 
       "name": "hand_right_little_virtual_1_joint_sensor"
     }, 
     {
-      "transformID": "n26566", 
+      "transformID": "n26628", 
       "type": "PositionSensor", 
       "name": "hand_right_little_virtual_2_joint_sensor"
     }, 
     {
-      "transformID": "n26589", 
+      "transformID": "n26651", 
       "type": "PositionSensor", 
       "name": "hand_right_little_virtual_3_joint_sensor"
     }, 
     {
-      "transformID": "n26209", 
+      "transformID": "n26271", 
       "type": "PositionSensor", 
       "name": "hand_right_middle_abd_joint_sensor"
     }, 
     {
-      "transformID": "n26232", 
+      "transformID": "n26294", 
       "type": "PositionSensor", 
       "name": "hand_right_middle_flex_1_joint_sensor"
     }, 
     {
-      "transformID": "n26255", 
+      "transformID": "n26317", 
       "type": "PositionSensor", 
       "name": "hand_right_middle_flex_2_joint_sensor"
     }, 
     {
-      "transformID": "n26278", 
+      "transformID": "n26340", 
       "type": "PositionSensor", 
       "name": "hand_right_middle_flex_3_joint_sensor"
     }, 
     {
-      "transformID": "n26223", 
+      "transformID": "n26285", 
       "type": "PositionSensor", 
       "name": "hand_right_middle_virtual_1_joint_sensor"
     }, 
     {
-      "transformID": "n26246", 
+      "transformID": "n26308", 
       "type": "PositionSensor", 
       "name": "hand_right_middle_virtual_2_joint_sensor"
     }, 
     {
-      "transformID": "n26269", 
+      "transformID": "n26331", 
       "type": "PositionSensor", 
       "name": "hand_right_middle_virtual_3_joint_sensor"
     }, 
     {
-      "transformID": "n26369", 
+      "transformID": "n26431", 
       "type": "PositionSensor", 
       "name": "hand_right_ring_abd_joint_sensor"
     }, 
     {
-      "transformID": "n26392", 
+      "transformID": "n26454", 
       "type": "PositionSensor", 
       "name": "hand_right_ring_flex_1_joint_sensor"
     }, 
     {
-      "transformID": "n26415", 
+      "transformID": "n26477", 
       "type": "PositionSensor", 
       "name": "hand_right_ring_flex_2_joint_sensor"
     }, 
     {
-      "transformID": "n26438", 
+      "transformID": "n26500", 
       "type": "PositionSensor", 
       "name": "hand_right_ring_flex_3_joint_sensor"
     }, 
     {
-      "transformID": "n26383", 
+      "transformID": "n26445", 
       "type": "PositionSensor", 
       "name": "hand_right_ring_virtual_1_joint_sensor"
     }, 
     {
-      "transformID": "n26406", 
+      "transformID": "n26468", 
       "type": "PositionSensor", 
       "name": "hand_right_ring_virtual_2_joint_sensor"
     }, 
     {
-      "transformID": "n26429", 
+      "transformID": "n26491", 
       "type": "PositionSensor", 
       "name": "hand_right_ring_virtual_3_joint_sensor"
     }, 
     {
-      "transformID": "n25927", 
+      "transformID": "n25989", 
       "type": "PositionSensor", 
       "name": "hand_right_thumb_abd_joint_sensor"
     }, 
     {
-      "transformID": "n25950", 
+      "transformID": "n26012", 
       "type": "PositionSensor", 
       "name": "hand_right_thumb_flex_1_joint_sensor"
     }, 
     {
-      "transformID": "n25973", 
+      "transformID": "n26035", 
       "type": "PositionSensor", 
       "name": "hand_right_thumb_flex_2_joint_sensor"
     }, 
     {
-      "transformID": "n25941", 
+      "transformID": "n26003", 
       "type": "PositionSensor", 
       "name": "hand_right_thumb_virtual_1_joint_sensor"
     }, 
     {
-      "transformID": "n25964", 
+      "transformID": "n26026", 
       "type": "PositionSensor", 
       "name": "hand_right_thumb_virtual_2_joint_sensor"
     }, 
     {
-      "transformID": "n23064", 
+      "transformID": "n23116", 
       "type": "PositionSensor", 
       "name": "head_1_joint_sensor"
     }, 
     {
-      "transformID": "n23079", 
+      "transformID": "n23131", 
       "type": "PositionSensor", 
       "name": "head_2_joint_sensor"
     }, 
     {
-      "transformID": "n21179", 
+      "transformID": "n27623", 
       "type": "Lidar", 
       "name": "Hokuyo URG-04LX-UG01"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n28", 
       "type": "InertialUnit", 
       "name": "inertial unit"
     }, 
     {
-      "transformID": "n21222", 
+      "transformID": "n21269", 
       "type": "PositionSensor", 
       "name": "torso_lift_joint_sensor"
     }, 
     {
-      "transformID": "n6559", 
+      "transformID": "n6590", 
       "type": "PositionSensor", 
       "name": "wheel_left_joint_sensor"
     }, 
     {
-      "transformID": "n6526", 
+      "transformID": "n6557", 
       "type": "PositionSensor", 
       "name": "wheel_right_joint_sensor"
     }

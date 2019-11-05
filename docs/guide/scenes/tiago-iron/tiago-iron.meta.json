@@ -1,5 +1,5 @@
 {
-  "robotID": "n12", 
+  "robotID": "n28", 
   "name": "tiago-iron", 
   "devices": [
     {
@@ -23,7 +23,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n316", 
+      "transformID": "n332", 
       "initialPosition": 1.5708, 
       "name": "wheel_left_joint", 
       "maxPosition": 0, 
@@ -33,7 +33,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n283", 
+      "transformID": "n299", 
       "initialPosition": 1.5708, 
       "name": "wheel_right_joint", 
       "maxPosition": 0, 
@@ -53,32 +53,32 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n28", 
       "type": "Accelerometer", 
       "name": "accelerometer"
     }, 
     {
-      "transformID": "n204", 
+      "transformID": "n220", 
       "type": "TouchSensor", 
       "name": "base_cover_link"
     }, 
     {
-      "transformID": "n257", 
+      "transformID": "n273", 
       "type": "DistanceSensor", 
       "name": "base_sonar_01_link"
     }, 
     {
-      "transformID": "n235", 
+      "transformID": "n251", 
       "type": "DistanceSensor", 
       "name": "base_sonar_02_link"
     }, 
     {
-      "transformID": "n213", 
+      "transformID": "n229", 
       "type": "DistanceSensor", 
       "name": "base_sonar_03_link"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n28", 
       "type": "Gyro", 
       "name": "gyro"
     }, 
@@ -93,12 +93,12 @@
       "name": "head_2_joint_sensor"
     }, 
     {
-      "transformID": "n778", 
+      "transformID": "n917", 
       "type": "Lidar", 
       "name": "Hokuyo URG-04LX-UG01"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n28", 
       "type": "InertialUnit", 
       "name": "inertial unit"
     }, 
@@ -108,12 +108,12 @@
       "name": "torso_lift_joint_sensor"
     }, 
     {
-      "transformID": "n316", 
+      "transformID": "n332", 
       "type": "PositionSensor", 
       "name": "wheel_left_joint_sensor"
     }, 
     {
-      "transformID": "n283", 
+      "transformID": "n299", 
       "type": "PositionSensor", 
       "name": "wheel_right_joint_sensor"
     }
