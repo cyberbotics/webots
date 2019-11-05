@@ -49,7 +49,7 @@ CONTROLLERS=\
   pal_robotics/tiago_base/controllers/tiago_base.Makefile \
   pal_robotics/tiago_iron/controllers/tiago_iron.Makefile \
   pal_robotics/tiago_steel/controllers.Makefile \
-  pal_robotics/tiago_titanium/controllers.Makefile \
+  pal_robotics/tiago_titanium/controllers/tiago_titanium.Makefile \
   pal_robotics/tiago++/controllers.Makefile \
   parallax/boebot/controllers.Makefile \
   picaxe/microbot/controllers.Makefile \
