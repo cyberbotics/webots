@@ -511,10 +511,12 @@ PROTO TiagoRightArm [
                                                   rotation 1 0 0 1.570796
                                                   children [
                                                     DEF ARM_RIGHT_7_SH1 Shape {
-                                                      appearance PBRAppearance {
-                                                        baseColor 0.333333 0 1
-                                                        roughness 1
-                                                        metalness 0
+                                                      appearance GlossyPaint {
+                                                        baseColor 0.823529 0.776471 0.776471
+                                                        textureTransform TextureTransform {
+                                                          scale 4 4
+                                                        }
+                                                        IBLStrength 1.8
                                                       }
                                                       geometry IndexedFaceSet {
                                                         coord Coordinate {

@@ -14,6 +14,7 @@ PROTO TiagoTitanium [
   field  SFString    customData         ""
   field  SFBool      supervisor         FALSE
   field  SFBool      synchronization    TRUE
+  field  SFBool      selfCollision      FALSE                 # Enables/disables the detection of collisions within the robot.
   field  MFNode      lidarExtension     HokuyoUrg04lxug01{}   # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
 ]
 {
@@ -25,6 +26,7 @@ PROTO TiagoTitanium [
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization
+    selfCollision IS selfCollision
     name IS name
     model "PAL Robotics' TIAGo Titanium"
     bodyExtension [
