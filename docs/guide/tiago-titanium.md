@@ -34,4 +34,5 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### tiago\_titanium.wbt
 
-![tiago_titanium.wbt.png](images/robots/tiago_titanium/tiago_titanium.wbt.thumbnail.jpg) This simulation shows a TIAGo Titanium robot that automatically moves straight ahead but can also be controlled using the keyboard arrows.
+![tiago_titanium.wbt.png](images/robots/tiago_titanium/tiago_titanium.wbt.thumbnail.jpg) This simulation shows a Tiago Titanium making hello with the sign "Peace" with these fingers in an industrial environment.
+It can also be controlled using the arrows on the keyboard.

@@ -34,4 +34,4 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### tiago\_iron.wbt
 
-![tiago_iron.wbt.png](images/robots/tiago_iron/tiago_iron.wbt.thumbnail.jpg) This simulation shows a TIAGo Iron robot that automatically moves straight ahead but can also be controlled using the keyboard arrows.
+![tiago_iron.wbt.png](images/robots/tiago_iron/tiago_iron.wbt.thumbnail.jpg) This simulation shows a Tiago Iron moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar.

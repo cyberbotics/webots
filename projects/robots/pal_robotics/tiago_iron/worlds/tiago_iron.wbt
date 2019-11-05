@@ -16,8 +16,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 0.5999591213892953 -0.7671461899592319 -0.2270149243834397 5.3504523430872215
-  position 7.729525002170036 6.623642285480965 8.367417379475949
-  follow "TIAGo Base"
+  position 7.4905813628447016 7.14895578833983 8.114253302849521
 }
 TexturedBackground {
   texture "factory"
@@ -38,9 +37,6 @@ RectangleArena {
       scale 5 1.75
     }
   }
-}
-TiagoIron {
-  translation -4.41617 0.095 -1.06295
 }
 WoodenBox {
   translation -6.2 0.405 -7

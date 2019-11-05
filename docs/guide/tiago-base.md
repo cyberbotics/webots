@@ -42,4 +42,4 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### tiago\_base.wbt
 
-![tiago_base.wbt.png](images/robots/tiago_base/tiago_base.wbt.thumbnail.jpg) This simulation shows a TIAGo Base robot that automatically moves straight ahead but can also be controlled using the keyboard arrows.
+![tiago_base.wbt.png](images/robots/tiago_base/tiago_base.wbt.thumbnail.jpg) This simulation shows a Tiago Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar.

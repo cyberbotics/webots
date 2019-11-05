@@ -34,4 +34,5 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### tiago\_steel.wbt
 
-![tiago_steel.wbt.png](images/robots/tiago_steel/tiago_steel.wbt.thumbnail.jpg) This simulation shows a TIAGo Steel robot that automatically moves straight ahead but can also be controlled using the keyboard arrows.
+![tiago_steel.wbt.png](images/robots/tiago_steel/tiago_steel.wbt.thumbnail.jpg) This simulation shows a Tiago Steel making hello in an industrial environment.
+It can also been controlled using the keyboard arrows.
