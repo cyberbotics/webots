@@ -14,115 +14,116 @@
  * limitations under the License.
  */
 
+/*
+ * Description: Simple avoidance controller
+ *              The velocity of each wheel is set according to a
+ *              Braitenberg-like algorithm which takes the values returned
+ *              by the Hokuyo URG-04LX-UG01 as input.
+ */
+
 #include <math.h>
 #include <stdio.h>
-#include <webots/keyboard.h>
+#include <stdlib.h>
+#include <webots/lidar.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
 
-#define TIME_STEP 8
-#define MAX_SPEED 7.0
+#define TIME_STEP 32
+#define MAX_SPEED 6.4
+#define CRUISING_SPEED 3.0
+#define OBSTACLE_THRESHOLD 0.2
+#define DECREASE_FACTOR 0.95
+#define UNUSED_POINT 90
 
-enum XYZAComponents { X, Y, Z, ALPHA };
-enum Sides { LEFT, RIGHT };
-
-static WbDeviceTag motors[2];
-
-static bool autopilot = true;
-static bool old_autopilot = true;
-static int old_key = -1;
-
-// set left and right motor speed [rad/s]
-static void robot_set_speed(double left, double right) {
-  wb_motor_set_velocity(motors[0], left);
-  wb_motor_set_velocity(motors[1], right);
+// gaussian function
+double gaussian(double x, double mu, double sigma) {
+  return (1.0 / (sigma * sqrt(2.0 * M_PI))) * exp(-((x - mu) * (x - mu)) / (2 * sigma * sigma));
 }
 
-static void check_keyboard() {
-  double speeds[2] = {0.0, 0.0};
-
-  int key = wb_keyboard_get_key();
-  if (key >= 0) {
-    switch (key) {
-      case WB_KEYBOARD_UP:
-        speeds[LEFT] = MAX_SPEED;
-        speeds[RIGHT] = MAX_SPEED;
-        autopilot = false;
-        break;
-      case WB_KEYBOARD_DOWN:
-        speeds[LEFT] = -MAX_SPEED;
-        speeds[RIGHT] = -MAX_SPEED;
-        autopilot = false;
-        break;
-      case WB_KEYBOARD_RIGHT:
-        speeds[LEFT] = MAX_SPEED;
-        speeds[RIGHT] = -MAX_SPEED;
-        autopilot = false;
-        break;
-      case WB_KEYBOARD_LEFT:
-        speeds[LEFT] = -MAX_SPEED;
-        speeds[RIGHT] = MAX_SPEED;
-        autopilot = false;
-        break;
-      case 'A':
-        if (key != old_key)  // perform this action just once
-          autopilot = !autopilot;
-        break;
-    }
-  }
-  if (autopilot != old_autopilot) {
-    old_autopilot = autopilot;
-    if (autopilot)
-      printf("auto control\n");
-    else
-      printf("manual control\n");
-  }
-
-  robot_set_speed(speeds[LEFT], speeds[RIGHT]);
-  old_key = key;
-}
-
-// autopilot
-// Go straight forward
-static void run_autopilot() {
-  // set the motor speeds
-  robot_set_speed(MAX_SPEED, MAX_SPEED);
-}
-
-int main(int argc, char *argv[]) {
-  // initialize webots communication
+int main(int argc, char **argv) {
+  // init webots stuff
   wb_robot_init();
 
-  // print user instructions
-  printf("\f");
-  printf("You can drive this robot:\n");
-  printf("Select the 3D window and use cursor keys:\n");
-  printf("Press 'A' to return to the autopilot mode\n");
-  printf("\n");
+  // get devices
+  WbDeviceTag urg04lx = wb_robot_get_device("Hokuyo URG-04LX-UG01");
+  WbDeviceTag left_wheel = wb_robot_get_device("wheel_left_joint");
+  WbDeviceTag right_wheel = wb_robot_get_device("wheel_right_joint");
 
-  wb_robot_step(1000);
+  // init urg04lx
+  wb_lidar_enable(urg04lx, TIME_STEP);
+  wb_lidar_enable_point_cloud(urg04lx);
+  const int urg04lx_width = wb_lidar_get_horizontal_resolution(urg04lx);
+  printf("urg04lx_width = %d\n", urg04lx_width);
+  const int half_width = urg04lx_width / 2.0;
+  printf("urg04lx_half_width = %d\n", half_width);
+  const float max_range = wb_lidar_get_max_range(urg04lx);
+  printf("max_range_lidar = %lf\n", max_range);
+  // Above 5.6m / 2.5 = 2.24m, points not used
+  const double range_threshold = max_range / 2.0;
+  const float *urg04lx_values = NULL;
 
-  const char *names[2] = {"wheel_left_joint", "wheel_right_joint"};
+  // init braitenberg coefficient
+  double *const braitenberg_coefficients = (double *)malloc(sizeof(double) * urg04lx_width);
+  int i, j;
+  for (i = 0; i < urg04lx_width; ++i) {
+    braitenberg_coefficients[i] = gaussian(i, half_width, urg04lx_width / 10.0);
+    printf("b coeff = %lf\n", braitenberg_coefficients[i]);
+  }
+  // init motors
+  wb_motor_set_position(left_wheel, INFINITY);
+  wb_motor_set_position(right_wheel, INFINITY);
 
-  // get motor tags
-  motors[0] = wb_robot_get_device(names[0]);  // left
-  motors[1] = wb_robot_get_device(names[1]);  // right
-  wb_motor_set_position(motors[0], INFINITY);
-  wb_motor_set_position(motors[1], INFINITY);
+  // init speed for each wheel
+  double left_speed = 0.0, right_speed = 0.0;
+  wb_motor_set_velocity(left_wheel, left_speed);
+  wb_motor_set_velocity(right_wheel, right_speed);
 
-  // enable keyboard
-  wb_keyboard_enable(TIME_STEP);
+  // init dynamic variables
+  double left_obstacle = 0.0, right_obstacle = 0.0;
 
-  // start forward motion
-  robot_set_speed(MAX_SPEED / 2.0, MAX_SPEED / 2.0);
-
-  // main loop
+  // control loop
   while (wb_robot_step(TIME_STEP) != -1) {
-    check_keyboard();
-    if (autopilot)
-      run_autopilot();
+    // get lidar values
+    urg04lx_values = wb_lidar_get_range_image(urg04lx);
+    // apply the braitenberg coefficients on the resulted values of the urg04lx
+    // near obstacle sensed on the left side
+    for (i = UNUSED_POINT; i < half_width; ++i) {
+      if (urg04lx_values[i] < range_threshold)  // far obstacles are ignored
+        left_obstacle += braitenberg_coefficients[i] * (1.0 - urg04lx_values[i] / max_range);
+      // near obstacle sensed on the right side
+      j = urg04lx_width - 1 - i;
+      if (urg04lx_values[j] < range_threshold)
+        right_obstacle += braitenberg_coefficients[i] * (1.0 - urg04lx_values[j] / max_range);
+    }
+    // overall front obstacle
+    const double obstacle = left_obstacle + right_obstacle;
+    printf("Left = %lf\n", left_obstacle);
+    printf("front= %lf\n", obstacle);
+    printf("right= %lf\n", right_obstacle);
+    // compute the speed according to the information on
+    // obstacles
+    if (obstacle > OBSTACLE_THRESHOLD) {
+      const double speed_factor = (1.0 - DECREASE_FACTOR * obstacle) * MAX_SPEED / obstacle;
+      left_speed = speed_factor * left_obstacle;
+      right_speed = speed_factor * right_obstacle;
+      if (left_speed > MAX_SPEED)
+        left_speed = MAX_SPEED;
+      if (right_speed > MAX_SPEED)
+        right_speed = MAX_SPEED;
+    } else {
+      left_speed = CRUISING_SPEED;
+      right_speed = CRUISING_SPEED;
+    }
+    // set actuators
+    wb_motor_set_velocity(left_wheel, left_speed);
+    wb_motor_set_velocity(right_wheel, right_speed);
+
+    // reset dynamic variables to zero
+    left_obstacle = 0.0;
+    right_obstacle = 0.0;
   }
 
+  free(braitenberg_coefficients);
   wb_robot_cleanup();
 
   return 0;

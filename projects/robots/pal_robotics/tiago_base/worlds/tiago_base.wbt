@@ -17,8 +17,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.5850908904445478 -0.7821122179479469 -0.21440412415657775 5.389650680770874
-  position 7.93374942925919 6.98540108040051 8.758807628985656
+  orientation 0.5999591213892953 -0.7671461899592319 -0.2270149243834397 5.3504523430872215
+  position 7.729525002170036 6.623642285480965 8.367417379475949
   follow "TIAGo Base"
 }
 TexturedBackground {
@@ -43,7 +43,6 @@ RectangleArena {
 }
 TiagoBase {
   translation -4.41617 0.095 -1.06295
-  rotation -1 0 0 1.5708
   controller "tiago_base_lidar"
   lidarExtension [
     HokuyoUrg04lxug01 {

@@ -15,22 +15,384 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.2538604305895179 0.9584262621541323 0.1302842346339841 0.905106646251796
-  position 2.940334798235359 1.465207535376695 2.289900311902095
+  orientation 0.5999591213892953 -0.7671461899592319 -0.2270149243834397 5.3504523430872215
+  position 7.729525002170036 6.623642285480965 8.367417379475949
+  follow "TIAGo Base"
 }
 TexturedBackground {
+  texture "factory"
 }
 TexturedBackgroundLight {
+  texture "factory"
 }
 RectangleArena {
-  floorSize 8 8
+  name "rectangle arena(1)"
+  floorSize 15 15
   floorTileSize 1 1
-  wallHeight 1.5
-  wallAppearance RedBricks {
+  floorAppearance ThreadMetalPlate {
+  }
+  wallHeight 2.4
+  wallAppearance Roughcast {
+    colorOverride 0.533333 0.541176 0.521569
     textureTransform TextureTransform {
-      scale 6 6
+      scale 5 1.75
     }
   }
 }
 TiagoIron {
+  translation -4.41617 0.095 -1.06295
+}
+WoodenBox {
+  translation -6.2 0.405 -7
+}
+WoodenBox {
+  translation -4.6 0.405 -7
+  name "wooden box(2)"
+}
+WoodenBox {
+  translation -0.188664 0.3 -0.173685
+  name "wooden box(1)"
+}
+WoodenBox {
+  translation -0.097934 0.3 -0.994125
+  rotation 0 1 0 -2.6179953071795863
+  name "wooden box(8)"
+}
+WoodenBox {
+  translation 0.247895 0.901 -0.479684
+  rotation 0 1 0 -0.523595307179586
+  name "wooden box(4)"
+}
+WoodenBox {
+  translation 0.631108 0.3 -0.396755
+  rotation 0 1 0 0.261799
+  name "wooden box(5)"
+}
+WoodenBox {
+  translation -2.99 0.44 4
+  name "wooden box(3)"
+}
+WoodenBox {
+  translation 0 1.1 4
+  name "wooden box(6)"
+}
+WoodenBox {
+  translation 3.6 1.1 4
+  name "wooden box(7)"
+}
+WoodenBox {
+  translation 7.18 1.1 4
+  name "wooden box(10)"
+}
+WoodenBox {
+  translation 0 1.1 6
+  name "wooden box(12)"
+}
+WoodenBox {
+  translation 3.6 1.1 6
+  name "wooden box(13)"
+}
+WoodenBox {
+  translation 7.18 1.1 6
+  name "wooden box(14)"
+}
+SolidBox {
+  translation 7.49 0.85 4
+  size 0.03 1.7 1
+  appearance PBRAppearance {
+    baseColor 0 0 0
+    baseColorMap ImageTexture {
+      url [
+        "textures/tagged_wall.jpg"
+      ]
+    }
+    roughness 0.5
+    metalness 0
+  }
+}
+SolidBox {
+  translation 7.49 0.85 6
+  name "box(15)"
+  size 0.03 1.7 1
+  appearance PBRAppearance {
+    baseColor 0 0 0
+    baseColorMap ImageTexture {
+      url [
+        "textures/tagged_wall.jpg"
+      ]
+    }
+    roughness 0.5
+    metalness 0
+  }
+}
+ConveyorBelt {
+  translation 2.47 0 4
+  rotation 1 0 0 4.692820414042842e-06
+  name "conveyor belt(2)"
+  size 10 0.8 0.8
+  speed 0
+}
+ConveyorBelt {
+  translation 2.47 0 6
+  rotation 1 0 0 4.692820414042842e-06
+  name "conveyor belt(1)"
+  size 10 0.8 0.8
+  speed 0
+}
+FireExtinguisher {
+  translation -1.18 0 -7.38
+}
+WoodenPalletStack {
+  translation -7 0 -6.85
+  rotation 0 1 0 4.692820414042842e-06
+  name "wooden pallet stack(3)"
+}
+WoodenPalletStack {
+  translation -5.4 0 -6.85
+  name "wooden pallet stack(1)"
+}
+WoodenPalletStack {
+  translation -3.8 0 -6.85
+  name "wooden pallet stack(2)"
+}
+WoodenPalletStack {
+  translation -2.2 0 -6.85
+}
+WoodenPallet {
+  translation -3.11218 0 4
+  rotation 0 1 0 1.5708
+}
+WoodenPallet {
+  translation -3.11218 3.81917e-14 6
+  rotation 0 1 0 1.5708
+  name "wooden pallet(4)"
+}
+WoodenPallet {
+  translation -6.27419 0.141 5.32836
+  rotation 0 1 0 -0.523595307179586
+  name "wooden pallet(1)"
+}
+WoodenPallet {
+  translation -6.31837 0.282 5.08271
+  rotation 0 1 0 0.523599
+  name "wooden pallet(2)"
+}
+WoodenPallet {
+  translation -6.32612 0.423 5.11173
+  name "wooden pallet(3)"
+}
+PlatformCart {
+  translation 0.471548 -2.66454e-15 0.498497
+  rotation 0 -1 0 -0.523595307179586
+}
+PlatformCart {
+  translation -4.6 0 -7
+  rotation 0 1 0 1.5708
+  name "platform cart(1)"
+}
+PlatformCart {
+  translation -6.2 0 -7
+  rotation 0 -1 0 -1.5708053071795867
+  name "platform cart(2)"
+}
+Sofa {
+  translation 5.58591 -1.24345e-14 -7.00085
+  rotation 0 1 0 -1.5707953071795862
+}
+Sofa {
+  translation 6.99033 -1.24345e-14 -5.54348
+  rotation 0 1 0 3.14159
+  name "sofa(1)"
+}
+Table {
+  translation 5.50688 0 -5.65
+  size 1 0.4 1
+}
+FloorLight {
+  translation 7.07252 -7.10543e-15 -7.10527
+}
+PannelWithTubes {
+  translation 6 0 -3.65
+}
+PannelWithTubes {
+  translation 4.9 0 -3.65
+  name "panel with tubes(2)"
+}
+PannelWithTubes {
+  translation 3.76 0 -7.1
+  rotation 0 1 0 -1.5707953071795862
+  name "panel with tubes(3)"
+}
+PannelWithTubes {
+  translation 3.76 0 -6
+  rotation 0 1 0 -1.5707953071795862
+  name "panel with tubes(4)"
+}
+PannelWithTubes {
+  translation 3.76 0 -4.9
+  rotation 0 1 0 -1.5707953071795862
+  name "panel with tubes(5)"
+}
+PannelWithTubes {
+  translation 7.1 0 -3.65
+  name "panel with tubes(1)"
+}
+DoubleFluorescentLamp {
+  translation -5 2.5 5
+  rotation -0.7071067811862364 9.381857096790023e-07 0.7071067811862364 3.14159
+  name "double fuorescent lamp(1)"
+}
+DoubleFluorescentLamp {
+  translation -5 2.5 0
+  rotation -0.7071067811862364 9.381857096790023e-07 0.7071067811862364 3.14159
+  name "double fuorescent lamp(3)"
+}
+DoubleFluorescentLamp {
+  translation -5 2.5 -5
+  rotation -0.7071067811862364 9.381857096790023e-07 0.7071067811862364 3.14159
+  name "double fuorescent lamp(4)"
+}
+DoubleFluorescentLamp {
+  translation 0 2.5 5
+  rotation -0.7071067811862364 9.381857096790023e-07 0.7071067811862364 3.14159
+}
+DoubleFluorescentLamp {
+  translation 0 2.5 0
+  rotation -0.7071067811862364 9.381857096790023e-07 0.7071067811862364 3.14159
+  name "double fuorescent lamp(6)"
+}
+DoubleFluorescentLamp {
+  translation 0 2.5 -5
+  rotation -0.7071067811862364 9.381857096790023e-07 0.7071067811862364 3.14159
+  name "double fuorescent lamp(5)"
+}
+DoubleFluorescentLamp {
+  translation 5 2.5 5
+  rotation -0.7071067811862364 9.381857096790023e-07 0.7071067811862364 3.14159
+  name "double fuorescent lamp(2)"
+}
+DoubleFluorescentLamp {
+  translation 5 2.5 0
+  rotation -0.7071067811862364 9.381857096790023e-07 0.7071067811862364 3.14159
+  name "double fuorescent lamp(9)"
+}
+DoubleFluorescentLamp {
+  translation 5 2.5 -5
+  rotation -0.7071067811862364 9.381857096790023e-07 0.7071067811862364 3.14159
+  name "double fuorescent lamp(8)"
+}
+StraightStairs {
+  translation -6.92 0 0.6
+  rotation 0 1 0 1.5708
+  stepSize 0.2 0.03 1.1
+  stepRise 0.13
+  nSteps 20
+  stringerWidth 0.03
+  stepAppearance ThreadMetalPlate {
+    textureTransform TextureTransform {
+      scale 0.4 2.2
+    }
+  }
+  stringerAppearance BrushedAluminium {
+    colorOverride 0.533333 0.541176 0.521569
+    textureTransform TextureTransform {
+      scale 20 20
+    }
+  }
+  leftRail []
+  rightRail [
+    StraightStairsRail {
+      translation -0.02 -0.13 0
+      run 3.84
+      rise 2.5
+      newelHeight 0.8
+      balusterHeight 0.62
+      appearance Rubber {
+      }
+    }
+  ]
+}
+OilBarrel {
+  translation -7.18 0.44 -1.20334
+}
+OilBarrel {
+  translation -7.18 0.45 -1.9
+  name "oil barrel(2)"
+}
+OilBarrel {
+  translation -7.18 0.44 -2.57
+  name "oil barrel(3)"
+}
+OilBarrel {
+  translation -7.18 0.44 -3.25
+  name "oil barrel(4)"
+}
+OilBarrel {
+  translation -7.18 0.44 -3.95
+  name "oil barrel(5)"
+}
+OilBarrel {
+  translation -6.55 0.44 -3.64
+  name "oil barrel(1)"
+}
+OilBarrel {
+  translation -6.55 0.44 -2.95
+  name "oil barrel(6)"
+}
+OilBarrel {
+  translation -6.55 0.44 -2.26
+  name "oil barrel(7)"
+}
+OilBarrel {
+  translation -6.55 0.44 -1.58
+  name "oil barrel(8)"
+}
+OilBarrel {
+  translation 5.82613 0.305 0.355641
+  rotation -0.6776611791699123 0.5199891374822863 -0.5199871374817574 -1.9504353071795864
+  name "oil barrel(9)"
+}
+OilBarrel {
+  translation 5.89215 0.305 -1.53404
+  rotation -0.9351132545462786 -0.25056306820553154 0.25056206820525934 -1.6378353071795866
+  name "oil barrel(13)"
+}
+OilBarrel {
+  translation 1.3096 0.44 -5.78306
+  name "oil barrel(12)"
+}
+OilBarrel {
+  translation 1.01658 0.44 -6.93242
+  name "oil barrel(11)"
+}
+OilBarrel {
+  translation -0.0803938 0.44 -6.53008
+  name "oil barrel(10)"
+}
+TrafficCone {
+  translation 7.10509 5.15144e-14 2.30738
+  rotation 0 1 0 0.261799
+}
+TrafficCone {
+  translation 5.92356 4.79617e-14 2.11999
+  name "traffic cone(6)"
+}
+TrafficCone {
+  translation 4.88894 6.75016e-14 1.3204
+  rotation 0 1 0 -0.261795307179586
+  name "traffic cone(5)"
+}
+TrafficCone {
+  translation 4.21864 6.92779e-14 0.039334
+  rotation 0 -1 0 0.5235953071795861
+  name "traffic cone(4)"
+}
+TrafficCone {
+  translation 4.15841 6.75015e-14 -1.27267
+  rotation 0 1 0 0.523599
+  name "traffic cone(3)"
+}
+TrafficCone {
+  translation 4.31733 8.88175e-15 -2.52038
+  name "traffic cone(2)"
 }

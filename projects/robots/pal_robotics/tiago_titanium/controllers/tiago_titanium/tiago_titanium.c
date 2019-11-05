@@ -14,116 +14,148 @@
  * limitations under the License.
  */
 
+/*
+ * Description: Simple controller to make an "Hello" mouvement with the
+ *              hand showing the peace symbol.
+ *              It is also possible to move the robot with the keyboard arrows.
+ */
+
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <webots/keyboard.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
 
 #define TIME_STEP 8
-#define MAX_SPEED 7.0
+#define MAX_SPEED 7.0  // [rad/s]
+#define N_PARTS 45
+#define MOTOR_LEFT N_PARTS - 2
+#define MOTOR_RIGHT N_PARTS - 1
 
 enum XYZAComponents { X, Y, Z, ALPHA };
-enum Sides { LEFT, RIGHT };
 
-static WbDeviceTag motors[2];
-
-static bool autopilot = true;
-static bool old_autopilot = true;
 static int old_key = -1;
-
-// set left and right motor speed [rad/s]
-static void robot_set_speed(double left, double right) {
-  wb_motor_set_velocity(motors[0], left);
-  wb_motor_set_velocity(motors[1], right);
-}
+static WbDeviceTag robot_parts[N_PARTS];
 
 static void check_keyboard() {
-  double speeds[2] = {0.0, 0.0};
+  double speeds_left = 0.0, speeds_right = 0.0;
 
   int key = wb_keyboard_get_key();
   if (key >= 0) {
     switch (key) {
       case WB_KEYBOARD_UP:
-        speeds[LEFT] = MAX_SPEED;
-        speeds[RIGHT] = MAX_SPEED;
-        autopilot = false;
+        speeds_left = MAX_SPEED;
+        speeds_right = MAX_SPEED;
         break;
       case WB_KEYBOARD_DOWN:
-        speeds[LEFT] = -MAX_SPEED;
-        speeds[RIGHT] = -MAX_SPEED;
-        autopilot = false;
+        speeds_left = -MAX_SPEED;
+        speeds_right = -MAX_SPEED;
         break;
       case WB_KEYBOARD_RIGHT:
-        speeds[LEFT] = MAX_SPEED;
-        speeds[RIGHT] = -MAX_SPEED;
-        autopilot = false;
+        speeds_left = MAX_SPEED;
+        speeds_right = -MAX_SPEED;
         break;
       case WB_KEYBOARD_LEFT:
-        speeds[LEFT] = -MAX_SPEED;
-        speeds[RIGHT] = MAX_SPEED;
-        autopilot = false;
-        break;
-      case 'A':
-        if (key != old_key)  // perform this action just once
-          autopilot = !autopilot;
+        speeds_left = -MAX_SPEED;
+        speeds_right = MAX_SPEED;
         break;
     }
   }
-  if (autopilot != old_autopilot) {
-    old_autopilot = autopilot;
-    if (autopilot)
-      printf("auto control\n");
-    else
-      printf("manual control\n");
-  }
 
-  robot_set_speed(speeds[LEFT], speeds[RIGHT]);
+  wb_motor_set_velocity(robot_parts[MOTOR_LEFT], speeds_left);
+  wb_motor_set_velocity(robot_parts[MOTOR_RIGHT], speeds_right);
   old_key = key;
 }
 
-// autopilot
-// Go straight forward
-static void run_autopilot() {
-  // set the motor speeds
-  robot_set_speed(MAX_SPEED, MAX_SPEED);
-}
-
-int main(int argc, char *argv[]) {
-  // initialize webots communication
+int main(int argc, char **argv) {
+  // init webots stuff
   wb_robot_init();
+
+  // get devices
+  // initialize the robot's information
+  const char *names[N_PARTS] = {"head_2_joint",
+                                "head_1_joint",
+                                "torso_lift_joint",
+                                "arm_1_joint",
+                                "arm_2_joint",
+                                "arm_3_joint",
+                                "arm_4_joint",
+                                "arm_5_joint",
+                                "arm_6_joint",
+                                "arm_7_joint",
+                                "hand_right_thumb_abd_joint",
+                                "hand_right_thumb_virtual_1_joint",
+                                "hand_right_thumb_flex_1_joint",
+                                "hand_right_thumb_virtual_2_joint",
+                                "hand_right_thumb_flex_2_joint",
+                                "hand_right_index_abd_joint",
+                                "hand_right_index_virtual_1_joint",
+                                "hand_right_index_flex_1_joint",
+                                "hand_right_index_virtual_2_joint",
+                                "hand_right_index_flex_2_joint",
+                                "hand_right_index_virtual_3_joint",
+                                "hand_right_index_flex_3_joint",
+                                "hand_right_middle_abd_joint",
+                                "hand_right_middle_virtual_1_joint",
+                                "hand_right_middle_flex_1_joint",
+                                "hand_right_middle_virtual_2_joint",
+                                "hand_right_middle_flex_2_joint",
+                                "hand_right_middle_virtual_3_joint",
+                                "hand_right_middle_flex_3_joint",
+                                "hand_right_ring_abd_joint",
+                                "hand_right_ring_virtual_1_joint",
+                                "hand_right_ring_flex_1_joint",
+                                "hand_right_ring_virtual_2_joint",
+                                "hand_right_ring_flex_2_joint",
+                                "hand_right_ring_virtual_3_joint",
+                                "hand_right_ring_flex_3_joint",
+                                "hand_right_little_abd_joint",
+                                "hand_right_little_virtual_1_joint",
+                                "hand_right_little_flex_1_joint",
+                                "hand_right_little_virtual_2_joint",
+                                "hand_right_little_flex_2_joint",
+                                "hand_right_little_virtual_3_joint",
+                                "hand_right_little_flex_3_joint",
+                                "wheel_left_joint",
+                                "wheel_right_joint"};
+
+  double target_pos[N_PARTS] = {0.24,  -0.67, 0.09, 0.07, 0.26, -3.16, 1.27,  1.32,     0.00,    1.41, 1.55,  0.79,
+                                0.68,  0.00,  0.00, 0.00, 0.00, 0.00,  0.00,  0.00,     0.00,    0.00, -0.08, 0.00,
+                                0.00,  0.00,  0.00, 0.00, 0.00, -0.22, -0.29, 0.32,     0.79,    0.42, 0.79,  0.79,
+                                -0.52, -0.52, 0.79, 0.79, 0.37, 0.79,  0.62,  INFINITY, INFINITY};
+
+  double robot_parts_Vmax[N_PARTS] = {0};
+
+  // configures and achieves the robot's position desired
+  for (int i = 0; i < N_PARTS; i++) {
+    robot_parts[i] = wb_robot_get_device(names[i]);
+    robot_parts_Vmax[i] = wb_motor_get_max_velocity(robot_parts[i]);
+    wb_motor_set_velocity(robot_parts[i], robot_parts_Vmax[i] / 2.0);
+    wb_motor_set_position(robot_parts[i], target_pos[i]);
+  }
 
   // print user instructions
   printf("\f");
   printf("You can drive this robot:\n");
   printf("Select the 3D window and use cursor keys:\n");
-  printf("Press 'A' to return to the autopilot mode\n");
   printf("\n");
 
-  wb_robot_step(1000);
-
-  const char *names[2] = {"wheel_left_joint", "wheel_right_joint"};
-
-  // get motor tags
-  motors[0] = wb_robot_get_device(names[0]);  // left
-  motors[1] = wb_robot_get_device(names[1]);  // right
-  wb_motor_set_position(motors[0], INFINITY);
-  wb_motor_set_position(motors[1], INFINITY);
-
-  // enable keyboard
+  // enable keyboard and start forward motion
   wb_keyboard_enable(TIME_STEP);
+  wb_motor_set_velocity(robot_parts[MOTOR_LEFT], MAX_SPEED / 2.0);   // left
+  wb_motor_set_velocity(robot_parts[MOTOR_RIGHT], MAX_SPEED / 2.0);  // right
 
-  // start forward motion
-  robot_set_speed(MAX_SPEED / 2.0, MAX_SPEED / 2.0);
+  double initTime = wb_robot_get_time();
 
-  // main loop
   while (wb_robot_step(TIME_STEP) != -1) {
     check_keyboard();
-    if (autopilot)
-      run_autopilot();
-  }
+
+    // Hello mouvement
+    double time = wb_robot_get_time() - initTime;
+    wb_motor_set_position(robot_parts[8], 0.3 * sin(5 * time) - 0.3);
+  };
 
   wb_robot_cleanup();
-
   return 0;
 }
