@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright 1996-2019 Cyberbotics Ltd.
 #
@@ -139,6 +139,10 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
             message = '0'
         self.write_message(message)
         logging.info('[' + self.request.host + '] New client')
+
+    def on_message(self, message):
+        """Log message received from client."""
+        logging.info('[' + self.request.host + '] Ignored client message: ' + str(message))
 
     def on_close(self):
         """Close connection after client leaves."""

@@ -1,5 +1,22 @@
 # Webots R2019b Changelog
 
+## Webots R2019b Revision 2
+Released on ???
+
+  - New Features
+    - Linux: Added support for Python 3.8.
+    - Added a [script to cleanup the Webots preferences](https://github.com/cyberbotics/webots/blob/master/scripts/preferences_cleaner/README.md).
+  - Enhancements
+    - Webots now wait for extern controllers if the `Robot.synchronization` field is set to `TRUE`.
+    - Device names are displayed in the scene tree next to the node name.
+  - Dependency Updates
+    - Upgraded to Qt 5.13.1 on Windows and macOS.
+  - Bug fixes
+    - Fixed `simulation_server.py` script to work with Python3.
+    - Fixed exporting first translation and rotation fields change during animation recording and simulation streaming.
+    - Fixed displaying streaming server initialization errors in the Webots console.
+    - Fixed bugs in Python Display.imageNew() when passing an image array: rearranged image data from column-major order and memory leak (thanks to Inbae Jeong).
+
 ## Webots R2019b Revision 1
 Released on October 3rd, 2019.
 
@@ -41,9 +58,9 @@ Released on October 3rd, 2019.
     - Fixed the insertion of a PROTO containing a [BallJoint](balljoint.md).
     - Fixed ros controller not publishing the `/connector/presence` topic.
     - Fixed crash when using an `infra-red` [DistanceSensors](distancesensor.md) pointing to a texture without repetition.
-    - Fixed external controllers, now when a controller exits, the simulation keeps running and it is possible to re-start another external controller.
+    - Fixed extern controllers, now when a controller exits, the simulation keeps running and it is possible to re-start another extern controller.
     - Webots now reads the Python shebang of controller programs to determine which version of Python to execute.
-    - External controllers now wait if started before Webots.
+    - Extern controllers now wait if started before Webots.
     - Fixed warnings printed in the terminal if a [Solid](solid.md).name field contains characters with special meaning in regular expressions.
     - Fixed invalid node references in controllers after deleting nodes from Webots or from the [Supervisor](supervisor.md) API (thanks to @chilaire).
     - Fixed rendering issues if multiple texture coordinates of a face are equal.

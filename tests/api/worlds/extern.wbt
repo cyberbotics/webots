@@ -16,17 +16,30 @@ PointLight {
   intensity 0
 }
 Robot {
-  name "extern controller"
   children [
     TestSuiteEmitter {
     }
   ]
+  name "extern0"
+  controller "<extern>"
   synchronization FALSE
+}
+Robot {
+  translation 0.1 0 0.1
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  name "extern1"
   controller "<extern>"
 }
 Robot {
   name "launcher"
   controller "extern"
+}
+Robot {
+  name "null"
+  controller ""
 }
 TestSuiteSupervisor {
 }

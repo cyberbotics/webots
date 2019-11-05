@@ -62,6 +62,8 @@ public:
   // queue pop up messages to be shown later
   static void setPopUpPostponed(bool postponed) { instance()->mPopUpMessagesPostponed = postponed; }
   static void showPostponedPopUpMessages();
+  // show messages in console emitted before WbConsole was listening
+  static void showPendingConsoleMessages();
 
 signals:
   // the above function emit this signal that can be connected to a message sink (console)
@@ -77,14 +79,14 @@ private:
   void emitLog(Level level, const QString &message, bool popup);
   static void cleanup();
 
-  struct PostponedPopUpMessage {
+  struct PostponedMessage {
     QString text;
     Level level;
   };
-
   bool mPopUpMessagesPostponed;
-  QVector<PostponedPopUpMessage> mPostponedPopUpMessageQueue;
-  void enqueuePopUpMessage(const QString &message, Level level);
+  QList<PostponedMessage> mPostponedPopUpMessageQueue;
+  QList<PostponedMessage> mPendingConsoleMessages;
+  void enqueueMessage(QList<PostponedMessage> &list, const QString &message, Level level);
 };
 
 #endif

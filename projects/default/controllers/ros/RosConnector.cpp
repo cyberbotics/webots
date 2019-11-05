@@ -42,6 +42,7 @@ void RosConnector::publishValue(ros::Publisher publisher) {
   publisher.publish(value);
 }
 
+// cppcheck-suppress constParameter
 bool RosConnector::lockCallback(webots_ros::set_bool::Request &req, webots_ros::set_bool::Response &res) {
   if (req.value) {
     mConnector->lock();

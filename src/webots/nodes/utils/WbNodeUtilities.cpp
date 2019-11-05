@@ -1609,6 +1609,7 @@ bool WbNodeUtilities::hasASolidDescendant(const WbNode *node) {
   WbNode *const n = const_cast<WbNode *>(node);
 
   const WbSlot *const slot = dynamic_cast<WbSlot *>(n);
+  // cppcheck-suppress knownConditionTrueFalse
   if (slot) {
     WbNode *endPoint = slot->endPoint();
     if (endPoint)
@@ -1640,6 +1641,7 @@ bool WbNodeUtilities::hasAJointDescendant(const WbNode *node) {
   WbNode *const n = const_cast<WbNode *>(node);
 
   const WbSlot *const slot = dynamic_cast<WbSlot *>(n);
+  // cppcheck-suppress knownConditionTrueFalse
   if (slot)
     return hasAJointDescendant(slot->endPoint());
 

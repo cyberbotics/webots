@@ -16,7 +16,7 @@
 
 #include <QtNetwork/QSslSocket>
 
-void WbStreamingTcpServer::setSslConfiguration(QSslConfiguration &configuration) {
+void WbStreamingTcpServer::setSslConfiguration(const QSslConfiguration &configuration) {
   mSslConfiguration = configuration;
   mSsl = true;
 }

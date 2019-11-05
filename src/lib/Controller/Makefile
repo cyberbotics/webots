@@ -33,10 +33,10 @@ CFLAGS      = -fPIC -Wall
 INCLUDE     = -I$(WEBOTS_PATH)/include/controller/c -I$(WEBOTS_PATH)/include
 LD_FLAGS    = -shared -Wl,-soname,libController.so
 STATIC_LIBS =
-ifeq ($(UBUNTU_VERSION), 18.04)
-LIB_PNG      = png16
-else
+ifeq ($(UBUNTU_VERSION), 16.04)
 LIB_PNG      = png12
+else
+LIB_PNG      = png16
 endif
 SHARED_LIBS = -ltiff -lm -ljpeg -lpthread -l$(LIB_PNG) -ldl -llzma -lrt
 TARGET      = $(WEBOTS_PATH)/lib/libController.so

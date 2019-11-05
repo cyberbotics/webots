@@ -45,7 +45,6 @@ WbBuildEditor::WbBuildEditor(QWidget *parent, const QString &toolBarAlign) :
   gInstance = this;
   mProcess = NULL;
   createActions();
-  updateGui();
 }
 
 WbBuildEditor::~WbBuildEditor() {

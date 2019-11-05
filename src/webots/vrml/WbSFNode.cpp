@@ -21,7 +21,7 @@
 
 WbSFNode::WbSFNode(WbTokenizer *tokenizer, const QString &worldPath) {
   mValue = NULL;
-  read(tokenizer, worldPath);
+  readSFNode(tokenizer, worldPath);
 }
 
 WbSFNode::WbSFNode(const WbSFNode &other) {
@@ -33,7 +33,7 @@ WbSFNode::WbSFNode(const WbSFNode &other) {
     mValue = NULL;
 }
 
-void WbSFNode::read(WbTokenizer *tokenizer, const QString &worldPath) {
+void WbSFNode::readSFNode(WbTokenizer *tokenizer, const QString &worldPath) {
   delete mValue;
 
   if (WbNodeReader::current())
