@@ -79,7 +79,7 @@ release debug profile update:
 	@echo "# Please install nodejs to build 'webots.min.js' using the instructions on the GitHub wiki."
 	@echo -e "# \033[0;33mnpm not installed, skipping webots.min.js\033[0m"
 else
-release profile update: webots.min.js webots-module.js
+release profile update: webots.min.js webots.lib.js
 debug: webots.debug.js
 endif
 
@@ -96,8 +96,8 @@ webots.debug.js: $(JS_SOURCES) $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(THREEJS_SOURCE
 
 # JS module intended to be included in another module.
 # webots.lib.js is not processed with babel or minify and does not include three.js.
-webots-module.js:
-	@echo "# compressing webots-module.js"
+webots.lib.js:
+	@echo "# compressing webots.lib.js"
 	@cat $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(JS_SOURCES) > $@
 
 $(THREEJS_SOURCE):
@@ -124,4 +124,4 @@ ifeq ($(NPM_EXISTS),)
 endif
 
 clean:
-	@rm -fr *.min.js webots.debug.js webots-module.js $(DEPENDENCIES_PATH)
+	@rm -fr *.min.js webots.debug.js webots.lib.js $(DEPENDENCIES_PATH)
