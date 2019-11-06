@@ -117,6 +117,8 @@ endif
 	@+make --silent -C src/lib/Controller $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * resources *";
 	@+make --silent -C resources $(MAKECMDGOALS) WEBOTS_HOME="$(WEBOTS_HOME)"
+	@+echo "#"; echo "# * projects *";
+	@+make --silent -C projects/objects/mirror/controllers $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
 
 webots_dependencies:
 	@+echo "#"; echo "# * dependencies *"; echo "#"
