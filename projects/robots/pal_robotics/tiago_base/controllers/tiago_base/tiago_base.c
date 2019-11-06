@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * Description: Simple avoidance controller
  *              The velocity of each wheel is set according to a
@@ -28,7 +27,6 @@
 #include <webots/motor.h>
 #include <webots/robot.h>
 
-#define TIME_STEP 32
 #define MAX_SPEED 6.4
 #define CRUISING_SPEED 3.0
 #define OBSTACLE_THRESHOLD 0.2
@@ -44,13 +42,15 @@ int main(int argc, char **argv) {
   // init webots stuff
   wb_robot_init();
 
+  const int time_step = wb_robot_get_basic_time_step();
+
   // get devices
   WbDeviceTag urg04lx = wb_robot_get_device("Hokuyo URG-04LX-UG01");
   WbDeviceTag left_wheel = wb_robot_get_device("wheel_left_joint");
   WbDeviceTag right_wheel = wb_robot_get_device("wheel_right_joint");
 
   // init urg04lx
-  wb_lidar_enable(urg04lx, TIME_STEP);
+  wb_lidar_enable(urg04lx, time_step);
   const int urg04lx_width = wb_lidar_get_horizontal_resolution(urg04lx);
   const int half_width = urg04lx_width / 2.0;
   const float max_range = wb_lidar_get_max_range(urg04lx);
@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
   double left_obstacle = 0.0, right_obstacle = 0.0;
 
   // control loop
-  while (wb_robot_step(TIME_STEP) != -1) {
+  while (wb_robot_step(time_step) != -1) {
     // get lidar values
     urg04lx_values = wb_lidar_get_range_image(urg04lx);
     // apply the braitenberg coefficients on the resulted values of the urg04lx
@@ -91,8 +91,7 @@ int main(int argc, char **argv) {
     }
     // overall front obstacle
     const double obstacle = left_obstacle + right_obstacle;
-    // compute the speed according to the information on
-    // obstacles
+    // compute the speed according to the information on obstacles
     if (obstacle > OBSTACLE_THRESHOLD) {
       const double speed_factor = (1.0 - DECREASE_FACTOR * obstacle) * MAX_SPEED / obstacle;
       left_speed = speed_factor * left_obstacle;

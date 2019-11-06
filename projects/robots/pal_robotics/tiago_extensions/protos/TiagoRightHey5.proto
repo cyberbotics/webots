@@ -339,9 +339,6 @@ PROTO TiagoRightHey5 [
                                   physics DEF HAND_RIGHT_FINGER_TIP_PHYSIC Physics {
                                     density -1
                                     mass 0.015
-                                    centerOfMass [
-                                      0.0096 0.003 0
-                                    ]
                                   }
                                 }
                               }
@@ -428,9 +425,6 @@ PROTO TiagoRightHey5 [
                       physics DEF HAND_RIGHT_FINGER_PHALANX_PHYSIC Physics {
                         density -1
                         mass 0.009
-                        centerOfMass [
-                          0.0047 0.0031 0
-                        ]
                       }
                     }
                   }
@@ -536,9 +530,6 @@ PROTO TiagoRightHey5 [
           physics Physics {
             density -1
             mass 0.014
-            centerOfMass [
-              -0.0132 0.0037 -0.0017
-            ]
           }
         }
       }
@@ -834,9 +825,6 @@ PROTO TiagoRightHey5 [
           physics DEF HAND_RIGHT_FIRST_PHALANX_PHYSIC Physics {
             density -1
             mass 0.018
-            centerOfMass [
-              -0.0018 0 0.0028
-            ]
           }
         }
       }
@@ -1511,9 +1499,6 @@ PROTO TiagoRightHey5 [
     physics Physics {
       density -1
       mass 0.4
-      centerOfMass [
-        0.0641 -0.0022 0.0021
-      ]
     }
   }
 }

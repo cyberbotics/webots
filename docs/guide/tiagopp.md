@@ -40,4 +40,4 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### tiago++.wbt
 
-![tiago++.wbt.png](images/robots/tiago++/tiago++.wbt.thumbnail.jpg) This simulation shows a TIAGo++ robot that automatically moves straight ahead but can also be controlled using the keyboard arrows.
+![tiago++.wbt.png](images/robots/tiago++/tiago++.wbt.thumbnail.jpg) This simulation shows a Tiago++ making hello with both arms in an industrial environment. It can also be controlled using the arrows on the keyboard.

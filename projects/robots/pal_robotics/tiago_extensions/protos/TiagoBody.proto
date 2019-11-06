@@ -379,9 +379,6 @@ PROTO TiagoBody [
                       physics Physics {
                         density -1
                         mass 0.66123
-                        centerOfMass [
-                          0.047 0.05542 0.00022
-                        ]
                       }
                     }
                   }
@@ -411,9 +408,6 @@ PROTO TiagoBody [
                 physics Physics {
                   density -1
                   mass 0.6222
-                  centerOfMass [
-                    -0.00508 0.00237 0.07229
-                  ]
                 }
               }
             }
@@ -460,9 +454,6 @@ PROTO TiagoBody [
           physics Physics {
             density -1
             mass 6.93198
-            centerOfMass [
-              0.0436 -0.0012 -0.1733
-            ]
           }
         }
       }
@@ -499,9 +490,6 @@ PROTO TiagoBody [
     physics Physics {
       density -1
       mass 14.0136
-      centerOfMass [
-        0.0244 -0.0046 0.159
-      ]
     }
   }
 }

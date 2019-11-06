@@ -628,9 +628,6 @@ PROTO TiagoRightArm [
                                         physics Physics {
                                           density -1
                                           mass 0.370063
-                                          centerOfMass [
-                                            -0.000153 -0.003122 0.000183
-                                          ]
                                         }
                                       }
                                     }
@@ -673,9 +670,6 @@ PROTO TiagoRightArm [
                                   physics Physics {
                                     density -1
                                     mass 1.655819
-                                    centerOfMass [
-                                      0.001078 -0.000151 -0.077173
-                                    ]
                                   }
                                 }
                               }
@@ -708,9 +702,6 @@ PROTO TiagoRightArm [
                             physics Physics {
                               density -1
                               mass 1.432697
-                              centerOfMass [
-                                -0.095658 0.014666 0.018133
-                              ]
                             }
                           }
                         }
@@ -742,9 +733,6 @@ PROTO TiagoRightArm [
                       physics Physics {
                         density -1
                         mass 2.343502
-                        centerOfMass [
-                          0.007418 -0.004361 -0.134194
-                        ]
                       }
                       translationStep 0.0001
                     }
@@ -778,9 +766,6 @@ PROTO TiagoRightArm [
                 physics Physics {
                   density -1
                   mass 1.800397
-                  centerOfMass [
-                    0.030432 0.000229 -0.005942
-                  ]
                 }
               }
             }
@@ -828,9 +813,6 @@ PROTO TiagoRightArm [
           physics Physics {
             density -1
             mass 1.563428
-            centerOfMass [
-              0.061191 -0.022397 -0.012835
-            ]
           }
         }
       }
@@ -874,9 +856,6 @@ PROTO TiagoRightArm [
     physics Physics {
       density -1
       mass 6.93198
-      centerOfMass [
-        0.04361 -0.00116 -0.17334
-      ]
     }
   }
 }

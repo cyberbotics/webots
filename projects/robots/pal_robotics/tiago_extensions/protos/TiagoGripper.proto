@@ -439,9 +439,6 @@ PROTO TiagoGripper [
             physics DEF GRIPPER_PHYSIC Physics {
               density -1
               mass 0.10998
-              centerOfMass [
-                -0.00447 0.01077 -0.121013
-              ]
             }
           }
         }
@@ -557,9 +554,6 @@ PROTO TiagoGripper [
             physics DEF GRIPPER_PHYSIC Physics {
               density -1
               mass 0.10998
-              centerOfMass [
-                -0.00447 0.01077 -0.121013
-              ]
             }
           }
         }
@@ -624,9 +618,6 @@ PROTO TiagoGripper [
       physics Physics {
         density -1
         mass 1
-        centerOfMass [
-          0 0 0
-        ]
       }
     }
 }

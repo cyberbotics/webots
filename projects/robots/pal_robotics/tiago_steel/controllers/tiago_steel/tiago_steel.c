@@ -26,15 +26,11 @@
 #include <webots/motor.h>
 #include <webots/robot.h>
 
-#define TIME_STEP 8
 #define MAX_SPEED 7.0  // [rad/s]
 #define MOTOR_LEFT 10
 #define MOTOR_RIGHT 11
 #define N_PARTS 12
 
-enum XYZAComponents { X, Y, Z, ALPHA };
-
-static int old_key = -1;
 static WbDeviceTag robot_parts[N_PARTS];
 
 static void check_keyboard() {
@@ -64,12 +60,13 @@ static void check_keyboard() {
 
   wb_motor_set_velocity(robot_parts[MOTOR_LEFT], speeds_left);
   wb_motor_set_velocity(robot_parts[MOTOR_RIGHT], speeds_right);
-  old_key = key;
 }
 
 int main(int argc, char **argv) {
   // init webots stuff
   wb_robot_init();
+
+  const int time_step = wb_robot_get_basic_time_step();
 
   // get devices
   // initialize the robot's information
@@ -79,13 +76,10 @@ int main(int argc, char **argv) {
 
   double target_pos[N_PARTS] = {0.24, -0.67, 0.09, 0.07, 0.26, -3.16, 1.27, 1.32, 0.0, 1.41, INFINITY, INFINITY};
 
-  double robot_parts_Vmax[N_PARTS] = {0.24, -0.67, 0.09, 0.07, 0.26, -3.16, 1.27, 1.32, 0.0, 1.41, MAX_SPEED, MAX_SPEED};
-
   // configures and achieves the robot's position desired
   for (int i = 0; i < N_PARTS; i++) {
     robot_parts[i] = wb_robot_get_device(names[i]);
-    robot_parts_Vmax[i] = wb_motor_get_max_velocity(robot_parts[i]);
-    wb_motor_set_velocity(robot_parts[i], robot_parts_Vmax[i] / 2.0);
+    wb_motor_set_velocity(robot_parts[i], wb_motor_get_max_velocity(robot_parts[i]) / 2.0);
     wb_motor_set_position(robot_parts[i], target_pos[i]);
   }
 
@@ -96,18 +90,16 @@ int main(int argc, char **argv) {
   printf("\n");
 
   // enable keyboard and start forward motion
-  wb_keyboard_enable(TIME_STEP);
-  wb_motor_set_velocity(robot_parts[MOTOR_LEFT], MAX_SPEED / 2.0);   // left
-  wb_motor_set_velocity(robot_parts[MOTOR_RIGHT], MAX_SPEED / 2.0);  // right
+  wb_keyboard_enable(time_step);
 
   double initTime = wb_robot_get_time();
 
-  while (wb_robot_step(TIME_STEP) != -1) {
+  while (wb_robot_step(time_step) != -1) {
     check_keyboard();
 
     // Hello mouvement
     double time = wb_robot_get_time() - initTime;
-    wb_motor_set_position(robot_parts[8], 0.3 * sin(5 * time) - 0.3);
+    wb_motor_set_position(robot_parts[8], 0.3 * sin(5.0 * time) - 0.3);
   };
 
   wb_robot_cleanup();
