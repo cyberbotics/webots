@@ -55,7 +55,7 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 .PHONY: clean cleanse debug distrib release webots_dependencies webots_target clean-docs docs
 
-release debug profile: docs webots_target
+release debug profile: webots_target
 
 distrib: release
 	@+echo "#"; echo "# packaging"; echo "#"
@@ -117,8 +117,6 @@ endif
 	@+make --silent -C src/lib/Controller $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * resources *";
 	@+make --silent -C resources $(MAKECMDGOALS) WEBOTS_HOME="$(WEBOTS_HOME)"
-	@+echo "#"; echo "# * projects *";
-	@+make --silent -C projects $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
 
 webots_dependencies:
 	@+echo "#"; echo "# * dependencies *"; echo "#"
