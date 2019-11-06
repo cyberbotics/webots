@@ -51,24 +51,18 @@ int main(int argc, char **argv) {
 
   // init urg04lx
   wb_lidar_enable(urg04lx, TIME_STEP);
-  wb_lidar_enable_point_cloud(urg04lx);
   const int urg04lx_width = wb_lidar_get_horizontal_resolution(urg04lx);
-  printf("urg04lx_width = %d\n", urg04lx_width);
   const int half_width = urg04lx_width / 2.0;
-  printf("urg04lx_half_width = %d\n", half_width);
   const float max_range = wb_lidar_get_max_range(urg04lx);
-  printf("max_range_lidar = %lf\n", max_range);
-  // Above 5.6m / 2.5 = 2.24m, points not used
+  // above 5.6m / 2.5 = 2.24m, points not used
   const double range_threshold = max_range / 2.0;
   const float *urg04lx_values = NULL;
 
   // init braitenberg coefficient
   double *const braitenberg_coefficients = (double *)malloc(sizeof(double) * urg04lx_width);
   int i, j;
-  for (i = 0; i < urg04lx_width; ++i) {
+  for (i = 0; i < urg04lx_width; ++i)
     braitenberg_coefficients[i] = gaussian(i, half_width, urg04lx_width / 10.0);
-    printf("b coeff = %lf\n", braitenberg_coefficients[i]);
-  }
   // init motors
   wb_motor_set_position(left_wheel, INFINITY);
   wb_motor_set_position(right_wheel, INFINITY);
@@ -97,9 +91,6 @@ int main(int argc, char **argv) {
     }
     // overall front obstacle
     const double obstacle = left_obstacle + right_obstacle;
-    printf("Left = %lf\n", left_obstacle);
-    printf("front= %lf\n", obstacle);
-    printf("right= %lf\n", right_obstacle);
     // compute the speed according to the information on
     // obstacles
     if (obstacle > OBSTACLE_THRESHOLD) {

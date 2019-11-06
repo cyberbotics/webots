@@ -5,21 +5,19 @@ WorldInfo {
   ]
   title "Simulation of PAL Robotics' TIAGo Titanium robot"
   basicTimeStep 16
-  lineScale 0.03
   contactProperties [
     ContactProperties {
       material2 "caster_wheel_friction"
       coulombFriction [
         0.1
       ]
-      bounce 0.1
     }
   ]
 }
 Viewpoint {
-  orientation 0.5999591213892953 -0.7671461899592319 -0.2270149243834397 5.3504523430872215
-  position 7.729525002170036 6.623642285480965 8.367417379475949
-  follow "TIAGo Base"
+  orientation 0.5375354754644479 -0.818525791482551 -0.2026601620819286 5.401719310083308
+  position 7.700672406123272 6.403379133034842 8.33459746144051
+  follow "TIAGo Titanium"
 }
 TexturedBackground {
   texture "factory"
@@ -28,12 +26,12 @@ TexturedBackgroundLight {
   texture "factory"
 }
 RectangleArena {
-  name "rectangle arena(1)"
+  name "rectangle arena"
   floorSize 15 15
   floorTileSize 1 1
   floorAppearance ThreadMetalPlate {
   }
-  wallHeight 2.4
+  wallHeight 3
   wallAppearance Roughcast {
     colorOverride 0.533333 0.541176 0.521569
     textureTransform TextureTransform {
@@ -43,6 +41,10 @@ RectangleArena {
 }
 TiagoTitanium {
   translation -4.41617 0.095 -1.06295
+  lidarExtension [
+    HokuyoUrg04lxug01 {
+    }
+  ]
 }
 WoodenBox {
   translation -6.2 0.405 -7
