@@ -15,7 +15,7 @@ The Windows version of Webots comes with a pre-installed copy of the MinGW C/C++
 The MinGW compiler is a port of the GNU Compiler Collection (gcc) on the Windows platform.
 The advantage of using the MinGW compiler will be the better portability of your controller code.
 If you develop your code with MinGW it will be straightforward to recompile it on the other Webots supported platforms: macOS and Linux.
-However, if you prefer to use Microsoft Visual Studio you will find instructions [here](using-visual-studio-with-webots.md).
+However, if you prefer to use Microsoft Visual Studio you will find instructions [here](using-your-ide.md#visual-studio).
 
 #### macOS Instructions
 
