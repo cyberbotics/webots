@@ -6,8 +6,8 @@ WorldInfo {
   title "Simulation of PAL Robotics' TIAGo Steel robot"
 }
 Viewpoint {
-  orientation 0.5375354754644479 -0.818525791482551 -0.2026601620819286 5.401719310083308
-  position 7.700672406123272 6.403379133034842 8.33459746144051
+  orientation 0.28882343295926544 -0.9512999432180493 -0.10774712342777662 5.502273164124365
+  position -0.9802615488886062 1.7304528074815935 2.665124377061189
   follow "TIAGo Steel"
 }
 TexturedBackground {
@@ -41,16 +41,16 @@ WoodenBox {
 }
 WoodenBox {
   translation -4.6 0.405 -7
-  name "wooden box(2)"
+  name "wooden box(1)"
 }
 WoodenBox {
   translation -0.189 0.3 -0.174
-  name "wooden box(1)"
+  name "wooden box(2)"
 }
 WoodenBox {
   translation -0.098 0.3 -0.994
   rotation 0 1 0 -2.618
-  name "wooden box(8)"
+  name "wooden box(3)"
 }
 WoodenBox {
   translation 0.248 0.901 -0.48
@@ -64,31 +64,31 @@ WoodenBox {
 }
 WoodenBox {
   translation -2.99 0.44 4
-  name "wooden box(3)"
-}
-WoodenBox {
-  translation 0 1.1 4
   name "wooden box(6)"
 }
 WoodenBox {
-  translation 3.6 1.1 4
+  translation 0 1.1 4
   name "wooden box(7)"
 }
 WoodenBox {
+  translation 3.6 1.1 4
+  name "wooden box(8)"
+}
+WoodenBox {
   translation 7.18 1.1 4
-  name "wooden box(10)"
+  name "wooden box(9)"
 }
 WoodenBox {
   translation 0 1.1 6
-  name "wooden box(12)"
+  name "wooden box(10)"
 }
 WoodenBox {
   translation 3.6 1.1 6
-  name "wooden box(13)"
+  name "wooden box(11)"
 }
 WoodenBox {
   translation 7.18 1.1 6
-  name "wooden box(14)"
+  name "wooden box(12)"
 }
 SolidBox {
   translation 7.49 0.85 4
@@ -106,7 +106,7 @@ SolidBox {
 }
 SolidBox {
   translation 7.49 0.85 6
-  name "box(15)"
+  name "box(1)"
   size 0.03 1.7 1
   appearance PBRAppearance {
     baseColor 0 0 0
@@ -122,7 +122,6 @@ SolidBox {
 ConveyorBelt {
   translation 2.47 0 4
   rotation 1 0 0 0
-  name "conveyor belt(2)"
   size 10 0.8 0.8
   speed 0
 }
@@ -138,8 +137,6 @@ FireExtinguisher {
 }
 WoodenPalletStack {
   translation -7 0 -6.85
-  rotation 0 1 0 0
-  name "wooden pallet stack(3)"
 }
 WoodenPalletStack {
   translation -5.4 0 -6.85
@@ -151,6 +148,7 @@ WoodenPalletStack {
 }
 WoodenPalletStack {
   translation -2.2 0 -6.85
+  name "wooden pallet stack(3)"
 }
 WoodenPallet {
   translation -3.112 0 4
@@ -159,21 +157,21 @@ WoodenPallet {
 WoodenPallet {
   translation -3.112 0 6
   rotation 0 1 0 1.5708
-  name "wooden pallet(4)"
+  name "wooden pallet(1)"
 }
 WoodenPallet {
   translation -6.274 0.141 5.328
   rotation 0 1 0 -0.524
-  name "wooden pallet(1)"
+  name "wooden pallet(2)"
 }
 WoodenPallet {
   translation -6.318 0.282 5.083
   rotation 0 1 0 0.524
-  name "wooden pallet(2)"
+  name "wooden pallet(3)"
 }
 WoodenPallet {
   translation -6.326 0.423 5.112
-  name "wooden pallet(3)"
+  name "wooden pallet(4)"
 }
 PlatformCart {
   translation 0.472 0 0.498
@@ -206,54 +204,75 @@ FloorLight {
   translation 7.073 0 -7.105
 }
 PannelWithTubes {
-  translation 6 0 -3.65
+  translation 7.1 0 -3.65
+  rotation 0 1 0 3.14159
 }
 PannelWithTubes {
-  translation 4.9 0 -3.65
+  translation 6.32 0 -3.65
+  rotation 0 1 0 3.14159
+  name "panel with tubes(1)"
+}
+PannelWithTubes {
+  translation 5.54 0 -3.65
+  rotation 0 1 0 3.14159
   name "panel with tubes(2)"
 }
 PannelWithTubes {
-  translation 3.76 0 -7.1
-  rotation 0 1 0 -1.571
+  translation 4.76 0 -3.65
+  rotation 0 1 0 3.14159
   name "panel with tubes(3)"
 }
 PannelWithTubes {
-  translation 3.76 0 -6
-  rotation 0 1 0 -1.571
+  translation 3.98 0 -3.65
+  rotation 0 1 0 3.14159
   name "panel with tubes(4)"
 }
 PannelWithTubes {
-  translation 3.76 0 -4.9
-  rotation 0 1 0 -1.571
+  translation 3.2 0 -4.47
+  rotation 0 1 0 1.57059
   name "panel with tubes(5)"
 }
 PannelWithTubes {
-  translation 7.1 0 -3.65
-  name "panel with tubes(1)"
+  translation 3.2 0 -5.25
+  rotation 0 1 0 1.57059
+  name "panel with tubes(6)"
+}
+PannelWithTubes {
+  translation 3.2 0 -6.03
+  rotation 0 1 0 1.57059
+  name "panel with tubes(7)"
+}
+PannelWithTubes {
+  translation 2.77 0 -6.45
+  rotation 0 1 0 -3.1456
+  name "panel with tubes(8)"
+}
+PottedTree {
+  translation 3.339 0 -3.785
 }
 DoubleFluorescentLamp {
   translation -5 2.5 5
   rotation -0.707 0 0.707 3.1416
-  name "double fuorescent lamp(1)"
 }
 DoubleFluorescentLamp {
   translation -5 2.5 0
   rotation -0.707 0 0.707 3.1416
-  name "double fuorescent lamp(3)"
+  name "double fuorescent lamp(1)"
 }
 DoubleFluorescentLamp {
   translation -5 2.5 -5
   rotation -0.707 0 0.707 3.1416
-  name "double fuorescent lamp(4)"
+  name "double fuorescent lamp(2)"
 }
 DoubleFluorescentLamp {
   translation 0 2.5 5
   rotation -0.707 0 0.707 3.1416
+  name "double fuorescent lamp(3)"
 }
 DoubleFluorescentLamp {
   translation 0 2.5 0
   rotation -0.707 0 0.707 3.1416
-  name "double fuorescent lamp(6)"
+  name "double fuorescent lamp(4)"
 }
 DoubleFluorescentLamp {
   translation 0 2.5 -5
@@ -263,12 +282,12 @@ DoubleFluorescentLamp {
 DoubleFluorescentLamp {
   translation 5 2.5 5
   rotation -0.707 0 0.707 3.1416
-  name "double fuorescent lamp(2)"
+  name "double fuorescent lamp(6)"
 }
 DoubleFluorescentLamp {
   translation 5 2.5 0
   rotation -0.707 0 0.707 3.1416
-  name "double fuorescent lamp(9)"
+  name "double fuorescent lamp(7)"
 }
 DoubleFluorescentLamp {
   translation 5 2.5 -5
@@ -307,27 +326,27 @@ StraightStairs {
   ]
 }
 OilBarrel {
-  translation -7.18 0.44 -1.20334
+  translation -7.18 0.44 -1.203
 }
 OilBarrel {
   translation -7.18 0.45 -1.9
-  name "oil barrel(2)"
+  name "oil barrel(1)"
 }
 OilBarrel {
   translation -7.18 0.44 -2.57
-  name "oil barrel(3)"
+  name "oil barrel(2)"
 }
 OilBarrel {
   translation -7.18 0.44 -3.25
-  name "oil barrel(4)"
+  name "oil barrel(3)"
 }
 OilBarrel {
   translation -7.18 0.44 -3.95
-  name "oil barrel(5)"
+  name "oil barrel(4)"
 }
 OilBarrel {
   translation -6.55 0.44 -3.64
-  name "oil barrel(1)"
+  name "oil barrel(5)"
 }
 OilBarrel {
   translation -6.55 0.44 -2.95
@@ -349,19 +368,19 @@ OilBarrel {
 OilBarrel {
   translation 5.892 0.305 -1.534
   rotation -0.935 -0.251 0.251 -1.638
-  name "oil barrel(13)"
+  name "oil barrel(10)"
 }
 OilBarrel {
   translation 1.31 0.44 -5.783
-  name "oil barrel(12)"
-}
-OilBarrel {
-  translation 1.017 0.44 -6.932
   name "oil barrel(11)"
 }
 OilBarrel {
+  translation 1.017 0.44 -6.932
+  name "oil barrel(12)"
+}
+OilBarrel {
   translation -0.08 0.44 -6.53
-  name "oil barrel(10)"
+  name "oil barrel(13)"
 }
 TrafficCone {
   translation 7.105 0 2.307
@@ -369,24 +388,24 @@ TrafficCone {
 }
 TrafficCone {
   translation 5.924 0 2.12
-  name "traffic cone(6)"
+  name "traffic cone(1)"
 }
 TrafficCone {
   translation 4.889 0 1.32
   rotation 0 1 0 -0.262
-  name "traffic cone(5)"
+  name "traffic cone(2)"
 }
 TrafficCone {
   translation 4.219 0 0.039
   rotation 0 -1 0 0.524
-  name "traffic cone(4)"
+  name "traffic cone(3)"
 }
 TrafficCone {
   translation 4.158 0 -1.273
   rotation 0 1 0 0.524
-  name "traffic cone(3)"
+  name "traffic cone(4)"
 }
 TrafficCone {
   translation 4.317 0 -2.52
-  name "traffic cone(2)"
+  name "traffic cone(5)"
 }

@@ -94,13 +94,13 @@ int main(int argc, char **argv) {
   // enable keyboard and start forward motion
   wb_keyboard_enable(time_step);
 
-  double initTime = wb_robot_get_time();
+  const double initialTime = wb_robot_get_time();
 
   while (wb_robot_step(time_step) != -1) {
     check_keyboard();
 
     // Hello mouvement
-    double time = wb_robot_get_time() - initTime;
+    const double time = wb_robot_get_time() - initialTime;
     wb_motor_set_position(robot_parts[6], 0.4 * sin(2.0 * time) + 1.17);   // arm_right_4_joint
     wb_motor_set_position(robot_parts[8], 0.3 * sin(5.0 * time));          // arm_right_6_joint
     wb_motor_set_position(robot_parts[13], 0.4 * sin(2.0 * time) + 1.17);  // arm_left_4_joint

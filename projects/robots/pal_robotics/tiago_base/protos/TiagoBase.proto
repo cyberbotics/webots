@@ -208,12 +208,12 @@ PROTO TiagoBase [
                       baseColor 0.133333 0.133333 0.133333
                       baseColorMap ImageTexture {
                         url [
-                          "/home/perretmichael/webots/projects/appearances/protos/textures/matte_car_paint/matte_car_paint_base_color.jpg"
+                          "textures/matte_car_paint_base_color.jpg"
                         ]
                       }
                       roughnessMap ImageTexture {
                         url [
-                          "/home/perretmichael/webots/projects/appearances/protos/textures/matte_car_paint/matte_car_paint_roughness.jpg"
+                          "textures/matte_car_paint_roughness.jpg"
                         ]
                       }
                       metalness 0
@@ -238,12 +238,12 @@ PROTO TiagoBase [
                       baseColor 0.133333 0.133333 0.133333
                       baseColorMap ImageTexture {
                         url [
-                          "/home/perretmichael/webots/projects/appearances/protos/textures/matte_car_paint/matte_car_paint_base_color.jpg"
+                          "textures/matte_car_paint_base_color.jpg"
                         ]
                       }
                       roughnessMap ImageTexture {
                         url [
-                          "/home/perretmichael/webots/projects/appearances/protos/textures/matte_car_paint/matte_car_paint_roughness.jpg"
+                          "textures/matte_car_paint_roughness.jpg"
                         ]
                       }
                       metalness 0
