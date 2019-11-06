@@ -37,6 +37,10 @@ skippedDirectories = [
     'projects/languages/ros/controllers/ros_python/python'
 ]
 
+if sys.version_info[0] < 3:
+    # this script works only with Python 3
+    skippedDirectories.append('scripts/preferences_cleaner')
+
 
 class FlakesReporter(Reporter):
     """Flakes reporter."""
