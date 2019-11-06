@@ -16,6 +16,7 @@
 
 '''Cleanup all the Webots preferences.'''
 
+from __future__ import print_function  # To display a correct error message when running from Python 2.
 import platform
 import sys
 
@@ -42,9 +43,9 @@ def cleanupMacOSPreferences():
         preferencesPath = Path(preferencesPath)
         preferenceReference = preferencesPath.stem
         print('Clearing the "%s" preferences...' % preferenceReference)
-        feedback = subprocess.run(['defaults', 'remove', preferenceReference])
-        assert feedback.returncode == 0, 'Issue occured when removing the "%s" preference.'
-        preferencesPath.unlink(missing_ok=True)
+        subprocess.run(['defaults', 'remove', preferenceReference])
+        if preferencesPath.exists():
+            preferencesPath.unlink()
 
 
 def cleanupWindowsPreferences():
