@@ -77,7 +77,7 @@ endif
 
 webots.min.js: $(JS_SOURCES) $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(THREEJS_SOURCE) $(INSTALL_TOKEN)
 	@echo "# compressing webots.min.js"
-	node_modules/.bin/babel $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(JS_SOURCES) $(BABEL_JS_SOURCES) -o webots.tmp1.js --presets "@babel/preset-env"
+	@node_modules/.bin/babel $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(JS_SOURCES) $(BABEL_JS_SOURCES) -o webots.tmp1.js --presets "@babel/preset-env"
 	@cat $(THREEJS_SOURCE) webots.tmp1.js > webots.tmp2.js
 	@node_modules/.bin/minify webots.tmp2.js -o webots.min.js
 	@rm webots.tmp2.js webots.tmp1.js
@@ -96,6 +96,8 @@ $(LOCAL_THREEJS_EXAMPLE_SOURCES):
 $(INSTALL_TOKEN): package.json
 	@echo "# installing npm dependencies"
 	@npm --silent install 1> /dev/null
+	# The following patch is about to hotfix this issue: https://github.com/babel/minify/issues/967
+	@sed 's/path.get("body")[0].inList = false;/node.body[0].inList = false;/g' node_modules/babel-plugin-minify-simplify/lib/index.js > node_modules/babel-plugin-minify-simplify/lib/index.js
 	@touch $(INSTALL_TOKEN)
 
 cleanse: clean
