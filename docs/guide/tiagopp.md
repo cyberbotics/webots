@@ -1,6 +1,6 @@
 ## PAL Robotics' TIAGo++
 
-%robot tiago++ images/robots/tiago++/model.thumbnail.png
+%robot tiagopp images/robots/tiago++/model.thumbnail.png
 
 Designed by PAL Robotics, TIAGo++ is a two-wheeled human-like robot with two articulated arms finished by parallel grippers as end-effector.
 The model includes two articulated arms with 7-DoF to perform coordinated dual-arm actions.

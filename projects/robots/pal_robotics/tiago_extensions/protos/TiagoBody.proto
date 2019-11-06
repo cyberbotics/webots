@@ -41,7 +41,7 @@ PROTO TiagoBody [
               }
               normalMap ImageTexture {
                 url [
-                  "textures/acoustic foam_normal.jpg"
+                  "textures/acoustic_foam_normal.jpg"
                 ]
               }
               occlusionMap ImageTexture {
