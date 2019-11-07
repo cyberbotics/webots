@@ -129,10 +129,7 @@ int main(int argc, char **argv) {
   }
 
   // print user instructions
-  printf("\f");
-  printf("You can drive this robot:\n");
-  printf("Select the 3D window and use cursor keys:\n");
-  printf("\n");
+  printf("You can drive this robot by selecting the 3D window and pressing the keyboard arrows.\n");
 
   // enable keyboard
   wb_keyboard_enable(time_step);
