@@ -38,7 +38,7 @@ Transform {
     }
   ]
 }
-Mirror {
+DEF MIRROR Mirror {
   translation 0 -2.0100000000000073 -0.7900000000000005
 }
 Robot {

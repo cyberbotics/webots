@@ -26,6 +26,15 @@ int main(int argc, char **argv) {
   // check mirror image recorded by a camera
   const int width = wb_camera_get_width(camera);
   const unsigned char *image = wb_camera_get_image(camera);
+  
+  wb_robot_step(5 * TIME_STEP);
+  
+  // DEBUG: check directly camera value
+  WbNodeRef mirror_node = wb_supervisor_node_get_from_def("MIRROR");
+  WbFieldRef custom_data_field = wb_supervisor_node_get_field(mirror_node, "customData");
+  const char *data = wb_supervisor_field_get_sf_string(custom_data_field);
+  printf("custom_data %s\n", data);
+  ts_assert_string_equal(data, "203 169 169", "The mirror camera value is wrong: %s.", data);  
 
   // check the top white  color
   int x = 30;
@@ -33,7 +42,7 @@ int main(int argc, char **argv) {
   int r = wb_camera_image_get_red(image, width, x, y);
   int g = wb_camera_image_get_green(image, width, x, y);
   int b = wb_camera_image_get_blue(image, width, x, y);
-  printf("color %d %d %d\n", r, g, b);
+  printf("white color %d %d %d\n", r, g, b);
   ts_assert_color_in_delta(r, g, b, 180, 180, 180, 5, "The white color of the mirror image in the 3D scene is wrong: %d %d %d.",
                            r, g, b);
 
@@ -43,7 +52,7 @@ int main(int argc, char **argv) {
   r = wb_camera_image_get_red(image, width, x, y);
   g = wb_camera_image_get_green(image, width, x, y);
   b = wb_camera_image_get_blue(image, width, x, y);
-  printf("color %d %d %d\n", r, g, b);
+  printf("red color %d %d %d\n", r, g, b);
   ts_assert_color_in_delta(r, g, b, 180, 156, 156, 5, "The red color of the mirror image in the 3D scene is wrong: %d %d %d.",
                            r, g, b);
 

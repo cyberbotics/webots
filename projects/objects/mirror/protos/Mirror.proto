@@ -17,6 +17,7 @@ PROTO Mirror [
   field SFFloat    frameThickness  0.02              # Defines the thickness of the mirror frame.
   field SFNode     physics         NULL              # Is `Solid.physics`.
   field SFNode     frameAppearance VarnishedPine {}  # Defines the appearance of the mirror frame.
+  field SFString   customData      ""
   
   # Deprecated in Webots R2019a
   hiddenField MFString   frameTexture    ["textures/wood.jpg"]
@@ -172,5 +173,6 @@ PROTO Mirror [
       ]
     }
     physics IS physics
+    customData IS customData
   }
 }
