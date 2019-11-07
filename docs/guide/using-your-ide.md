@@ -356,7 +356,7 @@ In the `Settings` window, select the `Project` / `Project Structure` tab, then, 
 
 The Webots Python API depends on the Webots CPP API, therefore, the path need to be modifed to include the Webots `lib` directory.
 This can be done from the `Run` / `Edit Configurations` menu.
-In the `Run Configurations` windows, press the `+` button and then select `Python`, then set the `Script path` to point to your python file and in the `Environment variables` define the path variable (i.e. `PATH` on Windows, `LD_LIBRARY_PATH` on Linux or `DYLD_LIBRARY_PATH` on macOS) to point to `WEBOTS_HOME/lib/controller` (or `WEBOTS_HOME\msys64\mingw64\bin` on Windows).
+In the `Run Configurations` windows, press the `+` button and then select `Python`, then set the `Script path` to point to your python file and in the `Environment variables` define the path variable (i.e. `PATH` on Windows, `LD_LIBRARY_PATH` on Linux or `DYLD_LIBRARY_PATH` on macOS) to point to `WEBOTS_HOME/lib/controller`.
 
 %figure "Addition of the Webots libraries to the path"
 
