@@ -17,6 +17,7 @@
 #include <webots/camera.h>
 #include <webots/display.h>
 #include <webots/robot.h>
+
 #include <stdio.h>
 
 #define TIME_STEP 32
@@ -31,9 +32,9 @@ int main(int argc, char **argv) {
   // get display and attach the camera to it
   WbDeviceTag display = wb_robot_get_device("display");
   wb_display_attach_camera(display, camera);
-  
+
   wb_robot_step(5 * TIME_STEP);
-  
+
   // check the red color
   const int width = wb_camera_get_width(camera);
   const unsigned char *image = wb_camera_get_image(camera);
