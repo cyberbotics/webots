@@ -56,7 +56,6 @@ int main(int argc, char **argv) {
 
   // init urg04lx
   wb_lidar_enable(urg04lx, time_step);
-  wb_lidar_enable_point_cloud(urg04lx);
   const int urg04lx_width = wb_lidar_get_horizontal_resolution(urg04lx);  // 667 points
 
   // defines sector range

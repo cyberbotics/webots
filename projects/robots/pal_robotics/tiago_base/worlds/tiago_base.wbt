@@ -20,7 +20,27 @@ RectangleArena {
   floorTileSize 1 1
   floorAppearance ThreadMetalPlate {
   }
-  wallHeight 3
+  wallHeight 2.5
+  wallAppearance Roughcast {
+    colorOverride 0.533333 0.541176 0.521569
+    textureTransform TextureTransform {
+      scale 5 1.75
+    }
+  }
+}
+DEF ROOF RectangleArena {
+  translation 0 2.5 0
+  rotation 1 0 0 3.141592653589793
+  name "rectangle arena(1)"
+  floorSize 15 15
+  floorTileSize 1 1
+  floorAppearance Roughcast {
+    colorOverride 0.533333 0.541176 0.521569
+    textureTransform TextureTransform {
+      scale 5 1.75
+    }
+  }
+  wallHeight 2.5
   wallAppearance Roughcast {
     colorOverride 0.533333 0.541176 0.521569
     textureTransform TextureTransform {
@@ -104,8 +124,24 @@ SolidBox {
   }
 }
 SolidBox {
-  translation 7.49 0.85 6
+  translation -6.9 2.5 -2.48
+  rotation -0.577 0.577 -0.577 2.094
   name "box(1)"
+  size 0.02 1.7 1.2
+  appearance PBRAppearance {
+    baseColor 0 0 0
+    baseColorMap ImageTexture {
+      url [
+        "textures/tagged_wall.jpg"
+      ]
+    }
+    roughness 0.5
+    metalness 0
+  }
+}
+SolidBox {
+  translation 7.49 0.85 6
+  name "box(2)"
   size 0.03 1.7 1
   appearance PBRAppearance {
     baseColor 0 0 0
@@ -366,7 +402,7 @@ OilBarrel {
 }
 OilBarrel {
   translation 5.826 0.305 0.356
-  rotation -0.678 0.52 -0.52 -1.95
+  rotation -0.677 0.519 -0.519 -1.95
   name "oil barrel(9)"
 }
 OilBarrel {
@@ -388,7 +424,6 @@ OilBarrel {
 }
 TrafficCone {
   translation -5.892 0 1.397
-  rotation 0 1 0 0
 }
 TrafficCone {
   translation -5.045 0 2.377
