@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
   WbFieldRef custom_data_field = wb_supervisor_node_get_field(mirror_node, "customData");
   const char *data = wb_supervisor_field_get_sf_string(custom_data_field);
   printf("custom_data %s\n", data);
-  ts_assert_string_equal(data, "180 180 180", "The mirror camera value is wrong: %s.", data);
+  ts_assert_string_equal(data, "203 169 169", "The mirror camera value is wrong: %s.", data);
 
   // check the top white  color
   int x = 30;
