@@ -77,7 +77,7 @@ endif
 
 webots.min.js: $(JS_SOURCES) $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(THREEJS_SOURCE) $(INSTALL_TOKEN)
 	@echo "# compressing webots.min.js"
-	node_modules/.bin/babel $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(JS_SOURCES) $(BABEL_JS_SOURCES) -o webots.tmp1.js --presets "@babel/preset-env"
+	@node_modules/.bin/babel $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(JS_SOURCES) $(BABEL_JS_SOURCES) -o webots.tmp1.js --presets "@babel/preset-env"
 	@cat $(THREEJS_SOURCE) webots.tmp1.js > webots.tmp2.js
 	@node_modules/.bin/minify webots.tmp2.js -o webots.min.js
 	@rm webots.tmp2.js webots.tmp1.js

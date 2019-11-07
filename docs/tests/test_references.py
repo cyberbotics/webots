@@ -31,13 +31,21 @@ class TestReferences(unittest.TestCase):
             for md_path in book.md_paths:
                 anchors = []
                 with open(md_path) as f:
+                    skipUntil = ''
                     for line in f:
+                        if skipUntil:
+                            if skipUntil in line:
+                                skipUntil = ''
+                            continue
                         if '<a' in line and 'name=' in line:
                             for m in re.finditer(
                                     r'<a[^>]*name\s*=\s*"(.*)"[^>]*>',
                                     line.strip()):
                                 anchors.append(m.group(1))
-                        if line.startswith('#'):
+                        if re.match(r'```', line):
+                            skipUntil = '```'
+                            continue
+                        elif line.startswith('#'):
                             m = re.match(r'^#{1,4} .*$', line)
                             if m:
                                 title = re.sub(r'^#*', '', line)
