@@ -130,7 +130,8 @@ void WbControlledWorld::startController(WbRobot *robot) {
 
 void WbControlledWorld::startControllerFromSocket(WbRobot *robot, QLocalSocket *socket) {
   if (robot->controllerName().isEmpty() || (socket == NULL && robot->controllerName() == "<extern>")) {
-    mRobotsWaitingExternController.append(robot);
+    if (robot->controllerName() == "<extern>")
+      mRobotsWaitingExternController.append(robot);
     connect(robot, &WbRobot::controllerChanged, this, &WbControlledWorld::updateCurrentRobotController, Qt::UniqueConnection);
     return;
   }

@@ -44,7 +44,7 @@ bool WbFileUtil::copyAndReplaceString(const QString &sourcePath, const QString &
   }
 
   QFile destinationFile(destinationPath);
-  if (!destinationFile.open(QIODevice::WriteOnly)) {
+  if (!destinationFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
     return false;
   }
 

@@ -30,6 +30,19 @@ bool WbDesktopServices::openUrl(const QString &url) {
   process.setStandardOutputFile(QProcess::nullDevice());
   return process.startDetached();
 #else
-  return QDesktopServices::openUrl(QUrl(url));
+#ifdef _WIN32
+  // The TEMP/TMP environment variables set my the MSYS2 console are confusing Visual C++ (among possibly other apps)
+  // as they refer to "/tmp" which is not a valid Windows path. It is therefore safer to remove them
+  const QByteArray TEMP = qgetenv("TEMP");
+  const QByteArray TMP = qgetenv("TMP");
+  qunsetenv("TMP");
+  qunsetenv("TEMP");
+#endif
+  bool result = QDesktopServices::openUrl(QUrl(url));
+#ifdef _WIN32
+  qputenv("TEMP", TEMP);
+  qputenv("TMP", TMP);
+#endif
+  return result;
 #endif
 }
