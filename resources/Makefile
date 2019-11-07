@@ -15,8 +15,11 @@
 distrib: release
 
 release debug profile:
+	@+make -s -C translations $@
 	@+make -s -C languages $@
 	@+make -s -C projects $@
+	@+make -s -C osm_importer $@
+	@+make -s -C web/wwi $@
 
 cleanse: clean
 

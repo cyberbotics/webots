@@ -48,7 +48,7 @@ if len(sys.argv) > 1:
         else:
             raise RuntimeError('Unknown option "' + arg + '"')
 
-testGroups = ['rendering']
+testGroups = ['api', 'physics', 'protos', 'parser', 'rendering']
 
 # global files
 testsFolderPath = os.environ['WEBOTS_HOME'] + os.sep + 'tests' + os.sep

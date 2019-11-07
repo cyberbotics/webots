@@ -16,7 +16,6 @@ jobs:
   include:
     - &source_tests_staging
       stage: Sources Tests
-      if: commit_message == skip
       name: Ubuntu 16.04 / Python 3.8
       git:
         depth: 3
@@ -141,7 +140,6 @@ jobs:
         - python tests/test_suite.py --no-ansi-escape --nomake
         - ./tests/ros.sh
     - <<: *unit_tests_staging
-      if: commit_message == skip
       name: Ubuntu 18.04 / Python 3.8 / openjdk 11 / ROS melodic
       dist: bionic
       jdk: openjdk11
