@@ -114,8 +114,6 @@ $(LOCAL_THREEJS_EXAMPLE_SOURCES):
 $(INSTALL_TOKEN): package.json
 	@echo "# installing npm dependencies"
 	@npm --silent install 1> /dev/null
-	# The following patch is about to hotfix this issue: https://github.com/babel/minify/issues/967
-	@sed 's/path.get("body")[0].inList = false;/node.body[0].inList = false;/g' node_modules/babel-plugin-minify-simplify/lib/index.js > node_modules/babel-plugin-minify-simplify/lib/index.js
 	@touch $(INSTALL_TOKEN)
 
 cleanse: clean
