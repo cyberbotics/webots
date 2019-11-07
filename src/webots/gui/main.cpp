@@ -14,6 +14,7 @@
 
 #include "WbApplication.hpp"
 #include "WbGuiApplication.hpp"
+#include "WbStandardPaths.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
@@ -110,6 +111,16 @@ int main(int argc, char *argv[]) {
   setvbuf(stderr, NULL, _IONBF, 0);
 #endif
 #endif
+  const QString QT_QPA_PLATFORM_PLUGIN_PATH = qEnvironmentVariable("QT_QPA_PLATFORM_PLUGIN_PATH");
+  if (QT_QPA_PLATFORM_PLUGIN_PATH.isEmpty()) {
+    const QString platformPluginPath =
+#ifdef _WIN32
+      WbStandardPaths::webotsMsys64Path() + "mingw64/share/qt5/plugins";
+#else
+      WbStandardPaths::webotsLibPath() + "qt/plugins";
+#endif
+    qputenv("QT_QPA_PLATFORM_PLUGIN_PATH", platformPluginPath.toUtf8());
+  }
   QLocale::setDefault(QLocale::c());
   QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));  // so that all QTextStream use UTF-8 encoding by default
 

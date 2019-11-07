@@ -360,8 +360,6 @@ void WbController::setProcessEnvironment() {
 #else
   addPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::webotsMsys64Path() + "usr/bin", false, true);
   addPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::webotsMsys64Path() + "mingw64/bin", false, true);
-  addPathEnvironmentVariable(env, "QT_QPA_PLATFORM_PLUGIN_PATH",
-                             WbStandardPaths::webotsMsys64Path() + "mingw64/share/qt5/plugins", true);
 #endif
 
   if (QFile::exists(mControllerPath + "runtime.ini")) {
