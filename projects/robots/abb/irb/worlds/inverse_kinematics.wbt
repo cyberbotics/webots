@@ -93,6 +93,7 @@ Robot {
       ]
     }
   ]
+  controller ""
 }
 DEF TABLE_WITH_PAPER_SHEET Transform {
   translation 1.1 0 5.8
