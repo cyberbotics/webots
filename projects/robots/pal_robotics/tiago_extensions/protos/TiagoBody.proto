@@ -7,6 +7,7 @@
 PROTO TiagoBody [
   field  SFVec3f     translation       -0.054 0 0.193
   field  SFRotation  rotation          0 1 0 0
+  field  MFNode      cameraExtension   []              # Extends the robot with a camera at head level.
   field  MFNode      rightArmExtension []              # Extends the robot with a right arm (such as the TiagoRightArm for example).
   field  MFNode      frontArmExtension []              # Extends the robot with a front arm (such as the TiagoLeftArm for example).
   field  MFNode      leftArmExtension  []              # Extends the robot with a left arm (such as the TiagoLeftArm for example).
@@ -276,6 +277,10 @@ PROTO TiagoBody [
                       translation 0.005 0 0.098
                       rotation 1 0 0 1.5708
                       children [
+                        DEF CAMERA Transform {
+                          translation 0.107 0.0802 0
+                          children IS cameraExtension
+                        }
                         DEF EYES Shape {
                           appearance GlossyPaint {
                             baseColor 0 0 0
