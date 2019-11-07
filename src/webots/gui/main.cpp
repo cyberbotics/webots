@@ -1,3 +1,4 @@
+#include <QtCore/QDebug>
 // Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -111,29 +112,32 @@ int main(int argc, char *argv[]) {
   setvbuf(stderr, NULL, _IONBF, 0);
 #endif
 #endif
-  const QString QT_QPA_PLATFORM_PLUGIN_PATH = qEnvironmentVariable("QT_QPA_PLATFORM_PLUGIN_PATH");
-  if (QT_QPA_PLATFORM_PLUGIN_PATH.isEmpty()) {
-    const QString platformPluginPath =
-#ifdef _WIN32
-      WbStandardPaths::webotsMsys64Path() + "mingw64/share/qt5/plugins";
-#else
-      WbStandardPaths::webotsLibPath() + "qt/plugins";
-#endif
-    qputenv("QT_QPA_PLATFORM_PLUGIN_PATH", platformPluginPath.toUtf8());
-  }
   QLocale::setDefault(QLocale::c());
   QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));  // so that all QTextStream use UTF-8 encoding by default
 
 #ifdef __linux__
   // on Linux, the webots binary is located in $WEBOTS_HOME/bin/webots-bin
-  const QString webotsDirPath(QFileInfo(argv[0]).absolutePath() + "/..");
+  const QString webotsDirPath = QDir(QFileInfo(argv[0]).absolutePath() + "/..").canonicalPath();
 #elif defined(__APPLE__)
   // on macOS, the webots binary is located in $WEBOTS_HOME/Contents/MacOS/webots-bin
-  const QString webotsDirPath(QFileInfo(argv[0]).absolutePath() + "/../..");
+  const QString webotsDirPath = QDir(QFileInfo(argv[0]).absolutePath() + "/../..").canonicalPath();
 #else
   // on Windows, the webots binary is located in $WEBOTS_HOME/msys64/mingw64/bin/webots
-  const QString webotsDirPath(QFileInfo(argv[0]).absolutePath() + "/../../..");
+  const QString webotsDirPath = QDir(QFileInfo(argv[0]).absolutePath() + "/../../..").canonicalPath();
 #endif
+
+  const QString QT_QPA_PLATFORM_PLUGIN_PATH = qEnvironmentVariable("QT_QPA_PLATFORM_PLUGIN_PATH");
+  if (QT_QPA_PLATFORM_PLUGIN_PATH.isEmpty()) {
+    const QString platformPluginPath =
+#ifdef _WIN32
+      webotsDirPath + "/msys64/mingw64/share/qt5/plugins";
+#else
+      // FIXME: the following line works only on the revision branch, on the develop branch it should be changed to:
+      // webotsDirPath + "/lib/webots/qt/plugins"
+      webotsDirPath + "/lib/qt/plugins";
+#endif
+    qputenv("QT_QPA_PLATFORM_PLUGIN_PATH", platformPluginPath.toUtf8());
+  }
 
   // load qt warning filters from file
   QString qtFiltersFilePath = QDir::fromNativeSeparators(webotsDirPath + "/resources/qt_warning_filters.conf");
