@@ -204,27 +204,8 @@ PROTO TiagoBase [
                 rotation 0 0 1 -1.5707896938995747
                 children [
                   Shape {
-                    appearance PBRAppearance {
-                      baseColor 0.133333 0.133333 0.133333
-                      baseColorMap ImageTexture {
-                        url [
-                          "textures/matte_car_paint_base_color.jpg"
-                        ]
-                      }
-                      roughnessMap ImageTexture {
-                        url [
-                          "textures/matte_car_paint_roughness.jpg"
-                        ]
-                      }
-                      metalness 0
-                      normalMapFactor 0.5
-                      textureTransform TextureTransform {
-                        scale 10 10
-                      }
-                    }
-                    geometry Cylinder {
-                      height 0.002
-                      radius 0.009
+                    appearance MattePaint {
+                      baseColor 0 0 0
                     }
                   }
                 ]
@@ -234,27 +215,8 @@ PROTO TiagoBase [
                 rotation 0 0 1 -1.5707896938995747
                 children [
                   Shape {
-                    appearance PBRAppearance {
-                      baseColor 0.133333 0.133333 0.133333
-                      baseColorMap ImageTexture {
-                        url [
-                          "textures/matte_car_paint_base_color.jpg"
-                        ]
-                      }
-                      roughnessMap ImageTexture {
-                        url [
-                          "textures/matte_car_paint_roughness.jpg"
-                        ]
-                      }
-                      metalness 0
-                      normalMapFactor 0.5
-                      textureTransform TextureTransform {
-                        scale 10 10
-                      }
-                    }
-                    geometry Cylinder {
-                      height 0.002
-                      radius 0.009
+                    appearance MattePaint {
+                      baseColor 0 0 0
                     }
                   }
                 ]
