@@ -19,6 +19,9 @@
 /mingw64/bin/libicuuc64.dll
 /mingw64/bin/libicuin64.dll
 /mingw64/bin/libicudt64.dll
+/mingw64/bin/libicuuc65.dll
+/mingw64/bin/libicuin65.dll
+/mingw64/bin/libicudt65.dll
 /mingw64/bin/libminizip-1.dll
 /mingw64/bin/libbz2-1.dll
 /mingw64/bin/libsqlite3-0.dll
