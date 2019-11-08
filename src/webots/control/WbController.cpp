@@ -357,8 +357,6 @@ void WbController::setProcessEnvironment() {
   // in order to be able to add easily dynamic libraries there
   // Note: on windows, this is the default behavior
   addPathEnvironmentVariable(env, ldEnvironmentVariable, mControllerPath, false, true);
-  // FIXME: on the develop branch, we should remove the setting of the QT_QPA_PLATFORM_PLUGIN_PATH environment variable from
-  // this file, as it is done in main.cpp now.
 #else
   addPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::webotsMsys64Path() + "usr/bin", false, true);
   addPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::webotsMsys64Path() + "mingw64/bin", false, true);
