@@ -1,0 +1,467 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+  info [
+    "This simulation shows a Tiago Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar."
+  ]
+  title "Simulation of PAL Robotics' TIAGo Base robot"
+}
+Viewpoint {
+  orientation 0.05732916548390367 0.9962878606918261 0.06421732961610703 4.655654070084208
+  position -6.255538309281095 0.4366268100324396 -1.0512025768441615
+  follow "TIAGo Base"
+  followSmoothness 0
+}
+TexturedBackground {
+  texture "factory"
+}
+TexturedBackgroundLight {
+  texture "factory"
+}
+RectangleArena {
+  floorSize 15 15
+  floorTileSize 1 1
+  floorAppearance ThreadMetalPlate {
+  }
+  wallHeight 2.5
+  wallAppearance Roughcast {
+    colorOverride 0.533333 0.541176 0.521569
+    textureTransform TextureTransform {
+      scale 5 1.75
+    }
+  }
+}
+DEF ROOF RectangleArena {
+  translation 0 2.5 0
+  rotation 1 0 0 3.141592653589793
+  name "rectangle arena(1)"
+  floorSize 15 15
+  floorTileSize 1 1
+  floorAppearance Roughcast {
+    colorOverride 0.533333 0.541176 0.521569
+    textureTransform TextureTransform {
+      scale 5 1.75
+    }
+  }
+  wallHeight 2.5
+  wallAppearance Roughcast {
+    colorOverride 0.533333 0.541176 0.521569
+    textureTransform TextureTransform {
+      scale 5 1.75
+    }
+  }
+}
+TiagoBase {
+  translation -4.416 0.095 -1.063
+  lidarExtension [
+    HokuyoUrg04lxug01 {
+    }
+  ]
+}
+WoodenBox {
+  translation -6.2 0.405 -7
+}
+WoodenBox {
+  translation -4.6 0.405 -7
+  name "wooden box(1)"
+}
+WoodenBox {
+  translation -0.189 0.3 -0.174
+  name "wooden box(2)"
+}
+WoodenBox {
+  translation -0.098 0.3 -0.994
+  rotation 0 1 0 -2.618
+  name "wooden box(3)"
+}
+WoodenBox {
+  translation 0.248 0.901 -0.48
+  rotation 0 1 0 -0.524
+  name "wooden box(4)"
+}
+WoodenBox {
+  translation 0.631 0.3 -0.397
+  rotation 0 1 0 0.262
+  name "wooden box(5)"
+}
+WoodenBox {
+  translation -2.99 0.44 4
+  name "wooden box(6)"
+}
+WoodenBox {
+  translation 0 1.1 4
+  name "wooden box(7)"
+}
+WoodenBox {
+  translation 3.6 1.1 4
+  name "wooden box(8)"
+}
+WoodenBox {
+  translation 7.18 1.1 4
+  name "wooden box(9)"
+}
+WoodenBox {
+  translation 0 1.1 6
+  name "wooden box(10)"
+}
+WoodenBox {
+  translation 3.6 1.1 6
+  name "wooden box(11)"
+}
+WoodenBox {
+  translation 7.18 1.1 6
+  name "wooden box(12)"
+}
+SolidBox {
+  translation 7.49 0.85 4
+  size 0.03 1.7 1
+  appearance PBRAppearance {
+    baseColor 0 0 0
+    baseColorMap ImageTexture {
+      url [
+        "textures/tagged_wall.jpg"
+      ]
+    }
+    roughness 0.5
+    metalness 0
+  }
+}
+SolidBox {
+  translation -6.9 2.5 -2.48
+  rotation -0.5773502691896258 0.5773502691896258 -0.5773502691896258 2.094
+  name "box(1)"
+  size 0.02 1.7 1.2
+  appearance PBRAppearance {
+    baseColor 0 0 0
+    baseColorMap ImageTexture {
+      url [
+        "textures/tagged_wall.jpg"
+      ]
+    }
+    roughness 0.5
+    metalness 0
+  }
+}
+SolidBox {
+  translation 7.49 0.85 6
+  name "box(2)"
+  size 0.03 1.7 1
+  appearance PBRAppearance {
+    baseColor 0 0 0
+    baseColorMap ImageTexture {
+      url [
+        "textures/tagged_wall.jpg"
+      ]
+    }
+    roughness 0.5
+    metalness 0
+  }
+}
+ConveyorBelt {
+  translation 2.47 0 4
+  rotation 1 0 0 0
+  size 10 0.8 0.8
+  speed 0
+}
+ConveyorBelt {
+  translation 2.47 0 6
+  rotation 1 0 0 0
+  name "conveyor belt(1)"
+  size 10 0.8 0.8
+  speed 0
+}
+FireExtinguisher {
+  translation -1.18 0 -7.38
+}
+WoodenPalletStack {
+  translation -7 0 -6.85
+}
+WoodenPalletStack {
+  translation -5.4 0 -6.85
+  name "wooden pallet stack(1)"
+}
+WoodenPalletStack {
+  translation -3.8 0 -6.85
+  name "wooden pallet stack(2)"
+}
+WoodenPalletStack {
+  translation -2.2 0 -6.85
+  name "wooden pallet stack(3)"
+}
+WoodenPallet {
+  translation -6.24 0 5.27
+  rotation 0 1 0 1.8326
+}
+WoodenPallet {
+  translation -3.11 0 4
+  rotation 0 1 0 1.5708
+  name "wooden pallet(1)"
+}
+WoodenPallet {
+  translation -3.112 0 6
+  rotation 0 1 0 1.5708
+  name "wooden pallet(2)"
+}
+WoodenPallet {
+  translation -6.274 0.141 5.328
+  rotation 0 1 0 -0.524
+  name "wooden pallet(3)"
+}
+WoodenPallet {
+  translation -6.318 0.282 5.083
+  rotation 0 1 0 0.524
+  name "wooden pallet(4)"
+}
+WoodenPallet {
+  translation -6.326 0.423 5.112
+  name "wooden pallet(5)"
+}
+PlatformCart {
+  translation 0.472 0 0.498
+  rotation 0 -1 0 -0.524
+}
+PlatformCart {
+  translation -4.6 0 -7
+  rotation 0 1 0 1.5708
+  name "platform cart(1)"
+}
+PlatformCart {
+  translation -6.2 0 -7
+  rotation 0 -1 0 -1.571
+  name "platform cart(2)"
+}
+Sofa {
+  translation 5.586 0 -7.001
+  rotation 0 1 0 -1.571
+}
+Sofa {
+  translation 6.99 0 -5.543
+  rotation 0 1 0 3.1416
+  name "sofa(1)"
+}
+Table {
+  translation 5.507 0 -5.65
+  size 1 0.4 1
+}
+FloorLight {
+  translation 7.073 0 -7.105
+}
+PannelWithTubes {
+  translation 7.1 0 -3.65
+  rotation 0 1 0 3.14159
+}
+PannelWithTubes {
+  translation 6.32 0 -3.65
+  rotation 0 1 0 3.14159
+  name "panel with tubes(1)"
+}
+PannelWithTubes {
+  translation 5.54 0 -3.65
+  rotation 0 1 0 3.14159
+  name "panel with tubes(2)"
+}
+PannelWithTubes {
+  translation 4.76 0 -3.65
+  rotation 0 1 0 3.14159
+  name "panel with tubes(3)"
+}
+PannelWithTubes {
+  translation 3.98 0 -3.65
+  rotation 0 1 0 3.14159
+  name "panel with tubes(4)"
+}
+PannelWithTubes {
+  translation 3.2 0 -4.47
+  rotation 0 1 0 1.57059
+  name "panel with tubes(5)"
+}
+PannelWithTubes {
+  translation 3.2 0 -5.25
+  rotation 0 1 0 1.57059
+  name "panel with tubes(6)"
+}
+PannelWithTubes {
+  translation 3.2 0 -6.03
+  rotation 0 1 0 1.57059
+  name "panel with tubes(7)"
+}
+PannelWithTubes {
+  translation 2.77 0 -6.45
+  rotation 0 1 0 -3.1456
+  name "panel with tubes(8)"
+}
+PottedTree {
+  translation 3.339 0 -3.785
+}
+DoubleFluorescentLamp {
+  translation -5 2.5 5
+  rotation -0.7071067811865475 0 0.7071067811865475 3.1416
+}
+DoubleFluorescentLamp {
+  translation -5 2.5 0
+  rotation -0.7071067811865475 0 0.7071067811865475 3.1416
+  name "double fuorescent lamp(1)"
+}
+DoubleFluorescentLamp {
+  translation -5 2.5 -5
+  rotation -0.7071067811865475 0 0.7071067811865475 3.1416
+  name "double fuorescent lamp(2)"
+}
+DoubleFluorescentLamp {
+  translation 0 2.5 5
+  rotation -0.7071067811865475 0 0.7071067811865475 3.1416
+  name "double fuorescent lamp(3)"
+}
+DoubleFluorescentLamp {
+  translation 0 2.5 0
+  rotation -0.7071067811865475 0 0.7071067811865475 3.1416
+  name "double fuorescent lamp(4)"
+}
+DoubleFluorescentLamp {
+  translation 0 2.5 -5
+  rotation -0.7071067811865475 0 0.7071067811865475 3.1416
+  name "double fuorescent lamp(5)"
+}
+DoubleFluorescentLamp {
+  translation 5 2.5 5
+  rotation -0.7071067811865475 0 0.7071067811865475 3.1416
+  name "double fuorescent lamp(6)"
+}
+DoubleFluorescentLamp {
+  translation 5 2.5 0
+  rotation -0.7071067811865475 0 0.7071067811865475 3.1416
+  name "double fuorescent lamp(7)"
+}
+DoubleFluorescentLamp {
+  translation 5 2.5 -5
+  rotation -0.7071067811865475 0 0.7071067811865475 3.1416
+  name "double fuorescent lamp(8)"
+}
+StraightStairs {
+  translation -6.92 0 0.6
+  rotation 0 1 0 1.5708
+  stepSize 0.2 0.03 1.1
+  stepRise 0.13
+  nSteps 20
+  stringerWidth 0.03
+  stepAppearance ThreadMetalPlate {
+    textureTransform TextureTransform {
+      scale 0.4 2.2
+    }
+  }
+  stringerAppearance BrushedAluminium {
+    colorOverride 0.533333 0.541176 0.521569
+    textureTransform TextureTransform {
+      scale 20 20
+    }
+  }
+  leftRail []
+  rightRail [
+    StraightStairsRail {
+      translation -0.02 -0.13 0
+      run 3.84
+      rise 2.5
+      newelHeight 0.8
+      balusterHeight 0.62
+      appearance Rubber {
+      }
+    }
+  ]
+}
+OilBarrel {
+  translation -7.18 0.44 -1.203
+}
+OilBarrel {
+  translation -7.18 0.45 -1.9
+  name "oil barrel(1)"
+}
+OilBarrel {
+  translation -7.18 0.44 -2.57
+  name "oil barrel(2)"
+}
+OilBarrel {
+  translation -7.18 0.44 -3.25
+  name "oil barrel(3)"
+}
+OilBarrel {
+  translation -7.18 0.44 -3.95
+  name "oil barrel(4)"
+}
+OilBarrel {
+  translation -6.55 0.44 -3.64
+  name "oil barrel(5)"
+}
+OilBarrel {
+  translation -6.55 0.44 -2.95
+  name "oil barrel(6)"
+}
+OilBarrel {
+  translation -6.55 0.44 -2.26
+  name "oil barrel(7)"
+}
+OilBarrel {
+  translation -6.55 0.44 -1.58
+  name "oil barrel(8)"
+}
+OilBarrel {
+  translation 5.826 0.305 0.356
+  rotation -0.6780004497894071 0.5197669622462368 -0.5197669622462368 -1.95
+  name "oil barrel(9)"
+}
+OilBarrel {
+  translation 5.892 0.305 -1.534
+  rotation -0.9353625232302415 -0.25009693134498434 0.25009693134498434 -1.638
+  name "oil barrel(10)"
+}
+OilBarrel {
+  translation 1.31 0.44 -5.783
+  name "oil barrel(11)"
+}
+OilBarrel {
+  translation 1.017 0.44 -6.932
+  name "oil barrel(12)"
+}
+OilBarrel {
+  translation -0.08 0.44 -6.53
+  name "oil barrel(13)"
+}
+TrafficCone {
+  translation -5.892 0 1.397
+}
+TrafficCone {
+  translation -5.045 0 2.377
+  rotation 0 1 0 -0.785
+  name "traffic cone(1)"
+}
+TrafficCone {
+  translation -3.996 0 3.072
+  rotation 0 1 0 0.262
+  name "traffic cone(2)"
+}
+TrafficCone {
+  translation 6.425 0 2.282
+  rotation 0 1 0 0.262
+  name "traffic cone(3)"
+}
+TrafficCone {
+  translation 5.034 0 2.12
+  name "traffic cone(4)"
+}
+TrafficCone {
+  translation 4.128 0 1.239
+  rotation 0 1 0 -0.262
+  name "traffic cone(5)"
+}
+TrafficCone {
+  translation 4.289 0 -0.082
+  rotation 0 -1 0 0.524
+  name "traffic cone(6)"
+}
+TrafficCone {
+  translation 4.158 0 -1.273
+  rotation 0 1 0 0.524
+  name "traffic cone(7)"
+}
+TrafficCone {
+  translation 4.317 0 -2.52
+  name "traffic cone(8)"
+}
