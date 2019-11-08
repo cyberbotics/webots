@@ -14,7 +14,6 @@
 
 #include "WbApplication.hpp"
 #include "WbGuiApplication.hpp"
-#include "WbStandardPaths.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
