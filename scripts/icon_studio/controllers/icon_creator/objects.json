@@ -889,5 +889,20 @@
   "projects/robots/clearpath/moose/protos/Moose.proto": {
     "background": [1.0, 0.0, 1.0],
     "fields": "translation 0 0.38 0 rotation 0 1 0 5.76"
+  },
+  "projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto": {
+    "fields": "rotation 1 0 0 -1.5708"
+  },
+  "projects/robots/pal_robotics/tiago_iron/protos/TiagoIron.proto": {
+    "fields": "rotation 1 0 0 -1.5708"
+  },
+  "projects/robots/pal_robotics/tiago_steel/protos/TiagoSteel.proto": {
+    "fields": "rotation 1 0 0 -1.5708"
+  },
+  "projects/robots/pal_robotics/tiago_titanium/protos/TiagoTitanium.proto": {
+    "fields": "rotation 1 0 0 -1.5708"
+  },
+  "projects/robots/pal_robotics/tiago++/protos/Tiago++.proto": {
+    "fields": "rotation 1 0 0 -1.5708"
   }
 }

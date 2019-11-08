@@ -1,0 +1,121 @@
+{
+  "robotID": "n28", 
+  "name": "tiago-iron", 
+  "devices": [
+    {
+      "transformID": "n846", 
+      "initialPosition": 0, 
+      "name": "head_1_joint", 
+      "maxPosition": 1.24, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.24, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n861", 
+      "initialPosition": 1.5708, 
+      "name": "head_2_joint", 
+      "maxPosition": 0.79, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -0.98, 
+      "axis": "0 -1 0"
+    }, 
+    {
+      "transformID": "n332", 
+      "initialPosition": 1.5708, 
+      "name": "wheel_left_joint", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n299", 
+      "initialPosition": 1.5708, 
+      "name": "wheel_right_joint", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n821", 
+      "initialPosition": 0, 
+      "name": "torso_lift_joint", 
+      "maxPosition": 0.35, 
+      "position": 0, 
+      "type": "LinearMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n28", 
+      "type": "Accelerometer", 
+      "name": "accelerometer"
+    }, 
+    {
+      "transformID": "n220", 
+      "type": "TouchSensor", 
+      "name": "base_cover_link"
+    }, 
+    {
+      "transformID": "n273", 
+      "type": "DistanceSensor", 
+      "name": "base_sonar_01_link"
+    }, 
+    {
+      "transformID": "n251", 
+      "type": "DistanceSensor", 
+      "name": "base_sonar_02_link"
+    }, 
+    {
+      "transformID": "n229", 
+      "type": "DistanceSensor", 
+      "name": "base_sonar_03_link"
+    }, 
+    {
+      "transformID": "n28", 
+      "type": "Gyro", 
+      "name": "gyro"
+    }, 
+    {
+      "transformID": "n846", 
+      "type": "PositionSensor", 
+      "name": "head_1_joint_sensor"
+    }, 
+    {
+      "transformID": "n861", 
+      "type": "PositionSensor", 
+      "name": "head_2_joint_sensor"
+    }, 
+    {
+      "transformID": "n917", 
+      "type": "Lidar", 
+      "name": "Hokuyo URG-04LX-UG01"
+    }, 
+    {
+      "transformID": "n28", 
+      "type": "InertialUnit", 
+      "name": "inertial unit"
+    }, 
+    {
+      "transformID": "n821", 
+      "type": "PositionSensor", 
+      "name": "torso_lift_joint_sensor"
+    }, 
+    {
+      "transformID": "n332", 
+      "type": "PositionSensor", 
+      "name": "wheel_left_joint_sensor"
+    }, 
+    {
+      "transformID": "n299", 
+      "type": "PositionSensor", 
+      "name": "wheel_right_joint_sensor"
+    }
+  ]
+}
