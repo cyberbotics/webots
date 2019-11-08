@@ -131,8 +131,6 @@ int main(int argc, char *argv[]) {
 #ifdef _WIN32
       webotsDirPath + "/msys64/mingw64/share/qt5/plugins";
 #else
-      // FIXME: the following line works only on the revision branch, on the develop branch it should be changed to:
-      // webotsDirPath + "/lib/webots/qt/plugins"
       webotsDirPath + "/lib/qt/plugins";
 #endif
     qputenv("QT_QPA_PLATFORM_PLUGIN_PATH", platformPluginPath.toUtf8());
