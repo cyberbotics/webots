@@ -6,23 +6,26 @@
 #
 # Supported values for the `texture` field:
 #
+# - dusk
+# - empty_office
+# - entrance_hall
+# - factory
+# - mars
+# - noon_building_overcast
+# - noon_cloudy_countryside
+# - noon_park_empty
+# - mountains
+#
+# Deprecated backgrounds:
+#
 # - dawn_cloudy_empty
-# - dusk (HDR)
-# - empty_office (HDR)
-# - entrance_hall (HDR)
-# - factory (HDR)
-# - mars (HDR)
 # - morning_cloudy_empty
-# - noon_building_overcast (HDR)
-# - noon_cloudy_countryside (HDR)
 # - noon_cloudy_empty
 # - noon_cloudy_mountains
-# - noon_park_empty (HDR)
 # - noon_stormy_empty
 # - noon_sunny_empty
 # - noon_sunny_garden
 # - twilight_cloudy_empty
-# - mountains (HDR)
 
 PROTO TexturedBackground [
   field  SFString{"dawn_cloudy_empty", "dusk", "empty_office", "entrance_hall", "factory", "mars", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
