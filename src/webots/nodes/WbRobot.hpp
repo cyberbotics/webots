@@ -25,6 +25,7 @@
 #include <QtCore/QVarLengthArray>
 #include <QtCore/QVector>
 
+class WbAbstractCamera;
 class WbDevice;
 class WbJoystickInterface;
 class WbKinematicDifferentialWheels;
@@ -65,6 +66,8 @@ public:
   bool isWaitingForUserInputEvent() const;
   bool isWaitingForWindow() const { return mWaitingForWindow; }
   void setWaitingForWindow(bool waiting);
+
+  void renderCameras();
 
   // path to the project folder containing the proto model
   // returns an empty string if the robot is not a proto node
@@ -137,6 +140,7 @@ signals:
   void controllerChanged();
   void controllerRestarted();
   void controllerExited();
+  void cameraRenderingStarted();
   void toggleRemoteMode(bool enable);
   void sendToJavascript(const QByteArray &);
   void appendMessageToConsole(const QString &message, bool useStdout);
@@ -237,6 +241,7 @@ private:
   // other variables
   QList<WbDevice *> mDevices;
   QList<WbRenderingDevice *> mRenderingDevices;
+  QList<WbAbstractCamera *> mActiveCameras;
 
   QList<int> mPressedKeys;
 
@@ -254,6 +259,7 @@ private:
 
 private slots:
   void updateDevicesAfterDestruction();
+  void updateActiveCameras(WbAbstractCamera *camera, bool isActive);
   void updateWindow();
   void updateRemoteControl();
   void updateSimulationMode();
