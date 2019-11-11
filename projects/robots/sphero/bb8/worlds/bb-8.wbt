@@ -13,10 +13,10 @@ Viewpoint {
   follow "BB-8"
 }
 TexturedBackground {
-  texture "dawn_cloudy_empty"
+  texture "mars"
 }
 TexturedBackgroundLight {
-  texture "dawn_cloudy_empty"
+  texture "mars"
 }
 UnevenTerrain {
   size 500 60 500

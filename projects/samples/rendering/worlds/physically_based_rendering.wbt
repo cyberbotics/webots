@@ -14,7 +14,6 @@ Viewpoint {
   near 0.049999999999999996
 }
 TexturedBackground {
-  texture "noon_cloudy_empty"
 }
 TexturedBackgroundLight {
 }

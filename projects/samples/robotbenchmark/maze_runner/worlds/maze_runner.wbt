@@ -26,7 +26,11 @@ Viewpoint {
   followSmoothness 0.01
 }
 TexturedBackground {
-  texture "noon_cloudy_empty"
+  texture "empty_office"
+  skybox FALSE
+  fallbackSkyboxColor [
+    0.4 0.4 0.4
+  ]
 }
 DirectionalLight {
   direction -0.6 -1 0.55

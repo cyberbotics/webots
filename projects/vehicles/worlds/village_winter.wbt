@@ -169,10 +169,10 @@ Viewpoint {
   near 10
 }
 TexturedBackground {
-  texture "noon_cloudy_mountains"
+  texture "dusk"
 }
 TexturedBackgroundLight {
-  texture "noon_cloudy_mountains"
+  texture "dusk"
 }
 Floor {
   translation 0 -0.02 0
