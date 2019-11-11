@@ -7,6 +7,7 @@
 # Supported values for the `texture` field:
 #
 # - dawn_cloudy_empty
+# - dusk (HDR)
 # - empty_office (HDR)
 # - entrance_hall (HDR)
 # - factory (HDR)
