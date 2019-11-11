@@ -22,7 +22,7 @@
 # - mountains
 
 PROTO TexturedBackgroundLight [
-  field  SFString{"dawn_cloudy_empty", "empty_office", "entrance_hall", "factory", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
+  field  SFString{"dawn_cloudy_empty", "dusk", "empty_office", "entrance_hall", "factory", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
                   texture        "mountains"  # Should be equivalent to the 'texture' field of the TexturedBackground.
   field  SFFloat  luminosity  1               # Multiplies the `Light.intensity` field.
   field  SFBool   castShadows    TRUE         # Defines whether the light should cast shadows.
@@ -34,7 +34,11 @@ PROTO TexturedBackgroundLight [
     local intensity = 1.0
     local on = true
     local luminosity = fields.luminosity.value > 0.0 and fields.luminosity.value or 0.0
-    if fields.texture.value == "empty_office" then
+    if fields.texture.value == "dusk" then
+      direction = {-1.2, -0.3, -0.6}
+      color = {1.0, 0.95, 0.8}
+      intensity = 0.5
+    elseif fields.texture.value == "empty_office" then
       direction = {-0.2, -0.5, -0.9}
       intensity = 0.05
     elseif fields.texture.value == "dawn_cloudy_empty" then
