@@ -26,11 +26,11 @@
 
 PROTO TexturedBackground [
   field  SFString{"dawn_cloudy_empty", "dusk", "empty_office", "entrance_hall", "factory", "mars", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
-                  texture "mountains"    # Defines the texture of the background.
-  field  SFFloat  luminosity    1        # Is `Background.luminosity`.
-  field  SFBool   panorama      TRUE     # Specifies if the background is used to define the background panorama.
-  field  SFBool   reflections   TRUE     # Specifies if the background is used in the material reflections.
-  field  MFColor  fallbackColor [0 0 0]  # Defines the background color in case the panorama is not defined.
+                  texture "mountains"          # Defines the texture of the background.
+  field  SFFloat  luminosity    1              # Is `Background.luminosity`.
+  field  SFBool   skybox        TRUE           # Specifies if the background is used to define the textured skybox.
+  field  SFBool   reflections   TRUE           # Specifies if the background is used in the material reflections.
+  field  MFColor  fallbackSkyboxColor [0 0 0]  # Defines the background color in case the skybox is not defined.
 ]
 {
   %{
@@ -49,8 +49,8 @@ PROTO TexturedBackground [
     local path = "textures/cubic"
   }%
   Background {
-    skyColor IS fallbackColor
-    %{ if fields.panorama.value then }%
+    skyColor IS fallbackSkyboxColor
+    %{ if fields.skybox.value then }%
       backUrl [
         %{= "\"" .. path .. "/" .. texture .. "_back." .. extension .. "\"" }%
       ]
