@@ -6,19 +6,15 @@ Background textured with a skybox.
 
 Supported values for the `texture` field:
 
-- dawn\_cloudy\_empty
-- empty\_office (HDR)
-- factory (HDR)
-- morning\_cloudy\_empty
-- noon\_building\_overcast (HDR)
-- noon\_cloudy\_empty
-- noon\_cloudy\_mountains
-- noon\_park\_empty (HDR)
-- noon\_stormy\_empty
-- noon\_sunny\_empty
-- noon\_sunny\_garden
-- twilight\_cloudy\_empty
-- mountains (HDR)
+- dusk
+- empty\_office
+- entrance\_hall
+- factory
+- mars
+- noon\_building\_overcast
+- noon\_cloudy\_countryside
+- noon\_park\_empty
+- mountains
 
 %figure
 
@@ -30,7 +26,11 @@ Derived from [Background](../reference/background.md).
 
 ```
 TexturedBackground {
-   SFString texture "mountains"
+  SFString texture             "mountains"
+  SFFloat  luminosity          1
+  SFBool   skybox              TRUE
+  SFBool   reflections         TRUE
+  MFColor  fallbackSkyboxColor [0 0 0]
 }
 ```
 
@@ -43,24 +43,28 @@ TexturedBackground {
 
 - `texture`: Defines the texture of the background.
 
+- `luminosity`: Is `Background.luminosity`.
+
+- `skybox`: Specifies if the background is used to define the textured skybox.
+
+- `reflections`: Specifies if the background is used in the material reflections.
+
+- `fallbackSkyboxColor`: Defines the background color in case the skybox is not defined.
+
 ## TexturedBackgroundLight
 
 Light designed to match the skyboxes in the TexturedBackground PROTO.
 
-Supported values for the "texture" field:
+Supported values for the `texture` field:
 
-- dawn\_cloudy\_empty
+- dusk
 - empty\_office
+- entrance\_hall
 - factory
-- morning\_cloudy\_empty
+- mars
 - noon\_building\_overcast
-- noon\_cloudy\_empty
-- noon\_cloudy\_mountains
+- noon\_cloudy\_countryside
 - noon\_park\_empty
-- noon\_stormy\_empty
-- noon\_sunny\_empty
-- noon\_sunny\_garden
-- twilight\_cloudy\_empty
 - mountains
 
 %figure
@@ -88,4 +92,3 @@ TexturedBackgroundLight {
 - `texture`: Should be equivalent to the 'texture' field of the TexturedBackground.
 
 - `castShadows`: Defines whether the light should cast shadows.
-
