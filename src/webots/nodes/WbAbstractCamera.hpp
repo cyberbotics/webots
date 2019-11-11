@@ -16,6 +16,7 @@
 #define WB_ABSTRACT_CAMERA_HPP
 
 #include "WbRenderingDevice.hpp"
+#include "WbSensor.hpp"
 
 struct WrTransform;
 struct WrStaticMesh;
@@ -24,7 +25,6 @@ struct WrMaterial;
 
 class WbLens;
 class WbWrenCamera;
-class WbSensor;
 
 #ifdef _WIN32
 class QSharedMemory;
@@ -52,7 +52,11 @@ public:
   void writeConfigure(QDataStream &) override;
   void reset() override;
 
+  void updateCameraTexture();
+
   void setNodeVisibility(WbBaseNode *node, bool visible);
+
+  bool isEnabled() { return mSensor ? mSensor->isEnabled() : false; }
 
   // external window
   void enableExternalWindow(bool enabled) override;
@@ -71,6 +75,9 @@ public:
   static void resetStaticCounters() { cCameraNumber = 0; }
 
   const unsigned char *constImage() const { return image(); }
+
+signals:
+  void enabled(WbAbstractCamera *camera, bool isActive);
 
 protected:
   void setup() override;
@@ -170,8 +177,6 @@ protected slots:
   void updateLens();
   void applyLensToWren();
   void removeInvisibleNodeFromList(QObject *node);
-
-  void updateCameraTexture();
 
   virtual void updateFrustumDisplayIfNeeded(int optionalRendering) {}
 
