@@ -34,19 +34,41 @@ PROTO TexturedBackground [
 ]
 {
   %{
+    local hdrBackgrounds = {
+      "dusk",
+      "empty_office",
+      "entrance_hall",
+      "factory",
+      "mars",
+      "noon_building_overcast",
+      "noon_cloudy_countryside",
+      "noon_park_empty",
+      "mountains"
+    }
+
     local texture = fields.texture.value
-    local isHDR =
-      texture == "dusk" or
-      texture == "empty_office" or
-      texture == "entrance_hall" or
-      texture == "factory" or
-      texture == "mars" or
-      texture == "noon_building_overcast" or
-      texture == "noon_cloudy_countryside" or
-      texture == "noon_park_empty" or
-      texture == "mountains"
+
+    local isHDR = false
+    for _,v in pairs(hdrBackgrounds) do
+      if texture == v then
+        isHDR = true
+        break
+      end
+    end
+
     local extension = isHDR and "png" or "jpg"
     local path = "textures/cubic"
+
+    if not isHDR then
+      io.stderr:write("Non-HDR backgrounds are deprecated. Please select one of the following 'TexturedBackground.texture': ")
+      for _,v in pairs(hdrBackgrounds) do
+        if v ~= hdrBackgrounds[1] then
+          io.stderr:write(", ")
+        end
+        io.stderr:write("'" .. v .. "'")
+      end
+      io.stderr:write("\n")
+    end
   }%
   Background {
     skyColor IS fallbackSkyboxColor
