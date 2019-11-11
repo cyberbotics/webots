@@ -25,7 +25,7 @@
 # - mountains (HDR)
 
 PROTO TexturedBackground [
-  field  SFString{"dawn_cloudy_empty", "dusk", "empty_office", "entrance_hall", "factory", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
+  field  SFString{"dawn_cloudy_empty", "dusk", "empty_office", "entrance_hall", "factory", "mars", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
                   texture "mountains"    # Defines the texture of the background.
   field  SFFloat  luminosity    1        # Is `Background.luminosity`.
   field  SFBool   panorama      TRUE     # Specifies if the background is used to define the background panorama.
@@ -40,6 +40,7 @@ PROTO TexturedBackground [
       texture == "empty_office" or
       texture == "entrance_hall" or
       texture == "factory" or
+      texture == "mars" or
       texture == "noon_building_overcast" or
       texture == "noon_cloudy_countryside" or
       texture == "noon_park_empty" or
