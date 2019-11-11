@@ -7,27 +7,11 @@ Viewpoint {
   position 6.442030557280244 5.206668161781518 3.0097162179105705
   exposure 0.7999999999999999
 }
-Background {
-  skyColor [
+TexturedBackground {
+  texture "empty_office"
+  skybox FALSE
+  fallbackSkyboxColor [
     0.2 0.2 0.2
-  ]
-  backIrradianceUrl [
-    "textures/cubic/empty_office_back.hdr"
-  ]
-  bottomIrradianceUrl [
-    "textures/cubic/empty_office_bottom.hdr"
-  ]
-  frontIrradianceUrl [
-    "textures/cubic/empty_office_front.hdr"
-  ]
-  leftIrradianceUrl [
-    "textures/cubic/empty_office_left.hdr"
-  ]
-  rightIrradianceUrl [
-    "textures/cubic/empty_office_right.hdr"
-  ]
-  topIrradianceUrl [
-    "textures/cubic/empty_office_top.hdr"
   ]
 }
 Cabinet {
