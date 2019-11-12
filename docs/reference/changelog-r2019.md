@@ -14,6 +14,7 @@ Released on ???
   - Dependency Updates
     - Upgraded to Qt 5.13.1 on Windows and macOS.
   - Bug fixes
+    - Fixed [Lidar](lidar.md) cloud point access in controllers (thanks to Alexander).
     - Fixed determinism in camera rendering order.
     - Fixed `simulation_server.py` script to work with Python3.
     - Fixed exporting first translation and rotation fields change during animation recording and simulation streaming.
