@@ -124,7 +124,8 @@ class _TextureLoaderObject {
 
     newTexture.userData = {
       'isTransparent': textureData.transparent,
-      'url': filename
+      'url': filename,
+      'transform': textureData.transform
     };
     newTexture.wrapS = textureData.wrap.s === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
     newTexture.wrapT = textureData.wrap.t === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
