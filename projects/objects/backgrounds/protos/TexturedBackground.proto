@@ -74,8 +74,8 @@ PROTO TexturedBackground [
     end
   }%
   Background {
-    skyColor IS backgroundColor
-    %{ if fields.background.value then }%
+    skyColor IS skyColor
+    %{ if fields.skybox.value then }%
       backUrl [
         %{= "\"" .. path .. "/" .. texture .. "_back." .. extension .. "\"" }%
       ]
