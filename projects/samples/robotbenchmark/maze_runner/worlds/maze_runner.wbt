@@ -27,8 +27,8 @@ Viewpoint {
 }
 TexturedBackground {
   texture "empty_office"
-  background FALSE
-  backgroundColor [
+  skybox FALSE
+  skyColor [
     0.4 0.4 0.4
   ]
 }

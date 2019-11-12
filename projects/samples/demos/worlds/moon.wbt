@@ -13,7 +13,7 @@ Viewpoint {
 }
 TexturedBackground {
   texture "empty_office"
-  background FALSE
+  skybox FALSE
 }
 TexturedBackgroundLight {
   texture "empty_office"
