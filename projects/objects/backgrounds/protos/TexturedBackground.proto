@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
-# Background textured with a skybox.
+# Background textured with a background.
 #
 # Supported values for the `texture` field:
 #
@@ -29,11 +29,11 @@
 
 PROTO TexturedBackground [
   field  SFString{"dawn_cloudy_empty", "dusk", "empty_office", "entrance_hall", "factory", "mars", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
-                  texture             "mountains"  # Defines the texture of the background.
-  field  SFFloat  luminosity          1            # Is `Background.luminosity`.
-  field  SFBool   skybox              TRUE         # Specifies if the background is used to define the textured skybox.
-  field  SFBool   reflections         TRUE         # Specifies if the background is used in the material reflections.
-  field  MFColor  fallbackSkyboxColor [0 0 0]      # Defines the background color in case the skybox is not defined.
+                  texture         "mountains"  # Defines the texture of the background.
+  field  SFFloat  luminosity      1            # Is `Background.luminosity`.
+  field  SFBool   background      TRUE         # Specifies if the `texture` field is used to define the skybox shown in the scene background.
+  field  SFBool   reflections     TRUE         # Specifies if the `texture` field is used in the reflections of the PBRAppearance nodes.
+  field  MFColor  backgroundColor [0 0 0]      # Defines the background color in case the `skybox` field is `FALSE`.
 ]
 {
   %{
@@ -74,8 +74,8 @@ PROTO TexturedBackground [
     end
   }%
   Background {
-    skyColor IS fallbackSkyboxColor
-    %{ if fields.skybox.value then }%
+    skyColor IS backgroundColor
+    %{ if fields.background.value then }%
       backUrl [
         %{= "\"" .. path .. "/" .. texture .. "_back." .. extension .. "\"" }%
       ]

@@ -26,11 +26,11 @@ Derived from [Background](../reference/background.md).
 
 ```
 TexturedBackground {
-  SFString texture             "mountains"
-  SFFloat  luminosity          1
-  SFBool   skybox              TRUE
-  SFBool   reflections         TRUE
-  MFColor  fallbackSkyboxColor [0 0 0]
+  SFString texture         "mountains"
+  SFFloat  luminosity      1
+  SFBool   background      TRUE
+  SFBool   reflections     TRUE
+  MFColor  backgroundColor [0 0 0]
 }
 ```
 
@@ -45,11 +45,11 @@ TexturedBackground {
 
 - `luminosity`: Is `Background.luminosity`.
 
-- `skybox`: Specifies if the background is used to define the textured skybox.
+- `background`: Specifies if the `texture` field is used to define the skybox shown in the scene background.
 
-- `reflections`: Specifies if the background is used in the material reflections.
+- `reflections`: Specifies if the `texture` field is used in the reflections of the [PBRAppearance](../reference/pbrappearance.md) nodes.
 
-- `fallbackSkyboxColor`: Defines the background color in case the skybox is not defined.
+- `backgroundColor`: Defines the background color in case the `skybox` field is `FALSE`.
 
 ## TexturedBackgroundLight
 
