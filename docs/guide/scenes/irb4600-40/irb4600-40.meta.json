@@ -3,7 +3,7 @@
   "name": "irb4600-40", 
   "devices": [
     {
-      "transformID": "n22", 
+      "transformID": "n21", 
       "initialPosition": 0, 
       "name": "A motor", 
       "maxPosition": 3.1415, 
@@ -13,7 +13,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n32", 
+      "transformID": "n31", 
       "initialPosition": 0, 
       "name": "B motor", 
       "maxPosition": 2.61799, 
@@ -23,7 +23,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n42", 
+      "transformID": "n41", 
       "initialPosition": 0, 
       "name": "C motor", 
       "maxPosition": 1.309, 
@@ -33,7 +33,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n52", 
+      "transformID": "n51", 
       "initialPosition": 0, 
       "name": "D motor", 
       "maxPosition": 6.98132, 
@@ -43,7 +43,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n62", 
+      "transformID": "n61", 
       "initialPosition": 0, 
       "name": "E motor", 
       "maxPosition": 2.0944, 
@@ -53,7 +53,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n72", 
+      "transformID": "n71", 
       "initialPosition": 0, 
       "name": "F motor", 
       "maxPosition": 6.98132, 
@@ -63,32 +63,32 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n22", 
+      "transformID": "n21", 
       "type": "PositionSensor", 
       "name": "A sensor"
     }, 
     {
-      "transformID": "n32", 
+      "transformID": "n31", 
       "type": "PositionSensor", 
       "name": "B sensor"
     }, 
     {
-      "transformID": "n42", 
+      "transformID": "n41", 
       "type": "PositionSensor", 
       "name": "C sensor"
     }, 
     {
-      "transformID": "n52", 
+      "transformID": "n51", 
       "type": "PositionSensor", 
       "name": "D sensor"
     }, 
     {
-      "transformID": "n62", 
+      "transformID": "n61", 
       "type": "PositionSensor", 
       "name": "E sensor"
     }, 
     {
-      "transformID": "n72", 
+      "transformID": "n71", 
       "type": "PositionSensor", 
       "name": "F sensor"
     }
