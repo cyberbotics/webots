@@ -307,8 +307,12 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
   if (mHasSharedMemoryChanged && mImageShm) {
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_CAMERA_SHARED_MEMORY;
-    QByteArray n = QFile::encodeName(mImageShm ? mImageShm->nativeKey() : "");
-    stream.writeRawData(n.constData(), n.size() + 1);
+    if (mImageShm) {
+      stream << (int) (mImageShm->size());
+      QByteArray n = QFile::encodeName(mImageShm->nativeKey());
+      stream.writeRawData(n.constData(), n.size() + 1);
+    } else
+      stream << (int) (0);
     mHasSharedMemoryChanged = false;
   }
 
