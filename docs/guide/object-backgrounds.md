@@ -2,7 +2,8 @@
 
 ## TexturedBackground
 
-Background textured with a skybox.
+`TexturedBackground` provides a set of background textures, and apply them to the background skybox and to the reflections on the 3D objects.
+It is designed to be used together with the [TexturedBackgroundLight](#texturedbackgroundlight) PROTO.
 
 Supported values for the `texture` field:
 
