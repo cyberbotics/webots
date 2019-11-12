@@ -10,10 +10,10 @@ Viewpoint {
   position -0.4457169967452991 0.7463318878452632 1.2828577010646867
 }
 TexturedBackground {
-  texture "dawn_cloudy_empty"
+  texture "dusk"
 }
 TexturedBackgroundLight {
-  texture "dawn_cloudy_empty"
+  texture "dusk"
 }
 RectangleArena {
 }

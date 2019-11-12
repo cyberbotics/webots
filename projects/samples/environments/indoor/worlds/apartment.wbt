@@ -10,27 +10,11 @@ Viewpoint {
   position 12.143261180316491 13.364950873142462 5.577133654868257
   exposure 0.5
 }
-Background {
+TexturedBackground {
+  texture "empty_office"
+  skybox FALSE
   skyColor [
     0.2 0.2 0.2
-  ]
-  backIrradianceUrl [
-    "textures/cubic/empty_office_back.hdr"
-  ]
-  bottomIrradianceUrl [
-    "textures/cubic/empty_office_bottom.hdr"
-  ]
-  frontIrradianceUrl [
-    "textures/cubic/empty_office_front.hdr"
-  ]
-  leftIrradianceUrl [
-    "textures/cubic/empty_office_left.hdr"
-  ]
-  rightIrradianceUrl [
-    "textures/cubic/empty_office_right.hdr"
-  ]
-  topIrradianceUrl [
-    "textures/cubic/empty_office_top.hdr"
   ]
 }
 DEF FLOOR Solid {

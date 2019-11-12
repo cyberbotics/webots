@@ -8,6 +8,7 @@ Released on XXX YYth, 2019.
       - Added the `Background.luminosity` field which specifies the light contribution of the [Background](background.md) node. Open this field in the `TexturedBackground` and the `TexturedBackgroundLight` PROTO nodes.
       - Dropped the support of the equirectangular projection in textures to improve loading time.
       - Dropped the `Cubemap` node to improve consistency.
+      - Deprecated non-HDR backgrounds.
       - Restored the `Background.*Url` fields, and support only `JPEG` and `PNG` format there.
       - Introduced the `Background.*IrradianceUrl` fields to define an `HDR` irradiance map.
       - Added image tools to help with `HDR` format and equirectangular projections.
