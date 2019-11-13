@@ -33,6 +33,7 @@ typedef struct {
   int height;
   char *shm_key;
   int shmid;
+  int shm_size;
   double camnear;
   bool spherical;
   double fov;  // in degrees
