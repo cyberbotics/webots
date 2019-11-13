@@ -22,6 +22,8 @@ Released on XXX YYth, 2019.
       - Improved overall graphics quality (using the PBR materials and the HDR backgrounds).
       - Improved `humanoid_sprint` benchmark metrics.
     - Replaced the [Viewpoint](viewpoint.md) `followOrientation` field by a `followType` field for more flexibility.
+  - Cleanup
+    - **Dropped Python 2**. Use [Python 3](../guide/using-python.md) instead.
   - Enhancements
     - Separate the Webots and controller libraries to avoid possible conflicts with external libraries.
     - Set the [ABB IRB 4600/40](../guide/irb4600-40.md) root node to [Robot](robot.md) instead of [Solid](solid.md) to be able to insert it everywhere.
