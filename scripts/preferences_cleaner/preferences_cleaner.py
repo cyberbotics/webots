@@ -21,7 +21,7 @@ import platform
 import sys
 
 # Due to the use of pathlib and winreg.
-assert sys.version_info >= (3, 5), 'At least Python 3.5 is required to run this script.'
+assert sys.version_info >= (3, 5), 'Python 3.5 or later is required to run this script.'
 
 
 def cleanupLinuxPreferences():
