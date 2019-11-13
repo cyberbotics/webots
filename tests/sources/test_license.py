@@ -107,7 +107,7 @@ class TestLicense(unittest.TestCase):
             'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis/Framework',
             'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis/Linux',
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
-            'projects/robots/robotis/darwin-op/libraries/python',
+            'projects/robots/robotis/darwin-op/libraries',
             'projects/samples/robotbenchmark',
             'projects/vehicles/controllers/ros_automobile/include'
         ]
