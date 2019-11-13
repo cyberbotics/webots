@@ -1,9 +1,9 @@
 {
-  "robotID": "n36", 
+  "robotID": "n35", 
   "name": "robotis-op3", 
   "devices": [
     {
-      "transformID": "n522", 
+      "transformID": "n521", 
       "initialPosition": 0, 
       "name": "AnkleL", 
       "maxPosition": 2.82743338823, 
@@ -13,7 +13,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n1088", 
+      "transformID": "n1087", 
       "initialPosition": 0, 
       "name": "AnkleR", 
       "maxPosition": 2.82743338823, 
@@ -23,7 +23,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n1409", 
+      "transformID": "n1408", 
       "initialPosition": 0, 
       "name": "ArmLowerL", 
       "maxPosition": 2.82743338823, 
@@ -33,7 +33,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n1669", 
+      "transformID": "n1668", 
       "initialPosition": 0, 
       "name": "ArmLowerR", 
       "maxPosition": 2.82743338823, 
@@ -43,7 +43,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n1358", 
+      "transformID": "n1357", 
       "initialPosition": 0, 
       "name": "ArmUpperL", 
       "maxPosition": 2.82743338823, 
@@ -53,7 +53,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n1618", 
+      "transformID": "n1617", 
       "initialPosition": 0, 
       "name": "ArmUpperR", 
       "maxPosition": 2.82743338823, 
@@ -63,7 +63,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n567", 
+      "transformID": "n566", 
       "initialPosition": 0, 
       "name": "FootL", 
       "maxPosition": 2.82743338823, 
@@ -73,7 +73,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n1133", 
+      "transformID": "n1132", 
       "initialPosition": 0, 
       "name": "FootR", 
       "maxPosition": 2.82743338823, 
@@ -83,7 +83,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n1883", 
+      "transformID": "n1882", 
       "initialPosition": 0, 
       "name": "Head", 
       "maxPosition": 2.82743338823, 
@@ -93,7 +93,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n379", 
+      "transformID": "n378", 
       "initialPosition": 0, 
       "name": "LegLowerL", 
       "maxPosition": 2.82743338823, 
@@ -103,7 +103,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n945", 
+      "transformID": "n944", 
       "initialPosition": 0, 
       "name": "LegLowerR", 
       "maxPosition": 2.82743338823, 
@@ -113,7 +113,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n276", 
+      "transformID": "n275", 
       "initialPosition": 0, 
       "name": "LegUpperL", 
       "maxPosition": 2.82743338823, 
@@ -123,7 +123,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n842", 
+      "transformID": "n841", 
       "initialPosition": 0, 
       "name": "LegUpperR", 
       "maxPosition": 2.82743338823, 
@@ -133,7 +133,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n1763", 
+      "transformID": "n1762", 
       "initialPosition": 0, 
       "name": "Neck", 
       "maxPosition": 2.82743338823, 
@@ -143,7 +143,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n232", 
+      "transformID": "n231", 
       "initialPosition": 0, 
       "name": "PelvL", 
       "maxPosition": 2.82743338823, 
@@ -153,7 +153,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n798", 
+      "transformID": "n797", 
       "initialPosition": 0, 
       "name": "PelvR", 
       "maxPosition": 2.82743338823, 
@@ -163,7 +163,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n106", 
+      "transformID": "n105", 
       "initialPosition": 0, 
       "name": "PelvYL", 
       "maxPosition": 2.82743338823, 
@@ -173,7 +173,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n672", 
+      "transformID": "n671", 
       "initialPosition": 0, 
       "name": "PelvYR", 
       "maxPosition": 2.82743338823, 
@@ -183,7 +183,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n1238", 
+      "transformID": "n1237", 
       "initialPosition": 0, 
       "name": "ShoulderL", 
       "maxPosition": 2.82743338823, 
@@ -193,7 +193,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n1498", 
+      "transformID": "n1497", 
       "initialPosition": 0, 
       "name": "ShoulderR", 
       "maxPosition": 2.82743338823, 
@@ -203,7 +203,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n40", 
+      "transformID": "n39", 
       "name": "BodyLed", 
       "ledPBRAppearanceIDs": [], 
       "ledColors": [], 
@@ -211,7 +211,7 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n1932", 
+      "transformID": "n1931", 
       "name": "HeadLed", 
       "ledPBRAppearanceIDs": [], 
       "ledColors": [
@@ -221,123 +221,123 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n36", 
+      "transformID": "n35", 
       "type": "Accelerometer", 
       "name": "Accelerometer"
     }, 
     {
-      "transformID": "n522", 
+      "transformID": "n521", 
       "type": "PositionSensor", 
       "name": "AnkleLS"
     }, 
     {
-      "transformID": "n1088", 
+      "transformID": "n1087", 
       "type": "PositionSensor", 
       "name": "AnkleRS"
     }, 
     {
-      "transformID": "n1409", 
+      "transformID": "n1408", 
       "type": "PositionSensor", 
       "name": "ArmLowerLS"
     }, 
     {
-      "transformID": "n1669", 
+      "transformID": "n1668", 
       "type": "PositionSensor", 
       "name": "ArmLowerRS"
     }, 
     {
-      "transformID": "n1358", 
+      "transformID": "n1357", 
       "type": "PositionSensor", 
       "name": "ArmUpperLS"
     }, 
     {
-      "transformID": "n1618", 
+      "transformID": "n1617", 
       "type": "PositionSensor", 
       "name": "ArmUpperRS"
     }, 
     {
-      "transformID": "n1883", 
+      "transformID": "n1882", 
       "transformOffset": "0.015348 -0.019 0.04975", 
       "type": "Camera", 
       "name": "Camera"
     }, 
     {
-      "transformID": "n567", 
+      "transformID": "n566", 
       "type": "PositionSensor", 
       "name": "FootLS"
     }, 
     {
-      "transformID": "n1133", 
+      "transformID": "n1132", 
       "type": "PositionSensor", 
       "name": "FootRS"
     }, 
     {
-      "transformID": "n36", 
+      "transformID": "n35", 
       "type": "Gyro", 
       "name": "Gyro"
     }, 
     {
-      "transformID": "n1883", 
+      "transformID": "n1882", 
       "type": "PositionSensor", 
       "name": "HeadS"
     }, 
     {
-      "transformID": "n379", 
+      "transformID": "n378", 
       "type": "PositionSensor", 
       "name": "LegLowerLS"
     }, 
     {
-      "transformID": "n945", 
+      "transformID": "n944", 
       "type": "PositionSensor", 
       "name": "LegLowerRS"
     }, 
     {
-      "transformID": "n276", 
+      "transformID": "n275", 
       "type": "PositionSensor", 
       "name": "LegUpperLS"
     }, 
     {
-      "transformID": "n842", 
+      "transformID": "n841", 
       "type": "PositionSensor", 
       "name": "LegUpperRS"
     }, 
     {
-      "transformID": "n1763", 
+      "transformID": "n1762", 
       "type": "PositionSensor", 
       "name": "NeckS"
     }, 
     {
-      "transformID": "n232", 
+      "transformID": "n231", 
       "type": "PositionSensor", 
       "name": "PelvLS"
     }, 
     {
-      "transformID": "n798", 
+      "transformID": "n797", 
       "type": "PositionSensor", 
       "name": "PelvRS"
     }, 
     {
-      "transformID": "n106", 
+      "transformID": "n105", 
       "type": "PositionSensor", 
       "name": "PelvYLS"
     }, 
     {
-      "transformID": "n672", 
+      "transformID": "n671", 
       "type": "PositionSensor", 
       "name": "PelvYRS"
     }, 
     {
-      "transformID": "n1238", 
+      "transformID": "n1237", 
       "type": "PositionSensor", 
       "name": "ShoulderLS"
     }, 
     {
-      "transformID": "n1498", 
+      "transformID": "n1497", 
       "type": "PositionSensor", 
       "name": "ShoulderRS"
     }, 
     {
-      "transformID": "n36", 
+      "transformID": "n35", 
       "transformOffset": "0.0385 0.001 0.098", 
       "type": "Speaker", 
       "name": "Speaker"

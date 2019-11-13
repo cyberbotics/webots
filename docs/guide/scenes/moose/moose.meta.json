@@ -1,9 +1,9 @@
 {
-  "robotID": "n12", 
+  "robotID": "n11", 
   "name": "moose", 
   "devices": [
     {
-      "transformID": "n164", 
+      "transformID": "n163", 
       "initialPosition": 0, 
       "name": "left motor 1", 
       "maxPosition": 0, 
@@ -13,7 +13,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n192", 
+      "transformID": "n191", 
       "initialPosition": 0, 
       "name": "left motor 2", 
       "maxPosition": 0, 
@@ -23,7 +23,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n220", 
+      "transformID": "n219", 
       "initialPosition": 0, 
       "name": "left motor 3", 
       "maxPosition": 0, 
@@ -33,7 +33,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n248", 
+      "transformID": "n247", 
       "initialPosition": 0, 
       "name": "left motor 4", 
       "maxPosition": 0, 
@@ -43,7 +43,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n52", 
+      "transformID": "n51", 
       "initialPosition": 0, 
       "name": "right motor 1", 
       "maxPosition": 0, 
@@ -53,7 +53,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n80", 
+      "transformID": "n79", 
       "initialPosition": 0, 
       "name": "right motor 2", 
       "maxPosition": 0, 
@@ -63,7 +63,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n108", 
+      "transformID": "n107", 
       "initialPosition": 0, 
       "name": "right motor 3", 
       "maxPosition": 0, 
@@ -73,7 +73,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n136", 
+      "transformID": "n135", 
       "initialPosition": 0, 
       "name": "right motor 4", 
       "maxPosition": 0, 

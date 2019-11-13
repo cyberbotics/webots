@@ -1,9 +1,9 @@
 {
-  "robotID": "n11", 
+  "robotID": "n10", 
   "name": "pioneer-3dx", 
   "devices": [
     {
-      "transformID": "n139", 
+      "transformID": "n138", 
       "initialPosition": 0, 
       "name": "left wheel", 
       "maxPosition": 0, 
@@ -13,7 +13,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n191", 
+      "transformID": "n190", 
       "initialPosition": 0, 
       "name": "right wheel", 
       "maxPosition": 0, 
@@ -23,10 +23,10 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n131", 
+      "transformID": "n130", 
       "name": "green led", 
       "ledPBRAppearanceIDs": [
-        "n133"
+        "n132"
       ], 
       "ledColors": [
         "0.564706 0.933333 0.564706"
@@ -35,10 +35,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n167", 
+      "transformID": "n166", 
       "name": "lower yellow led", 
       "ledPBRAppearanceIDs": [
-        "n169"
+        "n168"
       ], 
       "ledColors": [
         "0.976471 0.980392 0.603922"
@@ -47,10 +47,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n171", 
+      "transformID": "n170", 
       "name": "red led 1", 
       "ledPBRAppearanceIDs": [
-        "n174"
+        "n173"
       ], 
       "ledColors": [
         "0.913725 0.247059 0.247059"
@@ -59,10 +59,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n177", 
+      "transformID": "n176", 
       "name": "red led 2", 
       "ledPBRAppearanceIDs": [
-        "n180"
+        "n179"
       ], 
       "ledColors": [
         "0.913725 0.247059 0.247059"
@@ -71,10 +71,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n182", 
+      "transformID": "n181", 
       "name": "red led 3", 
       "ledPBRAppearanceIDs": [
-        "n185"
+        "n184"
       ], 
       "ledColors": [
         "0.913725 0.247059 0.247059"
@@ -83,10 +83,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n479", 
+      "transformID": "n478", 
       "name": "white led", 
       "ledPBRAppearanceIDs": [
-        "n481"
+        "n480"
       ], 
       "ledColors": [
         "1 1 1"
@@ -95,10 +95,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n475", 
+      "transformID": "n474", 
       "name": "yellow led", 
       "ledPBRAppearanceIDs": [
-        "n477"
+        "n476"
       ], 
       "ledColors": [
         "0.929412 0.933333 0.615686"
@@ -107,92 +107,92 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n139", 
+      "transformID": "n138", 
       "type": "PositionSensor", 
       "name": "left wheel sensor"
     }, 
     {
-      "transformID": "n191", 
+      "transformID": "n190", 
       "type": "PositionSensor", 
       "name": "right wheel sensor"
     }, 
     {
-      "transformID": "n219", 
+      "transformID": "n218", 
       "type": "DistanceSensor", 
       "name": "so0"
     }, 
     {
-      "transformID": "n235", 
+      "transformID": "n234", 
       "type": "DistanceSensor", 
       "name": "so1"
     }, 
     {
-      "transformID": "n251", 
+      "transformID": "n250", 
       "type": "DistanceSensor", 
       "name": "so10"
     }, 
     {
-      "transformID": "n267", 
+      "transformID": "n266", 
       "type": "DistanceSensor", 
       "name": "so11"
     }, 
     {
-      "transformID": "n283", 
+      "transformID": "n282", 
       "type": "DistanceSensor", 
       "name": "so12"
     }, 
     {
-      "transformID": "n299", 
+      "transformID": "n298", 
       "type": "DistanceSensor", 
       "name": "so13"
     }, 
     {
-      "transformID": "n315", 
+      "transformID": "n314", 
       "type": "DistanceSensor", 
       "name": "so14"
     }, 
     {
-      "transformID": "n331", 
+      "transformID": "n330", 
       "type": "DistanceSensor", 
       "name": "so15"
     }, 
     {
-      "transformID": "n347", 
+      "transformID": "n346", 
       "type": "DistanceSensor", 
       "name": "so2"
     }, 
     {
-      "transformID": "n363", 
+      "transformID": "n362", 
       "type": "DistanceSensor", 
       "name": "so3"
     }, 
     {
-      "transformID": "n379", 
+      "transformID": "n378", 
       "type": "DistanceSensor", 
       "name": "so4"
     }, 
     {
-      "transformID": "n395", 
+      "transformID": "n394", 
       "type": "DistanceSensor", 
       "name": "so5"
     }, 
     {
-      "transformID": "n411", 
+      "transformID": "n410", 
       "type": "DistanceSensor", 
       "name": "so6"
     }, 
     {
-      "transformID": "n427", 
+      "transformID": "n426", 
       "type": "DistanceSensor", 
       "name": "so7"
     }, 
     {
-      "transformID": "n443", 
+      "transformID": "n442", 
       "type": "DistanceSensor", 
       "name": "so8"
     }, 
     {
-      "transformID": "n459", 
+      "transformID": "n458", 
       "type": "DistanceSensor", 
       "name": "so9"
     }
