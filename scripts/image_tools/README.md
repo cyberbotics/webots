@@ -22,9 +22,9 @@ A typical value for the threshold may be 30.
 ```shell
 cd $WEBOTS_HOME
 
-python clamp_hdr.py --help
+./clamp_hdr.py --help
 
-python clamp_hdr.py --input /Users/$USER/Desktop/entrance_hall.hdr --clamp 30
+./clamp_hdr.py --input /Users/$USER/Desktop/entrance_hall.hdr --clamp 30
 ```
 
 ### `convert_hdr_format`
@@ -34,9 +34,9 @@ Convert an HDR image to a PNG image.
 ```shell
 cd $WEBOTS_HOME
 
-python convert_hdr_format.py --help
+./convert_hdr_format.py --help
 
-python convert_hdr_format.py --input /Users/$USER/Desktop/entrance_hall.hdr
+./convert_hdr_format.py --input /Users/$USER/Desktop/entrance_hall.hdr
 ```
 
 ### `downscale_hdr`
@@ -49,9 +49,9 @@ A typical irradiance map could be 256x256.
 ```shell
 cd $WEBOTS_HOME
 
-python downscale_hdr.py --help
+./downscale_hdr.py --help
 
-python downscale_hdr.py --input /Users/$USER/Desktop/entrance_hall.hdr --width 128 --height 128
+./downscale_hdr.py --input /Users/$USER/Desktop/entrance_hall.hdr --width 128 --height 128
 ```
 
 ### `equirectangular_to_cubemap`
@@ -64,10 +64,10 @@ Typical usage:
 ```shell
 cd $WEBOTS_HOME
 
-python equirectangular_to_cubemap.py --help
+./equirectangular_to_cubemap.py --help
 
-python equirectangular_to_cubemap.py --input /Users/$USER/Desktop/entrance_hall.png
-python equirectangular_to_cubemap.py --input /Users/$USER/Desktop/entrance_hall.hdr --width 1042 --height 1042
+./equirectangular_to_cubemap.py --input /Users/$USER/Desktop/entrance_hall.png
+./equirectangular_to_cubemap.py --input /Users/$USER/Desktop/entrance_hall.hdr --width 1042 --height 1042
 ```
 
 ## Typical Usage
@@ -78,11 +78,11 @@ python equirectangular_to_cubemap.py --input /Users/$USER/Desktop/entrance_hall.
 name=background
 suffixes=( "back" "bottom" "front" "left" "right" "top" )
 
-python equirectangular_to_cubemap.py --input $name.hdr
+./equirectangular_to_cubemap.py --input $name.hdr
 for suffix in "${suffixes[@]}"
 do
   echo $name\_$suffix.hdr
-  python convert_hdr_format.py --input $name\_$suffix.hdr
-  python downscale_hdr.py --input $name\_$suffix.hdr
+  ./convert_hdr_format.py --input $name\_$suffix.hdr
+  ./downscale_hdr.py --input $name\_$suffix.hdr
 done
 ```
