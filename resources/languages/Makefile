@@ -23,8 +23,6 @@ release debug profile clean:
 	@echo "# make" $@ java;
 	+make -s -C java $@
 ifeq ($(OSTYPE),linux)
-	@echo "# make" $@ python2.7;
-	+PYTHON_COMMAND=python2.7 make -s -C python $@
 ifeq ($(UBUNTU_VERSION), 16.04)
 	@echo "# make" $@ python3.5;
 	+PYTHON_COMMAND=python3.5 make -s -C python $@
@@ -39,12 +37,8 @@ endif
 ifeq ($(OSTYPE),windows)
 	@echo "# make" $@ python3.7;
 	+make -s -C python $@
-	@echo "# make" $@ python2.7;
-	+PATH="$(PYTHON27_HOME):$(PATH)" make -s -C python $@
 endif
 ifeq ($(OSTYPE),darwin)
-	@echo "# make" $@ python2.7;
-	+make -s -C python $@
 	@echo "# make" $@ python3.7;
 	+PYTHON_COMMAND=python3.7 make -s -C python $@
 endif
