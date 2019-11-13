@@ -70,6 +70,9 @@ APACHE2_LICENSE_PYTHON = """# Copyright 1996-20XX Cyberbotics Ltd.
 PYTHON_OPTIONAL_HEADER = """#!/usr/bin/env python
 
 """
+PYTHON3_OPTIONAL_HEADER = """#!/usr/bin/env python3
+
+"""
 
 
 class TestLicense(unittest.TestCase):
@@ -168,7 +171,8 @@ class TestLicense(unittest.TestCase):
                 elif source.endswith('.py') or source.endswith('Makefile'):
                     self.assertTrue(
                         content.startswith(APACHE2_LICENSE_PYTHON) or
-                        content.startswith(PYTHON_OPTIONAL_HEADER + APACHE2_LICENSE_PYTHON),
+                        content.startswith(PYTHON_OPTIONAL_HEADER + APACHE2_LICENSE_PYTHON) or
+                        content.startswith(PYTHON3_OPTIONAL_HEADER + APACHE2_LICENSE_PYTHON),
                         msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License:\n%s' %
                             (source, APACHE2_LICENSE_PYTHON)
                     )
