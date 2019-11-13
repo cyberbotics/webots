@@ -1,0 +1,33 @@
+#VRML_SIM R2019b utf8
+WorldInfo {
+  info [
+    "This simulation shows a Robotino moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar."
+  ]
+  title "Simulation of Festo's Robotino robot"
+}
+Viewpoint {
+  orientation 0.28882343295926544 -0.9512999432180493 -0.10774712342777662 5.502273164124365
+  position -0.9802615488886062 1.7304528074815935 2.665124377061189
+}
+TexturedBackground {
+  texture "factory"
+}
+TexturedBackgroundLight {
+  texture "factory"
+}
+RectangleArena {
+  floorSize 15 15
+  floorTileSize 1 1
+  floorAppearance ThreadMetalPlate {
+  }
+  wallHeight 2.5
+  wallAppearance Roughcast {
+    colorOverride 0.533333 0.541176 0.521569
+    textureTransform TextureTransform {
+      scale 5 1.75
+    }
+  }
+}
+Robotino {
+  translation -4.416 0.095 -1.063
+}
