@@ -27,8 +27,6 @@ java: cpp/driver cpp/car
 
 python: cpp/driver cpp/car
 ifeq ($(OSTYPE),linux)
-	@echo "# make" $@ python2.7;
-	+PYTHON_COMMAND=python2.7 make -s -C python $(MAKECMDGOALS)
 ifeq ($(UBUNTU_VERSION), 16.04)
 	@echo "# make" $@ python3.5;
 	+PYTHON_COMMAND=python3.5 make -s -C python $(MAKECMDGOALS)
@@ -43,12 +41,8 @@ endif
 ifeq ($(OSTYPE),windows)
 	@echo "# make" $@ python3.7;
 	+make -s -C python $(MAKECMDGOALS)
-	@echo "# make" $@ python2.7;
-	+PATH="$(PYTHON27_HOME):$(PATH)" make -s -C python $(MAKECMDGOALS)
 endif
 ifeq ($(OSTYPE),darwin)
-	@echo "# make" $@ python2.7;
-	+make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python3.7;
 	+PYTHON_COMMAND=python3.7 make -s -C python $(MAKECMDGOALS)
 endif

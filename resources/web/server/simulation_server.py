@@ -408,7 +408,7 @@ class MonitorHandler(tornado.web.RequestHandler):
         real_cores = psutil.cpu_count(False)
         cores_ratio = psutil.cpu_count(True) / real_cores
         cores = " (" + str(cores_ratio) + "x " + str(real_cores) + " cores)"
-        if re.search("^linux\\d?$", sys.platform):  # python2: 'linux2' or 'linux3', python3: 'linux'
+        if sys.platform.startswith('linux'):
             distribution = platform.linux_distribution()
             os_name = 'Linux ' + distribution[0] + " " + distribution[1] + " " + distribution[2]
             command = "cat /proc/cpuinfo"
