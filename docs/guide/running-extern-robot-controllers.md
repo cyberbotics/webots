@@ -81,7 +81,6 @@ If a C/C++ controller is launched from a Terminal running the bash shell, instea
 %tab "Python"
 | Version      | Environment Variable     | Typical Value                                    |
 |--------------|--------------------------|--------------------------------------------------|
-| Python 2.7   | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python27`     |
 | Python 3.X   | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python3X`     |
 | all          | PYTHONIOENCODING         | `UTF-8`                                          |
 %tab-end
