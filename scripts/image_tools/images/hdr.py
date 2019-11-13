@@ -42,9 +42,13 @@ class HDR:
         data = []
         header = False
         with open(filename, "rb") as f:
-            line = True
-            while line:
-                line = f.readline()
+            line = ''
+            while True:
+                line = ''
+                c = f.read(1).decode('ascii')
+                while c != '\n':
+                    line += c
+                    c = f.read(1).decode('ascii')
 
                 # Case: Empty lines
                 if line == '' or (len(line) == 1 and ord(line[0]) == 10):
@@ -62,7 +66,7 @@ class HDR:
                     hdr.yFlipped = m.group(4 if hdr.rotated else 1) == '+'
                     hdr.width = int(m.group(6))
                     hdr.height = int(m.group(3))
-                    continue
+                    break
                 # Case: ignored header entries
                 if line.startswith('FORMAT=') or \
                         line.startswith('EXPOSURE=') or \
@@ -76,7 +80,8 @@ class HDR:
                     continue
                 break
             # Case: Data
-            data = line + f.read()
+            data = f.read()
+
         assert header, 'Invalid header.'
         assert 4 * hdr.width * hdr.height == len(data) and len(data) > 0, 'Invalid dimensions.'
         assert not (hdr.rotated or hdr.xFlipped or hdr.yFlipped), 'Flip or rotation flags are not supported.'
@@ -84,10 +89,10 @@ class HDR:
         # Convert data to floats
         hdr.data = [0.0] * (3 * hdr.width * hdr.height)
         for i in range(hdr.width * hdr.height):
-            r = float(ord(data[4 * i]))
-            g = float(ord(data[4 * i + 1]))
-            b = float(ord(data[4 * i + 2]))
-            e = pow(2.0, float(ord(data[4 * i + 3])) - 128.0 + 8.0)
+            r = float(data[4 * i])
+            g = float(data[4 * i + 1])
+            b = float(data[4 * i + 2])
+            e = pow(2.0, float(data[4 * i + 3]) - 128.0 + 8.0)
             hdr.data[3 * i] = pow(r * e, 1.0 / GAMMA) / 255.0
             hdr.data[3 * i + 1] = pow(g * e, 1.0 / GAMMA) / 255.0
             hdr.data[3 * i + 2] = pow(b * e, 1.0 / GAMMA) / 255.0
@@ -150,11 +155,11 @@ class HDR:
         assert filename.endswith('.hdr')
         assert not (self.rotated or self.xFlipped or self.yFlipped), 'Flip or rotation flags are not supported.'
 
-        with open(filename, "w") as f:
-            f.write('#?RADIANCE\n')
-            f.write('FORMAT=32-bit_rle_rgbe\n')
-            f.write('\n')
-            f.write('-Y %d +X %d\n' % (self.height, self.width))
+        with open(filename, "wb") as f:
+            f.write('#?RADIANCE\n'.encode('ascii'))
+            f.write('FORMAT=32-bit_rle_rgbe\n'.encode('ascii'))
+            f.write('\n'.encode('ascii'))
+            f.write(('-Y %d +X %d\n' % (self.height, self.width)).encode('ascii'))
             for i in range(self.width * self.height):
                 r = pow(self.data[3 * i], GAMMA)
                 g = pow(self.data[3 * i + 1], GAMMA)
@@ -162,13 +167,13 @@ class HDR:
                 v = max(r, g, b)
                 e = math.ceil(math.log(v, 2)) if v != 0.0 else 0.0
                 s = pow(2, e - 8)
-                bytes = [
+                arr = [
                     clamp_int(r / s, 0, 255),
                     clamp_int(g / s, 0, 255),
                     clamp_int(b / s, 0, 255),
                     clamp_int(e + 128, 0, 255)
                 ]
-                f.write(struct.pack("BBBB", *bytearray(bytes)))
+                f.write(bytes(arr))
 
     def to_pil(self):
         """Create a PIL image to test the script."""
