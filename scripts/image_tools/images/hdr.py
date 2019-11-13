@@ -19,7 +19,6 @@
 
 import math
 import re
-import struct
 from utils.range import clamp_int
 
 GAMMA = 2.0
