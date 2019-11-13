@@ -2,6 +2,8 @@
 
 ## Dependencies
 
+Python 3 or more recent is required to run the image tool scripts.
+
 Install `Pillow` from pip, typically:
 
 ```shell
