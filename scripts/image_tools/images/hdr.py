@@ -19,7 +19,10 @@
 
 import math
 import re
+import sys
 from utils.range import clamp_int
+
+assert sys.version_info >= (3, 0), 'Python 3 is required to run this script.'
 
 GAMMA = 2.0
 
