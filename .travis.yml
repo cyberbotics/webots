@@ -33,6 +33,7 @@ jobs:
         - pip install -r docs/tests/requirements.txt
         - cp dependencies/.clang-format-6 .clang-format
       script:
+        - python --version
         - python -m unittest discover -s docs/tests
         - |
           # in case of manually triggered test, planned test or tag test, run complete test
@@ -45,20 +46,11 @@ jobs:
         - if [[ "$(git status -s -uno docs | wc -l)" -ne "0" ]]; then echo "Thumbnails not up-to-date:"; git status -s -uno docs; exit -1; fi  # Make sure all the thumbnails are already up to date
     - <<: *source_tests_staging
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
-      name: Ubuntu 16.04 / Python 2.7
-      python: '2.7'
-    - <<: *source_tests_staging
-      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: Ubuntu 18.04 / Python 3.8
       dist: bionic
     - <<: *source_tests_staging
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
-      name: Ubuntu 18.04 / Python 2.7
-      python: '2.7'
-      dist: bionic
-    - <<: *source_tests_staging
-      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
-      name: OSX / Python 2.7
+      name: OSX / Python 3.7
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
@@ -92,7 +84,6 @@ jobs:
             - cmake
             - libusb-dev
             - swig
-            - python2.7-dev
             - libglu1-mesa-dev
             - libglib2.0-dev
             - libfreeimage-dev
@@ -135,6 +126,7 @@ jobs:
         - rosdep update
         - pip install rospkg catkin_pkg empy defusedxml netifaces  # by default ros only comes with python2.7 libraries
       script:
+        - python --version
         - make release -j2
         - make release -j2 -C tests
         - python tests/test_suite.py --no-ansi-escape --nomake
@@ -212,6 +204,7 @@ jobs:
         - export PATH=$JAVA_HOME/bin:$PATH
         - pip install PyGithub # used to upload packages to Github releases
       script:
+        - python --version
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
@@ -228,10 +221,11 @@ jobs:
         - export PATH=$JAVA_HOME/bin:$PATH
       addons: *bionic_apt_packages
       script:
+        - python --version
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
     - <<: *distribution_staging
-      name: OSX / Python 2.7
+      name: OSX / Python 3.7
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
@@ -252,6 +246,7 @@ jobs:
         - sudo unzip -o -q $WEBOTS_HOME/dependencies/python3.7.zip -d /Library/Frameworks/Python.framework/Versions/3.7
         - export PATH=$PATH:/Library/Frameworks/Python.framework/Versions/3.7/bin
       script:
+        - python --version
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required file are generated
