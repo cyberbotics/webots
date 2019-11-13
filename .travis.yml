@@ -33,7 +33,6 @@ jobs:
         - pip install -r docs/tests/requirements.txt
         - cp dependencies/.clang-format-6 .clang-format
       script:
-        - python --version
         - python -m unittest discover -s docs/tests
         - |
           # in case of manually triggered test, planned test or tag test, run complete test
@@ -126,7 +125,6 @@ jobs:
         - rosdep update
         - pip install rospkg catkin_pkg empy defusedxml netifaces
       script:
-        - python --version
         - make release -j2
         - make release -j2 -C tests
         - python tests/test_suite.py --no-ansi-escape --nomake
@@ -203,7 +201,6 @@ jobs:
         - export PATH=$JAVA_HOME/bin:$PATH
         - pip install PyGithub # used to upload packages to Github releases
       script:
-        - python --version
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
@@ -220,7 +217,6 @@ jobs:
         - export PATH=$JAVA_HOME/bin:$PATH
       addons: *bionic_apt_packages
       script:
-        - python --version
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
     - <<: *distribution_staging
@@ -245,7 +241,6 @@ jobs:
         - sudo unzip -o -q $WEBOTS_HOME/dependencies/python3.7.zip -d /Library/Frameworks/Python.framework/Versions/3.7
         - export PATH=$PATH:/Library/Frameworks/Python.framework/Versions/3.7/bin
       script:
-        - python --version
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required file are generated
