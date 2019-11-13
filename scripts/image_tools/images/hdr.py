@@ -44,7 +44,6 @@ class HDR:
         data = []
         header = False
         with open(filename, "rb") as f:
-            line = ''
             while True:
                 line = ''
                 c = f.read(1).decode('ascii')
@@ -85,7 +84,8 @@ class HDR:
             data = f.read()
 
         assert header, 'Invalid header.'
-        assert 4 * hdr.width * hdr.height == len(data) and len(data) > 0, 'Invalid dimensions.'
+        assert 4 * hdr.width * hdr.height == len(data) and len(data) > 0, \
+            'Invalid dimensions (expected dimension: 4x%dx%d, get %d floats)' % (hdr.width, hdr.height, len(data))
         assert not (hdr.rotated or hdr.xFlipped or hdr.yFlipped), 'Flip or rotation flags are not supported.'
 
         # Convert data to floats
