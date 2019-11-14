@@ -12,7 +12,6 @@ TexturedBackgroundLight {
 Transform {
   translation 0.05 0 -0.15
   rotation 0 0 1 1.5708
-  name "plane obstacle"
   children [
     Shape {
       appearance PBRAppearance {
@@ -89,6 +88,7 @@ Robot {
   ]
   controller "distance_sensor_infra-red_vs_transformed_planes"
   showWindow TRUE
+  supervisor TRUE
 }
 TestSuiteSupervisor {
 }
