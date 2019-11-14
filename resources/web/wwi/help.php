@@ -101,7 +101,7 @@ if ($showRun)
     <li>Zoom (not available yet): zoom and center the camera to the selected object.</li>
     <li>Delete (not available): delete the selected object from the scene.</li>
     <li>Properties (not available yet): show the properties of the selected object.</li>
-    <li><b>Help</b>: open the documentation page fo the selected object.</li>
+    <li><b>Help</b>: open the documentation page of the selected object.</li>
    </ul>
   </p>
   <img src="images/documentation/help_robot_window.png" width="500" alt="">
