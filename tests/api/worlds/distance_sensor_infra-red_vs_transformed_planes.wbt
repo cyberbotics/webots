@@ -87,7 +87,6 @@ Robot {
     }
   ]
   controller "distance_sensor_infra-red_vs_transformed_planes"
-  showWindow TRUE
   supervisor TRUE
 }
 TestSuiteSupervisor {
