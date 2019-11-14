@@ -9,6 +9,23 @@ TexturedBackground {
 }
 TexturedBackgroundLight {
 }
+Transform {
+  translation 0.05 0 -0.15
+  rotation 0 0 1 1.5708
+  name "plane obstacle"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.65 0.22 1
+        roughness 1
+        metalness 0
+      }
+      geometry Plane {
+        size 0.25 0.25
+      }
+    }
+  ]
+}
 Robot {
   children [
     DistanceSensor {
@@ -67,22 +84,11 @@ Robot {
       name "E"
       type "infra-red"
     }
-  ]
-  showWindow TRUE
-}
-Transform {
-  translation 0.05 0 -0.15
-  rotation 0 0 1 1.5708
-  children [
-    Shape {
-      appearance PBRAppearance {
-        baseColor 0.65 0.22 1
-        roughness 1
-        metalness 0
-      }
-      geometry Plane {
-        size 0.25 0.25
-      }
+    TestSuiteEmitter {
     }
   ]
+  controller "distance_sensor_infra-red_vs_transformed_planes"
+  showWindow TRUE
+}
+TestSuiteSupervisor {
 }
