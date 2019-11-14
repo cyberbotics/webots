@@ -34,6 +34,26 @@ std::pair<bool, double> WbRay::intersects(const WbAffinePlane &p, bool testCull)
   return std::pair<bool, double>(true, alpha / scalarProduct);
 }
 
+// ref: https://github.com/leod/game/blob/master/src/math/Intersection.cpp#L23
+std::pair<bool, double> WbRay::intersects(const WbVector3 &quadOrigin, double quadA, double quadB) const {
+  // Gnârk
+
+/*
+  WbMatrix3 m(ray.direction, -quad.u, -quad.v);
+  vec3 b(quad.center - ray.origin);
+
+  mat3 mInv = glm::inverse(m);
+  vec3 x = mInv * b;
+  float r = x.x, s = x.y, t = x.z;
+
+  if (r >= 0 && glm::abs(s) <= 1 && glm::abs(t) <= 1)
+    return r;
+  else
+    return none;
+*/
+  return std::pair<bool, double>(false, 0);
+}
+
 std::pair<bool, double> WbRay::intersects(const WbVector3 &vert0, const WbVector3 &vert1, const WbVector3 &vert2, bool testCull,
                                           double &u, double &v) const {
   // find vectors for two eges sharing vert0
