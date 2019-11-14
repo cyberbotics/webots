@@ -28,7 +28,7 @@ PROTO CorrugatedPvc [
     }
     normalMap ImageTexture {
       url [
-        "textures/corrugated_pvc/corrugated_pvc_normal.png"
+        "textures/corrugated_pvc/corrugated_pvc_normal.jpg"
       ]
     }
     IBLStrength IS IBLStrength

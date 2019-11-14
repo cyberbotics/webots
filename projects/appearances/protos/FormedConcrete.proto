@@ -22,7 +22,7 @@ PROTO FormedConcrete [
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/formed_concrete/formed_concrete_normal.png"
+        "textures/formed_concrete/formed_concrete_normal.jpg"
       ]
     }
     IBLStrength IS IBLStrength
