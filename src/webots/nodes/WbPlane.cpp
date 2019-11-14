@@ -349,6 +349,10 @@ bool WbPlane::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
     planeNormal.normalize();
     translation = transform->matrix().translation();
   }
+
+  // This is wrong, the collision should be computed a quad, not an affine plane.
+  // ref: https://stackoverflow.com/questions/21114796/3d-ray-quad-intersection-test-in-java
+
   const WbAffinePlane plane(planeNormal, translation);
   const std::pair<bool, double> intersection = ray.intersects(plane, true);
 
