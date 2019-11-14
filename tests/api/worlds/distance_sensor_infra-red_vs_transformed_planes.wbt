@@ -1,0 +1,88 @@
+#VRML_SIM R2019b utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.5699103527051709 -0.7812029044191848 -0.2548022998453853 0.9078708918442474
+  position -0.31955239769727994 0.33774564050991224 0.2851280420264104
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Robot {
+  children [
+    DistanceSensor {
+      translation 0 0 0.1
+      children [
+        DEF DS_SHAPE Transform {
+          translation -0.026 0 0
+          rotation 0 0 1 -1.5708
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.407507 0.848295 0.499062
+                roughness 0.2
+                metalness 0
+              }
+              geometry Cone {
+                bottomRadius 0.01
+                height 0.05
+                subdivision 24
+              }
+            }
+          ]
+        }
+      ]
+      name "A"
+      type "infra-red"
+    }
+    DistanceSensor {
+      children [
+        USE DS_SHAPE
+      ]
+      name "B"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.1
+      children [
+        USE DS_SHAPE
+      ]
+      name "C"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.2
+      children [
+        USE DS_SHAPE
+      ]
+      name "D"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.3
+      children [
+        USE DS_SHAPE
+      ]
+      name "E"
+      type "infra-red"
+    }
+  ]
+  showWindow TRUE
+}
+Transform {
+  translation 0.05 0 -0.15
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.65 0.22 1
+        roughness 1
+        metalness 0
+      }
+      geometry Plane {
+        size 0.25 0.25
+      }
+    }
+  ]
+}
