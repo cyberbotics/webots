@@ -6,7 +6,7 @@ A small sink for bathrooms.
 
 %figure
 
-![BathroomSink](images/objects/bathroom/BathroomSink/model.png)
+![BathroomSink](images/objects/bathroom/BathroomSink/model.thumbnail.png)
 
 %end
 
@@ -39,7 +39,7 @@ A bathtube.
 
 %figure
 
-![Bathtube](images/objects/bathroom/Bathtube/model.png)
+![Bathtube](images/objects/bathroom/Bathtube/model.thumbnail.png)
 
 %end
 
@@ -64,7 +64,7 @@ A toilet.
 
 %figure
 
-![Toilet](images/objects/bathroom/Toilet/model.png)
+![Toilet](images/objects/bathroom/Toilet/model.thumbnail.png)
 
 %end
 
@@ -94,7 +94,7 @@ A washing machine.
 
 %figure
 
-![WashingMachine](images/objects/bathroom/WashingMachine/model.png)
+![WashingMachine](images/objects/bathroom/WashingMachine/model.thumbnail.png)
 
 %end
 

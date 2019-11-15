@@ -70,7 +70,7 @@ A blanket fabric material.
 
 %figure
 
-![BlanketFabric](images/appearances/BlanketFabric.png)
+![BlanketFabric](images/appearances/BlanketFabric.thumbnail.png)
 
 %end
 
@@ -136,7 +136,7 @@ A brushed steel material.
 
 %figure
 
-![BrushedSteel](images/appearances/BrushedSteel.png)
+![BrushedSteel](images/appearances/BrushedSteel.thumbnail.png)
 
 %end
 
@@ -205,7 +205,7 @@ A cement tiles material.
 
 %figure
 
-![CementTiles](images/appearances/CementTiles.png)
+![CementTiles](images/appearances/CementTiles.thumbnail.png)
 
 %end
 
@@ -532,7 +532,7 @@ A grass material containing several grass types.
 
 %figure
 
-![Grass](images/appearances/Grass.png)
+![Grass](images/appearances/Grass.thumbnail.png)
 
 %end
 
@@ -637,7 +637,7 @@ A led strip material.
 
 %figure
 
-![LedStrip](images/appearances/LedStrip.png)
+![LedStrip](images/appearances/LedStrip.thumbnail.png)
 
 %end
 
@@ -673,7 +673,7 @@ A marble tiles material.
 
 %figure
 
-![MarbleTiles](images/appearances/MarbleTiles.png)
+![MarbleTiles](images/appearances/MarbleTiles.thumbnail.png)
 
 %end
 
@@ -967,7 +967,7 @@ A porcelain chevron tiles material.
 
 %figure
 
-![PorcelainChevronTiles](images/appearances/PorcelainChevronTiles.png)
+![PorcelainChevronTiles](images/appearances/PorcelainChevronTiles.thumbnail.png)
 
 %end
 
@@ -1030,7 +1030,7 @@ A reflective surface material.
 
 %figure
 
-![ReflectiveSurface](images/appearances/ReflectiveSurface.png)
+![ReflectiveSurface](images/appearances/ReflectiveSurface.thumbnail.png)
 
 %end
 
@@ -1266,7 +1266,7 @@ A sand material.
 
 %figure
 
-![Sand](images/appearances/Sand.png)
+![Sand](images/appearances/Sand.thumbnail.png)
 
 %end
 
@@ -1395,7 +1395,7 @@ A slate pavement material.
 
 %figure
 
-![SlatePavement](images/appearances/SlatePavement.png)
+![SlatePavement](images/appearances/SlatePavement.thumbnail.png)
 
 %end
 
@@ -1428,7 +1428,7 @@ A soil material.
 
 %figure
 
-![Soil](images/appearances/Soil.png)
+![Soil](images/appearances/Soil.thumbnail.png)
 
 %end
 

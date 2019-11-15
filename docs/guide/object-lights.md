@@ -60,7 +60,7 @@ A ceiling spot light.
 
 %figure
 
-![CeilingSpotLight](images/objects/lights/CeilingSpotLight/model.png)
+![CeilingSpotLight](images/objects/lights/CeilingSpotLight/model.thumbnail.png)
 
 %end
 
@@ -102,7 +102,7 @@ A construction lamp.
 
 %figure
 
-![ConstructionLamp](images/objects/lights/ConstructionLamp/model.png)
+![ConstructionLamp](images/objects/lights/ConstructionLamp/model.thumbnail.png)
 
 %end
 
