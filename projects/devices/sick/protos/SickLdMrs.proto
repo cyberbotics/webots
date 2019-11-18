@@ -58,7 +58,7 @@ PROTO SickLdMrs [
       Lidar {
         rotation %{= internalRotation.x }% %{= internalRotation.y }% %{= internalRotation.z }% %{= internalRotation.a }%
         name IS name
-        model "Sick LD-MRS"
+        model %{= "\"Sick LD-MRS " .. fields.type.value .. "\"" }%
         fieldOfView %{= horizontalFieldOfView }%
         horizontalResolution %{= wbmath.round(horizontalFieldOfView / angularResolution)  }%
         verticalFieldOfView %{= wbmath.degrees2radians(2.4) }%
