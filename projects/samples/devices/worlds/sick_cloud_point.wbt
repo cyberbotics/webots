@@ -6,8 +6,8 @@ WorldInfo {
   title "LD-MRS"
 }
 Viewpoint {
-  orientation 0.1532526638764005 -0.949698776292373 -0.27310411077747687 4.231971338875314
-  position 1.0855822789866856 0.8929333646122893 -0.6805262516002412
+  orientation 0.23609314820713526 -0.9351191344365044 -0.26422004045939934 4.650915091486794
+  position 2.536283457285509 1.710416042993798 -0.4253502397120803
 }
 TexturedBackground {
   texture "factory"
@@ -15,11 +15,11 @@ TexturedBackground {
 TexturedBackgroundLight {
   texture "factory"
 }
-RectangleArena {
-  floorSize 3 3
+CircleArena {
+  radius 1.5
   floorAppearance BakelitePlastic {
   }
-  wallHeight 1
+  wallHeight 0.5
   wallAppearance CorrugatedMetal {
     textureTransform TextureTransform {
       scale 2 2
@@ -99,6 +99,8 @@ Robot {
           SickLdMrs {
             translation 0 0.08 -0.09
             name "sick"
+            type "800001S01"
+            measurementLayers 8
           }
         ]
         boundingObject USE MOTOR_AXIS_SHAPE
@@ -114,6 +116,18 @@ Robot {
   translation -0.269093 7.77156e-16 -1.04395
   rotation 0 1 0 1
   children [
+    Transform {
+      translation 0 0.2 0
+      children [
+        Shape {
+          appearance OldPlywood {
+          }
+          geometry Box {
+            size 0.02 0.24 0.02
+          }
+        }
+      ]
+    }
     Transform {
       translation 0 0.0415 0
       children [
@@ -341,12 +355,6 @@ Robot {
             subdivision 3
           }
         }
-      ]
-    }
-    Transform {
-      rotation 0 1 0 3.14
-      children [
-        USE SMILE
       ]
     }
   ]

@@ -22,12 +22,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <webots/robot.h>
 #include <webots/lidar.h>
 #include <webots/motor.h>
+#include <webots/robot.h>
 
 int main(int argc, char **argv) {
-
   wb_robot_init();
   int time_step = wb_robot_get_basic_time_step();
 
@@ -42,11 +41,27 @@ int main(int argc, char **argv) {
 
   printf("Sick: resolution=%d, layers=%d\n", resolution, layers);
 
+  wb_robot_step(time_step);
   // perform simulation steps
   while (wb_robot_step(time_step) != -1) {
     double t = wb_robot_get_time();
 
-    // const float *lms291_values = wb_lidar_get_range_image(lms291);
+    int l, p;
+    bool something = false;
+    for (l = 0; l < layers; ++l) {
+      const WbLidarPoint *layer = wb_lidar_get_layer_point_cloud(sick, l);
+      for (p = 0; p < resolution; ++p) {
+        WbLidarPoint point = layer[p];
+        // printf("%.2f %.2f %.2f\n", point.x, point.y, point.z);
+        if (point.z > -0.9) {
+          something = true;
+          break;
+        }
+      }
+    }
+    if (something)
+      printf("Something has been detected!\n");
+
     wb_motor_set_position(motor, t);
   }
 
