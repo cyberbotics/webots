@@ -6,8 +6,8 @@ WorldInfo {
   title "LD-MRS"
 }
 Viewpoint {
-  orientation 0.06867114079967995 -0.9878622508358298 -0.13932856058554008 4.272890423305403
-  position 0.8040049273911738 0.4073452010513382 -0.5577514397063
+  orientation 0.5023361028208859 -0.8335824210202141 -0.2297798667612184 5.427893138713519
+  position 1.004488218943456 0.795535124893625 0.783775135640375
 }
 TexturedBackground {
   texture "factory"
@@ -107,4 +107,257 @@ Robot {
   ]
   boundingObject USE BASE_SHAPE
   controller "sick_cloud_point"
+}
+Robot {
+  translation -0.269093 7.77156e-16 -1.04395
+  rotation 0 1 0 1
+  children [
+    Transform {
+      translation 0 0.0415 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.0820075 0.364731 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry DEF BODY Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "left wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.045 0.025 0
+        rotation 1 0 0 4.98467
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "right wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.045 0.025 0
+        rotation 1 0 0 4.58735
+        children [
+          USE WHEEL
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
+    }
+    DistanceSensor {
+      translation 0.02 0.063 -0.042
+      rotation 0 1 0 1.1781
+      children [
+        DEF SENSOR Transform {
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.975691 0.981481 0.0252992
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.004
+                radius 0.008
+              }
+            }
+          ]
+        }
+      ]
+      name "ds0"
+      lookupTable [
+        0 1024 0
+        0.02 1024 0.1
+        0.08 0 0.3
+      ]
+      aperture 1
+    }
+    DistanceSensor {
+      translation 0.042 0.063 -0.02
+      rotation 0 1 0 0.3927
+      children [
+        USE SENSOR
+      ]
+      name "ds1"
+      lookupTable [
+        0 1024 0
+        0.02 1024 0.1
+        0.08 0 0.3
+      ]
+      aperture 1
+    }
+    DistanceSensor {
+      translation 0.042 0.063 0.02
+      rotation 0 1 0 5.8905
+      children [
+        USE SENSOR
+      ]
+      name "ds2"
+      lookupTable [
+        0 1024 0
+        0.02 1024 0.1
+        0.08 0 0.3
+      ]
+      aperture 1
+    }
+    DistanceSensor {
+      translation 0.02 0.063 0.042
+      rotation 0 1 0 5.1051
+      children [
+        USE SENSOR
+      ]
+      name "ds3"
+      lookupTable [
+        0 1024 0
+        0.02 1024 0.1
+        0.08 0 0.3
+      ]
+      aperture 1
+    }
+    DistanceSensor {
+      translation -0.02 0.063 0.042
+      rotation 0 1 0 4.3197
+      children [
+        USE SENSOR
+      ]
+      name "ds4"
+      lookupTable [
+        0 1024 0
+        0.02 1024 0.1
+        0.08 0 0.3
+      ]
+      aperture 1
+    }
+    DistanceSensor {
+      translation -0.042 0.063 0.02
+      rotation 0 1 0 3.5343
+      children [
+        USE SENSOR
+      ]
+      name "ds5"
+      lookupTable [
+        0 1024 0
+        0.02 1024 0.1
+        0.08 0 0.3
+      ]
+      aperture 1
+    }
+    DistanceSensor {
+      translation -0.042 0.063 -0.02
+      rotation 0 1 0 2.7489
+      children [
+        USE SENSOR
+      ]
+      name "ds6"
+      lookupTable [
+        0 1024 0
+        0.02 1024 0.1
+        0.08 0 0.3
+      ]
+      aperture 1
+    }
+    DistanceSensor {
+      translation -0.02 0.063 -0.042
+      rotation 0 1 0 1.9635
+      children [
+        USE SENSOR
+      ]
+      name "ds7"
+      lookupTable [
+        0 1024 0
+        0.02 1024 0.1
+        0.08 0 0.3
+      ]
+      aperture 1
+    }
+    DEF SMILE Transform {
+      translation 0 0.025 -0.036
+      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.721569 0.290196 0.290196
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.018
+            radius 0.009
+            subdivision 3
+          }
+        }
+      ]
+    }
+    Transform {
+      rotation 0 1 0 3.14
+      children [
+        USE SMILE
+      ]
+    }
+  ]
+  name "MyBot"
+  boundingObject Transform {
+    translation 0 0.0415 0
+    children [
+      USE BODY
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+  }
+  controller "distance_sensor"
 }
