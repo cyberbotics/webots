@@ -15,10 +15,7 @@
  */
 
 /*
- * Description:  Example of Sick LMS 291.
- *               The motors position or velocity is set
- *               according to a braitenberg algorithm based
- *               on the values returned by the Sick,
+ * Description:  TODO
  */
 
 #include <math.h>
