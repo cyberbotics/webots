@@ -10,6 +10,8 @@ PROTO SickLdMrs [
   field SFVec3f    translation       0 0 0
   field SFRotation rotation          0 1 0 0
   field SFString   name              "Sick LD-MRS"
+  field SFString{"400001", "800001S01"}
+                   type              "400001"
   field SFFloat    noise             0.3
   field SFInt32    numberOfLayers    4  # either 2 or 4
   field SFFloat    angularResolution 0.008726646259972  # == 0.5 [deg] - Could be 0.125, 0.25 or 0.5 [deg]
