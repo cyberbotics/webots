@@ -23,7 +23,7 @@ def checkIfRecentlyModified(path, timeout):
 
 
 currentTime = time.time()
-creationTimeLimit = currentTime - 86400 * 3  # days in seconds
+creationTimeLimit = currentTime - 86400 * 3  # 3 days in seconds
 modificationTimeLimit = currentTime - 86400 * 1  # 1 day in seconds
 processName = 'webots'
 streamPattern = re.compile('^--stream.*')
