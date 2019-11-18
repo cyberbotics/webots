@@ -250,7 +250,7 @@ class Client:
                 try:
                     self.webots_process.wait(5)  # set a timeout (seconds) to avoid blocking the whole script
                 except subprocess.TimeoutExpired:
-                    logging.warning('[%d] ERROR killing Webots [%d' % (id(self), self.webots_process.pid))
+                    logging.warning('[%d] ERROR killing Webots [%d]' % (id(self), self.webots_process.pid))
                     self.webots_process.kill()
             self.webots_process = None
 
