@@ -6,8 +6,8 @@ WorldInfo {
   title "LD-MRS"
 }
 Viewpoint {
-  orientation 0.5023361028208859 -0.8335824210202141 -0.2297798667612184 5.427893138713519
-  position 1.004488218943456 0.795535124893625 0.783775135640375
+  orientation 0.1532526638764005 -0.949698776292373 -0.27310411077747687 4.231971338875314
+  position 1.0855822789866856 0.8929333646122893 -0.6805262516002412
 }
 TexturedBackground {
   texture "factory"
@@ -66,6 +66,7 @@ Robot {
       }
       device [
         RotationalMotor {
+          name "motor"
         }
       ]
       endPoint Solid {
@@ -97,6 +98,7 @@ Robot {
           }
           SickLdMrs {
             translation 0 0.08 -0.09
+            name "sick"
           }
         ]
         boundingObject USE MOTOR_AXIS_SHAPE
