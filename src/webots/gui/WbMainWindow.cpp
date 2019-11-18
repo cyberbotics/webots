@@ -204,6 +204,8 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, QWidget *parent) :
           &WbMainWindow::discardNodeRegeneration);
   connect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this,
           &WbMainWindow::finalizeNodeRegeneration);
+
+  WbLog::instance()->showPendingConsoleMessages();
 }
 
 WbMainWindow::~WbMainWindow() {
@@ -393,6 +395,7 @@ void WbMainWindow::createMainTools() {
   }
 
   mTextEditor = new WbBuildEditor(this, toolBarAlign());
+  mTextEditor->updateGui();
   addDockWidget(Qt::RightDockWidgetArea, mTextEditor, Qt::Vertical);
   addDock(mTextEditor);
   connect(mTextEditor, &WbBuildEditor::reloadRequested, this, &WbMainWindow::reloadWorld, Qt::QueuedConnection);
@@ -1046,7 +1049,7 @@ void WbMainWindow::simulationQuit(int exitStatus) {
 }
 
 bool WbMainWindow::event(QEvent *event) {
-  if (event->type() == QEvent::ScreenChangeInternal)
+  if (mSimulationView && event->type() == QEvent::ScreenChangeInternal)
     mSimulationView->internalScreenChangedCallback();
   return QMainWindow::event(event);
 }
@@ -1081,6 +1084,7 @@ void WbMainWindow::closeEvent(QCloseEvent *event) {
   mSimulationView->view3D()->cleanupOptionalRendering();
   mSimulationView->view3D()->cleanupFullScreenOverlay();
   mSimulationView->cleanup();
+  WbClipboard::deleteInstance();
 
   // really close
   if (WbApplication::instance()) {
@@ -1542,8 +1546,11 @@ void WbMainWindow::exportHtml() {
     world->exportAsHtml(fileName, false);
     WbPreferences::instance()->setValue("Directories/www", QFileInfo(fileName).absolutePath() + "/");
     openUrl(fileName,
-            tr("The HTML5 model has been created:\n%1\n\nDo you want to view it locally now?\n\nNote: HTML5 models can not be "
-               "viewed locally on Google Chrome.")
+            tr("The HTML5 model has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
+               "Note: please refer to the "
+               "<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/"
+               "web-scene#remarks-on-the-used-technologies-and-their-limitations'>User Guide</a> "
+               "if your browser prevents local files CORS requests.")
               .arg(fileName),
             tr("Export HTML5 Model"));
   }

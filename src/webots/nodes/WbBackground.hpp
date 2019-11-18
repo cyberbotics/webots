@@ -49,8 +49,7 @@ public:
   WbRgb skyColor() const;
   double luminosity() const { return mLuminosity->value(); }
 
-  WrTextureCubeMap *diffuseIrradianceCubeTexture() { return mDiffuseIrradianceCubeTexture; };
-  WrTextureCubeMap *specularIrradianceCubeTexture() { return mSpecularIrradianceCubeTexture; };
+  WrTextureCubeMap *irradianceCubeTexture() { return mIrradianceCubeTexture; };
 
 signals:
   void cubemapChanged();
@@ -79,6 +78,7 @@ private:
   // user accessible fields
   WbMFColor *mSkyColor;
   WbMFString *mUrlFields[6];
+  WbMFString *mIrradianceUrlFields[6];
   WbSFDouble *mLuminosity;
 
   // skybox related fields
@@ -96,8 +96,7 @@ private:
   WrStaticMesh *mHdrClearMesh;
 
   WrTextureCubeMap *mCubeMapTexture;
-  WrTextureCubeMap *mDiffuseIrradianceCubeTexture;
-  WrTextureCubeMap *mSpecularIrradianceCubeTexture;
+  WrTextureCubeMap *mIrradianceCubeTexture;
 
 private slots:
   void updateColor();

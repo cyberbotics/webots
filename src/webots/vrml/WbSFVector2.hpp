@@ -27,10 +27,10 @@ class WbSFVector2 : public WbSingleValue {
   Q_OBJECT
 
 public:
-  WbSFVector2(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
+  WbSFVector2(WbTokenizer *tokenizer, const QString &worldPath) { readSFVector2(tokenizer, worldPath); }
   WbSFVector2(const WbSFVector2 &other) : mValue(other.mValue) {}
   virtual ~WbSFVector2() {}
-  void read(WbTokenizer *tokenizer, const QString &worldPath) override;
+  void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFVector2(tokenizer, worldPath); }
   void write(WbVrmlWriter &writer) const override {
     writer << toString(writer.isWebots() ? WbPrecision::DOUBLE_MAX : WbPrecision::FLOAT_MAX);
   }
@@ -56,6 +56,7 @@ public:
 
 private:
   WbVector2 mValue;
+  void readSFVector2(WbTokenizer *tokenizer, const QString &worldPath);
 };
 
 #endif

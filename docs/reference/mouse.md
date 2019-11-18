@@ -10,7 +10,7 @@ In order to get the `Mouse` instance, you should call the `Robot.getMouse` funct
 
 The state of a mouse is defined like this:
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -132,7 +132,7 @@ These values may be `NaN` if not applicable, for example when the mouse is point
 #### `wb_mouse_get_sampling_period`
 #### `wb_mouse_get_state`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -235,7 +235,7 @@ The `wb_mouse_disable` function should be used to stop the mouse readings.
 #### `wb_mouse_disable_3d_position`
 #### `wb_mouse_is_3d_position_enabled`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 

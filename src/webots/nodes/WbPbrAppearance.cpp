@@ -240,36 +240,22 @@ WrMaterial *WbPbrAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
     backgroundLuminosity = background->luminosity();
     connect(background, &WbBackground::luminosityChanged, this, &WbPbrAppearance::updateCubeMap, Qt::UniqueConnection);
 
-    // diffuse irradiance map
-    WrTextureCubeMap *diffuseIrradianceCubeTexture = background->diffuseIrradianceCubeTexture();
-    if (diffuseIrradianceCubeTexture) {
-      wr_material_set_texture_cubemap(wrenMaterial, diffuseIrradianceCubeTexture, 0);
+    // irradiance map
+    WrTextureCubeMap *irradianceCubeTexture = background->irradianceCubeTexture();
+    if (irradianceCubeTexture) {
+      wr_material_set_texture_cubemap(wrenMaterial, irradianceCubeTexture, 0);
       wr_material_set_texture_cubemap_wrap_r(wrenMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
       wr_material_set_texture_cubemap_wrap_s(wrenMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
       wr_material_set_texture_cubemap_wrap_t(wrenMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
       wr_material_set_texture_cubemap_anisotropy(wrenMaterial, 8, 0);
       wr_material_set_texture_cubemap_enable_interpolation(wrenMaterial, true, 0);
+      wr_material_set_texture_cubemap_enable_mip_maps(wrenMaterial, true, 0);
     } else
       wr_material_set_texture_cubemap(wrenMaterial, NULL, 0);
 
-    // specular irradiance map
-    WrTextureCubeMap *specularIrradianceCubeTexture = background->specularIrradianceCubeTexture();
-    if (specularIrradianceCubeTexture) {
-      wr_material_set_texture_cubemap(wrenMaterial, specularIrradianceCubeTexture, 1);
-      wr_material_set_texture_cubemap_wrap_r(wrenMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 1);
-      wr_material_set_texture_cubemap_wrap_s(wrenMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 1);
-      wr_material_set_texture_cubemap_wrap_t(wrenMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 1);
-      wr_material_set_texture_cubemap_anisotropy(wrenMaterial, 8, 1);
-      wr_material_set_texture_cubemap_enable_interpolation(wrenMaterial, true, 1);
-      wr_material_set_texture_cubemap_enable_mip_maps(wrenMaterial, true, 1);
-    } else
-      wr_material_set_texture_cubemap(wrenMaterial, NULL, 1);
-
     connect(background, &WbBackground::cubemapChanged, this, &WbPbrAppearance::updateCubeMap, Qt::UniqueConnection);
-  } else {
+  } else
     wr_material_set_texture_cubemap(wrenMaterial, NULL, 0);
-    wr_material_set_texture_cubemap(wrenMaterial, NULL, 1);
-  }
 
   if (normalMap())
     normalMap()->modifyWrenMaterial(wrenMaterial, 4, 7);

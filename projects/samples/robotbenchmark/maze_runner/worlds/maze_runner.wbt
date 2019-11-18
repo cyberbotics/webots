@@ -26,25 +26,23 @@ Viewpoint {
   followSmoothness 0.01
 }
 TexturedBackground {
-  texture "noon_cloudy_empty"
-}
-DirectionalLight {
-  direction -0.6 -1 0.55
-  intensity 1.7
-  castShadows TRUE
+  texture "empty_office"
 }
 CeilingLight {
-  translation -1.99 2.32 0
-  pointLightColor 1 0.992157 0.929412
-  pointLightIntensity 0.2
-  castShadows FALSE
-}
-CeilingLight {
-  translation 1.07 2.32 0
+  translation 0.45 2.32 0
   name "ceiling light(1)"
-  pointLightColor 1 1 0.870588
-  pointLightIntensity 0.2
+  pointLightRadius 0.1
   castShadows FALSE
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.7
+  cutOffAngle 0.9
+  direction 0 -1 0
+  intensity 0.8
+  location 0.45 1.6 0
+  radius 4
+  castShadows TRUE
 }
 Table {
   translation 0.35906952 -1.0436096e-14 -0.01306105

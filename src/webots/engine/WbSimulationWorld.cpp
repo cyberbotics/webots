@@ -240,7 +240,12 @@ void WbSimulationWorld::step() {
     log->stopMeasure(WbPerformanceLog::POST_PHYSICS_STEP);
 
   // update camera textures before main rendering
-  emit cameraRenderingStarted();
+  const QList<WbRobot *> robotList = robots();
+  for (int i = 0; i < robots().size(); ++i) {
+    WbRobot *robot = robotList[i];
+    if (robot->isControllerStarted())
+      robot->renderCameras();
+  }
 
   if (!mSimulationHasRunAfterSave) {
     mSimulationHasRunAfterSave = true;

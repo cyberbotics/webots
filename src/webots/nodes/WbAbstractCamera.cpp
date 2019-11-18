@@ -23,9 +23,7 @@
 #include "WbPreferences.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRgb.hpp"
-#include "WbRobot.hpp"
 #include "WbSFNode.hpp"
-#include "WbSensor.hpp"
 #include "WbSimulationState.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
@@ -352,12 +350,7 @@ bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command)
       // update motion blur factor
       applyMotionBlurToWren();
 
-      if (mSensor->isEnabled())
-        connect(WbSimulationState::instance(), &WbSimulationState::cameraRenderingStarted, this,
-                &WbAbstractCamera::updateCameraTexture, Qt::UniqueConnection);
-      else
-        disconnect(WbSimulationState::instance(), &WbSimulationState::cameraRenderingStarted, this,
-                   &WbAbstractCamera::updateCameraTexture);
+      emit enabled(this, mSensor->isEnabled());
 
       if (!hasBeenSetup()) {
         setup();

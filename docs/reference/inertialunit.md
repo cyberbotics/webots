@@ -58,7 +58,7 @@ This field accepts any value in the interval (0.0, inf).
 #### `wb_inertial_unit_get_sampling_period`
 #### `wb_inertial_unit_get_roll_pitch_yaw`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 

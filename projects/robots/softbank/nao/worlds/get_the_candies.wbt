@@ -23,22 +23,22 @@ Viewpoint {
 }
 Background {
   backUrl [
-    "textures/cubic/brown_floor_back.hdr"
+    "textures/cubic/brown_floor_side.png"
   ]
   bottomUrl [
-    "textures/cubic/brown_floor_bottom.hdr"
+    "textures/cubic/brown_floor_bottom.png"
   ]
   frontUrl [
-    "textures/cubic/brown_floor_front.hdr"
+    "textures/cubic/brown_floor_side.png"
   ]
   leftUrl [
-    "textures/cubic/brown_floor_left.hdr"
+    "textures/cubic/brown_floor_side.png"
   ]
   rightUrl [
-    "textures/cubic/brown_floor_right.hdr"
+    "textures/cubic/brown_floor_side.png"
   ]
   topUrl [
-    "textures/cubic/brown_floor_top.hdr"
+    "textures/cubic/brown_floor_top.png"
   ]
 }
 Solid {

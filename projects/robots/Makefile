@@ -46,6 +46,11 @@ CONTROLLERS=\
   nasa/controllers.Makefile \
   neuronics/ipr/controllers.Makefile \
   nex/controllers.Makefile \
+  pal_robotics/tiago_base/controllers/tiago_base.Makefile \
+  pal_robotics/tiago_iron/controllers/tiago_iron.Makefile \
+  pal_robotics/tiago_steel/controllers/tiago_steel.Makefile \
+  pal_robotics/tiago_titanium/controllers/tiago_titanium.Makefile \
+  pal_robotics/tiago++/controllers/tiago++.Makefile \
   parallax/boebot/controllers.Makefile \
   picaxe/microbot/controllers.Makefile \
   robotis/bioloid/controllers.Makefile \

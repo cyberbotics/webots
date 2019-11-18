@@ -30,6 +30,7 @@ class QClipboard;
 class WbClipboard : public WbVariant {
 public:
   static WbClipboard *instance();
+  static void deleteInstance();
   WbClipboard &operator=(const WbVariant &other);
 
   // redefine WbVariant setters
@@ -67,7 +68,6 @@ public:
 
 private:
   explicit WbClipboard();
-  ~WbClipboard() { clear(); };
 
   WbNode *toNode() const override { return NULL; }
   WbClipboardNodeInfo *mNodeInfo;

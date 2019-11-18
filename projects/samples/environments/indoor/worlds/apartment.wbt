@@ -10,24 +10,11 @@ Viewpoint {
   position 12.143261180316491 13.364950873142462 5.577133654868257
   exposure 0.5
 }
-Background {
-  backUrl [
-    "textures/cubic/brown_floor_back.hdr"
-  ]
-  bottomUrl [
-    "textures/cubic/brown_floor_bottom.hdr"
-  ]
-  frontUrl [
-    "textures/cubic/brown_floor_front.hdr"
-  ]
-  leftUrl [
-    "textures/cubic/brown_floor_left.hdr"
-  ]
-  rightUrl [
-    "textures/cubic/brown_floor_right.hdr"
-  ]
-  topUrl [
-    "textures/cubic/brown_floor_top.hdr"
+TexturedBackground {
+  texture "empty_office"
+  skybox FALSE
+  skyColor [
+    0.2 0.2 0.2
   ]
 }
 DEF FLOOR Solid {

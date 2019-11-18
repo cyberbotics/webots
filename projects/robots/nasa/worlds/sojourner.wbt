@@ -19,15 +19,15 @@ Viewpoint {
   follow "Sojourner"
 }
 TexturedBackground {
-  texture "twilight_cloudy_empty"
+  texture "mars"
 }
 TexturedBackgroundLight {
-  texture "twilight_cloudy_empty"
+  texture "mars"
 }
 Fog {
-  color 0.25098 0.172549 0.129412
+  color 0.83 0.83 0.75
   fogType "EXPONENTIAL"
-  visibilityRange 200
+  visibilityRange 800
 }
 DEF FLAG Solid {
   translation 0.108014 0.441311 1.29315
@@ -97,18 +97,10 @@ Rock10cm {
 DEF GROUND Solid {
   translation -641 38.85 -801
   children [
-    DEF GROUND Shape {
-      appearance PBRAppearance {
-        baseColor 0.647059 0.427451 0.290196
-        baseColorMap ImageTexture {
-          url [
-            "sojourner/mars_ground.jpg"
-          ]
-        }
-        roughness 1
-        metalness 0
+    DEF GROUND_SHAPE Shape {
+      appearance Soil {
         textureTransform TextureTransform {
-          scale 100 100
+          scale 600 600
         }
       }
       geometry ElevationGrid {
@@ -123,6 +115,6 @@ DEF GROUND Solid {
     }
   ]
   name "ground"
-  boundingObject USE GROUND
+  boundingObject USE GROUND_SHAPE
   locked TRUE
 }

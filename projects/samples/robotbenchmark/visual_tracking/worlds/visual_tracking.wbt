@@ -8,9 +8,10 @@ Viewpoint {
   position -1.8452917 0.71870796 4.555569
 }
 TexturedBackground {
-  texture "noon_sunny_garden"
+  texture "noon_cloudy_countryside"
 }
 TexturedBackgroundLight {
+  texture "noon_cloudy_countryside"
 }
 AiboErs7 {
   translation -1.0510903 0.14351524 2.2559382
