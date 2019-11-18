@@ -10,9 +10,9 @@ PROTO SickLdMrs [
   field SFVec3f    translation       0 0 0
   field SFRotation rotation          0 1 0 0
   field SFString   name              "Sick LD-MRS"
-  field SFString{"400001"}
+  field SFString{"400001", "800001S01"}
                    type              "400001"
-  field SFInt32{2, 4}
+  field SFInt32{2, 4, 8}
                    measurementLayers 4
   field SFString{"0.5 [deg]", "0.25 [deg]", "0.125 [deg]"}
                    angularResolution "0.5 [deg]"
@@ -26,6 +26,7 @@ PROTO SickLdMrs [
 
     -- Get and check fields.
     local measurementLayers = fields.measurementLayers.value
+    local type = fields.type.value
 
     local angularResolution = wbmath.degrees2radians(0.5)
     if fields.angularResolution.value == "0.25 [deg]" then
@@ -36,13 +37,40 @@ PROTO SickLdMrs [
 
     -- Compute geometry constants.
     local horizontalFieldOfView = 0.0
+    local verticalFieldOfView = 0.0
     local offsetAngle = 0.0
-    if measurementLayers == 4 then
-      horizontalFieldOfView = wbmath.degrees2radians(85)
-      offsetAngle = wbmath.degrees2radians(7.5)
-    else  -- measurementLayers == 2
-      horizontalFieldOfView = wbmath.degrees2radians(110)
-      offsetAngle = wbmath.degrees2radians(5)
+
+    if type == "400001" then
+      verticalFieldOfView = wbmath.degrees2radians(3.2)
+      if measurementLayers == 4 then
+        horizontalFieldOfView = wbmath.degrees2radians(85)
+        offsetAngle = wbmath.degrees2radians(7.5)
+      elseif measurementLayers == 2 then
+        horizontalFieldOfView = wbmath.degrees2radians(110)
+        offsetAngle = wbmath.degrees2radians(5)
+      else
+        -- invalid case: warn and fill with dummy values.
+        io.stderr:write("A '" .. type .. "' SickLdMrs can not have " .. measurementLayers .. " measurement layers.")
+        horizontalFieldOfView = wbmath.degrees2radians(85)
+        offsetAngle = wbmath.degrees2radians(7.5)
+      end
+    elseif type == "800001S01" then
+      verticalFieldOfView = wbmath.degrees2radians(6.4)
+      if measurementLayers == 8 then
+        horizontalFieldOfView = wbmath.degrees2radians(85)
+        offsetAngle = wbmath.degrees2radians(7.5)
+      elseif measurementLayers == 4 then
+        horizontalFieldOfView = wbmath.degrees2radians(110)
+        offsetAngle = wbmath.degrees2radians(5)
+      else
+        -- invalid case: warn and fill with dummy values.
+        io.stderr:write("A '" .. type .. "' SickLdMrs can not have " .. measurementLayers .. " measurement layers.")
+        horizontalFieldOfView = wbmath.degrees2radians(85)
+        offsetAngle = wbmath.degrees2radians(7.5)
+      end
+    else
+      -- unreachable code
+      io.stderr:write("Invalid type.")
     end
 
     local internalRotation = wbrotation.combine(
@@ -61,7 +89,7 @@ PROTO SickLdMrs [
         model %{= "\"Sick LD-MRS " .. fields.type.value .. "\"" }%
         fieldOfView %{= horizontalFieldOfView }%
         horizontalResolution %{= wbmath.round(horizontalFieldOfView / angularResolution)  }%
-        verticalFieldOfView %{= wbmath.degrees2radians(2.4) }%
+        verticalFieldOfView %{= verticalFieldOfView }%
         numberOfLayers %{= measurementLayers }%
         minRange 0.5
         maxRange 300
