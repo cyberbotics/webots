@@ -707,7 +707,8 @@ if sys.platform == 'linux2':
     os.system("killall -q webots-bin")
 
 # specify the display to ensure Webots can be executed even if this script is started remotely from a ssh session
-os.environ["DISPLAY"] = ":0"
+if "DISPLAY" not in os.environ:
+    os.environ["DISPLAY"] = ":0"
 # ensure we are in the script directory
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 argc = len(sys.argv)
