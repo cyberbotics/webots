@@ -10,10 +10,11 @@ PROTO SickLdMrs [
   field SFVec3f    translation       0 0 0
   field SFRotation rotation          0 1 0 0
   field SFString   name              "Sick LD-MRS"
-  field SFString{"400001", "800001S01"}
+  field SFString{"400001"}
                    type              "400001"
   field SFFloat    noise             0.3
-  field SFInt32    numberOfLayers    4  # either 2 or 4
+  field SFInt32{2, 4}
+                   measurementLayers 4
   field SFFloat    angularResolution 0.008726646259972  # == 0.5 [deg] - Could be 0.125, 0.25 or 0.5 [deg]
   field SFBool     physics           TRUE
 ]
@@ -22,10 +23,10 @@ PROTO SickLdMrs [
     local wbrotation = require('wbrotation')
 
     -- Check fields.
-    local numberOfLayers = fields.numberOfLayers.value
-    if numberOfLayers ~= 2 and numberOfLayers ~= 4 then
-      io.stderr:write("'numberOfLayers' must be either 2 or 4.\n")
-      numberOfLayers = fields.numberOfLayers.defaultValue
+    local measurementLayers = fields.measurementLayers.value
+    if measurementLayers ~= 2 and measurementLayers ~= 4 then
+      io.stderr:write("'measurementLayers' must be either 2 or 4.\n")
+      measurementLayers = fields.measurementLayers.defaultValue
     end
 
     local angularResolution = fields.angularResolution.value
@@ -37,10 +38,10 @@ PROTO SickLdMrs [
     -- Compute geometry constants.
     local horizontalFieldOfView = 0.0
     local offsetAngle = 0.0
-    if numberOfLayers == 4 then
+    if measurementLayers == 4 then
       horizontalFieldOfView = 1.48352986419518  -- == 85 [deg]
       offsetAngle = 0.130899693899575  -- == 7.5 [deg]
-    else  -- numberOfLayers == 2
+    else  -- measurementLayers == 2
       horizontalFieldOfView = 1.919862177193763  -- == 110 [deg]
       offsetAngle = 0.087266462599716  -- == 5 [deg]
     end
@@ -62,7 +63,7 @@ PROTO SickLdMrs [
         fieldOfView %{= horizontalFieldOfView }%
         horizontalResolution %{= math.floor(horizontalFieldOfView / angularResolution + 0.5)  }%
         verticalFieldOfView 0.041887902047864  # == 2.4 [deg]
-        numberOfLayers %{= numberOfLayers }%
+        measurementLayers %{= measurementLayers }%
         minRange 0.5
         maxRange 300
         noise IS noise
