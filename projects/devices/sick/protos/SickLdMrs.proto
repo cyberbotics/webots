@@ -12,27 +12,25 @@ PROTO SickLdMrs [
   field SFString   name              "Sick LD-MRS"
   field SFString{"400001"}
                    type              "400001"
-  field SFFloat    noise             0.3
   field SFInt32{2, 4}
                    measurementLayers 4
-  field SFFloat    angularResolution 0.008726646259972  # == 0.5 [deg] - Could be 0.125, 0.25 or 0.5 [deg]
+  field SFString{"0.5 [deg]", "0.25 [deg]", "0.125 [deg]"}
+                   angularResolution "0.5 [deg]"
+  field SFFloat    noise             0.3
   field SFBool     physics           TRUE
 ]
 {
   %{
     local wbrotation = require('wbrotation')
 
-    -- Check fields.
+    -- Get and check fields.
     local measurementLayers = fields.measurementLayers.value
-    if measurementLayers ~= 2 and measurementLayers ~= 4 then
-      io.stderr:write("'measurementLayers' must be either 2 or 4.\n")
-      measurementLayers = fields.measurementLayers.defaultValue
-    end
 
-    local angularResolution = fields.angularResolution.value
-    if angularResolution <= 0.0 then
-      io.stderr:write("'angularResolution' must be positive.\n")
-      angularResolution = fields.angularResolution.defaultValue
+    local angularResolution = 0.5 * math.pi / 180.0   -- 0.5 [deg] in [rad]
+    if fields.angularResolution.value == "0.25 [deg]" then
+      angularResolution = angularResolution / 2
+    elseif fields.angularResolution.value == "0.125 [deg]" then
+      angularResolution = angularResolution / 4
     end
 
     -- Compute geometry constants.
@@ -63,7 +61,7 @@ PROTO SickLdMrs [
         fieldOfView %{= horizontalFieldOfView }%
         horizontalResolution %{= math.floor(horizontalFieldOfView / angularResolution + 0.5)  }%
         verticalFieldOfView 0.041887902047864  # == 2.4 [deg]
-        measurementLayers %{= measurementLayers }%
+        numberOfLayers %{= measurementLayers }%
         minRange 0.5
         maxRange 300
         noise IS noise
