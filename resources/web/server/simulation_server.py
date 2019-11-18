@@ -18,7 +18,7 @@
 
 from io import BytesIO
 from pynvml import nvmlInit, nvmlShutdown, nvmlDeviceGetHandleByIndex, nvmlDeviceGetName, nvmlDeviceGetMemoryInfo, \
-                   nvmlDeviceGetUtilizationRates
+                   nvmlDeviceGetUtilizationRates, NVMLError
 from requests import session
 
 import asyncio
@@ -535,7 +535,7 @@ def update_snapshot():
         gpu_load = nvmlDeviceGetUtilizationRates(nvmlHandle)
         gpu_load_compute = gpu_load.gpu
         gpu_load_memory = gpu_load.memory
-    except:  # not supported on some hardware
+    except NVMLError:  # not supported on some hardware
         gpu_load_compute = 0
         gpu_load_memory = 0
     webots_idle = 0
@@ -689,7 +689,7 @@ def main():
     try:
         nvmlInit()
         nvidia = True
-    except:
+    except NVMLError:
         nvidia = False
     update_snapshot()
     try:
