@@ -1,0 +1,110 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+  info [
+    "Description: Sample of robot mounted by a Sick LD-MRS using the point cloud API."
+  ]
+  title "LD-MRS"
+}
+Viewpoint {
+  orientation 0.06867114079967995 -0.9878622508358298 -0.13932856058554008 4.272890423305403
+  position 0.8040049273911738 0.4073452010513382 -0.5577514397063
+}
+TexturedBackground {
+  texture "factory"
+}
+TexturedBackgroundLight {
+  texture "factory"
+}
+RectangleArena {
+  floorSize 3 3
+  floorAppearance BakelitePlastic {
+  }
+  wallHeight 1
+  wallAppearance CorrugatedMetal {
+    textureTransform TextureTransform {
+      scale 2 2
+    }
+  }
+}
+PointLight {
+  attenuation 0 0 1
+  intensity 0.6
+  location 0 0.6 0
+}
+Robot {
+  translation 0 0.015 0
+  children [
+    DEF BASE_SHAPE Group {
+      children [
+        Shape {
+          appearance GalvanizedMetal {
+          }
+          geometry Cylinder {
+            height 0.03
+            radius 0.1
+          }
+        }
+        Transform {
+          translation 0 0.04 0
+          children [
+            Shape {
+              appearance GlossyPaint {
+                baseColor 0.0977493 0 0.813718
+              }
+              geometry Cylinder {
+                height 0.05
+                radius 0.04
+              }
+            }
+          ]
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+      }
+      device [
+        RotationalMotor {
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.09 0
+        children [
+          DEF MOTOR_AXIS_SHAPE Group {
+            children [
+              Shape {
+                appearance CorrodedMetal {
+                }
+                geometry Cylinder {
+                  height 0.06
+                  radius 0.02
+                }
+              }
+              Transform {
+                translation 0 0.08 0.015
+                children [
+                  Shape {
+                    appearance GalvanizedMetal {
+                    }
+                    geometry Box {
+                      size 0.17 0.1 0.02
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+          SickLdMrs {
+            translation 0 0.08 -0.09
+          }
+        ]
+        boundingObject USE MOTOR_AXIS_SHAPE
+        physics Physics {
+        }
+      }
+    }
+  ]
+  boundingObject USE BASE_SHAPE
+  controller "sick_cloud_point"
+}
