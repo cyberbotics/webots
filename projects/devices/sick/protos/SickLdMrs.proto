@@ -22,11 +22,12 @@ PROTO SickLdMrs [
 {
   %{
     local wbrotation = require('wbrotation')
+    local wbmath = require('wbmath')
 
     -- Get and check fields.
     local measurementLayers = fields.measurementLayers.value
 
-    local angularResolution = 0.5 * math.pi / 180.0   -- 0.5 [deg] in [rad]
+    local angularResolution = wbmath.degrees2radians(0.5)
     if fields.angularResolution.value == "0.25 [deg]" then
       angularResolution = angularResolution / 2
     elseif fields.angularResolution.value == "0.125 [deg]" then
@@ -37,11 +38,11 @@ PROTO SickLdMrs [
     local horizontalFieldOfView = 0.0
     local offsetAngle = 0.0
     if measurementLayers == 4 then
-      horizontalFieldOfView = 1.48352986419518  -- == 85 [deg]
-      offsetAngle = 0.130899693899575  -- == 7.5 [deg]
+      horizontalFieldOfView = wbmath.degrees2radians(85)
+      offsetAngle = wbmath.degrees2radians(7.5)
     else  -- measurementLayers == 2
-      horizontalFieldOfView = 1.919862177193763  -- == 110 [deg]
-      offsetAngle = 0.087266462599716  -- == 5 [deg]
+      horizontalFieldOfView = wbmath.degrees2radians(110)
+      offsetAngle = wbmath.degrees2radians(5)
     end
 
     local internalRotation = wbrotation.combine(
@@ -59,8 +60,8 @@ PROTO SickLdMrs [
         name IS name
         model "Sick LD-MRS"
         fieldOfView %{= horizontalFieldOfView }%
-        horizontalResolution %{= math.floor(horizontalFieldOfView / angularResolution + 0.5)  }%
-        verticalFieldOfView 0.041887902047864  # == 2.4 [deg]
+        horizontalResolution %{= wbmath.round(horizontalFieldOfView / angularResolution)  }%
+        verticalFieldOfView %{= wbmath.degrees2radians(2.4) }%
         numberOfLayers %{= measurementLayers }%
         minRange 0.5
         maxRange 300
