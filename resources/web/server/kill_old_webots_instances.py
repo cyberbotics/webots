@@ -6,7 +6,7 @@ import time
 import os
 
 '''
-Kill all instances of streaming Webots processes fulfilling the following conditions:
+Utility script for Linux server machines that kills all instances of streaming Webots processes fulfilling the following conditions:
 - created 3 days ago or earlier
 - controller files not modified in the last 24 hours
 Only the batch script is terminated but this script will also check and notify if Webots binary is still running.
