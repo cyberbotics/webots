@@ -28,6 +28,9 @@ PROTO SickLdMrs [
     local measurementLayers = fields.measurementLayers.value
     local type = fields.type.value
 
+    local isHD = type == "400102" or type == "400102S01"
+    local is8L = type == "800001S01"
+
     local angularResolution = wbmath.degrees2radians(0.5)
     if fields.angularResolution.value == "0.25 [deg]" then
       angularResolution = angularResolution / 2
@@ -97,7 +100,13 @@ PROTO SickLdMrs [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              "textures/sick_ld_mrs.png"
+              %{ if isHD then }%
+                "textures/sick_ld_mrs_hd.png"
+              %{ elseif is8L then }%
+                "textures/sick_ld_mrs_8l.png"
+              %{ else }%
+                "textures/sick_ld_mrs.png"
+              %{ end }%
             ]
           }
           roughnessMap ImageTexture {
