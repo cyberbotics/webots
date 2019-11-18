@@ -16,7 +16,7 @@ PROTO SickLdMrs [
                    measurementLayers 4
   field SFString{"0.5 [deg]", "0.25 [deg]", "0.125 [deg]"}
                    angularResolution "0.5 [deg]"
-  field SFFloat    noise             0.3
+  field SFFloat    noise             0.001
   field SFBool     physics           TRUE
 ]
 {
