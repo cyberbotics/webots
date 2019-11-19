@@ -59,7 +59,7 @@ Robot {
     }
   ]
   boundingObject USE BODY_SHAPE
-  controller "sick_cloud_point"
+  controller "sick_point_cloud"
 }
 PlasticCrate {
   translation 5.33203 0 -1.55893

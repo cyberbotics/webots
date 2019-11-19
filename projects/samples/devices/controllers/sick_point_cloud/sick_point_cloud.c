@@ -16,7 +16,7 @@
 
 /*
  * Description:
- * This controller reads the lidar middle layer and use the z-axis of the cloud point to determine the number of objects in
+ * This controller reads the lidar middle layer and use the z-axis of the point cloud to determine the number of objects in
  * front of the robot.
  */
 
