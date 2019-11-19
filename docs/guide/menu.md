@@ -136,6 +136,7 @@
     - [Apartment Structure](object-apartment-structure.md)
     - [Backgrounds](object-backgrounds.md)
     - [Balls](object-balls.md)
+    - [Bathroom](object-bathroom.md)
     - [Bedroom](object-bedroom.md)
     - [Buildings](object-buildings.md)
     - [Cabinet](object-cabinet.md)
