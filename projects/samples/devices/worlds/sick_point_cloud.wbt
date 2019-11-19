@@ -47,6 +47,7 @@ ConveyorBelt {
   size 10 1.15 0.5
   borderThickness 0.01
   borderHeight -0.01
+  textureAnimation 0.016
 }
 Robot {
   children [
