@@ -15,7 +15,8 @@
  */
 
 /*
- * Description:  TODO
+ * Description:  Read the medium layer of the lidar, and use the cloud point z-axis to determine how many objects are present in
+ * front of the lidar.
  */
 
 #include <math.h>
@@ -26,38 +27,46 @@
 #include <webots/motor.h>
 #include <webots/robot.h>
 
+// Define the threshold from which a lidar stimuli is considered as an obstacle.
 #define THRESHOLD 3.0
 
 int main(int argc, char **argv) {
   wb_robot_init();
+
+  // Define the refresh rate of this controller.
   int time_step = 64;
 
+  // Get and enable devices.
   WbDeviceTag sick = wb_robot_get_device("sick");
-
   wb_lidar_enable(sick, time_step);
   wb_lidar_enable_point_cloud(sick);
   int resolution = wb_lidar_get_horizontal_resolution(sick);
   int layers = wb_lidar_get_number_of_layers(sick);
 
-  int previous_counter = 0;
-
+  // Main loop.
+  int previous_object_counter = 0;
   while (wb_robot_step(time_step) != -1) {
     int p;
-    int counter = 0;
+    int object_counter = 0;
     bool previous_obstacle = false;
 
+    // For each point of the medum layer...
     const WbLidarPoint *layer = wb_lidar_get_layer_point_cloud(sick, layers / 2);
     for (p = 0; p < resolution; ++p) {
       WbLidarPoint point = layer[p];
+      // Determine if an obstacle is present or not.
       bool obstacle = -point.z < THRESHOLD;
+
+      // Each time that there is a new obstacle, increment the object counter.
       if (obstacle && !previous_obstacle)
-        counter++;
+        object_counter++;
       previous_obstacle = obstacle;
     }
 
-    if (counter != previous_counter) {
-      printf("I see %d cans\n", counter);
-      previous_counter = counter;
+    // Display the result on the console, but only when modified.
+    if (object_counter != previous_object_counter) {
+      printf("I see %d can%c\n", object_counter, object_counter > 1 ? 's' : ' ');
+      previous_object_counter = object_counter;
     }
   }
 

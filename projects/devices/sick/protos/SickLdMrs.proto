@@ -3,8 +3,9 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#sick-ld-mrs
-# Model of Sick LD-MRS.
-# Reference: https://www.sick.com/us/en/detection-and-ranging-solutions/3d-lidar-sensors/ld-mrs/ld-mrs400001/p/p112355
+# Sick LD-MRS model.
+# Supported models: "400001", "400102", "400001S01", "400102S01" and "800001S01".
+# Reference: https://www.sick.com/us/en/detection-and-ranging-solutions/3d-lidar-sensors/ld-mrs/c/g91913
 
 PROTO SickLdMrs [
   field SFVec3f    translation       0 0 0

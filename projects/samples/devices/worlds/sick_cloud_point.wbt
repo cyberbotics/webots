@@ -1,7 +1,8 @@
 #VRML_SIM R2020a utf8
 WorldInfo {
   info [
-    "Description: Sample of robot mounted by a Sick LD-MRS using the point cloud API."
+    "Soda cans are conveyed over a conveyor belt."
+    "A static robot mounted by a Sick LD-MRS use the point cloud API to count how many cans are in front of it."
   ]
   title "LD-MRS"
   basicTimeStep 16
@@ -61,7 +62,7 @@ Robot {
   controller "sick_cloud_point"
 }
 PlasticCrate {
-  translation 5.33203 -8.88178e-16 -1.55893
+  translation 5.33203 0 -1.55893
   size 0.6 0.5 0.6
 }
 PlasticCrate {
