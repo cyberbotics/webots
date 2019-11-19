@@ -8,8 +8,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.16184088216227502 0.9432094169658535 0.2901095045114368 4.011461485421448
-  position -5.920934906732571 4.020838018970283 -3.906882523379279
+  orientation 0.15251328614725776 0.9459688428203066 0.2861514388602211 3.9752500922548824
+  position -2.7729714098231755 4.17365036481807 -4.77191736801791
 }
 TexturedBackground {
   texture "factory"
@@ -24,10 +24,22 @@ RectangleArena {
   }
   wallThickness 0.05
   wallHeight 3
-  wallAppearance RoughConcrete {
+  wallAppearance CorrugatedMetal {
     textureTransform TextureTransform {
-      scale 7 7
+      scale 6 6
     }
+  }
+}
+Door {
+  translation 1.41477 0 3.22167
+  rotation 0 -1 0 3.14159
+  name "door(1)"
+  size 1 2 0.2
+  doorAppearance GlossyPaint {
+    baseColor 0.16 0.16 0.16
+  }
+  frameAppearance GlossyPaint {
+    baseColor 0.35 0.3503166247043564 0.35
   }
 }
 ConveyorBelt {
@@ -70,6 +82,22 @@ PlasticCrate {
   name "plastic crate(1)"
   size 0.6 0.5 0.6
   color 0.2 0.2 0.9
+}
+FireExtinguisher {
+  translation 6.25524 -1.77636e-15 0.82666
+  rotation 0 1 0 -1.3089953071795861
+}
+PlatformCart {
+  translation 5.58013 -7.10543e-15 -2.24819
+}
+WoodenPalletStack {
+  translation 4.48143 3.1606e-21 2.69937
+  rotation 0 1 0 -1.5707953071795862
+}
+WoodenPalletStack {
+  translation 3.04071 1.77636e-15 2.61741
+  rotation 0 1 0 -1.5707953071795862
+  name "wooden pallet stack(1)"
 }
 Can {
   translation 0 1.22 -1.59
