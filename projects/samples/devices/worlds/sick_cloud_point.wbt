@@ -4,10 +4,11 @@ WorldInfo {
     "Description: Sample of robot mounted by a Sick LD-MRS using the point cloud API."
   ]
   title "LD-MRS"
+  basicTimeStep 16
 }
 Viewpoint {
-  orientation -0.09033678703945953 0.9772126452528714 0.1920799595618272 2.1205084732640382
-  position 3.7078796981397275 2.936165204271802 -3.2338536195571583
+  orientation 0.16184088216227502 0.9432094169658535 0.2901095045114368 4.011461485421448
+  position -5.920934906732571 4.020838018970283 -3.906882523379279
 }
 TexturedBackground {
   texture "factory"
@@ -17,14 +18,14 @@ TexturedBackgroundLight {
 }
 RectangleArena {
   translation 0 0 -0.9
-  floorSize 13 6
+  floorSize 13 8
   floorAppearance BakelitePlastic {
   }
   wallThickness 0.05
   wallHeight 3
   wallAppearance RoughConcrete {
     textureTransform TextureTransform {
-      scale 3 3
+      scale 7 7
     }
   }
 }
@@ -60,11 +61,11 @@ Robot {
   controller "sick_cloud_point"
 }
 PlasticCrate {
-  translation -5.32797 -8.88178e-16 -1.55893
+  translation 5.33203 -8.88178e-16 -1.55893
   size 0.6 0.5 0.6
 }
 PlasticCrate {
-  translation -5.32797 0.51 -1.55893
+  translation 5.33203 0.51 -1.55893
   name "plastic crate(1)"
   size 0.6 0.5 0.6
   color 0.2 0.2 0.9
@@ -74,102 +75,42 @@ Can {
   name "can(0)"
 }
 Can {
-  translation 0.3 1.22 -1.59
+  translation -0.3 1.22 -1.59
   name "can(1)"
 }
 Can {
-  translation 0.5 1.22 -1.59
+  translation -0.7 1.22 -1.59
   name "can(2)"
 }
 Can {
-  translation 0.7 1.22 -1.59
+  translation -1.2 1.22 -1.59
   name "can(3)"
 }
 Can {
-  translation 0.9 1.22 -1.59
+  translation -1.3 1.22 -1.59
   name "can(4)"
 }
 Can {
-  translation 1 1.22 -1.59
+  translation -1.9 1.22 -1.59
   name "can(5)"
 }
 Can {
-  translation 1.2 1.22 -1.59
+  translation -2.4 1.22 -1.59
   name "can(6)"
 }
 Can {
-  translation 1.3 1.22 -1.59
+  translation -2.5 1.22 -1.59
   name "can(7)"
 }
 Can {
-  translation 1.9 1.22 -1.59
+  translation -3.2 1.22 -1.59
   name "can(8)"
 }
 Can {
-  translation 2.4 1.22 -1.59
+  translation -3.3 1.22 -1.59
   name "can(9)"
 }
 Can {
-  translation 2.5 1.22 -1.59
+  translation -3.8 1.22 -1.59
   name "can(10)"
-}
-Can {
-  translation 2.6 1.22 -1.59
-  name "can(11)"
-}
-Can {
-  translation 2.7 1.22 -1.59
-  name "can(12)"
-}
-Can {
-  translation 2.9 1.22 -1.59
-  name "can(13)"
-}
-Can {
-  translation 3.1 1.22 -1.59
-  name "can(14)"
-}
-Can {
-  translation 3.2 1.22 -1.59
-  name "can(15)"
-}
-Can {
-  translation 3.3 1.22 -1.59
-  name "can(16)"
-}
-Can {
-  translation 3.7 1.22 -1.59
-  name "can(17)"
-}
-Can {
-  translation 3.8 1.22 -1.59
-  name "can(18)"
-}
-Can {
-  translation 3.9 1.22 -1.59
-  name "can(19)"
-}
-Can {
-  translation 4 1.22 -1.59
-  name "can(20)"
-}
-Can {
-  translation 4.2 1.22 -1.59
-  name "can(21)"
-}
-Can {
-  translation 4.4 1.22 -1.59
-  name "can(22)"
-}
-Can {
-  translation 4.5 1.22 -1.59
-  name "can(23)"
-}
-Can {
-  translation 4.6 1.22 -1.59
-  name "can(24)"
-}
-Can {
-  translation 4.8 1.22 -1.59
-  name "can(25)"
 }

@@ -26,43 +26,39 @@
 #include <webots/motor.h>
 #include <webots/robot.h>
 
+#define THRESHOLD 3.0
+
 int main(int argc, char **argv) {
   wb_robot_init();
-  int time_step = wb_robot_get_basic_time_step();
+  int time_step = 64;
 
-  // get devices
   WbDeviceTag sick = wb_robot_get_device("sick");
-  WbDeviceTag motor = wb_robot_get_device("motor");
 
   wb_lidar_enable(sick, time_step);
   wb_lidar_enable_point_cloud(sick);
   int resolution = wb_lidar_get_horizontal_resolution(sick);
   int layers = wb_lidar_get_number_of_layers(sick);
 
-  printf("Sick: resolution=%d, layers=%d\n", resolution, layers);
+  int previous_counter = 0;
 
-  wb_robot_step(time_step);
-  // perform simulation steps
   while (wb_robot_step(time_step) != -1) {
-    double t = wb_robot_get_time();
+    int p;
+    int counter = 0;
+    bool previous_obstacle = false;
 
-    int l, p;
-    bool something = false;
-    for (l = 0; l < layers; ++l) {
-      const WbLidarPoint *layer = wb_lidar_get_layer_point_cloud(sick, l);
-      for (p = 0; p < resolution; ++p) {
-        WbLidarPoint point = layer[p];
-        // printf("%.2f %.2f %.2f\n", point.x, point.y, point.z);
-        if (point.z > -0.9) {
-          something = true;
-          break;
-        }
-      }
+    const WbLidarPoint *layer = wb_lidar_get_layer_point_cloud(sick, layers / 2);
+    for (p = 0; p < resolution; ++p) {
+      WbLidarPoint point = layer[p];
+      bool obstacle = -point.z < THRESHOLD;
+      if (obstacle && !previous_obstacle)
+        counter++;
+      previous_obstacle = obstacle;
     }
-    if (something)
-      printf("Something has been detected!\n");
 
-    wb_motor_set_position(motor, t);
+    if (counter != previous_counter) {
+      printf("I see %d cans\n", counter);
+      previous_counter = counter;
+    }
   }
 
   wb_robot_cleanup();
