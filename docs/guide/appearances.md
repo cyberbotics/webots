@@ -64,6 +64,39 @@ BakelitePlastic {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
+## BlanketFabric
+
+A blanket fabric material.
+
+%figure
+
+![BlanketFabric](images/appearances/BlanketFabric.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+BlanketFabric {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BlanketFabric.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/BlanketFabric.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### BlanketFabric Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
 ## BrushedAluminium
 
 A brushed aluminum material.
@@ -97,9 +130,42 @@ BrushedAluminium {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
+## BrushedSteel
+
+A brushed steel material.
+
+%figure
+
+![BrushedSteel](images/appearances/BrushedSteel.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+BrushedSteel {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BrushedSteel.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/BrushedSteel.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### BrushedSteel Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
 ## CarpetFibers
 
-A woolen carpet material. Useful with the `Floor` PROTO.
+A woolen carpet material.
 
 %figure
 
@@ -111,9 +177,10 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 CarpetFibers {
-  SFColor colorOverride    1 1 1
-  SFNode  textureTransform NULL
-  SFFloat IBLStrength      1
+  SFColor  colorOverride    1 1 1
+  SFString type             "wooly"
+  SFNode   textureTransform NULL
+  SFFloat  IBLStrength      1
 }
 ```
 
@@ -123,6 +190,41 @@ CarpetFibers {
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### CarpetFibers Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `type`: Defines the carpet type.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
+## CementTiles
+
+A cement tiles material.
+
+%figure
+
+![CementTiles](images/appearances/CementTiles.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+CementTiles {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CementTiles.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/CementTiles.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### CementTiles Field Summary
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
@@ -424,6 +526,42 @@ GlossyPaint {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
+## Grass
+
+A grass material containing several grass types.
+
+%figure
+
+![Grass](images/appearances/Grass.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+Grass {
+  SFColor  colorOverride    1 1 1
+  SFString type             "maintained"
+  SFNode   textureTransform NULL
+  SFFloat  IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Grass.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/Grass.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### Grass Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `type`: Defines the grass type.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
 ## HammeredCopper
 
 An hammered copper steel material. The color can be overridden using the `colorOverride` field.
@@ -488,6 +626,75 @@ Leather {
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
 - `tone`: Defines the tone of the leather (either `dark` or `light`)
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
+## LedStrip
+
+A led strip material.
+
+%figure
+
+![LedStrip](images/appearances/LedStrip.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+LedStrip {
+  SFColor colorOverride     1 1 1
+  SFNode  textureTransform  NULL
+  SFFloat IBLStrength       1
+  SFFloat emissiveIntensity 1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/LedStrip.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/LedStrip.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### LedStrip Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
+- `emissiveIntensity`: Defines the intensity of the leds.
+
+## MarbleTiles
+
+A marble tiles material.
+
+%figure
+
+![MarbleTiles](images/appearances/MarbleTiles.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+MarbleTiles {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MarbleTiles.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/MarbleTiles.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### MarbleTiles Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -754,6 +961,39 @@ Plaster {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
+## PorcelainChevronTiles
+
+A porcelain chevron tiles material.
+
+%figure
+
+![PorcelainChevronTiles](images/appearances/PorcelainChevronTiles.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+PorcelainChevronTiles {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/PorcelainChevronTiles.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/PorcelainChevronTiles.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### PorcelainChevronTiles Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
 ## RedBricks
 
 A tiled brick material. Useful with the `Wall` PROTO.
@@ -779,6 +1019,43 @@ RedBricks {
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### RedBricks Field Summary
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
+## ReflectiveSurface
+
+A reflective surface material.
+
+%figure
+
+![ReflectiveSurface](images/appearances/ReflectiveSurface.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+ReflectiveSurface {
+  SFFloat metalness         0.5
+  SFColor emissiveColor     0 0 0
+  SFFloat emissiveIntensity 1
+  SFColor baseColorMap      1 1 1
+  SFBool  useBaseColorMap   TRUE
+  SFNode  textureTransform  NULL
+  SFFloat IBLStrength       1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ReflectiveSurface.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/ReflectiveSurface.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### ReflectiveSurface Field Summary
+
+- `useBaseColorMap`: Defines wheather the base color texture should be used or not.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -983,6 +1260,36 @@ RustyMetal {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
+## Sand
+
+A sand material.
+
+%figure
+
+![Sand](images/appearances/Sand.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+Sand {
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Sand.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/Sand.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### Sand Field Summary
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
 ## SandyGround
 
 A sandy ground material. The color can be selected using the `colorOverride` field. Useful with the UnevenTerrain PROTO.
@@ -1082,6 +1389,72 @@ ShinyLeather {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
+## SlatePavement
+
+A slate pavement material.
+
+%figure
+
+![SlatePavement](images/appearances/SlatePavement.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+SlatePavement {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/SlatePavement.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/SlatePavement.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### SlatePavement Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
+## Soil
+
+A soil material.
+
+%figure
+
+![Soil](images/appearances/Soil.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+Soil {
+  SFString                   type              "braun"
+  SFNode                     textureTransform  NULL
+  SFFloat                    IBLStrength       1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Soil.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/Soil.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### Soil Field Summary
+
+- `type`: Defines the soil type.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
 ## SquarePavement
 
 A square pavement material. The color can be overridden using the `colorOverride` field.
@@ -1117,7 +1490,7 @@ SquarePavement {
 
 ## StonePavement
 
-A stone pavement material. The color can be overridden using the `colorOverride` field.
+A stone pavement material.
 
 %figure
 
@@ -1129,9 +1502,10 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 StonePavement {
-  SFColor colorOverride    1 1 1
-  SFNode  textureTransform NULL
-  SFFloat IBLStrength      1
+  SFColor                          colorOverride    1 1 1
+  SFString                         type             "recent"
+  SFNode                           textureTransform NULL
+  SFFloat                          IBLStrength      1
 }
 ```
 
@@ -1143,6 +1517,8 @@ StonePavement {
 ### StonePavement Field Summary
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `type`: Defines the pavement type.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1246,4 +1622,3 @@ WireFence {
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Background node.
-
