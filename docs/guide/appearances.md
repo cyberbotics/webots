@@ -177,10 +177,10 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 CarpetFibers {
-  SFColor                                   colorOverride    1 1 1
-  SFString                                  type "wooly"
-  SFNode                                    textureTransform NULL
-  SFFloat                                   IBLStrength      1
+  SFColor  colorOverride    1 1 1
+  SFString type             "wooly"
+  SFNode   textureTransform NULL
+  SFFloat  IBLStrength      1
 }
 ```
 
@@ -541,7 +541,7 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 ```
 Grass {
   SFColor  colorOverride    1 1 1
-  SFString type "maintained"
+  SFString type             "maintained"
   SFNode   textureTransform NULL
   SFFloat  IBLStrength      1
 }
@@ -1622,4 +1622,3 @@ WireFence {
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
-
