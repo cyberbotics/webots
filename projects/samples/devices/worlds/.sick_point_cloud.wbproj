@@ -7,5 +7,5 @@ centralWidgetVisible: 1
 selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
-textFiles: 0 "controllers/sick_cloud_point/sick_cloud_point.c"
+textFiles: 0 "controllers/sick_point_cloud/sick_point_cloud.c"
 globalOptionalRendering: LidarPointClouds
