@@ -6,8 +6,8 @@ WorldInfo {
   title "LD-MRS"
 }
 Viewpoint {
-  orientation 0.23609314820713526 -0.9351191344365044 -0.26422004045939934 4.650915091486794
-  position 2.536283457285509 1.710416042993798 -0.4253502397120803
+  orientation -0.09033618030979197 0.9772132805679035 0.19207701270259459 2.1205039671521346
+  position 3.7078796981397275 2.936165204271802 -3.2338536195571583
 }
 TexturedBackground {
   texture "factory"
@@ -15,359 +15,151 @@ TexturedBackground {
 TexturedBackgroundLight {
   texture "factory"
 }
-CircleArena {
-  radius 1.5
+RectangleArena {
+  translation 0 0 -0.9
+  floorSize 12 6
   floorAppearance BakelitePlastic {
   }
-  wallHeight 0.5
-  wallAppearance CorrugatedMetal {
+  wallThickness 0.05
+  wallHeight 3
+  wallAppearance RoughConcrete {
     textureTransform TextureTransform {
-      scale 2 2
+      scale 3 3
     }
   }
 }
-PointLight {
-  attenuation 0 0 1
-  intensity 0.6
-  location 0 0.6 0
+ConveyorBelt {
+  translation 0 0 -1.6
+  size 10 1.15 0.5
+  borderThickness 0.01
+  borderHeight -0.01
 }
 Robot {
-  translation 0 0.015 0
   children [
-    DEF BASE_SHAPE Group {
+    SickLdMrs {
+      translation 0 1.2 -0.25
+      name "sick"
+      type "800001S01"
+      measurementLayers 8
+    }
+    DEF BODY_SHAPE Transform {
+      translation 0 0.7 0
       children [
         Shape {
-          appearance GalvanizedMetal {
-          }
-          geometry Cylinder {
-            height 0.03
-            radius 0.1
-          }
-        }
-        Transform {
-          translation 0 0.04 0
-          children [
-            Shape {
-              appearance GlossyPaint {
-                baseColor 0.0977493 0 0.813718
-              }
-              geometry Cylinder {
-                height 0.05
-                radius 0.04
-              }
-            }
-          ]
-        }
-      ]
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        axis 0 1 0
-      }
-      device [
-        RotationalMotor {
-          name "motor"
-        }
-      ]
-      endPoint Solid {
-        translation 0 0.09 0
-        children [
-          DEF MOTOR_AXIS_SHAPE Group {
-            children [
-              Shape {
-                appearance CorrodedMetal {
-                }
-                geometry Cylinder {
-                  height 0.06
-                  radius 0.02
-                }
-              }
-              Transform {
-                translation 0 0.08 0.015
-                children [
-                  Shape {
-                    appearance GalvanizedMetal {
-                    }
-                    geometry Box {
-                      size 0.17 0.1 0.02
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-          SickLdMrs {
-            translation 0 0.08 -0.09
-            name "sick"
-            type "800001S01"
-            measurementLayers 8
-          }
-        ]
-        boundingObject USE MOTOR_AXIS_SHAPE
-        physics Physics {
-        }
-      }
-    }
-  ]
-  boundingObject USE BASE_SHAPE
-  controller "sick_cloud_point"
-}
-Robot {
-  translation -0.269093 7.77156e-16 -1.04395
-  rotation 0 1 0 1
-  children [
-    Transform {
-      translation 0 0.2 0
-      children [
-        Shape {
-          appearance OldPlywood {
+          appearance GlossyPaint {
+            baseColor 0.188296 0.131777 0.922316
           }
           geometry Box {
-            size 0.02 0.24 0.02
-          }
-        }
-      ]
-    }
-    Transform {
-      translation 0 0.0415 0
-      children [
-        Shape {
-          appearance PBRAppearance {
-            baseColor 0.0820075 0.364731 0.8
-            roughness 1
-            metalness 0
-          }
-          geometry DEF BODY Cylinder {
-            height 0.08
-            radius 0.045
-          }
-        }
-      ]
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
-      }
-      device [
-        RotationalMotor {
-          name "left wheel motor"
-          consumptionFactor 70
-        }
-        PositionSensor {
-          name "left wheel sensor"
-        }
-      ]
-      endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
-        children [
-          DEF WHEEL Transform {
-            rotation 0 0 1 1.57
-            children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 1 0 0
-                  roughness 1
-                  metalness 0
-                }
-                geometry Cylinder {
-                  height 0.01
-                  radius 0.025
-                }
-              }
-            ]
-          }
-        ]
-        name "left wheel"
-        boundingObject USE WHEEL
-        physics DEF PHYSICS_WHEEL Physics {
-          density -1
-          mass 0.05
-        }
-      }
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
-      }
-      device [
-        RotationalMotor {
-          name "right wheel motor"
-          consumptionFactor 70
-        }
-        PositionSensor {
-          name "right wheel sensor"
-        }
-      ]
-      endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
-        children [
-          USE WHEEL
-        ]
-        name "right wheel"
-        boundingObject USE WHEEL
-        physics USE PHYSICS_WHEEL
-      }
-    }
-    DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.1781
-      children [
-        DEF SENSOR Transform {
-          rotation 0 0 1 1.57
-          children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 0.975691 0.981481 0.0252992
-                roughness 1
-                metalness 0
-              }
-              geometry Cylinder {
-                height 0.004
-                radius 0.008
-              }
-            }
-          ]
-        }
-      ]
-      name "ds0"
-      lookupTable [
-        0 1024 0
-        0.02 1024 0.1
-        0.08 0 0.3
-      ]
-      aperture 1
-    }
-    DistanceSensor {
-      translation 0.042 0.063 -0.02
-      rotation 0 1 0 0.3927
-      children [
-        USE SENSOR
-      ]
-      name "ds1"
-      lookupTable [
-        0 1024 0
-        0.02 1024 0.1
-        0.08 0 0.3
-      ]
-      aperture 1
-    }
-    DistanceSensor {
-      translation 0.042 0.063 0.02
-      rotation 0 1 0 5.8905
-      children [
-        USE SENSOR
-      ]
-      name "ds2"
-      lookupTable [
-        0 1024 0
-        0.02 1024 0.1
-        0.08 0 0.3
-      ]
-      aperture 1
-    }
-    DistanceSensor {
-      translation 0.02 0.063 0.042
-      rotation 0 1 0 5.1051
-      children [
-        USE SENSOR
-      ]
-      name "ds3"
-      lookupTable [
-        0 1024 0
-        0.02 1024 0.1
-        0.08 0 0.3
-      ]
-      aperture 1
-    }
-    DistanceSensor {
-      translation -0.02 0.063 0.042
-      rotation 0 1 0 4.3197
-      children [
-        USE SENSOR
-      ]
-      name "ds4"
-      lookupTable [
-        0 1024 0
-        0.02 1024 0.1
-        0.08 0 0.3
-      ]
-      aperture 1
-    }
-    DistanceSensor {
-      translation -0.042 0.063 0.02
-      rotation 0 1 0 3.5343
-      children [
-        USE SENSOR
-      ]
-      name "ds5"
-      lookupTable [
-        0 1024 0
-        0.02 1024 0.1
-        0.08 0 0.3
-      ]
-      aperture 1
-    }
-    DistanceSensor {
-      translation -0.042 0.063 -0.02
-      rotation 0 1 0 2.7489
-      children [
-        USE SENSOR
-      ]
-      name "ds6"
-      lookupTable [
-        0 1024 0
-        0.02 1024 0.1
-        0.08 0 0.3
-      ]
-      aperture 1
-    }
-    DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 1.9635
-      children [
-        USE SENSOR
-      ]
-      name "ds7"
-      lookupTable [
-        0 1024 0
-        0.02 1024 0.1
-        0.08 0 0.3
-      ]
-      aperture 1
-    }
-    DEF SMILE Transform {
-      translation 0 0.025 -0.036
-      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
-      children [
-        Shape {
-          appearance PBRAppearance {
-            baseColor 0.721569 0.290196 0.290196
-            roughness 1
-            metalness 0
-          }
-          geometry Cylinder {
-            height 0.018
-            radius 0.009
-            subdivision 3
+            size 0.2 1.4 0.3
           }
         }
       ]
     }
   ]
-  name "MyBot"
-  boundingObject Transform {
-    translation 0 0.0415 0
-    children [
-      USE BODY
-    ]
-  }
-  physics Physics {
-    density -1
-    mass 0.5
-  }
-  controller "distance_sensor"
+  boundingObject USE BODY_SHAPE
+  controller "sick_cloud_point"
+}
+Can {
+  translation 0 1.22 -1.59
+  name "can(0)"
+}
+Can {
+  translation 0.3 1.22 -1.59
+  name "can(1)"
+}
+Can {
+  translation 0.5 1.22 -1.59
+  name "can(2)"
+}
+Can {
+  translation 0.7 1.22 -1.59
+  name "can(3)"
+}
+Can {
+  translation 0.9 1.22 -1.59
+  name "can(4)"
+}
+Can {
+  translation 1 1.22 -1.59
+  name "can(5)"
+}
+Can {
+  translation 1.2 1.22 -1.59
+  name "can(6)"
+}
+Can {
+  translation 1.3 1.22 -1.59
+  name "can(7)"
+}
+Can {
+  translation 1.9 1.22 -1.59
+  name "can(8)"
+}
+Can {
+  translation 2.4 1.22 -1.59
+  name "can(9)"
+}
+Can {
+  translation 2.5 1.22 -1.59
+  name "can(10)"
+}
+Can {
+  translation 2.6 1.22 -1.59
+  name "can(11)"
+}
+Can {
+  translation 2.7 1.22 -1.59
+  name "can(12)"
+}
+Can {
+  translation 2.9 1.22 -1.59
+  name "can(13)"
+}
+Can {
+  translation 3.1 1.22 -1.59
+  name "can(14)"
+}
+Can {
+  translation 3.2 1.22 -1.59
+  name "can(15)"
+}
+Can {
+  translation 3.3 1.22 -1.59
+  name "can(16)"
+}
+Can {
+  translation 3.7 1.22 -1.59
+  name "can(17)"
+}
+Can {
+  translation 3.8 1.22 -1.59
+  name "can(18)"
+}
+Can {
+  translation 3.9 1.22 -1.59
+  name "can(19)"
+}
+Can {
+  translation 4 1.22 -1.59
+  name "can(20)"
+}
+Can {
+  translation 4.2 1.22 -1.59
+  name "can(21)"
+}
+Can {
+  translation 4.4 1.22 -1.59
+  name "can(22)"
+}
+Can {
+  translation 4.5 1.22 -1.59
+  name "can(23)"
+}
+Can {
+  translation 4.6 1.22 -1.59
+  name "can(24)"
+}
+Can {
+  translation 4.8 1.22 -1.59
+  name "can(25)"
 }
