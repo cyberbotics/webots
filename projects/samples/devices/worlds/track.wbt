@@ -314,7 +314,7 @@ DEF CONVEYOR_BELT Robot {
       USE PLANE
     ]
   }
-  controller "conveyor_belt"
+  controller "track_conveyor_belt"
 }
 DEF BOX_1 Solid {
   translation -0.6 0.145 0.16
