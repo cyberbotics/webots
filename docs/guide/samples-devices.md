@@ -320,7 +320,7 @@ This noisy position is compared to the actual [Emitter](../reference/emitter.md)
 The robot use the lidar depth output to avoid collisions.
 The lidar depth output is also plot into a [Display](../reference/display.md) device.
 
-### [sick_point_cloud.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/worlds/sick_point_cloud.wbt)
+### [sick\_point\_cloud.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/worlds/sick_point_cloud.wbt)
 
 **Keywords**: [Sick LD MRS](lidar-sensors.md#sick-ld-mrs), [Lidar](../reference/lidar.md), cloud point
 
