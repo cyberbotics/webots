@@ -35,24 +35,24 @@ int main(int argc, char **argv) {
   wb_robot_init();
 
   // Define the refresh rate of this controller.
-  int time_step = 64;
+  const int time_step = 64;
 
   // Get and enable the devices.
   WbDeviceTag sick = wb_robot_get_device("sick");
   wb_lidar_enable(sick, time_step);
   wb_lidar_enable_point_cloud(sick);
-  int resolution = wb_lidar_get_horizontal_resolution(sick);
-  int layers = wb_lidar_get_number_of_layers(sick);
+  const int resolution = wb_lidar_get_horizontal_resolution(sick);
+  const int layers = wb_lidar_get_number_of_layers(sick);
 
   // Main control loop.
   int previous_object_counter = 0;
   while (wb_robot_step(time_step) != -1) {
-    int p;
     int object_counter = 0;
     bool previous_obstacle = false;
 
     // For each point of the middle layer...
     const WbLidarPoint *layer = wb_lidar_get_layer_point_cloud(sick, layers / 2);
+    int p;
     for (p = 0; p < resolution; ++p) {
       WbLidarPoint point = layer[p];
 
@@ -74,5 +74,5 @@ int main(int argc, char **argv) {
 
   wb_robot_cleanup();
 
-  return 0;
+  return EXIT_SUCCESS;
 }
