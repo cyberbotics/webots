@@ -6,7 +6,7 @@ WorldInfo {
   title "LD-MRS"
 }
 Viewpoint {
-  orientation -0.09033618030979197 0.9772132805679035 0.19207701270259459 2.1205039671521346
+  orientation -0.09033678703945953 0.9772126452528714 0.1920799595618272 2.1205084732640382
   position 3.7078796981397275 2.936165204271802 -3.2338536195571583
 }
 TexturedBackground {
@@ -17,7 +17,7 @@ TexturedBackgroundLight {
 }
 RectangleArena {
   translation 0 0 -0.9
-  floorSize 12 6
+  floorSize 13 6
   floorAppearance BakelitePlastic {
   }
   wallThickness 0.05
@@ -58,6 +58,16 @@ Robot {
   ]
   boundingObject USE BODY_SHAPE
   controller "sick_cloud_point"
+}
+PlasticCrate {
+  translation -5.32797 -8.88178e-16 -1.55893
+  size 0.6 0.5 0.6
+}
+PlasticCrate {
+  translation -5.32797 0.51 -1.55893
+  name "plastic crate(1)"
+  size 0.6 0.5 0.6
+  color 0.2 0.2 0.9
 }
 Can {
   translation 0 1.22 -1.59
