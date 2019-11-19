@@ -1,8 +1,8 @@
 #VRML_SIM R2020a utf8
 WorldInfo {
   info [
-    "Soda cans are conveyed over a conveyor belt."
-    "A static robot mounted by a Sick LD-MRS use the point cloud API to count how many cans are in front of it."
+    "Soda cans are transported on a conveyor belt."
+    "A static robot mounted by a Sick LD-MRS uses the Point Cloud API to count the number of cans in front of it."
   ]
   title "LD-MRS"
   basicTimeStep 16
