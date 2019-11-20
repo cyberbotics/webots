@@ -325,7 +325,7 @@ The lidar depth output is also plot into a [Display](../reference/display.md) de
 **Keywords**: [Sick LD MRS](lidar-sensors.md#sick-ld-mrs), [Lidar](../reference/lidar.md), cloud point
 
 ![sick_point_cloud.png](images/samples/sick_point_cloud.thumbnail.jpg) Soda cans are transported on a conveyor belt.
-A static robot mounted by a Sick LD-MRS uses the Point Cloud API to count the number of cans in front of it.
+A static robot equipped with a Sick LD-MRS uses the Point Cloud API to count the number of cans in front of it.
 
 ### [speaker.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/worlds/speaker.wbt)
 
