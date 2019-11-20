@@ -2,7 +2,7 @@
 WorldInfo {
   info [
     "Soda cans are transported on a conveyor belt."
-    "A static robot mounted by a Sick LD-MRS uses the Point Cloud API to count the number of cans in front of it."
+    "A static robot equipped with a Sick LD-MRS uses the Point Cloud API to count the number of cans in front of it."
   ]
   title "LD-MRS"
   basicTimeStep 16
