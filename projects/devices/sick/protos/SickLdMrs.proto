@@ -4,7 +4,7 @@
 # tags: static
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#sick-ld-mrs
 # Sick LD-MRS model.
-# Supported types: "400001", "400102", "400001S01", "400102S01" and "800001S01".
+# Supported types: `400001`, `400102`, `400001S01`, `400102S01` and `800001S01`.
 # Reference: https://www.sick.com/us/en/detection-and-ranging-solutions/3d-lidar-sensors/ld-mrs/c/g91913
 
 PROTO SickLdMrs [
