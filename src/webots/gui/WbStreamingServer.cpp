@@ -551,7 +551,8 @@ void WbStreamingServer::processTextMessage(QString message) {
       WbMultimediaStreamer::instance()->start();
     }
     // TODO
-    client->sendTextMessage("video: http:/localhost:8089 1");  // 1 is the stream id of the main Webots view
+    client->sendTextMessage(
+      QString("video: http:/localhost:8089 %1").arg(simulationStateString()));  // 1 is the stream id of the main Webots view
     // this should be fixed when we want to support multiples instance of Webots running on the same multimedia streaming server
   } else if (message.startsWith("resize: ")) {
     QStringList resolution = message.mid(8).split("x");
