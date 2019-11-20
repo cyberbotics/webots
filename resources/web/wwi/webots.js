@@ -182,12 +182,7 @@ webots.View = class View {
           this.toolBar = new Toolbar(this.view3D, this);
 
         if (this.url.endsWith('.wbt')) { // url expected form: "ws://localhost:80/simple/worlds/simple.wbt"
-          var callback;
-          if (this.mode === 'video')
-            callback = this.video.finalize;
-          else
-            callback = finalizeWorld;
-          this.server = new Server(this.url, this, callback);
+          this.server = new Server(this.url, this, finalizeWorld);
           this.server.connect();
         } else { // url expected form: "ws://cyberbotics2.cyberbotics.com:80"
           var httpServerUrl = this.url.replace(/ws/, 'http'); // Serve the texture images. SSL prefix is supported.
@@ -275,9 +270,11 @@ webots.View = class View {
           // If no pending requests execute loadFinalize
           // otherwise it will be executed when the last request will be handled.
           loadFinalize();
-      } else {
+      } else
         loadFinalize();
-      }
+
+      if (this.video)
+        this.video.finalize();
     };
 
     var loadFinalize = () => {
@@ -314,7 +311,7 @@ webots.View = class View {
 
     if (mode === 'video') {
       this.url = url;
-      this.video = new Video(this.view3D, this.mouseEvents);
+      this.video = new Video(this, this.view3D);
     } else if (typeof this.x3dScene === 'undefined') {
       this.x3dDiv = document.createElement('div');
       this.x3dDiv.className = 'webots3DView';
@@ -326,16 +323,18 @@ webots.View = class View {
       this.x3dScene.domElement.appendChild(param);
     }
 
-    if (this.x3dScene && typeof this.contextMenu === 'undefined' && this.isWebSocketProtocol) {
+    if (typeof this.contextMenu === 'undefined' && this.isWebSocketProtocol) {
       let authenticatedUser = !this.broadcast;
       if (authenticatedUser && typeof webots.User1Id !== 'undefined' && webots.User1Id !== '')
         authenticatedUser = Boolean(webots.User1Authentication);
       this.contextMenu = new ContextMenu(authenticatedUser, this.view3D);
-      this.contextMenu.onEditController = (controller) => { this.editController(controller); };
-      this.contextMenu.onFollowObject = (id) => { this.x3dScene.viewpoint.follow(id); };
-      this.contextMenu.isFollowedObject = (object3d, setResult) => { setResult(this.x3dScene.viewpoint.isFollowedObject(object3d)); };
-      this.contextMenu.onOpenRobotWindow = (robotName) => { this.openRobotWindow(robotName); };
-      this.contextMenu.isRobotWindowValid = (robotName, setResult) => { setResult(this.robotWindows[this.robotWindowNames[robotName]]); };
+      if (this.x3dScene) {
+        this.contextMenu.onEditController = (controller) => { this.editController(controller); };
+        this.contextMenu.onFollowObject = (id) => { this.x3dScene.viewpoint.follow(id); };
+        this.contextMenu.isFollowedObject = (object3d, setResult) => { setResult(this.x3dScene.viewpoint.isFollowedObject(object3d)); };
+        this.contextMenu.onOpenRobotWindow = (robotName) => { this.openRobotWindow(robotName); };
+        this.contextMenu.isRobotWindowValid = (robotName, setResult) => { setResult(this.robotWindows[this.robotWindowNames[robotName]]); };
+      }
     }
 
     if (this.x3dScene && typeof this.mouseEvents === 'undefined')
@@ -457,7 +456,8 @@ webots.View = class View {
       $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(this.deadline));
     else
       $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(0));
-    this.x3dScene.viewpoint.reset(this.time);
+    if (this.x3dScene)
+      this.x3dScene.viewpoint.reset(this.time);
   }
 
   quitSimulation() {

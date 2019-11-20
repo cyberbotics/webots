@@ -111,11 +111,11 @@ class Stream { // eslint-disable-line no-unused-vars
       this.view.updateWorldList(currentWorld, data.split(';'));
     } else if (data.startsWith('video: ')) {
       console.log('Received data = ' + data);
-      var list = data.split(' ');
-      var url = list[1];
-      var streamId = list[2];
+      let list = data.split(' ');
+      let url = list[1];
+      this.view.toolBar.setMode(list[2]);
       this.view.video.domElement.src = url;
-      console.log('Received video message on ' + url + ' stream = ' + streamId);
+      console.log('Video streamed on ' + url);
       if (typeof this.onready === 'function')
         this.onready();
     } else if (data.startsWith('set controller:')) {
@@ -140,7 +140,7 @@ class Stream { // eslint-disable-line no-unused-vars
     } else if (data === 'real-time' || data === 'run' || data === 'fast') {
       this.view.toolBar.setMode(data);
       if (this.view.timeout >= 0)
-        this.view.stream.socket.send('timeout:' + this.view.timeout);
+        this.socket.send('timeout:' + this.view.timeout);
     } else if (data.startsWith('loading:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
       var loadingStatus = data.substring(0, data.indexOf(':')).trim();
