@@ -134,12 +134,13 @@ bool WbMultimediaStreamer::start() {
 }
 
 bool WbMultimediaStreamer::isReady() {
-  return mIsInitialized && mClients->size() > 0;
+  return mIsInitialized && mClients.size() > 0;
 }
 
 #include <QtCore/QDebug>
 bool WbMultimediaStreamer::sendImage(QImage image) {
   mSceneImage = image;
+  // emit imageReady(QByteArray((const char *)mSharedMemoryData, mImageSize));
 
   QByteArray im;
   QBuffer bufferJpeg(&im);
