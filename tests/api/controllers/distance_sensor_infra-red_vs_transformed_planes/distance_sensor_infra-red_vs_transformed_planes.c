@@ -1,3 +1,11 @@
+/*
+ * Description:
+ *
+ * This controller tests infra-red DistanceSensor vs transformed Plane collisions.
+ * Several collisions against 3 transformed planes are tested.
+ * Note: It's regular that the flipped plane gives no feedback.
+ */
+
 #include <webots/camera.h>
 #include <webots/distance_sensor.h>
 #include <webots/robot.h>
