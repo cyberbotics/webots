@@ -23,7 +23,7 @@ Released on XXX YYth, 2019.
       - Improved `humanoid_sprint` benchmark metrics.
     - Replaced the [Viewpoint](viewpoint.md) `followOrientation` field by a `followType` field for more flexibility.
   - Enhancements
-    - Improved the [Sick LD MRS](../guide/lidar-sensors.md#sick-ld-mrs) PROTO to support the following types: "400001", "400102", "400001S01", "400102S01", "800001S01".
+    - Improved the [Sick LD MRS](../guide/lidar-sensors.md#sick-ld-mrs) PROTO to support the following types: `400001`, `400102`, `400001S01`, `400102S01` and `800001S01`.
     - Split the Webots and controller libraries to avoid possible conflicts with external libraries.
     - Set the [ABB IRB 4600/40](../guide/irb4600-40.md) root node to [Robot](robot.md) instead of [Solid](solid.md) to be able to insert it everywhere.
   - New Samples
