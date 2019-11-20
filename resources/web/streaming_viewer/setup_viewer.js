@@ -33,8 +33,8 @@ function init() {
 function connect() {
   var playerDiv = document.getElementById('playerDiv');
   view = new webots.View(playerDiv, mobileDevice);
-  view.broadcast = true;
-  view.open('ws://' + ipInput.value + ':' + portInput.value);
+  view.broadcast = false;
+  view.open('ws://' + ipInput.value + ':' + portInput.value, 'video');
   connectButton.value = 'Disconnect';
   connectButton.onclick = disconnect;
   ipInput.disabled = true;
