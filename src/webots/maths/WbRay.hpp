@@ -75,8 +75,6 @@ public:
                                      bool testCull = false) const;  // intersection with a sphere
   std::pair<bool, double> intersects(const WbVector3 &minBound, const WbVector3 &maxBound, double &tMin,
                                      double &tMax) const;  // intersection with a box
-  std::pair<bool, double> intersects(const WbVector3 &quadOrigin, double quadA,
-                                     double quadB) const;  // intersection with a quad
 
 private:
   WbVector3 mOrigin;
