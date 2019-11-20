@@ -153,12 +153,21 @@ The `resolution` field specifies the number of points returned per layer per sca
 
 #### SICK LD-MRS
 
-The `SICK LD-MRS` is a 2 or 4 layers lidar with a range of 300 meters and a field of view of respectively 110 or 85 degrees.
+The [SICK LD-MRS](https://www.sick.com/us/en/detection-and-ranging-solutions/3d-lidar-sensors/ld-mrs/c/g91913) is a multi-layer lidar designed for harsh outdoor environments.
+It has a range of 300 meters.
 
-The top and bottom layers are split horizontally with an angle of 2.4 degrees.
+Other parameters depends on its type:
+
+| Type | Number of measurement layers (L) | Horizontal field of view | Horizontal Offset | Vertical field of View |
+| --- | --- | --- | --- | --- |
+| `400001` | 2 or 4 | 85° (4L) or 110° (2L) | 9.5° (4L) or 5° (2L) | 3.2° |
+| `400102` | 2 or 4 | 85° (4L) or 110° (2L) | 9.5° (4L) or 5° (2L) | 3.2° |
+| `400001S01` | 2 or 4 | 85° (4L) or 110° (2L) | 9.5° (4L) or 5° (2L) | 3.2° |
+| `400102S01` | 2 or 4 | 85° (4L) or 110° (2L) | 9.5° (4L) or 5° (2L) | 3.2° |
+| `800001S01` | 4 or 8 | 85° (8L) or 110° (4L) | 9.5° (8L) or 5° (4L) | 6.4° |
+
 Layer 0 corresponds to the bottom layer.
 First response values are corresponding to the device right.
-The frustum cone is shifted to the right by an offset angle of 7.5 degrees when 4 layers are set, and 5 degrees when 2 layers are set.
 
 %figure "SICK LD-MRS lidar"
 
@@ -171,19 +180,28 @@ SickLdMrs {
   SFVec3f    translation       0 0 0
   SFRotation rotation          0 1 0 0
   SFString   name              "Sick LD-MRS"
-  SFFloat    noise             0.3
-  SFInt32    numberOfLayers    4
-  SFFloat    angularResolution 0.008726646259972
+  SFString   type              "400001"
+  SFInt32    measurementLayers 4
+  SFString   angularResolution "0.5 [deg]"
+  SFFloat    noise             0.001
   SFBool     physics           TRUE
 }
 ```
 
+The `type` field specifies the `SICK LD-MRS` type (cf. [specifications](https://www.sick.com/us/en/detection-and-ranging-solutions/3d-lidar-sensors/ld-mrs/c/g91913)).
+Internal parameters are affected by the `type` as described in the table above.
+The value could be one of the following: `400001`, `400102`, `400001S01`, `400102S01` or `800001S01`.
+
 The `noise` field specifies the standard deviation of gaussian image noise in meters.
 
-The `numberOfLayers` field specifies the number of horizontal layers. It can be either 2 or 4.
+The `measurementLayers` field specifies the number of horizontal layers.
+Depending on `SickLdMrs.type` some `measurementLayers` values may not be applicable.
+The value could be one of the following: `2`, `4` or `8`.
 
 The `angularResolution` field specifies the vertical angular gap between two measurements.
-From the `SICK LD-MRS` specification, it can be either 0.125, 0.25 or 0.5 degrees (to be converted in radians).
+From the `SICK LD-MRS` specification, it can be either 0.5, 0.25 or 0.125 degrees.
+Internally, the `Lidar.horizontalResolution` is directly affected by this field.
+The value could be one of the following: `0.5 [deg]`, `0.25 [deg]` or `0.125 [deg]`.
 
 The `physics` field specifies if the sensor should be affected by physics (mass = 1 [kg]) or not.
 

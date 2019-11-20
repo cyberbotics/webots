@@ -3,44 +3,75 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#sick-ld-mrs
-# Model of Sick LD-MRS.
-# Reference: https://www.sick.com/us/en/detection-and-ranging-solutions/3d-lidar-sensors/ld-mrs/ld-mrs400001/p/p112355
+# Sick LD-MRS model.
+# Supported types: `400001`, `400102`, `400001S01`, `400102S01` and `800001S01`.
+# Reference: https://www.sick.com/us/en/detection-and-ranging-solutions/3d-lidar-sensors/ld-mrs/c/g91913
 
 PROTO SickLdMrs [
   field SFVec3f    translation       0 0 0
   field SFRotation rotation          0 1 0 0
   field SFString   name              "Sick LD-MRS"
-  field SFFloat    noise             0.3
-  field SFInt32    numberOfLayers    4  # either 2 or 4
-  field SFFloat    angularResolution 0.008726646259972  # == 0.5 [deg] - Could be 0.125, 0.25 or 0.5 [deg]
+  field SFString{"400001", "400102", "400001S01", "400102S01", "800001S01"}
+                   type              "400001"
+  field SFInt32{2, 4, 8}
+                   measurementLayers 4
+  field SFString{"0.5 [deg]", "0.25 [deg]", "0.125 [deg]"}
+                   angularResolution "0.5 [deg]"
+  field SFFloat    noise             0.001
   field SFBool     physics           TRUE
 ]
 {
   %{
     local wbrotation = require('wbrotation')
+    local wbmath = require('wbmath')
 
-    -- Check fields.
-    local numberOfLayers = fields.numberOfLayers.value
-    if numberOfLayers ~= 2 and numberOfLayers ~= 4 then
-      io.stderr:write("'numberOfLayers' must be either 2 or 4.\n")
-      numberOfLayers = fields.numberOfLayers.defaultValue
-    end
+    -- Get and check fields.
+    local measurementLayers = fields.measurementLayers.value
+    local type = fields.type.value
 
-    local angularResolution = fields.angularResolution.value
-    if angularResolution <= 0.0 then
-      io.stderr:write("'angularResolution' must be positive.\n")
-      angularResolution = fields.angularResolution.defaultValue
+    local isHD = type == "400102" or type == "400102S01"
+    local is8L = type == "800001S01"
+
+    local angularResolution = wbmath.degrees2radians(0.5)
+    if fields.angularResolution.value == "0.25 [deg]" then
+      angularResolution = angularResolution / 2
+    elseif fields.angularResolution.value == "0.125 [deg]" then
+      angularResolution = angularResolution / 4
     end
 
     -- Compute geometry constants.
     local horizontalFieldOfView = 0.0
+    local verticalFieldOfView = 0.0
     local offsetAngle = 0.0
-    if numberOfLayers == 4 then
-      horizontalFieldOfView = 1.48352986419518  -- == 85 [deg]
-      offsetAngle = 0.130899693899575  -- == 7.5 [deg]
-    else  -- numberOfLayers == 2
-      horizontalFieldOfView = 1.919862177193763  -- == 110 [deg]
-      offsetAngle = 0.087266462599716  -- == 5 [deg]
+
+    if type == "800001S01" then
+      verticalFieldOfView = wbmath.degrees2radians(6.4)
+      if measurementLayers == 8 then
+        horizontalFieldOfView = wbmath.degrees2radians(85)
+        offsetAngle = wbmath.degrees2radians(9.5)
+      elseif measurementLayers == 4 then
+        horizontalFieldOfView = wbmath.degrees2radians(110)
+        offsetAngle = wbmath.degrees2radians(5)
+      else
+        -- invalid case: warn and fill with dummy values.
+        io.stderr:write("A '" .. type .. "' SickLdMrs can not have " .. measurementLayers .. " measurement layers.")
+        horizontalFieldOfView = wbmath.degrees2radians(85)
+        offsetAngle = wbmath.degrees2radians(9.5)
+      end
+    else  -- type "400*"
+      verticalFieldOfView = wbmath.degrees2radians(3.2)
+      if measurementLayers == 4 then
+        horizontalFieldOfView = wbmath.degrees2radians(85)
+        offsetAngle = wbmath.degrees2radians(9.5)
+      elseif measurementLayers == 2 then
+        horizontalFieldOfView = wbmath.degrees2radians(110)
+        offsetAngle = wbmath.degrees2radians(5)
+      else
+        -- invalid case: warn and fill with dummy values.
+        io.stderr:write("A '" .. type .. "' SickLdMrs can not have " .. measurementLayers .. " measurement layers.")
+        horizontalFieldOfView = wbmath.degrees2radians(85)
+        offsetAngle = wbmath.degrees2radians(9.5)
+      end
     end
 
     local internalRotation = wbrotation.combine(
@@ -56,11 +87,11 @@ PROTO SickLdMrs [
       Lidar {
         rotation %{= internalRotation.x }% %{= internalRotation.y }% %{= internalRotation.z }% %{= internalRotation.a }%
         name IS name
-        model "Sick LD-MRS"
+        model %{= "\"Sick LD-MRS " .. fields.type.value .. "\"" }%
         fieldOfView %{= horizontalFieldOfView }%
-        horizontalResolution %{= math.floor(horizontalFieldOfView / angularResolution + 0.5)  }%
-        verticalFieldOfView 0.041887902047864  # == 2.4 [deg]
-        numberOfLayers %{= numberOfLayers }%
+        horizontalResolution %{= wbmath.round(horizontalFieldOfView / angularResolution)  }%
+        verticalFieldOfView %{= verticalFieldOfView }%
+        numberOfLayers %{= measurementLayers }%
         minRange 0.5
         maxRange 300
         noise IS noise
@@ -70,7 +101,13 @@ PROTO SickLdMrs [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              "textures/sick_ld_mrs.png"
+              %{ if isHD then }%
+                "textures/sick_ld_mrs_hd.png"
+              %{ elseif is8L then }%
+                "textures/sick_ld_mrs_8l.png"
+              %{ else }%
+                "textures/sick_ld_mrs.png"
+              %{ end }%
             ]
           }
           roughnessMap ImageTexture {
