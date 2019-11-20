@@ -180,12 +180,9 @@ SickLdMrs {
   SFVec3f    translation       0 0 0
   SFRotation rotation          0 1 0 0
   SFString   name              "Sick LD-MRS"
-  SFString{"400001", "400102", "400001S01", "400102S01", "800001S01"}
-             type              "400001"
-  SFInt32{2, 4, 8}
-             measurementLayers 4
-  SFString{"0.5 [deg]", "0.25 [deg]", "0.125 [deg]"}
-             angularResolution "0.5 [deg]"
+  SFString   type              "400001"
+  SFInt32    measurementLayers 4
+  SFString   angularResolution "0.5 [deg]"
   SFFloat    noise             0.001
   SFBool     physics           TRUE
 }
@@ -193,16 +190,18 @@ SickLdMrs {
 
 The `type` field specifies the `SICK LD-MRS` type (cf. [specifications](https://www.sick.com/us/en/detection-and-ranging-solutions/3d-lidar-sensors/ld-mrs/c/g91913)).
 Internal parameters are affected by the `type` as described in the table above.
+The value could be one of the following: `400001`, `400102`, `400001S01`, `400102S01` or `800001S01`.
 
 The `noise` field specifies the standard deviation of gaussian image noise in meters.
 
 The `measurementLayers` field specifies the number of horizontal layers.
-It can be either 2, 4 or 8.
 Depending on `SickLdMrs.type` some `measurementLayers` values may not be applicable.
+The value could be one of the following: `2`, `4` or `8`.
 
 The `angularResolution` field specifies the vertical angular gap between two measurements.
 From the `SICK LD-MRS` specification, it can be either 0.5, 0.25 or 0.125 degrees.
 Internally, the `Lidar.horizontalResolution` is directly affected by this field.
+The value could be one of the following: `0.5 [deg]`, `0.25 [deg]` or `0.125 [deg]`.
 
 The `physics` field specifies if the sensor should be affected by physics (mass = 1 [kg]) or not.
 
