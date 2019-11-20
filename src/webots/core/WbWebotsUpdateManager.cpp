@@ -78,7 +78,7 @@ void WbWebotsUpdateManager::downloadReplyFinished() {
   }
 
   if (!success) {
-    mError = tr("Invalid format of the current Webots version.");
+    mError = tr("Invalid answer from the GitHub REST API.");
     return;
   }
 
