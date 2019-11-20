@@ -340,12 +340,17 @@ double WbPlane::computeDistance(const WbRay &ray) const {
 }
 
 bool WbPlane::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
-  const WbTransform *const transform = upperTransform();
-  WbVector3 p1 = transform->matrix() * WbVector3(0.5 * scaledSize().x(), 0.0, 0.5 * scaledSize().y());
-  WbVector3 p2 = transform->matrix() * WbVector3(0.5 * scaledSize().x(), 0.0, -0.5 * scaledSize().y());
-  WbVector3 p3 = transform->matrix() * WbVector3(-0.5 * scaledSize().x(), 0.0, -0.5 * scaledSize().y());
-  WbVector3 p4 = transform->matrix() * WbVector3(-0.5 * scaledSize().x(), 0.0, 0.5 * scaledSize().y());
+  // 1. Compute the 4 plane vertices in world coordinates.
+  const double planeWidth = scaledSize().x();
+  const double planeHeight = scaledSize().y();
+  const WbMatrix4 &upperMatrix = upperTransform()->matrix();
+  WbVector3 p1 = upperMatrix * WbVector3(0.5 * planeWidth, 0.0, 0.5 * planeHeight);
+  WbVector3 p2 = upperMatrix * WbVector3(0.5 * planeWidth, 0.0, -0.5 * planeHeight);
+  WbVector3 p3 = upperMatrix * WbVector3(-0.5 * planeWidth, 0.0, -0.5 * planeHeight);
+  WbVector3 p4 = upperMatrix * WbVector3(-0.5 * planeWidth, 0.0, 0.5 * planeHeight);
 
+  // 2. Check if the ray intersects one of the two oriented triangle.
+  // Compute the intersection point in such case.
   double u, v;
   const std::pair<bool, double> intersection1 = ray.intersects(p1, p2, p3, true, u, v);
   if (intersection1.first && intersection1.second > 0.0) {
@@ -359,6 +364,7 @@ bool WbPlane::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
     return true;
   }
 
+  // 3. The ray does not intersect the plane.
   return false;
 }
 
