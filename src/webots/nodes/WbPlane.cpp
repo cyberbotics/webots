@@ -340,29 +340,26 @@ double WbPlane::computeDistance(const WbRay &ray) const {
 }
 
 bool WbPlane::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
-  // compute intersection point between ray and plane
-  WbVector3 planeNormal(0.0, 1.0, 0.0);
-  WbVector3 translation(0.0, 0.0, 0.0);
   const WbTransform *const transform = upperTransform();
-  if (transform) {
-    planeNormal = transform->matrix().sub3x3MatrixDot(WbVector3(0.0, 1.0, 0.0));
-    planeNormal.normalize();
-    translation = transform->matrix().translation();
+  WbVector3 p1 = transform->matrix() * WbVector3(0.5 * scaledSize().x(), 0.0, 0.5 * scaledSize().y());
+  WbVector3 p2 = transform->matrix() * WbVector3(0.5 * scaledSize().x(), 0.0, -0.5 * scaledSize().y());
+  WbVector3 p3 = transform->matrix() * WbVector3(-0.5 * scaledSize().x(), 0.0, -0.5 * scaledSize().y());
+  WbVector3 p4 = transform->matrix() * WbVector3(-0.5 * scaledSize().x(), 0.0, 0.5 * scaledSize().y());
+
+  double u, v;
+  const std::pair<bool, double> intersection1 = ray.intersects(p1, p2, p3, true, u, v);
+  if (intersection1.first && intersection1.second > 0.0) {
+    point = ray.origin() + intersection1.second * ray.direction();
+    return true;
   }
 
-  // This is wrong, the collision should be computed a quad, not an affine plane.
-  // ref: https://stackoverflow.com/questions/21114796/3d-ray-quad-intersection-test-in-java
+  const std::pair<bool, double> intersection2 = ray.intersects(p1, p3, p4, true, u, v);
+  if (intersection2.first && intersection2.second > 0.0) {
+    point = ray.origin() + intersection2.second * ray.direction();
+    return true;
+  }
 
-  const WbAffinePlane plane(planeNormal, translation);
-  const std::pair<bool, double> intersection = ray.intersects(plane, true);
-
-  if (!intersection.first || intersection.second < 0.0)
-    // collision not in the direction of the ray or no intersection
-    return false;
-
-  // intersection point
-  point = ray.origin() + intersection.second * ray.direction();
-  return true;
+  return false;
 }
 
 void WbPlane::recomputeBoundingSphere() const {
