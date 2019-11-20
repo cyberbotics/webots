@@ -32,7 +32,8 @@ class Stream { // eslint-disable-line no-unused-vars
   onSocketOpen(event) {
     var mode = this.view.mode;
     if (mode === 'video')
-      mode += ': ' + this.view.video.width + 'x' + this.view.video.height;
+      mode += ': 800x600'; // TODO
+      // mode += ': ' + this.view.video.width + 'x' + this.view.video.height;
     else if (this.view.broadcast)
       mode += ';broadcast';
     this.socket.send(mode);
@@ -113,8 +114,8 @@ class Stream { // eslint-disable-line no-unused-vars
       var list = data.split(' ');
       var url = list[1];
       var streamId = list[2];
+      this.view.video.domElement.src = url;
       console.log('Received video message on ' + url + ' stream = ' + streamId);
-      this.videoStream = new webots.VideoStream(url, this.view.video, document.getElementById('BitrateViewer'), streamId);
       if (typeof this.onready === 'function')
         this.onready();
     } else if (data.startsWith('set controller:')) {

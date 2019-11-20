@@ -2,11 +2,10 @@
 
 class Video { // eslint-disable-line no-unused-vars
   constructor(parentObject, mouseEvents, stream) {
-    this.domElement = document.createElement('video');
+    this.domElement = document.createElement('img');
     this.domElement.style.background = 'grey';
     this.domElement.id = 'remoteVideo';
     this.domElement.class = 'rounded centered';
-    this.domElement.autoplay = 'true';
     this.domElement.width = 800;
     this.domElement.height = 600;
     parentObject.appendChild(this.domElement);
@@ -14,6 +13,10 @@ class Video { // eslint-disable-line no-unused-vars
     this.stream = stream;
 
     this.onmousemove = (e) => { this._onMouseMove(e); };
+  }
+
+  disconnect() {
+    this.domElement.src = '';
   }
 
   finalize(onready) {

@@ -201,79 +201,83 @@ webots.View = class View {
 
     var finalizeWorld = () => {
       $('#webotsProgressMessage').html('Loading HTML and Javascript files...');
-      if (this.x3dScene.viewpoint.followedObjectId == null || this.broadcast)
-        this.x3dScene.viewpoint.initFollowParameters();
-      else
-        // Reset follow parameters.
-        this.x3dScene.viewpoint.follow(this.x3dScene.viewpoint.followedObjectId);
-
-      if (!this.isWebSocketProtocol) { // skip robot windows initialization
-        if (this.animation != null)
-          this.animation.init(loadFinalize);
+      if (this.x3dScene) {
+        if (this.x3dScene.viewpoint.followedObjectId == null || this.broadcast)
+          this.x3dScene.viewpoint.initFollowParameters();
         else
-          loadFinalize();
-        this.onresize();
-        return;
-      }
+          // Reset follow parameters.
+          this.x3dScene.viewpoint.follow(this.x3dScene.viewpoint.followedObjectId);
 
-      var loadRobotWindow = (windowName, nodeName) => {
-        this.robotWindowNames[nodeName] = windowName;
-        var win = new RobotWindow(this.view3D, this.mobileDevice, windowName);
-        this.robotWindows[windowName] = win;
-        // Initialize robot windows dialogs.
-        function closeInfoWindow() {
-          $('#infoButton').removeClass('toolBarButtonActive');
+        if (!this.isWebSocketProtocol) { // skip robot windows initialization
+          if (this.animation != null)
+            this.animation.init(loadFinalize);
+          else
+            loadFinalize();
+          this.onresize();
+          return;
         }
-        if (windowName === infoWindowName) {
-          var user;
-          if (typeof webots.User1Id !== 'undefined' && webots.User1Id !== '') {
-            user = ' [' + webots.User1Name;
-            if (typeof webots.User2Id !== 'undefined' && webots.User2Id !== '')
-              user += '/' + webots.User2Name;
-            user += ']';
+
+        var loadRobotWindow = (windowName, nodeName) => {
+          this.robotWindowNames[nodeName] = windowName;
+          var win = new RobotWindow(this.view3D, this.mobileDevice, windowName);
+          this.robotWindows[windowName] = win;
+          // Initialize robot windows dialogs.
+          function closeInfoWindow() {
+            $('#infoButton').removeClass('toolBarButtonActive');
+          }
+          if (windowName === infoWindowName) {
+            var user;
+            if (typeof webots.User1Id !== 'undefined' && webots.User1Id !== '') {
+              user = ' [' + webots.User1Name;
+              if (typeof webots.User2Id !== 'undefined' && webots.User2Id !== '')
+                user += '/' + webots.User2Name;
+              user += ']';
+            } else
+              user = '';
+            win.setProperties({title: this.x3dScene.worldInfo.title + user, close: closeInfoWindow});
+            this.infoWindow = win;
           } else
-            user = '';
-          win.setProperties({title: this.x3dScene.worldInfo.title + user, close: closeInfoWindow});
-          this.infoWindow = win;
-        } else
-          win.setProperties({title: 'Robot: ' + nodeName});
-        pendingRequestsCount++;
-        $.get('window/' + windowName + '/' + windowName + '.html', (data) => {
-          // Fix the img src relative URLs.
-          var d = data.replace(/ src='/g, ' src=\'window/' + windowName + '/').replace(/ src="/g, ' src="window/' + windowName + '/');
-          win.setContent(d);
-          MathJax.Hub.Queue(['Typeset', MathJax.Hub, win[0]]);
-          $.get('window/' + windowName + '/' + windowName + '.js', (data) => {
-            eval(data);
-            pendingRequestsCount--;
-            if (pendingRequestsCount === 0)
-              loadFinalize();
+            win.setProperties({title: 'Robot: ' + nodeName});
+          pendingRequestsCount++;
+          $.get('window/' + windowName + '/' + windowName + '.html', (data) => {
+            // Fix the img src relative URLs.
+            var d = data.replace(/ src='/g, ' src=\'window/' + windowName + '/').replace(/ src="/g, ' src="window/' + windowName + '/');
+            win.setContent(d);
+            MathJax.Hub.Queue(['Typeset', MathJax.Hub, win[0]]);
+            $.get('window/' + windowName + '/' + windowName + '.js', (data) => {
+              eval(data);
+              pendingRequestsCount--;
+              if (pendingRequestsCount === 0)
+                loadFinalize();
+            }).fail(() => {
+              pendingRequestsCount--;
+              if (pendingRequestsCount === 0)
+                loadFinalize();
+            });
           }).fail(() => {
+            if (windowName === infoWindowName)
+              this.infoWindow = undefined;
             pendingRequestsCount--;
             if (pendingRequestsCount === 0)
               loadFinalize();
           });
-        }).fail(() => {
-          if (windowName === infoWindowName)
-            this.infoWindow = undefined;
-          pendingRequestsCount--;
-          if (pendingRequestsCount === 0)
-            loadFinalize();
-        });
-      };
+        };
 
-      var infoWindowName = this.x3dScene.worldInfo.window;
-      var pendingRequestsCount = 1; // start from 1 so that it can be 0 only after the loop is completed and all the nodes are checked
-      var nodes = this.x3dScene.root ? this.x3dScene.root.children : [];
-      nodes.forEach((node) => {
-        if (node.isObject3D && node.userData && node.userData.window && node.userData.name)
-          loadRobotWindow(node.userData.window, node.userData.name);
-      });
-      pendingRequestsCount--; // notify that loop is completed
-      if (pendingRequestsCount === 0)
-        // If no pending requests execute loadFinalize
-        // otherwise it will be executed when the last request will be handled.
+        var infoWindowName = this.x3dScene.worldInfo.window;
+        var pendingRequestsCount = 1; // start from 1 so that it can be 0 only after the loop is completed and all the nodes are checked
+        var nodes = this.x3dScene.root ? this.x3dScene.root.children : [];
+        nodes.forEach((node) => {
+          if (node.isObject3D && node.userData && node.userData.window && node.userData.name)
+            loadRobotWindow(node.userData.window, node.userData.name);
+        });
+        pendingRequestsCount--; // notify that loop is completed
+        if (pendingRequestsCount === 0)
+          // If no pending requests execute loadFinalize
+          // otherwise it will be executed when the last request will be handled.
+          loadFinalize();
+      } else {
         loadFinalize();
+      }
     };
 
     var loadFinalize = () => {
@@ -304,25 +308,16 @@ webots.View = class View {
         this.toolBar.realTime();
     };
 
-    if (mode === 'video') {
-      this.url = url;
-      this.video = new Video(this.view3D, this.mouseEvents);
-      initWorld();
-      return;
-    }
-    if (mode !== 'x3d') {
-      console.log('Error: webots.View.open: wrong mode argument: ' + mode);
-      return;
-    }
-
     if (this.broadcast)
       this.setTimeout(-1);
     this.isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://');
 
-    if (typeof this.x3dScene === 'undefined') {
+    if (mode === 'video') {
+      this.url = url;
+      this.video = new Video(this.view3D, this.mouseEvents);
+    } else if (typeof this.x3dScene === 'undefined') {
       this.x3dDiv = document.createElement('div');
       this.x3dDiv.className = 'webots3DView';
-      this.view3D.appendChild(this.x3dDiv);
       this.x3dScene = new X3dScene(this.x3dDiv);
       this.x3dScene.init(texturePathPrefix);
       var param = document.createElement('param');
@@ -331,7 +326,7 @@ webots.View = class View {
       this.x3dScene.domElement.appendChild(param);
     }
 
-    if (typeof this.contextMenu === 'undefined' && this.isWebSocketProtocol) {
+    if (this.x3dScene && typeof this.contextMenu === 'undefined' && this.isWebSocketProtocol) {
       let authenticatedUser = !this.broadcast;
       if (authenticatedUser && typeof webots.User1Id !== 'undefined' && webots.User1Id !== '')
         authenticatedUser = Boolean(webots.User1Authentication);
@@ -343,7 +338,7 @@ webots.View = class View {
       this.contextMenu.isRobotWindowValid = (robotName, setResult) => { setResult(this.robotWindows[this.robotWindowNames[robotName]]); };
     }
 
-    if (typeof this.mouseEvents === 'undefined')
+    if (this.x3dScene && typeof this.mouseEvents === 'undefined')
       this.mouseEvents = new MouseEvents(this.x3dScene, this.contextMenu, this.x3dDiv, this.mobileDevice);
 
     if (typeof this.console === 'undefined')
@@ -356,6 +351,8 @@ webots.View = class View {
   }
 
   close() {
+    if (this.video)
+      this.video.disconnect();
     if (this.server)
       this.server.socket.close();
     if (this.stream)
