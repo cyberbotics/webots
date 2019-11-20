@@ -11,6 +11,7 @@ Supported values for the `texture` field:
 - factory (HDR)
 - morning\_cloudy\_empty
 - noon\_building\_overcast (HDR)
+- noon\_cloudy\_countryside (HDR)
 - noon\_cloudy\_empty
 - noon\_cloudy\_mountains
 - noon\_park\_empty (HDR)
@@ -54,6 +55,7 @@ Supported values for the "texture" field:
 - factory
 - morning\_cloudy\_empty
 - noon\_building\_overcast
+- noon\_cloudy\_countryside
 - noon\_cloudy\_empty
 - noon\_cloudy\_mountains
 - noon\_park\_empty
