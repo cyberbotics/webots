@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbMultimediaStreamer.hpp"
 #include "WbLog.hpp"
+#include "WbMultimediaStreamer.hpp"
 #include "WbStandardPaths.hpp"
 
+#include <QtCore/QBuffer>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QFile>
+#include <QtGui/QImage>
 #include <cassert>
 #include <cstdlib>
 #include <iostream>
@@ -80,147 +82,101 @@ WbMultimediaStreamer::WbMultimediaStreamer() :
   mImageHeight(0),
   mPort(0),
   mSharedMemoryKey(0),
-  mSharedMemoryData(NULL),
-  mLocalSocket(0),
-  mStreamerState(WAIT) {
+  mSharedMemoryData(NULL) {
 }
 
 WbMultimediaStreamer::~WbMultimediaStreamer() {
 #ifdef __linux__
-  WbLog::debug("WbMultimediaStreamer: Closing...");
-  sendMessageToStreamer("e", 1);  // exit
-  mLocalServer.close();
-  mStreamer.waitForFinished(1000);
-  mStreamer.close();
+  mTcpServer->close();
   if (mSharedMemoryData)
     shmdt(mSharedMemoryData);
 #endif
 }
 
 bool WbMultimediaStreamer::initialize(int width, int height, const QString &stream) {
-#ifdef __linux__
-  const QString streamerExecutablePath = WbStandardPaths::webotsHomePath() + "bin/streamer";
-  if (!QFile::exists(streamerExecutablePath)) {
-    WbLog::error(tr("No such file: '%1'.").arg(streamerExecutablePath));
-    return false;
-  }
-  if (!(QFile::permissions(streamerExecutablePath) & (QFile::ReadUser + QFile::ExeUser))) {
-    WbLog::error(tr("'%1' is not readable or executable.").arg(streamerExecutablePath));
-    return false;
-  }
-  const QStringList streamAddress = stream.split(":");
-  if (streamAddress.size() != 2) {
-    WbLog::error(tr("Wrong multimedia stream: '%1'").arg(stream));
-    return false;
-  }
-  mStreamerExecutablePath = streamerExecutablePath;
   mImageWidth = width;
   mImageHeight = height;
-  mHostname = streamAddress[0];
-  mPort = streamAddress[1].toInt();
-  WbLog::debug(tr("Setting port to %1").arg(mPort));
+  mImageSize = mImageWidth * mImageHeight * 3;
   // this alternate trick is a hack to leave time for the previous shared memory segment to be deleted while we allocate a new
   // one when changing the size (resolution) of the video streaming view.
   static int alternate = 0;
   mSharedMemoryKey = 0x16aa81 + alternate + static_cast<int>(QCoreApplication::applicationPid());  // magic number
   if (alternate++ == 2)
     alternate = 0;
-  if (!initSharedMemory(mSharedMemoryKey, mImageWidth * mImageHeight * 3, mSharedMemoryData)) {
+  if (!initSharedMemory(mSharedMemoryKey, mImageSize, mSharedMemoryData)) {
     WbLog::error(tr("Error when creating shared memory."));
     return false;
   }
   mIsInitialized = true;
-#endif
   return true;
 }
 
 bool WbMultimediaStreamer::start() {
   if (!mIsInitialized)
     return false;
-#ifdef __linux__
-  QObject::connect(&mLocalServer, &QLocalServer::newConnection, this, &WbMultimediaStreamer::treatNewConnection);
-  if (!mLocalServer.listen(QString("%1").arg(time(NULL)))) {
-    WbLog::error(tr("Error when opening local server."));
+  mTcpServer = new QTcpServer();
+  if (!mTcpServer->listen(QHostAddress::Any, 8089)) {  // TODO
+    throw tr("Cannot set the server in listen mode: %1").arg(mTcpServer->errorString());
     return false;
   }
-#endif
+  connect(mTcpServer, &QTcpServer::newConnection, this, &WbMultimediaStreamer::treatNewConnection);
   QStringList arguments;
   arguments << QString::number(mSharedMemoryKey);
   arguments << QString::number(mImageWidth);
   arguments << QString::number(mImageHeight);
-  arguments << mLocalServer.fullServerName();
   arguments << mHostname;
   arguments << QString::number(mPort);
 
   WbLog::info("Webots streamer started: ");
   foreach (QString argument, arguments)
     WbLog::info(argument);
-  mStreamer.setProcessChannelMode(QProcess::ForwardedChannels);
-  mStreamer.start(mStreamerExecutablePath, arguments, QIODevice::ReadWrite | QIODevice::Unbuffered);
-  if (!mStreamer.waitForStarted(2000)) {
-    WbLog::error(tr("The streamer process was not started successfully."));
-    return false;
-  }
   return true;
 }
 
 bool WbMultimediaStreamer::isReady() {
-  if (!isStreamerRunning() || !checkCommunication())
-    return false;
-  if (mStreamerState == READY)
-    return true;
-  while (mLocalSocket->bytesAvailable()) {
-    char ack;
-    if (mLocalSocket->getChar(&ack)) {
-      if (ack == 'r')
-        mStreamerState = READY;
-      else if (ack == 'w')
-        mStreamerState = WAIT;
-      else
-        WbLog::error(tr("Unknown ack '%1'").arg(ack));
-    }
-  }
-  return mStreamerState == READY;
+  return mIsInitialized && mClients->size() > 0;
 }
 
-bool WbMultimediaStreamer::sendImage() {
-  if (!isReady())
-    return false;
-  mStreamerState = PROCESSING;
-  sendMessageToStreamer("g", 1);  // go
+#include <QtCore/QDebug>
+bool WbMultimediaStreamer::sendImage(QImage image) {
+  mSceneImage = image;
+
+  QByteArray im;
+  QBuffer bufferJpeg(&im);
+  bufferJpeg.open(QIODevice::WriteOnly);
+  mSceneImage.save(&bufferJpeg, "JPG");
+  QByteArray boundaryString =
+    QString("--WebotsStreamingFrame\r\nContent-type: image/jpg\r\nContent-Length: %1\r\n\r\n").arg(im.length()).toUtf8();
+
+  foreach (QTcpSocket *client, mClients) {
+    if (client->state() != QAbstractSocket::ConnectedState) {
+      mClients.removeAll(client);
+      continue;
+    }
+    if (!client->isValid())
+      continue;
+    client->write(boundaryString);
+    client->write(im);
+    client->write(QByteArray("\r\n\r\n"));
+    client->flush();
+  }
+
   return true;
 }
 
 void WbMultimediaStreamer::treatNewConnection() {
-  if (mLocalSocket && mLocalSocket->state() != QLocalSocket::ConnectedState) {
-    mLocalSocket->close();
-    delete mLocalSocket;
-    mLocalSocket = NULL;
-  }
-  if (!mLocalSocket) {
-    assert(mLocalServer.hasPendingConnections());
-    mLocalSocket = mLocalServer.nextPendingConnection();
-    WbLog::debug("Multimedia Streamer connected.");
-    if (!mLocalSocket->waitForConnected(500)) {
-      WbLog::error(tr("Local socket connection timed out."));
-      mLocalSocket->close();
-      delete mLocalSocket;
-      mLocalSocket = NULL;
-    }
-  }
+  QTcpSocket *socket = mTcpServer->nextPendingConnection();
+  connect(socket, &QTcpSocket::readyRead, this, &WbMultimediaStreamer::onNewTcpData);
 }
 
-bool WbMultimediaStreamer::isStreamerRunning() const {
-  return mStreamer.state() == QProcess::Running;
-}
+void WbMultimediaStreamer::onNewTcpData() {
+  qDebug() << "WbMultimediaStreamer::onNewTcpData";
+  QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
+  socket->readAll();  // Discard "Get Request String"
 
-bool WbMultimediaStreamer::checkCommunication() {
-  return (mLocalSocket && mLocalSocket->state() == QLocalSocket::ConnectedState);
-}
-
-void WbMultimediaStreamer::sendMessageToStreamer(const char *data, qint64 size) {
-  if (checkCommunication()) {
-    mLocalSocket->write(data, size);
-    mLocalSocket->flush();
-  }
+  QByteArray ContentType = ("HTTP/1.0 200 OK\r\nServer: Webots\r\nConnection: close\r\nMax-Age: 0\r\n"
+                            "Expires: 0\r\nCache-Control: no-cache, private\r\nPragma: no-cache\r\n"
+                            "Content-Type: multipart/x-mixed-replace; boundary=--WebotsStreamingFrame\r\n\r\n");
+  socket->write(ContentType);
+  mClients.append(socket);
 }

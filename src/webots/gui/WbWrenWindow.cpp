@@ -442,9 +442,10 @@ void WbWrenWindow::feedMultimediaStreamer() {
     skipFirstFrame = false;
   else {
     WbMultimediaStreamer *multimediaStreamer = WbMultimediaStreamer::instance();
-    void *buffer = multimediaStreamer->buffer();
-    readPixels(multimediaStreamer->imageWidth(), multimediaStreamer->imageHeight(), GL_RGB, buffer);
-    multimediaStreamer->sendImage();
+    // TODO
+    // void *buffer = multimediaStreamer->buffer();
+    // readPixels(multimediaStreamer->imageWidth(), multimediaStreamer->imageHeight(), GL_RGB, buffer);
+    multimediaStreamer->sendImage(grabWindowBufferNow());
   }
 }
 

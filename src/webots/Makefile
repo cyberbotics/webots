@@ -38,7 +38,7 @@ WB_USER_COMMANDS_INCLUDE = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INC
 WB_WIDGETS_INCLUDE       = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) -Icore -Imaths -Iuser_commands -Ivrml
 WB_EDITOR_INCLUDE        = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_PRINT_SUPPORT_INCLUDE) -Icore -Iwidgets -Imaths -Inodes -Inodes/utils -Iode -Iuser_commands -Ivrml
 WB_PLUGINS_INCLUDE       = $(QT_CORE_INCLUDE) $(ODE_INCLUDE) -Icore -Imaths -Inodes -Inodes/utils -Ivrml
-WB_ENGINE_INCLUDE        = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Icore -Imaths -Inodes -Inodes/utils -Iplugins -Isound -Iuser_commands -Iutil -Ivrml
+WB_ENGINE_INCLUDE        = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_NETWORK_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Icore -Imaths -Inodes -Inodes/utils -Iplugins -Isound -Iuser_commands -Iutil -Ivrml
 WB_CONTROL_INCLUDE       = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) -Icore -Iengine -Imaths -Inodes -Inodes/utils -Iode -Ivrml -Iutil
 # dependency of NODES on QT_GUI is necessary in WbImageTexture to retrieve the size of a texture before loading it in Wren
 WB_NODES_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(ODE_INCLUDE) $(CONTROLLER_INCLUDE) $(OIS_INCLUDE) $(FREETYPE_INCLUDE) $(WREN_INCLUDE) -Iapp -Icore -isystem external/siphash -isystem external/stb_image -Imaths -Inodes -Inodes/utils -Iode -Iplugins -Isound -Iutil -Ivrml

@@ -18,8 +18,9 @@
 #include <QtCore/QObject>
 #include <QtCore/QProcess>
 #include <QtCore/QString>
-#include <QtNetwork/QLocalServer>
-#include <QtNetwork/QLocalSocket>
+#include <QtGui/QImage>
+#include <QtNetwork/QTcpServer>
+#include <QtNetwork/QTcpSocket>
 
 // The WbMultimediaStreamer class allows to send a stream of raw images to a
 // multimedia server, such as Janus for WebRTC broadcasting.
@@ -35,10 +36,11 @@ public:
   void *buffer() const { return mSharedMemoryData; }
   int imageWidth() const { return mImageWidth; }
   int imageHeight() const { return mImageHeight; }
-  bool sendImage();
+  bool sendImage(QImage image);
 
 private slots:
   void treatNewConnection();
+  void onNewTcpData();
 
 private:
   WbMultimediaStreamer();
@@ -51,16 +53,16 @@ private:
   bool mIsInitialized;  // Remember if 'initialize()' was successfully called.
   int mImageWidth;
   int mImageHeight;
+  int mImageSize;
   QString mHostname;
   int mPort;
-  QString mStreamerExecutablePath;
-  QProcess mStreamer;
   int mSharedMemoryKey;
   void *mSharedMemoryData;
-  QLocalServer mLocalServer;
-  QLocalSocket *mLocalSocket;
+  QTcpServer *mTcpServer;
+  QList<QTcpSocket *> mClients;
   enum StreamerState { WAIT, READY, PROCESSING };
   StreamerState mStreamerState;
+  QImage mSceneImage;
 };
 
 #endif  // WB_MULTIMEDIA_STREAMER_HPP

@@ -545,10 +545,13 @@ void WbStreamingServer::processTextMessage(QString message) {
     int width = resolution[0].toInt();
     int height = resolution[1].toInt();
     WbLog::info(tr("Streaming server: Client set mode to: VIDEO %1x%2").arg(width).arg(height));
-    gMainWindow->setView3DSize(QSize(width, height));
-    WbMultimediaStreamer::instance()->initialize(width, height, mMultimediaStream);
-    WbMultimediaStreamer::instance()->start();
-    client->sendTextMessage("video: " + mMultimediaServer + " 1");  // 1 is the stream id of the main Webots view
+    if (!WbMultimediaStreamer::instance()->isReady()) {
+      gMainWindow->setView3DSize(QSize(width, height));
+      WbMultimediaStreamer::instance()->initialize(width, height, mMultimediaStream);
+      WbMultimediaStreamer::instance()->start();
+    }
+    // TODO
+    client->sendTextMessage("video: http:/localhost:8089 1");  // 1 is the stream id of the main Webots view
     // this should be fixed when we want to support multiples instance of Webots running on the same multimedia streaming server
   } else if (message.startsWith("resize: ")) {
     QStringList resolution = message.mid(8).split("x");
