@@ -341,8 +341,8 @@ double WbPlane::computeDistance(const WbRay &ray) const {
 
 bool WbPlane::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
   // 1. Compute the 4 plane vertices in world coordinates.
-  const double planeWidth = scaledSize().x();
-  const double planeHeight = scaledSize().y();
+  const double planeWidth = size().x();
+  const double planeHeight = size().y();
   const WbMatrix4 &upperMatrix = upperTransform()->matrix();
   WbVector3 p1 = upperMatrix * WbVector3(0.5 * planeWidth, 0.0, 0.5 * planeHeight);
   WbVector3 p2 = upperMatrix * WbVector3(0.5 * planeWidth, 0.0, -0.5 * planeHeight);
