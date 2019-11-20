@@ -7,7 +7,6 @@ class Stream { // eslint-disable-line no-unused-vars
     this.view = view;
     this.onready = onready;
     this.socket = null;
-    this.videoStream = null;
   }
 
   connect() {
@@ -25,15 +24,12 @@ class Stream { // eslint-disable-line no-unused-vars
   close() {
     if (this.socket)
       this.socket.close();
-    if (this.videoStream)
-      this.videoStream.close();
   }
 
   onSocketOpen(event) {
     var mode = this.view.mode;
     if (mode === 'video')
-      mode += ': 800x600'; // TODO
-      // mode += ': ' + this.view.video.width + 'x' + this.view.video.height;
+      mode += ': ' + this.view.view3D.offsetWidth + 'x' + (this.view.view3D.offsetHeight - 48); // subtract toolbar height
     else if (this.view.broadcast)
       mode += ';broadcast';
     this.socket.send(mode);

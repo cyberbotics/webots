@@ -6,9 +6,6 @@ class Video { // eslint-disable-line no-unused-vars
     this.domElement = document.createElement('img');
     this.domElement.style.background = 'grey';
     this.domElement.id = 'remoteVideo';
-    this.domElement.class = 'rounded centered';
-    this.domElement.width = 800;
-    this.domElement.height = 600;
     parentObject.appendChild(this.domElement);
     this.mouseDown = 0;
 
