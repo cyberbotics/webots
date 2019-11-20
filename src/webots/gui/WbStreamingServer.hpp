@@ -86,6 +86,7 @@ private:
 
   static QString simulationStateString();
 
+  int mPort;
   QString mX3dWorld;
   QHash<QString, QString> mX3dWorldTextures;
   double mX3dWorldGenerationTime;

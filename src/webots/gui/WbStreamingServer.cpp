@@ -145,14 +145,15 @@ void WbStreamingServer::startFromCommandLine(const QString &argument) {
         else
           WbLog::error(tr("Streaming server: invalid option: port '%1'").arg(value));
       } else if (key == "multimediaServer")
-        mMultimediaServer = value;
+        mMultimediaServer = value;  // TODO is still needed?
       else if (key == "multimediaStream")
-        mMultimediaStream = value;
+        mMultimediaStream = value;  // TODO is still needed?
       else
         WbLog::error(tr("Streaming server: unknown option '%1'").arg(option));
     } else
       WbLog::error(tr("Streaming server: unknown option '%1'").arg(option));
   }
+  mPort = port;
   start(port);
 }
 
@@ -545,14 +546,18 @@ void WbStreamingServer::processTextMessage(QString message) {
     int width = resolution[0].toInt();
     int height = resolution[1].toInt();
     WbLog::info(tr("Streaming server: Client set mode to: VIDEO %1x%2").arg(width).arg(height));
-    if (!WbMultimediaStreamer::instance()->isReady()) {
-      gMainWindow->setView3DSize(QSize(width, height));
-      WbMultimediaStreamer::instance()->initialize(width, height, mMultimediaStream);
-      WbMultimediaStreamer::instance()->start();
+    gMainWindow->setView3DSize(QSize(width, height));
+    WbMultimediaStreamer *videoStreamer = WbMultimediaStreamer::instance();
+    if (!videoStreamer->isInitialized()) {
+      videoStreamer->initialize(width, height);
+      videoStreamer->start(8889);
+    } else {
+      videoStreamer->initialize(width, height);
     }
     // TODO
-    client->sendTextMessage(
-      QString("video: http:/localhost:8089 %1").arg(simulationStateString()));  // 1 is the stream id of the main Webots view
+    client->sendTextMessage(QString("video: %1 %2")
+                              .arg(videoStreamer->url())
+                              .arg(simulationStateString()));  // 1 is the stream id of the main Webots view
     // this should be fixed when we want to support multiples instance of Webots running on the same multimedia streaming server
   } else if (message.startsWith("resize: ")) {
     QStringList resolution = message.mid(8).split("x");
@@ -560,9 +565,7 @@ void WbStreamingServer::processTextMessage(QString message) {
     int height = resolution[1].toInt();
     WbLog::info(tr("Streaming server: Client resize: VIDEO %1x%2").arg(width).arg(height));
     gMainWindow->setView3DSize(QSize(width, height));
-    WbMultimediaStreamer::reset();
-    WbMultimediaStreamer::instance()->initialize(width, height, mMultimediaStream);
-    WbMultimediaStreamer::instance()->start();
+    WbMultimediaStreamer::instance()->initialize(width, height);
   } else
     WbLog::error(tr("Streaming server: Unsupported message: %1.").arg(message));
 }

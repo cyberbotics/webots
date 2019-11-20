@@ -71,16 +71,11 @@ WbMultimediaStreamer *WbMultimediaStreamer::instance() {
   return sInstance;
 }
 
-void WbMultimediaStreamer::reset() {
-  delete sInstance;
-  sInstance = NULL;
-}
-
 WbMultimediaStreamer::WbMultimediaStreamer() :
   mIsInitialized(false),
+  mPort(0),
   mImageWidth(0),
   mImageHeight(0),
-  mPort(0),
   mSharedMemoryKey(0),
   mSharedMemoryData(NULL) {
 }
@@ -93,7 +88,7 @@ WbMultimediaStreamer::~WbMultimediaStreamer() {
 #endif
 }
 
-bool WbMultimediaStreamer::initialize(int width, int height, const QString &stream) {
+bool WbMultimediaStreamer::initialize(int width, int height) {
   mImageWidth = width;
   mImageHeight = height;
   mImageSize = mImageWidth * mImageHeight * 3;
@@ -111,11 +106,12 @@ bool WbMultimediaStreamer::initialize(int width, int height, const QString &stre
   return true;
 }
 
-bool WbMultimediaStreamer::start() {
+bool WbMultimediaStreamer::start(int port) {
   if (!mIsInitialized)
     return false;
+  mPort = port;
   mTcpServer = new QTcpServer();
-  if (!mTcpServer->listen(QHostAddress::Any, 8089)) {  // TODO
+  if (!mTcpServer->listen(QHostAddress::Any, mPort)) {
     throw tr("Cannot set the server in listen mode: %1").arg(mTcpServer->errorString());
     return false;
   }
@@ -133,14 +129,9 @@ bool WbMultimediaStreamer::start() {
   return true;
 }
 
-bool WbMultimediaStreamer::isReady() {
-  return mIsInitialized && mClients.size() > 0;
-}
-
 #include <QtCore/QDebug>
 bool WbMultimediaStreamer::sendImage(QImage image) {
   mSceneImage = image;
-  // emit imageReady(QByteArray((const char *)mSharedMemoryData, mImageSize));
 
   QByteArray im;
   QBuffer bufferJpeg(&im);
@@ -179,5 +170,6 @@ void WbMultimediaStreamer::onNewTcpData() {
                             "Expires: 0\r\nCache-Control: no-cache, private\r\nPragma: no-cache\r\n"
                             "Content-Type: multipart/x-mixed-replace; boundary=--WebotsStreamingFrame\r\n\r\n");
   socket->write(ContentType);
+  sendImage(mSceneImage);
   mClients.append(socket);
 }

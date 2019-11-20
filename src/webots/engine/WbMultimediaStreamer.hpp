@@ -29,14 +29,19 @@ class WbMultimediaStreamer : public QObject {
   Q_OBJECT
 public:
   static WbMultimediaStreamer *instance();
-  static void reset();
-  bool initialize(int width, int height, const QString &stream);
-  bool start();
-  bool isReady();
+  bool initialize(int width, int height);
+  bool start(int port);
+  bool isInitialized() const { return mIsInitialized; }
+  bool isReady() const { return mIsInitialized && mClients.size() > 0; };
   void *buffer() const { return mSharedMemoryData; }
   int imageWidth() const { return mImageWidth; }
   int imageHeight() const { return mImageHeight; }
   bool sendImage(QImage image);
+
+  QString url() const { return QString("http://localhost:%1").arg(mPort); }
+
+signals:
+  void imageReady(const QByteArray &image);
 
 private slots:
   void treatNewConnection();
@@ -51,11 +56,11 @@ private:
   static WbMultimediaStreamer *sInstance;
 
   bool mIsInitialized;  // Remember if 'initialize()' was successfully called.
+  int mPort;
   int mImageWidth;
   int mImageHeight;
   int mImageSize;
   QString mHostname;
-  int mPort;
   int mSharedMemoryKey;
   void *mSharedMemoryData;
   QTcpServer *mTcpServer;
