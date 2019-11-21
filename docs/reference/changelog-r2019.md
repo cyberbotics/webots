@@ -3,6 +3,8 @@
 ## Webots R2019b Revision 2
 Released on ???
 
+  - New Robots
+    - Added several TIAGo robots from PAL Robotics: [TIAGo Base](../guide/tiago-base.md), [TIAGo Iron](../guide/tiago-iron.md), [TIAGo Steel](../guide/tiago-steel.md), [TIAGo Titanium](../guide/tiago-titanium.md) and [TIAGo++](../guide/tiagopp.md).
   - New Features
     - Linux: Added support for Python 3.8.
     - Added a [script to cleanup the Webots preferences](https://github.com/cyberbotics/webots/blob/master/scripts/preferences_cleaner/README.md).
@@ -12,6 +14,8 @@ Released on ???
   - Dependency Updates
     - Upgraded to Qt 5.13.1 on Windows and macOS.
   - Bug fixes
+    - Fixed [Lidar](lidar.md) point cloud access in controllers (thanks to Alexander).
+    - Fixed determinism in camera rendering order.
     - Fixed `simulation_server.py` script to work with Python3.
     - Fixed exporting first translation and rotation fields change during animation recording and simulation streaming.
     - Fixed displaying streaming server initialization errors in the Webots console.

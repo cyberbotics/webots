@@ -242,6 +242,12 @@ void WbRobot::addDevices(WbNode *node) {
       if (renderingDevice) {
         connect(renderingDevice, &WbBaseNode::isBeingDestroyed, this, &WbRobot::removeRenderingDevice, Qt::UniqueConnection);
         mRenderingDevices.append(renderingDevice);
+        WbAbstractCamera *camera = dynamic_cast<WbAbstractCamera *>(renderingDevice);
+        if (camera) {
+          connect(camera, &WbAbstractCamera::enabled, this, &WbRobot::updateActiveCameras, Qt::UniqueConnection);
+          if (camera->isEnabled())
+            mActiveCameras.append(camera);
+        }
       }
     }
 
@@ -327,6 +333,7 @@ void WbRobot::clearDevices() {
     disconnect(device, &WbBaseNode::isBeingDestroyed, this, &WbRobot::removeRenderingDevice);
   mDevices.clear();
   mRenderingDevices.clear();
+  mActiveCameras.clear();
 }
 
 void WbRobot::updateDevicesAfterDestruction() {
@@ -1259,6 +1266,21 @@ void WbRobot::updateSimulationMode() {
 void WbRobot::descendantNodeInserted(WbBaseNode *decendant) {
   if (isPreFinalizedCalled())
     updateDevicesAfterInsertion();
+}
+
+void WbRobot::updateActiveCameras(WbAbstractCamera *camera, bool isActive) {
+  if (isActive) {
+    if (!mActiveCameras.contains(camera))
+      mActiveCameras.append(camera);
+    return;
+  }
+
+  mActiveCameras.removeOne(camera);
+}
+
+void WbRobot::renderCameras() {
+  for (int i = 0; i < mActiveCameras.size(); ++i)
+    mActiveCameras[i]->updateCameraTexture();
 }
 
 void WbRobot::updateSensors() {

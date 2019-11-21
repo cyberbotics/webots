@@ -10,8 +10,10 @@ LUA_PACKAGE = lua-5.2.3.tar.gz
 OIS_PACKAGE = libOIS.zip
 PICO_PACKAGE = libpico.zip
 LUA_GD_PACKAGE = lua-gd-windows.zip
+ICU_PACKAGE = icu64.zip
+ICU_VERSION = $(subst .zip,,$(subst icu,,$(ICU_PACKAGE)))
 
-PACKAGES = open-vr lua ois pico lua-gd
+PACKAGES = open-vr lua ois pico lua-gd icu
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 space :=
 space +=
@@ -176,3 +178,21 @@ $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE):
 	if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(LUA_GD_PACKAGE)"; exit 1; fi
 	@rm $(LUA_GD_PACKAGE).md5
 	@touch "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)"
+
+icu-clean:
+	@rm -rf $(ICU_PACKAGE) /mingw64/bin/libicu??$(ICU_VERSION).dll
+
+$(ICU_PACKAGE):
+	@echo "# downloading $@"
+	@wget -qq "$(DEPENDENCIES_URL)/$@"
+	@echo "e43df508b5bf8d3ba40ddd6bb4f88e4f *$@" > $@.md5
+	@md5sum -c --status $@.md5
+	if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $@"; exit 1; fi
+	@rm $@.md5
+
+/mingw64/bin/libicudt$(ICU_VERSION).dll: $(ICU_PACKAGE)
+	@echo "# uncompressing $(ICU_PACKAGE)"
+	@unzip -q -u -d /mingw64/bin $(ICU_PACKAGE)
+	@touch $@
+
+icu: /mingw64/bin/libicudt$(ICU_VERSION).dll

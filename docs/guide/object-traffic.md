@@ -927,13 +927,13 @@ StreetLight {
   SFVec3f    translation   0 0 0
   SFRotation rotation      0 1 0 0
   SFString   name          "street light"
-  SFVec3f    attenuation   0 1 0
   SFFloat    beamWidth     1.1
   SFColor    color         1 1 1
   SFFloat    cutOffAngle   1.4
   SFVec3f    direction     0 -1 -0.1
   SFBool     on            TRUE
   SFFloat    radius        1000
+  SFFloat    intensity     30
   SFBool     castShadows   FALSE
 }
 ```
@@ -956,6 +956,8 @@ StreetLight {
 - `on`: Defines whether the spot light is on or off.
 
 - `radius`: Defines the radius of the spot light.
+
+- `intensity`: Defines the radius of the spot light.
 
 - `castShadows`: Defines whether the spot light casts shadows.
 
