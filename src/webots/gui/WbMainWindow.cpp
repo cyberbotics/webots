@@ -785,13 +785,6 @@ QMenu *WbMainWindow::createToolsMenu() {
   connect(action, &QAction::triggered, this, &WbMainWindow::openPreferencesDialog);
   menu->addAction(action);
 
-  action = new QAction(this);
-  action->setMenuRole(QAction::ApplicationSpecificRole);  // Mac: put the menu respecting the MacOS specifications
-  action->setText(tr("&Check for updates..."));
-  action->setStatusTip(tr("Open the Webots update dialog."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::openWebotsUpdateDialogFromMenu);
-  menu->addAction(action);
-
   return menu;
 }
 
@@ -838,6 +831,15 @@ QMenu *WbMainWindow::createHelpMenu() {
     connect(action, &QAction::triggered, this, &WbMainWindow::showGuidedTour);
     menu->addAction(action);
   }
+
+  menu->addSeparator();
+
+  action = new QAction(this);
+  action->setMenuRole(QAction::ApplicationSpecificRole);  // Mac: put the menu respecting the MacOS specifications
+  action->setText(tr("&Check for updates..."));
+  action->setStatusTip(tr("Open the Webots update dialog."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::openWebotsUpdateDialogFromMenu);
+  menu->addAction(action);
 
   menu->addSeparator();
 
