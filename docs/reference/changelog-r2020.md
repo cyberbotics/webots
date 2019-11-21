@@ -26,5 +26,6 @@ Released on XXX YYth, 2019.
     - Improved the [Sick LD MRS](../guide/lidar-sensors.md#sick-ld-mrs) PROTO to support the following types: `400001`, `400102`, `400001S01`, `400102S01` and `800001S01`.
     - Split the Webots and controller libraries to avoid possible conflicts with external libraries.
     - Set the [ABB IRB 4600/40](../guide/irb4600-40.md) root node to [Robot](robot.md) instead of [Solid](solid.md) to be able to insert it everywhere.
+    - Windows/Linux: Move the `Check for updates...` menu from `Tools` to `Help` for consistency with other applications.
   - New Samples
     - Added a `complete_apartment` world.

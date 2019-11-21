@@ -324,8 +324,6 @@ This editor can be used for editing and compiling controller source code.
 
 - The **Preferences** item pops up a window described in [this section](preferences.md).
 
-- The **Check for updates...** item pops up a window informing if the Webots version in use is the latest one and providing the link to download the latest version if needed.
-
 ### Wizards Menu
 
 The **Wizards** menu makes it easier to create new projects and new controllers.
@@ -349,6 +347,8 @@ The **Help** menu makes it easier to access the documentation, support and gener
 - The **About...** item opens the `About...` window that displays the license information.
 
 - The **Webots Guided Tour...** menu item starts a guided tour that demonstrates Webots capabilies through a series of examples.
+
+- The **Check for updates...** item pops up a window informing if the Webots version in use is the latest one and providing the link to download the latest version if needed.
 
 - The **OpenGL Information...** menu item gives you information about your current OpenGL hardware and driver.
 It can be used to diagnose rendering problems.
