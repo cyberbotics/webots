@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   for (i = 0; i < N_DISTANCE_SENSORS; ++i) {
-    double value = wb_distance_sensor_get_value(ds[i]);
+    const double value = wb_distance_sensor_get_value(ds[i]);
     ts_assert_double_in_delta(value, expected_values[i], 0.01,
                               "Distance sensor '%c' doesn't return the right distance when hitting an object "
                               "(expected = %f, received = %f)",
