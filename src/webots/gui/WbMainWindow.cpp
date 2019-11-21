@@ -824,13 +824,11 @@ QMenu *WbMainWindow::createHelpMenu() {
   connect(action, &QAction::triggered, this, &WbMainWindow::showAboutBox);
   menu->addAction(action);
 
-  if (WbGuidedTour::isAvailable()) {
-    action = new QAction(this);
-    action->setText(tr("Webots &Guided Tour..."));
-    action->setStatusTip(tr("Start a guided tour demonstrating Webots capabilities."));
-    connect(action, &QAction::triggered, this, &WbMainWindow::showGuidedTour);
-    menu->addAction(action);
-  }
+  action = new QAction(this);
+  action->setText(tr("Webots &Guided Tour..."));
+  action->setStatusTip(tr("Start a guided tour demonstrating Webots capabilities."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::showGuidedTour);
+  menu->addAction(action);
 
   menu->addSeparator();
 
@@ -1566,8 +1564,6 @@ void WbMainWindow::showAboutBox() {
 }
 
 void WbMainWindow::showGuidedTour() {
-  if (!WbGuidedTour::isAvailable())
-    return;
   WbGuidedTour *tour = WbGuidedTour::instance(this);
   tour->show();
   tour->raise();
