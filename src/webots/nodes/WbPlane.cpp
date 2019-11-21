@@ -345,7 +345,7 @@ bool WbPlane::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
   const double planeHeight = size().y();
   const WbMatrix4 &upperMatrix = upperTransform()->matrix();
   const WbVector3 p1 = upperMatrix * WbVector3(0.5 * planeWidth, 0.0, 0.5 * planeHeight);
-  WbVector3 p2 = upperMatrix * WbVector3(0.5 * planeWidth, 0.0, -0.5 * planeHeight);
+  const WbVector3 p2 = upperMatrix * WbVector3(0.5 * planeWidth, 0.0, -0.5 * planeHeight);
   WbVector3 p3 = upperMatrix * WbVector3(-0.5 * planeWidth, 0.0, -0.5 * planeHeight);
   WbVector3 p4 = upperMatrix * WbVector3(-0.5 * planeWidth, 0.0, 0.5 * planeHeight);
 
