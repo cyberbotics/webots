@@ -105,15 +105,6 @@ class Stream { // eslint-disable-line no-unused-vars
       var currentWorld = data.substring(0, data.indexOf(':')).trim();
       data = data.substring(data.indexOf(':') + 1).trim();
       this.view.updateWorldList(currentWorld, data.split(';'));
-    } else if (data.startsWith('video: ')) {
-      console.log('Received data = ' + data);
-      let list = data.split(' ');
-      let url = list[1];
-      this.view.toolBar.setMode(list[2]);
-      this.view.video.domElement.src = url;
-      console.log('Video streamed on ' + url);
-      if (typeof this.onready === 'function')
-        this.onready();
     } else if (data.startsWith('set controller:')) {
       var slash = data.indexOf('/', 15);
       var dirname = data.substring(15, slash);
@@ -171,6 +162,18 @@ class Stream { // eslint-disable-line no-unused-vars
         x: labelProperties[3],
         y: labelProperties[4]
       });
+    } else if (data.startsWith('video: ')) {
+      console.log('Received data = ' + data);
+      let list = data.split(' ');
+      let url = list[1];
+      this.view.toolBar.setMode(list[2]);
+      this.view.video.domElement.src = url;
+      console.log('Video streamed on ' + url);
+      if (typeof this.onready === 'function')
+        this.onready();
+    } else if (data.startsWith('time: ')) {
+      this.view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
+      $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(this.view.time));
     } else
       console.log('WebSocket error: Unknown message received: "' + data + '"');
   }
