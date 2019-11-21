@@ -347,7 +347,7 @@ bool WbPlane::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
   const WbVector3 p1 = upperMatrix * WbVector3(0.5 * planeWidth, 0.0, 0.5 * planeHeight);
   const WbVector3 p2 = upperMatrix * WbVector3(0.5 * planeWidth, 0.0, -0.5 * planeHeight);
   const WbVector3 p3 = upperMatrix * WbVector3(-0.5 * planeWidth, 0.0, -0.5 * planeHeight);
-  WbVector3 p4 = upperMatrix * WbVector3(-0.5 * planeWidth, 0.0, 0.5 * planeHeight);
+  const WbVector3 p4 = upperMatrix * WbVector3(-0.5 * planeWidth, 0.0, 0.5 * planeHeight);
 
   // 2. Check if the ray intersects one of the two oriented triangle.
   // Compute the intersection point in such case.
