@@ -81,7 +81,8 @@ WbStreamingServer::WbStreamingServer() :
   mDisableTextStreams(false),
   mSsl(false),
   mControllerEdit(false),
-  mPauseTimeout(-1) {
+  mPauseTimeout(-1),
+  mIsVideoStreaming(false) {
   connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbStreamingServer::newWorld);
   connect(WbApplication::instance(), &WbApplication::preWorldLoaded, this, &WbStreamingServer::deleteWorld);
   connect(WbApplication::instance(), &WbApplication::worldLoadingHasProgressed, this,
@@ -201,7 +202,7 @@ void WbStreamingServer::create(int port) {
   // Reference to let live QTcpSocket and QWebSocketServer on the same port using `QWebSocketServer::handleConnection()`:
   // - https://bugreports.qt.io/browse/QTBUG-54276
 
-  generateX3dWorld();
+  // generateX3dWorld(); // TODO not needed in video streaming
   QWebSocketServer::SslMode sslMode = mSsl ? QWebSocketServer::SecureMode : QWebSocketServer::NonSecureMode;
   mWebSocketServer = new QWebSocketServer("Webots Streaming Server", sslMode, this);
   mTcpServer = new WbStreamingTcpServer();
@@ -266,7 +267,7 @@ void WbStreamingServer::destroy() {
 void WbStreamingServer::onNewTcpConnection() {
   QTcpSocket *socket = mTcpServer->nextPendingConnection();
   mWebSocketServer->handleConnection(socket);
-  connect(socket, &QTcpSocket::readyRead, this, &WbStreamingServer::onNewTcpData);
+  // connect(socket, &QTcpSocket::readyRead, this, &WbStreamingServer::onNewTcpData); // TODO
 }
 
 void WbStreamingServer::onNewTcpData() {
@@ -554,6 +555,7 @@ void WbStreamingServer::processTextMessage(QString message) {
     } else {
       videoStreamer->initialize(width, height);
     }
+    mIsVideoStreaming = true;
     // TODO
     client->sendTextMessage(QString("video: %1 %2")
                               .arg(videoStreamer->url())
@@ -572,9 +574,9 @@ void WbStreamingServer::processTextMessage(QString message) {
 
 void WbStreamingServer::startX3dStreaming(QWebSocket *client) {
   try {
-    if (WbWorld::instance()->isModified() || mX3dWorldGenerationTime != WbSimulationState::instance()->time())
+    /* if (WbWorld::instance()->isModified() || mX3dWorldGenerationTime != WbSimulationState::instance()->time())
       generateX3dWorld();
-    sendWorldToClient(client);
+    sendWorldToClient(client); */
     // send the current simulation state to the newly connected client
     const QString &stateMessage = simulationStateString();
     if (!stateMessage.isEmpty())
@@ -608,10 +610,17 @@ void WbStreamingServer::sendUpdatePackageToClients() {
   if (mClients.size() > 0) {
     qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
     if (mLastUpdateTime < 0.0 || currentTime - mLastUpdateTime >= 1000.0 / WbWorld::instance()->worldInfo()->fps()) {
-      QString state = WbAnimationRecorder::instance()->computeUpdateData(false);
-      if (!state.isEmpty()) {
+      QString state;
+      // if (!mIsVideoStreaming) // TODO
+      //  state = WbAnimationRecorder::instance()->computeUpdateData(false);
+      if (WbMultimediaStreamer::instance()->isReady() || !state.isEmpty()) {
         foreach (QWebSocket *client, mClients) {
-          sendWorldStateToClient(client, state);
+          // Video streaming: send simulation time update
+          if (mIsVideoStreaming)
+            client->sendTextMessage(QString("time: %1").arg(WbSimulationState::instance()->time()));
+          // else
+          // X3D streaming
+          //  sendWorldStateToClient(client, state); // TODO
           if (mPauseTimeout >= 0 && WbSimulationState::instance()->time() >= mPauseTimeout) {
             disconnect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
                        &WbStreamingServer::propagateSimulationStateChange);
@@ -704,10 +713,10 @@ void WbStreamingServer::newWorld() {
         }
       }
     }
-    if (regenerationRequired)
-      generateX3dWorld();
-    foreach (QWebSocket *client, mClients)
-      sendWorldToClient(client);
+    // if (regenerationRequired) // TODO
+    //  generateX3dWorld();
+    // foreach (QWebSocket *client, mClients)
+    //  sendWorldToClient(client);
     WbAnimationRecorder::instance()->initFromStreamingServer();
   } catch (const QString &e) {
     WbLog::error(tr("Error when reloading world: %1.").arg(e));

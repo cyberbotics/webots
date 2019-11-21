@@ -107,6 +107,8 @@ private:
   QString mMultimediaServer;
   QString mMultimediaStream;
   double mPauseTimeout;
+
+  bool mIsVideoStreaming;
 };
 
 #endif
