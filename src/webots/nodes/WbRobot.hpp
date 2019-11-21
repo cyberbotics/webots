@@ -25,6 +25,7 @@
 #include <QtCore/QVarLengthArray>
 #include <QtCore/QVector>
 
+class WbAbstractCamera;
 class WbDevice;
 class WbJoystickInterface;
 class WbKinematicDifferentialWheels;
@@ -90,6 +91,8 @@ public:
 
   // update sensors in case of no answer needs to be written at this step
   virtual void updateSensors();
+
+  void renderCameras();
 
   // field accessors
   const QString &controllerName() const { return mController->value(); }
@@ -237,6 +240,7 @@ private:
   // other variables
   QList<WbDevice *> mDevices;
   QList<WbRenderingDevice *> mRenderingDevices;
+  QList<WbAbstractCamera *> mActiveCameras;
 
   QList<int> mPressedKeys;
 
@@ -254,6 +258,7 @@ private:
 
 private slots:
   void updateDevicesAfterDestruction();
+  void updateActiveCameras(WbAbstractCamera *camera, bool isActive);
   void updateWindow();
   void updateRemoteControl();
   void updateSimulationMode();

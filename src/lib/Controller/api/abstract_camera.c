@@ -37,7 +37,7 @@ static void wb_abstract_camera_cleanup_shm(WbDevice *d) {
   }
 #else  // POSIX shared memory
   if (c->shmid > 0) {
-    munmap(c->image, 4 * c->height * c->width);
+    munmap(c->image, c->shm_size);
     shm_unlink(c->shm_key);
   }
 #endif
@@ -51,7 +51,7 @@ static void wb_abstract_camera_get_shm(WbDevice *d) {
   c->image = MapViewOfFile(c->shm_file, FILE_MAP_WRITE, 0, 0, 0);
 #else  // POSIX shared memory segments
   c->shmid = shm_open(c->shm_key, O_RDWR, 0400);
-  c->image = (unsigned char *)mmap(0, 4 * c->height * c->width, PROT_READ | PROT_WRITE, MAP_SHARED, c->shmid, 0);
+  c->image = (unsigned char *)mmap(0, c->shm_size, PROT_READ | PROT_WRITE, MAP_SHARED, c->shmid, 0);
 #endif
 
   ROBOT_ASSERT(c->image);
@@ -63,15 +63,6 @@ void wb_abstract_camera_cleanup(WbDevice *d) {
     return;
   wb_abstract_camera_cleanup_shm(d);
   free(c);
-}
-
-static void wb_abstract_camera_change_shm(WbDevice *d, char *shm_key) {
-  AbstractCamera *c = d->pdata;
-  if (c == NULL)
-    return;
-  wb_abstract_camera_cleanup_shm(d);
-  c->shm_key = shm_key;
-  wb_abstract_camera_get_shm(d);
 }
 
 void wb_abstract_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov, double camnear, bool spherical) {
@@ -86,6 +77,7 @@ void wb_abstract_camera_new(WbDevice *d, unsigned int id, int w, int h, double f
   c->spherical = spherical;
   c->sampling_period = 0;
   c->shmid = -1;
+  c->shm_size = 0;
   c->image = NULL;
   c->image_requested = false;
   c->image_update_time = 0.0;
@@ -117,7 +109,15 @@ bool wb_abstract_camera_handle_command(WbDevice *d, WbRequest *r, unsigned char 
 
   switch (command) {
     case C_CAMERA_SHARED_MEMORY:
-      wb_abstract_camera_change_shm(d, request_read_string(r));
+      // Cleanup the previous shared memory if any.
+      if (c->shm_size > 0)
+        wb_abstract_camera_cleanup_shm(d);
+
+      c->shm_size = request_read_int32(r);
+      if (c->shm_size > 0) {
+        c->shm_key = request_read_string(r);
+        wb_abstract_camera_get_shm(d);
+      }
       break;
 
     case C_CAMERA_GET_IMAGE:

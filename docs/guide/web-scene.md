@@ -58,5 +58,28 @@ The Webots player is using internally the `three.js` library (based on `WebGL`).
 `three.js` is supported in recent versions of Firefox, Chrome, Edge, Internet Explorer and Safari on macOS (see details on the [three.js website](https://threejs.org/)).
 In case of related issues, make sure that `WebGL` is enabled in your Web browser settings.
 
-**Note**: The Chrome browser cannot open local files using the file protocol by default, while this is required by the Webots player to open the `X3D` file and the textures.
-To work around this, you can either run a local HTTP server in the directory containing the exported files (e.g. `python -m SimpleHTTPServer`) or either run the related Chrome security flag (i.e., by launching Chrome with the `--allow-file-access-from-files` option).
+Some web browsers (for example Chrome and Firefox 68 or later) cannot open local files using the `file` protocol by default, while this is this is required by the Webots player to open the `X3D` file and the textures.
+Here are some workarounds:
+- run a local HTTP server in the directory containing the exported files.
+    - Python 3:
+
+        ```sh
+        python3 -m http.server
+        ```
+    - Python 2:
+
+        ```sh
+        python -m SimpleHTTPServer
+        ```
+    - NodeJS:
+
+        ```sh
+        sudo npm install -g http-server
+        http-server
+        ```
+
+- disable browser security flags:
+    - Chrome: launch with the `--allow-file-access-from-files` option
+    - Firefox:
+        1. Open Firefox browser and in the address bar type ``about:config``, hit Enter button and click on `I'll be careful, I promise!`.
+        2. Search for `privacy.file_unique_origin` or `security.fileuri.strict_origin_policy` and double click on it to change the status from true to false.
