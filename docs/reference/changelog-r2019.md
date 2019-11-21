@@ -15,7 +15,7 @@ Released on ???
     - Upgraded to Qt 5.13.1 on Windows and macOS.
   - Bug fixes
     - Fixed [Lidar](lidar.md) point cloud access in controllers (thanks to Alexander).
-    - Fixed [infra-red DistanceSensors](distancesensor.md) vs [Plane](plane.md) collision detection.
+    - Fixed [infra-red DistanceSensors](distancesensor.md) or [Pen](pen.md) versus [Plane](plane.md) collision detection.
     - Fixed determinism in camera rendering order.
     - Fixed `simulation_server.py` script to work with Python3.
     - Fixed exporting first translation and rotation fields change during animation recording and simulation streaming.
