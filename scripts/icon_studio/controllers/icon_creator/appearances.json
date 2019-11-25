@@ -23,6 +23,9 @@
   "CorrugatedMetal": {
     "fields": "colorOverride 0.45 0.62 0.81 textureTransform TextureTransform { scale 3 1 }"
   },
+  "CorrugatedPlates": {
+    "fields": "textureTransform TextureTransform { scale 2 2 }"
+  },
   "CorrugatedPvc": {
     "fields": "textureTransform TextureTransform { scale 4 3 }"
   },
