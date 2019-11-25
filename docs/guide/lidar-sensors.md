@@ -164,7 +164,7 @@ Other parameters depends on its type:
 | `400102` | 2 or 4 | 85° (4L) or 110° (2L) | 9.5° (4L) or 5° (2L) | 3.2° |
 | `400001S01` | 2 or 4 | 85° (4L) or 110° (2L) | 9.5° (4L) or 5° (2L) | 3.2° |
 | `400102S01` | 2 or 4 | 85° (4L) or 110° (2L) | 9.5° (4L) or 5° (2L) | 3.2° |
-| `800001S01` | 4 or 8 | 85° (8L) or 110° (4L) | 9.5° (8L) or 5° (4L) | 6.4° |
+| `800001S01` | 4 or 8 | 85° (8L) or 110° (4L) | 9.5° (8L) or 5° (4L) | 6.4° (8L) or 3.2° (4L) |
 
 Layer 0 corresponds to the bottom layer.
 First response values are corresponding to the device right.
