@@ -7,6 +7,7 @@ Released on ???
     - Added several TIAGo robots from PAL Robotics: [TIAGo Base](../guide/tiago-base.md), [TIAGo Iron](../guide/tiago-iron.md), [TIAGo Steel](../guide/tiago-steel.md), [TIAGo Titanium](../guide/tiago-titanium.md) and [TIAGo++](../guide/tiagopp.md).
   - New Features
     - Linux: Added support for Python 3.8.
+    - Added several appearances: `CorrugatedPlates`, `CorrugatedPvc` and `FormedConcrete`.
     - Added a [script to cleanup the Webots preferences](https://github.com/cyberbotics/webots/blob/master/scripts/preferences_cleaner/README.md).
   - Enhancements
     - Webots now wait for extern controllers if the `Robot.synchronization` field is set to `TRUE`.
