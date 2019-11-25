@@ -21,6 +21,7 @@ Released on ???
     - Fixed exporting first translation and rotation fields change during animation recording and simulation streaming.
     - Fixed displaying streaming server initialization errors in the Webots console.
     - Fixed bugs in Python Display.imageNew() when passing an image array: rearranged image data from column-major order and memory leak (thanks to Inbae Jeong).
+    - Fixed [Nao.selfCollision](../guide/nao.md) due to overlapping bounding objects in feet (thanks to Sheila).
 
 ## Webots R2019b Revision 1
 Released on October 3rd, 2019.
