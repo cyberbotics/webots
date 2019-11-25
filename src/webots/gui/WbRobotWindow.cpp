@@ -227,7 +227,7 @@ void WbRobotWindow::runJavaScript(const QString &message) {
 #endif
 
 void WbRobotWindow::sendToJavascript(const QByteArray &string) {
-  QString message(escapeString(string));
+  const QString &message(escapeString(string));
 #ifdef _WIN32
   mFrame->evaluateJavaScript("webots.Window.receive('" + message + "', '" + escapeString(robot()->name()) + "')");
 #else
