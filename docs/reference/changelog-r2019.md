@@ -15,11 +15,13 @@ Released on ???
     - Upgraded to Qt 5.13.1 on Windows and macOS.
   - Bug fixes
     - Fixed [Lidar](lidar.md) point cloud access in controllers (thanks to Alexander).
+    - Fixed [infra-red DistanceSensors](distancesensor.md) or [Pen](pen.md) versus [Plane](plane.md) collision detection.
     - Fixed determinism in camera rendering order.
     - Fixed `simulation_server.py` script to work with Python3.
     - Fixed exporting first translation and rotation fields change during animation recording and simulation streaming.
     - Fixed displaying streaming server initialization errors in the Webots console.
     - Fixed bugs in Python Display.imageNew() when passing an image array: rearranged image data from column-major order and memory leak (thanks to Inbae Jeong).
+    - Fixed [Nao.selfCollision](../guide/nao.md) due to overlapping bounding objects in feet (thanks to Sheila).
 
 ## Webots R2019b Revision 1
 Released on October 3rd, 2019.

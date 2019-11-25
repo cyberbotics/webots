@@ -4058,8 +4058,13 @@ PROTO Nao [
                                                 }
                                               }
                                             }
-                                            boundingObject DEF BUMPER_BO Box {
-                                              size 0.02 0.025 0.01
+                                            boundingObject DEF BUMPER_BO Transform {
+                                              translation 0.0075 0 0
+                                              children [
+                                                Box {
+                                                  size 0.005 0.025 0.01
+                                                }
+                                              ]
                                             }
                                             lookupTable [
                                             ]
