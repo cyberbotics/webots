@@ -1,9 +1,37 @@
 #VRML_SIM R2019b utf8
 WorldInfo {
   info [
-    "This simulation shows a Robotino moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar."
+    "Simulation of the Festo's Robotino robot."
+    "This model includes an accurate and fast simulation of the omniwheels."
+    "The robot can be equiped with various lidar sensors and cameras"
+    "The simulation shows a Robotino moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar."
   ]
-  title "Simulation of Festo's Robotino robot"
+  title "Festo's Robotino robot"
+  basicTimeStep 16
+#  contactProperties [
+#    ContactProperties {
+#      material1 "InteriorWheelMat"
+#      coulombFriction [
+#        1.8, 0, 0.2
+#      ]
+#      frictionRotation -0.9648 0
+#      bounce 0
+#      forceDependentSlip [
+#        10, 0
+#      ]
+#    }
+#    ContactProperties {
+#      material1 "ExteriorWheelMat"
+#      coulombFriction [
+#        1.8, 0, 0.2
+#      ]
+#      frictionRotation 0.9648 0
+#      bounce 0
+#      forceDependentSlip [
+#        10, 0
+#      ]
+#    }
+#  ]
 }
 Viewpoint {
   orientation 0.28882343295926544 -0.9512999432180493 -0.10774712342777662 5.502273164124365
