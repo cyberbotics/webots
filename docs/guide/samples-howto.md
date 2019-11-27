@@ -82,16 +82,6 @@ In the second layout, the four motorized wheels are oriented in the same directi
 In the third layout, a simple [Ackermann steering geometry](https://en.wikipedia.org/wiki/Ackermann_steering_geometry) is shown.
 Note that more completed Ackermann steering geometry can be achieved using the [`AckermannVehicle` PROTO](../automobile/ackermannvehicle.md), and the [`car` library](../automobile/car-library.md).
 
-### [gui\_tracker.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/worlds/gui_tracker.wbt)
-
-**Keywords**: GUI, custom Qt-based robot window
-
-![gui_tracker.png](images/samples/gui_tracker.thumbnail.jpg) This example shows the use of the deprecated Qt-based system to create custom windows.
-A [Supervisor](../reference/supervisor.md) controller is getting the position of five e-pucks moving randomly, and this information is sent to the custom robot window plugin called `tracking window`.
-This window is based on Qt (embedded in Webots) and the `Qt utils` helper library.
-
-> **Note**: Please refer to [the HTML robot window example](#custom_html_robot_window-wbt) instead.
-
 ### [inverted\_pendulum.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/worlds/inverted_pendulum.wbt)
 
 **Keywords**: Inverted pendulum, PID, [LinearMotor](../reference/linearmotor.md)
