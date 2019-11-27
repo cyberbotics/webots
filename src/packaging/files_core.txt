@@ -281,8 +281,7 @@ resources/projects/controllers/void/void [exe]
 resources/projects/controllers/void/void.c
 resources/projects/libraries/
 resources/projects/libraries/qt_utils/
-resources/projects/libraries/qt_utils/qt_utils 
-
+resources/projects/libraries/qt_utils/qt_utils [dll]
 resources/projects/libraries/qt_utils/icons/
 resources/projects/libraries/qt_utils/icons/*.png
 resources/projects/libraries/qt_utils/Makefile
