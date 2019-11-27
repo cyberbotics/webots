@@ -215,9 +215,6 @@ void WbController::start() {
     case WbFileUtil::MATLAB:
       startMatlab();
       break;
-    case WbFileUtil::BOTSTUDIO:
-      startBotstudio();
-      break;
     default:
       reportControllerNotFound();
       startVoidExecutable();
@@ -705,8 +702,6 @@ WbFileUtil::FileType WbController::findType(const QString &controllerPath) {
     return WbFileUtil::PYTHON;
   else if (dir.exists(name() + ".m"))
     return WbFileUtil::MATLAB;
-  else if (dir.exists(name() + ".bsg"))
-    return WbFileUtil::BOTSTUDIO;
 
   return WbFileUtil::UNKNOWN;
 }
@@ -794,21 +789,6 @@ void WbController::startMatlab() {
   mCommandLine = mCommand + " -r launcher";
   if (!mMatlabOptions.isEmpty())
     mCommandLine += " " + mMatlabOptions;
-}
-
-void WbController::startBotstudio() {
-  // display a warning if the robot window is not "botstudio"
-  if (mRobot->window() != "botstudio")
-    warn(tr("A BotStudio controller was detected, but the 'window' field of the Robot node is not set to \"botstudio\". "
-            "The controller probably won't work as expected."));
-
-  // start simply the void controller, but without modifying the controller path
-  QString voidContollerPath = WbStandardPaths::resourcesControllersPath() + "void/";
-  mCommand = voidContollerPath + "void" + WbStandardPaths::executableExtension();
-
-  copyBinaryAndDependencies(mCommand);
-
-  mCommandLine = "\"" + QDir::toNativeSeparators(mCommand) + "\"";
 }
 
 void WbController::copyBinaryAndDependencies(const QString &filename) {
