@@ -220,15 +220,17 @@ void WbRobotWindow::runJavaScript(const QString &message) {
 #endif
 
 void WbRobotWindow::sendToJavascript(const QByteArray &string) {
+  const QString &message = string;
+  escaped.replace("'", "\\'");
 #ifdef _WIN32
-  mFrame->evaluateJavaScript("webots.Window.receive('" + string + "', '" + robot()->name() + "')");
+  mFrame->evaluateJavaScript("webots.Window.receive('" + message + "', '" + robot()->name() + "')");
 #else
   mRobot->setWaitingForWindow(true);
   if (mLoaded)
-    runJavaScript(string);
+    runJavaScript(message);
   else
     // message will be sent once the robot window loading is completed
-    mWaitingSentMessages << string;
+    mWaitingSentMessages << message;
 #endif
 }
 
