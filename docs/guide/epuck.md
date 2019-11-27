@@ -251,39 +251,6 @@ The Webots firmware can be uploaded this way on the e-puck robot.
 This e-puck control window appears because the `window` field of the `E-puck` node in the world file was set to "e-puck".
 Changing this `window` to an empty string will disable this control window.
 
-#### BotStudio Overview
-
-%figure "BotStudio window"
-
-![botstudio.png](images/robots/epuck/botstudio.thumbnail.jpg)
-
-%end
-
-BotStudio, depicted in [this figure](#botstudio-window), is a user interface to graphically program the e-puck thanks to a finite state automaton.
-Behaviors such as wall follower, collision avoider or line follower can be implemented quickly thanks to this interface.
-BotStudio is typically destined for the educational field, particularly for beginners in robotics.
-
-An automaton state of BotStudio corresponds to a state of the e-puck actuators while a transition corresponds to a condition over its sensor values.
-A transition is fired when all of its conditions are fulfilled (logical AND).
-A logical OR can be performed by several transitions between two states.
-
-The actuators available in BotStudio are the [LEDs](../reference/led.md) and the motors.
-Each automaton state have two sliders for setting the motor speed value.
-Note that these values can be unset by clicking on the cursor of the slider.
-Each state also have 10 square buttons to set the [LEDs](../reference/led.md) states.
-A red button means the LED is turned on, a black one means it is turned off and a gray one means there is no modification.
-
-The sensor available in BotStudio are the distance sensors and the camera.
-Moreover a timer can be used to temporize the conditions by dragging the corresponding slider.
-Conditions over the IR sensors can be set by dragging the 8 red sliders.
-A condition can be reversed by clicking on the gray part of the slider.
-Finally, the camera is used to give a clue on the front environment of the e-puck.
-An algorithm is applied on the last line of the camera and returns a integer between -10 and 10 indicating if a black line is perceived respectively at the left and at the right of the e-puck's field of view.
-A condition can be set on this value to get a line follower behavior.
-
-An example of BotStudio can be found by opening the "WEBOTS\_HOME/projects/robots/gctronic/e-puck/world/e-puck\_botstudio.wbt" world file (see below).
-The BotStudio windows appears upon double clicking on the e-puck when the controller points on a *.bsg* file.
-
 #### Bluetooth Setup
 
 The e-puck has a Bluetooth interface allowing it to communicate with Webots.
@@ -412,15 +379,6 @@ This is particularly useful for implementing line following behaviors.
 
 ![e-puck_line_demo.wbt.png](images/robots/epuck/e-puck_line_demo.wbt.thumbnail.jpg) The "e-puck\_line" controller program contains the source code for a simple line following system which, as an exercise, can be improved to obtain the behavior demonstrated in the "e-puck\_line\_demo.wbt" demo, in which the e-puck robot is able to follow the line drawn on the floor, but also to avoid obstacles and return to the line following behavior afterwards.
 This model was contributed by Jean-Christophe Zufferey from the EPFL, who sets up a series of exercises with Webots and extended e-puck robots.
-
-#### e-puck\_botstudio.wbt
-
-![e-puck_botstudio.wbt.png](images/robots/epuck/e-puck_botstudio.wbt.thumbnail.jpg) The "e-puck\_botstudio\_example.wbt" is an example of a controller using the BotStudio visual programming language.
-The BotStudio windows appears upon double clicking on the e-puck allowing the user to see which command is executed.
-
-#### e-puck\_botstudio\_with\_floor\_sensors.wbt
-
-![e-puck_botstudio.wbt.png](images/robots/epuck/e-puck_botstudio.wbt.thumbnail.jpg) The "e-puck\_botstudio\_with\_floor\_sensors.wbt" is an example world similar to that of "e-puck\_botstudio\_example.wbt" but where the e-puck has a line following behavior based on its floor sensors.
 
 #### e-puck\_cross-compilation.wbt
 
