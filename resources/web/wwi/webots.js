@@ -200,7 +200,7 @@ webots.View = class View {
     };
 
     var finalizeWorld = () => {
-      $('#webotsProgressMessage').html('Loading HTML and Javascript files...');
+      $('#webotsProgressMessage').html('Loading HTML and JavaScript files...');
       if (this.x3dScene.viewpoint.followedObjectId == null || this.broadcast)
         this.x3dScene.viewpoint.initFollowParameters();
       else
