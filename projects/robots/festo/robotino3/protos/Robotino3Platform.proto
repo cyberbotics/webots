@@ -4,10 +4,10 @@
 # This is a PROTO file for Webots for the robot Robotino's platform from Festo.
 # It is a feature for Robotino to fullfil your requirement.
 
-PROTO RobotinoPlatform [
+PROTO Robotino3Platform [
   field  SFVec3f     translation    0 0 0
   field  SFRotation  rotation       0 1 0 0
-  field  SFString    name           "Robotino's platform"
+  field  SFString    name           "Platform for Robotino 3"
   field  SFString    model          "Festo - Robotino's platform"
 ]
 {

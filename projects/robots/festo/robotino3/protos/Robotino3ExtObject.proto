@@ -1,14 +1,14 @@
 #VRML_SIM R2019a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
-# This is a PROTO file for Webots for the robot Robotino's ext object from Festo.
-# It is a feature for Robotino to fullfil your requirement.
+# This is a PROTO file for Webots of an extern object for the robot Robotino 3 from Festo.
+# It is a feature for Robotino 3 to fullfil your requirement.
 
-PROTO RobotinoExtObject [
+PROTO Robotino3ExtObject [
   field  SFVec3f     translation    0 0 0
   field  SFRotation  rotation       0 1 0 0
-  field  SFString    name           "Robotino's ext object"
-  field  SFString    model          "Festo - Robotino's ext object"
+  field  SFString    name           "Extern object for Robotino 3"
+  field  SFString    model          "Festo - Robotino 3' ext object"
 ]
 {
   Solid {

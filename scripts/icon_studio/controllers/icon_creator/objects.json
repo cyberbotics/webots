@@ -890,6 +890,9 @@
     "background": [1.0, 0.0, 1.0],
     "fields": "translation 0 0.38 0 rotation 0 1 0 5.76"
   },
+  "projects/robots/festo/robotino3/protos/Robotino3.proto": {
+    "fields": "rotation -0.28109 0.6786 0.6786 2.59357"
+  },
   "projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto": {
     "fields": "rotation 1 0 0 -1.5708"
   },

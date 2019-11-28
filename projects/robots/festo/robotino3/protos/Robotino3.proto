@@ -1,21 +1,21 @@
 #VRML_SIM R2019a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
-# documentation url: https://www.cyberbotics.com/doc/guide/robotino
-# This is a PROTO file for Webots for the robot Robotino from Festo.
-# It is the Robotino robot that can be extended with different features to fullfil your requirement.
+# documentation url: https://www.cyberbotics.com/doc/guide/robotino3
+# This is a PROTO file for Webots for the robot Robotino 3 from Festo.
+# It is the Robotino 3 robot that can be extended with different features to fullfil your requirement.
 
-PROTO Robotino [
+PROTO Robotino3 [
   field  SFVec3f     translation            0 0 0
   field  SFRotation  rotation               1 0 0 -1.5708
-  field  SFString    name                   "Robotino"
-  field  SFString    controller             "robotino"
+  field  SFString    name                   "Robotino 3"
+  field  SFString    controller             "robotino3"
   field  SFString    controllerArgs         ""
   field  SFString    customData             ""
   field  SFBool      supervisor             FALSE
   field  SFBool      synchronization        TRUE
   field  SFBool      selfCollision          FALSE   # Enables/disables the detection of collisions within the robot.
-  field  SFString    model                  "Festo - Robotino"
+  field  SFString    model                  "Festo - Robotino 3"
   field  MFNode      bodyExtension          []      # Extends the robot with a platform.
   field  MFNode      cameraExtension        []      # Extends the robot with a camera.
   field  MFNode      objectExtension        []      # Extends the robot with a object.

@@ -1,12 +1,12 @@
 #VRML_SIM R2019b utf8
 WorldInfo {
   info [
-    "Simulation of the Festo's Robotino robot."
+    "Simulation of the Festo's Robotino 3 robot."
     "This model includes an accurate and fast simulation of the omniwheels."
     "The robot can be equiped with various lidar sensors and cameras"
-    "The simulation shows a Robotino moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar."
+    "The simulation shows a Robotino 3 moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar."
   ]
-  title "Festo's Robotino robot"
+  title "Festo's Robotino 3 robot"
   basicTimeStep 16
   contactProperties [
     ContactProperties {
@@ -24,7 +24,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 0.05732916548390367 0.9962878606918261 0.06421732961610703 4.655654070084208
-  position -6.255538309281095 0.4366268100324396 -1.0512025768441615
+  position -6.262700211988348 0.49174197371912887 -0.7841993168397152
   follow "Robotino"
   followSmoothness 0
 }
@@ -67,8 +67,9 @@ DEF ROOF RectangleArena {
     }
   }
 }
-Robotino {
-  translation -4.416 0.095 -1.063
+Robotino3 {
+  translation -4.416 0.000766909 -0.783
+  rotation -0.5773509358554485 0.5773509358554485 0.5773489358556708 2.0944
 }
 WoodenBox {
   translation -6.2 0.405 -7
