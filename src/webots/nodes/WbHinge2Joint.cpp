@@ -473,6 +473,14 @@ void WbHinge2Joint::reset() {
   setPosition(mInitialPosition2, 2);
 }
 
+void WbHinge2Joint::resetPhysics() {
+  WbJoint::resetPhysics();
+
+  WbMotor *const m = motor2();
+  if (m)
+    m->resetPhysics();
+}
+
 void WbHinge2Joint::save() {
   WbJoint::save();
 
