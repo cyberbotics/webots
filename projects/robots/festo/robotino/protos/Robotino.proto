@@ -47,17 +47,17 @@ PROTO Robotino [
       }
       DEF EXT_lidar_bottom_pos Transform {
         translation 0 -0.18 0.112
-        rotation 1 0 0 -1.5707953071795862
+        rotation 1 0 0 -1.5708
         children IS lidarBottomExtension
       }
       DEF EXT_lidar_middle_pos Transform {
         translation 0 -0.093 0.221
-        rotation 0 0.70710528118436 0.707108281185553 3.14159
+        rotation 0 0.707 0.707 3.1416
         children IS lidarMiddleExtension
       }
       DEF EXT_lidar_top_pos Transform {
         translation 0 0.005 0.34
-        rotation 0 0.70710528118436 0.707108281185553 3.14159
+        rotation 0 0.707 0.707 3.1416
         children IS lidarTopExtension
       }
       Accelerometer {
@@ -106,7 +106,7 @@ PROTO Robotino [
       }
       DEF IR2 DistanceSensor {
         translation 0 0 0.035
-        rotation 0 0 1 0.698131701
+        rotation 0 0 1 0.69813
         children [
           USE IR_GLASS
           USE IR_PART44
@@ -115,7 +115,7 @@ PROTO Robotino [
       }
       DEF IR3 DistanceSensor {
         translation 0 0 0.035
-        rotation 0 0 1 1.396263402
+        rotation 0 0 1 1.39626
         children [
           USE IR_GLASS
           USE IR_PART44
@@ -124,7 +124,7 @@ PROTO Robotino [
       }
       DEF IR4 DistanceSensor {
         translation 0 0 0.035
-        rotation 0 0 1 2.094395103
+        rotation 0 0 1 2.0944
         children [
           USE IR_GLASS
           USE IR_PART44
@@ -133,7 +133,7 @@ PROTO Robotino [
       }
       DEF IR5 DistanceSensor {
         translation 0 0 0.035
-        rotation 0 0 1 2.792526804
+        rotation 0 0 1 2.79253
         children [
           USE IR_GLASS
           USE IR_PART44
@@ -142,7 +142,7 @@ PROTO Robotino [
       }
       DEF IR6 DistanceSensor {
         translation 0 0 0.035
-        rotation 0 0 1 3.490658505
+        rotation 0 0 1 3.49066
         children [
           USE IR_GLASS
           USE IR_PART44
@@ -151,7 +151,7 @@ PROTO Robotino [
       }
       DEF IR7 DistanceSensor {
         translation 0 0 0.035
-        rotation 0 0 1 4.188790206
+        rotation 0 0 1 4.18879
         children [
           USE IR_GLASS
           USE IR_PART44
@@ -160,7 +160,7 @@ PROTO Robotino [
       }
       DEF IR8 DistanceSensor {
         translation 0 0 0.035
-        rotation 0 0 1 4.886921907
+        rotation 0 0 1 4.88692
         children [
           USE IR_GLASS
           USE IR_PART44
@@ -169,7 +169,7 @@ PROTO Robotino [
       }
       DEF IR9 DistanceSensor {
         translation 0 0 0.035
-        rotation 0 0 1 5.585053608
+        rotation 0 0 1 5.58505
         children [
           USE IR_GLASS
           USE IR_PART44
@@ -329,7 +329,7 @@ PROTO Robotino [
       }
       DEF base_wheel_cover_2 Transform {
         translation 0 0 0.035
-        rotation 0 0 1 2.094399693899575
+        rotation 0 0 1 2.0944
         children [
           USE PART11
         ]
@@ -339,7 +339,7 @@ PROTO Robotino [
         children [
           Shape {
             appearance MattePaint {
-              baseColor 0.117647 0.117647 0.117647
+              baseColor 0.11765 0.11765 0.11765
             }
             geometry IndexedFaceSet {
               coord Coordinate {
@@ -382,7 +382,7 @@ PROTO Robotino [
         children [
           Shape {
             appearance PBRAppearance {
-              baseColor 0.188235 0.188235 0.188235
+              baseColor 0.18824 0.18824 0.18824
             }
             geometry IndexedFaceSet {
               coord Coordinate {
@@ -468,7 +468,7 @@ PROTO Robotino [
       }
       DEF base_metal_side_separator_1 Transform {
         translation 0 0 0.035
-        rotation 0 0 1 4.188789693899575
+        rotation 0 0 1 4.18879
         children [
           DEF PART70 Shape {
             appearance BrushedAluminium {
@@ -547,7 +547,7 @@ PROTO Robotino [
         children [
           DEF PART9 Shape {
             appearance GlossyPaint {
-              baseColor 0.14902 0.713725 0.933333
+              baseColor 0.14902 0.71373 0.93333
             }
             geometry IndexedFaceSet {
               coord Coordinate {
@@ -585,7 +585,7 @@ PROTO Robotino [
           }
           Transform {
             translation 0.0984 0.0081 0.2146
-            rotation -0.992644079848824 -0.08584820690567596 -0.08536870686710474 -1.5781353071795863
+            rotation -0.99264 -0.08585 -0.08537 -1.57814
             children [
               Shape {
                 appearance PBRAppearance {
@@ -623,8 +623,8 @@ PROTO Robotino [
         ]
       }
       DEF head_connector_A Transform {
-        translation 0.17674 0.0214834 0.2147
-        rotation -0.9926444428251923 -0.08560553818919169 -0.08560783819021774 -1.5781753071795865
+        translation 0.17674 0.021483 0.2147
+        rotation -0.99264 -0.08561 -0.08561 -1.57818
         children [
           DEF PART5 Shape {
             appearance PBRAppearance {
@@ -644,7 +644,7 @@ PROTO Robotino [
       }
       DEF head_connector_B Transform {
         translation 0.0984 0.0081 0.2146
-        rotation -0.992644079848824 -0.08584820690567596 -0.08536870686710474 -1.5781353071795863
+        rotation -0.99264 -0.08585 -0.08537 -1.57814
         children [
           DEF PART59 Shape {
             appearance PBRAppearance {
@@ -663,8 +663,8 @@ PROTO Robotino [
         ]
       }
       DEF head_ethernet_port Transform {
-        translation 0.141372 0.0153371 0.2099
-        rotation -0.9926444428251923 -0.08560553818919169 -0.08560783819021774 -1.5781753071795865
+        translation 0.14137 0.01534 0.2099
+        rotation -0.99264 -0.08561 -0.08561 -1.57818
         children [
           DEF PART17 Shape {
             appearance PBRAppearance {
@@ -693,7 +693,7 @@ PROTO Robotino [
       }
       DEF head_USB_port Transform {
         translation -0.172 0.02067 0.2196
-        rotation 0.9926444428251923 -0.08560553818919169 0.08560783819021774 -1.5781803061004251
+        rotation 0.99264 -0.08561 0.08561 -1.57818
         children [
           DEF PART24 Shape {
             appearance PBRAppearance {
@@ -761,7 +761,7 @@ PROTO Robotino [
       }
       DEF head_USB_and_RJ45_port Transform {
         translation -0.1952 0.0247623 0.2179
-        rotation 0.06280378731004262 0.7055438574397839 0.7058778573722969 3.02389
+        rotation 0.0628 0.70554 0.70588 3.0239
         children [
           DEF PART34 Shape {
             appearance PBRAppearance {
@@ -811,7 +811,7 @@ PROTO Robotino [
           }
           Transform {
             translation 0 -0.0275 0.207
-            rotation 1 0 0 1.5707996938995747
+            rotation 1 0 0 1.5708
             children [
               Shape {
                 appearance PBRAppearance {
@@ -826,7 +826,7 @@ PROTO Robotino [
         ]
       }
       DEF head_bottom_support Transform {
-        translation 0 -1.73472e-18 0.035
+        translation 0 0 0.035
         children [
           Shape {
             appearance BrushedAluminium {
@@ -852,7 +852,7 @@ PROTO Robotino [
         children [
           DEF PART53 Shape {
             appearance MattePaint {
-              baseColor 0.321569 0.321569 0.321569
+              baseColor 0.32157 0.32157 0.32157
             }
             geometry IndexedFaceSet {
               coord Coordinate {
@@ -872,8 +872,8 @@ PROTO Robotino [
         translation 0 0 0.015
         children [
           Transform {
-            translation -0.101075 0.00961551 0.233
-            rotation 0.0034319600145153867 0.046293100195795474 0.998922004224915 -0.17656530717958585
+            translation -0.10108 0.00962 0.233
+            rotation 0.00343 0.04629 0.99892 -0.17657
             children [
               DEF PART57 Shape {
                 appearance BrushedAluminium {
@@ -890,8 +890,8 @@ PROTO Robotino [
             rotationStep 0.001
           }
           Transform {
-            translation -0.102418 0.00965407 0.2199
-            rotation 0.9926444428251923 -0.08560553818919169 0.08560783819021774 -1.5781803061004251
+            translation -0.10242 0.00965 0.2199
+            rotation 0.99264 -0.08561 0.08561 -1.57818
             children [
               Shape {
                 appearance PBRAppearance {
@@ -914,8 +914,8 @@ PROTO Robotino [
         translation 0 0 0.035
         children [
           Transform {
-            translation -0.101075 0.00961551 0.194
-            rotation 0.0034319600145153867 0.046293100195795474 0.998922004224915 -0.17656530717958585
+            translation -0.10108 0.00962 0.194
+            rotation 0.00343 0.04629 0.99892 -0.17657
             children [
               USE PART57
             ]
@@ -929,7 +929,7 @@ PROTO Robotino [
         children [
           Shape {
             appearance GlossyPaint {
-              baseColor 0.482353 0.482353 0.482353
+              baseColor 0.48235 0.48235 0.48235
             }
             geometry IndexedFaceSet {
               coord Coordinate {
@@ -950,7 +950,7 @@ PROTO Robotino [
         children [
           DEF PART78 Shape {
             appearance GlossyPaint {
-              baseColor 0.14902 0.713725 0.933333
+              baseColor 0.14902 0.71373 0.93333
             }
             geometry IndexedFaceSet {
               coord Coordinate {
@@ -989,7 +989,7 @@ PROTO Robotino [
       DEF WHEEL_1 HingeJoint {
         jointParameters HingeJointParameters {
           axis 0 1 0
-          anchor -0.0001 0.1825 0.059154
+          anchor -0.0001 0.1825 0.05915
         }
         device [
           RotationalMotor {
@@ -1000,7 +1000,7 @@ PROTO Robotino [
           }
         ]
         endPoint Solid {
-          translation 0 0.1826 0.059154
+          translation 0 0.1826 0.05915
           children [
             DEF PART87 Shape {
               appearance MattePaint {
@@ -1064,8 +1064,8 @@ PROTO Robotino [
           }
         ]
         endPoint Solid {
-          translation -0.15708467464588854 -0.09059738336579916 0.059001384325314134
-          rotation 0.21021099862819193 -0.10887346420705077 -0.9715749610026466 4.1639985842594
+          translation -0.15708 -0.0906 0.059
+          rotation 0.2102 -0.10887 -0.97157 4.164
           children [
             USE PART88
             USE PART87
@@ -1085,7 +1085,7 @@ PROTO Robotino [
       DEF WHEEL_3 HingeJoint {
         jointParameters HingeJointParameters {
           position 18
-          axis -0.866028 0.5 0
+          axis -0.86603 0.5 0
           anchor 0.15678 -0.0907 0.05902
         }
         device [
@@ -1097,8 +1097,8 @@ PROTO Robotino [
           }
         ]
         endPoint Solid {
-          translation 0.1567982643672613 -0.09074405396509898 0.0591899283997701
-          rotation -0.4009254600503948 -0.23147508884190923 0.8863848254167089 4.087606634867329
+          translation 0.1568 -0.09074 0.0592
+          rotation -0.40093 -0.23148 0.88638 4.08761
           children [
             USE PART88
             USE PART87
@@ -1117,48 +1117,48 @@ PROTO Robotino [
       }
       CapScrew {
         translation -0.08 0.194 0.213
-        rotation -0.0926906544979608 0.7040626543741472 -0.7040626543741472 2.8258403061004254
+        rotation -0.09269 0.70406 -0.70406 2.82584
         screwRadius 0.0018
         screwLength 0.01
       }
       CapScrew {
         translation 0.08 0.194 0.213
-        rotation -0.0926906544979608 -0.7040626543741472 0.7040626543741472 2.82584
+        rotation -0.09269 -0.70406 0.70406 2.82584
         name "cap screw(1)"
         screwRadius 0.0018
         screwLength 0.01
       }
       CapScrew {
         translation 0 0.2183 0.092
-        rotation 1 0 0 1.5708003061004252
+        rotation 1 0 0 1.5708
         name "cap screw(2)"
         screwRadius 0.0018
         screwLength 0.01
       }
       CapScrew {
         translation 0.207 0.0372 0.213
-        rotation 0 -1 0 1.5708096938995748
+        rotation 0 -1 0 1.5708
         name "cap screw(3)"
         screwRadius 0.0018
         screwLength 0.01
       }
       CapScrew {
         translation -0.207 0.0372 0.213
-        rotation 0 1 0 1.5708096938995748
+        rotation 0 1 0 1.5708
         name "cap screw(4)"
         screwRadius 0.0018
         screwLength 0.01
       }
       CapScrew {
         translation -0.189 -0.1097 0.092
-        rotation 0.25056206820525934 -0.9351132545462786 -0.25056306820553154 -1.6378353071795866
+        rotation 0.25056 -0.93511 -0.25056 -1.63784
         name "cap screw(5)"
         screwRadius 0.0018
         screwLength 0.01
       }
       CapScrew {
         translation 0.189 -0.1097 0.092
-        rotation 0.6947450600336179 -0.18615701608601462 -0.6947480600338772 -2.7734953071795863
+        rotation 0.69475 -0.18616 -0.69475 -2.7735
         name "cap screw(6)"
         screwRadius 0.0018
         screwLength 0.01
@@ -1168,7 +1168,7 @@ PROTO Robotino [
       children [
         Transform {
           translation 0 0 0.153
-          rotation 1 0 0 1.5707996938995747
+          rotation 1 0 0 1.5708
           children [
             Cylinder {
               height 0.276
