@@ -1,8 +1,8 @@
 #VRML_SIM R2019a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
-# This is a PROTO file for Webots for the robot Robotino's platform from Festo.
-# It is a feature for Robotino to fullfil your requirement.
+# This is a PROTO file for Webots of a platform for the robot Robotino 3 from Festo.
+# It is a feature for Robotino 3 to fullfil your requirement.
 
 PROTO Robotino3Platform [
   field  SFVec3f     translation    0 0 0

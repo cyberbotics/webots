@@ -23,8 +23,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.05732916548390367 0.9962878606918261 0.06421732961610703 4.655654070084208
-  position -6.262700211988348 0.49174197371912887 -0.7841993168397152
+  orientation -0.23142399510962017 -0.9600486108754731 -0.15732005353284453 1.1382738737128506
+  position -6.100211377556091 1.0312360889763343 0.9125233141363563
   follow "Robotino"
   followSmoothness 0
 }
@@ -68,8 +68,16 @@ DEF ROOF RectangleArena {
   }
 }
 Robotino3 {
-  translation -4.416 0.000766909 -0.783
+  translation -4.63 0 -0.45
   rotation -0.5773509358554485 0.5773509358554485 0.5773489358556708 2.0944
+  cameraExtension [
+    Robotino3Webcam {
+    }
+  ]
+  IRSensorExtension [
+    Robotino3IRSensor {
+    }
+  ]
 }
 WoodenBox {
   translation -6.2 0.405 -7

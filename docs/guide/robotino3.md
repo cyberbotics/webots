@@ -26,6 +26,7 @@ Robotino3 {
   SFString    model                  "Festo - Robotino 3"
   MFNode      bodyExtension          []
   MFNode      cameraExtension        []
+  MFNode      IRSensorExtension      []
   MFNode      objectExtension        []
   MFNode      lidarTopExtension      []
   MFNode      lidarMiddleExtension   []
