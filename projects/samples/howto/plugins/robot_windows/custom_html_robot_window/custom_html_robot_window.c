@@ -35,18 +35,18 @@ void wb_robot_window_init() {
   ps0 = wb_robot_get_device("ps0");
 }
 
-// A simulation step occured.
+// A simulation step occurred.
 void wb_robot_window_step(int time_step) {
   // Window initialization: get some robot devices.
   const char *message = wb_robot_wwi_receive_text();
   if (message) {
     if (strcmp(message, "stop motors") == 0) {
       // Stop the motors.
-      printf("Received 'stop motors' message from Javascript\n");
+      printf("Received 'stop motors' message from JavaScript\n");
       stop_motors = true;
     } else if (strcmp(message, "release motors") == 0) {
       // Release the command which stops the motors.
-      printf("Received 'release motors' message from Javascript\n");
+      printf("Received 'release motors' message from JavaScript\n");
       stop_motors = false;
     } else
       // This should not occur.
@@ -59,7 +59,7 @@ void wb_robot_window_step(int time_step) {
     wb_motor_set_velocity(right_motor, 0.0);
   }
 
-  // At each step, send the "ps0" distance sensor value to Javascript.
+  // At each step, send the "ps0" distance sensor value to JavaScript.
   double ps0_value = wb_distance_sensor_get_value(ps0);
   if (ps0_value > 0 && !isnan(ps0_value)) {
     char answer[0x100];

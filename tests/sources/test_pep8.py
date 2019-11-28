@@ -28,6 +28,7 @@ from pyflakes import checker
 from pyflakes.reporter import Reporter
 
 skippedDirectories = [
+    '.git',
     'dependencies',
     'lib',
     'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',

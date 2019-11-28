@@ -75,7 +75,7 @@
     # default values:
     $book = $uri;
     $page = 'index';
-    # anchor is not sent to the server, so it has to be computed by the javascript
+    # anchor is not sent to the server, so it has to be computed by the JavaScript
   }
   if (!isset($repository))
     $repository = 'cyberbotics';
