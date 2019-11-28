@@ -58,7 +58,6 @@
 ./projects/robots/e-puck/worlds/e-puck_no_physics.wbt 5
 ./projects/robots/e-puck/worlds/e-puck.wbt 5
 ./projects/robots/e-puck/worlds/e-puck_maze.wbt 5
-./projects/robots/e-puck/worlds/e-puck_botstudio.wbt 5
 ./projects/robots/e-puck/worlds/e-puck_camera.wbt 5
 ./projects/robots/e-puck/worlds/e-puck_sound.wbt 5
 ./projects/robots/khepera/worlds/khepera_k213.wbt 5
