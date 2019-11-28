@@ -50,8 +50,6 @@
 ### --- Webots included libraries ---
 ### In your C++ program, if you want to use the C API, add
 ### USE_C_API = true
-### or if you want to link with the Qt framework embedded in Webots:
-### QT = core gui widgets network
 ###
 ### ----- Java -----
 ### if your program uses several C source files:
