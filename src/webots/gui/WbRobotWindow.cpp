@@ -213,22 +213,30 @@ void WbRobotWindow::notifyAckReceived() {
   mRobot->setWaitingForWindow(false);
 }
 
+QString WbRobotWindow::escapeString(const QString &text) {
+  QString escaped(text);
+  escaped.replace("\\", "\\\\\\\\");
+  escaped.replace("'", "\\'");
+  return escaped;
+}
+
 void WbRobotWindow::runJavaScript(const QString &message) {
   mTransportLayer->requestAck();
-  mWebView->page()->runJavaScript("webots.Window.receive('" + message + "', '" + robot()->name() + "')");
+  mWebView->page()->runJavaScript("webots.Window.receive('" + message + "', '" + escapeString(robot()->name()) + "')");
 }
 #endif
 
 void WbRobotWindow::sendToJavascript(const QByteArray &string) {
+  const QString &message(escapeString(string));
 #ifdef _WIN32
-  mFrame->evaluateJavaScript("webots.Window.receive('" + string + "', '" + robot()->name() + "')");
+  mFrame->evaluateJavaScript("webots.Window.receive('" + message + "', '" + escapeString(robot()->name()) + "')");
 #else
   mRobot->setWaitingForWindow(true);
   if (mLoaded)
-    runJavaScript(string);
+    runJavaScript(message);
   else
     // message will be sent once the robot window loading is completed
-    mWaitingSentMessages << string;
+    mWaitingSentMessages << message;
 #endif
 }
 

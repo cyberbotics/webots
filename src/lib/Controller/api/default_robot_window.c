@@ -65,24 +65,75 @@ static void free_buffer() {
   buffer = NULL;
 }
 
+static void create_buffer(int size) {
+  atexit(free_buffer);
+  buffer_size = size + 1;
+  buffer = malloc(buffer_size);
+}
+
+static void throw_realloc_error() {
+  fprintf(stderr, "Error creating message to be sent to the robot window: not enough memory.\n");
+  exit(EXIT_FAILURE);
+}
+
 static void buffer_append(const char *string) {
   if (string == NULL || string[0] == '\0')
     return;
-  int l = strlen(string);
+  const int l = strlen(string);
   if (buffer == NULL) {
-    atexit(free_buffer);
-    buffer_size = l + 1;
-    buffer = malloc(buffer_size);
+    create_buffer(l);
     memcpy(buffer, string, buffer_size);
     return;
   }
   buffer = realloc(buffer, buffer_size + l);
-  if (buffer == NULL) {
-    fprintf(stderr, "Error creating message to be sent to the robot window: not enough memory.\n");
-    exit(EXIT_FAILURE);
-  }
+  if (buffer == NULL)
+    throw_realloc_error();
   memcpy(&buffer[buffer_size - 1], string, l + 1);
   buffer_size += l;
+}
+
+static void buffer_append_escaped_string(const char *string) {
+  if (string == NULL || string[0] == '\0')
+    return;
+  const int string_length = strlen(string);
+  int i, count = 0;
+  for (i = 0; i < string_length; ++i) {
+    if (string[i] == '"')
+      count++;
+  }
+
+  const int l = string_length + count * 5;
+  if (buffer == NULL) {
+    create_buffer(l);
+    if (count == 0) {
+      memcpy(buffer, string, buffer_size);
+      return;
+    }
+  } else {
+    buffer = realloc(buffer, buffer_size + l);
+    if (buffer == NULL)
+      throw_realloc_error();
+    if (count == 0) {
+      memcpy(&buffer[buffer_size - 1], string, l + 1);
+      buffer_size += l;
+      return;
+    }
+    buffer_size += l;
+  }
+
+  // copy and escape special characters
+  int j = buffer_size - l - 1;
+  for (i = 0; i < string_length; ++i) {
+    if (string[i] == '"') {
+      buffer[j++] = '&';
+      buffer[j++] = 'q';
+      buffer[j++] = 'u';
+      buffer[j++] = 'o';
+      buffer[j++] = 't';
+      buffer[j++] = ';';
+    } else
+      buffer[j++] = string[i];
+  }
 }
 
 static void buffer_append_double(double d) {
@@ -367,9 +418,9 @@ void wbu_default_robot_window_configure() {
   buffer_append("configure {\"type\":\"");
   buffer_append(wb_node_get_name(wb_robot_get_type()));
   buffer_append("\",\"name\":\"");
-  buffer_append(wb_robot_get_name());
+  buffer_append_escaped_string(wb_robot_get_name());
   buffer_append("\",\"model\":\"");
-  buffer_append(wb_robot_get_model());
+  buffer_append_escaped_string(wb_robot_get_model());
   buffer_append("\",\"basicTimeStep\":");
   buffer_append_double(0.001 * wb_robot_get_basic_time_step());
   int n = wb_robot_get_number_of_devices();
@@ -382,11 +433,11 @@ void wbu_default_robot_window_configure() {
         buffer_append(",");
       buffer_append("{\"type\":\"");
       WbNodeType type = wb_device_get_node_type(tag);
-      buffer_append(wb_node_get_name(type));
+      buffer_append_escaped_string(wb_node_get_name(type));
       buffer_append("\",\"name\":\"");
-      buffer_append(wb_device_get_name(tag));
+      buffer_append_escaped_string(wb_device_get_name(tag));
       buffer_append("\",\"model\":\"");
-      buffer_append(wb_device_get_model(tag));
+      buffer_append_escaped_string(wb_device_get_model(tag));
       buffer_append("\"");
       switch (type) {
         case WB_NODE_CAMERA:
@@ -737,7 +788,7 @@ void wbu_default_robot_window_update() {
           buffer_append(",");
         ++updated_device;
         buffer_append("\"");
-        buffer_append(wb_device_get_name(tag));
+        buffer_append_escaped_string(wb_device_get_name(tag));
         buffer_append("\":{");
         switch (type) {
           case WB_NODE_ACCELEROMETER:

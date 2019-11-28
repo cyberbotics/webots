@@ -60,6 +60,8 @@ private:
   int mResetCount;
   bool mLoaded;
 
+  static QString escapeString(const QString &text);
+
 private slots:
 #if defined(__APPLE__) || defined(__linux__)
   void notifyLoadCompleted();

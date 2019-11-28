@@ -57,6 +57,7 @@ Door {
   SFString   name                   "door"
   SFVec3f    size                   1 2.4 0.2
   SFBool     canBeOpen              TRUE
+  SFFloat    position               0
   SFBool     jointAtLeft            TRUE
   SFBool     selfClosing            FALSE
   SFFloat    doorThickness          0.05
@@ -81,6 +82,8 @@ Door {
 - `size`: Defines the width, height and thickness of the door wall frame.
 
 - `canBeOpen`: Defines whether the door is connected to the frame throught a hinge-joint.
+
+- `position`: Defines the position (aperture) of the door.
 
 - `jointAtLeft`: Defines on which side the door is connected to the frame.
 
