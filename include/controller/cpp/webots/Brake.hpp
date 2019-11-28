@@ -27,7 +27,9 @@ namespace webots {
     typedef enum { ROTATIONAL = 0, LINEAR } Type;
 
     explicit Brake(const std::string &name) :
-      Device(name), motor(NULL), positionSensor(NULL) {}  // Use Robot::getBrake() instead
+      Device(name),
+      motor(NULL),
+      positionSensor(NULL) {}  // Use Robot::getBrake() instead
     virtual ~Brake() {}
     Type getType() const;
     void setDampingConstant(double dampingConstant) const;
