@@ -47,7 +47,7 @@ PROTO SickLdMrs [
     if type == "800001S01" then
       if measurementLayers == 8 then
         horizontalFieldOfView = wbmath.degrees2radians(85)
-        offsetAngle = wbmath.degrees2radians(9.5)
+        offsetAngle = wbmath.degrees2radians(7.5)
       elseif measurementLayers == 4 then
         horizontalFieldOfView = wbmath.degrees2radians(110)
         offsetAngle = wbmath.degrees2radians(5)
@@ -55,12 +55,12 @@ PROTO SickLdMrs [
         -- invalid case: warn and fill with dummy values.
         io.stderr:write("A '" .. type .. "' SickLdMrs can not have " .. measurementLayers .. " measurement layers.")
         horizontalFieldOfView = wbmath.degrees2radians(85)
-        offsetAngle = wbmath.degrees2radians(9.5)
+        offsetAngle = wbmath.degrees2radians(7.5)
       end
     else  -- type "400*"
       if measurementLayers == 4 then
         horizontalFieldOfView = wbmath.degrees2radians(85)
-        offsetAngle = wbmath.degrees2radians(9.5)
+        offsetAngle = wbmath.degrees2radians(7.5)
       elseif measurementLayers == 2 then
         horizontalFieldOfView = wbmath.degrees2radians(110)
         offsetAngle = wbmath.degrees2radians(5)
@@ -68,7 +68,7 @@ PROTO SickLdMrs [
         -- invalid case: warn and fill with dummy values.
         io.stderr:write("A '" .. type .. "' SickLdMrs can not have " .. measurementLayers .. " measurement layers.")
         horizontalFieldOfView = wbmath.degrees2radians(85)
-        offsetAngle = wbmath.degrees2radians(9.5)
+        offsetAngle = wbmath.degrees2radians(7.5)
       end
     end
 
