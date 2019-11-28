@@ -189,6 +189,9 @@ WbSolid::~WbSolid() {
   if (!mRecognitionColors->isEmpty())
     WbWorld::instance()->removeCameraRecognitionObject(this);
 
+  qDeleteAll(mHiddenKinematicParametersMap);
+  mHiddenKinematicParametersMap.clear();
+
   cSolids.removeAll(this);
 
   // Cleanup WREN
@@ -316,9 +319,9 @@ void WbSolid::preFinalize() {
                                       "Please save the current world to get rid of this message.")
                                      .arg(modelName()),
                                    true);
+      qDeleteAll(mHiddenKinematicParametersMap);
+      mHiddenKinematicParametersMap.clear();
     }
-    qDeleteAll(mHiddenKinematicParametersMap);
-    mHiddenKinematicParametersMap.clear();
   }
 
   checkScaleAtLoad(true);
@@ -2229,6 +2232,9 @@ void WbSolid::reset() {
       }
     }
   }
+
+  int counter = 0;
+  restoreHiddenKinematicParameters(mHiddenKinematicParametersMap, counter);
 
   if (handleJerkIfNeeded())
     mMovedChildren.clear();
