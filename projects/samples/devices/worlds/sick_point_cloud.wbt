@@ -55,7 +55,6 @@ Robot {
       translation 0 1.2 -0.25
       name "sick"
       type "800001S01"
-      measurementLayers 8
     }
     DEF BODY_SHAPE Transform {
       translation 0 0.7 0
