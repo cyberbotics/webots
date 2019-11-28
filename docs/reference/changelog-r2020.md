@@ -29,3 +29,8 @@ Released on XXX YYth, 2019.
     - Windows/Linux: Move the `Check for updates...` menu from `Tools` to `Help` for consistency with other applications.
   - New Samples
     - Added a `complete_apartment` world.
+  - Cleanup
+    - Dropped deprecated native Qt robot windows.
+      - Dropped the documentation.
+      - Dropped BotStudio and the beginner and novice curriculum worlds based on it.
+      - Dropped the `samples/howto/gui_tracker.wbt` simulation.
