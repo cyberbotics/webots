@@ -155,16 +155,17 @@ The `resolution` field specifies the number of points returned per layer per sca
 
 The [SICK LD-MRS](https://www.sick.com/us/en/detection-and-ranging-solutions/3d-lidar-sensors/ld-mrs/c/g91913) is a multi-layer lidar designed for harsh outdoor environments.
 It has a range of 300 meters.
+Each layer is separated vertically by 0.8°.
 
 Other parameters depends on its type:
 
-| Type | Number of measurement layers (L) | Horizontal field of view | Horizontal Offset | Vertical field of View |
+| Type | Number of measurement layers (L) | Horizontal field of view | Horizontal Offset |
 | --- | --- | --- | --- | --- |
-| `400001` | 2 or 4 | 85° (4L) or 110° (2L) | 9.5° (4L) or 5° (2L) | 3.2° |
-| `400102` | 2 or 4 | 85° (4L) or 110° (2L) | 9.5° (4L) or 5° (2L) | 3.2° |
-| `400001S01` | 2 or 4 | 85° (4L) or 110° (2L) | 9.5° (4L) or 5° (2L) | 3.2° |
-| `400102S01` | 2 or 4 | 85° (4L) or 110° (2L) | 9.5° (4L) or 5° (2L) | 3.2° |
-| `800001S01` | 4 or 8 | 85° (8L) or 110° (4L) | 9.5° (8L) or 5° (4L) | 6.4° (8L) or 3.2° (4L) |
+| `400001` | 2 or 4 | 85° (4L) or 110° (2L) | 9.5° (4L) or 5° (2L) |
+| `400102` | 2 or 4 | 85° (4L) or 110° (2L) | 9.5° (4L) or 5° (2L) |
+| `400001S01` | 2 or 4 | 85° (4L) or 110° (2L) | 9.5° (4L) or 5° (2L) |
+| `400102S01` | 2 or 4 | 85° (4L) or 110° (2L) | 9.5° (4L) or 5° (2L) |
+| `800001S01` | 4 or 8 | 85° (8L) or 110° (4L) | 9.5° (8L) or 5° (4L) |
 
 Layer 0 corresponds to the bottom layer.
 First response values are corresponding to the device right.

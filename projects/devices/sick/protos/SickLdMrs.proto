@@ -40,28 +40,24 @@ PROTO SickLdMrs [
     end
 
     -- Compute geometry constants.
+    local verticalFieldOfView = wbmath.degrees2radians(0.8 * (measurementLayers + 1))  -- +1 because the measurements are taken at the pixel center.
     local horizontalFieldOfView = 0.0
-    local verticalFieldOfView = 0.0
     local offsetAngle = 0.0
 
     if type == "800001S01" then
       if measurementLayers == 8 then
         horizontalFieldOfView = wbmath.degrees2radians(85)
-        verticalFieldOfView = wbmath.degrees2radians(6.4)
         offsetAngle = wbmath.degrees2radians(9.5)
       elseif measurementLayers == 4 then
         horizontalFieldOfView = wbmath.degrees2radians(110)
-        verticalFieldOfView = wbmath.degrees2radians(3.2)
         offsetAngle = wbmath.degrees2radians(5)
       else
         -- invalid case: warn and fill with dummy values.
         io.stderr:write("A '" .. type .. "' SickLdMrs can not have " .. measurementLayers .. " measurement layers.")
         horizontalFieldOfView = wbmath.degrees2radians(85)
-        verticalFieldOfView = wbmath.degrees2radians(6.4)
         offsetAngle = wbmath.degrees2radians(9.5)
       end
     else  -- type "400*"
-      verticalFieldOfView = wbmath.degrees2radians(3.2)
       if measurementLayers == 4 then
         horizontalFieldOfView = wbmath.degrees2radians(85)
         offsetAngle = wbmath.degrees2radians(9.5)
