@@ -30,8 +30,34 @@ CFLAGS = -fPIC
 LIBRARIES += -Wl,-rpath,$(WEBOTS_LIB_PATH)
 endif
 
-QT = core
 CXX_SOURCES = $(wildcard *.cpp)
 
 # Do not modify the following: this includes Webots global Makefile.include
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
+
+# Qt linking
+
+CFLAGS += -std=c++11
+
+ifeq ($(OSTYPE),windows)
+ CFLAGS += -D_USE_MATH_DEFINES
+ QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
+ DYNAMIC_LIBRARIES += -lQt5Core
+ INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore"
+endif
+
+ifeq ($(OSTYPE),linux)
+ QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
+ QT_LIB_DIR = $(WEBOTS_HOME)/lib
+ DYNAMIC_LIBRARIES += -L"$(QT_LIB_DIR)" -lQt5Core
+ INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore"
+endif
+
+ifeq ($(OSTYPE),darwin)
+ WBCFLAGS += -Wno-unknown-pragmas
+ FRAMEWORKS_DIR = $(WEBOTS_HOME)/Contents/Frameworks
+ INCLUDE += -F"$(FRAMEWORKS_DIR)"
+ FRAMEWORKS += -F"$(FRAMEWORKS_DIR)"
+ DYNAMIC_LIBRARIES += -bind_at_load $(FRAMEWORKS)
+ FRAMEWORKS += -framework QtCore
+endif
