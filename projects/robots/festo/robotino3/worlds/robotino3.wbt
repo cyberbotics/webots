@@ -70,6 +70,7 @@ DEF ROOF RectangleArena {
 Robotino3 {
   translation -4.63 0 -0.45
   rotation -0.5773509358554485 0.5773509358554485 0.5773489358556708 2.0944
+  controller "robotino3"
   cameraExtension [
     Robotino3Webcam {
     }

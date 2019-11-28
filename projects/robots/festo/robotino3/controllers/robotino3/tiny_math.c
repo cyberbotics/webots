@@ -23,7 +23,8 @@ void vector3_set_values(Vector3 *vect, double u, double v, double w) {
   vect->w = w;
 }
 
-void matrix33_set_values(Matrix33 *m, double au, double av, double aw, double bu, double bv, double bw, double cu, double cv,
+void matrix33_set_values(Matrix33 *m, double au, double av, double aw,
+                         double bu, double bv, double bw, double cu, double cv,
                          double cw) {
   vector3_set_values(&(m->a), au, av, aw);
   vector3_set_values(&(m->b), bu, bv, bw);
@@ -40,13 +41,13 @@ void matrix33_mult_vector3(Vector3 *res, const Matrix33 *m, const Vector3 *v) {
   res->w = m->a.w * v->u + m->b.w * v->v + m->c.w * v->w;
 }
 
-double vector2_norm(const Vector2 *v) {
-  return sqrt(v->u * v->u + v->v * v->v);
-}
-
 void vector2_minus(Vector2 *v, const Vector2 *v1, const Vector2 *v2) {
   v->u = v1->u - v2->u;
   v->v = v1->v - v2->v;
+}
+
+double vector2_norm(const Vector2 *v) {
+  return sqrt(v->u * v->u + v->v * v->v);
 }
 
 double vector2_angle(const Vector2 *v1, const Vector2 *v2) {

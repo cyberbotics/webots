@@ -40,12 +40,12 @@
 #define K3 1.0
 
 typedef struct {
-  Vector2 v_target;
-  double alpha;
   bool reached;
+  double alpha;
+  Vector2 v_target;
 } goto_struct;
 
-static WbDeviceTag wheels[4];
+static WbDeviceTag wheels[3];
 static WbDeviceTag gps;
 static WbDeviceTag compass;
 static goto_struct goto_data;
@@ -55,53 +55,53 @@ static void base_set_wheel_velocity(WbDeviceTag t, double velocity) {
   wb_motor_set_velocity(t, velocity);
 }
 
-static void base_set_wheel_speeds_helper(double speeds[4]) {
+static void base_set_wheel_speeds_helper(double speeds[3]) {
   int i;
-  for (i = 0; i < 4; i++)
+  for (i = 0; i < 3; i++)
     base_set_wheel_velocity(wheels[i], speeds[i]);
 }
 
 void base_init() {
   int i;
   char wheel_name[16];
-  for (i = 0; i < 4; i++) {
-    sprintf(wheel_name, "wheel%d", (i + 1));
+  for (i = 0; i < 3; i++) {
+    sprintf(wheel_name, "wheel%d", i;
     wheels[i] = wb_robot_get_device(wheel_name);
   }
 }
 
 void base_reset() {
-  static double speeds[4] = {0.0, 0.0, 0.0, 0.0};
+  static double speeds[3] = {0.0, 0.0, 0.0};
   base_set_wheel_speeds_helper(speeds);
 }
 
 void base_forwards() {
-  static double speeds[4] = {SPEED, SPEED, SPEED, SPEED};
+  static double speeds[3] = {0, SPEED, -SPEED};
   base_set_wheel_speeds_helper(speeds);
 }
 
 void base_backwards() {
-  static double speeds[4] = {-SPEED, -SPEED, -SPEED, -SPEED};
+  static double speeds[3] = {0, -SPEED, SPEED};
   base_set_wheel_speeds_helper(speeds);
 }
 
 void base_turn_left() {
-  static double speeds[4] = {-SPEED, SPEED, -SPEED, SPEED};
+  static double speeds[3] = {SPEED, SPEED, SPEED};
   base_set_wheel_speeds_helper(speeds);
 }
 
 void base_turn_right() {
-  static double speeds[4] = {SPEED, -SPEED, SPEED, -SPEED};
+  static double speeds[3] = {-SPEED, -SPEED, -SPEED};
   base_set_wheel_speeds_helper(speeds);
 }
 
 void base_strafe_left() {
-  static double speeds[4] = {SPEED, -SPEED, -SPEED, SPEED};
+  static double speeds[3] = {-SPEED, SPEED, 0};
   base_set_wheel_speeds_helper(speeds);
 }
 
 void base_strafe_right() {
-  static double speeds[4] = {-SPEED, SPEED, SPEED, -SPEED};
+  static double speeds[3] = {SPEED, -SPEED, 0};
   base_set_wheel_speeds_helper(speeds);
 }
 
@@ -123,7 +123,8 @@ void base_goto_init(double time_step) {
 
 void base_goto_set_target(double x, double z, double alpha) {
   if (!gps || !compass)
-    fprintf(stderr, "base_goto_set_target: cannot use goto feature without GPS and Compass");
+    fprintf(stderr, "base_goto_set_target: cannot use goto feature without GPS "
+                    "and Compass");
 
   goto_data.v_target.u = x;
   goto_data.v_target.v = z;
@@ -133,7 +134,8 @@ void base_goto_set_target(double x, double z, double alpha) {
 
 void base_goto_run() {
   if (!gps || !compass)
-    fprintf(stderr, "base_goto_set_target: cannot use goto feature without GPS and Compass");
+    fprintf(stderr, "base_goto_set_target: cannot use goto feature without GPS "
+                    "and Compass");
 
   // get sensors
   const double *gps_raw_values = wb_gps_get_values(gps);
@@ -169,30 +171,29 @@ void base_goto_run() {
   matrix33_mult_vector3(&v_target_rel, &transform, &v_target_tmp);
 
   // compute the speeds
-  double speeds[4] = {0.0, 0.0, 0.0, 0.0};
+  double speeds[3] = {0.0, 0.0, 0.0};
   // -> first stimulus: delta_angle
-  speeds[0] = -delta_angle / M_PI * K1;
+  // TODO: Verify
+  speeds[0] = delta_angle / M_PI * K1;
   speeds[1] = delta_angle / M_PI * K1;
-  speeds[2] = -delta_angle / M_PI * K1;
-  speeds[3] = delta_angle / M_PI * K1;
+  speeds[2] = delta_angle / M_PI * K1;
 
   // -> second stimulus: u coord of the relative target vector
   speeds[0] += v_target_rel.u * K2;
   speeds[1] += v_target_rel.u * K2;
   speeds[2] += v_target_rel.u * K2;
-  speeds[3] += v_target_rel.u * K2;
 
   // -> third stimulus: v coord of the relative target vector
-  speeds[0] += -v_target_rel.v * K3;
+  // TODO: Verify
+  speeds[0] += v_target_rel.v * K3;
   speeds[1] += v_target_rel.v * K3;
   speeds[2] += v_target_rel.v * K3;
-  speeds[3] += -v_target_rel.v * K3;
 
   // apply the speeds
   int i;
-  for (i = 0; i < 4; i++) {
-    speeds[i] /= (K1 + K2 + K2);  // number of stimuli (-1 <= speeds <= 1)
-    speeds[i] *= SPEED;           // map to speed (-SPEED <= speeds <= SPEED)
+  for (i = 0; i < 3; i++) {
+    speeds[i] /= (K1 + K2 + K2); // number of stimuli (-1 <= speeds <= 1)
+    speeds[i] *= SPEED;          // map to speed (-SPEED <= speeds <= SPEED)
 
     // added an arbitrary factor increasing the convergence speed
     speeds[i] *= 30.0;
@@ -201,10 +202,9 @@ void base_goto_run() {
   base_set_wheel_speeds_helper(speeds);
 
   // check if the taget is reached
-  if (distance < DISTANCE_TOLERANCE && delta_angle < ANGLE_TOLERANCE && delta_angle > -ANGLE_TOLERANCE)
+  if (distance < DISTANCE_TOLERANCE && delta_angle < ANGLE_TOLERANCE &&
+      delta_angle > -ANGLE_TOLERANCE)
     goto_data.reached = true;
 }
 
-bool base_goto_reached() {
-  return goto_data.reached;
-}
+bool base_goto_reached() { return goto_data.reached; }

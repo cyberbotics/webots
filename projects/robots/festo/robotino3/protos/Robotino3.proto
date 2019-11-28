@@ -67,6 +67,8 @@ PROTO Robotino3 [
       }
       Gyro {
       }
+      Compass {
+      }
       DEF IR1 DistanceSensor {
         translation 0 0 0.035
         children IS IRSensorExtension
@@ -894,9 +896,9 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF WHEEL_1 HingeJoint {
+      DEF WHEEL_0 HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0 1 0
+          axis 0 -1 0
           anchor -0.0001 0.1825 0.05915
         }
         device [
@@ -957,9 +959,8 @@ PROTO Robotino3 [
           }
         }
       }
-      DEF WHEEL_2 HingeJoint {
+      DEF WHEEL_1 HingeJoint {
         jointParameters HingeJointParameters {
-          position 31
           axis 0.5 0.32 0
           anchor -0.1867 -0.11 0.059
         }
@@ -990,9 +991,8 @@ PROTO Robotino3 [
           }
         }
       }
-      DEF WHEEL_3 HingeJoint {
+      DEF WHEEL_2 HingeJoint {
         jointParameters HingeJointParameters {
-          position 18
           axis -0.86603 0.5 0
           anchor 0.15678 -0.0907 0.05902
         }

@@ -27,9 +27,7 @@
 #include <webots/keyboard.h>
 #include <webots/robot.h>
 
-//#include <arm.h>
-//#include <base.h>
-//#include <gripper.h>
+#include <base.h>
 
 #include <math.h>
 #include <stdio.h>
@@ -53,12 +51,49 @@ static void passive_wait(double sec) {
 }
 
 static void automatic_behavior() {
-  passive_wait(2.0);
+  // Make a square movement
+  passive_wait(1.0);
+
+  base_forwards();
+  passive_wait(2.5);
+  base_reset();
+  passive_wait(1.0);
+
   base_strafe_left();
+  passive_wait(2.5);
+  base_reset();
+  passive_wait(1.0);
+
+  base_backwards();
   passive_wait(5.0);
   base_reset();
   passive_wait(1.0);
+
+  base_strafe_right();
+  passive_wait(5.0);
+  base_reset();
+  passive_wait(1.0);
+
+  base_forwards();
+  passive_wait(5.0);
+  base_reset();
+  passive_wait(1.0);
+
+  base_strafe_left();
+  passive_wait(2.5);
+  base_reset();
+  passive_wait(1.0);
+
+  base_backwards();
+  passive_wait(2.5);
+  base_reset();
+  passive_wait(1.0);
+
   base_turn_left();
+  passive_wait(1.0);
+  base_reset();
+
+  base_turn_right();
   passive_wait(1.0);
   base_reset();
 }
@@ -67,8 +102,6 @@ static void display_helper_message() {
   printf("Control commands:\n");
   printf(" Arrows:       Move the robot\n");
   printf(" Page Up/Down: Rotate the robot\n");
-  //printf(" +/-:          (Un)grip\n");
-  //printf(" Shift + arrows:   Handle the arm\n");
   printf(" Space: Reset\n");
 }
 
@@ -92,39 +125,38 @@ int main(int argc, char **argv) {
     int c = wb_keyboard_get_key();
     if ((c >= 0) && c != pc) {
       switch (c) {
-        case WB_KEYBOARD_UP:
-          printf("Go forwards\n");
-          base_forwards();
-          break;
-        case WB_KEYBOARD_DOWN:
-          printf("Go backwards\n");
-          base_backwards();
-          break;
-        case WB_KEYBOARD_LEFT:
-          printf("Strafe left\n");
-          base_strafe_left();
-          break;
-        case WB_KEYBOARD_RIGHT:
-          printf("Strafe right\n");
-          base_strafe_right();
-          break;
-        case WB_KEYBOARD_PAGEUP:
-          printf("Turn left\n");
-          base_turn_left();
-          break;
-        case WB_KEYBOARD_PAGEDOWN:
-          printf("Turn right\n");
-          base_turn_right();
-          break;
-        case WB_KEYBOARD_END:
-        case ' ':
-          printf("Reset\n");
-          base_reset();
-          arm_reset();
-          break;
-        default:
-          fprintf(stderr, "Wrong keyboard input\n");
-          break;
+      case WB_KEYBOARD_UP:
+        printf("Go forwards\n");
+        base_forwards();
+        break;
+      case WB_KEYBOARD_DOWN:
+        printf("Go backwards\n");
+        base_backwards();
+        break;
+      case WB_KEYBOARD_LEFT:
+        printf("Strafe left\n");
+        base_strafe_left();
+        break;
+      case WB_KEYBOARD_RIGHT:
+        printf("Strafe right\n");
+        base_strafe_right();
+        break;
+      case WB_KEYBOARD_PAGEUP:
+        printf("Turn left\n");
+        base_turn_left();
+        break;
+      case WB_KEYBOARD_PAGEDOWN:
+        printf("Turn right\n");
+        base_turn_right();
+        break;
+      case WB_KEYBOARD_END:
+      case ' ':
+        printf("Reset\n");
+        base_reset();
+        break;
+      default:
+        fprintf(stderr, "Wrong keyboard input\n");
+        break;
       }
     }
     pc = c;

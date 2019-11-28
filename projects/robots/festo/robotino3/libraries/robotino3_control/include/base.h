@@ -15,21 +15,32 @@
  */
 
 /*
- * Description:   Allows to handle the gipper
+ * Description:   Allows to handle the base
  */
 
-#ifndef GRIPPER_H
-#define GRIPPER_H
+#ifndef BASE_H
+#define BASE_H
+
+#include <webots/types.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void gripper_init();
+void base_init();
 
-void gripper_grip();  // dangerous to grip an object with this function -> creates a lot of internal constraints
-void gripper_release();
-void gripper_set_gap(double gap);
+void base_reset();
+void base_forwards();
+void base_backwards();
+void base_turn_left();
+void base_turn_right();
+void base_strafe_left();
+void base_strafe_right();
+
+void base_goto_init(double time_step);
+void base_goto_set_target(double x, double z, double a);
+void base_goto_run();
+bool base_goto_reached();
 
 #ifdef __cplusplus
 }

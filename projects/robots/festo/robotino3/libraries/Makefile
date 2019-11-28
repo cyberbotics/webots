@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TARGETS=youbot_control.Makefile
+TARGETS=robotino3_control.Makefile
 
 .PHONY: release debug profile clean
 
