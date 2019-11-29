@@ -236,7 +236,7 @@ PROTO Robotino3 [
         rotation 0 0 1 2.0944
         children [
           DEF USE_PART11 Shape {
-            appearance BrushedAluminium {
+            appearance GlossyPaint {
               textureTransform TextureTransform {
                 scale 0 0
               }
