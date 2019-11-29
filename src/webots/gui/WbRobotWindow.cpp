@@ -213,18 +213,18 @@ void WbRobotWindow::notifyAckReceived() {
   mRobot->setWaitingForWindow(false);
 }
 
+void WbRobotWindow::runJavaScript(const QString &message) {
+  mTransportLayer->requestAck();
+  mWebView->page()->runJavaScript("webots.Window.receive('" + message + "', '" + escapeString(robot()->name()) + "')");
+}
+#endif
+
 QString WbRobotWindow::escapeString(const QString &text) {
   QString escaped(text);
   escaped.replace("\\", "\\\\\\\\");
   escaped.replace("'", "\\'");
   return escaped;
 }
-
-void WbRobotWindow::runJavaScript(const QString &message) {
-  mTransportLayer->requestAck();
-  mWebView->page()->runJavaScript("webots.Window.receive('" + message + "', '" + escapeString(robot()->name()) + "')");
-}
-#endif
 
 void WbRobotWindow::sendToJavascript(const QByteArray &string) {
   const QString &message(escapeString(string));
