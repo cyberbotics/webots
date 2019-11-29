@@ -236,24 +236,7 @@ PROTO Robotino3 [
         rotation 0 0 1 2.0944
         children [
           DEF USE_PART11 Shape {
-            appearance PBRAppearance {
-              baseColorMap ImageTexture {
-                url [
-                  "C:/Program Files/Webots/projects/appearances/protos/textures/matte_car_paint/matte_car_paint_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "C:/Program Files/Webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_roughness.jpg"
-                ]
-              }
-              metalness 0
-              normalMap ImageTexture {
-                url [
-                  "C:/Program Files/Webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_normal.jpg"
-                ]
-              }
-              normalMapFactor 0.5
+            appearance BrushedAluminium {
               textureTransform TextureTransform {
                 scale 0 0
               }
@@ -343,22 +326,7 @@ PROTO Robotino3 [
             }
           }
           DEF TEXT_PART56 Shape {
-            appearance PBRAppearance {
-              baseColorMap ImageTexture {
-                url [
-                  "C:/Program Files/Webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "C:/Program Files/Webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
-                ]
-              }
-              normalMap ImageTexture {
-                url [
-                  "C:/Program Files/Webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
-                ]
-              }
+            appearance BrushedAluminium {
               textureTransform TextureTransform {
                 scale 0 0
               }
