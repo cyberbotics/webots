@@ -69,7 +69,10 @@ DEF ROOF RectangleArena {
 }
 Robotino3 {
   translation -4.896 0.00815182 -0.32
-  rotation -0.57735 0.57735 0.57735 2.0944
+  cameraExtension [
+    Robotino3Webcam {
+    }
+  ]
 }
 WoodenBox {
   translation -6.2 0.405 -7
@@ -308,46 +311,37 @@ PottedTree {
 }
 DoubleFluorescentLamp {
   translation -5 2.5 5
-  rotation -0.703 0 0.703 3.1416
 }
 DoubleFluorescentLamp {
   translation -5 2.5 0
-  rotation -0.703 0 0.703 3.1416
   name "double fuorescent lamp(1)"
 }
 DoubleFluorescentLamp {
   translation -5 2.5 -5
-  rotation -0.703 0 0.703 3.1416
   name "double fuorescent lamp(2)"
 }
 DoubleFluorescentLamp {
   translation 0 2.5 5
-  rotation -0.703 0 0.703 3.1416
   name "double fuorescent lamp(3)"
 }
 DoubleFluorescentLamp {
   translation 0 2.5 0
-  rotation -0.703 0 0.703 3.1416
   name "double fuorescent lamp(4)"
 }
 DoubleFluorescentLamp {
   translation 0 2.5 -5
-  rotation -0.703 0 0.703 3.1416
   name "double fuorescent lamp(5)"
 }
 DoubleFluorescentLamp {
   translation 5 2.5 5
-  rotation -0.703 0 0.703 3.1416
   name "double fuorescent lamp(6)"
 }
 DoubleFluorescentLamp {
   translation 5 2.5 0
-  rotation -0.703 0 0.703 3.1416
   name "double fuorescent lamp(7)"
 }
 DoubleFluorescentLamp {
   translation 5 2.5 -5
-  rotation -0.703 0 0.703 3.1416
   name "double fuorescent lamp(8)"
 }
 StraightStairs {
@@ -418,12 +412,10 @@ OilBarrel {
 }
 OilBarrel {
   translation 5.826 0.305 0.356
-  rotation -0.67 0.52 -0.52 -1.95
   name "oil barrel(9)"
 }
 OilBarrel {
   translation 5.892 0.305 -1.534
-  rotation -0.93 -0.25 0.25 -1.638
   name "oil barrel(10)"
 }
 OilBarrel {
