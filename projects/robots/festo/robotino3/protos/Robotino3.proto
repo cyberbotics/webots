@@ -9,22 +9,25 @@ PROTO Robotino3 [
   field  SFVec3f     translation            0 0 0
   field  SFRotation  rotation               1 0 0 -1.5708
   field  SFString    name                   "Robotino 3"
+  field  SFString    model                  "Festo - Robotino 3"
   field  SFString    controller             "robotino3"
   field  SFString    controllerArgs         ""
   field  SFString    customData             ""
   field  SFBool      supervisor             FALSE
   field  SFBool      synchronization        TRUE
   field  SFBool      selfCollision          FALSE   # Enables/disables the detection of collisions within the robot.
-  field  SFString    model                  "Festo - Robotino 3"
   field  MFNode      bodyExtension          []      # Extends the robot with a platform.
   field  MFNode      cameraExtension        []      # Extends the robot with a camera.
-  field  MFNode      IRSensorExtension      []      # Extends the robot with infrared sensors.
   field  MFNode      objectExtension        []      # Extends the robot with a object.
   field  MFNode      lidarTopExtension      []      # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
   field  MFNode      lidarMiddleExtension   []      # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
   field  MFNode      lidarBottomExtension   []      # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
+  field  SFString{"SharpGP2D120", "SharpGP2Y0A"}  InfraredSensorModel    "SharpGP2D120"      # Extends the robot with infrared sensors.
 ]
 {
+  %{
+    local IRname = fields.InfraredSensorModel.value
+  }%
   Robot {
     translation IS translation
     rotation IS rotation
@@ -69,57 +72,48 @@ PROTO Robotino3 [
       }
       Compass {
       }
-      DEF IR1 DistanceSensor {
+      DEF IR1 %{= IRname }% {
         translation 0 0 0.035
-        children IS IRSensorExtension
         name "ir1"
       }
-      DEF IR2 DistanceSensor {
+      DEF IR2 %{= IRname }% {
         translation 0 0 0.035
         rotation 0 0 1 0.69813
-        children IS IRSensorExtension
         name "ir2"
       }
-      DEF IR3 DistanceSensor {
+      DEF IR3 %{= IRname }% {
         translation 0 0 0.035
         rotation 0 0 1 1.39626
-        children IS IRSensorExtension
         name "ir3"
       }
-      DEF IR4 DistanceSensor {
+      DEF IR4 %{= IRname }% {
         translation 0 0 0.035
         rotation 0 0 1 2.0944
-        children IS IRSensorExtension
         name "ir4"
       }
-      DEF IR5 DistanceSensor {
+      DEF IR5 %{= IRname }% {
         translation 0 0 0.035
         rotation 0 0 1 2.79253
-        children IS IRSensorExtension
         name "ir5"
       }
-      DEF IR6 DistanceSensor {
+      DEF IR6 %{= IRname }% {
         translation 0 0 0.035
         rotation 0 0 1 3.49066
-        children IS IRSensorExtension
         name "ir6"
       }
-      DEF IR7 DistanceSensor {
+      DEF IR7 %{= IRname }% {
         translation 0 0 0.035
         rotation 0 0 1 4.18879
-        children IS IRSensorExtension
         name "ir7"
       }
-      DEF IR8 DistanceSensor {
+      DEF IR8 %{= IRname }% {
         translation 0 0 0.035
         rotation 0 0 1 4.88692
-        children IS IRSensorExtension
         name "ir8"
       }
-      DEF IR9 DistanceSensor {
+      DEF IR9 %{= IRname }% {
         translation 0 0 0.035
         rotation 0 0 1 5.58505
-        children IS IRSensorExtension
         name "ir9"
       }
       DEF base_bottom_support Transform {

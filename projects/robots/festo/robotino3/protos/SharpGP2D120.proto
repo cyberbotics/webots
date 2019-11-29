@@ -1,24 +1,49 @@
 #VRML_SIM R2019a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
-# This is a PROTO file for Webots of a IR sensor for the robot Robotino 3 from Festo.
-# It is a feature for Robotino 3 to fullfil your requirement.
-# The model is based on the Sharp® GP2Y0A41SK0F.
+# This is a PROTO file for Webots of the GP2D120 IR sensor from Sharp.
+# Effective range: 4 to 30 cm
+# Documentation url: https://www.pololu.com/file/0J157/GP2D120-DATA-SHEET.pdf
 
-PROTO Robotino3IRSensor [
+PROTO SharpGP2D120 [
   field  SFVec3f     translation    0 0 0
   field  SFRotation  rotation       0 1 0 0
-  field  SFString    name           "IR sensor for Robotino 3"
-  field  SFString    model          "Festo - Robotino's IR sensor"
+  field  SFString    name           "Sharp's GP2D120 IR sensor"
+  field  SFString    model          "GP2D120"
 ]
 {
-  Solid {
+  DistanceSensor {
     translation IS translation
     rotation IS rotation
     name IS name
     model IS model
+    lookupTable [
+      0.000 0.00 0.0,
+      0.004 1.37 0.1,
+      0.010 1.85 0.1,
+      0.020 2.21 0.1,
+      0.024 2.73 0.1,
+      0.030 3.03 0.1,
+      0.035 2.78 0.1,
+      0.040 2.72 0.1,
+      0.050 2.33 0.1,
+      0.060 2.01 0.1,
+      0.070 1.76 0.1,
+      0.080 1.55 0.1,
+      0.090 1.40 0.1,
+      0.100 1.25 0.1,
+      0.120 1.04 0.1,
+      0.140 0.92 0.1,
+      0.160 0.82 0.1,
+      0.180 0.73 0.1,
+      0.200 0.66 0.1,
+      0.250 0.53 0.1,
+      0.300 0.42 0.1,
+      0.350 0.37 0.1,
+      0.400 0.31 0.1
+    ]
     children [
-      DEF IR_PART44 Shape {
+      DEF CASE Shape {
         appearance MattePaint {
           baseColor 0 0 0
         }
@@ -34,7 +59,7 @@ PROTO Robotino3IRSensor [
           creaseAngle 0.3
         }
       }
-      DEF IR_GLASS Shape {
+      DEF LENS Shape {
         appearance GlossyPaint {
           baseColor 0 0 0
         }
