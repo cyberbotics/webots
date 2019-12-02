@@ -362,6 +362,16 @@
       }
     },
     {
+      "name": "robotino3",
+      "proto": "Robotino3",
+      "translation": "0 0.24 0",
+      "rotation": "0 1 0 1.047197548",
+      "viewpoint": {
+        "orientation": "-0.1834023840884481 0.9696867412635415 0.16146575280339473 1.4743393899579396",
+        "position": "0.9522322851022083 0.5138867008599857 0.14176413452834885"
+      }
+    },
+    {
       "name": "robotis-op2",
       "proto": "RobotisOp2",
       "translation": "0 0.24 0",
