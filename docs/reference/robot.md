@@ -2018,12 +2018,12 @@ text = wb_robot_wwi_receive_text()
 
 These functions allow the robot controller to communicate with a HTML robot window.
 Such a window is embedded as a dockable sub-window in the Webots user interface.
-The content of the window is written in HTML and Javascript functions are used to communicate with the robot controller.
+The content of the window is written in HTML and JavaScript functions are used to communicate with the robot controller.
 
-The `wb_robot_wwi_receive` and `wb_robot_wwi_receive_text` functions allow a robot controller to receive a message sent from a Javascript function running in the HTML robot window.
-The message is sent using the `webots.window("<robot window name>").send` method of the Webots Javascript API.
+The `wb_robot_wwi_receive` and `wb_robot_wwi_receive_text` functions allow a robot controller to receive a message sent from a JavaScript function running in the HTML robot window.
+The message is sent using the `webots.window("<robot window name>").send` method of the Webots JavaScript API.
 
-The `wb_robot_window_send` and `wb_robot_wwi_send_text` functions allow a robot controller to send a message to a Javascript function running in the HTML robot window.
-The message is received using the `webots.window("<robot window name>").receive` method of the Webots Javascript API.
+The `wb_robot_window_send` and `wb_robot_wwi_send_text` functions allow a robot controller to send a message to a JavaScript function running in the HTML robot window.
+The message is received using the `webots.window("<robot window name>").receive` method of the Webots JavaScript API.
 
 > **note** [Java, Python, MATLAB, ROS]: `wb_robot_wwi_receive` and `wb_robot_window_send` functions are not available in the Java, Python, MATLAB, or ROS API.

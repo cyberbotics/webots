@@ -1,0 +1,36 @@
+#VRML_SIM R2020a utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# A formed concrete material.
+
+PROTO FormedConcrete [
+  field SFNode  textureTransform NULL   # Defines an optional 2d texture transform.
+  field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
+]
+{
+  PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/formed_concrete/formed_concrete_base_color.jpg"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/formed_concrete/formed_concrete_roughness.jpg"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/formed_concrete/formed_concrete_normal.jpg"
+      ]
+    }
+    IBLStrength IS IBLStrength
+    occlusionMap ImageTexture {
+      url [
+        "textures/formed_concrete/formed_concrete_occlusion.jpg"
+      ]
+    }
+    textureTransform IS textureTransform
+  }
+}

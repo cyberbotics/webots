@@ -22,6 +22,7 @@ Visible objects are constituted by a geometry and an appearance.
 The specified `Geometry` node is rendered with the specified appearance nodes applied.
 
 - The `castShadows` field allows the user to turn on (TRUE) or off (FALSE) shadows casted by this shape.
+However, shapes containing more than 65535 vertices will ignore this field and won't cast any shadow to save performance.
 
 - The `isPickable` field defines if the object is detected (TRUE) or not (FALSE) when clicking on the 3D scene.
 

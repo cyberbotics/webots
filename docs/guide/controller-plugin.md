@@ -63,8 +63,8 @@ The *window* field of the [Robot](../reference/robot.md) node specifies a robot 
 
 Robot windows are implemented in HTML and provide the following features:
 
-1. They rely on HTML layout and Javascript programming.
-2. They communicate directly with the robot controller using two Javascript functions: `webots.window("<robot window name>").receive` and `webots.window("<robot window name>").send`.
+1. They rely on HTML layout and JavaScript programming.
+2. They communicate directly with the robot controller using two JavaScript functions: `webots.window("<robot window name>").receive` and `webots.window("<robot window name>").send`.
 The equivalent controller functions are `wb_robot_wwi_receive_text` and `wb_robot_wwi_send_text`.
 3. They are web-ready and could be used to display robot windows on web pages.
 
