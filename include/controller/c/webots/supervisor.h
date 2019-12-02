@@ -169,6 +169,11 @@ void wb_supervisor_field_remove_mf(WbFieldRef field, int index);
 void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const char *filename);
 void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int position, const char *node_string);
 
+void wb_supervisor_field_remove_sf(WbFieldRef field);
+
+void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename);
+void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char *node_string);
+
 bool wb_supervisor_virtual_reality_headset_is_used();
 const double *wb_supervisor_virtual_reality_headset_get_position();
 const double *wb_supervisor_virtual_reality_headset_get_orientation();

@@ -2362,7 +2362,7 @@ void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const ch
   const bool isWbo = strcmp(dot, ".wbo") == 0;
   const bool isWrl = strcmp(dot, ".wrl") == 0;
   if (!isWbo && !isWrl) {
-    fprintf(stderr, "Error: wb_supervisor_field_import_mf_node() supports only '*.wbo' files.\n");
+    fprintf(stderr, "Error: wb_supervisor_field_import_mf_node() supports only '*.wbo' or '*.wrl' files.\n");
     return;
   }
 
@@ -2454,6 +2454,98 @@ void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int positi
 
 void wb_supervisor_field_remove_mf_node(WbFieldRef field, int position) {
   wb_supervisor_field_remove_mf(field, position);
+}
+
+void wb_supervisor_field_remove_sf(WbFieldRef field) {
+  if (field->count == 0) {
+    fprintf(stderr, "Error: wb_supervisor_field_remove_sf() called for an empty field.\n");
+    return;
+  }
+
+  if (!check_field(field, "wb_supervisor_field_remove_sf", WB_SF_NODE, true, NULL, false))
+    return;
+
+  field_operation(field, REMOVE, -1);
+  field->count = 0;
+}
+
+void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename) {
+  if (!robot_check_supervisor("wb_supervisor_field_import_sf_node"))
+    return;
+
+  if (!filename || !filename[0]) {
+    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() called with NULL or empty 'filename' argument.\n");
+    return;
+  }
+
+  // check extension
+  const char *dot = strrchr(filename, '.');
+  if (!dot || dot == filename) {
+    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() called with a 'filename' argument without extension.\n");
+    return;
+  }
+
+  if (strcmp(dot, ".wbo") == 0) {
+    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() supports only '*.wbo' files.\n");
+    return;
+  }
+
+  WbFieldStruct *f = (WbFieldStruct *)field;
+  if (f->type != WB_SF_NODE) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() called with wrong field type: %s.\n",
+              wb_supervisor_field_get_type_name(field));
+    return;
+  }
+
+  if (f->count > 0) {
+    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() called with a non-empty field.\n");
+    return;
+  }
+
+  robot_mutex_lock_step();
+  union WbFieldData data;
+  data.sf_string = supervisor_strdup(filename);
+  create_and_append_field_request(f, IMPORT, -1, data, false);
+  imported_nodes_number = -1;
+  wb_robot_flush_unlocked();
+  if (imported_nodes_number > 0)
+    f->count += imported_nodes_number;
+  robot_mutex_unlock_step();
+}
+
+void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char *node_string) {
+  if (!robot_check_supervisor("wb_supervisor_field_import_sf_node_from_string"))
+    return;
+
+  WbFieldStruct *f = (WbFieldStruct *)field;
+  if (f->type != WB_SF_NODE) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: wb_supervisor_field_import_sf_node_from_string() called with wrong field type: %s.\n",
+              wb_supervisor_field_get_type_name(field));
+    return;
+  }
+
+  if (!node_string || !node_string[0]) {
+    fprintf(stderr,
+            "Error: wb_supervisor_field_import_sf_node_from_string() called with NULL or empty 'node_string' argument.\n");
+    return;
+  }
+
+  if (f->count > 0) {
+    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() called with a non-empty field.\n");
+    return;
+  }
+
+  robot_mutex_lock_step();
+  union WbFieldData data;
+  data.sf_string = supervisor_strdup(node_string);
+  create_and_append_field_request(f, IMPORT_FROM_STRING, -1, data, false);
+  imported_nodes_number = -1;
+  wb_robot_flush_unlocked();
+  if (imported_nodes_number > 0)
+    f->count += imported_nodes_number;
+  robot_mutex_unlock_step();
 }
 
 const char *wb_supervisor_field_get_type_name(WbFieldRef field) {
