@@ -91,7 +91,7 @@ private slots:
   void saveWorld();
   void saveWorldAs(bool skipSimulationHasRunWarning = false);
   void reloadWorld();
-  void resetWorld(bool restartController = true);
+  void resetWorld(bool restartControllers = true);
   void importVrml();
   void exportVrml();
   void exportHtml();

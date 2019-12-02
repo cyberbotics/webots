@@ -1477,13 +1477,13 @@ void WbMainWindow::reloadWorld() {
     loadWorld(WbWorld::instance()->fileName(), true);
 }
 
-void WbMainWindow::resetWorld(bool restartController) {
+void WbMainWindow::resetWorld(bool restartControllers) {
   toggleAnimationAction(false);
   if (!WbWorld::instance())
     newWorld();
   else {
     mSimulationView->cancelSupervisorMovieRecording();
-    WbWorld::instance()->reset(restartController);
+    WbWorld::instance()->reset(restartControllers);
   }
   mSimulationView->view3D()->renderLater();
 }

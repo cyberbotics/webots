@@ -368,8 +368,8 @@ void WbApplication::worldReload() {
   emit worldReloadRequested();
 }
 
-void WbApplication::simulationReset(bool restartController) {
-  emit simulationResetRequested(restartController);
+void WbApplication::simulationReset(bool restartControllers) {
+  emit simulationResetRequested(restartControllers);
 }
 
 void WbApplication::startVideoCapture(const QString &fileName, int type, int width, int height, int quality, int acceleration,

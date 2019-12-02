@@ -139,7 +139,7 @@ public:
   void retrieveNodeNamesWithOptionalRendering(QStringList &centerOfMassNodeNames, QStringList &centerOfBuoyancyNodeNames,
                                               QStringList &supportPolygonNodeNames) const;
 
-  virtual void reset(bool restartController = true) {}
+  virtual void reset(bool restartControllers = true) {}
 
 signals:
   void modificationChanged(bool modified);
