@@ -376,7 +376,6 @@ void WbBuildEditor::make(const QString &target) {
   env.remove("C_SOURCES");
   env.remove("CXX_SOURCES");
   env.remove("USE_C_API");
-  env.remove("QT");
   mProcess->setProcessEnvironment(env);
 
   // disable buttons
