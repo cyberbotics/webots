@@ -35,7 +35,6 @@ class WbGuidedTour : public QDialog {
 public:
   // get or create the singleton WbGuidedTour and center on parent
   static WbGuidedTour *instance(QWidget *parent);
-  static bool isAvailable();
   static bool set(const QString &name);
 
 signals:

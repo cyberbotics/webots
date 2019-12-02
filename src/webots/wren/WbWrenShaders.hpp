@@ -45,7 +45,6 @@ namespace WbWrenShaders {
   WrShaderProgram *iblDiffuseIrradianceBakingShader();
   WrShaderProgram *iblSpecularIrradianceBakingShader();
   WrShaderProgram *iblBrdfBakingShader();
-  WrShaderProgram *iblEquirectangularShader();
   WrShaderProgram *lensDistortionShader();
   WrShaderProgram *lensFlareShader();
   WrShaderProgram *lightRepresentationShader();

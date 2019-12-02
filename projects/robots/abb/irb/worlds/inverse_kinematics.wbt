@@ -1,11 +1,13 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
   fieldOfView 0.85
-  orientation -0.19920914005649323 0.931739910309809 0.3036057609035462 2.044147209923416
+  orientation -0.13622657415385275 0.9621806663584627 0.23590397576193894 2.1272867344043545
   position 4.346352901316498 4.1279446383556495 3.283932116526418
+  follow "robot:IRB 4600/40:solid:solid:solid:solid:solid:solid:pen"
+  followType "Pan and Tilt Shot"
 }
 TexturedBackground {
   texture "empty_office"
@@ -47,6 +49,8 @@ Robot {
     DEF ARM Irb4600-40 {
       translation 1 0.74 0
       rotation 1 0 0 4.712388966
+      controller "inverse_kinematics"
+      supervisor TRUE
       handSlot [
         Pen {
           translation 0 0 0.02
@@ -85,13 +89,11 @@ Robot {
           ]
           leadSize 0.01
           maxDistance 0.05
-          write FALSE
         }
       ]
     }
   ]
-  controller "inverse_kinematics"
-  supervisor TRUE
+  controller ""
 }
 DEF TABLE_WITH_PAPER_SHEET Transform {
   translation 1.1 0 5.8

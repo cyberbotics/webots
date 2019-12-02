@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "An example of how to build your own Robot and the result of the motor_set_motor_force() command"

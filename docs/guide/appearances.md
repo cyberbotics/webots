@@ -959,7 +959,7 @@ Plaster {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## PorcelainChevronTiles
 
@@ -1022,7 +1022,7 @@ RedBricks {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## ReflectiveSurface
 
@@ -1092,7 +1092,7 @@ RoughConcrete {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## RoughOak
 
@@ -1125,7 +1125,7 @@ RoughOak {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## RoughPine
 
@@ -1158,7 +1158,7 @@ RoughPine {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## Roughcast
 
@@ -1191,7 +1191,7 @@ Roughcast {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## Rubber
 
@@ -1221,7 +1221,7 @@ Rubber {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## RustyMetal
 
@@ -1258,7 +1258,7 @@ RustyMetal {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## Sand
 
@@ -1321,7 +1321,7 @@ SandyGround {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## ScrewThread
 
@@ -1354,7 +1354,7 @@ ScrewThread {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## ShinyLeather
 
@@ -1387,7 +1387,7 @@ ShinyLeather {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## SlatePavement
 
@@ -1486,7 +1486,7 @@ SquarePavement {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## StonePavement
 
@@ -1522,7 +1522,7 @@ StonePavement {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## ThreadMetalPlate
 
@@ -1555,7 +1555,7 @@ ThreadMetalPlate {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## VarnishedPine
 
@@ -1588,7 +1588,7 @@ VarnishedPine {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## WireFence
 
@@ -1621,4 +1621,4 @@ WireFence {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.

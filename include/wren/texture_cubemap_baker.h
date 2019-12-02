@@ -14,8 +14,6 @@ WrTextureCubeMap *wr_texture_cubemap_bake_diffuse_irradiance(WrTextureCubeMap *i
 WrTextureCubeMap *wr_texture_cubemap_bake_specular_irradiance(WrTextureCubeMap *input_cubemap, WrShaderProgram *shader,
                                                               unsigned int size);
 WrTextureRtt *wr_texture_cubemap_bake_brdf(WrShaderProgram *shader, unsigned int size);
-WrTextureCubeMap *wr_texture_cubemap_bake_equirectangular_to_cube(WrTexture2d *equirectangular_map, WrShaderProgram *shader,
-                                                                  unsigned int size);
 
 #ifdef __cplusplus
 }

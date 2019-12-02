@@ -46,6 +46,7 @@ public:
   SingleValueSensor *groundSensor(int at) const { return mGroundSensors[at]; }
   SingleValueSensor *positionSensor(int at) const { return mPositionSensors[at]; }
   TripleValuesSensor *accelerometer() const { return mAccelerometer; }
+  SingleValueSensor *tofSensor() const { return mTofSensor; }
 
   void apply(int simulationTime);
 
@@ -68,6 +69,7 @@ private:
   SingleValueSensor *mGroundSensors[3];
   SingleValueSensor *mPositionSensors[2];
   TripleValuesSensor *mAccelerometer;
+  SingleValueSensor *mTofSensor;
 };
 
 #endif

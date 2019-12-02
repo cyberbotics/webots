@@ -1,9 +1,9 @@
 {
-  "robotID": "n11", 
+  "robotID": "n10", 
   "name": "qrio", 
   "devices": [
     {
-      "transformID": "n16", 
+      "transformID": "n15", 
       "initialPosition": 0, 
       "name": "back_1", 
       "maxPosition": 0, 
@@ -13,7 +13,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n20", 
+      "transformID": "n19", 
       "initialPosition": 0, 
       "name": "back_2", 
       "maxPosition": 0, 
@@ -23,7 +23,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n65", 
+      "transformID": "n64", 
       "initialPosition": 0, 
       "name": "left_ankle_1", 
       "maxPosition": 0, 
@@ -33,7 +33,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n69", 
+      "transformID": "n68", 
       "initialPosition": 0, 
       "name": "left_ankle_2", 
       "maxPosition": 0, 
@@ -43,7 +43,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n211", 
+      "transformID": "n210", 
       "initialPosition": 0, 
       "name": "left_elbow", 
       "maxPosition": 0, 
@@ -53,7 +53,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n28", 
+      "transformID": "n27", 
       "initialPosition": 0, 
       "name": "left_hip_1", 
       "maxPosition": 0, 
@@ -63,7 +63,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n36", 
+      "transformID": "n35", 
       "initialPosition": 0, 
       "name": "left_hip_2", 
       "maxPosition": 0, 
@@ -73,7 +73,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n40", 
+      "transformID": "n39", 
       "initialPosition": 0, 
       "name": "left_hip_3", 
       "maxPosition": 0, 
@@ -83,7 +83,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n52", 
+      "transformID": "n51", 
       "initialPosition": 0, 
       "name": "left_knee", 
       "maxPosition": 0, 
@@ -93,7 +93,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n189", 
+      "transformID": "n188", 
       "initialPosition": 0, 
       "name": "left_shoulder_1", 
       "maxPosition": 0, 
@@ -103,7 +103,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n193", 
+      "transformID": "n192", 
       "initialPosition": 0, 
       "name": "left_shoulder_2", 
       "maxPosition": 0, 
@@ -113,7 +113,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n293", 
+      "transformID": "n292", 
       "initialPosition": 0, 
       "name": "neck", 
       "maxPosition": 0, 
@@ -123,7 +123,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n142", 
+      "transformID": "n141", 
       "initialPosition": 0, 
       "name": "right_ankle_1", 
       "maxPosition": 0, 
@@ -133,7 +133,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n146", 
+      "transformID": "n145", 
       "initialPosition": 0, 
       "name": "right_ankle_2", 
       "maxPosition": 0, 
@@ -143,7 +143,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n263", 
+      "transformID": "n262", 
       "initialPosition": 0, 
       "name": "right_elbow", 
       "maxPosition": 0, 
@@ -153,7 +153,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n105", 
+      "transformID": "n104", 
       "initialPosition": 0, 
       "name": "right_hip_1", 
       "maxPosition": 0, 
@@ -163,7 +163,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n113", 
+      "transformID": "n112", 
       "initialPosition": 0, 
       "name": "right_hip_2", 
       "maxPosition": 0, 
@@ -173,7 +173,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n117", 
+      "transformID": "n116", 
       "initialPosition": 0, 
       "name": "right_hip_3", 
       "maxPosition": 0, 
@@ -183,7 +183,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n129", 
+      "transformID": "n128", 
       "initialPosition": 0, 
       "name": "right_knee", 
       "maxPosition": 0, 
@@ -193,7 +193,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n241", 
+      "transformID": "n240", 
       "initialPosition": 0, 
       "name": "right_shoulder_1", 
       "maxPosition": 0, 
@@ -203,7 +203,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n245", 
+      "transformID": "n244", 
       "initialPosition": 0, 
       "name": "right_shoulder_2", 
       "maxPosition": 0, 
@@ -213,10 +213,10 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n304", 
+      "transformID": "n303", 
       "name": "front eye", 
       "ledPBRAppearanceIDs": [
-        "n306"
+        "n305"
       ], 
       "ledColors": [
         "0 1 0"
@@ -225,10 +225,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n323", 
+      "transformID": "n322", 
       "name": "led", 
       "ledPBRAppearanceIDs": [
-        "n325"
+        "n324"
       ], 
       "ledColors": [
         "0 1 0"
@@ -237,10 +237,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n294", 
+      "transformID": "n293", 
       "name": "left eye", 
       "ledPBRAppearanceIDs": [
-        "n296"
+        "n295"
       ], 
       "ledColors": [
         "0 1 0"
@@ -249,10 +249,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n299", 
+      "transformID": "n298", 
       "name": "right eye", 
       "ledPBRAppearanceIDs": [
-        "n301"
+        "n300"
       ], 
       "ledColors": [
         "0 1 0"

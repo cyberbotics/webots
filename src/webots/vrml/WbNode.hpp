@@ -88,6 +88,7 @@ public:
   // node info found in the comments (#) of the .wrl file
   // or .proto file if this node is a proto instance
   const QString &info() const;
+  QStringList documentationBookAndPage(bool isRobot) const;
 
   // hierarchy
   void setParent(WbNode *parent) { mParent = parent; }
