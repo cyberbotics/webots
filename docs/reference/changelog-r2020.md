@@ -30,7 +30,6 @@ Released on XXX YYth, 2019.
   - New Samples
     - Added a `complete_apartment` world.
   - Cleanup
-    - Dropped deprecated native Qt robot windows.
+    - Drop support of native Qt robot windows:
       - Dropped the documentation.
-      - Dropped BotStudio and the beginner and novice curriculum worlds based on it.
       - Dropped the `samples/howto/gui_tracker.wbt` simulation.

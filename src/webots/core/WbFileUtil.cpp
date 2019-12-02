@@ -187,6 +187,7 @@ const QString &WbFileUtil::extension(FileType t) {
   static QString jarExtension = ".jar";
   static QString pythonExtension = ".py";
   static QString matlabExtension = ".m";
+  static QString botstudioExtension = ".bsg";
   static QString textExtension = ".txt";
   switch (t) {
     case WbFileUtil::EXECUTABLE:
@@ -199,6 +200,8 @@ const QString &WbFileUtil::extension(FileType t) {
       return pythonExtension;
     case WbFileUtil::MATLAB:
       return matlabExtension;
+    case WbFileUtil::BOTSTUDIO:
+      return botstudioExtension;
     case WbFileUtil::TEXT:
       return textExtension;
     case WbFileUtil::UNKNOWN:

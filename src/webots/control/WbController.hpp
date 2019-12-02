@@ -116,6 +116,7 @@ private:
   void startJava(bool jar = false);
   void startPython();
   void startMatlab();
+  void startBotstudio();
   void copyBinaryAndDependencies(const QString &filename);
   void appendMessageToBuffer(const QString &message, QString *buffer);
   void flushBuffer(QString *buffer);

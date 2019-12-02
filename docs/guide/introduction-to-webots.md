@@ -30,6 +30,7 @@ Many mobile robotics projects have relied on Webots for years in the following a
 You will need a minimal amount of technical knowledge to develop your own simulations:
 
 - A basic knowledge of the C, C++, Java, Python or MATLAB programming language is necessary to program your own robot controllers.
+However, even if you don't know these languages, you can still program the e-puck and Hemisson robots using a simple graphical programming language called BotStudio.
 - If you don't want to use existing robot models provided within Webots and would like to create your own robot models, or add special objects in the simulated environments, you will need a basic knowledge of 3D computer graphics and VRML97 description language.
 That will allow you to create 3D models in Webots or import them from 3D modeling software.
 

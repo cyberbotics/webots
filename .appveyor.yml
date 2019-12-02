@@ -13,7 +13,7 @@ install:
   - pacman --noconfirm -S mingw-w64-x86_64-cppcheck
   - pip install -r %APPVEYOR_BUILD_FOLDER%\\tests\\sources\\requirements.txt
   - pip install -r %APPVEYOR_BUILD_FOLDER%\\docs\\tests\\requirements.txt
-  - copy %APPVEYOR_BUILD_FOLDER%\\dependencies\\.clang-format-9 %APPVEYOR_BUILD_FOLDER%\\.clang-format
+  - copy %APPVEYOR_BUILD_FOLDER%\\dependencies\\.clang-format-6 %APPVEYOR_BUILD_FOLDER%\\.clang-format
 
 build: off
 

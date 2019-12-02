@@ -1,0 +1,35 @@
+/* XPM */
+static const char *copy_button_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"24 24 5 1",
+"  c Gray0",
+". c Green",
+"X c #989898",
+"o c Gray100",
+"O c None",
+/* pixels */
+"OOOOOOOOOOOOOOOOOOOOOOOO",
+"OOOOOOOOOOOOOOOOOOOOOOOO",
+"OOOOOOOOOOOOOOOOOOOOOOOO",
+"OOOOOOOOOOOOOOOOOOOOOOOO",
+"OOOOOOOOOOOOOOOOOOOOOOOO",
+"OOOO          OOOOOOOOOO",
+"OOOO oooooooo XOOOOOOOOO",
+"OOOO o             OOOOO",
+"OOOO oooo oooooooo OOOOO",
+"OOOO o    o      o XOOOO",
+"OOOO oooo oooooooo XOOOO",
+"OOOO o    o      o XOOOO",
+"OOOO oooo oooooooo XOOOO",
+"OOOO o  o o      o XOOOO",
+"OOOO oooo oooooooo XOOOO",
+"OOOO      o  ooooo XOOOO",
+"OOOOOXXXX oooooooo XOOOO",
+"OOOOOOOOO          XOOOO",
+"OOOOOOOOOOOXXXXXXXXXOOOO",
+"OOOOOOOOOOOOOOOOOOOOOOOO",
+"OOOOOOOOOOOOOOOOOOOOOOOO",
+"OOOOOOOOOOOOOOOOOOOOOOOO",
+"OOOOOOOOOOOOOOOOOOOOOOOO",
+"OOOOOOOOOOOOOOOOOOOOOOOO"
+};
