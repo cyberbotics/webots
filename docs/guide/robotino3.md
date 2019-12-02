@@ -14,22 +14,23 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 Robotino3 {
-  SFVec3f     translation            0 0 0
-  SFRotation  rotation               1 0 0 -1.5708
-  SFString    name                   "Robotino 3"
-  SFString    controller             "robotino3"
-  SFString    controllerArgs         ""
-  SFString    customData             ""
-  SFBool      supervisor             FALSE
-  SFBool      synchronization        TRUE
-  SFBool      selfCollision          FALSE   # Enables/disables the detection of collisions within the robot.
-  SFString    model                  "Festo - Robotino 3"
-  MFNode      bodyExtension          []
-  MFNode      cameraExtension        []
-  MFNode      objectExtension        []
-  MFNode      lidarTopExtension      []
-  MFNode      lidarMiddleExtension   []
-  MFNode      lidarBottomExtension   []
+  SFVec3f     translation                   0 0 0
+  SFRotation  rotation                      1 0 0 -1.5708
+  SFString    name                          "Robotino 3"
+  SFString    model                         "Festo - Robotino 3"
+  SFString    controller                    "robotino3"
+  SFString    controllerArgs                ""
+  SFString    customData                    ""
+  SFBool      supervisor                    FALSE
+  SFBool      synchronization               TRUE
+  SFBool      selfCollision                 FALSE   # Enables/disables the detection of collisions within the robot.
+  MFNode      bodyExtension                 []
+  MFNode      cameraExtension               []
+  MFNode      objectExtension               []
+  MFNode      lidarTopExtension             []
+  MFNode      lidarMiddleExtension          []
+  MFNode      lidarBottomExtension          []
+  SFString{"SharpGP2D120", "SharpGP2Y0A"}   InfraredSensorModel    "SharpGP2D120"
 }
 ```
 
@@ -43,6 +44,8 @@ Robotino3 {
 - `lidarTopExtension`: Extends the robot with a lidar at the robot's top.
 - `lidarMiddleExtension`: Extends the robot with a lidar at the robot's middle.
 - `lidarBottomExtension`: Extends the robot with a lidar at the robot's bottom.
+- `InfraredSensorModel`: Defines the infrared sensors used (such as the `GP2D120` from Sharp).
+
 
 ### Sample
 
