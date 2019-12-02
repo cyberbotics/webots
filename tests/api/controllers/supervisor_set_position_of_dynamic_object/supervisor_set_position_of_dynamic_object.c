@@ -7,8 +7,8 @@
 
 #include <stdlib.h>
 
-#define MAX_SPEED 6.28
-#define TIME_STEP 8
+#define MAX_SPEED 10.0
+#define TIME_STEP 16
 
 static WbDeviceTag left_motor;
 static WbDeviceTag right_motor;
@@ -75,7 +75,8 @@ int main(int argc, char **argv) {
   wb_supervisor_field_set_sf_rotation(rotation_field, rotation);
   wb_supervisor_node_reset_physics(robot_node);
 
-  wb_robot_step(TIME_STEP);
+  wb_robot_step(TIME_STEP); // Apply the reset
+  wb_robot_step(TIME_STEP); // Let one step the stabilize the robot.
 
   // Check GPS feedback is correct.
   const double *body_position = wb_gps_get_values(body_gps);
@@ -86,13 +87,13 @@ int main(int argc, char **argv) {
   const double left_wheel_expectations[] = {-0.045, 0.025, 0.0};
   const double right_wheel_expectations[] = {0.045, 0.025, 0.0};
 
-  ts_assert_doubles_in_delta(3, body_position, body_expectations, 0.001,
+  ts_assert_doubles_in_delta(3, body_position, body_expectations, 0.002,
                              "Body position is not at the expected location (found %f %f %f)", body_position[0],
                              body_position[1], body_position[2]);
-  ts_assert_doubles_in_delta(3, left_wheel_position, left_wheel_expectations, 0.001,
+  ts_assert_doubles_in_delta(3, left_wheel_position, left_wheel_expectations, 0.002,
                              "Left wheel position is not at the expected location (found %f %f %f)", left_wheel_position[0],
                              left_wheel_position[1], left_wheel_position[2]);
-  ts_assert_doubles_in_delta(3, right_wheel_position, right_wheel_expectations, 0.001,
+  ts_assert_doubles_in_delta(3, right_wheel_position, right_wheel_expectations, 0.002,
                              "Right wheel position is not at the expected location (found %f %f %f)", right_wheel_position[0],
                              right_wheel_position[1], right_wheel_position[2]);
 

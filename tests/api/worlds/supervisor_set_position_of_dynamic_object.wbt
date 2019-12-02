@@ -1,10 +1,18 @@
 #VRML_SIM R2019b utf8
 WorldInfo {
-  basicTimeStep 8
+  contactProperties [
+    ContactProperties {
+      material2 "ice"
+      coulombFriction [
+        0
+      ]
+    }
+  ]
+  basicTimeStep 16
 }
 Viewpoint {
-  orientation -0.121633011195789 -0.9557830133458179 -0.26773913047411163 2.3223028415432347
-  position -1.5274224439394557 1.1854605189388527 -1.2789805257879379
+  orientation -0.12163300473276177 -0.9557830154652709 -0.2677391258441581 2.32230289470441
+  position -1.527422443939456 1.1854605189388527 -1.2789805257879379
 }
 Background {
   skyColor [
@@ -57,8 +65,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation -0.04499999999999908 0.025 0
+        rotation 1 0 0 4.984670000000067
         children [
           GPS {
             name "left_wheel_gps"
@@ -103,8 +111,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0.04499999999999943 0.025 0
+        rotation 1 0 0 4.587350000000003
         children [
           GPS {
             name "right_wheel_gps"
@@ -115,6 +123,22 @@ Robot {
         boundingObject USE WHEEL
         physics USE PHYSICS_WHEEL
       }
+    }
+    Solid {
+      translation 0 0.006 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 1 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.05 0.012 0.1
+          }
+        }
+      ]
+      contactMaterial "ice"
     }
   ]
   boundingObject Transform {
