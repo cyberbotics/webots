@@ -86,7 +86,7 @@ signals:
   void requestScreenshot(const QString &fileName, int quality);
   void simulationQuitRequested(int exitStatus);
   void worldReloadRequested();
-  void simulationResetRequested();
+  void simulationResetRequested(bool restartController);
   void videoCaptureStarted(const QString &fileName, int type, int width, int height, int quality, int acceleration,
                            bool showCaption);
   void videoCaptureStopped(bool canceled);
