@@ -60,19 +60,20 @@ window.onload = function() {
       document.getElementById('ls5').innerHTML = values[13];
       document.getElementById('ls6').innerHTML = values[14];
       document.getElementById('ls7').innerHTML = values[15];
-      document.getElementById('left speed').innerHTML = values[16];
-      document.getElementById('right speed').innerHTML = values[17];
-      document.getElementById('left wheel position').innerHTML = values[18].replace(/_/g, ' ');
-      document.getElementById('right wheel position').innerHTML = values[19].replace(/_/g, ' ');
-      document.getElementById('accelerometer x').innerHTML = values[20];
-      document.getElementById('accelerometer y').innerHTML = values[21];
-      document.getElementById('accelerometer z').innerHTML = values[22];
-      document.getElementById('camera').src = values[23] + '#' + new Date().getTime();
-      if (values.length > 24) {
+      document.getElementById('tof').innerHTML = values[16];
+      document.getElementById('left speed').innerHTML = values[17];
+      document.getElementById('right speed').innerHTML = values[18];
+      document.getElementById('left wheel position').innerHTML = values[19].replace(/_/g, ' ');
+      document.getElementById('right wheel position').innerHTML = values[20].replace(/_/g, ' ');
+      document.getElementById('accelerometer x').innerHTML = values[21];
+      document.getElementById('accelerometer y').innerHTML = values[22];
+      document.getElementById('accelerometer z').innerHTML = values[23];
+      document.getElementById('camera').src = values[24] + '#' + new Date().getTime();
+      if (values.length > 25) {
         // optional ground sensors available
-        setGroundSensorValue('gs0', values[24]);
-        setGroundSensorValue('gs1', values[25]);
-        setGroundSensorValue('gs2', values[26]);
+        setGroundSensorValue('gs0', values[25]);
+        setGroundSensorValue('gs1', values[26]);
+        setGroundSensorValue('gs2', values[27]);
       }
     }
   };
@@ -218,11 +219,20 @@ function robotLayout(configure) {
     ipAddress.style.visibility = 'visible';
     var connect = document.getElementById('connect');
     connect.style.visibility = 'visible';
+
+    var image = document.getElementById('robot image');
+    image.src = 'images/e-puck2.png';
+
+    var tof = document.getElementById('tof');
+    tof.style.visibility = 'visible';
   } else { // first e-puck: use Bluetooth communication only
     var uploadButton = document.getElementById('upload hex');
     uploadButton.style.visibility = 'visible';
     var simulationButton = document.getElementById('simulation');
     simulationButton.style.visibility = 'visible';
+
+    var image = document.getElementById('robot image');
+    image.src = 'images/e-puck.png';
   }
 }
 

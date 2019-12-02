@@ -305,7 +305,7 @@ ifdef USE_CXX
   LINKER = $(CXX)
  endif
  ifndef EXCLUDE_CONTROLLERS
-  DYNAMIC_LIBRARIES += -L"$(WEBOTS_LIB_PATH)" -lController
+  DYNAMIC_LIBRARIES += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController
   ifdef USE_C_API
    INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
   else
@@ -328,7 +328,7 @@ else
  endif
  ifndef EXCLUDE_CONTROLLERS
   INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
-  DYNAMIC_LIBRARIES += -L"$(WEBOTS_LIB_PATH)" -lController
+  DYNAMIC_LIBRARIES += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController
  endif
 endif
 
@@ -361,7 +361,7 @@ endif
 
 ifeq ($(OSTYPE),darwin)
  ifdef WEBOTS_LIBRARY
-  LFLAGS += -Xlinker -rpath -Xlinker @loader_path/.. -install_name @rpath/lib/$(MAIN_TARGET)
+  LFLAGS += -Xlinker -rpath -Xlinker @loader_path/.. -install_name @rpath/lib/controller/$(MAIN_TARGET)
  else
   CALLING_MAKEFILE_DIR := $(shell dirname "$(realpath $(firstword $(MAKEFILE_LIST)))")
   WEBOTS_RELATIVE_PATH = $(call computeRelativePath,"$(WEBOTS_HOME_PATH)","$(CALLING_MAKEFILE_DIR)")
@@ -450,7 +450,7 @@ ifdef USE_QT
 
  ifeq ($(OSTYPE),linux)
   QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
-  QT_LIB_DIR = $(WEBOTS_HOME)/lib
+  QT_LIB_DIR = $(WEBOTS_HOME)/lib/webots
   MOC = "$(WEBOTS_HOME)/bin/qt/moc"
   MOC_PLATFORM_FLAGS = -D__linux__
 
@@ -570,9 +570,9 @@ ifdef MAIN_TARGET
 
 MAIN_TARGET_WINDOWS_LIB = $(MAIN_TARGET:.dll=.lib)
 ifdef WEBOTS_LIBRARY
-MAIN_TARGET_COPY = "$(subst $(space),\ ,$(WEBOTS_LIB_PATH))/$(MAIN_TARGET)"
+MAIN_TARGET_COPY = "$(subst $(space),\ ,$(WEBOTS_CONTROLLER_LIB_PATH))/$(MAIN_TARGET)"
 MAIN_TARGET_WINDOWS32_LIB = $(WEBOTS_HOME_PATH)/msys64/mingw32/lib/$(MAIN_TARGET_WINDOWS_LIB)
-MAIN_TARGET_WINDOWS64_LIB = $(WEBOTS_HOME_PATH)/msys64/mingw64/lib/$(MAIN_TARGET_WINDOWS_LIB)
+MAIN_TARGET_WINDOWS64_LIB = $(WEBOTS_CONTROLLER_LIB_PATH)/$(MAIN_TARGET_WINDOWS_LIB)
 else
 MAIN_TARGET_COPY = $(MAIN_TARGET)
 MAIN_TARGET_WINDOWS32_LIB = $(MAIN_TARGET:.dll=.lib)

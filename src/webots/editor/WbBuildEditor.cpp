@@ -421,7 +421,7 @@ QString WbBuildEditor::getJavaCommandLine(const QString &target) const {
     QString separator = ":";
 #endif
     QString CLASSPATH = qgetenv("CLASSPATH");
-    QString javaOptions = "-Xlint -classpath \"" + QDir::toNativeSeparators(WbStandardPaths::webotsLibPath() + "java/") +
+    QString javaOptions = "-Xlint -classpath \"" + QDir::toNativeSeparators(WbStandardPaths::controllerLibPath() + "java/") +
                           "Controller.jar" + separator;
     if (!CLASSPATH.isEmpty())
       javaOptions += CLASSPATH + separator;

@@ -21,7 +21,7 @@ The build rules are:
 
 ```
 libraries:
-- $(WEBOTS_HOME)/lib/$(SL_PREFIX)Controller$(SL_SUFFIX)
+- $(WEBOTS_HOME)/lib/controller/$(SL_PREFIX)Controller$(SL_SUFFIX)
 
 includes:
 - $(WEBOTS_HOME)/include/controller/c
@@ -33,8 +33,8 @@ includes:
 
 ```
 libraries:
-- $(WEBOTS_HOME)/lib/$(SL_PREFIX)Controller$(SL_SUFFIX)
-- $(WEBOTS_HOME)/lib/$(SL_PREFIX)CppController$(SL_SUFFIX)
+- $(WEBOTS_HOME)/lib/controller/$(SL_PREFIX)Controller$(SL_SUFFIX)
+- $(WEBOTS_HOME)/lib/controller/$(SL_PREFIX)CppController$(SL_SUFFIX)
 
 includes:
 - $(WEBOTS_HOME)/include/controller/cpp
@@ -46,7 +46,7 @@ includes:
 
 ```
 libraries:
-- $(WEBOTS_HOME)/lib/java/Controller.jar
+- $(WEBOTS_HOME)/lib/controller/java/Controller.jar
 ```
 
 %tab-end
@@ -162,13 +162,7 @@ In the `Property Pages`, in the `Configuration Properties`, enter following conf
         Linker > Input > Additional Dependencies:
           Controller.lib
         Linker > General > Additional Library Directories:
-          C:\Program Files\Webots\msys64\mingw64\lib\
-
-    Note that with old versions of Visual Studio, the default target is a 32-bit binary.
-    In case you are compiling the controller as a 32-bit binary, you will need to link it with the 32-bit version of the Controller library instead:
-
-        Linker > General > Additional Library Directories:
-          C:\Program Files\Webots\msys64\mingw32\lib\
+          C:\Program Files\Webots\lib\controller
 
 5. If you want to use the C API, you should skip step 5 and go directly to step 6.
 If you want to use the C++ API follow these instructions:
@@ -265,11 +259,7 @@ file(GLOB CPP_SOURCES *.cpp)
 set(SOURCES ${C_SOURCES} ${CPP_SOURCES})
 
 # Link with the Webots controller library.
-IF (WIN32)
-  link_directories($ENV{WEBOTS_HOME}/msys64/mingw64/bin)
-ELSE()
-  link_directories($ENV{WEBOTS_HOME}/lib)
-ENDIF()
+link_directories($ENV{WEBOTS_HOME}/lib/controller)
 set (LIBRARIES ${CMAKE_SHARED_LIBRARY_PREFIX}Controller${CMAKE_SHARED_LIBRARY_SUFFIX} ${CMAKE_SHARED_LIBRARY_PREFIX}CppController${CMAKE_SHARED_LIBRARY_SUFFIX})
 include_directories($ENV{WEBOTS_HOME}/include/controller/c $ENV{WEBOTS_HOME}/include/controller/cpp)
 
@@ -324,17 +314,13 @@ CONFIG -= qt
 
 # Link with the Webots controller library.
 INCLUDEPATH += $$WEBOTS_HOME_PATH/include/controller/c $$WEBOTS_HOME_PATH/include/controller/cpp
+LIBS += -L$$WEBOTS_HOME_PATH/lib/controller -lController -lCppController
 win32 {
   CONFIG += console
-  LIBS += -L$$WEBOTS_HOME_PATH/msys64/mingw64/bin -lController -lCppController
-}
-unix {
-  LIBS += -L$$WEBOTS_HOME_PATH/lib -lController -lCppController
 }
 macx {
   CONFIG -= app_bundle
   CONFIG += sdk_no_version_check
-  LIBS += -L$$WEBOTS_HOME_PATH/lib -lController -lCppController
 }
 ```
 
@@ -360,7 +346,7 @@ As an example, the `driver` sample controller is used here.
 
 In order to use the Webots Python API, it should be added to the project.
 This can be done from the `File` / `Settings` menu.
-In the `Settings` window, select the `Project` / `Project Structure` tab, then, the `Add Content Root` button can be used to add a new folder to the path, select the `WEBOTS_HOME/lib/python37` folder (or any other Python version).
+In the `Settings` window, select the `Project` / `Project Structure` tab, then, the `Add Content Root` button can be used to add a new folder to the path, select the `WEBOTS_HOME/lib/controller/python37` folder (or any other Python version).
 
 %figure "Addition of the Webots controller library"
 
@@ -370,7 +356,7 @@ In the `Settings` window, select the `Project` / `Project Structure` tab, then, 
 
 The Webots Python API depends on the Webots CPP API, therefore, the path need to be modifed to include the Webots `lib` directory.
 This can be done from the `Run` / `Edit Configurations` menu.
-In the `Run Configurations` windows, press the `+` button and then select `Python`, then set the `Script path` to point to your python file and in the `Environment variables` define the path variable (i.e. `PATH` on Windows, `LD_LIBRARY_PATH` on Linux or `DYLD_LIBRARY_PATH` on macOS) to point to `WEBOTS_HOME/lib` (or `WEBOTS_HOME\msys64\mingw64\bin` on Windows).
+In the `Run Configurations` windows, press the `+` button and then select `Python`, then set the `Script path` to point to your python file and in the `Environment variables` define the path variable (i.e. `PATH` on Windows, `LD_LIBRARY_PATH` on Linux or `DYLD_LIBRARY_PATH` on macOS) to point to `WEBOTS_HOME/lib/controller`.
 
 %figure "Addition of the Webots libraries to the path"
 

@@ -40,7 +40,7 @@ Generic Webots environment variables needed for all the controller languages:
 | Environment Variable     | Typical Value                                    |
 |--------------------------|--------------------------------------------------|
 | WEBOTS\_HOME             | `/usr/local/webots`                              |
-| LD\_LIBRARY\_PATH        | add `${WEBOTS_HOME}/lib`                         |
+| LD\_LIBRARY\_PATH        | add `${WEBOTS_HOME}/lib/controller`              |
 
 %tab-end
 
@@ -49,7 +49,7 @@ Generic Webots environment variables needed for all the controller languages:
 | Environment Variable     | Typical Value                                    |
 |--------------------------|--------------------------------------------------|
 | WEBOTS\_HOME             | `/Applications/Webots`                           |
-| DYLD\_LIBRARY\_PATH      | add `${WEBOTS_HOME}/lib`                         |
+| DYLD\_LIBRARY\_PATH      | add `${WEBOTS_HOME}/lib/controller`              |
 
 %tab-end
 
@@ -64,8 +64,8 @@ Specific setup depending on the controller language:
 
 If a C/C++ controller is launched from a Terminal running the bash shell, instead of setting the `WEBOTS_HOME` and `PATH` variables, it is sufficient to issue the following command to set the path to the Controller library before launching the controller:
 - On Windows/MSYS2, type: `export PATH=${PATH}:/C/Program\ Files/Webots/msys64/mingw64/bin`.
-- On Linux, type `export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/webots/lib`.
-- On macOS, type `export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:/Applications/Webots/lib`.
+- On Linux, type `export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/webots/lib/controller`.
+- On macOS, type `export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:/Applications/Webots/lib/controller`.
 
 %tab-end
 
@@ -73,22 +73,22 @@ If a C/C++ controller is launched from a Terminal running the bash shell, instea
 
 If a C/C++ controller is launched from a Terminal running the bash shell, instead of setting the `WEBOTS_HOME` and `PATH` variables, it is sufficient to issue the following command to set the path to the Controller library before launching the controller:
 - On Windows/MSYS2, type: `export PATH=${PATH}:/C/Program\ Files/Webots/msys64/mingw64/bin`.
-- On Linux, type `export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/webots/lib`.
-- On macOS, type `export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:/Applications/Webots/lib`.
+- On Linux, type `export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/webots/lib/controller`.
+- On macOS, type `export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:/Applications/Webots/lib/controller`.
 
 %tab-end
 
 %tab "Python"
 | Version      | Environment Variable     | Typical Value                                    |
 |--------------|--------------------------|--------------------------------------------------|
-| Python 2.7   | PYTHONPATH               | add `${WEBOTS_HOME}/lib/python27`                |
-| Python 3.X   | PYTHONPATH               | add `${WEBOTS_HOME}/lib/python3X`                |
+| Python 2.7   | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python27`     |
+| Python 3.X   | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python3X`     |
 | all          | PYTHONIOENCODING         | `UTF-8`                                          |
 %tab-end
 
 %tab "Java"
 
-Add the `-Djava.library.path=${WEBOTS_HOME}/lib/java` option to the `java` command line launching the Java controller.
+Add the `-Djava.library.path=${WEBOTS_HOME}/lib/controller/java` option to the `java` command line launching the Java controller.
 
 %tab-end
 

@@ -42,8 +42,8 @@ class HelpWindow extends DialogWindow { // eslint-disable-line no-unused-vars
     };
     var currentUrl = DefaultUrl.currentScriptUrl();
     var query = '';
-    if (webots.showFast)
-      query = '?fast=true';
+    if (webots.showRun)
+      query = '?run=true';
     $.ajax({
       url: currentUrl + 'help.php' + query,
       success: (data) => {

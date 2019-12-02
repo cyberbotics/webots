@@ -1,9 +1,9 @@
 {
-  "robotID": "n11", 
+  "robotID": "n10", 
   "name": "bioloid", 
   "devices": [
     {
-      "transformID": "n413", 
+      "transformID": "n412", 
       "initialPosition": 0, 
       "name": "back_left_1", 
       "maxPosition": 0, 
@@ -13,7 +13,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n423", 
+      "transformID": "n422", 
       "initialPosition": 0, 
       "name": "back_left_2", 
       "maxPosition": 0, 
@@ -23,7 +23,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n449", 
+      "transformID": "n448", 
       "initialPosition": 0, 
       "name": "back_left_3", 
       "maxPosition": 0, 
@@ -33,7 +33,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n493", 
+      "transformID": "n492", 
       "initialPosition": 0, 
       "name": "back_right_1", 
       "maxPosition": 0, 
@@ -43,7 +43,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n503", 
+      "transformID": "n502", 
       "initialPosition": 3.14159, 
       "name": "back_right_2", 
       "maxPosition": 0, 
@@ -53,7 +53,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n529", 
+      "transformID": "n528", 
       "initialPosition": 0, 
       "name": "back_right_3", 
       "maxPosition": 0, 
@@ -63,7 +63,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n43", 
+      "transformID": "n42", 
       "initialPosition": 0, 
       "name": "front_left_1", 
       "maxPosition": 0, 
@@ -73,7 +73,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n53", 
+      "transformID": "n52", 
       "initialPosition": 0, 
       "name": "front_left_2", 
       "maxPosition": 0, 
@@ -83,7 +83,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n79", 
+      "transformID": "n78", 
       "initialPosition": 0, 
       "name": "front_left_3", 
       "maxPosition": 0, 
@@ -93,7 +93,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n269", 
+      "transformID": "n268", 
       "initialPosition": 0, 
       "name": "front_right_1", 
       "maxPosition": 0, 
@@ -103,7 +103,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n279", 
+      "transformID": "n278", 
       "initialPosition": 3.14159, 
       "name": "front_right_2", 
       "maxPosition": 0, 
@@ -113,7 +113,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n305", 
+      "transformID": "n304", 
       "initialPosition": 0, 
       "name": "front_right_3", 
       "maxPosition": 0, 
@@ -123,7 +123,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n193", 
+      "transformID": "n192", 
       "initialPosition": 0, 
       "name": "head", 
       "maxPosition": 0, 
@@ -133,7 +133,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n138", 
+      "transformID": "n137", 
       "initialPosition": 0, 
       "name": "neck_1", 
       "maxPosition": 1.5708, 
@@ -143,7 +143,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n148", 
+      "transformID": "n147", 
       "initialPosition": 0, 
       "name": "neck_2", 
       "maxPosition": 0, 
@@ -153,7 +153,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n368", 
+      "transformID": "n367", 
       "initialPosition": 0, 
       "name": "pelvis", 
       "maxPosition": 0, 
@@ -163,112 +163,112 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n413", 
+      "transformID": "n412", 
       "type": "PositionSensor", 
       "name": "back_left_1_sensor"
     }, 
     {
-      "transformID": "n423", 
+      "transformID": "n422", 
       "type": "PositionSensor", 
       "name": "back_left_2_sensor"
     }, 
     {
-      "transformID": "n449", 
+      "transformID": "n448", 
       "type": "PositionSensor", 
       "name": "back_left_3_sensor"
     }, 
     {
-      "transformID": "n493", 
+      "transformID": "n492", 
       "type": "PositionSensor", 
       "name": "back_right_1_sensor"
     }, 
     {
-      "transformID": "n503", 
+      "transformID": "n502", 
       "type": "PositionSensor", 
       "name": "back_right_2_sensor"
     }, 
     {
-      "transformID": "n529", 
+      "transformID": "n528", 
       "type": "PositionSensor", 
       "name": "back_right_3_sensor"
     }, 
     {
-      "transformID": "n194", 
+      "transformID": "n193", 
       "type": "Camera", 
       "name": "camera"
     }, 
     {
-      "transformID": "n199", 
+      "transformID": "n198", 
       "type": "DistanceSensor", 
       "name": "ds0"
     }, 
     {
-      "transformID": "n203", 
+      "transformID": "n202", 
       "type": "DistanceSensor", 
       "name": "ds1"
     }, 
     {
-      "transformID": "n207", 
+      "transformID": "n206", 
       "type": "DistanceSensor", 
       "name": "ds2"
     }, 
     {
-      "transformID": "n11", 
+      "transformID": "n10", 
       "type": "Emitter", 
       "name": "emitter"
     }, 
     {
-      "transformID": "n43", 
+      "transformID": "n42", 
       "type": "PositionSensor", 
       "name": "front_left_1_sensor"
     }, 
     {
-      "transformID": "n53", 
+      "transformID": "n52", 
       "type": "PositionSensor", 
       "name": "front_left_2_sensor"
     }, 
     {
-      "transformID": "n79", 
+      "transformID": "n78", 
       "type": "PositionSensor", 
       "name": "front_left_3_sensor"
     }, 
     {
-      "transformID": "n269", 
+      "transformID": "n268", 
       "type": "PositionSensor", 
       "name": "front_right_1_sensor"
     }, 
     {
-      "transformID": "n279", 
+      "transformID": "n278", 
       "type": "PositionSensor", 
       "name": "front_right_2_sensor"
     }, 
     {
-      "transformID": "n305", 
+      "transformID": "n304", 
       "type": "PositionSensor", 
       "name": "front_right_3_sensor"
     }, 
     {
-      "transformID": "n11", 
+      "transformID": "n10", 
       "type": "GPS", 
       "name": "gps"
     }, 
     {
-      "transformID": "n193", 
+      "transformID": "n192", 
       "type": "PositionSensor", 
       "name": "head_sensor"
     }, 
     {
-      "transformID": "n138", 
+      "transformID": "n137", 
       "type": "PositionSensor", 
       "name": "neck_1_sensor"
     }, 
     {
-      "transformID": "n148", 
+      "transformID": "n147", 
       "type": "PositionSensor", 
       "name": "neck_2_sensor"
     }, 
     {
-      "transformID": "n368", 
+      "transformID": "n367", 
       "type": "PositionSensor", 
       "name": "pelvis_sensor"
     }

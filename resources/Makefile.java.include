@@ -75,15 +75,15 @@ endif
 # set the Java compiler options
 ifneq ($(strip $(CLASSPATH)),)
   ifeq ($(OSTYPE),windows)
-   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar;$(CLASSPATH);." -target 1.8 -source 1.8
+   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_CONTROLLER_LIB_PATH)/java/Controller.jar;$(CLASSPATH);." -target 1.8 -source 1.8
   else
-   JAVAC_OPTS += -Xlint:-options -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar:$(CLASSPATH):." -target 1.8 -source 1.8
+   JAVAC_OPTS += -Xlint:-options -Xlint -classpath "$(WEBOTS_CONTROLLER_LIB_PATH)/java/Controller.jar:$(CLASSPATH):." -target 1.8 -source 1.8
   endif
  else
   ifeq ($(OSTYPE),windows)
-   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar;." -target 1.8 -source 1.8
+   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_CONTROLLER_LIB_PATH)/java/Controller.jar;." -target 1.8 -source 1.8
   else
-   JAVAC_OPTS += -Xlint:-options -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar":. -target 1.8 -source 1.8
+   JAVAC_OPTS += -Xlint:-options -Xlint -classpath "$(WEBOTS_CONTROLLER_LIB_PATH)/java/Controller.jar":. -target 1.8 -source 1.8
   endif
 endif
 
@@ -96,7 +96,7 @@ endif
 ifeq ($(JAVA_HOME),)
 release debug profile:
 	@echo -e "# \033[0;33mJava not installed or 'JAVA_HOME' not set, skipping Java API\033[0m"
-else ifeq (,$(wildcard $(WEBOTS_HOME_PATH)/lib/java))
+else ifeq (,$(wildcard $(WEBOTS_HOME_PATH)/lib/controller/java))
 release debug profile:
 	@echo -e "# \033[0;33mJava library not compiled, skipping Java API\033[0m"
 else

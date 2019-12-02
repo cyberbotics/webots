@@ -1,6 +1,7 @@
+/* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
 $('#infotabs').tabs();
 
-var benchmarkName = "Maze Runner";
+var benchmarkName = 'Maze Runner';
 var timeString;
 var time;
 
@@ -9,20 +10,15 @@ webots.window('maze_runner').receive = function(message, robot) {
     time = parseFloat(message.substr(5));
     timeString = parseSecondsIntoReadableTime(time);
     $('#time-display').html(timeString);
-
-  } else if (message == 'stop') {
-    if (typeof sendBenchmarkRecord === "undefined" || !sendBenchmarkRecord(robot, this, benchmarkName, -time, metricToString)) {
-      $('#time-display').css('color','red');
-    }
-
+  } else if (message === 'stop') {
+    if (typeof sendBenchmarkRecord === 'undefined' || !sendBenchmarkRecord(robot, this, benchmarkName, -time, metricToString))
+      $('#time-display').css('color', 'red');
   } else if (message.startsWith('record:OK:')) {
-    $('#time-display').css('font-weight','bold');
+    $('#time-display').css('font-weight', 'bold');
     showBenchmarkRecord(message, benchmarkName, metricToString);
-
   } else if (message.startsWith('record:Error:')) {
-    $('#time-display').css('color','red');
+    $('#time-display').css('color', 'red');
     showBenchmarkError(message, benchmarkName);
-
   } else
     console.log("Received unknown message for robot '" + robot + "': '" + message + "'");
 
@@ -30,18 +26,16 @@ webots.window('maze_runner').receive = function(message, robot) {
     return parseSecondsIntoReadableTime(-parseFloat(s));
   }
 
-  function parseSecondsIntoReadableTime(s) {
-    var hours = s / 3600;
-    var absoluteHours = Math.floor(hours);
-    var minutes = (hours - absoluteHours) * 60;
+  function parseSecondsIntoReadableTime(timeInSeconds) {
+    var minutes = timeInSeconds / 60;
     var absoluteMinutes = Math.floor(minutes);
-    var m = absoluteMinutes > 9 ? absoluteMinutes : '0' +  absoluteMinutes;
+    var m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
     var seconds = (minutes - absoluteMinutes) * 60;
     var absoluteSeconds = Math.floor(seconds);
     var s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
-    var cs = Math.round((seconds - absoluteSeconds) * 100);
+    var cs = Math.floor((seconds - absoluteSeconds) * 100);
     if (cs < 10)
       cs = '0' + cs;
     return m + ':' + s + ':' + cs;
   }
-}
+};

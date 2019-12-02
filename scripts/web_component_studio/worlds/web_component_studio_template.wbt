@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
 }
 DEF VIEWPOINT Viewpoint {
@@ -6,10 +6,8 @@ DEF VIEWPOINT Viewpoint {
   position %VIEWPOINT_POSITION%
 }
 TexturedBackground {
-  texture "noon_cloudy_mountains"
 }
 TexturedBackgroundLight {
-  texture "noon_cloudy_mountains"
 }
 Solid {
   children [

@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "Uneven terrain demo using an ElevationGrid to model the terrain and a"
@@ -32,10 +32,9 @@ Viewpoint {
   follow "moose"
 }
 TexturedBackground {
-  texture "noon_cloudy_empty"
 }
 TexturedBackgroundLight {
-  texture "noon_cloudy_empty"
+  luminosity 0.8
 }
 DEF ELEVATION_GRID Solid {
   translation -25 0.01 -25

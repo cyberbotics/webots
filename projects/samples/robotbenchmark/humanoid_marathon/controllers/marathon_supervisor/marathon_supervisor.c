@@ -65,11 +65,16 @@ int main(int argc, char **argv) {
   // Wait for user credentials and show benchmark score in robot window
   while (wb_robot_step(TIME_STEP) != -1) {
     const char *message = wb_robot_wwi_receive_text();
-    if (message && strncmp(message, "record:", 7) == 0) {
-      robotbenchmark_record(message, "humanoid_marathon", distance);
-      break;
+    if (message) {
+      if (strncmp(message, "record:", 7) == 0) {
+        robotbenchmark_record(message, "humanoid_marathon", distance);
+        break;
+      } else if (strcmp(message, "exit") == 0)
+        break;
     }
   }
+
+  wb_supervisor_simulation_set_mode(WB_SUPERVISOR_SIMULATION_MODE_PAUSE);
 
   wb_robot_cleanup();
 

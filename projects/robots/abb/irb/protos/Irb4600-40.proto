@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/irb4600-40
@@ -6,14 +6,19 @@
 # It has a payload of 40kg.
 
 PROTO Irb4600-40 [
-  field SFVec3f    translation  0 0 0         # Is `Transform.translation`.
-  field SFRotation rotation     0 1 0 0       # Is `Transform.rotation`.
-  field SFString   name         "IRB 4600/40" # Is `Solid.name`.
-  field MFNode     handSlot     []            # Extends the arm with new nodes in the arm slot.
-  field SFColor    color        1 0.45 0      # Is `PBRAppearance.baseColor`.
+  field SFVec3f    translation     0 0 0                            # Is `Transform.translation`.
+  field SFRotation rotation        0 1 0 0                          # Is `Transform.rotation`.
+  field SFString   name            "IRB 4600/40"                    # Is `Solid.name`.
+  field SFString   controller      "pioneer3dx_collision_avoidance" # Is `Robot.controller`.
+  field SFString   controllerArgs  ""                               # Is `Robot.controllerArgs`.
+  field SFString   customData      ""                               # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE                            # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE                             # Is `Robot.synchronization`.
+  field SFColor    color           1 0.45 0                         # Is `PBRAppearance.baseColor`.
+  field MFNode     handSlot        []                               # Extends the arm with new nodes in the arm slot.
 ]
 {
-  Solid {
+  Robot {
     translation IS translation
     rotation IS rotation
     name IS name
@@ -390,5 +395,10 @@ PROTO Irb4600-40 [
     physics Physics {
       density 1500
     }
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
   }
 }

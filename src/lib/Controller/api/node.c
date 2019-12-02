@@ -50,8 +50,6 @@ const char *wb_node_get_name(WbNodeType t) {
       return "ContactProperties";
     case WB_NODE_COORDINATE:
       return "Coordinate";
-    case WB_NODE_CUBEMAP:
-      return "Cubemap";
     case WB_NODE_CYLINDER:
       return "Cylinder";
     case WB_NODE_DAMPING:
