@@ -62,7 +62,7 @@ endif
 
 ifeq ($(OSTYPE),linux)
  QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
- QT_LIB_DIR = $(WEBOTS_HOME)/lib
+ QT_LIB_DIR = $(WEBOTS_HOME)/lib/webots
  MOC = "$(WEBOTS_HOME)/bin/qt/moc"
  MOC_PLATFORM_FLAGS = -D__linux__
  DYNAMIC_LIBRARIES += -L"$(QT_LIB_DIR)" -lQt5Core -lQt5Gui -lQt5Widgets -lQt5Concurrent
@@ -89,6 +89,4 @@ $(BUILD_DIR)/%.moc.cpp: %.hpp
 	@echo "# moc-generating" $(notdir $<)
 	$(SILENT)$(MOC) $(MOC_PLATFORM_FLAGS) $(INCLUDE:-isystem:-I) $< -o $@
 
-$(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(OBJECTS) $(LINK_DEPENDENCIES)
-	@echo "# linking" $(notdir $@)
-	$(SILENT)$(LINKER) $(LFLAGS) $@ $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
+$(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(OBJECTS)

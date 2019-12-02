@@ -48,7 +48,7 @@ endif
 
 ifeq ($(OSTYPE),linux)
  QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
- QT_LIB_DIR = $(WEBOTS_HOME)/lib
+ QT_LIB_DIR = $(WEBOTS_HOME)/lib/webots
  DYNAMIC_LIBRARIES += -L"$(QT_LIB_DIR)" -lQt5Core
  INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore"
 endif
