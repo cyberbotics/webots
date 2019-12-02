@@ -144,10 +144,10 @@ SolidBox {
   }
 }
 SolidBox {
-  translation -6.9 2.5 -2.48
+  translation -6.9 2.5 -2.08
   rotation -0.5773502691896258 0.5773502691896258 -0.5773502691896258 2.094
   name "box(1)"
-  size 0.02 1.7 1.2
+  size 0.02 2.5 1.2
   appearance PBRAppearance {
     baseColor 0 0 0
     baseColorMap ImageTexture {
