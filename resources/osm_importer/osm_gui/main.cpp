@@ -19,7 +19,7 @@
 #include <string.h>
 
 int main(int argc, char *argv[]) {
-  QDir libDir(qgetenv("WEBOTS_HOME") + "/lib/qt/plugins");
+  QDir libDir(qgetenv("WEBOTS_HOME") + "/lib/webots/qt/plugins");
   QApplication::addLibraryPath(libDir.absolutePath()); // required for for loading libqxcb
   QApplication app(argc, argv);
   char scriptPath[512] = "";

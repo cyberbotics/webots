@@ -153,12 +153,33 @@ The `resolution` field specifies the number of points returned per layer per sca
 
 #### SICK LD-MRS
 
-The `SICK LD-MRS` is a 2 or 4 layers lidar with a range of 300 meters and a field of view of respectively 110 or 85 degrees.
+The [SICK LD-MRS](https://www.sick.com/us/en/detection-and-ranging-solutions/3d-lidar-sensors/ld-mrs/c/g91913) is a multi-layer lidar designed for harsh outdoor environments.
 
-The top and bottom layers are split horizontally with an angle of 2.4 degrees.
-Layer 0 corresponds to the bottom layer.
-First response values are corresponding to the device right.
-The frustum cone is shifted to the right by an offset angle of 7.5 degrees when 4 layers are set, and 5 degrees when 2 layers are set.
+The `SickLdMrs` PROTO contains a [Lidar](../reference/lidar.md) node which covers the main usual cases.
+Its reference name (to get it from the Webots API) matches directly with the `SickLdMrs.name` field.
+It has the following properties:
+
+- Its number of layers is 4 except for the `800001S01` type which is 8.
+- Its horizontal scanning range is 85°, shifted horizontally by 7,5°.
+- Its maximal range is 300 meters.
+- Each layer is separated vertically by 0.8°.
+
+In addition to this main [Lidar](../reference/lidar.md) node, the PROTO contains a second [Lidar](../reference/lidar.md) in order to model the overlapping long-range layers.
+This sensor reference name is the `SickLdMrs.name` field concatenated by the ` (long range)` string.
+In addition to the properties of the main lidar, it has the following properties:
+
+- Its horizontal scanning range is 110°, shifted horizontally by 5°.
+- Its number of layers is `SickLdMrs.measurementLayers` divided by 2.
+
+The internal [Lidars](../reference/lidar.md) are oriented as follows:
+
+- Layer 0 corresponds to the bottom layer.
+- First response values are corresponding to the device right.
+
+In comparison to the real sensor, the simulated model has the following limitations:
+
+- The scanning range resolution is constant over the entire scan.
+- The vertical azimuth is constant over the entire scan.
 
 %figure "SICK LD-MRS lidar"
 
@@ -171,19 +192,22 @@ SickLdMrs {
   SFVec3f    translation       0 0 0
   SFRotation rotation          0 1 0 0
   SFString   name              "Sick LD-MRS"
-  SFFloat    noise             0.3
-  SFInt32    numberOfLayers    4
-  SFFloat    angularResolution 0.008726646259972
+  SFString   type              "400001"
+  SFString   angularResolution "0.5 [deg]"
+  SFFloat    noise             0.001
   SFBool     physics           TRUE
 }
 ```
 
+The `type` field specifies the `SICK LD-MRS` type (cf. [specifications](https://www.sick.com/us/en/detection-and-ranging-solutions/3d-lidar-sensors/ld-mrs/c/g91913)).
+The value could be one of the following: `400001`, `400102`, `400001S01`, `400102S01` or `800001S01`.
+
 The `noise` field specifies the standard deviation of gaussian image noise in meters.
 
-The `numberOfLayers` field specifies the number of horizontal layers. It can be either 2 or 4.
-
 The `angularResolution` field specifies the vertical angular gap between two measurements.
-From the `SICK LD-MRS` specification, it can be either 0.125, 0.25 or 0.5 degrees (to be converted in radians).
+From the `SICK LD-MRS` specification, it can be either 0.5, 0.25 or 0.125 degrees.
+Internally, the `Lidar.horizontalResolution` is directly affected by this field.
+The value could be one of the following: `0.5 [deg]`, `0.25 [deg]` or `0.125 [deg]`.
 
 The `physics` field specifies if the sensor should be affected by physics (mass = 1 [kg]) or not.
 

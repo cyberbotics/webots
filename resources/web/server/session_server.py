@@ -177,7 +177,7 @@ def read_url(url, i):
         check_string = "Check it at " + protocol + config[u'server'] + ":" + str(config[u'port']) + "/monitor\n\n" + \
                        "-Simulation Server"
     try:
-        response = urlopen(url, timeout=1)
+        response = urlopen(url, timeout=10)
     except URLError:
         if simulation_server_loads[i] != 100:
             if u'administrator' in config:

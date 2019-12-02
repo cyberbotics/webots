@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "The Pioneer Robot has to follow the wall."
@@ -25,15 +25,6 @@ RectangleArena {
   translation 3 0 16
   floorSize 16 36
   wallHeight 0.5
-  wallAppearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/wall.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
 }
 DEF WALL LinkedWalls {
   translation 5 0.25 0

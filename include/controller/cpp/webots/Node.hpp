@@ -91,7 +91,6 @@ namespace webots {
       BALL_JOINT_PARAMETERS,
       CHARGER,
       CONTACT_PROPERTIES,
-      CUBEMAP,
       DAMPING,
       FLUID,
       FOCUS,

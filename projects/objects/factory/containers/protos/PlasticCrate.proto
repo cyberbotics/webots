@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -9,6 +9,7 @@ PROTO PlasticCrate [
   field SFRotation rotation    0 1 0 0
   field SFString   name        "plastic crate"
   field SFVec3f    size        0.6 0.6 0.6
+  field SFColor    color       0.9 0.2 0.2
   field SFFloat    mass        0
 ]
 {
@@ -29,7 +30,7 @@ PROTO PlasticCrate [
         children [
           Shape {
             appearance MattePaint {
-              baseColor 0.9 0.2 0.2
+              baseColor IS color
             }
             geometry IndexedFaceSet {
               coord Coordinate {

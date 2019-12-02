@@ -1,4 +1,20 @@
 #!/bin/bash
+
+# prepare for handling program termination
+kill_webots() {
+  kill -TERM "${webots_pid}" &> /dev/null
+}
+handle_termination() {
+  if [ "${webots_pid}" ]; then
+    kill_webots
+  else
+    term_kill_needed="yes"
+  fi
+}
+unset webots_pid
+unset term_kill_needed
+trap 'handle_termination' TERM INT
+
 # get the location of the Webots binary, even if defined into a relative symlinks
 webots_home="$(dirname "$(readlink -f "$0")")"
 
@@ -53,7 +69,7 @@ fi
 export WEBOTS_TMP_PATH="$TMPDIR/webots-$$/"
 
 # add the "lib" directory into LD_LIBRARY_PATH as the first entry
-export LD_LIBRARY_PATH="$webots_home/lib/":$TMP_LIB_DIR:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH="$webots_home/lib/webots/":$TMP_LIB_DIR:$LD_LIBRARY_PATH
 
 # execute the real Webots binary in a child process
 if command -v primusrun >/dev/null 2>&1; then
@@ -62,11 +78,15 @@ else
   "$webots_home/bin/webots-bin" "$@" &
 fi
 
+# wait for termination
 webots_pid=$!
+if [ "${term_kill_needed}" ]; then
+  kill_webots
+fi
+wait ${webots_pid}
+trap - TERM INT
+wait ${webots_pid}
 
-trap 'kill $webots_pid &> /dev/null' EXIT
-
-wait $webots_pid
 webots_return_code=$?
 
 # clean-up tmp folder and pipe files in case webots crashed without clean-up

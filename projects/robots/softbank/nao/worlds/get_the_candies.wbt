@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "NAO Challenge 2014-2015"
@@ -22,9 +22,24 @@ Viewpoint {
   position -2.21806 2.07599 0.541135
 }
 Background {
-  cubemap Cubemap {
-    textureBaseName "brown_floor"
-  }
+  backUrl [
+    "textures/cubic/brown_floor_side.png"
+  ]
+  bottomUrl [
+    "textures/cubic/brown_floor_bottom.png"
+  ]
+  frontUrl [
+    "textures/cubic/brown_floor_side.png"
+  ]
+  leftUrl [
+    "textures/cubic/brown_floor_side.png"
+  ]
+  rightUrl [
+    "textures/cubic/brown_floor_side.png"
+  ]
+  topUrl [
+    "textures/cubic/brown_floor_top.png"
+  ]
 }
 Solid {
   translation 0 0 -2

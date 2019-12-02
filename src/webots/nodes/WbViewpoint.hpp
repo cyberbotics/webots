@@ -20,6 +20,7 @@
 #include "WbQuaternion.hpp"
 #include "WbRotation.hpp"
 #include "WbSFBool.hpp"
+#include "WbSFString.hpp"
 
 struct WrCamera;
 struct WrTexture;
@@ -44,6 +45,7 @@ class WbViewpoint : public WbBaseNode {
 public:
   // projection modes
   enum { PM_PERSPECTIVE, PM_ORTHOGRAPHIC };
+  enum { FOLLOW_NONE, FOLLOW_TRACKING, FOLLOW_MOUNTED, FOLLOW_PAN_AND_TILT };
 
   // constructors and destructor
   explicit WbViewpoint(WbTokenizer *tokenizer = NULL);
@@ -58,6 +60,9 @@ public:
   void postFinalize() override;
   void reset() override;
 
+  static QString followTypeToString(int type);
+  static int followStringToType(const QString &type);
+
   // getters
   WrCamera *cameraWren() const { return mWrenCamera; }
   WrViewport *viewportWren() const { return mWrenViewport; }
@@ -71,7 +76,7 @@ public:
   bool rotationCenterIsLocked() const { return mRotationCenterIsLocked; }
   const WbVector3 &rotationCenter() { return mRotationCenter; }
   WbSolid *followedSolid() const { return mFollowedSolid; }
-  bool isFollowingOrientation() const { return mFollowOrientation->value(); }
+  int followType() const { return followStringToType(mFollowType->value()); }
   bool isFollowed(const WbSolid *solid) const;
   WbSFDouble *followSmoothness() const { return mFollowSmoothness; }
   WbSFDouble *fieldOfView() const { return mFieldOfView; }
@@ -89,7 +94,7 @@ public:
   void unlockRotationCenter() { mRotationCenterIsLocked = false; }
   void startFollowUp(WbSolid *solid, bool updateField);
   void startFollowUpFromField();
-  void setFollowOrientation(bool follow);
+  void setFollowType(int followType);
   void storePickedCoordinates(const WbVector3 &v) { mRotationCenter = v; }
   void setCoordinateSystemVisibility(bool visible);
   void restore();
@@ -151,7 +156,7 @@ private:
   WbSFDouble *mFar;
   WbSFDouble *mExposure;
   WbSFString *mFollow;
-  WbSFBool *mFollowOrientation;
+  WbSFString *mFollowType;
   WbSFDouble *mFollowSmoothness;
   WbSFNode *mLensFlare;
   WbSFDouble *mAmbientOcclusionRadius;
@@ -206,7 +211,6 @@ private:
   bool mFollowChangedBySelection;
   bool mFollowChangedBySolidName;
   bool mFollowEmptiedByDestroyedSolid;
-  bool mFollowEmptiedByUncheck;
 
   // viewpoint translation animation
   WbVector3 mMoveToDirection;
@@ -288,7 +292,7 @@ private slots:
   void updateRenderingMode();
   void updateOptionalRendering(int optionalRendering);
   void updateCoordinateSystem();
-  void updateFollowOrientation();
+  void updateFollowType();
   void updateLensFlare();
   void updateAmbientOcclusionRadius();
   void updateBloomThreshold();
@@ -313,7 +317,7 @@ private slots:
 
 signals:
   void followInvalidated(bool valid);
-  void followOrientationChanged(bool rotate);
+  void followTypeChanged(int type);
   void cameraParametersChanged();
   void refreshRequired();
   void nodeVisibilityChanged(WbNode *node, bool visibility);
