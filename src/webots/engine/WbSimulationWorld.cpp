@@ -331,7 +331,7 @@ bool WbSimulationWorld::simulationHasRunAfterSave() {
   return mSimulationHasRunAfterSave;
 }
 
-void WbSimulationWorld::reset() {
+void WbSimulationWorld::reset(bool restartController) {
   WbSimulationState::instance()->pauseSimulation();
   WbSimulationState::instance()->resetTime();
   WbTemplateManager::instance()->blockRegeneration(true);
@@ -348,9 +348,11 @@ void WbSimulationWorld::reset() {
   mCluster->handleInitialCollisions();
   dImmersionLinkGroupEmpty(mCluster->immersionLinkGroup());
   WbSoundEngine::stopAllSources();
-  foreach (WbRobot *const robot, robots()) {
-    if (robot->isControllerStarted())
-      robot->restartController();
+  if (restartController) {
+    foreach (WbRobot *const robot, robots()) {
+      if (robot->isControllerStarted())
+        robot->restartController();
+    }
   }
   updateRandomSeed();
   WbSimulationState::instance()->resumeSimulation();
