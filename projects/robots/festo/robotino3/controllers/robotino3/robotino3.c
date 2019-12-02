@@ -28,6 +28,7 @@
 #include <webots/robot.h>
 
 #include <base.h>
+#include <tiny_math.h>
 
 #include <math.h>
 #include <stdio.h>
@@ -106,19 +107,23 @@ static void display_helper_message() {
 }
 
 int main(int argc, char **argv) {
-  wb_robot_init();
 
+  // Initialization
+  wb_robot_init();
   base_init();
   passive_wait(2.0);
 
+  // Demonstration
   if (argc > 1 && strcmp(argv[1], "demo") == 0)
     automatic_behavior();
 
+  // Display instructions to control the robot
   display_helper_message();
 
   int pc = 0;
   wb_keyboard_enable(TIME_STEP);
 
+  // User moves the robot with keyboard arrows
   while (true) {
     step();
 

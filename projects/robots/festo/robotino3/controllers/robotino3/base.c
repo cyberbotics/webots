@@ -19,7 +19,6 @@
  */
 
 #include "base.h"
-
 #include "tiny_math.h"
 
 #include <webots/compass.h>
@@ -33,6 +32,12 @@
 #define SPEED 4.0
 #define DISTANCE_TOLERANCE 0.001
 #define ANGLE_TOLERANCE 0.001
+#define WHEEL_RADIUS_GAP 0.1826                 // [m]
+#define WHEEL_ANGLE_STARTER (M_PI / 6.0)        // [°]
+#define WHEEL_ANGLE_SPLITTER (2.0 * M_PI / 3.0) // [°]
+#define THETA_1 WHEEL_ANGLE_STARTER + M_PI / 2.0
+#define THETA_2 (THETA_1 + WHEEL_ANGLE_SPLITTER) + M_PI / 2.0
+#define THETA_3 (THETA_2 + WHEEL_ANGLE_SPLITTER) + M_PI / 2.0
 
 // stimulus coefficients
 #define K1 3.0
@@ -52,20 +57,34 @@ static goto_struct goto_data;
 
 static void base_set_wheel_velocity(WbDeviceTag t, double velocity) {
   wb_motor_set_position(t, INFINITY);
+  if (velocity > wb_motor_get_max_velocity(t))
+    velocity = wb_motor_get_max_velocity(t);
+  if (velocity < -wb_motor_get_max_velocity(t))
+    velocity = -wb_motor_get_max_velocity(t);
   wb_motor_set_velocity(t, velocity);
 }
 
 static void base_set_wheel_speeds_helper(double speeds[3]) {
   int i;
+  double v_motor[3] = {0.0, 0.0, 0.0};
+  double v_x = speeds[1];
+  double v_y = speeds[0];
+  double w = speeds[2];
+  // From paper, section 4:
+  // http://ftp.itam.mx/pub/alfredo/ROBOCUP/SSLDocs/PapersTDPs/omnidrive.pdf
+  v_motor[0] = -0.5 * v_x + 0.866 * v_y + WHEEL_RADIUS_GAP * w;
+  v_motor[1] = -0.5 * v_x - 0.866 * v_y + WHEEL_RADIUS_GAP * w;
+  v_motor[2] = v_x + WHEEL_RADIUS_GAP * w;
+
   for (i = 0; i < 3; i++)
-    base_set_wheel_velocity(wheels[i], speeds[i]);
+    base_set_wheel_velocity(wheels[i], v_motor[i]);
 }
 
 void base_init() {
   int i;
   char wheel_name[16];
   for (i = 0; i < 3; i++) {
-    sprintf(wheel_name, "wheel%d", i;
+    sprintf(wheel_name, "wheel%d_joint", i);
     wheels[i] = wb_robot_get_device(wheel_name);
   }
 }
@@ -76,32 +95,42 @@ void base_reset() {
 }
 
 void base_forwards() {
-  static double speeds[3] = {0, SPEED, -SPEED};
+  double speeds[3] = {SPEED, 0, 0};
+  // static double speeds[3] = {0, SPEED, -SPEED};
+  // static double speeds[3] = {0, SPEED, -SPEED};
   base_set_wheel_speeds_helper(speeds);
 }
 
 void base_backwards() {
-  static double speeds[3] = {0, -SPEED, SPEED};
+  double speeds[3] = {-SPEED, 0, 0};
+  // static double speeds[3] = {SPEED, -SPEED, 0};
+  // static double speeds[3] = {0, -SPEED, SPEED};
   base_set_wheel_speeds_helper(speeds);
 }
 
 void base_turn_left() {
-  static double speeds[3] = {SPEED, SPEED, SPEED};
+  double speeds[3] = {0, 0, -3.0 * SPEED};
+  // static double speeds[3] = {SPEED, SPEED, SPEED};
   base_set_wheel_speeds_helper(speeds);
 }
 
 void base_turn_right() {
-  static double speeds[3] = {-SPEED, -SPEED, -SPEED};
+  double speeds[3] = {0, 0, 3.0 * SPEED};
+  // static double speeds[3] = {-SPEED, -SPEED, -SPEED};
   base_set_wheel_speeds_helper(speeds);
 }
 
 void base_strafe_left() {
-  static double speeds[3] = {-SPEED, SPEED, 0};
+  double speeds[3] = {0, -SPEED, 0};
+  // static double speeds[3] = {0, -SPEED, SPEED};
+  // static double speeds[3] = {-SPEED, SPEED, 0};
   base_set_wheel_speeds_helper(speeds);
 }
 
 void base_strafe_right() {
-  static double speeds[3] = {SPEED, -SPEED, 0};
+  double speeds[3] = {0, SPEED, 0};
+  // static double speeds[3] = {0, SPEED, -SPEED};
+  // static double speeds[3] = {SPEED, -SPEED, 0};
   base_set_wheel_speeds_helper(speeds);
 }
 

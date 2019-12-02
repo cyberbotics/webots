@@ -12,14 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-LIBRARY_SOURCES_PATH = ./src
-LIBRARY_INCLUDE_PATH = ./include
+# Webots Makefile system
+#
+# You may add some variable definitions hereafter to customize the build process
+# See documentation in $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
-C_SOURCES = $(wildcard $(LIBRARY_SOURCES_PATH)/*.c)
-INCLUDE = -I"$(LIBRARY_INCLUDE_PATH)"
-
-### Do not modify: this includes Webots global Makefile.include
 space :=
 space +=
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+
+# This includers
+C_SOURCES = robotino3.c base.c tiny_math.c
+
+# Instead of these
+#RESOURCES_PATH = $(WEBOTS_HOME)/projects/robots/festo/robotino3
+#INCLUDE = -I"$(RESOURCES_PATH)/libraries/robotino3_control/include"
+#LIBRARIES = -L"$(RESOURCES_PATH)/libraries/robotino3_control" -lrobotino3_control
+
+
+
+### Do not modify: this includes Webots global Makefile.include
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

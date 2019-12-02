@@ -12,13 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-LIBRARY_SOURCES_PATH = ./src
-LIBRARY_INCLUDE_PATH = ./include
+TARGETS=robotino3.Makefile
 
-C_SOURCES = $(wildcard $(LIBRARY_SOURCES_PATH)/*.c)
-INCLUDE = -I"$(LIBRARY_INCLUDE_PATH)"
+.PHONY: release debug profile clean
 
-space :=
-space +=
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
-include $(WEBOTS_HOME_PATH)/resources/Makefile.include
+release debug profile clean: $(TARGETS)
+
+%.Makefile:
+	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
+	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
