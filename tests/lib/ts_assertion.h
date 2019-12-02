@@ -109,6 +109,26 @@ void ts_assert_doubles_equal(int size, const double *value, const double *expect
   TS_FINAL_CHECK();
 }
 
+// An euler and axis rotation equals to another.
+void ts_assert_rotation_equals(const double *rot_a, const double *rot_b, double tolerance, const char *error_message, ...) {
+  // Inspired from WbRotation::almostEquals()
+  bool correct = false;
+  if (fabs(rot_a[3] - rot_b[3]) < tolerance) {
+    if (fabs(rot_a[3]) < tolerance)
+      correct = true;  // axis can be different but rotation is the same
+    else
+      correct =
+        fabs(rot_a[0] - rot_b[0]) < tolerance && fabs(rot_a[1] - rot_b[1]) < tolerance && fabs(rot_a[2] - rot_b[2]) < tolerance;
+  } else if (fabs(rot_a[3] + rot_b[3]) < tolerance) {
+    if (fabs(rot_a[3]) < tolerance)
+      correct = true;  // axis can be different but rotation is the same
+    else
+      correct =
+        fabs(rot_a[0] + rot_b[0]) < tolerance && fabs(rot_a[1] + rot_b[1]) < tolerance && fabs(rot_a[2] + rot_b[2]) < tolerance;
+  }
+  TS_FINAL_CHECK();
+}
+
 void ts_assert_doubles_in_delta(int size, const double *value, const double *expected, double delta, const char *error_message,
                                 ...) {
   int i;

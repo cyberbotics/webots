@@ -96,6 +96,7 @@ void WbHingeJoint::computeEndPointSolidPositionFromParameters(WbVector3 &transla
   rotation.fromQuaternion(qp);
   if (rotation.angle() == 0.0)
     rotation = WbRotation(ax.x(), ax.y(), ax.z(), 0.0);
+  rotation.normalizeAngle();
   const WbVector3 &a = anchor();
   translation = q * (mEndPointZeroTranslation - a) + a;
 }

@@ -89,14 +89,14 @@ int main(int argc, char **argv) {
   nestedRotation = wb_supervisor_field_get_sf_rotation(nestedRotField);
   hinge2Rotation = wb_supervisor_field_get_sf_rotation(hinge2RotField);
 
-  ts_assert_double_equal(normalRotation[3], normalPreviousRotation[3],
-                         "The base node's motor should have stopped, but it is still turning.");
-  ts_assert_double_equal(protoRotation[3], protoPreviousRotation[3],
-                         "The PROTO's motor should have stopped, but it is still turning.");
-  ts_assert_double_equal(nestedRotation[3], nestedPreviousRotation[3],
-                         "The Nested PROTO's motor should have stopped, but it is still turning.");
-  ts_assert_double_equal(hinge2Rotation[3], hinge2PreviousRotation[3],
-                         "The hinge2 motors should have stopped, but they are still turning.");
+  ts_assert_rotation_equals(normalRotation, normalPreviousRotation, 0.01,
+                            "The base node's motor should have stopped, but it is still turning.");
+  ts_assert_rotation_equals(protoRotation, protoPreviousRotation, 0.01,
+                            "The PROTO's motor should have stopped, but it is still turning.");
+  ts_assert_rotation_equals(nestedRotation, nestedPreviousRotation, 0.01,
+                            "The Nested PROTO's motor should have stopped, but it is still turning.");
+  ts_assert_rotation_equals(hinge2Rotation, hinge2PreviousRotation, 0.01,
+                            "The hinge2 motors should have stopped, but they are still turning.");
 
   ts_send_success();
   return EXIT_SUCCESS;
