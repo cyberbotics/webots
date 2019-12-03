@@ -1828,7 +1828,7 @@ void wb_supervisor_node_add_relative_force(WbNodeRef node, const double force[3]
   add_force_or_torque = force;
   add_force_origin = origin;
   wb_robot_flush_unlocked();
-  add_force_node_ref = NULL;
+  add_relative_force_node_ref = NULL;
   add_force_or_torque = NULL;
   add_force_origin = NULL;
   robot_mutex_unlock_step();
