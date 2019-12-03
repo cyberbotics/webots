@@ -21,8 +21,8 @@ space :=
 space +=
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 
-CXX_SOURCES = entry_points.cpp Viewer.cpp AbstractWidget.cpp GeneralInformationWidget.cpp SpeedWidget.cpp RPMWidget.cpp SteeringWidget.cpp EncodersWidget.cpp ThrottleWidget.cpp BrakeWidget.cpp OSMImportWidget.cpp
-HPP_FILES_TO_MOC = GeneralInformationWidget.hpp AbstractWidget.hpp OSMImportWidget.hpp
+CXX_SOURCES = entry_points.cpp Viewer.cpp AbstractWidget.cpp GeneralInformationWidget.cpp SpeedWidget.cpp RPMWidget.cpp SteeringWidget.cpp EncodersWidget.cpp ThrottleWidget.cpp BrakeWidget.cpp
+HPP_FILES_TO_MOC = GeneralInformationWidget.hpp AbstractWidget.hpp
 
 USE_C_API = true
 
