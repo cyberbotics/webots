@@ -992,7 +992,6 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           }
           if (operationResult != WbNodeOperations::FAILURE)
             mImportedNodesNumber = importedNodesNumber;
-          const WbField *field = WbNode::findNode(nodeId)->field(fieldId);
           const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
           assert(sfNode);
           mImportedNodesNumber = -1;
