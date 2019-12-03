@@ -107,7 +107,7 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                                 &RosSupervisor::nodeSetVelocityCallback, this);
   mNodeAddForceServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/add_force",
                                                              &RosSupervisor::nodeAddForceCallback, this);
-  mNodeAddRelativeForceServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/sadd_relative_force",
+  mNodeAddRelativeForceServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/add_relative_force",
                                                                      &RosSupervisor::nodeAddRelativeForceCallback, this);
   mNodeAddTorqueServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/add_torque",
                                                               &RosSupervisor::nodeAddTorqueCallback, this);

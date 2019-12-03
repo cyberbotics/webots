@@ -1522,6 +1522,102 @@ It is relevant to show a node only if it was previously hidden using this functi
 
 ---
 
+#### `wb_supervisor_node_add_force`
+#### `wb_supervisor_node_add_relative_force`
+#### `wb_supervisor_node_add_torque`
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/supervisor.h>
+
+void wb_supervisor_node_add_force(WbNodeRef node, const double force[3]);
+void wb_supervisor_node_add_relative_force(WbNodeRef node, const double force[3], const double origin[3]);
+void wb_supervisor_node_add_torque(WbNodeRef node, const double torque[3]);
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/Node.hpp>
+
+namespace webots {
+  class Node {
+    void addForce(const double force[3]);
+    void addRelativeForce(const double force[3], const double origin[3]);
+    void addTorque(const double torque[3]);
+    // ...
+  }
+}
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Node
+
+class Node:
+    def addForce(self,  force)
+    def addRelativeForce(self, origin)
+    def addTorque(self, torque)
+    # ...
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.Node;
+
+public class Node {
+  public void addForce(double force[3]);
+  public void addRelativeForce(double force[3], double origin[3]);
+  public void addTorque(double torque[3]);
+  // ...
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+void wb_supervisor_node_add_force(node, force)
+void wb_supervisor_node_add_relative_force(node, force, origin)
+void wb_supervisor_node_add_torque(node, torque)
+```
+
+%tab-end
+
+%tab "ROS"
+
+| name | service/topic | data type | data type definition |
+| --- | --- | --- | --- |
+| `/supervisor/node/add_force` | `service` | `webots_ros::node_add_force_or_torque` | `uint64 node`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) force<br/>`---`<br/>`int32 success` |
+| `/supervisor/node/add_relative_force` | `service` | `webots_ros::node_add_relative_force` | `uint64 node`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) force<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) origin<br/>`---`<br/>`int32 success` |
+| `/supervisor/node/add_torque` | `service` | `webots_ros::node_add_force_or_torque` | `uint64 node`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) force<br/>`---`<br/>`int32 success` |
+
+%tab-end
+
+%end
+
+##### Description
+
+*add force or torque to a Solid node.*
+
+The `wb_supervisor_node_add_force` function adds a force to the [Solid](solid.md) node at it's center of mass.
+The `wb_supervisor_node_add_relative_force` function adds a force to the [Solid](solid.md) node at the location defined by the `origin` argument.
+The `wb_supervisor_node_add_torque` function adds a torque to the [Solid](solid.md) node.
+
+---
+
 #### `wb_supervisor_set_label`
 
 %tab-component "language"
@@ -3043,6 +3139,7 @@ The "soccer.wbt" world, located in the "projects/samples/demos/worlds" directory
 #### `wb_supervisor_field_insert_mf_color`
 #### `wb_supervisor_field_insert_mf_string`
 #### `wb_supervisor_field_remove_mf`
+#### `wb_supervisor_field_remove_sf`
 
 %tab-component "language"
 
@@ -3061,6 +3158,7 @@ void wb_supervisor_field_insert_mf_color(WbFieldRef field, int index, const doub
 void wb_supervisor_field_insert_mf_string(WbFieldRef field, int index, const char *value);
 
 void wb_supervisor_field_remove_mf(WbFieldRef field, int index);
+void wb_supervisor_field_remove_sf(WbFieldRef field);
 ```
 
 %tab-end
@@ -3088,6 +3186,8 @@ namespace webots {
     void insertMFRotation(int index, const double values[4]);
     void insertMFColor(int index, const double values[3]);
     void insertMFString(int index, const std::string &value);
+    void removeMF(int index);
+    void removeSF();
     // ...
   }
 }
@@ -3110,6 +3210,7 @@ class Field:
     def insertMFColor(self, index, values):
     def insertMFString(self, index, value):
     def removeMF(self, index):
+    def removeSF(self):
     # ...
 ```
 
@@ -3130,6 +3231,7 @@ public class Field {
   public void insertMFColor(int index, double values[3]);
   public void insertMFString(int index, String value);
   public void removeMF(int index);
+  public void removeSF();
   // ...
 }
 ```
@@ -3148,6 +3250,7 @@ wb_supervisor_field_insert_mf_rotation(field, index, [x y z a])
 wb_supervisor_field_insert_mf_color(field, index, [r g b])
 wb_supervisor_field_insert_mf_string(field, index, 'value')
 wb_supervisor_field_remove_mf(field, index)
+wb_supervisor_field_remove_sf(field)
 ```
 
 %tab-end
@@ -3187,12 +3290,14 @@ Here are a few examples for the `index` parameter:
 - -2: insert at the second index from the end of the field.
 - -3: insert at the third index from the end.
 
-The `wb_supervisor_field_remove_mf` function removes an item from a specified multiple `field` (MF).
+The `wb_supervisor_field_remove_sf/mf` functionS remove an item from a specified `field` (MF or SF).
 
 ---
 
 #### `wb_supervisor_field_import_mf_node`
 #### `wb_supervisor_field_import_mf_node_from_string`
+#### `wb_supervisor_field_import_sf_node`
+#### `wb_supervisor_field_import_sf_node_from_string`
 
 %tab-component "language"
 
@@ -3203,6 +3308,9 @@ The `wb_supervisor_field_remove_mf` function removes an item from a specified mu
 
 void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const char *filename);
 void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int position, const char *node_string);
+
+void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename);
+void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char *node_string);
 ```
 
 %tab-end
@@ -3216,6 +3324,8 @@ namespace webots {
   class Field {
     void importMFNode(int position, const std::string &filename);
     void importMFNodeFromString(int position, const std::string &nodeString);
+    void importSFNode(const std::string &filename);
+    void importSFNodeFromString(const std::string &nodeString);
     // ...
   }
 }
@@ -3231,6 +3341,8 @@ from controller import Field
 class Field:
     def importMFNode(self, position, filename):
     def importMFNodeFromString(self, position, nodeString):
+    def importSFNode(self, filename):
+    def importSFNodeFromString(self, nodeString):
     # ...
 ```
 
@@ -3244,6 +3356,8 @@ import com.cyberbotics.webots.controller.Field;
 public class Field {
   public void importMFNode(int position, String filename);
   public void importMFNodeFromString(int position, String nodeString);
+  public void importSFNode(String filename);
+  public void importSFNodeFromString(String nodeString);
   // ...
 }
 ```
@@ -3255,6 +3369,8 @@ public class Field {
 ```MATLAB
 wb_supervisor_field_import_mf_node(field, position, 'filename')
 wb_supervisor_field_import_mf_node_from_string(field, position, 'node_string')
+wb_supervisor_field_import_sf_node(field, 'filename')
+wb_supervisor_field_import_sf_node_from_string(field, 'node_string')
 ```
 
 %tab-end
@@ -3272,9 +3388,9 @@ wb_supervisor_field_import_mf_node_from_string(field, position, 'node_string')
 
 ##### Description
 
-*import a node into an MF\_NODE field (typically a "children" field)*
+*import a node into an MF\_NODE or SF\_NODE field (typically a "children" field)*
 
-The `wb_supervisor_field_import_mf_node` function imports a Webots node into an MF\_NODE.
+The `wb_supervisor_field_import_mf_node` and `wb_supervisor_field_import_sf_node` functions import a Webots node into an MF\_NODE or SF\_NODE field.
 This node should be defined in a `.wbo` file referenced by the `filename` parameter.
 Such a file can be produced easily from Webots by selecting a node in the scene tree window and using the `Export` button.
 
@@ -3295,7 +3411,7 @@ In the later case, it is relative to the location of the supervisor controller.
 This function is typically used in order to add a node into a "children" field.
 Note that a node can be imported into the scene tree by calling this function with the "children" field of the root node.
 
-The `wb_supervisor_field_import_mf_node_from_string` function is very similar to the `wb_supervisor_field_import_mf_node` function, except that the node is constructed from the `node_string` string.
+The `wb_supervisor_field_import_sf/mf_node_from_string` functions are very similar to the `wb_supervisor_field_import_sf/mf_node` function, except that the node is constructed from the `node_string` string.
 For example, if you want to create a new robot with a specific controller:
 
 ```c
