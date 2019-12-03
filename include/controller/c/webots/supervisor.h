@@ -113,6 +113,10 @@ void wb_supervisor_node_move_viewpoint(WbNodeRef node);
 
 void wb_supervisor_node_set_visibility(WbNodeRef node, WbNodeRef from, bool visible);
 
+void wb_supervisor_node_add_force(WbNodeRef node, const double force[3]);
+void wb_supervisor_node_add_relative_force(WbNodeRef node, const double force[3], const double origin[3]);
+void wb_supervisor_node_add_torque(WbNodeRef node, const double torque[3]);
+
 WbFieldType wb_supervisor_field_get_type(WbFieldRef field);
 const char *wb_supervisor_field_get_type_name(WbFieldRef field);
 int wb_supervisor_field_get_count(WbFieldRef field);

@@ -310,6 +310,11 @@ static WbNodeRef set_visibility_from_node_ref = NULL;
 static WbNodeRef get_velocity_node_ref = NULL;
 static WbNodeRef set_velocity_node_ref = NULL;
 static const double *solid_velocity = NULL;
+static WbNodeRef add_force_node_ref = NULL;
+static WbNodeRef add_relative_force_node_ref = NULL;
+static WbNodeRef add_torque_node_ref = NULL;
+static const double *add_force_or_torque = NULL;
+static const double *add_force_origin = NULL;
 static bool virtual_reality_headset_is_used_request = false;
 static bool virtual_reality_headset_is_used = false;
 static bool virtual_reality_headset_position_request = false;
@@ -595,6 +600,30 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
   if (move_viewpoint_node_ref) {
     request_write_uchar(r, C_SUPERVISOR_NODE_MOVE_VIEWPOINT);
     request_write_uint32(r, move_viewpoint_node_ref->id);
+  }
+  if (add_force_node_ref) {
+    request_write_uchar(r, C_SUPERVISOR_NODE_ADD_FORCE);
+    request_write_uint32(r, add_force_node_ref->id);
+    request_write_double(r, add_force_or_torque[0]);
+    request_write_double(r, add_force_or_torque[1]);
+    request_write_double(r, add_force_or_torque[2]);
+  }
+  if (add_relative_force_node_ref) {
+    request_write_uchar(r, C_SUPERVISOR_NODE_ADD_RELATIVE_FORCE);
+    request_write_uint32(r, add_relative_force_node_ref->id);
+    request_write_double(r, add_force_or_torque[0]);
+    request_write_double(r, add_force_or_torque[1]);
+    request_write_double(r, add_force_or_torque[2]);
+    request_write_double(r, add_force_origin[0]);
+    request_write_double(r, add_force_origin[1]);
+    request_write_double(r, add_force_origin[2]);
+  }
+  if (add_torque_node_ref) {
+    request_write_uchar(r, C_SUPERVISOR_NODE_ADD_TORQUE);
+    request_write_uint32(r, add_torque_node_ref->id);
+    request_write_double(r, add_force_or_torque[0]);
+    request_write_double(r, add_force_or_torque[1]);
+    request_write_double(r, add_force_or_torque[2]);
   }
   if (export_image_filename) {
     request_write_uchar(r, C_SUPERVISOR_EXPORT_IMAGE);
@@ -1753,6 +1782,77 @@ void wb_supervisor_node_move_viewpoint(WbNodeRef node) {
   move_viewpoint_node_ref = node;
   wb_robot_flush_unlocked();
   move_viewpoint_node_ref = NULL;
+  robot_mutex_unlock_step();
+}
+
+void wb_supervisor_node_add_force(WbNodeRef node, const double force[3]) {
+  if (!robot_check_supervisor("wb_supervisor_node_add_force"))
+    return;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: wb_supervisor_node_add_force() called with NULL or invalid 'node' argument.\n");
+    return;
+  }
+
+  if (!checkVector("wb_supervisor_node_add_force", force, 3))
+    return;
+
+  robot_mutex_lock_step();
+  add_force_node_ref = node;
+  add_force_or_torque = force;
+  wb_robot_flush_unlocked();
+  add_force_node_ref = NULL;
+  add_force_or_torque = NULL;
+  robot_mutex_unlock_step();
+}
+
+void wb_supervisor_node_add_relative_force(WbNodeRef node, const double force[3], const double origin[3]) {
+  if (!robot_check_supervisor("wb_supervisor_node_add_relative_force"))
+    return;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: wb_supervisor_node_add_relative_force() called with NULL or invalid 'node' argument.\n");
+    return;
+  }
+
+  if (!checkVector("wb_supervisor_node_add_relative_force", force, 3))
+    return;
+
+  if (!checkVector("wb_supervisor_node_add_relative_force", origin, 3))
+    return;
+
+  robot_mutex_lock_step();
+  add_relative_force_node_ref = node;
+  add_force_or_torque = force;
+  add_force_origin = origin;
+  wb_robot_flush_unlocked();
+  add_force_node_ref = NULL;
+  add_force_or_torque = NULL;
+  add_force_origin = NULL;
+  robot_mutex_unlock_step();
+}
+
+void wb_supervisor_node_add_torque(WbNodeRef node, const double torque[3]) {
+  if (!robot_check_supervisor("wb_supervisor_node_add_torque"))
+    return;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: wb_supervisor_node_add_torque() called with NULL or invalid 'node' argument.\n");
+    return;
+  }
+
+  if (!checkVector("wb_supervisor_node_add_torque", torque, 3))
+    return;
+
+  robot_mutex_lock_step();
+  add_torque_node_ref = node;
+  add_force_or_torque = torque;
+  wb_robot_flush_unlocked();
+  add_torque_node_ref = NULL;
+  add_force_or_torque = NULL;
   robot_mutex_unlock_step();
 }
 

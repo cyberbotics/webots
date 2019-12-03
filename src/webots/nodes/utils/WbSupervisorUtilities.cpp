@@ -51,6 +51,8 @@
 #include "../../../include/controller/c/webots/supervisor.h"
 #include "../../lib/Controller/api/messages.h"
 
+#include <ode/ode.h>
+
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDataStream>
 #include <QtCore/QDir>
@@ -746,6 +748,72 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       assert(baseNode);
       if (WbNodeUtilities::boundingSphereAncestor(baseNode) != NULL)
         WbWorld::instance()->viewpoint()->moveViewpointToObject(baseNode);
+      return;
+    }
+    case C_SUPERVISOR_NODE_ADD_FORCE: {
+      unsigned int id;
+      double fx, fy, fz;
+
+      stream >> id;
+      stream >> fx;
+      stream >> fy;
+      stream >> fz;
+
+      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
+      WbSolid *const solid = dynamic_cast<WbSolid *>(node);
+      if (solid) {
+        dBodyID body = solid->bodyMerger();
+        if (body)
+          dBodyAddForce(body, fx, fy, fz);
+        else
+          mRobot->warn(tr("wb_supervisor_node_add_force() can't be used with a kinematic Solid"));
+      } else
+        mRobot->warn(tr("wb_supervisor_node_add_force() can exclusively be used with a Solid"));
+      return;
+    }
+    case C_SUPERVISOR_NODE_ADD_RELATIVE_FORCE: {
+      unsigned int id;
+      double fx, fy, fz, ox, oy, oz;
+
+      stream >> id;
+      stream >> fx;
+      stream >> fy;
+      stream >> fz;
+      stream >> ox;
+      stream >> oy;
+      stream >> oz;
+
+      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
+      WbSolid *const solid = dynamic_cast<WbSolid *>(node);
+      if (solid) {
+        dBodyID body = solid->bodyMerger();
+        if (body)
+          dBodyAddForceAtRelPos(body, fx, fy, fz, ox, oy, oz);
+        else
+          mRobot->warn(tr("wb_supervisor_node_add_relative_force() can't be used with a kinematic Solid"));
+      } else
+        mRobot->warn(tr("wb_supervisor_node_add_relative_force() can exclusively be used with a Solid"));
+      return;
+    }
+    case C_SUPERVISOR_NODE_ADD_TORQUE: {
+      unsigned int id;
+      double tx, ty, tz;
+
+      stream >> id;
+      stream >> tx;
+      stream >> ty;
+      stream >> tz;
+
+      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
+      WbSolid *const solid = dynamic_cast<WbSolid *>(node);
+      if (solid) {
+        dBodyID body = solid->bodyMerger();
+        if (body)
+          dBodyAddTorque(body, tx, ty, tz);
+        else
+          mRobot->warn(tr("wb_supervisor_node_add_torque() can't be used with a kinematic Solid"));
+      } else
+        mRobot->warn(tr("wb_supervisor_node_add_torque() can exclusively be used with a Solid"));
       return;
     }
     case C_SUPERVISOR_LOAD_WORLD: {
