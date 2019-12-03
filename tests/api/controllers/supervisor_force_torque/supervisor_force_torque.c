@@ -34,21 +34,31 @@ int main(int argc, char **argv) {
     wb_robot_step(TIME_STEP);
     
   for (i = 0; i < 4; ++i)
-    ts_assert_double_in_delta(wb_position_sensor_get_value(ps[0]), 0.0, 0.01, "All position angle should be ~0.0 before applying any force/torque");
+    ts_assert_double_in_delta(wb_position_sensor_get_value(ps[i]), 0.0, 0.01, "All position angle should be ~0.0 before applying any force/torque");
 
-  const double force[] = {0.0, 1.0, 0.0};
-  const double torque[] = {10.0, 10.0, 10.0};
+  const double force[] = {0.0, 0.1, 0.0};
+  const double torque[] = {0.1, 0.0, 0.0};
   const double offset0[] = {0.0, 0.0, 0.15};
   const double offset1[] = {0.0, 0.0, -0.15};
   const double offset2[] = {0.0, 0.0, 0.0};
 
-  for (i = 0; i < 20; ++i) {
+  for (i = 0; i < 200; ++i) {
     wb_robot_step(TIME_STEP);
     wb_supervisor_node_add_relative_force(node[0], force, offset0);
     wb_supervisor_node_add_relative_force(node[1], force, offset1);
     wb_supervisor_node_add_relative_force(node[2], force, offset2);
     wb_supervisor_node_add_torque(node[3], torque);
   }
+  
+  double positions[4];
+  for (i = 0; i < 4; ++i)
+    positions[i] = wb_position_sensor_get_value(ps[i]);
+    
+  ts_assert_double_in_delta(positions[0], -positions[1], 0.01, "Angle 0 should be equal to -angle 1.");
+  ts_assert_double_in_delta(positions[2], 0.0, 0.01, "Angle 2 should be zero");
+  ts_assert_double_is_bigger(-0.2, positions[0], "Angle 0 should be smaller than -0.2");
+  ts_assert_double_is_bigger(positions[1], 0.2, "Angle 1 should be bigger than 0.2");
+  ts_assert_double_is_bigger(positions[3], 0.2, "Angle 3 should be bigger than 0.2");
 
   ts_send_success();
   return EXIT_SUCCESS;
