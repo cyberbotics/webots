@@ -157,6 +157,23 @@ int main(int argc, char **argv) {
   ts_assert_boolean_equal(wb_supervisor_field_get_mf_node(root_children_field, -1) == sphere5,
                           "WbNodeRef instance of SPHERE 5 should not change after deleting SPHERE 4.");
 
+  WbNodeRef shape_node = wb_supervisor_node_get_from_def("SHAPE");
+  WbFieldRef geometry_field = wb_supervisor_node_get_field(shape_node, "geometry");
+
+  wb_supervisor_field_import_sf_node_from_string(geometry_field, "DEF SPHERE_GEOM Sphere { radius 0.1 }");
+  const double new_translation[] = {0.15, 0.0, 0.0};
+  wb_supervisor_field_set_sf_vec3f(wb_supervisor_node_get_field(wb_supervisor_node_get_parent_node(shape_node), "translation"),
+                                   new_translation);
+  wb_robot_step(TIME_STEP);
+
+  value0 = wb_distance_sensor_get_value(ds0);
+  ts_assert_double_is_bigger(750, value0, "Sphere not imported.");
+  wb_supervisor_field_remove_sf(geometry_field);
+
+  wb_robot_step(TIME_STEP);
+  value0 = wb_distance_sensor_get_value(ds0);
+  ts_assert_double_is_bigger(value0, 750, "Sphere not removed.");
+
   ts_send_success();
   return EXIT_SUCCESS;
 }
