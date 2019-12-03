@@ -56,7 +56,7 @@ if len(sys.argv) == 3:
     commit = sys.argv[1]
     repo = sys.argv[2]
 else:
-    commit = subprocess.check_output(['git', 'rev-parse', 'head']).decode('utf-8').strip()
+    commit = subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('utf-8').strip()
     repo = subprocess.check_output(['git', 'config', '--get', 'remote.origin.url']).decode().strip()
     repo = repo[19:-4]  # remove leading 'https://github.com/' and trailing '.git'
 github_api.last_time = 0
