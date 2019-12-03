@@ -2533,7 +2533,7 @@ void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char
   }
 
   if (field->data.sf_node_uid != 0) {
-    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() called with a non-empty field.\n");
+    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node_from_string() called with a non-empty field.\n");
     return;
   }
 

@@ -1084,9 +1084,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         }
         case WB_SF_NODE: {
           WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
-          assert(sfNode->value() != NULL);
-          WbNodeOperations::instance()->deleteNode(sfNode->value(), true);
-          emit worldModified();
+          if (sfNode->value()) {
+            WbNodeOperations::instance()->deleteNode(sfNode->value(), true);
+            emit worldModified();
+          }
           break;
         }
         default:

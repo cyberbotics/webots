@@ -171,6 +171,14 @@ int main(int argc, char **argv) {
   wb_supervisor_field_remove_sf(geometry_field);
 
   wb_robot_step(TIME_STEP);
+
+  // this import should be fail because field is not empty
+  wb_supervisor_field_import_sf_node_from_string(geometry_field, "DEF SPHERE_GEOM Sphere { radius 15 }");
+  value0 = wb_distance_sensor_get_value(ds0);
+  ts_assert_double_is_bigger(value0, 750, "Import on non-empty SFNode wrongly succeeded.");
+  wb_supervisor_field_remove_sf(geometry_field);
+
+  wb_robot_step(TIME_STEP);
   value0 = wb_distance_sensor_get_value(ds0);
   ts_assert_double_is_bigger(value0, 750, "Sphere not removed.");
 
