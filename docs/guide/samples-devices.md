@@ -52,7 +52,7 @@ Its "bumper" [TouchSensor](../reference/touchsensor.md) (represented by a black 
 
 ### [compass.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/worlds/compass.wbt)
 
-**Keywords**: [Comass](../reference/compass.md)
+**Keywords**: [Compass](../reference/compass.md)
 
 ![compass.png](images/samples/compass.thumbnail.jpg) In this example, `MyBot` moves in a closed arena filled with obstacles.
 The robot is equipped with a yellow motorized needle which always indicates towards the north.
