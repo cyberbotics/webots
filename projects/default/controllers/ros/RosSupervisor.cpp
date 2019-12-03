@@ -588,6 +588,7 @@ bool RosSupervisor::nodeSetVelocityCallback(webots_ros::node_set_velocity::Reque
 
 bool RosSupervisor::nodeAddForceCallback(webots_ros::node_add_force_or_torque::Request &req,
                                          webots_ros::node_add_force_or_torque::Response &res) {
+  assert(this);
   Node *node = reinterpret_cast<Node *>(req.node);
   double force[3];
   force[0] = req.force.x;
@@ -600,6 +601,7 @@ bool RosSupervisor::nodeAddForceCallback(webots_ros::node_add_force_or_torque::R
 
 bool RosSupervisor::nodeAddRelativeForceCallback(webots_ros::node_add_relative_force::Request &req,
                                                  webots_ros::node_add_relative_force::Response &res) {
+  assert(this);
   Node *node = reinterpret_cast<Node *>(req.node);
   double force[3];
   force[0] = req.force.x;
@@ -616,6 +618,7 @@ bool RosSupervisor::nodeAddRelativeForceCallback(webots_ros::node_add_relative_f
 
 bool RosSupervisor::nodeAddTorqueCallback(webots_ros::node_add_force_or_torque::Request &req,
                                           webots_ros::node_add_force_or_torque::Response &res) {
+  assert(this);
   Node *node = reinterpret_cast<Node *>(req.node);
   double torque[3];
   torque[0] = req.force.x;
