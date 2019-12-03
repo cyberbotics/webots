@@ -26,6 +26,7 @@ ignoredProtos = [
 
 skippedDirectories = [
     'dependencies',
+    'distribution',
     '.git'
 ]
 
