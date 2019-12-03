@@ -2457,7 +2457,7 @@ void wb_supervisor_field_remove_mf_node(WbFieldRef field, int position) {
 }
 
 void wb_supervisor_field_remove_sf(WbFieldRef field) {
-  if (field->count == 0) {
+  if (field->data.sf_node_uid == 0) {
     fprintf(stderr, "Error: wb_supervisor_field_remove_sf() called for an empty field.\n");
     return;
   }
@@ -2498,7 +2498,7 @@ void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename) 
     return;
   }
 
-  if (f->count > 0) {
+  if (field->data.sf_node_uid != 0) {
     fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() called with a non-empty field.\n");
     return;
   }
@@ -2509,8 +2509,8 @@ void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename) 
   create_and_append_field_request(f, IMPORT, -1, data, false);
   imported_nodes_number = -1;
   wb_robot_flush_unlocked();
-  if (imported_nodes_number > 0)
-    f->count += imported_nodes_number;
+  if (imported_nodes_number >= 0)
+    field->data.sf_node_uid = imported_nodes_number;
   robot_mutex_unlock_step();
 }
 
@@ -2532,7 +2532,7 @@ void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char
     return;
   }
 
-  if (f->count > 0) {
+  if (field->data.sf_node_uid != 0) {
     fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() called with a non-empty field.\n");
     return;
   }
@@ -2543,8 +2543,8 @@ void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char
   create_and_append_field_request(f, IMPORT_FROM_STRING, -1, data, false);
   imported_nodes_number = -1;
   wb_robot_flush_unlocked();
-  if (imported_nodes_number > 0)
-    f->count += imported_nodes_number;
+  if (imported_nodes_number >= 0)
+    field->data.sf_node_uid = imported_nodes_number;
   robot_mutex_unlock_step();
 }
 

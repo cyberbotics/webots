@@ -978,6 +978,28 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
             mImportedNodesNumber = importedNodesNumber;
           break;
         }
+        case WB_SF_NODE: {
+          QString filename = readString(stream);
+          makeFilenameAbsolute(filename);
+          int importedNodesNumber;
+          WbNodeOperations::OperationResult operationResult;
+          if (filename.endsWith(".wbo", Qt::CaseInsensitive))
+            operationResult =
+              WbNodeOperations::instance()->importNode(nodeId, fieldId, index, filename, "", &importedNodesNumber, true);
+          else {
+            operationResult = WbNodeOperations::FAILURE;
+            assert(false);
+          }
+          if (operationResult != WbNodeOperations::FAILURE)
+            mImportedNodesNumber = importedNodesNumber;
+          const WbField *field = WbNode::findNode(nodeId)->field(fieldId);
+          const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
+          assert(sfNode);
+          mImportedNodesNumber = -1;
+          if (sfNode->value())
+            mImportedNodesNumber = sfNode->value()->uniqueId();
+          break;
+        }
         default:
           assert(0);
       }
@@ -998,6 +1020,13 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         WbNodeOperations::instance()->importNode(nodeId, fieldId, index, "", nodeString, &importedNodesNumber, true);
       if (operationResult != WbNodeOperations::FAILURE)
         mImportedNodesNumber = importedNodesNumber;
+      const WbField *field = WbNode::findNode(nodeId)->field(fieldId);
+      const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
+      if (sfNode) {
+        mImportedNodesNumber = -1;
+        if (sfNode->value())
+          mImportedNodesNumber = sfNode->value()->uniqueId();
+      }
       emit worldModified();
       return;
     }
@@ -1052,6 +1081,13 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
             WbNodeOperations::instance()->deleteNode(node, true);
             emit worldModified();
           }
+          break;
+        }
+        case WB_SF_NODE: {
+          WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
+          assert(sfNode->value() != NULL);
+          WbNodeOperations::instance()->deleteNode(sfNode->value(), true);
+          emit worldModified();
           break;
         }
         default:
