@@ -139,6 +139,6 @@ void Node::addRelativeForce(const double force[3], const double origin[3]) {
   wb_supervisor_node_add_relative_force(nodeRef, force, origin);
 }
 
-void Node::add_Torque(const double torque[3]) {
+void Node::addTorque(const double torque[3]) {
   wb_supervisor_node_add_torque(nodeRef, torque);
 }

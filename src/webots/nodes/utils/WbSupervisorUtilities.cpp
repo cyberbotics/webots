@@ -1,3 +1,4 @@
+#include <QtCore/QDebug>
 // Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -763,8 +764,13 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       if (solid) {
         dBodyID body = solid->bodyMerger();
+        // qDebug() << solid->solidMerger()->solid()->matrix().translation().toString(WbPrecision::GUI_MEDIUM)
+        //          << solid->matrix().translation().toString(WbPrecision::GUI_MEDIUM);
+        qDebug() << solid->computedGlobalCenterOfMass().toString(WbPrecision::GUI_MEDIUM)
+                 << solid->solidMerger()->solid()->computedGlobalCenterOfMass().toString(WbPrecision::GUI_MEDIUM);
+        WbVector3 position = solid->computedGlobalCenterOfMass() - solid->solidMerger()->solid()->computedGlobalCenterOfMass();
         if (body)
-          dBodyAddForce(body, fx, fy, fz);
+          dBodyAddForceAtRelPos(body, fx, fy, fz, position.x(), position.y(), position.z());
         else
           mRobot->warn(tr("wb_supervisor_node_add_force() can't be used with a kinematic Solid"));
       } else

@@ -33,6 +33,8 @@
 #include <webots_ros/supervisor_virtual_reality_headset_get_orientation.h>
 #include <webots_ros/supervisor_virtual_reality_headset_get_position.h>
 
+#include <webots_ros/node_add_force_or_torque.h>
+#include <webots_ros/node_add_relative_force.h>
 #include <webots_ros/node_get_center_of_mass.h>
 #include <webots_ros/node_get_contact_point.h>
 #include <webots_ros/node_get_field.h>
@@ -136,6 +138,12 @@ public:
                                     webots_ros::node_get_static_balance::Response &res);
   bool nodeGetVelocityCallback(webots_ros::node_get_velocity::Request &req, webots_ros::node_get_velocity::Response &res);
   bool nodeSetVelocityCallback(webots_ros::node_set_velocity::Request &req, webots_ros::node_set_velocity::Response &res);
+  bool nodeAddForceCallback(webots_ros::node_add_force_or_torque::Request &req,
+                            webots_ros::node_add_force_or_torque::Response &res);
+  bool nodeAddRelativeForceCallback(webots_ros::node_add_relative_force::Request &req,
+                                    webots_ros::node_add_relative_force::Response &res);
+  bool nodeAddTorqueCallback(webots_ros::node_add_force_or_torque::Request &req,
+                             webots_ros::node_add_force_or_torque::Response &res);
   bool nodeGetFieldCallback(webots_ros::node_get_field::Request &req, webots_ros::node_get_field::Response &res);
   bool nodeMoveViewpointCallback(webots_ros::node_move_viewpoint::Request &req, webots_ros::node_move_viewpoint::Response &res);
   bool nodeSetVisibilityCallback(webots_ros::node_set_visibility::Request &req, webots_ros::node_set_visibility::Response &res);
@@ -222,6 +230,9 @@ private:
   ros::ServiceServer mNodeGetStaticBalanceServer;
   ros::ServiceServer mNodeGetVelocityServer;
   ros::ServiceServer mNodeSetVelocityServer;
+  ros::ServiceServer mNodeAddForceServer;
+  ros::ServiceServer mNodeAddRelativeForceServer;
+  ros::ServiceServer mNodeAddTorqueServer;
   ros::ServiceServer mNodeGetFieldServer;
   ros::ServiceServer mNodeMoveViewpointServer;
   ros::ServiceServer mNodeSetVisibilityServer;
