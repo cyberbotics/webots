@@ -1996,8 +1996,7 @@ wb_supervisor_simulation_reset()
 *reset the simulation*
 
 The `wb_supervisor_simulation_reset` function sends a request to the simulator process, asking it to reset the simulation immediately.
-The reset process is explained in detail in the [User Guide](https://www.cyberbotics.com/doc/guide/the-user-interface#file-menu).
-As a result of the reset, all the supervisor and robot controller processes are terminated and restarted.
+The reset process is explained in detail in the [User Guide](https://www.cyberbotics.com/doc/guide/the-user-interface#file-menu), the only difference is that the supervisor and robot controllers are not restarted, if needed, they have to be restarted with the `wb_supervisor_node_restart_controller` function.
 You may wish to save some data in a file from your supervisor and robot controller programs in order to reload it when they restart.
 
 ---
