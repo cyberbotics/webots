@@ -1,0 +1,159 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+  northDirection 1 0 1
+}
+Viewpoint {
+  orientation 0.9732014567971358 0.21085473626933982 0.09175622420697059 5.546408596265306
+  position -0.1936250704783903 0.8017619035131057 0.9285402568113604
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+TestSuiteSupervisor {
+}
+RectangleArena {
+}
+Robot {
+  translation 0 0.05 0
+  children [
+    TestSuiteEmitter {
+    }
+    DEF BODY Shape {
+      appearance PBRAppearance {
+        baseColor 0.305882 0.603922 0.0235294
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.5 0.1 0.2
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.05 0
+      }
+      device [
+        PositionSensor {
+          name "ps0"
+        }
+      ]
+      endPoint DEF BALANCE_0 Solid {
+        translation 0.06 0.05 0
+        children [
+          DEF BALANCE Shape {
+            appearance PBRAppearance {
+              baseColor 0.960784 0.47451 0
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.1 0.01 0.6
+            }
+          }
+        ]
+        boundingObject USE BALANCE
+        physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.05 0
+      }
+      device [
+        PositionSensor {
+          name "ps3"
+        }
+      ]
+      endPoint DEF BALANCE_3 Solid {
+        translation -0.18 0.05 0
+        children [
+          DEF BALANCE Shape {
+            appearance PBRAppearance {
+              baseColor 0.960784 0.47451 0
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.1 0.01 0.6
+            }
+          }
+        ]
+        name "solid(3)"
+        boundingObject USE BALANCE
+        physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.05 0
+      }
+      device [
+        PositionSensor {
+          name "ps1"
+        }
+      ]
+      endPoint DEF BALANCE_1 Solid {
+        translation -0.06 0.05 0
+        children [
+          DEF BALANCE Shape {
+            appearance PBRAppearance {
+              baseColor 0.960784 0.47451 0
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.1 0.01 0.6
+            }
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE BALANCE
+        physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.05 0
+      }
+      device [
+        PositionSensor {
+          name "ps2"
+        }
+      ]
+      endPoint DEF BALANCE_2 Solid {
+        translation 0.18 0.05 0
+        children [
+          DEF BALANCE Shape {
+            appearance PBRAppearance {
+              baseColor 0.960784 0.47451 0
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.1 0.01 0.6
+            }
+          }
+        ]
+        name "solid(2)"
+        boundingObject USE BALANCE
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "robot(1)"
+  boundingObject USE BODY
+  physics Physics {
+  }
+  controller "supervisor_force_torque"
+  supervisor TRUE
+}
