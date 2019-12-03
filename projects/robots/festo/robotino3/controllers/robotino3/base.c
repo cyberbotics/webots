@@ -150,14 +150,14 @@ void base_goto_init(double time_step) {
   goto_data.reached = false;
 }
 
-void base_goto_set_target(double x, double z, double alpha) {
+void base_goto_set_target(double x, double z, double a) {
   if (!gps || !compass)
     fprintf(stderr, "base_goto_set_target: cannot use goto feature without GPS "
                     "and Compass");
 
   goto_data.v_target.u = x;
   goto_data.v_target.v = z;
-  goto_data.alpha = alpha;
+  goto_data.alpha = a;
   goto_data.reached = false;
 }
 
