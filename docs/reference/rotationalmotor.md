@@ -26,3 +26,5 @@ It is expressed in *Newton meter* (N\*m).
 The `wb_motor_set_available_torque` function can be used to change the *available torque* at run-time.
 The value of `maxTorque` should always be zero or positive (the default value is 10 N\*m).
 A small `maxTorque` value may result in a motor being unable to move to the target position because of its weight or other external forces.
+
+    In [*kinematics* mode](physics.md#how-to-use-physics-nodes), `maxTorque` is used to clamp the joint acceleration in case `Motor.acceleration` is not defined.
