@@ -265,7 +265,7 @@ void WbSupervisorUtilities::initControllerRequests() {
   mFoundFieldCount = -1;
   mGetSelectedNode = false;
   mGetFromId = false;
-  mNeedToRestartController = false;
+  mNeedToResetSimulation = false;
   mNodeGetPosition = NULL;
   mNodeGetOrientation = NULL;
   mNodeGetCenterOfMass = NULL;
@@ -339,10 +339,9 @@ void WbSupervisorUtilities::postPhysicsStep() {
     emit WbApplication::instance()->worldLoadRequested(mWorldToLoad);
     mLoadWorldRequested = false;
   }
-
-  if (mNeedToRestartController) {
-    mRobot->restartController();
-    mNeedToRestartController = false;
+  if (mNeedToResetSimulation) {
+    mNeedToResetSimulation = false;
+    WbApplication::instance()->simulationReset(false);
   }
 }
 
@@ -437,7 +436,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       return;
     }
     case C_SUPERVISOR_SIMULATION_RESET:
-      WbApplication::instance()->simulationReset(false);
+      mNeedToResetSimulation = true;  // WbApplication::instance()->simulationReset(false);
       return;
     case C_SUPERVISOR_RELOAD_WORLD:
       WbApplication::instance()->worldReload();
@@ -711,12 +710,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
       WbRobot *const robot = dynamic_cast<WbRobot *>(node);
-      if (robot == mRobot)
-        // we can't restart the controller associated to this supervisor here
-        // we postpone it to the end of the physic step
-        mNeedToRestartController = true;
-      else if (robot)
-        robot->restartController();
+      if (robot)  // postpone the restart to the end of the physic step.
+        robot->setControllerNeedRestart();
       else
         mRobot->warn(tr("wb_supervisor_node_restart_controller() can exclusively be used with a Robot"));
       return;
