@@ -111,9 +111,9 @@ void WbSliderJoint::applyToOdeAxis() {
 void WbSliderJoint::updatePosition() {
   // Update triggered by an artificial move, i.e. a move caused by the user or a Supervisor
   const WbJointParameters *const p = parameters();
-  assert(p);
+
   if (solidReference() == NULL && solidEndPoint())
-    updatePosition(p->position());
+    updatePosition(p ? p->position() : 0.0);
 
   emit updateMuscleStretch(0.0, true, 1);
 }
