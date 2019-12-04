@@ -36,6 +36,7 @@ public:
   void postFinalize() override;
   void createWrenObjects() override;
   void reset() override;
+  virtual void resetPhysics();
   void save() override;
   virtual QVector<WbLogicalDevice *> devices() const;
 
