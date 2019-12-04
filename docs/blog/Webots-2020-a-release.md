@@ -4,20 +4,21 @@
 
 ---
 
-Here we are! It's already time to a new Webots release!
+Here we are! It's already time for a new Webots release!
 
-This new Webots version focuses on improving the performance of the scene load and the robustness of the simulation. But as usual we also extended our robot and assets library with new environments, worlds and appearances.
+This new Webots version focuses on improving the performance of the scene load and the robustness of the simulation. But as usual we also extended our robot and asset library with new environments, worlds and appearances.
 
 This article only lists some of the major changes.
 Besides these, we are always fixing bugs and improving the quality and robustness of Webots.
-Please refer to the changelog for a a comprehensive list of all the changes, found [here](../reference/changelog-R2020a.md).
+Please refer to the changelog for a comprehensive list of all the changes, found [here](../reference/changelog-R2020a.md).
 
 ---
 
 ## Simplify the HDR Backgrounds
 
 In last releases we did a great effort to improve the quality of the rendering in Webots, using PBR and HDR backgrounds.
-Unfortunately former equirectangular HDR background images turned out to be very heavy and have a bug memory intensive impact that is causing some issues with low to mid range graphics cards and in general are significantly slowing down the world loading.
+Unfortunately former equirectangular HDR background images turned out to be very heavy and memory-intensive.
+This is causing some issues with low to mid range graphics cards and in general they are significantly slowing down the world loading.
 That's why we dropped the support of the equirectangular HDR images and the `Cubemap` node.
 Instead we restored the standard `<cube_face>Url` VRML fields and added the new `<cube_face>IrradianceUrl` and `luminosity` fields of the [Background](../reference/background.md) node to specify light reflections and scale the light contribution on the [PBR appearances](../reference/pbrappearance.md).
 So now we have a better performance with the same realistic rendering quality.
@@ -40,15 +41,14 @@ Note that we deprecated some of the old default backgrounds that were not in HDR
 
 ## New Appearances
 
-To let you model more realistic robots and environments we have expanded our PBRAppearance library with some  new PROTO files.
+To let you model more realistic robots and environments we expanded our PBRAppearance library with some new PROTO files.
 
-[TODO pictures of the new Appearances]
+[TODO picture(s) of the new Appearances]
 
 - DryMud
 - CorrugatedPlates
 - CorrugatedPvc
 - FormedConcrete
-- complete_apartment
 
 
 
@@ -73,7 +73,7 @@ So for this release we extended the [Supervisor API](../reference/supervisor.md)
 ## Viewpoint Follow Functionality
 
 We all know that make the Viewpoint follow smoothly the simulation to record fancy movies or just to run nice simulations could be tricky.
-To help you in this task, we replaced the `followOrientation` field of the [Viewpoint](../reference/viewpoint.md) node with the `followType` and added a new "Pan and Tilt Shot" options that will move the viewpoint so that it will always look at the object center.
+To help you in this task, we replaced the `followOrientation` field of the [Viewpoint](../reference/viewpoint.md) node with the `followType` and added a new "Pan and Tilt Shot" option that will automatically move the viewpoint so that it always looks at the object center.
 
 ---
 
