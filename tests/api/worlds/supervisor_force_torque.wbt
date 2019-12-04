@@ -3,8 +3,8 @@ WorldInfo {
   northDirection 1 0 1
 }
 Viewpoint {
-  orientation 0.9732014567971358 0.21085473626933982 0.09175622420697059 5.546408596265306
-  position -0.1936250704783903 0.8017619035131057 0.9285402568113604
+  orientation 0.7313150659620616 0.6315748590081873 0.2574713028003196 5.299875678479962
+  position -0.7147794696632099 0.8813250883068854 0.7729137862237457
 }
 Background {
   skyColor [
@@ -31,7 +31,7 @@ Robot {
         metalness 0
       }
       geometry Box {
-        size 0.5 0.1 0.2
+        size 0.9 0.1 0.2
       }
     }
     HingeJoint {
@@ -44,7 +44,7 @@ Robot {
         }
       ]
       endPoint DEF BALANCE_0 Solid {
-        translation 0.06 0.05 0
+        translation 0.21 0.05 0
         children [
           DEF BALANCE Shape {
             appearance PBRAppearance {
@@ -72,7 +72,7 @@ Robot {
         }
       ]
       endPoint DEF BALANCE_3 Solid {
-        translation -0.18 0.05 0
+        translation -0.09 0.05 0
         children [
           DEF BALANCE Shape {
             appearance PBRAppearance {
@@ -101,7 +101,7 @@ Robot {
         }
       ]
       endPoint DEF BALANCE_1 Solid {
-        translation -0.06 0.05 0
+        translation 0.07 0.05 0
         children [
           DEF BALANCE Shape {
             appearance PBRAppearance {
@@ -130,7 +130,7 @@ Robot {
         }
       ]
       endPoint DEF BALANCE_2 Solid {
-        translation 0.18 0.05 0
+        translation 0.34 0.05 0
         children [
           DEF BALANCE Shape {
             appearance PBRAppearance {
@@ -144,6 +144,98 @@ Robot {
           }
         ]
         name "solid(2)"
+        boundingObject USE BALANCE
+        physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.05 0
+      }
+      device [
+        PositionSensor {
+          name "ps4"
+        }
+      ]
+      endPoint Solid {
+        translation -0.23 0.05 0
+        children [
+          USE BALANCE
+          DEF BALANCE_4 Solid {
+            translation 0 0 0.25
+            children [
+              DEF SPHERE_SHAPE Shape {
+                appearance PBRAppearance {
+                  baseColor 0.643137 0 0
+                }
+                geometry Sphere {
+                  radius 0.01
+                }
+              }
+            ]
+            boundingObject USE SPHERE_SHAPE
+            physics Physics {
+            }
+          }
+          Solid {
+            translation 0 0 -0.25
+            children [
+              USE SPHERE_SHAPE
+            ]
+            name "solid(1)"
+            boundingObject USE SPHERE_SHAPE
+            physics Physics {
+            }
+          }
+        ]
+        name "solid(4)"
+        boundingObject USE BALANCE
+        physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.05 0
+      }
+      device [
+        PositionSensor {
+          name "ps5"
+        }
+      ]
+      endPoint Solid {
+        translation -0.37 0.05 0
+        children [
+          USE BALANCE
+          DEF BALANCE_5 Solid {
+            translation 0 0 0.25
+            children [
+              DEF SPHERE_SHAPE Shape {
+                appearance PBRAppearance {
+                  baseColor 0.643137 0 0
+                }
+                geometry Sphere {
+                  radius 0.01
+                }
+              }
+            ]
+            boundingObject USE SPHERE_SHAPE
+            physics Physics {
+            }
+          }
+          Solid {
+            translation 0 0 -0.25
+            children [
+              USE SPHERE_SHAPE
+            ]
+            name "solid(1)"
+            boundingObject USE SPHERE_SHAPE
+            physics Physics {
+            }
+          }
+        ]
+        name "solid(5)"
         boundingObject USE BALANCE
         physics Physics {
         }
