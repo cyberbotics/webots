@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
   char buffer[32];
   WbNodeRef node[SOLID_NUMBER];
   WbDeviceTag ps[SOLID_NUMBER];
-  
+
   for (i = 0; i < SOLID_NUMBER; ++i) {
     sprintf(buffer, "BALANCE_%d", i);
     node[i] = wb_supervisor_node_get_from_def(buffer);
