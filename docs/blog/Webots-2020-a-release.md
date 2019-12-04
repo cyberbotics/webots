@@ -22,9 +22,8 @@ That's why we dropped the support of the equirectangular HDR images and the `Cub
 Instead we restored the standard `<cube_face>Url` VRML fields and added the new `<cube_face>IrradianceUrl` and `luminosity` fields of the [Background](../reference/background.md) node to specify light reflections and scale the light contribution on the [PBR appearances](../reference/pbrappearance.md).
 So now we have a better performance with the same realistic rendering quality.
 
-[ picutre of the updated HDR background]
-%figure "TODO"
-![TODO](TODO)
+%figure "New structure of Background node"
+![New Background Fields](images/background_new_fields.thumbnail.png)
 %end
 
 But do not worry about the compatibility of your custom HDR backgrounds!
