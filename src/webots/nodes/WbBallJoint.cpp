@@ -223,7 +223,7 @@ void WbBallJoint::updatePosition() {
   const WbJointParameters *const p = parameters();
   const WbJointParameters *const p2 = parameters2();
   const WbJointParameters *const p3 = parameters3();
-  assert(p || p2 || p3);
+
   if (solidReference() == NULL && solidEndPoint())
     updatePositions(p ? p->position() : mPosition, p2 ? p2->position() : mPosition2, p3 ? p3->position() : mPosition3);
 }
