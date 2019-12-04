@@ -49,7 +49,6 @@ To let you model more realistic robots and environments we have expanded our PBR
 - CorrugatedPlates
 - CorrugatedPvc
 - FormedConcrete
-- complete_apartment
 
 
 
