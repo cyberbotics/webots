@@ -113,7 +113,7 @@ void WbSliderJoint::updatePosition() {
   const WbJointParameters *const p = parameters();
 
   if (solidReference() == NULL && solidEndPoint())
-    updatePosition(p ? p->position() : 0.0);
+    updatePosition(p ? p->position() : mPosition);
 
   emit updateMuscleStretch(0.0, true, 1);
 }
