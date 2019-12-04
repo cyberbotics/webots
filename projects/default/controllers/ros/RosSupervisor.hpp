@@ -34,7 +34,7 @@
 #include <webots_ros/supervisor_virtual_reality_headset_get_position.h>
 
 #include <webots_ros/node_add_force_or_torque.h>
-#include <webots_ros/node_add_relative_force.h>
+#include <webots_ros/node_add_force_with_offset.h>
 #include <webots_ros/node_get_center_of_mass.h>
 #include <webots_ros/node_get_contact_point.h>
 #include <webots_ros/node_get_field.h>
@@ -140,8 +140,8 @@ public:
   bool nodeSetVelocityCallback(webots_ros::node_set_velocity::Request &req, webots_ros::node_set_velocity::Response &res);
   bool nodeAddForceCallback(webots_ros::node_add_force_or_torque::Request &req,
                             webots_ros::node_add_force_or_torque::Response &res);
-  bool nodeAddRelativeForceCallback(webots_ros::node_add_relative_force::Request &req,
-                                    webots_ros::node_add_relative_force::Response &res);
+  bool nodeAddForceWithOffsetCallback(webots_ros::node_add_force_with_offset::Request &req,
+                                      webots_ros::node_add_force_with_offset::Response &res);
   bool nodeAddTorqueCallback(webots_ros::node_add_force_or_torque::Request &req,
                              webots_ros::node_add_force_or_torque::Response &res);
   bool nodeGetFieldCallback(webots_ros::node_get_field::Request &req, webots_ros::node_get_field::Response &res);
@@ -231,7 +231,7 @@ private:
   ros::ServiceServer mNodeGetVelocityServer;
   ros::ServiceServer mNodeSetVelocityServer;
   ros::ServiceServer mNodeAddForceServer;
-  ros::ServiceServer mNodeAddRelativeForceServer;
+  ros::ServiceServer mNodeAddForceWithOffsetServer;
   ros::ServiceServer mNodeAddTorqueServer;
   ros::ServiceServer mNodeGetFieldServer;
   ros::ServiceServer mNodeMoveViewpointServer;

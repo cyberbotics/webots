@@ -140,9 +140,9 @@ namespace webots {
     void moveViewpoint() const;
     void setVisibility(Node *from, bool visible);
 
-    void addForce(const double force[3]);
-    void addRelativeForce(const double force[3], const double origin[3]);
-    void addTorque(const double torque[3]);
+    void addForce(const double force[3], bool relative);
+    void addForceWithOffset(const double force[3], const double offset[3], bool relative);
+    void addTorque(const double torque[3], bool relative);
 
     // DO NOT USE THESE FUNCTIONS: THEY ARE RESERVED FOR INTERNAL USE:
     static Node *findNode(WbNodeRef ref);

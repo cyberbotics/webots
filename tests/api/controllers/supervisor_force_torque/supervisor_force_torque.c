@@ -50,12 +50,12 @@ int main(int argc, char **argv) {
 
   for (i = 0; i < 200; ++i) {
     wb_robot_step(TIME_STEP);
-    wb_supervisor_node_add_relative_force(node[0], force, offset0);
-    wb_supervisor_node_add_relative_force(node[1], force, offset1);
-    wb_supervisor_node_add_relative_force(node[2], force, offset2);
-    wb_supervisor_node_add_torque(node[3], torque);
-    wb_supervisor_node_add_force(node[4], force);
-    wb_supervisor_node_add_relative_force(node[5], force, offset0);
+    wb_supervisor_node_add_force_with_offset(node[0], force, offset0, false);
+    wb_supervisor_node_add_force_with_offset(node[1], force, offset1, false);
+    wb_supervisor_node_add_force_with_offset(node[2], force, offset2, false);
+    wb_supervisor_node_add_torque(node[3], torque, true);
+    wb_supervisor_node_add_force(node[4], force, false);
+    wb_supervisor_node_add_force_with_offset(node[5], force, offset0, false);
   }
 
   double positions[6];

@@ -1523,7 +1523,7 @@ It is relevant to show a node only if it was previously hidden using this functi
 ---
 
 #### `wb_supervisor_node_add_force`
-#### `wb_supervisor_node_add_relative_force`
+#### `wb_supervisor_node_add_force_with_offset`
 #### `wb_supervisor_node_add_torque`
 
 %tab-component "language"
@@ -1533,9 +1533,9 @@ It is relevant to show a node only if it was previously hidden using this functi
 ```c
 #include <webots/supervisor.h>
 
-void wb_supervisor_node_add_force(WbNodeRef node, const double force[3]);
-void wb_supervisor_node_add_relative_force(WbNodeRef node, const double force[3], const double origin[3]);
-void wb_supervisor_node_add_torque(WbNodeRef node, const double torque[3]);
+void wb_supervisor_node_add_force(WbNodeRef node, const double force[3], bool relative);
+void wb_supervisor_node_add_force_with_offset(WbNodeRef node, const double force[3], const double offset[3], bool relative);
+void wb_supervisor_node_add_torque(WbNodeRef node, const double torque[3], bool relative);
 ```
 
 %tab-end
@@ -1547,9 +1547,9 @@ void wb_supervisor_node_add_torque(WbNodeRef node, const double torque[3]);
 
 namespace webots {
   class Node {
-    void addForce(const double force[3]);
-    void addRelativeForce(const double force[3], const double origin[3]);
-    void addTorque(const double torque[3]);
+    void addForce(const double force[3], bool relative);
+    void addForceWithOffset(const double force[3], const double offset[3], bool relative);
+    void addTorque(const double torque[3], bool relative);
     // ...
   }
 }
@@ -1563,9 +1563,9 @@ namespace webots {
 from controller import Node
 
 class Node:
-    def addForce(self,  force)
-    def addRelativeForce(self, origin)
-    def addTorque(self, torque)
+    def addForce(self, force, relative)
+    def addForceWithOffset(self, offset, relative)
+    def addTorque(self, torque, relative)
     # ...
 ```
 
@@ -1577,9 +1577,9 @@ class Node:
 import com.cyberbotics.webots.controller.Node;
 
 public class Node {
-  public void addForce(double force[3]);
-  public void addRelativeForce(double force[3], double origin[3]);
-  public void addTorque(double torque[3]);
+  public void addForce(double force[3], boolean relative);
+  public void addForceWithOffset(double force[3], double offset[3], boolean relative);
+  public void addTorque(double torque[3], boolean relative);
   // ...
 }
 ```
@@ -1589,9 +1589,9 @@ public class Node {
 %tab "MATLAB"
 
 ```MATLAB
-void wb_supervisor_node_add_force(node, force)
-void wb_supervisor_node_add_relative_force(node, force, origin)
-void wb_supervisor_node_add_torque(node, torque)
+void wb_supervisor_node_add_force(node, force, relative)
+void wb_supervisor_node_add_force_with_offset(node, force, offset, relative)
+void wb_supervisor_node_add_torque(node, torque, relative)
 ```
 
 %tab-end
@@ -1600,9 +1600,9 @@ void wb_supervisor_node_add_torque(node, torque)
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/supervisor/node/add_force` | `service` | `webots_ros::node_add_force_or_torque` | `uint64 node`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) force<br/>`---`<br/>`int32 success` |
-| `/supervisor/node/add_relative_force` | `service` | `webots_ros::node_add_relative_force` | `uint64 node`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) force<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) origin<br/>`---`<br/>`int32 success` |
-| `/supervisor/node/add_torque` | `service` | `webots_ros::node_add_force_or_torque` | `uint64 node`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) force<br/>`---`<br/>`int32 success` |
+| `/supervisor/node/add_force` | `service` | `webots_ros::node_add_force_or_torque` | `uint64 node`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) force<br/>`uint8 relative`<br/>`---`<br/>`int32 success` |
+| `/supervisor/node/add_force_with_offset` | `service` | `webots_ros::node_add_force_with_offset` | `uint64 node`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) force<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) offset<br/>`uint8 relative`<br/>`---`<br/>`int32 success` |
+| `/supervisor/node/add_torque` | `service` | `webots_ros::node_add_force_or_torque` | `uint64 node`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) force<br/>`uint8 relative`<br/>`---`<br/>`int32 success` |
 
 %tab-end
 
@@ -1612,8 +1612,8 @@ void wb_supervisor_node_add_torque(node, torque)
 
 *add force or torque to a Solid node.*
 
-The `wb_supervisor_node_add_force` function adds a force to the [Solid](solid.md) node at it's center of mass.
-The `wb_supervisor_node_add_relative_force` function adds a force to the [Solid](solid.md) node at the location (expressed in world coordinates) defined by the `origin` argument.
+The `wb_supervisor_node_add_force` function adds a force to the [Solid](solid.md) node at it's center of mass, the `relative` argument defines if the force is expressed in world coordinate system or relatively to the node.
+The `wb_supervisor_node_add_force_with_offset` function adds a force to the [Solid](solid.md) node at the location (expressed in the node coordinate system) defined by the `offset` argument.
 The `wb_supervisor_node_add_torque` function adds a torque to the [Solid](solid.md) node.
 
 ---

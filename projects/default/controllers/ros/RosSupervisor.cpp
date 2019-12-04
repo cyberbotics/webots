@@ -107,8 +107,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                                 &RosSupervisor::nodeSetVelocityCallback, this);
   mNodeAddForceServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/add_force",
                                                              &RosSupervisor::nodeAddForceCallback, this);
-  mNodeAddRelativeForceServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/add_relative_force",
-                                                                     &RosSupervisor::nodeAddRelativeForceCallback, this);
+  mNodeAddForceWithOffsetServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/add_force_with_offset",
+                                                                       &RosSupervisor::nodeAddForceWithOffsetCallback, this);
   mNodeAddTorqueServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/add_torque",
                                                               &RosSupervisor::nodeAddTorqueCallback, this);
   mNodeGetFieldServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_field",
@@ -594,24 +594,24 @@ bool RosSupervisor::nodeAddForceCallback(webots_ros::node_add_force_or_torque::R
   force[0] = req.force.x;
   force[1] = req.force.y;
   force[2] = req.force.z;
-  node->addForce((const double *)force);
+  node->addForce((const double *)force, req.relative);
   res.success = 1;
   return true;
 }
 
-bool RosSupervisor::nodeAddRelativeForceCallback(webots_ros::node_add_relative_force::Request &req,
-                                                 webots_ros::node_add_relative_force::Response &res) {
+bool RosSupervisor::nodeAddForceWithOffsetCallback(webots_ros::node_add_force_with_offset::Request &req,
+                                                   webots_ros::node_add_force_with_offset::Response &res) {
   assert(this);
   Node *node = reinterpret_cast<Node *>(req.node);
   double force[3];
   force[0] = req.force.x;
   force[1] = req.force.y;
   force[2] = req.force.z;
-  double origin[3];
-  origin[0] = req.origin.x;
-  origin[1] = req.origin.y;
-  origin[2] = req.origin.z;
-  node->addRelativeForce((const double *)force, (const double *)origin);
+  double offset[3];
+  offset[0] = req.offset.x;
+  offset[1] = req.offset.y;
+  offset[2] = req.offset.z;
+  node->addForceWithOffset((const double *)force, (const double *)offset, req.relative);
   res.success = 1;
   return true;
 }
@@ -624,7 +624,7 @@ bool RosSupervisor::nodeAddTorqueCallback(webots_ros::node_add_force_or_torque::
   torque[0] = req.force.x;
   torque[1] = req.force.y;
   torque[2] = req.force.z;
-  node->addTorque((const double *)torque);
+  node->addTorque((const double *)torque, req.relative);
   res.success = 1;
   return true;
 }

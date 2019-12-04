@@ -14,7 +14,7 @@ Released on XXX YYth, 2019.
       - Added image tools to help with `HDR` format and equirectangular projections.
       - Added new HDR background: `entrance_hall`
     - Added new appearance: `DryMud`
-    - Added new functions to add force and torque to [Solid](solid.md) nodes: `wb_supervisor_node_add_force`, `wb_supervisor_node_add_relative_force` and `wb_supervisor_node_add_torque`.
+    - Added new functions to add force and torque to [Solid](solid.md) nodes: `wb_supervisor_node_add_force`, `wb_supervisor_node_add_force_with_offset` and `wb_supervisor_node_add_torque`.
     - Added function to import and remove nodes from SFNode fields: `wb_supervisor_field_remove_sf`, `wb_supervisor_field_import_sf_node` and `wb_supervisor_field_import_sf_node_from_string`.
     - Improved the Webots online 3D viewer: `webots.min.js`
       - Improved support of the Webots rendering pipeline: supported the Bloom post-processing effect.

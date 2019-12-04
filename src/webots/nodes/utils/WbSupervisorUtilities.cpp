@@ -753,28 +753,34 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     case C_SUPERVISOR_NODE_ADD_FORCE: {
       unsigned int id;
       double fx, fy, fz;
+      unsigned char relative;
 
       stream >> id;
       stream >> fx;
       stream >> fy;
       stream >> fz;
+      stream >> relative;
 
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       if (solid) {
+        WbVector3 force(fx, fy, fz);
+        if (relative == 1)
+          force = solid->matrix().extracted3x3Matrix() * force;
         dBodyID body = solid->bodyMerger();
         WbVector3 position = solid->computedGlobalCenterOfMass() - solid->solidMerger()->solid()->computedGlobalCenterOfMass();
         if (body)
-          dBodyAddForceAtRelPos(body, fx, fy, fz, position.x(), position.y(), position.z());
+          dBodyAddForceAtRelPos(body, force.x(), force.y(), force.z(), position.x(), position.y(), position.z());
         else
           mRobot->warn(tr("wb_supervisor_node_add_force() can't be used with a kinematic Solid"));
       } else
         mRobot->warn(tr("wb_supervisor_node_add_force() can exclusively be used with a Solid"));
       return;
     }
-    case C_SUPERVISOR_NODE_ADD_RELATIVE_FORCE: {
+    case C_SUPERVISOR_NODE_ADD_FORCE_WITH_OFFSET: {
       unsigned int id;
       double fx, fy, fz, ox, oy, oz;
+      unsigned char relative;
 
       stream >> id;
       stream >> fx;
@@ -783,34 +789,44 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> ox;
       stream >> oy;
       stream >> oz;
+      stream >> relative;
 
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       if (solid) {
+        WbVector3 force(fx, fy, fz), offset(ox, oy, oz);
+        if (relative == 1)
+          force = solid->matrix().extracted3x3Matrix() * force;
+        offset = solid->matrix().extracted3x3Matrix() * offset;
         dBodyID body = solid->bodyMerger();
         if (body)
-          dBodyAddForceAtRelPos(body, fx, fy, fz, ox, oy, oz);
+          dBodyAddForceAtRelPos(body, force.x(), force.y(), force.z(), offset.x(), offset.y(), offset.z());
         else
-          mRobot->warn(tr("wb_supervisor_node_add_relative_force() can't be used with a kinematic Solid"));
+          mRobot->warn(tr("wb_supervisor_node_add_force_with_offset() can't be used with a kinematic Solid"));
       } else
-        mRobot->warn(tr("wb_supervisor_node_add_relative_force() can exclusively be used with a Solid"));
+        mRobot->warn(tr("wb_supervisor_node_add_force_with_offset() can exclusively be used with a Solid"));
       return;
     }
     case C_SUPERVISOR_NODE_ADD_TORQUE: {
       unsigned int id;
       double tx, ty, tz;
+      unsigned char relative;
 
       stream >> id;
       stream >> tx;
       stream >> ty;
       stream >> tz;
+      stream >> relative;
 
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       if (solid) {
+        WbVector3 torque(tx, ty, tz);
+        if (relative == 1)
+          torque = solid->matrix().extracted3x3Matrix() * torque;
         dBodyID body = solid->bodyMerger();
         if (body)
-          dBodyAddTorque(body, tx, ty, tz);
+          dBodyAddTorque(body, torque.x(), torque.y(), torque.z());
         else
           mRobot->warn(tr("wb_supervisor_node_add_torque() can't be used with a kinematic Solid"));
       } else
