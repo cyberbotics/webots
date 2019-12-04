@@ -1,6 +1,6 @@
 # Webots R2020 Change Log
 
-## [Webots R2020a](../blog/Webots-2020-a-release.md)
+## [Webots R2020a](../blog/Webots-2019-b-release.md)
 Released on December YYth, 2019.
 
   - New Robots
