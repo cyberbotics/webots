@@ -8,7 +8,7 @@ PROTO Robotino3ExtObject [
   field  SFVec3f     translation    0 0 0
   field  SFRotation  rotation       0 1 0 0
   field  SFString    name           "Extern object for Robotino 3"
-  field  SFString    model          "Festo - Robotino 3' ext object"
+  field  SFString    model          "Festo - Robotino 3 ext object"
 ]
 {
   Solid {
@@ -106,7 +106,7 @@ PROTO Robotino3ExtObject [
       children [
         DEF BO_T80 Transform {
           translation 0.0406 -0.1921 0.0905
-          rotation 0 0 1 1.5707996938995747
+          rotation 0 0 1 1.5708
           children [
             Cylinder {
               height 0.026
@@ -116,7 +116,7 @@ PROTO Robotino3ExtObject [
         }
         DEF BO_T81_1 Transform {
           translation 0.022 -0.1921 0.0905
-          rotation 0 0 1 1.5707996938995747
+          rotation 0 0 1 1.5708
           children [
             Cylinder {
               height 0.011
@@ -126,7 +126,7 @@ PROTO Robotino3ExtObject [
         }
         DEF BO_T81_2 Transform {
           translation 0.0131 -0.1921 0.0905
-          rotation 0 0 1 1.5707996938995747
+          rotation 0 0 1 1.5708
           children [
             Cylinder {
               height 0.007
@@ -136,7 +136,7 @@ PROTO Robotino3ExtObject [
         }
         DEF BO_T81_3 Transform {
           translation 0.0006 -0.1921 0.0895
-          rotation 0 0 1 1.5707996938995747
+          rotation 0 0 1 1.5708
           children [
             Box {
               size 0.013 0.0184 0.0137
@@ -145,7 +145,7 @@ PROTO Robotino3ExtObject [
         }
         DEF BO_T82_1 Transform {
           translation 0 -0.1921 0.0454
-          rotation 1 0 0 1.5708003061004252
+          rotation 1 0 0 1.5708
           children [
             Cylinder {
               height 0.055
@@ -155,7 +155,7 @@ PROTO Robotino3ExtObject [
         }
         DEF BO_T82_2 Transform {
           translation 0 -0.1921 0.0282
-          rotation 1 0 0 1.5708003061004252
+          rotation 1 0 0 1.5708
           children [
             Cylinder {
               height 0.004
@@ -165,7 +165,7 @@ PROTO Robotino3ExtObject [
         }
         DEF BO_T82_3 Transform {
           translation 0 -0.1921 0.0362
-          rotation 1 0 0 1.5708003061004252
+          rotation 1 0 0 1.5708
           children [
             Cylinder {
               height 0.004
@@ -175,7 +175,7 @@ PROTO Robotino3ExtObject [
         }
         DEF BO_T83 Transform {
           translation 0 -0.1921 0.078
-          rotation 1 0 0 1.5708003061004252
+          rotation 1 0 0 1.5708
           children [
             Cylinder {
               height 0.011

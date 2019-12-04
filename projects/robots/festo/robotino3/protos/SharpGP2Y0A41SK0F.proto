@@ -1,15 +1,13 @@
 #VRML_SIM R2019b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
-# This is a PROTO file for Webots of the GP2D120 IR sensor from Sharp.
-# Effective range: 4 to 30 cm
-# Documentation url: https://www.pololu.com/file/0J157/GP2D120-DATA-SHEET.pdf
+# This is a PROTO file for Webots of the infrared sensor GP2Y0A41SK0F from Sharp.
+# Effective range: 4 to 30 cm, doc: https://www.pololu.com/file/0J713/GP2Y0A41SK0F.pdf
 
-PROTO SharpGP2D120 [
-  field  SFVec3f     translation    0 0 0
-  field  SFRotation  rotation       0 1 0 0
-  field  SFString    name           "Sharp's GP2D120 IR sensor"
-  field  SFString    model          "GP2D120"
+PROTO SharpGP2Y0A41SK0F [
+  field  SFVec3f     translation  0 0 0
+  field  SFRotation  rotation     0 1 0 0
+  field  SFString    name         "Sharp's IR sensor GP2Y0A41SK0F"
 ]
 {
   DistanceSensor {

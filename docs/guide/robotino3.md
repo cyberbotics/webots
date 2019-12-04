@@ -14,23 +14,23 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 Robotino3 {
-  SFVec3f     translation                   0 0 0
-  SFRotation  rotation                      1 0 0 -1.5708
-  SFString    name                          "Robotino 3"
-  SFString    model                         "Festo - Robotino 3"
-  SFString    controller                    "robotino3"
-  SFString    controllerArgs                ""
-  SFString    customData                    ""
-  SFBool      supervisor                    FALSE
-  SFBool      synchronization               TRUE
-  SFBool      selfCollision                 FALSE   # Enables/disables the detection of collisions within the robot.
-  MFNode      bodyExtension                 []
-  MFNode      cameraExtension               []
-  MFNode      objectExtension               []
-  MFNode      lidarTopExtension             []
-  MFNode      lidarMiddleExtension          []
-  MFNode      lidarBottomExtension          []
-  SFString{"SharpGP2D120", "SharpGP2Y0A"}   InfraredSensorModel    "SharpGP2D120"
+  SFVec3f     translation      0 0 0
+  SFRotation  rotation         1 0 0 -1.5708
+  SFString    name             "Robotino 3"
+  SFString    model            "Festo - Robotino 3"
+  SFString    controller       "robotino3"
+  SFString    controllerArgs   ""
+  SFString    customData       ""
+  SFBool      supervisor       FALSE
+  SFBool      synchronization  TRUE
+  SFBool      selfCollision    FALSE   # Enables/disables the detection of collisions within the robot.
+  MFNode      bodyExtension    []
+  MFNode      cameraExtension  []
+  MFNode      objectExtension  []
+  MFNode      topExtension     []
+  MFNode      middleExtension  []
+  MFNode      bottomExtension  []
+  SFString{"SharpGP2D120", "SharpGP2Y0A41SK0F", "SharpGP2Y0A02YK0F"}   InfraredSensorModel    "SharpGP2D120"
 }
 ```
 
@@ -41,9 +41,9 @@ Robotino3 {
 - `bodyExtension` : Extends the robot with new nodes (such as the `Robotino3Platform` for example).
 - `cameraExtension` : Extends the robot with a camera (such as the `Robotino3Webcam` for example).
 - `objectExtension` : Extends the robot with an extern object (such as the `Robotino3ExtObject` for example).
-- `lidarTopExtension`: Extends the robot with a lidar at the robot's top.
-- `lidarMiddleExtension`: Extends the robot with a lidar at the robot's middle.
-- `lidarBottomExtension`: Extends the robot with a lidar at the robot's bottom.
+- `topExtension`: Extends the robot with new parts such as lidar.
+- `middleExtension`: Extends the robot with new parts such as lidar.
+- `bottomExtension`: Extends the robot with new parts such as lidar.
 - `InfraredSensorModel`: Defines the infrared sensors used (such as the `GP2D120` from Sharp).
 
 
@@ -53,4 +53,4 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### robotino3.wbt
 
-![robotino3.wbt.png](images/robots/robotino3/robotino3.wbt.thumbnail.jpg) This simulation shows a Robotino 3 moving in an industrial environment using a Braitenberg algorithm using the information received by its nine distance sensors.
+![robotino3.wbt.png](images/robots/robotino3/robotino3.wbt.thumbnail.jpg) This simulation shows a Robotino 3 moving in an industrial environment using a Braitenberg algorithm using the information received by its nine infrared sensors.

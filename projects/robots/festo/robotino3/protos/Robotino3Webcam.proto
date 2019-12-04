@@ -41,7 +41,7 @@ PROTO Robotino3Webcam [
               }
               DEF GLASS Shape {
                 appearance PBRAppearance {
-                  baseColor 0.870588 1 0.992157
+                  baseColor 0.87059 1 0.99216
                 }
                 geometry IndexedFaceSet {
                   coord Coordinate {
