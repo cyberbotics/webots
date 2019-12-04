@@ -48,12 +48,12 @@ This can be visualized with the `View / Optional Rendering / Show Center of Mass
 
 ### [custom\_html\_robot\_window.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/worlds/custom_html_robot_window.wbt)
 
-**Keywords**: custom robot window, [controller plugin](controller-plugin.md), HTML, Javascript, CSS
+**Keywords**: custom robot window, [controller plugin](controller-plugin.md), HTML, JavaScript, CSS
 
 ![custom_html_robot_window.png](images/samples/custom_html_robot_window.thumbnail.jpg) This example shows a simple custom robot window.
 The HTML file contains the page content.
 The CSS file contains the page style.
-The Javascript and C files deal with the interactions between the page and the robot, using the WWI API to exchange string messages.
+The JavaScript and C files deal with the interactions between the page and the robot, using the WWI API to exchange string messages.
 
 ### [cylinder\_stack.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/worlds/cylinder_stack.wbt)
 

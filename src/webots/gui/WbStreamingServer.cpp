@@ -377,13 +377,14 @@ void WbStreamingServer::processTextMessage(QString message) {
         gView3D->remoteWheelEvent(&wheelEvent);
     }
   } else if (message.startsWith("robot:")) {
-    const QString name = message.mid(6, message.indexOf(":", 6) - 6);
-    const QByteArray msg = message.mid(7 + name.size()).toUtf8();
-    WbLog::info(tr("Streaming server: received robot message for %1: %2.").arg(name).arg(message));
+    const QString &name = message.mid(6, message.indexOf(":", 6) - 6);
+    const QString &data = message.mid(7 + name.size());
+    const QByteArray &byteData = data.toUtf8();
+    WbLog::info(tr("Streaming server: received robot message for %1: \"%2\".").arg(name).arg(data));
     const QList<WbRobot *> &robots = WbWorld::instance()->robots();
     foreach (WbRobot *const robot, robots)
       if (robot->name() == name) {
-        robot->receiveFromJavascript(msg);
+        robot->receiveFromJavascript(byteData);
         break;
       }
   } else if (message == "pause") {
@@ -394,7 +395,7 @@ void WbStreamingServer::processTextMessage(QString message) {
             &WbStreamingServer::propagateSimulationStateChange);
     printf("pause\n");
     fflush(stdout);
-    client->sendTextMessage("pause");
+    client->sendTextMessage("paused by client");
   } else if (message.startsWith("real-time:") or message.startsWith("fast:")) {
     const bool realTime = message.startsWith("real-time:");
     const double timeout = realTime ? message.mid(10).toDouble() : message.mid(5).toDouble();
@@ -426,7 +427,7 @@ void WbStreamingServer::processTextMessage(QString message) {
             &WbStreamingServer::propagateSimulationStateChange);
     printf("pause\n");
     fflush(stdout);
-    client->sendTextMessage("pause");
+    client->sendTextMessage("paused by client");
   } else if (message.startsWith("timeout:")) {
     const double timeout = message.mid(8).toDouble();
     if (timeout >= 0)
@@ -766,7 +767,8 @@ void WbStreamingServer::propagateNodeAddition(WbNode *node) {
     WbVrmlWriter writer(&nodeString, node->modelName() + ".x3d");
     node->write(writer);
     foreach (QWebSocket *client, mClients)
-      client->sendTextMessage(QString("node:%1:%2").arg(node->parent()->uniqueId()).arg(nodeString));
+      // add root <nodes> element to handle correctly multiple root elements like in case of PBRAppearance node.
+      client->sendTextMessage(QString("node:%1:<nodes>%2</nodes>").arg(node->parent()->uniqueId()).arg(nodeString));
   }
 }
 

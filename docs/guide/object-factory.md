@@ -53,6 +53,7 @@ PlasticCrate {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 1 0 0
   SFString   name        "plastic crate"
+  SFColor    color       0.9 0.2 0.2
   SFVec3f    size        0.6 0.6 0.6
   SFFloat    mass        0
 }
@@ -947,4 +948,3 @@ SmallValve {
 - `controller`: Defines the controller of the valve which is used to limit its rotation.
 
 - `absoluteStop`: Defines the maximum rotational angle in radians. This value is sent to the controller using the controllerArgs field.
-

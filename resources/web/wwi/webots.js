@@ -35,7 +35,7 @@ webots.User2Name           // user name of the secondary user.
 webots.CustomData          // application specific data to be passed to the simulation server
 webots.showRevert          // defines whether the revert button should be displayed
 webots.showQuit            // defines whether the quit button should be displayed
-webots.showFast            // defines whether the fast button should be displayed
+webots.showRun             // defines whether the run button should be displayed
 */
 
 webots.View = class View {
@@ -200,7 +200,7 @@ webots.View = class View {
     };
 
     var finalizeWorld = () => {
-      $('#webotsProgressMessage').html('Loading HTML and Javascript files...');
+      $('#webotsProgressMessage').html('Loading HTML and JavaScript files...');
       if (this.x3dScene.viewpoint.followedObjectId == null || this.broadcast)
         this.x3dScene.viewpoint.initFollowParameters();
       else
@@ -405,6 +405,7 @@ webots.View = class View {
       return;
     this.worldSelect = document.createElement('select');
     this.worldSelect.id = 'worldSelection';
+    this.worldSelect.classList.add('select-css');
     this.toolBar.worldSelectionDiv.appendChild(this.worldSelect);
     for (let i in worlds) {
       var option = document.createElement('option');

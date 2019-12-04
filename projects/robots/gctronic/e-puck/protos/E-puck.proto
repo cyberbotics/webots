@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -756,6 +756,51 @@ Robot {
         1 4095 0.01 2 0 0.01
       ]
     }
+    %{ if v2 then }%
+      DEF EPUCK_TOF DistanceSensor {
+        translation 0.0018 0.033 -0.034
+        rotation 0 1 0 1.57
+        name "tof"
+        type "generic"
+        lookupTable [
+            0.00    19.8  0.126
+            0.05    58.5  0.032
+            0.10   111.0  0.019
+            0.20   218.9  0.009
+            0.50   531.9  0.007
+            1.00  1052.0  0.010
+            1.70  1780.5  0.013
+            2.00  2000.0  0.000
+        ]
+        children [
+          Transform {
+            translation -0.0006 0.0008 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.5 0.5 0.5
+                  roughness 0.4
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.0008 0.0035 0.0044
+                }
+              }
+            ]
+          }
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0 0 0
+              roughness 0.4
+              metalness 0
+            }
+            geometry Box {
+              size 0.0005 0.0018 0.004
+            }
+          }
+        ]
+      }
+    %{ end }%
     DEF EPUCK_CAMERA Camera {
       translation 0 0.028 -0.03
       rotation IS camera_rotation

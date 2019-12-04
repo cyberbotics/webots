@@ -141,9 +141,10 @@ WbView3D::WbView3D() :
   // update mouses if required
   connect(WbSimulationState::instance(), SIGNAL(physicsStepStarted()), this, SLOT(updateMousesPosition()));
   // viewpoint
-  connect(actionManager->action(WbActionManager::FOLLOW_OBJECT), &QAction::triggered, this, &WbView3D::followSolid);
-  connect(actionManager->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE), &QAction::triggered, this,
-          &WbView3D::followSolidAndRotate);
+  connect(actionManager->action(WbActionManager::FOLLOW_NONE), &QAction::triggered, this, &WbView3D::followNone);
+  connect(actionManager->action(WbActionManager::FOLLOW_TRACKING), &QAction::triggered, this, &WbView3D::followTracking);
+  connect(actionManager->action(WbActionManager::FOLLOW_MOUNTED), &QAction::triggered, this, &WbView3D::followMounted);
+  connect(actionManager->action(WbActionManager::FOLLOW_PAN_AND_TILT), &QAction::triggered, this, &WbView3D::followPanAndTilt);
   connect(actionManager->action(WbActionManager::RESTORE_VIEWPOINT), &QAction::triggered, this, &WbView3D::restoreViewpoint);
   // signal the simulation state about a rendering
   connect(actionManager->action(WbActionManager::ORTHOGRAPHIC_PROJECTION), &QAction::triggered, this,
@@ -247,6 +248,7 @@ void WbView3D::onSelectionChanged(WbAbstractTransform *selectedAbstractTransform
   assert(mWorld);
 
   WbSolid *const selectedSolid = dynamic_cast<WbSolid *>(selectedAbstractTransform);
+  WbViewpoint *const viewpoint = mWorld->viewpoint();
 
   if (selectedSolid) {
     setCheckedShowSupportPolygonAction(selectedSolid);
@@ -254,27 +256,40 @@ void WbView3D::onSelectionChanged(WbAbstractTransform *selectedAbstractTransform
     setCheckedShowCenterOfBuoyancyAction(selectedSolid);
     setCheckedFollowObjectAction(selectedSolid);
     selectedSolid->updateTranslateRotateHandlesSize();
+    WbActionManager::instance()->action(WbActionManager::FOLLOW_NONE)->setEnabled(true);
   } else {
-    WbViewpoint *const viewpoint = mWorld->viewpoint();
-    if (viewpoint->isFollowingOrientation())
-      WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE)->setChecked(true);
-    else if (viewpoint->followedSolid())
-      WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT)->setChecked(true);
+    WbActionManager::instance()
+      ->action(WbActionManager::FOLLOW_NONE)
+      ->setEnabled(viewpoint->followType() != WbViewpoint::FOLLOW_NONE);
+    WbActionManager::instance()->action(WbActionManager::FOLLOW_NONE)->setChecked(false);
+    WbActionManager::instance()->action(WbActionManager::FOLLOW_TRACKING)->setChecked(false);
+    WbActionManager::instance()->action(WbActionManager::FOLLOW_MOUNTED)->setChecked(false);
+    WbActionManager::instance()->action(WbActionManager::FOLLOW_PAN_AND_TILT)->setChecked(false);
     WbActionManager::instance()->action(WbActionManager::SUPPORT_POLYGON)->setChecked(false);
     WbActionManager::instance()->action(WbActionManager::CENTER_OF_MASS)->setChecked(false);
     WbActionManager::instance()->action(WbActionManager::CENTER_OF_BUOYANCY)->setChecked(false);
   }
 
   bool enable = selectedSolid != NULL;
-  WbActionManager::instance()
-    ->action(WbActionManager::FOLLOW_OBJECT)
-    ->setEnabled(enable || WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT)->isChecked());
-  WbActionManager::instance()
-    ->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE)
-    ->setEnabled(enable || WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE)->isChecked());
   WbActionManager::instance()->action(WbActionManager::CENTER_OF_BUOYANCY)->setEnabled(enable);
   WbActionManager::instance()->action(WbActionManager::CENTER_OF_MASS)->setEnabled(enable);
   WbActionManager::instance()->action(WbActionManager::SUPPORT_POLYGON)->setEnabled(enable);
+  WbActionManager::instance()->action(WbActionManager::FOLLOW_TRACKING)->setEnabled(enable);
+  WbActionManager::instance()->action(WbActionManager::FOLLOW_MOUNTED)->setEnabled(enable);
+  WbActionManager::instance()->action(WbActionManager::FOLLOW_PAN_AND_TILT)->setEnabled(enable);
+  enable = enable && selectedSolid == viewpoint->followedSolid();
+  WbActionManager::instance()
+    ->action(WbActionManager::FOLLOW_NONE)
+    ->setChecked(enable && viewpoint->followType() == WbViewpoint::FOLLOW_NONE);
+  WbActionManager::instance()
+    ->action(WbActionManager::FOLLOW_TRACKING)
+    ->setChecked(enable && viewpoint->followType() == WbViewpoint::FOLLOW_TRACKING);
+  WbActionManager::instance()
+    ->action(WbActionManager::FOLLOW_MOUNTED)
+    ->setChecked(enable && viewpoint->followType() == WbViewpoint::FOLLOW_MOUNTED);
+  WbActionManager::instance()
+    ->action(WbActionManager::FOLLOW_PAN_AND_TILT)
+    ->setChecked(enable && viewpoint->followType() == WbViewpoint::FOLLOW_PAN_AND_TILT);
 
   cleanupEvents();
 }
@@ -337,94 +352,85 @@ void WbView3D::refresh() {
   mPhysicsRefresh = false;
 }
 
-// Initializes or terminates solid's camera follow up according to the status of the WbActionManager::FOLLOW_OBJECT action
-void WbView3D::followSolid(bool checked) {
-  mWorld->setModified();
-
-  WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE)->setChecked(false);
-
-  WbViewpoint *const viewpoint = mWorld->viewpoint();
-  WbSolid *const selectedSolid = WbSelection::instance()->selectedSolid();
-  if (!checked) {
-    viewpoint->terminateFollowUp();
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT)->setEnabled(selectedSolid != NULL);
+// Initializes or terminates solid's camera follow up according to the status of the WbActionManager actions
+void WbView3D::followNone(bool checked) {
+  if (!checked)
     return;
-  }
 
-  assert(selectedSolid);
-
+  mWorld->setModified();
+  WbViewpoint *const viewpoint = mWorld->viewpoint();
   if (viewpoint->followedSolid())
     viewpoint->terminateFollowUp();
+  viewpoint->setFollowType(WbViewpoint::FOLLOW_NONE);
+}
 
-  viewpoint->setFollowOrientation(false);
+void WbView3D::followTracking(bool checked) {
+  if (!checked)
+    return;
+
+  mWorld->setModified();
+  WbViewpoint *const viewpoint = mWorld->viewpoint();
+  WbSolid *const selectedSolid = WbSelection::instance()->selectedSolid();
+  assert(selectedSolid);
+  if (viewpoint->followedSolid())
+    viewpoint->terminateFollowUp();
+  viewpoint->setFollowType(WbViewpoint::FOLLOW_TRACKING);
   viewpoint->startFollowUp(selectedSolid, true);
 }
 
-// Initializes or terminates solid's camera follow up according to the status of the WbActionManager::FOLLOW_OBJECT_AND_ROTATE
-// action
-void WbView3D::followSolidAndRotate(bool checked) {
+void WbView3D::followMounted(bool checked) {
+  if (!checked)
+    return;
+
   mWorld->setModified();
-
-  WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT)->setChecked(false);
-
   WbViewpoint *const viewpoint = mWorld->viewpoint();
   WbSolid *const selectedSolid = WbSelection::instance()->selectedSolid();
-  if (!checked) {
-    viewpoint->terminateFollowUp();
-    viewpoint->setFollowOrientation(false);
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE)->setEnabled(selectedSolid != NULL);
-    return;
-  }
-
   assert(selectedSolid);
-
   if (viewpoint->followedSolid())
     viewpoint->terminateFollowUp();
+  viewpoint->setFollowType(WbViewpoint::FOLLOW_MOUNTED);
+  viewpoint->startFollowUp(selectedSolid, true);
+}
 
-  viewpoint->setFollowOrientation(true);
+void WbView3D::followPanAndTilt(bool checked) {
+  if (!checked)
+    return;
+
+  mWorld->setModified();
+  WbViewpoint *const viewpoint = mWorld->viewpoint();
+  WbSolid *const selectedSolid = WbSelection::instance()->selectedSolid();
+  assert(selectedSolid);
+  if (viewpoint->followedSolid())
+    viewpoint->terminateFollowUp();
+  viewpoint->setFollowType(WbViewpoint::FOLLOW_PAN_AND_TILT);
   viewpoint->startFollowUp(selectedSolid, true);
 }
 
 void WbView3D::setCheckedFollowObjectAction(WbSolid *selectedSolid) {
   if (selectedSolid) {
     const WbViewpoint *const viewpoint = mWorld->viewpoint();
-    if (viewpoint->isFollowingOrientation()) {
-      WbActionManager::instance()
-        ->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE)
-        ->setChecked(viewpoint->isFollowed(selectedSolid));
-      WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT)->setChecked(false);
-    } else {
-      WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT)->setChecked(viewpoint->isFollowed(selectedSolid));
-      WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE)->setChecked(false);
-    }
+    if (viewpoint->followType() == WbViewpoint::FOLLOW_NONE)
+      WbActionManager::instance()->action(WbActionManager::FOLLOW_NONE)->setChecked(true);
+    else if (viewpoint->followType() == WbViewpoint::FOLLOW_TRACKING)
+      WbActionManager::instance()->action(WbActionManager::FOLLOW_TRACKING)->setChecked(true);
+    else if (viewpoint->followType() == WbViewpoint::FOLLOW_MOUNTED)
+      WbActionManager::instance()->action(WbActionManager::FOLLOW_MOUNTED)->setChecked(true);
+    else if (viewpoint->followType() == WbViewpoint::FOLLOW_PAN_AND_TILT)
+      WbActionManager::instance()->action(WbActionManager::FOLLOW_PAN_AND_TILT)->setChecked(true);
   }
 }
 
 // Notifies a change in the follow object action (checked/unchecked) from mViewpoint
-void WbView3D::notifyFollowObjectAction(bool validField) {
+void WbView3D::notifyFollowObjectAction(int type) {
   const WbViewpoint *const viewpoint = mWorld->viewpoint();
-  if (viewpoint->isFollowingOrientation()) {
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE)->setChecked(validField);
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT)->setChecked(false);
-  } else {
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT)->setChecked(validField);
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE)->setChecked(false);
-  }
-}
-
-// Notifies a change in the follow object action (checked/unchecked) from mViewpoint
-void WbView3D::notifyFollowObjectAndRotationAction(bool rotate) {
-  if (rotate) {
-    WbActionManager::instance()
-      ->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE)
-      ->setChecked(WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT)->isChecked());
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT)->setChecked(false);
-  } else {
-    WbActionManager::instance()
-      ->action(WbActionManager::FOLLOW_OBJECT)
-      ->setChecked(WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE)->isChecked());
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE)->setChecked(false);
-  }
+  if (viewpoint->followType() == WbViewpoint::FOLLOW_NONE)
+    WbActionManager::instance()->action(WbActionManager::FOLLOW_NONE)->setChecked(true);
+  else if (viewpoint->followType() == WbViewpoint::FOLLOW_TRACKING)
+    WbActionManager::instance()->action(WbActionManager::FOLLOW_TRACKING)->setChecked(true);
+  else if (viewpoint->followType() == WbViewpoint::FOLLOW_MOUNTED)
+    WbActionManager::instance()->action(WbActionManager::FOLLOW_MOUNTED)->setChecked(true);
+  else if (viewpoint->followType() == WbViewpoint::FOLLOW_PAN_AND_TILT)
+    WbActionManager::instance()->action(WbActionManager::FOLLOW_PAN_AND_TILT)->setChecked(true);
 }
 
 // Shows the center of mass and the support polygon of a dynamic top WbSolid
@@ -940,13 +946,23 @@ void WbView3D::prepareWorldLoading() {
 void WbView3D::updateViewport() {
   // Sets the solid follow up according to viewpoint's follow field
   WbViewpoint *const viewpoint = mWorld->viewpoint();
-  connect(viewpoint, &WbViewpoint::followInvalidated, this, &WbView3D::notifyFollowObjectAction);
-  connect(viewpoint, &WbViewpoint::followOrientationChanged, this, &WbView3D::notifyFollowObjectAndRotationAction);
+  connect(viewpoint, &WbViewpoint::followTypeChanged, this, &WbView3D::notifyFollowObjectAction);
   connect(viewpoint, SIGNAL(virtualRealityHeadsetRequiresRender()), this, SLOT(renderNow()));
-  if (viewpoint->followedSolid() && viewpoint->isFollowingOrientation())
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE)->setChecked(true);
-  else if (viewpoint->followedSolid())
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT)->setChecked(true);
+  if (viewpoint->followedSolid()) {
+    if (viewpoint->followType() == WbViewpoint::FOLLOW_NONE)
+      WbActionManager::instance()->action(WbActionManager::FOLLOW_NONE)->setChecked(true);
+    else if (viewpoint->followType() == WbViewpoint::FOLLOW_TRACKING)
+      WbActionManager::instance()->action(WbActionManager::FOLLOW_TRACKING)->setChecked(true);
+    else if (viewpoint->followType() == WbViewpoint::FOLLOW_MOUNTED)
+      WbActionManager::instance()->action(WbActionManager::FOLLOW_MOUNTED)->setChecked(true);
+    else if (viewpoint->followType() == WbViewpoint::FOLLOW_PAN_AND_TILT)
+      WbActionManager::instance()->action(WbActionManager::FOLLOW_PAN_AND_TILT)->setChecked(true);
+  } else {
+    WbActionManager::instance()->action(WbActionManager::FOLLOW_NONE)->setChecked(false);
+    WbActionManager::instance()->action(WbActionManager::FOLLOW_TRACKING)->setChecked(false);
+    WbActionManager::instance()->action(WbActionManager::FOLLOW_MOUNTED)->setChecked(false);
+    WbActionManager::instance()->action(WbActionManager::FOLLOW_PAN_AND_TILT)->setChecked(false);
+  }
 
   cleanupPickers();
   mPicker = new WbWrenPicker();
@@ -1003,14 +1019,24 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
 
   // Sets the solid follow up according to viewpoint's follow field
   WbViewpoint *const viewpoint = mWorld->viewpoint();
-  connect(viewpoint, &WbViewpoint::followInvalidated, this, &WbView3D::notifyFollowObjectAction);
-  connect(viewpoint, &WbViewpoint::followOrientationChanged, this, &WbView3D::notifyFollowObjectAndRotationAction);
+  connect(viewpoint, &WbViewpoint::followTypeChanged, this, &WbView3D::notifyFollowObjectAction);
   connect(viewpoint, SIGNAL(virtualRealityHeadsetRequiresRender()), this, SLOT(renderNow()));
   viewpoint->startFollowUpFromField();
-  if (viewpoint->followedSolid() && viewpoint->isFollowingOrientation())
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE)->setChecked(true);
-  else if (viewpoint->followedSolid())
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT)->setChecked(true);
+  if (viewpoint->followedSolid()) {
+    if (viewpoint->followType() == WbViewpoint::FOLLOW_NONE)
+      WbActionManager::instance()->action(WbActionManager::FOLLOW_NONE)->setChecked(true);
+    else if (viewpoint->followType() == WbViewpoint::FOLLOW_TRACKING)
+      WbActionManager::instance()->action(WbActionManager::FOLLOW_TRACKING)->setChecked(true);
+    else if (viewpoint->followType() == WbViewpoint::FOLLOW_MOUNTED)
+      WbActionManager::instance()->action(WbActionManager::FOLLOW_MOUNTED)->setChecked(true);
+    else if (viewpoint->followType() == WbViewpoint::FOLLOW_PAN_AND_TILT)
+      WbActionManager::instance()->action(WbActionManager::FOLLOW_PAN_AND_TILT)->setChecked(true);
+  } else {
+    WbActionManager::instance()->action(WbActionManager::FOLLOW_NONE)->setChecked(false);
+    WbActionManager::instance()->action(WbActionManager::FOLLOW_TRACKING)->setChecked(false);
+    WbActionManager::instance()->action(WbActionManager::FOLLOW_MOUNTED)->setChecked(false);
+    WbActionManager::instance()->action(WbActionManager::FOLLOW_PAN_AND_TILT)->setChecked(false);
+  }
 
   // Prepares the contact point rendering (Note: WbControlledSimulation::instance() is valid after the call to
   // mMainWindow->loadWorld(mWorldName) in WbGuiApplication.cpp)

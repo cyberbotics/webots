@@ -45,10 +45,6 @@ WbGuidedTour *WbGuidedTour::instance(QWidget *parent) {
   return gInstance;
 }
 
-bool WbGuidedTour::isAvailable() {
-  return QFile::exists(WbStandardPaths::projectsPath() + "guided_tour.txt");
-}
-
 WbGuidedTour::WbGuidedTour(QWidget *parent) :
   QDialog(parent, Qt::Tool) {  // Qt::Tool allows to handle well the z-order. This is mainly advantageous on Mac
   mIndex = -1;

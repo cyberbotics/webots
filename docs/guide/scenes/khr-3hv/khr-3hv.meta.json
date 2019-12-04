@@ -1,9 +1,9 @@
 {
-  "robotID": "n11", 
+  "robotID": "n10", 
   "name": "khr-3hv", 
   "devices": [
     {
-      "transformID": "n24", 
+      "transformID": "n23", 
       "initialPosition": 0, 
       "name": "Head", 
       "maxPosition": 2.356, 
@@ -13,7 +13,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n215", 
+      "transformID": "n214", 
       "initialPosition": 0, 
       "name": "LeftAnkle", 
       "maxPosition": 2.356, 
@@ -23,7 +23,7 @@
       "axis": "1 -1e-07 0"
     }, 
     {
-      "transformID": "n47", 
+      "transformID": "n46", 
       "initialPosition": 0, 
       "name": "LeftArm", 
       "maxPosition": 2.356, 
@@ -33,7 +33,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n205", 
+      "transformID": "n204", 
       "initialPosition": 0, 
       "name": "LeftCrus", 
       "maxPosition": 2.356, 
@@ -43,7 +43,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n57", 
+      "transformID": "n56", 
       "initialPosition": 0, 
       "name": "LeftElbow", 
       "maxPosition": 2.356, 
@@ -53,7 +53,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n195", 
+      "transformID": "n194", 
       "initialPosition": 0, 
       "name": "LeftFemur", 
       "maxPosition": 2.356, 
@@ -63,7 +63,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n175", 
+      "transformID": "n174", 
       "initialPosition": 0, 
       "name": "LeftFemurHead1", 
       "maxPosition": 2.356, 
@@ -73,7 +73,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n185", 
+      "transformID": "n184", 
       "initialPosition": 0, 
       "name": "LeftFemurHead2", 
       "maxPosition": 2.356, 
@@ -83,7 +83,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n225", 
+      "transformID": "n224", 
       "initialPosition": 0, 
       "name": "LeftFoot", 
       "maxPosition": 2.356, 
@@ -93,7 +93,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n67", 
+      "transformID": "n66", 
       "initialPosition": 0, 
       "name": "LeftForearm", 
       "maxPosition": 2.356, 
@@ -103,7 +103,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n37", 
+      "transformID": "n36", 
       "initialPosition": 0, 
       "name": "LeftShoulder", 
       "maxPosition": 2.356, 
@@ -113,7 +113,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n309", 
+      "transformID": "n308", 
       "initialPosition": 0, 
       "name": "RightAnkle", 
       "maxPosition": 2.356, 
@@ -123,7 +123,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n111", 
+      "transformID": "n110", 
       "initialPosition": 0, 
       "name": "RightArm", 
       "maxPosition": 2.356, 
@@ -133,7 +133,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n299", 
+      "transformID": "n298", 
       "initialPosition": 0, 
       "name": "RightCrus", 
       "maxPosition": 2.356, 
@@ -143,7 +143,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n121", 
+      "transformID": "n120", 
       "initialPosition": 0, 
       "name": "RightElbow", 
       "maxPosition": 2.356, 
@@ -153,7 +153,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n289", 
+      "transformID": "n288", 
       "initialPosition": 0, 
       "name": "RightFemur", 
       "maxPosition": 2.356, 
@@ -163,7 +163,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n269", 
+      "transformID": "n268", 
       "initialPosition": 0, 
       "name": "RightFemurHead1", 
       "maxPosition": 2.356, 
@@ -173,7 +173,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n279", 
+      "transformID": "n278", 
       "initialPosition": 0, 
       "name": "RightFemurHead2", 
       "maxPosition": 2.356, 
@@ -183,7 +183,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n319", 
+      "transformID": "n318", 
       "initialPosition": 0, 
       "name": "RightFoot", 
       "maxPosition": 2.356, 
@@ -193,7 +193,7 @@
       "axis": "2e-07 -1e-07 -1"
     }, 
     {
-      "transformID": "n131", 
+      "transformID": "n130", 
       "initialPosition": 0, 
       "name": "RightForearm", 
       "maxPosition": 2.356, 
@@ -203,7 +203,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n101", 
+      "transformID": "n100", 
       "initialPosition": 0, 
       "name": "RightShoulder", 
       "maxPosition": 2.356, 
@@ -213,7 +213,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n165", 
+      "transformID": "n164", 
       "initialPosition": 0, 
       "name": "Waist", 
       "maxPosition": 2.356, 

@@ -18,7 +18,7 @@
 
 from io import BytesIO
 from pynvml import nvmlInit, nvmlShutdown, nvmlDeviceGetHandleByIndex, nvmlDeviceGetName, nvmlDeviceGetMemoryInfo, \
-                   nvmlDeviceGetUtilizationRates
+                   nvmlDeviceGetUtilizationRates, NVMLError
 from requests import session
 
 import asyncio
@@ -243,11 +243,16 @@ class Client:
         """Force the termination of Webots."""
         if self.webots_process:
             logging.warning('[%d] Webots [%d] was killed' % (id(self), self.webots_process.pid))
-            self.webots_process.terminate()
-            self.webots_process.wait()
+            if sys.platform == 'darwin':
+                self.webots_process.kill()
+            else:
+                self.webots_process.terminate()
+                try:
+                    self.webots_process.wait(5)  # set a timeout (seconds) to avoid blocking the whole script
+                except subprocess.TimeoutExpired:
+                    logging.warning('[%d] ERROR killing Webots [%d]' % (id(self), self.webots_process.pid))
+                    self.webots_process.kill()
             self.webots_process = None
-        if sys.platform == 'darwin' and self.webots_process:
-            self.webots_process.kill()
 
 
 class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
@@ -530,7 +535,7 @@ def update_snapshot():
         gpu_load = nvmlDeviceGetUtilizationRates(nvmlHandle)
         gpu_load_compute = gpu_load.gpu
         gpu_load_memory = gpu_load.memory
-    except:  # not supported on some hardware
+    except NVMLError:  # not supported on some hardware
         gpu_load_compute = 0
         gpu_load_memory = 0
     webots_idle = 0
@@ -684,7 +689,7 @@ def main():
     try:
         nvmlInit()
         nvidia = True
-    except:
+    except NVMLError:
         nvidia = False
     update_snapshot()
     try:
@@ -702,7 +707,8 @@ if sys.platform == 'linux2':
     os.system("killall -q webots-bin")
 
 # specify the display to ensure Webots can be executed even if this script is started remotely from a ssh session
-os.environ["DISPLAY"] = ":0"
+if "DISPLAY" not in os.environ:
+    os.environ["DISPLAY"] = ":0"
 # ensure we are in the script directory
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 argc = len(sys.argv)

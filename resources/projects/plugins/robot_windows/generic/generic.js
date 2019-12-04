@@ -121,18 +121,18 @@ function addDeviceType(type) {
 }
 
 function addDevice(device) {
-  var div = '<div id="' + device.name + '" class="device">';
+  var div = '<div id="' + device.htmlName + '" class="device">';
   div += '<h2>';
   if (device.type !== 'RotationalMotor' && device.type !== 'LinearMotor' && device.type !== 'DifferentialWheels')
-    div += '<input type="checkbox" title="Enable/disable this device." id="' + device.name + '-enable-checkbox" device="' + device.name + '" onclick="checkboxCallback(this)" />';
-  div += device.name + '<span id="' + device.name + '-label"></span></h2>';
+    div += '<input type="checkbox" title="Enable/disable this device." id="' + device.htmlName + '-enable-checkbox" device="' + device.htmlName + '" onclick="checkboxCallback(this)" />';
+  div += device.htmlName + '<span id="' + device.htmlName + '-label"></span></h2>';
   if (device.type === 'Lidar') {
     div += '<h2 class="point-cloud-enable-label">';
-    div += '<input type="checkbox" title="Enable/disable the lidar point cloud." id="' + device.name + '-cloud-point-checkbox" device="' + device.name + '" onclick="pointCloudCheckboxCallback(this)"/>';
+    div += '<input type="checkbox" title="Enable/disable the lidar point cloud." id="' + device.htmlName + '-cloud-point-checkbox" device="' + device.htmlName + '" onclick="pointCloudCheckboxCallback(this)"/>';
     div += '<span>Point Cloud</span>';
     div += '</h2>';
   }
-  div += '<div id="' + device.name + '-content" class="device-content"/>';
+  div += '<div id="' + device.htmlName + '-content" class="device-content"/>';
   div += '</div>';
 
   appendNewElement(device.type + '-layout', div);
@@ -184,7 +184,7 @@ function addDevice(device) {
 }
 
 function createGenericImageDevice(device) {
-  images[device.name] = appendNewElement(device.name + '-content', '<div id="' + device.name + '-image" class="image"></div>');
+  images[device.name] = appendNewElement(device.name + '-content', '<div id="' + device.htmlName + '-image" class="image"></div>');
 }
 
 function createGeneric1DDevice(device, autoRange, minY, maxY, labelY) {
@@ -195,7 +195,7 @@ function createGeneric1DDevice(device, autoRange, minY, maxY, labelY) {
 
 function createGeneric3DDevice(device, autoRange, minRange, maxRange, units) {
   appendNewElement(device.name,
-    '<select onChange="comboboxCallback(this)" class="view-selector" device="' + device.name + '">' +
+    '<select onChange="comboboxCallback(this)" class="view-selector" device="' + device.htmlName + '">' +
     '  <option>Time</option>' +
     '  <option>XY</option>' +
     '  <option>YZ</option>' +
@@ -231,13 +231,13 @@ function createMotor(device, autoRange, minValue, maxValue, yLabel) {
   var slider = appendNewElement(device.name + '-content',
     '<input type="range" min="' + minValue + '" max="' + maxValue + '" value="' + mean + '" step="' + step + '"' +
     ' class="motor-slider"' + customStyle +
-    ' id="' + device.name + '-slider"' +
-    ' device="' + device.name + '"' +
-    ' oninput="motorSetPosition(\'' + device.name + '\', this.value)"' +
-    ' onmousedown="motorSetPosition(\'' + device.name + '\', this.value)"' +
-    ' onmouseup="motorUnsetPosition(\'' + device.name + '\')"' +
-    ' onmouseleave="motorUnsetPosition(\'' + device.name + '\')"' +
+    ' id="' + device.htmlName + '-slider"' +
+    ' device="' + device.htmlName + '"' +
     '>');
+  slider.oninput = function() { motorSetPosition(device.name, slider.value); };
+  slider.onmousedown = function() { motorSetPosition(device.name, slider.value); };
+  slider.onmouseup = function() { motorUnsetPosition(device.name); };
+  slider.onmouseleave = function() { motorUnsetPosition(device.name); };
   var widget = new TimeplotWidget(document.getElementById(device.name + '-content'), basicTimeStep, autoRange, {'min': minValue, 'max': maxValue}, {'x': 'Time [s]', 'y': yLabel}, device);
   widget.setLabel(document.getElementById(device.name + '-label'));
   widget.setSlider(slider);
@@ -321,10 +321,14 @@ function configure(data) {
 
   // Create a device container per device.
   if (data.type === 'DifferentialWheels')
-    addDevice({'name': robotName, 'type': data.type });
+    addDevice({'name': robotName.replace(/&quot;/g, '"'), 'type': data.type });
   data.devices.forEach(function(device) {
-    if (supportedDeviceTypes.indexOf(device.type) >= 0)
+    if (supportedDeviceTypes.indexOf(device.type) >= 0) {
+      device.htmlName = device.name;
+      device.name = device.name.replace(/&quot;/g, '"');
+      device.model = device.model.replace(/&quot;/g, '"');
       addDevice(device);
+    }
   });
 
   // Set the focus on the first deviceType menu.
@@ -350,9 +354,11 @@ function update(data) {
   if (data.devices == null)
     return;
   Object.keys(data.devices).forEach(function(key) {
+    var value = data.devices[key];
+    key = key.replace(/&quot;/g, '"');
+
     var checkbox = document.getElementById(key + '-enable-checkbox');
 
-    var value = data.devices[key];
     if (value.update !== undefined && key in widgets) {
       widgets[key].forEach(function(widget) {
         value.update.forEach(function(u) {

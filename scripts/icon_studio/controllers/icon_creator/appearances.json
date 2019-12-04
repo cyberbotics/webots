@@ -23,10 +23,19 @@
   "CorrugatedMetal": {
     "fields": "colorOverride 0.45 0.62 0.81 textureTransform TextureTransform { scale 3 1 }"
   },
+  "CorrugatedPlates": {
+    "fields": "textureTransform TextureTransform { scale 2 2 }"
+  },
+  "CorrugatedPvc": {
+    "fields": "textureTransform TextureTransform { scale 4 3 }"
+  },
   "DarkParquetry": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
   "DamascusSteel": {
+    "fields": "textureTransform TextureTransform { scale 2 1 }"
+  },
+  "DryMud": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
   "ElectricConduit": {
@@ -34,6 +43,9 @@
   },
   "FlexibleAluminiumDuct": {
     "fields": "textureTransform TextureTransform { scale 1 0.5 }"
+  },
+  "FormedConcrete": {
+    "fields": "textureTransform TextureTransform { scale 5 1 }"
   },
   "GalvanizedMetal": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"

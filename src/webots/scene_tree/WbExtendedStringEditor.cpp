@@ -58,7 +58,7 @@ protected:
   }
 };
 
-const QStringList WbExtendedStringEditor::ITEM_LIST_INFO[9] = {
+const QStringList WbExtendedStringEditor::ITEM_LIST_INFO[N_STRING_TYPE_INFO] = {
   QStringList() << "controllers/" << tr("Controller choice")
                 << tr("Please select a controller from the list\n(it will start at the next time step)"),
   QStringList() << "" << tr("Fluid choice") << tr("Please select a fluid from the list\n"),
@@ -397,6 +397,8 @@ WbExtendedStringEditor::StringType WbExtendedStringEditor::fieldNameToStringType
     return PHYSICS_PLUGIN;
   else if (fieldName == "sound" || fieldName.endsWith("Sound", Qt::CaseSensitive))
     return SOUND;
+  else if (fieldName.endsWith("IrradianceUrl", Qt::CaseSensitive))
+    return HDR_TEXTURE_URL;
   else if (fieldName == "url" || fieldName.endsWith("Url", Qt::CaseSensitive))
     return TEXTURE_URL;
   else if (fieldName == "solidName")
@@ -535,6 +537,9 @@ bool WbExtendedStringEditor::populateItems(QStringList &items) {
     case TEXTURE_URL:
       selectFile("textures", "Texture", "*.png *.PNG *.jpg *.JPG *.jpeg *.JPEG");
       break;
+    case HDR_TEXTURE_URL:
+      selectFile("textures", "Texture", "*.hdr *.HDR");
+      break;
     default:
       return false;
   }
@@ -547,7 +552,7 @@ bool WbExtendedStringEditor::selectItem() {
   if (!populateItems(items))
     return false;
 
-  if (mStringType == SOUND || mStringType == TEXTURE_URL)
+  if (mStringType >= N_STRING_TYPE_INFO)
     return true;
 
   // let the user choose from an item list

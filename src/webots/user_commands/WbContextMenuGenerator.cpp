@@ -115,10 +115,13 @@ namespace WbContextMenuGenerator {
 
       // actions for nodes in general
       if (gAreNodeActionsEnabled) {
-        contextMenu.addAction(WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT));
-        contextMenu.addAction(WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE));
+        QMenu *subMenu = contextMenu.addMenu(QObject::tr("Follow Object"));
+        subMenu->addAction(WbActionManager::instance()->action(WbActionManager::FOLLOW_NONE));
+        subMenu->addAction(WbActionManager::instance()->action(WbActionManager::FOLLOW_TRACKING));
+        subMenu->addAction(WbActionManager::instance()->action(WbActionManager::FOLLOW_MOUNTED));
+        subMenu->addAction(WbActionManager::instance()->action(WbActionManager::FOLLOW_PAN_AND_TILT));
 
-        QMenu *subMenu = contextMenu.addMenu(QObject::tr("Optional Rendering"));
+        subMenu = contextMenu.addMenu(QObject::tr("Optional Rendering"));
         subMenu->addAction(WbActionManager::instance()->action(WbActionManager::CENTER_OF_MASS));
         subMenu->addAction(WbActionManager::instance()->action(WbActionManager::CENTER_OF_BUOYANCY));
         subMenu->addAction(WbActionManager::instance()->action(WbActionManager::SUPPORT_POLYGON));

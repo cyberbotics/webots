@@ -30,7 +30,6 @@
 #include "WbConnector.hpp"
 #include "WbContactProperties.hpp"
 #include "WbCoordinate.hpp"
-#include "WbCubemap.hpp"
 #include "WbCylinder.hpp"
 #include "WbDamping.hpp"
 #include "WbDifferentialWheels.hpp"
@@ -142,8 +141,6 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbContactProperties(tokenizer);
   if (modelName == "Coordinate")
     return new WbCoordinate(tokenizer);
-  if (modelName == "Cubemap")
-    return new WbCubemap(tokenizer);
   if (modelName == "Cylinder")
     return new WbCylinder(tokenizer);
   if (modelName == "Damping")
@@ -332,8 +329,6 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbContactProperties(original);
   if (modelName == "Coordinate")
     return new WbCoordinate(original);
-  if (modelName == "Cubemap")
-    return new WbCubemap(original);
   if (modelName == "Cylinder")
     return new WbCylinder(original);
   if (modelName == "Damping")
