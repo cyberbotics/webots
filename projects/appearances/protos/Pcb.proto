@@ -29,12 +29,14 @@ PROTO Pcb [
         "textures/pcb/pcb_normal.jpg"
       ]
     }
+    normalMapFactor 3
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
         "textures/pcb/pcb_occlusion.jpg"
       ]
     }
+    occlusionMapStrength 4
     textureTransform IS textureTransform
   }
 }
