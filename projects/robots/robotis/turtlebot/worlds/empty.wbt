@@ -20,7 +20,7 @@ Robot {
         RotationalMotor {
           name "right wheel motor"
           consumptionFactor -0.001
-          maxVelocity 6.28
+          maxVelocity 2.84
         }
         PositionSensor {
           name "right wheel sensor"
@@ -165,7 +165,7 @@ Robot {
         RotationalMotor {
           name "left wheel motor"
           consumptionFactor -0.001
-          maxVelocity 6.28
+          maxVelocity 2.84
         }
         PositionSensor {
           name "left wheel sensor"
