@@ -22,8 +22,9 @@ That's why we dropped the support of the equirectangular HDR images and the `Cub
 Instead we restored the standard `<cube_face>Url` VRML fields and added the new `<cube_face>IrradianceUrl` and `luminosity` fields of the [Background](../reference/background.md) node to specify light reflections and scale the light contribution on the [PBR appearances](../reference/pbrappearance.md).
 So now we have a better performance with the same realistic rendering quality.
 
-%figure "Update HDR Background"
-![Updated HDR Background](images/updated_hdr_background.thumbnail.jpg)
+[ picutre of the updated HDR background]
+%figure "TODO"
+![TODO](TODO)
 %end
 
 But do not worry about the compatibility of your custom HDR backgrounds!
@@ -34,10 +35,6 @@ You can find them on the [Webots GitHub repository](https://github.com/cyberboti
 
 The [TexturedBackground PROTO](../guide/object-backgrounds.md#texturedbackground) has been updated accordingly to the new [Background](../reference/background.md) node definition and we added some new HDR textures.
 
-%figure "New HDR Textures for TexturedBackground"
-![New HDR Textures for TexuteredBackground](images/new_hdr_texture_for_textured_background.thumbnail.jpg)
-%end
-
 Note that we deprecated some of the old default backgrounds that were not in HDR format.
 
 ---
@@ -46,7 +43,7 @@ Note that we deprecated some of the old default backgrounds that were not in HDR
 
 To let you model more realistic robots and environments we have expanded our PBRAppearance library with some  new PROTO files.
 
-[TODO picture of the new Appearances]
+[TODO pictures of the new Appearances]
 
 - DryMud
 - CorrugatedPlates
@@ -88,9 +85,5 @@ We are very happy to communicate that we fixed the error accumulation issues whe
 Webots 2020a contains a new complete apartment environment: check it [here](../guide/samples-environemnts.md#complete_apartment-wbt).
 
 On Linux, you can now also program your controllers with Python 3.8.
-
-While preparing the release of [robotbenchmark.net](https://robotbenchmark.net) v2.0, we continued the improvement of the simulation streaming code.
-First of all we improved the Webots online 3D viewer by adding the Bloom post-processing effect, adding a clean button in the console window, and fixing issues.
-Then, we updated the scripts to run the session and simulation server that now work with Python3.
 
 **Go and [download](https://cyberbotics.com/#download) Webots R2020a today, so you don't miss out on all these great new features!**
