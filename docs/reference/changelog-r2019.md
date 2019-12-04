@@ -40,7 +40,6 @@ Released on October 3rd, 2019.
     - Added new appearance types for: `CarpetFibers` and `StonePavement`.
     - Added several bathroom objects and lights: `BathroomSink`, `Bathtube`, `Toilet`, `WashingMachine`, `CeilingSpotLight` and `ConstructionLamp`.
     - Added a C3dViewer PROTO to visualize C3D files in Webots.
-    - Added a new HDR background: `noon_cloudy_countryside`
     - E-puck2
       - Added the pi-puck extension.
       - Fixed [DistanceSensor](distancesensor.md) noise calibration.
