@@ -1812,7 +1812,7 @@ void wb_supervisor_node_add_force(WbNodeRef node, const double force[3], bool re
   robot_mutex_unlock_step();
 }
 
-void wb_supervisor_node_add_force_with_offset(WbNodeRef node, const double force[3], const double origin[3], bool relative) {
+void wb_supervisor_node_add_force_with_offset(WbNodeRef node, const double force[3], const double offset[3], bool relative) {
   if (!robot_check_supervisor("wb_supervisor_node_add_force_with_offset"))
     return;
 
@@ -1825,13 +1825,13 @@ void wb_supervisor_node_add_force_with_offset(WbNodeRef node, const double force
   if (!checkVector("wb_supervisor_node_add_force_with_offset", force, 3))
     return;
 
-  if (!checkVector("wb_supervisor_node_add_force_with_offset", origin, 3))
+  if (!checkVector("wb_supervisor_node_add_force_with_offset", offset, 3))
     return;
 
   robot_mutex_lock_step();
   add_force_with_offset_node_ref = node;
   add_force_or_torque = force;
-  add_force_offset = origin;
+  add_force_offset = offset;
   add_force_or_torque_relative = relative;
   wb_robot_flush_unlocked();
   add_force_with_offset_node_ref = NULL;
