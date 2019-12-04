@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
     wb_supervisor_node_add_relative_force(node[2], force, offset2);
     wb_supervisor_node_add_torque(node[3], torque);
     wb_supervisor_node_add_force(node[4], force);
-    wb_supervisor_node_add_relative_force(node[5], force, offset2);
+    wb_supervisor_node_add_relative_force(node[5], force, offset0);
   }
 
   double positions[6];
@@ -68,8 +68,8 @@ int main(int argc, char **argv) {
   ts_assert_double_is_bigger(-0.2, positions[0], "Angle 0 should be smaller than -0.2");
   ts_assert_double_is_bigger(positions[1], 0.2, "Angle 1 should be bigger than 0.2");
   ts_assert_double_is_bigger(positions[3], 0.2, "Angle 3 should be bigger than 0.2");
-  ts_assert_double_is_bigger(positions[4], -0.2, "Angle 4 should be smaller than -0.2");
-  ts_assert_double_is_bigger(positions[5], -0.2, "Angle 5 should be smaller than -0.2");
+  ts_assert_double_is_bigger(-0.2, positions[4], "Angle 4 should be smaller than -0.2");
+  ts_assert_double_is_bigger(-0.2, positions[5], "Angle 5 should be smaller than -0.2");
 
   ts_send_success();
   return EXIT_SUCCESS;

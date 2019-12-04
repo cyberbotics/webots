@@ -3,8 +3,8 @@ WorldInfo {
   northDirection 1 0 1
 }
 Viewpoint {
-  orientation 0.7313150659620616 0.6315748590081873 0.2574713028003196 5.299875678479962
-  position -0.7147794696632099 0.8813250883068854 0.7729137862237457
+  orientation 0.7687585267099452 0.6119925256776336 0.18567572842314498 5.3176278663244485
+  position -1.3834845248272007 1.9124602374646507 1.656667168897257
 }
 Background {
   skyColor [
@@ -18,9 +18,11 @@ PointLight {
 TestSuiteSupervisor {
 }
 RectangleArena {
+  floorSize 2 2
 }
 Robot {
-  translation 0 0.05 0
+  translation -0.406341 0.05 0.437707
+  rotation 0 1 0 -0.785395307179586
   children [
     TestSuiteEmitter {
     }

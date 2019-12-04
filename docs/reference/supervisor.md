@@ -1613,7 +1613,7 @@ void wb_supervisor_node_add_torque(node, torque)
 *add force or torque to a Solid node.*
 
 The `wb_supervisor_node_add_force` function adds a force to the [Solid](solid.md) node at it's center of mass.
-The `wb_supervisor_node_add_relative_force` function adds a force to the [Solid](solid.md) node at the location defined by the `origin` argument.
+The `wb_supervisor_node_add_relative_force` function adds a force to the [Solid](solid.md) node at the location (expressed in world coordinates) defined by the `origin` argument.
 The `wb_supervisor_node_add_torque` function adds a torque to the [Solid](solid.md) node.
 
 ---

@@ -763,10 +763,6 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       if (solid) {
         dBodyID body = solid->bodyMerger();
-        // qDebug() << solid->solidMerger()->solid()->matrix().translation().toString(WbPrecision::GUI_MEDIUM)
-        //          << solid->matrix().translation().toString(WbPrecision::GUI_MEDIUM);
-        qDebug() << solid->computedGlobalCenterOfMass().toString(WbPrecision::GUI_MEDIUM)
-                 << solid->solidMerger()->solid()->computedGlobalCenterOfMass().toString(WbPrecision::GUI_MEDIUM);
         WbVector3 position = solid->computedGlobalCenterOfMass() - solid->solidMerger()->solid()->computedGlobalCenterOfMass();
         if (body)
           dBodyAddForceAtRelPos(body, fx, fy, fz, position.x(), position.y(), position.z());
