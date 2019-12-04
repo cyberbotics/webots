@@ -3,8 +3,8 @@ WorldInfo {
   northDirection 1 0 1
 }
 Viewpoint {
-  orientation 0.7687585267099452 0.6119925256776336 0.18567572842314498 5.3176278663244485
-  position -1.3834845248272007 1.9124602374646507 1.656667168897257
+  orientation 0.6671791793811847 0.7204657847159563 0.18921151036306047 5.322832324793737
+  position -1.589283354038846 1.7523509218088174 1.6798729784916127
 }
 Background {
   skyColor [
@@ -21,7 +21,7 @@ RectangleArena {
   floorSize 2 2
 }
 Robot {
-  translation -0.406341 0.05 0.437707
+  translation -0.344533 0.05 0.345212
   rotation 0 1 0 -0.785395307179586
   children [
     TestSuiteEmitter {
@@ -33,10 +33,10 @@ Robot {
         metalness 0
       }
       geometry Box {
-        size 0.9 0.1 0.2
+        size 1.2 0.1 0.2
       }
     }
-    HingeJoint {
+    DEF GLOBAL_OFFSETED_VERTICAL_FORCE HingeJoint {
       jointParameters HingeJointParameters {
         anchor 0 0.05 0
       }
@@ -46,7 +46,7 @@ Robot {
         }
       ]
       endPoint DEF BALANCE_0 Solid {
-        translation 0.21 0.05 0
+        translation 0.38 0.05 0
         children [
           DEF BALANCE Shape {
             appearance PBRAppearance {
@@ -64,7 +64,7 @@ Robot {
         }
       }
     }
-    HingeJoint {
+    DEF GLOBAL_TORQUE HingeJoint {
       jointParameters HingeJointParameters {
         anchor 0 0.05 0
       }
@@ -74,7 +74,7 @@ Robot {
         }
       ]
       endPoint DEF BALANCE_3 Solid {
-        translation -0.09 0.05 0
+        translation -0.12 0.05 0
         children [
           DEF BALANCE Shape {
             appearance PBRAppearance {
@@ -93,7 +93,65 @@ Robot {
         }
       }
     }
-    HingeJoint {
+    DEF RELATIVE_TORQUE HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.05 0
+      }
+      device [
+        PositionSensor {
+          name "ps6"
+        }
+      ]
+      endPoint DEF BALANCE_6 Solid {
+        translation 0 0.05 0
+        children [
+          DEF BALANCE Shape {
+            appearance PBRAppearance {
+              baseColor 0.960784 0.47451 0
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.1 0.01 0.6
+            }
+          }
+        ]
+        name "solid(6)"
+        boundingObject USE BALANCE
+        physics Physics {
+        }
+      }
+    }
+    DEF RELATIVE_PERPENDICULAR_TORQUE HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.05 0
+      }
+      device [
+        PositionSensor {
+          name "ps7"
+        }
+      ]
+      endPoint DEF BALANCE_7 Solid {
+        translation 0.5 0.05 0
+        children [
+          DEF BALANCE Shape {
+            appearance PBRAppearance {
+              baseColor 0.960784 0.47451 0
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.1 0.01 0.6
+            }
+          }
+        ]
+        name "solid(7)"
+        boundingObject USE BALANCE
+        physics Physics {
+        }
+      }
+    }
+    DEF GLOBAL_OFFSETED_VERTICAL_FORCE HingeJoint {
       jointParameters HingeJointParameters {
         anchor 0 0.05 0
       }
@@ -103,7 +161,7 @@ Robot {
         }
       ]
       endPoint DEF BALANCE_1 Solid {
-        translation 0.07 0.05 0
+        translation 0.25 0.05 0
         children [
           DEF BALANCE Shape {
             appearance PBRAppearance {
@@ -122,7 +180,7 @@ Robot {
         }
       }
     }
-    HingeJoint {
+    DEF GLOBAL_CENTERED_VERTICAL_FORCE HingeJoint {
       jointParameters HingeJointParameters {
         anchor 0 0.05 0
       }
@@ -132,7 +190,7 @@ Robot {
         }
       ]
       endPoint DEF BALANCE_2 Solid {
-        translation 0.34 0.05 0
+        translation 0.13 0.05 0
         children [
           DEF BALANCE Shape {
             appearance PBRAppearance {
@@ -151,7 +209,7 @@ Robot {
         }
       }
     }
-    HingeJoint {
+    DEF SOLID_MERGER_GLOBAL_VERTICAL_FORCE HingeJoint {
       jointParameters HingeJointParameters {
         anchor 0 0.05 0
       }
@@ -161,7 +219,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.23 0.05 0
+        translation -0.24 0.05 0
         children [
           USE BALANCE
           DEF BALANCE_4 Solid {
@@ -197,7 +255,7 @@ Robot {
         }
       }
     }
-    HingeJoint {
+    DEF SOLID_MERGER HingeJoint {
       jointParameters HingeJointParameters {
         anchor 0 0.05 0
       }
@@ -238,6 +296,52 @@ Robot {
           }
         ]
         name "solid(5)"
+        boundingObject USE BALANCE
+        physics Physics {
+        }
+      }
+    }
+    DEF SOLID_MERGER_PERPENDICULAR_GLOBAL_FORCE HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.05 0
+      }
+      device [
+        PositionSensor {
+          name "ps8"
+        }
+      ]
+      endPoint Solid {
+        translation -0.51 0.05 0
+        children [
+          USE BALANCE
+          DEF BALANCE_8 Solid {
+            translation 0 0 0.25
+            children [
+              DEF SPHERE_SHAPE Shape {
+                appearance PBRAppearance {
+                  baseColor 0.643137 0 0
+                }
+                geometry Sphere {
+                  radius 0.01
+                }
+              }
+            ]
+            boundingObject USE SPHERE_SHAPE
+            physics Physics {
+            }
+          }
+          Solid {
+            translation 0 0 -0.25
+            children [
+              USE SPHERE_SHAPE
+            ]
+            name "solid(1)"
+            boundingObject USE SPHERE_SHAPE
+            physics Physics {
+            }
+          }
+        ]
+        name "solid(8)"
         boundingObject USE BALANCE
         physics Physics {
         }
