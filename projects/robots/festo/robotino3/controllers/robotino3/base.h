@@ -28,6 +28,7 @@ extern "C" {
 #endif
 
 void base_init();
+void base_init_sensors();
 
 void base_reset();
 void base_forwards();
@@ -36,6 +37,8 @@ void base_turn_left();
 void base_turn_right();
 void base_strafe_left();
 void base_strafe_right();
+void base_get_IR_values(double *values);
+void base_braitenberg_avoidance();
 
 void base_goto_init(double time_step);
 void base_goto_set_target(double x, double z, double a);

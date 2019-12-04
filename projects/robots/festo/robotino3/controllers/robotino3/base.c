@@ -22,6 +22,7 @@
 #include "tiny_math.h"
 
 #include <webots/compass.h>
+#include <webots/distance_sensor.h>
 #include <webots/gps.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
@@ -29,15 +30,15 @@
 #include <math.h>
 #include <stdio.h>
 
-#define SPEED 4.0
+#define SPEED 3.0
+#define MAX_SPEED 6.4
 #define DISTANCE_TOLERANCE 0.001
 #define ANGLE_TOLERANCE 0.001
-#define WHEEL_RADIUS_GAP 0.1826                 // [m]
-#define WHEEL_ANGLE_STARTER (M_PI / 6.0)        // [°]
-#define WHEEL_ANGLE_SPLITTER (2.0 * M_PI / 3.0) // [°]
-#define THETA_1 WHEEL_ANGLE_STARTER + M_PI / 2.0
-#define THETA_2 (THETA_1 + WHEEL_ANGLE_SPLITTER) + M_PI / 2.0
-#define THETA_3 (THETA_2 + WHEEL_ANGLE_SPLITTER) + M_PI / 2.0
+#define WHEEL_RADIUS_GAP 0.1826      // [m]
+#define FAR_OBSTACLE_THRESHOLD 0.15  // [m]
+#define NEAR_OBSTACLE_THRESHOLD 0.5  // [m]
+#define BIG_FACTOR 0.9
+#define SMALL_FACTOR 0.5
 
 // stimulus coefficients
 #define K1 3.0
@@ -51,6 +52,7 @@ typedef struct {
 } goto_struct;
 
 static WbDeviceTag wheels[3];
+static WbDeviceTag IRsensors[9];
 static WbDeviceTag gps;
 static WbDeviceTag compass;
 static goto_struct goto_data;
@@ -86,6 +88,16 @@ void base_init() {
   for (i = 0; i < 3; i++) {
     sprintf(wheel_name, "wheel%d_joint", i);
     wheels[i] = wb_robot_get_device(wheel_name);
+  }
+}
+
+void base_init_sensors() {
+  int i;
+  char sensors_name[16];
+  for (i = 0; i < 9; i++) {
+    sprintf(sensors_name, "ir%d", i);
+    IRsensors[i] = wb_robot_get_device(sensors_name);
+    wb_distance_sensor_enable(IRsensors[i], TIME_STEP);
   }
 }
 
@@ -132,6 +144,23 @@ void base_strafe_right() {
   // static double speeds[3] = {0, SPEED, -SPEED};
   // static double speeds[3] = {SPEED, -SPEED, 0};
   base_set_wheel_speeds_helper(speeds);
+}
+
+void base_get_IR_values(double *val) {
+  for (i = 0; i < 9; i++)
+    val[i] = wb_distance_sensor_get_value(IRsensors[i]);
+}
+
+void base_braitenberg_avoidance() {
+  double IRvalues[9] = {0.0};
+
+  // Get infrared (IR) sensors values
+  base_get_IR_values(IRvalues);
+  for (i = 0; i < 9; i++) {
+    printf("IR[%d] val = %f\n", i, val);
+  }
+
+  // Check if there is some obstacles
 }
 
 void base_goto_init(double time_step) {
@@ -221,8 +250,8 @@ void base_goto_run() {
   // apply the speeds
   int i;
   for (i = 0; i < 3; i++) {
-    speeds[i] /= (K1 + K2 + K2); // number of stimuli (-1 <= speeds <= 1)
-    speeds[i] *= SPEED;          // map to speed (-SPEED <= speeds <= SPEED)
+    speeds[i] /= (K1 + K2 + K2);  // number of stimuli (-1 <= speeds <= 1)
+    speeds[i] *= SPEED;           // map to speed (-SPEED <= speeds <= SPEED)
 
     // added an arbitrary factor increasing the convergence speed
     speeds[i] *= 30.0;
@@ -231,9 +260,10 @@ void base_goto_run() {
   base_set_wheel_speeds_helper(speeds);
 
   // check if the taget is reached
-  if (distance < DISTANCE_TOLERANCE && delta_angle < ANGLE_TOLERANCE &&
-      delta_angle > -ANGLE_TOLERANCE)
+  if (distance < DISTANCE_TOLERANCE && delta_angle < ANGLE_TOLERANCE && delta_angle > -ANGLE_TOLERANCE)
     goto_data.reached = true;
 }
 
-bool base_goto_reached() { return goto_data.reached; }
+bool base_goto_reached() {
+  return goto_data.reached;
+}
