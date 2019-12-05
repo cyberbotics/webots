@@ -904,5 +904,8 @@
   },
   "projects/robots/pal_robotics/tiago++/protos/Tiago++.proto": {
     "fields": "rotation 1 0 0 -1.5708"
+  },
+  "projects/robots/robotis/turtlebot/protos/Turtlebot3Burger.proto": {
+    "fields": "rotation 0 1 0 -0.7854"
   }
 }
