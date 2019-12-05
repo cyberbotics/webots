@@ -19,6 +19,7 @@ PROTO Turtlebot3Burger [
   Robot {
     translation IS translation
     rotation IS rotation
+    name IS name
     controller IS controller
     controllerArgs IS controllerArgs
     customData IS customData
@@ -299,26 +300,8 @@ PROTO Turtlebot3Burger [
             }
           }
           DEF CM_CARD_HOLDER Shape {
-            appearance DEF MAIN_APP PBRAppearance {
+            appearance DEF MAIN_APP RoughPolymer {
               baseColor 0 0 0
-              roughnessMap ImageTexture {
-                url [
-                  "textures/rough_polymer_roughness.jpg"
-                ]
-              }
-              metalness 0
-              normalMap ImageTexture {
-                url [
-                  "textures/rough_polymer_normal.jpg"
-                ]
-              }
-              normalMapFactor 2
-              occlusionMap ImageTexture {
-                url [
-                  "textures/rough_polymer_occlusion.jpg"
-                ]
-              }
-              occlusionMapStrength 2
               textureTransform TextureTransform {
                 scale 3 3
               }
