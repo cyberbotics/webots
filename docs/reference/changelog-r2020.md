@@ -32,7 +32,7 @@ Released on December YYth, 2019.
     - Linux: Added support for Python 3.8.
   - Enhancements
     - Improved the [Sick LD MRS](../guide/lidar-sensors.md#sick-ld-mrs) PROTO to support the following types: `400001`, `400102`, `400001S01`, `400102S01` and `800001S01`.
-    - **Improved the `wb_supervisor_simulation_reset` to avoid restartign the controllers.**
+    - **Improved the `wb_supervisor_simulation_reset` to avoid restarting the controllers.**
     - Set the [ABB IRB 4600/40](../guide/irb4600-40.md) root node to [Robot](robot.md) instead of [Solid](solid.md) to be able to insert it everywhere.
     - Webots now waits for extern controllers if the `Robot.synchronization` field is set to `TRUE`.
     - Device names are displayed in the scene tree next to the node name.
