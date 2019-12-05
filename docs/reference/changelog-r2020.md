@@ -35,8 +35,6 @@ Released on December YYth, 2019.
     - Device names are displayed in the scene tree next to the node name.
     - Split the Webots and controller libraries to avoid possible conflicts with external libraries.
     - Windows/Linux: Move the `Check for updates...` menu from `Tools` to `Help` for consistency with other applications.
-    - New Samples
-    - Added a `complete_apartment` world.
   - Bug fixes
     - Fixed the [`wb_supervisor_node_reset_physics()`](supervisor.md#wb_supervisor_node_reset_physics) function when applied on dynamic objects (in motion and containing joints).
     - Fixed [Lidar](lidar.md) point cloud access in controllers (thanks to Alexander).
