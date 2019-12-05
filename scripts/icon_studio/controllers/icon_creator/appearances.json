@@ -110,6 +110,9 @@
   "RoughPine": {
     "fields": "textureTransform TextureTransform { scale 6 1 }"
   },
+  "RoughPolymer": {
+    "fields": "baseColor 0 0 0 textureTransform TextureTransform { scale 2 1 }"
+  },
   "Rubber": {
     "fields": "textureTransform TextureTransform { scale 3 2 }"
   },
