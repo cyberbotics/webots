@@ -9,14 +9,10 @@ Released on October 3rd, 2019.
     - Removed the Telemax PRO robot model, following a request from Telerob.
   - New Features
     - Added a new `fastHelixThreshold` field to the [Propeller](propeller.md) node to define when the helix representation is switched from `slowHelix` to` fastHelix`.
-    - Added several appearances: `BlanketFabric`, `BrushedSteel`, `CementTiles`, `Copper`, `Grass`, `LedStrip`, `MarbleTiles`, `Pcb`, `PorcelainChevronTiles`, `ReflectiveSurface`, `Sand`, `SlatePavement` and `Soil`.
+    - Added several appearances: `BlanketFabric`, `BrushedSteel`, `CementTiles`, `Grass`, `LedStrip`, `MarbleTiles`, `PorcelainChevronTiles`, `ReflectiveSurface`, `Sand`, `SlatePavement` and `Soil`.
     - Added new appearance types for: `CarpetFibers` and `StonePavement`.
     - Added several bathroom objects and lights: `BathroomSink`, `Bathtube`, `Toilet`, `WashingMachine`, `CeilingSpotLight` and `ConstructionLamp`.
     - Added a C3dViewer PROTO to visualize C3D files in Webots.
-    - E-puck2
-      - Added the pi-puck extension.
-      - Fixed [DistanceSensor](distancesensor.md) noise calibration.
-      - Improved the meshes and appearances.
     - Added a new HDR background: `noon_cloudy_countryside`.
   - New Samples
     - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
