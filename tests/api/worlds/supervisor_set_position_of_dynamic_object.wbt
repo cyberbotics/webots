@@ -1,0 +1,158 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+  contactProperties [
+    ContactProperties {
+      material2 "ice"
+      coulombFriction [
+        0
+      ]
+    }
+  ]
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation -0.12163300473276177 -0.9557830154652709 -0.2677391258441581 2.32230289470441
+  position -1.527422443939456 1.1854605189388527 -1.2789805257879379
+}
+Background {
+  skyColor [
+    0.441932 0.383429 0.69482
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.2 -1 0.3
+}
+RectangleArena {
+}
+Robot {
+  translation 0.15 0 0
+  rotation 0 1 0 1
+  children [
+    TestSuiteEmitter {
+    }
+    GPS {
+      name "body_gps"
+    }
+    Transform {
+      translation 0 0.0415 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.0820075 0.364731 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry DEF BODY Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "left wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.04499999999999908 0.025 0
+        rotation 1 0 0 4.984670000000067
+        children [
+          GPS {
+            name "left_wheel_gps"
+          }
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "right wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.04499999999999943 0.025 0
+        rotation 1 0 0 4.587350000000003
+        children [
+          GPS {
+            name "right_wheel_gps"
+          }
+          USE WHEEL
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
+    }
+    Solid {
+      translation 0 0.006 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 1 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.05 0.012 0.1
+          }
+        }
+      ]
+      contactMaterial "ice"
+    }
+  ]
+  boundingObject Transform {
+    translation 0 0.0415 0
+    children [
+      USE BODY
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+  }
+  controller "supervisor_set_position_of_dynamic_object"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}
