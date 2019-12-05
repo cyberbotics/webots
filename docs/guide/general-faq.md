@@ -15,7 +15,9 @@ Please [contact us](mailto:info@cyberbotics.com) for more information about our 
 
 Yes, and for free!
 
+Download an old Webots version from [this archive page](https://github.com/cyberbotics/webots/releases/tag/R2019a).
 Just log into Webots using this magical password: `webots`.
+Your e-mail doesn't matter (it is not stored anywhere).
 
 ### Where to Start?
 
