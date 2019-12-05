@@ -11,7 +11,7 @@
 PROTO SharpGP2D120 [
   field  SFVec3f     translation    0 0 0
   field  SFRotation  rotation       0 1 0 0
-  field  SFString    name           "Sharp's GP2D120 IR sensor"
+  field  SFString    name           "Sharp's IR sensor GP2D120"
   field  SFString    model          "GP2D120"
 ]
 {
