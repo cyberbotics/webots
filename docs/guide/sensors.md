@@ -34,6 +34,15 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 | :---: | --- | --- | --- |
 | ![multisense_s21_icon.png](images/sensors/multisense_s21_icon.png) | [S21](camera-sensors.md#multisense-s21) | MultiSense |
 
+#### DistanceSensor Sensors
+
+| Preview | Name |  Manufacturer |
+| :---: | --- | --- | --- |
+| ![sharp_GP2D120_icon.png](images/sensors/sharp_GP2D120_icon.png) | [GP2D120](distancesensor-sensors.md#sharp-GP2D120) | Sharp |
+| ![sharp_GP2Y0A02YK0F_icon.png](images/sensors/sharp_GP2Y0A02YK0F_icon.png) | [GP2Y0A02YK0F](distancesensor-sensors.md#sharp-GP2Y0A02YK0F) | Sharp |
+| ![sharp_GP2Y0A41SK0F_icon.png](images/sensors/sharp_GP2Y0A41SK0F_icon.png) | [GP2Y0A41SK0F](distancesensor-sensors.md#sharp-GP2Y0A41SK0F) | Sharp |
+| ![sharp_GP2Y0A710K0F_icon.png](images/sensors/sharp_GP2Y0A710K0F_icon.png) | [GP2Y0A710K0F](distancesensor-sensors.md#sharp-GP2Y0A710K0F) | Sharp |
+
 #### Lidar Sensors
 
 | Preview | Name |  Manufacturer |

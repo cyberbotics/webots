@@ -15,13 +15,10 @@
  */
 
 /*
- * Description:   Starts with a predefined behaviors and then
- *                read the user keyboard inputs to actuate the
- *                robot
- * Description: Simple avoidance controller
+ * Description: Simple avoidance controller and keyboard Control
  *              The velocity of each wheel is set according to a
  *              Braitenberg-like algorithm which takes the values returned
- *              by the Hokuyo URG-04LX-UG01 as input.
+ *              by the 9 infrared sensors as input.
  */
 
 #include <webots/distance_sensor.h>
@@ -46,7 +43,7 @@ static int old_key = -1;
 static bool demo = false;
 static bool autopilot = true;
 static bool old_autopilot = true;
-static bool display_message = true;
+static bool display_message = false;
 
 extern WbDeviceTag wheels[3];
 static WbDeviceTag infrared_sensors[NUMBER_OF_INFRARED_SENSORS];
@@ -246,7 +243,7 @@ int main(int argc, char **argv) {
   passive_wait(2.0);
 
   // Enable the keyboard inputs
-  int old_key = 0;
+  old_key = 0;
   wb_keyboard_enable(TIME_STEP);
 
   // Store the last time a message was displayed
