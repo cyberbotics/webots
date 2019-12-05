@@ -11,6 +11,12 @@ The source code is available from [GitHub](https://github.com/cyberbotics/webots
 Cyberbotics collaborates to several academic and industrial projects, and provides a paid user support, training and consulting for users who need to quickly develop high-quality Webots simulations.
 Please [contact us](mailto:info@cyberbotics.com) for more information about our services.
 
+### Can I Still Use a Webots Version Before the R2019a Release?
+
+Yes, and for free!
+
+Just log into Webots using this magical password: `webots`.
+
 ### Where to Start?
 
 [Download Webots](https://cyberbotics.com/download), [install it](installation-procedure.md) and follow the [official tutorials](tutorials.md).
