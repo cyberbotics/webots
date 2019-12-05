@@ -1,19 +1,19 @@
 #VRML_SIM R2020a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# documentation url: https://www.cyberbotics.com/doc/guide/turtlebot3
+# documentation url: https://www.cyberbotics.com/doc/guide/turtlebot3burger
 # Burger model of the third version of the TurtleBot robot.
 
-PROTO Turtlebot3Burger [
-  field SFVec3f    translation     0 0 0         # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0       # Is `Transform.rotation`.
-  field SFString   name            "TurtleBot3"  # Is `Solid.name`.
-  field SFString   controller      "void"        # Is `Robot.controller`.
-  field SFString   controllerArgs  ""            # Is `Robot.controllerArgs`.
-  field SFString   customData      ""            # Is `Robot.customData`.
-  field SFBool     supervisor      FALSE         # Is `Robot.supervisor`.
-  field SFBool     synchronization TRUE          # Is `Robot.synchronization`.
-  field MFNode     extensionSlot   []            # Extends the robot with new nodes in the extension slot.
+PROTO TurtleBot3Burger [
+  field SFVec3f    translation     0 0 0               # Is `Transform.translation`.
+  field SFRotation rotation        0 1 0 0             # Is `Transform.rotation`.
+  field SFString   name            "TurtleBot3Burger"  # Is `Solid.name`.
+  field SFString   controller      "void"              # Is `Robot.controller`.
+  field SFString   controllerArgs  ""                  # Is `Robot.controllerArgs`.
+  field SFString   customData      ""                  # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE               # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE                # Is `Robot.synchronization`.
+  field MFNode     extensionSlot   []                  # Extends the robot with new nodes in the extension slot.
 ]
 {
   Robot {
