@@ -24,27 +24,39 @@
  *              by the Hokuyo URG-04LX-UG01 as input.
  */
 
+#include <webots/distance_sensor.h>
 #include <webots/keyboard.h>
+#include <webots/motor.h>
 #include <webots/robot.h>
 
-#include <base.h>
-#include <tiny_math.h>
+#include "base.h"
+#include "tiny_math.h"
 
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define TIME_STEP 32
+#define TIME_STEP 16
+#define NEAR_OBSTACLE 0.20  // [m]
 
 #define NUMBER_OF_INFRARED_SENSORS 9
+
+static int old_key = -1;
+static bool demo = false;
+static bool autopilot = true;
+static bool old_autopilot = true;
+static bool display_message = true;
+
+extern WbDeviceTag wheels[3];
+static WbDeviceTag infrared_sensors[NUMBER_OF_INFRARED_SENSORS];
 static const char *infrared_sensors_names[NUMBER_OF_INFRARED_SENSORS] = {"ir1", "ir2", "ir3", "ir4", "ir5",
                                                                          "ir6", "ir7", "ir8", "ir9"};
 
-static int old_key = -1;
-static bool demo = true;
-static bool autopilot = true;
-static bool old_autopilot = true;
+double convert_volt_to_meter(double V) {
+  // Look in the PROTO file of the Sharp sensor used to find the right equation
+  return 0.1623 * pow(V, -0.8431) - 0.03202;
+}
 
 static void step() {
   if (wb_robot_step(TIME_STEP) == -1) {
@@ -63,16 +75,16 @@ static void passive_wait(double sec) {
 // Demonstration
 // Displace in a square shape to show the mecanum wheels capabilities
 static void run_demo() {
-  // Make a square movement
-  passive_wait(1.0);
+  printf("Demonstration started\n");
 
+  // Make a square movement
   base_forwards();
-  passive_wait(1.0);
+  passive_wait(2.0);
   base_reset();
   passive_wait(1.0);
 
   base_strafe_left();
-  passive_wait(1.0);
+  passive_wait(2.0);
   base_reset();
   passive_wait(1.0);
 
@@ -92,27 +104,46 @@ static void run_demo() {
   passive_wait(1.0);
 
   base_strafe_left();
-  passive_wait(1.0);
+  passive_wait(2.0);
   base_reset();
   passive_wait(1.0);
 
   base_backwards();
-  passive_wait(1.0);
+  passive_wait(2.0);
   base_reset();
   passive_wait(1.0);
 
   base_turn_left();
-  passive_wait(1.0);
+  passive_wait(3.0);
   base_reset();
   base_turn_right();
-  passive_wait(1.0);
+  passive_wait(3.0);
   base_reset();
+  printf("Demonstration finished\n");
+  demo = false;
 }
 
-// Autopilot
-// Move using a Braitenberg algorithm
-static void run_autopilot() {
-  base_braitenberg_avoidance();
+// Autopilot mode
+// Move using a simple Braitenberg algorithm to avoid obstacle
+static void run_autopilot(bool display_message, int *last_displayed_second) {
+  // Get sensors values and convert them
+  double sensors_values[NUMBER_OF_INFRARED_SENSORS] = {0.0};
+  for (int i = 0; i < NUMBER_OF_INFRARED_SENSORS; ++i)
+    sensors_values[i] = convert_volt_to_meter(wb_distance_sensor_get_value(infrared_sensors[i]));
+
+  if (display_message) {
+    // Display some IR sensor data every second
+    int display_second = (int)wb_robot_get_time();
+    if (display_second != *last_displayed_second) {
+      *last_displayed_second = display_second;
+
+      printf("time = %d [s]\n", display_second);
+      for (int i = 0; i < NUMBER_OF_INFRARED_SENSORS; ++i)
+        printf("infrared sensor('%s') = %f [m]\n", infrared_sensors_names[i], sensors_values[i]);
+    }
+  }
+
+  base_braitenberg_avoidance(sensors_values);
 }
 
 static void display_instructions() {
@@ -165,9 +196,8 @@ static void check_keyboard() {
         base_reset();
         break;
       case 'D':
-        if (key != old_key) {  // perform this action just once
+        if (key != old_key)  // perform this action just once
           demo = !demo;
-        }
         break;
       case 'A':
         if (key != old_key)  // perform this action just once
@@ -191,69 +221,48 @@ static void check_keyboard() {
 int main(int argc, char **argv) {
   // Initialization
   wb_robot_init();
-  // base_init();
-  // base_init_sensors();
 
+  // Get the time step of the simulation from world file
   int time_step = (int)wb_robot_get_basic_time_step();
-  int i;
 
-  // get and enable the infrared sensors
-  WbDeviceTag infrared_sensors[NUMBER_OF_INFRARED_SENSORS];
-  for (i = 0; i < NUMBER_OF_INFRARED_SENSORS; ++i) {
+  // Get and enable the infrared sensors
+  // WbDeviceTag infrared_sensors[NUMBER_OF_INFRARED_SENSORS];
+  for (int i = 0; i < NUMBER_OF_INFRARED_SENSORS; ++i) {
     infrared_sensors[i] = wb_robot_get_device(infrared_sensors_names[i]);
     wb_distance_sensor_enable(infrared_sensors[i], time_step);
   }
 
-  // get the motors and set target position to infinity (speed control)
-  WbDeviceTag motor_0, motor_1, motor_2;
-  motor_0 = wb_robot_get_device("wheel0_joint");
-  motor_1 = wb_robot_get_device("wheel1_joint");
-  motor_2 = wb_robot_get_device("wheel2_joint");
-  wb_motor_set_position(motor_0, INFINITY);
-  wb_motor_set_position(motor_1, INFINITY);
-  wb_motor_set_position(motor_2, INFINITY);
-  wb_motor_set_velocity(motor_0, 0.0);
-  wb_motor_set_velocity(motor_1, 0.0);
-  wb_motor_set_velocity(motor_2, 0.0);
+  // Get the motors and set target position to infinity (speed control)
+  char wheel_name[16];
+  for (int i = 0; i < 3; i++) {
+    sprintf(wheel_name, "wheel%d_joint", i);
+    wheels[i] = wb_robot_get_device(wheel_name);
+    wb_motor_set_position(wheels[i], INFINITY);
+    wb_motor_set_velocity(wheels[i], 0.0);
+  }
 
   // Display instructions to control the robot
   display_instructions();
   passive_wait(2.0);
 
+  // Enable the keyboard inputs
   int old_key = 0;
   wb_keyboard_enable(TIME_STEP);
 
-  // store the last time a message was displayed
+  // Store the last time a message was displayed
   int last_display_second = 0;
 
-  // User moves the robot with keyboard arrows
+  // Main loop
+  //  o User moves the robot with keyboard arrows
   while (true) {
     step();
-    // display some sensor data every second
-    // and change randomly the led colors
-    int display_second = (int)wb_robot_get_time();
-    if (display_second != last_display_second) {
-      last_display_second = display_second;
-      for (i = 0; i < NUMBER_OF_INFRARED_SENSORS; ++i)
-        printf("infrared sensor('%s') = %f [m]\n", infrared_sensors_names[i],
-               wb_distance_sensor_get_value(infrared_sensors[i]));
-    }
 
-    // simple obstacle avoidance algorithm
-    // based on the front infrared sensors
-    double speed_offset = 0.2 * (MAX_SPEED - 0.03 * wb_distance_sensor_get_value(infrared_sensors[3]));
-    double speed_delta =
-      0.03 * wb_distance_sensor_get_value(infrared_sensors[2]) - 0.03 * wb_distance_sensor_get_value(infrared_sensors[4]);
-    wb_motor_set_velocity(left_motor, speed_offset + speed_delta);
-    wb_motor_set_velocity(right_motor, speed_offset - speed_delta);
-
-    /*
     check_keyboard();
-    if (autopilot)
-      run_autopilot();
     if (demo)
       run_demo();
-    */
+    if (autopilot) {
+      run_autopilot(display_message, &last_display_second);
+    }
   }
 
   wb_robot_cleanup();

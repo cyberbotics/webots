@@ -27,9 +27,6 @@
 extern "C" {
 #endif
 
-void base_init();
-void base_init_sensors();
-
 void base_reset();
 void base_forwards();
 void base_backwards();

@@ -34,16 +34,18 @@
 #define MAX_SPEED 6.4
 #define DISTANCE_TOLERANCE 0.001
 #define ANGLE_TOLERANCE 0.001
-#define WHEEL_RADIUS_GAP 0.1826      // [m]
-#define FAR_OBSTACLE_THRESHOLD 0.15  // [m]
-#define NEAR_OBSTACLE_THRESHOLD 0.5  // [m]
+#define WHEEL_RADIUS_GAP 0.1826  // [m]
 #define BIG_FACTOR 0.9
 #define SMALL_FACTOR 0.5
+#define NUMBER_OF_INFRARED_SENSORS 9
+#define NEAR_OBSTACLE 0.20  // [m]
 
 // stimulus coefficients
 #define K1 3.0
 #define K2 1.0
 #define K3 1.0
+
+WbDeviceTag wheels[3];
 
 typedef struct {
   bool reached;
@@ -51,8 +53,6 @@ typedef struct {
   Vector2 v_target;
 } goto_struct;
 
-static WbDeviceTag wheels[3];
-static WbDeviceTag IRsensors[9];
 static WbDeviceTag gps;
 static WbDeviceTag compass;
 static goto_struct goto_data;
@@ -80,25 +80,6 @@ static void base_set_wheel_speeds_helper(double speeds[3]) {
 
   for (i = 0; i < 3; i++)
     base_set_wheel_velocity(wheels[i], v_motor[i]);
-}
-
-void base_init() {
-  int i;
-  char wheel_name[16];
-  for (i = 0; i < 3; i++) {
-    sprintf(wheel_name, "wheel%d_joint", i);
-    wheels[i] = wb_robot_get_device(wheel_name);
-  }
-}
-
-void base_init_sensors() {
-  int i;
-  char sensors_name[16];
-  for (i = 0; i < 9; i++) {
-    sprintf(sensors_name, "ir%d", i);
-    IRsensors[i] = wb_robot_get_device(sensors_name);
-    wb_distance_sensor_enable(IRsensors[i], TIME_STEP);
-  }
 }
 
 void base_reset() {
@@ -146,21 +127,44 @@ void base_strafe_right() {
   base_set_wheel_speeds_helper(speeds);
 }
 
-void base_get_IR_values(double *val) {
-  for (i = 0; i < 9; i++)
-    val[i] = wb_distance_sensor_get_value(IRsensors[i]);
-}
-
-void base_braitenberg_avoidance() {
-  double IRvalues[9] = {0.0};
-
-  // Get infrared (IR) sensors values
-  base_get_IR_values(IRvalues);
-  for (i = 0; i < 9; i++) {
-    printf("IR[%d] val = %f\n", i, val);
+void base_braitenberg_avoidance(double *sensors_values) {
+  // Simple obstacle avoidance algorithm
+  //  - obstacle in front
+  if (sensors_values[0] < NEAR_OBSTACLE) {
+    base_backwards();
   }
-
-  // Check if there is some obstacles
+  //  - obstacle on left side
+  else if (sensors_values[2] < NEAR_OBSTACLE) {
+    base_strafe_right();
+  }
+  //  - obstacle on right side
+  else if (sensors_values[7] < NEAR_OBSTACLE) {
+    base_strafe_left();
+  }
+  //  - obstacle behind
+  if (sensors_values[4] < NEAR_OBSTACLE || sensors_values[5] < NEAR_OBSTACLE) {
+    base_forwards();
+  }
+  //  - obstacle in front left
+  else if (sensors_values[1] < NEAR_OBSTACLE) {
+    base_turn_right();
+  }
+  //  - obstacle in front right
+  else if (sensors_values[8] < NEAR_OBSTACLE) {
+    base_turn_left();
+  }
+  //  - obstacle in rear left
+  else if (sensors_values[3] < NEAR_OBSTACLE) {
+    base_turn_right();
+  }
+  //  - obstacle in rear right_wheel
+  else if (sensors_values[6] < NEAR_OBSTACLE) {
+    base_turn_left();
+  }
+  //  - no obstacle
+  else {
+    base_forwards();
+  }
 }
 
 void base_goto_init(double time_step) {

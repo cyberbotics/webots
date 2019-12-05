@@ -4,6 +4,9 @@
 # This is a PROTO file for Webots of the GP2D120 IR sensor from Sharp.
 # Effective range: 4 to 30 cm
 # Documentation url: https://www.pololu.com/file/0J157/GP2D120-DATA-SHEET.pdf
+# Based on the lookupTable, power fit after the highest voltage point.
+# y[V] = f(x[m])  => y = 0.5605*x^(-0.549)+0.671
+# y[m] = f(x[V])  => y = 0.1623*x^(-0.8431)-0.03202
 
 PROTO SharpGP2D120 [
   field  SFVec3f     translation    0 0 0

@@ -23,8 +23,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.033729620715546554 0.9986566330723775 0.03933499595688568 4.657930975749578
-  position -6.629022491246199 0.3712518870318302 -0.3634619122275622
+  orientation 0.01962 0.99922 0.03439 4.67773
+  position -6.29465 0.25218 -0.2851
   follow "Robotino 3"
   followSmoothness 0
 }
@@ -69,7 +69,7 @@ DEF ROOF RectangleArena {
 }
 Robotino3 {
   translation -4.896 0.00815182 -0.32
-  rotation -0.5773509358554485 0.5773509358554485 0.5773489358556708 2.0944
+  rotation -0.57735 0.57735 0.57735 2.0944
   cameraExtension [
     Robotino3Webcam {
     }
@@ -83,7 +83,8 @@ WoodenBox {
   name "wooden box(1)"
 }
 WoodenBox {
-  translation -0.189 0.3 -0.174
+  translation -0.019 0.3 -0.174
+  rotation 0 1 0 -0.2618
   name "wooden box(2)"
 }
 WoodenBox {
@@ -126,8 +127,13 @@ WoodenBox {
   name "wooden box(11)"
 }
 WoodenBox {
-  translation 7.18 1.1 6
+  translation -6.52672 0.15 -0.667583
   name "wooden box(12)"
+  size 0.4 0.3 1.2
+}
+WoodenBox {
+  translation 7.18 1.1 6
+  name "wooden box(13)"
 }
 SolidBox {
   translation 7.49 0.85 4
@@ -145,7 +151,7 @@ SolidBox {
 }
 SolidBox {
   translation -6.9 2.5 -2.08
-  rotation -0.5773502691896258 0.5773502691896258 -0.5773502691896258 2.094
+  rotation -0.57735 0.57735 -0.57735 2.094
   name "box(1)"
   size 0.02 2.5 1.2
   appearance PBRAppearance {
@@ -358,7 +364,7 @@ StraightStairs {
     }
   }
   stringerAppearance BrushedAluminium {
-    colorOverride 0.533333 0.541176 0.521569
+    colorOverride 0.53333 0.54118 0.52157
     textureTransform TextureTransform {
       scale 20 20
     }
@@ -412,63 +418,57 @@ OilBarrel {
   name "oil barrel(8)"
 }
 OilBarrel {
-  translation 5.826 0.305 0.356
+  translation 7.11265 0.305 3.1763
   name "oil barrel(9)"
 }
 OilBarrel {
-  translation 5.892 0.305 -1.534
+  translation 5.826 0.305 0.356
   name "oil barrel(10)"
 }
 OilBarrel {
-  translation 1.31 0.44 -5.783
+  translation 5.492 0.305 -0.564
   name "oil barrel(11)"
 }
 OilBarrel {
-  translation 1.017 0.44 -6.932
+  translation 5.892 0.305 -1.434
   name "oil barrel(12)"
 }
 OilBarrel {
-  translation -0.08 0.44 -6.53
+  translation 2.03 0.44 -6.553
   name "oil barrel(13)"
+}
+OilBarrel {
+  translation 1.237 0.44 -7.172
+  name "oil barrel(14)"
+}
+OilBarrel {
+  translation -0.66 0.44 -6.53
+  name "oil barrel(15)"
 }
 TrafficCone {
   translation -5.892 0 1.397
 }
 TrafficCone {
-  translation -5.045 0 2.377
-  rotation 0 1 0 -0.785
+  translation -5.06696 0.255908 2.39896
+  rotation 0.88656 -0.281623 0.36702 1.94686
   name "traffic cone(1)"
+}
+TrafficCone {
+  translation 4.25156 0.265925 -1.19568
+  rotation -0.5817 -0.45337 0.67534 -2.30117
+  name "traffic cone(2)"
 }
 TrafficCone {
   translation -3.996 0 3.072
   rotation 0 1 0 0.262
-  name "traffic cone(2)"
-}
-TrafficCone {
-  translation 6.425 0 2.282
-  rotation 0 1 0 0.262
   name "traffic cone(3)"
-}
-TrafficCone {
-  translation 5.034 0 2.12
-  name "traffic cone(4)"
-}
-TrafficCone {
-  translation 4.128 0 1.239
-  rotation 0 1 0 -0.262
-  name "traffic cone(5)"
 }
 TrafficCone {
   translation 4.289 0 -0.082
   rotation 0 -1 0 0.524
-  name "traffic cone(6)"
+  name "traffic cone(4)"
 }
 TrafficCone {
-  translation 4.158 0 -1.273
-  rotation 0 1 0 0.524
-  name "traffic cone(7)"
-}
-TrafficCone {
-  translation 4.317 0 -2.52
-  name "traffic cone(8)"
+  translation 4.317 0 -2.07
+  name "traffic cone(5)"
 }

@@ -3,6 +3,9 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # This is a PROTO file for Webots of the infrared sensor GP2Y0A41SK0F from Sharp.
 # Effective range: 4 to 30 cm, doc: https://www.pololu.com/file/0J713/GP2Y0A41SK0F.pdf
+# Based on the lookupTable, power fit after the highest voltage point.
+# y[V] = f(x[m])  => y = 0.5605*x^(-0.5469)-0.671
+# y[m] = f(x[V])  => y = 0.1623*x^(-0.8431)-0.03202
 
 PROTO SharpGP2Y0A41SK0F [
   field  SFVec3f     translation  0 0 0

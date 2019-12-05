@@ -3,7 +3,9 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # This is a PROTO file for Webots of the infrared sensor GP2Y0A710K0F from Sharp.
 # Effective range: 100 to 550 cm, doc: https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a710k_e.pdf
-
+# Based on the lookupTable, power fit after the highest voltage point.
+# y[V] = f(x[m])  => y = 1.962*x^(-0.5214)+0.4926
+# y[m] = f(x[V])  => y = 20.24*x^(-4.76)+0.6632
 
 PROTO SharpGP2Y0A710K0F [
   field  SFVec3f     translation  0 0 0
@@ -16,13 +18,13 @@ PROTO SharpGP2Y0A710K0F [
     rotation IS rotation
     name IS name
     model IS model
-    lookupTable [0.000 0.00 0.0, 0.010 1.55 0.1, 0.020 2.00 0.1, 0.030 2.50 0.1,
-                 0.035 2.80 0.1, 0.040 3.00 0.1, 0.050 3.13 0.1, 0.060 3.08 0.1,
-                 0.070 3.00 0.1, 0.080 2.80 0.1, 0.090 2.60 0.1, 0.100 2.50 0.1,
-                 0.120 2.30 0.1, 0.140 2.10 0.1, 0.160 2.00 0.1, 0.180 1.90 0.1,
-                 0.200 1.80 0.1, 0.230 1.70 0.1, 0.260 1.63 0.1, 0.290 1.57 0.1,
-                 0.320 1.52 0.1, 0.350 1.50 0.1, 0.380 1.47 0.1, 0.410 1.44 0.1,
-                 0.440 1.42 0.1, 0.470 1.40 0.1, 0.500 1.39 0.1, 0.550 1.37 0.1
+    lookupTable [0.00 0.00 0.0, 0.10 1.55 0.1, 0.20 2.00 0.1, 0.30 2.50 0.1,
+                 0.35 2.80 0.1, 0.40 3.00 0.1, 0.50 3.13 0.1, 0.60 3.08 0.1,
+                 0.70 3.00 0.1, 0.80 2.80 0.1, 0.90 2.60 0.1, 1.00 2.50 0.1,
+                 1.20 2.30 0.1, 1.40 2.10 0.1, 1.60 2.00 0.1, 1.80 1.90 0.1,
+                 2.00 1.80 0.1, 2.30 1.70 0.1, 2.60 1.63 0.1, 2.90 1.57 0.1,
+                 3.20 1.52 0.1, 3.50 1.50 0.1, 3.80 1.47 0.1, 4.10 1.44 0.1,
+                 4.40 1.42 0.1, 4.70 1.40 0.1, 5.00 1.39 0.1, 5.50 1.37 0.1
     ]
     children [
       DEF CASE Shape {
