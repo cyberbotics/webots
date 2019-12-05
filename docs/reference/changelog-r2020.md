@@ -36,6 +36,7 @@ Released on December YYth, 2019.
     - Split the Webots and controller libraries to avoid possible conflicts with external libraries.
     - Windows/Linux: Move the `Check for updates...` menu from `Tools` to `Help` for consistency with other applications.
   - Bug fixes
+    - Fixed the [`wb_supervisor_node_reset_physics()`](supervisor.md#wb_supervisor_node_reset_physics) function when applied on dynamic objects (in motion and containing joints).
     - Fixed [Lidar](lidar.md) point cloud access in controllers (thanks to Alexander).
     - Fixed bugs in Python Display.imageNew() when passing an image array: rearranged image data from column-major order and memory leak (thanks to Inbae Jeong).
     - Fixed [Nao.selfCollision](../guide/nao.md) due to overlapping bounding objects in feet (thanks to Sheila).
