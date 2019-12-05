@@ -3290,7 +3290,7 @@ Here are a few examples for the `index` parameter:
 - -2: insert at the second index from the end of the field.
 - -3: insert at the third index from the end.
 
-The `wb_supervisor_field_remove_sf/mf` functionS remove an item from a specified `field` (MF or SF).
+The `wb_supervisor_field_remove_sf/mf` functions remove an item from a specified `field` (MF or SF).
 
 ---
 
