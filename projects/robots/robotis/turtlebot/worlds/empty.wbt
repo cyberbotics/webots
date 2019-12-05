@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.08176009256045119 0.9681663931760549 0.23657794146744832 2.6630347076688703
-  position 0.17139045232901215 0.24719011298499036 -0.2714917588644552
+  orientation -0.08175999758331214 0.9681664207446973 0.23657786146970441 2.6630356352485505
+  position 0.17139045232901215 0.24719011298499033 -0.2714917588644552
 }
 TexturedBackground {
 }
@@ -267,10 +267,7 @@ Robot {
           }
         }
         DEF CM_CARD Shape {
-          appearance PBRAppearance {
-            baseColor 0.305882 0.603922 0.0235294
-            roughness 1
-            metalness 0
+          appearance Pcb {
           }
           geometry IndexedFaceSet {
             coord Coordinate {
@@ -364,9 +361,7 @@ Robot {
           }
         }
         DEF PI Shape {
-          appearance PBRAppearance {
-            baseColor 0.305882 0.603922 0.0235294
-            metalness 0
+          appearance Pcb {
           }
           geometry IndexedFaceSet {
             coord Coordinate {
