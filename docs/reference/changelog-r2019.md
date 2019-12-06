@@ -5,6 +5,9 @@ Released on ???
 
   - New Robots
     - Added several TIAGo robots from PAL Robotics: [TIAGo Base](../guide/tiago-base.md), [TIAGo Iron](../guide/tiago-iron.md), [TIAGo Steel](../guide/tiago-steel.md), [TIAGo Titanium](../guide/tiago-titanium.md) and [TIAGo++](../guide/tiagopp.md).
+    - Added Robotino 3 from Festo: [Robotino 3](../guide/robotino3.md).
+  - New sensors
+    - Added several models of infrared sensors from Sharp: [GP2D120](../guide/distancesensor-sensors.md#sharp-gp2d120), [GP2Y0A02YK0F](../guide/distancesensor-sensors.md#sharp-gp2y0a02yk0f), [GP2Y0A41SK0F](../guide/distancesensor-sensors.md#sharp-gp2y0a41sk0f) and [GP2Y0A710K0F](../guide/distancesensor-sensors.md#sharp-gp2y0a710k0f).  
   - New Features
     - Linux: Added support for Python 3.8.
     - Added several appearances: `CorrugatedPlates`, `CorrugatedPvc` and `FormedConcrete`.
