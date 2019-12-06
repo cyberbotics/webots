@@ -114,7 +114,7 @@ The function `wb_distance_sensor_get_value` return the voltage/intensity of the 
 
 %figure "Sharp GP2Y0A710K0F model"
 
-![sharp_GP2Y0A710K0F.png](images/sensors/sharp_GP2Y0A710K0F.png)
+![sharp_GP2Y0A710K0F.png](images/sensors/sharp_GP2Y0A710K0F.thumbnail.png)
 
 %end
 
