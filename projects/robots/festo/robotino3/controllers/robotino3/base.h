@@ -34,13 +34,9 @@ void base_turn_left();
 void base_turn_right();
 void base_strafe_left();
 void base_strafe_right();
-void base_get_IR_values(double *values);
+void base_set_wheel_velocity(WbDeviceTag t, double velocity);
+void base_set_wheel_speeds_helper(double *speeds);
 void base_braitenberg_avoidance();
-
-void base_goto_init(double time_step);
-void base_goto_set_target(double x, double z, double a);
-void base_goto_run();
-bool base_goto_reached();
 
 #ifdef __cplusplus
 }

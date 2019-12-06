@@ -1,9 +1,10 @@
 #VRML_SIM R2019b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
+# documentation url: https://www.cyberbotics.com/doc/guide/distancesensor-sensors
 # This is a PROTO file for Webots of the infrared sensor GP2Y0A710K0F from Sharp.
-# Effective range: 100 to 550 cm, doc: https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a710k_e.pdf
-# Based on the lookupTable, power fit after the highest voltage point.
+# Effective range: 100 to 550 cm, datasheet: https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a710k_e.pdf
+# Based on the lookupTable, power fitting method after the highest voltage point.
 # y[V] = f(x[m])  => y = 1.962*x^(-0.5214)+0.4926
 # y[m] = f(x[V])  => y = 20.24*x^(-4.76)+0.6632
 
@@ -11,6 +12,7 @@ PROTO SharpGP2Y0A710K0F [
   field  SFVec3f     translation  0 0 0
   field  SFRotation  rotation     0 1 0 0
   field  SFString    name         "Sharp's IR sensor GP2Y0A710K0F"
+  field  SFString    model        "GP2Y0A710K0F"
 ]
 {
   DistanceSensor {

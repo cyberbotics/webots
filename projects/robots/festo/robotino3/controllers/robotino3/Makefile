@@ -21,15 +21,8 @@ space :=
 space +=
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 
-# This includers
-C_SOURCES = robotino3.c base.c tiny_math.c
-
-# Instead of these
-#RESOURCES_PATH = $(WEBOTS_HOME)/projects/robots/festo/robotino3
-#INCLUDE = -I"$(RESOURCES_PATH)/libraries/robotino3_control/include"
-#LIBRARIES = -L"$(RESOURCES_PATH)/libraries/robotino3_control" -lrobotino3_control
-
-
+# Needed when using several .c files
+C_SOURCES = robotino3.c base.c
 
 ### Do not modify: this includes Webots global Makefile.include
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

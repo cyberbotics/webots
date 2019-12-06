@@ -120,7 +120,7 @@ PROTO Robotino3 [
       DEF base_bottom_support Transform {
         translation 0 0 0.035
         children [
-          DEF PART21 Shape {
+          Shape {
             appearance PBRAppearance {
               baseColor 0.77255 0.77255 0.77255
               roughness 0.19
@@ -142,7 +142,7 @@ PROTO Robotino3 [
       DEF base_metal_half_ring Transform {
         translation 0 0 0.035
         children [
-          DEF PART2 Shape {
+          Shape {
             appearance PBRAppearance {
               baseColor 0.77255 0.77255 0.77255
               roughness 0.19
@@ -188,7 +188,7 @@ PROTO Robotino3 [
       DEF base_IR_metal_ring_cover Transform {
         translation 0 0 0.035
         children [
-          DEF PART42 Shape {
+          Shape {
             appearance PBRAppearance {
               baseColor 0.77255 0.77255 0.77255
               roughness 0.19
@@ -209,7 +209,7 @@ PROTO Robotino3 [
       DEF base_wheel_cover_1 Transform {
         translation 0 0 0.035
         children [
-          DEF PART11 Shape {
+          DEF WHEEL_COVER Shape {
             appearance PBRAppearance {
               roughness 0.2
               metalness 0
@@ -231,7 +231,7 @@ PROTO Robotino3 [
       DEF base_wheel_cover_2 Transform {
         translation 0 0 0.035
         rotation 0 0 1 2.0944
-        children USE PART11
+        children USE WHEEL_COVER
       }
       DEF base_black_rubber Transform {
         translation 0 0 0.035
@@ -257,7 +257,7 @@ PROTO Robotino3 [
       DEF base_extension_plate Transform {
         translation 0 0 0.035
         children [
-          DEF PART25 Shape {
+          Shape {
             appearance BrushedAluminium {
               colorOverride 0.8 0.8 0.8
               textureTransform TextureTransform {
@@ -296,7 +296,7 @@ PROTO Robotino3 [
               creaseAngle 0.3
             }
           }
-          DEF PART56 Shape {
+          Shape {
           appearance BrushedAluminium {
             colorOverride 0.8 0.8 0.8
             textureTransform TextureTransform {
@@ -354,7 +354,7 @@ PROTO Robotino3 [
               ]
             }
           }
-          DEF PART69 Shape {
+          Shape {
             appearance BrushedAluminium {
               colorOverride 0.8 0.8 0.8
               textureTransform TextureTransform {
@@ -378,7 +378,7 @@ PROTO Robotino3 [
         translation 0 0 0.035
         rotation 0 0 1 4.18879
         children [
-          DEF PART70 Shape {
+          DEF SIDE_SEP Shape {
             appearance BrushedAluminium {
               colorOverride 0.8 0.8 0.8
               textureTransform TextureTransform {
@@ -402,13 +402,13 @@ PROTO Robotino3 [
       DEF base_metal_side_separator_2 Transform {
         translation 0 0 0.035
         children [
-          USE PART70
+          USE SIDE_SEP
         ]
       }
       DEF base_bumper TouchSensor {
         translation 0 0 0.035
         children [
-          DEF PART77 Shape {
+          Shape {
             appearance Rubber {
               textureTransform TextureTransform {
                 scale 20 20
@@ -431,7 +431,7 @@ PROTO Robotino3 [
       DEF head_white_cover Transform {
         translation 0 0 0.035
         children [
-          DEF PART20 Shape {
+          Shape {
             appearance PBRAppearance {
               roughness 0.2
               metalness 0
@@ -453,7 +453,7 @@ PROTO Robotino3 [
       DEF head_festo_logo Transform {
         translation 0 0 0.035
         children [
-          DEF PART9 Shape {
+          Shape {
             appearance GlossyPaint {
               baseColor 0.14902 0.71373 0.93333
             }
@@ -474,7 +474,7 @@ PROTO Robotino3 [
       DEF head_left_metal_cover Transform {
         translation 0 0 0.035
         children [
-          DEF PART13 Shape {
+          Shape {
             appearance BrushedAluminium {
               colorOverride 0.8 0.8 0.8
               textureTransform TextureTransform {
@@ -511,7 +511,7 @@ PROTO Robotino3 [
       DEF head_right_metal_cover Transform {
         translation 0 0 0.035
         children [
-          DEF PART36 Shape {
+          Shape {
             appearance BrushedAluminium {
               colorOverride 0.8 0.8 0.8
               textureTransform TextureTransform {
@@ -536,7 +536,7 @@ PROTO Robotino3 [
         translation 0.17674 0.021483 0.2147
         rotation -0.99264 -0.08561 -0.08561 -1.57818
         children [
-          DEF PART5 Shape {
+          Shape {
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
@@ -556,7 +556,7 @@ PROTO Robotino3 [
         translation 0.0984 0.0081 0.2146
         rotation -0.99264 -0.08585 -0.08537 -1.57814
         children [
-          DEF PART59 Shape {
+          Shape {
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
@@ -576,7 +576,7 @@ PROTO Robotino3 [
         translation 0.14137 0.01534 0.2099
         rotation -0.99264 -0.08561 -0.08561 -1.57818
         children [
-          DEF PART17 Shape {
+          Shape {
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
@@ -605,7 +605,7 @@ PROTO Robotino3 [
         translation -0.172 0.02067 0.2196
         rotation 0.99264 -0.08561 0.08561 -1.57818
         children [
-          DEF PART24 Shape {
+          Shape {
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
@@ -633,7 +633,7 @@ PROTO Robotino3 [
       DEF head_VGA_port Transform {
         translation 0 0 0.035
         children [
-          DEF PART32 Shape {
+          Shape {
             appearance BrushedAluminium {
               textureTransform TextureTransform {
                 scale 0 0
@@ -673,7 +673,7 @@ PROTO Robotino3 [
         translation -0.1952 0.02476 0.2179
         rotation 0.0628 0.70554 0.70588 3.0239
         children [
-          DEF PART34 Shape {
+          Shape {
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
@@ -701,7 +701,7 @@ PROTO Robotino3 [
       DEF head_extension_plate Transform {
         translation 0 0 0.035
         children [
-          DEF PART37 Shape {
+          Shape {
             appearance BrushedAluminium {
               colorOverride 0.8 0.8 0.8
               textureTransform TextureTransform {
@@ -760,7 +760,7 @@ PROTO Robotino3 [
       DEF head_handle Transform {
         translation 0 0 0.035
         children [
-          DEF PART53 Shape {
+          Shape {
             appearance MattePaint {
               baseColor 0.32157 0.32157 0.32157
             }
@@ -785,7 +785,7 @@ PROTO Robotino3 [
             translation -0.10108 0.00962 0.233
             rotation 0.00343 0.04629 0.99892 -0.17657
             children [
-              DEF PART57 Shape {
+              DEF SLOT Shape {
                 appearance BrushedAluminium {
                   colorOverride 0.8 0.8 0.8
                   textureTransform TextureTransform {
@@ -826,7 +826,7 @@ PROTO Robotino3 [
             translation -0.10108 0.00962 0.194
             rotation 0.00343 0.04629 0.99892 -0.17657
             children [
-              USE PART57
+              USE SLOT
             ]
             translationStep 0.001
             rotationStep 0.001
@@ -857,7 +857,7 @@ PROTO Robotino3 [
       DEF head_button_light Transform {
         translation 0 0 0.0349
         children [
-          DEF PART78 Shape {
+          Shape {
             appearance GlossyPaint {
               baseColor 0.14902 0.71373 0.93333
             }
@@ -903,6 +903,7 @@ PROTO Robotino3 [
         device [
           RotationalMotor {
             name "wheel0_joint"
+            maxVelocity 44.4
           }
           PositionSensor {
             name "wheel0_joint_sensor"
@@ -911,7 +912,7 @@ PROTO Robotino3 [
         endPoint Solid {
           translation 0 0.1826 0.05915
           children [
-            DEF PART87 Shape {
+            DEF OMNIWHEEL Shape {
               appearance MattePaint {
                 baseColor 0.5 0.5 0.5
               }
@@ -927,7 +928,7 @@ PROTO Robotino3 [
                 creaseAngle 1.3
               }
             }
-            DEF PART88 Shape {
+            DEF ROLLER Shape {
               appearance Rubber {
                 textureTransform TextureTransform {
                   scale 10 10
@@ -966,6 +967,7 @@ PROTO Robotino3 [
         device [
           RotationalMotor {
             name "wheel1_joint"
+            maxVelocity 44.4
           }
           PositionSensor {
             name "wheel1_joint_sensor"
@@ -975,8 +977,8 @@ PROTO Robotino3 [
           translation -0.15708 -0.0906 0.059
           rotation 0.2102 -0.10887 -0.97157 4.164
           children [
-            USE PART88
-            USE PART87
+            USE ROLLER
+            USE OMNIWHEEL
           ]
           name "wheel1_link"
           contactMaterial "WheelMat"
@@ -998,6 +1000,7 @@ PROTO Robotino3 [
         device [
           RotationalMotor {
             name "wheel2_joint"
+            maxVelocity 44.4
           }
           PositionSensor {
             name "wheel2_joint_sensor"
@@ -1007,8 +1010,8 @@ PROTO Robotino3 [
           translation 0.1568 -0.09074 0.0592
           rotation -0.40093 -0.23148 0.88638 4.08761
           children [
-            USE PART88
-            USE PART87
+            USE ROLLER
+            USE OMNIWHEEL
           ]
           name "wheel2_link"
           contactMaterial "WheelMat"

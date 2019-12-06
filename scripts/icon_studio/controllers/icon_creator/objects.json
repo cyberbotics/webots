@@ -905,9 +905,6 @@
     "projects/robots/festo/robotino3/protos/Robotino3.proto": {
       "fields": "rotation -0.2785 0.67622 0.68202 2.58789"
     },
-    "projects/robots/festo/robotino3/protos/Robotino3ExtObject.proto": {
-      "fields": "translation 0 -0.016 0 rotation -0.281089 0.6786 0.6786 2.59357"
-    },
     "projects/robots/festo/robotino3/protos/Robotino3HokuyoMountingSupport.proto": {
       "fields": "rotation -0.7746 0.44721 0.44721 1.82348"
     },

@@ -2,8 +2,7 @@
 
 Some predefined [DistanceSensor](../reference/distancesensor.md) models are present in Webots such as some infrared sensors.
 
-Nevertheless, adding a generic [DistanceSensor](../reference/distancesensor.md) node is sufficient for most of the applications.
-Generic DistanceSensor are customizable (resolution, lookupTable, aperture, etc.).
+Nevertheless, adding a generic [DistanceSensor](../reference/distancesensor.md) node is sufficient for most of the applications because they are customizable (resolution, lookupTable, aperture, etc.).
 
 ### Sharp
 

@@ -19,45 +19,59 @@
  */
 
 #include "base.h"
-#include "tiny_math.h"
 
-#include <webots/compass.h>
 #include <webots/distance_sensor.h>
-#include <webots/gps.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
 
 #include <math.h>
 #include <stdio.h>
 
-#define SPEED 3.0
-#define MAX_SPEED 6.4
-#define DISTANCE_TOLERANCE 0.001
-#define ANGLE_TOLERANCE 0.001
-#define WHEEL_RADIUS_GAP 0.1826  // [m]
-#define BIG_FACTOR 0.9
-#define SMALL_FACTOR 0.5
-#define NUMBER_OF_INFRARED_SENSORS 9
-#define NEAR_OBSTACLE 0.20  // [m]
-
-// stimulus coefficients
-#define K1 3.0
-#define K2 1.0
-#define K3 1.0
+#define WHEEL_DIAMETER 0.125                      // [m]
+#define WHEEL_RADIUS_GAP 0.184                    // [m]
+#define MAX_LIN_SPEED_KM_H 10                     // [km/h]
+#define MAX_LIN_SPEED (MAX_LIN_SPEED_KM_H / 3.6)  // [m/s]
+#define LIN_SPEED 1.1                             // [m/s]
+#define OBSTACLE_THRESHOLD 0.20                   // [m]
 
 WbDeviceTag wheels[3];
 
-typedef struct {
-  bool reached;
-  double alpha;
-  Vector2 v_target;
-} goto_struct;
+void base_reset() {
+  static double speeds[3] = {0.0, 0.0, 0.0};
+  base_set_wheel_speeds_helper(speeds);
+}
 
-static WbDeviceTag gps;
-static WbDeviceTag compass;
-static goto_struct goto_data;
+void base_forwards() {
+  double speeds[3] = {MAX_LIN_SPEED / 2.0, 0, 0};
+  base_set_wheel_speeds_helper(speeds);
+}
 
-static void base_set_wheel_velocity(WbDeviceTag t, double velocity) {
+void base_backwards() {
+  double speeds[3] = {-MAX_LIN_SPEED / 2.0, 0, 0};
+  base_set_wheel_speeds_helper(speeds);
+}
+
+void base_turn_left() {
+  double speeds[3] = {0, 0, -3.0 * MAX_LIN_SPEED / 2.0};
+  base_set_wheel_speeds_helper(speeds);
+}
+
+void base_turn_right() {
+  double speeds[3] = {0, 0, 3.0 * MAX_LIN_SPEED / 2.0};
+  base_set_wheel_speeds_helper(speeds);
+}
+
+void base_strafe_left() {
+  double speeds[3] = {0, -MAX_LIN_SPEED / 2.0, 0};
+  base_set_wheel_speeds_helper(speeds);
+}
+
+void base_strafe_right() {
+  double speeds[3] = {0, MAX_LIN_SPEED / 2.0, 0};
+  base_set_wheel_speeds_helper(speeds);
+}
+
+void base_set_wheel_velocity(WbDeviceTag t, double velocity) {
   wb_motor_set_position(t, INFINITY);
   if (velocity > wb_motor_get_max_velocity(t))
     velocity = wb_motor_get_max_velocity(t);
@@ -66,208 +80,59 @@ static void base_set_wheel_velocity(WbDeviceTag t, double velocity) {
   wb_motor_set_velocity(t, velocity);
 }
 
-static void base_set_wheel_speeds_helper(double speeds[3]) {
+void base_set_wheel_speeds_helper(double *speeds) {
   int i;
-  double v_motor[3] = {0.0, 0.0, 0.0};
+  double w_motor[3] = {0.0, 0.0, 0.0};
   double v_x = speeds[1];
   double v_y = speeds[0];
   double w = speeds[2];
-  // From paper, section 4:
+
+  // Conversion matrix from paper, section 4:
   // http://ftp.itam.mx/pub/alfredo/ROBOCUP/SSLDocs/PapersTDPs/omnidrive.pdf
-  v_motor[0] = -0.5 * v_x + 0.866 * v_y + WHEEL_RADIUS_GAP * w;
-  v_motor[1] = -0.5 * v_x - 0.866 * v_y + WHEEL_RADIUS_GAP * w;
-  v_motor[2] = v_x + WHEEL_RADIUS_GAP * w;
+  w_motor[0] = -0.5 * v_x + 0.866 * v_y + WHEEL_RADIUS_GAP * w;
+  w_motor[1] = -0.5 * v_x - 0.866 * v_y + WHEEL_RADIUS_GAP * w;
+  w_motor[2] = v_x + WHEEL_RADIUS_GAP * w;
 
   for (i = 0; i < 3; i++)
-    base_set_wheel_velocity(wheels[i], v_motor[i]);
-}
-
-void base_reset() {
-  static double speeds[3] = {0.0, 0.0, 0.0};
-  base_set_wheel_speeds_helper(speeds);
-}
-
-void base_forwards() {
-  double speeds[3] = {SPEED, 0, 0};
-  // static double speeds[3] = {0, SPEED, -SPEED};
-  // static double speeds[3] = {0, SPEED, -SPEED};
-  base_set_wheel_speeds_helper(speeds);
-}
-
-void base_backwards() {
-  double speeds[3] = {-SPEED, 0, 0};
-  // static double speeds[3] = {SPEED, -SPEED, 0};
-  // static double speeds[3] = {0, -SPEED, SPEED};
-  base_set_wheel_speeds_helper(speeds);
-}
-
-void base_turn_left() {
-  double speeds[3] = {0, 0, -3.0 * SPEED};
-  // static double speeds[3] = {SPEED, SPEED, SPEED};
-  base_set_wheel_speeds_helper(speeds);
-}
-
-void base_turn_right() {
-  double speeds[3] = {0, 0, 3.0 * SPEED};
-  // static double speeds[3] = {-SPEED, -SPEED, -SPEED};
-  base_set_wheel_speeds_helper(speeds);
-}
-
-void base_strafe_left() {
-  double speeds[3] = {0, -SPEED, 0};
-  // static double speeds[3] = {0, -SPEED, SPEED};
-  // static double speeds[3] = {-SPEED, SPEED, 0};
-  base_set_wheel_speeds_helper(speeds);
-}
-
-void base_strafe_right() {
-  double speeds[3] = {0, SPEED, 0};
-  // static double speeds[3] = {0, SPEED, -SPEED};
-  // static double speeds[3] = {SPEED, -SPEED, 0};
-  base_set_wheel_speeds_helper(speeds);
+    base_set_wheel_velocity(wheels[i], w_motor[i]);
 }
 
 void base_braitenberg_avoidance(double *sensors_values) {
   // Simple obstacle avoidance algorithm
-  //  - obstacle in front
-  if (sensors_values[0] < NEAR_OBSTACLE) {
+  // - obstacle in front
+  if (sensors_values[0] < OBSTACLE_THRESHOLD) {
     base_backwards();
   }
-  //  - obstacle on left side
-  else if (sensors_values[2] < NEAR_OBSTACLE) {
+  // - obstacle on left side
+  else if (sensors_values[2] < OBSTACLE_THRESHOLD) {
     base_strafe_right();
   }
-  //  - obstacle on right side
-  else if (sensors_values[7] < NEAR_OBSTACLE) {
+  // - obstacle on right side
+  else if (sensors_values[7] < OBSTACLE_THRESHOLD) {
     base_strafe_left();
   }
-  //  - obstacle behind
-  if (sensors_values[4] < NEAR_OBSTACLE || sensors_values[5] < NEAR_OBSTACLE) {
+  // - obstacle behind
+  if (sensors_values[4] < OBSTACLE_THRESHOLD || sensors_values[5] < OBSTACLE_THRESHOLD) {
     base_forwards();
   }
-  //  - obstacle in front left
-  else if (sensors_values[1] < NEAR_OBSTACLE) {
+  // - obstacle in front left
+  else if (sensors_values[1] < OBSTACLE_THRESHOLD) {
     base_turn_right();
   }
-  //  - obstacle in front right
-  else if (sensors_values[8] < NEAR_OBSTACLE) {
+  // - obstacle in front right
+  else if (sensors_values[8] < OBSTACLE_THRESHOLD) {
     base_turn_left();
   }
-  //  - obstacle in rear left
-  else if (sensors_values[3] < NEAR_OBSTACLE) {
+  // - obstacle in rear left
+  else if (sensors_values[3] < OBSTACLE_THRESHOLD) {
     base_turn_right();
   }
-  //  - obstacle in rear right_wheel
-  else if (sensors_values[6] < NEAR_OBSTACLE) {
+  // - obstacle in rear right_wheel
+  else if (sensors_values[6] < OBSTACLE_THRESHOLD) {
     base_turn_left();
   }
-  //  - no obstacle
+  // - no obstacle
   else {
     base_forwards();
   }
-}
-
-void base_goto_init(double time_step) {
-  gps = wb_robot_get_device("gps");
-  compass = wb_robot_get_device("compass");
-  if (gps)
-    wb_gps_enable(gps, time_step);
-  if (compass)
-    wb_compass_enable(compass, time_step);
-  if (!gps || !compass)
-    fprintf(stderr, "cannot use goto feature without GPS and Compass");
-
-  goto_data.v_target.u = 0.0;
-  goto_data.v_target.v = 0.0;
-  goto_data.alpha = 0.0;
-  goto_data.reached = false;
-}
-
-void base_goto_set_target(double x, double z, double a) {
-  if (!gps || !compass)
-    fprintf(stderr, "base_goto_set_target: cannot use goto feature without GPS "
-                    "and Compass");
-
-  goto_data.v_target.u = x;
-  goto_data.v_target.v = z;
-  goto_data.alpha = a;
-  goto_data.reached = false;
-}
-
-void base_goto_run() {
-  if (!gps || !compass)
-    fprintf(stderr, "base_goto_set_target: cannot use goto feature without GPS "
-                    "and Compass");
-
-  // get sensors
-  const double *gps_raw_values = wb_gps_get_values(gps);
-  const double *compass_raw_values = wb_compass_get_values(compass);
-
-  // compute 2d vectors
-  Vector2 v_gps = {gps_raw_values[0], gps_raw_values[2]};
-  Vector2 v_front = {compass_raw_values[0], compass_raw_values[1]};
-  Vector2 v_right = {-v_front.v, v_front.u};
-  Vector2 v_north = {1.0, 0.0};
-
-  // compute distance
-  Vector2 v_dir;
-  vector2_minus(&v_dir, &goto_data.v_target, &v_gps);
-  double distance = vector2_norm(&v_dir);
-
-  // compute absolute angle & delta with the delta with the target angle
-  double theta = vector2_angle(&v_front, &v_north);
-  double delta_angle = theta - goto_data.alpha;
-
-  // compute the direction vector relatively to the robot coordinates
-  // using an a matrix of homogenous coordinates
-  Matrix33 transform;
-  matrix33_set_identity(&transform);
-  transform.a.u = v_front.u;
-  transform.a.v = v_right.u;
-  transform.b.u = v_front.v;
-  transform.b.v = v_right.v;
-  transform.c.u = -v_front.u * v_gps.u - v_front.v * v_gps.v;
-  transform.c.v = -v_right.u * v_gps.u - v_right.v * v_gps.v;
-  Vector3 v_target_tmp = {goto_data.v_target.u, goto_data.v_target.v, 1.0};
-  Vector3 v_target_rel;
-  matrix33_mult_vector3(&v_target_rel, &transform, &v_target_tmp);
-
-  // compute the speeds
-  double speeds[3] = {0.0, 0.0, 0.0};
-  // -> first stimulus: delta_angle
-  // TODO: Verify
-  speeds[0] = delta_angle / M_PI * K1;
-  speeds[1] = delta_angle / M_PI * K1;
-  speeds[2] = delta_angle / M_PI * K1;
-
-  // -> second stimulus: u coord of the relative target vector
-  speeds[0] += v_target_rel.u * K2;
-  speeds[1] += v_target_rel.u * K2;
-  speeds[2] += v_target_rel.u * K2;
-
-  // -> third stimulus: v coord of the relative target vector
-  // TODO: Verify
-  speeds[0] += v_target_rel.v * K3;
-  speeds[1] += v_target_rel.v * K3;
-  speeds[2] += v_target_rel.v * K3;
-
-  // apply the speeds
-  int i;
-  for (i = 0; i < 3; i++) {
-    speeds[i] /= (K1 + K2 + K2);  // number of stimuli (-1 <= speeds <= 1)
-    speeds[i] *= SPEED;           // map to speed (-SPEED <= speeds <= SPEED)
-
-    // added an arbitrary factor increasing the convergence speed
-    speeds[i] *= 30.0;
-    speeds[i] = bound(speeds[i], -SPEED, SPEED);
-  }
-  base_set_wheel_speeds_helper(speeds);
-
-  // check if the taget is reached
-  if (distance < DISTANCE_TOLERANCE && delta_angle < ANGLE_TOLERANCE && delta_angle > -ANGLE_TOLERANCE)
-    goto_data.reached = true;
-}
-
-bool base_goto_reached() {
-  return goto_data.reached;
 }

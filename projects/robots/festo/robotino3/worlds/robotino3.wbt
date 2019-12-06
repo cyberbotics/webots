@@ -2,12 +2,12 @@
 WorldInfo {
   info [
     "Simulation of the Festo's Robotino 3 robot."
-    "This model includes an accurate and fast simulation of the omniwheels."
+    "This model includes an accurate and fast simulation of the mecanum wheels."
     "The robot can be equiped with various lidar sensors and cameras"
-    "The simulation shows a Robotino 3 moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar."
+    "The simulation shows a Robotino 3 moving in an industrial environment using a Braitenberg algorithm using the information received by its nine infrared sensors."
   ]
   title "Festo's Robotino 3 robot"
-  basicTimeStep 16
+  basicTimeStep 32
   contactProperties [
     ContactProperties {
       material1 "WheelMat"

@@ -15,7 +15,8 @@
  */
 
 /*
- * Description: Simple avoidance controller and keyboard Control
+ * Description: Simple avoidance controller and possibility to use the keyboard
+ *              to control manually the robot. A demo mode is also present.
  *              The velocity of each wheel is set according to a
  *              Braitenberg-like algorithm which takes the values returned
  *              by the 9 infrared sensors as input.
@@ -27,17 +28,14 @@
 #include <webots/robot.h>
 
 #include "base.h"
-#include "tiny_math.h"
 
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define TIME_STEP 16
-#define NEAR_OBSTACLE 0.20  // [m]
-
 #define NUMBER_OF_INFRARED_SENSORS 9
+#define TIME_STEP (int)wb_robot_get_basic_time_step()  // from world file
 
 static int old_key = -1;
 static bool demo = false;
@@ -51,8 +49,11 @@ static const char *infrared_sensors_names[NUMBER_OF_INFRARED_SENSORS] = {"ir1", 
                                                                          "ir6", "ir7", "ir8", "ir9"};
 
 double convert_volt_to_meter(double V) {
-  // Look in the PROTO file of the Sharp sensor used to find the right equation
-  return 0.1623 * pow(V, -0.8431) - 0.03202;
+  // Don't forget to adapt the conversion according to the sensor model used
+  return 0.1594 * pow(V, -0.8533) - 0.02916;  // GP2D120
+  // return 0.7611 * pow(V, -0.9313) - 0.1252;   // GP2Y0A02YK0F
+  // return 0.1594 * pow(V, -0.8533) - 0.02916;  // GP2Y0A41SK0F
+  // return 20.24 * pow(V, -4.76) + 0.6632;      // GP2Y0A710K0F
 }
 
 static void step() {
@@ -133,21 +134,19 @@ static void run_autopilot(bool display_message, int *last_displayed_second) {
     int display_second = (int)wb_robot_get_time();
     if (display_second != *last_displayed_second) {
       *last_displayed_second = display_second;
-
       printf("time = %d [s]\n", display_second);
       for (int i = 0; i < NUMBER_OF_INFRARED_SENSORS; ++i)
         printf("infrared sensor('%s') = %f [m]\n", infrared_sensors_names[i], sensors_values[i]);
     }
   }
-
   base_braitenberg_avoidance(sensors_values);
 }
 
 static void display_instructions() {
   printf("Control commands:\n");
-  printf(" Arrows:       Move the robot\n");
-  printf(" Page Up/Down: Rotate the robot\n");
-  printf(" Space: Reset\n");
+  printf(" - Arrows:       Move the robot\n");
+  printf(" - Page Up/Down: Rotate the robot\n");
+  printf(" - Space: Stop/Reset\n");
   printf("\n");
   printf("Demonstration mode: press 'D'\n");
   printf("Autopilot mode : press 'A'\n");
@@ -219,14 +218,10 @@ int main(int argc, char **argv) {
   // Initialization
   wb_robot_init();
 
-  // Get the time step of the simulation from world file
-  int time_step = (int)wb_robot_get_basic_time_step();
-
   // Get and enable the infrared sensors
-  // WbDeviceTag infrared_sensors[NUMBER_OF_INFRARED_SENSORS];
   for (int i = 0; i < NUMBER_OF_INFRARED_SENSORS; ++i) {
     infrared_sensors[i] = wb_robot_get_device(infrared_sensors_names[i]);
-    wb_distance_sensor_enable(infrared_sensors[i], time_step);
+    wb_distance_sensor_enable(infrared_sensors[i], TIME_STEP);
   }
 
   // Get the motors and set target position to infinity (speed control)
@@ -250,10 +245,11 @@ int main(int argc, char **argv) {
   int last_display_second = 0;
 
   // Main loop
-  //  o User moves the robot with keyboard arrows
+  //  o Autopilot mode if nothing else done
+  //  o Demonstration mode
+  //  o Manual control with keyboard arrows
   while (true) {
     step();
-
     check_keyboard();
     if (demo)
       run_demo();
@@ -263,6 +259,5 @@ int main(int argc, char **argv) {
   }
 
   wb_robot_cleanup();
-
   return 0;
 }

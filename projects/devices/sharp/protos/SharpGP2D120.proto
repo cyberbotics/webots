@@ -1,18 +1,18 @@
 #VRML_SIM R2019b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
+# documentation url: https://www.cyberbotics.com/doc/guide/distancesensor-sensors
 # This is a PROTO file for Webots of the GP2D120 IR sensor from Sharp.
-# Effective range: 4 to 30 cm
-# Documentation url: https://www.pololu.com/file/0J157/GP2D120-DATA-SHEET.pdf
-# Based on the lookupTable, power fit after the highest voltage point.
+# Effective range: 4 to 30 cm, datasheet: https://www.pololu.com/file/0J157/GP2D120-DATA-SHEET.pdf
+# Based on the lookupTable, power fitting method after the highest voltage point.
 # y[V] = f(x[m])  => y = 0.5131*x^(-0.5735)-0.6143
 # y[m] = f(x[V])  => y = 0.1594*x^(-0.8533)-0.02916
 
 PROTO SharpGP2D120 [
-  field  SFVec3f     translation    0 0 0
-  field  SFRotation  rotation       0 1 0 0
-  field  SFString    name           "Sharp's IR sensor GP2D120"
-  field  SFString    model          "GP2D120"
+  field  SFVec3f     translation  0 0 0
+  field  SFRotation  rotation     0 1 0 0
+  field  SFString    name         "Sharp's IR sensor GP2D120"
+  field  SFString    model        "GP2D120"
 ]
 {
   DistanceSensor {
@@ -77,11 +77,31 @@ PROTO SharpGP2D120 [
         }
       }
     ]
-    boundingObject Transform {
-      translation -0.0052 0 -0.0102
+    boundingObject Group {
       children [
-        Box {
-          size 0.01 0.0087 0.03
+        Transform {
+          translation -0.0052 0 -0.0102
+          children [
+            Box {
+              size 0.01 0.0087 0.03
+            }
+          ]
+        }
+        Transform {
+          translation -0.0109 0 -0.0102
+          children [
+            Box {
+              size 0.0094 0.0131 0.03
+            }
+          ]
+        }
+        Transform {
+          translation -0.0144 0 -0.0102
+          children [
+            Box {
+              size 0.0023 0.0077 0.0445
+            }
+          ]
         }
       ]
     }
