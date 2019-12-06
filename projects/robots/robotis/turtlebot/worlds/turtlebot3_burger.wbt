@@ -1,0 +1,16 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.06080641761548266 0.9671039689377149 0.24700707042854242 2.7793013348592814
+  position 0.4134100328433465 0.573692024876985 -0.9423608686983941
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 2 2
+}
+TurtleBot3Burger {
+}
