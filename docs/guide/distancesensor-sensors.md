@@ -11,7 +11,7 @@ Generic DistanceSensor are customizable (resolution, lookupTable, aperture, etc.
 
 %figure "Sharp GP2D120 model"
 
-![sharp_GP2D120.png](images/sensors/sharp_GP2D120.thumbnail.png)
+![sharp_GP2D120.png](images/sensors/sharp_GP2D120.png)
 
 %end
 
@@ -45,7 +45,7 @@ The function `wb_distance_sensor_get_value` return the voltage/intensity of the 
 
 %figure "Sharp GP2Y0A02YK0F model"
 
-![sharp_GP2Y0A02YK0F.png](images/sensors/sharp_GP2Y0A02YK0F.thumbnail.png)
+![sharp_GP2Y0A02YK0F.png](images/sensors/sharp_GP2Y0A02YK0F.png)
 
 %end
 
@@ -80,7 +80,7 @@ The function `wb_distance_sensor_get_value` return the voltage/intensity of the 
 
 %figure "Sharp GP2Y0A41SK0F model"
 
-![sharp_GP2Y0A41SK0F.png](images/sensors/sharp_GP2Y0A41SK0F.thumbnail.png)
+![sharp_GP2Y0A41SK0F.png](images/sensors/sharp_GP2Y0A41SK0F.png)
 
 %end
 
@@ -115,7 +115,7 @@ The function `wb_distance_sensor_get_value` return the voltage/intensity of the 
 
 %figure "Sharp GP2Y0A710K0F model"
 
-![sharp_GP2Y0A710K0F.png](images/sensors/sharp_GP2Y0A710K0F.thumbnail.png)
+![sharp_GP2Y0A710K0F.png](images/sensors/sharp_GP2Y0A710K0F.png)
 
 %end
 

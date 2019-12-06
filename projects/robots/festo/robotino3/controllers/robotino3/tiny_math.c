@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include "tiny_math.h"
 #include <math.h>
+#include "tiny_math.h"
 
 void vector3_set_values(Vector3 *vect, double u, double v, double w) {
   vect->u = u;
@@ -23,8 +23,7 @@ void vector3_set_values(Vector3 *vect, double u, double v, double w) {
   vect->w = w;
 }
 
-void matrix33_set_values(Matrix33 *m, double au, double av, double aw,
-                         double bu, double bv, double bw, double cu, double cv,
+void matrix33_set_values(Matrix33 *m, double au, double av, double aw, double bu, double bv, double bw, double cu, double cv,
                          double cw) {
   vector3_set_values(&(m->a), au, av, aw);
   vector3_set_values(&(m->b), bu, bv, bw);

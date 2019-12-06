@@ -38,10 +38,10 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 
 | Preview | Name |  Manufacturer |
 | :---: | --- | --- | --- |
-| ![sharp_GP2D120_icon.png](images/sensors/sharp_GP2D120_icon.png) | [GP2D120](distancesensor-sensors.md#sharp-GP2D120) | Sharp |
-| ![sharp_GP2Y0A02YK0F_icon.png](images/sensors/sharp_GP2Y0A02YK0F_icon.png) | [GP2Y0A02YK0F](distancesensor-sensors.md#sharp-GP2Y0A02YK0F) | Sharp |
-| ![sharp_GP2Y0A41SK0F_icon.png](images/sensors/sharp_GP2Y0A41SK0F_icon.png) | [GP2Y0A41SK0F](distancesensor-sensors.md#sharp-GP2Y0A41SK0F) | Sharp |
-| ![sharp_GP2Y0A710K0F_icon.png](images/sensors/sharp_GP2Y0A710K0F_icon.png) | [GP2Y0A710K0F](distancesensor-sensors.md#sharp-GP2Y0A710K0F) | Sharp |
+| ![sharp_GP2D120_icon.png](images/sensors/sharp_GP2D120_icon.png) | [GP2D120](distancesensor-sensors.md#sharp-gp2d120) | Sharp |
+| ![sharp_GP2Y0A02YK0F_icon.png](images/sensors/sharp_GP2Y0A02YK0F_icon.png) | [GP2Y0A02YK0F](distancesensor-sensors.md#sharp-gp2y0a02yk0f) | Sharp |
+| ![sharp_GP2Y0A41SK0F_icon.png](images/sensors/sharp_GP2Y0A41SK0F_icon.png) | [GP2Y0A41SK0F](distancesensor-sensors.md#sharp-gp2y0a41sk0f) | Sharp |
+| ![sharp_GP2Y0A710K0F_icon.png](images/sensors/sharp_GP2Y0A710K0F_icon.png) | [GP2Y0A710K0F](distancesensor-sensors.md#sharp-gp2y0a710k0f) | Sharp |
 
 #### Lidar Sensors
 
