@@ -140,6 +140,9 @@
   "StonePavement": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
+  "TireRubber": {
+    "fields": "textureTransform TextureTransform { rotation 1.5708 scale 1 2 translation 1.5 0 }"
+  },
   "ThreadMetalPlate": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },

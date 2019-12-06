@@ -92,34 +92,12 @@ PROTO TurtleBot3Burger [
                       }
                     }
                     Shape {
-                      appearance PBRAppearance {
-                        baseColorMap ImageTexture {
-                          url [
-                            "/home/david/Téléchargements/TexturesCom_Various_TireBike_1K_albedo.jpg"
-                          ]
-                        }
-                        roughnessMap ImageTexture {
-                          url [
-                            "/home/david/Téléchargements/TexturesCom_Various_TireBike_1K_roughness.jpg"
-                          ]
-                        }
-                        metalness 0
-                        normalMap ImageTexture {
-                          url [
-                            "/home/david/Téléchargements/TexturesCom_Various_TireBike_1K_normal.jpg"
-                          ]
-                        }
-                        normalMapFactor 5
-                        occlusionMap ImageTexture {
-                          url [
-                            "/home/david/Téléchargements/TexturesCom_Various_TireBike_1K_ao.jpg"
-                          ]
-                        }
-                        occlusionMapStrength 4
+                      appearance TireRubber {
                         textureTransform TextureTransform {
                           scale 1.7 0.76
                           translation 0 0.164
                         }
+                        type "bike"
                       }
                       geometry IndexedFaceSet {
                         coord Coordinate {
