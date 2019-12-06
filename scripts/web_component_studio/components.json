@@ -492,6 +492,16 @@
       }
     },
     {
+      "name": "turtlebot3burger",
+      "proto": "TurtleBot3Burger",
+      "translation": "0 0 0",
+      "rotation": "0 1 0 0",
+      "viewpoint": {
+        "orientation": "-0.03416638399273696 0.9752431987644208 0.21847965916442091 2.8071288334058013",
+        "position": "0.18373297856247775 0.3163267884602443 -0.518015873456621"
+      }
+    },
+    {
       "name": "ure",
       "proto": "UR5e",
       "translation": "0 0 0",
