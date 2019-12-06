@@ -4,8 +4,8 @@
 # This is a PROTO file for Webots of the infrared sensor GP2Y0A02YK0F from Sharp.
 # Effective range: 20 to 150 cm, doc: https://www.sparkfun.com/datasheets/Sensors/Infrared/gp2y0a02yk_e.pdf
 # Based on the lookupTable, power fit after the highest voltage point.
-# y[V] = f(x[m])  => y = 0.6759*x^(-0.4215)-1.11
-# y[m] = f(x[V])  => y = 0.07611*x^(-0.9313)-0.01252
+# y[V] = f(x[m])  => y = 1.784*x^(-0.4215)-1.11
+# y[m] = f(x[V])  => y = 0.7611*x^(-0.9313)-0.1252
 
 
 PROTO SharpGP2Y0A02YK0F [
@@ -19,11 +19,10 @@ PROTO SharpGP2Y0A02YK0F [
     rotation IS rotation
     name IS name
     model IS model
-    lookupTable [0.000 0.00 0.0, 0.010 2.27 0.1, 0.015 2.75 0.1, 0.020 2.51 0.1,
-                 0.030 1.99 0.1, 0.040 1.52 0.1, 0.050 1.25 0.1, 0.060 1.04 0.1,
-                 0.070 0.87 0.1, 0.080 0.79 0.1, 0.090 0.74 0.1, 0.100 0.69 0.1,
-                 0.110 0.60 0.1, 0.120 0.55 0.1, 0.130 0.50 0.1, 0.140 0.47 0.1,
-                 0.150 0.45 0.1
+    lookupTable [0.15 2.75 0.015, 0.20 2.51 0.015, 0.30 1.99 0.015, 0.40 1.52 0.015,
+                 0.50 1.25 0.015, 0.60 1.04 0.015, 0.70 0.87 0.015, 0.80 0.79 0.015,
+                 0.90 0.74 0.015, 1.00 0.69 0.015, 1.10 0.60 0.015, 1.20 0.55 0.015,
+                 1.30 0.50 0.015, 1.40 0.47 0.015, 1.50 0.45 0.015
     ]
     children [
       DEF CASE Shape {

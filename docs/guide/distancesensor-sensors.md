@@ -35,11 +35,11 @@ PROTO SharpGP2D120 {
 }
 ```
 
-The `lookupTable` field of the sensors is already implemented according to it characteristics found in his [datasheet](https://www.pololu.com/file/0J157/GP2D120-DATA-SHEET.pdf).
+The `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) is already implemented according to it characteristics found in his [datasheet](https://www.pololu.com/file/0J157/GP2D120-DATA-SHEET.pdf).
 
-The function `double wb_distance_sensor_get_value(WbDeviceTag tag)` return the voltage/intensity of the measurement. To convert these values, use the following formulas:
-- Given meter [m], the result expected is in voltage [V]: y = 0.5605*x^(-0.549)+0.671
-- Given voltage [V], the result expected is in meter [m]: y = 0.1623*x^(-0.8431)-0.03202
+The function `wb_distance_sensor_get_value` return the voltage/intensity of the measurement. To convert these values, use the following formulas:
+- Given meter [m], the result expected is in voltage [V]: y(x) = 0.5131*x^(-0.5735)-0.6143
+- Given voltage [V], the result expected is in meter [m]: y(x) = 0.1594*x^(-0.8533)-0.02916
 
 #### Sharp GP2Y0A02YK0F
 
@@ -70,11 +70,11 @@ PROTO SharpGP2Y0A02YK0F {
 }
 ```
 
-The `lookupTable` field of the sensors is already implemented according to it characteristics found in his [datasheet](https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a02yk_e.pdf).
+The `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) is already implemented according to it characteristics found in his [datasheet](https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a02yk_e.pdf).
 
-The function `double wb_distance_sensor_get_value(WbDeviceTag tag)` return the voltage/intensity of the measurement. To convert these values, use the following formulas:
-- Given meter [m], the result expected is in voltage [V]: y = 0.6759*x^(-0.4215)-1.11
-- Given voltage [V], the result expected is in meter [m]: y = 0.07611*x^(-0.9313)-0.01252
+The function `wb_distance_sensor_get_value` return the voltage/intensity of the measurement. To convert these values, use the following formulas:
+- Given meter [m], the result expected is in voltage [V]: y(x) = 1.784*x^(-0.4215)-1.11
+- Given voltage [V], the result expected is in meter [m]: y(x) = 0.7611*x^(-0.9313)-0.1252
 
 #### Sharp GP2Y0A41SK0F
 
@@ -104,11 +104,11 @@ PROTO SharpGP2Y0A41SK0F {
   SFString    name         "Sharp's IR sensor GP2Y0A41SK0F"
 }
 ```
-The `lookupTable` field of the sensors is already implemented according to it characteristics found in his [datasheet](https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a41sk_e.pdf).
+The `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) is already implemented according to it characteristics found in his [datasheet](https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a41sk_e.pdf).
 
-The function `double wb_distance_sensor_get_value(WbDeviceTag tag)` return the voltage/intensity of the measurement. To convert these values, use the following formulas:
-- Given meter [m], the result expected is in voltage [V]: y = 0.5605*x^(-0.5469)-0.671
-- Given voltage [V], the result expected is in meter [m]: y = 0.1623*x^(-0.8431)-0.03202
+The function `wb_distance_sensor_get_value` return the voltage/intensity of the measurement. To convert these values, use the following formulas:
+- Given meter [m], the result expected is in voltage [V]: y(x) = 0.5131*x^(-0.5735)-0.6143
+- Given voltage [V], the result expected is in meter [m]: y(x) = 0.1594*x^(-0.8533)-0.02916
 
 
 #### Sharp GP2Y0A710K0F
@@ -140,8 +140,8 @@ PROTO SharpGP2Y0A710K0F {
   SFString    name         "Sharp's IR sensor GP2Y0A710K0F"
 }
 ```
-The `lookupTable` field of the sensors is already implemented according to it characteristics found in his [datasheet](https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a710k_e.pdf).
+The `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) is already implemented according to it characteristics found in his [datasheet](https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a710k_e.pdf).
 
-The function `double wb_distance_sensor_get_value(WbDeviceTag tag)` return the voltage/intensity of the measurement. To convert these values, use the following formulas:
-- Given meter [m], the result expected is in voltage [V]: y = 1.962*x^(-0.5214)+0.4926
-- Given voltage [V], the result expected is in meter [m]: y = 20.24*x^(-4.76)+0.6632
+The function `wb_distance_sensor_get_value` return the voltage/intensity of the measurement. To convert these values, use the following formulas:
+- Given meter [m], the result expected is in voltage [V]: y(x) = 1.962*x^(-0.5214)+0.4926
+- Given voltage [V], the result expected is in meter [m]: y(x) = 20.24*x^(-4.76)+0.6632
