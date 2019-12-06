@@ -2,7 +2,7 @@
 
 %robot robotino3 images/robots/robotino3/model.thumbnail.png
 
-Designed by Festo, Robotino 3 is a three-wheeled (mecanum) robot.
+Designed by Festo, [Robotino 3](robotino3.md) is a three-wheeled (mecanum) robot.
 The model is a modular mobile platform used for educational, training and research purposes.
 It is controlled by an industry-standard PC system (ROS compatible) and it is also customizable with accessories to adapt to any specific need.
 
@@ -26,7 +26,6 @@ Robotino3 {
   SFBool      selfCollision    FALSE   # Enables/disables the detection of collisions within the robot.
   MFNode      bodyExtension    []
   MFNode      cameraExtension  []
-  MFNode      objectExtension  []
   MFNode      topExtension     []
   MFNode      middleExtension  []
   MFNode      bottomExtension  []
@@ -40,11 +39,10 @@ Robotino3 {
 
 - `bodyExtension` : Extends the robot with new nodes (such as the `Robotino3Platform` for example).
 - `cameraExtension` : Extends the robot with a camera (such as the `Robotino3Webcam` for example).
-- `objectExtension` : Extends the robot with an extern object (such as the `Robotino3ExtObject` for example).
 - `topExtension`: Extends the robot with new parts such as lidar.
 - `middleExtension`: Extends the robot with new parts such as lidar.
 - `bottomExtension`: Extends the robot with new parts such as lidar.
-- `InfraredSensorModel`: Defines the infrared sensors used (such as the `GP2D120` from Sharp).
+- `InfraredSensorModel`: Defines the infrared sensors used (such as the `GP2Y0A41SK0F` from Sharp).
 
 
 ### Sample

@@ -37,8 +37,8 @@ PROTO SharpGP2D120 {
 The `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) is already implemented according to it characteristics found in his [datasheet](https://www.pololu.com/file/0J157/GP2D120-DATA-SHEET.pdf).
 
 The function `wb_distance_sensor_get_value` return the voltage/intensity of the measurement. To convert these values, use the following formulas:
-- Given meter [m], the result expected is in voltage [V]: y(x) = 0.5131*x^(-0.5735)-0.6143
-- Given voltage [V], the result expected is in meter [m]: y(x) = 0.1594*x^(-0.8533)-0.02916
+- Given meter, the result expected is in voltage: y(x) = 0.5131*x^(-0.5735)-0.6143
+- Given voltage, the result expected is in meter: y(x) = 0.1594*x^(-0.8533)-0.02916
 
 #### Sharp GP2Y0A02YK0F
 
@@ -48,7 +48,7 @@ The function `wb_distance_sensor_get_value` return the voltage/intensity of the 
 
 %end
 
-The [Sharp GP2Y0A02YK0F](https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a02yk_e.pdf) is a distance measuring sensor unit, composed of an integrated combination of PSD (position sensitive detector), IRED (infrared emitting diode) and signal processing circuit.
+The [Sharp GP2Y0A02YK0F](https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a02yk_e.pdf) is a distance measuring sensor unit, composed of an integrated combination of PSD (position sensitive detector), IR-LED (infrared emitting diode) and signal processing circuit.
 The variety of the reflectivity of the object, the environmental temperature and the operating duration are not influenced easily to the distance detection because of adopting the triangulation method.
 This device outputs the voltage corresponding to the detection distance.
 So this sensor can also be used as a proximity sensor.
@@ -72,8 +72,8 @@ PROTO SharpGP2Y0A02YK0F {
 The `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) is already implemented according to it characteristics found in his [datasheet](https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a02yk_e.pdf).
 
 The function `wb_distance_sensor_get_value` return the voltage/intensity of the measurement. To convert these values, use the following formulas:
-- Given meter [m], the result expected is in voltage [V]: y(x) = 1.784*x^(-0.4215)-1.11
-- Given voltage [V], the result expected is in meter [m]: y(x) = 0.7611*x^(-0.9313)-0.1252
+- Given meter, the result expected is in voltage: y(x) = 1.784*x^(-0.4215)-1.11
+- Given voltage, the result expected is in meter: y(x) = 0.7611*x^(-0.9313)-0.1252
 
 #### Sharp GP2Y0A41SK0F
 
@@ -106,8 +106,8 @@ PROTO SharpGP2Y0A41SK0F {
 The `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) is already implemented according to it characteristics found in his [datasheet](https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a41sk_e.pdf).
 
 The function `wb_distance_sensor_get_value` return the voltage/intensity of the measurement. To convert these values, use the following formulas:
-- Given meter [m], the result expected is in voltage [V]: y(x) = 0.5131*x^(-0.5735)-0.6143
-- Given voltage [V], the result expected is in meter [m]: y(x) = 0.1594*x^(-0.8533)-0.02916
+- Given meter, the result expected is in voltage: y(x) = 0.5131*x^(-0.5735)-0.6143
+- Given voltage, the result expected is in meter: y(x) = 0.1594*x^(-0.8533)-0.02916
 
 
 #### Sharp GP2Y0A710K0F
@@ -118,7 +118,7 @@ The function `wb_distance_sensor_get_value` return the voltage/intensity of the 
 
 %end
 
-The [Sharp GP2Y0A710K0F](https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a710k_e.pdf) is a distance measuring sensor unit, composed of an integrated combination of PSD (position sensitive detector), IRED (infrared emitting diode) and signal processing circuit.
+The [Sharp GP2Y0A710K0F](https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a710k_e.pdf) is a distance measuring sensor unit, composed of an integrated combination of PSD (position sensitive detector), IR-LED (infrared emitting diode) and signal processing circuit.
 The variety of the reflectivity of the object, the environmental temperature and the operating duration are not influenced easily to the distance detection because of adopting the triangulation method.
 This device outputs the voltage corresponding to the detection distance.
 So this sensor can also be used as a proximity sensor.
@@ -142,5 +142,5 @@ PROTO SharpGP2Y0A710K0F {
 The `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) is already implemented according to it characteristics found in his [datasheet](https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a710k_e.pdf).
 
 The function `wb_distance_sensor_get_value` return the voltage/intensity of the measurement. To convert these values, use the following formulas:
-- Given meter [m], the result expected is in voltage [V]: y(x) = 1.962*x^(-0.5214)+0.4926
-- Given voltage [V], the result expected is in meter [m]: y(x) = 20.24*x^(-4.76)+0.6632
+- Given meter, the result expected is in voltage: y(x) = 1.962*x^(-0.5214)+0.4926
+- Given voltage, the result expected is in meter: y(x) = 20.24*x^(-4.76)+0.6632

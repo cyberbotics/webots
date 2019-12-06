@@ -18,11 +18,10 @@ PROTO Robotino3 [
   field  SFBool      selfCollision     FALSE      # Enables/disables the detection of collisions within the robot.
   field  MFNode      bodyExtension     []         # Extends the robot with a platform.
   field  MFNode      cameraExtension   []         # Extends the robot with a camera.
-  field  MFNode      objectExtension   []         # Extends the robot with a object.
   field  MFNode      topExtension      []         # Extends the robot.
   field  MFNode      middleExtension   []         # Extends the robot.
   field  MFNode      bottomExtension   []         # Extends the robot.
-  field  SFString{"SharpGP2D120", "SharpGP2Y0A41SK0F", "SharpGP2Y0A02YK0F"}  infraredSensorModel    "SharpGP2D120"      # Extends the robot with infrared sensors.
+  field  SFString{"SharpGP2D120", "SharpGP2Y0A41SK0F", "SharpGP2Y0A02YK0F"}  infraredSensorModel    "SharpGP2Y0A41SK0F"      # Extends the robot with infrared sensors.
 ]
 {
   %{
@@ -42,9 +41,6 @@ PROTO Robotino3 [
     children [
       DEF EXT_webcam Transform {
         children IS cameraExtension
-      }
-      DEF EXT_object Transform {
-        children IS objectExtension
       }
       DEF EXT_platform Solid {
         children IS bodyExtension
