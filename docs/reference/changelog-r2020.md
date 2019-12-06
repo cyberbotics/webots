@@ -17,7 +17,7 @@ Released on December YYth, 2019.
       - Introduced the `Background.*IrradianceUrl` fields to define an `HDR` irradiance map.
       - Added image tools to help with `HDR` format and equirectangular projections.
       - Added new HDR background: `entrance_hall`
-    - Added several new appearances: `CorrugatedPlates`, `CorrugatedPvc`, `FormedConcrete`, and `DryMud`.
+    - Added several new appearances: `Copper`, `CorrugatedPlates`, `CorrugatedPvc`, `DryMud`, `FormedConcrete` and  `Pcb`.
     - Replaced the [Viewpoint](viewpoint.md) `followOrientation` field by a `followType` field for more flexibility.
     - Improved the Webots online 3D viewer: `webots.min.js`
       - Improved support of the Webots rendering pipeline: supported the Bloom post-processing effect.
@@ -35,6 +35,10 @@ Released on December YYth, 2019.
     - Device names are displayed in the scene tree next to the node name.
     - Split the Webots and controller libraries to avoid possible conflicts with external libraries.
     - Windows/Linux: Move the `Check for updates...` menu from `Tools` to `Help` for consistency with other applications.
+    - E-puck2
+      - Added the pi-puck extension.
+      - Fixed [DistanceSensor](distancesensor.md) noise calibration.
+      - Improved the meshes and appearances.
   - Bug fixes
     - Fixed the [`wb_supervisor_node_reset_physics()`](supervisor.md#wb_supervisor_node_reset_physics) function when applied on dynamic objects (in motion and containing joints).
     - Fixed [Lidar](lidar.md) point cloud access in controllers (thanks to Alexander).
