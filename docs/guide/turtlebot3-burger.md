@@ -1,6 +1,6 @@
 ## Robotis' TurtleBot3 Burger
 
-%robot moose images/robots/turtlebot3burger/model.thumbnail.png
+%robot turtlebot3burger images/robots/turtlebot3burger/model.png
 
 The [TurtleBot3 Burger](http://emanual.robotis.com/docs/en/platform/turtlebot3/specifications/) from [Robotis](http://www.robotis.us/) is a small, affordable, programmable, ROS-based mobile robot for use in education, research, hobby, and product prototyping.
 The goal of TurtleBot3 is to dramatically reduce the size of the platform and lower the price without having to sacrifice its functionality and quality, while at the same time offering expandability.
