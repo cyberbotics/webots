@@ -134,8 +134,8 @@ Robot::Mode Robot::getMode() const {
   return Mode(wb_robot_get_mode());
 }
 
-void Robot::setMode(Mode m, void *args) {
-  wb_robot_set_mode(WbRobotMode(m), args);
+void Robot::setMode(Mode m, const char *arg) {
+  wb_robot_set_mode(WbRobotMode(m), arg);
 }
 
 bool Robot::getSupervisor() const {

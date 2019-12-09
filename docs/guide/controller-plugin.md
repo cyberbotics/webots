@@ -227,7 +227,7 @@ There are two entry points to the remote-control library:
 The `WbrInterface` structure has several functions (mandatory) which have to be mapped to let the remote-control library run smoothly.
 Here they are:
 
-- `bool wbr_start(void *arg)`
+- `bool wbr_start(const char *args)`
 
     This function is called when the connection with the real robot should start (i.e. when [`wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, ...)`](../reference/robot.md#wb_robot_set_mode) is called from the controller).
     The return value of this function should inform if the connection has been a

@@ -928,7 +928,7 @@ typedef enum {
 } WbRobotMode;
 
 WbRobotMode wb_robot_get_mode();
-void wb_robot_set_mode(WbRobotMode mode, void *arg);
+void wb_robot_set_mode(WbRobotMode mode, const char *arg);
 ```
 
 %tab-end
@@ -947,7 +947,7 @@ namespace webots {
     } RobotMode;
 
     RobotMode getMode() const;
-    void setMode(RobotMode mode, void *arg);
+    void setMode(RobotMode mode, const char *arg);
     // ...
   }
 }
@@ -979,7 +979,7 @@ public class Robot {
   public final static int MODE_SIMULATION, MODE_CROSS_COMPILATION, MODE_REMOTE_CONTROL;
 
   public int getMode();
-  public void setMode(int mode, SWIGTYPE_p_void arg);
+  public void setMode(int mode, String arg);
   // ...
 }
 ```
