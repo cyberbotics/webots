@@ -50,6 +50,30 @@ Extrusion {
 
 - `splineSubdivision`: If bigger than 1, defines the B-Spline subdivion of the extrusion along it's path.
 
+## Rectangle
+
+Single/double sided and adjustable rectangle shape.
+
+Derived from [IndexedFaceSet](../reference/indexedfaceset.md).
+
+```
+Rectangle {
+  SFVec2f size        0.1 0.1
+  SFBool  doubleSided TRUE
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/Rectangle.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/geometries/protos/Rectangle.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### Rectangle Field Summary
+
+- `size`: Defines the size of the rectangle shape.
+
+- `doubleSided`: Defines whether the shape has two sides or not.
+
 ## TexturedBox
 
 Box with customizable texture mapping.
