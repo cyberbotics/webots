@@ -47,6 +47,9 @@ Released on December YYth, 2019.
     - Fixed [Nao.selfCollision](../guide/nao.md) due to overlapping bounding objects in feet (thanks to Sheila).
     - Fixed [infra-red DistanceSensors](distancesensor.md) or [Pen](pen.md) versus [Plane](plane.md) collision detection.
     - Fixed determinism in camera rendering order.
+    - Fixed missing `WB_NODE_MUSCLE` and `WB_NODE_PROPELLER` types in [`wb_node_get_name()`](supervisor.md#wb_supervisor_node_get_type) function.
+    - Fixed missing `WB_NODE_NORMAL` node type in MATLAB API.
+    - Fixed arguments of [`wb_supervisor_node_get_number_of_contacts_points()`](supervisor.md#wb_supervisor_node_get_number_of_contact_points) function in MATLAB API.
     - Fixed `simulation_server.py` script to work with Python3.
     - Fixed `simulation_server.py` script overwriting the DISPLAY environment variable.
     - Fixed exporting first translation and rotation fields change during animation recording and simulation streaming.
