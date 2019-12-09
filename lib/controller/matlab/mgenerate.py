@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright 1996-2019 Cyberbotics Ltd.
 #
@@ -27,7 +27,7 @@ def gen_with_doc(type, line, doc_url=None):
     assert match
     function = match.group(1)
     arguments = match.group(2)
-    with open(function + '.m', 'wb') as file:
+    with open(function + '.m', 'w') as file:
         result = 'result = ' if type == FUNC else ''
         file.write('function %s%s(%s)\n' % (result, function, arguments))
         file.write('%% Usage: %s(%s)\n' % (function, arguments))
@@ -43,7 +43,7 @@ def gen(type, line, doc_page=None):
 
 
 def gen_const(name, value):
-    with open(name + '.m', 'wb') as file:
+    with open(name + '.m', 'w') as file:
         file.write('function value = %s\n' % name)
         file.write('value = %s;\n' % value)
 
@@ -421,8 +421,8 @@ gen(FUNC, "wb_supervisor_node_get_type_name(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_base_type_name(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_field(noderef, fieldname)", "supervisor")
 # gen(FUNC, "wb_supervisor_node_get_center_of_mass(noderef)", "supervisor")
-gen(FUNC, "wb_supervisor_node_get_number_of_contact_points(noderef, index)", "supervisor")
-# gen(FUNC, "wb_supervisor_node_get_contact_point(noderef)", "supervisor")
+gen(FUNC, "wb_supervisor_node_get_number_of_contact_points(noderef)", "supervisor")
+# gen(FUNC, "wb_supervisor_node_get_contact_point(noderef, index)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_parent_node(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_selected()", "supervisor")
 # gen(FUNC, "wb_supervisor_node_get_position(noderef)", "supervisor")
