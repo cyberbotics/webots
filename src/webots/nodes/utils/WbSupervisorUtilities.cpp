@@ -1067,14 +1067,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           QString filename = readString(stream);
           makeFilenameAbsolute(filename);
           int importedNodesNumber;
-          WbNodeOperations::OperationResult operationResult;
           if (filename.endsWith(".wbo", Qt::CaseInsensitive))
-            operationResult =
-              WbNodeOperations::instance()->importNode(nodeId, fieldId, index, filename, "", &importedNodesNumber, true);
-          else {
-            operationResult = WbNodeOperations::FAILURE;
+            WbNodeOperations::instance()->importNode(nodeId, fieldId, index, filename, "", &importedNodesNumber, true);
+          else
             assert(false);
-          }
           const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
           assert(sfNode);
           if (sfNode->value())
@@ -1099,8 +1095,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       const QString nodeString = readString(stream);
 
       int importedNodesNumber;
-      WbNodeOperations::OperationResult operationResult =
-        WbNodeOperations::instance()->importNode(nodeId, fieldId, index, "", nodeString, &importedNodesNumber, true);
+      WbNodeOperations::instance()->importNode(nodeId, fieldId, index, "", nodeString, &importedNodesNumber, true);
       const WbField *field = WbNode::findNode(nodeId)->field(fieldId);
       const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
       if (sfNode) {
