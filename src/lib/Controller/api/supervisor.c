@@ -2469,7 +2469,7 @@ void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const ch
   const bool isWbo = strcmp(dot, ".wbo") == 0;
   const bool isWrl = strcmp(dot, ".wrl") == 0;
   if (!isWbo && !isWrl) {
-    fprintf(stderr, "Error: wb_supervisor_field_import_mf_node() supports only '*.wbo' or '*.wrl' files.\n");
+    fprintf(stderr, "Error: wb_supervisor_field_import_mf_node() supports only '*.wbo' and '*.wrl' files.\n");
     return;
   }
 
