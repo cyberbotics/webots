@@ -1097,8 +1097,6 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       int importedNodesNumber;
       WbNodeOperations::OperationResult operationResult =
         WbNodeOperations::instance()->importNode(nodeId, fieldId, index, "", nodeString, &importedNodesNumber, true);
-      if (operationResult != WbNodeOperations::FAILURE)
-        mImportedNodesNumber = importedNodesNumber;
       const WbField *field = WbNode::findNode(nodeId)->field(fieldId);
       const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
       if (sfNode) {
@@ -1106,8 +1104,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           mImportedNodesNumber = sfNode->value()->uniqueId();
         else
           mImportedNodesNumber = -1;
-      } else
-        mImportedNodesNumber = -1;
+      } else if (operationResult != WbNodeOperations::FAILURE)
+        mImportedNodesNumber = importedNodesNumber;
       emit worldModified();
       return;
     }
