@@ -1095,7 +1095,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       const QString nodeString = readString(stream);
 
       int importedNodesNumber;
-      WbNodeOperations::instance()->importNode(nodeId, fieldId, index, "", nodeString, &importedNodesNumber, true);
+      WbNodeOperations::OperationResult operationResult =
+        WbNodeOperations::instance()->importNode(nodeId, fieldId, index, "", nodeString, &importedNodesNumber, true);
+      if (operationResult != WbNodeOperations::FAILURE)
+        mImportedNodesNumber = importedNodesNumber;
       const WbField *field = WbNode::findNode(nodeId)->field(fieldId);
       const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
       if (sfNode) {
