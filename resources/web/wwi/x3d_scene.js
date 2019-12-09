@@ -13,10 +13,14 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.useNodeCache = {};
     this.objectsIdCache = {};
 
+    // Mozilla WebGL implementation does not support mimaps on float32 cube textures.
+    // - Warning (JS console): "Texture at base level is not unsized internal format or is not color-renderable or texture-filterable."
+    // - References:
+    //   - https://www.khronos.org/registry/OpenGL-Refpages/es3/html/glGenerateMipmap.xhtml
+    //   - https://stackoverflow.com/questions/44754479/issue-with-rgba32f-texture-format-and-mipmapping-using-opengl-es-3-0
+    //   - https://stackoverflow.com/questions/56829454/unable-to-generate-mipmap-for-half-float-texture
     const gl = document.createElement('canvas').getContext('webgl');
     const glVendor = gl.getParameter(gl.VENDOR);
-    // Mozilla WebGL implementation does not support mimaps on float32 cubes.
-    // cf. https://github.com/cyberbotics/webots/issues/1150
     this.enableHDRReflections = glVendor !== 'Mozilla';
     if (!this.enableHDRReflections)
       console.warn('HDR reflections are not implemented for the current hardware.');
