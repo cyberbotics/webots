@@ -438,7 +438,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       return;
     }
     case C_SUPERVISOR_SIMULATION_RESET:
-      mNeedToResetSimulation = true;  // WbApplication::instance()->simulationReset(false);
+      mNeedToResetSimulation = true;
       return;
     case C_SUPERVISOR_RELOAD_WORLD:
       WbApplication::instance()->worldReload();
