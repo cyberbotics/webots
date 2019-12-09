@@ -29,7 +29,7 @@ Released on December YYth, 2019.
     - Added a [script to cleanup the Webots preferences](https://github.com/cyberbotics/webots/blob/master/scripts/preferences_cleaner/README.md).
     - Linux: Added support for Python 3.8.
   - Enhancements
-    - **Updated argument type in [`wb_robot_set_mode()`](robot.md#wb_robot_set_mode) function from `void *` to `const char *`.**
+    - **Updated argument type in the [`wb_robot_set_mode()`](robot.md#wb_robot_set_mode) function from `void *` to `const char *`.**
     - Improved the [Sick LD MRS](../guide/lidar-sensors.md#sick-ld-mrs) PROTO to support the following types: `400001`, `400102`, `400001S01`, `400102S01` and `800001S01`.
     - Set the [ABB IRB 4600/40](../guide/irb4600-40.md) root node to [Robot](robot.md) instead of [Solid](solid.md) to be able to insert it everywhere.
     - Webots now waits for extern controllers if the `Robot.synchronization` field is set to `TRUE`.
