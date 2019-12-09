@@ -12,6 +12,14 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.sceneModified = false;
     this.useNodeCache = {};
     this.objectsIdCache = {};
+
+    const gl = document.createElement('canvas').getContext('webgl');
+    const glVendor = gl.getParameter(gl.VENDOR);
+    // Mozilla WebGL implementation does not support mimaps on float32 cubes.
+    // cf. https://github.com/cyberbotics/webots/issues/1150
+    this.enableHDRReflections = glVendor !== 'Mozilla';
+    if (!this.enableHDRReflections)
+      console.warn('HDR reflections are not implemented for the current hardware.');
   }
 
   init(texturePathPrefix = '') {
@@ -158,6 +166,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   loadWorldFile(url, onLoad) {
     this.objectsIdCache = {};
     var loader = new THREE.X3DLoader(this);
+    loader.enableHDRReflections = this.enableHDRReflections;
     loader.load(url, (object3d) => {
       if (object3d.length > 0) {
         this.scene.add(object3d[0]);
