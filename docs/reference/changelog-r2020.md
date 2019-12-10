@@ -31,6 +31,7 @@ Released on December YYth, 2019.
     - Added a [script to cleanup the Webots preferences](https://github.com/cyberbotics/webots/blob/master/scripts/preferences_cleaner/README.md).
     - Linux: Added support for Python 3.8.
   - Enhancements
+    - **Updated argument type in the [`wb_robot_set_mode()`](robot.md#wb_robot_set_mode) function from `void *` to `const char *`.**
     - Improved the [Sick LD MRS](../guide/lidar-sensors.md#sick-ld-mrs) PROTO to support the following types: `400001`, `400102`, `400001S01`, `400102S01` and `800001S01`.
     - **Improved the [`wb_supervisor_simulation_reset`](supervisor.md#wb_supervisor_simulation_reset) to avoid restarting the controllers, if needed the controllers can be restarted with [`wb_supervisor_node_restart_controller`](supervisor.md#wb_supervisor_node_restart_controller).**
     - Set the [ABB IRB 4600/40](../guide/irb4600-40.md) root node to [Robot](robot.md) instead of [Solid](solid.md) to be able to insert it everywhere.
@@ -52,6 +53,7 @@ Released on December YYth, 2019.
     - Fixed missing `WB_NODE_MUSCLE` and `WB_NODE_PROPELLER` types in [`wb_node_get_name()`](supervisor.md#wb_supervisor_node_get_type) function.
     - Fixed missing `WB_NODE_NORMAL` node type in MATLAB API.
     - Fixed arguments of [`wb_supervisor_node_get_number_of_contacts_points()`](supervisor.md#wb_supervisor_node_get_number_of_contact_points) function in MATLAB API.
+    - Fixed missing [`wb_robot_set_mode()`](robot.md#wb_robot_set_mode) function in MATLAB API.
     - Fixed `simulation_server.py` script to work with Python3.
     - Fixed `simulation_server.py` script overwriting the DISPLAY environment variable.
     - Fixed exporting first translation and rotation fields change during animation recording and simulation streaming.

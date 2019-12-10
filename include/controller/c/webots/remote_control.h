@@ -65,7 +65,7 @@ unsigned char *wbr_camera_get_image_buffer(WbDeviceTag tag);
 typedef struct WbrInterface {
   // mandatory functions :
   struct {
-    bool (*wbr_start)(void *);
+    bool (*wbr_start)(const char *);
     void (*wbr_stop)();
     bool (*wbr_has_failed)();
     void (*wbr_stop_actuators)();

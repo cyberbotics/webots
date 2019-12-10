@@ -57,11 +57,10 @@ void Wrapper::cleanup() {
   DeviceManager::cleanup();
 }
 
-bool Wrapper::start(void *arg) {
-  if (!arg)
+bool Wrapper::start(const char *args) {
+  if (!args)
     return false;
-  const char *port = static_cast<const char *>(arg);
-  cCommunication->initialize(std::string(port));
+  cCommunication->initialize(std::string(args));
   cTime = new Time();
   cSuccess = cCommunication->isInitialized();
   return cSuccess;
