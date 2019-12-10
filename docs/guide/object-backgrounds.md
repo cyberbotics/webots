@@ -44,8 +44,6 @@ TexturedBackground {
 
 - `texture`: Defines the texture of the background.
 
-- `luminosity`: Is `Background.luminosity`.
-
 - `skybox`: Specifies if the `texture` field is used to define the skybox shown in the scene background.
 
 - `reflections`: Specifies if the `texture` field is used in the reflections of the [PBRAppearance](../reference/pbrappearance.md) nodes.
@@ -78,8 +76,9 @@ Derived from [DirectionalLight](../reference/directionallight.md).
 
 ```
 TexturedBackgroundLight {
-   SFString texture        "mountains"
-   SFBool   castShadows    TRUE
+  SFString texture        "mountains"
+  SFFloat  luminosity     1
+  SFBool   castShadows    TRUE
 }
 ```
 
@@ -92,4 +91,7 @@ TexturedBackgroundLight {
 
 - `texture`: Should be equivalent to the 'texture' field of the TexturedBackground.
 
+- `luminosity`: Multiplies the `Light.intensity` field.
+
 - `castShadows`: Defines whether the light should cast shadows.
+
