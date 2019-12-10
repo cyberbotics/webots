@@ -106,18 +106,6 @@ To use the C API in a C++ controller you need to add this line in your controlle
 USE_C_API = true
 ```
 
-#### Using Qt Libraries in a C++ Controller
-
-Some Qt libraries are embedded with Webots and can be easily linked from your controller Makefile by listing the required modules in the QT variable.
-For example, if your controller uses QtCore, QtGui, QtWidgets, and QtNetwork, you can add the following line in your Makefile to link to the Webots embedded Qt libraries:
-
-```makefile
-QT = core gui widgets network
-```
-
-Note that not all the Qt modules are embedded with Webots.
-You can find the available modules in the "[WEBOTS\_HOME/include/qt](https://github.com/cyberbotics/webots/tree/master/include/)" directory (after running the Qt installation script).
-
 #### Verbose Compilation
 
 It is possible to display detailed information about the executed sequence of commands by setting the VERBOSE variable to a non-empty value in your controller Makefile:

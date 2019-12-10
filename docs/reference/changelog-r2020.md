@@ -61,3 +61,9 @@ Released on December YYth, 2019.
     - Fixed errors sending messages containing single quote (') and backslash (\) to the robot windows.
   - Dependency Updates
     - Upgraded to Qt 5.13.1 on Windows and macOS.
+  - Cleanup
+    - Drop support of native Qt robot windows:
+      - Dropped the documentation.
+      - Dropped automatic link to Qt libraries from controller and plugins default Makefile.include.
+      - Dropped the `samples/howto/gui_tracker.wbt` simulation.
+      - Dropped the OSM import robot window.

@@ -15,10 +15,13 @@
 distrib: release
 
 release debug profile:
+	@echo "#"; echo "# *** translations ***"
 	@+make -s -C translations $@
+	@echo "#"; echo "# *** languages ***"
 	@+make -s -C languages $@
+	@echo "#"; echo "# *** projects ***"
 	@+make -s -C projects $@
-	@+make -s -C osm_importer $@
+	@echo "#"; echo "# *** web/wwi ***"
 	@+make -s -C web/wwi $@
 
 cleanse: clean
