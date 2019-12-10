@@ -90,6 +90,8 @@
 #include <webots_ros/lidar_get_frequency_info.h>
 #include <webots_ros/lidar_get_info.h>
 #include <webots_ros/motor_set_control_pid.h>
+#include <webots_ros/node_add_force_or_torque.h>
+#include <webots_ros/node_add_force_with_offset.h>
 #include <webots_ros/node_get_center_of_mass.h>
 #include <webots_ros/node_get_contact_point.h>
 #include <webots_ros/node_get_field.h>
@@ -2927,6 +2929,46 @@ int main(int argc, char **argv) {
     ROS_ERROR("Failed to call service node_get_velocity.");
 
   node_velocity_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // node_add_force_or_torque
+  ros::ServiceClient node_add_force_or_torque_client;
+  webots_ros::node_add_force_or_torque node_add_force_or_torque_srv;
+  node_add_force_or_torque_client =
+    n.serviceClient<webots_ros::node_add_force_or_torque>(model_name + "/supervisor/node/add_torque");
+  node_add_force_or_torque_srv.request.node = cone_node;
+  node_add_force_or_torque_srv.request.force.x = 0.0;
+  node_add_force_or_torque_srv.request.force.y = 0.0;
+  node_add_force_or_torque_srv.request.force.z = 1.0;
+  node_add_force_or_torque_srv.request.relative = 0;
+  if (node_add_force_or_torque_client.call(node_add_force_or_torque_srv) && node_add_force_or_torque_srv.response.success == 1)
+    ROS_INFO("Node force added successfully.");
+  else
+    ROS_ERROR("Failed to call service node_add_force_or_torque.");
+
+  node_add_force_or_torque_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // node_add_force_with_offset
+  ros::ServiceClient node_add_force_with_offset_client;
+  webots_ros::node_add_force_with_offset node_add_force_with_offset_srv;
+  node_add_force_with_offset_client =
+    n.serviceClient<webots_ros::node_add_force_with_offset>(model_name + "/supervisor/node/add_force_with_offset");
+  node_add_force_with_offset_srv.request.node = cone_node;
+  node_add_force_with_offset_srv.request.force.x = 0.0;
+  node_add_force_with_offset_srv.request.force.y = 0.0;
+  node_add_force_with_offset_srv.request.force.z = 1.0;
+  node_add_force_with_offset_srv.request.offset.x = 0.0;
+  node_add_force_with_offset_srv.request.offset.y = 0.0;
+  node_add_force_with_offset_srv.request.offset.z = 1.0;
+  node_add_force_with_offset_srv.request.relative = 0;
+  if (node_add_force_with_offset_client.call(node_add_force_with_offset_srv) &&
+      node_add_force_with_offset_srv.response.success == 1)
+    ROS_INFO("Node force added successfully.");
+  else
+    ROS_ERROR("Failed to call service node_add_force_with_offset.");
+
+  node_add_force_with_offset_client.shutdown();
   time_step_client.call(time_step_srv);
 
   // node_get_parent

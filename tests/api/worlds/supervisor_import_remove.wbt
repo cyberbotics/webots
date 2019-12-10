@@ -30,10 +30,12 @@ Robot {
   children [
     DistanceSensor {
       name "ds0"
+      type "infra-red"
     }
     DistanceSensor {
       rotation 0 1 0 3.14159
       name "ds1"
+      type "infra-red"
     }
     TestSuiteEmitter {
     }
