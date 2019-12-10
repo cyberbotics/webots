@@ -722,8 +722,8 @@ DEF LANDMARK24 Solid {
   ]
 }
 Robot {
-  supervisor TRUE
   controller "advanced_pattern_recognition_supervisor"
+  supervisor TRUE
 }
 DEF EPUCK E-puck {
   translation 0 0.01 0
