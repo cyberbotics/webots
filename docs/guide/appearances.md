@@ -266,6 +266,12 @@ ChequeredParquetry {
 
 A copper material.
 
+%figure
+
+![Copper](images/appearances/Copper.thumbnail.png)
+
+%end
+
 Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
@@ -356,6 +362,12 @@ CorrugatedMetal {
 
 A corrugated plates material. The color can be overridden using the `colorOverride` field.
 
+%figure
+
+![CorrugatedPlates](images/appearances/CorrugatedPlates.thumbnail.png)
+
+%end
+
 Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
@@ -382,6 +394,12 @@ CorrugatedPlates {
 ## CorrugatedPvc
 
 A corrugated PVC material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![CorrugatedPvc](images/appearances/CorrugatedPvc.thumbnail.png)
+
+%end
 
 Derived from [PBRAppearance](../reference/pbrappearance.md).
 
@@ -476,6 +494,12 @@ DarkParquetry {
 
 A dry mud material with cracks.
 
+%figure
+
+![DryMud](images/appearances/DryMud.thumbnail.png)
+
+%end
+
 Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
@@ -565,6 +589,12 @@ FlexibleAluminiumDuct {
 ## FormedConcrete
 
 A formed concrete material.
+
+%figure
+
+![FormedConcrete](images/appearances/FormedConcrete.thumbnail.png)
+
+%end
 
 Derived from [PBRAppearance](../reference/pbrappearance.md).
 
@@ -1057,6 +1087,12 @@ Parquetry {
 ## Pcb
 
 A PCB material.
+
+%figure
+
+![Pcb](images/appearances/Pcb.thumbnail.png)
+
+%end
 
 Derived from [PBRAppearance](../reference/pbrappearance.md).
 

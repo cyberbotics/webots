@@ -54,6 +54,12 @@ Extrusion {
 
 Single/double sided and adjustable rectangle shape.
 
+%figure
+
+![Rectangle](images/objects/geometries/Rectangle/model.thumbnail.png)
+
+%end
+
 Derived from [IndexedFaceSet](../reference/indexedfaceset.md).
 
 ```
