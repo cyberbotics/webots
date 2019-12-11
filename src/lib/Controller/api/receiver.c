@@ -303,7 +303,7 @@ const void *wb_receiver_get_data(WbDeviceTag tag) {
   if (rs && rs->queue)  // if queue not empty
     result = rs->queue->data;
   else if (rs)
-    fprintf(stderr, "Error: wb_receiver_get_data(): the receiver queue length should be get first.\n");
+    fprintf(stderr, "Error: wb_receiver_get_data(): the receiver queue is empty.\n");
   else  // rs->queue == NULL
     fprintf(stderr, "Error: wb_receiver_get_data(): invalid device tag.\n");
   robot_mutex_unlock_step();
