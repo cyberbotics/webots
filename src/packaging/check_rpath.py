@@ -93,3 +93,5 @@ for f in controllerFiles + binaryFiles + qtBinaryFiles:
 if success:
     print('Dylibs dependencies: ok')
     print('Frameworks dependencies: ok')
+else:
+    sys.exit(1)  # Quit the script with an error code.

@@ -244,9 +244,9 @@ $(WEBOTS_HOME_LIB)/libssl.1.0.0.dylib: $(WEBOTS_DEPENDENCY_PATH)/openssl-1.0.2
 	@install_name_tool -id @rpath/lib/webots/libcrypto.dylib $(WEBOTS_HOME_LIB)/libcrypto.dylib
 	@install_name_tool -id @rpath/lib/webots/libcrypto.1.0.0.dylib $(WEBOTS_HOME_LIB)/libcrypto.1.0.0.dylib
 	@install_name_tool -id @rpath/lib/webots/libssl.dylib $(WEBOTS_HOME_LIB)/libssl.dylib
-	@install_name_tool -change /usr/local/ssl/lib/webots/libcrypto.1.0.0.dylib @rpath/lib/webots/libcrypto.1.0.0.dylib $(WEBOTS_HOME_LIB)/libssl.dylib
+	@install_name_tool -change /usr/local/ssl/lib/libcrypto.1.0.0.dylib @rpath/lib/webots/libcrypto.1.0.0.dylib $(WEBOTS_HOME_LIB)/libssl.dylib
 	@install_name_tool -id @rpath/lib/webots/libssl.dylib $(WEBOTS_HOME_LIB)/libssl.1.0.0.dylib
-	@install_name_tool -change /usr/local/ssl/lib/webots/libcrypto.1.0.0.dylib @rpath/lib/webots/libcrypto.1.0.0.dylib $(WEBOTS_HOME_LIB)/libssl.1.0.0.dylib
+	@install_name_tool -change /usr/local/ssl/lib/libcrypto.1.0.0.dylib @rpath/lib/webots/libcrypto.1.0.0.dylib $(WEBOTS_HOME_LIB)/libssl.1.0.0.dylib
 
 $(WEBOTS_DEPENDENCY_PATH)/openssl-1.0.2:
 	@echo "# downloading $(OPENSSL_PACKAGE)"
