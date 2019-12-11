@@ -60,7 +60,7 @@ public:
   void worldReload();
 
   // reset the simulation
-  void simulationReset(bool restartControllers = true);
+  void simulationReset(bool restartControllers);
 
   // start/stop video capture
   void startVideoCapture(const QString &fileName, int type, int width, int height, int quality, int acceleration,

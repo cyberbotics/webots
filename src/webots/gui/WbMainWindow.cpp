@@ -450,7 +450,7 @@ QMenu *WbMainWindow::createFileMenu() {
   menu->addAction(action);
 
   action = manager->action(WbActionManager::RESET_SIMULATION);
-  connect(action, &QAction::triggered, this, &WbMainWindow::resetWorld);
+  connect(action, &QAction::triggered, this, &WbMainWindow::resetWorldFromGui);
   menu->addAction(action);
 
   menu->addSeparator();
@@ -1475,6 +1475,10 @@ void WbMainWindow::reloadWorld() {
     newWorld();
   else
     loadWorld(WbWorld::instance()->fileName(), true);
+}
+
+void WbMainWindow::resetWorldFromGui() {
+  resetWorld(true);
 }
 
 void WbMainWindow::resetWorld(bool restartControllers) {

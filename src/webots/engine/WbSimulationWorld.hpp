@@ -47,7 +47,7 @@ public:
   bool simulationHasRunAfterSave();
 
   bool saveAs(const QString &fileName) override;
-  void reset(bool restartControllers = true) override;
+  void reset(bool restartControllers) override;
 
   virtual void step();
 
