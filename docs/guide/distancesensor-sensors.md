@@ -14,7 +14,7 @@ Nevertheless, adding a generic [DistanceSensor](../reference/distancesensor.md) 
 
 %end
 
-The [Sharp GP2D120](https://www.pololu.com/file/0J157/GP2D120-DATA-SHEET.pdf)  is a distance measuring sensor with integrated signal processing and analog voltage output.
+The [Sharp GP2D120](https://www.pololu.com/file/0J157/GP2D120-DATA-SHEET.pdf) is a distance measuring sensor with integrated signal processing and analog voltage output.
 This device outputs the voltage corresponding to the detection distance.
 
 The model has the following specifications:
