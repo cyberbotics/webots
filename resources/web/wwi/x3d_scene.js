@@ -86,6 +86,12 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   render() {
+    if (this.nextRenderingTime && this.nextRenderingTime > (new Date()).getTime()) {
+      if (!this.renderTimeout)
+        this.renderingTimeout = setTimeout(() => this.render(), 40);
+      return;
+    }
+
     // Apply pass uniforms.
     this.hdrResolvePass.material.uniforms['exposure'].value = 2.0 * this.viewpoint.camera.userData.exposure; // Factor empirically found to match the Webots rendering.
     this.bloomPass.threshold = this.viewpoint.camera.userData.bloomThreshold;
@@ -96,6 +102,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.composer.render();
     if (typeof this.postRender === 'function')
       this.postRender(this.scene, this.viewpoint.camera);
+
+    this.nextRenderingTime = (new Date()).getTime() + 40;
+    clearTimeout(this.renderingTimeout);
+    this.renderingTimeout = null;
   }
 
   resize() {
@@ -137,7 +147,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
     */
 
     this.onSceneUpdate();
-    this.render();
   }
 
   deleteObject(id) {
@@ -164,7 +173,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
     if (object === this.root)
       this.root = undefined;
     this.onSceneUpdate();
-    this.render();
   }
 
   loadWorldFile(url, onLoad) {
