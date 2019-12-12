@@ -125,7 +125,7 @@ static void run_demo() {
 // Move using a simple Braitenberg algorithm to avoid obstacle
 static void run_autopilot(bool display_message, int *last_displayed_second) {
   // Get sensors values and convert them
-  double sensors_values[NUMBER_OF_INFRARED_SENSORS] = {0.0};
+  double sensors_values[NUMBER_OF_INFRARED_SENSORS];
   for (int i = 0; i < NUMBER_OF_INFRARED_SENSORS; ++i)
     sensors_values[i] = convert_volt_to_meter(wb_distance_sensor_get_value(infrared_sensors[i]));
 
