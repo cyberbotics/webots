@@ -51,17 +51,20 @@ To let you model more realistic robots and environments we expanded our PBRAppea
 
 ---
 
-## New TIAGo Robot Model
+## New TIAGo Robots Model
 
+Simulate the TIAGo robot from [PAL Robotics](http://pal-robotics.com/) in Webots.
 
 %figure "Tiago Model in Webots"
 ![Tiago Model in Webots](images/tiago.jpg)
 %end
 
-| | | |  |  |
-| :---: | :---: | :---: | :---: | :---: |
-| ![Tiago Base](images/tiago_base.thumbnail.png) | ![Tiago Iron](images/tiago_iron.thumbnail.png) | ![Tiago Steel](images/tiago_steel.thumbnail.png) | ![Tiago Titanium](images/tiago_titanium.thumbnail.png) | ![Tiago++](images/tiagopp.thumbnail.png) |
-
+Several models of the robot have been created for Webots:
+  - [TIAGo Base](../guide/tiago-base.md)
+  - [TIAGo Iron](../guide/tiago-iron.md)
+  - [TIAGo Steel](../guide/tiago-steel.md)
+  - [TIAGo Titanium](../guide/tiago-titanium.md)
+  - [TIAGo++](../guide/tiagopp.md)
 
 ---
 
