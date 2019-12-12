@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A plaster material. The color can be overridden using the `colorOverride` field.
@@ -6,7 +6,7 @@
 PROTO Plaster [
   field SFColor colorOverride    1 1 1  # Defines the default color multiplied with the texture color.
   field SFNode  textureTransform NULL   # Defines an optional 2d texture transform.
-  field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Cubemap node.
+  field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
 ]
 {
   PBRAppearance {

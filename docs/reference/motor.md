@@ -220,6 +220,11 @@ Where `output_torque` is the value returned by the [`wb_motor_get_torque_feedbac
 > **Note**: This is a very simplified model for the energy consumption of an electrical motor, but it is sufficient for most prototyping purposes.
 If a more specific or accurate model is needed, it can be implemented in the robot controller itself.
 
+### Kinematics Mode
+
+In [*kinematics* mode](physics.md#how-to-use-physics-nodes), the joint acceleration is set to `Motor.acceleration`, unless `Motor.acceleration` is not defined (i.e. equals to `-1`) or is bigger than `RotationalMotor.maxTorque` or `LinearMotor.maxForce`.
+In such case the joint acceleration is set to `RotationalMotor.maxTorque` or `LinearMotor.maxForce`.
+
 ### Motor Functions
 
 #### `wb_motor_set_position`

@@ -1,276 +1,276 @@
 {
-  "robotID": "n11", 
-  "name": "bioloid", 
   "devices": [
     {
-      "transformID": "n413", 
-      "initialPosition": 0, 
-      "name": "back_left_1", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 0 1"
-    }, 
+      "axis": "0 0 1",
+      "initialPosition": 0,
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "back_left_1",
+      "position": 0,
+      "transformID": "n412",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n423", 
-      "initialPosition": 0, 
-      "name": "back_left_2", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "1 0 0"
-    }, 
+      "axis": "1 0 0",
+      "initialPosition": 0,
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "back_left_2",
+      "position": 0,
+      "transformID": "n422",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n449", 
-      "initialPosition": 0, 
-      "name": "back_left_3", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "initialPosition": 0,
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "back_left_3",
+      "position": 0,
+      "transformID": "n448",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n493", 
-      "initialPosition": 0, 
-      "name": "back_right_1", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 0 1"
-    }, 
+      "axis": "0 0 1",
+      "initialPosition": 0,
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "back_right_1",
+      "position": 0,
+      "transformID": "n492",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n503", 
-      "initialPosition": 3.14159, 
-      "name": "back_right_2", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "1 0 0"
-    }, 
+      "axis": "1 0 0",
+      "initialPosition": 3.14159,
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "back_right_2",
+      "position": 0,
+      "transformID": "n502",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n529", 
-      "initialPosition": 0, 
-      "name": "back_right_3", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "initialPosition": 0,
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "back_right_3",
+      "position": 0,
+      "transformID": "n528",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n43", 
-      "initialPosition": 0, 
-      "name": "front_left_1", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 0 1"
-    }, 
+      "axis": "0 0 1",
+      "initialPosition": 0,
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "front_left_1",
+      "position": 0,
+      "transformID": "n42",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n53", 
-      "initialPosition": 0, 
-      "name": "front_left_2", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "1 0 0"
-    }, 
+      "axis": "1 0 0",
+      "initialPosition": 0,
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "front_left_2",
+      "position": 0,
+      "transformID": "n52",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n79", 
-      "initialPosition": 0, 
-      "name": "front_left_3", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "initialPosition": 0,
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "front_left_3",
+      "position": 0,
+      "transformID": "n78",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n269", 
-      "initialPosition": 0, 
-      "name": "front_right_1", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 0 1"
-    }, 
+      "axis": "0 0 1",
+      "initialPosition": 0,
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "front_right_1",
+      "position": 0,
+      "transformID": "n268",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n279", 
-      "initialPosition": 3.14159, 
-      "name": "front_right_2", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "1 0 0"
-    }, 
+      "axis": "1 0 0",
+      "initialPosition": 3.14159,
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "front_right_2",
+      "position": 0,
+      "transformID": "n278",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n305", 
-      "initialPosition": 0, 
-      "name": "front_right_3", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "initialPosition": 0,
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "front_right_3",
+      "position": 0,
+      "transformID": "n304",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n193", 
-      "initialPosition": 0, 
-      "name": "head", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 0 1"
-    }, 
+      "axis": "0 0 1",
+      "initialPosition": 0,
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "head",
+      "position": 0,
+      "transformID": "n192",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n138", 
-      "initialPosition": 0, 
-      "name": "neck_1", 
-      "maxPosition": 1.5708, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -1.5708, 
-      "axis": "0 0 1"
-    }, 
+      "axis": "0 0 1",
+      "initialPosition": 0,
+      "maxPosition": 1.5708,
+      "minPosition": -1.5708,
+      "name": "neck_1",
+      "position": 0,
+      "transformID": "n137",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n148", 
-      "initialPosition": 0, 
-      "name": "neck_2", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "1 0 0"
-    }, 
+      "axis": "1 0 0",
+      "initialPosition": 0,
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "neck_2",
+      "position": 0,
+      "transformID": "n147",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n368", 
-      "initialPosition": 0, 
-      "name": "pelvis", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "1 0 0"
-    }, 
+      "axis": "1 0 0",
+      "initialPosition": 0,
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "pelvis",
+      "position": 0,
+      "transformID": "n367",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n413", 
-      "type": "PositionSensor", 
-      "name": "back_left_1_sensor"
-    }, 
+      "name": "back_left_1_sensor",
+      "transformID": "n412",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n423", 
-      "type": "PositionSensor", 
-      "name": "back_left_2_sensor"
-    }, 
+      "name": "back_left_2_sensor",
+      "transformID": "n422",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n449", 
-      "type": "PositionSensor", 
-      "name": "back_left_3_sensor"
-    }, 
+      "name": "back_left_3_sensor",
+      "transformID": "n448",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n493", 
-      "type": "PositionSensor", 
-      "name": "back_right_1_sensor"
-    }, 
+      "name": "back_right_1_sensor",
+      "transformID": "n492",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n503", 
-      "type": "PositionSensor", 
-      "name": "back_right_2_sensor"
-    }, 
+      "name": "back_right_2_sensor",
+      "transformID": "n502",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n529", 
-      "type": "PositionSensor", 
-      "name": "back_right_3_sensor"
-    }, 
+      "name": "back_right_3_sensor",
+      "transformID": "n528",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n194", 
-      "type": "Camera", 
-      "name": "camera"
-    }, 
+      "name": "camera",
+      "transformID": "n193",
+      "type": "Camera"
+    },
     {
-      "transformID": "n199", 
-      "type": "DistanceSensor", 
-      "name": "ds0"
-    }, 
+      "name": "ds0",
+      "transformID": "n198",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n203", 
-      "type": "DistanceSensor", 
-      "name": "ds1"
-    }, 
+      "name": "ds1",
+      "transformID": "n202",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n207", 
-      "type": "DistanceSensor", 
-      "name": "ds2"
-    }, 
+      "name": "ds2",
+      "transformID": "n206",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n11", 
-      "type": "Emitter", 
-      "name": "emitter"
-    }, 
+      "name": "emitter",
+      "transformID": "n10",
+      "type": "Emitter"
+    },
     {
-      "transformID": "n43", 
-      "type": "PositionSensor", 
-      "name": "front_left_1_sensor"
-    }, 
+      "name": "front_left_1_sensor",
+      "transformID": "n42",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n53", 
-      "type": "PositionSensor", 
-      "name": "front_left_2_sensor"
-    }, 
+      "name": "front_left_2_sensor",
+      "transformID": "n52",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n79", 
-      "type": "PositionSensor", 
-      "name": "front_left_3_sensor"
-    }, 
+      "name": "front_left_3_sensor",
+      "transformID": "n78",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n269", 
-      "type": "PositionSensor", 
-      "name": "front_right_1_sensor"
-    }, 
+      "name": "front_right_1_sensor",
+      "transformID": "n268",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n279", 
-      "type": "PositionSensor", 
-      "name": "front_right_2_sensor"
-    }, 
+      "name": "front_right_2_sensor",
+      "transformID": "n278",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n305", 
-      "type": "PositionSensor", 
-      "name": "front_right_3_sensor"
-    }, 
+      "name": "front_right_3_sensor",
+      "transformID": "n304",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n11", 
-      "type": "GPS", 
-      "name": "gps"
-    }, 
+      "name": "gps",
+      "transformID": "n10",
+      "type": "GPS"
+    },
     {
-      "transformID": "n193", 
-      "type": "PositionSensor", 
-      "name": "head_sensor"
-    }, 
+      "name": "head_sensor",
+      "transformID": "n192",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n138", 
-      "type": "PositionSensor", 
-      "name": "neck_1_sensor"
-    }, 
+      "name": "neck_1_sensor",
+      "transformID": "n137",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n148", 
-      "type": "PositionSensor", 
-      "name": "neck_2_sensor"
-    }, 
+      "name": "neck_2_sensor",
+      "transformID": "n147",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n368", 
-      "type": "PositionSensor", 
-      "name": "pelvis_sensor"
+      "name": "pelvis_sensor",
+      "transformID": "n367",
+      "type": "PositionSensor"
     }
-  ]
+  ],
+  "name": "bioloid",
+  "robotID": "n10"
 }

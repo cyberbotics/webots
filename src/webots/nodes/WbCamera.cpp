@@ -356,6 +356,9 @@ void WbCamera::displayRecognizedObjectsInOverlay() {
       wr_texture_change_data(mRecognizedObjectsTexture, data, x1, y2 - frameThickness, x2 - x1, frameThickness);
     }
     WbWrenOpenGlContext::doneWren();
+
+    delete[] data;
+    delete[] clearData;
   }
 
   if (log)

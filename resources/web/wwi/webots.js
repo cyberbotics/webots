@@ -35,7 +35,7 @@ webots.User2Name           // user name of the secondary user.
 webots.CustomData          // application specific data to be passed to the simulation server
 webots.showRevert          // defines whether the revert button should be displayed
 webots.showQuit            // defines whether the quit button should be displayed
-webots.showFast            // defines whether the fast button should be displayed
+webots.showRun             // defines whether the run button should be displayed
 */
 
 webots.View = class View {
@@ -189,7 +189,7 @@ webots.View = class View {
             callback = finalizeWorld;
           this.server = new Server(this.url, this, callback);
           this.server.connect();
-        } else { // url expected form: "ws://cyberbotics2.cyberbotics.com:80"
+        } else { // url expected form: "ws://cyberbotics1.epfl.ch:80"
           var httpServerUrl = this.url.replace(/ws/, 'http'); // Serve the texture images. SSL prefix is supported.
           this.stream = new Stream(this.url, this, finalizeWorld);
           TextureLoader.setTexturePathPrefix(httpServerUrl + '/');
@@ -405,6 +405,7 @@ webots.View = class View {
       return;
     this.worldSelect = document.createElement('select');
     this.worldSelect.id = 'worldSelection';
+    this.worldSelect.classList.add('select-css');
     this.toolBar.worldSelectionDiv.appendChild(this.worldSelect);
     for (let i in worlds) {
       var option = document.createElement('option');

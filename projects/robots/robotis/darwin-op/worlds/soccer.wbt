@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "ROBOTIS OP2 robot."
@@ -13,8 +13,12 @@ Viewpoint {
   follow "ROBOTIS OP2"
 }
 TexturedBackground {
+  texture "noon_cloudy_countryside"
+  luminosity 1.5
 }
 TexturedBackgroundLight {
+  texture "noon_cloudy_countryside"
+  luminosity 0.5
 }
 RobotstadiumSoccerField {
   frame1Color 0.9 0.8 0.2

@@ -53,12 +53,11 @@ void Wrapper::cleanup() {
   DeviceManager::cleanup();
 }
 
-bool Wrapper::start(void *arg) {
+bool Wrapper::start(const char *args) {
   cout << "In Start" << endl;
-  if (!arg)
+  if (!args)
     return false;
-  string port(*((const string *)arg));
-  cCommunication->initialize(port);
+  cCommunication->initialize(args);
   cTime = new Time();
   cSuccess = cCommunication->isInitialized();
   return cSuccess;

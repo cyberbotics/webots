@@ -1,96 +1,96 @@
 {
-  "robotID": "n11", 
-  "name": "irb4600-40", 
   "devices": [
     {
-      "transformID": "n22", 
-      "initialPosition": 0, 
-      "name": "A motor", 
-      "maxPosition": 3.1415, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -3.1415, 
-      "axis": "0 0 1"
-    }, 
+      "axis": "0 0 1",
+      "initialPosition": 0,
+      "maxPosition": 3.1415,
+      "minPosition": -3.1415,
+      "name": "A motor",
+      "position": 0,
+      "transformID": "n21",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n32", 
-      "initialPosition": 0, 
-      "name": "B motor", 
-      "maxPosition": 2.61799, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -1.5708, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "initialPosition": 0,
+      "maxPosition": 2.61799,
+      "minPosition": -1.5708,
+      "name": "B motor",
+      "position": 0,
+      "transformID": "n31",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n42", 
-      "initialPosition": 0, 
-      "name": "C motor", 
-      "maxPosition": 1.309, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -3.1415, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "initialPosition": 0,
+      "maxPosition": 1.309,
+      "minPosition": -3.1415,
+      "name": "C motor",
+      "position": 0,
+      "transformID": "n41",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n52", 
-      "initialPosition": 0, 
-      "name": "D motor", 
-      "maxPosition": 6.98132, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -6.98132, 
-      "axis": "1 0 0"
-    }, 
+      "axis": "1 0 0",
+      "initialPosition": 0,
+      "maxPosition": 6.98132,
+      "minPosition": -6.98132,
+      "name": "D motor",
+      "position": 0,
+      "transformID": "n51",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n62", 
-      "initialPosition": 0, 
-      "name": "E motor", 
-      "maxPosition": 2.0944, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.18166, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "initialPosition": 0,
+      "maxPosition": 2.0944,
+      "minPosition": -2.18166,
+      "name": "E motor",
+      "position": 0,
+      "transformID": "n61",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n72", 
-      "initialPosition": 0, 
-      "name": "F motor", 
-      "maxPosition": 6.98132, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -6.98132, 
-      "axis": "1 0 0"
-    }, 
+      "axis": "1 0 0",
+      "initialPosition": 0,
+      "maxPosition": 6.98132,
+      "minPosition": -6.98132,
+      "name": "F motor",
+      "position": 0,
+      "transformID": "n71",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n22", 
-      "type": "PositionSensor", 
-      "name": "A sensor"
-    }, 
+      "name": "A sensor",
+      "transformID": "n21",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n32", 
-      "type": "PositionSensor", 
-      "name": "B sensor"
-    }, 
+      "name": "B sensor",
+      "transformID": "n31",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n42", 
-      "type": "PositionSensor", 
-      "name": "C sensor"
-    }, 
+      "name": "C sensor",
+      "transformID": "n41",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n52", 
-      "type": "PositionSensor", 
-      "name": "D sensor"
-    }, 
+      "name": "D sensor",
+      "transformID": "n51",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n62", 
-      "type": "PositionSensor", 
-      "name": "E sensor"
-    }, 
+      "name": "E sensor",
+      "transformID": "n61",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n72", 
-      "type": "PositionSensor", 
-      "name": "F sensor"
+      "name": "F sensor",
+      "transformID": "n71",
+      "type": "PositionSensor"
     }
-  ]
+  ],
+  "name": "irb4600-40",
+  "robotID": "n11"
 }

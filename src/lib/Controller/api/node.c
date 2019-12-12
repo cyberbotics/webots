@@ -50,8 +50,6 @@ const char *wb_node_get_name(WbNodeType t) {
       return "ContactProperties";
     case WB_NODE_COORDINATE:
       return "Coordinate";
-    case WB_NODE_CUBEMAP:
-      return "Cubemap";
     case WB_NODE_CYLINDER:
       return "Cylinder";
     case WB_NODE_DAMPING:
@@ -114,6 +112,8 @@ const char *wb_node_get_name(WbNodeType t) {
       return "Material";
     case WB_NODE_MICROPHONE:
       return "Microphone";
+    case WB_NODE_MUSCLE:
+      return "Muscle";
     case WB_NODE_NORMAL:
       return "Normal";
     case WB_NODE_PBR_APPEARANCE:
@@ -130,6 +130,8 @@ const char *wb_node_get_name(WbNodeType t) {
       return "PointSet";
     case WB_NODE_POSITION_SENSOR:
       return "PositionSensor";
+    case WB_NODE_PROPELLER:
+      return "Propeller";
     case WB_NODE_RADAR:
       return "Radar";
     case WB_NODE_RADIO:

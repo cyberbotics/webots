@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "The highway driving benchmark aims at programing an autonomous Lincoln MKZ in Python. "
@@ -81,13 +81,16 @@ DEF VIEWPOINT Viewpoint {
   ambientOcclusionRadius 7
 }
 TexturedBackground {
+  texture "noon_cloudy_countryside"
 }
 TexturedBackgroundLight {
+  texture "noon_cloudy_countryside"
   castShadows FALSE
 }
 Fog {
-  color 0.93 0.96 1
-  visibilityRange 500
+  color 0.606928 0.65417 0.716991
+  fogType "EXPONENTIAL2"
+  visibilityRange 1000
 }
 DEF FLOOR Solid {
   boundingObject Plane {
@@ -261,6 +264,16 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
     }
   ]
   sensorsSlotCenter [
+    SpotLight {
+      attenuation 0 0 1
+      beamWidth 0.2
+      cutOffAngle 0.7
+      direction 0.6 -1 0
+      intensity 17
+      location -4 5.5 0
+      radius 20
+      castShadows TRUE
+    }
     DEF SENSOR_VISUALIZATION Robot {
       children [
         DEF RIGHT_VISUALIZATION DistanceSensorVisualization {
@@ -629,16 +642,8 @@ HighwayPole {
 Solid {
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        baseColorMap ImageTexture {
-          url [
-            "textures/ground_grass.jpg"
-          ]
-          filtering 1
-        }
-        roughness 0.5
-        metalness 0
+      appearance Grass {
+        type "mossy"
         textureTransform TextureTransform {
           scale 300 43
         }

@@ -117,6 +117,12 @@ class TestTextures(unittest.TestCase):
         """Test that the released textures don't contain an ICC profile."""
         for texture in self.textures:
             im = Image.open(texture)
+
+            # Helpful code: uncomment the following lines to drop the ICC profile from every textures.
+            # if im.info.get("icc_profile") is not None:
+            #     im.info["icc_profile"] = None
+            #     im.save(texture)
+
             self.assertTrue(
                 im.info.get("icc_profile") is None,
                 msg='texture "%s" contains an ICC profile' % (texture)

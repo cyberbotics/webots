@@ -54,6 +54,7 @@ PlasticCrate {
   SFRotation rotation    0 1 0 0
   SFString   name        "plastic crate"
   SFVec3f    size        0.6 0.6 0.6
+  SFColor    color       0.9 0.2 0.2
   SFFloat    mass        0
 }
 ```

@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "ROBOTIS OP2 robot."
@@ -12,15 +12,11 @@ Viewpoint {
   position 1.02479 1.62057 -0.53216
   follow "ROBOTIS OP2"
 }
-Background {
-  skyColor [
-    1 1 1
-  ]
-  cubemap Cubemap {
-    textureBaseName "noon_cloudy_empty"
-  }
+TexturedBackground {
+  texture "noon_cloudy_countryside"
 }
 TexturedBackgroundLight {
+  texture "noon_cloudy_countryside"
 }
 Table {
 }

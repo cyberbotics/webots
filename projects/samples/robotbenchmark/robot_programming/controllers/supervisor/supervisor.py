@@ -38,7 +38,12 @@ while robot.step(timestep) != -1:
         tz = t[2]
     else:  # wait for record message
         message = robot.wwiReceiveText()
-        if message and message.startswith("record:"):
-            record = robotbenchmarkRecord(message, "robot_programming", percent)
-            robot.wwiSendText(record)
-            break
+        if message:
+            if message.startswith("record:"):
+                record = robotbenchmarkRecord(message, "robot_programming", percent)
+                robot.wwiSendText(record)
+                break
+            elif message == "exit":
+                break
+
+robot.simulationSetMode(Supervisor.SIMULATION_MODE_PAUSE)

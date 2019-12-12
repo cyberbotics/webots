@@ -1,34 +1,5 @@
 # Webots R2019b Changelog
 
-## Webots R2019b Revision 2
-Released on ???
-
-  - New Robots
-    - Added several TIAGo robots from PAL Robotics: [TIAGo Base](../guide/tiago-base.md), [TIAGo Iron](../guide/tiago-iron.md), [TIAGo Steel](../guide/tiago-steel.md), [TIAGo Titanium](../guide/tiago-titanium.md) and [TIAGo++](../guide/tiagopp.md).
-    - Added Robotino 3 from Festo: [Robotino 3](../guide/robotino3.md).
-  - New sensors
-    - Added several models of infrared sensors from Sharp: [GP2D120](../guide/distancesensor-sensors.md#sharp-gp2d120), [GP2Y0A02YK0F](../guide/distancesensor-sensors.md#sharp-gp2y0a02yk0f), [GP2Y0A41SK0F](../guide/distancesensor-sensors.md#sharp-gp2y0a41sk0f) and [GP2Y0A710K0F](../guide/distancesensor-sensors.md#sharp-gp2y0a710k0f).  
-  - New Features
-    - Linux: Added support for Python 3.8.
-    - Added several appearances: `CorrugatedPlates`, `CorrugatedPvc` and `FormedConcrete`.
-    - Added a [script to cleanup the Webots preferences](https://github.com/cyberbotics/webots/blob/master/scripts/preferences_cleaner/README.md).
-  - Enhancements
-    - Webots now wait for extern controllers if the `Robot.synchronization` field is set to `TRUE`.
-    - Device names are displayed in the scene tree next to the node name.
-  - Dependency Updates
-    - Upgraded to Qt 5.13.1 on Windows and macOS.
-  - Bug fixes
-    - Fixed [Lidar](lidar.md) point cloud access in controllers (thanks to Alexander).
-    - Fixed [infra-red DistanceSensors](distancesensor.md) or [Pen](pen.md) versus [Plane](plane.md) collision detection.
-    - Fixed determinism in camera rendering order.
-    - Fixed `simulation_server.py` script to work with Python3.
-    - Fixed `simulation_server.py` script overwriting the DISPLAY environment variable.
-    - Fixed exporting first translation and rotation fields change during animation recording and simulation streaming.
-    - Fixed displaying streaming server initialization errors in the Webots console.
-    - Fixed bugs in Python Display.imageNew() when passing an image array: rearranged image data from column-major order and memory leak (thanks to Inbae Jeong).
-    - Fixed [Nao.selfCollision](../guide/nao.md) due to overlapping bounding objects in feet (thanks to Sheila).
-    - Fixed errors sending messages containing single quote (') and backslash (\) to the robot windows.
-
 ## Webots R2019b Revision 1
 Released on October 3rd, 2019.
 

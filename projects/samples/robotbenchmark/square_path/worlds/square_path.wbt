@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "The Pioneer Robot has to perform a square shaped loop."
@@ -14,6 +14,7 @@ Viewpoint {
   position -2.6337698 3.736315 -1.7895911
 }
 TexturedBackgroundLight {
+  luminosity 0.7
 }
 TexturedBackground {
 }
@@ -45,13 +46,4 @@ RectangleArena {
     metalness 0
   }
   wallHeight 0.5
-  wallAppearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/wall.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
 }
