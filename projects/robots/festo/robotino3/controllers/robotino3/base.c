@@ -37,7 +37,7 @@
 WbDeviceTag wheels[3];
 
 void base_reset() {
-  static double speeds[3] = {0.0, 0.0, 0.0};
+  const double speeds[3] = {0.0, 0.0, 0.0};
   base_set_wheel_speeds_helper(speeds);
 }
 
