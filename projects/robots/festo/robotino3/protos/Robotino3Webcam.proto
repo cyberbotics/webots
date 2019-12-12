@@ -18,6 +18,18 @@ PROTO Robotino3Webcam [
     name IS name
     model IS model
     children [
+      Camera {
+        translation 0 -0.11 0.303
+        rotation 1 0 0 -1.5707953071795862
+        lens Lens {
+        }
+        focus Focus {
+        }
+        recognition Recognition {
+        }
+        lensFlare LensFlare {
+        }
+      }
       Group {
         children [
           DEF WEBCAM Transform {

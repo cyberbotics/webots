@@ -22,6 +22,7 @@
  *              by the 9 infrared sensors as input.
  */
 
+#include <webots/device.h>
 #include <webots/distance_sensor.h>
 #include <webots/keyboard.h>
 #include <webots/motor.h>
@@ -30,6 +31,7 @@
 #include "base.h"
 
 #include <math.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -41,19 +43,28 @@ static int old_key = -1;
 static bool demo = false;
 static bool autopilot = true;
 static bool old_autopilot = true;
-static bool display_message = false;
+static bool display_message = true;
 
 extern WbDeviceTag wheels[3];
 static WbDeviceTag infrared_sensors[NUMBER_OF_INFRARED_SENSORS];
 static const char *infrared_sensors_names[NUMBER_OF_INFRARED_SENSORS] = {"ir1", "ir2", "ir3", "ir4", "ir5",
                                                                          "ir6", "ir7", "ir8", "ir9"};
 
-double convert_volt_to_meter(double V) {
-  // Don't forget to adapt the conversion according to the sensor model used
-  return 0.1594 * pow(V, -0.8533) - 0.02916;  // GP2D120
-  // return 0.7611 * pow(V, -0.9313) - 0.1252;   // GP2Y0A02YK0F
-  // return 0.1594 * pow(V, -0.8533) - 0.02916;  // GP2Y0A41SK0F
-  // return 20.24 * pow(V, -4.76) + 0.6632;      // GP2Y0A710K0F
+double convert_volt_to_meter(WbDeviceTag tag, double V) {
+  const char *model = wb_device_get_model(tag);
+
+  if (strcmp(model, "GP2D120"))
+    return 0.1594 * pow(V, -0.8533) - 0.02916;
+  else if (strcmp(model, "GP2Y0A02YK0F"))
+    return 0.7611 * pow(V, -0.9313) - 0.1252;
+  else if (strcmp(model, "GP2Y0A41SK0F"))
+    return 0.1594 * pow(V, -0.8533) - 0.02916;
+  else if (strcmp(model, "GP2Y0A710K0F"))
+    return 20.24 * pow(V, -4.76) + 0.6632;
+  else {
+    printf("This infrared sensor model is not compatible\n");
+    return -1;
+  }
 }
 
 static void step() {
@@ -127,7 +138,7 @@ static void run_autopilot(bool display_message, int *last_displayed_second) {
   // Get sensors values and convert them
   double sensors_values[NUMBER_OF_INFRARED_SENSORS];
   for (int i = 0; i < NUMBER_OF_INFRARED_SENSORS; ++i)
-    sensors_values[i] = convert_volt_to_meter(wb_distance_sensor_get_value(infrared_sensors[i]));
+    sensors_values[i] = convert_volt_to_meter(infrared_sensors[0], wb_distance_sensor_get_value(infrared_sensors[i]));
 
   if (display_message) {
     // Display some IR sensor data every second

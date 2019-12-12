@@ -37,38 +37,31 @@
 WbDeviceTag wheels[3];
 
 void base_reset() {
-  const double speeds[3] = {0.0, 0.0, 0.0};
-  base_set_wheel_speeds_helper(speeds);
+  base_set_speeds_(0.0, 0.0, 0.0);
 }
 
 void base_forwards() {
-  double speeds[3] = {MAX_LIN_SPEED / 2.0, 0, 0};
-  base_set_wheel_speeds_helper(speeds);
+  base_set_speeds_(MAX_LIN_SPEED / 2.0, 0, 0);
 }
 
 void base_backwards() {
-  double speeds[3] = {-MAX_LIN_SPEED / 2.0, 0, 0};
-  base_set_wheel_speeds_helper(speeds);
+  base_set_speeds_(-MAX_LIN_SPEED / 2.0, 0, 0);
 }
 
 void base_turn_left() {
-  double speeds[3] = {0, 0, -3.0 * MAX_LIN_SPEED / 2.0};
-  base_set_wheel_speeds_helper(speeds);
+  base_set_speeds_(0, 0, -3.0 * MAX_LIN_SPEED / 2.0);
 }
 
 void base_turn_right() {
-  double speeds[3] = {0, 0, 3.0 * MAX_LIN_SPEED / 2.0};
-  base_set_wheel_speeds_helper(speeds);
+  base_set_speeds_(0, 0, 3.0 * MAX_LIN_SPEED / 2.0);
 }
 
 void base_strafe_left() {
-  double speeds[3] = {0, -MAX_LIN_SPEED / 2.0, 0};
-  base_set_wheel_speeds_helper(speeds);
+  base_set_speeds_(0, -MAX_LIN_SPEED / 2.0, 0);
 }
 
 void base_strafe_right() {
-  double speeds[3] = {0, MAX_LIN_SPEED / 2.0, 0};
-  base_set_wheel_speeds_helper(speeds);
+  base_set_speeds_(0, MAX_LIN_SPEED / 2.0, 0);
 }
 
 void base_set_wheel_velocity(WbDeviceTag t, double velocity) {
@@ -80,59 +73,46 @@ void base_set_wheel_velocity(WbDeviceTag t, double velocity) {
   wb_motor_set_velocity(t, velocity);
 }
 
-void base_set_wheel_speeds_helper(double *speeds) {
-  int i;
-  double w_motor[3] = {0.0, 0.0, 0.0};
-  double v_x = speeds[1];
-  double v_y = speeds[0];
-  double w = speeds[2];
-
+void base_set_speeds_(double vx, double vy, double omega) {
+  // Because of the orientation of the robot, vx and vy are inverted
   // Conversion matrix from paper, section 4:
   // http://ftp.itam.mx/pub/alfredo/ROBOCUP/SSLDocs/PapersTDPs/omnidrive.pdf
-  w_motor[0] = -0.5 * v_x + 0.866 * v_y + WHEEL_RADIUS_GAP * w;
-  w_motor[1] = -0.5 * v_x - 0.866 * v_y + WHEEL_RADIUS_GAP * w;
-  w_motor[2] = v_x + WHEEL_RADIUS_GAP * w;
+  double w_motor[3] = {0.0, 0.0, 0.0};
+  w_motor[0] = -0.5 * vy + 0.866 * vx + WHEEL_RADIUS_GAP * omega;
+  w_motor[1] = -0.5 * vy - 0.866 * vx + WHEEL_RADIUS_GAP * omega;
+  w_motor[2] = vy + WHEEL_RADIUS_GAP * omega;
 
-  for (i = 0; i < 3; i++)
+  for (int i = 0; i < 3; i++)
     base_set_wheel_velocity(wheels[i], w_motor[i]);
 }
 
 void base_braitenberg_avoidance(double *sensors_values) {
   // Simple obstacle avoidance algorithm
   // - obstacle in front
-  if (sensors_values[0] < OBSTACLE_THRESHOLD) {
+  if (sensors_values[0] < OBSTACLE_THRESHOLD)
     base_backwards();
-  }
   // - obstacle on left side
-  else if (sensors_values[2] < OBSTACLE_THRESHOLD) {
+  else if (sensors_values[2] < OBSTACLE_THRESHOLD)
     base_strafe_right();
-  }
   // - obstacle on right side
-  else if (sensors_values[7] < OBSTACLE_THRESHOLD) {
+  else if (sensors_values[7] < OBSTACLE_THRESHOLD)
     base_strafe_left();
-  }
   // - obstacle behind
-  if (sensors_values[4] < OBSTACLE_THRESHOLD || sensors_values[5] < OBSTACLE_THRESHOLD) {
+  if (sensors_values[4] < OBSTACLE_THRESHOLD || sensors_values[5] < OBSTACLE_THRESHOLD)
     base_forwards();
-  }
   // - obstacle in front left
-  else if (sensors_values[1] < OBSTACLE_THRESHOLD) {
+  else if (sensors_values[1] < OBSTACLE_THRESHOLD)
     base_turn_right();
-  }
   // - obstacle in front right
-  else if (sensors_values[8] < OBSTACLE_THRESHOLD) {
+  else if (sensors_values[8] < OBSTACLE_THRESHOLD)
     base_turn_left();
-  }
   // - obstacle in rear left
-  else if (sensors_values[3] < OBSTACLE_THRESHOLD) {
+  else if (sensors_values[3] < OBSTACLE_THRESHOLD)
     base_turn_right();
-  }
   // - obstacle in rear right_wheel
-  else if (sensors_values[6] < OBSTACLE_THRESHOLD) {
+  else if (sensors_values[6] < OBSTACLE_THRESHOLD)
     base_turn_left();
-  }
   // - no obstacle
-  else {
+  else
     base_forwards();
-  }
 }
