@@ -6,10 +6,10 @@ class Server { // eslint-disable-line no-unused-vars
     this.view = view;
     this.onready = onready;
 
-    // url has the following form: "ws(s)://cyberbotics2.cyberbotics.com:80/simple/worlds/simple.wbt"
+    // url has the following form: "ws(s)://cyberbotics1.epfl.ch:80/simple/worlds/simple.wbt"
     var n = url.indexOf('/', 6);
     var m = url.lastIndexOf('/');
-    this.url = 'http' + url.substring(2, n); // e.g., "http(s)://cyberbotics2.cyberbotics.com:80"
+    this.url = 'http' + url.substring(2, n); // e.g., "http(s)://cyberbotics1.epfl.ch:80"
     this.project = url.substring(n + 1, m - 7); // e.g., "simple"
     this.worldFile = url.substring(m + 1); // e.g., "simple.wbt"
     this.controllers = [];

@@ -199,18 +199,3 @@ It is also possible to set default values for a specific type of object, the nam
   - `road_primary` for roads whose `highway` keyword value is `primary`. In this case the name of the object is `road` and not `highway` because in Webots they are called `road` and not `highway` like in OpenStreetMap.
 
 A typical configuration file is provided in [appendix](a-typical-openstreetmap-importer-configuration-file.md).
-
-## Graphical User Interface
-
-To ease the use of this tool, a graphical interace has been created.
-This grapical interface can easily be started from the last tab of the [robot window](robot-window.md).
-
-%figure "The OpenStreetMap importer graphical user interface"
-
-![osm_gui.png](images/osm_gui.thumbnail.png)
-
-%end
-
-As you can see on [previous picture](#the-openstreetmap-importer-graphical-user-interface), it is easy to set all the arguments of the script using the graphical user interface of the robot window.
-Furthermore, using this graphical interface you can choose either to give an osm file as input or a map area using a latitude-longitude rectangle.
-If you choose to use a latitude-longitude rectangle, it will take care to automatically download the corresponding osm file before launching the script (you will therefore require an internet connexion).

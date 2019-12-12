@@ -85,7 +85,7 @@ const char *wb_robot_get_model();
 const char *wb_robot_get_custom_data();
 void wb_robot_set_custom_data(const char *data);
 WbRobotMode wb_robot_get_mode();
-void wb_robot_set_mode(WbRobotMode mode, void *args);
+void wb_robot_set_mode(WbRobotMode mode, const char *arg);
 bool wb_robot_get_synchronization();
 bool wb_robot_get_supervisor();
 const char *wb_robot_get_project_path();

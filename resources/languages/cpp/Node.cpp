@@ -130,3 +130,15 @@ void Node::setVisibility(Node *from, bool visible) {
 void Node::moveViewpoint() const {
   wb_supervisor_node_move_viewpoint(nodeRef);
 }
+
+void Node::addForce(const double force[3], bool relative) {
+  wb_supervisor_node_add_force(nodeRef, force, relative);
+}
+
+void Node::addForceWithOffset(const double force[3], const double offset[3], bool relative) {
+  wb_supervisor_node_add_force_with_offset(nodeRef, force, offset, relative);
+}
+
+void Node::addTorque(const double torque[3], bool relative) {
+  wb_supervisor_node_add_torque(nodeRef, torque, relative);
+}

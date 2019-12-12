@@ -103,9 +103,12 @@ namespace webots {
     void insertMFString(int index, const std::string &value);
 
     void removeMF(int index);
+    void removeSF();
 
     void importMFNode(int position, const std::string &filename);
     void importMFNodeFromString(int position, const std::string &nodeString);
+    void importSFNode(const std::string &filename);
+    void importSFNodeFromString(const std::string &nodeString);
 
     // Deprecated functions
 

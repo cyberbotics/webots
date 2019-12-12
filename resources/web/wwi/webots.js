@@ -189,7 +189,7 @@ webots.View = class View {
             callback = finalizeWorld;
           this.server = new Server(this.url, this, callback);
           this.server.connect();
-        } else { // url expected form: "ws://cyberbotics2.cyberbotics.com:80"
+        } else { // url expected form: "ws://cyberbotics1.epfl.ch:80"
           var httpServerUrl = this.url.replace(/ws/, 'http'); // Serve the texture images. SSL prefix is supported.
           this.stream = new Stream(this.url, this, finalizeWorld);
           TextureLoader.setTexturePathPrefix(httpServerUrl + '/');

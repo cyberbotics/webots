@@ -92,7 +92,7 @@ DEF SOLID4 Solid {
   physics Physics {
   }
 }
-TestSuiteSupervisor {
+DEF TEST_SUITE_SUPERVISOR TestSuiteSupervisor {
 }
 NonStaticSupervisor {
   controller "supervisor_reset_simulation"

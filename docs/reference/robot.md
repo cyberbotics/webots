@@ -86,7 +86,6 @@ Here is an example of a robot leg with self collision enabled:
     set `minStop` and `maxStop` values for the "Knee" and "Ankle" joints.
 
 - `showWindow`: defines whether the robot window should be shown at the startup of the controller.
-If yes, the related entry point function of the robot window controller plugin (i.e. the `wbw_show` function) is called as soon as the controller is initialized.
 
 - `window`: defines the path of the robot window controller plugin used to display the robot window.
 If the `window` field is empty, the default generic robot window is loaded.
@@ -928,7 +927,7 @@ typedef enum {
 } WbRobotMode;
 
 WbRobotMode wb_robot_get_mode();
-void wb_robot_set_mode(WbRobotMode mode, void *arg);
+void wb_robot_set_mode(WbRobotMode mode, const char *arg);
 ```
 
 %tab-end
@@ -947,7 +946,7 @@ namespace webots {
     } RobotMode;
 
     RobotMode getMode() const;
-    void setMode(RobotMode mode, void *arg);
+    void setMode(RobotMode mode, const char *arg);
     // ...
   }
 }
@@ -979,7 +978,7 @@ public class Robot {
   public final static int MODE_SIMULATION, MODE_CROSS_COMPILATION, MODE_REMOTE_CONTROL;
 
   public int getMode();
-  public void setMode(int mode, SWIGTYPE_p_void arg);
+  public void setMode(int mode, String arg);
   // ...
 }
 ```
@@ -2028,76 +2027,3 @@ The `wb_robot_window_send` and `wb_robot_wwi_send_text` functions allow a robot 
 The message is received using the `webots.window("<robot window name>").receive` method of the Webots JavaScript API.
 
 > **note** [Java, Python, MATLAB, ROS]: `wb_robot_wwi_receive` and `wb_robot_window_send` functions are not available in the Java, Python, MATLAB, or ROS API.
-
----
-
-#### `wb_robot_window_custom_function`
-
-%tab-component "language"
-
-%tab "C"
-
-```c
-#include <webots/robot_window.h>
-
-void *wb_robot_window_custom_function(void *arg);
-```
-
-%tab-end
-
-%tab "C++"
-
-```cpp
-#include <webots/Robot.hpp>
-
-namespace webots {
-  class Robot {
-    void *windowCustomFunction(void *arg);
-    // ...
-  }
-}
-```
-
-%tab-end
-
-%end
-
-##### Description
-
-*communication with the native C/C++ robot window [deprecated]*
-
-The `wb_robot_window_custom_function` function allows a robot controller to communicate with the native C/C++ robot window plugin.
-Native robot windows are deprecated and instead it is recommended to use the HTML robot windows and their API functions: [`wb_robot_wwi_receive_text`](#wb_robot_wwi_receive_text) and [`wb_robot_wwi_send_text`](#wb_robot_wwi_send_text).
-
-When this function is called, the robot window corresponding `wbw_robot_window_custom_function` function is executed.
-This robot window entry point has to be explicitly defined in the plugin.
-Please also note that it can correctly be executed only if the robot window has already been initialized, i.e. if it has already been open at least once.
-You can find more information about robot window plugin in the user guide.
-
-No particular format on the argument is imposed but any user chosen format is suitable as long as the controller and robot window codes agree.
-The following example shows how to send and receive data from the robot window plugin:
-
-```c
-char message[128];
-sprintf(message, "hello");
-int *count = (int *)wb_robot_window_custom_function(message);
-if (count != NULL)
-  printf("Robot window plugin received %d \"hello\" messages\n", count[0]);
-```
-
-And here is the corresponding robot window function definition:
-
-```c
-void *wbw_robot_window_custom_function(void *arg) {
-  static int *count = NULL;
-  if (count == NULL)  {
-    count = new int[1];
-    count[0] = 0;
-  }
-  if (strcmp((const char *)arg, "hello") == 0)
-    count[0]++;
-  return count;
-}
-```
-
-> **Note** [Java, Python, MATLAB]: Given that the native robot window can only be implemented for C/C++ controllers, `wb_robot_window_custom_function` is not available in Java, Python or MATLAB API.

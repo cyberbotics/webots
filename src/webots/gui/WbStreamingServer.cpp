@@ -439,7 +439,7 @@ void WbStreamingServer::processTextMessage(QString message) {
     foreach (WbBaseNode *node, WbWorld::instance()->viewpoint()->getInvisibleNodes())
       client->sendTextMessage(QString("visibility:%1:1").arg(node->uniqueId()));
     // reset the simulation
-    WbApplication::instance()->simulationReset();
+    WbApplication::instance()->simulationReset(true);
     QCoreApplication::processEvents();  // this is required to make sure the simulation reset has been performed before sending
                                         // the update
     mLastUpdateTime = -1.0;

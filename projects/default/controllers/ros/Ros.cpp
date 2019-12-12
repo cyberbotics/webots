@@ -569,7 +569,7 @@ bool Ros::getTypeCallback(webots_ros::get_int::Request &req, webots_ros::get_int
 }
 
 bool Ros::setModeCallback(webots_ros::robot_set_mode::Request &req, webots_ros::robot_set_mode::Response &res) {
-  void *arg;
+  char *arg;
   char buffer[req.arg.size()];
   for (unsigned int i = 0; i < req.arg.size(); i++)
     buffer[i] = req.arg[i];

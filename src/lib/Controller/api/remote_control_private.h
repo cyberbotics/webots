@@ -27,7 +27,7 @@ bool remote_control_is_initialized();
 
 const char *remote_control_get_last_error();
 
-bool remote_control_start(void *);
+bool remote_control_start(const char *);
 void remote_control_stop();
 
 void remote_control_stop_actuators();

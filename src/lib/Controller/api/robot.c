@@ -673,7 +673,7 @@ WbNodeType wb_robot_get_type() {
   return robot.device[0]->node;
 }
 
-void wb_robot_set_mode(WbRobotMode mode, void *args) {
+void wb_robot_set_mode(WbRobotMode mode, const char *arg) {
   if (mode != WB_MODE_SIMULATION && mode != WB_MODE_REMOTE_CONTROL) {
     fprintf(stderr, "Error: Cannot set mode to %d.\n", mode);
     return;
@@ -683,7 +683,7 @@ void wb_robot_set_mode(WbRobotMode mode, void *args) {
     robot.toggle_remote_first_step = true;
   } else if (robot.mode == WB_MODE_SIMULATION && mode == WB_MODE_REMOTE_CONTROL &&
              remote_control_is_initialized()) {  // activate the remote control
-    if (remote_control_start(args)) {
+    if (remote_control_start(arg)) {
       // remote control
       robot.mode = mode;
       robot.toggle_remote_first_step = true;

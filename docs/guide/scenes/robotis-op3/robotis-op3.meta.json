@@ -1,346 +1,346 @@
 {
-  "robotID": "n35", 
-  "name": "robotis-op3", 
   "devices": [
     {
-      "transformID": "n521", 
-      "initialPosition": 0, 
-      "name": "AnkleL", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "0 -1 0"
-    }, 
+      "axis": "0 -1 0",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "AnkleL",
+      "position": 0,
+      "transformID": "n521",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n1087", 
-      "initialPosition": 0, 
-      "name": "AnkleR", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "AnkleR",
+      "position": 0,
+      "transformID": "n1087",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n1408", 
-      "initialPosition": 0, 
-      "name": "ArmLowerL", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "1 0 0"
-    }, 
+      "axis": "1 0 0",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "ArmLowerL",
+      "position": 0,
+      "transformID": "n1408",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n1668", 
-      "initialPosition": 0, 
-      "name": "ArmLowerR", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "1 0 0"
-    }, 
+      "axis": "1 0 0",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "ArmLowerR",
+      "position": 0,
+      "transformID": "n1668",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n1357", 
-      "initialPosition": 0, 
-      "name": "ArmUpperL", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "-1 0 0"
-    }, 
+      "axis": "-1 0 0",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "ArmUpperL",
+      "position": 0,
+      "transformID": "n1357",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n1617", 
-      "initialPosition": 0, 
-      "name": "ArmUpperR", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "-1 0 0"
-    }, 
+      "axis": "-1 0 0",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "ArmUpperR",
+      "position": 0,
+      "transformID": "n1617",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n566", 
-      "initialPosition": 0, 
-      "name": "FootL", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "1 0 0"
-    }, 
+      "axis": "1 0 0",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "FootL",
+      "position": 0,
+      "transformID": "n566",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n1132", 
-      "initialPosition": 0, 
-      "name": "FootR", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "1 0 0"
-    }, 
+      "axis": "1 0 0",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "FootR",
+      "position": 0,
+      "transformID": "n1132",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n1882", 
-      "initialPosition": 0, 
-      "name": "Head", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "0 -1 0"
-    }, 
+      "axis": "0 -1 0",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "Head",
+      "position": 0,
+      "transformID": "n1882",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n378", 
-      "initialPosition": 0, 
-      "name": "LegLowerL", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "LegLowerL",
+      "position": 0,
+      "transformID": "n378",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n944", 
-      "initialPosition": 0, 
-      "name": "LegLowerR", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "0 -1 0"
-    }, 
+      "axis": "0 -1 0",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "LegLowerR",
+      "position": 0,
+      "transformID": "n944",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n275", 
-      "initialPosition": 0, 
-      "name": "LegUpperL", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "LegUpperL",
+      "position": 0,
+      "transformID": "n275",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n841", 
-      "initialPosition": 0, 
-      "name": "LegUpperR", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "0 -1 0"
-    }, 
+      "axis": "0 -1 0",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "LegUpperR",
+      "position": 0,
+      "transformID": "n841",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n1762", 
-      "initialPosition": 0, 
-      "name": "Neck", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "0 0 1"
-    }, 
+      "axis": "0 0 1",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "Neck",
+      "position": 0,
+      "transformID": "n1762",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n231", 
-      "initialPosition": 0, 
-      "name": "PelvL", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "-1 0 0"
-    }, 
+      "axis": "-1 0 0",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "PelvL",
+      "position": 0,
+      "transformID": "n231",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n797", 
-      "initialPosition": 0, 
-      "name": "PelvR", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "-1 0 0"
-    }, 
+      "axis": "-1 0 0",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "PelvR",
+      "position": 0,
+      "transformID": "n797",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n105", 
-      "initialPosition": 0, 
-      "name": "PelvYL", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "0 0 -1"
-    }, 
+      "axis": "0 0 -1",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "PelvYL",
+      "position": 0,
+      "transformID": "n105",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n671", 
-      "initialPosition": 0, 
-      "name": "PelvYR", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "0 0 -1"
-    }, 
+      "axis": "0 0 -1",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "PelvYR",
+      "position": 0,
+      "transformID": "n671",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n1237", 
-      "initialPosition": 0, 
-      "name": "ShoulderL", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "ShoulderL",
+      "position": 0,
+      "transformID": "n1237",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n1497", 
-      "initialPosition": 0, 
-      "name": "ShoulderR", 
-      "maxPosition": 2.82743338823, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -2.82743338823, 
-      "axis": "0 -1 0"
-    }, 
+      "axis": "0 -1 0",
+      "initialPosition": 0,
+      "maxPosition": 2.82743338823,
+      "minPosition": -2.82743338823,
+      "name": "ShoulderR",
+      "position": 0,
+      "transformID": "n1497",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n39", 
-      "name": "BodyLed", 
-      "ledPBRAppearanceIDs": [], 
-      "ledColors": [], 
-      "ledGradual": true, 
+      "ledColors": [],
+      "ledGradual": true,
+      "ledPBRAppearanceIDs": [],
+      "name": "BodyLed",
+      "transformID": "n39",
       "type": "LED"
-    }, 
+    },
     {
-      "transformID": "n1931", 
-      "name": "HeadLed", 
-      "ledPBRAppearanceIDs": [], 
       "ledColors": [
         "0.1 0.5 1"
-      ], 
-      "ledGradual": false, 
+      ],
+      "ledGradual": false,
+      "ledPBRAppearanceIDs": [],
+      "name": "HeadLed",
+      "transformID": "n1931",
       "type": "LED"
-    }, 
+    },
     {
-      "transformID": "n35", 
-      "type": "Accelerometer", 
-      "name": "Accelerometer"
-    }, 
+      "name": "Accelerometer",
+      "transformID": "n35",
+      "type": "Accelerometer"
+    },
     {
-      "transformID": "n521", 
-      "type": "PositionSensor", 
-      "name": "AnkleLS"
-    }, 
+      "name": "AnkleLS",
+      "transformID": "n521",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n1087", 
-      "type": "PositionSensor", 
-      "name": "AnkleRS"
-    }, 
+      "name": "AnkleRS",
+      "transformID": "n1087",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n1408", 
-      "type": "PositionSensor", 
-      "name": "ArmLowerLS"
-    }, 
+      "name": "ArmLowerLS",
+      "transformID": "n1408",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n1668", 
-      "type": "PositionSensor", 
-      "name": "ArmLowerRS"
-    }, 
+      "name": "ArmLowerRS",
+      "transformID": "n1668",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n1357", 
-      "type": "PositionSensor", 
-      "name": "ArmUpperLS"
-    }, 
+      "name": "ArmUpperLS",
+      "transformID": "n1357",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n1617", 
-      "type": "PositionSensor", 
-      "name": "ArmUpperRS"
-    }, 
+      "name": "ArmUpperRS",
+      "transformID": "n1617",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n1882", 
-      "transformOffset": "0.015348 -0.019 0.04975", 
-      "type": "Camera", 
-      "name": "Camera"
-    }, 
+      "name": "Camera",
+      "transformID": "n1882",
+      "transformOffset": "0.015348 -0.019 0.04975",
+      "type": "Camera"
+    },
     {
-      "transformID": "n566", 
-      "type": "PositionSensor", 
-      "name": "FootLS"
-    }, 
+      "name": "FootLS",
+      "transformID": "n566",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n1132", 
-      "type": "PositionSensor", 
-      "name": "FootRS"
-    }, 
+      "name": "FootRS",
+      "transformID": "n1132",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n35", 
-      "type": "Gyro", 
-      "name": "Gyro"
-    }, 
+      "name": "Gyro",
+      "transformID": "n35",
+      "type": "Gyro"
+    },
     {
-      "transformID": "n1882", 
-      "type": "PositionSensor", 
-      "name": "HeadS"
-    }, 
+      "name": "HeadS",
+      "transformID": "n1882",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n378", 
-      "type": "PositionSensor", 
-      "name": "LegLowerLS"
-    }, 
+      "name": "LegLowerLS",
+      "transformID": "n378",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n944", 
-      "type": "PositionSensor", 
-      "name": "LegLowerRS"
-    }, 
+      "name": "LegLowerRS",
+      "transformID": "n944",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n275", 
-      "type": "PositionSensor", 
-      "name": "LegUpperLS"
-    }, 
+      "name": "LegUpperLS",
+      "transformID": "n275",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n841", 
-      "type": "PositionSensor", 
-      "name": "LegUpperRS"
-    }, 
+      "name": "LegUpperRS",
+      "transformID": "n841",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n1762", 
-      "type": "PositionSensor", 
-      "name": "NeckS"
-    }, 
+      "name": "NeckS",
+      "transformID": "n1762",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n231", 
-      "type": "PositionSensor", 
-      "name": "PelvLS"
-    }, 
+      "name": "PelvLS",
+      "transformID": "n231",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n797", 
-      "type": "PositionSensor", 
-      "name": "PelvRS"
-    }, 
+      "name": "PelvRS",
+      "transformID": "n797",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n105", 
-      "type": "PositionSensor", 
-      "name": "PelvYLS"
-    }, 
+      "name": "PelvYLS",
+      "transformID": "n105",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n671", 
-      "type": "PositionSensor", 
-      "name": "PelvYRS"
-    }, 
+      "name": "PelvYRS",
+      "transformID": "n671",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n1237", 
-      "type": "PositionSensor", 
-      "name": "ShoulderLS"
-    }, 
+      "name": "ShoulderLS",
+      "transformID": "n1237",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n1497", 
-      "type": "PositionSensor", 
-      "name": "ShoulderRS"
-    }, 
+      "name": "ShoulderRS",
+      "transformID": "n1497",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n35", 
-      "transformOffset": "0.0385 0.001 0.098", 
-      "type": "Speaker", 
-      "name": "Speaker"
+      "name": "Speaker",
+      "transformID": "n35",
+      "transformOffset": "0.0385 0.001 0.098",
+      "type": "Speaker"
     }
-  ]
+  ],
+  "name": "robotis-op3",
+  "robotID": "n35"
 }

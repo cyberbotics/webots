@@ -177,10 +177,10 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 CarpetFibers {
-  SFColor  colorOverride    1 1 1
-  SFString type             "wooly"
-  SFNode   textureTransform NULL
-  SFFloat  IBLStrength      1
+  SFColor                                   colorOverride    1 1 1
+  SFString                                  type             "wooly"
+  SFNode                                    textureTransform NULL
+  SFFloat                                   IBLStrength      1
 }
 ```
 
@@ -262,6 +262,36 @@ ChequeredParquetry {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
+## Copper
+
+A copper material.
+
+%figure
+
+![Copper](images/appearances/Copper.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+Copper {
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Copper.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/Copper.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### Copper Field Summary
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
 ## CorrodedMetal
 
 A corroded metal material. The color can be overridden using the `colorOverride` field.
@@ -321,6 +351,72 @@ CorrugatedMetal {
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### CorrugatedMetal Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
+## CorrugatedPlates
+
+A corrugated plates material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![CorrugatedPlates](images/appearances/CorrugatedPlates.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+CorrugatedPlates {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrugatedPlates.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/CorrugatedPlates.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### CorrugatedPlates Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
+## CorrugatedPvc
+
+A corrugated PVC material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![CorrugatedPvc](images/appearances/CorrugatedPvc.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+CorrugatedPvc {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrugatedPvc.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/CorrugatedPvc.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### CorrugatedPvc Field Summary
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
@@ -394,6 +490,36 @@ DarkParquetry {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
+## DryMud
+
+A dry mud material with cracks.
+
+%figure
+
+![DryMud](images/appearances/DryMud.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+DryMud {
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/DryMud.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/DryMud.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### DryMud Field Summary
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
 ## ElectricConduit
 
 An electric conduit material. The color can be overridden using the `colorOverride` field.
@@ -455,6 +581,36 @@ FlexibleAluminiumDuct {
 ### FlexibleAluminiumDuct Field Summary
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
+## FormedConcrete
+
+A formed concrete material.
+
+%figure
+
+![FormedConcrete](images/appearances/FormedConcrete.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+FormedConcrete {
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/FormedConcrete.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/FormedConcrete.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### FormedConcrete Field Summary
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -923,6 +1079,36 @@ Parquetry {
 ### Parquetry Field Summary
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
+## Pcb
+
+A PCB material.
+
+%figure
+
+![Pcb](images/appearances/Pcb.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+Pcb {
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Pcb.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/Pcb.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### Pcb Field Summary
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1622,3 +1808,4 @@ WireFence {
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+

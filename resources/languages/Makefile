@@ -17,7 +17,6 @@ include ../Makefile.os.include
 .PHONY: release debug profile
 
 release debug profile clean:
-	@echo "#"; echo "# *** languages ***"
 	@echo "# make" $@ cpp;
 	+make -s -C cpp $@
 	@echo "# make" $@ java;

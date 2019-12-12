@@ -100,6 +100,7 @@ void WbRobot::init() {
   mMouse = NULL;
 
   mControllerStarted = false;
+  mNeedToRestartController = false;
   mConfigureRequest = true;
   mSimulationModeRequested = false;
   mMonitoredUserInputEventTypes = -1;
@@ -608,6 +609,10 @@ void WbRobot::postPhysicsStep() {
       mBatterySensor->updateTimer();  // so that the battery sensor returns 0
     }
     setCurrentEnergy(energy);
+  }
+  if (mNeedToRestartController) {
+    restartController();
+    mNeedToRestartController = false;
   }
   if (mSupervisorUtilities)
     mSupervisorUtilities->postPhysicsStep();
