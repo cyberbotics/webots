@@ -10,7 +10,7 @@ This new Webots version focuses on improving the performance of the scene load a
 
 This article only lists some of the major changes.
 Besides these, we are always fixing bugs and improving the quality and robustness of Webots.
-Please refer to the changelog for a comprehensive list of all the changes, found [here](../reference/changelog-R2020.md).
+Please refer to the changelog for a comprehensive list of all the changes, found [here](../reference/changelog-r2020.md).
 
 ---
 
