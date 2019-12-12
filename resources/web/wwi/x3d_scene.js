@@ -87,7 +87,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   render() {
     if (this.nextRenderingTime && this.nextRenderingTime > (new Date()).getTime()) {
-      if (!this.renderTimeout)
+      if (!this.renderingTimeout)
         this.renderingTimeout = setTimeout(() => this.render(), 40);
       return;
     }
