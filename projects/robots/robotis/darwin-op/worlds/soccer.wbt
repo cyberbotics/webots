@@ -13,10 +13,12 @@ Viewpoint {
   follow "ROBOTIS OP2"
 }
 TexturedBackground {
-  luminosity 2
+  texture "noon_cloudy_countryside"
+  luminosity 1.5
 }
 TexturedBackgroundLight {
-  luminosity 0.7
+  texture "noon_cloudy_countryside"
+  luminosity 0.5
 }
 RobotstadiumSoccerField {
   frame1Color 0.9 0.8 0.2
