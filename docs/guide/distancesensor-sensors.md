@@ -72,7 +72,7 @@ PROTO SharpGP2Y0A02YK0F {
 The `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) is already implemented according to it characteristics found in his [datasheet](https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a02yk_e.pdf).
 
 The function `wb_distance_sensor_get_value` return the voltage/intensity of the measurement. To convert these values, use the following formulas:
-- Given meter, the result expected is in voltage: y(x) = 1.784*x^(-0.4215)-1.11
+- Given meter, the result expected is in voltage: `y(x) = 1.784*x^(-0.4215)-1.11`
 - Given voltage, the result expected is in meter: y(x) = 0.7611*x^(-0.9313)-0.1252
 
 #### Sharp GP2Y0A41SK0F
