@@ -93,6 +93,8 @@ int main(int argc, char **argv) {
     wb_robot_step(TIME_STEP);
     // reset simulation
     wb_supervisor_simulation_reset();
+    wb_supervisor_node_restart_controller(wb_supervisor_node_get_self());
+    wb_supervisor_node_restart_controller(wb_supervisor_node_get_from_def("TEST_SUITE_SUPERVISOR"));
   } else if (strcmp(argv[1], "supervisor_reset_simulation_iteration_1") == 0) {
     wb_supervisor_field_set_sf_string(controllerArgs_field, "supervisor_reset_simulation_iteration_2");
     // check that the non-static PROTO node was regenerated

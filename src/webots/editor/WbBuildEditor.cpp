@@ -274,7 +274,7 @@ void WbBuildEditor::reloadMessageBoxIfNeeded() {
         if (ret == 0)
           emit reloadRequested();
         else if (ret == 1)
-          emit resetRequested();
+          emit resetRequested(true);
       }
     } else
       WbLog::appendStdout("Nothing to be done for build targets.\n");
@@ -376,7 +376,6 @@ void WbBuildEditor::make(const QString &target) {
   env.remove("C_SOURCES");
   env.remove("CXX_SOURCES");
   env.remove("USE_C_API");
-  env.remove("QT");
   mProcess->setProcessEnvironment(env);
 
   // disable buttons

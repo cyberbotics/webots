@@ -28,10 +28,10 @@
 # - twilight_cloudy_empty
 
 PROTO TexturedBackgroundLight [
-  field  SFString{"dawn_cloudy_empty", "dusk", "empty_office", "entrance_hall", "factory", "mars", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
-                  texture        "mountains"  # Should be equivalent to the 'texture' field of the TexturedBackground.
-  field  SFFloat  luminosity  1               # Multiplies the `Light.intensity` field.
-  field  SFBool   castShadows    TRUE         # Defines whether the light should cast shadows.
+  field SFString{"dawn_cloudy_empty", "dusk", "empty_office", "entrance_hall", "factory", "mars", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
+                 texture        "mountains"  # Should be equivalent to the 'texture' field of the TexturedBackground.
+  field SFFloat  luminosity     1            # Multiplies the `Light.intensity` field.
+  field SFBool   castShadows    TRUE         # Defines whether the light should cast shadows.
 ]
 {
   %{

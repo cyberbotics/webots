@@ -19,10 +19,7 @@ PROTO E-puckGroundSensors [
         translation 0 0.014 0
         children [
           Shape {
-            appearance PBRAppearance {
-              baseColor 0.117647 0.815686 0.65098
-              metalness 0
-              roughness 0.5
+            appearance Pcb {
             }
             geometry Box {
               size 0.027 0.02 0.001
@@ -47,8 +44,8 @@ PROTO E-puckGroundSensors [
         ]
         name "gs0"
         lookupTable [
-          0 1000 0.1
-          0.016 300 0.1
+          0 1000 0.002
+          0.016 300 0.004
         ]
         type "infra-red"
       }
@@ -60,8 +57,8 @@ PROTO E-puckGroundSensors [
         ]
         name "gs1"
         lookupTable [
-          0 1000 0.1
-          0.016 300 0.1
+          0 1000 0.002
+          0.016 300 0.004
         ]
         type "infra-red"
       }
@@ -73,8 +70,8 @@ PROTO E-puckGroundSensors [
         ]
         name "gs2"
         lookupTable [
-          0 1000 0.1
-          0.016 300 0.1
+          0 1000 0.002
+          0.016 300 0.004
         ]
         type "infra-red"
       }

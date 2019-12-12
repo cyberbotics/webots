@@ -63,6 +63,7 @@ public:
   const QString &controllerDir();
   bool isConfigureDone() const { return !mConfigureRequest; }
   void restartController();
+  void setControllerNeedRestart() { mNeedToRestartController = true; }
   bool isWaitingForUserInputEvent() const;
   bool isWaitingForWindow() const { return mWaitingForWindow; }
   void setWaitingForWindow(bool waiting);
@@ -183,6 +184,7 @@ private:
   bool mModelNeedToWriteAnswer;
   bool mPowerOn;
   bool mControllerStarted;
+  bool mNeedToRestartController;
   bool mConfigureRequest;
   bool mSimulationModeRequested;
 

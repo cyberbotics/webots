@@ -348,9 +348,9 @@ void WbHingeJoint::postPhysicsStep() {
 void WbHingeJoint::updatePosition() {
   // Update triggered by an artificial move, i.e. a move caused by the user or a Supervisor
   const WbJointParameters *const p = parameters();
-  assert(p);
+
   if (solidReference() == NULL && solidEndPoint())
-    updatePosition(p->position());
+    updatePosition(p ? p->position() : mPosition);
 
   emit updateMuscleStretch(0.0, true, 1);
 }

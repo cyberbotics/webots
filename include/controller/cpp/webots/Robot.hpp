@@ -75,7 +75,7 @@ namespace webots {
     std::string getCustomData() const;
     void setCustomData(const std::string &data);
     Mode getMode() const;
-    void setMode(Mode, void *);
+    void setMode(Mode, const char *);
     bool getSupervisor() const;
     bool getSynchronization() const;
     std::string getProjectPath() const;

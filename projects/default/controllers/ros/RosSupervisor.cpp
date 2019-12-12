@@ -105,6 +105,12 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                                 &RosSupervisor::nodeGetVelocityCallback, this);
   mNodeSetVelocityServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/set_velocity",
                                                                 &RosSupervisor::nodeSetVelocityCallback, this);
+  mNodeAddForceServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/add_force",
+                                                             &RosSupervisor::nodeAddForceCallback, this);
+  mNodeAddForceWithOffsetServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/add_force_with_offset",
+                                                                       &RosSupervisor::nodeAddForceWithOffsetCallback, this);
+  mNodeAddTorqueServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/add_torque",
+                                                              &RosSupervisor::nodeAddTorqueCallback, this);
   mNodeGetFieldServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_field",
                                                              &RosSupervisor::nodeGetFieldCallback, this);
   mNodeMoveViewpointServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/move_viewpoint",
@@ -580,6 +586,49 @@ bool RosSupervisor::nodeSetVelocityCallback(webots_ros::node_set_velocity::Reque
   return true;
 }
 
+bool RosSupervisor::nodeAddForceCallback(webots_ros::node_add_force_or_torque::Request &req,
+                                         webots_ros::node_add_force_or_torque::Response &res) {
+  assert(this);
+  Node *node = reinterpret_cast<Node *>(req.node);
+  double force[3];
+  force[0] = req.force.x;
+  force[1] = req.force.y;
+  force[2] = req.force.z;
+  node->addForce((const double *)force, req.relative);
+  res.success = 1;
+  return true;
+}
+
+bool RosSupervisor::nodeAddForceWithOffsetCallback(webots_ros::node_add_force_with_offset::Request &req,
+                                                   webots_ros::node_add_force_with_offset::Response &res) {
+  assert(this);
+  Node *node = reinterpret_cast<Node *>(req.node);
+  double force[3];
+  force[0] = req.force.x;
+  force[1] = req.force.y;
+  force[2] = req.force.z;
+  double offset[3];
+  offset[0] = req.offset.x;
+  offset[1] = req.offset.y;
+  offset[2] = req.offset.z;
+  node->addForceWithOffset((const double *)force, (const double *)offset, req.relative);
+  res.success = 1;
+  return true;
+}
+
+bool RosSupervisor::nodeAddTorqueCallback(webots_ros::node_add_force_or_torque::Request &req,
+                                          webots_ros::node_add_force_or_torque::Response &res) {
+  assert(this);
+  Node *node = reinterpret_cast<Node *>(req.node);
+  double torque[3];
+  torque[0] = req.force.x;
+  torque[1] = req.force.y;
+  torque[2] = req.force.z;
+  node->addTorque((const double *)torque, req.relative);
+  res.success = 1;
+  return true;
+}
+
 bool RosSupervisor::nodeGetFieldCallback(webots_ros::node_get_field::Request &req, webots_ros::node_get_field::Response &res) {
   assert(this);
   Node *node = reinterpret_cast<Node *>(req.node);
@@ -987,10 +1036,12 @@ bool RosSupervisor::fieldRemoveCallback(webots_ros::field_remove::Request &req, 
   assert(this);
   Field *field = reinterpret_cast<Field *>(req.field);
   res.success = 1;
-  if (field->getType() <= 0x09)
-    res.success = 0;
-  else
+  if (field->getType() == Field::SF_NODE)
+    field->removeSF();
+  else if (field->getType() & Field::MF)
     field->removeMF(req.index);
+  else
+    res.success = 0;
   return true;
 }
 
@@ -998,8 +1049,13 @@ bool RosSupervisor::fieldImportNodeCallback(webots_ros::field_import_node::Reque
                                             webots_ros::field_import_node::Response &res) {
   assert(this);
   Field *field = reinterpret_cast<Field *>(req.field);
-  field->importMFNode(req.position, req.filename);
   res.success = 1;
+  if (field->getType() == Field::SF_NODE)
+    field->importSFNode(req.filename);
+  else if (field->getType() == Field::MF_NODE)
+    field->importMFNode(req.position, req.filename);
+  else
+    res.success = 0;
   return true;
 }
 
@@ -1007,8 +1063,14 @@ bool RosSupervisor::fieldImportNodeFromStringCallback(webots_ros::field_import_n
                                                       webots_ros::field_import_node_from_string::Response &res) {
   assert(this);
   Field *field = reinterpret_cast<Field *>(req.field);
-  field->importMFNodeFromString(req.position, req.nodeString);
   res.success = 1;
+  if (field->getType() == Field::SF_NODE)
+    field->importSFNodeFromString(req.nodeString);
+  else if (field->getType() == Field::MF_NODE)
+    field->importMFNodeFromString(req.position, req.nodeString);
+  else
+    res.success = 0;
+
   return true;
 }
 

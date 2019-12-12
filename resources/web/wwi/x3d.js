@@ -8,6 +8,8 @@ THREE.X3DLoader = class X3DLoader {
     this.scene = scene;
     this.parsedObjects = [];
     this.directionalLights = [];
+
+    this.enableHDRReflections = true;
   };
 
   load(url, onLoad, onProgress, onError) {
@@ -989,7 +991,7 @@ THREE.X3DLoader = class X3DLoader {
       cubeTexture.needsUpdate = true;
     }
 
-    if (irradianceEnabled) {
+    if (irradianceEnabled && this.enableHDRReflections) {
       let cubeTexture = new THREE.CubeTexture();
       cubeTexture.format = THREE.RGBFormat;
       cubeTexture.type = THREE.FloatType;
