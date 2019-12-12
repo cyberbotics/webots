@@ -64,7 +64,7 @@ static void step() {
 }
 
 static void passive_wait(double sec) {
-  double start_time = wb_robot_get_time();
+  const double start_time = wb_robot_get_time();
   do {
     step();
   } while (start_time + sec > wb_robot_get_time());
