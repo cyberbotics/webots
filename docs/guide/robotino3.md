@@ -42,7 +42,7 @@ Robotino3 {
 - `topExtension`: Extends the robot with new parts such as lidar.
 - `middleExtension`: Extends the robot with new parts such as lidar.
 - `bottomExtension`: Extends the robot with new parts such as lidar.
-- `InfraredSensorModel`: Defines the infrared sensors used (such as the `GP2Y0A41SK0F` from Sharp).
+- `InfraredSensorModel`: Defines the infrared sensors used (it should be one of `SharpGP2D120`, `SharpGP2Y0A41SK0F` or `SharpGP2Y0A02YK0F`).
 
 
 ### Sample
