@@ -45,8 +45,8 @@ To let you model more realistic robots and environments we expanded our PBRAppea
 
 | | | |
 | :---: | :---: | :---: |
-| ![Copper](../guide/images/appearances/Copper.thumbnail.png) |  ![CorrugatedPlates](../guide/images/appearances/CorrugatedPlates.thumbnail.pngg) |  ![CorrugatedPvc](../guide/images/appearances/CorrugatedPvc.thumbnail.png) |
-| ![DryMud](../guide/images/appearances/DryMud.thumbnail.png) |  ![FormedConcrete](../guide/images/appearances/FormedConcrete.thumbnail.png) |  ![Pcb](../guide/images/appearances/Pcb.thumbnail.png) |
+| ![Copper](images/appearances/Copper.thumbnail.png) |  ![CorrugatedPlates](images/appearances/CorrugatedPlates.thumbnail.pngg) |  ![CorrugatedPvc](images/appearances/CorrugatedPvc.thumbnail.png) |
+| ![DryMud](images/appearances/DryMud.thumbnail.png) |  ![FormedConcrete](images/appearances/FormedConcrete.thumbnail.png) |  ![Pcb](images/appearances/Pcb.thumbnail.png) |
 
 
 ---
