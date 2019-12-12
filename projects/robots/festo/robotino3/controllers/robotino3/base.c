@@ -37,31 +37,31 @@
 WbDeviceTag wheels[3];
 
 void base_reset() {
-  base_set_speeds_(0.0, 0.0, 0.0);
+  base_set_speeds(0.0, 0.0, 0.0);
 }
 
 void base_forwards() {
-  base_set_speeds_(MAX_LIN_SPEED / 2.0, 0, 0);
+  base_set_speeds(MAX_LIN_SPEED / 2.0, 0, 0);
 }
 
 void base_backwards() {
-  base_set_speeds_(-MAX_LIN_SPEED / 2.0, 0, 0);
+  base_set_speeds(-MAX_LIN_SPEED / 2.0, 0, 0);
 }
 
 void base_turn_left() {
-  base_set_speeds_(0, 0, -3.0 * MAX_LIN_SPEED / 2.0);
+  base_set_speeds(0, 0, -3.0 * MAX_LIN_SPEED / 2.0);
 }
 
 void base_turn_right() {
-  base_set_speeds_(0, 0, 3.0 * MAX_LIN_SPEED / 2.0);
+  base_set_speeds(0, 0, 3.0 * MAX_LIN_SPEED / 2.0);
 }
 
 void base_strafe_left() {
-  base_set_speeds_(0, -MAX_LIN_SPEED / 2.0, 0);
+  base_set_speeds(0, -MAX_LIN_SPEED / 2.0, 0);
 }
 
 void base_strafe_right() {
-  base_set_speeds_(0, MAX_LIN_SPEED / 2.0, 0);
+  base_set_speeds(0, MAX_LIN_SPEED / 2.0, 0);
 }
 
 void base_set_wheel_velocity(WbDeviceTag t, double velocity) {
@@ -73,7 +73,7 @@ void base_set_wheel_velocity(WbDeviceTag t, double velocity) {
   wb_motor_set_velocity(t, velocity);
 }
 
-void base_set_speeds_(double vx, double vy, double omega) {
+void base_set_speeds(double vx, double vy, double omega) {
   // Because of the orientation of the robot, vx and vy are inverted
   // Conversion matrix from paper, section 4:
   // http://ftp.itam.mx/pub/alfredo/ROBOCUP/SSLDocs/PapersTDPs/omnidrive.pdf
