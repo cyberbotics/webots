@@ -43,14 +43,10 @@ Note that we deprecated some of the old default backgrounds that were not in HDR
 
 To let you model more realistic robots and environments we expanded our PBRAppearance library with some new PROTO files.
 
-[TODO picture(s) of the new Appearances]
-
-- Copper
-- CorrugatedPlates
-- CorrugatedPvc
-- DryMud
-- FormedConcrete
-- Pcb
+| | | |
+| :---: | :---: | :---: |
+| ![Copper](../guide/images/appearances/Copper.thumbnail.png) |  ![CorrugatedPlates](../guide/images/appearances/CorrugatedPlates.thumbnail.pngg) |  ![CorrugatedPvc](../guide/images/appearances/CorrugatedPvc.thumbnail.png) |
+| ![DryMud](../guide/images/appearances/DryMud.thumbnail.png) |  ![FormedConcrete](../guide/images/appearances/FormedConcrete.thumbnail.png) |  ![Pcb](../guide/images/appearances/Pcb.thumbnail.png) |
 
 
 ---
