@@ -45,15 +45,22 @@ To let you model more realistic robots and environments we expanded our PBRAppea
 
 | | | |
 | :---: | :---: | :---: |
-| ![Copper](images/appearances/Copper.thumbnail.png) |  ![CorrugatedPlates](images/appearances/CorrugatedPlates.thumbnail.pngg) |  ![CorrugatedPvc](images/appearances/CorrugatedPvc.thumbnail.png) |
-| ![DryMud](images/appearances/DryMud.thumbnail.png) |  ![FormedConcrete](images/appearances/FormedConcrete.thumbnail.png) |  ![Pcb](images/appearances/Pcb.thumbnail.png) |
+| ![Copper](images/appearances/Copper.thumbnail.png) | ![CorrugatedPlates](images/appearances/CorrugatedPlates.thumbnail.png) |  ![CorrugatedPvc](images/appearances/CorrugatedPvc.thumbnail.png) |
+| ![DryMud](images/appearances/DryMud.thumbnail.png) | ![FormedConcrete](images/appearances/FormedConcrete.thumbnail.png) |  ![Pcb](images/appearances/Pcb.thumbnail.png) |
 
 
 ---
 
 ## New TIAGo Robot Model
 
-[TODO]
+
+%figure "Tiago Model in Webots"
+![Tiago Model in Webots](images/tiago.jpg)
+%end
+
+| | | |  |  |
+| :---: | :---: | :---: | :---: | :---: |
+| ![Tiago Base](images/tiago_base.thumbnail.png) | ![Tiago Iron](images/tiago_iron.thumbnail.png) | ![Tiago Steel](images/tiago_steel.thumbnail.png) | ![Tiago Titanium](images/tiago_titanium.thumbnail.png) | ![Tiago++](images/tiagopp.thumbnail.png) |
 
 
 ---
