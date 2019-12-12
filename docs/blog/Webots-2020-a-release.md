@@ -62,8 +62,12 @@ To let you model more realistic robots and environments we expanded our PBRAppea
 
 We are always collecting feedbacks form users, and in particular recently we received many requests about adding new functionalities to the [Supervisor API](../reference/supervisor.md).
 
-So for this release we extended the [Supervisor API](../reference/supervisor.md) with many new functions:
-[TODO]
+So for this release we extended the [Supervisor API](../reference/supervisor.md) features to be able to:
+  - Add [force](../reference/supervisor#wb_supervisor_node_add_force) or [torque](../reference/supervisor#wb_supervisor_node_add_torque) to a [Solid](../reference/solid.md) node.
+  - [Import](../reference/supervisor#wb_supervisor_field_import_sf_node) and [remove](../reference/supervisor#wb_supervisor_field_remove_sf) nodes in SFNode fields.
+  - [Reset](../reference/supervisor#wb_supervisor_simulation_reset) the simulation without restarting the controllers.
+
+We also improved the [rest of the physic](../reference/supervisor#wb_supervisor_simulation_reset_physics) to avoid explosion of dynamic articulated objects.
 
 ---
 
