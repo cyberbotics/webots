@@ -45,11 +45,12 @@ To let you model more realistic robots and environments we expanded our PBRAppea
 
 [TODO picture(s) of the new Appearances]
 
-- DryMud
+- Copper
 - CorrugatedPlates
 - CorrugatedPvc
+- DryMud
 - FormedConcrete
-
+- Pcb
 
 
 ---
