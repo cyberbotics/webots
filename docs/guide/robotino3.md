@@ -29,7 +29,7 @@ Robotino3 {
   MFNode      topExtension     []
   MFNode      middleExtension  []
   MFNode      bottomExtension  []
-  SFString{"SharpGP2D120", "SharpGP2Y0A41SK0F", "SharpGP2Y0A02YK0F"}   InfraredSensorModel    "SharpGP2D120"
+  SFString   InfraredSensorModel    "SharpGP2D120"
 }
 ```
 
