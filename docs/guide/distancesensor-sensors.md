@@ -107,7 +107,7 @@ The `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) 
 
 The function `wb_distance_sensor_get_value` return the voltage/intensity of the measurement. To convert these values, use the following formulas:
 - Given meter, the result expected is in voltage: `y(x) = 0.5131*x^(-0.5735)-0.6143`
-- Given voltage, the result expected is in meter: y(x) = 0.1594*x^(-0.8533)-0.02916
+- Given voltage, the result expected is in meter: `y(x) = 0.1594*x^(-0.8533)-0.02916`
 
 
 #### Sharp GP2Y0A710K0F
