@@ -6,7 +6,8 @@
 
 Here we are! It's already time for a new Webots release!
 
-This new Webots version focuses on improving the performance of the scene load and the robustness of the simulation. But as usual we also extended our robot and asset library with new environments, worlds and appearances.
+This new Webots version focuses on improving the performance of the scene load and the robustness of the simulation.
+But as usual we also extended our robot and asset library with new environments, worlds and appearances.
 
 This article only lists some of the major changes.
 Besides these, we are always fixing bugs and improving the quality and robustness of Webots.
