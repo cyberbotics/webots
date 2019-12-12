@@ -14,43 +14,6 @@ Please refer to the changelog for a comprehensive list of all the changes, found
 
 ---
 
-## Simplify the HDR Backgrounds
-
-In last releases we did a great effort to improve the quality of the rendering in Webots, using PBR and HDR backgrounds.
-Unfortunately former equirectangular HDR background images turned out to be very heavy and memory-intensive.
-This is causing some issues with low to mid range graphics cards and in general they are significantly slowing down the world loading.
-That's why we dropped the support of the equirectangular HDR images and the `Cubemap` node.
-Instead we restored the standard `<cube_face>Url` VRML fields and added the new `<cube_face>IrradianceUrl` and `luminosity` fields of the [Background](../reference/background.md) node to specify light reflections and scale the light contribution on the [PBR appearances](../reference/pbrappearance.md).
-So now we have a better performance with the same realistic rendering quality.
-
-%figure "New structure of Background node"
-![New Background Fields](images/background_new_fields.thumbnail.png)
-%end
-
-But do not worry about the compatibility of your custom HDR backgrounds!
-We are now also providing some tools to help you with the update.
-You can find them on the [Webots GitHub repository](https://github.com/cyberbotics/webots/tree/R2020a/scripts/image_tools), and in case you need some help with the conversion please do not hesitate to contact us on Discord.
-
-### Updated TexturedBackground PROTO
-
-The [TexturedBackground PROTO](../guide/object-backgrounds.md#texturedbackground) has been updated accordingly to the new [Background](../reference/background.md) node definition and we added some new HDR textures.
-
-Note that we deprecated some of the old default backgrounds that were not in HDR format.
-
----
-
-## New Appearances
-
-To let you model more realistic robots and environments we expanded our PBRAppearance library with some new PROTO files.
-
-| | | |
-| :---: | :---: | :---: |
-| ![Copper](images/appearances/Copper.thumbnail.png) | ![CorrugatedPlates](images/appearances/CorrugatedPlates.thumbnail.png) |  ![CorrugatedPvc](images/appearances/CorrugatedPvc.thumbnail.png) |
-| ![DryMud](images/appearances/DryMud.thumbnail.png) | ![FormedConcrete](images/appearances/FormedConcrete.thumbnail.png) |  ![Pcb](images/appearances/Pcb.thumbnail.png) |
-
-
----
-
 ## New TIAGo Robots Model
 
 Simulate the TIAGo robot from [PAL Robotics](http://pal-robotics.com/) in Webots.
@@ -78,6 +41,42 @@ So for this release we extended the [Supervisor API](../reference/supervisor.md)
   - [Reset](../reference/supervisor.md#wb_supervisor_simulation_reset) the simulation without restarting the controllers.
 
 We also improved the [rest of the physic](../reference/supervisor.md#wb_supervisor_simulation_reset_physics) to avoid explosion of dynamic articulated objects.
+
+---
+
+## New Appearances
+
+To let you model more realistic robots and environments we expanded our PBRAppearance library with some new PROTO files.
+
+| | | |
+| :---: | :---: | :---: |
+| ![Copper](images/appearances/Copper.thumbnail.png) | ![CorrugatedPlates](images/appearances/CorrugatedPlates.thumbnail.png) |  ![CorrugatedPvc](images/appearances/CorrugatedPvc.thumbnail.png) |
+| ![DryMud](images/appearances/DryMud.thumbnail.png) | ![FormedConcrete](images/appearances/FormedConcrete.thumbnail.png) |  ![Pcb](images/appearances/Pcb.thumbnail.png) |
+
+---
+
+## Simplify the HDR Backgrounds
+
+In last releases we did a great effort to improve the quality of the rendering in Webots, using PBR and HDR backgrounds.
+Unfortunately former equirectangular HDR background images turned out to be very heavy and memory-intensive.
+This is causing some issues with low to mid range graphics cards and in general they are significantly slowing down the world loading.
+That's why we dropped the support of the equirectangular HDR images and the `Cubemap` node.
+Instead we restored the standard `<cube_face>Url` VRML fields and added the new `<cube_face>IrradianceUrl` and `luminosity` fields of the [Background](../reference/background.md) node to specify light reflections and scale the light contribution on the [PBR appearances](../reference/pbrappearance.md).
+So now we have a better performance with the same realistic rendering quality.
+
+%figure "New structure of Background node"
+![New Background Fields](images/background_new_fields.thumbnail.png)
+%end
+
+But do not worry about the compatibility of your custom HDR backgrounds!
+We are now also providing some tools to help you with the update.
+You can find them on the [Webots GitHub repository](https://github.com/cyberbotics/webots/tree/R2020a/scripts/image_tools), and in case you need some help with the conversion please do not hesitate to contact us on Discord.
+
+### Updated TexturedBackground PROTO
+
+The [TexturedBackground PROTO](../guide/object-backgrounds.md#texturedbackground) has been updated accordingly to the new [Background](../reference/background.md) node definition and we added some new HDR textures.
+
+Note that we deprecated some of the old default backgrounds that were not in HDR format.
 
 ---
 
