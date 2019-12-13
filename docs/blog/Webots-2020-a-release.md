@@ -7,7 +7,7 @@
 Here we are! It's already time for a new Webots release!
 
 This new Webots version focuses on improving the performance of the scene load and the robustness of the simulation.
-But as usual we also extended our robot and asset library with new environments, worlds and appearances.
+But as usual we also extended our asset library with new robots, objects, environments and appearances.
 Moreover the [Supervisor API](../reference/supervisor.md) has been extended.
 
 This article only lists some of the major changes.
