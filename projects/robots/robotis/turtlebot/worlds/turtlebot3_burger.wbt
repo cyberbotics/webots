@@ -1,16 +1,89 @@
 #VRML_SIM R2020a utf8
 WorldInfo {
+  basicTimeStep 64
 }
 Viewpoint {
-  orientation -0.06080641761548266 0.9671039689377149 0.24700707042854242 2.7793013348592814
-  position 0.4134100328433465 0.573692024876985 -0.9423608686983941
+  orientation 0.3997983819956711 0.8905692950516011 0.21690455150811835 5.188871747341162
+  position -1.2985888613086023 0.8019966598476307 0.84451439831719
+  follow "TurtleBot3Burger"
+  followType "Pan and Tilt Shot"
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
-RectangleArena {
-  floorSize 2 2
+CircleArena {
+  radius 3
+  wallHeight 0.4
+}
+WoodenBox {
+  translation 0.467367 0.15 0.545426
+  size 0.3 0.3 0.3
+}
+WoodenBox {
+  translation 1.26618 0.15 -1.07342
+  name "wooden box(1)"
+  size 0.3 0.3 0.3
+}
+WoodenBox {
+  translation -0.15697 0.15 -0.782967
+  name "wooden box(2)"
+  size 0.3 0.3 0.3
+}
+WoodenBox {
+  translation -1.62271 0.15 -1.08968
+  name "wooden box(3)"
+  size 0.3 0.3 0.3
+}
+WoodenBox {
+  translation -1.09887 0.15 0.301011
+  name "wooden box(4)"
+  size 0.3 0.3 0.3
+}
+WoodenBox {
+  translation -2.71307 0.15 0.22263
+  name "wooden box(7)"
+  size 0.3 0.3 0.3
+}
+WoodenBox {
+  translation -0.744103 0.15 -2.69736
+  name "wooden box(8)"
+  size 0.3 0.3 0.3
+}
+WoodenBox {
+  translation 2.30103 0.15 -0.203241
+  name "wooden box(9)"
+  size 0.3 0.3 0.3
+}
+WoodenBox {
+  translation 0.005323 0.15 1.57959
+  name "wooden box(5)"
+  size 0.3 0.3 0.3
+}
+WoodenBox {
+  translation -1.0974 0.15 1.8598
+  name "wooden box(6)"
+  size 0.3 0.3 0.3
 }
 TurtleBot3Burger {
+  controller "turtlebot3_ostacle_avoidance"
+  extensionSlot [
+    Lidar {
+      translation 0 0.01 0
+      name "LDS-01"
+      boundingObject Box {
+        size 0.01 0.01 0.01
+      }
+      physics Physics {
+        density -1
+        mass 0.125
+      }
+      horizontalResolution 360
+      fieldOfView 6.28318
+      numberOfLayers 1
+      minRange 0.12
+      maxRange 3.5
+      noise 0.0043
+    }
+  ]
 }
