@@ -84,7 +84,7 @@ Note that we deprecated some of the old default backgrounds that were not in HDR
 
 ## Viewpoint Follow Functionality
 
-We all know that make the Viewpoint follow smoothly the simulation to record fancy movies or just to run nice simulations could be tricky.
+We all know that it could be tricky to make the viewpoint follow smoothly a robot to record fancy movies or just to run nice simulations.
 To help you in this task, we replaced the `followOrientation` field of the [Viewpoint](../reference/viewpoint.md) node with the `followType` and added a new "Pan and Tilt Shot" option that will automatically move the viewpoint so that it always looks at the object center.
 
 ---
