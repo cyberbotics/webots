@@ -3,6 +3,7 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # This is a PROTO file for Webots of a mounting support for the robot Robotino 3 from Festo and a webcam.
 # It is a feature for Robotino 3 to fullfil your requirement.
+# Use it with the "cameraExtension" field of the Robotino 3 robot.
 
 PROTO Robotino3WebcamMountingSupport [
   field  SFVec3f     translation  0 0 0
@@ -92,6 +93,8 @@ PROTO Robotino3WebcamMountingSupport [
           ]
         }
       ]
+    }
+    physics Physics {
     }
   }
 }

@@ -42,7 +42,8 @@ PROTO Robotino3 [
       DEF EXT_webcam Transform {
         children IS cameraExtension
       }
-      DEF EXT_platform Solid {
+      DEF EXT_platform Transform {
+        translation 0 0 0.28
         children IS bodyExtension
       }
       DEF EXT_bottom_pos Transform {

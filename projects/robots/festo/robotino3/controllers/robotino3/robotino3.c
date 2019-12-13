@@ -22,6 +22,7 @@
  *              by the 9 infrared sensors as input.
  */
 
+#include <webots/camera.h>
 #include <webots/device.h>
 #include <webots/distance_sensor.h>
 #include <webots/keyboard.h>
@@ -43,12 +44,14 @@ static int old_key = -1;
 static bool demo = false;
 static bool autopilot = true;
 static bool old_autopilot = true;
-static bool display_message = true;
+static bool display_message = false;
 
 extern WbDeviceTag wheels[3];
+static WbDeviceTag camera;
 static WbDeviceTag infrared_sensors[NUMBER_OF_INFRARED_SENSORS];
 static const char *infrared_sensors_names[NUMBER_OF_INFRARED_SENSORS] = {"ir1", "ir2", "ir3", "ir4", "ir5",
                                                                          "ir6", "ir7", "ir8", "ir9"};
+static const char *camera_name = {"Webcam for Robotino 3"};
 
 double convert_volt_to_meter(WbDeviceTag tag, double V) {
   const char *model = wb_device_get_model(tag);
@@ -228,6 +231,10 @@ static void check_keyboard() {
 int main(int argc, char **argv) {
   // Initialization
   wb_robot_init();
+
+  // Get and enable the camera
+  camera = wb_robot_get_device(camera_name);
+  wb_camera_enable(camera, TIME_STEP);
 
   // Get and enable the infrared sensors
   for (int i = 0; i < NUMBER_OF_INFRARED_SENSORS; ++i) {

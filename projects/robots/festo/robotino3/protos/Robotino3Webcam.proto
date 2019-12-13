@@ -10,25 +10,22 @@ PROTO Robotino3Webcam [
   field  SFRotation  rotation       0 1 0 0
   field  SFString    name           "Webcam for Robotino 3"
   field  SFString    model          "Festo - Robotino's webcam"
+  field  SFInt32     width          640
+  field  SFInt32     height         480
 ]
 {
   Solid {
     translation IS translation
     rotation IS rotation
-    name IS name
+    name %{= "\"" .. fields.name.value .. "_solid\"" }%
     model IS model
     children [
       Camera {
         translation 0 -0.11 0.303
-        rotation 1 0 0 -1.5707953071795862
-        lens Lens {
-        }
-        focus Focus {
-        }
-        recognition Recognition {
-        }
-        lensFlare LensFlare {
-        }
+        rotation 0 0.707 0.707 3.1416
+        name IS name
+        width IS width
+        height IS height
       }
       Group {
         children [

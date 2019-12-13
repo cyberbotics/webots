@@ -74,6 +74,14 @@ Robotino3 {
     Robotino3Webcam {
     }
   ]
+  topExtension [
+    Robotino3HokuyoMountingSupport {
+      extension [
+        HokuyoUrg04lxug01 {
+        }
+      ]
+    }
+  ]
 }
 WoodenBox {
   translation -6.2 0.405 -7
