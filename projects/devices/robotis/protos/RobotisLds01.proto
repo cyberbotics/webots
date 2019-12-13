@@ -28,6 +28,7 @@ PROTO RobotisLds01 [
             device [
               RotationalMotor {
                 name %{= "\"" .. fields.name.value .. "_main_motor\"" }%
+                maxVelocity 40
               }
             ]
             endPoint Solid {
@@ -74,6 +75,7 @@ PROTO RobotisLds01 [
             device [
               RotationalMotor {
                 name %{= "\"" .. fields.name.value .. "_secondary_motor\"" }%
+                maxVelocity 150
               }
             ]
             endPoint Solid {
