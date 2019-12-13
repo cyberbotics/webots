@@ -33,6 +33,21 @@ Several models of the robot have been created for Webots:
 
 ---
 
+## ROS 2 & Webots
+
+ROS 2 Eloquent has been [released](https://index.ros.org/doc/ros2/Releases/Release-Eloquent-Elusor/) approximately once month ago.
+We understood the high interest for ROS 2 among the robotic community and we are therefore proud to annouce that Webots is now compatible with the following versions of ROS 2:
+  - [Crystal Clemmys](https://index.ros.org/doc/ros2/Releases/Release-Crystal-Clemmys)
+  - [Dashing Diademata](https://index.ros.org/doc/ros2/Releases/Release-Dashing-Diademata)
+  - [Eloquent Elusor](https://index.ros.org/doc/ros2/Releases/Release-Eloquent-Elusor)
+
+%figure "Simulation of UR and ABB robots in Webots with ROS 2"
+![ROS 2 in Webots](images/ros2_demo.thumbnail.gif)
+%end
+
+
+---
+
 ## Extended Supervisor API
 
 We are always collecting feedbacks form users, and in particular recently we received many requests about adding new functionalities to the [Supervisor API](../reference/supervisor.md).
