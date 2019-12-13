@@ -48,7 +48,7 @@ We also improved the [rest of the physic](../reference/supervisor.md#wb_supervis
 
 ## New Appearances
 
-To let you model more realistic robots and environments we expanded our PBRAppearance library with some new PROTO files.
+To let you model more realistic robots and environments we expanded our `PBRAppearance` library with some new PROTO files.
 
 | | | |
 | :---: | :---: | :---: |
