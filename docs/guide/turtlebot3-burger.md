@@ -37,4 +37,4 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### turtlebot3_burger.wbt
 
-![turtlebot3_burger.wbt.jpg](images/robots/turtlebot3burger/turtlebot3_burger.wbt.jpg) This simulation shows a TurtleBot3 Burger navigating in a circle arena avoiding obstacle using its [Lidar](../reference/lidar.md) sensor.
+![turtlebot3\_burger.wbt.jpg](images/robots/turtlebot3burger/turtlebot3_burger.wbt.jpg) This simulation shows a TurtleBot3 Burger navigating in a circle arena avoiding obstacle using its [Lidar](../reference/lidar.md) sensor.
