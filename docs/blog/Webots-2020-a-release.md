@@ -42,8 +42,6 @@ So for this release we extended the [Supervisor API](../reference/supervisor.md)
   - [Import](../reference/supervisor.md#wb_supervisor_field_import_sf_node) and [remove](../reference/supervisor.md#wb_supervisor_field_remove_sf) nodes in SFNode fields.
   - [Reset](../reference/supervisor.md#wb_supervisor_simulation_reset) the simulation without restarting the robot controllers.
 
-We also improved the [reset of the physics](../reference/supervisor.md#wb_supervisor_simulation_reset_physics) to avoid dynamics explosions with articulated objects.
-
 ---
 
 ## New Appearances
