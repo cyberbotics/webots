@@ -68,22 +68,7 @@ WoodenBox {
 TurtleBot3Burger {
   controller "turtlebot3_ostacle_avoidance"
   extensionSlot [
-    Lidar {
-      translation 0 0.01 0
-      name "LDS-01"
-      boundingObject Box {
-        size 0.01 0.01 0.01
-      }
-      physics Physics {
-        density -1
-        mass 0.125
-      }
-      horizontalResolution 360
-      fieldOfView 6.28318
-      numberOfLayers 1
-      minRange 0.12
-      maxRange 3.5
-      noise 0.0043
+    RobotisLds01 {
     }
   ]
 }
