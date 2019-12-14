@@ -67,8 +67,4 @@ WoodenBox {
 }
 TurtleBot3Burger {
   controller "turtlebot3_ostacle_avoidance"
-  extensionSlot [
-    RobotisLds01 {
-    }
-  ]
 }
