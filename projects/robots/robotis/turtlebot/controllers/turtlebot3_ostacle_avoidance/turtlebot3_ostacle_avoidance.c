@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
   WbDeviceTag lidar = wb_robot_get_device("LDS-01");
   wb_lidar_enable(lidar, TIME_STEP);
   wb_lidar_enable_point_cloud(lidar);
-  
+
   // get lidar motor and enable rotation (only for visualization, no effect on the sensor)
   WbDeviceTag lidar_main_motor = wb_robot_get_device("LDS-01_main_motor");
   WbDeviceTag lidar_secondary_motor = wb_robot_get_device("LDS-01_secondary_motor");
@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
   wb_motor_set_position(lidar_secondary_motor, INFINITY);
   wb_motor_set_velocity(lidar_main_motor, 30.0);
   wb_motor_set_velocity(lidar_secondary_motor, 60.0);
-  
+
 
   // get the motors and enable velocity control
   WbDeviceTag right_motor = wb_robot_get_device("right wheel motor");
