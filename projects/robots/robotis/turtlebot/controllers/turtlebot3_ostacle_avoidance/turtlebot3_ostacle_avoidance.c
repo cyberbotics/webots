@@ -45,7 +45,6 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(lidar_main_motor, 30.0);
   wb_motor_set_velocity(lidar_secondary_motor, 60.0);
 
-
   // get the motors and enable velocity control
   WbDeviceTag right_motor = wb_robot_get_device("right wheel motor");
   WbDeviceTag left_motor = wb_robot_get_device("left wheel motor");
