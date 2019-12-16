@@ -51,7 +51,7 @@ Simulate the [Robotino 3](../guide/robotino3.md) from [Festo](https://www.festo-
 ![Robotino 3](images/robotino3.jpg)
 %end
 
-This omnidirectional robot is highly configurable, you can therefore easily add some lidar, camera or grippers.
+This omnidirectional robot is highly configurable, you can therefore easily add some lidar, camera or gripper.
 
 ---
 
