@@ -56,6 +56,7 @@ CONTROLLERS=\
   picaxe/microbot/controllers.Makefile \
   robotis/bioloid/controllers.Makefile \
   robotis/darwin-op/controllers.Makefile \
+  robotis/turtlebot/controllers.Makefile \
   sony/qrio/controllers.Makefile \
   sphero/bb8/controllers.Makefile \
   surveyor/controllers.Makefile \

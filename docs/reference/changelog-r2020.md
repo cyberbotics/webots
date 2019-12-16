@@ -5,7 +5,8 @@ Released on December YYth, 2019.
 
   - New Robots
     - Added several TIAGo robots from PAL Robotics: [TIAGo Base](../guide/tiago-base.md), [TIAGo Iron](../guide/tiago-iron.md), [TIAGo Steel](../guide/tiago-steel.md), [TIAGo Titanium](../guide/tiago-titanium.md) and [TIAGo++](../guide/tiagopp.md).
-    - Added Robotino 3 from Festo: [Robotino 3](../guide/robotino3.md).
+    - Added a model of the [Robotino 3](../guide/robotino3.md) from [Festo](https://www.festo-didactic.com/int-en/).
+    - Added a model of the [TurtleBot3 Burger](../guide/turtlebot3-burger.md) from [Robotis](http://www.robotis.us/) and its [LDS-01](../guide/lidar-sensors.md#robotis-lds-01) lidar sensor.
   - New Samples
     - Added a `complete_apartment` world.
   - New Features
@@ -18,7 +19,7 @@ Released on December YYth, 2019.
       - Introduced the `Background.*IrradianceUrl` fields to define an `HDR` irradiance map.
       - Added image tools to help with `HDR` format and equirectangular projections.
       - Added new HDR background: `entrance_hall`
-    - Added several new appearances: `Copper`, `CorrugatedPlates`, `CorrugatedPvc`, `DryMud`, `FormedConcrete` and  `Pcb`.
+    - Added several new appearances: `Copper`, `CorrugatedPlates`, `CorrugatedPvc`, `DryMud`, `FormedConcrete`,  `Pcb`, `RoughPolymer` and `TireRubber`.
     - Replaced the [Viewpoint](viewpoint.md) `followOrientation` field by a `followType` field for more flexibility.
     - Added new functions to add force and torque to [Solid](solid.md) nodes: `wb_supervisor_node_add_force`, `wb_supervisor_node_add_force_with_offset` and `wb_supervisor_node_add_torque`.
     - Added function to import and remove nodes from SFNode fields: `wb_supervisor_field_remove_sf`, `wb_supervisor_field_import_sf_node` and `wb_supervisor_field_import_sf_node_from_string`.
@@ -33,6 +34,7 @@ Released on December YYth, 2019.
     - Linux: Added support for Python 3.8.
   - Enhancements
     - **Updated argument type in the [`wb_robot_set_mode()`](robot.md#wb_robot_set_mode) function from `void *` to `const char *`.**
+    - **Renamed the `physics` field of the `MultiSenseS21` and `SickLdMrs` PROTO nodes into `enablePhysics`.**
     - Improved the [Sick LD MRS](../guide/lidar-sensors.md#sick-ld-mrs) PROTO to support the following types: `400001`, `400102`, `400001S01`, `400102S01` and `800001S01`.
     - **Improved the [`wb_supervisor_simulation_reset`](supervisor.md#wb_supervisor_simulation_reset) to avoid restarting the controllers, if needed the controllers can be restarted with [`wb_supervisor_node_restart_controller`](supervisor.md#wb_supervisor_node_restart_controller).**
     - Set the [ABB IRB 4600/40](../guide/irb4600-40.md) root node to [Robot](robot.md) instead of [Solid](solid.md) to be able to insert it everywhere.

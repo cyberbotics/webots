@@ -1346,6 +1346,39 @@ RoughPine {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
+## RoughPolymer
+
+A rough polymer material.
+
+%figure
+
+![RoughPolymer](images/appearances/RoughPolymer.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+RoughPolymer {
+  SFColor baseColor        1 1 1
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughPolymer.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/RoughPolymer.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### RoughPolymer Field Summary
+
+- `baseColor`: Defines the base color of the material.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
 ## Roughcast
 
 A rough plaster material. Useful with the `Wall` PROTO.
@@ -1742,6 +1775,40 @@ ThreadMetalPlate {
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
+## TireRubber
+
+A tire rubber material.
+It can be a car tire or a bike tire.
+
+%figure
+
+![TireRubber](images/appearances/TireRubber.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+TireRubber {
+  SFNode                  textureTransform NULL
+  SFFloat                 IBLStrength      1
+  SFString                type             "car"
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/TireRubber.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/TireRubber.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### TireRubber Field Summary
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+
+- `type`: Defines the type of tire.
 
 ## VarnishedPine
 
