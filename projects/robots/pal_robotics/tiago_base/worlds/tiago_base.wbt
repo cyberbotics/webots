@@ -52,7 +52,7 @@ DEF ROOF RectangleArena {
 }
 TiagoBase {
   translation -4.416 0.095 -1.063
-  lidarExtension [
+  lidarSlot [
     HokuyoUrg04lxug01 {
     }
   ]

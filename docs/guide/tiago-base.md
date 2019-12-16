@@ -13,19 +13,19 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 TiagoBase {
-  SFVec3f      translation     0 0 0
-  SFRotation   rotation        1 0 0 -1.5708
-  SFString     name            "TIAGo Base"
-  SFString     controller      "tiagoBase"
-  SFString     controllerArgs  ""
-  SFString     customData      ""
-  SFBool       supervisor      FALSE
-  SFBool       synchronization TRUE
-  SFBool       selfCollision   FALSE
-  SFString     model           "TIAGo Base"
-  SFString     description     "two-wheeled robot designed by PAL Robotics"
-  MFNode       bodyExtension   []
-  MFNode       lidarExtension  []
+  SFVec3f      translation      0 0 0
+  SFRotation   rotation         1 0 0 -1.5708
+  SFString     name             "TIAGo Base"
+  SFString     controller       "tiagoBase"
+  SFString     controllerArgs   ""
+  SFString     customData       ""
+  SFBool       supervisor       FALSE
+  SFBool       synchronization  TRUE
+  SFBool       selfCollision    FALSE
+  SFString     model            "TIAGo Base"
+  SFString     description      "two-wheeled robot designed by PAL Robotics"
+  MFNode       bodySlot         []
+  MFNode       lidarSlot        []
 }
 ```
 
@@ -33,8 +33,8 @@ TiagoBase {
 
 #### TiagoBase Field Summary
 
-- `bodyExtension`:  Extends the robot with new nodes (such as the `TiagoBody` for example).
-- `lidarExtension`: Extends the robot with a lidar.
+- `bodySlot`:  Extends the robot with new nodes (such as the `TiagoBody` for example).
+- `lidarSlot`: Extends the robot with a lidar.
 
 ### Sample
 
