@@ -1,8 +1,8 @@
 ## DistanceSensor Sensors
 
-Some predefined [DistanceSensor](../reference/distancesensor.md) models are present in Webots such as some infrared sensors.
+Adding a generic [DistanceSensor](../reference/distancesensor.md) node is sufficient for most of the applications because they are customizable (resolution, lookupTable, aperture, etc.).
 
-Nevertheless, adding a generic [DistanceSensor](../reference/distancesensor.md) node is sufficient for most of the applications because they are customizable (resolution, lookupTable, aperture, etc.).
+Additionally, some predefined commercialized models are available in Webots such as some infrared sensors.
 
 ### Sharp
 
@@ -38,7 +38,7 @@ The `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) 
 
 The `wb_distance_sensor_get_value` function returns the voltage/intensity of the measurement. To convert these values, use the following formulas:
 - Convert meters to voltage: `y(x) = 0.5131*x^(-0.5735)-0.6143`
-- Given voltage, the result expected is in meter: `y(x) = 0.1594*x^(-0.8533)-0.02916`
+- Convert voltage to meters: `y(x) = 0.1594*x^(-0.8533)-0.02916`
 
 #### Sharp GP2Y0A02YK0F
 
@@ -73,7 +73,7 @@ The `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) 
 
 The `wb_distance_sensor_get_value` function returns the voltage/intensity of the measurement. To convert these values, use the following formulas:
 - Convert meters to voltage: `y(x) = 1.784*x^(-0.4215)-1.11`
-- Given voltage, the result expected is in meter: `y(x) = 0.7611*x^(-0.9313)-0.1252`
+- Convert voltage to meters: `y(x) = 0.7611*x^(-0.9313)-0.1252`
 
 #### Sharp GP2Y0A41SK0F
 
@@ -106,8 +106,8 @@ PROTO SharpGP2Y0A41SK0F {
 The `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) is already implemented according to the characteristics found in the [datasheet](https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a41sk_e.pdf).
 
 The `wb_distance_sensor_get_value` function returns the voltage/intensity of the measurement. To convert these values, use the following formulas:
-- Given meter, the result expected is in voltage: `y(x) = 0.5131*x^(-0.5735)-0.6143`
-- Given voltage, the result expected is in meter: `y(x) = 0.1594*x^(-0.8533)-0.02916`
+- Convert meters to voltage: `y(x) = 0.5131*x^(-0.5735)-0.6143`
+- Convert voltage to meters: `y(x) = 0.1594*x^(-0.8533)-0.02916`
 
 
 #### Sharp GP2Y0A710K0F
@@ -142,5 +142,5 @@ PROTO SharpGP2Y0A710K0F {
 The `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) is already implemented according to it characteristics found in his [datasheet](https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a710k_e.pdf).
 
 The function `wb_distance_sensor_get_value` return the voltage/intensity of the measurement. To convert these values, use the following formulas:
-- Given meter, the result expected is in voltage: `y(x) = 1.962*x^(-0.5214)+0.4926`
-- Given voltage, the result expected is in meter: `y(x) = 20.24*x^(-4.76)+0.6632`
+- Convert meters to voltage: `y(x) = 1.962*x^(-0.5214)+0.4926`
+- Convert voltage to meters: `y(x) = 20.24*x^(-4.76)+0.6632`

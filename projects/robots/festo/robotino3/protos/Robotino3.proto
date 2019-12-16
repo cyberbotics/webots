@@ -16,11 +16,11 @@ PROTO Robotino3 [
   field  SFBool      supervisor        FALSE
   field  SFBool      synchronization   TRUE
   field  SFBool      selfCollision     FALSE      # Enables/disables the detection of collisions within the robot.
-  field  MFNode      bodyExtension     []         # Extends the robot with a platform.
-  field  MFNode      cameraExtension   []         # Extends the robot with a camera.
-  field  MFNode      topExtension      []         # Extends the robot.
-  field  MFNode      middleExtension   []         # Extends the robot.
-  field  MFNode      bottomExtension   []         # Extends the robot.
+  field  MFNode      topSlot           []         # Extends the robot.
+  field  MFNode      bodySlot          []         # Extends the robot with a platform.
+  field  MFNode      cameraSlot        []         # Extends the robot with a camera.
+  field  MFNode      middleSlot        []         # Extends the robot.
+  field  MFNode      bottomSlot        []         # Extends the robot.
   field  SFString{"SharpGP2D120", "SharpGP2Y0A41SK0F", "SharpGP2Y0A02YK0F"}  infraredSensorModel    "SharpGP2Y0A41SK0F"      # Extends the robot with infrared sensors.
 ]
 {
@@ -40,26 +40,26 @@ PROTO Robotino3 [
     model IS model
     children [
       DEF EXT_webcam Transform {
-        children IS cameraExtension
+        children IS cameraSlot
       }
       DEF EXT_platform Transform {
         translation 0 0 0.28
-        children IS bodyExtension
+        children IS bodySlot
       }
       DEF EXT_bottom_pos Transform {
         translation 0 -0.12 0.062
         rotation 1 0 0 -1.5708
-        children IS bottomExtension
+        children IS bottomSlot
       }
       DEF EXT_middle_pos Transform {
         translation 0.0299983 -0.062 0.084
         rotation 0 0 -1 -1.5708
-        children IS middleExtension
+        children IS middleSlot
       }
       DEF EXT_top_pos Transform {
         translation -0.03 -0.0328 0.2128
         rotation 0 0 1 -1.5708
-        children IS topExtension
+        children IS topSlot
       }
       Accelerometer {
       }

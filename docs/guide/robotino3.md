@@ -24,11 +24,11 @@ Robotino3 {
   SFBool      supervisor          FALSE
   SFBool      synchronization     TRUE
   SFBool      selfCollision       FALSE   # Enables/disables the detection of collisions within the robot.
-  MFNode      bodyExtension       []
-  MFNode      cameraExtension     []
-  MFNode      topExtension        []
-  MFNode      middleExtension     []
-  MFNode      bottomExtension     []
+  MFNode      bodySlot            []
+  MFNode      cameraSlot          []
+  MFNode      topSlot             []
+  MFNode      middleSlot          []
+  MFNode      bottomSlot          []
   SFString    InfraredSensorModel "SharpGP2D120"
 }
 ```
@@ -37,11 +37,11 @@ Robotino3 {
 
 #### Robotino 3 Field Summary
 
-- `bodyExtension` : Extends the robot with new nodes (such as the `Robotino3Platform` for example).
-- `cameraExtension` : Extends the robot with a camera (such as the `Robotino3Webcam` for example).
-- `topExtension`: Extends the robot with new parts such as lidar.
-- `middleExtension`: Extends the robot with new parts such as lidar.
-- `bottomExtension`: Extends the robot with new parts such as lidar.
+- `bodySlot` : Extends the robot with new nodes (such as the `Robotino3Platform` for example).
+- `cameraSlot` : Extends the robot with a camera (such as the `Robotino3Webcam` for example).
+- `topSlot`: Extends the robot with new parts such as lidar.
+- `middleSlot`: Extends the robot with new parts such as lidar.
+- `bottomSlot`: Extends the robot with new parts such as lidar.
 - `InfraredSensorModel`: Defines the infrared sensors used (it should be one of `SharpGP2D120`, `SharpGP2Y0A41SK0F` or `SharpGP2Y0A02YK0F`).
 
 

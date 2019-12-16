@@ -70,11 +70,11 @@ DEF ROOF RectangleArena {
 Robotino3 {
   translation -4.896 0.00815182 -0.32
   rotation -0.57735 0.57735 0.57735 2.0944
-  cameraExtension [
+  cameraSlot [
     Robotino3Webcam {
     }
   ]
-  topExtension [
+  topSlot [
     Robotino3HokuyoMountingSupport {
       extension [
         HokuyoUrg04lxug01 {
