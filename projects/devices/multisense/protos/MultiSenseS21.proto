@@ -19,7 +19,7 @@ PROTO MultiSenseS21 [
   field SFBool     rightCamera         TRUE
   field SFBool     metaCamera          FALSE
   field SFBool     metaRangeFinder     FALSE
-  field SFBool     physics             TRUE
+  field SFBool     enablePhysics       TRUE
 ]
 {
   Solid {
@@ -151,7 +151,7 @@ PROTO MultiSenseS21 [
         }
       }
     ]
-    %{ if fields.physics.value then }%
+    %{ if fields.enablePhysics.value then }%
       physics Physics {
         density -1
         mass 1.5

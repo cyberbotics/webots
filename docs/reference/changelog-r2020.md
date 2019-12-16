@@ -33,6 +33,7 @@ Released on December YYth, 2019.
     - Linux: Added support for Python 3.8.
   - Enhancements
     - **Updated argument type in the [`wb_robot_set_mode()`](robot.md#wb_robot_set_mode) function from `void *` to `const char *`.**
+    - **Renamed the `physics` field of the `MultiSenseS21` and `SickLdMrs` PROTO nodes into `enablePhysics`.**
     - Improved the [Sick LD MRS](../guide/lidar-sensors.md#sick-ld-mrs) PROTO to support the following types: `400001`, `400102`, `400001S01`, `400102S01` and `800001S01`.
     - **Improved the [`wb_supervisor_simulation_reset`](supervisor.md#wb_supervisor_simulation_reset) to avoid restarting the controllers, if needed the controllers can be restarted with [`wb_supervisor_node_restart_controller`](supervisor.md#wb_supervisor_node_restart_controller).**
     - Set the [ABB IRB 4600/40](../guide/irb4600-40.md) root node to [Robot](robot.md) instead of [Solid](solid.md) to be able to insert it everywhere.

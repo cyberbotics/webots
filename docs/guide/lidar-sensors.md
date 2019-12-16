@@ -137,17 +137,17 @@ The `Robotis LDS-01` is a 1 layer lidar with a range of up to 3.5 meters and a f
 
 ```
 RobotisLds01 {
-  SFVec3f    translation 0 0.02 0
-  SFRotation rotation    0 1 0 0
-  SFString   name        "LDS-01"
-  SFFloat    noise       0.0043
-  SFBool     physics     TRUE
+  SFVec3f    translation    0 0.02 0
+  SFRotation rotation       0 1 0 0
+  SFString   name           "LDS-01"
+  SFFloat    noise          0.0043
+  SFBool     enablePhysics  TRUE
 }
 ```
 
 The `noise` field specifies the standard deviation of the gaussian depth noise in meters.
 
-The `physics` field specifies if the sensor should be affected by physics (mass = 0.125 [kg]) or not.
+The `enablePhysics` field specifies if the sensor should be affected by physics (mass = 0.125 [kg]) or not.
 
 ### SICK
 
@@ -221,7 +221,7 @@ SickLdMrs {
   SFString   type              "400001"
   SFString   angularResolution "0.5 [deg]"
   SFFloat    noise             0.001
-  SFBool     physics           TRUE
+  SFBool     enablePhysics     TRUE
 }
 ```
 
@@ -235,7 +235,7 @@ From the `SICK LD-MRS` specification, it can be either 0.5, 0.25 or 0.125 degree
 Internally, the `Lidar.horizontalResolution` is directly affected by this field.
 The value could be one of the following: `0.5 [deg]`, `0.25 [deg]` or `0.125 [deg]`.
 
-The `physics` field specifies if the sensor should be affected by physics (mass = 1 [kg]) or not.
+The `enablePhysics` field specifies if the sensor should be affected by physics (mass = 1 [kg]) or not.
 
 ### Velodyne
 

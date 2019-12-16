@@ -477,7 +477,7 @@ CapScrew {
   SFFloat    screwRadius      0.006
   SFFloat    screwLength      0.05
   SFString   contactMaterial  "default"
-  SFBool     physics           TRUE
+  SFBool     enablePhysics    TRUE
 }
 ```
 
@@ -494,7 +494,7 @@ CapScrew {
 
 - `screwLength`: Defines the length of the screw.
 
-- `physics`: Defines whether the screw should have physics.
+- `enablePhysics`: Defines whether the screw should have physics.
 
 ### ElectricalPlug
 
