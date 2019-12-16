@@ -29,6 +29,7 @@ CONTROLLERS=\
   clearpath/pr2/controllers.Makefile \
   dji/mavic/controllers.Makefile \
   epfl/biorob/controllers.Makefile \
+  festo/robotino3/controllers.Makefile \
   fujitsu/hoap2/controllers.Makefile \
   gctronic/e-puck/controllers.Makefile \
   gctronic/elisa/controllers.Makefile \

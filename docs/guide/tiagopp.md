@@ -13,26 +13,26 @@ More information on the TIAGo++ robot can be found on their [website](http://blo
 Derived from [Robot](../reference/robot.md).
 ```
 Tiago++ {
-  SFVec3f     translation        0 0 0
-  SFRotation  rotation           1 0 0 -1.5708
-  SFString    name               "TIAGo++"
-  SFString    controller         "tiago++"
-  SFString    controllerArgs     ""
-  SFString    customData         ""
-  SFBool      supervisor         FALSE
-  SFBool      synchronization    TRUE
-  SFBool      selfCollision      FALSE
-  MFNode      lidarExtension     []
-  MFNode      endEffectorRight   TiagoGripper{}
-  MFNode      endEffectorLeft    TiagoGripper{}
+  SFVec3f     translation           0 0 0
+  SFRotation  rotation              1 0 0 -1.5708
+  SFString    name                  "TIAGo++"
+  SFString    controller            "tiago++"
+  SFString    controllerArgs        ""
+  SFString    customData            ""
+  SFBool      supervisor            FALSE
+  SFBool      synchronization       TRUE
+  SFBool      selfCollision         FALSE
+  MFNode      lidarSlot             []
+  MFNode      endEffectorRightSlot  TiagoGripper{}
+  MFNode      endEffectorLeftSlot   TiagoGripper{}
 }
 ```
 > **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago++/protos/Tiago++.proto](https://github.com/cyberbotics/webots/tree/master/projects/robots/pal_robotics/tiago++/protos/Tiago++.proto)"
 
 #### Tiago++ Field Summary
 
-- `endEffectorRight`: Extends the right arm with new nodes (such as the `TiagoRightHey5` for example).
-- `endEffectorLeft`: Extends the left arm with new nodes (such as the `TiagoLeftHey5` for example).
+- `endEffectorRightSlot`: Extends the right arm with new nodes (such as the `TiagoRightHey5` for example).
+- `endEffectorLeftSlot`: Extends the left arm with new nodes (such as the `TiagoLeftHey5` for example).
 
 ### Sample
 
