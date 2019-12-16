@@ -1373,7 +1373,7 @@ RoughPolymer {
 
 ### RoughPolymer Field Summary
 
-- `baseColor`: Defines the base color of the materil.
+- `baseColor`: Defines the base color of the material.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 

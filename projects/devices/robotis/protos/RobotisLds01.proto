@@ -11,7 +11,7 @@ PROTO RobotisLds01 [
   field SFRotation rotation          0 1 0 0
   field SFString   name              "LDS-01"
   field SFFloat    noise             0.0043
-  field SFBool     physics           TRUE
+  field SFBool     enablePhysics     TRUE
 ]
 {
   Lidar {
@@ -185,7 +185,7 @@ PROTO RobotisLds01 [
         name "screw0"
         screwRadius 0.0015
         screwLength 0.02
-        physics IS physics
+        enablePhysics IS enablePhysics
       }
       CapScrew {
         translation -0.0245 -0.0105 -0.035
@@ -193,7 +193,7 @@ PROTO RobotisLds01 [
         name "screw1"
         screwRadius 0.0015
         screwLength 0.02
-        physics IS physics
+        enablePhysics IS enablePhysics
       }
       CapScrew {
         translation -0.0245 -0.0105 -0.035
@@ -201,7 +201,7 @@ PROTO RobotisLds01 [
         name "screw2"
         screwRadius 0.0015
         screwLength 0.02
-        physics IS physics
+        enablePhysics IS enablePhysics
       }
       CapScrew {
         translation -0.0245 -0.0105 -0.035
@@ -209,7 +209,7 @@ PROTO RobotisLds01 [
         name "screw3"
         screwRadius 0.0015
         screwLength 0.02
-        physics IS physics
+        enablePhysics IS physics
       }
     ]
     name IS name
@@ -234,7 +234,7 @@ PROTO RobotisLds01 [
         }
       ]
     }
-    %{ if fields.physics.value then }%
+    %{ if fields.enablePhysics.value then }%
     physics Physics {
       density -1
       mass 0.125
