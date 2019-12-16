@@ -1352,7 +1352,7 @@ A rough polymer material.
 
 %figure
 
-![RoughPolymer](images/appearances/RoughPolymer.png)
+![RoughPolymer](images/appearances/RoughPolymer.thumbnail.png)
 
 %end
 
@@ -1783,7 +1783,7 @@ It can be a car tire or a bike tire.
 
 %figure
 
-![TireRubber](images/appearances/TireRubber.png)
+![TireRubber](images/appearances/TireRubber.thumbnail.png)
 
 %end
 
