@@ -5,10 +5,10 @@
 # It is the robot's left arm that can be connected to the TIAGo body.
 
 PROTO TiagoLeftArm [
-  field  SFVec3f     translation  0 0 0
-  field  SFRotation  rotation     0 0 1 0
-  field  SFString    name         "TIAGo left arm"
-  field  MFNode      endEffector  []                # Extends the arm with an end-effector (such as the TiagoGripper or the TiagoLeftHey5 for example).
+  field  SFVec3f     translation      0 0 0
+  field  SFRotation  rotation         0 0 1 0
+  field  SFString    name             "TIAGo left arm"
+  field  MFNode      endEffectorSlot  []                # Extends the arm with an end-effector (such as the TiagoGripper or the TiagoLeftHey5 for example).
 ]
 {
   Solid {
