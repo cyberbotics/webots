@@ -788,8 +788,8 @@ function sliderMotorCallback(transform, slider) {
     transform.updateMatrix();
   } else {
     // Compute angle.
-    var angle = initialPosition;
-    angle += value - position;
+    var angle = value - position;
+
     // Apply the new axis-angle.
     var q = new THREE.Quaternion();
     q.setFromAxisAngle(
