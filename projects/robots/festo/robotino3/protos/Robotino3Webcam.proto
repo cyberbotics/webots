@@ -6,12 +6,12 @@
 # The model is based on the Logitech® HD Pro Webcam C920.
 
 PROTO Robotino3Webcam [
-  field  SFVec3f     translation    0 0 0
-  field  SFRotation  rotation       0 1 0 0
-  field  SFString    name           "Webcam for Robotino 3"
-  field  SFString    model          "Festo - Robotino's webcam"
-  field  SFInt32     width          640
-  field  SFInt32     height         480
+  field  SFVec3f     translation  0 0 0
+  field  SFRotation  rotation     0 1 0 0
+  field  SFString    name         "Webcam for Robotino 3"
+  field  SFString    model        "Festo - Robotino's webcam"
+  field  SFInt32     width        640
+  field  SFInt32     height       480
 ]
 {
   Solid {

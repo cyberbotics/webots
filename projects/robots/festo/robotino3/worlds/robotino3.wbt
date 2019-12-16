@@ -76,7 +76,7 @@ Robotino3 {
   ]
   topSlot [
     Robotino3HokuyoMountingSupport {
-      extension [
+      extensionSlot [
         HokuyoUrg04lxug01 {
         }
       ]

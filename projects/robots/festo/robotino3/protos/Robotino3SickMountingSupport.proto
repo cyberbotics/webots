@@ -6,11 +6,11 @@
 # Use it with the "bottomSlot" field of the Robotino 3 robot.
 
 PROTO Robotino3SickMountingSupport [
-  field  SFVec3f     translation  0 0 0
-  field  SFRotation  rotation     0 1 0 0
-  field  SFString    name         "Sick mounting support for Robotino 3"
-  field  SFString    model        "Festo - Sick mounting support"
-  field  MFNode      extension    []  # Extends the mounting support with an object.
+  field  SFVec3f     translation    0 0 0
+  field  SFRotation  rotation       0 1 0 0
+  field  SFString    name           "Sick mounting support for Robotino 3"
+  field  SFString    model          "Festo - Sick mounting support"
+  field  MFNode      extensionSlot  []  # Extends the mounting support with an object.
 ]
 {
   Solid {
@@ -41,7 +41,7 @@ PROTO Robotino3SickMountingSupport [
       Transform {
         translation -0.059 -0.0791 0.003
         rotation 0 1 0 3.14159
-        children IS extension
+        children IS extensionSlot
       }
     ]
     boundingObject Group {
