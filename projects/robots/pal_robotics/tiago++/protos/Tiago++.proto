@@ -15,10 +15,10 @@ PROTO Tiago++ [
   field  SFBool      supervisor         FALSE
   field  SFBool      synchronization    TRUE
   field  SFBool      selfCollision      FALSE                 # Enables/disables the detection of collisions within the robot.
-  field  MFNode      cameraExtension    []                    # Extends the robot with a camera at head level.
+  field  MFNode      cameraSlot         []                    # Extends the robot with a camera at head level.
   field  MFNode      endEffectorRight   TiagoGripper{}        # Extends the robot with a right end-effector (such as the TiagoRightHey5 for example).
   field  MFNode      endEffectorLeft    TiagoGripper{}        # Extends the robot with a left end-effector (such as the TiagoLeftHey5 for example).
-  field  MFNode      lidarExtension     HokuyoUrg04lxug01{}   # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
+  field  MFNode      lidarSlot          HokuyoUrg04lxug01{}   # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
 ]
 {
   TiagoBase {
@@ -32,10 +32,10 @@ PROTO Tiago++ [
     selfCollision IS selfCollision
     name IS name
     model "PAL Robotics - TIAGo++"
-    bodyExtension [
+    bodySlot [
       TiagoBody {
-        cameraExtension IS cameraExtension
-        rightArmExtension [
+        cameraSlot IS cameraSlot
+        rightArmSlot [
           TiagoRightArm {
             endEffector [
               Transform {
@@ -44,7 +44,7 @@ PROTO Tiago++ [
             ]
           }
         ]
-        leftArmExtension [
+        leftArmSlot [
           TiagoLeftArm {
             endEffector [
               Transform {
@@ -55,6 +55,6 @@ PROTO Tiago++ [
         ]
       }
     ]
-    lidarExtension IS lidarExtension
+    lidarSlot IS lidarSlot
   }
 }

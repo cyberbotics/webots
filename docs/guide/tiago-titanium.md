@@ -22,7 +22,7 @@ TiagoTitanium {
   SFBool      supervisor         FALSE
   SFBool      synchronization    TRUE
   SFBool      selfCollision      FALSE
-  MFNode      lidarExtension     []
+  MFNode      lidarSlot          []
 }
 ```
 
