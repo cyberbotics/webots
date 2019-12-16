@@ -34,7 +34,7 @@ PROTO SharpGP2D120 {
 }
 ```
 
-The `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) is already implemented according to it characteristics found in his [datasheet](https://www.pololu.com/file/0J157/GP2D120-DATA-SHEET.pdf).
+The `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) is already implemented according to the characteristics found in the [datasheet](https://www.pololu.com/file/0J157/GP2D120-DATA-SHEET.pdf).
 
 The function `wb_distance_sensor_get_value` return the voltage/intensity of the measurement. To convert these values, use the following formulas:
 - Given meter, the result expected is in voltage: `y(x) = 0.5131*x^(-0.5735)-0.6143`
