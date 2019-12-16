@@ -16,7 +16,9 @@ Please refer to the changelog for a comprehensive list of all the changes, found
 
 ---
 
-## New TIAGo Robots Model
+## New Robot Models
+
+### TIAGo Robots
 
 Simulate the TIAGo robot from [PAL Robotics](http://pal-robotics.com/) in Webots.
 
@@ -30,6 +32,16 @@ Several models of the robot have been created for Webots:
   - [TIAGo Steel](../guide/tiago-steel.md)
   - [TIAGo Titanium](../guide/tiago-titanium.md)
   - [TIAGo++](../guide/tiagopp.md)
+
+### TurtleBot3 Burger
+
+Simulate the [TurtleBot3 Burger](../guide/turtlebot3-burger.md) robot from [Robotis](http://www.robotis.us) in Webots.
+
+%figure "TurtleBot3 Burger Model in Webots"
+![TurtleBot3 Burger in Webots](images/turtlebot3.jpg)
+%end
+
+The [LDS-01](../guide/lidar-sensors.md#robotis-lds-01) lidar sensor is now available too, just plug it on your favorite simulated robot.
 
 ---
 
