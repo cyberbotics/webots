@@ -1,6 +1,6 @@
 # Version R2020a Released
 
-<p id="publish-data">By Stefania Pedrazzi - 9th December 2019</p>
+<p id="publish-data">By Stefania Pedrazzi - 18th December 2019</p>
 
 ---
 
@@ -13,6 +13,23 @@ Moreover the [Supervisor API](../reference/supervisor.md) has been extended.
 This article only lists some of the major changes.
 Besides these, we are always fixing bugs and improving the quality and robustness of Webots.
 Please refer to the changelog for a comprehensive list of all the changes, found [here](../reference/changelog-r2020.md).
+
+---
+
+## New TIAGo Robots Model
+
+Simulate the TIAGo robot from [PAL Robotics](http://pal-robotics.com/) in Webots.
+
+%figure "Tiago Model in Webots"
+![Tiago Model in Webots](images/tiago.jpg)
+%end
+
+Several models of the robot have been created for Webots:
+  - [TIAGo Base](../guide/tiago-base.md)
+  - [TIAGo Iron](../guide/tiago-iron.md)
+  - [TIAGo Steel](../guide/tiago-steel.md)
+  - [TIAGo Titanium](../guide/tiago-titanium.md)
+  - [TIAGo++](../guide/tiagopp.md)
 
 ---
 
@@ -112,5 +129,10 @@ We are very happy to communicate that we fixed the error accumulation issues occ
 Webots 2020a contains a new complete apartment environment: check it [here](../guide/samples-environments.md#complete_apartment-wbt).
 
 On Linux, you can now also program your controllers with Python 3.8.
+
+Finally, after one year of open-source, we removed the license system and turned also the old Webots versions prior to R2019 free.
+Please check the [documentation](../guide/general-faq.md#can-i-still-use-a-webots-version-before-the-r2019a-release) for further details.
+Just note that old versions are no longer maintained.
+
 
 **Go and [download](https://cyberbotics.com/#download) Webots R2020a today, so you don't miss out on all these great new features!**
