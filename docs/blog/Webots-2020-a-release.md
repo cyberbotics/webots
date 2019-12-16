@@ -70,6 +70,7 @@ To let you model more realistic robots and environments we expanded our `PBRAppe
 | :---: | :---: | :---: |
 | ![Copper](images/appearances/Copper.thumbnail.png) | ![CorrugatedPlates](images/appearances/CorrugatedPlates.thumbnail.png) |  ![CorrugatedPvc](images/appearances/CorrugatedPvc.thumbnail.png) |
 | ![DryMud](images/appearances/DryMud.thumbnail.png) | ![FormedConcrete](images/appearances/FormedConcrete.thumbnail.png) |  ![Pcb](images/appearances/Pcb.thumbnail.png) |
+| ![RoughPolymer](images/appearances/RoughPolymer.thumbnail.png) | ![TireRubber](images/appearances/TireRubber.thumbnail.png) |  |
 
 ---
 
