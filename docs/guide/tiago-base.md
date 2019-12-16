@@ -24,8 +24,8 @@ TiagoBase {
   SFBool       selfCollision   FALSE
   SFString     model           "TIAGo Base"
   SFString     description     "two-wheeled robot designed by PAL Robotics"
-  MFNode       bodyExtension   []
-  MFNode       lidarExtension  []
+  MFNode       bodySlot        []
+  MFNode       lidarSlot       []
 }
 ```
 
@@ -33,8 +33,8 @@ TiagoBase {
 
 #### TiagoBase Field Summary
 
-- `bodyExtension`:  Extends the robot with new nodes (such as the `TiagoBody` for example).
-- `lidarExtension`: Extends the robot with a lidar.
+- `bodySlot`:  Extends the robot with new nodes (such as the `TiagoBody` for example).
+- `lidarSlot`: Extends the robot with a lidar.
 
 ### Sample
 
