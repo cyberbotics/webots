@@ -35,7 +35,6 @@ Solid {
           repeatT FALSE
           repeatS FALSE
         }
-        normalMapFactor 0.7
         occlusionMap ImageTexture {
           url [
             "textures/field_quarter_occlusion.jpg"

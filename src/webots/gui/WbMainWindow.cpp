@@ -450,7 +450,7 @@ QMenu *WbMainWindow::createFileMenu() {
   menu->addAction(action);
 
   action = manager->action(WbActionManager::RESET_SIMULATION);
-  connect(action, &QAction::triggered, this, &WbMainWindow::resetWorld);
+  connect(action, &QAction::triggered, this, &WbMainWindow::resetWorldFromGui);
   menu->addAction(action);
 
   menu->addSeparator();
@@ -1477,13 +1477,17 @@ void WbMainWindow::reloadWorld() {
     loadWorld(WbWorld::instance()->fileName(), true);
 }
 
-void WbMainWindow::resetWorld() {
+void WbMainWindow::resetWorldFromGui() {
+  resetWorld(true);
+}
+
+void WbMainWindow::resetWorld(bool restartControllers) {
   toggleAnimationAction(false);
   if (!WbWorld::instance())
     newWorld();
   else {
     mSimulationView->cancelSupervisorMovieRecording();
-    WbWorld::instance()->reset();
+    WbWorld::instance()->reset(restartControllers);
   }
   mSimulationView->view3D()->renderLater();
 }

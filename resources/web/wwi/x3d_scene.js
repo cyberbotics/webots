@@ -13,9 +13,9 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.useNodeCache = {};
     this.objectsIdCache = {};
 
-    // Mozilla WebGL implementation does not support mimaps on float32 cube textures.
+    // The Mozilla WebGL implementation does not support automatic mimaps generation on float32 cube textures.
     // - Warning (JS console): "Texture at base level is not unsized internal format or is not color-renderable or texture-filterable."
-    // - References:
+    // - The related OpenGL specification is known as cryptic about this topic:
     //   - https://www.khronos.org/registry/OpenGL-Refpages/es3/html/glGenerateMipmap.xhtml
     //   - https://stackoverflow.com/questions/44754479/issue-with-rgba32f-texture-format-and-mipmapping-using-opengl-es-3-0
     //   - https://stackoverflow.com/questions/56829454/unable-to-generate-mipmap-for-half-float-texture
@@ -209,6 +209,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     if (parentId && parentId !== 0)
       parentObject = this.getObjectById('n' + parentId);
     var loader = new THREE.X3DLoader(this);
+    loader.enableHDRReflections = this.enableHDRReflections;
     var objects = loader.parse(x3dObject, parentObject);
     if (typeof parentObject !== 'undefined')
       this._updateUseNodesIfNeeded(parentObject, parentObject.name.split(';'));

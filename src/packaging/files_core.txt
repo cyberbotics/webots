@@ -257,18 +257,12 @@ resources/nodes/*.wrl
 resources/nodes/icons/
 resources/nodes/icons/*.png
 resources/osm_importer/
-resources/osm_importer/Makefile
 resources/osm_importer/config.ini
 resources/osm_importer/*.py
 resources/osm_importer/utils/
 resources/osm_importer/utils/*.py
 resources/osm_importer/webots_objects/
 resources/osm_importer/webots_objects/*.py
-resources/osm_importer/osm_gui/
-resources/osm_importer/osm_gui/Makefile
-resources/osm_importer/osm_gui/osm_gui [exe]
-resources/osm_importer/osm_gui/*cpp
-resources/osm_importer/osm_gui/*hpp
 resources/pico/
 resources/pico/lang/
 resources/pico/lang/*.bin

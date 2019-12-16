@@ -182,7 +182,7 @@ void wb_robot_window_step(int time_step) {
     else if (strcmp(message, "simulation") == 0)
       wb_robot_set_mode(WB_MODE_SIMULATION, NULL);
     else if (strncmp(message, "remote control ", 15) == 0)
-      wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, (char *)&message[15]);
+      wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, &message[15]);
     else if (strncmp(message, "upload ", 7) == 0) {
       char *port;
       const char *p = &message[7];
@@ -216,7 +216,7 @@ void wb_robot_window_step(int time_step) {
       }
       free(full_path);
     } else if (strncmp(message, "connect ", 8) == 0) {
-      wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, (char *)&message[8]);
+      wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, &message[8]);
       fprintf(stderr, "Connected to %s\n", &message[8]);
     } else if (strncmp(message, "disconnect", 10) == 0) {
       wb_robot_set_mode(WB_MODE_SIMULATION, NULL);

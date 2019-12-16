@@ -1,121 +1,121 @@
 {
-  "robotID": "n27", 
-  "name": "tiago-iron", 
   "devices": [
     {
-      "transformID": "n836", 
-      "initialPosition": 0, 
-      "name": "head_1_joint", 
-      "maxPosition": 1.24, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -1.24, 
-      "axis": "0 0 1"
-    }, 
+      "axis": "0 0 1",
+      "initialPosition": 0,
+      "maxPosition": 1.24,
+      "minPosition": -1.24,
+      "name": "head_1_joint",
+      "position": 0,
+      "transformID": "n836",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n851", 
-      "initialPosition": 1.5708, 
-      "name": "head_2_joint", 
-      "maxPosition": 0.79, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": -0.98, 
-      "axis": "0 -1 0"
-    }, 
+      "axis": "0 -1 0",
+      "initialPosition": 1.5708,
+      "maxPosition": 0.79,
+      "minPosition": -0.98,
+      "name": "head_2_joint",
+      "position": 0,
+      "transformID": "n851",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n320", 
-      "initialPosition": 1.5708, 
-      "name": "wheel_left_joint", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "initialPosition": 1.5708,
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "wheel_left_joint",
+      "position": 0,
+      "transformID": "n320",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n287", 
-      "initialPosition": 1.5708, 
-      "name": "wheel_right_joint", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "initialPosition": 1.5708,
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "wheel_right_joint",
+      "position": 0,
+      "transformID": "n287",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n811", 
-      "initialPosition": 0, 
-      "name": "torso_lift_joint", 
-      "maxPosition": 0.35, 
-      "position": 0, 
-      "type": "LinearMotor", 
-      "minPosition": 0, 
-      "axis": "0 0 1"
-    }, 
+      "axis": "0 0 1",
+      "initialPosition": 0,
+      "maxPosition": 0.35,
+      "minPosition": 0,
+      "name": "torso_lift_joint",
+      "position": 0,
+      "transformID": "n811",
+      "type": "LinearMotor"
+    },
     {
-      "transformID": "n27", 
-      "type": "Accelerometer", 
-      "name": "accelerometer"
-    }, 
+      "name": "accelerometer",
+      "transformID": "n27",
+      "type": "Accelerometer"
+    },
     {
-      "transformID": "n220", 
-      "type": "TouchSensor", 
-      "name": "base_cover_link"
-    }, 
+      "name": "base_cover_link",
+      "transformID": "n220",
+      "type": "TouchSensor"
+    },
     {
-      "transformID": "n265", 
-      "type": "DistanceSensor", 
-      "name": "base_sonar_01_link"
-    }, 
+      "name": "base_sonar_01_link",
+      "transformID": "n265",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n247", 
-      "type": "DistanceSensor", 
-      "name": "base_sonar_02_link"
-    }, 
+      "name": "base_sonar_02_link",
+      "transformID": "n247",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n229", 
-      "type": "DistanceSensor", 
-      "name": "base_sonar_03_link"
-    }, 
+      "name": "base_sonar_03_link",
+      "transformID": "n229",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n27", 
-      "type": "Gyro", 
-      "name": "gyro"
-    }, 
+      "name": "gyro",
+      "transformID": "n27",
+      "type": "Gyro"
+    },
     {
-      "transformID": "n836", 
-      "type": "PositionSensor", 
-      "name": "head_1_joint_sensor"
-    }, 
+      "name": "head_1_joint_sensor",
+      "transformID": "n836",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n851", 
-      "type": "PositionSensor", 
-      "name": "head_2_joint_sensor"
-    }, 
+      "name": "head_2_joint_sensor",
+      "transformID": "n851",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n908", 
-      "type": "Lidar", 
-      "name": "Hokuyo URG-04LX-UG01"
-    }, 
+      "name": "Hokuyo URG-04LX-UG01",
+      "transformID": "n908",
+      "type": "Lidar"
+    },
     {
-      "transformID": "n27", 
-      "type": "InertialUnit", 
-      "name": "inertial unit"
-    }, 
+      "name": "inertial unit",
+      "transformID": "n27",
+      "type": "InertialUnit"
+    },
     {
-      "transformID": "n811", 
-      "type": "PositionSensor", 
-      "name": "torso_lift_joint_sensor"
-    }, 
+      "name": "torso_lift_joint_sensor",
+      "transformID": "n811",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n320", 
-      "type": "PositionSensor", 
-      "name": "wheel_left_joint_sensor"
-    }, 
+      "name": "wheel_left_joint_sensor",
+      "transformID": "n320",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n287", 
-      "type": "PositionSensor", 
-      "name": "wheel_right_joint_sensor"
+      "name": "wheel_right_joint_sensor",
+      "transformID": "n287",
+      "type": "PositionSensor"
     }
-  ]
+  ],
+  "name": "tiago-iron",
+  "robotID": "n27"
 }

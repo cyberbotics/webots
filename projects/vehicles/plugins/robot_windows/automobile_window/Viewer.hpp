@@ -26,7 +26,6 @@ class EncodersWidget;
 class BrakeWidget;
 class ThrottleWidget;
 class RPMWidget;
-class OSMImportWidget;
 
 #include <gui/GenericWindow.hpp>
 
@@ -45,7 +44,6 @@ private:
   BrakeWidget *mBrakeWidget;
   ThrottleWidget *mThrottleWidget;
   RPMWidget *mRPMWidget;
-  OSMImportWidget *mOSMImportWidget;
 };
 
 #endif
