@@ -2,7 +2,6 @@
   "devices": [
     {
       "axis": "0 1 0",
-      "initialPosition": -1.5708,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "LDS-01_main_motor",
@@ -12,7 +11,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": -1.5708,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "LDS-01_secondary_motor",
@@ -22,7 +20,6 @@
     },
     {
       "axis": "-1 0 0",
-      "initialPosition": -3.1415853071795863,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left wheel motor",
@@ -32,7 +29,6 @@
     },
     {
       "axis": "-1 0 0",
-      "initialPosition": 1.5708,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right wheel motor",

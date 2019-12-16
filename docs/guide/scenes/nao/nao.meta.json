@@ -2,7 +2,6 @@
   "devices": [
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0.514872,
       "minPosition": -0.671952,
       "name": "HeadPitch",
@@ -12,7 +11,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 2.08567,
       "minPosition": -2.08567,
       "name": "HeadYaw",
@@ -22,7 +20,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0.922581,
       "minPosition": -1.18944,
       "name": "LAnklePitch",
@@ -32,7 +29,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0.769001,
       "minPosition": -0.39788,
       "name": "LAnkleRoll",
@@ -42,7 +38,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": -1.54462,
       "name": "LElbowRoll",
@@ -52,7 +47,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 2.08567,
       "minPosition": -2.08567,
       "name": "LElbowYaw",
@@ -62,7 +56,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0.48398,
       "minPosition": -1.77378,
       "name": "LHipPitch",
@@ -72,7 +65,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0.79046,
       "minPosition": -0.379435,
       "name": "LHipRoll",
@@ -82,7 +74,6 @@
     },
     {
       "axis": "0 0.707107 -0.707107",
-      "initialPosition": 0,
       "maxPosition": 0.740718,
       "minPosition": -1.14529,
       "name": "LHipYawPitch",
@@ -92,7 +83,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 2.11255,
       "minPosition": -0.0923279,
       "name": "LKneePitch",
@@ -102,7 +92,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": -0.96,
       "maxPosition": 1,
       "minPosition": 0,
       "name": "LPhalanx1",
@@ -112,7 +101,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": -0.96,
       "maxPosition": 1,
       "minPosition": 0,
       "name": "LPhalanx2",
@@ -122,7 +110,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": -0.96,
       "maxPosition": 1,
       "minPosition": 0,
       "name": "LPhalanx3",
@@ -132,7 +119,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": -0.96,
       "maxPosition": 1,
       "minPosition": 0,
       "name": "LPhalanx4",
@@ -142,7 +128,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": -0.96,
       "maxPosition": 1,
       "minPosition": 0,
       "name": "LPhalanx5",
@@ -152,7 +137,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": -0.96,
       "maxPosition": 1,
       "minPosition": 0,
       "name": "LPhalanx6",
@@ -162,7 +146,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 1,
       "minPosition": 0,
       "name": "LPhalanx7",
@@ -172,7 +155,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": -0.96,
       "maxPosition": 1,
       "minPosition": 0,
       "name": "LPhalanx8",
@@ -182,7 +164,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 2.08567,
       "minPosition": -2.08567,
       "name": "LShoulderPitch",
@@ -192,7 +173,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 1.32645,
       "minPosition": -0.314159,
       "name": "LShoulderRoll",
@@ -202,7 +182,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 1.82387,
       "minPosition": -1.82387,
       "name": "LWristYaw",
@@ -212,7 +191,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0.932006,
       "minPosition": -1.1863,
       "name": "RAnklePitch",
@@ -222,7 +200,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0.397935,
       "minPosition": -0.768992,
       "name": "RAnkleRoll",
@@ -232,7 +209,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 1.54462,
       "minPosition": 0,
       "name": "RElbowRoll",
@@ -242,7 +218,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 2.08567,
       "minPosition": -2.08567,
       "name": "RElbowYaw",
@@ -252,7 +227,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0.48398,
       "minPosition": -1.77378,
       "name": "RHipPitch",
@@ -262,7 +236,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0.449597,
       "minPosition": -0.738274,
       "name": "RHipRoll",
@@ -272,7 +245,6 @@
     },
     {
       "axis": "0 0.707107 0.707107",
-      "initialPosition": 0,
       "maxPosition": 0.740718,
       "minPosition": -1.14529,
       "name": "RHipYawPitch",
@@ -282,7 +254,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 2.11255,
       "minPosition": -0.0923279,
       "name": "RKneePitch",
@@ -292,7 +263,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": -0.96,
       "maxPosition": 1,
       "minPosition": 0,
       "name": "RPhalanx1",
@@ -302,7 +272,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": -0.96,
       "maxPosition": 1,
       "minPosition": 0,
       "name": "RPhalanx2",
@@ -312,7 +281,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": -0.96,
       "maxPosition": 1,
       "minPosition": 0,
       "name": "RPhalanx3",
@@ -322,7 +290,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": -0.96,
       "maxPosition": 1,
       "minPosition": 0,
       "name": "RPhalanx4",
@@ -332,7 +299,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": -0.96,
       "maxPosition": 1,
       "minPosition": 0,
       "name": "RPhalanx5",
@@ -342,7 +308,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": -0.96,
       "maxPosition": 1,
       "minPosition": 0,
       "name": "RPhalanx6",
@@ -352,7 +317,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 1,
       "minPosition": 0,
       "name": "RPhalanx7",
@@ -362,7 +326,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": -0.96,
       "maxPosition": 1,
       "minPosition": 0,
       "name": "RPhalanx8",
@@ -372,7 +335,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 2.08567,
       "minPosition": -2.08567,
       "name": "RShoulderPitch",
@@ -382,7 +344,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.314159,
       "minPosition": -1.32645,
       "name": "RShoulderRoll",
@@ -392,7 +353,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 1.82387,
       "minPosition": -1.82387,
       "name": "RWristYaw",
