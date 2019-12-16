@@ -2,7 +2,6 @@
   "devices": [
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 1.5708,
       "minPosition": -1.5708,
       "name": "motor",

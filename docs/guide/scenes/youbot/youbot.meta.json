@@ -2,7 +2,6 @@
   "devices": [
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 2.9496,
       "minPosition": -2.9496,
       "name": "arm1",
@@ -12,7 +11,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": 0,
       "maxPosition": 1.5708,
       "minPosition": -1.13446,
       "name": "arm2",
@@ -22,7 +20,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": 0,
       "maxPosition": 2.54818,
       "minPosition": -2.63545,
       "name": "arm3",
@@ -32,7 +29,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": 0,
       "maxPosition": 1.78024,
       "minPosition": -1.78024,
       "name": "arm4",
@@ -42,7 +38,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 2.92343,
       "minPosition": -2.92343,
       "name": "arm5",
@@ -52,7 +47,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel1",
@@ -62,7 +56,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel2",
@@ -72,7 +65,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel3",
@@ -82,7 +74,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel4",
@@ -92,7 +83,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 4.71239,
       "maxPosition": 0.025,
       "minPosition": 0,
       "name": "finger1",
@@ -102,7 +92,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": 3.14159,
       "maxPosition": 0.025,
       "minPosition": 0,
       "name": "finger2",

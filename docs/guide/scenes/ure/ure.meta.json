@@ -2,7 +2,6 @@
   "devices": [
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 3.14159265359,
       "minPosition": -3.14159265359,
       "name": "elbow_joint",
@@ -12,7 +11,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 1.570796,
       "maxPosition": 6.28318530718,
       "minPosition": -6.28318530718,
       "name": "shoulder_lift_joint",
@@ -22,7 +20,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 6.28318530718,
       "minPosition": -6.28318530718,
       "name": "shoulder_pan_joint",
@@ -32,7 +29,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 1.570796,
       "maxPosition": 6.28318530718,
       "minPosition": -6.28318530718,
       "name": "wrist_1_joint",
@@ -42,7 +38,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 6.28318530718,
       "minPosition": -6.28318530718,
       "name": "wrist_2_joint",
@@ -52,7 +47,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 6.28318530718,
       "minPosition": -6.28318530718,
       "name": "wrist_3_joint",

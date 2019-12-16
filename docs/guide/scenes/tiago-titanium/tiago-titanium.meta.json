@@ -2,7 +2,6 @@
   "devices": [
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 2.68,
       "minPosition": 0.07,
       "name": "arm_1_joint",
@@ -12,7 +11,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": 1.5708,
       "maxPosition": 1.02,
       "minPosition": -1.5,
       "name": "arm_2_joint",
@@ -22,7 +20,6 @@
     },
     {
       "axis": "-1 0 0",
-      "initialPosition": 2.09446,
       "maxPosition": 1.5,
       "minPosition": -3.46,
       "name": "arm_3_joint",
@@ -32,7 +29,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 2.0944,
       "maxPosition": 2.29,
       "minPosition": -0.32,
       "name": "arm_4_joint",
@@ -42,7 +38,6 @@
     },
     {
       "axis": "-1 0 0",
-      "initialPosition": 1.5708,
       "maxPosition": 2.07,
       "minPosition": -2.07,
       "name": "arm_5_joint",
@@ -52,7 +47,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 2.0944,
       "maxPosition": 1.39,
       "minPosition": -1.39,
       "name": "arm_6_joint",
@@ -62,7 +56,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 2.0944,
       "maxPosition": 2.07,
       "minPosition": -2.07,
       "name": "arm_7_joint",
@@ -72,7 +65,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 1.6479,
       "maxPosition": 0.52,
       "minPosition": -0.52,
       "name": "hand_right_index_abd_joint",
@@ -82,7 +74,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_index_flex_1_joint",
@@ -92,7 +83,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_index_flex_2_joint",
@@ -102,7 +92,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_index_flex_3_joint",
@@ -112,7 +101,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": 1.5708,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_index_virtual_1_joint",
@@ -122,7 +110,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_index_virtual_2_joint",
@@ -132,7 +119,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_index_virtual_3_joint",
@@ -142,7 +128,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 1.6378,
       "maxPosition": 0.52,
       "minPosition": -0.52,
       "name": "hand_right_little_abd_joint",
@@ -152,7 +137,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_little_flex_1_joint",
@@ -162,7 +146,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_little_flex_2_joint",
@@ -172,7 +155,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_little_flex_3_joint",
@@ -182,7 +164,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": 1.5708,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_little_virtual_1_joint",
@@ -192,7 +173,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_little_virtual_2_joint",
@@ -202,7 +182,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_little_virtual_3_joint",
@@ -212,7 +191,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 1.5708,
       "maxPosition": 0.52,
       "minPosition": -0.52,
       "name": "hand_right_middle_abd_joint",
@@ -222,7 +200,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_middle_flex_1_joint",
@@ -232,7 +209,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_middle_flex_2_joint",
@@ -242,7 +218,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_middle_flex_3_joint",
@@ -252,7 +227,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": 1.5708,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_middle_virtual_1_joint",
@@ -262,7 +236,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_middle_virtual_2_joint",
@@ -272,7 +245,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_middle_virtual_3_joint",
@@ -282,7 +254,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 1.5878,
       "maxPosition": 0.52,
       "minPosition": -0.52,
       "name": "hand_right_ring_abd_joint",
@@ -292,7 +263,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_ring_flex_1_joint",
@@ -302,7 +272,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_ring_flex_2_joint",
@@ -312,7 +281,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_ring_flex_3_joint",
@@ -322,7 +290,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": 1.5708,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_ring_virtual_1_joint",
@@ -332,7 +299,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_ring_virtual_2_joint",
@@ -342,7 +308,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_ring_virtual_3_joint",
@@ -352,7 +317,6 @@
     },
     {
       "axis": "-0.9191 0 0.3939",
-      "initialPosition": 1.1345,
       "maxPosition": 1.57,
       "minPosition": 0,
       "name": "hand_right_thumb_abd_joint",
@@ -362,7 +326,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_thumb_flex_1_joint",
@@ -372,7 +335,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_thumb_flex_2_joint",
@@ -382,7 +344,6 @@
     },
     {
       "axis": "0 0.9 0.45",
-      "initialPosition": 1.1442,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_thumb_virtual_1_joint",
@@ -392,7 +353,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.79,
       "minPosition": 0,
       "name": "hand_right_thumb_virtual_2_joint",
@@ -402,7 +362,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 1.24,
       "minPosition": -1.24,
       "name": "head_1_joint",
@@ -412,7 +371,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": 1.5708,
       "maxPosition": 0.79,
       "minPosition": -0.98,
       "name": "head_2_joint",
@@ -422,7 +380,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 1.5708,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel_left_joint",
@@ -432,7 +389,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 1.5708,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel_right_joint",
@@ -442,7 +398,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.35,
       "minPosition": 0,
       "name": "torso_lift_joint",

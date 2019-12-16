@@ -2,7 +2,6 @@
   "devices": [
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "Head",
@@ -12,7 +11,6 @@
     },
     {
       "axis": "1 -1e-07 0",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "LeftAnkle",
@@ -22,7 +20,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "LeftArm",
@@ -32,7 +29,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "LeftCrus",
@@ -42,7 +38,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "LeftElbow",
@@ -52,7 +47,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "LeftFemur",
@@ -62,7 +56,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "LeftFemurHead1",
@@ -72,7 +65,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "LeftFemurHead2",
@@ -82,7 +74,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "LeftFoot",
@@ -92,7 +83,6 @@
     },
     {
       "axis": "-1 0 0",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "LeftForearm",
@@ -102,7 +92,6 @@
     },
     {
       "axis": "-1 0 0",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "LeftShoulder",
@@ -112,7 +101,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "RightAnkle",
@@ -122,7 +110,6 @@
     },
     {
       "axis": "0 0 -1",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "RightArm",
@@ -132,7 +119,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "RightCrus",
@@ -142,7 +128,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "RightElbow",
@@ -152,7 +137,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "RightFemur",
@@ -162,7 +146,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "RightFemurHead1",
@@ -172,7 +155,6 @@
     },
     {
       "axis": "0 0 -1",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "RightFemurHead2",
@@ -182,7 +164,6 @@
     },
     {
       "axis": "2e-07 -1e-07 -1",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "RightFoot",
@@ -192,7 +173,6 @@
     },
     {
       "axis": "-1 0 0",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "RightForearm",
@@ -202,7 +182,6 @@
     },
     {
       "axis": "-1 0 0",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "RightShoulder",
@@ -212,7 +191,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 2.356,
       "minPosition": -2.356,
       "name": "Waist",
