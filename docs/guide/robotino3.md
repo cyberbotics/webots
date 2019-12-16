@@ -6,7 +6,7 @@ Designed by Festo, [Robotino 3](robotino3.md) is a three-wheeled (mecanum) robot
 The model is a modular mobile platform used for educational, training and research purposes.
 It is controlled by an industry-standard PC system (ROS compatible) and it is also customizable with accessories to adapt to any specific need.
 
-More information on the Robotino 3 robot can be found on their [website](https://ip.festo-didactic.com/InfoPortal/Robotino3/Overview/EN/index.html).
+More information on the Robotino 3 robot can be found on the [constructor website](https://ip.festo-didactic.com/InfoPortal/Robotino3/Overview/EN/index.html).
 
 ### Robotino3 PROTO
 
