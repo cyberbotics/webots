@@ -33,23 +33,6 @@ Several models of the robot have been created for Webots:
 
 ---
 
-## New TIAGo Robots Model
-
-Simulate the TIAGo robot from [PAL Robotics](http://pal-robotics.com/) in Webots.
-
-%figure "Tiago Model in Webots"
-![Tiago Model in Webots](images/tiago.jpg)
-%end
-
-Several models of the robot have been created for Webots:
-  - [TIAGo Base](../guide/tiago-base.md)
-  - [TIAGo Iron](../guide/tiago-iron.md)
-  - [TIAGo Steel](../guide/tiago-steel.md)
-  - [TIAGo Titanium](../guide/tiago-titanium.md)
-  - [TIAGo++](../guide/tiagopp.md)
-
----
-
 ## ROS 2 & Webots
 
 ROS 2 Eloquent has been [released](https://index.ros.org/doc/ros2/Releases/Release-Eloquent-Elusor/) approximately once month ago.
