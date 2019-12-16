@@ -111,7 +111,6 @@ private slots:
   void openGithubRepository();
   void openCyberboticsWebsite();
   void openBugReport();
-  void openSupportTicket();
   void openNewsletterSubscription();
   void openDiscord();
   void openTwitter();

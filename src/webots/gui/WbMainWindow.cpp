@@ -931,13 +931,6 @@ QMenu *WbMainWindow::createHelpMenu() {
   connect(action, &QAction::triggered, this, &WbMainWindow::openBugReport);
   menu->addAction(action);
 
-  action = new QAction(this);
-  action->setText(tr("&Support Ticket (Premier Service)..."));
-  action->setStatusTip(
-    tr("Open a Support Ticket with Cyberbotics. This requires a subscription to the Webots Premier Service."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::openSupportTicket);
-  menu->addAction(action);
-
   QMenu *followUsMenu = new QMenu(tr("&Keep informed"), this);
 
   action = new QAction(this);
@@ -1737,20 +1730,6 @@ void WbMainWindow::openCyberboticsWebsite() {
 
 void WbMainWindow::openBugReport() {
   showDocument(QString("%1/issues/new/choose").arg(WbStandardPaths::githubRepositoryUrl()));
-}
-
-void WbMainWindow::openSupportTicket() {
-  QOpenGLFunctions_3_3_Core gl;
-  gl.initializeOpenGLFunctions();
-
-  QString url = QString("%1/support_ticket.php?os=%2&graphics=%3 - %4 - %5&version=%6&type=ticket")
-                  .arg(WbStandardPaths::cyberboticsUrl())
-                  .arg(WbSysInfo::sysInfo())
-                  .arg((const char *)gl.glGetString(GL_VENDOR))
-                  .arg((const char *)gl.glGetString(GL_RENDERER))
-                  .arg((const char *)gl.glGetString(GL_VERSION))
-                  .arg(WbApplicationInfo::version().toString(true, false, true));
-  showDocument(url);
 }
 
 void WbMainWindow::openNewsletterSubscription() {
