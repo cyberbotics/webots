@@ -139,7 +139,7 @@ PROTO SharpGP2Y0A710K0F {
   SFString    name         "Sharp's IR sensor GP2Y0A710K0F"
 }
 ```
-The `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) is already implemented according to it characteristics found in his [datasheet](https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a710k_e.pdf).
+The `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) is already implemented according to the characteristics found in the [datasheet](https://global.sharp/products/device/lineup/data/pdf/datasheet/gp2y0a710k_e.pdf).
 
 The `wb_distance_sensor_get_value` function returns the voltage/intensity of the measurement. To convert these values, use the following formulas:
 - Convert meters to voltage: `y(x) = 1.962*x^(-0.5214)+0.4926`

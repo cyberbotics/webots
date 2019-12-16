@@ -21,7 +21,7 @@ PROTO Robotino3 [
   field  MFNode      cameraSlot        []      # Extends the robot with a camera.
   field  MFNode      middleSlot        []      # Extends the robot.
   field  MFNode      bottomSlot        []      # Extends the robot.
-  field  SFString{"SharpGP2D120", "SharpGP2Y0A41SK0F", "SharpGP2Y0A02YK0F"}  InfraredSensorModel    "SharpGP2Y0A41SK0F"      # Extends the robot with infrared sensors.
+  field  SFString{"SharpGP2D120", "SharpGP2Y0A41SK0F", "SharpGP2Y0A02YK0F"}  infraredSensorModel    "SharpGP2Y0A41SK0F"      # Extends the robot with infrared sensors.
 ]
 {
   %{

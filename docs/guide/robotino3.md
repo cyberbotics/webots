@@ -29,7 +29,7 @@ Robotino3 {
   MFNode      topSlot             []
   MFNode      middleSlot          []
   MFNode      bottomSlot          []
-  SFString    InfraredSensorModel "SharpGP2D120"
+  SFString    infraredSensorModel "SharpGP2D120"
 }
 ```
 
