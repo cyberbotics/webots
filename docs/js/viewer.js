@@ -763,6 +763,9 @@ function sliderMotorCallback(transform, slider) {
   if (typeof transform === 'undefined')
     return;
 
+  if (typeof transform.firstRotation === 'undefined' && typeof transform.quaternion !== 'undefined')
+    transform.firstRotation = transform.quaternion.clone();
+
   var axis = slider.getAttribute('webots-axis').split(/[\s,]+/);
   axis = new THREE.Vector3(parseFloat(axis[0]), parseFloat(axis[1]), parseFloat(axis[2]));
 
@@ -793,6 +796,10 @@ function sliderMotorCallback(transform, slider) {
       axis,
       angle
     );
+
+    if (typeof transform.firstRotation !== 'undefined')
+      q.multiply(transform.firstRotation);
+
     transform.quaternion.copy(q);
     transform.updateMatrix();
   }
