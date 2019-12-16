@@ -43,6 +43,16 @@ Simulate the [TurtleBot3 Burger](../guide/turtlebot3-burger.md) robot from [Robo
 
 The [LDS-01](../guide/lidar-sensors.md#robotis-lds-01) lidar sensor is now available too, just plug it on your favorite simulated robot.
 
+### Robotino 3
+
+Simulate the [Robotino 3](../guide/robotino3.md) from [Festo](https://www.festo-didactic.com/int-en/) in Webots.
+
+%figure "TRobotino 3 Model in Webots"
+![Robotino 3](images/robotino3.jpg)
+%end
+
+This omnidirectional robot is highly configurable, you can therefore easily add some lidar, camera or grippers.
+
 ---
 
 ## ROS 2 & Webots
