@@ -14,22 +14,22 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 Robotino3 {
-  SFVec3f     translation         0 0 0
-  SFRotation  rotation            1 0 0 -1.5708
-  SFString    name                "Robotino 3"
-  SFString    model               "Festo - Robotino 3"
-  SFString    controller          "robotino3"
-  SFString    controllerArgs      ""
-  SFString    customData          ""
-  SFBool      supervisor          FALSE
-  SFBool      synchronization     TRUE
-  SFBool      selfCollision       FALSE   # Enables/disables the detection of collisions within the robot.
-  MFNode      bodySlot            []
-  MFNode      cameraSlot          []
-  MFNode      topSlot             []
-  MFNode      middleSlot          []
-  MFNode      bottomSlot          []
-  SFString    infraredSensorModel "SharpGP2D120"
+  SFVec3f     translation          0 0 0
+  SFRotation  rotation             1 0 0 -1.5708
+  SFString    name                 "Robotino 3"
+  SFString    model                "Festo - Robotino 3"
+  SFString    controller           "robotino3"
+  SFString    controllerArgs       ""
+  SFString    customData           ""
+  SFBool      supervisor           FALSE
+  SFBool      synchronization      TRUE
+  SFBool      selfCollision        FALSE   # Enables/disables the detection of collisions within the robot.
+  MFNode      bodySlot             []
+  MFNode      cameraSlot           []
+  MFNode      topSlot              []
+  MFNode      middleSlot           []
+  MFNode      bottomSlot           []
+  SFString    infraredSensorModel  "SharpGP2D120"
 }
 ```
 
@@ -42,7 +42,7 @@ Robotino3 {
 - `topSlot`: Extends the robot with new parts such as lidar.
 - `middleSlot`: Extends the robot with new parts such as lidar.
 - `bottomSlot`: Extends the robot with new parts such as lidar.
-- `InfraredSensorModel`: Defines the infrared sensors used (it should be one of `SharpGP2D120`, `SharpGP2Y0A41SK0F` or `SharpGP2Y0A02YK0F`).
+- `infraredSensorModel`: Defines the infrared sensors used (it should be one of `SharpGP2D120`, `SharpGP2Y0A41SK0F` or `SharpGP2Y0A02YK0F`).
 
 
 ### Sample
