@@ -35,7 +35,7 @@ PROTO TiagoSteel [
         cameraSlot IS cameraSlot
         frontArmSlot [
           TiagoFrontArm {
-            endEffector [
+            endEffectorSlot [
               TiagoGripper {
               }
             ]

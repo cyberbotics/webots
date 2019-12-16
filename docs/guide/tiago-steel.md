@@ -13,16 +13,16 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 TiagoSteel {
-  SFVec3f     translation        0 0 0
-  SFRotation  rotation           1 0 0 -1.5708
-  SFString    name               "TIAGo Steel"
-  SFString    controller         "tiagoSteel"
-  SFString    controllerArgs     ""
-  SFString    customData         ""
-  SFBool      supervisor         FALSE
-  SFBool      synchronization    TRUE
-  SFBool      selfCollision      FALSE
-  MFNode      lidarSlot          []
+  SFVec3f     translation      0 0 0
+  SFRotation  rotation         1 0 0 -1.5708
+  SFString    name             "TIAGo Steel"
+  SFString    controller       "tiagoSteel"
+  SFString    controllerArgs   ""
+  SFString    customData       ""
+  SFBool      supervisor       FALSE
+  SFBool      synchronization  TRUE
+  SFBool      selfCollision    FALSE
+  MFNode      lidarSlot        []
 }
 ```
 

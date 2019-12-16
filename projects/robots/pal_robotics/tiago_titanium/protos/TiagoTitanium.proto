@@ -35,7 +35,7 @@ PROTO TiagoTitanium [
         cameraSlot IS cameraSlot
         frontArmSlot [
           TiagoFrontArm {
-            endEffector [
+            endEffectorSlot [
               TiagoRightHey5 {
               }
             ]
