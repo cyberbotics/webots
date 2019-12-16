@@ -185,6 +185,7 @@ PROTO RobotisLds01 [
         name "screw0"
         screwRadius 0.0015
         screwLength 0.02
+        physics IS physics
       }
       CapScrew {
         translation -0.0245 -0.0105 -0.035
@@ -192,6 +193,7 @@ PROTO RobotisLds01 [
         name "screw1"
         screwRadius 0.0015
         screwLength 0.02
+        physics IS physics
       }
       CapScrew {
         translation -0.0245 -0.0105 -0.035
@@ -199,6 +201,7 @@ PROTO RobotisLds01 [
         name "screw2"
         screwRadius 0.0015
         screwLength 0.02
+        physics IS physics
       }
       CapScrew {
         translation -0.0245 -0.0105 -0.035
@@ -206,6 +209,7 @@ PROTO RobotisLds01 [
         name "screw3"
         screwRadius 0.0015
         screwLength 0.02
+        physics IS physics
       }
     ]
     name IS name
