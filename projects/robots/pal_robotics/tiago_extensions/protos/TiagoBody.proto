@@ -5,12 +5,12 @@
 # The body can be extended with arms.
 
 PROTO TiagoBody [
-  field  SFVec3f     translation       -0.054 0 0.193
-  field  SFRotation  rotation          0 1 0 0
-  field  MFNode      cameraSlot   []              # Extends the robot with a camera at head level.
-  field  MFNode      rightArmSlot []              # Extends the robot with a right arm (such as the TiagoRightArm for example).
-  field  MFNode      frontArmSlot []              # Extends the robot with a front arm (such as the TiagoLeftArm for example).
-  field  MFNode      leftArmSlot  []              # Extends the robot with a left arm (such as the TiagoLeftArm for example).
+  field  SFVec3f     translation   -0.054 0 0.193
+  field  SFRotation  rotation      0 1 0 0
+  field  MFNode      cameraSlot    []              # Extends the robot with a camera at head level.
+  field  MFNode      rightArmSlot  []              # Extends the robot with a right arm (such as the TiagoRightArm for example).
+  field  MFNode      frontArmSlot  []              # Extends the robot with a front arm (such as the TiagoLeftArm for example).
+  field  MFNode      leftArmSlot   []              # Extends the robot with a left arm (such as the TiagoLeftArm for example).
 ]
 {
   Solid {
