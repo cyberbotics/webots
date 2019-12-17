@@ -67,8 +67,9 @@ supervisor.step(timeStep)
 # Remove useless files.
 os.remove(targetHTMLFile)
 os.remove(targetAnimationFile)
-for fl in glob.glob(os.path.join(scenePath, 'textures', 'cubic', 'noon_cloudy_mountains*.jpg')):
-    os.remove(fl)
+for extension in ['hdr', 'png', 'jpg']:
+    for fl in glob.glob(os.path.join(scenePath, 'textures', 'cubic', 'mountains*.%s' % extension)):
+        os.remove(fl)
 
 # Simplified JSON file.
 # - keep only the interested robot.

@@ -1,71 +1,69 @@
 {
-  "robotID": "n10", 
-  "name": "tiago-base", 
   "devices": [
     {
-      "transformID": "n158", 
-      "initialPosition": 1.5708, 
-      "name": "wheel_left_joint", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "wheel_left_joint",
+      "position": 0,
+      "transformID": "n158",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n125", 
-      "initialPosition": 1.5708, 
-      "name": "wheel_right_joint", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "wheel_right_joint",
+      "position": 0,
+      "transformID": "n125",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n10", 
-      "type": "Accelerometer", 
-      "name": "accelerometer"
-    }, 
+      "name": "accelerometer",
+      "transformID": "n10",
+      "type": "Accelerometer"
+    },
     {
-      "transformID": "n58", 
-      "type": "TouchSensor", 
-      "name": "base_cover_link"
-    }, 
+      "name": "base_cover_link",
+      "transformID": "n58",
+      "type": "TouchSensor"
+    },
     {
-      "transformID": "n103", 
-      "type": "DistanceSensor", 
-      "name": "base_sonar_01_link"
-    }, 
+      "name": "base_sonar_01_link",
+      "transformID": "n103",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n85", 
-      "type": "DistanceSensor", 
-      "name": "base_sonar_02_link"
-    }, 
+      "name": "base_sonar_02_link",
+      "transformID": "n85",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n67", 
-      "type": "DistanceSensor", 
-      "name": "base_sonar_03_link"
-    }, 
+      "name": "base_sonar_03_link",
+      "transformID": "n67",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n10", 
-      "type": "Gyro", 
-      "name": "gyro"
-    }, 
+      "name": "gyro",
+      "transformID": "n10",
+      "type": "Gyro"
+    },
     {
-      "transformID": "n10", 
-      "type": "InertialUnit", 
-      "name": "inertial unit"
-    }, 
+      "name": "inertial unit",
+      "transformID": "n10",
+      "type": "InertialUnit"
+    },
     {
-      "transformID": "n158", 
-      "type": "PositionSensor", 
-      "name": "wheel_left_joint_sensor"
-    }, 
+      "name": "wheel_left_joint_sensor",
+      "transformID": "n158",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n125", 
-      "type": "PositionSensor", 
-      "name": "wheel_right_joint_sensor"
+      "name": "wheel_right_joint_sensor",
+      "transformID": "n125",
+      "type": "PositionSensor"
     }
-  ]
+  ],
+  "name": "tiago-base",
+  "robotID": "n10"
 }

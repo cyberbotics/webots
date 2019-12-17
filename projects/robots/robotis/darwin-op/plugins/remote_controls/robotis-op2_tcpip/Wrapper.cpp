@@ -54,14 +54,13 @@ void Wrapper::cleanup() {
   DeviceManager::cleanup();
 }
 
-bool Wrapper::start(void *arg) {
-  if (!arg)
+bool Wrapper::start(const char *ip) {
+  if (!ip)
     return false;
 
   delete cTime;
 
   Time trialTime;
-  const char *ip = static_cast<const char *>(arg);
 
   cSuccess = false;
   while (!cSuccess && trialTime.currentSimulationTime() < 10000) {  // try to connect for 10 seconds

@@ -450,7 +450,7 @@ QMenu *WbMainWindow::createFileMenu() {
   menu->addAction(action);
 
   action = manager->action(WbActionManager::RESET_SIMULATION);
-  connect(action, &QAction::triggered, this, &WbMainWindow::resetWorld);
+  connect(action, &QAction::triggered, this, &WbMainWindow::resetWorldFromGui);
   menu->addAction(action);
 
   menu->addSeparator();
@@ -931,13 +931,6 @@ QMenu *WbMainWindow::createHelpMenu() {
   connect(action, &QAction::triggered, this, &WbMainWindow::openBugReport);
   menu->addAction(action);
 
-  action = new QAction(this);
-  action->setText(tr("&Support Ticket (Premier Service)..."));
-  action->setStatusTip(
-    tr("Open a Support Ticket with Cyberbotics. This requires a subscription to the Webots Premier Service."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::openSupportTicket);
-  menu->addAction(action);
-
   QMenu *followUsMenu = new QMenu(tr("&Keep informed"), this);
 
   action = new QAction(this);
@@ -959,7 +952,7 @@ QMenu *WbMainWindow::createHelpMenu() {
   followUsMenu->addAction(action);
 
   action = new QAction(this);
-  action->setText(tr("Subscribe to the Webots &YouTube chanel..."));
+  action->setText(tr("Subscribe to the Webots &YouTube channel..."));
   action->setStatusTip(tr("Watch the latest Webots movies on YouTube."));
   connect(action, &QAction::triggered, this, &WbMainWindow::openYouTube);
   followUsMenu->addAction(action);
@@ -1477,13 +1470,17 @@ void WbMainWindow::reloadWorld() {
     loadWorld(WbWorld::instance()->fileName(), true);
 }
 
-void WbMainWindow::resetWorld() {
+void WbMainWindow::resetWorldFromGui() {
+  resetWorld(true);
+}
+
+void WbMainWindow::resetWorld(bool restartControllers) {
   toggleAnimationAction(false);
   if (!WbWorld::instance())
     newWorld();
   else {
     mSimulationView->cancelSupervisorMovieRecording();
-    WbWorld::instance()->reset();
+    WbWorld::instance()->reset(restartControllers);
   }
   mSimulationView->view3D()->renderLater();
 }
@@ -1733,20 +1730,6 @@ void WbMainWindow::openCyberboticsWebsite() {
 
 void WbMainWindow::openBugReport() {
   showDocument(QString("%1/issues/new/choose").arg(WbStandardPaths::githubRepositoryUrl()));
-}
-
-void WbMainWindow::openSupportTicket() {
-  QOpenGLFunctions_3_3_Core gl;
-  gl.initializeOpenGLFunctions();
-
-  QString url = QString("%1/support_ticket.php?os=%2&graphics=%3 - %4 - %5&version=%6&type=ticket")
-                  .arg(WbStandardPaths::cyberboticsUrl())
-                  .arg(WbSysInfo::sysInfo())
-                  .arg((const char *)gl.glGetString(GL_VENDOR))
-                  .arg((const char *)gl.glGetString(GL_RENDERER))
-                  .arg((const char *)gl.glGetString(GL_VERSION))
-                  .arg(WbApplicationInfo::version().toString(true, false, true));
-  showDocument(url);
 }
 
 void WbMainWindow::openNewsletterSubscription() {

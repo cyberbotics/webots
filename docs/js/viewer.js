@@ -763,12 +763,14 @@ function sliderMotorCallback(transform, slider) {
   if (typeof transform === 'undefined')
     return;
 
+  if (typeof transform.firstRotation === 'undefined' && typeof transform.quaternion !== 'undefined')
+    transform.firstRotation = transform.quaternion.clone();
+
   var axis = slider.getAttribute('webots-axis').split(/[\s,]+/);
   axis = new THREE.Vector3(parseFloat(axis[0]), parseFloat(axis[1]), parseFloat(axis[2]));
 
   var value = parseFloat(slider.value);
   var position = parseFloat(slider.getAttribute('webots-position'));
-  var initialPosition = parseFloat(slider.getAttribute('webots-initial-position'));
 
   if (slider.getAttribute('webots-type') === 'LinearMotor') {
     // Compute translation
@@ -785,14 +787,18 @@ function sliderMotorCallback(transform, slider) {
     transform.updateMatrix();
   } else {
     // Compute angle.
-    var angle = initialPosition;
-    angle += value - position;
+    var angle = value - position;
+
     // Apply the new axis-angle.
     var q = new THREE.Quaternion();
     q.setFromAxisAngle(
       axis,
       angle
     );
+
+    if (typeof transform.firstRotation !== 'undefined')
+      q.multiply(transform.firstRotation);
+
     transform.quaternion.copy(q);
     transform.updateMatrix();
   }
@@ -986,7 +992,6 @@ function createRobotComponent(view) {
             }
             slider.setAttribute('value', device['position']);
             slider.setAttribute('webots-position', device['position']);
-            slider.setAttribute('webots-initial-position', device['initialPosition']);
             slider.setAttribute('webots-transform-id', device['transformID']);
             slider.setAttribute('webots-axis', device['axis']);
             slider.setAttribute('webots-type', deviceType);

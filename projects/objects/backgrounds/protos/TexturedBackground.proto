@@ -29,12 +29,12 @@
 # - twilight_cloudy_empty
 
 PROTO TexturedBackground [
-  field  SFString{"dawn_cloudy_empty", "dusk", "empty_office", "entrance_hall", "factory", "mars", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
-                  texture      "mountains"  # Defines the texture of the background.
-  field  SFFloat  luminosity   1            # Is `Background.luminosity`.
-  field  SFBool   skybox       TRUE         # Specifies if the `texture` field is used to define the skybox shown in the scene background.
-  field  SFBool   reflections  TRUE         # Specifies if the `texture` field is used in the reflections of the PBRAppearance nodes.
-  field  MFColor  skyColor     [0 0 0]      # Defines the background color in case the `skybox` field is `FALSE`.
+  field SFString{"dawn_cloudy_empty", "dusk", "empty_office", "entrance_hall", "factory", "mars", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
+                 texture      "mountains"  # Defines the texture of the background.
+  field SFFloat  luminosity   1            # Is `Background.luminosity`.
+  field SFBool   skybox       TRUE         # Specifies if the `texture` field is used to define the skybox shown in the scene background.
+  field SFBool   reflections  TRUE         # Specifies if the `texture` field is used in the reflections of the PBRAppearance nodes.
+  field MFColor  skyColor     [0 0 0]      # Defines the background color in case the `skybox` field is `FALSE`.
 ]
 {
   %{

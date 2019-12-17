@@ -16,7 +16,7 @@ PROTO SickLdMrs [
   field SFString{"0.5 [deg]", "0.25 [deg]", "0.125 [deg]"}
                    angularResolution "0.5 [deg]"
   field SFFloat    noise             0.001
-  field SFBool     physics           TRUE
+  field SFBool     enablePhysics     TRUE
 ]
 {
   %{
@@ -122,7 +122,7 @@ PROTO SickLdMrs [
         }
       }
     ]
-    %{ if fields.physics.value then }%
+    %{ if fields.enablePhysics.value then }%
       boundingObject Transform {
         translation 0 0 0.047
         children [

@@ -57,8 +57,6 @@
 ### ---- Webots included libraries ----
 ### if you want to use the Webots C API in your C++ controller program:
 ### USE_C_API = true
-### if you want to link with the Qt framework embedded in Webots:
-### QT = core gui widgets network
 ###
 ### ---- Debug mode ----
 ### if you want to display the gcc command line for compilation and link, as
@@ -392,144 +390,6 @@ endif
 
 
 ###-----------------------------------------------------------------------------
-### Qt
-###-----------------------------------------------------------------------------
-
-# Qt linking
-ifneq ($(strip $(QT)),)
- USE_QT = true
-endif
-
-ifdef USE_QT
- CFLAGS += -std=c++11
- MOC_SOURCES = $(addprefix $(BUILD_DIR)/,$(notdir $(HPP_FILES_TO_MOC:.hpp=.moc.cpp)))
- MOC_DIRECTORIES = $(sort $(dir $(HPP_FILES_TO_MOC)))
- OBJECTS += $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(MOC_SOURCES:.cpp=.o)))
-
- .PRECIOUS: $(MOC_SOURCES)
-
- ifeq ($(OSTYPE),windows)
-  CFLAGS += -D_USE_MATH_DEFINES
-  QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
-  MOC = moc
-  MOC_PLATFORM_FLAGS = -D_WIN32
-
-  ifneq ($(filter concurrent,$(QT)),)
-   DYNAMIC_LIBRARIES += -lQt5Concurrent
-   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtConcurrent"
-  endif
-  ifneq ($(filter core,$(QT)),)
-   DYNAMIC_LIBRARIES += -lQt5Core
-   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore"
-  endif
-  ifneq ($(filter gui,$(QT)),)
-   DYNAMIC_LIBRARIES += -lQt5Gui
-   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtGui"
-  endif
-  ifneq ($(filter network,$(QT)),)
-   DYNAMIC_LIBRARIES += -lQt5Network
-   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtNetwork"
-  endif
-  ifneq ($(filter opengl,$(QT)),)
-   DYNAMIC_LIBRARIES += -lQt5OpenGL
-   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtOpenGL"
-  endif
-  ifneq ($(filter printsupport,$(QT)),)
-   DYNAMIC_LIBRARIES += -lQt5PrintSupport
-   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtPrintSupport"
-  endif
-  ifneq ($(filter widgets,$(QT)),)
-   DYNAMIC_LIBRARIES += -lQt5Widgets
-   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtWidgets"
-  endif
-  ifneq ($(filter xml,$(QT)),)
-   DYNAMIC_LIBRARIES += -lQt5Xml
-   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtXml"
-  endif
- endif
-
- ifeq ($(OSTYPE),linux)
-  QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
-  QT_LIB_DIR = $(WEBOTS_HOME)/lib/webots
-  MOC = "$(WEBOTS_HOME)/bin/qt/moc"
-  MOC_PLATFORM_FLAGS = -D__linux__
-
-  DYNAMIC_LIBRARIES += -L"$(QT_LIB_DIR)"
-
-  ifneq ($(filter concurrent,$(QT)),)
-   DYNAMIC_LIBRARIES += -lQt5Concurrent
-   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtConcurrent"
-  endif
-  ifneq ($(filter core,$(QT)),)
-   DYNAMIC_LIBRARIES += -lQt5Core
-   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore"
-  endif
-  ifneq ($(filter gui,$(QT)),)
-   DYNAMIC_LIBRARIES += -lQt5Gui
-   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtGui"
-  endif
-  ifneq ($(filter network,$(QT)),)
-   DYNAMIC_LIBRARIES += -lQt5Network
-   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtNetwork"
-  endif
-  ifneq ($(filter opengl,$(QT)),)
-   DYNAMIC_LIBRARIES += -lQt5OpenGL
-   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtOpenGL"
-  endif
-  ifneq ($(filter printsupport,$(QT)),)
-   DYNAMIC_LIBRARIES += -lQt5PrintSupport
-   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtPrintSupport"
-  endif
-  ifneq ($(filter widgets,$(QT)),)
-   DYNAMIC_LIBRARIES += -lQt5Widgets
-   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtWidgets"
-  endif
-  ifneq ($(filter xml,$(QT)),)
-   DYNAMIC_LIBRARIES += -lQt5Xml
-   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtXml"
-  endif
- endif
-
- ifeq ($(OSTYPE),darwin)
-  WBCFLAGS += -Wno-unknown-pragmas
-  FRAMEWORKS_DIR = $(WEBOTS_HOME)/Contents/Frameworks
-  INCLUDE += -F"$(FRAMEWORKS_DIR)"
-  FRAMEWORKS += -F"$(FRAMEWORKS_DIR)"
-  DYNAMIC_LIBRARIES += -bind_at_load $(FRAMEWORKS)
-  MOC = "$(WEBOTS_HOME)/bin/qt/moc"
-  MOC_PLATFORM_FLAGS = -D__APPLE__
-
-  ifneq ($(filter concurrent,$(QT)),)
-   FRAMEWORKS += -framework QtConcurrent
-  endif
-  ifneq ($(filter core,$(QT)),)
-   FRAMEWORKS += -framework QtCore
-  endif
-  ifneq ($(filter gui,$(QT)),)
-   FRAMEWORKS += -framework QtGui
-  endif
-  ifneq ($(filter network,$(QT)),)
-   FRAMEWORKS += -framework QtNetwork
-  endif
-  ifneq ($(filter opengl,$(QT)),)
-   FRAMEWORKS += -framework QtOpenGL
-  endif
-  ifneq ($(filter printsupport,$(QT)),)
-   FRAMEWORKS += -framework QtPrintSupport
-  endif
-  ifneq ($(filter widgets,$(QT)),)
-   FRAMEWORKS += -framework QtWidgets
-  endif
-  ifneq ($(filter xml,$(QT)),)
-   FRAMEWORKS += -framework QtXml
-  endif
-
- endif
-
-endif
-
-
-###-----------------------------------------------------------------------------
 ### Makefile setup
 ###-----------------------------------------------------------------------------
 
@@ -544,13 +404,6 @@ vpath %.c $(SOURCES_DIRECTORIES)
 vpath %.cc $(SOURCES_DIRECTORIES)
 vpath %.c++ $(SOURCES_DIRECTORIES)
 vpath %.cpp $(SOURCES_DIRECTORIES)
-# moc files:
-ifdef USE_QT
- vpath %.cpp $(BUILD_DIR)
- ifdef MOC_DIRECTORIES
-  vpath %.hpp $(MOC_DIRECTORIES)
- endif
-endif
 
 # phony
 .PHONY : clean $(SUPPORTED_TARGETS) jar
@@ -678,10 +531,6 @@ $(BUILD_GOAL_DIR)/%.o:%.c++
 $(BUILD_GOAL_DIR)/%.o:%.cpp
 	@echo "# compiling" $(notdir $<)
 	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
-
-$(BUILD_DIR)/%.moc.cpp: %.hpp
-	@echo "# moc-generating" $(notdir $<)
-	$(SILENT)$(MOC) $(MOC_PLATFORM_FLAGS) $(INCLUDE:-isystem:-I) $< -o $@
 
 ###-----------------------------------------------------------------------------
 ### How to clean up the directory

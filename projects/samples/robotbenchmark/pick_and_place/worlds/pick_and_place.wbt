@@ -500,7 +500,7 @@ DEF MACHINERY Solid {
     }
     DEF LOGO Transform {
       translation -0.21 0.79 -0.76
-      rotation 0 -0.7071 0.7071 3.14159
+      rotation 0 -0.7071067811865476 0.7071067811865476 3.14159
       children [
         Shape {
           appearance PBRAppearance {

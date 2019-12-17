@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright 1996-2019 Cyberbotics Ltd.
 #
@@ -27,7 +27,7 @@ def gen_with_doc(type, line, doc_url=None):
     assert match
     function = match.group(1)
     arguments = match.group(2)
-    with open(function + '.m', 'wb') as file:
+    with open(function + '.m', 'w') as file:
         result = 'result = ' if type == FUNC else ''
         file.write('function %s%s(%s)\n' % (result, function, arguments))
         file.write('%% Usage: %s(%s)\n' % (function, arguments))
@@ -43,7 +43,7 @@ def gen(type, line, doc_page=None):
 
 
 def gen_const(name, value):
-    with open(name + '.m', 'wb') as file:
+    with open(name + '.m', 'w') as file:
         file.write('function value = %s\n' % name)
         file.write('value = %s;\n' % value)
 
@@ -349,6 +349,7 @@ gen(PROC, "wb_robot_battery_sensor_disable()", "robot")
 gen(FUNC, "wb_robot_battery_sensor_get_sampling_period()", "robot")
 gen(FUNC, "wb_robot_battery_sensor_get_value()", "robot")
 gen(FUNC, "wb_robot_get_mode()", "robot")
+gen(PROC, "wb_robot_set_mode(mode, arg)", "robot")
 gen(FUNC, "wb_robot_get_custom_data()", "robot")
 gen(FUNC, "wb_robot_get_data()", "robot")
 gen(FUNC, "wb_robot_get_time()", "robot")
@@ -421,8 +422,8 @@ gen(FUNC, "wb_supervisor_node_get_type_name(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_base_type_name(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_field(noderef, fieldname)", "supervisor")
 # gen(FUNC, "wb_supervisor_node_get_center_of_mass(noderef)", "supervisor")
-gen(FUNC, "wb_supervisor_node_get_number_of_contact_points(noderef, index)", "supervisor")
-# gen(FUNC, "wb_supervisor_node_get_contact_point(noderef)", "supervisor")
+gen(FUNC, "wb_supervisor_node_get_number_of_contact_points(noderef)", "supervisor")
+# gen(FUNC, "wb_supervisor_node_get_contact_point(noderef, index)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_parent_node(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_selected()", "supervisor")
 # gen(FUNC, "wb_supervisor_node_get_position(noderef)", "supervisor")
@@ -432,6 +433,9 @@ gen(FUNC, "wb_supervisor_node_get_velocity(noderef)", "supervisor")
 gen(PROC, "wb_supervisor_node_move_viewpoint(node)", "supervisor")
 gen(PROC, "wb_supervisor_node_set_visibility(node, from, visible)", "supervisor")
 gen(PROC, "wb_supervisor_node_set_velocity(noderef, velocity)", "supervisor")
+gen(PROC, "wb_supervisor_node_add_force(noderef, force, relative)", "supervisor")
+gen(PROC, "wb_supervisor_node_add_force_with_offset(noderef, force, offset, relative)", "supervisor")
+gen(PROC, "wb_supervisor_node_add_torque(noderef, torque, relative)", "supervisor")
 gen(FUNC, "wb_supervisor_node_reset_physics(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_restart_controller(noderef)", "supervisor")
 gen(PROC, "wb_supervisor_node_remove(noderef)", "supervisor")
@@ -484,6 +488,9 @@ gen(PROC, "wb_supervisor_field_remove_mf(fieldref, index)", "supervisor")
 gen(PROC, "wb_supervisor_field_import_mf_node(fieldref, position, filename)", "supervisor")
 gen(PROC, "wb_supervisor_field_import_mf_node_from_string(fieldref, position, node_string)", "supervisor")
 gen(PROC, "wb_supervisor_field_remove_mf_node(fieldref, position)", "supervisor")
+gen(PROC, "wb_supervisor_field_remove_sf(fieldref)", "supervisor")
+gen(PROC, "wb_supervisor_field_import_sf_node(fieldref, filename)", "supervisor")
+gen(PROC, "wb_supervisor_field_import_sf_node_from_string(fieldref, node_string)", "supervisor")
 # gen(FUNC, "wb_supervisor_virtual_reality_headset_get_position()", "supervisor")
 # gen(FUNC, "wb_supervisor_virtual_reality_headset_get_orientation()", "supervisor")
 gen(FUNC, "wb_supervisor_virtual_reality_headset_is_used()", "supervisor")

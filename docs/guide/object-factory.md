@@ -53,8 +53,8 @@ PlasticCrate {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 1 0 0
   SFString   name        "plastic crate"
-  SFColor    color       0.9 0.2 0.2
   SFVec3f    size        0.6 0.6 0.6
+  SFColor    color       0.9 0.2 0.2
   SFFloat    mass        0
 }
 ```
@@ -477,6 +477,7 @@ CapScrew {
   SFFloat    screwRadius      0.006
   SFFloat    screwLength      0.05
   SFString   contactMaterial  "default"
+  SFBool     enablePhysics    TRUE
 }
 ```
 
@@ -492,6 +493,8 @@ CapScrew {
 - `screwRadius`: Defines the radius of the screw.
 
 - `screwLength`: Defines the length of the screw.
+
+- `enablePhysics`: Defines whether the screw should have physics.
 
 ### ElectricalPlug
 
@@ -948,3 +951,4 @@ SmallValve {
 - `controller`: Defines the controller of the valve which is used to limit its rotation.
 
 - `absoluteStop`: Defines the maximum rotational angle in radians. This value is sent to the controller using the controllerArgs field.
+

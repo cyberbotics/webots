@@ -50,6 +50,14 @@ The red blocks graphically represent the braking system, but the wheel is actual
 Its "bumper" [TouchSensor](../reference/touchsensor.md) (represented by a black box) detects collisions.
 `MyBot` moves back and turns a little each time a collision is detected.
 
+### [compass.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/worlds/compass.wbt)
+
+**Keywords**: [Compass](../reference/compass.md)
+
+![compass.png](images/samples/compass.thumbnail.jpg) In this example, `MyBot` moves in a closed arena filled with obstacles.
+The robot is equipped with a yellow motorized needle which always indicates towards the north.
+The north direction is computed using a [Compass](../reference/compass.md) node.
+
 ### [camera.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/worlds/camera.wbt)
 
 **Keywords**: [Camera](../reference/camera.md), image processing, RGB pixel, Camera noise, PNG, ANSI

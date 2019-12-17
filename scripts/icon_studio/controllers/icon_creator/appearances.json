@@ -89,6 +89,9 @@
   "Parquetry": {
     "fields": "textureTransform TextureTransform { scale 3 2 }"
   },
+  "Pcb": {
+    "fields": "textureTransform TextureTransform { scale 3.2 1.4 }"
+  },
   "Plaster": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
@@ -109,6 +112,9 @@
   },
   "RoughPine": {
     "fields": "textureTransform TextureTransform { scale 6 1 }"
+  },
+  "RoughPolymer": {
+    "fields": "baseColor 0 0 0 textureTransform TextureTransform { scale 2 1 }"
   },
   "Rubber": {
     "fields": "textureTransform TextureTransform { scale 3 2 }"
@@ -136,6 +142,9 @@
   },
   "StonePavement": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
+  },
+  "TireRubber": {
+    "fields": "textureTransform TextureTransform { rotation 1.5708 scale 1 2 translation 1.5 0 }"
   },
   "ThreadMetalPlate": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"

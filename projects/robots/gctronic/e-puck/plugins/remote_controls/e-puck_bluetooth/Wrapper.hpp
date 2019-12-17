@@ -31,7 +31,7 @@ public:
   static void cleanup();
 
   // mandatory functions
-  static bool start(void *);
+  static bool start(const char *);
   static void stop();
   static bool hasFailed() { return !cSuccess; }
   static int robotStep(int);

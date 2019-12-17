@@ -16,8 +16,8 @@ PROTO TiagoBase [
   field  SFBool      synchronization  TRUE
   field  SFBool      selfCollision    FALSE   # Enables/disables the detection of collisions within the robot.
   field  SFString    model            "PAL Robotics - TIAGo Base"
-  field  MFNode      bodyExtension    []      # Extends the robot with a body (such as the TiagoBody or fixed shelves, safety box, roller conveyor, boxes, lifter for example).
-  field  MFNode      lidarExtension   []      # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
+  field  MFNode      bodySlot         []      # Extends the robot with a body (such as the TiagoBody or fixed shelves, safety box, roller conveyor, boxes, lifter for example).
+  field  MFNode      lidarSlot        []      # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
 ]
 {
   Robot {
@@ -33,12 +33,12 @@ PROTO TiagoBase [
     model IS model
     children [
       DEF BODY_EXTENSION Transform {
-        children IS bodyExtension
+        children IS bodySlot
       }
       DEF LIDAR Transform {
         translation 0.202 0 -0.004
         rotation 0.5774 -0.5773 -0.5774 2.0944
-        children IS lidarExtension
+        children IS lidarSlot
       }
       Accelerometer {
       }

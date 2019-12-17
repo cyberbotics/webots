@@ -36,6 +36,7 @@ public:
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
   void reset() override;
+  void resetPhysics() override;
   void save() override;
   QVector<WbLogicalDevice *> devices() const override;
   bool resetJointPositions() override;

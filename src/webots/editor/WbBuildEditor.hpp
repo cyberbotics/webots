@@ -52,7 +52,7 @@ public:
 
 signals:
   void reloadRequested();
-  void resetRequested();
+  void resetRequested(bool restartControllers);
 
 private:
   QAction *mBuildAction, *mCleanAction, *mMakeJarAction;

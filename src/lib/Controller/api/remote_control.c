@@ -142,7 +142,7 @@ void remote_control_cleanup() {
   initialized = false;
 }
 
-bool remote_control_start(void *args) {
+bool remote_control_start(const char *args) {
   return remoteInterface.mandatory.wbr_start(args);
 }
 

@@ -12,6 +12,18 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.sceneModified = false;
     this.useNodeCache = {};
     this.objectsIdCache = {};
+
+    // The Mozilla WebGL implementation does not support automatic mimaps generation on float32 cube textures.
+    // - Warning (JS console): "Texture at base level is not unsized internal format or is not color-renderable or texture-filterable."
+    // - The related OpenGL specification is known as cryptic about this topic:
+    //   - https://www.khronos.org/registry/OpenGL-Refpages/es3/html/glGenerateMipmap.xhtml
+    //   - https://stackoverflow.com/questions/44754479/issue-with-rgba32f-texture-format-and-mipmapping-using-opengl-es-3-0
+    //   - https://stackoverflow.com/questions/56829454/unable-to-generate-mipmap-for-half-float-texture
+    const gl = document.createElement('canvas').getContext('webgl');
+    const glVendor = gl.getParameter(gl.VENDOR);
+    this.enableHDRReflections = glVendor !== 'Mozilla';
+    if (!this.enableHDRReflections)
+      console.warn('HDR reflections are not implemented for the current hardware.');
   }
 
   init(texturePathPrefix = '') {
@@ -74,6 +86,18 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   render() {
+    // Set maximum rendering frequency.
+    // To avoid slowing down the simulation rendering the scene too often, the last rendering time is checked
+    // and the rendering is performed only at a given maximum frequency.
+    // To be sure that no rendering request is lost, a timeout is set.
+    const renderingMinTimeStep = 40; // Rendering maximum frequency: every 40 ms.
+    let currentTime = (new Date()).getTime();
+    if (this.nextRenderingTime && this.nextRenderingTime > currentTime) {
+      if (!this.renderingTimeout)
+        this.renderingTimeout = setTimeout(() => this.render(), this.nextRenderingTime - currentTime);
+      return;
+    }
+
     // Apply pass uniforms.
     this.hdrResolvePass.material.uniforms['exposure'].value = 2.0 * this.viewpoint.camera.userData.exposure; // Factor empirically found to match the Webots rendering.
     this.bloomPass.threshold = this.viewpoint.camera.userData.bloomThreshold;
@@ -84,6 +108,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.composer.render();
     if (typeof this.postRender === 'function')
       this.postRender(this.scene, this.viewpoint.camera);
+
+    this.nextRenderingTime = (new Date()).getTime() + renderingMinTimeStep;
+    clearTimeout(this.renderingTimeout);
+    this.renderingTimeout = null;
   }
 
   resize() {
@@ -125,7 +153,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
     */
 
     this.onSceneUpdate();
-    this.render();
   }
 
   deleteObject(id) {
@@ -152,12 +179,12 @@ class X3dScene { // eslint-disable-line no-unused-vars
     if (object === this.root)
       this.root = undefined;
     this.onSceneUpdate();
-    this.render();
   }
 
   loadWorldFile(url, onLoad) {
     this.objectsIdCache = {};
     var loader = new THREE.X3DLoader(this);
+    loader.enableHDRReflections = this.enableHDRReflections;
     loader.load(url, (object3d) => {
       if (object3d.length > 0) {
         this.scene.add(object3d[0]);
@@ -188,6 +215,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     if (parentId && parentId !== 0)
       parentObject = this.getObjectById('n' + parentId);
     var loader = new THREE.X3DLoader(this);
+    loader.enableHDRReflections = this.enableHDRReflections;
     var objects = loader.parse(x3dObject, parentObject);
     if (typeof parentObject !== 'undefined')
       this._updateUseNodesIfNeeded(parentObject, parentObject.name.split(';'));
