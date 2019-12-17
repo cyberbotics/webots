@@ -64,6 +64,7 @@ void WbNewControllerWizard::updateUI() {
       mIdeProjectFullPath << mControllerDir + mNameEdit->text() + ".sln";
       mIdeProjectFullPath << mControllerDir + mNameEdit->text() + ".vcxproj";
       mIdeProjectFullPath << mControllerDir + mNameEdit->text() + ".vcxproj.filter";
+      mIdeProjectFullPath << mControllerDir + mNameEdit->text() + ".vcxproj.user";
     } else
 #endif
       mIdeProjectFullPath << mControllerDir + "Makefile";
@@ -139,6 +140,10 @@ void WbNewControllerWizard::accept() {
                   success;
       else if (ideProjectFullPath.endsWith(".vcxproj.filter"))
         success = WbFileUtil::copyAndReplaceString(src + mLanguage->defaultFileSuffix() + ".vcxproj.filter", ideProjectFullPath,
+                                                   "template", mNameEdit->text()) &&
+                  success;
+      else if (ideProjectFullPath.endsWith(".vcxproj.user"))
+        success = WbFileUtil::copyAndReplaceString(src + mLanguage->defaultFileSuffix() + ".vcxproj.user", ideProjectFullPath,
                                                    "template", mNameEdit->text()) &&
                   success;
 #endif
