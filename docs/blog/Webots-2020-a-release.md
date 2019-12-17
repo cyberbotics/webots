@@ -136,7 +136,7 @@ Webots 2020a contains a new complete apartment environment: check it [here](../g
 
 On Linux, you can now also program your controllers with Python 3.8.
 
-Finally, after one year of open-source, we removed the license system and turned also the old Webots versions prior to R2019 free.
+Finally, after one year of open-source, we removed the license system and turned also the old Webots versions prior to R2019a free.
 Please check the [documentation](../guide/general-faq.md#can-i-still-use-a-webots-version-before-the-r2019a-release) for further details.
 Just note that old versions are no longer maintained.
 
