@@ -234,7 +234,8 @@ int main(int argc, char **argv) {
 
   // Get and enable the camera
   camera = wb_robot_get_device(camera_name);
-  wb_camera_enable(camera, TIME_STEP);
+  if (camera > 0)
+    wb_camera_enable(camera, TIME_STEP);
 
   // Get and enable the infrared sensors
   for (int i = 0; i < NUMBER_OF_INFRARED_SENSORS; ++i) {

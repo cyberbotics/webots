@@ -13,6 +13,7 @@ Viewpoint {
 }
 TexturedBackground {
   texture "factory"
+  skybox FALSE
 }
 TexturedBackgroundLight {
   texture "factory"

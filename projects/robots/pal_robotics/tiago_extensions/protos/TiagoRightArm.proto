@@ -546,7 +546,7 @@ PROTO TiagoRightArm [
                                                   children [
                                                     Transform {
                                                       rotation 0 0 -1 1.5708
-                                                      children IS endEffector
+                                                      children IS endEffectorSlot
                                                     }
                                                     Transform {
                                                       rotation 0.5774 0.5774 -0.5774 2.0944

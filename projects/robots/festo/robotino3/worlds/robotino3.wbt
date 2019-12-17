@@ -7,7 +7,6 @@ WorldInfo {
     "The simulation shows a Robotino 3 moving in an industrial environment using a Braitenberg algorithm using the information received by its nine infrared sensors."
   ]
   title "Festo's Robotino 3 robot"
-  basicTimeStep 32
   contactProperties [
     ContactProperties {
       material1 "WheelMat"
@@ -30,6 +29,7 @@ Viewpoint {
 }
 TexturedBackground {
   texture "factory"
+  skybox FALSE
 }
 TexturedBackgroundLight {
   texture "factory"
@@ -69,17 +69,17 @@ DEF ROOF RectangleArena {
 }
 Robotino3 {
   translation -4.896 0.00815182 -0.32
-  rotation -0.57735 0.57735 0.57735 2.0944
-  cameraSlot [
-    Robotino3Webcam {
-    }
-  ]
+  rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
   topSlot [
     Robotino3HokuyoMountingSupport {
       extensionSlot [
         HokuyoUrg04lxug01 {
         }
       ]
+    }
+  ]
+  cameraSlot [
+    Robotino3Webcam {
     }
   ]
 }
