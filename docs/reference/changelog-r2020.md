@@ -1,7 +1,7 @@
 # Webots R2020 Change Log
 
 ## [Webots R2020a](../blog/Webots-2019-b-release.md)
-Released on December YYth, 2019.
+Released on December 18th, 2019.
 
   - New Robots
     - Added several TIAGo robots from PAL Robotics: [TIAGo Base](../guide/tiago-base.md), [TIAGo Iron](../guide/tiago-iron.md), [TIAGo Steel](../guide/tiago-steel.md), [TIAGo Titanium](../guide/tiago-titanium.md) and [TIAGo++](../guide/tiagopp.md).
