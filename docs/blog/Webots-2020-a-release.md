@@ -47,7 +47,7 @@ The [LDS-01](../guide/lidar-sensors.md#robotis-lds-01) lidar sensor is now avail
 
 Simulate the [Robotino 3](../guide/robotino3.md) from [Festo](https://www.festo-didactic.com/int-en/) in Webots.
 
-%figure "TRobotino 3 Model in Webots"
+%figure "Robotino 3 Model in Webots"
 ![Robotino 3](images/robotino3.jpg)
 %end
 
