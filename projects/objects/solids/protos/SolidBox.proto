@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -7,14 +7,15 @@
 # The UV-mapping is defined in a metric way (the textures are not deformed - the reference is the longest edge).
 
 PROTO SolidBox [
-  field SFVec3f    translation     0 0 0
-  field SFRotation rotation        0 1 0 0
-  field SFString   name            "box"
-  field SFVec3f    size            2 2 2                                                                                                         # Defines the size of the box.                                                                                                             # Defines the number of polygons used to represent the box and so its resolution.
-  field SFString   contactMaterial "default"                                                                                                     # Is `Solid.contactMaterial`.
-  field SFNode     appearance      PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }  # Defines the appearance of the box.
-  field SFNode     physics         NULL                                                                                                          # Is `Solid.physics`.
-  field SFBool     castShadows     TRUE                                                                                                          # Defines whether this object should cast shadows.
+  field SFVec3f    translation           0 0 0
+  field SFRotation rotation              0 1 0 0
+  field SFString   name                  "box"
+  field SFVec3f    size                  2 2 2                                                                                                         # Defines the size of the box.                                                                                                             # Defines the number of polygons used to represent the box and so its resolution.
+  field SFString   contactMaterial       "default"                                                                                                     # Is `Solid.contactMaterial`.
+  field SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }  # Defines the appearance of the box.
+  field SFNode     physics               NULL                                                                                                          # Is `Solid.physics`.
+  field SFBool     enableBoundingObject  TRUE                                                                                                          # Defines whether the solid should have a bounding object.
+  field SFBool     castShadows           TRUE                                                                                                          # Defines whether this object should cast shadows.
 ]
 {
   %{
@@ -124,9 +125,11 @@ PROTO SolidBox [
     name IS name
     model "box"
     contactMaterial IS contactMaterial
+    %{ if fields.enableBoundingObject.value then }%
     boundingObject Box {
       size %{= size.x }% %{= size.y }% %{= size.z }%
     }
+    %{ end }%
     physics IS physics
   }
 }

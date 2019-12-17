@@ -450,7 +450,7 @@ QMenu *WbMainWindow::createFileMenu() {
   menu->addAction(action);
 
   action = manager->action(WbActionManager::RESET_SIMULATION);
-  connect(action, &QAction::triggered, this, &WbMainWindow::resetWorld);
+  connect(action, &QAction::triggered, this, &WbMainWindow::resetWorldFromGui);
   menu->addAction(action);
 
   menu->addSeparator();
@@ -550,8 +550,11 @@ QMenu *WbMainWindow::createViewMenu() {
   menu->setTitle(tr("&View"));
 
   WbActionManager *actionManager = WbActionManager::instance();
-  menu->addAction(actionManager->action(WbActionManager::FOLLOW_OBJECT));
-  menu->addAction(actionManager->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE));
+  subMenu = menu->addMenu(tr("&Follow Object"));
+  subMenu->addAction(actionManager->action(WbActionManager::FOLLOW_NONE));
+  subMenu->addAction(actionManager->action(WbActionManager::FOLLOW_TRACKING));
+  subMenu->addAction(actionManager->action(WbActionManager::FOLLOW_MOUNTED));
+  subMenu->addAction(actionManager->action(WbActionManager::FOLLOW_PAN_AND_TILT));
   menu->addAction(actionManager->action(WbActionManager::RESTORE_VIEWPOINT));
   menu->addAction(actionManager->action(WbActionManager::MOVE_VIEWPOINT_TO_OBJECT));
 
@@ -782,13 +785,6 @@ QMenu *WbMainWindow::createToolsMenu() {
   connect(action, &QAction::triggered, this, &WbMainWindow::openPreferencesDialog);
   menu->addAction(action);
 
-  action = new QAction(this);
-  action->setMenuRole(QAction::ApplicationSpecificRole);  // Mac: put the menu respecting the MacOS specifications
-  action->setText(tr("&Check for updates..."));
-  action->setStatusTip(tr("Open the Webots update dialog."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::openWebotsUpdateDialogFromMenu);
-  menu->addAction(action);
-
   return menu;
 }
 
@@ -828,13 +824,20 @@ QMenu *WbMainWindow::createHelpMenu() {
   connect(action, &QAction::triggered, this, &WbMainWindow::showAboutBox);
   menu->addAction(action);
 
-  if (WbGuidedTour::isAvailable()) {
-    action = new QAction(this);
-    action->setText(tr("Webots &Guided Tour..."));
-    action->setStatusTip(tr("Start a guided tour demonstrating Webots capabilities."));
-    connect(action, &QAction::triggered, this, &WbMainWindow::showGuidedTour);
-    menu->addAction(action);
-  }
+  action = new QAction(this);
+  action->setText(tr("Webots &Guided Tour..."));
+  action->setStatusTip(tr("Start a guided tour demonstrating Webots capabilities."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::showGuidedTour);
+  menu->addAction(action);
+
+  menu->addSeparator();
+
+  action = new QAction(this);
+  action->setMenuRole(QAction::ApplicationSpecificRole);  // Mac: put the menu respecting the MacOS specifications
+  action->setText(tr("&Check for updates..."));
+  action->setStatusTip(tr("Open the Webots update dialog."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::openWebotsUpdateDialogFromMenu);
+  menu->addAction(action);
 
   menu->addSeparator();
 
@@ -928,13 +931,6 @@ QMenu *WbMainWindow::createHelpMenu() {
   connect(action, &QAction::triggered, this, &WbMainWindow::openBugReport);
   menu->addAction(action);
 
-  action = new QAction(this);
-  action->setText(tr("&Support Ticket (Premier Service)..."));
-  action->setStatusTip(
-    tr("Open a Support Ticket with Cyberbotics. This requires a subscription to the Webots Premier Service."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::openSupportTicket);
-  menu->addAction(action);
-
   QMenu *followUsMenu = new QMenu(tr("&Keep informed"), this);
 
   action = new QAction(this);
@@ -956,7 +952,7 @@ QMenu *WbMainWindow::createHelpMenu() {
   followUsMenu->addAction(action);
 
   action = new QAction(this);
-  action->setText(tr("Subscribe to the Webots &YouTube chanel..."));
+  action->setText(tr("Subscribe to the Webots &YouTube channel..."));
   action->setStatusTip(tr("Watch the latest Webots movies on YouTube."));
   connect(action, &QAction::triggered, this, &WbMainWindow::openYouTube);
   followUsMenu->addAction(action);
@@ -1474,13 +1470,17 @@ void WbMainWindow::reloadWorld() {
     loadWorld(WbWorld::instance()->fileName(), true);
 }
 
-void WbMainWindow::resetWorld() {
+void WbMainWindow::resetWorldFromGui() {
+  resetWorld(true);
+}
+
+void WbMainWindow::resetWorld(bool restartControllers) {
   toggleAnimationAction(false);
   if (!WbWorld::instance())
     newWorld();
   else {
     mSimulationView->cancelSupervisorMovieRecording();
-    WbWorld::instance()->reset();
+    WbWorld::instance()->reset(restartControllers);
   }
   mSimulationView->view3D()->renderLater();
 }
@@ -1561,8 +1561,6 @@ void WbMainWindow::showAboutBox() {
 }
 
 void WbMainWindow::showGuidedTour() {
-  if (!WbGuidedTour::isAvailable())
-    return;
   WbGuidedTour *tour = WbGuidedTour::instance(this);
   tour->show();
   tour->raise();
@@ -1677,8 +1675,8 @@ void WbMainWindow::showDocument(const QString &url) {
     QString WEBOTS_HOME(QDir::toNativeSeparators(WbStandardPaths::webotsHomePath()));
     QByteArray ldLibraryPathBackup = qgetenv("LD_LIBRARY_PATH");
     QByteArray newLdLibraryPath = ldLibraryPathBackup;
-    newLdLibraryPath.replace(WEBOTS_HOME + "lib/", "");
-    newLdLibraryPath.replace(WEBOTS_HOME + "lib", "");
+    newLdLibraryPath.replace(WEBOTS_HOME + "lib/webots/", "");
+    newLdLibraryPath.replace(WEBOTS_HOME + "lib/webots", "");
     qputenv("LD_LIBRARY_PATH", newLdLibraryPath);
 #endif
     QString u("file:///" + url);
@@ -1732,20 +1730,6 @@ void WbMainWindow::openCyberboticsWebsite() {
 
 void WbMainWindow::openBugReport() {
   showDocument(QString("%1/issues/new/choose").arg(WbStandardPaths::githubRepositoryUrl()));
-}
-
-void WbMainWindow::openSupportTicket() {
-  QOpenGLFunctions_3_3_Core gl;
-  gl.initializeOpenGLFunctions();
-
-  QString url = QString("%1/support_ticket.php?os=%2&graphics=%3 - %4 - %5&version=%6&type=ticket")
-                  .arg(WbStandardPaths::cyberboticsUrl())
-                  .arg(WbSysInfo::sysInfo())
-                  .arg((const char *)gl.glGetString(GL_VENDOR))
-                  .arg((const char *)gl.glGetString(GL_RENDERER))
-                  .arg((const char *)gl.glGetString(GL_VERSION))
-                  .arg(WbApplicationInfo::version().toString(true, false, true));
-  showDocument(url);
 }
 
 void WbMainWindow::openNewsletterSubscription() {

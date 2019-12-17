@@ -57,11 +57,10 @@ void Wrapper::cleanup() {
   DeviceManager::cleanup();
 }
 
-bool Wrapper::start(void *arg) {
-  if (!arg)
+bool Wrapper::start(const char *args) {
+  if (!args)
     return false;
-  const char *port = static_cast<const char *>(arg);
-  cCommunication->initialize(std::string(port));
+  cCommunication->initialize(std::string(args));
   cTime = new Time();
   cSuccess = cCommunication->isInitialized();
   return cSuccess;
@@ -295,6 +294,13 @@ int Wrapper::robotStep(int step) {
       ds->resetSensorRequested();
       ds->setLastRefreshTime(beginStepTime);
     }
+  }
+  SingleValueSensor *tof = DeviceManager::instance()->tofSensor();
+  if (tof && tof->isSensorRequested()) {
+    const double value = sensor_data[69] + 256 * sensor_data[70];
+    wbr_distance_sensor_set_value(tof->tag(), value);
+    tof->resetSensorRequested();
+    tof->setLastRefreshTime(beginStepTime);
   }
   for (int i = 0; i < 8; i++) {
     SingleValueSensor *ls = DeviceManager::instance()->lightSensor(i);

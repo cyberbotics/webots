@@ -130,7 +130,7 @@ int main(int argc, char *argv[]) {
 #ifdef _WIN32
       webotsDirPath + "/msys64/mingw64/share/qt5/plugins";
 #else
-      webotsDirPath + "/lib/qt/plugins";
+      webotsDirPath + "/lib/webots/qt/plugins";
 #endif
     qputenv("QT_QPA_PLATFORM_PLUGIN_PATH", platformPluginPath.toUtf8());
   }

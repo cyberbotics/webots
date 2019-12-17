@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "Two Koala robots (K-Team SA) moving on a moon-like surface and turning around each other."
@@ -11,13 +11,12 @@ Viewpoint {
   orientation -0.025945171984067764 -0.9991154830348528 -0.03309228929448502 2.2406874669346033
   position -3.781390000000001 1.04711 -1.00209
 }
-Background {
-  skyColor [
-    0.0392156862745098 0.0392156862745098 0.0392156862745098
-  ]
+TexturedBackground {
+  texture "empty_office"
+  skybox FALSE
 }
 TexturedBackgroundLight {
-  texture "noon_cloudy_mountains"
+  texture "empty_office"
 }
 DEF GROUND Shape {
   appearance PBRAppearance {

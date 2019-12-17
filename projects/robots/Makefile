@@ -29,6 +29,7 @@ CONTROLLERS=\
   clearpath/pr2/controllers.Makefile \
   dji/mavic/controllers.Makefile \
   epfl/biorob/controllers.Makefile \
+  festo/robotino3/controllers.Makefile \
   fujitsu/hoap2/controllers.Makefile \
   gctronic/e-puck/controllers.Makefile \
   gctronic/elisa/controllers.Makefile \
@@ -55,6 +56,7 @@ CONTROLLERS=\
   picaxe/microbot/controllers.Makefile \
   robotis/bioloid/controllers.Makefile \
   robotis/darwin-op/controllers.Makefile \
+  robotis/turtlebot/controllers.Makefile \
   sony/qrio/controllers.Makefile \
   sphero/bb8/controllers.Makefile \
   surveyor/controllers.Makefile \
@@ -81,7 +83,7 @@ release debug profile clean: $(TARGETS)
 
 # libraries dependencies
 
-robotis/darwin-op/controllers.Makefile: robotis/darwin-op/libraries.Makefile
+robotis/darwin-op/controllers.Makefile robotis/darwin-op/plugins/robot_windows.Makefile: robotis/darwin-op/libraries.Makefile
 
 neuronics/ipr/controllers.Makefile: neuronics/ipr/libraries.Makefile
 

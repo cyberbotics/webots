@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "Test world resetting the simulation"
@@ -92,7 +92,7 @@ DEF SOLID4 Solid {
   physics Physics {
   }
 }
-TestSuiteSupervisor {
+DEF TEST_SUITE_SUPERVISOR TestSuiteSupervisor {
 }
 NonStaticSupervisor {
   controller "supervisor_reset_simulation"

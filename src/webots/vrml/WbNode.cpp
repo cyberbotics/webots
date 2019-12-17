@@ -2021,6 +2021,15 @@ void WbNode::setFieldsParentNode() {
   }
 }
 
+QStringList WbNode::documentationBookAndPage(bool isRobot) const {
+  if (isProtoInstance()) {
+    QStringList bookAndPage(mProto->documentationBookAndPage(isRobot, false));
+    if (!bookAndPage.isEmpty())
+      return bookAndPage;
+  }
+  return mModel->documentationBookAndPage();
+}
+
 /*
 void WbNode::printDebugNodeStructure(int level) {
   QString indent;

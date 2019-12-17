@@ -20,6 +20,7 @@ import glob
 import os
 import shutil
 from lxml import etree
+from functools import cmp_to_key
 
 
 def _cmp(a, b):
@@ -66,8 +67,9 @@ supervisor.step(timeStep)
 # Remove useless files.
 os.remove(targetHTMLFile)
 os.remove(targetAnimationFile)
-for fl in glob.glob(os.path.join(scenePath, 'textures', 'cubic', 'noon_cloudy_mountains*.jpg')):
-    os.remove(fl)
+for extension in ['hdr', 'png', 'jpg']:
+    for fl in glob.glob(os.path.join(scenePath, 'textures', 'cubic', 'mountains*.%s' % extension)):
+        os.remove(fl)
 
 # Simplified JSON file.
 # - keep only the interested robot.
@@ -82,7 +84,7 @@ with open(targetMetaFile) as f:
             break
     assert robotData, 'Failed to simplified the JSON supervisor.'
     # - sort the device list per interesting category type.
-    robotData['devices'] = sorted(robotData['devices'], cmp=_compareDevice)
+    robotData['devices'] = sorted(robotData['devices'], key=cmp_to_key(_compareDevice))
     # - rewrite the json file.
     with open(targetMetaFile, 'w') as f:
         json.dump(robotData, f, indent=2)

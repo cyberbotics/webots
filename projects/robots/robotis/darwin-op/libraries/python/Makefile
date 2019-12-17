@@ -39,7 +39,7 @@ C_FLAGS         = -c -Wall -fPIC -Wno-unused-but-set-variable
 LD_FLAGS        = -shared
 LIBRARY         = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).so
 PYTHON_INCLUDES = -I"/usr/include/python$(PYTHON_VERSION)"
-LIB            += -L"$(WEBOTS_HOME)/lib" -lController -lCppController
+LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController -lCppController
 endif
 
 ifeq ($(OSTYPE),windows)
@@ -50,7 +50,7 @@ C_FLAGS         = -c -O -Wall -DMS_WIN64 -D_hypot=hypot -Wno-stringop-truncation
 LD_FLAGS        = -shared -Wl,--enable-auto-import
 LIBRARY         = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).pyd
 PYTHON_INCLUDES = -I"$(PYTHON_HOME)include"
-LIB            += -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -lController -lCppController -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION)
+LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController -lCppController -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION)
 endif
 
 ifeq ($(OSTYPE),darwin)
@@ -66,9 +66,9 @@ C_FLAGS          = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 ifeq ($(findstring llvm-g++,$(shell ls -lF $(shell which c++ 2> /dev/null))),)
 C_FLAGS         += -Wno-self-assign
 endif
-LD_FLAGS         = -dynamiclib -install_name @rpath/lib/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.so) -Wl,-rpath,@loader_path/../../../../../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++
+LD_FLAGS         = -dynamiclib -install_name @rpath/lib/controller/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.so) -Wl,-rpath,@loader_path/../../../../../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++
 PYTHON_INCLUDES  = -I$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)
-LIB             += -L"$(WEBOTS_HOME)/lib" -lController -lCppController -L"$(PYTHON_PATH)/lib" -lpython$(PYTHON_VERSION)
+LIB             += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController -lCppController -L"$(PYTHON_PATH)/lib" -lpython$(PYTHON_VERSION)
 LIBRARY          = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).so
 ifneq (,$(wildcard $(BREW_PYTHON_PATH)))
 PYTHON_INCLUDES += -I"$(BREW_PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"

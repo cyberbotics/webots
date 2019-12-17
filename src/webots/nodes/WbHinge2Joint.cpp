@@ -473,6 +473,14 @@ void WbHinge2Joint::reset() {
   setPosition(mInitialPosition2, 2);
 }
 
+void WbHinge2Joint::resetPhysics() {
+  WbJoint::resetPhysics();
+
+  WbMotor *const m = motor2();
+  if (m)
+    m->resetPhysics();
+}
+
 void WbHinge2Joint::save() {
   WbJoint::save();
 
@@ -528,7 +536,7 @@ void WbHinge2Joint::computeEndPointSolidPositionFromParameters(WbVector3 &transl
 void WbHinge2Joint::updatePosition() {
   const WbJointParameters *const p = parameters();
   const WbJointParameters *const p2 = parameters2();
-  assert(p || p2);
+
   if (solidReference() == NULL && solidEndPoint())
     updatePositions(p ? p->position() : mPosition, p2 ? p2->position() : mPosition2);
   emit updateMuscleStretch(0.0, true, 1);

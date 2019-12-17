@@ -2,24 +2,20 @@
 
 ## TexturedBackground
 
-Background textured with a skybox.
+`TexturedBackground` provides a set of background textures, and applies them to the background skybox and to the reflections on the 3D objects.
+It is designed to be used together with the [TexturedBackgroundLight](#texturedbackgroundlight) PROTO.
 
 Supported values for the `texture` field:
 
-- dawn\_cloudy\_empty
-- empty\_office (HDR)
-- factory (HDR)
-- morning\_cloudy\_empty
-- noon\_building\_overcast (HDR)
-- noon\_cloudy\_countryside (HDR)
-- noon\_cloudy\_empty
-- noon\_cloudy\_mountains
-- noon\_park\_empty (HDR)
-- noon\_stormy\_empty
-- noon\_sunny\_empty
-- noon\_sunny\_garden
-- twilight\_cloudy\_empty
-- mountains (HDR)
+- dusk
+- empty\_office
+- entrance\_hall
+- factory
+- mars
+- noon\_building\_overcast
+- noon\_cloudy\_countryside
+- noon\_park\_empty
+- mountains
 
 %figure
 
@@ -31,7 +27,11 @@ Derived from [Background](../reference/background.md).
 
 ```
 TexturedBackground {
-   SFString texture "mountains"
+  SFString texture      "mountains"
+  SFFloat  luminosity   1
+  SFBool   skybox       TRUE
+  SFBool   reflections  TRUE
+  MFColor  skyColor     [0 0 0]
 }
 ```
 
@@ -44,25 +44,26 @@ TexturedBackground {
 
 - `texture`: Defines the texture of the background.
 
+- `skybox`: Specifies if the `texture` field is used to define the skybox shown in the scene background.
+
+- `reflections`: Specifies if the `texture` field is used in the reflections of the [PBRAppearance](../reference/pbrappearance.md) nodes.
+
+- `skyColor`: Defines the background color in case the `skybox` field is `FALSE`.
+
 ## TexturedBackgroundLight
 
 Light designed to match the skyboxes in the TexturedBackground PROTO.
 
-Supported values for the "texture" field:
+Supported values for the `texture` field:
 
-- dawn\_cloudy\_empty
+- dusk
 - empty\_office
+- entrance\_hall
 - factory
-- morning\_cloudy\_empty
+- mars
 - noon\_building\_overcast
 - noon\_cloudy\_countryside
-- noon\_cloudy\_empty
-- noon\_cloudy\_mountains
 - noon\_park\_empty
-- noon\_stormy\_empty
-- noon\_sunny\_empty
-- noon\_sunny\_garden
-- twilight\_cloudy\_empty
 - mountains
 
 %figure
@@ -75,8 +76,9 @@ Derived from [DirectionalLight](../reference/directionallight.md).
 
 ```
 TexturedBackgroundLight {
-   SFString texture        "mountains"
-   SFBool   castShadows    TRUE
+  SFString texture        "mountains"
+  SFFloat  luminosity     1
+  SFBool   castShadows    TRUE
 }
 ```
 
@@ -88,6 +90,8 @@ TexturedBackgroundLight {
 ### TexturedBackgroundLight Field Summary
 
 - `texture`: Should be equivalent to the 'texture' field of the TexturedBackground.
+
+- `luminosity`: Multiplies the `Light.intensity` field.
 
 - `castShadows`: Defines whether the light should cast shadows.
 

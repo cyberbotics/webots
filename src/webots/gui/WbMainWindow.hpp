@@ -91,7 +91,8 @@ private slots:
   void saveWorld();
   void saveWorldAs(bool skipSimulationHasRunWarning = false);
   void reloadWorld();
-  void resetWorld();
+  void resetWorldFromGui();
+  void resetWorld(bool restartControllers);
   void importVrml();
   void exportVrml();
   void exportHtml();
@@ -110,7 +111,6 @@ private slots:
   void openGithubRepository();
   void openCyberboticsWebsite();
   void openBugReport();
-  void openSupportTicket();
   void openNewsletterSubscription();
   void openDiscord();
   void openTwitter();

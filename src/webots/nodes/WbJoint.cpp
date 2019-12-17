@@ -88,6 +88,14 @@ void WbJoint::reset() {
   setPosition(mInitialPosition);
 }
 
+void WbJoint::resetPhysics() {
+  updatePosition();
+
+  WbMotor *const m = motor();
+  if (m)
+    m->resetPhysics();
+}
+
 void WbJoint::save() {
   WbBasicJoint::save();
 

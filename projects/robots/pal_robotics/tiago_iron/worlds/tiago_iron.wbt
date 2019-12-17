@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "This simulation shows a Tiago Iron moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar."
@@ -13,6 +13,7 @@ Viewpoint {
 }
 TexturedBackground {
   texture "factory"
+  skybox FALSE
 }
 TexturedBackgroundLight {
   texture "factory"
@@ -52,10 +53,6 @@ DEF ROOF RectangleArena {
 }
 TiagoIron {
   translation -4.416 0.095 -1.063
-  lidarExtension [
-    HokuyoUrg04lxug01 {
-    }
-  ]
 }
 WoodenBox {
   translation -6.2 0.405 -7

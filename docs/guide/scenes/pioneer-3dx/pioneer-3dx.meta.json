@@ -1,200 +1,198 @@
 {
-  "robotID": "n11", 
-  "name": "pioneer-3dx", 
   "devices": [
     {
-      "transformID": "n139", 
-      "initialPosition": 0, 
-      "name": "left wheel", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "-1 0 0"
-    }, 
+      "axis": "-1 0 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "left wheel",
+      "position": 0,
+      "transformID": "n138",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n191", 
-      "initialPosition": 0, 
-      "name": "right wheel", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "-1 0 0"
-    }, 
+      "axis": "-1 0 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "right wheel",
+      "position": 0,
+      "transformID": "n190",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n131", 
-      "name": "green led", 
-      "ledPBRAppearanceIDs": [
-        "n133"
-      ], 
       "ledColors": [
         "0.564706 0.933333 0.564706"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
-    {
-      "transformID": "n167", 
-      "name": "lower yellow led", 
+      ],
+      "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n169"
-      ], 
+        "n132"
+      ],
+      "name": "green led",
+      "transformID": "n130",
+      "type": "LED"
+    },
+    {
       "ledColors": [
         "0.976471 0.980392 0.603922"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
-    {
-      "transformID": "n171", 
-      "name": "red led 1", 
+      ],
+      "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n174"
-      ], 
+        "n168"
+      ],
+      "name": "lower yellow led",
+      "transformID": "n166",
+      "type": "LED"
+    },
+    {
       "ledColors": [
         "0.913725 0.247059 0.247059"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
-    {
-      "transformID": "n177", 
-      "name": "red led 2", 
+      ],
+      "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n180"
-      ], 
+        "n173"
+      ],
+      "name": "red led 1",
+      "transformID": "n170",
+      "type": "LED"
+    },
+    {
       "ledColors": [
         "0.913725 0.247059 0.247059"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
-    {
-      "transformID": "n182", 
-      "name": "red led 3", 
+      ],
+      "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n185"
-      ], 
+        "n179"
+      ],
+      "name": "red led 2",
+      "transformID": "n176",
+      "type": "LED"
+    },
+    {
       "ledColors": [
         "0.913725 0.247059 0.247059"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
-    {
-      "transformID": "n479", 
-      "name": "white led", 
+      ],
+      "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n481"
-      ], 
+        "n184"
+      ],
+      "name": "red led 3",
+      "transformID": "n181",
+      "type": "LED"
+    },
+    {
       "ledColors": [
         "1 1 1"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
-    {
-      "transformID": "n475", 
-      "name": "yellow led", 
+      ],
+      "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n477"
-      ], 
+        "n480"
+      ],
+      "name": "white led",
+      "transformID": "n478",
+      "type": "LED"
+    },
+    {
       "ledColors": [
         "0.929412 0.933333 0.615686"
-      ], 
-      "ledGradual": false, 
+      ],
+      "ledGradual": false,
+      "ledPBRAppearanceIDs": [
+        "n476"
+      ],
+      "name": "yellow led",
+      "transformID": "n474",
       "type": "LED"
-    }, 
+    },
     {
-      "transformID": "n139", 
-      "type": "PositionSensor", 
-      "name": "left wheel sensor"
-    }, 
+      "name": "left wheel sensor",
+      "transformID": "n138",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n191", 
-      "type": "PositionSensor", 
-      "name": "right wheel sensor"
-    }, 
+      "name": "right wheel sensor",
+      "transformID": "n190",
+      "type": "PositionSensor"
+    },
     {
-      "transformID": "n219", 
-      "type": "DistanceSensor", 
-      "name": "so0"
-    }, 
+      "name": "so0",
+      "transformID": "n218",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n235", 
-      "type": "DistanceSensor", 
-      "name": "so1"
-    }, 
+      "name": "so1",
+      "transformID": "n234",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n251", 
-      "type": "DistanceSensor", 
-      "name": "so10"
-    }, 
+      "name": "so10",
+      "transformID": "n250",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n267", 
-      "type": "DistanceSensor", 
-      "name": "so11"
-    }, 
+      "name": "so11",
+      "transformID": "n266",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n283", 
-      "type": "DistanceSensor", 
-      "name": "so12"
-    }, 
+      "name": "so12",
+      "transformID": "n282",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n299", 
-      "type": "DistanceSensor", 
-      "name": "so13"
-    }, 
+      "name": "so13",
+      "transformID": "n298",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n315", 
-      "type": "DistanceSensor", 
-      "name": "so14"
-    }, 
+      "name": "so14",
+      "transformID": "n314",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n331", 
-      "type": "DistanceSensor", 
-      "name": "so15"
-    }, 
+      "name": "so15",
+      "transformID": "n330",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n347", 
-      "type": "DistanceSensor", 
-      "name": "so2"
-    }, 
+      "name": "so2",
+      "transformID": "n346",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n363", 
-      "type": "DistanceSensor", 
-      "name": "so3"
-    }, 
+      "name": "so3",
+      "transformID": "n362",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n379", 
-      "type": "DistanceSensor", 
-      "name": "so4"
-    }, 
+      "name": "so4",
+      "transformID": "n378",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n395", 
-      "type": "DistanceSensor", 
-      "name": "so5"
-    }, 
+      "name": "so5",
+      "transformID": "n394",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n411", 
-      "type": "DistanceSensor", 
-      "name": "so6"
-    }, 
+      "name": "so6",
+      "transformID": "n410",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n427", 
-      "type": "DistanceSensor", 
-      "name": "so7"
-    }, 
+      "name": "so7",
+      "transformID": "n426",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n443", 
-      "type": "DistanceSensor", 
-      "name": "so8"
-    }, 
+      "name": "so8",
+      "transformID": "n442",
+      "type": "DistanceSensor"
+    },
     {
-      "transformID": "n459", 
-      "type": "DistanceSensor", 
-      "name": "so9"
+      "name": "so9",
+      "transformID": "n458",
+      "type": "DistanceSensor"
     }
-  ]
+  ],
+  "name": "pioneer-3dx",
+  "robotID": "n10"
 }

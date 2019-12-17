@@ -1,12 +1,12 @@
 {
   "port": 1999,
-  "server": "cyberbotics2.cyberbotics.com",
+  "server": "cyberbotics1.epfl.ch",
   "administrator": "webmaster@cyberbotics.com",
   "mailServer": "www.cyberbotics.com",
   "mailSender": "noreply@cyberbotics.com",
   "simulationServers": [
-    "cyberbotics2.cyberbotics.com:2000",
-    "cyberbotics2.cyberbotics.com:3000"
+    "cyberbotics1.epfl.ch:2000",
+    "cyberbotics1.epfl.ch:3000"
   ],
   "sslKey": "ssl/privkey.pem",
   "sslCertificate": "ssl/cert.pem",

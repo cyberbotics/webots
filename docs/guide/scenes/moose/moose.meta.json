@@ -1,86 +1,78 @@
 {
-  "robotID": "n12", 
-  "name": "moose", 
   "devices": [
     {
-      "transformID": "n164", 
-      "initialPosition": 0, 
-      "name": "left motor 1", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 -1 0"
-    }, 
+      "axis": "0 -1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "left motor 1",
+      "position": 0,
+      "transformID": "n163",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n192", 
-      "initialPosition": 0, 
-      "name": "left motor 2", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 -1 0"
-    }, 
+      "axis": "0 -1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "left motor 2",
+      "position": 0,
+      "transformID": "n191",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n220", 
-      "initialPosition": 0, 
-      "name": "left motor 3", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 -1 0"
-    }, 
+      "axis": "0 -1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "left motor 3",
+      "position": 0,
+      "transformID": "n219",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n248", 
-      "initialPosition": 0, 
-      "name": "left motor 4", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 -1 0"
-    }, 
+      "axis": "0 -1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "left motor 4",
+      "position": 0,
+      "transformID": "n247",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n52", 
-      "initialPosition": 0, 
-      "name": "right motor 1", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "right motor 1",
+      "position": 0,
+      "transformID": "n51",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n80", 
-      "initialPosition": 0, 
-      "name": "right motor 2", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "right motor 2",
+      "position": 0,
+      "transformID": "n79",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n108", 
-      "initialPosition": 0, 
-      "name": "right motor 3", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 1 0"
-    }, 
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "right motor 3",
+      "position": 0,
+      "transformID": "n107",
+      "type": "RotationalMotor"
+    },
     {
-      "transformID": "n136", 
-      "initialPosition": 0, 
-      "name": "right motor 4", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "minPosition": 0, 
-      "axis": "0 1 0"
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "right motor 4",
+      "position": 0,
+      "transformID": "n135",
+      "type": "RotationalMotor"
     }
-  ]
+  ],
+  "name": "moose",
+  "robotID": "n11"
 }

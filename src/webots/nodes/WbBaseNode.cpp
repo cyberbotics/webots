@@ -18,6 +18,7 @@
 #include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbSolid.hpp"
+#include "WbStandardPaths.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
@@ -239,6 +240,10 @@ bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
   writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
   if (isInvisibleNode())
     writer << " render=\'false\'";
+  QStringList bookAndPage = documentationBookAndPage(WbNodeUtilities::isRobotTypeName(nodeModelName()));
+  if (!bookAndPage.isEmpty())
+    writer
+      << QString(" docUrl=\'%1/doc/%2/%3\'").arg(WbStandardPaths::cyberboticsUrl()).arg(bookAndPage[0]).arg(bookAndPage[1]);
 
   if (isUseNode() && defNode()) {  // export referred DEF node id
     writer << " USE=\'n" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";

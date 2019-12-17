@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "This simulation shows a Tiago Titanium making hello with the sign 'Peace' with these fingers in an industrial environment. It can also be controlled using the arrows on the keyboard."
@@ -12,6 +12,7 @@ Viewpoint {
 }
 TexturedBackground {
   texture "factory"
+  skybox FALSE
 }
 TexturedBackgroundLight {
   texture "factory"
@@ -51,10 +52,6 @@ DEF ROOF RectangleArena {
 }
 TiagoTitanium {
   translation -4.416 0.095 -1.063
-  lidarExtension [
-    HokuyoUrg04lxug01 {
-    }
-  ]
 }
 WoodenBox {
   translation -6.2 0.405 -7
@@ -277,46 +274,46 @@ PottedTree {
 }
 DoubleFluorescentLamp {
   translation -5 2.5 5
-  rotation -0.708 0 0.708 3.1416
+  rotation -0.7071067811865475 0 0.7071067811865475 3.1416
 }
 DoubleFluorescentLamp {
   translation -5 2.5 0
-  rotation -0.708 0 0.708 3.1416
+  rotation -0.7071067811865475 0 0.7071067811865475 3.1416
   name "double fuorescent lamp(1)"
 }
 DoubleFluorescentLamp {
   translation -5 2.5 -5
-  rotation -0.708 0 0.708 3.1416
+  rotation -0.7071067811865475 0 0.7071067811865475 3.1416
   name "double fuorescent lamp(2)"
 }
 DoubleFluorescentLamp {
   translation 0 2.5 5
-  rotation -0.708 0 0.708 3.1416
+  rotation -0.7071067811865475 0 0.7071067811865475 3.1416
   name "double fuorescent lamp(3)"
 }
 DoubleFluorescentLamp {
   translation 0 2.5 0
-  rotation -0.708 0 0.708 3.1416
+  rotation -0.7071067811865475 0 0.7071067811865475 3.1416
   name "double fuorescent lamp(4)"
 }
 DoubleFluorescentLamp {
   translation 0 2.5 -5
-  rotation -0.708 0 0.708 3.1416
+  rotation -0.7071067811865475 0 0.7071067811865475 3.1416
   name "double fuorescent lamp(5)"
 }
 DoubleFluorescentLamp {
   translation 5 2.5 5
-  rotation -0.708 0 0.708 3.1416
+  rotation -0.7071067811865475 0 0.7071067811865475 3.1416
   name "double fuorescent lamp(6)"
 }
 DoubleFluorescentLamp {
   translation 5 2.5 0
-  rotation -0.708 0 0.708 3.1416
+  rotation -0.7071067811865475 0 0.7071067811865475 3.1416
   name "double fuorescent lamp(7)"
 }
 DoubleFluorescentLamp {
   translation 5 2.5 -5
-  rotation -0.708 0 0.708 3.1416
+  rotation -0.7071067811865475 0 0.7071067811865475 3.1416
   name "double fuorescent lamp(8)"
 }
 StraightStairs {
@@ -387,12 +384,12 @@ OilBarrel {
 }
 OilBarrel {
   translation 5.826 0.305 0.356
-  rotation -0.678 0.52 -0.52 -1.95
+  rotation -0.6778359835355757 0.5198742056615036 -0.5198742056615036 -1.95
   name "oil barrel(9)"
 }
 OilBarrel {
   translation 5.892 0.305 -1.534
-  rotation -0.935 -0.25 0.25 -1.638
+  rotation -0.9353625232302415 -0.25009693134498434 0.25009693134498434 -1.638
   name "oil barrel(10)"
 }
 OilBarrel {
@@ -409,7 +406,6 @@ OilBarrel {
 }
 TrafficCone {
   translation -5.892 0 1.397
-  rotation 0 1 0 0
 }
 TrafficCone {
   translation -5.045 0 2.377

@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
 }
 Viewpoint {
@@ -7,10 +7,12 @@ Viewpoint {
   position 6.442030557280244 5.206668161781518 3.0097162179105705
   exposure 0.7999999999999999
 }
-Background {
-  cubemap Cubemap {
-    textureBaseName "brown_floor"
-  }
+TexturedBackground {
+  texture "empty_office"
+  skybox FALSE
+  skyColor [
+    0.2 0.2 0.2
+  ]
 }
 Cabinet {
   translation 1 0.83 -2.15

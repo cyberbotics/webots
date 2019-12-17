@@ -27,11 +27,6 @@ include/plugins/
 include/plugins/*.h
 include/libjpeg/ [mac]
 include/libjpeg/*.h [mac]
-include/libssh/ [mac]
-include/libssh/libssh/ [mac]
-include/libssh/libssh/*.h [mac]
-include/libzip/ [mac]
-include/libzip/*.h [mac]
 include/qt/ [windows,linux]
 include/qt/QtConcurrent/ [windows,linux]
 include/qt/QtConcurrent/QtConcurrent/ [windows,linux]
@@ -82,128 +77,128 @@ include/opencv2/imgproc/*.hpp [linux,mac]
 include/opencv2/imgproc/*.h [linux,mac]
 
 lib/
-lib/libController.so [linux]
-lib/libController.dylib [mac]
+lib/controller/
 
-lib/libCppController.so [linux]
-lib/libCppController.dylib [mac]
+lib/controller/Controller [dll]
+lib/controller/Controller.lib [windows]
+lib/controller/libController.a [windows]
 
-lib/java/ [linux,mac]
-lib/java/*.jar
-lib/java/*.dll [windows]
-lib/java/lib*.so [linux]
-lib/java/lib*.jnilib [mac]
+lib/controller/CppController [dll]
+lib/controller/libCppController.a [windows]
 
-lib/libcar.so [linux]
-lib/libCppCar.so [linux]
-lib/libCppDriver.so [linux]
-lib/libdriver.so [linux]
+lib/controller/java/
+lib/controller/java/*.jar
+lib/controller/java/*.dll [windows]
+lib/controller/java/lib*.so [linux]
+lib/controller/java/lib*.jnilib [mac]
 
-lib/libcar.dylib [mac]
-lib/libCppCar.dylib [mac]
-lib/libCppDriver.dylib [mac]
-lib/libdriver.dylib [mac]
+lib/controller/car [dll]
+lib/controller/CppCar [dll]
+lib/controller/CppDriver [dll]
+lib/controller/driver [dll]
+lib/controller/car.lib [windows]
+lib/controller/driver.lib [windows]
 
-lib/libgd.3.dylib [mac]
-lib/liblua.dylib [mac]
-lib/libnihzip.dylib [mac]
-lib/libOIS-1.4.0.so [linux]
-lib/libOIS.dylib [mac]
-lib/libode.so [linux]
-lib/libode.dylib [mac]
-lib/libpico.so [linux]
-lib/libpico.dylib [mac]
-lib/libssh.4.dylib [mac]
-lib/libopencv_core.so* [linux]
-lib/libopencv_imgproc.so* [linux]
-lib/libopencv_core.2.4.3.dylib [mac]
-lib/libopencv_imgproc.2.4.3.dylib [mac]
-lib/libQt5Concurrent.so* [linux]
-lib/libQt5Core.so* [linux]
-lib/libQt5DBus.so* [linux]
-lib/libQt5Gui.so* [linux]
-lib/libQt5Multimedia.so* [linux]
-lib/libQt5MultimediaWidgets.so* [linux]
-lib/libQt5Network.so* [linux]
-lib/libQt5OpenGL.so* [linux]
-lib/libQt5Positioning.so* [linux]
-lib/libQt5PrintSupport.so* [linux]
-lib/libQt5Qml.so* [linux]
-lib/libQt5Quick.so* [linux]
-lib/libQt5QuickWidgets.so* [linux]
-lib/libQt5Sensors.so* [linux]
-lib/libQt5Sql.so* [linux]
-lib/libQt5WebChannel.so* [linux]
-lib/libQt5WebEngine.so* [linux]
-lib/libQt5WebEngineCore.so* [linux]
-lib/libQt5WebEngineWidgets.so* [linux]
-lib/libQt5WebSockets.so* [linux]
-lib/libQt5Widgets.so* [linux]
-lib/libQt5XcbQpa.so* [linux]
-lib/libQt5Xml.so* [linux]
-lib/libicudata.so* [linux]
-lib/libicui18n.so* [linux]
-lib/libicuuc.so* [linux]
-lib/libopenal.so* [linux]
-lib/libopenal.dylib [mac]
-lib/libssl.1.0.0.dylib [mac]
-lib/libcrypto.1.0.0.dylib [mac]
-lib/libassimp.dylib [mac]
+lib/controller/python27/
+lib/controller/python27/*.py
+lib/controller/python27/_*.so [linux,mac]
+lib/controller/python27/_*.pyd [windows]
 
-lib/qt/ [linux,mac]
-lib/qt/plugins/ [linux,mac]
-lib/qt/plugins/platforminputcontexts/ [linux]
-lib/qt/plugins/platforminputcontexts/libcomposeplatforminputcontextplugin.so [linux]
-lib/qt/plugins/platforminputcontexts/libibusplatforminputcontextplugin.so [linux]
-lib/qt/plugins/platforms/ [linux,mac]
-lib/qt/plugins/platforms/libqcocoa.dylib [mac]
-lib/qt/plugins/platforms/libqxcb.so [linux]
-lib/qt/plugins/platformthemes/ [linux]
-lib/qt/plugins/platformthemes/libqgtk3.so [linux]
-lib/qt/plugins/printsupport/ [linux,mac]
-lib/qt/plugins/printsupport/libcocoaprintersupport.dylib [mac]
-lib/qt/plugins/printsupport/libcupsprintersupport.so [linux]
-lib/qt/plugins/imageformats/ [linux,mac]
-lib/qt/plugins/imageformats/libqjpeg.so [linux]
-lib/qt/plugins/imageformats/libqjpeg.dylib [mac]
-lib/qt/plugins/styles/ [mac]
-lib/qt/plugins/styles/libqmacstyle.dylib [mac]
-lib/qt/plugins/xcbglintegrations/ [linux]
-lib/qt/plugins/xcbglintegrations/libqxcb-glx-integration.so [linux]
-lib/qt/translations/ [linux]
-lib/qt/translations/*.qm [linux]
-lib/qt/translations/qtwebengine_locales/ [linux]
-lib/qt/translations/qtwebengine_locales/*.pak [linux]
-lib/qt/libexec/ [linux,mac]
-lib/qt/libexec/qt.conf [linux,mac]
-lib/qt/libexec/QtWebEngineProcess [linux]
-lib/qt/resources/ [linux]
-lib/qt/resources/icudtl.dat [linux]
-lib/qt/resources/qtwebengine_resources.pak [linux]
-lib/qt/resources/qtwebengine_resources_100p.pak [linux]
-lib/qt/resources/qtwebengine_resources_200p.pak [linux]
+lib/controller/python36/ [linux]
+lib/controller/python36/*.py [linux]
+lib/controller/python36/_*.so [linux]
 
-lib/python27/
-lib/python27/*.py
-lib/python27/_*.so [linux,mac]
-lib/python27/_*.pyd [windows]
+lib/controller/python37/
+lib/controller/python37/*.py
+lib/controller/python37/_*.so [linux,mac]
+lib/controller/python37/_*.pyd [windows]
 
-lib/python36/ [linux]
-lib/python36/*.py [linux]
-lib/python36/_*.so [linux]
+lib/controller/python38/ [linux]
+lib/controller/python38/*.py [linux]
+lib/controller/python38/_*.so [linux]
 
-lib/python37/
-lib/python37/*.py
-lib/python37/_*.so [linux,mac]
-lib/python37/_*.pyd [windows]
+lib/controller/matlab/
+lib/controller/matlab/allincludes.h
+lib/controller/matlab/*.m
 
-lib/python38/ [linux]
-lib/python38/*.py [linux]
-lib/python38/_*.so [linux]
+lib/controller/libopencv_core.so* [linux]
+lib/controller/libopencv_imgproc.so* [linux]
+lib/controller/libopencv_core.2.4.3.dylib [mac]
+lib/controller/libopencv_imgproc.2.4.3.dylib [mac]
 
-lib/matlab/
-lib/matlab/allincludes.h
-lib/matlab/*.m
+lib/webots/ [linux,mac]
+lib/webots/libgd.3.dylib [mac]
+lib/webots/liblua.dylib [mac]
+lib/webots/libOIS-1.4.0.so [linux]
+lib/webots/libOIS.dylib [mac]
+lib/webots/libode.so [linux]
+lib/webots/libode.dylib [mac]
+lib/webots/libpico.so [linux]
+lib/webots/libpico.dylib [mac]
+lib/webots/libQt5Concurrent.so* [linux]
+lib/webots/libQt5Core.so* [linux]
+lib/webots/libQt5DBus.so* [linux]
+lib/webots/libQt5Gui.so* [linux]
+lib/webots/libQt5Multimedia.so* [linux]
+lib/webots/libQt5MultimediaWidgets.so* [linux]
+lib/webots/libQt5Network.so* [linux]
+lib/webots/libQt5OpenGL.so* [linux]
+lib/webots/libQt5Positioning.so* [linux]
+lib/webots/libQt5PrintSupport.so* [linux]
+lib/webots/libQt5Qml.so* [linux]
+lib/webots/libQt5Quick.so* [linux]
+lib/webots/libQt5QuickWidgets.so* [linux]
+lib/webots/libQt5Sensors.so* [linux]
+lib/webots/libQt5Sql.so* [linux]
+lib/webots/libQt5WebChannel.so* [linux]
+lib/webots/libQt5WebEngine.so* [linux]
+lib/webots/libQt5WebEngineCore.so* [linux]
+lib/webots/libQt5WebEngineWidgets.so* [linux]
+lib/webots/libQt5WebSockets.so* [linux]
+lib/webots/libQt5Widgets.so* [linux]
+lib/webots/libQt5XcbQpa.so* [linux]
+lib/webots/libQt5Xml.so* [linux]
+lib/webots/libicudata.so* [linux]
+lib/webots/libicui18n.so* [linux]
+lib/webots/libicuuc.so* [linux]
+lib/webots/libopenal.so* [linux]
+lib/webots/libopenal.dylib [mac]
+lib/webots/libssl.1.0.0.dylib [mac]
+lib/webots/libcrypto.1.0.0.dylib [mac]
+lib/webots/libassimp.dylib [mac]
+
+lib/webots/qt/ [linux,mac]
+lib/webots/qt/plugins/ [linux,mac]
+lib/webots/qt/plugins/platforminputcontexts/ [linux]
+lib/webots/qt/plugins/platforminputcontexts/libcomposeplatforminputcontextplugin.so [linux]
+lib/webots/qt/plugins/platforminputcontexts/libibusplatforminputcontextplugin.so [linux]
+lib/webots/qt/plugins/platforms/ [linux,mac]
+lib/webots/qt/plugins/platforms/libqcocoa.dylib [mac]
+lib/webots/qt/plugins/platforms/lib*.so [linux]
+lib/webots/qt/plugins/platformthemes/ [linux]
+lib/webots/qt/plugins/platformthemes/libqgtk3.so [linux]
+lib/webots/qt/plugins/printsupport/ [linux,mac]
+lib/webots/qt/plugins/printsupport/libcocoaprintersupport.dylib [mac]
+lib/webots/qt/plugins/printsupport/libcupsprintersupport.so [linux]
+lib/webots/qt/plugins/imageformats/ [linux,mac]
+lib/webots/qt/plugins/imageformats/libqjpeg.so [linux]
+lib/webots/qt/plugins/imageformats/libqjpeg.dylib [mac]
+lib/webots/qt/plugins/styles/ [mac]
+lib/webots/qt/plugins/styles/libqmacstyle.dylib [mac]
+lib/webots/qt/plugins/xcbglintegrations/ [linux]
+lib/webots/qt/plugins/xcbglintegrations/libqxcb-glx-integration.so [linux]
+lib/webots/qt/translations/ [linux]
+lib/webots/qt/translations/*.qm [linux]
+lib/webots/qt/translations/qtwebengine_locales/ [linux]
+lib/webots/qt/translations/qtwebengine_locales/*.pak [linux]
+lib/webots/qt/libexec/ [linux,mac]
+lib/webots/qt/libexec/qt.conf [linux,mac]
+lib/webots/qt/libexec/QtWebEngineProcess [linux]
+lib/webots/qt/resources/ [linux]
+lib/webots/qt/resources/icudtl.dat [linux]
+lib/webots/qt/resources/qtwebengine_resources.pak [linux]
+lib/webots/qt/resources/qtwebengine_resources_100p.pak [linux]
+lib/webots/qt/resources/qtwebengine_resources_200p.pak [linux]
 
 resources/
 resources/icons/
@@ -262,18 +257,12 @@ resources/nodes/*.wrl
 resources/nodes/icons/
 resources/nodes/icons/*.png
 resources/osm_importer/
-resources/osm_importer/Makefile
 resources/osm_importer/config.ini
 resources/osm_importer/*.py
 resources/osm_importer/utils/
 resources/osm_importer/utils/*.py
 resources/osm_importer/webots_objects/
 resources/osm_importer/webots_objects/*.py
-resources/osm_importer/osm_gui/
-resources/osm_importer/osm_gui/Makefile
-resources/osm_importer/osm_gui/osm_gui [exe]
-resources/osm_importer/osm_gui/*cpp
-resources/osm_importer/osm_gui/*hpp
 resources/pico/
 resources/pico/lang/
 resources/pico/lang/*.bin

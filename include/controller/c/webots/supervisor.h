@@ -113,6 +113,10 @@ void wb_supervisor_node_move_viewpoint(WbNodeRef node);
 
 void wb_supervisor_node_set_visibility(WbNodeRef node, WbNodeRef from, bool visible);
 
+void wb_supervisor_node_add_force(WbNodeRef node, const double force[3], bool relative);
+void wb_supervisor_node_add_force_with_offset(WbNodeRef node, const double force[3], const double offset[3], bool relative);
+void wb_supervisor_node_add_torque(WbNodeRef node, const double torque[3], bool relative);
+
 WbFieldType wb_supervisor_field_get_type(WbFieldRef field);
 const char *wb_supervisor_field_get_type_name(WbFieldRef field);
 int wb_supervisor_field_get_count(WbFieldRef field);
@@ -168,6 +172,11 @@ void wb_supervisor_field_remove_mf(WbFieldRef field, int index);
 
 void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const char *filename);
 void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int position, const char *node_string);
+
+void wb_supervisor_field_remove_sf(WbFieldRef field);
+
+void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename);
+void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char *node_string);
 
 bool wb_supervisor_virtual_reality_headset_is_used();
 const double *wb_supervisor_virtual_reality_headset_get_position();

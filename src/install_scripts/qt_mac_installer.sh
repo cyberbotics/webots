@@ -9,8 +9,8 @@ QT_VERSION=5.13.1
 
 # prepare Webots
 cd $WEBOTS_HOME
-rm -fr Contents/Frameworks/Qt* bin/qt/lupdate bin/qt/lrelease bin/qt/moc include/qt lib/qt
-mkdir lib/qt
+rm -fr Contents/Frameworks/Qt* bin/qt/lupdate bin/qt/lrelease bin/qt/moc include/qt lib/webots/qt
+mkdir lib/webots/qt
 mkdir include/qt
 
 # populate webots
@@ -50,18 +50,18 @@ do
   cp -R lib/$f.framework $WEBOTS_HOME/Contents/Frameworks
 done
 
-mkdir $WEBOTS_HOME/lib/qt/plugins
-mkdir $WEBOTS_HOME/lib/qt/plugins/imageformats
-mkdir $WEBOTS_HOME/lib/qt/plugins/platforms
-mkdir $WEBOTS_HOME/lib/qt/plugins/printsupport
-mkdir $WEBOTS_HOME/lib/qt/plugins/styles
-mkdir $WEBOTS_HOME/lib/qt/libexec
-cp plugins/imageformats/libqjpeg.dylib $WEBOTS_HOME/lib/qt/plugins/imageformats/
-cp plugins/platforms/libqcocoa.dylib $WEBOTS_HOME/lib/qt/plugins/platforms/
-cp plugins/printsupport/libcocoaprintersupport.dylib $WEBOTS_HOME/lib/qt/plugins/printsupport/
-cp plugins/styles/libqmacstyle.dylib $WEBOTS_HOME/lib/qt/plugins/styles/
+mkdir $WEBOTS_HOME/lib/webots/qt/plugins
+mkdir $WEBOTS_HOME/lib/webots/qt/plugins/imageformats
+mkdir $WEBOTS_HOME/lib/webots/qt/plugins/platforms
+mkdir $WEBOTS_HOME/lib/webots/qt/plugins/printsupport
+mkdir $WEBOTS_HOME/lib/webots/qt/plugins/styles
+mkdir $WEBOTS_HOME/lib/webots/qt/libexec
+cp plugins/imageformats/libqjpeg.dylib $WEBOTS_HOME/lib/webots/qt/plugins/imageformats/
+cp plugins/platforms/libqcocoa.dylib $WEBOTS_HOME/lib/webots/qt/plugins/platforms/
+cp plugins/printsupport/libcocoaprintersupport.dylib $WEBOTS_HOME/lib/webots/qt/plugins/printsupport/
+cp plugins/styles/libqmacstyle.dylib $WEBOTS_HOME/lib/webots/qt/plugins/styles/
 cp ../../Examples/Qt-$QT_VERSION/webchannel/shared/qwebchannel.js $WEBOTS_HOME/resources/web/local/qwebchannel.js
-echo $'[Paths]\nPrefix = ..\n' > $WEBOTS_HOME/lib/qt/libexec/qt.conf
+echo $'[Paths]\nPrefix = ..\n' > $WEBOTS_HOME/lib/webots/qt/libexec/qt.conf
 
 # remove the debug frameworks
 cd  $WEBOTS_HOME/Contents/Frameworks/
@@ -82,13 +82,13 @@ do
 done
 
 # Render the plugins relative to the executable:
-cd $WEBOTS_HOME/lib/qt/plugins
+cd $WEBOTS_HOME/lib/webots/qt/plugins
 
 declare -a libs=("imageformats/libqjpeg.dylib" "platforms/libqcocoa.dylib" "printsupport/libcocoaprintersupport.dylib" "styles/libqmacstyle.dylib")
 
 for lib in "${libs[@]}"
 do
-  install_name_tool -id @rpath/lib/qt/plugins/$lib $lib
+  install_name_tool -id @rpath/lib/webots/qt/plugins/$lib $lib
   install_name_tool -delete_rpath @executable_path/../Frameworks $lib
   install_name_tool -delete_rpath @loader_path/../../lib $lib
   install_name_tool -add_rpath @loader_path/../../../.. $lib
@@ -122,6 +122,6 @@ cd $WEBOTS_HOME
 
 ARCHIVE=qt-$QT_VERSION-release.tar.bz2
 echo Compressing $ARCHIVE \(please wait\)
-tar cjf $ARCHIVE Contents/Frameworks/Qt* lib/qt include/qt bin/qt/lrelease bin/qt/lupdate bin/qt/moc resources/web/local/qwebchannel.js
+tar cjf $ARCHIVE Contents/Frameworks/Qt* lib/webots/qt include/qt bin/qt/lrelease bin/qt/lupdate bin/qt/moc resources/web/local/qwebchannel.js
 
 echo Done.
