@@ -67,7 +67,7 @@ We understood the high interest for ROS 2 among the robotics community and we ar
 ![ROS 2 in Webots](images/ros2_demo.thumbnail.gif)
 %end
 
-See the [webots\_ros2 package documentation](http://wiki.ros.org/webots_ros2) for the installation and use instructions.
+See the [webots\_ros2 package documentation](http://wiki.ros.org/webots_ros2) for the installation and usage instructions.
 Or, if you can't wait to see the latest features and supported robots, go directly to the [webots\_ros2 Github repository](https://github.com/cyberbotics/webots_ros2).
 
 
