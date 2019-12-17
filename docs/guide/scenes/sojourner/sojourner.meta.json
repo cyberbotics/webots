@@ -2,7 +2,6 @@
   "devices": [
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 1.5708,
       "minPosition": -1.5708,
       "name": "BackLeftArm",
@@ -12,7 +11,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0.1,
       "maxPosition": 0,
       "minPosition": -1,
       "name": "BackLeftBogie",
@@ -22,7 +20,6 @@
     },
     {
       "axis": "0 0 -1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "BackLeftWheel",
@@ -32,7 +29,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 1.5708,
       "minPosition": -1.5708,
       "name": "BackRightArm",
@@ -42,7 +38,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0.1,
       "maxPosition": 0,
       "minPosition": -1,
       "name": "BackRightBogie",
@@ -52,7 +47,6 @@
     },
     {
       "axis": "0 0 -1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "BackRightWheel",
@@ -62,7 +56,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 1.5708,
       "minPosition": -1.5708,
       "name": "FrontLeftArm",
@@ -72,7 +65,6 @@
     },
     {
       "axis": "0 0 -1",
-      "initialPosition": 0.1,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "FrontLeftBogie",
@@ -82,7 +74,6 @@
     },
     {
       "axis": "0 0 -1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "FrontLeftWheel",
@@ -92,7 +83,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 1.5708,
       "minPosition": -1.5708,
       "name": "FrontRightArm",
@@ -102,7 +92,6 @@
     },
     {
       "axis": "0 0 -1",
-      "initialPosition": 0.1,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "FrontRightBogie",
@@ -112,7 +101,6 @@
     },
     {
       "axis": "0 0 -1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "FrontRightWheel",
@@ -122,7 +110,6 @@
     },
     {
       "axis": "0 0 -1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "MiddleLeftWheel",
@@ -132,7 +119,6 @@
     },
     {
       "axis": "0 0 -1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "MiddleRightWheel",

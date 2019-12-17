@@ -108,7 +108,7 @@
     - [Portal](portal.md)
     - [PUMA](puma.md)
     - [QRIO](qrio.md)
-    - [Robotino3](robotino3.md)
+    - [Robotino 3](robotino3.md)
     - [Robotis OP2](robotis-op2.md)
     - [Robotis OP3](robotis-op3.md)
     - [Salamander](salamander.md)

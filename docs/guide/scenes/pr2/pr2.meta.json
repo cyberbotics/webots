@@ -2,7 +2,6 @@
   "devices": [
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "bl_caster_l_wheel_joint",
@@ -12,7 +11,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "bl_caster_r_wheel_joint",
@@ -22,7 +20,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "bl_caster_rotation_joint",
@@ -32,7 +29,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "br_caster_l_wheel_joint",
@@ -42,7 +38,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "br_caster_r_wheel_joint",
@@ -52,7 +47,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "br_caster_rotation_joint",
@@ -62,7 +56,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "fl_caster_l_wheel_joint",
@@ -72,7 +65,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "fl_caster_r_wheel_joint",
@@ -82,7 +74,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "fl_caster_rotation_joint",
@@ -92,7 +83,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "fr_caster_l_wheel_joint",
@@ -102,7 +92,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "fr_caster_r_wheel_joint",
@@ -112,7 +101,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "fr_caster_rotation_joint",
@@ -122,7 +110,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 3.007,
       "minPosition": -3.007,
       "name": "head_pan_joint",
@@ -132,7 +119,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 1.39626,
       "minPosition": -0.471238,
       "name": "head_tilt_joint",
@@ -142,7 +128,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": -2.3213,
       "name": "l_elbow_flex_joint",
@@ -152,7 +137,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "l_forearm_roll_joint",
@@ -162,7 +146,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.548,
       "minPosition": 0,
       "name": "l_gripper_l_finger_joint",
@@ -172,7 +155,6 @@
     },
     {
       "axis": "0 0 -1",
-      "initialPosition": 0,
       "maxPosition": 0.548,
       "minPosition": 0,
       "name": "l_gripper_l_finger_tip_joint",
@@ -182,7 +164,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "l_gripper_motor_screw_joint",
@@ -192,7 +173,6 @@
     },
     {
       "axis": "0 0 -1",
-      "initialPosition": 0,
       "maxPosition": 0.548,
       "minPosition": 0,
       "name": "l_gripper_r_finger_joint",
@@ -202,7 +182,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.548,
       "minPosition": 0,
       "name": "l_gripper_r_finger_tip_joint",
@@ -212,7 +191,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 1.3963,
       "minPosition": -0.5236,
       "name": "l_shoulder_lift_joint",
@@ -222,7 +200,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 2.2853981634,
       "minPosition": -0.714601836603,
       "name": "l_shoulder_pan_joint",
@@ -232,7 +209,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 3.9,
       "minPosition": -0.8,
       "name": "l_upper_arm_roll_joint",
@@ -242,7 +218,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": -2.18,
       "name": "l_wrist_flex_joint",
@@ -252,7 +227,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "l_wrist_roll_joint",
@@ -262,7 +236,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 1.48353,
       "minPosition": -0.7854,
       "name": "laser_tilt_mount_joint",
@@ -272,7 +245,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": -2.3213,
       "name": "r_elbow_flex_joint",
@@ -282,7 +254,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "r_forearm_roll_joint",
@@ -292,7 +263,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.548,
       "minPosition": 0,
       "name": "r_gripper_l_finger_joint",
@@ -302,7 +272,6 @@
     },
     {
       "axis": "0 0 -1",
-      "initialPosition": 0,
       "maxPosition": 0.548,
       "minPosition": 0,
       "name": "r_gripper_l_finger_tip_joint",
@@ -312,7 +281,6 @@
     },
     {
       "axis": "0 0 -1",
-      "initialPosition": 0,
       "maxPosition": 0.548,
       "minPosition": 0,
       "name": "r_gripper_r_finger_joint",
@@ -322,7 +290,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.548,
       "minPosition": 0,
       "name": "r_gripper_r_finger_tip_joint",
@@ -332,7 +299,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 1.3963,
       "minPosition": -0.5236,
       "name": "r_shoulder_lift_joint",
@@ -342,7 +308,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.714601836603,
       "minPosition": -2.2853981634,
       "name": "r_shoulder_pan_joint",
@@ -352,7 +317,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0.8,
       "minPosition": -3.9,
       "name": "r_upper_arm_roll_joint",
@@ -362,7 +326,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": -2.18,
       "name": "r_wrist_flex_joint",
@@ -372,7 +335,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "r_wrist_roll_joint",
@@ -382,7 +344,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "torso_lift_motor_screw_joint",
@@ -392,7 +353,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0.09,
       "minPosition": 0,
       "name": "l_gripper_joint",
@@ -402,7 +362,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0.1,
       "minPosition": -0.1,
       "name": "l_gripper_motor_slider_joint",
@@ -412,7 +371,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0.09,
       "minPosition": 0,
       "name": "r_gripper_joint",
@@ -422,7 +380,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0.1,
       "minPosition": -0.1,
       "name": "r_gripper_motor_slider_joint",
@@ -432,7 +389,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.33,
       "minPosition": 0,
       "name": "torso_lift_joint",
