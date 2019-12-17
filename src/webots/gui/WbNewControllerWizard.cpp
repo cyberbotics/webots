@@ -73,7 +73,9 @@ void WbNewControllerWizard::updateUI() {
 #ifdef _WIN32
   // update check box message
   if (mIdeButtonGroup->checkedId() == 1)  // Microsoft Visual Studio
-    mEditCheckBox->setText(tr("Open '%1.sln' in Microsoft Visual Studio (the controller need to be set to <<extern>> to be able to launch the controller from Microsoft Visual Studio.").arg(mNameEdit->text()));
+    mEditCheckBox->setText(tr("Open '%1.sln' in Microsoft Visual Studio (the controller need to be set to <<extern>> to be "
+                              "able to launch the controller from Microsoft Visual Studio.")
+                             .arg(mNameEdit->text()));
   else
 #endif
     mEditCheckBox->setText(tr("Open '%1.%2' in Text Editor.").arg(mNameEdit->text()).arg(mLanguage->defaultFileSuffix()));
