@@ -132,7 +132,7 @@ To help you in this task, we replaced the `followOrientation` field of the [View
 
 We are very happy to communicate that we fixed the error accumulation issues occurring when reverting the scene using the physics reset function. Thank you to all the users that reported this problem!
 
-Webots 2020a contains a new complete apartment environment: check it [here](../guide/samples-environments.md#complete_apartment-wbt).
+Webots R2020a contains a new complete apartment environment: check it [here](../guide/samples-environments.md#complete_apartment-wbt).
 
 On Linux, you can now also program your controllers with Python 3.8.
 
