@@ -87,7 +87,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   render() {
     // Set maximum rendering frequency.
-    // To avoid slowing down the simulation rendering the scene too often, the last rendring time is checked
+    // To avoid slowing down the simulation rendering the scene too often, the last rendering time is checked
     // and the rendering is performed only at a given maximum frequency.
     // To be sure that no rendering request is lost, a timeout is set.
     const renderingMinTimeStep = 40; // Rendering maximum frequency: every 40 ms.
