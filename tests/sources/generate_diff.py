@@ -41,13 +41,14 @@ def github_api(request):
     req.add_header('User-Agent', github_api.user_agent)
     if key is not None:
         req.add_header('Authorization', 'token %s' % key)
+    content = ''
     try:
         response = urlopen(req)
+        content = response.read()
     except HTTPError as e:
         print(request)
         print(e.reason)
         print(e.info())
-    content = response.read()
     github_api.last_time = time.time()
     return json.loads(content.decode())
 

@@ -74,6 +74,8 @@ class TestHeaderVersion(unittest.TestCase):
             fileToTest = currentFile[0]
             with open(fileToTest) as file:
                 content = file.read()
+                if content == '':
+                    continue
                 line = content.splitlines()[0].strip()
                 self.assertTrue(
                     line.startswith(currentFile[1]),
