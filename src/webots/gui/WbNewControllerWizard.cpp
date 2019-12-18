@@ -64,6 +64,7 @@ void WbNewControllerWizard::updateUI() {
       mIdeProjectFullPath << mControllerDir + mNameEdit->text() + ".sln";
       mIdeProjectFullPath << mControllerDir + mNameEdit->text() + ".vcxproj";
       mIdeProjectFullPath << mControllerDir + mNameEdit->text() + ".vcxproj.filter";
+      mIdeProjectFullPath << mControllerDir + mNameEdit->text() + ".vcxproj.user";
     } else
 #endif
       mIdeProjectFullPath << mControllerDir + "Makefile";
@@ -72,7 +73,9 @@ void WbNewControllerWizard::updateUI() {
 #ifdef _WIN32
   // update check box message
   if (mIdeButtonGroup->checkedId() == 1)  // Microsoft Visual Studio
-    mEditCheckBox->setText(tr("Open '%1.sln' in Microsoft Visual Studio.").arg(mNameEdit->text()));
+    mEditCheckBox->setText(tr("Open '%1.sln' in Microsoft Visual Studio (the controller need to be set to <<extern>> to be "
+                              "able to launch the controller from Microsoft Visual Studio.")
+                             .arg(mNameEdit->text()));
   else
 #endif
     mEditCheckBox->setText(tr("Open '%1.%2' in Text Editor.").arg(mNameEdit->text()).arg(mLanguage->defaultFileSuffix()));
@@ -139,6 +142,10 @@ void WbNewControllerWizard::accept() {
                   success;
       else if (ideProjectFullPath.endsWith(".vcxproj.filter"))
         success = WbFileUtil::copyAndReplaceString(src + mLanguage->defaultFileSuffix() + ".vcxproj.filter", ideProjectFullPath,
+                                                   "template", mNameEdit->text()) &&
+                  success;
+      else if (ideProjectFullPath.endsWith(".vcxproj.user"))
+        success = WbFileUtil::copyAndReplaceString(src + mLanguage->defaultFileSuffix() + ".vcxproj.user", ideProjectFullPath,
                                                    "template", mNameEdit->text()) &&
                   success;
 #endif
