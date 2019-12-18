@@ -24,6 +24,7 @@ projects/robots/softbank/nao/worlds/nao_demo.wbt 20
 projects/robots/fujitsu/hoap2/worlds/hoap2_walk.wbt 30
 projects/robots/micromagic/mantis/worlds/mantis.wbt 30
 projects/robots/gctronic/e-puck/worlds/e-puck_line_demo.wbt 30
+projects/robots/one_legged_jumping_robot/worlds/one_legged_jumping_robot.wbt 30
 
 [Devices Tour]
 
