@@ -1,0 +1,189 @@
+#VRML_SIM R2019b utf8
+WorldInfo {
+  basicTimeStep 2
+}
+Viewpoint {
+  orientation -0.06534350003917837 -0.99278286411248 -0.10056048790280951 2.05519815666824
+  position -6.197848879230549 2.9845793601986763 -5.039807425360068
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 9 9
+  floorTileSize 2 2
+}
+Robot {
+  translation 0 0.8 -2.64
+  children [
+    DEF body Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 1
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.1
+        radius 0.6
+      }
+    }
+    Hinge2Joint {
+      jointParameters HingeJointParameters {
+      }
+      jointParameters2 JointParameters {
+      }
+      device [
+        RotationalMotor {
+          name "X rotational motor"
+          maxTorque 1000
+        }
+        PositionSensor {
+          name "X position sensor"
+        }
+      ]
+      device2 [
+        RotationalMotor {
+          name "Z rotational motor"
+          maxTorque 1000
+        }
+        PositionSensor {
+          name "Z position sensor"
+        }
+      ]
+      endPoint Solid {
+        translation -5.237450640133002e-13 0.00022956194274170732 -1.2420957273116862e-20
+        children [
+          DEF shaft Shape {
+            appearance PBRAppearance {
+              baseColor 0 0 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.3
+              radius 0.05
+            }
+          }
+          SliderJoint {
+            jointParameters JointParameters {
+              axis 0 1 0
+              minStop -0.4
+              dampingConstant 10
+              staticFriction 0.2
+            }
+            device [
+              LinearMotor {
+                maxForce 1600
+              }
+              PositionSensor {
+              }
+            ]
+            endPoint Solid {
+              children [
+                DEF leg Shape {
+                  appearance PBRAppearance {
+                    baseColor 1 1 0
+                    metalness 0
+                  }
+                  geometry Cylinder {
+                    height 1.58
+                    radius 0.02
+                  }
+                }
+                Transform {
+                  translation 0 -0.77 0
+                  children [
+                    DEF foot Shape {
+                      appearance PBRAppearance {
+                        baseColor 1 0 0
+                        metalness 0
+                      }
+                      geometry Sphere {
+                        radius 0.03
+                        subdivision 3
+                      }
+                      castShadows FALSE
+                    }
+                    TouchSensor {
+                      boundingObject USE foot
+                      physics Physics {
+                      }
+                    }
+                  ]
+                }
+              ]
+              boundingObject USE leg
+              physics Physics {
+                density -1
+                mass 1
+              }
+            }
+          }
+        ]
+        boundingObject USE shaft
+        physics Physics {
+          density -1
+          mass 0.5
+        }
+      }
+    }
+    InertialUnit {
+      boundingObject USE body
+      physics Physics {
+        density -1
+        mass 0.5
+      }
+    }
+  ]
+  boundingObject USE body
+  physics Physics {
+    density -1
+    mass 15
+  }
+  controller "one_legged_jumping_robot_controller"
+}
+Solid {
+  translation 0 2.49 -3.49
+  children [
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 0.2
+      }
+      endPoint Solid {
+        translation 4.267695351699351e-201 -1.4701180995738032 -0.2980079878070787
+        rotation 1 4.313873699427939e-199 -3.490888536076246e-199 0.20000015485740802
+        children [
+          DEF externBall Shape {
+            appearance PBRAppearance {
+              roughness 0.5
+              metalness 0.5
+            }
+            geometry Sphere {
+              radius 0.2
+              subdivision 3
+            }
+          }
+          Transform {
+            translation 0 0.75 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 1.5
+                  radius 0.01
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject USE externBall
+        physics Physics {
+          density -1
+          mass 2
+        }
+      }
+    }
+  ]
+}
