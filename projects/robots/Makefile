@@ -46,6 +46,7 @@ CONTROLLERS=\
   nasa/controllers.Makefile \
   neuronics/ipr/controllers.Makefile \
   nex/controllers.Makefile \
+  one_legged_jumping_robot\controllers\one_legged_jumping_robot_controller.Makefile \
   pal_robotics/tiago_base/controllers/tiago_base.Makefile \
   pal_robotics/tiago_iron/controllers/tiago_iron.Makefile \
   pal_robotics/tiago_steel/controllers/tiago_steel.Makefile \
