@@ -3,7 +3,6 @@
 branches:
   except:
     - develop
-    - revision
     - master
 
 clone_depth: 1

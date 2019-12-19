@@ -1,4 +1,4 @@
-# This file is used by the "webots-nightly-develop" and "webots-nightly-revision" appveyor projects, it is identical to the .appveyor-build-tag.yml file,
+# This file is used by the "webots-nightly-develop" and "webots-nightly-master" appveyor projects, it is identical to the .appveyor-build-tag.yml file,
 # except for the first instruction: skip_non_tags: true (which is missing here).
 
 branches:
