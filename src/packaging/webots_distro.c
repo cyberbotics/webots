@@ -1090,7 +1090,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp $WEBOTS_HOME/lib/controller/python35/*.py usr/local/webots/lib/controller/python35/\n");
       fprintf(fd, "cp $WEBOTS_HOME/lib/controller/python35/_*.so usr/local/webots/lib/controller/python35/\n");
       // include system libraries in package that are needed on Ubuntu 18.04
-      fprintf(fd, "cd %s/debian/usr/local/%s/lib/controller\n", distribution_path, application_name_lowercase_and_dashes);
+      fprintf(fd, "cd %s/debian/usr/local/%s/lib/webots\n", distribution_path, application_name_lowercase_and_dashes);
       fprintf(fd, "ln -s libssl.so.1.1 libssl.so\n");
       fprintf(fd, "ln -s libcrypto.so.1.1 libcrypto.so\n");
       fprintf(fd, "cd %s/debian\n", distribution_path);
