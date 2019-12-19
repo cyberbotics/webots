@@ -23,9 +23,7 @@
 #include "WbPreferences.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRgb.hpp"
-#include "WbRobot.hpp"
 #include "WbSFNode.hpp"
-#include "WbSensor.hpp"
 #include "WbSimulationState.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
@@ -309,8 +307,12 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
   if (mHasSharedMemoryChanged && mImageShm) {
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_CAMERA_SHARED_MEMORY;
-    QByteArray n = QFile::encodeName(mImageShm ? mImageShm->nativeKey() : "");
-    stream.writeRawData(n.constData(), n.size() + 1);
+    if (mImageShm) {
+      stream << (int)(mImageShm->size());
+      QByteArray n = QFile::encodeName(mImageShm->nativeKey());
+      stream.writeRawData(n.constData(), n.size() + 1);
+    } else
+      stream << (int)(0);
     mHasSharedMemoryChanged = false;
   }
 
@@ -352,12 +354,7 @@ bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command)
       // update motion blur factor
       applyMotionBlurToWren();
 
-      if (mSensor->isEnabled())
-        connect(WbSimulationState::instance(), &WbSimulationState::cameraRenderingStarted, this,
-                &WbAbstractCamera::updateCameraTexture, Qt::UniqueConnection);
-      else
-        disconnect(WbSimulationState::instance(), &WbSimulationState::cameraRenderingStarted, this,
-                   &WbAbstractCamera::updateCameraTexture);
+      emit enabled(this, mSensor->isEnabled());
 
       if (!hasBeenSetup()) {
         setup();

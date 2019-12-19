@@ -115,14 +115,25 @@ int main(int argc, char *argv[]) {
 
 #ifdef __linux__
   // on Linux, the webots binary is located in $WEBOTS_HOME/bin/webots-bin
-  const QString webotsDirPath(QFileInfo(argv[0]).absolutePath() + "/..");
+  const QString webotsDirPath = QDir(QFileInfo(argv[0]).absolutePath() + "/..").canonicalPath();
 #elif defined(__APPLE__)
   // on macOS, the webots binary is located in $WEBOTS_HOME/Contents/MacOS/webots-bin
-  const QString webotsDirPath(QFileInfo(argv[0]).absolutePath() + "/../..");
+  const QString webotsDirPath = QDir(QFileInfo(argv[0]).absolutePath() + "/../..").canonicalPath();
 #else
   // on Windows, the webots binary is located in $WEBOTS_HOME/msys64/mingw64/bin/webots
-  const QString webotsDirPath(QFileInfo(argv[0]).absolutePath() + "/../../..");
+  const QString webotsDirPath = QDir(QFileInfo(argv[0]).absolutePath() + "/../../..").canonicalPath();
 #endif
+
+  const QString QT_QPA_PLATFORM_PLUGIN_PATH = qEnvironmentVariable("QT_QPA_PLATFORM_PLUGIN_PATH");
+  if (QT_QPA_PLATFORM_PLUGIN_PATH.isEmpty()) {
+    const QString platformPluginPath =
+#ifdef _WIN32
+      webotsDirPath + "/msys64/mingw64/share/qt5/plugins";
+#else
+      webotsDirPath + "/lib/webots/qt/plugins";
+#endif
+    qputenv("QT_QPA_PLATFORM_PLUGIN_PATH", platformPluginPath.toUtf8());
+  }
 
   // load qt warning filters from file
   QString qtFiltersFilePath = QDir::fromNativeSeparators(webotsDirPath + "/resources/qt_warning_filters.conf");
@@ -155,14 +166,6 @@ int main(int argc, char *argv[]) {
   // Putting break points in the catchMessageOutput and getting the stack allows to determine
   // efficiently what Webots statement is responsible to generate some Qt output
   qInstallMessageHandler(catchMessageOutput);
-
-  // Make the default context an OpenGL 3.3 Core Profile context
-  QSurfaceFormat format(QSurfaceFormat::defaultFormat());
-  format.setRenderableType(QSurfaceFormat::OpenGL);
-  format.setVersion(3, 3);
-  format.setProfile(QSurfaceFormat::CoreProfile);
-  format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);
-  QSurfaceFormat::setDefaultFormat(format);
 
   QApplication::setAttribute(Qt::AA_Use96Dpi);
 

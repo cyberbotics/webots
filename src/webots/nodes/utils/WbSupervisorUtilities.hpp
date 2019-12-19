@@ -75,8 +75,8 @@ private:
   int mFoundFieldCount;
   bool mGetSelectedNode;
   bool mGetFromId;
+  bool mNeedToResetSimulation;
   QList<int> mUpdatedNodeIds;
-  bool mNeedToRestartController;
   WbTransform *mNodeGetPosition;
   WbTransform *mNodeGetOrientation;
   WbSolid *mNodeGetCenterOfMass;

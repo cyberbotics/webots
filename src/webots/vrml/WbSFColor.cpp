@@ -16,7 +16,7 @@
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 
-void WbSFColor::read(WbTokenizer *tokenizer, const QString &worldPath) {
+void WbSFColor::readSFColor(WbTokenizer *tokenizer, const QString &worldPath) {
   try {
     const double r = tokenizer->nextToken()->toDouble();
     const double g = tokenizer->nextToken()->toDouble();

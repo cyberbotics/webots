@@ -86,8 +86,6 @@ void RemoteControlWidget::updateValues() {
 void RemoteControlWidget::portsUpdated(int index) {
   if (index == 0)
     wb_robot_set_mode(WB_MODE_SIMULATION, NULL);
-  else {
-    const char *port = mPortsComboBox->currentText().toStdString().c_str();
-    wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, (void *)port);
-  }
+  else
+    wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, mPortsComboBox->currentText().toStdString().c_str());
 }

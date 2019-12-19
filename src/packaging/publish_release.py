@@ -35,6 +35,9 @@ g = Github(options.key)
 repo = g.get_repo(options.repo)
 releaseExists = False
 now = datetime.datetime.now()
+if now.hour <= 5:
+    # Publish nightly build with previous day date even if it completes in the morning
+    now = now - datetime.timedelta(hours=6)
 if now.weekday() >= 5:
     print('Skipping nightly build for Saturday and Sunday.')
     exit(0)
@@ -96,7 +99,7 @@ for release in repo.get_releases():
             path = os.path.join(os.environ['WEBOTS_HOME'], 'distribution', file)
             if file != '.gitignore' and not os.path.isdir(path):
                 if file in assets:
-                    print('Asset "%s" already present in release' % file)
+                    print('Asset "%s" already present in release "%s".' % (file, title))
                 else:
                     print('Uploading "%s"' % file)
                     release.upload_asset(path)

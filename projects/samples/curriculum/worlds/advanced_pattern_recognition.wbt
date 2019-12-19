@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
 }
 Viewpoint {
@@ -723,12 +723,12 @@ DEF LANDMARK24 Solid {
 }
 Robot {
   controller "advanced_pattern_recognition_supervisor"
+  supervisor TRUE
 }
 DEF EPUCK E-puck {
   translation 0 0.01 0
   rotation 0 1 0 -1.57
   controller "advanced_pattern_recognition"
-  supervisor TRUE
   camera_antiAliasing TRUE
   camera_noise 0.024
   turretSlot [

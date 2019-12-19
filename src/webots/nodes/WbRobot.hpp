@@ -25,6 +25,7 @@
 #include <QtCore/QVarLengthArray>
 #include <QtCore/QVector>
 
+class WbAbstractCamera;
 class WbDevice;
 class WbJoystickInterface;
 class WbKinematicDifferentialWheels;
@@ -62,6 +63,7 @@ public:
   const QString &controllerDir();
   bool isConfigureDone() const { return !mConfigureRequest; }
   void restartController();
+  void setControllerNeedRestart() { mNeedToRestartController = true; }
   bool isWaitingForUserInputEvent() const;
   bool isWaitingForWindow() const { return mWaitingForWindow; }
   void setWaitingForWindow(bool waiting);
@@ -90,6 +92,8 @@ public:
 
   // update sensors in case of no answer needs to be written at this step
   virtual void updateSensors();
+
+  void renderCameras();
 
   // field accessors
   const QString &controllerName() const { return mController->value(); }
@@ -180,6 +184,7 @@ private:
   bool mModelNeedToWriteAnswer;
   bool mPowerOn;
   bool mControllerStarted;
+  bool mNeedToRestartController;
   bool mConfigureRequest;
   bool mSimulationModeRequested;
 
@@ -237,6 +242,7 @@ private:
   // other variables
   QList<WbDevice *> mDevices;
   QList<WbRenderingDevice *> mRenderingDevices;
+  QList<WbAbstractCamera *> mActiveCameras;
 
   QList<int> mPressedKeys;
 
@@ -254,6 +260,7 @@ private:
 
 private slots:
   void updateDevicesAfterDestruction();
+  void updateActiveCameras(WbAbstractCamera *camera, bool isActive);
   void updateWindow();
   void updateRemoteControl();
   void updateSimulationMode();

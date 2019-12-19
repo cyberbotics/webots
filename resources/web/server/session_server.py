@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright 1996-2019 Cyberbotics Ltd.
 #
@@ -140,6 +140,10 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
         self.write_message(message)
         logging.info('[' + self.request.host + '] New client')
 
+    def on_message(self, message):
+        """Log message received from client."""
+        logging.info('[' + self.request.host + '] Ignored client message: ' + str(message))
+
     def on_close(self):
         """Close connection after client leaves."""
         logging.info('[' + self.request.host + '] Client disconnected')
@@ -173,7 +177,7 @@ def read_url(url, i):
         check_string = "Check it at " + protocol + config[u'server'] + ":" + str(config[u'port']) + "/monitor\n\n" + \
                        "-Simulation Server"
     try:
-        response = urlopen(url, timeout=1)
+        response = urlopen(url, timeout=10)
     except URLError:
         if simulation_server_loads[i] != 100:
             if u'administrator' in config:

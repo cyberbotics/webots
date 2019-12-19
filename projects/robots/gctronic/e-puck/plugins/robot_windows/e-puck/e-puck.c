@@ -36,7 +36,7 @@
 
 #include "../../remote_controls/e-puck_bluetooth/UploaderData.hpp"
 
-static WbDeviceTag ps[8], ls[8], accelerometer, camera, gs[3], motors[2], position_sensors[2];
+static WbDeviceTag ps[8], ls[8], tof, accelerometer, camera, gs[3], motors[2], position_sensors[2];
 static const int N_SENSORS = sizeof(ps) / sizeof(WbDeviceTag);
 static int gs_sensors_count = 0;
 static bool configured = false;
@@ -102,6 +102,12 @@ void wb_robot_window_init() {
     snprintf(device, 32, "ls%d", i);
     ls[i] = wb_robot_get_device(device);
   }
+
+  if (strcmp(wb_robot_get_model(), "GCtronic e-puck2") == 0)
+    tof = wb_robot_get_device("tof");
+  else
+    tof = 0;
+
   accelerometer = wb_robot_get_device("accelerometer");
   camera = wb_robot_get_device("camera");
   motors[0] = wb_robot_get_device("left wheel motor");
@@ -167,6 +173,7 @@ void wb_robot_window_step(int time_step) {
         wb_distance_sensor_enable(ps[i], time_step);
         wb_light_sensor_enable(ls[i], time_step);
       }
+      wb_distance_sensor_enable(tof, time_step);
       // optional ground sensors
       for (i = 0; i < gs_sensors_count; i++)
         wb_distance_sensor_enable(gs[i], time_step);
@@ -175,7 +182,7 @@ void wb_robot_window_step(int time_step) {
     else if (strcmp(message, "simulation") == 0)
       wb_robot_set_mode(WB_MODE_SIMULATION, NULL);
     else if (strncmp(message, "remote control ", 15) == 0)
-      wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, (char *)&message[15]);
+      wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, &message[15]);
     else if (strncmp(message, "upload ", 7) == 0) {
       char *port;
       const char *p = &message[7];
@@ -209,7 +216,7 @@ void wb_robot_window_step(int time_step) {
       }
       free(full_path);
     } else if (strncmp(message, "connect ", 8) == 0) {
-      wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, (char *)&message[8]);
+      wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, &message[8]);
       fprintf(stderr, "Connected to %s\n", &message[8]);
     } else if (strncmp(message, "disconnect", 10) == 0) {
       wb_robot_set_mode(WB_MODE_SIMULATION, NULL);
@@ -250,6 +257,18 @@ void wb_robot_window_step(int time_step) {
     if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
       strcat(update_message, update);
   }
+
+  if (tof == 0 || wb_distance_sensor_get_sampling_period(tof) == 0)
+    snprintf(update, UPDATE_SIZE, "tof ");
+  else {
+    double tof_distance = wb_distance_sensor_get_value(tof);
+    if (isnan(tof_distance))
+      snprintf(update, UPDATE_SIZE, "tof ");
+    else
+      snprintf(update, UPDATE_SIZE, "%.0lf ", tof_distance);
+  }
+  if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
+    strcat(update_message, update);
 
   bool areDevicesReady = true;
   double left_speed = wb_motor_get_velocity(motors[0]);

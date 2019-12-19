@@ -1,0 +1,69 @@
+{
+  "devices": [
+    {
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "wheel_left_joint",
+      "position": 0,
+      "transformID": "n158",
+      "type": "RotationalMotor"
+    },
+    {
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "wheel_right_joint",
+      "position": 0,
+      "transformID": "n125",
+      "type": "RotationalMotor"
+    },
+    {
+      "name": "accelerometer",
+      "transformID": "n10",
+      "type": "Accelerometer"
+    },
+    {
+      "name": "base_cover_link",
+      "transformID": "n58",
+      "type": "TouchSensor"
+    },
+    {
+      "name": "base_sonar_01_link",
+      "transformID": "n103",
+      "type": "DistanceSensor"
+    },
+    {
+      "name": "base_sonar_02_link",
+      "transformID": "n85",
+      "type": "DistanceSensor"
+    },
+    {
+      "name": "base_sonar_03_link",
+      "transformID": "n67",
+      "type": "DistanceSensor"
+    },
+    {
+      "name": "gyro",
+      "transformID": "n10",
+      "type": "Gyro"
+    },
+    {
+      "name": "inertial unit",
+      "transformID": "n10",
+      "type": "InertialUnit"
+    },
+    {
+      "name": "wheel_left_joint_sensor",
+      "transformID": "n158",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "wheel_right_joint_sensor",
+      "transformID": "n125",
+      "type": "PositionSensor"
+    }
+  ],
+  "name": "tiago-base",
+  "robotID": "n10"
+}

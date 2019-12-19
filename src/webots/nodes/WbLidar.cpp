@@ -241,12 +241,7 @@ void WbLidar::handleMessage(QDataStream &stream) {
 
     mSensor->setRefreshRate(mRefreshRate);
 
-    if (mSensor->isEnabled())
-      connect(WbSimulationState::instance(), &WbSimulationState::cameraRenderingStarted, this, &WbLidar::updateCameraTexture,
-              Qt::UniqueConnection);
-    else
-      disconnect(WbSimulationState::instance(), &WbSimulationState::cameraRenderingStarted, this,
-                 &WbLidar::updateCameraTexture);
+    emit enabled(this, mSensor->isEnabled());
 
     if (!hasBeenSetup()) {
       setup();

@@ -100,6 +100,7 @@ void WbRobot::init() {
   mMouse = NULL;
 
   mControllerStarted = false;
+  mNeedToRestartController = false;
   mConfigureRequest = true;
   mSimulationModeRequested = false;
   mMonitoredUserInputEventTypes = -1;
@@ -242,6 +243,12 @@ void WbRobot::addDevices(WbNode *node) {
       if (renderingDevice) {
         connect(renderingDevice, &WbBaseNode::isBeingDestroyed, this, &WbRobot::removeRenderingDevice, Qt::UniqueConnection);
         mRenderingDevices.append(renderingDevice);
+        WbAbstractCamera *camera = dynamic_cast<WbAbstractCamera *>(renderingDevice);
+        if (camera) {
+          connect(camera, &WbAbstractCamera::enabled, this, &WbRobot::updateActiveCameras, Qt::UniqueConnection);
+          if (camera->isEnabled())
+            mActiveCameras.append(camera);
+        }
       }
     }
 
@@ -327,6 +334,7 @@ void WbRobot::clearDevices() {
     disconnect(device, &WbBaseNode::isBeingDestroyed, this, &WbRobot::removeRenderingDevice);
   mDevices.clear();
   mRenderingDevices.clear();
+  mActiveCameras.clear();
 }
 
 void WbRobot::updateDevicesAfterDestruction() {
@@ -601,6 +609,10 @@ void WbRobot::postPhysicsStep() {
       mBatterySensor->updateTimer();  // so that the battery sensor returns 0
     }
     setCurrentEnergy(energy);
+  }
+  if (mNeedToRestartController) {
+    restartController();
+    mNeedToRestartController = false;
   }
   if (mSupervisorUtilities)
     mSupervisorUtilities->postPhysicsStep();
@@ -1259,6 +1271,21 @@ void WbRobot::updateSimulationMode() {
 void WbRobot::descendantNodeInserted(WbBaseNode *decendant) {
   if (isPreFinalizedCalled())
     updateDevicesAfterInsertion();
+}
+
+void WbRobot::updateActiveCameras(WbAbstractCamera *camera, bool isActive) {
+  if (isActive) {
+    if (!mActiveCameras.contains(camera))
+      mActiveCameras.append(camera);
+    return;
+  }
+
+  mActiveCameras.removeOne(camera);
+}
+
+void WbRobot::renderCameras() {
+  for (int i = 0; i < mActiveCameras.size(); ++i)
+    mActiveCameras[i]->updateCameraTexture();
 }
 
 void WbRobot::updateSensors() {

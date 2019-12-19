@@ -18,7 +18,6 @@
 #include "WbDifferentialWheels.hpp"
 #include "WbField.hpp"
 #include "WbGeometry.hpp"
-#include "WbHinge2Joint.hpp"
 #include "WbImmersionProperties.hpp"
 #include "WbIndexedFaceSet.hpp"
 #include "WbJoint.hpp"
@@ -190,6 +189,9 @@ WbSolid::~WbSolid() {
   if (!mRecognitionColors->isEmpty())
     WbWorld::instance()->removeCameraRecognitionObject(this);
 
+  qDeleteAll(mHiddenKinematicParametersMap);
+  mHiddenKinematicParametersMap.clear();
+
   cSolids.removeAll(this);
 
   // Cleanup WREN
@@ -317,9 +319,9 @@ void WbSolid::preFinalize() {
                                       "Please save the current world to get rid of this message.")
                                      .arg(modelName()),
                                    true);
+      qDeleteAll(mHiddenKinematicParametersMap);
+      mHiddenKinematicParametersMap.clear();
     }
-    qDeleteAll(mHiddenKinematicParametersMap);
-    mHiddenKinematicParametersMap.clear();
   }
 
   checkScaleAtLoad(true);
@@ -2231,6 +2233,9 @@ void WbSolid::reset() {
     }
   }
 
+  int counter = 0;
+  restoreHiddenKinematicParameters(mHiddenKinematicParametersMap, counter);
+
   if (handleJerkIfNeeded())
     mMovedChildren.clear();
   else if (!mMovedChildren.isEmpty())
@@ -2355,12 +2360,9 @@ void WbSolid::resetSingleSolidPhysics() {
   // check for joints and disable all motors
   const int size = mJointChildren.size();
   for (int i = 0; i < size; ++i) {
-    const WbJoint *const j = dynamic_cast<WbJoint *>(mJointChildren[i]);
-    const WbHinge2Joint *const hinge2Joint = dynamic_cast<WbHinge2Joint *>(mJointChildren[i]);
-    if (j && j->motor())
-      j->motor()->resetPhysics();
-    if (hinge2Joint && hinge2Joint->motor2())
-      hinge2Joint->motor2()->resetPhysics();
+    WbJoint *const j = dynamic_cast<WbJoint *>(mJointChildren[i]);
+    if (j)
+      j->resetPhysics();
   }
 
   mLinearVelocity->setValue(0.0, 0.0, 0.0);

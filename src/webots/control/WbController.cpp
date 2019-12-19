@@ -236,10 +236,10 @@ void WbController::start() {
     // controller from running)
     if (!mControllerPath.startsWith("/tmp/"))
       firejailPrefix += "--whitelist=\"" + mControllerPath + "\" ";
-    firejailPrefix += "--whitelist=\"" + WbStandardPaths::webotsLibPath() + "\" ";
-    firejailPrefix += "--read-only=\"" + WbStandardPaths::webotsLibPath() + "\" ";
+    firejailPrefix += "--whitelist=\"" + WbStandardPaths::controllerLibPath() + "\" ";
+    firejailPrefix += "--read-only=\"" + WbStandardPaths::controllerLibPath() + "\" ";
 
-    QString ldEnvironmentVariable = WbStandardPaths::webotsLibPath();
+    QString ldEnvironmentVariable = WbStandardPaths::controllerLibPath();
 
     // extract the controller resources from runtime.ini and add them in the firejail whitelist
     // the runtime.ini itself has to be put in the blacklist of firejail
@@ -291,7 +291,7 @@ void WbController::start() {
   // for matlab controllers we must change to the lib/matlab directory
   // other controller types are executed in the controller dir
   if (mType == WbFileUtil::MATLAB)
-    mProcess->setWorkingDirectory(WbStandardPaths::webotsLibPath() + "matlab");
+    mProcess->setWorkingDirectory(WbStandardPaths::controllerLibPath() + "matlab");
   else
     mProcess->setWorkingDirectory(mControllerPath);
 
@@ -347,10 +347,8 @@ void WbController::setProcessEnvironment() {
   // store a unique robot ID for the controller
   addPathEnvironmentVariable(env, "WEBOTS_ROBOT_ID", QString::number(mRobot->uniqueId()), true);
 
-#ifdef __APPLE__
   // Add the Webots lib path to be able to load (at least) libController
-  addPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::webotsHomePath() + "lib", false);
-#endif
+  addPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::controllerLibPath(), false);
 
 #ifndef _WIN32
   // add the controller path in the PATH-like environment variable
@@ -360,8 +358,6 @@ void WbController::setProcessEnvironment() {
 #else
   addPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::webotsMsys64Path() + "usr/bin", false, true);
   addPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::webotsMsys64Path() + "mingw64/bin", false, true);
-  addPathEnvironmentVariable(env, "QT_QPA_PLATFORM_PLUGIN_PATH",
-                             WbStandardPaths::webotsMsys64Path() + "mingw64/share/qt5/plugins", true);
 #endif
 
   if (QFile::exists(mControllerPath + "runtime.ini")) {
@@ -511,7 +507,7 @@ void WbController::setProcessEnvironment() {
       }
       pythonSourceFile.close();
     }
-    addPathEnvironmentVariable(env, "PYTHONPATH", WbStandardPaths::webotsLibPath() + "python" + mPythonShortVersion, false,
+    addPathEnvironmentVariable(env, "PYTHONPATH", WbStandardPaths::controllerLibPath() + "python" + mPythonShortVersion, false,
                                true);
     addEnvironmentVariable(env, "PYTHONIOENCODING", "UTF-8");
   } else if (mType == WbFileUtil::MATLAB) {
@@ -756,14 +752,15 @@ void WbController::startJava(bool jar) {
   else
     extraClassPath = mControllerPath;
   WbLanguageTools::prependToPath(WbSysInfo::shortPath(extraClassPath), classPath);
-  WbLanguageTools::prependToPath(WbStandardPaths::webotsLibPath() + "java" + QDir::separator() + "Controller.jar", classPath);
+  WbLanguageTools::prependToPath(WbStandardPaths::controllerLibPath() + "java" + QDir::separator() + "Controller.jar",
+                                 classPath);
   options += "-classpath \"" + classPath + "\"";
 
   // add the java.library.path variable based on the custom JAVA_LIBRARY_PATH
   // environment variable (typically defined in runtime.ini)
   // in order to find the JNI libraries
   QString javaLibraryPath = env.value("JAVA_LIBRARY_PATH");
-  WbLanguageTools::prependToPath(WbStandardPaths::webotsLibPath() + "java", javaLibraryPath);
+  WbLanguageTools::prependToPath(WbStandardPaths::controllerLibPath() + "java", javaLibraryPath);
   options += QString(" -Djava.library.path=\"%1\"").arg(javaLibraryPath);
 
   if (!mJavaOptions.isEmpty())
@@ -783,6 +780,10 @@ void WbController::startPython() {
 }
 
 void WbController::startMatlab() {
+  if (WbSysInfo::isSnap()) {
+    warn(tr("MATLAB controllers should be launched as extern controllers with the snap package of Webots."));
+    return;
+  }
   if (mMatlabCommand.isEmpty()) {
     mCommand = WbLanguageTools::matlabCommand();
     if (mCommand == "!")  // Matlab 64 bit not available

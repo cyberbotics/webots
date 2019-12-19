@@ -32,8 +32,6 @@ namespace wren {
     TextureCubeMap *bakeDiffuseIrradiance(TextureCubeMap *inputCube, ShaderProgram *irradianceShader, unsigned int size);
     TextureCubeMap *bakeSpecularIrradiance(TextureCubeMap *inputCube, ShaderProgram *irradianceShader, unsigned int size);
     TextureRtt *bakeBrdf(ShaderProgram *brdfShader, unsigned int size);
-    TextureCubeMap *bakeEquirectangularToCube(Texture2d *equirectangularMap, ShaderProgram *equirectangularShader,
-                                              unsigned int size);
 
   }  // namespace texturecubemapbaker
 }  // namespace wren

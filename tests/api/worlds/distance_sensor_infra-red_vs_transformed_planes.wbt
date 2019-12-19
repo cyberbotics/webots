@@ -1,0 +1,165 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.695648013193398 -0.673029157293102 -0.25120827051157213 0.849567359436572
+  position -0.2597512623326174 0.3518969942534844 0.27339543188065957
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF REGULAR_OBSTACLE Transform {
+  translation 0.05 0 -0.08
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.65 0.22 1
+        roughness 1
+        metalness 0
+      }
+      geometry Plane {
+        size 0.15 0.15
+      }
+    }
+  ]
+}
+DEF ROTATED_OBSTACLE Transform {
+  translation 0.05 0 -0.26
+  rotation -0.35740681862788 0.3574058186283875 -0.8628565621288802 -1.7177753071795863
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.65 0.22 1
+        roughness 1
+        metalness 0
+      }
+      geometry Plane {
+        size 0.13 0.07
+      }
+    }
+  ]
+}
+DEF FLIPPED_OBSTACLE Transform {
+  translation 0.05 0 -0.39
+  rotation 0.70710528118436 0.707108281185553 3.3905113482557537e-09 3.14159
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.65 0.22 1
+        roughness 1
+        metalness 0
+      }
+      geometry Plane {
+        size 0.1 0.1
+      }
+    }
+  ]
+}
+Robot {
+  children [
+    DistanceSensor {
+      children [
+        DEF DS_SHAPE Transform {
+          translation -0.026 0 0
+          rotation 0 0 1 -1.5708
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.407507 0.848295 0.499062
+                roughness 0.2
+                metalness 0
+              }
+              geometry Cone {
+                bottomRadius 0.01
+                height 0.05
+                subdivision 24
+              }
+            }
+          ]
+        }
+      ]
+      name "A"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.05
+      children [
+        USE DS_SHAPE
+      ]
+      name "B"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.1
+      children [
+        USE DS_SHAPE
+      ]
+      name "C"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.15
+      children [
+        USE DS_SHAPE
+      ]
+      name "D"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.2
+      children [
+        USE DS_SHAPE
+      ]
+      name "E"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.25
+      children [
+        USE DS_SHAPE
+      ]
+      name "F"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.3
+      children [
+        USE DS_SHAPE
+      ]
+      name "G"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.35
+      children [
+        USE DS_SHAPE
+      ]
+      name "H"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.4
+      children [
+        USE DS_SHAPE
+      ]
+      name "I"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.45
+      children [
+        USE DS_SHAPE
+      ]
+      name "J"
+      type "infra-red"
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "distance_sensor_infra-red_vs_transformed_planes"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

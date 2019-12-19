@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Randomly generated uneven terrain based on Perlin noise.
@@ -9,8 +9,7 @@ PROTO Pit [
   field SFVec3f    size           20 5 20
   field SFInt32    xDimension     50
   field SFInt32    zDimension     50
-  field MFString   texture        "textures/sand.jpg"
-  field SFVec2f    textureScale   1.0 1.0
+  field SFNode     appearance     SandyGround {}
   field SFInt32    randomSeed     1 # if seed <= 0 then set a random seed
   field SFInt32    perlinNOctaves 3
   field SFFloat    noiseAmplitude 0.15
@@ -89,16 +88,7 @@ PROTO Pit [
         translation %{= - fields.size.value.x / 2 }% 0 %{= - fields.size.value.z / 2 }%
         children [
           Shape {
-            appearance PBRAppearance {
-              baseColorMap ImageTexture {
-                url IS texture
-              }
-              metalness 0
-              roughness 1
-              textureTransform TextureTransform {
-                scale %{= fields.xDimension.value / fields.textureScale.value.x }% %{= fields.zDimension.value / fields.textureScale.value.y }%
-              }
-            }
+            appearance IS appearance
             geometry ElevationGrid {
               %{ if fields.xDimension.value > 2 and fields.zDimension.value > 2 then }%
                 xDimension IS xDimension

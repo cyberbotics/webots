@@ -1,4 +1,4 @@
-/* global DialogWindow */
+/* global DialogWindow, DefaultUrl */
 'use strict';
 
 class Console extends DialogWindow { // eslint-disable-line no-unused-vars
@@ -15,6 +15,25 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
     this.params.title = 'Console';
 
     $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});
+
+    var buttons = document.createElement('div');
+    buttons.className = 'webotsConsoleButtons';
+    this.logs = document.createElement('div');
+    this.logs.className = 'webotsConsoleLogs';
+    var clearButtonIcon = document.createElement('img');
+    clearButtonIcon.className = 'webotsConsoleButtonIcon';
+    clearButtonIcon.setAttribute('src', DefaultUrl.wwiImagesUrl() + 'trash.png');
+    this.clearButton = document.createElement('button');
+    this.clearButton.className = 'webotsConsoleButton';
+    this.clearButton.disabled = true;
+    this.clearButton.title = 'Clear the console';
+    this.clearButton.appendChild(clearButtonIcon);
+    this.clearButton.addEventListener('click', () => {
+      this.clear();
+    });
+    buttons.appendChild(this.clearButton);
+    this.panel.appendChild(buttons);
+    this.panel.appendChild(this.logs);
   }
 
   scrollDown() {
@@ -22,12 +41,23 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
       this.panel.scrollTop = this.panel.scrollHeight;
   }
 
+  // Remove all the logs.
   clear() {
-    if (this.panel) {
-      while (this.panel.firstChild)
-        this.panel.removeChild(this.panel.firstChild);
+    if (this.logs) {
+      while (this.logs.firstChild)
+        this.logs.removeChild(this.logs.firstChild);
     } else
       console.clear();
+    this.clearButton.disabled = true;
+  }
+
+  // Remove the oldest logs.
+  purge() {
+    const historySize = 100; // defines the maximum size of the log.
+    if (this.logs) {
+      while (this.logs.firstChild && this.logs.childElementCount > historySize)
+        this.logs.removeChild(this.logs.firstChild);
+    }
   }
 
   stdout(message) {
@@ -69,13 +99,15 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
         title = 'error';
         break;
     }
-    if (this.panel) {
+    if (this.logs) {
       para.style.cssText = style;
       para.title = title + ' (' + this._hourString() + ')';
       var t = document.createTextNode(message);
       para.appendChild(t);
-      this.panel.appendChild(para);
+      this.logs.appendChild(para);
+      this.purge();
       this.scrollDown();
+      this.clearButton.disabled = false;
     } else
       console.log('%c' + message, style);
   }

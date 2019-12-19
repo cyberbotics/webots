@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "The humanoid sprint benchmark aims at programing a NAO robot in Python to run a 10 meter race. "
@@ -27,36 +27,85 @@ Viewpoint {
   follow "NAO"
 }
 TexturedBackground {
+  texture "noon_cloudy_countryside"
 }
 TexturedBackgroundLight {
+  texture "noon_cloudy_countryside"
+  luminosity 0.4
+  castShadows FALSE
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.2
+  cutOffAngle 0.7
+  direction 0 -1 0
+  intensity 10
+  location -5 4 0.5
+  castShadows TRUE
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.2
+  cutOffAngle 0.7
+  direction 0 -1 0
+  intensity 10
+  location 0 4 0.5
+  castShadows TRUE
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.2
+  cutOffAngle 0.7
+  direction 0 -1 0
+  intensity 10
+  location 5 4 0.5
+  castShadows TRUE
 }
 DEF TRACK Floor {
-  size 11.78 3
-  tileSize 11.78 3
+  translation 0 0 0.39
+  size 11 3
+  tileSize 11 3
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/nao_10m_track.jpg"
+        "textures/nao_10m_track_base_color.jpg"
       ]
     }
     roughness 1
+    roughnessMap ImageTexture {
+      url [
+        "textures/nao_10m_track_roughness.jpg"
+      ]
+    }
     metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/nao_10m_track_normal.jpg"
+      ]
+    }
   }
 }
-DEF GRASS Floor {
+DEF GRASS Solid {
   translation 0 -0.005 0
-  name "grass"
-  size 20 10
-  tileSize 1 1
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/grass.jpg"
-      ]
+  children [
+    Shape {
+      appearance Grass {
+        colorOverride 0.905486 0.988983 0.47155
+        textureTransform TextureTransform {
+          scale 20 20
+        }
+      }
+      geometry Cylinder {
+        bottom FALSE
+        height 0.001
+        radius 10
+        side FALSE
+      }
     }
-    roughness 1
-    metalness 0
-  }
+  ]
+  name "grass"
+  model "floor"
+  locked TRUE
 }
 DEF NAO Nao {
   translation -5.345 0.334 -0.65

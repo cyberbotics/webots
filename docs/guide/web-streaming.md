@@ -23,7 +23,7 @@ The second line is not used with this streaming solution.
 - ![](images/web_interface_fullscreen.png =26x26) **Fullscreen**: enter full screen mode.
 - ![](images/web_interface_exit_fullscreen.png =26x26) **Exit fullscreen**: exit full screen mode.
 
-The sample Javascript we provide to communicate with Webots supports advanced features that are not available during the basic broadcast streaming.
+The sample JavaScript we provide to communicate with Webots supports advanced features that are not available during the basic broadcast streaming.
 This includes controlling the execution of the simulation, modifying the Python robot controller program and displaying the robot windows.
 All these functionalities are enabled when starting the streaming using the `simulation_server.py` and `session_server.py` as documented in the [Web simulation](web-simulation.md) section.
 

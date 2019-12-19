@@ -27,10 +27,10 @@ class WbSFColor : public WbSingleValue {
   Q_OBJECT
 
 public:
-  WbSFColor(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
+  WbSFColor(WbTokenizer *tokenizer, const QString &worldPath) { readSFColor(tokenizer, worldPath); }
   WbSFColor(const WbSFColor &other) : mValue(other.mValue) {}
   virtual ~WbSFColor() {}
-  void read(WbTokenizer *tokenizer, const QString &worldPath) override;
+  void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFColor(tokenizer, worldPath); }
   void write(WbVrmlWriter &writer) const override {
     writer << toString(writer.isWebots() ? WbPrecision::DOUBLE_MAX : WbPrecision::FLOAT_MAX);
   }
@@ -51,6 +51,7 @@ public:
 
 private:
   WbRgb mValue;
+  void readSFColor(WbTokenizer *tokenizer, const QString &worldPath);
 };
 
 #endif

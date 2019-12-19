@@ -17,7 +17,6 @@ include ../Makefile.os.include
 .PHONY: release debug profile
 
 release debug profile clean:
-	@echo "#"; echo "# *** languages ***"
 	@echo "# make" $@ cpp;
 	+make -s -C cpp $@
 	@echo "# make" $@ java;
@@ -33,6 +32,8 @@ endif
 	+PYTHON_COMMAND=python3.6 make -s -C python $@
 	@echo "# make" $@ python3.7;
 	+PYTHON_COMMAND=python3.7 make -s -C python $@
+	@echo "# make" $@ python3.8;
+	+PYTHON_COMMAND=python3.8 make -s -C python $@
 endif
 ifeq ($(OSTYPE),windows)
 	@echo "# make" $@ python3.7;

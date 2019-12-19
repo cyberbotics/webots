@@ -310,6 +310,12 @@ static WbNodeRef set_visibility_from_node_ref = NULL;
 static WbNodeRef get_velocity_node_ref = NULL;
 static WbNodeRef set_velocity_node_ref = NULL;
 static const double *solid_velocity = NULL;
+static WbNodeRef add_force_node_ref = NULL;
+static WbNodeRef add_force_with_offset_node_ref = NULL;
+static WbNodeRef add_torque_node_ref = NULL;
+static const double *add_force_or_torque = NULL;
+static bool add_force_or_torque_relative = false;
+static const double *add_force_offset = NULL;
 static bool virtual_reality_headset_is_used_request = false;
 static bool virtual_reality_headset_is_used = false;
 static bool virtual_reality_headset_position_request = false;
@@ -595,6 +601,33 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
   if (move_viewpoint_node_ref) {
     request_write_uchar(r, C_SUPERVISOR_NODE_MOVE_VIEWPOINT);
     request_write_uint32(r, move_viewpoint_node_ref->id);
+  }
+  if (add_force_node_ref) {
+    request_write_uchar(r, C_SUPERVISOR_NODE_ADD_FORCE);
+    request_write_uint32(r, add_force_node_ref->id);
+    request_write_double(r, add_force_or_torque[0]);
+    request_write_double(r, add_force_or_torque[1]);
+    request_write_double(r, add_force_or_torque[2]);
+    request_write_uchar(r, add_force_or_torque_relative ? 1 : 0);
+  }
+  if (add_force_with_offset_node_ref) {
+    request_write_uchar(r, C_SUPERVISOR_NODE_ADD_FORCE_WITH_OFFSET);
+    request_write_uint32(r, add_force_with_offset_node_ref->id);
+    request_write_double(r, add_force_or_torque[0]);
+    request_write_double(r, add_force_or_torque[1]);
+    request_write_double(r, add_force_or_torque[2]);
+    request_write_double(r, add_force_offset[0]);
+    request_write_double(r, add_force_offset[1]);
+    request_write_double(r, add_force_offset[2]);
+    request_write_uchar(r, add_force_or_torque_relative ? 1 : 0);
+  }
+  if (add_torque_node_ref) {
+    request_write_uchar(r, C_SUPERVISOR_NODE_ADD_TORQUE);
+    request_write_uint32(r, add_torque_node_ref->id);
+    request_write_double(r, add_force_or_torque[0]);
+    request_write_double(r, add_force_or_torque[1]);
+    request_write_double(r, add_force_or_torque[2]);
+    request_write_uchar(r, add_force_or_torque_relative ? 1 : 0);
   }
   if (export_image_filename) {
     request_write_uchar(r, C_SUPERVISOR_EXPORT_IMAGE);
@@ -1756,6 +1789,80 @@ void wb_supervisor_node_move_viewpoint(WbNodeRef node) {
   robot_mutex_unlock_step();
 }
 
+void wb_supervisor_node_add_force(WbNodeRef node, const double force[3], bool relative) {
+  if (!robot_check_supervisor("wb_supervisor_node_add_force"))
+    return;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: wb_supervisor_node_add_force() called with NULL or invalid 'node' argument.\n");
+    return;
+  }
+
+  if (!checkVector("wb_supervisor_node_add_force", force, 3))
+    return;
+
+  robot_mutex_lock_step();
+  add_force_node_ref = node;
+  add_force_or_torque = force;
+  add_force_or_torque_relative = relative;
+  wb_robot_flush_unlocked();
+  add_force_node_ref = NULL;
+  add_force_or_torque = NULL;
+  robot_mutex_unlock_step();
+}
+
+void wb_supervisor_node_add_force_with_offset(WbNodeRef node, const double force[3], const double offset[3], bool relative) {
+  if (!robot_check_supervisor("wb_supervisor_node_add_force_with_offset"))
+    return;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: wb_supervisor_node_add_force_with_offset() called with NULL or invalid 'node' argument.\n");
+    return;
+  }
+
+  if (!checkVector("wb_supervisor_node_add_force_with_offset", force, 3))
+    return;
+
+  if (!checkVector("wb_supervisor_node_add_force_with_offset", offset, 3))
+    return;
+
+  robot_mutex_lock_step();
+  add_force_with_offset_node_ref = node;
+  add_force_or_torque = force;
+  add_force_offset = offset;
+  add_force_or_torque_relative = relative;
+  wb_robot_flush_unlocked();
+  add_force_with_offset_node_ref = NULL;
+  add_force_or_torque = NULL;
+  add_force_offset = NULL;
+  robot_mutex_unlock_step();
+}
+
+void wb_supervisor_node_add_torque(WbNodeRef node, const double torque[3], bool relative) {
+  if (!robot_check_supervisor("wb_supervisor_node_add_torque"))
+    return;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: wb_supervisor_node_add_torque() called with NULL or invalid 'node' argument.\n");
+    return;
+  }
+
+  if (!checkVector("wb_supervisor_node_add_torque", torque, 3))
+    return;
+
+  robot_mutex_lock_step();
+  add_torque_node_ref = node;
+  add_force_or_torque = torque;
+  add_force_or_torque_relative = relative;
+  wb_robot_flush_unlocked();
+  add_torque_node_ref = NULL;
+  add_force_or_torque = NULL;
+  robot_mutex_unlock_step();
+}
+
 bool wb_supervisor_virtual_reality_headset_is_used() {
   if (!robot_check_supervisor("wb_supervisor_virtual_reality_headset_is_used"))
     return false;
@@ -2362,7 +2469,7 @@ void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const ch
   const bool isWbo = strcmp(dot, ".wbo") == 0;
   const bool isWrl = strcmp(dot, ".wrl") == 0;
   if (!isWbo && !isWrl) {
-    fprintf(stderr, "Error: wb_supervisor_field_import_mf_node() supports only '*.wbo' files.\n");
+    fprintf(stderr, "Error: wb_supervisor_field_import_mf_node() supports only '*.wbo' and '*.wrl' files.\n");
     return;
   }
 
@@ -2454,6 +2561,98 @@ void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int positi
 
 void wb_supervisor_field_remove_mf_node(WbFieldRef field, int position) {
   wb_supervisor_field_remove_mf(field, position);
+}
+
+void wb_supervisor_field_remove_sf(WbFieldRef field) {
+  if (field->data.sf_node_uid == 0) {
+    fprintf(stderr, "Error: wb_supervisor_field_remove_sf() called for an empty field.\n");
+    return;
+  }
+
+  if (!check_field(field, "wb_supervisor_field_remove_sf", WB_SF_NODE, true, NULL, false))
+    return;
+
+  field_operation(field, REMOVE, -1);
+  field->count = 0;
+}
+
+void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename) {
+  if (!robot_check_supervisor("wb_supervisor_field_import_sf_node"))
+    return;
+
+  if (!filename || !filename[0]) {
+    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() called with NULL or empty 'filename' argument.\n");
+    return;
+  }
+
+  // check extension
+  const char *dot = strrchr(filename, '.');
+  if (!dot || dot == filename) {
+    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() called with a 'filename' argument without extension.\n");
+    return;
+  }
+
+  if (strcmp(dot, ".wbo") == 0) {
+    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() supports only '*.wbo' files.\n");
+    return;
+  }
+
+  WbFieldStruct *f = (WbFieldStruct *)field;
+  if (f->type != WB_SF_NODE) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() called with wrong field type: %s.\n",
+              wb_supervisor_field_get_type_name(field));
+    return;
+  }
+
+  if (field->data.sf_node_uid != 0) {
+    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() called with a non-empty field.\n");
+    return;
+  }
+
+  robot_mutex_lock_step();
+  union WbFieldData data;
+  data.sf_string = supervisor_strdup(filename);
+  create_and_append_field_request(f, IMPORT, -1, data, false);
+  imported_nodes_number = -1;
+  wb_robot_flush_unlocked();
+  if (imported_nodes_number >= 0)
+    field->data.sf_node_uid = imported_nodes_number;
+  robot_mutex_unlock_step();
+}
+
+void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char *node_string) {
+  if (!robot_check_supervisor("wb_supervisor_field_import_sf_node_from_string"))
+    return;
+
+  WbFieldStruct *f = (WbFieldStruct *)field;
+  if (f->type != WB_SF_NODE) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: wb_supervisor_field_import_sf_node_from_string() called with wrong field type: %s.\n",
+              wb_supervisor_field_get_type_name(field));
+    return;
+  }
+
+  if (!node_string || !node_string[0]) {
+    fprintf(stderr,
+            "Error: wb_supervisor_field_import_sf_node_from_string() called with NULL or empty 'node_string' argument.\n");
+    return;
+  }
+
+  if (field->data.sf_node_uid != 0) {
+    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node_from_string() called with a non-empty field.\n");
+    return;
+  }
+
+  robot_mutex_lock_step();
+  union WbFieldData data;
+  data.sf_string = supervisor_strdup(node_string);
+  create_and_append_field_request(f, IMPORT_FROM_STRING, -1, data, false);
+  imported_nodes_number = -1;
+  wb_robot_flush_unlocked();
+  if (imported_nodes_number >= 0)
+    field->data.sf_node_uid = imported_nodes_number;
+  robot_mutex_unlock_step();
 }
 
 const char *wb_supervisor_field_get_type_name(WbFieldRef field) {

@@ -29,6 +29,7 @@ CONTROLLERS=\
   clearpath/pr2/controllers.Makefile \
   dji/mavic/controllers.Makefile \
   epfl/biorob/controllers.Makefile \
+  festo/robotino3/controllers.Makefile \
   fujitsu/hoap2/controllers.Makefile \
   gctronic/e-puck/controllers.Makefile \
   gctronic/elisa/controllers.Makefile \
@@ -46,10 +47,16 @@ CONTROLLERS=\
   nasa/controllers.Makefile \
   neuronics/ipr/controllers.Makefile \
   nex/controllers.Makefile \
+  pal_robotics/tiago_base/controllers/tiago_base.Makefile \
+  pal_robotics/tiago_iron/controllers/tiago_iron.Makefile \
+  pal_robotics/tiago_steel/controllers/tiago_steel.Makefile \
+  pal_robotics/tiago_titanium/controllers/tiago_titanium.Makefile \
+  pal_robotics/tiago++/controllers/tiago++.Makefile \
   parallax/boebot/controllers.Makefile \
   picaxe/microbot/controllers.Makefile \
   robotis/bioloid/controllers.Makefile \
   robotis/darwin-op/controllers.Makefile \
+  robotis/turtlebot/controllers.Makefile \
   sony/qrio/controllers.Makefile \
   sphero/bb8/controllers.Makefile \
   surveyor/controllers.Makefile \
@@ -76,7 +83,7 @@ release debug profile clean: $(TARGETS)
 
 # libraries dependencies
 
-robotis/darwin-op/controllers.Makefile: robotis/darwin-op/libraries.Makefile
+robotis/darwin-op/controllers.Makefile robotis/darwin-op/plugins/robot_windows.Makefile: robotis/darwin-op/libraries.Makefile
 
 neuronics/ipr/controllers.Makefile: neuronics/ipr/libraries.Makefile
 

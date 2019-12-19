@@ -41,9 +41,9 @@ Released on October 3rd, 2019.
     - Fixed the insertion of a PROTO containing a [BallJoint](balljoint.md).
     - Fixed ros controller not publishing the `/connector/presence` topic.
     - Fixed crash when using an `infra-red` [DistanceSensors](distancesensor.md) pointing to a texture without repetition.
-    - Fixed external controllers, now when a controller exits, the simulation keeps running and it is possible to re-start another external controller.
+    - Fixed extern controllers, now when a controller exits, the simulation keeps running and it is possible to re-start another extern controller.
     - Webots now reads the Python shebang of controller programs to determine which version of Python to execute.
-    - External controllers now wait if started before Webots.
+    - Extern controllers now wait if started before Webots.
     - Fixed warnings printed in the terminal if a [Solid](solid.md).name field contains characters with special meaning in regular expressions.
     - Fixed invalid node references in controllers after deleting nodes from Webots or from the [Supervisor](supervisor.md) API (thanks to @chilaire).
     - Fixed rendering issues if multiple texture coordinates of a face are equal.

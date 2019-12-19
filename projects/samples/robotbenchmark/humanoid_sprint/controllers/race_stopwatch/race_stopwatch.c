@@ -82,44 +82,59 @@ int main(int argc, char *argv[]) {
   wb_distance_sensor_enable(detector, time_step);
   WbNodeRef nao = wb_supervisor_node_get_from_def("NAO");
   WbFieldRef translation = wb_supervisor_node_get_field(nao, "translation");
-  int run = 1;
   double record = 0;
-  double penalty = 0;
+  const double time_limit = 5999.99;                                   // 99 min 59 s 99'
+  const double previous_time_limit = time_limit - time_step / 1000.0;  // time limit minus one time step period, in seconds.
   do {
+    double t = wb_robot_get_time();
     const double *v = wb_supervisor_field_get_sf_vec3f(translation);
-    if (v[1] < 0.2) {  // the robot has fallen down
-      printf("The robot is down, a penalty of 30 seconds is added.\n");
-      penalty += 30;
+    if (v[1] < 0.2) {  // the robot has fallen down => disqualified.
+      printf("The robot is down, the robot is disqualified.\n");
+      stopwatch_set_time(digit, time_limit);
+      wb_robot_wwi_send_text("time:5999.99");  // 99 min 59 s 99'
+      break;
     }
-    double t = wb_robot_get_time() + penalty;
-    if (run) {
-      stopwatch_set_time(digit, t + time_step / 1000);  // to avoid discrepancy with Webots time
-      char buffer[32];
-      snprintf(buffer, 32, "time:%-24.3f", t);
-      int i;
-      for (i = 5; i < sizeof(buffer); i++)
-        if (buffer[i] == ' ') {
-          buffer[i] = '\0';
-          break;
-        }
-      wb_robot_wwi_send_text(buffer);
-    }
-    if (wb_distance_sensor_get_value(detector) < 2.4) {
-      if (run) {
-        record = t;
-        int m = t / 60;
-        double s = t - 60 * m;
-        printf("Time is: %d.%05.2f\n", m, s);
-        stopwatch_set_time(digit, t);  // display actual time
-        wb_robot_wwi_send_text("stop");
+    if (t > previous_time_limit)
+      t = previous_time_limit;
+    stopwatch_set_time(digit, t + time_step / 1000);  // to avoid discrepancy with Webots time
+    char buffer[32];
+    snprintf(buffer, 32, "time:%-24.3f", t);
+    int i;
+    for (i = 5; i < sizeof(buffer); i++) {
+      if (buffer[i] == ' ') {
+        buffer[i] = '\0';
+        break;
       }
-      run = 0;
     }
-    const char *message = wb_robot_wwi_receive_text();
-    if (message && strncmp(message, "record:", 7) == 0)
-      // because the smallest record is the best, we send a negative value here
-      robotbenchmark_record(message, "humanoid_sprint", -record);
+    wb_robot_wwi_send_text(buffer);
+    if (wb_distance_sensor_get_value(detector) < 2.4) {
+      record = t;
+      int m = t / 60;
+      double s = t - 60 * m;
+      printf("Time is: %d.%05.2f\n", m, s);
+      stopwatch_set_time(digit, t);  // display actual time
+      break;
+    }
   } while (wb_robot_step(time_step) != -1);
+
+  // stop benchmark
+  wb_robot_wwi_send_text("stop");
+
+  // get record information
+  while (wb_robot_step(time_step) != -1) {
+    const char *message = wb_robot_wwi_receive_text();
+    if (message) {
+      if (strncmp(message, "record:", 7) == 0) {
+        // because the smallest record is the best, we send a negative value here
+        robotbenchmark_record(message, "humanoid_sprint", -record);
+        break;
+      } else if (strcmp(message, "exit") == 0)
+        break;
+    }
+  }
+
+  wb_supervisor_simulation_set_mode(WB_SUPERVISOR_SIMULATION_MODE_PAUSE);
+
   wb_robot_cleanup();
   return 0;
 }

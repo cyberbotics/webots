@@ -1,7 +1,12 @@
+/* global view, webots, THREE */
+/* global showBenchmarkRecord, showBenchmarkError, saveCookies, getCookie,  */
+/* exported recordPerformance */
+
 $('#infotabs').tabs();
 $('#record-button').button();
 
-var benchmarkName = "Viewpoint Control";
+var benchmarkName = 'Viewpoint Control';
+var benchmarkPerformance;
 view.ontouchmove = evaluateViewpoint;
 view.onmousedrag = evaluateViewpoint;
 view.onmousewheel = evaluateViewpoint;
@@ -31,14 +36,14 @@ function evaluateViewpoint(event) {
   if (currentOrientation.angle < 0)
     currentOrientation.angle += 2 * Math.PI;
   var angleDifference = Math.abs(currentOrientation.angle - targetOrientation.angle);
-  performance = angleDifference + orientationDifference + positionDifference;
-  performance = 100 - performance * 20
-  if (performance < 0)
-    performance = 0;
-  performance -= 90;
-  performance *= 10;
+  benchmarkPerformance = angleDifference + orientationDifference + positionDifference;
+  benchmarkPerformance = 100 - benchmarkPerformance * 20;
+  if (benchmarkPerformance < 0)
+    benchmarkPerformance = 0;
+  benchmarkPerformance -= 90;
+  benchmarkPerformance *= 10;
   var performanceString = "<font color='";
-  if (performance > 0) {
+  if (benchmarkPerformance > 0) {
     performanceString += 'green';
     if ($('#record-button').attr('disabled')) {
       $('#record-button').attr('disabled', false).removeClass('ui-state-disabled');
@@ -51,32 +56,44 @@ function evaluateViewpoint(event) {
       $('#record-button').css('font-weight', 'normal');
     }
   }
-  performanceString += "'>" + performance.toFixed(2) + "%</font>";
+  performanceString += "'>" + benchmarkPerformance.toFixed(2) + '%</font>';
   $('#achievement').html(performanceString);
 }
 
 function recordPerformance() {
-  var p = performance / 100;
+  var p = benchmarkPerformance / 100;
   saveCookies(benchmarkName, parseFloat(p.toFixed(4)));
   var email = getCookie('email');
   var password = getCookie('password');
   if (email === undefined || password === undefined) {
-    webots.alert(benchmarkName + " complete.",
-                 performance.toFixed(2) + "% complete<br>" +
-                 "<p>You should log in at <a href='https://robotbenchmark.net'>robotbenchmark.net</a> to record your performance.</p>");
+    webots.alert(
+      benchmarkName + ' complete.',
+      benchmarkPerformance.toFixed(2) + '% complete<br>' +
+      "<p>You should log in at <a href='https://robotbenchmark.net'>robotbenchmark.net</a> to record your performance.</p>");
     return false;
   }
+  var record = benchmarkPerformance / 100;
   email = decodeURIComponent(email);
-  $.post('/record.php', {email: email,
-                         password: password,
-                         benchmark: 'viewpoint_control',
-                         record: performance / 100,
-                         key: '1'}).done(function(data) {
-                           if (data.startsWith('OK:'))
-                             showBenchmarkRecord('record:' + data, benchmarkName, metricToString);
-                           else
-                             showBenchmarkError('record:' + data, benchmarkName);
-                         });
+  $.post('/record.php', {
+    email: email,
+    password: password,
+    benchmark: 'viewpoint_control',
+    record: record,
+    key: '1'
+  }).done(function(data) {
+    if (data.startsWith('OK:')) {
+      var result = showBenchmarkRecord('record:' + data, benchmarkName, metricToString);
+      if (!result['isNewRecord']) {
+        // current record is worst than personal record
+        var text = "<p style='font-weight:bold'>You did not outperform your personal record.</p>" +
+                   '<p>Your personal record is: ' + metricToString(result['personalRecord']) + '.</p>' +
+                   '<p>Your current performance is: ' + metricToString(record) + '.</p>';
+        webots.alert(benchmarkName + ' result', text);
+        return false;
+      }
+    } else
+      showBenchmarkError('record:' + data, benchmarkName);
+  });
   return true;
 }
 

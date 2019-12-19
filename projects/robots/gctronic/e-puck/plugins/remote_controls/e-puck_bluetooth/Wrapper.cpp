@@ -53,12 +53,11 @@ void Wrapper::cleanup() {
   DeviceManager::cleanup();
 }
 
-bool Wrapper::start(void *arg) {
-  if (!arg)
+bool Wrapper::start(const char *args) {
+  if (!args)
     return false;
   DeviceManager::instance()->camera()->checkResolution();
-  string port((const char *)arg);
-  cCommunication->initialize(port);
+  cCommunication->initialize(std::string(args));
   cTime = new Time();
   cSuccess = cCommunication->isInitialized();
   cCameraInitialized = false;

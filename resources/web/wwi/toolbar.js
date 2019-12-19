@@ -18,6 +18,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
     this.infoButton.onclick = () => { this.toggleInfo(); };
 
     this.worldSelectionDiv = document.createElement('div');
+    this.worldSelectionDiv.id = 'worldSelectionDiv';
     this.domElement.left.appendChild(this.worldSelectionDiv);
 
     if (webots.showRevert) { // disabled by default
@@ -38,9 +39,9 @@ class Toolbar { // eslint-disable-line no-unused-vars
     this.pauseButton.onclick = () => { this.pause(); };
     this.pauseButton.style.display = 'none';
 
-    if (webots.showFast) { // disabled by default
-      this.domElement.left.appendChild(this.createToolBarButton('fast', 'Run the simulation as fast as possible'));
-      this.fastButton.onclick = () => { this.fast(); };
+    if (webots.showRun) { // disabled by default
+      this.domElement.left.appendChild(this.createToolBarButton('run', 'Run the simulation as fast as possible'));
+      this.runButton.onclick = () => { this.run(); };
     }
 
     var div = document.createElement('div');
@@ -212,7 +213,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
     else
       $('#webotsProgressMessage').html('Restarting simulation...');
     $('#webotsProgress').show();
-    this.runOnLoad = this.pauseButton.style.display === 'inline';
+    this.view.runOnLoad = this.pauseButton.style.display === 'inline';
     this.pause();
     for (let i in this.view.editor.filenames) {
       this.view.editor.save(i);
@@ -250,18 +251,18 @@ class Toolbar { // eslint-disable-line no-unused-vars
     this.view.stream.socket.send('real-time:' + this.view.timeout);
     this.pauseButton.style.display = 'inline';
     this.real_timeButton.style.display = 'none';
-    if (typeof this.fastButton !== 'undefined')
-      this.fastButton.style.display = 'inline';
+    if (typeof this.runButton !== 'undefined')
+      this.runButton.style.display = 'inline';
   }
 
-  fast() {
+  run() {
     if (this.view.broadcast)
       return;
     this.view.contextMenu.hide();
     this.view.stream.socket.send('fast:' + this.view.timeout);
     this.pauseButton.style.display = 'inline';
     this.real_timeButton.style.display = 'inline';
-    this.fastButton.style.display = 'none';
+    this.runButton.style.display = 'none';
   }
 
   step() {
@@ -270,13 +271,13 @@ class Toolbar { // eslint-disable-line no-unused-vars
     this.view.contextMenu.hide();
     this.pauseButton.style.display = 'none';
     this.real_timeButton.style.display = 'inline';
-    if (typeof this.fastButton !== 'undefined')
-      this.fastButton.style.display = 'inline';
+    if (typeof this.runButton !== 'undefined')
+      this.runButton.style.display = 'inline';
     this.view.stream.socket.send('step');
   }
 
   enableToolBarButtons(enabled) {
-    var buttons = [this.infoButton, this.revertButton, this.resetButton, this.stepButton, this.real_timeButton, this.fastButton, this.pauseButton, this.consoleButton, this.worldSelect];
+    var buttons = [this.infoButton, this.revertButton, this.resetButton, this.stepButton, this.real_timeButton, this.runButton, this.pauseButton, this.consoleButton, this.worldSelect];
     for (let i in buttons) {
       if (buttons[i]) {
         if (enabled && (!this.view.broadcast || buttons[i] === this.consoleButton)) {
@@ -301,22 +302,22 @@ class Toolbar { // eslint-disable-line no-unused-vars
   }
 
   setMode(mode) {
-    var fastEnabled = typeof this.fastButton !== 'undefined';
+    var runEnabled = typeof this.runButton !== 'undefined';
     if (mode === 'pause') {
       this.pauseButton.style.display = 'none';
       this.real_timeButton.style.display = 'inline';
-      if (fastEnabled)
-        this.fastButton.style.display = 'inline';
+      if (runEnabled)
+        this.runButton.style.display = 'inline';
       return;
     }
 
     this.pauseButton.style.display = 'inline';
-    if (fastEnabled && mode === 'fast') {
-      this.fastButton.style.display = 'none';
+    if (runEnabled && (mode === 'run' || mode === 'fast')) {
+      this.runButton.style.display = 'none';
       this.real_timeButton.style.display = 'inline';
     } else {
-      if (fastEnabled)
-        this.fastButton.style.display = 'inline';
+      if (runEnabled)
+        this.runButton.style.display = 'inline';
       this.real_timeButton.style.display = 'none';
     }
   }

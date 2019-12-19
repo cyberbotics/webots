@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 
 PROTO TemplateViewpoint [
   field     SFFloat    fieldOfView        0.785398
@@ -8,7 +8,7 @@ PROTO TemplateViewpoint [
   field     SFFloat    near               0.05
   field     SFFloat    far                0.0
   field     SFString   follow             ""
-  field     SFBool     followOrientation  FALSE
+  field     SFString   followType         "Tracking Shot"
   field     SFFloat    followSmoothness   0.5
 ]
 {
@@ -20,7 +20,7 @@ PROTO TemplateViewpoint [
     near IS near
     far IS far
     follow IS follow
-    followOrientation IS followOrientation
+    followType IS followType
     followSmoothness IS followSmoothness
   }
 }

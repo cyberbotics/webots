@@ -240,7 +240,12 @@ void WbSimulationWorld::step() {
     log->stopMeasure(WbPerformanceLog::POST_PHYSICS_STEP);
 
   // update camera textures before main rendering
-  emit cameraRenderingStarted();
+  const QList<WbRobot *> robotList = robots();
+  for (int i = 0; i < robots().size(); ++i) {
+    WbRobot *robot = robotList[i];
+    if (robot->isControllerStarted())
+      robot->renderCameras();
+  }
 
   if (!mSimulationHasRunAfterSave) {
     mSimulationHasRunAfterSave = true;
@@ -326,7 +331,7 @@ bool WbSimulationWorld::simulationHasRunAfterSave() {
   return mSimulationHasRunAfterSave;
 }
 
-void WbSimulationWorld::reset() {
+void WbSimulationWorld::reset(bool restartControllers) {
   WbSimulationState::instance()->pauseSimulation();
   WbSimulationState::instance()->resetTime();
   WbTemplateManager::instance()->blockRegeneration(true);
@@ -343,9 +348,11 @@ void WbSimulationWorld::reset() {
   mCluster->handleInitialCollisions();
   dImmersionLinkGroupEmpty(mCluster->immersionLinkGroup());
   WbSoundEngine::stopAllSources();
-  foreach (WbRobot *const robot, robots()) {
-    if (robot->isControllerStarted())
-      robot->restartController();
+  if (restartControllers) {
+    foreach (WbRobot *const robot, robots()) {
+      if (robot->isControllerStarted())
+        robot->restartController();
+    }
   }
   updateRandomSeed();
   WbSimulationState::instance()->resumeSimulation();

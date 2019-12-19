@@ -59,6 +59,7 @@ Thumbs.db
 # Local rules #
 ###############
 
+/.clang-format
 /msys64
 /webots
 /webots.lnk

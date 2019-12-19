@@ -50,6 +50,14 @@ The red blocks graphically represent the braking system, but the wheel is actual
 Its "bumper" [TouchSensor](../reference/touchsensor.md) (represented by a black box) detects collisions.
 `MyBot` moves back and turns a little each time a collision is detected.
 
+### [compass.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/worlds/compass.wbt)
+
+**Keywords**: [Compass](../reference/compass.md)
+
+![compass.png](images/samples/compass.thumbnail.jpg) In this example, `MyBot` moves in a closed arena filled with obstacles.
+The robot is equipped with a yellow motorized needle which always indicates towards the north.
+The north direction is computed using a [Compass](../reference/compass.md) node.
+
 ### [camera.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/worlds/camera.wbt)
 
 **Keywords**: [Camera](../reference/camera.md), image processing, RGB pixel, Camera noise, PNG, ANSI
@@ -314,11 +322,18 @@ This noisy position is compared to the actual [Emitter](../reference/emitter.md)
 
 ### [sick.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/worlds/sick.wbt)
 
-**Keywords**: Sick LMS 291, [Lidar](../reference/lidar.md), 3-wheeled robot, lidar plot
+**Keywords**: [Sick LMS 291](lidar-sensors.md#sick-lms-291), [Lidar](../reference/lidar.md), 3-wheeled robot, lidar plot
 
 ![sick.png](images/samples/sick.thumbnail.jpg) In this example, a 3-wheeled robot mounted with a `Sick LMS 291` lidar sensor moves through an area with obstacles.
 The robot use the lidar depth output to avoid collisions.
 The lidar depth output is also plot into a [Display](../reference/display.md) device.
+
+### [sick\_point\_cloud.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/worlds/sick_point_cloud.wbt)
+
+**Keywords**: [Sick LD MRS](lidar-sensors.md#sick-ld-mrs), [Lidar](../reference/lidar.md), cloud point
+
+![sick_point_cloud.png](images/samples/sick_point_cloud.thumbnail.jpg) Soda cans are transported on a conveyor belt.
+A static robot equipped with a Sick LD-MRS uses the Point Cloud API to count the number of cans in front of it.
 
 ### [speaker.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/worlds/speaker.wbt)
 

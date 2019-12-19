@@ -1,6 +1,6 @@
 ## GCTronic' e-puck
 
-%robot epuck images/robots/epuck/model.thumbnail.png
+%robot epuck images/robots/epuck/model.png
 
 E-puck is a miniature mobile robot originally developed at EPFL for teaching purposes by the designers of the successful Khepera robot.
 The hardware and software of e-puck is fully open source, providing low level access to every electronic device and offering unlimited extension possibilities.
@@ -154,6 +154,7 @@ The `version` field of the `E-puck` PROTO node selects the version of the e-puck
 When set to "2", the e-puck model switches to the e-puck2, with the following differences:
 
 - The graphical shape is changing: in particular, the top turret is removed and different chipset texture is set for the plate.
+- The time-of-flight (ToF) long range distance sensor is added to the model (including support for Wi-Fi remote-control).
 - The overall mass differs: 130 [grams] instead of 150 [grams].
 - The max speed differs: 1200 [steps / second] instead of 1000 [steps / second].
 - The e-puck2 robot windows offers Wi-Fi remote control instead of Bluetooth.
@@ -390,6 +391,10 @@ This is done using the distance sensors of the e-puck.
 #### e-puck2.wbt
 
 ![e-puck2.wbt.png](images/robots/epuck/e-puck2.wbt.thumbnail.jpg) This is the same simulation as the above one, except that it uses an "e-puck2" model.
+
+#### e-puck2\_pi-puck.wbt
+
+![e-puck2_pi-puck.wbt.png](images/robots/epuck/e-puck2_pi-puck.wbt.thumbnail.jpg) This is again the same simulation with the "e-puck2" model, but the robot is equipped with the `Pi-Puck` extension which gives it more sensors, [LEDs](../reference/led.md) and computation power.
 
 #### e-puck2\_server.wbt
 

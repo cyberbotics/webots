@@ -64,7 +64,7 @@ public:
   void restoreFactoryLayout();
 
   int &handleWidth() { return mHandleWidth; }
-  void setHandleWidth(int &handleWidth) { mHandleWidth = handleWidth; }
+  void setHandleWidth(const int &handleWidth) { mHandleWidth = handleWidth; }
 
 public slots:
   void selectTransform(WbAbstractTransform *t);

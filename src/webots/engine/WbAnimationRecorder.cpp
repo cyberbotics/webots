@@ -55,6 +55,8 @@ WbAnimationCommand::WbAnimationCommand(const WbNode *n, const QStringList &field
                      .arg(ROUND(sfVector3->x(), 0.0001))
                      .arg(ROUND(sfVector3->y(), 0.0001))
                      .arg(ROUND(sfVector3->z(), 0.0001));
+          mLastTranslation =
+            WbVector3(ROUND(sfVector3->x(), 0.001), ROUND(sfVector3->y(), 0.001), ROUND(sfVector3->z(), 0.001));
         } else if (sfRotation && fieldName.compare("rotation") == 0) {
           // special rotation case
           state += QString("%1 %2 %3 %4")
@@ -62,6 +64,8 @@ WbAnimationCommand::WbAnimationCommand(const WbNode *n, const QStringList &field
                      .arg(ROUND(sfRotation->y(), 0.0001))
                      .arg(ROUND(sfRotation->z(), 0.0001))
                      .arg(ROUND(sfRotation->angle(), 0.0001));
+          mLastRotation = WbRotation(ROUND(sfRotation->x(), 0.001), ROUND(sfRotation->y(), 0.001),
+                                     ROUND(sfRotation->z(), 0.001), ROUND(sfRotation->angle(), 0.001));
         } else  // generic case
           state += field->value()->toString(WbPrecision::FLOAT_MAX);
         state += "\"";
@@ -439,8 +443,11 @@ void WbAnimationRecorder::stopRecording() {
 
   if (mStartedFromGui && !mStreamingServer)
     emit requestOpenUrl(fileName,
-                        tr("The animation has been created:\n%1\n\nDo you want to view it locally now?\n\nNote: Animations can "
-                           "not be viewed locally on Google Chrome.")
+                        tr("The animation has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
+                           "Note: please refer to the "
+                           "<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/"
+                           "web-scene#remarks-on-the-used-technologies-and-their-limitations'>User Guide</a> "
+                           "if your browser prevents local files CORS requests.")
                           .arg(fileName),
                         tr("Make HTML5 Animation"));
 

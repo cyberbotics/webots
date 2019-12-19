@@ -28,6 +28,7 @@ from pyflakes import checker
 from pyflakes.reporter import Reporter
 
 skippedDirectories = [
+    '.git',
     'dependencies',
     'lib',
     'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
@@ -36,6 +37,10 @@ skippedDirectories = [
     'projects/languages/ros/controllers/ros_python/kinetic',
     'projects/languages/ros/controllers/ros_python/python'
 ]
+
+if sys.version_info[0] < 3:
+    # this script works only with Python 3
+    skippedDirectories.append('scripts/preferences_cleaner')
 
 
 class FlakesReporter(Reporter):

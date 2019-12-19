@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 # tags: static
 # documentation url: https://www.cyberbotics.com/doc/guide/nao
 # Generic model of Nao robot
@@ -4058,8 +4058,13 @@ PROTO Nao [
                                                 }
                                               }
                                             }
-                                            boundingObject DEF BUMPER_BO Box {
-                                              size 0.02 0.025 0.01
+                                            boundingObject DEF BUMPER_BO Transform {
+                                              translation 0.0075 0 0
+                                              children [
+                                                Box {
+                                                  size 0.005 0.025 0.01
+                                                }
+                                              ]
                                             }
                                             lookupTable [
                                             ]

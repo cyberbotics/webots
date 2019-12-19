@@ -1,13 +1,14 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A grass material containing several grass types.
 
 PROTO Grass [
-  field SFColor                                                  colorOverride    1 1 1         # Defines the default color multiplied with the texture color.
-  field SFString{"maintained", "artificial", "prickly", "mossy"} type             "maintained"  # Defines the grass type.
-  field SFNode                                                   textureTransform NULL          # Defines an optional 2d texture transform.
-  field SFFloat                                                  IBLStrength      1             # Defines the strength of ambient lighting from the Background node.
+  field SFColor  colorOverride    1 1 1         # Defines the default color multiplied with the texture color.
+  field SFString{"maintained", "artificial", "prickly", "mossy"}
+                 type             "maintained"  # Defines the grass type.
+  field SFNode   textureTransform NULL          # Defines an optional 2d texture transform.
+  field SFFloat  IBLStrength      1             # Defines the strength of ambient lighting from the Background node.
 ]
 {
   PBRAppearance {
