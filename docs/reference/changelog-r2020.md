@@ -1,5 +1,11 @@
 # Webots R2020 Change Log
 
+## Webots R2020a Revision 1
+Released on XXX YYYrd, 2020.
+
+  - Bug fixes
+    - Fix default controller of the [ABB IRB 4600/40](../guide/irb4600-40.md) robot.
+
 ## [Webots R2020a](../blog/Webots-2020-a-release.md)
 Released on December 18th, 2019.
 
