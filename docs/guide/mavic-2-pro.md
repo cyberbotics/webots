@@ -36,7 +36,7 @@ PROTO Mavic2Pro {
 
 ### Samples
 
-You will find the following sample in this folder: [WEBOTS\_HOME/projects/robots/dji/mavic/worlds](https://github.com/omichel/webots/tree/revision/projects/robots/dji/mavic/worlds).
+You will find the following sample in this folder: [WEBOTS\_HOME/projects/robots/dji/mavic/worlds](https://github.com/omichel/webots/tree/master/projects/robots/dji/mavic/worlds).
 
 #### mavic\_2\_pro.wbt
 
