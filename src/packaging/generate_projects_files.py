@@ -55,6 +55,10 @@ with open("omit_in_projects.txt") as f:
 with open("omit_in_projects_" + platform + ".txt") as f:
     omit_in_projects += f.read().splitlines()
 
+if 'SNAPCRAFT_PROJECT_NAME' in os.environ:
+    with open("omit_in_projects_snap.txt") as f:
+        omit_in_projects += f.read().splitlines()
+
 with open("recurse_in_projects.txt") as f:
     recurse_in_projects = f.read().splitlines()
 valid_environment = check_exist_in_projects(recurse_in_projects)
@@ -94,6 +98,7 @@ def omit_match(f):
     - omit_in_projects_linux.txt
     - omit_in_projects_mac.txt
     - omit_in_projects_windows.txt
+    - omit_in_projects_snap.txt
     """
     for fn in omit_in_projects:
         if fn.endswith('/') and (f + '/').startswith(fn):
