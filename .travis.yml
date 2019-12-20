@@ -108,7 +108,7 @@ jobs:
             - python-pip
             - libreadline-dev
             - libassimp-dev
-            - libpng16-dev
+            - libpng-dev
             - libav-tools
             - npm
             - python3.5-dev
