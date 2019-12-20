@@ -1159,6 +1159,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libavcodec.so.57 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebp.so.6 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebpmux.so.3 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng16.so.16 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng16.so.16 debian/usr/local/webots/lib/controller\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libassimp.so.4 debian/usr/local/webots/lib/webots\n");
 #endif
