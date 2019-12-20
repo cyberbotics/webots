@@ -1094,7 +1094,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "ln -s libssl.so.1.1 libssl.so\n");
       fprintf(fd, "ln -s libcrypto.so.1.1 libcrypto.so\n");
       fprintf(fd, "cd %s/debian\n", distribution_path);
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng12.so.0 usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libvpx.so.3 usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebp.so.5 usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebpmux.so.1 usr/local/webots/lib/webots\n");
@@ -1103,6 +1102,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libevent-2.0.so.5 usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libassimp.so.3 usr/local/webots/lib/webots\n");
 #endif
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng16.so.16 usr/local/webots/lib/controller\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libminizip.so.1 usr/local/webots/lib/webots\n");
 
       fprintf(fd, "mkdir DEBIAN\n");
@@ -1151,7 +1151,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libvpx.so.3 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libx264.so.148 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libavcodec-ffmpeg.so.56 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng12.so.0 debian/usr/local/webots/lib/webots\n");
 #elif defined(WEBOTS_UBUNTU_18_04)
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libraw.so.16 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libvpx.so.5 debian/usr/local/webots/lib/webots\n");
@@ -1159,7 +1158,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libavcodec.so.57 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebp.so.6 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebpmux.so.3 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng16.so.16 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libassimp.so.4 debian/usr/local/webots/lib/webots\n");
 #endif
       // libraries common to Ubuntu 16.04 and 18.04
@@ -1186,6 +1184,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libgd.so.3 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libssh.so.4 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libfreetype.so.6 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng16.so.16 debian/usr/local/webots/lib/controller\n");
       fprintf(fd, "cd debian/usr/local\n");
       fprintf(fd, "tar cf ../../../%s-%s-%s.tar.bz2 --use-compress-prog=pbzip2 %s\n", application_name_lowercase_and_dashes,
               package_version, arch2, application_name_lowercase_and_dashes);
