@@ -30,7 +30,7 @@ The installation requires the `root` privileges.
 First of all, Webots should be authenticated with the [Cyberbotics.asc](https://cyberbotics.com/Cyberbotics.asc) signature file which can be installed using this command:
 
 ```sh
-curl -s -L https://cyberbotics.com/Cyberbotics.asc | sudo apt-key add -
+wget -qO- https://cyberbotics.com/Cyberbotics.asc | sudo apt-key add -
 ```
 
 Then, you can configure your APT package manager by adding the Cyberbotics repository.
