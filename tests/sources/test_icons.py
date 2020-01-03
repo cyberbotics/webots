@@ -67,12 +67,12 @@ class TestIcons(unittest.TestCase):
                 os.path.isfile(icon),
                 msg='missing icon: "%s"' % proto
             )
-            image = Image.open(icon)
-            width, height = image.size
-            self.assertTrue(
-                width == 128 and height == 128,
-                msg='wrong resolution (icons should be 128x128) for icon: "%s"' % icon
-            )
+            with Image.open(icon) as image:
+                width, height = image.size
+                self.assertTrue(
+                    width == 128 and height == 128,
+                    msg='wrong resolution (icons should be 128x128) for icon: "%s"' % icon
+                )
 
 
 if __name__ == '__main__':
