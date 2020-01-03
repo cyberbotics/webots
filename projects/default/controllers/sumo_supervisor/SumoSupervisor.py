@@ -370,7 +370,7 @@ class SumoSupervisor (Supervisor):
         for i in range(0, self.trafficLightNumber):
             id = IDlist[i]
             self.trafficLights[id] = TrafficLight()
-            self.trafficLights[id].lightNumber = len(self.traci.trafficlights.getRedYellowGreenState(id))
+            self.trafficLights[id].lightNumber = len(self.traci.trafficlight.getRedYellowGreenState(id))
             for j in range(0, self.trafficLights[id].lightNumber):
                 trafficLightNode = self.getFromDef("TLS_" + id + "_" + str(j))
                 if trafficLightNode is not None:
@@ -389,11 +389,11 @@ class SumoSupervisor (Supervisor):
                 else:
                     self.trafficLights[id].LED[3 * j + 2] = None
 
-    def update_traffic_light_state(self, subscriptionResult):
+    def update_traffic_light_state(self, id, states):
         """Update the traffic lights state in Webots."""
-        for id in subscriptionResult.keys():
-            currentState = subscriptionResult[id][self.traci.constants.TL_RED_YELLOW_GREEN_STATE]
-            # update light LED state if traffic light state has changed
+        # update light LED state if traffic light state has changed
+        for state in states:
+            currentState = states[state]
             if self.trafficLights[id].previousState != currentState:
                 self.trafficLights[id].previousState = currentState
                 for j in range(0, self.trafficLights[id].lightNumber):
@@ -472,11 +472,11 @@ class SumoSupervisor (Supervisor):
 
         # Get all the LEDs of the traffic lights
         if not disableTrafficLight:
-            trafficLightsList = self.traci.trafficlights.getIDList()
+            trafficLightsList = self.traci.trafficlight.getIDList()
             self.get_traffic_light(trafficLightsList)
             for id in trafficLightsList:
                 # subscribe to traffic lights state
-                self.traci.trafficlights.subscribe(id, [self.traci.constants.TL_RED_YELLOW_GREEN_STATE])
+                self.traci.trafficlight.subscribe(id, [self.traci.constants.TL_RED_YELLOW_GREEN_STATE])
 
         # Subscribe to new vehicles entering the simulation
         self.traci.simulation.subscribe([
@@ -514,7 +514,7 @@ class SumoSupervisor (Supervisor):
         # Main simulation loop
         while self.step(step) >= 0:
             if self.usePlugin:
-                sumoSupervisorPlugin.run(step)
+                pass #sumoSupervisorPlugin.run(step)
 
             if self.sumoDisplay is not None:
                 self.sumoDisplay.step(step)
@@ -542,17 +542,18 @@ class SumoSupervisor (Supervisor):
                     self.traci.gui.trackVehicle(view, 'webotsVehicle0')
 
             # get result from the vehicle subscription and apply it
-            subscriptionResult = self.traci.vehicle.getSubscriptionResults()
-            self.get_vehicles_position(subscriptionResult, step, xOffset, yOffset,
-                                       maximumLateralSpeed, maximumAngularSpeed,
-                                       laneChangeDelay)
-            self.disable_unused_vehicles(subscriptionResult)
+            # subscriptionResult = self.traci.vehicle.getSubscriptionResults()
+            # self.get_vehicles_position(subscriptionResult, step, xOffset, yOffset,
+            #                            maximumLateralSpeed, maximumAngularSpeed,
+            #                            laneChangeDelay)
+            # self.disable_unused_vehicles(subscriptionResult)
 
             # hide unused vehicles
             self.hide_unused_vehicles()
 
             if not disableTrafficLight:
-                self.update_traffic_light_state(self.traci.trafficlights.getSubscriptionResults())
+                for id in self.trafficLights:
+                    self.update_traffic_light_state(id, self.traci.trafficlight.getSubscriptionResults(id))
 
             self.update_vehicles_position_and_velocity(step, rotateWheels)
             self.update_webots_vehicles(xOffset, yOffset)
