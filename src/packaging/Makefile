@@ -47,11 +47,6 @@ CFLAGS = -DWEBOTS_UBUNTU_18_04
 endif
 endif
 
-ifneq ($(SNAPCRAFT_PROJECT_NAME),)
-export DISPLAY = :99
-XVFB = xvfb
-endif
-
 ifeq ($(OSTYPE),windows)
 LIBRARIES = -L$(WEBOTS_HOME_PATH)/lib -L/mingw64/bin -lcrypto
 WEBOTS_DISTRO_EXE = webots_distro.exe
@@ -60,7 +55,7 @@ WEBOTS = webots
 ISCC_FORMATTER = iscc_formatter.exe
 endif
 
-all: $(WEBOTS_DISTRO_EXE) $(ISCC_FORMATTER) $(XVFB)
+all: $(WEBOTS_DISTRO_EXE) $(ISCC_FORMATTER)
 	+@echo "# removing files and folders not in git repository"
 	+@cd $(WEBOTS_HOME_PATH) ; git clean -fdf | sed -e 's/^/# - /' ; cd src/packaging
 	+@echo "# generating project files"
@@ -97,10 +92,6 @@ $(WEBOTS_DISTRO_EXE): webots_distro.c
 iscc_formatter.exe: iscc_formatter.c
 	+@echo "# compiling iscc_formatter.c"
 	+@$(CC) -Wall -o $@ iscc_formatter.c
-
-xvfb:
-	+@echo "# starting Xvfb: X Virtual Frame Buffer"
-	+@Xvfb :99 -screen 0 1024x768x16 &
 
 clean:
 	+@rm -rf $(WEBOTS_DISTRO_EXE) webots.deb webots.snap webots.iss webots.mac files.txt iscc_formatter.exe
