@@ -135,7 +135,6 @@ static int g_image_png_save(GImage *img, const char *filename) {
       else
         fprintf(stderr, "Cannot get current directory for %s!\n", filename);
     }
-    fclose(fd);
     return -1;
   }
   fclose(fd);
