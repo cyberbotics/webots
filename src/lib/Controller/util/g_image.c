@@ -213,8 +213,32 @@ int g_image_save(GImage *img, const char *filename, char quality) {
   }
 }
 
+struct ImageData {
+  unsigned char **target_data;
+  unsigned long *target_data_size;
+};
+
+void g_image_save_to_jpeg_buffer_callback(void *context, void *data, int size) {
+  if (!*(((struct ImageData *)context)->target_data))
+    *(((struct ImageData *)context)->target_data) = (unsigned char *)malloc(size);
+  else
+    *(((struct ImageData *)context)->target_data) = (unsigned char *)realloc(
+      *(((struct ImageData *)context)->target_data), *(((struct ImageData *)context)->target_data_size) + size);
+  memcpy(*(((struct ImageData *)context)->target_data) + *(((struct ImageData *)context)->target_data_size), data, size);
+  *(((struct ImageData *)context)->target_data_size) += size;
+}
+
 int g_image_save_to_jpeg_buffer(GImage *img, unsigned char **target_data, unsigned long *target_data_size, char quality) {
-  return -1;  // g_image_jpeg_save(img, quality, false, NULL, target_data, target_data_size);
+  struct ImageData imageData;
+  imageData.target_data = target_data;
+  imageData.target_data_size = target_data_size;
+  *target_data_size = 0;
+
+  if (stbi_write_jpg_to_func((stbi_write_func *)&g_image_save_to_jpeg_buffer_callback, &imageData, img->width, img->height,
+                             STBI_rgb, img->data, quality) != 1)
+    return -1;
+
+  return 0;
 }
 
 GImage *g_image_new(const char *filename) {
