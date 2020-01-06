@@ -158,8 +158,7 @@ static int g_image_png_save(GImage *img, const char *filename) {
   return 0;
 }
 
-static int g_image_jpeg_save(GImage *img, char quality, bool to_file, const char *filename, unsigned char **target_data,
-                             unsigned long *target_data_size) {
+static int g_image_jpeg_save(GImage *img, char quality, const char *filename) {
   if (access(filename, W_OK) != 0) {
     fprintf(stderr, "Error: could not open \"%s\" for writing\n", filename);
     return -1;  // error
@@ -203,7 +202,7 @@ static int g_image_tiff_save(GImage *img, const char *filename) {
 int g_image_save(GImage *img, const char *filename, char quality) {
   switch (g_image_get_type(filename)) {
     case G_IMAGE_JPEG:
-      return g_image_jpeg_save(img, quality, true, filename, NULL, NULL);
+      return g_image_jpeg_save(img, quality, filename);
     case G_IMAGE_PNG:
       return g_image_png_save(img, filename);
     case G_IMAGE_TIFF:
