@@ -69,7 +69,7 @@ static int g_image_png_load(const char *filename, GImage *image) {
   if (number_of_components == STBI_rgb)
     image->data_format = G_IMAGE_DATA_FORMAT_RGB;
   else
-    image->data_format = G_IMAGE_DATA_FORMAT_ABGR;
+    image->data_format = G_IMAGE_DATA_FORMAT_RGBA;
   return true;
 }
 
@@ -133,10 +133,26 @@ static int g_image_png_save(GImage *img, const char *filename) {
       }
       return -1;  // error
     }*/
+  if (img->data_format == G_IMAGE_DATA_FORMAT_BGRA) {
+    printf("G_IMAGE_DATA_FORMAT_BGRA\n");
+    unsigned char *image = (unsigned char *)malloc(4 * img->width * img->height);
+    int i;
+    for (i = 0; i < img->width * img->height; ++i) {
+      image[4 * i] = img->data[4 * i + 2];
+      image[4 * i + 1] = img->data[4 * i + 1];
+      image[4 * i + 2] = img->data[4 * i];
+      image[4 * i + 3] = img->data[4 * i + 3];
+    }
+    int ret = stbi_write_png(filename, img->width, img->height, STBI_rgb_alpha, image, img->width * STBI_rgb_alpha);
+    free(image);
+    if (ret != 1)
+      return -1;  // error
+    return 0;
+  }
 
   int number_of_components = STBI_rgb_alpha;
   if (img->data_format == G_IMAGE_DATA_FORMAT_RGB)
-    number_of_components = STBI_rgb_alpha;
+    number_of_components = STBI_rgb;
   if (stbi_write_png(filename, img->width, img->height, number_of_components, img->data, img->width * number_of_components) !=
       1)
     return -1;  // error

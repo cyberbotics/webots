@@ -27,6 +27,7 @@
 #define G_IMAGE_DATA_FORMAT_RGB 1
 #define G_IMAGE_DATA_FORMAT_ABGR 2
 #define G_IMAGE_DATA_FORMAT_BGRA 3
+#define G_IMAGE_DATA_FORMAT_RGBA 4
 
 #ifdef __cplusplus
 extern "C" {
