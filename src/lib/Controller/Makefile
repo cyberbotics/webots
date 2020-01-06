@@ -20,9 +20,9 @@ WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_PATH)/dependencies
 
 ifeq ($(OSTYPE),darwin)
 CFLAGS      = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -fpascal-strings -Wno-deprecated-declarations -I/Developer/Headers/FlatCarbon -Wall -fno-common
-INCLUDE     = -I$(WEBOTS_PATH)/include/controller/c -I$(WEBOTS_PATH)/include -I$(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12 -I$(WEBOTS_PATH)/include/libjpeg -I$(WEBOTS_DEPENDENCY_PATH)/libtiff/libtiff
+INCLUDE     = -I$(WEBOTS_PATH)/include/controller/c -I$(WEBOTS_PATH)/include
 LD_FLAGS    = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -dynamiclib -install_name @rpath/lib/controller/libController.dylib -compatibility_version 1.0 -current_version 1.0.0
-STATIC_LIBS = $(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12/libpng.a $(WEBOTS_DEPENDENCY_PATH)/jpeg-9b/libjpeg.a $(WEBOTS_DEPENDENCY_PATH)/libtiff/libtiff.a
+STATIC_LIBS =
 SHARED_LIBS = -lz
 TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
 CC          = gcc
@@ -33,12 +33,7 @@ CFLAGS      = -fPIC -Wall
 INCLUDE     = -I$(WEBOTS_PATH)/include/controller/c -I$(WEBOTS_PATH)/include
 LD_FLAGS    = -shared -Wl,-soname,libController.so
 STATIC_LIBS =
-ifeq ($(UBUNTU_VERSION), 16.04)
-LIB_PNG      = png12
-else
-LIB_PNG      = png16
-endif
-SHARED_LIBS = -ltiff -lm -ljpeg -lpthread -l$(LIB_PNG) -ldl -llzma -lrt
+SHARED_LIBS = -lm -lpthread -ldl -llzma -lrt
 TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.so
 endif
 
@@ -46,23 +41,14 @@ ifeq ($(OSTYPE),windows)
 CFLAGS      = -Wall -mwindows
 INCLUDE     = -I$(WEBOTS_PATH)/include/controller/c -I$(WEBOTS_PATH)/include -I/mingw64/include
 LD_FLAGS    = -shared -mwindows --def Controller.def
-STATIC_LIBS = -static -lpng -lz -ljpeg -ltiff -llzma -lzstd
+STATIC_LIBS = -static -lz -llzma -lzstd
 PLATFORM    = win32
 CC          = gcc
 TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib
 ifeq (,$(wildcard /mingw32/bin/gcc))
 NO_GCC32=1
 endif
-ifeq (,$(wildcard /mingw32/lib/libpng.a))
-NO_GCC32=1
-endif
 ifeq (,$(wildcard /mingw32/lib/libz.a))
-NO_GCC32=1
-endif
-ifeq (,$(wildcard /mingw32/lib/libjpeg.a))
-NO_GCC32=1
-endif
-ifeq (,$(wildcard /mingw32/lib/libtiff.a))
 NO_GCC32=1
 endif
 ifeq (,$(wildcard /mingw32/lib/liblzma.a))
@@ -110,6 +96,8 @@ endif
 
 vpath %.o $(OBJDIR)
 vpath %.c api util
+
+INCLUDE += -I$(WEBOTS_PATH)/src/webots/external/stb_image
 
 SOURCES=$(shell ls api/*.c) $(shell ls util/*.c)
 
