@@ -104,7 +104,7 @@ unsigned char g_image_get_type(const char *filename) {
             (filename[l - 2] == 'f' || filename[l - 2] == 'F') && (filename[l - 1] == 'f' || filename[l - 1] == 'F')))
     return G_IMAGE_TIFF;
   else if ((filename[l - 3] == 'h' || filename[l - 3] == 'H') && (filename[l - 2] == 'd' || filename[l - 2] == 'D') &&
-           (filename[l - 1] == 'R' || filename[l - 1] == 'R'))
+           (filename[l - 1] == 'r' || filename[l - 1] == 'R'))
     return G_IMAGE_HDR;
   else
     return G_IMAGE_NONE;
