@@ -22,6 +22,7 @@
 #define G_IMAGE_JPEG 2
 #define G_IMAGE_XPM 3
 #define G_IMAGE_TIFF 4
+#define G_IMAGE_HDR 5
 
 #define G_IMAGE_DATA_FORMAT_F 0
 #define G_IMAGE_DATA_FORMAT_RGB 1

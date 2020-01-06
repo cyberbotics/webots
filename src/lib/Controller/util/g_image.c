@@ -103,6 +103,9 @@ unsigned char g_image_get_type(const char *filename) {
            ((filename[l - 4] == 't' || filename[l - 4] == 'T') && (filename[l - 3] == 'i' || filename[l - 3] == 'I') &&
             (filename[l - 2] == 'f' || filename[l - 2] == 'F') && (filename[l - 1] == 'f' || filename[l - 1] == 'F')))
     return G_IMAGE_TIFF;
+  else if ((filename[l - 3] == 'h' || filename[l - 3] == 'H') && (filename[l - 2] == 'd' || filename[l - 2] == 'D') &&
+           (filename[l - 1] == 'R' || filename[l - 1] == 'R'))
+    return G_IMAGE_HDR;
   else
     return G_IMAGE_NONE;
 }
@@ -169,33 +172,14 @@ static int g_image_jpeg_save(GImage *img, char quality, const char *filename) {
   return 0;
 }
 
-static int g_image_tiff_save(GImage *img, const char *filename) {
-  /*  TIFF *image;
+static int g_image_hdr_save(GImage *img, const char *filename) {
+  if (access(filename, W_OK) != 0) {
+    fprintf(stderr, "Error: could not open \"%s\" for writing\n", filename);
+    return -1;  // error
+  }
 
-    image = TIFFOpen(filename, "wb");
-
-    if (image == NULL)
-      fprintf(stderr, "Unable to write TIFF file: %s\n", filename);
-
-    TIFFSetField(image, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_IEEEFP);
-    TIFFSetField(image, TIFFTAG_SMINSAMPLEVALUE, 0);
-    TIFFSetField(image, TIFFTAG_SMAXSAMPLEVALUE, 1);
-    TIFFSetField(image, TIFFTAG_IMAGEWIDTH, img->width);
-    TIFFSetField(image, TIFFTAG_IMAGELENGTH, img->height);
-    TIFFSetField(image, TIFFTAG_SAMPLESPERPIXEL, 1);
-    TIFFSetField(image, TIFFTAG_BITSPERSAMPLE, 32);
-    TIFFSetField(image, TIFFTAG_ROWSPERSTRIP, img->height);
-    TIFFSetField(image, TIFFTAG_ORIENTATION, (int)ORIENTATION_TOPLEFT);
-    TIFFSetField(image, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
-    TIFFSetField(image, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
-    TIFFSetField(image, TIFFTAG_PHOTOMETRIC, 1);
-
-    TIFFWriteEncodedStrip(image, 0, img->float_data, img->width * img->height * sizeof(float));
-
-    TIFFWriteDirectory(image);
-
-    TIFFClose(image);*/
-
+  if (stbi_write_hdr(filename, img->width, img->height, STBI_grey, img->float_data) != 1)
+    return -1;  // error
   return 0;
 }
 
@@ -205,8 +189,8 @@ int g_image_save(GImage *img, const char *filename, char quality) {
       return g_image_jpeg_save(img, quality, filename);
     case G_IMAGE_PNG:
       return g_image_png_save(img, filename);
-    case G_IMAGE_TIFF:
-      return g_image_tiff_save(img, filename);
+    case G_IMAGE_HDR:
+      return g_image_hdr_save(img, filename);
     default:
       fprintf(stderr, "Cannot save: unsupported image type: %s\n", filename);
       return -1;
