@@ -16,7 +16,7 @@ Webots will run on most recent Linux distributions running glibc2.11.1 or earlie
 This includes fairly recent Ubuntu, Debian, Fedora, SuSE, RedHat, etc.
 Webots comes in three different package types: `.deb` (Debian package), `.tar.bz2` (tarball package) and `.snap` (snap package).
 The Debian package is aimed at the latest LTS Ubuntu Linux distribution whereas the tarball and snap packages includes many dependency libraries and are therefore best suited for installation on other Linux distributions.
-All these packages can be installed from our [website](https://cyberbotics.com/download).
+All these packages can be installed from our [official GitHub repository](https://github.com/cyberbotics/webots/releases).
 
 > **Note**: Webots will run much faster if you install an accelerated OpenGL drivers.
 If you have a NVIDIA or AMD graphics card, it is highly recommended that you install the Linux graphics drivers from these manufacturers to take the full advantage of the OpenGL hardware acceleration with Webots.
@@ -27,17 +27,17 @@ Please find instructions in [this section](verifying-your-graphics-driver-instal
 The advantage of this installation is that Webots will be updated automatically with system updates.
 The installation requires the `root` privileges.
 
-First of all, Webots should be authenticated with the [Cyberbotics.asc](https://www.cyberbotics.com/Cyberbotics.asc) signature file which can be downloaded from the [Webots download page](https://www.cyberbotics.com/download), and installed using this command:
+First of all, Webots should be authenticated with the [Cyberbotics.asc](https://cyberbotics.com/Cyberbotics.asc) signature file which can be installed using this command:
 
 ```sh
-curl -s -L https://www.cyberbotics.com/Cyberbotics.asc | sudo apt-key add -
+wget -qO- https://cyberbotics.com/Cyberbotics.asc | sudo apt-key add -
 ```
 
 Then, you can configure your APT package manager by adding the Cyberbotics repository.
 Simply execute the following lines:
 
 ```sh
-sudo apt-add-repository 'deb https://www.cyberbotics.com/debian/ binary-amd64/'
+sudo apt-add-repository 'deb https://cyberbotics.com/debian/ binary-amd64/'
 sudo apt-get update
 ```
 
@@ -45,7 +45,7 @@ As an alternative, you can easily add the Cyberbotics repository from the `Softw
 In the `Other Software` tab, click on the `Add...` button and copy the following line:
 
 ```text
-deb https://www.cyberbotics.com/debian/ binary-amd64/
+deb https://cyberbotics.com/debian/ binary-amd64/
 ```
 
 When you close the window, the APT packages list should be automatically updated.
@@ -148,7 +148,7 @@ Additionally, it is also necessary to install an OS GUI, for example the Unity d
 
 ### Installation on Windows
 
-1. Download the "webots-{{ webots.version.package }}\_setup.exe" installation file from our [website](https://cyberbotics.com/download).
+1. Download the "webots-{{ webots.version.package }}\_setup.exe" installation file from our [website](https://cyberbotics.com).
 2. Double click on this file.
 3. Follow the installation instructions.
 
@@ -175,7 +175,7 @@ It may be possible that Windows Defender SmartScreen will display a warning when
 %end
 
 This is likely caused by the fact that the release of Webots is recent and was not yet approved by Microsoft.
-If the Webots installer was downloaded from the [official Cyberbotics web site](https://www.cyberbotics.com/download) using the secure HTTPS protocol, then it is safe to install it.
+If the Webots installer was downloaded from the [official Cyberbotics web site](https://cyberbotics.com) or [official GitHub repository](https://github.com/cyberbotics/webots/releases) using the secure HTTPS protocol, then it is safe to install it.
 You can pass this warning and install Webots by clicking on the "More info" link and the "Run anyway" button depicted below:
 
 %figure "Windows SmartScreen pass"
@@ -184,7 +184,7 @@ You can pass this warning and install Webots by clicking on the "More info" link
 
 ### Installation on macOS
 
-1. Download the `webots-{{ webots.version.package }}.dmg` installation file from our [website](https://cyberbotics.com/download).
+1. Download the `webots-{{ webots.version.package }}.dmg` installation file from our [website](https://cyberbotics.com).
 2. Double click on this file.
 This will mount on the desktop a volume named "Webots" containing the "Webots" folder.
 3. Move this folder to your "/Applications" folder or wherever you would like to install Webots.

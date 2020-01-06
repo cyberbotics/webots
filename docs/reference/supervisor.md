@@ -1565,7 +1565,7 @@ from controller import Node
 
 class Node:
     def addForce(self, force, relative)
-    def addForceWithOffset(self, offset, relative)
+    def addForceWithOffset(self, force, offset, relative)
     def addTorque(self, torque, relative)
     # ...
 ```
