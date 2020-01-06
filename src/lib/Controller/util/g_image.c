@@ -134,7 +134,6 @@ static int g_image_png_save(GImage *img, const char *filename) {
       return -1;  // error
     }*/
   if (img->data_format == G_IMAGE_DATA_FORMAT_BGRA) {
-    printf("G_IMAGE_DATA_FORMAT_BGRA\n");
     unsigned char *image = (unsigned char *)malloc(4 * img->width * img->height);
     int i;
     for (i = 0; i < img->width * img->height; ++i) {
