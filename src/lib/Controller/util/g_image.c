@@ -116,26 +116,30 @@ void g_image_delete(GImage *image) {
 }
 
 static int g_image_png_save(GImage *img, const char *filename) {
-  /*  if (access(filename, W_OK) != 0) {
-      if (filename[0] == '/'
-  #ifdef _WIN32
-          || (filename[1] == ':' && filename[2] == '\\')
-  #define DIR_SEPARATOR '\\'
-  #else
-  #define DIR_SEPARATOR '/'
-  #endif
-      )
-        fprintf(stderr, "Insufficient permissions to write file: %s\n", filename);
-      else {
-        char cwd[256];
-        char *r = getcwd(cwd, 256);
-        if (r)
-          fprintf(stderr, "Insufficient permissions to write file: %s%c%s\n", cwd, DIR_SEPARATOR, filename);
-        else
-          fprintf(stderr, "Cannot get current directory for %s!\n", filename);
-      }
-      return -1;  // error
-    }*/
+  FILE *fd = fopen(filename, "wb");
+  if (!fd) {
+    if (filename[0] == '/'
+#ifdef _WIN32
+        || (filename[1] == ':' && filename[2] == '\\')
+#define DIR_SEPARATOR '\\'
+#else
+#define DIR_SEPARATOR '/'
+#endif
+    )
+      fprintf(stderr, "Insufficient permissions to write file: %s\n", filename);
+    else {
+      char cwd[256];
+      char *r = getcwd(cwd, 256);
+      if (r)
+        fprintf(stderr, "Insufficient permissions to write file: %s%c%s\n", cwd, DIR_SEPARATOR, filename);
+      else
+        fprintf(stderr, "Cannot get current directory for %s!\n", filename);
+    }
+    fclose(fd);
+    return -1;
+  }
+  fclose(fd);
+
   if (img->data_format == G_IMAGE_DATA_FORMAT_BGRA) {
     unsigned char *image = (unsigned char *)malloc(4 * img->width * img->height);
     int i;
@@ -148,7 +152,7 @@ static int g_image_png_save(GImage *img, const char *filename) {
     int ret = stbi_write_png(filename, img->width, img->height, STBI_rgb_alpha, image, img->width * STBI_rgb_alpha);
     free(image);
     if (ret != 1)
-      return -1;  // error
+      return -1;
     return 0;
   }
 
@@ -157,29 +161,33 @@ static int g_image_png_save(GImage *img, const char *filename) {
     number_of_components = STBI_rgb;
   if (stbi_write_png(filename, img->width, img->height, number_of_components, img->data, img->width * number_of_components) !=
       1)
-    return -1;  // error
+    return -1;
   return 0;
 }
 
 static int g_image_jpeg_save(GImage *img, char quality, const char *filename) {
-  if (access(filename, W_OK) != 0) {
+  FILE *fd = fopen(filename, "wb");
+  if (!fd) {
     fprintf(stderr, "Error: could not open \"%s\" for writing\n", filename);
-    return -1;  // error
+    return -1;
   }
+  fclose(fd);
 
   if (stbi_write_jpg(filename, img->width, img->height, STBI_rgb, img->data, quality) != 1)
-    return -1;  // error
+    return -1;
   return 0;
 }
 
 static int g_image_hdr_save(GImage *img, const char *filename) {
-  if (access(filename, W_OK) != 0) {
+  FILE *fd = fopen(filename, "wb");
+  if (!fd) {
     fprintf(stderr, "Error: could not open \"%s\" for writing\n", filename);
-    return -1;  // error
+    return -1;
   }
+  fclose(fd);
 
   if (stbi_write_hdr(filename, img->width, img->height, STBI_grey, img->float_data) != 1)
-    return -1;  // error
+    return -1;
   return 0;
 }
 
