@@ -453,6 +453,10 @@ class SumoSupervisor (Supervisor):
         self.vehiclesLimit = maxVehicles
         self.vehiclesClass = {}
 
+        # for backward compatibility
+        if self.traci.constants.TRACI_VERSION <= 15:
+            self.traci.trafficlight = self.traci.trafficlights
+
         # get sumo vehicles already present in the world
         self.get_initial_vehicles()
 
