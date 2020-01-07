@@ -104,7 +104,7 @@ class TestClangFormat(unittest.TestCase):
                     if not found:
                         continue
                     found = False
-                    for directory in [skippedPaths, skippedFiles]:
+                    for directory in skippedPaths + skippedFiles:
                         if line.startswith(directory):
                             found = True
                             break
