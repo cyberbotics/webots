@@ -71,7 +71,9 @@ class TestCppCheck(unittest.TestCase):
                         continue
                     for sourceDir in sourceDirs:
                         if line.startswith(sourceDir):
+                            print('A: ' + line)
                             for skipped in skippedDirs + skippedfiles:
+                                print('B: ' + skipped)
                                 if not line.startswith(skipped) and not line == skipped:
                                     command += ' \"' + line + '\"'
                                     break
