@@ -479,7 +479,7 @@ void wb_camera_set_focal_distance(WbDeviceTag tag, double focal_distance) {
             c->max_focal_distance);
     in_range = false;
   }
-  if (c && in_range) {
+  if (in_range) {
     c->focal_distance = focal_distance;
     c->set_focal_distance = true;
   }

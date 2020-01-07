@@ -143,9 +143,7 @@ void EPuckFacade::initDevices() {
         if (groundSensorIndex < NUMBER_OF_GROUND_SENSORS && mGroundSensors[groundSensorIndex] == 0) {
           mGroundSensors[groundSensorIndex] = tag;
           gGroundSensorsExist = true;
-        }
-
-        if (mGroundSensors[groundSensorIndex] == 0)
+        } else
           printDeviceError(deviceName);
       }
     }
