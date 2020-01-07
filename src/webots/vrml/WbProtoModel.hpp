@@ -106,6 +106,7 @@ public:
   WbNode *generateRoot(const QVector<WbField *> &parameters, const QString &worldPath, int uniqueId = -1);
 
 private:
+  // cppcheck-suppress unknownMacro
   Q_DISABLE_COPY(WbProtoModel)
 
   QMap<QString, QString> mStaticContentMap;

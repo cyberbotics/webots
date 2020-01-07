@@ -67,6 +67,7 @@ public:
   void readModel(WbTokenizer *tokenizer, const QString &worldPath);
 
 private:
+  // cppcheck-suppress unknownMacro
   Q_DISABLE_COPY(WbProtoList)
 
   QString mPrimarySearchPath;
