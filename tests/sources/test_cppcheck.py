@@ -124,7 +124,7 @@ class TestCppCheck(unittest.TestCase):
         command = self.cppcheck + ' --enable=warning,style,performance,portability --inconclusive --force -q'
         command += ' -j %s' % str(multiprocessing.cpu_count())
         command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar '
-        command += ' --suppress=noCopyConstructor  --suppress=noOperatorEq'
+        command += ' --suppress=noCopyConstructor --suppress=noOperatorEq --suppress=strdupCalled'
         # command += ' --xml '  # Uncomment this line to get more information on the errors
         command += ' --output-file=\"' + self.reportFilename + '\"'
         for include in includeDirs:
@@ -162,6 +162,7 @@ class TestCppCheck(unittest.TestCase):
         ]
         command = self.cppcheck + ' --enable=warning,style,performance,portability --inconclusive --force -q '
         command += '--inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION '
+        command += '--suppress=strdupCalled '
         # command += '--xml '  # Uncomment this line to get more information on the errors
         command += '--std=c++03 --output-file=\"' + self.reportFilename + '\"'
         sources = self.add_source_files(sourceDirs, skippedDirs)
