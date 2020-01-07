@@ -83,6 +83,7 @@ class TestCppCheck(unittest.TestCase):
                 command += ' -i\"' + source + '\"'
             for source in sourceDirs:
                 command += ' \"' + source + '\"'
+        print(command)
         return command
 
     def test_sources_with_cppcheck(self):
