@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -106,6 +106,7 @@ public:
   WbNode *generateRoot(const QVector<WbField *> &parameters, const QString &worldPath, int uniqueId = -1);
 
 private:
+  // cppcheck-suppress unknownMacro
   Q_DISABLE_COPY(WbProtoModel)
 
   QMap<QString, QString> mStaticContentMap;

@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -362,6 +362,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
     sfnode->setValue(NULL);
     success = true;
   } else {
+    assert(mfnode);
     success = mfnode->removeNode(node);
     delete node;
   }
