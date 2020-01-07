@@ -362,6 +362,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
     sfnode->setValue(NULL);
     success = true;
   } else {
+    assert(mfnode);
     success = mfnode->removeNode(node);
     delete node;
   }

@@ -317,9 +317,9 @@ int main(int argc, char **argv) {
         om[robot_x][robot_y + 1] = (float)2 / (float)19;
       if (robot_y - 1 > 0)
         om[robot_x][robot_y - 1] = (float)2 / (float)19;
-      if (robot_x - 2 < MAP_SIZE)
+      if (robot_x + 2 < MAP_SIZE)
         om[robot_x + 2][robot_y] = (float)1 / (float)19;
-      if (robot_x + 2 > 0)
+      if (robot_x - 2 > 0)
         om[robot_x - 2][robot_y] = (float)1 / (float)19;
       if (robot_y + 2 < MAP_SIZE)
         om[robot_x][robot_y + 2] = (float)1 / (float)19;

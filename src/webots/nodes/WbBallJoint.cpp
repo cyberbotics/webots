@@ -620,7 +620,8 @@ void WbBallJoint::prePhysicsStep(double ms) {
 
 void WbBallJoint::postPhysicsStep() {
   assert(mJoint);
-  if (motor() && motor()->isPIDPositionControl())
+  const WbMotor *const m1 = motor();
+  if (m1 && m1->isPIDPositionControl())
     // if controlling in position we update position using directly the angle feedback
     mPosition = WbMathsUtilities::normalizeAngle(-dJointGetAMotorAngle(mControlMotor, 0) + mOdePositionOffset, mPosition);
   else
@@ -631,7 +632,8 @@ void WbBallJoint::postPhysicsStep() {
   if (p)
     p->setPositionFromOde(mPosition);
 
-  if (motor2() && motor2()->isPIDPositionControl())
+  const WbMotor *const m2 = motor2();
+  if (m2 && m2->isPIDPositionControl())
     mPosition2 = WbMathsUtilities::normalizeAngle(-dJointGetAMotorAngle(mControlMotor, 1) + mOdePositionOffset2, mPosition2);
   else
     mPosition2 -= dJointGetAMotorAngle(mControlMotor, 1) * mTimeStep / 1000.0;
@@ -639,7 +641,8 @@ void WbBallJoint::postPhysicsStep() {
   if (p2)
     p2->setPositionFromOde(mPosition2);
 
-  if (motor3() && motor3()->isPIDPositionControl())
+  const WbMotor *const m3 = motor3();
+  if (m3 && m3->isPIDPositionControl())
     mPosition3 = WbMathsUtilities::normalizeAngle(-dJointGetAMotorAngle(mControlMotor, 2) + mOdePositionOffset3, mPosition3);
   else
     mPosition3 -= dJointGetAMotorAngle(mControlMotor, 2) * mTimeStep / 1000.0;
