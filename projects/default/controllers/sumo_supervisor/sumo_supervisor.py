@@ -27,7 +27,7 @@ import tempfile
 # we need to import python modules from the $SUMO_HOME/tools directory
 try:
     if 'SUMO_HOME' in os.environ:
-        sumoPath = os.environ['SUMO_HOME']
+        sumoPath = os.environ['SUMO_HOME'] + '/'
         print('Using SUMO from %s' % sumoPath)
         print('This might cause version conflicts, unset the "SUMO_HOME" environment variable to use the one from Webots')
     else:
