@@ -537,7 +537,7 @@ namespace wren {
     uint64_t meshHash = cache::sipHash13c(reinterpret_cast<const char *>(&params[0]), params.size() * sizeof(float));
     // cppcheck-suppress uninitvar
     meshHash ^= cache::sipHash13c(reinterpret_cast<const char *>(reinterpret_cast<const void *>(heightData)),
-                              sizeof(float) * dimensionX * dimensionZ);
+                                  sizeof(float) * dimensionX * dimensionZ);
     const cache::Key key(meshHash);
 
     StaticMesh *mesh;
@@ -1479,12 +1479,12 @@ namespace wren {
 
   StaticMesh *StaticMesh::createLineSet(int coordCount, const float *coordData, const float *colorData) {
     uint64_t meshHash = cache::sipHash13c(reinterpret_cast<const char *>(reinterpret_cast<const void *>(coordData)),
-                                      sizeof(glm::vec3) * coordCount);
+                                          sizeof(glm::vec3) * coordCount);
     if (colorData) {
       // cppcheck-suppress uninitvar
       meshHash ^= cache::sipHash13c("colorData", 9);
       meshHash ^= cache::sipHash13c(reinterpret_cast<const char *>(reinterpret_cast<const void *>(colorData)),
-                                sizeof(glm::vec3) * coordCount);
+                                    sizeof(glm::vec3) * coordCount);
     }
 
     const cache::Key key(meshHash);
@@ -1522,12 +1522,12 @@ namespace wren {
 
   StaticMesh *StaticMesh::createPointSet(int coordCount, const float *coordData, const float *colorData) {
     uint64_t meshHash = cache::sipHash13c(reinterpret_cast<const char *>(reinterpret_cast<const void *>(coordData)),
-                                      sizeof(glm::vec3) * coordCount);
+                                          sizeof(glm::vec3) * coordCount);
     if (colorData) {
       // cppcheck-suppress uninitvar
       meshHash ^= cache::sipHash13c("colorData", 9);
       meshHash ^= cache::sipHash13c(reinterpret_cast<const char *>(reinterpret_cast<const void *>(colorData)),
-                                sizeof(glm::vec3) * coordCount);
+                                    sizeof(glm::vec3) * coordCount);
     }
 
     const cache::Key key(meshHash);
@@ -1567,10 +1567,10 @@ namespace wren {
                                              const float *texCoordData, const float *unwrappedTexCoordData,
                                              const unsigned int *indexData, bool outline) {
     uint64_t meshHash = cache::sipHash13c(reinterpret_cast<const char *>(reinterpret_cast<const void *>(coordData)),
-                                      sizeof(glm::vec3) * coordCount);
+                                          sizeof(glm::vec3) * coordCount);
     // cppcheck-suppress uninitvar
     meshHash ^= cache::sipHash13c(reinterpret_cast<const char *>(reinterpret_cast<const void *>(normalData)),
-                              sizeof(glm::vec3) * coordCount);
+                                  sizeof(glm::vec3) * coordCount);
     uint64_t texCoordDataHash = 0;
     if (texCoordData) {
       texCoordDataHash = cache::sipHash13c(reinterpret_cast<const char *>(reinterpret_cast<const void *>(texCoordData)),
