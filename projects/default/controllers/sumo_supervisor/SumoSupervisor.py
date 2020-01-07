@@ -390,38 +390,37 @@ class SumoSupervisor (Supervisor):
     def update_traffic_light_state(self, id, states):
         """Update the traffic lights state in Webots."""
         # update light LED state if traffic light state has changed
-        for state in states:
-            currentState = states[state]
-            if self.trafficLights[id].previousState != currentState:
-                self.trafficLights[id].previousState = currentState
-                for j in range(0, self.trafficLights[id].lightNumber):
-                    # Update red LED if it exists
-                    if self.trafficLights[id].LED[3 * j + 0]:
-                        if currentState[j] == 'r' or currentState[j] == 'R':
-                            self.trafficLights[id].LED[3 * j + 0].set(1)
-                            # update recognition colors
-                            if j in self.trafficLights[id].trafficLightRecognitionColors:
-                                self.trafficLights[id].trafficLightRecognitionColors[j].setMFColor(1, [1, 0, 0])
-                        else:
-                            self.trafficLights[id].LED[3 * j + 0].set(0)
-                    # Update yellow LED if it exists
-                    if self.trafficLights[id].LED[3 * j + 1]:
-                        if currentState[j] == 'y' or currentState[j] == 'Y':
-                            self.trafficLights[id].LED[3 * j + 1].set(1)
-                            # update recognition colors
-                            if j in self.trafficLights[id].trafficLightRecognitionColors:
-                                self.trafficLights[id].trafficLightRecognitionColors[j].setMFColor(1, [1, 0.5, 0])
-                        else:
-                            self.trafficLights[id].LED[3 * j + 1].set(0)
-                    # Update green LED if it exists
-                    if self.trafficLights[id].LED[3 * j + 2]:
-                        if currentState[j] == 'g' or currentState[j] == 'G':
-                            self.trafficLights[id].LED[3 * j + 2].set(1)
-                            # update recognition colors
-                            if j in self.trafficLights[id].trafficLightRecognitionColors:
-                                self.trafficLights[id].trafficLightRecognitionColors[j].setMFColor(1, [0, 1, 0])
-                        else:
-                            self.trafficLights[id].LED[3 * j + 2].set(0)
+        currentState = states[self.traci.constants.TL_RED_YELLOW_GREEN_STATE]
+        if self.trafficLights[id].previousState != currentState:
+            self.trafficLights[id].previousState = currentState
+            for j in range(0, self.trafficLights[id].lightNumber):
+                # Update red LED if it exists
+                if self.trafficLights[id].LED[3 * j + 0]:
+                    if currentState[j] == 'r' or currentState[j] == 'R':
+                        self.trafficLights[id].LED[3 * j + 0].set(1)
+                        # update recognition colors
+                        if j in self.trafficLights[id].trafficLightRecognitionColors:
+                            self.trafficLights[id].trafficLightRecognitionColors[j].setMFColor(1, [1, 0, 0])
+                    else:
+                        self.trafficLights[id].LED[3 * j + 0].set(0)
+                # Update yellow LED if it exists
+                if self.trafficLights[id].LED[3 * j + 1]:
+                    if currentState[j] == 'y' or currentState[j] == 'Y':
+                        self.trafficLights[id].LED[3 * j + 1].set(1)
+                        # update recognition colors
+                        if j in self.trafficLights[id].trafficLightRecognitionColors:
+                            self.trafficLights[id].trafficLightRecognitionColors[j].setMFColor(1, [1, 0.5, 0])
+                    else:
+                        self.trafficLights[id].LED[3 * j + 1].set(0)
+                # Update green LED if it exists
+                if self.trafficLights[id].LED[3 * j + 2]:
+                    if currentState[j] == 'g' or currentState[j] == 'G':
+                        self.trafficLights[id].LED[3 * j + 2].set(1)
+                        # update recognition colors
+                        if j in self.trafficLights[id].trafficLightRecognitionColors:
+                            self.trafficLights[id].trafficLightRecognitionColors[j].setMFColor(1, [0, 1, 0])
+                    else:
+                        self.trafficLights[id].LED[3 * j + 2].set(0)
 
     def run(self, port, disableTrafficLight, directory, step, rotateWheels,
             maxVehicles, radius, enableHeight, useDisplay, displayRefreshRate,
