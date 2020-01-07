@@ -3,6 +3,9 @@
 ## Webots R2020a Revision 1
 Released on XXX YYYrd, 2020.
 
+  - Enhancements
+    - Improved the SUMO interface to use the version of SUMO already installed (if any).
+    - Improved the SUMO interface to be compatible with the latest version (1.4).
   - Bug fixes
     - Fix default controller of the [ABB IRB 4600/40](../guide/irb4600-40.md) robot.
 

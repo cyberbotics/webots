@@ -16,7 +16,7 @@ This folder should contain the usual files defining a network in SUMO (.edg.xml,
 The configuration files called `sumo.netccfg` and `sumo.sumocfg` will be loaded by default.
 If those configuration files do not exist, the interface will look for a configuration file with any other name (it is not recommended to have several configuration files for SUMO or NETCONVERT in the same folder as you don't know which one is going to be used).
 
-> **Note**: Currently version 0.30 of SUMO is distributed with Webots.
+> **Note**: Currently version 0.30 of SUMO is distributed with Webots, but if the `SUMO_HOME` environment variable is defined, Webots will use the version of SUMO pointed by this variable.
 
 The interface will automatically start SUMO and run it in synchronization with Webots time.
 Each time a new vehicle enters the SUMO simulation, it will be created in Webots too and its position and orientation will be continually updated.
