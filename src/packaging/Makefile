@@ -48,8 +48,10 @@ endif
 endif
 
 ifneq ($(SNAPCRAFT_PROJECT_NAME),)
+ifeq ($(TRAVIS),)
 export DISPLAY = :99
 XVFB = xvfb
+endif
 endif
 
 ifeq ($(OSTYPE),windows)
