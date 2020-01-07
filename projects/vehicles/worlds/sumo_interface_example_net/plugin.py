@@ -35,7 +35,10 @@ class SumoSupervisorPlugin:
         if self.runned >= 1000:
             self.runned = self.runned - 1000
             self.programPointer = min(self.programPointer + 1, len(PROGRAM) - 1)
-            subscriptionResult = self.traci.inductionloop.getSubscriptionResults()["0"]
+            if self.traci.constants.TRACI_VERSION <= 15:
+                subscriptionResult = self.traci.inductionloop.getSubscriptionResults()["0"]
+            else:
+                subscriptionResult = self.traci.inductionloop.getSubscriptionResults("0")
             numPriorityVehicles = subscriptionResult[self.traci.constants.LAST_STEP_VEHICLE_NUMBER]
             if numPriorityVehicles > 0:
                 if self.programPointer == len(PROGRAM) - 1:
@@ -48,4 +51,7 @@ class SumoSupervisorPlugin:
                 else:
                     # we are in the WEYELLOW phase. continue sequence
                     pass
-            self.traci.trafficlights.setRedYellowGreenState("0", PROGRAM[self.programPointer])
+            if self.traci.constants.TRACI_VERSION <= 15:
+                self.traci.trafficlights.setRedYellowGreenState("0", PROGRAM[self.programPointer])
+            else:
+                self.traci.trafficlight.setRedYellowGreenState("0", PROGRAM[self.programPointer])

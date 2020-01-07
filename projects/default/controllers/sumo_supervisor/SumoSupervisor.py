@@ -511,7 +511,7 @@ class SumoSupervisor (Supervisor):
         # Main simulation loop
         while self.step(step) >= 0:
             if self.usePlugin:
-                pass #sumoSupervisorPlugin.run(step)
+                sumoSupervisorPlugin.run(step)
 
             if self.sumoDisplay is not None:
                 self.sumoDisplay.step(step)
