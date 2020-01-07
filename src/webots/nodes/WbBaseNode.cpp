@@ -126,7 +126,7 @@ void WbBaseNode::validateProtoNodes() {
 
 void WbBaseNode::reset() {
   WbNode::reset();
-  const WbBoundingSphere *const nodeBoundingSphere = boundingSphere();
+  WbBoundingSphere *const nodeBoundingSphere = boundingSphere();
   if (nodeBoundingSphere)
     nodeBoundingSphere->resetGlobalCoordinatesUpdateTime();
 }
