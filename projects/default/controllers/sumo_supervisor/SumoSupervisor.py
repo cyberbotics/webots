@@ -182,6 +182,8 @@ class SumoSupervisor (Supervisor):
     def get_vehicles_position(self, id, subscriptionResult, step, xOffset, yOffset,
                               maximumLateralSpeed, maximumAngularSpeed, laneChangeDelay):
         """Compute the new desired position and orientation for all the vehicles controlled by SUMO."""
+        if subscriptionResult is None:
+            return
         height = 0.4
         roll = 0.0
         pitch = 0.0
