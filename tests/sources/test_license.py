@@ -109,6 +109,7 @@ class TestLicense(unittest.TestCase):
             'projects/robots/mobsya/thymio/libraries/dashel-src',
             'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis/Framework',
             'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis/Linux',
+            'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb',
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
             'projects/robots/robotis/darwin-op/libraries',
             'projects/samples/robotbenchmark',
