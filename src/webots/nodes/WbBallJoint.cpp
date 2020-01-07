@@ -620,7 +620,7 @@ void WbBallJoint::prePhysicsStep(double ms) {
 
 void WbBallJoint::postPhysicsStep() {
   assert(mJoint);
-  WbMotor *m1 = motor();
+  const WbMotor *const m1 = motor();
   if (m1 && m1->isPIDPositionControl())
     // if controlling in position we update position using directly the angle feedback
     mPosition = WbMathsUtilities::normalizeAngle(-dJointGetAMotorAngle(mControlMotor, 0) + mOdePositionOffset, mPosition);
