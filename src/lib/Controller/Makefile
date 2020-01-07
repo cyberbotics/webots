@@ -97,7 +97,7 @@ endif
 vpath %.o $(OBJDIR)
 vpath %.c api util
 
-INCLUDE += -I$(WEBOTS_PATH)/src/stb
+INCLUDE += -isystem $(WEBOTS_PATH)/src/stb
 
 SOURCES=$(shell ls api/*.c) $(shell ls util/*.c)
 

@@ -62,7 +62,7 @@ LUA_INCLUDE = -I$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src
 OIS_INCLUDE = -isystem $(WEBOTS_PATH)/include/libOIS
 PICO_INCLUDE = -I$(WEBOTS_PATH)/include/libpico
 WREN_INCLUDE = -I$(WEBOTS_PATH)/include
-STB_INCLUDE  = -I$(WEBOTS_PATH)/src/stb
+STB_INCLUDE  = -isystem $(WEBOTS_PATH)/src/stb
 OPEN_VR_INCLUDE = -isystem $(WEBOTS_PATH)/include/openvr
 
 ifeq ($(OSTYPE),darwin)
