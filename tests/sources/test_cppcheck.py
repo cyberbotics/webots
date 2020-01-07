@@ -73,6 +73,7 @@ class TestCppCheck(unittest.TestCase):
                         if line.startswith(sourceDir):
                             print('A: ' + line)
                             combined = skippedDirs + skippedfiles
+                            print([combined, skippedDirs, skippedfiles])
                             for skipped in combined:
                                 print('B: ' + skipped)
                                 if not line.startswith(skipped) and not line == skipped:
