@@ -86,9 +86,6 @@
 /mingw32/bin/liblzma-5.dll
 
 # needed to compile the darwin-op remote control library
-/mingw64/include/jpeglib.h
-/mingw64/include/jconfig.h
-/mingw64/include/jmorecfg.h
 /mingw64/include/zip.h
 /mingw64/include/zipconf.h
 /mingw64/include/libssh/*.*
