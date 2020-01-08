@@ -67,14 +67,6 @@ include/qt/QtWebSockets/QtWebSockets/* [windows,linux]
 include/qt/QtWidgets/ [windows,linux]
 include/qt/QtWidgets/QtWidgets/ [windows,linux]
 include/qt/QtWidgets/QtWidgets/* [windows,linux]
-include/opencv2/ [linux,mac]
-include/opencv2/*.hpp [linux,mac]
-include/opencv2/core/ [linux,mac]
-include/opencv2/core/*.hpp [linux,mac]
-include/opencv2/core/*.h [linux,mac]
-include/opencv2/imgproc/ [linux,mac]
-include/opencv2/imgproc/*.hpp [linux,mac]
-include/opencv2/imgproc/*.h [linux,mac]
 
 lib/
 lib/controller/
@@ -120,11 +112,6 @@ lib/controller/python38/_*.so [linux]
 lib/controller/matlab/
 lib/controller/matlab/allincludes.h
 lib/controller/matlab/*.m
-
-lib/controller/libopencv_core.so* [linux]
-lib/controller/libopencv_imgproc.so* [linux]
-lib/controller/libopencv_core.2.4.3.dylib [mac]
-lib/controller/libopencv_imgproc.2.4.3.dylib [mac]
 
 lib/webots/ [linux,mac]
 lib/webots/libgd.3.dylib [mac]
