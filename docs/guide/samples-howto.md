@@ -179,7 +179,7 @@ Meanwhile a [Supervisor](../reference/supervisor.md) controller switches the ima
 
 ![vision.png](images/samples/vision.thumbnail.jpg) This example demonstrates the use of [OpenCV](https://opencv.org/) to process the camera image.
 The robot acquires images from a colored scene.
-The controller is linked with OpenCV (embedded in Webots).
+This controller requires [OpenCV](https://opencv.org/) to be installed (not embedded in Webots), it should therefore be compiled with the `OPENCV_DIR` environment variable set.
 The [Camera](../reference/camera.md) image is given to OpenCV, OpenCV filters are applied on the image, and the result is displayed in a [Display](../reference/display.md) overlay.
 
 ### [ziegler\_nichols.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/worlds/ziegler_nichols.wbt)
