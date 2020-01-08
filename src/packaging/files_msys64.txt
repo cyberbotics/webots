@@ -56,22 +56,6 @@
 # needed by Webots to make movies (ffmpeg.exe dependencies are automatically computed)
 /mingw64/bin/ffmpeg.exe
 
-# needed to execute binaries having a dependency on OpenCV
-/mingw64/bin/libgfortran-5.dll
-/mingw64/bin/libopenblas.dll
-/mingw64/bin/libopencv_core*.dll
-/mingw64/bin/libopencv_imgproc*.dll
-/mingw64/bin/tbb.dll
-
-# needed to compile binaries having a dependency on OpenCV
-/mingw64/bin/opencv_version.exe
-/mingw64/include/opencv4/opencv2/core.hpp
-/mingw64/include/opencv4/opencv2/core/*.*
-/mingw64/include/opencv4/opencv2/core/hal/interface.h
-/mingw64/include/opencv4/opencv2/imgproc.hpp
-/mingw64/include/opencv4/opencv2/imgproc/imgproc.hpp
-/mingw64/include/opencv4/opencv2/opencv_modules.hpp
-
 # needed to execute the lua-gd module
 /mingw64/bin/libXpm-noX4.dll
 /mingw64/bin/libgd.dll

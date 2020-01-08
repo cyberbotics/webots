@@ -3,12 +3,16 @@
 ## Webots R2020a Revision 1
 Released on XXX YYYrd, 2020.
 
+  - Enhancements
+    - Improved the SUMO interface to use the version of SUMO already installed (if any).
+    - Improved the SUMO interface to be compatible with the latest version (1.4).
   - Bug fixes
     - Fix default controller of the [ABB IRB 4600/40](../guide/irb4600-40.md) robot.
     - Fix libController dependencies causing problems with extern controllers.
   - Enhancements
     - **The `wb_range_finder_save_image` function now supports the HDR format instead of TIFF.**
-
+  - Cleanup
+    - OpenCV is not distributed within Webots anymore.
 
 ## [Webots R2020a](../blog/Webots-2020-a-release.md)
 Released on December 18th, 2019.
