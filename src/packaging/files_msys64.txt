@@ -27,6 +27,8 @@
 /mingw64/bin/libsqlite3-0.dll
 /mingw64/bin/libxslt-1.dll
 /mingw64/bin/libdouble-conversion.dll
+/mingw64/bin/libjpeg-8.dll
+/mingw64/bin/libpng16-16.dll
 /mingw64/bin/libfreetype-6.dll
 /mingw64/bin/libglib-2.0-0.dll
 /mingw64/bin/libgraphite2.dll
