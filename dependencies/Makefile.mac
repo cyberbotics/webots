@@ -18,16 +18,13 @@ OPENAL_PACKAGE = openal-mac-1.16.0.tar.bz2
 OPENSSL_PACKAGE = openssl-1.0.2-precompiled.tar.bz2
 PICO_PACKAGE = libpico.tar.bz2
 
-# samples dependencies
-OPENCV_PACKAGE = opencv-2.4.3.tar.bz2
-
 # libController dependencies (static)
 PNG_PACKAGE = libpng-1.0.12.tar.bz2
 TIFF_PACKAGE = libtiff.tar.bz2
 JPEG_PACKAGE = jpeg-9b.tar.bz2
 
 
-PACKAGES = qt assimp freetype ffmpeg jpeg lua lua-gd miniglu ois openal opencv openssl pico png tiff
+PACKAGES = qt assimp freetype ffmpeg jpeg lua lua-gd miniglu ois openal openssl pico png tiff
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 
 .PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
@@ -215,23 +212,6 @@ $(WEBOTS_DEPENDENCY_PATH)/openal:
 	@echo "# uncompressing $(OPENAL_PACKAGE)"
 	@tar xfm $(OPENAL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
-
-
-opencv-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE) $(WEBOTS_HOME)/lib/controller/libopencv_* $(WEBOTS_HOME)/include/opencv2
-
-opencv: $(WEBOTS_HOME)/lib/controller/libopencv_core.2.4.3.dylib
-
-$(WEBOTS_HOME)/lib/controller/libopencv_core.2.4.3.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
-	@echo "# uncompressing $(OPENCV_PACKAGE)"
-	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE) -C $(WEBOTS_HOME)
-
-$(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE):
-	@echo "# downloading $(OPENCV_PACKAGE)"
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
-	@wget -qq $(DEPENDENCIES_URL_DEVELOP)/$(OPENCV_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "796fbb181fd922d42e6ed0ddb2e132ca" != `md5 -q $(OPENCV_PACKAGE)` ]; then echo "MD5 checksum failed for $(OPENCV_PACKAGE)"; exit 1; fi
-	@touch $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
 
 
 openssl-clean:

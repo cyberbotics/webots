@@ -10,18 +10,14 @@ DEPENDENCIES_URL_DEVELOP = https://cyberbotics.com/files/repository/dependencies
 QT_VERSION = 5.13.1
 QT_PACKAGE = webots-qt-$(QT_VERSION)-linux64-release.tar.bz2
 OPENAL_PACKAGE = openal-linux64-1.16.0.tar.bz2
-OPENCV_PACKAGE = opencv-linux64.tar.gz
 OIS_PACKAGE = libOIS.1.4.tar.bz2
 PICO_PACKAGE = libpico.tar.bz2
 LUA_GD_PACKAGE = lua-gd-linux64.tar.bz2
 LUA_PACKAGE = lua-5.2.3.tar.gz
 OPENSSL_PACKAGE = libssl_1.1.tar.xz
 
-# samples dependencies
-OPENCV_PACKAGE = opencv-linux64.tar.gz
 
-
-PACKAGES = qt open-al open-cv ois pico lua-gd lua
+PACKAGES = qt open-al ois pico lua-gd lua
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 
 ifeq ($(UBUNTU_VERSION), 16.04)
@@ -76,27 +72,6 @@ $(WEBOTS_DEPENDENCY_PATH)/openal:
 	@echo "# uncompressing $(OPENAL_PACKAGE)"
 	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
-
-
-open-cv-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64 $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)* $(WEBOTS_HOME)/lib/controller/libopencv_* $(WEBOTS_HOME)/include/opencv2
-
-open-cv: $(WEBOTS_HOME)/lib/controller/libopencv_core.so
-
-$(WEBOTS_HOME)/lib/controller/libopencv_core.so: $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64
-	@cp -a $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/lib/* $(WEBOTS_HOME)/lib/controller
-	@cp -a $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/include/opencv2/ $(WEBOTS_HOME)/include/ -R
-
-$(WEBOTS_DEPENDENCY_PATH)/opencv-lin64:
-	@echo "# downloading $(OPENCV_PACKAGE)"
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
-	@wget -qq $(DEPENDENCIES_URL)/$(OPENCV_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "b67e51be5ac4b7b65c557b97a906859c  $(OPENCV_PACKAGE)" > $(OPENCV_PACKAGE).md5
-	@md5sum -c --status $(OPENCV_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(OPENCV_PACKAGE)"; exit 1; fi
-	@rm $(OPENCV_PACKAGE).md5
-	@echo "# uncompressing $(OPENCV_PACKAGE)"
-	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
 
 
 ois-clean:
