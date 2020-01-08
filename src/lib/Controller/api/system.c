@@ -77,6 +77,7 @@ const char *wbu_system_short_path(const char *path) {
     free(buffer);
   buffer = (char *)malloc(size);
   WideCharToMultiByte(CP_UTF8, 0, w_short_path, -1, buffer, size, NULL, NULL);
+  // cppcheck-suppress memleak
   return (const char *)buffer;
 #else
   return path;

@@ -1287,8 +1287,8 @@ bool wb_supervisor_world_save(const char *filename) {
     return false;
 
   if (filename) {
-    if (!filename || !filename[0]) {
-      fprintf(stderr, "Error: wb_supervisor_world_save() called with NULL or empty 'filename' argument.\n");
+    if (!filename[0]) {
+      fprintf(stderr, "Error: wb_supervisor_world_save() called with an empty 'filename' argument.\n");
       return false;
     }
 
@@ -1296,6 +1296,9 @@ bool wb_supervisor_world_save(const char *filename) {
       fprintf(stderr, "Error: the target file given to wb_supervisor_world_save() ends with the '.wbt' extension.\n");
       return false;
     }
+  } else {
+    fprintf(stderr, "Error: wb_supervisor_world_save() called with a NULL 'filename' argument.\n");
+    return false;
   }
 
   free(save_filename);
