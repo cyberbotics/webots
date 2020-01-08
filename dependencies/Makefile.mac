@@ -4,7 +4,6 @@ WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_HOME)/dependencies
 WEBOTS_HOME_LIB = $(WEBOTS_HOME)/lib/webots
 
 DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/mac/release
-DEPENDENCIES_URL_DEVELOP = https://cyberbotics.com/files/repository/dependencies/mac/release/develop
 
 QT_PACKAGE = qt-5.13.1-release.tar.bz2
 ASSIMP_PACKAGE = assimp.tar.bz2
@@ -50,7 +49,7 @@ $(WEBOTS_HOME)/resources/web/local/qwebchannel.js: $(WEBOTS_DEPENDENCY_PATH)/$(Q
 $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@echo "# downloading $(QT_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
-	@wget -qq $(DEPENDENCIES_URL_DEVELOP)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@wget -qq $(DEPENDENCIES_URL)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
 	@if [ "4ed0bfacc119e941b5b73d011736d63c" != `md5 -q $(QT_PACKAGE)` ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 
@@ -157,7 +156,7 @@ $(WEBOTS_HOME)/resources/lua/modules/gd/gd.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(LU
 $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE):
 	@echo "# downloading $(LUA_GD_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
-	@wget -qq $(DEPENDENCIES_URL_DEVELOP)/$(LUA_GD_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@wget -qq $(DEPENDENCIES_URL)/$(LUA_GD_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
 	@if [ "a48b974d568b07d8f8a9317ccd650268" != `md5 -q $(LUA_GD_PACKAGE)` ]; then echo "MD5 checksum failed for $(LUA_GD_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
 
@@ -189,7 +188,7 @@ $(WEBOTS_HOME_LIB)/libOIS.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE):
 	@echo "# downloading $(OIS_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
-	@wget -qq $(DEPENDENCIES_URL_DEVELOP)/$(OIS_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@wget -qq $(DEPENDENCIES_URL)/$(OIS_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
 	@if [ "3efd7b991bd121230dd58c2448c2e9f2" != `md5 -q $(OIS_PACKAGE)` ]; then echo "MD5 checksum failed for $(OIS_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 
@@ -251,7 +250,7 @@ $(WEBOTS_HOME_LIB)/libpico.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	@echo "# downloading $(PICO_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
-	@wget -qq $(DEPENDENCIES_URL_DEVELOP)/$(PICO_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@wget -qq $(DEPENDENCIES_URL)/$(PICO_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
 	@if [ "7b357ddff59913c725b3c592375f7443" != `md5 -q $(PICO_PACKAGE)` ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 
