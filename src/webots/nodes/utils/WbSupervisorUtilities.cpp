@@ -796,7 +796,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       if (solid) {
         const WbMatrix4 &solidMatrix = solid->matrix();
 
-        WbVector3 offset = solidMatrix * WbVector3(ox, oy, oz);
+        const WbVector3 offset = solidMatrix * WbVector3(ox, oy, oz);
 
         WbVector3 force(fx, fy, fz);
         if (relative == 1)
