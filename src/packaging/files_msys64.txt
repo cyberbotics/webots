@@ -66,9 +66,6 @@
 /mingw64/bin/libssh.dll
 /mingw64/bin/libzip.dll
 
-# needed to execute 32 bit controller programs
-/mingw32/bin/liblzma-5.dll
-
 # needed to compile the darwin-op remote control library
 /mingw64/include/zip.h
 /mingw64/include/zipconf.h
