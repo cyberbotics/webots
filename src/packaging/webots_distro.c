@@ -1187,12 +1187,12 @@ static void create_file(const char *name, int m) {
       break;
     case SNAP: {
       const char *usr_lib_x68_64_linux_gnu[] = {
-        "libraw.so.16",        "libvpx.so.5",    "libx264.so.152",    "libavcodec.so.57",     "libwebp.so.6",
-        "libwebpmux.so.3",     "libpng16.so.16", "libassimp.so.4", "libfreeimage.so.3", "libjxrglue.so.0",      "libopenjp2.so.7",
-        "libjpegxr.so.0",      "libHalf.so.12",  "libIex-2_2.so.12",  "libIexMath-2_2.so.12", "libIlmThread-2_2.so.12",
-        "libIlmImf-2_2.so.22", "libzip.so.4",    "libzzip-0.so.13",   "libjbig.so.0",         "libgomp.so.1",
-        "liblcms2.so.2",       "libXi.so.6",     "libXrender.so.1",   "libfontconfig.so.1",   "libxslt.so.1",
-        "libgd.so.3",          "libssh.so.4",    "libfreetype.so.6"};
+        "libraw.so.16",           "libvpx.so.5",         "libx264.so.152", "libavcodec.so.57",  "libwebp.so.6",
+        "libwebpmux.so.3",        "libpng16.so.16",      "libassimp.so.4", "libfreeimage.so.3", "libjxrglue.so.0",
+        "libopenjp2.so.7",        "libjpegxr.so.0",      "libHalf.so.12",  "libIex-2_2.so.12",  "libIexMath-2_2.so.12",
+        "libIlmThread-2_2.so.12", "libIlmImf-2_2.so.22", "libzip.so.4",    "libzzip-0.so.13",   "libjbig.so.0",
+        "libgomp.so.1",           "liblcms2.so.2",       "libXi.so.6",     "libXrender.so.1",   "libfontconfig.so.1",
+        "libxslt.so.1",           "libgd.so.3",          "libssh.so.4",    "libfreetype.so.6"};
       for (int i = 0; i < sizeof(usr_lib_x68_64_linux_gnu) / sizeof(char *); i++)
         fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/%s $DESTDIR/usr/lib/x86_64-linux-gnu/\n", usr_lib_x68_64_linux_gnu[i]);
       fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libssh\n");
