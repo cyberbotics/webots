@@ -36,7 +36,7 @@ Note that uninitialized variables may also be a source of undeterministc behavio
 4. Each simulation must be executed with the same version of the Webots software and on the same OS platform.
 Different OS platforms and different Webots versions may result small numerical differences.
 5. Webots physics must run in single thread mode.
-The number of threads used by the physics engine (ODE) can be changed either globally in the [preferences](preferences.md) or using the `WorldInfo.basicTimeStep` field.
+The number of threads used by the physics engine (ODE) can be changed either globally in the [preferences](preferences.md) or using the `WorldInfo.optimalThreadCount` field.
 It should be set to 1.
 6. The Webots random number generator should have a fixed seed.
 The seed is defined in the `WorldInfo.randomSeed` field, it should be non-negative to avoid non-replicable time based seed.
