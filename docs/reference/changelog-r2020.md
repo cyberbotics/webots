@@ -7,6 +7,7 @@ Released on XXX YYYrd, 2020.
     - Improved the SUMO interface to use the version of SUMO already installed (if any).
     - Improved the SUMO interface to be compatible with the latest version (1.4).
   - Bug fixes
+    - Fix the [wb_supervisor_node_add_force_with_offset()](supervisor.md#wb_supervisor_node_add_force_with_offset) function.
     - Fix default controller of the [ABB IRB 4600/40](../guide/irb4600-40.md) robot.
   - Cleanup
     - OpenCV is not distributed within Webots anymore.
