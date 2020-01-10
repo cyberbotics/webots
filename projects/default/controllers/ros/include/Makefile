@@ -19,13 +19,13 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 ROS_TARGET=ros
 ROS_HEADERS=geometry_msgs log4cxx ros rosconsole rosgraph_msgs sensor_msgs std_msgs
+EXTRACT=unzip -q
+WGET=wget --quiet
 
 ifeq ($(OSTYPE),linux)
  OS_TAG=linux64
  ROS_PACKAGE=$(ROS_TARGET)_kinetic_headers.zip
  ROS_PACKAGE_PATH=common/$(ROS_PACKAGE)
- EXTRACT=unzip -q
- WGET=wget --quiet
  ROS_HEADERS += boost XmlRpcDecl.h XmlRpcValue.h
 endif
 
@@ -33,8 +33,6 @@ ifeq ($(OSTYPE),darwin)
  OS_TAG=mac
  ROS_PACKAGE=$(ROS_TARGET)_headers.zip
  ROS_PACKAGE_PATH=mac/release/$(ROS_PACKAGE)
- EXTRACT=unzip -q
- WGET=curl -O --silent
  ROS_HEADERS += boost xmlrpcpp
 endif
 
@@ -42,8 +40,6 @@ ifeq ($(OSTYPE),windows)
  OS_TAG=windows
  ROS_PACKAGE=$(ROS_TARGET)_headers_windows.zip
  ROS_PACKAGE_PATH=windows/release/$(ROS_PACKAGE)
- EXTRACT=unzip -q
- WGET=wget --quiet
  # remove .zip
  ROS_SOURCE=$(basename $(ROS_PACKAGE))
  ROS_HEADERS += XmlRpcDecl.h XmlRpcValue.h
