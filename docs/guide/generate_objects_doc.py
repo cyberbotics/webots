@@ -91,6 +91,7 @@ for proto in prioritaryProtoList + fileList:
     fields = u''
     state = 0
     describedField = []
+    fieldEnumeration = {}
     skipProto = False
     # parse the PROTO file
     with open(proto, 'r') as file:
@@ -124,6 +125,7 @@ for proto in prioritaryProtoList + fileList:
         matches = re.finditer(r'.*ield\s+([^ ]*?)(\{(?:[^\[\n]*\,?\s?)(?<!(\{))\})\s+([^ ]*)\s+([^#\n]*)(#?)(.*)',
                               fieldsDefinition, re.MULTILINE)
         for i, match in enumerate(matches):
+            fieldEnumeration[match.group(4)] = match.group(2)[1:-1].split(',')  # keep the list of possibilities
             if '\n' in match.group():
                 string = ' ' * match.group().index(match.group(2))
                 fieldsDefinition = fieldsDefinition.replace(string + match.group(4), match.group(4))
@@ -132,7 +134,6 @@ for proto in prioritaryProtoList + fileList:
                 fieldsDefinition = fieldsDefinition.replace(match.group(2), ' ' * len(match.group(2)))
             else:
                 fieldsDefinition = fieldsDefinition.replace(match.group(2), '')
-            # we can evetually use the list of possibility in the future
         matches = re.finditer(r'^\s*([^#]*ield)\s+([^ \{]*)\s+([^ ]*)\s+([^#\n]*)(#?)(.*)((\n*(    |  \]).*)*)',
                               fieldsDefinition, re.MULTILINE)
         for i, match in enumerate(matches):
@@ -222,7 +223,18 @@ for proto in prioritaryProtoList + fileList:
         if describedField:
             file.write(headerPrefix + u'## %s Field Summary\n\n' % protoName)
             for fieldName, fieldDescription in describedField:
-                file.write(u'- `%s`: %s\n\n' % (fieldName, fieldDescription))
+                file.write(u'- `%s`: %s' % (fieldName, fieldDescription))
+                if fieldName in fieldEnumeration:
+                    file.write(u' This field accepts the following values: ')
+                    values = fieldEnumeration[fieldName]
+                    for i in range(len(values)):
+                        if i == len(values) - 1:
+                            file.write(u'`%s`.' % values[i])
+                        elif i == len(values) - 2:
+                            file.write(u'`%s` and ' % values[i])
+                        else:
+                            file.write(u'`%s`, ' % values[i])
+                file.write(u'\n\n')
 
     if upperCategory not in upperCategories:
         upperCategories[upperCategory] = []
