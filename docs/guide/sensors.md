@@ -34,6 +34,15 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 | :---: | --- | --- | --- |
 | ![multisense_s21_icon.png](images/sensors/multisense_s21_icon.png) | [S21](camera-sensors.md#multisense-s21) | MultiSense |
 
+#### DistanceSensor Sensors
+
+| Preview | Name |  Manufacturer |
+| :---: | --- | --- | --- |
+| ![sharp_GP2D120_icon.png](images/sensors/sharp_GP2D120_icon.png) | [GP2D120](distancesensor-sensors.md#sharp-gp2d120) | Sharp |
+| ![sharp_GP2Y0A02YK0F_icon.png](images/sensors/sharp_GP2Y0A02YK0F_icon.png) | [GP2Y0A02YK0F](distancesensor-sensors.md#sharp-gp2y0a02yk0f) | Sharp |
+| ![sharp_GP2Y0A41SK0F_icon.png](images/sensors/sharp_GP2Y0A41SK0F_icon.png) | [GP2Y0A41SK0F](distancesensor-sensors.md#sharp-gp2y0a41sk0f) | Sharp |
+| ![sharp_GP2Y0A710K0F_icon.png](images/sensors/sharp_GP2Y0A710K0F_icon.png) | [GP2Y0A710K0F](distancesensor-sensors.md#sharp-gp2y0a710k0f) | Sharp |
+
 #### Lidar Sensors
 
 | Preview | Name |  Manufacturer |
@@ -42,6 +51,7 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 | ![hokuyo_urg_04lx_icon.png](images/sensors/hokuyo_urg_04lx_icon.png) | [Hokuyo URG-04LX](lidar-sensors.md#hokuyo-urg-04lx) | Hokuyo |
 | ![hokuyo_urg_04lx_ug01_icon.png](images/sensors/hokuyo_urg_04lx_ug01_icon.png) | [Hokuyo URG-04LX-UG01](lidar-sensors.md#hokuyo-urg-04lx-ug01) | Hokuyo |
 | ![hokuyo_utm_30lx_icon.png](images/sensors/hokuyo_utm_30lx_icon.png) | [Hokuyo UTM-30LX](lidar-sensors.md#hokuyo-utm-30lx) | Hokuyo |
+| ![robotis_lds01_icon.png](images/sensors/robotis_lds01_icon.png) | [LDS-01](lidar-sensors.md#robotis-lds-01) | Robotis |
 | ![sick_lms291_icon.png](images/sensors/sick_lms291_icon.png) | [LMS 291](lidar-sensors.md#sick-lms-291) | SICK |
 | ![sick_ld_mrs_icon.png](images/sensors/sick_ld_mrs_icon.png) | [LD-MRS](lidar-sensors.md#sick-ld-mrs) | SICK |
 | ![velodyne_vpl_16_icon.png](images/sensors/velodyne_vpl_16_icon.png) | [VLP Puck](lidar-sensors.md#velodyne-puck) | Velodyne |

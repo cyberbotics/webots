@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -48,8 +48,10 @@ endif
 endif
 
 ifneq ($(SNAPCRAFT_PROJECT_NAME),)
+ifeq ($(TRAVIS),)
 export DISPLAY = :99
 XVFB = xvfb
+endif
 endif
 
 ifeq ($(OSTYPE),windows)

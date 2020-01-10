@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -112,6 +112,7 @@ class TestTextures(unittest.TestCase):
                 is_perfect_power_of_two(im.size[0]) and is_perfect_power_of_two(im.size[1]),
                 msg='texture "%s": dimension is not a power of two: (%d, %d)' % (texture, im.size[0], im.size[1])
             )
+            im.close()
 
     def test_textures_profile(self):
         """Test that the released textures don't contain an ICC profile."""
@@ -127,6 +128,7 @@ class TestTextures(unittest.TestCase):
                 im.info.get("icc_profile") is None,
                 msg='texture "%s" contains an ICC profile' % (texture)
             )
+            im.close()
 
     def test_textures_uniqueness(self):
         """Test that the released textures are unique."""

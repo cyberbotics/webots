@@ -1,4 +1,4 @@
-# This file is used by the "webots-test-sources-revision" and "webots-test-sources-develop" appveyor projects.
+# This file is used by the "webots-test-sources-master" and "webots-test-sources-develop" appveyor projects.
 
 clone_depth: 1
 

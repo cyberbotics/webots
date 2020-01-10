@@ -6,19 +6,19 @@
 # The robot is composed by the TIAGo base and a body with two arms equipped with parallel grippers.
 
 PROTO Tiago++ [
-  field  SFVec3f     translation        0 0.095 0
-  field  SFRotation  rotation           1 0 0 -1.5708
-  field  SFString    name               "TIAGo++"
-  field  SFString    controller         "tiago++"
-  field  SFString    controllerArgs     ""
-  field  SFString    customData         ""
-  field  SFBool      supervisor         FALSE
-  field  SFBool      synchronization    TRUE
-  field  SFBool      selfCollision      FALSE                 # Enables/disables the detection of collisions within the robot.
-  field  MFNode      cameraExtension    []                    # Extends the robot with a camera at head level.
-  field  MFNode      endEffectorRight   TiagoGripper{}        # Extends the robot with a right end-effector (such as the TiagoRightHey5 for example).
-  field  MFNode      endEffectorLeft    TiagoGripper{}        # Extends the robot with a left end-effector (such as the TiagoLeftHey5 for example).
-  field  MFNode      lidarExtension     HokuyoUrg04lxug01{}   # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
+  field  SFVec3f     translation           0 0.095 0
+  field  SFRotation  rotation              1 0 0 -1.5708
+  field  SFString    name                  "TIAGo++"
+  field  SFString    controller            "tiago++"
+  field  SFString    controllerArgs        ""
+  field  SFString    customData            ""
+  field  SFBool      supervisor            FALSE
+  field  SFBool      synchronization       TRUE
+  field  SFBool      selfCollision         FALSE                 # Enables/disables the detection of collisions within the robot.
+  field  MFNode      cameraSlot            []                    # Extends the robot with a camera at head level.
+  field  MFNode      endEffectorRightSlot  TiagoGripper{}        # Extends the robot with a right end-effector (such as the TiagoRightHey5 for example).
+  field  MFNode      endEffectorLeftSlot   TiagoGripper{}        # Extends the robot with a left end-effector (such as the TiagoLeftHey5 for example).
+  field  MFNode      lidarSlot             HokuyoUrg04lxug01{}   # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
 ]
 {
   TiagoBase {
@@ -32,29 +32,29 @@ PROTO Tiago++ [
     selfCollision IS selfCollision
     name IS name
     model "PAL Robotics - TIAGo++"
-    bodyExtension [
+    bodySlot [
       TiagoBody {
-        cameraExtension IS cameraExtension
-        rightArmExtension [
+        cameraSlot IS cameraSlot
+        rightArmSlot [
           TiagoRightArm {
-            endEffector [
+            endEffectorSlot [
               Transform {
-                children IS endEffectorRight
+                children IS endEffectorRightSlot
               }
             ]
           }
         ]
-        leftArmExtension [
+        leftArmSlot [
           TiagoLeftArm {
-            endEffector [
+            endEffectorSlot [
               Transform {
-                children IS endEffectorLeft
+                children IS endEffectorLeftSlot
               }
             ]
           }
         ]
       }
     ]
-    lidarExtension IS lidarExtension
+    lidarSlot IS lidarSlot
   }
 }

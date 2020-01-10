@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -41,13 +41,14 @@ def github_api(request):
     req.add_header('User-Agent', github_api.user_agent)
     if key is not None:
         req.add_header('Authorization', 'token %s' % key)
+    content = ''
     try:
         response = urlopen(req)
+        content = response.read()
     except HTTPError as e:
         print(request)
         print(e.reason)
         print(e.info())
-    content = response.read()
     github_api.last_time = time.time()
     return json.loads(content.decode())
 
@@ -56,7 +57,7 @@ if len(sys.argv) == 3:
     commit = sys.argv[1]
     repo = sys.argv[2]
 else:
-    commit = subprocess.check_output(['git', 'rev-parse', 'head']).decode('utf-8').strip()
+    commit = subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('utf-8').strip()
     repo = subprocess.check_output(['git', 'config', '--get', 'remote.origin.url']).decode().strip()
     repo = repo[19:-4]  # remove leading 'https://github.com/' and trailing '.git'
 github_api.last_time = 0

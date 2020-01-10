@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2019 Cyberbotics Ltd.
+ * Copyright 1996-2020 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -479,7 +479,7 @@ void wb_camera_set_focal_distance(WbDeviceTag tag, double focal_distance) {
             c->max_focal_distance);
     in_range = false;
   }
-  if (c && in_range) {
+  if (in_range) {
     c->focal_distance = focal_distance;
     c->set_focal_distance = true;
   }

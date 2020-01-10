@@ -42,20 +42,20 @@ jobs:
           fi
         - travis_wait 30 python -m unittest discover -s tests/sources
     - <<: *source_tests_staging
-      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_release, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: Ubuntu 16.04 / Python 2.7
       python: '2.7'
     - <<: *source_tests_staging
-      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_release, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: Ubuntu 18.04 / Python 3.8
       dist: bionic
     - <<: *source_tests_staging
-      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_release, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: Ubuntu 18.04 / Python 2.7
       python: '2.7'
       dist: bionic
     - <<: *source_tests_staging
-      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_release, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: OSX / Python 2.7
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
@@ -72,7 +72,7 @@ jobs:
         - cp dependencies/.clang-format-9 .clang-format
     - &unit_tests_staging
       stage: Unit Tests
-      if: type = cron OR commit_message IN (travis_unit, travis_distrib, travis_unit_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      if: type = cron OR commit_message IN (travis_unit, travis_release, travis_distrib, travis_unit_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: Ubuntu 16.04 / Python 3.8 / openjdk 8 / ROS kinetic
       git: &compilation_git
         depth: 3
@@ -99,16 +99,13 @@ jobs:
             - libzzip-0-13
             - libssl-dev
             - libboost-dev
-            - libjpeg8-dev
             - libavcodec-extra
             - libgd-dev
-            - libtiff5-dev
             - libssh-gcrypt-dev
             - libzip-dev
             - python-pip
             - libreadline-dev
             - libassimp-dev
-            - libpng12-dev
             - libav-tools
             - npm
             - python3.5-dev
@@ -171,16 +168,13 @@ jobs:
             - libzzip-0-13
             - libssl1.0-dev
             - libboost-dev
-            - libjpeg8-dev
             - libavcodec-extra
             - libgd-dev
-            - libtiff5-dev
             - libssh-gcrypt-dev
             - libzip-dev
             - python-pip
             - libreadline-dev
             - libassimp-dev
-            - libpng-dev
             - ffmpeg
             - npm
             - python3.6-dev
@@ -192,7 +186,7 @@ jobs:
             - libxkbcommon-x11-dev
     - &distribution_staging
       stage: Distribution
-      if: type = cron OR commit_message IN (travis_distrib, travis_distrib_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      if: type = cron OR commit_message IN (travis_release, travis_release_only, travis_distrib, travis_distrib_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: Ubuntu 16.04 / Python 3.8 / openjdk 8
       git: *compilation_git
       os: linux
@@ -213,7 +207,7 @@ jobs:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
-        - if [ "$TRAVIS_BRANCH" != "master" ]; then src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG; fi
+        - if [ "$TRAVIS_COMMIT_MESSAGE" != travis_release* ]; then src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG; fi
     - <<: *distribution_staging
       name: Ubuntu 18.04 / Python 3.8 / openjdk 11 (no release upload)
       dist: bionic  # on Ubuntu 18.04 we just test the package creation but do not upload it
@@ -246,11 +240,11 @@ jobs:
         - npm install -g appdmg
         - pip install PyGithub  # used to upload packages to Github releases
         - sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7  # we can't use python3.7 from homebrew for the compilation because it is not compatible with the normal one
-        - if [[ ! -f $WEBOTS_HOME/dependencies/python3.7.zip ]]; then wget https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7.zip -P $WEBOTS_HOME/dependencies; fi
+        - if [[ ! -f $WEBOTS_HOME/dependencies/python3.7.zip ]]; then wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7.zip -P $WEBOTS_HOME/dependencies; fi
         - sudo unzip -o -q $WEBOTS_HOME/dependencies/python3.7.zip -d /Library/Frameworks/Python.framework/Versions/3.7
         - export PATH=$PATH:/Library/Frameworks/Python.framework/Versions/3.7/bin
       script:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required file are generated
-        - if [ "$TRAVIS_BRANCH" != "master" ]; then src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG; fi
+        - if [ "$TRAVIS_COMMIT_MESSAGE" != travis_release* ]; then src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG; fi

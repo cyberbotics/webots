@@ -2,7 +2,6 @@
   "devices": [
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 2.68,
       "minPosition": 0.07,
       "name": "arm_1_joint",
@@ -12,7 +11,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": 1.5708,
       "maxPosition": 1.02,
       "minPosition": -1.5,
       "name": "arm_2_joint",
@@ -22,7 +20,6 @@
     },
     {
       "axis": "-1 0 0",
-      "initialPosition": 2.09446,
       "maxPosition": 1.5,
       "minPosition": -3.46,
       "name": "arm_3_joint",
@@ -32,7 +29,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 2.0944,
       "maxPosition": 2.29,
       "minPosition": -0.32,
       "name": "arm_4_joint",
@@ -42,7 +38,6 @@
     },
     {
       "axis": "-1 0 0",
-      "initialPosition": 1.5708,
       "maxPosition": 2.07,
       "minPosition": -2.07,
       "name": "arm_5_joint",
@@ -52,7 +47,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 2.0944,
       "maxPosition": 1.39,
       "minPosition": -1.39,
       "name": "arm_6_joint",
@@ -62,7 +56,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 2.0944,
       "maxPosition": 2.07,
       "minPosition": -2.07,
       "name": "arm_7_joint",
@@ -72,7 +65,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 1.24,
       "minPosition": -1.24,
       "name": "head_1_joint",
@@ -82,7 +74,6 @@
     },
     {
       "axis": "0 -1 0",
-      "initialPosition": 1.5708,
       "maxPosition": 0.79,
       "minPosition": -0.98,
       "name": "head_2_joint",
@@ -92,7 +83,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 1.5708,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel_left_joint",
@@ -102,7 +92,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 1.5708,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel_right_joint",
@@ -112,7 +101,6 @@
     },
     {
       "axis": "-1 0 0",
-      "initialPosition": 3.1415,
       "maxPosition": 0.045,
       "minPosition": 0,
       "name": "gripper_left_finger_joint",
@@ -122,7 +110,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0.045,
       "minPosition": 0,
       "name": "gripper_right_finger_joint",
@@ -132,7 +119,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.35,
       "minPosition": 0,
       "name": "torso_lift_joint",

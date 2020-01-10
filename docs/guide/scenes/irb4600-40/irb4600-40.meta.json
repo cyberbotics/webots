@@ -2,7 +2,6 @@
   "devices": [
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 3.1415,
       "minPosition": -3.1415,
       "name": "A motor",
@@ -12,7 +11,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 2.61799,
       "minPosition": -1.5708,
       "name": "B motor",
@@ -22,7 +20,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 1.309,
       "minPosition": -3.1415,
       "name": "C motor",
@@ -32,7 +29,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 6.98132,
       "minPosition": -6.98132,
       "name": "D motor",
@@ -42,7 +38,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 2.0944,
       "minPosition": -2.18166,
       "name": "E motor",
@@ -52,7 +47,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 6.98132,
       "minPosition": -6.98132,
       "name": "F motor",

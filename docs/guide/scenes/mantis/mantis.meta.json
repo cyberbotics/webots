@@ -2,7 +2,6 @@
   "devices": [
     {
       "axis": "0 1 0",
-      "initialPosition": 2.44,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "LAC",
@@ -12,7 +11,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0.785785,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "LAF",
@@ -22,7 +20,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": -2.29998,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "LAT",
@@ -32,7 +29,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 3.14,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "LMC",
@@ -42,7 +38,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0.785786,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "LMF",
@@ -52,7 +47,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": -2.29997,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "LMT",
@@ -62,7 +56,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 3.84,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "LPC",
@@ -72,7 +65,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0.785787,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "LPF",
@@ -82,7 +74,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": -2.29997,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "LPT",
@@ -92,7 +83,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0.699997,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "RAC",
@@ -102,7 +92,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0.785785,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "RAF",
@@ -112,7 +101,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": -2.29997,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "RAT",
@@ -122,7 +110,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0.000172162,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "RMC",
@@ -132,7 +119,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0.785786,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "RMF",
@@ -142,7 +128,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": -2.29997,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "RMT",
@@ -152,7 +137,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0.700003,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "RPC",
@@ -162,7 +146,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0.785787,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "RPF",
@@ -172,7 +155,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 2.29995,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "RPT",

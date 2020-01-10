@@ -64,7 +64,7 @@ PROTO MultiSenseS21 [
   SFBool     rightCamera         TRUE
   SFBool     metaCamera          FALSE
   SFBool     metaRangeFinder     FALSE
-  SFBool     physics             TRUE
+  SFBool     enablePhysics       TRUE
 ]
 ```
 
@@ -82,4 +82,4 @@ The `rangeFinderMaxRange` field specifies the max range of the internal meta Ran
 
 The `leftCamera`, `rightCamera`, `metaCamera` and `metaRangeFinder` fields allow to enable the corresponding internal rendering devices.
 
-The `physics` field specifies if the sensor should be affected by physics (mass = 1.5 [kg]) or not.
+The `enablePhysics` field specifies if the sensor should be affected by physics (mass = 1.5 [kg]) or not.

@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -55,7 +55,8 @@ endif
 
 release debug profile: $(SUMO_TARGET)
 
-$(SUMO_PACKAGE):
+
+$(SUMO_TARGET):
 	@if ! $(WGET) -h > /dev/null ; then echo "You need to download the" $(SUMO_PACKAGE) "package and copy it in this directory"; fi
 	@echo "#" downloading $(SUMO_PACKAGE)
 	@$(WGET) https://www.cyberbotics.com/files/repository/dependencies/$(OS_TAG)/release/$(SUMO_PACKAGE)
@@ -63,14 +64,13 @@ $(SUMO_PACKAGE):
 	@$(EXTRACT) $(SUMO_PACKAGE)
 	@echo "#" removing old $(SUMO_TARGET)
 	@rm -rf $(SUMO_TARGET)
+	@rm -rf $(SUMO_PACKAGE)
 ifneq ($(PREVIOUS_SUMO_PACKAGE),)
 	@rm -f $(PREVIOUS_SUMO_PACKAGE)
 endif
 	@echo "#" installing $(SUMO_PACKAGE)
 	@mv $(SUMO_SOURCE) $(SUMO_TARGET)
 	@touch $(SUMO_TARGET) # update modification date on Linux and Mac
-
-$(SUMO_TARGET): $(SUMO_PACKAGE)
 
 clean:
 	rm -rf $(SUMO_TARGET)

@@ -627,24 +627,24 @@ success = wb_range_finder_save_image(tag, 'filename', quality)
 
 ##### Description
 
-*save a range-finder image in PNG, JPEG or TIFF format*
+*save a range-finder image in PNG, JPEG or HDR format*
 
 The `wb_range_finder_save_image` function allows the user to save a `tag` image which was previously obtained with the `wb_range_finder_get_image` function.
-The image can be saved in a file using the PNG, JPEG, or TIFF format.
+The image can be saved in a file using the PNG, JPEG, or HDR format.
 The image format is specified by the `filename` parameter.
 If `filename` is terminated by `.png`, the image format is PNG.
 Similarly, if `filename` is terminated by `.jpg` or `.jpeg`, the image format is JPEG.
-Lastly, if `filename` is terminated by `.tif` or `.tiff`, the image format is TIFF.
+Lastly, if `filename` is terminated by `.hdr` or `.HDR`, the image format is HDR.
 Other image formats are not supported.
 The `quality` parameter is useful only for JPEG images.
 It defines the JPEG quality of the saved image.
 The `quality` parameter should be in the range 1 (worst quality) to 100 (best quality).
 Low quality JPEG files will use less disk space.
-For PNG and TIFF images, the `quality` parameter is ignored.
+For PNG and HDR images, the `quality` parameter is ignored.
 
 PNG and JPEG images are saved using an 8-bit RGB (grayscale) encoding.
-TIFF images are saved as 32-bit floating-point single-channel images.
-For PNG and JPEG, depth data is stored in the range `0` to `255`, and for TIFF depth data is in the range `0.0` to `1.0`.
+HDR images are saved as 32-bit floating-point single-channel images.
+For PNG and JPEG, depth data is stored in the range `0` to `255`.
 This depth data can thus be extracted for further use by reading the image file.
 
 The return value of the `wb_range_finder_save_image` function is 0 in case of success.

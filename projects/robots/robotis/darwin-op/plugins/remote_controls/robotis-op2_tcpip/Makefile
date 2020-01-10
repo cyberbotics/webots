@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Webots Makefile system 
+# Webots Makefile system
 #
 # You may add some variable definitions hereafter to customize the build process
 # See documentation in $(WEBOTS_HOME_PATH)/resources/Makefile.include
@@ -30,10 +30,6 @@ USE_C_API = true
 ifeq ($(OSTYPE),windows)
 # on Windows, need to link with WinSock2
 LIBRARIES = -lws2_32
-endif
-
-ifeq ($(OSTYPE),darwin)
-INCLUDE = -I$(WEBOTS_HOME_PATH)/include/libjpeg/
 endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

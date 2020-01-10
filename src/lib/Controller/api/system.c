@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2019 Cyberbotics Ltd.
+ * Copyright 1996-2020 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -77,6 +77,7 @@ const char *wbu_system_short_path(const char *path) {
     free(buffer);
   buffer = (char *)malloc(size);
   WideCharToMultiByte(CP_UTF8, 0, w_short_path, -1, buffer, size, NULL, NULL);
+  // cppcheck-suppress memleak
   return (const char *)buffer;
 #else
   return path;

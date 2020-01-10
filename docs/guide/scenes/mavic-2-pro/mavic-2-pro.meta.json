@@ -2,7 +2,6 @@
   "devices": [
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 1.7,
       "minPosition": -0.5,
       "name": "camera pitch",
@@ -12,7 +11,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0.5,
       "minPosition": -0.5,
       "name": "camera roll",
@@ -22,7 +20,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 1.7,
       "minPosition": -1.7,
       "name": "camera yaw",
@@ -32,7 +29,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "front left propeller",
@@ -42,7 +38,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "front right propeller",
@@ -52,7 +47,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "rear left propeller",
@@ -62,7 +56,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "rear right propeller",

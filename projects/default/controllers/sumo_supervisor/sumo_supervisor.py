@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,9 +26,14 @@ import tempfile
 
 # we need to import python modules from the $SUMO_HOME/tools directory
 try:
-    sumoPath = os.environ.get("WEBOTS_HOME") + "/projects/default/resources/sumo/"
-    sumoPath.replace('/', os.sep)
-    os.putenv("SUMO_HOME", sumoPath)
+    if 'SUMO_HOME' in os.environ:
+        sumoPath = os.environ['SUMO_HOME'] + '/'
+        print('Using SUMO from %s' % sumoPath)
+        print('This might cause version conflicts, unset the "SUMO_HOME" environment variable to use the one from Webots')
+    else:
+        sumoPath = os.environ.get("WEBOTS_HOME") + "/projects/default/resources/sumo/"
+        sumoPath.replace('/', os.sep)
+        os.putenv("SUMO_HOME", sumoPath)
     if sys.platform.startswith('darwin'):
         libraryVariablePath = "DYLD_LIBRARY_PATH"
 
@@ -57,7 +62,7 @@ try:
     import traci
     import sumolib
 except ImportError:
-    sys.exit("It seems sumo is not present in your Webots projects folder.")
+    sys.exit("Can't find SUMO.")
 
 
 def get_options():

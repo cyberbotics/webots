@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -794,13 +794,17 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       if (solid) {
-        WbVector3 force(fx, fy, fz), offset(ox, oy, oz);
+        const WbMatrix4 &solidMatrix = solid->matrix();
+
+        const WbVector3 offset = solidMatrix * WbVector3(ox, oy, oz);
+
+        WbVector3 force(fx, fy, fz);
         if (relative == 1)
-          force = solid->matrix().extracted3x3Matrix() * force;
-        offset = solid->matrix().extracted3x3Matrix() * offset;
+          force = solidMatrix.extracted3x3Matrix() * force;
+
         dBodyID body = solid->bodyMerger();
         if (body)
-          dBodyAddForceAtRelPos(body, force.x(), force.y(), force.z(), offset.x(), offset.y(), offset.z());
+          dBodyAddForceAtPos(body, force.x(), force.y(), force.z(), offset.x(), offset.y(), offset.z());
         else
           mRobot->warn(tr("wb_supervisor_node_add_force_with_offset() can't be used with a kinematic Solid"));
       } else

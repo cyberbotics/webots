@@ -2,7 +2,6 @@
   "devices": [
     {
       "axis": "-1 0 0",
-      "initialPosition": 0,
       "maxPosition": 1.5708,
       "minPosition": -0.017453,
       "name": "body_joint_1",
@@ -12,7 +11,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 1.0472,
       "minPosition": -1.0472,
       "name": "head_joint_1",
@@ -22,7 +20,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 1.0472,
       "minPosition": -0.2618,
       "name": "head_joint_2",
@@ -32,7 +29,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 2.6354,
       "minPosition": -1.5882,
       "name": "larm_joint_1",
@@ -42,7 +38,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 1.6755,
       "minPosition": -0.0175,
       "name": "larm_joint_2",
@@ -52,7 +47,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 1.5882,
       "minPosition": -1.5882,
       "name": "larm_joint_3",
@@ -62,7 +56,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0.01745,
       "minPosition": -2.0071,
       "name": "larm_joint_4",
@@ -72,7 +65,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 1.0472,
       "minPosition": -1.0472,
       "name": "larm_joint_5",
@@ -82,7 +74,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 1.58825,
       "minPosition": -0.541052,
       "name": "lleg_joint_1",
@@ -92,7 +83,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.541052,
       "minPosition": -0.36652,
       "name": "lleg_joint_2",
@@ -102,7 +92,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 1.23918,
       "minPosition": -1.43117,
       "name": "lleg_joint_3",
@@ -112,7 +101,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 2.26893,
       "minPosition": -0.017453,
       "name": "lleg_joint_4",
@@ -122,7 +110,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 1.06465,
       "minPosition": -1.06465,
       "name": "lleg_joint_5",
@@ -132,7 +119,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.43633,
       "minPosition": -0.43633,
       "name": "lleg_joint_6",
@@ -142,7 +128,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 2.6354,
       "minPosition": -1.5882,
       "name": "rarm_joint_1",
@@ -152,7 +137,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0.0175,
       "minPosition": -1.6755,
       "name": "rarm_joint_2",
@@ -162,7 +146,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 1.5882,
       "minPosition": -1.5882,
       "name": "rarm_joint_3",
@@ -172,7 +155,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0.01745,
       "minPosition": -2.0071,
       "name": "rarm_joint_4",
@@ -182,7 +164,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 1.0472,
       "minPosition": -1.0472,
       "name": "rarm_joint_5",
@@ -192,7 +173,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0.541052,
       "minPosition": -1.58825,
       "name": "rleg_joint_1",
@@ -202,7 +182,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.36652,
       "minPosition": -0.541052,
       "name": "rleg_joint_2",
@@ -212,7 +191,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 1.23918,
       "minPosition": -1.43117,
       "name": "rleg_joint_3",
@@ -222,7 +200,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 2.26893,
       "minPosition": -0.017453,
       "name": "rleg_joint_4",
@@ -232,7 +209,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 1.06465,
       "minPosition": -1.06465,
       "name": "rleg_joint_5",
@@ -242,7 +218,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0.43633,
       "minPosition": -0.43633,
       "name": "rleg_joint_6",

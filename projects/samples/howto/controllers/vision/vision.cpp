@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /*
- * Description: This controller demonstrates how to use openCV to process the camera image.
+ * Description: This controller demonstrates how to use openCV 2.4 to process the camera image.
  *              In order to execute and recompile this example, opencv must be installed.
  *              To run this controller, it is recommended to install the Webots development
  *              environment as explained here:

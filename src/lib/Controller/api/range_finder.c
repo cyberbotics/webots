@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2019 Cyberbotics Ltd.
+ * Copyright 1996-2020 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -288,6 +288,10 @@ int wb_range_finder_save_image(WbDeviceTag tag, const char *filename, int qualit
   img.float_data = NULL;
   size = img.width * img.height;
   if (g_image_get_type(filename) == G_IMAGE_TIFF) {
+    fprintf(stderr, "Error: wb_range_finder_save_image(): .tiff image not supported anymore, use .hdr instead.\n");
+    robot_mutex_unlock_step();
+    return -1;
+  } else if (g_image_get_type(filename) == G_IMAGE_HDR) {
     img.data_format = G_IMAGE_DATA_FORMAT_F;
     size *= sizeof(float);
     img.float_data = malloc(size);

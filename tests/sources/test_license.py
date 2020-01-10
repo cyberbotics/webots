@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -116,6 +116,7 @@ class TestLicense(unittest.TestCase):
         ]
 
         skippedFilePaths = [
+            'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h',
             'projects/robots/gctronic/e-puck/controllers/e-puck2_server/play_melody.c',
             'projects/robots/gctronic/e-puck/controllers/e-puck2_server/play_melody.h'
         ]

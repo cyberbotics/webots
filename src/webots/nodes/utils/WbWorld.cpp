@@ -1,4 +1,4 @@
-// Copyright 1996-2019 Cyberbotics Ltd.
+// Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -435,7 +435,6 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
           deviceObject.insert("minPosition", motor->minPosition());
           deviceObject.insert("maxPosition", motor->maxPosition());
           deviceObject.insert("position", motor->position());
-          deviceObject.insert("initialPosition", motor->joint()->solidEndPoint()->rotation().angle());
           if (motor->positionIndex() == 2)
             deviceObject.insert("axis", motor->joint()->parameters2()->axis().toString(WbPrecision::FLOAT_MAX));
           else
@@ -448,7 +447,6 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
         deviceObject.insert("axis", motor->propeller()->axis().toString(WbPrecision::FLOAT_MAX));
         deviceObject.insert("minPosition", motor->minPosition());
         deviceObject.insert("maxPosition", motor->maxPosition());
-        deviceObject.insert("initialPosition", 0.0);
       } else {  // case: other WbDevice nodes.
         const WbBaseNode *parent = jointDevice ? dynamic_cast<const WbBaseNode *>(deviceBaseNode->parent()) : deviceBaseNode;
         // Retrieve closest exported Transform parent, and compute its translation offset.

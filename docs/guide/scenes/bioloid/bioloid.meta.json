@@ -2,7 +2,6 @@
   "devices": [
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "back_left_1",
@@ -12,7 +11,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "back_left_2",
@@ -22,7 +20,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "back_left_3",
@@ -32,7 +29,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "back_right_1",
@@ -42,7 +38,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 3.14159,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "back_right_2",
@@ -52,7 +47,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "back_right_3",
@@ -62,7 +56,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "front_left_1",
@@ -72,7 +65,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "front_left_2",
@@ -82,7 +74,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "front_left_3",
@@ -92,7 +83,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "front_right_1",
@@ -102,7 +92,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 3.14159,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "front_right_2",
@@ -112,7 +101,6 @@
     },
     {
       "axis": "0 1 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "front_right_3",
@@ -122,7 +110,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "head",
@@ -132,7 +119,6 @@
     },
     {
       "axis": "0 0 1",
-      "initialPosition": 0,
       "maxPosition": 1.5708,
       "minPosition": -1.5708,
       "name": "neck_1",
@@ -142,7 +128,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "neck_2",
@@ -152,7 +137,6 @@
     },
     {
       "axis": "1 0 0",
-      "initialPosition": 0,
       "maxPosition": 0,
       "minPosition": 0,
       "name": "pelvis",

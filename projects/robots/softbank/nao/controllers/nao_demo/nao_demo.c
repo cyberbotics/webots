@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2019 Cyberbotics Ltd.
+ * Copyright 1996-2020 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -321,8 +321,8 @@ static void print_help() {
   printf("----------nao_demo----------\n");
   printf("Select the robot and use the keyboard to control it:\n");
   printf("(The 3D window need to be focused)\n");
-  printf("[Up][Down]: move one step forward/backwards\n");
-  printf("[<-][->]: side step left/right\n");
+  printf("[Up][Down]: move a few steps forward/backwards\n");
+  printf("[<-][->]: make a few side steps left/right\n");
   printf("[Shift] + [<-][->]: turn left/right\n");
   printf("[U]: print ultrasound sensors\n");
   printf("[A]: print accelerometer\n");

@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ WB_PLUGINS_INCLUDE       = $(QT_CORE_INCLUDE) $(ODE_INCLUDE) -Icore -Imaths -Ino
 WB_ENGINE_INCLUDE        = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Icore -Imaths -Inodes -Inodes/utils -Iplugins -Isound -Iuser_commands -Iutil -Ivrml
 WB_CONTROL_INCLUDE       = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) -Icore -Iengine -Imaths -Inodes -Inodes/utils -Iode -Ivrml -Iutil
 # dependency of NODES on QT_GUI is necessary in WbImageTexture to retrieve the size of a texture before loading it in Wren
-WB_NODES_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(ODE_INCLUDE) $(CONTROLLER_INCLUDE) $(OIS_INCLUDE) $(FREETYPE_INCLUDE) $(WREN_INCLUDE) -Iapp -Icore -isystem external/siphash -isystem external/stb_image -Imaths -Inodes -Inodes/utils -Iode -Iplugins -Isound -Iutil -Ivrml
+WB_NODES_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(ODE_INCLUDE) $(CONTROLLER_INCLUDE) $(OIS_INCLUDE) $(FREETYPE_INCLUDE) $(WREN_INCLUDE) $(STB_INCLUDE) -Iapp -Icore -isystem external/siphash -Imaths -Inodes -Inodes/utils -Iode -Iplugins -Isound -Iutil -Ivrml
 WB_APP_INCLUDE           = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Icontrol -Icore -Ieditor -Iengine -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Ivrml
 WB_SCENE_TREE_INCLUDE    = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) -Iapp -Icore -Iwidgets -Imaths -Inodes -Inodes/utils -Iode -Iuser_commands -Ivrml
 WB_SOUND_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_XML_INCLUDE) $(ODE_INCLUDE) $(OPENAL_INCLUDE) $(PICO_INCLUDE) -Icore -Imaths -Inodes -Inodes/utils -Isound -Ivrml
@@ -62,7 +62,7 @@ LUA_INCLUDE = -I$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src
 OIS_INCLUDE = -isystem $(WEBOTS_PATH)/include/libOIS
 PICO_INCLUDE = -I$(WEBOTS_PATH)/include/libpico
 WREN_INCLUDE = -I$(WEBOTS_PATH)/include
-GLM_IMCLUDE  = -I$(WEBOTS_PATH)/src/glm
+STB_INCLUDE  = -isystem $(WEBOTS_PATH)/src/stb
 OPEN_VR_INCLUDE = -isystem $(WEBOTS_PATH)/include/openvr
 
 ifeq ($(OSTYPE),darwin)
@@ -72,7 +72,7 @@ FRAMEWORKS         = $(EXECUTABLE_PATH)/../Frameworks
 PLUGINS            = $(EXECUTABLE_PATH)/../Plugins
 TARGET             = $(EXECUTABLE_PATH)/webots
 ODE                = $(WEBOTS_PATH)/src/ode
-LIB_WREN           = ../wren/libwren.a ../glad/libglad.a $(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12/libpng.a
+LIB_WREN           = ../wren/libwren.a ../glad/libglad.a
 OPENAL_INCLUDE     = -I$(WEBOTS_DEPENDENCY_PATH)/openal/include
 QT_CORE_INCLUDE    = -isystem $(FRAMEWORKS)/QtCore.framework/Headers
 QT_GUI_INCLUDE     = -isystem $(FRAMEWORKS)/QtGui.framework/Headers
@@ -178,13 +178,13 @@ LIBS += -lode
 endif
 endif
 
-ALL_INCLUDE        = -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem external/siphash -isystem external/stb_image -Igui -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Isound -Iuser_commands -Ivrml -Iutil -Iexternal/compilation_timestamp
+ALL_INCLUDE        = -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem external/siphash -Igui -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Isound -Iuser_commands -Ivrml -Iutil -Iexternal/compilation_timestamp
 
 CONTROLLER_INCLUDE = -I$(WEBOTS_PATH)/include/controller/c
 ODE_INCLUDE        = -Iode -isystem $(WEBOTS_PATH)/include/ode
 QT_CORE_INCLUDE   += -I$(OBJDIR)
 WREN_INCLUDE 	  += -Iwren
-INCLUDE            = $(ALL_INCLUDE) $(CONTROLLER_INCLUDE) $(ODE_INCLUDE) $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_PRINT_SUPPORT_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_WEB_INCLUDE) $(LUA_INCLUDE) $(OIS_INCLUDE) $(OPENAL_INCLUDE) $(PICO_INCLUDE) $(WREN_INCLUDE) $(GLU_INCLUDE) $(FREETYPE_INCLUDE)
+INCLUDE            = $(ALL_INCLUDE) $(CONTROLLER_INCLUDE) $(ODE_INCLUDE) $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_PRINT_SUPPORT_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_WEB_INCLUDE) $(LUA_INCLUDE) $(OIS_INCLUDE) $(OPENAL_INCLUDE) $(PICO_INCLUDE) $(WREN_INCLUDE) $(GLU_INCLUDE) $(FREETYPE_INCLUDE) $(STB_INCLUDE)
 
 ifeq ($(MAKECMDGOALS),debug)
 CFLAGS += -g
@@ -589,8 +589,8 @@ endif
 .PRECIOUS: $(MOC_FILES)
 
 vpath %.o $(OBJDIR)
-vpath %.hpp app control core widgets editor engine external/siphash external/stb_image gui maths nodes nodes/utils ode wren plugins scene_tree sound user_commands vrml
-vpath %.cpp app control core widgets editor engine external/siphash external/stb_image gui maths nodes nodes/utils ode wren plugins scene_tree sound user_commands vrml $(OBJDIR)
+vpath %.hpp app control core widgets editor engine external/siphash gui maths nodes nodes/utils ode wren plugins scene_tree sound user_commands vrml
+vpath %.cpp app control core widgets editor engine external/siphash gui maths nodes nodes/utils ode wren plugins scene_tree sound user_commands vrml $(OBJDIR)
 
 default:
 	@echo "Type one of the following (OSTYPE is \""$(OSTYPE)"\"):"

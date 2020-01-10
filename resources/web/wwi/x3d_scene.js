@@ -86,6 +86,18 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   render() {
+    // Set maximum rendering frequency.
+    // To avoid slowing down the simulation rendering the scene too often, the last rendering time is checked
+    // and the rendering is performed only at a given maximum frequency.
+    // To be sure that no rendering request is lost, a timeout is set.
+    const renderingMinTimeStep = 40; // Rendering maximum frequency: every 40 ms.
+    let currentTime = (new Date()).getTime();
+    if (this.nextRenderingTime && this.nextRenderingTime > currentTime) {
+      if (!this.renderingTimeout)
+        this.renderingTimeout = setTimeout(() => this.render(), this.nextRenderingTime - currentTime);
+      return;
+    }
+
     // Apply pass uniforms.
     this.hdrResolvePass.material.uniforms['exposure'].value = 2.0 * this.viewpoint.camera.userData.exposure; // Factor empirically found to match the Webots rendering.
     this.bloomPass.threshold = this.viewpoint.camera.userData.bloomThreshold;
@@ -96,6 +108,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.composer.render();
     if (typeof this.postRender === 'function')
       this.postRender(this.scene, this.viewpoint.camera);
+
+    this.nextRenderingTime = (new Date()).getTime() + renderingMinTimeStep;
+    clearTimeout(this.renderingTimeout);
+    this.renderingTimeout = null;
   }
 
   resize() {
@@ -137,7 +153,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
     */
 
     this.onSceneUpdate();
-    this.render();
   }
 
   deleteObject(id) {
@@ -164,7 +179,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
     if (object === this.root)
       this.root = undefined;
     this.onSceneUpdate();
-    this.render();
   }
 
   loadWorldFile(url, onLoad) {
