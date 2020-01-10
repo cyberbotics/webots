@@ -15,8 +15,6 @@ declare -a BASE_PACKAGES=(
   "mingw-w64-x86_64-libzip"   # Webots
   "mingw-w64-x86_64-libgd"    # Webots
   "liblzma"                   # Webots
-  "mingw-w64-x86_64-libtiff"  # libController
-  "mingw-w64-x86_64-libpng"   # libController
   "mingw-w64-x86_64-ffmpeg"   # Webots movies
 )
 
@@ -27,8 +25,6 @@ declare -a OPTIONAL_PACKAGES=(
   "mingw-w64-x86_64-boost"    # to recompile ROS controller
   "mingw-w64-x86_64-cmake"    # Thymio II dashel library
   "mingw-w64-i686-gcc"        # libController (32 bit)
-  "mingw-w64-i686-libtiff"    # libController (32 bit)
-  "mingw-w64-i686-libpng"     # libController (32 bit)
 )
 
 declare -a DEVELOPMENT_PACKAGES=(

@@ -116,6 +116,7 @@ class TestLicense(unittest.TestCase):
         ]
 
         skippedFilePaths = [
+            'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h',
             'projects/robots/gctronic/e-puck/controllers/e-puck2_server/play_melody.c',
             'projects/robots/gctronic/e-puck/controllers/e-puck2_server/play_melody.h'
         ]

@@ -19,11 +19,13 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include <tiffio.h>
 #include <unistd.h>
 
-#include <jpeglib.h>
-#include <png.h>
+#define STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#define STBIW_WINDOWS_UTF8
+#include <stb_image.h>
+#include <stb_image_write.h>
 
 #include <webots/types.h>
 
@@ -55,163 +57,35 @@ static int g_image_file_not_found(const char *filename, GImage *image) {
 }
 
 static int g_image_png_load(const char *filename, GImage *image) {
-  png_structp png_ptr;
-  png_infop info_ptr;
-  png_uint_32 w = 0, h = 0;
-  int color_type, bit_depth;
-  png_bytep *row_pointers = NULL;
-  FILE *f = fopen(filename, (char *)"rb");
-  if (f) {
-    png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-    if (png_ptr == NULL)
-      fprintf(stderr, "Wrong version of libpng: %s\n", PNG_LIBPNG_VER_STRING);
-    info_ptr = png_create_info_struct(png_ptr);
-
-    image->data = NULL;
-    if (setjmp(png_jmpbuf(png_ptr))) {
-      fprintf(stderr, "Error while reading %s", filename);
-      png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-      fclose(f);
-      free(row_pointers);
-      g_image_make_chess_board(image);
-      return false;
-    }
-
-    char buf[8];
-    const size_t n = fread(buf, 1, 8, f);
-    if (n == 0) {
-      fclose(f);
-      return false;  // should never happen
-    }
-    if (png_sig_cmp((unsigned char *)buf, (png_size_t)0, 8)) {
-      fprintf(stderr, "%s is not a PNG file", filename);
-      g_image_make_chess_board(image);
-      fclose(f);
-      return false;
-    }
-    png_init_io(png_ptr, f);
-    png_set_sig_bytes(png_ptr, 8);
-    png_read_info(png_ptr, info_ptr);
-    png_get_IHDR(png_ptr, info_ptr, &w, &h, &bit_depth, &color_type, NULL, NULL, NULL);
-    image->width = (int)w;
-    image->height = (int)h;
-    if ((color_type == PNG_COLOR_TYPE_GRAY_ALPHA) || (color_type == PNG_COLOR_TYPE_RGB_ALPHA))
-      image->data_format = G_IMAGE_DATA_FORMAT_ABGR;
-    else
-      image->data_format = G_IMAGE_DATA_FORMAT_RGB;
-
-    png_set_strip_16(png_ptr);  // 16 bits -> 8 bits per channel
-    png_set_packing(png_ptr);
-    png_set_expand(png_ptr);
-
-    if (image->data_format == G_IMAGE_DATA_FORMAT_ABGR) {
-      png_set_bgr(png_ptr);         // RGBA -> BGRA
-      png_set_swap_alpha(png_ptr);  // BGRA -> ABGR
-    }
-
-    const int channel = image->data_format == G_IMAGE_DATA_FORMAT_RGB ? 3 : 4;
-    image->data = malloc(image->width * image->height * channel);
-    row_pointers = malloc(sizeof(png_bytep) * image->height);
-    int i;
-    for (i = 0; i < image->height; i++)
-      row_pointers[i] = image->data + (i * image->width * channel);
-    png_read_image(png_ptr, row_pointers);
-    png_read_end(png_ptr, NULL);
-
-    // g_print("width=%d height=%d channel=%d data=%p\n",
-    //   width, height, channel, data);
-
-    free(row_pointers);
-    png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-    fclose(f);
-    return true;
-  } else
+  if (access(filename, F_OK) == -1)
     return g_image_file_not_found(filename, image);
-}
 
-struct custom_jpeg_error_mgr {
-  struct jpeg_error_mgr pub;
-  jmp_buf setjmp_buffer;
-};
+  int number_of_components;
+  image->data = stbi_load(filename, &image->width, &image->height, &number_of_components, 0);
 
-static void custom_jpeg_error_exit(j_common_ptr cinfo) {
-  struct custom_jpeg_error_mgr *ptr = (struct custom_jpeg_error_mgr *)cinfo->err;
-  fprintf(stderr, "JPEG error: ");
-  (*cinfo->err->output_message)(cinfo);  // display the message
-  longjmp(ptr->setjmp_buffer, 1);
+  if (!image->data)
+    return false;
+
+  if (number_of_components == STBI_rgb)
+    image->data_format = G_IMAGE_DATA_FORMAT_RGB;
+  else
+    image->data_format = G_IMAGE_DATA_FORMAT_RGBA;
+  return true;
 }
 
 static int g_image_jpeg_load(const char *filename, GImage *image) {
-  struct jpeg_decompress_struct cinfo;
-  struct custom_jpeg_error_mgr jerr;
-  unsigned char *line[16], *ptr;
-  FILE *f;
-
-  f = fopen(filename, "rb");
-  if (f) {
-    cinfo.err = jpeg_std_error(&jerr.pub);
-    jerr.pub.error_exit = custom_jpeg_error_exit;
-    if (setjmp(jerr.setjmp_buffer)) {
-      jpeg_destroy_decompress(&cinfo);
-      fclose(f);
-      g_image_make_chess_board(image);
-      return false;
-    }
-    jpeg_create_decompress(&cinfo);
-    jpeg_stdio_src(&cinfo, f);
-    jpeg_read_header(&cinfo, true);
-    cinfo.do_fancy_upsampling = false;
-    cinfo.do_block_smoothing = false;
-    jpeg_start_decompress(&cinfo);
-    image->width = cinfo.output_width;
-    image->height = cinfo.output_height;
-    image->data = malloc(image->width * image->height * 3);
-    ptr = image->data;
-    if (cinfo.rec_outbuf_height > 16) {
-      fprintf(stderr, "Error: JPEG uses line buffers > 16. Cannot load.\n");
-      fclose(f);
-      return false;
-    }
-    int i, y;
-    if (cinfo.output_components == 3) {
-      for (y = 0; y < image->height; y += cinfo.rec_outbuf_height) {
-        for (i = 0; i < cinfo.rec_outbuf_height; ++i) {
-          line[i] = ptr;
-          ptr += image->width * 3;
-        }
-        jpeg_read_scanlines(&cinfo, line, cinfo.rec_outbuf_height);
-      }
-    } else if (cinfo.output_components == 1) {
-      for (i = 0; i < cinfo.rec_outbuf_height; ++i) {
-        if ((line[i] = (unsigned char *)malloc(image->width)) == NULL) {
-          int t;
-          for (t = 0; t < i; ++t)
-            free(line[t]);
-          jpeg_destroy_decompress(&cinfo);
-          return false;
-        }
-      }
-      for (y = 0; y < image->height; y += cinfo.rec_outbuf_height) {
-        jpeg_read_scanlines(&cinfo, line, cinfo.rec_outbuf_height);
-        for (i = 0; i < cinfo.rec_outbuf_height; ++i) {
-          int x;
-          for (x = 0; x < image->width; ++x) {
-            *ptr++ = line[i][x];
-            *ptr++ = line[i][x];
-            *ptr++ = line[i][x];
-          }
-        }
-      }
-      for (i = 0; i < cinfo.rec_outbuf_height; ++i)
-        free(line[i]);
-    }
-    jpeg_finish_decompress(&cinfo);
-    jpeg_destroy_decompress(&cinfo);
-    fclose(f);
-    image->data_format = G_IMAGE_DATA_FORMAT_RGB;
-    return true;
-  } else
+  if (access(filename, F_OK) == -1)
     return g_image_file_not_found(filename, image);
+
+  int number_of_components;
+  image->data = stbi_load(filename, &image->width, &image->height, &number_of_components, 0);
+
+  if (!image->data)
+    return false;
+
+  image->data_format = G_IMAGE_DATA_FORMAT_RGB;
+
+  return true;
 }
 
 unsigned char g_image_get_type(const char *filename) {
@@ -229,6 +103,9 @@ unsigned char g_image_get_type(const char *filename) {
            ((filename[l - 4] == 't' || filename[l - 4] == 'T') && (filename[l - 3] == 'i' || filename[l - 3] == 'I') &&
             (filename[l - 2] == 'f' || filename[l - 2] == 'F') && (filename[l - 1] == 'f' || filename[l - 1] == 'F')))
     return G_IMAGE_TIFF;
+  else if ((filename[l - 3] == 'h' || filename[l - 3] == 'H') && (filename[l - 2] == 'd' || filename[l - 2] == 'D') &&
+           (filename[l - 1] == 'r' || filename[l - 1] == 'R'))
+    return G_IMAGE_HDR;
   else
     return G_IMAGE_NONE;
 }
@@ -239,48 +116,8 @@ void g_image_delete(GImage *image) {
 }
 
 static int g_image_png_save(GImage *img, const char *filename) {
-  png_color_8 sig_bit;
-  const unsigned short w = img->width;
-  const unsigned short h = img->height;
-  png_byte **image = malloc(sizeof(png_byte *) * h);
   FILE *fd = fopen(filename, "wb");
-  const int channel = img->data_format == G_IMAGE_DATA_FORMAT_RGB ? 3 : 4;
-  if (fd) {
-    png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-    png_infop info_ptr = png_create_info_struct(png_ptr);
-    int i;
-    for (i = 0; i < h; ++i)
-      image[i] = &(img->data[(i * w) * channel]);
-
-    if (setjmp(png_jmpbuf(png_ptr))) {
-      fprintf(stderr, "Error while writing %s", filename);
-      png_destroy_write_struct(&png_ptr, &info_ptr);
-      fclose(fd);
-      free(image);
-      return -1;
-    }
-
-    png_init_io(png_ptr, fd);
-    png_set_IHDR(png_ptr, info_ptr, w, h, 8, channel == 3 ? PNG_COLOR_TYPE_RGB : PNG_COLOR_TYPE_RGBA, PNG_INTERLACE_NONE,
-                 PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
-    sig_bit.red = 8;
-    sig_bit.green = 8;
-    sig_bit.blue = 8;
-    if (channel == 4) {
-      sig_bit.alpha = 8;
-      png_set_bgr(png_ptr);  // ABGR->ARGB or BGRA->RGBA
-      if (img->data_format == G_IMAGE_DATA_FORMAT_ABGR)
-        png_set_swap_alpha(png_ptr);  // ARGB -> RGBA
-    }
-    png_set_sBIT(png_ptr, info_ptr, &sig_bit);
-    png_write_info(png_ptr, info_ptr);
-    png_write_image(png_ptr, image);
-    png_write_end(png_ptr, info_ptr);
-    png_destroy_write_struct(&png_ptr, &info_ptr);
-    fclose(fd);
-    free(image);
-    return 0;  // OK
-  } else {
+  if (!fd) {
     if (filename[0] == '/'
 #ifdef _WIN32
         || (filename[1] == ':' && filename[2] == '\\')
@@ -298,129 +135,101 @@ static int g_image_png_save(GImage *img, const char *filename) {
       else
         fprintf(stderr, "Cannot get current directory for %s!\n", filename);
     }
+    return -1;
+  }
+  fclose(fd);
+
+  if (img->data_format == G_IMAGE_DATA_FORMAT_BGRA) {
+    unsigned char *image = (unsigned char *)malloc(4 * img->width * img->height);
+    int i;
+    for (i = 0; i < img->width * img->height; ++i) {
+      image[4 * i] = img->data[4 * i + 2];
+      image[4 * i + 1] = img->data[4 * i + 1];
+      image[4 * i + 2] = img->data[4 * i];
+      image[4 * i + 3] = img->data[4 * i + 3];
+    }
+    int ret = stbi_write_png(filename, img->width, img->height, STBI_rgb_alpha, image, img->width * STBI_rgb_alpha);
     free(image);
-    return -1;  // error
-  }
-}
-
-static int g_image_jpeg_save(GImage *img, char quality, bool to_file, const char *filename, unsigned char **target_data,
-                             unsigned long *target_data_size) {
-  struct jpeg_compress_struct cinfo;
-  struct jpeg_error_mgr jerr;
-  JSAMPROW row_pointer[1];
-  int row_stride;
-  unsigned char *data;
-
-  FILE *f = NULL;
-  if (to_file) {
-    f = fopen(filename, "wb");
-    if (f == NULL) {
-      fprintf(stderr, "Error: could not open \"%s\" for writing\n", filename);
-      return -1;  // error
-    }
+    if (ret != 1)
+      return -1;
+    return 0;
   }
 
+  int number_of_components = STBI_rgb_alpha;
   if (img->data_format == G_IMAGE_DATA_FORMAT_RGB)
-    data = img->data;
-  else {
-    const int max = img->width * img->height * 3;
-    data = (unsigned char *)malloc(max);
-    int i, j;
-    if (img->data_format == G_IMAGE_DATA_FORMAT_BGRA) {
-      for (i = 0, j = 0; i < max; i += 3, j += 4) {
-        data[i] = img->data[j + 2];
-        data[i + 1] = img->data[j + 1];
-        data[i + 2] = img->data[j];
-      }
-    } else if (img->data_format == G_IMAGE_DATA_FORMAT_ABGR) {
-      for (i = 0, j = 0; i < max; i += 3, j += 4) {
-        data[i] = img->data[j + 3];
-        data[i + 1] = img->data[j + 2];
-        data[i + 2] = img->data[j + 1];
-      }
-    } else {
-      printf("unkown image format\n");
-      free(data);
-      if (to_file)
-        fclose(f);
-      return -1;  // error
-    }
-  }
-  cinfo.err = jpeg_std_error(&jerr);
-  jpeg_create_compress(&cinfo);
-
-  if (to_file)
-    jpeg_stdio_dest(&cinfo, f);
-  else  // to buffer
-    jpeg_mem_dest(&cinfo, target_data, target_data_size);
-
-  cinfo.image_width = img->width;
-  cinfo.image_height = img->height;
-  cinfo.input_components = 3;
-  cinfo.in_color_space = JCS_RGB;
-  jpeg_set_defaults(&cinfo);
-  jpeg_set_quality(&cinfo, quality, true);
-  jpeg_start_compress(&cinfo, true);
-  row_stride = cinfo.image_width * 3;
-  while (cinfo.next_scanline < cinfo.image_height) {
-    row_pointer[0] = data + (cinfo.next_scanline * row_stride);
-    jpeg_write_scanlines(&cinfo, row_pointer, 1);
-  }
-  jpeg_finish_compress(&cinfo);
-  jpeg_destroy_compress(&cinfo);
-  if (img->data_format != G_IMAGE_DATA_FORMAT_RGB)
-    free(data);
-  if (to_file)
-    fclose(f);
+    number_of_components = STBI_rgb;
+  if (stbi_write_png(filename, img->width, img->height, number_of_components, img->data, img->width * number_of_components) !=
+      1)
+    return -1;
   return 0;
 }
 
-static int g_image_tiff_save(GImage *img, const char *filename) {
-  TIFF *image;
+static int g_image_jpeg_save(GImage *img, char quality, const char *filename) {
+  FILE *fd = fopen(filename, "wb");
+  if (!fd) {
+    fprintf(stderr, "Error: could not open \"%s\" for writing\n", filename);
+    return -1;
+  }
+  fclose(fd);
 
-  image = TIFFOpen(filename, "wb");
+  if (stbi_write_jpg(filename, img->width, img->height, STBI_rgb, img->data, quality) != 1)
+    return -1;
+  return 0;
+}
 
-  if (image == NULL)
-    fprintf(stderr, "Unable to write TIFF file: %s\n", filename);
+static int g_image_hdr_save(GImage *img, const char *filename) {
+  FILE *fd = fopen(filename, "wb");
+  if (!fd) {
+    fprintf(stderr, "Error: could not open \"%s\" for writing\n", filename);
+    return -1;
+  }
+  fclose(fd);
 
-  TIFFSetField(image, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_IEEEFP);
-  TIFFSetField(image, TIFFTAG_SMINSAMPLEVALUE, 0);
-  TIFFSetField(image, TIFFTAG_SMAXSAMPLEVALUE, 1);
-  TIFFSetField(image, TIFFTAG_IMAGEWIDTH, img->width);
-  TIFFSetField(image, TIFFTAG_IMAGELENGTH, img->height);
-  TIFFSetField(image, TIFFTAG_SAMPLESPERPIXEL, 1);
-  TIFFSetField(image, TIFFTAG_BITSPERSAMPLE, 32);
-  TIFFSetField(image, TIFFTAG_ROWSPERSTRIP, img->height);
-  TIFFSetField(image, TIFFTAG_ORIENTATION, (int)ORIENTATION_TOPLEFT);
-  TIFFSetField(image, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
-  TIFFSetField(image, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
-  TIFFSetField(image, TIFFTAG_PHOTOMETRIC, 1);
-
-  TIFFWriteEncodedStrip(image, 0, img->float_data, img->width * img->height * sizeof(float));
-
-  TIFFWriteDirectory(image);
-
-  TIFFClose(image);
-
+  if (stbi_write_hdr(filename, img->width, img->height, STBI_grey, img->float_data) != 1)
+    return -1;
   return 0;
 }
 
 int g_image_save(GImage *img, const char *filename, char quality) {
   switch (g_image_get_type(filename)) {
     case G_IMAGE_JPEG:
-      return g_image_jpeg_save(img, quality, true, filename, NULL, NULL);
+      return g_image_jpeg_save(img, quality, filename);
     case G_IMAGE_PNG:
       return g_image_png_save(img, filename);
-    case G_IMAGE_TIFF:
-      return g_image_tiff_save(img, filename);
+    case G_IMAGE_HDR:
+      return g_image_hdr_save(img, filename);
     default:
       fprintf(stderr, "Cannot save: unsupported image type: %s\n", filename);
       return -1;
   }
 }
 
+struct ImageData {
+  unsigned char **target_data;
+  unsigned long *target_data_size;
+};
+
+void g_image_save_to_jpeg_buffer_callback(void *context, void *data, int size) {
+  if (!*(((struct ImageData *)context)->target_data))
+    *(((struct ImageData *)context)->target_data) = (unsigned char *)malloc(size);
+  else
+    *(((struct ImageData *)context)->target_data) = (unsigned char *)realloc(
+      *(((struct ImageData *)context)->target_data), *(((struct ImageData *)context)->target_data_size) + size);
+  memcpy(*(((struct ImageData *)context)->target_data) + *(((struct ImageData *)context)->target_data_size), data, size);
+  *(((struct ImageData *)context)->target_data_size) += size;
+}
+
 int g_image_save_to_jpeg_buffer(GImage *img, unsigned char **target_data, unsigned long *target_data_size, char quality) {
-  return g_image_jpeg_save(img, quality, false, NULL, target_data, target_data_size);
+  struct ImageData imageData;
+  imageData.target_data = target_data;
+  imageData.target_data_size = target_data_size;
+  *target_data_size = 0;
+
+  if (stbi_write_jpg_to_func((stbi_write_func *)&g_image_save_to_jpeg_buffer_callback, &imageData, img->width, img->height,
+                             STBI_rgb, img->data, quality) != 1)
+    return -1;
+
+  return 0;
 }
 
 GImage *g_image_new(const char *filename) {

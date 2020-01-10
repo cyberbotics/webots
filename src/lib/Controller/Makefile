@@ -20,9 +20,8 @@ WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_PATH)/dependencies
 
 ifeq ($(OSTYPE),darwin)
 CFLAGS      = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -fpascal-strings -Wno-deprecated-declarations -I/Developer/Headers/FlatCarbon -Wall -fno-common
-INCLUDE     = -I$(WEBOTS_PATH)/include/controller/c -I$(WEBOTS_PATH)/include -I$(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12 -I$(WEBOTS_PATH)/include/libjpeg -I$(WEBOTS_DEPENDENCY_PATH)/libtiff/libtiff
+INCLUDE     = -I$(WEBOTS_PATH)/include/controller/c -I$(WEBOTS_PATH)/include
 LD_FLAGS    = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -dynamiclib -install_name @rpath/lib/controller/libController.dylib -compatibility_version 1.0 -current_version 1.0.0
-STATIC_LIBS = $(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12/libpng.a $(WEBOTS_DEPENDENCY_PATH)/jpeg-9b/libjpeg.a $(WEBOTS_DEPENDENCY_PATH)/libtiff/libtiff.a
 SHARED_LIBS = -lz
 TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
 CC          = gcc
@@ -32,13 +31,7 @@ ifeq ($(OSTYPE),linux)
 CFLAGS      = -fPIC -Wall
 INCLUDE     = -I$(WEBOTS_PATH)/include/controller/c -I$(WEBOTS_PATH)/include
 LD_FLAGS    = -shared -Wl,-soname,libController.so
-STATIC_LIBS =
-ifeq ($(UBUNTU_VERSION), 16.04)
-LIB_PNG      = png12
-else
-LIB_PNG      = png16
-endif
-SHARED_LIBS = -ltiff -lm -ljpeg -lpthread -l$(LIB_PNG) -ldl -llzma -lrt
+SHARED_LIBS = -lm -lpthread -ldl -lrt
 TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.so
 endif
 
@@ -46,32 +39,10 @@ ifeq ($(OSTYPE),windows)
 CFLAGS      = -Wall -mwindows
 INCLUDE     = -I$(WEBOTS_PATH)/include/controller/c -I$(WEBOTS_PATH)/include -I/mingw64/include
 LD_FLAGS    = -shared -mwindows --def Controller.def
-STATIC_LIBS = -static -lpng -lz -ljpeg -ltiff -llzma -lzstd
 PLATFORM    = win32
 CC          = gcc
 TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib
-ifeq (,$(wildcard /mingw32/bin/gcc))
-NO_GCC32=1
-endif
-ifeq (,$(wildcard /mingw32/lib/libpng.a))
-NO_GCC32=1
-endif
-ifeq (,$(wildcard /mingw32/lib/libz.a))
-NO_GCC32=1
-endif
-ifeq (,$(wildcard /mingw32/lib/libjpeg.a))
-NO_GCC32=1
-endif
-ifeq (,$(wildcard /mingw32/lib/libtiff.a))
-NO_GCC32=1
-endif
-ifeq (,$(wildcard /mingw32/lib/liblzma.a))
-NO_GCC32=1
-endif
-ifeq (,$(wildcard /mingw32/lib/libzstd.a))
-NO_GCC32=1
-endif
-ifneq ($(NO_GCC32),1)
+ifneq (,$(wildcard /mingw32/bin/gcc))
 TARGET     += $(WEBOTS_PATH)/msys64/mingw32/bin/Controller.dll $(WEBOTS_PATH)/msys64/mingw32/lib/Controller.lib
 endif
 endif
@@ -111,6 +82,8 @@ endif
 vpath %.o $(OBJDIR)
 vpath %.c api util
 
+INCLUDE += -isystem $(WEBOTS_PATH)/src/stb
+
 SOURCES=$(shell ls api/*.c) $(shell ls util/*.c)
 
 OBJECTS=$(notdir $(SOURCES:.c=.o))
@@ -144,7 +117,7 @@ MINGW32_OBJECTS = $(addprefix $(OBJDIR)/mingw32/, $(OBJECTS))
 
 $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll: $(MINGW64_OBJECTS) Controller.def
 	@echo "# linking Controller.dll and libController.a"
-	@$(CC) $(LD_FLAGS) -o $@ $(addprefix $(OBJDIR)/, $(OBJECTS)) -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libController.a -L/mingw64/lib $(STATIC_LIBS)
+	@$(CC) $(LD_FLAGS) -o $@ $(addprefix $(OBJDIR)/, $(OBJECTS)) -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libController.a
 ifeq ($(NO_GCC32),1)
 	@echo -e "# \033[0;33mmissing 32 bit gcc or dependencies, skipping 32 bit version of Controller.dll\033[0m"
 endif
@@ -161,7 +134,7 @@ endif
 
 $(WEBOTS_PATH)/msys64/mingw32/bin/Controller.dll: $(MINGW32_OBJECTS) Controller.def
 	@echo "# linking Controller.dll and libController.a (32 bit)"
-	@PATH=/mingw32/bin $(CC) -L/mingw32/lib $(LD_FLAGS) -o $@ $(addprefix $(OBJDIR)/mingw32/, $(OBJECTS)) -Wl,--out-implib,$(WEBOTS_PATH)/msys64/mingw32/lib/libController.a $(STATIC_LIBS)
+	@PATH=/mingw32/bin $(CC) -L/mingw32/lib $(LD_FLAGS) -o $@ $(addprefix $(OBJDIR)/mingw32/, $(OBJECTS)) -Wl,--out-implib,$(WEBOTS_PATH)/msys64/mingw32/lib/libController.a
 
 $(WEBOTS_PATH)/msys64/mingw32/lib/Controller.lib: $(WEBOTS_PATH)/msys64/mingw32/bin/Controller.dll Controller.def
 ifeq ($(VISUAL_STUDIO_PATH),)
@@ -177,7 +150,7 @@ else
 
 $(TARGET): $(OBJECTS)
 	@echo "# linking  " $(TARGET)
-	@$(CC) $(LD_FLAGS) -o $(TARGET) $(addprefix $(OBJDIR)/, $(OBJECTS)) $(STATIC_LIBS) $(SHARED_LIBS)
+	@$(CC) $(LD_FLAGS) -o $(TARGET) $(addprefix $(OBJDIR)/, $(OBJECTS)) $(SHARED_LIBS)
 	@chmod a-x $(TARGET)
 endif
 
