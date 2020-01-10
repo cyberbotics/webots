@@ -27,6 +27,7 @@ ifeq ($(OSTYPE),linux)
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-linux64.tar.gz
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-linux64.tar.gz))
  EXTRACT=tar xfz
+ # remove .tar.gz
  SUMO_SOURCE=$(basename $(basename $(SUMO_PACKAGE)))
 endif
 
