@@ -19,6 +19,7 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 SUMO_TARGET=sumo
 SUMO_VERSION=0.30
+WGET=wget --quiet
 
 ifeq ($(OSTYPE),linux)
  HOSTTYPE ?= $(shell uname -m)
@@ -26,7 +27,7 @@ ifeq ($(OSTYPE),linux)
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-linux64.tar.gz
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-linux64.tar.gz))
  EXTRACT=tar xfz
- WGET=wget --quiet
+ SUMO_SOURCE=$(basename $(basename $(SUMO_PACKAGE)))
 endif
 
 ifeq ($(OSTYPE),darwin)
@@ -34,7 +35,7 @@ ifeq ($(OSTYPE),darwin)
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-mac.tar.gz
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-mac.tar.gz))
  EXTRACT=tar xfz
- WGET=curl -O --silent
+ SUMO_SOURCE=$(basename $(basename $(SUMO_PACKAGE)))
 endif
 
 ifeq ($(OSTYPE),windows)
@@ -42,19 +43,10 @@ ifeq ($(OSTYPE),windows)
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-windows.zip
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-windows.zip))
  EXTRACT=unzip -q
- WGET=wget --quiet
-endif
-
-ifeq ($(OSTYPE),windows)
- # remove .zip
  SUMO_SOURCE=$(basename $(SUMO_PACKAGE))
-else
- # remove .tar.gz
- SUMO_SOURCE=$(basename $(basename $(SUMO_PACKAGE)))
 endif
 
 release debug profile: $(SUMO_TARGET)
-
 
 $(SUMO_TARGET):
 	@if ! $(WGET) -h > /dev/null ; then echo "You need to download the" $(SUMO_PACKAGE) "package and copy it in this directory"; fi

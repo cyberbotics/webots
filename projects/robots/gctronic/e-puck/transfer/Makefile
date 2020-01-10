@@ -19,30 +19,22 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 XC16_TARGET=xc16
 XC16_VERSION=1.24
+XC16_PACKAGE=$(XC16_TARGET)-$(XC16_VERSION).zip
+PREVIOUS_XC16_PACKAGE=$(filter-out $(XC16_PACKAGE),$(wildcard XC16-*.zip))
+EXTRACT=unzip -q
+WGET=wget --quiet
 
 ifeq ($(OSTYPE),linux)
  HOSTTYPE ?= $(shell uname -m)
  OS_TAG=linux64
- XC16_PACKAGE=$(XC16_TARGET)-$(XC16_VERSION).zip
- PREVIOUS_XC16_PACKAGE=$(filter-out $(XC16_PACKAGE),$(wildcard XC16-*.zip))
- EXTRACT=unzip -q
- WGET=wget --quiet
 endif
 
 ifeq ($(OSTYPE),darwin)
  OS_TAG=mac
- XC16_PACKAGE=$(XC16_TARGET)-$(XC16_VERSION).zip
- PREVIOUS_XC16_PACKAGE=$(filter-out $(XC16_PACKAGE),$(wildcard XC16-*zip))
- EXTRACT=unzip -q
- WGET=curl -O --silent
 endif
 
 ifeq ($(OSTYPE),windows)
  OS_TAG=windows
- XC16_PACKAGE=$(XC16_TARGET)-$(XC16_VERSION).zip
- PREVIOUS_XC16_PACKAGE=$(filter-out $(XC16_PACKAGE),$(wildcard XC16-*.zip))
- EXTRACT=unzip -q
- WGET=wget --quiet
 endif
 
 release debug profile: $(XC16_TARGET)
