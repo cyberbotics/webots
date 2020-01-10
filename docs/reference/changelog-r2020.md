@@ -3,6 +3,8 @@
 ## Webots R2020a Revision 1
 Released on XXX YYYrd, 2020.
 
+  - New Features
+    - Added a `ScratchedPaint` appearance.
   - Enhancements
     - Improved the SUMO interface to use the version of SUMO already installed (if any).
     - Improved the SUMO interface to be compatible with the latest version (1.4).
