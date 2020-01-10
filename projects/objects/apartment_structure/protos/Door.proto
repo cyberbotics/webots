@@ -21,6 +21,7 @@ PROTO Door [
   field SFNode     wallAppearance         Roughcast {}              # Defines the wall's appearance.
   field SFNode     frameAppearance        VarnishedPine {}          # Defines the frame's appearance
   field SFNode     doorHandle             DoorLever {}              # Defines an optional door handle.
+  field MFNode     doorSlot               []                        # Extends the door with new nodes.
   field SFBool     castShadows            TRUE                      # Defines whether this object should cast shadows.
 ]
 {
@@ -158,6 +159,10 @@ PROTO Door [
                     endPoint IS doorHandle
                   }
                 ]
+              }
+              Transform {
+                translation 0 %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
+                children IS doorSlot
               }
             ]
             boundingObject Transform {
