@@ -25,7 +25,6 @@ EXTRACT=unzip -q
 WGET=wget --quiet
 
 ifeq ($(OSTYPE),linux)
- HOSTTYPE ?= $(shell uname -m)
  OS_TAG=linux64
 endif
 
