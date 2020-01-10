@@ -48,8 +48,9 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 BakelitePlastic {
-  SFNode  textureTransform NULL
-  SFFloat IBLStrength      1
+  SFString color            "red"
+  SFNode   textureTransform NULL
+  SFFloat  IBLStrength      1
 }
 ```
 
@@ -59,6 +60,8 @@ BakelitePlastic {
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### BakelitePlastic Field Summary
+
+- `color`: Defines the color of the plastic.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1911,4 +1914,3 @@ WireFence {
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Background node.
-
