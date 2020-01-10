@@ -134,19 +134,39 @@ for proto in prioritaryProtoList + fileList:
                 fieldsDefinition = fieldsDefinition.replace(match.group(2), ' ' * len(match.group(2)))
             else:
                 fieldsDefinition = fieldsDefinition.replace(match.group(2), '')
-        matches = re.finditer(r'^\s*([^#]*ield)\s+([^ \{]*)\s+([^ ]*)\s+([^#\n]*)(#?)(.*)((\n*(    |  \]).*)*)',
+        matches = re.finditer(r'^\s*([^#]*ield)\s+([^ \{]*)(\s+)([^ ]*)\s+([^#\n]*)(#?)(.*)((\n*(    |  \]).*)*)',
+                              fieldsDefinition, re.MULTILINE)
+        minSpaces = 25
+        # count minimum space number between field type and name
+        for i, match in enumerate(matches):
+            if match.group(1) != 'hiddenField':
+                spaces = match.group(3)
+                print([match.group(4), len(spaces)])
+                if len(spaces) < minSpaces:
+                    minSpaces = len(spaces)
+        spacesToRemove = max(minSpaces - 2, 0)
+        print([proto, spacesToRemove, minSpaces])
+        matches = re.finditer(r'^\s*([^#]*ield)\s+([^ \{]*)(\s+)([^ ]*)\s+([^#\n]*)(#?)(.*)((\n*(    |  \]).*)*)',
                               fieldsDefinition, re.MULTILINE)
         for i, match in enumerate(matches):
             if match.group(1) != 'hiddenField':
                 fieldType = match.group(2)
-                fieldName = match.group(3)
-                fieldDefaultValue = match.group(4)
-                fieldComment = match.group(6).strip()
+                spaces = match.group(3)
+                fieldName = match.group(4)
+                fieldDefaultValue = match.group(5)
+                fieldComment = match.group(7).strip()
                 # skip 'Is `NodeType.fieldName`.' descriptions
                 if fieldComment and not re.match(r'Is\s`([a-zA-Z]*).([a-zA-Z]*)`.', fieldComment):
                     describedField.append((fieldName, fieldComment))
-                fields += re.sub(r'^\s*.*field\s', '  ', re.sub(r'\s*(#.*)', '', match.group(), 0, re.MULTILINE),
-                                 0, re.MULTILINE) + '\n'
+                # remove the comment
+                fieldString = match.group()
+                fieldString = re.sub(r'\s*(#.*)', '', match.group(), 0, re.MULTILINE)
+                # remove intial '*field' string
+                fieldString = re.sub(r'^\s*.*field\s', '  ', fieldString, 0, re.MULTILINE)
+                # remove unwanted spaces between field type and field name (if needed)
+                if spacesToRemove > 0:
+                    fieldString = fieldString.replace(fieldType + ' ' * spacesToRemove, fieldType)
+                fields += fieldString + '\n'
 
     if skipProto:
         continue
