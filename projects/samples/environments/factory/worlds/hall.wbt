@@ -531,9 +531,18 @@ DEF PLATFORM Transform {
           size 1.1 2 0.2
           jointAtLeft FALSE
           selfClosing TRUE
+          doorAppearance MattePaint {
+            baseColor 0.793332 0.689235 0.584421
+          }
+          frameAppearance MattePaint {
+            baseColor 0.976669 0.930236 0.875746
+          }
           doorHandle DoorLever {
             canTurn TRUE
             jointAtLeft FALSE
+            appearance BrushedAluminium {
+              colorOverride 0.180392 0.203922 0.211765
+            }
           }
         }
         StraightStairsRail {
