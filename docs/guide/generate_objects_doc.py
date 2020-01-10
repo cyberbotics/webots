@@ -137,14 +137,13 @@ for proto in prioritaryProtoList + fileList:
             else:
                 fieldsDefinition = fieldsDefinition.replace(match.group(2), '')
         # count minimum space number between field type and name
-        matches = re.finditer(r'^\s*([^#]*ield)\s+([^ \{]*)(\s+)([^ ]*)\s+([^#\n]*)(#?)(.*)((\n*(    |  \]).*)*)',
+        matches = re.finditer(r'.*ield\s+([^ ]*?)(\s+)([^ ]*)\s+([^#\n]*)(#?)(.*)',
                               fieldsDefinition, re.MULTILINE)
         minSpaces = 25
         for i, match in enumerate(matches):
-            if match.group(1) != 'hiddenField':
-                spaces = match.group(3)
-                if len(spaces) < minSpaces:
-                    minSpaces = len(spaces)
+            spaces = match.group(2)
+            if len(spaces) < minSpaces:
+                minSpaces = len(spaces)
         spacesToRemove = max(minSpaces - 2, 0)
         # create the final cleaned PROTO header
         matches = re.finditer(r'^\s*([^#]*ield)\s+([^ \{]*)(\s+)([^ ]*)\s+([^#\n]*)(#?)(.*)((\n*(    |  \]).*)*)',
