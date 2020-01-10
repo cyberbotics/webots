@@ -44,6 +44,7 @@ ifeq ($(OSTYPE),windows)
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-windows.zip
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-windows.zip))
  EXTRACT=unzip -q
+ # remove .zip
  SUMO_SOURCE=$(basename $(SUMO_PACKAGE))
 endif
 
