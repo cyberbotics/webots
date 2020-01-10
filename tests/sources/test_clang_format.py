@@ -78,6 +78,9 @@ class TestClangFormat(unittest.TestCase):
             'projects/vehicles/controllers/ros_automobile/include',
             'src/webots/external'
         ]
+        skippedFiles = [
+            'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h'
+        ]
         skippedDirectories = [
             'build',
             'python',
@@ -101,7 +104,7 @@ class TestClangFormat(unittest.TestCase):
                     if not found:
                         continue
                     found = False
-                    for directory in skippedPaths:
+                    for directory in skippedPaths + skippedFiles:
                         if line.startswith(directory):
                             found = True
                             break
@@ -132,8 +135,16 @@ class TestClangFormat(unittest.TestCase):
                         continue
                     for fileName in fileNames:
                         extension = os.path.splitext(fileName)[1][1:].lower()
-                        if extension in extensions:
-                            sources.append(os.path.normpath(os.path.join(rootPath, fileName)))
+                        if extension not in extensions:
+                            continue
+                        path = os.path.normpath(os.path.join(rootPath, fileName))
+                        skipFile = False
+                        for file in skippedFiles:
+                            if os.path.normpath((self.WEBOTS_HOME + os.sep + file.replace('/', os.sep))) == path:
+                                skipFile = True
+                                break
+                        if not skipFile:
+                            sources.append(path)
         curdir = os.getcwd()
         os.chdir(self.WEBOTS_HOME)
         for source in sources:

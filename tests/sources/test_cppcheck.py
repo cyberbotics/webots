@@ -59,7 +59,7 @@ class TestCppCheck(unittest.TestCase):
             os.remove(self.reportFilename)
         os.chdir(curdir)
 
-    def add_source_files(self, sourceDirs, skippedDirs):
+    def add_source_files(self, sourceDirs, skippedDirs, skippedfiles=[]):
         command = ''
         modified_files = os.path.join(self.WEBOTS_HOME, 'tests', 'sources', 'modified_files.txt')
         if os.path.isfile(modified_files):
@@ -71,12 +71,19 @@ class TestCppCheck(unittest.TestCase):
                         continue
                     for sourceDir in sourceDirs:
                         if line.startswith(sourceDir):
-                            for skippedDir in skippedDirs:
-                                if not line.startswith(skippedDir):
-                                    command += ' \"' + line + '\"'
+                            shouldSkip = False
+                            for skipped in skippedDirs + skippedfiles:
+                                if line.startswith(skipped):
+                                    shouldSkip = True
                                     break
+                            if not shouldSkip:
+                                command += ' \"' + line + '\"'
                             continue
+            for source in skippedfiles:
+                command += ' --suppress=\"*:' + source + '\"'
         else:
+            for source in skippedfiles:
+                command += ' --suppress=\"*:' + source + '\"'
             for source in skippedDirs:
                 command += ' -i\"' + source + '\"'
             for source in sourceDirs:
@@ -160,12 +167,15 @@ class TestCppCheck(unittest.TestCase):
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
             'projects/vehicles/controllers/ros_automobile/include'
         ]
+        skippedfiles = [
+            'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h'
+        ]
         command = self.cppcheck + ' --enable=warning,style,performance,portability --inconclusive --force -q '
         command += '--inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION '
         command += '--suppress=strdupCalled '
         # command += '--xml '  # Uncomment this line to get more information on the errors
         command += '--std=c++03 --output-file=\"' + self.reportFilename + '\"'
-        sources = self.add_source_files(sourceDirs, skippedDirs)
+        sources = self.add_source_files(sourceDirs, skippedDirs, skippedfiles)
         if not sources:
             return
         command += sources

@@ -836,10 +836,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cd \"%s/%s/lib/webots\"\n", distribution_path, bundle_name);
       fprintf(fd, "ln -s libssl.1.0.0.dylib libssl.dylib\n");
       fprintf(fd, "ln -s libcrypto.1.0.0.dylib libcrypto.dylib\n");
-      fprintf(fd, "ln -s libopencv_core.2.4.3.dylib libopencv_core.2.4.dylib\n");
-      fprintf(fd, "ln -s libopencv_core.2.4.3.dylib libopencv_core.dylib\n");
-      fprintf(fd, "ln -s libopencv_imgproc.2.4.3.dylib libopencv_imgproc.2.4.dylib\n");
-      fprintf(fd, "ln -s libopencv_imgproc.2.4.3.dylib libopencv_imgproc.dylib\n");
       fprintf(fd, "ln -s libssh.4.dylib libssh.dylib\n");
       fprintf(fd, "ln -s libzip.2.dylib libzip.dylib\n");
       fprintf(fd, "cd \"%s/%s/Contents/Frameworks\"\n", distribution_path, bundle_name);
@@ -1114,7 +1110,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "echo -n \"Installed-Size: \" >> DEBIAN/control\n");
       fprintf(fd, "du -sx %s/debian | awk '{print $1}' >> DEBIAN/control\n", distribution_path);
       fprintf(fd, "echo \"Depends: make, g++, libatk1.0-0 (>= 1.9.0), ffmpeg, libdbus-1-3, libfreeimage3 (>= 3.15.4-3), ");
-      fprintf(fd, "libglib2.0-0 (>= 2.10.0), libglu1-mesa | libglu1, libgtk-3-0, libjpeg8-dev, ");
+      fprintf(fd, "libglib2.0-0 (>= 2.10.0), libglu1-mesa | libglu1, libgtk-3-0, ");
       fprintf(fd, "libnss3, libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, ");
       fprintf(fd, "libzzip-0-13 (>= 0.13.62-2), libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, ");
       fprintf(fd, "libgd3, libfreetype6\" >> DEBIAN/control\n");
@@ -1175,8 +1171,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libzip.so.4 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libzzip-0.so.13 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjbig.so.0 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libtiff.so.5 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjpeg.so.8 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libgomp.so.1 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/liblcms2.so.2 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libXi.so.6 debian/usr/local/webots/lib/webots\n");
@@ -1197,9 +1191,8 @@ static void create_file(const char *name, int m) {
         "libwebpmux.so.3",        "libpng16.so.16",      "libassimp.so.4", "libfreeimage.so.3", "libjxrglue.so.0",
         "libopenjp2.so.7",        "libjpegxr.so.0",      "libHalf.so.12",  "libIex-2_2.so.12",  "libIexMath-2_2.so.12",
         "libIlmThread-2_2.so.12", "libIlmImf-2_2.so.22", "libzip.so.4",    "libzzip-0.so.13",   "libjbig.so.0",
-        "libtiff.so.5",           "libjpeg.so.8",        "libgomp.so.1",   "liblcms2.so.2",     "libXi.so.6",
-        "libXrender.so.1",        "libfontconfig.so.1",  "libxslt.so.1",   "libgd.so.3",        "libssh.so.4",
-        "libfreetype.so.6"};
+        "libgomp.so.1",           "liblcms2.so.2",       "libXi.so.6",     "libXrender.so.1",   "libfontconfig.so.1",
+        "libxslt.so.1",           "libgd.so.3",          "libssh.so.4",    "libfreetype.so.6"};
       for (int i = 0; i < sizeof(usr_lib_x68_64_linux_gnu) / sizeof(char *); i++)
         fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/%s $DESTDIR/usr/lib/x86_64-linux-gnu/\n", usr_lib_x68_64_linux_gnu[i]);
       fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libssh\n");

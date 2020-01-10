@@ -39,11 +39,6 @@ for item in d:
 folders = ['/tmp', '/mingw32', '/mingw32/bin', '/mingw32/lib', '/mingw64', '/mingw64/bin', '/mingw64/include',
            '/mingw64/bin/platforms/',  # hack to get qwindows.dll found by Webots
            '/mingw64/include/libssh',
-           '/mingw64/include/opencv4',
-           '/mingw64/include/opencv4/opencv2',
-           '/mingw64/include/opencv4/opencv2/core',
-           '/mingw64/include/opencv4/opencv2/core/hal',
-           '/mingw64/include/opencv4/opencv2/imgproc',
            '/mingw64/lib', '/mingw64/share',
            '/mingw64/share/qt5', '/mingw64/share/qt5/plugins', '/mingw64/share/qt5/translations',
            '/mingw64/share/qt5/plugins/imageformats', '/mingw64/share/qt5/plugins/platforms',

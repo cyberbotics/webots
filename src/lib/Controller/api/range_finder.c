@@ -288,6 +288,10 @@ int wb_range_finder_save_image(WbDeviceTag tag, const char *filename, int qualit
   img.float_data = NULL;
   size = img.width * img.height;
   if (g_image_get_type(filename) == G_IMAGE_TIFF) {
+    fprintf(stderr, "Error: wb_range_finder_save_image(): .tiff image not supported anymore, use .hdr instead.\n");
+    robot_mutex_unlock_step();
+    return -1;
+  } else if (g_image_get_type(filename) == G_IMAGE_HDR) {
     img.data_format = G_IMAGE_DATA_FORMAT_F;
     size *= sizeof(float);
     img.float_data = malloc(size);
