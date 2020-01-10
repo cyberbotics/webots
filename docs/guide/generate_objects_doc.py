@@ -116,6 +116,8 @@ for proto in prioritaryProtoList + fileList:
                 for url in urls:
                     newLine = newLine.replace(url, '[%s](%s)' % (url, url))
                 description += newLine + '\n'
+        if skipProto:
+            continue
         # fields
         matches = re.finditer(r'\[\n((.*\n)*)\]', content, re.MULTILINE)
         for i, match in enumerate(matches):
@@ -134,18 +136,17 @@ for proto in prioritaryProtoList + fileList:
                 fieldsDefinition = fieldsDefinition.replace(match.group(2), ' ' * len(match.group(2)))
             else:
                 fieldsDefinition = fieldsDefinition.replace(match.group(2), '')
+        # count minimum space number between field type and name
         matches = re.finditer(r'^\s*([^#]*ield)\s+([^ \{]*)(\s+)([^ ]*)\s+([^#\n]*)(#?)(.*)((\n*(    |  \]).*)*)',
                               fieldsDefinition, re.MULTILINE)
         minSpaces = 25
-        # count minimum space number between field type and name
         for i, match in enumerate(matches):
             if match.group(1) != 'hiddenField':
                 spaces = match.group(3)
-                print([match.group(4), len(spaces)])
                 if len(spaces) < minSpaces:
                     minSpaces = len(spaces)
         spacesToRemove = max(minSpaces - 2, 0)
-        print([proto, spacesToRemove, minSpaces])
+        # create the final cleaned PROTO header
         matches = re.finditer(r'^\s*([^#]*ield)\s+([^ \{]*)(\s+)([^ ]*)\s+([^#\n]*)(#?)(.*)((\n*(    |  \]).*)*)',
                               fieldsDefinition, re.MULTILINE)
         for i, match in enumerate(matches):
@@ -167,9 +168,6 @@ for proto in prioritaryProtoList + fileList:
                 if spacesToRemove > 0:
                     fieldString = fieldString.replace(fieldType + ' ' * spacesToRemove, fieldType)
                 fields += fieldString + '\n'
-
-    if skipProto:
-        continue
 
     baseType = ''
     # use the cache file to get the baseType
