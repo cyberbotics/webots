@@ -618,15 +618,7 @@ DEF PLATFORM Transform {
           name "pipe section(18)"
           height 0.63
           radius 0.06
-          appearance DEF GREEN_PIPE_APPEARANCE PBRAppearance {
-            baseColor 0.15 0.45 0.19
-            roughnessMap ImageTexture {
-              url [
-                "textures/plastic_roughness.jpg"
-              ]
-            }
-            metalness 0
-          }
+          appearance USE GREEN_PIPE_APPEARANCE
         }
         PipeSection {
           translation 3.432 1.77 -1.7
@@ -753,15 +745,7 @@ DEF PLATFORM Transform {
           name "pipe section(9)"
           height 0.66
           radius 0.06
-          appearance DEF ORANGE_PIPE_APPEARANCE PBRAppearance {
-            baseColor 0.663 0.381 0.0973
-            roughnessMap ImageTexture {
-              url [
-                "textures/plastic_roughness.jpg"
-              ]
-            }
-            metalness 0
-          }
+          appearance USE ORANGE_PIPE_APPEARANCE
         }
         PipeSection {
           translation 3.035 1.578 -1.7
@@ -769,15 +753,7 @@ DEF PLATFORM Transform {
           name "pipe section(7)"
           height 2.495
           radius 0.06
-          appearance DEF ORANGE_PIPE_APPEARANCE PBRAppearance {
-            baseColor 0.663 0.381 0.0973
-            roughnessMap ImageTexture {
-              url [
-                "textures/plastic_roughness.jpg"
-              ]
-            }
-            metalness 0
-          }
+          appearance USE ORANGE_PIPE_APPEARANCE
         }
         PipeSection {
           translation 2.735 0.11 -1.7
@@ -785,15 +761,7 @@ DEF PLATFORM Transform {
           name "pipe section(6)"
           height 0.16
           radius 0.06
-          appearance DEF ORANGE_PIPE_APPEARANCE PBRAppearance {
-            baseColor 0.663 0.381 0.0973
-            roughnessMap ImageTexture {
-              url [
-                "textures/plastic_roughness.jpg"
-              ]
-            }
-            metalness 0
-          }
+          appearance USE ORANGE_PIPE_APPEARANCE
         }
         PipeSection {
           translation -2.84862 0.106 -2.15034
@@ -801,15 +769,7 @@ DEF PLATFORM Transform {
           name "pipe section(14)"
           height 0.77
           radius 0.06
-          appearance DEF ORANGE_PIPE_APPEARANCE PBRAppearance {
-            baseColor 0.663 0.381 0.0973
-            roughnessMap ImageTexture {
-              url [
-                "textures/plastic_roughness.jpg"
-              ]
-            }
-            metalness 0
-          }
+          appearance USE ORANGE_PIPE_APPEARANCE
         }
         PipeSection {
           translation -3.49906 0.503872 -1.50148
@@ -817,15 +777,7 @@ DEF PLATFORM Transform {
           name "pipe section(15)"
           height 0.91
           radius 0.06
-          appearance DEF ORANGE_PIPE_APPEARANCE PBRAppearance {
-            baseColor 0.663 0.381 0.0973
-            roughnessMap ImageTexture {
-              url [
-                "textures/plastic_roughness.jpg"
-              ]
-            }
-            metalness 0
-          }
+          appearance USE ORANGE_PIPE_APPEARANCE
         }
         PipeSection {
           translation -3.45932 0.546622 -2.14148
@@ -833,15 +785,7 @@ DEF PLATFORM Transform {
           name "pipe section(17)"
           height 0.8
           radius 0.06
-          appearance DEF ORANGE_PIPE_APPEARANCE PBRAppearance {
-            baseColor 0.663 0.381 0.0973
-            roughnessMap ImageTexture {
-              url [
-                "textures/plastic_roughness.jpg"
-              ]
-            }
-            metalness 0
-          }
+          appearance USE ORANGE_PIPE_APPEARANCE
         }
         PipeSection {
           translation -3.01861 0.986247 -1.827
@@ -849,15 +793,7 @@ DEF PLATFORM Transform {
           name "pipe section(16)"
           height 0.2
           radius 0.06
-          appearance DEF ORANGE_PIPE_APPEARANCE PBRAppearance {
-            baseColor 0.663 0.381 0.0973
-            roughnessMap ImageTexture {
-              url [
-                "textures/plastic_roughness.jpg"
-              ]
-            }
-            metalness 0
-          }
+          appearance USE ORANGE_PIPE_APPEARANCE
         }
         PipeSection {
           translation 2.425 1.2 -2
@@ -865,15 +801,7 @@ DEF PLATFORM Transform {
           name "pipe section(8)"
           height 0.16
           radius 0.06
-          appearance DEF ORANGE_PIPE_APPEARANCE PBRAppearance {
-            baseColor 0.663 0.381 0.0973
-            roughnessMap ImageTexture {
-              url [
-                "textures/plastic_roughness.jpg"
-              ]
-            }
-            metalness 0
-          }
+          appearance USE ORANGE_PIPE_APPEARANCE
         }
         PipeSection {
           translation -2.236 1.582 -1.7
