@@ -1,7 +1,7 @@
 # Webots R2020 Change Log
 
 ## Webots R2020a Revision 1
-Released on XXX YYYrd, 2020.
+Released on January 14th, 2020.
 
   - Enhancements
     - Improved the SUMO interface to use the version of SUMO already installed (if any).
