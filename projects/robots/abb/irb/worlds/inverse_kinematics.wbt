@@ -49,7 +49,6 @@ Robot {
     DEF ARM Irb4600-40 {
       translation 1 0.74 0
       rotation 1 0 0 4.712388966
-      controller "inverse_kinematics"
       supervisor TRUE
       handSlot [
         Pen {
