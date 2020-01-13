@@ -25,8 +25,6 @@ CircleArena {
   SFFloat    wallHeight      0.1
   SFNode     wallAppearance  BrushedAluminium {}
   SFInt32    subdivision     48
-  hiddenField MFString   floorTextureUrl "textures/checkered_parquetry.jpg"
-  hiddenField MFString   wallTextureUrl  "textures/metal.jpg"
 }
 ```
 
@@ -112,10 +110,6 @@ RectangleArena {
   SFFloat    wallThickness   0.01
   SFFloat    wallHeight      0.1
   SFNode     wallAppearance  BrushedAluminium {}
-  hiddenField MFString   floorTextureUrl "textures/checkered_parquetry.jpg"
-  hiddenField MFString   wallTextureUrl  "textures/metal.jpg"
-  hiddenField SFColor    wallColor 0.8 0.8 0.8
-  hiddenField SFVec2f    wallTileSize 0.5 0.5
 }
 ```
 

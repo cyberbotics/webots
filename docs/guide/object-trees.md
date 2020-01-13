@@ -118,7 +118,7 @@ Forest {
 
 - `density`: If the forest is defined using the `shape` field, this field defines the density of three to be generated (in trees per meter square).
 
-- `type`: Defines the type of threes, in case of `random` type, the forest will be mixed.
+- `type`: Defines the type of threes, in case of `random` type, the forest will be mixed. This field accepts the following values: `"random"`, `"oak tree"`, `"crab apple tree"`, `"cherry tree"`, `"birch tree"`, `"palm tree"`, `"spruce"`, `"white pine"`, `"hackberry tree"` and `"hazel tree"`.
 
 - `randomSeed`: Defines the seed of the random number generator. A value of 0 sets the seed to the node id and a value smaller than 0 sets a time based random seed.
 
@@ -303,7 +303,7 @@ SimpleTree {
 
 - `name`: Defines the name of the tree.
 
-- `type`: Defines the texture to be used. If set to random, a type will be randomly selected in the list.
+- `type`: Defines the texture to be used. If set to `random`, a type will be randomly selected in the list. This field accepts the following values: `"random"`, `"oak tree"`, `"crab apple tree"`, `"cherry tree"`, `"birch tree"`, `"palm tree"`, `"spruce"`, `"white pine"`, `"hackberry tree"` and `"hazel tree"`.
 
 - `withSnow`: Defines if the texture used should have snow on top.
 

@@ -21,6 +21,7 @@ PROTO Door [
   field SFNode     wallAppearance         Roughcast {}              # Defines the wall's appearance.
   field SFNode     frameAppearance        VarnishedPine {}          # Defines the frame's appearance
   field SFNode     doorHandle             DoorLever {}              # Defines an optional door handle.
+  field MFNode     doorSlot               []                        # Extends the door with new nodes.
   field SFBool     castShadows            TRUE                      # Defines whether this object should cast shadows.
 ]
 {
@@ -115,85 +116,70 @@ PROTO Door [
         castShadows IS castShadows
       }
       %{ if fields.canBeOpen.value then }%
-        Solid {
-          children [
-            HingeJoint {
-              jointParameters HingeJointParameters {
-                position IS position
-                anchor %{= mirrorFactor * (0.5 * size.x - 0.5 * frameSize.x) }% 0 %{= 0.5 * size.z + frameSize.z }%
-                axis 0 1 0
-                %{ if mirrorFactor > 0 then }%
-                  minStop -0.01
-                  maxStop 1.57
-                %{ else }%
-                  minStop -1.57
-                  maxStop 0.01
-                %{ end }%
-                %{ if fields.selfClosing.value then }%
-                  springConstant 5
-                %{ end }%
-                dampingConstant 10
-              }
-              endPoint
-          %{ end }%
-              Solid {
-                translation 0 0 0.001 # small offset to not generates collisions
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            position IS position
+            anchor %{= mirrorFactor * (0.5 * size.x - 0.5 * frameSize.x) }% %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z }%
+            axis 0 1 0
+            %{ if mirrorFactor > 0 then }%
+              minStop -0.01
+              maxStop 1.57
+            %{ else }%
+              minStop -1.57
+              maxStop 0.01
+            %{ end }%
+            %{ if fields.selfClosing.value then }%
+              springConstant 5
+            %{ end }%
+            dampingConstant 10
+          }
+          endPoint
+      %{ end }%
+          Solid {
+            translation 0 0 0.001 # small offset to not generates collisions
+            children [
+              Transform { # door
+                translation 0 %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
+                rotation 0 1 0 -1.5708
                 children [
-                  Transform { # door
-                    translation 0 %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
-                    rotation 0 1 0 -1.5708
-                    children [
-                      Shape {
-                        appearance IS doorAppearance
-                        geometry TexturedBox { # texture is mirrored on the back face of the door
-                          size %{= doorThickness }% %{= frameHeight - 0.5 * frameSize.y }% %{= size.x - frameSize.x }%
-                        }
-                        castShadows IS castShadows
-                      }
-                    ]
-                  }
-                  Transform { # handle
-                    translation %{= - mirrorFactor * 0.4 * size.x }% %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
-                    children [
-                      Slot {
-                        type "door handle"
-                        endPoint IS doorHandle
-                      }
-                    ]
+                  Shape {
+                    appearance IS doorAppearance
+                    geometry TexturedBox { # texture is mirrored on the back face of the door
+                      size %{= doorThickness }% %{= frameHeight - 0.5 * frameSize.y }% %{= size.x - frameSize.x }%
+                    }
+                    castShadows IS castShadows
                   }
                 ]
-                boundingObject Transform {
-                  translation 0 %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
-                  children [
-                    Box {
-                      size %{= size.x - frameSize.x }% %{= frameHeight - 0.5 * frameSize.y }% %{= doorThickness }%
-                    }
-                  ]
-                }
-                %{ if fields.canBeOpen.value then }%
-                  physics Physics {
-                    density IS mainMaterialDensity
-                  }
-                %{ end }%
               }
-      %{ if fields.canBeOpen.value then }%
-            }
-          ]
-          name "handle dock"
-          %{ if fields.selfClosing.value then }%
-          boundingObject Transform {
-          translation 0 0 -0.001
-            children [
-              Box {
-                size %{= size.x }% 0.01 %{= 4 * size.z }%
+              Transform { # handle
+                translation %{= - mirrorFactor * 0.4 * size.x }% %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
+                children [
+                  Slot {
+                    type "door handle"
+                    endPoint IS doorHandle
+                  }
+                ]
+              }
+              Transform {
+                translation 0 %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
+                children IS doorSlot
               }
             ]
+            boundingObject Transform {
+              translation 0 %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
+              children [
+                Box {
+                  size %{= size.x - frameSize.x }% %{= frameHeight - 0.5 * frameSize.y }% %{= doorThickness }%
+                }
+              ]
+            }
+            %{ if fields.canBeOpen.value then }%
+              physics Physics {
+                density IS mainMaterialDensity
+              }
+            %{ end }%
           }
-          physics Physics {
-            density -1
-            mass 1000
-          }
-          %{ end }%
+      %{ if fields.canBeOpen.value then }%
         }
       %{ end }%
     ]
