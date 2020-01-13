@@ -113,8 +113,7 @@ $(LOCAL_THREEJS_EXAMPLE_SOURCES):
 
 $(INSTALL_TOKEN): package.json
 	@echo "# installing npm dependencies"
-	npm install
-	# @npm --silent install 1> /dev/null
+	@npm --silent install 1> /dev/null
 	@touch $(INSTALL_TOKEN)
 
 cleanse: clean
