@@ -303,7 +303,7 @@ SimpleTree {
 
 - `name`: Defines the name of the tree.
 
-- `type`: Defines the texture to be used. If set to random, a type will be randomly selected in the list. This field accepts the following values: `"random"`, `"oak tree"`, `"crab apple tree"`, `"cherry tree"`, `"birch tree"`, `"palm tree"`, `"spruce"`, `"white pine"`, `"hackberry tree"` and `"hazel tree"`.
+- `type`: Defines the texture to be used. If set to `random`, a type will be randomly selected in the list. This field accepts the following values: `"random"`, `"oak tree"`, `"crab apple tree"`, `"cherry tree"`, `"birch tree"`, `"palm tree"`, `"spruce"`, `"white pine"`, `"hackberry tree"` and `"hazel tree"`.
 
 - `withSnow`: Defines if the texture used should have snow on top.
 
