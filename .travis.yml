@@ -234,7 +234,6 @@ jobs:
             - cmake
             - swig
             - wget
-            - node
       before_install:
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
         - npm install -g appdmg
