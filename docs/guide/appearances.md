@@ -32,7 +32,7 @@ Asphalt {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## BakelitePlastic
 
@@ -62,7 +62,7 @@ BakelitePlastic {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## BlanketFabric
 
@@ -95,7 +95,7 @@ BlanketFabric {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## BrushedAluminium
 
@@ -128,7 +128,7 @@ BrushedAluminium {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## BrushedSteel
 
@@ -161,7 +161,7 @@ BrushedSteel {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## CarpetFibers
 
@@ -197,7 +197,7 @@ CarpetFibers {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## CementTiles
 
@@ -230,7 +230,7 @@ CementTiles {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## ChequeredParquetry
 
@@ -260,7 +260,7 @@ ChequeredParquetry {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## Copper
 
@@ -290,7 +290,7 @@ Copper {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## CorrodedMetal
 
@@ -323,7 +323,7 @@ CorrodedMetal {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## CorrugatedMetal
 
@@ -356,7 +356,7 @@ CorrugatedMetal {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## CorrugatedPlates
 
@@ -389,7 +389,7 @@ CorrugatedPlates {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## CorrugatedPvc
 
@@ -422,7 +422,7 @@ CorrugatedPvc {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## DamascusSteel
 
@@ -455,7 +455,7 @@ DamascusSteel {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## DarkParquetry
 
@@ -488,7 +488,7 @@ DarkParquetry {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## DryMud
 
@@ -518,7 +518,7 @@ DryMud {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## ElectricConduit
 
@@ -551,7 +551,7 @@ ElectricConduit {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## FlexibleAluminiumDuct
 
@@ -584,7 +584,7 @@ FlexibleAluminiumDuct {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## FormedConcrete
 
@@ -614,7 +614,7 @@ FormedConcrete {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## GalvanizedMetal
 
@@ -647,7 +647,7 @@ GalvanizedMetal {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## GlossyPaint
 
@@ -680,7 +680,7 @@ GlossyPaint {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## Grass
 
@@ -716,7 +716,7 @@ Grass {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## HammeredCopper
 
@@ -749,7 +749,7 @@ HammeredCopper {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## Leather
 
@@ -785,7 +785,7 @@ Leather {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## LedStrip
 
@@ -819,7 +819,7 @@ LedStrip {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 - `emissiveIntensity`: Defines the intensity of the leds.
 
@@ -854,7 +854,7 @@ MarbleTiles {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## MattePaint
 
@@ -887,7 +887,7 @@ MattePaint {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## MetalPipePaint
 
@@ -917,7 +917,7 @@ MetalPipePaint {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## OldPlywood
 
@@ -950,7 +950,7 @@ OldPlywood {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## OldSteel
 
@@ -983,7 +983,7 @@ OldSteel {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## OsbWood
 
@@ -1016,7 +1016,7 @@ OsbWood {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## PaintedWood
 
@@ -1049,7 +1049,7 @@ PaintedWood {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## Parquetry
 
@@ -1082,7 +1082,7 @@ Parquetry {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## Pcb
 
@@ -1112,7 +1112,7 @@ Pcb {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## Plaster
 
@@ -1145,7 +1145,7 @@ Plaster {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## PorcelainChevronTiles
 
@@ -1178,7 +1178,7 @@ PorcelainChevronTiles {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## RedBricks
 
@@ -1208,7 +1208,7 @@ RedBricks {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## ReflectiveSurface
 
@@ -1245,7 +1245,7 @@ ReflectiveSurface {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## RoughConcrete
 
@@ -1278,7 +1278,7 @@ RoughConcrete {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## RoughOak
 
@@ -1311,7 +1311,7 @@ RoughOak {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## RoughPine
 
@@ -1344,7 +1344,7 @@ RoughPine {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## RoughPolymer
 
@@ -1377,7 +1377,7 @@ RoughPolymer {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## Roughcast
 
@@ -1410,7 +1410,7 @@ Roughcast {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## Rubber
 
@@ -1440,7 +1440,7 @@ Rubber {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## RustyMetal
 
@@ -1477,7 +1477,7 @@ RustyMetal {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## Sand
 
@@ -1507,7 +1507,7 @@ Sand {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## SandyGround
 
@@ -1540,7 +1540,7 @@ SandyGround {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## ScrewThread
 
@@ -1573,7 +1573,7 @@ ScrewThread {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## ShinyLeather
 
@@ -1606,7 +1606,7 @@ ShinyLeather {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## SlatePavement
 
@@ -1639,7 +1639,7 @@ SlatePavement {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## Soil
 
@@ -1672,7 +1672,7 @@ Soil {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## SquarePavement
 
@@ -1705,7 +1705,7 @@ SquarePavement {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## StonePavement
 
@@ -1741,7 +1741,7 @@ StonePavement {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## ThreadMetalPlate
 
@@ -1774,7 +1774,7 @@ ThreadMetalPlate {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## TireRubber
 
@@ -1806,7 +1806,7 @@ TireRubber {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 - `type`: Defines the type of tire. This field accepts the following values: `"bike"` and `"car"`.
 
@@ -1841,7 +1841,7 @@ VarnishedPine {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## WireFence
 
@@ -1874,5 +1874,5 @@ WireFence {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 

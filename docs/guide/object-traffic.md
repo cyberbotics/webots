@@ -108,7 +108,7 @@ ControlledStreetLight {
 
 ### ControlledStreetLight Field Summary
 
-- `controller`: Defines the controller used to make the LED blink.
+- `controller`: Defines the controller used to make the [LED](../reference/led.md) blink.
 
 - `beamWidth`: Defines the beam width of the spot light.
 
@@ -1020,11 +1020,11 @@ TrafficLight {
 
 ### TrafficLight Field Summary
 
-- `red_light`: Defines the name of the red LED device.
+- `red_light`: Defines the name of the red [LED](../reference/led.md) device.
 
-- `orange_light`: Defines the name of the orange LED device.
+- `orange_light`: Defines the name of the orange [LED](../reference/led.md) device.
 
-- `green_light`: Defines the name of the green LED device.
+- `green_light`: Defines the name of the green [LED](../reference/led.md) device.
 
 - `lamp_geometry`: Defines the geometry of the lamps.
 
@@ -1121,11 +1121,11 @@ TrafficLightHorizontal {
 
 ### TrafficLightHorizontal Field Summary
 
-- `red_light`: Defines the name of the red LED device.
+- `red_light`: Defines the name of the red [LED](../reference/led.md) device.
 
-- `orange_light`: Defines the name of the orange LED device.
+- `orange_light`: Defines the name of the orange [LED](../reference/led.md) device.
 
-- `green_light`: Defines the name of the green LED device.
+- `green_light`: Defines the name of the green [LED](../reference/led.md) device.
 
 - `lamp_geometry`: Defines the geometry of the lamps.
 

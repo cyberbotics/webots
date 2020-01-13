@@ -77,6 +77,12 @@ for proto in fileList:
         prioritaryProtoList.append(proto)
         fileList.remove(proto)
 
+# get list of base nodes
+baseNodeList = []
+for rootPath, dirNames, fileNames in os.walk(os.path.join(os.environ['WEBOTS_HOME'], 'resources', 'nodes')):
+    for fileName in fnmatch.filter(fileNames, '*.wrl'):
+        baseNodeList.append(os.path.splitext(fileName)[0])
+
 # loop through all PROTO files
 for proto in prioritaryProtoList + fileList:
     protoName = os.path.basename(proto).split('.')[0]
@@ -157,6 +163,10 @@ for proto in prioritaryProtoList + fileList:
                 fieldComment = match.group(7).strip()
                 # skip 'Is `NodeType.fieldName`.' descriptions
                 if fieldComment and not re.match(r'Is\s`([a-zA-Z]*).([a-zA-Z]*)`.', fieldComment):
+                    # add link to base nodes:
+                    for baseNode in baseNodeList:
+                        link = ' [' + baseNode + '](../reference/' + baseNode.lower() + '.md)'
+                        fieldComment = fieldComment.replace(' ' + baseNode, link)
                     describedField.append([fieldType, fieldName, fieldComment])
                 # remove the comment
                 fieldString = match.group()

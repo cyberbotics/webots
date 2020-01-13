@@ -57,7 +57,7 @@ TexturedBackground {
 
 - `skybox`: Specifies if the `texture` field is used to define the skybox shown in the scene background.
 
-- `reflections`: Specifies if the `texture` field is used in the reflections of the PBRAppearance nodes.
+- `reflections`: Specifies if the `texture` field is used in the reflections of the [PBRAppearance](../reference/pbrappearance.md) nodes.
 
 - `skyColor`: Defines the background color in case the `skybox` field is `FALSE`.
 
