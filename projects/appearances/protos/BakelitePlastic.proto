@@ -1,17 +1,19 @@
 #VRML_SIM R2020a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
+# tags: static
 # A bakelite plastic.
 
 PROTO BakelitePlastic [
-  field SFNode  textureTransform NULL   # Defines an optional 2d texture transform.
-  field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
+  field SFString{"red", "braun"} color            "red" # Defines the color of the plastic.
+  field SFNode                   textureTransform NULL  # Defines an optional 2d texture transform.
+  field SFFloat                  IBLStrength      1     # Defines the strength of ambient lighting from the Background node.
 ]
 {
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/bakelite_plastic/bakelite_plastic_base_color.jpg"
+        %{= "\"textures/bakelite_plastic/bakelite_plastic_base_color_" .. fields.color.value .. ".jpg\"" }%
       ]
     }
     roughnessMap ImageTexture {
