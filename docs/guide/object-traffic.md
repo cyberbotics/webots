@@ -396,20 +396,20 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 HighwayPole {
-  SFVec3f       translation           0 0 0
-  SFRotation    rotation              0 1 0 0
-  SFString      name                  "highway pole"
-  SFString      type                  "cylinder"
-  SFInt32       stand                 1
-  SFFloat       height                6
-  SFFloat       length                8
-  SFFloat       thickness             0.2
-  SFColor       color                 0.258824 0.258824 0.258824
-  SFFloat       curveRadius           0.4
-  MFNode        rightHorizontalSigns  [ HighwaySign { name "vertical sign" } ]
-  MFNode        rightVerticalSigns    [ HighwaySign { name "horizontal sign" height 2.1 length 3.2 texture "textures/highway_sign_la_ciotat.jpg" } ]
-  MFNode        leftHorizontalSigns   [ ]
-  MFNode        leftVerticalSigns     [ ]
+  SFVec3f     translation           0 0 0
+  SFRotation  rotation              0 1 0 0
+  SFString    name                  "highway pole"
+  SFString    type                  "cylinder"
+  SFInt32     stand                 1
+  SFFloat     height                6
+  SFFloat     length                8
+  SFFloat     thickness             0.2
+  SFColor     color                 0.258824 0.258824 0.258824
+  SFFloat     curveRadius           0.4
+  MFNode      rightHorizontalSigns  [ HighwaySign { name "vertical sign" } ]
+  MFNode      rightVerticalSigns    [ HighwaySign { name "horizontal sign" height 2.1 length 3.2 texture "textures/highway_sign_la_ciotat.jpg" } ]
+  MFNode      leftHorizontalSigns   [ ]
+  MFNode      leftVerticalSigns     [ ]
 }
 ```
 
@@ -420,9 +420,9 @@ HighwayPole {
 
 ### HighwayPole Field Summary
 
-- `type`: Defines the shape of the pole.
+- `type`: Defines the shape of the pole. This field accepts the following values: `"cylinder"`, ` "box"` and ` "H-shape"`.
 
-- `stand`: Defines the number of stands.
+- `stand`: Defines the number of stands. This field accepts the following values: `1` and ` 2`.
 
 - `height`: Defines the height of the pole.
 

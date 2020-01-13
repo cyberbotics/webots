@@ -62,7 +62,7 @@ AdvertisingBoard {
 
 - `poleNumber`: Defines the number of poles. Their position is defined by the number of poles. There can be up to 4 equally spaced poles per board.
 
-- `poleType`: Defines the shape and behavious of the pole(s). `box` and `cylinder` pole types are placed at the center of the board and `H-shape` is placed behind. In the case of `H-shape`, backTexture is null and a base is not defined.
+- `poleType`: Defines the shape and behavious of the pole(s). `box` and `cylinder` pole types are placed at the center of the board and `H-shape` is placed behind. In the case of `H-shape`, backTexture is null and a base is not defined. This field accepts the following values: `"cylinder"`, ` "box"` and ` "H-shape"`.
 
 - `poleHeight`: Defines the height of the pole.
 

@@ -54,7 +54,7 @@ TexturedBoxShape {
 
 - `textureTransform`: Defines the texture transform for the texture used for the box.
 
-- `textureMapping`: Defines the texture mapping.
+- `textureMapping`: Defines the texture mapping. This field accepts the following values: `"cube"`, ` "compact"`, ` "flat"`, ` "metric"`, ` "default"` and ` "none"`.
 
 - `faceColor`: Defines the color of the faces of the box.
 

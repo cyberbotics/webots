@@ -177,10 +177,10 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 CarpetFibers {
-  SFColor                                   colorOverride    1 1 1
-  SFString                                  type             "wooly"
-  SFNode                                    textureTransform NULL
-  SFFloat                                   IBLStrength      1
+  SFColor   colorOverride    1 1 1
+  SFString  type             "wooly"
+  SFNode    textureTransform NULL
+  SFFloat   IBLStrength      1
 }
 ```
 
@@ -193,7 +193,7 @@ CarpetFibers {
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
-- `type`: Defines the carpet type.
+- `type`: Defines the carpet type. This field accepts the following values: `"wooly"`, ` "synthetic"` and ` "pattern"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -712,7 +712,7 @@ Grass {
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
-- `type`: Defines the grass type.
+- `type`: Defines the grass type. This field accepts the following values: `"maintained"`, ` "artificial"`, ` "prickly"` and ` "mossy"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -765,10 +765,10 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 Leather {
-  SFColor                    colorOverride     1 1 1
-  SFString                   tone              "dark"
-  SFNode                     textureTransform  NULL
-  SFFloat                    IBLStrength       1
+  SFColor   colorOverride     1 1 1
+  SFString  tone              "dark"
+  SFNode    textureTransform  NULL
+  SFFloat   IBLStrength       1
 }
 ```
 
@@ -781,7 +781,7 @@ Leather {
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
-- `tone`: Defines the tone of the leather (either `dark` or `light`)
+- `tone`: Defines the tone of the leather (either `dark` or `light`) This field accepts the following values: `"dark"` and ` "light"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1457,10 +1457,10 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 RustyMetal {
-  SFInt32        rustLevel        1
-  SFColor        colorOverride    1 1 1
-  SFNode         textureTransform NULL
-  SFFloat        IBLStrength      1
+  SFInt32  rustLevel        1
+  SFColor  colorOverride    1 1 1
+  SFNode   textureTransform NULL
+  SFFloat  IBLStrength      1
 }
 ```
 
@@ -1471,7 +1471,7 @@ RustyMetal {
 
 ### RustyMetal Field Summary
 
-- `rustLevel`: Defines how much the metal is rusted.
+- `rustLevel`: Defines how much the metal is rusted. This field accepts the following values: `1` and ` 2`.
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
@@ -1655,9 +1655,9 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 Soil {
-  SFString                   type              "braun"
-  SFNode                     textureTransform  NULL
-  SFFloat                    IBLStrength       1
+  SFString  type              "braun"
+  SFNode    textureTransform  NULL
+  SFFloat   IBLStrength       1
 }
 ```
 
@@ -1668,7 +1668,7 @@ Soil {
 
 ### Soil Field Summary
 
-- `type`: Defines the soil type.
+- `type`: Defines the soil type. This field accepts the following values: `"braun"` and ` "grey"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1721,10 +1721,10 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 StonePavement {
-  SFColor                          colorOverride    1 1 1
-  SFString                         type             "recent"
-  SFNode                           textureTransform NULL
-  SFFloat                          IBLStrength      1
+  SFColor   colorOverride    1 1 1
+  SFString  type             "recent"
+  SFNode    textureTransform NULL
+  SFFloat   IBLStrength      1
 }
 ```
 
@@ -1737,7 +1737,7 @@ StonePavement {
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
-- `type`: Defines the pavement type.
+- `type`: Defines the pavement type. This field accepts the following values: `"recent"` and ` "old square"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1791,9 +1791,9 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 TireRubber {
-  SFNode                  textureTransform NULL
-  SFFloat                 IBLStrength      1
-  SFString                type             "car"
+  SFNode    textureTransform NULL
+  SFFloat   IBLStrength      1
+  SFString  type             "car"
 }
 ```
 
@@ -1808,7 +1808,7 @@ TireRubber {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
-- `type`: Defines the type of tire.
+- `type`: Defines the type of tire. This field accepts the following values: `"bike"` and ` "car"`.
 
 ## VarnishedPine
 

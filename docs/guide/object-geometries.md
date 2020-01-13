@@ -123,7 +123,7 @@ TexturedBox {
 
 - `size`: Defines the size of the box.
 
-- `mapping`: Defines the texture mapping.
+- `mapping`: Defines the texture mapping. This field accepts the following values: `"cube"`, ` "compact"`, ` "flat"`, ` "metric"`, ` "default"` and ` "none"`.
 
 - `front`: Defines whether the front face should be included.
 
@@ -187,7 +187,7 @@ TexturedParallelepiped {
 
 - `angles`: Defines the angles of the parallelepiped.
 
-- `mapping`: Defines the texture mapping.
+- `mapping`: Defines the texture mapping. This field accepts the following values: `"cube"`, ` "compact"`, ` "flat"`, ` "metric"`, ` "default"` and ` "none"`.
 
 - `front`: Defines whether the front face should be included.
 
