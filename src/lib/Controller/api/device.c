@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
+#include "device_private.h"
+#include "robot_private.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <webots/device.h>
 #include <webots/nodes.h>
 #include <webots/robot.h>
 #include <webots/types.h>
-#include "device_private.h"
-#include "robot_private.h"
 
 const char *wb_device_get_name(WbDeviceTag dt) {
   return robot_get_device_name(dt);
@@ -72,87 +72,87 @@ void wb_device_init(WbDevice *d) {
   d->toggle_remote = NULL;
 
   switch (d->node) {
-    case WB_NODE_ACCELEROMETER:
-      wb_accelerometer_init(d);
-      break;
-    case WB_NODE_BRAKE:
-      wb_brake_init(d);
-      break;
-    case WB_NODE_CAMERA:
-      wb_camera_init(d);
-      break;
-    case WB_NODE_COMPASS:
-      wb_compass_init(d);
-      break;
-    case WB_NODE_CONNECTOR:
-      wb_connector_init(d);
-      break;
-    case WB_NODE_DISPLAY:
-      wb_display_init(d);
-      break;
-    case WB_NODE_DISTANCE_SENSOR:
-      wb_distance_sensor_init(d);
-      break;
-    case WB_NODE_EMITTER:
-      wb_emitter_init(d);
-      break;
-    case WB_NODE_GPS:
-      wb_gps_init(d);
-      break;
-    case WB_NODE_GYRO:
-      wb_gyro_init(d);
-      break;
-    case WB_NODE_INERTIAL_UNIT:
-      wb_inertial_unit_init(d);
-      break;
-    case WB_NODE_LED:
-      wb_led_init(d);
-      break;
-    case WB_NODE_LIDAR:
-      wb_lidar_init(d);
-      break;
-    case WB_NODE_LIGHT_SENSOR:
-      wb_light_sensor_init(d);
-      break;
-    case WB_NODE_LINEAR_MOTOR:
-      wb_motor_init(d);
-      break;
-    case WB_NODE_MICROPHONE:
-      wb_microphone_init(d);
-      break;
-    case WB_NODE_PEN:
-      wb_pen_init(d);
-      break;
-    case WB_NODE_POSITION_SENSOR:
-      wb_position_sensor_init(d);
-      break;
-    case WB_NODE_ROTATIONAL_MOTOR:
-      wb_motor_init(d);
-      break;
-    case WB_NODE_TOUCH_SENSOR:
-      wb_touch_sensor_init(d);
-      break;
-    case WB_NODE_RADAR:
-      wb_radar_init(d);
-      break;
-    case WB_NODE_RADIO:
-      wb_radio_init(d);
-      break;
-    case WB_NODE_RANGE_FINDER:
-      wb_range_finder_init(d);
-      break;
-    case WB_NODE_RECEIVER:
-      wb_receiver_init(d);
-      break;
-    case WB_NODE_SKIN:
-      wb_skin_init(d);
-      break;
-    case WB_NODE_SPEAKER:
-      wb_speaker_init(d);
-      break;
-    default:
-      fprintf(stderr, "wb_device_init(): node not handled\n");
-      break;
+  case WB_NODE_ACCELEROMETER:
+    wb_accelerometer_init(d);
+    break;
+  case WB_NODE_BRAKE:
+    wb_brake_init(d);
+    break;
+  case WB_NODE_CAMERA:
+    wb_camera_init(d);
+    break;
+  case WB_NODE_COMPASS:
+    wb_compass_init(d);
+    break;
+  case WB_NODE_CONNECTOR:
+    wb_connector_init(d);
+    break;
+  case WB_NODE_DISPLAY:
+    wb_display_init(d);
+    break;
+  case WB_NODE_DISTANCE_SENSOR:
+    wb_distance_sensor_init(d);
+    break;
+  case WB_NODE_EMITTER:
+    wb_emitter_init(d);
+    break;
+  case WB_NODE_GPS:
+    wb_gps_init(d);
+    break;
+  case WB_NODE_GYRO:
+    wb_gyro_init(d);
+    break;
+  case WB_NODE_INERTIAL_UNIT:
+    wb_inertial_unit_init(d);
+    break;
+  case WB_NODE_LED:
+    wb_led_init(d);
+    break;
+  case WB_NODE_LIDAR:
+    wb_lidar_init(d);
+    break;
+  case WB_NODE_LIGHT_SENSOR:
+    wb_light_sensor_init(d);
+    break;
+  case WB_NODE_LINEAR_MOTOR:
+    wb_motor_init(d);
+    break;
+  case WB_NODE_MICROPHONE:
+    wb_microphone_init(d);
+    break;
+  case WB_NODE_PEN:
+    wb_pen_init(d);
+    break;
+  case WB_NODE_POSITION_SENSOR:
+    wb_position_sensor_init(d);
+    break;
+  case WB_NODE_ROTATIONAL_MOTOR:
+    wb_motor_init(d);
+    break;
+  case WB_NODE_TOUCH_SENSOR:
+    wb_touch_sensor_init(d);
+    break;
+  case WB_NODE_RADAR:
+    wb_radar_init(d);
+    break;
+  case WB_NODE_RADIO:
+    wb_radio_init(d);
+    break;
+  case WB_NODE_RANGE_FINDER:
+    wb_range_finder_init(d);
+    break;
+  case WB_NODE_RECEIVER:
+    wb_receiver_init(d);
+    break;
+  case WB_NODE_SKIN:
+    wb_skin_init(d);
+    break;
+  case WB_NODE_SPEAKER:
+    wb_speaker_init(d);
+    break;
+  default:
+    fprintf(stderr, "%s(): node not handled\n", __FUNCTION__);
+    break;
   }
 }
 

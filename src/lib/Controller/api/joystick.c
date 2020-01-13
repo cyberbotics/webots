@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-#include <webots/joystick.h>
-#include <webots/types.h>
 #include "joystick_private.h"
 #include "messages.h"
 #include "robot_private.h"
+#include <webots/joystick.h>
+#include <webots/types.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -58,7 +58,8 @@ static void joystick_read_value(WbRequest *r) {
       request_read_uint32(r); /* empty request */
     else
       joystick.pressed_button[i] = request_read_uint32(r);
-    // fprintf(stdout, "Pressed button %d / %d.\n", joystick.pressed_button[i], number_of_pressed_button);
+    // fprintf(stdout, "Pressed button %d / %d.\n", joystick.pressed_button[i],
+    // number_of_pressed_button);
   }
   if (number_of_pressed_button > joystick.number_of_buttons)
     number_of_pressed_button = joystick.number_of_buttons;
@@ -88,7 +89,7 @@ static void joystick_read_value(WbRequest *r) {
 // Protected funtions available from other files of the client library
 
 void joystick_write_request(WbRequest *req) {
-  if (joystick.button_pointer == -1) {  // need to enable or disable
+  if (joystick.button_pointer == -1) { // need to enable or disable
     request_write_uchar(req, C_ROBOT_SET_JOYSTICK_SAMPLING_PERIOD);
     request_write_uint16(req, joystick.sampling_period);
     joystick.button_pointer = 0;
@@ -146,16 +147,19 @@ bool joystick_read_answer(int message, WbRequest *r) {
     joystick.number_of_axes = request_read_uint32(r);
     joystick.number_of_buttons = request_read_uint32(r);
     joystick.number_of_povs = request_read_uint32(r);
-    if (joystick.number_of_axes < 0 && joystick.number_of_buttons < 0 && joystick.number_of_povs < 0) {
+    if (joystick.number_of_axes < 0 && joystick.number_of_buttons < 0 &&
+        joystick.number_of_povs < 0) {
       joystick.number_of_axes = 0;
       joystick.number_of_buttons = 0;
       joystick.number_of_povs = 0;
       joystick.connected = false;
     } else {
       joystick.model = request_read_string(r);
-      joystick.axis_value = (int *)malloc(joystick.number_of_axes * sizeof(int));
+      joystick.axis_value =
+          (int *)malloc(joystick.number_of_axes * sizeof(int));
       joystick.pov_value = (int *)malloc(joystick.number_of_povs * sizeof(int));
-      joystick.pressed_button = (int *)malloc((joystick.number_of_buttons + 1) * sizeof(int));
+      joystick.pressed_button =
+          (int *)malloc((joystick.number_of_buttons + 1) * sizeof(int));
       joystick.connected = true;
       int i;
       for (i = 0; i < joystick.number_of_axes; ++i)
@@ -180,7 +184,7 @@ void joystick_step_end() {
 }
 
 void wb_joystick_init() {
-  joystick.sampling_period = 0;  // initially disabled
+  joystick.sampling_period = 0; // initially disabled
   joystick.connected = false;
   joystick.button_pointer = -1;
   joystick.number_of_axes = 0;
@@ -206,14 +210,12 @@ void wb_joystick_init() {
 
 void wb_joystick_enable(int sampling_period) {
   robot_mutex_lock_step();
-  joystick.button_pointer = -1;  // need to enable or disable
+  joystick.button_pointer = -1; // need to enable or disable
   joystick.sampling_period = sampling_period;
   robot_mutex_unlock_step();
 }
 
-void wb_joystick_disable() {
-  wb_joystick_enable(0);
-}
+void wb_joystick_disable() { wb_joystick_enable(0); }
 
 int wb_joystick_get_sampling_period() {
   int sampling_period = 0;
@@ -226,18 +228,25 @@ int wb_joystick_get_sampling_period() {
 int wb_joystick_get_number_of_axes() {
   if (joystick.sampling_period <= 0)
     fprintf(stderr,
-            "Error: wb_joystick_get_number_of_axes() called for a disabled device! Please use: wb_joystick_enable().\n");
+            "Error: %s() called for a disabled device! Please use: "
+            "wb_joystick_enable().\n",
+            __FUNCTION__);
 
   return joystick.number_of_axes;
 }
 
 int wb_joystick_get_axis_value(int axis) {
   if (joystick.sampling_period <= 0)
-    fprintf(stderr, "Error: wb_joystick_get_axis_value() called for a disabled device! Please use: wb_joystick_enable().\n");
+    fprintf(stderr,
+            "Error: %s() called for a disabled device! Please use: "
+            "wb_joystick_enable().\n",
+            __FUNCTION__);
 
   if (axis >= joystick.number_of_axes)
     fprintf(stderr,
-            "Error: wb_joystick_get_axis_value() called with an 'axis' argument bigger than or equal to the number of axes.\n");
+            "Error: %s() called with an 'axis' argument (%d) bigger than or "
+            "equal to the number of axes (%d).\n",
+            __FUNCTION__, axis, joystick.number_of_axes);
 
   if (joystick.axis_value)
     return joystick.axis_value[axis];
@@ -248,18 +257,25 @@ int wb_joystick_get_axis_value(int axis) {
 int wb_joystick_get_number_of_povs() {
   if (joystick.sampling_period <= 0)
     fprintf(stderr,
-            "Error: wb_joystick_get_number_of_povs() called for a disabled device! Please use: wb_joystick_enable().\n");
+            "Error: %s() called for a disabled device! Please use: "
+            "wb_joystick_enable().\n",
+            __FUNCTION__);
 
   return joystick.number_of_povs;
 }
 
 int wb_joystick_get_pov_value(int pov) {
   if (joystick.sampling_period <= 0)
-    fprintf(stderr, "Error: wb_joystick_get_pov_value() called for a disabled device! Please use: wb_joystick_enable().\n");
+    fprintf(stderr,
+            "Error: %s() called for a disabled device! Please use: "
+            "wb_joystick_enable().\n",
+            __FUNCTION__);
 
   if (pov >= joystick.number_of_povs)
     fprintf(stderr,
-            "Error: wb_joystick_get_pov_value() called with a 'pov' argument bigger than or equal to the number of axes.\n");
+            "Error: %s() called with a 'pov' argument (%d) bigger than or "
+            "equal to the number of axes (%d).\n",
+            __FUNCTION__, pov, joystick.number_of_povs);
 
   if (joystick.pov_value)
     return joystick.pov_value[pov];
@@ -270,7 +286,9 @@ int wb_joystick_get_pov_value(int pov) {
 int wb_joystick_get_pressed_button() {
   if (joystick.sampling_period <= 0)
     fprintf(stderr,
-            "Error: wb_joystick_get_pressed_button() called for a disabled device! Please use: wb_joystick_enable().\n");
+            "Error: %s() called for a disabled device! Please use: "
+            "wb_joystick_enable().\n",
+            __FUNCTION__);
 
   if (joystick.button_pointer == -1 || joystick.pressed_button == NULL)
     return -1;
@@ -283,7 +301,9 @@ int wb_joystick_get_pressed_button() {
 void wb_joystick_set_constant_force(int level) {
   if (joystick.sampling_period <= 0) {
     fprintf(stderr,
-            "Error: wb_joystick_set_constant_force() called for a disabled device! Please use: wb_joystick_enable().\n");
+            "Error: %s() called for a disabled device! Please use: "
+            "wb_joystick_enable().\n",
+            __FUNCTION__);
     return;
   }
 
@@ -293,14 +313,16 @@ void wb_joystick_set_constant_force(int level) {
 
 void wb_joystick_set_constant_force_duration(double duration) {
   if (joystick.sampling_period <= 0) {
-    fprintf(
-      stderr,
-      "Error: wb_joystick_set_constant_force_duration() called for a disabled device! Please use: wb_joystick_enable().\n");
+    fprintf(stderr,
+            "Error: %s() called for a disabled device! Please use: "
+            "wb_joystick_enable().\n",
+            __FUNCTION__);
     return;
   }
 
   if (duration < 0) {
-    fprintf(stderr, "Error: wb_joystick_set_constant_force_duration() called with a negative 'duration' argument.\n");
+    fprintf(stderr, "Error: %s() called with a negative 'duration' argument.\n",
+            __FUNCTION__);
     return;
   }
 
@@ -311,7 +333,9 @@ void wb_joystick_set_constant_force_duration(double duration) {
 void wb_joystick_set_auto_centering_gain(double gain) {
   if (joystick.sampling_period <= 0) {
     fprintf(stderr,
-            "Error: wb_joystick_set_auto_centering_gain() called for a disabled device! Please use: wb_joystick_enable().\n");
+            "Error: %s() called for a disabled device! Please use: "
+            "wb_joystick_enable().\n",
+            __FUNCTION__);
     return;
   }
 
@@ -322,7 +346,9 @@ void wb_joystick_set_auto_centering_gain(double gain) {
 void wb_joystick_set_resistance_gain(double gain) {
   if (joystick.sampling_period <= 0) {
     fprintf(stderr,
-            "Error: wb_joystick_set_resistance_gain() called for a disabled device! Please use: wb_joystick_enable().\n");
+            "Error: %s() called for a disabled device! Please use: "
+            "wb_joystick_enable().\n",
+            __FUNCTION__);
     return;
   }
 
@@ -332,13 +358,18 @@ void wb_joystick_set_resistance_gain(double gain) {
 
 void wb_joystick_set_force_axis(int axis) {
   if (joystick.sampling_period <= 0) {
-    fprintf(stderr, "Error: wb_joystick_set_force_axis() called for a disabled device! Please use: wb_joystick_enable().\n");
+    fprintf(stderr,
+            "Error: %s() called for a disabled device! Please use: "
+            "wb_joystick_enable().\n",
+            __FUNCTION__);
     return;
   }
 
   if (axis >= joystick.number_of_axes) {
     fprintf(stderr,
-            "Error: wb_joystick_set_force_axis() called with an 'axis' argument bigger than or equal to the number of axes.\n");
+            "Error: %s() called with an 'axis' argument (%d) bigger than or "
+            "equal to the number of axes (%d).\n",
+            __FUNCTION__, axis, joystick.number_of_axes);
     return;
   }
 
@@ -348,13 +379,14 @@ void wb_joystick_set_force_axis(int axis) {
 
 bool wb_joystick_is_connected() {
   if (joystick.sampling_period <= 0) {
-    fprintf(stderr, "Error: wb_joystick_is_connected() called for a disabled device! Please use: wb_joystick_enable().\n");
+    fprintf(stderr,
+            "Error: %s() called for a disabled device! Please use: "
+            "wb_joystick_enable().\n",
+            __FUNCTION__);
     return false;
   }
 
   return joystick.connected;
 }
 
-const char *wb_joystick_get_model() {
-  return joystick.model;
-}
+const char *wb_joystick_get_model() { return joystick.model; }

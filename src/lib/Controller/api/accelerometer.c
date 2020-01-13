@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-#include <stdio.h>
-#include <stdlib.h>  // malloc and free
-#include <webots/accelerometer.h>
-#include <webots/nodes.h>
-#include <webots/robot.h>
 #include "device_private.h"
 #include "messages.h"
 #include "robot_private.h"
+#include <stdio.h>
+#include <stdlib.h> // malloc and free
+#include <webots/accelerometer.h>
+#include <webots/nodes.h>
+#include <webots/robot.h>
 
 // Static functions
 
 typedef struct {
-  bool enable;          // need to enable device ?
-  int sampling_period;  // milliseconds
-  double values[3];     // acceleration
+  bool enable;         // need to enable device ?
+  int sampling_period; // milliseconds
+  double values[3];    // acceleration
 } Accelerometer;
 
 static Accelerometer *accelerometer_create() {
@@ -58,13 +58,11 @@ static void accelerometer_write_request(WbDevice *d, WbRequest *r) {
   if (acc->enable) {
     request_write_uchar(r, C_SET_SAMPLING_PERIOD);
     request_write_uint16(r, acc->sampling_period);
-    acc->enable = false;  // done
+    acc->enable = false; // done
   }
 }
 
-static void accelerometer_cleanup(WbDevice *d) {
-  free(d->pdata);
-}
+static void accelerometer_cleanup(WbDevice *d) { free(d->pdata); }
 
 static void accelerometer_toggle_remote(WbDevice *d, WbRequest *r) {
   Accelerometer *acc = d->pdata;
@@ -79,7 +77,7 @@ void wbr_accelerometer_set_values(WbDeviceTag tag, const double *values) {
     acc->values[1] = values[1];
     acc->values[2] = values[2];
   } else
-    fprintf(stderr, "Error: wbr_accelerometer_set_values(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 // Protected functions (exported to device.cc)
@@ -96,7 +94,8 @@ void wb_accelerometer_init(WbDevice *d) {
 
 void wb_accelerometer_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: wb_accelerometer_enable() called with negative sampling period.\n");
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n",
+            __FUNCTION__);
     return;
   }
 
@@ -106,7 +105,7 @@ void wb_accelerometer_enable(WbDeviceTag tag, int sampling_period) {
     acc->sampling_period = sampling_period;
     acc->enable = true;
   } else
-    fprintf(stderr, "Error: wb_accelerometer_enable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -115,7 +114,7 @@ void wb_accelerometer_disable(WbDeviceTag tag) {
   if (acc)
     wb_accelerometer_enable(tag, 0);
   else
-    fprintf(stderr, "Error: wb_accelerometer_disable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 int wb_accelerometer_get_sampling_period(WbDeviceTag tag) {
@@ -125,7 +124,7 @@ int wb_accelerometer_get_sampling_period(WbDeviceTag tag) {
   if (acc)
     sampling_period = acc->sampling_period;
   else
-    fprintf(stderr, "Error: wb_accelerometer_get_sampling_period(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return sampling_period;
 }
@@ -137,7 +136,9 @@ const double *wb_accelerometer_get_values(WbDeviceTag tag) {
   if (acc) {
     if (acc->sampling_period == 0)
       fprintf(stderr,
-              "Error: wb_accelerometer_get_values() called for a disabled device! Please use: wb_accelerometer_enable().\n");
+              "Error: %s() called for a disabled device! Please use: "
+              "wb_accelerometer_enable().\n",
+              __FUNCTION__);
     result = acc->values;
   }
   robot_mutex_unlock_step();
