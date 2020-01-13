@@ -242,8 +242,11 @@ for proto in prioritaryProtoList + fileList:
             for fieldName, fieldDescription in describedField:
                 file.write(u'- `%s`: %s' % (fieldName, fieldDescription))
                 if fieldName in fieldEnumeration:
-                    file.write(u' This field accepts the following values: ')
                     values = fieldEnumeration[fieldName]
+                    if len(values) > 1:
+                        file.write(u' This field accepts the following values: ')
+                    else:
+                        file.write(u' This field accepts the following value: ')
                     for i in range(len(values)):
                         if i == len(values) - 1:
                             file.write(u'`%s`.' % values[i].strip())
