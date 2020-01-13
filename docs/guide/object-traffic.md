@@ -420,9 +420,9 @@ HighwayPole {
 
 ### HighwayPole Field Summary
 
-- `type`: Defines the shape of the pole. This field accepts the following values: `"cylinder"`, ` "box"` and ` "H-shape"`.
+- `type`: Defines the shape of the pole. This field accepts the following values: `"cylinder"`, `"box"` and `"H-shape"`.
 
-- `stand`: Defines the number of stands. This field accepts the following values: `1` and ` 2`.
+- `stand`: Defines the number of stands. This field accepts the following values: `1` and `2`.
 
 - `height`: Defines the height of the pole.
 

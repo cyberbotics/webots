@@ -259,7 +259,7 @@ Fence {
 
 - `poleRadius`: Defines the radius of the poles.
 
-- `poleShape`: Defines the shape of the poles. The value should be either `cylinder`, `square`, `diamond` or `H`. This field accepts the following values: `"cylinder"`, ` "square"`, ` "diamond"` and ` "H"`.
+- `poleShape`: Defines the shape of the poles. The value should be either `cylinder`, `square`, `diamond` or `H`. This field accepts the following values: `"cylinder"`, `"square"`, `"diamond"` and `"H"`.
 
 - `poleAppearance`: Defines the appearance of the poles.
 

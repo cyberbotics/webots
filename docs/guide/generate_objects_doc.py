@@ -246,11 +246,11 @@ for proto in prioritaryProtoList + fileList:
                     values = fieldEnumeration[fieldName]
                     for i in range(len(values)):
                         if i == len(values) - 1:
-                            file.write(u'`%s`.' % values[i])
+                            file.write(u'`%s`.' % values[i].strip())
                         elif i == len(values) - 2:
-                            file.write(u'`%s` and ' % values[i])
+                            file.write(u'`%s` and ' % values[i].strip())
                         else:
-                            file.write(u'`%s`, ' % values[i])
+                            file.write(u'`%s`, ' % values[i].strip())
                 file.write(u'\n\n')
 
     if upperCategory not in upperCategories:

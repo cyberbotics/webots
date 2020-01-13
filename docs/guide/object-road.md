@@ -933,7 +933,7 @@ RoadLine {
 
 - `color`: Defines the color of the line.
 
-- `type`: Defines the type of the road, should be `dashed`, `continuous`, `double` or `none`. This field accepts the following values: `"dashed"`, ` "continuous"`, ` "double"` and ` "none"`.
+- `type`: Defines the type of the road, should be `dashed`, `continuous`, `double` or `none`. This field accepts the following values: `"dashed"`, `"continuous"`, `"double"` and `"none"`.
 
 - `width`: Defines the with of the line.
 

@@ -193,7 +193,7 @@ CarpetFibers {
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
-- `type`: Defines the carpet type. This field accepts the following values: `"wooly"`, ` "synthetic"` and ` "pattern"`.
+- `type`: Defines the carpet type. This field accepts the following values: `"wooly"`, `"synthetic"` and `"pattern"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -712,7 +712,7 @@ Grass {
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
-- `type`: Defines the grass type. This field accepts the following values: `"maintained"`, ` "artificial"`, ` "prickly"` and ` "mossy"`.
+- `type`: Defines the grass type. This field accepts the following values: `"maintained"`, `"artificial"`, `"prickly"` and `"mossy"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -781,7 +781,7 @@ Leather {
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
-- `tone`: Defines the tone of the leather. This field accepts the following values: `"dark"` and ` "light"`.
+- `tone`: Defines the tone of the leather. This field accepts the following values: `"dark"` and `"light"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1471,7 +1471,7 @@ RustyMetal {
 
 ### RustyMetal Field Summary
 
-- `rustLevel`: Defines how much the metal is rusted. This field accepts the following values: `1` and ` 2`.
+- `rustLevel`: Defines how much the metal is rusted. This field accepts the following values: `1` and `2`.
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
@@ -1668,7 +1668,7 @@ Soil {
 
 ### Soil Field Summary
 
-- `type`: Defines the soil type. This field accepts the following values: `"braun"` and ` "grey"`.
+- `type`: Defines the soil type. This field accepts the following values: `"braun"` and `"grey"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1737,7 +1737,7 @@ StonePavement {
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
-- `type`: Defines the pavement type. This field accepts the following values: `"recent"` and ` "old square"`.
+- `type`: Defines the pavement type. This field accepts the following values: `"recent"` and `"old square"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1808,7 +1808,7 @@ TireRubber {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
-- `type`: Defines the type of tire. This field accepts the following values: `"bike"` and ` "car"`.
+- `type`: Defines the type of tire. This field accepts the following values: `"bike"` and `"car"`.
 
 ## VarnishedPine
 
