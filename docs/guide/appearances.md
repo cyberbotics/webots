@@ -781,7 +781,7 @@ Leather {
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
-- `tone`: Defines the tone of the leather (either `dark` or `light`) This field accepts the following values: `"dark"` and ` "light"`.
+- `tone`: Defines the tone of the leather. This field accepts the following values: `"dark"` and ` "light"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 

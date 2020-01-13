@@ -12,7 +12,7 @@ PROTO FastFoodRestaurant [
   field SFFloat       length        10                      # Defines the length of the building.
   field SFFloat       width         10                      # Defines the width of the building.
   field SFString{"KFC", "FFC", "subway", "momo"}
-                      brand         "KFC"                   # Defines the brand of the restaurant: `KFC`, `FFC`, `subway` or `momo`.
+                      brand         "KFC"                   # Defines the brand of the restaurant.
   field SFInt32{1, 2} numberOfSides 1                       # Defines whether it is a two sided restaurant.
 ]
 {

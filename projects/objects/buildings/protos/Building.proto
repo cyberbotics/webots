@@ -18,7 +18,7 @@ PROTO Building [
   field MFFloat     groundFloorTranslation []                                         # Defines the translation of the ground floor textures.
   field SFNode      roofAppearance         PBRAppearance { metalness 0 roughness 1 }  # Defines the appearance used for the roof of the building.
   field SFString{"flat roof", "pyramidal roof", "gabled roof", "hipped roof"}
-                    roofShape              "pyramidal roof"                           # Defines the geometry of the roof. Supported geometry are `flat roof`, `pyramidal roof`, `gabled roof` and `hipped roof`.
+                    roofShape              "pyramidal roof"                           # Defines the geometry of the roof.
   field SFFloat     roofHeight             3                                          # Defines the height of the roof (used only in the case of pyramidal roof).
   field SFBool      enableBoundingObject   TRUE                                       # Defines whether the building should have a bounding object.
   field SFBool      bottom                 FALSE                                      # Defines whether the bottom face of the building should be displayed.

@@ -4,44 +4,6 @@
 # tags: static
 # A customizable building, the size and geometry can fully be defined.
 # The texture of the wall and roof can be selected using the fields 'wallType' and 'roofType'.
-# Available wall types are:
-#  - `glass building`
-#  - `classic building`
-#  - `orange building`
-#  - `gray glass building`
-#  - `blue glass building`
-#  - `arcade-style building`
-#  - `transparent highrise`
-#  - `windowed building`
-#  - `old brick building`
-#  - `red and white building`
-#  - `construction building`
-#  - `red brick wall`
-#  - `old brick wall`
-#  - `stone brick`
-#  - `stone wall`
-#  - `glass highrise`
-#  - `old house`
-#  - `old building`
-#  - `highrise`
-#  - `brick building`
-#  - `residential building`
-#  - `old office building`
-#  - `factory building`
-#  - `tall house`
-#  - `office building`
-#  - `concrete building`
-#
-# Available roof types are:
-#  - `tiled`
-#  - `gravel`
-#  - `slate`
-#  - `old tiles`
-#  - `sheet metal`
-#  - `metal tiles`
-#  - `bitumen`
-#
-# The roof shape can be either 'flat' or 'pyramidal' (in case of pyramidal roof it is possible to define the height).
 
 PROTO SimpleBuilding [
   field SFVec3f     translation            0 0 0
@@ -61,7 +23,7 @@ PROTO SimpleBuilding [
                     roofType               "tiled"                            # Defines roof type.
   field MFColor     roofColor              []                                 # Defines the roof color.
   field SFString{"flat roof", "pyramidal roof", "gabled roof", "hipped roof"}
-                    roofShape              "pyramidal roof"                   # Defines the geometry of the roof. Supported geometry are `flat roof`, `pyramidal roof`, `gabled roof` and `hipped roof`.
+                    roofShape              "pyramidal roof"                   # Defines the geometry of the roof.
   field SFBool      snowOnRoof             FALSE                              # Defines whether the texture with or without snow should be used.
   field SFFloat     roofHeight             3                                  # Defines the height of the roof.
   field SFBool      enableBoundingObject   TRUE                               # Defines whether the building should have a bounding object or not.

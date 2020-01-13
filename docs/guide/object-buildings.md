@@ -112,7 +112,7 @@ Building {
 
 - `roofAppearance`: Defines the appearance used for the roof of the building.
 
-- `roofShape`: Defines the geometry of the roof. Supported geometry are `flat roof`, `pyramidal roof`, `gabled roof` and `hipped roof`. This field accepts the following values: `"flat roof"`, ` "pyramidal roof"`, ` "gabled roof"` and ` "hipped roof"`.
+- `roofShape`: Defines the geometry of the roof. This field accepts the following values: `"flat roof"`, ` "pyramidal roof"`, ` "gabled roof"` and ` "hipped roof"`.
 
 - `roofHeight`: Defines the height of the roof (used only in the case of pyramidal roof).
 
@@ -373,7 +373,7 @@ FastFoodRestaurant {
 
 - `width`: Defines the width of the building.
 
-- `brand`: Defines the brand of the restaurant: `KFC`, `FFC`, `subway` or `momo`. This field accepts the following values: `"KFC"`, ` "FFC"`, ` "subway"` and ` "momo"`.
+- `brand`: Defines the brand of the restaurant. This field accepts the following values: `"KFC"`, ` "FFC"`, ` "subway"` and ` "momo"`.
 
 - `numberOfSides`: Defines whether it is a two sided restaurant. This field accepts the following values: `1` and ` 2`.
 
@@ -675,7 +675,7 @@ OldResidentialBuilding {
 
 ### OldResidentialBuilding Field Summary
 
-- `type`: Defines the type which has a direct influence on the building texture. Availables types are `red grey`, `dark grey`, `light grey`, `red`, and `braun`. This field accepts the following values: `"red grey"`, ` "dark grey"`, ` "light grey"`, ` "red"` and ` "braun"`.
+- `type`: Defines the type which has a direct influence on the building texture. This field accepts the following values: `"red grey"`, ` "dark grey"`, ` "light grey"`, ` "red"` and ` "braun"`.
 
 - `enableBoundingObject`: Defines whether the building should have a bounding object.
 
@@ -740,7 +740,7 @@ RandomBuilding {
 
 - `roofColor`: Defines the color to be used for the roof.
 
-- `roofShape`: Defines the geometry of the roof (flat or pyramidal). This field accepts the following values: `"flat roof"`, ` "pyramidal roof"`, ` "gabled roof"` and ` "hipped roof"`.
+- `roofShape`: Defines the geometry of the roof. This field accepts the following values: `"flat roof"`, ` "pyramidal roof"`, ` "gabled roof"` and ` "hipped roof"`.
 
 - `snowOnRoof`: Defines whether the texture with or without snow should be used.
 
@@ -804,7 +804,7 @@ ResidentialBuildingWithRoundFront {
 
 ### ResidentialBuildingWithRoundFront Field Summary
 
-- `type`: Defines the type which has a direct influence on the building texture. Availables types are `dark grey`, `orange`, `green`, `dark braun`, `light grey` and `light braun`. This field accepts the following values: `"dark grey"`, ` "orange"`, ` "green"`, ` "dark braun"`, ` "light grey"` and ` "light braun"`.
+- `type`: Defines the type which has a direct influence on the building texture. This field accepts the following values: `"dark grey"`, ` "orange"`, ` "green"`, ` "dark braun"`, ` "light grey"` and ` "light braun"`.
 
 - `enableBoundingObject`: Defines whether the building should have a bounding object.
 
@@ -845,44 +845,6 @@ ResidentialTower {
 
 A customizable building, the size and geometry can fully be defined.
 The texture of the wall and roof can be selected using the fields 'wallType' and 'roofType'.
-Available wall types are:
-- `glass building`
-- `classic building`
-- `orange building`
-- `gray glass building`
-- `blue glass building`
-- `arcade-style building`
-- `transparent highrise`
-- `windowed building`
-- `old brick building`
-- `red and white building`
-- `construction building`
-- `red brick wall`
-- `old brick wall`
-- `stone brick`
-- `stone wall`
-- `glass highrise`
-- `old house`
-- `old building`
-- `highrise`
-- `brick building`
-- `residential building`
-- `old office building`
-- `factory building`
-- `tall house`
-- `office building`
-- `concrete building`
-
-Available roof types are:
-- `tiled`
-- `gravel`
-- `slate`
-- `old tiles`
-- `sheet metal`
-- `metal tiles`
-- `bitumen`
-
-The roof shape can be either 'flat' or 'pyramidal' (in case of pyramidal roof it is possible to define the height).
 
 %figure
 
@@ -945,7 +907,7 @@ SimpleBuilding {
 
 - `roofColor`: Defines the roof color.
 
-- `roofShape`: Defines the geometry of the roof. Supported geometry are `flat roof`, `pyramidal roof`, `gabled roof` and `hipped roof`. This field accepts the following values: `"flat roof"`, ` "pyramidal roof"`, ` "gabled roof"` and ` "hipped roof"`.
+- `roofShape`: Defines the geometry of the roof. This field accepts the following values: `"flat roof"`, ` "pyramidal roof"`, ` "gabled roof"` and ` "hipped roof"`.
 
 - `snowOnRoof`: Defines whether the texture with or without snow should be used.
 
@@ -1049,7 +1011,7 @@ SmallResidentialBuilding {
 
 ### SmallResidentialBuilding Field Summary
 
-- `type`: Defines the type which has a direct influence on the building texture. Availables types are `red grey`, `dark grey`, `light grey`, `red`, and `braun`. This field accepts the following values: `"white"`, ` "braun black"` and ` "red"`.
+- `type`: Defines the type which has a direct influence on the building texture. This field accepts the following values: `"white"`, ` "braun black"` and ` "red"`.
 
 - `enableBoundingObject`: Defines whether the building should have a bounding object.
 
