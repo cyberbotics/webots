@@ -20,7 +20,7 @@ PROTO RandomBuilding [
                     roofType               "tiled"                            # Defines the texture to be used for the roof.
   field MFColor     roofColor              [ ]                                # Defines the color to be used for the roof.
   field SFString{"flat roof", "pyramidal roof", "gabled roof", "hipped roof"}
-                    roofShape              "pyramidal roof"                   # Defines the geometry of the roof (flat or pyramidal).
+                    roofShape              "pyramidal roof"                   # Defines the geometry of the roof.
   field SFBool      snowOnRoof             FALSE                              # Defines whether the texture with or without snow should be used.
   field SFFloat     roofHeight             3                                  # Defines the height of the roof (used only in the case of pyramidal roof).
   field SFBool      enableBoundingObject   TRUE                               # Defines whether the building should have a bounding object or not.

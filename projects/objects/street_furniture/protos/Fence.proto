@@ -17,7 +17,7 @@ PROTO Fence [
   field SFFloat      poleGap                 0.5                                                          # Defines the distance between two consecutives poles.
   field SFFloat      poleRadius              0.04                                                         # Defines the radius of the poles.
   field SFString{"cylinder", "square", "diamond", "H"}
-                     poleShape               "cylinder"                                                   # Defines the shape of the poles. The value should be either `cylinder`, `square`, `diamond` or `H`.
+                     poleShape               "cylinder"                                                   # Defines the shape of the poles.
   field SFNode       poleAppearance          PBRAppearance {}                                             # Defines the appearance of the poles.
   field MFVec3f      path                    [0 0 0, 5 0 0]                                               # Defines the 3D path of the fence.
   field SFInt32      subdivision             -1                                                           # Defines the degree of interpolation using B-Splines (if the value is lower than 0, the interpolation is disabled).
