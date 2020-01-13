@@ -234,8 +234,10 @@ jobs:
             - cmake
             - swig
             - wget
+            - node
       before_install:
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+        - export PATH=/usr/local/bin/:$PATH  # Prefer Brew binaries over Travis ones.
         - npm install -g appdmg
         - pip install PyGithub  # used to upload packages to Github releases
         - sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7  # we can't use python3.7 from homebrew for the compilation because it is not compatible with the normal one
