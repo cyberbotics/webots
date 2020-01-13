@@ -83,7 +83,7 @@ Road {
 
 - `speedLimit`: Optionally defines the speed limit. The recommended unit is meter per seconds.
 
-- `lines`: Defines the property of each line separating two lanes. This field accepts the following value: `RoadLine {}`.
+- `lines`: Defines the property of each line separating two lanes. This field accepts a list of `RoadLine` nodes.
 
 - `roadBorderHeight`: Defines the height of the sidewalk.
 
@@ -210,7 +210,7 @@ AddLaneRoadSegment {
 
 - `newLaneLeft`: Defines on which side is added the new lane.
 
-- `lines`: Defines the property of each line separating two lanes. This field accepts the following value: `RoadLine {}`.
+- `lines`: Defines the property of each line separating two lanes. This field accepts a list of `RoadLine` nodes.
 
 - `roadBorderHeight`: Defines the height of the sidewalk.
 
@@ -324,7 +324,7 @@ AddLanesRoadSegment {
 
 - `newLaneLeft`: Defines on which side are added the new lanes.
 
-- `lines`: Defines the property of each line separating two lanes. This field accepts the following value: `RoadLine {}`.
+- `lines`: Defines the property of each line separating two lanes. This field accepts a list of `RoadLine` nodes.
 
 - `roadBorderHeight`: Defines the height of the sidewalk.
 
@@ -538,7 +538,7 @@ CurvedRoadSegment {
 
 - `speedLimit`: Optionally defines the speed limit. The recommended unit is meter per seconds.
 
-- `lines`: Defines the property of each line separating two lanes. This field accepts the following value: `RoadLine {}`.
+- `lines`: Defines the property of each line separating two lanes. This field accepts a list of `RoadLine` nodes.
 
 - `roadBorderHeight`: Defines the height of the sidewalk.
 
@@ -656,7 +656,7 @@ HelicoidalRoadSegment {
 
 - `speedLimit`: Optionally defines the speed limit. The recommended unit is meter per seconds.
 
-- `lines`: Defines the property of each line separating two lanes. This field accepts the following value: `RoadLine {}`.
+- `lines`: Defines the property of each line separating two lanes. This field accepts a list of `RoadLine` nodes.
 
 - `roadBorderHeight`: Defines the height of the sidewalk.
 
@@ -772,7 +772,7 @@ LaneSeparation {
 
 - `newLaneLeft`: Defines on which sied the lanes are leaving the road.
 
-- `lines`: Defines the property of each line separating two lanes. This field accepts the following value: `RoadLine {}`.
+- `lines`: Defines the property of each line separating two lanes. This field accepts a list of `RoadLine` nodes.
 
 - `roadBorderHeight`: Defines the height of the sidewalk.
 
@@ -885,7 +885,7 @@ RoadIntersection {
 
 - `startRoadsEndLine`: Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
 
-- `startRoadsLine`: Defines the property of each line separating two lanes. This field accepts the following value: `RoadLine {}`.
+- `startRoadsLine`: Defines the property of each line separating two lanes. This field accepts a list of `RoadLine` nodes.
 
 - `startRoadBorder`: Defines whether the intersecting road should have a sidewalks.
 
@@ -1086,7 +1086,7 @@ Roundabout {
 
 - `startRoadsEndLine`: Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
 
-- `startRoadsLine`: Defines the property of each line separating two lanes. This field accepts the following value: `RoadLine {}`.
+- `startRoadsLine`: Defines the property of each line separating two lanes. This field accepts a list of `RoadLine` nodes.
 
 - `roadBoundingObject`: Defines whether the road should have a bounding object.
 
@@ -1175,7 +1175,7 @@ StraightRoadSegment {
 
 - `speedLimit`: Optionally defines the speed limit. The recommended unit is meter per seconds.
 
-- `lines`: Defines the property of each line separating two lanes. This field accepts the following value: `RoadLine {}`.
+- `lines`: Defines the property of each line separating two lanes. This field accepts a list of `RoadLine` nodes.
 
 - `roadBorderHeight`: Defines the height of the sidewalk.
 

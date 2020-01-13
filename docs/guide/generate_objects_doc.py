@@ -157,7 +157,7 @@ for proto in prioritaryProtoList + fileList:
                 fieldComment = match.group(7).strip()
                 # skip 'Is `NodeType.fieldName`.' descriptions
                 if fieldComment and not re.match(r'Is\s`([a-zA-Z]*).([a-zA-Z]*)`.', fieldComment):
-                    describedField.append((fieldName, fieldComment))
+                    describedField.append([fieldType, fieldName, fieldComment])
                 # remove the comment
                 fieldString = match.group()
                 fieldString = re.sub(r'\s*(#.*)', '', match.group(), 0, re.MULTILINE)
@@ -239,21 +239,29 @@ for proto in prioritaryProtoList + fileList:
 
         if describedField:
             file.write(headerPrefix + u'## %s Field Summary\n\n' % protoName)
-            for fieldName, fieldDescription in describedField:
+            for fieldType, fieldName, fieldDescription in describedField:
                 file.write(u'- `%s`: %s' % (fieldName, fieldDescription))
+                isMFField = fieldType.startswith('MF')
                 if fieldName in fieldEnumeration:
                     values = fieldEnumeration[fieldName]
-                    if len(values) > 1:
-                        file.write(u' This field accepts the following values: ')
+                    if isMFField:
+                        file.write(u' This field accepts a list of ')
                     else:
-                        file.write(u' This field accepts the following value: ')
-                    for i in range(len(values)):
-                        if i == len(values) - 1:
-                            file.write(u'`%s`.' % values[i].strip())
-                        elif i == len(values) - 2:
-                            file.write(u'`%s` and ' % values[i].strip())
+                        if len(values) > 1:
+                            file.write(u' This field accepts the following values: ')
                         else:
-                            file.write(u'`%s`, ' % values[i].strip())
+                            file.write(u' This field accepts the following value: ')
+                    for i in range(len(values)):
+                        value = values[i].split('{')[0]  # In case of node keep only the type
+                        if i == len(values) - 1:
+                            if isMFField:
+                                file.write(u'`%s` %s.' % (value.strip(), fieldType.replace('MF', '').lower() + 's'))
+                            else:
+                                file.write(u'`%s`.' % value.strip())
+                        elif i == len(values) - 2:
+                            file.write(u'`%s` and ' % value.strip())
+                        else:
+                            file.write(u'`%s`, ' % value.strip())
                 file.write(u'\n\n')
 
     if upperCategory not in upperCategories:
