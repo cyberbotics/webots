@@ -35,7 +35,6 @@
 #define ANSI_COLOR_RESET "\x1b[0m"
 
 #define SPEED 4
-#define TIME_STEP 64
 enum BLOB_TYPE { RED, GREEN, BLUE, NONE };
 
 int main() {
@@ -51,10 +50,12 @@ int main() {
   enum BLOB_TYPE current_blob;
 
   wb_robot_init();
+  
+  int time_step = wb_robot_get_basic_time_step();
 
   /* Get the camera device, enable it, and store its width and height */
   camera = wb_robot_get_device("camera");
-  wb_camera_enable(camera, TIME_STEP);
+  wb_camera_enable(camera, time_step);
   width = wb_camera_get_width(camera);
   height = wb_camera_get_height(camera);
 
@@ -67,7 +68,7 @@ int main() {
   wb_motor_set_velocity(right_motor, 0.0);
 
   /* Main loop */
-  while (wb_robot_step(TIME_STEP) != -1) {
+  while (wb_robot_step(time_step) != -1) {
     /* Get the new camera values */
     const unsigned char *image = wb_camera_get_image(camera);
 
@@ -81,7 +82,7 @@ int main() {
      * The robot waits in front of it until pause_counter
      * is decremented enough
      */
-    if (pause_counter > 10) {
+    if (pause_counter > 640 / time_step) {
       left_speed = 0;
       right_speed = 0;
     }
@@ -169,7 +170,7 @@ int main() {
         strcat(filepath, filenames[current_blob]);
         wb_camera_save_image(camera, filepath, 100);
         free(filepath);
-        pause_counter = 20;
+        pause_counter = 1280 / time_step;
       }
     }
 
