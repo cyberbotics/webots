@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-#include "device_private.h"
-#include "messages.h"
-#include "robot_private.h"
 #include <stdio.h>
-#include <stdlib.h> // malloc and free
+#include <stdlib.h>  // malloc and free
 #include <webots/accelerometer.h>
 #include <webots/nodes.h>
 #include <webots/robot.h>
+#include "device_private.h"
+#include "messages.h"
+#include "robot_private.h"
 
 // Static functions
 
 typedef struct {
-  bool enable;         // need to enable device ?
-  int sampling_period; // milliseconds
-  double values[3];    // acceleration
+  bool enable;          // need to enable device ?
+  int sampling_period;  // milliseconds
+  double values[3];     // acceleration
 } Accelerometer;
 
 static Accelerometer *accelerometer_create() {
@@ -58,11 +58,13 @@ static void accelerometer_write_request(WbDevice *d, WbRequest *r) {
   if (acc->enable) {
     request_write_uchar(r, C_SET_SAMPLING_PERIOD);
     request_write_uint16(r, acc->sampling_period);
-    acc->enable = false; // done
+    acc->enable = false;  // done
   }
 }
 
-static void accelerometer_cleanup(WbDevice *d) { free(d->pdata); }
+static void accelerometer_cleanup(WbDevice *d) {
+  free(d->pdata);
+}
 
 static void accelerometer_toggle_remote(WbDevice *d, WbRequest *r) {
   Accelerometer *acc = d->pdata;
@@ -94,8 +96,7 @@ void wb_accelerometer_init(WbDevice *d) {
 
 void wb_accelerometer_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: %s() called with negative sampling period.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
 

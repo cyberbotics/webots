@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-#include "device_private.h"
-#include "messages.h"
-#include "robot_private.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <webots/compass.h>
 #include <webots/nodes.h>
+#include "device_private.h"
+#include "messages.h"
+#include "robot_private.h"
 
 typedef struct {
-  bool enable;         // need to enable device ?
-  int sampling_period; // milliseconds
-  double north[3];     // north
+  bool enable;          // need to enable device ?
+  int sampling_period;  // milliseconds
+  double north[3];      // north
 } Compass;
 
 static Compass *compass_create() {
@@ -57,11 +57,13 @@ static void compass_write_request(WbDevice *d, WbRequest *r) {
   if (compass->enable) {
     request_write_uchar(r, C_SET_SAMPLING_PERIOD);
     request_write_uint16(r, compass->sampling_period);
-    compass->enable = false; // done
+    compass->enable = false;  // done
   }
 }
 
-static void compass_cleanup(WbDevice *d) { free(d->pdata); }
+static void compass_cleanup(WbDevice *d) {
+  free(d->pdata);
+}
 
 static void compass_toggle_remote(WbDevice *d, WbRequest *r) {
   Compass *compass = d->pdata;
@@ -93,8 +95,7 @@ void wb_compass_init(WbDevice *d) {
 
 void wb_compass_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: %s() called with negative sampling period.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
 

@@ -16,15 +16,15 @@
 
 #include "../util/g_image.h"
 
-#include "abstract_camera.h"
-#include "messages.h"
-#include "remote_control_private.h"
-#include "robot_private.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <webots/lidar.h>
 #include <webots/robot.h>
+#include "abstract_camera.h"
+#include "messages.h"
+#include "remote_control_private.h"
+#include "robot_private.h"
 
 typedef struct {
   double max_range;
@@ -67,10 +67,8 @@ static void wb_lidar_cleanup(WbDevice *d) {
   wb_abstract_camera_cleanup(d);
 }
 
-static void wb_lidar_new(WbDevice *d, unsigned int id, int w, int h, double fov,
-                         double camnear, double max_range, bool spherical,
-                         int number_of_layers, double frequency,
-                         double min_frequency, double max_frequency,
+static void wb_lidar_new(WbDevice *d, unsigned int id, int w, int h, double fov, double camnear, double max_range,
+                         bool spherical, int number_of_layers, double frequency, double min_frequency, double max_frequency,
                          double vertical_fov, int horizontal_resolution) {
   Lidar *l;
   wb_lidar_cleanup(d);
@@ -100,15 +98,15 @@ static void wb_lidar_write_request(WbDevice *d, WbRequest *r) {
   if (l->set_frequency) {
     request_write_uchar(r, C_LIDAR_SET_FREQUENCY);
     request_write_double(r, l->frequency);
-    l->set_frequency = false; // done
+    l->set_frequency = false;  // done
   }
   if (l->set_enable_point_cloud) {
     request_write_uchar(r, C_LIDAR_ENABLE_POINT_CLOUD);
-    l->set_enable_point_cloud = false; // done
+    l->set_enable_point_cloud = false;  // done
   }
   if (l->set_disable_point_cloud) {
     request_write_uchar(r, C_LIDAR_DISABLE_POINT_CLOUD);
-    l->set_disable_point_cloud = false; // done
+    l->set_disable_point_cloud = false;  // done
   }
 }
 
@@ -118,52 +116,50 @@ static void wb_lidar_read_answer(WbDevice *d, WbRequest *r) {
     return;
   unsigned int uid;
   int width, height, number_of_layers, horizontal_resolution;
-  double fov, camnear, max_range, frequency, min_frequency, max_frequency,
-      vertical_fov;
+  double fov, camnear, max_range, frequency, min_frequency, max_frequency, vertical_fov;
   bool spherical;
 
   AbstractCamera *ac = d->pdata;
   Lidar *l = NULL;
 
   switch (command) {
-  case C_CONFIGURE:
-    uid = request_read_uint32(r);
-    width = request_read_uint16(r);
-    height = request_read_uint16(r);
-    fov = request_read_double(r);
-    camnear = request_read_double(r);
-    spherical = request_read_uchar(r);
-    max_range = request_read_double(r);
-    number_of_layers = request_read_uint16(r);
-    frequency = request_read_double(r);
-    min_frequency = request_read_double(r);
-    max_frequency = request_read_double(r);
-    vertical_fov = request_read_double(r);
-    horizontal_resolution = request_read_double(r);
+    case C_CONFIGURE:
+      uid = request_read_uint32(r);
+      width = request_read_uint16(r);
+      height = request_read_uint16(r);
+      fov = request_read_double(r);
+      camnear = request_read_double(r);
+      spherical = request_read_uchar(r);
+      max_range = request_read_double(r);
+      number_of_layers = request_read_uint16(r);
+      frequency = request_read_double(r);
+      min_frequency = request_read_double(r);
+      max_frequency = request_read_double(r);
+      vertical_fov = request_read_double(r);
+      horizontal_resolution = request_read_double(r);
 
-    // printf("new lidar %u %d %d %lf %lf %lf %d\n", uid, width, height, fov,
-    // camnear, max_range, spherical);
-    wb_lidar_new(d, uid, width, height, fov, camnear, max_range, spherical,
-                 number_of_layers, frequency, min_frequency, max_frequency,
-                 vertical_fov, horizontal_resolution);
-    break;
-  case C_CAMERA_RECONFIGURE:
-    l = ac->pdata;
-    ac->fov = request_read_double(r);
-    ac->camnear = request_read_double(r);
-    ac->spherical = request_read_uchar(r);
-    l->max_range = request_read_double(r);
-    l->number_of_layers = request_read_uint16(r);
-    l->frequency = request_read_double(r);
-    l->min_frequency = request_read_double(r);
-    l->max_frequency = request_read_double(r);
-    l->vertical_fov = request_read_double(r);
-    l->horizontal_resolution = request_read_double(r);
-    break;
+      // printf("new lidar %u %d %d %lf %lf %lf %d\n", uid, width, height, fov,
+      // camnear, max_range, spherical);
+      wb_lidar_new(d, uid, width, height, fov, camnear, max_range, spherical, number_of_layers, frequency, min_frequency,
+                   max_frequency, vertical_fov, horizontal_resolution);
+      break;
+    case C_CAMERA_RECONFIGURE:
+      l = ac->pdata;
+      ac->fov = request_read_double(r);
+      ac->camnear = request_read_double(r);
+      ac->spherical = request_read_uchar(r);
+      l->max_range = request_read_double(r);
+      l->number_of_layers = request_read_uint16(r);
+      l->frequency = request_read_double(r);
+      l->min_frequency = request_read_double(r);
+      l->max_frequency = request_read_double(r);
+      l->vertical_fov = request_read_double(r);
+      l->horizontal_resolution = request_read_double(r);
+      break;
 
-  default:
-    ROBOT_ASSERT(0);
-    break;
+    default:
+      ROBOT_ASSERT(0);
+      break;
   }
 }
 
@@ -209,16 +205,15 @@ unsigned char *wbr_lidar_get_image_buffer(WbDeviceTag t) {
     return wbr_abstract_camera_get_image_buffer(d);
 
   fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  return (unsigned char *)""; // don't return NULL, swig can't create string
-                              // objects from NULL
+  return (unsigned char *)"";  // don't return NULL, swig can't create string
+                               // objects from NULL
 }
 
 // Public functions available from the lidar API
 
 void wb_lidar_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: %s() called with negative sampling period.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
   WbDevice *d = lidar_get_device(tag);
@@ -337,8 +332,7 @@ void wb_lidar_set_frequency(WbDeviceTag tag, double frequency) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   else {
     if (frequency < l->min_frequency || frequency > l->max_frequency)
-      fprintf(stderr, "Error: %s() out of frequency range [%f, %f].\n",
-              __FUNCTION__, l->min_frequency, l->max_frequency);
+      fprintf(stderr, "Error: %s() out of frequency range [%f, %f].\n", __FUNCTION__, l->min_frequency, l->max_frequency);
     else {
       l->frequency = frequency;
       l->set_frequency = true;
@@ -446,8 +440,7 @@ const float *wb_lidar_get_layer_range_image(WbDeviceTag tag, int layer) {
             __FUNCTION__, layer, l->number_of_layers);
     return NULL;
   } else if (layer < 0) {
-    fprintf(stderr, "Error: %s() called with a negative 'layer' argument.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with a negative 'layer' argument.\n", __FUNCTION__);
     return NULL;
   }
   const float *image = wb_lidar_get_range_image(tag);
@@ -463,11 +456,10 @@ const WbLidarPoint *wb_lidar_get_point_cloud(WbDeviceTag tag) {
     return NULL;
   }
   if (!l->point_cloud_enabled) {
-    fprintf(
-        stderr,
-        "Error: %s() called for a lidar with point cloud disabled. Please use: "
-        "call wb_lidar_enable_point_cloud().\n",
-        __FUNCTION__);
+    fprintf(stderr,
+            "Error: %s() called for a lidar with point cloud disabled. Please use: "
+            "call wb_lidar_enable_point_cloud().\n",
+            __FUNCTION__);
     return NULL;
   }
   if (wb_abstract_camera_get_sampling_period(lidar_get_device(tag)) <= 0) {
@@ -480,8 +472,7 @@ const WbLidarPoint *wb_lidar_get_point_cloud(WbDeviceTag tag) {
   const float *image = wb_lidar_get_range_image(tag);
   if (image == NULL)
     return NULL;
-  return (WbLidarPoint *)(image +
-                          l->number_of_layers * l->horizontal_resolution);
+  return (WbLidarPoint *)(image + l->number_of_layers * l->horizontal_resolution);
 }
 
 const WbLidarPoint *wb_lidar_get_layer_point_cloud(WbDeviceTag tag, int layer) {
@@ -491,11 +482,10 @@ const WbLidarPoint *wb_lidar_get_layer_point_cloud(WbDeviceTag tag, int layer) {
     return NULL;
   }
   if (!l->point_cloud_enabled) {
-    fprintf(
-        stderr,
-        "Error: %s() called for a lidar with point cloud disabled. Please use: "
-        "wb_lidar_enable_point_cloud().\n",
-        __FUNCTION__);
+    fprintf(stderr,
+            "Error: %s() called for a lidar with point cloud disabled. Please use: "
+            "wb_lidar_enable_point_cloud().\n",
+            __FUNCTION__);
     return NULL;
   }
   if (wb_abstract_camera_get_sampling_period(lidar_get_device(tag)) <= 0) {
@@ -512,8 +502,7 @@ const WbLidarPoint *wb_lidar_get_layer_point_cloud(WbDeviceTag tag, int layer) {
             __FUNCTION__, layer, l->number_of_layers);
     return NULL;
   } else if (layer < 0) {
-    fprintf(stderr, "Error: %s() called with a negative 'layer' argument.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with a negative 'layer' argument.\n", __FUNCTION__);
     return NULL;
   }
   const WbLidarPoint *point_cloud = wb_lidar_get_point_cloud(tag);
@@ -529,11 +518,10 @@ int wb_lidar_get_number_of_points(WbDeviceTag tag) {
     return 0;
   }
   if (!l->point_cloud_enabled) {
-    fprintf(
-        stderr,
-        "Error: %s() called for a lidar with point cloud disabled! Please use: "
-        "wb_lidar_enable_point_cloud().\n",
-        __FUNCTION__);
+    fprintf(stderr,
+            "Error: %s() called for a lidar with point cloud disabled! Please use: "
+            "wb_lidar_enable_point_cloud().\n",
+            __FUNCTION__);
     return 0;
   }
   if (wb_abstract_camera_get_sampling_period(lidar_get_device(tag)) <= 0) {

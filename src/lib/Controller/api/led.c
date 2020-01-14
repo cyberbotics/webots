@@ -18,15 +18,15 @@
 //  this file contains the API code for the LED device
 // ***************************************************
 
-#include "device_private.h"
-#include "messages.h"
-#include "robot_private.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <webots/led.h>
 #include <webots/nodes.h>
 #include <webots/robot.h>
+#include "device_private.h"
+#include "messages.h"
+#include "robot_private.h"
 
 // Static functions
 
@@ -56,7 +56,9 @@ static void led_write_request(WbDevice *d, WbRequest *r) {
   }
 }
 
-static void led_cleanup(WbDevice *d) { free(d->pdata); }
+static void led_cleanup(WbDevice *d) {
+  free(d->pdata);
+}
 
 static void led_toggle_remote(WbDevice *d, WbRequest *r) {
   LED *led = d->pdata;

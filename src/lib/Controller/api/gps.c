@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-#include "messages.h"
-#include "robot_private.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <webots/gps.h>
+#include "messages.h"
+#include "robot_private.h"
 
 // Static functions
 
@@ -52,17 +52,17 @@ static void gps_read_answer(WbDevice *d, WbRequest *r) {
   int i;
 
   switch (request_read_uchar(r)) {
-  case C_GPS_DATA:
-    for (i = 0; i < 3; i++)
-      gps->position[i] = request_read_double(r);
-    gps->speed = request_read_double(r);
-    break;
-  case C_CONFIGURE:
-    gps->coordinate_system = request_read_int32(r);
-    break;
-  default:
-    ROBOT_ASSERT(0); // should never be reached
-    break;
+    case C_GPS_DATA:
+      for (i = 0; i < 3; i++)
+        gps->position[i] = request_read_double(r);
+      gps->speed = request_read_double(r);
+      break;
+    case C_CONFIGURE:
+      gps->coordinate_system = request_read_int32(r);
+      break;
+    default:
+      ROBOT_ASSERT(0);  // should never be reached
+      break;
   }
 }
 
@@ -75,7 +75,9 @@ static void gps_write_request(WbDevice *d, WbRequest *r) {
   }
 }
 
-static void gps_cleanup(WbDevice *d) { free(d->pdata); }
+static void gps_cleanup(WbDevice *d) {
+  free(d->pdata);
+}
 
 static void gps_toggle_remote(WbDevice *d, WbRequest *r) {
   GPS *gps = d->pdata;
@@ -115,8 +117,7 @@ void wb_gps_init(WbDevice *d) {
 
 void wb_gps_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: %s() called with negative sampling period.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
 

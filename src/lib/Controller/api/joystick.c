@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
+#include <webots/joystick.h>
+#include <webots/types.h>
 #include "joystick_private.h"
 #include "messages.h"
 #include "robot_private.h"
-#include <webots/joystick.h>
-#include <webots/types.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -89,7 +89,7 @@ static void joystick_read_value(WbRequest *r) {
 // Protected funtions available from other files of the client library
 
 void joystick_write_request(WbRequest *req) {
-  if (joystick.button_pointer == -1) { // need to enable or disable
+  if (joystick.button_pointer == -1) {  // need to enable or disable
     request_write_uchar(req, C_ROBOT_SET_JOYSTICK_SAMPLING_PERIOD);
     request_write_uint16(req, joystick.sampling_period);
     joystick.button_pointer = 0;
@@ -147,19 +147,16 @@ bool joystick_read_answer(int message, WbRequest *r) {
     joystick.number_of_axes = request_read_uint32(r);
     joystick.number_of_buttons = request_read_uint32(r);
     joystick.number_of_povs = request_read_uint32(r);
-    if (joystick.number_of_axes < 0 && joystick.number_of_buttons < 0 &&
-        joystick.number_of_povs < 0) {
+    if (joystick.number_of_axes < 0 && joystick.number_of_buttons < 0 && joystick.number_of_povs < 0) {
       joystick.number_of_axes = 0;
       joystick.number_of_buttons = 0;
       joystick.number_of_povs = 0;
       joystick.connected = false;
     } else {
       joystick.model = request_read_string(r);
-      joystick.axis_value =
-          (int *)malloc(joystick.number_of_axes * sizeof(int));
+      joystick.axis_value = (int *)malloc(joystick.number_of_axes * sizeof(int));
       joystick.pov_value = (int *)malloc(joystick.number_of_povs * sizeof(int));
-      joystick.pressed_button =
-          (int *)malloc((joystick.number_of_buttons + 1) * sizeof(int));
+      joystick.pressed_button = (int *)malloc((joystick.number_of_buttons + 1) * sizeof(int));
       joystick.connected = true;
       int i;
       for (i = 0; i < joystick.number_of_axes; ++i)
@@ -184,7 +181,7 @@ void joystick_step_end() {
 }
 
 void wb_joystick_init() {
-  joystick.sampling_period = 0; // initially disabled
+  joystick.sampling_period = 0;  // initially disabled
   joystick.connected = false;
   joystick.button_pointer = -1;
   joystick.number_of_axes = 0;
@@ -210,12 +207,14 @@ void wb_joystick_init() {
 
 void wb_joystick_enable(int sampling_period) {
   robot_mutex_lock_step();
-  joystick.button_pointer = -1; // need to enable or disable
+  joystick.button_pointer = -1;  // need to enable or disable
   joystick.sampling_period = sampling_period;
   robot_mutex_unlock_step();
 }
 
-void wb_joystick_disable() { wb_joystick_enable(0); }
+void wb_joystick_disable() {
+  wb_joystick_enable(0);
+}
 
 int wb_joystick_get_sampling_period() {
   int sampling_period = 0;
@@ -321,8 +320,7 @@ void wb_joystick_set_constant_force_duration(double duration) {
   }
 
   if (duration < 0) {
-    fprintf(stderr, "Error: %s() called with a negative 'duration' argument.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with a negative 'duration' argument.\n", __FUNCTION__);
     return;
   }
 
@@ -389,4 +387,6 @@ bool wb_joystick_is_connected() {
   return joystick.connected;
 }
 
-const char *wb_joystick_get_model() { return joystick.model; }
+const char *wb_joystick_get_model() {
+  return joystick.model;
+}

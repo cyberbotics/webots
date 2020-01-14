@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
+#include <stdio.h>
+#include <webots/mouse.h>
 #include "messages.h"
 #include "mouse_private.h"
 #include "robot_private.h"
-#include <stdio.h>
-#include <webots/mouse.h>
 
 typedef struct {
   int sampling_period;
@@ -80,8 +80,7 @@ void wb_mouse_init() {
 
 void wb_mouse_enable(int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: %s() called with negative sampling period.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
 
@@ -91,7 +90,9 @@ void wb_mouse_enable(int sampling_period) {
   robot_mutex_unlock_step();
 }
 
-void wb_mouse_disable() { wb_mouse_enable(0); }
+void wb_mouse_disable() {
+  wb_mouse_enable(0);
+}
 
 int wb_mouse_get_sampling_period() {
   robot_mutex_lock_step();
@@ -128,6 +129,10 @@ bool wb_mouse_is_3d_position_enabled() {
   return enabled;
 }
 
-WbMouseState wb_mouse_get_state() { return mouse.state; }
+WbMouseState wb_mouse_get_state() {
+  return mouse.state;
+}
 
-WbMouseState *wb_mouse_get_state_pointer() { return &(mouse.state); }
+WbMouseState *wb_mouse_get_state_pointer() {
+  return &(mouse.state);
+}

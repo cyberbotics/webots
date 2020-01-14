@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-#include "device_private.h"
-#include "messages.h"
-#include "robot_private.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <webots/light_sensor.h>
 #include <webots/nodes.h>
 #include <webots/robot.h>
+#include "device_private.h"
+#include "messages.h"
+#include "robot_private.h"
 
 // Static functions
 
 typedef struct {
-  bool enable;         // need to enable device ?
-  int sampling_period; // milliseconds
+  bool enable;          // need to enable device ?
+  int sampling_period;  // milliseconds
   double value;
 } LightSensor;
 
@@ -54,11 +54,13 @@ static void light_sensor_write_request(WbDevice *d, WbRequest *r) {
   if (ls->enable) {
     request_write_uchar(r, C_SET_SAMPLING_PERIOD);
     request_write_uint16(r, ls->sampling_period);
-    ls->enable = false; // done
+    ls->enable = false;  // done
   }
 }
 
-static void light_sensor_cleanup(WbDevice *d) { free(d->pdata); }
+static void light_sensor_cleanup(WbDevice *d) {
+  free(d->pdata);
+}
 
 static void light_sensor_toggle_remote(WbDevice *d, WbRequest *r) {
   LightSensor *ls = (LightSensor *)d->pdata;
@@ -88,8 +90,7 @@ void wb_light_sensor_init(WbDevice *d) {
 
 void wb_light_sensor_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: %s() called with negative sampling period.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
 

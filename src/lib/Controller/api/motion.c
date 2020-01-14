@@ -18,28 +18,28 @@
 // Purpose:  Webots API for loading and playing .motion files
 //-----------------------------------------------------------
 
-#include "robot_private.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <webots/device.h>
 #include <webots/types.h>
 #include <webots/utils/motion.h>
+#include "robot_private.h"
 
 typedef struct WbMotionStructPrivate {
-  int n_joints;       // number of joints (columns) in the file
-  int n_poses;        // number of poses (lines) in the file
-  char *filename;     // file name
-  char **joint_names; // array of n_joints joint names
-  WbDeviceTag *tags;  // array of n_joints device tags
-  WbNodeType *types;  // array of n_joints device types
-  int *times;         // array of n_poses poses
-  double **pos;       // two-dimensional [n_poses][n_joints] array
-  int elapsed;        // elapsed time when playing this motion file
-  bool playing;       // is currenly playing
-  bool reverse;       // playing forward of backwards ?
-  bool loop;          // loop when reaching the end (or begining) ?
-  WbMotionRef next;   // next struct in list
+  int n_joints;        // number of joints (columns) in the file
+  int n_poses;         // number of poses (lines) in the file
+  char *filename;      // file name
+  char **joint_names;  // array of n_joints joint names
+  WbDeviceTag *tags;   // array of n_joints device tags
+  WbNodeType *types;   // array of n_joints device types
+  int *times;          // array of n_poses poses
+  double **pos;        // two-dimensional [n_poses][n_joints] array
+  int elapsed;         // elapsed time when playing this motion file
+  bool playing;        // is currenly playing
+  bool reverse;        // playing forward of backwards ?
+  bool loop;           // loop when reaching the end (or begining) ?
+  WbMotionRef next;    // next struct in list
 } WbMotionStruct;
 
 extern void wb_motor_set_position_no_mutex(WbDeviceTag, double);
@@ -72,17 +72,17 @@ static int str_to_time(const char *token) {
   int v[3] = {0, 0, 0};
   int r;
   switch (k) {
-  case 0:
-    r = sscanf(token, "%d", &v[2]);
-    break;
-  case 1:
-    r = sscanf(token, "%d:%d", &v[1], &v[2]);
-    break;
-  case 2:
-    r = sscanf(token, "%d:%d:%d", &v[0], &v[1], &v[2]);
-    break;
-  default:
-    return UNDEFINED_TIME;
+    case 0:
+      r = sscanf(token, "%d", &v[2]);
+      break;
+    case 1:
+      r = sscanf(token, "%d:%d", &v[1], &v[2]);
+      break;
+    case 2:
+      r = sscanf(token, "%d:%d:%d", &v[0], &v[1], &v[2]);
+      break;
+    default:
+      return UNDEFINED_TIME;
   }
 
   // unexpected number of items
@@ -92,12 +92,13 @@ static int str_to_time(const char *token) {
   return v[0] * 60000 + v[1] * 1000 + v[2];
 }
 
-static char *next_token(char *buffer) { return strtok(buffer, ",\n\r"); }
+static char *next_token(char *buffer) {
+  return strtok(buffer, ",\n\r");
+}
 
 // check the file syntax and find out the number of joints and poses
 // returns true only if the syntax is 100% correct
-static bool motion_check_file(FILE *file, const char *filename, int *n_joints,
-                              int *n_poses) {
+static bool motion_check_file(FILE *file, const char *filename, int *n_joints, int *n_poses) {
   // line buffer and counter
   char buffer[MAX_LINE];
   int line = 1;
@@ -110,23 +111,18 @@ static bool motion_check_file(FILE *file, const char *filename, int *n_joints,
 
   char *token = next_token(buffer);
   if (!token) {
-    fprintf(stderr, "Error: wbu_motion_new(): unexpected end of file '%s'.\n",
-            filename);
+    fprintf(stderr, "Error: wbu_motion_new(): unexpected end of file '%s'.\n", filename);
     return false;
   }
 
   if (strcmp(token, HEADER) != 0) {
-    fprintf(
-        stderr,
-        "Error: wbu_motion_new(): invalid motion file header in file '%s'.\n",
-        filename);
+    fprintf(stderr, "Error: wbu_motion_new(): invalid motion file header in file '%s'.\n", filename);
     return false;
   }
 
   token = next_token(NULL);
   if (!token) {
-    fprintf(stderr, "Error: wbu_motion_new(): unexpected end of file '%s'.\n",
-            filename);
+    fprintf(stderr, "Error: wbu_motion_new(): unexpected end of file '%s'.\n", filename);
     return false;
   }
 
@@ -192,10 +188,7 @@ static bool motion_check_file(FILE *file, const char *filename, int *n_joints,
     for (i = 0; i < joints; i++) {
       token = next_token(NULL);
       if (!token) {
-        fprintf(
-            stderr,
-            "Error: wbu_motion_new(): missing data in file '%s', line %d.\n",
-            filename, line);
+        fprintf(stderr, "Error: wbu_motion_new(): missing data in file '%s', line %d.\n", filename, line);
         return false;
       }
 
@@ -240,7 +233,7 @@ static void motion_load(WbMotionRef ref, FILE *file) {
   char buffer[MAX_LINE];
   char *r = fgets(buffer, MAX_LINE, file);
   if (r == NULL)
-    return; // should never happen
+    return;  // should never happen
 
   // skip header and version number
   next_token(buffer);
@@ -256,10 +249,10 @@ static void motion_load(WbMotionRef ref, FILE *file) {
   for (i = 0; i < ref->n_poses; i++) {
     r = fgets(buffer, MAX_LINE, file);
     if (r == NULL)
-      return; // should never happen
+      return;  // should never happen
     char *token = next_token(buffer);
     ref->times[i] = str_to_time(token);
-    next_token(NULL); // skip pose name
+    next_token(NULL);  // skip pose name
     int j;
     for (j = 0; j < ref->n_joints; j++) {
       token = next_token(NULL);
@@ -302,15 +295,12 @@ static double motion_compute_joint_pos(WbMotionRef ref, int joint) {
   int a, b;
   for (a = 0, b = 1; b < ref->n_poses; a++, b++) {
     if (elapsed >= ref->times[a] && elapsed <= ref->times[b]) {
-      if (ref->pos[a][joint] == UNDEFINED_POSITION ||
-          ref->pos[b][joint] == UNDEFINED_POSITION)
+      if (ref->pos[a][joint] == UNDEFINED_POSITION || ref->pos[b][joint] == UNDEFINED_POSITION)
         return UNDEFINED_POSITION;
       else
         // linear interpolation between the two joint positions
         return ref->pos[a][joint] +
-               (ref->elapsed - ref->times[a]) *
-                   (ref->pos[b][joint] - ref->pos[a][joint]) /
-                   (ref->times[b] - ref->times[a]);
+               (ref->elapsed - ref->times[a]) * (ref->pos[b][joint] - ref->pos[a][joint]) / (ref->times[b] - ref->times[a]);
     }
   }
 
@@ -326,12 +316,10 @@ static void motion_actuate(WbMotionRef ref) {
     if (ref->tags[j]) {
       double pos = motion_compute_joint_pos(ref, j);
       if (pos != UNDEFINED_POSITION) {
-        if (ref->types[j] == WB_NODE_ROTATIONAL_MOTOR ||
-            ref->types[j] == WB_NODE_LINEAR_MOTOR)
+        if (ref->types[j] == WB_NODE_ROTATIONAL_MOTOR || ref->types[j] == WB_NODE_LINEAR_MOTOR)
           wb_motor_set_position_no_mutex(ref->tags[j], pos);
         else
-          fprintf(stderr, "Error: unexpeced type for device \"%s\".\n",
-                  ref->joint_names[j]);
+          fprintf(stderr, "Error: unexpeced type for device \"%s\".\n", ref->joint_names[j]);
       }
     }
   }
@@ -414,16 +402,13 @@ void motion_cleanup() {
 
 WbMotionRef wbu_motion_new(const char *filename) {
   if (!filename || !filename[0]) {
-    fprintf(stderr,
-            "Error: %s() called with NULL or empty 'filename' argument.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with NULL or empty 'filename' argument.\n", __FUNCTION__);
     return NULL;
   }
 
   FILE *file = fopen(filename, "r");
   if (!file) {
-    fprintf(stderr, "Error: %s(): could not open '%s' file.\n", __FUNCTION__,
-            filename);
+    fprintf(stderr, "Error: %s(): could not open '%s' file.\n", __FUNCTION__, filename);
     return NULL;
   }
 
@@ -488,8 +473,7 @@ void wbu_motion_delete(WbMotionRef motion) {
 
   // dequeue self
   if (!motion_dequeue(motion)) {
-    fprintf(stderr, "Error: %s(): attempt to delete an invalid 'motion'.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s(): attempt to delete an invalid 'motion'.\n", __FUNCTION__);
     return;
   }
 
@@ -509,8 +493,7 @@ void wbu_motion_delete(WbMotionRef motion) {
 
 void wbu_motion_play(WbMotionRef motion) {
   if (!motion) {
-    fprintf(stderr, "Error: %s() called with NULL 'motion' argument.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with NULL 'motion' argument.\n", __FUNCTION__);
     return;
   }
 
@@ -565,8 +548,7 @@ bool wbu_motion_is_over(WbMotionRef motion) {
   if (motion->loop)
     return false;
   else
-    return (motion->reverse && motion->elapsed <= 0) ||
-           (!motion->reverse && motion->elapsed >= motion_get_duration(motion));
+    return (motion->reverse && motion->elapsed <= 0) || (!motion->reverse && motion->elapsed >= motion_get_duration(motion));
 }
 
 void wbu_motion_stop(WbMotionRef motion) {

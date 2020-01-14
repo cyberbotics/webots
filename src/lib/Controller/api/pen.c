@@ -18,14 +18,14 @@
 // this file contains the API code for the Pen device
 // ***************************************************************************
 
-#include "device_private.h"
-#include "messages.h"
-#include "robot_private.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <webots/nodes.h>
 #include <webots/pen.h>
 #include <webots/types.h>
+#include "device_private.h"
+#include "messages.h"
+#include "robot_private.h"
 
 // Static functions
 
@@ -70,7 +70,9 @@ static void pen_write_request(WbDevice *d, WbRequest *r) {
   }
 }
 
-static void pen_cleanup(WbDevice *d) { free(d->pdata); }
+static void pen_cleanup(WbDevice *d) {
+  free(d->pdata);
+}
 
 static void pen_toggle_remote(WbDevice *d, WbRequest *r) {
   Pen *pen = d->pdata;

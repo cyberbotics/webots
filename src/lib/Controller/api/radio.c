@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-#include "device_private.h"
-#include "messages.h"
-#include "robot_private.h"
-#include "scheduler.h"
 #include <plugins/radio.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <webots/nodes.h>
 #include <webots/radio.h>
+#include "device_private.h"
+#include "messages.h"
+#include "robot_private.h"
+#include "scheduler.h"
 
 // static functions
 
@@ -93,26 +93,26 @@ static void radio_read_answer(WbDevice *d, WbRequest *r) {
   int tag;
   _Radio *radio = (_Radio *)d->pdata;
   switch (request_read_uchar(r)) {
-  case C_CONFIGURE:
-    radio->address = request_read_string(r);
-    radio->frequency = request_read_double(r);
-    radio->channel = request_read_int32(r);
-    radio->bitrate = request_read_int32(r);
-    radio->rx_sensitivity = request_read_double(r);
-    radio->tx_power = request_read_double(r);
-    fflush(stdout);
-    break;
-  case C_RADIO_RECEIVE:
-    event.type = 1;
-    event.rssi = request_read_double(r);
-    event.from = request_read_string(r);
-    event.data_size = request_read_uint32(r);
-    event.data = (const char *)request_read_data(r, event.data_size);
-    tag = robot_get_device_tag(d);
-    event.user_data = &tag;
-    if (radio->callback)
-      (*radio->callback)(&event);
-    break;
+    case C_CONFIGURE:
+      radio->address = request_read_string(r);
+      radio->frequency = request_read_double(r);
+      radio->channel = request_read_int32(r);
+      radio->bitrate = request_read_int32(r);
+      radio->rx_sensitivity = request_read_double(r);
+      radio->tx_power = request_read_double(r);
+      fflush(stdout);
+      break;
+    case C_RADIO_RECEIVE:
+      event.type = 1;
+      event.rssi = request_read_double(r);
+      event.from = request_read_string(r);
+      event.data_size = request_read_uint32(r);
+      event.data = (const char *)request_read_data(r, event.data_size);
+      tag = robot_get_device_tag(d);
+      event.user_data = &tag;
+      if (radio->callback)
+        (*radio->callback)(&event);
+      break;
   }
 }
 
@@ -122,7 +122,7 @@ static void radio_write_request(WbDevice *d, WbRequest *r) {
   if (radio->enable) {
     request_write_uchar(r, C_SET_SAMPLING_PERIOD);
     request_write_uint16(r, radio->sampling_period);
-    radio->enable = false; // done
+    radio->enable = false;  // done
   }
 
   // set device parameters
@@ -205,7 +205,7 @@ static void radio_toggle_remote(WbDevice *d, WbRequest *r) {
 
 void wb_radio_init(WbDevice *d) {
   _Radio *radio = malloc(sizeof(_Radio));
-  radio->enable = false; // do not enable
+  radio->enable = false;  // do not enable
   radio->set_address = false;
   radio->set_frequency = false;
   radio->set_channel = false;
@@ -254,8 +254,7 @@ void wb_radio_disable(WbDeviceTag tag) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
-WbRadioMessage wb_radio_message_new(int length, const char *body,
-                                    const char *destination) {
+WbRadioMessage wb_radio_message_new(int length, const char *body, const char *destination) {
   _RadioMessage *msg;
   msg = malloc(sizeof(_RadioMessage));
   msg->length = length;
@@ -317,8 +316,7 @@ const char *wb_radio_get_address(WbDeviceTag tag) {
 
 void wb_radio_set_frequency(WbDeviceTag tag, double hz) {
   if (hz <= 0.0) {
-    fprintf(stderr, "Error: %s(): invalid negative or zero hz argument: %f.\n",
-            __FUNCTION__, hz);
+    fprintf(stderr, "Error: %s(): invalid negative or zero hz argument: %f.\n", __FUNCTION__, hz);
     return;
   }
 
@@ -361,10 +359,7 @@ int wb_radio_get_channel(WbDeviceTag tag) {
 
 void wb_radio_set_bitrate(WbDeviceTag tag, int bits_per_second) {
   if (bits_per_second <= 0) {
-    fprintf(
-        stderr,
-        "Error: %s(): invalid negative or zero bits_per_second argument: %d.\n",
-        __FUNCTION__, bits_per_second);
+    fprintf(stderr, "Error: %s(): invalid negative or zero bits_per_second argument: %d.\n", __FUNCTION__, bits_per_second);
     return;
   }
 
@@ -405,8 +400,7 @@ double wb_radio_get_rx_sensitivity(WbDeviceTag tag) {
 
 void wb_radio_set_tx_power(WbDeviceTag tag, double dBm) {
   if (dBm <= 0) {
-    fprintf(stderr, "Error: %s(): invalid negative or zero dBm argument: %f.\n",
-            __FUNCTION__, dBm);
+    fprintf(stderr, "Error: %s(): invalid negative or zero dBm argument: %f.\n", __FUNCTION__, dBm);
     return;
   }
 
@@ -441,8 +435,7 @@ void wb_radio_send(WbDeviceTag tag, void *msg, double delay) {
     return;
   }
   if (delay < 0.0) {
-    fprintf(stderr, "Error: %s(): invalid negative delay argument: %f.\n",
-            __FUNCTION__, delay);
+    fprintf(stderr, "Error: %s(): invalid negative delay argument: %f.\n", __FUNCTION__, delay);
     return;
   }
 

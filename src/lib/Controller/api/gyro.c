@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-#include "device_private.h"
-#include "messages.h"
-#include "robot_private.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <webots/gyro.h>
 #include <webots/nodes.h>
+#include "device_private.h"
+#include "messages.h"
+#include "robot_private.h"
 
 typedef struct {
-  int enable;          // need to enable device ?
-  int sampling_period; // milliseconds
-  double velocity[3];  // angular velocity
+  int enable;           // need to enable device ?
+  int sampling_period;  // milliseconds
+  double velocity[3];   // angular velocity
 } Gyro;
 
 static Gyro *gyro_create() {
@@ -57,11 +57,13 @@ static void gyro_write_request(WbDevice *d, WbRequest *r) {
   if (gyro->enable) {
     request_write_uchar(r, C_SET_SAMPLING_PERIOD);
     request_write_uint16(r, gyro->sampling_period);
-    gyro->enable = false; // done
+    gyro->enable = false;  // done
   }
 }
 
-static void gyro_cleanup(WbDevice *d) { free(d->pdata); }
+static void gyro_cleanup(WbDevice *d) {
+  free(d->pdata);
+}
 
 static void gyro_toggle_remote(WbDevice *d, WbRequest *r) {
   Gyro *gyro = d->pdata;
@@ -93,8 +95,7 @@ void wb_gyro_init(WbDevice *d) {
 
 void wb_gyro_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: %s() called with negative sampling period.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
 

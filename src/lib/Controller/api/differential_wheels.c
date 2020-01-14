@@ -18,16 +18,16 @@
 // that can be controlled in speed and have incremental encoders for controlling
 // position of each wheel.
 
-#include "device_private.h"
-#include "differential_wheels_private.h"
-#include "messages.h"
-#include "robot_private.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <webots/differential_wheels.h>
 #include <webots/nodes.h>
 #include <webots/robot.h>
+#include "device_private.h"
+#include "differential_wheels_private.h"
+#include "messages.h"
+#include "robot_private.h"
 
 // Private functions
 
@@ -91,22 +91,24 @@ static void differential_wheels_write_request(WbDevice *d, WbRequest *r) {
 static void differential_wheels_read_answer(WbDevice *d, WbRequest *r) {
   DifferentialWheels *dw = d->pdata;
   switch (request_read_uchar(r)) {
-  case C_CONFIGURE:
-    dw->max_speed = request_read_double(r);
-    dw->speed_unit = request_read_double(r);
-    break;
-  case C_DIFFERENTIAL_WHEELS_GET_ENCODERS:
-    dw->left_encoder = request_read_double(r);
-    dw->right_encoder = request_read_double(r);
-    break;
-  default:
-    r->pointer--; // unread last value
-    robot_read_answer(d, r);
-    break;
+    case C_CONFIGURE:
+      dw->max_speed = request_read_double(r);
+      dw->speed_unit = request_read_double(r);
+      break;
+    case C_DIFFERENTIAL_WHEELS_GET_ENCODERS:
+      dw->left_encoder = request_read_double(r);
+      dw->right_encoder = request_read_double(r);
+      break;
+    default:
+      r->pointer--;  // unread last value
+      robot_read_answer(d, r);
+      break;
   }
 }
 
-static void differential_wheels_cleanup(WbDevice *d) { free(d->pdata); }
+static void differential_wheels_cleanup(WbDevice *d) {
+  free(d->pdata);
+}
 
 static void differential_wheels_toggle_remote(WbDevice *d, WbRequest *r) {
   // chain with base class
@@ -156,20 +158,16 @@ void wb_differential_wheels_set_speed(double left, double right) {
     return;
 
   if (isnan(left) || isnan(right)) {
-    fprintf(stderr, "Error: %s(): invalid NaN value passed as argument.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s(): invalid NaN value passed as argument.\n", __FUNCTION__);
     return;
   }
 
   robot_mutex_lock_step();
   DifferentialWheels *dw = differential_wheels_get_struct();
   if (dw) {
-    if (left * dw->speed_unit * 0.99999 > dw->max_speed ||
-        right * dw->speed_unit * 0.99999 > dw->max_speed)
-      fprintf(stderr,
-              "Error: %s(%g,%g) overflows maxSpeed/speedUnit: %g/%g=%g.\n",
-              __FUNCTION__, left, right, dw->max_speed, dw->speed_unit,
-              dw->max_speed / dw->speed_unit);
+    if (left * dw->speed_unit * 0.99999 > dw->max_speed || right * dw->speed_unit * 0.99999 > dw->max_speed)
+      fprintf(stderr, "Error: %s(%g,%g) overflows maxSpeed/speedUnit: %g/%g=%g.\n", __FUNCTION__, left, right, dw->max_speed,
+              dw->speed_unit, dw->max_speed / dw->speed_unit);
     dw->left_speed = left;
     dw->right_speed = right;
     dw->set_speed = true;
@@ -179,8 +177,7 @@ void wb_differential_wheels_set_speed(double left, double right) {
 
 void wb_differential_wheels_enable_encoders(int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: %s() called with negative sampling period.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
 
@@ -296,8 +293,7 @@ void wb_differential_wheels_set_encoders(double left, double right) {
     return;
 
   if (isnan(left) || isnan(right)) {
-    fprintf(stderr, "Error: %s(): invalid NaN value passed as argument.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s(): invalid NaN value passed as argument.\n", __FUNCTION__);
     return;
   }
 

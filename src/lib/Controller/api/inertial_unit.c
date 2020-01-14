@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-#include "device_private.h"
-#include "messages.h"
-#include "robot_private.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <webots/inertial_unit.h>
 #include <webots/nodes.h>
+#include "device_private.h"
+#include "messages.h"
+#include "robot_private.h"
 
 typedef struct {
-  int enable;          // need to enable device ?
-  int sampling_period; // milliseconds
-  double rpy[3];       // roll/pitch/yaw
+  int enable;           // need to enable device ?
+  int sampling_period;  // milliseconds
+  double rpy[3];        // roll/pitch/yaw
 } InertialUnit;
 
 static InertialUnit *inertial_unit_create() {
@@ -57,11 +57,13 @@ static void inertial_unit_write_request(WbDevice *d, WbRequest *r) {
   if (inertial_unit->enable) {
     request_write_uchar(r, C_SET_SAMPLING_PERIOD);
     request_write_uint16(r, inertial_unit->sampling_period);
-    inertial_unit->enable = false; // done
+    inertial_unit->enable = false;  // done
   }
 }
 
-static void inertial_unit_cleanup(WbDevice *d) { free(d->pdata); }
+static void inertial_unit_cleanup(WbDevice *d) {
+  free(d->pdata);
+}
 
 static void inertial_unit_toggle_remote(WbDevice *d, WbRequest *r) {
   InertialUnit *inertial_unit = d->pdata;
@@ -93,8 +95,7 @@ void wb_inertial_unit_init(WbDevice *d) {
 
 void wb_inertial_unit_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: %s() called with negative sampling period.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
 
