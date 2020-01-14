@@ -104,7 +104,7 @@ export WEBOTS_HOME=/home/username/webots
 The export line should however be included in a configuration script like "/etc/profile", so that it is set properly for every session.
 
 > **Note**: Webots needs the *ffmpeg* and *libfdk-aac1* (from *ubuntu-restricted-extras* for H.264 codec) packages to create MPEG-4 movies.
-You will also need to install *make*, *g++*, *libjpeg8-dev* to compile your own robot controllers.
+You will also need to install *make* and *g++* to compile your own robot controllers.
 Other particular libraries could also be required to recompile some of the distributed binary files.
 In this case an error message will be printed in the Webots console mentioning the missing dependency.
 The package names could slightly change on different releases and distributions.
