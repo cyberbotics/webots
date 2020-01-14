@@ -50,8 +50,8 @@ int main() {
   enum BLOB_TYPE current_blob;
 
   wb_robot_init();
-  
-  int time_step = wb_robot_get_basic_time_step();
+
+  const int time_step = wb_robot_get_basic_time_step();
 
   /* Get the camera device, enable it, and store its width and height */
   camera = wb_robot_get_device("camera");
