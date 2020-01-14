@@ -4,6 +4,7 @@ WorldInfo {
     "Example use of a color Camera device with motion blur."
   ]
   title "Camera Motion Blur"
+  basicTimeStep 8
 }
 Viewpoint {
   orientation 0.9920436709682258 -0.09617796809386885 -0.0812351730792848 5.48744

@@ -3850,10 +3850,6 @@ Please close any running instances of the controller and reload the world.</sour
         <translation>Saranno creati i seguenti files e cartelle:</translation>
     </message>
     <message>
-        <source>Open &apos;%1.sln&apos; in Microsoft Visual Studio.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Please choose the language for your controller program.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3875,6 +3871,10 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>Please choose a name for your controller program.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open &apos;%1.sln&apos; in Microsoft Visual Studio (the controller need to be set to &lt;&lt;extern&gt;&gt; to be able to launch the controller from Microsoft Visual Studio.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
