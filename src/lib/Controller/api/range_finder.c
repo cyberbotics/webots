@@ -16,14 +16,14 @@
 
 #include "../util/g_image.h"
 
-#include "abstract_camera.h"
-#include "messages.h"
-#include "robot_private.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <webots/range_finder.h>
 #include <webots/robot.h>
+#include "abstract_camera.h"
+#include "messages.h"
+#include "robot_private.h"
 
 typedef struct {
   double max_range;
@@ -56,8 +56,7 @@ static void wb_range_finder_cleanup(WbDevice *d) {
   wb_abstract_camera_cleanup(d);
 }
 
-static void wb_range_finder_new(WbDevice *d, unsigned int id, int w, int h,
-                                double fov, double camnear, double max_range,
+static void wb_range_finder_new(WbDevice *d, unsigned int id, int w, int h, double fov, double camnear, double max_range,
                                 bool spherical) {
   RangeFinder *rf;
   wb_range_finder_cleanup(d);
@@ -87,31 +86,30 @@ static void wb_range_finder_read_answer(WbDevice *d, WbRequest *r) {
   RangeFinder *rf = NULL;
 
   switch (command) {
-  case C_CONFIGURE:
-    uid = request_read_uint32(r);
-    width = request_read_uint16(r);
-    height = request_read_uint16(r);
-    fov = request_read_double(r);
-    camnear = request_read_double(r);
-    spherical = request_read_uchar(r);
-    max_range = request_read_double(r);
+    case C_CONFIGURE:
+      uid = request_read_uint32(r);
+      width = request_read_uint16(r);
+      height = request_read_uint16(r);
+      fov = request_read_double(r);
+      camnear = request_read_double(r);
+      spherical = request_read_uchar(r);
+      max_range = request_read_double(r);
 
-    // printf("new range_finder %u %d %d %lf %lf %lf %d\n", uid, width, height,
-    // fov, camnear, max_range, spherical);
-    wb_range_finder_new(d, uid, width, height, fov, camnear, max_range,
-                        spherical);
-    break;
-  case C_CAMERA_RECONFIGURE:
-    rf = ac->pdata;
-    ac->fov = request_read_double(r);
-    ac->camnear = request_read_double(r);
-    ac->spherical = request_read_uchar(r);
-    rf->max_range = request_read_double(r);
-    break;
+      // printf("new range_finder %u %d %d %lf %lf %lf %d\n", uid, width, height,
+      // fov, camnear, max_range, spherical);
+      wb_range_finder_new(d, uid, width, height, fov, camnear, max_range, spherical);
+      break;
+    case C_CAMERA_RECONFIGURE:
+      rf = ac->pdata;
+      ac->fov = request_read_double(r);
+      ac->camnear = request_read_double(r);
+      ac->spherical = request_read_uchar(r);
+      rf->max_range = request_read_double(r);
+      break;
 
-  default:
-    ROBOT_ASSERT(0);
-    break;
+    default:
+      ROBOT_ASSERT(0);
+      break;
   }
 }
 
@@ -149,16 +147,15 @@ unsigned char *wbr_range_finder_get_image_buffer(WbDeviceTag t) {
     return wbr_abstract_camera_get_image_buffer(range_finder_get_device(t));
 
   fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  return (unsigned char *)""; // can't return NULL, swig needs the empty string
-                              // to make python strings
+  return (unsigned char *)"";  // can't return NULL, swig needs the empty string
+                               // to make python strings
 }
 
 // Public functions available from the range_finder API
 
 void wb_range_finder_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: %s() called with negative sampling period.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
 
@@ -258,17 +255,13 @@ const float *wb_range_finder_get_range_image(WbDeviceTag tag) {
   return (const float *)(void *)ac->image;
 }
 
-int wb_range_finder_save_image(WbDeviceTag tag, const char *filename,
-                               int quality) {
+int wb_range_finder_save_image(WbDeviceTag tag, const char *filename, int quality) {
   if (!filename || !filename[0]) {
-    fprintf(stderr,
-            "Error: %s() called with NULL or empty 'filename' argument.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with NULL or empty 'filename' argument.\n", __FUNCTION__);
     return -1;
   }
   if (quality < 1 || quality > 100) {
-    fprintf(stderr, "Error: %s() called with invalid 'quality' argument.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with invalid 'quality' argument.\n", __FUNCTION__);
     return -1;
   }
 
@@ -299,10 +292,7 @@ int wb_range_finder_save_image(WbDeviceTag tag, const char *filename,
   img.float_data = NULL;
   size = img.width * img.height;
   if (g_image_get_type(filename) == G_IMAGE_TIFF) {
-    fprintf(
-        stderr,
-        "Error: %s(): .tiff image not supported anymore, use .hdr instead.\n",
-        __FUNCTION__);
+    fprintf(stderr, "Error: %s(): .tiff image not supported anymore, use .hdr instead.\n", __FUNCTION__);
     robot_mutex_unlock_step();
     return -1;
   } else if (g_image_get_type(filename) == G_IMAGE_HDR) {
