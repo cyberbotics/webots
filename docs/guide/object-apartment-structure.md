@@ -68,6 +68,7 @@ Door {
   SFNode     wallAppearance         Roughcast {}
   SFNode     frameAppearance        VarnishedPine {}
   SFNode     doorHandle             DoorLever {}
+  MFNode     doorSlot               []
   SFBool     castShadows            TRUE
 }
 ```
@@ -104,6 +105,8 @@ Door {
 - `frameAppearance`: Defines the frame's appearance
 
 - `doorHandle`: Defines an optional door handle.
+
+- `doorSlot`: Extends the door with new nodes.
 
 - `castShadows`: Defines whether this object should cast shadows.
 

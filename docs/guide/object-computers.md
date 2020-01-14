@@ -131,7 +131,7 @@ Laptop {
 
 ### Laptop Field Summary
 
-- `controller`: Defines the controller of the laptop which can use the Display device to show images.
+- `controller`: Defines the controller of the laptop which can use the [Display](../reference/display.md) device to show images.
 
 ## Monitor
 

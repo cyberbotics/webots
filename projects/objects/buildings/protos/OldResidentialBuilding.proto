@@ -9,7 +9,7 @@ PROTO OldResidentialBuilding [
   field SFRotation rotation              0 1 0 0
   field SFString   name                  "residential building"
   field SFString{"red grey", "dark grey", "light grey", "red", "braun"}
-                   type                  "braun"                 # Defines the type which has a direct influence on the building texture. Availables types are `red grey`, `dark grey`, `light grey`, `red`, and `braun`.
+                   type                  "braun"                 # Defines the type which has a direct influence on the building texture.
   field SFBool     enableBoundingObject  TRUE                    # Defines whether the building should have a bounding object.
 ]
 {

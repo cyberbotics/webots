@@ -125,6 +125,9 @@
   "Sand": {
     "fields": "textureTransform TextureTransform { scale 4 2 }"
   },
+  "ScratchedPaint": {
+    "fields": "textureTransform TextureTransform { scale 2 2 }"
+  },
   "ScrewThread": {
     "fields": "textureTransform TextureTransform { rotation 1.5708 scale 4 2 }"
   },
