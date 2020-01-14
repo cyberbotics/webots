@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-#include <webots/keyboard.h>
-#include <webots/types.h>
 #include "keyboard_private.h"
 #include "messages.h"
 #include "robot_private.h"
+#include <webots/keyboard.h>
+#include <webots/types.h>
 
-#include <stdio.h>  // fprintf
+#include <stdio.h> // fprintf
 
 typedef struct {
   int key[8];
@@ -35,7 +35,7 @@ static void keyboard_read_value(WbRequest *r) {
   int max = request_read_uchar(r);
   for (i = 0; i < max; ++i) {
     if (i >= 7)
-      request_read_uint32(r);  // empty request
+      request_read_uint32(r); // empty request
     else
       keyboard.key[i] = request_read_uint32(r);
   }
@@ -47,7 +47,7 @@ static void keyboard_read_value(WbRequest *r) {
 // Protected funtions available from other files of the client library
 
 void keyboard_write_request(WbRequest *req) {
-  if (keyboard.pointer == -1) {  // need to enable or disable
+  if (keyboard.pointer == -1) { // need to enable or disable
     request_write_uchar(req, C_ROBOT_SET_KEYBOARD_SAMPLING_PERIOD);
     request_write_uint16(req, keyboard.sampling_period);
     keyboard.pointer = 0;
@@ -76,7 +76,7 @@ void keyboard_step_end() {
 }
 
 void wb_keyboard_init() {
-  keyboard.sampling_period = 0;  // initially disabled
+  keyboard.sampling_period = 0; // initially disabled
   keyboard.pointer = 0;
   keyboard.key[0] = -1;
 }
@@ -86,14 +86,12 @@ void wb_keyboard_init() {
 void wb_keyboard_enable(int sampling_period) {
   robot_mutex_lock_step();
   keyboard.key[0] = -1;
-  keyboard.pointer = -1;  // need to enable or disable
+  keyboard.pointer = -1; // need to enable or disable
   keyboard.sampling_period = sampling_period;
   robot_mutex_unlock_step();
 }
 
-void wb_keyboard_disable() {
-  wb_keyboard_enable(0);
-}
+void wb_keyboard_disable() { wb_keyboard_enable(0); }
 
 int wb_keyboard_get_sampling_period() {
   int sampling_period = 0;
@@ -105,7 +103,10 @@ int wb_keyboard_get_sampling_period() {
 
 int wb_keyboard_get_key() {
   if (keyboard.sampling_period <= 0)
-    fprintf(stderr, "Error: wb_keyboard_get_key() called for a disabled device! Please use: wb_keyboard_enable().\n");
+    fprintf(stderr,
+            "Error: %s() called for a disabled device! Please use: "
+            "wb_keyboard_enable().\n",
+            __FUNCTION__);
 
   if (keyboard.pointer == -1)
     return -1;

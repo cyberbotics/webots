@@ -18,16 +18,16 @@
 // this file contains the API interface for the PositionSensor device
 // ***************************************************************************
 
+#include "messages.h"
+#include "robot_private.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <webots/nodes.h>
 #include <webots/position_sensor.h>
-#include "messages.h"
-#include "robot_private.h"
 
 typedef struct {
-  bool enable;  // need to enable device ?
+  bool enable; // need to enable device ?
   int sampling_period;
   double position;
   WbJointType type;
@@ -57,7 +57,7 @@ static void position_sensor_write_request(WbDevice *d, WbRequest *r) {
   if (p->enable) {
     request_write_uchar(r, C_SET_SAMPLING_PERIOD);
     request_write_uint16(r, p->sampling_period);
-    p->enable = false;  // clear it for next time
+    p->enable = false; // clear it for next time
   }
   if (p->requested_device_type != 0) {
     request_write_uchar(r, C_POSITION_SENSOR_GET_ASSOCIATED_DEVICE);
@@ -69,18 +69,18 @@ static void position_sensor_write_request(WbDevice *d, WbRequest *r) {
 static void position_sensor_read_answer(WbDevice *d, WbRequest *r) {
   PositionSensor *p = (PositionSensor *)d->pdata;
   switch (request_read_uchar(r)) {
-    case C_POSITION_SENSOR_DATA:  // read position feedback
-      p->position = request_read_double(r);
-      break;
-    case C_POSITION_SENSOR_GET_ASSOCIATED_DEVICE:
-      p->requested_device_tag = request_read_uint16(r);
-      break;
-    case C_CONFIGURE:
-      p->type = request_read_int32(r);
-      break;
-    default:
-      ROBOT_ASSERT(0);  // should not be reached
-      break;
+  case C_POSITION_SENSOR_DATA: // read position feedback
+    p->position = request_read_double(r);
+    break;
+  case C_POSITION_SENSOR_GET_ASSOCIATED_DEVICE:
+    p->requested_device_tag = request_read_uint16(r);
+    break;
+  case C_CONFIGURE:
+    p->type = request_read_int32(r);
+    break;
+  default:
+    ROBOT_ASSERT(0); // should not be reached
+    break;
   }
 }
 
@@ -100,7 +100,7 @@ void wbr_position_sensor_set_value(WbDeviceTag tag, const double value) {
   if (p) {
     p->position = value;
   } else
-    fprintf(stderr, "Error: wbr_position_sensor_set_value(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 // Exported functions
@@ -117,7 +117,8 @@ void wb_position_sensor_init(WbDevice *d) {
 
 void wb_position_sensor_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: wb_position_sensor_enable_position() called with negative sampling period.\n");
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n",
+            __FUNCTION__);
     return;
   }
 
@@ -127,7 +128,7 @@ void wb_position_sensor_enable(WbDeviceTag tag, int sampling_period) {
     p->enable = true;
     p->sampling_period = sampling_period;
   } else
-    fprintf(stderr, "Error: wb_position_sensor_enable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -136,7 +137,7 @@ void wb_position_sensor_disable(WbDeviceTag tag) {
   if (p)
     wb_position_sensor_enable(tag, 0);
   else
-    fprintf(stderr, "Error: wb_position_sensor_disable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 double wb_position_sensor_get_value(WbDeviceTag tag) {
@@ -146,10 +147,12 @@ double wb_position_sensor_get_value(WbDeviceTag tag) {
   if (p) {
     if (p->sampling_period <= 0)
       fprintf(stderr,
-              "Error: wb_position_sensor_get_value() called for a disabled device! Please use: wb_position_sensor_enable().\n");
+              "Error: %s() called for a disabled device! Please use: "
+              "wb_position_sensor_enable().\n",
+              __FUNCTION__);
     result = p->position;
   } else
-    fprintf(stderr, "Error: wb_position_sensor_get_value(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -161,7 +164,7 @@ int wb_position_sensor_get_sampling_period(WbDeviceTag tag) {
   if (p) {
     sampling_period = p->sampling_period;
   } else
-    fprintf(stderr, "Error: wb_position_sensor_get_sampling_period(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return sampling_period;
 }
@@ -173,12 +176,14 @@ WbJointType wb_position_sensor_get_type(WbDeviceTag tag) {
   if (p) {
     type = p->type;
   } else
-    fprintf(stderr, "Error: wb_position_sensor_get_type(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return type;
 }
 
-static WbDeviceTag position_sensor_get_associated_device(WbDeviceTag tag, int device_type, const char *function_name) {
+static WbDeviceTag
+position_sensor_get_associated_device(WbDeviceTag tag, int device_type,
+                                      const char *function_name) {
   PositionSensor *p = position_sensor_get_struct(tag);
   if (!p) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", function_name);
@@ -195,9 +200,11 @@ static WbDeviceTag position_sensor_get_associated_device(WbDeviceTag tag, int de
 
 WbDeviceTag wb_position_sensor_get_motor(WbDeviceTag tag) {
   // this function works for both linear and rotational motors
-  return position_sensor_get_associated_device(tag, WB_NODE_ROTATIONAL_MOTOR, "wb_position_sensor_get_motor");
+  return position_sensor_get_associated_device(tag, WB_NODE_ROTATIONAL_MOTOR,
+                                               __FUNCTION__);
 }
 
 WbDeviceTag wb_position_sensor_get_brake(WbDeviceTag tag) {
-  return position_sensor_get_associated_device(tag, WB_NODE_BRAKE, "wb_position_sensor_get_brake");
+  return position_sensor_get_associated_device(tag, WB_NODE_BRAKE,
+                                               __FUNCTION__);
 }

@@ -18,14 +18,14 @@
 // this file contains the API code for the Pen device
 // ***************************************************************************
 
+#include "device_private.h"
+#include "messages.h"
+#include "robot_private.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <webots/nodes.h>
 #include <webots/pen.h>
 #include <webots/types.h>
-#include "device_private.h"
-#include "messages.h"
-#include "robot_private.h"
 
 // Static functions
 
@@ -70,9 +70,7 @@ static void pen_write_request(WbDevice *d, WbRequest *r) {
   }
 }
 
-static void pen_cleanup(WbDevice *d) {
-  free(d->pdata);
-}
+static void pen_cleanup(WbDevice *d) { free(d->pdata); }
 
 static void pen_toggle_remote(WbDevice *d, WbRequest *r) {
   Pen *pen = d->pdata;
@@ -101,7 +99,7 @@ void wb_pen_write(WbDeviceTag tag, bool write) {
     pen->write = write;
     pen->set_write = true;
   } else
-    fprintf(stderr, "Error: wb_pen_write(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -115,6 +113,6 @@ void wb_pen_set_ink_color(WbDeviceTag tag, int color, double density) {
     pen->blue = color & 0xff;
     pen->density = density;
   } else
-    fprintf(stderr, "Error: wb_pen_set_ink_color(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
 }

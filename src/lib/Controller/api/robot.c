@@ -22,20 +22,13 @@
 // (3) handling basic robot requests
 // (4) initialization of the remote scene if any (textures, download)
 
-#include <locale.h>  // LC_NUMERIC
+#include <locale.h> // LC_NUMERIC
 #include <stdarg.h>
-#include <stdio.h>   // snprintf
-#include <stdlib.h>  // exit
-#include <string.h>  // strlen
-#include <unistd.h>  // sleep, pipe, dup2, STDOUT_FILENO, STDERR_FILENO
+#include <stdio.h>  // snprintf
+#include <stdlib.h> // exit
+#include <string.h> // strlen
+#include <unistd.h> // sleep, pipe, dup2, STDOUT_FILENO, STDERR_FILENO
 
-#include <webots/joystick.h>
-#include <webots/keyboard.h>
-#include <webots/mouse.h>
-#include <webots/robot.h>
-#include <webots/supervisor.h>
-#include <webots/types.h>
-#include <webots/utils/system.h>
 #include "device_private.h"
 #include "differential_wheels_private.h"
 #include "joystick_private.h"
@@ -47,6 +40,13 @@
 #include "robot_private.h"
 #include "scheduler.h"
 #include "supervisor_private.h"
+#include <webots/joystick.h>
+#include <webots/keyboard.h>
+#include <webots/mouse.h>
+#include <webots/robot.h>
+#include <webots/supervisor.h>
+#include <webots/types.h>
+#include <webots/utils/system.h>
 
 #include "default_robot_window_private.h"
 #include "html_robot_window_private.h"
@@ -54,7 +54,7 @@
 #include "robot_window_private.h"
 
 #ifdef _WIN32
-#include <windows.h>  // GetCommandLine
+#include <windows.h> // GetCommandLine
 #else
 #include <pthread.h>
 #endif
@@ -64,17 +64,18 @@
 #define WEBOTS_EXIT_LATER 2
 
 typedef struct {
-  WbDevice **device;  // array of devices
+  WbDevice **device; // array of devices
   double battery_value;
   void (*real_robot_cleanup)(void);
   int battery_sampling_period;
-  int n_device;  // number of devices, including the robot itself
+  int n_device; // number of devices, including the robot itself
   bool is_supervisor;
   unsigned char synchronization;
   WbRobotMode mode;
-  unsigned char configure;  // 1 if just configured: reset need to be called
+  unsigned char configure; // 1 if just configured: reset need to be called
   unsigned char client_exit;
-  unsigned char webots_exit;  // WEBOTS_EXIT_FALSE, WEBOTS_EXIT_NOW or WEBOTS_EXIT_LATER
+  unsigned char
+      webots_exit; // WEBOTS_EXIT_FALSE, WEBOTS_EXIT_NOW or WEBOTS_EXIT_LATER
   double basic_time_step;
   char console_stream;
   char *console_text;
@@ -93,14 +94,16 @@ typedef struct {
   bool show_window;
   bool has_html_robot_window;
   bool update_window;
-  bool toggle_remote_first_step;  // true in the first step after a switch between remote/simulation
-  bool send_remote_mode_off;      // tell to send the REMOTE_OFF message in the next robot_write_request()
+  bool toggle_remote_first_step; // true in the first step after a switch
+                                 // between remote/simulation
+  bool send_remote_mode_off; // tell to send the REMOTE_OFF message in the next
+                             // robot_write_request()
   int pin;
   int wwi_message_to_send_size;
   const char *wwi_message_to_send;
   int wwi_message_received_size;
   char *wwi_message_received;
-  WbSimulationMode simulation_mode;  // WB_SUPERVISOR_SIMULATION_MODE_RUN, etc.
+  WbSimulationMode simulation_mode; // WB_SUPERVISOR_SIMULATION_MODE_RUN, etc.
 } WbRobot;
 
 static bool robot_init_was_done = false;
@@ -116,7 +119,8 @@ static void init_robot_window_library() {
 
   robot_window_init(robot.window_filename);
   if (!robot_window_is_initialized())
-    fprintf(stderr, "Error: Cannot load the \"%s\" robot window library.\n", robot.window_filename);
+    fprintf(stderr, "Error: Cannot load the \"%s\" robot window library.\n",
+            robot.window_filename);
 }
 
 static void init_remote_control_library() {
@@ -126,11 +130,12 @@ static void init_remote_control_library() {
   if (strlen(robot.remote_control_filename) > 0) {
     remote_control_init(robot.remote_control_filename);
     if (!remote_control_is_initialized())
-      fprintf(stderr, "Error: Cannot load the \"%s\" remote control library.\n", robot.remote_control_filename);
+      fprintf(stderr, "Error: Cannot load the \"%s\" remote control library.\n",
+              robot.remote_control_filename);
   }
 }
 
-static void robot_quit() {  // called when Webots kills a controller
+static void robot_quit() { // called when Webots kills a controller
   WbDeviceTag tag;
   for (tag = 0; tag < robot.n_device; tag++)
     wb_device_cleanup(robot.device[tag]);
@@ -163,17 +168,18 @@ static void robot_quit() {  // called when Webots kills a controller
   remote_control_cleanup();
 }
 
-// this function is also called from supervisor_write_request() and differential_wheels_write_request()
+// this function is also called from supervisor_write_request() and
+// differential_wheels_write_request()
 void robot_write_request(WbDevice *dev, WbRequest *req) {
   keyboard_write_request(req);
   joystick_write_request(req);
   mouse_write_request(req);
-  if (robot.battery_value < 0.0) {  // need to enable or disable
+  if (robot.battery_value < 0.0) { // need to enable or disable
     request_write_uchar(req, C_ROBOT_SET_BATTERY_SAMPLING_PERIOD);
     request_write_uint16(req, robot.battery_sampling_period);
     robot.battery_value = 0.0;
   }
-  if (robot.dataNeedToWriteRequest) {  // need to send new robot data
+  if (robot.dataNeedToWriteRequest) { // need to send new robot data
     request_write_uchar(req, C_ROBOT_SET_DATA);
     request_write_uint16(req, strlen(robot.custom_data) + 1);
     request_write_string(req, robot.custom_data);
@@ -202,7 +208,8 @@ void robot_write_request(WbDevice *dev, WbRequest *req) {
   if (robot.wwi_message_to_send_size) {
     request_write_uchar(req, C_ROBOT_WWI_MESSAGE);
     request_write_int32(req, robot.wwi_message_to_send_size);
-    request_write_data(req, robot.wwi_message_to_send, robot.wwi_message_to_send_size);
+    request_write_data(req, robot.wwi_message_to_send,
+                       robot.wwi_message_to_send_size);
     robot.wwi_message_to_send_size = 0;
   }
   if (robot.is_waiting_for_user_input_event) {
@@ -212,7 +219,8 @@ void robot_write_request(WbDevice *dev, WbRequest *req) {
   }
 }
 
-static WbRequest *generate_request(unsigned int step_duration, bool toggle_remote) {
+static WbRequest *generate_request(unsigned int step_duration,
+                                   bool toggle_remote) {
   WbRequest *req = request_new_empty();
   request_write_uint32(req, step_duration);
 
@@ -220,7 +228,7 @@ static WbRequest *generate_request(unsigned int step_duration, bool toggle_remot
   for (tag = 0; tag < robot.n_device; tag++) {
     int begin = request_get_position(req);
     request_write_tag(req, tag);
-    request_write_int32(req, 0);  // reserve 1 int for the size
+    request_write_int32(req, 0); // reserve 1 int for the size
     int before = request_get_position(req);
     if (toggle_remote && robot.device[tag]->toggle_remote)
       robot.device[tag]->toggle_remote(robot.device[tag], req);
@@ -228,11 +236,11 @@ static WbRequest *generate_request(unsigned int step_duration, bool toggle_remot
       robot.device[tag]->write_request(robot.device[tag], req);
 
     int after = request_get_position(req);
-    int size = after - before;  // calc number of bytes in this request
+    int size = after - before; // calc number of bytes in this request
     if (size > 0) {
       // write only if not empty
       request_set_position(req, before - sizeof(int));
-      request_write_int32(req, size);  // now write size in reserved int
+      request_write_int32(req, size); // now write size in reserved int
       request_set_position(req, after);
     } else
       // reset to beginning -> 0 bytes will be sent
@@ -275,10 +283,10 @@ static void robot_configure(WbRequest *r) {
   // reading number of devices
   robot.n_device = request_read_uint16(r);
   ROBOT_ASSERT(robot.n_device > 0);
-  WbDevice *d = robot.device[0];  // save pointer to the root device
+  WbDevice *d = robot.device[0]; // save pointer to the root device
   free(robot.device);
   robot.device = malloc(sizeof(WbDevice *) * robot.n_device);
-  robot.device[0] = d;  // restore pointer to root device
+  robot.device[0] = d; // restore pointer to root device
   robot.device[0]->node = request_read_uint16(r);
   simulation_time = request_read_double(r);
   free(robot.device[0]->name);
@@ -291,16 +299,16 @@ static void robot_configure(WbRequest *r) {
   // printf("robot.device[0]->name = %s\n", robot.device[0]->name);
 
   switch (robot.device[0]->node) {
-    case WB_NODE_DIFFERENTIAL_WHEELS:
-      wb_differential_wheels_init(robot.device[0]);
-      break;
-    case WB_NODE_ROBOT:
-      if (robot.is_supervisor)
-        wb_supervisor_init(robot.device[0]);
-      break;
-    default:
-      ROBOT_ASSERT(0);
-      break;
+  case WB_NODE_DIFFERENTIAL_WHEELS:
+    wb_differential_wheels_init(robot.device[0]);
+    break;
+  case WB_NODE_ROBOT:
+    if (robot.is_supervisor)
+      wb_supervisor_init(robot.device[0]);
+    break;
+  default:
+    ROBOT_ASSERT(0);
+    break;
   }
   // reading device names
   for (tag = 1; tag < robot.n_device; tag++) {
@@ -308,8 +316,10 @@ static void robot_configure(WbRequest *r) {
     robot.device[tag]->node = request_read_uint16(r);
     robot.device[tag]->name = request_read_string(r);
     robot.device[tag]->model = request_read_string(r);
-    // printf("reading %s (%d) (%s)\n", robot.device[tag]->name, robot.device[tag]->node, robot.device[tag]->model);
-    wb_device_init(robot.device[tag]);  // set device specific fields (read_answer and device_data)
+    // printf("reading %s (%d) (%s)\n", robot.device[tag]->name,
+    // robot.device[tag]->node, robot.device[tag]->model);
+    wb_device_init(robot.device[tag]); // set device specific fields
+                                       // (read_answer and device_data)
   }
   robot.configure = 1;
   robot.basic_time_step = request_read_double(r);
@@ -338,7 +348,8 @@ static char robot_read_data() {
 
     WbRequest *r = scheduler_read_data();
     while (r == NULL) {
-      fprintf(stderr, "Warning: robot_read_data(): received empty data request!\n");
+      fprintf(stderr, "Warning: %s(): received empty data request!\n",
+              __FUNCTION__);
       r = scheduler_read_data();
     }
     while (request_is_over(r) == false) {
@@ -354,7 +365,8 @@ static char robot_read_data() {
     request_delete(r);
 
     if (immediate) {
-      if (robot.show_window && !robot.has_html_robot_window) {  // Qt-based robot window
+      if (robot.show_window &&
+          !robot.has_html_robot_window) { // Qt-based robot window
         robot_mutex_unlock_step();
         // initialize first the remote control library in order
         // to have access to the real robot at the window creation
@@ -364,7 +376,7 @@ static char robot_read_data() {
         robot_mutex_lock_step();
         robot.show_window = false;
       }
-      if (robot.update_window) {  // HTML robot window
+      if (robot.update_window) { // HTML robot window
         robot_mutex_unlock_step();
         html_robot_window_step(0);
         robot_mutex_lock_step();
@@ -392,60 +404,61 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
     return;
 
   switch (message) {
-    case C_ROBOT_TIME:
-      simulation_time = request_read_double(r);
-      break;
-    case C_CONFIGURE:
-      robot_configure(r);
-      break;
-    case C_ROBOT_BATTERY_VALUE:
-      // printf("received robot battery value\n");
-      robot.battery_value = request_read_double(r);
-      break;
-    case C_ROBOT_DATA:
-      free(robot.custom_data);
-      robot.custom_data = request_read_string(r);
-      break;
-    case C_ROBOT_MODEL:
-      free(robot.model);
-      robot.model = request_read_string(r);
-      break;
-    case C_ROBOT_REMOTE_ON:
-      robot.mode = WB_MODE_REMOTE_CONTROL;
-      break;
-    case C_ROBOT_REMOTE_OFF:
-      robot.mode = WB_MODE_SIMULATION;
-      break;
-    case C_ROBOT_WINDOW_SHOW:
-      robot.show_window = true;
-      break;
-    case C_ROBOT_WINDOW_UPDATE:
-      robot.update_window = true;
-      break;
-    case C_ROBOT_WWI_MESSAGE:
-      n = request_read_int32(r);
-      if (n > robot.wwi_message_received_size)
-        robot.wwi_message_received = realloc(robot.wwi_message_received, n);
-      robot.wwi_message_received_size = n;
-      memcpy(robot.wwi_message_received, request_read_data(r, n), n);
-      break;
-    case C_ROBOT_SIMULATION_CHANGE_MODE:
-      robot.simulation_mode = request_read_int32(r);
-      robot_mutex_unlock_step();
-      if (robot.simulation_mode == WB_SUPERVISOR_SIMULATION_MODE_PAUSE && wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL)
-        remote_control_stop_actuators();
-      robot_mutex_lock_step();
-      break;
-    case C_ROBOT_QUIT:
-      robot.webots_exit = WEBOTS_EXIT_NOW;
-      break;
-    case C_ROBOT_WAIT_FOR_USER_INPUT_EVENT:
-      robot.is_waiting_for_user_input_event = false;
-      robot.user_input_event_type = request_read_int32(r);
-      break;
-    default:
-      r->pointer--;  // unread the char from the request
-      break;
+  case C_ROBOT_TIME:
+    simulation_time = request_read_double(r);
+    break;
+  case C_CONFIGURE:
+    robot_configure(r);
+    break;
+  case C_ROBOT_BATTERY_VALUE:
+    // printf("received robot battery value\n");
+    robot.battery_value = request_read_double(r);
+    break;
+  case C_ROBOT_DATA:
+    free(robot.custom_data);
+    robot.custom_data = request_read_string(r);
+    break;
+  case C_ROBOT_MODEL:
+    free(robot.model);
+    robot.model = request_read_string(r);
+    break;
+  case C_ROBOT_REMOTE_ON:
+    robot.mode = WB_MODE_REMOTE_CONTROL;
+    break;
+  case C_ROBOT_REMOTE_OFF:
+    robot.mode = WB_MODE_SIMULATION;
+    break;
+  case C_ROBOT_WINDOW_SHOW:
+    robot.show_window = true;
+    break;
+  case C_ROBOT_WINDOW_UPDATE:
+    robot.update_window = true;
+    break;
+  case C_ROBOT_WWI_MESSAGE:
+    n = request_read_int32(r);
+    if (n > robot.wwi_message_received_size)
+      robot.wwi_message_received = realloc(robot.wwi_message_received, n);
+    robot.wwi_message_received_size = n;
+    memcpy(robot.wwi_message_received, request_read_data(r, n), n);
+    break;
+  case C_ROBOT_SIMULATION_CHANGE_MODE:
+    robot.simulation_mode = request_read_int32(r);
+    robot_mutex_unlock_step();
+    if (robot.simulation_mode == WB_SUPERVISOR_SIMULATION_MODE_PAUSE &&
+        wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL)
+      remote_control_stop_actuators();
+    robot_mutex_lock_step();
+    break;
+  case C_ROBOT_QUIT:
+    robot.webots_exit = WEBOTS_EXIT_NOW;
+    break;
+  case C_ROBOT_WAIT_FOR_USER_INPUT_EVENT:
+    robot.is_waiting_for_user_input_event = false;
+    robot.user_input_event_type = request_read_int32(r);
+    break;
+  default:
+    r->pointer--; // unread the char from the request
+    break;
   }
 }
 
@@ -465,22 +478,18 @@ const char *robot_get_device_model(WbDeviceTag tag) {
   return NULL;
 }
 
-int robot_get_number_of_devices() {
-  return robot.n_device;
-}
+int robot_get_number_of_devices() { return robot.n_device; }
 
-WbDevice *robot_get_robot_device() {
-  return robot.device[0];
-}
+WbDevice *robot_get_robot_device() { return robot.device[0]; }
 
 static const char *robot_get_type_name() {
   switch (robot.device[0]->node) {
-    case WB_NODE_DIFFERENTIAL_WHEELS:
-      return "DifferentialWheels";
-    case WB_NODE_ROBOT:
-      return "Robot";
-    default:
-      ROBOT_ASSERT(0);
+  case WB_NODE_DIFFERENTIAL_WHEELS:
+    return "DifferentialWheels";
+  case WB_NODE_ROBOT:
+    return "Robot";
+  default:
+    ROBOT_ASSERT(0);
   }
 
   return NULL;
@@ -488,24 +497,32 @@ static const char *robot_get_type_name() {
 
 int robot_check_supervisor(const char *func_name) {
   if (robot.is_supervisor)
-    return 1;  // OK
+    return 1; // OK
 
-  fprintf(stderr, "Error: ignoring illegal call to %s() in a '%s' controller.\n", func_name, robot_get_type_name());
-  fprintf(stderr, "Error: this function can only be used in a 'Supervisor' controller.\n");
+  fprintf(stderr,
+          "Error: ignoring illegal call to %s() in a '%s' controller.\n",
+          func_name, robot_get_type_name());
+  fprintf(
+      stderr,
+      "Error: this function can only be used in a 'Supervisor' controller.\n");
   return 0;
 }
 
 int robot_check_differential_wheels(const char *func_name) {
   if (robot.device[0]->node == WB_NODE_DIFFERENTIAL_WHEELS)
-    return 1;  // OK
+    return 1; // OK
 
-  fprintf(stderr, "Error: ignoring illegal call to %s() in a '%s' controller.\n", func_name, robot_get_type_name());
-  fprintf(stderr, "Error: this function can only be used in a 'DifferentialWheels' controller.\n");
+  fprintf(stderr,
+          "Error: ignoring illegal call to %s() in a '%s' controller.\n",
+          func_name, robot_get_type_name());
+  fprintf(stderr, "Error: this function can only be used in a "
+                  "'DifferentialWheels' controller.\n");
   return 0;
 }
 
-WbDevice *robot_get_device_with_node(WbDeviceTag tag, WbNodeType node, bool warning) {
-  if (tag < robot.n_device) {  // exists
+WbDevice *robot_get_device_with_node(WbDeviceTag tag, WbNodeType node,
+                                     bool warning) {
+  if (tag < robot.n_device) { // exists
     WbDevice *d = robot.device[tag];
     if (d->node == node)
       return d;
@@ -517,7 +534,7 @@ WbDevice *robot_get_device_with_node(WbDeviceTag tag, WbNodeType node, bool warn
   return NULL;
 }
 
-void wb_robot_cleanup() {  // called when the client quits
+void wb_robot_cleanup() { // called when the client quits
   html_robot_window_cleanup();
   default_robot_window_cleanup();
 
@@ -532,13 +549,9 @@ void wb_robot_cleanup() {  // called when the client quits
   robot_quit();
 }
 
-void robot_mutex_lock_step() {
-  wb_robot_mutex_lock(robot_step_mutex);
-}
+void robot_mutex_lock_step() { wb_robot_mutex_lock(robot_step_mutex); }
 
-void robot_mutex_unlock_step() {
-  wb_robot_mutex_unlock(robot_step_mutex);
-}
+void robot_mutex_unlock_step() { wb_robot_mutex_unlock(robot_step_mutex); }
 
 void robot_step_begin(int duration) {
   motion_step_all(duration);
@@ -583,9 +596,7 @@ WbNodeType robot_get_device_type(WbDeviceTag tag) {
   return WB_NODE_NO_NODE;
 }
 
-int robot_is_quitting() {
-  return robot.webots_exit;
-}
+int robot_is_quitting() { return robot.webots_exit; }
 
 void robot_toggle_remote(WbDevice *d, WbRequest *r) {
   if (robot.battery_sampling_period != 0)
@@ -614,19 +625,21 @@ void robot_console_print(const char *text, int stream) {
 
 // multi-thread API
 
-void wb_robot_task_new(void (*task)(void *), void *param) {  // create a task
+void wb_robot_task_new(void (*task)(void *), void *param) { // create a task
 #ifdef _WIN32
   DWORD thread_id;
-  HANDLE thread_handle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)task, param, 0, &thread_id);
+  HANDLE thread_handle =
+      CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)task, param, 0, &thread_id);
   if (!thread_handle) {
-    fprintf(stderr, "wb_robot_task_new() failed to create new thread.");
+    fprintf(stderr, "Error: %s() failed to create new thread.\n", __FUNCTION__);
     exit(EXIT_FAILURE);
   }
 #else
   pthread_t thread;
   pthread_create(&thread, NULL, (void *(*)(void *))task, param);
 #endif
-  // cppcheck-suppress resourceLeak ; for thread_handle (which we don't need any more)
+  // cppcheck-suppress resourceLeak ; for thread_handle (which we don't need any
+  // more)
 }
 
 WbMutexRef wb_robot_mutex_new() {
@@ -669,38 +682,37 @@ void wb_robot_mutex_delete(WbMutexRef m) {
 
 // end of multi-task API
 
-WbNodeType wb_robot_get_type() {
-  return robot.device[0]->node;
-}
+WbNodeType wb_robot_get_type() { return robot.device[0]->node; }
 
 void wb_robot_set_mode(WbRobotMode mode, const char *arg) {
   if (mode != WB_MODE_SIMULATION && mode != WB_MODE_REMOTE_CONTROL) {
-    fprintf(stderr, "Error: Cannot set mode to %d.\n", mode);
+    fprintf(stderr, "Error: %s() cannot set mode to %d.\n", __FUNCTION__, mode);
     return;
   }
-  if (robot.mode == WB_MODE_REMOTE_CONTROL && mode == WB_MODE_SIMULATION && remote_control_is_initialized()) {
-    remote_control_stop();  // deactivate the remote control
+  if (robot.mode == WB_MODE_REMOTE_CONTROL && mode == WB_MODE_SIMULATION &&
+      remote_control_is_initialized()) {
+    remote_control_stop(); // deactivate the remote control
     robot.toggle_remote_first_step = true;
-  } else if (robot.mode == WB_MODE_SIMULATION && mode == WB_MODE_REMOTE_CONTROL &&
-             remote_control_is_initialized()) {  // activate the remote control
+  } else if (robot.mode == WB_MODE_SIMULATION &&
+             mode == WB_MODE_REMOTE_CONTROL &&
+             remote_control_is_initialized()) { // activate the remote control
     if (remote_control_start(arg)) {
       // remote control
       robot.mode = mode;
       robot.toggle_remote_first_step = true;
       return;
     } else
-      fprintf(stderr, "Error: Starting the remote control library (wbr_start) failed\n");
+      fprintf(stderr,
+              "Error: %s(): starting the remote control library (wbr_start) "
+              "failed\n",
+              __FUNCTION__);
   }
   robot.mode = WB_MODE_SIMULATION;
 }
 
-const char *wb_robot_get_model() {
-  return robot.model;
-}
+const char *wb_robot_get_model() { return robot.model; }
 
-const char *wb_robot_get_custom_data() {
-  return robot.custom_data;
-}
+const char *wb_robot_get_custom_data() { return robot.custom_data; }
 
 void wb_robot_set_custom_data(const char *data) {
   free(robot.custom_data);
@@ -710,37 +722,40 @@ void wb_robot_set_custom_data(const char *data) {
   robot.dataNeedToWriteRequest = true;
 }
 
-const char *wb_robot_get_data() {
-  return wb_robot_get_custom_data();
-}
+const char *wb_robot_get_data() { return wb_robot_get_custom_data(); }
 
-void wb_robot_set_data(const char *data) {
-  wb_robot_set_custom_data(data);
-}
+void wb_robot_set_data(const char *data) { wb_robot_set_custom_data(data); }
 
 int wb_robot_get_number_of_devices() {
-  return robot.n_device - 1;  // the first item is the robot and not a device
+  return robot.n_device - 1; // the first item is the robot and not a device
 }
 
 WbDeviceTag wb_robot_get_device_by_index(int index) {
   if (index >= 0 && index < wb_robot_get_number_of_devices())
-    return (WbDeviceTag)index + 1;  // the first item is the robot and not a device
+    return (WbDeviceTag)index +
+           1; // the first item is the robot and not a device
   else {
-    fprintf(stderr, "Error: The index of wb_robot_get_device_by_index() is out of the bounds.\n");
+    fprintf(stderr,
+            "Error: %s(): the index of wb_robot_get_device_by_index() is out "
+            "of the bounds.\n",
+            __FUNCTION__);
     return 0;
   }
 }
 
 WbDeviceTag wb_robot_get_device(const char *name) {
   if (!name || !name[0]) {
-    fprintf(stderr, "Error: wb_robot_get_device() called with NULL or empty argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL or empty argument.\n",
+            __FUNCTION__);
     return 0;
   }
 
   if (!robot_init_was_done) {
-    // we need to redirect the streams to make this message appear in the console
+    // we need to redirect the streams to make this message appear in the
+    // console
     wb_robot_init();
-    robot_abort("wb_robot_init() must be called before any other Webots function.\n");
+    robot_abort(
+        "wb_robot_init() must be called before any other Webots function.\n");
   }
 
   WbDeviceTag tag;
@@ -750,28 +765,26 @@ WbDeviceTag wb_robot_get_device(const char *name) {
   }
 
   fprintf(stderr, "Warning: \"%s\" device not found.\n", name);
-  return 0;  // error: device not found (can not be the root device)
+  return 0; // error: device not found (can not be the root device)
 }
 
-const char *wb_robot_get_name() {
-  return robot.device[0]->name;
-}
+const char *wb_robot_get_name() { return robot.device[0]->name; }
 
 void wb_robot_battery_sensor_enable(int sampling_period) {
   robot_mutex_lock_step();
-  robot.battery_value = -1.0;  // need to enable or disable
+  robot.battery_value = -1.0; // need to enable or disable
   robot.battery_sampling_period = sampling_period;
   robot_mutex_unlock_step();
 }
 
-void wb_robot_battery_sensor_disable() {
-  wb_robot_battery_sensor_enable(0);
-}
+void wb_robot_battery_sensor_disable() { wb_robot_battery_sensor_enable(0); }
 
 double wb_robot_battery_sensor_get_value() {
   if (robot.battery_sampling_period <= 0)
-    fprintf(stderr, "Error: wb_robot_battery_sensor_get_value() called for a disabled device! Please use: "
-                    "wb_robot_battery_sensor_enable().\n");
+    fprintf(stderr,
+            "Error: %s() called for a disabled device! Please use: "
+            "wb_robot_battery_sensor_enable().\n",
+            __FUNCTION__);
   double result;
   robot_mutex_lock_step();
   result = robot.battery_value;
@@ -789,7 +802,8 @@ int wb_robot_battery_sensor_get_sampling_period() {
 
 void wbr_robot_battery_sensor_set_value(double value) {
   if (value < 0)
-    fprintf(stderr, "Error: wbr_robot_battery_sensor_set_value() received negative value, new value ignored.\n");
+    fprintf(stderr, "Error: %s() received negative value, new value ignored.\n",
+            __FUNCTION__);
   else
     robot.battery_value = value;
 }
@@ -803,10 +817,11 @@ int wb_robot_step(int duration) {
   if (robot.toggle_remote_first_step && !robot.client_exit) {
     robot.toggle_remote_first_step = false;
     WbRequest *req = generate_request(0, true);
-    if (wb_robot_get_mode() == WB_MODE_SIMULATION) {  // remote desactivated
+    if (wb_robot_get_mode() == WB_MODE_SIMULATION) { // remote desactivated
       // nothing to do since the display is still simulated in remote mode.
       // remote_control_handle_messages(r);
-    } else if (wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL) {  // remote activated
+    } else if (wb_robot_get_mode() ==
+               WB_MODE_REMOTE_CONTROL) { // remote activated
       scheduler_send_request(req);
       robot_read_data();
     }
@@ -833,7 +848,8 @@ int wb_robot_step(int duration) {
   robot_step_begin(duration);
   int e = robot_step_end();
 
-  if (e != -1 && wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL && remote_control_has_failed())
+  if (e != -1 && wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL &&
+      remote_control_has_failed())
     wb_robot_set_mode(0, NULL);
 
   robot_mutex_unlock_step();
@@ -842,27 +858,38 @@ int wb_robot_step(int duration) {
   return e;
 }
 
-WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type, int timeout) {
+WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type,
+                                                    int timeout) {
   // check that the devices associated with the event type are enabled
   bool valid = event_type == WB_EVENT_NO_EVENT;
   if (event_type & (WB_EVENT_MOUSE_CLICK | WB_EVENT_MOUSE_MOVE)) {
     if (wb_mouse_get_sampling_period() <= 0)
-      fprintf(stderr, "Error: wb_robot_wait_for_user_input_event() called with an event type including the mouse, but the "
-                      "mouse is disabled, please enable it with 'wb_mouse_enable'.\n");
+      fprintf(
+          stderr,
+          "Error: %s() called with an event type including the mouse, but the "
+          "mouse is disabled, please enable it with wb_mouse_enable().\n",
+          __FUNCTION__);
     else
       valid = true;
   }
   if (event_type & WB_EVENT_KEYBOARD) {
     if (wb_keyboard_get_sampling_period() <= 0)
-      fprintf(stderr, "Error: wb_robot_wait_for_user_input_event() called with an event type including the keyboard, but the "
-                      "keyboard is disabled, please enable it with 'wb_keyboard_enable'.\n");
+      fprintf(stderr,
+              "Error: %s() called with an event type including the keyboard, "
+              "but the keyboard is disabled, please enable it with "
+              "wb_keyboard_enable().\n",
+              __FUNCTION__);
     else
       valid = true;
   }
-  if (event_type & (WB_EVENT_JOYSTICK_BUTTON | WB_EVENT_JOYSTICK_AXIS | WB_EVENT_JOYSTICK_POV)) {
+  if (event_type & (WB_EVENT_JOYSTICK_BUTTON | WB_EVENT_JOYSTICK_AXIS |
+                    WB_EVENT_JOYSTICK_POV)) {
     if (wb_joystick_get_sampling_period() <= 0)
-      fprintf(stderr, "Error: wb_robot_wait_for_user_input_event() called with an event type including a joystick, but no "
-                      "joystick is enabled, please enable it with 'wb_joystick_enable'.\n");
+      fprintf(
+          stderr,
+          "Error: %s() called with an event type including a joystick, but no "
+          "joystick is enabled, please enable it with wb_joystick_enable().\n",
+          __FUNCTION__);
     else
       valid = true;
   }
@@ -904,9 +931,7 @@ void wb_robot_flush_unlocked() {
     robot.webots_exit = WEBOTS_EXIT_LATER;
 }
 
-int wb_robot_init_msvc() {
-  return wb_robot_init();
-}
+int wb_robot_init_msvc() { return wb_robot_init(); }
 
 static void wb_robot_cleanup_shm() {
   WbDeviceTag tag;
@@ -919,36 +944,38 @@ static void wb_robot_cleanup_shm() {
   }
 }
 
-int wb_robot_init() {  // API initialization
+int wb_robot_init() { // API initialization
 // do not use any buffer for the standard streams
-#ifdef _WIN32  // the line buffered option doesn't to work under Windows, so use unbuffered streams
+#ifdef _WIN32 // the line buffered option doesn't to work under Windows, so use
+              // unbuffered streams
   setvbuf(stdout, NULL, _IONBF, 0);
   setvbuf(stderr, NULL, _IONBF, 0);
 #else
   setvbuf(stdout, NULL, _IOLBF, 4096);
   setvbuf(stderr, NULL, _IOLBF, 4096);
 #endif
-  // flush stdout and stderr to display messages printed before the robot initialization in the Webots console
+  // flush stdout and stderr to display messages printed before the robot
+  // initialization in the Webots console
   fflush(stdout);
   fflush(stderr);
   static bool already_done = false;
   if (already_done)
     return true;
   setlocale(LC_NUMERIC, "C");
-  // the robot.configuration points to a data structure is made up of the following:
-  // one uint8 saying if the robot is synchronized (1) or not (0)
-  // one uint8 giving the number of devices n
-  // n \0-terminated strings giving the names of the devices 0 .. n-1
+  // the robot.configuration points to a data structure is made up of the
+  // following: one uint8 saying if the robot is synchronized (1) or not (0) one
+  // uint8 giving the number of devices n n \0-terminated strings giving the
+  // names of the devices 0 .. n-1
 
   robot.configure = 0;
   robot.real_robot_cleanup = NULL;
   robot.is_supervisor = false;
   robot.synchronization = 0;
-  robot.mode = 0;  // simulation
+  robot.mode = 0; // simulation
   robot.client_exit = false;
   robot.webots_exit = WEBOTS_EXIT_FALSE;
   robot.battery_value = NAN;
-  robot.battery_sampling_period = 0;  // initially disabled
+  robot.battery_sampling_period = 0; // initially disabled
   robot.console_text = NULL;
   robot.pin = -1;
   robot.is_waiting_for_user_input_event = false;
@@ -968,7 +995,10 @@ int wb_robot_init() {  // API initialization
       const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path();
       if (!WEBOTS_TMP_PATH) {
         if (trial <= 10)
-          fprintf(stderr, "Webots doesn't seems to be ready yet: (retrying in %u second%s)\n", trial, trial > 1 ? "s" : "");
+          fprintf(stderr,
+                  "Webots doesn't seems to be ready yet: (retrying in %u "
+                  "second%s)\n",
+                  trial, trial > 1 ? "s" : "");
         sleep(trial);
       } else {
         char buffer[1024];
@@ -976,7 +1006,8 @@ int wb_robot_init() {  // API initialization
         FILE *fd = fopen(buffer, "r");
         if (fd) {
           if (!fscanf(fd, "%1023s", buffer)) {
-            fprintf(stderr, "Cannot read %s/WEBOTS_SERVER content\n", WEBOTS_TMP_PATH);
+            fprintf(stderr, "Cannot read %s/WEBOTS_SERVER content\n",
+                    WEBOTS_TMP_PATH);
             pipe = NULL;
           } else {
             pipe = strdup(buffer);
@@ -985,7 +1016,8 @@ int wb_robot_init() {  // API initialization
           fclose(fd);
         } else {
           if (trial <= 10)
-            fprintf(stderr, "Cannot open file: %s (retrying in %u second%s)\n", buffer, trial, trial > 1 ? "s" : "");
+            fprintf(stderr, "Cannot open file: %s (retrying in %u second%s)\n",
+                    buffer, trial, trial > 1 ? "s" : "");
           pipe = NULL;
         }
         if (trial > 10)
@@ -1053,49 +1085,27 @@ int wb_robot_init() {  // API initialization
   return true;
 }
 
-WbRobotMode wb_robot_get_mode() {
-  return robot.mode;
-}
+WbRobotMode wb_robot_get_mode() { return robot.mode; }
 
-double wb_robot_get_basic_time_step() {
-  return robot.basic_time_step;
-}
+double wb_robot_get_basic_time_step() { return robot.basic_time_step; }
 
-double wb_robot_get_time() {
-  return simulation_time;
-}
+double wb_robot_get_time() { return simulation_time; }
 
-bool wb_robot_get_synchronization() {
-  return robot.synchronization;
-}
+bool wb_robot_get_synchronization() { return robot.synchronization; }
 
-bool wb_robot_get_supervisor() {
-  return robot.is_supervisor;
-}
+bool wb_robot_get_supervisor() { return robot.is_supervisor; }
 
-int wb_robot_get_step_duration() {
-  return current_step_duration;
-}
+int wb_robot_get_step_duration() { return current_step_duration; }
 
-const char *wb_robot_get_project_path() {
-  return robot.project_path;
-}
+const char *wb_robot_get_project_path() { return robot.project_path; }
 
-const char *wb_robot_get_world_path() {
-  return robot.world_path;
-}
+const char *wb_robot_get_world_path() { return robot.world_path; }
 
-const char *wb_robot_get_controller_name() {
-  return robot.controller_name;
-}
+const char *wb_robot_get_controller_name() { return robot.controller_name; }
 
-const char *wb_robot_get_controller_arguments() {
-  return robot.arguments;
-}
+const char *wb_robot_get_controller_arguments() { return robot.arguments; }
 
-void wb_robot_pin_to_static_environment(bool pin) {
-  robot.pin = pin ? 1 : 0;
-}
+void wb_robot_pin_to_static_environment(bool pin) { robot.pin = pin ? 1 : 0; }
 
 void wb_robot_wwi_send(const char *data, int size) {
   robot_mutex_lock_step();
@@ -1118,9 +1128,7 @@ const char *wb_robot_wwi_receive(int *size) {
   }
 }
 
-WbSimulationMode robot_get_simulation_mode() {
-  return robot.simulation_mode;
-}
+WbSimulationMode robot_get_simulation_mode() { return robot.simulation_mode; }
 
 void robot_set_simulation_mode(WbSimulationMode mode) {
   robot.simulation_mode = mode;
