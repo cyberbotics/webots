@@ -24,12 +24,14 @@ DEF VIEWPOINT Viewpoint {
 }
 TexturedBackground {
   texture "factory"
+  skybox FALSE
 }
 Floor {
   translation -0.14 0 0
   size 22.54 6.95
   tileSize 2 2
   appearance BakelitePlastic {
+    color "braun"
   }
 }
 Transform {
@@ -37,6 +39,7 @@ Transform {
   children [
     Shape {
       appearance BakelitePlastic {
+        color "braun"
       }
       geometry IndexedFaceSet {
         coord Coordinate {
@@ -251,13 +254,32 @@ Solid {
   name "solid(8)"
 }
 Desk {
-  translation -1.66 0 -4.473
-  rotation 0 1 0 4.712388966
+  translation -1.74225 0 -4.10055
+  rotation 0 1 0 4.692820414042842e-06
 }
 Desk {
-  translation -3.2155311 0 -4.3792571
-  rotation 0 1 0 4.712388966
+  translation -2.96281 0 -4.10429
+  rotation 0 1 0 4.692820414042842e-06
   name "desk(1)"
+}
+Monitor {
+  translation -3.1515 0.72 -3.89076
+}
+Monitor {
+  translation -4.1015 0.72 -3.89076
+  name "monitor(4)"
+}
+Monitor {
+  translation -2.6615 0.72 -3.89076
+  name "monitor(1)"
+}
+Monitor {
+  translation -1.4715 0.72 -3.89076
+  name "monitor(2)"
+}
+Monitor {
+  translation -1.9715 0.72 -3.89076
+  name "monitor(3)"
 }
 DEF PLATFORM Transform {
   translation -1.31 0 1.85
@@ -424,7 +446,18 @@ DEF PLATFORM Transform {
           rotation -0.5773502747262953 -0.57735027749463 0.5773502553479516 2.094395119003205
           children [
             DEF SHAPE Shape {
-              appearance ThreadMetalPlate {
+              appearance PBRAppearance {
+                baseColorMap ImageTexture {
+                  url [
+                    "textures/metal_grid_base_color.png"
+                  ]
+                }
+                roughness 0.3
+                normalMap ImageTexture {
+                  url [
+                    "textures/metal_grid_normal.png"
+                  ]
+                }
                 textureTransform TextureTransform {
                   scale 3 3
                 }
@@ -499,8 +532,19 @@ DEF PLATFORM Transform {
           rotation 0 1 0 3.141592644
           size 1.1 2 0.2
           jointAtLeft FALSE
+          selfClosing TRUE
+          doorAppearance MattePaint {
+            baseColor 0.793332 0.689235 0.584421
+          }
+          frameAppearance MattePaint {
+            baseColor 0.976669 0.930236 0.875746
+          }
           doorHandle DoorLever {
+            canTurn TRUE
             jointAtLeft FALSE
+            appearance BrushedAluminium {
+              colorOverride 0.180392 0.203922 0.211765
+            }
           }
         }
         StraightStairsRail {
@@ -554,9 +598,9 @@ DEF PLATFORM Transform {
           }
         }
         PipeSection {
-          translation -2.62 1.6 -1.7
+          translation -2.62 1.779 -1.7
           rotation 0 1 0 3.141592653589811
-          height 3.25
+          height 2.895
           radius 0.06
           appearance DEF GREEN_PIPE_APPEARANCE PBRAppearance {
             baseColor 0.15 0.45 0.19
@@ -569,16 +613,77 @@ DEF PLATFORM Transform {
           }
         }
         PipeSection {
-          translation 3.432 1.58 -1.7
+          translation -3.39 0.65 -1.7
+          rotation 0 1 0 3.141592653589811
+          name "pipe section(18)"
+          height 0.63
+          radius 0.06
+          appearance USE GREEN_PIPE_APPEARANCE
+        }
+        PipeSection {
+          translation 3.432 1.77 -1.7
           rotation 0 1 0 3.141592653589811
           name "pipe section(2)"
-          height 3.25
+          height 2.875
+          radius 0.06
+          appearance USE GREEN_PIPE_APPEARANCE
+        }
+        PipeSection {
+          translation 3.16354 0.11 -1.855
+          rotation 0.6947470600351803 -0.6947460600350939 0.1861570160863869 -2.7734953071795863
+          name "pipe section(10)"
+          height 0.19
+          radius 0.06
+          appearance USE GREEN_PIPE_APPEARANCE
+        }
+        PipeSection {
+          translation 2.51126 1.49 -2.005
+          rotation 0.7071067811865053 -0.7071067811865053 3.4547789309220735e-07 3.14159
+          name "pipe section(12)"
+          height 0.33
+          radius 0.06
+          appearance USE GREEN_PIPE_APPEARANCE
+        }
+        PipeSection {
+          translation -3.005 0.106 -1.7
+          rotation 0.7071067811865053 -0.7071067811865053 3.4547789309220735e-07 3.14159
+          name "pipe section(13)"
+          height 0.33
+          radius 0.06
+          appearance USE GREEN_PIPE_APPEARANCE
+        }
+        PipeSection {
+          translation 2.89508 0.8 -2.01
+          rotation -7.22084e-07 1 -1.18364e-06 2.618
+          name "pipe section(11)"
+          height 0.95
           radius 0.06
           appearance USE GREEN_PIPE_APPEARANCE
         }
         LJoint {
           translation -2.535 3.344 -1.7
           rotation 0 0 1 3.141592644
+          scale 2 2 2
+          appearance USE GREEN_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation -2.705 0.196 -1.7
+          rotation 0 0 1 4.692820414042842e-06
+          name "L joint pipe(18)"
+          scale 2 2 2
+          appearance USE GREEN_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation -3.305 0.196 -1.7
+          rotation 0 0 1 -1.5707953071795862
+          name "L joint pipe(19)"
+          scale 2 2 2
+          appearance USE GREEN_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation -3.475 1.096 -1.7
+          rotation 0 0 1 1.5708
+          name "L joint pipe(27)"
           scale 2 2 2
           appearance USE GREEN_PIPE_APPEARANCE
         }
@@ -597,11 +702,32 @@ DEF PLATFORM Transform {
           scale 2 2 2
           appearance USE GREEN_PIPE_APPEARANCE
         }
+        LJoint {
+          translation 3.36 0.196 -1.7433
+          rotation 2.10734e-08 1 7.8647e-08 -0.523595307179586
+          name "L joint pipe(13)"
+          scale 2 2 2
+          appearance USE GREEN_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation 2.9703 0.196 -1.9683
+          rotation -0.2505619594639642 0.25056095946412593 0.9351138487168261 -1.6378353071795866
+          name "L joint pipe(14)"
+          scale 2 2 2
+          appearance USE GREEN_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation 2.8103 1.406 -2.0083
+          rotation 2.8010799999875025e-06 1.0379899999953686e-06 0.9999999999955382 1.57079
+          name "L joint pipe(15)"
+          scale 2 2 2
+          appearance USE GREEN_PIPE_APPEARANCE
+        }
         PipeSection {
-          translation 3.035 1.39 -1.7000000225360146
+          translation 2.425 0.65 -1.7
           rotation -1 0 0 3.141592644
           name "pipe section(4)"
-          height 2.87
+          height 0.66
           radius 0.06
           appearance DEF ORANGE_PIPE_APPEARANCE PBRAppearance {
             baseColor 0.663 0.381 0.0973
@@ -614,10 +740,74 @@ DEF PLATFORM Transform {
           }
         }
         PipeSection {
-          translation -2.236 1.396 -1.7000000225360146
+          translation 2.425 0.65 -2.29
+          rotation -1 0 0 3.141592644
+          name "pipe section(9)"
+          height 0.66
+          radius 0.06
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        PipeSection {
+          translation 3.035 1.578 -1.7
+          rotation -1 0 0 3.141592644
+          name "pipe section(7)"
+          height 2.495
+          radius 0.06
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        PipeSection {
+          translation 2.735 0.11 -1.7
+          rotation 0.7071067811865476 0.7071067811865476 3.390498950813652e-09 3.14159
+          name "pipe section(6)"
+          height 0.16
+          radius 0.06
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        PipeSection {
+          translation -2.84862 0.106 -2.15034
+          rotation 0.7071067811865476 0.7071067811865476 3.390498950813652e-09 3.14159
+          name "pipe section(14)"
+          height 0.77
+          radius 0.06
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        PipeSection {
+          translation -3.49906 0.503872 -1.50148
+          rotation 0 0 -1 -2.3562053071795863
+          name "pipe section(15)"
+          height 0.91
+          radius 0.06
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        PipeSection {
+          translation -3.45932 0.546622 -2.14148
+          rotation 0 0 -1 -2.3562053071795863
+          name "pipe section(17)"
+          height 0.8
+          radius 0.06
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        PipeSection {
+          translation -3.01861 0.986247 -1.827
+          rotation -0.5773496025232256 -0.5773506025225371 -0.5773506025225371 -2.094395307179586
+          name "pipe section(16)"
+          height 0.2
+          radius 0.06
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        PipeSection {
+          translation 2.425 1.2 -2
+          rotation -0.5773496025232256 -0.5773506025225371 -0.5773506025225371 -2.094395307179586
+          name "pipe section(8)"
+          height 0.16
+          radius 0.06
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        PipeSection {
+          translation -2.236 1.582 -1.7
           rotation 1 0 0 3.141592644
           name "pipe section(5)"
-          height 2.87
+          height 2.505
           radius 0.06
           appearance USE ORANGE_PIPE_APPEARANCE
         }
@@ -637,9 +827,135 @@ DEF PLATFORM Transform {
           appearance USE ORANGE_PIPE_APPEARANCE
         }
         LJoint {
+          translation 2.947 0.196 -1.701
+          rotation 0 0 -1 4.21468e-08
+          name "L joint pipe(4)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation 2.337 0.196 -1.701
+          rotation 0 0 -1 4.21468e-08
+          name "L joint pipe(9)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation 2.337 0.196 -2.291
+          rotation 0 0 -1 4.2146848510894035e-08
+          name "L joint pipe(11)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation 2.427 1.116 -1.791
+          rotation 0.5773489358556708 0.5773509358554485 -0.5773509358554485 -2.094395307179586
+          name "L joint pipe(10)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation 2.427 1.116 -2.211
+          rotation -0.7071062811856401 -1.2264404877024328e-06 0.7071072811860378 3.14159
+          name "L joint pipe(12)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation 2.517 0.106 -1.781
+          rotation 0.5773489358550934 0.5773519358547601 0.5773499358549823 -2.094395307179586
+          name "L joint pipe(5)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation 2.347 0.105998 -2.051
+          rotation -0.5773519358547601 0.5773489358550934 0.5773499358549823 2.0944
+          name "L joint pipe(6)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation 2.077 0.105996 -2.051
+          rotation -1.8388094309774008e-06 0.7071077811843355 0.7071057811849545 -3.1415853071795863
+          name "L joint pipe(7)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation 2.077 0.105996 -1.781
+          rotation -0.5773502691844296 -0.5773532691858283 -0.5773472691830309 2.09439
+          name "L joint pipe(8)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
           translation -2.153 2.966 -1.701
           rotation 0 0 -1 3.1415926823591733
           name "L joint pipe(3)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation -2.23862 0.196 -1.78858
+          rotation 2.10734e-08 1 2.10734e-08 -1.5707953071795862
+          name "L joint pipe(16)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation -2.32862 0.106 -2.06034
+          rotation -1 -7.69481e-07 -1.06372e-06 -1.5707953071795862
+          name "L joint pipe(17)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation -3.36862 0.106 -2.06034
+          rotation -0.577349935856137 -0.5773509358560258 0.577349935856137 -2.094395307179586
+          name "L joint pipe(20)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation -3.544 0.106 -1.787
+          rotation 0.5773509358560258 -0.577349935856137 0.577349935856137 2.0944
+          name "L joint pipe(22)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation -3.814 0.106 -1.787
+          rotation 6.140678099766299e-07 -0.7071077811853976 0.7071057811860166 -3.1415853071795863
+          name "L joint pipe(23)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation -3.83521 0.169639 -2.057
+          rotation -0.35740689345308946 -0.8628577427726538 0.35740289345428194 -1.7177653071795866
+          name "L joint pipe(24)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation -3.07861 0.926247 -2.057
+          rotation 0.8628542537240562 0.3574061050959954 0.3574121050977597 1.71777
+          name "L joint pipe(25)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation -3.07861 0.926247 -1.587
+          rotation 0.6785959784637391 -0.2810839910793781 0.6786009784635805 2.59357
+          name "L joint pipe(26)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation -3.97251 0.147965 -1.50034
+          rotation 0.38268204448211113 -0.9238801073897722 6.740820783538039e-07 3.14159
+          name "L joint pipe(21)"
           scale 2 2 2
           appearance USE ORANGE_PIPE_APPEARANCE
         }
@@ -720,6 +1036,31 @@ DEF PLATFORM Transform {
       mass 4
     }
   ]
+}
+Wheelbarrow {
+  translation 5.16038 0 1.61129
+}
+OilBarrel {
+  translation 5.37394 0.44 2.65298
+}
+OilBarrel {
+  translation 4.30235 0.44 2.40571
+  name "oil barrel(1)"
+}
+OilBarrel {
+  translation 3.51384 0.44 2.95216
+  rotation 0 0 1 -1.5707953071795862
+  name "oil barrel(2)"
+}
+OilBarrel {
+  translation 3.52921 0.44 2.28666
+  name "oil barrel(3)"
+}
+WorkBarrier {
+  translation 4.9145 0 1.85608
+}
+TrafficCone {
+  translation 4.77977 0 3.04111
 }
 Cabinet {
   translation -11.1138 0 2.70511
@@ -1659,6 +2000,66 @@ Cabinet {
   }
 }
 Cabinet {
+  translation -6.24849 2.66454e-15 -5.86766
+  rotation 0 1 0 1.5708
+  name "cabinet(13)"
+  layout [
+    "RightSidedDoor (1, 1, 1, 5, 1.5)"
+    "LeftSidedDoor (2, 1, 2, 5, 1.5)"
+  ]
+  primaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+  secondaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+}
+Cabinet {
+  translation -6.24849 1.5 -5.86766
+  rotation 0 1 0 1.5708
+  name "cabinet(16)"
+  layout [
+    "RightSidedDoor (1, 1, 1, 5, 1.5)"
+    "LeftSidedDoor (2, 1, 2, 5, 1.5)"
+  ]
+  primaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+  secondaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+}
+Cabinet {
+  translation -6.24849 2.66454e-15 -5.06766
+  rotation 0 1 0 1.5708
+  name "cabinet(14)"
+  layout [
+    "RightSidedDoor (1, 1, 1, 5, 1.5)"
+    "LeftSidedDoor (2, 1, 2, 5, 1.5)"
+  ]
+  primaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+  secondaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+}
+Cabinet {
+  translation -6.24849 1.5 -5.06766
+  rotation 0 1 0 1.5708
+  name "cabinet(15)"
+  layout [
+    "RightSidedDoor (1, 1, 1, 5, 1.5)"
+    "LeftSidedDoor (2, 1, 2, 5, 1.5)"
+  ]
+  primaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+  secondaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+}
+Cabinet {
   translation -3.433726 0 -6.4666
   name "cabinet(8)"
   layout [
@@ -1687,9 +2088,54 @@ Cabinet {
   }
 }
 Cabinet {
-  translation -0.04786 0 -5.67043
+  translation -0.04786 0 -5.92043
   rotation 0 -1 0 1.5707963603591728
   name "cabinet(6)"
+  layout [
+    "RightSidedDoor (1, 1, 1, 5, 1.5)"
+    "LeftSidedDoor (2, 1, 2, 5, 1.5)"
+  ]
+  primaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+  secondaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+}
+Cabinet {
+  translation -0.04786 1.5 -5.92043
+  rotation 0 -1 0 1.5707963603591728
+  name "cabinet(11)"
+  layout [
+    "RightSidedDoor (1, 1, 1, 5, 1.5)"
+    "LeftSidedDoor (2, 1, 2, 5, 1.5)"
+  ]
+  primaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+  secondaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+}
+Cabinet {
+  translation -0.04786 0 -5.12043
+  rotation 0 -1 0 1.5707963603591728
+  name "cabinet(10)"
+  layout [
+    "RightSidedDoor (1, 1, 1, 5, 1.5)"
+    "LeftSidedDoor (2, 1, 2, 5, 1.5)"
+  ]
+  primaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+  secondaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+}
+Cabinet {
+  translation -0.04786 1.5 -5.12043
+  rotation 0 -1 0 1.5707963603591728
+  name "cabinet(12)"
   layout [
     "RightSidedDoor (1, 1, 1, 5, 1.5)"
     "LeftSidedDoor (2, 1, 2, 5, 1.5)"
@@ -1834,6 +2280,20 @@ Table {
   translation -1.86217 0 -3.01946
   name "table(1)"
   size 1.8 0.7 0.8
+  feetSize 0.05 0.05
+  trayAppearance PBRAppearance {
+    baseColor 0.926 0.912 0.698
+    roughness 0.8
+    metalness 0
+  }
+  legAppearance BrushedAluminium {
+    colorOverride 0.333 0.341 0.325
+  }
+}
+Table {
+  translation -4.16704 0 -4.03194
+  name "table(4)"
+  size 0.9 0.7 0.6
   feetSize 0.05 0.05
   trayAppearance PBRAppearance {
     baseColor 0.926 0.912 0.698
@@ -2511,6 +2971,7 @@ Door {
   name "door(1)"
   size 1 3.652 0.2
   jointAtLeft FALSE
+  selfClosing TRUE
   doorAppearance GlossyPaint {
     baseColor 0.58 0.52 0.47
   }
@@ -2523,8 +2984,44 @@ Door {
     baseColor 0.58 0.52 0.47
   }
   doorHandle DoorLever {
+    canTurn TRUE
     jointAtLeft FALSE
   }
+  doorSlot [
+    Transform {
+      translation -0.32 0.027 0.024
+      children [
+        Shape {
+          appearance ThreadMetalPlate {
+            textureTransform TextureTransform {
+              rotation 1.5708
+              scale 0.5 0.5
+            }
+            IBLStrength 1.6
+          }
+          geometry Box {
+            size 0.3 0.3 0.006
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 -0.554 0.024
+      children [
+        Shape {
+          appearance ThreadMetalPlate {
+            textureTransform TextureTransform {
+              scale 1.4 1.3
+            }
+            IBLStrength 2
+          }
+          geometry Box {
+            size 0.94 0.86 0.006
+          }
+        }
+      ]
+    }
+  ]
 }
 Wall {
   translation -9.518 0 -3.575
@@ -3406,9 +3903,10 @@ DEF WINDOWS Transform {
   ]
 }
 Radiator {
-  translation 11.015 0.4 -2.2953
+  translation 11.015 0.4 -2.7753
   rotation 0 1 0 3.141592644
   name "radiator(1)"
+  numberOfFins 30
 }
 DEF BLACK_TILES Transform {
   translation 11.13 3.35 0
@@ -3558,6 +4056,633 @@ WoodenPallet {
   translation 1.897164 0.348677 0.94955
   rotation -0.49999999031082765 0.8660254093784849 8.681928509446381e-09 3.141592630960774
   name "wooden pallet(3)"
+}
+Solid {
+  translation -0.237277 0 -0.074497
+  rotation 0 1 0 -1.5707953071795862
+  children [
+    Solid {
+      translation -0.27 0.03 -0.03
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.015 1.8
+          }
+        }
+      ]
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -0.29 0.75 -0.03
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.01 0.015 1.8
+          }
+        }
+      ]
+      name "solid(18)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 0 0.75 0.39
+      rotation 0 1 0 1.5708
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.01 0.015 0.572
+          }
+        }
+      ]
+      name "solid(20)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -1.13869e-06 0.75 0.08
+      rotation 0 1 0 1.5708
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.01 0.015 0.572
+          }
+        }
+      ]
+      name "solid(21)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 0.29 0.75 -0.03
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.01 0.015 1.8
+          }
+        }
+      ]
+      name "solid(19)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -0.27 0.011 0.805
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.023 0.2
+          }
+        }
+      ]
+      name "solid(10)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -0.27 0.645 0.88
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 1.22 0.05
+          }
+        }
+      ]
+      name "solid(14)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -0.27 0.645 -0.95
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 1.22 0.05
+          }
+        }
+      ]
+      name "solid(17)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 0.27 0.645 0.88
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 1.22 0.05
+          }
+        }
+      ]
+      name "solid(15)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 0.27 0.645 -0.95
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 1.22 0.05
+          }
+        }
+      ]
+      name "solid(16)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -0.27 0.011 -0.875
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.023 0.2
+          }
+        }
+      ]
+      name "solid(12)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 0.27 0.011 -0.875
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.023 0.2
+          }
+        }
+      ]
+      name "solid(13)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 0.27 0.011 0.805
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.023 0.2
+          }
+        }
+      ]
+      name "solid(11)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 8.97252e-07 0.03 0.88
+      rotation 0 1 0 -1.5707953071795862
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.0151 0.59
+          }
+        }
+      ]
+      name "solid(6)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 8.97252e-07 1.26 0.88
+      rotation 0 1 0 -1.5707953071795862
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.0151 0.59
+          }
+        }
+      ]
+      name "solid(8)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -9.68625e-07 0.03 -0.95
+      rotation 0 1 0 -1.5707953071795862
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.0151 0.59
+          }
+        }
+      ]
+      name "solid(7)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -9.68625e-07 1.26 -0.95
+      rotation 0 1 0 -1.5707953071795862
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.0151 0.59
+          }
+        }
+      ]
+      name "solid(9)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -0.27 1.26 -0.03
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.015 1.8
+          }
+        }
+      ]
+      name "solid(4)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -0.09 0.03 -0.03
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.015 1.8
+          }
+        }
+      ]
+      name "solid(1)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 0.09 0.03 -0.03
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.015 1.8
+          }
+        }
+      ]
+      name "solid(2)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 0.27 0.03 -0.03
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.015 1.8
+          }
+        }
+      ]
+      name "solid(3)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 0.27 1.26 -0.03
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.015 1.8
+          }
+        }
+      ]
+      name "solid(5)"
+      boundingObject USE SHAPE
+    }
+  ]
+  name "solid(23)"
+}
+Solid {
+  translation 5.41272 0 0.0054975
+  rotation 0 1 0 -1.5707953071795862
+  scale 0.8 0.8 0.8
+  children [
+    Solid {
+      translation -0.27 0.03 -0.03
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.015 1.8
+          }
+        }
+      ]
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -0.29 0.75 -0.03
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.01 0.015 1.8
+          }
+        }
+      ]
+      name "solid(18)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -4.04052e-07 0.75 0.28
+      rotation 0 1 0 1.5708
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.01 0.015 0.572
+          }
+        }
+      ]
+      name "solid(20)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -3.2323e-06 0.75 -0.49
+      rotation 0 1 0 1.5708
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.01 0.015 0.572
+          }
+        }
+      ]
+      name "solid(21)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -0.27 0.011 0.805
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.023 0.2
+          }
+        }
+      ]
+      name "solid(10)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -0.27 0.645 0.88
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 1.22 0.05
+          }
+        }
+      ]
+      name "solid(14)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -0.27 0.645 -0.95
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 1.22 0.05
+          }
+        }
+      ]
+      name "solid(17)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 0.27 0.645 0.88
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 1.22 0.05
+          }
+        }
+      ]
+      name "solid(15)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 0.27 0.645 -0.95
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 1.22 0.05
+          }
+        }
+      ]
+      name "solid(16)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -0.27 0.011 -0.875
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.023 0.2
+          }
+        }
+      ]
+      name "solid(12)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 0.27 0.011 -0.875
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.023 0.2
+          }
+        }
+      ]
+      name "solid(13)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 0.27 0.011 0.805
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.023 0.2
+          }
+        }
+      ]
+      name "solid(11)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 8.97252e-07 0.03 0.88
+      rotation 0 1 0 -1.5707953071795862
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.0151 0.59
+          }
+        }
+      ]
+      name "solid(6)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 8.97252e-07 1.26 0.88
+      rotation 0 1 0 -1.5707953071795862
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.0151 0.59
+          }
+        }
+      ]
+      name "solid(8)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -9.68625e-07 0.03 -0.95
+      rotation 0 1 0 -1.5707953071795862
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.0151 0.59
+          }
+        }
+      ]
+      name "solid(7)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -9.68625e-07 1.26 -0.95
+      rotation 0 1 0 -1.5707953071795862
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.0151 0.59
+          }
+        }
+      ]
+      name "solid(9)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -0.27 1.26 -0.03
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.015 1.8
+          }
+        }
+      ]
+      name "solid(4)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -0.09 0.03 -0.03
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.015 1.8
+          }
+        }
+      ]
+      name "solid(1)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 0.09 0.03 -0.03
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.015 1.8
+          }
+        }
+      ]
+      name "solid(2)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 0.27 0.03 -0.03
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.015 1.8
+          }
+        }
+      ]
+      name "solid(3)"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation 0.27 1.26 -0.03
+      children [
+        DEF SHAPE Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.05 0.015 1.8
+          }
+        }
+      ]
+      name "solid(5)"
+      boundingObject USE SHAPE
+    }
+  ]
+  name "solid(9)"
 }
 DEF POLE Solid {
   translation 11.07188 2.38 0.25845
@@ -3802,15 +4927,20 @@ WoodenBox {
   translation -0.3964655 0.3 -3.99435
 }
 WoodenChair {
-  translation -3.208797 0 -4.9812786
+  translation -2.93867 0 -4.43528
 }
 WoodenChair {
-  translation -2.06461 0 -4.6
+  translation -4.17894 -2.66454e-15 -4.36034
+  rotation 0 1 0 -0.523595307179586
+  name "wooden chair(3)"
+}
+WoodenChair {
+  translation -2.06888 0 -4.60316
   rotation 0 -1 0 5.235987778359173
   name "wooden chair(2)"
 }
 WoodenChair {
-  translation -1.2521 0 -4.50525
-  rotation 0 1 0 4.974188353
+  translation -1.44315 0 -4.51831
+  rotation 0 1 0 -0.261795307179586
   name "wooden chair(1)"
 }

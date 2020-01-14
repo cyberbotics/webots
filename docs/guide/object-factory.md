@@ -564,7 +564,7 @@ EmergencyButton {
 
 #### EmergencyButton Field Summary
 
-- `includePositionSensor`: Defines if a PositionSensor node should be included to retrieve the button position.
+- `includePositionSensor`: Defines if a [PositionSensor](../reference/positionsensor.md) node should be included to retrieve the button position.
 
 ### EyeScrew
 
