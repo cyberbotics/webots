@@ -522,8 +522,7 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
         field_requests_garbage_list = request;
         request = next;
       } else {
-        // get requests are handled immediately, so only one request has to be
-        // sent at a time
+        // get requests are handled immediately, so only one request has to be sent at a time
         assert(sent_field_get_request == NULL);
         // request is required when getting back the answer from Webots
         sent_field_get_request = request;
@@ -689,8 +688,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const int self_uid = request_read_uint32(r);
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
-      add_node_to_list(self_uid, WB_NODE_ROBOT, model_name, def_name,
-                       0);  // add self node
+      add_node_to_list(self_uid, WB_NODE_ROBOT, model_name, def_name, 0);  // add self node
       self_node_ref = node_list;
     } break;
     case C_SUPERVISOR_NODE_GET_FROM_DEF: {
@@ -888,8 +886,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       break;
   }
   // free requests previously sent to Webots
-  // cannot be freed immediately because the string memory pointer is used to
-  // build the message
+  // cannot be freed immediately because the string memory pointer is used to build the message
   clean_field_request_garbage_collector();
 }
 
@@ -949,8 +946,7 @@ static void field_operation_with_data(WbFieldStruct *f, int action, int index, u
   assert(action != GET || sent_field_get_request == NULL);  // get requests have to be processed immediately so no
                                                             // pending get request should remain
   create_and_append_field_request(f, action, index, data, true);
-  if (action != SET)  // Only setter can be postponed. The getter, import and
-                      // remove actions have to be applied immediately.
+  if (action != SET)  // Only setter can be postponed. The getter, import and remove actions have to be applied immediately.
     wb_robot_flush_unlocked();
   assert(action != GET || sent_field_get_request == NULL);
   robot_mutex_unlock_step();
@@ -1449,8 +1445,7 @@ const double *wb_supervisor_node_get_position(WbNodeRef node) {
   wb_robot_flush_unlocked();
   position_node_ref = NULL;
   robot_mutex_unlock_step();
-  return node->position ? node->position : invalid_vector;  // will be (NaN, NaN, NaN) if n is not
-                                                            // derived from Transform
+  return node->position ? node->position : invalid_vector;  // will be (NaN, NaN, NaN) if n is not derived from Transform
 }
 
 const double *wb_supervisor_node_get_orientation(WbNodeRef node) {
@@ -1468,8 +1463,7 @@ const double *wb_supervisor_node_get_orientation(WbNodeRef node) {
   wb_robot_flush_unlocked();
   orientation_node_ref = NULL;
   robot_mutex_unlock_step();
-  return node->orientation ? node->orientation : invalid_vector;  // will be (NaN, ..., NaN) if n is
-                                                                  // not derived from Transform
+  return node->orientation ? node->orientation : invalid_vector;  // will be (NaN, ..., NaN) if n is not derived from Transform
 }
 
 const double *wb_supervisor_node_get_center_of_mass(WbNodeRef node) {
@@ -1506,8 +1500,7 @@ const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index) {
   else
     return (node->contact_points && index < node->number_of_contact_points) ?
              node->contact_points + (3 * index) :
-             invalid_vector;  // will be (NaN, NaN, NaN) if n is not a Solid
-                              // or if there is no contact
+             invalid_vector;  // will be (NaN, NaN, NaN) if n is not a Solid or if there is no contact
 
   robot_mutex_lock_step();
   contact_points_node_ref = node;
@@ -1517,8 +1510,7 @@ const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index) {
 
   return (node->contact_points && index < node->number_of_contact_points) ?
            node->contact_points + (3 * index) :
-           invalid_vector;  // will be (NaN, NaN, NaN) if n is not a Solid or
-                            // if there is no contact
+           invalid_vector;  // will be (NaN, NaN, NaN) if n is not a Solid or if there is no contact
 }
 
 int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node) {
@@ -2455,8 +2447,8 @@ void wb_supervisor_field_remove_mf(WbFieldRef field, int index) {
     return;
 
   field_operation(field, REMOVE, index);
-  if (((WbFieldStruct *)field)->type != WB_MF_NODE)  // in case of WB_MF_NODE, Webots will send the number of node
-                                                     // really removed
+  // in case of WB_MF_NODE, Webots will send the number of node really removed
+  if (((WbFieldStruct *)field)->type != WB_MF_NODE)
     field->count--;
 }
 

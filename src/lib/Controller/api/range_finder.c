@@ -95,8 +95,7 @@ static void wb_range_finder_read_answer(WbDevice *d, WbRequest *r) {
       spherical = request_read_uchar(r);
       max_range = request_read_double(r);
 
-      // printf("new range_finder %u %d %d %lf %lf %lf %d\n", uid, width, height,
-      // fov, camnear, max_range, spherical);
+      // printf("new range_finder %u %d %d %lf %lf %lf %d\n", uid, width, height, fov, camnear, max_range, spherical);
       wb_range_finder_new(d, uid, width, height, fov, camnear, max_range, spherical);
       break;
     case C_CAMERA_RECONFIGURE:
@@ -147,8 +146,7 @@ unsigned char *wbr_range_finder_get_image_buffer(WbDeviceTag t) {
     return wbr_abstract_camera_get_image_buffer(range_finder_get_device(t));
 
   fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  return (unsigned char *)"";  // can't return NULL, swig needs the empty string
-                               // to make python strings
+  return (unsigned char *)"";  // can't return NULL, swig needs the empty string to make python strings
 }
 
 // Public functions available from the range_finder API

@@ -502,8 +502,7 @@ bool wb_speaker_set_language(WbDeviceTag tag, const char *language) {
       break;
     }
   }
-  if (!found)  // if the language is well formed, but not available, silently
-               // return false
+  if (!found)  // if the language is well formed, but not available, silently return false
     return false;
   if (strcmp(speaker->language, language) == 0)
     return true;  // already set

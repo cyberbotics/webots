@@ -138,8 +138,7 @@ static void wb_lidar_read_answer(WbDevice *d, WbRequest *r) {
       vertical_fov = request_read_double(r);
       horizontal_resolution = request_read_double(r);
 
-      // printf("new lidar %u %d %d %lf %lf %lf %d\n", uid, width, height, fov,
-      // camnear, max_range, spherical);
+      // printf("new lidar %u %d %d %lf %lf %lf %d\n", uid, width, height, fov, camnear, max_range, spherical);
       wb_lidar_new(d, uid, width, height, fov, camnear, max_range, spherical, number_of_layers, frequency, min_frequency,
                    max_frequency, vertical_fov, horizontal_resolution);
       break;
@@ -205,8 +204,7 @@ unsigned char *wbr_lidar_get_image_buffer(WbDeviceTag t) {
     return wbr_abstract_camera_get_image_buffer(d);
 
   fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  return (unsigned char *)"";  // don't return NULL, swig can't create string
-                               // objects from NULL
+  return (unsigned char *)"";  // don't return NULL, swig can't create string objects from NULL
 }
 
 // Public functions available from the lidar API

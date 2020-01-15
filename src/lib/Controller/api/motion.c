@@ -208,9 +208,9 @@ static bool motion_check_file(FILE *file, const char *filename, int *n_joints, i
 }
 
 // load .motion file
-// warning: this function assumes a 100% correct file syntax !
-// prerequisite: the file syntax must have been verified with
-// motion_check_file() and n_joints and n_poses must have been set accordingly
+// warning: this function assumes a 100% correct file syntax!
+// prerequisite: the file syntax must have been verified with motion_check_file() and n_joints and n_poses must have been set
+// accordingly
 static void motion_load(WbMotionRef ref, FILE *file) {
   // back to beginning of file
   rewind(file);

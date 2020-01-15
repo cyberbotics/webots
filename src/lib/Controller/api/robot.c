@@ -93,10 +93,8 @@ typedef struct {
   bool show_window;
   bool has_html_robot_window;
   bool update_window;
-  bool toggle_remote_first_step;  // true in the first step after a switch
-                                  // between remote/simulation
-  bool send_remote_mode_off;      // tell to send the REMOTE_OFF message in the next
-                                  // robot_write_request()
+  bool toggle_remote_first_step;  // true in the first step after a switch between remote/simulation
+  bool send_remote_mode_off;      // tell to send the REMOTE_OFF message in the next robot_write_request()
   int pin;
   int wwi_message_to_send_size;
   const char *wwi_message_to_send;
@@ -165,8 +163,7 @@ static void robot_quit() {  // called when Webots kills a controller
   remote_control_cleanup();
 }
 
-// this function is also called from supervisor_write_request() and
-// differential_wheels_write_request()
+// this function is also called from supervisor_write_request() and differential_wheels_write_request()
 void robot_write_request(WbDevice *dev, WbRequest *req) {
   keyboard_write_request(req);
   joystick_write_request(req);
@@ -311,10 +308,8 @@ static void robot_configure(WbRequest *r) {
     robot.device[tag]->node = request_read_uint16(r);
     robot.device[tag]->name = request_read_string(r);
     robot.device[tag]->model = request_read_string(r);
-    // printf("reading %s (%d) (%s)\n", robot.device[tag]->name,
-    // robot.device[tag]->node, robot.device[tag]->model);
-    wb_device_init(robot.device[tag]);  // set device specific fields
-                                        // (read_answer and device_data)
+    // printf("reading %s (%d) (%s)\n", robot.device[tag]->name, robot.device[tag]->node, robot.device[tag]->model);
+    wb_device_init(robot.device[tag]);  // set device specific fields (read_answer and device_data)
   }
   robot.configure = 1;
   robot.basic_time_step = request_read_double(r);
@@ -631,8 +626,7 @@ void wb_robot_task_new(void (*task)(void *), void *param) {  // create a task
   pthread_t thread;
   pthread_create(&thread, NULL, (void *(*)(void *))task, param);
 #endif
-  // cppcheck-suppress resourceLeak ; for thread_handle (which we don't need any
-  // more)
+  // cppcheck-suppress resourceLeak ; for thread_handle (which we don't need anymore)
 }
 
 WbMutexRef wb_robot_mutex_new() {
@@ -744,8 +738,7 @@ WbDeviceTag wb_robot_get_device(const char *name) {
   }
 
   if (!robot_init_was_done) {
-    // we need to redirect the streams to make this message appear in the
-    // console
+    // we need to redirect the streams to make this message appear in the console
     wb_robot_init();
     robot_abort("wb_robot_init() must be called before any other Webots function.\n");
   }
@@ -933,26 +926,24 @@ static void wb_robot_cleanup_shm() {
 
 int wb_robot_init() {  // API initialization
 // do not use any buffer for the standard streams
-#ifdef _WIN32  // the line buffered option doesn't to work under Windows, so use
-               // unbuffered streams
+#ifdef _WIN32  // the line buffered option doesn't to work under Windows, so use unbuffered streams
   setvbuf(stdout, NULL, _IONBF, 0);
   setvbuf(stderr, NULL, _IONBF, 0);
 #else
   setvbuf(stdout, NULL, _IOLBF, 4096);
   setvbuf(stderr, NULL, _IOLBF, 4096);
 #endif
-  // flush stdout and stderr to display messages printed before the robot
-  // initialization in the Webots console
+  // flush stdout and stderr to display messages printed before the robot initialization in the Webots console
   fflush(stdout);
   fflush(stderr);
   static bool already_done = false;
   if (already_done)
     return true;
   setlocale(LC_NUMERIC, "C");
-  // the robot.configuration points to a data structure is made up of the
-  // following: one uint8 saying if the robot is synchronized (1) or not (0) one
-  // uint8 giving the number of devices n n \0-terminated strings giving the
-  // names of the devices 0 .. n-1
+  // the robot.configuration points to a data structure is made up of the following:
+  // one uint8 saying if the robot is synchronized (1) or not (0)
+  // one uint8 giving the number of devices n
+  // n \0-terminated strings giving the names of the devices 0 .. n-1
 
   robot.configure = 0;
   robot.real_robot_cleanup = NULL;
