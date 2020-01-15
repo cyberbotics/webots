@@ -58,8 +58,7 @@ static void joystick_read_value(WbRequest *r) {
       request_read_uint32(r); /* empty request */
     else
       joystick.pressed_button[i] = request_read_uint32(r);
-    // fprintf(stdout, "Pressed button %d / %d.\n", joystick.pressed_button[i],
-    // number_of_pressed_button);
+    // fprintf(stdout, "Pressed button %d / %d.\n", joystick.pressed_button[i], number_of_pressed_button);
   }
   if (number_of_pressed_button > joystick.number_of_buttons)
     number_of_pressed_button = joystick.number_of_buttons;
