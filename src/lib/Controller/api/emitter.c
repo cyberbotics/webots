@@ -34,8 +34,7 @@
 typedef struct _PacketStruct Packet;
 
 struct _PacketStruct {
-  int channel;   // value of channel at the time that emitter_send...() was
-                 // invoked
+  int channel;   // value of channel at the time that emitter_send...() was invoked
   double range;  // value of range at the time thet emitter_send...() was invoked
   int size;      // user data size (not including header)
   char *data;    // user data (packet body)
@@ -64,8 +63,7 @@ typedef struct {
   int buffer_used;       // currently used buffer size
   int buffer_size;       // max buffer size (as in Emitter node)
   double byte_rate;      // max bytes sent per millisecond
-  double bytes_to_send;  // bytes count according to byte_rate and elapsed time
-                         // since the packet was enqueued
+  double bytes_to_send;  // bytes count according to byte_rate and elapsed time since the packet was enqueued
   Packet *queue;         // emission queue
   double range;          // current range
   double max_range;      // maximal range allowed
