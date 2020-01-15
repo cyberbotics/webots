@@ -152,10 +152,7 @@ double wb_distance_sensor_get_value(WbDeviceTag tag) {
   DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds) {
     if (ds->sampling_period <= 0)
-      fprintf(stderr,
-              "Error: %s() called for a disabled device! Please use: "
-              "wb_distance_sensor_enable().\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_distance_sensor_enable().\n", __FUNCTION__);
     value = ds->value;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
