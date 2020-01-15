@@ -105,10 +105,7 @@ int wb_keyboard_get_sampling_period() {
 
 int wb_keyboard_get_key() {
   if (keyboard.sampling_period <= 0)
-    fprintf(stderr,
-            "Error: %s() called for a disabled device! Please use: "
-            "wb_keyboard_enable().\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_keyboard_enable().\n", __FUNCTION__);
 
   if (keyboard.pointer == -1)
     return -1;

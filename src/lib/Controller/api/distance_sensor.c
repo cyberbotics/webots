@@ -95,7 +95,7 @@ void wbr_distance_sensor_set_value(WbDeviceTag t, double value) {
   if (ds)
     ds->value = value;
   else
-    fprintf(stderr, "Error: wbr_distance_sensor_set_value(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 // Protected functions (exported to WbDevice.cc)

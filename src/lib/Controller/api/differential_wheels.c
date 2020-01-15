@@ -259,9 +259,7 @@ double wb_differential_wheels_get_left_encoder() {
   DifferentialWheels *dw = differential_wheels_get_struct();
   if (dw) {
     if (dw->encoders_sampling_period <= 0)
-      fprintf(stderr,
-              "Error: %s() called for a disabled device! Please use: "
-              "wb_differential_wheels_enable_encoders().\n",
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_differential_wheels_enable_encoders().\n",
               __FUNCTION__);
     result = dw->left_encoder;
   }
@@ -278,9 +276,7 @@ double wb_differential_wheels_get_right_encoder() {
   DifferentialWheels *dw = differential_wheels_get_struct();
   if (dw) {
     if (dw->encoders_sampling_period <= 0)
-      fprintf(stderr,
-              "Error: %s() called for a disabled device! Please use: "
-              "wb_differential_wheels_enable_encoders().\n",
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_differential_wheels_enable_encoders().\n",
               __FUNCTION__);
     result = dw->right_encoder;
   }

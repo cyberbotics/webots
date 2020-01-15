@@ -135,10 +135,7 @@ const double *wb_inertial_unit_get_roll_pitch_yaw(WbDeviceTag tag) {
   InertialUnit *inertial_unit = inertial_unit_get_struct(tag);
   if (inertial_unit) {
     if (inertial_unit->sampling_period <= 0)
-      fprintf(stderr,
-              "Error: %s() called for a disabled device! Please use: "
-              "wb_inertial_unit_enable().\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_inertial_unit_enable().\n", __FUNCTION__);
     result = inertial_unit->rpy;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);

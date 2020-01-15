@@ -254,10 +254,8 @@ void wb_motor_set_velocity(WbDeviceTag tag, double velocity) {
   if (m) {
     if (velocity < 0.0) {
       if (!isinf(m->position)) {
-        fprintf(stderr,
-                "Error: %s() called with negative 'velocity' argument in "
-                "position control mode (%g).\n",
-                __FUNCTION__, m->position);
+        fprintf(stderr, "Error: %s() called with negative 'velocity' argument in position control mode (%g).\n", __FUNCTION__,
+                m->position);
         robot_mutex_unlock_step();
         return;
       }

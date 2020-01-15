@@ -162,10 +162,7 @@ void wb_skin_set_bone_orientation(WbDeviceTag tag, int index, const double orien
   }
   // Check if axis is valid
   if ((orientation[0] == 0.0 && orientation[1] == 0.0 && orientation[2] == 0.0)) {
-    fprintf(stderr,
-            "Error: %s() called with invalid values for the [x y z] "
-            "orientation axis.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with invalid values for the [x y z] orientation axis.\n", __FUNCTION__);
     return;
   }
   robot_mutex_lock_step();

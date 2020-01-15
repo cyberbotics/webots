@@ -135,10 +135,7 @@ const double *wb_gyro_get_values(WbDeviceTag tag) {
   Gyro *gyro = gyro_get_struct(tag);
   if (gyro) {
     if (gyro->sampling_period <= 0)
-      fprintf(stderr,
-              "Error: %s() called for a disabled device! Please use: "
-              "wb_gyro_enable().\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_gyro_enable().\n", __FUNCTION__);
     result = gyro->velocity;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);

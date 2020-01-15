@@ -900,8 +900,7 @@ static void create_and_append_field_request(WbFieldStruct *f, int action, int in
       offset = 1;
     if (f->count != -1 && (index >= (f->count + offset) || index < 0)) {
       index = 0;
-      fprintf(stderr, "Warning wb_supervisor_field_get/set_mf_*() called with "
-                      "index out of range.\n");
+      fprintf(stderr, "Warning wb_supervisor_field_get/set_mf_*() called with index out of range.\n");
     }
   }
   WbFieldRequest *request = malloc(sizeof(WbFieldRequest));
@@ -985,10 +984,8 @@ static bool check_field(WbFieldRef f, const char *func, WbFieldType type, bool c
     int offset = is_importing ? 0 : -1;
 
     if (*index < -(count + 1 + offset) || *index > (count + offset)) {
-      fprintf(stderr,
-              "Error: %s() called with an out-of-bound index: %d (should be "
-              "between %d and %d).\n",
-              func, *index, -count - 1 - offset, count + offset);
+      fprintf(stderr, "Error: %s() called with an out-of-bound index: %d (should be between %d and %d).\n", func, *index,
+              -count - 1 - offset, count + offset);
       return false;
     }
 
@@ -1109,10 +1106,7 @@ void wb_supervisor_movie_start_recording(const char *filename, int width, int he
     return;
   }
   if (acceleration < 1) {
-    fprintf(stderr,
-            "Error: %s(): 'acceleration' argument must be greater than or "
-            "equal to 1.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s(): 'acceleration' argument must be greater than or equal to 1.\n", __FUNCTION__);
     return;
   }
 
@@ -1148,9 +1142,7 @@ bool wb_supervisor_movie_failed() {
 }
 
 int wb_supervisor_movie_get_status() {
-  fprintf(stderr,
-          "%s() is deprecated, please use wb_supervisor_movie_is_ready() and "
-          "wb_supervisor_movie_failed() instead.\n",
+  fprintf(stderr, "%s() is deprecated, please use wb_supervisor_movie_is_ready() and wb_supervisor_movie_failed() instead.\n",
           __FUNCTION__);
   return movie_status;
 }
@@ -1180,10 +1172,7 @@ bool wb_supervisor_animation_start_recording(const char *filename) {
   }
 
   if (strcmp("html", wb_file_get_extension(filename)) != 0) {
-    fprintf(stderr,
-            "Error: the target file given to %s() should have the '.html' "
-            "extension.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: the target file given to %s() should have the '.html' extension.\n", __FUNCTION__);
     return false;
   }
 
@@ -1307,10 +1296,7 @@ bool wb_supervisor_world_save(const char *filename) {
     }
 
     if (strcmp("wbt", wb_file_get_extension(filename)) != 0) {
-      fprintf(stderr,
-              "Error: the target file given to %s() ends with the '.wbt' "
-              "extension.\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: the target file given to %s() ends with the '.wbt' extension.\n", __FUNCTION__);
       return false;
     }
   } else {
@@ -1781,8 +1767,7 @@ void wb_supervisor_node_set_visibility(WbNodeRef node, WbNodeRef from, bool visi
   if (from->type != WB_NODE_VIEWPOINT && from->type != WB_NODE_CAMERA && from->type != WB_NODE_LIDAR &&
       from->type != WB_NODE_RANGE_FINDER) {
     fprintf(stderr,
-            "Error: %s() called with a 'from' argument which is not the "
-            "viewpoint or a camera, lidar or range-finder device.\n",
+            "Error: %s() called with a 'from' argument which is not the viewpoint or a camera, lidar or range-finder device.\n",
             __FUNCTION__);
     return;
   }
@@ -2499,10 +2484,7 @@ void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const ch
   }
 
   if (isWrl && field != wb_supervisor_node_get_field(root_ref, "children")) {
-    fprintf(stderr,
-            "Error: %s() '*.wrl' import is supported only at the root children "
-            "field level.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() '*.wrl' import is supported only at the root children field level.\n", __FUNCTION__);
     return;
   }
 
@@ -2516,10 +2498,8 @@ void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const ch
 
   int count = f->count;
   if (position < -(count + 1) || position > count) {
-    fprintf(stderr,
-            "Error: %s() called with an out-of-bound index: %d (should be "
-            "between %d and %d).\n",
-            __FUNCTION__, position, -(count + 1), count);
+    fprintf(stderr, "Error: %s() called with an out-of-bound index: %d (should be between %d and %d).\n", __FUNCTION__,
+            position, -(count + 1), count);
     return;
   }
 
@@ -2528,10 +2508,7 @@ void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const ch
     position = count + position + 1;
 
   if (isWrl && position != f->count) {
-    fprintf(stderr,
-            "Error: %s() '*.wrl' import is supported only at the end of the "
-            "root node children field.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() '*.wrl' import is supported only at the end of the root node children field.\n", __FUNCTION__);
     return;
   }
 
@@ -2565,10 +2542,8 @@ void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int positi
 
   int count = f->count;
   if (position < -(count + 1) || position > count) {
-    fprintf(stderr,
-            "Error: %s() called with an out-of-bound index: %d (should be "
-            "between %d and %d).\n",
-            __FUNCTION__, position, -(count + 1), count);
+    fprintf(stderr, "Error: %s() called with an out-of-bound index: %d (should be between %d and %d).\n", __FUNCTION__,
+            position, -(count + 1), count);
     return;
   }
 

@@ -111,10 +111,7 @@ void wb_brake_set_damping_constant_no_mutex(WbDeviceTag tag, double damping_cons
 
 void wb_brake_set_damping_constant(WbDeviceTag tag, double damping_constant) {
   if (isnan(damping_constant)) {
-    fprintf(stderr,
-            "Error: %s() called with an invalid 'damping_constant' argument "
-            "(NaN).\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with an invalid 'damping_constant' argument (NaN).\n", __FUNCTION__);
     return;
   }
 

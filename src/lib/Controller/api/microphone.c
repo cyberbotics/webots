@@ -158,10 +158,7 @@ const void *wb_microphone_get_sample_data(WbDeviceTag tag) {
   Microphone *mic = microphone_get_struct(tag);
   if (mic) {
     if (mic->sampling_period <= 0)
-      fprintf(stderr,
-              "Error: %s() called for a disabled device! Please use: "
-              "wb_microphone_enable().\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_microphone_enable().\n", __FUNCTION__);
     result = mic->sample;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -175,10 +172,7 @@ int wb_microphone_get_sample_size(WbDeviceTag tag) {
   Microphone *mic = microphone_get_struct(tag);
   if (mic) {
     if (mic->sampling_period <= 0)
-      fprintf(stderr,
-              "Error: %s() called for a disabled device! Please use: "
-              "wb_microphone_enable().\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_microphone_enable().\n", __FUNCTION__);
     result = mic->sample_size;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);

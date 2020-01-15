@@ -130,10 +130,7 @@ double wb_light_sensor_get_value(WbDeviceTag tag) {
   LightSensor *ls = light_sensor_get_struct(tag);
   if (ls) {
     if (ls->sampling_period <= 0)
-      fprintf(stderr,
-              "Error: %s() called for a disabled device! Please use: "
-              "wb_light_sensor_enable().\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_light_sensor_enable().\n", __FUNCTION__);
     value = ls->value;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);

@@ -410,10 +410,7 @@ const float *wb_lidar_get_range_image(WbDeviceTag tag) {
     return NULL;
 
   if (ac->sampling_period <= 0)
-    fprintf(stderr,
-            "Error: %s() called for a disabled device! Please use: "
-            "wb_lidar_enable().\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_lidar_enable().\n", __FUNCTION__);
 
   return (const float *)(void *)ac->image;
 }
@@ -426,17 +423,12 @@ const float *wb_lidar_get_layer_range_image(WbDeviceTag tag, int layer) {
   }
 
   if (wb_abstract_camera_get_sampling_period(lidar_get_device(tag)) <= 0) {
-    fprintf(stderr,
-            "Error: %s() called for a disabled device! Please use: "
-            "wb_lidar_enable().\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_lidar_enable().\n", __FUNCTION__);
     return NULL;
   }
 
   if (layer > l->number_of_layers) {
-    fprintf(stderr,
-            "Error: %s() called with a 'layer' argument (%d) bigger than the "
-            "number of layers of this lidar (%d).\n",
+    fprintf(stderr, "Error: %s() called with a 'layer' argument (%d) bigger than the number of layers of this lidar (%d).\n",
             __FUNCTION__, layer, l->number_of_layers);
     return NULL;
   } else if (layer < 0) {
@@ -456,17 +448,12 @@ const WbLidarPoint *wb_lidar_get_point_cloud(WbDeviceTag tag) {
     return NULL;
   }
   if (!l->point_cloud_enabled) {
-    fprintf(stderr,
-            "Error: %s() called for a lidar with point cloud disabled. Please use: "
-            "call wb_lidar_enable_point_cloud().\n",
+    fprintf(stderr, "Error: %s() called for a lidar with point cloud disabled. Please use: wb_lidar_enable_point_cloud().\n",
             __FUNCTION__);
     return NULL;
   }
   if (wb_abstract_camera_get_sampling_period(lidar_get_device(tag)) <= 0) {
-    fprintf(stderr,
-            "Error: %s() called for a disabled device! Please use: "
-            "wb_lidar_enable().\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_lidar_enable().\n", __FUNCTION__);
     return NULL;
   }
   const float *image = wb_lidar_get_range_image(tag);
@@ -482,23 +469,16 @@ const WbLidarPoint *wb_lidar_get_layer_point_cloud(WbDeviceTag tag, int layer) {
     return NULL;
   }
   if (!l->point_cloud_enabled) {
-    fprintf(stderr,
-            "Error: %s() called for a lidar with point cloud disabled. Please use: "
-            "wb_lidar_enable_point_cloud().\n",
+    fprintf(stderr, "Error: %s() called for a lidar with point cloud disabled. Please use: wb_lidar_enable_point_cloud().\n",
             __FUNCTION__);
     return NULL;
   }
   if (wb_abstract_camera_get_sampling_period(lidar_get_device(tag)) <= 0) {
-    fprintf(stderr,
-            "Error: %s() called for a disabled device! Please use: "
-            "wb_lidar_enable().\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_lidar_enable().\n", __FUNCTION__);
     return 0;
   }
   if (layer > l->number_of_layers) {
-    fprintf(stderr,
-            "Error: %s() called with a 'layer' argument (%d) bigger than the "
-            "number of layers of this lidar (%d).\n",
+    fprintf(stderr, "Error: %s() called with a 'layer' argument (%d) bigger than the number of layers of this lidar (%d).\n",
             __FUNCTION__, layer, l->number_of_layers);
     return NULL;
   } else if (layer < 0) {
@@ -518,17 +498,12 @@ int wb_lidar_get_number_of_points(WbDeviceTag tag) {
     return 0;
   }
   if (!l->point_cloud_enabled) {
-    fprintf(stderr,
-            "Error: %s() called for a lidar with point cloud disabled! Please use: "
-            "wb_lidar_enable_point_cloud().\n",
+    fprintf(stderr, "Error: %s() called for a lidar with point cloud disabled! Please use: wb_lidar_enable_point_cloud().\n",
             __FUNCTION__);
     return 0;
   }
   if (wb_abstract_camera_get_sampling_period(lidar_get_device(tag)) <= 0) {
-    fprintf(stderr,
-            "Error: %s() called for a disabled device! Please use: "
-            "wb_lidar_enable().\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_lidar_enable().\n", __FUNCTION__);
     return 0;
   }
   return l->horizontal_resolution * l->number_of_layers;

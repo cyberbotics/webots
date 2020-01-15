@@ -157,10 +157,7 @@ const double *wb_gps_get_values(WbDeviceTag tag) {
   GPS *gps = gps_get_struct(tag);
   if (gps) {
     if (gps->sampling_period <= 0)
-      fprintf(stderr,
-              "Error: %s() called for a disabled device! Please use: "
-              "wb_gps_enable().\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_gps_enable().\n", __FUNCTION__);
     result = gps->position;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -174,10 +171,7 @@ const double wb_gps_get_speed(WbDeviceTag tag) {
   GPS *gps = gps_get_struct(tag);
   if (gps) {
     if (gps->sampling_period <= 0)
-      fprintf(stderr,
-              "Error: %s() called for a disabled device! Please use: "
-              "wb_gps_enable().\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_gps_enable().\n", __FUNCTION__);
     result = gps->speed;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);

@@ -257,9 +257,7 @@ int wb_emitter_get_channel(WbDeviceTag tag) {
 
 void wb_emitter_set_channel(WbDeviceTag tag, int channel) {
   if (channel < -1) {
-    fprintf(stderr,
-            "Error: %s() called with an invalid channel=%d. Please use a "
-            "channel inside the range [-1,inf).\n",
+    fprintf(stderr, "Error: %s() called with an invalid channel=%d. Please use a channel inside the range [-1,inf).\n",
             __FUNCTION__, channel);
     return;
   }

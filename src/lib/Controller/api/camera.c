@@ -155,8 +155,7 @@ static void wb_camera_read_answer(WbDevice *d, WbRequest *r) {
       min_focal_distance = request_read_double(r);
       max_focal_distance = request_read_double(r);
 
-      // printf("new camera %u %d %d %lf %lf %d\n", uid, width, height, fov,
-      // camnear, spherical);
+      // printf("new camera %u %d %d %lf %lf %d\n", uid, width, height, fov, camnear, spherical);
       wb_camera_new(d, uid, width, height, fov, min_fov, max_fov, focal_length, focal_distance, min_focal_distance,
                     max_focal_distance, camnear, spherical, has_recognition);
       break;
@@ -400,16 +399,10 @@ void wb_camera_set_fov(WbDeviceTag tag, double fov) {
     return;
   }
   if (ac->spherical && (fov < 0.0 || fov > 2.0 * M_PI)) {
-    fprintf(stderr,
-            "Error: %s() called with 'fov' argument outside of the [0, 2.0*pi] "
-            "range.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with 'fov' argument outside of the [0, 2.0*pi] range.\n", __FUNCTION__);
     in_range = false;
   } else if (!ac->spherical && (fov < 0.0 || fov > M_PI)) {
-    fprintf(stderr,
-            "Error: %s() called with 'fov' argument outside of the [0, pi] "
-            "range.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with 'fov' argument outside of the [0, pi] range.\n", __FUNCTION__);
     in_range = false;
   } else if (fov < c->min_fov || fov > c->max_fov) {
     fprintf(stderr, "Error: %s() out of zoom range [%f, %f].\n", __FUNCTION__, c->min_fov, c->max_fov);
@@ -561,10 +554,7 @@ int wb_camera_recognition_get_number_of_objects(WbDeviceTag tag) {
     if (!c->has_recognition)
       fprintf(stderr, "Error: %s() called on a Camera without Recognition node.\n", __FUNCTION__);
     else if (c->recognition_sampling_period == 0)
-      fprintf(stderr,
-              "Error: %s() called for a disabled device! Please use: "
-              "wb_camera_recognition_enable().\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_camera_recognition_enable().\n", __FUNCTION__);
     else
       result = c->recognized_object_number;
   } else
@@ -593,10 +583,7 @@ const WbCameraRecognitionObject *wb_camera_recognition_get_objects(WbDeviceTag t
     if (!c->has_recognition)
       fprintf(stderr, "Error: %s() called on a Camera without Recognition node.\n", __FUNCTION__);
     else if (c->recognition_sampling_period == 0)
-      fprintf(stderr,
-              "Error: %s() called for a disabled device! Please use: "
-              "wb_camera_recognition_enable().\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_camera_recognition_enable().\n", __FUNCTION__);
     else
       result = c->recognized_objects;
   } else
@@ -614,10 +601,7 @@ const unsigned char *wb_camera_get_image(WbDeviceTag tag) {
   }
 
   if (ac->sampling_period <= 0) {
-    fprintf(stderr,
-            "Error: %s() called for a disabled device! Please use: "
-            "wb_camera_enable().\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_camera_enable().\n", __FUNCTION__);
     return NULL;
   }
 
@@ -641,10 +625,7 @@ int wb_camera_save_image(WbDeviceTag tag, const char *filename, int quality) {
   }
   unsigned char type = g_image_get_type(filename);
   if (type != G_IMAGE_PNG && type != G_IMAGE_JPEG) {
-    fprintf(stderr,
-            "Error: %s() called with unsupported image format (should be PNG "
-            "or JPEG).\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called with unsupported image format (should be PNG or JPEG).\n", __FUNCTION__);
     return -1;
   }
   if (type == G_IMAGE_JPEG && (quality < 1 || quality > 100)) {

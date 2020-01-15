@@ -505,8 +505,7 @@ int robot_check_differential_wheels(const char *func_name) {
     return 1;  // OK
 
   fprintf(stderr, "Error: ignoring illegal call to %s() in a '%s' controller.\n", func_name, robot_get_type_name());
-  fprintf(stderr, "Error: this function can only be used in a "
-                  "'DifferentialWheels' controller.\n");
+  fprintf(stderr, "Error: this function can only be used in a 'DifferentialWheels' controller.\n");
   return 0;
 }
 
@@ -696,10 +695,7 @@ void wb_robot_set_mode(WbRobotMode mode, const char *arg) {
       robot.toggle_remote_first_step = true;
       return;
     } else
-      fprintf(stderr,
-              "Error: %s(): starting the remote control library (wbr_start) "
-              "failed\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s(): starting the remote control library (wbr_start) failed\n", __FUNCTION__);
   }
   robot.mode = WB_MODE_SIMULATION;
 }
@@ -736,10 +732,7 @@ WbDeviceTag wb_robot_get_device_by_index(int index) {
   if (index >= 0 && index < wb_robot_get_number_of_devices())
     return (WbDeviceTag)index + 1;  // the first item is the robot and not a device
   else {
-    fprintf(stderr,
-            "Error: %s(): the index of wb_robot_get_device_by_index() is out "
-            "of the bounds.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: The index of %s() is out of the bounds.\n", __FUNCTION__);
     return 0;
   }
 }
@@ -784,10 +777,7 @@ void wb_robot_battery_sensor_disable() {
 
 double wb_robot_battery_sensor_get_value() {
   if (robot.battery_sampling_period <= 0)
-    fprintf(stderr,
-            "Error: %s() called for a disabled device! Please use: "
-            "wb_robot_battery_sensor_enable().\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_robot_battery_sensor_enable().\n", __FUNCTION__);
   double result;
   robot_mutex_lock_step();
   result = robot.battery_value;
@@ -864,8 +854,8 @@ WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type,
   if (event_type & (WB_EVENT_MOUSE_CLICK | WB_EVENT_MOUSE_MOVE)) {
     if (wb_mouse_get_sampling_period() <= 0)
       fprintf(stderr,
-              "Error: %s() called with an event type including the mouse, but the "
-              "mouse is disabled, please enable it with wb_mouse_enable().\n",
+              "Error: %s() called with an event type including the mouse, but the mouse is disabled, please enable it with "
+              "wb_mouse_enable().\n",
               __FUNCTION__);
     else
       valid = true;
@@ -873,9 +863,8 @@ WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type,
   if (event_type & WB_EVENT_KEYBOARD) {
     if (wb_keyboard_get_sampling_period() <= 0)
       fprintf(stderr,
-              "Error: %s() called with an event type including the keyboard, "
-              "but the keyboard is disabled, please enable it with "
-              "wb_keyboard_enable().\n",
+              "Error: %s() called with an event type including the keyboard, but the keyboard is disabled, please enable it "
+              "with wb_keyboard_enable().\n",
               __FUNCTION__);
     else
       valid = true;
@@ -883,8 +872,8 @@ WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type,
   if (event_type & (WB_EVENT_JOYSTICK_BUTTON | WB_EVENT_JOYSTICK_AXIS | WB_EVENT_JOYSTICK_POV)) {
     if (wb_joystick_get_sampling_period() <= 0)
       fprintf(stderr,
-              "Error: %s() called with an event type including a joystick, but no "
-              "joystick is enabled, please enable it with wb_joystick_enable().\n",
+              "Error: %s() called with an event type including a joystick, but no joystick is enabled, please enable it with "
+              "wb_joystick_enable().\n",
               __FUNCTION__);
     else
       valid = true;
@@ -993,10 +982,7 @@ int wb_robot_init() {  // API initialization
       const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path();
       if (!WEBOTS_TMP_PATH) {
         if (trial <= 10)
-          fprintf(stderr,
-                  "Webots doesn't seems to be ready yet: (retrying in %u "
-                  "second%s)\n",
-                  trial, trial > 1 ? "s" : "");
+          fprintf(stderr, "Webots doesn't seems to be ready yet: (retrying in %u second%s)\n", trial, trial > 1 ? "s" : "");
         sleep(trial);
       } else {
         char buffer[1024];

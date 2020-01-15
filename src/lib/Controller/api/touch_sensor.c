@@ -89,10 +89,7 @@ void wbr_touch_sensor_set_value(WbDeviceTag tag, double value) {
   TouchSensor *ts = touch_sensor_get_struct(tag);
   if (ts) {
     if (ts->type != WB_TOUCH_SENSOR_BUMPER && ts->type != WB_TOUCH_SENSOR_FORCE) {
-      fprintf(stderr,
-              "Error: %s() must be used with a TouchSensor of type \"bumper\" "
-              "or \"force\"\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s() must be used with a TouchSensor of type \"bumper\" or \"force\"\n", __FUNCTION__);
       fprintf(stderr, "Error: you should use wbr_touch_sensor_set_values() instead.\n");
       return;
     }
@@ -171,17 +168,11 @@ double wb_touch_sensor_get_value(WbDeviceTag tag) {
   robot_mutex_lock_step();
   if (ts) {
     if (ts->type != WB_TOUCH_SENSOR_BUMPER && ts->type != WB_TOUCH_SENSOR_FORCE) {
-      fprintf(stderr,
-              "Error: %s() must be used with a TouchSensor of type \"bumper\" "
-              "or \"force\"\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s() must be used with a TouchSensor of type \"bumper\" or \"force\"\n", __FUNCTION__);
       fprintf(stderr, "Error: you should use wb_touch_sensor_get_values() instead.\n");
     } else {
       if (ts->sampling_period <= 0)
-        fprintf(stderr,
-                "Error: %s() called for a disabled device! Please use: "
-                "wb_touch_sensor_enable().\n",
-                __FUNCTION__);
+        fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_touch_sensor_enable().\n", __FUNCTION__);
       value = ts->values[0];
     }
   } else
@@ -200,10 +191,7 @@ const double *wb_touch_sensor_get_values(WbDeviceTag tag) {
       fprintf(stderr, "Error: you should use wb_touch_sensor_get_value() instead.\n");
     } else {
       if (ts->sampling_period <= 0)
-        fprintf(stderr,
-                "Error: %s() called for a disabled device! Please use: "
-                "wb_touch_sensor_enable().\n",
-                __FUNCTION__);
+        fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_touch_sensor_enable().\n", __FUNCTION__);
       values = ts->values;
     }
   } else

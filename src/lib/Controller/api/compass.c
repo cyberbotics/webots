@@ -135,10 +135,7 @@ const double *wb_compass_get_values(WbDeviceTag tag) {
   Compass *compass = compass_get_struct(tag);
   if (compass) {
     if (compass->sampling_period <= 0)
-      fprintf(stderr,
-              "Error: %s() called for a disabled device! Please use: "
-              "wb_compass_enable().\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_compass_enable().\n", __FUNCTION__);
     result = compass->north;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);

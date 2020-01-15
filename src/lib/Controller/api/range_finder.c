@@ -247,10 +247,7 @@ const float *wb_range_finder_get_range_image(WbDeviceTag tag) {
     return NULL;
 
   if (ac->sampling_period <= 0)
-    fprintf(stderr,
-            "Error: %s() called for a disabled device! Please use: "
-            "wb_range_finder_enable().\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_range_finder_enable().\n", __FUNCTION__);
 
   return (const float *)(void *)ac->image;
 }

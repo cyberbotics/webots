@@ -173,10 +173,7 @@ int wb_radar_get_number_of_targets(WbDeviceTag tag) {
   Radar *radar = radar_get_struct(tag);
   if (radar) {
     if (radar->sampling_period == 0)
-      fprintf(stderr,
-              "Error: %s() called for a disabled device! Please use: "
-              "wb_radar_enable().\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_radar_enable().\n", __FUNCTION__);
     result = radar->target_number;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -190,10 +187,7 @@ const WbRadarTarget *wb_radar_get_targets(WbDeviceTag tag) {
   Radar *radar = radar_get_struct(tag);
   if (radar) {
     if (radar->sampling_period == 0)
-      fprintf(stderr,
-              "Error: %s() called for a disabled device! Please use: "
-              "wb_radar_enable().\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_radar_enable().\n", __FUNCTION__);
     result = radar->targets;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);

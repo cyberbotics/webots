@@ -161,10 +161,7 @@ int wb_connector_get_presence(WbDeviceTag tag) {
   Connector *con = connector_get_struct(tag);
   if (con) {
     if (con->presence_sampling_period <= 0)
-      fprintf(stderr,
-              "Error: %s() called for a disabled device! Please use: "
-              "wb_connector_enable_presence().\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_connector_enable_presence().\n", __FUNCTION__);
     result = con->presence;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);

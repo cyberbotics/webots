@@ -104,10 +104,7 @@ int wb_mouse_get_sampling_period() {
 void wb_mouse_enable_3d_position() {
   robot_mutex_lock_step();
   if (mouse.sampling_period == 0)
-    fprintf(stderr,
-            "Error: %s() called for a disabled device! Please use: "
-            "wb_mouse_enable().\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_mouse_enable().\n", __FUNCTION__);
   else {
     mouse.enable_3d_position = true;
     mouse.enable_3d_position_changed = true;

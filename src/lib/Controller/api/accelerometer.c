@@ -136,10 +136,7 @@ const double *wb_accelerometer_get_values(WbDeviceTag tag) {
   Accelerometer *acc = accelerometer_get_struct(tag);
   if (acc) {
     if (acc->sampling_period == 0)
-      fprintf(stderr,
-              "Error: %s() called for a disabled device! Please use: "
-              "wb_accelerometer_enable().\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_accelerometer_enable().\n", __FUNCTION__);
     result = acc->values;
   }
   robot_mutex_unlock_step();

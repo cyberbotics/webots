@@ -127,10 +127,7 @@ static bool motion_check_file(FILE *file, const char *filename, int *n_joints, i
   }
 
   if (strcmp(token, VERSION) != 0) {
-    fprintf(stderr,
-            "Error: wbu_motion_new(): unsupported version number '%s' in "
-            "motion file '%s'.\n",
-            token, filename);
+    fprintf(stderr, "Error: wbu_motion_new(): unsupported version number '%s' in motion file '%s'.\n", token, filename);
     return false;
   }
 
@@ -156,18 +153,14 @@ static bool motion_check_file(FILE *file, const char *filename, int *n_joints, i
     // verify time value
     int temp = str_to_time(token);
     if (temp == UNDEFINED_TIME) {
-      fprintf(stderr,
-              "Error: wbu_motion_new(): expected <time value> but found '%s', "
-              "in file '%s', line %d.\n",
-              token, filename, line);
+      fprintf(stderr, "Error: wbu_motion_new(): expected <time value> but found '%s', in file '%s', line %d.\n", token,
+              filename, line);
       return false;
     }
 
     // verify increasing time sequence
     if (temp <= time) {
-      fprintf(stderr,
-              "Error: wbu_motion_new(): illegal (non-increasing) time sequence "
-              "detected in file '%s', line %d.\n",
+      fprintf(stderr, "Error: wbu_motion_new(): illegal (non-increasing) time sequence detected in file '%s', line %d.\n",
               filename, line);
       return false;
     }
@@ -177,10 +170,7 @@ static bool motion_check_file(FILE *file, const char *filename, int *n_joints, i
     // skip pose name
     token = next_token(NULL);
     if (!token) {
-      fprintf(stderr,
-              "Error: wbu_motion_new(): pose name expected in file '%s', line "
-              "%d.\n",
-              filename, line);
+      fprintf(stderr, "Error: wbu_motion_new(): pose name expected in file '%s', line %d.\n", filename, line);
       return false;
     }
 
@@ -196,10 +186,8 @@ static bool motion_check_file(FILE *file, const char *filename, int *n_joints, i
       if (strcmp(token, "*") != 0) {
         double f;
         if (sscanf(token, "%lf", &f) != 1) {
-          fprintf(stderr,
-                  "Error: wbu_motion_new(): expected <double value>, but found "
-                  "'%s', in file '%s', line %d.\n",
-                  token, filename, line);
+          fprintf(stderr, "Error: wbu_motion_new(): expected <double value>, but found '%s', in file '%s', line %d.\n", token,
+                  filename, line);
           return false;
         }
       }
@@ -208,10 +196,7 @@ static bool motion_check_file(FILE *file, const char *filename, int *n_joints, i
     // check for extra tokens
     token = next_token(NULL);
     if (token) {
-      fprintf(stderr,
-              "Error: wbu_motion_new(): unexpected extra data '%s', in file "
-              "'%s', line %d.\n",
-              token, filename, line);
+      fprintf(stderr, "Error: wbu_motion_new(): unexpected extra data '%s', in file '%s', line %d.\n", token, filename, line);
       return false;
     }
   }
@@ -418,10 +403,7 @@ WbMotionRef wbu_motion_new(const char *filename) {
     return NULL;
 
   if (!file) {
-    fprintf(stderr,
-            "Error: %s(): file '%s' needs to contains at least one joint and "
-            "one pose.\n",
-            __FUNCTION__, filename);
+    fprintf(stderr, "Error: %s(): file '%s' needs to contains at least one joint and one pose.\n", __FUNCTION__, filename);
     return NULL;
   }
 
@@ -455,9 +437,7 @@ WbMotionRef wbu_motion_new(const char *filename) {
     ref->tags[i] = motion_find_device_tag(ref->joint_names[i]);
     ref->types[i] = wb_device_get_node_type(ref->tags[i]);
     if (!ref->tags[i])
-      fprintf(stderr,
-              "Warning: %s(): ignoring joint '%s', specified in file '%s', but "
-              "not found in this robot.\n",
+      fprintf(stderr, "Warning: %s(): ignoring joint '%s', specified in file '%s', but not found in this robot.\n",
               __FUNCTION__, ref->joint_names[i], filename);
   }
 

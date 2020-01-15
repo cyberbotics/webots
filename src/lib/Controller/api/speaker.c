@@ -350,38 +350,26 @@ void wb_speaker_play_sound(WbDeviceTag left, WbDeviceTag right, const char *soun
     }
   }
   if (volume < 0) {
-    fprintf(stderr,
-            "Warning: %s() called with a negative volume value: %g. Setting "
-            "volume to 0.\n",
-            __FUNCTION__, volume);
+    fprintf(stderr, "Warning: %s() called with a negative volume value: %g. Setting volume to 0.\n", __FUNCTION__, volume);
     volume = 0;
   }
   if (volume > 1) {
-    fprintf(stderr,
-            "Warning: %s() called with a volume value greater than 1: %g. "
-            "Setting volume to 1.\n",
-            __FUNCTION__, volume);
+    fprintf(stderr, "Warning: %s() called with a volume value greater than 1: %g. Setting volume to 1.\n", __FUNCTION__,
+            volume);
     volume = 1;
   }
   if (pitch < 0) {
-    fprintf(stderr,
-            "Warning: %s() called with a negative pitch value: %g. Setting "
-            "pitch to 0.\n",
-            __FUNCTION__, pitch);
+    fprintf(stderr, "Warning: %s() called with a negative pitch value: %g. Setting pitch to 0.\n", __FUNCTION__, pitch);
     pitch = 0;
   }
   if (balance < -1) {
-    fprintf(stderr,
-            "Warning: %s() called with a balance value less than -1: %g. "
-            "Setting balance to -1.\n",
-            __FUNCTION__, balance);
+    fprintf(stderr, "Warning: %s() called with a balance value less than -1: %g. Setting balance to -1.\n", __FUNCTION__,
+            balance);
     balance = -1;
   }
   if (balance > 1) {
-    fprintf(stderr,
-            "Warning: %s() called with a balance value greater than 1: %g. "
-            "Setting balance to 1.\n",
-            __FUNCTION__, balance);
+    fprintf(stderr, "Warning: %s() called with a balance value greater than 1: %g. Setting balance to 1.\n", __FUNCTION__,
+            balance);
     balance = 1;
   }
   double left_volume, right_volume;
@@ -500,9 +488,8 @@ bool wb_speaker_set_language(WbDeviceTag tag, const char *language) {
   if (strlen(language) > 5 || language[2] != '-' || language[0] < 'a' || language[0] > 'z' || language[1] < 'a' ||
       language[1] > 'z' || language[3] < 'A' || language[3] > 'Z' || language[4] < 'A' || language[4] > 'Z') {
     fprintf(stderr, "Error: %s() called with an invalid 'language' argument: \"%s\".\n", __FUNCTION__, language);
-    fprintf(stderr, "'language' should follow the \"ll-CC\" format where ll is the ISO "
-                    "639-1 language code and CC is "
-                    "the ISO 3166 country code, for example, \"en-US\" or \"fr-FR\".\n");
+    fprintf(stderr, "'language' should follow the \"ll-CC\" format where ll is the ISO 639-1 language code and CC is the ISO "
+                    "3166 country code, for example, \"en-US\" or \"fr-FR\".\n");
     fprintf(stderr, "Available languages for \"%s\" engine include:\n", speaker->engine);
     for (i = 0; i < n_languages; ++i)
       fprintf(stderr, " - \"%s\"\n", languages[i]);
@@ -550,17 +537,11 @@ void wb_speaker_speak(WbDeviceTag tag, const char *text, double volume) {
     return;
   }
   if (volume < 0) {
-    fprintf(stderr,
-            "Warning: %s() called with negative volume value: %g. Setting "
-            "volume to 0.\n",
-            __FUNCTION__, volume);
+    fprintf(stderr, "Warning: %s() called with negative volume value: %g. Setting volume to 0.\n", __FUNCTION__, volume);
     volume = 0;
   }
   if (volume > 1) {
-    fprintf(stderr,
-            "Warning: %s() called with volume value greater than 1: %g. "
-            "Setting volume to 1.\n",
-            __FUNCTION__, volume);
+    fprintf(stderr, "Warning: %s() called with volume value greater than 1: %g. Setting volume to 1.\n", __FUNCTION__, volume);
     volume = 1;
   }
   free(speaker->text);

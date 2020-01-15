@@ -683,10 +683,7 @@ void wb_display_image_paste(WbDeviceTag tag, WbImageRef ir, int x, int y, bool b
     return;
   }
   if (ir->device_tag != tag) {
-    fprintf(stderr,
-            "Error: %s(): invalid WbImageRef created by a different Display "
-            "device.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s(): invalid WbImageRef created by a different Display device.\n", __FUNCTION__);
     return;
   }
   DisplayMessage *m = (DisplayMessage *)malloc(sizeof(DisplayMessage));
@@ -810,19 +807,13 @@ void wb_display_image_save(WbDeviceTag tag, WbImageRef ir, const char *filename)
       return;
     }
     if (ir->device_tag != tag) {
-      fprintf(stderr,
-              "Error: %s(): invalid WbImageRef created by a different Display "
-              "device.\n",
-              __FUNCTION__);
+      fprintf(stderr, "Error: %s(): invalid WbImageRef created by a different Display device.\n", __FUNCTION__);
       return;
     }
   }
   unsigned char type = g_image_get_type(filename);
   if (type != G_IMAGE_PNG && type != G_IMAGE_JPEG) {
-    fprintf(stderr,
-            "Error: %s(): unsupported file format. Supported file formats are "
-            "\".jpg\" and \".png\".\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s(): unsupported file format. Supported file formats are \".jpg\" and \".png\".\n", __FUNCTION__);
     return;
   }
   DisplayMessage *m = (DisplayMessage *)malloc(sizeof(DisplayMessage));
@@ -858,10 +849,7 @@ void wb_display_image_delete(WbDeviceTag tag, WbImageRef ir) {
     return;
   }
   if (ir->device_tag != tag) {
-    fprintf(stderr,
-            "Error: %s(): invalid WbImageRef created by a different Display "
-            "device.\n",
-            __FUNCTION__);
+    fprintf(stderr, "Error: %s(): invalid WbImageRef created by a different Display device.\n", __FUNCTION__);
     return;
   }
   DisplayMessage *m = (DisplayMessage *)malloc(sizeof(DisplayMessage));
