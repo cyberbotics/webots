@@ -134,7 +134,7 @@ void wbr_differential_wheels_set_encoders(double left, double right) {
 
   DifferentialWheels *dw = differential_wheels_get_struct();
   if (dw) {
-    // note that contrary to the controller version :
+    // note that contrary to the controller version:
     // wb_differential_wheels_set_encoders this function will not send a request
     dw->left_encoder = left;
     dw->right_encoder = right;
