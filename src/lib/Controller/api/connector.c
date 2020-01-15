@@ -99,7 +99,7 @@ void wb_connector_init(WbDevice *d) {
 
 void wb_connector_enable_presence(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: wb_connector_enable_presence() called with negative sampling period.\n");
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
 
@@ -109,7 +109,7 @@ void wb_connector_enable_presence(WbDeviceTag tag, int sampling_period) {
     con->enable_presence = true;
     con->presence_sampling_period = sampling_period;
   } else
-    fprintf(stderr, "Error: wb_connector_enable_presence(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -118,7 +118,7 @@ void wb_connector_disable_presence(WbDeviceTag tag) {
   if (con)
     wb_connector_enable_presence(tag, 0);
   else
-    fprintf(stderr, "Error: wb_connector_disable_presence(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 int wb_connector_get_presence_sampling_period(WbDeviceTag tag) {
@@ -128,7 +128,7 @@ int wb_connector_get_presence_sampling_period(WbDeviceTag tag) {
   if (con)
     sampling_period = con->presence_sampling_period;
   else
-    fprintf(stderr, "Error: wb_connector_get_presence_sampling_period(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return sampling_period;
 }
@@ -140,7 +140,7 @@ void wb_connector_lock(WbDeviceTag tag) {
     con->set_locked_state = true;
     con->is_locked = true;
   } else
-    fprintf(stderr, "Error: wb_connector_lock(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -151,7 +151,7 @@ void wb_connector_unlock(WbDeviceTag tag) {
     con->set_locked_state = true;
     con->is_locked = false;
   } else
-    fprintf(stderr, "Error: wb_connector_unlock(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -161,11 +161,10 @@ int wb_connector_get_presence(WbDeviceTag tag) {
   Connector *con = connector_get_struct(tag);
   if (con) {
     if (con->presence_sampling_period <= 0)
-      fprintf(stderr,
-              "Error: wb_connector_get_presence() called for a disabled device! Please use: wb_connector_enable_presence().\n");
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_connector_enable_presence().\n", __FUNCTION__);
     result = con->presence;
   } else
-    fprintf(stderr, "Error: wb_connector_get_presence(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }

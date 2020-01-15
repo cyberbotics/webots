@@ -137,7 +137,7 @@ void wbr_range_finder_set_image(WbDeviceTag t, const unsigned char *image) {
   if (rf)
     wbr_abstract_camera_set_image(range_finder_get_device(t), image);
   else
-    fprintf(stderr, "Error: wbr_range_finder_set_image(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 unsigned char *wbr_range_finder_get_image_buffer(WbDeviceTag t) {
@@ -145,7 +145,7 @@ unsigned char *wbr_range_finder_get_image_buffer(WbDeviceTag t) {
   if (rf)
     return wbr_abstract_camera_get_image_buffer(range_finder_get_device(t));
 
-  fprintf(stderr, "Error: wbr_range_finder_get_image_buffer(): invalid device tag.\n");
+  fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return (unsigned char *)"";  // can't return NULL, swig needs the empty string to make python strings
 }
 
@@ -153,13 +153,13 @@ unsigned char *wbr_range_finder_get_image_buffer(WbDeviceTag t) {
 
 void wb_range_finder_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: wb_range_finder_enable() called with negative sampling period.\n");
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
 
   WbDevice *d = range_finder_get_device(tag);
   if (!d) {
-    fprintf(stderr, "Error: wb_range_finder_enable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
 
@@ -171,13 +171,13 @@ void wb_range_finder_disable(WbDeviceTag tag) {
   if (rf)
     wb_range_finder_enable(tag, 0);
   else
-    fprintf(stderr, "Error: wb_range_finder_disable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 int wb_range_finder_get_sampling_period(WbDeviceTag tag) {
   RangeFinder *rf = range_finder_get_struct(tag);
   if (!rf)
-    fprintf(stderr, "Error: wb_range_finder_get_sampling_period(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 
   return wb_abstract_camera_get_sampling_period(range_finder_get_device(tag));
 }
@@ -185,7 +185,7 @@ int wb_range_finder_get_sampling_period(WbDeviceTag tag) {
 int wb_range_finder_get_height(WbDeviceTag tag) {
   RangeFinder *rf = range_finder_get_struct(tag);
   if (!rf)
-    fprintf(stderr, "Error: wb_range_finder_get_height(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 
   return wb_abstract_camera_get_height(range_finder_get_device(tag));
 }
@@ -193,7 +193,7 @@ int wb_range_finder_get_height(WbDeviceTag tag) {
 int wb_range_finder_get_width(WbDeviceTag tag) {
   RangeFinder *rf = range_finder_get_struct(tag);
   if (!rf)
-    fprintf(stderr, "Error: wb_range_finder_get_width(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 
   return wb_abstract_camera_get_width(range_finder_get_device(tag));
 }
@@ -201,7 +201,7 @@ int wb_range_finder_get_width(WbDeviceTag tag) {
 double wb_range_finder_get_fov(WbDeviceTag tag) {
   RangeFinder *rf = range_finder_get_struct(tag);
   if (!rf)
-    fprintf(stderr, "Error: wb_range_finder_get_fov(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 
   return wb_abstract_camera_get_fov(range_finder_get_device(tag));
 }
@@ -209,7 +209,7 @@ double wb_range_finder_get_fov(WbDeviceTag tag) {
 double wb_range_finder_get_min_range(WbDeviceTag tag) {
   RangeFinder *rf = range_finder_get_struct(tag);
   if (!rf)
-    fprintf(stderr, "Error: wb_range_finder_get_min_range(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 
   return wb_abstract_camera_get_near(range_finder_get_device(tag));
 }
@@ -221,7 +221,7 @@ double wb_range_finder_get_max_range(WbDeviceTag tag) {
   if (rf)
     result = rf->max_range;
   else
-    fprintf(stderr, "Error: wb_range_finder_get_max_range(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -233,11 +233,11 @@ const float *wb_range_finder_get_range_image(WbDeviceTag tag) {
     return (const float *)(void *)ac->image;
 
   robot_mutex_lock_step();
-  bool success = abstract_camera_request_image(ac, "wb_range_finder_get_range_image");
+  bool success = abstract_camera_request_image(ac, __FUNCTION__);
   robot_mutex_unlock_step();
 
   if (!ac) {
-    fprintf(stderr, "Error: wb_range_finder_get_range_image(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return NULL;
   }
 
@@ -245,19 +245,18 @@ const float *wb_range_finder_get_range_image(WbDeviceTag tag) {
     return NULL;
 
   if (ac->sampling_period <= 0)
-    fprintf(stderr,
-            "Error: wb_range_finder_get_range_image() called for a disabled device! Please use: wb_range_finder_enable().\n");
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_range_finder_enable().\n", __FUNCTION__);
 
   return (const float *)(void *)ac->image;
 }
 
 int wb_range_finder_save_image(WbDeviceTag tag, const char *filename, int quality) {
   if (!filename || !filename[0]) {
-    fprintf(stderr, "Error: wb_range_finder_save_image() called with NULL or empty 'filename' argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL or empty 'filename' argument.\n", __FUNCTION__);
     return -1;
   }
   if (quality < 1 || quality > 100) {
-    fprintf(stderr, "Error: wb_range_finder_save_image() called with invalid 'quality' argument.\n");
+    fprintf(stderr, "Error: %s() called with invalid 'quality' argument.\n", __FUNCTION__);
     return -1;
   }
 
@@ -270,13 +269,13 @@ int wb_range_finder_save_image(WbDeviceTag tag, const char *filename, int qualit
   RangeFinder *rf = range_finder_get_struct(tag);
 
   if (!ac) {
-    fprintf(stderr, "Error: wb_range_finder_save_image(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     robot_mutex_unlock_step();
     return -1;
   }
 
   // make sure image is up to date before saving it
-  if (!ac->image || !abstract_camera_request_image(ac, "wb_range_finder_save_image")) {
+  if (!ac->image || !abstract_camera_request_image(ac, __FUNCTION__)) {
     robot_mutex_unlock_step();
     return -1;
   }
@@ -288,7 +287,7 @@ int wb_range_finder_save_image(WbDeviceTag tag, const char *filename, int qualit
   img.float_data = NULL;
   size = img.width * img.height;
   if (g_image_get_type(filename) == G_IMAGE_TIFF) {
-    fprintf(stderr, "Error: wb_range_finder_save_image(): .tiff image not supported anymore, use .hdr instead.\n");
+    fprintf(stderr, "Error: %s(): .tiff image not supported anymore, use .hdr instead.\n", __FUNCTION__);
     robot_mutex_unlock_step();
     return -1;
   } else if (g_image_get_type(filename) == G_IMAGE_HDR) {
@@ -302,7 +301,7 @@ int wb_range_finder_save_image(WbDeviceTag tag, const char *filename, int qualit
   }
 
   if (!img.data && !img.float_data) {
-    fprintf(stderr, "Error: wb_range_finder_save_image(): malloc failed.\n");
+    fprintf(stderr, "Error: %s(): malloc failed.\n", __FUNCTION__);
     robot_mutex_unlock_step();
     return -1;
   }

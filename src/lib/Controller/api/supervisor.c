@@ -943,8 +943,8 @@ static void field_operation_with_data(WbFieldStruct *f, int action, int index, u
       return;
     }
   }
-  assert(action != GET || sent_field_get_request ==
-                            NULL);  // get requests have to be processed immediately so no pending get request should remain
+  assert(action != GET || sent_field_get_request == NULL);  // get requests have to be processed immediately so no
+                                                            // pending get request should remain
   create_and_append_field_request(f, action, index, data, true);
   if (action != SET)  // Only setter can be postponed. The getter, import and remove actions have to be applied immediately.
     wb_robot_flush_unlocked();
@@ -1013,7 +1013,8 @@ void wb_supervisor_init(WbDevice *d) {
   d->write_request = supervisor_write_request;
   d->read_answer = supervisor_read_answer;
   d->cleanup = supervisor_cleanup;
-  add_node_to_list(0, WB_NODE_GROUP, wb_node_get_name(WB_NODE_GROUP), NULL, -1);  // create root node
+  add_node_to_list(0, WB_NODE_GROUP, wb_node_get_name(WB_NODE_GROUP), NULL,
+                   -1);  // create root node
   root_ref = node_list;
 }
 
@@ -1024,16 +1025,16 @@ void wb_supervisor_set_label(int id, const char *text, double x, double y, doubl
   unsigned int color_and_transparency = (unsigned int)color;
   color_and_transparency += (unsigned int)(transparency * 0xff) << 24;
 
-  if (!robot_check_supervisor("wb_supervisor_set_label"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   if (!text) {
-    fprintf(stderr, "Error: wb_supervisor_set_label() called with NULL 'text' argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL 'text' argument.\n", __FUNCTION__);
     return;
   }
 
   if (!font) {
-    fprintf(stderr, "Error: wb_supervisor_set_label() called with NULL 'font' argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL 'font' argument.\n", __FUNCTION__);
     return;
   }
 
@@ -1062,16 +1063,16 @@ void wb_supervisor_set_label(int id, const char *text, double x, double y, doubl
 }
 
 void wb_supervisor_export_image(const char *filename, int quality) {
-  if (!robot_check_supervisor("wb_supervisor_export_image"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   if (!filename || !filename[0]) {
-    fprintf(stderr, "Error: wb_supervisor_export_image() called with NULL or empty 'filename' argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL or empty 'filename' argument.\n", __FUNCTION__);
     return;
   }
 
   if (quality < 1 || quality > 100) {
-    fprintf(stderr, "Error: wb_supervisor_export_image(): 'quality' argument must be between 1 and 100.\n");
+    fprintf(stderr, "Error: %s(): 'quality' argument (%d) must be between 1 and 100.\n", __FUNCTION__, quality);
     return;
   }
 
@@ -1085,24 +1086,23 @@ void wb_supervisor_export_image(const char *filename, int quality) {
 
 void wb_supervisor_movie_start_recording(const char *filename, int width, int height, int codec, int quality, int acceleration,
                                          bool caption) {
-  if (!robot_check_supervisor("wb_supervisor_movie_start_recording"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   if (!filename || !filename[0]) {
-    fprintf(stderr, "Error: wb_supervisor_movie_start_recording() called with NULL or empty 'filename' argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL or empty 'filename' argument.\n", __FUNCTION__);
     return;
   }
   if (width <= 0 || height <= 0) {
-    fprintf(stderr, "Error: wb_supervisor_movie_start_recording(): 'width' and 'height' arguments must be postitive.\n");
+    fprintf(stderr, "Error: %s(): 'width' and 'height' arguments must be postitive.\n", __FUNCTION__);
     return;
   }
   if (quality < 1 || quality > 100) {
-    fprintf(stderr, "Error: wb_supervisor_movie_start_recording(): 'quality' argument must be between 1 and 100.\n");
+    fprintf(stderr, "Error: %s(): 'quality' argument (%d) must be between 1 and 100.\n", __FUNCTION__, quality);
     return;
   }
   if (acceleration < 1) {
-    fprintf(stderr,
-            "Error: wb_supervisor_movie_start_recording(): 'acceleration' argument must be greater than or equal to 1.\n");
+    fprintf(stderr, "Error: %s(): 'acceleration' argument must be greater than or equal to 1.\n", __FUNCTION__);
     return;
   }
 
@@ -1120,7 +1120,7 @@ void wb_supervisor_movie_start_recording(const char *filename, int width, int he
 }
 
 void wb_supervisor_movie_stop_recording() {
-  if (!robot_check_supervisor("wb_supervisor_movie_stop_recording"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   robot_mutex_lock_step();
@@ -1138,8 +1138,8 @@ bool wb_supervisor_movie_failed() {
 }
 
 int wb_supervisor_movie_get_status() {
-  fprintf(stderr, "wb_supervisor_movie_get_status is deprecated, please use wb_supervisor_movie_is_ready and "
-                  "wb_supervisor_movie_failed instead.\n");
+  fprintf(stderr, "%s() is deprecated, please use wb_supervisor_movie_is_ready() and wb_supervisor_movie_failed() instead.\n",
+          __FUNCTION__);
   return movie_status;
 }
 
@@ -1159,17 +1159,16 @@ int wb_supervisor_get_movie_status() {
 bool wb_supervisor_animation_start_recording(const char *filename) {
   animation_start_status = true;
 
-  if (!robot_check_supervisor("wb_supervisor_animation_start_recording"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return false;
 
   if (!filename || !filename[0]) {
-    fprintf(stderr, "Error: wb_supervisor_animation_start_recording() called with NULL or empty 'filename' argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL or empty 'filename' argument.\n", __FUNCTION__);
     return false;
   }
 
   if (strcmp("html", wb_file_get_extension(filename)) != 0) {
-    fprintf(stderr,
-            "Error: the target file given to wb_supervisor_animation_start_recording() should have the '.html' extension.\n");
+    fprintf(stderr, "Error: the target file given to %s() should have the '.html' extension.\n", __FUNCTION__);
     return false;
   }
 
@@ -1185,7 +1184,7 @@ bool wb_supervisor_animation_start_recording(const char *filename) {
 bool wb_supervisor_animation_stop_recording() {
   animation_stop_status = true;
 
-  if (!robot_check_supervisor("wb_supervisor_animation_stop_recording"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return false;
 
   robot_mutex_lock_step();
@@ -1197,7 +1196,7 @@ bool wb_supervisor_animation_stop_recording() {
 }
 
 void wb_supervisor_simulation_quit(int status) {
-  if (!robot_check_supervisor("wb_supervisor_simulation_quit"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   robot_mutex_lock_step();
@@ -1208,7 +1207,7 @@ void wb_supervisor_simulation_quit(int status) {
 }
 
 void wb_supervisor_simulation_reset() {
-  if (!robot_check_supervisor("wb_supervisor_simulation_reset"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   robot_mutex_lock_step();
@@ -1218,7 +1217,7 @@ void wb_supervisor_simulation_reset() {
 }
 
 void wb_supervisor_simulation_revert() {
-  if (!robot_check_supervisor("wb_supervisor_simulation_revert"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   wb_supervisor_world_reload();
@@ -1233,7 +1232,7 @@ WbSimulationMode wb_supervisor_simulation_get_mode() {
 }
 
 void wb_supervisor_simulation_set_mode(WbSimulationMode mode) {
-  if (!robot_check_supervisor("wb_supervisor_simulation_set_mode"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   robot_mutex_lock_step();
@@ -1244,7 +1243,7 @@ void wb_supervisor_simulation_set_mode(WbSimulationMode mode) {
 }
 
 void wb_supervisor_simulation_reset_physics() {
-  if (!robot_check_supervisor("wb_supervisor_simulation_reset_physics"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   robot_mutex_lock_step();
@@ -1254,18 +1253,18 @@ void wb_supervisor_simulation_reset_physics() {
 }
 
 void wb_supervisor_load_world(const char *filename) {
-  if (!robot_check_supervisor("wb_supervisor_load_world"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   wb_supervisor_world_load(filename);
 }
 
 void wb_supervisor_world_load(const char *filename) {
-  if (!robot_check_supervisor("wb_supervisor_world_load"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   if (!filename || !filename[0]) {
-    fprintf(stderr, "Error: wb_supervisor_world_load() called with NULL or empty 'filename' argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL or empty 'filename' argument.\n", __FUNCTION__);
     return;
   }
 
@@ -1276,28 +1275,28 @@ void wb_supervisor_world_load(const char *filename) {
 }
 
 bool wb_supervisor_save_world(const char *filename) {
-  if (!robot_check_supervisor("wb_supervisor_save_world"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return false;
 
   return wb_supervisor_world_save(filename);
 }
 
 bool wb_supervisor_world_save(const char *filename) {
-  if (!robot_check_supervisor("wb_supervisor_world_save"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return false;
 
   if (filename) {
     if (!filename[0]) {
-      fprintf(stderr, "Error: wb_supervisor_world_save() called with an empty 'filename' argument.\n");
+      fprintf(stderr, "Error: %s() called with an empty 'filename' argument.\n", __FUNCTION__);
       return false;
     }
 
     if (strcmp("wbt", wb_file_get_extension(filename)) != 0) {
-      fprintf(stderr, "Error: the target file given to wb_supervisor_world_save() ends with the '.wbt' extension.\n");
+      fprintf(stderr, "Error: the target file given to %s() ends with the '.wbt' extension.\n", __FUNCTION__);
       return false;
     }
   } else {
-    fprintf(stderr, "Error: wb_supervisor_world_save() called with a NULL 'filename' argument.\n");
+    fprintf(stderr, "Error: %s() called with a NULL 'filename' argument.\n", __FUNCTION__);
     return false;
   }
 
@@ -1317,7 +1316,7 @@ bool wb_supervisor_world_save(const char *filename) {
 }
 
 void wb_supervisor_world_reload() {
-  if (!robot_check_supervisor("wb_supervisor_world_reload"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   robot_mutex_lock_step();
@@ -1337,7 +1336,7 @@ WbNodeRef wb_supervisor_node_get_self() {
 int wb_supervisor_node_get_id(WbNodeRef node) {
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_get_id() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return -1;
   }
 
@@ -1363,11 +1362,11 @@ static WbNodeRef node_get_from_id(int id) {
 }
 
 WbNodeRef wb_supervisor_node_get_from_id(int id) {
-  if (!robot_check_supervisor("wb_supervisor_node_get_from_id"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
   if (id < 0) {
-    fprintf(stderr, "Error: wb_supervisor_node_get_from_id() called with negative 'id' argument.\n");
+    fprintf(stderr, "Error: %s() called with a negative 'id' argument.\n", __FUNCTION__);
     return NULL;
   }
 
@@ -1375,11 +1374,11 @@ WbNodeRef wb_supervisor_node_get_from_id(int id) {
 }
 
 WbNodeRef wb_supervisor_node_get_from_def(const char *def) {
-  if (!robot_check_supervisor("wb_supervisor_node_get_from_def"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
   if (!def || !def[0]) {
-    fprintf(stderr, "Error: wb_supervisor_node_get_from_def() called with NULL or empty 'def' argument.\n");
+    fprintf(stderr, "Error: %s() called with a NULL or empty 'def' argument.\n", __FUNCTION__);
     return NULL;
   }
 
@@ -1398,12 +1397,12 @@ WbNodeRef wb_supervisor_node_get_from_def(const char *def) {
 }
 
 WbNodeRef wb_supervisor_node_get_parent_node(WbNodeRef node) {
-  if (!robot_check_supervisor("wb_supervisor_node_get_parent_node"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_get_parent_node() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return NULL;
   }
 
@@ -1411,7 +1410,7 @@ WbNodeRef wb_supervisor_node_get_parent_node(WbNodeRef node) {
 }
 
 WbNodeRef wb_supervisor_node_get_selected() {
-  if (!robot_check_supervisor("wb_supervisor_node_get_selected"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
   robot_mutex_lock_step();
@@ -1432,12 +1431,12 @@ WbNodeRef wb_supervisor_node_get_selected() {
 }
 
 const double *wb_supervisor_node_get_position(WbNodeRef node) {
-  if (!robot_check_supervisor("wb_supervisor_node_get_position"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return invalid_vector;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_get_position() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return invalid_vector;
   }
 
@@ -1450,12 +1449,12 @@ const double *wb_supervisor_node_get_position(WbNodeRef node) {
 }
 
 const double *wb_supervisor_node_get_orientation(WbNodeRef node) {
-  if (!robot_check_supervisor("wb_supervisor_node_get_orientation"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return invalid_vector;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_get_orientation() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return invalid_vector;
   }
 
@@ -1468,12 +1467,12 @@ const double *wb_supervisor_node_get_orientation(WbNodeRef node) {
 }
 
 const double *wb_supervisor_node_get_center_of_mass(WbNodeRef node) {
-  if (!robot_check_supervisor("wb_supervisor_node_get_center_of_mass"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return invalid_vector;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_get_center_of_mass() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return invalid_vector;
   }
 
@@ -1486,12 +1485,12 @@ const double *wb_supervisor_node_get_center_of_mass(WbNodeRef node) {
 }
 
 const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index) {
-  if (!robot_check_supervisor("wb_supervisor_node_get_contact_point"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return invalid_vector;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_get_contact_point() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return invalid_vector;
   }
 
@@ -1515,13 +1514,12 @@ const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index) {
 }
 
 int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node) {
-  if (!robot_check_supervisor("wb_supervisor_node_get_number_of_contact_points"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return -1;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr,
-              "Error: wb_supervisor_node_get_number_of_contact_points() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return -1;
   }
 
@@ -1541,12 +1539,12 @@ int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node) {
 }
 
 bool wb_supervisor_node_get_static_balance(WbNodeRef node) {
-  if (!robot_check_supervisor("wb_supervisor_node_get_static_balance"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return false;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_get_static_balance() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return false;
   }
 
@@ -1560,12 +1558,12 @@ bool wb_supervisor_node_get_static_balance(WbNodeRef node) {
 }
 
 const char *wb_supervisor_node_get_def(WbNodeRef node) {
-  if (!robot_check_supervisor("wb_supervisor_node_get_def"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return "";
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_get_def() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return "";
   }
 
@@ -1573,12 +1571,12 @@ const char *wb_supervisor_node_get_def(WbNodeRef node) {
 }
 
 WbNodeType wb_supervisor_node_get_type(WbNodeRef node) {
-  if (!robot_check_supervisor("wb_supervisor_node_get_type"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return 0;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_get_type() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return 0;
   }
 
@@ -1586,12 +1584,12 @@ WbNodeType wb_supervisor_node_get_type(WbNodeRef node) {
 }
 
 const char *wb_supervisor_node_get_type_name(WbNodeRef node) {
-  if (!robot_check_supervisor("wb_supervisor_node_get_type_name"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return "";
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_get_type_name() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return "";
   }
 
@@ -1601,12 +1599,12 @@ const char *wb_supervisor_node_get_type_name(WbNodeRef node) {
 }
 
 const char *wb_supervisor_node_get_base_type_name(WbNodeRef node) {
-  if (!robot_check_supervisor("wb_supervisor_node_get_base_type_name"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return "";
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_get_base_type_name() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return "";
   }
 
@@ -1614,17 +1612,17 @@ const char *wb_supervisor_node_get_base_type_name(WbNodeRef node) {
 }
 
 WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) {
-  if (!robot_check_supervisor("wb_supervisor_node_get_field"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_get_field() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return NULL;
   }
 
   if (!field_name || !field_name[0]) {
-    fprintf(stderr, "Error: wb_supervisor_node_get_field() called with NULL or empty 'field_name' argument.\n");
+    fprintf(stderr, "Error: %s() called with a NULL or empty 'field_name' argument.\n", __FUNCTION__);
     return NULL;
   }
 
@@ -1647,18 +1645,18 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
 }
 
 void wb_supervisor_node_remove(WbNodeRef node) {
-  if (!robot_check_supervisor("wb_supervisor_node_remove"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   if (!is_node_ref_valid(node) || node->id == 0) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_remove() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return;
   }
 
   if (node->type == WB_NODE_VIEWPOINT || node->type == WB_NODE_WORLD_INFO) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_remove() called with a Viewpoint or WorldInfo node.\n");
+      fprintf(stderr, "Error: %s() called with a Viewpoint or WorldInfo node.\n", __FUNCTION__);
     return;
   }
 
@@ -1669,12 +1667,12 @@ void wb_supervisor_node_remove(WbNodeRef node) {
 }
 
 const double *wb_supervisor_node_get_velocity(WbNodeRef node) {
-  if (!robot_check_supervisor("wb_supervisor_node_get_velocity"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return invalid_vector;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_get_velocity() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return invalid_vector;
   }
 
@@ -1687,16 +1685,16 @@ const double *wb_supervisor_node_get_velocity(WbNodeRef node) {
 }
 
 void wb_supervisor_node_set_velocity(WbNodeRef node, const double velocity[6]) {
-  if (!robot_check_supervisor("wb_supervisor_node_set_velocity"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_set_velocity called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s called with NULL or invalid 'node' argument.\n", __FUNCTION__);
     return;
   }
 
-  if (!checkVector("wb_supervisor_node_set_velocity", velocity, 6))
+  if (!checkVector(__FUNCTION__, velocity, 6))
     return;
 
   robot_mutex_lock_step();
@@ -1709,12 +1707,12 @@ void wb_supervisor_node_set_velocity(WbNodeRef node, const double velocity[6]) {
 }
 
 void wb_supervisor_node_reset_physics(WbNodeRef node) {
-  if (!robot_check_supervisor("wb_supervisor_node_reset_physics"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_reset_physics called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return;
   }
 
@@ -1726,12 +1724,12 @@ void wb_supervisor_node_reset_physics(WbNodeRef node) {
 }
 
 void wb_supervisor_node_restart_controller(WbNodeRef node) {
-  if (!robot_check_supervisor("wb_supervisor_node_restart_controller"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_restart_controller called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return;
   }
 
@@ -1743,25 +1741,26 @@ void wb_supervisor_node_restart_controller(WbNodeRef node) {
 }
 
 void wb_supervisor_node_set_visibility(WbNodeRef node, WbNodeRef from, bool visible) {
-  if (!robot_check_supervisor("wb_supervisor_node_set_visibility"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_set_visibility called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return;
   }
 
   if (!is_node_ref_valid(from)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_set_visibility called with NULL or invalid 'from' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'from' argument.\n", __FUNCTION__);
     return;
   }
 
   if (from->type != WB_NODE_VIEWPOINT && from->type != WB_NODE_CAMERA && from->type != WB_NODE_LIDAR &&
       from->type != WB_NODE_RANGE_FINDER) {
-    fprintf(stderr, "Error: wb_supervisor_node_set_visibility called with 'from' argument which is not the viewpoint or a "
-                    "camera, lidar or range-finder device.\n");
+    fprintf(stderr,
+            "Error: %s() called with a 'from' argument which is not the viewpoint or a camera, lidar or range-finder device.\n",
+            __FUNCTION__);
     return;
   }
 
@@ -1776,12 +1775,12 @@ void wb_supervisor_node_set_visibility(WbNodeRef node, WbNodeRef from, bool visi
 }
 
 void wb_supervisor_node_move_viewpoint(WbNodeRef node) {
-  if (!robot_check_supervisor("wb_supervisor_node_move_viewpoint"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_move_viewpoint called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return;
   }
 
@@ -1793,16 +1792,16 @@ void wb_supervisor_node_move_viewpoint(WbNodeRef node) {
 }
 
 void wb_supervisor_node_add_force(WbNodeRef node, const double force[3], bool relative) {
-  if (!robot_check_supervisor("wb_supervisor_node_add_force"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_add_force() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return;
   }
 
-  if (!checkVector("wb_supervisor_node_add_force", force, 3))
+  if (!checkVector(__FUNCTION__, force, 3))
     return;
 
   robot_mutex_lock_step();
@@ -1816,19 +1815,19 @@ void wb_supervisor_node_add_force(WbNodeRef node, const double force[3], bool re
 }
 
 void wb_supervisor_node_add_force_with_offset(WbNodeRef node, const double force[3], const double offset[3], bool relative) {
-  if (!robot_check_supervisor("wb_supervisor_node_add_force_with_offset"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_add_force_with_offset() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return;
   }
 
-  if (!checkVector("wb_supervisor_node_add_force_with_offset", force, 3))
+  if (!checkVector(__FUNCTION__, force, 3))
     return;
 
-  if (!checkVector("wb_supervisor_node_add_force_with_offset", offset, 3))
+  if (!checkVector(__FUNCTION__, offset, 3))
     return;
 
   robot_mutex_lock_step();
@@ -1844,16 +1843,16 @@ void wb_supervisor_node_add_force_with_offset(WbNodeRef node, const double force
 }
 
 void wb_supervisor_node_add_torque(WbNodeRef node, const double torque[3], bool relative) {
-  if (!robot_check_supervisor("wb_supervisor_node_add_torque"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_add_torque() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return;
   }
 
-  if (!checkVector("wb_supervisor_node_add_torque", torque, 3))
+  if (!checkVector(__FUNCTION__, torque, 3))
     return;
 
   robot_mutex_lock_step();
@@ -1867,7 +1866,7 @@ void wb_supervisor_node_add_torque(WbNodeRef node, const double torque[3], bool 
 }
 
 bool wb_supervisor_virtual_reality_headset_is_used() {
-  if (!robot_check_supervisor("wb_supervisor_virtual_reality_headset_is_used"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return false;
 
   robot_mutex_lock_step();
@@ -1879,7 +1878,7 @@ bool wb_supervisor_virtual_reality_headset_is_used() {
 }
 
 const double *wb_supervisor_virtual_reality_headset_get_position() {
-  if (!robot_check_supervisor("wb_supervisor_virtual_reality_headset_get_position"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return invalid_vector;
 
   robot_mutex_lock_step();
@@ -1893,7 +1892,7 @@ const double *wb_supervisor_virtual_reality_headset_get_position() {
 }
 
 const double *wb_supervisor_virtual_reality_headset_get_orientation() {
-  if (!robot_check_supervisor("wb_supervisor_virtual_reality_headset_get_orientation"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return invalid_vector;
 
   robot_mutex_lock_step();
@@ -1907,12 +1906,12 @@ const double *wb_supervisor_virtual_reality_headset_get_orientation() {
 }
 
 WbFieldType wb_supervisor_field_get_type(WbFieldRef field) {
-  if (!robot_check_supervisor("wb_supervisor_field_get_type"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return 0;
 
   if (!field) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_field_get_type() called with NULL 'field' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL 'field' argument.\n", __FUNCTION__);
     return 0;
   }
 
@@ -1920,18 +1919,18 @@ WbFieldType wb_supervisor_field_get_type(WbFieldRef field) {
 }
 
 int wb_supervisor_field_get_count(WbFieldRef field) {
-  if (!robot_check_supervisor("wb_supervisor_field_get_count"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return -1;
 
   if (!field) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_field_get_count() called with NULL 'field' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL 'field' argument.\n", __FUNCTION__);
     return -1;
   }
 
   if (((((WbFieldStruct *)field)->type) & WB_MF) != WB_MF) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_field_get_count() can only be used with multiple fields (MF).\n");
+      fprintf(stderr, "Error: %s() can only be used with multiple fields (MF).\n", __FUNCTION__);
     return -1;
   }
 
@@ -1939,7 +1938,7 @@ int wb_supervisor_field_get_count(WbFieldRef field) {
 }
 
 bool wb_supervisor_field_get_sf_bool(WbFieldRef field) {
-  if (!check_field(field, "wb_supervisor_field_get_sf_bool", WB_SF_BOOL, true, NULL, false))
+  if (!check_field(field, __FUNCTION__, WB_SF_BOOL, true, NULL, false))
     return false;
 
   field_operation(field, GET, -1);
@@ -1947,7 +1946,7 @@ bool wb_supervisor_field_get_sf_bool(WbFieldRef field) {
 }
 
 int wb_supervisor_field_get_sf_int32(WbFieldRef field) {
-  if (!check_field(field, "wb_supervisor_field_get_sf_int32", WB_SF_INT32, true, NULL, false))
+  if (!check_field(field, __FUNCTION__, WB_SF_INT32, true, NULL, false))
     return 0;
 
   field_operation(field, GET, -1);
@@ -1955,7 +1954,7 @@ int wb_supervisor_field_get_sf_int32(WbFieldRef field) {
 }
 
 double wb_supervisor_field_get_sf_float(WbFieldRef field) {
-  if (!check_field(field, "wb_supervisor_field_get_sf_float", WB_SF_FLOAT, true, NULL, false))
+  if (!check_field(field, __FUNCTION__, WB_SF_FLOAT, true, NULL, false))
     return 0.0;
 
   field_operation(field, GET, -1);
@@ -1963,7 +1962,7 @@ double wb_supervisor_field_get_sf_float(WbFieldRef field) {
 }
 
 const double *wb_supervisor_field_get_sf_vec2f(WbFieldRef field) {
-  if (!check_field(field, "wb_supervisor_field_get_sf_vec2f", WB_SF_VEC2F, true, NULL, false))
+  if (!check_field(field, __FUNCTION__, WB_SF_VEC2F, true, NULL, false))
     return NULL;
 
   field_operation(field, GET, -1);
@@ -1971,7 +1970,7 @@ const double *wb_supervisor_field_get_sf_vec2f(WbFieldRef field) {
 }
 
 const double *wb_supervisor_field_get_sf_vec3f(WbFieldRef field) {
-  if (!check_field(field, "wb_supervisor_field_get_sf_vec3f", WB_SF_VEC3F, true, NULL, false))
+  if (!check_field(field, __FUNCTION__, WB_SF_VEC3F, true, NULL, false))
     return NULL;
 
   field_operation(field, GET, -1);
@@ -1979,7 +1978,7 @@ const double *wb_supervisor_field_get_sf_vec3f(WbFieldRef field) {
 }
 
 const double *wb_supervisor_field_get_sf_rotation(WbFieldRef field) {
-  if (!check_field(field, "wb_supervisor_field_get_sf_rotation", WB_SF_ROTATION, true, NULL, false))
+  if (!check_field(field, __FUNCTION__, WB_SF_ROTATION, true, NULL, false))
     return NULL;
 
   field_operation(field, GET, -1);
@@ -1987,7 +1986,7 @@ const double *wb_supervisor_field_get_sf_rotation(WbFieldRef field) {
 }
 
 const double *wb_supervisor_field_get_sf_color(WbFieldRef field) {
-  if (!check_field(field, "wb_supervisor_field_get_sf_color", WB_SF_COLOR, true, NULL, false))
+  if (!check_field(field, __FUNCTION__, WB_SF_COLOR, true, NULL, false))
     return NULL;
 
   field_operation(field, GET, -1);
@@ -1995,7 +1994,7 @@ const double *wb_supervisor_field_get_sf_color(WbFieldRef field) {
 }
 
 const char *wb_supervisor_field_get_sf_string(WbFieldRef field) {
-  if (!check_field(field, "wb_supervisor_field_get_sf_string", WB_SF_STRING, true, NULL, false))
+  if (!check_field(field, __FUNCTION__, WB_SF_STRING, true, NULL, false))
     return "";
 
   field_operation(field, GET, -1);
@@ -2003,7 +2002,7 @@ const char *wb_supervisor_field_get_sf_string(WbFieldRef field) {
 }
 
 WbNodeRef wb_supervisor_field_get_sf_node(WbFieldRef field) {
-  if (!check_field(field, "wb_supervisor_field_get_sf_node", WB_SF_NODE, true, NULL, false))
+  if (!check_field(field, __FUNCTION__, WB_SF_NODE, true, NULL, false))
     return NULL;
 
   field_operation(field, GET, -1);
@@ -2014,7 +2013,7 @@ WbNodeRef wb_supervisor_field_get_sf_node(WbFieldRef field) {
 }
 
 bool wb_supervisor_field_get_mf_bool(WbFieldRef field, int index) {
-  if (!check_field(field, "wb_supervisor_field_get_mf_bool", WB_MF_BOOL, true, &index, false))
+  if (!check_field(field, __FUNCTION__, WB_MF_BOOL, true, &index, false))
     return 0;
 
   field_operation(field, GET, index);
@@ -2022,7 +2021,7 @@ bool wb_supervisor_field_get_mf_bool(WbFieldRef field, int index) {
 }
 
 int wb_supervisor_field_get_mf_int32(WbFieldRef field, int index) {
-  if (!check_field(field, "wb_supervisor_field_get_mf_int32", WB_MF_INT32, true, &index, false))
+  if (!check_field(field, __FUNCTION__, WB_MF_INT32, true, &index, false))
     return 0;
 
   field_operation(field, GET, index);
@@ -2030,7 +2029,7 @@ int wb_supervisor_field_get_mf_int32(WbFieldRef field, int index) {
 }
 
 double wb_supervisor_field_get_mf_float(WbFieldRef field, int index) {
-  if (!check_field(field, "wb_supervisor_field_get_mf_float", WB_MF_FLOAT, true, &index, false))
+  if (!check_field(field, __FUNCTION__, WB_MF_FLOAT, true, &index, false))
     return 0.0;
 
   field_operation(field, GET, index);
@@ -2038,7 +2037,7 @@ double wb_supervisor_field_get_mf_float(WbFieldRef field, int index) {
 }
 
 const double *wb_supervisor_field_get_mf_vec2f(WbFieldRef field, int index) {
-  if (!check_field(field, "wb_supervisor_field_get_mf_vec2f", WB_MF_VEC2F, true, &index, false))
+  if (!check_field(field, __FUNCTION__, WB_MF_VEC2F, true, &index, false))
     return NULL;
 
   field_operation(field, GET, index);
@@ -2046,7 +2045,7 @@ const double *wb_supervisor_field_get_mf_vec2f(WbFieldRef field, int index) {
 }
 
 const double *wb_supervisor_field_get_mf_vec3f(WbFieldRef field, int index) {
-  if (!check_field(field, "wb_supervisor_field_get_mf_vec3f", WB_MF_VEC3F, true, &index, false))
+  if (!check_field(field, __FUNCTION__, WB_MF_VEC3F, true, &index, false))
     return NULL;
 
   field_operation(field, GET, index);
@@ -2054,7 +2053,7 @@ const double *wb_supervisor_field_get_mf_vec3f(WbFieldRef field, int index) {
 }
 
 const double *wb_supervisor_field_get_mf_color(WbFieldRef field, int index) {
-  if (!check_field(field, "wb_supervisor_field_get_mf_color", WB_MF_COLOR, true, &index, false))
+  if (!check_field(field, __FUNCTION__, WB_MF_COLOR, true, &index, false))
     return NULL;
 
   field_operation(field, GET, index);
@@ -2062,7 +2061,7 @@ const double *wb_supervisor_field_get_mf_color(WbFieldRef field, int index) {
 }
 
 const double *wb_supervisor_field_get_mf_rotation(WbFieldRef field, int index) {
-  if (!check_field(field, "wb_supervisor_field_get_mf_rotation", WB_MF_ROTATION, true, &index, false))
+  if (!check_field(field, __FUNCTION__, WB_MF_ROTATION, true, &index, false))
     return NULL;
 
   field_operation(field, GET, index);
@@ -2070,7 +2069,7 @@ const double *wb_supervisor_field_get_mf_rotation(WbFieldRef field, int index) {
 }
 
 const char *wb_supervisor_field_get_mf_string(WbFieldRef field, int index) {
-  if (!check_field(field, "wb_supervisor_field_get_mf_string", WB_MF_STRING, true, &index, false))
+  if (!check_field(field, __FUNCTION__, WB_MF_STRING, true, &index, false))
     return "";
 
   field_operation(field, GET, index);
@@ -2078,7 +2077,7 @@ const char *wb_supervisor_field_get_mf_string(WbFieldRef field, int index) {
 }
 
 WbNodeRef wb_supervisor_field_get_mf_node(WbFieldRef field, int index) {
-  if (!check_field(field, "wb_supervisor_field_get_mf_node", WB_MF_NODE, true, &index, false))
+  if (!check_field(field, __FUNCTION__, WB_MF_NODE, true, &index, false))
     return NULL;
 
   field_operation(field, GET, index);
@@ -2086,7 +2085,7 @@ WbNodeRef wb_supervisor_field_get_mf_node(WbFieldRef field, int index) {
 }
 
 void wb_supervisor_field_set_sf_bool(WbFieldRef field, bool value) {
-  if (!check_field(field, "wb_supervisor_field_set_sf_bool", WB_SF_BOOL, true, NULL, false))
+  if (!check_field(field, __FUNCTION__, WB_SF_BOOL, true, NULL, false))
     return;
 
   union WbFieldData data;
@@ -2095,7 +2094,7 @@ void wb_supervisor_field_set_sf_bool(WbFieldRef field, bool value) {
 }
 
 void wb_supervisor_field_set_sf_int32(WbFieldRef field, int value) {
-  if (!check_field(field, "wb_supervisor_field_set_sf_int32", WB_SF_INT32, true, NULL, false))
+  if (!check_field(field, __FUNCTION__, WB_SF_INT32, true, NULL, false))
     return;
 
   union WbFieldData data;
@@ -2104,7 +2103,7 @@ void wb_supervisor_field_set_sf_int32(WbFieldRef field, int value) {
 }
 
 void wb_supervisor_field_set_sf_float(WbFieldRef field, double value) {
-  if (!check_field(field, "wb_supervisor_field_set_sf_float", WB_SF_FLOAT, true, NULL, false))
+  if (!check_field(field, __FUNCTION__, WB_SF_FLOAT, true, NULL, false))
     return;
 
   union WbFieldData data;
@@ -2113,10 +2112,10 @@ void wb_supervisor_field_set_sf_float(WbFieldRef field, double value) {
 }
 
 void wb_supervisor_field_set_sf_vec2f(WbFieldRef field, const double values[2]) {
-  if (!check_field(field, "wb_supervisor_field_set_sf_vec2f", WB_SF_VEC2F, true, NULL, false))
+  if (!check_field(field, __FUNCTION__, WB_SF_VEC2F, true, NULL, false))
     return;
 
-  if (!checkVector("wb_supervisor_field_set_sf_vec2f", values, 2))
+  if (!checkVector(__FUNCTION__, values, 2))
     return;
 
   union WbFieldData data;
@@ -2126,10 +2125,10 @@ void wb_supervisor_field_set_sf_vec2f(WbFieldRef field, const double values[2]) 
 }
 
 void wb_supervisor_field_set_sf_vec3f(WbFieldRef field, const double values[3]) {
-  if (!check_field(field, "wb_supervisor_field_set_sf_vec3f", WB_SF_VEC3F, true, NULL, false))
+  if (!check_field(field, __FUNCTION__, WB_SF_VEC3F, true, NULL, false))
     return;
 
-  if (!checkVector("wb_supervisor_field_set_sf_vec3f", values, 3))
+  if (!checkVector(__FUNCTION__, values, 3))
     return;
 
   union WbFieldData data;
@@ -2144,14 +2143,14 @@ static bool isValidRotation(const double r[4]) {
 }
 
 void wb_supervisor_field_set_sf_rotation(WbFieldRef field, const double values[4]) {
-  if (!check_field(field, "wb_supervisor_field_set_sf_rotation", WB_SF_ROTATION, true, NULL, false))
+  if (!check_field(field, __FUNCTION__, WB_SF_ROTATION, true, NULL, false))
     return;
 
-  if (!checkVector("wb_supervisor_field_set_sf_rotation", values, 4))
+  if (!checkVector(__FUNCTION__, values, 4))
     return;
 
   if (!isValidRotation(values)) {
-    fprintf(stderr, "Error: wb_supervisor_field_set_sf_rotation() called with invalid values for the [x y z] axis.\n");
+    fprintf(stderr, "Error: %s() called with invalid values for the [x y z] axis.\n", __FUNCTION__);
     return;
   }
 
@@ -2168,16 +2167,16 @@ static bool isValidColor(const double rgb[3]) {
 }
 
 void wb_supervisor_field_set_sf_color(WbFieldRef field, const double values[3]) {
-  if (!check_field(field, "wb_supervisor_field_set_sf_color", WB_SF_COLOR, true, NULL, false))
+  if (!check_field(field, __FUNCTION__, WB_SF_COLOR, true, NULL, false))
     return;
 
   if (!values) {
-    fprintf(stderr, "Error: wb_supervisor_field_set_sf_color() called with NULL 'values' argument.\n");
+    fprintf(stderr, "Error: %s() called with a NULL 'values' argument.\n", __FUNCTION__);
     return;
   }
 
   if (!isValidColor(values)) {
-    fprintf(stderr, "Error: wb_supervisor_field_set_sf_color() called with invalid rgb values (outside [0,1] range).\n");
+    fprintf(stderr, "Error: %s() called with invalid RGB values (outside [0,1] range).\n", __FUNCTION__);
     return;
   }
 
@@ -2189,11 +2188,11 @@ void wb_supervisor_field_set_sf_color(WbFieldRef field, const double values[3]) 
 }
 
 void wb_supervisor_field_set_sf_string(WbFieldRef field, const char *value) {
-  if (!check_field(field, "wb_supervisor_field_set_sf_string", WB_SF_STRING, true, NULL, false))
+  if (!check_field(field, __FUNCTION__, WB_SF_STRING, true, NULL, false))
     return;
 
   if (!value) {
-    fprintf(stderr, "Error: wb_supervisor_field_set_sf_string() called with NULL string argument.\n");
+    fprintf(stderr, "Error: %s() called with a NULL string argument.\n", __FUNCTION__);
     return;
   }
 
@@ -2203,7 +2202,7 @@ void wb_supervisor_field_set_sf_string(WbFieldRef field, const char *value) {
 }
 
 void wb_supervisor_field_set_mf_bool(WbFieldRef field, int index, bool value) {
-  if (!check_field(field, "wb_supervisor_field_set_mf_bool", WB_MF_BOOL, true, &index, false))
+  if (!check_field(field, __FUNCTION__, WB_MF_BOOL, true, &index, false))
     return;
 
   union WbFieldData data;
@@ -2212,7 +2211,7 @@ void wb_supervisor_field_set_mf_bool(WbFieldRef field, int index, bool value) {
 }
 
 void wb_supervisor_field_set_mf_int32(WbFieldRef field, int index, int value) {
-  if (!check_field(field, "wb_supervisor_field_set_mf_int32", WB_MF_INT32, true, &index, false))
+  if (!check_field(field, __FUNCTION__, WB_MF_INT32, true, &index, false))
     return;
 
   union WbFieldData data;
@@ -2221,11 +2220,11 @@ void wb_supervisor_field_set_mf_int32(WbFieldRef field, int index, int value) {
 }
 
 void wb_supervisor_field_set_mf_float(WbFieldRef field, int index, double value) {
-  if (!check_field(field, "wb_supervisor_field_set_mf_float", WB_MF_FLOAT, true, &index, false))
+  if (!check_field(field, __FUNCTION__, WB_MF_FLOAT, true, &index, false))
     return;
 
   if (isnan(value)) {
-    fprintf(stderr, "Error: wb_supervisor_field_set_mf_float() called with NaN argument.\n");
+    fprintf(stderr, "Error: %s() called with NaN argument.\n", __FUNCTION__);
     return;
   }
 
@@ -2235,10 +2234,10 @@ void wb_supervisor_field_set_mf_float(WbFieldRef field, int index, double value)
 }
 
 void wb_supervisor_field_set_mf_vec2f(WbFieldRef field, int index, const double values[2]) {
-  if (!check_field(field, "wb_supervisor_field_set_mf_vec2f", WB_MF_VEC2F, true, &index, false))
+  if (!check_field(field, __FUNCTION__, WB_MF_VEC2F, true, &index, false))
     return;
 
-  if (!checkVector("wb_supervisor_field_set_mf_vec2f", values, 2))
+  if (!checkVector(__FUNCTION__, values, 2))
     return;
 
   union WbFieldData data;
@@ -2248,10 +2247,10 @@ void wb_supervisor_field_set_mf_vec2f(WbFieldRef field, int index, const double 
 }
 
 void wb_supervisor_field_set_mf_vec3f(WbFieldRef field, int index, const double values[3]) {
-  if (!check_field(field, "wb_supervisor_field_set_mf_vec3f", WB_MF_VEC3F, true, &index, false))
+  if (!check_field(field, __FUNCTION__, WB_MF_VEC3F, true, &index, false))
     return;
 
-  if (!checkVector("wb_supervisor_field_set_mf_vec3f", values, 3))
+  if (!checkVector(__FUNCTION__, values, 3))
     return;
 
   union WbFieldData data;
@@ -2262,14 +2261,14 @@ void wb_supervisor_field_set_mf_vec3f(WbFieldRef field, int index, const double 
 }
 
 void wb_supervisor_field_set_mf_rotation(WbFieldRef field, int index, const double values[4]) {
-  if (!check_field(field, "wb_supervisor_field_set_mf_rotation", WB_MF_ROTATION, true, &index, false))
+  if (!check_field(field, __FUNCTION__, WB_MF_ROTATION, true, &index, false))
     return;
 
-  if (!checkVector("wb_supervisor_field_set_mf_rotation", values, 4))
+  if (!checkVector(__FUNCTION__, values, 4))
     return;
 
   if (!isValidRotation(values)) {
-    fprintf(stderr, "Error: wb_supervisor_field_set_mf_rotation() called with invalid values for the [x y z] axis.\n");
+    fprintf(stderr, "Error: %s() called with invalid values for the [x y z] axis.\n", __FUNCTION__);
     return;
   }
 
@@ -2282,16 +2281,16 @@ void wb_supervisor_field_set_mf_rotation(WbFieldRef field, int index, const doub
 }
 
 void wb_supervisor_field_set_mf_color(WbFieldRef field, int index, const double values[3]) {
-  if (!check_field(field, "wb_supervisor_field_set_mf_color", WB_MF_COLOR, true, &index, false))
+  if (!check_field(field, __FUNCTION__, WB_MF_COLOR, true, &index, false))
     return;
 
   if (!values) {
-    fprintf(stderr, "Error: wb_supervisor_field_set_mf_color() called with NULL 'values' argument.\n");
+    fprintf(stderr, "Error: %s() called with a NULL 'values' argument.\n", __FUNCTION__);
     return;
   }
 
   if (!isValidColor(values)) {
-    fprintf(stderr, "Error: wb_supervisor_field_set_mf_color() called with invalid rgb values (outside [0,1] range).\n");
+    fprintf(stderr, "Error: %s() called with invalid RGB values (outside [0,1] range).\n", __FUNCTION__);
     return;
   }
 
@@ -2303,11 +2302,11 @@ void wb_supervisor_field_set_mf_color(WbFieldRef field, int index, const double 
 }
 
 void wb_supervisor_field_set_mf_string(WbFieldRef field, int index, const char *value) {
-  if (!check_field(field, "wb_supervisor_field_set_mf_string", WB_MF_STRING, true, &index, false))
+  if (!check_field(field, __FUNCTION__, WB_MF_STRING, true, &index, false))
     return;
 
   if (!value) {
-    fprintf(stderr, "Error: wb_supervisor_field_set_mf_string() called with NULL string argument.\n");
+    fprintf(stderr, "Error: %s() called with a NULL string argument.\n", __FUNCTION__);
     return;
   }
 
@@ -2317,7 +2316,7 @@ void wb_supervisor_field_set_mf_string(WbFieldRef field, int index, const char *
 }
 
 void wb_supervisor_field_insert_mf_bool(WbFieldRef field, int index, bool value) {
-  if (!check_field(field, "wb_supervisor_field_insert_mf_bool", WB_MF_BOOL, true, &index, true))
+  if (!check_field(field, __FUNCTION__, WB_MF_BOOL, true, &index, true))
     return;
 
   union WbFieldData data;
@@ -2327,7 +2326,7 @@ void wb_supervisor_field_insert_mf_bool(WbFieldRef field, int index, bool value)
 }
 
 void wb_supervisor_field_insert_mf_int32(WbFieldRef field, int index, int value) {
-  if (!check_field(field, "wb_supervisor_field_insert_mf_int32", WB_MF_INT32, true, &index, true))
+  if (!check_field(field, __FUNCTION__, WB_MF_INT32, true, &index, true))
     return;
 
   union WbFieldData data;
@@ -2337,11 +2336,11 @@ void wb_supervisor_field_insert_mf_int32(WbFieldRef field, int index, int value)
 }
 
 void wb_supervisor_field_insert_mf_float(WbFieldRef field, int index, double value) {
-  if (!check_field(field, "wb_supervisor_field_insert_mf_float", WB_MF_FLOAT, true, &index, true))
+  if (!check_field(field, __FUNCTION__, WB_MF_FLOAT, true, &index, true))
     return;
 
   if (isnan(value)) {
-    fprintf(stderr, "Error: wb_supervisor_field_insert_mf_float() called with NaN argument.\n");
+    fprintf(stderr, "Error: %s() called with NaN argument.\n", __FUNCTION__);
     return;
   }
 
@@ -2352,10 +2351,10 @@ void wb_supervisor_field_insert_mf_float(WbFieldRef field, int index, double val
 }
 
 void wb_supervisor_field_insert_mf_vec2f(WbFieldRef field, int index, const double values[2]) {
-  if (!check_field(field, "wb_supervisor_field_insert_mf_vec2f", WB_MF_VEC2F, true, &index, true))
+  if (!check_field(field, __FUNCTION__, WB_MF_VEC2F, true, &index, true))
     return;
 
-  if (!checkVector("wb_supervisor_field_insert_mf_vec2f", values, 2))
+  if (!checkVector(__FUNCTION__, values, 2))
     return;
 
   union WbFieldData data;
@@ -2366,10 +2365,10 @@ void wb_supervisor_field_insert_mf_vec2f(WbFieldRef field, int index, const doub
 }
 
 void wb_supervisor_field_insert_mf_vec3f(WbFieldRef field, int index, const double values[3]) {
-  if (!check_field(field, "wb_supervisor_field_insert_mf_vec3f", WB_MF_VEC3F, true, &index, true))
+  if (!check_field(field, __FUNCTION__, WB_MF_VEC3F, true, &index, true))
     return;
 
-  if (!checkVector("wb_supervisor_field_insert_mf_vec3f", values, 3))
+  if (!checkVector(__FUNCTION__, values, 3))
     return;
 
   union WbFieldData data;
@@ -2381,14 +2380,14 @@ void wb_supervisor_field_insert_mf_vec3f(WbFieldRef field, int index, const doub
 }
 
 void wb_supervisor_field_insert_mf_rotation(WbFieldRef field, int index, const double values[4]) {
-  if (!check_field(field, "wb_supervisor_field_insert_mf_rotation", WB_MF_ROTATION, true, &index, true))
+  if (!check_field(field, __FUNCTION__, WB_MF_ROTATION, true, &index, true))
     return;
 
-  if (!checkVector("wb_supervisor_field_insert_mf_rotation", values, 4))
+  if (!checkVector(__FUNCTION__, values, 4))
     return;
 
   if (!isValidRotation(values)) {
-    fprintf(stderr, "Error: wb_supervisor_field_insert_mf_rotation() called with invalid values for the [x y z] axis.\n");
+    fprintf(stderr, "Error: %s() called with invalid values for the [x y z] axis.\n", __FUNCTION__);
     return;
   }
 
@@ -2402,16 +2401,16 @@ void wb_supervisor_field_insert_mf_rotation(WbFieldRef field, int index, const d
 }
 
 void wb_supervisor_field_insert_mf_color(WbFieldRef field, int index, const double values[3]) {
-  if (!check_field(field, "wb_supervisor_field_insert_mf_color", WB_MF_COLOR, true, &index, true))
+  if (!check_field(field, __FUNCTION__, WB_MF_COLOR, true, &index, true))
     return;
 
   if (!values) {
-    fprintf(stderr, "Error: wb_supervisor_field_insert_mf_color() called with NULL 'values' argument.\n");
+    fprintf(stderr, "Error: %s() called with a NULL 'values' argument.\n", __FUNCTION__);
     return;
   }
 
   if (!isValidColor(values)) {
-    fprintf(stderr, "Error: wb_supervisor_field_insert_mf_color() called with invalid rgb values (outside [0,1] range).\n");
+    fprintf(stderr, "Error: %s() called with invalid RGB values (outside [0,1] range).\n", __FUNCTION__);
     return;
   }
 
@@ -2424,11 +2423,11 @@ void wb_supervisor_field_insert_mf_color(WbFieldRef field, int index, const doub
 }
 
 void wb_supervisor_field_insert_mf_string(WbFieldRef field, int index, const char *value) {
-  if (!check_field(field, "wb_supervisor_field_insert_mf_string", WB_MF_STRING, true, &index, true))
+  if (!check_field(field, __FUNCTION__, WB_MF_STRING, true, &index, true))
     return;
 
   if (!value) {
-    fprintf(stderr, "Error: wb_supervisor_field_insert_mf_string() called with NULL string argument.\n");
+    fprintf(stderr, "Error: %s() called with a NULL string argument.\n", __FUNCTION__);
     return;
   }
 
@@ -2440,62 +2439,59 @@ void wb_supervisor_field_insert_mf_string(WbFieldRef field, int index, const cha
 
 void wb_supervisor_field_remove_mf(WbFieldRef field, int index) {
   if (field->count == 0) {
-    fprintf(stderr, "Error: wb_supervisor_field_remove_mf() called for an empty field.\n");
+    fprintf(stderr, "Error: %s() called for an empty field.\n", __FUNCTION__);
     return;
   }
 
-  if (!check_field(field, "wb_supervisor_field_remove_mf", WB_MF, false, &index, false))
+  if (!check_field(field, __FUNCTION__, WB_MF, false, &index, false))
     return;
 
   field_operation(field, REMOVE, index);
-  if (((WbFieldStruct *)field)->type !=
-      WB_MF_NODE)  // in case of WB_MF_NODE, Webots will send the number of node really removed
+  // in case of WB_MF_NODE, Webots will send the number of node really removed
+  if (((WbFieldStruct *)field)->type != WB_MF_NODE)
     field->count--;
 }
 
 void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const char *filename) {
-  if (!robot_check_supervisor("wb_supervisor_field_import_mf_node"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   if (!filename || !filename[0]) {
-    fprintf(stderr, "Error: wb_supervisor_field_import_mf_node() called with NULL or empty 'filename' argument.\n");
+    fprintf(stderr, "Error: %s() called with a NULL or empty 'filename' argument.\n", __FUNCTION__);
     return;
   }
 
   // check extension
   const char *dot = strrchr(filename, '.');
   if (!dot || dot == filename) {
-    fprintf(stderr, "Error: wb_supervisor_field_import_mf_node() called with a 'filename' argument without extension.\n");
+    fprintf(stderr, "Error: %s() called with a 'filename' argument without extension.\n", __FUNCTION__);
     return;
   }
 
   const bool isWbo = strcmp(dot, ".wbo") == 0;
   const bool isWrl = strcmp(dot, ".wrl") == 0;
   if (!isWbo && !isWrl) {
-    fprintf(stderr, "Error: wb_supervisor_field_import_mf_node() supports only '*.wbo' and '*.wrl' files.\n");
+    fprintf(stderr, "Error: %s() supports only '*.wbo' and '*.wrl' files.\n", __FUNCTION__);
     return;
   }
 
   if (isWrl && field != wb_supervisor_node_get_field(root_ref, "children")) {
-    fprintf(stderr,
-            "Error: wb_supervisor_field_import_mf_node() '*.wrl' import is supported only at the root children field level.\n");
+    fprintf(stderr, "Error: %s() '*.wrl' import is supported only at the root children field level.\n", __FUNCTION__);
     return;
   }
 
   WbFieldStruct *f = (WbFieldStruct *)field;
   if (f->type != WB_MF_NODE) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_field_import_mf_node() called with wrong field type: %s.\n",
+      fprintf(stderr, "Error: %s() called with wrong field type: %s.\n", __FUNCTION__,
               wb_supervisor_field_get_type_name(field));
     return;
   }
 
   int count = f->count;
   if (position < -(count + 1) || position > count) {
-    fprintf(
-      stderr,
-      "Error: wb_supervisor_field_import_mf_node() called with an out-of-bound index: %d (should be between %d and %d).\n",
-      position, -(count + 1), count);
+    fprintf(stderr, "Error: %s() called with an out-of-bound index: %d (should be between %d and %d).\n", __FUNCTION__,
+            position, -(count + 1), count);
     return;
   }
 
@@ -2504,8 +2500,7 @@ void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const ch
     position = count + position + 1;
 
   if (isWrl && position != f->count) {
-    fprintf(stderr, "Error: wb_supervisor_field_import_mf_node() '*.wrl' import is supported only at the end of the root node "
-                    "children field.\n");
+    fprintf(stderr, "Error: %s() '*.wrl' import is supported only at the end of the root node children field.\n", __FUNCTION__);
     return;
   }
 
@@ -2521,28 +2516,25 @@ void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const ch
 }
 
 void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int position, const char *node_string) {
-  if (!robot_check_supervisor("wb_supervisor_field_import_mf_node_from_string"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   WbFieldStruct *f = (WbFieldStruct *)field;
   if (f->type != WB_MF_NODE) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_field_import_mf_node_from_string() called with wrong field type: %s.\n",
+      fprintf(stderr, "Error: %s() called with a wrong field type: %s.\n", __FUNCTION__,
               wb_supervisor_field_get_type_name(field));
     return;
   }
 
   if (!node_string || !node_string[0]) {
-    fprintf(stderr,
-            "Error: wb_supervisor_field_import_mf_node_from_string() called with NULL or empty 'node_string' argument.\n");
+    fprintf(stderr, "Error: %s() called with a NULL or empty 'node_string' argument.\n", __FUNCTION__);
     return;
   }
 
   int count = f->count;
   if (position < -(count + 1) || position > count) {
-    fprintf(stderr,
-            "Error: wb_supervisor_field_import_mf_node_from_string() called with an out-of-bound index: %d (should be between "
-            "%d and %d).\n",
+    fprintf(stderr, "Error: %s() called with an out-of-bound index: %d (should be between %d and %d).\n", __FUNCTION__,
             position, -(count + 1), count);
     return;
   }
@@ -2568,11 +2560,11 @@ void wb_supervisor_field_remove_mf_node(WbFieldRef field, int position) {
 
 void wb_supervisor_field_remove_sf(WbFieldRef field) {
   if (field->data.sf_node_uid == 0) {
-    fprintf(stderr, "Error: wb_supervisor_field_remove_sf() called for an empty field.\n");
+    fprintf(stderr, "Error: %s() called for an empty field.\n", __FUNCTION__);
     return;
   }
 
-  if (!check_field(field, "wb_supervisor_field_remove_sf", WB_SF_NODE, true, NULL, false))
+  if (!check_field(field, __FUNCTION__, WB_SF_NODE, true, NULL, false))
     return;
 
   field_operation(field, REMOVE, -1);
@@ -2580,36 +2572,36 @@ void wb_supervisor_field_remove_sf(WbFieldRef field) {
 }
 
 void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename) {
-  if (!robot_check_supervisor("wb_supervisor_field_import_sf_node"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   if (!filename || !filename[0]) {
-    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() called with NULL or empty 'filename' argument.\n");
+    fprintf(stderr, "Error: %s() called with a NULL or empty 'filename' argument.\n", __FUNCTION__);
     return;
   }
 
   // check extension
   const char *dot = strrchr(filename, '.');
   if (!dot || dot == filename) {
-    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() called with a 'filename' argument without extension.\n");
+    fprintf(stderr, "Error: %s() called with a 'filename' argument without extension.\n", __FUNCTION__);
     return;
   }
 
   if (strcmp(dot, ".wbo") == 0) {
-    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() supports only '*.wbo' files.\n");
+    fprintf(stderr, "Error: %s() supports only '*.wbo' files.\n", __FUNCTION__);
     return;
   }
 
   WbFieldStruct *f = (WbFieldStruct *)field;
   if (f->type != WB_SF_NODE) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() called with wrong field type: %s.\n",
+      fprintf(stderr, "Error: %s() called with wrong field type: %s.\n", __FUNCTION__,
               wb_supervisor_field_get_type_name(field));
     return;
   }
 
   if (field->data.sf_node_uid != 0) {
-    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() called with a non-empty field.\n");
+    fprintf(stderr, "Error: %s() called with a non-empty field.\n", __FUNCTION__);
     return;
   }
 
@@ -2625,25 +2617,24 @@ void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename) 
 }
 
 void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char *node_string) {
-  if (!robot_check_supervisor("wb_supervisor_field_import_sf_node_from_string"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return;
 
   WbFieldStruct *f = (WbFieldStruct *)field;
   if (f->type != WB_SF_NODE) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_field_import_sf_node_from_string() called with wrong field type: %s.\n",
+      fprintf(stderr, "Error: %s() called with a wrong field type: %s.\n", __FUNCTION__,
               wb_supervisor_field_get_type_name(field));
     return;
   }
 
   if (!node_string || !node_string[0]) {
-    fprintf(stderr,
-            "Error: wb_supervisor_field_import_sf_node_from_string() called with NULL or empty 'node_string' argument.\n");
+    fprintf(stderr, "Error: %s() called with a NULL or empty 'node_string' argument.\n", __FUNCTION__);
     return;
   }
 
   if (field->data.sf_node_uid != 0) {
-    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node_from_string() called with a non-empty field.\n");
+    fprintf(stderr, "Error: %s() called with a non-empty field.\n", __FUNCTION__);
     return;
   }
 
@@ -2659,14 +2650,14 @@ void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char
 }
 
 const char *wb_supervisor_field_get_type_name(WbFieldRef field) {
-  if (!robot_check_supervisor("wb_supervisor_field_get_type_name"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return "";
 
   if (!field) {
     if (robot_is_quitting())
       return "";
     else {
-      fprintf(stderr, "Error: wb_supervisor_field_get_type_name() called with NULL 'field' argument.\n");
+      fprintf(stderr, "Error: %s() called with a NULL 'field' argument.\n", __FUNCTION__);
       return "";
     }
   }

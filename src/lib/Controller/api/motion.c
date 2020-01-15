@@ -208,9 +208,9 @@ static bool motion_check_file(FILE *file, const char *filename, int *n_joints, i
 }
 
 // load .motion file
-// warning: this function assumes a 100% correct file syntax !
-// prerequisite: the file syntax must have been verified with  motion_check_file()
-// and n_joints and n_poses must have been set accordingly
+// warning: this function assumes a 100% correct file syntax!
+// prerequisite: the file syntax must have been verified with motion_check_file() and n_joints and n_poses must have been set
+// accordingly
 static void motion_load(WbMotionRef ref, FILE *file) {
   // back to beginning of file
   rewind(file);
@@ -387,13 +387,13 @@ void motion_cleanup() {
 
 WbMotionRef wbu_motion_new(const char *filename) {
   if (!filename || !filename[0]) {
-    fprintf(stderr, "Error: wbu_motion_new() called with NULL or empty 'filename' argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL or empty 'filename' argument.\n", __FUNCTION__);
     return NULL;
   }
 
   FILE *file = fopen(filename, "r");
   if (!file) {
-    fprintf(stderr, "Error: wbu_motion_new(): could not open '%s' file.\n", filename);
+    fprintf(stderr, "Error: %s(): could not open '%s' file.\n", __FUNCTION__, filename);
     return NULL;
   }
 
@@ -403,7 +403,7 @@ WbMotionRef wbu_motion_new(const char *filename) {
     return NULL;
 
   if (!file) {
-    fprintf(stderr, "Error: wbu_motion_new(): file '%s' needs to contains at least one joint and one pose.\n", filename);
+    fprintf(stderr, "Error: %s(): file '%s' needs to contains at least one joint and one pose.\n", __FUNCTION__, filename);
     return NULL;
   }
 
@@ -437,8 +437,8 @@ WbMotionRef wbu_motion_new(const char *filename) {
     ref->tags[i] = motion_find_device_tag(ref->joint_names[i]);
     ref->types[i] = wb_device_get_node_type(ref->tags[i]);
     if (!ref->tags[i])
-      fprintf(stderr, "Warning: wbu_motion_new(): ignoring joint '%s', specified in file '%s', but not found in this robot.\n",
-              ref->joint_names[i], filename);
+      fprintf(stderr, "Warning: %s(): ignoring joint '%s', specified in file '%s', but not found in this robot.\n",
+              __FUNCTION__, ref->joint_names[i], filename);
   }
 
   // enqueue self
@@ -453,7 +453,7 @@ void wbu_motion_delete(WbMotionRef motion) {
 
   // dequeue self
   if (!motion_dequeue(motion)) {
-    fprintf(stderr, "Error: wbu_motion_delete(): attempt to delete an invalid 'motion'.\n");
+    fprintf(stderr, "Error: %s(): attempt to delete an invalid 'motion'.\n", __FUNCTION__);
     return;
   }
 
@@ -473,7 +473,7 @@ void wbu_motion_delete(WbMotionRef motion) {
 
 void wbu_motion_play(WbMotionRef motion) {
   if (!motion) {
-    fprintf(stderr, "Error: wbu_motion_play() called with NULL 'motion' argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL 'motion' argument.\n", __FUNCTION__);
     return;
   }
 
@@ -489,7 +489,7 @@ void wbu_motion_play(WbMotionRef motion) {
 
 int wbu_motion_get_duration(WbMotionRef motion) {
   if (!motion) {
-    fprintf(stderr, "Error: wbu_motion_get_duration() called with NULL argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL argument.\n", __FUNCTION__);
     return -1;
   }
 
@@ -498,7 +498,7 @@ int wbu_motion_get_duration(WbMotionRef motion) {
 
 int wbu_motion_get_time(WbMotionRef motion) {
   if (!motion) {
-    fprintf(stderr, "Error: wbu_motion_get_time() called with NULL argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL argument.\n", __FUNCTION__);
     return -1;
   }
 
@@ -507,7 +507,7 @@ int wbu_motion_get_time(WbMotionRef motion) {
 
 void wbu_motion_set_time(WbMotionRef motion, int time) {
   if (!motion) {
-    fprintf(stderr, "Error: wbu_motion_set_time() called with NULL argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL argument.\n", __FUNCTION__);
     return;
   }
 
@@ -521,7 +521,7 @@ void wbu_motion_set_time(WbMotionRef motion, int time) {
 
 bool wbu_motion_is_over(WbMotionRef motion) {
   if (!motion) {
-    fprintf(stderr, "Error: wbu_motion_is_over() called with NULL argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL argument.\n", __FUNCTION__);
     return false;
   }
 
@@ -533,7 +533,7 @@ bool wbu_motion_is_over(WbMotionRef motion) {
 
 void wbu_motion_stop(WbMotionRef motion) {
   if (!motion) {
-    fprintf(stderr, "Error: wbu_motion_stop() called with NULL argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL argument.\n", __FUNCTION__);
     return;
   }
 
@@ -542,7 +542,7 @@ void wbu_motion_stop(WbMotionRef motion) {
 
 void wbu_motion_set_reverse(WbMotionRef motion, bool reverse) {
   if (!motion) {
-    fprintf(stderr, "Error: wbu_motion_set_reverse() called with NULL argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL argument.\n", __FUNCTION__);
     return;
   }
 
@@ -551,7 +551,7 @@ void wbu_motion_set_reverse(WbMotionRef motion, bool reverse) {
 
 void wbu_motion_set_loop(WbMotionRef motion, bool loop) {
   if (!motion) {
-    fprintf(stderr, "Error: wbu_motion_set_loop() called with NULL argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL argument.\n", __FUNCTION__);
     return;
   }
 

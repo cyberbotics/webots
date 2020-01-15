@@ -364,9 +364,9 @@ void wbr_display_save_image(WbDeviceTag tag, int id, int width, int height, unsi
   Display *d = wb_display_get_struct(tag);
   if (d) {
     if (!save_image(d, id, width, height, image))
-      fprintf(stderr, "wbr_display_save_image(): wrong id.\n");
+      fprintf(stderr, "%s(): wrong id.\n", __FUNCTION__);
   } else
-    fprintf(stderr, "Error: wbr_display_save_image(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 // Protected functions (exported to device.cc)
@@ -388,7 +388,7 @@ int wb_display_get_height(WbDeviceTag tag) {
   if (d)
     result = d->height;
   else
-    fprintf(stderr, "Error: wb_display_get_height(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -400,7 +400,7 @@ int wb_display_get_width(WbDeviceTag tag) {
   if (d)
     result = d->width;
   else
-    fprintf(stderr, "Error: wb_display_get_width(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -408,11 +408,11 @@ int wb_display_get_width(WbDeviceTag tag) {
 void wb_display_set_color(WbDeviceTag tag, int color) {
   Display *d = wb_display_get_struct(tag);
   if (!d) {
-    fprintf(stderr, "Error: wb_display_set_color(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
   if (color > 0xFFFFFF || color < 0) {
-    fprintf(stderr, "Error: wb_display_set_color(): 'color' argument out of bounds.\n");
+    fprintf(stderr, "Error: %s(): 'color' argument out of bounds.\n", __FUNCTION__);
     return;
   }
   wb_display_set_property(tag, C_DISPLAY_SET_COLOR, &color, NULL, NULL);
@@ -421,11 +421,11 @@ void wb_display_set_color(WbDeviceTag tag, int color) {
 void wb_display_set_alpha(WbDeviceTag tag, double alpha) {
   Display *d = wb_display_get_struct(tag);
   if (!d) {
-    fprintf(stderr, "Error: wb_display_set_alpha(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
   if (alpha > 1.0 || alpha < 0.0) {
-    fprintf(stderr, "Error: wb_display_set_alpha(): 'alpha' argument out of bounds.\n");
+    fprintf(stderr, "Error: %s(): 'alpha' argument out of bounds.\n", __FUNCTION__);
     return;
   }
   wb_display_set_property(tag, C_DISPLAY_SET_ALPHA, &alpha, NULL, NULL);
@@ -434,11 +434,11 @@ void wb_display_set_alpha(WbDeviceTag tag, double alpha) {
 void wb_display_set_opacity(WbDeviceTag tag, double opacity) {
   Display *d = wb_display_get_struct(tag);
   if (!d) {
-    fprintf(stderr, "Error: wb_display_set_opacity(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
   if (opacity > 1.0 || opacity < 0.0) {
-    fprintf(stderr, "Error: wb_display_set_opacity(): 'opacity' argument out of bounds.\n");
+    fprintf(stderr, "Error: %s(): 'opacity' argument out of bounds.\n", __FUNCTION__);
     return;
   }
   wb_display_set_property(tag, C_DISPLAY_SET_OPACITY, &opacity, NULL, NULL);
@@ -446,13 +446,13 @@ void wb_display_set_opacity(WbDeviceTag tag, double opacity) {
 
 void wb_display_set_font(WbDeviceTag tag, const char *font, int size, bool anti_aliasing) {
   if (size <= 0) {
-    fprintf(stderr, "Error: wb_display_set_font(): 'size' argument is negative or null.\n");
+    fprintf(stderr, "Error: %s(): 'size' argument is negative or null.\n", __FUNCTION__);
     return;
   }
   robot_mutex_lock_step();
   Display *display = wb_display_get_struct(tag);
   if (!display) {
-    fprintf(stderr, "Error: wb_display_set_font(): invalid display.\n");
+    fprintf(stderr, "Error: %s(): invalid display.\n", __FUNCTION__);
     robot_mutex_unlock_step();
     return;
   }
@@ -465,17 +465,17 @@ void wb_display_attach_camera(WbDeviceTag tag, WbDeviceTag camera_tag) {
   Display *display = wb_display_get_struct(tag);
   WbDevice *camera = robot_get_device_with_node(camera_tag, WB_NODE_CAMERA, true);
   if (!display) {
-    fprintf(stderr, "Error: wb_display_attach_camera(): invalid display.\n");
+    fprintf(stderr, "Error: %s(): invalid display.\n", __FUNCTION__);
     robot_mutex_unlock_step();
     return;
   }
   if (!camera) {
-    fprintf(stderr, "Error: wb_display_attach_camera(): invalid camera.\n");
+    fprintf(stderr, "Error: %s(): invalid camera.\n", __FUNCTION__);
     robot_mutex_unlock_step();
     return;
   }
   if (display->is_camera_attached) {
-    fprintf(stderr, "Error: wb_display_attach_camera(): a camera is already attached to the display.\n");
+    fprintf(stderr, "Error: %s(): a camera is already attached to the display.\n", __FUNCTION__);
     robot_mutex_unlock_step();
     return;
   }
@@ -489,12 +489,12 @@ void wb_display_detach_camera(WbDeviceTag tag) {
   robot_mutex_lock_step();
   Display *display = wb_display_get_struct(tag);
   if (display == NULL) {
-    fprintf(stderr, "Error: wb_display_detach_camera(): invalid display.\n");
+    fprintf(stderr, "Error: %s(): invalid display.\n", __FUNCTION__);
     robot_mutex_unlock_step();
     return;
   }
   if (!display->is_camera_attached) {
-    fprintf(stderr, "Error: wb_display_detach_camera(): no camera to detach.\n");
+    fprintf(stderr, "Error: %s(): no camera to detach.\n", __FUNCTION__);
     robot_mutex_unlock_step();
     return;
   }
@@ -507,7 +507,7 @@ void wb_display_detach_camera(WbDeviceTag tag) {
 void wb_display_draw_pixel(WbDeviceTag tag, int x, int y) {
   Display *d = wb_display_get_struct(tag);
   if (!d) {
-    fprintf(stderr, "Error: wb_display_draw_pixel(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
 
@@ -519,7 +519,7 @@ void wb_display_draw_pixel(WbDeviceTag tag, int x, int y) {
 void wb_display_draw_line(WbDeviceTag tag, int x1, int y1, int x2, int y2) {
   Display *d = wb_display_get_struct(tag);
   if (!d) {
-    fprintf(stderr, "Error: wb_display_draw_line(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
   int px[] = {x1, x2};
@@ -530,15 +530,15 @@ void wb_display_draw_line(WbDeviceTag tag, int x1, int y1, int x2, int y2) {
 void wb_display_draw_rectangle(WbDeviceTag tag, int x, int y, int width, int height) {
   Display *d = wb_display_get_struct(tag);
   if (!d) {
-    fprintf(stderr, "Error: wb_display_draw_rectangle(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
   if (width <= 0) {
-    fprintf(stderr, "Error: wb_display_draw_rectangle(): 'width' argument is negative or null.\n");
+    fprintf(stderr, "Error: %s(): 'width' argument is negative or null.\n", __FUNCTION__);
     return;
   }
   if (height <= 0) {
-    fprintf(stderr, "Error: wb_display_draw_rectangle(): 'height' argument is negative or null.\n");
+    fprintf(stderr, "Error: %s(): 'height' argument is negative or null.\n", __FUNCTION__);
     return;
   }
   int px[] = {x, width};
@@ -549,15 +549,15 @@ void wb_display_draw_rectangle(WbDeviceTag tag, int x, int y, int width, int hei
 void wb_display_draw_oval(WbDeviceTag tag, int cx, int cy, int a, int b) {
   Display *d = wb_display_get_struct(tag);
   if (!d) {
-    fprintf(stderr, "Error: wb_display_draw_oval(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
   if (a <= 0) {
-    fprintf(stderr, "Error: wb_display_draw_oval(): 'horizontal_radius' argument is negative or null.\n");
+    fprintf(stderr, "Error: %s(): 'horizontal_radius' argument is negative or null.\n", __FUNCTION__);
     return;
   }
   if (b <= 0) {
-    fprintf(stderr, "Error: wb_display_draw_oval(): 'vertical_radius' argument is negative or null.\n");
+    fprintf(stderr, "Error: %s(): 'vertical_radius' argument is negative or null.\n", __FUNCTION__);
     return;
   }
   int px[] = {cx, a};
@@ -568,11 +568,11 @@ void wb_display_draw_oval(WbDeviceTag tag, int cx, int cy, int a, int b) {
 void wb_display_draw_polygon(WbDeviceTag tag, const int *x, const int *y, int size) {
   Display *d = wb_display_get_struct(tag);
   if (!d) {
-    fprintf(stderr, "Error: wb_display_draw_polygon(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
   if (!x || !y) {
-    fprintf(stderr, "Error: wb_display_draw_polygon(): 'x' or 'y' argument is NULL.\n");
+    fprintf(stderr, "Error: %s(): 'x' or 'y' argument is NULL.\n", __FUNCTION__);
     return;
   }
   wb_display_draw_primitive(tag, C_DISPLAY_DRAW_POLYGON, x, y, size, false, NULL);
@@ -581,11 +581,11 @@ void wb_display_draw_polygon(WbDeviceTag tag, const int *x, const int *y, int si
 void wb_display_draw_text(WbDeviceTag tag, const char *text, int x, int y) {
   Display *d = wb_display_get_struct(tag);
   if (!d) {
-    fprintf(stderr, "Error: wb_display_draw_text(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
   if (!text || strlen(text) == 0) {
-    fprintf(stderr, "Error: wb_display_draw_text(): 'text' argument is NULL or empty.\n");
+    fprintf(stderr, "Error: %s(): 'text' argument is NULL or empty.\n", __FUNCTION__);
     return;
   }
   int px[] = {x};
@@ -596,15 +596,15 @@ void wb_display_draw_text(WbDeviceTag tag, const char *text, int x, int y) {
 void wb_display_fill_rectangle(WbDeviceTag tag, int x, int y, int width, int height) {
   Display *d = wb_display_get_struct(tag);
   if (!d) {
-    fprintf(stderr, "Error: wb_display_fill_rectangle(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
   if (width <= 0) {
-    fprintf(stderr, "Error: wb_display_fill_rectangle(): 'width' argument is negative or null.\n");
+    fprintf(stderr, "Error: %s(): 'width' argument is negative or null.\n", __FUNCTION__);
     return;
   }
   if (height <= 0) {
-    fprintf(stderr, "Error: wb_display_fill_rectangle(): 'height' argument is negative or null.\n");
+    fprintf(stderr, "Error: %s(): 'height' argument is negative or null.\n", __FUNCTION__);
     return;
   }
   int px[] = {x, width};
@@ -615,15 +615,15 @@ void wb_display_fill_rectangle(WbDeviceTag tag, int x, int y, int width, int hei
 void wb_display_fill_oval(WbDeviceTag tag, int cx, int cy, int a, int b) {
   Display *d = wb_display_get_struct(tag);
   if (!d) {
-    fprintf(stderr, "Error: wb_display_fill_oval(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
   if (a <= 0) {
-    fprintf(stderr, "Error: wb_display_fill_oval(): 'horizontal_radius' argument is negative or null.\n");
+    fprintf(stderr, "Error: %s(): 'horizontal_radius' argument is negative or null.\n", __FUNCTION__);
     return;
   }
   if (b <= 0) {
-    fprintf(stderr, "Error: wb_display_fill_oval(): 'vertical_radius' argument is negative or null.\n");
+    fprintf(stderr, "Error: %s(): 'vertical_radius' argument is negative or null.\n", __FUNCTION__);
     return;
   }
   int px[] = {cx, a};
@@ -634,11 +634,11 @@ void wb_display_fill_oval(WbDeviceTag tag, int cx, int cy, int a, int b) {
 void wb_display_fill_polygon(WbDeviceTag tag, const int *x, const int *y, int size) {
   Display *d = wb_display_get_struct(tag);
   if (!d) {
-    fprintf(stderr, "Error: wb_display_fill_polygon(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
   if (!x || !y) {
-    fprintf(stderr, "Error: wb_display_fill_polygon(): 'x' or 'y' arguments is NULL.\n");
+    fprintf(stderr, "Error: %s(): 'x' or 'y' arguments is NULL.\n", __FUNCTION__);
     return;
   }
   wb_display_draw_primitive(tag, C_DISPLAY_DRAW_POLYGON, x, y, size, true, NULL);
@@ -646,7 +646,7 @@ void wb_display_fill_polygon(WbDeviceTag tag, const int *x, const int *y, int si
 
 WbImageRef wb_display_image_copy(WbDeviceTag tag, int x, int y, int width, int height) {
   if (width < 1 || height < 1) {
-    fprintf(stderr, "Error: wb_display_image_copy(): 'width' or 'height' argument is invalid.\n");
+    fprintf(stderr, "Error: %s(): 'width' or 'height' argument is invalid.\n", __FUNCTION__);
     return NULL;
   }
   DisplayMessage *m = (DisplayMessage *)malloc(sizeof(DisplayMessage));
@@ -655,7 +655,7 @@ WbImageRef wb_display_image_copy(WbDeviceTag tag, int x, int y, int width, int h
   robot_mutex_lock_step();
   Display *d = wb_display_get_struct(tag);
   if (!d) {
-    fprintf(stderr, "Error: wb_display_image_copy(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     free(m);
     free(i);
     free(im);
@@ -679,11 +679,11 @@ WbImageRef wb_display_image_copy(WbDeviceTag tag, int x, int y, int width, int h
 
 void wb_display_image_paste(WbDeviceTag tag, WbImageRef ir, int x, int y, bool blend) {
   if (!ir || ir->id <= 0) {
-    fprintf(stderr, "Error: wb_display_image_paste(): invalid WbImageRef argument.\n");
+    fprintf(stderr, "Error: %s(): invalid WbImageRef argument.\n", __FUNCTION__);
     return;
   }
   if (ir->device_tag != tag) {
-    fprintf(stderr, "Error: wb_display_image_paste(): invalid WbImageRef created by a different Display device.\n");
+    fprintf(stderr, "Error: %s(): invalid WbImageRef created by a different Display device.\n", __FUNCTION__);
     return;
   }
   DisplayMessage *m = (DisplayMessage *)malloc(sizeof(DisplayMessage));
@@ -691,7 +691,7 @@ void wb_display_image_paste(WbDeviceTag tag, WbImageRef ir, int x, int y, bool b
   robot_mutex_lock_step();
   Display *d = wb_display_get_struct(tag);
   if (!d) {
-    fprintf(stderr, "Error: wb_display_image_paste(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     free(m);
     free(i);
   } else if (m && i) {
@@ -708,20 +708,20 @@ void wb_display_image_paste(WbDeviceTag tag, WbImageRef ir, int x, int y, bool b
 
 WbImageRef wb_display_image_new(WbDeviceTag tag, int width, int height, const void *data, int format) {
   if (!data) {
-    fprintf(stderr, "Error: wb_display_image_new(): 'data' argument is NULL.\n");
+    fprintf(stderr, "Error: %s(): 'data' argument is NULL.\n", __FUNCTION__);
     return NULL;
   }
   if (width < 1 || height < 1) {
-    fprintf(stderr, "Error: wb_display_image_new(): 'width' or 'height' argument is invalid.\n");
+    fprintf(stderr, "Error: %s(): 'width' or 'height' argument is invalid.\n", __FUNCTION__);
     return NULL;
   }
   if (format != WB_IMAGE_RGB && format != WB_IMAGE_RGBA && format != WB_IMAGE_ARGB && format != WB_IMAGE_BGRA) {
-    fprintf(stderr, "Error: wb_display_image_new(): 'format' argument is invalid.\n");
+    fprintf(stderr, "Error: %s(): 'format' argument is invalid.\n", __FUNCTION__);
     return NULL;
   }
   Display *d = wb_display_get_struct(tag);
   if (!d) {
-    fprintf(stderr, "Error: wb_display_image_new(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return NULL;
   }
 
@@ -757,12 +757,12 @@ WbImageRef wb_display_image_new(WbDeviceTag tag, int width, int height, const vo
 
 WbImageRef wb_display_image_load(WbDeviceTag tag, const char *filename) {
   if (!filename || strlen(filename) == 0) {
-    fprintf(stderr, "Error: wb_display_image_load(): 'filename' argument is NULL or empty.\n");
+    fprintf(stderr, "Error: %s(): 'filename' argument is NULL or empty.\n", __FUNCTION__);
     return NULL;
   }
   GImage *gi = g_image_new(filename);
   if (gi->failed || (gi->data_format != G_IMAGE_DATA_FORMAT_ABGR && gi->data_format != G_IMAGE_DATA_FORMAT_RGB)) {
-    fprintf(stderr, "Error: wb_display_image_load(): the \"%s\" image is unreadable.\n", filename);
+    fprintf(stderr, "Error: %s(): the \"%s\" image is unreadable.\n", __FUNCTION__, filename);
     g_image_delete(gi);
     return NULL;
   }
@@ -777,7 +777,7 @@ WbImageRef wb_display_image_load(WbDeviceTag tag, const char *filename) {
     free(i);
     free(im);
     im = NULL;
-    fprintf(stderr, "Error: wb_display_image_load(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   } else if (m && i && im) {
     m->message = C_DISPLAY_IMAGE_LOAD;
     i->id = d->image_next_free_id;
@@ -798,24 +798,22 @@ WbImageRef wb_display_image_load(WbDeviceTag tag, const char *filename) {
 
 void wb_display_image_save(WbDeviceTag tag, WbImageRef ir, const char *filename) {
   if (!filename || strlen(filename) == 0) {
-    fprintf(stderr, "Error: wb_display_image_save(): 'filename' argument is NULL or empty.\n");
+    fprintf(stderr, "Error: %s(): 'filename' argument is NULL or empty.\n", __FUNCTION__);
     return;
   }
   if (ir) {
     if (ir->id <= 0) {
-      fprintf(stderr, "Error: wb_display_image_save(): invalid WbImageRef.\n");
+      fprintf(stderr, "Error: %s(): invalid WbImageRef.\n", __FUNCTION__);
       return;
     }
     if (ir->device_tag != tag) {
-      fprintf(stderr, "Error: wb_display_image_save(): invalid WbImageRef created by a different Display device.\n");
+      fprintf(stderr, "Error: %s(): invalid WbImageRef created by a different Display device.\n", __FUNCTION__);
       return;
     }
   }
   unsigned char type = g_image_get_type(filename);
   if (type != G_IMAGE_PNG && type != G_IMAGE_JPEG) {
-    fprintf(
-      stderr,
-      "Error: wb_display_image_save(): unsupported file format. The supported file extentions are \".jpg\" and \".png\".\n");
+    fprintf(stderr, "Error: %s(): unsupported file format. Supported file formats are \".jpg\" and \".png\".\n", __FUNCTION__);
     return;
   }
   DisplayMessage *m = (DisplayMessage *)malloc(sizeof(DisplayMessage));
@@ -824,7 +822,7 @@ void wb_display_image_save(WbDeviceTag tag, WbImageRef ir, const char *filename)
   robot_mutex_lock_step();
   Display *d = wb_display_get_struct(tag);
   if (!d) {
-    fprintf(stderr, "Error: wb_display_image_save(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     free(m);
     free(o);
     free(i);
@@ -847,11 +845,11 @@ void wb_display_image_save(WbDeviceTag tag, WbImageRef ir, const char *filename)
 
 void wb_display_image_delete(WbDeviceTag tag, WbImageRef ir) {
   if (!ir || ir->id <= 0) {
-    fprintf(stderr, "Error: wb_display_image_delete(): invalid WbImageRef.\n");
+    fprintf(stderr, "Error: %s(): invalid WbImageRef.\n", __FUNCTION__);
     return;
   }
   if (ir->device_tag != tag) {
-    fprintf(stderr, "Error: wb_display_image_delete(): invalid WbImageRef created by a different Display device.\n");
+    fprintf(stderr, "Error: %s(): invalid WbImageRef created by a different Display device.\n", __FUNCTION__);
     return;
   }
   DisplayMessage *m = (DisplayMessage *)malloc(sizeof(DisplayMessage));
@@ -859,7 +857,7 @@ void wb_display_image_delete(WbDeviceTag tag, WbImageRef ir) {
   robot_mutex_lock_step();
   Display *d = wb_display_get_struct(tag);
   if (!d) {
-    fprintf(stderr, "Error: wb_display_image_delete(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     free(m);
     free(i);
   } else if (m && i) {
