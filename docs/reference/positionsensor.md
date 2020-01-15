@@ -18,13 +18,13 @@ Depending on the [Joint](joint.md) type, it will measure the angular position in
 ### Field Summary
 
 - `noise`: This field allows to define the standard deviation of the Gaussian noise added to the sensor output.
-The noise is expressed either in *meters* (m) if the parent node is a [SliderJoint](sliderjoint.md) or a [Track](track.md).
+The noise is expressed in *meters* (m) if the parent node is a [SliderJoint](sliderjoint.md) or a [Track](track.md).
 It is expressed in *radians* (rad) if the parent node is a [HingeJoint](hingejoint.md) or a [Hinge2Joint](hinge2joint.md).
 
 - `resolution`: This field allows to define the resolution of the sensor, the resolution is the smallest change that it is able to measure.
 Setting this field to -1 (default) means that the sensor has an 'infinite' resolution (it can measure any infinitesimal change).
 Otherwise, this field accepts values in the interval (0.0, inf).
-The resolution is expressed either in *meters* (m) if the parent node is a [SliderJoint](sliderjoint.md) or a [Track](track.md).
+The resolution is expressed in *meters* (m) if the parent node is a [SliderJoint](sliderjoint.md) or a [Track](track.md).
 It is expressed in *radians* (rad) if the parent node is a [HingeJoint](hingejoint.md) or a [Hinge2Joint](hinge2joint.md).
 
 ### PositionSensor Functions
