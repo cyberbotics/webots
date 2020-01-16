@@ -58,7 +58,7 @@ With a small *P*, more simulation steps are needed to reach the target position,
     `wb_motor_set_control_pid` function.
 
 - The `minPosition` and `maxPosition` fields specify *soft limits* for the target position.
-They are expressed in *meters* (m) for linear motors and in *radians* (rad) for rotational motors.
+They are expressed in *meters* (m) for [LinearMotor](linearmotor.md) and in *radians* (rad) for  [RotationalMotor](rotationalmotor.md) .
 These fields are described in more detail in the [Motor Limits section](#motor-limits), see below.
 
 - The `maxVelocity` field specifies both the upper limit and the default value for the motor *velocity*.
