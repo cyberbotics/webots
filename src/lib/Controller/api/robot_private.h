@@ -30,7 +30,6 @@
   }
 
 int wb_robot_get_step_duration();
-unsigned int wb_robot_get_dongle_number();
 void wb_robot_flush_unlocked();
 void robot_write_request(WbDevice *, WbRequest *);
 void robot_read_answer(WbDevice *, WbRequest *);
