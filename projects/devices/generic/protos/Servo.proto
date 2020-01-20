@@ -30,7 +30,7 @@ PROTO Servo [
   field     SFFloat    maxForce            10              # Defines the max force or torque (rad/s^2 or m/s^2) of the motor.
   field     SFFloat    controlP            10              # Defines the proportional PID parameter for control of the motor.
   field     SFFloat    acceleration        -1              # Defines the acceleration for control (rad/s^2 or m/s^2) of the motor.
-  field     SFFloat    position            0               # Defines the current position of the joint
+  field     SFFloat    position            0               # Defines the current position of the joint.
   field     SFFloat    minPosition         0               # Defines the max position of the motor, ignored if maxPosition = minPosition.
   field     SFFloat    maxPosition         0               # Defines the min position of the motor, ignored if maxPosition = minPosition.
   field     SFFloat    minStop             0               # Defines the min position of the joint, low stop angle or position.
