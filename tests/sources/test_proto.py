@@ -14,19 +14,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Test for duplicated PROTO names."""
+"""Test for PROTO."""
 import unittest
 import os
+import re
 import fnmatch
 
 
-class TestProtoNames(unittest.TestCase):
-    """Unit test of the PROTO names."""
+class TestProtos(unittest.TestCase):
+    """Unit test of the PROTO."""
 
     def setUp(self):
-        """Get all the PROTO names."""
+        """Get all the PROTO."""
         self.protos = []
         self.protoPath = {}
+        self.protoFiles = []
         for directory in ['projects', 'resources']:
             for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + directory):
                 for fileName in fnmatch.filter(fileNames, '*.proto'):
@@ -34,6 +36,7 @@ class TestProtoNames(unittest.TestCase):
                     if fileName not in self.protoPath:
                         self.protoPath[fileName] = []
                     self.protoPath[fileName].append(rootPath)
+                    self.protoFiles.append(os.path.join(rootPath, fileName))
 
     def test_proto_names(self):
         """Test that there are not 2 PROTO files with the same name."""
@@ -46,6 +49,20 @@ class TestProtoNames(unittest.TestCase):
                     number == 1,
                     msg='Duplicated "' + proto + '" PROTO name:\n\t' + '\n\t'.join(self.protoPath[proto])
                 )
+
+    def test_proto_field_comment(self):
+        """Test that the PROTO field comment ends with a '.'."""
+        for protoFile in self.protoFiles:
+            with open(protoFile, 'r') as file:
+                content = file.read()
+                for i, match in enumerate(re.finditer(r'\[\n((.*\n)*)\]', content, re.MULTILINE)):  # get field header
+                    for j, fieldMatche in enumerate(re.finditer(r'\s*.*ield.*#(.*)', match.group(1), re.MULTILINE)):
+                        comment = fieldMatche.group(1).strip()
+                        self.assertTrue(
+                            comment.endswith('.'),
+                            msg='Missing "." at end of field comment in "' + protoFile + '", comment: "' + comment + '".'
+                        )
+
 
 
 if __name__ == '__main__':
