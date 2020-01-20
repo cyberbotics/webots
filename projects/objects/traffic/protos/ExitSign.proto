@@ -9,7 +9,7 @@ PROTO ExitSign [
   field SFString   name         "exit sign"
   field SFFloat    height       2                                         # Defines the height of the sign.
   field SFFloat    radius       0.03                                      # Defines the radius of the sign pole.
-  field SFColor    color        0.576471 0.576471 0.576471                # Defines the color of the panel
+  field SFColor    color        0.576471 0.576471 0.576471                # Defines the color of the panel.
   field MFNode     signBoards   [ ExitPanel { translation 0 -0.051 0 } ]  # Defines the boards.
 ]
 {

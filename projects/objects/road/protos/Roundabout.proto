@@ -14,7 +14,7 @@ PROTO Roundabout [
   field        SFFloat              speedLimit               -1.0                                  # Optionally defines the speed limit. The recommended unit is meter per seconds.
   field        SFBool               bottom                   FALSE                                 # Defines whether the road bottom should be displayed (useful in case of bridge).
   field        SFBool               border                   TRUE                                  # Defines whether the roundabout should have sidewalks.
-  field        SFFloat              borderWidth              0.8                                   # Defines the width of the sidewalks.
+  field        SFFloat              borderWidth              0.8                                   # Defines the width of the sidewalk.s.
   field        SFFloat              borderHeight             0.2                                   # Defines the height of the sidewalks.
   field        SFFloat              innerRadius              4                                     # Defines the inner radius of the roundabout.
   field        SFFloat              outerRadius              8                                     # Defines the outer radius of the roundabout.
@@ -37,7 +37,7 @@ PROTO Roundabout [
   field        SFBool               locked                   TRUE                                  # Is `Solid.locked`.
   field        SFNode               appearance               Asphalt { }                           # Defines the appearance of the road.
 
-  hiddenField  SFFloat              startRoadsWith       7                                   # Deprecated in Webots R2018b
+  hiddenField  SFFloat              startRoadsWith       7                                   # Deprecated in Webots R2018b.
   hiddenField  MFBool               startRoadsDashedLine FALSE                               # Deprecated in Webots R2018c.
 ]
 {

@@ -7,11 +7,11 @@ PROTO TinkerbotsCubieMaleCube [
   field SFVec3f    translation 0 0 0             # Is `Transform.translation`.
   field SFRotation rotation    0 0 1 0           # Is `Transform.rotation`.
   field SFString   name        "male cube cubie" # Is `Solid.name`.
-  field SFNode     upSlot      NULL              # Type: "lego cross-"
-  field SFNode     frontSlot   NULL              # Type: "lego cross-"
-  field SFNode     backSlot    NULL              # Type: "lego cross-"
-  field SFNode     leftSlot    NULL              # Type: "lego cross-"
-  field SFNode     rightSlot   NULL              # Type: "lego cross+"
+  field SFNode     upSlot      NULL              # Type: "lego cross-".
+  field SFNode     frontSlot   NULL              # Type: "lego cross-".
+  field SFNode     backSlot    NULL              # Type: "lego cross-".
+  field SFNode     leftSlot    NULL              # Type: "lego cross-".
+  field SFNode     rightSlot   NULL              # Type: "lego cross+".
 ]
 {
   Slot {

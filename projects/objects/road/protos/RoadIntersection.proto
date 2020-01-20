@@ -31,7 +31,7 @@ PROTO RoadIntersection [
   field        SFBool               locked                         TRUE                                  # Is `Solid.locked`.
   field        SFNode               appearance                     Asphalt { }                           # Defines the appearance of the road.
 
-  hiddenField  SFFloat              roadsWith                7                                     # Deprecated in Webots R2018b
+  hiddenField  SFFloat              roadsWith                7                                     # Deprecated in Webots R2018b.
   hiddenField  MFBool               startRoadsDashedLine     TRUE                                  # Deprecated in Webots R2018c.
 ]
 {

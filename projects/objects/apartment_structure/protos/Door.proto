@@ -19,7 +19,7 @@ PROTO Door [
   field SFFloat    mainMaterialDensity    200                       # Defines the density of the door.
   field SFNode     doorAppearance         GenericDoorAppearance {}  # Defines the door's appearance.
   field SFNode     wallAppearance         Roughcast {}              # Defines the wall's appearance.
-  field SFNode     frameAppearance        VarnishedPine {}          # Defines the frame's appearance
+  field SFNode     frameAppearance        VarnishedPine {}          # Defines the frame's appearance.
   field SFNode     doorHandle             DoorLever {}              # Defines an optional door handle.
   field MFNode     doorSlot               []                        # Extends the door with new nodes.
   field SFBool     castShadows            TRUE                      # Defines whether this object should cast shadows.

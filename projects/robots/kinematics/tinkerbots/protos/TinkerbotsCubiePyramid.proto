@@ -9,8 +9,8 @@ PROTO TinkerbotsCubiePyramid [
   field SFRotation                 rotation    0 0 1 0         # Is `Transform.rotation`.
   field SFString                   name        "pyramid cubie" # Is `Solid.name`.
   field SFString{"yellow", "blue"} color       "yellow"        # Cubie color.
-  field SFNode                     frontSlot   NULL            # Type: "lego cross-"
-  field SFNode                     backSlot    NULL            # Type: "lego cross-"
+  field SFNode                     frontSlot   NULL            # Type: "lego cross-".
+  field SFNode                     backSlot    NULL            # Type: "lego cross-".
 ]
 {
   Slot {

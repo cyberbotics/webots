@@ -20,7 +20,7 @@ PROTO LaneSeparation [
   field        SFBool               newLaneLeft                 TRUE                     # Defines on which sied the lanes are leaving the road.
   field        MFNode{RoadLine {}}  lines                       [ RoadLine { } ]         # Defines the property of each line separating two lanes.
   field        SFFloat              roadBorderHeight            0.15                     # Defines the height of the sidewalk.
-  field        SFFloat              roadBorderWidth             0.8                      # Defines the width of the sidewalk
+  field        SFFloat              roadBorderWidth             0.8                      # Defines the width of the sidewalk.
   field        SFBool               rightBorder                 TRUE                     # Defines whether the road should have a right sidewalk.
   field        SFBool               leftBorder                  TRUE                     # Defines whether the road should have a left sidewalk.
   field        SFBool               centralBorder               TRUE                     # Defines whether the road should have a central sidewalk.

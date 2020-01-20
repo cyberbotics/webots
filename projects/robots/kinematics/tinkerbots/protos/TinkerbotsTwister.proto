@@ -9,11 +9,11 @@ PROTO TinkerbotsTwister [
   field SFVec3f    translation 0 0 0     # Is `Transform.translation`.
   field SFRotation rotation    0 0 1 0   # Is `Transform.rotation`.
   field SFString   name        "twister" # Is `Solid.name`.
-  field SFNode     slot        NULL      # Type: "tinkerbots-"
-  field SFNode     ASlot       NULL      # Type: "lego cross-"
-  field SFNode     BSlot       NULL      # Type: "lego cross-"
-  field SFNode     CSlot       NULL      # Type: "lego cross-"
-  field SFNode     DSlot       NULL      # Type: "lego cross-"
+  field SFNode     slot        NULL      # Type: "tinkerbots-".
+  field SFNode     ASlot       NULL      # Type: "lego cross-".
+  field SFNode     BSlot       NULL      # Type: "lego cross-".
+  field SFNode     CSlot       NULL      # Type: "lego cross-".
+  field SFNode     DSlot       NULL      # Type: "lego cross-".
 ]
 {
   Slot {
