@@ -148,7 +148,7 @@ static int g_image_png_save(GImage *img, const char *filename) {
       image[4 * i + 2] = img->data[4 * i];
       image[4 * i + 3] = img->data[4 * i + 3];
     }
-    int ret = stbi_write_png(filename, img->width, img->height, STBI_rgb_alpha, image, img->width * STBI_rgb_alpha);
+    const int ret = stbi_write_png(filename, img->width, img->height, STBI_rgb_alpha, image, img->width * STBI_rgb_alpha);
     free(image);
     if (ret != 1)
       return -1;
@@ -180,7 +180,7 @@ static int g_image_jpeg_save(GImage *img, char quality, const char *filename) {
       image[3 * i + 1] = img->data[4 * i + 1];
       image[3 * i + 2] = img->data[4 * i];
     }
-    int ret = stbi_write_png(filename, img->width, img->height, STBI_rgb, image, img->width * STBI_rgb);
+    const int ret = stbi_write_png(filename, img->width, img->height, STBI_rgb, image, img->width * STBI_rgb);
     free(image);
     if (ret != 1)
       return -1;
