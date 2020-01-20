@@ -21,7 +21,7 @@ PROTO Road [
   field        SFFloat              speedLimit                -1.0                    # Optionally defines the speed limit. The recommended unit is meter per seconds.
   field        MFNode{RoadLine {}}  lines                     [ RoadLine { } ]        # Defines the property of each line separating two lanes.
   field        SFFloat              roadBorderHeight          0.15                    # Defines the height of the sidewalk.
-  field        MFFloat              roadBorderWidth           [ 0.8 ]                 # Defines the width of the sidewalk. associated to each way-point (if there are less values than way-points, the last value is used for the last remaining way-points).
+  field        MFFloat              roadBorderWidth           [ 0.8 ]                 # Defines the width of the sidewalk associated to each way-point (if there are less values than way-points, the last value is used for the last remaining way-points).
   field        SFBool               road                      TRUE                    # Defines the width of the sidewalk associated to each way-point (if there are less values than way-points, the last value is used for the last remaining way-points).
   field        SFBool               rightBorder               TRUE                    # Defines whether the road should have a right sidewalk.
   field        SFBool               leftBorder                TRUE                    # Defines whether the road should have a left sidewalk.
