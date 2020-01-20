@@ -16,6 +16,7 @@ jobs:
   include:
     - &source_tests_staging
       stage: Sources Tests
+      if: type = cron OR NOT commit_message IN (travis_distrib_only)
       name: Ubuntu 16.04 / Python 3.8
       git:
         depth: 3
