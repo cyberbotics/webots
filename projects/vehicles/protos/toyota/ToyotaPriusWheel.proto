@@ -11,7 +11,7 @@ PROTO ToyotaPriusWheel [
   field       SFString name           "Toyota Prius wheel"
   field       SFNode   physics        NULL
   field       SFBool   boundingObject TRUE
-  hiddenField SFFloat  tireRadius     0.317                 # We need to make this value 'visible' to the car PROTO so that the tire radius can be sent to the controller
+  hiddenField SFFloat  tireRadius     0.317                 # We need to make this value 'visible' to the car PROTO so that the tire radius can be sent to the controller.
 ]
 {
   VehicleWheel {

@@ -8,10 +8,10 @@ PROTO TinkerbotsCubieBoxWithRoundSlots [
   field SFVec3f    translation 0 0 0                        # Is `Transform.translation`.
   field SFRotation rotation    0 0 1 0                      # Is `Transform.rotation`.
   field SFString   name        "box with round slots cubie" # Is `Solid.name`.
-  field SFNode     upSlot      NULL                         # Type: "lego cross-"
-  field SFNode     frontSlot   NULL                         # Type: "lego cross-"
-  field SFNode     backSlot    NULL                         # Type: "lego cross-"
-  field SFNode     axisSlot    NULL                         # Mounted on an HingeJoint. Type: "lego cross-"
+  field SFNode     upSlot      NULL                         # Type: "lego cross-".
+  field SFNode     frontSlot   NULL                         # Type: "lego cross-".
+  field SFNode     backSlot    NULL                         # Type: "lego cross-".
+  field SFNode     axisSlot    NULL                         # Mounted on an HingeJoint. Type: "lego cross-".
 ]
 {
   Slot {

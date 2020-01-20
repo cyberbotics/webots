@@ -11,7 +11,7 @@ PROTO MultiSenseS21 [
   field SFString   name                "MultiSense S21"
   field SFInt32    cameraWidth         1024
   field SFInt32    cameraHeight        544
-  field SFFloat    cameraFieldOfView   1.4  # = 80 [deg]
+  field SFFloat    cameraFieldOfView   1.4               # The default value is equal to 80 deg.
   field SFFloat    cameraNoise         0
   field SFFloat    rangeFinderNoise    0
   field SFFloat    rangeFinderMaxRange 300

@@ -9,7 +9,7 @@ PROTO WoodenPalletStack [
   field SFString   name                     "wooden pallet stack"
   field SFInt32    palletNumber             8                      # Defines the number of pallet in the stack (vertically).
   field SFVec3f    palletSize               0.8 0.14 1.2           # Defines the size of one pallet.
-  field SFInt32    palletLathNumber         6                      # Defines the number of lath of each pallet.s
+  field SFInt32    palletLathNumber         6                      # Defines the number of lath of each pallets.
   field SFFloat    palletLathWidth          0.08                   # Defines the width of the pallet laths.
   field SFFloat    lateralMisalignment      0.1                    # Defines the maximum lateral misalignment between two pallets.
   field SFFloat    longitudinalMisalignment 0.05                   # Defines the maximum longitudinal misalignment between two pallets.

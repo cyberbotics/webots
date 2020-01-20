@@ -29,7 +29,7 @@ PROTO StraightRoadSegment [
   field        SFFloat              length                    10                      # Defines the length of the road.
   field        MFString             startLine                 []                      # Optionally defines the texture used for the road line at the first way-point for each lane. If the string is empty, no road line will be added for the corresponding lane. The two textures `textures/road_line_dashed.png` and `textures/road_line_triangle.png` may be used in this field.
   field        MFString             endLine                   []                      # Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
-  field        SFFloat              startingRoadTilt          0                       # Defines the tilt of the road at the beginning
+  field        SFFloat              startingRoadTilt          0                       # Defines the tilt of the road at the beginning.
   field        SFFloat              endingRoadTilt            0                       # Defines the tilt of the road at the end.
   field        SFNode               appearance                Asphalt { }             # Defines the appearance of the road.
   field        SFNode               pavementAppearance        StonePavement { }       # Defines the appearance of the sidewalk.

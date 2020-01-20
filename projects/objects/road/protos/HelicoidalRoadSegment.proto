@@ -18,7 +18,7 @@ PROTO HelicoidalRoadSegment [
   field        SFFloat              speedLimit                -1.0                    # Optionally defines the speed limit. The recommended unit is meter per seconds.
   field        MFNode{RoadLine {}}  lines                     [ RoadLine { } ]        # Defines the property of each line separating two lanes.
   field        SFFloat              roadBorderHeight          0.15                    # Defines the height of the sidewalk.
-  field        SFFloat              roadBorderWidth           0.8                     # Defines the width of the sidewalk
+  field        SFFloat              roadBorderWidth           0.8                     # Defines the width of the sidewalk.
   field        SFBool               rightBorder               TRUE                    # Defines whether the road should have a right sidewalk.
   field        SFBool               leftBorder                TRUE                    # Defines whether the road should have a left sidewalk.
   field        SFBool               bottom                    FALSE                   # Defines whether the road bottom should be displayed (useful in case of bridge).
@@ -27,7 +27,7 @@ PROTO HelicoidalRoadSegment [
   field        SFFloat              heigthStep                5                       # Defines the vertical step of the helicoid.
   field        MFString             startLine                 []                      # Optionally defines the texture used for the road line at the first way-point for each lane. If the string is empty, no road line will be added for the corresponding lane. The two textures `textures/road_line_dashed.png` and `textures/road_line_triangle.png` may be used in this field.
   field        MFString             endLine                   []                      # Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
-  field        SFFloat              subdivision               64                      # Defines the subdivision of the helicoid
+  field        SFFloat              subdivision               64                      # Defines the subdivision of the helicoid.
   field        SFNode               appearance                Asphalt { }             # Defines the appearance of the road.
   field        SFNode               pavementAppearance        StonePavement { }       # Defines the appearance of the sidewalk.
   field        MFString             bottomTexture             []                      # Defines the texture to be used for the bottom of the road.

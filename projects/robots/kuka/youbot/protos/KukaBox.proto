@@ -4,13 +4,13 @@
 # A small metal box.
 
 PROTO KukaBox [
-  field SFVec3f translation 0 0 0
-  field SFRotation rotation 0 1 0 0
-  field SFString name "Kuka box"
-  field SFColor color 0.5 0.5 0.5
-  field SFVec3f size 0.025 0.025 0.025
-  field SFString contactMaterial "default"
-  field SFNode physics Physics { density 2700 } # aluminium
+  field SFVec3f    translation      0 0 0
+  field SFRotation rotation         0 1 0 0
+  field SFString   name             "Kuka box"
+  field SFColor    color            0.5 0.5 0.5
+  field SFVec3f    size             0.025 0.025 0.025
+  field SFString   contactMaterial "default"
+  field SFNode     physics          Physics { density 2700 }  # Default to aluminium density.
 ]
 {
 Solid {

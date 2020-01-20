@@ -7,7 +7,7 @@ PROTO E-puckDistanceSensor [
   field SFVec3f    translation  0 0.005 0
   field SFRotation rotation     0 1 0 0
   field SFString   name         "ds"
-  field SFInt32    numberOfRays 1         # Is `DistanceSensor.numberOfRays`
+  field SFInt32    numberOfRays 1         # Is `DistanceSensor.numberOfRays`.
 ]
 {
   Solid {
