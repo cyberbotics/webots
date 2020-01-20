@@ -31,9 +31,9 @@ assert WEBOTS_HOME, 'WEBOTS_HOME is undefined'
 
 # Paths.
 scriptdir = Path(getframeinfo(currentframe()).filename).resolve().parent
-WORLD = scriptdir / 'worlds' / 'web_component_studio.wbt'
-TEMPLATE = scriptdir / 'worlds' / 'web_component_studio_template.wbt'
-ROBOTS = scriptdir / 'components.json'
+WORLD = str(scriptdir / 'worlds' / 'web_component_studio.wbt')
+TEMPLATE = str(scriptdir / 'worlds' / 'web_component_studio_template.wbt')
+ROBOTS = str(scriptdir / 'components.json')
 
 
 def search_and_replace(filename, fromString, toString):
