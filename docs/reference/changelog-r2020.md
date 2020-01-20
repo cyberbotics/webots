@@ -1,5 +1,11 @@
 # Webots R2020 Change Log
 
+## Webots R2020a Revision 2
+Released on XXX.
+
+  - Enhancements
+    - Improved the environment colors of the sojourner simulation (Mars is a red planet).
+
 ## Webots R2020a Revision 1
 Released on January 14th, 2020.
 

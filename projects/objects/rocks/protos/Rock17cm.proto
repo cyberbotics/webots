@@ -8,6 +8,7 @@ PROTO Rock17cm [
   field SFRotation rotation          0 1 0 0
   field SFString   name             "rock 17 cm"
   field MFString   texture          "textures/rock.jpg"  # Defines the texture used for the rock.
+  field SFColor    color            1 1 1                # Defines the base color of the rock.
   field SFNode     physics          NULL                 # Is `Solid.physics`.
   field SFBool     locked           FALSE                # Is `Solid.locked`.
 ]
@@ -18,6 +19,7 @@ PROTO Rock17cm [
     children [
       Shape {
         appearance PBRAppearance {
+          baseColor IS color
           baseColorMap ImageTexture {
             url IS texture
           }
