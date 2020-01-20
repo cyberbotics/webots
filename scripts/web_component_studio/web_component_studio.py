@@ -19,12 +19,12 @@
 import sys
 assert sys.version_info >= (3, 5), 'Python 3.5 or later is required to run this script.'
 
-import json
-import os
+import json  # noqa
+import os  # noqa
 
-from shutil import copyfile
-from inspect import currentframe, getframeinfo
-from pathlib import Path
+from shutil import copyfile  # noqa
+from inspect import currentframe, getframeinfo  # noqa
+from pathlib import Path  # noqa
 
 WEBOTS_HOME = os.getenv('WEBOTS_HOME')
 assert WEBOTS_HOME, 'WEBOTS_HOME is undefined'
