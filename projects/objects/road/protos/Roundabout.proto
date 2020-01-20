@@ -14,7 +14,7 @@ PROTO Roundabout [
   field        SFFloat              speedLimit               -1.0                                  # Optionally defines the speed limit. The recommended unit is meter per seconds.
   field        SFBool               bottom                   FALSE                                 # Defines whether the road bottom should be displayed (useful in case of bridge).
   field        SFBool               border                   TRUE                                  # Defines whether the roundabout should have sidewalks.
-  field        SFFloat              borderWidth              0.8                                   # Defines the width of the sidewalk.s.
+  field        SFFloat              borderWidth              0.8                                   # Defines the width of the sidewalks.
   field        SFFloat              borderHeight             0.2                                   # Defines the height of the sidewalks.
   field        SFFloat              innerRadius              4                                     # Defines the inner radius of the roundabout.
   field        SFFloat              outerRadius              8                                     # Defines the outer radius of the roundabout.
