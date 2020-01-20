@@ -51,7 +51,7 @@ PROTO Car [
   field SFFloat    engineMaxRPM                   4500
   field SFVec3f    engineFunctionCoefficients     150 0.1 0                  # Defines the engine coefficients used to compute the combustion engine torque.
   field MFFloat    gearRatio                      [-12 10 6.5 4.5 3.5 2.75]
-  field SFFloat    hybridPowerSplitRatio          0.25                       # Defines power split ration (the only used in the case of 'power-split hybrid' engineType).
+  field SFFloat    hybridPowerSplitRatio          0.25                       # Defines power split ratio (only used in the case of 'power-split hybrid' engineType).
   field SFFloat    hybridPowerSplitRPM            3000                       # Defines the power split RPM (only used in the case of 'power-split hybrid' engineType).
   field SFFloat    maxWheelVelocity               200
 ]
