@@ -53,4 +53,4 @@ for y in range(hdr.height):
             min(pixel[2], args.clamp_threshold)
         )
         result.set_pixel(x, y, pixel)
-    result.save(hdr_path)
+result.save(hdr_path)
