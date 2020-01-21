@@ -540,7 +540,7 @@ Released on March 21st, 2006 (revision 205).
   - Added controllerArgs field to robot nodes to pass arguments to a controller program
   - Fixed bug with `supervisor_field_set()` for a rotation angle in fast2D mode (thanks to Patrícia)
   - Added Aibo ERS7M3 target pattern for recharge station (thanks to Austin)
-  - Fixed bug with Servo.acceleration which was expressed in rad/(micro s)^2 instead of rad/s^2 (thanks to Gerhard)
+  - Fixed bug with Servo.acceleration which was expressed in rad/(micro s)² instead of rad/s² (thanks to Gerhard)
   - Changed the way C/C++ controllers are executed under Windows (`simple.exe` is renamed to `simple.exe_webots` before it is executed)
   - Fixed Roboka0.java so that it now works on Mac OS X as well
   - Added `supervisor_export_image()` and `supervisor_import_node()` in the Java API
