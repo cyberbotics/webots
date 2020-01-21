@@ -26,13 +26,13 @@ For compatibility reasons, these fields are still present in the [Physics](#phys
 ### Field Summary
 
 - The `density` field can be used to define the density of the containing [Solid](solid.md).
-The value of the `density` field should be a positive number number or -1.
-A -1 value indicates that the dentity is not known, in this case the `mass` field (see below) must be specified.
+The value of the `density` field should be -1 or a positive number expressed in *kilogram per cubic meter* (kg/m³).
+A -1 value indicates that the density is not known, in this case the `mass` field (see below) must be specified.
 If the `density` is specified (different from -1) then the total mass of the [Solid](solid.md) is calculated by multiplying the specified density with the total volume of the geometrical primitives composing the `boundingObject`.
 Note that Webots ignores if the geometrical primitives intersect or not, the volume of each primitive is simply added to the total volume and finally multiplied by the density.
 
 - The `mass` field can be used to specify the total mass of the containing [Solid](solid.md).
-The value of the `mass` field should be a positive number or -1.
+The value of the `mass` field should be -1 or a positive number expressed in *kilogram* (kg).
 A -1 value indicates that the total mass is not known, in this case the `density` field (see above) must be specified.
 If the mass is known, e.g., indicated in the specifications of the robot, then it is more accurate to specify the mass rather than the density.
 
