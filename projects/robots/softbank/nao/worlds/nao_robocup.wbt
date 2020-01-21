@@ -22,12 +22,10 @@ Viewpoint {
   follow "soccer ball"
 }
 TexturedBackground {
-  texture "noon_cloudy_countryside"
-  luminosity 1.5
+  texture "stadium"
 }
 TexturedBackgroundLight {
-  texture "noon_cloudy_countryside"
-  luminosity 0.5
+  texture "stadium"
 }
 RobotstadiumSoccerField {
   frame1Color 0.9 0.8 0.2
