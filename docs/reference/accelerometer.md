@@ -20,7 +20,7 @@ It can be used for example to detect fall, the up/down direction, etc.
 
 ### Field Summary
 
-- `lookupTable`: This field optionally specifies a lookup table that can be used for mapping the raw acceleration values [m/s^2] to device specific output values.
+- `lookupTable`: This field optionally specifies a lookup table that can be used for mapping the raw acceleration values [m/s²] to device specific output values.
 By default the lookup table is empty and therefore the raw acceleration values are returned (no mapping).
 See the section on the [DistanceSensor](distancesensor.md#lookup-table) node for more explanation on how a `lookupTable` works.
 
@@ -142,9 +142,9 @@ The `wb_accelerometer_get_sampling_period` function returns the sampling period 
 
 The `wb_accelerometer_get_values` function returns the current values measured by the [Accelerometer](#accelerometer).
 These values are returned as a 3D-vector, therefore only the indices 0, 1, and 2 are valid for accessing the vector.
-Each element of the vector represents the acceleration along the corresponding axis of the [Accelerometer](#accelerometer) node, expressed in meters per second squared [m/s^2].
+Each element of the vector represents the acceleration along the corresponding axis of the [Accelerometer](#accelerometer) node, expressed in meters per second squared [m/s²].
 The first element corresponds to the x-axis, the second element to the y-axis, etc.
-An [Accelerometer](#accelerometer) at rest with earth's gravity will indicate 1 g (9.81 m/s^2) along the vertical axis.
+An [Accelerometer](#accelerometer) at rest with earth's gravity will indicate 1 g (9.81 m/s²) along the vertical axis.
 Note that the gravity can be specified in the `gravity` field in the [WorldInfo](worldinfo.md) node.
 To obtain the acceleration due to motion alone, this offset must be subtracted.
 The device's output will be zero during free fall when no offset is substracted.

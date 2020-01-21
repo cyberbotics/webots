@@ -13,19 +13,19 @@ PositionSensor {
 
 A [PositionSensor](#positionsensor) node can be used in a mechanical simulation to monitor a joint position.
 The position sensor can be inserted in the `device` field of a [HingeJoint](hingejoint.md), a [Hinge2Joint](hinge2joint.md), a [SliderJoint](sliderjoint.md), or a [Track](track.md).
-Depending on the [Joint](joint.md) type, it will measure the angular position in radians or the linear position in meters.
+Depending on the [Joint](joint.md) type, it will measure the angular position in *radian* [rad] or the linear position in *meter* [m].
 
 ### Field Summary
 
 - `noise`: This field allows to define the standard deviation of the Gaussian noise added to the sensor output.
-The noise is expressed in *meters* (m) if the parent node is a [SliderJoint](sliderjoint.md) or a [Track](track.md).
-It is expressed in *radians* (rad) if the parent node is a [HingeJoint](hingejoint.md) or a [Hinge2Joint](hinge2joint.md).
+The noise is expressed in *meter* [m] if the parent node is a [SliderJoint](sliderjoint.md) or a [Track](track.md).
+It is expressed in *radian* [rad] if the parent node is a [HingeJoint](hingejoint.md) or a [Hinge2Joint](hinge2joint.md).
 
 - `resolution`: This field allows to define the resolution of the sensor, the resolution is the smallest change that it is able to measure.
 Setting this field to -1 (default) means that the sensor has an 'infinite' resolution (it can measure any infinitesimal change).
 Otherwise, this field accepts values in the interval (0.0, inf).
-The resolution is expressed in *meters* (m) if the parent node is a [SliderJoint](sliderjoint.md) or a [Track](track.md).
-It is expressed in *radians* (rad) if the parent node is a [HingeJoint](hingejoint.md) or a [Hinge2Joint](hinge2joint.md).
+The resolution is expressed in *meter* [m] if the parent node is a [SliderJoint](sliderjoint.md) or a [Track](track.md).
+It is expressed in *radian* [rad] if the parent node is a [HingeJoint](hingejoint.md) or a [Hinge2Joint](hinge2joint.md).
 
 ### PositionSensor Functions
 
@@ -149,7 +149,7 @@ The `wb_position_sensor_disable` function turns off the position sensor to save 
 The `wb_position_sensor_get_sampling_period` function returns the period given into the `wb_position_sensor_enable` function, or 0 if the device is disabled.
 
 The `wb_position_sensor_get_value` function returns the most recent value measured by the specified position sensor.
-Depending on the type, it will return a value in radians (angular position sensor) or in meters (linear position sensor).
+Depending on the type, it will return a value in *radian* [rad] (angular position sensor) or in *meter* [m] (linear position sensor).
 
 The `wb_position_sensor_get_type` function returns the type of the position sensor.
 It will return `WB_ROTATIONAL` if the sensor is associated with a [HingeJoint](hingejoint.md) or a [Hinge2Joint](hinge2joint.md) node, and `WB_LINEAR` if it is associated with a [SliderJoint](sliderjoint.md) or a [Track](track.md) node.

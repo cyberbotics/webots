@@ -51,7 +51,7 @@ Both `beamWidth` and `cutOffAngle` must be greater than 0.0 and less than or equ
 See figure below for an illustration of the SpotLight's field semantics (note: this example uses the default attenuation).
 
 The light's illumination falls off with distance as specified by three `attenuation` coefficients.
-The attenuation factor is `1/(attenuation[0]+attenuation[1]*r+attenuation[2]*r^2)`, where `r` is the distance of the light to the surface being illuminated.
+The attenuation factor is `1/(attenuation[0]+attenuation[1]*r+attenuation[2]*r²)`, where `r` is the distance of the light to the surface being illuminated.
 The default is no attenuation.
 An `attenuation` value of `0` `0` `0` is identical to `1` `0` `0`.
 Attenuation values must be >= 0.0.

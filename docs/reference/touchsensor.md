@@ -71,9 +71,9 @@ The force vector must be read using the `wb_touch_sensor_get_values` function.
 ### Lookup Table
 
 A "force" and "force-3d" sensors can optionally specify a `lookupTable` to simulate the possible non-linearity (and saturation) of the real device.
-The `lookupTable` allows the user to map the simulated force measured in Newtons (N) to an output value that will be returned by the `wb_touch_sensor_get_value` function.
+The `lookupTable` allows the user to map the simulated force measured in *newton* [N] to an output value that will be returned by the `wb_touch_sensor_get_value` function.
 The value returned by the force sensor is first computed by the ODE physics engine, then interpolated using the `lookupTable`, and finally noise is added (if specified in the lookupTable).
-Each line of the `lookupTable` contains three numbers: (1) an input force in Newtons, (2) the corresponding output value, and (3) a noise level between 0.0 and 1.0 (see [DistanceSensor](distancesensor.md) for more info).
+Each line of the `lookupTable` contains three numbers: (1) an input force in *newton* [N], (2) the corresponding output value, and (3) a noise level between 0.0 and 1.0 (see [DistanceSensor](distancesensor.md) for more info).
 Note that the default `lookupTable` of the [TouchSensor](#touchsensor) node is:
 
 ```
@@ -81,8 +81,8 @@ Note that the default `lookupTable` of the [TouchSensor](#touchsensor) node is:
 5000 50000 0 ]
 ```
 
-Hence it maps forces between 0 and 5000 Newtons to output values between 0 and 50000, the output unit being 0.1 Newton.
-You should empty the `lookupTable` to have Newtons as output units.
+Hence it maps forces between 0 and 5000 *newton* [N] to output values between 0 and 50000, the output unit being 0.1 *newton* [N].
+You should empty the `lookupTable` to have *newton* [N] as output units.
 
 ### Collision Detection
 
