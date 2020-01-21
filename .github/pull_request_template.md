@@ -1,5 +1,5 @@
 **Description**
-Describe the bug you are fixing, the new feature your are introducing or the enhancement you are doing.
+Describe the bug you are fixing, the new feature your are introducing or the enhancement you are proposing.
 
 **Related Issues**
 This pull-request fixes issue #
