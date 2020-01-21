@@ -109,14 +109,14 @@ Note that when the `numberOfRotations` field is 0, step 2 is omitted, and theref
 As a result of steps 1 and 3, the connector surfaces always become superimposed.
 It is recommended to set the same `snap` value for both connectors.
 
-- `tensileStrength`: maximum tensile force [in Newtons] that the docking mechanism can withstand before it breaks.
+- `tensileStrength`: maximum tensile force in *newton* [N] that the docking mechanism can withstand before it breaks.
 This can be used to simulate the rupture of the docking mechanism.
 The tensile force corresponds to a force that pulls the two connectors apart (in the negative *z*-axes direction).
 When the tensile force exceeds the tensile strength, the link breaks.
 Note that if both connectors are locked, the effective tensile strength corresponds to the sum of both connectors' `tensileStrength` fields.
 The default value -1 indicates an infinitely strong docking mechanism that does not break no matter how much force is applied (in case both connectors are locked, it is sufficient to set the `tensileStrength` field of one of the connectors to -1).
 
-- `shearStrength`: indicates the maximum shear force [in Newtons] that the docking mechanism can withstand before it breaks.
+- `shearStrength`: indicates the maximum shear force in *newtons* [N] that the docking mechanism can withstand before it breaks.
 This can be used to simulate the rupture of the docking mechanism.
 The `shearStrength` field specifies the ability of two connectors to withstand a force that would makes them slide against each other in opposite directions (in the *xy*-plane).
 Note that if both connectors are locked, the effective shear strength corresponds to the sum of both connectors' `shearStrength` fields.
