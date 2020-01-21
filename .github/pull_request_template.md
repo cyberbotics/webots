@@ -10,7 +10,7 @@ Add the list of tasks of this PR.
   - [ ] Task 2
 
 **Documentation**
-If this pull-request changes the doc, add the link to the related to including the `?version=BRANCH_NAME`, such as:
+If this pull-request changes the doc, add the link to the related page, including the `?version=BRANCH_NAME`, such as:
 https://cyberbotics.com/doc/guide/getting-started-with-webots?version=develop
 
 **Screenshots**
