@@ -48,7 +48,7 @@ Generic Webots environment variables needed for all the controller languages:
 
 | Environment Variable     | Typical Value                                    |
 |--------------------------|--------------------------------------------------|
-| WEBOTS\_HOME             | `/Applications/Webots`                           |
+| WEBOTS\_HOME             | `/Applications/Webots.app`                       |
 | DYLD\_LIBRARY\_PATH      | add `${WEBOTS_HOME}/lib/controller`              |
 
 %tab-end
