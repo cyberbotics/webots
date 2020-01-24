@@ -3,6 +3,8 @@
 ## Webots R2020a Revision 2
 Released on XXX.
 
+  - New Features
+    - macOS: Added support for Python 3.8.
   - Enhancements
     - Improved the environment colors of the sojourner simulation (Mars is a red planet).
   - Bug fixes
