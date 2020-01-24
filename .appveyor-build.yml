@@ -29,7 +29,7 @@ install:
 
 build_script:
   - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;%PATH%
-  - set WEBOTS_HOME=${%APPVEYOR_BUILD_FOLDER%//[[: :]]/}
+  - set WEBOTS_HOME="%APPVEYOR_BUILD_FOLDER%"
   - ps: if ($env:APPVEYOR_REPO_TAG -ne "true") { python $env:APPVEYOR_BUILD_FOLDER\src\packaging\set_commit_and_date_in_version.py $env:APPVEYOR_REPO_COMMIT }
   - bash --login -c "cd $WEBOTS_HOME_PATH; echo $PWD; echo '$WEBOTS_HOME'; make distrib -j4"
   - python %APPVEYOR_BUILD_FOLDER%\src\packaging\publish_release.py --key=%GITHUB_API_KEY% --repo=%APPVEYOR_REPO_NAME% --branch=%APPVEYOR_REPO_BRANCH% --commit=%APPVEYOR_REPO_COMMIT% --tag=%APPVEYOR_REPO_TAG_NAME%
