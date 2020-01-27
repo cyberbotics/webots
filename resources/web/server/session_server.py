@@ -166,7 +166,11 @@ def send_email(subject, content):
         smtp = smtplib.SMTP(config[u'mailServer'], port, timeout=2)
         if 'mailSenderPassword' in config:
             smtp.starttls()
-            smtp.login(sender, config[u'mailSenderPassword'])
+            if 'mailSenderUser' in config:
+                user = config[u'mailSenderUser']
+            else:
+                user = sender
+            smtp.login(user, config[u'mailSenderPassword'])
         smtp.sendmail(sender, receivers, message)
         smtp.quit()
     except smtplib.SMTPException:
@@ -263,7 +267,8 @@ def main():
     # mailServer:         SMTP mail server host from which the notifications are sent.
     # mailServerPort:     SMTP mail server port.
     # mailSender:         email address used to send the notifications.
-    # mailSenderPassword: password to authenticate on the SMTP server with the mailSender address.
+    # mailSenderUser:     user name to authenticate on the SMTP server.
+    # mailSenderPassword: password to authenticate on the SMTP server with the mailSenderUser.
     # logDir:             directory where the log file is written.
     #
     global config
