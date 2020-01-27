@@ -83,7 +83,7 @@ endif
 # but as it is not necessary on non-windows OS, it seems safer to reconstruct it there if required
 space :=
 space +=
-WEBOTS_HOME_PATH ?= $(strip $(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME)))))
+WEBOTS_HOME_PATH ?= $(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 
 ###-----------------------------------------------------------------------------
 ### OS determination and OS specific commands
