@@ -303,8 +303,8 @@ webots.View = class View {
       if (this.runOnLoad && this.toolBar)
         this.toolBar.realTime();
 
-      // force a rendering after 1 second
-      // this should make sure that all the texture transforms are applied (for example in the Highway Driving benchmark)
+      // Force a rendering after 1 second.
+      // This should make sure that all the texture transforms are applied (for example in the Highway Driving benchmark).
       setTimeout(() => this.x3dScene.render(), 1000); 
     };
 
