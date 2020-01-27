@@ -21,55 +21,28 @@
   }
   # the URL follow this format https://www.cyberbotics.com/doc/book/page?version=tagOrBranch&tab=C#anchor where version, tab and anchor are optional
   $uri = substr($request_uri, 5); // we remove the "/doc/" prefix
-  $i = strpos($uri, '/');
+  $path = parse_url($uri, PHP_URL_PATH);
+  $query_str = parse_url($uri, PHP_URL_QUERY);
+  parse_str($query_str, $query);
+  $i = strpos($path, '/');
   unset($repository);
   $branch = '';
   $tab = ''; // For backward compatibility <= R2019b revision 1.
   $tabs = array();
   if ($i !== FALSE) {
-    $book = substr($uri, 0, $i);
-    $j = strpos($uri, 'version=');
-    if ($j === FALSE) {
-      $n = strpos($uri, 'tab='); // For backward compatibility <= R2019b revision 1.
-      if ($n !== FALSE)
-        $tab = substr($uri, $n + 4);
-      else {
-        preg_match_all("/&(tab-[^=?&]+)=([^?&#]+)/", $version, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
-        if ($matches) {
-          $n = $matches[0][0][1];
-          foreach ($matches as $tabMatch)
-            $tabs[$tabMatch[1][0]] = $tabMatch[2][0];
-        } else
-          $n = FALSE;
-      }
-
-      if ($n !== FALSE)
-        $page = substr($uri, $i + 1, $n - $i - 2);
-      else
-        $page = substr($uri, $i + 1);
-    } else {
-      $page = substr($uri, $i + 1, $j - $i - 2);
-      $version = substr($uri, $j + 8);
-      $n = strpos($version, 'tab='); // For backward compatibility <= R2019b revision 1.
-      if ($n !== FALSE) {
-        $version = substr($version, 0, $n - 1);
-        $tab = substr($version, $n + 4);
-      } else {
-        preg_match_all("/&(tab-[^=?&]+)=([^?&#]+)/", $version, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
-        if ($matches) {
-          $tabs = array();
-          $version = substr($version, 0, $matches[0][0][1]);
-          foreach ($matches as $tabMatch)
-            $tabs[$tabMatch[1][0]] = $tabMatch[2][0];
-        }
-      }
-      $n = strpos($version, ':');
-      if ($n === FALSE)
-        $branch = $version;
-      else {
-        $branch = substr($version, $n + 1);
-        $repository = substr($version, 0, $n);
-      }
+    $book = substr($path, 0, $i);
+    $page = substr($path, $i + 1);
+    foreach ($query as $key => $value) {
+      if ($key == 'version') {
+        $n = strpos($value, ':');
+        if ($n === FALSE)
+          $branch = $value;
+        else
+          $branch = substr($value, $n + 1);
+      } else if ($key == 'tab') // For backward compatibility <= R2019b revision 1.
+        $tab = $value;
+      else if (startsWith($key, 'tab-'))
+        $tabs[$key] = $value;
     }
   } else {
     # default values:
