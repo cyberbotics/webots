@@ -17,7 +17,7 @@ PACKAGES = open-vr lua ois pico lua-gd icu
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 space :=
 space +=
-TARGET_PATH = $(subst $(space),\ ,$(WEBOTS_HOME_PATH)/msys64/mingw64/bin)
+TARGET_PATH = $(strip $(subst $(space),\ ,$(WEBOTS_HOME_PATH)/msys64/mingw64/bin))
 
 .PHONY: release debug distrib profile clean cleanse msys64 $(PACKAGES) $(PACKAGES_CLEAN)
 
