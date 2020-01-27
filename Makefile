@@ -49,8 +49,8 @@ endif
 endif
 
 space :=
-space +=
-WEBOTS_HOME_PATH=$(strip $(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME)))))
+space +=" "
+WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 .PHONY: clean cleanse debug distrib release webots_dependencies webots_target clean-docs docs
