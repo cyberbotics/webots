@@ -16,7 +16,7 @@
     exit();
   }
   if ($request_uri == "/doc/blog/index") {
-    header("Location: /doc/blog/Webots-2019-b-release");
+    header("Location: /doc/blog/Webots-2020-a-release");
     exit();
   }
   # the URL follow this format https://www.cyberbotics.com/doc/book/page?version=tagOrBranch&tab=C#anchor where version, tab and anchor are optional
