@@ -22,5 +22,5 @@ C_SOURCES = pso.c advanced_particle_swarm_optimization.c
 ### Do not modify: this includes Webots global Makefile.include
 space :=
 space +=
-WEBOTS_HOME_PATH=$(strip $(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME)))))
+WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

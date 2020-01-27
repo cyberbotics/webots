@@ -20,7 +20,7 @@ endif
 ifndef WEBOTS_HOME_PATH
  space :=
  space +=
- WEBOTS_HOME_PATH=$(strip $(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME)))))
+ WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include

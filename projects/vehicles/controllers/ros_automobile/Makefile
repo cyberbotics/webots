@@ -19,7 +19,7 @@
 
 space :=
 space +=
-WEBOTS_HOME_PATH=$(strip $(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME)))))
+WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 
 SERVICE_FILES = $(wildcard include/srv/*.srv)
 SERVICE_HEADERS = $(SERVICE_FILES:include/srv/%.srv=include/webots_ros/%.h)
@@ -84,6 +84,6 @@ FILES_TO_REMOVE += include/webots_ros
 
 space :=
 space +=
-WEBOTS_HOME_PATH=$(strip $(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME)))))
+WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 endif
