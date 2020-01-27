@@ -37,7 +37,7 @@ endif
 # but as it is not necessary on non-windows OS, it seems safer to reconstruct it there if required
 ifndef WEBOTS_HOME_PATH
  space :=
- space +=
+ space +=" "
  WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 endif
 

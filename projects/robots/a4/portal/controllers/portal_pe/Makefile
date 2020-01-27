@@ -20,7 +20,7 @@
 
 # Do not modify the following: this includes Webots global Makefile.include
 space :=
-space +=
+space +=" "
 
 ifeq ($(OS),Windows_NT)
 LIBRARIES = -lwinmm

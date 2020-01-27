@@ -27,7 +27,7 @@ GENERATED_HEADERS = $(MESSAGE_HEADERS:include/messages/%.h=include/webots_ros/%.
 GENERATED_HEADERS += $(SERVICE_HEADERS:include/services/%.h=include/webots_ros/%.h)
 
 space :=
-space +=
+space +=" "
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 

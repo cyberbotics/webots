@@ -18,7 +18,7 @@
 # See documentation in $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
 space :=
-space +=
+space +=" "
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 RESOURCES_PATH = $(WEBOTS_HOME)/projects/robots/kuka/youbot
 INCLUDE = -I"$(RESOURCES_PATH)/libraries/youbot_control/include"

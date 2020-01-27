@@ -18,7 +18,7 @@
 # See documentation in $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
 space :=
-space +=
+space +=" "
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 
 SERVICE_FILES = $(wildcard include/srv/*.srv)
@@ -83,7 +83,7 @@ FILES_TO_REMOVE += include/webots_ros
 ### Do not modify: this includes Webots global Makefile.include
 
 space :=
-space +=
+space +=" "
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 endif

@@ -28,6 +28,6 @@ CFLAGS = -DWEBOTS
 LIBRARIES = -L"$(ROBOTISOP2_PATH)" -lrobotis-op2
 
 space :=
-space +=
+space +=" "
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

@@ -97,7 +97,7 @@ HPP_FILES_TO_MOC = \
 USE_C_API = true
 
 space :=
-space +=
+space +=" "
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 

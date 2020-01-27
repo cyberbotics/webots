@@ -18,7 +18,7 @@
 # See documentation in $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
 space :=
-space +=
+space +=" "
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 
 # Needed when using several .c files

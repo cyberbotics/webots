@@ -27,7 +27,7 @@ INCLUDE = -I"$(QT_UTILS)"
 LIBRARIES = -L"$(QT_UTILS)" -lqt_utils
 
 space :=
-space +=
+space +=" "
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 

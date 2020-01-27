@@ -13,7 +13,7 @@
 # limitations under the License.
 
 space :=
-space +=
+space +=" "
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 WEBOTS_HOME_PATH_NO_ESCAPE=$(subst \,/,$(WEBOTS_HOME))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include

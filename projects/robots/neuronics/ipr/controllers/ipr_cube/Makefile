@@ -17,6 +17,6 @@ CFLAGS = -I"$(IPR_LIB_PATH)"
 LIBRARIES = -L"$(IPR_LIB_PATH)" -lipr
 
 space :=
-space +=
+space +=" "
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
