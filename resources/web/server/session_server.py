@@ -155,9 +155,9 @@ def send_email(subject, content):
     sender = config[u'mailSender']
     receivers = [config[u'administrator']]
     if 'mailServerPort' in config:
-      port = config[u'mailServerPort']
+        port = config[u'mailServerPort']
     else:
-      port = 0
+        port = 0
 
     message = "From: Simulation Server <" + sender + ">\n" + \
               "To: Administrator <" + config[u'administrator'] + ">\n" + \
