@@ -521,7 +521,7 @@ PROTO TurtleBot3Burger [
       density -1
       mass 0.825735
       centerOfMass [
-        0 0 0
+        0 0.03 0.035
       ]
     }
   }
