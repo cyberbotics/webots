@@ -248,7 +248,7 @@ jobs:
         - if [[ ! -f $WEBOTS_HOME/dependencies/python3.8.zip ]]; then wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.8.zip -P $WEBOTS_HOME/dependencies; fi
         - sudo unzip -o -q $WEBOTS_HOME/dependencies/python3.8.zip -d /Library/Frameworks/Python.framework/Versions/3.8
         - export PATH=$PATH:/Library/Frameworks/Python.framework/Versions/3.8/bin
-        - export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/Library/Frameworks/Python.framework/Versions/3.8/lib
+        - export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/Library/Frameworks/Python.framework/Versions/3.8/3.8/lib
       script:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
