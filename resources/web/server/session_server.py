@@ -164,7 +164,7 @@ def send_email(subject, content):
               "Subject: " + subject + "\n\n" + content
     try:
         smtp = smtplib.SMTP(config[u'mailServer'], port, timeout=2)
-        if config[u'mailSenderPassword']:
+        if 'mailSenderPassword' in config:
             smtp.starttls()
             smtp.login(sender, config[u'mailSenderPassword'])
         smtp.sendmail(sender, receivers, message)
