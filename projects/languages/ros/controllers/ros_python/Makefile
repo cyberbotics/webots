@@ -25,13 +25,19 @@ else  # Linux64 version works for macOS too
  ROS_PYTHON_DEPENDENCY_URL = https://cyberbotics.com/files/repository/dependencies/linux64/release/$(ROS_PYTHON_ZIP)
 endif
 
+ifeq ($(OSTYPE),darwin)
+ WGET=LANG=en_US.UTF-8 wget -q
+else
+ WGET=wget -q
+endif
+
 release debug profile: kinetic python
 
 kinetic: python
 
 python:
 	@echo "# downloading and installing rospy dependencies"
-	@wget -q $(ROS_PYTHON_DEPENDENCY_URL)
+	@$(WGET) $(ROS_PYTHON_DEPENDENCY_URL)
 	@unzip -q -o $(ROS_PYTHON_ZIP)
 	@rm $(ROS_PYTHON_ZIP)
 

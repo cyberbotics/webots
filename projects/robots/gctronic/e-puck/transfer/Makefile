@@ -22,18 +22,20 @@ XC16_VERSION=1.24
 XC16_PACKAGE=$(XC16_TARGET)-$(XC16_VERSION).zip
 PREVIOUS_XC16_PACKAGE=$(filter-out $(XC16_PACKAGE),$(wildcard XC16-*.zip))
 EXTRACT=unzip -q
-WGET=wget --quiet
 
 ifeq ($(OSTYPE),linux)
  OS_TAG=linux64
+ WGET=wget --quiet
 endif
 
 ifeq ($(OSTYPE),darwin)
  OS_TAG=mac
+ WGET=LANG=en_US.UTF-8 wget --quiet
 endif
 
 ifeq ($(OSTYPE),windows)
  OS_TAG=windows
+ WGET=wget --quiet
 endif
 
 release debug profile: $(XC16_TARGET)

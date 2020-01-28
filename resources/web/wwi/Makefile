@@ -53,6 +53,17 @@ THEEEJS_VERSION = 104
 THREEJS_SOURCE = $(DEPENDENCIES_PATH)/three$(THREEJS_SUFFIX).js
 THREEJS_URL = https://cdnjs.cloudflare.com/ajax/libs/three.js/$(THEEEJS_VERSION)/three$(THREEJS_SUFFIX).js
 
+null :=
+space := $(null) $(null)
+WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
+
+ifeq ($(OSTYPE),darwin)
+ WGET=LANG=en_US.UTF-8 wget -qN -O
+else
+ WGET=wget -qN -O
+endif
+
 # external sources to be downloaded and minified
 THREEJS_EXAMPLE_URL = https://cdn.jsdelivr.net/gh/mrdoob/three.js@r$(THEEEJS_VERSION)/examples/js/
 THREEJS_EXAMPLE_SOURCES = \
@@ -103,13 +114,13 @@ webots.lib.js:
 $(THREEJS_SOURCE):
 	@echo "# downloading $(THREEJS_URL)"
 	@mkdir -p $(DEPENDENCIES_PATH)
-	@wget -qN -O $@ $(THREEJS_URL)
+	@$(WGET) $@ $(THREEJS_URL)
 
 $(LOCAL_THREEJS_EXAMPLE_SOURCES):
 	$(eval FILENAME=$(@:$(DEPENDENCIES_PATH)/%=%))
 	@echo "# downloading three.js $@"
 	@mkdir -p $(dir $@)
-	wget -qN -O $@ $(THREEJS_EXAMPLE_URL)$(FILENAME)
+	@$(WGET) $@ $(THREEJS_EXAMPLE_URL)$(FILENAME)
 
 $(INSTALL_TOKEN): package.json
 	@echo "# installing npm dependencies"
