@@ -30,6 +30,7 @@ endif
 
 ifeq ($(OSTYPE),darwin)
  OS_TAG=mac
+ WGET=LANG=en_US.UTF-8 wget --quiet
 endif
 
 ifeq ($(OSTYPE),windows)

@@ -38,6 +38,7 @@ ifeq ($(OSTYPE),darwin)
  EXTRACT=tar xfz
  # remove .tar.gz
  SUMO_SOURCE=$(basename $(basename $(SUMO_PACKAGE)))
+ WGET=LANG=en_US.UTF-8 wget --quiet
 endif
 
 ifeq ($(OSTYPE),windows)

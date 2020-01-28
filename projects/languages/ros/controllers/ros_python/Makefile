@@ -18,11 +18,15 @@ WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 ROS_PYTHON_ZIP = ros_python.zip
+WGET=wget -q
 
 ifeq ($(OSTYPE),windows)
  ROS_PYTHON_DEPENDENCY_URL = https://cyberbotics.com/files/repository/dependencies/windows/release/$(ROS_PYTHON_ZIP)
 else  # Linux64 version works for macOS too
  ROS_PYTHON_DEPENDENCY_URL = https://cyberbotics.com/files/repository/dependencies/linux64/release/$(ROS_PYTHON_ZIP)
+ifeq ($(OSTYPE),darwin)
+WGET=LANG=en_US.UTF-8 wget -q
+endif
 endif
 
 release debug profile: kinetic python
@@ -31,7 +35,7 @@ kinetic: python
 
 python:
 	@echo "# downloading and installing rospy dependencies"
-	@wget -q $(ROS_PYTHON_DEPENDENCY_URL)
+	@$(WGET) $(ROS_PYTHON_DEPENDENCY_URL)
 	@unzip -q -o $(ROS_PYTHON_ZIP)
 	@rm $(ROS_PYTHON_ZIP)
 

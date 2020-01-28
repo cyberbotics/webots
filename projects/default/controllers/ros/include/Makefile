@@ -34,6 +34,7 @@ ifeq ($(OSTYPE),darwin)
  ROS_PACKAGE=$(ROS_TARGET)_headers.zip
  ROS_PACKAGE_PATH=mac/release/$(ROS_PACKAGE)
  ROS_HEADERS += boost xmlrpcpp
+ WGET=LANG=en_US.UTF-8 wget --quiet
 endif
 
 ifeq ($(OSTYPE),windows)

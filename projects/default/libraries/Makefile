@@ -29,6 +29,7 @@ ifeq ($(OSTYPE),darwin)
  OS_TAG=mac
  ROS_PACKAGE=ros_mac.zip
  EXTRACT=unzip -q
+ WGET=LANG=en_US.UTF-8 wget --quiet
 endif
 
 ROS_TARGET=ros/libroscpp$(SHARED_LIB_EXTENSION)
