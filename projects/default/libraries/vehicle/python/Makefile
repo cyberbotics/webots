@@ -45,9 +45,7 @@ LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController -lCppController
 endif
 
 ifeq ($(OSTYPE),windows)
-SPACE          :=
-SPACE          +=
-PYTHON_HOME    := $(subst \ ,$(SPACE),$(dir $(subst $(SPACE),\ ,$(shell which python 2> /dev/null))))
+PYTHON_HOME    := $(subst \ ,$(space),$(dir $(subst $(space),\ ,$(shell which python 2> /dev/null))))
 C_FLAGS         = -c -O -Wall -DMS_WIN64 -D_hypot=hypot -Wno-stringop-truncation
 LD_FLAGS        = -shared -Wl,--enable-auto-import
 LIBRARY         = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).pyd
