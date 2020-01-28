@@ -18,8 +18,8 @@ ifndef WEBOTS_HOME
 endif
 
 ifndef WEBOTS_HOME_PATH
- space :=
- space +=" "
+ null :=
+ space := $(null) $(null)
  WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 endif
 

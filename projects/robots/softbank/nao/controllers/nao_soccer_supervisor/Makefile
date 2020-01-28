@@ -23,7 +23,7 @@ LIBRARIES=-lWs2_32
 endif
 
 # Do not modify the following: this includes Webots global Makefile.include
-space :=
-space +=" "
+null :=
+space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

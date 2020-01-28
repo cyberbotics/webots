@@ -21,7 +21,7 @@ C_SOURCES = odometry.c odometry_goto.c advanced_path_planning_NF1.c
 VPATH = ../../lib
 
 ### Do not modify: this includes Webots global Makefile.include
-space :=
-space +=" "
+null :=
+space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

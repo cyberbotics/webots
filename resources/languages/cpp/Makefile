@@ -15,8 +15,8 @@
 ifeq ($(WEBOTS_HOME),)
 WEBOTS_HOME_PATH = ../../..
 else
-space :=
-space +=" "
+null :=
+space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 endif
 
