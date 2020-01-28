@@ -120,7 +120,7 @@ $(LOCAL_THREEJS_EXAMPLE_SOURCES):
 	$(eval FILENAME=$(@:$(DEPENDENCIES_PATH)/%=%))
 	@echo "# downloading three.js $@"
 	@mkdir -p $(dir $@)
-	$(WGET) $@ $(THREEJS_EXAMPLE_URL)$(FILENAME)
+	@$(WGET) $@ $(THREEJS_EXAMPLE_URL)$(FILENAME)
 
 $(INSTALL_TOKEN): package.json
 	@echo "# installing npm dependencies"
