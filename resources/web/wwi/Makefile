@@ -53,8 +53,6 @@ THEEEJS_VERSION = 104
 THREEJS_SOURCE = $(DEPENDENCIES_PATH)/three$(THREEJS_SUFFIX).js
 THREEJS_URL = https://cdnjs.cloudflare.com/ajax/libs/three.js/$(THEEEJS_VERSION)/three$(THREEJS_SUFFIX).js
 
-WGET=wget -qN -O
-
 null :=
 space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
@@ -62,6 +60,8 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 ifeq ($(OSTYPE),darwin)
  WGET=LANG=en_US.UTF-8 wget -qN -O
+else
+ WGET=wget -qN -O
 endif
 
 # external sources to be downloaded and minified
