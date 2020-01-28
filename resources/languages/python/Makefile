@@ -36,7 +36,7 @@ PYTHON_PATH_SETUP := $(shell mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTH
 
 ifeq ($(OSTYPE),windows)
 SPACE          :=
-SPACE          +=
+SPACE          +=" "
 PYTHON_HOME    := $(subst \ ,$(SPACE),$(dir $(subst $(SPACE),\ ,$(shell which python 2> /dev/null))))
 C_FLAGS         = -c -O -Wall -DMS_WIN64 -D_hypot=hypot -Wno-stringop-truncation -Wno-maybe-uninitialized
 LD_FLAGS        = -shared -Wl,--enable-auto-import
