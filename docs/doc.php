@@ -61,7 +61,7 @@
   if ($branch === '') {
     # get HEAD commit SHA, to ensure that when master is updated the latest version is cached by the CDN
     ini_set('user_agent', $repository); # every GitHub request needs a valid user agent header
-    $githubHead = file_get_contents("https://api.github.com/repos/cyberbotics/webots/git/refs/heads/master");
+    $githubHead = @file_get_contents("https://api.github.com/repos/cyberbotics/webots/git/refs/heads/master");
     // failed request / github is down
     if ($githubHead === FALSE)
       $cacheUrl = "https://cdn.jsdelivr.net/gh/$repository/webots@master";  // fall back to dev URL at worst
