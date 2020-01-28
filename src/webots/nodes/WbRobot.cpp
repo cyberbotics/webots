@@ -1355,10 +1355,14 @@ bool WbRobot::refreshJoyStickSensorIfNeeded() {
 void WbRobot::exportNodeFields(WbVrmlWriter &writer) const {
   WbSolid::exportNodeFields(writer);
   if (writer.isX3d()) {
-    if (findField("controller") && !controllerName().isEmpty())
-      writer << " controller='" << controllerName() << "'";
-    if (findField("window") && !window().isEmpty())
-      writer << " window='" << window() << "'";
+    if (findField("controller") && !controllerName().isEmpty()) {
+      writer << " controller=";
+      writer.writeLiteralString(controllerName());
+    }
+    if (findField("window") && !window().isEmpty()) {
+      writer << " window=";
+      writer.writeLiteralString(window());
+    }
   }
 }
 
