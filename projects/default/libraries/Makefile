@@ -17,12 +17,11 @@ space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-WGET=wget --quiet
-
 ifeq ($(OSTYPE),linux)
  OS_TAG=linux64
  ROS_PACKAGE=ros_kinetic_ubuntu16.04.tar.gz
  EXTRACT=tar xfz
+ WGET=wget --quiet
 endif
 
 ifeq ($(OSTYPE),darwin)
