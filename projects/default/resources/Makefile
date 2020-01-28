@@ -19,7 +19,6 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 SUMO_TARGET=sumo
 SUMO_VERSION=0.30
-WGET=wget --quiet
 
 ifeq ($(OSTYPE),linux)
  HOSTTYPE ?= $(shell uname -m)
@@ -29,6 +28,7 @@ ifeq ($(OSTYPE),linux)
  EXTRACT=tar xfz
  # remove .tar.gz
  SUMO_SOURCE=$(basename $(basename $(SUMO_PACKAGE)))
+ WGET=wget --quiet
 endif
 
 ifeq ($(OSTYPE),darwin)
@@ -48,6 +48,7 @@ ifeq ($(OSTYPE),windows)
  EXTRACT=unzip -q
  # remove .zip
  SUMO_SOURCE=$(basename $(SUMO_PACKAGE))
+ WGET=wget --quiet
 endif
 
 release debug profile: $(SUMO_TARGET)
