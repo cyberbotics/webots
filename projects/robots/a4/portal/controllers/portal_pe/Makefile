@@ -19,8 +19,8 @@
 
 
 # Do not modify the following: this includes Webots global Makefile.include
-space :=
-space +=
+null :=
+space := $(null) $(null)
 
 ifeq ($(OS),Windows_NT)
 LIBRARIES = -lwinmm

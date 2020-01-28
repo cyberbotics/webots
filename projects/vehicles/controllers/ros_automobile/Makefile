@@ -17,8 +17,8 @@
 # You may add some variable definitions hereafter to customize the build process
 # See documentation in $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
-space :=
-space +=
+null :=
+space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 
 SERVICE_FILES = $(wildcard include/srv/*.srv)
@@ -80,10 +80,5 @@ endif
 
 FILES_TO_REMOVE += include/webots_ros
 
-### Do not modify: this includes Webots global Makefile.include
-
-space :=
-space +=
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 endif

@@ -15,8 +15,8 @@
 ifeq ($(WEBOTS_HOME),)
 WEBOTS_HOME_PATH = ../../..
 else
-space :=
-space +=
+null :=
+space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 endif
 
@@ -35,9 +35,7 @@ PYOUT           = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT
 PYTHON_PATH_SETUP := $(shell mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION))
 
 ifeq ($(OSTYPE),windows)
-SPACE          :=
-SPACE          +=
-PYTHON_HOME    := $(subst \ ,$(SPACE),$(dir $(subst $(SPACE),\ ,$(shell which python 2> /dev/null))))
+PYTHON_HOME    := $(subst \ ,$(space),$(dir $(subst $(space),\ ,$(shell which python 2> /dev/null))))
 C_FLAGS         = -c -O -Wall -DMS_WIN64 -D_hypot=hypot -Wno-stringop-truncation -Wno-maybe-uninitialized
 LD_FLAGS        = -shared -Wl,--enable-auto-import
 LIBS            = -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION) -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController
