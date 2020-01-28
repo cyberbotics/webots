@@ -31,7 +31,7 @@ Generic Webots environment variables needed for all the controller languages:
 | Environment Variable     | Typical Value                                    |
 |--------------------------|--------------------------------------------------|
 | WEBOTS\_HOME             | `C:\Program Files\Webots`                        |
-| PATH                     | add `${WEBOTS_HOME}\msys64\mingw64\bin`          |
+| PATH                     | add `${WEBOTS_HOME}\lib\controller`              |
 
 %tab-end
 
