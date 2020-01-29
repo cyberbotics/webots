@@ -48,8 +48,7 @@ skip_paths = ['/usr/share/', '/mingw64/bin/zlib1.dll']
 for p in dependencies:
     print("# processing " + p)
     sys.stdout.flush()
-    l = subprocess.check_output(['pacman', '-Qql', p]).decode().strip().split('\n')
-    for f in l:
+    for f in subprocess.check_output(['pacman', '-Qql', p]).decode().strip().split('\n'):
         skip = False
         for g in skip_paths:
             if f.startswith(g):
@@ -72,12 +71,12 @@ f.close()
 root = subprocess.check_output(['cygpath', '-w', '/']).decode().strip()[:-1]
 with open('files_msys64.txt', 'r') as f:
     for line in f:
-        l = line.strip()
-        if not l.startswith('#') and l:
-            if l in files:
-                print('# \033[1;31m' + l + ' is already included\033[0m')
+        ls = line.strip()
+        if not ls.startswith('#') and ls:
+            if ls in files:
+                print('# \033[1;31m' + ls + ' is already included\033[0m')
             else:
-                files.append(l)
+                files.append(ls)
 print("# processing ffmpeg dependencies (DLLs)")
 sys.stdout.flush()
 ffmpeg_dlls = subprocess.check_output(['bash', 'ffmpeg_dependencies.sh'], shell=True).decode('utf-8').split()
