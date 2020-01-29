@@ -65,6 +65,8 @@ public:
 
   void setRole(const QString &role) { mRole = role; }
 
+  void write(WbVrmlWriter &writer) const override;
+
 signals:
   void changed();
 

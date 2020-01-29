@@ -698,7 +698,19 @@ void WbSceneTree::convertProtoToBaseNode() {
     WbVrmlWriter writer(&nodeString, currentNode->modelName() + ".proto");
     writer.setRootNode(currentNode);
     currentNode->write(writer);
+    // remove previous node
     WbNodeOperations::instance()->deleteNode(currentNode);
+    // copy textures
+    QHashIterator<QString, QString> it(writer.texturesList());
+    while (it.hasNext()) {
+      it.next();
+      const QString destination(WbProject::current()->worldsPath() + it.key());
+      QFileInfo fileInfo(destination);
+      if (!QDir(fileInfo.absolutePath()).exists())
+        QDir().mkpath(fileInfo.absolutePath());
+      QFile::copy(it.value(), destination);
+    }
+    // import new node
     if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, "", nodeString) == WbNodeOperations::SUCCESS) {
       WbNode *node = NULL;
       if (parentField->type() == WB_SF_NODE)
