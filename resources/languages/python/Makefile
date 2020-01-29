@@ -40,10 +40,7 @@ C_FLAGS         = -c -O -Wall -Wno-maybe-uninitialized
 LD_FLAGS        = -shared
 LIBS            = -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION) -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController
 LIBOUT          = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.pyd))
-ifneq (,$(findstring 3.,$(PYTHON_VERSION)))
-DEF             = _controller3.def
-else
-DEF             = _controller2.def
+ifneq (,$(findstring 2.,$(PYTHON_VERSION)))
 C_FLAGS        += -DMS_WIN64
 endif
 PYTHON_INCLUDES = -I"$(PYTHON_HOME)include"
@@ -108,7 +105,7 @@ $(PYOUT) $(WRAPPER):$(INTERFACE) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 	$(SWIG) $(SWIG_OPTS) $(WEBOTS_INCLUDES) -o $(WRAPPER) $<
 
 $(LIBOUT):$(WRAPPER_OBJECT) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
-	$(CXX) $(LD_FLAGS) $< $(DEF) $(LIBS) -o "$@"
+	$(CXX) $(LD_FLAGS) $< $(LIBS) -o "$@"
 
 $(LIBCONTROLLER):
 	@echo "$(LIBCONTROLLER) doesn't exist"
