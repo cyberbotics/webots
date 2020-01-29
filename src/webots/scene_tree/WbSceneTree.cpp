@@ -696,6 +696,7 @@ void WbSceneTree::convertProtoToBaseNode() {
     WbNode *parentNode = currentNode->parent();
     QString nodeString;
     WbVrmlWriter writer(&nodeString, currentNode->modelName() + ".proto");
+    writer.setRootNode(currentNode);
     currentNode->write(writer);
     WbNodeOperations::instance()->deleteNode(currentNode);
     if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, "", nodeString) == WbNodeOperations::SUCCESS) {

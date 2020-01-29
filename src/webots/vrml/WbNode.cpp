@@ -955,7 +955,7 @@ void WbNode::write(WbVrmlWriter &writer) const {
       return;
     }
   }
-  if (writer.isX3d() || writer.isVrml() || writer.isProto()) {
+  if (writer.isX3d() || writer.isVrml() || (writer.isProto() && this == writer.getRootNode())) {
     writeExport(writer);
     return;
   }
@@ -1060,15 +1060,18 @@ bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
 
 void WbNode::exportNodeFields(WbVrmlWriter &writer) const {
   foreach (WbField *field, fields())
-    if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() != WB_SF_NODE))
+    if (!field->isDeprecated() &&
+        ((field->isVrml() || (writer.isProto() && this == writer.getRootNode())) && field->singleType() != WB_SF_NODE))
       field->write(writer);
 }
 
 void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
   foreach (WbField *field, fields())
-    if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() == WB_SF_NODE)) {
+    if (!field->isDeprecated() &&
+        ((field->isVrml() || (writer.isProto() && this == writer.getRootNode())) && field->singleType() == WB_SF_NODE)) {
       const WbSFNode *const node = dynamic_cast<WbSFNode *>(field->value());
-      if (node == NULL || node->value() == NULL || node->value()->shallExport() || writer.isProto()) {
+      if (node == NULL || node->value() == NULL || node->value()->shallExport() ||
+          (writer.isProto() && this == writer.getRootNode())) {
         if (writer.isX3d())
           field->value()->write(writer);
         else
