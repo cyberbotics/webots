@@ -37,8 +37,10 @@
         $n = strpos($value, ':');
         if ($n === FALSE)
           $branch = $value;
-        else
+        else {
           $branch = substr($value, $n + 1);
+          $repository = substr($value, 0, $n);
+        }
       } else if ($key == 'tab') // For backward compatibility <= R2019b revision 1.
         $tab = $value;
       else if (startsWith($key, 'tab-'))
