@@ -36,14 +36,15 @@ PYTHON_PATH_SETUP := $(shell mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTH
 
 ifeq ($(OSTYPE),windows)
 PYTHON_HOME    := $(subst \ ,$(space),$(dir $(subst $(space),\ ,$(shell which python 2> /dev/null))))
-C_FLAGS         = -c -O -Wall -DMS_WIN64 -D_hypot=hypot -Wno-stringop-truncation -Wno-maybe-uninitialized
-LD_FLAGS        = -shared -Wl,--enable-auto-import
+C_FLAGS         = -c -O -Wall -Wno-maybe-uninitialized
+LD_FLAGS        = -shared
 LIBS            = -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION) -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController
 LIBOUT          = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.pyd))
 ifneq (,$(findstring 3.,$(PYTHON_VERSION)))
 DEF             = _controller3.def
 else
 DEF             = _controller2.def
+C_FLAGS        += -DMS_WIN64
 endif
 PYTHON_INCLUDES = -I"$(PYTHON_HOME)include"
 LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
