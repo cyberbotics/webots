@@ -42,5 +42,7 @@ alias installed="source ~/webots/src/install_scripts/msys.sh \"/C/Program Files/
 alias msys="source ~/webots/src/install_scripts/msys.sh"
 master  # default to the master branch
 
+MSYS2_WINDOWS_HOME=`cygpath -w /`
+export MSYS2_HOME=${MSYS2_WINDOWS_HOME::-1}
 
 export LANG=en_US.UTF-8  # needed on some locales to avoid floating point representation issues
