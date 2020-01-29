@@ -9,9 +9,9 @@ PROTO TinkerbotsGrabber [
   field SFVec3f    translation 0 0 0     # Is `Transform.translation`.
   field SFRotation rotation    0 0 1 0   # Is `Transform.rotation`.
   field SFString   name        "grabber" # Is `Solid.name`.
-  field SFNode     fingerASlot NULL      # Type: "lego cross-"
-  field SFNode     fingerBSlot NULL      # Type: "lego cross-"
-  field SFNode     fingerCSlot NULL      # Type: "lego cross-"
+  field SFNode     fingerASlot NULL      # Type: "lego cross-".
+  field SFNode     fingerBSlot NULL      # Type: "lego cross-".
+  field SFNode     fingerCSlot NULL      # Type: "lego cross-".
 ]
 {
   Slot {

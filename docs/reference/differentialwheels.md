@@ -36,25 +36,25 @@ The *x* axis is the axis of the wheel axle, *y* is the vertical axis and *z* is 
 
 ### Field Summary
 
-- `motorConsumption`: power consumption of the motor in Watts.
+- `motorConsumption`: power consumption of the motor in watts [W].
 
-- `axleLength`: distance between the two wheels (in meters).
+- `axleLength`: distance between the two wheels expressed in meters [m].
 This field must be specified for "kinematics" based robot models.
 It will be ignored by "physics" based models.
 
-- `wheelRadius`: radius of the wheels (in meters).
+- `wheelRadius`: radius of the wheels expressed in meter [m].
 Both wheels must have the same radius.
 This field must be specified for "kinematics" based robot models.
 It will be ignored by "physics" based models.
 
-- `maxSpeed`: maximum speed of the wheels, expressed in *rad/s*.
+- `maxSpeed`: maximum speed of the wheels, expressed in *radian per second* [rad/s].
 
-- `maxAcceleration`: maximum acceleration of the wheels, expressed in *rad/s^2*.
+- `maxAcceleration`: maximum acceleration of the wheels, expressed in *radian per square second* [rad/s²].
 It is used only in "kinematics" mode.
 
-- `speedUnit`: defines the unit used in the `wb_differential_wheels_set_speed` function, expressed in *rad/s*.
+- `speedUnit`: defines the unit used in the `wb_differential_wheels_set_speed` function, expressed in *radian per second* [rad/s].
 
-- `slipNoise`: slip noise added to each move expressed in percent.
+- `slipNoise`: slip noise added to each move expressed in percent [%].
 If the value is 0.1, a noise component of +/- 10 percent is added to the command for each simulation step.
 The noise is, of course, different for each wheel.
 The noise has a uniform distribution, also known as as "white noise."
@@ -79,7 +79,7 @@ Finally, this amount is multiplied by the `encoderResolution` (see below) and us
 An `encoderResolution` of *100* will make the encoders increment their value by (approximately) 628 each time the wheel makes a complete revolution.
 The -1 default value means that the encoder functionality is disabled as with `encoderNoise`.
 
-- `maxForce`: defines the maximum torque used by the robot to rotate each wheel in a "physics" based simulation.
+- `maxForce`: defines the maximum torque expressed in *newton meter* [N⋅m] used by the robot to rotate each wheel in a "physics" based simulation.
 It corresponds to the `dParamFMax` parameter of an ODE hinge joint.
 It is ignored in "kinematics" based simulations.
 
@@ -259,8 +259,8 @@ public double getRightSpeed();
 The `wb_differential_wheels_set_speed` function allows the user to specify a speed for the [DifferentialWheels](#differentialwheels) robot.
 This speed will be sent to the motors of the robot at the beginning of the next simulation step.
 The speed unit is defined by the `speedUnit` field of the [DifferentialWheels](#differentialwheels) node.
-The default value is 1 radians per seconds.
-Hence a speed value of 2 will make the wheel rotate at a speed of 2 radians per seconds.
+The default value is 1 radian per second.
+Hence a speed value of 2 will make the wheel rotate at a speed of 2 radian per second.
 The linear speed of the robot can then be computed from the angular speed of each wheel, the wheel radius and the noise added.
 Both the wheel radius and the noise are documented in the [DifferentialWheels](#differentialwheels) node.
 

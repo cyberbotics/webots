@@ -8,7 +8,7 @@ PROTO OrderPanel [
   field SFRotation rotation           0 1 0 0
   field SFString   name               "order panel"
   field MFString   signImage          "textures/signs/do_not_enter.jpg"   # Defines the texture used for the sign.
-  field SFColor    color              0.8 0.8 0.8                         # Defines the color of the panel
+  field SFColor    color              0.8 0.8 0.8                         # Defines the color of the panel.
   field MFColor    recognitionColors  [ 0.75 0.17 0.22, 0.8 0.8 0.8 ]     # Is `Solid.recognitionColors`.
 ]
 {

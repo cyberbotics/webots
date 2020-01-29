@@ -25,7 +25,7 @@ TexturedBackgroundLight {
   texture "mars"
 }
 Fog {
-  color 0.83 0.83 0.75
+  color 0.5 0.2 0
   fogType "EXPONENTIAL"
   visibilityRange 800
 }
@@ -72,27 +72,33 @@ Sojourner {
 Rock17cm {
   translation 1.0081 -0.0884858 0.925124
   rotation 0 -1 0 1.29206
+  color 0.8 0.35 0.3
 }
 Rock17cm {
   translation 2.8026 -0.0937371 0.551869
   rotation 0 -1 0 2.79177
   name "rock 17 cm(1)"
+  color 0.8 0.4 0.3
 }
 Rock17cm {
   translation 1.22813 -0.147933 -0.170912
   rotation 0 -1 0 3.26485
   name "rock 17 cm(2)"
+  color 0.9 0.4 0.3
 }
 Rock10cm {
   translation 1.82525 -0.0515644 0.468926
+  color 0.8 0.4 0.3
 }
 Rock10cm {
   translation 0.300248 -0.112514 -0.875617
   name "rock 10 cm(1)"
+  color 0.9 0.4 0.35
 }
 Rock10cm {
   translation 0.387314 -0.116121 -0.177911
   name "rock 10 cm(2)"
+  color 0.9 0.4 0.3
 }
 DEF GROUND Solid {
   translation -641 38.85 -801
@@ -102,6 +108,7 @@ DEF GROUND Solid {
         textureTransform TextureTransform {
           scale 600 600
         }
+        color 0.8 0.2 0
       }
       geometry ElevationGrid {
         height [

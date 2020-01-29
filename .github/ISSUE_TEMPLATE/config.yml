@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Discord Server
+    url: https://discordapp.com/invite/nTWbN9m
+    about: Use our live Discord server to ask questions and get news.
+  - name: StackOverflow
+    url: https://stackoverflow.com/questions/tagged/webots
+    about: Please ask questions on StackOverflow using the 'webots' tag.

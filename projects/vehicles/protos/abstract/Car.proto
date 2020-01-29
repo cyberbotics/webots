@@ -45,14 +45,14 @@ PROTO Car [
   field SFFloat    engineSoundRpmReference        1000
   field SFFloat    brakeCoefficient               700
   field SFFloat    time0To100                     10.0
-  field SFFloat    engineMaxTorque                250   # maximum torque of the motor [Nm] used to compute the electric engine torque
-  field SFFloat    engineMaxPower                 50000   # maximum power of the motor [W] used to compute the electric engine torque
-  field SFFloat    engineMinRPM                   1000  # only used in the case of combustion engine
+  field SFFloat    engineMaxTorque                250                        # Defines the maximum torque of the motor [Nm] used to compute the electric engine torque.
+  field SFFloat    engineMaxPower                 50000                      # Defines the maximum power of the motor [W] used to compute the electric engine torque.
+  field SFFloat    engineMinRPM                   1000                       # Defines the minimum RPM of the motor (only used in the case of combustion engine).
   field SFFloat    engineMaxRPM                   4500
-  field SFVec3f    engineFunctionCoefficients     150 0.1 0  # used to compute the combustion engine torque
+  field SFVec3f    engineFunctionCoefficients     150 0.1 0                  # Defines the engine coefficients used to compute the combustion engine torque.
   field MFFloat    gearRatio                      [-12 10 6.5 4.5 3.5 2.75]
-  field SFFloat    hybridPowerSplitRatio          0.25 # only used in the case of 'power-split hybrid' engineType
-  field SFFloat    hybridPowerSplitRPM            3000 # only used in the case of 'power-split hybrid' engineType
+  field SFFloat    hybridPowerSplitRatio          0.25                       # Defines power split ratio (only used in the case of 'power-split hybrid' engineType).
+  field SFFloat    hybridPowerSplitRPM            3000                       # Defines the power split RPM (only used in the case of 'power-split hybrid' engineType).
   field SFFloat    maxWheelVelocity               200
 ]
 {

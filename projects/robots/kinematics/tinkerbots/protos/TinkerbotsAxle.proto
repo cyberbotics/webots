@@ -9,7 +9,7 @@ PROTO TinkerbotsAxle [
   field SFVec3f                  translation 0 0 0    # Is `Transform.translation`.
   field SFRotation               rotation    0 0 1 0  # Is `Transform.rotation`.
   field SFString                 name        "axle"   # Is `Solid.name`.
-  field SFNode                   endSlot     NULL     # Slot at the opposite side of the axle. Type: "lego cross+"
+  field SFNode                   endSlot     NULL     # Slot at the opposite side of the axle. Type: "lego cross+".
   field SFString{"2.2cm", "7cm"} length      "2.2cm"  # Defines the length of the axle in centimeters.
 ]
 {

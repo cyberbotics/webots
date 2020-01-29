@@ -26,8 +26,8 @@ PROTO SumoInterface [
   field SFBool    verbose               FALSE
   field SFBool    synchronization       TRUE
   field MFNode    children              []
-  hiddenField SFBool  enableWheelsRoattion  FALSE  # deprecated in Webots 2018a
-  hiddenField SFInt32 maxVehicules          100    # deprecated in Webots 2018a
+  hiddenField SFBool  enableWheelsRoattion  FALSE  # deprecated in Webots 2018a.
+  hiddenField SFInt32 maxVehicules          100    # deprecated in Webots 2018a.
 ]
 {
   %{

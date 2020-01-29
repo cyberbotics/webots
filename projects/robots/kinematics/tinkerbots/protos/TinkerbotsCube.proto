@@ -8,31 +8,31 @@ PROTO TinkerbotsCube [
   field SFVec3f    translation     0 0 0   # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0 # Is `Transform.rotation`.
   field SFString   name            ""      # Is `Solid.name`.
-  field SFNode     upSlot          NULL    # Type: "tinkerbots-"
-  field SFNode     upASlot         NULL    # Type: "lego cross-"
-  field SFNode     upBSlot         NULL    # Type: "lego cross-"
-  field SFNode     upCSlot         NULL    # Type: "lego cross-"
-  field SFNode     upDSlot         NULL    # Type: "lego cross-"
-  field SFNode     leftSlot        NULL    # Type: "tinkerbots-"
-  field SFNode     leftASlot       NULL    # Type: "lego cross-"
-  field SFNode     leftBSlot       NULL    # Type: "lego cross-"
-  field SFNode     leftCSlot       NULL    # Type: "lego cross-"
-  field SFNode     leftDSlot       NULL    # Type: "lego cross-"
-  field SFNode     rightSlot       NULL    # Type: "tinkerbots-"
-  field SFNode     rightASlot      NULL    # Type: "lego cross-"
-  field SFNode     rightBSlot      NULL    # Type: "lego cross-"
-  field SFNode     rightCSlot      NULL    # Type: "lego cross-"
-  field SFNode     rightDSlot      NULL    # Type: "lego cross-"
-  field SFNode     frontSlot       NULL    # Type: "tinkerbots-"
-  field SFNode     frontASlot      NULL    # Type: "lego cross-"
-  field SFNode     frontBSlot      NULL    # Type: "lego cross-"
-  field SFNode     frontCSlot      NULL    # Type: "lego cross-"
-  field SFNode     frontDSlot      NULL    # Type: "lego cross-"
-  field SFNode     backSlot        NULL    # Type: "tinkerbots-"
-  field SFNode     backASlot       NULL    # Type: "lego cross-"
-  field SFNode     backBSlot       NULL    # Type: "lego cross-"
-  field SFNode     backCSlot       NULL    # Type: "lego cross-"
-  field SFNode     backDSlot       NULL    # Type: "lego cross-"
+  field SFNode     upSlot          NULL    # Type: "tinkerbots-".
+  field SFNode     upASlot         NULL    # Type: "lego cross-".
+  field SFNode     upBSlot         NULL    # Type: "lego cross-".
+  field SFNode     upCSlot         NULL    # Type: "lego cross-".
+  field SFNode     upDSlot         NULL    # Type: "lego cross-".
+  field SFNode     leftSlot        NULL    # Type: "tinkerbots-".
+  field SFNode     leftASlot       NULL    # Type: "lego cross-".
+  field SFNode     leftBSlot       NULL    # Type: "lego cross-".
+  field SFNode     leftCSlot       NULL    # Type: "lego cross-".
+  field SFNode     leftDSlot       NULL    # Type: "lego cross-".
+  field SFNode     rightSlot       NULL    # Type: "tinkerbots-".
+  field SFNode     rightASlot      NULL    # Type: "lego cross-".
+  field SFNode     rightBSlot      NULL    # Type: "lego cross-".
+  field SFNode     rightCSlot      NULL    # Type: "lego cross-".
+  field SFNode     rightDSlot      NULL    # Type: "lego cross-".
+  field SFNode     frontSlot       NULL    # Type: "tinkerbots-".
+  field SFNode     frontASlot      NULL    # Type: "lego cross-".
+  field SFNode     frontBSlot      NULL    # Type: "lego cross-".
+  field SFNode     frontCSlot      NULL    # Type: "lego cross-".
+  field SFNode     frontDSlot      NULL    # Type: "lego cross-".
+  field SFNode     backSlot        NULL    # Type: "tinkerbots-".
+  field SFNode     backASlot       NULL    # Type: "lego cross-".
+  field SFNode     backBSlot       NULL    # Type: "lego cross-".
+  field SFNode     backCSlot       NULL    # Type: "lego cross-".
+  field SFNode     backDSlot       NULL    # Type: "lego cross-".
 ]
 {
   Slot {

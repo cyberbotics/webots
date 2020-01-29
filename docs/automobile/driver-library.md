@@ -1068,7 +1068,7 @@ First the rotational speed of the engine is estimated from the rotational speed 
 If `a`, `b` and `c` are the values of the `engineFunctionCoefficients` parameter of the `Car` PROTO, the output torque is:
 
 ```
-output_torque = c * rpm^2 + b * rpm + a
+output_torque = c * rpm² + b * rpm + a
 ```
 
 > **Note**: if the rpm is below the `engineMinRPM` parameter of the [Car](car.md) PROTO, `engineMinRPM` is used instead of the real rpm, but if the rpm is above the `engineMaxRPM` parameter, then the output torque is 0.
@@ -1095,7 +1095,7 @@ Since this case is very similar to the electric engine model (from a simulation 
 If `ratio` and `splitRpm` are respectively the `hybridPowerSplitRatio` and `hybridPowerSplitRPM` parameters of the `Car` PROTO, the output torque is computed as follow:
 
 ```
-output_torque_c = c * splitRpm^2 + b * splitRpm + a
+output_torque_c = c * splitRpm² + b * splitRpm + a
         output_torque_e = min(maxT; maxP * 60 / 2 * pi * rpm)
         output_torque_total = output_torque_e + (1 - ratio) * output_torque_c
 ```

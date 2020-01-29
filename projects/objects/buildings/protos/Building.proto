@@ -7,7 +7,7 @@
 PROTO Building [
   field SFVec3f     translation            0 0 0
   field SFRotation  rotation               0 1 0 0
-  field SFString    name                   "building"                                 # Defines the name of the building
+  field SFString    name                   "building"                                 # Defines the name of the building.
   field SFFloat     floorHeight            3                                          # Defines the height of one floor.
   field SFInt32     floorNumber            3                                          # Defines the number of floors (excluding roof).
   field SFInt32     startingFloor          0                                          # Defines the floor number for the "ground floor" of the building, as not all buildings start at the ground floor.

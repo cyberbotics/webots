@@ -39,7 +39,7 @@ PROTO TurtleBot3Burger [
           RotationalMotor {
             name "right wheel motor"
             consumptionFactor -0.001
-            maxVelocity 2.84
+            maxVelocity 6.67
           }
           PositionSensor {
             name "right wheel sensor"
@@ -162,7 +162,7 @@ PROTO TurtleBot3Burger [
           RotationalMotor {
             name "left wheel motor"
             consumptionFactor -0.001
-            maxVelocity 2.84
+            maxVelocity 6.67
           }
           PositionSensor {
             name "left wheel sensor"
@@ -521,7 +521,7 @@ PROTO TurtleBot3Burger [
       density -1
       mass 0.825735
       centerOfMass [
-        0 0 0
+        0 0.03 0.035
       ]
     }
   }

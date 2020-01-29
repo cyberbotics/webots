@@ -8,7 +8,7 @@ PROTO Panel [
   field SFVec3f    translation      0 0 0
   field SFRotation rotation         0 1 0 0
   field SFString   name             "panel"
-  field SFVec3f    size             1.2 1.5 0.05                                                       # Defines the size of the panel
+  field SFVec3f    size             1.2 1.5 0.05                                                       # Defines the size of the panel.
   field SFFloat    borderHeight     0.05                                                               # Defines the height of the border.
   field SFFloat    internalWidth    0.02                                                               # Defines the width of the panel (without border).
   field SFInt32    panelsCount      2                                                                  # Defines the number of panels.

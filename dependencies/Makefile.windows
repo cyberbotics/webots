@@ -15,8 +15,8 @@ ICU_VERSION = $(subst .zip,,$(subst icu,,$(ICU_PACKAGE)))
 
 PACKAGES = open-vr lua ois pico lua-gd icu
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
-space :=
-space +=
+null :=
+space := $(null) $(null)
 TARGET_PATH = $(subst $(space),\ ,$(WEBOTS_HOME_PATH)/msys64/mingw64/bin)
 
 .PHONY: release debug distrib profile clean cleanse msys64 $(PACKAGES) $(PACKAGES_CLEAN)

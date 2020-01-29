@@ -37,7 +37,7 @@ PROTO Roundabout [
   field        SFBool               locked                   TRUE                                  # Is `Solid.locked`.
   field        SFNode               appearance               Asphalt { }                           # Defines the appearance of the road.
 
-  hiddenField  SFFloat              startRoadsWith       7                                   # Deprecated in Webots R2018b
+  hiddenField  SFFloat              startRoadsWith       7                                   # Deprecated in Webots R2018b.
   hiddenField  MFBool               startRoadsDashedLine FALSE                               # Deprecated in Webots R2018c.
 ]
 {
