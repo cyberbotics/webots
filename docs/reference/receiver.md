@@ -530,7 +530,7 @@ strength = wb_receiver_get_signal_strength(tag)
 The `wb_receiver_get_signal_strength` function operates on the head packet in the receiver's queue (see [this figure](#receivers-packet-queue)).
 It returns the simulated signal strength at the time the packet was transmitted.
 This signal strength is equal to the inverse of the distance between the emitter and the receiver squared.
-In other words, *s = 1 / r^2*, where *s* is the signal strength and *r* is the distance between emitter and receiver.
+In other words, *s = 1 / r²*, where *s* is the signal strength and *r* is the distance between emitter and receiver.
 If the packet is sent from a physics plugin, the returned value will be positive infinity.
 It is illegal to call this function if the receiver's queue is empty (i.e. when `wb_receiver_get_queue_length() == 0`).
 

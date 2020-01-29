@@ -154,12 +154,23 @@ def send_email(subject, content):
     """Send notification email."""
     sender = config[u'mailSender']
     receivers = [config[u'administrator']]
+    if 'mailServerPort' in config:
+        port = config[u'mailServerPort']
+    else:
+        port = 0
 
     message = "From: Simulation Server <" + sender + ">\n" + \
               "To: Administrator <" + config[u'administrator'] + ">\n" + \
               "Subject: " + subject + "\n\n" + content
     try:
-        smtp = smtplib.SMTP(config[u'mailServer'])
+        smtp = smtplib.SMTP(config[u'mailServer'], port, timeout=2)
+        if 'mailSenderPassword' in config:
+            smtp.starttls()
+            if 'mailSenderUser' in config:
+                user = config[u'mailSenderUser']
+            else:
+                user = sender
+            smtp.login(user, config[u'mailSenderPassword'])
         smtp.sendmail(sender, receivers, message)
         smtp.quit()
     except smtplib.SMTPException:
@@ -177,7 +188,7 @@ def read_url(url, i):
         check_string = "Check it at " + protocol + config[u'server'] + ":" + str(config[u'port']) + "/monitor\n\n" + \
                        "-Simulation Server"
     try:
-        response = urlopen(url, timeout=10)
+        response = urlopen(url, timeout=2)
     except URLError:
         if simulation_server_loads[i] != 100:
             if u'administrator' in config:
@@ -247,15 +258,18 @@ def main():
     # the following config variables read from the config.json file
     # are described here:
     #
-    # port:              local port on which the server is listening.
-    # server:            host where this session script is running.
-    # sslKey:            private key for a SSL enabled server.
-    # sslCertificate:    certificate for a SSL enabled server.
-    # simulationServers: lists all the available simulation servers.
-    # administrator:     email address of administrator that will receive the notifications.
-    # mailServer:        mail server host from which the notifications are sent.
-    # mailSender:        email address used to send the notifications.
-    # logDir:            directory where the log file is written.
+    # port:               local port on which the server is listening.
+    # server:             host where this session script is running.
+    # sslKey:             private key for a SSL enabled server.
+    # sslCertificate:     certificate for a SSL enabled server.
+    # simulationServers:  lists all the available simulation servers.
+    # administrator:      email address of administrator that will receive the notifications.
+    # mailServer:         SMTP mail server host from which the notifications are sent.
+    # mailServerPort:     SMTP mail server port.
+    # mailSender:         email address used to send the notifications.
+    # mailSenderUser:     user name to authenticate on the SMTP server.
+    # mailSenderPassword: password to authenticate on the SMTP server with the mailSenderUser.
+    # logDir:             directory where the log file is written.
     #
     global config
     global simulation_server_loads

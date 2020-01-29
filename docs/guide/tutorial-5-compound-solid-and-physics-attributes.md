@@ -59,7 +59,7 @@ The **mass** of a [Solid](../reference/solid.md) node is given by its `density` 
 Only one of these two fields can be specified at a time (the other should be set to *-1*).
 When the `mass` is specified, it defines the total mass of the solid (in [kg]).
 When the `density` is specified, its value (in [kg/m3]) is multiplied by the volume of the bounding objects, and the product gives the total mass of the solid.
-A density of 1000 [kg/m^3] corresponds to the density of water (default value).
+A density of 1000 [kg/m³] corresponds to the density of water (default value).
 
 > **Hands on #3**: Set the mass of the dumbbell to *2* [kg].
 The density is not used and should be set to *-1*.

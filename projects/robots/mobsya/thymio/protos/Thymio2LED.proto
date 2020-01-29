@@ -9,9 +9,9 @@ PROTO Thymio2LED [
   field MFRotation rotations     [ 0 1 0 0 ]
   field MFString   textureUrls   [ "textures/thymio2_radial_flare.png" ]
   field MFVec2f    sizes         [ 0.01 0.01 ]
-  field SFFloat    level         32 # 0: rgb, 1: boolean, 2: layers
+  field SFFloat    level         32                                       # 0: rgb, 1: boolean, 2: layers.
   field SFColor    color         1 0 0
-  field SFVec3f    lightPosition -1 -1 -1 # default = no light
+  field SFVec3f    lightPosition -1 -1 -1                                 # default = no light.
 ]
 {
   %{

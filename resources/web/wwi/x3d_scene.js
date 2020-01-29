@@ -13,7 +13,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.useNodeCache = {};
     this.objectsIdCache = {};
 
-    // The Mozilla WebGL implementation does not support automatic mimaps generation on float32 cube textures.
+    // The Mozilla WebGL implementation does not support automatic mipmaps generation on float32 cube textures.
     // - Warning (JS console): "Texture at base level is not unsized internal format or is not color-renderable or texture-filterable."
     // - The related OpenGL specification is known as cryptic about this topic:
     //   - https://www.khronos.org/registry/OpenGL-Refpages/es3/html/glGenerateMipmap.xhtml

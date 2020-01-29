@@ -8,7 +8,7 @@ PROTO ExitPanel [
   field SFRotation rotation           0 1 0 0
   field SFString   name               "exit panel"
   field MFString   signImage          "textures/signs/exit.jpg"   # Defines the texture used for the sign.
-  field SFColor    color              0.8 0.8 0.8                 # Defines the color of the panel
+  field SFColor    color              0.8 0.8 0.8                 # Defines the color of the panel.
   field MFColor    recognitionColors  [ 0 0.4 0.3, 0.8 0.8 0.8 ]  # Is `Solid.recognitionColors`.
 ]
 {

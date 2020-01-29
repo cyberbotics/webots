@@ -124,13 +124,13 @@ Mapping between identifiers and names can be found in following table:
 
 Each of the 20 motors has the following configuration:
 
-|                 |       |         |
-| --------------- | ----- | ------- |
-| maxForce        | 2.5   | N*m     |
-| acceleration    | 55    | rad/s^2 |
-| maxVelocity     | 12.26 | rad/s   |
-| dampingConstant | 0.002 |         |
-| staticFriction  | 0.025 | N*m     |
+|                 |       |        |
+| --------------- | ----- | ------ |
+| maxForce        | 2.5   | N⋅m    |
+| acceleration    | 55    | rad/s² |
+| maxVelocity     | 12.26 | rad/s  |
+| dampingConstant | 0.002 |        |
+| staticFriction  | 0.025 | N⋅m    |
 
 For the position sensors, the name is the same than the one of the motors, with a 'S' postfix:
 

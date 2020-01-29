@@ -72,4 +72,4 @@ for y in range(args.height):
             A[2] * (1 - mu) * (1 - nu) + B[2] * (mu) * (1 - nu) + C[2] * (1 - mu) * nu + D[2] * mu * nu
         )
         result.set_pixel(x, y, P)
-    result.save(hdr_path)
+result.save(hdr_path)

@@ -1175,13 +1175,13 @@ wb_supervisor_node_set_velocity(node, velocity)
 
 *get/set the angular and linear velocities of a Solid node.*
 
-The `wb_supervisor_node_get_velocity` function returns the velocity (both linear and angular) of a node.
+The `wb_supervisor_node_get_velocity` function returns the absolute velocity (both linear and angular) of a node.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), otherwise the function will print a warning message and return 6 `NaN` (Not a Number) values.
 This function returns a vector containing exactly 6 values.
 The first three are respectively the linear velocities in the x, y and z direction.
 The last three are respectively the angular velocities around the x, y and z axes.
 
-The `wb_supervisor_node_set_velocity` function set the velocity (both linear and angular) of a node.
+The `wb_supervisor_node_set_velocity` function set the absolute velocity (both linear and angular) of a node.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), otherwise the function will print a warning message and have no effect.
 The `velocity` argument must be a vector containing exactly 6 values.
 The first three are respectively the linear velocities in the x, y and z direction.

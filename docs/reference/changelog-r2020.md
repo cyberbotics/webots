@@ -1,5 +1,15 @@
 # Webots R2020 Change Log
 
+## Webots R2020a Revision 2
+Released on XXX.
+
+  - Enhancements
+    - Improved the environment colors of the sojourner simulation (Mars is a red planet).
+  - Bug fixes
+    - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images.
+    - Fixed the TurtleBot3Burger robot maximum velocity (thanks to Dorteel).
+    - Fixed the TurtleBot3Burger robot center of mass (thanks to Nitrow).
+
 ## Webots R2020a Revision 1
 Released on January 14th, 2020.
 

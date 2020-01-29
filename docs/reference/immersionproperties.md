@@ -25,7 +25,7 @@ The string value must coincide with the `name` field value of an existing [Fluid
     If the `referenceArea` is set to "xyz-projected area", the *x*-coordinate of the
     drag force vector with respect to the solid frame is given by:
 
-        drag_force_x = - c_x * fluid_density * (rel_linear_velocity_x)^2 * sign(rel_linear_velocity_x) * A_x
+        drag_force_x = - c_x * fluid_density * rel_linear_velocity_x² * sign(rel_linear_velocity_x) * A_x
 
     where `c_x` is the *x*-coordinate of the `dragForceCoefficients` vector,
     `linear_velocity_x ` the *x*-coordinate of the linear velocity of the solid with
@@ -34,7 +34,7 @@ The string value must coincide with the `name` field value of an existing [Fluid
     coordinates.  The *x*-coordinate of the drag torque vector with respect to the
     the solid frame is given by:
 
-        drag_torque_x = - t_x * fluid_density * (rel_angular_velocity_x)^2 * sign(rel_angular_velocity_y) * (A_y + A_z)
+        drag_torque_x = - t_x * fluid_density * rel_angular_velocity_x² * sign(rel_angular_velocity_y) * (A_y + A_z)
 
     where `t_x` is the *x*-coordinate of the `dragTorqueCoefficients` vector,
     `angular_velocity_x` the *x*-coordinate of the angular velocity of the solid
@@ -45,8 +45,8 @@ The string value must coincide with the `name` field value of an existing [Fluid
     `boundingObject`'s immersed area is used for drag force and drag torque
     computations:
 
-        drag_force = - c_x * fluid_density * linear_velocity^2 * immersed_area,
-        drag_torque = - t_x * fluid_density * angular_velocity^2 * immersed_area
+        drag_force = - c_x * fluid_density * linear_velocity² * immersed_area,
+        drag_torque = - t_x * fluid_density * angular_velocity² * immersed_area
 
     all vectors being expressed in world coordinates. Note that in this case the
     drag coefficients along the *y* and *z* axes are ignored.

@@ -146,8 +146,11 @@ These are the configuration parameters for the session server:
 - `port`: local port on which the server is listening.
 - `server`: host where this session script is running.
 - `administrator`: email address of administrator that will receive notifications about the status of the simulation server machines.
-- `mailServer`: mail server host from which the notifications are sent.
+- `mailServer`: SMTP mail server host from which the notifications are sent.
+- `mailServerPort`: SMTP mail server port.
 - `mailSender`: email address used to send the notifications.
+- `mailSenderUser`: user name to authenticate on the SMTP server.
+- `mailSenderPassword`: password to authenticate on the SMTP server with the mailSenderUser.
 - `simulationServers`: lists all the available simulation servers.
 - `sslCertificate`: path to the certificate file for a SSL enabled server.
 - `sslKey`: path to the private key file for a SSL enabled server.
