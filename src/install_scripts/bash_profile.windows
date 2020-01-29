@@ -4,7 +4,7 @@
 
 # export JAVA_HOME=/C/Program\ Files/Java/jdk1.8.0_192                             # Optionally defines the path to Java home.
 # export PYTHON27_HOME=/C/Python27                                                 # Optionally defines the path to Python 2.7 home.
-# export PYTHON37_HOME=/C/Python37                                                 # Optionally defines the path to Python 3.7 home.
+# export PYTHON37_HOME=/C/Program\ Files/Python37                                  # Optionally defines the path to Python 3.7 home.
 # export PYTHON38_HOME=/C/Program\ Files/Python38                                  # Optionally defines the path to Python 3.8 home.
 # export MATLAB_HOME=/C/Program\ Files/MATLAB/R2018b                               # Optionally defines the path to MATLAB home.
 # export VISUAL_STUDIO_PATH="/C/Program Files (x86)/Microsoft Visual Studio 10.0"  # Optionally defines the path to Microsoft Visual Studio home.
