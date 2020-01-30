@@ -82,7 +82,8 @@ private slots:
   void handleUserCommand(WbActionManager::WbActionKind actionKind);
   void reset();
   void transform(const QString &modelName);
-  void convertProtoToBaseNode();
+  void convertToBaseNode();
+  void convertRootToBaseNode();
   void moveViewpointToObject();
   void addNew();
   void startWatching(const QModelIndex &index);
@@ -133,7 +134,7 @@ private:
   void pasteInMFValue();
   void clearSelection();
   bool isIndexAncestorOfCurrentIndex(const QModelIndex &index, int start, int end);
-
+  void convertProtoToBaseNode(bool rootOnly);
   bool insertInertiaMatrix(const WbField *selectedField);
   void cut();
   void copy();
