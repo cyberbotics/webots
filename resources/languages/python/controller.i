@@ -25,7 +25,7 @@
 %pythonbegin %{
 import sys
 import os
-if os.name == 'nt' and sys.version_info >= (3, 8, 0):  # we need to explicitly list the folders containing the DLLs
+if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list the folders containing the DLLs
     webots_home = os.environ['WEBOTS_HOME']
     os.add_dll_directory(os.path.join(webots_home, 'lib/controller'))
     if 'MSYS2_HOME' in os.environ:  # set by Webots or ~/.bash_profile
