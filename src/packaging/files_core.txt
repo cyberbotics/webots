@@ -103,9 +103,10 @@ lib/controller/python37/*.py
 lib/controller/python37/_*.so [linux,mac]
 lib/controller/python37/_*.pyd [windows]
 
-lib/controller/python38/ [linux,mac]
-lib/controller/python38/*.py [linux,mac]
+lib/controller/python38/
+lib/controller/python38/*.py
 lib/controller/python38/_*.so [linux,mac]
+lib/controller/python38/_*.pyd [windows]
 
 lib/controller/matlab/
 lib/controller/matlab/allincludes.h
