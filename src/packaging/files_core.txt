@@ -217,8 +217,6 @@ resources/languages/java/SWIG_generated_files/
 resources/languages/java/SWIG_generated_files/*.java
 resources/languages/java/SWIG_generated_files/*.cpp
 resources/languages/python/
-resources/languages/python/_controller2.def
-resources/languages/python/_controller3.def
 resources/languages/python/controller.i
 resources/languages/python/Makefile
 resources/templates/
