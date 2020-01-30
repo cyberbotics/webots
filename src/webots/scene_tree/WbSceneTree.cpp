@@ -718,7 +718,7 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     while (it.hasNext()) {
       it.next();
       const QString destination(WbProject::current()->worldsPath() + it.key());
-      QFileInfo fileInfo(destination);
+      const QFileInfo fileInfo(destination);
       if (!QDir(fileInfo.absolutePath()).exists())
         QDir().mkpath(fileInfo.absolutePath());
       QFile::copy(it.value(), destination);
