@@ -8,7 +8,7 @@ branches:
 clone_depth: 1
 
 install:
-  - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;C:\msys64\mingw64\bin;%PATH%
+  - set PATH=C:\Python38-x64;C:\Python38-x64\Scripts;C:\msys64\usr\bin;C:\msys64\mingw64\bin;%PATH%
   - pacman --noconfirm -S mingw-w64-x86_64-cppcheck
   - pip install -r %APPVEYOR_BUILD_FOLDER%\\tests\\sources\\requirements.txt
   - pip install -r %APPVEYOR_BUILD_FOLDER%\\docs\\tests\\requirements.txt

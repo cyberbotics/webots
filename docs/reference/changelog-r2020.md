@@ -4,7 +4,7 @@
 Released on XXX.
 
   - New Features
-    - macOS: Added support for Python 3.8.
+    - macOS and Windows: Added support for Python 3.8.
   - Enhancements
     - Improved the environment colors of the sojourner simulation (Mars is a red planet).
   - Bug fixes
