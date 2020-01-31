@@ -955,7 +955,7 @@ void WbNode::write(WbVrmlWriter &writer) const {
       return;
     }
   }
-  if (writer.isX3d() || writer.isVrml() || (writer.isProto() && (!writer.getRootNode() || this == writer.getRootNode()))) {
+  if (writer.isX3d() || writer.isVrml() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode()))) {
     writeExport(writer);
     return;
   }

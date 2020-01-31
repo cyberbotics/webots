@@ -59,7 +59,7 @@ public:
   void writeFooter(const QStringList *info = NULL);
 
   void setRootNode(WbNode *node) { mRootNode = node; }
-  WbNode *getRootNode() const { return mRootNode; }
+  WbNode *rootNode() const { return mRootNode; }
 
   void setX3DFrustumCullingValue(const QString &value) { mFrustumCullingValue = value; }
   QMap<uint64_t, QString> &indexedFaceSetDefMap() { return mIndexedFaceSetDefMap; }
