@@ -15,7 +15,7 @@ init:
   # - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 install:
-  - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;%PATH%
+  - set PATH=C:\Python38-x64;C:\Python38-x64\Scripts;C:\msys64\usr\bin;%PATH%
   - pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
   - pacman --noconfirm -Syuu
   - echo export WEBOTS_HOME="%APPVEYOR_BUILD_FOLDER%" >> C:\msys64\home\appveyor\.bash_profile
@@ -30,7 +30,7 @@ install:
   # - ps: Start-Sleep -s 3600
 
 build_script:
-  - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;%PATH%
+  - set PATH=C:\Python38-x64;C:\Python38-x64\Scripts;C:\msys64\usr\bin;%PATH%
   - set WEBOTS_HOME=%APPVEYOR_BUILD_FOLDER%
   - ps: if ($env:APPVEYOR_REPO_TAG -ne "true") { python $env:APPVEYOR_BUILD_FOLDER\src\packaging\set_commit_and_date_in_version.py $env:APPVEYOR_REPO_COMMIT }
   - bash --login -c "cd $WEBOTS_HOME_PATH; make distrib -j4"
