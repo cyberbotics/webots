@@ -16,26 +16,21 @@
 
 import subprocess
 import os
-import sys
 
 
 def list_dependencies(package):
     return subprocess.check_output(['pactree', '-u', package]).decode().strip().split('\n')
 
 
-d = list_dependencies('make')
-d += list_dependencies('coreutils')
-d += list_dependencies('mingw-w64-x86_64-gcc')
-d += list_dependencies('mingw-w64-i686-gcc')
+# list all the pacman dependencies needed by Webots, including sub-dependencies
+dependencies = list(set(  # use a set to make sure to avoid duplication
+    list_dependencies('make') +
+    list_dependencies('coreutils') +
+    list_dependencies('mingw-w64-x86_64-gcc') +
+    list_dependencies('mingw-w64-i686-gcc')
+))
 
-# remove duplicate packages
-seen = set()
-dependencies = []
-for item in d:
-    if item not in seen:
-        seen.add(item)
-        dependencies.append(item)
-
+# add specific folder dependencies needed by Webots
 folders = ['/tmp', '/mingw32', '/mingw32/bin', '/mingw32/lib', '/mingw64', '/mingw64/bin', '/mingw64/include',
            '/mingw64/bin/platforms/',  # hack to get qwindows.dll found by Webots
            '/mingw64/include/libssh',
@@ -45,49 +40,51 @@ folders = ['/tmp', '/mingw32', '/mingw32/bin', '/mingw32/lib', '/mingw64', '/min
            '/mingw64/share/qt5/plugins/printsupport', '/mingw64/share/qt5/plugins/styles']
 files = []
 skip_paths = ['/usr/share/', '/mingw64/bin/zlib1.dll']
-for p in dependencies:
-    print("# processing " + p)
-    sys.stdout.flush()
-    l = subprocess.check_output(['pacman', '-Qql', p]).decode().strip().split('\n')
-    for f in l:
+
+# add all the files and folders corresponding to the pacman dependencies
+for dependency in dependencies:
+    print("# processing " + dependency, flush=True)
+    for file in subprocess.check_output(['pacman', '-Qql', dependency]).decode().strip().split('\n'):
         skip = False
-        for g in skip_paths:
-            if f.startswith(g):
+        for skip_path in skip_paths:
+            if file.startswith(skip_path):
                 skip = True
                 break
         if skip:
             continue
-        if not f.endswith('/'):
-            files.append(f)
+        if not file.endswith('/'):
+            files.append(file)
         else:
-            g = f[:-1]
-            if g not in folders:
-                folders.append(g)
+            folder = file.rstrip('/')
+            if folder not in folders:
+                folders.append(folder)
 
-f = open('msys64_folders.iss', 'w')
-for i in folders:
-    f.write('Name: "{app}\\msys64' + i.replace('/', '\\') + '"\n')
-f.close()
+# write every dependency folder in the ISS file for folders
+with open('msys64_folders.iss', 'w') as file:
+    for folder in folders:
+        file.write('Name: "{app}\\msys64' + folder.replace('/', '\\') + '"\n')
 
-root = subprocess.check_output(['cygpath', '-w', '/']).decode().strip()[:-1]
-with open('files_msys64.txt', 'r') as f:
-    for line in f:
-        l = line.strip()
-        if not l.startswith('#') and l:
-            if l in files:
-                print('# \033[1;31m' + l + ' is already included\033[0m')
+# add the dependencies provided in the files_msys64.txt file
+root = subprocess.check_output(['cygpath', '-w', '/']).decode().strip().rstrip('/')
+with open('files_msys64.txt', 'r') as file:
+    for line in file:
+        line = line.strip()
+        if not line.startswith('#') and line:
+            if line in files:
+                print('# \033[1;31m' + line + ' is already included\033[0m')
             else:
-                files.append(l)
-print("# processing ffmpeg dependencies (DLLs)")
-sys.stdout.flush()
-ffmpeg_dlls = subprocess.check_output(['bash', 'ffmpeg_dependencies.sh'], shell=True).decode('utf-8').split()
-for ffmpeg_dll in ffmpeg_dlls:
+                files.append(line)
+
+# automatically compute the dependencies of ffmpeg
+print("# processing ffmpeg dependencies (DLLs)", flush=True)
+for ffmpeg_dll in subprocess.check_output(['bash', 'ffmpeg_dependencies.sh'], shell=True).decode('utf-8').split():
     files.append('/mingw64/bin/' + ffmpeg_dll)
-f = open('msys64_files.iss', 'w')
-for i in files:
-    w = i.replace('/', '\\')
-    f.write('Source: "' + root + w + '"; DestDir: "{app}\\msys64' + os.path.dirname(w) + '"\n')
-# This is a patch needed to ensure qwindows.dll is found by Webots (it should be improved)
-f.write('Source: "' + root + '\\mingw64\\share\\qt5\\plugins\\platforms\\qwindows.dll"; DestDir: ' +
-        '"{app}\\msys64\\mingw64\\bin\\platforms"\n')
-f.close()
+
+# write every dependency file in the ISS file for files
+with open('msys64_files.iss', 'w') as iss_file:
+    for file in files:
+        file = file.replace('/', '\\')
+        iss_file.write('Source: "' + root + file + '"; DestDir: "{app}\\msys64' + os.path.dirname(file) + '"\n')
+    # This is a patch needed to ensure qwindows.dll is found by Webots (it should be improved)
+    iss_file.write('Source: "' + root + '\\mingw64\\share\\qt5\\plugins\\platforms\\qwindows.dll"; DestDir: ' +
+                   '"{app}\\msys64\\mingw64\\bin\\platforms"\n')
