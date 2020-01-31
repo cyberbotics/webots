@@ -154,6 +154,7 @@ namespace WbContextMenuGenerator {
           contextMenu.addAction(WbActionManager::instance()->action(WbActionManager::SHOW_PROTO_RESULT));
 
         contextMenu.addAction(WbActionManager::instance()->action(WbActionManager::CONVERT_TO_BASE_NODES));
+        contextMenu.addAction(WbActionManager::instance()->action(WbActionManager::CONVERT_ROOT_TO_BASE_NODES));
       }
       contextMenu.addSeparator();
     }

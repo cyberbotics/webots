@@ -983,9 +983,15 @@ void WbActionManager::populateActions() {
 
   action = new QAction(this);
   action->setText(tr("&Convert to Base Node(s)"));
-  action->setStatusTip(tr("Convert this PROTO node into the equivalent base node(s)."));
+  action->setStatusTip(tr("Convert this PROTO node (and nested PROTO nodes) into the equivalent base node(s)."));
   action->setToolTip(action->statusTip());
   mActions[CONVERT_TO_BASE_NODES] = action;
+
+  action = new QAction(this);
+  action->setText(tr("Convert &Root to Base Node(s)"));
+  action->setStatusTip(tr("Convert this PROTO node into the equivalent base node(s)."));
+  action->setToolTip(action->statusTip());
+  mActions[CONVERT_ROOT_TO_BASE_NODES] = action;
 
   assert(NACTIONS == mActions.size());
 }

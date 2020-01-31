@@ -382,6 +382,20 @@ QString WbImageTexture::path() {
   return WbUrl::computePath(this, "url", mUrl, 0);
 }
 
+void WbImageTexture::write(WbVrmlWriter &writer) const {
+  if (!isUseNode() && writer.isProto()) {
+    for (int i = 0; i < mUrl->size(); ++i) {
+      QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
+      const QString &url(mUrl->item(i));
+      if (cQualityChangedTexturesList.contains(texturePath))
+        texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
+      writer.addTextureToList(url, texturePath);
+    }
+  }
+
+  WbBaseNode::write(writer);
+}
+
 bool WbImageTexture::exportNodeHeader(WbVrmlWriter &writer) const {
   if (!writer.isX3d() || !isUseNode() || mRole.isEmpty())
     return WbBaseNode::exportNodeHeader(writer);
@@ -403,8 +417,7 @@ void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
     if (writer.isWritingToFile()) {
       QString newUrl = WbUrl::exportTexture(this, mUrl, i, writer);
       dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
-    } else if (writer.isProto())
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, texturePath);
+    }
 
     const QString &url(mUrl->item(i));
     if (cQualityChangedTexturesList.contains(texturePath))
