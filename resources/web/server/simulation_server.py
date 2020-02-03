@@ -287,7 +287,7 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
                 testSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 result = testSocket.connect_ex(('localhost', port)) == 0
                 testSocket.close()
-                if result == 0:
+                if result:
                     return port
             port += 1
             if port > config['port'] + config['maxConnections']:
