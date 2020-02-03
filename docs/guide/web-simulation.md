@@ -176,7 +176,7 @@ These are the configuration parameters for the simulation server:
 - `keyDir`: directory where the website host keys needed for validation are stored. This folder should include a file named as the host (for example "robotbenchmark.net") containing a key identifying it.
 - `logDir`: directory where the log files are written. Default value is "WEBOTS\_HOME/resources/web/server/log/simulation".
 - `monitorLogEnabled`: specify if the monitor data have to be stored in a file.
-- `maxConnections`: specifiy the maximum number of Webots instances running on the server. Default value is 100.
+- `maxConnections`: specify the maximum number of Webots instances running on the server. Default value is 100.
 
 
 HTTP request handlers:
