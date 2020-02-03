@@ -291,7 +291,7 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
                     return port
             port += 1
             if port > config['port'] + config['maxConnections']:
-                logging.error("Too many open connections (>" + config['maxConnections']) + ")")
+                logging.error("Too many open connections (>" + config['maxConnections'] + ")")
                 return port
 
     def open(self):
