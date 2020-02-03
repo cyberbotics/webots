@@ -621,7 +621,7 @@ def main():
     if 'port' not in config:
         config['port'] = 2000
     if 'maxConnections' not in config:
-        config['maxConnections'] = 200
+        config['maxConnections'] = 100
     os.environ['WEBOTS_FIREJAIL_CONTROLLERS'] = '1'
     config['instancesPath'] = tempfile.gettempdir().replace('\\', '/') + '/webots/instances/'
     # create the instances path
