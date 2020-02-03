@@ -120,7 +120,9 @@ WbSceneTree::WbSceneTree(QWidget *parent) :
           &WbSceneTree::moveViewpointToObject);
   connect(mActionManager->action(WbActionManager::RESET_VALUE), &QAction::triggered, this, &WbSceneTree::reset);
   connect(mActionManager->action(WbActionManager::CONVERT_TO_BASE_NODES), &QAction::triggered, this,
-          &WbSceneTree::convertProtoToBaseNode);
+          &WbSceneTree::convertToBaseNode);
+  connect(mActionManager->action(WbActionManager::CONVERT_ROOT_TO_BASE_NODES), &QAction::triggered, this,
+          &WbSceneTree::convertRootToBaseNode);
   connect(mActionManager->action(WbActionManager::OPEN_HELP), &QAction::triggered, this, &WbSceneTree::help);
   connect(mActionManager->action(WbActionManager::SHOW_PROTO_SOURCE), &QAction::triggered, this,
           &WbSceneTree::openProtoInTextEditor);
@@ -685,7 +687,15 @@ void WbSceneTree::transform(const QString &modelName) {
   WbUndoStack::instance()->clear();  // clear undo stack if no available UNDO/REDO implementation of transform action
 }
 
-void WbSceneTree::convertProtoToBaseNode() {
+void WbSceneTree::convertToBaseNode() {
+  convertProtoToBaseNode(false);
+}
+
+void WbSceneTree::convertRootToBaseNode() {
+  convertProtoToBaseNode(true);
+}
+
+void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
   WbNode *const currentNode = mSelectedItem->node();
   if (currentNode->isProtoInstance()) {
     const WbSolid *const solid = dynamic_cast<WbSolid *>(currentNode);
@@ -696,8 +706,24 @@ void WbSceneTree::convertProtoToBaseNode() {
     WbNode *parentNode = currentNode->parent();
     QString nodeString;
     WbVrmlWriter writer(&nodeString, currentNode->modelName() + ".proto");
+    if (rootOnly)
+      writer.setRootNode(currentNode);
+    else
+      writer.setRootNode(NULL);
     currentNode->write(writer);
+    // remove previous node
     WbNodeOperations::instance()->deleteNode(currentNode);
+    // copy textures
+    QHashIterator<QString, QString> it(writer.texturesList());
+    while (it.hasNext()) {
+      it.next();
+      const QString destination(WbProject::current()->worldsPath() + it.key());
+      const QFileInfo fileInfo(destination);
+      if (!QDir(fileInfo.absolutePath()).exists())
+        QDir().mkpath(fileInfo.absolutePath());
+      QFile::copy(it.value(), destination);
+    }
+    // import new node
     if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, "", nodeString) == WbNodeOperations::SUCCESS) {
       WbNode *node = NULL;
       if (parentField->type() == WB_SF_NODE)

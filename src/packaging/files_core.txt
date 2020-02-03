@@ -103,9 +103,10 @@ lib/controller/python37/*.py
 lib/controller/python37/_*.so [linux,mac]
 lib/controller/python37/_*.pyd [windows]
 
-lib/controller/python38/ [linux]
-lib/controller/python38/*.py [linux]
-lib/controller/python38/_*.so [linux]
+lib/controller/python38/
+lib/controller/python38/*.py
+lib/controller/python38/_*.so [linux,mac]
+lib/controller/python38/_*.pyd [windows]
 
 lib/controller/matlab/
 lib/controller/matlab/allincludes.h
@@ -216,8 +217,6 @@ resources/languages/java/SWIG_generated_files/
 resources/languages/java/SWIG_generated_files/*.java
 resources/languages/java/SWIG_generated_files/*.cpp
 resources/languages/python/
-resources/languages/python/_controller2.def
-resources/languages/python/_controller3.def
 resources/languages/python/controller.i
 resources/languages/python/Makefile
 resources/templates/

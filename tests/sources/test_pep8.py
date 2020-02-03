@@ -39,8 +39,9 @@ skippedDirectories = [
 ]
 
 if sys.version_info[0] < 3:
-    # this script works only with Python 3
+    # these scripts work only with Python 3
     skippedDirectories.append('scripts/preferences_cleaner')
+    skippedDirectories.append('src/packaging')
 
 
 class FlakesReporter(Reporter):
@@ -61,7 +62,7 @@ class FlakesReporter(Reporter):
         self.error += '%s:%d: %s\n' % (filename, lineno, msg)
         self.error += line + '\n'
         if offset is not None:
-            self._stderr.write(" " * (offset + 1) + "^\n")
+            self.error += ' ' * (offset + 1) + '^\n'
 
     def flake(self, message):
         """Add message to error string."""

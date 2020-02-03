@@ -66,7 +66,10 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv) : QApplication(argc, 
   QProcess process;
   process.start("cygpath", QStringList{QString("-w"), QString("/")});
   process.waitForFinished(-1);
-  const QString webotsQtPlugins = process.readAllStandardOutput().trimmed().replace('\\', '/') + "mingw64/share/qt5/plugins";
+  QString MSYS2_HOME = process.readAllStandardOutput().trimmed();
+  MSYS2_HOME.chop(1);                          // remove final backslash
+  qputenv("MSYS2_HOME", MSYS2_HOME.toUtf8());  // useful to Python 3.8 controllers
+  const QString webotsQtPlugins = MSYS2_HOME.replace('\\', '/') + "/mingw64/share/qt5/plugins";
   QCoreApplication::setLibraryPaths(QStringList(webotsQtPlugins));
   QApplication::setStyle("windowsvista");
 #endif
