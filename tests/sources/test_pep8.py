@@ -39,8 +39,9 @@ skippedDirectories = [
 ]
 
 if sys.version_info[0] < 3:
-    # this script works only with Python 3
+    # these scripts work only with Python 3
     skippedDirectories.append('scripts/preferences_cleaner')
+    skippedDirectories.append('src/packaging')
 
 
 class FlakesReporter(Reporter):
