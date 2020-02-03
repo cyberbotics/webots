@@ -590,7 +590,7 @@ def main():
     # keyDir:            directory where the host keys needed for validation are stored.
     # logDir:            directory where the log files are written.
     # monitorLogEnabled: specify if the monitor data have to be stored in a file.
-    # maxConnections:   maximum number of simultaneous Webots instances.
+    # maxConnections:    maximum number of simultaneous Webots instances.
     #
     global config
     global snapshots
