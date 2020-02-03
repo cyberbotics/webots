@@ -61,7 +61,7 @@ class FlakesReporter(Reporter):
         self.error += '%s:%d: %s\n' % (filename, lineno, msg)
         self.error += line + '\n'
         if offset is not None:
-            self._stderr.write(" " * (offset + 1) + "^\n")
+            self.error += ' ' * (offset + 1) + '^\n'
 
     def flake(self, message):
         """Add message to error string."""
