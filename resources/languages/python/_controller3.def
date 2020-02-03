@@ -1,3 +1,0 @@
-LIBRARY _controller.pyd
-EXPORTS
-PyInit__controller

@@ -138,6 +138,7 @@ public:
     SHOW_PROTO_SOURCE,
     SHOW_PROTO_RESULT,
     CONVERT_TO_BASE_NODES,
+    CONVERT_ROOT_TO_BASE_NODES,
     // keep track of numher of actions
     NACTIONS
   };

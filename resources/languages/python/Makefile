@@ -36,14 +36,12 @@ PYTHON_PATH_SETUP := $(shell mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTH
 
 ifeq ($(OSTYPE),windows)
 PYTHON_HOME    := $(subst \ ,$(space),$(dir $(subst $(space),\ ,$(shell which python 2> /dev/null))))
-C_FLAGS         = -c -O -Wall -DMS_WIN64 -D_hypot=hypot -Wno-stringop-truncation -Wno-maybe-uninitialized
-LD_FLAGS        = -shared -Wl,--enable-auto-import
+C_FLAGS         = -c -O -Wall -Wno-maybe-uninitialized
+LD_FLAGS        = -shared
 LIBS            = -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION) -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController
 LIBOUT          = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.pyd))
-ifneq (,$(findstring 3.,$(PYTHON_VERSION)))
-DEF             = _controller3.def
-else
-DEF             = _controller2.def
+ifneq (,$(findstring 2.,$(PYTHON_VERSION)))
+C_FLAGS        += -DMS_WIN64
 endif
 PYTHON_INCLUDES = -I"$(PYTHON_HOME)include"
 LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
@@ -56,7 +54,11 @@ PYTHON_PATH ?= /System/Library/Frameworks/Python.framework/Versions/$(PYTHON_VER
 PYTHON_PYMALLOC =
 else
 PYTHON_PATH ?= /Library/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
+ifeq ($(PYTHON_SHORT_VERSION), 38)
+PYTHON_PYMALLOC =
+else
 PYTHON_PYMALLOC = m
+endif
 endif
 BREW_PYTHON_PATH = /usr/local/Cellar/python/$(PYTHON_FULL_VERSION)/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
 PYTHON_BIN       = $(PYTHON_PATH)/bin/
@@ -67,7 +69,7 @@ endif
 LD_FLAGS        = -dynamiclib -install_name @rpath/lib/controller/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.dylib) -Wl,-rpath,@loader_path/../../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 LIBS            = -L"$(PYTHON_PATH)/lib" -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController -lpython$(PYTHON_VERSION)
 LIBOUT          = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.so))
-PYTHON_INCLUDES = -I"$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"
+PYTHON_INCLUDES = -isystem "$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"
 LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
 LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
 ifneq (,$(wildcard $(BREW_PYTHON_PATH)))
@@ -103,7 +105,7 @@ $(PYOUT) $(WRAPPER):$(INTERFACE) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 	$(SWIG) $(SWIG_OPTS) $(WEBOTS_INCLUDES) -o $(WRAPPER) $<
 
 $(LIBOUT):$(WRAPPER_OBJECT) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
-	$(CXX) $(LD_FLAGS) $< $(DEF) $(LIBS) -o "$@"
+	$(CXX) $(LD_FLAGS) $< $(LIBS) -o "$@"
 
 $(LIBCONTROLLER):
 	@echo "$(LIBCONTROLLER) doesn't exist"
