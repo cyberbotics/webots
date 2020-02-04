@@ -1162,7 +1162,7 @@ function updateMenuScrollbar() {
   if (p < footerHeight)
     document.querySelector('#left').style.height = (e.clientHeight - (footerHeight + headerHeight) + p) + 'px';
   else
-    document.querySelector('#left').style.height = 'calc(100% - ' + headerHeight + 'px)';
+    document.querySelector('#left').style.height = '100%';
 }
 
 function updateSelection() {
