@@ -282,9 +282,16 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
                 if port == client.streaming_server_port:
                     found = True
                     break
-            if found:
-                port += 1
-            else:
+            if not found:
+                # try to connect to make sure that port is available
+                testSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                result = testSocket.connect_ex(('localhost', port)) == 0
+                testSocket.close()
+                if result:
+                    return port
+            port += 1
+            if port > config['port'] + config['maxConnections']:
+                logging.error("Too many open connections (>" + config['maxConnections'] + ")")
                 return port
 
     def open(self):
@@ -583,6 +590,7 @@ def main():
     # keyDir:            directory where the host keys needed for validation are stored.
     # logDir:            directory where the log files are written.
     # monitorLogEnabled: specify if the monitor data have to be stored in a file.
+    # maxConnections:    maximum number of simultaneous Webots instances.
     #
     global config
     global snapshots
@@ -612,6 +620,8 @@ def main():
         config['keyDir'] = expand_path(config['keyDir'])
     if 'port' not in config:
         config['port'] = 2000
+    if 'maxConnections' not in config:
+        config['maxConnections'] = 100
     os.environ['WEBOTS_FIREJAIL_CONTROLLERS'] = '1'
     config['instancesPath'] = tempfile.gettempdir().replace('\\', '/') + '/webots/instances/'
     # create the instances path

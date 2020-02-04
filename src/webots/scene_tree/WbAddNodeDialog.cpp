@@ -594,7 +594,7 @@ int WbAddNodeDialog::addProtos(QTreeWidgetItem *parentItem, const QStringList &p
 
     // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot.
     if (!mHasRobotTopNode && !WbNodeUtilities::isRobotTypeName(protoCachedInfo->baseType()) &&
-        protoCachedInfo->containsDevices())
+        protoCachedInfo->needsRobotAncestor())
       continue;
 
     QString errorMessage;
