@@ -1157,8 +1157,8 @@ function updateMenuScrollbar() {
   var e = document.documentElement;
   var t = document.documentElement.scrollTop || document.body.scrollTop;
   var p = e.scrollHeight - t - e.clientHeight;
-  var footerHeight = 244;
-  var headerHeight = 44;
+  var footerHeight = 192;
+  var headerHeight = 52;
   if (p < footerHeight)
     document.querySelector('#left').style.height = (e.clientHeight - (footerHeight + headerHeight) + p) + 'px';
   else
