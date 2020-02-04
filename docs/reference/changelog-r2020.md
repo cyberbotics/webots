@@ -6,6 +6,7 @@ Released on XXX.
   - New Features
     - macOS and Windows: Added support for Python 3.8.
     - Added a 'Convert Root to Base Node(s)' option in the context menu to convert a PROTO node to base node(s) without converting the nested PROTO nodes.
+    - Added an `OfficeChair` PROTO object.
   - Enhancements
     - Improved the environment colors of the sojourner simulation (Mars is a red planet).
   - Bug fixes
