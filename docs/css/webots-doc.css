@@ -468,8 +468,9 @@ body {
   list-style-type: circle;
 }
 .webots-doc ul, .webots-doc ol {
-  list-style-position: inside;
-  padding-left: 1em
+  list-style-position: outside;
+  padding-left: 1em;
+  margin: 1em;
 }
 .webots-doc .illustrated-section {
   overflow: hidden;
