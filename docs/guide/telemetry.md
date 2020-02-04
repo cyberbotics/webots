@@ -1,10 +1,10 @@
 ## Webots Telemetry System
 
-The Webots telemetry sytem sends anonymous data to the Webots developers in order to help them improving the software.
+The Webots telemetry system sends anonymous data to the Webots developers in order to help them improving the software.
 It can be turned off or on the first time you start Webots and from the Webots [preferences](preferences.md#general).
 This data is mainly used to detect and fix crashes on some specific hardware.
 
-### Sent Informations
+### Sent Information
 The following table describes all the data sent:
 
 | Data sent           | Description                                                                                                                                                     | Value Example                  |
