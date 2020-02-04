@@ -37,7 +37,7 @@
 
 static QString gFileHeader = "Webots Proto Cache File version 1.4";
 
-WbProtoCachedInfo::WbProtoCachedInfo(const QString &protoFileName) : mContainsDevices(false), mBaseType("UNKNOWN") {
+WbProtoCachedInfo::WbProtoCachedInfo(const QString &protoFileName) : mNeedsRobotAncestor(false), mBaseType("UNKNOWN") {
   mHexProtoFileHash.clear();
   QFileInfo info(protoFileName);
   mAbsoluteProtoFileName = info.absoluteFilePath();
@@ -81,7 +81,7 @@ bool WbProtoCachedInfo::load() {
     } else if (key == label(DEVICES)) {
       int i;
       ls >> i;
-      mContainsDevices = i;
+      mNeedsRobotAncestor = i;
     } else if (key == label(BASE_TYPE)) {
       ls >> word;
       mBaseType = word;
@@ -125,7 +125,7 @@ bool WbProtoCachedInfo::save() {
   QTextStream out(&file);
   out << gFileHeader << "\n";
   out << label(FILE_HASH) << " " << mHexProtoFileHash << "\n";
-  out << label(DEVICES) << " " << (mContainsDevices ? 1 : 0) << "\n";
+  out << label(DEVICES) << " " << (mNeedsRobotAncestor ? 1 : 0) << "\n";
   out << label(BASE_TYPE) << " " << mBaseType << "\n";
   out << label(SLOT_TYPE) << " " << serializedString(mSlotType) << "\n";
   out << label(PARAMETERS) << " " << mParameterNames.join(",") << "\n";
@@ -194,7 +194,7 @@ WbProtoCachedInfo *WbProtoCachedInfo::computeInfo(const QString &protoFileName) 
   while (tokenizer.hasMoreTokens()) {
     WbToken *token = tokenizer.nextToken();
     if (token->isIdentifier() && WbNodeUtilities::isDeviceTypeName(token->word()) && token->word() != "Connector") {
-      protoInfo->mContainsDevices = true;
+      protoInfo->mNeedsRobotAncestor = true;
       break;
     }
   }
