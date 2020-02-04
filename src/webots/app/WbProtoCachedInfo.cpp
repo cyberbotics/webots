@@ -193,7 +193,7 @@ WbProtoCachedInfo *WbProtoCachedInfo::computeInfo(const QString &protoFileName) 
   tokenizer.rewind();
   while (tokenizer.hasMoreTokens()) {
     WbToken *token = tokenizer.nextToken();
-    if (token->isIdentifier() && WbNodeUtilities::isDeviceTypeName(token->word())) {
+    if (token->isIdentifier() && WbNodeUtilities::isDeviceTypeName(token->word()) && token->word() != "Connector") {
       protoInfo->mContainsDevices = true;
       break;
     }
