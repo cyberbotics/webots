@@ -8,14 +8,14 @@ PROTO OfficeChair [
   field SFRotation rotation        0 1 0 0
   field SFString   name            "office chair"
   field SFNode     legAppearance   BrushedAluminium { textureTransform TextureTransform { scale 5 5 } }  # Defines the appearance of the legs of the chair.
-  field SFNode     seatAppearance  Leather { textureTransform TextureTransform { scale 10 10 } }        # Defines the appearance of the body of the chair.
-  field SFBool     enablePhysics   TRUE                                                                 # Defines whether the chair should have physics.
+  field SFNode     seatAppearance  Leather { textureTransform TextureTransform { scale 10 10 } }         # Defines the appearance of the body of the chair.
+  field SFBool     enablePhysics   TRUE                                                                  # Defines whether the chair should have physics.
 ]
 {
   Solid {
     translation IS translation
     rotation IS rotation
-    scale 0.55 0.55 0.55
+    scale 0.45 0.45 0.45
     children [
       HingeJoint {
         jointParameters HingeJointParameters {
