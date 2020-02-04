@@ -193,12 +193,6 @@ body {
 .webots-doc .default blockquote {
   padding: 5px 20px 5px 20px;
 }
-.webots-doc li {
-  font-family: "Roboto";
-  font-weight: normal;
-  word-wrap: break-word;
-  font-size: 17px;
-}
 .webots-doc td {
   padding-left:4px;
   padding-right:4px;
@@ -462,8 +456,20 @@ body {
 .webots-doc .api td > a {
   font-family: "Roboto Mono";
 }
+.webots-doc li {
+  font-family: "Roboto";
+  color: black;
+  font-weight: 450;
+  word-wrap: break-word;
+  font-size: 16px;
+}
 .webots-doc ul {
   clear: both;
+  list-style-type: circle;
+}
+.webots-doc ul, .webots-doc ol {
+  list-style-position: inside;
+  padding-left: 1em
 }
 .webots-doc .illustrated-section {
   overflow: hidden;
