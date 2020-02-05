@@ -27,13 +27,6 @@ class QDataStream;
 class WbDisplay : public WbRenderingDevice {
   Q_OBJECT
 public:
-  enum ImageFormat {  // should match with the macros of display.h
-    WB_IMAGE_RGB = 3,
-    WB_IMAGE_RGBA,
-    WB_IMAGE_ARGB,
-    WB_IMAGE_BGRA,
-    WB_IMAGE_ABGR
-  };
   // constructors and destructor
   explicit WbDisplay(WbTokenizer *tokenizer = NULL);
   WbDisplay(const WbDisplay &other);
@@ -86,10 +79,10 @@ private:
   unsigned int *imageCopy(short int x, short int y, short int &w,
                           short int &h);  // return copied data and clipped width and height
   void imagePaste(int id, int x, int y, bool blend);
-  void imageLoad(int id, int w, int h, void *data, ImageFormat format);
+  void imageLoad(int id, int w, int h, void *data, int format);
   void imageDelete(int id);
   WbDisplayImage *imageFind(int id);
-  static int channelNumberFromPixelFormat(ImageFormat pixelFormat);
+  static int channelNumberFromPixelFormat(int pixelFormat);
 
   unsigned int *mImage;  // BGRA 8+8+8+8
   unsigned int mColor;   // 0RGB 8+8+8

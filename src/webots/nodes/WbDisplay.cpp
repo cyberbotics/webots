@@ -34,6 +34,7 @@
 
 #include <climits>
 #include <cmath>
+#include "../../../include/controller/c/webots/display.h"  // contains the definitions of the image format
 #include "../../lib/Controller/api/messages.h"  // contains the definitions for the macros C_DISPLAY_SET_COLOR, C_DISPLAY_SET_ALPHA, C_DISPLAY_SET_OPACITY, ...
 
 #include <QtCore/QDataStream>
@@ -137,7 +138,7 @@ void WbDisplay::preFinalize() {
   findImageTextures();
 }
 
-int WbDisplay::channelNumberFromPixelFormat(ImageFormat pixelFormat) {
+int WbDisplay::channelNumberFromPixelFormat(int pixelFormat) {
   switch (pixelFormat) {
     case WB_IMAGE_RGB:
       return 3;
@@ -342,10 +343,10 @@ void WbDisplay::handleMessage(QDataStream &stream) {
       stream >> w;
       stream >> h;
       stream >> format;
-      channel = channelNumberFromPixelFormat((ImageFormat)format);
+      channel = channelNumberFromPixelFormat(format);
       img = new char[channel * w * h];
       stream.readRawData(img, channel * w * h);
-      imageLoad(id, w, h, img, (ImageFormat)format);
+      imageLoad(id, w, h, img, format);
       delete[] img;
       break;
     case C_DISPLAY_IMAGE_SAVE: {
@@ -984,7 +985,7 @@ void WbDisplay::imagePaste(int id, int x, int y, bool blend) {
   }
 }
 
-void WbDisplay::imageLoad(int id, int w, int h, void *data, ImageFormat format) {
+void WbDisplay::imageLoad(int id, int w, int h, void *data, int format) {
   const int nbPixel = w * h;
   unsigned int *clippedImage = new unsigned int[nbPixel];
   bool isTransparent = false;
