@@ -574,6 +574,7 @@ The `wb_display_fill_polygon` function draws a polygon having the same propertie
 #define WB_IMAGE_RGBA 4
 #define WB_IMAGE_ARGB 5
 #define WB_IMAGE_BGRA 6
+#define WB_IMAGE_ABGR 7
 
 typedef struct WbImageStructPrivate *WbImageRef;
 
@@ -599,7 +600,7 @@ namespace webots {
   };
 
   class Display : public Device
-    enum {RGB, RGBA, ARGB, BGRA};
+    enum {RGB, RGBA, ARGB, BGRA, ABGR};
 
     ImageRef *imageNew(int width, int height, const void *data, int format) const;
     ImageRef *imageLoad(const std::string &filename) const;
@@ -623,7 +624,7 @@ class ImageRef:
     # ...
 
 class Display (Device):
-    RGB, RGBA, ARGB, BGRA
+    RGB, RGBA, ARGB, BGRA, ABGR
 
     def imageNew(self, data, format, width=None, height=None):
     def imageLoad(self, filename):
@@ -647,7 +648,7 @@ public class ImageRef {
 }
 
 public class Display extends Device {
-  public final static int RGB, RGBA, ARGB, BGRA;
+  public final static int RGB, RGBA, ARGB, BGRA, ABGR;
 
   public ImageRef imageNew(int width, int height, int[] data, int format);
   public ImageRef imageLoad(String filename);
@@ -664,7 +665,7 @@ public class Display extends Device {
 %tab "MATLAB"
 
 ```MATLAB
-RGB, RGBA, ARGB, BGRA
+RGB, RGBA, ARGB, BGRA, ABGR
 
 image = wb_display_image_new(tag, data, format)
 image = wb_display_image_load(tag, 'filename')
@@ -703,7 +704,7 @@ They should be deleted with the `wb_display_image_delete` function when they are
 Finally, note that both the main display image and the clipboard images have an alpha channel.
 
 The `wb_display_image_new` function creates a new clipboard image, with the specified `with` and `height`, and loads the image `data` into it with respect to the defined image `format`.
-Three images format are supported: `WB_IMAGE_RGBA` which is similar to the image format returned by a `Camera` device and `WB_IMAGE_RGB` or `WB_IMAGE_ARGB`.
+Five images format are supported: `WB_IMAGE_BGRA` which is similar to the image format returned by a `Camera` device and `WB_IMAGE_RGB`, `WB_IMAGE_RGBA`, `WB_IMAGE_ARGB`,  or `WB_IMAGE_ABGR`.
 `WB_IMAGE_RGBA` and `WB_IMAGE_ARGB` are including an alpha channel respectively after and before the color components.
 
 The `wb_display_image_load` function creates a new clipboard image, loads an image file into it and returns a reference to the new clipboard image.

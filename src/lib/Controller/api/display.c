@@ -716,7 +716,8 @@ WbImageRef wb_display_image_new(WbDeviceTag tag, int width, int height, const vo
     fprintf(stderr, "Error: wb_display_image_new(): 'width' or 'height' argument is invalid.\n");
     return NULL;
   }
-  if (format != WB_IMAGE_RGB && format != WB_IMAGE_RGBA && format != WB_IMAGE_ARGB && format != WB_IMAGE_BGRA) {
+  if (format != WB_IMAGE_RGB && format != WB_IMAGE_RGBA && format != WB_IMAGE_ARGB && format != WB_IMAGE_BGRA &&
+      format != WB_IMAGE_ABGR) {
     fprintf(stderr, "Error: wb_display_image_new(): 'format' argument is invalid.\n");
     return NULL;
   }
