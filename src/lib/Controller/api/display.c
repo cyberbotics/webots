@@ -765,6 +765,7 @@ WbImageRef wb_display_image_load(WbDeviceTag tag, const char *filename) {
   GImage *gi = g_image_new(filename);
   if (gi->failed || (gi->data_format != G_IMAGE_DATA_FORMAT_ABGR && gi->data_format != G_IMAGE_DATA_FORMAT_RGBA &&
                      gi->data_format != G_IMAGE_DATA_FORMAT_RGB)) {
+    fprintf(stderr, "Error: wb_display_image_load(): the \"%s\" image is unreadable.\n", filename);
     g_image_delete(gi);
     return NULL;
   }
