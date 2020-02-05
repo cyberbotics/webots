@@ -1024,16 +1024,26 @@ body {
    .webots-doc #view {
      width: calc(100% - 1em);
    }
-   .webots-doc #view, .webots-doc #title {
+   .webots-doc #view {
      margin-left: 0.5em;
      margin-right: 0.5em;
      padding-left: 0;
      padding-right: 0;
    }
-   .webots-doc h1, .webots-doc h2, .webots-doc h3, .webots-doc h4, .webots-doc h5, .webots-doc h6 {
+   .webots-doc h1, .webots-doc h2, .webots-doc h3, .webots-doc h4, .webots-doc h5, .webots-doc h6,
+   .webots-doc #title, .webots-doc #title-content, .webots-doc .anchor-header {
+     left: 0;
+     margin-left: auto;
+     margin-right: auto;
+     padding-left: 0;
+     padding-right: 0;
      text-align: center;
    }
    .webots-doc #navigation {
      width: 100%;
+   }
+   .webots-doc #accordion li, .webots-doc #accordion a {
+     padding-left: 0 !important;
+     padding-right: 0 !important;
    }
  }
