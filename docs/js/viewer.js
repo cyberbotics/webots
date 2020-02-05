@@ -1404,11 +1404,8 @@ function initializeHandle() {
 
   // dimension bounds of the handle in pixels
   handle.min = 0;
-  handle.minThreshold = 75; // under this threshold, the handle is totally hidden
-  if (localSetup.menuWidth && localSetup.menuWidth !== '')
-    handle.initialWidth = localSetup.menuWidth;
-  else
-    handle.initialWidth = handle.left.width();
+  handle.minThreshold = 90; // under this threshold, the handle is totally hidden
+  handle.initialWidth = Math.max(handle.minThreshold, handle.left.width());
   handle.max = Math.max(250, handle.initialWidth);
 
   handle.isResizing = false;
