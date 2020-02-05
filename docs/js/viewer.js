@@ -1157,10 +1157,11 @@ function updateMenuScrollbar() {
   var e = document.documentElement;
   var t = document.documentElement.scrollTop || document.body.scrollTop;
   var p = e.scrollHeight - t - e.clientHeight;
-  if (p < 244) // 244 is the height in pixels of the footer of Cyberbotics web page
-    document.querySelector('#left').style.height = (e.clientHeight - 290 + p) + 'px';
-  else // 44 is the height in pixels of the header of Cyberbotics web page (44 + 244 = 290)
-    document.querySelector('#left').style.height = 'calc(100% - 44px)';
+  var footerHeight = 192;
+  if (p < footerHeight)
+    document.querySelector('#left').style.height = (e.clientHeight - footerHeight + p) + 'px';
+  else
+    document.querySelector('#left').style.height = '100%';
 }
 
 function updateSelection() {
