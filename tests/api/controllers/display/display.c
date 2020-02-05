@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   // check image paste and draw with alpha on top of it
-  WbImageRef image_ref = wb_display_image_load(display, "./image.jpg");
+  WbImageRef image_ref = wb_display_image_load(display, "./image.png");
   wb_display_image_paste(display, image_ref, 0, 0, false);
   wb_robot_step(TIME_STEP);
   quick_assert_color(camera, 5, 5, GREEN, "image paste failed");
