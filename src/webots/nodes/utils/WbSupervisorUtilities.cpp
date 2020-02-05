@@ -557,8 +557,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     }
     case C_SUPERVISOR_NODE_GET_FROM_DEF: {
       const QString &nodeName = readString(stream);
+      unsigned char allowSearchInProto;
+      stream >> allowSearchInProto;
       const WbBaseNode *baseNode = dynamic_cast<const WbBaseNode *>(getNodeFromDEF(nodeName));
-      if (baseNode && !baseNode->parentField())  // make sure the parent field is visible
+      if (allowSearchInProto == 0 && baseNode && !baseNode->parentField())  // make sure the parent field is visible
         baseNode = NULL;
       mFoundNodeUniqueId = baseNode ? baseNode->uniqueId() : 0;
       mFoundNodeType = baseNode ? baseNode->nodeType() : 0;
@@ -863,7 +865,9 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     }
     case C_SUPERVISOR_FIELD_GET_FROM_NAME: {
       int id;
+      unsigned char allowSearchInProto;
       stream >> id;
+      stream >> allowSearchInProto;
       const QString name = readString(stream);
 
       mFoundFieldId = -1;
@@ -872,8 +876,9 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       WbNode *const node = WbNode::findNode(id);
       if (node) {
-        // qDebug() << "Node=" << node->fullName() << " uniqueId=" << id << " fieldName=" << name;
-        id = node->findFieldId(name);
+        // qDebug() << "Node=" << node->fullName() << " uniqueId=" << id << " fieldName=" << name " allowSearchInProto=" <<
+        // allowSearchInProto == 1;
+        id = node->findFieldId(name, allowSearchInProto == 1);
         if (id != -1) {
           WbField *field = node->field(id);
           if (field) {

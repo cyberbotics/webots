@@ -545,9 +545,9 @@ WbField *WbNode::findField(const QString &fieldName, bool internal) const {
   return NULL;
 }
 
-int WbNode::findFieldId(const QString &fieldName) const {
+int WbNode::findFieldId(const QString &fieldName, bool internal) const {
   int counter = 0;
-  QVector<WbField *> fields = fieldsOrParameters();
+  const QVector<WbField *> &fields = internal ? mFields : fieldsOrParameters();
   foreach (const WbField *const field, fields) {
     if (field->name() == fieldName)
       return counter;

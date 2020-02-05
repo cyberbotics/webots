@@ -207,7 +207,7 @@ public:
     return parentFieldAndIndex(index, internal);
   }
   WbField *parentFieldAndIndex(int &index, bool internal = false) const;
-  int findFieldId(const QString &fieldName) const;
+  int findFieldId(const QString &fieldName, bool internal = false) const;
   int fieldIndex(const WbField *field) const;
   int parameterIndex(const WbField *field) const;
   void disconnectFieldNotification(const WbValue *value);
