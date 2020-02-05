@@ -1386,6 +1386,7 @@ function extractAnchor(url) {
 // width: in pixels
 function setHandleWidth(width) {
   handle.left.css('width', width + 'px');
+  handle.menu.css('width', width + 'px');
   handle.handle.css('left', width + 'px');
   handle.center.css('left', width + 'px');
   handle.center.css('width', 'calc(100% - ' + width + 'px)');
@@ -1396,6 +1397,7 @@ function initializeHandle() {
   handle = {}; // structure where all the handle info is stored
 
   handle.left = $('#left');
+  handle.menu = $('#menu');
   handle.center = $('#center');
   handle.handle = $('#handle');
   handle.container = $('#webots-doc');
