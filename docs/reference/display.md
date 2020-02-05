@@ -705,7 +705,6 @@ Finally, note that both the main display image and the clipboard images have an 
 
 The `wb_display_image_new` function creates a new clipboard image, with the specified `with` and `height`, and loads the image `data` into it with respect to the defined image `format`.
 Five images format are supported: `WB_IMAGE_BGRA` which is the recommended one and the image format returned by a `Camera` device, `WB_IMAGE_RGB`, `WB_IMAGE_RGBA`, `WB_IMAGE_ARGB`,  and `WB_IMAGE_ABGR`.
-`WB_IMAGE_BGRA`, `WB_IMAGE_RGBA` and `WB_IMAGE_ARGB` are including an alpha channel respectively after and before the color components.
 
 The `wb_display_image_load` function creates a new clipboard image, loads an image file into it and returns a reference to the new clipboard image.
 The image file is specified with the `filename` parameter (relatively to the controller directory).
