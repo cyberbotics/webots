@@ -289,6 +289,7 @@ static bool save_request = false;
 static char *save_filename = NULL;
 static int node_id = -1;
 static WbNodeRef node_to_remove = NULL;
+static bool allow_search_in_proto = false;
 static const char *node_def_name = NULL;
 static const char *requested_field_name = NULL;
 static bool node_get_selected = false;
@@ -397,12 +398,14 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
   } else if (node_def_name) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_FROM_DEF);
     request_write_string(r, node_def_name);
+    request_write_uchar(r, allow_search_in_proto ? 1 : 0);
   } else if (node_get_selected) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_SELECTED);
   } else if (requested_field_name) {
     request_write_uchar(r, C_SUPERVISOR_FIELD_GET_FROM_NAME);
     request_write_uint32(r, node_ref);
     request_write_string(r, requested_field_name);
+    request_write_uchar(r, allow_search_in_proto ? 1 : 0);
   } else {
     WbFieldRequest *request = field_requests_list_head;
     field_requests_list_tail = NULL;
@@ -1393,6 +1396,31 @@ WbNodeRef wb_supervisor_node_get_from_def(const char *def) {
     result = find_node_by_id(node_id);
   node_def_name = NULL;
   node_id = -1;
+WbNodeRef wb_supervisor_node_get_from_proto_def(const char *def) {
+  if (!robot_check_supervisor("wb_supervisor_node_get_from_proto_def"))
+    return NULL;
+
+  if (!def || !def[0]) {
+    fprintf(stderr, "Error: wb_supervisor_node_get_from_proto_def() called with NULL or empty 'def' argument.\n");
+    return NULL;
+  }
+
+  robot_mutex_lock_step();
+
+  // search if node is already present in node_list
+  WbNodeRef result = find_node_by_def(def);
+  if (!result) {
+    // otherwise: need to talk to Webots
+    node_def_name = def;
+    node_id = -1;
+    allow_search_in_proto = true;
+    wb_robot_flush_unlocked();
+    if (node_id >= 0)
+      result = find_node_by_id(node_id);
+    node_def_name = NULL;
+    node_id = -1;
+    allow_search_in_proto = false;
+  }
   robot_mutex_unlock_step();
   return result;
 }
@@ -1641,6 +1669,41 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
       requested_field_name = NULL;
       result = field_list;  // was just inserted at list head
     }
+  }
+  robot_mutex_unlock_step();
+  return result;
+}
+
+WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name) {
+  if (!robot_check_supervisor("wb_supervisor_node_get_proto_field"))
+    return NULL;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: wb_supervisor_node_get_proto_field() called with NULL or invalid 'node' argument.\n");
+    return NULL;
+  }
+
+  if (!field_name || !field_name[0]) {
+    fprintf(stderr, "Error: wb_supervisor_node_get_proto_field() called with NULL or empty 'field_name' argument.\n");
+    return NULL;
+  }
+
+  robot_mutex_lock_step();
+
+  // search if field is already present in field_list
+  WbFieldRef result = find_field(field_name, node->id);
+  if (!result) {
+    // otherwise: need to talk to Webots
+    requested_field_name = field_name;
+    node_ref = node->id;
+    allow_search_in_proto = true;
+    wb_robot_flush_unlocked();
+    if (requested_field_name) {
+      requested_field_name = NULL;
+      result = field_list;  // was just inserted at list head
+    }
+    allow_search_in_proto = false;
   }
   robot_mutex_unlock_step();
   return result;
