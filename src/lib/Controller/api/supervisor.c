@@ -150,6 +150,16 @@ static WbNodeRef find_node_by_id(int id) {
   return NULL;
 }
 
+static WbNodeRef find_node_by_def(const char *def_name) {
+  WbNodeRef node = node_list;
+  while (node) {
+    if (strcmp(def_name, node->def_name) == 0)
+      return node;
+    node = node->next;
+  }
+  return NULL;
+}
+
 static bool is_node_ref_valid(WbNodeRef n) {
   if (!n)
     return false;
@@ -1388,14 +1398,22 @@ WbNodeRef wb_supervisor_node_get_from_def(const char *def) {
 
   robot_mutex_lock_step();
 
-  WbNodeRef result = NULL;
-  node_def_name = def;
-  node_id = -1;
-  wb_robot_flush_unlocked();
-  if (node_id >= 0)
-    result = find_node_by_id(node_id);
-  node_def_name = NULL;
-  node_id = -1;
+  // search if node is already present in node_list
+  WbNodeRef result = find_node_by_def(def);
+  if (!result) {
+    // otherwise: need to talk to Webots
+    node_def_name = def;
+    node_id = -1;
+    wb_robot_flush_unlocked();
+    if (node_id >= 0)
+      result = find_node_by_id(node_id);
+    node_def_name = NULL;
+    node_id = -1;
+  }
+  robot_mutex_unlock_step();
+  return result;
+}
+
 WbNodeRef wb_supervisor_node_get_from_proto_def(const char *def) {
   if (!robot_check_supervisor("wb_supervisor_node_get_from_proto_def"))
     return NULL;
