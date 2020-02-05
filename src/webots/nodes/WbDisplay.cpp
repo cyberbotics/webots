@@ -141,12 +141,13 @@ int WbDisplay::channelNumberFromPixelFormat(ImageFormat pixelFormat) {
   switch (pixelFormat) {
     case WB_IMAGE_RGB:
       return 3;
-    default:
-      assert(0);
     case WB_IMAGE_RGBA:
     case WB_IMAGE_ARGB:
     case WB_IMAGE_BGRA:
+    case WB_IMAGE_ABGR:
       return 4;
+    default:
+      assert(0);
   }
 }
 
@@ -988,37 +989,38 @@ void WbDisplay::imageLoad(int id, int w, int h, void *data, ImageFormat format) 
   unsigned int *clippedImage = new unsigned int[nbPixel];
   bool isTransparent = false;
 
-  if (format == WB_IMAGE_ARGB)
+  // convert to BGRA
+  if (format == WB_IMAGE_BGRA)
     memcpy(clippedImage, data, nbPixel * 4);
-  else if (format == WB_IMAGE_BGRA) {
-    unsigned char *dataUC = (unsigned char *)data;
-    unsigned char *clippedImageUC = (unsigned char *)clippedImage;
+  else if (format == WB_IMAGE_ARGB) {
+    const unsigned char *dataUC = (unsigned char *)data;
     for (int i = 0; i < nbPixel; i++) {
       const int offset = 4 * i;
-      if (dataUC[offset + 3] != 0xFF)
+      if (dataUC[offset] != 0xFF)
         isTransparent = true;
-      clippedImageUC[offset] = dataUC[offset + 3];
-      clippedImageUC[offset + 1] = dataUC[offset + 2];
-      clippedImageUC[offset + 2] = dataUC[offset + 1];
-      clippedImageUC[offset + 3] = dataUC[offset];
+      clippedImage[i] = (dataUC[offset] << 24) | (dataUC[offset + 1] << 16) | (dataUC[offset + 2] << 8) | dataUC[offset + 3];
     }
   } else if (format == WB_IMAGE_RGB) {
-    unsigned char *dataUC = (unsigned char *)data;
+    const unsigned char *dataUC = (unsigned char *)data;
     for (int i = 0; i < nbPixel; i++) {
       const int offset = 3 * i;
       clippedImage[i] = 0xFF000000 | (dataUC[offset] << 16) | (dataUC[offset + 1] << 8) | dataUC[offset + 2];
     }
   } else if (format == WB_IMAGE_RGBA) {
-    unsigned char *dataUC = (unsigned char *)data;
-    unsigned char *clippedImageUC = (unsigned char *)clippedImage;
+    const unsigned char *dataUC = (unsigned char *)data;
     for (int i = 0; i < nbPixel; i++) {
       const int offset = 4 * i;
-      if (dataUC[offset + 1] != 0xFF)
+      if (dataUC[offset + 3] != 0xFF)
         isTransparent = true;
-      clippedImageUC[offset] = dataUC[offset + 1];
-      clippedImageUC[offset + 1] = dataUC[offset + 2];
-      clippedImageUC[offset + 2] = dataUC[offset + 3];
-      clippedImageUC[offset + 3] = dataUC[offset];
+      clippedImage[i] = (dataUC[offset + 3] << 24) | (dataUC[offset] << 16) | (dataUC[offset + 1] << 8) | dataUC[offset + 2];
+    }
+  } else if (format == WB_IMAGE_ABGR) {
+    const unsigned char *dataUC = (unsigned char *)data;
+    for (int i = 0; i < nbPixel; i++) {
+      const int offset = 4 * i;
+      if (dataUC[offset] != 0xFF)
+        isTransparent = true;
+      clippedImage[i] = (dataUC[offset] << 24) | (dataUC[offset + 3] << 16) | (dataUC[offset + 2] << 8) | dataUC[offset + 1];
     }
   } else
     assert(0);

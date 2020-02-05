@@ -135,12 +135,13 @@ int display_get_channel_number(int pixel_format) {
   switch (pixel_format) {
     case WB_IMAGE_RGB:
       return 3;
-    default:
-      assert(0);
     case WB_IMAGE_RGBA:
     case WB_IMAGE_ARGB:
     case WB_IMAGE_BGRA:
+    case WB_IMAGE_ABGR:
       return 4;
+    default:
+      assert(0);
   }
 }
 
@@ -761,8 +762,8 @@ WbImageRef wb_display_image_load(WbDeviceTag tag, const char *filename) {
     return NULL;
   }
   GImage *gi = g_image_new(filename);
-  if (gi->failed || (gi->data_format != G_IMAGE_DATA_FORMAT_ABGR && gi->data_format != G_IMAGE_DATA_FORMAT_RGB)) {
-    fprintf(stderr, "Error: wb_display_image_load(): the \"%s\" image is unreadable.\n", filename);
+  if (gi->failed || (gi->data_format != G_IMAGE_DATA_FORMAT_ABGR && gi->data_format != G_IMAGE_DATA_FORMAT_RGBA &&
+                     gi->data_format != G_IMAGE_DATA_FORMAT_RGB)) {
     g_image_delete(gi);
     return NULL;
   }
@@ -781,7 +782,19 @@ WbImageRef wb_display_image_load(WbDeviceTag tag, const char *filename) {
   } else if (m && i && im) {
     m->message = C_DISPLAY_IMAGE_LOAD;
     i->id = d->image_next_free_id;
-    i->format = (gi->data_format == G_IMAGE_DATA_FORMAT_RGB) ? WB_IMAGE_RGB : WB_IMAGE_RGBA;
+    switch (gi->data_format) {
+      case G_IMAGE_DATA_FORMAT_RGB:
+        i->format = WB_IMAGE_RGB;
+        break;
+      case G_IMAGE_DATA_FORMAT_RGBA:
+        i->format = WB_IMAGE_RGBA;
+        break;
+      case G_IMAGE_DATA_FORMAT_ABGR:
+        i->format = WB_IMAGE_ABGR;
+        break;
+      default:
+        assert(false);
+    }
     i->width = gi->width;
     i->height = gi->height;
     i->image = gi->data;

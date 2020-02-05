@@ -31,7 +31,8 @@ public:
     WB_IMAGE_RGB = 3,
     WB_IMAGE_RGBA,
     WB_IMAGE_ARGB,
-    WB_IMAGE_BGRA
+    WB_IMAGE_BGRA,
+    WB_IMAGE_ABGR
   };
   // constructors and destructor
   explicit WbDisplay(WbTokenizer *tokenizer = NULL);
