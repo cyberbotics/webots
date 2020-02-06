@@ -263,23 +263,25 @@ Desk {
   name "desk(1)"
 }
 Monitor {
-  translation -3.1515 0.72 -3.89076
+  translation -3.1515 0.71 -3.89076
 }
 Monitor {
-  translation -4.1015 0.72 -3.89076
+  translation -4.1015 0.8 -3.89076
   name "monitor(4)"
 }
 Monitor {
-  translation -2.6615 0.72 -3.89076
+  translation -2.6615 0.71 -3.89076
   name "monitor(1)"
 }
-Monitor {
-  translation -1.4715 0.72 -3.89076
-  name "monitor(2)"
-}
-Monitor {
-  translation -1.9715 0.72 -3.89076
-  name "monitor(3)"
+Transform {
+  translation -1.4715 0.71 -3.89076
+  scale 1.5 1.5 1.5
+  children [
+    Monitor {
+      translation -0.18 0 0
+      name "monitor(2)"
+    }
+  ]
 }
 DEF PLATFORM Transform {
   translation -1.31 0 1.85
@@ -2293,7 +2295,7 @@ Table {
 Table {
   translation -4.16704 0 -4.03194
   name "table(4)"
-  size 0.9 0.7 0.6
+  size 0.9 0.8 0.6
   feetSize 0.05 0.05
   trayAppearance PBRAppearance {
     baseColor 0.926 0.912 0.698
@@ -4927,20 +4929,19 @@ WoodenBox {
   translation -0.3964655 0.3 -3.99435
 }
 WoodenChair {
-  translation -2.93867 0 -4.43528
+  translation -5.30183 0 -6.16174
 }
-WoodenChair {
-  translation -4.17894 -2.66454e-15 -4.36034
-  rotation 0 1 0 -0.523595307179586
-  name "wooden chair(3)"
+OfficeChair {
+  translation -1.77704 -7.10543e-15 -4.80919
+  rotation 0 -1 0 0.785397
 }
-WoodenChair {
-  translation -2.06888 0 -4.60316
-  rotation 0 -1 0 5.235987778359173
-  name "wooden chair(2)"
+OfficeChair {
+  translation -2.97822 0 -4.72896
+  rotation 0 1 0 0.261801
+  name "office chair(1)"
 }
-WoodenChair {
-  translation -1.44315 0 -4.51831
-  rotation 0 1 0 -0.261795307179586
-  name "wooden chair(1)"
+OfficeChair {
+  translation -4.1856 0 -4.37064
+  rotation 0 -1 0 0.26179530717958593
+  name "office chair(2)"
 }

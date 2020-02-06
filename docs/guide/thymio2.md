@@ -1,4 +1,4 @@
-## Mosyba's Thymio II
+## Mobsya's Thymio II
 
 %robot thymio2 images/robots/thymio2/model.thumbnail.png
 

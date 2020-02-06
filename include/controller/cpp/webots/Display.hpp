@@ -22,7 +22,7 @@ namespace webots {
   class Camera;
   class Display : public Device {
   public:
-    enum { RGB = 3, RGBA, ARGB, BGRA };
+    enum { RGB = 3, RGBA, ARGB, BGRA, ABGR };
     explicit Display(const std::string &name) : Device(name) {}  // Use Robot::getDisplay() instead
     virtual ~Display() {}
     int getWidth() const;
