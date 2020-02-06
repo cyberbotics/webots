@@ -143,6 +143,7 @@ int display_get_channel_number(int pixel_format) {
     default:
       assert(0);
   }
+  return 0;
 }
 
 static bool save_image(Display *d, int id, int width, int height, unsigned char *im) {
