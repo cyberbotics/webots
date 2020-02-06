@@ -73,6 +73,7 @@ private:
   int mFoundFieldId;
   int mFoundFieldType;
   int mFoundFieldCount;
+  bool mFoundFieldVisible;
   bool mGetSelectedNode;
   bool mGetFromId;
   bool mNeedToResetSimulation;
