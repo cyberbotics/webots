@@ -129,6 +129,7 @@ node = wb_supervisor_node_get_selected()
 The `wb_supervisor_node_get_from_def` function returns a handle to a node in the world from its DEF name.
 The return value can be used for subsequent calls to functions which require a `WbNodeRef` parameter.
 If the requested node does not exist in the current world file or is an internal node of a PROTO, the function returns NULL.
+If a handle to an internal node of a PROTO should be retrieve, the `wb_supervisor_node_get_from_proto_def` should be used instead.
 
 It is possible to use dots (.) as scoping operator in the DEF parameter.
 Dots can be used when looking for a specific node path in the node hierarchy.
