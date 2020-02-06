@@ -114,7 +114,7 @@ node = wb_supervisor_node_get_selected()
 | --- | --- | --- | --- |
 | `/supervisor/get_root` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
 | `/supervisor/get_self` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
-| `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`---`<br/>`uint64 node` |
+| `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`bool proto`<br/>`---`<br/>`uint64 node` |
 | `/supervisor/get_from_id` | `service` | `webots_ros::supervisor_get_from_id` | `int32 id`<br/>`---`<br/>`uint64 node` |
 | `/supervisor/get_selected` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
 
@@ -696,7 +696,7 @@ field = wb_supervisor_node_get_proto_field(node, 'field_name')
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/supervisor/node/get_field` | `service` | `webots_ros::node_get_field` | `uint64 node`<br/>`string fieldName`<br/>`---`<br/>`uint64 field` |
+| `/supervisor/node/get_field` | `service` | `webots_ros::node_get_field` | `uint64 node`<br/>`string fieldName`<br/>`bool proto`<br/>`---`<br/>`uint64 field` |
 
 %tab-end
 
