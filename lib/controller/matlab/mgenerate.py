@@ -529,6 +529,7 @@ gen_const("WB_IMAGE_RGB",  "3")
 gen_const("WB_IMAGE_RGBA", "4")
 gen_const("WB_IMAGE_ARGB", "5")
 gen_const("WB_IMAGE_BGRA", "6")
+gen_const("WB_IMAGE_ABGR", "7")
 
 gen_const("WB_KEYBOARD_KEY",        "65535")
 gen_const("WB_KEYBOARD_SHIFT",      "65536")

@@ -1157,10 +1157,11 @@ function updateMenuScrollbar() {
   var e = document.documentElement;
   var t = document.documentElement.scrollTop || document.body.scrollTop;
   var p = e.scrollHeight - t - e.clientHeight;
-  if (p < 244) // 244 is the height in pixels of the footer of Cyberbotics web page
-    document.querySelector('#left').style.height = (e.clientHeight - 290 + p) + 'px';
-  else // 44 is the height in pixels of the header of Cyberbotics web page (44 + 244 = 290)
-    document.querySelector('#left').style.height = 'calc(100% - 44px)';
+  var footerHeight = 192;
+  if (p < footerHeight)
+    document.querySelector('#left').style.height = (e.clientHeight - footerHeight + p) + 'px';
+  else
+    document.querySelector('#left').style.height = '100%';
 }
 
 function updateSelection() {
@@ -1385,6 +1386,7 @@ function extractAnchor(url) {
 // width: in pixels
 function setHandleWidth(width) {
   handle.left.css('width', width + 'px');
+  handle.menu.css('width', width + 'px');
   handle.handle.css('left', width + 'px');
   handle.center.css('left', width + 'px');
   handle.center.css('width', 'calc(100% - ' + width + 'px)');
@@ -1395,17 +1397,15 @@ function initializeHandle() {
   handle = {}; // structure where all the handle info is stored
 
   handle.left = $('#left');
+  handle.menu = $('#menu');
   handle.center = $('#center');
   handle.handle = $('#handle');
   handle.container = $('#webots-doc');
 
   // dimension bounds of the handle in pixels
   handle.min = 0;
-  handle.minThreshold = 75; // under this threshold, the handle is totally hidden
-  if (localSetup.menuWidth && localSetup.menuWidth !== '')
-    handle.initialWidth = localSetup.menuWidth;
-  else
-    handle.initialWidth = handle.left.width();
+  handle.minThreshold = 90; // under this threshold, the handle is totally hidden
+  handle.initialWidth = Math.max(handle.minThreshold, handle.left.width());
   handle.max = Math.max(250, handle.initialWidth);
 
   handle.isResizing = false;
@@ -1423,7 +1423,9 @@ function initializeHandle() {
 
   setHandleWidth(handle.initialWidth);
 
-  handle.handle.on('mousedown', function(e) {
+  handle.handle.on('mousedown touchstart', function(e) {
+    if (e.type === 'touchstart')
+      e = e.originalEvent.touches[0];
     handle.isResizing = true;
     handle.lastDownX = e.clientX;
     handle.container.css('user-select', 'none');
@@ -1434,7 +1436,9 @@ function initializeHandle() {
       setHandleWidth(0);
   });
 
-  $(document).on('mousemove', function(e) {
+  $(document).on('mousemove touchmove', function(e) {
+    if (e.type === 'touchmove')
+      e = e.originalEvent.touches[0];
     if (!handle.isResizing)
       return;
     var mousePosition = e.clientX - handle.container.offset().left; // in pixels
@@ -1446,7 +1450,7 @@ function initializeHandle() {
     if (mousePosition < handle.min || mousePosition > handle.max)
       return;
     setHandleWidth(mousePosition);
-  }).on('mouseup', function(e) {
+  }).on('mouseup touchend', function(e) {
     handle.isResizing = false;
     handle.container.css('user-select', 'auto');
   });

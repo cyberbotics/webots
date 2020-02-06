@@ -194,6 +194,9 @@
   },
   "projects/objects/chairs/protos/Chair": {
   },
+  "projects/objects/chairs/protos/OfficeChair": {
+    "fields": "rotation 0 1 0 1.309"
+  },
   "projects/objects/chairs/protos/SimpleChair": {
     "fields": "rotation 0 1 0 2.394395"
   },
