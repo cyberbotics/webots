@@ -868,8 +868,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       int id;
       unsigned char allowSearchInProto;
       stream >> id;
-      stream >> allowSearchInProto;
       const QString name = readString(stream);
+      stream >> allowSearchInProto;
 
       mFoundFieldId = -1;
       mFoundFieldType = 0;

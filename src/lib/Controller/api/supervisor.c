@@ -154,7 +154,7 @@ static WbNodeRef find_node_by_id(int id) {
 static WbNodeRef find_node_by_def(const char *def_name) {
   WbNodeRef node = node_list;
   while (node) {
-    if (strcmp(def_name, node->def_name) == 0)
+    if (node->def_name && strcmp(def_name, node->def_name) == 0)
       return node;
     node = node->next;
   }
