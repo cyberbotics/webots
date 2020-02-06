@@ -150,6 +150,7 @@ int WbDisplay::channelNumberFromPixelFormat(int pixelFormat) {
     default:
       assert(0);
   }
+  return 0;
 }
 
 void WbDisplay::findImageTextures() {
