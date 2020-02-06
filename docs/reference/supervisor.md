@@ -715,6 +715,10 @@ Otherwise, it returns a handler to a field.
 
 > **Note**: The `wb_supervisor_node_get_field` function will return a valid field handler if the field corresponding to the field name is an hidden field.
 
+If the field is an internal field of a PROTO, the `wb_supervisor_node_get_proto_field` function should be used instead.
+
+> **Note**: field retrieved using the `wb_supervisor_node_get_proto_field` function are read-only. Which means that it is not possible to change them using any of the [`wb_supervisor_field_set_*`](#wb_supervisor_field_set_sf_bool) functions.
+
 ---
 
 #### `wb_supervisor_node_get_position`
