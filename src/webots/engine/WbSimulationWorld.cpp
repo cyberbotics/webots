@@ -54,7 +54,7 @@ WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer
   mSimulationHasRunAfterSave(false) {
   if (mWorldLoadingCanceled)
     return;
-  mSleepRealTime = (int)basicTimeStep();
+  mSleepRealTime = basicTimeStep();
 
   WbSimulationState::instance()->resetTime();
   // Reset random seed to ensure reproducible simulations.
@@ -175,9 +175,11 @@ void WbSimulationWorld::step() {
     //              (if the real-time mode is enabled, of course)
     // mean *= 0.90;
 
-    if (mean > timeStep && mSleepRealTime > 0.0)
+    if (mean > timeStep && mSleepRealTime > 0.0) {
       mSleepRealTime -= 0.03 * timeStep;
-    else if (mean < timeStep)
+      if (mSleepRealTime < 0)
+        mSleepRealTime = 0.0;
+    } else if (mean < timeStep)
       mSleepRealTime += 0.03 * timeStep;
 
     mTimer->start(mSleepRealTime);
