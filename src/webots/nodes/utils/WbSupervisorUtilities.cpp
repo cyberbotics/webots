@@ -265,7 +265,7 @@ void WbSupervisorUtilities::initControllerRequests() {
   mFoundFieldId = -2;
   mFoundFieldType = 0;
   mFoundFieldCount = -1;
-  mFoundFieldVisible = false;
+  mFoundFieldIsInternal = false;
   mGetSelectedNode = false;
   mGetFromId = false;
   mNeedToResetSimulation = false;
@@ -874,7 +874,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       mFoundFieldId = -1;
       mFoundFieldType = 0;
       mFoundFieldCount = -1;
-      mFoundFieldVisible = false;
+      mFoundFieldIsInternal = false;
 
       WbNode *const node = WbNode::findNode(id);
       if (node) {
@@ -888,7 +888,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
             mFoundFieldCount = mv ? mv->size() : -1;
             mFoundFieldId = id;
             mFoundFieldType = field->type();
-            mFoundFieldVisible = !allowSearchInProto || (node->parentField() && node->fieldsOrParameters().contains(field));
+            mFoundFieldIsInternal =
+              allowSearchInProto == 1 && (!node->parentField() || !node->fieldsOrParameters().contains(field));
           }
         }
       }
@@ -1280,7 +1281,7 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream << (unsigned char)C_SUPERVISOR_FIELD_GET_FROM_NAME;
     stream << (int)mFoundFieldId;
     stream << (int)mFoundFieldType;
-    stream << (unsigned char)mFoundFieldVisible;
+    stream << (unsigned char)mFoundFieldIsInternal;
     if (mFoundFieldCount != -1)
       stream << (int)mFoundFieldCount;
     mFoundFieldId = -2;
