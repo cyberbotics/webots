@@ -19,6 +19,7 @@ As for a regular [Robot](robot.md) controller, the `wb_robot_init`, `wb_robot_st
 #### `wb_supervisor_node_get_root`
 #### `wb_supervisor_node_get_self`
 #### `wb_supervisor_node_get_from_def`
+#### `wb_supervisor_node_get_from_proto_def`
 #### `wb_supervisor_node_get_from_id`
 #### `wb_supervisor_node_get_selected`
 
@@ -32,6 +33,7 @@ As for a regular [Robot](robot.md) controller, the `wb_robot_init`, `wb_robot_st
 WbNodeRef wb_supervisor_node_get_root();
 WbNodeRef wb_supervisor_node_get_self();
 WbNodeRef wb_supervisor_node_get_from_def(const char *def);
+WbNodeRef wb_supervisor_node_get_from_proto_def(const char *def);
 WbNodeRef wb_supervisor_node_get_from_id(int id);
 WbNodeRef wb_supervisor_node_get_selected();
 ```
@@ -48,6 +50,7 @@ namespace webots {
     Node *getRoot();
     Node *getSelf();
     Node *getFromDef(const std::string &name);
+    Node *getFromProtoDef(const std::string &name);
     Node *getFromId(int id);
     Node *getSelected();
     // ...
@@ -66,6 +69,7 @@ class Supervisor (Robot):
     def getRoot(self):
     def getSelf(self):
     def getFromDef(self, name):
+    def getFromProtoDef(self, name):
     def getFromId(self, id):
     def getSelected(self):
     # ...
@@ -82,6 +86,7 @@ public class Supervisor extends Robot {
   public Node getRoot();
   public Node getSelf();
   public Node getFromDef(String name);
+  public Node getFromProtoDef(String name);
   public Node getFromId(int id);
   public Node getSelected();
   // ...
@@ -96,6 +101,7 @@ public class Supervisor extends Robot {
 node = wb_supervisor_node_get_root()
 node = wb_supervisor_node_get_self()
 node = wb_supervisor_node_get_from_def('def')
+node = wb_supervisor_node_get_from_proto_def('def')
 node = wb_supervisor_node_get_from_id(id)
 node = wb_supervisor_node_get_selected()
 ```
@@ -619,6 +625,7 @@ The `wb_supervisor_node_remove` function removes the node specified as an argume
 ---
 
 #### `wb_supervisor_node_get_field`
+#### `wb_supervisor_node_get_proto_field`
 
 %tab-component "language"
 
@@ -628,6 +635,7 @@ The `wb_supervisor_node_remove` function removes the node specified as an argume
 #include <webots/supervisor.h>
 
 WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name);
+WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name);
 ```
 
 %tab-end
@@ -640,6 +648,7 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name);
 namespace webots {
   class Node {
     Field *getField(const std::string &fieldName) const;
+    Field *getProtoField(const std::string &fieldName) const;
     // ...
   }
 }
@@ -654,6 +663,7 @@ from controller import Node
 
 class Node:
     def getField(self, fieldName):
+    def getProtoField(self, fieldName):
     # ...
 ```
 
@@ -666,6 +676,7 @@ import com.cyberbotics.webots.controller.Node;
 
 public class Node {
   public Field getField(String fieldName);
+  public Field getProtoField(String fieldName);
   // ...
 }
 ```
@@ -676,6 +687,7 @@ public class Node {
 
 ```MATLAB
 field = wb_supervisor_node_get_field(node, 'field_name')
+field = wb_supervisor_node_get_proto_field(node, 'field_name')
 ```
 
 %tab-end
