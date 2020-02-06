@@ -1110,6 +1110,11 @@ using namespace std;
     return Node.findNode(cPtr);
   }
 
+  public Node getFromProtoDef(String name) {
+    long cPtr = wrapperJNI.Supervisor_getFromProtoDefPrivate(swigCPtr, this, name);
+    return Node.findNode(cPtr);
+  }
+
   public Node getFromId(int id) {
     long cPtr = wrapperJNI.Supervisor_getFromIdPrivate(swigCPtr, this, id);
     return Node.findNode(cPtr);
@@ -1124,12 +1129,14 @@ using namespace std;
 %rename("getRootPrivate") getRoot() const;
 %rename("getSelfPrivate") getSelf() const;
 %rename("getFromDefPrivate") getFromDef(const std::string &name) const;
+%rename("getFromProtoDefPrivate") getFromProtoDef(const std::string &name) const;
 %rename("getFromIdPrivate") getFromId(int id) const;
 %rename("getSelectedPrivate") getSelected() const;
 
 %javamethodmodifiers getRoot() const "private"
 %javamethodmodifiers getSelf() const "private"
 %javamethodmodifiers getFromDef(const std::string &name) const "private"
+%javamethodmodifiers getFromProtoDef(const std::string &name) const "private"
 %javamethodmodifiers getFromId(int id) const "private"
 %javamethodmodifiers getSelected() const "private"
 
