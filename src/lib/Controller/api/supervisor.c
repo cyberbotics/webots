@@ -1424,11 +1424,11 @@ WbNodeRef wb_supervisor_node_get_from_def(const char *def) {
 }
 
 WbNodeRef wb_supervisor_node_get_from_proto_def(const char *def) {
-  if (!robot_check_supervisor("wb_supervisor_node_get_from_proto_def"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
   if (!def || !def[0]) {
-    fprintf(stderr, "Error: wb_supervisor_node_get_from_proto_def() called with NULL or empty 'def' argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL or empty 'def' argument.\n", __FUNCTION__);
     return NULL;
   }
 
@@ -1702,17 +1702,17 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
 }
 
 WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name) {
-  if (!robot_check_supervisor("wb_supervisor_node_get_proto_field"))
+  if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: wb_supervisor_node_get_proto_field() called with NULL or invalid 'node' argument.\n");
+      fprintf(stderr, "Error: %s() called with NULL or invalid 'node' argument.\n", __FUNCTION__);
     return NULL;
   }
 
   if (!field_name || !field_name[0]) {
-    fprintf(stderr, "Error: wb_supervisor_node_get_proto_field() called with NULL or empty 'field_name' argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL or empty 'field_name' argument.\n", __FUNCTION__);
     return NULL;
   }
 
@@ -2553,7 +2553,7 @@ void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const ch
   }
 
   if (((WbFieldStruct *)field)->is_proto_internal) {
-    fprintf(stderr, "Error: wb_supervisor_field_import_mf_node() called on a read-only PROTO internal field.\n");
+    fprintf(stderr, "Error: %s() called on a read-only PROTO internal field.\n", __FUNCTION__);
     return;
   }
 
@@ -2634,7 +2634,7 @@ void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int positi
   }
 
   if (((WbFieldStruct *)field)->is_proto_internal) {
-    fprintf(stderr, "Error: wb_supervisor_field_import_mf_node_from_string() called on a read-only PROTO internal field.\n");
+    fprintf(stderr, "Error: %s() called on a read-only PROTO internal field.\n", __FUNCTION__);
     return;
   }
 
@@ -2701,7 +2701,7 @@ void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename) 
   }
 
   if (((WbFieldStruct *)field)->is_proto_internal) {
-    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node() called on a read-only PROTO internal field.\n");
+    fprintf(stderr, "Error: %s() called on a read-only PROTO internal field.\n", __FUNCTION__);
     return;
   }
 
@@ -2753,7 +2753,7 @@ void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char
   }
 
   if (((WbFieldStruct *)field)->is_proto_internal) {
-    fprintf(stderr, "Error: wb_supervisor_field_import_sf_node_from_string() called on a read-only PROTO internal field.\n");
+    fprintf(stderr, "Error: %s() called on a read-only PROTO internal field.\n", __FUNCTION__);
     return;
   }
 

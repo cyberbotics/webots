@@ -878,8 +878,6 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       WbNode *const node = WbNode::findNode(id);
       if (node) {
-        // qDebug() << "Node=" << node->fullName() << " uniqueId=" << id << " fieldName=" << name " allowSearchInProto=" <<
-        // allowSearchInProto == 1;
         id = node->findFieldId(name, allowSearchInProto == 1);
         if (id != -1) {
           WbField *field = node->field(id);
