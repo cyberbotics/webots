@@ -880,14 +880,14 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       if (node) {
         id = node->findFieldId(name, allowSearchInProto == 1);
         if (id != -1) {
-          WbField *field = node->field(id);
+          WbField *field = node->field(id, allowSearchInProto == 1);
           if (field) {
             WbMultipleValue *mv = dynamic_cast<WbMultipleValue *>(field->value());
             mFoundFieldCount = mv ? mv->size() : -1;
             mFoundFieldId = id;
             mFoundFieldType = field->type();
             mFoundFieldIsInternal =
-              allowSearchInProto == 1 && (!node->parentField() || !node->fieldsOrParameters().contains(field));
+              allowSearchInProto == 1;  // && (!node->parentField() || !node->fieldsOrParameters().contains(field));
           }
         }
       }
@@ -896,15 +896,17 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     case C_SUPERVISOR_FIELD_GET_VALUE: {
       unsigned int uniqueId, fieldId;
       int index = -1;
+      unsigned char internal = false;
 
       stream >> uniqueId;
       stream >> fieldId;
+      stream >> internal;
 
       WbNode *const node = WbNode::findNode(uniqueId);
       WbField *field = NULL;
 
       if (node) {
-        field = node->field(fieldId);
+        field = node->field(fieldId, internal == 1);
         if (field && field->isMultiple())
           stream >> index;
       }

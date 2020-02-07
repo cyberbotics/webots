@@ -531,7 +531,9 @@ int WbNode::numFields() const {
   return fieldsOrParameters().size();
 }
 
-WbField *WbNode::field(int index) const {
+WbField *WbNode::field(int index, bool internal) const {
+  if (internal)
+    return mFields[index];
   return fieldsOrParameters().at(index);
 }
 

@@ -200,7 +200,7 @@ public:
   QVector<WbField *> fields() const { return mFields; }
   const QVector<WbField *> &fieldsOrParameters() const;
   int numFields() const;
-  WbField *field(int index) const;
+  WbField *field(int index, bool internal = false) const;
   WbField *findField(const QString &fieldName, bool internal = false) const;
   WbField *parentField(bool internal = false) const {
     int index = -1;
