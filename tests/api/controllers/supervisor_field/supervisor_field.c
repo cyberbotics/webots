@@ -75,8 +75,6 @@ int main(int argc, char **argv) {
   ts_assert_pointer_not_null(internal_sf_node_field, "wb_supervisor_node_get_proto_field should return internal fields.");
   internal_physics = wb_supervisor_field_get_sf_node(internal_sf_node_field);
   ts_assert_pointer_not_null(internal_physics, "wb_supervisor_field_get_sf_node should return internal field value.");
-  internal_field = wb_supervisor_node_get_field(internal_physics, "density");
-  ts_assert_pointer_null(internal_field, "wb_supervisor_node_get_field should not return internal fields.");
   internal_field = wb_supervisor_node_get_proto_field(internal_physics, "density");
   ts_assert_pointer_not_null(internal_field, "wb_supervisor_node_get_proto_field should return internal fields.");
   d = wb_supervisor_field_get_sf_float(internal_field);
