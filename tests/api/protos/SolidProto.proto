@@ -11,7 +11,13 @@ PROTO SolidProto [
 Solid {
   translation IS translation
   rotation IS rotation
-  children IS children
+  children [
+    Group {
+      children IS children
+    }
+    DEF INTERNAL_GROUP Group {
+    }
+  ]
   boundingObject IS boundingObject
   physics IS physics
 }

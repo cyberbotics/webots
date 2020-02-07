@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
   ts_setup(argv[0]);
 
   WbNodeRef root, texture, material, background, proto, shape, plane, box, mfTest;
-  WbFieldRef field;
+  WbFieldRef field, internalField;
   const char *charArray;
   const double *doubleArray;
   double doubleVec3[3] = {0.0, 0.0, 0.0};
@@ -69,6 +69,15 @@ int main(int argc, char **argv) {
   wb_supervisor_field_set_sf_float(field, 0.73);
   d = wb_supervisor_field_get_sf_float(field);
   ts_assert_double_equal(d, 0.73, "Proto \"camera_fieldOfView\" SFFloat field should have value 0.73 not %f", d);
+  
+  // internal SFFloat value
+  internalField = wb_supervisor_node_get_field(proto, "cpuConsumption");
+  ts_assert_pointer_null(internalField, "wb_supervisor_node_get_field should not return internal fields.");
+  internalField = wb_supervisor_node_get_proto_field(proto, "cpuConsumption");
+  ts_assert_pointer_not_null(internalField, 0, "wb_supervisor_node_get_proto_field should return internal fields.");
+  d = wb_supervisor_field_get_sf_float(internalField);
+  ts_assert_double_equal(d, 1.11, "Returned value should be 1.11 and not %f", d);
+  wb_supervisor_field_set_sf_float(internalField, 1.5);
 
   // get SFFloat on a different field type
   field = wb_supervisor_node_get_field(proto, "camera_height");
@@ -347,6 +356,10 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
   vector3_modified = wb_supervisor_field_get_sf_vec3f(field);
   ts_assert_doubles_equal(3, vector3_modified, vector3_expected, "Delayed 'wb_supervisor_field_set_sf_vec3f' failed");
+
+  // test internal SFFloat was read-only (wb_supervisor_field_set_sf_float failed)
+  d = wb_supervisor_field_get_sf_float(internalField);
+  ts_assert_double_equal(d, 1.11, "Returned value should be 1.11 and not %f", d);
 
   // multiple MFFloat field operations in one step
   wb_robot_step(TIME_STEP);
