@@ -49,7 +49,7 @@ Robotino3 {
 
 You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/festo/robotino3/worlds](https://github.com/cyberbotics/webots/tree/master/projects/robots/festo/robotino3/worlds)".
 
-> **Note:** To have the right behavior of the robot in your simulation, you have to add this portion of code in your world file in the `WorldInfo` field.
+> **Note:** For the mecanum wheels to behave correctly, the following [ContactProperties](../reference/contactproperties.md) should be added in the `WorldInfo` field.
 ```
   contactProperties [
     ContactProperties {
