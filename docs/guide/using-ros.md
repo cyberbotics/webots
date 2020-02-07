@@ -47,7 +47,7 @@ Therefore the controller uses a specific syntax to declare its services or topic
 For topics, it is followed by the sampling period.
 For services, it is also the name of the corresponding srv file.
 
-> **Note**: On Windows the stadard ROS controller is not available, use the [custom ROS controller](#custom-ros-controller) instead.
+> **Note**: On Windows the standard ROS controller is not available, use the [custom ROS controller](#custom-ros-controller) instead.
 
 #### Using the Standard ROS Controller
 
