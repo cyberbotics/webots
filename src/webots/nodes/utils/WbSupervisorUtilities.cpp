@@ -886,8 +886,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
             mFoundFieldCount = mv ? mv->size() : -1;
             mFoundFieldId = id;
             mFoundFieldType = field->type();
-            mFoundFieldIsInternal =
-              allowSearchInProto == 1;  // && (!node->parentField() || !node->fieldsOrParameters().contains(field));
+            mFoundFieldIsInternal = allowSearchInProto == 1;
           }
         }
       }
