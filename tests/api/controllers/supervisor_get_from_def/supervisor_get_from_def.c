@@ -13,10 +13,10 @@ int main(int argc, char **argv) {
 
   WbNodeRef solid_node = wb_supervisor_node_get_from_def("SOLID_PROTO_PARAMETER");
   ts_assert_pointer_not_null(solid_node, "wb_supervisor_node_get_from_def(\"SOLID_PROTO_PARAMETER\") failed");
-  
+
   WbNodeRef internal_group = wb_supervisor_node_get_from_def("INTERNAL_GROUP");
   ts_assert_pointer_null(internal_group, "wb_supervisor_node_get_from_def should not return internal nodes");
-  
+
   internal_group = wb_supervisor_node_get_from_proto_def("INTERNAL_GROUP");
   ts_assert_pointer_not_null(internal_group, "wb_supervisor_node_get_from_proto_def should return internal nodes");
 
