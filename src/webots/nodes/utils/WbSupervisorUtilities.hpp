@@ -106,7 +106,7 @@ private:
   void initControllerRequests();
   void deleteControllerRequests();
   void writeNode(QDataStream &stream, const WbBaseNode *baseNode, int messageType);
-  const WbNode *getNodeFromDEF(const QString &defName, const WbNode *fromNode = NULL);
+  const WbNode *getNodeFromDEF(const QString &defName, bool allowSearchInProto, const WbNode *fromNode = NULL);
   WbNode *getProtoParameterNodeInstance(WbNode *const node) const;
   void applyFieldSetRequest(struct field_set_request *request);
   QString readString(QDataStream &);

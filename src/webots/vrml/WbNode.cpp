@@ -719,6 +719,17 @@ void WbNode::makeDefNode() {
   emit defUseNameChanged(this, true);
 }
 
+const WbNode *WbNode::getNodeFromDEF(const QString &defName) const {
+  if (defName == mDefName)
+    return this;
+  foreach (const WbNode *node, subNodes(false)) {
+    const WbNode *defNode = node->getNodeFromDEF(defName);
+    if (defNode)
+      return defNode;
+  }
+  return NULL;
+}
+
 void WbNode::resetUseAncestorFlag() {
   if (!mHasUseAncestor || mDefNode)
     return;

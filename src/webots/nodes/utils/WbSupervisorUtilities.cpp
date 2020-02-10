@@ -358,7 +358,7 @@ void WbSupervisorUtilities::reset() {
   initControllerRequests();
 }
 
-const WbNode *WbSupervisorUtilities::getNodeFromDEF(const QString &defName, const WbNode *fromNode) {
+const WbNode *WbSupervisorUtilities::getNodeFromDEF(const QString &defName, bool allowSearchInProto, const WbNode *fromNode) {
   assert(!defName.isEmpty());
   if (defName.isEmpty())
     return NULL;
@@ -371,19 +371,26 @@ const WbNode *WbSupervisorUtilities::getNodeFromDEF(const QString &defName, cons
 
   const WbNode *baseNode = fromNode;
   if (baseNode == NULL) {
-    baseNode = WbDictionary::instance()->getNodeFromDEF(currentDefName);
+    if (allowSearchInProto) {
+      if (fromNode)
+        baseNode = fromNode->getNodeFromDEF(currentDefName);
+      else
+        baseNode = WbWorld::instance()->root()->getNodeFromDEF(currentDefName);
+    } else
+      baseNode = WbDictionary::instance()->getNodeFromDEF(currentDefName);
+
     if (!baseNode || nextDefName.isEmpty())
       return baseNode;
-    return getNodeFromDEF(nextDefName, baseNode);
+    return getNodeFromDEF(nextDefName, allowSearchInProto, baseNode);
   }
 
-  const QList<WbNode *> &descendants = baseNode->subNodes(false, false, false);
+  const QList<WbNode *> &descendants = baseNode->subNodes(false, allowSearchInProto, false);
   for (int i = 0; i < descendants.size(); ++i) {
     const WbNode *child = descendants.at(i);
     if (child->defName() == currentDefName) {
       if (nextDefName.isEmpty())
         return child;
-      return getNodeFromDEF(nextDefName, child);
+      return getNodeFromDEF(nextDefName, allowSearchInProto, child);
     }
   }
 
@@ -560,7 +567,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       const QString &nodeName = readString(stream);
       unsigned char allowSearchInProto;
       stream >> allowSearchInProto;
-      const WbBaseNode *baseNode = dynamic_cast<const WbBaseNode *>(getNodeFromDEF(nodeName));
+      const WbBaseNode *baseNode = dynamic_cast<const WbBaseNode *>(getNodeFromDEF(nodeName, allowSearchInProto));
       if (allowSearchInProto == 0 && baseNode && !baseNode->parentField())  // make sure the parent field is visible
         baseNode = NULL;
       mFoundNodeUniqueId = baseNode ? baseNode->uniqueId() : 0;
