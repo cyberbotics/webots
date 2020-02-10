@@ -23,6 +23,7 @@ UR5e/UR5e/UR10e {
   SFString   name            "UR5e"
   SFString   controller      "void"
   SFString   controllerArgs  ""
+  SFBool     supervisor      FALSE
   SFBool     synchronization TRUE
   SFBool     selfCollision   TRUE
   MFNode     toolSlot        []

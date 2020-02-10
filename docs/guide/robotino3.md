@@ -49,6 +49,23 @@ Robotino3 {
 
 You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/festo/robotino3/worlds](https://github.com/cyberbotics/webots/tree/master/projects/robots/festo/robotino3/worlds)".
 
+> **Note:** For the mecanum wheels to behave correctly, the following [ContactProperties](../reference/contactproperties.md) should be added in the `contactProperties` field of the [WorldInfo](../reference/worldinfo.md) node:
+```
+  contactProperties [
+    ContactProperties {
+      material1 "WheelMat"
+      coulombFriction [
+        1.8, 0, 0.2
+      ]
+      frictionRotation 0.9648 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+    }
+  ]
+```
+
 #### robotino3.wbt
 
 ![robotino3.wbt.png](images/robots/robotino3/robotino3.wbt.thumbnail.jpg) This simulation shows a Robotino 3 moving in an industrial environment using a Braitenberg algorithm using the information received by its nine infrared sensors.
