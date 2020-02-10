@@ -24,6 +24,7 @@ UR5e/UR5e/UR10e {
   SFString   controller      "void"
   SFString   controllerArgs  ""
   SFBool     synchronization TRUE
+  SFBool     supervisor      TRUE
   SFBool     selfCollision   TRUE
   MFNode     toolSlot        []
   SFBool     staticBase      TRUE
