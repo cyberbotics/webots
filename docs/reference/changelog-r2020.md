@@ -15,6 +15,7 @@ Released on XXX.
     - Added an `OfficeChair` PROTO object.
   - Enhancements
     - Improved the environment colors of the sojourner simulation (Mars is a red planet).
+    - Added missing `supervisor` field in `UR3e`, `UR5e` and `UR10e` robots.
   - Bug fixes
     - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images.
     - Fixed the TurtleBot3Burger robot maximum velocity (thanks to Dorteel).
