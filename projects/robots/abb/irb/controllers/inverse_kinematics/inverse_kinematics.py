@@ -80,7 +80,7 @@ for motorName in ['A motor', 'B motor', 'C motor', 'D motor', 'E motor', 'F moto
 
 # Get the arm and target nodes.
 target = supervisor.getFromDef('TARGET')
-arm = supervisor.getFromDef('ARM')
+arm = supervisor.getSelf()
 
 # Loop 1: Draw a circle on the paper sheet.
 print('Draw a circle on the paper sheet...')
