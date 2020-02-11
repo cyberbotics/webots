@@ -145,7 +145,7 @@ public:
   int useCount() const { return mUseNodes.size(); }
   const QList<WbNode *> &useNodes() const { return mUseNodes; }
   virtual void defHasChanged() {}
-  // Look for a node with this DEF names (this node or any of its children nodes)
+  // Look for a node with this DEF name (this node or any of its children nodes)
   const WbNode *getNodeFromDEF(const QString &defName) const;
 
   // has this node a referred DEF node descendant, i.e. a descendant with positive use count

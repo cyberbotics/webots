@@ -72,11 +72,11 @@ int main(int argc, char **argv) {
 
   // internal SFNode
   internal_sf_node_field = wb_supervisor_node_get_proto_field(proto, "physics");
-  ts_assert_pointer_not_null(internal_sf_node_field, "wb_supervisor_node_get_proto_field should return internal fields.");
+  ts_assert_pointer_not_null(internal_sf_node_field, "wb_supervisor_node_get_proto_field should return an internal field.");
   internal_physics = wb_supervisor_field_get_sf_node(internal_sf_node_field);
-  ts_assert_pointer_not_null(internal_physics, "wb_supervisor_field_get_sf_node should return internal field value.");
+  ts_assert_pointer_not_null(internal_physics, "wb_supervisor_field_get_sf_node should return an internal node.");
   internal_field = wb_supervisor_node_get_proto_field(internal_physics, "density");
-  ts_assert_pointer_not_null(internal_field, "wb_supervisor_node_get_proto_field should return internal fields.");
+  ts_assert_pointer_not_null(internal_field, "wb_supervisor_node_get_proto_field should return an internal field.");
   d = wb_supervisor_field_get_sf_float(internal_field);
   ts_assert_double_equal(d, -1.0, "Returned value should be -1.0 and not %f", d);
 
@@ -84,7 +84,7 @@ int main(int argc, char **argv) {
   internal_field = wb_supervisor_node_get_field(proto, "cpuConsumption");
   ts_assert_pointer_null(internal_field, "wb_supervisor_node_get_field should not return internal fields.");
   internal_field = wb_supervisor_node_get_proto_field(proto, "cpuConsumption");
-  ts_assert_pointer_not_null(internal_field, "wb_supervisor_node_get_proto_field should return internal fields.");
+  ts_assert_pointer_not_null(internal_field, "wb_supervisor_node_get_proto_field should return an internal field.");
   d = wb_supervisor_field_get_sf_float(internal_field);
   ts_assert_double_equal(d, 1.11, "Returned value should be 1.11 and not %f", d);
   wb_supervisor_field_set_sf_float(internal_field, 1.5);
