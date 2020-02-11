@@ -113,6 +113,7 @@ DEF TABLE_WITH_PAPER_SHEET Transform {
       ]
     }
     Table {
+      name "table with paper"
       size 1 0.74 1
       feetPadding 0.05
       frameThickness 0.1
