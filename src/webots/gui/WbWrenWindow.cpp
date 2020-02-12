@@ -19,7 +19,7 @@
 #include "WbLightRepresentation.hpp"
 #include "WbLog.hpp"
 #include "WbMessageBox.hpp"
-#include "WbMultimediaStreamer.hpp"
+#include "WbMultimediaStreamingServer.hpp"
 #include "WbPerformanceLog.hpp"
 #include "WbPreferences.hpp"
 #include "WbSysInfo.hpp"
@@ -64,7 +64,8 @@ WbWrenWindow::WbWrenWindow() :
   mWrenMainFrameBuffer(NULL),
   mWrenMainFrameBufferTexture(NULL),
   mWrenNormalFrameBufferTexture(NULL),
-  mWrenDepthFrameBufferTexture(NULL) {
+  mWrenDepthFrameBufferTexture(NULL),
+  mVideoStreamingServer(NULL) {
   assert(WbWrenWindow::cInstance == NULL);
   WbWrenWindow::cInstance = this;
 
@@ -231,8 +232,7 @@ void WbWrenWindow::renderNow(bool culling) {
   WbWrenOpenGlContext::instance()->swapBuffers(this);
   WbWrenOpenGlContext::doneWren();
 
-  WbMultimediaStreamer *multimediaStreamer = WbMultimediaStreamer::instance();
-  if (multimediaStreamer->isReady())
+  if (mVideoStreamingServer && mVideoStreamingServer->isNewFrameNeeded())
     feedMultimediaStreamer();
 
   if (log)
@@ -440,12 +440,8 @@ void WbWrenWindow::feedMultimediaStreamer() {
   static bool skipFirstFrame = true;
   if (skipFirstFrame)
     skipFirstFrame = false;
-  else {
-    WbMultimediaStreamer *multimediaStreamer = WbMultimediaStreamer::instance();
-    void *buffer = multimediaStreamer->buffer();
-    readPixels(multimediaStreamer->imageWidth(), multimediaStreamer->imageHeight(), GL_RGB, buffer);
-    multimediaStreamer->sendImage();
-  }
+  else
+    mVideoStreamingServer->sendImage(grabWindowBufferNow());
 }
 
 void WbWrenWindow::readPixels(int width, int height, unsigned int format, void *buffer) {

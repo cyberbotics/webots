@@ -336,7 +336,6 @@ QT_SOURCES += \
   WbMicrophone.cpp \
   WbMotor.cpp \
   WbMouse.cpp \
-  WbMultimediaStreamer.cpp \
   WbMultipleValue.cpp \
   WbMuscle.cpp \
   WbNewControllerWizard.cpp \
@@ -446,6 +445,7 @@ QT_SOURCES += \
   WbVelocityViewer.cpp \
   WbVideoRecorder.cpp \
   WbVideoRecorderDialog.cpp \
+  WbMultimediaStreamingServer.cpp \
   WbViewpoint.cpp \
   WbView3D.cpp \
   WbVisualBoundingSphere.cpp \
@@ -462,6 +462,7 @@ QT_SOURCES += \
   WbWrenRenderingContext.cpp \
   WbWrenTextureOverlay.cpp \
   WbWrenWindow.cpp \
+  WbX3dStreamingServer.cpp \
   WbZoom.cpp
 
 # objects that don't inherit from QObject (alphabetical order)

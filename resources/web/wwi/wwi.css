@@ -331,3 +331,14 @@ button::-moz-focus-inner {
   position: absolute;
   white-space: pre;
 }
+
+#remoteVideo {
+  background: grey;
+  width: 100%;
+  height: calc(100% - 48px);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}

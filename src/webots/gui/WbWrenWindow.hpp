@@ -23,6 +23,8 @@
 #include <QtGui/QOpenGLFunctions_3_3_Core>
 #include <QtGui/QWindow>
 
+class WbMultimediaStreamingServer;
+
 struct WrTextureRtt;
 struct WrFrameBuffer;
 
@@ -51,6 +53,8 @@ public:
   void updateWrenViewportDimensions();
 
   void blitMainFrameBufferToScreen();
+
+  void setVideoStreamingServer(WbMultimediaStreamingServer *streamingServer) { mVideoStreamingServer = streamingServer; }
 
 public slots:
   virtual void renderLater();
@@ -87,6 +91,8 @@ private:
   WrTextureRtt *mWrenMainFrameBufferTexture;
   WrTextureRtt *mWrenNormalFrameBufferTexture;
   WrTextureRtt *mWrenDepthFrameBufferTexture;
+
+  WbMultimediaStreamingServer *mVideoStreamingServer;
 };
 
 #endif

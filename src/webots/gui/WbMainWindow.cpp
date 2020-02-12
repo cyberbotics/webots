@@ -63,6 +63,7 @@
 #include "WbSysInfo.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbVideoRecorder.hpp"
+#include "WbMultimediaStreamingServer.hpp"
 #include "WbView3D.hpp"
 #include "WbWebotsUpdateDialog.hpp"
 #include "WbWebotsUpdateManager.hpp"
@@ -101,7 +102,7 @@
 
 #include <wren/gl_state.h>
 
-WbMainWindow::WbMainWindow(bool minimizedOnStart, QWidget *parent) :
+WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingServer, QWidget *parent) :
   QMainWindow(parent),
   mExitStatus(0),
   mConsole(NULL),
@@ -113,7 +114,8 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, QWidget *parent) :
   mOverlayMenu(NULL),
   mWorldLoadingProgressDialog(NULL),
   mIsFullScreenLocked(false),
-  mMaximizedWidget(NULL) {
+  mMaximizedWidget(NULL),
+  mStreamingServer(streamingServer) {
 #ifdef __APPLE__
   // This flag is required to hide a second and useless title bar.
   setUnifiedTitleAndToolBarOnMac(true);
@@ -389,9 +391,11 @@ void WbMainWindow::createMainTools() {
   connect(mSimulationView->selection(), &WbSelection::selectionChangedFromSceneTree, this, &WbMainWindow::updateOverlayMenu);
   connect(mSimulationView->selection(), &WbSelection::selectionChangedFromView3D, this, &WbMainWindow::updateOverlayMenu);
   connect(mSimulationView->sceneTree(), &WbSceneTree::editRequested, this, &WbMainWindow::openFileInTextEditor);
-  if (WbStreamingServer::instanceExists()) {
-    WbStreamingServer::instance()->setView3D(mSimulationView->view3D());
-    WbStreamingServer::instance()->setMainWindow(this);
+  if (mStreamingServer) {
+    mStreamingServer->setMainWindow(this);
+    WbMultimediaStreamingServer *videoStreamingServer = dynamic_cast<WbMultimediaStreamingServer *>(mStreamingServer);
+    if (videoStreamingServer)
+      videoStreamingServer->setView3D(mSimulationView->view3D());
   }
 
   mTextEditor = new WbBuildEditor(this, toolBarAlign());

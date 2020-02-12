@@ -7,7 +7,6 @@ class Stream { // eslint-disable-line no-unused-vars
     this.view = view;
     this.onready = onready;
     this.socket = null;
-    this.videoStream = null;
   }
 
   connect() {
@@ -25,14 +24,12 @@ class Stream { // eslint-disable-line no-unused-vars
   close() {
     if (this.socket)
       this.socket.close();
-    if (this.videoStream)
-      this.videoStream.close();
   }
 
   onSocketOpen(event) {
     var mode = this.view.mode;
     if (mode === 'video')
-      mode += ': ' + this.view.video.width + 'x' + this.view.video.height;
+      mode += ': ' + this.view.view3D.offsetWidth + 'x' + (this.view.view3D.offsetHeight - 48); // TODO subtract toolbar height
     else if (this.view.broadcast)
       mode += ';broadcast';
     this.socket.send(mode);
@@ -102,21 +99,13 @@ class Stream { // eslint-disable-line no-unused-vars
       data = data.substring(data.indexOf(':') + 1).trim();
       if (!data) // received an empty model case: just destroy the view
         return;
-      this.view.x3dScene.loadObject(data);
+      if (this.view.x3dScene)
+        this.view.x3dScene.loadObject(data);
     } else if (data.startsWith('world:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
       var currentWorld = data.substring(0, data.indexOf(':')).trim();
       data = data.substring(data.indexOf(':') + 1).trim();
       this.view.updateWorldList(currentWorld, data.split(';'));
-    } else if (data.startsWith('video: ')) {
-      console.log('Received data = ' + data);
-      var list = data.split(' ');
-      var url = list[1];
-      var streamId = list[2];
-      console.log('Received video message on ' + url + ' stream = ' + streamId);
-      this.videoStream = new webots.VideoStream(url, this.view.video, document.getElementById('BitrateViewer'), streamId);
-      if (typeof this.onready === 'function')
-        this.onready();
     } else if (data.startsWith('set controller:')) {
       var slash = data.indexOf('/', 15);
       var dirname = data.substring(15, slash);
@@ -139,7 +128,7 @@ class Stream { // eslint-disable-line no-unused-vars
     } else if (data === 'real-time' || data === 'run' || data === 'fast') {
       this.view.toolBar.setMode(data);
       if (this.view.timeout >= 0)
-        this.view.stream.socket.send('timeout:' + this.view.timeout);
+        this.socket.send('timeout:' + this.view.timeout);
     } else if (data.startsWith('loading:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
       var loadingStatus = data.substring(0, data.indexOf(':')).trim();
@@ -174,6 +163,18 @@ class Stream { // eslint-disable-line no-unused-vars
         x: labelProperties[3],
         y: labelProperties[4]
       });
+    } else if (data.startsWith('video: ')) {
+      console.log('Received data = ' + data);
+      let list = data.split(' ');
+      let url = list[1];
+      this.view.toolBar.setMode(list[2]);
+      this.view.video.domElement.src = url;
+      console.log('Video streamed on ' + url);
+      if (typeof this.onready === 'function')
+        this.onready();
+    } else if (data.startsWith('time: ')) {
+      this.view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
+      $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(this.view.time));
     } else
       console.log('WebSocket error: Unknown message received: "' + data + '"');
   }

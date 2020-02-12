@@ -26,6 +26,7 @@
 class WbApplication;
 class WbMainWindow;
 class WbSplashScreen;
+class WbStreamingServer;
 
 class WbGuiApplication : public QApplication {
   Q_OBJECT
@@ -54,6 +55,8 @@ private:
 
   Task mTask;
   QString mTaskArgument;
+
+  WbStreamingServer *mStreamingServer;
 
   void parseArguments();
   void showHelp();

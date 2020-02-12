@@ -26,12 +26,13 @@
 #include "WbSingleTaskApplication.hpp"
 #include "WbSplashScreen.hpp"
 #include "WbStandardPaths.hpp"
-#include "WbStreamingServer.hpp"
 #include "WbSysInfo.hpp"
 #include "WbTranslator.hpp"
 #include "WbVersion.hpp"
+#include "WbMultimediaStreamingServer.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenOpenGlContext.hpp"
+#include "WbX3dStreamingServer.hpp"
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
@@ -57,7 +58,11 @@ using namespace std;
 // cf:
 // - http://lists-archives.org/kde-devel/20232-qt-4-5-related-crash-on-kdm-startup.html
 // - http://www.qtcentre.org/archive/index.php/t-28785.html
-WbGuiApplication::WbGuiApplication(int &argc, char **argv) : QApplication(argc, argv), mMainWindow(NULL), mTask(NORMAL) {
+WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
+  QApplication(argc, argv),
+  mMainWindow(NULL),
+  mTask(NORMAL),
+  mStreamingServer(NULL) {
   setApplicationName("Webots");
   setApplicationVersion(WbApplicationInfo::version().toString(true, false, true));
   setOrganizationName("Cyberbotics");
@@ -173,8 +178,14 @@ void WbGuiApplication::parseArguments() {
         if (serverArgument.endsWith('"'))
           serverArgument = serverArgument.left(serverArgument.size() - 1);
       }
-      WbStreamingServer::instance()->startFromCommandLine(serverArgument);
-      WbWorld::enableX3DStreaming();
+      if (serverArgument.contains("mode=video")) {
+        mStreamingServer = new WbMultimediaStreamingServer();
+        mStreamingServer->startFromCommandLine(serverArgument);
+      } else {
+        mStreamingServer = new WbX3dStreamingServer();
+        mStreamingServer->startFromCommandLine(serverArgument);
+        WbWorld::enableX3DStreaming();
+      }
     } else if (arg == "--stdout")
       WbConsole::enableStdOutRedirectToTerminal();
     else if (arg == "--stderr")
@@ -302,7 +313,7 @@ bool WbGuiApplication::setup() {
   // image in the splash screen is empty...
   // Doing the same on Windows slows down the popup of the SplashScreen, therefore
   // the main window is created later on Windows.
-  mMainWindow = new WbMainWindow(mShouldMinimize);
+  mMainWindow = new WbMainWindow(mShouldMinimize, mStreamingServer);
 #endif
 
   if (!mShouldMinimize) {
@@ -366,7 +377,7 @@ bool WbGuiApplication::setup() {
 
 #ifdef _WIN32
   // create main window
-  mMainWindow = new WbMainWindow(mShouldMinimize);
+  mMainWindow = new WbMainWindow(mShouldMinimize, mStreamingServer);
 #endif
 
   if (mShouldMinimize) {
