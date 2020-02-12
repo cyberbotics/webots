@@ -17,6 +17,7 @@
 #include "WbField.hpp"
 #include "WbFieldDoubleSpinBox.hpp"
 #include "WbMFRotation.hpp"
+#include "WbQuaternion.hpp"
 #include "WbSFRotation.hpp"
 #include "WbSimulationState.hpp"
 
@@ -24,23 +25,40 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLabel>
 
+static const QVector<QStringList> LABELS(QVector<QStringList>() << (QStringList() << "x:"
+                                                                                  << "y:"
+                                                                                  << "z:" << QObject::tr("angle:"))
+                                                                << (QStringList() << "w:"
+                                                                                  << "x:"
+                                                                                  << "y:"
+                                                                                  << "z:"));
+static const QVector<QStringList> UNITS(QVector<QStringList>() << (QStringList() << "m"
+                                                                                 << "m"
+                                                                                 << "m"
+                                                                                 << "rad")
+                                                               << (QStringList() << " "
+                                                                                 << " "
+                                                                                 << " "
+                                                                                 << " "));
+
 WbRotationEditor::WbRotationEditor(QWidget *parent) : WbValueEditor(parent), mApplied(false) {
-  static const QStringList LABELS(QStringList() << "x:"
-                                                << "y:"
-                                                << "z:" << tr("angle:"));
-  static const QStringList UNITS(QStringList() << "m"
-                                               << "m"
-                                               << "m"
-                                               << "rad");
+  mRotationTypeLabel = new QLabel("Rotation type:", this);
+  mLayout->addWidget(mRotationTypeLabel, 1, 0, Qt::AlignRight);
+  mRotationTypeComboBox = new QComboBox(this);
+  mRotationTypeComboBox->addItem("Axis-Angle");
+  mRotationTypeComboBox->addItem("Quaternions");
+  connect(mRotationTypeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateRotationType(int)));
+  mLayout->addWidget(mRotationTypeComboBox, 1, 1);
+  mCurrentrotationType = 0;
   for (int i = 0; i < 4; ++i) {
-    mLabel[i] = new QLabel(LABELS[i], this);
-    mLayout->addWidget(mLabel[i], i + 1, 0, Qt::AlignRight);
+    mLabel[i] = new QLabel(LABELS[AXIS_ANGLE][i], this);
+    mLayout->addWidget(mLabel[i], i + 2, 0, Qt::AlignRight);
     mSpinBoxes[i] = new WbFieldDoubleSpinBox(this, i == 3 ? WbFieldDoubleSpinBox::RADIANS : WbFieldDoubleSpinBox::AXIS);
     connect(mSpinBoxes[i], &WbFieldDoubleSpinBox::valueApplied, this, &WbRotationEditor::apply);
     connect(mSpinBoxes[i], &WbFieldDoubleSpinBox::focusLeft, this, &WbRotationEditor::applyIfNeeded);
-    mLayout->addWidget(mSpinBoxes[i], i + 1, 1);
-    mUnitLabel[i] = new QLabel(UNITS[i], this);
-    mLayout->addWidget(mUnitLabel[i], i + 1, 2);
+    mLayout->addWidget(mSpinBoxes[i], i + 2, 1);
+    mUnitLabel[i] = new QLabel(UNITS[AXIS_ANGLE][i], this);
+    mLayout->addWidget(mUnitLabel[i], i + 2, 2);
   }
 }
 
@@ -82,8 +100,12 @@ void WbRotationEditor::edit(bool copyOriginalValue) {
 
 void WbRotationEditor::updateSpinBoxes() {
   for (int i = 0; i < 4; ++i)
-    if (WbSimulationState::instance()->isPaused() || !mSpinBoxes[i]->hasFocus())
-      mSpinBoxes[i]->setValueNoSignals(mRotation[i]);
+    if (WbSimulationState::instance()->isPaused() || !mSpinBoxes[i]->hasFocus()) {
+      if (mRotationTypeComboBox->currentIndex() == QUATERNIONS) {
+        mSpinBoxes[i]->setValueNoSignals(mRotation.toQuaternion().ptr()[i]);
+      } else  // AXIS_ANGLE
+        mSpinBoxes[i]->setValueNoSignals(mRotation[i]);
+    }
 }
 
 void WbRotationEditor::resetFocus() {
@@ -96,16 +118,26 @@ void WbRotationEditor::takeKeyboardFocus() {
   mSpinBoxes[0]->selectAll();
 }
 
+WbRotation WbRotationEditor::computeRotation() {
+  if (mCurrentrotationType == QUATERNIONS) {
+    WbQuaternion quaternion =
+      WbQuaternion(mSpinBoxes[0]->value(), mSpinBoxes[1]->value(), mSpinBoxes[2]->value(), mSpinBoxes[3]->value());
+    quaternion.normalize();
+    return WbRotation(quaternion);
+  }
+  assert(mCurrentrotationType == AXIS_ANGLE);
+  return WbRotation(mSpinBoxes[0]->value(), mSpinBoxes[1]->value(), mSpinBoxes[2]->value(), mSpinBoxes[3]->value());
+}
+
 void WbRotationEditor::applyIfNeeded() {
   if (field() && ((field()->hasRestrictedValues() && mRotation != WbRotation(mComboBox->currentText())) ||
-                  (!field()->hasRestrictedValues() &&
-                   (mRotation.x() != mSpinBoxes[0]->value() || mRotation.y() != mSpinBoxes[1]->value() ||
-                    mRotation.z() != mSpinBoxes[2]->value() || mRotation.angle() != mSpinBoxes[3]->value()))))
+                  (!field()->hasRestrictedValues() && mRotation != computeRotation())))
     apply();
 }
 
 void WbRotationEditor::apply() {
-  mRotation.setAxisAngle(mSpinBoxes[0]->value(), mSpinBoxes[1]->value(), mSpinBoxes[2]->value(), mSpinBoxes[3]->value());
+  mRotation = computeRotation();
+  mRotation.normalize();
 
   if (field()->hasRestrictedValues())
     mRotation = WbRotation(mComboBox->currentText());
@@ -129,4 +161,14 @@ void WbRotationEditor::apply() {
   mApplied = true;
   WbValueEditor::apply();
   mApplied = false;
+}
+
+void WbRotationEditor::updateRotationType(int index) {
+  applyIfNeeded();
+  for (int i = 0; i < 4; ++i) {
+    mLabel[i]->setText(LABELS[mRotationTypeComboBox->currentIndex()][i]);
+    mUnitLabel[i]->setText(UNITS[mRotationTypeComboBox->currentIndex()][i]);
+  }
+  mCurrentrotationType = index;
+  updateSpinBoxes();
 }

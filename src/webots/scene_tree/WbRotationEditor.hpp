@@ -32,6 +32,8 @@ public:
   explicit WbRotationEditor(QWidget *parent = NULL);
   virtual ~WbRotationEditor();
 
+  enum RotationType { AXIS_ANGLE = 0, QUATERNIONS };
+
   void recursiveBlockSignals(bool block) override;
 
   QWidget *lastEditorWidget() override;
@@ -45,12 +47,17 @@ protected:
 
 protected slots:
   void apply() override;
+  void updateRotationType(int index);
 
 private:
   void updateSpinBoxes();
   void takeKeyboardFocus() override;
+  WbRotation computeRotation();
 
   WbRotation mRotation;
+  QLabel *mRotationTypeLabel;
+  QComboBox *mRotationTypeComboBox;
+  int mCurrentrotationType;
   WbFieldDoubleSpinBox *mSpinBoxes[4];
   QLabel *mLabel[4];
   QLabel *mUnitLabel[4];
