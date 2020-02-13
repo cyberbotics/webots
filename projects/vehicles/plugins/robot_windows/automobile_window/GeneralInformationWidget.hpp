@@ -19,8 +19,8 @@
 #ifndef GENERAL_INFORMATION_WIDGET_HPP
 #define GENERAL_INFORMATION_WIDGET_HPP
 
-#include <QtCore/QString>
 #include <QtCore/QElapsedTimer>
+#include <QtCore/QString>
 #include <QtWidgets/QWidget>
 
 #include <webots/vehicle/car.h>
