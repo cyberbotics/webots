@@ -455,7 +455,7 @@ void WbVideoRecorder::removeOldTempFiles() {
 
 QString WbVideoRecorder::nextFileName() {
   mLastFileNumber++;
-  return mTempDirPath + mFrameFilePrefix + QString()::asprintf("%06d", mLastFileNumber) + ".jpg";
+  return mTempDirPath + mFrameFilePrefix + QString::asprintf("%06d", mLastFileNumber) + ".jpg";
 }
 
 void WbVideoRecorder::createMpeg() {
