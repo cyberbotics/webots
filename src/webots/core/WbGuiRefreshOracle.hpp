@@ -20,8 +20,8 @@
 //              GUI part have to be refreshed
 //
 
-#include <QtCore/QObject>
 #include <QtCore/QElapsedTimer>
+#include <QtCore/QObject>
 #include <QtCore/QTimer>
 
 class WbGuiRefreshOracle : public QObject {
