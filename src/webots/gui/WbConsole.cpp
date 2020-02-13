@@ -183,12 +183,12 @@ WbConsole *WbConsole::instance() {
 
 namespace {
   void odeErrorFunc(int errnum, const char *msg, va_list ap) {
-    QString error = QString::vasprintf(msg, ap);
+    const QString error = QString::vasprintf(msg, ap);
     emit WbLog::instance()->logEmitted(WbLog::ERROR, QString("ODE Error %1: ").arg(errnum) + error, false);
   }
 
   void odeDebugFunc(int errnum, const char *msg, va_list ap) {
-    QString debug = QString::vasprintf(msg, ap);
+    const QString debug = QString::vasprintf(msg, ap);
     emit WbLog::instance()->logEmitted(WbLog::DEBUG, QString("ODE INTERNAL ERROR %1: ").arg(errnum) + debug, false);
   }
 

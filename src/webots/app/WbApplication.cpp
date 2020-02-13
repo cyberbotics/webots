@@ -35,6 +35,7 @@
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
 #include <QtCore/QDirIterator>
+#include <QtCore/QElapsedTimer>
 
 #include <cassert>
 

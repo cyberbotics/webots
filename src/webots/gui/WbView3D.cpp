@@ -93,7 +93,7 @@ WbView3D::WbView3D() :
   mParentWidget(NULL),
   mLastRefreshTimer(),
   mRefreshCounter(0),
-  mMousePressTime(NULL),
+  mMousePressTimer(NULL),
   mSelectionDisabled(false),
   mViewpointLocked(false),
   mAspectRatio(1.0),
@@ -299,7 +299,7 @@ WbView3D::~WbView3D() {
   cleanupPickers();
   cleanupOptionalRendering();
   WbWrenRenderingContext::cleanup();
-  delete mMousePressTime;
+  delete mMousePressTimer;
 
   WbWrenLabelOverlay::cleanup();
 #ifdef _WIN32
@@ -1514,8 +1514,8 @@ void WbView3D::mousePressEvent(QMouseEvent *event) {
 
         if (overlay->isInsideResizeArea(position.x(), position.y())) {
           // reset double click timer for resize area
-          delete mMousePressTime;
-          mMousePressTime = NULL;
+          delete mMousePressTimer;
+          mMousePressTimer = NULL;
 
           mLastMouseCursor = cursor();
           setCursor(QCursor(Qt::SizeFDiagCursor));
@@ -1529,8 +1529,8 @@ void WbView3D::mousePressEvent(QMouseEvent *event) {
           renderingDevice->toggleOverlayVisibility(false, true);
 
           // reset double click timer on close area
-          delete mMousePressTime;
-          mMousePressTime = NULL;
+          delete mMousePressTimer;
+          mMousePressTimer = NULL;
           return;
         } else {
           mLastMouseCursor = cursor();
@@ -1544,18 +1544,18 @@ void WbView3D::mousePressEvent(QMouseEvent *event) {
   }
 
   // if we didn't close an overlay perform double-click check as normal
-  if ((event->buttons() == Qt::LeftButton) && mMousePressTime) {
-    int delay = mMousePressTime->elapsed();
+  if ((event->buttons() == Qt::LeftButton) && mMousePressTimer) {
+    int delay = mMousePressTimer->elapsed();
     if (delay < QApplication::doubleClickInterval()) {
-      delete mMousePressTime;
-      mMousePressTime = NULL;
+      delete mMousePressTimer;
+      mMousePressTimer = NULL;
       mouseDoubleClick(event);
       return;
     }
   }
-  delete mMousePressTime;
-  mMousePressTime = new QElapsedTimer();
-  mMousePressTime->start();
+  delete mMousePressTimer;
+  mMousePressTimer = new QElapsedTimer();
+  mMousePressTimer->start();
   mMousePressPosition = position;
   WbWrenWindow::mousePressEvent(event);
 
@@ -2090,8 +2090,8 @@ void WbView3D::mouseReleaseEvent(QMouseEvent *event) {
 
   if (wasNotInAnEvent)
     selectNode(event);
-  else if (mMousePressTime) {  // test if we did a quick button press and release, possibly moving only slightly the mouse
-    const int delay = mMousePressTime->elapsed();
+  else if (mMousePressTimer) {  // test if we did a quick button press and release, possibly moving only slightly the mouse
+    const int delay = mMousePressTimer->elapsed();
     if (delay < QApplication::doubleClickInterval()) {  // the mouse button was released quickly after being pressed
       const QPoint diff = mMousePressPosition - event->pos();
       if (diff.manhattanLength() < 20)  // the mouse was moved by less than 20 pixels (determined empirically)

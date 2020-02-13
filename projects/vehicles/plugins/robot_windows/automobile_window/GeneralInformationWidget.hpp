@@ -52,7 +52,7 @@ private:
   void init();
 
   QCheckBox *mEnableCheckBox;
-  QElapsedTimer mLastRefreshTime;
+  QElapsedTimer mLastRefreshTimer;
   bool mIsinitialized;
 
   // drawing positions

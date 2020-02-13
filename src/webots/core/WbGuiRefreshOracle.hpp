@@ -31,7 +31,7 @@ public:
   static WbGuiRefreshOracle *instance();
 
   bool canRefreshNow() const { return mCanRefreshNow; }
-  int elapsed() const { return mLastRefreshTime.elapsed(); }
+  int elapsed() const { return mLastRefreshTimer.elapsed(); }
 
 signals:
   void canRefreshActivated();
@@ -46,7 +46,7 @@ private:
   static WbGuiRefreshOracle *cInstance;
 
   bool mCanRefreshNow;
-  QElapsedTimer mLastRefreshTime;
+  QElapsedTimer mLastRefreshTimer;
   QTimer mGlobalRefreshTimer;
 
 private slots:

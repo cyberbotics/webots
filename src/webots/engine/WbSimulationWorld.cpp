@@ -155,7 +155,7 @@ void WbSimulationWorld::step() {
   const double timeStep = basicTimeStep();
 
   if (WbSimulationState::instance()->isRealTime()) {
-    const int elapsed = mLastRealTime.restart();
+    const int elapsed = mRealTimeTimer.restart();
 
     // computing the mean of an history of several elapsedTime
     // improves significantly the stability of the algorithm
@@ -267,7 +267,7 @@ void WbSimulationWorld::modeChanged() {
       WbSoundEngine::setMute(WbPreferences::instance()->value("Sound/mute").toBool());
       break;
     case WbSimulationState::REALTIME:
-      mLastRealTime.start();
+      mRealTimeTimer.start();
       WbSoundEngine::setPause(false);
       WbSoundEngine::setMute(WbPreferences::instance()->value("Sound/mute").toBool());
       mTimer->start(mSleepRealTime);

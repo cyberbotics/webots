@@ -20,12 +20,11 @@
 // instanciated/deleted by either WbGuiApplication or WbConsoleApplication
 //
 
-#include <QtCore/QElapsedTimer>
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
 class WbControlledWorld;
-class QTime;
+class QElapsedTimer;
 
 class WbApplication : public QObject {
   Q_OBJECT
