@@ -35,6 +35,7 @@
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
 #include <QtCore/QDirIterator>
+#include <QtCore/QElapsedTimer>
 
 #include <cassert>
 
@@ -241,7 +242,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   delete mWorldLoadTimer;
   mWorldLoadTimer = NULL;
   if (qgetenv("WEBOTS_DISABLE_WORLD_LOADING_DIALOG").isEmpty()) {
-    mWorldLoadTimer = new QTime();
+    mWorldLoadTimer = new QElapsedTimer();
     mWorldLoadTimer->start();
   }
   mWorldLoadingCanceled = false;
