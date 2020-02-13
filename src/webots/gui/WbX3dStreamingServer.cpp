@@ -60,23 +60,13 @@ void WbX3dStreamingServer::create(int port) {
   generateX3dWorld();
 }
 
-void WbX3dStreamingServer::onNewTcpData() {
-  QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
-
-  QString line(socket->peek(1024));  // Peek the request header to determine the requested url.
-  QStringList tokens = QString(line).split(QRegExp("[ \r\n][ \r\n]*"));
-  if (tokens[0] == "GET") {
-    QString requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
-    if (!requestedUrl.isEmpty()) {  // "/" is reserved for the websocket.
-      QByteArray reply;
-      if (mX3dWorldTextures.contains(requestedUrl))
-        reply = WbHttpReply::forgeImageReply(mX3dWorldTextures[requestedUrl]);
-      else
-        reply = WbHttpReply::forge404Reply();
-      socket->write(reply);
-      socket->disconnectFromHost();
-    }
-  }
+void WbX3dStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
+  QByteArray reply;
+  if (mX3dWorldTextures.contains(requestedUrl))
+    reply = WbHttpReply::forgeImageReply(mX3dWorldTextures[requestedUrl]);
+  else
+    reply = WbHttpReply::forge404Reply();
+  socket->write(reply);
 }
 
 void WbX3dStreamingServer::processTextMessage(QString message) {

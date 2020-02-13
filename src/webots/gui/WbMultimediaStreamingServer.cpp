@@ -34,15 +34,11 @@ void WbMultimediaStreamingServer::start(int port) {
   WbLog::info(tr("Webots video streamer started: resolution %1x%2 on port %3").arg(mImageWidth).arg(mImageHeight).arg(mPort));
 }
 
-void WbMultimediaStreamingServer::onNewTcpData() {
-  QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
-  socket->readAll();  // Discard "Get Request String"
-
-  const QByteArray &ContentType = ("HTTP/1.0 200 OK\r\nServer: Webots\r\nConnection: close\r\nMax-Age: 0\r\n"
+void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
+  static const QByteArray &contentType = ("HTTP/1.0 200 OK\r\nServer: Webots\r\nConnection: close\r\nMax-Age: 0\r\n"
                                    "Expires: 0\r\nCache-Control: no-cache, private\r\nPragma: no-cache\r\n"
                                    "Content-Type: multipart/x-mixed-replace; boundary=--WebotsStreamingFrame\r\n\r\n");
-  socket->write(ContentType);
-  sendImage(mSceneImage);
+  socket->write(contentType);
   mTcpClients.append(socket);
 }
 

@@ -211,6 +211,20 @@ void WbStreamingServer::onNewTcpConnection() {
   }
 }
 
+void WbStreamingServer::onNewTcpData() {
+  QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
+
+  const QString &line(socket->peek(1024));  // Peek the request header to determine the requested url.
+  QStringList tokens = QString(line).split(QRegExp("[ \r\n][ \r\n]*"));
+  if (tokens[0] == "GET") {
+    const QString &requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
+    if (!requestedUrl.isEmpty()) {  // "/" is reserved for the websocket.
+      sendTcpRequestReply(requestedUrl, socket);
+      socket->disconnectFromHost();
+    }
+  }
+}
+
 void WbStreamingServer::onNewWebSocketConnection() {
   QWebSocket *client = mWebSocketServer->nextPendingConnection();
   if (client) {

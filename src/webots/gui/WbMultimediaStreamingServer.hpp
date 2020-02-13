@@ -34,11 +34,11 @@ public:
   bool isNewFrameNeeded() const;
 
 private slots:
-  void onNewTcpData() override;
   void processTextMessage(QString message);
 
 private:
   void start(int port) override;
+  void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) override;
 
   int mPort;
   int mImageWidth;

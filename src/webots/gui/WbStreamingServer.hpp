@@ -59,6 +59,7 @@ protected:
   void computeEditableControllers();
   void sendActivityPulse() const;
   void pauseClientIfNeeded(QWebSocket *client);
+  virtual void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket){};
 
   QList<QWebSocket *> mWebSocketClients;
   double mPauseTimeout;
@@ -72,7 +73,7 @@ private slots:
   void setWorldLoadingStatus(const QString &status) { mCurrentWorldLoadingStatus = status; }
   void onNewWebSocketConnection();
   void onNewTcpConnection();
-  virtual void onNewTcpData() = 0;
+  void onNewTcpData();
   void socketDisconnected();
   void propagateWebotsLogToClients(WbLog::Level level, const QString &message, bool popup);
   void propagateControllerLogToClients(WbLog::Level level, const QString &message, const QString &prefix, bool popup);

@@ -30,14 +30,13 @@ private slots:
   void propagateNodeDeletion(WbNode *node);
   void start(int port) override;
   void stop() override;
-  void onNewTcpData() override;
   void sendUpdatePackageToClients() override;
   virtual void processTextMessage(QString);
 
 private:
   void create(int port) override;
   void onSimulationReset() override;
-
+  void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) override;
   void sendWorldToClient(QWebSocket *client);
   void sendWorldStateToClient(QWebSocket *client, const QString &state) const;
   void startX3dStreaming(QWebSocket *client);
