@@ -29,7 +29,8 @@ bool WbMacAddress::check(const QString &macAddress) const {
 }
 
 QString WbMacAddress::address() const {
-  return QString::asprintf("%02X%02X%02X%02X%02X%02X", mAddress[0], mAddress[1], mAddress[2], mAddress[3], mAddress[4], mAddress[5]);
+  return QString::asprintf("%02X%02X%02X%02X%02X%02X", mAddress[0], mAddress[1], mAddress[2], mAddress[3], mAddress[4],
+                           mAddress[5]);
 }
 
 #ifdef _WIN32

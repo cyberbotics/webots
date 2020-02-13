@@ -19,10 +19,10 @@
 // Description: world with physics/kinematic simulation
 //
 
+#include <QtCore/QElapsedTimer>
 #include <QtCore/QList>
 #include <QtCore/QMutex>
 #include <QtCore/QTime>
-#include <QtCore/QElapsedTimer>
 #include "WbWorld.hpp"
 
 class WbSimulationCluster;
