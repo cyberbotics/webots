@@ -22,7 +22,8 @@
 #include <QtCore/QElapsedTimer>
 #include <QtCore/QList>
 #include <QtCore/QMutex>
-#include <QtCore/QTime>
+#include <QtCore/QTimer>
+
 #include "WbWorld.hpp"
 
 class WbSimulationCluster;
