@@ -21,7 +21,7 @@
 //
 
 #include <QtCore/QObject>
-#include <QtCore/QTime>
+#include <QtCore/QElapsedTimer>
 #include <QtCore/QTimer>
 
 class WbGuiRefreshOracle : public QObject {
@@ -46,7 +46,7 @@ private:
   static WbGuiRefreshOracle *cInstance;
 
   bool mCanRefreshNow;
-  QTime mLastRefreshTime;
+  QElapsedTimer mLastRefreshTime;
   QTimer mGlobalRefreshTimer;
 
 private slots:
