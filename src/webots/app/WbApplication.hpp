@@ -22,6 +22,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
+#include <QtCore/QElapsedTimer>
 
 class WbControlledWorld;
 class QTime;
@@ -118,7 +119,7 @@ private:
 
   bool mWorldLoadingCanceled;
   bool mWorldLoadingProgressDialogCreated;
-  QTime *mWorldLoadTimer;
+  QElapsedTimer *mWorldLoadTimer;
 
   // remove links to the project dynamic libraries
   void removeOldLibraries();

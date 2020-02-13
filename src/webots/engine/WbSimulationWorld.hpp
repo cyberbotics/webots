@@ -22,6 +22,7 @@
 #include <QtCore/QList>
 #include <QtCore/QMutex>
 #include <QtCore/QTime>
+#include <QtCore/QElapsedTimer>
 #include "WbWorld.hpp"
 
 class WbSimulationCluster;
@@ -72,7 +73,7 @@ private:
   WbOdeContext *mOdeContext;
   WbPhysicsPlugin *mPhysicsPlugin;
   QTimer *mTimer;
-  QTime mLastRealTime;
+  QElapsedTimer mLastRealTime;
   double mSleepRealTime;
   QList<int> mElapsedTimeHistory;
   QVector<WbNode *> mAddedNode;  // list of nodes added since the simulation started
