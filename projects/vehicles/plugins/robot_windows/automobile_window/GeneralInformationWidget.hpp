@@ -20,7 +20,7 @@
 #define GENERAL_INFORMATION_WIDGET_HPP
 
 #include <QtCore/QString>
-#include <QtCore/QTime>
+#include <QtCore/QElapsedTimer>
 #include <QtWidgets/QWidget>
 
 #include <webots/vehicle/car.h>
@@ -52,7 +52,7 @@ private:
   void init();
 
   QCheckBox *mEnableCheckBox;
-  QTime mLastRefreshTime;
+  QElapsedTimer mLastRefreshTime;
   bool mIsinitialized;
 
   // drawing positions
