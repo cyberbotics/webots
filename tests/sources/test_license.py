@@ -170,7 +170,7 @@ class TestLicense(unittest.TestCase):
                     )
                 elif source.endswith('.py') or source.endswith('Makefile'):
                     for pythonHeader in PYTHON_OPTIONAL_HEADERS:
-                        if content.startswith(pythonHeader):
+                        if content.startswith(pythonHeader + '\n'):
                             content = content[len(pythonHeader):].lstrip('\n')
                     self.assertTrue(
                         content.startswith(APACHE2_LICENSE_PYTHON),
