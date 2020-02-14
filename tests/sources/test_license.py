@@ -171,8 +171,7 @@ class TestLicense(unittest.TestCase):
                 elif source.endswith('.py') or source.endswith('Makefile'):
                     for pythonHeader in PYTHON_OPTIONAL_HEADERS:
                         if content.startswith(pythonHeader):
-                            content = content[len(pythonHeader):]
-                            content = content.lstrip('\n')
+                            content = content[len(pythonHeader):].lstrip('\n')
                     self.assertTrue(
                         content.startswith(APACHE2_LICENSE_PYTHON),
                         msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License:\n%s' %
