@@ -729,7 +729,7 @@ bool RosSupervisor::nodeRestartControllerCallback(webots_ros::node_reset_functio
 
 bool RosSupervisor::fieldGetTypeCallback(webots_ros::field_get_type::Request &req, webots_ros::field_get_type::Response &res) {
   assert(this);
-  if (!req.node)
+  if (!req.field)
     return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   res.type = field->getType();
