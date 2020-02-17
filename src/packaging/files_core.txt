@@ -323,6 +323,7 @@ resources/web/server/config/simulation/*.json
 resources/web/server/log/
 resources/web/server/log/session/
 resources/web/server/log/simulation/
+resources/web/server/kill_old_webots_instances.py
 resources/web/streaming_viewer/
 resources/web/streaming_viewer/index.html
 resources/web/streaming_viewer/setup_viewer.js
