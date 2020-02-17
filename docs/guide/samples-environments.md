@@ -80,6 +80,8 @@ These objects are Webots PROTO nodes, and can be easily moved and resized to cre
 The tools, valves and doors are interactive.
 This means that a robot could grab a hammer, turn a valve handle, climb the stairs or open a door.
 
+This environment is sponsored by the [ROSin european project](http://rosin-project.eu/ftp/cross-platform-ros-simulation-for-mobile-manipulators).
+
 ### [kitchen.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/environments/indoor/worlds/kitchen.wbt)
 
 **Keywords**: kitchen, utensil
