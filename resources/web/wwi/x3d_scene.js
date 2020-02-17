@@ -439,6 +439,16 @@ class X3dScene { // eslint-disable-line no-unused-vars
     return undefined;
   }
 
+  getRobotWindows() {
+    var windows = [['worldInfoWindow', this.worldInfo.window]];
+    var nodes = this.root ? this.root.children : [];
+    nodes.forEach((node) => {
+      if (node.isObject3D && node.userData && node.userData.window && node.userData.name)
+        windows.push([node.userData.name, node.userData.window]);
+    });
+    return windows;
+  }
+
   // private functions
   _setupLights(directionalLights) {
     if (!this.root)

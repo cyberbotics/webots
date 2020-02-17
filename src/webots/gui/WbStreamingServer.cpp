@@ -218,10 +218,8 @@ void WbStreamingServer::onNewTcpData() {
   QStringList tokens = QString(line).split(QRegExp("[ \r\n][ \r\n]*"));
   if (tokens[0] == "GET") {
     const QString &requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
-    if (!requestedUrl.isEmpty()) {  // "/" is reserved for the websocket.
+    if (!requestedUrl.isEmpty())  // "/" is reserved for the websocket.
       sendTcpRequestReply(requestedUrl, socket);
-      socket->disconnectFromHost();
-    }
   }
 }
 
@@ -547,6 +545,15 @@ void WbStreamingServer::newWorld() {
     fflush(stdout);
   }
 
+  try {
+    foreach (QWebSocket *client, mWebSocketClients)
+      sendWorldToClient(client);
+  } catch (const QString &e) {
+    WbLog::error(tr("Error when reloading world: %1.").arg(e));
+    destroy();
+    return;
+  }
+
   computeEditableControllers();
 }
 
@@ -618,4 +625,34 @@ void WbStreamingServer::pauseClientIfNeeded(QWebSocket *client) {
 
 void WbStreamingServer::sendLabelUpdate(const QString &labelDescription) {
   sendToClients(labelDescription);
+}
+
+void WbStreamingServer::sendWorldToClient(QWebSocket *client) {
+  WbWorld *world = WbWorld::instance();
+  const QDir dir = QFileInfo(world->fileName()).dir();
+  const QStringList worldList = dir.entryList(QStringList() << "*.wbt", QDir::Files);
+  QString worlds;
+  for (int i = 0; i < worldList.size(); ++i)
+    worlds += (i == 0 ? "" : ";") + QFileInfo(worldList.at(i)).fileName();
+  client->sendTextMessage("world:" + QFileInfo(world->fileName()).fileName() + ':' + worlds);
+
+  QList<WbRobot *> robots = WbWorld::instance()->robots();
+  foreach (const WbRobot *robot, robots) {
+    qDebug() << "robot " << robot->name() << "window" << robot->window();
+    if (robot->supervisor()) {
+      foreach (const QString &label, robot->supervisorUtilities()->labelsState())
+        client->sendTextMessage(label);
+    }
+    if (!robot->window().isEmpty()) {
+      const QString &robotName = robot->name();
+      client->sendTextMessage(QString("robot window: %1:%2:%3").arg(robotName.size()).arg(robotName).arg(robot->window()));
+    }
+  }
+
+  const WbWorldInfo *currentWorldInfo = WbWorld::instance()->worldInfo();
+  const QString &infoWindow = currentWorldInfo->window();
+  client->sendTextMessage(
+    QString("world info: %1:%2:%3").arg(infoWindow.size()).arg(infoWindow).arg(currentWorldInfo->title()));
+
+  client->sendTextMessage("scene load completed");
 }

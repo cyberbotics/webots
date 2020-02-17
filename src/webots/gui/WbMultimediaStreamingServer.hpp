@@ -26,7 +26,7 @@ class WbMultimediaStreamingServer : public WbStreamingServer {
   Q_OBJECT
 
 public:
-  WbMultimediaStreamingServer() : WbStreamingServer(), mPort(-1), mImageWidth(-1), mImageHeight(-1){};
+  WbMultimediaStreamingServer() : WbStreamingServer(), mImageWidth(-1), mImageHeight(-1){};
   ~WbMultimediaStreamingServer() {}
   void sendImage(QImage image);
 
@@ -40,7 +40,6 @@ private:
   void start(int port) override;
   void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) override;
 
-  int mPort;
   int mImageWidth;
   int mImageHeight;
   QImage mSceneImage;

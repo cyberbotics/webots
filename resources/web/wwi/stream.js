@@ -164,17 +164,30 @@ class Stream { // eslint-disable-line no-unused-vars
         y: labelProperties[4]
       });
     } else if (data.startsWith('video: ')) {
-      console.log('Received data = ' + data);
       let list = data.split(' ');
-      let url = list[1];
+      let httpUrl = this.wsServer.replace('ws', 'http');
+      let url = httpUrl + list[1];
       this.view.toolBar.setMode(list[2]);
       this.view.video.domElement.src = url;
       console.log('Video streamed on ' + url);
-      if (typeof this.onready === 'function')
-        this.onready();
     } else if (data.startsWith('time: ')) {
       this.view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
       $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(this.view.time));
+    } else if (data.startsWith('robot window: ')) {
+      let robotInfo = data.substring(data.indexOf(':') + 1).trim();
+      let separatorIndex = robotInfo.indexOf(':');
+      let nameSize = parseFloat(robotInfo.substring(0, separatorIndex));
+      let robotName = robotInfo.substring(separatorIndex + 1, nameSize + separatorIndex + 1);
+      let windowName = robotInfo.substring(separatorIndex + nameSize + 2);
+      this.view.video.setRobotWindow(robotName, windowName);
+    } else if (data.startsWith('world info: ')) {
+      // world info: <name size>:<info window name>:<world title>
+      let info = data.substring(data.indexOf(':') + 1).trim();
+      let separatorIndex = info.indexOf(':');
+      let nameSize = parseFloat(info.substring(0, separatorIndex));
+      let infoWindowName = info.substring(separatorIndex + 1, nameSize + separatorIndex + 1);
+      let title = info.substring(separatorIndex + nameSize + 2);
+      this.view.video.setWorldInfo(title, infoWindowName);
     } else
       console.log('WebSocket error: Unknown message received: "' + data + '"');
   }

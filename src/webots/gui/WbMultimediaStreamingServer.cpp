@@ -30,21 +30,31 @@ void WbMultimediaStreamingServer::setView3D(WbView3D *view3D) {
 
 void WbMultimediaStreamingServer::start(int port) {
   WbStreamingServer::start(port);
-  mPort = port;
-  WbLog::info(tr("Webots video streamer started: resolution %1x%2 on port %3").arg(mImageWidth).arg(mImageHeight).arg(mPort));
+  WbLog::info(
+    tr("Webots multimedia streamer started: resolution %1x%2 on port %3").arg(mImageWidth).arg(mImageHeight).arg(port));
 }
 
 void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
+  if (requestedUrl != "mjpeg")
+    return;
+  socket->readAll();
+
   static const QByteArray &contentType = ("HTTP/1.0 200 OK\r\nServer: Webots\r\nConnection: close\r\nMax-Age: 0\r\n"
-                                   "Expires: 0\r\nCache-Control: no-cache, private\r\nPragma: no-cache\r\n"
-                                   "Content-Type: multipart/x-mixed-replace; boundary=--WebotsStreamingFrame\r\n\r\n");
+                                          "Expires: 0\r\nCache-Control: no-cache, private\r\nPragma: no-cache\r\n"
+                                          "Content-Type: multipart/x-mixed-replace; boundary=--WebotsFrame\r\n\r\n");
   socket->write(contentType);
   mTcpClients.append(socket);
+  // TODO: send immediately the first image on connections
+  // if non has been generated yet, then do it
+  // if (mUpdateTimer->isValid())
+  //  sendImage(mSceneImage);
 }
 
 bool WbMultimediaStreamingServer::isNewFrameNeeded() const {
-  if (!isActive() || mTcpClients.isEmpty() || !mUpdateTimer.isValid())
+  if (!isActive() || mTcpClients.isEmpty())
     return false;
+  if (!mUpdateTimer.isValid())
+    return true;
 
   const qint64 nsecs = mUpdateTimer.nsecsElapsed();
   return nsecs >= 5e7;  // maximum update frame rate
@@ -58,7 +68,7 @@ void WbMultimediaStreamingServer::sendImage(QImage image) {
   bufferJpeg.open(QIODevice::WriteOnly);
   mSceneImage.save(&bufferJpeg, "JPG");
   const QByteArray &boundaryString =
-    QString("--WebotsStreamingFrame\r\nContent-type: image/jpg\r\nContent-Length: %1\r\n\r\n").arg(im.length()).toUtf8();
+    QString("--WebotsFrame\r\nContent-type: image/jpg\r\nContent-Length: %1\r\n\r\n").arg(im.length()).toUtf8();
 
   foreach (QTcpSocket *client, mTcpClients) {
     if (client->state() != QAbstractSocket::ConnectedState) {
@@ -141,10 +151,11 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
     } else
       // Video streamer already initialized
       WbLog::info(tr("Streaming server: Ignored new client request of resolution: %1x%2.").arg(width).arg(height));
-    client->sendTextMessage(QString("video: %1 %2").arg(mPort).arg(simulationStateString()));
+    client->sendTextMessage(QString("video: /mjpeg %2").arg(simulationStateString()));
     const QString &stateMessage = simulationStateString();
     if (!stateMessage.isEmpty())
       client->sendTextMessage(stateMessage);
+    sendWorldToClient(client);
   } else if (message.startsWith("resize: ")) {
     if (client == mWebSocketClients.first()) {
       const QStringList &resolution = message.mid(8).split("x");

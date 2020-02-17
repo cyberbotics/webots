@@ -211,14 +211,6 @@ void WbX3dStreamingServer::generateX3dWorld() {
 }
 
 void WbX3dStreamingServer::sendWorldToClient(QWebSocket *client) {
-  WbWorld *world = WbWorld::instance();
-  const QDir dir = QFileInfo(world->fileName()).dir();
-  const QStringList worldList = dir.entryList(QStringList() << "*.wbt", QDir::Files);
-  QString worlds;
-  for (int i = 0; i < worldList.size(); ++i)
-    worlds += (i == 0 ? "" : ";") + QFileInfo(worldList.at(i)).fileName();
-  client->sendTextMessage("world:" + QFileInfo(world->fileName()).fileName() + ':' + worlds);
-
   qint64 ret = client->sendTextMessage(QString("model:") + mX3dWorld);
   if (ret < mX3dWorld.size())
     throw tr("Cannot sent the entire world");
@@ -227,15 +219,7 @@ void WbX3dStreamingServer::sendWorldToClient(QWebSocket *client) {
   if (!state.isEmpty())
     sendWorldStateToClient(client, state);
 
-  QList<WbRobot *> robots = WbWorld::instance()->robots();
-  foreach (const WbRobot *robot, robots) {
-    if (robot->supervisor()) {
-      foreach (const QString &label, robot->supervisorUtilities()->labelsState())
-        client->sendTextMessage(label);
-    }
-  }
-
-  client->sendTextMessage("scene load completed");
+  WbStreamingServer::sendWorldToClient(client);
 }
 
 void WbX3dStreamingServer::sendWorldStateToClient(QWebSocket *client, const QString &state) const {

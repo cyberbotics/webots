@@ -57,9 +57,10 @@ protected:
   void destroy();
   virtual void onSimulationReset(){};  // TODO
   void computeEditableControllers();
+  virtual void sendWorldToClient(QWebSocket *client);
   void sendActivityPulse() const;
   void pauseClientIfNeeded(QWebSocket *client);
-  virtual void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket){};
+  virtual void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) = 0;
 
   QList<QWebSocket *> mWebSocketClients;
   double mPauseTimeout;

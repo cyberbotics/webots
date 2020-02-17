@@ -6,10 +6,12 @@ class Video { // eslint-disable-line no-unused-vars
     this.domElement = document.createElement('img');
     this.domElement.style.background = 'grey';
     this.domElement.id = 'remoteVideo';
+    this.domElement.setAttribute('draggable', false);
     parentObject.appendChild(this.domElement);
     this.mouseDown = 0;
-
     this.onmousemove = (e) => { this._onMouseMove(e); };
+    this.robotWindows = [];
+    this.worldInfo = {title: null, infoWindow: null};
   }
 
   disconnect() {
@@ -23,6 +25,14 @@ class Video { // eslint-disable-line no-unused-vars
     this.domElement.addEventListener('contextmenu', (e) => { this._onContextMenu(e); }, false);
     if (typeof onready === 'function')
       onready();
+  }
+
+  setWorldInfo(title, infoWindowName) {
+    this.worldInfo = {title: title, infoWindow: infoWindowName};
+  }
+
+  setRobotWindow(robotName, windowName) {
+    this.robotWindows.push([robotName, windowName]);
   }
 
   sendMouseEvent(type, event, wheel) {

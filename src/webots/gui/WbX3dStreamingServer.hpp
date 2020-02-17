@@ -37,7 +37,7 @@ private:
   void create(int port) override;
   void onSimulationReset() override;
   void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) override;
-  void sendWorldToClient(QWebSocket *client);
+  void sendWorldToClient(QWebSocket *client) override;
   void sendWorldStateToClient(QWebSocket *client, const QString &state) const;
   void startX3dStreaming(QWebSocket *client);
   void generateX3dWorld();

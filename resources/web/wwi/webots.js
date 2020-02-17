@@ -80,7 +80,7 @@ webots.View = class View {
       window.location = quitDestination;
     };
     this.onresize = () => {
-      if (!this.x3dScene)
+      if (typeof this.x3dScene === 'undefined')
         return;
 
       // Sometimes the page is not fully loaded by that point and the field of view is not yet available.
@@ -196,7 +196,7 @@ webots.View = class View {
 
     var finalizeWorld = () => {
       $('#webotsProgressMessage').html('Loading HTML and JavaScript files...');
-      if (this.x3dScene) {
+      if (typeof this.x3dScene !== 'undefined') {
         if (this.x3dScene.viewpoint.followedObjectId == null || this.broadcast)
           this.x3dScene.viewpoint.initFollowParameters();
         else
@@ -213,7 +213,6 @@ webots.View = class View {
         }
       }
 
-      // TODO load robot windows for video streaming
       var loadRobotWindow = (windowName, nodeName) => {
         this.robotWindowNames[nodeName] = windowName;
         var win = new RobotWindow(this.view3D, this.mobileDevice, windowName);
@@ -222,7 +221,7 @@ webots.View = class View {
         function closeInfoWindow() {
           $('#infoButton').removeClass('toolBarButtonActive');
         }
-        if (windowName === infoWindowName) {
+        if (infoWindowName && windowName === infoWindowName) {
           var user;
           if (typeof webots.User1Id !== 'undefined' && webots.User1Id !== '') {
             user = ' [' + webots.User1Name;
@@ -231,7 +230,12 @@ webots.View = class View {
             user += ']';
           } else
             user = '';
-          win.setProperties({title: this.x3dScene.worldInfo.title + user, close: closeInfoWindow});
+          let worldInfoTitle;
+          if (typeof this.x3dScene !== 'undefined')
+            worldInfoTitle = this.x3dScene.worldInfo.title;
+          else
+            worldInfoTitle = this.video.worldInfo.title;
+          win.setProperties({title: worldInfoTitle + user, close: closeInfoWindow});
           this.infoWindow = win;
         } else
           win.setProperties({title: 'Robot: ' + nodeName});
@@ -260,18 +264,34 @@ webots.View = class View {
         });
       };
 
-      var infoWindowName = this.x3dScene.worldInfo.window;
       var pendingRequestsCount = 1; // start from 1 so that it can be 0 only after the loop is completed and all the nodes are checked
-      var nodes = this.x3dScene.root ? this.x3dScene.root.children : [];
-      nodes.forEach((node) => {
-        if (node.isObject3D && node.userData && node.userData.window && node.userData.name)
-          loadRobotWindow(node.userData.window, node.userData.name);
+      let windowsDict = [];
+      var infoWindowName;
+      if (typeof this.x3dScene !== 'undefined') {
+        windowsDict = this.x3dScene.getRobotWindows();
+        infoWindowName = this.x3dScene.worldInfo.window;
+      } else if (this.video) {
+        windowsDict = this.video.robotWindows;
+        infoWindowName = this.video.worldInfo.infoWindow;
+      } else {
+        loadFinalize();
+        return;
+      }
+
+      windowsDict.forEach((window) => {
+        // window: [robot name, window name]
+        loadRobotWindow(window[1], window[0]);
+        if (window[0] === 'worldInfoWindow')
+          infoWindowName = window[0];
       });
       pendingRequestsCount--; // notify that loop is completed
       if (pendingRequestsCount === 0)
         // If no pending requests execute loadFinalize
         // otherwise it will be executed when the last request will be handled.
         loadFinalize();
+
+      if (typeof this.video !== 'undefined')
+        this.video.finalize();
     };
 
     var loadFinalize = () => {
@@ -301,9 +321,10 @@ webots.View = class View {
       if (this.runOnLoad && this.toolBar)
         this.toolBar.realTime();
 
-      // Force a rendering after 1 second.
-      // This should make sure that all the texture transforms are applied (for example in the Highway Driving benchmark).
-      setTimeout(() => this.x3dScene.render(), 1000);
+      if (typeof this.x3dScene !== 'undefined')
+        // Force a rendering after 1 second.
+        // This should make sure that all the texture transforms are applied (for example in the Highway Driving benchmark).
+        setTimeout(() => this.x3dScene.render(), 1000);
     };
 
     if (this.broadcast)
@@ -330,7 +351,7 @@ webots.View = class View {
       if (authenticatedUser && typeof webots.User1Id !== 'undefined' && webots.User1Id !== '')
         authenticatedUser = Boolean(webots.User1Authentication);
       this.contextMenu = new ContextMenu(authenticatedUser, this.view3D);
-      if (this.x3dScene) {
+      if (typeof this.x3dScene !== 'undefined') {
         this.contextMenu.onEditController = (controller) => { this.editController(controller); };
         this.contextMenu.onFollowObject = (id) => { this.x3dScene.viewpoint.follow(id); };
         this.contextMenu.isFollowedObject = (object3d, setResult) => { setResult(this.x3dScene.viewpoint.isFollowedObject(object3d)); };
@@ -339,7 +360,7 @@ webots.View = class View {
       }
     }
 
-    if (this.x3dScene && typeof this.mouseEvents === 'undefined')
+    if (typeof this.x3dScene !== 'undefined' && typeof this.mouseEvents === 'undefined')
       this.mouseEvents = new MouseEvents(this.x3dScene, this.contextMenu, this.x3dDiv, this.mobileDevice);
 
     if (typeof this.console === 'undefined')
@@ -418,7 +439,8 @@ webots.View = class View {
         return;
       if (this.toolBar)
         this.toolBar.enableToolBarButtons(false);
-      this.x3dScene.viewpoint.resetFollow();
+      if (typeof this.x3dScene !== 'undefined')
+        this.x3dScene.viewpoint.resetFollow();
       this.onrobotwindowsdestroy();
       $('#webotsProgressMessage').html('Loading ' + this.worldSelect.value + '...');
       $('#webotsProgress').show();
@@ -458,7 +480,7 @@ webots.View = class View {
       $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(this.deadline));
     else
       $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(0));
-    if (this.x3dScene)
+    if (typeof this.x3dScene !== 'undefined')
       this.x3dScene.viewpoint.reset(this.time);
   }
 
@@ -472,7 +494,7 @@ webots.View = class View {
   }
 
   destroyWorld() {
-    if (this.x3dScene)
+    if (typeof this.x3dScene !== 'undefined')
       this.x3dScene.destroyWorld();
     this.removeLabels();
   }
