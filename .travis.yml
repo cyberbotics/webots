@@ -186,7 +186,7 @@ jobs:
             - libxkbcommon-x11-dev
     - &distribution_staging
       stage: Distribution
-      if: type = cron OR commit_message IN (travis_release, travis_release_only, travis_distrib, travis_distrib_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      if: type = cron OR commit_message IN (travis_distrib, travis_distrib_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: Ubuntu 16.04 / Python 3.8 / openjdk 8
       git: *compilation_git
       os: linux
@@ -255,7 +255,7 @@ jobs:
         - src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
     - <<: *distribution_staging
       stage: Release
-      if: type = commit_message IN (travis_release, travis_release_only)
+      if: commit_message IN (travis_release, travis_release_only)
       script:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
