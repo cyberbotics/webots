@@ -58,6 +58,7 @@ protected:
   virtual void onSimulationReset(){};  // TODO
   void computeEditableControllers();
   virtual void sendWorldToClient(QWebSocket *client);
+  void sendToClients(const QString &message = "");
   void sendActivityPulse() const;
   void pauseClientIfNeeded(QWebSocket *client);
   virtual void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) = 0;
@@ -84,8 +85,6 @@ private slots:
 
 private:
   void toggleAction(bool serverIsCreated);
-
-  void sendToClients(const QString &message = "");
   bool isControllerEditAllowed(const QString &controller);
   void sendFileToClient(QWebSocket *client, const QString &type, const QString &folder, const QString &path,
                         const QString &filename);

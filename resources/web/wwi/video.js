@@ -1,7 +1,9 @@
+/* global SystemInfo */
+
 'use strict';
 
 class Video { // eslint-disable-line no-unused-vars
-  constructor(view, parentObject) {
+  constructor(view, parentObject, contextMenu) {
     this.view = view;
     this.domElement = document.createElement('img');
     this.domElement.style.background = 'grey';
@@ -10,6 +12,8 @@ class Video { // eslint-disable-line no-unused-vars
     parentObject.appendChild(this.domElement);
     this.mouseDown = 0;
     this.onmousemove = (e) => { this._onMouseMove(e); };
+    this.lastMousePosition = null;
+    this.contextMenu = contextMenu;
     this.robotWindows = [];
     this.worldInfo = {title: null, infoWindow: null};
   }
@@ -35,13 +39,19 @@ class Video { // eslint-disable-line no-unused-vars
     this.robotWindows.push([robotName, windowName]);
   }
 
+  showContextMenu(object) {
+    this.contextMenu.show(object, this.lastMousePosition);
+  }
+
   sendMouseEvent(type, event, wheel) {
+    this.contextMenu.hide();
     var socket = this.view.stream.socket;
     if (!socket || socket.readyState !== 1)
       return;
     var modifier = (event.shiftKey ? 1 : 0) + (event.ctrlKey ? 2 : 0) + (event.altKey ? 4 : 0);
     socket.send('mouse ' + type + ' ' + event.button + ' ' + this.mouseDown + ' ' +
                 event.offsetX + ' ' + event.offsetY + ' ' + modifier + ' ' + wheel);
+    this.lastMousePosition = {x: event.offsetX, y: event.offsetY};
   }
 
   resize(width, height) {
@@ -53,13 +63,13 @@ class Video { // eslint-disable-line no-unused-vars
   _onMouseDown(event) {
     this.mouseDown = 0;
     switch (event.button) {
-      case THREE.MOUSE.LEFT:
+      case 0: // MOUSE.LEFT
         this.mouseDown |= 1;
         break;
-      case THREE.MOUSE.MIDDLE:
+      case 1: // MOUSE.MIDDLE
         this.mouseDown |= 4;
         break;
-      case THREE.MOUSE.RIGHT:
+      case 2: // MOUSE.RIGHT
         this.mouseDown |= 2;
         break;
     }

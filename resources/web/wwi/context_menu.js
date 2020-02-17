@@ -44,17 +44,17 @@ class ContextMenu { // eslint-disable-line no-unused-vars
         if (typeof this.onFollowObject === 'function')
           this.onFollowObject('none');
       } else if (id === 'contextMenuEditController') {
-        var controller = this.object.userData.controller;
+        var controller = this.object.controller;
         $('#webotsEditor').dialog('open');
         $('#webotsEditor').dialog('option', 'title', 'Controller: ' + controller);
         if (typeof this.onEditController === 'function')
           this.onEditController(controller);
       } else if (id === 'contextMenuRobotWindow') {
-        var robotName = this.object.userData.name;
+        var robotName = this.object.name;
         if (typeof this.onOpenRobotWindow === 'function')
           this.onOpenRobotWindow(robotName);
       } else if (id === 'contextMenuHelp')
-        window.open(this.object.userData.docUrl, '_blank');
+        window.open(this.object.docUrl, '_blank');
       else
         console.log('Unknown menu item: ' + id);
       $('#contextMenu').css('display', 'none');
@@ -78,22 +78,23 @@ class ContextMenu { // eslint-disable-line no-unused-vars
     this.visible = false;
   }
 
+  // object = {'id', 'name', 'controller', 'docUrl'}
   show(object, position) {
     this.object = object;
     if (typeof object === 'undefined')
       return;
 
-    var title = object.userData.name;
+    var title = object.name;
     if (title == null || title === '')
       title = 'Object';
 
     $('#contextMenuTitle').html(title);
-    var controller = object.userData.controller;
+    var controller = object.controller;
     if (controller && controller !== '') { // the current selection is a robot
       $('#contextMenuEditController').css('display', 'inline');
       if (controller === 'void' || controller.length === 0 || !this.authenticatedUser)
         $('#contextMenuEditController').children().addClass('ui-state-disabled');
-      var robotName = object.userData.name;
+      var robotName = object.name;
       var isValid = false;
       if (typeof this.isRobotWindowValid === 'function')
         this.isRobotWindowValid(robotName, (result) => { isValid = result; });
@@ -117,7 +118,7 @@ class ContextMenu { // eslint-disable-line no-unused-vars
       $('#contextMenuUnfollow').css('display', 'none');
     }
 
-    if (this.object.userData.docUrl)
+    if (this.object.docUrl)
       $('#contextMenuHelpDiv').removeClass('ui-state-disabled');
     else
       $('#contextMenuHelpDiv').addClass('ui-state-disabled');

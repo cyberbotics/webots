@@ -188,6 +188,11 @@ class Stream { // eslint-disable-line no-unused-vars
       let infoWindowName = info.substring(separatorIndex + 1, nameSize + separatorIndex + 1);
       let title = info.substring(separatorIndex + nameSize + 2);
       this.view.video.setWorldInfo(title, infoWindowName);
+    } else if (data.startsWith('context menu: ')) {
+      if (!this.view.video)
+        return;
+      let info = data.substring(data.indexOf(':') + 1).trim();
+      this.view.video.showContextMenu(JSON.parse(info));
     } else
       console.log('WebSocket error: Unknown message received: "' + data + '"');
   }

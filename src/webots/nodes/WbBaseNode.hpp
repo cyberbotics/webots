@@ -110,6 +110,8 @@ public:
   // return the finalized instance node of a PROTO if only one exists
   WbBaseNode *getSingleFinalizedProtoInstance();
 
+  QString documentationUrl() const;
+
 signals:
   void isBeingDestroyed(WbBaseNode *node);
   void visibleHandlesChanged(bool resizeHandlesEnabled);

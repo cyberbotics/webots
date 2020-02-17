@@ -46,17 +46,17 @@ void WbSelection::selectNodeFromSceneTree(WbBaseNode *node) {
   emit selectionChangedFromSceneTree(mSelectedAbstractTransform);
 }
 
-void WbSelection::selectTransformFromView3D(WbAbstractTransform *t) {
+void WbSelection::selectTransformFromView3D(WbAbstractTransform *t, bool handlesDisabled) {
   WbBaseNode *node = t == NULL ? NULL : t->baseNode();
   if (mSelectedNode == node)
     return;
-  selectNode(node);
+  selectNode(node, handlesDisabled);
   emit selectionChangedFromView3D(mSelectedAbstractTransform);
   if (mSelectedAbstractTransform)
     updateHandlesScale();
 }
 
-void WbSelection::selectNode(WbBaseNode *n) {
+void WbSelection::selectNode(WbBaseNode *n, bool handlesDisabled) {
   const bool transformChanged =
     ((n == NULL) != (mSelectedAbstractTransform == NULL)) || (n == NULL || n != mSelectedAbstractTransform->baseNode());
   if (mSelectedNode) {
@@ -87,7 +87,7 @@ void WbSelection::selectNode(WbBaseNode *n) {
 
     if (mSelectedAbstractTransform && transformChanged) {
       connect(mSelectedNode, &WbBaseNode::isBeingDestroyed, this, &WbSelection::clear, Qt::UniqueConnection);
-      if (!WbNodeUtilities::isNodeOrAncestorLocked(mSelectedAbstractTransform->baseNode()))
+      if (!handlesDisabled && !WbNodeUtilities::isNodeOrAncestorLocked(mSelectedAbstractTransform->baseNode()))
         mSelectedAbstractTransform->attachTranslateRotateManipulator();
     }
   }

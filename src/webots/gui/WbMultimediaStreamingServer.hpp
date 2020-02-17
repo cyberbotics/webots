@@ -20,6 +20,7 @@
 #include <QtCore/QElapsedTimer>
 #include <QtGui/QImage>
 
+class WbMatter;
 class WbView3D;
 
 class WbMultimediaStreamingServer : public WbStreamingServer {
@@ -39,12 +40,15 @@ private slots:
 private:
   void start(int port) override;
   void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) override;
+  void sendContextMenuInfo(const WbMatter *matter);
 
   int mImageWidth;
   int mImageHeight;
   QImage mSceneImage;
   QList<QTcpSocket *> mTcpClients;
   QElapsedTimer mUpdateTimer;
+
+  double mLastSpeedIndicatorTime;
 };
 
 #endif

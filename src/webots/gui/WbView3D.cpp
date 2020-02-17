@@ -122,7 +122,9 @@ WbView3D::WbView3D() :
   mPickedMatter(NULL),
   mWheel(NULL),
   mMouseEventInitialized(false),
-  mLastButtonState(Qt::NoButton) {
+  mLastButtonState(Qt::NoButton),
+  mIsRemoteMouseEvent(false),
+  mRemoteContextMenuMatter(NULL) {
   QDir::addSearchPath("gl", WbStandardPaths::resourcesPath() + "wren");
 
   mLastRefreshTimer.start();
@@ -1414,7 +1416,9 @@ void WbView3D::renderNow(bool culling) {
   }
 }
 
-void WbView3D::remoteMouseEvent(QMouseEvent *event) {
+const WbMatter *WbView3D::remoteMouseEvent(QMouseEvent *event) {
+  mRemoteContextMenuMatter = NULL;
+  mIsRemoteMouseEvent = true;
   switch (event->type()) {
     case QEvent::MouseButtonPress:
       mousePressEvent(event);
@@ -1428,6 +1432,8 @@ void WbView3D::remoteMouseEvent(QMouseEvent *event) {
     default:
       break;
   }
+  mIsRemoteMouseEvent = false;
+  return mRemoteContextMenuMatter;
 }
 
 void WbView3D::remoteWheelEvent(QWheelEvent *event) {
@@ -1446,8 +1452,12 @@ void WbView3D::selectNode(const QMouseEvent *event) {
   WbSelection *const selection = WbSelection::instance();
   if (!mPickedMatter) {
     selection->selectTransformFromView3D(NULL);  // sending NULL allows to unselect
-    if (isContextMenuShortcut(event) && event->type() == QEvent::MouseButtonRelease)
-      emit contextMenuRequested(event->globalPos());
+    if (isContextMenuShortcut(event) && event->type() == QEvent::MouseButtonRelease) {
+      if (mIsRemoteMouseEvent)
+        mRemoteContextMenuMatter = mPickedMatter;
+      else
+        emit contextMenuRequested(event->globalPos());
+    }
     return;
   }
 
@@ -1479,13 +1489,17 @@ void WbView3D::selectNode(const QMouseEvent *event) {
       selectedMatter = topMatter;
   }
 
-  selection->selectTransformFromView3D(selectedMatter);
+  selection->selectTransformFromView3D(selectedMatter, mIsRemoteMouseEvent);
 
   if (WbSysInfo::environmentVariable("WEBOTS_DEBUG").isEmpty())
     WbVisualBoundingSphere::instance()->show(selectedMatter);
 
-  if (isContextMenuShortcut(event) && event->type() == QEvent::MouseButtonRelease)
-    emit contextMenuRequested(event->globalPos());
+  if (isContextMenuShortcut(event) && event->type() == QEvent::MouseButtonRelease) {
+    if (mIsRemoteMouseEvent)
+      mRemoteContextMenuMatter = mPickedMatter;
+    else
+      emit contextMenuRequested(event->globalPos());
+  }
 }
 
 void WbView3D::mousePressEvent(QMouseEvent *event) {

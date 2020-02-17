@@ -15,9 +15,13 @@
 #include "WbMultimediaStreamingServer.hpp"
 
 #include "WbMainWindow.hpp"
+#include "WbRobot.hpp"
+#include "WbSimulationState.hpp"
 #include "WbView3D.hpp"
 
 #include <QtCore/QBuffer>
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonObject>
 #include <QtGui/QMouseEvent>
 #include <QtWebSockets/QWebSocket>
 
@@ -61,8 +65,10 @@ bool WbMultimediaStreamingServer::isNewFrameNeeded() const {
 }
 
 void WbMultimediaStreamingServer::sendImage(QImage image) {
-  mSceneImage = image;
+  const double simulationTime = WbSimulationState::instance()->time();
+  sendToClients(QString("time: %1").arg(simulationTime));
 
+  mSceneImage = image;
   QByteArray im;
   QBuffer bufferJpeg(&im);
   bufferJpeg.open(QIODevice::WriteOnly);
@@ -84,6 +90,16 @@ void WbMultimediaStreamingServer::sendImage(QImage image) {
   }
 
   mUpdateTimer.restart();
+}
+
+void WbMultimediaStreamingServer::sendContextMenuInfo(const WbMatter *contextMenuNode) {
+  QJsonObject object;
+  object.insert("name", contextMenuNode->name());
+  object.insert("docUrl", contextMenuNode->documentationUrl());
+  const WbRobot *robot = dynamic_cast<const WbRobot *>(contextMenuNode);
+  object.insert("controller", robot ? robot->controllerName() : "");
+  QJsonDocument jsonDocument(object);
+  sendToClients("context menu: " + jsonDocument.toJson(QJsonDocument::Compact));
 }
 
 void WbMultimediaStreamingServer::processTextMessage(QString message) {
@@ -129,8 +145,11 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
           type = QEvent::MouseMove;
       }
       QMouseEvent event(type, point, buttonPressed, buttonsPressed, keyboardModifiers);
-      if (gView3D)
-        gView3D->remoteMouseEvent(&event);
+      if (gView3D) {
+        const WbMatter *contextMenuNode = gView3D->remoteMouseEvent(&event);
+        if (contextMenuNode)
+          sendContextMenuInfo(contextMenuNode);
+      }
     } else if (action == 2) {
       wheel = -wheel;  // Wheel delta is inverted in JS and Webots
       QWheelEvent wheelEvent(point, point, QPoint(), QPoint(), wheel, Qt::Vertical, buttonsPressed, keyboardModifiers);

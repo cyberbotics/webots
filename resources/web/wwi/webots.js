@@ -331,9 +331,22 @@ webots.View = class View {
       this.setTimeout(-1);
     this.isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://');
 
+    if (typeof this.contextMenu === 'undefined' && this.isWebSocketProtocol) {
+      let authenticatedUser = !this.broadcast;
+      if (authenticatedUser && typeof webots.User1Id !== 'undefined' && webots.User1Id !== '')
+        authenticatedUser = Boolean(webots.User1Authentication);
+      this.contextMenu = new ContextMenu(authenticatedUser, this.view3D);
+      this.contextMenu.onEditController = (controller) => { this.editController(controller); };
+      this.contextMenu.onFollowObject = (id) => { this.x3dScene.viewpoint.follow(id); };
+      this.contextMenu.onOpenRobotWindow = (robotName) => { this.openRobotWindow(robotName); };
+      this.contextMenu.isRobotWindowValid = (robotName, setResult) => { setResult(this.robotWindows[this.robotWindowNames[robotName]]); };
+    }
+
     if (mode === 'video') {
       this.url = url;
-      this.video = new Video(this, this.view3D);
+      this.video = new Video(this, this.view3D, this.contextMenu);
+      // TODO
+      // this.contextMenu.isFollowedObject = (object3d, setResult) => { setResult(this.x3dScene.viewpoint.isFollowedObject(object3d)); };
     } else if (typeof this.x3dScene === 'undefined') {
       this.x3dDiv = document.createElement('div');
       this.x3dDiv.className = 'webots3DView';
@@ -344,20 +357,7 @@ webots.View = class View {
       param.name = 'showProgress';
       param.value = false;
       this.x3dScene.domElement.appendChild(param);
-    }
-
-    if (typeof this.contextMenu === 'undefined' && this.isWebSocketProtocol) {
-      let authenticatedUser = !this.broadcast;
-      if (authenticatedUser && typeof webots.User1Id !== 'undefined' && webots.User1Id !== '')
-        authenticatedUser = Boolean(webots.User1Authentication);
-      this.contextMenu = new ContextMenu(authenticatedUser, this.view3D);
-      if (typeof this.x3dScene !== 'undefined') {
-        this.contextMenu.onEditController = (controller) => { this.editController(controller); };
-        this.contextMenu.onFollowObject = (id) => { this.x3dScene.viewpoint.follow(id); };
-        this.contextMenu.isFollowedObject = (object3d, setResult) => { setResult(this.x3dScene.viewpoint.isFollowedObject(object3d)); };
-        this.contextMenu.onOpenRobotWindow = (robotName) => { this.openRobotWindow(robotName); };
-        this.contextMenu.isRobotWindowValid = (robotName, setResult) => { setResult(this.robotWindows[this.robotWindowNames[robotName]]); };
-      }
+      this.contextMenu.isFollowedObject = (object3d, setResult) => { setResult(this.x3dScene.viewpoint.isFollowedObject(object3d)); };
     }
 
     if (typeof this.x3dScene !== 'undefined' && typeof this.mouseEvents === 'undefined')
