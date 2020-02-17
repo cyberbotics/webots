@@ -263,7 +263,7 @@ jobs:
     - <<: *distribution_staging
       stage: Release
       name: OSX / Python 2.7
-      if: type = commit_message IN (travis_release, travis_release_only)
+      if: commit_message IN (travis_release, travis_release_only)
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
