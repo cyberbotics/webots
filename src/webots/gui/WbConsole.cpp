@@ -183,20 +183,17 @@ WbConsole *WbConsole::instance() {
 
 namespace {
   void odeErrorFunc(int errnum, const char *msg, va_list ap) {
-    QString error;
-    error.vsprintf(msg, ap);
+    const QString error = QString::vasprintf(msg, ap);
     emit WbLog::instance()->logEmitted(WbLog::ERROR, QString("ODE Error %1: ").arg(errnum) + error, false);
   }
 
   void odeDebugFunc(int errnum, const char *msg, va_list ap) {
-    QString debug;
-    debug.vsprintf(msg, ap);
+    const QString debug = QString::vasprintf(msg, ap);
     emit WbLog::instance()->logEmitted(WbLog::DEBUG, QString("ODE INTERNAL ERROR %1: ").arg(errnum) + debug, false);
   }
 
   void odeMessageFunc(int errnum, const char *msg, va_list ap) {
-    QString message;
-    message.vsprintf(msg, ap);
+    QString message = QString::vasprintf(msg, ap);
     if (message.startsWith("LCP")) {
       message = QString("The current physics step could not be computed correctly. "
                         "Your world may be too complex. If this problem persists, try simplifying "

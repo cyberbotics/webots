@@ -223,9 +223,7 @@ void WbDisplay::findImageTextures(WbGroup *group) {
 }
 
 QString WbDisplay::pixelInfo(int x, int y) const {
-  QString info;
-  info.sprintf("pixel(%d,%d)=#%02X%02X%02X%02X", x, y, red(x, y), green(x, y), blue(x, y), alpha(x, y));
-  return info;
+  return QString::asprintf("pixel(%d,%d)=#%02X%02X%02X%02X", x, y, red(x, y), green(x, y), blue(x, y), alpha(x, y));
 }
 
 void WbDisplay::handleMessage(QDataStream &stream) {
