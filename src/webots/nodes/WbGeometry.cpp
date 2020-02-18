@@ -235,6 +235,7 @@ void WbGeometry::updateCollisionMaterial(bool triggerChange, bool onSelection) {
   if (onSelection && !isColliding)
     isColliding = mCollisionTime == WbSimulationState::instance()->time() - WbWorld::instance()->basicTimeStep();
   const bool wasColliding =
+    mCollisionTime == WbSimulationState::instance()->time() - WbWorld::instance()->basicTimeStep() ||
     mPreviousCollisionTime >= WbSimulationState::instance()->time() - 2 * WbWorld::instance()->basicTimeStep();
   const bool changeBoundingObjectMaterial = isColliding != wasColliding || triggerChange;
 
