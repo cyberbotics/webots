@@ -7,6 +7,8 @@ The goal of TurtleBot3 is to dramatically reduce the size of the platform and lo
 The TurtleBot3 can be customized into various ways depending on how you reconstruct the mechanical parts and use optional parts such as the computer and sensor.
 In addition, TurtleBot3 is evolved with cost-effective and small-sized SBC that is suitable for robust embedded system, 360 degree distance sensor and 3D printing technology.
 
+This robot model and controller are sponsored by the [ROSin european project](http://rosin-project.eu/ftp/cross-platform-ros-simulation-for-mobile-manipulators).
+
 ### TurtleBot3Burger PROTO
 
 Derived from [Robot](../reference/robot.md).
