@@ -141,7 +141,7 @@ signals:
   void controllerChanged();
   void controllerRestarted();
   void controllerExited();
-  void robotResetted();
+  void wasReset();
   void toggleRemoteMode(bool enable);
   void sendToJavascript(const QByteArray &);
   void appendMessageToConsole(const QString &message, bool useStdout);

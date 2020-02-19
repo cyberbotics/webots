@@ -69,7 +69,7 @@ void WbSensor::toggleRemoteMode(bool enabled) {
 void WbSensor::connectToRobotSignal(const WbRobot *robot, bool connectRemoteMode) {
   if (connectRemoteMode)
     connect(robot, &WbRobot::toggleRemoteMode, this, &WbSensor::toggleRemoteMode, Qt::UniqueConnection);
-  connect(robot, &WbRobot::robotResetted, this, &WbSensor::reset);
+  connect(robot, &WbRobot::wasReset, this, &WbSensor::reset);
 }
 
 void WbSensor::reset() {

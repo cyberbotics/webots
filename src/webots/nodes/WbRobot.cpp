@@ -217,7 +217,7 @@ void WbRobot::reset() {
     mBattery->setItem(CURRENT_ENERGY, mBatteryInitialValue);
   if (mSupervisorUtilities)
     mSupervisorUtilities->reset();
-  emit robotResetted();
+  emit wasReset();
 }
 
 void WbRobot::save() {
