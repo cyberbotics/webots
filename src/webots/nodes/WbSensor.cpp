@@ -68,3 +68,9 @@ void WbSensor::toggleRemoteMode(bool enabled) {
 void WbSensor::connectToRobotSignal(const WbRobot *robot) {
   connect(robot, &WbRobot::toggleRemoteMode, this, &WbSensor::toggleRemoteMode, Qt::UniqueConnection);
 }
+
+void WbSensor::reset() {
+  mLastUpdate = -9999;
+  mIsFirstValueReady = false;
+  mHasPendingValue = false;
+}

@@ -363,6 +363,7 @@ void WbReceiver::reset() {
   qDeleteAll(mWaitingQueue);
   mWaitingQueue.clear();
   mLastWaitingPacketIndex = 0;
+  mSensor->reset();
 }
 
 // return true is a transmission respects the emitter's and receiver's aperture
