@@ -20,6 +20,7 @@ Released on XXX.
     - Fixed addition of PROTO nodes including a [Connector](connector.md) node from the Add Node dialog (thanks to Acwok).
     - Fixed the [`wb_display_image_load`](display.md#wb_display_image_load) function when used with a PNG image with transparency.
     - Fixed color of the bounding objects remaining in the collision state if the collision was lasting only one step (thanks to Acwok).
+    - Fixed Matlab API.
 
 ## Webots R2020a Revision 1
 Released on January 14th, 2020.
