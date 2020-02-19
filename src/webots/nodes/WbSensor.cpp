@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbSensor.hpp"
+
 #include "WbRobot.hpp"
 #include "WbSimulationState.hpp"
 
@@ -65,8 +66,10 @@ void WbSensor::toggleRemoteMode(bool enabled) {
   mIsRemoteMode = enabled;
 }
 
-void WbSensor::connectToRobotSignal(const WbRobot *robot) {
-  connect(robot, &WbRobot::toggleRemoteMode, this, &WbSensor::toggleRemoteMode, Qt::UniqueConnection);
+void WbSensor::connectToRobotSignal(const WbRobot *robot, bool connectRemoteMode) {
+  if (connectRemoteMode)
+    connect(robot, &WbRobot::toggleRemoteMode, this, &WbSensor::toggleRemoteMode, Qt::UniqueConnection);
+  connect(robot, &WbRobot::robotResetted, this, &WbSensor::reset);
 }
 
 void WbSensor::reset() {

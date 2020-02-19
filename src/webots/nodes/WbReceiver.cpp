@@ -179,7 +179,7 @@ void WbReceiver::updateTransmissionSetup() {
 
 void WbReceiver::writeConfigure(QDataStream &stream) {
   // TODO disable in remote or not ?
-  // mSensor->connectToRobotSignal(robot());
+  mSensor->connectToRobotSignal(robot(), false);
 
   stream << tag();
   stream << (unsigned char)C_CONFIGURE;
@@ -363,7 +363,6 @@ void WbReceiver::reset() {
   qDeleteAll(mWaitingQueue);
   mWaitingQueue.clear();
   mLastWaitingPacketIndex = 0;
-  mSensor->reset();
 }
 
 // return true is a transmission respects the emitter's and receiver's aperture
