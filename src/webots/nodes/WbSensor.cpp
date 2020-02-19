@@ -21,7 +21,7 @@
 
 WbSensor::WbSensor() :
   mRefreshRate(0),  // disabled
-  mLastUpdate(-9999),
+  mLastUpdate(-std::numeric_limits<double>::infinity()),
   mIsRemoteMode(false),
   mIsFirstValueReady(false),
   mHasPendingValue(false) {
@@ -73,7 +73,7 @@ void WbSensor::connectToRobotSignal(const WbRobot *robot, bool connectRemoteMode
 }
 
 void WbSensor::reset() {
-  mLastUpdate = -9999;
+  mLastUpdate = -std::numeric_limits<double>::infinity();
   mIsFirstValueReady = false;
   mHasPendingValue = false;
 }
