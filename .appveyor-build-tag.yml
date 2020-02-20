@@ -6,6 +6,9 @@ branches:
   except:
     - /nightly_.*/
 
+on:
+  APPVEYOR_REPO_TAG: true
+
 skip_non_tags: true
 
 clone_depth: 1
