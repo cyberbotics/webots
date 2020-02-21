@@ -18,7 +18,7 @@ usage() {
   echo "Assumptions:"
   echo "- The OSM file is located in the resources directory. e.g. ./resources/osm_files/$(ARG1).osm"
   echo "- Webots and Python are installed as described in the Webots documentation."
-  echo "- The WEBOTS_HOME environment variable is defined. e.g. 'export WEBOTS_HOME=/Applications/Webots'"
+  echo "- The WEBOTS_HOME environment variable is defined. e.g. 'export WEBOTS_HOME=/Applications/Webots.app'"
   echo
   echo "Example:"
   echo "$ ./importer_demo.sh village"
