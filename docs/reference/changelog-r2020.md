@@ -21,6 +21,7 @@ Released on XXX.
     - Fixed the [`wb_display_image_load`](display.md#wb_display_image_load) function when used with a PNG image with transparency.
     - Fixed color of the bounding objects remaining in the collision state if the collision was lasting only one step (thanks to Acwok).
     - Fixed Matlab API.
+    - Fixed missing stdout/stderr flush when a controller is changed or restarted while simulation is running (thanks to tsampazk).
 
 ## Webots R2020a Revision 1
 Released on January 14th, 2020.
