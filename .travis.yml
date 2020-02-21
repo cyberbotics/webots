@@ -62,6 +62,7 @@ jobs:
       language: generic     # Travis doesn't support python on macos yet
       addons:
         homebrew:
+          update: true
           packages:
             - clang-format
             - cppcheck
@@ -229,6 +230,7 @@ jobs:
       language: generic     # Travis doesn't support python on macos yet
       addons: &mac_addons
         homebrew:
+          update: true
           packages:
             - python
             - cmake
