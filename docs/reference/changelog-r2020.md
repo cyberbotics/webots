@@ -17,12 +17,17 @@ Released on XXX.
     - Improved the environment colors of the sojourner simulation (Mars is a red planet).
     - Added missing `supervisor` field in `UR3e`, `UR5e` and `UR10e` robots.
     - Added a `staticBase` field to the `Irb4600-40` PROTO node.
+  - Dependency Updates
+    - Upgraded to Qt 5.14.1 on Windows.
   - Bug fixes
     - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images.
     - Fixed the TurtleBot3Burger robot maximum velocity (thanks to Dorteel).
     - Fixed the TurtleBot3Burger robot center of mass (thanks to Nitrow).
     - Fixed addition of PROTO nodes including a [Connector](connector.md) node from the Add Node dialog (thanks to Acwok).
     - Fixed the [`wb_display_image_load`](display.md#wb_display_image_load) function when used with a PNG image with transparency.
+    - Fixed color of the bounding objects remaining in the collision state if the collision was lasting only one step (thanks to Acwok).
+    - Fixed Matlab API.
+    - Fixed missing stdout/stderr flush when a controller is changed or restarted while simulation is running (thanks to tsampazk).
 
 ## Webots R2020a Revision 1
 Released on January 14th, 2020.

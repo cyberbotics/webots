@@ -55,7 +55,9 @@ public:
 
   // remote control
   bool isRemoteModeEnabled() const { return mIsRemoteMode; }
-  void connectToRobotSignal(const WbRobot *robot);
+  void connectToRobotSignal(const WbRobot *robot, bool connectRemoteMode = true);
+
+  void reset();
 
 signals:
   void stateChanged();
