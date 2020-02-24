@@ -6,7 +6,7 @@ Once you have started a simulation with an universal robot and set its controlle
 roslaunch ur_e_webots ur5e_joint_limited.launch
 ```
 
-You can then control the robot with MoveIt!, use the following launch file (from the `universal_robot` ROS package) to starts MoveIt!:
+You can then control the robot with MoveIt!, use the following launch file (from the `universal_robot` ROS package) to start MoveIt!:
 
 ```
 roslaunch ur5_moveit_config ur5_moveit_planning_execution.launch
