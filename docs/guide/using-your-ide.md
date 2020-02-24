@@ -4,16 +4,17 @@ Using an [Integrated Development Environment (IDE)](https://en.wikipedia.org/wik
 Fortunately, you can use your favorite IDE to develop a Webots controller.
 
 A priori, Webots works with any IDE to create, build and debug robot controllers.
-It is simply a matter of setting up the IDE correctly to fulfill the Webots controller build rules.
+It is simply a matter of setting up the IDE correctly to use the build rules of Webots controllers.
 
-Documenting every IDE for each OS is a huge and unmaintainable task.
-This is why only some of them are documented.
+Documenting every IDE for each OS is difficult to maintain.
+Thefore, only some of them are documented here.
 They could serve as a reference for others.
 
 The build rules are:
 
 - The target executable file should have the same name as the controller directory, and follow strictly this path: `$WEBOTS_PROJECT/controllers/$(CONTROLLER_NAME)/$(CONTROLLER_NAME)$(EXE_EXTENSION)`.
-- The executable should be linked with the Webots controller library (and eventually include the corresponding path).
+- The executable should be compiled, linked and executed with the Webots controller library.
+Therefore a number of paths and/or environment variables should be set accordingly.
 
 %tab-component "language"
 
@@ -74,7 +75,7 @@ N/A because Python is interpreted.
     - For Java: `.class` or `.jar`.
 - `SL_PREFIX` is the prefix of a shared library: `lib` on Linux or macOS, and an empty string on Windows.
 - `SL_SUFFIX` is the suffix of a shared library: `.so` on Linux, `.dylib` on macOS and `.dll` on Windows.
-- `PYTHON_VERSION` is your Python version, but concatenated (`27`, `37`, etc.).
+- `PYTHON_VERSION` is your Python version, but concatenated (`27`, `37`, `38`, etc.).
 
 ---
 
@@ -358,6 +359,7 @@ The Webots Python API depends on the Webots CPP API, therefore, the path need to
 This can be done from the `Run` / `Edit Configurations` menu.
 In the `Run Configurations` windows, press the `+` button and then select `Python`, then set the `Script path` to point to your python file and in the `Environment variables` define the path variable (i.e. `PATH` on Windows, `LD_LIBRARY_PATH` on Linux or `DYLD_LIBRARY_PATH` on macOS) to point to `WEBOTS_HOME/lib/controller`.
 On Windows, you should also add `WEBOTS_HOME/msys64/mingw64/bin` to your `PATH` environment variable.
+If you are using other libraries (e.g., the `vehicle libraries`, `DARwIn-OP library`, etc.), the path to the corresponding shared libraries should be added as well.
 
 %figure "Addition of the Webots libraries to the path"
 
