@@ -62,13 +62,13 @@ Specific setup depending on the controller language:
 
 %tab "C"
 
-No other setting is needed.
+No specific setup is needed.
 
 %tab-end
 
 %tab "C++"
 
-No other setting is needed.
+No specific setup is needed.
 
 %tab-end
 
