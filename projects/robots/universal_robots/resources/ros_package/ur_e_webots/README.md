@@ -1,3 +1,24 @@
+## Usage
+
+Once you have started a simulation with an universal robot and set its controller to `universal_robots_ros`, you can use the following launch file to setup all the required ROS parameters:
+
+```
+roslaunch ur_e_webots ur5e_joint_limited.launch
+```
+
+You can then control the robot with MoveIt!, use the following launch file (from the `universal_robot` ROS package) to starts MoveIt!:
+
+```
+roslaunch ur5_moveit_config ur5_moveit_planning_execution.launch
+```
+
+For starting up RViz with a configuration including the MoveIt! Motion Planning plugin run use the following launch file (from the `universal_robot` ROS package):
+
+
+```
+roslaunch ur5_moveit_config moveit_rviz.lnch config:=true
+```
+
 ## Acknowledgement
 
 <a href="http://rosin-project.eu">
