@@ -9,6 +9,8 @@ PROTO MetalStainlessSteelCable [
 ]
 {
   PBRAppearance {
+    normalMapFactor 3
+    occlusionMapStrength 5
     baseColorMap ImageTexture {
       url [
         "textures/metal_stainless_steel_cable/metal_stainless_steel_cable_base_color.jpg"
