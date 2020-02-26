@@ -20,6 +20,7 @@ import datetime
 import optparse
 import os
 import re
+import requests
 from github import Github
 
 optParser = optparse.OptionParser(
@@ -102,7 +103,14 @@ for release in repo.get_releases():
                     print('Asset "%s" already present in release "%s".' % (file, title))
                 else:
                     print('Uploading "%s"' % file)
-                    release.upload_asset(path)
+                    remainingTrials = 5
+                    while remainingTrials > 0:
+                        try:
+                            release.upload_asset(path)
+                            remainingTrials = 0
+                        except requests.exceptions.ConnectionError:
+                            remainingTrials -= 1
+                            print('Release upload failed (remaining trials: %d)' % remainingTrials)
                     if releaseExists and not options.tag and not releaseCommentModified and options.branch not in release.body:
                         print('Updating release description')
                         releaseCommentModified = True
