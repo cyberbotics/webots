@@ -17,6 +17,7 @@
 - [Factory](object-factory.md)
   - [Containers](object-factory.md#containers)
   - [Conveyor Belt](object-factory.md#conveyor-belt)
+  - [Conveyor Platform](object-factory.md#conveyor-platform)
   - [Fire Extinguisher](object-factory.md#fire-extinguisher)
   - [Manhole](object-factory.md#manhole)
   - [Pallet](object-factory.md#pallet)
@@ -56,4 +57,3 @@
 - [Toys](object-toys.md)
 - [Traffic](object-traffic.md)
 - [Trees](object-trees.md)
-
