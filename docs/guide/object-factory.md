@@ -107,7 +107,7 @@ A customizable conveyor belt moving at a constant speed.
 
 %figure
 
-![ConveyorBelt](images/objects/conveyor_belt/ConveyorBelt/model.thumbnail.png)
+![ConveyorBelt](images/objects/conveyors/ConveyorBelt/model.thumbnail.png)
 
 %end
 
@@ -156,7 +156,7 @@ A conveyor platform for Robotino 3 robot moving at a constant speed.
 
 %figure
 
-![ConveyorPlatform](images/objects/conveyor_platform/ConveyorPlatform/model.thumbnail.png)
+![ConveyorPlatform](images/objects/conveyors/ConveyorPlatform/model.thumbnail.png)
 
 %end
 
