@@ -2,18 +2,18 @@
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # This is a PROTO file for Webots of a conveyor platform for the robot Robotino 3 from Festo.
-# It is a conveyor belt moving at a constant speed for Robotino 3 to fullfil your requirement.
-# Use it with the "bodySlot" field of the Robotino 3 robot.
+# It conveys at a constant speed to fullfil your requirement.
+# Use it with the "extension" field of the Robotino 3 platform.
 
 PROTO ConveyorPlatform [
   field  SFVec3f     translation      0 0 0
   field  SFRotation  rotation         0 1 0 0
   field  SFString    name             "Conveyor platform for Robotino 3"
-  field  SFString    model            "Festo - Robotino's conveyor platform"
-  field SFFloat      speed            0.5      # Defines the rubber band speed in meters per second.
-  field SFFloat      acceleration     -1       # Defines the acceleration of the conveyor belt.
-  field SFFloat      timer            0.0      # Defines for how long the conveyor belt should move (it will move forever if set to 0).
-  field SFFloat      textureAnimation 0.005    # defines the speed of the texture animation.
+  field  SFString    model            "Robotino's conveyor platform"
+  field SFFloat      speed            0.3    # Defines the rubber band speed in meters per second.
+  field SFFloat      acceleration     -1     # Defines the acceleration of the conveyor belt.
+  field SFFloat      timer            0.0    # Defines for how long the conveyor belt should move (it will move forever if set to 0).
+  field SFFloat      textureAnimation 0.004  # defines the speed of the texture animation.
 ]
 {
   Robot {
@@ -25,7 +25,7 @@ PROTO ConveyorPlatform [
     children [
       Track {
         translation 0 0 0.1
-        rotation 0 1 0 3.141592653589793
+        rotation 0 1 0 3.14159
         children [
           DEF conveyor_belt_BO Shape {
             appearance PBRAppearance {
@@ -271,29 +271,8 @@ PROTO ConveyorPlatform [
       LED {
         children [
           DEF light_indicator_red Shape {
-            appearance PBRAppearance {
-              baseColor 0.937255 0.160784 0.160784
-              baseColorMap ImageTexture {
-                url [
-                  "/home/perretmichael/webots/projects/appearances/protos/textures/matte_car_paint/matte_car_paint_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "/home/perretmichael/webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_roughness.jpg"
-                ]
-              }
-              metalness 0
-              normalMap ImageTexture {
-                url [
-                  "/home/perretmichael/webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_normal.jpg"
-                ]
-              }
-              normalMapFactor 0.5
-              emissiveColor 1 0 0
-              textureTransform TextureTransform {
-                scale 10 10
-              }
+            appearance GlossyPaint {
+              baseColor 1 0 0
             }
             geometry IndexedFaceSet {
               coord Coordinate {
@@ -317,33 +296,15 @@ PROTO ConveyorPlatform [
           }
         ]
         name "red_led"
+        color [
+          1 0 0
+        ]
       }
       LED {
         children [
           DEF light_indicator_orange Shape {
-            appearance PBRAppearance {
-              baseColor 0.960784 0.47451 0
-              baseColorMap ImageTexture {
-                url [
-                  "/home/perretmichael/webots/projects/appearances/protos/textures/matte_car_paint/matte_car_paint_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "/home/perretmichael/webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_roughness.jpg"
-                ]
-              }
-              metalness 0
-              normalMap ImageTexture {
-                url [
-                  "/home/perretmichael/webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_normal.jpg"
-                ]
-              }
-              normalMapFactor 0.5
-              emissiveColor 1 0.5 0
-              textureTransform TextureTransform {
-                scale 10 10
-              }
+            appearance GlossyPaint {
+              baseColor 1 0.5 0
             }
             geometry IndexedFaceSet {
               coord Coordinate {
@@ -368,35 +329,14 @@ PROTO ConveyorPlatform [
         ]
         name "orange_led"
         color [
-          0.960784 0.47451 0
+          1 0.5 0
         ]
       }
       LED {
         children [
           DEF light_indicator_green Shape {
-            appearance PBRAppearance {
-              baseColor 0.305882 0.603922 0.0235294
-              baseColorMap ImageTexture {
-                url [
-                  "/home/perretmichael/webots/projects/appearances/protos/textures/matte_car_paint/matte_car_paint_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "/home/perretmichael/webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_roughness.jpg"
-                ]
-              }
-              metalness 0
-              normalMap ImageTexture {
-                url [
-                  "/home/perretmichael/webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_normal.jpg"
-                ]
-              }
-              normalMapFactor 0.5
-              emissiveColor 0 1 0
-              textureTransform TextureTransform {
-                scale 10 10
-              }
+            appearance GlossyPaint {
+              baseColor 0 1 0
             }
             geometry IndexedFaceSet {
               coord Coordinate {
@@ -421,7 +361,7 @@ PROTO ConveyorPlatform [
         ]
         name "green_led"
         color [
-          0.305882 0.603922 0.0235294
+          0 1 0
         ]
       }
       DEF light_indicator_black Shape {
