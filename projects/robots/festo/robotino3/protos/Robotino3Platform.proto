@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # This is a PROTO file for Webots of a platform for the robot Robotino 3 from Festo.
@@ -10,6 +10,7 @@ PROTO Robotino3Platform [
   field  SFRotation  rotation     0 1 0 0
   field  SFString    name         "Platform for Robotino 3"
   field  SFString    model        "Festo - Robotino's platform"
+  field  MFNode      extension    []     # Extends the robot.
 ]
 {
   Solid {
@@ -18,6 +19,11 @@ PROTO Robotino3Platform [
     name IS name
     model IS model
     children [
+      DEF extensionSlot Transform {
+        translation 0.05 0 0.594
+        rotation -0.577 0.577 0.577 -2.0944
+        children IS extension
+      }
       DEF TUBE Shape {
         appearance BrushedAluminium {
           textureTransform TextureTransform {
