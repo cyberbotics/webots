@@ -10,7 +10,7 @@ PROTO Robotino3Platform [
   field  SFRotation  rotation     0 1 0 0
   field  SFString    name         "Platform for Robotino 3"      # Is `Solid.name`.
   field  SFString    model        "Festo - Robotino's platform"  # Is `Solid.model`.
-  field  MFNode      extension    []                             # Extends the robot.
+  field  MFNode      extension    []                             # Extends the platform.
 ]
 {
   Solid {
