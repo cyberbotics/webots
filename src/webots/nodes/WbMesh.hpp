@@ -30,7 +30,7 @@ public:
   virtual ~WbMesh();
 
   // reimplemented public functions
-  int nodeType() const override { return WB_NODE_CONE; }
+  int nodeType() const override { return WB_NODE_MESH; }
   void postFinalize() override;
   void createWrenObjects() override;
   void createResizeManipulator() override;

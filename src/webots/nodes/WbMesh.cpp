@@ -1,3 +1,4 @@
+#include <QtCore/QDebug>
 // Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,6 +31,10 @@
 #include <wren/renderable.h>
 #include <wren/static_mesh.h>
 #include <wren/transform.h>
+
+#include <assimp/postprocess.h>
+#include <assimp/scene.h>
+#include <assimp/Importer.hpp>
 
 #include <cmath>
 
@@ -124,13 +129,69 @@ void WbMesh::buildWrenMesh() {
   wr_static_mesh_delete(mWrenMesh);
   mWrenMesh = NULL;
 
-  // if (mBottom->isFalse() && mSide->isFalse())
-  //   return;
-
   WbGeometry::computeWrenRenderable();
 
-  mWrenMesh = wr_static_mesh_unit_cone_new(32, true, true);
+  Assimp::Importer importer;
+  const aiScene *scene =
+    importer.ReadFile("/home/david/webots/resources/wren/meshes/circular_arrow.obj",
+                      aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals /*|
+                                             aiProcess_JoinIdenticalVertices |
+                                             aiProcess_FindInvalidData | aiProcess_TransformUVCoords | aiProcess_FlipUVs*/);
 
+  if (!scene) {
+    qDebug() << "Invalid data, please verify mesh file (bone weights, normals, ...):" << importer.GetErrorString();
+    return;
+  } else if (!scene->HasMeshes()) {
+    qDebug() << "File does not contain any mesh.";
+    return;
+  }
+
+  // look for a mesh
+  std::list<aiNode *> queue;
+  queue.push_back(scene->mRootNode);
+  aiNode *node = NULL;
+  while (!queue.empty()) {
+    node = queue.front();
+    queue.pop_front();
+    qDebug() << node->mNumMeshes;
+    for (size_t i = 0; i < node->mNumChildren; ++i)
+      queue.push_back(node->mChildren[i]);
+  }
+
+  if (!node) {  // TODO: handle more than one mesh case
+    qDebug() << "no mesh found.";
+    return;
+  }
+
+  aiMesh *mesh = scene->mMeshes[node->mMeshes[0]];
+
+  float coord_data[3 * mesh->mNumVertices];
+  float normal_data[3 * mesh->mNumVertices];
+  float tex_coord_data[2 * mesh->mNumVertices];
+  for (size_t j = 0; j < mesh->mNumVertices; ++j) {
+    coord_data[3 * j] =
+      mesh->mVertices[j].x;  // TODO: optimize with 'glm::vec3(matrix * glm::make_vec4(&mesh->mVertices[j][0]))'
+    coord_data[3 * j + 1] = mesh->mVertices[j].y;
+    coord_data[3 * j + 2] = mesh->mVertices[j].z;
+    qDebug() << coord_data[3 * j] << coord_data[3 * j + 1] << coord_data[3 * j + 2];
+    normal_data[3 * j] = mesh->mNormals[j].x;
+    normal_data[3 * j + 1] = mesh->mNormals[j].y;
+    normal_data[3 * j + 2] = mesh->mNormals[j].z;
+    // tex_coord_data[2 * j] = mesh->mTextureCoords[0][j].x;
+    // tex_coord_data[2 * j + 1] = mesh->mTextureCoords[0][j].y;
+  }
+
+  unsigned int index_data[3 * mesh->mNumFaces];
+  for (size_t j = 0; j < mesh->mNumFaces; ++j) {
+    const aiFace face = mesh->mFaces[j];
+    assert(mesh->mFaces[j].mNumIndices == 3);
+    index_data[3 * j] = mesh->mFaces[j].mIndices[0];
+    index_data[3 * j + 1] = mesh->mFaces[j].mIndices[1];
+    index_data[3 * j + 2] = mesh->mFaces[j].mIndices[2];
+  }
+
+  mWrenMesh = wr_static_mesh_new(mesh->mNumVertices, 3 * mesh->mNumFaces, coord_data, normal_data, tex_coord_data,
+                                 NULL /*unwrapped_tex_coord_data*/, index_data, false /*outline*/);
   wr_renderable_set_mesh(mWrenRenderable, WR_MESH(mWrenMesh));
 
   updateScale();
