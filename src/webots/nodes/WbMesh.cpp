@@ -68,20 +68,20 @@ void WbMesh::postFinalize() {
 void WbMesh::createWrenObjects() {
   WbGeometry::createWrenObjects();
 
-  sanitizeFields();
+  // sanitizeFields();
   buildWrenMesh();
 
   emit wrenObjectsCreated();
 }
 
 void WbMesh::setResizeManipulatorDimensions() {
-  WbVector3 scale(mBottomRadius->value(), mHeight->value(), mBottomRadius->value());
-
-  WbTransform *transform = upperTransform();
-  if (transform)
-    scale *= transform->matrix().scale();
-
-  resizeManipulator()->updateHandleScale(scale.ptr());
+  // WbVector3 scale(mBottomRadius->value(), mHeight->value(), mBottomRadius->value());
+  //
+  // WbTransform *transform = upperTransform();
+  // if (transform)
+  //   scale *= transform->matrix().scale();
+  //
+  // resizeManipulator()->updateHandleScale(scale.ptr());
   updateResizeHandlesSize();
 }
 
@@ -98,22 +98,22 @@ void WbMesh::createResizeManipulator() {
 
 void WbMesh::exportNodeFields(WbVrmlWriter &writer) const {
   WbGeometry::exportNodeFields(writer);
-  if (writer.isX3d())
-    writer << " subdivision=\'" << mSubdivision->value() << "\'";
+  // if (writer.isX3d())
+  //   writer << " subdivision=\'" << mSubdivision->value() << "\'";
 }
 
 bool WbMesh::sanitizeFields() {
   if (isInBoundingObject())
     return false;
 
-  if (WbFieldChecker::resetIntIfNotInRangeWithIncludedBounds(this, mSubdivision, 3, 1000, 3))
-    return false;
-
-  if (WbFieldChecker::resetDoubleIfNonPositive(this, mBottomRadius, 1.0))
-    return false;
-
-  if (WbFieldChecker::resetDoubleIfNonPositive(this, mHeight, 1.0))
-    return false;
+  // if (WbFieldChecker::resetIntIfNotInRangeWithIncludedBounds(this, mSubdivision, 3, 1000, 3))
+  //   return false;
+  //
+  // if (WbFieldChecker::resetDoubleIfNonPositive(this, mBottomRadius, 1.0))
+  //   return false;
+  //
+  // if (WbFieldChecker::resetDoubleIfNonPositive(this, mHeight, 1.0))
+  //   return false;
 
   return true;
 }
@@ -124,12 +124,12 @@ void WbMesh::buildWrenMesh() {
   wr_static_mesh_delete(mWrenMesh);
   mWrenMesh = NULL;
 
-  if (mBottom->isFalse() && mSide->isFalse())
-    return;
+  // if (mBottom->isFalse() && mSide->isFalse())
+  //   return;
 
   WbGeometry::computeWrenRenderable();
 
-  mWrenMesh = wr_static_mesh_unit_cone_new(mSubdivision->value(), mSide->isTrue(), mBottom->isTrue());
+  mWrenMesh = wr_static_mesh_unit_cone_new(32, true, true);
 
   wr_renderable_set_mesh(mWrenRenderable, WR_MESH(mWrenMesh));
 
@@ -137,45 +137,37 @@ void WbMesh::buildWrenMesh() {
 }
 
 void WbMesh::rescale(const WbVector3 &scale) {
-  if (scale.x() != 1.0)
-    setBottomRadius(bottomRadius() * scale.x());
-  else if (scale.z() != 1.0)
-    setBottomRadius(bottomRadius() * scale.z());
-
-  if (scale.y() != 1.0)
-    setHeight(height() * scale.y());
-}
-
-double WbMesh::height() const {
-  return mHeight->value();
-}
-
-double WbMesh::bottomRadius() const {
-  return mBottomRadius->value();
-}
-
-void WbMesh::setHeight(double h) {
-  mHeight->setValue(h);
-}
-
-void WbMesh::setBottomRadius(double r) {
-  mBottomRadius->setValue(r);
-}
-
-void WbMesh::updateBottomRadius() {
-  // if (!sanitizeFields())
-  //   return;
+  // if (scale.x() != 1.0)
+  //   setBottomRadius(bottomRadius() * scale.x());
+  // else if (scale.z() != 1.0)
+  //   setBottomRadius(bottomRadius() * scale.z());
   //
-  // updateScale();
-  //
-  // if (mBoundingSphere && !isInBoundingObject())
-  //   mBoundingSphere->setOwnerSizeChanged();
-  //
-  // if (resizeManipulator() && resizeManipulator()->isAttached())
-  //   setResizeManipulatorDimensions();
-  //
-  // emit changed();
+  // if (scale.y() != 1.0)
+  //   setHeight(height() * scale.y());
 }
+
+// double WbMesh::bottomRadius() const {
+//   return mBottomRadius->value();
+// }
+
+// void WbMesh::setBottomRadius(double r) {
+//   mBottomRadius->setValue(r);
+// }
+
+// void WbMesh::updateBottomRadius() {
+//   if (!sanitizeFields())
+//     return;
+//
+//   updateScale();
+//
+//   if (mBoundingSphere && !isInBoundingObject())
+//     mBoundingSphere->setOwnerSizeChanged();
+//
+//   if (resizeManipulator() && resizeManipulator()->isAttached())
+//     setResizeManipulatorDimensions();
+//
+//   emit changed();
+// }
 
 void WbMesh::updateScale() {
   // float scale[] = {static_cast<float>(mBottomRadius->value()), static_cast<float>(mHeight->value()),

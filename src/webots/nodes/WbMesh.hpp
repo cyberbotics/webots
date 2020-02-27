@@ -37,11 +37,10 @@ public:
   void rescale(const WbVector3 &scale) override;
 
   // Fields accessors
-  double bottomRadius() const;
+  // double bottomRadius() const;
 
   // Fields setters
-  void setHeight(double h);
-  void setBottomRadius(double r);
+  // void setBottomRadius(double r);
 
   // ray tracing
   void recomputeBoundingSphere() const override;
@@ -63,7 +62,7 @@ protected:
 
 private:
   // user accessible fields
-  WbSFDouble *mBottomRadius;
+  // WbSFDouble *mBottomRadius;
 
   bool sanitizeFields();
 
@@ -80,7 +79,7 @@ private:
   double computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) const;
 
 private slots:
-  void updateBottomRadius();
+  // void updateBottomRadius();
 };
 
 #endif

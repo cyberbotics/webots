@@ -324,6 +324,7 @@ QT_SOURCES += \
   WbMassChecker.cpp \
   WbMaterial.cpp \
   WbMatter.cpp \
+  WbMesh.cpp \
   WbMFBool.cpp \
   WbMFColor.cpp \
   WbMFDouble.cpp \
