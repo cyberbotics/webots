@@ -1,6 +1,5 @@
 # Webots R2020 Change Log
 
-
 ## Webots R2020a Revision 2
 Released on XXX.
 
