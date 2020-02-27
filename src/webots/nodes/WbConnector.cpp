@@ -493,6 +493,12 @@ void WbConnector::detachFromPeer() {
   else
     mPeer->destroyFixedJoint();
 
+  // detaching connectors may cause some motion that wasn't possible when they were attached to each other
+  // therefore we need to explicitely awake both of them in case they were idle
+  // so that the physics engine can generate their motion accordingly
+  awake();
+  mPeer->awake();
+
   // divorce
   mPeer->mPeer = NULL;
   mPeer = NULL;
