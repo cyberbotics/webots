@@ -57,7 +57,6 @@ public:
   void setResizeManipulatorDimensions() override;
 
 protected:
-  //  bool areSizeFieldsVisibleAndNotRegenerator() const override;
   void exportNodeFields(WbVrmlWriter &writer) const override;
 
 private:
@@ -68,7 +67,6 @@ private:
 
   // WREN
   void buildWrenMesh();
-  virtual void updateScale();
 
   WbMesh &operator=(const WbMesh &);  // non copyable
   WbNode *clone() const override { return new WbMesh(*this); }

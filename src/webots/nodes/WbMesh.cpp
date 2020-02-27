@@ -40,12 +40,8 @@
 
 void WbMesh::init() {
   // mBottomRadius = findSFDouble("bottomRadius");
-  // mHeight = findSFDouble("height");
-  // mSide = findSFBool("side");
-  // mBottom = findSFBool("bottom");
-  // mSubdivision = findSFInt("subdivision");
-  //
-  // mResizeConstraint = WbWrenAbstractResizeManipulator::X_EQUAL_Z;
+
+  mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
 }
 
 WbMesh::WbMesh(WbTokenizer *tokenizer) : WbGeometry("Mesh", tokenizer) {
@@ -80,26 +76,19 @@ void WbMesh::createWrenObjects() {
 }
 
 void WbMesh::setResizeManipulatorDimensions() {
-  // WbVector3 scale(mBottomRadius->value(), mHeight->value(), mBottomRadius->value());
-  //
-  // WbTransform *transform = upperTransform();
-  // if (transform)
-  //   scale *= transform->matrix().scale();
-  //
-  // resizeManipulator()->updateHandleScale(scale.ptr());
+  WbVector3 scale(1.0, 1.0, 1.0);
+
+  WbTransform *transform = upperTransform();
+  if (transform)
+    scale *= transform->matrix().scale();
+
+  resizeManipulator()->updateHandleScale(scale.ptr());
   updateResizeHandlesSize();
 }
 
 void WbMesh::createResizeManipulator() {
   mResizeManipulator = new WbRegularResizeManipulator(uniqueId(), WbWrenAbstractResizeManipulator::ResizeConstraint::X_EQUAL_Z);
 }
-
-// bool WbMesh::areSizeFieldsVisibleAndNotRegenerator() const {
-//   const WbField *const height = findField("height", true);
-//   const WbField *const radius = findField("bottomRadius", true);
-//   return WbNodeUtilities::isVisible(height) && WbNodeUtilities::isVisible(radius) &&
-//          !WbNodeUtilities::isTemplateRegeneratorField(height) && !WbNodeUtilities::isTemplateRegeneratorField(radius);
-// }
 
 void WbMesh::exportNodeFields(WbVrmlWriter &writer) const {
   WbGeometry::exportNodeFields(writer);
@@ -133,7 +122,7 @@ void WbMesh::buildWrenMesh() {
 
   Assimp::Importer importer;
   const aiScene *scene =
-    importer.ReadFile("/home/david/webots/resources/wren/meshes/circular_arrow.obj",
+    importer.ReadFile("/home/david/webots/resources/wren/meshes/sofa.obj",
                       aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals /*|
                                              aiProcess_JoinIdenticalVertices |
                                              aiProcess_FindInvalidData | aiProcess_TransformUVCoords | aiProcess_FlipUVs*/);
@@ -154,16 +143,18 @@ void WbMesh::buildWrenMesh() {
     node = queue.front();
     queue.pop_front();
     qDebug() << node->mNumMeshes;
+    if (node->mNumMeshes)  // TODO: handle more than node with mesh case
+      break;
     for (size_t i = 0; i < node->mNumChildren; ++i)
       queue.push_back(node->mChildren[i]);
   }
 
-  if (!node) {  // TODO: handle more than one mesh case
+  if (!node) {
     qDebug() << "no mesh found.";
     return;
   }
 
-  aiMesh *mesh = scene->mMeshes[node->mMeshes[0]];
+  aiMesh *mesh = scene->mMeshes[node->mMeshes[0]];  // TODO: handle more than one mesh case
 
   float coord_data[3 * mesh->mNumVertices];
   float normal_data[3 * mesh->mNumVertices];
@@ -177,8 +168,10 @@ void WbMesh::buildWrenMesh() {
     normal_data[3 * j] = mesh->mNormals[j].x;
     normal_data[3 * j + 1] = mesh->mNormals[j].y;
     normal_data[3 * j + 2] = mesh->mNormals[j].z;
-    // tex_coord_data[2 * j] = mesh->mTextureCoords[0][j].x;
-    // tex_coord_data[2 * j + 1] = mesh->mTextureCoords[0][j].y;
+    if (mesh->HasTextureCoords(0)) {
+      tex_coord_data[2 * j] = mesh->mTextureCoords[0][j].x;
+      tex_coord_data[2 * j + 1] = mesh->mTextureCoords[0][j].y;
+    }
   }
 
   unsigned int index_data[3 * mesh->mNumFaces];
@@ -190,21 +183,13 @@ void WbMesh::buildWrenMesh() {
     index_data[3 * j + 2] = mesh->mFaces[j].mIndices[2];
   }
 
-  mWrenMesh = wr_static_mesh_new(mesh->mNumVertices, 3 * mesh->mNumFaces, coord_data, normal_data, tex_coord_data,
-                                 NULL /*unwrapped_tex_coord_data*/, index_data, false /*outline*/);
+  mWrenMesh = wr_static_mesh_new(mesh->mNumVertices, 3 * mesh->mNumFaces, coord_data, normal_data,
+                                 mesh->HasTextureCoords(0) ? tex_coord_data : NULL, NULL /*unwrapped_tex_coord_data*/,
+                                 index_data, false /*outline*/);
   wr_renderable_set_mesh(mWrenRenderable, WR_MESH(mWrenMesh));
-
-  updateScale();
 }
 
 void WbMesh::rescale(const WbVector3 &scale) {
-  // if (scale.x() != 1.0)
-  //   setBottomRadius(bottomRadius() * scale.x());
-  // else if (scale.z() != 1.0)
-  //   setBottomRadius(bottomRadius() * scale.z());
-  //
-  // if (scale.y() != 1.0)
-  //   setHeight(height() * scale.y());
 }
 
 // double WbMesh::bottomRadius() const {
@@ -219,8 +204,6 @@ void WbMesh::rescale(const WbVector3 &scale) {
 //   if (!sanitizeFields())
 //     return;
 //
-//   updateScale();
-//
 //   if (mBoundingSphere && !isInBoundingObject())
 //     mBoundingSphere->setOwnerSizeChanged();
 //
@@ -229,12 +212,6 @@ void WbMesh::rescale(const WbVector3 &scale) {
 //
 //   emit changed();
 // }
-
-void WbMesh::updateScale() {
-  // float scale[] = {static_cast<float>(mBottomRadius->value()), static_cast<float>(mHeight->value()),
-  //                  static_cast<float>(mBottomRadius->value())};
-  // wr_transform_set_scale(wrenNode(), scale);
-}
 
 /////////////////
 // Ray Tracing //
