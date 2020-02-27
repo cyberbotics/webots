@@ -1,4 +1,3 @@
-#include <QtCore/QDebug>
 // Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -128,10 +127,10 @@ void WbMesh::buildWrenMesh() {
                                              aiProcess_FindInvalidData | aiProcess_TransformUVCoords | aiProcess_FlipUVs*/);
 
   if (!scene) {
-    qDebug() << "Invalid data, please verify mesh file (bone weights, normals, ...):" << importer.GetErrorString();
+    // qDebug() << "Invalid data, please verify mesh file (bone weights, normals, ...):" << importer.GetErrorString();
     return;
   } else if (!scene->HasMeshes()) {
-    qDebug() << "File does not contain any mesh.";
+    // qDebug() << "File does not contain any mesh.";
     return;
   }
 
@@ -142,7 +141,7 @@ void WbMesh::buildWrenMesh() {
   while (!queue.empty()) {
     node = queue.front();
     queue.pop_front();
-    qDebug() << node->mNumMeshes;
+    // qDebug() << node->mNumMeshes;
     if (node->mNumMeshes)  // TODO: handle more than node with mesh case
       break;
     for (size_t i = 0; i < node->mNumChildren; ++i)
@@ -150,7 +149,7 @@ void WbMesh::buildWrenMesh() {
   }
 
   if (!node) {
-    qDebug() << "no mesh found.";
+    // qDebug() << "no mesh found.";
     return;
   }
 
@@ -164,7 +163,6 @@ void WbMesh::buildWrenMesh() {
       mesh->mVertices[j].x;  // TODO: optimize with 'glm::vec3(matrix * glm::make_vec4(&mesh->mVertices[j][0]))'
     coord_data[3 * j + 1] = mesh->mVertices[j].y;
     coord_data[3 * j + 2] = mesh->mVertices[j].z;
-    qDebug() << coord_data[3 * j] << coord_data[3 * j + 1] << coord_data[3 * j + 2];
     normal_data[3 * j] = mesh->mNormals[j].x;
     normal_data[3 * j + 1] = mesh->mNormals[j].y;
     normal_data[3 * j + 2] = mesh->mNormals[j].z;
