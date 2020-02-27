@@ -10,7 +10,7 @@ PROTO ConveyorPlatform [
   field  SFVec3f     translation      0 0 0
   field  SFRotation  rotation         0 1 0 0
   field  SFString    name             "Conveyor platform"  # Is `Solid.name`.
-  field  SFString    model            "Conveyor platform"  # Is `Robot.model`.
+  field  SFString    model            "Conveyor platform"  # Is `Solid.model`.
   field  SFString    controller       "conveyor_belt"      # Is `Robot.controller`.
   field  SFFloat     speed            0.3                  # Defines the rubber band speed in meters per second.
   field  SFFloat     acceleration     -1                   # Defines the acceleration of the conveyor belt.
