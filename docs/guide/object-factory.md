@@ -152,7 +152,9 @@ ConveyorBelt {
 
 ### ConveyorPlatform
 
-A conveyor platform for Robotino 3 robot moving at a constant speed.
+A controllable conveyor platform.
+The default controller makes it move at a constant speed for a configurable amount of time.
+The conveyor contains 3 controllable LEDs.
 
 %figure
 
@@ -164,14 +166,15 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 ConveyorPlatform {
-  SFVec3f     translation      0 0 0
-  SFRotation  rotation         0 1 0 0
-  SFString    name             "Conveyor platform for Robotino 3"
-  SFString    model            "Robotino's conveyor platform"
-  SFFloat     speed            0.4
-  SFFloat     acceleration     -1
-  SFFloat     timer            0.0
-  SFFloat     textureAnimation 0.004
+   SFVec3f     translation      0 0 0
+   SFRotation  rotation         0 1 0 0
+   SFString    name             "Conveyor platform"
+   SFString    model            "Conveyor platform"
+   SFString    controller       "conveyor_belt"
+   SFFloat     speed            0.3
+   SFFloat     acceleration     -1
+   SFFloat     timer            0.0
+   SFFloat     textureAnimation 0.004
 }
 ```
 
@@ -342,7 +345,7 @@ WoodenPalletStack {
 
 - `palletSize`: Defines the size of one pallet.
 
-- `palletLathNumber`: Defines the number of lath of each pallet.s
+- `palletLathNumber`: Defines the number of lath of each pallets.
 
 - `palletLathWidth`: Defines the width of the pallet laths.
 
@@ -991,3 +994,4 @@ SmallValve {
 - `controller`: Defines the controller of the valve which is used to limit its rotation.
 
 - `absoluteStop`: Defines the maximum rotational angle in radians. This value is sent to the controller using the controllerArgs field.
+

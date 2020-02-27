@@ -1,26 +1,29 @@
 #VRML_SIM R2020a utf8
-# license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0.
-# This is a PROTO file for Webots of a conveyor platform for the robot Robotino 3 from Festo.
-# It conveys at a constant speed to fullfil your requirement.
-# Use it with the "extension" field of the Robotino 3 platform.
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A controllable conveyor platform.
+# The default controller makes it move at a constant speed for a configurable amount of time.
+# The conveyor contains 3 controllable LEDs.
 
 PROTO ConveyorPlatform [
   field  SFVec3f     translation      0 0 0
   field  SFRotation  rotation         0 1 0 0
-  field  SFString    name             "Conveyor platform for Robotino 3"
-  field  SFString    model            "Robotino's conveyor platform"
-  field SFFloat      speed            0.3    # Defines the rubber band speed in meters per second.
-  field SFFloat      acceleration     -1     # Defines the acceleration of the conveyor belt.
-  field SFFloat      timer            0.0    # Defines for how long the conveyor belt should move (it will move forever if set to 0).
-  field SFFloat      textureAnimation 0.004  # defines the speed of the texture animation.
+  field  SFString    name             "Conveyor platform"  # Is `Solid.name`.
+  field  SFString    model            "Conveyor platform"  # Is `Solid.model`.
+  field  SFString    controller       "conveyor_belt"      # Is `Robot.controller`.
+  field  SFFloat     speed            0.3                  # Defines the rubber band speed in meters per second.
+  field  SFFloat     acceleration     -1                   # Defines the acceleration of the conveyor belt.
+  field  SFFloat     timer            0.0                  # Defines for how long the conveyor belt should move (it will move forever if set to 0).
+  field  SFFloat     textureAnimation 0.004                # defines the speed of the texture animation.
 ]
 {
   Robot {
     translation IS translation
     rotation IS rotation
     name IS name
-    controller "conveyor_belt"
+    model IS model
+    controller IS controller
     controllerArgs "%{=fields.speed.value}% %{=fields.timer.value}%"
     children [
       Track {
