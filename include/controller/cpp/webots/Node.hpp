@@ -45,6 +45,7 @@ namespace webots {
       INDEXED_FACE_SET,
       INDEXED_LINE_SET,
       MATERIAL,
+      MESH,
       MUSCLE,
       NORMAL,
       PBR_APPEARANCE,

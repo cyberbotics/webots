@@ -1146,6 +1146,8 @@ bool WbNodeUtilities::isGeometryTypeName(const QString &modelName) {
     return true;
   if (modelName == "IndexedLineSet")
     return true;
+  if (modelName == "Mesh")  // TODO: for now only visual
+    return true;
   if (modelName == "PointSet")
     return true;
   if (isCollisionDetectedGeometryTypeName(modelName))

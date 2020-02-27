@@ -1,0 +1,7 @@
+# The Mesh node represents a 3D shape refeering to an external file.
+
+Mesh {
+  MFString url             [ ]   # URL of a 3D file in DAE, STL, OBJ or FBX format (similar to ImageTexture node)
+  SFFloat  creaseAngle     0     # used if no normals are provided (similar to IndexedFaceSet node)
+  SFBool   normalPerVertex TRUE  # used if normals are provided (similar to IndexedFaceSet node)
+}

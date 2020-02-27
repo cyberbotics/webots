@@ -59,6 +59,7 @@
 #include "WbLinearMotor.hpp"
 #include "WbLog.hpp"
 #include "WbMaterial.hpp"
+#include "WbMesh.hpp"
 #include "WbMicrophone.hpp"
 #include "WbMuscle.hpp"
 #include "WbNodeModel.hpp"
@@ -201,6 +202,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbLightSensor(tokenizer);
   if (modelName == "LinearMotor")
     return new WbLinearMotor(tokenizer);
+  if (modelName == "Mesh")
+    return new WbMesh(tokenizer);
   if (modelName == "Material")
     return new WbMaterial(tokenizer);
   if (modelName == "Microphone")
@@ -391,6 +394,8 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbLinearMotor(original);
   if (modelName == "Material")
     return new WbMaterial(original);
+  if (modelName == "Mesh")
+    return new WbMesh(original);
   if (modelName == "Microphone")
     return new WbMicrophone(original);
   if (modelName == "Muscle")
@@ -488,6 +493,8 @@ void WbConcreteNodeFactory::exportAsVrml(const WbNode *node, WbVrmlWriter &write
     capsule.write(writer);
     return;
   }
+
+  // TODO
 
   assert(0);  // we should not reach this line
 }
