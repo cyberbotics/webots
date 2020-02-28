@@ -22,8 +22,7 @@ int main(int argc, char **argv) {
       ts_assert_int_equal(wb_connector_get_presence(rear_connector), 1, "connector presence should be 1");
       wb_connector_unlock(front_connector);
       wb_connector_unlock(rear_connector);
-    }
-    if (t == 38 * TIME_STEP) {
+    } else if (t == 38 * TIME_STEP) {
       ts_assert_int_equal(wb_connector_get_presence(rear_connector), 0, "connector presence should be 0");
       break;
     }
