@@ -399,6 +399,8 @@ WbExtendedStringEditor::StringType WbExtendedStringEditor::fieldNameToStringType
     return SOUND;
   else if (fieldName.endsWith("IrradianceUrl", Qt::CaseSensitive))
     return HDR_TEXTURE_URL;
+  else if (fieldName.endsWith("url", Qt::CaseSensitive))  // TODO: this breaks regular texture
+    return MESH_URL;
   else if (fieldName == "url" || fieldName.endsWith("Url", Qt::CaseSensitive))
     return TEXTURE_URL;
   else if (fieldName == "solidName")
@@ -539,6 +541,9 @@ bool WbExtendedStringEditor::populateItems(QStringList &items) {
       break;
     case HDR_TEXTURE_URL:
       selectFile("textures", "Texture", "*.hdr *.HDR");
+      break;
+    case MESH_URL:
+      selectFile("meshes", "Meshes", "*.obj *.OBJ *.blend *.BLEND *.stl *.STL");
       break;
     default:
       return false;
