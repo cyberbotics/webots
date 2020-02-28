@@ -7,7 +7,7 @@
 
 #define TIME_STEP 32
 
-static double t = 0.0; /* time elapsed since simulation start [s] */
+static int t = 0; /* time elapsed since simulation start [ms] */
 
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
