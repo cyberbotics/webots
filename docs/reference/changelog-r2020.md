@@ -15,7 +15,7 @@ Released on XXX.
   - Dependency Updates
     - Upgraded to Qt 5.14.1 on Windows.
   - Bug fixes
-    - Fixed the physics behavior of Connector nodes sometimes remaining idle after being detached from each other (thanks to Giorgio).
+    - Fixed the physics behavior of [Connector](connector.md) nodes sometimes remaining idle after being detached from each other (thanks to Giorgio).
     - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images.
     - Fixed the TurtleBot3Burger robot maximum velocity (thanks to Dorteel).
     - Fixed the TurtleBot3Burger robot center of mass (thanks to Nitrow).
