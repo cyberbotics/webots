@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
   wb_connector_enable_presence(front_connector, TIME_STEP);
 
   while (wb_robot_step(TIME_STEP) != -1) {
-    if (t == 34 * TIME_STEP) {  // fail with 34
+    if (t == 34 * TIME_STEP) {  // fail from 34 because the modules are now sleeping.
       ts_assert_int_equal(wb_connector_get_presence(rear_connector), 1, "connector presence should be 1");
       wb_connector_unlock(front_connector);
       wb_connector_unlock(rear_connector);
