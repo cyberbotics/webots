@@ -170,10 +170,10 @@ void WbMesh::buildWrenMesh() {
   unsigned int index_data[3 * mesh->mNumFaces];
   for (size_t j = 0; j < mesh->mNumFaces; ++j) {
     const aiFace face = mesh->mFaces[j];
-    assert(mesh->mFaces[j].mNumIndices == 3);
-    index_data[3 * j] = mesh->mFaces[j].mIndices[0];
-    index_data[3 * j + 1] = mesh->mFaces[j].mIndices[1];
-    index_data[3 * j + 2] = mesh->mFaces[j].mIndices[2];
+    assert(face.mNumIndices == 3);
+    index_data[3 * j] = face.mIndices[0];
+    index_data[3 * j + 1] = face.mIndices[1];
+    index_data[3 * j + 2] = face.mIndices[2];
   }
 
   mWrenMesh = wr_static_mesh_new(mesh->mNumVertices, 3 * mesh->mNumFaces, coord_data, normal_data,
@@ -260,16 +260,16 @@ double WbMesh::computeDistance(const WbRay &ray) const {
 }
 
 double WbMesh::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) const {
-  WbVector3 direction(ray.direction());
-  WbVector3 origin(ray.origin());
-
-  const WbTransform *const transform = upperTransform();
-  if (transform) {
-    direction = ray.direction() * transform->matrix();
-    direction.normalize();
-    origin = transform->matrix().pseudoInversed(ray.origin());
-    origin /= absoluteScale();
-  }
+  // WbVector3 direction(ray.direction());
+  // WbVector3 origin(ray.origin());
+  //
+  // const WbTransform *const transform = upperTransform();
+  // if (transform) {
+  //   direction = ray.direction() * transform->matrix();
+  //   direction.normalize();
+  //   origin = transform->matrix().pseudoInversed(ray.origin());
+  //   origin /= absoluteScale();
+  // }
   // const double radius = scaledBottomRadius();
   // const double radius2 = radius * radius;
   // const double h = scaledHeight();
