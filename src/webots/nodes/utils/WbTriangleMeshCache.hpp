@@ -17,7 +17,7 @@
 
 #include "sip_hash.hpp"
 
-class WbIndexedFaceSet;
+class WbTriangleMeshGeometry;
 class WbTriangleMesh;
 
 namespace WbTriangleMeshCache {
@@ -27,7 +27,7 @@ namespace WbTriangleMeshCache {
     return highwayhash::SipHash13(SIPHASH_KEY, reinterpret_cast<const char *>(bytes), size * sizeof(T));
   }
 
-  // TriangleMeshInfo is shared by all WbIndexedFaceSet instances requiring the same WbTriangleMesh.
+  // TriangleMeshInfo is shared by all WbTriangleMeshGeometry instances requiring the same WbTriangleMesh.
   struct TriangleMeshInfo {
     TriangleMeshInfo();
     explicit TriangleMeshInfo(WbTriangleMesh *triangleMesh);
@@ -36,12 +36,12 @@ namespace WbTriangleMeshCache {
     int mNumUsers;
   };
 
-  // Key type for an instance of WbIndexedFaceSet. Instances can share a WbTriangleMesh if their keys compare equal.
+  // Key type for an instance of WbTriangleMeshGeometry. Instances can share a WbTriangleMesh if their keys compare equal.
   struct IndexedFaceSetKey {
     IndexedFaceSetKey();
-    explicit IndexedFaceSetKey(WbIndexedFaceSet *indexedFaceSet);
+    explicit IndexedFaceSetKey(WbTriangleMeshGeometry *indexedFaceSet);  // TODO change namings
 
-    void set(WbIndexedFaceSet *indexedFaceSet);
+    void set(WbTriangleMeshGeometry *indexedFaceSet);
     bool operator==(const IndexedFaceSetKey &rhs) const;
 
     uint64_t mHash;
@@ -52,8 +52,8 @@ namespace WbTriangleMeshCache {
     std::size_t operator()(const IndexedFaceSetKey &k) const;
   };
 
-  void useTriangleMesh(WbIndexedFaceSet *user);
-  void releaseTriangleMesh(WbIndexedFaceSet *user);
+  void useTriangleMesh(WbTriangleMeshGeometry *user);
+  void releaseTriangleMesh(WbTriangleMeshGeometry *user);
 }  // namespace WbTriangleMeshCache
 
 #endif

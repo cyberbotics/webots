@@ -46,6 +46,7 @@ public:
   bool areTextureCoordinatesValid() const { return mTextureCoordinatesValid; }
 
   int numberOfTriangles() const { return mNTriangles; }
+  int numberOfVertices() const { return mVertices.size(); }
 
   static int indexAt(int triangle, int vertex) { return 3 * triangle + vertex; }
   double vertexAt(int triangle, int vertex, int component) const {

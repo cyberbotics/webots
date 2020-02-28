@@ -15,24 +15,14 @@
 #ifndef WB_INDEXED_FACE_SET_HPP
 #define WB_INDEXED_FACE_SET_HPP
 
-#include "WbGeometry.hpp"
-#include "WbTriangleMeshCache.hpp"
-
-#include <unordered_map>
+#include "WbTriangleMeshGeometry.hpp"
 
 class WbCoordinate;
 class WbNormal;
 class WbTextureCoordinate;
-class WbTriangleMesh;
 class WbVector3;
 
-typedef struct dxTriMeshData *dTriMeshDataID;
-
-typedef std::unordered_map<WbTriangleMeshCache::IndexedFaceSetKey, WbTriangleMeshCache::TriangleMeshInfo,
-                           WbTriangleMeshCache::IndexedFaceSetKeyHasher>
-  WbTriangleMeshMap;
-
-class WbIndexedFaceSet : public WbGeometry {
+class WbIndexedFaceSet : public WbTriangleMeshGeometry {
   Q_OBJECT
 
 public:
@@ -46,14 +36,8 @@ public:
   int nodeType() const override { return WB_NODE_INDEXED_FACE_SET; }
   void preFinalize() override;
   void postFinalize() override;
-  void createWrenObjects() override;
-  void setScaleNeedUpdate() override;
-  dGeomID createOdeGeom(dSpaceID space) override;
   void createResizeManipulator() override;
   void attachResizeManipulator() override;
-  bool isAValidBoundingObject(bool checkOde = false, bool warning = true) const override;
-  bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
-  void buildGeomIntoBuffers(WbWrenMeshBuffers *buffers, const WbMatrix4 &m, bool generateUserTexCoords = true) const override;
   void reset() override;
 
   // field accessors
@@ -73,42 +57,16 @@ public:
   void rescaleAndTranslate(double factor, const WbVector3 &t);
   void rescaleAndTranslate(const WbVector3 &scale, const WbVector3 &translation);
   void translate(const WbVector3 &v);
-  double max(int coordinate) const;
-  double min(int coordinate) const;
-  double range(int coordinate) const { return max(coordinate) - min(coordinate); }
 
-  void updateTriangleMesh(bool issueWarnings = true);
+  void updateTriangleMesh(bool issueWarnings = true) override;
 
-  // ray tracing
-  void recomputeBoundingSphere() const override;
-  bool pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoordSet = 0) const override;
-  double computeDistance(const WbRay &ray) const override;
-
-  // friction
-  WbVector3 computeFrictionDirection(const WbVector3 &normal) const override;
-
-  // Non-recursive texture mapping
-  WbVector2 nonRecursiveTextureSizeFactor() const override;
-
-  // resize manipulator
-  void setResizeManipulatorDimensions() override;
-
-  // WbTriangleMesh management (see WbTriangleMeshCache.hpp)
-  WbTriangleMeshCache::TriangleMeshInfo createTriangleMesh();
-  virtual void setTriangleMesh(WbTriangleMesh *triangleMesh) { mTriangleMesh = triangleMesh; }
-  virtual void updateOdeData();
-
-  WbTriangleMeshMap &getTriangleMeshMap() { return cTriangleMeshMap; }
-  WbTriangleMeshCache::IndexedFaceSetKey &getMeshKey() { return mMeshKey; }
+  uint64_t computeHash() const override;
 
 signals:
   void validIndexedFaceSetInserted();
 
 protected:
-  virtual int indexSize() const { return 0; }
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
-  void exportNodeContents(WbVrmlWriter &writer) const override;
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
 
 private:
   WbIndexedFaceSet &operator=(const WbIndexedFaceSet &);  // non copyable
@@ -125,35 +83,6 @@ private:
   WbMFInt *mNormalIndex;
   WbMFInt *mTexCoordIndex;
   WbSFDouble *mCreaseAngle;
-
-  // other variables
-  WbTriangleMesh *mTriangleMesh;
-  QString mTriangleMeshError;
-  dTriMeshDataID mTrimeshData;
-
-  // WREN
-  void buildWrenMesh(bool updateCache);
-  int estimateVertexCount(bool isOutlineMesh = false) const;
-  int estimateIndexCount(bool isOutlineMesh = false) const;
-
-  // ODE
-  void applyToOdeData(bool correctSolidMass = true) override;
-  void setOdeTrimeshData();
-  void clearTrimeshResources();
-  bool mCorrectSolidMass;
-  bool mIsOdeDataApplied;
-
-  // ray tracing
-  // compute local collision point and return the distance
-  double computeLocalCollisionPoint(WbVector3 &point, int &triangleIndex, const WbRay &ray) const;
-  void updateScaledVertices() const;
-  mutable bool mScaledVerticesNeedUpdate;
-
-  // Hashmap key for this instance's mesh
-  WbTriangleMeshCache::IndexedFaceSetKey mMeshKey;
-
-  // Hashmap containing triangle meshes, shared by all instances
-  static WbTriangleMeshMap cTriangleMeshMap;
 
 private slots:
   void updateCoord();
