@@ -20,19 +20,15 @@ int main(int argc, char **argv) {
   while (wb_robot_step(TIME_STEP) != -1) {
     if (t == 34 * TIME_STEP) {  // fail with 34
       ts_assert_int_equal(wb_connector_get_presence(rear_connector), 1, "connector presence should be 1");
-      printf("%d\n", wb_connector_get_presence(rear_connector));  // should be 1
       wb_connector_unlock(front_connector);
       wb_connector_unlock(rear_connector);
     }
     if (t == 38 * TIME_STEP) {
       ts_assert_int_equal(wb_connector_get_presence(rear_connector), 0, "connector presence should be 0");
-      printf("%d\n", wb_connector_get_presence(rear_connector));  // should be 0
       break;
     }
     t += TIME_STEP;
   }
-  printf("Done\n");
   ts_send_success();
-  printf("Done 2\n");
   return EXIT_SUCCESS;
 }
