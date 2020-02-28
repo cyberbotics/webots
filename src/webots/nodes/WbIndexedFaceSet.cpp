@@ -35,14 +35,6 @@
 #include "WbWrenMeshBuffers.hpp"
 #include "WbWrenRenderingContext.hpp"
 
-// #include <wren/config.h>
-// #include <wren/node.h>
-// #include <wren/renderable.h>
-// #include <wren/static_mesh.h>
-// #include <wren/transform.h>
-//
-// #include <ode/ode.h>
-
 void WbIndexedFaceSet::init() {
   mCoord = findSFNode("coord");
   mNormal = findSFNode("normal");
