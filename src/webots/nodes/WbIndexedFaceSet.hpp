@@ -145,7 +145,6 @@ private:
 
   // ray tracing
   // compute local collision point and return the distance
-  enum { X, Y, Z };
   double computeLocalCollisionPoint(WbVector3 &point, int &triangleIndex, const WbRay &ray) const;
   void updateScaledVertices() const;
   mutable bool mScaledVerticesNeedUpdate;
