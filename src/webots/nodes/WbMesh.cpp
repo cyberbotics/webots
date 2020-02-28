@@ -192,11 +192,11 @@ void WbMesh::updateUrl() {
     mUrl->setItem(i, item.replace("\\", "/"));
   }
 
-  if (isPostFinalizedCalled())
-    emit changed();
-
   if (areWrenObjectsInitialized())
     buildWrenMesh();
+
+  if (isPostFinalizedCalled())
+    emit changed();
 }
 
 QString WbMesh::path() {
