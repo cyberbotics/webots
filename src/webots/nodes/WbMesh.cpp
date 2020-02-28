@@ -126,7 +126,8 @@ void WbMesh::buildWrenMesh() {
   } else if (!scene->HasMeshes()) {
     warn(tr("This file doesn't contain any mesh."));
     return;
-  }
+  } else if (scene->mNumMeshes > 1)
+    warn(tr("This file contains several meshes, only one of them will be used."));
 
   // look for a mesh
   std::list<aiNode *> queue;
