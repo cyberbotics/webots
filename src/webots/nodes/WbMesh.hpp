@@ -17,7 +17,7 @@
 
 #include "WbGeometry.hpp"
 
-class WbSFDouble;
+class WbMFString;
 
 class WbMesh : public WbGeometry {
   Q_OBJECT
@@ -31,16 +31,13 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_MESH; }
+  void preFinalize() override;
   void postFinalize() override;
   void createWrenObjects() override;
   void createResizeManipulator() override;
   void rescale(const WbVector3 &scale) override;
 
-  // Fields accessors
-  // double bottomRadius() const;
-
-  // Fields setters
-  // void setBottomRadius(double r);
+  QString path();
 
   // ray tracing
   void recomputeBoundingSphere() const override;
@@ -61,9 +58,7 @@ protected:
 
 private:
   // user accessible fields
-  // WbSFDouble *mBottomRadius;
-
-  bool sanitizeFields();
+  WbMFString *mUrl;
 
   // WREN
   void buildWrenMesh();
@@ -77,7 +72,7 @@ private:
   double computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) const;
 
 private slots:
-  // void updateBottomRadius();
+  void updateUrl();
 };
 
 #endif

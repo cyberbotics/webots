@@ -18,13 +18,13 @@
 #include "WbBoundingSphere.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
+#include "WbMFString.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
-#include "WbSFBool.hpp"
-#include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTransform.hpp"
+#include "WbUrl.hpp"
 #include "WbVector2.hpp"
 
 #include <wren/renderable.h>
@@ -38,7 +38,7 @@
 #include <cmath>
 
 void WbMesh::init() {
-  // mBottomRadius = findSFDouble("bottomRadius");
+  mUrl = findMFString("url");
 
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
 }
@@ -59,16 +59,21 @@ WbMesh::~WbMesh() {
   wr_static_mesh_delete(mWrenMesh);
 }
 
+void WbMesh::preFinalize() {
+  WbBaseNode::preFinalize();
+
+  updateUrl();
+}
+
 void WbMesh::postFinalize() {
   WbGeometry::postFinalize();
 
-  // connect(mBottomRadius, &WbSFDouble::changed, this, &WbMesh::updateBottomRadius);
+  connect(mUrl, &WbMFString::changed, this, &WbMesh::updateUrl);
 }
 
 void WbMesh::createWrenObjects() {
   WbGeometry::createWrenObjects();
 
-  // sanitizeFields();
   buildWrenMesh();
 
   emit wrenObjectsCreated();
@@ -95,22 +100,6 @@ void WbMesh::exportNodeFields(WbVrmlWriter &writer) const {
   //   writer << " subdivision=\'" << mSubdivision->value() << "\'";
 }
 
-bool WbMesh::sanitizeFields() {
-  if (isInBoundingObject())
-    return false;
-
-  // if (WbFieldChecker::resetIntIfNotInRangeWithIncludedBounds(this, mSubdivision, 3, 1000, 3))
-  //   return false;
-  //
-  // if (WbFieldChecker::resetDoubleIfNonPositive(this, mBottomRadius, 1.0))
-  //   return false;
-  //
-  // if (WbFieldChecker::resetDoubleIfNonPositive(this, mHeight, 1.0))
-  //   return false;
-
-  return true;
-}
-
 void WbMesh::buildWrenMesh() {
   WbGeometry::deleteWrenRenderable();
 
@@ -119,18 +108,23 @@ void WbMesh::buildWrenMesh() {
 
   WbGeometry::computeWrenRenderable();
 
+  const QString filePath(path());
+  if (filePath.isEmpty())
+    return;
+
   Assimp::Importer importer;
-  const aiScene *scene =
-    importer.ReadFile("/home/david/webots/resources/wren/meshes/sofa.obj",
-                      aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals /*|
-                                             aiProcess_JoinIdenticalVertices |
-                                             aiProcess_FindInvalidData | aiProcess_TransformUVCoords | aiProcess_FlipUVs*/);
+  const aiScene *scene = importer.ReadFile(
+    filePath.toStdString().c_str(), aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
+                                      aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph
+    /* |  |
+           | aiProcess_TransformUVCoords |
+          aiProcess_FlipUVs */);
 
   if (!scene) {
-    // qDebug() << "Invalid data, please verify mesh file (bone weights, normals, ...):" << importer.GetErrorString();
+    warn(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
     return;
   } else if (!scene->HasMeshes()) {
-    // qDebug() << "File does not contain any mesh.";
+    warn(tr("This file doesn't contain any mesh."));
     return;
   }
 
@@ -149,7 +143,7 @@ void WbMesh::buildWrenMesh() {
   }
 
   if (!node) {
-    // qDebug() << "no mesh found.";
+    warn(tr("This file doesn't contain any mesh."));
     return;
   }
 
@@ -190,26 +184,24 @@ void WbMesh::buildWrenMesh() {
 void WbMesh::rescale(const WbVector3 &scale) {
 }
 
-// double WbMesh::bottomRadius() const {
-//   return mBottomRadius->value();
-// }
+void WbMesh::updateUrl() {
+  // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
+  int n = mUrl->size();
+  for (int i = 0; i < n; i++) {
+    QString item = mUrl->item(i);
+    mUrl->setItem(i, item.replace("\\", "/"));
+  }
 
-// void WbMesh::setBottomRadius(double r) {
-//   mBottomRadius->setValue(r);
-// }
+  if (isPostFinalizedCalled())
+    emit changed();
 
-// void WbMesh::updateBottomRadius() {
-//   if (!sanitizeFields())
-//     return;
-//
-//   if (mBoundingSphere && !isInBoundingObject())
-//     mBoundingSphere->setOwnerSizeChanged();
-//
-//   if (resizeManipulator() && resizeManipulator()->isAttached())
-//     setResizeManipulatorDimensions();
-//
-//   emit changed();
-// }
+  if (areWrenObjectsInitialized())
+    buildWrenMesh();
+}
+
+QString WbMesh::path() {
+  return WbUrl::computePath(this, "url", mUrl, 0);
+}
 
 /////////////////
 // Ray Tracing //
