@@ -1,0 +1,10 @@
+{
+  "default":"worlds/example.wbt",
+  "dependencies": [
+    {
+      "name":"webots",
+      "version":"R2020a-rev2",
+      "minVersion":"R2020a"
+    }
+  ]
+}
