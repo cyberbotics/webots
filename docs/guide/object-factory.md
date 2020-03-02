@@ -125,7 +125,6 @@ ConveyorBelt {
   SFFloat    speed            0.5
   SFFloat    acceleration     -1
   SFFloat    timer            0.0
-  SFFloat    textureAnimation 0.008
 }
 ```
 
@@ -147,8 +146,6 @@ ConveyorBelt {
 - `acceleration`: Defines the acceleration of the conveyor belt.
 
 - `timer`: Defines for how long the conveyor belt should move (it will move forever if set to 0).
-
-- `textureAnimation`: defines the speed of the texture animation.
 
 ### ConveyorPlatform
 
@@ -174,7 +171,6 @@ ConveyorPlatform {
    SFFloat     speed            0.3
    SFFloat     acceleration     -1
    SFFloat     timer            0.0
-   SFFloat     textureAnimation 0.004
 }
 ```
 
@@ -190,8 +186,6 @@ ConveyorPlatform {
 - `acceleration`: Defines the acceleration of the conveyor belt.
 
 - `timer`: Defines for how long the conveyor belt should move (it will move forever if set to 0).
-
-- `textureAnimation`: defines the speed of the texture animation.
 
 ## Fire Extinguisher
 
