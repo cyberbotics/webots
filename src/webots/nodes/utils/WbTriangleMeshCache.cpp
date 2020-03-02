@@ -37,14 +37,16 @@ namespace WbTriangleMeshCache {
   TriangleMeshInfo::TriangleMeshInfo() : mTriangleMesh(NULL), mNumUsers(0) {}
   TriangleMeshInfo::TriangleMeshInfo(WbTriangleMesh *triangleMesh) : mTriangleMesh(triangleMesh), mNumUsers(1) {}
 
-  IndexedFaceSetKey::IndexedFaceSetKey() { mHash = 0; }
-  IndexedFaceSetKey::IndexedFaceSetKey(WbTriangleMeshGeometry *indexedFaceSet) { set(indexedFaceSet); }
+  TriangleMeshGeometryKey::TriangleMeshGeometryKey() { mHash = 0; }
+  TriangleMeshGeometryKey::TriangleMeshGeometryKey(WbTriangleMeshGeometry *triangleMeshGeometry) { set(triangleMeshGeometry); }
 
-  void IndexedFaceSetKey::set(WbTriangleMeshGeometry *indexedFaceSet) { mHash = indexedFaceSet->computeHash(); }
+  void TriangleMeshGeometryKey::set(WbTriangleMeshGeometry *triangleMeshGeometry) {
+    mHash = triangleMeshGeometry->computeHash();
+  }
 
-  bool IndexedFaceSetKey::operator==(const IndexedFaceSetKey &rhs) const { return mHash == rhs.mHash; }
+  bool TriangleMeshGeometryKey::operator==(const TriangleMeshGeometryKey &rhs) const { return mHash == rhs.mHash; }
 
-  std::size_t IndexedFaceSetKeyHasher::operator()(const IndexedFaceSetKey &k) const {
+  std::size_t TriangleMeshGeometryKeyHasher::operator()(const TriangleMeshGeometryKey &k) const {
     assert(sizeof(size_t) == sizeof(uint64_t));
     return static_cast<size_t>(k.mHash);
   }

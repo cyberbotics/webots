@@ -28,8 +28,8 @@ class WbVector3;
 
 typedef struct dxTriMeshData *dTriMeshDataID;
 
-typedef std::unordered_map<WbTriangleMeshCache::IndexedFaceSetKey, WbTriangleMeshCache::TriangleMeshInfo,
-                           WbTriangleMeshCache::IndexedFaceSetKeyHasher>
+typedef std::unordered_map<WbTriangleMeshCache::TriangleMeshGeometryKey, WbTriangleMeshCache::TriangleMeshInfo,
+                           WbTriangleMeshCache::TriangleMeshGeometryKeyHasher>
   WbTriangleMeshMap;
 
 class WbTriangleMeshGeometry : public WbGeometry {
@@ -78,10 +78,10 @@ public:
   virtual void updateOdeData();
 
   WbTriangleMeshMap &getTriangleMeshMap() { return cTriangleMeshMap; }
-  WbTriangleMeshCache::IndexedFaceSetKey &getMeshKey() { return mMeshKey; }
+  WbTriangleMeshCache::TriangleMeshGeometryKey &getMeshKey() { return mMeshKey; }
 
 signals:
-  void validIndexedFaceSetInserted();
+  void validTriangleMeshGeometryInserted();
 
 protected:
   // All constructors are reserved for derived classes only
@@ -128,7 +128,7 @@ private:
   mutable bool mScaledVerticesNeedUpdate;
 
   // Hashmap key for this instance's mesh
-  WbTriangleMeshCache::IndexedFaceSetKey mMeshKey;
+  WbTriangleMeshCache::TriangleMeshGeometryKey mMeshKey;
 
   // Hashmap containing triangle meshes, shared by all instances
   static WbTriangleMeshMap cTriangleMeshMap;

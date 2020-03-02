@@ -251,7 +251,7 @@ int WbTriangleMeshGeometry::estimateIndexCount(bool isOutlineMesh) const {
 // ODE objects //
 /////////////////
 
-// works only for IndexedFaceSet made up of triangles
+// works only for meshes made up of triangles
 dGeomID WbTriangleMeshGeometry::createOdeGeom(dSpaceID space) {
   if (!isPreFinalizedCalled())  // needed because preFinalize comes after insertion and insertion triggers ODE dGeom creation
     preFinalize();
@@ -284,7 +284,7 @@ void WbTriangleMeshGeometry::setOdeTrimeshData() {
                               mTriangleMesh->indicesData(), 3 * nt, 3 * sizeof(int));
 }
 
-// works only for IndexedFaceSet made up of triangles
+// works only for meshes made up of triangles
 void WbTriangleMeshGeometry::applyToOdeData(bool correctSolidMass) {
   mCorrectSolidMass = correctSolidMass;
 
@@ -294,7 +294,7 @@ void WbTriangleMeshGeometry::applyToOdeData(bool correctSolidMass) {
   setOdeTrimeshData();
   if (mOdeGeom == NULL) {
     if (areOdeObjectsCreated())
-      emit validIndexedFaceSetInserted();
+      emit validTriangleMeshGeometryInserted();
 
     return;
   }
@@ -500,7 +500,7 @@ bool WbTriangleMeshGeometry::exportNodeHeader(WbVrmlWriter &writer) const {
   if (!writer.isX3d())
     return WbGeometry::exportNodeHeader(writer);
 
-  // reduce the number of exported IndexedFaceSets by automatically
+  // reduce the number of exported TriangleMeshGeometrys by automatically
   // using a def-use based on the mesh hash
   writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
   if (writer.indexedFaceSetDefMap().contains(mMeshKey.mHash)) {

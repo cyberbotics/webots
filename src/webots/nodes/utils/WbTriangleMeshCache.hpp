@@ -37,19 +37,19 @@ namespace WbTriangleMeshCache {
   };
 
   // Key type for an instance of WbTriangleMeshGeometry. Instances can share a WbTriangleMesh if their keys compare equal.
-  struct IndexedFaceSetKey {
-    IndexedFaceSetKey();
-    explicit IndexedFaceSetKey(WbTriangleMeshGeometry *indexedFaceSet);  // TODO change namings
+  struct TriangleMeshGeometryKey {
+    TriangleMeshGeometryKey();
+    explicit TriangleMeshGeometryKey(WbTriangleMeshGeometry *triangleMeshGeometry);  // TODO change namings
 
-    void set(WbTriangleMeshGeometry *indexedFaceSet);
-    bool operator==(const IndexedFaceSetKey &rhs) const;
+    void set(WbTriangleMeshGeometry *triangleMeshGeometry);
+    bool operator==(const TriangleMeshGeometryKey &rhs) const;
 
     uint64_t mHash;
   };
 
   // Key hashing function required by std::unordered_map
-  struct IndexedFaceSetKeyHasher {
-    std::size_t operator()(const IndexedFaceSetKey &k) const;
+  struct TriangleMeshGeometryKeyHasher {
+    std::size_t operator()(const TriangleMeshGeometryKey &k) const;
   };
 
   void useTriangleMesh(WbTriangleMeshGeometry *user);
