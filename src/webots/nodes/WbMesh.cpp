@@ -153,6 +153,11 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   }
 }
 
+uint64_t WbMesh::computeHash() const {
+  const QByteArray meshPath = path().toUtf8();
+  return WbTriangleMeshCache::sipHash13x(meshPath.constData(), meshPath.size());
+}
+
 void WbMesh::rescale(const WbVector3 &scale) {
 }
 
@@ -171,6 +176,6 @@ void WbMesh::updateUrl() {
     emit changed();
 }
 
-QString WbMesh::path() {
+QString WbMesh::path() const {
   return WbUrl::computePath(this, "url", mUrl, 0);
 }

@@ -38,10 +38,10 @@ public:
   void createResizeManipulator() override;
   void rescale(const WbVector3 &scale) override;
 
-  QString path();
+  QString path() const;
 
   // WbTriangleMesh management (see WbTriangleMeshCache.hpp)
-  uint64_t computeHash() const override { return 5; }  // TODO
+  uint64_t computeHash() const override;
 
 private:
   // user accessible fields
