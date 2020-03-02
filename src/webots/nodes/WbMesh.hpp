@@ -15,11 +15,11 @@
 #ifndef WB_MESH_HPP
 #define WB_MESH_HPP
 
-#include "WbGeometry.hpp"
+#include "WbTriangleMeshGeometry.hpp"
 
 class WbMFString;
 
-class WbMesh : public WbGeometry {
+class WbMesh : public WbTriangleMeshGeometry {
   Q_OBJECT
 
 public:
@@ -29,47 +29,27 @@ public:
   explicit WbMesh(const WbNode &other);
   virtual ~WbMesh();
 
+  void updateTriangleMesh(bool issueWarnings = true) override;
+
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_MESH; }
   void preFinalize() override;
   void postFinalize() override;
-  void createWrenObjects() override;
   void createResizeManipulator() override;
   void rescale(const WbVector3 &scale) override;
 
   QString path();
 
-  // ray tracing
-  void recomputeBoundingSphere() const override;
-  bool pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoordSet = 0) const override;
-  double computeDistance(const WbRay &ray) const override;
-
-  // friction
-  WbVector3 computeFrictionDirection(const WbVector3 &normal) const override;
-
-  // Non-recursive texture mapping
-  WbVector2 nonRecursiveTextureSizeFactor() const override { return WbVector2(2, 1); }
-
-  // resize manipulator
-  void setResizeManipulatorDimensions() override;
-
-protected:
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  // WbTriangleMesh management (see WbTriangleMeshCache.hpp)
+  uint64_t computeHash() const override { return 5; }  // TODO
 
 private:
   // user accessible fields
   WbMFString *mUrl;
 
-  // WREN
-  void buildWrenMesh();
-
   WbMesh &operator=(const WbMesh &);  // non copyable
   WbNode *clone() const override { return new WbMesh(*this); }
   void init();
-
-  // ray tracing
-  // compute collision point and return the distance
-  double computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) const;
 
 private slots:
   void updateUrl();

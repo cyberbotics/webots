@@ -170,6 +170,67 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
   return QString("");
 }
 
+QString WbTriangleMesh::init(const double *coord, const double *normal, const double *texCoord, const unsigned int *index,
+                             int coordSize, int indexSize) {
+  cleanup();
+
+  mTextureCoordinatesValid = texCoord != NULL;
+  mNTriangles = indexSize / 3;
+
+  mCoordIndices.reserve(indexSize);
+  mVertices.reserve(3 * coordSize);
+  mScaledVertices.reserve(3 * coordSize);
+  if (mTextureCoordinatesValid) {
+    mTextureCoordinates.reserve(2 * coordSize);
+    mNonRecursiveTextureCoordinates.reserve(2 * coordSize);
+  }
+  mNormals.reserve(3 * coordSize);
+
+  for (int i = 0; i < indexSize; ++i)
+    mCoordIndices.append(index[i]);
+
+  for (int i = 0; i < coordSize; ++i) {
+    const double x = coord[3 * i];
+    if (mMax[X] < x)
+      mMax[X] = x;
+    else if (mMin[X] > x)
+      mMin[X] = x;
+
+    const double y = coord[3 * i + 1];
+    if (mMax[Y] < y)
+      mMax[Y] = y;
+    else if (mMin[Y] > y)
+      mMin[Y] = y;
+
+    const double z = coord[3 * i + 2];
+    if (mMax[Z] < z)
+      mMax[Z] = z;
+    else if (mMin[Z] > z)
+      mMin[Z] = z;
+
+    mVertices.append(x);
+    mVertices.append(y);
+    mVertices.append(z);
+    mScaledVertices.append(x);
+    mScaledVertices.append(y);
+    mScaledVertices.append(z);
+    if (mTextureCoordinatesValid) {
+      mTextureCoordinates.append(texCoord[2 * i]);
+      mTextureCoordinates.append(texCoord[2 * i + 1]);
+      mNonRecursiveTextureCoordinates.append(texCoord[2 * i]);
+      mNonRecursiveTextureCoordinates.append(texCoord[2 * i + 1]);
+    }
+    mNormals.append(normal[3 * i]);
+    mNormals.append(normal[3 * i + 1]);
+    mNormals.append(normal[3 * i + 2]);
+  }
+
+  // validity switch
+  mValid = true;
+
+  return QString("");
+}
+
 // populate mCoordIndices and mTmpTexIndices with valid indices
 void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordIndex, const WbMFInt *normalIndex,
                                  const WbMFInt *texCoordIndex) {
