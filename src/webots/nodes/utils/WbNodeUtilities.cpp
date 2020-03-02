@@ -1146,8 +1146,6 @@ bool WbNodeUtilities::isGeometryTypeName(const QString &modelName) {
     return true;
   if (modelName == "IndexedLineSet")
     return true;
-  if (modelName == "Mesh")  // TODO: for now only visual
-    return true;
   if (modelName == "PointSet")
     return true;
   if (isCollisionDetectedGeometryTypeName(modelName))
@@ -1165,6 +1163,8 @@ bool WbNodeUtilities::isCollisionDetectedGeometryTypeName(const QString &modelNa
   if (modelName == "ElevationGrid")
     return true;
   if (modelName == "IndexedFaceSet")
+    return true;
+  if (modelName == "Mesh")
     return true;
   if (modelName == "Plane")
     return true;
