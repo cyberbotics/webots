@@ -214,15 +214,23 @@ QString WbTriangleMesh::init(const double *coord, const double *normal, const do
     mScaledVertices.append(x);
     mScaledVertices.append(y);
     mScaledVertices.append(z);
-    if (mTextureCoordinatesValid) {
-      mTextureCoordinates.append(texCoord[2 * i]);
-      mTextureCoordinates.append(texCoord[2 * i + 1]);
-      mNonRecursiveTextureCoordinates.append(texCoord[2 * i]);
-      mNonRecursiveTextureCoordinates.append(texCoord[2 * i + 1]);
+  }
+
+  for (int t = 0; t < mNTriangles; ++t) {  // foreach triangle
+    for (int v = 0; v < 3; ++v) {          // foreach vertex
+      if (mTextureCoordinatesValid) {
+        const int currentIndex = mCoordIndices[3 * t + v];
+        if (mTextureCoordinatesValid) {
+          mTextureCoordinates.append(texCoord[2 * currentIndex]);
+          mTextureCoordinates.append(texCoord[2 * currentIndex + 1]);
+          mNonRecursiveTextureCoordinates.append(texCoord[2 * currentIndex]);
+          mNonRecursiveTextureCoordinates.append(texCoord[2 * currentIndex + 1]);
+        }  // TODO: else
+        mNormals.append(normal[3 * currentIndex]);
+        mNormals.append(normal[3 * currentIndex + 1]);
+        mNormals.append(normal[3 * currentIndex + 2]);
+      }
     }
-    mNormals.append(normal[3 * i]);
-    mNormals.append(normal[3 * i + 1]);
-    mNormals.append(normal[3 * i + 2]);
   }
 
   // validity switch
