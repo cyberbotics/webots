@@ -109,10 +109,6 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   int current_index_index = 0;
   unsigned int index_data[3 * totalFaces];
 
-  // global transformation
-  aiMatrix4x4 globalInvTransform = scene->mRootNode->mTransformation;
-  globalInvTransform.Inverse();
-
   // loop over all the node to find meshes
   std::list<aiNode *> queue;
   queue.push_back(scene->mRootNode);
@@ -122,14 +118,13 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     node = queue.front();
     queue.pop_front();
 
-    // compute absolute transform of this node from all the parent
-    aiMatrix4x4 transform = node->mTransformation;
-    aiNode *current = node->mParent;
-    while (current != scene->mRootNode && current != NULL) {
-      transform = transform * node->mTransformation;
+    // compute absolute transform of this node from all the parents
+    aiMatrix4x4 transform;
+    aiNode *current = node;
+    while (current != NULL) {
+      transform *= current->mTransformation;
       current = current->mParent;
     }
-    transform = (globalInvTransform * transform).Transpose();
 
     // merge all the meshes of this node
     for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
