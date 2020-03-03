@@ -207,6 +207,7 @@ class TrajectoryFollower(object):
                     # Velocity control is not used on the real robot and gives bad results in the simulation
                     # self.motors[i].setVelocity(math.fabs(setpoint.velocities[i]))
             elif not self.last_point_sent:  # All intermediate points sent, sending last point to make sure we reach the goal.
+                self.last_point_sent = True
                 last_point = self.trajectory.points[-1]
                 state = self.jointStatePublisher.last_joint_states
                 position_in_tol = within_tolerance(state.position, last_point.positions, self.joint_goal_tolerances)
