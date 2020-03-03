@@ -13,6 +13,7 @@ Released on XXX.
     - Improved the environment colors of the sojourner simulation (Mars is a red planet).
     - Added missing `supervisor` field in `UR3e`, `UR5e` and `UR10e` robots.
     - Added a `staticBase` field to the `Irb4600-40` PROTO node.
+    - Added a `--node-name` argument to the ROS controller of the Universal Robots UR3e, UR5e and UR10e for multi robot simulations.
   - Dependency Updates
     - Upgraded to Qt 5.14.1 on Windows.
   - Bug fixes
@@ -25,6 +26,7 @@ Released on XXX.
     - Fixed color of the bounding objects remaining in the collision state if the collision was lasting only one step (thanks to Acwok).
     - Fixed Matlab API.
     - Fixed missing stdout/stderr flush when a controller is changed or restarted while simulation is running (thanks to tsampazk).
+    - Fixed the ROS controller of the Universal Robots UR3e, UR5e and UR10e to send the success state when a trajectory is succeeded (thanks to  Tim-Stoll).
 
 ## Webots R2020a Revision 1
 Released on January 14th, 2020.
