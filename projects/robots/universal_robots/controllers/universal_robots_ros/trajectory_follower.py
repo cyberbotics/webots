@@ -112,7 +112,7 @@ class TrajectoryFollower(object):
         'wrist_3_joint'
     ]
 
-    def __init__(self, robot, jointStatePublisher, jointPrefix, goal_time_tolerance=None):
+    def __init__(self, robot, jointStatePublisher, jointPrefix, nodeName, goal_time_tolerance=None):
         self.robot = robot
         self.jointPrefix = jointPrefix
         self.prefixedJointNames = [s + self.jointPrefix for s in TrajectoryFollower.jointNames]
@@ -128,7 +128,7 @@ class TrajectoryFollower(object):
         self.last_point_sent = True
         self.trajectory = None
         self.joint_goal_tolerances = [0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
-        self.server = actionlib.ActionServer("follow_joint_trajectory",
+        self.server = actionlib.ActionServer(nodeName + "follow_joint_trajectory",
                                              FollowJointTrajectoryAction,
                                              self.on_goal, self.on_cancel, auto_start=False)
 
