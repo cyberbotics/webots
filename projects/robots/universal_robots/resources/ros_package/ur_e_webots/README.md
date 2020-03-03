@@ -18,6 +18,10 @@ For starting up RViz with a configuration including the MoveIt! Motion Planning 
 roslaunch ur5_moveit_config moveit_rviz.launch config:=true
 ```
 
+## Multi Robots
+
+If your simulation use more than one robot using the `universal_robots_ros` controller, the `---node-name` controller arguments should be set to avoid name clashes between nodes.
+
 ## Acknowledgement
 
 <a href="http://rosin-project.eu">
