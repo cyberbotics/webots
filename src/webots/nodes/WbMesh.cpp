@@ -53,7 +53,6 @@ WbMesh::WbMesh(const WbNode &other) : WbTriangleMeshGeometry(other) {
 }
 
 WbMesh::~WbMesh() {
-  wr_static_mesh_delete(mWrenMesh);
 }
 
 void WbMesh::preFinalize() {
