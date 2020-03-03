@@ -43,6 +43,9 @@ public:
   // WbTriangleMesh management (see WbTriangleMeshCache.hpp)
   uint64_t computeHash() const override;
 
+protected:
+  void exportNodeContents(WbVrmlWriter &writer) const override;
+
 private:
   // user accessible fields
   WbMFString *mUrl;

@@ -486,15 +486,15 @@ void WbConcreteNodeFactory::exportAsVrml(const WbNode *node, WbVrmlWriter &write
     WbPlane plane(*node);
     plane.write(writer);
     return;
-  }
-
-  if (node->nodeModelName() == "Capsule") {
+  } else if (node->nodeModelName() == "Capsule") {
     WbCapsule capsule(*node);
     capsule.write(writer);
     return;
+  } else if (node->nodeModelName() == "Mesh") {
+    WbMesh mesh(*node);
+    mesh.write(writer);
+    return;
   }
-
-  // TODO
 
   assert(0);  // we should not reach this line
 }

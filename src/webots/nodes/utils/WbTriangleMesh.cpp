@@ -227,7 +227,7 @@ QString WbTriangleMesh::init(const double *coord, const double *normal, const do
           mNonRecursiveTextureCoordinates.append(texCoord[2 * currentIndex + 1]);
         } else {
           mTextureCoordinates.append(0.5);
-          mTextureCoordinates.append(0.5]);
+          mTextureCoordinates.append(0.5);
           mNonRecursiveTextureCoordinates.append(0.5);
           mNonRecursiveTextureCoordinates.append(0.5);
         }
