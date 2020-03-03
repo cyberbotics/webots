@@ -387,7 +387,8 @@ void WbExtendedStringEditor::select() {
   apply();
 }
 
-WbExtendedStringEditor::StringType WbExtendedStringEditor::fieldNameToStringType(const QString &fieldName, const WbNode *parentNode) {
+WbExtendedStringEditor::StringType WbExtendedStringEditor::fieldNameToStringType(const QString &fieldName,
+                                                                                 const WbNode *parentNode) {
   if (fieldName == "controller")
     return CONTROLLER;
   else if (fieldName == "window")
