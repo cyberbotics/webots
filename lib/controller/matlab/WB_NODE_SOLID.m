@@ -1,2 +1,2 @@
 function value = WB_NODE_SOLID
-value = 74;
+value = 75;
