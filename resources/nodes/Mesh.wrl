@@ -1,4 +1,4 @@
-# The Mesh node represents a 3D shape refeering to an external file.
+# The Mesh node represents a 3D shape referring to an external file.
 
 Mesh {
   field MFString url [ ]   # URL of a 3D file in DAE, STL, OBJ or FBX format (similar to ImageTexture node)
