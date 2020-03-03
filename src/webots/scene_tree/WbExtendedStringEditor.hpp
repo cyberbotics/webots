@@ -86,7 +86,7 @@ private:
   bool selectItem();
   bool populateItems(QStringList &items);
 
-  static StringType fieldNameToStringType(const QString &fieldName);
+  static StringType fieldNameToStringType(const QString &fieldName, const WbNode *parentNode);
   static const QStringList ITEM_LIST_INFO[N_STRING_TYPE_INFO];
   static const QStringList REFERENCE_AREA_ITEMS;
 

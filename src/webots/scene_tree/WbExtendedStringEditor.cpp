@@ -20,6 +20,7 @@
 #include "WbFileUtil.hpp"
 #include "WbFluid.hpp"
 #include "WbLanguage.hpp"
+#include "WbMesh.hpp"
 #include "WbMessageBox.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbProject.hpp"
@@ -386,7 +387,7 @@ void WbExtendedStringEditor::select() {
   apply();
 }
 
-WbExtendedStringEditor::StringType WbExtendedStringEditor::fieldNameToStringType(const QString &fieldName) {
+WbExtendedStringEditor::StringType WbExtendedStringEditor::fieldNameToStringType(const QString &fieldName, const WbNode *parentNode) {
   if (fieldName == "controller")
     return CONTROLLER;
   else if (fieldName == "window")
@@ -399,11 +400,12 @@ WbExtendedStringEditor::StringType WbExtendedStringEditor::fieldNameToStringType
     return SOUND;
   else if (fieldName.endsWith("IrradianceUrl", Qt::CaseSensitive))
     return HDR_TEXTURE_URL;
-  else if (fieldName.endsWith("url", Qt::CaseSensitive))  // TODO: this breaks regular texture
-    return MESH_URL;
-  else if (fieldName == "url" || fieldName.endsWith("Url", Qt::CaseSensitive))
+  else if (fieldName.endsWith("url", Qt::CaseSensitive) || fieldName.endsWith("Url", Qt::CaseSensitive)) {
+    const WbMesh *mesh = dynamic_cast<const WbMesh *>(parentNode);
+    if (mesh)
+      return MESH_URL;
     return TEXTURE_URL;
-  else if (fieldName == "solidName")
+  } else if (fieldName == "solidName")
     return SOLID_REFERENCE;
   else if (fieldName == "fluidName")
     return FLUID_NAME;
@@ -441,7 +443,7 @@ void WbExtendedStringEditor::edit(bool copyOriginalValue) {
     if (effectiveField->isParameter())
       effectiveField = effectiveField->internalFields().at(0);
 
-    mStringType = fieldNameToStringType(effectiveField->name());
+    mStringType = fieldNameToStringType(effectiveField->name(), effectiveField->parentNode());
   }
 
   const bool hasRetrictedValues = field()->hasRestrictedValues();
