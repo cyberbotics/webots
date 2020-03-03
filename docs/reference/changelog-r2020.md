@@ -26,7 +26,7 @@ Released on XXX.
     - Fixed color of the bounding objects remaining in the collision state if the collision was lasting only one step (thanks to Acwok).
     - Fixed Matlab API.
     - Fixed missing stdout/stderr flush when a controller is changed or restarted while simulation is running (thanks to tsampazk).
-    - Fixed the ROS controller of the Universal Robots UR3e, UR5e and UR10e to send the success state when a trajectory is succeeded (thanks to Tim-Stoll).
+    - Fixed the ROS controller of the Universal Robots UR3e, UR5e and UR10e to send the success state when a trajectory succeeded (thanks to Tim-Stoll).
 
 ## Webots R2020a Revision 1
 Released on January 14th, 2020.
