@@ -4,6 +4,7 @@
 Released on XXX.
 
   - New Features
+    - Added a [Mesh](mesh.md) node allowing to use external 3D file in Webots.
     - Added two new functions to get internal PROTO node fields: [`wb_supervisor_node_get_from_proto_def`](supervisor.md#wb_supervisor_node_get_from_proto_def) and [`wb_supervisor_node_get_proto_field`](supervisor.md#wb_supervisor_node_get_proto_field).
 
 ## Webots R2020a Revision 2
