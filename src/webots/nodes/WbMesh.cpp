@@ -195,7 +195,6 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
     return;
   }
   // Export the content as IndexedFaceSet in VRML
-  // To avoid differences due to normal computations export the computed triangle mesh.
   const int n = mTriangleMesh->numberOfTriangles();
   const int n3 = n * 3;
   int *const coordIndex = new int[n3];
@@ -273,41 +272,73 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
     }
   }
 
-  writer << " coord Coordinate {";
-  writer << "   point [";
-  const int precision = 4;
+  writer.indent();
+  writer << "coord Coordinate {\n";
+  writer.increaseIndent();
+  writer.indent();
+  writer << "point [\n";
+  writer.increaseIndent();
+  writer.indent();
   for (int i = 0; i < vertexCount; ++i) {
     if (i != 0)
       writer << ", ";
     const int j = 3 * i;
     writer << vertex[j] << " " << vertex[j + 1] << " " << vertex[j + 2];
   }
-  writer << " ]";
-  writer << " }";
+  writer << "\n";
+  writer.decreaseIndent();
+  writer.indent();
+  writer << "]\n";
+  writer.decreaseIndent();
+  writer.indent();
+  writer << "}\n";
 
-  writer << " normal Normal {";
-  writer << "   point [";
+  writer.indent();
+  writer << "normal Normal {\n";
+  writer.increaseIndent();
+  writer.indent();
+  writer << "point [\n";
+  writer.increaseIndent();
+  writer.indent();
   for (int i = 0; i < normalCount; ++i) {
     if (i != 0)
       writer << ", ";
     const int j = 3 * i;
     writer << normal[j] << " " << normal[j + 1] << " " << normal[j + 2];
   }
-  writer << " ]";
-  writer << " }";
+  writer << "\n";
+  writer.decreaseIndent();
+  writer.indent();
+  writer << "]\n";
+  writer.decreaseIndent();
+  writer.indent();
+  writer << "}\n";
 
-  writer << " texCoord TextureCoordinate {";
-  writer << "   point [";
+  writer.indent();
+  writer << "texCoord TextureCoordinate {\n";
+  writer.increaseIndent();
+  writer.indent();
+  writer << "point [\n";
+  writer.increaseIndent();
+  writer.indent();
   for (int i = 0; i < textureCount; ++i) {
     if (i != 0)
       writer << ", ";
     const int j = 2 * i;
     writer << texture[j] << " " << texture[j + 1];
   }
-  writer << " ]";
-  writer << " }";
+  writer << "\n";
+  writer.decreaseIndent();
+  writer.indent();
+  writer << "]\n";
+  writer.decreaseIndent();
+  writer.indent();
+  writer << "}\n";
 
-  writer << " coordIndex [";
+  writer.indent();
+  writer << "coordIndex [\n";
+  writer.increaseIndent();
+  writer.indent();
   for (int i = 0; i < indexCount; ++i) {
     if (i != 0) {
       writer << " ";
@@ -316,10 +347,15 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
     }
     writer << coordIndex[i];
   }
-  writer << " -1";
-  writer << " ]";
+  writer << " -1\n";
+  writer.decreaseIndent();
+  writer.indent();
+  writer << "]\n";
 
-  writer << " normalIndex [";
+  writer.indent();
+  writer << "normalIndex [\n";
+  writer.increaseIndent();
+  writer.indent();
   for (int i = 0; i < indexCount; ++i) {
     if (i != 0) {
       writer << " ";
@@ -328,10 +364,15 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
     }
     writer << normalIndex[i];
   }
-  writer << " -1";
-  writer << " ]";
+  writer << " -1\n";
+  writer.decreaseIndent();
+  writer.indent();
+  writer << "]\n";
 
-  writer << " texCoordIndex [";
+  writer.indent();
+  writer << "texCoordIndex [\n";
+  writer.increaseIndent();
+  writer.indent();
   for (int i = 0; i < indexCount; ++i) {
     if (i != 0) {
       writer << " ";
@@ -340,8 +381,10 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
     }
     writer << texCoordIndex[i];
   }
-  writer << " -1";
-  writer << " ]";
+  writer << " -1\n";
+  writer.decreaseIndent();
+  writer.indent();
+  writer << "]\n";
 
   delete[] coordIndex;
   delete[] normalIndex;
