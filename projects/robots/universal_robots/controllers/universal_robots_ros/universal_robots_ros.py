@@ -36,8 +36,9 @@ if jointPrefix:
     print('Setting prefix to %s' % jointPrefix)
 
 robot = Robot()
-jointStatePublisher = JointStatePublisher(robot, jointPrefix, arguments.nodeName + '/' if arguments.nodeName != 'ur_driver' else '')
-trajectoryFollower = TrajectoryFollower(robot, jointStatePublisher, jointPrefix, arguments.nodeName + '/' if arguments.nodeName != 'ur_driver' else '')
+nodeName = arguments.nodeName + '/' if arguments.nodeName != 'ur_driver' else ''
+jointStatePublisher = JointStatePublisher(robot, jointPrefix, nodeName)
+trajectoryFollower = TrajectoryFollower(robot, jointStatePublisher, jointPrefix, nodeName)
 trajectoryFollower.start()
 
 # we want to use simulation time for ROS
