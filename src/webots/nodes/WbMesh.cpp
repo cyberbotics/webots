@@ -117,6 +117,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   std::list<aiNode *> queue;
   queue.push_back(scene->mRootNode);
   aiNode *node = NULL;
+  unsigned int indexOffset = 0;
   while (!queue.empty()) {
     node = queue.front();
     queue.pop_front();
@@ -156,10 +157,12 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
       for (size_t j = 0; j < mesh->mNumFaces; ++j) {
         const aiFace face = mesh->mFaces[j];
         assert(face.mNumIndices == 3);
-        index_data[current_index_index++] = face.mIndices[0];
-        index_data[current_index_index++] = face.mIndices[1];
-        index_data[current_index_index++] = face.mIndices[2];
+        index_data[current_index_index++] = face.mIndices[0] + indexOffset;
+        index_data[current_index_index++] = face.mIndices[1] + indexOffset;
+        index_data[current_index_index++] = face.mIndices[2] + indexOffset;
       }
+
+      indexOffset += mesh->mNumVertices;
     }
 
     // add all the childrens of this node to the queue
