@@ -79,10 +79,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   Assimp::Importer importer;
   const aiScene *scene = importer.ReadFile(
     filePath.toStdString().c_str(), aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
-                                      aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph
-    /* |  |
-           | aiProcess_TransformUVCoords |
-          aiProcess_FlipUVs */);
+                                      aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph);
 
   if (!scene) {
     warn(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
