@@ -91,19 +91,79 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   } else if (!scene->HasMeshes()) {
     warn(tr("This file doesn't contain any mesh."));
     return;
-  } else if (scene->mNumMeshes > 1)
-    warn(tr("This file contains several meshes, only one of them will be used."));
+  }
 
-  // look for a mesh
+  // count total number of vertices and faces
+  int totalVertices = 0;
+  int totalFaces = 0;
+  for (unsigned int i = 0; i < scene->mNumMeshes; ++i) {
+    totalVertices += scene->mMeshes[i]->mNumVertices;
+    totalFaces += scene->mMeshes[i]->mNumFaces;
+  }
+  // create arrays
+  int current_coord_index = 0;
+  double coord_data[3 * totalVertices];
+  int current_normal_index = 0;
+  double normal_data[3 * totalVertices];
+  int current_tex_coord_index = 0;
+  double tex_coord_data[2 * totalVertices];
+  int current_index_index = 0;
+  unsigned int index_data[3 * totalFaces];
+
+  // global transformation
+  aiMatrix4x4 globalInvTransform = scene->mRootNode->mTransformation;
+  globalInvTransform.Inverse();
+
+  // loop over all the node to find meshes
   std::list<aiNode *> queue;
   queue.push_back(scene->mRootNode);
   aiNode *node = NULL;
   while (!queue.empty()) {
     node = queue.front();
     queue.pop_front();
-    // qDebug() << node->mNumMeshes;
-    if (node->mNumMeshes)  // TODO: handle more than node with mesh case
-      break;
+
+    // compute absolute transform of this node from all the parent
+    aiMatrix4x4 transform = node->mTransformation;
+    aiNode *current = node->mParent;
+    while (current != scene->mRootNode && current != NULL) {
+      transform = transform * node->mTransformation;
+      current = current->mParent;
+    }
+    transform = (globalInvTransform * transform).Transpose();
+
+    // merge all the meshes of this node
+    for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
+      const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+
+      for (size_t j = 0; j < mesh->mNumVertices; ++j) {
+        const aiVector3D vertice = transform * mesh->mVertices[j];
+        coord_data[current_coord_index++] = vertice[0];
+        coord_data[current_coord_index++] = vertice[1];
+        coord_data[current_coord_index++] = vertice[2];
+        const aiVector3D normal = transform * mesh->mNormals[j];
+        normal_data[current_normal_index++] = normal[0];
+        normal_data[current_normal_index++] = normal[1];
+        normal_data[current_normal_index++] = normal[2];
+        if (mesh->HasTextureCoords(0)) {
+          tex_coord_data[current_tex_coord_index++] = mesh->mTextureCoords[0][j].x;
+          tex_coord_data[current_tex_coord_index++] = mesh->mTextureCoords[0][j].y;
+        } else {
+          // TODO: what should we do if not defined?
+          tex_coord_data[current_tex_coord_index++] = 0.5;
+          tex_coord_data[current_tex_coord_index++] = 0.5;
+        }
+      }
+
+      for (size_t j = 0; j < mesh->mNumFaces; ++j) {
+        const aiFace face = mesh->mFaces[j];
+        assert(face.mNumIndices == 3);
+        index_data[current_index_index++] = face.mIndices[0];
+        index_data[current_index_index++] = face.mIndices[1];
+        index_data[current_index_index++] = face.mIndices[2];
+      }
+    }
+
+    // add all the childrens of this node to the queue
     for (size_t i = 0; i < node->mNumChildren; ++i)
       queue.push_back(node->mChildren[i]);
   }
@@ -113,36 +173,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     return;
   }
 
-  aiMesh *mesh = scene->mMeshes[node->mMeshes[0]];  // TODO: handle more than one mesh case
-
-  double coord_data[3 * mesh->mNumVertices];
-  double normal_data[3 * mesh->mNumVertices];
-  double tex_coord_data[2 * mesh->mNumVertices];
-  for (size_t j = 0; j < mesh->mNumVertices; ++j) {
-    coord_data[3 * j] =
-      mesh->mVertices[j].x;  // TODO: optimize with 'glm::vec3(matrix * glm::make_vec4(&mesh->mVertices[j][0]))'
-    coord_data[3 * j + 1] = mesh->mVertices[j].y;
-    coord_data[3 * j + 2] = mesh->mVertices[j].z;
-    normal_data[3 * j] = mesh->mNormals[j].x;
-    normal_data[3 * j + 1] = mesh->mNormals[j].y;
-    normal_data[3 * j + 2] = mesh->mNormals[j].z;
-    if (mesh->HasTextureCoords(0)) {
-      tex_coord_data[2 * j] = mesh->mTextureCoords[0][j].x;
-      tex_coord_data[2 * j + 1] = mesh->mTextureCoords[0][j].y;
-    }
-  }
-
-  unsigned int index_data[3 * mesh->mNumFaces];
-  for (size_t j = 0; j < mesh->mNumFaces; ++j) {
-    const aiFace face = mesh->mFaces[j];
-    assert(face.mNumIndices == 3);
-    index_data[3 * j] = face.mIndices[0];
-    index_data[3 * j + 1] = face.mIndices[1];
-    index_data[3 * j + 2] = face.mIndices[2];
-  }
-
-  mTriangleMeshError = mTriangleMesh->init(coord_data, normal_data, mesh->HasTextureCoords(0) ? tex_coord_data : NULL,
-                                           index_data, mesh->mNumVertices, 3 * mesh->mNumFaces);
+  mTriangleMeshError = mTriangleMesh->init(coord_data, normal_data, tex_coord_data, index_data, totalVertices, 3 * totalFaces);
 
   if (issueWarnings) {
     foreach (QString warning, mTriangleMesh->warnings())
