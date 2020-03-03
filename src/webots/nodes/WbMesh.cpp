@@ -280,9 +280,7 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
     if (i != 0)
       writer << ", ";
     const int j = 3 * i;
-    writer << QString::number(vertex[j], 'f', precision)
-           << " "  // write with limited precision to reduce the size of the X3D/HTML file
-           << QString::number(vertex[j + 1], 'f', precision) << " " << QString::number(vertex[j + 2], 'f', precision);
+    writer << vertex[j] << " " << vertex[j + 1] << " " << vertex[j + 2];
   }
   writer << " ]";
   writer << " }";
@@ -293,8 +291,7 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
     if (i != 0)
       writer << ", ";
     const int j = 3 * i;
-    writer << QString::number(normal[j], 'f', precision) << " " << QString::number(normal[j + 1], 'f', precision) << " "
-           << QString::number(normal[j + 2], 'f', precision);
+    writer << normal[j] << " " << normal[j + 1] << " " << normal[j + 2];
   }
   writer << " ]";
   writer << " }";
@@ -305,7 +302,7 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
     if (i != 0)
       writer << ", ";
     const int j = 2 * i;
-    writer << QString::number(texture[j], 'f', precision) << " " << QString::number(1.0 - texture[j + 1], 'f', precision);
+    writer << texture[j] << " " << texture[j + 1];
   }
   writer << " ]";
   writer << " }";
