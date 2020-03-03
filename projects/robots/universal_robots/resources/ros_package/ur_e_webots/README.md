@@ -20,7 +20,7 @@ roslaunch ur5_moveit_config moveit_rviz.launch config:=true
 
 ## Multi Robots
 
-If your simulation use more than one robot using the `universal_robots_ros` controller, the `---node-name` controller arguments should be set to avoid name clashes between nodes.
+If your simulation uses more than one robot running the `universal_robots_ros` controller, the `---node-name` controller arguments should be set to avoid a name clash between nodes.
 
 ## Acknowledgement
 
