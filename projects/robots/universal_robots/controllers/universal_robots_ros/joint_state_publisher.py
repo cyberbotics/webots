@@ -30,7 +30,7 @@ class JointStatePublisher(object):
         'wrist_3_joint'
     ]
 
-    def __init__(self, robot, jointPrefix):
+    def __init__(self, robot, jointPrefix, nodeName):
         """Initialize the motors, position sensors and the topic."""
         self.robot = robot
         self.jointPrefix = jointPrefix
@@ -45,7 +45,7 @@ class JointStatePublisher(object):
             self.sensors.append(robot.getPositionSensor(name + '_sensor'))
             self.sensors[-1].enable(self.timestep)
             self.previousPosition.append(0)
-        self.publisher = rospy.Publisher('joint_states', JointState, queue_size=1)
+        self.publisher = rospy.Publisher(nodeName + 'joint_states', JointState, queue_size=1)
 
     def publish(self):
         """Publish the 'joint_states' topic with up to date value."""

@@ -16,7 +16,7 @@
 - [Drinks](object-drinks.md)
 - [Factory](object-factory.md)
   - [Containers](object-factory.md#containers)
-  - [Conveyor Belt](object-factory.md#conveyor-belt)
+  - [Conveyors](object-factory.md#conveyors)
   - [Fire Extinguisher](object-factory.md#fire-extinguisher)
   - [Manhole](object-factory.md#manhole)
   - [Pallet](object-factory.md#pallet)

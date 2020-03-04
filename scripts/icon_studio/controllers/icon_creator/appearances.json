@@ -71,6 +71,9 @@
   "MattePaint": {
     "fields": "baseColor 0.8 0 0"
   },
+  "MetalStainlessSteelCable": {
+    "fields": "textureTransform TextureTransform { scale 5 5 rotation -0.1 } IBLStrength 2"
+  },
   "OldPlywood": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
