@@ -29,7 +29,7 @@ A world is stored in a file having the `.wbt` extension.
 The file format is derived from the **VRML97** language, and is human readable.
 The world files must be stored directly in a directory called `worlds`.
 
-> **Hands-on #2**: Pause the current simulation by clicking on the `Pause` ![](images/pause-button.png =26x26) button of the 3D view (see the [user interface description](the-user-interface.md#simulation-menu) to find out the buttons).
+> **Hands-on #2**: Pause the current simulation by clicking on the `Pause` button ![](images/pause-button.png =26x26) of the 3D view (see the [user interface description](the-user-interface.md#simulation-menu) to find out the buttons).
 The simulation is paused if the virtual time counter on the main toolbar is stopped.
 Create a new project from the `Wizards` menu by selecting the `New Project Directory...` menu item and follow the instructions:
 1. Name the project directory `my_first_simulation` instead of the proposed `my_project`.
@@ -131,7 +131,7 @@ It is not possible to apply a force to a `WoodenBox` node, because by default, t
 To enable physics on the `WoodenBox` nodes, you should set their `mass` field to a certain value (for example 0.2 kg).
 Once this is done, should be able to apply a force on them as well.
 
-The simulation may be paused (pause button), run step-by-step (step button), in real time (right arrow button), in run (double right arrow button) or in fast (triple right arrow button) modes.
+The simulation may be paused ![](images/pause-button.png =26x26), run step-by-step ![](images/step-button.png =26x26), in real time ![](images/realtime-button.png =26x26), in run ![](images/run-button.png =26x26) or in fast ![](images/fast-button.png =26x26) modes.
 
 Now we are going to modify the world and decrease the step of the physics simulation: this will increase the accuracy and stability of the simulation (but reduce the maximum simulation speed).
 
@@ -486,7 +486,7 @@ In order to control the motors of the wheels in speed you need to set the target
 %end
 
 The robot will now move (the wheels will rotate at a speed of 1 radian per second) and never stop.
-If nothing happens, don't forget to compile your code by selecting the `Build / Build` menu item or click on the gear icon above the code area.
+If nothing happens, don't forget to compile your code by selecting the `Build / Build` menu item or clicking on the gear icon ![](images/build-button.png =26x26) above the code area.
 Compilation errors are displayed in red in the console.
 If there are any, fix them and retry to compile.
 Then, reload the world.
