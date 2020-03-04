@@ -29,7 +29,7 @@ A world is stored in a file having the `.wbt` extension.
 The file format is derived from the **VRML97** language, and is human readable.
 The world files must be stored directly in a directory called `worlds`.
 
-> **Hands-on #2**: Pause the current simulation by clicking on the `Pause` button of the 3D view (see the [user interface description](the-user-interface.md#simulation-menu) to find out the buttons).
+> **Hands-on #2**: Pause the current simulation by clicking on the `Pause` ![](images/pause-button.png =26x26) button of the 3D view (see the [user interface description](the-user-interface.md#simulation-menu) to find out the buttons).
 The simulation is paused if the virtual time counter on the main toolbar is stopped.
 Create a new project from the `Wizards` menu by selecting the `New Project Directory...` menu item and follow the instructions:
 1. Name the project directory `my_first_simulation` instead of the proposed `my_project`.
@@ -69,7 +69,7 @@ In the [scene tree view](the-scene-tree.md), the fields are displayed in a diffe
 Now, we would like to add some objects:
 
 > **Hands-on #4**: Double-click on the `RectangleArena` in the scene tree to close it and select it.
-Click on the `Add` button (plus sign) at the top of the scene tree.
+Click on the `Add` button ![](images/add-button.png =26x26) at the top of the scene tree.
 In the open dialog box, choose `PROTO nodes (Webots Projects) / objects / factory / containers / WoodenBox (Solid)`.
 A big box should appear in the middle of the arena.
 Double-click on it in the scene tree to open its fields.
@@ -96,7 +96,7 @@ We will learn how to use other capabilities in the next tutorials.
 
 Now, we are going to add an e-puck model to the world.
 Make sure that the simulation is paused and that the virtual time elapsed is 0.
-If this is not the case, reset the simulation with the `Reset` button ([rewind](the-user-interface.md)).
+If this is not the case, reset the simulation with the `Reset` button ![](images/reset-simulation-button.png =26x26) ([rewind](the-user-interface.md)).
 
 When a Webots world is modified with the intention of being saved, it is fundamental that the simulation is first paused and reloaded to its initial state, i.e. the virtual time counter on the main toolbar should show 0:00:00:000.
 Otherwise at each save, the position of each 3D object can accumulate errors.
@@ -106,11 +106,11 @@ We don't need to create the e-puck robot from scratch, we will just have to impo
 This node is actually a [PROTO](../reference/proto.md) node, like the `RectangleArena` or the `WoodenBox` we introduced before. Prototyping allows you to create custom objects and to reuse them.
 
 > **Hands-on #5**: Select the last node `WoodenBox` of the scene tree view.
-Click on the `Add` button (plus sign) at the top of the scene tree view.
+Click on the `Add` button ![](images/add-button.png =26x26) at the top of the scene tree view.
 In the dialog box, choose `PROTO nodes (Webots Projects) / robots / gctronic / e-puck / E-puck (Robot)`.
 An e-puck robot should appear in the middle of the arena.
 Move and rotate this robot, the same way you did it with the boxes.
-Save the simulation and press the `Run real-time` button (right arrow).
+Save the simulation and press the `Run real-time` button ![](images/realtime-button.png =26x26).
 
 The robot should move, blink LEDs and avoid obstacles.
 That's because it has a default controller with that behavior.
