@@ -80,15 +80,13 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-
   // 1) Test initial painted area location
-  // ts_send_error_and_exit
   numColorPixels = computeNumColorPixels();
   ts_assert_boolean_equal(numColorPixels <= 20,
                           "The number of pixels painted after the first step should be lower than 20 not %d", numColorPixels);
 
   color = getPixelColor(46, 26);
-  ts_assert_boolean_equal(isGray(color),"The pixel (46,26) should be gray at first step");
+  ts_assert_boolean_equal(isGray(color), "The pixel (46,26) should be gray at first step");
 
   wb_robot_step(TIME_STEP);
 
@@ -96,10 +94,9 @@ int main(int argc, char **argv) {
   wb_motor_set_position(motor, wb_position_sensor_get_value(position_sensor) + 0.04);
   wb_robot_step(5 * TIME_STEP);
 
-
   // 2) Test third painted area location
   color = getPixelColor(46, 26);
-  ts_assert_boolean_equal(!isGray(color),"The pixel (46,26) should not be gray at last step");
+  ts_assert_boolean_equal(!isGray(color), "The pixel (46,26) should not be gray at last step");
 
   ts_send_success();
   return EXIT_SUCCESS;
