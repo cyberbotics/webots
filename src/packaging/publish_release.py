@@ -21,6 +21,7 @@ import optparse
 import os
 import re
 import requests
+import sys
 from github import Github
 
 optParser = optparse.OptionParser(
@@ -41,7 +42,7 @@ if now.hour <= 5:
     now = now - datetime.timedelta(hours=6)
 if now.weekday() >= 5:
     print('Skipping nightly build for Saturday and Sunday.')
-    exit(0)
+    sys.exit(0)
 
 warningMessage = '\nIt might be unstable, for a stable version of Webots, please use the [latest official release]' \
                  '(https://github.com/cyberbotics/webots/releases/latest).'
@@ -51,7 +52,7 @@ if options.tag:
     message = 'This is a nightly build of Webots from the "%s" tag.%s' % (options.tag, warningMessage)
     if tag.startswith('nightly_'):
         print('Skipping nightly build tag.')
-        exit(0)
+        sys.exit(0)
 else:
     title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
     tag = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)

@@ -376,15 +376,15 @@ class SumoSupervisor (Supervisor):
                 if trafficLightNode is not None:
                     self.trafficLights[id].trafficLightRecognitionColors[j] = trafficLightNode.getField("recognitionColors")
                 ledName = id + "_" + str(j) + "_"
-                if (ledName + "r") in LEDNames:
+                if ledName + "r" in LEDNames:
                     self.trafficLights[id].LED[3 * j + 0] = self.getLED(ledName + "r")
                 else:
                     self.trafficLights[id].LED[3 * j + 0] = None
-                if (ledName + "y") in LEDNames:
+                if ledName + "y" in LEDNames:
                     self.trafficLights[id].LED[3 * j + 1] = self.getLED(ledName + "y")
                 else:
                     self.trafficLights[id].LED[3 * j + 1] = None
-                if (ledName + "g") in LEDNames:
+                if ledName + "g" in LEDNames:
                     self.trafficLights[id].LED[3 * j + 2] = self.getLED(ledName + "g")
                 else:
                     self.trafficLights[id].LED[3 * j + 2] = None
