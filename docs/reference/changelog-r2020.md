@@ -13,13 +13,17 @@ Released on XXX.
     - macOS and Windows: Added support for Python 3.8.
     - Added a 'Convert Root to Base Node(s)' option in the context menu to convert a PROTO node to base node(s) without converting the nested PROTO nodes.
     - Added an `OfficeChair` PROTO object.
+    - Added a `MetalStainlessSteelCable` appearance.
+    - Added a `ConveyorPlatform` PROTO object.
   - Enhancements
     - Improved the environment colors of the sojourner simulation (Mars is a red planet).
     - Added missing `supervisor` field in `UR3e`, `UR5e` and `UR10e` robots.
     - Added a `staticBase` field to the `Irb4600-40` PROTO node.
+    - Added a `--node-name` argument to the ROS controller of the Universal Robots UR3e, UR5e and UR10e for multi robot simulations.
   - Dependency Updates
     - Upgraded to Qt 5.14.1 on Windows.
   - Bug fixes
+    - Fixed the physics behavior of [Connector](connector.md) nodes sometimes remaining idle after being detached from each other (thanks to Giorgio).
     - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images.
     - Fixed the TurtleBot3Burger robot maximum velocity (thanks to Dorteel).
     - Fixed the TurtleBot3Burger robot center of mass (thanks to Nitrow).
@@ -28,6 +32,7 @@ Released on XXX.
     - Fixed color of the bounding objects remaining in the collision state if the collision was lasting only one step (thanks to Acwok).
     - Fixed Matlab API.
     - Fixed missing stdout/stderr flush when a controller is changed or restarted while simulation is running (thanks to tsampazk).
+    - Fixed the ROS controller of the Universal Robots UR3e, UR5e and UR10e to send the success state when a trajectory succeeded (thanks to Tim-Stoll).
 
 ## Webots R2020a Revision 1
 Released on January 14th, 2020.

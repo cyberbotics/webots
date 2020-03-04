@@ -15,6 +15,7 @@
 """Implementation of the 'follow_joint_trajectory' ROS action."""
 
 import actionlib
+import actionlib_msgs
 import copy
 import math
 import rospy
@@ -112,7 +113,7 @@ class TrajectoryFollower(object):
         'wrist_3_joint'
     ]
 
-    def __init__(self, robot, jointStatePublisher, jointPrefix, goal_time_tolerance=None):
+    def __init__(self, robot, jointStatePublisher, jointPrefix, nodeName, goal_time_tolerance=None):
         self.robot = robot
         self.jointPrefix = jointPrefix
         self.prefixedJointNames = [s + self.jointPrefix for s in TrajectoryFollower.jointNames]
@@ -125,10 +126,9 @@ class TrajectoryFollower(object):
             self.sensors.append(robot.getPositionSensor(name + '_sensor'))
             self.sensors[-1].enable(self.timestep)
         self.goal_handle = None
-        self.last_point_sent = True
         self.trajectory = None
         self.joint_goal_tolerances = [0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
-        self.server = actionlib.ActionServer("follow_joint_trajectory",
+        self.server = actionlib.ActionServer(nodeName + "follow_joint_trajectory",
                                              FollowJointTrajectoryAction,
                                              self.on_goal, self.on_cancel, auto_start=False)
 
@@ -200,13 +200,13 @@ class TrajectoryFollower(object):
         if self.robot and self.trajectory:
             now = self.robot.getTime()
             if (now - self.trajectory_t0) <= self.trajectory.points[-1].time_from_start.to_sec():  # Sending intermediate points
-                self.last_point_sent = False
                 setpoint = sample_trajectory(self.trajectory, now - self.trajectory_t0)
                 for i in range(len(setpoint.positions)):
                     self.motors[i].setPosition(setpoint.positions[i])
                     # Velocity control is not used on the real robot and gives bad results in the simulation
                     # self.motors[i].setVelocity(math.fabs(setpoint.velocities[i]))
-            elif not self.last_point_sent:  # All intermediate points sent, sending last point to make sure we reach the goal.
+            elif self.goal_handle and self.goal_handle.get_goal_status().status == actionlib_msgs.msg.GoalStatus.ACTIVE:
+                # All intermediate points sent, sending last point to make sure we reach the goal.
                 last_point = self.trajectory.points[-1]
                 state = self.jointStatePublisher.last_joint_states
                 position_in_tol = within_tolerance(state.position, last_point.positions, self.joint_goal_tolerances)
@@ -215,13 +215,8 @@ class TrajectoryFollower(object):
                     self.motors[i].setPosition(setpoint.positions[i])
                     # Velocity control is not used on the real robot and gives bad results in the simulation
                     # self.motors[i].setVelocity(math.fabs(setpoint.velocities[i]))
-            else:  # Off the end
-                if self.goal_handle:
-                    last_point = self.traj.points[-1]
-                    state = self.jointStatePublisher.last_joint_states
-                    position_in_tol = within_tolerance(state.position, last_point.positions, [0.1] * 6)
-                    velocity_in_tol = within_tolerance(state.velocity, last_point.velocities, [0.05] * 6)
-                    if position_in_tol and velocity_in_tol:
-                        # The arm reached the goal (and isn't moving) => Succeeded
-                        self.goal_handle.set_succeeded()
-                        self.goal_handle = None
+                position_in_tol = within_tolerance(state.position, last_point.positions, [0.1] * 6)
+                velocity_in_tol = within_tolerance(state.velocity, last_point.velocities, [0.05] * 6)
+                if position_in_tol and velocity_in_tol:
+                    # The arm reached the goal (and isn't moving) => Succeeded
+                    self.goal_handle.set_succeeded()
