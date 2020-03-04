@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.9369511518611455 0.1093235698554739 0.331920014612147 0.2721781542327257
-  position 0.011526557865051546 -0.0012356086663590936 0.3795253840102432
+  orientation -0.059271363865404346 0.9864910204775588 0.15271663937724472 1.5915320723899458
+  position 0.38483722454188757 0.14720925170387053 -0.03788324016937938
 }
 Background {
   skyColor [
@@ -97,7 +97,7 @@ DEF WRITER Robot {
         ]
         inkColor 0.980392 0.541176 0.0392157
         inkDensity 1
-        leadSize 0.008
+        leadSize 0.03
       }
     }
     Solid {
@@ -105,8 +105,8 @@ DEF WRITER Robot {
       rotation 0.5578327925294718 0.8064497000632672 0.19611592706008768 0.39269
       children [
         Camera {
-          translation -0.065 0.308 -0.033
-          rotation 1 0 0 -0.5236
+          translation 0.0103622 0.270768 -0.0676753
+          rotation -0.0349562042320703 -0.9908391199586999 0.13044501579268944 -1.038025307179586
           children [
             Shape {
               appearance PBRAppearance {
@@ -125,7 +125,7 @@ DEF WRITER Robot {
     TestSuiteEmitter {
     }
   ]
-  controller "pen_box"
+  controller "pen_mesh_scaled"
 }
 TestSuiteSupervisor {
 }
