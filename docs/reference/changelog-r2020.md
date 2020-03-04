@@ -14,7 +14,7 @@ Released on XXX.
     - Added missing `supervisor` field in `UR3e`, `UR5e` and `UR10e` robots.
     - Added a `staticBase` field to the `Irb4600-40` PROTO node.
     - Added a `--node-name` argument to the ROS controller of the Universal Robots UR3e, UR5e and UR10e for multi robot simulations.
-    - Removed the ROS libraries from the default controllers path to avoid possible conflicts with other libraries.
+    - Removed the ROS libraries from the default controllers path to avoid possible conflicts with other libraries (thanks to PymZoR).
   - Dependency Updates
     - Upgraded to Qt 5.14.1 on Windows.
   - Bug fixes
