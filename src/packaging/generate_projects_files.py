@@ -70,7 +70,7 @@ with open("exist_in_projects_" + platform + ".txt") as f:
 valid_environment = check_exist_in_projects(exist_in_projects) & valid_environment
 
 if not valid_environment:
-    exit(-1)
+    sys.exit(-1)
 
 os.chdir('../..')
 
