@@ -1,0 +1,28 @@
+#VRML_SIM R2020a utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# A holes perforated steel material.
+
+PROTO HolesPerforatedSteel [
+  field SFColor colorOverride    1 1 1  # Defines the default color multiplied with the texture color.
+  field SFNode  textureTransform NULL   # Defines an optional 2d texture transform.
+  field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
+]
+{
+  PBRAppearance {
+    baseColor IS colorOverride
+    baseColorMap ImageTexture {
+      url [
+        "textures/holes_perforated_steel/holes_perforated_steel_base_color.png"
+      ]
+    }
+    metalness 1
+    normalMap ImageTexture {
+      url [
+        "textures/holes_perforated_steel/holes_perforated_steel_normal.png"
+      ]
+    }
+    IBLStrength IS IBLStrength
+    textureTransform IS textureTransform
+  }
+}

@@ -1,0 +1,46 @@
+#VRML_SIM R2020a utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# tags: static
+# A beige marble material-
+
+PROTO BeigeMarble [
+  field SFColor colorOverride     1 1 1  # Defines the default color multiplied with the texture color.
+  field SFNode  textureTransform  NULL   # Defines an optional 2d texture transform.
+  field SFFloat IBLStrength       1      # Defines the strength of ambient lighting from the Background node.
+]
+{
+  PBRAppearance {
+    baseColor IS colorOverride
+    baseColorMap ImageTexture {
+      url [
+        "textures/beige_marble/beige_marble_base_color.jpg"
+      ]
+      filtering 5
+    }
+    roughness 1
+    roughnessMap ImageTexture {
+      url [
+        "textures/beige_marble/beige_marble_roughness.jpg"
+      ]
+      filtering 5
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/beige_marble/beige_marble_normal.jpg"
+      ]
+      filtering 5
+    }
+    normalMapFactor 0.2
+    IBLStrength IS IBLStrength
+    occlusionMap ImageTexture {
+      url [
+        "textures/beige_marble/beige_marble_occlusion.jpg"
+      ]
+      filtering 5
+    }
+    occlusionMapStrength 1
+    textureTransform IS textureTransform
+  }
+}

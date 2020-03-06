@@ -1,0 +1,43 @@
+#VRML_SIM R2020a utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# tags: static
+# An cross tire rubber wheel material.
+
+PROTO CrossTireRubberWheel [
+  field SFNode  textureTransform  NULL   # Defines an optional 2d texture transform.
+  field SFFloat IBLStrength       1      # Defines the strength of ambient lighting from the Background node.
+]
+{
+  PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/caster_tire_rubber_wheel/caster_tire_rubber_wheel_base_color.jpg"
+      ]
+      filtering 5
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/caster_tire_rubber_wheel/caster_tire_rubber_wheel_roughness.jpg"
+      ]
+      filtering 5
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/caster_tire_rubber_wheel/caster_tire_rubber_wheel_normal.jpg"
+      ]
+      filtering 5
+    }
+    normalMapFactor 1.5
+    IBLStrength IS IBLStrength
+    occlusionMap ImageTexture {
+      url [
+        "textures/caster_tire_rubber_wheel/caster_tire_rubber_wheel_occlusion.jpg"
+      ]
+      filtering 5
+    }
+    occlusionMapStrength 1
+    textureTransform IS textureTransform
+  }
+}

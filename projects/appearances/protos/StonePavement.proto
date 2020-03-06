@@ -5,10 +5,10 @@
 # A stone pavement material.
 
 PROTO StonePavement [
-  field SFColor                          colorOverride    1 1 1     # Defines the default color multiplied with the texture color.
-  field SFString{"recent", "old square"} type             "recent"  # Defines the pavement type.
-  field SFNode                           textureTransform NULL      # Defines an optional 2d texture transform.
-  field SFFloat                          IBLStrength      1         # Defines the strength of ambient lighting from the Background node.
+  field SFColor                                     colorOverride    1 1 1     # Defines the default color multiplied with the texture color.
+  field SFString{"recent", "regular"} type             "recent"  # Defines the pavement type.
+  field SFNode                                      textureTransform NULL      # Defines an optional 2d texture transform.
+  field SFFloat                                     IBLStrength      1         # Defines the strength of ambient lighting from the Background node.
 ]
 {
 %{
@@ -22,12 +22,14 @@ PROTO StonePavement [
       ]
       filtering 5
     }
+    %{ if fields.type.value ~= "regular" then }%
     roughnessMap ImageTexture {
       url [
         %{= "\"textures/stone_pavement/" .. textureName .. "_stone_pavement_roughness.jpg\"" }%
       ]
       filtering 5
     }
+    %{ end }%
     metalness 0
     normalMap ImageTexture {
       url [

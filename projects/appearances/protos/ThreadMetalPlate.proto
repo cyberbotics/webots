@@ -4,36 +4,37 @@
 # A worn paint layer on a metal surface. Useful with the `PipeSection` PROTO or any painted industrial surfaces.
 
 PROTO ThreadMetalPlate [
-  field SFColor colorOverride    1 1 1  # Defines the default color multiplied with the texture color.
-  field SFNode  textureTransform NULL   # Defines an optional 2d texture transform.
-  field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
+  field SFString{"oval", "square"} type               "oval" # Defines the motif type on the material.
+  field SFColor                    colorOverride      1 1 1  # Defines the default color multiplied with the texture color.
+  field SFNode                     textureTransform   NULL   # Defines an optional 2d texture transform.
+  field SFFloat                    IBLStrength        1      # Defines the strength of ambient lighting from the Background node.
 ]
 {
   PBRAppearance {
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "textures/thread_metal_plate/thread_metal_plate_base_color.jpg"
+        %{= "\"textures/thread_metal_plate/" .. fields.type.value .. "_thread_metal_plate_base_color.jpg\"" }%
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/thread_metal_plate/thread_metal_plate_roughness.jpg"
+        %{= "\"textures/thread_metal_plate/" .. fields.type.value .. "_thread_metal_plate_roughness.jpg\"" }%
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "textures/thread_metal_plate/thread_metal_plate_metalness.jpg"
+        %{= "\"textures/thread_metal_plate/" .. fields.type.value .. "_thread_metal_plate_metalness.jpg\"" }%
       ]
     }
     normalMap ImageTexture {
       url [
-        "textures/thread_metal_plate/thread_metal_plate_normal.jpg"
+        %{= "\"textures/thread_metal_plate/" .. fields.type.value .. "_thread_metal_plate_normal.jpg\"" }%
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/thread_metal_plate/thread_metal_plate_occlusion.jpg"
+        %{= "\"textures/thread_metal_plate/" .. fields.type.value .. "_thread_metal_plate_occlusion.jpg\"" }%
       ]
     }
     IBLStrength IS IBLStrength
