@@ -2,6 +2,7 @@
 
 import psutil
 import re
+import sys
 import time
 import os
 
@@ -74,6 +75,6 @@ if len(listOfProcessObjects) > 0:
                 listOfProcessObjects.remove(elem)
         if done:
             print('Done.')
-            exit(0)
+            sys.exit(0)
 else:
     print('No running process found')
