@@ -22,5 +22,5 @@ Our git workflow is explained in detail [here](https://github.com/cyberbotics/we
 ## Development Guideline
 
 * Follow our [Coding Style](https://github.com/cyberbotics/webots/wiki/Coding-Style/).
-* Avoid comitting files that exist elsewhere. Instead we should link to the source of these files.
+* Avoid comitting files that exist elsewhere. Instead you should link to the source of these files.
 * Avoid comitting files that can be re-created from other files using a Makefile, a script or a compiler.

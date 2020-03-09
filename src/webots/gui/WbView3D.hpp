@@ -124,7 +124,7 @@ private:
   WrCameraProjectionMode mProjectionMode;
   WrViewportPolygonMode mRenderingMode;
   int mRefreshCounter;
-  QTime *mMousePressTime;
+  QElapsedTimer *mMousePressTimer;
   QPoint mMousePressPosition;
   bool mSelectionDisabled;
   bool mViewpointLocked;

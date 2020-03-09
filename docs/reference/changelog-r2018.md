@@ -100,7 +100,7 @@ Released on July 5th, 2018.
     - BioRob salamander: Dropped useless motorized segments, renamed motors and improved immersion properties.
     - Aibo: Dropped non-functional LEDs from the AiboErs7 PROTO.
     - Atlas: Dropped obsolete URDF importer tool.
-    - Moved naoqisim controller and dependencies (including Aldebaran's simulator SDK) to the
+    - Moved naoqisim controller and dependencies (including Aldebaran's simulator SDK) to a separate [repository](https://github.com/cyberbotics/naoqisim).
 
 ## Webots R2018a Revision 2
 Released on April 18th, 2018.

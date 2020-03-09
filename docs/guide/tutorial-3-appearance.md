@@ -60,11 +60,10 @@ The aim of this subsection is to apply a texture on the ball.
 A texture on a rolling object can help to appreciate its movement.
 
 > **Hands-on #3**: Similarly add a [PBRAppearance](../reference/pbrappearance.md) node to the ball.
-1. As before, set the `metalness` field to 0 and the `roughness` field to 1.
-2. Add an [ImageTexture](../reference/imagetexture.md) node to the `baseColorMap` field of the [PBRAppearance](../reference/pbrappearance.md) node.
-3. Add an item to the [ImageTexture](../reference/imagetexture.md)'s `url` field using the `Add` button.
-4. Then set the value of the newly added `url` item using the "Select" button.
-5. Follow the path "[WEBOTS\_HOME/projects/default/worlds/textures/red\_brick\_wall.jpg](https://github.com/cyberbotics/webots/tree/master/projects/default/worlds/textures/red_brick_wall.jpg)". Normally it should be "usr/local/webots/projects/default/worlds/textures/red\_brick\_wall.jpg".
+1. Add an [ImageTexture](../reference/imagetexture.md) node to the `baseColorMap` field of the [PBRAppearance](../reference/pbrappearance.md) node.
+2. Add an item to the [ImageTexture](../reference/imagetexture.md)'s `url` field using the `Add` button.
+3. Then set the value of the newly added `url` item using the "Select" button.
+4. Follow the path "[WEBOTS\_HOME/projects/default/worlds/textures/red\_brick\_wall.jpg](https://github.com/cyberbotics/webots/tree/master/projects/default/worlds/textures/red_brick_wall.jpg)". Normally it should be "usr/local/webots/projects/default/worlds/textures/red\_brick\_wall.jpg".
 
 The texture URLs must be defined either relative to the `worlds` directory of your project directory or relative to the default project directory [`WEBOTS_HOME/projects/default/worlds`](https://github.com/cyberbotics/webots/tree/master/projects/default/worlds).
 In the default project directory you will find textures that are available for every world.

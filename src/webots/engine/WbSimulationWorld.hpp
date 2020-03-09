@@ -19,9 +19,10 @@
 // Description: world with physics/kinematic simulation
 //
 
+#include <QtCore/QElapsedTimer>
 #include <QtCore/QList>
 #include <QtCore/QMutex>
-#include <QtCore/QTime>
+
 #include "WbWorld.hpp"
 
 class WbSimulationCluster;
@@ -72,7 +73,7 @@ private:
   WbOdeContext *mOdeContext;
   WbPhysicsPlugin *mPhysicsPlugin;
   QTimer *mTimer;
-  QTime mLastRealTime;
+  QElapsedTimer mRealTimeTimer;
   double mSleepRealTime;
   QList<int> mElapsedTimeHistory;
   QVector<WbNode *> mAddedNode;  // list of nodes added since the simulation started

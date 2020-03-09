@@ -64,9 +64,6 @@ void WbMouse::reset() {
   mX = NAN;
   mY = NAN;
   mZ = NAN;
-
-  if (mSensor)
-    mSensor->resetPendingValue();
 }
 
 bool WbMouse::refreshSensorIfNeeded() {

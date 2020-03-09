@@ -2,6 +2,7 @@
 
 import psutil
 import re
+import sys
 import time
 import os
 
@@ -36,7 +37,7 @@ for proc in psutil.process_iter():
     try:
         pinfo = proc.as_dict(attrs=['pid', 'name'])
         # Check if process name contains the given name string.
-        if processName in pinfo['name'].lower() and (proc.create_time() > creationTimeLimit) and \
+        if processName in pinfo['name'].lower() and (proc.create_time() < creationTimeLimit) and \
            any(streamPattern.match(argument) for argument in proc.cmdline()):
             for argument in proc.cmdline():
                 if 'webots/instances/' in argument:
@@ -74,6 +75,6 @@ if len(listOfProcessObjects) > 0:
                 listOfProcessObjects.remove(elem)
         if done:
             print('Done.')
-            exit(0)
+            sys.exit(0)
 else:
     print('No running process found')

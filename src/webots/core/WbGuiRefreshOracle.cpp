@@ -44,7 +44,7 @@ WbGuiRefreshOracle::WbGuiRefreshOracle() : mCanRefreshNow(true) {
   // so we use the smallest value bigger than the refresh period to check if
   // we should update but haven't yet
   mGlobalRefreshTimer.start(301);
-  mLastRefreshTime.start();
+  mLastRefreshTimer.start();
 }
 
 WbGuiRefreshOracle::~WbGuiRefreshOracle() {
@@ -52,7 +52,7 @@ WbGuiRefreshOracle::~WbGuiRefreshOracle() {
 
 void WbGuiRefreshOracle::updateFlags() {
   // set the mCanRefreshNow to true at frequency 3.33 Hz
-  if (!WbSimulationState::instance()->isPaused() && mLastRefreshTime.elapsed() < 300) {
+  if (!WbSimulationState::instance()->isPaused() && mLastRefreshTimer.elapsed() < 300) {
     mCanRefreshNow = false;
     // restart global refresh timer
     mGlobalRefreshTimer.start(301);
@@ -65,5 +65,5 @@ void WbGuiRefreshOracle::updateFlags() {
   if (canRefreshNowHasChanged)
     emit canRefreshActivated();
   emit canRefreshUpdated();
-  mLastRefreshTime.restart();
+  mLastRefreshTimer.restart();
 }

@@ -1113,7 +1113,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "libglib2.0-0 (>= 2.10.0), libglu1-mesa | libglu1, libgtk-3-0, ");
       fprintf(fd, "libnss3, libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, ");
       fprintf(fd, "libzzip-0-13 (>= 0.13.62-2), libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, ");
-      fprintf(fd, "libgd3, libfreetype6\" >> DEBIAN/control\n");
+      fprintf(fd, "libgd3, libfreetype6, libxkbcommon-x11-0\" >> DEBIAN/control\n");
 
       if (!strcmp(application_name_lowercase_and_dashes, "webots")) {
         fprintf(fd, "echo \"Conflicts: webots-for-nao\" >> DEBIAN/control\n");

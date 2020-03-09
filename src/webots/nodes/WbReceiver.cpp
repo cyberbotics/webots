@@ -179,7 +179,7 @@ void WbReceiver::updateTransmissionSetup() {
 
 void WbReceiver::writeConfigure(QDataStream &stream) {
   // TODO disable in remote or not ?
-  // mSensor->connectToRobotSignal(robot());
+  mSensor->connectToRobotSignal(robot(), false);
 
   stream << tag();
   stream << (unsigned char)C_CONFIGURE;

@@ -8,11 +8,11 @@ WEBOTS_VERSION = getenv('WEBOTS_VERSION');
 if isempty(WEBOTS_CONTROLLER_NAME)
   disp('Entering test mode (normally launcher.m should be called by Webots, not from the MATLAB command line)');
   disp(['Using MATLAB R' version('-release')]);
-  cd('../..');
+  cd('../../..');
   WEBOTS_HOME = pwd;
   [status, cmdout] = system('msys64/mingw64/bin/webots.exe --version');
   WEBOTS_VERSION = strrep(cmdout(17:end-1),'.','_');
-  cd('lib/matlab');
+  cd('lib/controller/matlab');
   disp(['Using Webots ' strrep(WEBOTS_VERSION,'_','.') ' from ' pwd ])
   test_mode = true;
 else
@@ -20,7 +20,7 @@ else
 end
 
 % add path to Webots API m-files
-addpath([WEBOTS_HOME '/lib/matlab']);
+addpath([WEBOTS_HOME '/lib/controller/matlab']);
 
 if ispc
   setenv('MINGWROOT', strcat(WEBOTS_HOME,'\\msys64\\mingw64'));
@@ -34,7 +34,7 @@ if ispc
 else
   libname = 'libController';
   % add path to libController
-  addpath([WEBOTS_HOME '/lib']);
+  addpath([WEBOTS_HOME '/lib/controller']);
 end
 
 try
@@ -129,7 +129,7 @@ try
 
   if test_mode == true
     unloadlibrary('libController');
-    cd([WEBOTS_HOME '/lib/matlab']);
+    cd([WEBOTS_HOME '/lib/controller/matlab']);
     disp('Test successful.');
     return
   end

@@ -28,10 +28,10 @@ Generic Webots environment variables needed for all the controller languages:
 %tab-component "os"
 
 %tab "Windows"
-| Environment Variable     | Typical Value                                    |
-|--------------------------|--------------------------------------------------|
-| WEBOTS\_HOME             | `C:\Program Files\Webots`                        |
-| PATH                     | add `${WEBOTS_HOME}\lib\controller`              |
+| Environment Variable     | Typical Value                                                               |
+|--------------------------|-----------------------------------------------------------------------------|
+| WEBOTS\_HOME             | `C:\Program Files\Webots`                                                   |
+| PATH                     | add `${WEBOTS_HOME}\lib\controller` and `${WEBOTS_HOME}\msys64\mingw64\bin` |
 
 %tab-end
 
@@ -62,19 +62,13 @@ Specific setup depending on the controller language:
 
 %tab "C"
 
-If a C/C++ controller is launched from a Terminal running the bash shell, instead of setting the `WEBOTS_HOME` and `PATH` variables, it is sufficient to issue the following command to set the path to the Controller library before launching the controller:
-- On Windows/MSYS2, type: `export PATH=${PATH}:/C/Program\ Files/Webots/msys64/mingw64/bin`.
-- On Linux, type `export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/webots/lib/controller`.
-- On macOS, type `export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:/Applications/Webots/lib/controller`.
+No specific setup is needed.
 
 %tab-end
 
 %tab "C++"
 
-If a C/C++ controller is launched from a Terminal running the bash shell, instead of setting the `WEBOTS_HOME` and `PATH` variables, it is sufficient to issue the following command to set the path to the Controller library before launching the controller:
-- On Windows/MSYS2, type: `export PATH=${PATH}:/C/Program\ Files/Webots/msys64/mingw64/bin`.
-- On Linux, type `export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/webots/lib/controller`.
-- On macOS, type `export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:/Applications/Webots/lib/controller`.
+No specific setup is needed.
 
 %tab-end
 

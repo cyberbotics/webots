@@ -117,7 +117,7 @@ void GeneralInformationWidget::init() {
     mEngineType = QString(tr("Epower-split hybrid"));
 
   mIsinitialized = true;
-  mLastRefreshTime.start();
+  mLastRefreshTimer.start();
 }
 
 void GeneralInformationWidget::updateEnableCheckBoxText() {
@@ -131,7 +131,7 @@ void GeneralInformationWidget::updateInformation() {
   if (!mIsinitialized)
     init();
 
-  if (!mEnableCheckBox->isChecked() || mLastRefreshTime.elapsed() < 100)  // refresh at 10Hz
+  if (!mEnableCheckBox->isChecked() || mLastRefreshTimer.elapsed() < 100)  // refresh at 10Hz
     return;
 
   // update variable values
@@ -157,7 +157,7 @@ void GeneralInformationWidget::updateInformation() {
     mWheelEncoders[i] = wbu_car_get_wheel_encoder(WbuCarWheelIndex(i));
   }
   this->repaint();
-  mLastRefreshTime.restart();
+  mLastRefreshTimer.restart();
 }
 
 // draw the widget

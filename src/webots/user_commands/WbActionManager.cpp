@@ -126,7 +126,7 @@ void WbActionManager::populateActions() {
   icon.addFile("disabledIcons:reset_simulation_button.png", QSize(), QIcon::Disabled);
   action = new QAction(this);
   action->setText(tr("Reset Simulation"));
-  action->setStatusTip(tr("Reset Simulation.\nRestore initial state of the simulation. (%1+Shift+F)").arg(mapControlKey()));
+  action->setStatusTip(tr("Reset Simulation.\nRestore initial state of the simulation. (%1+Shift+T)").arg(mapControlKey()));
   action->setToolTip(action->statusTip());
   action->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_T);
   action->setIcon(icon);
