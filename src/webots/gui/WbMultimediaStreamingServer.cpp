@@ -18,6 +18,8 @@
 #include "WbRobot.hpp"
 #include "WbSimulationState.hpp"
 #include "WbView3D.hpp"
+#include "WbViewpoint.hpp"
+#include "WbWorld.hpp"
 
 #include <QtCore/QBuffer>
 #include <QtCore/QJsonDocument>
@@ -26,6 +28,11 @@
 #include <QtWebSockets/QWebSocket>
 
 static WbView3D *gView3D = NULL;
+
+WbMultimediaStreamingServer::~WbMultimediaStreamingServer() {
+  if (isActive())
+    stop();
+}
 
 void WbMultimediaStreamingServer::setView3D(WbView3D *view3D) {
   gView3D = view3D;
@@ -98,6 +105,13 @@ void WbMultimediaStreamingServer::sendContextMenuInfo(const WbMatter *contextMen
   object.insert("docUrl", contextMenuNode->documentationUrl());
   const WbRobot *robot = dynamic_cast<const WbRobot *>(contextMenuNode);
   object.insert("controller", robot ? robot->controllerName() : "");
+  const WbSolid *const solid = dynamic_cast<const WbSolid *>(contextMenuNode);
+  if (solid) {
+    const WbViewpoint *viewpoint = WbWorld::instance()->viewpoint();
+    const bool isFollowed = viewpoint->isFollowed(solid);
+    object.insert("follow", isFollowed ? viewpoint->followType() : 0);
+  } else
+    object.insert("follow", -1);
   QJsonDocument jsonDocument(object);
   sendToClients("context menu: " + jsonDocument.toJson(QJsonDocument::Compact));
 }
@@ -184,6 +198,18 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
       cMainWindow->setView3DSize(QSize(mImageWidth, mImageHeight));
     } else
       WbLog::info(tr("Streaming server: Invalid client resize: only the first connected client can resize the simulation."));
+  } else if (message.startsWith("follow: ")) {
+    const int separatorIndex = message.indexOf(',');
+    const QString &mode = message.mid(8, separatorIndex - 8);
+    const QString &solidId = message.mid(separatorIndex + 1);
+    WbSolid *const solid = WbSolid::findSolidFromUniqueName(solidId);
+    WbViewpoint *const viewpoint = WbWorld::instance()->viewpoint();
+    if (viewpoint->followedSolid())
+      viewpoint->terminateFollowUp();
+    if (solid) {
+      viewpoint->setFollowType(mode.toInt());
+      viewpoint->startFollowUp(solid, true);
+    }
   } else
     WbStreamingServer::processTextMessage(message);
 }

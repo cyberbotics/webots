@@ -24,6 +24,7 @@ class WbX3dStreamingServer : public WbStreamingServer {
 
 public:
   WbX3dStreamingServer();
+  ~WbX3dStreamingServer();
 
 private slots:
   void propagateNodeAddition(WbNode *node) override;
@@ -31,17 +32,16 @@ private slots:
   void start(int port) override;
   void stop() override;
   void sendUpdatePackageToClients() override;
-  virtual void processTextMessage(QString);
+  void processTextMessage(QString) override;
 
 private:
   void create(int port) override;
-  void onSimulationReset() override;
   void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) override;
   void sendWorldToClient(QWebSocket *client) override;
   void sendWorldStateToClient(QWebSocket *client, const QString &state) const;
   void startX3dStreaming(QWebSocket *client);
   void generateX3dWorld();
-  void newWorld() override;
+  bool prepareWorld() override;
   void deleteWorld() override;
 
   QString mX3dWorld;

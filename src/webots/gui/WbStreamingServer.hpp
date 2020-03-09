@@ -36,14 +36,17 @@ class WbStreamingServer : public QObject {
 
 public:
   WbStreamingServer();
-  virtual ~WbStreamingServer();
+  virtual ~WbStreamingServer() {
+    if (isActive())
+      stop();
+  };
 
   void startFromCommandLine(const QString &argument);
   void setView3D(WbView3D *);
   void setMainWindow(WbMainWindow *mainWindow);
 
 protected slots:
-  virtual void newWorld();
+  void newWorld();
   virtual void deleteWorld();
   virtual void processTextMessage(QString);
   virtual void propagateNodeAddition(WbNode *node);
@@ -55,7 +58,8 @@ protected:
   virtual void create(int port);
   virtual void stop();
   void destroy();
-  virtual void onSimulationReset(){};  // TODO
+  void resetSimulation();
+  virtual bool prepareWorld();
   void computeEditableControllers();
   virtual void sendWorldToClient(QWebSocket *client);
   void sendToClients(const QString &message = "");

@@ -22,6 +22,7 @@
 #include "WbRobot.hpp"
 #include "WbSupervisorUtilities.hpp"
 #include "WbTemplateManager.hpp"
+#include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 
 #include <QtCore/QDir>
@@ -32,6 +33,11 @@ WbX3dStreamingServer::WbX3dStreamingServer() : WbStreamingServer(), mX3dWorldGen
   connect(WbNodeOperations::instance(), &WbNodeOperations::nodeDeleted, this, &WbX3dStreamingServer::propagateNodeDeletion);
   connect(WbTemplateManager::instance(), &WbTemplateManager::preNodeRegeneration, this,
           &WbX3dStreamingServer::propagateNodeDeletion);
+}
+
+WbX3dStreamingServer::~WbX3dStreamingServer() {
+  if (isActive())
+    stop();
 }
 
 void WbX3dStreamingServer::start(int port) {
@@ -78,6 +84,19 @@ void WbX3dStreamingServer::processTextMessage(QString message) {
       startX3dStreaming(client);
     // else streaming is started once the world loading is completed
     return;
+  } else if (message == "reset") {
+    // reset nodes visibility
+    QWebSocket *client = qobject_cast<QWebSocket *>(sender());
+    foreach (WbBaseNode *node, WbWorld::instance()->viewpoint()->getInvisibleNodes())
+      client->sendTextMessage(QString("visibility:%1:1").arg(node->uniqueId()));
+    resetSimulation();
+    QString state = WbAnimationRecorder::instance()->computeUpdateData(true);
+    if (!state.isEmpty()) {
+      foreach (QWebSocket *client, mWebSocketClients)
+        sendWorldStateToClient(client, state);
+    }
+    sendToClients("reset finished");
+    return;
   }
   WbStreamingServer::processTextMessage(message);
 }
@@ -99,14 +118,6 @@ void WbX3dStreamingServer::startX3dStreaming(QWebSocket *client) {
   }
 }
 
-void WbX3dStreamingServer::onSimulationReset() {
-  QString state = WbAnimationRecorder::instance()->computeUpdateData(true);
-  if (!state.isEmpty()) {
-    foreach (QWebSocket *client, mWebSocketClients)
-      sendWorldStateToClient(client, state);
-  }
-}
-
 void WbX3dStreamingServer::sendUpdatePackageToClients() {
   sendActivityPulse();
 
@@ -125,16 +136,7 @@ void WbX3dStreamingServer::sendUpdatePackageToClients() {
   }
 }
 
-void WbX3dStreamingServer::newWorld() {
-  if (!isActive())
-    return;
-
-  // TODO
-  /*if (mMonitorActivity) {
-    printf("open\n");
-    fflush(stdout);
-  }*/
-
+bool WbX3dStreamingServer::prepareWorld() {
   try {
     bool regenerationRequired = mX3dWorldReferenceFile != WbWorld::instance()->fileName() || mX3dWorldGenerationTime != 0.0;
     if (!regenerationRequired) {
@@ -155,9 +157,10 @@ void WbX3dStreamingServer::newWorld() {
   } catch (const QString &e) {
     WbLog::error(tr("Error when reloading world: %1.").arg(e));
     destroy();
-    return;
+    return false;
   }
-  computeEditableControllers();
+
+  return true;
 }
 
 void WbX3dStreamingServer::deleteWorld() {

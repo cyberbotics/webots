@@ -62,11 +62,6 @@ WbStreamingServer::WbStreamingServer() :
           &WbStreamingServer::propagateNodeAddition);
 }
 
-WbStreamingServer::~WbStreamingServer() {
-  if (mWebSocketServer)
-    stop();
-}
-
 QString WbStreamingServer::clientToId(QWebSocket *client) {
   return QString::number((quintptr)client);
 }
@@ -316,17 +311,7 @@ void WbStreamingServer::processTextMessage(QString message) {
     else
       mPauseTimeout = -1.0;
   } else if (message == "reset") {
-    // reset nodes visibility
-    // TODO move to X3dStreamingServer
-    // foreach (WbBaseNode *node, WbWorld::instance()->viewpoint()->getInvisibleNodes())
-    //  client->sendTextMessage(QString("visibility:%1:1").arg(node->uniqueId()));
-    // reset the simulation
-    WbApplication::instance()->simulationReset(true);
-    QCoreApplication::processEvents();  // this is required to make sure the simulation reset has been performed before sending
-                                        // the update
-    mLastUpdateTime = -1.0;
-    mPauseTimeout = -1.0;
-    onSimulationReset();
+    resetSimulation();
     sendToClients("reset finished");
   } else if (message == "revert")
     WbApplication::instance()->worldReload();
@@ -535,7 +520,19 @@ void WbStreamingServer::connectNewRobot(const WbRobot *robot) {
             Qt::UniqueConnection);
 }
 
-// TODO
+bool WbStreamingServer::prepareWorld() {
+  try {
+    foreach (QWebSocket *client, mWebSocketClients)
+      sendWorldToClient(client);
+  } catch (const QString &e) {
+    WbLog::error(tr("Error when reloading world: %1.").arg(e));
+    destroy();
+    return false;
+  }
+
+  return true;
+}
+
 void WbStreamingServer::newWorld() {
   if (mWebSocketServer == NULL)
     return;
@@ -545,15 +542,8 @@ void WbStreamingServer::newWorld() {
     fflush(stdout);
   }
 
-  try {
-    foreach (QWebSocket *client, mWebSocketClients)
-      sendWorldToClient(client);
-  } catch (const QString &e) {
-    WbLog::error(tr("Error when reloading world: %1.").arg(e));
-    destroy();
+  if (!prepareWorld())
     return;
-  }
-
   computeEditableControllers();
 }
 
@@ -563,6 +553,14 @@ void WbStreamingServer::deleteWorld() {
   foreach (QWebSocket *client, mWebSocketClients)
     client->sendTextMessage("delete world");
   mEditableControllers.clear();
+}
+
+void WbStreamingServer::resetSimulation() {
+  WbApplication::instance()->simulationReset(true);
+  QCoreApplication::processEvents();  // this is required to make sure the simulation reset has been performed before sending
+                                      // the update
+  mLastUpdateTime = -1.0;
+  mPauseTimeout = -1.0;
 }
 
 void WbStreamingServer::setWorldLoadingProgress(const int progress) {

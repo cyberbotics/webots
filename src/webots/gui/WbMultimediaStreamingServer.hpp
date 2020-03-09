@@ -28,14 +28,14 @@ class WbMultimediaStreamingServer : public WbStreamingServer {
 
 public:
   WbMultimediaStreamingServer() : WbStreamingServer(), mImageWidth(-1), mImageHeight(-1){};
-  ~WbMultimediaStreamingServer() {}
+  ~WbMultimediaStreamingServer();
   void sendImage(QImage image);
 
   void setView3D(WbView3D *view3D);
   bool isNewFrameNeeded() const;
 
 private slots:
-  void processTextMessage(QString message);
+  void processTextMessage(QString message) override;
 
 private:
   void start(int port) override;
