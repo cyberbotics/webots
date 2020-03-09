@@ -480,13 +480,15 @@ Environment variables in this file can contain references to other environment v
 They will be automatically replaced by the actual value already existing in the environment.
 The Webots "runtime.ini" supports 7 sections:
 
-- `[environment variables with relative paths]`
+- `[environment variables with paths]`
 
-    This section should contain only environment variables with relative paths.
-    Paths must be separated by the colon symbol ':' and the separator between
-    directories is the slash symbol '/'. Variables declared in this section will be
+    This section should only contain environment variables with either relative or
+    absolute paths. Paths must be separated using the colon symbol ':' and the separator for
+    directories to use is the slash symbol '/'. Variables declared in this section will be
     added on every platform. On Windows, colons will be replaced by semicolon and
-    slash will be replaced by backslash according to the Windows syntax.
+    slash will be replaced by backslash according to the Windows syntax.<br>
+    NOTE: The legacy form of this section was ```[environment variables with relative path]```,
+    though it is encouraged to follow this new notation, the backward compability is kept.
 
 - `[environment variables]`
 
@@ -523,7 +525,7 @@ Here is an example of a typical runtime.ini file.
 ```ini
 ; typical runtime.ini
 
-[environment variables with relative paths]
+[environment variables with paths]
 WEBOTS_LIBRARY_PATH = lib:$(WEBOTS_LIBRARY_PATH):../../library
 
 [environment variables]
@@ -559,7 +561,7 @@ In the example above, the resulting command issued by Webots will be: `/opt/loca
 ```ini
 ; runtime.ini for a Java controller on Windows
 
-[environment variables with relative paths]
+[environment variables with paths]
 CLASSPATH = ../lib/MyLibrary.jar
 JAVA_LIBRARY_PATH = ../lib
 
