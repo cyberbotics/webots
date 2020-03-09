@@ -251,9 +251,10 @@ void WbController::start() {
         warn(tr("Environment variables from runtime.ini could not be loaded: the file contains illegal definitions."));
       else {
         for (int i = 0; i < iniParser.size(); ++i) {
-          if (iniParser.sectionAt(i).compare("environment variables with relative paths") != 0 &&
-              iniParser.sectionAt(i).compare("environment variables for Linux") != 0 &&
-              iniParser.sectionAt(i).compare("environment variables for Linux 64") != 0)
+          if ((iniParser.sectionAt(i).compare("environment variables with relative paths") ||
+               iniParser.sectionAt(i).compare("environment variables with paths")) &&
+              iniParser.sectionAt(i).compare("environment variables for Linux") &&
+              iniParser.sectionAt(i).compare("environment variables for Linux 64"))
             continue;
 
           if (iniParser.keyAt(i) == ("WEBOTS_LIBRARY_PATH") || iniParser.keyAt(i) == ("FIREJAIL_PATH")) {
@@ -368,7 +369,8 @@ void WbController::setProcessEnvironment() {
       for (int i = 0; i < iniParser.size(); ++i) {
         const QString &value = iniParser.resolvedValueAt(i, env);
         iniParser.setValue(i, value);
-        if (!iniParser.sectionAt(i).compare("environment variables with relative paths", Qt::CaseInsensitive))
+        if (!iniParser.sectionAt(i).compare("environment variables with relative paths", Qt::CaseInsensitive) ||
+            !iniParser.sectionAt(i).compare("environment variables with paths", Qt::CaseInsensitive))
           addPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
         if (!iniParser.sectionAt(i).compare("environment variables", Qt::CaseInsensitive))
           addEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i));

@@ -68,7 +68,8 @@ void WbIniParser::setValue(int index, QString newValue) {
 
 QString WbIniParser::resolvedValueAt(int index, const QStringList &environment) const {
   QString value = valueAt(index);
-  if (!sectionAt(index).compare("environment variables with relative paths", Qt::CaseInsensitive)) {
+  if (!sectionAt(index).compare("environment variables with relative paths", Qt::CaseInsensitive) ||
+      !sectionAt(index).compare("environment variables with paths", Qt::CaseInsensitive)) {
 #ifdef _WIN32
     QString newWindowsValue = value;
     newWindowsValue.replace(':', ';');
