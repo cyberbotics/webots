@@ -10,7 +10,6 @@ class ContextMenu { // eslint-disable-line no-unused-vars
     this.onFollowObject = null;
     this.onEditController = null;
     this.onOpenRobotWindow = null;
-    this.isFollowedObject = null;
     this.isRobotWindowValid = null;
 
     // Create context menu.
@@ -39,10 +38,10 @@ class ContextMenu { // eslint-disable-line no-unused-vars
       var id = ui.item.attr('id');
       if (id === 'contextMenuFollow') {
         if (typeof this.onFollowObject === 'function')
-          this.onFollowObject(this.object.name);
+          this.onFollowObject(this.object.name, '1'); // object followed with mode 1
       } else if (id === 'contextMenuUnfollow') {
         if (typeof this.onFollowObject === 'function')
-          this.onFollowObject('none');
+          this.onFollowObject('none', '0'); // object not followed
       } else if (id === 'contextMenuEditController') {
         var controller = this.object.controller;
         $('#webotsEditor').dialog('open');
@@ -78,7 +77,7 @@ class ContextMenu { // eslint-disable-line no-unused-vars
     this.visible = false;
   }
 
-  // object = {'id', 'name', 'controller', 'docUrl'}
+  // object = {'id', 'name', 'controller', 'docUrl', 'follow'}
   show(object, position) {
     this.object = object;
     if (typeof object === 'undefined')
@@ -107,15 +106,15 @@ class ContextMenu { // eslint-disable-line no-unused-vars
       $('#contextMenuRobotWindow').css('display', 'none');
     }
 
-    var isFollowed = false;
-    if (typeof this.isFollowedObject === 'function')
-      this.isFollowedObject(object, (result) => { isFollowed = result; });
-    if (isFollowed) {
+    if (object.follow < 0) { // follow option not supported
       $('#contextMenuFollow').css('display', 'none');
-      $('#contextMenuUnfollow').css('display', 'inline');
-    } else {
+      $('#contextMenuUnfollow').css('display', 'none');
+    } else if (object.follow === 0) { // object not followed
       $('#contextMenuFollow').css('display', 'inline');
       $('#contextMenuUnfollow').css('display', 'none');
+    } else { // object followed
+      $('#contextMenuFollow').css('display', 'none');
+      $('#contextMenuUnfollow').css('display', 'inline');
     }
 
     if (this.object.docUrl)

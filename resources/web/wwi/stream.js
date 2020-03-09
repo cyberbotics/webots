@@ -169,6 +169,7 @@ class Stream { // eslint-disable-line no-unused-vars
       let url = httpUrl + list[1];
       this.view.toolBar.setMode(list[2]);
       this.view.video.domElement.src = url;
+      this.view.video.resize(list[3], list[4]);
       console.log('Video streamed on ' + url);
     } else if (data.startsWith('time: ')) {
       this.view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());

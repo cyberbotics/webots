@@ -80,16 +80,16 @@ webots.View = class View {
       window.location = quitDestination;
     };
     this.onresize = () => {
-      if (typeof this.x3dScene === 'undefined')
-        return;
-
-      // Sometimes the page is not fully loaded by that point and the field of view is not yet available.
-      // In that case we add a callback at the end of the queue to try again when all other callbacks are finished.
-      if (this.x3dScene.root === null) {
-        setTimeout(this.onresize, 0);
-        return;
-      }
-      this.x3dScene.resize();
+      if (typeof this.x3dScene !== 'undefined') {
+        // Sometimes the page is not fully loaded by that point and the field of view is not yet available.
+        // In that case we add a callback at the end of the queue to try again when all other callbacks are finished.
+        if (this.x3dScene.root === null) {
+          setTimeout(this.onresize, 0);
+          return;
+        }
+        this.x3dScene.resize();
+      } else if (typeof this.video !== 'undefined')
+        this.video.requestNewSize();
     };
     this.ondialogwindow = (opening) => {
       // Pause the simulation if needed when a pop-up dialog window is open
@@ -337,7 +337,6 @@ webots.View = class View {
         authenticatedUser = Boolean(webots.User1Authentication);
       this.contextMenu = new ContextMenu(authenticatedUser, this.view3D);
       this.contextMenu.onEditController = (controller) => { this.editController(controller); };
-      this.contextMenu.onFollowObject = (id) => { this.x3dScene.viewpoint.follow(id); };
       this.contextMenu.onOpenRobotWindow = (robotName) => { this.openRobotWindow(robotName); };
       this.contextMenu.isRobotWindowValid = (robotName, setResult) => { setResult(this.robotWindows[this.robotWindowNames[robotName]]); };
     }
@@ -345,8 +344,7 @@ webots.View = class View {
     if (mode === 'video') {
       this.url = url;
       this.video = new Video(this, this.view3D, this.contextMenu);
-      // TODO
-      // this.contextMenu.isFollowedObject = (object3d, setResult) => { setResult(this.x3dScene.viewpoint.isFollowedObject(object3d)); };
+      this.contextMenu.onFollowObject = (id, mode) => { this.video.setFollowed(id, mode); };
     } else if (typeof this.x3dScene === 'undefined') {
       this.x3dDiv = document.createElement('div');
       this.x3dDiv.className = 'webots3DView';
@@ -357,7 +355,7 @@ webots.View = class View {
       param.name = 'showProgress';
       param.value = false;
       this.x3dScene.domElement.appendChild(param);
-      this.contextMenu.isFollowedObject = (object3d, setResult) => { setResult(this.x3dScene.viewpoint.isFollowedObject(object3d)); };
+      this.contextMenu.onFollowObject = (id, mode) => { this.x3dScene.viewpoint.follow(id); };
     }
 
     if (typeof this.x3dScene !== 'undefined' && typeof this.mouseEvents === 'undefined')
@@ -388,11 +386,6 @@ webots.View = class View {
     // FIXME: there seems to be a bug here: after that step, the current time is not incremented in the web interface,
     // this is because the next 'application/json:' is not received, probably because it gets overwritten by the
     // answer to the robot message...
-  }
-
-  resize(width, height) {
-    if (this.video)
-      this.video.resize(width, height);
   }
 
   getControllerUrl(name) {

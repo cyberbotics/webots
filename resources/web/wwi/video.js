@@ -6,7 +6,7 @@ class Video { // eslint-disable-line no-unused-vars
   constructor(view, parentObject, contextMenu) {
     this.view = view;
     this.domElement = document.createElement('img');
-    this.domElement.style.background = 'grey';
+    this.domElement.style.background = 'white';
     this.domElement.id = 'remoteVideo';
     this.domElement.setAttribute('draggable', false);
     parentObject.appendChild(this.domElement);
@@ -39,6 +39,13 @@ class Video { // eslint-disable-line no-unused-vars
     this.robotWindows.push([robotName, windowName]);
   }
 
+  setFollowed(solidId, mode) {
+    var socket = this.view.stream.socket;
+    if (!socket || socket.readyState !== 1)
+      return;
+    socket.send('follow: ' + mode + ',' + solidId);
+  }
+
   showContextMenu(object) {
     this.contextMenu.show(object, this.lastMousePosition);
   }
@@ -52,6 +59,10 @@ class Video { // eslint-disable-line no-unused-vars
     socket.send('mouse ' + type + ' ' + event.button + ' ' + this.mouseDown + ' ' +
                 event.offsetX + ' ' + event.offsetY + ' ' + modifier + ' ' + wheel);
     this.lastMousePosition = {x: event.offsetX, y: event.offsetY};
+  }
+
+  requestNewSize(width, height) {
+    this.view.stream.socket.send('resize: ' + this.domElement.width + 'x' + this.domElement.height);
   }
 
   resize(width, height) {

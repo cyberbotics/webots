@@ -357,7 +357,11 @@ class MouseEvents { // eslint-disable-line no-unused-vars
         this.hiddenContextMenu === false && this.contextMenu) {
         // Right click: show popup menu.
         this.contextMenu.show(
-          {name: object.userData.name, controller: object.userData.controller, docUrl: object.userData.docUrl},
+          { name: object.userData.name,
+            controller: object.userData.controller,
+            docUrl: object.userData.docUrl,
+            follow: this.scene.viewpoint.isFollowedObject(object)
+          },
           {x: this.state.x, y: this.state.y}
         );
       }

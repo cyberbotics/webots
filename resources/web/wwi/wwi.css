@@ -333,7 +333,7 @@ button::-moz-focus-inner {
 }
 
 #remoteVideo {
-  background: grey;
+  background: white;
   width: 100%;
   height: calc(100% - 48px);
   -webkit-user-select: none;
@@ -341,4 +341,7 @@ button::-moz-focus-inner {
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+  // get rid of whitespace after remoteVideo image
+  display: block;
+  float: left;
 }
