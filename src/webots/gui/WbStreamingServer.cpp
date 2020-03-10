@@ -581,7 +581,7 @@ void WbStreamingServer::propagateNodeAddition(WbNode *node) {
 QString WbStreamingServer::simulationStateString() {
   switch (WbSimulationState::instance()->mode()) {
     case WbSimulationState::PAUSE:
-      return QString("pause: %1").arg(WbSimulationState::instance()->time());
+      return "pause";
     case WbSimulationState::STEP:
       return "step";
     case WbSimulationState::REALTIME:
@@ -599,9 +599,11 @@ void WbStreamingServer::propagateSimulationStateChange() const {
   if (mWebSocketServer == NULL || WbWorld::instance() == NULL || mWebSocketClients.isEmpty())
     return;
 
-  const QString &message = simulationStateString();
+  QString message = simulationStateString();
   if (message.isEmpty())
     return;
+  if (message == "pause")
+    message = QString("pause: %1").arg(WbSimulationState::instance()->time());
   foreach (QWebSocket *client, mWebSocketClients)
     client->sendTextMessage(message);
 }

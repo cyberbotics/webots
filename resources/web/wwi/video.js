@@ -66,9 +66,8 @@ class Video { // eslint-disable-line no-unused-vars
   }
 
   resize(width, height) {
-    this.domElement.width = width;
-    this.domElement.height = height;
-    this.view.stream.socket.send('resize: ' + width + 'x' + height);
+    this.domElement.style.width = width + 'px';
+    this.domElement.style.height = height + 'px';
   }
 
   _onMouseDown(event) {
