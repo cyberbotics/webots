@@ -483,8 +483,8 @@ The Webots "runtime.ini" supports 7 sections:
 - `[environment variables with paths]`
 
     This section should only contain environment variables with either relative or
-    absolute paths. Paths must be separated using the colon symbol ':' and the separator for
-    directories to use is the slash symbol '/'. Variables declared in this section will be
+    absolute paths. Paths must be separated using the colon symbol ':' and directory components
+    must be separated using the slash symbol '/'. Variables declared in this section will be
     added on every platform. On Windows, colons will be replaced by semicolon and
     slash will be replaced by backslash according to the Windows syntax.<br>
     **NOTE**: The legacy form of this section was ```[environment variables with relative path]```.
