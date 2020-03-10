@@ -28,7 +28,7 @@ class WbMultimediaStreamingServer : public WbStreamingServer {
 public:
   WbMultimediaStreamingServer() : WbStreamingServer(), mImageWidth(-1), mImageHeight(-1){};
   ~WbMultimediaStreamingServer();
-  void sendImage(QImage image);
+  void sendImage(const QImage &image);
 
   void setView3D(WbView3D *view3D);
   bool isNewFrameNeeded() const;

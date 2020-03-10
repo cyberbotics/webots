@@ -59,6 +59,9 @@ void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUr
   // if available immediately send the latest image to the client
   if (mUpdateTimer.isValid())
     sendLastImage(socket);
+  else if (WbSimulationState::instance()->isPaused())
+    // request new image if none has been generated yet
+    gView3D->refresh();
 }
 
 void WbMultimediaStreamingServer::removeTcpClient() {
@@ -78,7 +81,7 @@ bool WbMultimediaStreamingServer::isNewFrameNeeded() const {
   return nsecs >= 5e7;  // maximum update frame rate
 }
 
-void WbMultimediaStreamingServer::sendImage(QImage image) {
+void WbMultimediaStreamingServer::sendImage(const QImage &image) {
   const double simulationTime = WbSimulationState::instance()->time();
   sendToClients(QString("time: %1").arg(simulationTime));
 
@@ -199,10 +202,6 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
     if (!stateMessage.isEmpty())
       client->sendTextMessage(stateMessage);
     sendWorldToClient(client);
-    if (!mUpdateTimer.isValid() && WbSimulationState::instance()->isPaused())
-      // request new image if none has been generated yet
-      // otherwise the latest image has already been sent on connection
-      gView3D->refresh();
   } else if (message.startsWith("resize: ")) {
     if (client == mWebSocketClients.first()) {
       const QStringList &resolution = message.mid(8).split("x");
