@@ -31,8 +31,7 @@
 static WbView3D *gView3D = NULL;
 
 WbMultimediaStreamingServer::~WbMultimediaStreamingServer() {
-  if (isActive())
-    stop();
+  mTcpClients.clear();
 }
 
 void WbMultimediaStreamingServer::setView3D(WbView3D *view3D) {

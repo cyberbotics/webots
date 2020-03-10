@@ -36,8 +36,8 @@ WbX3dStreamingServer::WbX3dStreamingServer() : WbStreamingServer(), mX3dWorldGen
 }
 
 WbX3dStreamingServer::~WbX3dStreamingServer() {
-  if (isActive())
-    stop();
+  if (WbAnimationRecorder::isInstantiated())
+    WbAnimationRecorder::instance()->cleanupFromStreamingServer();
 }
 
 void WbX3dStreamingServer::start(int port) {

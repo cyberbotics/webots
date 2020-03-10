@@ -38,7 +38,7 @@ public:
   WbStreamingServer();
   virtual ~WbStreamingServer() {
     if (isActive())
-      stop();
+      destroy();
   };
 
   void startFromCommandLine(const QString &argument);
