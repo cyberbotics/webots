@@ -36,9 +36,6 @@
 #include <QtWebSockets/QWebSocket>
 #include <QtWebSockets/QWebSocketServer>
 
-//#include <cassert>
-
-static bool gCleanedFromPostRoutine = false;
 WbMainWindow *WbStreamingServer::cMainWindow = NULL;
 
 WbStreamingServer::WbStreamingServer() :
@@ -61,6 +58,12 @@ WbStreamingServer::WbStreamingServer() :
   connect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this,
           &WbStreamingServer::propagateNodeAddition);
 }
+
+WbStreamingServer::~WbStreamingServer() {
+  if (isActive())
+    destroy();
+  WbLog::info(tr("Streaming server closed"));
+};
 
 QString WbStreamingServer::clientToId(QWebSocket *client) {
   return QString::number((quintptr)client);
@@ -192,10 +195,6 @@ void WbStreamingServer::destroy() {
 
   delete mTcpServer;
   mTcpServer = NULL;
-
-  if (gCleanedFromPostRoutine == false)
-    // calling WbLog from the post routine can crash Webots if WbLog is deleted before
-    WbLog::info(tr("Streaming server closed"));
 }
 
 void WbStreamingServer::onNewTcpConnection() {

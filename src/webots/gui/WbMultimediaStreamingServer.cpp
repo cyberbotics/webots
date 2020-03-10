@@ -109,13 +109,13 @@ void WbMultimediaStreamingServer::sendLastImage(QTcpSocket *client) {
   }
 }
 
-void WbMultimediaStreamingServer::sendContextMenuInfo(const WbMatter *contextMenuNode) {
+void WbMultimediaStreamingServer::sendContextMenuInfo(const WbMatter *node) {
   QJsonObject object;
-  object.insert("name", contextMenuNode->name());
-  object.insert("docUrl", contextMenuNode->documentationUrl());
-  const WbRobot *robot = dynamic_cast<const WbRobot *>(contextMenuNode);
+  object.insert("name", node->name());
+  object.insert("docUrl", node->documentationUrl());
+  const WbRobot *robot = dynamic_cast<const WbRobot *>(node);
   object.insert("controller", robot ? robot->controllerName() : "");
-  const WbSolid *const solid = dynamic_cast<const WbSolid *>(contextMenuNode);
+  const WbSolid *const solid = dynamic_cast<const WbSolid *>(node);
   if (solid) {
     const WbViewpoint *viewpoint = WbWorld::instance()->viewpoint();
     const bool isFollowed = viewpoint->isFollowed(solid);

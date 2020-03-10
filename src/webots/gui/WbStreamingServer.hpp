@@ -36,10 +36,7 @@ class WbStreamingServer : public QObject {
 
 public:
   WbStreamingServer();
-  virtual ~WbStreamingServer() {
-    if (isActive())
-      destroy();
-  };
+  virtual ~WbStreamingServer();
 
   void startFromCommandLine(const QString &argument);
   void setView3D(WbView3D *);
