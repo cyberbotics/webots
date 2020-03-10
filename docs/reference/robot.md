@@ -45,6 +45,7 @@ It can be read from the robot controller using the `wb_robot_get_custom_data` fu
 It may also be used as a convenience for communicating between a robot and a supervisor without implementing a Receiver / Emitter system: The supervisor can read and write in this field using the generic supervisor functions for accessing fields.
 
 - `supervisor`: if the value is `TRUE` the robot will have [supervisor capabilities](supervisor.md).
+You will have to save and reload the simulation if you change this field from the scene tree, so that the new value is actually taken into account.
 
 - `synchronization`: if the value is `TRUE` (default value), the simulator is synchronized with the controller; if the value is `FALSE`, the simulator runs as fast as possible, without waiting for the controller.
 The `wb_robot_get_synchronization` function can be used to read the value of this field from a controller program.
