@@ -107,7 +107,7 @@ void WbMultimediaStreamingServer::sendLastImage(QTcpSocket *client) {
   foreach (QTcpSocket *client, mTcpClients) {
     client->write(boundaryString);
     client->write(mSceneImage);
-    client->write(QByteArray("\r\n\r\n"));
+    client->write(QByteArray("\r\n--WebotsFrame\r\n\r\n"));
     client->flush();
   }
 }
