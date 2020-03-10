@@ -204,15 +204,13 @@ void WbWrenWindow::renderNow(bool culling) {
   if (!isExposed() || !wr_gl_state_is_initialized())
     return;
 
+  static int first = true;
 #ifdef __APPLE__
   // Make sure all events are processed before first render, omitting this snippet
   // causes graphical corruption on macOS due to the main framebuffer being invalid.
   // On Windows, this fix causes a crash on startup for certain worlds.
-  static int first = true;
-  if (first) {
-    first = false;
+  if (first)
     QCoreApplication::processEvents(QEventLoop::AllEvents);
-  }
 #endif
 
   WbPerformanceLog *log = WbPerformanceLog::instance();
@@ -232,11 +230,15 @@ void WbWrenWindow::renderNow(bool culling) {
   WbWrenOpenGlContext::instance()->swapBuffers(this);
   WbWrenOpenGlContext::doneWren();
 
-  if (mVideoStreamingServer && mVideoStreamingServer->isNewFrameNeeded())
-    feedMultimediaStreamer();
+  if (mVideoStreamingServer && mVideoStreamingServer->isNewFrameNeeded() && !first)
+    // Skip the first call to 'renderNow()' because OpenGL context seems to be not ready. Not skipping causes a freeze.
+    mVideoStreamingServer->sendImage(grabWindowBufferNow());
 
   if (log)
     log->stopMeasure(WbPerformanceLog::MAIN_RENDERING);
+
+  if (first)
+    first = false;
 }
 
 bool WbWrenWindow::event(QEvent *event) {
@@ -433,15 +435,13 @@ QSize WbWrenWindow::sizeHint() const {
   return QSize(400, 400);
 }
 
+void WbWrenWindow::setVideoStreamingServer(WbMultimediaStreamingServer *streamingServer) {
+  mVideoStreamingServer = streamingServer;
+  connect(mVideoStreamingServer, &WbMultimediaStreamingServer::imageRequested, this, &WbWrenWindow::feedMultimediaStreamer);
+}
+
 void WbWrenWindow::feedMultimediaStreamer() {
-  // Skip the first call to 'renderNow()' because OpenGL
-  // context seems to be not ready. Not skipping causes
-  // a freeze.
-  static bool skipFirstFrame = true;
-  if (skipFirstFrame)
-    skipFirstFrame = false;
-  else
-    mVideoStreamingServer->sendImage(grabWindowBufferNow());
+  renderNow();
 }
 
 void WbWrenWindow::readPixels(int width, int height, unsigned int format, void *buffer) {

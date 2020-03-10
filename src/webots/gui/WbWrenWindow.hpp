@@ -54,7 +54,7 @@ public:
 
   void blitMainFrameBufferToScreen();
 
-  void setVideoStreamingServer(WbMultimediaStreamingServer *streamingServer) { mVideoStreamingServer = streamingServer; }
+  void setVideoStreamingServer(WbMultimediaStreamingServer *streamingServer);
 
 public slots:
   virtual void renderLater();
@@ -72,7 +72,6 @@ protected:
 private:
   static WbWrenWindow *cInstance;
 
-  void feedMultimediaStreamer();
   void processVideoPBO();
   void updateFrameBuffer();
   void readPixels(int width, int height, unsigned int format, void *buffer);
@@ -93,6 +92,9 @@ private:
   WrTextureRtt *mWrenDepthFrameBufferTexture;
 
   WbMultimediaStreamingServer *mVideoStreamingServer;
+
+private slots:
+  void feedMultimediaStreamer();
 };
 
 #endif

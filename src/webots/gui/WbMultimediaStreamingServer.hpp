@@ -18,7 +18,6 @@
 #include "WbStreamingServer.hpp"
 
 #include <QtCore/QElapsedTimer>
-#include <QtGui/QImage>
 
 class WbMatter;
 class WbView3D;
@@ -34,17 +33,22 @@ public:
   void setView3D(WbView3D *view3D);
   bool isNewFrameNeeded() const;
 
+signals:
+  void imageRequested();
+
 private slots:
+  void removeTcpClient();
   void processTextMessage(QString message) override;
 
 private:
   void start(int port) override;
   void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) override;
   void sendContextMenuInfo(const WbMatter *matter);
+  void sendLastImage(QTcpSocket *client = NULL);
 
   int mImageWidth;
   int mImageHeight;
-  QImage mSceneImage;
+  QByteArray mSceneImage;
   QList<QTcpSocket *> mTcpClients;
   QElapsedTimer mUpdateTimer;
 

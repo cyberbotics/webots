@@ -17,6 +17,7 @@
 #include "WbMainWindow.hpp"
 #include "WbRobot.hpp"
 #include "WbSimulationState.hpp"
+#include "WbSimulationWorld.hpp"
 #include "WbView3D.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
@@ -54,17 +55,24 @@ void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUr
                                           "Expires: 0\r\nCache-Control: no-cache, private\r\nPragma: no-cache\r\n"
                                           "Content-Type: multipart/x-mixed-replace; boundary=--WebotsFrame\r\n\r\n");
   socket->write(contentType);
+  connect(socket, &QTcpSocket::disconnected, this, &WbMultimediaStreamingServer::removeTcpClient);
   mTcpClients.append(socket);
-  // TODO: send immediately the first image on connections
-  // if non has been generated yet, then do it
-  // if (mUpdateTimer->isValid())
-  //  sendImage(mSceneImage);
+  // if available immediately send the latest image to the client
+  if (mUpdateTimer.isValid())
+    sendLastImage(socket);
+}
+
+void WbMultimediaStreamingServer::removeTcpClient() {
+  QTcpSocket *client = qobject_cast<QTcpSocket *>(sender());
+  if (client)
+    mTcpClients.removeAll(client);
 }
 
 bool WbMultimediaStreamingServer::isNewFrameNeeded() const {
   if (!isActive() || mTcpClients.isEmpty())
     return false;
-  if (!mUpdateTimer.isValid())
+
+  if (!mUpdateTimer.isValid() || WbSimulationState::instance()->isPaused())
     return true;
 
   const qint64 nsecs = mUpdateTimer.nsecsElapsed();
@@ -75,28 +83,31 @@ void WbMultimediaStreamingServer::sendImage(QImage image) {
   const double simulationTime = WbSimulationState::instance()->time();
   sendToClients(QString("time: %1").arg(simulationTime));
 
-  mSceneImage = image;
-  QByteArray im;
-  QBuffer bufferJpeg(&im);
+  QBuffer bufferJpeg(&mSceneImage);
   bufferJpeg.open(QIODevice::WriteOnly);
-  mSceneImage.save(&bufferJpeg, "JPG");
-  const QByteArray &boundaryString =
-    QString("--WebotsFrame\r\nContent-type: image/jpg\r\nContent-Length: %1\r\n\r\n").arg(im.length()).toUtf8();
+  image.save(&bufferJpeg, "JPG");
 
+  sendLastImage();
+  mUpdateTimer.restart();
+}
+
+void WbMultimediaStreamingServer::sendLastImage(QTcpSocket *client) {
+  if (client && (client->state() != QAbstractSocket::ConnectedState || !client->isValid()))
+    return;
+
+  const QByteArray &boundaryString =
+    QString("--WebotsFrame\r\nContent-Type: image/jpeg\r\nContent-Length: %1\r\n\r\n").arg(mSceneImage.length()).toUtf8();
+  QList<QTcpSocket *> clients;
+  if (client)
+    clients << client;
+  else
+    clients = mTcpClients;
   foreach (QTcpSocket *client, mTcpClients) {
-    if (client->state() != QAbstractSocket::ConnectedState) {
-      mTcpClients.removeAll(client);
-      continue;
-    }
-    if (!client->isValid())
-      continue;
     client->write(boundaryString);
-    client->write(im);
+    client->write(mSceneImage);
     client->write(QByteArray("\r\n\r\n"));
     client->flush();
   }
-
-  mUpdateTimer.restart();
 }
 
 void WbMultimediaStreamingServer::sendContextMenuInfo(const WbMatter *contextMenuNode) {
@@ -184,11 +195,15 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
     } else
       // Video streamer already initialized
       WbLog::info(tr("Streaming server: Ignored new client request of resolution: %1x%2.").arg(width).arg(height));
-    client->sendTextMessage(QString("video: /mjpeg %2").arg(simulationStateString()));
+    client->sendTextMessage(QString("video: /mjpeg %2 %3 %4").arg(simulationStateString()).arg(mImageWidth).arg(mImageHeight));
     const QString &stateMessage = simulationStateString();
     if (!stateMessage.isEmpty())
       client->sendTextMessage(stateMessage);
     sendWorldToClient(client);
+    if (!mUpdateTimer.isValid() && WbSimulationState::instance()->isPaused())
+      // request new image if none has been generated yet
+      // otherwise the latest image has already been sent on connection
+      gView3D->refresh();
   } else if (message.startsWith("resize: ")) {
     if (client == mWebSocketClients.first()) {
       const QStringList &resolution = message.mid(8).split("x");
