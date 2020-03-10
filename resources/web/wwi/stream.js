@@ -114,11 +114,13 @@ class Stream { // eslint-disable-line no-unused-vars
         this.view.editor.addFile(filename, data.substring(data.indexOf('\n') + 1)); // remove the first line
       else
         console.log('Warning: ' + filename + ' not in controller directory: ' + dirname + ' != ' + this.view.editor.dirname);
-    } else if (data === 'pause' || data === 'paused by client') {
+    } else if (data.startsWith('pause:') || data === 'paused by client') {
       this.view.toolBar.setMode('pause');
       // Update timeout.
-      if (data === 'pause')
+      if (data.startsWith('pause:')) {
         this.view.isAutomaticallyPaused = undefined;
+        this.view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
+      }
       if (this.view.timeout > 0 && !this.view.isAutomaticallyPaused) {
         this.view.deadline = this.view.timeout;
         if (typeof this.view.time !== 'undefined')
