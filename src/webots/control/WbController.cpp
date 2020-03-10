@@ -251,10 +251,10 @@ void WbController::start() {
         warn(tr("Environment variables from runtime.ini could not be loaded: the file contains illegal definitions."));
       else {
         for (int i = 0; i < iniParser.size(); ++i) {
-          if ((iniParser.sectionAt(i).compare("environment variables with relative paths") ||
-               iniParser.sectionAt(i).compare("environment variables with paths")) &&
-              iniParser.sectionAt(i).compare("environment variables for Linux") &&
-              iniParser.sectionAt(i).compare("environment variables for Linux 64"))
+          if (iniParser.sectionAt(i) == "environment variables with relative paths" ||
+              iniParser.sectionAt(i) == "environment variables with paths" ||
+              iniParser.sectionAt(i) == "environment variables for linux" ||
+              iniParser.sectionAt(i) == "environment variables for linux 64")
             continue;
 
           if (iniParser.keyAt(i) == ("WEBOTS_LIBRARY_PATH") || iniParser.keyAt(i) == ("FIREJAIL_PATH")) {
@@ -369,12 +369,12 @@ void WbController::setProcessEnvironment() {
       for (int i = 0; i < iniParser.size(); ++i) {
         const QString &value = iniParser.resolvedValueAt(i, env);
         iniParser.setValue(i, value);
-        if (!iniParser.sectionAt(i).compare("environment variables with relative paths", Qt::CaseInsensitive) ||
-            !iniParser.sectionAt(i).compare("environment variables with paths", Qt::CaseInsensitive))
+        if (iniParser.sectionAt(i) == "environment variables with relative paths" ||
+            iniParser.sectionAt(i) == "environment variables with paths")
           addPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
-        if (!iniParser.sectionAt(i).compare("environment variables", Qt::CaseInsensitive))
+        if (iniParser.sectionAt(i) == "environment variables")
           addEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i));
-        if (!iniParser.sectionAt(i).compare("java", Qt::CaseInsensitive)) {
+        if (iniParser.sectionAt(i) == "java") {
           if (iniParser.keyAt(i) == "COMMAND")
             mJavaCommand = iniParser.valueAt(i);
           else if (iniParser.keyAt(i) == "OPTIONS")
@@ -382,7 +382,7 @@ void WbController::setProcessEnvironment() {
           else
             WbLog::warning(tr("Unknown key: %1 in java section").arg(iniParser.keyAt(i)));
         }
-        if (!iniParser.sectionAt(i).compare("python", Qt::CaseInsensitive)) {
+        if (iniParser.sectionAt(i) == "python") {
           if (iniParser.keyAt(i) == "COMMAND")
             mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, iniParser.valueAt(i));
           else if (iniParser.keyAt(i) == "OPTIONS")
@@ -390,7 +390,7 @@ void WbController::setProcessEnvironment() {
           else
             WbLog::warning(tr("Unknown key: %1 in python section").arg(iniParser.keyAt(i)));
         }
-        if (!iniParser.sectionAt(i).compare("matlab", Qt::CaseInsensitive)) {
+        if (iniParser.sectionAt(i) == "matlab") {
           if (iniParser.keyAt(i) == "COMMAND")
             mMatlabCommand = iniParser.valueAt(i);
           else if (iniParser.keyAt(i) == "OPTIONS")
@@ -399,20 +399,20 @@ void WbController::setProcessEnvironment() {
             WbLog::warning(tr("Unknown key: %1 in matlab section").arg(iniParser.keyAt(i)));
         }
 #ifdef _WIN32
-        if (!iniParser.sectionAt(i).compare("environment variables for Windows", Qt::CaseInsensitive))
+        if (iniParser.sectionAt(i) == "environment variables for windows")
           addPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
 #elif defined(__APPLE__)
-        if (!iniParser.sectionAt(i).compare("environment variables for Mac OS X", Qt::CaseInsensitive) ||
-            !iniParser.sectionAt(i).compare("environment variables for macOS", Qt::CaseInsensitive))
+        if (iniParser.sectionAt(i) == "environment variables for mac os x" ||
+            iniParser.sectionAt(i) == "environment variables for macos")
           addPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
 #else
-        if (!iniParser.sectionAt(i).compare("environment variables for Linux", Qt::CaseInsensitive))
+        if (iniParser.sectionAt(i) == "environment variables for linux")
           addPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
         if (!WbSysInfo::isPointerSize64bits()) {
-          if (!iniParser.sectionAt(i).compare("environment variables for Linux 32", Qt::CaseInsensitive))
+          if (iniParser.sectionAt(i) == "environment variables for linux 32")
             addPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
         } else {
-          if (!iniParser.sectionAt(i).compare("environment variables for Linux 64", Qt::CaseInsensitive))
+          if (iniParser.sectionAt(i) == "environment variables for linux 64")
             addPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
         }
 #endif
