@@ -252,7 +252,8 @@ void WbController::start() {
       else {
         for (int i = 0; i < iniParser.size(); ++i) {
           if (iniParser.sectionAt(i) == "environment variables with relative paths")
-            warn("[environment variables with relative path] is deprecated, please use [environment variables with path] instead");
+            warn(
+              "[environment variables with relative path] is deprecated, please use [environment variables with path] instead");
           if (iniParser.sectionAt(i) == "environment variables with relative paths" ||
               iniParser.sectionAt(i) == "environment variables with paths" ||
               iniParser.sectionAt(i) == "environment variables for linux" ||
@@ -372,7 +373,8 @@ void WbController::setProcessEnvironment() {
         const QString &value = iniParser.resolvedValueAt(i, env);
         iniParser.setValue(i, value);
         if (iniParser.sectionAt(i) == "environment variables with relative paths")
-            warn("[environment variables with relative path] is deprecated, please use [environment variables with path] instead");
+          warn(
+            "[environment variables with relative path] is deprecated, please use [environment variables with path] instead");
         if (iniParser.sectionAt(i) == "environment variables with relative paths" ||
             iniParser.sectionAt(i) == "environment variables with paths")
           addPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
