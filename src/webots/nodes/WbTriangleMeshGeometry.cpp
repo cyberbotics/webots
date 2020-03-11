@@ -601,7 +601,9 @@ void WbTriangleMeshGeometry::exportNodeContents(WbVrmlWriter &writer) const {
     }
   }
 
-  findField("solid", true)->write(writer);
+  const WbField *solidField = findField("solid", true);
+  if (solidField)
+    solidField->write(writer);
 
   if (mTriangleMesh && !mTriangleMesh->areTextureCoordinatesValid())
     // notify three.js if a default mapping is used to prevent issue https://github.com/cyberbotics/webots/issues/752
