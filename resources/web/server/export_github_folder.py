@@ -71,7 +71,8 @@ if folder:
 command = 'svn -q export ' + url
 path = os.getcwd()
 os.chdir(args.output)
-os.system(command)
+if not os.system(command) == 0:
+    sys.exit('Cannot execute ' + command)
 if branch == 'master' and folder == '':
     os.rename('trunk', repository)
 os.chdir(path)
