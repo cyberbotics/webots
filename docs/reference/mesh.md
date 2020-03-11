@@ -1,7 +1,7 @@
 ## Mesh
 
 ```
-IndexedFaceSet {
+Mesh {
   field MFString url [ ]
 }
 ```

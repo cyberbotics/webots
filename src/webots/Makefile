@@ -439,7 +439,7 @@ QT_SOURCES += \
   WbTranslateRotateManipulator.cpp \
   WbTreeItem.cpp \
   WbTreeView.cpp \
-	WbTriangleMeshGeometry.cpp \
+  WbTriangleMeshGeometry.cpp \
   WbUndoStack.cpp \
   WbValue.cpp \
   WbValueEditor.cpp \
