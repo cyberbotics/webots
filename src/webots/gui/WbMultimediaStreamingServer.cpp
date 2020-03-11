@@ -56,7 +56,7 @@ void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUr
 
   static const QByteArray &contentType = ("HTTP/1.0 200 OK\r\nServer: Webots\r\nConnection: close\r\nMax-Age: 0\r\n"
                                           "Expires: 0\r\nCache-Control: no-cache, private\r\nPragma: no-cache\r\n"
-                                          "Content-Type: multipart/x-mixed-replace; boundary=--WebotsFrame\r\n\r\n");
+                                          "Content-Type: multipart/x-mixed-replace; boundary=WebotsFrame\r\n\r\n");
   socket->write(contentType);
   connect(socket, &QTcpSocket::disconnected, this, &WbMultimediaStreamingServer::removeTcpClient);
   mTcpClients.append(socket);
@@ -94,6 +94,8 @@ void WbMultimediaStreamingServer::sendImage(const QImage &image) {
   image.save(&bufferJpeg, "JPG");
 
   sendLastImage();
+  if (WbSimulationState::instance()->isPaused())
+    sendLastImage();
   mUpdateTimer.restart();
 }
 
@@ -111,7 +113,7 @@ void WbMultimediaStreamingServer::sendLastImage(QTcpSocket *client) {
   foreach (QTcpSocket *client, mTcpClients) {
     client->write(boundaryString);
     client->write(mSceneImage);
-    client->write(QByteArray("\r\n--WebotsFrame\r\n\r\n"));
+    client->write(QByteArray("\r\n"));
     client->flush();
   }
 }
