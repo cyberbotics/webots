@@ -1891,7 +1891,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
   // - LEFT CLICK  -> move the selected solid along horizontal plane
   // - RIGHT CLICK -> rotate the selected solid around world vertical axis
   // - MID CLICK   -> lift the selected solid
-  if (shift) {
+  if (shift && !mIsRemoteMouseEvent) {
     selectNode(event);
     const WbSelection *const selection = WbSelection::instance();
     if (!selection->isObjectMotionAllowed())
@@ -1917,7 +1917,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
       else
         mDragVerticalAxisRotate = new WbDragRotateAroundWorldVerticalAxisEvent(position, viewpoint, uppermostTransform);
     }
-  } else if (alt) {  // Case 2: ALT and CLICK -> add a force / torque to the selected solid
+  } else if (alt && !mIsRemoteMouseEvent) {  // Case 2: ALT and CLICK -> add a force / torque to the selected solid
     WbSolid *const selectedSolid = dynamic_cast<WbSolid *>(mPickedMatter);
     if (!selectedSolid || selectedSolid->bodyMerger() == NULL)
       return;
