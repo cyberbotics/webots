@@ -175,6 +175,10 @@ void WbController::updateName(const QString &name) {
   mPrefix = QString("[%1] ").arg(mName);
 }
 
+void WbController::resetRequestTime() {
+  mRequestTime = WbSimulationState::instance()->time();
+}
+
 bool WbController::isRunning() const {
   return mRobot->isControllerStarted() && !mHasBeenTerminatedByItself;
 }
