@@ -8,12 +8,20 @@ WEBOTS_VERSION = getenv('WEBOTS_VERSION');
 if isempty(WEBOTS_CONTROLLER_NAME)
   disp('Entering test mode (normally launcher.m should be called by Webots, not from the MATLAB command line)');
   disp(['Using MATLAB R' version('-release')]);
-  cd('../../..');
-  WEBOTS_HOME = pwd;
+  if isempty(WEBOTS_HOME)
+    cd('../../..');
+    WEBOTS_HOME = pwd;
+  else
+    cd(WEBOTS_HOME)
+  end
   [status, cmdout] = system('msys64/mingw64/bin/webots.exe --version');
-  WEBOTS_VERSION = strrep(cmdout(17:end-1),'.','_');
-  cd('lib/controller/matlab');
-  disp(['Using Webots ' strrep(WEBOTS_VERSION,'_','.') ' from ' pwd ])
+  k = strfind(cmdout, ' Nightly Build ');
+  if isempty(k)
+    WEBOTS_VERSION = strrep(cmdout(17:end-1),'.','_');
+  else
+    WEBOTS_VERSION = strrep(cmdout(17:k(1)-1),'.','_');
+  end
+  disp(['Using Webots ' strrep(WEBOTS_VERSION,'_','.') ' from ' pwd ]);
   test_mode = true;
 else
   test_mode = false;
