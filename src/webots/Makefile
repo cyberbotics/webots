@@ -85,7 +85,7 @@ QT_WEBSOCKETS_INCLUDE = -isystem $(FRAMEWORKS)/QtWebSockets.framework/Headers
 QT_XML_INCLUDE     = -isystem $(FRAMEWORKS)/QtXml.framework/Headers
 FREETYPE_INCLUDE   = -I$(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/include
 GLU_INCLUDE        = -I$(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/include
-ASSIMP_INCLUDE     = -I$(WEBOTS_DEPENDENCY_PATH)/assimp/include -I$(WEBOTS_DEPENDENCY_PATH)/assimp/build/include
+ASSIMP_INCLUDE     = -I$(WEBOTS_DEPENDENCY_PATH)/assimp/include
 LD_FLAGS           = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -L$(WEBOTS_LIB_PATH) -lopenal -lOIS -lcrypto -lpico -llua -lassimp -Xlinker -rpath -Xlinker @loader_path/../..
 MOC                =  $(WEBOTS_PATH)/bin/qt/moc
 LIBS_FRAMEWORKS    = -F$(FRAMEWORKS) -framework OpenGL -framework QtCore -framework QtGui -framework QtPrintSupport -framework QtNetwork -framework QtOpenGL -framework QtWebSockets -framework QtWidgets -framework QtWebChannel -framework QtWebEngine -framework QtWebEngineCore -framework QtWebEngineWidgets  -framework QtXml -framework IOKit -framework CoreFoundation -framework Cocoa
