@@ -87,7 +87,6 @@ void WbTriangleMeshGeometry::preFinalize() {
 
 void WbTriangleMeshGeometry::postFinalize() {
   WbGeometry::postFinalize();
-  // connect(mCreaseAngle, &WbSFDouble::changed, this, &WbTriangleMeshGeometry::updateCreaseAngle);
 }
 
 WbTriangleMeshCache::TriangleMeshInfo WbTriangleMeshGeometry::createTriangleMesh() {
