@@ -1496,7 +1496,7 @@ void WbView3D::selectNode(const QMouseEvent *event) {
 
   if (isContextMenuShortcut(event) && event->type() == QEvent::MouseButtonRelease) {
     if (mIsRemoteMouseEvent)
-      mRemoteContextMenuMatter = mPickedMatter;
+      mRemoteContextMenuMatter = selectedMatter;
     else
       emit contextMenuRequested(event->globalPos());
   }

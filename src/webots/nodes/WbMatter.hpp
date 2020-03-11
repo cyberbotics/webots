@@ -72,12 +72,14 @@ public:
   void forwardJerk() override { mNeedToHandleJerk = true; }
 
   // selection
-  void select(bool s);
+  void select(bool selected);
   bool isSelected() const { return mSelected; }
   bool isLocked() const { return mLocked->value(); }
 
   // ODE positioning
   void updateOdeGeomPosition() { updateOdeGeomPosition(odeGeom()); }
+
+  static void enableShowMatterCenter(bool enabled) { cShowMatterCenter = enabled; }
 
 signals:
   void matterNameChanged();
@@ -172,6 +174,8 @@ private:
   WrStaticMesh *mMatterCenterMesh;
 
   void connectNameUpdates() const;
+
+  static bool cShowMatterCenter;
 
 private slots:
   virtual void updateBoundingObject() = 0;

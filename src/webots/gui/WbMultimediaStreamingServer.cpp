@@ -30,6 +30,10 @@
 
 static WbView3D *gView3D = NULL;
 
+WbMultimediaStreamingServer::WbMultimediaStreamingServer() : WbStreamingServer(), mImageWidth(-1), mImageHeight(-1) {
+  WbMatter::enableShowMatterCenter(false);
+}
+
 WbMultimediaStreamingServer::~WbMultimediaStreamingServer() {
   mTcpClients.clear();
 }

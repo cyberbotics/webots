@@ -54,6 +54,8 @@
 
 #include <QtCore/QStringList>
 
+bool WbMatter::cShowMatterCenter = false;
+
 void WbMatter::init() {
   // Flags
   mBoundingObjectHasChanged = false;
@@ -699,14 +701,16 @@ WbBaseNode *WbMatter::boundingObject() const {
 }
 
 // Selection management
-void WbMatter::select(bool s) {
-  if (mSelected == s)
+void WbMatter::select(bool selected) {
+  if (mSelected == selected)
     return;
 
-  mSelected = s;
-  propagateSelection(s);
-  applyVisibilityFlagsToWren(s);
-  applyChangesToWren();
+  mSelected = selected;
+  propagateSelection(selected);
+  if (!mSelected || cShowMatterCenter) {
+    applyVisibilityFlagsToWren(selected);
+    applyChangesToWren();
+  }
 }
 
 // Method that checks the validity of a boundingObject
