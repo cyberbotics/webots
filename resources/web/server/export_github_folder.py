@@ -22,17 +22,17 @@ import sys
 
 
 def main():
-    """Checkout a Webots project from a github repository."""
+    """Export a folder from a public github repository."""
     # The URL is provided as the argument of this script
     # It takes the form https://github.com/my_username/my_project_name/tree/my_tag_or_branch[/my_path]
     # If no path is provided, the project is assumed to be located at the root level of the repository.
     # If no /tree/ component is provided, the /tree/master branch is assumed
-    # subversion is used to export the requested github folder
+    # subversion (svn) is used to export the requested github folder efficiently.
 
 
-parser = argparse.ArgumentParser(description='Export a github repository.')
+parser = argparse.ArgumentParser(description='Export a folder from a public github repository.')
 parser.add_argument('-v', '--version', action='version', version='1.0')
-parser.add_argument('--url', required=True, help='url of the github repository to export, for example: ' +
+parser.add_argument('--url', required=True, help='url of the github folder to export, for example: ' +
                     'https://github.com/user/repo/tree/master/folder')
 parser.add_argument('--output', default='.', help='output folder, default to current folder')
 parser.add_argument('--tag', action='store_true', help='the url refers to a tag and not a branch')
@@ -68,7 +68,7 @@ else:
     url += 'branches/' + branch
 if folder:
     url += '/' + folder
-command = 'svn export ' + url
+command = 'svn -q export ' + url
 path = os.getcwd()
 os.chdir(args.output)
 os.system(command)
