@@ -488,9 +488,6 @@ The Webots "runtime.ini" supports 7 sections:
     added on every platform. On Windows, colons will be replaced by semicolon and
     slash will be replaced by backslash according to the Windows syntax.
 
-    **NOTE**: The legacy form of this section was ```[environment variables with relative path]```.
-    You are encouraged to follow the new notation, though the backward compability is kept.
-
 - `[environment variables]`
 
     Environment variables defined in this section will also be added to the

@@ -254,10 +254,10 @@ void WbController::start() {
           if (iniParser.sectionAt(i) == "environment variables with relative paths")
             warn(
               "[environment variables with relative path] is deprecated, please use [environment variables with path] instead");
-          if (iniParser.sectionAt(i) == "environment variables with relative paths" ||
-              iniParser.sectionAt(i) == "environment variables with paths" ||
-              iniParser.sectionAt(i) == "environment variables for linux" ||
-              iniParser.sectionAt(i) == "environment variables for linux 64")
+          if (iniParser.sectionAt(i) != "environment variables with relative paths" &&
+              iniParser.sectionAt(i) != "environment variables with paths" &&
+              iniParser.sectionAt(i) != "environment variables for linux" &&
+              iniParser.sectionAt(i) != "environment variables for linux 64")
             continue;
 
           if (iniParser.keyAt(i) == ("WEBOTS_LIBRARY_PATH") || iniParser.keyAt(i) == ("FIREJAIL_PATH")) {
