@@ -145,7 +145,7 @@ void WbIndexedLineSet::reset() {
 
 int WbIndexedLineSet::computeCoordsData(float *data) {
   WbMFInt::Iterator it(*mCoordIndex);
-  if (it.hasNext() == 0)
+  if (!it.hasNext())
     return 0;
   int i = it.next();
   int count = 0;
