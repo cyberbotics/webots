@@ -1,4 +1,4 @@
-/* global THREE, Selector, TextureLoader, Viewpoint */
+/* global webots, THREE, Selector, TextureLoader, Viewpoint */
 /* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToColor, horizontalToVerticalFieldOfView */
 /* global createDefaultGeometry, createDefaultMaterial */
 'use strict';
@@ -447,6 +447,62 @@ class X3dScene { // eslint-disable-line no-unused-vars
         windows.push([node.userData.name, node.userData.window]);
     });
     return windows;
+  }
+
+  processServerMessage(data, view) {
+    if (data.startsWith('application/json:')) {
+      if (typeof view.time !== 'undefined') { // otherwise ignore late updates until the scene loading is completed
+        data = data.substring(data.indexOf(':') + 1);
+        var frame = JSON.parse(data);
+        view.time = frame.time;
+        $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(frame.time));
+        if (frame.hasOwnProperty('poses')) {
+          for (let i = 0; i < frame.poses.length; i++)
+            this.applyPose(frame.poses[i]);
+        }
+        if (this.viewpoint.updateViewpointPosition(null, view.time))
+          this.viewpoint.notifyCameraParametersChanged(false);
+        this.onSceneUpdate();
+      }
+    } else if (data.startsWith('node:')) {
+      data = data.substring(data.indexOf(':') + 1);
+      var parentId = data.split(':')[0];
+      data = data.substring(data.indexOf(':') + 1);
+      this.loadObject(data, parentId);
+    } else if (data.startsWith('delete:')) {
+      data = data.substring(data.indexOf(':') + 1).trim();
+      this.deleteObject(data);
+    } else if (data.startsWith('model:')) {
+      $('#webotsProgressMessage').html('Loading 3D scene...');
+      $('#webotsProgressPercent').html('');
+      this.destroyWorld();
+      view.removeLabels();
+      data = data.substring(data.indexOf(':') + 1).trim();
+      if (!data) // received an empty model case: just destroy the view
+        return true;
+      this.loadObject(data);
+    } else if (data.startsWith('label')) {
+      var semiColon = data.indexOf(';');
+      var id = data.substring(data.indexOf(':'), semiColon);
+      var previousSemiColon;
+      var labelProperties = []; // ['font', 'color', 'size', 'x', 'y', 'text']
+      for (let i = 0; i < 5; i++) {
+        previousSemiColon = semiColon + 1;
+        semiColon = data.indexOf(';', previousSemiColon);
+        labelProperties.push(data.substring(previousSemiColon, semiColon));
+      }
+      view.setLabel({
+        id: id,
+        text: data.substring(semiColon + 1, data.length),
+        font: labelProperties[0],
+        color: labelProperties[1],
+        size: labelProperties[2],
+        x: labelProperties[3],
+        y: labelProperties[4]
+      });
+    } else
+      return false;
+    return true;
   }
 
   // private functions

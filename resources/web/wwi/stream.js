@@ -28,7 +28,7 @@ class Stream { // eslint-disable-line no-unused-vars
 
   onSocketOpen(event) {
     var mode = this.view.mode;
-    if (mode === 'video')
+    if (mode === 'mjpeg')
       mode += ': ' + this.view.view3D.offsetWidth + 'x' + (this.view.view3D.offsetHeight - 48); // TODO subtract toolbar height
     else if (this.view.broadcast)
       mode += ';broadcast';
@@ -70,37 +70,6 @@ class Stream { // eslint-disable-line no-unused-vars
           this.view.onrobotmessage(robot, message);
         }
       }
-    } else if (data.startsWith('application/json:')) {
-      if (typeof this.view.time !== 'undefined') { // otherwise ignore late updates until the scene loading is completed
-        data = data.substring(data.indexOf(':') + 1);
-        var frame = JSON.parse(data);
-        this.view.time = frame.time;
-        $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(frame.time));
-        if (frame.hasOwnProperty('poses')) {
-          for (i = 0; i < frame.poses.length; i++)
-            this.view.x3dScene.applyPose(frame.poses[i]);
-        }
-        if (this.view.x3dScene.viewpoint.updateViewpointPosition(null, this.view.time))
-          this.view.x3dScene.viewpoint.notifyCameraParametersChanged(false);
-        this.view.x3dScene.onSceneUpdate();
-      }
-    } else if (data.startsWith('node:')) {
-      data = data.substring(data.indexOf(':') + 1);
-      var parentId = data.split(':')[0];
-      data = data.substring(data.indexOf(':') + 1);
-      this.view.x3dScene.loadObject(data, parentId);
-    } else if (data.startsWith('delete:')) {
-      data = data.substring(data.indexOf(':') + 1).trim();
-      this.view.x3dScene.deleteObject(data);
-    } else if (data.startsWith('model:')) {
-      $('#webotsProgressMessage').html('Loading 3D scene...');
-      $('#webotsProgressPercent').html('');
-      this.view.destroyWorld();
-      data = data.substring(data.indexOf(':') + 1).trim();
-      if (!data) // received an empty model case: just destroy the view
-        return;
-      if (this.view.x3dScene)
-        this.view.x3dScene.loadObject(data);
     } else if (data.startsWith('world:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
       var currentWorld = data.substring(0, data.indexOf(':')).trim();
@@ -146,57 +115,17 @@ class Stream { // eslint-disable-line no-unused-vars
       this.view.resetSimulation();
       if (typeof this.onready === 'function')
         this.onready();
-    } else if (data.startsWith('label')) {
-      var semiColon = data.indexOf(';');
-      var id = data.substring(data.indexOf(':'), semiColon);
-      var previousSemiColon;
-      var labelProperties = []; // ['font', 'color', 'size', 'x', 'y', 'text']
-      for (i = 0; i < 5; i++) {
-        previousSemiColon = semiColon + 1;
-        semiColon = data.indexOf(';', previousSemiColon);
-        labelProperties.push(data.substring(previousSemiColon, semiColon));
-      }
-      this.view.setLabel({
-        id: id,
-        text: data.substring(semiColon + 1, data.length),
-        font: labelProperties[0],
-        color: labelProperties[1],
-        size: labelProperties[2],
-        x: labelProperties[3],
-        y: labelProperties[4]
-      });
-    } else if (data.startsWith('video: ')) {
-      let list = data.split(' ');
-      let httpUrl = this.wsServer.replace('ws', 'http');
-      let url = httpUrl + list[1];
-      this.view.toolBar.setMode(list[2]);
-      this.view.video.domElement.src = url;
-      this.view.video.resize(list[3], list[4]);
-      console.log('Video streamed on ' + url);
     } else if (data.startsWith('time: ')) {
       this.view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
       $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(this.view.time));
-    } else if (data.startsWith('robot window: ')) {
-      let robotInfo = data.substring(data.indexOf(':') + 1).trim();
-      let separatorIndex = robotInfo.indexOf(':');
-      let nameSize = parseFloat(robotInfo.substring(0, separatorIndex));
-      let robotName = robotInfo.substring(separatorIndex + 1, nameSize + separatorIndex + 1);
-      let windowName = robotInfo.substring(separatorIndex + nameSize + 2);
-      this.view.video.setRobotWindow(robotName, windowName);
-    } else if (data.startsWith('world info: ')) {
-      // world info: <name size>:<info window name>:<world title>
-      let info = data.substring(data.indexOf(':') + 1).trim();
-      let separatorIndex = info.indexOf(':');
-      let nameSize = parseFloat(info.substring(0, separatorIndex));
-      let infoWindowName = info.substring(separatorIndex + 1, nameSize + separatorIndex + 1);
-      let title = info.substring(separatorIndex + nameSize + 2);
-      this.view.video.setWorldInfo(title, infoWindowName);
-    } else if (data.startsWith('context menu: ')) {
-      if (!this.view.video)
-        return;
-      let info = data.substring(data.indexOf(':') + 1).trim();
-      this.view.video.showContextMenu(JSON.parse(info));
-    } else
-      console.log('WebSocket error: Unknown message received: "' + data + '"');
+    } else {
+      let messagedProcessed = false;
+      if (typeof this.view.multimediaClient !== 'undefined')
+        messagedProcessed = this.view.multimediaClient.processServerMessage(data);
+      else if (typeof this.view.x3dScene !== 'undefined')
+        messagedProcessed = this.view.x3dScene.processServerMessage(data, this.view);
+      if (!messagedProcessed)
+        console.log('WebSocket error: Unknown message received: "' + data + '"');
+    }
   }
 }

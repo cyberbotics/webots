@@ -332,7 +332,7 @@ button::-moz-focus-inner {
   white-space: pre;
 }
 
-#remoteVideo {
+#remoteScene {
   background: white;
   width: 100%;
   height: calc(100% - 48px);
@@ -341,7 +341,7 @@ button::-moz-focus-inner {
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
-  // get rid of whitespace after remoteVideo image
+  // get rid of whitespace after #remoteScene image
   display: block;
   float: left;
 }

@@ -21,7 +21,7 @@
 
 /* global webots */
 /* global Animation, Console, ContextMenu, Editor, MouseEvents, DefaultUrl, RobotWindow, TextureLoader */
-/* global Server, Stream, SystemInfo, Toolbar, Video, X3dScene */
+/* global Server, Stream, SystemInfo, Toolbar, MultimediaClient, X3dScene */
 /* global MathJax: false */
 /* eslint no-eval: "off" */
 
@@ -88,8 +88,8 @@ webots.View = class View {
           return;
         }
         this.x3dScene.resize();
-      } else if (typeof this.video !== 'undefined')
-        this.video.requestNewSize();
+      } else if (typeof this.multimediaClient !== 'undefined')
+        this.multimediaClient.requestNewSize();
     };
     this.ondialogwindow = (opening) => {
       // Pause the simulation if needed when a pop-up dialog window is open
@@ -234,7 +234,7 @@ webots.View = class View {
           if (typeof this.x3dScene !== 'undefined')
             worldInfoTitle = this.x3dScene.worldInfo.title;
           else
-            worldInfoTitle = this.video.worldInfo.title;
+            worldInfoTitle = this.multimediaClient.worldInfo.title;
           win.setProperties({title: worldInfoTitle + user, close: closeInfoWindow});
           this.infoWindow = win;
         } else
@@ -270,9 +270,9 @@ webots.View = class View {
       if (typeof this.x3dScene !== 'undefined') {
         windowsDict = this.x3dScene.getRobotWindows();
         infoWindowName = this.x3dScene.worldInfo.window;
-      } else if (this.video) {
-        windowsDict = this.video.robotWindows;
-        infoWindowName = this.video.worldInfo.infoWindow;
+      } else if (this.multimediaClient) {
+        windowsDict = this.multimediaClient.robotWindows;
+        infoWindowName = this.multimediaClient.worldInfo.infoWindow;
       } else {
         loadFinalize();
         return;
@@ -290,8 +290,8 @@ webots.View = class View {
         // otherwise it will be executed when the last request will be handled.
         loadFinalize();
 
-      if (typeof this.video !== 'undefined')
-        this.video.finalize();
+      if (typeof this.multimediaClient !== 'undefined')
+        this.multimediaClient.finalize();
     };
 
     var loadFinalize = () => {
@@ -341,10 +341,10 @@ webots.View = class View {
       this.contextMenu.isRobotWindowValid = (robotName, setResult) => { setResult(this.robotWindows[this.robotWindowNames[robotName]]); };
     }
 
-    if (mode === 'video') {
+    if (mode === 'mjpeg') {
       this.url = url;
-      this.video = new Video(this, this.view3D, this.contextMenu);
-      this.contextMenu.onFollowObject = (id, mode) => { this.video.setFollowed(id, mode); };
+      this.multimediaClient = new MultimediaClient(this, this.view3D, this.contextMenu);
+      this.contextMenu.onFollowObject = (id, mode) => { this.multimediaClient.setFollowed(id, mode); };
     } else if (typeof this.x3dScene === 'undefined') {
       this.x3dDiv = document.createElement('div');
       this.x3dDiv.className = 'webots3DView';
@@ -371,8 +371,8 @@ webots.View = class View {
   }
 
   close() {
-    if (this.video)
-      this.video.disconnect();
+    if (this.multimediaClient)
+      this.multimediaClient.disconnect();
     if (this.server)
       this.server.socket.close();
     if (this.stream)
