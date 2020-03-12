@@ -1181,7 +1181,7 @@ This function returns a vector containing exactly 6 values.
 The first three are respectively the linear velocities in the x, y and z direction.
 The last three are respectively the angular velocities around the x, y and z axes.
 
-The `wb_supervisor_node_set_velocity` function set the absolute velocity (both linear and angular) of a node expressed in the global (world) coordinate system.
+The `wb_supervisor_node_set_velocity` function sets the absolute velocity (both linear and angular) of a node expressed in the global (world) coordinate system.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), otherwise the function will print a warning message and have no effect.
 The `velocity` argument must be a vector containing exactly 6 values.
 The first three are respectively the linear velocities in the x, y and z direction.
