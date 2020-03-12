@@ -28,21 +28,25 @@ public:
 
 private slots:
   void propagateNodeAddition(WbNode *node) override;
-  void propagateNodeDeletion(WbNode *node);
   void start(int port) override;
   void stop() override;
   void sendUpdatePackageToClients() override;
   void processTextMessage(QString) override;
 
+  void propagateNodeDeletion(WbNode *node);
+  void sendLabelUpdate(const QString &labelDescription);
+
 private:
   void create(int port) override;
   void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) override;
-  void sendWorldToClient(QWebSocket *client) override;
-  void sendWorldStateToClient(QWebSocket *client, const QString &state) const;
-  void startX3dStreaming(QWebSocket *client);
-  void generateX3dWorld();
+  void connectNewRobot(const WbRobot *robot) override;
   bool prepareWorld() override;
   void deleteWorld() override;
+  void sendWorldToClient(QWebSocket *client) override;
+
+  void startX3dStreaming(QWebSocket *client);
+  void generateX3dWorld();
+  void sendWorldStateToClient(QWebSocket *client, const QString &state) const;
 
   QString mX3dWorld;
   QHash<QString, QString> mX3dWorldTextures;

@@ -178,7 +178,7 @@ void WbGuiApplication::parseArguments() {
         if (serverArgument.endsWith('"'))
           serverArgument = serverArgument.left(serverArgument.size() - 1);
       }
-      if (serverArgument.contains("mode=video")) {
+      if (serverArgument.contains("mode=mjpeg")) {
         mStreamingServer = new WbMultimediaStreamingServer();
         mStreamingServer->startFromCommandLine(serverArgument);
       } else {

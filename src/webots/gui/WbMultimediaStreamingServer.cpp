@@ -189,7 +189,7 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
       if (gView3D)
         gView3D->remoteWheelEvent(&wheelEvent);
     }
-  } else if (message.startsWith("video: ")) {
+  } else if (message.startsWith("mjpeg: ")) {
     const QStringList &resolution = message.mid(7).split("x");
     const int width = resolution[0].toInt();
     const int height = resolution[1].toInt();
@@ -203,7 +203,8 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
     } else
       // Video streamer already initialized
       WbLog::info(tr("Streaming server: Ignored new client request of resolution: %1x%2.").arg(width).arg(height));
-    client->sendTextMessage(QString("video: /mjpeg %2 %3 %4").arg(simulationStateString()).arg(mImageWidth).arg(mImageHeight));
+    client->sendTextMessage(
+      QString("multimedia: /mjpeg %2 %3 %4").arg(simulationStateString()).arg(mImageWidth).arg(mImageHeight));
     const QString &stateMessage = simulationStateString();
     if (!stateMessage.isEmpty())
       client->sendTextMessage(stateMessage);

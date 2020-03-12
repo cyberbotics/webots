@@ -514,9 +514,6 @@ void WbStreamingServer::connectNewRobot(const WbRobot *robot) {
         mEditableControllers.append(name);
     }
   }
-  if (robot->supervisor())
-    connect(robot->supervisorUtilities(), &WbSupervisorUtilities::labelChanged, this, &WbStreamingServer::sendLabelUpdate,
-            Qt::UniqueConnection);
 }
 
 bool WbStreamingServer::prepareWorld() {
@@ -622,10 +619,6 @@ void WbStreamingServer::pauseClientIfNeeded(QWebSocket *client) {
   fflush(stdout);
 }
 
-void WbStreamingServer::sendLabelUpdate(const QString &labelDescription) {
-  sendToClients(labelDescription);
-}
-
 void WbStreamingServer::sendWorldToClient(QWebSocket *client) {
   WbWorld *world = WbWorld::instance();
   const QDir dir = QFileInfo(world->fileName()).dir();
@@ -637,11 +630,6 @@ void WbStreamingServer::sendWorldToClient(QWebSocket *client) {
 
   QList<WbRobot *> robots = WbWorld::instance()->robots();
   foreach (const WbRobot *robot, robots) {
-    qDebug() << "robot " << robot->name() << "window" << robot->window();
-    if (robot->supervisor()) {
-      foreach (const QString &label, robot->supervisorUtilities()->labelsState())
-        client->sendTextMessage(label);
-    }
     if (!robot->window().isEmpty()) {
       const QString &robotName = robot->name();
       client->sendTextMessage(QString("robot window: %1:%2:%3").arg(robotName.size()).arg(robotName).arg(robot->window()));

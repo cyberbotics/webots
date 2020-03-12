@@ -170,6 +170,14 @@ void WbX3dStreamingServer::deleteWorld() {
   WbStreamingServer::deleteWorld();
 }
 
+void WbX3dStreamingServer::connectNewRobot(const WbRobot *robot) {
+  WbStreamingServer::connectNewRobot(robot);
+
+  if (robot->supervisor())
+    connect(robot->supervisorUtilities(), &WbSupervisorUtilities::labelChanged, this, &WbX3dStreamingServer::sendLabelUpdate,
+            Qt::UniqueConnection);
+}
+
 void WbX3dStreamingServer::propagateNodeAddition(WbNode *node) {
   if (!isActive() || WbWorld::instance() == NULL)
     return;
@@ -222,9 +230,21 @@ void WbX3dStreamingServer::sendWorldToClient(QWebSocket *client) {
   if (!state.isEmpty())
     sendWorldStateToClient(client, state);
 
+  QList<WbRobot *> robots = WbWorld::instance()->robots();
+  foreach (const WbRobot *robot, robots) {
+    if (robot->supervisor()) {
+      foreach (const QString &label, robot->supervisorUtilities()->labelsState())
+        client->sendTextMessage(label);
+    }
+  }
+
   WbStreamingServer::sendWorldToClient(client);
 }
 
 void WbX3dStreamingServer::sendWorldStateToClient(QWebSocket *client, const QString &state) const {
   client->sendTextMessage(QString("application/json:") + state);
+}
+
+void WbX3dStreamingServer::sendLabelUpdate(const QString &labelDescription) {
+  sendToClients(labelDescription);
 }

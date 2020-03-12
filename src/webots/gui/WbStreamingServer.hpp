@@ -50,19 +50,21 @@ protected slots:
   virtual void sendUpdatePackageToClients();
 
 protected:
-  bool isActive() const { return mWebSocketServer != NULL; }
   virtual void start(int port);
   virtual void create(int port);
   virtual void stop();
+  virtual bool prepareWorld();
+  virtual void connectNewRobot(const WbRobot *robot);
+  virtual void sendWorldToClient(QWebSocket *client);
+  virtual void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) = 0;
+
+  bool isActive() const { return mWebSocketServer != NULL; }
   void destroy();
   void resetSimulation();
-  virtual bool prepareWorld();
   void computeEditableControllers();
-  virtual void sendWorldToClient(QWebSocket *client);
   void sendToClients(const QString &message = "");
   void sendActivityPulse() const;
   void pauseClientIfNeeded(QWebSocket *client);
-  virtual void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) = 0;
 
   QList<QWebSocket *> mWebSocketClients;
   double mPauseTimeout;
@@ -81,7 +83,6 @@ private slots:
   void propagateWebotsLogToClients(WbLog::Level level, const QString &message, bool popup);
   void propagateControllerLogToClients(WbLog::Level level, const QString &message, const QString &prefix, bool popup);
   void propagateSimulationStateChange() const;
-  void sendLabelUpdate(const QString &labelDescription);
   void sendToJavascript(const QByteArray &string);
 
 private:
@@ -92,7 +93,6 @@ private:
   void sendWorldStateToClient(QWebSocket *client, const QString &state);
   void propagateLogToClients(WbLog::Level level, const QString &message);
   bool isControllerMessageIgnored(const QString &pattern, const QString &message) const;
-  void connectNewRobot(const WbRobot *robot);
 
   QWebSocketServer *mWebSocketServer;
   WbStreamingTcpServer *mTcpServer;
