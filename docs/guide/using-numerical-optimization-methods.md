@@ -162,7 +162,8 @@ If this technique is used with Particle Swarm Optimization, then the `optimizer_
 
 #### Using the wb\_supervisor\_world\_reset Function
 
-Similarly to the [`wb_supervisor_world_reload`](../reference/supervisor.md#wb_supervisor_world_reload) function, this function reset the physics simulation but does not restart the controllers.
+Similarly to the [`wb_supervisor_world_reload`](../reference/supervisor.md#wb_supervisor_world_reload) function, this function resets the physics simulation.
+However, it does not restart the controllers.
 The advantage of this function is that it is possible to restart only the desired controllers using the [`wb_supervisor_node_restart_controller`](../reference/supervisor.md#wb_supervisor_node_restart_controller) function, e.g. restart the [Robot](../reference/robot.md) controllers but not the [Supervisor](../reference/supervisor.md) one (which removes the need for saving and restoring the complete state of the optimization algorithm).
 
 #### By Starting and Quitting Webots
