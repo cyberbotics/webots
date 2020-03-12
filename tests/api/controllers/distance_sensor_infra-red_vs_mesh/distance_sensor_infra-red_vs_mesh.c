@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
 
   for (i = 0; i < N_DISTANCE_SENSORS; ++i) {
     const double value = wb_distance_sensor_get_value(ds[i]);
-    ts_assert_double_in_delta(value, expected_values[i], 0.01,
+    ts_assert_double_in_delta(value, expected_values[i], 10.0,
                               "Distance sensor '%c' doesn't return the right distance when hitting an object "
                               "(expected = %f, received = %f)",
                               'A' + i, expected_values[i], value);
