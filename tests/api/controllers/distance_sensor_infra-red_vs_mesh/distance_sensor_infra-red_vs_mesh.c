@@ -34,6 +34,9 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
+  for (i = 0; i < N_DISTANCE_SENSORS; ++i)
+    printf("%lf\n", wb_distance_sensor_get_value(ds[i]));
+
   for (i = 0; i < N_DISTANCE_SENSORS; ++i) {
     const double value = wb_distance_sensor_get_value(ds[i]);
     ts_assert_double_in_delta(value, expected_values[i], 10.0,
