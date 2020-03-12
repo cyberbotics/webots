@@ -375,7 +375,9 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
                 tag = int(data['start']['tag']) if 'tag' in data['start'] else 0
                 world = data['start']['world'] if 'world' in data['start'] else ''
                 self.write_message('starting ' + world + ' from ' + url + ' (' + tag + ')')
-                self.start_client()
+                print('starting ' + world + ' from ' + url + ' (' + tag + ')')
+                sys.stdout.flush()
+                # self.start_client()
 
     def on_webots_quit(self):
         """Cleanup websocket connection."""
