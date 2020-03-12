@@ -370,6 +370,12 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
                                 data['reset controller'],
                                 self.request.remote_ip,
                                 client.streaming_server_port))
+            elif 'start' in data:  # checkout a github folder and run a simulation in there
+                url = data['start']['url']
+                tag = int(data['start']['tag']) if 'tag' in data['start'] else 0
+                world = data['start']['world'] if 'world' in data['start'] else ''
+                self.write_message('starting ' + world + ' from ' + url + ' (' + tag + ')')
+                self.start_client()
 
     def on_webots_quit(self):
         """Cleanup websocket connection."""
