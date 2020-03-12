@@ -95,6 +95,9 @@ void WbMultimediaStreamingServer::sendImage(const QImage &image) {
 
   sendLastImage();
   if (WbSimulationState::instance()->isPaused())
+    // force the update on the client side
+    // note that on Firefox it is enough to send the boundary line without image
+    // but this trick doesn't work on Chrome
     sendLastImage();
   mUpdateTimer.restart();
 }
@@ -110,7 +113,7 @@ void WbMultimediaStreamingServer::sendLastImage(QTcpSocket *client) {
     clients << client;
   else
     clients = mTcpClients;
-  foreach (QTcpSocket *client, mTcpClients) {
+  foreach (QTcpSocket *client, clients) {
     client->write(boundaryString);
     client->write(mSceneImage);
     client->write(QByteArray("\r\n"));
@@ -138,6 +141,7 @@ void WbMultimediaStreamingServer::sendContextMenuInfo(const WbMatter *node) {
 void WbMultimediaStreamingServer::processTextMessage(QString message) {
   QWebSocket *client = qobject_cast<QWebSocket *>(sender());
 
+  WbLog::info(message);
   if (message.startsWith("mouse")) {
     int action, button, buttons, x, y, modifiers, wheel;
     QString skip;  // will receive "mouse"
