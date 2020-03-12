@@ -713,6 +713,9 @@ def main():
         nvmlShutdown()
 
 
+if sys.platform == 'win32' and sys.version_info >= (3, 8):
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
 if sys.platform == 'linux2':
     # kill all the existing instances of Webots to avoid conflicts with web socket port
     os.system("killall -q webots-bin")
