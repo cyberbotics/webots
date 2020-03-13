@@ -46,6 +46,7 @@ public:
 
   // import a .wrl file and append its nodes at the end of the current world
   OperationResult importVrml(const QString &filename, int *importedNodesNumber = NULL, bool fromSupervisor = false);
+  OperationResult importExternalModel(const QString &filename);
 
   OperationResult initNewNode(WbNode *newNode, WbNode *parentNode, WbField *field, int newNodeIndex = -1,
                               bool subscribe = false);

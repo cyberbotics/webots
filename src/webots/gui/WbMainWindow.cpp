@@ -1498,12 +1498,16 @@ void WbMainWindow::importVrml() {
   // first time: suggest import in user's home directory
   static QString suggestedPath = QDir::homePath();
 
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Import VRML97"), suggestedPath, tr("VRML97 Files (*.wrl *.WRL)"));
+  QString fileName =
+    QFileDialog::getOpenFileName(this, tr("Import VRML97"), suggestedPath, tr("VRML97 Files (*.wrl *.WRL *.fbx *.blend)"));
   if (!fileName.isEmpty()) {
     // next time: remember last import directory
     suggestedPath = QFileInfo(fileName).path();
 
-    if (WbNodeOperations::instance()->importVrml(fileName) == WbNodeOperations::SUCCESS)
+    // if (WbNodeOperations::instance()->importVrml(fileName) == WbNodeOperations::SUCCESS)
+    //   WbWorld::instance()->setModified();
+
+    if (WbNodeOperations::instance()->importExternalModel(fileName) == WbNodeOperations::SUCCESS)
       WbWorld::instance()->setModified();
 
     mSimulationView->view3D()->refresh();

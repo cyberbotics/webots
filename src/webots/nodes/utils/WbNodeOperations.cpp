@@ -1,3 +1,4 @@
+#include <QtCore/QDebug>
 // Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,6 +35,10 @@
 #include "WbWorld.hpp"
 
 #include <QtCore/QFileInfo>
+
+#include <assimp/postprocess.h>
+#include <assimp/scene.h>
+#include <assimp/Importer.hpp>
 
 #include <cassert>
 
@@ -267,6 +272,125 @@ WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &fi
     *importedNodesNumber = numberOfNodes;
   if (lastBaseNodeCreated && !fromSupervisor)
     WbSelection::instance()->selectNodeFromSceneTree(lastBaseNodeCreated);
+  return result;
+}
+
+void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &referenceFolder) {
+  aiVector3t<float> scaling, position;
+  aiQuaternion rotation;
+  node->mTransformation.Decompose(scaling, rotation, position);
+
+  stream += " Solid { ";
+  stream += QString(" translation %1 %2 %3 ").arg(position[0]).arg(position[1]).arg(position[2]);
+  // TODO: rotation
+  stream += QString(" scale %1 %2 %3 ").arg(scaling[0]).arg(scaling[1]).arg(scaling[2]);
+  stream += QString(" children [");
+  for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
+    const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+    const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+    stream += " DEF SHAPE Shape { ";  // TODO: Handle multi shapes
+    stream += " appearance PBRAppearance { ";
+    // qDebug() << "---------";
+    // qDebug() << material->GetTextureCount(aiTextureType_DIFFUSE);
+    // qDebug() << material->GetTextureCount(aiTextureType_SPECULAR);
+    // qDebug() << material->GetTextureCount(aiTextureType_AMBIENT);
+    // qDebug() << material->GetTextureCount(aiTextureType_EMISSIVE);
+    // qDebug() << material->GetTextureCount(aiTextureType_NORMALS);
+    // qDebug() << material->GetTextureCount(aiTextureType_SHININESS);
+    // qDebug() << material->GetTextureCount(aiTextureType_OPACITY);
+    // qDebug() << material->GetTextureCount(aiTextureType_LIGHTMAP);
+    // qDebug() << material->GetTextureCount(aiTextureType_REFLECTION);
+    // qDebug() << material->GetTextureCount(aiTextureType_UNKNOWN);
+    // for (unsigned int j = 0; j < material->mNumProperties; ++j) {
+    //   qDebug() << material->mProperties[j]->mKey.C_Str() << *((float *)material->mProperties[j]->mData)
+    //            << material->mProperties[j]->mSemantic << material->mProperties[j]->mIndex
+    //            << material->mProperties[j]->mDataLength << material->mProperties[j]->mType;
+    // }
+    if (material->GetTextureCount(aiTextureType_NORMALS) > 0) {
+      aiString path;
+      material->GetTexture(aiTextureType_DIFFUSE, 0, &path);
+      stream += " baseColorMap ImageTexture { ";
+      stream += " url [ ";
+      const QString texturePath = referenceFolder + path.C_Str();  // TODO: need to escape caracters
+      stream += " \"" + texturePath + "\" ";
+      stream += " ] ";
+      stream += " } ";
+    }
+    if (material->GetTextureCount(aiTextureType_NORMALS) > 0) {
+      aiString path;
+      material->GetTexture(aiTextureType_NORMALS, 0, &path);
+      stream += " normalMap ImageTexture { ";
+      stream += " url [ ";
+      const QString texturePath = referenceFolder + path.C_Str();  // TODO: need to escape caracters
+      stream += " \"" + texturePath + "\" ";
+      stream += " ] ";
+      stream += " } ";
+    }
+    stream += " } ";
+    stream += " geometry IndexedFaceSet { ";
+    stream += " coord Coordinate { ";
+    stream += " point [ ";
+    for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
+      const aiVector3D vertice = mesh->mVertices[j];
+      stream += QString(" %1 %2 %3,").arg(vertice[0]).arg(vertice[1]).arg(vertice[2]);
+    }
+    stream += " ]";
+    stream += " } ";
+    if (mesh->HasNormals()) {
+      stream += " normal Normal { ";
+      stream += " vector [ ";
+      for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
+        const aiVector3D normal = mesh->mNormals[j];
+        stream += QString(" %1 %2 %3,").arg(normal[0]).arg(normal[1]).arg(normal[2]);
+      }
+      stream += " ]";
+      stream += " } ";
+    }
+    if (mesh->HasTextureCoords(0)) {
+      stream += " texCoord TextureCoordinate { ";
+      stream += " point [ ";
+      for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
+        const aiVector3D texCoord = mesh->mTextureCoords[0][j];
+        stream += QString(" %1 %2,").arg(texCoord[0]).arg(texCoord[1]);
+      }
+      stream += " ]";
+      stream += " } ";
+    }
+    stream += " coordIndex [ ";
+    for (unsigned int j = 0; j < mesh->mNumFaces; ++j) {
+      const aiFace face = mesh->mFaces[j];
+      stream += QString(" %1 %2 %3 -1").arg(face.mIndices[0]).arg(face.mIndices[1]).arg(face.mIndices[2]);
+    }
+    stream += " ]";
+    stream += " } ";
+    stream += " } ";
+  }
+
+  for (unsigned int i = 0; i < node->mNumChildren; ++i)
+    addModelNode(stream, node->mChildren[i], scene, referenceFolder);
+
+  stream += " ] ";
+  if (node->mNumMeshes > 0)
+    stream += " boundingObject USE SHAPE ";
+  stream += " } ";
+}
+
+WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QString &filename) {
+  OperationResult result = FAILURE;
+  Assimp::Importer importer;
+  const aiScene *scene = importer.ReadFile(
+    filename.toStdString().c_str(), aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
+                                      aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph);
+  if (!scene) {
+    WbLog::warning(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
+    return result;
+  }
+
+  QString stream = "";
+  addModelNode(stream, scene->mRootNode, scene, QFileInfo(filename).dir().absolutePath());
+  WbGroup *root = WbWorld::instance()->root();
+  result = importNode(root, root->findField("children"), root->childCount(), QString(), stream);
+
   return result;
 }
 
