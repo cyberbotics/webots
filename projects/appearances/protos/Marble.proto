@@ -2,7 +2,7 @@
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # tags: static
-# A beige marble material-
+# A beige marble material.
 
 PROTO Marble [
   field SFColor colorOverride     1 1 1  # Defines the default color multiplied with the texture color.
