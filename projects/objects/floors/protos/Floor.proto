@@ -11,7 +11,7 @@ PROTO Floor [
   field SFString   contactMaterial "default"              # Is `Solid.contactMaterial`.
   field SFVec2f    size            10 10                  # Defines the size of the floor.
   field SFVec2f    tileSize        0.5 0.5                # Defines the size of texture used for the floor.
-  field SFNode     appearance      ChequeredParquetry {}  # Defines the appearance of the floor.
+  field SFNode     appearance      Parquetry {}           # Defines the appearance of the floor.
 
   # Deprecated in R2019a
   hiddenField MFString   texture  "textures/checkered_parquetry.jpg"

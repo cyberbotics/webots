@@ -1,6 +1,8 @@
 #VRML_SIM R2020a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
+# tags: hidden, static
+# Backward compatibility with the deprecated 'ChequeredParquetry' PROTO (deprecated in Webots R2020a-rev2)
 # A wooden material in a chequered pattern covered with a layer of varnish. Useful with the `Floor` PROTO.
 
 PROTO ChequeredParquetry [
@@ -8,6 +10,7 @@ PROTO ChequeredParquetry [
   field SFFloat IBLStrength      1     # Defines the strength of ambient lighting from the Background node.
 ]
 {
+  %{ io.stderr:write("Deprecated 'ChequeredParquetry' PROTO, please use the 'Parquetry' PROTO instead and select the right type.\n") }%
   PBRAppearance {
     baseColorMap ImageTexture {
       url [

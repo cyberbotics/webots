@@ -325,7 +325,7 @@ PROTO Roundabout [
         Solid {
           children [
             Shape {
-              appearance DEF BORDER_APPEARANCE StonePavement {
+              appearance DEF BORDER_APPEARANCE Pavement {
               }
               geometry DEF LEFT_BORDER_GEOM IndexedFaceSet {
                 coord Coordinate {
