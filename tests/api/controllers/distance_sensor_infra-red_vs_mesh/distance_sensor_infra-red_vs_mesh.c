@@ -16,9 +16,8 @@
 
 #define NO_OBSTACLE 1000.0
 
-const double expected_values[N_DISTANCE_SENSORS] = {
-  NO_OBSTACLE, 717.74, 384.29, 87.68,  NO_OBSTACLE, NO_OBSTACLE, NO_OBSTACLE, NO_OBSTACLE, NO_OBSTACLE, NO_OBSTACLE,
-  653.52,      413.15, 476.33, 770.60, NO_OBSTACLE, 714.71,      420.45,      458.82,      699.19,      NO_OBSTACLE};
+const bool expected_detection[N_DISTANCE_SENSORS] = {true,  false, false, false, true, true,  true,  true,  true,  true,
+                                                     false, false, false, false, true, false, false, false, false, true};
 
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
@@ -34,19 +33,10 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  double dsV[N_DISTANCE_SENSORS];
-
-  for (i = 0; i < N_DISTANCE_SENSORS; ++i)
-    dsV[i] = wb_distance_sensor_get_value(ds[i]);
-
   for (i = 0; i < N_DISTANCE_SENSORS; ++i) {
-    const double value = wb_distance_sensor_get_value(ds[i]);
-    ts_assert_double_in_delta(
-      value, expected_values[i], 10.0,
-      "Distance sensor '%c' doesn't return the right distance when hitting an object "
-      "(expected = %f, received = %f) %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf ",
-      'A' + i, expected_values[i], value, dsV[0], dsV[1], dsV[2], dsV[3], dsV[4], dsV[5], dsV[6], dsV[7], dsV[8], dsV[9],
-      dsV[10], dsV[11], dsV[12], dsV[13], dsV[14], dsV[15], dsV[16], dsV[17], dsV[18], dsV[19]);
+    const bool detection = wb_distance_sensor_get_value(ds[i]) < NO_OBSTACLE;
+    ts_assert_boolean_equal(detection != expected_detection[i],
+                            "Distance sensor '%c' doesn't return the right distance when hitting an object", 'A' + i);
   }
 
   wb_robot_step(TIME_STEP);
