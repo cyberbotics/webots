@@ -15,7 +15,7 @@ Released on XXX.
     - Added a `staticBase` field to the `Irb4600-40` PROTO node.
     - Added a `--node-name` argument to the ROS controller of the Universal Robots UR3e, UR5e and UR10e for multi robot simulations.
     - Removed the ROS libraries from the default controllers path to avoid possible conflicts with other libraries (thanks to PymZoR).
-    - Geometry node now displays its triangles count
+    - [Geometry](geometry.md) node now displays its triangles count in the node editor.
   - Dependency Updates
     - Upgraded to Qt 5.14.1 on Windows.
   - Bug fixes
