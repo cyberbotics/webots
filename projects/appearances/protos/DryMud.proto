@@ -4,36 +4,27 @@
 # A dry mud material with cracks.
 
 PROTO DryMud [
-  field SFString{"cracked", "dry"} type             "cracked" # Defines the mud type.
-  field SFNode                     textureTransform NULL      # Defines an optional 2d texture transform.
-  field SFFloat                    IBLStrength      1         # Defines the strength of ambient lighting from the Background node.
+  field SFNode  textureTransform NULL  # Defines an optional 2d texture transform.
+  field SFFloat IBLStrength      1     # Defines the strength of ambient lighting from the Background node.
 ]
 {
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        %{= "\"textures/dry_mud/" .. fields.type.value .. "_mud_base_color.jpg\"" }%
+        "textures/dry_mud/dry_mud_base_color.jpg"
       ]
     }
-    roughness 1
-    %{ if fields.type.value == "dry" then }%
-    roughnessMap ImageTexture {
-      url [
-        %{= "\"textures/dry_mud/" .. fields.type.value .. "_mud_roughness.jpg\"" }%
-      ]
-    }
-    %{ end }%
+    roughness 0.8
     metalness 0
     normalMap ImageTexture {
       url [
-        %{= "\"textures/dry_mud/" .. fields.type.value .. "_mud_normal.jpg\"" }%
+        "textures/dry_mud/dry_mud_normal.jpg"
       ]
     }
-    normalMapFactor 0.2
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        %{= "\"textures/dry_mud/" .. fields.type.value .. "_mud_occlusion.jpg\"" }%
+        "textures/dry_mud/dry_mud_occlusion.jpg"
       ]
     }
     textureTransform IS textureTransform
