@@ -146,9 +146,9 @@ void WbNodeEditor::update() {
     mStackedWidget->setCurrentIndex(EMPTY_PANE);
 
   const WbGeometry *node = dynamic_cast<WbGeometry *>(mNode);
-  if (node && !node->isUseNode()) {
+  if (node && !node->isUseNode())
     mNbTriangles->setText(tr("Triangle count: %1").arg(node->triangleCount()));
-  } else
+  else
     mNbTriangles->clear();
 }
 
