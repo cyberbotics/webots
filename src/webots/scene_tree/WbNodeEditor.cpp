@@ -147,7 +147,7 @@ void WbNodeEditor::update() {
 
   WbGeometry *node = dynamic_cast<WbGeometry *>(mNode);
   if (node && !node->isUseNode()) {
-    mNbTriangles->setText(tr("Triangle(s) count: %1").arg(node->triangleCount()));
+    mNbTriangles->setText(tr("Triangle count: %1").arg(node->triangleCount()));
   } else
     mNbTriangles->clear();
 }
