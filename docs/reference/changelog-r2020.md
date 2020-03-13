@@ -15,6 +15,7 @@ Released on XXX.
     - Added a `staticBase` field to the `Irb4600-40` PROTO node.
     - Added a `--node-name` argument to the ROS controller of the Universal Robots UR3e, UR5e and UR10e for multi robot simulations.
     - Removed the ROS libraries from the default controllers path to avoid possible conflicts with other libraries (thanks to PymZoR).
+    - Geometry node now displays its triangles count
   - Dependency Updates
     - Upgraded to Qt 5.14.1 on Windows.
   - Bug fixes
@@ -96,7 +97,6 @@ Released on December 18th, 2019.
       - Added the pi-puck extension.
       - Fixed [DistanceSensor](distancesensor.md) noise calibration.
       - Improved the meshes and appearances.
-    - Geometry node now displays its triangles count
   - Bug fixes
     - Fixed the [`wb_supervisor_node_reset_physics()`](supervisor.md#wb_supervisor_node_reset_physics) and [`wb_supervisor_simulation_reset_physics()`](supervisor.md#wb_supervisor_simulation_reset_physics) functions when applied on dynamic objects (in motion and containing joints).
     - Fixed [Lidar](lidar.md) point cloud access in controllers (thanks to Alexander).
