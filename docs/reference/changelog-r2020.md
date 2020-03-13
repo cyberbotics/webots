@@ -22,6 +22,7 @@ Released on XXX.
     - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images.
     - Fixed the TurtleBot3Burger robot maximum velocity (thanks to Dorteel).
     - Fixed the TurtleBot3Burger robot center of mass (thanks to Nitrow).
+    - Fixed crash when resetting worlds with motorized [BallJoint](balljoint.md) nodes (thanks to lordNil).
     - Fixed addition of PROTO nodes including a [Connector](connector.md) node from the Add Node dialog (thanks to Acwok).
     - Fixed the [`wb_display_image_load`](display.md#wb_display_image_load) function when used with a PNG image with transparency.
     - Fixed color of the bounding objects remaining in the collision state if the collision was lasting only one step (thanks to Acwok).
