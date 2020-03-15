@@ -1,0 +1,27 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+  info [
+    "Example use of a Supervisor to turn around a robot keeping the ViewPoint oriented toward him."
+  ]
+  title "Supervisor Programming"
+}
+Viewpoint {
+  orientation 1 0 0 4.71238898038469
+  position 0 5 0
+}
+TexturedBackground {
+  texture "factory"
+}
+RectangleArena {
+  floorSize 3 3
+  floorTileSize 1 1
+}
+Robot {
+  translation 0.1 0 0.1
+  controller "rotative_camera"
+  supervisor TRUE
+}
+Nao {
+  translation -1 0.334 -1
+  controller "void"
+}
