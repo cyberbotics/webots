@@ -19,7 +19,6 @@
 #include <webots/robot.h>
 #include <webots/supervisor.h>
 
-#define ANGLE_REV (2 * M_PI)
 #define CW  0
 #define CCW 1
 #define UP 0
@@ -57,11 +56,11 @@ static void revolving_view(double *robot_position, int rotation_direction, int v
 
   while (k < n_turn) { // Start at angle 0 and end at angle n_turn * 2 * PI.
 
-    if (fabs(angle_end - ANGLE_REV) > 1e-6) {
+    if (fabs(angle_end - (2 * M_PI)) > 1e-6) {
       if (angle >= angle_end)
         break;
     }
-    if (angle >= ANGLE_REV) { // made a revolution
+    if (angle >= (2 * M_PI)) { // made a revolution
       angle = 0.0;
       k += 1;
     }
