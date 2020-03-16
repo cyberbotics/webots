@@ -26,40 +26,40 @@
 #define UP 0
 #define DOWN 1
 
-WbNodeRef root, nodes;
-WbNodeRef nodeViewPoint;
-WbNodeRef nodeRobot;
+static WbNodeRef root, nodes;
+static WbNodeRef viewpoint;
+static WbNodeRef robot;
 
 WbFieldRef children;
-WbFieldRef fieldViewPointPos;
-WbFieldRef fieldViewPointOrient;
-WbFieldRef fieldRobotTranslation;
+WbFieldRef viewpoint_position;
+WbFieldRef viewpoint_orientation;
+WbFieldRef robot_translation;
 
 // The viewpoint revolves around the robot following a circle trajectory
-//  o robotPos : Specifies the robot position.
-//  o direction : CW (Turn ClockWise, default) or CCW (turn CounterClockWise).
-//  o nTurn : Make the number of complet revolution defined.
-//  o radius : Set the distance between the robot and the camera.
-//  o heightStep : Height achieved during a complet revolution.
-//  o angleEnd : Make an arc of a circle. Set to 6.28 for complet revolution.
+//  o robot_position: Specifies the robot position.
+//  o direction: CW (Turn ClockWise, default) or CCW (turn CounterClockWise).
+//  o n_turn: Make the number of complete revolution defined.
+//  o radius: Set the distance between the robot and the camera.
+//  o height_step: Height achieved during a complete revolution.
+//  o angle_end: Make an arc of a circle. Set to 6.28 for complete revolution.
 
-void turningView(double *robotPos, int rotationDirection, int verticalDirection, int nTurn, float radius, float heightStep, double angleEnd) {
+static void revolving_view(double *robot_position, int rotation_direction, int vertical_direction, int n_turn, float radius, float height_step, double angle_end) {
 
-  int k  = 0;
+  int k = 0;
   double angle = 0.0;
-  double angleStep = 0.01;
-  double newPosition[3] = {0.0, 0.0, 0.0};
+  double angle_step = 0.01;
+  double new_position[3] = {0.0, 0.0, 0.0};
   double orientation[4] = {0, 1, 0, 0}; // Front view
 
   // Get Viewpoint node and get the fields "position" and "orientation"
-  nodeViewPoint  = wb_supervisor_field_get_mf_node(children, 1); // Search ViewPoint node
-  fieldViewPointPos = wb_supervisor_node_get_field(nodeViewPoint, "position");
-  fieldViewPointOrient = wb_supervisor_node_get_field(nodeViewPoint, "orientation");
+  viewpoint = wb_supervisor_field_get_mf_node(children, 1); // Search ViewPoint node
+  viewpoint_position = wb_supervisor_node_get_field(viewpoint, "position");
+  viewpoint_orientation = wb_supervisor_node_get_field(viewpoint, "orientation");
 
-  while (k < nTurn){ // Start at angle 0 and end at angle nTurn*2*PI.
+  while (k < n_turn){ // Start at angle 0 and end at angle n_turn*2*PI.
 
-    if (fabs(angleEnd - ANGLE_REV)>TOL) {
-      if (angle >= angleEnd) {
+    if (fabs(angle_end - ANGLE_REV)>TOL) {
+      if (angle >= angle_end) {
         break;
       }
     }
@@ -69,23 +69,23 @@ void turningView(double *robotPos, int rotationDirection, int verticalDirection,
     }
 
     // Set new position to ViewPoint node
-    newPosition[0]  = robotPos[0] + radius * sin(angle);
-    if (verticalDirection == UP)
-      newPosition[1] += heightStep/(6.28/angleStep);
+    new_position[0] = robot_position[0] + radius * sin(angle);
+    if (vertical_direction == UP)
+      new_position[1] += height_step/(6.28/angle_step);
     else
-      newPosition[1] -= heightStep/(6.28/angleStep);
-    newPosition[2]  = robotPos[2] + radius * cos(angle);
-    wb_supervisor_field_set_sf_vec3f(fieldViewPointPos, newPosition);
+      new_position[1] -= height_step/(6.28/angle_step);
+    new_position[2] = robot_position[2] + radius * cos(angle);
+    wb_supervisor_field_set_sf_vec3f(viewpoint_position, new_position);
 
     // Set new orientation to ViewPoint node
     orientation[3] = angle;
-    wb_supervisor_field_set_sf_rotation(fieldViewPointOrient, orientation);
+    wb_supervisor_field_set_sf_rotation(viewpoint_orientation, orientation);
 
     // Update the angle value
-    if (rotationDirection == CW)
-      angle += angleStep;
+    if (rotation_direction == CW)
+      angle += angle_step;
     else // CounterClockWise
-      angle -= angleStep;
+      angle -= angle_step;
 
     wb_robot_step(wb_robot_get_basic_time_step()); // wait for 32 milliseconds
   }
@@ -96,12 +96,12 @@ void turningView(double *robotPos, int rotationDirection, int verticalDirection,
 int main(int argc, char *argv[]) {
 
   const double *temp;
-  double robotPos[3] = {0.0, 0.0, 0.0};
+  double robot_position[3] = {0.0, 0.0, 0.0};
 
   // Init and get the scene tree (=root)
   wb_robot_init();
 
-  root     = wb_supervisor_node_get_root();
+  root = wb_supervisor_node_get_root();
   children = wb_supervisor_node_get_field(root, "children");
 
   // Count and display all nodes in the world
@@ -114,12 +114,12 @@ int main(int argc, char *argv[]) {
   printf("\n");
 
   // In Robot node, get the field "translation"
-  nodeRobot = wb_supervisor_field_get_mf_node(children, 5); // Search Robot node
-  fieldRobotTranslation = wb_supervisor_node_get_field(nodeRobot, "translation");
-  temp = wb_supervisor_field_get_sf_vec3f(fieldRobotTranslation);
-  robotPos[0] = temp[0];
-  robotPos[1] = temp[1];
-  robotPos[2] = temp[2];
+  robot = wb_supervisor_field_get_mf_node(children, 5); // Search Robot node
+  robot_translation = wb_supervisor_node_get_field(robot, "translation");
+  temp = wb_supervisor_field_get_sf_vec3f(robot_translation);
+  robot_position[0] = temp[0];
+  robot_position[1] = temp[1];
+  robot_position[2] = temp[2];
 
   printf("Start in 1 second (simulation time)...\n");
   wb_robot_step(1000); /* wait for 2 seconds */
@@ -127,18 +127,18 @@ int main(int argc, char *argv[]) {
   int N = 3;
   float R = 0.7;
   float height = 0.2;
-  float angleEnd = 6.28;
+  float angle_end = 6.28;
 
   // Print information
   printf("\n");
-  printf("Robot.position = %g %g %g\n", robotPos[0], robotPos[1], robotPos[2]);
+  printf("Robot.position = %g %g %g\n", robot_position[0], robot_position[1], robot_position[2]);
   printf("Number of turn: %d\n", N);
   printf("Radius: %f\n", R);
   printf("Height step per revolution: %f\n", height);
-  printf("Angle stop at %f rad\n", angleEnd);
+  printf("Angle stop at %f rad\n", angle_end);
   printf("\n");
 
-  turningView(robotPos, CW, UP, N, R, height, angleEnd);
+  revolving_view(robot_position, CW, UP, N, R, height, angle_end);
 
   wb_robot_cleanup();
   return 0;
