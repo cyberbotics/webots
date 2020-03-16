@@ -61,7 +61,7 @@ static void revolving_view(double *robot_position, int rotation_direction, int v
       if (angle >= angle_end)
         break;
     }
-    if (angle >= ANGLE_REV) { // had make a revolution
+    if (angle >= ANGLE_REV) { // made a revolution
       angle = 0.0;
       k += 1;
     }
