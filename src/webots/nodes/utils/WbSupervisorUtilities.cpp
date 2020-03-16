@@ -194,6 +194,7 @@ public:
     mValue(x, y, z, a) {
     assert((f->type() == WB_SF_ROTATION && dynamic_cast<WbSFRotation *>(f->value()) && index == -1) ||
            (f->type() == WB_MF_ROTATION && dynamic_cast<WbMFRotation *>(f->value()) && index >= 0));
+    mValue.normalize();
   }
   void apply() const override {
     if (mIndex == -1)
