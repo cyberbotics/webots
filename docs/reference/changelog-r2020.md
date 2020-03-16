@@ -34,7 +34,7 @@ Released on XXX.
     - Fixed the ROS controller of the Universal Robots UR3e, UR5e and UR10e to send the success state when a trajectory succeeded (thanks to Tim-Stoll).
     - Fixed the [`wb_supervisor_field_set_sf_rotation`](supervisor.md#wb_supervisor_field_set_sf_rotation) and [`wb_supervisor_field_set_mf_rotation`](supervisor.md#wb_supervisor_field_set_mf_rotation) functions to handle non-normalized rotations.
     - Fixed a crash when trying to add an [IndexedLineSet](indexedlineset.md) node to a geometry's [Shape](shape.md) node with no coordinates.
-    - Fixed a crash related to [IndexedLineSet](indexedlineset.md) node when gravity was null.
+    - Fixed a crash related to [InertialUnit](inertialunit.md) node when gravity was null.
     - Fixed support for MATLAB R2017b on Windows.
 
 ## Webots R2020a Revision 1
