@@ -30,7 +30,7 @@ Released on XXX.
     - Fixed Matlab API.
     - Fixed missing stdout/stderr flush when a controller is changed or restarted while simulation is running (thanks to tsampazk).
     - Fixed the ROS controller of the Universal Robots UR3e, UR5e and UR10e to send the success state when a trajectory succeeded (thanks to Tim-Stoll).
-    - Fxed the [`wb_supervisor_field_set_sf_rotation`](supervisor.md#wb_supervisor_field_set_sf_rotation) and [`wb_supervisor_field_set_mf_rotation`](supervisor.md#wb_supervisor_field_set_mf_rotation) functions to handle non-normalized rotations.
+    - Fixed the [`wb_supervisor_field_set_sf_rotation`](supervisor.md#wb_supervisor_field_set_sf_rotation) and [`wb_supervisor_field_set_mf_rotation`](supervisor.md#wb_supervisor_field_set_mf_rotation) functions to handle non-normalized rotations.
     - Fixed a crash when trying to add an [IndexedLineSet](indexedlineset.md) node to a geometry's [Shape](shape.md) node with no coordinates.
 
 ## Webots R2020a Revision 1
