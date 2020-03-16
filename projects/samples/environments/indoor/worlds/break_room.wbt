@@ -56,19 +56,19 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/light_strip_parquetry_base_color.png"
+        "textures/light_strip_parquetry_base_color.jpg"
       ]
     }
     roughness 1
     roughnessMap ImageTexture {
       url [
-        "textures/light_strip_parquetry_roughness.png"
+        "textures/light_strip_parquetry_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/light_strip_parquetry_normal.png"
+        "textures/light_strip_parquetry_normal.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -84,19 +84,19 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/light_strip_parquetry_base_color.png"
+        "textures/light_strip_parquetry_base_color.jpg"
       ]
     }
     roughness 1
     roughnessMap ImageTexture {
       url [
-        "textures/light_strip_parquetry_roughness.png"
+        "textures/light_strip_parquetry_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/light_strip_parquetry_normal.png"
+        "textures/light_strip_parquetry_normal.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -112,19 +112,19 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/light_strip_parquetry_base_color.png"
+        "textures/light_strip_parquetry_base_color.jpg"
       ]
     }
     roughness 1
     roughnessMap ImageTexture {
       url [
-        "textures/light_strip_parquetry_roughness.png"
+        "textures/light_strip_parquetry_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/light_strip_parquetry_normal.png"
+        "textures/light_strip_parquetry_normal.jpg"
       ]
     }
     textureTransform TextureTransform {
