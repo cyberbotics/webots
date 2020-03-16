@@ -107,7 +107,7 @@ int main(int argc, char *argv[]) {
   }
   printf("\n");
 
-  robot = wb_supervisor_field_get_mf_node(children, 5); // Search Robot node
+  robot = wb_supervisor_field_get_mf_node(children, 5);
   robot_translation = wb_supervisor_node_get_field(robot, "translation");
   temp = wb_supervisor_field_get_sf_vec3f(robot_translation);
   robot_position[0] = temp[0];
