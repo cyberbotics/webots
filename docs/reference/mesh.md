@@ -8,7 +8,7 @@ Mesh {
 
 ### Description
 
-The [Mesh](#mesh) node represents a 3D shape imported from an external file created from a 3D modeling programs.
+The [Mesh](#mesh) node represents a 3D shape imported from an external file created by a 3D modeling software.
 The [Mesh](#mesh) node can be used either as a graphical or as a collision detection primitive (in a boundingObject).
 Currently, the following formats are supported:
   - blend
