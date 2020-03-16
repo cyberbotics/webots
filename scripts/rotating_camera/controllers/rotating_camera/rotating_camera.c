@@ -129,7 +129,6 @@ int main(int argc, char *argv[]) {
   float height = 0.2;
   float angle_end = 6.28;
 
-  // Print information
   printf("\n");
   printf("Robot.position = %g %g %g\n", robot_position[0], robot_position[1], robot_position[2]);
   printf("Number of turn: %d\n", N);
