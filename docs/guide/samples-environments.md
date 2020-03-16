@@ -28,6 +28,25 @@ This means that a robot could open a drawer, leave an object inside it, and clos
 Light objects such as the books on the shelf or the fruits in the basket can be grabbed by a robot.
 An e-puck robot patrols on the table and an iRobot Create robot cleans the ground.
 
+### [break_room.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/environments/indoor/worlds/break_room.wbt)
+
+**Keywords**: Break room, domestic environment, furniture
+
+%figure "Screenshots of the break room environment."
+
+|     |     |
+|:---:|:---:|
+| ![break_room_a.png](images/samples/break_room_a.thumbnail.jpg) | ![break_room_b.png](images/samples/break_room_b.thumbnail.jpg) |
+| ![break_room_c.png](images/samples/break_room_c.thumbnail.jpg) | ![break_room_d.png](images/samples/break_room_d.thumbnail.jpg) |
+
+%end
+
+This example shows a copy of a break room layout using the domestic objects included in Webots.
+These objects are Webots PROTO nodes, and can be easily moved and resized to create other apartment layouts.
+Doors are interactive.
+This means that a robot could open a drawer, leave an object inside it, and close it.
+
+
 ### [complete\_apartment.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/environments/indoor/worlds/complete_apartment.wbt)
 
 **Keywords**: Apartment, household environment, furniture

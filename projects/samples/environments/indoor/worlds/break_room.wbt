@@ -1,26 +1,12 @@
 #VRML_SIM R2020a utf8
 WorldInfo {
   info [
-    "Simulation of the Festo's Robotino 3 robot."
-    "This model includes an accurate and fast simulation of the mecanum wheels."
-    "The robot can be equiped with various lidar sensors and cameras."
-    "The simulation shows a Robotino 3 moving in an industrial environment using a Braitenberg algorithm using the information received by its nine infrared sensors."
-    "It shows a conveyor platform concept too."
+    "Copy of a real break room layout."
+    "This world contains the domestic objects included in Webots."
+    "Doors are interactive."
+    "This means that a robot could open a drawer, leave an object inside it, and close it."
   ]
-  title "Festo's Robotino 3 robot"
-  contactProperties [
-    ContactProperties {
-      material1 "WheelMat"
-      coulombFriction [
-        1.8, 0, 0.2
-      ]
-      frictionRotation 0.9648 0
-      bounce 0
-      forceDependentSlip [
-        10, 0
-      ]
-    }
-  ]
+  title "Break room layout"
 }
 Viewpoint {
   orientation -0.5820406895605077 -0.7607148250601696 -0.28730052319758187 0.9782687143123455
@@ -33,23 +19,6 @@ TexturedBackground {
 }
 TexturedBackgroundLight {
   texture "entrance_hall"
-}
-Robotino3 {
-  translation -1.59 0 0
-  rotation -0.5773509358554485 0.5773509358554485 0.5773489358556708 2.0944
-  bodySlot [
-    Robotino3Platform {
-      extension [
-        ConveyorPlatform {
-        }
-      ]
-    }
-  ]
-}
-WoodenBox {
-  translation -1.77 0.98 0
-  size 0.4 0.15 0.3
-  mass 1
 }
 Floor {
   size 5 5.25
