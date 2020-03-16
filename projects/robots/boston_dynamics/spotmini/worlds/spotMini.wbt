@@ -1,0 +1,52 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+  info [
+    "Atlas sample"
+  ]
+  CFM 1e-07
+  ERP 0.8
+  basicTimeStep 8
+  lineScale 0.25
+}
+Viewpoint {
+  orientation 0.07361490184734419 -0.9880370962153512 -0.13551214974437845 4.208434966505965
+  position 4.007193926491309 2.1969755916188816 -2.1227761648514134
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Atlas {
+}
+Floor {
+  appearance ThreadMetalPlate {
+    textureTransform TextureTransform {
+      scale 0.4 0.4
+    }
+  }
+}
+Wall {
+  translation 0 0 5
+  size 10 3 0.2
+  appearance Roughcast {
+    colorOverride 0.54902 0.54902 0.54902
+    textureTransform TextureTransform {
+      scale 4 2.9
+    }
+  }
+}
+Wall {
+  translation -5 0 0
+  rotation 0 1 0 1.5707996938995747
+  name "wall(1)"
+  size 10 3 0.2
+  appearance Roughcast {
+    colorOverride 0.54902 0.54902 0.54902
+    textureTransform TextureTransform {
+      scale 4 2.9
+    }
+  }
+}
+WoodenPalletStack {
+  translation -4.42 0 4.2
+}
