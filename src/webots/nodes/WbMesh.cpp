@@ -96,15 +96,16 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     totalVertices += scene->mMeshes[i]->mNumVertices;
     totalFaces += scene->mMeshes[i]->mNumFaces;
   }
-  // create arrays
-  int current_coord_index = 0;
-  double coord_data[3 * totalVertices];
-  int current_normal_index = 0;
-  double normal_data[3 * totalVertices];
-  int current_tex_coord_index = 0;
-  double tex_coord_data[2 * totalVertices];
-  int current_index_index = 0;
-  unsigned int index_data[3 * totalFaces];
+
+  // create the arrays
+  int currentCoordIndex = 0;
+  double coordData[3 * totalVertices];
+  int currentNormalIndex = 0;
+  double normalData[3 * totalVertices];
+  int currentTexCoordIndex = 0;
+  double texCoordData[2 * totalVertices];
+  int currentIndexIndex = 0;
+  unsigned int indexData[3 * totalFaces];
 
   // loop over all the node to find meshes
   std::list<aiNode *> queue;
@@ -128,30 +129,33 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
       const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
 
       for (size_t j = 0; j < mesh->mNumVertices; ++j) {
+        // extract the coordinate
         const aiVector3D vertice = transform * mesh->mVertices[j];
-        coord_data[current_coord_index++] = vertice[0];
-        coord_data[current_coord_index++] = vertice[1];
-        coord_data[current_coord_index++] = vertice[2];
+        coordData[currentCoordIndex++] = vertice[0];
+        coordData[currentCoordIndex++] = vertice[1];
+        coordData[currentCoordIndex++] = vertice[2];
+        // extract the normal
         const aiVector3D normal = transform * mesh->mNormals[j];
-        normal_data[current_normal_index++] = normal[0];
-        normal_data[current_normal_index++] = normal[1];
-        normal_data[current_normal_index++] = normal[2];
+        normalData[currentNormalIndex++] = normal[0];
+        normalData[currentNormalIndex++] = normal[1];
+        normalData[currentNormalIndex++] = normal[2];
+        // extract the texture coordinate
         if (mesh->HasTextureCoords(0)) {
-          tex_coord_data[current_tex_coord_index++] = mesh->mTextureCoords[0][j].x;
-          tex_coord_data[current_tex_coord_index++] = mesh->mTextureCoords[0][j].y;
+          texCoordData[currentTexCoordIndex++] = mesh->mTextureCoords[0][j].x;
+          texCoordData[currentTexCoordIndex++] = mesh->mTextureCoords[0][j].y;
         } else {
-          // TODO: what should we do if not defined?
-          tex_coord_data[current_tex_coord_index++] = 0.5;
-          tex_coord_data[current_tex_coord_index++] = 0.5;
+          texCoordData[currentTexCoordIndex++] = 0.5;
+          texCoordData[currentTexCoordIndex++] = 0.5;
         }
       }
 
+      // create the index array
       for (size_t j = 0; j < mesh->mNumFaces; ++j) {
         const aiFace face = mesh->mFaces[j];
         assert(face.mNumIndices == 3);
-        index_data[current_index_index++] = face.mIndices[0] + indexOffset;
-        index_data[current_index_index++] = face.mIndices[1] + indexOffset;
-        index_data[current_index_index++] = face.mIndices[2] + indexOffset;
+        indexData[currentIndexIndex++] = face.mIndices[0] + indexOffset;
+        indexData[currentIndexIndex++] = face.mIndices[1] + indexOffset;
+        indexData[currentIndexIndex++] = face.mIndices[2] + indexOffset;
       }
 
       indexOffset += mesh->mNumVertices;
@@ -167,7 +171,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     return;
   }
 
-  mTriangleMeshError = mTriangleMesh->init(coord_data, normal_data, tex_coord_data, index_data, totalVertices, 3 * totalFaces);
+  mTriangleMeshError = mTriangleMesh->init(coordData, normalData, texCoordData, indexData, totalVertices, 3 * totalFaces);
 
   if (issueWarnings) {
     foreach (QString warning, mTriangleMesh->warnings())
