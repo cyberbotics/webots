@@ -22,4 +22,5 @@ If the file contains more than one meshes, they will be merged into a single one
 ### Field Summary
 
 The `url` field defines the path to the 3D file.
-The file should be specified with a relative or absolute path the same search algortihm than for [ImageTexture](imagetexture.md) is used (cf. [this section](imagetexture.md#search-rule-of-the-texture-path)).
+The file should be specified with a relative or absolute path.
+The same search algorithm as for [ImageTexture](imagetexture.md) is used (cf. [this section](imagetexture.md#search-rule-of-the-texture-path)).
