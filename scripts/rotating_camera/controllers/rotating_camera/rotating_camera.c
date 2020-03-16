@@ -42,7 +42,7 @@ WbFieldRef robot_translation;
 //  - height_step: height increase achieved during a complete revolution.
 //  - angle_end: make an arc of a circle, set it to (2 * M_PI) for a complete revolution.
 
-static void revolving_view(double *robot_position, int rotation_direction, int vertical_direction, int n_turn, float radius, float height_step, double angle_end) {
+static void revolving_view(const double *robot_position, int rotation_direction, int vertical_direction, int n_turn, float radius, float height_step, double angle_end) {
   int k = 0;
   double angle = 0.0;
   double angle_step = 0.01;
