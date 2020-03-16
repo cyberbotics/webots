@@ -139,7 +139,65 @@ class Client:
         self.kill_webots()
         self.cleanup_webots_instance()
 
-    def prepare_webots_instance(self):
+    def setup_project(self):
+        if self.url:
+            return self.setup_project_from_github()
+        else:
+            return self.setup_project_from_zip()
+
+    def setup_project_from_github(self):
+        if not self.url.startswith('https://github.com/'):
+            logging.error('The URL argument should start with "https://github.com/".')
+            return False
+        parts = self.url[19:].split('/')
+        length = len(parts)
+        if length < 2:
+            logging.error('Missing repository in URL.')
+            return False
+        if length == 2 or parts[2] != 'tree':
+            parts.insert(2, 'tree')
+            parts.insert(3, 'master')
+            length += 2
+        elif length == 3:
+            logging.error('Missing tree value.')
+            return False
+        username = parts[0]
+        repository = parts[1]
+        if self.tag:
+            tag = parts[3]
+            branch = ''
+        else:
+            branch = parts[3]
+            tag = ''
+        folder = '/'.join(parts[4:])
+        url = 'https://github.com/' + username + '/' + repository + '/'
+        if branch == 'master':
+            url += 'trunk'
+        elif branch == '':
+            url += 'tags/' + tag
+        else:
+            url += 'branches/' + branch
+        if folder:
+            url += '/' + folder
+        path = os.getcwd()
+        os.chdir(self.project_instance_path)
+        result = subprocess.run(['svn', '-q', 'export', url], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if result.returncode == 0:
+            logging.error('Cannot execute svn -q export ' + url)
+            return False
+        print('stdout = ' + result.stdout.decode('utf-8'))
+        print('stderr = ' + result.stderr.decode('utf-8'))
+
+        command = 'svn -q export ' + url
+        if not os.system(command) == 0:
+            logging.error('Cannot execute ' + command)
+            return False
+        if branch == 'master' and folder == '':
+            os.rename('trunk', repository)
+        os.chdir(path)
+        return True
+
+    def setup_project_from_zip(self):
         """Setup a local Webots project to be run by the client."""
         appPath = config['projectsDir'] + '/' + self.app + '/'
         self.project_instance_path = config['instancesPath'] + str(id(self))
@@ -225,7 +283,7 @@ class Client:
                     client.client_websocket.write_message('.')
             client.on_exit()
 
-        if self.prepare_webots_instance():
+        if self.setup_project():
             self.on_webots_quit = on_webots_quit
             threading.Thread(target=runWebotsInThread, args=(self,)).start()
         else:
@@ -374,10 +432,11 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
                 url = data['start']['url']
                 tag = int(data['start']['tag']) if 'tag' in data['start'] else 0
                 world = data['start']['world'] if 'world' in data['start'] else ''
-                self.write_message('starting ' + world + ' from ' + url + ' (' + tag + ')')
-                print('starting ' + world + ' from ' + url + ' (' + tag + ')')
-                sys.stdout.flush()
-                # self.start_client()
+                print('starting ' + world + ' from ' + url + ' (' + str(tag) + ')')
+                self.write_message('starting ' + world + ' from ' + url + ' (' + str(tag) + ')')
+                self.url = url
+                self.tag = tag
+                self.start_client()
 
     def on_webots_quit(self):
         """Cleanup websocket connection."""
