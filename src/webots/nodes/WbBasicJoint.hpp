@@ -60,7 +60,7 @@ public:
   WbSolid *solidEndPoint() const;
   WbSolidReference *solidReference() const;
   WbSolid *solidParent() const;
-  dJointID jointID() const { return mJoint; }
+  virtual dJointID jointID() const { return mJoint; }
   // endPoint Solid translation and rotation if joint position is 0
   const WbVector3 &zeroEndPointTranslation() const { return mEndPointZeroTranslation; }
   const WbRotation &zeroEndPointRotation() const { return mEndPointZeroRotation; }

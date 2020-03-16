@@ -120,6 +120,7 @@ public:
   void exportBoundingObjectToX3D(WbVrmlWriter &writer) const override;
 
   static int maxIndexNumberToCastShadows();
+  int triangleCount() const;
 
 signals:
   void changed();
