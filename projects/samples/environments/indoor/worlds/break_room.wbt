@@ -410,18 +410,18 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/rustic_veneer_wood_base_color.png"
+            "textures/rustic_veneer_wood_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/rustic_veneer_wood_roughness.png"
+            "textures/rustic_veneer_wood_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/rustic_veneer_wood_normal.png"
+            "textures/rustic_veneer_wood_normal.jpg"
           ]
         }
         normalMapFactor 0.2
@@ -503,18 +503,18 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/rustic_veneer_wood_base_color.png"
+            "textures/rustic_veneer_wood_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/rustic_veneer_wood_roughness.png"
+            "textures/rustic_veneer_wood_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/rustic_veneer_wood_normal.png"
+            "textures/rustic_veneer_wood_normal.jpg"
           ]
         }
         normalMapFactor 0.2
@@ -597,18 +597,18 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/rustic_veneer_wood_base_color.png"
+            "textures/rustic_veneer_wood_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/rustic_veneer_wood_roughness.png"
+            "textures/rustic_veneer_wood_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/rustic_veneer_wood_normal.png"
+            "textures/rustic_veneer_wood_normal.jpg"
           ]
         }
         normalMapFactor 0.2
@@ -691,18 +691,18 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/rustic_veneer_wood_base_color.png"
+            "textures/rustic_veneer_wood_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/rustic_veneer_wood_roughness.png"
+            "textures/rustic_veneer_wood_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/rustic_veneer_wood_normal.png"
+            "textures/rustic_veneer_wood_normal.jpg"
           ]
         }
         normalMapFactor 0.2
