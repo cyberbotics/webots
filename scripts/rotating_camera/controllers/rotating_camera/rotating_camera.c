@@ -107,7 +107,6 @@ int main(int argc, char *argv[]) {
   }
   printf("\n");
 
-  // In Robot node, get the field "translation"
   robot = wb_supervisor_field_get_mf_node(children, 5); // Search Robot node
   robot_translation = wb_supervisor_node_get_field(robot, "translation");
   temp = wb_supervisor_field_get_sf_vec3f(robot_translation);
