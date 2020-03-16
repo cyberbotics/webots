@@ -36,8 +36,8 @@ An e-puck robot patrols on the table and an iRobot Create robot cleans the groun
 
 |     |     |
 |:---:|:---:|
-| ![break_room_a.png](images/samples/break_room_a.thumbnail.jpg) | ![break_room_b.png](images/samples/break_room_b.thumbnail.jpg) |
-| ![break_room_c.png](images/samples/break_room_c.thumbnail.jpg) | ![break_room_d.png](images/samples/break_room_d.thumbnail.jpg) |
+| ![break_room_a.png](images/samples/break_room_a.png) | ![break_room_b.png](images/samples/break_room_b.png) |
+| ![break_room_c.png](images/samples/break_room_c.png) | ![break_room_d.png](images/samples/break_room_d.png) |
 
 %end
 
