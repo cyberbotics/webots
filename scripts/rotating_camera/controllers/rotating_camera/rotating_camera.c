@@ -51,7 +51,7 @@ static void revolving_view(double *robot_position, int rotation_direction, int v
   double orientation[4] = {0, 1, 0, 0}; // Front view
 
   // Get the Viewpoint node and get the "position" and "orientation" fields
-  viewpoint = wb_supervisor_field_get_mf_node(children, 1); // Search ViewPoint node
+  viewpoint = wb_supervisor_field_get_mf_node(children, 1);
   viewpoint_position = wb_supervisor_node_get_field(viewpoint, "position");
   viewpoint_orientation = wb_supervisor_node_get_field(viewpoint, "orientation");
 
