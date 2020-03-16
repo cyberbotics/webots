@@ -55,7 +55,7 @@ static void revolving_view(double *robot_position, int rotation_direction, int v
   viewpoint_position = wb_supervisor_node_get_field(viewpoint, "position");
   viewpoint_orientation = wb_supervisor_node_get_field(viewpoint, "orientation");
 
-  while (k < n_turn){ // Start at angle 0 and end at angle n_turn*2*PI.
+  while (k < n_turn) { // Start at angle 0 and end at angle n_turn * 2 * PI.
 
     if (fabs(angle_end - ANGLE_REV)>TOL) {
       if (angle >= angle_end) {
