@@ -28,7 +28,7 @@ This means that a robot could open a drawer, leave an object inside it, and clos
 Light objects such as the books on the shelf or the fruits in the basket can be grabbed by a robot.
 An e-puck robot patrols on the table and an iRobot Create robot cleans the ground.
 
-### [break_room.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/environments/indoor/worlds/break_room.wbt)
+### [break\_room.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/environments/indoor/worlds/break_room.wbt)
 
 **Keywords**: Break room, domestic environment, furniture
 
