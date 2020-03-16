@@ -1,7 +1,7 @@
 #VRML_SIM R2020a utf8
 WorldInfo {
   info [
-    "Atlas sample"
+    "This simulation shows a Spot robot moving in an industrial environment."
   ]
   CFM 1e-07
   ERP 0.8
