@@ -94,7 +94,6 @@ int main(int argc, char *argv[]) {
   const double *temp;
   double robot_position[3] = {0.0, 0.0, 0.0};
 
-  // Init and get the scene tree (=root)
   wb_robot_init();
 
   root = wb_supervisor_node_get_root();
