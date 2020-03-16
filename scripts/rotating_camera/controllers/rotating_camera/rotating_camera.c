@@ -107,10 +107,7 @@ int main(int argc, char *argv[]) {
 
   robot = wb_supervisor_field_get_mf_node(children, 5);
   robot_translation = wb_supervisor_node_get_field(robot, "translation");
-  temp = wb_supervisor_field_get_sf_vec3f(robot_translation);
-  robot_position[0] = temp[0];
-  robot_position[1] = temp[1];
-  robot_position[2] = temp[2];
+  robot_position = wb_supervisor_field_get_sf_vec3f(robot_translation);
 
   printf("Start in 1 second (simulation time)...\n");
   wb_robot_step(1024);  // wait for about 1 second
