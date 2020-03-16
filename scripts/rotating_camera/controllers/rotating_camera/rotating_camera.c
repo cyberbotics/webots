@@ -40,7 +40,7 @@ WbFieldRef robot_translation;
 //  - rotation_direction: CW (clockwise, default) or CCW (counterclockwise).
 //  - n_turn: number of complete revolution.
 //  - radius: distance between the robot and the camera.
-//  o height_step: Height achieved during a complete revolution.
+//  - height_step: height increase achieved during a complete revolution.
 //  o angle_end: Make an arc of a circle. Set to 6.28 for complete revolution.
 
 static void revolving_view(double *robot_position, int rotation_direction, int vertical_direction, int n_turn, float radius, float height_step, double angle_end) {
