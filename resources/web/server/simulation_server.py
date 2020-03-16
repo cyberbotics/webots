@@ -140,12 +140,16 @@ class Client:
         self.cleanup_webots_instance()
 
     def setup_project(self):
+        print("There")
+        print("setup_project " + str(self.app) + "\n")
+        print("No...")
         if self.url:
             return self.setup_project_from_github()
         else:
             return self.setup_project_from_zip()
 
     def setup_project_from_github(self):
+        print("setup_project_from_github " + self.url)
         if not self.url.startswith('https://github.com/'):
             logging.error('The URL argument should start with "https://github.com/".')
             return False
@@ -181,17 +185,25 @@ class Client:
             url += '/' + folder
         path = os.getcwd()
         os.chdir(self.project_instance_path)
-        result = subprocess.run(['svn', '-q', 'export', url], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        if result.returncode == 0:
-            logging.error('Cannot execute svn -q export ' + url)
-            return False
-        print('stdout = ' + result.stdout.decode('utf-8'))
-        print('stderr = ' + result.stderr.decode('utf-8'))
 
-        command = 'svn -q export ' + url
-        if not os.system(command) == 0:
-            logging.error('Cannot execute ' + command)
-            return False
+        class SubprocessProtocol(asyncio.SubprocessProtocol):
+            def pipe_data_received(self, fd, data):
+                if fd == 1:  # got stdout data
+                    sys.stdout.write(data.decode('utf-8'))
+                    sys.stdout.flush()
+                if fd == 2:  # got stderr data
+                    sys.stderr.write('\033[91m' + data.decode('utf-8') + '\033[0m')
+                    sys.stderr.flush()
+
+            def connection_lost(self, exec):
+                loop.stop()  # end loop.run_forever()
+
+        loop = asyncio.get_event_loop()
+        try:
+            loop.run_until_complete(loop.subprocess_exec(SubprocessProtocol, 'svn', '-q', 'export', url))
+            loop.run_forever()
+        finally:
+            loop.close()
         if branch == 'master' and folder == '':
             os.rename('trunk', repository)
         os.chdir(path)
@@ -234,6 +246,8 @@ class Client:
 
     def start_webots(self, on_webots_quit):
         """Start a Webots instance in a separate thread."""
+        print("start_webots")
+
         def runWebotsInThread(client):
             global config
             world = self.project_instance_path + '/worlds/' + self.world
@@ -282,7 +296,6 @@ class Client:
                 elif line == '.':
                     client.client_websocket.write_message('.')
             client.on_exit()
-
         if self.setup_project():
             self.on_webots_quit = on_webots_quit
             threading.Thread(target=runWebotsInThread, args=(self,)).start()
@@ -429,13 +442,15 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
                                 self.request.remote_ip,
                                 client.streaming_server_port))
             elif 'start' in data:  # checkout a github folder and run a simulation in there
+                client.streaming_server_port = ClientWebSocketHandler.next_available_port()
                 url = data['start']['url']
                 tag = int(data['start']['tag']) if 'tag' in data['start'] else 0
                 world = data['start']['world'] if 'world' in data['start'] else ''
                 print('starting ' + world + ' from ' + url + ' (' + str(tag) + ')')
                 self.write_message('starting ' + world + ' from ' + url + ' (' + str(tag) + ')')
-                self.url = url
-                self.tag = tag
+                client.url = url
+                client.tag = tag
+                client.world = world
                 self.start_client()
 
     def on_webots_quit(self):
