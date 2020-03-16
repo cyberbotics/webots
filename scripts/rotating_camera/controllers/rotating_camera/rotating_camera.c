@@ -36,7 +36,7 @@ WbFieldRef fieldViewPointPos;
 WbFieldRef fieldViewPointOrient;
 WbFieldRef fieldRobotTranslation;
 
-// The viewpoint turn around the robot in a circle
+// The viewpoint revolves around the robot following a circle trajectory
 //  o robotPos : Specifies the robot position.
 //  o direction : CW (Turn ClockWise, default) or CCW (turn CounterClockWise).
 //  o nTurn : Make the number of complet revolution defined.
