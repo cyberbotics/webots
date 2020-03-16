@@ -269,6 +269,14 @@ void WbControlledWorld::processWaitingStep() {
   }
 }
 
+void WbControlledWorld::reset(bool restartControllers) {
+  WbSimulationWorld::reset(restartControllers);
+  if (!restartControllers) {
+    foreach (WbController *controller, mControllers)
+      controller->resetRequestTime();
+  }
+}
+
 void WbControlledWorld::step() {
   if (mFirstStep && !mRetryEnabled) {
     startControllers();

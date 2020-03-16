@@ -3,6 +3,7 @@ WorldInfo {
   info [
     "Test world resetting the simulation"
   ]
+  basicTimeStep 8
 }
 Viewpoint {
   orientation 0.3011392881427894 -0.8944857953945254 -0.3304698034227591 4.845225060401701
