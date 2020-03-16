@@ -17,7 +17,7 @@ Currently, the following formats are supported:
   - obj
   - stl
 
-If the file contains more than one meshes, they will be merged into a single one.
+If the file contains more than one mesh, the meshes will be merged into a single one.
 
 ### Field Summary
 
