@@ -90,8 +90,7 @@ static void revolving_view(const double *robot_position, int rotation_direction,
 
 int main(int argc, char *argv[]) {
 
-  const double *temp;
-  double robot_position[3] = {0.0, 0.0, 0.0};
+  const double *robot_position;
 
   wb_robot_init();
 
