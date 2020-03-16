@@ -122,7 +122,7 @@ int main(int argc, char *argv[]) {
   robotPos[1] = temp[1];
   robotPos[2] = temp[2];
 
-  printf("Start in 1 seconds (simulation time)...\n");
+  printf("Start in 1 second (simulation time)...\n");
   wb_robot_step(1000); /* wait for 2 seconds */
 
   int N = 3;
