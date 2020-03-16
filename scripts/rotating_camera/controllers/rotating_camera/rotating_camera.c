@@ -99,7 +99,6 @@ int main(int argc, char *argv[]) {
   root = wb_supervisor_node_get_root();
   children = wb_supervisor_node_get_field(root, "children");
 
-  // Count and display all nodes in the world
   int n = wb_supervisor_field_get_count(children);
   printf("This world contains %d nodes:\n", n);
   for (int i = 0; i < n; i++) {
