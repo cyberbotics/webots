@@ -19,9 +19,10 @@
 #include <webots/robot.h>
 #include <webots/supervisor.h>
 
+#define TOL 1e-6
+#define ANGLE_REV 6.28
 #define CW  0
 #define CCW 1
-
 #define UP 0
 #define DOWN 1
 
@@ -47,8 +48,7 @@ void turningView(double *robotPos, int rotationDirection, int verticalDirection,
 
   int k  = 0;
   double angle = 0.0;
-  double angleRev = 6.28;
-  double angleStep = 0.04;
+  double angleStep = 0.01;
   double newPosition[3] = {0.0, 0.0, 0.0};
   double orientation[4] = {0, 1, 0, 0}; // Front view
 
@@ -59,12 +59,12 @@ void turningView(double *robotPos, int rotationDirection, int verticalDirection,
 
   while (k < nTurn){ // Start at angle 0 and end at angle nTurn*2*PI.
 
-    if (angleEnd != angleRev) {
+    if (fabs(angleEnd - ANGLE_REV)>TOL) {
       if (angle >= angleEnd) {
         break;
       }
     }
-    if (angle >= angleRev) { // had make a revolution
+    if (angle >= ANGLE_REV) { // had make a revolution
       angle = 0.0;
       k += 1;
     }

@@ -3,11 +3,11 @@ WorldInfo {
   info [
     "Example use of a Supervisor to turn around a robot keeping the ViewPoint oriented toward him."
   ]
-  title "Supervisor Programming"
+  title "Rotating camera"
 }
 Viewpoint {
   orientation 1 0 0 4.71238898038469
-  position 0 5 0
+  position 0.009768180969561412 7.561942251919847 0.050926697278037295
 }
 TexturedBackground {
   texture "factory"
@@ -15,10 +15,11 @@ TexturedBackground {
 RectangleArena {
   floorSize 3 3
   floorTileSize 1 1
+  wallHeight 0.05
 }
 Robot {
   translation 0.1 0 0.1
-  controller "rotative_camera"
+  controller "rotating_camera"
   supervisor TRUE
 }
 Nao {
