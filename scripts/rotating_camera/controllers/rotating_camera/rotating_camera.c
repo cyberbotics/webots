@@ -26,7 +26,6 @@
 #define UP 0
 #define DOWN 1
 
-// Global variables
 WbNodeRef root, nodes;
 WbNodeRef nodeViewPoint;
 WbNodeRef nodeRobot;
