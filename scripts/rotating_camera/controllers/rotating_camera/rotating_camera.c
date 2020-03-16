@@ -82,7 +82,7 @@ static void revolving_view(double *robot_position, int rotation_direction, int v
     // Update the angle value
     if (rotation_direction == CW)
       angle += angle_step;
-    else // CounterClockWise
+    else  // counterclockwise
       angle -= angle_step;
 
     wb_robot_step(wb_robot_get_basic_time_step()); // wait for 32 milliseconds
