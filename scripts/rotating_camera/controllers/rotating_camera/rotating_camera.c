@@ -120,7 +120,7 @@ int main(int argc, char *argv[]) {
   const int N = 3;
   const float R = 0.7;
   const float height = 0.2;
-  float angle_end = 6.28;
+  const float angle_end = 2 * M_PI;
 
   printf("\n");
   printf("Robot.position = %g %g %g\n", robot_position[0], robot_position[1], robot_position[2]);
