@@ -69,7 +69,7 @@ static void revolving_view(double *robot_position, int rotation_direction, int v
     // Set new position to ViewPoint node
     new_position[0] = robot_position[0] + radius * sin(angle);
     if (vertical_direction == UP)
-      new_position[1] += height_step/(6.28/angle_step);
+      new_position[1] += height_step / (2 * M_PI / angle_step);
     else
       new_position[1] -= height_step/(6.28/angle_step);
     new_position[2] = robot_position[2] + radius * cos(angle);
