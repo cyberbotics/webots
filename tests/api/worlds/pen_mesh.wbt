@@ -35,7 +35,7 @@ DEF BOARD Solid {
       }
     }
   ]
-  name "solid(1)"
+  name "board"
   locked TRUE
 }
 DEF WRITER Robot {
