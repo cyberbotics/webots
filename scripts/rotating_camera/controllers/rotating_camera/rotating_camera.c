@@ -19,8 +19,7 @@
 #include <webots/robot.h>
 #include <webots/supervisor.h>
 
-#define TOL 1e-6
-#define ANGLE_REV 6.28
+#define ANGLE_REV (2 * M_PI)
 #define CW  0
 #define CCW 1
 #define UP 0
@@ -38,6 +37,7 @@ WbFieldRef robot_translation;
 // The viewpoint revolves around the robot following a circle trajectory
 //  - robot_position: position of the robot.
 //  - rotation_direction: CW (clockwise, default) or CCW (counterclockwise).
+//  - vertical_direction: UP or DOWN.
 //  - n_turn: number of complete revolution.
 //  - radius: distance between the robot and the camera.
 //  - height_step: height increase achieved during a complete revolution.
@@ -57,7 +57,7 @@ static void revolving_view(double *robot_position, int rotation_direction, int v
 
   while (k < n_turn) { // Start at angle 0 and end at angle n_turn * 2 * PI.
 
-    if (fabs(angle_end - ANGLE_REV)>TOL) {
+    if (fabs(angle_end - ANGLE_REV) > 1e-6) {
       if (angle >= angle_end)
         break;
     }
@@ -117,9 +117,9 @@ int main(int argc, char *argv[]) {
   printf("Start in 1 second (simulation time)...\n");
   wb_robot_step(1024);  // wait for about 1 second
 
-  int N = 3;
-  float R = 0.7;
-  float height = 0.2;
+  const int N = 3;
+  const float R = 0.7;
+  const float height = 0.2;
   float angle_end = 6.28;
 
   printf("\n");
