@@ -115,7 +115,7 @@ int main(int argc, char *argv[]) {
   robot_position[2] = temp[2];
 
   printf("Start in 1 second (simulation time)...\n");
-  wb_robot_step(1000); /* wait for 2 seconds */
+  wb_robot_step(1024);  // wait for about 1 second
 
   int N = 3;
   float R = 0.7;
