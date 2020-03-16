@@ -60,7 +60,7 @@ static void revolving_view(const double *robot_position, int rotation_direction,
       if (angle >= angle_end)
         break;
     }
-    if (angle >= (2 * M_PI)) { // made a revolution
+    if (angle >= (2 * M_PI)) {  // Made a revolution
       angle = 0.0;
       k += 1;
     }
@@ -81,10 +81,10 @@ static void revolving_view(const double *robot_position, int rotation_direction,
     // Update the angle value
     if (rotation_direction == CW)
       angle += angle_step;
-    else  // counterclockwise
+    else // counterclockwise
       angle -= angle_step;
 
-    wb_robot_step(wb_robot_get_basic_time_step());  // wait for 32 milliseconds
+    wb_robot_step(wb_robot_get_basic_time_step());  // Wait for 32 milliseconds
   }
 }
 
@@ -110,7 +110,7 @@ int main(int argc, char *argv[]) {
   robot_position = wb_supervisor_field_get_sf_vec3f(robot_translation);
 
   printf("Start in 1 second (simulation time)...\n");
-  wb_robot_step(1024);  // wait for about 1 second
+  wb_robot_step(1024);  // Wait for about 1 second
 
   const int N = 3;
   const float R = 0.7;
