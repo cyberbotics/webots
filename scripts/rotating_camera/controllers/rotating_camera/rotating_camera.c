@@ -58,9 +58,8 @@ static void revolving_view(double *robot_position, int rotation_direction, int v
   while (k < n_turn) { // Start at angle 0 and end at angle n_turn * 2 * PI.
 
     if (fabs(angle_end - ANGLE_REV)>TOL) {
-      if (angle >= angle_end) {
+      if (angle >= angle_end)
         break;
-      }
     }
     if (angle >= ANGLE_REV) { // had make a revolution
       angle = 0.0;
