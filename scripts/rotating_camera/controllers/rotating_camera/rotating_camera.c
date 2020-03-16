@@ -89,8 +89,6 @@ static void revolving_view(double *robot_position, int rotation_direction, int v
   }
 }
 
-
-
 int main(int argc, char *argv[]) {
 
   const double *temp;
