@@ -71,7 +71,7 @@ static void revolving_view(double *robot_position, int rotation_direction, int v
     if (vertical_direction == UP)
       new_position[1] += height_step / (2 * M_PI / angle_step);
     else
-      new_position[1] -= height_step/(6.28/angle_step);
+      new_position[1] -= height_step / (2 * M_PI / angle_step);
     new_position[2] = robot_position[2] + radius * cos(angle);
     wb_supervisor_field_set_sf_vec3f(viewpoint_position, new_position);
 
