@@ -40,12 +40,17 @@ public:
   QString init(const WbMFVector3 *coord, const WbMFInt *coordIndex, const WbMFVector3 *normal, const WbMFInt *normalIndex,
                const WbMFVector2 *texCoord, const WbMFInt *texCoordIndex, double creaseAngle, bool counterClockwise,
                bool normalPerVertex);
+  // to be initialized from a WbMesh
+  QString init(const double *coord, const double *normal, const double *texCoord, const unsigned int *index, int coordSize,
+               int indexSize);
+
   void cleanup();
 
   bool isValid() const { return mValid; }
   bool areTextureCoordinatesValid() const { return mTextureCoordinatesValid; }
 
   int numberOfTriangles() const { return mNTriangles; }
+  int numberOfVertices() const { return mVertices.size(); }
 
   static int indexAt(int triangle, int vertex) { return 3 * triangle + vertex; }
   double vertexAt(int triangle, int vertex, int component) const {

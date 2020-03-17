@@ -1,2 +1,2 @@
 function value = WB_NODE_DISPLAY
-value = 37;
+value = 38;

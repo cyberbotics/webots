@@ -618,6 +618,7 @@ static const char *C_API_CONSTANTS = "INFINITY "
                                      "WB_NODE_LIGHT_SENSOR "
                                      "WB_NODE_LINEAR_MOTOR "
                                      "WB_NODE_MATERIAL "
+                                     "WB_NODE_MESH "
                                      "WB_NODE_PBR_APPEARANCE "
                                      "WB_NODE_PEN "
                                      "WB_NODE_PHYSICS "
@@ -666,8 +667,8 @@ static const char *WBT_OBJECTS =
   "Capsule Charger Color Cone ContactProperties Coordinate Cylinder Damping "
   "DirectionalLight ElevationGrid Fluid Focus Fog Group HingeJoint "
   "HingeJointParameters Hinge2Joint ImageTexture ImmersionProperties "
-  "IndexedFaceSet IndexedLineSet JointParameters Lens LensFlare Material Normal PBRAppearance Physics "
-  "Plane PointLight Propeller Recognition Shape SliderJoint Slot Solid SolidReference "
+  "IndexedFaceSet IndexedLineSet JointParameters Lens LensFlare Material Mesh Normal PBRAppearance "
+  "Physics Plane PointLight Propeller Recognition Shape SliderJoint Slot Solid SolidReference "
   "Sphere SpotLight TextureCoordinate TextureTransform Track TrackWheel "
   "Transform Viewpoint WorldInfo Zoom";
 
