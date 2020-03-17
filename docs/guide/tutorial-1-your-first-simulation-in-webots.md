@@ -325,7 +325,7 @@ The controller directory name should match with the binary name.
 
 ### Extend the Controller to Speed Control
 
-The robots wheels are often controlled using velocity, and not in position like we did in the previous example.
+The robots wheels are often controlled using velocity, and not position like we did in the previous example.
 In order to control the motors of the wheels in speed you need to set the target position to the infinity and to set the desired speed:
 
 %tab-component "language"
