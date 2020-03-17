@@ -11,6 +11,7 @@ Released on XXX.
     - Added a `ConveyorPlatform` PROTO object.
   - Enhancements
     - Improved the environment colors of the sojourner simulation (Mars is a red planet).
+    - Improved the [KUKA's youBot](../guide/youbot.md) robot to handle variable number of arms.
     - Added missing `supervisor` field in `UR3e`, `UR5e` and `UR10e` robots.
     - Added a `staticBase` field to the `Irb4600-40` PROTO node.
     - Added a `--node-name` argument to the ROS controller of the Universal Robots UR3e, UR5e and UR10e for multi robot simulations.
