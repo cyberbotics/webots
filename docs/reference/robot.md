@@ -298,7 +298,7 @@ int main() {
 
 %tab-end
 
-```cpp
+```c++
 #include <webots/Robot.h>
 #include <webots/DistanceSensor.h>
 #include <webots/Led.h>
@@ -330,39 +330,6 @@ private:
   int timeStep;
   DistanceSensor *distanceSensor;
   Led *led;
-}
-
-#define TIME_STEP 32
-
-static WbDeviceTag my_sensor, my_led;
-
-int main() {
-  /* initialize the webots controller library */
-  wb_robot_init();
-
-  // get device tags
-  my_sensor = wb_robot_get_device("my_distance_sensor");
-  my_led = wb_robot_get_device("my_led");
-
-  /* enable sensors to read data from them */
-  wb_distance_sensor_enable(my_sensor, TIME_STEP);
-
-  /* main control loop: perform simulation steps of 32 milliseconds */
-  /* and leave the loop when the simulation is over */
-  while (wb_robot_step(TIME_STEP) != -1) {
-
-    /* Read and process sensor data */
-    double val = wb_distance_sensor_get_value(my_sensor);
-
-    /* Send actuator commands */
-    wb_led_set(my_led, 1);
-  }
-
-  /* Add here your own exit cleanup code */
-
-  wb_robot_cleanup();
-
-  return 0;
 }
 ```
 
