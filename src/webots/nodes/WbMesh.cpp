@@ -397,7 +397,7 @@ void WbMesh::rescale(const WbVector3 &scale) {
 
 void WbMesh::updateUrl() {
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
-  int n = mUrl->size();
+  const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
     QString item = mUrl->item(i);
     mUrl->setItem(i, item.replace("\\", "/"));
