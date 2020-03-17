@@ -203,18 +203,19 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
     int action, x, y;
     QString skip;  // will receive "touch"
     QTextStream stream(&message);
-    stream >> skip >> action >> x >> y;
+    stream >> skip >> action;
     const QPointF point(x, y);
     if (action == 0) {  // store touch event center
       int eventType;
       stream >> eventType >> x >> y;
-      x = (x / mImageWidth) * 2 - 1;
-      y = (y / mImageHeight) * 2 - 1;
       WbWrenPicker picker;
       picker.pick(x, y);
+      WbVector3 screenCoords = picker.screenCoordinates();
+      screenCoords[0] = (screenCoords[0] / mImageWidth) * 2 - 1;
+      screenCoords[1] = (screenCoords[1] / mImageHeight) * 2 - 1;
       mTouchEventObjectPicked = picker.selectedId() != -1;
       WbViewpoint *viewpoint = WbWorld::instance()->viewpoint();
-      viewpoint->toWorld(picker.screenCoordinates(), mTouchEventRotationCenter);
+      viewpoint->toWorld(screenCoords, mTouchEventRotationCenter);
       if (eventType == 2) {
         double distanceToPickPosition;
         if (mTouchEventObjectPicked)
@@ -236,6 +237,7 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
       stream >> x >> y;
       WbZoomAndRotateViewpointEvent::applyToViewpoint(QPoint(x, y), 5 * mTouchEventZoomScale, WbWorld::instance()->viewpoint());
     }
+    gView3D->refresh();
   } else if (message.startsWith("mjpeg: ")) {
     const QStringList &resolution = message.mid(7).split("x");
     const int width = resolution[0].toInt();
