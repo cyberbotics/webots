@@ -1,7 +1,7 @@
 #VRML_SIM R2020a utf8
 WorldInfo {
   info [
-    "Copy of a real break room layout."
+    "An office break room, surrounded by office desks."
     "This world contains the domestic objects included in Webots."
     "Doors are interactive."
     "This means that a robot could open a drawer, leave an object inside it, and close it."
