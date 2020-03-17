@@ -16,6 +16,7 @@
 #define WB_VIDEO_STREAMING_SERVER_HPP
 
 #include "WbStreamingServer.hpp"
+#include "WbVector3.hpp"
 
 #include <QtCore/QElapsedTimer>
 
@@ -53,6 +54,9 @@ private:
   QElapsedTimer mUpdateTimer;
 
   double mLastSpeedIndicatorTime;
+  WbVector3 mTouchEventRotationCenter;
+  bool mTouchEventObjectPicked;
+  double mTouchEventZoomScale;
 };
 
 #endif

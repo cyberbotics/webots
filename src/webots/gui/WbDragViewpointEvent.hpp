@@ -60,6 +60,9 @@ public:
   virtual ~WbRotateViewpointEvent();
   void apply(const QPoint &currentMousePosition) override;
 
+  static void applyToViewpoint(const QPoint &delta, const WbVector3 &rotationCenter, const WbVector3 &worldUpVector,
+                               bool objectPicked, WbViewpoint *viewpoint);
+
 private:
   QPoint mPreviousMousePosition;
   QPoint mDelta;
@@ -74,11 +77,12 @@ public:
   virtual ~WbZoomAndRotateViewpointEvent();
   void apply(const QPoint &currentMousePosition) override;
 
+  static void applyToViewpoint(const QPoint &delta, double scaleFactor, WbViewpoint *viewpoint);
+
 private:
   QPoint mPreviousMousePosition;
   QPoint mDelta;
   const double mZscaleFactor;
-  const bool mProjectionModeIsOrthographic;
 };
 
 #endif

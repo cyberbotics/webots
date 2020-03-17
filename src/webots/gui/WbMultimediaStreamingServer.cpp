@@ -14,6 +14,7 @@
 
 #include "WbMultimediaStreamingServer.hpp"
 
+#include "WbDragViewpointEvent.hpp"
 #include "WbMainWindow.hpp"
 #include "WbRobot.hpp"
 #include "WbSimulationState.hpp"
@@ -21,6 +22,7 @@
 #include "WbView3D.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
+#include "WbWrenPicker.hpp"
 
 #include <QtCore/QBuffer>
 #include <QtCore/QJsonDocument>
@@ -30,7 +32,11 @@
 
 static WbView3D *gView3D = NULL;
 
-WbMultimediaStreamingServer::WbMultimediaStreamingServer() : WbStreamingServer(), mImageWidth(-1), mImageHeight(-1) {
+WbMultimediaStreamingServer::WbMultimediaStreamingServer() :
+  WbStreamingServer(),
+  mImageWidth(-1),
+  mImageHeight(-1),
+  mTouchEventObjectPicked(false) {
   WbMatter::enableShowMatterCenter(false);
 }
 
@@ -192,6 +198,43 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
       QWheelEvent wheelEvent(point, point, QPoint(), QPoint(), wheel, Qt::Vertical, buttonsPressed, keyboardModifiers);
       if (gView3D)
         gView3D->remoteWheelEvent(&wheelEvent);
+    }
+  } else if (message.startsWith("touch")) {
+    int action, x, y;
+    QString skip;  // will receive "touch"
+    QTextStream stream(&message);
+    stream >> skip >> action >> x >> y;
+    const QPointF point(x, y);
+    if (action == 0) {  // store touch event center
+      int eventType;
+      stream >> eventType >> x >> y;
+      x = (x / mImageWidth) * 2 - 1;
+      y = (y / mImageHeight) * 2 - 1;
+      WbWrenPicker picker;
+      picker.pick(x, y);
+      mTouchEventObjectPicked = picker.selectedId() != -1;
+      WbViewpoint *viewpoint = WbWorld::instance()->viewpoint();
+      viewpoint->toWorld(picker.screenCoordinates(), mTouchEventRotationCenter);
+      if (eventType == 2) {
+        double distanceToPickPosition;
+        if (mTouchEventObjectPicked)
+          distanceToPickPosition = (viewpoint->position()->value() - viewpoint->rotationCenter()).length();
+        else
+          distanceToPickPosition = viewpoint->position()->value().length();
+        if (distanceToPickPosition < 0.001)
+          distanceToPickPosition = 0.001;
+        mTouchEventZoomScale =
+          distanceToPickPosition * 2 * tan(viewpoint->fieldOfView()->value() / 2) / std::max(mImageWidth, mImageHeight);
+      } else
+        mTouchEventZoomScale = 1.0;
+    } else if (action == 1) {  // touch rotate event
+      stream >> x >> y;
+      WbRotateViewpointEvent::applyToViewpoint(QPoint(x, y), mTouchEventRotationCenter,
+                                               -WbWorld::instance()->worldInfo()->gravityUnitVector(), mTouchEventObjectPicked,
+                                               WbWorld::instance()->viewpoint());
+    } else if (action == 2) {  // touch zoom/tilt event
+      stream >> x >> y;
+      WbZoomAndRotateViewpointEvent::applyToViewpoint(QPoint(x, y), 5 * mTouchEventZoomScale, WbWorld::instance()->viewpoint());
     }
   } else if (message.startsWith("mjpeg: ")) {
     const QStringList &resolution = message.mid(7).split("x");
