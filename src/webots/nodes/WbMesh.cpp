@@ -77,9 +77,12 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     return;
 
   Assimp::Importer importer;
+  importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
+                                                        aiComponent_ANIMATIONS | aiComponent_TEXTURES | aiComponent_COLORS |
+                                                        aiComponent_MATERIALS);
   const aiScene *scene = importer.ReadFile(
     filePath.toStdString().c_str(), aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
-                                      aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph);
+                                      aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent);
 
   if (!scene) {
     warn(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
@@ -152,6 +155,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
       // create the index array
       for (size_t j = 0; j < mesh->mNumFaces; ++j) {
         const aiFace face = mesh->mFaces[j];
+        if (face.mNumIndices < 3)  // we want to skip lines
+          continue;
         assert(face.mNumIndices == 3);
         indexData[currentIndexIndex++] = face.mIndices[0] + indexOffset;
         indexData[currentIndexIndex++] = face.mIndices[1] + indexOffset;
@@ -171,7 +176,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     return;
   }
 
-  mTriangleMeshError = mTriangleMesh->init(coordData, normalData, texCoordData, indexData, totalVertices, 3 * totalFaces);
+  mTriangleMeshError = mTriangleMesh->init(coordData, normalData, texCoordData, indexData, totalVertices, currentIndexIndex);
 
   if (issueWarnings) {
     foreach (QString warning, mTriangleMesh->warnings())
