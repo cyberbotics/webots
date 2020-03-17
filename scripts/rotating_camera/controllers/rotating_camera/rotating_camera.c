@@ -35,7 +35,7 @@ WbFieldRef robot_translation;
 
 // The viewpoint revolves around the robot following a circle trajectory
 //  - robot_position: position of the robot.
-//  - rotation_direction: CW (clockwise, default) or CCW (counterclockwise).
+//  - rotation_direction: CW (clockwise) or CCW (counterclockwise).
 //  - vertical_direction: UP or DOWN.
 //  - n_turn: number of complete revolution.
 //  - radius: distance between the robot and the camera.
