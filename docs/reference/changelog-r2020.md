@@ -9,7 +9,7 @@ Released on XXX.
     - Added an `OfficeChair` PROTO object.
     - Added a `MetalStainlessSteelCable` appearance.
     - Added a `ConveyorPlatform` PROTO object.
-    - Added a `break_room` world.
+    - Added a [break_room](..guide/samples-environments.md#break_room-wbt) world.
   - Enhancements
     - Improved the environment colors of the sojourner simulation (Mars is a red planet).
     - Added missing `supervisor` field in `UR3e`, `UR5e` and `UR10e` robots.
