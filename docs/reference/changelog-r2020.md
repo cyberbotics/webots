@@ -9,6 +9,7 @@ Released on XXX.
     - Added an `OfficeChair` PROTO object.
     - Added a `MetalStainlessSteelCable` appearance.
     - Added a `ConveyorPlatform` PROTO object.
+    - Added a [break\_room](../guide/samples-environments.md#break_room-wbt) world.
   - Enhancements
     - Improved the environment colors of the sojourner simulation (Mars is a red planet).
     - Improved the [KUKA's youBot](../guide/youbot.md) robot to handle variable number of arms.

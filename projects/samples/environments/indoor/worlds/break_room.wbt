@@ -1,0 +1,1162 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+  info [
+    "An office break room, surrounded by office desks."
+    "This world contains the domestic objects included in Webots."
+    "Doors are interactive."
+    "This means that a robot could open a drawer, leave an object inside it, and close it."
+  ]
+  title "Break Room"
+}
+Viewpoint {
+  orientation 0.5278451084358184 0.8291023496586816 0.18430636258912056 5.404163177844073
+  position -9.004955229768372 7.6584422165727934 10.196268121687902
+}
+TexturedBackground {
+  texture "entrance_hall"
+  luminosity 0.5
+  skybox FALSE
+}
+TexturedBackgroundLight {
+  texture "entrance_hall"
+}
+Floor {
+  translation -0.93 0 -0.243
+  size 7.7 12.86
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/light_strip_parquetry_base_color.jpg"
+      ]
+    }
+    roughness 1
+    roughnessMap ImageTexture {
+      url [
+        "textures/light_strip_parquetry_roughness.jpg"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/light_strip_parquetry_normal.jpg"
+      ]
+    }
+    textureTransform TextureTransform {
+      rotation 1.57
+      scale 0.4 0.4
+    }
+  }
+}
+CeilingSpotLight {
+  translation 2.27 2 1.82
+  name "ceiling spot light"
+  spotLightColor 0.913725 0.72549 0.431373
+  spotLightIntensity 4
+  spotLightCastShadows TRUE
+}
+CeilingLight {
+  translation 0.87 2.5 -4.78
+  bulbColor 0.913725 0.72549 0.431373
+  supportColor 0.533333 0.541176 0.521569
+  pointLightColor 0.913725 0.72549 0.431373
+  pointLightIntensity 3
+  pointLightCastShadows TRUE
+}
+CeilingLight {
+  translation -2.74 2.5 -4.78
+  name "ceiling light(5)"
+  bulbColor 0.913725 0.72549 0.431373
+  supportColor 0.533333 0.541176 0.521569
+  pointLightColor 0.913725 0.72549 0.431373
+  pointLightIntensity 3
+  pointLightCastShadows TRUE
+}
+CeilingLight {
+  translation 0.87 2.5 -0.31
+  name "ceiling light(1)"
+  bulbColor 0.913725 0.72549 0.431373
+  supportColor 0.533333 0.541176 0.521569
+  pointLightColor 0.913725 0.72549 0.431373
+  pointLightIntensity 3
+  pointLightCastShadows TRUE
+}
+CeilingLight {
+  translation -2.74 2.5 -0.31
+  name "ceiling light(4)"
+  bulbColor 0.913725 0.72549 0.431373
+  supportColor 0.533333 0.541176 0.521569
+  pointLightColor 0.913725 0.72549 0.431373
+  pointLightIntensity 3
+  pointLightCastShadows TRUE
+}
+CeilingLight {
+  translation 0.87 2.5 3.52
+  name "ceiling light(2)"
+  bulbColor 0.913725 0.72549 0.431373
+  supportColor 0.533333 0.541176 0.521569
+  pointLightColor 0.913725 0.72549 0.431373
+  pointLightIntensity 3
+  pointLightCastShadows TRUE
+}
+CeilingLight {
+  translation -2.74 2.5 3.52
+  name "ceiling light(3)"
+  bulbColor 0.913725 0.72549 0.431373
+  supportColor 0.533333 0.541176 0.521569
+  pointLightColor 0.913725 0.72549 0.431373
+  pointLightIntensity 3
+  pointLightCastShadows TRUE
+}
+Wall {
+  translation 0 0 2.65
+  size 5 0.62 0.05
+  appearance DEF SMALL_WALLS Roughcast {
+    colorOverride 0.890196 0.803922 1
+    textureTransform TextureTransform {
+      scale 1 2.4
+    }
+  }
+}
+Wall {
+  translation 0.77 0 -2.65
+  name "wall(1)"
+  size 3.55 0.62 0.05
+  appearance USE SMALL_WALLS
+}
+Wall {
+  translation 2.52 0 0
+  rotation 0 1 0 1.5708
+  name "wall(2)"
+  size 5.35 0.62 0.05
+  appearance USE SMALL_WALLS
+}
+Wall {
+  translation -2.524 0 1.65
+  rotation 0 1 0 1.5708
+  name "wall(3)"
+  size 2.05 0.62 0.05
+  appearance USE SMALL_WALLS
+}
+Wall {
+  translation -3.05 0 0.65
+  rotation 0 1 0 -3.14159
+  name "wall(4)"
+  size 1 0.62 0.05
+  appearance USE SMALL_WALLS
+}
+Wall {
+  translation -3.05 0 -0.4
+  rotation 0 1 0 -3.14159
+  name "wall(5)"
+  size 1 0.62 0.05
+  appearance USE SMALL_WALLS
+}
+Wall {
+  translation -2.524 0 -1.876
+  rotation 0 1 0 1.5708
+  name "wall(6)"
+  size 3 0.62 0.05
+  appearance USE SMALL_WALLS
+}
+Wall {
+  translation -0.979 0 -3.026
+  rotation 0 1 0 1.5708
+  name "wall(7)"
+  size 0.7 0.62 0.05
+  appearance USE SMALL_WALLS
+}
+Wall {
+  translation -0.92 0 6.17
+  name "wall(A)"
+  size 7.7 2.5 0.06
+  appearance DEF SIDE_WALLS Roughcast {
+    textureTransform TextureTransform {
+      scale 3 3
+    }
+  }
+}
+Wall {
+  translation 2.9 0 5.94
+  rotation 0 1 0 -1.5708003061004252
+  name "wall(B)1"
+  size 0.4 2.5 0.06
+  appearance DEF INTER_WALLS Roughcast {
+    textureTransform TextureTransform {
+      scale 0.3 2.2
+    }
+  }
+}
+Window {
+  translation 2.9 0 5.19
+  rotation 0 1 0 -1.5708003061004252
+  name "window(B)2"
+  size 1.1 2.5 0.06
+  bottomWallHeight 1
+  frameSize 0.02 0.05 0.02
+  windowSillSize 0.3 0.05
+  frameAppearance DEF WINDOWS_WOOD MattePaint {
+    baseColor 0.133333 0.0666667 0
+  }
+}
+Window {
+  translation 2.9 0 3.84
+  rotation 0 1 0 -1.5708003061004252
+  name "window(B)3"
+  size 1.6 2.5 0.06
+  bottomWallHeight 1
+  frameSize 0.02 0.05 0.02
+  windowSillSize 0.3 0.05
+  frameAppearance USE WINDOWS_WOOD
+}
+Wall {
+  translation 2.9 0 2.84
+  rotation 0 1 0 -1.5708003061004252
+  name "wall(B)4"
+  size 0.4 2.5 0.06
+  appearance USE INTER_WALLS
+}
+Window {
+  translation 2.9 0 2.09
+  rotation 0 1 0 -1.5708003061004252
+  name "window(B)5"
+  size 1.1 2.5 0.06
+  bottomWallHeight 1
+  frameSize 0.02 0.05 0.02
+  windowSillSize 0.3 0.05
+  frameAppearance USE WINDOWS_WOOD
+}
+Window {
+  translation 2.9 0 0.74
+  rotation 0 1 0 -1.5708003061004252
+  name "window(B)6"
+  size 1.6 2.5 0.06
+  bottomWallHeight 1
+  frameSize 0.02 0.05 0.02
+  windowSillSize 0.3 0.05
+  frameAppearance USE WINDOWS_WOOD
+}
+Wall {
+  translation 2.9 0 -0.26
+  rotation 0 1 0 -1.5708003061004252
+  name "wall(B)7"
+  size 0.4 2.5 0.06
+  appearance USE INTER_WALLS
+}
+Window {
+  translation 2.9 0 -1
+  rotation 0 1 0 -1.5708003061004252
+  name "window(B)8"
+  size 1.1 2.5 0.06
+  bottomWallHeight 1
+  frameSize 0.02 0.05 0.02
+  windowSillSize 0.3 0.05
+  frameAppearance USE WINDOWS_WOOD
+}
+Window {
+  translation 2.9 0 -2.35
+  rotation 0 1 0 -1.5708003061004252
+  name "window(B)9"
+  size 1.6 2.5 0.06
+  bottomWallHeight 1
+  frameSize 0.02 0.05 0.02
+  windowSillSize 0.3 0.05
+  frameAppearance USE WINDOWS_WOOD
+}
+Wall {
+  translation 2.9 0 -3.35
+  rotation 0 1 0 -1.5708003061004252
+  name "wall(B)10"
+  size 0.4 2.5 0.06
+  appearance USE INTER_WALLS
+}
+Window {
+  translation 2.9 0 -4.1
+  rotation 0 1 0 -1.5708003061004252
+  name "window(B)11"
+  size 1.1 2.5 0.06
+  bottomWallHeight 1
+  frameSize 0.02 0.05 0.02
+  windowSillSize 0.3 0.05
+  frameAppearance USE WINDOWS_WOOD
+}
+Window {
+  translation 2.9 0 -5.45
+  rotation 0 1 0 -1.5708003061004252
+  name "window(B)12"
+  size 1.6 2.5 0.06
+  bottomWallHeight 1
+  frameSize 0.02 0.05 0.02
+  windowSillSize 0.3 0.05
+  frameAppearance USE WINDOWS_WOOD
+}
+Wall {
+  translation 2.9 0 -6.45
+  rotation 0 1 0 -1.5708003061004252
+  name "wall(B)13"
+  size 0.4 2.5 0.06
+  appearance USE INTER_WALLS
+}
+Wall {
+  translation -0.92 0 -6.68
+  name "wall(C)"
+  size 7.7 2.5 0.06
+  appearance USE SIDE_WALLS
+}
+Wall {
+  translation -4.8 0 -3.6
+  rotation 0 1 0 -1.5708003061004252
+  name "wall(D)1"
+  size 6.2 2.5 0.06
+}
+Door {
+  translation -4.8 0 0
+  rotation 0 1 0 -4.712389693899574
+  size 1 2.5 0.06
+  frameSize 0.05 0.05 0.01
+  frameAppearance MattePaint {
+    baseColor 0.133333 0.0666667 0
+  }
+}
+Wall {
+  translation -4.8 0 3.35
+  rotation 0 1 0 -1.5708003061004252
+  name "wall(D)2"
+  size 5.7 2.5 0.06
+}
+Sofa {
+  translation 2 0 -1.22999
+  rotation 0 1 0 3.14159
+}
+PottedTree {
+  translation 2.15 0 -2.38
+}
+PottedTree {
+  translation -1.42 0 -6.23
+  name "potted tree(1)"
+}
+PottedTree {
+  translation 2.17 0 5.78
+  name "potted tree(2)"
+}
+Cabinet {
+  translation 2.49 0 0.01
+  rotation 0 -1 0 1.5708
+  outerThickness 0.02
+  rowsHeights [
+    0.3, 0.4, 0.3, 0.3
+  ]
+  columnsWidths [
+    0.6
+  ]
+  layout [
+    "Drawer (1, 1, 1, 1, 3.5)"
+    "Shelf (1, 4, 1, 0)"
+    "Shelf (1, 3, 1, 0)"
+    "Shelf (1, 2, 1, 0)"
+    "Shelf (1, 1, 1, 1)"
+  ]
+  handle CabinetHandle {
+    handleColor 0.533333 0.541176 0.521569
+  }
+  primaryAppearance MattePaint {
+    baseColor 0.729412 0.741176 0.713725
+  }
+  secondaryAppearance GlossyPaint {
+    baseColor 0.643137 0 0
+  }
+}
+Cabinet {
+  translation -0.22 0 -2.62
+  name "cabinet(1)"
+  outerThickness 0.02
+  rowsHeights [
+    0.1, 0.25
+  ]
+  columnsWidths [
+    0.5, 0.5
+  ]
+  layout [
+    "Drawer (2, 2, 1, 1, 1.5)"
+    "Drawer (1, 2, 1, 1, 1.5)"
+    "Shelf (1, 1, 0, 2)"
+    "Shelf (2, 2, 1, 0)"
+    "Shelf (1, 2, 1, 0)"
+    "Shelf (1, 1, 0, 1)"
+  ]
+  handle CabinetHandle {
+    handleColor 0.533333 0.541176 0.521569
+  }
+  primaryAppearance MattePaint {
+    baseColor 0.729412 0.741176 0.713725
+  }
+  secondaryAppearance GlossyPaint {
+    baseColor 0.643137 0 0
+  }
+}
+Cabinet {
+  translation 0.7 1.6 -6.65
+  name "cabinet(2)"
+  outerThickness 0.02
+  rowsHeights [
+    0.8
+  ]
+  columnsWidths [
+    0.8, 0.8, 0.8, 0.8
+  ]
+  layout [
+    "Drawer (1, 1, 1, 1, 1.5)"
+    "Drawer (2, 1, 1, 1, 1.5)"
+    "Drawer (3, 1, 1, 1, 1.5)"
+    "Drawer (4, 1, 1, 1, 1.5)"
+    "Shelf (1, 1, 0, 1)"
+    "Shelf (2, 1, 0, 1)"
+    "Shelf (3, 1, 0, 1)"
+  ]
+  handle CabinetHandle {
+    handleColor 0.533333 0.541176 0.521569
+  }
+  primaryAppearance MattePaint {
+    baseColor 0.729412 0.741176 0.713725
+  }
+  secondaryAppearance MattePaint {
+    baseColor 0.666667 0.333333 0
+  }
+}
+Cabinet {
+  translation 0.7 1.6 6.14
+  rotation 0 1 0 3.141592653589793
+  name "cabinet(3)"
+  outerThickness 0.02
+  rowsHeights [
+    0.8
+  ]
+  columnsWidths [
+    0.8, 0.8, 0.8, 0.8
+  ]
+  layout [
+    "Drawer (1, 1, 1, 1, 1.5)"
+    "Drawer (2, 1, 1, 1, 1.5)"
+    "Drawer (3, 1, 1, 1, 1.5)"
+    "Drawer (4, 1, 1, 1, 1.5)"
+    "Shelf (1, 1, 0, 1)"
+    "Shelf (2, 1, 0, 1)"
+    "Shelf (3, 1, 0, 1)"
+  ]
+  handle CabinetHandle {
+    handleColor 0.533333 0.541176 0.521569
+  }
+  primaryAppearance MattePaint {
+    baseColor 0.729412 0.741176 0.713725
+  }
+  secondaryAppearance MattePaint {
+    baseColor 0.666667 0.333333 0
+  }
+}
+Cabinet {
+  translation -2.5 0 -1.4
+  rotation 0 1 0 1.5708
+  name "cabinet(4)"
+  outerThickness 0.02
+  rowsHeights [
+    0.1, 0.4
+  ]
+  columnsWidths [
+    0.5, 0.5
+  ]
+  layout [
+    "Drawer (2, 2, 1, 1, 1.5)"
+    "Drawer (1, 2, 1, 1, 1.5)"
+    "Shelf (1, 1, 0, 2)"
+    "Shelf (2, 2, 1, 0)"
+    "Shelf (1, 2, 1, 0)"
+    "Shelf (1, 1, 0, 1)"
+  ]
+  handle CabinetHandle {
+    handleColor 0.533333 0.541176 0.521569
+  }
+  primaryAppearance MattePaint {
+    baseColor 0.729412 0.741176 0.713725
+  }
+  secondaryAppearance GlossyPaint {
+    baseColor 0.643137 0 0
+  }
+}
+Cabinet {
+  translation 2.49 0 0.66
+  rotation 0 -1 0 1.5708
+  name "cabinet(5)"
+  outerThickness 0.02
+  rowsHeights [
+    0.7, 0.3, 0.3
+  ]
+  columnsWidths [
+    0.6
+  ]
+  layout [
+    "LeftSidedDoor (1, 1, 1, 1, 1.5)"
+    "Shelf (1, 3, 1, 0)"
+    "Shelf (1, 2, 1, 0)"
+    "Shelf (1, 1, 1, 1)"
+  ]
+  handle CabinetHandle {
+    handleColor 0.533333 0.541176 0.521569
+  }
+  primaryAppearance MattePaint {
+    baseColor 0.729412 0.741176 0.713725
+  }
+  secondaryAppearance GlossyPaint {
+    baseColor 0.643137 0 0
+  }
+}
+Cabinet {
+  translation 2.5 0.1 1.52
+  rotation 0 -1 0 1.5708
+  name "cabinet(6)"
+  outerThickness 0.02
+  rowsHeights [
+    0.22, 0.22, 0.22
+  ]
+  columnsWidths [
+    0.5, 0.5
+  ]
+  layout [
+    "LeftSidedDoor (2, 1, 1, 3, 1.5)"
+    "LeftSidedDoor (1, 1, 1, 3, 1.5)"
+    "Shelf (1, 1, 0, 3)"
+    "Shelf (2, 1, 0, 3)"
+  ]
+  handle CabinetHandle {
+    translation 0.26 0.02 0
+    handleLength 0.1
+    handleRadius 0.008
+    handleColor 0.427451 0.513725 0.533333
+  }
+  primaryAppearance MattePaint {
+    baseColor 0.94667 0.925551 0.852003
+  }
+  secondaryAppearance MattePaint {
+    baseColor 0.94667 0.925551 0.852003
+  }
+}
+Cabinet {
+  translation 2.5 0.1 2.31
+  rotation 0 1 0 -1.5708
+  name "cabinet(7)"
+  outerThickness 0.02
+  rowsHeights [
+    0.22, 0.22, 0.22
+  ]
+  columnsWidths [
+    0.5
+  ]
+  layout [
+    "Drawer (1, 3, 1, 1, 1)"
+    "Drawer (1, 2, 1, 1, 1)"
+    "Drawer (1, 1, 1, 1, 1)"
+    "Shelf (1, 1, 0, 3)"
+  ]
+  handle CabinetHandle {
+    translation 0.02 0.01 0
+    handleLength 0.1
+    handleRadius 0.008
+    handleColor 0.427451 0.513725 0.533333
+  }
+  primaryAppearance MattePaint {
+    baseColor 0.94667 0.925551 0.852003
+  }
+  secondaryAppearance MattePaint {
+    baseColor 0.94667 0.925551 0.852003
+  }
+}
+SolidBox {
+  translation 2.25 0.05 1.79
+  rotation 0 1 0 1.5708
+  size 1.58 0.1 0.5
+  appearance PBRAppearance {
+    baseColor 0.8 0.8 0.8
+    roughness 0.5
+    metalness 0
+    textureTransform TextureTransform {
+      scale 4 4
+    }
+  }
+}
+Solid {
+  translation 2.25 0.83 1.525
+  rotation 0 -1 0 3.14159
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/rustic_veneer_wood_base_color.jpg"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/rustic_veneer_wood_roughness.jpg"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/rustic_veneer_wood_normal.jpg"
+          ]
+        }
+        normalMapFactor 0.2
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -0.25 0.03 0.525
+            0.25 0.03 0.525
+            0.25 0.03 -0.525
+            -0.25 0.03 -0.525
+            -0.25 -0.03 -0.525
+            0.25 -0.03 -0.525
+            0.25 -0.03 0.525
+            -0.25 -0.03 0.525
+            -0.25 -0.03 0.525
+            0.25 -0.03 0.525
+            0.25 0.03 0.525
+            -0.25 0.03 0.525
+            0.25 -0.03 -0.525
+            -0.25 -0.03 -0.525
+            -0.25 0.03 -0.525
+            0.25 0.03 -0.525
+            -0.25 -0.03 -0.525
+            -0.25 -0.03 0.525
+            -0.25 0.03 0.525
+            -0.25 0.03 -0.525
+            0.25 -0.03 0.525
+            0.25 -0.03 -0.525
+            0.25 0.03 -0.525
+            0.25 0.03 0.525
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            0.47619047619048 0
+            0.47619047619048 1
+            0 1
+            0 0
+            0.47619047619048 0
+            0.47619047619048 1
+            0 1
+            0 0
+            0.47619047619048 0
+            0.47619047619048 0.057142857142857
+            0 0.057142857142857
+            0 0
+            0.47619047619048 0
+            0.47619047619048 0.057142857142857
+            0 0.057142857142857
+            0 0
+            1 0
+            1 0.057142857142857
+            0 0.057142857142857
+            0 0
+            1 0
+            1 0.057142857142857
+            0 0.057142857142857
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+        ]
+        creaseAngle 1.5
+      }
+    }
+  ]
+  model "box"
+  boundingObject Box {
+    size 0.5 0.06 1.05
+  }
+}
+Solid {
+  translation 2.021 0.83 2.35
+  rotation 0 -1 0 3.14159
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/rustic_veneer_wood_base_color.jpg"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/rustic_veneer_wood_roughness.jpg"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/rustic_veneer_wood_normal.jpg"
+          ]
+        }
+        normalMapFactor 0.2
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -0.02 0.03 0.3
+            0.02 0.03 0.3
+            0.02 0.03 -0.3
+            -0.02 0.03 -0.3
+            -0.02 -0.03 -0.3
+            0.02 -0.03 -0.3
+            0.02 -0.03 0.3
+            -0.02 -0.03 0.3
+            -0.02 -0.03 0.3
+            0.02 -0.03 0.3
+            0.02 0.03 0.3
+            -0.02 0.03 0.3
+            0.02 -0.03 -0.3
+            -0.02 -0.03 -0.3
+            -0.02 0.03 -0.3
+            0.02 0.03 -0.3
+            -0.02 -0.03 -0.3
+            -0.02 -0.03 0.3
+            -0.02 0.03 0.3
+            -0.02 0.03 -0.3
+            0.02 -0.03 0.3
+            0.02 -0.03 -0.3
+            0.02 0.03 -0.3
+            0.02 0.03 0.3
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            0.066666666666667 0
+            0.066666666666667 1
+            0 1
+            0 0
+            0.066666666666667 0
+            0.066666666666667 1
+            0 1
+            0 0
+            0.066666666666667 0
+            0.066666666666667 0.1
+            0 0.1
+            0 0
+            0.066666666666667 0
+            0.066666666666667 0.1
+            0 0.1
+            0 0
+            1 0
+            1 0.1
+            0 0.1
+            0 0
+            1 0
+            1 0.1
+            0 0.1
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+        ]
+        creaseAngle 1.5
+      }
+    }
+  ]
+  name "worktop(1)"
+  model "box"
+  boundingObject Box {
+    size 0.04 0.06 0.6
+  }
+}
+Solid {
+  translation 2.45 0.83 2.35
+  rotation 0 -1 0 3.14159
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/rustic_veneer_wood_base_color.jpg"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/rustic_veneer_wood_roughness.jpg"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/rustic_veneer_wood_normal.jpg"
+          ]
+        }
+        normalMapFactor 0.2
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -0.05 0.03 0.3
+            0.05 0.03 0.3
+            0.05 0.03 -0.3
+            -0.05 0.03 -0.3
+            -0.05 -0.03 -0.3
+            0.05 -0.03 -0.3
+            0.05 -0.03 0.3
+            -0.05 -0.03 0.3
+            -0.05 -0.03 0.3
+            0.05 -0.03 0.3
+            0.05 0.03 0.3
+            -0.05 0.03 0.3
+            0.05 -0.03 -0.3
+            -0.05 -0.03 -0.3
+            -0.05 0.03 -0.3
+            0.05 0.03 -0.3
+            -0.05 -0.03 -0.3
+            -0.05 -0.03 0.3
+            -0.05 0.03 0.3
+            -0.05 0.03 -0.3
+            0.05 -0.03 0.3
+            0.05 -0.03 -0.3
+            0.05 0.03 -0.3
+            0.05 0.03 0.3
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            0.16666666666667 0
+            0.16666666666667 1
+            0 1
+            0 0
+            0.16666666666667 0
+            0.16666666666667 1
+            0 1
+            0 0
+            0.16666666666667 0
+            0.16666666666667 0.1
+            0 0.1
+            0 0
+            0.16666666666667 0
+            0.16666666666667 0.1
+            0 0.1
+            0 0
+            1 0
+            1 0.1
+            0 0.1
+            0 0
+            1 0
+            1 0.1
+            0 0.1
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+        ]
+        creaseAngle 1.5
+      }
+    }
+  ]
+  name "worktop(2)"
+  model "box"
+  boundingObject Box {
+    size 0.1 0.06 0.6
+  }
+}
+Solid {
+  translation 2.22 0.83 2.565
+  rotation 0 -1 0 3.14159
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/rustic_veneer_wood_base_color.jpg"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/rustic_veneer_wood_roughness.jpg"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/rustic_veneer_wood_normal.jpg"
+          ]
+        }
+        normalMapFactor 0.2
+        textureTransform TextureTransform {
+          scale 0.6 0.6
+          translation 0.3 1.18
+        }
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -0.18 0.03 0.085
+            0.18 0.03 0.085
+            0.18 0.03 -0.085
+            -0.18 0.03 -0.085
+            -0.18 -0.03 -0.085
+            0.18 -0.03 -0.085
+            0.18 -0.03 0.085
+            -0.18 -0.03 0.085
+            -0.18 -0.03 0.085
+            0.18 -0.03 0.085
+            0.18 0.03 0.085
+            -0.18 0.03 0.085
+            0.18 -0.03 -0.085
+            -0.18 -0.03 -0.085
+            -0.18 0.03 -0.085
+            0.18 0.03 -0.085
+            -0.18 -0.03 -0.085
+            -0.18 -0.03 0.085
+            -0.18 0.03 0.085
+            -0.18 0.03 -0.085
+            0.18 -0.03 0.085
+            0.18 -0.03 -0.085
+            0.18 0.03 -0.085
+            0.18 0.03 0.085
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            1 0
+            1 0.47222222222222
+            0 0.47222222222222
+            0 0
+            1 0
+            1 0.47222222222222
+            0 0.47222222222222
+            0 0
+            1 0
+            1 0.16666666666667
+            0 0.16666666666667
+            0 0
+            1 0
+            1 0.16666666666667
+            0 0.16666666666667
+            0 0
+            0.47222222222222 0
+            0.47222222222222 0.16666666666667
+            0 0.16666666666667
+            0 0
+            0.47222222222222 0
+            0.47222222222222 0.16666666666667
+            0 0.16666666666667
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+        ]
+        creaseAngle 1.5
+      }
+    }
+  ]
+  name "worktop(3)"
+  model "box"
+  boundingObject Box {
+    size 0.36 0.06 0.17
+  }
+}
+Sink {
+  translation 2.32 0.835 2.27
+  rotation 0 -1 0 -1.5708
+}
+Table {
+  translation 1.66 0 -3.18
+  size 1.6 0.74 1
+  feetSize 0.05 0.05
+  trayAppearance DEF TABLE_WOOD VarnishedPine {
+    textureTransform TextureTransform {
+      scale 10 10
+    }
+  }
+  legAppearance MattePaint {
+    baseColor 0.2 0.2 0.2
+  }
+}
+Table {
+  translation 1.66 0 -6.14
+  name "table(1)"
+  size 1.6 0.74 1
+  feetSize 0.05 0.05
+  legAppearance MattePaint {
+    baseColor 0.2 0.2 0.2
+  }
+}
+Table {
+  translation 1.66 0 3.18
+  name "table(2)"
+  size 1.6 0.74 1
+  feetSize 0.05 0.05
+  legAppearance MattePaint {
+    baseColor 0.2 0.2 0.2
+  }
+}
+Table {
+  translation -0.05 0 -3.18
+  name "table(3)"
+  feetSize 0.05 0.05
+  legAppearance MattePaint {
+    baseColor 0.2 0.2 0.2
+  }
+}
+Table {
+  translation -0.05 0 -6.14
+  name "table(4)"
+  feetSize 0.05 0.05
+  legAppearance MattePaint {
+    baseColor 0.2 0.2 0.2
+  }
+}
+Table {
+  translation -0.05 0 3.18
+  name "table(5)"
+  feetSize 0.05 0.05
+  legAppearance MattePaint {
+    baseColor 0.2 0.2 0.2
+  }
+}
+Table {
+  translation -1.86 0 3.18
+  name "table(6)"
+  feetSize 0.05 0.05
+  legAppearance MattePaint {
+    baseColor 0.2 0.2 0.2
+  }
+}
+Table {
+  translation -3.27 0 1.77
+  rotation 0 1 0 1.5707996938995747
+  name "table(7)"
+  feetSize 0.05 0.05
+  legAppearance MattePaint {
+    baseColor 0.2 0.2 0.2
+  }
+}
+Table {
+  translation -3.27 0 3.18
+  rotation 0 1 0 1.5707996938995747
+  name "table(8)"
+  size 1 0.74 1
+  feetSize 0.05 0.05
+  legAppearance MattePaint {
+    baseColor 0.2 0.2 0.2
+  }
+}
+Monitor {
+  translation 1.79048 0.76 2.84072
+  rotation 0 1 0 2.8797996938995745
+}
+Monitor {
+  translation 1.79048 0.76 -6.47928
+  rotation 0 1 0 -3.2724903061004254
+  name "monitor(1)"
+}
+Monitor {
+  translation 1.29031 0.76 2.84277
+  rotation 0 1 0 -2.8797996938995745
+  name "monitor(2)"
+}
+Monitor {
+  translation 1.29031 0.76 -6.47723
+  rotation 0 1 0 -3.0106903061004253
+  name "monitor(3)"
+}
+Monitor {
+  translation 0.32031 0.76 2.84277
+  rotation 0 1 0 3.0106903061004253
+  name "monitor(4)"
+}
+Monitor {
+  translation -0.16969 0.76 2.84277
+  rotation 0 1 0 -3.0106903061004253
+  name "monitor(5)"
+}
+Monitor {
+  translation -1.65969 0.76 2.84277
+  rotation 0 1 0 3.0106996938995745
+  name "monitor(6)"
+}
+Monitor {
+  translation -2.14969 0.76 2.84277
+  rotation 0 1 0 -3.0106903061004253
+  name "monitor(7)"
+}
+Monitor {
+  translation 1.79048 0.76 -2.87928
+  rotation 0 1 0 0.1308996938995747
+  name "monitor(8)"
+}
+Monitor {
+  translation 1.29031 0.76 -2.87723
+  rotation 0 1 0 -0.1308996938995747
+  name "monitor(9)"
+}
+Monitor {
+  translation 0.18031 0.76 -2.87723
+  rotation 0 1 0 0.1308996938995747
+  name "monitor(10)"
+}
+Monitor {
+  translation -0.35969 0.76 -2.87723
+  rotation 0 1 0 -0.1308996938995747
+  name "monitor(11)"
+}
+Keyboard {
+  translation 1.73097 0.74 3.22303
+  rotation 0 1 0 3.0106996938995745
+}
+Keyboard {
+  translation 1.57 0.74 -6.05
+  name "keyboard(1)"
+}
+Keyboard {
+  translation 0.0404275 0.74 2.99655
+  rotation 0 1 0 -3.0106993877991495
+  name "keyboard(2)"
+}
+Keyboard {
+  translation -1.91 0.74 3.26
+  rotation 0 1 0 -3.141592653589793
+  name "keyboard(3)"
+}
+Keyboard {
+  translation 1.5267 0.74 -2.98306
+  rotation 0 1 0 -0.2617916122008506
+  name "keyboard(4)"
+}
+Keyboard {
+  translation -0.1 0.74 -3.07
+  name "keyboard(5)"
+}
+OfficeChair {
+  translation 0.0449998 0 -4.01794
+  rotation 0 1 0 -0.523595307179586
+}
+OfficeChair {
+  translation 1.53 0 -3.94
+  name "office chair(1)"
+}
+OfficeChair {
+  translation 1.48338 0 -5.36388
+  rotation 0 1 0 -2.8797953071795863
+  name "office chair(2)"
+}
+OfficeChair {
+  translation 1.98104 0 4.16876
+  rotation 0 1 0 -2.3561953071795863
+  name "office chair(3)"
+}
+OfficeChair {
+  translation -0.0700003 0 4
+  rotation 0 1 0 3.14159
+  name "office chair(4)"
+}
+OfficeChair {
+  translation -1.85 0 4.07
+  rotation 0 1 0 -2.3561953071795863
+  name "office chair(5)"
+}
