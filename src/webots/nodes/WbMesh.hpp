@@ -36,8 +36,7 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void createResizeManipulator() override;
-  void rescale(const WbVector3 &scale) override;
-
+  void rescale(const WbVector3 &scale) override{};
   QString path() const;
 
   // WbTriangleMesh management (see WbTriangleMeshCache.hpp)

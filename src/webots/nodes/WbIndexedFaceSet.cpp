@@ -19,21 +19,14 @@
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbMFInt.hpp"
-#include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbNormal.hpp"
-#include "WbOdeGeomData.hpp"
-#include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFDouble.hpp"
 #include "WbSFNode.hpp"
-#include "WbSimulationState.hpp"
 #include "WbTextureCoordinate.hpp"
-#include "WbTransform.hpp"
 #include "WbTriangleMesh.hpp"
-#include "WbWrenMeshBuffers.hpp"
-#include "WbWrenRenderingContext.hpp"
 
 void WbIndexedFaceSet::init() {
   mCoord = findSFNode("coord");
