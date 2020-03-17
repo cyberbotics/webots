@@ -112,8 +112,8 @@ int main(int argc, char *argv[]) {
   printf("Start in 1 second (simulation time)...\n");
   wb_robot_step(1024);  // Wait for about 1 second
 
-  const int N = 3;
-  const float R = 0.7;
+  const int n_turn = 3;
+  const float radius = 0.7;
   const float height = 0.2;
   const float angle_end = 2 * M_PI;
 
