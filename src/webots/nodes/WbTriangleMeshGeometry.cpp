@@ -85,10 +85,6 @@ void WbTriangleMeshGeometry::preFinalize() {
   WbTriangleMeshCache::useTriangleMesh(this);
 }
 
-void WbTriangleMeshGeometry::postFinalize() {
-  WbGeometry::postFinalize();
-}
-
 WbTriangleMeshCache::TriangleMeshInfo WbTriangleMeshGeometry::createTriangleMesh() {
   delete mTriangleMesh;
   mTriangleMesh = new WbTriangleMesh();

@@ -41,7 +41,6 @@ public:
 
   // reimplemented public functions
   void preFinalize() override;
-  void postFinalize() override;
   void createWrenObjects() override;
   void setScaleNeedUpdate() override;
   dGeomID createOdeGeom(dSpaceID space) override;

@@ -397,9 +397,6 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
   delete[] texture;
 }
 
-void WbMesh::rescale(const WbVector3 &scale) {
-}
-
 void WbMesh::updateUrl() {
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
