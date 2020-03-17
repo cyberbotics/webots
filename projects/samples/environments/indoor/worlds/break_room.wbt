@@ -6,7 +6,7 @@ WorldInfo {
     "Doors are interactive."
     "This means that a robot could open a drawer, leave an object inside it, and close it."
   ]
-  title "Break room layout"
+  title "Break Room"
 }
 Viewpoint {
   orientation 0.5611620507608208 0.6084366364002342 0.5611613068199546 4.234793484858312
