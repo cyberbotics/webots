@@ -125,7 +125,7 @@ int main(int argc, char *argv[]) {
   printf("Angle stop at %f rad\n", angle_end);
   printf("\n");
 
-  revolving_view(robot_position, CW, UP, N, R, height, angle_end);
+  revolving_view(robot_position, CW, UP, n_turn, radius, height, angle_end);
 
   wb_robot_cleanup();
   return 0;
