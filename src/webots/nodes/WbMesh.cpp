@@ -161,7 +161,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
       indexOffset += mesh->mNumVertices;
     }
 
-    // add all the childrens of this node to the queue
+    // add all the children of this node to the queue
     for (size_t i = 0; i < node->mNumChildren; ++i)
       queue.push_back(node->mChildren[i]);
   }
