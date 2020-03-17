@@ -15,7 +15,7 @@ PROTO Youbot [
   field SFBool            supervisor      FALSE         # Is `Robot.supervisor`.
   field SFBool            synchronization TRUE          # Is `Robot.synchronization`.
   field MFNode            bodySlot        []            # Extends the robot with new nodes in the body slot.
-  field SFInt32{0, 1, 2}  numberOfArms    1             # Defines the number of arms on the platform
+  field SFInt32{0, 1, 2}  numberOfArms    1             # Defines the number of arms on the robot.
 ]
 {
 Robot {
