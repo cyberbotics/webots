@@ -1,4 +1,3 @@
-#include <QtCore/QDebug>
 // Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+#include <QtCore/QDebug>
 
 #include "WbNodeOperations.hpp"
 
@@ -306,7 +307,7 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
     //            << material->mProperties[j]->mSemantic << material->mProperties[j]->mIndex
     //            << material->mProperties[j]->mDataLength << material->mProperties[j]->mType;
     // }
-    if (material->GetTextureCount(aiTextureType_NORMALS) > 0) {
+    if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
       aiString path;
       material->GetTexture(aiTextureType_DIFFUSE, 0, &path);
       stream += " baseColorMap ImageTexture { ";
