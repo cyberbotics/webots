@@ -296,7 +296,7 @@ int main() {
 
 %tab "C++"
 
-```c++
+```cpp
 #include <webots/Robot.h>
 #include <webots/DistanceSensor.h>
 #include <webots/Led.h>
@@ -384,7 +384,7 @@ public class MyController extends Robot {
     distanceSensor = getDistanceSensor("my_distance_sensor");
     led = getLed("my_led");
 
-    distanceSensor->enable(timeStep);  // enable sensors to read data from them
+    distanceSensor.enable(timeStep);  // enable sensors to read data from them
   }
 
   public void run() {
@@ -412,7 +412,7 @@ public class MyController extends Robot {
 
 %tab "matlab"
 
-```matlab
+```MATLAB
 
 TIME_STEP=32; % control time step
 
