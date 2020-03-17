@@ -414,7 +414,7 @@ public class MyController extends Robot {
 
 ```MATLAB
 
-TIME_STEP=32; % control time step
+TIME_STEP = 32; % control time step
 
 % get device tags
 distanceSensor = wb_robot_get_device("my_distance_sensor");
