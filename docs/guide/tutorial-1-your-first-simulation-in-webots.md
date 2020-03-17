@@ -96,7 +96,7 @@ We will learn how to use other capabilities in the next tutorials.
 
 Now, we are going to add an e-puck model to the world.
 Make sure that the simulation is paused and that the virtual time elapsed is 0.
-If this is not the case, reset the simulation with the `Reset` button ![](images/reset-simulation-button.png =26x26) ([rewind](the-user-interface.md)).
+If this is not the case, reset the simulation with the `Reset` button ![](images/reset-simulation-button.png =26x26).
 
 When a Webots world is modified with the intention of being saved, it is fundamental that the simulation is first paused and reloaded to its initial state, i.e. the virtual time counter on the main toolbar should show 0:00:00:000.
 Otherwise at each save, the position of each 3D object can accumulate errors.
