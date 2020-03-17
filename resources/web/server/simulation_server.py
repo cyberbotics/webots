@@ -140,16 +140,14 @@ class Client:
         self.cleanup_webots_instance()
 
     def setup_project(self):
-        print("There")
-        print("setup_project " + str(self.app) + "\n")
-        print("No...")
+        logging.info("setup_project " + str(self.url))
         if self.url:
             return self.setup_project_from_github()
         else:
             return self.setup_project_from_zip()
 
     def setup_project_from_github(self):
-        print("setup_project_from_github " + self.url)
+        logging.info("setup_project_from_github " + self.url)
         if not self.url.startswith('https://github.com/'):
             logging.error('The URL argument should start with "https://github.com/".')
             return False
@@ -246,7 +244,7 @@ class Client:
 
     def start_webots(self, on_webots_quit):
         """Start a Webots instance in a separate thread."""
-        print("start_webots")
+        logging.info("start_webots")
 
         def runWebotsInThread(client):
             global config
@@ -336,34 +334,40 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
         return True
 
     @classmethod
-    def find_client_from_websocket(cls, client_websocket):
+    def find_client_from_websocket(self, client_websocket):
         """Return client associated with a websocket."""
-        for client in cls.clients:
+        for client in self.clients:
             if client.client_websocket == client_websocket:
                 return client
         return None
 
     @classmethod
-    def next_available_port(cls):
+    def next_available_port(self):
         """Return a port number available for a new Webots WebSocket server."""
         port = config['port'] + 1
         while True:
-            found = False
-            for client in cls.clients:
+            for client in self.clients:
                 if port == client.streaming_server_port:
-                    found = True
-                    break
-            if not found:
-                # try to connect to make sure that port is available
-                testSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                result = testSocket.connect_ex(('localhost', port)) == 0
-                testSocket.close()
-                if result:
                     return port
-            port += 1
-            if port > config['port'] + config['maxConnections']:
-                logging.error("Too many open connections (>" + config['maxConnections'] + ")")
-                return port
+            # try to create a server to make sure that port is available
+            testSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            try:
+                testSocket.bind(('0.0.0.0', port))
+                found = True
+            except socket.error as e:
+                found = False
+                if e.errno == errno.EADDRINUSE:
+                    logging.info('Port ' + str(port) + ' is already in use.')
+                else:  # something else raised the socket.error exception
+                    logging.info('Port ' + str(port) + ': ' + e)
+            finally:
+                testSocket.close()
+                if found:
+                    return port
+                port += 1
+                if port > config['port'] + config['maxConnections']:
+                    logging.error("Too many open connections (>" + str(config['maxConnections']) + ")")
+                    return 0
 
     def open(self):
         """Open a new connection for an incoming client."""
@@ -446,7 +450,7 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
                 url = data['start']['url']
                 tag = int(data['start']['tag']) if 'tag' in data['start'] else 0
                 world = data['start']['world'] if 'world' in data['start'] else ''
-                print('starting ' + world + ' from ' + url + ' (' + str(tag) + ')')
+                logging.info('starting ' + world + ' from ' + url + ' (' + str(tag) + ')')
                 self.write_message('starting ' + world + ' from ' + url + ' (' + str(tag) + ')')
                 client.url = url
                 client.tag = tag
@@ -674,6 +678,7 @@ def main():
     # logDir:            directory where the log files are written.
     # monitorLogEnabled: specify if the monitor data have to be stored in a file.
     # maxConnections:    maximum number of simultaneous Webots instances.
+    # debug:             debug mode.
     #
     global config
     global snapshots
@@ -705,6 +710,8 @@ def main():
         config['port'] = 2000
     if 'maxConnections' not in config:
         config['maxConnections'] = 100
+    if 'debug' not in config:
+        config['debug'] = False
     os.environ['WEBOTS_FIREJAIL_CONTROLLERS'] = '1'
     config['instancesPath'] = tempfile.gettempdir().replace('\\', '/') + '/webots/instances/'
     # create the instances path
@@ -726,7 +733,10 @@ def main():
     try:
         if not os.path.exists(simulationLogDir):
             os.makedirs(simulationLogDir)
-        file_handler = logging.FileHandler(logFile)
+        if config['debug']:
+            file_handler = logging.StreamHandler(sys.stdout)
+        else:
+            file_handler = logging.FileHandler(logFile)
         file_handler.setFormatter(log_formatter)
         file_handler.setLevel(logging.INFO)
         root_logger.addHandler(file_handler)
