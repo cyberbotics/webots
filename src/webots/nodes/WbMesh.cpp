@@ -166,7 +166,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
       indexOffset += mesh->mNumVertices;
     }
 
-    // add all the childrens of this node to the queue
+    // add all the children of this node to the queue
     for (size_t i = 0; i < node->mNumChildren; ++i)
       queue.push_back(node->mChildren[i]);
   }
@@ -197,7 +197,7 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
     WbTriangleMeshGeometry::exportNodeContents(writer);
     return;
   }
-  // Export the content as IndexedFaceSet in VRML
+  // export the content as IndexedFaceSet in VRML
   const int n = mTriangleMesh->numberOfTriangles();
   const int n3 = n * 3;
   int *const coordIndex = new int[n3];
@@ -402,7 +402,7 @@ void WbMesh::rescale(const WbVector3 &scale) {
 
 void WbMesh::updateUrl() {
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
-  int n = mUrl->size();
+  const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
     QString item = mUrl->item(i);
     mUrl->setItem(i, item.replace("\\", "/"));
