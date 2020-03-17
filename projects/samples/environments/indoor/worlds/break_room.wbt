@@ -110,7 +110,7 @@ CeilingLight {
 Wall {
   translation 0 0 2.65
   size 5 0.62 0.05
-  appearance Roughcast {
+  appearance DEF SMALL_WALLS Roughcast {
     colorOverride 0.890196 0.803922 1
     textureTransform TextureTransform {
       scale 1 2.4
@@ -121,231 +121,192 @@ Wall {
   translation 0.77 0 -2.65
   name "wall(1)"
   size 3.55 0.62 0.05
-  appearance Roughcast {
-    colorOverride 0.890196 0.803922 1
-    textureTransform TextureTransform {
-      scale 1 2.4
-    }
-  }
+  appearance USE SMALL_WALLS
 }
 Wall {
   translation 2.52 0 0
   rotation 0 1 0 1.5708
   name "wall(2)"
   size 5.35 0.62 0.05
-  appearance Roughcast {
-    colorOverride 0.890196 0.803922 1
-    textureTransform TextureTransform {
-      scale 1 2.4
-    }
-  }
+  appearance USE SMALL_WALLS
 }
 Wall {
   translation -2.524 0 1.65
   rotation 0 1 0 1.5708
   name "wall(3)"
   size 2.05 0.62 0.05
-  appearance Roughcast {
-    colorOverride 0.890196 0.803922 1
-    textureTransform TextureTransform {
-      scale 1 2.4
-    }
-  }
+  appearance USE SMALL_WALLS
 }
 Wall {
   translation -3.05 0 0.65
   rotation 0 1 0 -3.14159
   name "wall(4)"
   size 1 0.62 0.05
-  appearance Roughcast {
-    colorOverride 0.890196 0.803922 1
-    textureTransform TextureTransform {
-      scale 1 2.4
-    }
-  }
+  appearance USE SMALL_WALLS
 }
 Wall {
   translation -3.05 0 -0.4
   rotation 0 1 0 -3.14159
   name "wall(5)"
   size 1 0.62 0.05
-  appearance Roughcast {
-    colorOverride 0.890196 0.803922 1
-    textureTransform TextureTransform {
-      scale 1 2.4
-    }
-  }
+  appearance USE SMALL_WALLS
 }
 Wall {
   translation -2.524 0 -1.876
   rotation 0 1 0 1.5708
-  name "wall(7)"
+  name "wall(6)"
   size 3 0.62 0.05
-  appearance Roughcast {
-    colorOverride 0.890196 0.803922 1
-    textureTransform TextureTransform {
-      scale 1 2.4
-    }
-  }
+  appearance USE SMALL_WALLS
 }
 Wall {
   translation -0.979 0 -3.026
   rotation 0 1 0 1.5708
-  name "wall(8)"
+  name "wall(7)"
   size 0.7 0.62 0.05
-  appearance Roughcast {
-    colorOverride 0.890196 0.803922 1
+  appearance USE SMALL_WALLS
+}
+Wall {
+  translation -0.92 0 6.17
+  name "wall(A)"
+  size 7.7 2.5 0.06
+  appearance DEF SIDE_WALLS Roughcast {
     textureTransform TextureTransform {
-      scale 1 2.4
+      scale 3 3
     }
   }
 }
 Wall {
-  translation -0.92 0 6.17
-  name "wall(14)"
-  size 7.7 2.5 0.06
-}
-Wall {
   translation 2.9 0 5.94
   rotation 0 1 0 -1.5708003061004252
-  name "wall(13)"
+  name "wall(B)1"
   size 0.4 2.5 0.06
+  appearance DEF INTER_WALLS Roughcast {
+    textureTransform TextureTransform {
+      scale 0.3 2.2
+    }
+  }
 }
 Window {
   translation 2.9 0 5.19
   rotation 0 1 0 -1.5708003061004252
-  name "window(7)"
+  name "window(B)2"
   size 1.1 2.5 0.06
   bottomWallHeight 1
   frameSize 0.02 0.05 0.02
   windowSillSize 0.3 0.05
-  frameAppearance MattePaint {
+  frameAppearance DEF WINDOWS_WOOD MattePaint {
     baseColor 0.133333 0.0666667 0
   }
 }
 Window {
   translation 2.9 0 3.84
   rotation 0 1 0 -1.5708003061004252
-  name "window(6)"
+  name "window(B)3"
   size 1.6 2.5 0.06
   bottomWallHeight 1
   frameSize 0.02 0.05 0.02
   windowSillSize 0.3 0.05
-  frameAppearance MattePaint {
-    baseColor 0.133333 0.0666667 0
-  }
+  frameAppearance USE WINDOWS_WOOD
 }
 Wall {
   translation 2.9 0 2.84
   rotation 0 1 0 -1.5708003061004252
-  name "wall(12)"
+  name "wall(B)4"
   size 0.4 2.5 0.06
+  appearance USE INTER_WALLS
 }
 Window {
   translation 2.9 0 2.09
   rotation 0 1 0 -1.5708003061004252
+  name "window(B)5"
   size 1.1 2.5 0.06
   bottomWallHeight 1
   frameSize 0.02 0.05 0.02
   windowSillSize 0.3 0.05
-  frameAppearance MattePaint {
-    baseColor 0.133333 0.0666667 0
-  }
+  frameAppearance USE WINDOWS_WOOD
 }
 Window {
   translation 2.9 0 0.74
   rotation 0 1 0 -1.5708003061004252
-  name "window(1)"
+  name "window(B)6"
   size 1.6 2.5 0.06
   bottomWallHeight 1
   frameSize 0.02 0.05 0.02
   windowSillSize 0.3 0.05
-  frameAppearance MattePaint {
-    baseColor 0.133333 0.0666667 0
-  }
+  frameAppearance USE WINDOWS_WOOD
 }
 Wall {
   translation 2.9 0 -0.26
   rotation 0 1 0 -1.5708003061004252
-  name "wall(10)"
+  name "wall(B)7"
   size 0.4 2.5 0.06
+  appearance USE INTER_WALLS
 }
 Window {
   translation 2.9 0 -1
   rotation 0 1 0 -1.5708003061004252
-  name "window(3)"
+  name "window(B)8"
   size 1.1 2.5 0.06
   bottomWallHeight 1
   frameSize 0.02 0.05 0.02
   windowSillSize 0.3 0.05
-  frameAppearance MattePaint {
-    baseColor 0.133333 0.0666667 0
-  }
+  frameAppearance USE WINDOWS_WOOD
 }
 Window {
   translation 2.9 0 -2.35
   rotation 0 1 0 -1.5708003061004252
-  name "window(2)"
+  name "window(B)9"
   size 1.6 2.5 0.06
   bottomWallHeight 1
   frameSize 0.02 0.05 0.02
   windowSillSize 0.3 0.05
-  frameAppearance MattePaint {
-    baseColor 0.133333 0.0666667 0
-  }
+  frameAppearance USE WINDOWS_WOOD
 }
 Wall {
   translation 2.9 0 -3.35
   rotation 0 1 0 -1.5708003061004252
-  name "wall(11)"
+  name "wall(B)10"
   size 0.4 2.5 0.06
+  appearance USE INTER_WALLS
 }
 Window {
   translation 2.9 0 -4.1
   rotation 0 1 0 -1.5708003061004252
-  name "window(4)"
+  name "window(B)11"
   size 1.1 2.5 0.06
   bottomWallHeight 1
   frameSize 0.02 0.05 0.02
   windowSillSize 0.3 0.05
-  frameAppearance MattePaint {
-    baseColor 0.133333 0.0666667 0
-  }
+  frameAppearance USE WINDOWS_WOOD
 }
 Window {
   translation 2.9 0 -5.45
   rotation 0 1 0 -1.5708003061004252
-  name "window(5)"
+  name "window(B)12"
   size 1.6 2.5 0.06
   bottomWallHeight 1
   frameSize 0.02 0.05 0.02
   windowSillSize 0.3 0.05
-  frameAppearance MattePaint {
-    baseColor 0.133333 0.0666667 0
-  }
+  frameAppearance USE WINDOWS_WOOD
 }
 Wall {
   translation 2.9 0 -6.45
   rotation 0 1 0 -1.5708003061004252
-  name "wall(15)"
+  name "wall(B)13"
   size 0.4 2.5 0.06
+  appearance USE INTER_WALLS
 }
 Wall {
   translation -0.92 0 -6.68
-  name "wall(16)"
+  name "wall(C)"
   size 7.7 2.5 0.06
+  appearance USE SIDE_WALLS
 }
 Wall {
   translation -4.8 0 -3.6
   rotation 0 1 0 -1.5708003061004252
-  name "wall(6)"
+  name "wall(D)1"
   size 6.2 2.5 0.06
-}
-Wall {
-  translation -4.8 0 3.35
-  rotation 0 1 0 -1.5708003061004252
-  name "wall(17)"
-  size 5.7 2.5 0.06
 }
 Door {
   translation -4.8 0 0
@@ -355,6 +316,12 @@ Door {
   frameAppearance MattePaint {
     baseColor 0.133333 0.0666667 0
   }
+}
+Wall {
+  translation -4.8 0 3.35
+  rotation 0 1 0 -1.5708003061004252
+  name "wall(D)2"
+  size 5.7 2.5 0.06
 }
 Sofa {
   translation 2 0 -1.22999
@@ -428,7 +395,7 @@ Cabinet {
 }
 Cabinet {
   translation 0.7 1.6 -6.65
-  name "cabinet(6)"
+  name "cabinet(2)"
   outerThickness 0.02
   rowsHeights [
     0.8
@@ -458,7 +425,7 @@ Cabinet {
 Cabinet {
   translation 0.7 1.6 6.14
   rotation 0 1 0 3.141592653589793
-  name "cabinet(7)"
+  name "cabinet(3)"
   outerThickness 0.02
   rowsHeights [
     0.8
@@ -488,7 +455,7 @@ Cabinet {
 Cabinet {
   translation -2.5 0 -1.4
   rotation 0 1 0 1.5708
-  name "cabinet(2)"
+  name "cabinet(4)"
   outerThickness 0.02
   rowsHeights [
     0.1, 0.4
@@ -517,7 +484,7 @@ Cabinet {
 Cabinet {
   translation 2.49 0 0.66
   rotation 0 -1 0 1.5708
-  name "cabinet(3)"
+  name "cabinet(5)"
   outerThickness 0.02
   rowsHeights [
     0.7, 0.3, 0.3
@@ -544,7 +511,7 @@ Cabinet {
 Cabinet {
   translation 2.5 0.1 1.52
   rotation 0 -1 0 1.5708
-  name "cabinet(4)"
+  name "cabinet(6)"
   outerThickness 0.02
   rowsHeights [
     0.22, 0.22, 0.22
@@ -574,7 +541,7 @@ Cabinet {
 Cabinet {
   translation 2.5 0.1 2.31
   rotation 0 1 0 -1.5708
-  name "cabinet(5)"
+  name "cabinet(7)"
   outerThickness 0.02
   rowsHeights [
     0.22, 0.22, 0.22
@@ -1001,13 +968,18 @@ Table {
   translation 1.66 0 -3.18
   size 1.6 0.74 1
   feetSize 0.05 0.05
+  trayAppearance DEF TABLE_WOOD VarnishedPine {
+    textureTransform TextureTransform {
+      scale 10 10
+    }
+  }
   legAppearance MattePaint {
     baseColor 0.2 0.2 0.2
   }
 }
 Table {
   translation 1.66 0 -6.14
-  name "table(7)"
+  name "table(1)"
   size 1.6 0.74 1
   feetSize 0.05 0.05
   legAppearance MattePaint {
@@ -1016,7 +988,7 @@ Table {
 }
 Table {
   translation 1.66 0 3.18
-  name "table(3)"
+  name "table(2)"
   size 1.6 0.74 1
   feetSize 0.05 0.05
   legAppearance MattePaint {
@@ -1025,7 +997,7 @@ Table {
 }
 Table {
   translation -0.05 0 -3.18
-  name "table(1)"
+  name "table(3)"
   feetSize 0.05 0.05
   legAppearance MattePaint {
     baseColor 0.2 0.2 0.2
@@ -1033,7 +1005,7 @@ Table {
 }
 Table {
   translation -0.05 0 -6.14
-  name "table(8)"
+  name "table(4)"
   feetSize 0.05 0.05
   legAppearance MattePaint {
     baseColor 0.2 0.2 0.2
@@ -1041,7 +1013,7 @@ Table {
 }
 Table {
   translation -0.05 0 3.18
-  name "table(2)"
+  name "table(5)"
   feetSize 0.05 0.05
   legAppearance MattePaint {
     baseColor 0.2 0.2 0.2
@@ -1049,7 +1021,7 @@ Table {
 }
 Table {
   translation -1.86 0 3.18
-  name "table(4)"
+  name "table(6)"
   feetSize 0.05 0.05
   legAppearance MattePaint {
     baseColor 0.2 0.2 0.2
@@ -1058,7 +1030,7 @@ Table {
 Table {
   translation -3.27 0 1.77
   rotation 0 1 0 1.5707996938995747
-  name "table(5)"
+  name "table(7)"
   feetSize 0.05 0.05
   legAppearance MattePaint {
     baseColor 0.2 0.2 0.2
@@ -1067,7 +1039,7 @@ Table {
 Table {
   translation -3.27 0 3.18
   rotation 0 1 0 1.5707996938995747
-  name "table(6)"
+  name "table(8)"
   size 1 0.74 1
   feetSize 0.05 0.05
   legAppearance MattePaint {
@@ -1081,57 +1053,57 @@ Monitor {
 Monitor {
   translation 1.79048 0.76 -6.47928
   rotation 0 1 0 -3.2724903061004254
-  name "monitor(11)"
+  name "monitor(1)"
 }
 Monitor {
   translation 1.29031 0.76 2.84277
   rotation 0 1 0 -2.8797996938995745
-  name "monitor(1)"
+  name "monitor(2)"
 }
 Monitor {
   translation 1.29031 0.76 -6.47723
   rotation 0 1 0 -3.0106903061004253
-  name "monitor(10)"
+  name "monitor(3)"
 }
 Monitor {
   translation 0.32031 0.76 2.84277
   rotation 0 1 0 3.0106903061004253
-  name "monitor(2)"
+  name "monitor(4)"
 }
 Monitor {
   translation -0.16969 0.76 2.84277
   rotation 0 1 0 -3.0106903061004253
-  name "monitor(3)"
+  name "monitor(5)"
 }
 Monitor {
   translation -1.65969 0.76 2.84277
   rotation 0 1 0 3.0106996938995745
-  name "monitor(4)"
+  name "monitor(6)"
 }
 Monitor {
   translation -2.14969 0.76 2.84277
   rotation 0 1 0 -3.0106903061004253
-  name "monitor(5)"
+  name "monitor(7)"
 }
 Monitor {
   translation 1.79048 0.76 -2.87928
   rotation 0 1 0 0.1308996938995747
-  name "monitor(6)"
+  name "monitor(8)"
 }
 Monitor {
   translation 1.29031 0.76 -2.87723
   rotation 0 1 0 -0.1308996938995747
-  name "monitor(7)"
+  name "monitor(9)"
 }
 Monitor {
   translation 0.18031 0.76 -2.87723
   rotation 0 1 0 0.1308996938995747
-  name "monitor(8)"
+  name "monitor(10)"
 }
 Monitor {
   translation -0.35969 0.76 -2.87723
   rotation 0 1 0 -0.1308996938995747
-  name "monitor(9)"
+  name "monitor(11)"
 }
 Keyboard {
   translation 1.73097 0.74 3.22303
@@ -1139,26 +1111,26 @@ Keyboard {
 }
 Keyboard {
   translation 1.57 0.74 -6.05
-  name "keyboard(5)"
+  name "keyboard(1)"
 }
 Keyboard {
   translation 0.0404275 0.74 2.99655
   rotation 0 1 0 -3.0106993877991495
-  name "keyboard(1)"
+  name "keyboard(2)"
 }
 Keyboard {
   translation -1.91 0.74 3.26
   rotation 0 1 0 -3.141592653589793
-  name "keyboard(2)"
+  name "keyboard(3)"
 }
 Keyboard {
   translation 1.5267 0.74 -2.98306
   rotation 0 1 0 -0.2617916122008506
-  name "keyboard(3)"
+  name "keyboard(4)"
 }
 Keyboard {
   translation -0.1 0.74 -3.07
-  name "keyboard(4)"
+  name "keyboard(5)"
 }
 OfficeChair {
   translation 0.0449998 0 -4.01794
