@@ -15,31 +15,16 @@
 #include "WbTriangleMeshGeometry.hpp"
 
 #include "WbBoundingSphere.hpp"
-#include "WbCoordinate.hpp"
 #include "WbField.hpp"
-#include "WbFieldChecker.hpp"
-#include "WbMFInt.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
-#include "WbNormal.hpp"
 #include "WbOdeGeomData.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
-#include "WbSFBool.hpp"
-#include "WbSFDouble.hpp"
-#include "WbSFNode.hpp"
 #include "WbSimulationState.hpp"
-#include "WbTextureCoordinate.hpp"
 #include "WbTransform.hpp"
 #include "WbTriangleMesh.hpp"
 #include "WbWrenMeshBuffers.hpp"
-#include "WbWrenRenderingContext.hpp"
-
-#include <wren/config.h>
-#include <wren/node.h>
-#include <wren/renderable.h>
-#include <wren/static_mesh.h>
-#include <wren/transform.h>
 
 #include <ode/ode.h>
 

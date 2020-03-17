@@ -20,9 +20,6 @@
 
 #include <unordered_map>
 
-class WbCoordinate;
-class WbNormal;
-class WbTextureCoordinate;
 class WbTriangleMesh;
 class WbVector3;
 

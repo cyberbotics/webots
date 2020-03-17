@@ -14,25 +14,14 @@
 
 #include "WbMesh.hpp"
 
-#include "WbAffinePlane.hpp"
-#include "WbBoundingSphere.hpp"
-#include "WbField.hpp"
-#include "WbFieldChecker.hpp"
 #include "WbMFString.hpp"
-#include "WbNodeUtilities.hpp"
-#include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
-#include "WbSimulationState.hpp"
-#include "WbTransform.hpp"
 #include "WbTriangleMesh.hpp"
 #include "WbUrl.hpp"
-#include "WbVector2.hpp"
 
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
-
-#include <cmath>
 
 void WbMesh::init() {
   mUrl = findMFString("url");
