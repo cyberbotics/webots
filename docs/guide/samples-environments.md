@@ -44,7 +44,7 @@ An e-puck robot patrols on the table and an iRobot Create robot cleans the groun
 This example shows an office break room using the domestic objects included in Webots.
 These objects are Webots PROTO nodes, and can be easily moved and resized to create other apartment layouts.
 Doors are interactive.
-This means that a robot could open a drawer, leave an object inside it, and close it.
+This means that a robot can open a drawer, leave an object inside it, and close it.
 
 
 ### [complete\_apartment.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/environments/indoor/worlds/complete_apartment.wbt)
