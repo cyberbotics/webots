@@ -296,8 +296,6 @@ int main() {
 
 %tab "C++"
 
-%tab-end
-
 ```c++
 #include <webots/Robot.h>
 #include <webots/DistanceSensor.h>
@@ -312,10 +310,8 @@ public:
     distanceSensor = getDistanceSensor("my_distance_sensor");
     led = getLed("my_led");
 
-    distanceSensor.enable(timeStep);  // enable sensors to read data from them
+    distanceSensor->enable(timeStep);  // enable sensors to read data from them
   }
-
-  ~MyController() {}
 
   void run() {
     // main control loop: perform simulation steps of 32 milliseconds
@@ -331,7 +327,112 @@ private:
   DistanceSensor *distanceSensor;
   Led *led;
 }
+
+// main C++ program
+int main() {
+  MyController *controller = new MyController();
+  controller->run();
+  delete controller;
+  return 0;
+}
+
 ```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Robot
+
+class MyController(Robot):
+    def __init__(self):
+        super(MyController, self).__init__()
+        self.timeStep = 32;  # set the control time step
+
+        # get device tags
+        self.distanceSensor = self.getDistanceSensor('my_distance_sensor');
+        self.led = self.getLed('my_led');
+        self.distanceSensor.enable(timeStep);  # enable sensors to read data from them
+
+    def run(self):
+        # main control loop: perform simulation steps of 32 milliseconds
+        # and leave the loop when the simulation is over
+        while self.step(self.timeStep) != -1:
+            val = self.distanceSensor.getValue()  # Read and process sensor data
+            self.led.set(1);                      # Send actuator commands
+
+# main Python program
+controller = MyController()
+controller.run()
+```
+
+%tab-end
+
+%tab "java"
+
+```java
+import com.cyberbotics.webots.controller.Robot;
+import com.cyberbotics.webots.controller.DistanceSensor;
+import com.cyberbotics.webots.controller.Led;
+
+public class MyController extends Robot {
+  public MyController() {
+    timeStep = 32;  // set the control time step
+
+    // get device tags
+    distanceSensor = getDistanceSensor("my_distance_sensor");
+    led = getLed("my_led");
+
+    distanceSensor->enable(timeStep);  // enable sensors to read data from them
+  }
+
+  public void run() {
+    // main control loop: perform simulation steps of 32 milliseconds
+    // and leave the loop when the simulation is over
+    while (step(timeStep) != -1) {
+      double val = distanceSensor.getValue();  // Read and process sensor data
+      led.set(1);                              // Send actuator commands
+    }
+  }
+
+  private int timeStep;
+  private DistanceSensor distanceSensor;
+  private Led led;
+
+  // main java program
+  public static void main(String[] args) {
+    MyController controller = new MyController();
+    controller.run();
+  }
+}
+```
+
+%tab-end
+
+%tab "matlab"
+
+```matlab
+
+TIME_STEP=32; % control time step
+
+% get device tags
+distanceSensor = wb_robot_get_device("my_distance_sensor");
+led = wb_robot_get_device("my_led");
+
+% enable sensors to read data from them
+wb_distance_sensor_enable(distanceSensor, TIME_STEP);
+
+% main control loop: perform simulation steps of 32 milliseconds
+% and leave the loop when the simulation is over
+while wb_robot_step(TIME_STEP) ~= -1
+  val = wb_distance_sensor_get_value(distanceSensor);  % Read and process sensor data
+  wb_led_set(led, 1);                                  % Send actuator commands
+end
+```
+
+%tab-end
+
 
 %end
 
