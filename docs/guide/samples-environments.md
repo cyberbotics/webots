@@ -46,7 +46,6 @@ These objects are Webots PROTO nodes, and can be easily moved and resized to cre
 Doors are interactive.
 This means that a robot can open a drawer, leave an object inside it, and close it.
 
-
 ### [complete\_apartment.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/environments/indoor/worlds/complete_apartment.wbt)
 
 **Keywords**: Apartment, household environment, furniture
