@@ -303,17 +303,9 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
       stream += " DEF SHAPE Shape { ";
     // extract the appearance
     stream += " appearance PBRAppearance { ";
-    // qDebug() << "---------";
-    // qDebug() << material->GetTextureCount(aiTextureType_DIFFUSE);
-    // qDebug() << material->GetTextureCount(aiTextureType_SPECULAR);
-    // qDebug() << material->GetTextureCount(aiTextureType_AMBIENT);
-    // qDebug() << material->GetTextureCount(aiTextureType_EMISSIVE);
-    // qDebug() << material->GetTextureCount(aiTextureType_NORMALS);
-    // qDebug() << material->GetTextureCount(aiTextureType_SHININESS);
-    // qDebug() << material->GetTextureCount(aiTextureType_OPACITY);
-    // qDebug() << material->GetTextureCount(aiTextureType_LIGHTMAP);
-    // qDebug() << material->GetTextureCount(aiTextureType_REFLECTION);
-    // qDebug() << material->GetTextureCount(aiTextureType_UNKNOWN);
+    stream += " metalness 0 ";
+    stream += " roughness 1 ";
+    // Uncomment this part to print all the properties of this material
     // for (unsigned int j = 0; j < material->mNumProperties; ++j) {
     //   qDebug() << material->mProperties[j]->mKey.C_Str() << *((float *)material->mProperties[j]->mData)
     //            << material->mProperties[j]->mSemantic << material->mProperties[j]->mIndex
