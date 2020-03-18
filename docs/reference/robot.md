@@ -353,7 +353,7 @@ class MyController(Robot):
         # get device tags
         self.distanceSensor = self.getDistanceSensor('my_distance_sensor')
         self.led = self.getLed('my_led')
-        self.distanceSensor.enable(timeStep);  # enable sensors to read data from them
+        self.distanceSensor.enable(timeStep)  # enable sensors to read data from them
 
     def run(self):
         # main control loop: perform simulation steps of 32 milliseconds
