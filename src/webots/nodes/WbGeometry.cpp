@@ -517,7 +517,10 @@ bool WbGeometry::isAValidBoundingObject(bool checkOde, bool warning) const {
 }
 
 int WbGeometry::triangleCount() const {
-  return wr_static_mesh_get_triangle_count(this->wrenMesh());
+  if (areWrenObjectsInitialized())
+    return wr_static_mesh_get_triangle_count(this->wrenMesh());
+  else
+    return 0;
 }
 
 ////////////////////////////////
