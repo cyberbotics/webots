@@ -1499,14 +1499,15 @@ void WbMainWindow::importVrml() {
   static QString suggestedPath = QDir::homePath();
 
   QString fileName =
-    QFileDialog::getOpenFileName(this, tr("Import Model"), suggestedPath, tr("3D Files (*.wrl *.WRL *.blend *.dae *.fbx *.obj *.stl)"));
+    QFileDialog::getOpenFileName(this, tr("Import Model"), suggestedPath,
+                                 tr("3D Files (*.wrl *.WRL *.blend *.dae *.fbx *.obj *.stl)"));
   if (!fileName.isEmpty()) {
     // next time: remember last import directory
     suggestedPath = QFileInfo(fileName).path();
 
     if (fileName.endsWith(".wrl", Qt::CaseInsensitive)) {
-    if (WbNodeOperations::instance()->importVrml(fileName) == WbNodeOperations::SUCCESS)
-        WbWorld::instance()->setModified();
+      if (WbNodeOperations::instance()->importVrml(fileName) == WbNodeOperations::SUCCESS)
+          WbWorld::instance()->setModified();
     } else {
       if (WbNodeOperations::instance()->importExternalModel(fileName) == WbNodeOperations::SUCCESS)
         WbWorld::instance()->setModified();
