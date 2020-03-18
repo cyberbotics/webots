@@ -1498,9 +1498,8 @@ void WbMainWindow::importVrml() {
   // first time: suggest import in user's home directory
   static QString suggestedPath = QDir::homePath();
 
-  QString fileName =
-    QFileDialog::getOpenFileName(this, tr("Import Model"), suggestedPath,
-                                 tr("3D Files (*.wrl *.WRL *.blend *.dae *.fbx *.obj *.stl)"));
+  QString fileName = QFileDialog::getOpenFileName(this, tr("Import Model"), suggestedPath,
+                                                  tr("3D Files (*.wrl *.WRL *.blend *.dae *.fbx *.obj *.stl)"));
   if (!fileName.isEmpty()) {
     // next time: remember last import directory
     suggestedPath = QFileInfo(fileName).path();
