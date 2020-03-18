@@ -286,10 +286,21 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
   // TODO: rotation
   stream += QString(" scale %1 %2 %3 ").arg(scaling[0]).arg(scaling[1]).arg(scaling[2]);
   stream += QString(" children [");
+
+  const bool defNeedGroup = node->mNumMeshes > 1;
+
+  if (defNeedGroup) {
+    stream += " DEF SHAPE Group { ";
+    stream += " children [ "
+  }
+
   for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
     const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
     const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-    stream += " DEF SHAPE Shape { ";  // TODO: Handle multi shapes
+    if (defNeedGroup)
+      stream += " Shape { ";
+    else
+      stream += " DEF SHAPE Shape { ";
     stream += " appearance PBRAppearance { ";
     // qDebug() << "---------";
     // qDebug() << material->GetTextureCount(aiTextureType_DIFFUSE);
@@ -364,6 +375,11 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
     }
     stream += " ]";
     stream += " } ";
+    stream += " } ";
+  }
+
+  if (defNeedGroup) {
+    stream += " ] ";
     stream += " } ";
   }
 
