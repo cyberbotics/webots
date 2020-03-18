@@ -291,7 +291,7 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
 
   if (defNeedGroup) {
     stream += " DEF SHAPE Group { ";
-    stream += " children [ "
+    stream += " children [ ";
   }
 
   for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
