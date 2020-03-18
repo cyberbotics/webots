@@ -15,7 +15,8 @@ PROTO ConveyorPlatform [
   field  SFFloat     speed            0.3                  # Defines the rubber band speed in meters per second.
   field  SFFloat     acceleration     -1                   # Defines the acceleration of the conveyor belt.
   field  SFFloat     timer            0.0                  # Defines for how long the conveyor belt should move (it will move forever if set to 0).
-  field  SFFloat     textureAnimation 0.004                # defines the speed of the texture animation.
+                                      # Approximation
+  field  SFFloat     textureAnimation 0.5                  # defines the speed of the texture animation.
 ]
 {
   Robot {
@@ -91,6 +92,7 @@ PROTO ConveyorPlatform [
             sound ""
           }
         ]
+        # How to divide by size.x of an IndexedFaceSet ?
         textureAnimation %{=-fields.textureAnimation.value}% 0
       }
       DEF emergency_button_1 Shape {

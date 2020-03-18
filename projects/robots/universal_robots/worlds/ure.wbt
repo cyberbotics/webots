@@ -338,7 +338,8 @@ ConveyorBelt {
   }
   borderHeight 0
   speed 0.2
-  textureAnimation 0.016
+  # Matches when equals to 1 (Unrelated to conveyorBelt size.x member)
+  textureAnimation 1
 }
 ConveyorBelt {
   translation 1.77 0.75 -2.55
@@ -352,7 +353,7 @@ ConveyorBelt {
   }
   borderHeight 0
   speed 0.2
-  textureAnimation 0.016
+  textureAnimation 1
 }
 ConveyorBelt {
   translation 0 0 -0.69
@@ -367,7 +368,7 @@ ConveyorBelt {
   speed 0.062
   acceleration 0.012
   timer 90
-  textureAnimation 0.016
+  textureAnimation 1
 }
 PlasticCrate {
   translation 0.22 0.25 -0.68

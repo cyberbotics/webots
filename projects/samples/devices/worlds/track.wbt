@@ -195,6 +195,7 @@ DEF TRACKED_ROBOT Robot {
           name "left motor"
         }
       ]
+      # Segfault here when trying to change value in webots
       textureAnimation -0.033 0
       animatedGeometry DEF ANIMATED_GEOM Group {
         children [
@@ -305,7 +306,8 @@ DEF CONVEYOR_BELT Robot {
         LinearMotor {
         }
       ]
-      textureAnimation 0.0295 0
+      # Syntax to write formula in webots files ?
+      textureAnimation 1.85 0
     }
   ]
   name "conveyor robot"
