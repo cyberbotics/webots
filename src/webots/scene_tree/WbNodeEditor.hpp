@@ -58,6 +58,7 @@ private:
   WbNode *mNode;
   WbFieldLineEdit *mDefEdit;
   QLabel *mUseCount;
+  QLabel *mNbTriangles;
   QStackedWidget *mStackedWidget;
   bool mMessageBox;
 

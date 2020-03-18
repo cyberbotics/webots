@@ -15,18 +15,16 @@ In addition, it becomes possible to reuse your existing MATLAB code directly in 
 In order to use MATLAB controllers in Webots, the MATLAB software must be installed (a MATLAB license is required).
 Webots {{ webots.version.full }} supports only 64bits MATLAB versions from 2015b.
 
-On Windows, the [MATLAB MinGW-w64 C/C++ Compiler](https://fr.mathworks.com/matlabcentral/fileexchange/52848-matlab-support-for-mingw-w64-c-c-compiler) needs to be installed in addition to MATLAB.
+On Windows and MATLAB versions prior to R2019b, the [MATLAB MinGW-w64 C/C++ Compiler](https://fr.mathworks.com/matlabcentral/fileexchange/52848-matlab-support-for-mingw-w64-c-c-compiler) needs to be installed in addition to MATLAB.
 
 Webots must be able to access the "matlab" executable (usually a script) in order to run controller m-files.
 Webots looks for the "matlab" executable in every directory of your *PATH* (or *Path* on Windows) environment variable.
 Note that this is similar to calling "matlab" from a terminal (or *Command Prompt* on Windows), therefore, if MATLAB can be started from a terminal then it can also be started from Webots.
 
 On Windows, the MATLAB installer will normally add MATLAB's bin directories to your *Path* environment variable, so usually, Webots will be able to locate MATLAB after a standard installation.
-However, in case it does not work, please make sure that your *Path* contains this directory (or something slightly different, according to your MATLAB version):
+However, in case it does not work, please make sure that your *Path* environment variable contains this directory (or something slightly different, according to your MATLAB version): `C:\Program Files\MATLAB\R2019b\bin`.
+With older versions of MATLAB (e.g., R0217b), your *Path* environment variable should also include: `C:\Program Files\MATLAB\R2017b\bin\win64`.
 
-```
-Path=C:\Program Files\MATLAB\R2018b\bin
-```
 
 On Linux, the MATLAB installer normally suggests to add a symlink to the "matlab" startup script in the "/usr/local/bin" directory.
 This is a good option to make "matlab" globally accessible.
