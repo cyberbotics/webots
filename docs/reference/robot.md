@@ -348,7 +348,7 @@ from controller import Robot
 class MyController(Robot):
     def __init__(self):
         super(MyController, self).__init__()
-        self.timeStep = 32;  # set the control time step
+        self.timeStep = 32  # set the control time step
 
         # get device tags
         self.distanceSensor = self.getDistanceSensor('my_distance_sensor');
