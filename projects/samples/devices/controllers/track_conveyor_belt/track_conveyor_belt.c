@@ -18,32 +18,23 @@
  * Description:   An example of a controller using the Track node to model a conveyor belt.
  */
 
-#include <stdlib.h>
+#include <stdio.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
-
-#include <assert.h>
-#include <stdio.h>
 
 int main(int argc, char **argv) {
   wb_robot_init();
 
-  const int timeStep = (int)wb_robot_get_basic_time_step();
-
-  double speed;
-  sscanf(argv[1], "%lf", &speed);
-
-  double timer;
-  sscanf(argv[2], "%lf", &timer);
-
+  int timeStep = wb_robot_get_basic_time_step();
   WbDeviceTag motor = wb_robot_get_device("linear motor");
 
   double p = 0.0;
   while (wb_robot_step(timeStep) != -1) {
     p += 0.0005;
     wb_motor_set_position(motor, p);
-  }
+  };
 
   wb_robot_cleanup();
+
   return 0;
 }

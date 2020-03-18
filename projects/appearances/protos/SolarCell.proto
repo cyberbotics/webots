@@ -1,7 +1,6 @@
 #VRML_SIM R2020a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# tags: static
 # A solar panel cell material.
 
 PROTO SolarCell [
