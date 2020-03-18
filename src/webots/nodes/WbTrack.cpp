@@ -614,7 +614,8 @@ void WbTrack::prePhysicsStep(double ms) {
 
   // texture animation
   if (mTextureTransform) {
-    mTextureTransform->translate(mSurfaceVelocity * mTextureAnimationField->value());
+    // TODO: Set mTextureAnimationField tp 1.00/0.00
+    mTextureTransform->translate(0.001 * ms * mSurfaceVelocity * mTextureAnimationField->value());
     mTextureTransform->modifyWrenMaterial(mShape->wrenMaterial());
   }
 
