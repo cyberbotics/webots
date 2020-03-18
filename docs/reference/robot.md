@@ -351,7 +351,7 @@ class MyController(Robot):
         self.timeStep = 32  # set the control time step
 
         # get device tags
-        self.distanceSensor = self.getDistanceSensor('my_distance_sensor');
+        self.distanceSensor = self.getDistanceSensor('my_distance_sensor')
         self.led = self.getLed('my_led');
         self.distanceSensor.enable(timeStep);  # enable sensors to read data from them
 
