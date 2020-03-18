@@ -7,10 +7,8 @@ PROTO Worktop [
   field SFVec3f    translation       0 0.71 0
   field SFRotation rotation          0 1 0 0
   field SFString   name              "worktop"
-  field SFString   model             "Beige stone"
   field SFVec3f    size              0.4 0.06 0.7  # Defines the size of the worktop.
   field SFFloat    mass              0             # Defines the mass of the wooden box in kg. A value smaller or equal to 0 remove the physics of the wooden box.
-  field SFNode     textureTransform  NULL          # Defines an optional 2d texture transform.
   field SFFloat    IBLStrength       1             # Defines the strength of ambient lighting from the Background node.
 ]
 {
@@ -32,15 +30,9 @@ PROTO Worktop [
     translation IS translation
     rotation IS rotation
     name IS name
-    model IS model
     size IS size
     appearance Marble {
-      metalness 0
-      normalMapFactor 0.2
       IBLStrength IS IBLStrength
-    }
-    boundingObject Box {
-      size %{= size.x }% %{= size.y }% %{= size.z }%
     }
     %{ if mass > 0 then }%
     physics Physics {
