@@ -301,6 +301,7 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
       stream += " Shape { ";
     else
       stream += " DEF SHAPE Shape { ";
+    // extract the appearance
     stream += " appearance PBRAppearance { ";
     // qDebug() << "---------";
     // qDebug() << material->GetTextureCount(aiTextureType_DIFFUSE);
@@ -339,6 +340,7 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
       stream += " } ";
     }
     stream += " } ";
+    // extract the geometry
     stream += " geometry IndexedFaceSet { ";
     stream += " coord Coordinate { ";
     stream += " point [ ";
@@ -396,9 +398,11 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
 WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QString &filename) {
   OperationResult result = FAILURE;
   Assimp::Importer importer;
+  importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
+                                                        aiComponent_ANIMATIONS | aiComponent_MATERIALS);
   const aiScene *scene = importer.ReadFile(
     filename.toStdString().c_str(), aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
-                                      aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph);
+                                      aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent);
   if (!scene) {
     WbLog::warning(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
     return result;
