@@ -360,7 +360,7 @@ class MyController(Robot):
         # and leave the loop when the simulation is over
         while self.step(self.timeStep) != -1:
             val = self.distanceSensor.getValue()  # Read and process sensor data
-            self.led.set(1);                      # Send actuator commands
+            self.led.set(1)                       # Send actuator commands
 
 # main Python program
 controller = MyController()
