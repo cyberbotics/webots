@@ -371,6 +371,7 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
     addModelNode(stream, node->mChildren[i], scene, referenceFolder);
 
   stream += " ] ";
+  stream += QString(" name \"%1\" ").arg(node->mName.C_Str());
   if (node->mNumMeshes > 0)
     stream += " boundingObject USE SHAPE ";
   stream += " } ";
