@@ -41,6 +41,7 @@ public:
   void resetPhysics() override;
   void save() override;
   QVector<WbLogicalDevice *> devices() const override;
+  dJointID jointID() const override { return mControlMotor; }
   bool resetJointPositions() override;
   void setPosition(double position, int index = 1) override;
   double position(int index = 1) const override;

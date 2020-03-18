@@ -5,12 +5,8 @@ The [Supervisor API](#supervisor) can be used to access to extra functions that 
 
 > **Note**: Note that in some special cases the [Supervisor](#supervisor) functions might return wrong values and it might not be possible to retrieve fields and nodes.
 This occurs when closing a world and quitting its controllers, i.e. reloading the current world, opening a new world, or closing Webots.
-In this case the output will be a NULL pointer or a default value.
+In this case the return value will be a NULL pointer or a default value.
 For functions returning a string, an empty string is returned instead of a NULL pointer.
-
-<!-- -->
-
-> **Note** [C++, Java, Python]: It is a good practice to check for a NULL pointer after calling a [Supervisor](#supervisor) function.
 
 ### Supervisor Functions
 
@@ -1175,13 +1171,13 @@ wb_supervisor_node_set_velocity(node, velocity)
 
 *get/set the angular and linear velocities of a Solid node.*
 
-The `wb_supervisor_node_get_velocity` function returns the absolute velocity (both linear and angular) of a node.
+The `wb_supervisor_node_get_velocity` function returns the absolute velocity (both linear and angular) of a node expressed in the global (world) coordinate system.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), otherwise the function will print a warning message and return 6 `NaN` (Not a Number) values.
 This function returns a vector containing exactly 6 values.
 The first three are respectively the linear velocities in the x, y and z direction.
 The last three are respectively the angular velocities around the x, y and z axes.
 
-The `wb_supervisor_node_set_velocity` function set the absolute velocity (both linear and angular) of a node.
+The `wb_supervisor_node_set_velocity` function sets the absolute velocity (both linear and angular) of a node expressed in the global (world) coordinate system.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), otherwise the function will print a warning message and have no effect.
 The `velocity` argument must be a vector containing exactly 6 values.
 The first three are respectively the linear velocities in the x, y and z direction.

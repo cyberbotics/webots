@@ -2070,6 +2070,10 @@ void wr_static_mesh_read_data(WrStaticMesh *mesh, float *coord_data, float *norm
   reinterpret_cast<wren::StaticMesh *>(mesh)->readData(coord_data, normal_data, tex_coord_data, index_data);
 }
 
+int wr_static_mesh_get_triangle_count(WrStaticMesh *mesh) {
+  return reinterpret_cast<wren::StaticMesh *>(mesh)->triangles().size();
+}
+
 int wr_static_mesh_get_vertex_count(WrStaticMesh *mesh) {
   return reinterpret_cast<wren::StaticMesh *>(mesh)->vertexCount();
 }
