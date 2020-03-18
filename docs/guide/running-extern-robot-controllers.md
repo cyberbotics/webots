@@ -89,11 +89,23 @@ Add the `-Djava.library.path=${WEBOTS_HOME}/lib/controller/java` option to the `
 
 %tab "MATLAB"
 
-| Environment Variable     | Typical Value                                    |
-|--------------------------|--------------------------------------------------|
-| WEBOTS\_PROJECT          | `/my_folder/my_webots_project`                   |
-| WEBOTS\_CONTROLLER\_NAME | `my_robot_controller.m`                          |
-| WEBOTS\_VERSION          | `R2019a-rev1`                                    |
+| Environment Variable     | Typical Value                                     |
+|--------------------------|---------------------------------------------------|
+| WEBOTS\_PROJECT          | `C:\Users\MyUsername\my_folder\my_webots_project` |
+| WEBOTS\_CONTROLLER\_NAME | `my_robot_controller`                             |
+| WEBOTS\_VERSION          | `R2020a revision 1`                               |
+
+
+Here is an example of what you should enter in the MATLAB console:
+
+```matlab
+>> setenv('WEBOTS_PROJECT','C:\Users\MyUsername\my_folder\my_webots_project')
+>> setenv('WEBOTS_CONTROLLER_NAME', 'my_robot_controller')
+>> setenv('WEBOTS_VERSION', 'R2020a revision 1')
+>> cd(getenv('WEBOTS_HOME'))
+>> cd('lib/controller/matlab')
+>> launcher
+```
 
 %tab-end
 
