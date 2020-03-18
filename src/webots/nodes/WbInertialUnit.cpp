@@ -128,9 +128,8 @@ void WbInertialUnit::computeValue() {
   const WbVector3 &north = wi->northDirection().normalized();
   WbVector3 minusGravity = -wi->gravity().normalized();
 
-  if (minusGravity.isNan()) {
+  if (minusGravity.isNan())
     minusGravity = WbVector3(0.0, 1.0, 0.0);
-  }
   WbMatrix3 rm(north, minusGravity, north.cross(minusGravity));  // reference frame
   rm.transpose();
   const WbMatrix3 &e = rotationMatrix() * rm;  // extrensic rotation matrix e = Y(yaw) Z(pitch) X(roll) w.r.t reference frame
