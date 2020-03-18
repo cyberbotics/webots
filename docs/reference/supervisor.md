@@ -5,12 +5,8 @@ The [Supervisor API](#supervisor) can be used to access to extra functions that 
 
 > **Note**: Note that in some special cases the [Supervisor](#supervisor) functions might return wrong values and it might not be possible to retrieve fields and nodes.
 This occurs when closing a world and quitting its controllers, i.e. reloading the current world, opening a new world, or closing Webots.
-In this case the output will be a NULL pointer or a default value.
+In this case the return value will be a NULL pointer or a default value.
 For functions returning a string, an empty string is returned instead of a NULL pointer.
-
-<!-- -->
-
-> **Note** [C++, Java, Python]: It is a good practice to check for a NULL pointer after calling a [Supervisor](#supervisor) function.
 
 ### Supervisor Functions
 
