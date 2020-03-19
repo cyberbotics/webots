@@ -1,7 +1,7 @@
 #VRML_SIM R2020a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# A parquetry material. The type can be choose between "chequered", "dark_strip", "light_strip" and "mosaic". The color can be overridden using the `colorOverride` field.
+# A parquetry material. The type can be choose between "chequered", "dark strip", "light strip" and "mosaic". The color can be overridden using the `colorOverride` field.
 
 PROTO Parquetry [
   field SFString{"chequered", "dark strip", "light strip", "mosaic"} type             "mosaic"  # Defines the parquetry type.
@@ -13,7 +13,7 @@ PROTO Parquetry [
 %{
   local textureName = fields.type.value:gsub("%s+", "_")
   local extension = "jpg\""
-  if fields.type.value == "light_strip" then
+  if fields.type.value == "light strip" then
     extension = "png\""
   end
 }%
@@ -26,7 +26,7 @@ PROTO Parquetry [
       filtering 5
     }
     roughness 1
-    %{ if fields.type.value ~= "dark_strip" then }%
+    %{ if fields.type.value ~= "dark strip" then }%
     roughnessMap ImageTexture {
       url [
         %{= "\"textures/parquetry/" .. textureName .. "_parquetry_roughness." .. extension }%
@@ -43,7 +43,7 @@ PROTO Parquetry [
     }
     normalMapFactor 1
     IBLStrength IS IBLStrength
-    %{ if fields.type.value ~= "light_strip" then }%
+    %{ if fields.type.value ~= "light strip" then }%
     occlusionMap ImageTexture {
       url [
         %{= "\"textures/parquetry/" .. textureName .. "_parquetry_occlusion." .. extension }%
