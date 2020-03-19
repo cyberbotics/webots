@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <QtCore/QDebug>
-
 #include "WbNodeOperations.hpp"
 
 #include "WbBaseNode.hpp"
@@ -303,14 +301,46 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
       stream += " DEF SHAPE Shape { ";
     // extract the appearance
     stream += " appearance PBRAppearance { ";
-    stream += " metalness 0 ";
-    stream += " roughness 1 ";
-    // Uncomment this part to print all the properties of this material
-    // for (unsigned int j = 0; j < material->mNumProperties; ++j) {
-    //   qDebug() << material->mProperties[j]->mKey.C_Str() << *((float *)material->mProperties[j]->mData)
-    //            << material->mProperties[j]->mSemantic << material->mProperties[j]->mIndex
-    //            << material->mProperties[j]->mDataLength << material->mProperties[j]->mType;
-    // }
+    WbVector3 baseColor(1.0, 1.0, 1.0), emissiveColor(0.0, 0.0, 0.0);
+    QString name("PBRAppearance");
+    float roughness = 1.0, transparency = 0.0;
+    for (unsigned int j = 0; j < material->mNumProperties; ++j) {
+      const aiMaterialProperty *property = material->mProperties[j];
+      const QString propertyName(property->mKey.C_Str());
+      if (propertyName.endsWith("diffuse") && property->mType == aiPTI_Float) {
+        assert(property->mDataLength == 3 * sizeof(float));
+        const float *diffuse = (float *)property->mData;
+        baseColor = WbVector3(diffuse[0], diffuse[1], diffuse[2]);
+      }
+      if (propertyName.endsWith("emissive") && property->mType == aiPTI_Float) {
+        assert(property->mDataLength == 3 * sizeof(float));
+        const float *emissive = (float *)property->mData;
+        emissiveColor = WbVector3(emissive[0], emissive[1], emissive[2]);
+      }
+      if (propertyName.endsWith("shinpercent") && property->mType == aiPTI_Float) {
+        assert(property->mDataLength == sizeof(float));
+        roughness = 0.01 * (100.0 - *((float *)property->mData));
+      }
+      if (propertyName.endsWith("opacity")  && property->mType == aiPTI_Float) {
+        assert(property->mDataLength == sizeof(float));
+        transparency = 1.0 - *((float *)property->mData);
+      }
+      if (propertyName.endsWith("name") && property->mType == aiPTI_String) {
+        aiString nameProperty;
+        if (aiGetMaterialString(material, property->mKey.C_Str(), property->mType, property->mIndex, &nameProperty) == aiReturn_SUCCESS)
+          name = nameProperty.C_Str();
+      }
+      // Uncomment this part to print all the properties of this material
+      // qDebug() << propertyName << property->mData
+      //          << property->mSemantic << property->mIndex
+      //          << property->mDataLength << property->mType;
+    }
+    stream += " baseColor " + baseColor.toString(WbPrecision::FLOAT_MAX);
+    stream += " emissiveColor " + emissiveColor.toString(WbPrecision::FLOAT_MAX);
+    stream += " name \"" + name + "\"";
+    stream += " metalness 0";
+    stream += QString(" transparency %1").arg(transparency);
+    stream += QString(" roughness %1").arg(roughness);
     if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
       aiString path;
       material->GetTexture(aiTextureType_DIFFUSE, 0, &path);
@@ -391,17 +421,18 @@ WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QS
   OperationResult result = FAILURE;
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
-                                                        aiComponent_ANIMATIONS | aiComponent_MATERIALS);
+                                                      aiComponent_ANIMATIONS);
   const aiScene *scene = importer.ReadFile(
-    filename.toStdString().c_str(), aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
-                                      aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent);
+    filename.toStdString().c_str(), aiProcess_ValidateDataStructure | aiProcess_Triangulate |
+                                    aiProcess_JoinIdenticalVertices | aiProcess_RemoveComponent);
   if (!scene) {
     WbLog::warning(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
     return result;
   }
 
   QString stream = "";
-  addModelNode(stream, scene->mRootNode, scene, QFileInfo(filename).dir().absolutePath());
+  for (unsigned int i = 0; i < scene->mRootNode->mNumChildren; ++i)
+    addModelNode(stream, scene->mRootNode->mChildren[i], scene, QFileInfo(filename).dir().absolutePath());
   WbGroup *root = WbWorld::instance()->root();
   result = importNode(root, root->findField("children"), root->childCount(), QString(), stream);
 
