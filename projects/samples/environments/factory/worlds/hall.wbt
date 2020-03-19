@@ -1504,32 +1504,8 @@ DEF EXERCISES_BOARD Robot {
     SolidBox {
       translation -11.053797 1.7 0.25511
       size 0.1 2 2.75
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/tread_plate_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/tread_plate_roughness.jpg"
-          ]
-        }
-        metalnessMap ImageTexture {
-          url [
-            "textures/tread_plate_metalness.jpg"
-          ]
-        }
-        normalMap ImageTexture {
-          url [
-            "textures/tread_plate_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/tread_plate_occlusion.jpg"
-          ]
-        }
+      appearance ThreadMetalPlate {
+        type "square"
         textureTransform TextureTransform {
           scale 2 2.75
         }
