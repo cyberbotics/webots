@@ -301,6 +301,7 @@ QT_SOURCES += \
   WbHinge2Joint.cpp \
   WbHtmlExportDialog.cpp \
   WbImageTexture.cpp \
+  WbImportWizard.cpp \
   WbImmersionProperties.cpp \
   WbIntEditor.cpp \
   WbIntSpinBox.cpp \
