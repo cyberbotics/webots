@@ -147,7 +147,6 @@ void WbMultimediaStreamingServer::sendContextMenuInfo(const WbMatter *node) {
 void WbMultimediaStreamingServer::processTextMessage(QString message) {
   QWebSocket *client = qobject_cast<QWebSocket *>(sender());
 
-  WbLog::info(message);
   if (message.startsWith("mouse")) {
     int action, button, buttons, x, y, modifiers, wheel;
     QString skip;  // will receive "mouse"
