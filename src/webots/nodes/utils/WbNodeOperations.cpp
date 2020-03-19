@@ -439,8 +439,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QS
   }
 
   QString stream = "";
-  for (unsigned int i = 0; i < scene->mRootNode->mNumChildren; ++i)
-    addModelNode(stream, scene->mRootNode->mChildren[i], scene, QFileInfo(filename).dir().absolutePath());
+  addModelNode(stream, scene->mRootNode, scene, QFileInfo(filename).dir().absolutePath());
   WbGroup *root = WbWorld::instance()->root();
   result = importNode(root, root->findField("children"), root->childCount(), QString(), stream);
 
