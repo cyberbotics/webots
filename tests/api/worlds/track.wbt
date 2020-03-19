@@ -715,7 +715,6 @@ DEF ROBOT1 Robot {
           name "left motor"
         }
       ]
-      # Untested - Which API ?
       textureAnimation -0.033 0
       animatedGeometry DEF ANIMATED_SHAPE Shape {
         appearance Appearance {

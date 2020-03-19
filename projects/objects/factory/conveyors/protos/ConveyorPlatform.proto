@@ -92,7 +92,6 @@ PROTO ConveyorPlatform [
             sound ""
           }
         ]
-        # How to divide by size.x of an IndexedFaceSet ?
         textureAnimation %{=-fields.textureAnimation.value}% 0
       }
       DEF emergency_button_1 Shape {
