@@ -30,9 +30,14 @@ then, the session server will consider it is not available any more and will not
 - Dependencies ([Windows instructions](https://github.com/omichel/webots/wiki/Windows-Optional-Dependencies#webots-web-service), [Linux instructions](https://github.com/omichel/webots/wiki/Linux-Optional-Dependencies#webots-web-service)):
   - tornado (http://www.tornadoweb.org/en/stable/, `pip install tornado`)
   - websocket-client (https://pypi.python.org/pypi/websocket-client/, `pip install websocket-client`)
-  - nvidia-ml-py3 (https://pypi.python.org/pypi/nvidia-ml-py3/, `pip install nvidia-ml-py3`)
   - psutil (https://pypi.python.org/pypi/psutil/, `pip install psutil`)
   - requests (https://pypi.python.org/pypi/requests/, `pip install requests`)
+  - Linux:
+    - nvidia-ml-py3 (https://pypi.python.org/pypi/nvidia-ml-py3/, `pip install nvidia-ml-py3`)
+  - Windows:
+    - pynvml (https://pypi.python.org/pypi/pynvml/, `pip install pynvml`)
+    - wmi (https://pypi.python.org/pypi/wmi/, `pip install wmi`)
+    - pywin32 (https://pypi.python.org/pypi/pywin32, `pip install pywin32`)
   - optional: firejail (https://firejail.wordpress.com/, `apt install firejail`)
 - Webots R2019b
 
