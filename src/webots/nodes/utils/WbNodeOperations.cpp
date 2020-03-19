@@ -344,9 +344,12 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
     if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
       aiString path;
       material->GetTexture(aiTextureType_DIFFUSE, 0, &path);
+      QString texturePath(path.C_Str());
+      texturePath.replace("\\", "\\\\");
+      if (!QFile::exists(texturePath) && QFile::exists(referenceFolder + texturePath))
+        texturePath = referenceFolder + texturePath;  // if absolute path doesn't exist, try with relative
       stream += " baseColorMap ImageTexture { ";
       stream += " url [ ";
-      const QString texturePath = referenceFolder + path.C_Str();  // TODO: need to escape caracters
       stream += " \"" + texturePath + "\" ";
       stream += " ] ";
       stream += " } ";
@@ -354,9 +357,12 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
     if (material->GetTextureCount(aiTextureType_NORMALS) > 0) {
       aiString path;
       material->GetTexture(aiTextureType_NORMALS, 0, &path);
+      QString texturePath(path.C_Str());
+      texturePath.replace("\\", "\\\\");
+      if (!QFile::exists(texturePath) && QFile::exists(referenceFolder + texturePath))
+        texturePath = referenceFolder + texturePath;  // if absolute path doesn't exist, try with relative
       stream += " normalMap ImageTexture { ";
       stream += " url [ ";
-      const QString texturePath = referenceFolder + path.C_Str();  // TODO: need to escape caracters
       stream += " \"" + texturePath + "\" ";
       stream += " ] ";
       stream += " } ";
