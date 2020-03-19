@@ -338,7 +338,6 @@ ConveyorBelt {
   }
   borderHeight 0
   speed 0.2
-  # Matches when equals to 1 (Unrelated to conveyorBelt size.x member)
   textureAnimation 1
 }
 ConveyorBelt {

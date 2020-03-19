@@ -306,7 +306,6 @@ DEF CONVEYOR_BELT Robot {
         LinearMotor {
         }
       ]
-      # Syntax to write formula in webots files ?
       textureAnimation 1.85 0
     }
   ]
