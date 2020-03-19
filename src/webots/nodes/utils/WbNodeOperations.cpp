@@ -274,7 +274,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &fi
   return result;
 }
 
-bool addTextureMap(QString &stream, const aiMaterial *material, const QString mapName, aiTextureType textureType, const QString &referenceFolder) {
+bool addTextureMap(QString &stream, const aiMaterial *material, const QString &mapName, aiTextureType textureType,
+                   const QString &referenceFolder) {
   if (material->GetTextureCount(textureType) > 0) {
     aiString path;
     material->GetTexture(textureType, 0, &path);
@@ -339,13 +340,14 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
         assert(property->mDataLength == sizeof(float));
         roughness = 0.01 * (100.0 - *((float *)property->mData));
       }
-      if (propertyName.endsWith("opacity")  && property->mType == aiPTI_Float) {
+      if (propertyName.endsWith("opacity") && property->mType == aiPTI_Float) {
         assert(property->mDataLength == sizeof(float));
         transparency = 1.0 - *((float *)property->mData);
       }
       if (propertyName.endsWith("name") && property->mType == aiPTI_String) {
         aiString nameProperty;
-        if (aiGetMaterialString(material, property->mKey.C_Str(), property->mType, property->mIndex, &nameProperty) == aiReturn_SUCCESS)
+        if (aiGetMaterialString(material, property->mKey.C_Str(), property->mType, property->mIndex, &nameProperty) ==
+            aiReturn_SUCCESS)
           name = nameProperty.C_Str();
       }
       // Uncomment this part to print all the properties of this material
@@ -359,15 +361,15 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
     stream += " metalness 0";
     stream += QString(" transparency %1").arg(transparency);
     stream += QString(" roughness %1").arg(roughness);
-    //if (!addTextureMap(stream, material, "baseColorMap", aiTextureType_BASE_COLOR, referenceFolder))
+    // if (!addTextureMap(stream, material, "baseColorMap", aiTextureType_BASE_COLOR, referenceFolder))
     addTextureMap(stream, material, "baseColorMap", aiTextureType_DIFFUSE, referenceFolder);
-    //addTextureMap(stream, material, "roughnessMap", aiTextureType_DIFFUSE_ROUGHNESS, referenceFolder);
-    //addTextureMap(stream, material, "metalnessMap", aiTextureType_METALNESS, referenceFolder);
-    //if (!addTextureMap(stream, material, "normalMap", aiTextureType_NORMAL_CAMERA, referenceFolder))
+    // addTextureMap(stream, material, "roughnessMap", aiTextureType_DIFFUSE_ROUGHNESS, referenceFolder);
+    // addTextureMap(stream, material, "metalnessMap", aiTextureType_METALNESS, referenceFolder);
+    // if (!addTextureMap(stream, material, "normalMap", aiTextureType_NORMAL_CAMERA, referenceFolder))
     addTextureMap(stream, material, "normalMap", aiTextureType_NORMALS, referenceFolder);
-    //if (!addTextureMap(stream, material, "occlusionMap", aiTextureType_AMBIENT_OCCLUSION, referenceFolder))
+    // if (!addTextureMap(stream, material, "occlusionMap", aiTextureType_AMBIENT_OCCLUSION, referenceFolder))
     addTextureMap(stream, material, "occlusionMap", aiTextureType_LIGHTMAP, referenceFolder);
-    //if (!addTextureMap(stream, material, "emissiveColorMap", aiTextureType_EMISSION_COLOR, referenceFolder))
+    // if (!addTextureMap(stream, material, "emissiveColorMap", aiTextureType_EMISSION_COLOR, referenceFolder))
     addTextureMap(stream, material, "emissiveColorMap", aiTextureType_EMISSIVE, referenceFolder);
     stream += " } ";
     // extract the geometry
@@ -428,11 +430,11 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
 WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QString &filename) {
   OperationResult result = FAILURE;
   Assimp::Importer importer;
-  importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
-                                                      aiComponent_ANIMATIONS);
-  const aiScene *scene = importer.ReadFile(
-    filename.toStdString().c_str(), aiProcess_ValidateDataStructure | aiProcess_Triangulate |
-                                    aiProcess_JoinIdenticalVertices | aiProcess_RemoveComponent);
+  importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
+                              aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS | aiComponent_ANIMATIONS);
+  const aiScene *scene =
+    importer.ReadFile(filename.toStdString().c_str(), aiProcess_ValidateDataStructure | aiProcess_Triangulate |
+                                                        aiProcess_JoinIdenticalVertices | aiProcess_RemoveComponent);
   if (!scene) {
     WbLog::warning(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
     return result;
