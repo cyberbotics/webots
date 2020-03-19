@@ -237,9 +237,10 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
         this.touchEvent.moved = true;
 
       this.lastTouchEvent = this._computeTouchEvent(event);
-      this._sendMouseEvent(0, this.lastTouchEvent, 2);
+      if (this.touchEvent.moved)
+        this._sendMouseEvent(0, this.lastTouchEvent, 2);
     } else {
-      let touch1 = event.targetTouches['0'];
+      let touch1 = event.targetTouches['1'];
       let x1 = Math.round(touch1.clientX);
       let y1 = Math.round(touch1.clientY);
       let distanceX = x - x1;
