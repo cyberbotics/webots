@@ -43,7 +43,7 @@ Road {
   ]
   splineSubdivision 8
   appearance Pavement {
-    type "old_small"
+    type "old small"
   }
 }
 Windmill {

@@ -24,7 +24,7 @@ Floor {
   translation -0.93 0 -0.243
   size 7.7 12.86
   appearance Parquetry {
-    type "light_strip"
+    type "light strip"
     textureTransform TextureTransform {
       rotation 1.57
       scale 0.4 0.4

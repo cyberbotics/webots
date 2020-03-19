@@ -416,7 +416,7 @@ DEF FLOOR_SEGMENTS Group {
       children [
         Shape {
           appearance Pavement {
-            type "old_big"
+            type "old big"
             textureTransform TextureTransform {
               scale 300 300
             }
@@ -1507,7 +1507,6 @@ SolidBox {
   name "box(2)"
   size 0.7 0.29 2.5
   appearance Pavement {
-    type "standard"
     textureTransform TextureTransform {
       scale 2.5 2.5
     }
@@ -1519,7 +1518,6 @@ SolidBox {
   name "box(3)"
   size 0.7 0.29 3.3
   appearance Pavement {
-    type "standard"
     textureTransform TextureTransform {
       scale 3.3 3.3
     }
@@ -1591,7 +1589,6 @@ SolidBox {
   name "box(4)"
   size 0.7 0.29 3.3
   appearance Pavement {
-    type "standard"
     textureTransform TextureTransform {
       scale 3.3 3.3
     }
@@ -1603,7 +1600,6 @@ SolidBox {
   name "box(1)"
   size 0.7 0.29 2.5
   appearance Pavement {
-    type "standard"
     textureTransform TextureTransform {
       scale 3.3 3.3
     }
