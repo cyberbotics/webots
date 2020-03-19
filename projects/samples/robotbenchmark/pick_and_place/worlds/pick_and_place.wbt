@@ -274,7 +274,6 @@ DEF CONVEYOR_BELT Robot {
           name "belt motor"
         }
       ]
-      # Geometry Box -> formula applies ( * -1 )
       textureAnimation -0.27 0
     }
     DEF CYL1 Transform {
