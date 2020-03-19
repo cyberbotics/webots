@@ -234,8 +234,9 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
                                                -WbWorld::instance()->worldInfo()->gravityUnitVector(), mTouchEventObjectPicked,
                                                WbWorld::instance()->viewpoint());
     } else if (action == 2) {  // touch zoom/tilt event
-      stream >> x >> y;
-      WbZoomAndRotateViewpointEvent::applyToViewpoint(QPoint(x, y), 5 * mTouchEventZoomScale, WbWorld::instance()->viewpoint());
+      double tiltAngle, zoom;
+      stream >> tiltAngle >> zoom;
+      WbZoomAndRotateViewpointEvent::applyToViewpoint(tiltAngle, zoom, mTouchEventZoomScale, WbWorld::instance()->viewpoint());
     }
     gView3D->refresh();
   } else if (message.startsWith("mjpeg: ")) {

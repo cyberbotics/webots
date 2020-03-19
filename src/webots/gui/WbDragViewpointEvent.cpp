@@ -134,12 +134,13 @@ void WbZoomAndRotateViewpointEvent::apply(const QPoint &currentMousePosition) {
 
   mDelta = currentMousePosition - mPreviousMousePosition;
   mPreviousMousePosition = currentMousePosition;
-  applyToViewpoint(mDelta, mZscaleFactor, mViewpoint);
+  applyToViewpoint(0.01 * mDelta.x(), mDelta.y(), mZscaleFactor, mViewpoint);
 }
 
-void WbZoomAndRotateViewpointEvent::applyToViewpoint(const QPoint &delta, double scaleFactor, WbViewpoint *viewpoint) {
+void WbZoomAndRotateViewpointEvent::applyToViewpoint(double tiltAngle, double zoom, double scaleFactor,
+                                                     WbViewpoint *viewpoint) {
   if (viewpoint->projectionMode() == WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC) {
-    if (delta.y() > 0.0)
+    if (zoom > 0.0)
       viewpoint->incOrthographicViewHeight();
     else
       viewpoint->decOrthographicViewHeight();
@@ -148,8 +149,8 @@ void WbZoomAndRotateViewpointEvent::applyToViewpoint(const QPoint &delta, double
   WbSFRotation *orientation = viewpoint->orientation();
   const WbRotation &orientationValue = orientation->value();
   const WbVector3 rollVector = orientationValue.direction();
-  const WbVector3 zDisplacement = (scaleFactor * delta.y()) * rollVector;
-  const WbQuaternion roll(rollVector, 0.01 * delta.x());
+  const WbVector3 zDisplacement = (scaleFactor * zoom) * rollVector;
+  const WbQuaternion roll(rollVector, tiltAngle);
   position->setValue(position->value() + zDisplacement);
   orientation->setValue(WbRotation(roll * orientationValue.toQuaternion()));
 }

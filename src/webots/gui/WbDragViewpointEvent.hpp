@@ -77,7 +77,7 @@ public:
   virtual ~WbZoomAndRotateViewpointEvent();
   void apply(const QPoint &currentMousePosition) override;
 
-  static void applyToViewpoint(const QPoint &delta, double scaleFactor, WbViewpoint *viewpoint);
+  static void applyToViewpoint(double tiltAngle, double zoom, double scaleFactor, WbViewpoint *viewpoint);
 
 private:
   QPoint mPreviousMousePosition;
