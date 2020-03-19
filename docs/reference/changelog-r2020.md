@@ -7,14 +7,8 @@ Released on XXX.
     - macOS and Windows: Added support for Python 3.8.
     - Added a 'Convert Root to Base Node(s)' option in the context menu to convert a PROTO node to base node(s) without converting the nested PROTO nodes.
     - Added an `OfficeChair` PROTO object.
-    - Added a `MetalStainlessSteelCable` appearance.
+    - Added several new appearances: `Marble`, `MetalStainlessSteelCable`, `Pavement`, `Parquetry`, and `SolarCell.
     - Added a `ConveyorPlatform` PROTO object.
-    - Added a `Marble`appearance.
-    - Added a `SolarCell` appearance.
-    - Added a `Pavement` appearance which merge deprecated `SlatePavement`, `SquarePavement` and `StonePavement` appearance.
-    - Added a second appearance in the `Rubber` appearance.
-    - Added a second appearance in the `ThreadMetalPlate` appearance.
-    - Added three appearances in `Parquetry` appearance and deprecate `ChequeredParquetry` and `DarkParquetry` appearance.
   - New Samples
     - Added a [break\_room](../guide/samples-environments.md#break_room-wbt) world.
   - Enhancements
