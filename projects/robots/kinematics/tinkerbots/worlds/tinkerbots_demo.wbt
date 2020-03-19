@@ -34,7 +34,7 @@ DEF GROUND Solid {
   children [
     Shape {
       appearance Parquetry {
-        type "dark_strip" 
+        type "dark strip" 
         textureTransform TextureTransform {
           scale 100 100
         }
