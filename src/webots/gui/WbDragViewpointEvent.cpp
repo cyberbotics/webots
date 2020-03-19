@@ -16,7 +16,6 @@
 
 #include "WbQuaternion.hpp"
 #include "WbSFRotation.hpp"
-#include "WbVector2.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
