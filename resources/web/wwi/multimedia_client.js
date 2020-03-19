@@ -213,7 +213,7 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
     if (typeof this.touchEvent.initialTimeStamp === 'undefined')
       // Prevent applying mouse move action before drag initialization in mousedrag event.
       return;
-    if ((typeof this.touchEvent.mode !== 'undefined') !== (this.mouseDown !== 3))
+    if ((typeof this.touchEvent.mode !== 'undefined') && (this.mouseDown !== 3))
       // Gesture single/multi touch changed after initialization.
       return false;
 
