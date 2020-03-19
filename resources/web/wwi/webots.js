@@ -345,7 +345,7 @@ webots.View = class View {
       this.url = url;
       this.multimediaClient = new MultimediaClient(this, this.view3D, this.contextMenu);
       this.contextMenu.onFollowObject = (id, mode) => { this.multimediaClient.setFollowed(id, mode); };
-    } else if (typeof this.x3dScene === 'undefined') {
+    } else if (typeof this.x3dScene !== 'undefined') {
       this.x3dDiv = document.createElement('div');
       this.x3dDiv.className = 'webots3DView';
       this.view3D.appendChild(this.x3dDiv);

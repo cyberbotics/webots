@@ -10,7 +10,7 @@ var DefaultUrl = {
         var src = scripts[i].src;
         if (src.indexOf('?') > 0)
           src = src.substring(0, src.indexOf('?'));
-        if (src.endsWith('webots.js') || src.endsWith('webots.min.js') || src.endsWith('webots.debug.js')) {
+        if (src.endsWith('webots.js') || src.endsWith('webots.min.js') || src.endsWith('webots.debug.js') || src.endsWith('webots.mjpeg.js')) {
           this._wwiUrl = src.substr(0, src.lastIndexOf('/') + 1); // remove "webots.js"
           break;
         }
@@ -32,7 +32,7 @@ var DefaultUrl = {
       var index = src.indexOf('?');
       if (index > 0)
         src = src.substring(0, index); // remove query string
-      if (!src.endsWith('webots.js') && !src.endsWith('webots.min.js'))
+      if (!src.endsWith('webots.js') && !src.endsWith('webots.min.js') && !src.endsWith('webots.mjpeg.js'))
         continue;
       index = src.lastIndexOf('/');
       return src.substring(0, index + 1);
