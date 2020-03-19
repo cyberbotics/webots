@@ -1506,7 +1506,7 @@ void WbMainWindow::importVrml() {
 
     if (fileName.endsWith(".wrl", Qt::CaseInsensitive)) {
       if (WbNodeOperations::instance()->importVrml(fileName) == WbNodeOperations::SUCCESS)
-          WbWorld::instance()->setModified();
+        WbWorld::instance()->setModified();
     } else {
       if (WbNodeOperations::instance()->importExternalModel(fileName) == WbNodeOperations::SUCCESS)
         WbWorld::instance()->setModified();
