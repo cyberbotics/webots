@@ -274,6 +274,24 @@ WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &fi
   return result;
 }
 
+bool addTextureMap(QString &stream, const aiMaterial *material, const QString mapName, aiTextureType textureType, const QString &referenceFolder) {
+  if (material->GetTextureCount(textureType) > 0) {
+    aiString path;
+    material->GetTexture(textureType, 0, &path);
+    QString texturePath(path.C_Str());
+    texturePath.replace("\\", "\\\\");
+    if (!QFile::exists(texturePath) && QFile::exists(referenceFolder + texturePath))
+      texturePath = referenceFolder + texturePath;  // if absolute path doesn't exist, try with relative
+    stream += QString(" %1 ImageTexture { ").arg(mapName);
+    stream += " url [ ";
+    stream += " \"" + texturePath + "\" ";
+    stream += " ] ";
+    stream += " } ";
+    return true;
+  }
+  return false;
+}
+
 void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &referenceFolder) {
   aiVector3t<float> scaling, position;
   aiQuaternion rotation;
@@ -341,32 +359,16 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
     stream += " metalness 0";
     stream += QString(" transparency %1").arg(transparency);
     stream += QString(" roughness %1").arg(roughness);
-    if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
-      aiString path;
-      material->GetTexture(aiTextureType_DIFFUSE, 0, &path);
-      QString texturePath(path.C_Str());
-      texturePath.replace("\\", "\\\\");
-      if (!QFile::exists(texturePath) && QFile::exists(referenceFolder + texturePath))
-        texturePath = referenceFolder + texturePath;  // if absolute path doesn't exist, try with relative
-      stream += " baseColorMap ImageTexture { ";
-      stream += " url [ ";
-      stream += " \"" + texturePath + "\" ";
-      stream += " ] ";
-      stream += " } ";
-    }
-    if (material->GetTextureCount(aiTextureType_NORMALS) > 0) {
-      aiString path;
-      material->GetTexture(aiTextureType_NORMALS, 0, &path);
-      QString texturePath(path.C_Str());
-      texturePath.replace("\\", "\\\\");
-      if (!QFile::exists(texturePath) && QFile::exists(referenceFolder + texturePath))
-        texturePath = referenceFolder + texturePath;  // if absolute path doesn't exist, try with relative
-      stream += " normalMap ImageTexture { ";
-      stream += " url [ ";
-      stream += " \"" + texturePath + "\" ";
-      stream += " ] ";
-      stream += " } ";
-    }
+    //if (!addTextureMap(stream, material, "baseColorMap", aiTextureType_BASE_COLOR, referenceFolder))
+    addTextureMap(stream, material, "baseColorMap", aiTextureType_DIFFUSE, referenceFolder);
+    //addTextureMap(stream, material, "roughnessMap", aiTextureType_DIFFUSE_ROUGHNESS, referenceFolder);
+    //addTextureMap(stream, material, "metalnessMap", aiTextureType_METALNESS, referenceFolder);
+    //if (!addTextureMap(stream, material, "normalMap", aiTextureType_NORMAL_CAMERA, referenceFolder))
+    addTextureMap(stream, material, "normalMap", aiTextureType_NORMALS, referenceFolder);
+    //if (!addTextureMap(stream, material, "occlusionMap", aiTextureType_AMBIENT_OCCLUSION, referenceFolder))
+    addTextureMap(stream, material, "occlusionMap", aiTextureType_LIGHTMAP, referenceFolder);
+    //if (!addTextureMap(stream, material, "emissiveColorMap", aiTextureType_EMISSION_COLOR, referenceFolder))
+    addTextureMap(stream, material, "emissiveColorMap", aiTextureType_EMISSIVE, referenceFolder);
     stream += " } ";
     // extract the geometry
     stream += " geometry IndexedFaceSet { ";
