@@ -2,7 +2,7 @@
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A pavement material.
-# The type of parquetry can be set using the `type` field.
+# The type of pavement can be set using the `type` field.
 # The color can be overridden using the `colorOverride` field.
 
 PROTO Pavement [

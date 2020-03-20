@@ -2,6 +2,7 @@
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A worn paint layer on a metal surface.
+# The type of metal surface can be set using the `type` field.
 
 PROTO ThreadMetalPlate [
   field SFString{"oval", "square"} type               "oval" # Defines the motif type on the material.
