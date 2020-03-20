@@ -20,7 +20,6 @@ PROTO SolarCell [
         "textures/solar_cell/solar_cell_roughness.jpg"
       ]
     }
-    metalness 0
     metalnessMap ImageTexture {
       url [
         "textures/solar_cell/solar_cell_metalness.png"
