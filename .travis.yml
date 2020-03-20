@@ -106,7 +106,6 @@ jobs:
             - libzip-dev
             - python-pip
             - libreadline-dev
-            - libassimp-dev
             - libav-tools
             - npm
             - python3.5-dev
@@ -175,7 +174,6 @@ jobs:
             - libzip-dev
             - python-pip
             - libreadline-dev
-            - libassimp-dev
             - ffmpeg
             - npm
             - python3.6-dev
