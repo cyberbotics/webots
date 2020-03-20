@@ -293,7 +293,7 @@ bool addTextureMap(QString &stream, const aiMaterial *material, const QString &m
   return false;
 }
 
-void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &referenceFolder) {
+void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &referenceFolder, bool importTextureCoordinates, bool importNormals, bool importAppearances, bool importBoundingObjects) {
   aiVector3t<float> scaling, position;
   aiQuaternion rotation;
   node->mTransformation.Decompose(scaling, rotation, position);
@@ -304,7 +304,7 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
   stream += QString(" scale %1 %2 %3 ").arg(scaling[0]).arg(scaling[1]).arg(scaling[2]);
   stream += QString(" children [");
 
-  const bool defNeedGroup = node->mNumMeshes > 1;
+  const bool defNeedGroup = importBoundingObjects && node->mNumMeshes > 1;
 
   if (defNeedGroup) {
     stream += " DEF SHAPE Group { ";
@@ -314,64 +314,66 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
   for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
     const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
     const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-    if (defNeedGroup)
+    if (defNeedGroup || !importBoundingObjects)
       stream += " Shape { ";
     else
       stream += " DEF SHAPE Shape { ";
     // extract the appearance
-    stream += " appearance PBRAppearance { ";
-    WbVector3 baseColor(1.0, 1.0, 1.0), emissiveColor(0.0, 0.0, 0.0);
-    QString name("PBRAppearance");
-    float roughness = 1.0, transparency = 0.0;
-    for (unsigned int j = 0; j < material->mNumProperties; ++j) {
-      const aiMaterialProperty *property = material->mProperties[j];
-      const QString propertyName(property->mKey.C_Str());
-      if (propertyName.endsWith("diffuse") && property->mType == aiPTI_Float) {
-        assert(property->mDataLength == 3 * sizeof(float));
-        const float *diffuse = (float *)property->mData;
-        baseColor = WbVector3(diffuse[0], diffuse[1], diffuse[2]);
+    if (importAppearances) {
+      stream += " appearance PBRAppearance { ";
+      WbVector3 baseColor(1.0, 1.0, 1.0), emissiveColor(0.0, 0.0, 0.0);
+      QString name("PBRAppearance");
+      float roughness = 1.0, transparency = 0.0;
+      for (unsigned int j = 0; j < material->mNumProperties; ++j) {
+        const aiMaterialProperty *property = material->mProperties[j];
+        const QString propertyName(property->mKey.C_Str());
+        if (propertyName.endsWith("diffuse") && property->mType == aiPTI_Float) {
+          assert(property->mDataLength == 3 * sizeof(float));
+          const float *diffuse = (float *)property->mData;
+          baseColor = WbVector3(diffuse[0], diffuse[1], diffuse[2]);
+        }
+        if (propertyName.endsWith("emissive") && property->mType == aiPTI_Float) {
+          assert(property->mDataLength == 3 * sizeof(float));
+          const float *emissive = (float *)property->mData;
+          emissiveColor = WbVector3(emissive[0], emissive[1], emissive[2]);
+        }
+        if (propertyName.endsWith("shinpercent") && property->mType == aiPTI_Float) {
+          assert(property->mDataLength == sizeof(float));
+          roughness = 0.01 * (100.0 - *((float *)property->mData));
+        }
+        if (propertyName.endsWith("opacity") && property->mType == aiPTI_Float) {
+          assert(property->mDataLength == sizeof(float));
+          transparency = 1.0 - *((float *)property->mData);
+        }
+        if (propertyName.endsWith("name") && property->mType == aiPTI_String) {
+          aiString nameProperty;
+          if (aiGetMaterialString(material, property->mKey.C_Str(), property->mType, property->mIndex, &nameProperty) ==
+              aiReturn_SUCCESS)
+            name = nameProperty.C_Str();
+        }
+        // Uncomment this part to print all the properties of this material
+        // qDebug() << propertyName << property->mData
+        //          << property->mSemantic << property->mIndex
+        //          << property->mDataLength << property->mType;
       }
-      if (propertyName.endsWith("emissive") && property->mType == aiPTI_Float) {
-        assert(property->mDataLength == 3 * sizeof(float));
-        const float *emissive = (float *)property->mData;
-        emissiveColor = WbVector3(emissive[0], emissive[1], emissive[2]);
-      }
-      if (propertyName.endsWith("shinpercent") && property->mType == aiPTI_Float) {
-        assert(property->mDataLength == sizeof(float));
-        roughness = 0.01 * (100.0 - *((float *)property->mData));
-      }
-      if (propertyName.endsWith("opacity") && property->mType == aiPTI_Float) {
-        assert(property->mDataLength == sizeof(float));
-        transparency = 1.0 - *((float *)property->mData);
-      }
-      if (propertyName.endsWith("name") && property->mType == aiPTI_String) {
-        aiString nameProperty;
-        if (aiGetMaterialString(material, property->mKey.C_Str(), property->mType, property->mIndex, &nameProperty) ==
-            aiReturn_SUCCESS)
-          name = nameProperty.C_Str();
-      }
-      // Uncomment this part to print all the properties of this material
-      // qDebug() << propertyName << property->mData
-      //          << property->mSemantic << property->mIndex
-      //          << property->mDataLength << property->mType;
+      stream += " baseColor " + baseColor.toString(WbPrecision::FLOAT_MAX);
+      stream += " emissiveColor " + emissiveColor.toString(WbPrecision::FLOAT_MAX);
+      stream += " name \"" + name + "\"";
+      stream += " metalness 0";
+      stream += QString(" transparency %1").arg(transparency);
+      stream += QString(" roughness %1").arg(roughness);
+      // if (!addTextureMap(stream, material, "baseColorMap", aiTextureType_BASE_COLOR, referenceFolder))
+      addTextureMap(stream, material, "baseColorMap", aiTextureType_DIFFUSE, referenceFolder);
+      // addTextureMap(stream, material, "roughnessMap", aiTextureType_DIFFUSE_ROUGHNESS, referenceFolder);
+      // addTextureMap(stream, material, "metalnessMap", aiTextureType_METALNESS, referenceFolder);
+      // if (!addTextureMap(stream, material, "normalMap", aiTextureType_NORMAL_CAMERA, referenceFolder))
+      addTextureMap(stream, material, "normalMap", aiTextureType_NORMALS, referenceFolder);
+      // if (!addTextureMap(stream, material, "occlusionMap", aiTextureType_AMBIENT_OCCLUSION, referenceFolder))
+      addTextureMap(stream, material, "occlusionMap", aiTextureType_LIGHTMAP, referenceFolder);
+      // if (!addTextureMap(stream, material, "emissiveColorMap", aiTextureType_EMISSION_COLOR, referenceFolder))
+      addTextureMap(stream, material, "emissiveColorMap", aiTextureType_EMISSIVE, referenceFolder);
+      stream += " } ";
     }
-    stream += " baseColor " + baseColor.toString(WbPrecision::FLOAT_MAX);
-    stream += " emissiveColor " + emissiveColor.toString(WbPrecision::FLOAT_MAX);
-    stream += " name \"" + name + "\"";
-    stream += " metalness 0";
-    stream += QString(" transparency %1").arg(transparency);
-    stream += QString(" roughness %1").arg(roughness);
-    // if (!addTextureMap(stream, material, "baseColorMap", aiTextureType_BASE_COLOR, referenceFolder))
-    addTextureMap(stream, material, "baseColorMap", aiTextureType_DIFFUSE, referenceFolder);
-    // addTextureMap(stream, material, "roughnessMap", aiTextureType_DIFFUSE_ROUGHNESS, referenceFolder);
-    // addTextureMap(stream, material, "metalnessMap", aiTextureType_METALNESS, referenceFolder);
-    // if (!addTextureMap(stream, material, "normalMap", aiTextureType_NORMAL_CAMERA, referenceFolder))
-    addTextureMap(stream, material, "normalMap", aiTextureType_NORMALS, referenceFolder);
-    // if (!addTextureMap(stream, material, "occlusionMap", aiTextureType_AMBIENT_OCCLUSION, referenceFolder))
-    addTextureMap(stream, material, "occlusionMap", aiTextureType_LIGHTMAP, referenceFolder);
-    // if (!addTextureMap(stream, material, "emissiveColorMap", aiTextureType_EMISSION_COLOR, referenceFolder))
-    addTextureMap(stream, material, "emissiveColorMap", aiTextureType_EMISSIVE, referenceFolder);
-    stream += " } ";
     // extract the geometry
     stream += " geometry IndexedFaceSet { ";
     stream += " coord Coordinate { ";
@@ -382,7 +384,7 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
     }
     stream += " ]";
     stream += " } ";
-    if (mesh->HasNormals()) {
+    if (importNormals && mesh->HasNormals()) {
       stream += " normal Normal { ";
       stream += " vector [ ";
       for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
@@ -392,7 +394,7 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
       stream += " ]";
       stream += " } ";
     }
-    if (mesh->HasTextureCoords(0)) {
+    if (importTextureCoordinates && mesh->HasTextureCoords(0)) {
       stream += " texCoord TextureCoordinate { ";
       stream += " point [ ";
       for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
@@ -418,16 +420,16 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
   }
 
   for (unsigned int i = 0; i < node->mNumChildren; ++i)
-    addModelNode(stream, node->mChildren[i], scene, referenceFolder);
+    addModelNode(stream, node->mChildren[i], scene, referenceFolder, importTextureCoordinates, importNormals, importAppearances, importBoundingObjects);
 
   stream += " ] ";
   stream += QString(" name \"%1\" ").arg(node->mName.C_Str());
-  if (node->mNumMeshes > 0)
+  if (importBoundingObjects && node->mNumMeshes > 0)
     stream += " boundingObject USE SHAPE ";
   stream += " } ";
 }
 
-WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QString &filename) {
+WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QString &filename, bool importTextureCoordinates, bool importNormals, bool importAppearances, bool importBoundingObjects) {
   OperationResult result = FAILURE;
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
@@ -441,7 +443,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QS
   }
 
   QString stream = "";
-  addModelNode(stream, scene->mRootNode, scene, QFileInfo(filename).dir().absolutePath());
+  addModelNode(stream, scene->mRootNode, scene, QFileInfo(filename).dir().absolutePath(), importTextureCoordinates, importNormals, importAppearances, importBoundingObjects);
   WbGroup *root = WbWorld::instance()->root();
   result = importNode(root, root->findField("children"), root->childCount(), QString(), stream);
 

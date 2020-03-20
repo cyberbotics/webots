@@ -1500,7 +1500,8 @@ void WbMainWindow::importVrml() {
   static QString suggestedPath = QDir::homePath();
 
   WbImportWizard wizard(suggestedPath, this);
-  wizard.exec();
+  if (wizard.exec() != QDialog::Accepted)
+    return;
   const QString fileName = wizard.fileName();
   if (!fileName.isEmpty()) {
     // next time: remember last import directory
@@ -1510,7 +1511,7 @@ void WbMainWindow::importVrml() {
       if (WbNodeOperations::instance()->importVrml(fileName) == WbNodeOperations::SUCCESS)
         WbWorld::instance()->setModified();
     } else {
-      if (WbNodeOperations::instance()->importExternalModel(fileName) == WbNodeOperations::SUCCESS)
+      if (WbNodeOperations::instance()->importExternalModel(fileName, wizard.importTextureCoordinates(), wizard.importNormals(), wizard.importAppearances(), wizard.importBoundingObjects()) == WbNodeOperations::SUCCESS)
         WbWorld::instance()->setModified();
     }
 

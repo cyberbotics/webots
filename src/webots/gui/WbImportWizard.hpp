@@ -21,6 +21,7 @@
 
 #include <QtWidgets/QWizard>
 
+class QCheckBox;
 class QLabel;
 class WbLineEdit;
 
@@ -31,7 +32,11 @@ public:
   explicit WbImportWizard(const QString &suggestedPath, QWidget *parent = NULL);
   virtual ~WbImportWizard();
 
-  const QString fileName();
+  const QString fileName() const;
+  bool importTextureCoordinates() const;
+  bool importNormals() const;
+  bool importAppearances() const;
+  bool importBoundingObjects() const;
   bool validateCurrentPage() override;
 
 private slots:
@@ -40,9 +45,14 @@ private slots:
 private:
   WbLineEdit *mFileEdit;
   QLabel *mConclusionLabel;
+  QCheckBox *mTextureCoordinateCheckBox;
+  QCheckBox *mNormalCheckBox;
+  QCheckBox *mAppearancesCheckBox;
+  QCheckBox *mBoundingObjectCheckBox;
 
   QWizardPage *createIntroPage();
   QWizardPage *createFileSelectionPage();
+  QWizardPage *createOptionPage();
   QWizardPage *createConclusionPage();
 };
 

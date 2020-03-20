@@ -16,17 +16,19 @@
 
 #include "WbLineEdit.hpp"
 
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWizard>
 
-enum { INTRO, FILE_SELECTION, CONCLUSION };
+enum { INTRO, FILE_SELECTION, SETTINGS, CONCLUSION };
 
 WbImportWizard::WbImportWizard(const QString &suggestedPath, QWidget *parent) : QWizard(parent) {
   addPage(createIntroPage());
   addPage(createFileSelectionPage());
+  addPage(createOptionPage());
   addPage(createConclusionPage());
 
   mFileEdit->setText(suggestedPath);
@@ -39,8 +41,24 @@ WbImportWizard::WbImportWizard(const QString &suggestedPath, QWidget *parent) : 
 WbImportWizard::~WbImportWizard() {
 }
 
-const QString WbImportWizard::fileName() {
+const QString WbImportWizard::fileName() const {
   return mFileEdit->text();
+}
+
+bool WbImportWizard::importTextureCoordinates() const {
+  return mTextureCoordinateCheckBox->isChecked();
+}
+
+bool WbImportWizard::importNormals() const {
+  return mNormalCheckBox->isChecked();
+}
+
+bool WbImportWizard::importAppearances() const {
+  return mAppearancesCheckBox->isChecked();
+}
+
+bool WbImportWizard::importBoundingObjects() const {
+  return mBoundingObjectCheckBox->isChecked();
 }
 
 bool WbImportWizard::validateCurrentPage() {
@@ -95,6 +113,29 @@ QWizardPage *WbImportWizard::createFileSelectionPage() {
   QHBoxLayout *layout = new QHBoxLayout(page);
   layout->addWidget(mFileEdit);
   layout->addWidget(chooseButton);
+
+  return page;
+}
+
+QWizardPage *WbImportWizard::createOptionPage() {
+  QWizardPage *page = new QWizardPage(this);
+
+  page->setTitle(tr("Importation Settings"));
+  page->setSubTitle(tr("Please choose how do you want to import the model:"));
+
+  mTextureCoordinateCheckBox = new QCheckBox(tr("Import texture coordinates (if available)"), page);
+  mTextureCoordinateCheckBox->setChecked(true);
+  mNormalCheckBox = new QCheckBox(tr("Import normals (if available)"), page);
+  mNormalCheckBox->setChecked(true);
+  mAppearancesCheckBox = new QCheckBox(tr("Import appearances (if available)"), page);
+  mAppearancesCheckBox->setChecked(true);
+  mBoundingObjectCheckBox = new QCheckBox(tr("Use meshes for bounding objects"), page);
+  mBoundingObjectCheckBox->setChecked(false);
+  QVBoxLayout *layout = new QVBoxLayout(page);
+  layout->addWidget(mTextureCoordinateCheckBox);
+  layout->addWidget(mNormalCheckBox);
+  layout->addWidget(mAppearancesCheckBox);
+  layout->addWidget(mBoundingObjectCheckBox);
 
   return page;
 }
