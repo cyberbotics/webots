@@ -297,15 +297,16 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
   aiVector3t<float> scaling, position;
   aiQuaternion rotation;
   node->mTransformation.Decompose(scaling, rotation, position);
+  const WbRotation webotsRotation(WbQuaternion(rotation.w, rotation.x, rotation.y, rotation.z));
 
   if (importAsSolid)
     stream += " Solid { ";
   else
     stream += " Transform { ";
   stream += QString(" translation %1 %2 %3 ").arg(position[0]).arg(position[1]).arg(position[2]);
-  // TODO: rotation
+  stream += " rotation " + webotsRotation.toString(WbPrecision::FLOAT_MAX);
   stream += QString(" scale %1 %2 %3 ").arg(scaling[0]).arg(scaling[1]).arg(scaling[2]);
-  stream += QString(" children [");
+  stream += " children [";
 
   const bool defNeedGroup = importAsSolid && importBoundingObjects && node->mNumMeshes > 1;
 
