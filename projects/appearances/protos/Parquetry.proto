@@ -12,46 +12,37 @@ PROTO Parquetry [
 {
 %{
   local textureName = fields.type.value:gsub("%s+", "_")
-  local extension = "jpg\""
-  if fields.type.value == "light strip" then
-    extension = "png\""
-  end
 }%
   PBRAppearance {
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %{= "\"textures/parquetry/" .. textureName .. "_parquetry_base_color." .. extension }%
+        %{= "\"textures/parquetry/" .. textureName .. "_parquetry_base_color.jpg\"" }%
       ]
-      filtering 5
     }
     roughness 1
     %{ if fields.type.value ~= "dark strip" then }%
     roughnessMap ImageTexture {
       url [
-        %{= "\"textures/parquetry/" .. textureName .. "_parquetry_roughness." .. extension }%
+        %{= "\"textures/parquetry/" .. textureName .. "_parquetry_roughness.jpg\"" }%
       ]
-      filtering 5
     }
     %{ end }%
     metalness 0
     normalMap ImageTexture {
       url [
-        %{= "\"textures/parquetry/" .. textureName .. "_parquetry_normal." .. extension }%
+        %{= "\"textures/parquetry/" .. textureName .. "_parquetry_normal.jpg\"" }%
       ]
-      filtering 5
     }
     normalMapFactor 1
     IBLStrength IS IBLStrength
     %{ if fields.type.value ~= "light strip" then }%
     occlusionMap ImageTexture {
       url [
-        %{= "\"textures/parquetry/" .. textureName .. "_parquetry_occlusion." .. extension }%
+        %{= "\"textures/parquetry/" .. textureName .. "_parquetry_occlusion.jpg\"" }%
       ]
-      filtering 5
     }
     %{ end }%
-    occlusionMapStrength 1
     textureTransform IS textureTransform
   }
 }

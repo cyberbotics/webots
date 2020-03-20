@@ -15,21 +15,18 @@ PROTO Marble [
       url [
         "textures/marble/marble_base_color.jpg"
       ]
-      filtering 5
     }
     roughness 1
     roughnessMap ImageTexture {
       url [
         "textures/marble/marble_roughness.jpg"
       ]
-      filtering 5
     }
     metalness 0
     normalMap ImageTexture {
       url [
         "textures/marble/marble_normal.jpg"
       ]
-      filtering 5
     }
     normalMapFactor 0.2
     IBLStrength IS IBLStrength
@@ -37,9 +34,7 @@ PROTO Marble [
       url [
         "textures/marble/marble_occlusion.jpg"
       ]
-      filtering 5
     }
-    occlusionMapStrength 1
     textureTransform IS textureTransform
   }
 }

@@ -27,7 +27,6 @@ PROTO Pavement [
       url [
         %{= "\"textures/pavement/" .. textureName .. "_pavement_roughness.jpg\"" }%
       ]
-      filtering 5
     }
     %{ end }%
     metalness 0
@@ -35,14 +34,12 @@ PROTO Pavement [
       url [
         %{= "\"textures/pavement/" .. textureName .. "_pavement_normal.jpg\"" }%
       ]
-      filtering 5
     }
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
         %{= "\"textures/pavement/" .. textureName .. "_pavement_occlusion.jpg\"" }%
       ]
-      filtering 5
     }
     textureTransform IS textureTransform
   }

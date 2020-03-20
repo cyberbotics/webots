@@ -14,10 +14,11 @@ PROTO StonePavement [
 {
 %{
   io.stderr:write("Deprecated 'StonePavement' PROTO, please use the 'Pavement' PROTO instead and select the right type.\n")
+  local textureName = fields.type.value:gsub("%s+", "_")
   if fields.type.value == "recent" then
-    local textureName = "regular"
+    textureName = "regular"
   else
-    local textureName = "old_big"
+    textureName = "old_big"
   end
 }%
   PBRAppearance {
@@ -28,12 +29,14 @@ PROTO StonePavement [
       ]
       filtering 5
     }
+    %{ if fields.type.value == "old square" then }%
     roughnessMap ImageTexture {
       url [
         %{= "\"textures/pavement/" .. textureName .. "_pavement_roughness.jpg\"" }%
       ]
       filtering 5
     }
+    %{ end }%
     metalness 0
     normalMap ImageTexture {
       url [
@@ -49,7 +52,6 @@ PROTO StonePavement [
       ]
       filtering 5
     }
-    occlusionMapStrength 1
     textureTransform IS textureTransform
   }
 }

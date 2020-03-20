@@ -19,20 +19,17 @@ PROTO SolarCell [
       url [
         "textures/solar_cell/solar_cell_roughness.jpg"
       ]
-      filtering 5
     }
     metalness 0
     metalnessMap ImageTexture {
       url [
         "textures/solar_cell/solar_cell_metalness.png"
       ]
-      filtering 5
     }
     normalMap ImageTexture {
       url [
         "textures/solar_cell/solar_cell_normal.png"
       ]
-      filtering 5
     }
     normalMapFactor 1.5
     IBLStrength IS IBLStrength
