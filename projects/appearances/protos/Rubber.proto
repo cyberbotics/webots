@@ -1,7 +1,8 @@
 #VRML_SIM R2020a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# A rubber material. The type can be choose between "flat" and "dotted".
+# A rubber material.
+# The type of parquetry can be set using the `type` field.
 
 PROTO Rubber [
   field SFString{"flat", "dotted"} type              "dotted" # Defines the rubber type.

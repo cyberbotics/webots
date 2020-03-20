@@ -39,7 +39,6 @@ PROTO SolarCell [
       ]
       filtering 5
     }
-    occlusionMapStrength 1
     textureTransform IS textureTransform
   }
 }
