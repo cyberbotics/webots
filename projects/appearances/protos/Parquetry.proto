@@ -1,7 +1,9 @@
 #VRML_SIM R2020a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# A parquetry material. The type can be choose between "chequered", "dark strip", "light strip" and "mosaic". The color can be overridden using the `colorOverride` field.
+# A parquetry material.
+# The type of parquetry can be set using the `type` field.
+# The color can be overridden using the `colorOverride` field.
 
 PROTO Parquetry [
   field SFString{"chequered", "dark strip", "light strip", "mosaic"} type             "mosaic"  # Defines the parquetry type.
