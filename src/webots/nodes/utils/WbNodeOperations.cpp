@@ -366,16 +366,16 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
       stream += " metalness 0";
       stream += QString(" transparency %1").arg(transparency);
       stream += QString(" roughness %1").arg(roughness);
-      // if (!addTextureMap(stream, material, "baseColorMap", aiTextureType_BASE_COLOR, referenceFolder))
-      addTextureMap(stream, material, "baseColorMap", aiTextureType_DIFFUSE, referenceFolder);
-      // addTextureMap(stream, material, "roughnessMap", aiTextureType_DIFFUSE_ROUGHNESS, referenceFolder);
-      // addTextureMap(stream, material, "metalnessMap", aiTextureType_METALNESS, referenceFolder);
-      // if (!addTextureMap(stream, material, "normalMap", aiTextureType_NORMAL_CAMERA, referenceFolder))
-      addTextureMap(stream, material, "normalMap", aiTextureType_NORMALS, referenceFolder);
-      // if (!addTextureMap(stream, material, "occlusionMap", aiTextureType_AMBIENT_OCCLUSION, referenceFolder))
-      addTextureMap(stream, material, "occlusionMap", aiTextureType_LIGHTMAP, referenceFolder);
-      // if (!addTextureMap(stream, material, "emissiveColorMap", aiTextureType_EMISSION_COLOR, referenceFolder))
-      addTextureMap(stream, material, "emissiveColorMap", aiTextureType_EMISSIVE, referenceFolder);
+      if (!addTextureMap(stream, material, "baseColorMap", aiTextureType_BASE_COLOR, referenceFolder))
+        addTextureMap(stream, material, "baseColorMap", aiTextureType_DIFFUSE, referenceFolder);
+      addTextureMap(stream, material, "roughnessMap", aiTextureType_DIFFUSE_ROUGHNESS, referenceFolder);
+      addTextureMap(stream, material, "metalnessMap", aiTextureType_METALNESS, referenceFolder);
+      if (!addTextureMap(stream, material, "normalMap", aiTextureType_NORMAL_CAMERA, referenceFolder))
+        addTextureMap(stream, material, "normalMap", aiTextureType_NORMALS, referenceFolder);
+      if (!addTextureMap(stream, material, "occlusionMap", aiTextureType_AMBIENT_OCCLUSION, referenceFolder))
+        addTextureMap(stream, material, "occlusionMap", aiTextureType_LIGHTMAP, referenceFolder);
+      if (!addTextureMap(stream, material, "emissiveColorMap", aiTextureType_EMISSION_COLOR, referenceFolder))
+        addTextureMap(stream, material, "emissiveColorMap", aiTextureType_EMISSIVE, referenceFolder);
       stream += " } ";
     }
     // extract the geometry
