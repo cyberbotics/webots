@@ -416,7 +416,7 @@ DEF FLOOR_SEGMENTS Group {
       children [
         Shape {
           appearance Pavement {
-            type "old big"
+            type "braun stone"
             textureTransform TextureTransform {
               scale 300 300
             }
