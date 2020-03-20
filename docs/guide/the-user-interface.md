@@ -79,6 +79,8 @@ In order to reset the simulation, the following steps are performed:
 
 - The **Import Model...** menu item import 3D objects at the end of the scene tree.
 This feature is useful for importing complex objects that were modeled in a 3D modeling program.
+Once imported, these objects appear as [Group](../reference/group.md), [Transform](../reference/transform.md), [Solid](../reference/solid.md) or [Shape](../reference/shape.md) nodes at the bottom of the scene tree.
+You can then either turn these objects into Webots nodes (e.g. [Robot](../reference/robot.md)) or cut and paste them into the `children` list of existing Webots nodes.
 The following formats are supported:
   - [Blender](https://www.blender.org/) files (.blend).
   - [Collada](https://en.wikipedia.org/wiki/COLLADA) files (.dae).
@@ -86,8 +88,6 @@ The following formats are supported:
   - [STL](https://en.wikipedia.org/wiki/STL_(file_format) files (.stl).
   - [Wavefront](https://en.wikipedia.org/wiki/Wavefront_.obj_file) files (.obj).
   - [VRML](https://en.wikipedia.org/wiki/VRML) files (.vrml).
-Once imported, these objects appear as [Group](../reference/group.md), [Transform](../reference/transform.md), [Solid](../reference/solid.md) or [Shape](../reference/shape.md) nodes at the bottom of the scene tree.
-You can then either turn these objects into Webots nodes (e.g. [Robot](../reference/robot.md)) or cut and paste them into the `children` list of existing Webots nodes.
 
 > **Note:** About [VRML](https://en.wikipedia.org/wiki/VRML) files, only VRML97 is supported (previously called VRML 2.0) Webots cannot import files in VRML 1.0 format.
 
