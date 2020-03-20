@@ -16,6 +16,7 @@
 
 """Webots simulation server."""
 
+from async_process import AsyncProcess
 from io import BytesIO
 from pynvml import nvmlInit, nvmlShutdown, nvmlDeviceGetHandleByIndex, nvmlDeviceGetName, nvmlDeviceGetMemoryInfo, \
                    nvmlDeviceGetUtilizationRates, NVMLError
@@ -34,7 +35,6 @@ import subprocess
 import sys
 import tempfile
 import time
-import threading
 import tornado.ioloop
 import tornado.httpserver
 import tornado.web
@@ -141,6 +141,7 @@ class Client:
 
     def setup_project(self):
         logging.info("setup_project " + str(self.url))
+        self.project_instance_path = config['instancesPath'] + str(id(self))
         if self.url:
             return self.setup_project_from_github()
         else:
@@ -182,26 +183,22 @@ class Client:
         if folder:
             url += '/' + folder
         path = os.getcwd()
+        mkdir_p(self.project_instance_path)
         os.chdir(self.project_instance_path)
-
-        class SubprocessProtocol(asyncio.SubprocessProtocol):
-            def pipe_data_received(self, fd, data):
-                if fd == 1:  # got stdout data
-                    sys.stdout.write(data.decode('utf-8'))
-                    sys.stdout.flush()
-                if fd == 2:  # got stderr data
-                    sys.stderr.write('\033[91m' + data.decode('utf-8') + '\033[0m')
-                    sys.stderr.flush()
-
-            def connection_lost(self, exec):
-                loop.stop()  # end loop.run_forever()
-
-        loop = asyncio.get_event_loop()
-        try:
-            loop.run_until_complete(loop.subprocess_exec(SubprocessProtocol, 'svn', '-q', 'export', url))
-            loop.run_forever()
-        finally:
-            loop.close()
+        command = AsyncProcess('svn export ' + url)
+        sys.stdout.write('$ svn export ' + url + '\n')
+        sys.stdout.flush()
+        while True:
+            output = command.run()
+            if output[0] == 'x':
+                break
+            if output[0] == '2':  # stderr
+                sys.stdout.write("\033[0;31m")  # ANSI red color
+            sys.stdout.write(output[1:])
+            if output[0] == '2':  # stderr
+                sys.stdout.write("\033[0m")  # reset ANSI code
+            sys.stdout.flush()
+        logging.info('Done')
         if branch == 'master' and folder == '':
             os.rename('trunk', repository)
         os.chdir(path)
@@ -209,9 +206,7 @@ class Client:
 
     def setup_project_from_zip(self):
         """Setup a local Webots project to be run by the client."""
-        appPath = config['projectsDir'] + '/' + self.app + '/'
-        self.project_instance_path = config['instancesPath'] + str(id(self))
-        shutil.copytree(appPath, self.project_instance_path)
+        shutil.copytree(os.path.join(config['projectsDir'], self.app) + '/', self.project_instance_path)
         hostFile = open(self.project_instance_path + "/host.txt", 'w')
         hostFile.write(self.host)
         hostFile.close()
@@ -296,7 +291,7 @@ class Client:
             client.on_exit()
         if self.setup_project():
             self.on_webots_quit = on_webots_quit
-            threading.Thread(target=runWebotsInThread, args=(self,)).start()
+            # threading.Thread(target=runWebotsInThread, args=(self,)).start()
         else:
             on_webots_quit()
 
