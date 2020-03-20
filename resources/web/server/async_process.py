@@ -4,7 +4,7 @@ import threading
 
 
 class AsyncProcess:
-    """start a command line process and returns its stdout, stderr and termination asynchronously."""
+    """Start a command line process and returns its stdout, stderr and termination asynchronously."""
     def __init__(self, command):
         self.process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         self.queue = queue.Queue()
@@ -16,8 +16,11 @@ class AsyncProcess:
         self.proc.start()
 
     def run(self):
+        """Return data as soon as it is available on stdout or stderr or when the process exits."""
+        """Data from stdout is prefixed with '1', data on stderr is prefixed with '2'."""
+        """When the process exists, this function returns 'x'."""
         line = self.queue.get()
-        if line[0] == 'x':
+        if line == 'x':
             self.out.join()
             self.err.join()
             self.proc.join()
