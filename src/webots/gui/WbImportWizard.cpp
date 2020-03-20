@@ -14,16 +14,22 @@
 
 #include "WbImportWizard.hpp"
 
+#include "WbLineEdit.hpp"
+
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWizard>
 
-enum { INTRO };
+enum { INTRO, FILE_SELECTION, CONCLUSION };
 
-WbImportWizard::WbImportWizard(QWidget *parent) : QWizard(parent) {
+WbImportWizard::WbImportWizard(const QString &suggestedPath, QWidget *parent) : QWizard(parent) {
   addPage(createIntroPage());
+  addPage(createFileSelectionPage());
+  addPage(createConclusionPage());
+
+  mFileEdit->setText(suggestedPath);
 
   setOption(QWizard::NoCancelButton, false);
   setOption(QWizard::CancelButtonOnLeft, true);
@@ -33,12 +39,23 @@ WbImportWizard::WbImportWizard(QWidget *parent) : QWizard(parent) {
 WbImportWizard::~WbImportWizard() {
 }
 
-bool WbImportWizard::validateCurrentPage() {
-  if (currentId() == INTRO) {
-    //TODO
-    return true;
-  }
+const QString WbImportWizard::fileName() {
+  return mFileEdit->text();
+}
 
+bool WbImportWizard::validateCurrentPage() {
+  if (currentId() == FILE_SELECTION) {
+    // check that file exists
+    if (!QFile::exists(fileName()))
+      return false;
+    // check file extension
+    const QStringList supportedExtension = QStringList() << ".blend" << ".dae" << ".fbx" << ".obj" << ".wrl";
+    for (int i = 0; i < supportedExtension.size(); ++i) {
+      if (fileName().endsWith(supportedExtension[i], Qt::CaseInsensitive))
+        return true;
+    }
+    return false;
+  }
   return true;
 }
 
@@ -47,10 +64,50 @@ QWizardPage *WbImportWizard::createIntroPage() {
 
   page->setTitle(tr("3D model importation"));
 
-  QLabel *label = new QLabel(tr("This wizard will help you importing a 3D model in Webots.\n\nThe following file formats are supported:\n\t- Blender (*.blend)\n\t- Collada (*.dae)\n\t- STL (*.stl)\n\t- VRML (*.wrl)\n\t- Wavefront (*.obj)"), page);
+  QLabel *label = new QLabel(tr("This wizard will help you importing a 3D model in Webots.\n\nThe following file formats are supported:\n\t- Blender (*.blend)\n\t- Collada (*.dae)\n\t- Filmbox (*.fbx)\n\t- STL (*.stl)\n\t- VRML (*.wrl)\n\t- Wavefront (*.obj)"), page);
 
   QVBoxLayout *layout = new QVBoxLayout(page);
   layout->addWidget(label);
+
+  return page;
+}
+
+void WbImportWizard::chooseFile() {
+  const QString fileName = QFileDialog::getOpenFileName(this, tr("Choose a File"), mFileEdit->text(),
+                                                        tr("3D Files (*.blend *.dae *.fbx *.obj *.wrl *.WRL);;Blender (*.blend);;Collada (*.dae);;Filmbox (*.fbx);;STL (*.stl);;VRML (*.wrl *.WRL);;Wavefront (*.obj)"));
+  if (fileName.isEmpty())
+    return;
+  mFileEdit->setText(fileName);
+  mConclusionLabel->setText(tr("The '%1' file will now be imported at the end of the scene-tree").arg(fileName));
+}
+
+QWizardPage *WbImportWizard::createFileSelectionPage() {
+  QWizardPage *page = new QWizardPage(this);
+
+  page->setTitle(tr("File Selection"));
+  page->setSubTitle(tr("Please choose a 3D file to import:"));
+
+  mFileEdit = new WbLineEdit(page);
+  QPushButton *chooseButton = new QPushButton(tr("Choose"), page);
+
+  connect(chooseButton, &QPushButton::pressed, this, &WbImportWizard::chooseFile);
+
+  QHBoxLayout *layout = new QHBoxLayout(page);
+  layout->addWidget(mFileEdit);
+  layout->addWidget(chooseButton);
+
+  return page;
+}
+
+QWizardPage *WbImportWizard::createConclusionPage() {
+  QWizardPage *page = new QWizardPage(this);
+
+  page->setTitle(tr("Summary"));
+
+  mConclusionLabel = new QLabel(page);
+
+  QVBoxLayout *layout = new QVBoxLayout(page);
+  layout->addWidget(mConclusionLabel);
 
   return page;
 }

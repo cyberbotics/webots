@@ -21,18 +21,29 @@
 
 #include <QtWidgets/QWizard>
 
+class QLabel;
+class WbLineEdit;
 
 class WbImportWizard : public QWizard {
   Q_OBJECT
 
 public:
-  explicit WbImportWizard(QWidget *parent = NULL);
+  explicit WbImportWizard(const QString &suggestedPath, QWidget *parent = NULL);
   virtual ~WbImportWizard();
 
+  const QString fileName();
   bool validateCurrentPage() override;
 
+private slots:
+  void chooseFile();
+
 private:
+  WbLineEdit *mFileEdit;
+  QLabel *mConclusionLabel;
+
   QWizardPage *createIntroPage();
+  QWizardPage *createFileSelectionPage();
+  QWizardPage *createConclusionPage();
 };
 
 #endif
