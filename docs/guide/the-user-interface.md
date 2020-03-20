@@ -91,8 +91,6 @@ You can then either turn these objects into Webots nodes (e.g. [Robot](../refere
 
 > **Note:** About [VRML](https://en.wikipedia.org/wiki/VRML) files, only VRML97 is supported (previously called VRML 2.0) Webots cannot import files in VRML 1.0 format.
 
-Once imported, these objects appear as [Group](../reference/group.md), [Transform](../reference/transform.md) or [Shape](../reference/shape.md) nodes at the bottom of the scene tree.
-You can then either turn these objects into Webots nodes (like [Solid](../reference/solid.md), [Robot](../reference/robot.md), etc.) or cut and paste them into the `children` list of existing Webots nodes.
 
 - The **Export VRML97...** item allows you to save the currently loaded world as a ".wrl" file, conforming to the VRML97 standard.
 Such a file can, in turn, be opened with any VRML97 viewer and most 3D modeling software.
