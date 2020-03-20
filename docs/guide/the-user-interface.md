@@ -77,11 +77,20 @@ In order to reset the simulation, the following steps are performed:
 
 - The **Print...** menu item opens a window allowing you to print the current file of the text editor.
 
-- The **Import VRML97...** menu item adds VRML97 objects at the end of the scene tree.
-These objects come from a VRML97 file you must specify.
-This feature is useful for importing complex shapes that were modeled in a 3D modelling program, then exported to VRML97 (previously called VRML 2.0).
-Most 3D modelling software, like 3D Studio Max, Maya, AutoCAD, Pro Engineer, AC3D, or Art Of Illusion, include the VRML97 (or VRML 2.0) export feature.
-Be aware that Webots cannot import files in VRML 1.0 format.
+- The **Import Model...** menu item import 3D objects at the end of the scene tree.
+This feature is useful for importing complex objects that were modeled in a 3D modeling program.
+The following formats are supported:
+  - [Blender](https://www.blender.org/) files (.blend).
+  - [Collada](https://en.wikipedia.org/wiki/COLLADA) files (.dae).
+  - [Filmbox](https://en.wikipedia.org/wiki/FBX) files (.fbx).
+  - [STL](https://en.wikipedia.org/wiki/STL_(file_format) files (.stl).
+  - [Wavefront](https://en.wikipedia.org/wiki/Wavefront_.obj_file) files (.obj).
+  - [VRML](https://en.wikipedia.org/wiki/VRML) files (.vrml).
+Once imported, these objects appear as [Group](../reference/group.md), [Transform](../reference/transform.md), [Solid](../reference/solid.md) or [Shape](../reference/shape.md) nodes at the bottom of the scene tree.
+You can then either turn these objects into Webots nodes (e.g. [Robot](../reference/robot.md)) or cut and paste them into the `children` list of existing Webots nodes.
+
+> **Note:** About [VRML](https://en.wikipedia.org/wiki/VRML) files, only VRML97 is supported (previously called VRML 2.0) Webots cannot import files in VRML 1.0 format.
+
 Once imported, these objects appear as [Group](../reference/group.md), [Transform](../reference/transform.md) or [Shape](../reference/shape.md) nodes at the bottom of the scene tree.
 You can then either turn these objects into Webots nodes (like [Solid](../reference/solid.md), [Robot](../reference/robot.md), etc.) or cut and paste them into the `children` list of existing Webots nodes.
 
