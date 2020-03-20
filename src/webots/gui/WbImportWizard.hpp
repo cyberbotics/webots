@@ -36,6 +36,7 @@ public:
   bool importTextureCoordinates() const;
   bool importNormals() const;
   bool importAppearances() const;
+  bool importAsSolid() const;
   bool importBoundingObjects() const;
   bool validateCurrentPage() override;
 
@@ -48,6 +49,7 @@ private:
   QCheckBox *mTextureCoordinateCheckBox;
   QCheckBox *mNormalCheckBox;
   QCheckBox *mAppearancesCheckBox;
+  QCheckBox *mSolidCheckBox;
   QCheckBox *mBoundingObjectCheckBox;
 
   QWizardPage *createIntroPage();

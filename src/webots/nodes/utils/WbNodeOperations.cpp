@@ -293,18 +293,21 @@ bool addTextureMap(QString &stream, const aiMaterial *material, const QString &m
   return false;
 }
 
-void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &referenceFolder, bool importTextureCoordinates, bool importNormals, bool importAppearances, bool importBoundingObjects) {
+void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &referenceFolder, bool importTextureCoordinates, bool importNormals, bool importAppearances, bool importAsSolid, bool importBoundingObjects) {
   aiVector3t<float> scaling, position;
   aiQuaternion rotation;
   node->mTransformation.Decompose(scaling, rotation, position);
 
-  stream += " Solid { ";
+  if (importAsSolid)
+    stream += " Solid { ";
+  else
+    stream += " Transform { ";
   stream += QString(" translation %1 %2 %3 ").arg(position[0]).arg(position[1]).arg(position[2]);
   // TODO: rotation
   stream += QString(" scale %1 %2 %3 ").arg(scaling[0]).arg(scaling[1]).arg(scaling[2]);
   stream += QString(" children [");
 
-  const bool defNeedGroup = importBoundingObjects && node->mNumMeshes > 1;
+  const bool defNeedGroup = importAsSolid && importBoundingObjects && node->mNumMeshes > 1;
 
   if (defNeedGroup) {
     stream += " DEF SHAPE Group { ";
@@ -314,7 +317,7 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
   for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
     const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
     const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-    if (defNeedGroup || !importBoundingObjects)
+    if (defNeedGroup || !importBoundingObjects || !importAsSolid)
       stream += " Shape { ";
     else
       stream += " DEF SHAPE Shape { ";
@@ -420,16 +423,18 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
   }
 
   for (unsigned int i = 0; i < node->mNumChildren; ++i)
-    addModelNode(stream, node->mChildren[i], scene, referenceFolder, importTextureCoordinates, importNormals, importAppearances, importBoundingObjects);
+    addModelNode(stream, node->mChildren[i], scene, referenceFolder, importTextureCoordinates, importNormals, importAppearances, importAsSolid, importBoundingObjects);
 
   stream += " ] ";
-  stream += QString(" name \"%1\" ").arg(node->mName.C_Str());
-  if (importBoundingObjects && node->mNumMeshes > 0)
-    stream += " boundingObject USE SHAPE ";
+  if (importAsSolid) {
+    stream += QString(" name \"%1\" ").arg(node->mName.C_Str());
+    if (importBoundingObjects && node->mNumMeshes > 0)
+      stream += " boundingObject USE SHAPE ";
+  }
   stream += " } ";
 }
 
-WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QString &filename, bool importTextureCoordinates, bool importNormals, bool importAppearances, bool importBoundingObjects) {
+WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QString &filename, bool importTextureCoordinates, bool importNormals, bool importAppearances, bool importAsSolid, bool importBoundingObjects) {
   OperationResult result = FAILURE;
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
@@ -443,7 +448,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QS
   }
 
   QString stream = "";
-  addModelNode(stream, scene->mRootNode, scene, QFileInfo(filename).dir().absolutePath(), importTextureCoordinates, importNormals, importAppearances, importBoundingObjects);
+  addModelNode(stream, scene->mRootNode, scene, QFileInfo(filename).dir().absolutePath(), importTextureCoordinates, importNormals, importAppearances, importAsSolid, importBoundingObjects);
   WbGroup *root = WbWorld::instance()->root();
   result = importNode(root, root->findField("children"), root->childCount(), QString(), stream);
 

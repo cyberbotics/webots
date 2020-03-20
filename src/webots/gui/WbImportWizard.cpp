@@ -57,6 +57,10 @@ bool WbImportWizard::importAppearances() const {
   return mAppearancesCheckBox->isChecked();
 }
 
+bool WbImportWizard::importAsSolid() const {
+  return mSolidCheckBox->isChecked();
+}
+
 bool WbImportWizard::importBoundingObjects() const {
   return mBoundingObjectCheckBox->isChecked();
 }
@@ -123,18 +127,21 @@ QWizardPage *WbImportWizard::createOptionPage() {
   page->setTitle(tr("Importation Settings"));
   page->setSubTitle(tr("Please choose how do you want to import the model:"));
 
-  mTextureCoordinateCheckBox = new QCheckBox(tr("Import texture coordinates (if available)"), page);
+  mTextureCoordinateCheckBox = new QCheckBox(tr("Import texture coordinates (if available)."), page);
   mTextureCoordinateCheckBox->setChecked(true);
-  mNormalCheckBox = new QCheckBox(tr("Import normals (if available)"), page);
+  mNormalCheckBox = new QCheckBox(tr("Import normals (if available)."), page);
   mNormalCheckBox->setChecked(true);
-  mAppearancesCheckBox = new QCheckBox(tr("Import appearances (if available)"), page);
+  mAppearancesCheckBox = new QCheckBox(tr("Import appearances (if available)."), page);
   mAppearancesCheckBox->setChecked(true);
-  mBoundingObjectCheckBox = new QCheckBox(tr("Use meshes for bounding objects"), page);
+  mSolidCheckBox = new QCheckBox(tr("Import nodes as Solids."), page);
+  mSolidCheckBox->setChecked(true);
+  mBoundingObjectCheckBox = new QCheckBox(tr("Use meshes for bounding objects."), page);
   mBoundingObjectCheckBox->setChecked(false);
   QVBoxLayout *layout = new QVBoxLayout(page);
   layout->addWidget(mTextureCoordinateCheckBox);
   layout->addWidget(mNormalCheckBox);
   layout->addWidget(mAppearancesCheckBox);
+  layout->addWidget(mSolidCheckBox);
   layout->addWidget(mBoundingObjectCheckBox);
 
   return page;

@@ -1511,7 +1511,7 @@ void WbMainWindow::importVrml() {
       if (WbNodeOperations::instance()->importVrml(fileName) == WbNodeOperations::SUCCESS)
         WbWorld::instance()->setModified();
     } else {
-      if (WbNodeOperations::instance()->importExternalModel(fileName, wizard.importTextureCoordinates(), wizard.importNormals(), wizard.importAppearances(), wizard.importBoundingObjects()) == WbNodeOperations::SUCCESS)
+      if (WbNodeOperations::instance()->importExternalModel(fileName, wizard.importTextureCoordinates(), wizard.importNormals(), wizard.importAppearances(), wizard.importAsSolid(), wizard.importBoundingObjects()) == WbNodeOperations::SUCCESS)
         WbWorld::instance()->setModified();
     }
 
