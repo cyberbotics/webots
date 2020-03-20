@@ -71,7 +71,11 @@ bool WbImportWizard::validateCurrentPage() {
     if (!QFile::exists(fileName()))
       return false;
     // check file extension
-    const QStringList supportedExtension = QStringList() << ".blend" << ".dae" << ".fbx" << ".obj" << ".wrl";
+    const QStringList supportedExtension = QStringList() << ".blend"
+                                                         << ".dae"
+                                                         << ".fbx"
+                                                         << ".obj"
+                                                         << ".wrl";
     for (int i = 0; i < supportedExtension.size(); ++i) {
       if (fileName().endsWith(supportedExtension[i], Qt::CaseInsensitive))
         return true;
@@ -86,7 +90,10 @@ QWizardPage *WbImportWizard::createIntroPage() {
 
   page->setTitle(tr("3D model importation"));
 
-  QLabel *label = new QLabel(tr("This wizard will help you importing a 3D model in Webots.\n\nThe following file formats are supported:\n\t- Blender (*.blend)\n\t- Collada (*.dae)\n\t- Filmbox (*.fbx)\n\t- STL (*.stl)\n\t- VRML (*.wrl)\n\t- Wavefront (*.obj)"), page);
+  QLabel *label = new QLabel(
+    tr("This wizard will help you importing a 3D model in Webots.\n\nThe following file formats are supported:\n\t- Blender "
+       "(*.blend)\n\t- Collada (*.dae)\n\t- Filmbox (*.fbx)\n\t- STL (*.stl)\n\t- VRML (*.wrl)\n\t- Wavefront (*.obj)"),
+    page);
 
   QVBoxLayout *layout = new QVBoxLayout(page);
   layout->addWidget(label);
@@ -95,8 +102,10 @@ QWizardPage *WbImportWizard::createIntroPage() {
 }
 
 void WbImportWizard::chooseFile() {
-  const QString fileName = QFileDialog::getOpenFileName(this, tr("Choose a File"), mFileEdit->text(),
-                                                        tr("3D Files (*.blend *.dae *.fbx *.obj *.wrl *.WRL);;Blender (*.blend);;Collada (*.dae);;Filmbox (*.fbx);;STL (*.stl);;VRML (*.wrl *.WRL);;Wavefront (*.obj)"));
+  const QString fileName =
+    QFileDialog::getOpenFileName(this, tr("Choose a File"), mFileEdit->text(),
+                                 tr("3D Files (*.blend *.dae *.fbx *.obj *.wrl *.WRL);;Blender (*.blend);;Collada "
+                                    "(*.dae);;Filmbox (*.fbx);;STL (*.stl);;VRML (*.wrl *.WRL);;Wavefront (*.obj)"));
   if (fileName.isEmpty())
     return;
   mFileEdit->setText(fileName);

@@ -293,7 +293,9 @@ bool addTextureMap(QString &stream, const aiMaterial *material, const QString &m
   return false;
 }
 
-void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &referenceFolder, bool importTextureCoordinates, bool importNormals, bool importAppearances, bool importAsSolid, bool importBoundingObjects) {
+void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &referenceFolder,
+                  bool importTextureCoordinates, bool importNormals, bool importAppearances, bool importAsSolid,
+                  bool importBoundingObjects) {
   aiVector3t<float> scaling, position;
   aiQuaternion rotation;
   node->mTransformation.Decompose(scaling, rotation, position);
@@ -424,7 +426,8 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
   }
 
   for (unsigned int i = 0; i < node->mNumChildren; ++i)
-    addModelNode(stream, node->mChildren[i], scene, referenceFolder, importTextureCoordinates, importNormals, importAppearances, importAsSolid, importBoundingObjects);
+    addModelNode(stream, node->mChildren[i], scene, referenceFolder, importTextureCoordinates, importNormals, importAppearances,
+                 importAsSolid, importBoundingObjects);
 
   stream += " ] ";
   if (importAsSolid) {
@@ -435,7 +438,9 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
   stream += " } ";
 }
 
-WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QString &filename, bool importTextureCoordinates, bool importNormals, bool importAppearances, bool importAsSolid, bool importBoundingObjects) {
+WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QString &filename, bool importTextureCoordinates,
+                                                                        bool importNormals, bool importAppearances,
+                                                                        bool importAsSolid, bool importBoundingObjects) {
   OperationResult result = FAILURE;
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
@@ -449,7 +454,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QS
   }
 
   QString stream = "";
-  addModelNode(stream, scene->mRootNode, scene, QFileInfo(filename).dir().absolutePath(), importTextureCoordinates, importNormals, importAppearances, importAsSolid, importBoundingObjects);
+  addModelNode(stream, scene->mRootNode, scene, QFileInfo(filename).dir().absolutePath(), importTextureCoordinates,
+               importNormals, importAppearances, importAsSolid, importBoundingObjects);
   WbGroup *root = WbWorld::instance()->root();
   result = importNode(root, root->findField("children"), root->childCount(), QString(), stream);
 
