@@ -85,7 +85,7 @@ The following formats are supported:
   - [Blender](https://www.blender.org/) files (.blend).
   - [Collada](https://en.wikipedia.org/wiki/COLLADA) files (.dae).
   - [Filmbox](https://en.wikipedia.org/wiki/FBX) files (.fbx).
-  - [STL](https://en.wikipedia.org/wiki/STL_(file_format) files (.stl).
+  - [STL](https://en.wikipedia.org/wiki/STL_(file_format)) files (.stl).
   - [Wavefront](https://en.wikipedia.org/wiki/Wavefront_.obj_file) files (.obj).
   - [VRML](https://en.wikipedia.org/wiki/VRML) files (.vrml).
 
