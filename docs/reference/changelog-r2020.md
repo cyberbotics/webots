@@ -16,8 +16,9 @@ Released on XXX.
     - macOS and Windows: Added support for Python 3.8.
     - Added a 'Convert Root to Base Node(s)' option in the context menu to convert a PROTO node to base node(s) without converting the nested PROTO nodes.
     - Added an `OfficeChair` PROTO object.
-    - Added a `MetalStainlessSteelCable` appearance.
+    - Added several new appearances: `Marble`, `MetalStainlessSteelCable`, `Pavement`, `Parquetry`, and `SolarCell`.
     - Added a `ConveyorPlatform` PROTO object.
+  - New Samples
     - Added a [break\_room](../guide/samples-environments.md#break_room-wbt) world.
   - Enhancements
     - Improved the environment colors of the sojourner simulation (Mars is a red planet).
@@ -25,10 +26,14 @@ Released on XXX.
     - Added missing `supervisor` field in `UR3e`, `UR5e` and `UR10e` robots.
     - Added a `staticBase` field to the `Irb4600-40` PROTO node.
     - Added a `--node-name` argument to the ROS controller of the Universal Robots UR3e, UR5e and UR10e for multi robot simulations.
+    - Added a `type` field to the following appearances: `Rubber` and `ThreadMetalPlate`.
+    - Added an `appearance` field to the `Worktop` PROTO node.
     - Removed the ROS libraries from the default controllers path to avoid possible conflicts with other libraries (thanks to PymZoR).
     - Geometry node now displays its triangles count in the node editor.
   - Dependency Updates
     - Upgraded to Qt 5.14.1 on Windows.
+  - Cleanup
+    - Deprecated the following appearances: `ChequeredParquetry`, `DarkParquetry`, `SlatePavement`, `SquarePavement` and `StonePavement`.
   - Bug fixes
     - Fixed the physics behavior of [Connector](connector.md) nodes sometimes remaining idle after being detached from each other (thanks to Giorgio).
     - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images.
