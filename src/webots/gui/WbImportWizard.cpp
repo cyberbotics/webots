@@ -90,10 +90,20 @@ QWizardPage *WbImportWizard::createIntroPage() {
 
   page->setTitle(tr("3D model importation"));
 
-  QLabel *label = new QLabel(
-    tr("This wizard will help you importing a 3D model in Webots.\n\nThe following file formats are supported:\n\t- Blender "
-       "(*.blend)\n\t- Collada (*.dae)\n\t- Filmbox (*.fbx)\n\t- STL (*.stl)\n\t- VRML (*.wrl)\n\t- Wavefront (*.obj)"),
-    page);
+  QLabel *label =
+    new QLabel(tr("This wizard will help you importing a 3D model in Webots.\n\nThe following file formats are supported:"
+                  "\n\t- 3D Studio mesh (*.3ds)"
+                  "\n\t- AutoCAD DXF (*.dxf)"
+                  "\n\t- Biovision Hierarchy (*.bhv)"
+                  "\n\t- Blender (*.blend)"
+                  "\n\t- Collada (*.dae)"
+                  "\n\t- Filmbox (*.fbx)"
+                  "\n\t- STEP (*.stp)"
+                  "\n\t- STL (*.stl)"
+                  "\n\t- VRML (*.wrl)"
+                  "\n\t- Wavefront (*.obj)"
+                  "\n\t- X3D (*.x3d)"),
+               page);
 
   QVBoxLayout *layout = new QVBoxLayout(page);
   layout->addWidget(label);
@@ -104,8 +114,19 @@ QWizardPage *WbImportWizard::createIntroPage() {
 void WbImportWizard::chooseFile() {
   const QString fileName =
     QFileDialog::getOpenFileName(this, tr("Choose a File"), mFileEdit->text(),
-                                 tr("3D Files (*.blend *.dae *.fbx *.obj *.wrl *.WRL);;Blender (*.blend);;Collada "
-                                    "(*.dae);;Filmbox (*.fbx);;STL (*.stl);;VRML (*.wrl *.WRL);;Wavefront (*.obj)"));
+                                 tr("3D Files (*.3ds *.3DS *.dxf *.DXF *.bhv *.BVH *.blend *.BLEND *.dae *.DAE *.fbx *.FBX "
+                                    "*.stp *.step *.STP *.STEP *.stl *.STL *.wrl *.WRL *.obj *.OBJ *.x3d *.X3D);;"
+                                    "3D Studio mesh (*.3ds *.3DS);;"
+                                    "AutoCAD DXF (*.dxf *.DXF);;"
+                                    "Biovision Hierarchy (*.bhv *.BVH);;"
+                                    "Blender (*.blend *.BLEND);;"
+                                    "Collada (*.dae *.DAE);;"
+                                    "Filmbox (*.fbx *.FBX);;"
+                                    "STEP (*.stp *.step *.STP *.STEP);;"
+                                    "STL (*.stl *.STL);;"
+                                    "VRML (*.wrl *.WRL);;"
+                                    "Wavefront (*.obj *.OBJ);;"
+                                    "X3D (*.x3d *.X3D)"));
   if (fileName.isEmpty())
     return;
   mFileEdit->setText(fileName);
