@@ -1,7 +1,7 @@
 #VRML_SIM R2020a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# tags: static
+# tags: hidden, static
 # Backward compatibility with the deprecated 'StonePavement' PROTO (deprecated in Webots R2020a-rev2)
 # A stone pavement material.
 
