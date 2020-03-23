@@ -414,7 +414,11 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
           mBold = false;
         } else if (code == "1")  // bold
           mBold = true;
-        else if (code.startsWith("3")) {  // foreground color change
+        else if (code.startsWith("2")) {  // clear
+          const char c = code.toLocal8Bit().data()[1];
+          if (c == 'J')
+            WbLog::clear();
+        } else if (code.startsWith("3")) {  // foreground color change
           const char c = code.toLocal8Bit().data()[1];
           switch (c) {
             case '1':
