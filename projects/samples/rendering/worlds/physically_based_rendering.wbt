@@ -20,7 +20,7 @@ TexturedBackgroundLight {
 RectangleArena {
   floorSize 20 20
   floorAppearance Pavement {
-    type "regular"
+    type "grid"
   }
   wallHeight 1
 }
