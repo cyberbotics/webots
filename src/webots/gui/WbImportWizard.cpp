@@ -71,11 +71,18 @@ bool WbImportWizard::validateCurrentPage() {
     if (!QFile::exists(fileName()))
       return false;
     // check file extension
-    const QStringList supportedExtension = QStringList() << ".blend"
+    const QStringList supportedExtension = QStringList() << ".3ds"
+                                                         << ".dxf"
+                                                         << ".bhv"
+                                                         << ".blend"
                                                          << ".dae"
                                                          << ".fbx"
+                                                         << ".stp"
+                                                         << ".step"
+                                                         << ".stl"
+                                                         << ".wrl"
                                                          << ".obj"
-                                                         << ".wrl";
+                                                         << ".x3d";
     for (int i = 0; i < supportedExtension.size(); ++i) {
       if (fileName().endsWith(supportedExtension[i], Qt::CaseInsensitive))
         return true;
