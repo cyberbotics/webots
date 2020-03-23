@@ -296,11 +296,15 @@ bool addTextureMap(QString &stream, const aiMaterial *material, const QString &m
 void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &referenceFolder,
                   bool importTextureCoordinates, bool importNormals, bool importAppearances, bool importAsSolid,
                   bool importBoundingObjects) {
+  // extract position, orientation and scale of the node
   aiVector3t<float> scaling, position;
   aiQuaternion rotation;
   node->mTransformation.Decompose(scaling, rotation, position);
-  const WbRotation webotsRotation(WbQuaternion(rotation.w, rotation.x, rotation.y, rotation.z));
+  WbQuaternion quaternion(rotation.w, rotation.x, rotation.y, rotation.z);
+  quaternion.normalize();
+  const WbRotation webotsRotation(quaternion);
 
+  // export the node
   if (importAsSolid)
     stream += " Solid { ";
   else
