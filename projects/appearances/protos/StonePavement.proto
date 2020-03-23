@@ -1,7 +1,7 @@
 #VRML_SIM R2020a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# tags: hidden, static
+# tags: static
 # Backward compatibility with the deprecated 'StonePavement' PROTO (deprecated in Webots R2020a-rev2)
 # A stone pavement material.
 
@@ -16,9 +16,9 @@ PROTO StonePavement [
   io.stderr:write("Deprecated 'StonePavement' PROTO, please use the 'Pavement' PROTO instead and select the right type.\n")
   local textureName = fields.type.value:gsub("%s+", "_")
   if fields.type.value == "recent" then
-    textureName = "regular"
+    textureName = "braun_square_stone"
   else
-    textureName = "old_big"
+    textureName = "braun_stone"
   end
 }%
   PBRAppearance {
@@ -29,14 +29,13 @@ PROTO StonePavement [
       ]
       filtering 5
     }
-    %{ if fields.type.value == "old square" then }%
+    roughness 1
     roughnessMap ImageTexture {
       url [
         %{= "\"textures/pavement/" .. textureName .. "_pavement_roughness.jpg\"" }%
       ]
       filtering 5
     }
-    %{ end }%
     metalness 0
     normalMap ImageTexture {
       url [
