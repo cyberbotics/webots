@@ -24,7 +24,7 @@ PROTO Pavement [
       filtering 5
     }
     roughness 1
-    %{ if fields.type.value ~= "regular" then }%
+    %{ if fields.type.value ~= "grid" then }%
     roughnessMap ImageTexture {
       url [
         %{= "\"textures/pavement/" .. textureName .. "_pavement_roughness.jpg\"" }%
