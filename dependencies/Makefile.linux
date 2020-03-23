@@ -95,9 +95,9 @@ $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE):
 assimp-clean:
 	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE) $(WEBOTS_HOME_LIB)/libassimp* $(WEBOTS_HOME)/include/assimp
 
-assimp: $(WEBOTS_HOME_LIB)/libassimp.so.so
+assimp: $(WEBOTS_HOME_LIB)/libassimp.so
 
-$(WEBOTS_HOME_LIB)/libassimp.so.so: $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
+$(WEBOTS_HOME_LIB)/libassimp.so: $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
 	@echo "# uncompressing $(ASSIMP_PACKAGE)"
 	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE) -C $(WEBOTS_HOME)
 
