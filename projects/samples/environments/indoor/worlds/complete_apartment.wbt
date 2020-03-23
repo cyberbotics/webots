@@ -93,7 +93,8 @@ DEF FLOOR Solid {
       translation 1.87 0 6.29
       children [
         Shape {
-          appearance SlatePavement {
+          appearance Pavement {
+            type "slate"
             textureTransform TextureTransform {
               scale 9.8 2.6
             }
