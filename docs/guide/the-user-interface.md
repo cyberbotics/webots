@@ -91,7 +91,7 @@ The following formats are supported:
   - [STEP](https://en.wikipedia.org/wiki/ISO_10303-21) files (.stp).
   - [STL](https://en.wikipedia.org/wiki/STL_(file_format)) files (.stl).
   - [VRML](https://en.wikipedia.org/wiki/VRML) files (.vrml).
-  - [Wavefront](hhttps://wiki.fileformat.com/3d/obj) files (.obj).
+  - [Wavefront](https://wiki.fileformat.com/3d/obj) files (.obj).
   - [X3D](https://www.web3d.org/getting-started-x3d) files (.x3d).
 
 > **Note:** About [VRML](https://en.wikipedia.org/wiki/VRML) files, only VRML97 is supported (previously called VRML 2.0) Webots cannot import files in VRML 1.0 format.
