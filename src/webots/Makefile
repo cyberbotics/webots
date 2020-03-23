@@ -108,7 +108,7 @@ CFLAGS += -Wno-deprecated-register
 else ifeq ($(OSTYPE),linux)
 LIB_WREN           = ../wren/libwren.a ../glad/libglad.a
 OPENAL_INCLUDE     = -I$(WEBOTS_DEPENDENCY_PATH)/openal/include
-ASSIMP_INCLUDE     = -I$(WEBOTS_PATH)/libassimp/include
+ASSIMP_INCLUDE     = -I$(WEBOTS_PATH)/include/libassimp/include
 QT_CORE_INCLUDE    = -isystem $(WEBOTS_PATH)/include/qt/QtCore
 QT_GUI_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtGui
 QT_WIDGETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtWidgets

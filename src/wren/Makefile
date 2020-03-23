@@ -28,7 +28,7 @@ INCLUDE = -I$(WEBOTS_HOME_PATH)/include -I$(WEBOTS_HOME_PATH)/include/glad -I../
 ifeq ($(OSTYPE),darwin)
 INCLUDE += -I$(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/include -I$(WEBOTS_DEPENDENCY_PATH)/assimp/include
 else ifeq ($(OSTYPE),linux)
-INCLUDE += -I/usr/include/freetype2 -I$(WEBOTS_HOME_PATH)/libassimp/include
+INCLUDE += -I/usr/include/freetype2 -I$(WEBOTS_HOME_PATH)/include/libassimp/include
 else ifeq ($(OSTYPE),windows)
 INCLUDE += -I/mingw64/include/freetype2 -I/mingw64/include
 endif
