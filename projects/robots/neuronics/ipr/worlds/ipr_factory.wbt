@@ -544,7 +544,7 @@ Robot {
           name "belt_motor"
         }
       ]
-      textureAnimation -0.001 0
+      textureAnimation -0.05 0
     }
   ]
   name "Belt"

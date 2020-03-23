@@ -149,6 +149,7 @@ jobs:
         - sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
         - sudo apt update -qq
         - sudo apt-get install -y ros-$ROS_DISTRO-ros-base ros-$ROS_DISTRO-sensor-msgs ros-$ROS_DISTRO-tf
+        - sudo apt-get install -y python-rosdep
         - sudo rosdep init
         - rosdep update
         - pip install rospkg catkin_pkg empy defusedxml netifaces  # by default ros only comes with python2.7 libraries
@@ -183,6 +184,10 @@ jobs:
             - fakeroot
             - pbzip2
             - libxkbcommon-x11-dev
+      script:  # TODO: remove this part once ROS melodic is fixed to restore the ROS test.
+        - make release -j2
+        - make release -j2 -C tests
+        - python tests/test_suite.py --no-ansi-escape --nomake
     - &distribution_staging
       stage: Distribution
       if: type = cron OR commit_message IN (travis_distrib, travis_distrib_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
