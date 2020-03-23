@@ -3,8 +3,8 @@ WorldInfo {
   lineScale 3
 }
 Viewpoint {
-  orientation 0.0554984534725408 0.9721657542056477 0.2276261584526705 3.6070579221944525
-  position -1.9600376320937332 2.774186106880468 -3.5217654351125733
+  orientation 0.07801206981345309 0.9747074527786073 0.2094265944460259 3.758784052692771
+  position -0.9146191566260485 2.432460412936142 -1.7312071147371517
 }
 TexturedBackground {
   skyColor [
@@ -1222,7 +1222,7 @@ Robot {
                       endPoint Solid {
                       }
                     }
-                    DEF FRONT_LEFT_ELBOW HingeJoint {
+                    DEF FRONT_LEFT_ELBOW_JOINT HingeJoint {
                       jointParameters HingeJointParameters {
                         anchor 0.1 0.809 -0.3388
                         minStop -0.51
