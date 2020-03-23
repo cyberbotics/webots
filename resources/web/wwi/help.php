@@ -144,7 +144,7 @@ if ($showRun)
   if ($touchInterface)
     echo "touch the screen with one finger and move it.";
   else
-    echo "set the mouse pointer in the 3D scene, press the right mouse button, and drag them mouse.";
+    echo "set the mouse pointer in the 3D scene, press the right mouse button, and drag the mouse.";
 ?>
     </p>
     <p>The translation speed is proportional to the distance from the viewpoint to the 3D point on which you clicked.
