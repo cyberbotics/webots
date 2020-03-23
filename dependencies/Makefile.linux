@@ -105,7 +105,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE):
 	@echo "# downloading $(ASSIMP_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(ASSIMP_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "e6a139f1a9b4a2568d410cd19e1465a3  $(ASSIMP_PACKAGE)" > $(ASSIMP_PACKAGE).md5
+	@echo "bc43fbff14dd9884c01a0aea8e8ba628  $(ASSIMP_PACKAGE)" > $(ASSIMP_PACKAGE).md5
 	@md5sum -c --status $(ASSIMP_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(ASSIMP_PACKAGE)"; exit 1; fi
 	@rm $(ASSIMP_PACKAGE).md5
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
