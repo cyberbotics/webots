@@ -7,6 +7,8 @@ class Server { // eslint-disable-line no-unused-vars
     this.onready = onready;
 
     // url has the following form: "ws(s)://cyberbotics1.epfl.ch:80/simple/worlds/simple.wbt"
+    // or "wss://cyberbotics1.epfl.ch/session?url=https://github.com/cyberbotics/webots/tree/master/projects/languages/python
+    // &branch=1"
     var n = url.indexOf('/', 6);
     var m = url.lastIndexOf('/');
     this.url = 'http' + url.substring(2, n); // e.g., "http(s)://cyberbotics1.epfl.ch:80"
