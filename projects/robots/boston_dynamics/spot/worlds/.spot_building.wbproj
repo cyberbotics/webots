@@ -13,4 +13,6 @@ robotWindow: robot
 globalOptionalRendering: JointAxes::CoordinateSystem
 renderingDevicePerspectives: robot:left_flank_camera;1;1;0;0
 renderingDevicePerspectives: robot:right_flank_camera;1;1;0;0
+renderingDevicePerspectives: robot:right head camera;1;1;0;0
 renderingDevicePerspectives: robot:rear_camera;1;1;0;0
+renderingDevicePerspectives: robot:left head camera;1;1;0;0

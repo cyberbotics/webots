@@ -63,7 +63,7 @@ PROTO SpotRightLeg [
       DEF SHOULDER_ELEVATION_JOINT HingeJoint {
         jointParameters HingeJointParameters {
           axis 0 0 1
-          anchor -0.14 1.66 0
+          anchor 0.14 1.66 0
           minStop -0.6
           maxStop 0.5
         }
@@ -307,8 +307,6 @@ PROTO SpotRightLeg [
                                 size 0.1 0.016 0.11
                               }
                             ]
-                            translationStep 0.001
-                            rotationStep 0.01
                           }
                           DEF FOREARM_BO_2 Transform {
                             translation 0.44 0.191448 -0.865323
@@ -318,8 +316,6 @@ PROTO SpotRightLeg [
                                 size 0.1 0.12 0.018
                               }
                             ]
-                            translationStep 0.001
-                            rotationStep 0.01
                           }
                           DEF FOREARM_BO_3 Transform {
                             translation 0.44 0.267287 -0.888083
@@ -329,8 +325,6 @@ PROTO SpotRightLeg [
                                 size 0.067 0.06 0.055
                               }
                             ]
-                            translationStep 0.001
-                            rotationStep 0.01
                           }
                           DEF FOREARM_BO_4 Transform {
                             translation 0.44 0.365738 -0.821185
@@ -340,8 +334,6 @@ PROTO SpotRightLeg [
                                 size 0.051 0.19 0.046
                               }
                             ]
-                            translationStep 0.001
-                            rotationStep 0.01
                           }
                           DEF FOREARM_BO_5 Transform {
                             translation 0.44 0.481098 -0.734013
@@ -351,8 +343,6 @@ PROTO SpotRightLeg [
                                 size 0.058 0.1 0.049
                               }
                             ]
-                            translationStep 0.001
-                            rotationStep 0.01
                           }
                           DEF FOREARM_BO_6 Transform {
                             translation 0.44 0.545534 -0.675353
@@ -362,8 +352,6 @@ PROTO SpotRightLeg [
                                 size 0.07 0.08 0.056
                               }
                             ]
-                            translationStep 0.001
-                            rotationStep 0.01
                           }
                           DEF FOREARM_BO_7 Transform {
                             translation 0.44 0.589791 -0.623949
@@ -373,8 +361,6 @@ PROTO SpotRightLeg [
                                 size 0.086 0.06 0.065
                               }
                             ]
-                            translationStep 0.001
-                            rotationStep 0.01
                           }
                           DEF FOREARM_BO_8 Transform {
                             translation 0.44 0.631418 -0.570249
@@ -384,8 +370,6 @@ PROTO SpotRightLeg [
                                 size 0.1 0.09 0.07
                               }
                             ]
-                            translationStep 0.001
-                            rotationStep 0.01
                           }
                           DEF FOREARM_BO_9 Transform {
                             translation 0.44 0.681367 -0.497628
@@ -396,8 +380,6 @@ PROTO SpotRightLeg [
                                 radius 0.065
                               }
                             ]
-                            translationStep 0.001
-                            rotationStep 0.01
                           }
                           DEF FOREARM_BO_9 Transform {
                             translation 0.44 0.720411 -0.441807
@@ -407,8 +389,6 @@ PROTO SpotRightLeg [
                                 size 0.101 0.06 0.085
                               }
                             ]
-                            translationStep 0.001
-                            rotationStep 0.01
                           }
                           DEF FOREARM_BO_10 Transform {
                             translation 0.44 0.75238 -0.398289
@@ -418,8 +398,6 @@ PROTO SpotRightLeg [
                                 size 0.083 0.05 0.087
                               }
                             ]
-                            translationStep 0.001
-                            rotationStep 0.01
                           }
                           DEF FOREARM_BO_11 Transform {
                             translation 0.44 0.784566 -0.357661
@@ -429,8 +407,6 @@ PROTO SpotRightLeg [
                                 size 0.074 0.05 0.087
                               }
                             ]
-                            translationStep 0.001
-                            rotationStep 0.01
                           }
                           DEF FOREARM_BO_12 Transform {
                             translation 0.44 0.824059 -0.322975
@@ -440,8 +416,6 @@ PROTO SpotRightLeg [
                                 size 0.073 0.05 0.092
                               }
                             ]
-                            translationStep 0.001
-                            rotationStep 0.01
                           }
                           DEF FOREARM_BO_13 Transform {
                             translation 0.44 0.868831 -0.288676
@@ -451,8 +425,6 @@ PROTO SpotRightLeg [
                                 size 0.054 0.07 0.091
                               }
                             ]
-                            translationStep 0.001
-                            rotationStep 0.01
                           }
                           DEF FOREARM_BO_14 Transform {
                             translation 0.44 0.863095 -0.366689
@@ -462,8 +434,6 @@ PROTO SpotRightLeg [
                                 size 0.027 0.14 0.019
                               }
                             ]
-                            translationStep 0.001
-                            rotationStep 0.01
                           }
                           DEF FOREARM_BO_15 Transform {
                             translation 0.44 0.914033 -0.273533
@@ -474,8 +444,6 @@ PROTO SpotRightLeg [
                                 radius 0.058
                               }
                             ]
-                            translationStep 0.001
-                            rotationStep 0.01
                           }
                         ]
                       }
@@ -606,8 +574,6 @@ PROTO SpotRightLeg [
                           radius 0.072
                         }
                       ]
-                      translationStep 0.001
-                      rotationStep 0.01
                     }
                     DEF UPPERARM_BO_2 Transform {
                       translation 0.45 0.97268 -0.346993
@@ -617,8 +583,6 @@ PROTO SpotRightLeg [
                           size 0.25 0.16 0.141
                         }
                       ]
-                      translationStep 0.001
-                      rotationStep 0.01
                     }
                     DEF UPPERARM_BO_3 Transform {
                       translation 0.535 1.5956 -0.801699
@@ -628,8 +592,6 @@ PROTO SpotRightLeg [
                           size 0.043 0.47 0.19
                         }
                       ]
-                      translationStep 0.001
-                      rotationStep 0.01
                     }
                     DEF UPPERARM_BO_4 Transform {
                       translation 0.535936 1.65538 -0.694579
@@ -639,8 +601,6 @@ PROTO SpotRightLeg [
                           size 0.012 0.46 0.04
                         }
                       ]
-                      translationStep 0.001
-                      rotationStep 0.01
                     }
                     DEF UPPERARM_BO_5 Transform {
                       translation 0.521421 1.28112 -0.426335
@@ -650,8 +610,6 @@ PROTO SpotRightLeg [
                           size 0.012 0.46 0.04
                         }
                       ]
-                      translationStep 0.001
-                      rotationStep 0.01
                     }
                     DEF UPPERARM_BO_6 Transform {
                       translation 0.52 1.22858 -0.522766
@@ -661,8 +619,6 @@ PROTO SpotRightLeg [
                           size 0.043 0.46 0.19
                         }
                       ]
-                      translationStep 0.001
-                      rotationStep 0.01
                     }
                     DEF UPPERARM_BO_7 Transform {
                       translation 0.442 1.11434 -0.433479
@@ -672,8 +628,6 @@ PROTO SpotRightLeg [
                           size 0.145 0.26 0.17
                         }
                       ]
-                      translationStep 0.001
-                      rotationStep 0.01
                     }
                     DEF UPPERARM_BO_8 Transform {
                       translation 0.44 1.3418 -0.59361
@@ -684,8 +638,6 @@ PROTO SpotRightLeg [
                           radius 0.076
                         }
                       ]
-                      translationStep 0.001
-                      rotationStep 0.01
                     }
                     DEF UPPERARM_BO_9 Transform {
                       translation 0.44 1.5485 -0.752876
@@ -696,8 +648,6 @@ PROTO SpotRightLeg [
                           radius 0.1
                         }
                       ]
-                      translationStep 0.001
-                      rotationStep 0.01
                     }
                     DEF UPPERARM_BO_10 Transform {
                       translation 0.44 1.59775 -0.94612
@@ -707,8 +657,6 @@ PROTO SpotRightLeg [
                           size 0.163 0.185 0.03
                         }
                       ]
-                      translationStep 0.001
-                      rotationStep 0.01
                     }
                     DEF UPPERARM_BO_11 Transform {
                       translation 0.335 1.66175 -0.82412
@@ -719,8 +667,6 @@ PROTO SpotRightLeg [
                           radius 0.106
                         }
                       ]
-                      translationStep 0.001
-                      rotationStep 0.01
                     }
                     DEF UPPERARM_BO_12 Transform {
                       translation 0.447 1.68036 -0.852357
@@ -731,8 +677,6 @@ PROTO SpotRightLeg [
                           radius 0.09
                         }
                       ]
-                      translationStep 0.001
-                      rotationStep 0.01
                     }
                     DEF UPPERARM_BO_13 Transform {
                       translation 0.462 1.80128 -0.949315
@@ -742,8 +686,6 @@ PROTO SpotRightLeg [
                           size 0.17 0.01 0.19
                         }
                       ]
-                      translationStep 0.001
-                      rotationStep 0.01
                     }
                     DEF UPPERARM_BO_14 Transform {
                       translation 0.458 1.85255 -0.839518
@@ -753,8 +695,6 @@ PROTO SpotRightLeg [
                           size 0.16 0.02 0.06
                         }
                       ]
-                      translationStep 0.001
-                      rotationStep 0.01
                     }
                     DEF UPPERARM_BO_15 Transform {
                       translation 0.45 1.30139 -0.416213
@@ -764,8 +704,6 @@ PROTO SpotRightLeg [
                           size 0.13 0.014 0.45
                         }
                       ]
-                      translationStep 0.001
-                      rotationStep 0.01
                     }
                   ]
                 }
@@ -846,17 +784,15 @@ PROTO SpotRightLeg [
           boundingObject DEF SHOULDER_BO Group {
             children [
               DEF SHOULDER_BO_1 Transform {
-                translation -0.127005 1.662 -0.824
+                translation 0.127005 1.662 -0.824
                 children [
                   Box {
                     size 0.23 0.33 0.32
                   }
                 ]
-                translationStep 0.001
-                rotationStep 0.01
               }
               DEF SHOULDER_BO_2 Transform {
-                translation -0.157005 1.662 -0.824
+                translation 0.157005 1.662 -0.824
                 children [
                   Box {
                     size 0.26 0.26 0.26
@@ -864,7 +800,7 @@ PROTO SpotRightLeg [
                 ]
               }
               DEF SHOULDER_BO_3 Transform {
-                translation -0.294005 1.662 -0.824
+                translation 0.294005 1.662 -0.824
                 rotation 0 0 1 1.5707996938995747
                 children [
                   Cylinder {
@@ -872,7 +808,6 @@ PROTO SpotRightLeg [
                     radius 0.127
                   }
                 ]
-                translationStep 0.001
               }
             ]
           }
