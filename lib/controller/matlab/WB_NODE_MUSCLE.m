@@ -1,2 +1,2 @@
 function value = WB_NODE_MUSCLE
-value = 17;
+value = 18;

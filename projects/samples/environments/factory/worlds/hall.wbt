@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "This example uses some of the industrial objects included in Webots to create a factory hall."
@@ -1504,32 +1504,8 @@ DEF EXERCISES_BOARD Robot {
     SolidBox {
       translation -11.053797 1.7 0.25511
       size 0.1 2 2.75
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/tread_plate_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/tread_plate_roughness.jpg"
-          ]
-        }
-        metalnessMap ImageTexture {
-          url [
-            "textures/tread_plate_metalness.jpg"
-          ]
-        }
-        normalMap ImageTexture {
-          url [
-            "textures/tread_plate_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/tread_plate_occlusion.jpg"
-          ]
-        }
+      appearance ThreadMetalPlate {
+        type "square"
         textureTransform TextureTransform {
           scale 2 2.75
         }
@@ -3915,28 +3891,8 @@ DEF BLACK_TILES Transform {
   rotation 0 1 0 1.5707963219999999
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/black_tiles_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/black_tiles_roughness.jpg"
-          ]
-        }
-        metalness 0
-        normalMap ImageTexture {
-          url [
-            "textures/black_tiles_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/black_tiles_occlusion.jpg"
-          ]
-        }
+      appearance Pavement {
+        type "grid"
         textureTransform TextureTransform {
           scale 12.6 2
         }

@@ -235,6 +235,7 @@ void WbGeometry::updateCollisionMaterial(bool triggerChange, bool onSelection) {
   if (onSelection && !isColliding)
     isColliding = mCollisionTime == WbSimulationState::instance()->time() - WbWorld::instance()->basicTimeStep();
   const bool wasColliding =
+    mCollisionTime == WbSimulationState::instance()->time() - WbWorld::instance()->basicTimeStep() ||
     mPreviousCollisionTime >= WbSimulationState::instance()->time() - 2 * WbWorld::instance()->basicTimeStep();
   const bool changeBoundingObjectMaterial = isColliding != wasColliding || triggerChange;
 
@@ -513,6 +514,13 @@ bool WbGeometry::isAValidBoundingObject(bool checkOde, bool warning) const {
     return false;
 
   return true;
+}
+
+int WbGeometry::triangleCount() const {
+  if (areWrenObjectsInitialized())
+    return wr_static_mesh_get_triangle_count(this->wrenMesh());
+  else
+    return 0;
 }
 
 ////////////////////////////////

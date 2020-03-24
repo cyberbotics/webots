@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -8,10 +8,10 @@ PROTO Floor [
   field SFVec3f    translation     0 0 0
   field SFRotation rotation        0 1 0 0
   field SFString   name            "floor"
-  field SFString   contactMaterial "default"              # Is `Solid.contactMaterial`.
-  field SFVec2f    size            10 10                  # Defines the size of the floor.
-  field SFVec2f    tileSize        0.5 0.5                # Defines the size of texture used for the floor.
-  field SFNode     appearance      ChequeredParquetry {}  # Defines the appearance of the floor.
+  field SFString   contactMaterial "default"                       # Is `Solid.contactMaterial`.
+  field SFVec2f    size            10 10                           # Defines the size of the floor.
+  field SFVec2f    tileSize        0.5 0.5                         # Defines the size of texture used for the floor.
+  field SFNode     appearance      Parquetry { type "chequered" }  # Defines the appearance of the floor.
 
   # Deprecated in R2019a
   hiddenField MFString   texture  "textures/checkered_parquetry.jpg"

@@ -84,7 +84,8 @@ void WbProtoList::findProtosRecursively(const QString &dirPath, QFileInfoList &p
     }
   }
   foreach (QFileInfo subfolder, subfolderInfoList) {
-    if (inProtos && (subfolder.fileName() == "textures" || subfolder.fileName() == "icons")) {
+    if (inProtos &&
+        (subfolder.fileName() == "textures" || subfolder.fileName() == "icons" || subfolder.fileName() == "meshes")) {
       // skip any textures or icons subfolder inside a protos folder
       continue;
     }

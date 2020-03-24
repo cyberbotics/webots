@@ -269,6 +269,14 @@ void WbControlledWorld::processWaitingStep() {
   }
 }
 
+void WbControlledWorld::reset(bool restartControllers) {
+  WbSimulationWorld::reset(restartControllers);
+  if (!restartControllers) {
+    foreach (WbController *controller, mControllers)
+      controller->resetRequestTime();
+  }
+}
+
 void WbControlledWorld::step() {
   if (mFirstStep && !mRetryEnabled) {
     startControllers();
@@ -387,6 +395,7 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
   for (int i = 0; i < size; ++i) {
     WbController *controller = mControllers[i];
     if (controller->robotId() == robotID) {
+      controller->flushBuffers();
       disconnect(controller, &WbController::hasTerminatedByItself, this,
                  &WbControlledWorld::deleteController);  // avoids double delete
       mNewControllers.removeOne(controller);

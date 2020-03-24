@@ -241,8 +241,11 @@
   },
   "projects/objects/factory/containers/protos/WoodenBox": {
   },
-  "projects/objects/factory/conveyor_belt/protos/ConveyorBelt": {
+  "projects/objects/factory/conveyors/protos/ConveyorBelt": {
     "fields": "rotation 0 1 0 0.8236"
+  },
+  "projects/objects/factory/conveyors/protos/ConveyorPlatform": {
+    "fields": "translation 0 0.07 0 rotation 0 1 0 0.6927"
   },
   "projects/objects/factory/fire_extinguisher/protos/FireExtinguisher": {
     "fields": "rotation 0 1 0 4.712"

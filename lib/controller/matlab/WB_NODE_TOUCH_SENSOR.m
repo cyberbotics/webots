@@ -1,2 +1,2 @@
 function value = WB_NODE_TOUCH_SENSOR
-value = 55;
+value = 56;

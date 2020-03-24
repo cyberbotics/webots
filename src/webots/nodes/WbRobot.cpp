@@ -176,8 +176,7 @@ WbRobot::~WbRobot() {
   delete mKinematicDifferentialWheels;
   if (mMouse)
     WbMouse::destroy(mMouse);
-  if (mSupervisorUtilities)
-    delete mSupervisorUtilities;
+  delete mSupervisorUtilities;
   mPressedKeys.clear();
   WbWorld::instance()->removeRobotIfPresent(this);
 }
@@ -217,6 +216,7 @@ void WbRobot::reset() {
     mBattery->setItem(CURRENT_ENERGY, mBatteryInitialValue);
   if (mSupervisorUtilities)
     mSupervisorUtilities->reset();
+  emit wasReset();
 }
 
 void WbRobot::save() {
@@ -681,7 +681,7 @@ void WbRobot::writeConfigure(QDataStream &stream) {
   mBatterySensor->connectToRobotSignal(this);
   stream << (short unsigned int)0;
   stream << (unsigned char)C_CONFIGURE;
-  stream << (unsigned char)(supervisor() ? 1 : 0);
+  stream << (unsigned char)(mSupervisorUtilities ? 1 : 0);
   stream << (unsigned char)(synchronization() ? 1 : 0);
   stream << (short int)(1 + deviceCount());
   stream << (short int)nodeType();

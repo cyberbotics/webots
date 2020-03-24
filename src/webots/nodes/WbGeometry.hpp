@@ -19,7 +19,7 @@
 // Description: abstract base class for all geometry primitives
 // Inherited by:
 //   WbBox, WbSphere, WbPlane, WbCapsule, WbCylinder, WbCone,
-//   WbElevationGrid, WbIndexedFaceSet and WbIndexedLineSet
+//   WbElevationGrid, WbIndexedFaceSet, WbIndexedLineSet and WbMesh
 //
 
 #include "WbBaseNode.hpp"
@@ -120,6 +120,7 @@ public:
   void exportBoundingObjectToX3D(WbVrmlWriter &writer) const override;
 
   static int maxIndexNumberToCastShadows();
+  int triangleCount() const;
 
 signals:
   void changed();

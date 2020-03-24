@@ -107,7 +107,7 @@ void WbSimulationStateIndicator::update() {
       else
         accuracy = 0;
 
-      str.sprintf("%.*fx", accuracy, speed);
+      str = QString::asprintf("%.*fx", accuracy, speed);
     }
 
     if (mSpeedLabel->text() != str)
@@ -118,7 +118,7 @@ void WbSimulationStateIndicator::update() {
     int m = fmod(floor(time / 60000.0), 60.0);  // minutes
     int s = fmod(floor(time / 1000.0), 60.0);   // seconds
     int ms = fmod(time, 1000.0);                // milliseconds
-    str.sprintf("%u:%02u:%02u:%03u", h, m, s, ms);
+    str = QString::asprintf("%u:%02u:%02u:%03u", h, m, s, ms);
 
     if (mTimeLabel->text() != str)
       mTimeLabel->setText(str);

@@ -73,7 +73,7 @@ void wbr_light_sensor_set_value(WbDeviceTag t, double value) {
   if (ls) {
     ls->value = value;
   } else
-    fprintf(stderr, "Error: wbr_light_sensor_set_value(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 // Protected functions (exported to device.cc)
@@ -90,7 +90,7 @@ void wb_light_sensor_init(WbDevice *d) {
 
 void wb_light_sensor_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: wb_light_sensor_enable() called with negative sampling period.\n");
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
 
@@ -100,7 +100,7 @@ void wb_light_sensor_enable(WbDeviceTag tag, int sampling_period) {
     ls->sampling_period = sampling_period;
     ls->enable = true;
   } else
-    fprintf(stderr, "Error: wb_light_sensor_enable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -109,7 +109,7 @@ void wb_light_sensor_disable(WbDeviceTag tag) {
   if (ls)
     wb_light_sensor_enable(tag, 0);
   else
-    fprintf(stderr, "Error: wb_light_sensor_disable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 int wb_light_sensor_get_sampling_period(WbDeviceTag tag) {
@@ -119,7 +119,7 @@ int wb_light_sensor_get_sampling_period(WbDeviceTag tag) {
   if (ls)
     sampling_period = ls->sampling_period;
   else
-    fprintf(stderr, "Error: wb_light_sensor_get_sampling_period(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return sampling_period;
 }
@@ -130,11 +130,10 @@ double wb_light_sensor_get_value(WbDeviceTag tag) {
   LightSensor *ls = light_sensor_get_struct(tag);
   if (ls) {
     if (ls->sampling_period <= 0)
-      fprintf(stderr,
-              "Error: wb_light_sensor_get_value() called for a disabled device! Please use: wb_light_sensor_enable().\n");
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_light_sensor_enable().\n", __FUNCTION__);
     value = ls->value;
   } else
-    fprintf(stderr, "Error: wb_light_sensor_get_value(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return value;
 }

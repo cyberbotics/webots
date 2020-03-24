@@ -414,6 +414,7 @@ gen(FUNC, "wb_supervisor_movie_failed()", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_root()", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_self()", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_from_def(defname)", "supervisor")
+gen(FUNC, "wb_supervisor_node_get_from_proto_def(defname)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_from_id(id)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_def(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_id(noderef)", "supervisor")
@@ -421,6 +422,7 @@ gen(FUNC, "wb_supervisor_node_get_type(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_type_name(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_base_type_name(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_field(noderef, fieldname)", "supervisor")
+gen(FUNC, "wb_supervisor_node_get_proto_field(noderef, fieldname)", "supervisor")
 # gen(FUNC, "wb_supervisor_node_get_center_of_mass(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_number_of_contact_points(noderef)", "supervisor")
 # gen(FUNC, "wb_supervisor_node_get_contact_point(noderef, index)", "supervisor")
@@ -589,8 +591,8 @@ gen_consts_from_list("""
     WB_NODE_COLOR, WB_NODE_CONE, WB_NODE_COORDINATE,
     WB_NODE_CYLINDER, WB_NODE_DIRECTIONAL_LIGHT, WB_NODE_ELEVATION_GRID,
     WB_NODE_FOG, WB_NODE_GROUP, WB_NODE_IMAGE_TEXTURE, WB_NODE_INDEXED_FACE_SET,
-    WB_NODE_INDEXED_LINE_SET, WB_NODE_MATERIAL, WB_NODE_MUSCLE, WB_NODE_NORMAL, WB_NODE_PBR_APPEARANCE,
-    WB_NODE_PLANE, WB_NODE_POINT_LIGHT, WB_NODE_POINT_SET, WB_NODE_SHAPE,
+    WB_NODE_INDEXED_LINE_SET, WB_NODE_MATERIAL, WB_NODE_MESH, WB_NODE_MUSCLE, WB_NODE_NORMAL,
+    WB_NODE_PBR_APPEARANCE, WB_NODE_PLANE, WB_NODE_POINT_LIGHT, WB_NODE_POINT_SET, WB_NODE_SHAPE,
     WB_NODE_SPHERE, WB_NODE_SPOT_LIGHT, WB_NODE_TEXTURE_COORDINATE,
     WB_NODE_TEXTURE_TRANSFORM, WB_NODE_TRANSFORM, WB_NODE_VIEWPOINT,
     WB_NODE_ROBOT, WB_NODE_DIFFERENTIAL_WHEELS,

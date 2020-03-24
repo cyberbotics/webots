@@ -1,7 +1,8 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# tags: static
+# tags: hidden, static
+# Backward compatibility with the deprecated 'StonePavement' PROTO (deprecated in Webots R2020a-rev2)
 # A stone pavement material.
 
 PROTO StonePavement [
@@ -12,26 +13,33 @@ PROTO StonePavement [
 ]
 {
 %{
+  io.stderr:write("Deprecated 'StonePavement' PROTO, please use the 'Pavement' PROTO instead and select the right type.\n")
   local textureName = fields.type.value:gsub("%s+", "_")
+  if fields.type.value == "recent" then
+    textureName = "braun_square_stone"
+  else
+    textureName = "braun_stone"
+  end
 }%
   PBRAppearance {
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %{= "\"textures/stone_pavement/" .. textureName .. "_stone_pavement_base_color.jpg\"" }%
+        %{= "\"textures/pavement/" .. textureName .. "_pavement_base_color.jpg\"" }%
       ]
       filtering 5
     }
+    roughness 1
     roughnessMap ImageTexture {
       url [
-        %{= "\"textures/stone_pavement/" .. textureName .. "_stone_pavement_roughness.jpg\"" }%
+        %{= "\"textures/pavement/" .. textureName .. "_pavement_roughness.jpg\"" }%
       ]
       filtering 5
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        %{= "\"textures/stone_pavement/" .. textureName .. "_stone_pavement_normal.jpg\"" }%
+        %{= "\"textures/pavement/" .. textureName .. "_pavement_normal.jpg\"" }%
       ]
       filtering 5
     }
@@ -39,11 +47,10 @@ PROTO StonePavement [
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        %{= "\"textures/stone_pavement/" .. textureName .. "_stone_pavement_occlusion.jpg\"" }%
+        %{= "\"textures/pavement/" .. textureName .. "_pavement_occlusion.jpg\"" }%
       ]
       filtering 5
     }
-    occlusionMapStrength 1
     textureTransform IS textureTransform
   }
 }

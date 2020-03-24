@@ -28,6 +28,24 @@ This means that a robot could open a drawer, leave an object inside it, and clos
 Light objects such as the books on the shelf or the fruits in the basket can be grabbed by a robot.
 An e-puck robot patrols on the table and an iRobot Create robot cleans the ground.
 
+### [break\_room.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/environments/indoor/worlds/break_room.wbt)
+
+**Keywords**: Break room, domestic environment, furniture
+
+%figure "Screenshots of the break room environment."
+
+|     |     |
+|:---:|:---:|
+| ![break_room_a.png](images/samples/break_room_a.png) | ![break_room_b.png](images/samples/break_room_b.png) |
+| ![break_room_c.png](images/samples/break_room_c.png) | ![break_room_d.png](images/samples/break_room_d.png) |
+
+%end
+
+This example shows an office break room using the domestic objects included in Webots.
+These objects are Webots PROTO nodes, and can be easily moved and resized to create other apartment layouts.
+Doors are interactive.
+This means that a robot can open a drawer, leave an object inside it, and close it.
+
 ### [complete\_apartment.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/environments/indoor/worlds/complete_apartment.wbt)
 
 **Keywords**: Apartment, household environment, furniture
@@ -79,6 +97,8 @@ This example uses some of the industrial objects included in Webots to create a 
 These objects are Webots PROTO nodes, and can be easily moved and resized to create other configurations.
 The tools, valves and doors are interactive.
 This means that a robot could grab a hammer, turn a valve handle, climb the stairs or open a door.
+
+This environment is sponsored by the [ROSin european project](http://rosin-project.eu/ftp/cross-platform-ros-simulation-for-mobile-manipulators).
 
 ### [kitchen.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/environments/indoor/worlds/kitchen.wbt)
 

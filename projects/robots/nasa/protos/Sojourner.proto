@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/sojourner
@@ -126,32 +126,7 @@ PROTO Sojourner [
             translation -25 80 0
             children [
               Shape {
-                appearance PBRAppearance {
-                  baseColorMap ImageTexture {
-                    url [
-                      "textures/solar_cell_base_color.jpg"
-                    ]
-                  }
-                  roughnessMap ImageTexture {
-                    url [
-                      "textures/solar_cell_roughness.jpg"
-                    ]
-                  }
-                  metalnessMap ImageTexture {
-                    url [
-                      "textures/solar_cell_metalness.png"
-                    ]
-                  }
-                  normalMap ImageTexture {
-                    url [
-                      "textures/solar_cell_normal.png"
-                    ]
-                  }
-                  occlusionMap ImageTexture {
-                    url [
-                      "textures/solar_cell_occlusion.png"
-                    ]
-                  }
+                appearance SolarCell {
                   textureTransform TextureTransform {
                     scale 3 3
                   }

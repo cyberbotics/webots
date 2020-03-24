@@ -59,7 +59,11 @@ PYTHON_PATH ?= /System/Library/Frameworks/Python.framework/Versions/$(PYTHON_VER
 PYTHON_PYMALLOC =
 else
 PYTHON_PATH ?= /Library/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
+ifeq ($(PYTHON_SHORT_VERSION), 38)
+PYTHON_PYMALLOC =
+else
 PYTHON_PYMALLOC = m
+endif
 endif
 BREW_PYTHON_PATH = /usr/local/Cellar/python/$(PYTHON_FULL_VERSION)/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
 C_FLAGS          = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++

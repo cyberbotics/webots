@@ -134,7 +134,7 @@ The [field editor](the-scene-tree.md#field-editor) of the scene tree view allows
 
 Now, changing the `radius` field of the first [Sphere](../reference/sphere.md) node also modifies its `boundingObject`.
 
-For convenience, the `boundingObject` field accepts also the [Shape](../reference/shape.md) node (rather than the [Sphere](../reference/sphere.md) node directly).
+For convenience, the `boundingObject` field also accepts the [Shape](../reference/shape.md) node (rather than the [Sphere](../reference/sphere.md) node directly).
 It would be also possible to use the same DEF-USE mechanism at the [Shape](../reference/shape.md) level as shown in [this figure](#def-use-mechanism-applied-on-the-shape-node-of-a-solid).
 For now the greatest benefit is being able to also use this [Shape](../reference/shape.md) directly for graphical purposes.
 Later this mechanism will turn out to be very useful for some sensors.

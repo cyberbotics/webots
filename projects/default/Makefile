@@ -22,7 +22,7 @@ TARGETS = controllers/braitenberg.Makefile libraries/vehicle.Makefile resources.
 
 ifneq ($(OSTYPE),windows)
 TARGETS += controllers/ros.Makefile
-ROS_DEPENDENCIES = libraries.Makefile controllers/ros/include.Makefile
+ROS_DEPENDENCIES = controllers/ros/lib.Makefile controllers/ros/include.Makefile
 endif
 
 release debug profile: $(TARGETS)
@@ -30,14 +30,14 @@ ifneq ($(MESSAGE),)
 	+@echo -e $(MESSAGE)
 endif
 
-clean: $(TARGETS) libraries.Makefile
+clean: $(TARGETS)
 	@-rm -rf controllers/sumo_supervisor/*.pyc
 
 controllers/%.Makefile libraries/%.Makefile: $(ROS_DEPENDENCIES)
 	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
 	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
 
-libraries.Makefile controllers/ros/include.Makefile:
+controllers/ros/lib.Makefile controllers/ros/include.Makefile:
 	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
 	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
 

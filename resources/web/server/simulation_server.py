@@ -161,8 +161,8 @@ class Client:
                     return False
                 fp = BytesIO(response.content)
                 try:
-                    zfp = zipfile.ZipFile(fp, 'r')
-                    zfp.extractall(self.project_instance_path)
+                    with zipfile.ZipFile(fp, 'r') as zfp:
+                        zfp.extractall(self.project_instance_path)
                 except zipfile.BadZipfile:
                     logging.error("Bad ZIP file:\n" + response.content.decode('utf-8'))
                     return False
@@ -340,7 +340,7 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
                 if n > 0:
                     host = host[:n]
                 keyFilename = os.path.join(config['keyDir'], host)
-                if (os.path.isfile(keyFilename)):
+                if os.path.isfile(keyFilename):
                     try:
                         keyFile = open(keyFilename, "r")
                     except IOError:
@@ -348,6 +348,7 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
                         client.client_websocket.close()
                         return
                     client.key = keyFile.readline().rstrip(os.linesep)
+                    keyFile.close()
                 else:
                     logging.warning("No key for: " + host)
                 logging.info('[%d] Setup client %s %s '

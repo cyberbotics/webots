@@ -1164,6 +1164,8 @@ bool WbNodeUtilities::isCollisionDetectedGeometryTypeName(const QString &modelNa
     return true;
   if (modelName == "IndexedFaceSet")
     return true;
+  if (modelName == "Mesh")
+    return true;
   if (modelName == "Plane")
     return true;
   if (modelName == "Sphere")

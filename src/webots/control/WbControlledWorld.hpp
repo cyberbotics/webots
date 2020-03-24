@@ -41,6 +41,8 @@ public:
   void writePendingImmediateAnswer();
   bool isExecutingStep() const { return mIsExecutingStep; }
 
+  void reset(bool restartControllers) override;
+
   void step() override;
 
 public slots:

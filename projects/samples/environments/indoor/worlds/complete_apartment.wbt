@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "Sample of how the indoor objects can be placed"
@@ -93,7 +93,8 @@ DEF FLOOR Solid {
       translation 1.87 0 6.29
       children [
         Shape {
-          appearance SlatePavement {
+          appearance Pavement {
+            type "slate"
             textureTransform TextureTransform {
               scale 9.8 2.6
             }

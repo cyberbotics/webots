@@ -20,6 +20,8 @@ import datetime
 import optparse
 import os
 import re
+import requests
+import sys
 from github import Github
 
 optParser = optparse.OptionParser(
@@ -40,7 +42,7 @@ if now.hour <= 5:
     now = now - datetime.timedelta(hours=6)
 if now.weekday() >= 5:
     print('Skipping nightly build for Saturday and Sunday.')
-    exit(0)
+    sys.exit(0)
 
 warningMessage = '\nIt might be unstable, for a stable version of Webots, please use the [latest official release]' \
                  '(https://github.com/cyberbotics/webots/releases/latest).'
@@ -50,7 +52,7 @@ if options.tag:
     message = 'This is a nightly build of Webots from the "%s" tag.%s' % (options.tag, warningMessage)
     if tag.startswith('nightly_'):
         print('Skipping nightly build tag.')
-        exit(0)
+        sys.exit(0)
 else:
     title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
     tag = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)
@@ -102,7 +104,14 @@ for release in repo.get_releases():
                     print('Asset "%s" already present in release "%s".' % (file, title))
                 else:
                     print('Uploading "%s"' % file)
-                    release.upload_asset(path)
+                    remainingTrials = 5
+                    while remainingTrials > 0:
+                        try:
+                            release.upload_asset(path)
+                            remainingTrials = 0
+                        except requests.exceptions.ConnectionError:
+                            remainingTrials -= 1
+                            print('Release upload failed (remaining trials: %d)' % remainingTrials)
                     if releaseExists and not options.tag and not releaseCommentModified and options.branch not in release.body:
                         print('Updating release description')
                         releaseCommentModified = True

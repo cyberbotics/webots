@@ -106,18 +106,18 @@ void wb_brake_set_damping_constant_no_mutex(WbDeviceTag tag, double damping_cons
     b->state |= C_BRAKE_SET_DAMPING_CONSTANT;
     b->damping_constant = damping_constant;
   } else
-    fprintf(stderr, "Error: wb_brake_set_damping_constant_no_mutex(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 void wb_brake_set_damping_constant(WbDeviceTag tag, double damping_constant) {
   if (isnan(damping_constant)) {
-    fprintf(stderr, "Error: wb_brake_set_damping_constant() called with an invalid 'damping_constant' argument (NaN).\n");
+    fprintf(stderr, "Error: %s() called with an invalid 'damping_constant' argument (NaN).\n", __FUNCTION__);
     return;
   }
 
   Brake *b = brake_get_struct(tag);
   if (!b) {
-    fprintf(stderr, "Error: wb_brake_set_damping_constant(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
 
@@ -133,7 +133,7 @@ WbJointType wb_brake_get_type(WbDeviceTag tag) {
   if (b)
     type = b->type;
   else
-    fprintf(stderr, "Error: wb_brake_get_type(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return type;
 }
@@ -156,9 +156,9 @@ static WbDeviceTag brake_get_associated_device(WbDeviceTag t, int device_type, c
 
 WbDeviceTag wb_brake_get_motor(WbDeviceTag tag) {
   // this function works for both linear and rotational motors
-  return brake_get_associated_device(tag, WB_NODE_ROTATIONAL_MOTOR, "wb_brake_get_motor");
+  return brake_get_associated_device(tag, WB_NODE_ROTATIONAL_MOTOR, __FUNCTION__);
 }
 
 WbDeviceTag wb_brake_get_position_sensor(WbDeviceTag tag) {
-  return brake_get_associated_device(tag, WB_NODE_POSITION_SENSOR, "wb_brake_get_position_sensor");
+  return brake_get_associated_device(tag, WB_NODE_POSITION_SENSOR, __FUNCTION__);
 }

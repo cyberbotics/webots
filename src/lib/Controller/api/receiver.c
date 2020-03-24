@@ -191,69 +191,68 @@ void wb_receiver_init(WbDevice *d) {
 
 void wb_receiver_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: wb_receiver_enable() called with negative sampling period.\n");
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
-
   robot_mutex_lock_step();
   Receiver *rs = receiver_get_struct(tag);
-  if (rs) {
+  if (!rs)
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  else {
     rs->enable = true;
     rs->sampling_period = sampling_period;
-  } else
-    fprintf(stderr, "Error: wb_receiver_enable(): invalid device tag.\n");
+  }
   robot_mutex_unlock_step();
 }
 
 void wb_receiver_disable(WbDeviceTag tag) {
   Receiver *rs = receiver_get_struct(tag);
   if (!rs)
-    fprintf(stderr, "Error: wb_receiver_disable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   else
     wb_receiver_enable(tag, 0);
 }
 
 int wb_receiver_get_sampling_period(WbDeviceTag tag) {
-  int sampling_period = 0;
+  int sampling_period;
   robot_mutex_lock_step();
-  Receiver *r = receiver_get_struct(tag);
-  if (r)
-    sampling_period = r->sampling_period;
-  else
-    fprintf(stderr, "Error: wb_receiver_get_sampling_period(): invalid device tag.\n");
+  Receiver *rs = receiver_get_struct(tag);
+  if (!rs) {
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    sampling_period = 0;
+  } else
+    sampling_period = rs->sampling_period;
   robot_mutex_unlock_step();
   return sampling_period;
 }
 
 void wb_receiver_set_channel(WbDeviceTag tag, int channel) {
   if (channel < -1) {
-    fprintf(
-      stderr,
-      "Error: wb_receiver_set_channel() called with an invalid channel=%d. Please use a channel inside the range [-1,inf).\n",
-      channel);
+    fprintf(stderr, "Error: %s() called with an invalid channel=%d. Please use a channel inside the range [-1,inf).\n",
+            __FUNCTION__, channel);
     return;
   }
 
   robot_mutex_lock_step();
   Receiver *rs = receiver_get_struct(tag);
-  if (rs) {
-    if (channel != rs->channel) {
-      rs->set_channel = true;
-      rs->channel = channel;
-    }
-  } else
-    fprintf(stderr, "Error: wb_receiver_set_channel(): invalid device tag.\n");
+  if (!rs)
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  else if (channel != rs->channel) {
+    rs->set_channel = true;
+    rs->channel = channel;
+  }
   robot_mutex_unlock_step();
 }
 
 int wb_receiver_get_channel(WbDeviceTag tag) {
-  int result = -1;
+  int result;
   robot_mutex_lock_step();
   Receiver *rs = receiver_get_struct(tag);
-  if (rs)
+  if (!rs) {
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    result = -1;
+  } else
     result = rs->channel;
-  else
-    fprintf(stderr, "Error: wb_receiver_get_channel(): invalid device tag.\n");
   robot_mutex_unlock_step();
   return result;
 }
@@ -261,75 +260,93 @@ int wb_receiver_get_channel(WbDeviceTag tag) {
 void wb_receiver_next_packet(WbDeviceTag tag) {
   robot_mutex_lock_step();
   Receiver *rs = receiver_get_struct(tag);
-  if (rs) {
-    if (rs->queue)  // queue not empty ?
-      packet_destroy(receiver_dequeue(rs));
-  } else
-    fprintf(stderr, "Error: wb_receiver_next_packet(): invalid device tag.\n");
+  if (!rs)
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  else if (rs->queue)
+    packet_destroy(receiver_dequeue(rs));
   robot_mutex_unlock_step();
 }
 
 int wb_receiver_get_queue_length(WbDeviceTag tag) {
-  int result = -1;
+  int result;
   robot_mutex_lock_step();
   Receiver *rs = receiver_get_struct(tag);
-  if (rs) {
+  if (!rs) {
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    result = -1;
+  } else {
     if (rs->sampling_period <= 0)
-      fprintf(stderr,
-              "Error: wb_receiver_get_queue_length() called for a disabled device! Please use: wb_receiver_enable().\n");
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_receiver_enable().\n", __FUNCTION__);
     result = rs->queue_length;
-  } else
-    fprintf(stderr, "Error: wb_receiver_get_queue_length(): invalid device tag.\n");
+  }
   robot_mutex_unlock_step();
   return result;
 }
 
 int wb_receiver_get_data_size(WbDeviceTag tag) {
-  int result = -1;
+  int result;
   robot_mutex_lock_step();
   Receiver *rs = receiver_get_struct(tag);
-  if (rs && rs->queue)  // if queue not empty
+  if (!rs) {
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    result = -1;
+  } else if (rs->queue)
     result = rs->queue->size;
-  else
-    fprintf(stderr, "Error: wb_receiver_get_data_size(): invalid device tag.\n");
+  else {
+    fprintf(stderr, "Error: %s(): the receiver queue is empty.\n", __FUNCTION__);
+    result = -1;
+  }
   robot_mutex_unlock_step();
   return result;
 }
 
 const void *wb_receiver_get_data(WbDeviceTag tag) {
-  const void *result = NULL;
+  const void *result;
   robot_mutex_lock_step();
   Receiver *rs = receiver_get_struct(tag);
-  if (rs && rs->queue)  // if queue not empty
+  if (!rs) {
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    result = NULL;
+  } else if (rs->queue)
     result = rs->queue->data;
-  else if (rs)
-    fprintf(stderr, "Error: wb_receiver_get_data(): the receiver queue is empty.\n");
-  else  // rs->queue == NULL
-    fprintf(stderr, "Error: wb_receiver_get_data(): invalid device tag.\n");
+  else {
+    fprintf(stderr, "Error: %s(): the receiver queue is empty.\n", __FUNCTION__);
+    result = NULL;
+  }
   robot_mutex_unlock_step();
   return result;
 }
 
 const double *wb_receiver_get_emitter_direction(WbDeviceTag tag) {
-  const double *result = NULL;
+  const double *result;
   robot_mutex_lock_step();
   Receiver *rs = receiver_get_struct(tag);
-  if (rs && rs->queue)  // if queue not empty
+  if (!rs) {
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    result = NULL;
+  } else if (rs->queue)
     result = rs->queue->dir;
-  else
-    fprintf(stderr, "Error: wb_receiver_get_emitter_direction(): invalid device tag.\n");
+  else {
+    fprintf(stderr, "Error: %s(): the receiver queue is empty.\n", __FUNCTION__);
+    result = NULL;
+  }
   robot_mutex_unlock_step();
   return result;
 }
 
 double wb_receiver_get_signal_strength(WbDeviceTag tag) {
-  double result = NAN;
+  double result;
   robot_mutex_lock_step();
   Receiver *rs = receiver_get_struct(tag);
-  if (!rs)
-    fprintf(stderr, "Error: wb_receiver_get_signal_strength(): invalid device tag.\n");
-  else if (rs->queue)  // if queue not empty
+  if (!rs) {
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    result = NAN;
+  } else if (rs->queue)
     result = rs->queue->signal;
+  else {
+    fprintf(stderr, "Error: %s(): the receiver queue is empty.\n", __FUNCTION__);
+    result = NAN;
+  }
   robot_mutex_unlock_step();
   return result;
 }
