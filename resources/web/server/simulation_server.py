@@ -673,7 +673,7 @@ def main():
     # logDir:            directory where the log files are written.
     # monitorLogEnabled: specify if the monitor data have to be stored in a file.
     # maxConnections:    maximum number of simultaneous Webots instances.
-    # debug:             debug mode.
+    # debug:             debug mode (output to stdout).
     #
     global config
     global snapshots
