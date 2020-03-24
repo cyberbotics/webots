@@ -68,16 +68,8 @@ webots.View = class View {
       this.robotWindows = {}; // delete robot windows
       this.robotWindowNames = {};
     };
-    this.onquit = () => {
-      // If the simulation page URL is this https://mydomain.com/mydir/mysimulation.html, the quit action redirects to the
-      // folder level, e.g., https://mydomain.com/mydir/
-      // If the simulation page is https://mydomain.com/mydir/mysimulation/, the quit action redirects to the upper level:
-      // https://mydomain.com/mydir/
-      // You can change this behavior by overriding this onquit() method.
-      var currentLocation = window.location.href;
-      // Remove filename or last directory name from url and keep the final slash.S
-      var quitDestination = currentLocation.substring(0, currentLocation.lastIndexOf('/', currentLocation.length - 2) + 1);
-      window.location = quitDestination;
+    this.onquit = () => { // You can change this behavior by overriding this onquit() method
+      window.history.back(); // go back to the previous page in the navigation history
     };
     this.onresize = () => {
       if (!this.x3dScene)
@@ -305,7 +297,7 @@ webots.View = class View {
 
       // Force a rendering after 1 second.
       // This should make sure that all the texture transforms are applied (for example in the Highway Driving benchmark).
-      setTimeout(() => this.x3dScene.render(), 1000); 
+      setTimeout(() => this.x3dScene.render(), 1000);
     };
 
     if (mode === 'video') {
