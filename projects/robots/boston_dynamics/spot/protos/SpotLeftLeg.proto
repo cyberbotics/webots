@@ -7,10 +7,9 @@
 # Created by Greg McKechnie under Common Creative license: https://sketchfab.com/3d-models/spot-mini-rigged-5dcbee77730640269cef5bd2587e328a
 
 PROTO SpotLeftLeg [
-  field SFVec3f    translation     0 1 0             # Is `Transform.translation`.
-  field SFRotation rotation        1 0 0 -1.5708     # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0             # Is `Transform.translation`.
+  field SFRotation rotation        0 1 0 0           # Is `Transform.rotation`.
   field SFString   name            "front left leg"  # Is `Solid.name`.
-  field SFBool     selfCollision   FALSE             # Enables/disables the detection of collisions within the robot.
 ]
 {
 %{
@@ -20,6 +19,47 @@ PROTO SpotLeftLeg [
     translation IS translation
     rotation IS rotation
     children [
+      DEF COLORS Group {
+        children [
+          DEF YELLOW_COVER_COLOR Shape {
+            appearance DEF YELLOW_COVER MattePaint {
+              baseColor 0.847059 0.666667 0
+            }
+          }
+          DEF BLACK_PART_COLOR Shape {
+            appearance DEF BLACK_PART MattePaint {
+              baseColor 0 0 0
+            }
+          }
+          DEF GRAY_PART_COLOR Shape {
+            appearance DEF GRAY_PART PBRAppearance {
+              baseColor 0.0862745 0.0862745 0.0862745
+              roughness 1
+              roughnessMap ImageTexture {
+                url [
+                  "textures/plastic_rough/plastic_rough_roughness.jpg"
+                ]
+              }
+              metalness 0
+              normalMap ImageTexture {
+                url [
+                  "textures/plastic_rough/plastic_rough_normal.jpg"
+                ]
+              }
+              textureTransform TextureTransform {
+                scale 20 20
+              }
+            }
+          }
+          DEF METAL_PART_COLOR Shape {
+            appearance DEF METAL_PART BrushedAluminium {
+              textureTransform TextureTransform {
+                scale 20 20
+              }
+            }
+          }
+        ]
+      }
       DEF SHOULDER_ELEVATION_JOINT HingeJoint {
         jointParameters HingeJointParameters {
           axis 0 0 1
@@ -36,7 +76,6 @@ PROTO SpotLeftLeg [
           }
         ]
         endPoint DEF SHOULDER Solid {
-          rotation 0 0 1 0
           children [
             DEF SHOULDER_ROTATION_JOINT HingeJoint {
               jointParameters HingeJointParameters {
@@ -53,8 +92,6 @@ PROTO SpotLeftLeg [
                 }
               ]
               endPoint DEF UPPERARM Solid {
-                translation 0 -6.661338147750939e-16 1.1102230246251565e-16
-                rotation 1 0 0 0
                 children [
                   DEF TO_TEST SliderJoint {
                     jointParameters JointParameters {
@@ -96,7 +133,7 @@ PROTO SpotLeftLeg [
                       ]
                       boundingObject DEF TENDON_BO Group {
                         children [
-                          Transform {
+                          DEF TENDON_BO_1 Transform {
                             translation -0.474 0.914 -0.273
                             rotation 0 0 1 1.5707996938995747
                             children [
@@ -107,7 +144,7 @@ PROTO SpotLeftLeg [
                             ]
                             translationStep 0.001
                           }
-                          Transform {
+                          DEF TENDON_BO_2 Transform {
                             translation -0.474 1.084 -0.273
                             children [
                               Box {
@@ -115,7 +152,7 @@ PROTO SpotLeftLeg [
                               }
                             ]
                           }
-                          Transform {
+                          DEF TENDON_BO_3 Transform {
                             translation -0.406 0.914 -0.273
                             rotation 0 0 1 1.5707996938995747
                             children [
@@ -126,7 +163,7 @@ PROTO SpotLeftLeg [
                             ]
                             translationStep 0.001
                           }
-                          Transform {
+                          DEF TENDON_BO_4 Transform {
                             translation -0.406 1.084 -0.273
                             children [
                               Box {
@@ -137,11 +174,13 @@ PROTO SpotLeftLeg [
                           }
                         ]
                       }
+                      physics DEF TENDON_PH Physics {
+                      }
                     }
                   }
                   DEF ELBOW_JOINT HingeJoint {
                     jointParameters HingeJointParameters {
-                      anchor 0.1 0.811 -0.3391
+                      anchor 0 0.811 -0.3391
                       minStop -0.41
                       maxStop 1.56
                     }
@@ -155,27 +194,9 @@ PROTO SpotLeftLeg [
                     ]
                     endPoint DEF FOREARM Solid {
                       translation 0 -0.022146599558285573 0.0035943548113765433
-                      rotation 1 0 0 0
                       children [
                         DEF FOREARM Shape {
-                          appearance DEF GRAY_PART PBRAppearance {
-                            baseColor 0.0862745 0.0862745 0.0862745
-                            roughness 1
-                            roughnessMap ImageTexture {
-                              url [
-                                "textures/plastic_rough/plastic_rough_roughness.jpg"
-                              ]
-                            }
-                            metalness 0
-                            normalMap ImageTexture {
-                              url [
-                                "textures/plastic_rough/plastic_rough_normal.jpg"
-                              ]
-                            }
-                            textureTransform TextureTransform {
-                              scale 20 20
-                            }
-                          }
+                          appearance USE GRAY_PART
                           geometry IndexedFaceSet {
                             coord Coordinate {
                               point [
@@ -220,7 +241,7 @@ PROTO SpotLeftLeg [
                         }
                         DEF FOOT_RUBBER Shape {
                           appearance PBRAppearance {
-                            baseColor 0.235294 0.235294 0.235294
+                            baseColor 0.0980392 0.0980392 0.0980392
                             baseColorMap ImageTexture {
                               url [
                                 "textures/plastic_padded/plastic_padded_base_color.jpg"
@@ -268,7 +289,7 @@ PROTO SpotLeftLeg [
                             texCoordIndex [
                               0, 1, 2, -1, 3, 4, 5, -1, 6, 7, 8, -1, 9, 10, 11, -1, 12, 13, 14, -1, 15, 16, 17, -1, 18, 19, 20, -1, 21, 22, 23, -1, 24, 25, 26, -1, 27, 28, 29, -1, 30, 31, 32, -1, 33, 34, 35, -1, 36, 37, 38, -1, 39, 40, 41, -1, 42, 43, 44, -1, 45, 46, 47, -1, 48, 49, 50, -1, 51, 52, 53, -1, 54, 55, 56, -1, 57, 58, 59, -1, 60, 61, 62, -1, 63, 64, 65, -1, 66, 67, 68, -1, 69, 70, 71, -1, 72, 73, 74, -1, 75, 76, 77, -1, 78, 79, 80, -1, 81, 82, 83, -1, 84, 85, 86, -1, 87, 88, 89, -1, 90, 91, 92, -1, 93, 94, 95, -1, 96, 97, 98, -1, 99, 100, 101, -1, 102, 103, 104, -1, 105, 106, 107, -1, 108, 109, 110, -1, 111, 112, 113, -1, 114, 115, 116, -1, 117, 118, 119, -1, 120, 121, 122, -1, 123, 124, 125, -1, 126, 127, 128, -1, 129, 130, 131, -1, 132, 133, 134, -1, 135, 136, 137, -1, 138, 139, 140, -1, 141, 142, 143, -1, 144, 145, 146, -1, 147, 148, 149, -1, 150, 151, 152, -1, 153, 154, 155, -1, 156, 157, 158, -1, 159, 160, 161, -1, 162, 163, 164, -1, 165, 166, 167, -1, 168, 169, 170, -1, 171, 172, 173, -1, 174, 175, 176, -1, 177, 178, 179, -1, 180, 181, 182, -1, 183, 184, 185, -1, 186, 187, 188, -1, 189, 190, 191, -1, 192, 193, 194, -1, 195, 196, 197, -1, 198, 199, 200, -1, 201, 202, 203, -1, 204, 205, 206, -1, 207, 208, 209, -1, 210, 211, 212, -1, 213, 214, 215, -1, 216, 217, 218, -1, 219, 220, 221, -1, 222, 223, 224, -1, 225, 226, 227, -1, 228, 229, 230, -1, 231, 232, 233, -1, 234, 235, 236, -1, 237, 238, 239, -1, 240, 241, 242, -1, 243, 244, 245, -1, 246, 247, 248, -1, 249, 250, 251, -1, 252, 253, 254, -1, 255, 256, 257, -1, 258, 259, 260, -1, 261, 262, 263, -1, 264, 265, 266, -1, 267, 268, 269, -1, 270, 271, 272, -1, 273, 274, 275, -1, 276, 277, 278, -1, 279, 280, 281, -1, 282, 283, 284, -1, 285, 286, 287, -1, 288, 289, 290, -1, 291, 292, 293, -1, 294, 295, 296, -1, 297, 298, 299, -1, 300, 301, 302, -1, 303, 304, 305, -1, 306, 307, 308, -1, 309, 310, 311, -1, 312, 313, 314, -1, 315, 316, 317, -1, 318, 319, 320, -1, 321, 322, 323, -1, 324, 325, 326, -1, 327, 328, 329, -1, 330, 331, 332, -1, 333, 334, 335, -1, 336, 337, 338, -1, 339, 340, 341, -1, 342, 343, 344, -1, 345, 346, 347, -1, 348, 349, 350, -1, 351, 352, 353, -1, 354, 355, 356, -1, 357, 358, 359, -1, 360, 361, 362, -1, 363, 364, 365, -1, 366, 367, 368, -1, 369, 370, 371, -1, 372, 373, 374, -1, 375, 376, 377, -1, 378, 379, 380, -1, 381, 382, 383, -1
                             ]
-                            creaseAngle 4
+                            creaseAngle 0.8
                           }
                         }
                       ]
@@ -470,9 +491,7 @@ PROTO SpotLeftLeg [
                     }
                   }
                   DEF COVER_LEG Shape {
-                    appearance DEF YELLOW_COVER MattePaint {
-                      baseColor 0.847059 0.666667 0
-                    }
+                    appearance USE YELLOW_COVER
                     geometry IndexedFaceSet {
                       coord Coordinate {
                         point [
@@ -494,9 +513,7 @@ PROTO SpotLeftLeg [
                     }
                   }
                   DEF COVER_MOTOR Shape {
-                    appearance DEF BLACK_PART MattePaint {
-                      baseColor 0 0 0
-                    }
+                    appearance USE BLACK_PART
                     geometry IndexedFaceSet {
                       coord Coordinate {
                         point [
@@ -540,11 +557,7 @@ PROTO SpotLeftLeg [
                     }
                   }
                   DEF UPPERARM_INSIDE Shape {
-                    appearance DEF METAL_PART BrushedAluminium {
-                      textureTransform TextureTransform {
-                        scale 20 20
-                      }
-                    }
+                    appearance USE METAL_PART
                     geometry IndexedFaceSet {
                       coord Coordinate {
                         point [
@@ -566,11 +579,7 @@ PROTO SpotLeftLeg [
                     }
                   }
                   DEF COVER_ELBOW Shape {
-                    appearance DEF METAL_PART BrushedAluminium {
-                      textureTransform TextureTransform {
-                        scale 20 20
-                      }
-                    }
+                    appearance USE METAL_PART
                     geometry IndexedFaceSet {
                       coord Coordinate {
                         point [
@@ -772,9 +781,7 @@ PROTO SpotLeftLeg [
               }
             }
             DEF MOTOR_SUPPORT Shape {
-              appearance DEF BLACK_PART MattePaint {
-                baseColor 0 0 0
-              }
+              appearance USE BLACK_PART
               geometry IndexedFaceSet {
                 coord Coordinate {
                   point [
@@ -818,7 +825,7 @@ PROTO SpotLeftLeg [
               }
             }
             DEF MOTOR_RING Shape {
-              appearance DEF METAL_RING PBRAppearance {
+              appearance PBRAppearance {
                 metalness 0.8
               }
               geometry IndexedFaceSet {
@@ -883,6 +890,5 @@ PROTO SpotLeftLeg [
     ]
     name IS name
     model "Left leg"
-    selfCollision IS selfCollision
   }
 }
