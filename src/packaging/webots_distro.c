@@ -1098,8 +1098,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjasper.so.1 usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libevent-2.0.so.5 usr/local/webots/lib/webots\n");
 #endif
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libminizip.so.1 usr/local/webots/lib/webots\n");
-
       fprintf(fd, "mkdir DEBIAN\n");
       fprintf(fd, "echo \"Package: %s\" > DEBIAN/control\n", application_name_lowercase_and_dashes);
       fprintf(fd, "echo \"Version: %s\" >> DEBIAN/control\n", package_version + 1);  // remove initial R not supported
