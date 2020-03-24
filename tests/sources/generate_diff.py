@@ -50,7 +50,7 @@ def github_api(request):
         print(e.reason)
         print(e.info())
     github_api.last_time = time.time()
-    return json.loads(content.decode())
+    return json.loads(content)
 
 
 if len(sys.argv) == 3:
