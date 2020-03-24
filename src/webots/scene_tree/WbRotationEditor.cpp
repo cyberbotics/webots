@@ -101,9 +101,9 @@ void WbRotationEditor::edit(bool copyOriginalValue) {
 void WbRotationEditor::updateSpinBoxes() {
   for (int i = 0; i < 4; ++i)
     if (WbSimulationState::instance()->isPaused() || !mSpinBoxes[i]->hasFocus()) {
-      if (mRotationTypeComboBox->currentIndex() == QUATERNIONS) {
+      if (mRotationTypeComboBox->currentIndex() == QUATERNIONS)
         mSpinBoxes[i]->setValueNoSignals(mRotation.toQuaternion().ptr()[i]);
-      } else  // AXIS_ANGLE
+      else  // AXIS_ANGLE
         mSpinBoxes[i]->setValueNoSignals(mRotation[i]);
     }
 }
