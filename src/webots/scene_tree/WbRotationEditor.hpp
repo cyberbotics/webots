@@ -58,7 +58,7 @@ private:
   WbRotation mRotation;
   QLabel *mRotationTypeLabel;
   QComboBox *mRotationTypeComboBox;
-  int mCurrentrotationType;
+  int mCurrentRotationType;
   WbFieldDoubleSpinBox *mSpinBoxes[4];
   QLabel *mLabel[4];
   QLabel *mUnitLabel[4];
