@@ -39,6 +39,7 @@ public:
   QWidget *lastEditorWidget() override;
 
 public slots:
+  // cppcheck-suppress virtualCallInConstructor
   void applyIfNeeded() override;
 
 protected:
