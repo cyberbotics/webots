@@ -18,6 +18,7 @@ build: off
 
 test_script:
   - set WEBOTS_HOME=%APPVEYOR_BUILD_FOLDER%
+  - python --version
   - python -m unittest discover -s %APPVEYOR_BUILD_FOLDER%\\docs\\tests
   - ps: if ($env:APPVEYOR_REPO_TAG -ne "true") { python $env:APPVEYOR_BUILD_FOLDER\\tests\\sources\\generate_diff.py $env:APPVEYOR_REPO_COMMIT $env:APPVEYOR_REPO_NAME }
   - python -m unittest discover -s %APPVEYOR_BUILD_FOLDER%\\tests\\sources
