@@ -55,6 +55,9 @@ Thumbs.db
 # Webots generated files
 *.cache
 
+# IDE files
+.vscode
+
 # Local rules #
 ###############
 

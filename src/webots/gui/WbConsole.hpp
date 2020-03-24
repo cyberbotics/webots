@@ -55,7 +55,6 @@ public:
   void jumpToError(const QString &errorLine);
 
   // console clear action to be used in menus
-  QAction *clearAction() const { return mClearAction; }
 
   // enable redirecting messages to the terminal
   static void enableStdOutRedirectToTerminal();
@@ -98,10 +97,10 @@ private:
   QString mErrorColor, mInfoColor;
   QString mAnsiBlack, mAnsiRed, mAnsiGreen, mAnsiYellow, mAnsiBlue, mAnsiMagenta, mAnsiCyan, mAnsiWhite;
   ConsoleEdit *mEditor;
-  QAction *mClearAction;
   QRegExp **mErrorPatterns;
   QString mColor;
   bool mBold;
+  bool mBgColor;
   bool mIsOverwriteEnabled;
   QString mPrefix;
 

@@ -33,10 +33,14 @@
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QStyle>
 
+#include <QtCore/QtDebug>
+
 #include <cassert>
 #include <iostream>
 
 #include <ode/ode.h>  // for message handlers
+
+using namespace std;
 
 // plain text edit with single line highlighting
 class ConsoleEdit : public QPlainTextEdit {
@@ -209,9 +213,9 @@ namespace {
 WbConsole::WbConsole(QWidget *parent) :
   WbDockWidget(parent),
   mEditor(new ConsoleEdit(this)),
-  mClearAction(new QAction(this)),
   mErrorPatterns(createErrorMatchingPatterns()),  // patterns for error matching
   mBold(false),
+  mBgColor(false),
   mIsOverwriteEnabled(false),  // option to overwrite last line
   mFindDialog(NULL),
   mTextFind(new WbTextFind(mEditor)) {
@@ -273,7 +277,9 @@ QString WbConsole::htmlSpan(const QString &s, WbLog::Level level) const {
     return "";
 
   QString color;
+  bool bgColor = mBgColor; // QString instead
   bool bold;
+
   if (level == WbLog::ERROR || level == WbLog::FATAL || level == WbLog::STDERR) {
     color = errorColor();
     bold = true;
@@ -291,13 +297,16 @@ QString WbConsole::htmlSpan(const QString &s, WbLog::Level level) const {
   QString span("<span");
   if (!color.isEmpty() || bold) {
     span += " style=\"";
-    if (!color.isEmpty())
+    if (!color.isEmpty() && !bgColor)
       span += "color:" + color + ";";
+    else if (!color.isEmpty() && bgColor)
+      span += "background-color:" + color + ";"; // Add backgroundColor as qstring
     if (bold)
       span += "font-weight:bold;";
     span += "\"";
   }
   span += ">" + s.toHtmlEscaped() + "</span>";
+
   return span;
 }
 
@@ -397,8 +406,11 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
   int i = msg.indexOf("\033[");
   if (i != -1) {  // contains ANSI escape sequences
     QString html;
-    if (i != 0)
+    if (i != 0) {
+      cout << endl;
+      qDebug() << " raw msg" << msg;
       html = htmlSpan(msg.mid(0, i), level);  // add the text before the ANSI escape sequence
+    }
     while (1) {
       i += 2;  // skip the "\033[" chars
       QString sequence;
@@ -408,17 +420,27 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
 
       const QStringList codes(sequence.split(";"));  // handle multiple (e.g. sequence "ESC[0;39m" )
       foreach (const QString code, codes) {
+        // std::cout << "foreach" << std::endl;
         // the stored sequence may be "0" or "1", "30", "31", "32", etc.
         if (code == "0") {  // reset to default
+          // std::cout << "default" << std::endl;
           mColor = ansiBlack();
+          mBgColor = false;
           mBold = false;
         } else if (code == "1")  // bold
           mBold = true;
-        else if (code.startsWith("2")) {  // clear
+        else if (code.startsWith("2")) {
+          std::cout << "clear" << std::endl;
           const char c = code.toLocal8Bit().data()[1];
-          if (c == 'J')
+          if (c == 'J') {
             WbLog::clear();
-        } else if (code.startsWith("3")) {  // foreground color change
+            html.clear();  // nothing to display since clear has been done
+          }
+        } else if (code.startsWith("3") || code.startsWith("4")) {  // foreground color change
+          if (code.startsWith("4"))
+            mBgColor = true;
+          else
+            mBgColor = false;
           const char c = code.toLocal8Bit().data()[1];
           switch (c) {
             case '1':
@@ -452,16 +474,19 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
 
       int j = i;
       i = msg.indexOf("\033[", i);
-      if (i == -1) {
+      if (i == -1) {  // Previous escape code was the last one found
         const QString remains(msg.mid(j));
         html += htmlSpan(remains, level);
+        qDebug() << "final msg" << html;
         handleCRAndLF(html);
         return;
       }
-      if (j != i)
+      if (j != i) {  // Extract text contained between two escape codes if so
         html += htmlSpan(msg.mid(j, i - j), level);
+      }
     }
-    handleCRAndLF(html);
+    qDebug() << "when ?" << html;
+    handleCRAndLF(html);  // We are never passing here
   } else
     handleCRAndLF(htmlSpan(msg, level));
 }
