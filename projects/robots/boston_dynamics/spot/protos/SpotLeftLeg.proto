@@ -7,18 +7,20 @@
 # Created by Greg McKechnie under Common Creative license: https://sketchfab.com/3d-models/spot-mini-rigged-5dcbee77730640269cef5bd2587e328a
 
 PROTO SpotLeftLeg [
-  field SFVec3f    translation     0 1 0                    # Is `Transform.translation`.
-  field SFRotation rotation        1 0 0 -1.5708            # Is `Transform.rotation`.
-  field SFString   name            "front left leg"          # Is `Solid.name`.
-  field  SFString  model           "Left leg"               # Is `Robot.model`.
-  field  SFBool    selfCollision   FALSE                    # Enables/disables the detection of collisions within the robot.
+  field SFVec3f    translation     0 1 0             # Is `Transform.translation`.
+  field SFRotation rotation        1 0 0 -1.5708     # Is `Transform.rotation`.
+  field SFString   name            "front left leg"  # Is `Solid.name`.
+  field SFBool     selfCollision   FALSE             # Enables/disables the detection of collisions within the robot.
 ]
 {
+%{
+  local legName = fields.name.value
+}%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
-      DEF FRONT_LEFT_SHOULDER_ELEVATION_JOINT HingeJoint {
+      DEF SHOULDER_ELEVATION_JOINT HingeJoint {
         jointParameters HingeJointParameters {
           axis 0 0 1
           anchor -0.14 1.66 0
@@ -27,16 +29,16 @@ PROTO SpotLeftLeg [
         }
         device [
           PositionSensor {
-            name "front left shoulder elevation sensor"
+            name %{= "\"" .. legName .. " shoulder elevation sensor\"" }%
           }
           RotationalMotor {
-            name "front left shoulder elevation motor"
+            name %{= "\"" .. legName .. " shoulder elevation motor\"" }%
           }
         ]
-        endPoint DEF FRONT_LEFT_SHOULDER Solid {
+        endPoint DEF SHOULDER Solid {
           rotation 0 0 1 0
           children [
-            DEF FRONT_LEFT_SHOULDER_ROTATION_JOINT HingeJoint {
+            DEF SHOULDER_ROTATION_JOINT HingeJoint {
               jointParameters HingeJointParameters {
                 anchor 0 1.662 -0.824
                 minStop -1
@@ -44,13 +46,13 @@ PROTO SpotLeftLeg [
               }
               device [
                 PositionSensor {
-                  name "front left shoulder rotation sensor"
+                  name %{= "\"" .. legName .. " shoulder rotation sensor\"" }%
                 }
                 RotationalMotor {
-                  name "front left shoulder rotation motor"
+                  name %{= "\"" .. legName .. " shoulder rotation motor\"" }%
                 }
               ]
-              endPoint DEF FRONT_LEFT_UPPERARM Solid {
+              endPoint DEF UPPERARM Solid {
                 translation 0 -6.661338147750939e-16 1.1102230246251565e-16
                 rotation 1 0 0 0
                 children [
@@ -137,7 +139,7 @@ PROTO SpotLeftLeg [
                       }
                     }
                   }
-                  DEF FRONT_LEFT_ELBOW_JOINT HingeJoint {
+                  DEF ELBOW_JOINT HingeJoint {
                     jointParameters HingeJointParameters {
                       anchor 0.1 0.811 -0.3391
                       minStop -0.41
@@ -145,13 +147,13 @@ PROTO SpotLeftLeg [
                     }
                     device [
                       PositionSensor {
-                        name "front left elbow sensor"
+                        name %{= "\"" .. legName .. " elbow sensor\"" }%
                       }
                       RotationalMotor {
-                        name "front left elbow motor"
+                        name %{= "\"" .. legName .. " elbow motor\"" }%
                       }
                     ]
-                    endPoint DEF FRONT_LEFT_FOREARM Solid {
+                    endPoint DEF FOREARM Solid {
                       translation 0 -0.022146599558285573 0.0035943548113765433
                       rotation 1 0 0 0
                       children [
@@ -270,8 +272,8 @@ PROTO SpotLeftLeg [
                           }
                         }
                       ]
-                      name "solid(1)"
-                      boundingObject DEF LEFT_FOREARM_BO Group {
+                      name %{= "\"" .. legName .. " forearm\"" }%
+                      boundingObject DEF FOREARM_BO Group {
                         children [
                           DEF FOOT_RUBBER_BO Transform {
                             translation -0.44 0.092 -0.937
@@ -463,11 +465,11 @@ PROTO SpotLeftLeg [
                           }
                         ]
                       }
-                      physics DEF LEFT_FOREARM_PH Physics {
+                      physics DEF FOREARM_PH Physics {
                       }
                     }
                   }
-                  DEF COVER_LEFT_LEG Shape {
+                  DEF COVER_LEG Shape {
                     appearance DEF YELLOW_COVER MattePaint {
                       baseColor 0.847059 0.666667 0
                     }
@@ -491,7 +493,7 @@ PROTO SpotLeftLeg [
                       creaseAngle 0.8
                     }
                   }
-                  DEF COVER_LEFT_MOTOR Shape {
+                  DEF COVER_MOTOR Shape {
                     appearance DEF BLACK_PART MattePaint {
                       baseColor 0 0 0
                     }
@@ -515,7 +517,7 @@ PROTO SpotLeftLeg [
                       creaseAngle 0.4
                     }
                   }
-                  DEF LEFT_UPPERARM Shape {
+                  DEF UPPERARM Shape {
                     appearance USE GRAY_PART
                     geometry IndexedFaceSet {
                       coord Coordinate {
@@ -537,7 +539,7 @@ PROTO SpotLeftLeg [
                       creaseAngle 1
                     }
                   }
-                  DEF LEFT_UPPERARM_INSIDE Shape {
+                  DEF UPPERARM_INSIDE Shape {
                     appearance DEF METAL_PART BrushedAluminium {
                       textureTransform TextureTransform {
                         scale 20 20
@@ -590,7 +592,8 @@ PROTO SpotLeftLeg [
                     }
                   }
                 ]
-                boundingObject DEF LEFT_UPPERARM_BO Group {
+                name %{= "\"" .. legName .. " upperarm\"" }%
+                boundingObject DEF UPPERARM_BO Group {
                   children [
                     DEF UPPERARM_BO_1 Transform {
                       translation -0.45 0.811 -0.339
@@ -764,7 +767,7 @@ PROTO SpotLeftLeg [
                     }
                   ]
                 }
-                physics DEF LEFT_UPPERARM_PH Physics {
+                physics DEF UPPERARM_PH Physics {
                 }
               }
             }
@@ -814,7 +817,7 @@ PROTO SpotLeftLeg [
                 creaseAngle 1.4
               }
             }
-            DEF LEFT_MOTOR_RING Shape {
+            DEF MOTOR_RING Shape {
               appearance DEF METAL_RING PBRAppearance {
                 metalness 0.8
               }
@@ -839,7 +842,8 @@ PROTO SpotLeftLeg [
               }
             }
           ]
-          boundingObject DEF LEFT_SHOULDER_BO Group {
+          name %{= "\"" .. legName .. " shoulder\"" }%
+          boundingObject DEF SHOULDER_BO Group {
             children [
               DEF SHOULDER_BO_1 Transform {
                 translation -0.127005 1.662 -0.824
@@ -872,13 +876,13 @@ PROTO SpotLeftLeg [
               }
             ]
           }
-          physics DEF LEFT_SHOULDER_PH Physics {
+          physics DEF SHOULDER_PH Physics {
           }
         }
       }
     ]
     name IS name
-    model IS model
+    model "Left leg"
     selfCollision IS selfCollision
   }
 }
