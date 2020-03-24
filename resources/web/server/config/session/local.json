@@ -3,5 +3,6 @@
   "server": "localhost",
   "simulationServers": [
     "localhost:2000"
-  ]
+  ],
+  "debug": true
 }
