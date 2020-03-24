@@ -44,11 +44,7 @@ def github_api(request):
     content = ''
     try:
         response = urlopen(req)
-        print(response)
-        content = response.read()
-        print(content)
-        content = content.decode()
-        print(content)
+        content = response.read().decode()
     except HTTPError as e:
         print(request)
         print(e.reason)
