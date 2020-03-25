@@ -78,13 +78,10 @@ void WbRangeFinder::initializeSharedMemory() {
 }
 
 QString WbRangeFinder::pixelInfo(int x, int y) const {
-  QString info;
   WbRgb color;
   if (hasBeenSetup())
     color = mWrenCamera->copyPixelColourValue(x, y);
-
-  info.sprintf("depth(%d,%d)=%f", x, y, color.red());
-  return info;
+  return QString::asprintf("depth(%d,%d)=%f", x, y, color.red());
 }
 
 void WbRangeFinder::addConfigureToStream(QDataStream &stream, bool reconfigure) {

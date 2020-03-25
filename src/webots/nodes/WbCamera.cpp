@@ -215,17 +215,15 @@ void WbCamera::initializeSharedMemory() {
 }
 
 QString WbCamera::pixelInfo(int x, int y) const {
-  QString info;
   WbRgb color;
   if (hasBeenSetup())
     color = mWrenCamera->copyPixelColourValue(x, y);
 
-  int red = color.red() * 255;
-  int green = color.green() * 255;
-  int blue = color.blue() * 255;
-  info.sprintf("pixel(%d,%d)=#%02X%02X%02X", x, y, red, green, blue);
+  const int red = color.red() * 255;
+  const int green = color.green() * 255;
+  const int blue = color.blue() * 255;
 
-  return info;
+  return QString::asprintf("pixel(%d,%d)=#%02X%02X%02X", x, y, red, green, blue);
 }
 
 void WbCamera::updateRecognizedObjectsOverlay(double screenX, double screenY, double overlayX, double overlayY) {

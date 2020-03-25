@@ -20,8 +20,8 @@
 //              GUI part have to be refreshed
 //
 
+#include <QtCore/QElapsedTimer>
 #include <QtCore/QObject>
-#include <QtCore/QTime>
 #include <QtCore/QTimer>
 
 class WbGuiRefreshOracle : public QObject {
@@ -31,7 +31,7 @@ public:
   static WbGuiRefreshOracle *instance();
 
   bool canRefreshNow() const { return mCanRefreshNow; }
-  int elapsed() const { return mLastRefreshTime.elapsed(); }
+  int elapsed() const { return mLastRefreshTimer.elapsed(); }
 
 signals:
   void canRefreshActivated();
@@ -46,7 +46,7 @@ private:
   static WbGuiRefreshOracle *cInstance;
 
   bool mCanRefreshNow;
-  QTime mLastRefreshTime;
+  QElapsedTimer mLastRefreshTimer;
   QTimer mGlobalRefreshTimer;
 
 private slots:

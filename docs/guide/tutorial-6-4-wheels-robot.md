@@ -121,7 +121,7 @@ While the rotation origin (anchor) and the rotation axis (axis) are defined by t
 
 %end
 
-For the first wheel, the [Solid](../reference/solid.md) translation should be defined to `(0.06, 0, 0.05)` in order to define the relative gap between the body and the wheel.
+For the first wheel, the [Solid](../reference/solid.md) translation should be defined to `(0.06, 0, 0.05)` in order to define the relative gap between the body and the wheel, and the rotation to `(0 0 1 1.5708)` for the wheel cylinder to be correctly oriented.
 The [HingeJointParameters](../reference/hingejointparameters.md) anchor should also be defined to `(0.06, 0, 0.05)` to define the rotation origin (relatively to the body).
 Finally the [HingeJointParameters](../reference/hingejointparameters.md) axis should define the rotation axis.
 In our case it's along the x-axis (so `(1, 0, 0)`).

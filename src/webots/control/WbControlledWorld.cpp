@@ -387,6 +387,7 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
   for (int i = 0; i < size; ++i) {
     WbController *controller = mControllers[i];
     if (controller->robotId() == robotID) {
+      controller->flushBuffers();
       disconnect(controller, &WbController::hasTerminatedByItself, this,
                  &WbControlledWorld::deleteController);  // avoids double delete
       mNewControllers.removeOne(controller);

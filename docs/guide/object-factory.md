@@ -99,7 +99,7 @@ WoodenBox {
 
 - `mass`: Defines the mass of the wooden box in kg. A value smaller or equal to 0 remove the physics of the wooden box.
 
-## Conveyor Belt
+## Conveyors
 
 ### ConveyorBelt
 
@@ -107,7 +107,7 @@ A customizable conveyor belt moving at a constant speed.
 
 %figure
 
-![ConveyorBelt](images/objects/conveyor_belt/ConveyorBelt/model.thumbnail.png)
+![ConveyorBelt](images/objects/conveyors/ConveyorBelt/model.thumbnail.png)
 
 %end
 
@@ -129,7 +129,7 @@ ConveyorBelt {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/factory/conveyor\_belt/protos/ConveyorBelt.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/factory/conveyor_belt/protos/ConveyorBelt.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/conveyors/protos/ConveyorBelt.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/factory/conveyors/protos/ConveyorBelt.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -141,6 +141,49 @@ ConveyorBelt {
 - `borderThickness`: Defines the thickness of the metal part around the conveyor belt.
 
 - `borderHeight`: Defines the height of the border around the conveyor.
+
+- `speed`: Defines the rubber band speed in meters per second.
+
+- `acceleration`: Defines the acceleration of the conveyor belt.
+
+- `timer`: Defines for how long the conveyor belt should move (it will move forever if set to 0).
+
+- `textureAnimation`: defines the speed of the texture animation.
+
+### ConveyorPlatform
+
+A controllable conveyor platform.
+The default controller makes it move at a constant speed for a configurable amount of time.
+The conveyor contains 3 controllable LEDs.
+
+%figure
+
+![ConveyorPlatform](images/objects/conveyors/ConveyorPlatform/model.thumbnail.png)
+
+%end
+
+Derived from [Robot](../reference/robot.md).
+
+```
+ConveyorPlatform {
+   SFVec3f     translation      0 0 0
+   SFRotation  rotation         0 1 0 0
+   SFString    name             "Conveyor platform"
+   SFString    model            "Conveyor platform"
+   SFString    controller       "conveyor_belt"
+   SFFloat     speed            0.3
+   SFFloat     acceleration     -1
+   SFFloat     timer            0.0
+   SFFloat     textureAnimation 0.004
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/conveyors/protos/ConveyorPlatform.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/factory/conveyors/protos/ConveyorPlatform.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+#### ConveyorPlatform Field Summary
 
 - `speed`: Defines the rubber band speed in meters per second.
 
@@ -302,7 +345,7 @@ WoodenPalletStack {
 
 - `palletSize`: Defines the size of one pallet.
 
-- `palletLathNumber`: Defines the number of lath of each pallet.s
+- `palletLathNumber`: Defines the number of lath of each pallets.
 
 - `palletLathWidth`: Defines the width of the pallet laths.
 

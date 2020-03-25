@@ -1,2 +1,2 @@
 function value = WB_NODE_CAMERA
-value = 34;
+value = 35;

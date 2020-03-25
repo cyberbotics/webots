@@ -145,7 +145,8 @@ key = wb_keyboard_get_key()
 
 *keyboard reading function*
 
-These functions allow you to read a key pressed on the computer keyboard from a controller program while the 3D window of Webots is selected and the simulation is running.
+These functions allow a controller program to read keys pressed on the computer keyboard when the 3D window of Webots is selected and the simulation is running.
+You may have to click inside the 3D window, so that it gets selected (e.g., active) and the key press events can be sent to the controller program.
 First, it is necessary to enable keyboard input by calling the `wb_keyboard_enable` function.
 The `sampling_period` parameter is expressed in milliseconds, and defines how frequently readings are updated.
 Note that the first key will be available only after the first sampling period elapsed.

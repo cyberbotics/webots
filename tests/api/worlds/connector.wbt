@@ -1,0 +1,46 @@
+#VRML_SIM R2020b utf8
+WorldInfo {
+  title "Modular Robot"
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation 0 1 0 4.6416
+  position -0.65 0.239 -0.007
+}
+Background {
+  skyColor [
+    0.15 0.45 1
+  ]
+}
+Floor {
+  size 2 2
+}
+Yamor {
+  translation -3.67321e-08 0.23 -0.02
+  rotation 0 0 1 1.5708
+  name "module_1"
+  controller "connector"
+  extensionSlot TestSuiteEmitter {
+  }
+}
+Yamor {
+  translation -7.3464e-07 0.23 0.077
+  rotation 0 0 1 1.5708
+  name "module_2"
+  controller ""
+}
+Solid {
+  translation 0 0.1 0
+  children [
+    DEF BOX Shape {
+      geometry Box {
+        size 0.1 0.2 0.1
+      }
+    }
+  ]
+  boundingObject USE BOX
+  physics Physics {
+  }
+}
+TestSuiteSupervisor {
+}

@@ -62,6 +62,7 @@ jobs:
       language: generic     # Travis doesn't support python on macos yet
       addons:
         homebrew:
+          update: true  # TODO: this should be removed once this bug is fixed: https://travis-ci.community/t/macos-build-fails-because-of-homebrew-bundle-unknown-command/7296
           packages:
             - clang-format
             - cppcheck
@@ -186,7 +187,7 @@ jobs:
             - libxkbcommon-x11-dev
     - &distribution_staging
       stage: Distribution
-      if: type = cron OR commit_message IN (travis_release, travis_release_only, travis_distrib, travis_distrib_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      if: type = cron OR commit_message IN (travis_distrib, travis_distrib_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: Ubuntu 16.04 / Python 3.8 / openjdk 8
       git: *compilation_git
       os: linux
@@ -207,12 +208,12 @@ jobs:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
-        - if [ "$TRAVIS_COMMIT_MESSAGE" != travis_release* ]; then src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG; fi
+        - src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
     - <<: *distribution_staging
       name: Ubuntu 18.04 / Python 3.8 / openjdk 11 (no release upload)
       dist: bionic  # on Ubuntu 18.04 we just test the package creation but do not upload it
       jdk: openjdk11
-      before_install:
+      before_install: &bionic_before_install
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - sudo apt update
         - sudo apt install -y python3.8-dev
@@ -227,15 +228,16 @@ jobs:
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
-      addons:
+      addons: &mac_addons
         homebrew:
+          update: true  # TODO: this should be removed once this bug is fixed: https://travis-ci.community/t/macos-build-fails-because-of-homebrew-bundle-unknown-command/7296
           packages:
             - python
             - cmake
             - swig
             - wget
             - node
-      before_install:
+      before_install: &mac_before_install
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
         - export PATH=/usr/local/bin/:$PATH  # Prefer Brew binaries over Travis ones.
         - npm install -g appdmg
@@ -252,4 +254,33 @@ jobs:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required file are generated
-        - if [ "$TRAVIS_COMMIT_MESSAGE" != travis_release* ]; then src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG; fi
+        - src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
+    - <<: *distribution_staging
+      stage: Release
+      if: commit_message IN (travis_release, travis_release_only)
+      script:
+        - make distrib -j2
+        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
+    - <<: *distribution_staging
+      stage: Release
+      if: commit_message IN (travis_release, travis_release_only)
+      name: Ubuntu 18.04 / Python 3.8 / openjdk 11
+      dist: bionic
+      jdk: openjdk11
+      before_install: *bionic_before_install
+      addons: *bionic_apt_packages
+      script:
+        - make distrib -j2
+        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
+    - <<: *distribution_staging
+      stage: Release
+      if: commit_message IN (travis_release, travis_release_only)
+      name: OSX / Python 2.7
+      os: osx
+      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
+      language: generic     # Travis doesn't support python on macos yet
+      addons: *mac_addons
+      before_install: *mac_before_install
+      script:
+        - make distrib -j2
+        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required file are generated

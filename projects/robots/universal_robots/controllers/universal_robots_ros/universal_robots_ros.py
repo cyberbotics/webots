@@ -1,3 +1,5 @@
+#!/usr/bin/env python2
+
 # Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,21 +16,29 @@
 
 """universal_robot_ros controller."""
 
+import argparse
 import rospy
+
 from controller import Robot
 from joint_state_publisher import JointStatePublisher
 from trajectory_follower import TrajectoryFollower
 from rosgraph_msgs.msg import Clock
 
-rospy.init_node('ur_driver', disable_signals=True)
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--node-name', dest='nodeName', default='ur_driver', help='Specifies the name of the node.')
+arguments, unknown = parser.parse_known_args()
+
+rospy.init_node(arguments.nodeName, disable_signals=True)
 
 jointPrefix = rospy.get_param('prefix', '')
 if jointPrefix:
     print('Setting prefix to %s' % jointPrefix)
 
 robot = Robot()
-jointStatePublisher = JointStatePublisher(robot, jointPrefix)
-trajectoryFollower = TrajectoryFollower(robot, jointStatePublisher, jointPrefix)
+nodeName = arguments.nodeName + '/' if arguments.nodeName != 'ur_driver' else ''
+jointStatePublisher = JointStatePublisher(robot, jointPrefix, nodeName)
+trajectoryFollower = TrajectoryFollower(robot, jointStatePublisher, jointPrefix, nodeName)
 trajectoryFollower.start()
 
 # we want to use simulation time for ROS

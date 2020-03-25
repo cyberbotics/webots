@@ -1,5 +1,12 @@
 # Webots R2020 Change Log
 
+## [Webots R2020b](../blog/Webots-2020-a-release.md)
+Released on XXX.
+
+  - New Features
+    - Added a [Mesh](mesh.md) node allowing to use external 3D file in Webots ([#1419](https://github.com/cyberbotics/webots/pull/1419)).
+    - Added two new functions to get internal PROTO node fields: [`wb_supervisor_node_get_from_proto_def`](supervisor.md#wb_supervisor_node_get_from_proto_def) and [`wb_supervisor_node_get_proto_field`](supervisor.md#wb_supervisor_node_get_proto_field) ([#1331](https://github.com/cyberbotics/webots/pull/1331)).
+
 ## Webots R2020a Revision 2
 Released on XXX.
 
@@ -7,16 +14,27 @@ Released on XXX.
     - macOS and Windows: Added support for Python 3.8.
     - Added a 'Convert Root to Base Node(s)' option in the context menu to convert a PROTO node to base node(s) without converting the nested PROTO nodes.
     - Added an `OfficeChair` PROTO object.
+    - Added a `MetalStainlessSteelCable` appearance.
+    - Added a `ConveyorPlatform` PROTO object.
   - Enhancements
     - Improved the environment colors of the sojourner simulation (Mars is a red planet).
     - Added missing `supervisor` field in `UR3e`, `UR5e` and `UR10e` robots.
     - Added a `staticBase` field to the `Irb4600-40` PROTO node.
+    - Added a `--node-name` argument to the ROS controller of the Universal Robots UR3e, UR5e and UR10e for multi robot simulations.
+    - Removed the ROS libraries from the default controllers path to avoid possible conflicts with other libraries (thanks to PymZoR).
+  - Dependency Updates
+    - Upgraded to Qt 5.14.1 on Windows.
   - Bug fixes
+    - Fixed the physics behavior of [Connector](connector.md) nodes sometimes remaining idle after being detached from each other (thanks to Giorgio).
     - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images.
     - Fixed the TurtleBot3Burger robot maximum velocity (thanks to Dorteel).
     - Fixed the TurtleBot3Burger robot center of mass (thanks to Nitrow).
     - Fixed addition of PROTO nodes including a [Connector](connector.md) node from the Add Node dialog (thanks to Acwok).
     - Fixed the [`wb_display_image_load`](display.md#wb_display_image_load) function when used with a PNG image with transparency.
+    - Fixed color of the bounding objects remaining in the collision state if the collision was lasting only one step (thanks to Acwok).
+    - Fixed Matlab API.
+    - Fixed missing stdout/stderr flush when a controller is changed or restarted while simulation is running (thanks to tsampazk).
+    - Fixed the ROS controller of the Universal Robots UR3e, UR5e and UR10e to send the success state when a trajectory succeeded (thanks to Tim-Stoll).
 
 ## Webots R2020a Revision 1
 Released on January 14th, 2020.

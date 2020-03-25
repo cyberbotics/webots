@@ -9,6 +9,7 @@
 /mingw64/bin/Qt5PrintSupport.dll
 /mingw64/bin/Qt5Quick.dll
 /mingw64/bin/Qt5Qml.dll
+/mingw64/bin/Qt5QmlModels.dll
 /mingw64/bin/Qt5Sensors.dll
 /mingw64/bin/Qt5WebChannel.dll
 /mingw64/bin/Qt5WebKit.dll
@@ -16,9 +17,8 @@
 /mingw64/bin/Qt5WebSockets.dll
 /mingw64/bin/Qt5Widgets.dll
 /mingw64/bin/Qt5Xml.dll
-/mingw64/bin/libicuuc64.dll
-/mingw64/bin/libicuin64.dll
-/mingw64/bin/libicudt64.dll
+/mingw64/bin/libbrotlicommon.dll
+/mingw64/bin/libbrotlidec.dll
 /mingw64/bin/libicuuc65.dll
 /mingw64/bin/libicuin65.dll
 /mingw64/bin/libicudt65.dll
@@ -41,6 +41,8 @@
 /mingw64/bin/libpcre2-16-0.dll
 /mingw64/bin/libwebp-7.dll
 /mingw64/bin/libwebpdecoder-3.dll
+/mingw64/bin/libwoff2common.dll
+/mingw64/bin/libwoff2dec.dll
 /mingw64/bin/libxml2-2.dll
 /mingw64/bin/libzzip-0-13.dll
 /mingw64/bin/libopenal-1.dll

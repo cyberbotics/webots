@@ -163,16 +163,15 @@ def send_email(subject, content):
               "To: Administrator <" + config[u'administrator'] + ">\n" + \
               "Subject: " + subject + "\n\n" + content
     try:
-        smtp = smtplib.SMTP(config[u'mailServer'], port, timeout=2)
-        if 'mailSenderPassword' in config:
-            smtp.starttls()
-            if 'mailSenderUser' in config:
-                user = config[u'mailSenderUser']
-            else:
-                user = sender
-            smtp.login(user, config[u'mailSenderPassword'])
-        smtp.sendmail(sender, receivers, message)
-        smtp.quit()
+        with smtplib.SMTP(config[u'mailServer'], port, timeout=2) as smtp:
+            if 'mailSenderPassword' in config:
+                smtp.starttls()
+                if 'mailSenderUser' in config:
+                    user = config[u'mailSenderUser']
+                else:
+                    user = sender
+                smtp.login(user, config[u'mailSenderPassword'])
+            smtp.sendmail(sender, receivers, message)
     except smtplib.SMTPException:
         logging.error("Error: unable to send email to " + config[u'administrator'] + "\n")
 

@@ -2763,6 +2763,7 @@ int main(int argc, char **argv) {
 
   supervisor_node_get_field_srv.request.node = root_node;
   supervisor_node_get_field_srv.request.fieldName = "children";
+  supervisor_node_get_field_srv.request.proto = false;
   supervisor_node_get_field_client.call(supervisor_node_get_field_srv);
   uint64_t field = supervisor_node_get_field_srv.response.field;
 
@@ -2858,6 +2859,7 @@ int main(int argc, char **argv) {
 
   // supervisor_node_get_from_id
   supervisor_get_from_def_srv.request.name = "CONE";
+  supervisor_get_from_def_srv.request.proto = false;
   supervisor_get_from_def_client.call(supervisor_get_from_def_srv);
   uint64_t cone_node = 0;
   if (supervisor_get_from_def_srv.response.node != 0) {

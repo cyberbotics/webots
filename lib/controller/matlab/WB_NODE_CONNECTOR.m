@@ -1,2 +1,2 @@
 function value = WB_NODE_CONNECTOR
-value = 36;
+value = 37;

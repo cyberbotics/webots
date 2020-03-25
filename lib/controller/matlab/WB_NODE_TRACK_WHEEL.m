@@ -1,2 +1,2 @@
 function value = WB_NODE_TRACK_WHEEL
-value = 77;
+value = 78;

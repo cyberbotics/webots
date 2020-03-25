@@ -67,12 +67,11 @@ APACHE2_LICENSE_PYTHON = """# Copyright 1996-20XX Cyberbotics Ltd.
 # See the License for the specific language governing permissions and
 # limitations under the License.""".replace('20XX', str(datetime.datetime.now().year))
 
-PYTHON_OPTIONAL_HEADER = """#!/usr/bin/env python
-
-"""
-PYTHON3_OPTIONAL_HEADER = """#!/usr/bin/env python3
-
-"""
+PYTHON_OPTIONAL_HEADERS = [
+    '#!/usr/bin/env python2',
+    '#!/usr/bin/env python3',
+    '#!/usr/bin/env python',
+]
 
 
 class TestLicense(unittest.TestCase):
@@ -170,10 +169,11 @@ class TestLicense(unittest.TestCase):
                             (source, APACHE2_LICENSE_CPP)
                     )
                 elif source.endswith('.py') or source.endswith('Makefile'):
+                    for pythonHeader in PYTHON_OPTIONAL_HEADERS:
+                        if content.startswith(pythonHeader + '\n'):
+                            content = content[len(pythonHeader):].lstrip('\n')
                     self.assertTrue(
-                        content.startswith(APACHE2_LICENSE_PYTHON) or
-                        content.startswith(PYTHON_OPTIONAL_HEADER + APACHE2_LICENSE_PYTHON) or
-                        content.startswith(PYTHON3_OPTIONAL_HEADER + APACHE2_LICENSE_PYTHON),
+                        content.startswith(APACHE2_LICENSE_PYTHON),
                         msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License:\n%s' %
                             (source, APACHE2_LICENSE_PYTHON)
                     )
