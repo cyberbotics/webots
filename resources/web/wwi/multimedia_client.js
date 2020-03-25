@@ -277,14 +277,8 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
           d = moveX1;
         else
           d = moveX2;
-        let tiltAngle, zoomScale;
-        if (500 * Math.abs(d) > Math.abs(pinchSize)) {
-          tiltAngle = 0.02 * d;
-          zoomScale = 0;
-        } else {
-          tiltAngle = 0;
-          zoomScale = 0.015 * pinchSize;
-        }
+        let tiltAngle = 0.0004 * d;
+        let zoomScale = 0.015 * pinchSize;
         this._sendMessage('touch 0 ' + this.touchEvent.mode + ' ' + tiltAngle + ' ' + zoomScale);
       } else { // rotation
         dx = moveX1 * 0.8;
@@ -303,6 +297,7 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
 
     if (typeof webots.currentView.ontouchmove === 'function')
       webots.currentView.ontouchmove(event);
+    event.preventDefault();
     return false;
   }
 
