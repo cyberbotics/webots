@@ -90,7 +90,7 @@ The following formats are supported:
   - [Filmbox](https://en.wikipedia.org/wiki/FBX) files (.fbx).
   - [STEP](https://en.wikipedia.org/wiki/ISO_10303-21) files (.stp or .step).
   - [STL](https://en.wikipedia.org/wiki/STL_(file_format)) files (.stl).
-  - [VRML](https://en.wikipedia.org/wiki/VRML) files (.vrml).
+  - [VRML](https://en.wikipedia.org/wiki/VRML) files (.wrl).
   - [Wavefront](https://wiki.fileformat.com/3d/obj) files (.obj).
   - [X3D](https://www.web3d.org/getting-started-x3d) files (.x3d).
 
