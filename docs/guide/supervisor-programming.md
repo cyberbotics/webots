@@ -104,9 +104,10 @@ int main() {
       double dist = sqrt(pos[0] * pos[0] + pos[2] * pos[2]);
       printf("a=%g, b=%g -> dist=%g\n", a, b, dist);
 
-      // reset robot position
+      // reset robot position and physics
       const double INITIAL[3] = { 0, 0.5, 0 };
       wb_supervisor_field_set_sf_vec3f(trans_field, INITIAL);
+      wb_supervisor_node_reset_physics(robot_node);
     }
   }
 
