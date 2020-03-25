@@ -73,7 +73,7 @@ bool WbImportWizard::validateCurrentPage() {
     // check file extension
     const QStringList supportedExtension = QStringList() << ".3ds"
                                                          << ".dxf"
-                                                         << ".bhv"
+                                                         << ".bvh"
                                                          << ".blend"
                                                          << ".dae"
                                                          << ".fbx"
