@@ -35,6 +35,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import threading
 import tornado.ioloop
 import tornado.httpserver
 import tornado.web
@@ -142,7 +143,7 @@ class Client:
     def setup_project(self):
         logging.info("setup_project " + str(self.url))
         self.project_instance_path = config['instancesPath'] + str(id(self))
-        if self.url:
+        if hasattr(self, 'url'):
             return self.setup_project_from_github()
         else:
             return self.setup_project_from_zip()
@@ -247,8 +248,9 @@ class Client:
             port = client.streaming_server_port
             command = config['webots'] + ' --batch --mode=pause --minimize '
             command += '--stream="port=' + str(port) + ';monitorActivity'
-            if self.user1Authentication or not self.user1Id:  # we are running our own or an anonymous simulation
-                command += ';controllerEdit'
+            if not hasattr(self, 'url'):
+                if self.user1Authentication or not self.user1Id:  # we are running our own or an anonymous simulation
+                    command += ';controllerEdit'
             if 'multimediaServer' in config:
                 command += ';multimediaServer=' + config['multimediaServer']
             if 'multimediaStream' in config:
@@ -291,7 +293,7 @@ class Client:
             client.on_exit()
         if self.setup_project():
             self.on_webots_quit = on_webots_quit
-            # threading.Thread(target=runWebotsInThread, args=(self,)).start()
+            threading.Thread(target=runWebotsInThread, args=(self,)).start()
         else:
             on_webots_quit()
 
