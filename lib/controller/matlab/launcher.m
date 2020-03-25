@@ -8,12 +8,20 @@ WEBOTS_VERSION = getenv('WEBOTS_VERSION');
 if isempty(WEBOTS_CONTROLLER_NAME)
   disp('Entering test mode (normally launcher.m should be called by Webots, not from the MATLAB command line)');
   disp(['Using MATLAB R' version('-release')]);
-  cd('../../..');
-  WEBOTS_HOME = pwd;
+  if isempty(WEBOTS_HOME)
+    cd('../../..');
+    WEBOTS_HOME = pwd;
+  else
+    cd(WEBOTS_HOME)
+  end
   [status, cmdout] = system('msys64/mingw64/bin/webots.exe --version');
-  WEBOTS_VERSION = strrep(cmdout(17:end-1),'.','_');
-  cd('lib/controller/matlab');
-  disp(['Using Webots ' strrep(WEBOTS_VERSION,'_','.') ' from ' pwd ])
+  k = strfind(cmdout, ' Nightly Build ');
+  if isempty(k)
+    WEBOTS_VERSION = strrep(cmdout(17:end-1),'.','_');
+  else
+    WEBOTS_VERSION = strrep(cmdout(17:k(1)-1),'.','_');
+  end
+  disp(['Using Webots ' strrep(WEBOTS_VERSION,'_','.') ' from ' pwd ]);
   test_mode = true;
 else
   test_mode = false;
@@ -25,10 +33,14 @@ addpath([WEBOTS_HOME '/lib/controller/matlab']);
 if ispc
   setenv('MINGWROOT', strcat(WEBOTS_HOME,'\\msys64\\mingw64'));
   libname = 'Controller';
-  installed_addons = matlab.addons.installedAddons;
-  installed = sum(installed_addons.Identifier == "ML_MINGW");
-  if installed <= 0 || matlab.addons.isAddonEnabled("ML_MINGW") <= 0
-    disp('The MATLAB "MinGW-w64 C/C++ Compiler" addon is not installed, please install it from: https://fr.mathworks.com/matlabcentral/fileexchange/52848-matlab-support-for-mingw-w64-c-c-compiler');
+  % in MATLAB 2017b, the following tests are crashing MATLAB
+  % in MATLAB 2019b, the MingGW-w64 C/C++ Compiler is not needed any more
+  if version('-release') == '2018b'
+    installed_addons = matlab.addons.installedAddons;
+    installed = sum(installed_addons.Identifier == "ML_MINGW");
+    if installed <= 0 || matlab.addons.isAddonEnabled("ML_MINGW") <= 0
+      disp('The MATLAB "MinGW-w64 C/C++ Compiler" addon is not installed, please install it from: https://fr.mathworks.com/matlabcentral/fileexchange/52848-matlab-support-for-mingw-w64-c-c-compiler');
+    end
   end
   addpath([WEBOTS_HOME '/msys64/mingw64/bin']);
 else
@@ -50,11 +62,11 @@ try
   lockfile = 'webots_matlab_lock';
   counter = 1;
   while exist(lockfile, 'file')
-    if (counter == 1)
+    if counter == 1
       disp(['Waiting up to 5 seconds for ' tempdir lockfile ' to be deleted by another MATLAB instance.']);
     end
     pause(1);
-    if (counter == 5)
+    if counter == 5
       disp(['Deleting ' tempdir lockfile '...'])
       delete(lockfile);
     end
@@ -111,7 +123,7 @@ try
       disp('Load Library successful');
       libcontrollerloaded = true;
     catch ME % this happens with MATLAB R2015a only but seems to be harmless
-      if (version('-release') == '2015a')
+      if version('-release') == '2015a'
         loadlibrary(libname,protofile,'alias','libController');
         libcontrollerloaded = true;
       else

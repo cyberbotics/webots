@@ -531,7 +531,9 @@ int WbNode::numFields() const {
   return fieldsOrParameters().size();
 }
 
-WbField *WbNode::field(int index) const {
+WbField *WbNode::field(int index, bool internal) const {
+  if (internal)
+    return mFields[index];
   return fieldsOrParameters().at(index);
 }
 
@@ -545,9 +547,9 @@ WbField *WbNode::findField(const QString &fieldName, bool internal) const {
   return NULL;
 }
 
-int WbNode::findFieldId(const QString &fieldName) const {
+int WbNode::findFieldId(const QString &fieldName, bool internal) const {
   int counter = 0;
-  QVector<WbField *> fields = fieldsOrParameters();
+  const QVector<WbField *> &fields = internal ? mFields : fieldsOrParameters();
   foreach (const WbField *const field, fields) {
     if (field->name() == fieldName)
       return counter;
@@ -715,6 +717,17 @@ void WbNode::makeDefNode() {
   resetUseAncestorFlag();
 
   emit defUseNameChanged(this, true);
+}
+
+const WbNode *WbNode::getNodeFromDEF(const QString &defName) const {
+  if (defName == mDefName)
+    return this;
+  foreach (const WbNode *node, subNodes(false)) {
+    const WbNode *defNode = node->getNodeFromDEF(defName);
+    if (defNode)
+      return defNode;
+  }
+  return NULL;
 }
 
 void WbNode::resetUseAncestorFlag() {

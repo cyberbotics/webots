@@ -405,7 +405,10 @@ bool RosSupervisor::getSelfCallback(webots_ros::get_uint64::Request &req, webots
 bool RosSupervisor::getFromDefCallback(webots_ros::supervisor_get_from_def::Request &req,
                                        webots_ros::supervisor_get_from_def::Response &res) {
   assert(mSupervisor);
-  res.node = reinterpret_cast<uint64_t>(mSupervisor->getFromDef(req.name));
+  if (req.proto)
+    res.node = reinterpret_cast<uint64_t>(mSupervisor->getFromProtoDef(req.name));
+  else
+    res.node = reinterpret_cast<uint64_t>(mSupervisor->getFromDef(req.name));
   return true;
 }
 
@@ -668,7 +671,10 @@ bool RosSupervisor::nodeGetFieldCallback(webots_ros::node_get_field::Request &re
   if (!req.node)
     return false;
   Node *node = reinterpret_cast<Node *>(req.node);
-  res.field = reinterpret_cast<uint64_t>(node->getField(req.fieldName));
+  if (req.proto)
+    res.field = reinterpret_cast<uint64_t>(node->getProtoField(req.fieldName));
+  else
+    res.field = reinterpret_cast<uint64_t>(node->getField(req.fieldName));
   return true;
 }
 

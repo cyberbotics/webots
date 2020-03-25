@@ -92,6 +92,9 @@
   "Parquetry": {
     "fields": "textureTransform TextureTransform { scale 3 2 }"
   },
+  "Pavement": {
+    "fields": "textureTransform TextureTransform { scale 2 1 }"
+  },
   "Pcb": {
     "fields": "textureTransform TextureTransform { scale 3.2 1.4 }"
   },

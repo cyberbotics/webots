@@ -53,6 +53,7 @@
 - [LightSensor](lightsensor.md)
 - [LinearMotor](linearmotor.md)
 - [Material](material.md)
+- [Mesh](mesh.md)
 - [Motor](motor.md)
 - [Mouse](mouse.md)
 - [Muscle](muscle.md)

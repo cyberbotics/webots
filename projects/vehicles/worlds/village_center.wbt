@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   title "Village Center"
   ERP 0.6
@@ -415,8 +415,8 @@ DEF FLOOR_SEGMENTS Group {
       translation -44.051607 0 2.113228
       children [
         Shape {
-          appearance StonePavement {
-            type "old square"
+          appearance Pavement {
+            type "braun stone"
             textureTransform TextureTransform {
               scale 300 300
             }
@@ -1506,7 +1506,7 @@ SolidBox {
   rotation 0 1 0 4.51
   name "box(2)"
   size 0.7 0.29 2.5
-  appearance StonePavement {
+  appearance Pavement {
     textureTransform TextureTransform {
       scale 2.5 2.5
     }
@@ -1517,7 +1517,7 @@ SolidBox {
   rotation 0 1 0 1.37
   name "box(3)"
   size 0.7 0.29 3.3
-  appearance StonePavement {
+  appearance Pavement {
     textureTransform TextureTransform {
       scale 3.3 3.3
     }
@@ -1588,7 +1588,7 @@ SolidBox {
   rotation 0 1 0 -0.042
   name "box(4)"
   size 0.7 0.29 3.3
-  appearance StonePavement {
+  appearance Pavement {
     textureTransform TextureTransform {
       scale 3.3 3.3
     }
@@ -1599,7 +1599,7 @@ SolidBox {
   rotation 0 1 0 -0.042
   name "box(1)"
   size 0.7 0.29 2.5
-  appearance StonePavement {
+  appearance Pavement {
     textureTransform TextureTransform {
       scale 3.3 3.3
     }

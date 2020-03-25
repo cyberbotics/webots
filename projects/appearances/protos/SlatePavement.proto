@@ -1,6 +1,8 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
+# tags: hidden, static
+# Backward compatibility with the deprecated 'SlatePavement' PROTO (deprecated in Webots R2020a-rev2)
 # A slate pavement material.
 
 PROTO SlatePavement [
@@ -9,27 +11,28 @@ PROTO SlatePavement [
   field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
 ]
 {
+  %{ io.stderr:write("Deprecated 'SlatePavement' PROTO, please use the 'Pavement' PROTO instead and select the right type.\n") }%
   PBRAppearance {
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "textures/slate_pavement/slate_pavement_base_color.jpg"
+        "textures/pavement/slate_pavement_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/slate_pavement/slate_pavement_roughness.jpg"
+        "textures/pavement/slate_pavement_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/slate_pavement/slate_pavement_normal.jpg"
+        "textures/pavement/slate_pavement_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/slate_pavement/slate_pavement_occlusion.jpg"
+        "textures/pavement/slate_pavement_occlusion.jpg"
       ]
     }
     IBLStrength IS IBLStrength

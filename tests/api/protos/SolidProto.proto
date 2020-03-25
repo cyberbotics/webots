@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 
 PROTO SolidProto [
   field SFVec3f    translation     0 0 0
@@ -11,7 +11,13 @@ PROTO SolidProto [
 Solid {
   translation IS translation
   rotation IS rotation
-  children IS children
+  children [
+    Group {
+      children IS children
+    }
+    DEF INTERNAL_GROUP Group {
+    }
+  ]
   boundingObject IS boundingObject
   physics IS physics
 }

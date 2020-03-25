@@ -8,6 +8,10 @@ As the TIAGo model, this bi-manual version is completely ROS based, fully custom
 
 More information on the TIAGo++ robot can be found on their [website](http://blog.pal-robotics.com/tiago-bi-manual-robot-research/) or in the [technical specifications datasheet](http://pal-robotics.com/wp-content/uploads/2019/07/Datasheet_TIAGo_Complete.pdf).
 
+### Movie Presentation
+
+![youtube video](https://www.youtube.com/watch?v=2KYpuaREQm0)
+
 ### Tiago++ PROTO
 
 Derived from [Robot](../reference/robot.md).

@@ -1,2 +1,2 @@
 function value = WB_NODE_LED
-value = 43;
+value = 44;

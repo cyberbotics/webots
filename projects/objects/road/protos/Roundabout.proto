@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -325,7 +325,7 @@ PROTO Roundabout [
         Solid {
           children [
             Shape {
-              appearance DEF BORDER_APPEARANCE StonePavement {
+              appearance DEF BORDER_APPEARANCE Pavement {
               }
               geometry DEF LEFT_BORDER_GEOM IndexedFaceSet {
                 coord Coordinate {

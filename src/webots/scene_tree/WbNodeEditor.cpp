@@ -17,6 +17,7 @@
 #include "WbBaseNode.hpp"
 #include "WbField.hpp"
 #include "WbFieldLineEdit.hpp"
+#include "WbGeometry.hpp"
 #include "WbGroup.hpp"
 #include "WbMFNode.hpp"
 #include "WbMessageBox.hpp"
@@ -43,6 +44,7 @@ WbNodeEditor::WbNodeEditor(QWidget *parent) :
   mNode(NULL),
   mDefEdit(new WbFieldLineEdit(this)),
   mUseCount(new QLabel(this)),
+  mNbTriangles(new QLabel(this)),
   mStackedWidget(new QStackedWidget(this)),
   mMessageBox(false),
   mShowResizeHandlesLabel(new QLabel(tr("3D tools:"), this)),
@@ -54,6 +56,7 @@ WbNodeEditor::WbNodeEditor(QWidget *parent) :
   layout->addWidget(new QLabel("DEF:", this), 0, 0);
   layout->addWidget(mDefEdit, 0, 1);
   layout->addWidget(mUseCount, 1, 1);
+  layout->addWidget(mNbTriangles, 2, 1);
 
   layout->addWidget(mShowResizeHandlesLabel, 4, 0);
   layout->addWidget(mShowResizeHandlesCheckBox, 4, 1);
@@ -141,6 +144,12 @@ void WbNodeEditor::update() {
       mUseCount->setText(tr("USE count: %1").arg(mNode->useCount()));  // TODO: is this the final implementation?
   } else
     mStackedWidget->setCurrentIndex(EMPTY_PANE);
+
+  const WbGeometry *node = dynamic_cast<WbGeometry *>(mNode);
+  if (node && !node->isUseNode())
+    mNbTriangles->setText(tr("Triangle count: %1").arg(node->triangleCount()));
+  else
+    mNbTriangles->clear();
 }
 
 void WbNodeEditor::resetFocus() {

@@ -78,7 +78,7 @@ void wbr_inertial_unit_set_values(WbDeviceTag t, const double *values) {
     inertial_unit->rpy[1] = values[1];
     inertial_unit->rpy[2] = values[2];
   } else
-    fprintf(stderr, "Error: wbr_inertial_unit_set_values(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 void wb_inertial_unit_init(WbDevice *);
@@ -95,7 +95,7 @@ void wb_inertial_unit_init(WbDevice *d) {
 
 void wb_inertial_unit_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: wb_inertial_unit_enable() called with negative sampling period.\n");
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
 
@@ -105,7 +105,7 @@ void wb_inertial_unit_enable(WbDeviceTag tag, int sampling_period) {
     inertial_unit->enable = true;
     inertial_unit->sampling_period = sampling_period;
   } else
-    fprintf(stderr, "Error: wb_inertial_unit_enable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -114,7 +114,7 @@ void wb_inertial_unit_disable(WbDeviceTag tag) {
   if (inertial_unit)
     wb_inertial_unit_enable(tag, 0);
   else
-    fprintf(stderr, "Error: wb_inertial_unit_disable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 int wb_inertial_unit_get_sampling_period(WbDeviceTag tag) {
@@ -124,7 +124,7 @@ int wb_inertial_unit_get_sampling_period(WbDeviceTag tag) {
   if (inertial_unit)
     sampling_period = inertial_unit->sampling_period;
   else
-    fprintf(stderr, "Error: wb_inertial_unit_get_sampling_period(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return sampling_period;
 }
@@ -135,12 +135,10 @@ const double *wb_inertial_unit_get_roll_pitch_yaw(WbDeviceTag tag) {
   InertialUnit *inertial_unit = inertial_unit_get_struct(tag);
   if (inertial_unit) {
     if (inertial_unit->sampling_period <= 0)
-      fprintf(
-        stderr,
-        "Error: wb_inertial_unit_get_roll_pitch_yaw() called for a disabled device! Please use: wb_inertial_unit_enable().\n");
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_inertial_unit_enable().\n", __FUNCTION__);
     result = inertial_unit->rpy;
   } else
-    fprintf(stderr, "Error: wb_inertial_unit_get_roll_pitch_yaw(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }

@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   basicTimeStep 8
 }
@@ -19,7 +19,8 @@ TexturedBackgroundLight {
 DEF GROUND Solid {
   children [
     Shape {
-      appearance DarkParquetry {
+      appearance Parquetry {
+        type "dark strip"
         textureTransform TextureTransform {
           scale 100 100
         }

@@ -5,12 +5,8 @@ The [Supervisor API](#supervisor) can be used to access to extra functions that 
 
 > **Note**: Note that in some special cases the [Supervisor](#supervisor) functions might return wrong values and it might not be possible to retrieve fields and nodes.
 This occurs when closing a world and quitting its controllers, i.e. reloading the current world, opening a new world, or closing Webots.
-In this case the output will be a NULL pointer or a default value.
+In this case the return value will be a NULL pointer or a default value.
 For functions returning a string, an empty string is returned instead of a NULL pointer.
-
-<!-- -->
-
-> **Note** [C++, Java, Python]: It is a good practice to check for a NULL pointer after calling a [Supervisor](#supervisor) function.
 
 ### Supervisor Functions
 
@@ -19,6 +15,7 @@ As for a regular [Robot](robot.md) controller, the `wb_robot_init`, `wb_robot_st
 #### `wb_supervisor_node_get_root`
 #### `wb_supervisor_node_get_self`
 #### `wb_supervisor_node_get_from_def`
+#### `wb_supervisor_node_get_from_proto_def`
 #### `wb_supervisor_node_get_from_id`
 #### `wb_supervisor_node_get_selected`
 
@@ -32,6 +29,7 @@ As for a regular [Robot](robot.md) controller, the `wb_robot_init`, `wb_robot_st
 WbNodeRef wb_supervisor_node_get_root();
 WbNodeRef wb_supervisor_node_get_self();
 WbNodeRef wb_supervisor_node_get_from_def(const char *def);
+WbNodeRef wb_supervisor_node_get_from_proto_def(const char *def);
 WbNodeRef wb_supervisor_node_get_from_id(int id);
 WbNodeRef wb_supervisor_node_get_selected();
 ```
@@ -48,6 +46,7 @@ namespace webots {
     Node *getRoot();
     Node *getSelf();
     Node *getFromDef(const std::string &name);
+    Node *getFromProtoDef(const std::string &name);
     Node *getFromId(int id);
     Node *getSelected();
     // ...
@@ -66,6 +65,7 @@ class Supervisor (Robot):
     def getRoot(self):
     def getSelf(self):
     def getFromDef(self, name):
+    def getFromProtoDef(self, name):
     def getFromId(self, id):
     def getSelected(self):
     # ...
@@ -82,6 +82,7 @@ public class Supervisor extends Robot {
   public Node getRoot();
   public Node getSelf();
   public Node getFromDef(String name);
+  public Node getFromProtoDef(String name);
   public Node getFromId(int id);
   public Node getSelected();
   // ...
@@ -96,6 +97,7 @@ public class Supervisor extends Robot {
 node = wb_supervisor_node_get_root()
 node = wb_supervisor_node_get_self()
 node = wb_supervisor_node_get_from_def('def')
+node = wb_supervisor_node_get_from_proto_def('def')
 node = wb_supervisor_node_get_from_id(id)
 node = wb_supervisor_node_get_selected()
 ```
@@ -108,7 +110,7 @@ node = wb_supervisor_node_get_selected()
 | --- | --- | --- | --- |
 | `/supervisor/get_root` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
 | `/supervisor/get_self` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
-| `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`---`<br/>`uint64 node` |
+| `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`bool proto`<br/>`---`<br/>`uint64 node` |
 | `/supervisor/get_from_id` | `service` | `webots_ros::supervisor_get_from_id` | `int32 id`<br/>`---`<br/>`uint64 node` |
 | `/supervisor/get_selected` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
 
@@ -123,6 +125,7 @@ node = wb_supervisor_node_get_selected()
 The `wb_supervisor_node_get_from_def` function returns a handle to a node in the world from its DEF name.
 The return value can be used for subsequent calls to functions which require a `WbNodeRef` parameter.
 If the requested node does not exist in the current world file or is an internal node of a PROTO, the function returns NULL.
+If a handle to an internal node of a PROTO should be retrieve, the `wb_supervisor_node_get_from_proto_def` should be used instead.
 
 It is possible to use dots (.) as scoping operator in the DEF parameter.
 Dots can be used when looking for a specific node path in the node hierarchy.
@@ -281,6 +284,7 @@ typedef enum {
   WB_NODE_INDEXED_FACE_SET,
   WB_NODE_INDEXED_LINE_SET,
   WB_NODE_MATERIAL,
+  WB_NODE_MESH,
   WB_NODE_MUSCLE,
   WB_NODE_NORMAL,
   WB_NODE_PBR_APPEARANCE,
@@ -368,7 +372,7 @@ namespace webots {
       // 3D rendering
       APPEARANCE, BACKGROUND, BOX, CAPSULE, COLOR, CONE, COORDINATE,
       CYLINDER, DIRECTIONAL_LIGHT, ELEVATION_GRID, FOG, GROUP, IMAGE_TEXTURE,
-      INDEXED_FACE_SET, INDEXED_LINE_SET, MATERIAL, MUSCLE, NORMAL, PBR_APPEARANCE,
+      INDEXED_FACE_SET, INDEXED_LINE_SET, MATERIAL, MESH, MUSCLE, NORMAL, PBR_APPEARANCE,
       PLANE, POINT_LIGHT, POINT_SET, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
       TEXTURE_TRANSFORM, TRANSFORM, VIEWPOINT,
       // robots
@@ -405,7 +409,7 @@ class Node:
     # 3D rendering
     APPEARANCE, BACKGROUND, BOX, CAPSULE, COLOR, CONE, COORDINATE,
     CYLINDER, DIRECTIONAL_LIGHT, ELEVATION_GRID, FOG, GROUP, IMAGE_TEXTURE,
-    INDEXED_FACE_SET, INDEXED_LINE_SET, MATERIAL, MUSCLE, NORMAL, PBR_APPEARANCE,
+    INDEXED_FACE_SET, INDEXED_LINE_SET, MATERIAL, MESH, MUSCLE, NORMAL, PBR_APPEARANCE,
     PLANE, POINT_LIGHT, POINT_SET, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
     TEXTURE_TRANSFORM, TRANSFORM, VIEWPOINT,
     # robots
@@ -440,7 +444,7 @@ public class Node {
     // 3D rendering
     APPEARANCE, BACKGROUND, BOX, CAPSULE, COLOR, CONE, COORDINATE,
     CYLINDER, DIRECTIONAL_LIGHT, ELEVATION_GRID, FOG, GROUP, IMAGE_TEXTURE,
-    INDEXED_FACE_SET, INDEXED_LINE_SET, MATERIAL, MUSCLE, NORMAL, PBR_APPEARANCE,
+    INDEXED_FACE_SET, INDEXED_LINE_SET, MATERIAL, MESH, MUSCLE, NORMAL, PBR_APPEARANCE,
     PLANE, POINT_LIGHT, POINT_SET, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
     TEXTURE_TRANSFORM, TRANSFORM, VIEWPOINT,
     // robots
@@ -472,9 +476,9 @@ WB_NODE_NO_NODE,
 % 3D rendering
 WB_NODE_APPEARANCE, WB_NODE_BACKGROUND, WB_NODE_BOX, WB_NODE_CAPSULE,
 WB_NODE_COLOR, WB_NODE_CONE, WB_NODE_COORDINATE,
-WB_NODE_CYLINDER, WB_NODE_DIRECTIONAL_LIGHT, WB_NODE_ELEVATION_GRID,
-WB_NODE_FOG, WB_NODE_GROUP, WB_NODE_IMAGE_TEXTURE, WB_NODE_INDEXED_FACE_SET,
-WB_NODE_INDEXED_LINE_SET, WB_NODE_MATERIAL, WB_NODE_MUSCLE, WB_NODE_NORMAL,
+WB_NODE_CYLINDER, WB_NODE_DIRECTIONAL_LIGHT, WB_NODE_ELEVATION_GRID, WB_NODE_FOG,
+WB_NODE_GROUP, WB_NODE_IMAGE_TEXTURE, WB_NODE_INDEXED_FACE_SET, WB_NODE_INDEXED_LINE_SET,
+WB_NODE_MATERIAL, WB_NODE_MESH, WB_NODE_MUSCLE, WB_NODE_NORMAL,
 WB_NODE_PBR_APPEARANCE, WB_NODE_PLANE, WB_NODE_POINT_LIGHT, WB_NODE_POINT_SET,
 WB_NODE_SHAPE, WB_NODE_SPHERE, WB_NODE_SPOT_LIGHT, WB_NODE_TEXTURE_COORDINATE,
 WB_NODE_TEXTURE_TRANSFORM, WB_NODE_TRANSFORM, WB_NODE_VIEWPOINT,
@@ -619,6 +623,7 @@ The `wb_supervisor_node_remove` function removes the node specified as an argume
 ---
 
 #### `wb_supervisor_node_get_field`
+#### `wb_supervisor_node_get_proto_field`
 
 %tab-component "language"
 
@@ -628,6 +633,7 @@ The `wb_supervisor_node_remove` function removes the node specified as an argume
 #include <webots/supervisor.h>
 
 WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name);
+WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name);
 ```
 
 %tab-end
@@ -640,6 +646,7 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name);
 namespace webots {
   class Node {
     Field *getField(const std::string &fieldName) const;
+    Field *getProtoField(const std::string &fieldName) const;
     // ...
   }
 }
@@ -654,6 +661,7 @@ from controller import Node
 
 class Node:
     def getField(self, fieldName):
+    def getProtoField(self, fieldName):
     # ...
 ```
 
@@ -666,6 +674,7 @@ import com.cyberbotics.webots.controller.Node;
 
 public class Node {
   public Field getField(String fieldName);
+  public Field getProtoField(String fieldName);
   // ...
 }
 ```
@@ -676,6 +685,7 @@ public class Node {
 
 ```MATLAB
 field = wb_supervisor_node_get_field(node, 'field_name')
+field = wb_supervisor_node_get_proto_field(node, 'field_name')
 ```
 
 %tab-end
@@ -684,7 +694,7 @@ field = wb_supervisor_node_get_field(node, 'field_name')
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/supervisor/node/get_field` | `service` | `webots_ros::node_get_field` | `uint64 node`<br/>`string fieldName`<br/>`---`<br/>`uint64 field` |
+| `/supervisor/node/get_field` | `service` | `webots_ros::node_get_field` | `uint64 node`<br/>`string fieldName`<br/>`bool proto`<br/>`---`<br/>`uint64 field` |
 
 %tab-end
 
@@ -701,6 +711,10 @@ If no such field name exists for the specified node or the field is an internal 
 Otherwise, it returns a handler to a field.
 
 > **Note**: The `wb_supervisor_node_get_field` function will return a valid field handler if the field corresponding to the field name is an hidden field.
+
+If the field is an internal field of a PROTO, the `wb_supervisor_node_get_proto_field` function should be used instead.
+
+> **Note**: fields retrieved with the `wb_supervisor_node_get_proto_field` function are read-only. Which means that it is not possible to change them using any of the [`wb_supervisor_field_set_*`](#wb_supervisor_field_set_sf_bool) functions.
 
 ---
 
@@ -1175,13 +1189,13 @@ wb_supervisor_node_set_velocity(node, velocity)
 
 *get/set the angular and linear velocities of a Solid node.*
 
-The `wb_supervisor_node_get_velocity` function returns the absolute velocity (both linear and angular) of a node.
+The `wb_supervisor_node_get_velocity` function returns the absolute velocity (both linear and angular) of a node expressed in the global (world) coordinate system.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), otherwise the function will print a warning message and return 6 `NaN` (Not a Number) values.
 This function returns a vector containing exactly 6 values.
 The first three are respectively the linear velocities in the x, y and z direction.
 The last three are respectively the angular velocities around the x, y and z axes.
 
-The `wb_supervisor_node_set_velocity` function set the absolute velocity (both linear and angular) of a node.
+The `wb_supervisor_node_set_velocity` function sets the absolute velocity (both linear and angular) of a node expressed in the global (world) coordinate system.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), otherwise the function will print a warning message and have no effect.
 The `velocity` argument must be a vector containing exactly 6 values.
 The first three are respectively the linear velocities in the x, y and z direction.

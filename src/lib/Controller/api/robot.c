@@ -338,7 +338,7 @@ static char robot_read_data() {
 
     WbRequest *r = scheduler_read_data();
     while (r == NULL) {
-      fprintf(stderr, "Warning: robot_read_data(): received empty data request!\n");
+      fprintf(stderr, "Warning: %s(): received empty data request!\n", __FUNCTION__);
       r = scheduler_read_data();
     }
     while (request_is_over(r) == false) {
@@ -619,14 +619,14 @@ void wb_robot_task_new(void (*task)(void *), void *param) {  // create a task
   DWORD thread_id;
   HANDLE thread_handle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)task, param, 0, &thread_id);
   if (!thread_handle) {
-    fprintf(stderr, "wb_robot_task_new() failed to create new thread.");
+    fprintf(stderr, "Error: %s() failed to create new thread.\n", __FUNCTION__);
     exit(EXIT_FAILURE);
   }
 #else
   pthread_t thread;
   pthread_create(&thread, NULL, (void *(*)(void *))task, param);
 #endif
-  // cppcheck-suppress resourceLeak ; for thread_handle (which we don't need any more)
+  // cppcheck-suppress resourceLeak ; for thread_handle (which we don't need anymore)
 }
 
 WbMutexRef wb_robot_mutex_new() {
@@ -675,7 +675,7 @@ WbNodeType wb_robot_get_type() {
 
 void wb_robot_set_mode(WbRobotMode mode, const char *arg) {
   if (mode != WB_MODE_SIMULATION && mode != WB_MODE_REMOTE_CONTROL) {
-    fprintf(stderr, "Error: Cannot set mode to %d.\n", mode);
+    fprintf(stderr, "Error: %s() cannot set mode to %d.\n", __FUNCTION__, mode);
     return;
   }
   if (robot.mode == WB_MODE_REMOTE_CONTROL && mode == WB_MODE_SIMULATION && remote_control_is_initialized()) {
@@ -689,7 +689,7 @@ void wb_robot_set_mode(WbRobotMode mode, const char *arg) {
       robot.toggle_remote_first_step = true;
       return;
     } else
-      fprintf(stderr, "Error: Starting the remote control library (wbr_start) failed\n");
+      fprintf(stderr, "Error: %s(): starting the remote control library (wbr_start) failed\n", __FUNCTION__);
   }
   robot.mode = WB_MODE_SIMULATION;
 }
@@ -726,14 +726,14 @@ WbDeviceTag wb_robot_get_device_by_index(int index) {
   if (index >= 0 && index < wb_robot_get_number_of_devices())
     return (WbDeviceTag)index + 1;  // the first item is the robot and not a device
   else {
-    fprintf(stderr, "Error: The index of wb_robot_get_device_by_index() is out of the bounds.\n");
+    fprintf(stderr, "Error: The index of %s() is out of the bounds.\n", __FUNCTION__);
     return 0;
   }
 }
 
 WbDeviceTag wb_robot_get_device(const char *name) {
   if (!name || !name[0]) {
-    fprintf(stderr, "Error: wb_robot_get_device() called with NULL or empty argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL or empty argument.\n", __FUNCTION__);
     return 0;
   }
 
@@ -770,8 +770,7 @@ void wb_robot_battery_sensor_disable() {
 
 double wb_robot_battery_sensor_get_value() {
   if (robot.battery_sampling_period <= 0)
-    fprintf(stderr, "Error: wb_robot_battery_sensor_get_value() called for a disabled device! Please use: "
-                    "wb_robot_battery_sensor_enable().\n");
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_robot_battery_sensor_enable().\n", __FUNCTION__);
   double result;
   robot_mutex_lock_step();
   result = robot.battery_value;
@@ -789,7 +788,7 @@ int wb_robot_battery_sensor_get_sampling_period() {
 
 void wbr_robot_battery_sensor_set_value(double value) {
   if (value < 0)
-    fprintf(stderr, "Error: wbr_robot_battery_sensor_set_value() received negative value, new value ignored.\n");
+    fprintf(stderr, "Error: %s() received negative value, new value ignored.\n", __FUNCTION__);
   else
     robot.battery_value = value;
 }
@@ -847,22 +846,28 @@ WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type,
   bool valid = event_type == WB_EVENT_NO_EVENT;
   if (event_type & (WB_EVENT_MOUSE_CLICK | WB_EVENT_MOUSE_MOVE)) {
     if (wb_mouse_get_sampling_period() <= 0)
-      fprintf(stderr, "Error: wb_robot_wait_for_user_input_event() called with an event type including the mouse, but the "
-                      "mouse is disabled, please enable it with 'wb_mouse_enable'.\n");
+      fprintf(stderr,
+              "Error: %s() called with an event type including the mouse, but the mouse is disabled, please enable it with "
+              "wb_mouse_enable().\n",
+              __FUNCTION__);
     else
       valid = true;
   }
   if (event_type & WB_EVENT_KEYBOARD) {
     if (wb_keyboard_get_sampling_period() <= 0)
-      fprintf(stderr, "Error: wb_robot_wait_for_user_input_event() called with an event type including the keyboard, but the "
-                      "keyboard is disabled, please enable it with 'wb_keyboard_enable'.\n");
+      fprintf(stderr,
+              "Error: %s() called with an event type including the keyboard, but the keyboard is disabled, please enable it "
+              "with wb_keyboard_enable().\n",
+              __FUNCTION__);
     else
       valid = true;
   }
   if (event_type & (WB_EVENT_JOYSTICK_BUTTON | WB_EVENT_JOYSTICK_AXIS | WB_EVENT_JOYSTICK_POV)) {
     if (wb_joystick_get_sampling_period() <= 0)
-      fprintf(stderr, "Error: wb_robot_wait_for_user_input_event() called with an event type including a joystick, but no "
-                      "joystick is enabled, please enable it with 'wb_joystick_enable'.\n");
+      fprintf(stderr,
+              "Error: %s() called with an event type including a joystick, but no joystick is enabled, please enable it with "
+              "wb_joystick_enable().\n",
+              __FUNCTION__);
     else
       valid = true;
   }
