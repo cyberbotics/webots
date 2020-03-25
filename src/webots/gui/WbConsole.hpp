@@ -101,6 +101,7 @@ private:
   QString mFgColor;
   QString mBgColor;
   bool mBold;
+  bool mUnderline;
   bool mIsOverwriteEnabled;
   QString mPrefix;
 

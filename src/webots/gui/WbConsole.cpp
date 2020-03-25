@@ -33,14 +33,10 @@
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QStyle>
 
-#include <QtCore/QtDebug>
-
 #include <cassert>
 #include <iostream>
 
 #include <ode/ode.h>  // for message handlers
-
-using namespace std;
 
 // plain text edit with single line highlighting
 class ConsoleEdit : public QPlainTextEdit {
@@ -215,6 +211,7 @@ WbConsole::WbConsole(QWidget *parent) :
   mEditor(new ConsoleEdit(this)),
   mErrorPatterns(createErrorMatchingPatterns()),  // patterns for error matching
   mBold(false),
+  mUnderline(false),
   mIsOverwriteEnabled(false),  // option to overwrite last line
   mFindDialog(NULL),
   mTextFind(new WbTextFind(mEditor)) {
@@ -293,7 +290,7 @@ QString WbConsole::htmlSpan(const QString &s, WbLog::Level level) const {
     bold = mBold;
   }
   QString span("<span");
-  if (!fgColor.isEmpty() || bold) {
+  if (!fgColor.isEmpty() || bold || mUnderline) {
     span += " style=\"";
     if (!fgColor.isEmpty() && mBgColor.isEmpty())
       span += "color:" + fgColor + ";";
@@ -303,6 +300,8 @@ QString WbConsole::htmlSpan(const QString &s, WbLog::Level level) const {
     }
     if (bold)
       span += "font-weight:bold;";
+    if (mUnderline)
+      span += "text-decoration:underline;";
     span += "\"";
   }
   span += ">" + s.toHtmlEscaped() + "</span>";
@@ -421,8 +420,11 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
           mFgColor = ansiBlack();
           mBgColor.clear();
           mBold = false;
-        } else if (code == "1")  // bold
+          mUnderline = false;
+        } else if (code == "1")
           mBold = true;
+        else if (code == "4")
+          mUnderline = true;
         else if (code.startsWith("2")) {
           const char c = code.toLocal8Bit().data()[1];
           if (c == 'J') {
