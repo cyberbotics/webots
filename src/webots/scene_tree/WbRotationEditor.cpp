@@ -178,6 +178,7 @@ void WbRotationEditor::updateRotationType(int index) {
   for (int i = 0; i < 4; ++i) {
     mLabel[i]->setText(LABELS[mRotationTypeComboBox->currentIndex()][i]);
     mUnitLabel[i]->setText(UNITS[mRotationTypeComboBox->currentIndex()][i]);
+    mSpinBoxes[i]->setMode(i == 3 && index == AXIS_ANGLE ? WbFieldDoubleSpinBox::RADIANS : WbFieldDoubleSpinBox::AXIS);
   }
   mCurrentRotationType = index;
   updateSpinBoxes();

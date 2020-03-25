@@ -49,6 +49,14 @@ void WbFieldDoubleSpinBox::setValueNoSignals(double value) {
   blockSignals(false);
 }
 
+void WbFieldDoubleSpinBox::setMode(int mode) {
+  mDecimals = 0;
+  mMode = mode;
+  if (mMode == RGB)
+    setRange(0.0, 1.0);
+  findDecimals(text());
+}
+
 void WbFieldDoubleSpinBox::stepBy(int steps) {
   double value = text().toDouble();
 
