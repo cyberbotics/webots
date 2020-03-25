@@ -10,18 +10,29 @@ class Server { // eslint-disable-line no-unused-vars
     // "ws(s)://cyberbotics1.epfl.ch:80/simple/worlds/simple.wbt", or
     // "wss://cyberbotics1.epfl.ch/1999/session
     //  ?url=https://github.com/cyberbotics/webots/tree/master/projects/languages/python&branch=1"
-    const n = url.indexOf('/', 6);
-    const m = url.lastIndexOf('/');
-    this.project = url.substring(n + 1, m - 7); // e.g., "simple"
-    this.worldFile = url.substring(m + 1); // e.g., "simple.wbt"
+    const n = this.url.indexOf('/session?url=', 6);
+    if (n === -1) {
+      const m = url.lastIndexOf('/');
+      this.project = url.substring(this.url.indexOf('/', 6) + 1, m - 7); // e.g., "simple"
+      this.worldFile = url.substring(m + 1); // e.g., "simple.wbt"
+    } else {
+      const m = this.url.indexOf('&branch=', n + 24);
+      if (m === -1) {
+        this.repository = this.url.substring(n + 13);
+        this.branch = 0;
+      } else {
+        this.repository = this.url.substring(n + 13, m);
+        this.branch = parseInt(this.url.substring(m + 8));
+      }
+    }
     this.controllers = [];
   }
 
   connect() {
-    var xhr = new XMLHttpRequest();
-    const n = this.url.indexOf('/', 6);
-    const url = 'http' + this.url.substring(2, n); // e.g., "http(s)://cyberbotics1.epfl.ch:80"
-    xhr.open('GET', url + '/session', true);
+    let xhr = new XMLHttpRequest();
+    const n = this.url.indexOf('/session?url=', 6);
+    const url = 'http' + (n > 0 ? this.url.substring(2, n + 8) : this.url.substring(2, this.url.indexOf('/', 6)) + '/session');
+    xhr.open('GET', url, true);
     $('#webotsProgressMessage').html('Connecting to session server...');
     xhr.onreadystatechange = (e) => {
       if (xhr.readyState !== 4)
@@ -50,22 +61,26 @@ class Server { // eslint-disable-line no-unused-vars
   }
 
   onOpen(event) {
-    var host = location.protocol + '//' + location.host.replace(/^www./, ''); // remove 'www' prefix
-    if (typeof webots.User1Id === 'undefined')
-      webots.User1Id = '';
-    if (typeof webots.User1Name === 'undefined')
-      webots.User1Name = '';
-    if (typeof webots.User1Authentication === 'undefined')
-      webots.User1Authentication = '';
-    if (typeof webots.User2Id === 'undefined')
-      webots.User2Id = '';
-    if (typeof webots.User2Name === 'undefined')
-      webots.User2Name = '';
-    if (typeof webots.CustomData === 'undefined')
-      webots.CustomData = '';
-    this.socket.send('{ "init" : [ "' + host + '", "' + this.project + '", "' + this.worldFile + '", "' +
-              webots.User1Id + '", "' + webots.User1Name + '", "' + webots.User1Authentication + '", "' +
-              webots.User2Id + '", "' + webots.User2Name + '", "' + webots.CustomData + '" ] }');
+    if (this.repository)
+      this.socket.send(`{"start":{"url":"${this.repository}","branch":${this.branch}}}`);
+    else { // legacy format
+      const host = location.protocol + '//' + location.host.replace(/^www./, ''); // remove 'www' prefix
+      if (typeof webots.User1Id === 'undefined')
+        webots.User1Id = '';
+      if (typeof webots.User1Name === 'undefined')
+        webots.User1Name = '';
+      if (typeof webots.User1Authentication === 'undefined')
+        webots.User1Authentication = '';
+      if (typeof webots.User2Id === 'undefined')
+        webots.User2Id = '';
+      if (typeof webots.User2Name === 'undefined')
+        webots.User2Name = '';
+      if (typeof webots.CustomData === 'undefined')
+        webots.CustomData = '';
+      this.socket.send('{ "init" : [ "' + host + '", "' + this.project + '", "' + this.worldFile + '", "' +
+                webots.User1Id + '", "' + webots.User1Name + '", "' + webots.User1Authentication + '", "' +
+                webots.User2Id + '", "' + webots.User2Name + '", "' + webots.CustomData + '" ] }');
+    }
     $('#webotsProgressMessage').html('Starting simulation...');
   }
 
