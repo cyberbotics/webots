@@ -452,7 +452,7 @@ if (finished) {
 
 Note that the exit status as well as the value returned by the `main` function are ignored by Webots.
 
-### Console output
+### Console Output
 
 As mentionned above, outputting something from the controller will be redirected by Webots to the console. The Webots console can not be used interactively but still supports some basic ANSI sequences. One can output text with certain style, using color for example.
 
