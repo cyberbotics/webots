@@ -105,7 +105,7 @@ QWizardPage *WbImportWizard::createIntroPage() {
                   "\n\t- Blender (*.blend)"
                   "\n\t- Collada (*.dae)"
                   "\n\t- Filmbox (*.fbx)"
-                  "\n\t- STEP (*.stp)"
+                  "\n\t- STEP (*.stp, *.step)"
                   "\n\t- STL (*.stl)"
                   "\n\t- VRML (*.wrl)"
                   "\n\t- Wavefront (*.obj)"
