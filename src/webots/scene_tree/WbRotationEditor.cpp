@@ -24,6 +24,7 @@
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QPushButton>
 
 static const QVector<QStringList> LABELS(QVector<QStringList>() << (QStringList() << "x:"
                                                                                   << "y:"
@@ -60,6 +61,9 @@ WbRotationEditor::WbRotationEditor(QWidget *parent) : WbValueEditor(parent), mAp
     mUnitLabel[i] = new QLabel(UNITS[AXIS_ANGLE][i], this);
     mLayout->addWidget(mUnitLabel[i], i + 2, 2);
   }
+  mNormalizeButton = new QPushButton(tr("Normalize"), this);
+  mLayout->addWidget(mNormalizeButton, 7, 1);
+  connect(mNormalizeButton, &QPushButton::pressed, this, &WbRotationEditor::normalize);
 }
 
 WbRotationEditor::~WbRotationEditor() {
@@ -162,6 +166,11 @@ void WbRotationEditor::apply() {
   mApplied = true;
   WbValueEditor::apply();
   mApplied = false;
+}
+
+void WbRotationEditor::normalize() {
+  applyIfNeeded();
+  updateSpinBoxes();
 }
 
 void WbRotationEditor::updateRotationType(int index) {

@@ -24,6 +24,7 @@
 
 class WbFieldDoubleSpinBox;
 class QLabel;
+class QPushButton;
 
 class WbRotationEditor : public WbValueEditor {
   Q_OBJECT
@@ -48,6 +49,7 @@ protected:
 
 protected slots:
   void apply() override;
+  void normalize();
   void updateRotationType(int index);
 
 private:
@@ -62,6 +64,7 @@ private:
   WbFieldDoubleSpinBox *mSpinBoxes[4];
   QLabel *mLabel[4];
   QLabel *mUnitLabel[4];
+  QPushButton *mNormalizeButton;
 
   bool mApplied;
 };
