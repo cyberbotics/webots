@@ -3,15 +3,15 @@
 
 class Server { // eslint-disable-line no-unused-vars
   constructor(url, view, onready) {
+    this.url = url;
     this.view = view;
     this.onready = onready;
-
-    // url has the following form: "ws(s)://cyberbotics1.epfl.ch:80/simple/worlds/simple.wbt"
-    // or "wss://cyberbotics1.epfl.ch/session?url=https://github.com/cyberbotics/webots/tree/master/projects/languages/python
-    // &branch=1"
-    var n = url.indexOf('/', 6);
-    var m = url.lastIndexOf('/');
-    this.url = 'http' + url.substring(2, n); // e.g., "http(s)://cyberbotics1.epfl.ch:80"
+    // url has one of the following form:
+    // "ws(s)://cyberbotics1.epfl.ch:80/simple/worlds/simple.wbt", or
+    // "wss://cyberbotics1.epfl.ch/1999/session
+    //  ?url=https://github.com/cyberbotics/webots/tree/master/projects/languages/python&branch=1"
+    const n = url.indexOf('/', 6);
+    const m = url.lastIndexOf('/');
     this.project = url.substring(n + 1, m - 7); // e.g., "simple"
     this.worldFile = url.substring(m + 1); // e.g., "simple.wbt"
     this.controllers = [];
@@ -19,7 +19,9 @@ class Server { // eslint-disable-line no-unused-vars
 
   connect() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', this.url + '/session', true);
+    const n = this.url.indexOf('/', 6);
+    const url = 'http' + this.url.substring(2, n); // e.g., "http(s)://cyberbotics1.epfl.ch:80"
+    xhr.open('GET', url + '/session', true);
     $('#webotsProgressMessage').html('Connecting to session server...');
     xhr.onreadystatechange = (e) => {
       if (xhr.readyState !== 4)

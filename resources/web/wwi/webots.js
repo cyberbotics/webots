@@ -162,6 +162,17 @@ webots.View = class View {
     this.mode = mode;
 
     var initWorld = () => {
+      function findGetParameter(parameterName) {
+        let result = null;
+        let tmp = [];
+        let items = window.location.search.substr(1).split('&');
+        for (let index = 0; index < items.length; index++) {
+          tmp = items[index].split('=');
+          if (tmp[0] === parameterName)
+            result = decodeURIComponent(tmp[1]);
+        }
+        return result;
+      }
       if (this.isWebSocketProtocol) {
         this.progress = document.createElement('div');
         this.progress.id = 'webotsProgress';
@@ -173,7 +184,9 @@ webots.View = class View {
         if (typeof this.toolBar === 'undefined')
           this.toolBar = new Toolbar(this.view3D, this);
 
-        if (this.url.endsWith('.wbt')) { // url expected form: "ws://localhost:80/simple/worlds/simple.wbt"
+        const url = findGetParameter('url');
+        if (url || this.url.endsWith('.wbt')) { // url expected form: "wss://localhost:1999/simple/worlds/simple.wbt" or
+          // "wss://localhost/1999/?url=https://github.com/cyberbotics/webots/tree/master/projects/languages/python&branch=1"
           var callback;
           if (this.mode === 'video')
             callback = this.video.finalize;
