@@ -77,7 +77,7 @@ In order to reset the simulation, the following steps are performed:
 
 - The **Print...** menu item opens a window allowing you to print the current file of the text editor.
 
-- The **Import Model...** menu item import 3D objects at the end of the scene tree.
+- The **Import 3D Model...** menu item import 3D objects at the end of the scene tree.
 This feature is useful for importing complex objects that were modeled in a 3D modeling program.
 Once imported, these objects appear as [Group](../reference/group.md), [Transform](../reference/transform.md), [Solid](../reference/solid.md) or [Shape](../reference/shape.md) nodes at the bottom of the scene tree.
 You can then either turn these objects into Webots nodes (e.g. [Robot](../reference/robot.md)) or cut and paste them into the `children` list of existing Webots nodes.
