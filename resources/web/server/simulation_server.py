@@ -166,12 +166,12 @@ class Client:
             return False
         username = parts[0]
         repository = parts[1]
-        if self.tag:
-            tag = parts[3]
-            branch = ''
-        else:
+        if self.branch:
             branch = parts[3]
             tag = ''
+        else:
+            branch = ''
+            tag = parts[3]
         folder = '/'.join(parts[4:])
         url = 'https://github.com/' + username + '/' + repository + '/'
         if branch == 'master':
@@ -443,13 +443,11 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
             elif 'start' in data:  # checkout a github folder and run a simulation in there
                 client.streaming_server_port = ClientWebSocketHandler.next_available_port()
                 url = data['start']['url']
-                tag = int(data['start']['tag']) if 'tag' in data['start'] else 0
-                world = data['start']['world'] if 'world' in data['start'] else ''
-                logging.info('starting ' + world + ' from ' + url + ' (' + str(tag) + ')')
-                self.write_message('starting ' + world + ' from ' + url + ' (' + str(tag) + ')')
+                branch = int(data['start']['branch']) if 'branch' in data['start'] else 0
+                logging.info('starting simulation from ' + url + ' (' + str(branch) + ')')
+                self.write_message('starting simulation from<br>' + url + ' (' + str(branch) + ')')
                 client.url = url
-                client.tag = tag
-                client.world = world
+                client.branch = branch
                 self.start_client()
 
     def on_webots_quit(self):
