@@ -515,8 +515,7 @@ class MonitorHandler(tornado.web.RequestHandler):
             computer = wmi.WMI()
             os_info = computer.Win32_OperatingSystem()[0]
             cpu = computer.Win32_Processor()[0].Name
-            os_name = os_info.Name.encode('utf-8').split('|')[0] + ", version "
-            os_name += os_info.Version
+            os_name = os_info.Name.split('|')[0] + ", version " + os_info.Version
         elif sys.platform == 'darwin':
             os_name = 'macOS ' + platform.mac_ver()[0]
             os.environ['PATH'] = os.environ['PATH'] + os.pathsep + '/usr/sbin'
