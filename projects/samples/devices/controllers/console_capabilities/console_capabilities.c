@@ -6,8 +6,7 @@
 
 #define TIME_STEP 64
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
   wb_robot_init();
 
   PRINT_IN_RED("Red text!");
@@ -40,4 +39,3 @@ int main(int argc, char **argv)
   wb_robot_cleanup();
   return 0;
 }
-
