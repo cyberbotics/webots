@@ -62,7 +62,7 @@ jobs:
       language: generic     # Travis doesn't support python on macos yet
       addons:
         homebrew:
-          update: true  # TODO: this should be removed once this bug is fixed: https://travis-ci.community/t/macos-build-fails-because-of-homebrew-bundle-unknown-command/7296
+#          update: true  # TODO: this should be removed once this bug is fixed: https://travis-ci.community/t/macos-build-fails-because-of-homebrew-bundle-unknown-command/7296
           packages:
             - clang-format
             - cppcheck
@@ -235,7 +235,7 @@ jobs:
       language: generic     # Travis doesn't support python on macos yet
       addons: &mac_addons
         homebrew:
-          update: true  # TODO: this should be removed once this bug is fixed: https://travis-ci.community/t/macos-build-fails-because-of-homebrew-bundle-unknown-command/7296
+#          update: true  # TODO: this should be removed once this bug is fixed: https://travis-ci.community/t/macos-build-fails-because-of-homebrew-bundle-unknown-command/7296
           packages:
             - python
             - cmake
