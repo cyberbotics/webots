@@ -9,6 +9,7 @@ Released on XXX.
   - Enhancements
     - **Improved [Track](track.md) `textureAnimation` field so that it automatically takes the world basic time step into consideration and removed it from `ConveyorBelt` PROTO object.** ([#1477](https://github.com/cyberbotics/webots/pull/1477)).
     - Added the possibility to edit the `S/MFRotation` fields using quaternions ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
+    - Improved edition of `S/MFRotation` fields using the field editor spin-boxes, only the last decimal is now incremented ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
 
 ## Webots R2020a Revision 2
 Released on XXX.
