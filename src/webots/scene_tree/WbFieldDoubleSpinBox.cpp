@@ -67,8 +67,8 @@ void WbFieldDoubleSpinBox::stepBy(int steps) {
       break;
     }
     case AXIS:
-      // rotation axis: change between -1, 0, 1
-      value += steps;
+      // rotation axis: change the last decimal and bound between -1, 0, 1
+      value += pow(10, -mDecimals) * steps;
       value = qBound(-1.0, value, 1.0);
       break;
     case RGB:
@@ -85,7 +85,7 @@ void WbFieldDoubleSpinBox::stepBy(int steps) {
 }
 
 void WbFieldDoubleSpinBox::findDecimals(const QString &text) {
-  if (mMode != NORMAL && mMode != RGB)
+  if (mMode == RADIANS)
     return;
 
   // find current decimal position
@@ -107,7 +107,7 @@ void WbFieldDoubleSpinBox::keyPressEvent(QKeyEvent *event) {
     WbUndoStack::instance()->redo();
   else
     WbDoubleSpinBox::keyPressEvent(event);
-};
+}
 
 void WbFieldDoubleSpinBox::keyReleaseEvent(QKeyEvent *event) {
   QDoubleSpinBox::keyReleaseEvent(event);
