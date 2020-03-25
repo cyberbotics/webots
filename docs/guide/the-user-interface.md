@@ -83,12 +83,10 @@ Once imported, these objects appear as [Group](../reference/group.md), [Transfor
 You can then either turn these objects into Webots nodes (e.g. [Robot](../reference/robot.md)) or cut and paste them into the `children` list of existing Webots nodes.
 The following formats are supported:
   - [3D Studio mesh](https://wiki.fileformat.com/3d/3ds) files (.3ds).
-  - [AutoCAD DXF](https://en.wikipedia.org/wiki/AutoCAD_DXF) files (.dxf).
   - [Blender](https://www.blender.org/) files (.blend).
   - [Biovision Hierarchy](https://en.wikipedia.org/wiki/Biovision_Hierarchy) files (.bhv).
   - [Collada](https://en.wikipedia.org/wiki/COLLADA) files (.dae).
   - [Filmbox](https://en.wikipedia.org/wiki/FBX) files (.fbx).
-  - [STEP](https://en.wikipedia.org/wiki/ISO_10303-21) files (.stp or .step).
   - [STL](https://en.wikipedia.org/wiki/STL_(file_format)) files (.stl).
   - [VRML](https://en.wikipedia.org/wiki/VRML) files (.wrl).
   - [Wavefront](https://wiki.fileformat.com/3d/obj) files (.obj).
