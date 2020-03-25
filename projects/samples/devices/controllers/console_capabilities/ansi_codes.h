@@ -54,4 +54,3 @@
 #define CONSOLE_CLEAR puts(ANSI_CLEAR_SCREEN)
 
 #endif
-
