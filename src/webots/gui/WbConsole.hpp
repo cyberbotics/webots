@@ -98,9 +98,9 @@ private:
   QString mAnsiBlack, mAnsiRed, mAnsiGreen, mAnsiYellow, mAnsiBlue, mAnsiMagenta, mAnsiCyan, mAnsiWhite;
   ConsoleEdit *mEditor;
   QRegExp **mErrorPatterns;
-  QString mColor;
+  QString mFgColor;
+  QString mBgColor;
   bool mBold;
-  bool mBgColor;
   bool mIsOverwriteEnabled;
   QString mPrefix;
 

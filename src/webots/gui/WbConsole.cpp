@@ -215,7 +215,6 @@ WbConsole::WbConsole(QWidget *parent) :
   mEditor(new ConsoleEdit(this)),
   mErrorPatterns(createErrorMatchingPatterns()),  // patterns for error matching
   mBold(false),
-  mBgColor(false),
   mIsOverwriteEnabled(false),  // option to overwrite last line
   mFindDialog(NULL),
   mTextFind(new WbTextFind(mEditor)) {
@@ -276,37 +275,37 @@ QString WbConsole::htmlSpan(const QString &s, WbLog::Level level) const {
   if (s.isEmpty() || s == "\n")
     return "";
 
-  QString color;
-  bool bgColor = mBgColor; // QString instead
+  QString fgColor;
   bool bold;
 
   if (level == WbLog::ERROR || level == WbLog::FATAL || level == WbLog::STDERR) {
-    color = errorColor();
+    fgColor = errorColor();
     bold = true;
   } else if (level == WbLog::WARNING || level == WbLog::DEBUG) {
-    color = errorColor();
+    fgColor = errorColor();
     bold = false;
   } else if (level == WbLog::INFO || level == WbLog::STATUS) {
-    color = infoColor();
+    fgColor = infoColor();
     bold = false;
   } else {
     assert(level == WbLog::STDOUT);
-    color = mColor;
+    fgColor = mFgColor;
     bold = mBold;
   }
   QString span("<span");
-  if (!color.isEmpty() || bold) {
+  if (!fgColor.isEmpty() || bold) {
     span += " style=\"";
-    if (!color.isEmpty() && !bgColor)
-      span += "color:" + color + ";";
-    else if (!color.isEmpty() && bgColor)
-      span += "background-color:" + color + ";"; // Add backgroundColor as qstring
+    if (!fgColor.isEmpty() && mBgColor.isEmpty())
+      span += "color:" + fgColor + ";";
+    else if (!fgColor.isEmpty() && !mBgColor.isEmpty()) {
+      span += "color:" + fgColor + ";";
+      span += "background-color:" + mBgColor + ";";
+    }
     if (bold)
       span += "font-weight:bold;";
     span += "\"";
   }
   span += ">" + s.toHtmlEscaped() + "</span>";
-
   return span;
 }
 
@@ -406,11 +405,8 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
   int i = msg.indexOf("\033[");
   if (i != -1) {  // contains ANSI escape sequences
     QString html;
-    if (i != 0) {
-      cout << endl;
-      qDebug() << " raw msg" << msg;
+    if (i != 0)
       html = htmlSpan(msg.mid(0, i), level);  // add the text before the ANSI escape sequence
-    }
     while (1) {
       i += 2;  // skip the "\033[" chars
       QString sequence;
@@ -420,64 +416,84 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
 
       const QStringList codes(sequence.split(";"));  // handle multiple (e.g. sequence "ESC[0;39m" )
       foreach (const QString code, codes) {
-        // std::cout << "foreach" << std::endl;
         // the stored sequence may be "0" or "1", "30", "31", "32", etc.
         if (code == "0") {  // reset to default
-          // std::cout << "default" << std::endl;
-          mColor = ansiBlack();
-          mBgColor = false;
+          mFgColor = ansiBlack();
+          mBgColor.clear();
           mBold = false;
         } else if (code == "1")  // bold
           mBold = true;
         else if (code.startsWith("2")) {
-          std::cout << "clear" << std::endl;
           const char c = code.toLocal8Bit().data()[1];
           if (c == 'J') {
             WbLog::clear();
-            html.clear();  // nothing to display since clear has been done
+            html.clear();  // nothing to output since clear has been done
           }
-        } else if (code.startsWith("3") || code.startsWith("4")) {  // foreground color change
-          if (code.startsWith("4"))
-            mBgColor = true;
-          else
-            mBgColor = false;
+        } else if (code.startsWith("3")) {  // foreground color change
           const char c = code.toLocal8Bit().data()[1];
           switch (c) {
             case '1':
-              mColor = ansiRed();
+              mFgColor = ansiRed();
               break;
             case '2':
-              mColor = ansiGreen();
+              mFgColor = ansiGreen();
               break;
             case '3':
-              mColor = ansiYellow();
+              mFgColor = ansiYellow();
               break;
             case '4':
-              mColor = ansiBlue();
+              mFgColor = ansiBlue();
               break;
             case '5':
-              mColor = ansiMagenta();
+              mFgColor = ansiMagenta();
               break;
             case '6':
-              mColor = ansiCyan();
+              mFgColor = ansiCyan();
               break;
             case '7':
-              mColor = ansiWhite();
+              mFgColor = ansiWhite();
               break;
             case '9':  // 39 - Default text color
             default:
-              mColor = ansiBlack();
+              mFgColor = ansiBlack();
+              break;
+          }
+        } else if (code.startsWith("4")) {  // background color change
+          const char c = code.toLocal8Bit().data()[1];
+          switch (c) {
+            case '1':
+              mBgColor = ansiRed();
+              break;
+            case '2':
+              mBgColor = ansiGreen();
+              break;
+            case '3':
+              mBgColor = ansiYellow();
+              break;
+            case '4':
+              mBgColor = ansiBlue();
+              break;
+            case '5':
+              mBgColor = ansiMagenta();
+              break;
+            case '6':
+              mBgColor = ansiCyan();
+              break;
+            case '7':
+              mBgColor = ansiWhite();
+              break;
+            case '9':  // 39 - Default text color
+            default:
+              mBgColor = ansiBlack();
               break;
           }
         }
       }
-
       int j = i;
       i = msg.indexOf("\033[", i);
       if (i == -1) {  // Previous escape code was the last one found
         const QString remains(msg.mid(j));
         html += htmlSpan(remains, level);
-        qDebug() << "final msg" << html;
         handleCRAndLF(html);
         return;
       }
@@ -485,8 +501,6 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
         html += htmlSpan(msg.mid(j, i - j), level);
       }
     }
-    qDebug() << "when ?" << html;
-    handleCRAndLF(html);  // We are never passing here
   } else
     handleCRAndLF(htmlSpan(msg, level));
 }
