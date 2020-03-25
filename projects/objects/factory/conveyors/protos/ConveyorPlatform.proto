@@ -58,7 +58,31 @@ PROTO ConveyorPlatform [
             }
           }
         ]
-        boundingObject USE conveyor_belt_BO
+        boundingObject Group {
+          children [
+            USE conveyor_belt_BO
+            DEF belt_1 Transform {
+              translation 0 0 -0.04
+              children [
+                Shape {
+                  geometry Box {
+                    size 0.8 0.047 0.08
+                  }
+                }
+              ]
+            }
+            DEF belt_2 Transform {
+              translation 0 0 0.14
+              children [
+                Shape {
+                  geometry Box {
+                    size 0.8 0.047 0.08
+                  }
+                }
+              ]
+            }
+          ]
+        }
         physics Physics {
           density -1
           mass 1
@@ -579,26 +603,6 @@ PROTO ConveyorPlatform [
             Shape {
               geometry Box {
                 size 0.04 0.05 0.41
-              }
-            }
-          ]
-        }
-        DEF belt_1 Transform {
-          translation 0 0 -0.04
-          children [
-            Shape {
-              geometry Box {
-                size 0.8 0.047 0.08
-              }
-            }
-          ]
-        }
-        DEF belt_2 Transform {
-          translation 0 0 0.14
-          children [
-            Shape {
-              geometry Box {
-                size 0.8 0.047 0.08
               }
             }
           ]
