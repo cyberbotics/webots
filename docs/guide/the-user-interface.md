@@ -88,7 +88,7 @@ The following formats are supported:
   - [Biovision Hierarchy](https://en.wikipedia.org/wiki/Biovision_Hierarchy) files (.bhv).
   - [Collada](https://en.wikipedia.org/wiki/COLLADA) files (.dae).
   - [Filmbox](https://en.wikipedia.org/wiki/FBX) files (.fbx).
-  - [STEP](https://en.wikipedia.org/wiki/ISO_10303-21) files (.stp).
+  - [STEP](https://en.wikipedia.org/wiki/ISO_10303-21) files (.stp or .step).
   - [STL](https://en.wikipedia.org/wiki/STL_(file_format)) files (.stl).
   - [VRML](https://en.wikipedia.org/wiki/VRML) files (.vrml).
   - [Wavefront](https://wiki.fileformat.com/3d/obj) files (.obj).
