@@ -452,6 +452,19 @@ if (finished) {
 
 Note that the exit status as well as the value returned by the `main` function are ignored by Webots.
 
+### Console output
+
+As mentionned above, outputting something from the controller will be redirected by Webots to the console. The Webots console can not be used interactively but still supports some basic ANSI sequences. One can output text with certain style, using color for example.
+
+Currently the console supports the following:
+  - 8 bit color (foreground and background)
+  - Bold style
+  - Underline style
+  - Clear screen (same as issuing `clear` command in your terminal)
+  - Resetting style
+
+There is a world example in webots: samples/devices/console_capabilities or at `$WEBOTS_HOME/projects/samples/devices/controllers/console_capabilities` to demonstrate how to use those.
+
 ### Shared Libraries
 
 Creating shared libraries can be very useful to share code between controllers and/or plugins.
