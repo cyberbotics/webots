@@ -501,8 +501,8 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
         html += htmlSpan(msg.mid(j, i - j), level);
       }
     }
-  } else
-    handleCRAndLF(htmlSpan(msg, level));
+  }
+  handleCRAndLF(htmlSpan(msg, level));
 }
 
 void WbConsole::appendLog(WbLog::Level level, const QString &message, const QString &prefix, bool popup) {
