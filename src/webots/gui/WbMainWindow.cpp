@@ -472,7 +472,7 @@ QMenu *WbMainWindow::createFileMenu() {
     menu->addSeparator();
   }
   action = new QAction(this);
-  action->setText(tr("&Import Model..."));
+  action->setText(tr("&Import 3D Model..."));
   action->setStatusTip(tr("Add a 3D object to the Scene Tree."));
   action->setToolTip(action->statusTip());
   connect(action, &QAction::triggered, this, &WbMainWindow::importVrml);
