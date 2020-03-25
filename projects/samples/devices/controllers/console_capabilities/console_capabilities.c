@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-#include <stdio.h>
-#include <unistd.h>
 #include <webots/robot.h>
 
 #include "ansi_codes.h"
