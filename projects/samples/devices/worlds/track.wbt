@@ -305,7 +305,7 @@ DEF CONVEYOR_BELT Robot {
         LinearMotor {
         }
       ]
-      textureAnimation 0.0295 0
+      textureAnimation 1.85 0
     }
   ]
   name "conveyor robot"

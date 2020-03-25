@@ -127,11 +127,12 @@ void WbIndexedLineSet::buildWrenMesh() {
   float *coordsData = new float[mCoordIndex->size() * 6];
   int coordsCount = computeCoordsData(coordsData);
 
-  mWrenMesh = wr_static_mesh_line_set_new(coordsCount, coordsData, NULL);
+  if (coordsCount > 0) {
+    mWrenMesh = wr_static_mesh_line_set_new(coordsCount, coordsData, NULL);
+    wr_renderable_set_mesh(mWrenRenderable, WR_MESH(mWrenMesh));
+  }
 
   delete[] coordsData;
-
-  wr_renderable_set_mesh(mWrenRenderable, WR_MESH(mWrenMesh));
 }
 
 void WbIndexedLineSet::reset() {
@@ -144,6 +145,8 @@ void WbIndexedLineSet::reset() {
 
 int WbIndexedLineSet::computeCoordsData(float *data) {
   WbMFInt::Iterator it(*mCoordIndex);
+  if (!it.hasNext())
+    return 0;
   int i = it.next();
   int count = 0;
   WbVector3 v;

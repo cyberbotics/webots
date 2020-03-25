@@ -49,7 +49,7 @@ WbRotationEditor::WbRotationEditor(QWidget *parent) : WbValueEditor(parent), mAp
   mRotationTypeComboBox->addItem("Quaternions");
   connect(mRotationTypeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateRotationType(int)));
   mLayout->addWidget(mRotationTypeComboBox, 1, 1);
-  mCurrentrotationType = 0;
+  mCurrentRotationType = 0;
   for (int i = 0; i < 4; ++i) {
     mLabel[i] = new QLabel(LABELS[AXIS_ANGLE][i], this);
     mLayout->addWidget(mLabel[i], i + 2, 0, Qt::AlignRight);
@@ -102,7 +102,8 @@ void WbRotationEditor::updateSpinBoxes() {
   for (int i = 0; i < 4; ++i)
     if (WbSimulationState::instance()->isPaused() || !mSpinBoxes[i]->hasFocus()) {
       if (mRotationTypeComboBox->currentIndex() == QUATERNIONS) {
-        mSpinBoxes[i]->setValueNoSignals(mRotation.toQuaternion().ptr()[i]);
+        const WbQuaternion quaternion = mRotation.toQuaternion();
+        mSpinBoxes[i]->setValueNoSignals(quaternion.ptr()[i]);
       } else  // AXIS_ANGLE
         mSpinBoxes[i]->setValueNoSignals(mRotation[i]);
     }
@@ -119,13 +120,13 @@ void WbRotationEditor::takeKeyboardFocus() {
 }
 
 WbRotation WbRotationEditor::computeRotation() {
-  if (mCurrentrotationType == QUATERNIONS) {
+  if (mCurrentRotationType == QUATERNIONS) {
     WbQuaternion quaternion =
       WbQuaternion(mSpinBoxes[0]->value(), mSpinBoxes[1]->value(), mSpinBoxes[2]->value(), mSpinBoxes[3]->value());
     quaternion.normalize();
     return WbRotation(quaternion);
   }
-  assert(mCurrentrotationType == AXIS_ANGLE);
+  assert(mCurrentRotationType == AXIS_ANGLE);
   return WbRotation(mSpinBoxes[0]->value(), mSpinBoxes[1]->value(), mSpinBoxes[2]->value(), mSpinBoxes[3]->value());
 }
 
@@ -169,6 +170,6 @@ void WbRotationEditor::updateRotationType(int index) {
     mLabel[i]->setText(LABELS[mRotationTypeComboBox->currentIndex()][i]);
     mUnitLabel[i]->setText(UNITS[mRotationTypeComboBox->currentIndex()][i]);
   }
-  mCurrentrotationType = index;
+  mCurrentRotationType = index;
   updateSpinBoxes();
 }

@@ -55,6 +55,7 @@ public:
   const QString &args() const;
   bool synchronization() const { return mRobot->synchronization(); }
   double requestTime() const { return mRequestTime; }
+  void resetRequestTime();
   bool isIncompleteRequest() const { return mIncompleteRequest; }
   unsigned int deltaTimeRequested() const { return mDeltaTimeRequested; }
   bool isRequestPending() const { return mRequestPending; }
