@@ -11,11 +11,16 @@ Mesh {
 The [Mesh](#mesh) node represents a 3D shape imported from an external file created by a 3D modeling software.
 The [Mesh](#mesh) node can be used either as a graphical or as a collision detection primitive (in a boundingObject).
 Currently, the following formats are supported:
-  - blend
-  - dae
-  - fbx
-  - obj
-  - stl
+- [3D Studio mesh](https://wiki.fileformat.com/3d/3ds) files (.3ds).
+- [AutoCAD DXF](https://en.wikipedia.org/wiki/AutoCAD_DXF) files (.dxf).
+- [Blender](https://www.blender.org/) files (.blend).
+- [Biovision Hierarchy](https://en.wikipedia.org/wiki/Biovision_Hierarchy) files (.bhv).
+- [Collada](https://en.wikipedia.org/wiki/COLLADA) files (.dae).
+- [Filmbox](https://en.wikipedia.org/wiki/FBX) files (.fbx).
+- [STEP](https://en.wikipedia.org/wiki/ISO_10303-21) files (.stp).
+- [STL](https://en.wikipedia.org/wiki/STL_(file_format)) files (.stl).
+- [Wavefront](https://wiki.fileformat.com/3d/obj) files (.obj).
+- [X3D](https://www.web3d.org/getting-started-x3d) files (.x3d).
 
 If the file contains more than one mesh, the meshes will be merged into a single one.
 
