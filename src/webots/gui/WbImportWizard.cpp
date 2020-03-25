@@ -137,7 +137,7 @@ void WbImportWizard::chooseFile() {
   if (fileName.isEmpty())
     return;
   mFileEdit->setText(fileName);
-  mConclusionLabel->setText(tr("The '%1' file will now be imported at the end of the scene-tree.").arg(fileName));
+  mConclusionLabel->setText(tr("The '%1' file will now be imported at the end of the scene tree.").arg(fileName));
 }
 
 QWizardPage *WbImportWizard::createFileSelectionPage() {
