@@ -36,16 +36,15 @@ int main(int argc, char **argv) {
   ANSI_PRINTF_IN_BLACK("Black text!");
   printf("\n");  // If we add \n in the above macro, the controller text will use previous style
 
-  printf("%sBlue background only specified text!%s\n\n", ANSI_BLUE_BACKGROUND, ANSI_RESET);
+  printf("%sBlue background only specified text%s\n\n", ANSI_BLUE_BACKGROUND, ANSI_RESET);
 
-  ANSI_PRINTF_IN_WHITE("%sRed background only", ANSI_RED_BACKGROUND);
-  ANSI_PRINTF_IN_WHITE("%sGreen background only", ANSI_GREEN_BACKGROUND);
-  ANSI_PRINTF_IN_WHITE("%sYellow background only", ANSI_YELLOW_BACKGROUND);
-  ANSI_PRINTF_IN_WHITE("%sCyan background only", ANSI_CYAN_BACKGROUND);
-  ANSI_PRINTF_IN_WHITE("%sBlue background only", ANSI_BLUE_BACKGROUND);
-  ANSI_PRINTF_IN_WHITE("%sMangenta background only", ANSI_MAGENTA_BACKGROUND);
-  ANSI_PRINTF_IN_WHITE("%sWhite background only", ANSI_WHITE_BACKGROUND);
-  ANSI_PRINTF_IN_WHITE("%sCyan text on Black background", ANSI_BLACK_BACKGROUND);
+  ANSI_PRINTF_IN_BLACK("%sRed background only", ANSI_RED_BACKGROUND);
+  ANSI_PRINTF_IN_BLACK("%sGreen background only", ANSI_GREEN_BACKGROUND);
+  ANSI_PRINTF_IN_BLACK("%sYellow background only", ANSI_YELLOW_BACKGROUND);
+  ANSI_PRINTF_IN_BLACK("%sCyan background only", ANSI_CYAN_BACKGROUND);
+  ANSI_PRINTF_IN_BLACK("%sBlue background only", ANSI_BLUE_BACKGROUND);
+  ANSI_PRINTF_IN_BLACK("%sMangenta background only", ANSI_MAGENTA_BACKGROUND);
+  ANSI_PRINTF_IN_BLACK("%sWhite background only", ANSI_WHITE_BACKGROUND);
   printf("\n");
 
   ANSI_PRINTF_IN_BLUE("%sBlue text on Red background", ANSI_RED_BACKGROUND);
@@ -55,7 +54,7 @@ int main(int argc, char **argv) {
   ANSI_PRINTF_IN_WHITE("%sWhite text on Blue background", ANSI_BLUE_BACKGROUND);
   ANSI_PRINTF_IN_GREEN("%sGreen text on Magenta background", ANSI_MAGENTA_BACKGROUND);
   ANSI_PRINTF_IN_BLACK("%sBlack text on White background", ANSI_WHITE_BACKGROUND);
-  ANSI_PRINTF_IN_CYAN("%sCyan text on Black background", ANSI_BLACK_BACKGROUND);
+  ANSI_PRINTF_IN_WHITE("%sWhite text on Black background", ANSI_BLACK_BACKGROUND);
   printf("\n");
 
   ANSI_PRINTF_IN_GREEN("%sGreen Bold style text", ANSI_BOLD);
