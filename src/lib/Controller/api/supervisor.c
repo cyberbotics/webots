@@ -1153,18 +1153,21 @@ void wb_supervisor_start_movie(const char *file, int width, int height, int code
                                bool caption) {
   if (!robot_check_supervisor("wb_supervisor_start_movie"))
     return;
+
   wb_supervisor_movie_start_recording(file, width, height, codec, quality, acceleration, caption);
 }
 
 void wb_supervisor_stop_movie() {
   if (!robot_check_supervisor("wb_supervisor_stop_movie"))
     return;
+
   wb_supervisor_movie_stop_recording();
 }
 
 int wb_supervisor_get_movie_status() {
   if (!robot_check_supervisor("wb_supervisor_get_movie_status"))
     return WB_SUPERVISOR_MOVIE_SIMULATION_ERROR;
+
   return wb_supervisor_movie_get_status();
 }
 
