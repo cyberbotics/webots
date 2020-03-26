@@ -457,7 +457,7 @@ Note that the exit status as well as the value returned by the `main` function a
 As mentioned earlier, printing to `stdout` or `stderr` from a controller will be redirected by default to the Webots console.
 Note however, that the Webots console doesn't support `stdin` input.
 Like most terminals, it supports a few basic [ANSI escape codes](https://en.wikipedia.org/wiki/ANSI_escape_code) for setting text styles and clearing the content of the console:
-  - 8 bit color (foreground and background)
+  - 3 bit color (foreground and background)
   - Bold style
   - Underline style
   - Clear screen (same as issuing `clear` command in your terminal)
