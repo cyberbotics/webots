@@ -1372,9 +1372,6 @@ int wb_supervisor_node_get_id(WbNodeRef node) {
 }
 
 static WbNodeRef node_get_from_id(int id) {
-  if (!robot_check_supervisor("node_get_from_id"))
-    return NULL;
-
   robot_mutex_lock_step();
 
   WbNodeRef result = find_node_by_id(id);
