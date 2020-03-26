@@ -30,6 +30,7 @@
 #include "WbFileUtil.hpp"
 #include "WbGuidedTour.hpp"
 #include "WbHtmlExportDialog.hpp"
+#include "WbImportWizard.hpp"
 #include "WbJoystickInterface.hpp"
 #include "WbMessageBox.hpp"
 #include "WbNewControllerWizard.hpp"
@@ -471,8 +472,8 @@ QMenu *WbMainWindow::createFileMenu() {
     menu->addSeparator();
   }
   action = new QAction(this);
-  action->setText(tr("&Import VRML97..."));
-  action->setStatusTip(tr("Add a VRML97 object to the Scene Tree."));
+  action->setText(tr("&Import 3D Model..."));
+  action->setStatusTip(tr("Add a 3D object to the Scene Tree."));
   action->setToolTip(action->statusTip());
   connect(action, &QAction::triggered, this, &WbMainWindow::importVrml);
   menu->addAction(action);
@@ -1498,13 +1499,23 @@ void WbMainWindow::importVrml() {
   // first time: suggest import in user's home directory
   static QString suggestedPath = QDir::homePath();
 
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Import VRML97"), suggestedPath, tr("VRML97 Files (*.wrl *.WRL)"));
+  WbImportWizard wizard(suggestedPath, this);
+  if (wizard.exec() != QDialog::Accepted)
+    return;
+  const QString fileName = wizard.fileName();
   if (!fileName.isEmpty()) {
     // next time: remember last import directory
     suggestedPath = QFileInfo(fileName).path();
 
-    if (WbNodeOperations::instance()->importVrml(fileName) == WbNodeOperations::SUCCESS)
-      WbWorld::instance()->setModified();
+    if (fileName.endsWith(".wrl", Qt::CaseInsensitive)) {
+      if (WbNodeOperations::instance()->importVrml(fileName) == WbNodeOperations::SUCCESS)
+        WbWorld::instance()->setModified();
+    } else {
+      if (WbNodeOperations::instance()->importExternalModel(fileName, wizard.importTextureCoordinates(), wizard.importNormals(),
+                                                            wizard.importAppearances(), wizard.importAsSolid(),
+                                                            wizard.importBoundingObjects()) == WbNodeOperations::SUCCESS)
+        WbWorld::instance()->setModified();
+    }
 
     mSimulationView->view3D()->refresh();
   }
