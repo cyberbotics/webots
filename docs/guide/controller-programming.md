@@ -461,7 +461,7 @@ Like most terminals, it supports a few basic [ANSI escape codes](https://en.wiki
   - Bold style
   - Underline style
   - Clear screen (same as issuing `clear` command in your terminal)
-  - Resetting style
+  - Reset (colors and styles)
 
 There is a world example in webots: samples/devices/console_capabilities or at `$WEBOTS_HOME/projects/samples/devices/controllers/console_capabilities` to demonstrate how to use those.
 
