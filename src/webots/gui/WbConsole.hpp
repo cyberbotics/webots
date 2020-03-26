@@ -98,8 +98,8 @@ private:
   QString mAnsiBlack, mAnsiRed, mAnsiGreen, mAnsiYellow, mAnsiBlue, mAnsiMagenta, mAnsiCyan, mAnsiWhite;
   ConsoleEdit *mEditor;
   QRegExp **mErrorPatterns;
-  QString mFgColor;
-  QString mBgColor;
+  QString mForegroundColor;
+  QString mBackgroundColor;
   bool mBold;
   bool mUnderline;
   bool mIsOverwriteEnabled;

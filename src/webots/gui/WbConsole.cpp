@@ -286,17 +286,17 @@ QString WbConsole::htmlSpan(const QString &s, WbLog::Level level) const {
     bold = false;
   } else {
     assert(level == WbLog::STDOUT);
-    fgColor = mFgColor;
+    fgColor = mForegroundColor;
     bold = mBold;
   }
   QString span("<span");
   if (!fgColor.isEmpty() || bold || mUnderline) {
     span += " style=\"";
-    if (!fgColor.isEmpty() && mBgColor.isEmpty())
+    if (!fgColor.isEmpty() && mBackgroundColor.isEmpty())
       span += "color:" + fgColor + ";";
-    else if (!fgColor.isEmpty() && !mBgColor.isEmpty()) {
+    else if (!fgColor.isEmpty() && !mBackgroundColor.isEmpty()) {
       span += "color:" + fgColor + ";";
-      span += "background-color:" + mBgColor + ";";
+      span += "background-color:" + mBackgroundColor + ";";
     }
     if (bold)
       span += "font-weight:bold;";
@@ -405,7 +405,7 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
   if (i != -1) {  // contains ANSI escape sequences
     QString html;
     if (i != 0)
-      html = htmlSpan(msg.mid(0, i), level);  // add the text before the ANSI escape sequence
+      html = htmlSpan(msg.mid(0, i), level);  // add controller name before user input
     while (1) {
       i += 2;  // skip the "\033[" chars
       QString sequence;
@@ -415,78 +415,78 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
 
       const QStringList codes(sequence.split(";"));  // handle multiple (e.g. sequence "ESC[0;39m" )
       foreach (const QString code, codes) {
-        // the stored sequence may be "0" or "1", "30", "31", "32", etc.
+        // the stored sequence may be "0" or "1", "4", "2J", "30", "31", "32", etc.
         if (code == "0") {  // reset to default
-          mFgColor = ansiBlack();
-          mBgColor.clear();
+          mForegroundColor = ansiBlack();
+          mBackgroundColor.clear();
           mBold = false;
           mUnderline = false;
-        } else if (code == "1")
+        } else if (code == "1")  // bold
           mBold = true;
-        else if (code == "4")
+        else if (code == "4")  // underlined
           mUnderline = true;
-        else if (code.startsWith("2")) {
+        else if (code.startsWith("2")) {  // clear console screen
           const char c = code.toLocal8Bit().data()[1];
-          if (c == 'J') {
+          if (c == 'J') {  // code == "2J"
             WbLog::clear();
             html.clear();  // nothing to output since clear has been done
           }
         } else if (code.startsWith("3")) {  // foreground color change
           const char c = code.toLocal8Bit().data()[1];
           switch (c) {
-            case '1':
-              mFgColor = ansiRed();
+            case '1':  // 31
+              mForegroundColor = ansiRed();
               break;
-            case '2':
-              mFgColor = ansiGreen();
+            case '2':  // 32
+              mForegroundColor = ansiGreen();
               break;
-            case '3':
-              mFgColor = ansiYellow();
+            case '3':  // etc...
+              mForegroundColor = ansiYellow();
               break;
             case '4':
-              mFgColor = ansiBlue();
+              mForegroundColor = ansiBlue();
               break;
             case '5':
-              mFgColor = ansiMagenta();
+              mForegroundColor = ansiMagenta();
               break;
             case '6':
-              mFgColor = ansiCyan();
+              mForegroundColor = ansiCyan();
               break;
             case '7':
-              mFgColor = ansiWhite();
+              mForegroundColor = ansiWhite();
               break;
             case '9':  // 39 - Default text color
             default:
-              mFgColor = ansiBlack();
+              mForegroundColor = ansiBlack();
               break;
           }
         } else if (code.startsWith("4")) {  // background color change
           const char c = code.toLocal8Bit().data()[1];
           switch (c) {
-            case '1':
-              mBgColor = ansiRed();
+            case '1':  // 41
+              mBackgroundColor = ansiRed();
               break;
-            case '2':
-              mBgColor = ansiGreen();
+            case '2':  // 42
+              mBackgroundColor = ansiGreen();
               break;
-            case '3':
-              mBgColor = ansiYellow();
+            case '3':  // etc...
+              mBackgroundColor = ansiYellow();
               break;
             case '4':
-              mBgColor = ansiBlue();
+              mBackgroundColor = ansiBlue();
               break;
             case '5':
-              mBgColor = ansiMagenta();
+              mBackgroundColor = ansiMagenta();
               break;
             case '6':
-              mBgColor = ansiCyan();
+              mBackgroundColor = ansiCyan();
               break;
             case '7':
-              mBgColor = ansiWhite();
+              mBackgroundColor = ansiWhite();
               break;
-            case '9':  // 39 - Default text color
+            case '9':  // 49 - Default text color
             default:
-              mBgColor = ansiBlack();
+              mBackgroundColor = ansiBlack();
               break;
           }
         }
