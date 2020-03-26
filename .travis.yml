@@ -68,7 +68,7 @@ jobs:
             - cppcheck
             - python
       install:
-        - easy_install pip
+        - sudo easy_install pip
         - pip install --upgrade pip
         - pip install -r tests/sources/requirements.txt
         - pip install -r docs/tests/requirements.txt
