@@ -272,9 +272,8 @@ QString WbConsole::htmlSpan(const QString &s, WbLog::Level level) const {
   if (s.isEmpty() || s == "\n")
     return "";
 
-  QString foregroundColor;
   bool bold;
-
+  QString foregroundColor;
   if (level == WbLog::ERROR || level == WbLog::FATAL || level == WbLog::STDERR) {
     foregroundColor = errorColor();
     bold = true;
@@ -484,7 +483,7 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
             case '7':
               mBackgroundColor = ansiWhite();
               break;
-            case '9':  // 49 - Default text color
+            case '9':  // 49 - Default background color
             default:
               mBackgroundColor = ansiBlack();
               break;
