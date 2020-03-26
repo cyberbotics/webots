@@ -36,16 +36,17 @@ int main(int argc, char **argv) {
   ANSI_PRINTF_IN_BLACK("Black text!");
   printf("\n");  // If we add \n in the above macro, the controller text will use previous style
 
-  printf("%sRed background only%s\n", ANSI_RED_BACKGROUND, ANSI_RESET);
-  printf("%sGreen background only%s\n", ANSI_GREEN_BACKGROUND, ANSI_RESET);
-  printf("%sYellow background only%s\n", ANSI_YELLOW_BACKGROUND, ANSI_RESET);
-  printf("%sCyan background only%s\n", ANSI_CYAN_BACKGROUND, ANSI_RESET);
-  printf("%sBlue background only%s\n", ANSI_BLUE_BACKGROUND, ANSI_RESET);
-  printf("%sMangenta background only%s\n", ANSI_MAGENTA_BACKGROUND, ANSI_RESET);
-  printf("%sWhite background only%s\n", ANSI_WHITE_BACKGROUND, ANSI_RESET);
-  printf("%sCyan text on Black background%s\n\n", ANSI_BLACK_BACKGROUND, ANSI_RESET);
-
   printf("%sBlue background only specified text!%s\n\n", ANSI_BLUE_BACKGROUND, ANSI_RESET);
+
+  ANSI_PRINTF_IN_WHITE("%sRed background only", ANSI_RED_BACKGROUND);
+  ANSI_PRINTF_IN_WHITE("%sGreen background only", ANSI_GREEN_BACKGROUND);
+  ANSI_PRINTF_IN_WHITE("%sYellow background only", ANSI_YELLOW_BACKGROUND);
+  ANSI_PRINTF_IN_WHITE("%sCyan background only", ANSI_CYAN_BACKGROUND);
+  ANSI_PRINTF_IN_WHITE("%sBlue background only", ANSI_BLUE_BACKGROUND);
+  ANSI_PRINTF_IN_WHITE("%sMangenta background only", ANSI_MAGENTA_BACKGROUND);
+  ANSI_PRINTF_IN_WHITE("%sWhite background only", ANSI_WHITE_BACKGROUND);
+  ANSI_PRINTF_IN_WHITE("%sCyan text on Black background", ANSI_BLACK_BACKGROUND);
+  printf("\n");
 
   ANSI_PRINTF_IN_BLUE("%sBlue text on Red background", ANSI_RED_BACKGROUND);
   ANSI_PRINTF_IN_YELLOW("%sYellow text on Green background", ANSI_GREEN_BACKGROUND);
@@ -57,8 +58,8 @@ int main(int argc, char **argv) {
   ANSI_PRINTF_IN_CYAN("%sCyan text on Black background", ANSI_BLACK_BACKGROUND);
   printf("\n");
 
-  printf("%s%sBold style green text%s\n", ANSI_GREEN_FOREGROUND, ANSI_BOLD, ANSI_RESET);
-  printf("%s%sUnderlined style green text%s\n", ANSI_GREEN_FOREGROUND, ANSI_UNDERLINE, ANSI_RESET);
+  ANSI_PRINTF_IN_GREEN("%sGreen Bold style text", ANSI_BOLD);
+  ANSI_PRINTF_IN_GREEN("%sGreen Underlined style text", ANSI_UNDERLINE);
 
   wb_robot_cleanup();
   return 0;
