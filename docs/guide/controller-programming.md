@@ -454,9 +454,9 @@ Note that the exit status as well as the value returned by the `main` function a
 
 ### Console Output
 
-As mentionned above, outputting something from the controller will be redirected by Webots to the console. The Webots console can not be used interactively but still supports some basic ANSI sequences. One can output text with certain style, using color for example.
-
-Currently the console supports the following:
+As mentioned earlier, printing to `stdout` or `stderr` from a controller will be redirected by default to the Webots console.
+Note however, that the Webots console doesn't support `stdin` input.
+Like most terminals, it supports a few basic [ANSI escape codes](https://en.wikipedia.org/wiki/ANSI_escape_code) for setting text styles and clearing the content of the console:
   - 8 bit color (foreground and background)
   - Bold style
   - Underline style
