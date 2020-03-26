@@ -11,10 +11,8 @@ orthographicViewHeight: 1
 textFiles: -1
 robotWindow: robot
 globalOptionalRendering: JointAxes::CoordinateSystem::CameraFrustums
-renderingDevicePerspectives: robot:right_flank_camera;1;1;0;0
-renderingDevicePerspectives: robot:left head camera;1;0.180556;0.663914;0.00246305
-renderingDevicePerspectives: robot:left_flank_camera;1;1;0;0
-renderingDevicePerspectives: robot:rear camera;1;0.19537;0.75;0.332512
-renderingDevicePerspectives: robot:left flank camera;1;0.17963;0.663914;0.163793
-renderingDevicePerspectives: robot:right head camera;1;0.177778;0.829067;0.00369458
-renderingDevicePerspectives: robot:right flank camera;1;0.176852;0.829067;0.163793
+renderingDevicePerspectives: robot:left head camera;1;0.180556;0.718005;0.00369458
+renderingDevicePerspectives: robot:rear camera;1;0.19537;0.788141;0.334975
+renderingDevicePerspectives: robot:right flank camera;1;0.176852;0.86061;0.168719
+renderingDevicePerspectives: robot:right head camera;1;0.177778;0.86042;0.00246305
+renderingDevicePerspectives: robot:left flank camera;1;0.17963;0.717312;0.169951
