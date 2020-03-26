@@ -272,30 +272,30 @@ QString WbConsole::htmlSpan(const QString &s, WbLog::Level level) const {
   if (s.isEmpty() || s == "\n")
     return "";
 
-  QString fgColor;
+  QString foregroundColor;
   bool bold;
 
   if (level == WbLog::ERROR || level == WbLog::FATAL || level == WbLog::STDERR) {
-    fgColor = errorColor();
+    foregroundColor = errorColor();
     bold = true;
   } else if (level == WbLog::WARNING || level == WbLog::DEBUG) {
-    fgColor = errorColor();
+    foregroundColor = errorColor();
     bold = false;
   } else if (level == WbLog::INFO || level == WbLog::STATUS) {
-    fgColor = infoColor();
+    foregroundColor = infoColor();
     bold = false;
   } else {
     assert(level == WbLog::STDOUT);
-    fgColor = mForegroundColor;
+    foregroundColor = mForegroundColor;
     bold = mBold;
   }
   QString span("<span");
-  if (!fgColor.isEmpty() || bold || mUnderline) {
+  if (!foregroundColor.isEmpty() || bold || mUnderline) {
     span += " style=\"";
-    if (!fgColor.isEmpty() && mBackgroundColor.isEmpty())
-      span += "color:" + fgColor + ";";
-    else if (!fgColor.isEmpty() && !mBackgroundColor.isEmpty()) {
-      span += "color:" + fgColor + ";";
+    if (!foregroundColor.isEmpty() && mBackgroundColor.isEmpty())
+      span += "color:" + foregroundColor + ";";
+    else if (!foregroundColor.isEmpty() && !mBackgroundColor.isEmpty()) {
+      span += "color:" + foregroundColor + ";";
       span += "background-color:" + mBackgroundColor + ";";
     }
     if (bold)
