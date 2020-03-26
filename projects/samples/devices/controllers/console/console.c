@@ -23,7 +23,7 @@
 int main(int argc, char **argv) {
   wb_robot_init();
 
-  ANSI_PRINTF_IN_GREEN("This text will not be seen because we are going to clear the screen");
+  ANSI_PRINTF_IN_GREEN("This text will not be seen because we are going to clear the console");
   ANSI_CONSOLE_CLEAR;
 
   ANSI_PRINTF_IN_RED("Red text!");
@@ -33,7 +33,8 @@ int main(int argc, char **argv) {
   ANSI_PRINTF_IN_BLUE("Blue text!");
   ANSI_PRINTF_IN_MAGENTA("Magenta text!");
   ANSI_PRINTF_IN_WHITE("White text!");
-  printf("\n");
+  ANSI_PRINTF_IN_BLACK("Black text!");
+  printf("\n");  // If we add \n in the above macro, the controller text will use previous style
 
   printf("%sRed background only%s\n", ANSI_RED_BACKGROUND, ANSI_RESET);
   printf("%sGreen background only%s\n", ANSI_GREEN_BACKGROUND, ANSI_RESET);
@@ -41,17 +42,20 @@ int main(int argc, char **argv) {
   printf("%sCyan background only%s\n", ANSI_CYAN_BACKGROUND, ANSI_RESET);
   printf("%sBlue background only%s\n", ANSI_BLUE_BACKGROUND, ANSI_RESET);
   printf("%sMangenta background only%s\n", ANSI_MAGENTA_BACKGROUND, ANSI_RESET);
-  printf("%sWhite background only%s\n\n", ANSI_WHITE_BACKGROUND, ANSI_RESET);
+  printf("%sWhite background only%s\n", ANSI_WHITE_BACKGROUND, ANSI_RESET);
+  printf("%sCyan text on Black background%s\n\n", ANSI_BLACK_BACKGROUND, ANSI_RESET);
 
   printf("%sBlue background only specified text!%s\n\n", ANSI_BLUE_BACKGROUND, ANSI_RESET);
 
-  printf("%s%sRed background on Blue text%s\n", ANSI_RED_BACKGROUND, ANSI_BLUE_FOREGROUND, ANSI_RESET);
-  printf("%s%sGreen background on Yellow%s\n", ANSI_GREEN_BACKGROUND, ANSI_YELLOW_FOREGROUND, ANSI_RESET);
-  printf("%s%sYellow background on Magenta text%s\n", ANSI_YELLOW_BACKGROUND, ANSI_MAGENTA_FOREGROUND, ANSI_RESET);
-  printf("%s%sCyan background on Red text%s\n", ANSI_CYAN_BACKGROUND, ANSI_RED_FOREGROUND, ANSI_RESET);
-  printf("%s%sBlue background on White text%s\n", ANSI_BLUE_BACKGROUND, ANSI_WHITE_FOREGROUND, ANSI_RESET);
-  printf("%s%sMangenta background on Green text%s\n", ANSI_MAGENTA_BACKGROUND, ANSI_GREEN_FOREGROUND, ANSI_RESET);
-  printf("%s%sWhite background on Black text%s\n", ANSI_WHITE_BACKGROUND, ANSI_BLACK_FOREGROUND, ANSI_RESET);
+  ANSI_PRINTF_IN_BLUE("%sBlue text on Red background", ANSI_RED_BACKGROUND);
+  ANSI_PRINTF_IN_YELLOW("%sYellow text on Green background", ANSI_GREEN_BACKGROUND);
+  ANSI_PRINTF_IN_MAGENTA("%sMagenta text on Yellow background", ANSI_YELLOW_BACKGROUND);
+  ANSI_PRINTF_IN_RED("%sRed text on Cyan background", ANSI_CYAN_BACKGROUND);
+  ANSI_PRINTF_IN_WHITE("%sWhite text on Blue background", ANSI_BLUE_BACKGROUND);
+  ANSI_PRINTF_IN_GREEN("%sGreen text on Magenta background", ANSI_MAGENTA_BACKGROUND);
+  ANSI_PRINTF_IN_BLACK("%sBlack text on White background", ANSI_WHITE_BACKGROUND);
+  ANSI_PRINTF_IN_CYAN("%sCyan text on Black background", ANSI_BLACK_BACKGROUND);
+  printf("\n");
 
   printf("%s%sBold style green text%s\n", ANSI_GREEN_FOREGROUND, ANSI_BOLD, ANSI_RESET);
   printf("%s%sUnderlined style green text%s\n", ANSI_GREEN_FOREGROUND, ANSI_UNDERLINE, ANSI_RESET);
