@@ -23,7 +23,8 @@
 int main(int argc, char **argv) {
   wb_robot_init();
 
-  ANSI_PRINTF_IN_GREEN("This text will not be seen because we are going to clear the console");
+  ANSI_PRINTF_IN_GREEN("This text will disappear in about 4 seconds because we are going to clear the console...");
+  wb_robot_step(4096);
   ANSI_CLEAR_CONSOLE();
 
   ANSI_PRINTF_IN_RED("Red text!");
