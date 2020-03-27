@@ -498,9 +498,8 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
         handleCRAndLF(html);
         return;
       }
-      if (j != i) {  // Extract text contained between two escape codes if so
+      if (j != i)  // Extract text contained between two escape codes if so
         html += htmlSpan(msg.mid(j, i - j), level);
-      }
     }
   }
   handleCRAndLF(htmlSpan(msg, level));
