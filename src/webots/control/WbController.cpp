@@ -586,7 +586,17 @@ void WbController::flushBuffer(QString *buffer) {
   int index = buffer->indexOf('\n');
   while (index != -1) {
     // extract line and prepend "[controller_name] "
-    QString line = mPrefix + buffer->mid(0, index + 1);
+    // apply ansi codes (if any) before the prefix
+    QString ansiString;
+    int count = 0;
+    int l = buffer->length();
+    while (buffer->at(count) == '\x1b') {
+      int start = count;
+      count += 2; // skipping '['
+      while(count < l && buffer->at(count++) < '\x40');
+      ansiString += buffer->mid(start, count - start);
+    }
+    const QString line = ansiString + mPrefix + buffer->mid(count, index + 1 - count);
     if (buffer == mStdoutBuffer)
       WbLog::appendStdout(line, mPrefix);
     else
