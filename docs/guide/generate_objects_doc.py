@@ -123,6 +123,14 @@ for proto in prioritaryProtoList + fileList:
                     newLine = newLine.replace(url, '[%s](%s)' % (url, url))
                 description += newLine + '\n'
         if skipProto:
+            imagePath = 'images/objects/%s/%s/model.png' % (category, protoName)
+            if upperCategory == 'projects':
+                imagePath = 'images/%s/%s.png' % (category, protoName)
+            if os.path.exists(imagePath):
+                os.remove(imagePath)
+            thumbnailPath =  imagePath.replace('.png', '.thumbnail.png')
+            if os.path.exists(thumbnailPath):
+                os.remove(thumbnailPath)
             continue
         # fields
         matches = re.finditer(r'\[\n((.*\n)*)\]', content, re.MULTILINE)
