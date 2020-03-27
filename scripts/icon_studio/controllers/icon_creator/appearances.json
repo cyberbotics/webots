@@ -2,8 +2,12 @@
   "Asphalt": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
+  "BakelitePlastic": {
+  },
   "BlanketFabric": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
+  },
+  "BrushedAluminium": {
   },
   "BrushedSteel": {
     "fields": "textureTransform TextureTransform { scale 3 2 }"
@@ -11,11 +15,13 @@
   "CarpetFibers": {
     "fields": "colorOverride 0.33 0.34 0.33 textureTransform TextureTransform { scale 1 0.5 }"
   },
+  "CementTiles": {
+    "fields": "textureTransform TextureTransform { scale 2 1 }"
+  },
   "ChequeredParquetry": {
     "fields": "textureTransform TextureTransform { scale 5 2 }"
   },
-  "CementTiles": {
-    "fields": "textureTransform TextureTransform { scale 2 1 }"
+  "Copper": {
   },
   "CorrodedMetal": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
@@ -29,10 +35,10 @@
   "CorrugatedPvc": {
     "fields": "textureTransform TextureTransform { scale 4 3 }"
   },
-  "DarkParquetry": {
+  "DamascusSteel": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
-  "DamascusSteel": {
+  "DarkParquetry": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
   "DryMud": {
@@ -65,11 +71,15 @@
   "LedStrip": {
     "fields": "textureTransform TextureTransform { scale 6 12 } emissiveIntensity 10"
   },
+  "Marble": {
+  },
   "MarbleTiles": {
     "fields": "textureTransform TextureTransform { scale 3 2 }"
   },
   "MattePaint": {
     "fields": "baseColor 0.8 0 0"
+  },
+  "MetalPipePaint": {
   },
   "MetalStainlessSteelCable": {
     "fields": "textureTransform TextureTransform { scale 5 5 rotation -0.1 } IBLStrength 2"
@@ -79,9 +89,6 @@
   },
   "OldSteel": {
     "fields": "textureTransform TextureTransform { scale 2 2 }"
-  },
-  "OldStonePavement": {
-    "fields": "textureTransform TextureTransform { scale 3 2 }"
   },
   "OsbWood": {
     "fields": "textureTransform TextureTransform { scale 3 2 }"
@@ -107,6 +114,8 @@
   "RedBrick": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
+  "ReflectiveSurface": {
+  },
   "Roughcast": {
     "fields": "colorOverride 0.53 0.54 0.52 textureTransform TextureTransform { scale 2 1 }"
   },
@@ -131,6 +140,8 @@
   "Sand": {
     "fields": "textureTransform TextureTransform { scale 4 2 }"
   },
+  "SandyGround": {
+  },
   "ScratchedPaint": {
     "fields": "textureTransform TextureTransform { scale 2 2 }"
   },
@@ -146,17 +157,19 @@
   "Soil": {
     "fields": "textureTransform TextureTransform { scale 3 2 }"
   },
+  "SolarCell": {
+  },
   "SquarePavement": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
   "StonePavement": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
-  "TireRubber": {
-    "fields": "textureTransform TextureTransform { rotation 1.5708 scale 1 2 translation 1.5 0 }"
-  },
   "ThreadMetalPlate": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
+  },
+  "TireRubber": {
+    "fields": "textureTransform TextureTransform { rotation 1.5708 scale 1 2 translation 1.5 0 }"
   },
   "VarnishedPine": {
     "fields": "textureTransform TextureTransform { scale 2 3 }"
