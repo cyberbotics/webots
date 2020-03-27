@@ -592,8 +592,9 @@ void WbController::flushBuffer(QString *buffer) {
     int l = buffer->length();
     while (buffer->at(count) == '\x1b') {
       int start = count;
-      count += 2; // skipping '['
-      while(count < l && buffer->at(count++) < '\x40');
+      count += 2;  // skipping '['
+      while(count < l && buffer->at(count++) < '\x40')
+        ;
       ansiString += buffer->mid(start, count - start);
     }
     const QString line = ansiString + mPrefix + buffer->mid(count, index + 1 - count);
