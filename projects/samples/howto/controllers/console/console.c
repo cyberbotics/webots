@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
   wb_robot_init();
 
   ANSI_PRINTF_IN_GREEN("This text will not be seen because we are going to clear the console");
-  ANSI_CONSOLE_CLEAR;
+  ANSI_CLEAR_CONSOLE();
 
   ANSI_PRINTF_IN_RED("Red text!");
   ANSI_PRINTF_IN_GREEN("Green text!");

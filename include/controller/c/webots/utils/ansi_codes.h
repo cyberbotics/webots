@@ -54,6 +54,6 @@
 #define ANSI_PRINTF_IN_CYAN(x, ...) printf(ANSI_CYAN_FOREGROUND x ANSI_RESET "\n", ##__VA_ARGS__)
 #define ANSI_PRINTF_IN_WHITE(x, ...) printf(ANSI_WHITE_FOREGROUND x ANSI_RESET "\n", ##__VA_ARGS__)
 
-#define ANSI_CONSOLE_CLEAR printf(ANSI_CLEAR_SCREEN "\n")
+#define ANSI_CLEAR_CONSOLE() printf(ANSI_CLEAR_SCREEN "\n")
 
 #endif
