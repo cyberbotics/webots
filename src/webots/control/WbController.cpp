@@ -593,7 +593,7 @@ void WbController::flushBuffer(QString *buffer) {
     while (buffer->at(count) == '\x1b') {
       int start = count;
       count += 2;  // skipping '['
-      while(count < l && buffer->at(count++) < '\x40')
+      while (count < l && buffer->at(count++) < '\x40')
         ;
       ansiString += buffer->mid(start, count - start);
     }
