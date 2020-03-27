@@ -1130,10 +1130,16 @@ void wb_supervisor_movie_stop_recording() {
 }
 
 bool wb_supervisor_movie_is_ready() {
+  if (!robot_check_supervisor("wb_supervisor_movie_is_ready"))
+    return false;
+
   return movie_status == WB_SUPERVISOR_MOVIE_READY || wb_supervisor_movie_failed();
 }
 
 bool wb_supervisor_movie_failed() {
+  if (!robot_check_supervisor("wb_supervisor_movie_failed"))
+    return true;
+
   return movie_status > WB_SUPERVISOR_MOVIE_SAVING;
 }
 
@@ -1145,14 +1151,23 @@ int wb_supervisor_movie_get_status() {
 
 void wb_supervisor_start_movie(const char *file, int width, int height, int codec, int quality, int acceleration,
                                bool caption) {
+  if (!robot_check_supervisor("wb_supervisor_start_movie"))
+    return;
+
   wb_supervisor_movie_start_recording(file, width, height, codec, quality, acceleration, caption);
 }
 
 void wb_supervisor_stop_movie() {
+  if (!robot_check_supervisor("wb_supervisor_stop_movie"))
+    return;
+
   wb_supervisor_movie_stop_recording();
 }
 
 int wb_supervisor_get_movie_status() {
+  if (!robot_check_supervisor("wb_supervisor_get_movie_status"))
+    return WB_SUPERVISOR_MOVIE_SIMULATION_ERROR;
+
   return wb_supervisor_movie_get_status();
 }
 
@@ -1225,6 +1240,9 @@ void wb_supervisor_simulation_revert() {
 }
 
 void wb_supervisor_simulation_physics_reset() {
+  if (!robot_check_supervisor("wb_supervisor_simulation_physics_reset"))
+    return;
+
   wb_supervisor_simulation_reset_physics();
 }
 
@@ -1327,14 +1345,23 @@ void wb_supervisor_world_reload() {
 }
 
 WbNodeRef wb_supervisor_node_get_root() {
+  if (!robot_check_supervisor("wb_supervisor_node_get_root"))
+    return NULL;
+
   return root_ref;
 }
 
 WbNodeRef wb_supervisor_node_get_self() {
+  if (!robot_check_supervisor("wb_supervisor_node_get_self"))
+    return NULL;
+
   return self_node_ref;
 }
 
 int wb_supervisor_node_get_id(WbNodeRef node) {
+  if (!robot_check_supervisor("wb_supervisor_node_get_id"))
+    return -1;
+
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: wb_supervisor_node_get_id() called with NULL or invalid 'node' argument.\n");
