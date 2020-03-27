@@ -43,6 +43,7 @@ Released on XXX.
     - Fixed a crash when trying to add an [IndexedLineSet](indexedlineset.md) node to a geometry's [Shape](shape.md) node with no coordinates.
     - Fixed a crash related to [InertialUnit](inertialunit.md) node when gravity was null.
     - Fixed support for MATLAB R2017b on Windows.
+    - Fixed a crash occurring when changing the `textureAnimation` value of some `Track` node from the scene tree.
 
 ## Webots R2020a Revision 1
 Released on January 14th, 2020.
