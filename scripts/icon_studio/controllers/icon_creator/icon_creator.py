@@ -244,6 +244,9 @@ elif options.appearance:
                         parameters = data[protoName]
                         if 'fields' in parameters:
                             nodeString += parameters['fields']
+                    else:
+                        print('Skipping "%s" PROTO.' % protoName)
+                        continue
                     nodeString += ' } '
                     nodeString += 'geometry Sphere { subdivision 5 } castShadows FALSE } ] }'
 
