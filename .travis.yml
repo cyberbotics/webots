@@ -58,16 +58,17 @@ jobs:
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_release, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: OSX / Python 2.7
       os: osx
-      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
+      osx_image: xcode11.3  # Xcode: 11.3.1  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
       addons:
         homebrew:
-          update: true  # TODO: this should be removed once this bug is fixed: https://travis-ci.community/t/macos-build-fails-because-of-homebrew-bundle-unknown-command/7296
           packages:
             - clang-format
             - cppcheck
             - python
       install:
+        - sudo easy_install pip # TODO: remove once https://travis-ci.community/t/missed-pip-after-xcode-image-update/7802 is fixed
+        - pip install --upgrade pip
         - pip install -r tests/sources/requirements.txt
         - pip install -r docs/tests/requirements.txt
         - cp dependencies/.clang-format-9 .clang-format
@@ -229,11 +230,10 @@ jobs:
     - <<: *distribution_staging
       name: OSX / Python 2.7
       os: osx
-      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
+      osx_image: xcode11.3  # Xcode: 11.3.1  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
       addons: &mac_addons
         homebrew:
-          update: true  # TODO: this should be removed once this bug is fixed: https://travis-ci.community/t/macos-build-fails-because-of-homebrew-bundle-unknown-command/7296
           packages:
             - python
             - cmake
@@ -244,6 +244,8 @@ jobs:
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
         - export PATH=/usr/local/bin/:$PATH  # Prefer Brew binaries over Travis ones.
         - npm install -g appdmg
+        - sudo easy_install pip # TODO: remove once https://travis-ci.community/t/missed-pip-after-xcode-image-update/7802 is fixed
+        - pip install --upgrade pip
         - pip install PyGithub  # used to upload packages to Github releases
         - sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7  # we can't use python3.7 from homebrew for the compilation because it is not compatible with the normal one
         - if [[ ! -f $WEBOTS_HOME/dependencies/python3.7.zip ]]; then wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7.zip -P $WEBOTS_HOME/dependencies; fi
@@ -280,7 +282,7 @@ jobs:
       if: commit_message IN (travis_release, travis_release_only)
       name: OSX / Python 2.7
       os: osx
-      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
+      osx_image: xcode11.3  # Xcode: 11.3.1  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
       addons: *mac_addons
       before_install: *mac_before_install
