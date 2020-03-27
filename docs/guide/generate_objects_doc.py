@@ -128,7 +128,7 @@ for proto in prioritaryProtoList + fileList:
                 imagePath = 'images/%s/%s.png' % (category, protoName)
             if os.path.exists(imagePath):
                 os.remove(imagePath)
-            thumbnailPath =  imagePath.replace('.png', '.thumbnail.png')
+            thumbnailPath = imagePath.replace('.png', '.thumbnail.png')
             if os.path.exists(thumbnailPath):
                 os.remove(thumbnailPath)
             continue
