@@ -111,7 +111,7 @@
   "PorcelainChevronTiles": {
     "fields": "textureTransform TextureTransform { scale 3 2 }"
   },
-  "RedBrick": {
+  "RedBricks": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
   "ReflectiveSurface": {
