@@ -172,7 +172,6 @@ WbController::~WbController() {
 
 void WbController::updateName(const QString &name) {
   mName = name;
-  mPrefix = QString("[%1] ").arg(mName);
 }
 
 void WbController::resetRequestTime() {
@@ -597,11 +596,12 @@ void WbController::flushBuffer(QString *buffer) {
         ;
       ansiString += buffer->mid(start, count - start);
     }
-    const QString line = ansiString + mPrefix + buffer->mid(count, index + 1 - count);
+    // html formatted string ex: "<span style=\"color:#66bb6a;\">Some Text\n</span>"
+    const QString line = ansiString + buffer->mid(count, index + 1 - count);
     if (buffer == mStdoutBuffer)
-      WbLog::appendStdout(line, mPrefix);
+      WbLog::appendStdout(line, true);
     else
-      WbLog::appendStderr(line, mPrefix);
+      WbLog::appendStderr(line, true);
     // remove line from buffer
     buffer->remove(0, index + 1);
     index = buffer->indexOf('\n');

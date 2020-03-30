@@ -248,8 +248,8 @@ WbConsole::WbConsole(QWidget *parent) :
   // listen to WbLog
   connect(WbLog::instance(), SIGNAL(logEmitted(WbLog::Level, const QString &, bool)), this,
           SLOT(appendLog(WbLog::Level, const QString &, bool)));
-  connect(WbLog::instance(), SIGNAL(controllerLogEmitted(WbLog::Level, const QString &, const QString &, bool)), this,
-          SLOT(appendLog(WbLog::Level, const QString &, const QString &, bool)));
+  connect(WbLog::instance(), SIGNAL(controllerLogEmitted(WbLog::Level, const QString &, bool)), this,
+          SLOT(appendLog(WbLog::Level, const QString &, bool)));
   connect(WbLog::instance(), SIGNAL(cleared()), this, SLOT(clear()));
 
   // Install ODE message handlers
@@ -399,12 +399,15 @@ void WbConsole::handleCRAndLF(const QString &msg) {
   }
 }
 
+#include <QtCore/QDebug>
 void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Level level) {
   int i = msg.indexOf("\033[");
   if (i != -1) {  // contains ANSI escape sequences
     QString html;
-    if (i != 0)
-      html = htmlSpan(msg.mid(0, i), level);  // add controller name before user input
+    if (i != 0) {
+        html = htmlSpan(msg.mid(0, i), level);  // add controller name before user input
+        qDebug() << "html:" << html;
+    }
     while (1) {
       i += 2;  // skip the "\033[" chars
       QString sequence;

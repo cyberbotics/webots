@@ -106,18 +106,18 @@ void WbLog::status(const QString &message) {
   instance()->emitLog(STATUS, message, false);
 }
 
-void WbLog::appendStdout(const QString &message, const QString &prefix) {
-  if (prefix.isEmpty())
-    emit instance()->logEmitted(STDOUT, message, false);
+void WbLog::appendStdout(const QString &message, bool controllerMessage) {
+  if (controllerMessage)
+    emit instance()->controllerLogEmitted(STDOUT, message, false);
   else
-    emit instance()->controllerLogEmitted(STDOUT, message, prefix, false);
+    emit instance()->logEmitted(STDOUT, message, false);
 }
 
-void WbLog::appendStderr(const QString &message, const QString &prefix) {
-  if (prefix.isEmpty())
-    emit instance()->logEmitted(STDERR, message, false);
+void WbLog::appendStderr(const QString &message, bool controllerMessage) {
+  if (controllerMessage)
+    emit instance()->controllerLogEmitted(STDERR, message, false);
   else
-    emit instance()->controllerLogEmitted(STDERR, message, prefix, false);
+    emit instance()->logEmitted(STDERR, message, false);
 }
 
 void WbLog::javascriptLogToConsole(const QString &message, int lineNumber, const QString &sourceUrl) {

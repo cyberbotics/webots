@@ -59,7 +59,7 @@ private slots:
   void processTextMessage(QString);
   void sendUpdatePackageToClients();
   void propagateWebotsLogToClients(WbLog::Level level, const QString &message, bool popup);
-  void propagateControllerLogToClients(WbLog::Level level, const QString &message, const QString &prefix, bool popup);
+  void propagateControllerLogToClients(WbLog::Level level, const QString &message, bool popup);
   void propagateSimulationStateChange();
   void sendLabelUpdate(const QString &labelDescription);
   void sendToJavascript(const QByteArray &string);
