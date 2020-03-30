@@ -125,8 +125,11 @@ void WbStreamingServer::start(int port) {
 void WbStreamingServer::sendToJavascript(const QByteArray &string) {
   WbRobot *robot = dynamic_cast<WbRobot *>(sender());
   if (robot) {
-    QString text = "robot:" + robot->name() + ":" + QString::fromUtf8(string);
-    sendToClients(text);
+    QJsonObject jsonObject;
+    jsonObject.insert("name", robot->name());
+    jsonObject.insert("message", QString::fromUtf8(string));
+    const QJsonDocument jsonDocument(jsonObject);
+    sendToClients("robot: " + jsonDocument.toJson(QJsonDocument::Compact));
   } else
     WbLog::info("WbStreamingServer::sendToJavaScript: Can't send message: " + QString::fromUtf8(string));
 }
@@ -254,14 +257,25 @@ void WbStreamingServer::processTextMessage(QString message) {
   QWebSocket *client = qobject_cast<QWebSocket *>(sender());
 
   if (message.startsWith("robot:")) {
-    const QString &name = message.mid(6, message.indexOf(":", 6) - 6);
-    const QString &data = message.mid(7 + name.size());
-    const QByteArray &byteData = data.toUtf8();
-    WbLog::info(tr("Streaming server: received robot message for %1: \"%2\".").arg(name).arg(data));
+    QString name;
+    QString message;
+    const QString data = message.mid(6).trimmed();
+    const QJsonDocument jsonDocument = QJsonDocument::fromJson(data.toUtf8());
+    if (jsonDocument.isNull() || !jsonDocument.isObject()) {
+      // backward compatibility
+      const int nameSize = message.indexOf(":");
+      name = data.left(nameSize);
+      message = data.mid(nameSize + 1);
+    } else {
+      name = jsonDocument.object().value("name").toString();
+      message = jsonDocument.object().value("message").toString();
+    }
+    const QByteArray &byteMessage = message.toUtf8();
+    WbLog::info(tr("Streaming server: received robot message for %1: \"%2\".").arg(name).arg(message));
     const QList<WbRobot *> &robots = WbWorld::instance()->robots();
     foreach (WbRobot *const robot, robots)
       if (robot->name() == name) {
-        robot->receiveFromJavascript(byteData);
+        robot->receiveFromJavascript(byteMessage);
         break;
       }
   } else if (message == "pause") {

@@ -27,7 +27,7 @@ class Stream { // eslint-disable-line no-unused-vars
   }
 
   onSocketOpen(event) {
-    var mode = this.view.mode;
+    let mode = this.view.mode;
     if (mode === 'mjpeg')
       mode += ': ' + this.view.view3D.offsetWidth + 'x' + (this.view.view3D.offsetHeight - 48); // subtract toolbar height
     else if (this.view.broadcast)
@@ -49,14 +49,14 @@ class Stream { // eslint-disable-line no-unused-vars
   }
 
   onSocketMessage(event) {
-    var lines, i;
-    var data = event.data;
+    let lines, i;
+    let data = event.data;
     if (data.startsWith('robot:') ||
         data.startsWith('stdout:') ||
         data.startsWith('stderr:')) {
       lines = data.split('\n'); // in that case, we support one message per line
       for (i = 0; i < lines.length; i++) {
-        var line = lines[i];
+        let line = lines[i];
         if (line === '') // FIXME: should not happen
           continue;
         if (line.startsWith('stdout:'))
@@ -64,21 +64,29 @@ class Stream { // eslint-disable-line no-unused-vars
         else if (line.startsWith('stderr:'))
           this.view.console.stderr(line.substring(7));
         else if (line.startsWith('robot:')) {
-          var secondColonIndex = line.indexOf(':', 6);
-          var robot = line.substring(6, secondColonIndex);
-          var message = line.substring(secondColonIndex + 1);
+          let robot, message;
+          try {
+            let str = data.substring(data.indexOf(':') + 1).trim();
+            let dataObject = JSON.parse(str);
+            robot = dataObject.name;
+            message = dataObject.message;
+          } catch (e) {
+            let secondColonIndex = line.indexOf(':', 6);
+            robot = line.substring(6, secondColonIndex);
+            message = line.substring(secondColonIndex + 1);
+          }
           this.view.onrobotmessage(robot, message);
         }
       }
     } else if (data.startsWith('world:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
-      var currentWorld = data.substring(0, data.indexOf(':')).trim();
+      let currentWorld = data.substring(0, data.indexOf(':')).trim();
       data = data.substring(data.indexOf(':') + 1).trim();
       this.view.updateWorldList(currentWorld, data.split(';'));
     } else if (data.startsWith('set controller:')) {
-      var slash = data.indexOf('/', 15);
-      var dirname = data.substring(15, slash);
-      var filename = data.substring(slash + 1, data.indexOf(':', slash + 1));
+      let slash = data.indexOf('/', 15);
+      let dirname = data.substring(15, slash);
+      let filename = data.substring(slash + 1, data.indexOf(':', slash + 1));
       if (this.view.editor.dirname === dirname)
         this.view.editor.addFile(filename, data.substring(data.indexOf('\n') + 1)); // remove the first line
       else
@@ -102,7 +110,7 @@ class Stream { // eslint-disable-line no-unused-vars
         this.socket.send('timeout:' + this.view.timeout);
     } else if (data.startsWith('loading:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
-      var loadingStatus = data.substring(0, data.indexOf(':')).trim();
+      let loadingStatus = data.substring(0, data.indexOf(':')).trim();
       data = data.substring(data.indexOf(':') + 1).trim();
       $('#webotsProgressMessage').html('Loading: ' + loadingStatus);
       $('#webotsProgressPercent').html('<progress value="' + data + '" max="100"></progress>');
