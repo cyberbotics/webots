@@ -341,7 +341,7 @@ button::-moz-focus-inner {
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
-  // get rid of whitespace after #remoteScene image
+  /* get rid of whitespace after #remoteScene image */
   display: block;
   float: left;
 }
