@@ -234,28 +234,27 @@ elif options.appearance:
         appearanceFolder = os.path.join(appearanceFolder, 'appearances')
         appearanceFolder = os.path.join(appearanceFolder, 'protos')
         for rootPath, dirNames, fileNames in os.walk(appearanceFolder):
-                for fileName in fnmatch.filter(fileNames, '*.proto'):
-                    protoName = fileName.split('.')[0]
-                    protoPath = rootPath + os.sep + protoName
-                    protoPath = protoPath.replace(os.environ['WEBOTS_HOME'], '')
-                    nodeString = 'Transform { translation 0 1 0 rotation 0 0 1 0.262 children [ '
-                    nodeString += 'Shape { appearance %s { ' % protoName
-                    if protoName in data:
-                        parameters = data[protoName]
-                        if 'fields' in parameters:
-                            nodeString += parameters['fields']
-                    else:
-                        print('Skipping "%s" PROTO.' % protoName)
-                        continue
-                    nodeString += ' } '
-                    nodeString += 'geometry Sphere { subdivision 5 } castShadows FALSE } ] }'
+            for fileName in fnmatch.filter(fileNames, '*.proto'):
+                protoName = fileName.split('.')[0]
+                if protoName not in data:
+                    print('Skipping "%s" PROTO.' % protoName)
+                    continue
+                parameters = data[protoName]
+                protoPath = rootPath + os.sep + protoName
+                protoPath = protoPath.replace(os.environ['WEBOTS_HOME'], '')
+                nodeString = 'Transform { translation 0 1 0 rotation 0 0 1 0.262 children [ '
+                nodeString += 'Shape { appearance %s { ' % protoName
+                if 'fields' in parameters:
+                    nodeString += parameters['fields']
+                nodeString += ' } '
+                nodeString += 'geometry Sphere { subdivision 5 } castShadows FALSE } ] }'
 
-                    objectDirectory = '.' + os.sep + 'images' + os.sep + 'appearances' + os.sep + protoName
-                    if not os.path.exists(objectDirectory):
-                        os.makedirs(objectDirectory)
-                    else:
-                        sys.exit('Multiple definition of ' + protoName)
-                    process_object(controller, 'appearances', nodeString, background=[1, 1, 1], colorThreshold=0.01)
+                objectDirectory = '.' + os.sep + 'images' + os.sep + 'appearances' + os.sep + protoName
+                if not os.path.exists(objectDirectory):
+                    os.makedirs(objectDirectory)
+                else:
+                    sys.exit('Multiple definition of ' + protoName)
+                process_object(controller, 'appearances', nodeString, background=[1, 1, 1], colorThreshold=0.01)
 else:
     with open(options.file) as json_data:
         data = json.load(json_data)
