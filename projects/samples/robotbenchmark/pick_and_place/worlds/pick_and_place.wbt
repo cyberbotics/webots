@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "Benchmark objective:"
@@ -274,7 +274,7 @@ DEF CONVEYOR_BELT Robot {
           name "belt motor"
         }
       ]
-      textureAnimation -0.0043 0
+      textureAnimation -0.27 0
     }
     DEF CYL1 Transform {
       translation 1.28 0 0

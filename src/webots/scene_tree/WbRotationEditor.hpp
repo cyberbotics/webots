@@ -24,6 +24,7 @@
 
 class WbFieldDoubleSpinBox;
 class QLabel;
+class QPushButton;
 
 class WbRotationEditor : public WbValueEditor {
   Q_OBJECT
@@ -32,11 +33,14 @@ public:
   explicit WbRotationEditor(QWidget *parent = NULL);
   virtual ~WbRotationEditor();
 
+  enum RotationType { AXIS_ANGLE = 0, QUATERNIONS };
+
   void recursiveBlockSignals(bool block) override;
 
   QWidget *lastEditorWidget() override;
 
 public slots:
+  // cppcheck-suppress virtualCallInConstructor
   void applyIfNeeded() override;
 
 protected:
@@ -45,15 +49,22 @@ protected:
 
 protected slots:
   void apply() override;
+  void normalize();
+  void updateRotationType(int index);
 
 private:
   void updateSpinBoxes();
   void takeKeyboardFocus() override;
+  WbRotation computeRotation();
 
   WbRotation mRotation;
+  QLabel *mRotationTypeLabel;
+  QComboBox *mRotationTypeComboBox;
+  int mCurrentRotationType;
   WbFieldDoubleSpinBox *mSpinBoxes[4];
   QLabel *mLabel[4];
   QLabel *mUnitLabel[4];
+  QPushButton *mNormalizeButton;
 
   bool mApplied;
 };

@@ -1,3 +1,4 @@
 string name
+bool proto
 ---
 uint64 node

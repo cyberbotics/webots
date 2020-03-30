@@ -1,0 +1,5 @@
+# The Mesh node represents a 3D geometry defined in an external file.
+
+Mesh {
+  field MFString url [ ]   # URL of a 3D file such as DAE, STL, OBJ or FBX format (similar to ImageTexture node)
+}

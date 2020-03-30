@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "This world shows all the base graphical geometries."
@@ -18,7 +18,7 @@ DEF BOX Transform {
     Shape {
       appearance PBRAppearance {
         baseColor 0.8 0.264 0.264
-        roughness 0.19999999999999996
+        roughness 0.2
         metalness 0
       }
       geometry Box {
@@ -33,7 +33,7 @@ DEF CONE Transform {
     Shape {
       appearance PBRAppearance {
         baseColor 0.8 0.621333 0.264
-        roughness 0.19999999999999996
+        roughness 0.2
         metalness 0
       }
       geometry Cone {
@@ -50,7 +50,7 @@ DEF CAPSULE Transform {
     Shape {
       appearance PBRAppearance {
         baseColor 0.621333 0.8 0.264
-        roughness 0.19999999999999996
+        roughness 0.2
         metalness 0
       }
       geometry Capsule {
@@ -67,7 +67,7 @@ DEF CYLINDER Transform {
     Shape {
       appearance PBRAppearance {
         baseColor 0.264 0.8 0.264
-        roughness 0.19999999999999996
+        roughness 0.2
         metalness 0
       }
       geometry Cylinder {
@@ -83,7 +83,7 @@ DEF ELEVATION_GRID Transform {
     Shape {
       appearance PBRAppearance {
         baseColor 0.264 0.8 0.621333
-        roughness 0.19999999999999996
+        roughness 0.2
         metalness 0
       }
       geometry ElevationGrid {
@@ -134,7 +134,7 @@ DEF INDEXED_FACE_SET Transform {
     Shape {
       appearance PBRAppearance {
         baseColor 0.264 0.264 0.8
-        roughness 0.19999999999999996
+        roughness 0.2
         metalness 0
       }
       geometry IndexedFaceSet {
@@ -163,7 +163,7 @@ DEF PLANE Transform {
     Shape {
       appearance PBRAppearance {
         baseColor 0.621333 0.264 0.8
-        roughness 0.19999999999999996
+        roughness 0.2
         metalness 0
       }
       geometry Plane {
@@ -178,7 +178,7 @@ DEF SPHERE Transform {
     Shape {
       appearance PBRAppearance {
         baseColor 0.8 0.264 0.621333
-        roughness 0.19999999999999996
+        roughness 0.2
         metalness 0
       }
       geometry Sphere {
@@ -211,6 +211,25 @@ DEF POINT_SET Transform {
             0.5 0.1 1.2000000000000002
           ]
         }
+      }
+    }
+  ]
+}
+DEF MESH Transform {
+  translation 0.378007 0 10.9864
+  rotation 0 1 0 -1.3089953071795861
+  scale 0.3 0.3 0.3
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.45333 0.288273 0.281071
+        roughness 0.2
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "meshes/suzanne.obj"
+        ]
       }
     }
   ]

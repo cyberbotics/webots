@@ -1,2 +1,2 @@
 function value = WB_NODE_ROBOT
-value = 30;
+value = 31;

@@ -145,6 +145,9 @@ public:
   int useCount() const { return mUseNodes.size(); }
   const QList<WbNode *> &useNodes() const { return mUseNodes; }
   virtual void defHasChanged() {}
+  // Look for a node with this DEF name (this node or any of its children nodes)
+  const WbNode *getNodeFromDEF(const QString &defName) const;
+
   // has this node a referred DEF node descendant, i.e. a descendant with positive use count
   // which is moreover referred outside the subtree below root
   bool hasAreferredDefNodeDescendant() const;  // root = this;
@@ -200,14 +203,14 @@ public:
   QVector<WbField *> fields() const { return mFields; }
   const QVector<WbField *> &fieldsOrParameters() const;
   int numFields() const;
-  WbField *field(int index) const;
+  WbField *field(int index, bool internal = false) const;
   WbField *findField(const QString &fieldName, bool internal = false) const;
   WbField *parentField(bool internal = false) const {
     int index = -1;
     return parentFieldAndIndex(index, internal);
   }
   WbField *parentFieldAndIndex(int &index, bool internal = false) const;
-  int findFieldId(const QString &fieldName) const;
+  int findFieldId(const QString &fieldName, bool internal = false) const;
   int fieldIndex(const WbField *field) const;
   int parameterIndex(const WbField *field) const;
   void disconnectFieldNotification(const WbValue *value);

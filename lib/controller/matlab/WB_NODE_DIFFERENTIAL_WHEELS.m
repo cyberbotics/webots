@@ -1,2 +1,2 @@
 function value = WB_NODE_DIFFERENTIAL_WHEELS
-value = 31;
+value = 32;

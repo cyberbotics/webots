@@ -15,6 +15,7 @@ This information shall be useful for implementing physics plugins.
 | Solid { boundingObject Cylinder {...} }       | dGeomID (dGeomTransformClass + dCylinderClass) |
 | Solid { boundingObject Plane {...} }          | dGeomID (dPlaneClass)                          |
 | Solid { boundingObject IndexedFaceSet {...} } | dGeomID (dTriMeshClass)                        |
+| Solid { boundingObject Mesh {...} }           | dGeomID (dTriMeshClass)                        |
 | Solid { boundingObject ElevationGrid {...} }  | dGeomID (dHeightfieldClass)                    |
 | Solid { boundingObject Transform {...} }      | dGeomID (dGeomTransformClass)                  |
 | Solid { boundingObject Group {...} }          | dSpaceID (dSimpleSpaceClass)                   |
