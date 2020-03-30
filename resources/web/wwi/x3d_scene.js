@@ -68,7 +68,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.composer.addPass(this.bloomPass);
     this.hdrResolvePass = new THREE.ShaderPass(THREE.HDRResolveShader);
     this.composer.addPass(this.hdrResolvePass);
-    var fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
+    let fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
     this.composer.addPass(fxaaPass);
 
     this.resize();
@@ -115,8 +115,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   resize() {
-    var width = this.domElement.clientWidth;
-    var height = this.domElement.clientHeight;
+    let width = this.domElement.clientWidth;
+    let height = this.domElement.clientHeight;
     this.viewpoint.camera.aspect = width / height;
     if (this.viewpoint.camera.fovX)
       this.viewpoint.camera.fov = THREE.Math.radToDeg(horizontalToVerticalFieldOfView(this.viewpoint.camera.fovX, this.viewpoint.camera.aspect));
@@ -145,10 +145,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
     /*
     // Code to debug bloom passes.
-    var geometry = new THREE.PlaneGeometry(5, 5);
-    var material = new THREE.MeshStandardMaterial({color: 0xffffff, side: THREE.DoubleSide});
+    let geometry = new THREE.PlaneGeometry(5, 5);
+    let material = new THREE.MeshStandardMaterial({color: 0xffffff, side: THREE.DoubleSide});
     this.bloomPass.debugMaterial = material;
-    var plane = new THREE.Mesh(geometry, material);
+    let plane = new THREE.Mesh(geometry, material);
     this.scene.add(plane);
     */
 
@@ -156,10 +156,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   deleteObject(id) {
-    var context = {};
-    var object = this.getObjectById('n' + id, false, 'scene', context);
+    let context = {};
+    let object = this.getObjectById('n' + id, false, 'scene', context);
     if (typeof object !== 'undefined') {
-      var parent;
+      let parent;
       if (typeof context !== 'undefined' && typeof context.field !== 'undefined') {
         parent = context.parent;
         if (object.isMaterial)
@@ -183,7 +183,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   loadWorldFile(url, onLoad) {
     this.objectsIdCache = {};
-    var loader = new THREE.X3DLoader(this);
+    let loader = new THREE.X3DLoader(this);
     loader.enableHDRReflections = this.enableHDRReflections;
     loader.load(url, (object3d) => {
       if (object3d.length > 0) {
@@ -211,12 +211,12 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   loadObject(x3dObject, parentId) {
-    var parentObject;
+    let parentObject;
     if (parentId && parentId !== 0)
       parentObject = this.getObjectById('n' + parentId);
-    var loader = new THREE.X3DLoader(this);
+    let loader = new THREE.X3DLoader(this);
     loader.enableHDRReflections = this.enableHDRReflections;
-    var objects = loader.parse(x3dObject, parentObject);
+    let objects = loader.parse(x3dObject, parentObject);
     if (typeof parentObject !== 'undefined')
       this._updateUseNodesIfNeeded(parentObject, parentObject.name.split(';'));
     else {
@@ -238,29 +238,29 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   applyPose(pose, appliedFields = []) {
-    var id = pose.id;
-    var fields = appliedFields;
+    let id = pose.id;
+    let fields = appliedFields;
     for (let key in pose) {
       if (key === 'id')
         continue;
       if (fields.indexOf(key) !== -1)
         continue;
-      var newValue = pose[key];
-      var object = this.getObjectById('n' + id, true);
+      let newValue = pose[key];
+      let object = this.getObjectById('n' + id, true);
       if (typeof object === 'undefined')
         continue; // error
 
-      var valid = true;
+      let valid = true;
       if (key === 'translation') {
         if (object.isTexture) {
-          var translation = convertStringToVec2(newValue);
+          let translation = convertStringToVec2(newValue);
           if (object.userData && object.userData.transform) {
             object.userData.transform.translation = translation;
             object.needsUpdate = true;
             this.sceneModified = true;
           }
         } else if (object.isObject3D) {
-          var newPosition = convertStringToVec3(newValue);
+          let newPosition = convertStringToVec3(newValue);
           // Followed object moved.
           if (this.viewpoint.followedObjectId &&
               (id === this.viewpoint.followedObjectId || // animation case
@@ -274,7 +274,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
           this.sceneModified = true;
         }
       } else if (key === 'rotation' && object.isObject3D) { // Transform node
-        var quaternion = convertStringToQuaternion(newValue);
+        let quaternion = convertStringToQuaternion(newValue);
         object.quaternion.copy(quaternion);
         this.sceneModified = true;
       } else if (object.isMaterial) {
@@ -303,7 +303,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       this.sceneModified = false;
     }
 
-    var raycaster = new THREE.Raycaster();
+    let raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(screenPosition, this.viewpoint.camera);
     return this.gpuPicker.pick(relativePosition, raycaster);
   }
@@ -314,7 +314,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   getTopX3dNode(node) {
     // If it exists, return the upmost Solid, otherwise the top node.
-    var upmostSolid;
+    let upmostSolid;
     while (node) {
       if (node.userData && node.userData.solid)
         upmostSolid = node;
@@ -342,7 +342,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
     if (Array.isArray(object)) {
       for (let i = 0, l = object.length; i < l; i++) {
-        var o = this.getObjectById(id, skipBoundingObject, object[i], context);
+        let o = this.getObjectById(id, skipBoundingObject, object[i], context);
         if (typeof o !== 'undefined')
           return o;
       }
@@ -359,7 +359,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       return object;
     }
 
-    var childObject;
+    let childObject;
     if (object.children) {
       for (let childIndex in object.children) {
         context.parent = object;
@@ -440,8 +440,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   getRobotWindows() {
-    var windows = [['worldInfoWindow', this.worldInfo.window]];
-    var nodes = this.root ? this.root.children : [];
+    let windows = [['worldInfoWindow', this.worldInfo.window]];
+    let nodes = this.root ? this.root.children : [];
     nodes.forEach((node) => {
       if (node.isObject3D && node.userData && node.userData.window && node.userData.name)
         windows.push([node.userData.name, node.userData.window]);
@@ -453,7 +453,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     if (data.startsWith('application/json:')) {
       if (typeof view.time !== 'undefined') { // otherwise ignore late updates until the scene loading is completed
         data = data.substring(data.indexOf(':') + 1);
-        var frame = JSON.parse(data);
+        let frame = JSON.parse(data);
         view.time = frame.time;
         $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(frame.time));
         if (frame.hasOwnProperty('poses')) {
@@ -466,7 +466,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       }
     } else if (data.startsWith('node:')) {
       data = data.substring(data.indexOf(':') + 1);
-      var parentId = data.split(':')[0];
+      let parentId = data.split(':')[0];
       data = data.substring(data.indexOf(':') + 1);
       this.loadObject(data, parentId);
     } else if (data.startsWith('delete:')) {
@@ -482,10 +482,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
         return true;
       this.loadObject(data);
     } else if (data.startsWith('label')) {
-      var semiColon = data.indexOf(';');
-      var id = data.substring(data.indexOf(':'), semiColon);
-      var previousSemiColon;
-      var labelProperties = []; // ['font', 'color', 'size', 'x', 'y', 'text']
+      let semiColon = data.indexOf(';');
+      let id = data.substring(data.indexOf(':'), semiColon);
+      let previousSemiColon;
+      let labelProperties = []; // ['font', 'color', 'size', 'x', 'y', 'text']
       for (let i = 0; i < 5; i++) {
         previousSemiColon = semiColon + 1;
         semiColon = data.indexOf(';', previousSemiColon);
@@ -510,15 +510,15 @@ class X3dScene { // eslint-disable-line no-unused-vars
     if (!this.root)
       return;
 
-    var sceneBox = new THREE.Box3();
+    let sceneBox = new THREE.Box3();
     sceneBox.setFromObject(this.root);
-    var boxSize = new THREE.Vector3();
+    let boxSize = new THREE.Vector3();
     sceneBox.getSize(boxSize);
-    var boxCenter = new THREE.Vector3();
+    let boxCenter = new THREE.Vector3();
     sceneBox.getCenter(boxCenter);
-    var halfWidth = boxSize.x / 2 + boxCenter.x;
-    var halfDepth = boxSize.z / 2 + boxCenter.z;
-    var maxSize = 2 * Math.max(halfWidth, boxSize.y / 2 + boxCenter.y, halfDepth);
+    let halfWidth = boxSize.x / 2 + boxCenter.x;
+    let halfDepth = boxSize.z / 2 + boxCenter.z;
+    let maxSize = 2 * Math.max(halfWidth, boxSize.y / 2 + boxCenter.y, halfDepth);
     directionalLights.forEach((light) => {
       light.position.multiplyScalar(maxSize);
       light.shadow.camera.far = Math.max(maxSize, light.shadow.camera.far);
@@ -530,8 +530,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   _setupEnvironmentMap() {
-    var isHDR = false;
-    var backgroundMap;
+    let isHDR = false;
+    let backgroundMap;
     if (this.scene.background) {
       if (this.scene.background.isColor) {
         let color = this.scene.background.clone();
@@ -548,7 +548,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
     this.scene.traverse((child) => {
       if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
-        var material = child.material;
+        let material = child.material;
         material.envMap = backgroundMap;
         material.envMapIntensity = isHDR ? 0.6 : 1.0; // Factor empirically found to match the Webots rendering.
         if (typeof this.scene.userData.luminosity !== 'undefined')
@@ -570,8 +570,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
     }
 
     if (typeof this.useNodeCache[id] === 'undefined') {
-      var node = object;
-      var source;
+      let node = object;
+      let source;
       while (node && node !== this.root) {
         if (typeof node.userData.USE !== 'undefined')
           source = node;
@@ -581,7 +581,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       if (typeof source !== 'undefined') {
         this.useNodeCache[id].target = [];
         source.userData.USE.split(';').forEach((useId) => {
-          var useObject = this.getObjectById(useId);
+          let useObject = this.getObjectById(useId);
           if (typeof useObject !== 'undefined')
             this.useNodeCache[id].target.push(useObject);
         });
@@ -589,15 +589,15 @@ class X3dScene { // eslint-disable-line no-unused-vars
     }
     if (typeof this.useNodeCache[id].source !== 'undefined') {
       // clone again changed DEF node instance
-      var sourceNode = this.useNodeCache[id].source;
-      var targetNodes = this.useNodeCache[id].target;
-      var newTargetNodes = [];
+      let sourceNode = this.useNodeCache[id].source;
+      let targetNodes = this.useNodeCache[id].target;
+      let newTargetNodes = [];
       for (let i = 0, l = targetNodes.length; i < l; i++) {
-        var target = targetNodes[i];
-        var newClone = sourceNode.clone();
+        let target = targetNodes[i];
+        let newClone = sourceNode.clone();
         newClone.name = target.name;
-        var parent = target.parent;
-        var index = parent.children.indexOf(target);
+        let parent = target.parent;
+        let index = parent.children.indexOf(target);
         parent.remove(target);
 
         // manually add new child to keep the same child index.
