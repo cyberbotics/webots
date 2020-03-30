@@ -71,6 +71,7 @@ class Stream { // eslint-disable-line no-unused-vars
             robot = dataObject.name;
             message = dataObject.message;
           } catch (e) {
+            // backward compatibility
             let secondColonIndex = line.indexOf(':', 6);
             robot = line.substring(6, secondColonIndex);
             message = line.substring(secondColonIndex + 1);
