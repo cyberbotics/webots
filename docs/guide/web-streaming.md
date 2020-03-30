@@ -7,7 +7,7 @@ In this mode the user can watch an already running simulation and navigate into 
 Please refer to the [Web simulation](web-simulation.md) documentation to setup a platform where users can run individual simulations.
 
 Two different streaming modes are available:
-- the `x3d` mode (default) where the simulation is streamed using a mechanism similar to the [web animation export](web-animation.md) except that the `X3D` file and the animation are sent on the fly to the Web browser clients.
+- the `x3d` mode (default) where the simulation is streamed using a mechanism similar to the [web animation export](web-animation.md) except that the `X3D` file and the animation are sent on the fly to the web browser clients.
 - the `mjpeg` mode where the Webots scene render on the server is directly sent as `MJPEG` image to the Web browser client.
 
 %figure "Screenshot of Webots streaming server"
