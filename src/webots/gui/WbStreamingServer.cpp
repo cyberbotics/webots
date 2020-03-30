@@ -31,6 +31,8 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonObject>
 #include <QtCore/QRegularExpression>
 #include <QtNetwork/QSslKey>
 #include <QtWebSockets/QWebSocket>
@@ -631,15 +633,20 @@ void WbStreamingServer::sendWorldToClient(QWebSocket *client) {
   QList<WbRobot *> robots = WbWorld::instance()->robots();
   foreach (const WbRobot *robot, robots) {
     if (!robot->window().isEmpty()) {
-      const QString &robotName = robot->name();
-      client->sendTextMessage(QString("robot window: %1:%2:%3").arg(robotName.size()).arg(robotName).arg(robot->window()));
+      QJsonObject windowObject;
+      windowObject.insert("robot", robot->name());
+      windowObject.insert("window", robot->window());
+      const QJsonDocument windowDocument(windowObject);
+      client->sendTextMessage("robot window: " + windowDocument.toJson(QJsonDocument::Compact));
     }
   }
 
   const WbWorldInfo *currentWorldInfo = WbWorld::instance()->worldInfo();
-  const QString &infoWindow = currentWorldInfo->window();
-  client->sendTextMessage(
-    QString("world info: %1:%2:%3").arg(infoWindow.size()).arg(infoWindow).arg(currentWorldInfo->title()));
+  QJsonObject infoObject;
+  infoObject.insert("window", currentWorldInfo->window());
+  infoObject.insert("title", currentWorldInfo->title());
+  const QJsonDocument infoDocument(infoObject);
+  client->sendTextMessage("world info: " + infoDocument.toJson(QJsonDocument::Compact));
 
   client->sendTextMessage("scene load completed");
 }

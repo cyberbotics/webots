@@ -90,20 +90,13 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
         this.navigationEnabled = false; // client in view mode
       }
     } else if (data.startsWith('robot window: ')) {
-      let robotInfo = data.substring(data.indexOf(':') + 1).trim();
-      let separatorIndex = robotInfo.indexOf(':');
-      let nameSize = parseInt(robotInfo.substring(0, separatorIndex));
-      let robotName = robotInfo.substring(separatorIndex + 1, nameSize + separatorIndex + 1);
-      let windowName = robotInfo.substring(separatorIndex + nameSize + 2);
-      this.setRobotWindow(robotName, windowName);
+      let dataString = data.substring(data.indexOf(':') + 1).trim();
+      let dataObject = JSON.parse(dataString);
+      this.setRobotWindow(dataObject.robot, dataObject.window);
     } else if (data.startsWith('world info: ')) {
-      // world info: <name size>:<info window name>:<world title>
-      let info = data.substring(data.indexOf(':') + 1).trim();
-      let separatorIndex = info.indexOf(':');
-      let nameSize = parseInt(info.substring(0, separatorIndex));
-      let infoWindowName = info.substring(separatorIndex + 1, nameSize + separatorIndex + 1);
-      let title = info.substring(separatorIndex + nameSize + 2);
-      this.setWorldInfo(title, infoWindowName);
+      let dataString = data.substring(data.indexOf(':') + 1).trim();
+      let dataObject = JSON.parse(dataString);
+      this.setWorldInfo(dataObject.title, dataObject.window);
     } else if (data.startsWith('context menu: ')) {
       let info = data.substring(data.indexOf(':') + 1).trim();
       this.showContextMenu(JSON.parse(info));
