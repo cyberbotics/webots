@@ -29,7 +29,7 @@ class Stream { // eslint-disable-line no-unused-vars
   onSocketOpen(event) {
     var mode = this.view.mode;
     if (mode === 'mjpeg')
-      mode += ': ' + this.view.view3D.offsetWidth + 'x' + (this.view.view3D.offsetHeight - 48); // TODO subtract toolbar height
+      mode += ': ' + this.view.view3D.offsetWidth + 'x' + (this.view.view3D.offsetHeight - 48); // subtract toolbar height
     else if (this.view.broadcast)
       mode += ';broadcast';
     this.socket.send(mode);

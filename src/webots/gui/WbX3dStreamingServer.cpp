@@ -53,7 +53,7 @@ void WbX3dStreamingServer::start(int port) {
 }
 
 void WbX3dStreamingServer::stop() {
-  // test that the animation recorder is instanciated.
+  // Test that the animation recorder is instanciated.
   // Otherwise, the instance() call can wrongly recreate an instance of the
   // animation recorder in the cleanup routines.
   if (WbAnimationRecorder::isInstantiated())
@@ -110,7 +110,6 @@ void WbX3dStreamingServer::startX3dStreaming(QWebSocket *client) {
     const QString &stateMessage = simulationStateString();
     if (!stateMessage.isEmpty())
       client->sendTextMessage(stateMessage);
-    // TODO
     WbLog::info(
       tr("Streaming server: New client [%1] (%2 connected client(s)).").arg(clientToId(client)).arg(mWebSocketClients.size()));
   } catch (const QString &e) {
