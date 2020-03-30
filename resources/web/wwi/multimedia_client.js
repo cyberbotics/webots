@@ -92,7 +92,7 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
     } else if (data.startsWith('robot window: ')) {
       let robotInfo = data.substring(data.indexOf(':') + 1).trim();
       let separatorIndex = robotInfo.indexOf(':');
-      let nameSize = parseFloat(robotInfo.substring(0, separatorIndex));
+      let nameSize = parseInt(robotInfo.substring(0, separatorIndex));
       let robotName = robotInfo.substring(separatorIndex + 1, nameSize + separatorIndex + 1);
       let windowName = robotInfo.substring(separatorIndex + nameSize + 2);
       this.setRobotWindow(robotName, windowName);
