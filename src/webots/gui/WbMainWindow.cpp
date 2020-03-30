@@ -393,9 +393,9 @@ void WbMainWindow::createMainTools() {
   connect(mSimulationView->sceneTree(), &WbSceneTree::editRequested, this, &WbMainWindow::openFileInTextEditor);
   if (mStreamingServer) {
     mStreamingServer->setMainWindow(this);
-    WbMultimediaStreamingServer *videoStreamingServer = dynamic_cast<WbMultimediaStreamingServer *>(mStreamingServer);
-    if (videoStreamingServer)
-      videoStreamingServer->setView3D(mSimulationView->view3D());
+    WbMultimediaStreamingServer *multimediaStreamingServer = dynamic_cast<WbMultimediaStreamingServer *>(mStreamingServer);
+    if (multimediaStreamingServer)
+      multimediaStreamingServer->setView3D(mSimulationView->view3D());
   }
 
   mTextEditor = new WbBuildEditor(this, toolBarAlign());
