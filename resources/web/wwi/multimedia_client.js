@@ -368,7 +368,7 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
 
   _sendMessage(message) {
     this.contextMenu.hide();
-    var socket = this.view.stream.socket;
+    let socket = this.view.stream.socket;
     if (!socket || socket.readyState !== 1)
       return;
     socket.send(message);
