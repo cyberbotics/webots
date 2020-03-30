@@ -100,7 +100,7 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
       // world info: <name size>:<info window name>:<world title>
       let info = data.substring(data.indexOf(':') + 1).trim();
       let separatorIndex = info.indexOf(':');
-      let nameSize = parseFloat(info.substring(0, separatorIndex));
+      let nameSize = parseInt(info.substring(0, separatorIndex));
       let infoWindowName = info.substring(separatorIndex + 1, nameSize + separatorIndex + 1);
       let title = info.substring(separatorIndex + nameSize + 2);
       this.setWorldInfo(title, infoWindowName);
