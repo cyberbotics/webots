@@ -74,7 +74,7 @@ def autocrop(im):
 
 
 def take_screenshot(camera, category, directory, protoDirectory, protoName, options, background, colorThreshold,
-                    shadowColor=None):
+                    shadowColor=None, namePostfix=''):
     """Take the screenshot."""
     # Convert Camera image to PIL image.
     image = camera.getImage()
@@ -129,13 +129,13 @@ def take_screenshot(camera, category, directory, protoDirectory, protoName, opti
         categoryFolder = os.path.basename(os.path.dirname(protoDirectory))
         # copy the models in the docs directory
         modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', category, categoryFolder, protoName)
-        modelPath = os.path.join(modelFolder, 'model.png')
-        if category == categoryFolder:
+        modelPath = os.path.join(modelFolder, 'model' + namePostfix + '.png')
+        if category == categoryFolder:  # apperances
             modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', category)
-            modelPath = os.path.join(modelFolder, protoName + '.png')
+            modelPath = os.path.join(modelFolder, protoName + namePostfix + '.png')
         elif category == 'robots':
             modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', category, categoryFolder)
-            modelPath = os.path.join(modelFolder, protoName + '.png')
+            modelPath = os.path.join(modelFolder, protoName + namePostfix + '.png')
         if not os.path.exists(modelFolder):
             os.makedirs(modelFolder)
         if os.path.exists(modelPath):
@@ -143,7 +143,37 @@ def take_screenshot(camera, category, directory, protoDirectory, protoName, opti
         shutil.copy2(directory + os.sep + 'model.png', modelPath)
 
 
-def process_object(supervisor, category, nodeString, background, colorThreshold):
+def process_appearances(supervisor, parameters):
+    """Import the apperances, take screenshot and remove it."""
+    objectDirectory = '.' + os.sep + 'images' + os.sep + 'appearances' + os.sep + protoName
+    if not os.path.exists(objectDirectory):
+        os.makedirs(objectDirectory)
+    else:
+        sys.exit('Multiple definition of ' + protoName)
+    protoPath = rootPath + os.sep + protoName
+    protoPath = protoPath.replace(os.environ['WEBOTS_HOME'], '')
+    nodeString = 'Transform { translation 0 1 0 rotation 0 0 1 0.262 children [ '
+    nodeString += 'Shape { '
+    nodeString += 'geometry Sphere { subdivision 5 } '
+    nodeString += 'castShadows FALSE '
+    nodeString += 'appearance %s { ' % protoName
+    if 'fields' in parameters:
+        assert type(parameters['fields']) is list
+        postfix = 'a'
+        for fields in parameters['fields']:
+            newNodeString = nodeString + fields
+            newNodeString += ' } } ] }'
+            process_object(controller, 'appearances', newNodeString, objectDirectory,
+                           protoPath, background=[1, 1, 1], colorThreshold=0.01,
+                           postfix=('_' + postfix if len(parameters['fields']) > 1 else ''))
+            postfix = chr(ord(postfix) + 1)
+    else:
+        nodeString += ' } } ] }'
+        process_object(controller, 'appearances', nodeString, objectDirectory,
+                       protoPath, background=[1, 1, 1], colorThreshold=0.01)
+
+
+def process_object(supervisor, category, nodeString, objectDirectory, protoPath, background, colorThreshold, postfix=''):
     """Import object, take screenshot and remove it."""
     rootChildrenfield = controller.getRoot().getField('children')
 
@@ -191,7 +221,7 @@ def process_object(supervisor, category, nodeString, background, colorThreshold)
     lightIntensityField.setSFFloat(lightIntensity)
     supervisor.step(10 * timeStep)
     take_screenshot(camera, category, objectDirectory, os.path.dirname(protoPath), protoName, options, background,
-                    colorThreshold, shadowColor)
+                    colorThreshold, shadowColor, postfix)
 
     # remove the object
     supervisor.step(timeStep)
@@ -239,22 +269,7 @@ elif options.appearance:
                 if protoName not in data:
                     print('Skipping "%s" PROTO.' % protoName)
                     continue
-                parameters = data[protoName]
-                protoPath = rootPath + os.sep + protoName
-                protoPath = protoPath.replace(os.environ['WEBOTS_HOME'], '')
-                nodeString = 'Transform { translation 0 1 0 rotation 0 0 1 0.262 children [ '
-                nodeString += 'Shape { appearance %s { ' % protoName
-                if 'fields' in parameters:
-                    nodeString += parameters['fields']
-                nodeString += ' } '
-                nodeString += 'geometry Sphere { subdivision 5 } castShadows FALSE } ] }'
-
-                objectDirectory = '.' + os.sep + 'images' + os.sep + 'appearances' + os.sep + protoName
-                if not os.path.exists(objectDirectory):
-                    os.makedirs(objectDirectory)
-                else:
-                    sys.exit('Multiple definition of ' + protoName)
-                process_object(controller, 'appearances', nodeString, background=[1, 1, 1], colorThreshold=0.01)
+                process_appearances(controller, data[protoName])
 else:
     with open(options.file) as json_data:
         data = json.load(json_data)
@@ -304,4 +319,5 @@ else:
                     nodeString = value['nodeString'].encode('utf-8')
                 else:
                     nodeString = value['nodeString']
-            process_object(controller, key.split('/')[1], nodeString, background=background, colorThreshold=colorThreshold)
+            process_object(controller, key.split('/')[1], nodeString, objectDirectory, protoPath,
+                           background=background, colorThreshold=colorThreshold)
