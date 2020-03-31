@@ -44,6 +44,8 @@ Released on XXX.
     - Fixed a crash related to [InertialUnit](inertialunit.md) node when gravity was null.
     - Fixed support for MATLAB R2017b on Windows.
     - Fixed a crash occurring when changing the `textureAnimation` value of some `Track` node from the scene tree.
+  - Documentation
+    - Fixed tutorials 1, 4 and 6 with respect to MATLAB controllers and added sample MATLAB controllers.
 
 ## Webots R2020a Revision 1
 Released on January 14th, 2020.
