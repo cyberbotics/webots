@@ -10,6 +10,7 @@ PROTO Truck [
   field     SFRotation rotation          0 1 0 0
   field     SFColor    color             0.39 0 0
   field     SFNode     trailer           TruckTrailer { }
+  field     SFFloat    wheelbase         5.25
   field     SFString   name              "vehicle"
   field     SFString   controller        "void"
   field     SFString   controllerArgs    ""
@@ -31,7 +32,7 @@ PROTO Truck [
     synchronization IS synchronization
     trackFront 2.2
     trackRear 2.2
-    wheelbase 5.25
+    wheelbase IS wheelbase
     type "4x4"
     minSteeringAngle -0.4
     maxSteeringAngle 0.4
