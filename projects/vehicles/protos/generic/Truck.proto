@@ -72,13 +72,18 @@ PROTO Truck [
         translation 0 2.7 -7.3
         children IS sensorsSlotRear
       }
-      DEF FRONT_LIGHTS LED {  # VehicleLights are not used because of the trailer rotation and name duplication.
+      Transform {
+        translation 0 0 %{= 0.998 * (wheelbase - 5.25) }%
         children [
-          TruckFrontLight {
+          DEF FRONT_LIGHTS LED {  # VehicleLights are not used because of the trailer rotation and name duplication.
+            children [
+              TruckFrontLight {
+              }
+            ]
+            name "front_lights"
+            color 0.8 0.8 0.8
           }
         ]
-        name "front_lights"
-        color 0.8 0.8 0.8
       }
       DEF TRAILER_JOINT HingeJoint {
         jointParameters HingeJointParameters {
