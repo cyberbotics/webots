@@ -11,6 +11,7 @@ PROTO Truck [
   field     SFColor    color             0.39 0 0
   field     SFNode     trailer           TruckTrailer { }
   field     SFFloat    wheelbase         5.25
+  field     SFFloat    mass              8000
   field     SFString   name              "vehicle"
   field     SFString   controller        "void"
   field     SFString   controllerArgs    ""
@@ -22,6 +23,13 @@ PROTO Truck [
   field     MFNode     sensorsSlotCenter [ ]
 ]
 {
+  %{
+    local wheelbase = fields.wheelbase.value
+    if wheelbase <= 2.0 then
+      wheelbase = 2.0
+      io.stderr:write("'wheelbase' should not be smaller than 2.0.\n")
+    end
+  }%
   Car {
     translation IS translation
     rotation IS rotation
@@ -32,7 +40,7 @@ PROTO Truck [
     synchronization IS synchronization
     trackFront 2.2
     trackRear 2.2
-    wheelbase IS wheelbase
+    wheelbase %{= wheelbase }%
     type "4x4"
     minSteeringAngle -0.4
     maxSteeringAngle 0.4
@@ -100,7 +108,7 @@ PROTO Truck [
     boundingObject Group {
       children [
         Transform {
-          translation 0 2 5.4
+          translation 0 2 %{= wheelbase + 0.15 }%
           children [
             Box {
               size 2.8 4.1 3.2
@@ -108,10 +116,10 @@ PROTO Truck [
           ]
         }
         Transform {
-          translation 0 0.35 1.55
+          translation 0 0.35 %{= 0.5 * wheelbase - 1.075 }%
           children [
             Box {
-              size 2.8 0.8 4.5
+              size 2.8 0.8 %{= wheelbase - 0.75 }%
             }
           ]
         }
@@ -119,9 +127,9 @@ PROTO Truck [
     }
     physics Physics {
       density -1
-      mass 8000
+      mass IS mass
       centerOfMass [
-        0 0.1 4.5
+        0 0.1 %{= wheelbase - 0.75 }%
       ]
     }
     wheelFrontLeft TruckWheel {
