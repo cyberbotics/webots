@@ -54,8 +54,8 @@ int main(int argc, char **argv) {
       ps_values[i] = wb_distance_sensor_get_value(ps[i]);
 
     // detect obsctacles
-    bool right_obstacle = ps_values[0] > 70.0 || ps_values[1] > 70.0 || ps_values[2] > 70.0;
-    bool left_obstacle = ps_values[5] > 70.0 || ps_values[6] > 70.0 || ps_values[7] > 70.0;
+    bool right_obstacle = ps_values[0] > 80.0 || ps_values[1] > 80.0 || ps_values[2] > 80.0;
+    bool left_obstacle = ps_values[5] > 80.0 || ps_values[6] > 80.0 || ps_values[7] > 80.0;
 
     // initialize motor speeds at 50% of MAX_SPEED.
     double left_speed = 0.5 * MAX_SPEED;
