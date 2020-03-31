@@ -25,7 +25,7 @@ PROTO Truck [
 {
   %{
     local wheelbase = fields.wheelbase.value
-    if wheelbase <= 2.0 then
+    if wheelbase < 2.0 then
       wheelbase = 2.0
       io.stderr:write("'wheelbase' should not be smaller than 2.0.\n")
     end
@@ -99,6 +99,7 @@ PROTO Truck [
       }
       TruckCab {
         color IS color
+        sizeRatio %{= 1 + 0.239 * (wheelbase - 5.25) }%
       }
     ]
     radarCrossSection 200
