@@ -40,7 +40,9 @@ A bakelite plastic.
 
 %figure
 
-![BakelitePlastic](images/appearances/BakelitePlastic.thumbnail.png)
+|     |     |
+|:---:|:---:|
+| ![BakelitePlastic_a.png](images/appearances/BakelitePlastic_a.thumbnail.png) |![BakelitePlastic_b.png](images/appearances/BakelitePlastic_b.thumbnail.png) |
 
 %end
 
@@ -172,7 +174,10 @@ A woolen carpet material.
 
 %figure
 
-![CarpetFibers](images/appearances/CarpetFibers.thumbnail.png)
+|     |     |
+|:---:|:---:|
+| ![CarpetFibers_a.png](images/appearances/CarpetFibers_a.thumbnail.png) |![CarpetFibers_b.png](images/appearances/CarpetFibers_b.thumbnail.png) |
+| ![CarpetFibers_c.png](images/appearances/CarpetFibers_c.thumbnail.png) | |
 
 %end
 
@@ -230,36 +235,6 @@ CementTiles {
 ### CementTiles Field Summary
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
-
-- `textureTransform`: Defines an optional 2d texture transform.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
-
-## ChequeredParquetry
-
-A wooden material in a chequered pattern covered with a layer of varnish. Useful with the `Floor` PROTO.
-
-%figure
-
-![ChequeredParquetry](images/appearances/ChequeredParquetry.thumbnail.png)
-
-%end
-
-Derived from [PBRAppearance](../reference/pbrappearance.md).
-
-```
-ChequeredParquetry {
-  SFNode  textureTransform NULL
-  SFFloat IBLStrength      1
-}
-```
-
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ChequeredParquetry.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/ChequeredParquetry.proto)"
-
-> **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
-
-### ChequeredParquetry Field Summary
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -453,39 +428,6 @@ DamascusSteel {
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### DamascusSteel Field Summary
-
-- `colorOverride`: Defines the default color multiplied with the texture color.
-
-- `textureTransform`: Defines an optional 2d texture transform.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
-
-## DarkParquetry
-
-A dark parquetry material.
-
-%figure
-
-![DarkParquetry](images/appearances/DarkParquetry.thumbnail.png)
-
-%end
-
-Derived from [PBRAppearance](../reference/pbrappearance.md).
-
-```
-DarkParquetry {
-  SFColor colorOverride    1 1 1
-  SFNode  textureTransform NULL
-  SFFloat IBLStrength      1
-}
-```
-
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/DarkParquetry.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/DarkParquetry.proto)"
-
-> **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
-
-### DarkParquetry Field Summary
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
@@ -691,7 +633,10 @@ A grass material containing several grass types.
 
 %figure
 
-![Grass](images/appearances/Grass.thumbnail.png)
+|     |     |
+|:---:|:---:|
+| ![Grass_a.png](images/appearances/Grass_a.thumbnail.png) |![Grass_b.png](images/appearances/Grass_b.thumbnail.png) |
+| ![Grass_c.png](images/appearances/Grass_c.thumbnail.png) |![Grass_d.png](images/appearances/Grass_d.thumbnail.png) |
 
 %end
 
@@ -760,7 +705,9 @@ A leather material. The color can be overridden using the `colorOverride` field.
 
 %figure
 
-![Leather](images/appearances/Leather.thumbnail.png)
+|     |     |
+|:---:|:---:|
+| ![Leather_a.png](images/appearances/Leather_a.thumbnail.png) |![Leather_b.png](images/appearances/Leather_b.thumbnail.png) |
 
 %end
 
@@ -825,6 +772,39 @@ LedStrip {
 - `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 - `emissiveIntensity`: Defines the intensity of the leds.
+
+## Marble
+
+A beige marble material.
+
+%figure
+
+![Marble](images/appearances/Marble.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+Marble {
+  SFColor colorOverride     1 1 1
+  SFNode  textureTransform  NULL
+  SFFloat IBLStrength       1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Marble.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/Marble.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### Marble Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
 ## MarbleTiles
 
@@ -917,6 +897,36 @@ MetalPipePaint {
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### MetalPipePaint Field Summary
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
+
+## MetalStainlessSteelCable
+
+A stainless steel cable appearance.
+
+%figure
+
+![MetalStainlessSteelCable](images/appearances/MetalStainlessSteelCable.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+MetalStainlessSteelCable {
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MetalStainlessSteelCable.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/MetalStainlessSteelCable.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### MetalStainlessSteelCable Field Summary
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1056,11 +1066,16 @@ PaintedWood {
 
 ## Parquetry
 
-A wooden material in a tesselated block pattern covered with a layer of varnish. Useful with the `Floor` PROTO.
+A parquetry material.
+The type of parquetry can be set using the `type` field.
+The color can be overridden using the `colorOverride` field.
 
 %figure
 
-![Parquetry](images/appearances/Parquetry.thumbnail.png)
+|     |     |
+|:---:|:---:|
+| ![Parquetry_a.png](images/appearances/Parquetry_a.thumbnail.png) |![Parquetry_b.png](images/appearances/Parquetry_b.thumbnail.png) |
+| ![Parquetry_c.png](images/appearances/Parquetry_c.thumbnail.png) |![Parquetry_d.png](images/appearances/Parquetry_d.thumbnail.png) |
 
 %end
 
@@ -1068,9 +1083,10 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 Parquetry {
-  SFColor colorOverride    1 1 1
-  SFNode  textureTransform NULL
-  SFFloat IBLStrength      1
+  SFString type             "mosaic"
+  SFColor  colorOverride    1 1 1
+  SFNode   textureTransform NULL
+  SFFloat  IBLStrength      1
 }
 ```
 
@@ -1080,6 +1096,50 @@ Parquetry {
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### Parquetry Field Summary
+
+- `type`: Defines the parquetry type. This field accepts the following values: `"chequered"`, `"dark strip"`, `"light strip"` and `"mosaic"`.
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
+
+## Pavement
+
+A pavement material.
+The type of pavement can be set using the `type` field.
+The color can be overridden using the `colorOverride` field.
+
+%figure
+
+|     |     |
+|:---:|:---:|
+| ![Pavement_a.png](images/appearances/Pavement_a.thumbnail.png) |![Pavement_b.png](images/appearances/Pavement_b.thumbnail.png) |
+| ![Pavement_c.png](images/appearances/Pavement_c.thumbnail.png) |![Pavement_d.png](images/appearances/Pavement_d.thumbnail.png) |
+| ![Pavement_e.png](images/appearances/Pavement_e.thumbnail.png) |![Pavement_f.png](images/appearances/Pavement_f.thumbnail.png) |
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+Pavement {
+  SFString type             "braun square stone"
+  SFColor  colorOverride     1 1 1
+  SFNode   textureTransform  NULL
+  SFFloat  IBLStrength       1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Pavement.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/Pavement.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### Pavement Field Summary
+
+- `type`: Defines the pavement type. This field accepts the following values: `"black stone"`, `"braun stone"`, `"braun square stone"`, `"grid"`, `"slate"` and `"tiles"`.
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
@@ -1418,10 +1478,13 @@ Roughcast {
 ## Rubber
 
 A rubber material.
+The type of rubber can be set using the `type` field.
 
 %figure
 
-![Rubber](images/appearances/Rubber.thumbnail.png)
+|     |     |
+|:---:|:---:|
+| ![Rubber_a.png](images/appearances/Rubber_a.thumbnail.png) |![Rubber_b.png](images/appearances/Rubber_b.thumbnail.png) |
 
 %end
 
@@ -1429,8 +1492,9 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 Rubber {
-  SFNode  textureTransform NULL
-  SFFloat IBLStrength      1
+  SFString  type              "flat"
+  SFNode    textureTransform  NULL
+  SFFloat   IBLStrength       1
 }
 ```
 
@@ -1440,6 +1504,8 @@ Rubber {
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### Rubber Field Summary
+
+- `type`: Defines the rubber type. This field accepts the following values: `"flat"` and `"dotted"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1647,46 +1713,15 @@ ShinyLeather {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
-## SlatePavement
-
-A slate pavement material.
-
-%figure
-
-![SlatePavement](images/appearances/SlatePavement.thumbnail.png)
-
-%end
-
-Derived from [PBRAppearance](../reference/pbrappearance.md).
-
-```
-SlatePavement {
-  SFColor colorOverride    1 1 1
-  SFNode  textureTransform NULL
-  SFFloat IBLStrength      1
-}
-```
-
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/SlatePavement.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/SlatePavement.proto)"
-
-> **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
-
-### SlatePavement Field Summary
-
-- `colorOverride`: Defines the default color multiplied with the texture color.
-
-- `textureTransform`: Defines an optional 2d texture transform.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
-
 ## Soil
 
 A soil material.
 
 %figure
 
-![Soil](images/appearances/Soil.thumbnail.png)
+|     |     |
+|:---:|:---:|
+| ![Soil_a.png](images/appearances/Soil_a.thumbnail.png) |![Soil_b.png](images/appearances/Soil_b.thumbnail.png) |
 
 %end
 
@@ -1696,6 +1731,7 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 Soil {
   SFString  type              "braun"
   SFNode    textureTransform  NULL
+  SFColor   color             1 1 1
   SFFloat   IBLStrength       1
 }
 ```
@@ -1713,70 +1749,31 @@ Soil {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
-## SquarePavement
+## SolarCell
 
-A square pavement material. The color can be overridden using the `colorOverride` field.
+A solar panel cell material.
 
 %figure
 
-![SquarePavement](images/appearances/SquarePavement.thumbnail.png)
+![SolarCell](images/appearances/SolarCell.thumbnail.png)
 
 %end
 
 Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
-SquarePavement {
-  SFColor colorOverride    1 1 1
-  SFNode  textureTransform NULL
-  SFFloat IBLStrength      1
+SolarCell {
+  SFNode  textureTransform  NULL
+  SFFloat IBLStrength       1
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/SquarePavement.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/SquarePavement.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/SolarCell.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/SolarCell.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
-### SquarePavement Field Summary
-
-- `colorOverride`: Defines the default color multiplied with the texture color.
-
-- `textureTransform`: Defines an optional 2d texture transform.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
-
-## StonePavement
-
-A stone pavement material.
-
-%figure
-
-![StonePavement](images/appearances/StonePavement.thumbnail.png)
-
-%end
-
-Derived from [PBRAppearance](../reference/pbrappearance.md).
-
-```
-StonePavement {
-  SFColor   colorOverride    1 1 1
-  SFString  type             "recent"
-  SFNode    textureTransform NULL
-  SFFloat   IBLStrength      1
-}
-```
-
-> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/StonePavement.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/StonePavement.proto)"
-
-> **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
-
-### StonePavement Field Summary
-
-- `colorOverride`: Defines the default color multiplied with the texture color.
-
-- `type`: Defines the pavement type. This field accepts the following values: `"recent"` and `"old square"`.
+### SolarCell Field Summary
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1784,11 +1781,14 @@ StonePavement {
 
 ## ThreadMetalPlate
 
-A worn paint layer on a metal surface. Useful with the `PipeSection` PROTO or any painted industrial surfaces.
+A worn paint layer on a metal surface.
+The type of metal surface can be set using the `type` field.
 
 %figure
 
-![ThreadMetalPlate](images/appearances/ThreadMetalPlate.thumbnail.png)
+|     |     |
+|:---:|:---:|
+| ![ThreadMetalPlate_a.png](images/appearances/ThreadMetalPlate_a.thumbnail.png) |![ThreadMetalPlate_b.png](images/appearances/ThreadMetalPlate_b.thumbnail.png) |
 
 %end
 
@@ -1796,9 +1796,10 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 ThreadMetalPlate {
-  SFColor colorOverride    1 1 1
-  SFNode  textureTransform NULL
-  SFFloat IBLStrength      1
+  SFString  type               "oval"
+  SFColor   colorOverride      1 1 1
+  SFNode    textureTransform   NULL
+  SFFloat   IBLStrength        1
 }
 ```
 
@@ -1808,6 +1809,8 @@ ThreadMetalPlate {
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### ThreadMetalPlate Field Summary
+
+- `type`: Defines the motif type on the material. This field accepts the following values: `"oval"` and `"square"`.
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
@@ -1822,7 +1825,9 @@ It can be a car tire or a bike tire.
 
 %figure
 
-![TireRubber](images/appearances/TireRubber.thumbnail.png)
+|     |     |
+|:---:|:---:|
+| ![TireRubber_a.png](images/appearances/TireRubber_a.thumbnail.png) |![TireRubber_b.png](images/appearances/TireRubber_b.thumbnail.png) |
 
 %end
 

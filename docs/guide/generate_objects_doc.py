@@ -244,7 +244,7 @@ for proto in prioritaryProtoList + fileList:
                         files.append(image)
                 if files:
                     files.sort()  # alphapetically ordered
-                    file.write(u'%figure"\n\n')
+                    file.write(u'%figure\n\n')
                     file.write(u'|     |     |\n')
                     file.write(u'|:---:|:---:|\n')
                     for i in range(len(files)):
