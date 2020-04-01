@@ -166,6 +166,7 @@ PROTO SpotLeftLeg [
                     ]
                   }
                   physics DEF TENDON_PH Physics {
+                    mass 0.020377358
                   }
                 }
               }
@@ -440,7 +441,7 @@ PROTO SpotLeftLeg [
                   }
                   physics DEF FOREARM_PH Physics {
                     density -1
-                    mass 9.05256622128223
+                    mass 0.137150943
                     centerOfMass [
                       -0.16603799999999988 1.2121418046422807 -0.7619138444250817
                     ]
@@ -706,7 +707,7 @@ PROTO SpotLeftLeg [
             }
             physics DEF UPPERARM_PH Physics {
               density -1
-              mass 45.02988081560741
+              mass 1.734886792
               centerOfMass [
                 -0.16994932354424774 1.5390057442228016 -0.7404461060910518
               ]
@@ -808,7 +809,7 @@ PROTO SpotLeftLeg [
       }
       physics DEF SHOULDER_PH Physics {
         density -1
-        mass 30
+        mass 2.131962264
         centerOfMass [
           -0.05378596646848611 1.6631729999999996 -0.8239429999999999
         ]
