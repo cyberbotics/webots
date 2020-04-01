@@ -6,8 +6,8 @@
 # Created by Greg McKechnie under Common Creative license: https://sketchfab.com/3d-models/spot-mini-rigged-5dcbee77730640269cef5bd2587e328a
 
 PROTO Spot [
-  field SFVec3f     translation      0 1 0                    # Is `Transform.translation`.
-  field SFRotation  rotation         1 0 0 -1.5708            # Is `Transform.rotation`.
+  field SFVec3f     translation      0 -1.028 0.46            # Is `Transform.translation`.
+  field SFRotation  rotation         0 1 0 0                  # Is `Transform.rotation`.
   field SFString    name             "Spot"                   # Is `Solid.name`.
   field SFString    model            "Boston Dynamics - Spot" # Is `Robot.model`.
   field SFString    controller       "moving_demo"            # Is `Robot.controller`.
@@ -23,6 +23,28 @@ PROTO Spot [
     translation IS translation
     rotation IS rotation
     children [
+      SpotBody {
+        frontLeftLegSlot [
+          SpotLeftLeg {
+            name "front left leg"
+          }
+        ]
+        frontRightLegSlot [
+          SpotRightLeg {
+            name "front right leg"
+          }
+        ]
+        rearLeftLegSlot [
+          SpotLeftLeg {
+            name "rear left leg"
+          }
+        ]
+        rearRightLegSlot [
+          SpotRightLeg {
+            name "rear right leg"
+          }
+        ]
+      }
       DEF EXT Transform {
         children IS extension
       }
@@ -34,5 +56,6 @@ PROTO Spot [
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization
+    selfCollision IS selfCollision
   }
 }

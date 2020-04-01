@@ -9,7 +9,7 @@
 PROTO SpotLeftLeg [
   field SFVec3f    translation     0 0 0             # Is `Transform.translation`.
   field SFRotation rotation        0 1 0 0           # Is `Transform.rotation`.
-  field SFString   name            "front left leg"  # Is `Solid.name`.
+  field SFString   name            "left leg"  # Is `Solid.name`.
 ]
 {
 %{
@@ -81,7 +81,7 @@ PROTO SpotLeftLeg [
               jointParameters HingeJointParameters {
                 anchor 0 1.66177 -0.82329
                 minStop -1
-                maxStop 1.9
+                maxStop 1.7
               }
               device [
                 PositionSensor {
@@ -174,8 +174,8 @@ PROTO SpotLeftLeg [
                   DEF ELBOW_JOINT HingeJoint {
                     jointParameters HingeJointParameters {
                       anchor 0 1.342041 -0.640962
-                      minStop -0.41
-                      maxStop 1.56
+                      minStop -0.45
+                      maxStop 1.6
                     }
                     device [
                       PositionSensor {

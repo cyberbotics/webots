@@ -1685,11 +1685,11 @@ PROTO SpotBody [
         children IS frontRightLegSlot
       }
       DEF REAR_LEFT Transform {
-        translation 0 0 0
+        translation 0 0 0.671698
         children IS rearLeftLegSlot
       }
       DEF REAR_RIGHT Transform {
-        translation 0 0 0
+        translation 0 0 0.671698
         children IS rearRightLegSlot
       }
     ]
