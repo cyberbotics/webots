@@ -1,26 +1,27 @@
 #VRML_SIM R2020a utf8
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
-# documentation url: https://www.cyberbotics.com/doc/guide/spotmini
+# documentation url: https://www.cyberbotics.com/doc/guide/spot
 # The "Spot" is a dog robot developed by Boston Dynamics.
-# This PROTO is the definition of body.
 # Created by Greg McKechnie under Common Creative license: https://sketchfab.com/3d-models/spot-mini-rigged-5dcbee77730640269cef5bd2587e328a
 
-PROTO SpotBody [
-  field SFVec3f    translation        0 0 0          # Is `Transform.translation`.
-  field SFRotation rotation           0 1 0 0        # Is `Transform.rotation`.
-  field SFString   name               "Spot's body"  # Is `Solid.name`.
-  field MFNode     frontLeftLegSlot   []             # Extends the robot with a front left leg.
-  field MFNode     frontRightLegSlot  []             # Extends the robot with a front right leg.
-  field MFNode     rearLeftLegSlot    []             # Extends the robot with a rear left leg.
-  field MFNode     rearRightLegSlot   []             # Extends the robot with a rear right leg.
+PROTO Spot [
+  field SFVec3f     translation      0 -1.028 0.46            # Is `Transform.translation`.
+  field SFRotation  rotation         0 1 0 0                  # Is `Transform.rotation`.
+  field SFString    name             "Spot"                   # Is `Solid.name`.
+  field SFString    model            "Boston Dynamics - Spot" # Is `Robot.model`.
+  field SFString    controller       "moving_demo"            # Is `Robot.controller`.
+  field SFString    controllerArgs   ""                       # Is `Robot.controllerArgs`.
+  field SFString    customData       ""                       # Is `Robot.customData`.
+  field SFBool      supervisor       FALSE                    # Is `Robot.supervisor`.
+  field SFBool      synchronization  TRUE                     # Is `Robot.synchronization`.
+  field SFBool      selfCollision    FALSE                    # Enables/disables the detection of collisions within the robot.
+  field MFNode      extension        []                       # Extends the robot with new nodes.
 ]
 {
-  Solid {
+  Robot {
     translation IS translation
     rotation IS rotation
-    name IS name
-    model "Spot body"
     children [
       Accelerometer {
       }
@@ -1678,20 +1679,31 @@ PROTO SpotBody [
         physics DEF REAR_PH Physics {
         }
       }
-      DEF FRONT_LEFT Transform {
-        children IS frontLeftLegSlot
+      DEF FRONT_LEFT_LEG SpotLeftLeg {
+        name "front left leg"
       }
-      DEF FRONT_RIGHT Transform {
-        children IS frontRightLegSlot
+      DEF FRONT_RIGHT_LEG SpotRightLeg {
+        name "front right leg"
       }
-      DEF REAR_LEFT Transform {
+      DEF REAR_LEFT_LEG SpotLeftLeg {
         translation 0 0 0.671698
-        children IS rearLeftLegSlot
+        name "rear left leg"
       }
-      DEF REAR_RIGHT Transform {
+      DEF REAR_RIGHT_LEG SpotRightLeg {
         translation 0 0 0.671698
-        children IS rearRightLegSlot
+        name "rear right leg"
+      }
+      DEF EXT Transform {
+        children IS extension
       }
     ]
+    name IS name
+    model IS model
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    selfCollision IS selfCollision
   }
 }

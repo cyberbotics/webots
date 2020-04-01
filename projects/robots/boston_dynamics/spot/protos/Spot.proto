@@ -24,26 +24,6 @@ PROTO Spot [
     rotation IS rotation
     children [
       SpotBody {
-        frontLeftLegSlot [
-          SpotLeftLeg {
-            name "front left leg"
-          }
-        ]
-        frontRightLegSlot [
-          SpotRightLeg {
-            name "front right leg"
-          }
-        ]
-        rearLeftLegSlot [
-          SpotLeftLeg {
-            name "rear left leg"
-          }
-        ]
-        rearRightLegSlot [
-          SpotRightLeg {
-            name "rear right leg"
-          }
-        ]
       }
       DEF EXT Transform {
         children IS extension
