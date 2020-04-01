@@ -10,8 +10,9 @@ viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: -1
 robotWindow: robot
-renderingDevicePerspectives: robot:right head camera;0;0.062963;0;0.00246305
-renderingDevicePerspectives: robot:left head camera;0;0.062963;0;0.00369458
-renderingDevicePerspectives: robot:left flank camera;0;0.062963;0;0.169951
-renderingDevicePerspectives: robot:rear camera;0;0.062963;0;0.334975
-renderingDevicePerspectives: robot:right flank camera;0;0.062963;0;0.168719
+globalOptionalRendering: JointAxes
+renderingDevicePerspectives: robot:left flank camera;1;0.0722222;0;0
+renderingDevicePerspectives: robot:right flank camera;1;0.0712963;0;0
+renderingDevicePerspectives: robot:left head camera;1;0.0694444;0;0
+renderingDevicePerspectives: robot:right head camera;1;0.0731481;0;0
+renderingDevicePerspectives: robot:rear camera;1;0.0722222;0;0

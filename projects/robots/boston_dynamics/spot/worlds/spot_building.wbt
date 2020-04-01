@@ -3,8 +3,8 @@ WorldInfo {
   lineScale 3
 }
 Viewpoint {
-  orientation 0.0991368001878801 0.961846924047854 0.25499488141566734 3.8572860040733232
-  position -0.7834453640340552 2.2212128836581835 -1.6423366867289548
+  orientation 0.09441935948074885 0.9776171440197314 0.188015170329281 4.054354976590112
+  position -1.288060584077533 0.9295207692639985 -0.9562657965821912
 }
 TexturedBackground {
   skyColor [
@@ -13,6 +13,8 @@ TexturedBackground {
 }
 TexturedBackgroundLight {
 }
+CircleArena {
+}
 CardboardBox {
   translation 3.69 0.3 0
 }
@@ -20,6 +22,7 @@ TrafficCone {
   translation 0.4 0 -4.33
 }
 Robot {
+  translation 0 -1.028 0.46
   children [
     Accelerometer {
     }
@@ -440,6 +443,38 @@ Robot {
         }
       ]
       name "head"
+      boundingObject DEF HEAD_BO Group {
+        children [
+          DEF HEAD_BO_1 Transform {
+            translation 0 1.649768 -0.922094
+            rotation -1 0 0 0.443185
+            children [
+              Box {
+                size 0.192453 0.177358 0.043396
+              }
+            ]
+          }
+          DEF HEAD_BO_2 Transform {
+            translation 0 1.734013 -0.937932
+            rotation -1 0 0 0.353595
+            children [
+              Box {
+                size 0.192453 0.018113 0.08717
+              }
+            ]
+          }
+          DEF HEAD_BO_3 Transform {
+            translation 0 1.691304 -0.911833
+            children [
+              Box {
+                size 0.192453 0.102642 0.037736
+              }
+            ]
+          }
+        ]
+      }
+      physics DEF HEAD_PH Physics {
+      }
     }
     DEF BODY Solid {
       children [
@@ -1209,6 +1244,71 @@ Robot {
         }
       ]
       name "body"
+      boundingObject DEF BODY_BO Group {
+        children [
+          DEF BODY_BO_1 Transform {
+            translation 0 1.668833 -0.491113
+            children [
+              Box {
+                size 0.222642 0.189434 0.535849
+              }
+            ]
+          }
+          DEF BODY_BO_2 Transform {
+            translation 0 1.757135 -0.836019
+            children [
+              Box {
+                size 0.166038 0.013208 0.158491
+              }
+            ]
+          }
+          DEF BODY_BO_3 Transform {
+            translation 0 1.570343 -0.823578
+            rotation 1 0 0 -0.03318530717958623
+            children [
+              Box {
+                size 0.166038 0.013208 0.124528
+              }
+            ]
+          }
+          DEF BODY_BO_4 Transform {
+            translation 0 1.757135 -0.140547
+            children [
+              Box {
+                size 0.166038 0.013208 0.158491
+              }
+            ]
+          }
+          DEF BODY_BO_5 Transform {
+            translation 0 1.585437 -0.146975
+            children [
+              Box {
+                size 0.166038 0.013208 0.14717
+              }
+            ]
+          }
+          DEF BODY_BO_6 Transform {
+            translation -0.111629 1.724886 -0.339805
+            rotation 0 0 -1 -0.423185
+            children [
+              Box {
+                size 0.030189 0.064528 0.182264
+              }
+            ]
+          }
+          DEF BODY_BO_7 Transform {
+            translation 0.111629 1.724886 -0.339805
+            rotation 0 0 -1 0.423185
+            children [
+              Box {
+                size 0.030189 0.064528 0.182264
+              }
+            ]
+          }
+        ]
+      }
+      physics DEF BODY_PH Physics {
+      }
     }
     DEF REAR Solid {
       children [
@@ -1538,10 +1638,57 @@ Robot {
           }
         }
       ]
+      name "rear"
+      boundingObject DEF REAR_BO Group {
+        children [
+          DEF REAR_BO_1 Transform {
+            translation 0 1.709588 -0.032623
+            children [
+              Box {
+                size 0.192453 0.05283 0.089057
+              }
+            ]
+          }
+          DEF REAR_BO_2 Transform {
+            translation 0 1.746611 -0.056
+            rotation 1 0 0 0.16
+            children [
+              Box {
+                size 0.193585 0.003774 0.135849
+              }
+            ]
+          }
+          DEF REAR_BO_3 Transform {
+            translation 0 1.631097 -0.059415
+            children [
+              Box {
+                size 0.191698 0.103396 0.04566
+              }
+            ]
+          }
+          DEF REAR_BO_4 Transform {
+            translation 0 1.641663 -0.028472
+            rotation 1 0 0 0.46
+            children [
+              Box {
+                size 0.193585 0.109434 0.037736
+              }
+            ]
+          }
+        ]
+      }
+      physics DEF REAR_PH Physics {
+      }
     }
-    SpotLeftLeg {
+    DEF FRONT_LEFT_LEG SpotLeftLeg {
     }
     DEF FRONT_RIGHT_LEG SpotRightLeg {
+    }
+    DEF REAR_LEFT_LEG SpotLeftLeg {
+      translation 0 0 0.671698
+    }
+    DEF REAR_RIGHT_LEG SpotRightLeg {
+      translation 0 0 0.671698
     }
   ]
 }

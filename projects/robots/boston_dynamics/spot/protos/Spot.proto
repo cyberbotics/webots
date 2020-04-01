@@ -6,23 +6,26 @@
 # Created by Greg McKechnie under Common Creative license: https://sketchfab.com/3d-models/spot-mini-rigged-5dcbee77730640269cef5bd2587e328a
 
 PROTO Spot [
-  field SFVec3f    translation     0 1 0                    # Is `Transform.translation`.
-  field SFRotation rotation        1 0 0 -1.5708            # Is `Transform.rotation`.
-  field SFString   name            "Spot"                   # Is `Solid.name`.
-  field  SFString  model           "Boston Dynamics - Spot" # Is `Robot.model`.
-  field SFString   controller      "moving_demo"            # Is `Robot.controller`.
-  field SFString   controllerArgs  ""                       # Is `Robot.controllerArgs`.
-  field SFString   customData      ""                       # Is `Robot.customData`.
-  field SFBool     supervisor      FALSE                    # Is `Robot.supervisor`.
-  field SFBool     synchronization TRUE                     # Is `Robot.synchronization`.
-  field  SFBool    selfCollision   FALSE                    # Enables/disables the detection of collisions within the robot.
-  field MFNode     extenstion      []                       # Extends the robot with new nodes.
+  field SFVec3f     translation      0 1 0                    # Is `Transform.translation`.
+  field SFRotation  rotation         1 0 0 -1.5708            # Is `Transform.rotation`.
+  field SFString    name             "Spot"                   # Is `Solid.name`.
+  field SFString    model            "Boston Dynamics - Spot" # Is `Robot.model`.
+  field SFString    controller       "moving_demo"            # Is `Robot.controller`.
+  field SFString    controllerArgs   ""                       # Is `Robot.controllerArgs`.
+  field SFString    customData       ""                       # Is `Robot.customData`.
+  field SFBool      supervisor       FALSE                    # Is `Robot.supervisor`.
+  field SFBool      synchronization  TRUE                     # Is `Robot.synchronization`.
+  field SFBool      selfCollision    FALSE                    # Enables/disables the detection of collisions within the robot.
+  field MFNode      extension        []                       # Extends the robot with new nodes.
 ]
 {
   Robot {
     translation IS translation
     rotation IS rotation
     children [
+      DEF EXT Transform {
+        children IS extension
+      }
     ]
     name IS name
     model IS model
