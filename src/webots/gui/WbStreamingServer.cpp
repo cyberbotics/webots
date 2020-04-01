@@ -258,24 +258,24 @@ void WbStreamingServer::processTextMessage(QString message) {
 
   if (message.startsWith("robot:")) {
     QString name;
-    QString message;
+    QString robotMessage;
     const QString data = message.mid(6).trimmed();
     const QJsonDocument jsonDocument = QJsonDocument::fromJson(data.toUtf8());
     if (jsonDocument.isNull() || !jsonDocument.isObject()) {
       // backward compatibility
       const int nameSize = message.indexOf(":");
       name = data.left(nameSize);
-      message = data.mid(nameSize + 1);
+      robotMessage = data.mid(nameSize + 1);
     } else {
       name = jsonDocument.object().value("name").toString();
-      message = jsonDocument.object().value("message").toString();
+      robotMessage = jsonDocument.object().value("message").toString();
     }
-    const QByteArray &byteMessage = message.toUtf8();
-    WbLog::info(tr("Streaming server: received robot message for %1: \"%2\".").arg(name).arg(message));
+    const QByteArray &byteRobotMessage = robotMessage.toUtf8();
+    WbLog::info(tr("Streaming server: received robot message for %1: \"%2\".").arg(name).arg(robotMessage));
     const QList<WbRobot *> &robots = WbWorld::instance()->robots();
     foreach (WbRobot *const robot, robots)
       if (robot->name() == name) {
-        robot->receiveFromJavascript(byteMessage);
+        robot->receiveFromJavascript(byteRobotMessage);
         break;
       }
   } else if (message == "pause") {
