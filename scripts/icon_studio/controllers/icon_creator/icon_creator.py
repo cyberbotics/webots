@@ -130,7 +130,7 @@ def take_screenshot(camera, category, directory, protoDirectory, protoName, opti
         # copy the models in the docs directory
         modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', category, categoryFolder, protoName)
         modelPath = os.path.join(modelFolder, 'model' + namePostfix + '.png')
-        if category == categoryFolder:  # apperances
+        if category == categoryFolder:  # appearances
             modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', category)
             modelPath = os.path.join(modelFolder, protoName + namePostfix + '.png')
         elif category == 'robots':
