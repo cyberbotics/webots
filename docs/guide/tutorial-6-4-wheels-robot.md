@@ -310,7 +310,7 @@ wb_motor_set_velocity(wheels(1), speed);
 %tab-end
 %end
 
-> **Hands on #6**: Implement a controller called `4_wheels_collision_avoidance` moving the robot and avoiding obstacles by detecting them by the distance sensors.
+> **Hands on #6**: Implement a controller called `four_wheels_collision_avoidance` moving the robot and avoiding obstacles by detecting them by the distance sensors.
 
 Note that the `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) nodes indicates which values are returned by the sensor.
 To help in the debugging with the sensors, it is possible to see the value of the sensors in the real-time in the [robot-window](controller-plugin.md#robot-window).
