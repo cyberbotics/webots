@@ -31,47 +31,6 @@ PROTO Spot [
       }
       InertialUnit {
       }
-      DEF COLORS Group {
-        children [
-          DEF YELLOW_COVER_COLOR Shape {
-            appearance DEF YELLOW_COVER MattePaint {
-              baseColor 0.847059 0.666667 0
-            }
-          }
-          DEF BLACK_PART_COLOR Shape {
-            appearance DEF BLACK_PART MattePaint {
-              baseColor 0 0 0
-            }
-          }
-          DEF GRAY_PART_COLOR Shape {
-            appearance DEF GRAY_PART PBRAppearance {
-              baseColor 0.0862745 0.0862745 0.0862745
-              roughness 1
-              roughnessMap ImageTexture {
-                url [
-                  "textures/plastic_rough/plastic_rough_roughness.jpg"
-                ]
-              }
-              metalness 0
-              normalMap ImageTexture {
-                url [
-                  "textures/plastic_rough/plastic_rough_normal.jpg"
-                ]
-              }
-              textureTransform TextureTransform {
-                scale 20 20
-              }
-            }
-          }
-          DEF METAL_PART_COLOR Shape {
-            appearance DEF METAL_PART BrushedAluminium {
-              textureTransform TextureTransform {
-                scale 20 20
-              }
-            }
-          }
-        ]
-      }
       DEF HEAD Solid {
         children [
           DEF HEAD_COVER Shape {
@@ -187,11 +146,6 @@ PROTO Spot [
                   "textures/camera_lens_base_color.jpg"
                 ]
               }
-              roughnessMap ImageTexture {
-                url [
-                  "textures/camera_lens_roughness.jpg"
-                ]
-              }
               metalness 0
               textureTransform TextureTransform {
               }
@@ -230,11 +184,6 @@ PROTO Spot [
                   "textures/camera_big_lens_base_color.jpg"
                 ]
               }
-              roughnessMap ImageTexture {
-                url [
-                  "textures/camera_big_lens_roughness.jpg"
-                ]
-              }
               metalness 0
             }
             geometry IndexedFaceSet {
@@ -269,11 +218,6 @@ PROTO Spot [
               baseColorMap ImageTexture {
                 url [
                   "textures/camera_2_lens_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "textures/camera_2_lens_roughness.jpg"
                 ]
               }
               metalness 0
@@ -311,21 +255,7 @@ PROTO Spot [
             }
           }
           DEF HEAD_CAM_L1 Shape {
-            appearance DEF LENS PBRAppearance {
-              baseColorMap ImageTexture {
-                url [
-                  "textures/camera_lens_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "textures/camera_lens_roughness.jpg"
-                ]
-              }
-              metalness 0
-              textureTransform TextureTransform {
-              }
-            }
+            appearance USE LENS
             geometry IndexedFaceSet {
               coord Coordinate {
                 point [
@@ -354,19 +284,7 @@ PROTO Spot [
             }
           }
           DEF HEAD_CAM_L2 Shape {
-            appearance DEF BIG_LENS PBRAppearance {
-              baseColorMap ImageTexture {
-                url [
-                  "textures/camera_big_lens_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "textures/camera_big_lens_roughness.jpg"
-                ]
-              }
-              metalness 0
-            }
+            appearance USE BIG_LENS
             geometry IndexedFaceSet {
               coord Coordinate {
                 point [
@@ -395,15 +313,10 @@ PROTO Spot [
             }
           }
           DEF HEAD_CAM_L3 Shape {
-            appearance DEF TWO_LENS PBRAppearance {
+            appearance DEF TWO_LENS_ROTATE PBRAppearance {
               baseColorMap ImageTexture {
                 url [
                   "textures/camera_2_lens_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "textures/camera_2_lens_roughness.jpg"
                 ]
               }
               metalness 0
@@ -574,24 +487,7 @@ PROTO Spot [
                 }
               }
               DEF RIGHT_FLANK_CAM_2 Shape {
-                appearance DEF TWO_LENS PBRAppearance {
-                  baseColorMap ImageTexture {
-                    url [
-                      "textures/camera_2_lens_base_color.jpg"
-                    ]
-                  }
-                  roughnessMap ImageTexture {
-                    url [
-                      "textures/camera_2_lens_roughness.jpg"
-                    ]
-                  }
-                  metalness 0
-                  textureTransform TextureTransform {
-                    rotation -1.57
-                    scale 0.8 0.8
-                    translation 0.1 0.1
-                  }
-                }
+                appearance USE TWO_LENS
                 geometry IndexedFaceSet {
                   coord Coordinate {
                     point [
@@ -620,19 +516,7 @@ PROTO Spot [
                 }
               }
               DEF RIGHT_FLANK_CAM_3 Shape {
-                appearance DEF BIG_LENS PBRAppearance {
-                  baseColorMap ImageTexture {
-                    url [
-                      "textures/camera_big_lens_base_color.jpg"
-                    ]
-                  }
-                  roughnessMap ImageTexture {
-                    url [
-                      "textures/camera_big_lens_roughness.jpg"
-                    ]
-                  }
-                  metalness 0
-                }
+                appearance USE BIG_LENS
                 geometry IndexedFaceSet {
                   coord Coordinate {
                     point [
@@ -661,21 +545,7 @@ PROTO Spot [
                 }
               }
               DEF RIGHT_FLANK_CAM_4 Shape {
-                appearance DEF LENS PBRAppearance {
-                  baseColorMap ImageTexture {
-                    url [
-                      "textures/camera_lens_base_color.jpg"
-                    ]
-                  }
-                  roughnessMap ImageTexture {
-                    url [
-                      "textures/camera_lens_roughness.jpg"
-                    ]
-                  }
-                  metalness 0
-                  textureTransform TextureTransform {
-                  }
-                }
+                appearance USE LENS
                 geometry IndexedFaceSet {
                   coord Coordinate {
                     point [
@@ -775,7 +645,9 @@ PROTO Spot [
                 }
               }
               DEF RIGHT_FLANK_RUBBER Shape {
-                appearance USE BLACK_PART
+                appearance DEF BLACK_PART MattePaint {
+                  baseColor 0 0 0
+                }
                 geometry IndexedFaceSet {
                   coord Coordinate {
                     point [
@@ -828,9 +700,7 @@ PROTO Spot [
                 }
               }
               DEF LEFT_FLANK_CAM_1 Shape {
-                appearance DEF YELLOW_COVER MattePaint {
-                  baseColor 0.847059 0.666667 0
-                }
+                appearance USE YELLOW_COVER
                 geometry IndexedFaceSet {
                   coord Coordinate {
                     point [
@@ -851,24 +721,7 @@ PROTO Spot [
                 }
               }
               DEF LEFT_FLANK_CAM_2 Shape {
-                appearance DEF TWO_LENS PBRAppearance {
-                  baseColorMap ImageTexture {
-                    url [
-                      "textures/camera_2_lens_base_color.jpg"
-                    ]
-                  }
-                  roughnessMap ImageTexture {
-                    url [
-                      "textures/camera_2_lens_roughness.jpg"
-                    ]
-                  }
-                  metalness 0
-                  textureTransform TextureTransform {
-                    rotation -1.57
-                    scale 0.8 0.8
-                    translation 0.1 0.1
-                  }
-                }
+                appearance USE TWO_LENS_ROTATE
                 geometry IndexedFaceSet {
                   coord Coordinate {
                     point [
@@ -897,19 +750,7 @@ PROTO Spot [
                 }
               }
               DEF LEFT_FLANK_CAM_3 Shape {
-                appearance DEF BIG_LENS PBRAppearance {
-                  baseColorMap ImageTexture {
-                    url [
-                      "textures/camera_big_lens_base_color.jpg"
-                    ]
-                  }
-                  roughnessMap ImageTexture {
-                    url [
-                      "textures/camera_big_lens_roughness.jpg"
-                    ]
-                  }
-                  metalness 0
-                }
+                appearance USE BIG_LENS
                 geometry IndexedFaceSet {
                   coord Coordinate {
                     point [
@@ -938,21 +779,7 @@ PROTO Spot [
                 }
               }
               DEF LEFT_FLANK_CAM_4 Shape {
-                appearance DEF LENS PBRAppearance {
-                  baseColorMap ImageTexture {
-                    url [
-                      "textures/camera_lens_base_color.jpg"
-                    ]
-                  }
-                  roughnessMap ImageTexture {
-                    url [
-                      "textures/camera_lens_roughness.jpg"
-                    ]
-                  }
-                  metalness 0
-                  textureTransform TextureTransform {
-                  }
-                }
+                appearance USE LENS
                 geometry IndexedFaceSet {
                   coord Coordinate {
                     point [
@@ -981,24 +808,7 @@ PROTO Spot [
                 }
               }
               DEF LEFT_FLANK_HOLES Shape {
-                appearance DEF BLACK_HOLED PBRAppearance {
-                  baseColor 0.152941 0.152941 0.152941
-                  baseColorMap ImageTexture {
-                    url [
-                      "textures/holes_perforated_steel/holes_perforated_steel_base_color.png"
-                    ]
-                  }
-                  roughness 1
-                  metalness 0
-                  normalMap ImageTexture {
-                    url [
-                      "textures/holes_perforated_steel/holes_perforated_steel_normal.png"
-                    ]
-                  }
-                  textureTransform TextureTransform {
-                    scale 40 40
-                  }
-                }
+                appearance USE BLACK_HOLED
                 geometry IndexedFaceSet {
                   coord Coordinate {
                     point [
@@ -1368,24 +1178,7 @@ PROTO Spot [
             }
           }
           DEF REAR_CAM_1 Shape {
-            appearance DEF TWO_LENS PBRAppearance {
-              baseColorMap ImageTexture {
-                url [
-                  "textures/camera_2_lens_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "textures/camera_2_lens_roughness.jpg"
-                ]
-              }
-              metalness 0
-              textureTransform TextureTransform {
-                rotation -1.57
-                scale 0.8 0.8
-                translation 0.1 0.1
-              }
-            }
+            appearance USE TWO_LENS_ROTATE
             geometry IndexedFaceSet {
               coord Coordinate {
                 point [
@@ -1414,19 +1207,7 @@ PROTO Spot [
             }
           }
           DEF REAR_CAM_2 Shape {
-            appearance DEF BIG_LENS PBRAppearance {
-              baseColorMap ImageTexture {
-                url [
-                  "textures/camera_big_lens_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "textures/camera_big_lens_roughness.jpg"
-                ]
-              }
-              metalness 0
-            }
+            appearance USE BIG_LENS
             geometry IndexedFaceSet {
               coord Coordinate {
                 point [
@@ -1455,21 +1236,7 @@ PROTO Spot [
             }
           }
           DEF REAR_CAM_3 Shape {
-            appearance DEF LENS PBRAppearance {
-              baseColorMap ImageTexture {
-                url [
-                  "textures/camera_lens_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "textures/camera_lens_roughness.jpg"
-                ]
-              }
-              metalness 0
-              textureTransform TextureTransform {
-              }
-            }
+            appearance USE LENS
             geometry IndexedFaceSet {
               coord Coordinate {
                 point [
@@ -1545,7 +1312,7 @@ PROTO Spot [
             }
           }
           DEF REAR_BUTTONS_BLUE_2 Shape {
-            appearance PBRAppearance {
+            appearance DEF POWER_UP PBRAppearance {
               baseColorMap ImageTexture {
                 url [
                   "textures/startup.png"
