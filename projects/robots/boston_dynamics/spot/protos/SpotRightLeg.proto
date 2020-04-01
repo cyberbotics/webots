@@ -732,7 +732,7 @@ PROTO SpotRightLeg [
             }
             physics DEF UPPERARM_PH Physics {
               density -1
-              mass 1.734886792
+              mass 0.934886792
               centerOfMass [
                 0.16994932354424774 1.5390057442228016 -0.7404461060910518
               ]

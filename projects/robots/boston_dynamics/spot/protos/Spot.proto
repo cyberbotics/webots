@@ -474,7 +474,7 @@ PROTO Spot [
         }
         physics DEF HEAD_PH Physics {
           density -1
-          mass 2.5305330290099697
+          mass 0.498754717
           centerOfMass [
             0 1.672119530331935 -0.9209732060699166
           ]
@@ -1317,7 +1317,7 @@ PROTO Spot [
         }
         physics DEF BODY_PH Physics {
           density -1
-          mass 24.601054905022078
+          mass 12.8959434
           centerOfMass [
             0 1.6707587027856399 -0.48584131567863215
           ]
@@ -1696,7 +1696,7 @@ PROTO Spot [
         }
         physics DEF REAR_PH Physics {
           density -1
-          mass 2.70916532738946
+          mass 1.015037736
           centerOfMass [
             0 1.6646802762354977 -0.04120460185998551
           ]
