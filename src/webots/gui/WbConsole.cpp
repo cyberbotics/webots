@@ -250,6 +250,7 @@ WbConsole::WbConsole(QWidget *parent) :
           SLOT(appendLog(WbLog::Level, const QString &, bool)));
   connect(WbLog::instance(), SIGNAL(controllerLogEmitted(WbLog::Level, const QString &, bool)), this,
           SLOT(appendLog(WbLog::Level, const QString &, bool)));
+  connect(WbLog::instance(), SIGNAL(resetFormatEmitted()), this, SLOT(resetFormat()));
   connect(WbLog::instance(), SIGNAL(cleared()), this, SLOT(clear()));
 
   // Install ODE message handlers
@@ -266,6 +267,13 @@ WbConsole::~WbConsole() {
 
 void WbConsole::clear() {
   mEditor->clear();
+}
+
+void WbConsole::resetFormat() {
+  mForegroundColor = ansiBlack();
+  mBackgroundColor.clear();
+  mBold = false;
+  mUnderline = false;
 }
 
 QString WbConsole::htmlSpan(const QString &s, WbLog::Level level) const {
@@ -366,9 +374,6 @@ void WbConsole::handleCRAndLF(const QString &msg) {
         QString previousLine = textCursor.selectedText();
         textCursor.removeSelectedText();
 
-        if (!mPrefix.isEmpty())
-          line.prepend(mPrefix);  // append '[controller_name] '
-
         // remove span HTML tags to compute current text length
         QString plainLine(line);
         plainLine.remove("</span>");
@@ -399,31 +404,28 @@ void WbConsole::handleCRAndLF(const QString &msg) {
   }
 }
 
-#include <QtCore/QDebug>
 void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Level level) {
   int i = msg.indexOf("\033[");
   if (i != -1) {  // contains ANSI escape sequences
     QString html;
-    if (i != 0) {
-        html = htmlSpan(msg.mid(0, i), level);  // add controller name before user input
-        qDebug() << "html:" << html;
-    }
+    if (i != 0)  // escape code is not at the beginning of the string
+      html = htmlSpan(msg.mid(0, i), level);
     while (1) {
       i += 2;  // skip the "\033[" chars
       QString sequence;
-      while (msg[i] != 'm')
-        sequence += msg[i++];
-      i++;
-
+      while (msg[i] != '\0' && msg[i] != 'm') {  // 'm' is the final char when supporting only colors
+        sequence += msg[i];
+        if (msg[i] == 'J' && msg[i - 1] == '2')  // "2J" is not terminated by 'm', but is still valid
+          break;
+        i++;
+      }
+      i++;                                           // moving to the next char for next iteration
       const QStringList codes(sequence.split(";"));  // handle multiple (e.g. sequence "ESC[0;39m" )
       foreach (const QString code, codes) {
         // the stored sequence may be "0" or "1", "4", "2J", "30", "31", "32", etc.
-        if (code == "0") {  // reset to default
-          mForegroundColor = ansiBlack();
-          mBackgroundColor.clear();
-          mBold = false;
-          mUnderline = false;
-        } else if (code == "1")  // bold
+        if (code == "0")  // reset to default
+          resetFormat();
+        else if (code == "1")  // bold
           mBold = true;
         else if (code == "4")  // underlined
           mUnderline = true;
@@ -508,11 +510,6 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
   handleCRAndLF(htmlSpan(msg, level));
 }
 
-void WbConsole::appendLog(WbLog::Level level, const QString &message, const QString &prefix, bool popup) {
-  mPrefix = prefix;
-  appendLog(level, message, popup);
-}
-
 void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup) {
   if (message.isEmpty())
     return;
@@ -562,8 +559,6 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
     default:
       break;
   }
-
-  mPrefix = "";
 }
 
 QRegExp **WbConsole::createErrorMatchingPatterns() const {

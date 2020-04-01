@@ -31,11 +31,10 @@ int main(int argc, char **argv) {
   ANSI_PRINTF_IN_GREEN("Green text!\n");
   ANSI_PRINTF_IN_YELLOW("Yellow text!\n");
   ANSI_PRINTF_IN_CYAN("Cyan text!\n");
-  ANSI_PRINTF_IN_BLUE("Blue text\n!");
+  ANSI_PRINTF_IN_BLUE("Blue text!\n");
   ANSI_PRINTF_IN_MAGENTA("Magenta text!\n");
   ANSI_PRINTF_IN_WHITE("White text!\n");
   ANSI_PRINTF_IN_BLACK("Black text!\n");
-  printf("\n");  // If we add \n in the above macro, the controller text will use previous style
 
   printf("%sBlue background only specified text%s\n\n", ANSI_BLUE_BACKGROUND, ANSI_RESET);
 
@@ -56,8 +55,10 @@ int main(int argc, char **argv) {
   ANSI_PRINTF_IN_BLACK("%sBlack text on White background\n", ANSI_WHITE_BACKGROUND);
   ANSI_PRINTF_IN_WHITE("%sWhite text on Black background\n\n", ANSI_BLACK_BACKGROUND);
 
-  ANSI_PRINTF_IN_GREEN("%sGreen Bold style text", ANSI_BOLD);
-  ANSI_PRINTF_IN_GREEN("%sGreen Underlined style text", ANSI_UNDERLINE);
+  ANSI_PRINTF_IN_GREEN("%sGreen Bold style text\n", ANSI_BOLD);
+  ANSI_PRINTF_IN_GREEN("%sGreen Underlined style text\n", ANSI_UNDERLINE);
+
+  printf("The controller text style is not kept when one exits.\n");
 
   wb_robot_cleanup();
   return 0;

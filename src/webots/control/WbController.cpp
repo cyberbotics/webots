@@ -615,6 +615,7 @@ void WbController::flushBuffer(QString *buffer) {
 void WbController::processFinished(int exitCode, QProcess::ExitStatus exitStatus) {
   mHasBeenTerminatedByItself = true;
   flushBuffers();
+  WbLog::resetFormat();
   switch (exitStatus) {
     case QProcess::NormalExit:
       if (exitCode == 0)

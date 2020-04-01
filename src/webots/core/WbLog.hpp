@@ -59,6 +59,9 @@ public:
   // clear output
   static void clear();
 
+  // reset output formatting
+  static void resetFormat();
+
   // queue pop up messages to be shown later
   static void setPopUpPostponed(bool postponed) { instance()->mPopUpMessagesPostponed = postponed; }
   static void showPostponedPopUpMessages();
@@ -69,6 +72,7 @@ signals:
   // the above function emit this signal that can be connected to a message sink (console)
   void logEmitted(WbLog::Level level, const QString &message, bool popup);
   void controllerLogEmitted(WbLog::Level level, const QString &message, bool popup);
+  void resetFormatEmitted();
   void cleared();
   void popupOpen();
   void popupClosed();

@@ -87,11 +87,11 @@ public:
 public slots:
   // clear console
   void clear();
+  void resetFormat();
 
   // append internal error message of Webots
   // the message color depends on the level
   void appendLog(WbLog::Level level, const QString &message, bool popup);
-  void appendLog(WbLog::Level level, const QString &message, const QString &prefix, bool popup);
 
 private:
   QString mErrorColor, mInfoColor;
@@ -103,7 +103,6 @@ private:
   bool mBold;
   bool mUnderline;
   bool mIsOverwriteEnabled;
-  QString mPrefix;
 
   QString htmlSpan(const QString &s, WbLog::Level level) const;
   void handleCRAndLF(const QString &msg);

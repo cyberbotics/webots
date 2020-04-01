@@ -622,8 +622,7 @@ void WbStreamingServer::sendUpdatePackageToClients() {
   }
 }
 
-void WbStreamingServer::propagateControllerLogToClients(WbLog::Level level, const QString &message,
-                                                        bool popup) {
+void WbStreamingServer::propagateControllerLogToClients(WbLog::Level level, const QString &message, bool popup) {
   propagateLogToClients(level, message);
 }
 

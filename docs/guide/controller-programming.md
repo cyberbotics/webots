@@ -469,6 +469,9 @@ A C header is available at "[$WEBOTS\_HOME/include/controller/c/webots/utils/ans
 
 `#include <webots/utils/ansi_codes.h>`
 
+When a controller terminates, the webots console uses its default formatting again.
+Please note that any misuse, or unsupported use of these escape codes may result in undefined behavior.
+
 ### Shared Libraries
 
 Creating shared libraries can be very useful to share code between controllers and/or plugins.
