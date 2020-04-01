@@ -236,10 +236,10 @@ for proto in prioritaryProtoList + fileList:
         else:
             # maybe multiple images
             if os.path.exists(os.path.dirname(imagePath)):
-                avilableImages = [os.path.dirname(imagePath) + '/' + f for f in os.listdir(os.path.dirname(imagePath))]
+                availableImages = [os.path.dirname(imagePath) + '/' + f for f in os.listdir(os.path.dirname(imagePath))]
                 regex = imagePath.replace('.png', '_..png')
                 files = []
-                for image in avilableImages:
+                for image in availableImages:
                     if re.match(regex, image):
                         files.append(image)
                 if files:
