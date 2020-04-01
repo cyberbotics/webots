@@ -53,10 +53,14 @@ Released on XXX.
     - Fixed MATLAB API.
     - Fixed missing stdout/stderr flush when a controller is changed or restarted while simulation is running (thanks to tsampazk).
     - Fixed the ROS controller of the Universal Robots UR3e, UR5e and UR10e to send the success state when a trajectory succeeded (thanks to Tim-Stoll).
+    - Fixed the `Show Contact Points` optional rendering which was causing an OpenGL error.
     - Fixed the [`wb_supervisor_field_set_sf_rotation`](supervisor.md#wb_supervisor_field_set_sf_rotation) and [`wb_supervisor_field_set_mf_rotation`](supervisor.md#wb_supervisor_field_set_mf_rotation) functions to handle non-normalized rotations.
     - Fixed a crash when trying to add an [IndexedLineSet](indexedlineset.md) node to a geometry's [Shape](shape.md) node with no coordinates.
     - Fixed a crash related to [InertialUnit](inertialunit.md) node when gravity was null.
     - Fixed support for MATLAB R2017b on Windows.
+    - Fixed a crash occurring when changing the `textureAnimation` value of some `Track` node from the scene tree.
+  - Documentation
+    - Fixed tutorials 1, 4 and 6 with respect to MATLAB controllers and added sample MATLAB controllers.
 
 ## Webots R2020a Revision 1
 Released on January 14th, 2020.
