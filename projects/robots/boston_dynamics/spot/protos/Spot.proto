@@ -473,6 +473,15 @@ PROTO Spot [
           ]
         }
         physics DEF HEAD_PH Physics {
+          density -1
+          mass 2.5305330290099697
+          centerOfMass [
+            0 1.672119530331935 -0.9209732060699166
+          ]
+          inertiaMatrix [
+            9.229094967333426 2.155501527358509 7.089214486666756
+            0 0 3.898468819120083
+          ]
         }
       }
       DEF BODY Solid {
@@ -1307,6 +1316,15 @@ PROTO Spot [
           ]
         }
         physics DEF BODY_PH Physics {
+          density -1
+          mass 24.601054905022078
+          centerOfMass [
+            0 1.6707587027856399 -0.48584131567863215
+          ]
+          inertiaMatrix [
+            75.27255510153654 6.6253040993803305 68.85776430529377
+            0 0 19.963619280013397
+          ]
         }
       }
       DEF REAR Solid {
@@ -1677,6 +1695,15 @@ PROTO Spot [
           ]
         }
         physics DEF REAR_PH Physics {
+          density -1
+          mass 2.70916532738946
+          centerOfMass [
+            0 1.6646802762354977 -0.04120460185998551
+          ]
+          inertiaMatrix [
+            7.519404069770781 0.014628393641005644 7.52152113003803
+            0 0 0.18502491678217858
+          ]
         }
       }
       DEF FRONT_LEFT_LEG SpotLeftLeg {
