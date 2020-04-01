@@ -144,7 +144,7 @@ def take_screenshot(camera, category, directory, protoDirectory, protoName, opti
 
 
 def process_appearances(supervisor, parameters):
-    """Import the apperances, take screenshot and remove it."""
+    """Import the appearances, take a screenshot and remove it."""
     objectDirectory = '.' + os.sep + 'images' + os.sep + 'appearances' + os.sep + protoName
     if not os.path.exists(objectDirectory):
         os.makedirs(objectDirectory)
