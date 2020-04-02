@@ -6,17 +6,17 @@
 # Created by Greg McKechnie under Common Creative license: https://sketchfab.com/3d-models/spot-mini-rigged-5dcbee77730640269cef5bd2587e328a
 
 PROTO Spot [
-  field SFVec3f     translation      0 -1.028 0.46            # Is `Transform.translation`.
-  field SFRotation  rotation         0 1 0 0                  # Is `Transform.rotation`.
-  field SFString    name             "Spot"                   # Is `Solid.name`.
-  field SFString    model            "Boston Dynamics - Spot" # Is `Robot.model`.
-  field SFString    controller       "moving_demo"            # Is `Robot.controller`.
-  field SFString    controllerArgs   ""                       # Is `Robot.controllerArgs`.
-  field SFString    customData       ""                       # Is `Robot.customData`.
-  field SFBool      supervisor       FALSE                    # Is `Robot.supervisor`.
-  field SFBool      synchronization  TRUE                     # Is `Robot.synchronization`.
-  field SFBool      selfCollision    FALSE                    # Enables/disables the detection of collisions within the robot.
-  field MFNode      extension        []                       # Extends the robot with new nodes.
+  field SFVec3f     translation      0 -1.028 0.46             # Is `Transform.translation`.
+  field SFRotation  rotation         0 1 0 0                   # Is `Transform.rotation`.
+  field SFString    name             "Spot"                    # Is `Solid.name`.
+  field SFString    model            "Boston Dynamics - Spot"  # Is `Robot.model`.
+  field SFString    controller       "moving_demo"             # Is `Robot.controller`.
+  field SFString    controllerArgs   ""                        # Is `Robot.controllerArgs`.
+  field SFString    customData       ""                        # Is `Robot.customData`.
+  field SFBool      supervisor       FALSE                     # Is `Robot.supervisor`.
+  field SFBool      synchronization  TRUE                      # Is `Robot.synchronization`.
+  field SFBool      selfCollision    FALSE                     # Enables/disables the detection of collisions within the robot.
+  field MFNode      extension        []                        # Extends the robot with new nodes.
 ]
 {
   Robot {
@@ -574,24 +574,7 @@ PROTO Spot [
                 }
               }
               DEF RIGHT_FLANK_HOLES Shape {
-                appearance DEF BLACK_HOLED PBRAppearance {
-                  baseColor 0.152941 0.152941 0.152941
-                  baseColorMap ImageTexture {
-                    url [
-                      "textures/holes_perforated_steel/holes_perforated_steel_base_color.png"
-                    ]
-                  }
-                  roughness 1
-                  metalness 0
-                  normalMap ImageTexture {
-                    url [
-                      "textures/holes_perforated_steel/holes_perforated_steel_normal.png"
-                    ]
-                  }
-                  textureTransform TextureTransform {
-                    scale 40 40
-                  }
-                }
+                appearance USE BLACK_HOLED
                 geometry IndexedFaceSet {
                   coord Coordinate {
                     point [
@@ -1165,7 +1148,6 @@ PROTO Spot [
             translation 0.018113 1.66256 -0.0118637
             rotation 0 0.9719310196733323 0.23526600476213455 -3.1415853071795863
             name "rear camera"
-            translationStep 0.001
             width 1080
             height 720
             lens Lens {
