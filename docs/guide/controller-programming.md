@@ -465,9 +465,9 @@ Like most terminals, it supports a few basic [ANSI escape codes](https://en.wiki
 
 There is a world example in webots: samples/howto/console or at `$WEBOTS_HOME/projects/samples/howto/controllers/console` to demonstrate how to use those.
 
-A C header is available at "[$WEBOTS\_HOME/include/controller/c/webots/utils/ansi\_codes.h](https://github.com/cyberbotics/webots/tree/master/include/controller/c/webots/utils/ansi_codes.h)" and contains some useful macros to be used in your controller code using:
+A C header is available at "[$WEBOTS\_HOME/include/controller/c/webots/utils/ansi\_codes.h](https://github.com/cyberbotics/webots/tree/master/include/controller/c/webots/utils/ansi_codes.h)" and contains some useful macros to be used in your controller code using: `#include <webots/utils/ansi_codes.h>`
 
-`#include <webots/utils/ansi_codes.h>`
+A C++ header is also available as a wrapper of the above one. You can use the same `printf` macros, or use `std::cout` and the constants at your will.
 
 When a controller terminates, the webots console uses its default formatting again.
 Please note that any misuse, or unsupported use of these escape codes may result in undefined behavior.
