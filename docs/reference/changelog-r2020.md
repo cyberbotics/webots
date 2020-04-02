@@ -22,7 +22,7 @@ Released on XXX.
     - Removed the ROS libraries from the default controllers path to avoid possible conflicts with other libraries (thanks to PymZoR).
     - Geometry node now displays its triangles count in the node editor.
   - Dependency Updates
-    - Upgraded to Qt 5.14.1 on Windows.
+    - Upgraded to Qt 5.14.2 on Windows.
   - Cleanup
     - Deprecated the following appearances: `ChequeredParquetry`, `DarkParquetry`, `SlatePavement`, `SquarePavement` and `StonePavement`.
   - Bug fixes
