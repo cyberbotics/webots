@@ -149,6 +149,13 @@ void WbConnector::updateIsLocked() {
     warn(tr("Passive connectors cannot be locked."));
     mIsLocked->setFalse();
   }
+
+  if(mIsLocked->isTrue()) {
+    lock();
+  }
+  else {
+    unlock();
+  }
 }
 
 void WbConnector::updateNumberOfRotations() {
