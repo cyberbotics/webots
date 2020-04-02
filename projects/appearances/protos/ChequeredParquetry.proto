@@ -14,25 +14,25 @@ PROTO ChequeredParquetry [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/chequered_parquetry/chequered_parquetry_base_color.jpg"
+        "textures/parquetry/chequered_parquetry_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/chequered_parquetry/chequered_parquetry_roughness.jpg"
+        "textures/parquetry/chequered_parquetry_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/chequered_parquetry/chequered_parquetry_normal.jpg"
+        "textures/parquetry/chequered_parquetry_normal.jpg"
       ]
     }
     normalMapFactor 0.8
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "textures/chequered_parquetry/chequered_parquetry_occlusion.jpg"
+        "textures/parquetry/chequered_parquetry_occlusion.jpg"
       ]
     }
     occlusionMapStrength 1

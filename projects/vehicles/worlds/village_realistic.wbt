@@ -1386,7 +1386,6 @@ SolidBox {
   rotation 0 -1 0 0.1791
   size 0.8 0.15 3.3
   appearance Pavement {
-    type "standard"
     textureTransform TextureTransform {
       scale 4.5 4.5
     }
@@ -1405,7 +1404,6 @@ SolidBox {
   name "box(1)"
   size 0.9 0.15 3.3
   appearance Pavement {
-    type "standard"
     textureTransform TextureTransform {
       scale 4.5 4.5
     }
@@ -1417,7 +1415,6 @@ SolidBox {
   name "box(2)"
   size 0.8 0.15 3.3
   appearance Pavement {
-    type "standard"
     textureTransform TextureTransform {
       scale 4 4
     }
@@ -1429,7 +1426,6 @@ SolidBox {
   name "box(3)"
   size 0.8 0.15 3.3
   appearance Pavement {
-    type "standard"
     textureTransform TextureTransform {
       scale 4 4
     }
@@ -1441,7 +1437,6 @@ SolidBox {
   name "box(4)"
   size 0.8 0.15 3.25
   appearance Pavement {
-    type "standard"
     textureTransform TextureTransform {
       scale 4.5 4.5
     }

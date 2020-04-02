@@ -16,23 +16,23 @@ PROTO SlatePavement [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "textures/slate_pavement/slate_pavement_base_color.jpg"
+        "textures/pavement/slate_pavement_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/slate_pavement/slate_pavement_roughness.jpg"
+        "textures/pavement/slate_pavement_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/slate_pavement/slate_pavement_normal.jpg"
+        "textures/pavement/slate_pavement_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/slate_pavement/slate_pavement_occlusion.jpg"
+        "textures/pavement/slate_pavement_occlusion.jpg"
       ]
     }
     IBLStrength IS IBLStrength

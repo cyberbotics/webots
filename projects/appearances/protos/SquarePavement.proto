@@ -3,7 +3,8 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # tags: hidden, static
 # Backward compatibility with the deprecated 'SquarePavement' PROTO (deprecated in Webots R2020a-rev2)
-# A square pavement material. The color can be overridden using the `colorOverride` field.
+# A square pavement material.
+# The color can be overridden using the `colorOverride` field.
 
 PROTO SquarePavement [
   field SFColor colorOverride    1 1 1  # Defines the default color multiplied with the texture color.
@@ -16,24 +17,24 @@ PROTO SquarePavement [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "textures/square_pavement/square_pavement_base_color.jpg"
+        "textures/pavement/black_stone_pavement_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/square_pavement/square_pavement_roughness.jpg"
+        "textures/pavement/black_stone_pavement_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/square_pavement/square_pavement_normal.jpg"
+        "textures/pavement/black_stone_pavement_normal.jpg"
       ]
     }
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "textures/square_pavement/square_pavement_occlusion.jpg"
+        "textures/pavement/black_stone_pavement_occlusion.jpg"
       ]
     }
     textureTransform IS textureTransform
