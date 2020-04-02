@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-#ifndef ANSI_CODES_H
-#define ANSI_CODES_H
+#ifndef WBU_ANSI_CODES_H
+#define WBU_ANSI_CODES_H
 
 #include <stdio.h>
 
+// Globally available macros (Python, Java, C++)
 #define ANSI_RESET "\x1b[0m"
 
 #define ANSI_BOLD "\x1b[1m"
@@ -44,7 +45,7 @@
 
 #define ANSI_CLEAR_SCREEN "\x1b[2J"
 
-// Convenient macros
+// Convenient macros - Used only in C/C++
 #define ANSI_PRINTF_IN_BLACK(x, ...) printf(ANSI_BLACK_FOREGROUND x ANSI_RESET, ##__VA_ARGS__)
 #define ANSI_PRINTF_IN_RED(x, ...) printf(ANSI_RED_FOREGROUND x ANSI_RESET, ##__VA_ARGS__)
 #define ANSI_PRINTF_IN_GREEN(x, ...) printf(ANSI_GREEN_FOREGROUND x ANSI_RESET, ##__VA_ARGS__)
@@ -56,4 +57,4 @@
 
 #define ANSI_CLEAR_CONSOLE() printf(ANSI_CLEAR_SCREEN)
 
-#endif
+#endif /* WBU_ANSI_CODES_H */

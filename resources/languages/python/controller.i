@@ -36,6 +36,8 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 
 %{
 #include <webots/Accelerometer.hpp>
+#include <webots/utils/ansi_codes.h>
+#include <webots/utils/AnsiCodes.hpp>
 #include <webots/Brake.hpp>
 #include <webots/Camera.hpp>
 #include <webots/camera_recognition_object.h>
@@ -125,6 +127,12 @@ using namespace std;
 %typemap(freearg) const int * {
   free($1);
 }
+//----------------------------------------------------------------------------------------------
+//  ANSI Support
+//----------------------------------------------------------------------------------------------
+%include <webots/utils/ansi_codes.h>
+%include <webots/utils/AnsiCodes.hpp>
+
 //----------------------------------------------------------------------------------------------
 //  Device
 //----------------------------------------------------------------------------------------------

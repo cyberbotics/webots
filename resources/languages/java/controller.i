@@ -20,6 +20,7 @@
 
 %{
 #include <webots/Accelerometer.hpp>
+#include <webots/utils/AnsiCodes.hpp>
 #include <webots/Brake.hpp>
 #include <webots/Camera.hpp>
 #include <webots/camera_recognition_object.h>
@@ -102,6 +103,12 @@ using namespace std;
 
 //handling std::string
 %include "std_string.i"
+
+//----------------------------------------------------------------------------------------------
+//  ANSI Support
+//----------------------------------------------------------------------------------------------
+// Unlike Python controller.i, just including .hpp here and in module section is enough for Java
+%include <webots/utils/AnsiCodes.hpp>
 
 //----------------------------------------------------------------------------------------------
 //  Device
