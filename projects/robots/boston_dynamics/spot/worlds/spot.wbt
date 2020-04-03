@@ -6,8 +6,8 @@ WorldInfo {
   title "Simulation of Boston Dynamics' Spot robot."
 }
 Viewpoint {
-  orientation 0.041152037111120345 0.9873563155184539 0.15308172995961375 3.81873966994718
-  position -1.8099303763381416 1.048058533493013 -2.226727532390408
+  orientation 0.02006735636288128 0.9962433935978315 0.0842401443569583 3.902476980484316
+  position -1.2083737232295297 0.6700385240815245 -1.31753171766171
   follow "Spot"
   followType "None"
   followSmoothness 0
@@ -105,8 +105,7 @@ ConveyorBelt {
   timer 4
 }
 CardboardBox {
-  translation 1.54 0.152 0.15
-  size 0.3 0.3 0.9
+  size 0.2 0.6 0.7
 }
 CardboardBox {
   translation -4.8 0.75 4.27
@@ -160,4 +159,5 @@ RubberDuck {
   scale 3
 }
 Spot {
+  translation 0 -0.959 0.46
 }

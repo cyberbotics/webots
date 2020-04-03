@@ -9,6 +9,7 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/moving_demo/moving_demo.c"
+centerOfMass: Spot
 renderingDevicePerspectives: Spot:rear camera;1;0.166667;0.816532;0.602605
 renderingDevicePerspectives: Spot:right head camera;1;0.164815;0.818548;0.514137
 renderingDevicePerspectives: Spot:left flank camera;1;0.166667;0.772525;0.602605
