@@ -150,9 +150,9 @@ void WbConnector::updateIsLocked() {
     mIsLocked->setFalse();
   }
 
-  if(mIsLocked->isTrue())
+  if (mIsLocked->isTrue())
     lock();
-  else {
+  else
     unlock();
 }
 
