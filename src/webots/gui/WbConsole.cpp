@@ -300,12 +300,10 @@ QString WbConsole::htmlSpan(const QString &s, WbLog::Level level) const {
   QString span("<span");
   if (!foregroundColor.isEmpty() || bold || mUnderline) {
     span += " style=\"";
-    if (!foregroundColor.isEmpty() && mBackgroundColor.isEmpty())
+    if (!foregroundColor.isEmpty())
       span += "color:" + foregroundColor + ";";
-    else if (!foregroundColor.isEmpty() && !mBackgroundColor.isEmpty()) {
-      span += "color:" + foregroundColor + ";";
+    if (!mBackgroundColor.isEmpty())
       span += "background-color:" + mBackgroundColor + ";";
-    }
     if (bold)
       span += "font-weight:bold;";
     if (mUnderline)
