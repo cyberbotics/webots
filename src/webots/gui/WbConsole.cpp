@@ -250,7 +250,6 @@ WbConsole::WbConsole(QWidget *parent) :
           SLOT(appendLog(WbLog::Level, const QString &, bool)));
   connect(WbLog::instance(), SIGNAL(controllerLogEmitted(WbLog::Level, const QString &, bool)), this,
           SLOT(appendLog(WbLog::Level, const QString &, bool)));
-  connect(WbLog::instance(), SIGNAL(resetFormatEmitted()), this, SLOT(resetFormat()));
   connect(WbLog::instance(), SIGNAL(cleared()), this, SLOT(clear()));
 
   // Install ODE message handlers
@@ -265,8 +264,10 @@ WbConsole::~WbConsole() {
   gInstance = NULL;
 }
 
-void WbConsole::clear() {
+void WbConsole::clear(bool reset) {
   mEditor->clear();
+  if (reset)
+    resetFormat();
 }
 
 void WbConsole::resetFormat() {
@@ -431,9 +432,9 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
           mUnderline = true;
         else if (code.startsWith("2")) {  // clear console screen
           const char c = code.toLocal8Bit().data()[1];
-          if (c == 'J') {  // code == "2J"
-            WbLog::clear();
-            html.clear();  // nothing to output since clear has been done
+          if (c == 'J') {             // code == "2J"
+            WbConsole::clear(false);  // perform a clear by preserving format
+            html.clear();             // nothing to output since clear has been done
           }
         } else if (code.startsWith("3")) {  // foreground color change
           const char c = code.toLocal8Bit().data()[1];

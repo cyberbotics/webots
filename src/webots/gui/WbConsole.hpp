@@ -85,9 +85,9 @@ public:
   void setAnsiWhite(const QString &color) { mAnsiWhite = color; }
 
 public slots:
-  // clear console
-  void clear();
-  void resetFormat();
+  // clear console and resets its attributes when performed by webots
+  // only from within a controller, this option is set to false
+  void clear(bool reset = true);
 
   // append internal error message of Webots
   // the message color depends on the level
@@ -104,6 +104,7 @@ private:
   bool mUnderline;
   bool mIsOverwriteEnabled;
 
+  void resetFormat();
   QString htmlSpan(const QString &s, WbLog::Level level) const;
   void handleCRAndLF(const QString &msg);
   void handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Level);

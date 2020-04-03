@@ -563,12 +563,7 @@ void WbController::appendMessageToBuffer(const QString &message, QString *buffer
 #else
   const QString &text = message;
 #endif
-  // '\f' to clean the console
-  const int lastFCharIndex = text.lastIndexOf('\f');
-  if (lastFCharIndex < 0)  // no '\f'
-    buffer->append(text);
-  else
-    *buffer = text.mid(lastFCharIndex);
+  buffer->append(text);
   if (buffer == mStdoutBuffer)
     mStdoutNeedsFlush = true;
   else
@@ -578,14 +573,8 @@ void WbController::appendMessageToBuffer(const QString &message, QString *buffer
 void WbController::flushBuffer(QString *buffer) {
   // Split string into lines by detecting '\n', then send lines one by one to WbLog.
   // When several streams or several controllers are used, this prevents to mix unrelated lines
-  if ((*buffer)[0] == '\f') {
-    WbLog::clear();
-    buffer->remove(0, 1);
-  }
   int index = buffer->indexOf('\n');
   while (index != -1) {
-    // extract line and prepend "[controller_name] "
-    // apply ansi codes (if any) before the prefix
     QString ansiString;
     int count = 0;
     int l = buffer->length();
@@ -615,7 +604,6 @@ void WbController::flushBuffer(QString *buffer) {
 void WbController::processFinished(int exitCode, QProcess::ExitStatus exitStatus) {
   mHasBeenTerminatedByItself = true;
   flushBuffers();
-  WbLog::resetFormat();
   switch (exitStatus) {
     case QProcess::NormalExit:
       if (exitCode == 0)

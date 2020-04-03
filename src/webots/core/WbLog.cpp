@@ -138,10 +138,6 @@ void WbLog::clear() {
   emit instance()->cleared();
 }
 
-void WbLog::resetFormat() {
-  emit instance()->resetFormatEmitted();
-}
-
 void WbLog::enqueueMessage(QList<PostponedMessage> &list, const QString &message, Level level) {
   PostponedMessage msg;
   msg.text = message;
