@@ -42,7 +42,7 @@ static bool cameras_activated = false;
 static bool old_autopilot = true;
 
 // initialize the robot's information
-extern WbDeviceTag motors[NUMBER_OF_JOINTS];
+static WbDeviceTag motors[NUMBER_OF_JOINTS];
 static const char *motor_names[NUMBER_OF_JOINTS] = {"front left leg shoulder elevation motor",
                                                     "front left leg shoulder rotation motor",
                                                     "front left leg elbow motor",
