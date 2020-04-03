@@ -22,7 +22,6 @@
 #include <webots/device.h>
 #include <webots/keyboard.h>
 #include <webots/motor.h>
-//#include <webots/position_sensor.h>
 #include <webots/robot.h>
 
 #include <math.h>
@@ -31,15 +30,18 @@
 #include <stdlib.h>
 
 #define DURATION 4 // Time in second to perform action
+#define GIVE_PAW true
 #define TIME_STEP (int)wb_robot_get_basic_time_step()  // From world file
 #define NUMBER_OF_JOINTS 12
 #define NUMBER_OF_CAMERAS 5
 
 static int old_key = -1;
 static bool demo = true;
-static bool autopilot = false;
-static bool cameras_activated = true;
-static bool old_autopilot = false;
+static bool cameras_enabled = false;
+static bool C_pressed = false;
+static bool old_C_pressed = false;
+static bool autopilot = true;
+static bool old_autopilot = true;
 
 // Initialize the robot's information
 static WbDeviceTag motors[NUMBER_OF_JOINTS];
@@ -55,21 +57,6 @@ static const char *motor_names[NUMBER_OF_JOINTS] = {"front left leg shoulder ele
                                                     "rear right leg shoulder elevation motor",
                                                     "rear right leg shoulder rotation motor",
                                                     "rear right leg elbow motor"};
-/*
-static WbDeviceTag position_sensors[NUMBER_OF_JOINTS];
-static const char *position_sensor_names[NUMBER_OF_JOINTS] = {"front left leg shoulder elevation sensor",
-                                                               "front left leg shoulder rotation sensor",
-                                                               "front left leg elbow sensor",
-                                                               "front right leg shoulder elevation sensor",
-                                                               "front right leg shoulder rotation sensor",
-                                                               "front right leg elbow sensor",
-                                                               "rear left leg shoulder elevation sensor",
-                                                               "rear left leg shoulder rotation sensor",
-                                                               "rear left leg elbow sensor",
-                                                               "rear right leg shoulder elevation sensor",
-                                                               "rear right leg shoulder rotation sensor",
-                                                               "rear right leg elbow sensor"};
-*/
 static WbDeviceTag cameras[NUMBER_OF_CAMERAS];
 static const char *camera_names[NUMBER_OF_CAMERAS] = {"left head camera",
                                                       "right head camera",
@@ -91,110 +78,54 @@ static void passive_wait(double sec) {
   } while (start_time + sec > wb_robot_get_time());
 }
 
+// Movement decomposition
+static void movement_decomposition(double *target) {
+  int n_steps_to_achieve_target = DURATION * 1000 / TIME_STEP;
+  for (int i = 0; i < n_steps_to_achieve_target; i++) {
+    double ratio = (double)i / n_steps_to_achieve_target;
+    for (int k = 0; k < NUMBER_OF_JOINTS; k++)
+      wb_motor_set_position(motors[k], target[k] * ratio);
+    step();
+  }
+}
+
 static void lie_down() {
   double motors_target_pos[NUMBER_OF_JOINTS] = {-0.40, -1.00,  1.60,  // front left leg
                                                  0.40, -1.00,  1.60,  // front right leg
                                                 -0.40, -1.00,  1.60,  // rear left leg
                                                  0.40, -1.00,  1.60}; // rear right leg
-
-  int n_steps_to_achieve_target = DURATION * 1000 / TIME_STEP;
-  for (int i = 0; i < n_steps_to_achieve_target; i++) {
-    double ratio = (double)i / n_steps_to_achieve_target;
-    for (int k = 0; k < NUMBER_OF_JOINTS; k++)
-      wb_motor_set_position(motors[k], motors_target_pos[k] * ratio);
-    step();
-  }
+  movement_decomposition(motors_target_pos);
 }
 
 static void stand_up() {
-  double motors_target_pos[NUMBER_OF_JOINTS] = {0.0, 0.0, 0.0,  // front left leg
-                                                0.0, 0.0, 0.0,  // front right leg
-                                                0.0, 0.0, 0.0,  // rear left leg
-                                                0.0, 0.0, 0.0}; // rear right leg
+  // TODO: Fix why it goes so fast (like a jump)
+  double motors_target_pos[NUMBER_OF_JOINTS] = {0.01, 0.01, 0.01,  // front left leg
+                                                0.01, 0.01, 0.01,  // front right leg
+                                                0.01, 0.01, 0.01,  // rear left leg
+                                                0.01, 0.01, 0.01}; // rear right leg
 
-  int n_steps_to_achieve_target = DURATION * 1000 / TIME_STEP;
-  for (int i = 0; i < n_steps_to_achieve_target; i++) {
-    double ratio = (double)i / n_steps_to_achieve_target;
-    for (int k = 0; k < NUMBER_OF_JOINTS; k++)
-      wb_motor_set_position(motors[k], motors_target_pos[k] * ratio);
-    step();
-  }
+  movement_decomposition(motors_target_pos);
 }
 
-static void sit_down() {
+static void sit_down(bool give_paw) {
   double motors_target_pos[NUMBER_OF_JOINTS] = {-0.2, -0.40, -0.19,  // front left leg
                                                  0.2, -0.40, -0.19,  // front right leg
                                                 -0.2, -0.90,  1.18,  // rear left leg
                                                  0.2, -0.90,  1.18}; // rear right leg
 
-  int n_steps_to_achieve_target = DURATION * 1000 / TIME_STEP;
-  for (int i = 0; i < n_steps_to_achieve_target; i++) {
-    double ratio = (double)i / n_steps_to_achieve_target;
-    for (int k = 0; k < NUMBER_OF_JOINTS; k++)
-      wb_motor_set_position(motors[k], motors_target_pos[k] * ratio);
-    step();
+  movement_decomposition(motors_target_pos);
+
+  if (give_paw) {
+    double initialTime = wb_robot_get_time();
+    while (true) {
+      double time = wb_robot_get_time() - initialTime;
+      wb_motor_set_position(motors[4], 0.2 * sin(2 * time) + 0.6);  // Upperarm movement
+      wb_motor_set_position(motors[5], 0.4 * sin(2 * time));  // Forearm movement
+      if (time >= 2*DURATION)
+        break;
+      step();
+    }
   }
-}
-
-static void give_paw(int number) {
-  double motors_target_pos[NUMBER_OF_JOINTS] = {-0.2, -0.40, -0.19,  // front left leg
-                                                 0.2, -0.40, -0.19,  // front right leg
-                                                -0.2, -0.90,  1.18,  // rear left leg
-                                                 0.2, -0.90,  1.18}; // rear right leg
-
-  int n_steps_to_achieve_target = (DURATION/2) * 1000 / TIME_STEP;
-  for (int i = 0; i < n_steps_to_achieve_target; i++) {
-    double ratio = (double)i / n_steps_to_achieve_target;
-    for (int k = 0; k < NUMBER_OF_JOINTS; k++)
-      wb_motor_set_position(motors[k], motors_target_pos[k] * ratio);
-    step();
-  }
-  // TODO: Finished this part
-/*
-  // Move up and down the front right leg the number of times specified
-  double initialTime = wb_robot_get_time();
-  double time = wb_robot_get_time() - initialTime;
-  wb_motor_set_position(motors[4], 0.2 * sin(5 * time) + 0.6);  // Upperarm movement
-  wb_motor_set_position(motors[5], 0.8 * sin(5 * time));  // Forearm movement
-*/
-}
-
-// Demonstration
-// Displace in a square shape to show the mecanum wheels capabilities
-static void run_demo() {
-  printf("The demonstration will start in...\n");
-  printf("3 \n"); passive_wait(1);
-  printf("2 \n"); passive_wait(1);
-  printf("1 \n"); passive_wait(1);
-  printf("\n");
-
-  printf("Demonstration started !\n");
-  lie_down();   printf("Lied down !\n");   passive_wait(1);
-  stand_up();   printf("Standed up !\n");   passive_wait(1);
-  sit_down();   printf("Sitted down !\n");   passive_wait(1);
-  give_paw(3);  printf("Gived paw !\n");   passive_wait(1);
-  stand_up();   printf("Standed up !\n");   passive_wait(1);
-  printf("Demonstration finished !\n");
-
-  printf("\n");
-  demo = false;
-}
-
-/*
-// Autopilot mode: Move forward
-static void run_autopilot() {
-  //go_forward();
-}
-*/
-
-static void display_instructions() {
-  printf("Control commands:\n");
-  printf(" - Arrow up: The robot stands up\n");
-  printf(" - Arrow down: The robot lies down\n");
-  printf(" - C: Activates cameras\n");
-  printf("\n");
-  printf("Demonstration mode: press 'D'\n");
-  printf("Autopilot mode : press 'A'\n");
 }
 
 static void check_keyboard() {
@@ -204,19 +135,22 @@ static void check_keyboard() {
       case WB_KEYBOARD_UP:
         printf("Robot stands up\n");
         stand_up();
+        autopilot = false;
         break;
       case WB_KEYBOARD_DOWN:
         printf("Robot lies down\n");
         lie_down();
+        autopilot = false;
         break;
-      case 'C':
-        if (key != old_key)  // perform this action just once
-          cameras_activated = !cameras_activated;
-        break;
+      case WB_KEYBOARD_END:
       case 'D':
         if (key != old_key)  // perform this action just once
           demo = !demo;
         break;
+      case 'C':
+          if (key != old_key)  // perform this action just once
+            C_pressed = !C_pressed;
+          break;
       case 'A':
         if (key != old_key)  // perform this action just once
           autopilot = !autopilot;
@@ -233,8 +167,80 @@ static void check_keyboard() {
     else
       printf("Manual control\n");
   }
+  if (C_pressed != old_C_pressed) {
+    old_C_pressed = C_pressed;
+    if (cameras_enabled) {  // Switch off
+      for (int i = 0; i < NUMBER_OF_CAMERAS; i++)
+        wb_camera_disable(cameras[i]);
+      cameras_enabled = false;
+      printf("Cameras OFF\n");
+    }
+    else {
+      for (int i = 0; i < NUMBER_OF_CAMERAS; i++)
+        wb_camera_enable(cameras[i], TIME_STEP);
+      cameras_enabled = true;
+      printf("Cameras ON\n");
+    }
+  }
   old_key = key;
 }
+
+// Demonstration
+// Displace in a square shape to show the mecanum wheels capabilities
+static void run_demo() {
+  printf("The demonstration will start in...\n");
+  printf("3 \n"); passive_wait(1);
+  printf("2 \n"); passive_wait(1);
+  printf("1 \n"); passive_wait(1);
+  printf("\n");
+
+  printf("Demonstration started !\n");
+  lie_down();
+  printf("Lied down !\n");
+  passive_wait(1);
+
+  stand_up();
+  printf("Standed up !\n");
+  passive_wait(1);
+
+  sit_down(GIVE_PAW);
+  printf("Sitted down and gived a paw !\n");
+  passive_wait(1);
+
+  stand_up();
+  printf("Standed up !\n");
+  passive_wait(1);
+  printf("Demonstration finished !\n");
+
+  printf("\n");
+  demo = false;
+}
+
+// Autopilot mode: Move forward
+static void run_autopilot() {
+
+  printf("Autopilot started !\n");
+  lie_down();
+  printf("AUTO Lied down !\n");
+  passive_wait(1);
+
+  stand_up();
+  printf("AUTO Standed up !\n");
+  passive_wait(1);
+  printf("Autopilot ended !\n");
+  autopilot = false;
+}
+
+static void display_instructions() {
+  printf("Control commands:\n");
+  printf(" - Robot stands up: press 'Arrow up'\n");
+  printf(" - Robot lies down: press 'Arrow down'\n");
+  printf(" - Enable/disable cameras: press 'C'\n");
+  printf(" - Demonstration mode: press 'D'\n");
+  printf(" - Autopilot mode : press 'A'\n");
+  printf("\n");
+}
+
 
 
 
@@ -258,19 +264,14 @@ int main(int argc, char **argv) {
     cameras[i] = wb_robot_get_device(camera_names[i]);
     wb_camera_enable(cameras[i], TIME_STEP);
   }
+  cameras_enabled = true;
 
   // Get the motors (joints) and set initial target position to 0
   for (int i = 0; i < NUMBER_OF_JOINTS; i++) {
     motors[i] = wb_robot_get_device(motor_names[i]);
     wb_motor_set_position(motors[i], 0.0);
   }
-/*
-  // Get and enable position sensors (joints)
-  for (int i = 0; i < NUMBER_OF_JOINTS; i++) {
-    position_sensors[i] = wb_robot_get_device(position_sensor_names[i]);
-    wb_position_sensor_enable(position_sensors[i], TIME_STEP);
-  }
-*/
+
   // Display instructions to control the robot
   display_instructions();
   passive_wait(2.0);
@@ -285,24 +286,12 @@ int main(int argc, char **argv) {
   //  o Enable/Disable cameras with keyboard "C"
   //double initialTime = wb_robot_get_time();
   while (true) {
+    step();
     check_keyboard();
-
     if (demo)
       run_demo();
-
-    if (cameras_activated) {
-      for (int i = 0; i < NUMBER_OF_CAMERAS; i++)
-        wb_camera_enable(cameras[i], TIME_STEP);
-    }
-    else {
-      for (int i = 0; i < NUMBER_OF_CAMERAS; i++)
-        wb_camera_disable(cameras[i]);
-    }
-/*
     if (autopilot)
       run_autopilot();
-*/
-    step();
   }
 
   wb_robot_cleanup();
