@@ -31,7 +31,7 @@ PROTO Spot [
       }
       InertialUnit {
       }
-      DEF HEAD Solid {
+      DEF HEAD_SHAPES Group {
         children [
           DEF HEAD_COVER Shape {
             appearance DEF YELLOW_COVER MattePaint {
@@ -354,50 +354,8 @@ PROTO Spot [
             }
           }
         ]
-        name "head"
-        boundingObject DEF HEAD_BO Group {
-          children [
-            DEF HEAD_BO_1 Transform {
-              translation 0 1.649768 -0.922094
-              rotation -1 0 0 0.443185
-              children [
-                Box {
-                  size 0.192453 0.177358 0.043396
-                }
-              ]
-            }
-            DEF HEAD_BO_2 Transform {
-              translation 0 1.734013 -0.937932
-              rotation -1 0 0 0.353595
-              children [
-                Box {
-                  size 0.192453 0.018113 0.08717
-                }
-              ]
-            }
-            DEF HEAD_BO_3 Transform {
-              translation 0 1.691304 -0.911833
-              children [
-                Box {
-                  size 0.192453 0.102642 0.037736
-                }
-              ]
-            }
-          ]
-        }
-        physics DEF HEAD_PH Physics {
-          density -1
-          mass 0.498754717
-          centerOfMass [
-            0 1.672119530331935 -0.9209732060699166
-          ]
-          inertiaMatrix [
-            9.229094967333426 2.155501527358509 7.089214486666756
-            0 0 3.898468819120083
-          ]
-        }
       }
-      DEF BODY Solid {
+      DEF BODY_SHAPE Group {
         children [
           DEF FRONT_SHOULDER_COVER Shape {
             appearance DEF METAL_PART BrushedAluminium {
@@ -1044,83 +1002,8 @@ PROTO Spot [
             ]
           }
         ]
-        name "body"
-        boundingObject DEF BODY_BO Group {
-          children [
-            DEF BODY_BO_1 Transform {
-              translation 0 1.668833 -0.491113
-              children [
-                Box {
-                  size 0.222642 0.189434 0.535849
-                }
-              ]
-            }
-            DEF BODY_BO_2 Transform {
-              translation 0 1.757135 -0.836019
-              children [
-                Box {
-                  size 0.166038 0.013208 0.158491
-                }
-              ]
-            }
-            DEF BODY_BO_3 Transform {
-              translation 0 1.570343 -0.823578
-              rotation 1 0 0 -0.03318530717958623
-              children [
-                Box {
-                  size 0.166038 0.013208 0.124528
-                }
-              ]
-            }
-            DEF BODY_BO_4 Transform {
-              translation 0 1.757135 -0.140547
-              children [
-                Box {
-                  size 0.166038 0.013208 0.158491
-                }
-              ]
-            }
-            DEF BODY_BO_5 Transform {
-              translation 0 1.585437 -0.146975
-              children [
-                Box {
-                  size 0.166038 0.013208 0.14717
-                }
-              ]
-            }
-            DEF BODY_BO_6 Transform {
-              translation -0.111629 1.724886 -0.339805
-              rotation 0 0 -1 -0.423185
-              children [
-                Box {
-                  size 0.030189 0.064528 0.182264
-                }
-              ]
-            }
-            DEF BODY_BO_7 Transform {
-              translation 0.111629 1.724886 -0.339805
-              rotation 0 0 -1 0.423185
-              children [
-                Box {
-                  size 0.030189 0.064528 0.182264
-                }
-              ]
-            }
-          ]
-        }
-        physics DEF BODY_PH Physics {
-          density -1
-          mass 12.8959434
-          centerOfMass [
-            0 1.6707587027856399 -0.48584131567863215
-          ]
-          inertiaMatrix [
-            75.27255510153654 6.6253040993803305 68.85776430529377
-            0 0 19.963619280013397
-          ]
-        }
       }
-      DEF REAR Solid {
+      DEF REAR_SHAPES Group {
         children [
           DEF REAR_COVER Shape {
             appearance USE YELLOW_COVER
@@ -1404,56 +1287,6 @@ PROTO Spot [
             }
           }
         ]
-        name "rear"
-        boundingObject DEF REAR_BO Group {
-          children [
-            DEF REAR_BO_1 Transform {
-              translation 0 1.709588 -0.032623
-              children [
-                Box {
-                  size 0.192453 0.05283 0.089057
-                }
-              ]
-            }
-            DEF REAR_BO_2 Transform {
-              translation 0 1.746611 -0.056
-              rotation 1 0 0 0.16
-              children [
-                Box {
-                  size 0.193585 0.003774 0.135849
-                }
-              ]
-            }
-            DEF REAR_BO_3 Transform {
-              translation 0 1.631097 -0.059415
-              children [
-                Box {
-                  size 0.191698 0.103396 0.04566
-                }
-              ]
-            }
-            DEF REAR_BO_4 Transform {
-              translation 0 1.641663 -0.028472
-              rotation 1 0 0 0.46
-              children [
-                Box {
-                  size 0.193585 0.109434 0.037736
-                }
-              ]
-            }
-          ]
-        }
-        physics DEF REAR_PH Physics {
-          density -1
-          mass 1.015037736
-          centerOfMass [
-            0 1.6646802762354977 -0.04120460185998551
-          ]
-          inertiaMatrix [
-            7.519404069770781 0.014628393641005644 7.52152113003803
-            0 0 0.18502491678217858
-          ]
-        }
       }
       DEF FRONT_LEFT_LEG SpotLeftLeg {
         name "front left leg"
@@ -1475,6 +1308,140 @@ PROTO Spot [
     ]
     name IS name
     model IS model
+    boundingObject DEF BODY_BO Group {
+      children [
+        DEF HEAD_BO_1 Transform {
+          translation 0 1.649768 -0.922094
+          rotation -1 0 0 0.443185
+          children [
+            Box {
+              size 0.192453 0.177358 0.043396
+            }
+          ]
+        }
+        DEF HEAD_BO_2 Transform {
+          translation 0 1.734013 -0.937932
+          rotation -1 0 0 0.353595
+          children [
+            Box {
+              size 0.192453 0.018113 0.08717
+            }
+          ]
+        }
+        DEF HEAD_BO_3 Transform {
+          translation 0 1.691304 -0.911833
+          children [
+            Box {
+              size 0.192453 0.102642 0.037736
+            }
+          ]
+        }
+        DEF BODY_BO_1 Transform {
+          translation 0 1.668833 -0.491113
+          children [
+            Box {
+              size 0.222642 0.189434 0.535849
+            }
+          ]
+        }
+        DEF BODY_BO_2 Transform {
+          translation 0 1.757135 -0.836019
+          children [
+            Box {
+              size 0.166038 0.013208 0.158491
+            }
+          ]
+        }
+        DEF BODY_BO_3 Transform {
+          translation 0 1.570343 -0.823578
+          rotation 1 0 0 -0.03318530717958623
+          children [
+            Box {
+              size 0.166038 0.013208 0.124528
+            }
+          ]
+        }
+        DEF BODY_BO_4 Transform {
+          translation 0 1.757135 -0.140547
+          children [
+            Box {
+              size 0.166038 0.013208 0.158491
+            }
+          ]
+        }
+        DEF BODY_BO_5 Transform {
+          translation 0 1.585437 -0.146975
+          children [
+            Box {
+              size 0.166038 0.013208 0.14717
+            }
+          ]
+        }
+        DEF BODY_BO_6 Transform {
+          translation -0.111629 1.724886 -0.339805
+          rotation 0 0 -1 -0.423185
+          children [
+            Box {
+              size 0.030189 0.064528 0.182264
+            }
+          ]
+        }
+        DEF BODY_BO_7 Transform {
+          translation 0.111629 1.724886 -0.339805
+          rotation 0 0 -1 0.423185
+          children [
+            Box {
+              size 0.030189 0.064528 0.182264
+            }
+          ]
+        }
+        DEF REAR_BO_1 Transform {
+          translation 0 1.709588 -0.032623
+          children [
+            Box {
+              size 0.192453 0.05283 0.089057
+            }
+          ]
+        }
+        DEF REAR_BO_2 Transform {
+          translation 0 1.746611 -0.056
+          rotation 1 0 0 0.16
+          children [
+            Box {
+              size 0.193585 0.003774 0.135849
+            }
+          ]
+        }
+        DEF REAR_BO_3 Transform {
+          translation 0 1.631097 -0.059415
+          children [
+            Box {
+              size 0.191698 0.103396 0.04566
+            }
+          ]
+        }
+        DEF REAR_BO_4 Transform {
+          translation 0 1.641663 -0.028472
+          rotation 1 0 0 0.46
+          children [
+            Box {
+              size 0.193585 0.109434 0.037736
+            }
+          ]
+        }
+      ]
+    }
+    physics DEF BODY_PH Physics {
+      density -1
+      mass 14.40973585
+      centerOfMass [
+        0 1.67032 -0.482374
+      ]
+      inertiaMatrix [
+        92.02105413864075 8.795434020379847 83.46849992199857
+        0 0 24.047113015915656
+      ]
+    }
     controller IS controller
     controllerArgs IS controllerArgs
     customData IS customData

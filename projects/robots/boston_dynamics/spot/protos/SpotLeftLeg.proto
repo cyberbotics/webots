@@ -28,6 +28,7 @@ PROTO SpotLeftLeg [
       }
       RotationalMotor {
         name %{= "\"" .. legName .. " shoulder elevation motor\"" }%
+        maxTorque 50
       }
     ]
     endPoint DEF SHOULDER Solid {
@@ -46,6 +47,7 @@ PROTO SpotLeftLeg [
             }
             RotationalMotor {
               name %{= "\"" .. legName .. " shoulder rotation motor\"" }%
+              maxTorque 50
             }
           ]
           endPoint DEF UPPERARM Solid {
@@ -145,6 +147,7 @@ PROTO SpotLeftLeg [
                   }
                   RotationalMotor {
                     name %{= "\"" .. legName .. " elbow motor\"" }%
+                    maxTorque 50
                   }
                 ]
                 endPoint DEF FOREARM Solid {

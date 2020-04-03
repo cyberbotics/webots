@@ -6,9 +6,10 @@ WorldInfo {
   title "Simulation of Boston Dynamics' Spot robot."
 }
 Viewpoint {
-  orientation 0.07230287599668343 0.9734978189508859 0.2169661047732479 3.8800791367861893
-  position -8.041427145628807 5.4765301547834095 -7.720497236371842
+  orientation 0.041152037111120345 0.9873563155184539 0.15308172995961375 3.81873966994718
+  position -1.8099303763381416 1.048058533493013 -2.226727532390408
   follow "Spot"
+  followType "None"
   followSmoothness 0
 }
 TexturedBackground {
@@ -42,7 +43,6 @@ PlasticCrate {
 TrafficCone {
   translation 4.63526 0.228719 3.89768
   rotation 0.0003109999849598856 0 0.9999999516395034 1.997414
-  name "traffic cone"
 }
 TrafficCone {
   translation 3.38354 0 3.49778

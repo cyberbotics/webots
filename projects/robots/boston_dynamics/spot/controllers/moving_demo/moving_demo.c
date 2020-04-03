@@ -31,17 +31,17 @@
 #include <stdlib.h>
 
 #define DURATION 4 // Time in second to perform action
-#define TIME_STEP (int)wb_robot_get_basic_time_step()  // from world file
+#define TIME_STEP (int)wb_robot_get_basic_time_step()  // From world file
 #define NUMBER_OF_JOINTS 12
 #define NUMBER_OF_CAMERAS 5
 
 static int old_key = -1;
-static bool demo = false;
-static bool autopilot = true;
-static bool cameras_activated = false;
-static bool old_autopilot = true;
+static bool demo = true;
+static bool autopilot = false;
+static bool cameras_activated = true;
+static bool old_autopilot = false;
 
-// initialize the robot's information
+// Initialize the robot's information
 static WbDeviceTag motors[NUMBER_OF_JOINTS];
 static const char *motor_names[NUMBER_OF_JOINTS] = {"front left leg shoulder elevation motor",
                                                     "front left leg shoulder rotation motor",
@@ -93,14 +93,15 @@ static void passive_wait(double sec) {
 
 static void lie_down() {
   double motors_target_pos[NUMBER_OF_JOINTS] = {-0.40, -1.00,  1.60,  // front left leg
-                                                -0.40, -1.00,  1.60,  // front right leg
+                                                 0.40, -1.00,  1.60,  // front right leg
                                                 -0.40, -1.00,  1.60,  // rear left leg
-                                                -0.40, -1.00,  1.60}; // rear right leg
+                                                 0.40, -1.00,  1.60}; // rear right leg
 
   int n_steps_to_achieve_target = DURATION * 1000 / TIME_STEP;
   for (int i = 0; i < n_steps_to_achieve_target; i++) {
     double ratio = (double)i / n_steps_to_achieve_target;
-    wb_motor_set_position(motors[i], motors_target_pos[i] * ratio);
+    for (int k = 0; k < NUMBER_OF_JOINTS; k++)
+      wb_motor_set_position(motors[k], motors_target_pos[k] * ratio);
     step();
   }
 }
@@ -114,35 +115,38 @@ static void stand_up() {
   int n_steps_to_achieve_target = DURATION * 1000 / TIME_STEP;
   for (int i = 0; i < n_steps_to_achieve_target; i++) {
     double ratio = (double)i / n_steps_to_achieve_target;
-    wb_motor_set_position(motors[i], motors_target_pos[i] * ratio);
+    for (int k = 0; k < NUMBER_OF_JOINTS; k++)
+      wb_motor_set_position(motors[k], motors_target_pos[k] * ratio);
     step();
   }
 }
 
 static void sit_down() {
-  double motors_target_pos[NUMBER_OF_JOINTS] = {-0.2, -0.90,  1.18,  // front left leg
-                                                 0.2, -0.90,  1.18,  // front right leg
-                                                -0.2, -0.40, -0.19,  // rear left leg
-                                                 0.2, -0.40, -0.19}; // rear right leg
+  double motors_target_pos[NUMBER_OF_JOINTS] = {-0.2, -0.40, -0.19,  // front left leg
+                                                 0.2, -0.40, -0.19,  // front right leg
+                                                -0.2, -0.90,  1.18,  // rear left leg
+                                                 0.2, -0.90,  1.18}; // rear right leg
 
   int n_steps_to_achieve_target = DURATION * 1000 / TIME_STEP;
   for (int i = 0; i < n_steps_to_achieve_target; i++) {
     double ratio = (double)i / n_steps_to_achieve_target;
-    wb_motor_set_position(motors[i], motors_target_pos[i] * ratio);
+    for (int k = 0; k < NUMBER_OF_JOINTS; k++)
+      wb_motor_set_position(motors[k], motors_target_pos[k] * ratio);
     step();
   }
 }
 
 static void give_paw(int number) {
-  double motors_target_pos[NUMBER_OF_JOINTS] = {-0.2, -0.90,  1.18,  // front left leg
-                                                 0.0,  0.60,  0.00,  // front right leg
-                                                -0.2, -0.40, -0.19,  // rear left leg
-                                                 0.2, -0.40, -0.19}; // rear right leg
+  double motors_target_pos[NUMBER_OF_JOINTS] = {-0.2, -0.40, -0.19,  // front left leg
+                                                 0.2, -0.40, -0.19,  // front right leg
+                                                -0.2, -0.90,  1.18,  // rear left leg
+                                                 0.2, -0.90,  1.18}; // rear right leg
 
   int n_steps_to_achieve_target = (DURATION/2) * 1000 / TIME_STEP;
   for (int i = 0; i < n_steps_to_achieve_target; i++) {
     double ratio = (double)i / n_steps_to_achieve_target;
-    wb_motor_set_position(motors[i], motors_target_pos[i] * ratio);
+    for (int k = 0; k < NUMBER_OF_JOINTS; k++)
+      wb_motor_set_position(motors[k], motors_target_pos[k] * ratio);
     step();
   }
   // TODO: Finished this part
@@ -159,17 +163,17 @@ static void give_paw(int number) {
 // Displace in a square shape to show the mecanum wheels capabilities
 static void run_demo() {
   printf("The demonstration will start in...\n");
-  printf("3... \n"); passive_wait(1);
-  printf("2... \n"); passive_wait(1);
-  printf("1... \n"); passive_wait(1);
+  printf("3 \n"); passive_wait(1);
+  printf("2 \n"); passive_wait(1);
+  printf("1 \n"); passive_wait(1);
   printf("\n");
 
   printf("Demonstration started !\n");
-  lie_down();   passive_wait(1);
-  stand_up();   passive_wait(1);
-  sit_down();   passive_wait(1);
-  give_paw(3);  passive_wait(1);
-  stand_up();   passive_wait(1);
+  lie_down();   printf("Lied down !\n");   passive_wait(1);
+  stand_up();   printf("Standed up !\n");   passive_wait(1);
+  sit_down();   printf("Sitted down !\n");   passive_wait(1);
+  give_paw(3);  printf("Gived paw !\n");   passive_wait(1);
+  stand_up();   printf("Standed up !\n");   passive_wait(1);
   printf("Demonstration finished !\n");
 
   printf("\n");
@@ -286,12 +290,14 @@ int main(int argc, char **argv) {
     if (demo)
       run_demo();
 
-    if (cameras_activated)
+    if (cameras_activated) {
       for (int i = 0; i < NUMBER_OF_CAMERAS; i++)
         wb_camera_enable(cameras[i], TIME_STEP);
-    else
+    }
+    else {
       for (int i = 0; i < NUMBER_OF_CAMERAS; i++)
         wb_camera_disable(cameras[i]);
+    }
 /*
     if (autopilot)
       run_autopilot();
