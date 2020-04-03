@@ -473,14 +473,14 @@ A C++ header is also available as a wrapper of the above one. You can use the sa
 
 For Python, `import controller` and access the symbols like this: `controller.ANSI_GREEN_FOREGROUND`.
 Tip: You can `import controller as ctl` and shorten it to `ctl.ANSI_GREEN_FOREGROUND`.
-```Python
+```python
 import controller as ctl
 
 print(ctl.ANSI_GREEN_FOREGROUND + "Hello World!")
 ```
 
 For Java, you may want to create your own style in a constant string for example:
-```Java
+```java
 import com.cyberbotics.webots.controller.wrapperConstants;
 
 // Create your favorite output style
@@ -490,8 +490,8 @@ final String format = wrapperConstants.ANSI_GREEN_FOREGROUND + wrapperConstants.
 System.out.println(format + "Hello World!");.
 ```
 
-When a controller terminates, the webots console uses its default formatting again.
 Please note that any misuse, or unsupported use of these escape codes may result in undefined behavior.
+If the console output is altered because of a previous escape code use without reset, recompiling, cleaning or manually clearing the console will reset it.
 
 ### Shared Libraries
 
