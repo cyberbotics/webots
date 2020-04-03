@@ -20,6 +20,7 @@
 
 %{
 #include <webots/Accelerometer.hpp>
+#include <webots/utils/ansi_codes.h>
 #include <webots/utils/AnsiCodes.hpp>
 #include <webots/Brake.hpp>
 #include <webots/Camera.hpp>
@@ -107,8 +108,9 @@ using namespace std;
 //----------------------------------------------------------------------------------------------
 //  ANSI Support
 //----------------------------------------------------------------------------------------------
-// Unlike Python controller.i, just including .hpp here and in module section is enough for Java
+%include <webots/utils/ansi_codes.h>
 %include <webots/utils/AnsiCodes.hpp>
+
 
 //----------------------------------------------------------------------------------------------
 //  Device
