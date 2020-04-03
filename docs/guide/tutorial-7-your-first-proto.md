@@ -97,7 +97,7 @@ PROTO FourWheelsRobot [
       density -1
       mass IS bodyMass
     }
-    controller "4_wheels_collision_avoidance"
+    controller "four_wheels_collision_avoidance"
   }
 }
 ```
