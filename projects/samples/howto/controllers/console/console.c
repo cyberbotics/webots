@@ -15,7 +15,6 @@
  */
 
 #include <webots/robot.h>
-
 #include <webots/utils/ansi_codes.h>
 
 #define TIME_STEP 64
