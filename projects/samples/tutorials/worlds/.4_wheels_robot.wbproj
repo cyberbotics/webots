@@ -5,4 +5,4 @@ sceneTreePerspectives: 000000ff0000000000000002000001c60000011201000000060100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 0 "controllers/4_wheels_collision_avoidance/4_wheels_collision_avoidance.c"
+textFiles: 0 "controllers/four_wheels_collision_avoidance/four_wheels_collision_avoidance.c"
