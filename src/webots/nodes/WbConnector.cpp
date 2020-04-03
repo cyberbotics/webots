@@ -150,12 +150,10 @@ void WbConnector::updateIsLocked() {
     mIsLocked->setFalse();
   }
 
-  if(mIsLocked->isTrue()) {
+  if(mIsLocked->isTrue())
     lock();
-  }
   else {
     unlock();
-  }
 }
 
 void WbConnector::updateNumberOfRotations() {
