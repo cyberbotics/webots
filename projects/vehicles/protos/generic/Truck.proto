@@ -8,19 +8,20 @@
 PROTO Truck [
   field     SFVec3f    translation       0 0.5 0
   field     SFRotation rotation          0 1 0 0
-  field     SFColor    color             0.39 0 0
-  field     SFNode     trailer           TruckTrailer { }
-  field     SFFloat    wheelbase         5.25
-  field     SFFloat    mass              8000
-  field     SFString   name              "vehicle"
-  field     SFString   controller        "void"
-  field     SFString   controllerArgs    ""
-  field     SFBool     supervisor        FALSE
-  field     SFBool     synchronization   TRUE
-  field     MFNode     sensorsSlotFront  [ ]
-  field     MFNode     sensorsSlotRear   [ ]
-  field     MFNode     sensorsSlotTop    [ ]
-  field     MFNode     sensorsSlotCenter [ ]
+  field     SFColor    color             0.39 0 0          # Defines the main color of the truck.
+  field     SFNode     trailer           TruckTrailer { }  # Defines an optional trailer.
+  field     SFFloat    wheelbase         5.25              # Defines the distance between the front and rear wheels.
+  field     SFFloat    kingPinDistance   1.35              # Defines the distance (along the Z direction) between the rear wheel axis and the trailer rotation axis.
+  field     SFFloat    mass              8000              # Defines the mass of the truck (trailer not included).
+  field     SFString   name              "vehicle"         # Is `Solid.name`.
+  field     SFString   controller        "void"            # Is `Robot.controller`.
+  field     SFString   controllerArgs    ""                # Is `Robot.controllerArgs`.
+  field     SFBool     supervisor        FALSE             # Is `Robot.supervisor`.
+  field     SFBool     synchronization   TRUE              # Is `Robot.synchronization`.
+  field     MFNode     sensorsSlotFront  [ ]               # Extends the truck with new nodes in the front slot.
+  field     MFNode     sensorsSlotRear   [ ]               # Extends the truck with new nodes in the rear slot.
+  field     MFNode     sensorsSlotTop    [ ]               # Extends the truck with new nodes in the top slot.
+  field     MFNode     sensorsSlotCenter [ ]               # Extends the truck with new nodes in the center slot.
 ]
 {
   %{
@@ -86,18 +87,12 @@ PROTO Truck [
         ]
       }
       Transform {
-        %{ if wheelbase < 5 then }%
-          translation 0 0 %{= wheelbase - 5 }%
-        %{ end }%
+        translation 0 0 %{= wheelbase - fields.wheelbase.defaultValue }%
         children [
           DEF TRAILER_JOINT HingeJoint {
             jointParameters HingeJointParameters {
               axis 0 10 0
-              %{ if wheelbase < 5 then }%
-              anchor 0 0 %{= 4.85 - 0.7 * wheelbase }%
-              %{ else }%
-              anchor 0 0 1.35
-              %{ end }%
+              anchor 0 0 %{= fields.kingPinDistance.value +fields.wheelbase.defaultValue -  wheelbase }%
               minStop -1.3
               maxStop 1.3
               dampingConstant 10000
