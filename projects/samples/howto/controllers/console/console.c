@@ -58,8 +58,6 @@ int main(int argc, char **argv) {
   ANSI_PRINTF_IN_GREEN("%sGreen Bold style text\n", ANSI_BOLD);
   ANSI_PRINTF_IN_GREEN("%sGreen Underlined style text\n", ANSI_UNDERLINE);
 
-  printf("The controller text style is not kept when one exits.\n");
-
   wb_robot_cleanup();
   return 0;
 }
