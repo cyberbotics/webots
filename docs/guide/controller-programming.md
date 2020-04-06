@@ -470,7 +470,7 @@ The related C header is located at "[WEBOTS\_HOME/include/controller/c/webots/ut
 #include <webots/utils/ansi_codes.h>
 ```
 
-A C++ header is also available as a wrapper of the above one. use the provided constants with `std::cout` at your wish.
+A C++ header is also available as a wrapper of the above one. Use the provided constants with `std::cout` at your wish.
 ```cpp
 #include <AnsiCodes.hpp>
 ```
