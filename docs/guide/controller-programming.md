@@ -462,18 +462,21 @@ Like most terminals, it supports a few basic [ANSI escape codes](https://en.wiki
   - Underline style
   - Clear screen (same as issuing `clear` command in your terminal)
   - Reset (colors and styles)
-  
-  "[WEBOTS\_HOME/projects/samples/demos/worlds](https://github.com/cyberbotics/webots/tree/master/projects/samples/demos/worlds)"
 
-There is an example world in webots: samples/howto/console or at "[WEBOTS\_HOME/projects/samples/howto/controllers/console](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/controllers/console)" to demonstrate how to use those.
+To demonstrate how to use those, there is an example world and a controller file respectively located in "[WEBOTS\_HOME/projects/samples/howto/worlds/console.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/worlds/console.wbt)" and "[WEBOTS\_HOME/projects/samples/howto/controllers/console/console.c](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/controllers/console/console.c)".
 
-The related C header is located at "[$WEBOTS\_HOME/include/controller/c/webots/utils/ansi\_codes.h](https://github.com/cyberbotics/webots/tree/master/include/controller/c/webots/utils/ansi_codes.h)", it contains some useful macros on top of constants, to use it:
-`#include <webots/utils/ansi_codes.h>`
+The related C header is located at "[WEBOTS\_HOME/include/controller/c/webots/utils/ansi\_codes.h](https://github.com/cyberbotics/webots/tree/master/include/controller/c/webots/utils/ansi_codes.h)", it contains some useful macros on top of constants, to use it:
+```c
+#include <webots/utils/ansi_codes.h>
+```
 
-A C++ header is also available as a wrapper of the above one. You can use the same `printf` macros, or use `std::cout` and the constants at your wish.
-`#include <AnsiCodes.hpp>`
+A C++ header is also available as a wrapper of the above one. use the provided constants with `std::cout` at your wish.
+```cpp
+#include <AnsiCodes.hpp>
+```
 
 For Python, `import controller` and access the symbols like this: `controller.ANSI_GREEN_FOREGROUND`.
+
 Tip: You can `import controller as ctl` and shorten it to `ctl.ANSI_GREEN_FOREGROUND`.
 ```python
 import controller as ctl
@@ -493,6 +496,7 @@ System.out.println(format + "Hello World!");.
 ```
 
 Please note that any misuse, or unsupported use of these escape codes may result in undefined behavior.
+
 If the console output is altered because of a previous escape code use without reset, recompiling, cleaning or manually clearing the console will reset it.
 
 ### Shared Libraries
