@@ -271,7 +271,7 @@ void WbConsole::clear(bool reset) {
 }
 
 void WbConsole::resetFormat() {
-  mForegroundColor = ansiBlack();
+  mForegroundColor.clear();
   mBackgroundColor.clear();
   mBold = false;
   mUnderline = false;
@@ -297,8 +297,9 @@ QString WbConsole::htmlSpan(const QString &s, WbLog::Level level) const {
     foregroundColor = mForegroundColor;
     bold = mBold;
   }
+
   QString span("<span");
-  if (!foregroundColor.isEmpty() || bold || mUnderline) {
+  if (!foregroundColor.isEmpty() || !mBackgroundColor.isEmpty() || bold || mUnderline) {
     span += " style=\"";
     if (!foregroundColor.isEmpty())
       span += "color:" + foregroundColor + ";";
@@ -410,23 +411,24 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
     if (i != 0)  // escape code is not at the beginning of the string
       html = htmlSpan(msg.mid(0, i), level);
     while (1) {
-      i += 2;  // skip the "\033[" chars
       QString sequence;
-      while (msg[i] != '\0' && msg[i] != 'm') {  // 'm' is the final char when supporting only colors
-        sequence += msg[i];
-        if (msg[i] == 'J' && msg[i - 1] == '2')  // "2J" is not terminated by 'm', but is still valid
-          break;
-        i++;
+      int msgLength = msg.length();
+      if (msg.at(i) == '\x1b') {
+        i += 2;  // skip the "\033[" chars
+        int start = i;
+        while (i < msgLength && msg.at(i++) < '\x40')
+          ;
+        sequence += msg.mid(start, i - start);
       }
-      i++;                                           // moving to the next char for next iteration
+
       const QStringList codes(sequence.split(";"));  // handle multiple (e.g. sequence "ESC[0;39m" )
       foreach (const QString code, codes) {
-        // the stored sequence may be "0" or "1", "4", "2J", "30", "31", "32", etc.
-        if (code == "0")  // reset to default
+        // the stored sequence may be "0m" or "1m", "4m", "2J", "30m", "31m", "32m", etc.
+        if (code == "0m")  // reset to default
           resetFormat();
-        else if (code == "1")  // bold
+        else if (code == "1m")  // bold
           mBold = true;
-        else if (code == "4")  // underlined
+        else if (code == "4m")  // underlined
           mUnderline = true;
         else if (code.startsWith("2")) {  // clear console screen
           const char c = code.toLocal8Bit().data()[1];
@@ -437,10 +439,13 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
         } else if (code.startsWith("3")) {  // foreground color change
           const char c = code.toLocal8Bit().data()[1];
           switch (c) {
-            case '1':  // 31
+            case '0':  // code == 30m
+              mForegroundColor = ansiBlack();
+              break;
+            case '1':  // code == 31m
               mForegroundColor = ansiRed();
               break;
-            case '2':  // 32
+            case '2':  // code == 32m
               mForegroundColor = ansiGreen();
               break;
             case '3':  // etc...
@@ -458,18 +463,22 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
             case '7':
               mForegroundColor = ansiWhite();
               break;
-            case '9':  // 39 - Default text color
+            case '9':  // 39m - Default text color
+              mForegroundColor.clear();
+              break;
             default:
-              mForegroundColor = ansiBlack();
               break;
           }
         } else if (code.startsWith("4")) {  // background color change
           const char c = code.toLocal8Bit().data()[1];
           switch (c) {
-            case '1':  // 41
+            case '0':  // code == 40m
+              mBackgroundColor = ansiBlack();
+              break;
+            case '1':  // code == 41m
               mBackgroundColor = ansiRed();
               break;
-            case '2':  // 42
+            case '2':  // code == 42m
               mBackgroundColor = ansiGreen();
               break;
             case '3':  // etc...
@@ -487,9 +496,10 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
             case '7':
               mBackgroundColor = ansiWhite();
               break;
-            case '9':  // 49 - Default background color
+            case '9':  // 49m - Default background color
+              mBackgroundColor.clear();
+              break;
             default:
-              mBackgroundColor = ansiBlack();
               break;
           }
         }
