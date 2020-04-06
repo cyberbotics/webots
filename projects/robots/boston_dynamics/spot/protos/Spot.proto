@@ -122,14 +122,6 @@ PROTO Spot [
             name "left head camera"
             width 1080
             height 720
-            lens Lens {
-            }
-            focus Focus {
-            }
-            zoom Zoom {
-            }
-            recognition Recognition {
-            }
           }
           DEF HEAD_CAM_R1 Shape {
             appearance DEF LENS PBRAppearance {
