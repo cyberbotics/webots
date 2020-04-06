@@ -2,7 +2,8 @@
 
 %robot spot images/robots/spot/model.thumbnail.png
 
-The "Spot", previously called "SpotMini", is is a four-legged dog-like robot developed by [Boston Dynamics](https://www.bostondynamics.com/spot).
+The "Spot" robot, previously called "SpotMini", is is a four-legged dog-like robot developed by [Boston Dynamics](https://www.bostondynamics.com/spot).
+
 The nimble robot is 83 centimeters tall and is designed for a variety of search, inspection and delivery tasks.
 It can climbs stairs and traverses rough terrain with unprecedented ease, yet is small enough to use indoors.
 It is built to be a rugged (IP54 for dust and wet protection ) and customizable platform.
