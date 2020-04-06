@@ -41,6 +41,6 @@ Spot {
 
 You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robots/boston_dynamics/spot/worlds](https://github.com/cyberbotics/webots/tree/master/projects/robots/boston_dynamics/spot/worlds)"
 
-#### spot.wbt
+#### [spot.wbt](https://github.com/cyberbotics/webots/tree/master/projects/robots/boston_dynamics/spot/worlds/spot.wbt)
 
 ![spot.wbt.png](images/robots/spot/spot.wbt.thumbnail.jpg) This simulation shows an Spot robot in a simple environment. The robot is moving its right arm.
