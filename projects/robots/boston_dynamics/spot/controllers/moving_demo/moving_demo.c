@@ -15,7 +15,7 @@
  */
 
 /*
- * Description:   Simple hello controller
+ * Description:   Simple controller to present the Spot robot.
  */
 
 #include <webots/camera.h>
@@ -29,7 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define DURATION 4 // Time in second to perform action
+#define DURATION 4  // Time in second to perform action
 #define GIVE_PAW true
 #define TIME_STEP (int)wb_robot_get_basic_time_step()  // From world file
 #define NUMBER_OF_JOINTS 12
@@ -81,41 +81,50 @@ static void passive_wait(double sec) {
 // Movement decomposition
 static void movement_decomposition(double *target) {
   int n_steps_to_achieve_target = DURATION * 1000 / TIME_STEP;
+  double step_difference[NUMBER_OF_JOINTS];
+  double current_position[NUMBER_OF_JOINTS];
+
+  for (int k = 0; k < NUMBER_OF_JOINTS; k++) {
+    current_position[k] = wb_motor_get_target_position(motors[k]);
+    step_difference[k] = (target[k] - current_position[k]) / n_steps_to_achieve_target;
+  }
+
   for (int i = 0; i < n_steps_to_achieve_target; i++) {
-    double ratio = (double)i / n_steps_to_achieve_target;
-    for (int k = 0; k < NUMBER_OF_JOINTS; k++)
-      wb_motor_set_position(motors[k], target[k] * ratio);
+    for (int k = 0; k < NUMBER_OF_JOINTS; k++) {
+      current_position[k] += step_difference[k];
+      wb_motor_set_position(motors[k], current_position[k]);
+    }
     step();
   }
 }
 
 static void lie_down() {
-  double motors_target_pos[NUMBER_OF_JOINTS] = {-0.40, -1.00,  1.60,  // front left leg
-                                                 0.40, -1.00,  1.60,  // front right leg
-                                                -0.40, -1.00,  1.60,  // rear left leg
-                                                 0.40, -1.00,  1.60}; // rear right leg
+  double motors_target_pos[NUMBER_OF_JOINTS] = {-0.40, -1.00,  1.60,  // Front left leg
+                                                 0.40, -1.00,  1.60,  // Front right leg
+                                                -0.40, -1.00,  1.60,  // Rear left leg
+                                                 0.40, -1.00,  1.60}; // Rear right leg
   movement_decomposition(motors_target_pos);
 }
 
 static void stand_up() {
   // TODO: Fix why it goes so fast (like a jump)
-  double motors_target_pos[NUMBER_OF_JOINTS] = {0.01, 0.01, 0.01,  // front left leg
-                                                0.01, 0.01, 0.01,  // front right leg
-                                                0.01, 0.01, 0.01,  // rear left leg
-                                                0.01, 0.01, 0.01}; // rear right leg
+  double motors_target_pos[NUMBER_OF_JOINTS] = {0.01, 0.01, 0.01,  // Front left leg
+                                                0.01, 0.01, 0.01,  // Front right leg
+                                                0.01, 0.01, 0.01,  // Rear left leg
+                                                0.01, 0.01, 0.01}; // Rear right leg
 
   movement_decomposition(motors_target_pos);
 }
 
 static void sit_down(bool give_paw) {
-  double motors_target_pos[NUMBER_OF_JOINTS] = {-0.2, -0.40, -0.19,  // front left leg
-                                                 0.2, -0.40, -0.19,  // front right leg
-                                                -0.2, -0.90,  1.18,  // rear left leg
-                                                 0.2, -0.90,  1.18}; // rear right leg
+  double motors_target_pos[NUMBER_OF_JOINTS] = {-0.2, -0.40, -0.19,  // Front left leg
+                                                 0.2, -0.40, -0.19,  // Front right leg
+                                                -0.2, -0.90,  1.18,  // Rear left leg
+                                                 0.3, -0.90,  1.18}; // Rear right leg
 
   movement_decomposition(motors_target_pos);
 
-  if (give_paw) {
+  if (give_paw) { // Front right leg
     double initialTime = wb_robot_get_time();
     while (true) {
       double time = wb_robot_get_time() - initialTime;
@@ -148,11 +157,11 @@ static void check_keyboard() {
           demo = !demo;
         break;
       case 'C':
-          if (key != old_key)  // perform this action just once
+          if (key != old_key)
             C_pressed = !C_pressed;
           break;
       case 'A':
-        if (key != old_key)  // perform this action just once
+        if (key != old_key)
           autopilot = !autopilot;
         break;
       default:
@@ -186,7 +195,6 @@ static void check_keyboard() {
 }
 
 // Demonstration
-// Displace in a square shape to show the mecanum wheels capabilities
 static void run_demo() {
   printf("The demonstration will start in...\n");
   printf("3 \n"); passive_wait(1);
@@ -241,11 +249,6 @@ static void display_instructions() {
   printf("\n");
 }
 
-
-
-
-
-
 int main(int argc, char **argv) {
   wb_robot_init();
 
@@ -284,7 +287,6 @@ int main(int argc, char **argv) {
   //  o Demonstration mode if nothing else done
   //  o Autopilot mode (automatically after the demo)
   //  o Enable/Disable cameras with keyboard "C"
-  //double initialTime = wb_robot_get_time();
   while (true) {
     step();
     check_keyboard();
