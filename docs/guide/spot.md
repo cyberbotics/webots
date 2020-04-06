@@ -6,7 +6,7 @@ The "Spot" robot, previously called "SpotMini", is is a four-legged dog-like rob
 
 The nimble robot is 83 centimeters tall and is designed for a variety of search, inspection and delivery tasks.
 It can climbs stairs and traverses rough terrain with unprecedented ease, yet is small enough to use indoors.
-It is built to be a rugged (IP54 for dust and wet protection ) and customizable platform.
+It is built to be a rugged (IP54 for dust and wet protection) and customizable platform.
 Spot can go where wheeled robots cannot, while carrying payloads with endurance far beyond aerial drones.
 The maximal speed is 1.6 m/s with a runtime of 90 minutes and the batteries are swappable.
 Spot uses five stereo cameras (360 degrees vision) to avoid obstacles and people as it moves through dynamic work sites.
@@ -39,8 +39,9 @@ Spot {
 
 ### Samples
 
-You will find the following sample in the folder: "WEBOTS\_HOME/projects/robots/boston_dynamics/spot/worlds".
+You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robots/boston_dynamics/spot/worlds](https://github.com/cyberbotics/webots/tree/master/projects/robots/boston_dynamics/spot/worlds)"
 
-#### spot.wbt
+#### [spot.wbt](https://github.com/cyberbotics/webots/tree/master/projects/robots/boston_dynamics/spot/worlds/spot.wbt)
 
-![spot.wbt.png](images/robots/spot/spot.wbt.thumbnail.jpg) This simulation shows an Spot robot in a simple environment. The robot is moving its right arm.
+![spot.wbt.png](images/robots/spot/spot.wbt.thumbnail.jpg) This simulation shows a Spot robot in a simple environment.
+The robot is moving its right arm.
