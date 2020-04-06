@@ -2,10 +2,12 @@
 
 ## Webots R2020a Revision 2
 Released on XXX.
-
+  - New Robot
+    - Added a model of the [Spot](../guide/spot.md) from [Boston Dynamics](https://www.bostondynamics.com/spot).
   - New Features
     - macOS and Windows: Added support for Python 3.8.
     - Added a 'Convert Root to Base Node(s)' option in the context menu to convert a PROTO node to base node(s) without converting the nested PROTO nodes.
+    - Added a ´´
     - Added an `OfficeChair` PROTO object.
     - Added several new appearances: `Marble`, `MetalStainlessSteelCable`, `Pavement`, `Parquetry`, and `SolarCell`.
     - Added a `ConveyorPlatform` PROTO object.

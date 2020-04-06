@@ -397,14 +397,6 @@ PROTO Spot [
                 name "right flank camera"
                 width 1080
                 height 720
-                lens Lens {
-                }
-                focus Focus {
-                }
-                zoom Zoom {
-                }
-                recognition Recognition {
-                }
               }
               DEF RIGHT_FLANK_CAM_1 Shape {
                 appearance USE YELLOW_COVER
@@ -615,14 +607,6 @@ PROTO Spot [
                 name "left flank camera"
                 width 1080
                 height 720
-                lens Lens {
-                }
-                focus Focus {
-                }
-                zoom Zoom {
-                }
-                recognition Recognition {
-                }
               }
               DEF LEFT_FLANK_CAM_1 Shape {
                 appearance USE YELLOW_COVER
@@ -1017,14 +1001,6 @@ PROTO Spot [
             name "rear camera"
             width 1080
             height 720
-            lens Lens {
-            }
-            focus Focus {
-            }
-            zoom Zoom {
-            }
-            recognition Recognition {
-            }
           }
           DEF REAR_CAM_1 Shape {
             appearance USE TWO_LENS_ROTATE
@@ -1294,7 +1270,7 @@ PROTO Spot [
     model IS model
     boundingObject DEF BODY_BO Group {
       children [
-        DEF HEAD_BO_1 Transform {
+        Transform {
           translation 0 1.649768 -0.922094
           rotation -1 0 0 0.443185
           children [
@@ -1303,7 +1279,7 @@ PROTO Spot [
             }
           ]
         }
-        DEF HEAD_BO_2 Transform {
+        Transform {
           translation 0 1.734013 -0.937932
           rotation -1 0 0 0.353595
           children [
@@ -1312,7 +1288,7 @@ PROTO Spot [
             }
           ]
         }
-        DEF HEAD_BO_3 Transform {
+        Transform {
           translation 0 1.691304 -0.911833
           children [
             Box {
@@ -1320,7 +1296,7 @@ PROTO Spot [
             }
           ]
         }
-        DEF BODY_BO_1 Transform {
+        Transform {
           translation 0 1.668833 -0.491113
           children [
             Box {
@@ -1328,7 +1304,7 @@ PROTO Spot [
             }
           ]
         }
-        DEF BODY_BO_2 Transform {
+        Transform {
           translation 0 1.757135 -0.836019
           children [
             Box {
@@ -1336,7 +1312,7 @@ PROTO Spot [
             }
           ]
         }
-        DEF BODY_BO_3 Transform {
+        Transform {
           translation 0 1.570343 -0.823578
           rotation 1 0 0 -0.03318530717958623
           children [
@@ -1345,7 +1321,7 @@ PROTO Spot [
             }
           ]
         }
-        DEF BODY_BO_4 Transform {
+        Transform {
           translation 0 1.757135 -0.140547
           children [
             Box {
@@ -1353,7 +1329,7 @@ PROTO Spot [
             }
           ]
         }
-        DEF BODY_BO_5 Transform {
+        Transform {
           translation 0 1.585437 -0.146975
           children [
             Box {
@@ -1361,7 +1337,7 @@ PROTO Spot [
             }
           ]
         }
-        DEF BODY_BO_6 Transform {
+        Transform {
           translation -0.111629 1.724886 -0.339805
           rotation 0 0 -1 -0.423185
           children [
@@ -1370,7 +1346,7 @@ PROTO Spot [
             }
           ]
         }
-        DEF BODY_BO_7 Transform {
+        Transform {
           translation 0.111629 1.724886 -0.339805
           rotation 0 0 -1 0.423185
           children [
@@ -1379,7 +1355,7 @@ PROTO Spot [
             }
           ]
         }
-        DEF REAR_BO_1 Transform {
+        Transform {
           translation 0 1.709588 -0.032623
           children [
             Box {
@@ -1387,7 +1363,7 @@ PROTO Spot [
             }
           ]
         }
-        DEF REAR_BO_2 Transform {
+        Transform {
           translation 0 1.746611 -0.056
           rotation 1 0 0 0.16
           children [
@@ -1396,7 +1372,7 @@ PROTO Spot [
             }
           ]
         }
-        DEF REAR_BO_3 Transform {
+        Transform {
           translation 0 1.631097 -0.059415
           children [
             Box {
@@ -1404,7 +1380,7 @@ PROTO Spot [
             }
           ]
         }
-        DEF REAR_BO_4 Transform {
+        Transform {
           translation 0 1.641663 -0.028472
           rotation 1 0 0 0.46
           children [
@@ -1415,7 +1391,7 @@ PROTO Spot [
         }
       ]
     }
-    physics DEF BODY_PH Physics {
+    physics Physics {
       density -1
       mass 14.40973585
       centerOfMass [

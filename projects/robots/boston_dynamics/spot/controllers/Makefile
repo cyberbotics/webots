@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TARGETS=hello_world_demo.Makefile
+TARGETS=spot_moving_demo.Makefile
 
 .PHONY: release debug profile clean
 
