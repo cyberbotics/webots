@@ -19,9 +19,11 @@ We recommend using a recent version of Linux.
 Webots is provided for Linux 64 (x86-64) systems.
 Since Webots 8.1.0, the Linux 32 (i386) version is no longer provided.
 Webots doesn't run on Ubuntu versions earlier than 12.04.
-- Windows: Webots runs on Windows 10 64-bit, Windows 8.1 64-bit, Windows 8 64-bit and Windows 7 64-bit.
-It is not supported on 32-bit versions of Windows and on older versions including Windows Vista and Windows XP.
-- Mac: Webots runs on macOS 10.13 "High Sierra" and 10.12 "Sierra".
-Webots may work but is not officially supported on earlier versions of macOS.
+- Windows: Webots runs on Windows 10 and Windows 8.1.
+It is not supported on older versions (8, 7, Vista or XP) as well as any 32-bit variant.
+- Mac: Webots runs on macOS 10.15 "Catalina" and 10.14 "Mojave".
+Webots may work but is not officially supported on earlier versions of macOS, nor below those mentioned.
+
+Note that for the unsupported versions (except 32-bit flavors of Windows), it might still be possible to run webots but with no guarantee.
 
 Other versions of Webots for other UNIX systems may be available upon request.
