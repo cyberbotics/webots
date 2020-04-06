@@ -588,9 +588,9 @@ void WbController::flushBuffer(QString *buffer) {
     // html formatted string ex: "<span style=\"color:#66bb6a;\">Some Text\n</span>"
     const QString line = ansiString + buffer->mid(count, index + 1 - count);
     if (buffer == mStdoutBuffer)
-      WbLog::appendStdout(line, true);
+      WbLog::appendStdout(line);
     else
-      WbLog::appendStderr(line, true);
+      WbLog::appendStderr(line);
     // remove line from buffer
     buffer->remove(0, index + 1);
     index = buffer->indexOf('\n');

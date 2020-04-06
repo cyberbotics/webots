@@ -248,8 +248,6 @@ WbConsole::WbConsole(QWidget *parent) :
   // listen to WbLog
   connect(WbLog::instance(), SIGNAL(logEmitted(WbLog::Level, const QString &, bool)), this,
           SLOT(appendLog(WbLog::Level, const QString &, bool)));
-  connect(WbLog::instance(), SIGNAL(controllerLogEmitted(WbLog::Level, const QString &, bool)), this,
-          SLOT(appendLog(WbLog::Level, const QString &, bool)));
   connect(WbLog::instance(), SIGNAL(cleared()), this, SLOT(clear()));
 
   // Install ODE message handlers

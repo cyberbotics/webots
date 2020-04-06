@@ -17,9 +17,11 @@
 #ifndef WBU_ANSI_CODES_H
 #define WBU_ANSI_CODES_H
 
+#ifndef __cplusplus
 #include <stdio.h>
+#endif
 
-// Globally available macros (Python, Java, C++)
+// Globally available macros (Python, Java, C++, Matlab)
 #define ANSI_RESET "\x1b[0m"
 
 #define ANSI_BOLD "\x1b[1m"
@@ -45,7 +47,8 @@
 
 #define ANSI_CLEAR_SCREEN "\x1b[2J"
 
-// Convenient macros - Used only in C/C++
+#ifndef __cplusplus
+// Convenient macros - Used only in C
 #define ANSI_PRINTF_IN_BLACK(x, ...) printf(ANSI_BLACK_FOREGROUND x ANSI_RESET, ##__VA_ARGS__)
 #define ANSI_PRINTF_IN_RED(x, ...) printf(ANSI_RED_FOREGROUND x ANSI_RESET, ##__VA_ARGS__)
 #define ANSI_PRINTF_IN_GREEN(x, ...) printf(ANSI_GREEN_FOREGROUND x ANSI_RESET, ##__VA_ARGS__)
@@ -56,5 +59,6 @@
 #define ANSI_PRINTF_IN_WHITE(x, ...) printf(ANSI_WHITE_FOREGROUND x ANSI_RESET, ##__VA_ARGS__)
 
 #define ANSI_CLEAR_CONSOLE() printf(ANSI_CLEAR_SCREEN "\n")
+#endif /* __cplusplus */
 
 #endif /* WBU_ANSI_CODES_H */
