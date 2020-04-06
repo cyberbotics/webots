@@ -8,9 +8,9 @@ renderingMode: PLAIN
 selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
-textFiles: 0 "controllers/moving_demo/moving_demo.c"
-renderingDevicePerspectives: Spot:left head camera;1;1;0;0
-renderingDevicePerspectives: Spot:rear camera;1;1;0;0
-renderingDevicePerspectives: Spot:left flank camera;1;1;0;0
-renderingDevicePerspectives: Spot:right flank camera;1;1;0;0
-renderingDevicePerspectives: Spot:right head camera;1;1;0;0
+textFiles: 0 "controllers/spot_moving_demo/spot_moving_demo.c"
+renderingDevicePerspectives: Spot:rear camera;1;0.0847222;0.879796;0.923636
+renderingDevicePerspectives: Spot:right flank camera;1;0.0842593;0.920716;0.845252
+renderingDevicePerspectives: Spot:left flank camera;1;0.0842593;0.836317;0.845252
+renderingDevicePerspectives: Spot:left head camera;1;0.0842593;0.920716;0.761616
+renderingDevicePerspectives: Spot:right head camera;1;0.0842593;0.835464;0.762828

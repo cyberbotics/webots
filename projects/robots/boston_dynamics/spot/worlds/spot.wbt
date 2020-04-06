@@ -6,8 +6,8 @@ WorldInfo {
   title "Simulation of Boston Dynamics' Spot robot."
 }
 Viewpoint {
-  orientation 0.02052945575110626 0.9962282593756646 0.08430774974992945 3.9124393389810552
-  position -2.0597392606304648 0.7703729865050312 -2.013942883581345
+  orientation 0.04204597617462091 0.9865523011112809 0.1579452217053731 3.8084540733500085
+  position -1.4549383396972553 1.0220230418842462 -1.9167108607224645
   followType "None"
   followSmoothness 0
 }
@@ -36,6 +36,7 @@ RectangleArena {
 }
 Spot {
   translation 0 -1.027 0.46
+  controller "spot_moving_demo"
 }
 PlasticCrate {
   translation -1.39798 0 0.278303

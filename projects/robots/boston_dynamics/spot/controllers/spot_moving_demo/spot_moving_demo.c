@@ -262,12 +262,9 @@ int main(int argc, char **argv) {
   }
   printf("\n");
 
-  // Get and enable cameras
-  for (int i = 0; i < NUMBER_OF_CAMERAS; i++) {
+  // Get cameras
+  for (int i = 0; i < NUMBER_OF_CAMERAS; i++)
     cameras[i] = wb_robot_get_device(camera_names[i]);
-    wb_camera_enable(cameras[i], TIME_STEP);
-  }
-  cameras_enabled = true;
 
   // Get the motors (joints) and set initial target position to 0
   for (int i = 0; i < NUMBER_OF_JOINTS; i++) {
