@@ -115,14 +115,6 @@ PROTO Spot [
             name "right head camera"
             width 1080
             height 720
-            lens Lens {
-            }
-            focus Focus {
-            }
-            zoom Zoom {
-            }
-            recognition Recognition {
-            }
           }
           Camera {
             translation -0.045109 1.67955 -0.92325
