@@ -16,17 +16,17 @@ PROTO SpotRightLeg [
 %{
   local legName = fields.name.value
 }%
-  DEF SHOULDER_ELEVATION_JOINT HingeJoint {
+  DEF SHOULDER_ABDUCTION_JOINT HingeJoint {
     jointParameters HingeJointParameters {
       axis 0 0 1
       anchor 0.05283 1.662418 -0.513
     }
     device [
       PositionSensor {
-        name %{= "\"" .. legName .. " shoulder elevation sensor\"" }%
+        name %{= "\"" .. legName .. " shoulder abduction sensor\"" }%
       }
       RotationalMotor {
-        name %{= "\"" .. legName .. " shoulder elevation motor\"" }%
+        name %{= "\"" .. legName .. " shoulder abduction motor\"" }%
         minPosition -0.6
         maxPosition 0.5
         maxTorque 50
@@ -53,7 +53,7 @@ PROTO SpotRightLeg [
           ]
           endPoint DEF UPPERARM Solid {
             children [
-              DEF TODO SliderJoint {
+              SliderJoint {
                 jointParameters JointParameters {
                 }
                 device [

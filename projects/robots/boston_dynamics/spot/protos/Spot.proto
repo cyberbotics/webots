@@ -10,13 +10,15 @@ PROTO Spot [
   field SFRotation  rotation         0 1 0 0                   # Is `Transform.rotation`.
   field SFString    name             "Spot"                    # Is `Solid.name`.
   field SFString    model            "Boston Dynamics - Spot"  # Is `Robot.model`.
-  field SFString    controller       "moving_demo"             # Is `Robot.controller`.
+  field SFString    controller       "spot_moving_demo"             # Is `Robot.controller`.
   field SFString    controllerArgs   ""                        # Is `Robot.controllerArgs`.
   field SFString    customData       ""                        # Is `Robot.customData`.
   field SFBool      supervisor       FALSE                     # Is `Robot.supervisor`.
   field SFBool      synchronization  TRUE                      # Is `Robot.synchronization`.
   field SFBool      selfCollision    FALSE                     # Is `Robot.selfCollision`.
-  field MFNode      extension        []                        # Extends the robot with new nodes.
+  field MFNode      frontExtension   []                        # Extends the robot with new nodes in the front shoulder part.
+  field MFNode      middleExtension  []                        # Extends the robot with new nodes in the middle back part.
+  field MFNode      rearExtension    []                        # Extends the robot with new nodes in the rear shoulder part.
 ]
 {
   Robot {
@@ -30,6 +32,42 @@ PROTO Spot [
       Gyro {
       }
       InertialUnit {
+      }
+      LED {
+        translation -0.0835156 1.67783 -0.953027
+        rotation 0.4450559604323016 0.87360692233198 -0.19681498250216475 -0.9372053071795863
+        children [
+          Shape {
+            appearance GlossyPaint {
+              baseColor 0 1 0
+            }
+            geometry Box {
+              size 0.005 0.06 0.005
+            }
+          }
+        ]
+        name "left led"
+        color [
+          0 1 0
+        ]
+      }
+      LED {
+        translation 0.0835156 1.67783 -0.953027
+        rotation -0.4197661711038622 0.8854393609202096 -0.19948308131271172 0.985158
+        children [
+          Shape {
+            appearance GlossyPaint {
+              baseColor 0 1 0
+            }
+            geometry Box {
+              size 0.005 0.06 0.005
+            }
+          }
+        ]
+        name "right led"
+        color [
+          0 1 0
+        ]
       }
       DEF HEAD_SHAPES Group {
         children [
@@ -1262,8 +1300,17 @@ PROTO Spot [
         translation 0 0 0.671698
         name "rear right leg"
       }
-      DEF EXT Transform {
-        children IS extension
+      Transform {
+        translation 0 1.7618 -0.716
+        children IS frontExtension
+      }
+      Transform {
+        translation 0 1.7618 -0.487
+        children IS middleExtension
+      }
+      Transform {
+        translation 0 1.7618 -0.26
+        children IS rearExtension
       }
     ]
     name IS name

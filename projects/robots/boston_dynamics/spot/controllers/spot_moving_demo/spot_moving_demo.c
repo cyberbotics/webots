@@ -45,16 +45,16 @@ static bool old_autopilot = true;
 
 // Initialize the robot's information
 static WbDeviceTag motors[NUMBER_OF_JOINTS];
-static const char *motor_names[NUMBER_OF_JOINTS] = {"front left leg shoulder elevation motor",
+static const char *motor_names[NUMBER_OF_JOINTS] = {"front left leg shoulder abduction motor",
                                                     "front left leg shoulder rotation motor",
                                                     "front left leg elbow motor",
-                                                    "front right leg shoulder elevation motor",
+                                                    "front right leg shoulder abduction motor",
                                                     "front right leg shoulder rotation motor",
                                                     "front right leg elbow motor",
-                                                    "rear left leg shoulder elevation motor",
+                                                    "rear left leg shoulder abduction motor",
                                                     "rear left leg shoulder rotation motor",
                                                     "rear left leg elbow motor",
-                                                    "rear right leg shoulder elevation motor",
+                                                    "rear right leg shoulder abduction motor",
                                                     "rear right leg shoulder rotation motor",
                                                     "rear right leg elbow motor"};
 static WbDeviceTag cameras[NUMBER_OF_CAMERAS];
@@ -99,19 +99,18 @@ static void movement_decomposition(double *target) {
 }
 
 static void lie_down() {
-  double motors_target_pos[NUMBER_OF_JOINTS] = {-0.40, -1.00,  1.60,  // Front left leg
-                                                 0.40, -1.00,  1.60,  // Front right leg
-                                                -0.40, -1.00,  1.60,  // Rear left leg
-                                                 0.40, -1.00,  1.60}; // Rear right leg
+  double motors_target_pos[NUMBER_OF_JOINTS] = {-0.40, -0.99,  1.59,  // Front left leg
+                                                 0.40, -0.99,  1.59,  // Front right leg
+                                                -0.40, -0.99,  1.59,  // Rear left leg
+                                                 0.40, -0.99,  1.59}; // Rear right leg
   movement_decomposition(motors_target_pos);
 }
 
 static void stand_up() {
-  // TODO: Fix why it goes so fast (like a jump)
-  double motors_target_pos[NUMBER_OF_JOINTS] = {0.01, 0.01, 0.01,  // Front left leg
-                                                0.01, 0.01, 0.01,  // Front right leg
-                                                0.01, 0.01, 0.01,  // Rear left leg
-                                                0.01, 0.01, 0.01}; // Rear right leg
+  double motors_target_pos[NUMBER_OF_JOINTS] = {0.0, 0.0, 0.0,  // Front left leg
+                                                0.0, 0.0, 0.0,  // Front right leg
+                                                0.0, 0.0, 0.0,  // Rear left leg
+                                                0.0, 0.0, 0.0}; // Rear right leg
 
   movement_decomposition(motors_target_pos);
 }
@@ -136,6 +135,18 @@ static void sit_down(bool give_paw) {
     }
   }
 }
+
+static void recover(int side) {
+  // 1) Rabattre les pattes
+  lie_down();
+  double motors_target_pos[NUMBER_OF_JOINTS] = {0.0, 0.0, 0.0,  // Front left leg
+                                                0.0, 0.0, 0.0,  // Front right leg
+                                                0.0, 0.0, 0.0,  // Rear left leg
+                                                0.0, 0.0, 0.0}; // Rear right leg
+
+  movement_decomposition(motors_target_pos);
+}
+
 
 static void check_keyboard() {
   int key = wb_keyboard_get_key();
