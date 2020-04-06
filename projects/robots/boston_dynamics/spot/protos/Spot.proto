@@ -15,7 +15,7 @@ PROTO Spot [
   field SFString    customData       ""                        # Is `Robot.customData`.
   field SFBool      supervisor       FALSE                     # Is `Robot.supervisor`.
   field SFBool      synchronization  TRUE                      # Is `Robot.synchronization`.
-  field SFBool      selfCollision    FALSE                     # Enables/disables the detection of collisions within the robot.
+  field SFBool      selfCollision    FALSE                     # Is `Robot.selfCollision`.
   field MFNode      extension        []                        # Extends the robot with new nodes.
 ]
 {
