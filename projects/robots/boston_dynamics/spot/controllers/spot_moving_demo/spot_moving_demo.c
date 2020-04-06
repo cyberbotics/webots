@@ -137,13 +137,52 @@ static void sit_down(bool give_paw) {
 }
 
 static void recover(int side) {
-  // 1) Rabattre les pattes
-  lie_down();
-  double motors_target_pos[NUMBER_OF_JOINTS] = {0.0, 0.0, 0.0,  // Front left leg
+
+  double motors_target_pos_1[NUMBER_OF_JOINTS] = {0.0, 0.99, 1.59,  // Front left leg
+                                                  0.0, 0.99, 1.59,  // Front right leg
+                                                  0.0, 0.99, 1.59,  // Rear left leg
+                                                  0.0, 0.99, 1.59}; // Rear right leg
+
+  double motors_target_pos_2[NUMBER_OF_JOINTS] = {0.0, 0.0, 0.0,  // Front left leg
                                                 0.0, 0.0, 0.0,  // Front right leg
                                                 0.0, 0.0, 0.0,  // Rear left leg
                                                 0.0, 0.0, 0.0}; // Rear right leg
 
+  double motors_target_pos_3[NUMBER_OF_JOINTS] = {0.0, 0.0, 0.0,  // Front left leg
+                                                0.0, 0.0, 0.0,  // Front right leg
+                                                0.0, 0.0, 0.0,  // Rear left leg
+                                                0.0, 0.0, 0.0}; // Rear right leg
+
+  double motors_target_pos_4[NUMBER_OF_JOINTS] = {0.0, 0.0, 0.0,  // Front left leg
+                                                0.0, 0.0, 0.0,  // Front right leg
+                                                0.0, 0.0, 0.0,  // Rear left leg
+                                                0.0, 0.0, 0.0}; // Rear right leg
+
+  double motors_target_pos_5[NUMBER_OF_JOINTS] = {0.0, 0.0, 0.0,  // Front left leg
+                                                0.0, 0.0, 0.0,  // Front right leg
+                                                0.0, 0.0, 0.0,  // Rear left leg
+                                                0.0, 0.0, 0.0}; // Rear right leg
+
+  double motors_target_pos_6[NUMBER_OF_JOINTS] = {0.0, 0.0, 0.0,  // Front left leg
+                                                0.0, 0.0, 0.0,  // Front right leg
+                                                0.0, 0.0, 0.0,  // Rear left leg
+                                                0.0, 0.0, 0.0}; // Rear right leg
+
+  double motors_target_pos_7[NUMBER_OF_JOINTS] = {0.0, 0.0, 0.0,  // Front left leg
+                                                0.0, 0.0, 0.0,  // Front right leg
+                                                0.0, 0.0, 0.0,  // Rear left leg
+                                                0.0, 0.0, 0.0}; // Rear right leg
+
+  double motors_target_pos_1[NUMBER_OF_JOINTS] = {0.0, 0.0, 0.0,  // Front left leg
+                                                0.0, 0.0, 0.0,  // Front right leg
+                                                0.0, 0.0, 0.0,  // Rear left leg
+                                                0.0, 0.0, 0.0}; // Rear right leg
+  movement_decomposition(motors_target_pos);
+  movement_decomposition(motors_target_pos);
+  movement_decomposition(motors_target_pos);
+  movement_decomposition(motors_target_pos);
+  movement_decomposition(motors_target_pos);
+  movement_decomposition(motors_target_pos);
   movement_decomposition(motors_target_pos);
 }
 
