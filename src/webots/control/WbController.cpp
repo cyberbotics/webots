@@ -575,18 +575,7 @@ void WbController::flushBuffer(QString *buffer) {
   // When several streams or several controllers are used, this prevents to mix unrelated lines
   int index = buffer->indexOf('\n');
   while (index != -1) {
-    QString ansiString;
-    int count = 0;
-    int l = buffer->length();
-    while (buffer->at(count) == '\x1b') {
-      int start = count;
-      count += 2;  // skipping '['
-      while (count < l && buffer->at(count++) < '\x40')
-        ;
-      ansiString += buffer->mid(start, count - start);
-    }
-    // html formatted string ex: "<span style=\"color:#66bb6a;\">Some Text\n</span>"
-    const QString line = ansiString + buffer->mid(count, index + 1 - count);
+    const QString line = buffer->mid(0, index + 1);
     if (buffer == mStdoutBuffer)
       WbLog::appendStdout(line);
     else
