@@ -33,6 +33,7 @@ Released on XXX.
     - Fixed the C/C++ Makefiles to handle spaces in the Webots installation directory.
     - Fixed crash when resetting worlds with motorized [BallJoint](balljoint.md) nodes (thanks to lordNil).
     - Fixed addition of PROTO nodes including a [Connector](connector.md) node from the Add Node dialog (thanks to Acwok).
+    - Fixed crash when using the search bar of the Add Node dialog.
     - Fixed the [`wb_display_image_load`](display.md#wb_display_image_load) function when used with a PNG image with transparency.
     - Fixed color of the bounding objects remaining in the collision state if the collision was lasting only one step (thanks to Acwok).
     - Fixed rare issue with the [`wb_supervisor_simulation_reset`](supervisor.md#wb_supervisor_simulation_reset) function when the controller step is not equal to the simulation step.
