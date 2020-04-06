@@ -3,7 +3,7 @@
 # license url: https://creativecommons.org/licenses/by/4.0
 # documentation url: https://www.cyberbotics.com/doc/guide/spot
 # The "Spot" is a dog robot developed by Boston Dynamics.
-# Created by Greg McKechnie under Common Creative license: https://sketchfab.com/3d-models/spot-mini-rigged-5dcbee77730640269cef5bd2587e328a
+# Original model by Greg McKechnie.
 
 PROTO Spot [
   field SFVec3f     translation      0 -1.028 0.46             # Is `Transform.translation`.
