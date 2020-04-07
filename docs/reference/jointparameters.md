@@ -82,7 +82,7 @@ When used for a rotational motion the value of `minStop` must be in the range [-
 When both `minStop` and `maxStop` are zero (the default), the hard limits are deactivated.
 The joint hard limits use ODE joint stops (for more information see the ODE documentation on `dParamLoStop` and `dParamHiStop`).
 
-Finally, note that when both soft (`minPosition` and `maxPosition`, see the [Motor](motor.md)'s "Motor Limits" section) and hard limits (`minStop` and `maxStop`) are activated, the range of the soft limits must be included in the range of the hard limits, such that `minStop <= minPosition` and `maxPosition <= maxStop`.
+Finally, note that when both soft (`minPosition` and `maxPosition`, see the [Motor](motor.md)'s "Motor Limits" section) and hard limits (`minStop` and `maxStop`) are activated, the range of the soft limits must be included in the range of the hard limits, such that `minStop <= minPosition` and `maxStop >= maxPosition`.
 
 ### Springs and Dampers
 

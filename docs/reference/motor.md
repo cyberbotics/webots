@@ -199,7 +199,7 @@ When both `minPosition` and `maxPosition` are zero (the default), the soft limit
 Note that the soft limits can be overstepped when an external force which exceeds the motor force is applied to the motor.
 For example, it is possible that the weight of a robot exceeds the motor force that is required to hold it up.
 
-Finally, note that when both soft (`minPosition` and `maxPosition`) and hard limits (`minStop` and `maxStop`, see [JointParameters](jointparameters.md#joint-limits)) are activated, the range of the soft limits must be included in the range of the hard limits, such that `minStop <= minPosition` and `maxPosition <= maxStop`.
+Finally, note that when both soft (`minPosition` and `maxPosition`) and hard limits (`minStop` and `maxStop`, see [JointParameters](jointparameters.md#joint-limits)) are activated, the range of the soft limits must be included in the range of the hard limits, such that `minStop <= minPosition` and `maxStop >= maxPosition`.
 Moreover a simulation instability can appear if `position` is exactly equal to one of the bounds defined by the `minStop` and `maxStop` fields at the simulation startup.
 Warnings are displayed if theses rules are not respected.
 
