@@ -17,7 +17,6 @@ The following operating systems are supported:
 But it is also known to run on most recent major Linux distributions, including RedHat, Mandrake, Debian, Gentoo, SuSE, and Slackware.
 We recommend using a recent version of Linux.
 Webots is provided for Linux 64 (x86-64) systems.
-Since Webots 8.1.0, the Linux 32 (i386) version is no longer provided.
 Webots doesn't run on Ubuntu versions earlier than 12.04.
 - Windows: Webots runs on Windows 10 and Windows 8.1.
 It is not supported on older versions (8, 7, Vista or XP) as well as any 32-bit variant.
