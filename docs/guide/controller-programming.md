@@ -483,6 +483,7 @@ printf("This is %sred%s!\n", ANSI_RED_FOREGROUND, ANSI_RESET);
 
 ```cpp
 #include <AnsiCodes.hpp>
+
 cout << "This is " << AnsiCodes::RED_FOREGROUND << "red" << AnsiCodes::RESET << "!" << endl;
 ```
 
@@ -492,6 +493,7 @@ cout << "This is " << AnsiCodes::RED_FOREGROUND << "red" << AnsiCodes::RESET << 
 
 ```python
 from controller import AnsiCodes
+
 print("This is " + AnsiCodes.RED_FOREGROUND + "red" + AnsiCodes.RESET + "!")
 ```
 
@@ -501,6 +503,7 @@ print("This is " + AnsiCodes.RED_FOREGROUND + "red" + AnsiCodes.RESET + "!")
 
 ```java
 import com.cyberbotics.webots.controller.AnsiCodes;
+
 System.out.println("This is " + AnsiCodes.RED_FOREGROUND + "red" + AnsiCodes.RESET + "!");
 ```
 
