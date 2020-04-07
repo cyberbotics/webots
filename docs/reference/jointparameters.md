@@ -30,7 +30,7 @@ When changing the `position` field from the Webots scene tree, Webots also chang
 Similarly, when changing the `position` field of a [JointParameters](#jointparameters) node in a text editor, you should take care of also changing the corresponding `rotation` or `translation` field accordingly.
 
 - The `minStop` and `maxStop` fields specify the position of physical (or mechanical) stops.
-These fields are described in more detail in the "Joint Limits" section, see below.
+These fields are described in more detail in the [Joint Limits section](https://www.cyberbotics.com/doc/reference/jointparameters#joint-limits), see below.
 
 - The `springConstant` and `dampingConstant` fields allow the addition of spring and/or damping behavior to the joint.
 These fields are described in more detail in the "Springs and Dampers" section, see below.
@@ -82,7 +82,7 @@ When used for a rotational motion the value of `minStop` must be in the range [-
 When both `minStop` and `maxStop` are zero (the default), the hard limits are deactivated.
 The joint hard limits use ODE joint stops (for more information see the ODE documentation on `dParamLoStop` and `dParamHiStop`).
 
-Finally, note that when both soft (`minPosition` and `maxPosition`, see the [Motor](motor.md)'s "Motor Limits" section) and hard limits (`minStop` and `maxStop`) are activated, the range of the soft limits must be included in the range of the hard limits, such that `minStop <= minValue` and `maxStop>= maxValue`.
+Finally, note that when both soft (`minPosition` and `maxPosition`, see the [Motor](motor.md)'s "Motor Limits" section) and hard limits (`minStop` and `maxStop`) are activated, the range of the soft limits must be included in the range of the hard limits, such that `minStop <= minPosition` and `maxPosition <= maxStop`.
 
 ### Springs and Dampers
 
