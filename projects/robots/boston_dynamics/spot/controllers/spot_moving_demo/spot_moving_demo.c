@@ -116,10 +116,10 @@ static void lie_down() {
 }
 
 static void stand_up() {
-  double motors_target_pos[NUMBER_OF_JOINTS] = {0.0, 0.0, 0.0,  // Front left leg
-                                                0.0, 0.0, 0.0,  // Front right leg
-                                                0.0, 0.0, 0.0,  // Rear left leg
-                                                0.0, 0.0, 0.0}; // Rear right leg
+  double motors_target_pos[NUMBER_OF_JOINTS] = {-0.1, 0.0, 0.0,  // Front left leg
+                                                 0.1, 0.0, 0.0,  // Front right leg
+                                                -0.1, 0.0, 0.0,  // Rear left leg
+                                                 0.1, 0.0, 0.0}; // Rear right leg
 
   movement_decomposition(motors_target_pos);
 }
@@ -132,17 +132,15 @@ static void sit_down(bool give_paw) {
                                                  0.40, -0.90,  1.18}; // Rear right leg
 
   movement_decomposition(motors_target_pos);
-  passive_wait(1);
-  printf("GIVE A PAW NOW\n");
-/*
+
   if (give_paw) { // Front right leg
     // Stabilize posture
-    double motors_target_pos[NUMBER_OF_JOINTS] = {-0.20, -0.30, -0.19,  // Front left leg
+    double motors_target_pos_1[NUMBER_OF_JOINTS] = {-0.20, -0.30,  0.05,  // Front left leg
                                                    0.20, -0.40, -0.19,  // Front right leg
-                                                  -0.53, -0.90,  1.18,  // Rear left leg
-                                                   0.49, -0.90,  1.18}; // Rear right leg
+                                                  -0.40, -0.90,  1.18,  // Rear left leg
+                                                   0.49, -0.90,  0.80}; // Rear right leg
 
-    movement_decomposition(motors_target_pos);
+    movement_decomposition(motors_target_pos_1);
 
     double initialTime = wb_robot_get_time();
     while (true) {
@@ -153,8 +151,15 @@ static void sit_down(bool give_paw) {
         break;
       step();
     }
+    // Get back in sitting posture
+    double motors_target_pos_2[NUMBER_OF_JOINTS] = {-0.20, -0.40, -0.19,  // Front left leg
+                                                     0.20, -0.40, -0.19,  // Front right leg
+                                                    -0.40, -0.90,  1.18,  // Rear left leg
+                                                     0.40, -0.90,  1.18}; // Rear right leg
+
+    movement_decomposition(motors_target_pos_2);
   }
-  */
+
 }
 
 static void recover() {
@@ -331,9 +336,8 @@ static void run_demo() {
   lie_down();
   stand_up();
   sit_down(GIVE_PAW);
-  //stand_up();
+  stand_up();
   printf("Demonstration finished !\n");
-  passive_wait(500);
   printf("\n");
   demo = false;
 }
