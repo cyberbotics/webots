@@ -25,6 +25,8 @@ The following [Supervisor](../reference/supervisor.md) code shows how to keep tr
 This example code finds a `WbNodeRef` that corresponds to the robot node and then a `WbFieldRef` that corresponds to the robot's `translation` field.
 At each iteration it reads and prints the field's values.
 
+%tab-component "language"
+%tab "C"
 ```c
 #include <webots/robot.h>
 #include <webots/supervisor.h>
@@ -48,6 +50,98 @@ int main() {
   return 0;
 }
 ```
+%tab-end
+
+%tab "C++"
+```cpp
+#include <webots/Supervisor.hpp>
+
+using namespace webots;
+
+int main(int argc, char **argv) {
+  // create a supervisor instance.
+  Supervisor *supervisor = new Supervisor();
+
+  // get the time step of the current world.
+  int timeStep = (int)supervisor->getBasicTimeStep();
+
+  // retrieve concerned robot node from supervisor
+  Node *robot = supervisor->getFromDef("MY_ROBOT");
+
+  // retrieve concerned field from robot node
+  Field *translation = robot->getField("translation");
+
+  while (supervisor->step(timeStep) != -1) {
+    // retrieve and print values from translation field repeatedly
+    const double *values = translation->getSFVec3f();
+    std::cout << "MY_ROBOT is at position: " << values[0] << ' '
+              << values[1] << ' ' << values[2] << std::endl;
+  };
+
+  // cleanup
+  delete supervisor;
+  return 0;
+}
+```
+%tab-end
+
+%tab "Python"
+```python
+from controller import Supervisor
+
+# create a supervisor instance
+supervisor = Supervisor()
+
+# get the time step of the current world.
+timestep = int(supervisor.getBasicTimeStep())
+
+# retrieve concerned robot node from supervisor
+robot_node = supervisor.getFromDef("MY_ROBOT")
+
+# retrieve concerned field from robot node
+translation_field = robot_node.getField("translation")
+
+while supervisor.step(timestep) != -1:
+    # retrieve and print values from translation field repeatedly
+    res = translation_field.getSFVec3f()
+    print("MY_ROBOT is at position:", res[0], res[1], res[2])
+    pass
+```
+%tab-end
+
+%tab "Java"
+```java
+import com.cyberbotics.webots.controller.Supervisor;
+import com.cyberbotics.webots.controller.Node;
+import com.cyberbotics.webots.controller.Field;
+
+
+public class SupervisorController {
+
+  public static void main(String[] args) {
+
+    // create the Supervisor instance.
+    final Supervisor supervisor = new Supervisor();
+
+    // get the time step of the current world.
+    final int timeStep = (int) Math.round(supervisor.getBasicTimeStep());
+
+    // retrieve concerned robot node from supervisor
+    final Node robot = supervisor.getFromDef("MY_ROBOT");
+
+    // retrieve concerned field from robot node
+    final Field translation = robot.getField("translation");
+
+    while (supervisor.step(timeStep) != -1) {
+      final double[] values = translation.getSFVec3f();
+      System.out.println("MY_ROBOT is at position: " +
+                         values[0] + " " + values[1] + " " + values[2]);
+    };
+  }
+}
+```
+%tab-end
+%end
 
 Note that the [Supervisor API](../reference/supervisor.md) is defined in the `supervisor.h` header file which should be included in addition to the `robot.h` header file.
 Otherwise a [Supervisor](../reference/supervisor.md) controller works like a regular [Robot](../reference/robot.md) controller and everything that was explained in the "Controller Programming" section does also apply to "Supervisor Programming".
