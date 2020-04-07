@@ -473,6 +473,7 @@ The related C header is located at "[WEBOTS\_HOME/include/controller/c/webots/ut
 
 ```c
 #include <webots/utils/ansi_codes.h>
+
 printf("This is %sred%s!\n", ANSI_RED_FOREGROUND, ANSI_RESET);
 ```
 
