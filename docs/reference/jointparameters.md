@@ -30,7 +30,7 @@ When changing the `position` field from the Webots scene tree, Webots also chang
 Similarly, when changing the `position` field of a [JointParameters](#jointparameters) node in a text editor, you should take care of also changing the corresponding `rotation` or `translation` field accordingly.
 
 - The `minStop` and `maxStop` fields specify the position of physical (or mechanical) stops.
-These fields are described in more detail in the [Joint Limits section](https://www.cyberbotics.com/doc/reference/jointparameters#joint-limits), see below.
+These fields are described in more detail in the [Joint Limits section](#joint-limits), see below.
 
 - The `springConstant` and `dampingConstant` fields allow the addition of spring and/or damping behavior to the joint.
 These fields are described in more detail in the "Springs and Dampers" section, see below.
