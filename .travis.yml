@@ -188,6 +188,7 @@ jobs:
             - libxkbcommon-x11-dev
       script:
         - make release -j2
+        - source /opt/ros/$ROS_DISTRO/setup.bash
         - roslaunch webots_ros complete_test.launch
     - &distribution_staging
       stage: Distribution
