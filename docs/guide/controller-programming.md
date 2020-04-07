@@ -466,36 +466,54 @@ Like most terminals, it supports a few basic [ANSI escape codes](https://en.wiki
 To demonstrate how to use those, there is an example world and a controller file respectively located in "[WEBOTS\_HOME/projects/samples/howto/worlds/console.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/worlds/console.wbt)" and "[WEBOTS\_HOME/projects/samples/howto/controllers/console/console.c](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/controllers/console/console.c)".
 
 The related C header is located at "[WEBOTS\_HOME/include/controller/c/webots/utils/ansi\_codes.h](https://github.com/cyberbotics/webots/tree/master/include/controller/c/webots/utils/ansi_codes.h)", it contains some useful macros on top of constants, to use it:
+
+%tab-component "language"
+
+%tab "C"
+
 ```c
 #include <webots/utils/ansi_codes.h>
+printf("This is %sred%s!\n", ANSI_RED_FOREGROUND, ANSI_RESET);
 ```
 
-A C++ header is also available as a wrapper of the above one. Use the provided constants with `std::cout` at your wish.
+%tab-end
+
+%tab "C++"
+
 ```cpp
 #include <AnsiCodes.hpp>
+cout << "This is " << AnsiCodes::RED_FOREGROUND << "red" << AnsiCodes::RESET << "!" << endl;
 ```
 
-For Python, `import controller` and access the symbols like this: `controller.ANSI_GREEN_FOREGROUND`.
+%tab-end
 
-Tip: You can `import controller as ctl` and shorten it to `ctl.ANSI_GREEN_FOREGROUND`.
+%tab "Python"
+
 ```python
-import controller as ctl
-
-print(ctl.ANSI_GREEN_FOREGROUND + "Hello World!")
+from controller import AnsiCodes
+print("This is " + AnsiCodes.RED_FOREGROUND + "red" + AnsiCodes.RESET + "!")
 ```
 
-For Java, you may want to create your own style in a constant string for example:
+%tab-end
+
+%tab "Java"
+
 ```java
-import com.cyberbotics.webots.controller.wrapperConstants;
-
-// Create your favorite output style
-final String format = wrapperConstants.ANSI_GREEN_FOREGROUND + wrapperConstants.ANSI_UNDERLINE;
-
-// And use it as a prefix
-System.out.println(format + "Hello World!");.
+import com.cyberbotics.webots.controller.AnsiCodes;
+System.out.println("This is " + AnsiCodes.RED_FOREGROUND + "red" + AnsiCodes.RESET + "!");
 ```
 
-Please note that any misuse, or unsupported use of these escape codes may result in undefined behavior.
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+wb_console_print(strcat('This is', ANSI_RED_FOREGROUND, ' red', ANSI_RESET, '!'), WB_STDOUT);
+```
+
+%tab-end
+
+%end
 
 If the console output is altered because of a previous escape code use without reset, recompiling, cleaning or manually clearing the console will reset it.
 
