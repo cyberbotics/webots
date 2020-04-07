@@ -44,5 +44,5 @@ namespace webots {
 
     static const std::string CLEAR_SCREEN;
   };
-}
+}  // namespace webots
 #endif /* ANSICODES_HPP */
