@@ -36,8 +36,6 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 
 %{
 #include <webots/Accelerometer.hpp>
-#include <webots/utils/ansi_codes.h>
-#include <webots/utils/AnsiCodes.hpp>
 #include <webots/Brake.hpp>
 #include <webots/Camera.hpp>
 #include <webots/camera_recognition_object.h>
@@ -61,7 +59,6 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 #include <webots/LightSensor.hpp>
 #include <webots/Motor.hpp>
 #include <webots/Mouse.hpp>
-#include <webots/utils/Motion.hpp>
 #include <webots/Node.hpp>
 #include <webots/Pen.hpp>
 #include <webots/PositionSensor.hpp>
@@ -74,6 +71,8 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 #include <webots/Speaker.hpp>
 #include <webots/Supervisor.hpp>
 #include <webots/TouchSensor.hpp>
+#include <webots/utils/AnsiCodes.hpp>
+#include <webots/utils/Motion.hpp>
 
 using namespace std;
 %}
@@ -130,7 +129,6 @@ using namespace std;
 //----------------------------------------------------------------------------------------------
 //  ANSI Support
 //----------------------------------------------------------------------------------------------
-%include <webots/utils/ansi_codes.h>
 %include <webots/utils/AnsiCodes.hpp>
 
 //----------------------------------------------------------------------------------------------
