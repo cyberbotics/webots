@@ -18,12 +18,12 @@
  *               behavior.
  */
 
-#include <webots/utils/AnsiCodes.hpp>
 #include <webots/Camera.hpp>
 #include <webots/DistanceSensor.hpp>
 #include <webots/Motor.hpp>
 #include <webots/Receiver.hpp>
 #include <webots/Robot.hpp>
+#include <webots/utils/AnsiCodes.hpp>
 
 #include <algorithm>
 #include <iostream>
