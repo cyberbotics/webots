@@ -15,6 +15,34 @@
 #ifndef ANSICODES_HPP
 #define ANSICODES_HPP
 
-#include "../../../c/webots/utils/ansi_codes.h"
+#include <string>
 
+namespace webots {
+  class AnsiCodes {
+  public:
+    static const std::string RESET;
+    static const std::string BOLD;
+    static const std::string UNDERLINE;
+
+    static const std::string BLACK_FOREGROUND;
+    static const std::string RED_FOREGROUND;
+    static const std::string GREEN_FOREGROUND;
+    static const std::string YELLOW_FOREGROUND;
+    static const std::string BLUE_FOREGROUND;
+    static const std::string MAGENTA_FOREGROUND;
+    static const std::string CYAN_FOREGROUND;
+    static const std::string WHITE_FOREGROUND;
+
+    static const std::string BLACK_BACKGROUND;
+    static const std::string RED_BACKGROUND;
+    static const std::string GREEN_BACKGROUND;
+    static const std::string YELLOW_BACKGROUND;
+    static const std::string BLUE_BACKGROUND;
+    static const std::string MAGENTA_BACKGROUND;
+    static const std::string CYAN_BACKGROUND;
+    static const std::string WHITE_BACKGROUND;
+
+    static const std::string CLEAR_SCREEN;
+  };
+}
 #endif /* ANSICODES_HPP */

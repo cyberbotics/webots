@@ -21,7 +21,6 @@
 #include <stdio.h>
 #endif
 
-// Globally available macros (Python, Java, C++, Matlab)
 #define ANSI_RESET "\x1b[0m"
 
 #define ANSI_BOLD "\x1b[1m"
