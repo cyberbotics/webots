@@ -35,7 +35,10 @@ RectangleArena {
   }
 }
 Spot {
-  translation 0 -1.027 0.46
+  #translation 0 -1.027 0.46
+  #No rotation
+  translation 0 1.773 0.46
+  rotation 0 0 1 3.141592653589793
   controller "spot_moving_demo"
 }
 PlasticCrate {

@@ -46,7 +46,7 @@ PROTO SpotRightLeg [
             }
             RotationalMotor {
               name %{= "\"" .. legName .. " shoulder rotation motor\"" }%
-              minPosition -1
+              minPosition -1.7
               maxPosition 1.7
               maxTorque 50
             }
