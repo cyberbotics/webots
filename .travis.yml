@@ -149,7 +149,7 @@ jobs:
         - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
         - sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
         - sudo apt update -qq
-        - sudo apt-get install -y ros-$ROS_DISTRO-ros-base ros-$ROS_DISTRO-sensor-msgs ros-$ROS_DISTRO-tf
+        - sudo apt-get install -y ros-$ROS_DISTRO-ros-base ros-$ROS_DISTRO-sensor-msgs ros-$ROS_DISTRO-tf ros-$ROS_DISTRO-webots-ros
         - sudo apt-get install -y python-rosdep
         - sudo rosdep init
         - rosdep update
@@ -186,7 +186,6 @@ jobs:
             - fakeroot
             - pbzip2
             - libxkbcommon-x11-dev
-            - ros-melodic-webots-ros
       script:
         - make release -j2
         - roslaunch webots_ros complete_test.launch
