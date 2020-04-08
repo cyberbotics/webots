@@ -221,7 +221,7 @@ int main() {
 %tab-end
 
 %tab "C++"
-```c++
+```cpp
 #include <webots/Supervisor.hpp>
 
 using namespace webots;
