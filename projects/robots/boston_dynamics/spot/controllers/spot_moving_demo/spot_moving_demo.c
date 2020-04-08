@@ -293,8 +293,7 @@ static void check_keyboard() {
         wb_camera_disable(cameras[i]);
       cameras_enabled = false;
       printf("Cameras OFF\n");
-    }
-    else {
+    } else {
       for (int i = 0; i < NUMBER_OF_CAMERAS; i++)
         wb_camera_enable(cameras[i], TIME_STEP);
       cameras_enabled = true;
