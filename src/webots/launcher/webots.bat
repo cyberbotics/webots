@@ -1,4 +1,4 @@
 @echo off
 setlocal
-set Path=%CD%;%CD%\..\..\usr\bin;%Path%
-start webots-bin.exe %*
+set Path=%~dp0;%~dp0\..\..\usr\bin;%Path%
+start /WAIT webots-bin.exe %*
