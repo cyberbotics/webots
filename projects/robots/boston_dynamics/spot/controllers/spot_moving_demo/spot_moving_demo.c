@@ -108,7 +108,7 @@ static void movement_decomposition(double *target) {
 }
 
 static void lie_down() {
-  double motors_target_pos[NUMBER_OF_JOINTS] = {-0.40, -0.99, 1.59,  // Front left leg
+  const double motors_target_pos[NUMBER_OF_JOINTS] = {-0.40, -0.99, 1.59,  // Front left leg
                                                  0.40, -0.99, 1.59,  // Front right leg
                                                 -0.40, -0.99, 1.59,  // Rear left leg
                                                  0.40, -0.99, 1.59}; // Rear right leg
