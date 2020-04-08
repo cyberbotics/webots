@@ -307,8 +307,7 @@ static void check_keyboard() {
         wb_led_set(leds[i], LEDS_OFF);
       leds_enabled = false;
       printf("LEDs OFF\n");
-    }
-    else {
+    } else {
       for (int i = 0; i < NUMBER_OF_LEDS; i++)
         wb_led_set(leds[i], LEDS_ON);
       leds_enabled = true;
