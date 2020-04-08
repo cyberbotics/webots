@@ -381,7 +381,7 @@ for a = 0:25
 
       if wb_robot_step(timestep) == -1
         wb_robot_cleanup();
-        return ;
+        quit(0);
       end
     end
 
