@@ -50,7 +50,7 @@ PROTO TruckTrailer [
         %{ for i = 1, wheelAxlesNumber do }%
         # right wheel
         Transform {
-          translation -1 0 %{= 2.48 - fields.wheelAxles.value[i] }%
+          translation -1 0 %{= 2.48 - fields.wheelAxles.value[i] - 0.5 * (fields.length.defaultValue - length) }%
           rotation 0 0 1 1.5708
           children [
             HingeJoint {
@@ -75,7 +75,7 @@ PROTO TruckTrailer [
         }
         # left wheel
         Transform {
-          translation 1 0 %{= 2.48 - fields.wheelAxles.value[i] }%
+          translation 1 0 %{= 2.48 - fields.wheelAxles.value[i] - 0.5 * (fields.length.defaultValue - length) }%
           rotation 0 0 1 -1.5708
           children [
             HingeJoint {
