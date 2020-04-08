@@ -398,7 +398,7 @@ for a = 0:25
 end
 
 ```
-%end-tab
+%tab-end
 %end
 
 As in the previous example, the `trans_field` variable is a `WbFieldRef` that identifies the `translation` field of the robot.
