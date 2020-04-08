@@ -16,7 +16,8 @@ Released on XXX.
     - Improved the [KUKA's youBot](../guide/youbot.md) robot to handle variable number of arms.
     - Added missing `supervisor` field in `UR3e`, `UR5e` and `UR10e` robots.
     - Added a `staticBase` field to the `Irb4600-40` PROTO node.
-    - Added a `wheelbase` and `mass` fields to the `Truck` PROTO node.
+    - Added a `wheelbase`, `kingPinDistance` and `mass` fields to the `Truck` PROTO node.
+    - Added a `length`, `kingPinDistance`, `wheelAxles` and `mass` fields to the `TruckTrailer` PROTO node.
     - Added a `--node-name` argument to the ROS controller of the Universal Robots UR3e, UR5e and UR10e for multi robot simulations.
     - Added a `type` field to the following appearances: `Rubber` and `ThreadMetalPlate`.
     - Added an `appearance` field to the `Worktop` PROTO node.
