@@ -4,25 +4,43 @@
 # A non-controllable truck trailer model with physics properties.
 
 PROTO TruckTrailer [
-  field SFString   name     "truck trailer"
-  field MFString   texture  "textures/truck_trailer_webots.jpg"
+  field SFString   name             "truck trailer"
+  field SFFloat    length           11.15             # Defines the total length of the trailer.
+  field SFFloat    kingPinDistance  3.8               # Defines the distance (along the Z direction) between the front of the trailer and the rotation axis.
+  field SFFloat    mass             5000              # Defines the mass of the trailer (wheels not included).
+  field MFString   texture          "textures/truck_trailer_webots.jpg"
 ]
 {
+%{
+  local length = fields.length.value
+  if length < 5.0 then
+    length = 5.0
+    io.stderr:write("'length' should not be smaller than 5.0.\n")
+  end
+}%
   Slot {
     type "truck trailer"
     endPoint Solid {
-      translation 0 0 1.35
+      translation 0 0 %{= -2.48 + fields.kingPinDistance.value + 0.5 * (fields.length.defaultValue - length) }%
       children [
-        DEF REAR_LIGHTS LED {
+        Transform {
+          translation 0 0 %{= 2.48 - 0.5 * (fields.length.defaultValue - length) }%
+          scale 1 1 %{= length / fields.length.defaultValue }%
           children [
-            TruckRearLight {
+            DEF REAR_LIGHTS LED {
+              translation 0 0 -2.48
+              children [
+                TruckRearLight {
+                }
+              ]
+              name "rear_lights"
+              color 0.7 0.12 0.12
+            }
+            TruckTrailerMesh {
+              texture IS texture
+              translation 0 0 -2.48
             }
           ]
-          name "rear_lights"
-          color 0.7 0.12 0.12
-        }
-        TruckTrailerMesh {
-          texture IS texture
         }
         DEF FRONT_RIGHT_WHEEL Transform {
           translation -1 0 -5.45
@@ -177,15 +195,23 @@ PROTO TruckTrailer [
             translation 0 2.21 -3.1
             children [
               Box {
-                size 2.5 3.05 11.15
+                size 2.5 3.05 %{= length }%
               }
             ]
           }
           Transform {
-            translation 0 0.27 -6.33
+            translation 0 0.27 %{= -6.0+ 0.3 * (fields.length.defaultValue - length) }%
             children [
               Box {
-                size 2.5 0.87 4.5
+                size 1 0.87 %{= 4.5 * length / fields.length.defaultValue }%
+              }
+            ]
+          }
+          Transform {
+            translation 0 0.52 %{= -8.38 + 0.48 * (fields.length.defaultValue - length) }%
+            children [
+              Box {
+                size 2.5 0.43 %{= 0.4 * length / fields.length.defaultValue }%
               }
             ]
           }
@@ -193,9 +219,9 @@ PROTO TruckTrailer [
       }
       physics Physics {
         density -1
-        mass 5000
+        mass IS mass
         centerOfMass [
-          0 0.1 -3.5
+          0 0.1 %{= -0.5 * length }%
         ]
       }
     }

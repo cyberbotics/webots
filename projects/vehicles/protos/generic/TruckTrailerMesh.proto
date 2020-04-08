@@ -4,10 +4,12 @@
 # tags: hidden
 
 PROTO TruckTrailerMesh [
-  field MFString   texture  "textures/truck_trailer.jpg"
+  field MFString  texture      "textures/truck_trailer.jpg"
+  field SFVec3f   translation  0 0 0
 ]
 {
-  Group {
+  Transform {
+    translation IS translation
     children [
       DEF TRAILER Shape {
         appearance PBRAppearance {
