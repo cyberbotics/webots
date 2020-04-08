@@ -134,7 +134,7 @@ static void sit_down(bool give_paw) {
 
   if (give_paw) { // Front right leg
     // Stabilize posture
-    double motors_target_pos_1[NUMBER_OF_JOINTS] = {-0.20, -0.30,  0.05,  // Front left leg
+    const double motors_target_pos_1[NUMBER_OF_JOINTS] = {-0.20, -0.30,  0.05,  // Front left leg
                                                    0.20, -0.40, -0.19,  // Front right leg
                                                   -0.40, -0.90,  1.18,  // Rear left leg
                                                    0.49, -0.90,  0.80}; // Rear right leg
