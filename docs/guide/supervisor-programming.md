@@ -306,7 +306,7 @@ for a in range(0, 25):
 %tab-end
 
 %tab "Java"
-```Java
+```java
 import java.lang.Math;
 import com.cyberbotics.webots.controller.Node;
 import com.cyberbotics.webots.controller.Field;
