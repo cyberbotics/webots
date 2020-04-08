@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <launch>
   <!-- start Webots -->
-  <arg name="no-gui" default="false," doc="Start Webots with minimal GUI"/>
+  <arg name="no-gui" default="false" doc="Start Webots with minimal GUI"/>
   <include file="$(find webots_ros)/launch/webots.launch">
     <arg name="mode" value="realtime"/>
-    <arg name="no-gui" value="$(arg no-gui)"/>
+    <arg name="no-gui" value="true"/>
     <arg name="world" value="$(env WEBOTS_HOME)/projects/languages/ros/worlds/complete_test.wbt"/>
   </include>
 
