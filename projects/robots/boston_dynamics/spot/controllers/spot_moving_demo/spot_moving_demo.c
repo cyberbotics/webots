@@ -367,7 +367,7 @@ int main(int argc, char **argv) {
   wb_robot_init();
 
   // List devices
-  int n_devices = wb_robot_get_number_of_devices();
+  const int n_devices = wb_robot_get_number_of_devices();
   printf("Available devices:\n");
   for (int i = 0; i < n_devices; i++) {
     WbDeviceTag tag = wb_robot_get_device_by_index(i);
