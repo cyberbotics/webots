@@ -31,7 +31,7 @@ Spot {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/boston_dynamics/spot/protos/Spot.proto"
+> **File location**: "[WEBOTS\_HOME/projects/robots/boston_dynamics/spot/protos/Spot.proto](https://github.com/cyberbotics/webots/tree/master/projects/robots/boston_dynamics/spot/protos/Spot.proto)"
 
 #### Spot Field Summary
 
