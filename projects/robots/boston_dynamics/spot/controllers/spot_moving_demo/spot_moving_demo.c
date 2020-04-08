@@ -89,7 +89,7 @@ static void passive_wait(double sec) {
 
 // Movement decomposition
 static void movement_decomposition(double *target) {
-  int n_steps_to_achieve_target = DURATION * 1000 / TIME_STEP;
+  const int n_steps_to_achieve_target = DURATION * 1000 / TIME_STEP;
   double step_difference[NUMBER_OF_JOINTS];
   double current_position[NUMBER_OF_JOINTS];
 
