@@ -154,7 +154,7 @@ while wb_robot_step(timestep) ~= -1
   fprintf('MY_ROBOT is at position: %g %g %g\n', trans[0], trans[1], trans[2]);
   end
 ```
-%end-tab
+%tab-end
 %end
 
 Note that the [Supervisor API](../reference/supervisor.md) is defined in the `supervisor.h` header file which should be included in addition to the `robot.h` header file.
