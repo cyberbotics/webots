@@ -377,7 +377,7 @@ PROTO Spot [
           }
         ]
       }
-      DEF BODY_SHAPE Group {
+      DEF BODY_SHAPES Group {
         children [
           DEF FRONT_SHOULDER_COVER Shape {
             appearance DEF METAL_PART BrushedAluminium {
@@ -877,7 +877,7 @@ PROTO Spot [
           }
           DEF BOTTOM_SIDE Group {
             children [
-              DEF BOTTOM_FRONT_COVER_P0 Shape {
+              Shape {
                 appearance USE BLACK_PART
                 geometry IndexedFaceSet {
                   coord Coordinate {
@@ -899,7 +899,7 @@ PROTO Spot [
                   creaseAngle 1
                 }
               }
-              DEF BOTTOM_FRONT_COVER_P1 Shape {
+              Shape {
                 appearance USE BLACK_PART
                 geometry IndexedFaceSet {
                   coord Coordinate {
@@ -939,8 +939,8 @@ PROTO Spot [
                   creaseAngle 0.5
                 }
               }
-              DEF BOTTOM_FRONT_COVER_P2 Shape {
-                appearance USE YELLOW_COVER
+              Shape {
+                appearance USE BLACK_PART
                 geometry IndexedFaceSet {
                   coord Coordinate {
                     point [
@@ -961,7 +961,7 @@ PROTO Spot [
                   creaseAngle 0.5
                 }
               }
-              DEF BOTTOM_MIDDLE_COVER Shape {
+              Shape {
                 appearance USE YELLOW_COVER
                 geometry IndexedFaceSet {
                   coord Coordinate {
@@ -983,7 +983,7 @@ PROTO Spot [
                   creaseAngle 1
                 }
               }
-              DEF BOTTOM_REAR_COVER Shape {
+              Shape {
                 appearance USE BLACK_PART
                 geometry IndexedFaceSet {
                   coord Coordinate {

@@ -1,11 +1,5 @@
 #VRML_SIM R2020a utf8
-# license: Apache License 2.0.
-# license url: http://www.apache.org/licenses/LICENSE-2.0.
-# documentation url: https://www.cyberbotics.com/doc/guide/spot
 # tags: static, hidden
-# The "Spot" is a dog robot developed by Boston Dynamics.
-# This PROTO is the definition of left legs.
-# Created by Greg McKechnie under Common Creative license: https://sketchfab.com/3d-models/spot-mini-rigged-5dcbee77730640269cef5bd2587e328a
 
 PROTO SpotLeftLeg [
   field SFVec3f     translation  0 0 0       # Is `Transform.translation`.
@@ -16,7 +10,7 @@ PROTO SpotLeftLeg [
 %{
   local legName = fields.name.value
 }%
-  DEF SHOULDER_ABDUCTION_JOINT HingeJoint {
+  HingeJoint {
     jointParameters HingeJointParameters {
       axis 0 0 1
       anchor -0.05283 1.662418 -0.513
