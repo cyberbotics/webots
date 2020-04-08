@@ -141,7 +141,7 @@ static void sit_down(bool give_paw) {
 
     movement_decomposition(motors_target_pos_1);
 
-    double initialTime = wb_robot_get_time();
+    const double initialTime = wb_robot_get_time();
     while (true) {
       double time = wb_robot_get_time() - initialTime;
       wb_motor_set_position(motors[4], 0.2 * sin(2 * time) + 0.6);  // Upperarm movement
