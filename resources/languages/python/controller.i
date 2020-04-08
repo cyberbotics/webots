@@ -71,7 +71,6 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 #include <webots/Speaker.hpp>
 #include <webots/Supervisor.hpp>
 #include <webots/TouchSensor.hpp>
-#include "AnsiCodes.hpp"  // we need a special version of this include file to be able to generate the constants
 #include <webots/utils/Motion.hpp>
 
 using namespace std;
@@ -129,7 +128,35 @@ using namespace std;
 //----------------------------------------------------------------------------------------------
 //  ANSI Support
 //----------------------------------------------------------------------------------------------
-%include "AnsiCodes.hpp"  // we need a special version of this include file to be able to generate the constants
+
+%pythoncode %{
+class AnsiCodes(object):
+    RESET = '\u001b[0m'
+
+    BOLD = '\u001b[1m'
+    UNDERLINE = '\u001b[4m'
+
+    BLACK_BACKGROUND = '\u001b[40m'
+    RED_BACKGROUND = '\u001b[41m'
+    GREEN_BACKGROUND = '\u001b[42m'
+    YELLOW_BACKGROUND = '\u001b[43m'
+    BLUE_BACKGROUND = '\u001b[44m'
+    MAGENTA_BACKGROUND = '\u001b[45m'
+    CYAN_BACKGROUND = '\u001b[46m'
+    WHITE_BACKGROUND = '\u001b[47m'
+
+    BLACK_FOREGROUND = '\u001b[30m'
+    RED_FOREGROUND = '\u001b[31m'
+    GREEN_FOREGROUND = '\u001b[32m'
+    YELLOW_FOREGROUND = '\u001b[33m'
+    BLUE_FOREGROUND = '\u001b[34m'
+    MAGENTA_FOREGROUND = '\u001b[35m'
+    CYAN_FOREGROUND = '\u001b[36m'
+    WHITE_FOREGROUND = '\u001b[37m'
+
+    CLEAR_SCREEN = '\u001b[2J'
+%}
+
 
 //----------------------------------------------------------------------------------------------
 //  Device
