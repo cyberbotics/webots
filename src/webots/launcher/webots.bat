@@ -1,4 +1,4 @@
 @echo off
 setlocal
-set Path=%CD%\..\..\mingw64\bin;%CD%\..\..\usr\bin;%Path%
-start webots.exe %*
+set Path=%CD%;%CD%\..\..\usr\bin;%Path%
+start webots-bin.exe %*
