@@ -71,7 +71,7 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 #include <webots/Speaker.hpp>
 #include <webots/Supervisor.hpp>
 #include <webots/TouchSensor.hpp>
-#include <webots/utils/AnsiCodes.hpp>
+#include "AnsiCodes.hpp"  // we need a special version of this include file to be able to generate the constants
 #include <webots/utils/Motion.hpp>
 
 using namespace std;
@@ -129,7 +129,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------------
 //  ANSI Support
 //----------------------------------------------------------------------------------------------
-%include <webots/utils/AnsiCodes.hpp>
+%include "AnsiCodes.hpp"  // we need a special version of this include file to be able to generate the constants
 
 //----------------------------------------------------------------------------------------------
 //  Device

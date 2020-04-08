@@ -18,31 +18,30 @@
 #include <string>
 
 namespace webots {
-  class AnsiCodes {
-  public:
-    static const std::string RESET;
-    static const std::string BOLD;
-    static const std::string UNDERLINE;
+  namespace AnsiCodes {
+    static const std::string RESET = "\x1b[0m";
+    static const std::string BOLD = "\x1b[1m";
+    static const std::string UNDERLINE = "\x1b[4m";
 
-    static const std::string BLACK_FOREGROUND;
-    static const std::string RED_FOREGROUND;
-    static const std::string GREEN_FOREGROUND;
-    static const std::string YELLOW_FOREGROUND;
-    static const std::string BLUE_FOREGROUND;
-    static const std::string MAGENTA_FOREGROUND;
-    static const std::string CYAN_FOREGROUND;
-    static const std::string WHITE_FOREGROUND;
+    static const std::string BLACK_FOREGROUND = "\x1b[30m";
+    static const std::string RED_FOREGROUND = "\x1b[31m";
+    static const std::string GREEN_FOREGROUND = "\x1b[32m";
+    static const std::string YELLOW_FOREGROUND = "\x1b[33m";
+    static const std::string BLUE_FOREGROUND = "\x1b[34m";
+    static const std::string MAGENTA_FOREGROUND = "\x1b[35m";
+    static const std::string CYAN_FOREGROUND = "\x1b[36m";
+    static const std::string WHITE_FOREGROUND = "\x1b[37m";
 
-    static const std::string BLACK_BACKGROUND;
-    static const std::string RED_BACKGROUND;
-    static const std::string GREEN_BACKGROUND;
-    static const std::string YELLOW_BACKGROUND;
-    static const std::string BLUE_BACKGROUND;
-    static const std::string MAGENTA_BACKGROUND;
-    static const std::string CYAN_BACKGROUND;
-    static const std::string WHITE_BACKGROUND;
+    static const std::string BLACK_BACKGROUND = "\x1b[40m";
+    static const std::string RED_BACKGROUND = "\x1b[41m";
+    static const std::string GREEN_BACKGROUND = "\x1b[42m";
+    static const std::string YELLOW_BACKGROUND = "\x1b[43m";
+    static const std::string BLUE_BACKGROUND = "\x1b[44m";
+    static const std::string MAGENTA_BACKGROUND = "\x1b[45m";
+    static const std::string CYAN_BACKGROUND = "\x1b[46m";
+    static const std::string WHITE_BACKGROUND = "\x1b[47m";
 
-    static const std::string CLEAR_SCREEN;
-  };
+    static const std::string CLEAR_SCREEN = "\x1b[2J";
+  }  // namespace AnsiCodes
 }  // namespace webots
 #endif /* ANSICODES_HPP */

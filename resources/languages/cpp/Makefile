@@ -23,7 +23,6 @@ endif
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
 CPPSRC        = Accelerometer.cpp \
-                AnsiCodes.cpp \
                 Brake.cpp \
                 Camera.cpp \
                 Compass.cpp \

@@ -55,7 +55,7 @@
 #include <webots/Speaker.hpp>
 #include <webots/Supervisor.hpp>
 #include <webots/TouchSensor.hpp>
-#include <webots/utils/AnsiCodes.hpp>
+#include "AnsiCodes.hpp"  // we need a special version of this include file to be able to generate the constants
 #include <webots/utils/Motion.hpp>
 
 using namespace std;
@@ -135,7 +135,7 @@ using namespace std;
   public final static String CLEAR_SCREEN = "\u001b[2J";
 %}
 
-%include <webots/utils/AnsiCodes.hpp>
+%include "AnsiCodes.hpp"  // we need a special version of this include file to be able to generate the constants
 
 //----------------------------------------------------------------------------------------------
 //  Device

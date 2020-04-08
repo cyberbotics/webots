@@ -28,7 +28,7 @@ PYTHON_FULL_VERSION := $(subst Python ,,$(shell $(PYTHON_COMMAND) --version 2>&1
 INTERFACE       = controller.i
 SWIG            = swig
 SWIG_OPTS       = -c++ -python -outdir $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)/
-WEBOTS_INCLUDES = -I$(WEBOTS_HOME_PATH)/include/controller/cpp -I$(WEBOTS_HOME_PATH)/include/controller/c
+WEBOTS_INCLUDES = -I../java -I$(WEBOTS_HOME_PATH)/include/controller/cpp -I$(WEBOTS_HOME_PATH)/include/controller/c
 WRAPPER         = $(INTERFACE:.i=$(PYTHON_SHORT_VERSION).cpp)
 WRAPPER_OBJECT  = $(WRAPPER:.cpp=.o)
 PYOUT           = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)/,$(INTERFACE:.i=.py))

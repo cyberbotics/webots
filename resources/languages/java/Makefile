@@ -79,7 +79,7 @@ LIBNAME         = JavaController
 .PHONY: JAVA_CLASSES
 
 #compilation options
-WEBOTS_INCLUDES = -I$(WEBOTS_HOME_PATH)/include/controller/cpp -I$(WEBOTS_HOME_PATH)/include/controller/c
+WEBOTS_INCLUDES = -I. -I$(WEBOTS_HOME_PATH)/include/controller/cpp -I$(WEBOTS_HOME_PATH)/include/controller/c
 
 SWIG_EXISTS = $(shell which $(SWIG) 2> /dev/null)
 
