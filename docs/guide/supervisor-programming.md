@@ -141,6 +141,20 @@ public class SupervisorController {
 }
 ```
 %tab-end
+
+%tab "MATLAB"
+```matlab
+timestep = 32;
+
+robot_node = wb_supervisor_node_get_from_def("MY_ROBOT");
+trans_field = wb_supervisor_node_get_field(robot_node, "translation");
+
+while wb_robot_step(timestep) ~= -1
+  trans = wb_supervisor_field_get_sf_vec3f(trans_field);
+  fprintf('MY_ROBOT is at position: %g %g %g\n', trans[0], trans[1], trans[2]);
+  end
+```
+%end-tab
 %end
 
 Note that the [Supervisor API](../reference/supervisor.md) is defined in the `supervisor.h` header file which should be included in addition to the `robot.h` header file.
@@ -197,7 +211,7 @@ int main() {
       for (t = 0.0; t < 60.0; t += TIME_STEP / 1000.0) {
 
         // perform robot control according to a, b
-        // (and eventually t) parameters.
+        // (and possibly t) parameters.
 
         if (wb_robot_step(TIME_STEP) == -1)
           return my_exit();
@@ -246,7 +260,7 @@ int main(int argc, char **argv) {
       for (t = 0.0; t < 60.0; t += timeStep / 1000.0) {
 
         // perform robot control according to a, b
-        // (and eventually t) parameters.
+        // (and possibly t) parameters.
 
         // controller termination
         if (supervisor->step(timeStep) == -1)
@@ -284,10 +298,10 @@ translation_field = robot_node.getField("translation")
 for a in range(0, 25):
     for b in range(0, 33):
         # evaluate robot during 60 seconds (simulation time)
-        for i in range(int(60 * timestep / 1000.0)):
+        for t in range(int(60 * timestep / 1000.0)):
 
             # perform robot control according to a, b
-            # (and eventually t) parameters.
+            # (and possibly t) parameters.
 
             # controller termination
             if supervisor.step(timestep) == -1:
@@ -329,7 +343,7 @@ public class SupervisorExample {
         for (t = 0.0; t < 60.0; t += timeStep / 1000.0) {
 
           // perform robot control according to a, b
-          // (and eventually t) parameters.
+          // (and possibly t) parameters.
 
           if (supervisor.step(timeStep) == -1)
             return ;
@@ -349,6 +363,42 @@ public class SupervisorExample {
 }
 ```
 %tab-end
+
+%tab "MATLAB"
+```matlab
+timestep = 32;
+
+robot_node = wb_supervisor_node_get_from_def("MY_ROBOT");
+trans_field = wb_supervisor_node_get_field(robot_node, "translation");
+
+for a = 0:25
+  for b = 0:33
+    % evaluate robot during 60 seconds (simulation time)
+    for t = int(60 * timestep / 1000.0)
+
+      % perform robot control according to a, b
+      % (and possibly t) parameters.
+
+      if wb_robot_step(timestep) == -1
+        wb_robot_cleanup();
+        return ;
+      end
+    end
+
+    % compute travelled distance
+    ret = wb_supervisor_field_get_sf_vec3f(trans_field);
+    dist = sqrt((ret[0] * ret[0]) + (ret[2] * ret[2]));
+    fprintf('a=%g b=%g dist=%g\n', a, b, dist);
+
+    % reset robot position and physics
+    INITIAL = [0, 0.5, 0];
+    wb_supervisor_field_set_sf_vec3f(trans_field, INITIAL);
+    wb_supervisor_node_reset_physics(robot_node);
+  end
+end
+
+```
+%end-tab
 %end
 
 As in the previous example, the `trans_field` variable is a `WbFieldRef` that identifies the `translation` field of the robot.
