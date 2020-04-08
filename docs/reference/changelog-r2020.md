@@ -2,6 +2,7 @@
 
 ## Webots R2020a Revision 2
 Released on XXX.
+
   - New Robot
     - Added a model of the [Spot](../guide/spot.md) from [Boston Dynamics](https://www.bostondynamics.com/spot).
   - New Features
