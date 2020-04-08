@@ -116,7 +116,7 @@ static void lie_down() {
 }
 
 static void stand_up() {
-  double motors_target_pos[NUMBER_OF_JOINTS] = {-0.1, 0.0, 0.0,  // Front left leg
+  const double motors_target_pos[NUMBER_OF_JOINTS] = {-0.1, 0.0, 0.0,  // Front left leg
                                                  0.1, 0.0, 0.0,  // Front right leg
                                                 -0.1, 0.0, 0.0,  // Rear left leg
                                                  0.1, 0.0, 0.0}; // Rear right leg
