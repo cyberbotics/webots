@@ -126,7 +126,7 @@ static void stand_up() {
 
 static void sit_down(bool give_paw) {
   // Sit down first
-  double motors_target_pos[NUMBER_OF_JOINTS] = {-0.20, -0.40, -0.19,  // Front left leg
+  const double motors_target_pos[NUMBER_OF_JOINTS] = {-0.20, -0.40, -0.19,  // Front left leg
                                                  0.20, -0.40, -0.19,  // Front right leg
                                                 -0.40, -0.90,  1.18,  // Rear left leg
                                                  0.40, -0.90,  1.18}; // Rear right leg
