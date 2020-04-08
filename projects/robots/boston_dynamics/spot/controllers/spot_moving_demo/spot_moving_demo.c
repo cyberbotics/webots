@@ -244,7 +244,7 @@ static void recover() {
 }
 
 static void check_keyboard() {
-  int key = wb_keyboard_get_key();
+  const int key = wb_keyboard_get_key();
   if ((key >= 0) && key != old_key) {
     switch (key) {
       case WB_KEYBOARD_UP:
