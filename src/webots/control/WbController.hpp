@@ -100,7 +100,6 @@ private:
   bool mProcessingRequest;
   bool mHasPendingImmediateAnswer;
 
-  QString mPrefix;
   QString mStdoutBuffer;
   QString mStderrBuffer;
   bool mStdoutNeedsFlush;

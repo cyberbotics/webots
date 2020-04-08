@@ -52,8 +52,8 @@ public:
 
   // controller or compilation output
   // the 'message' argument can contain newlines (multi-line output)
-  static void appendStdout(const QString &message, const QString &prefix = "");
-  static void appendStderr(const QString &message, const QString &prefix = "");
+  static void appendStdout(const QString &message);
+  static void appendStderr(const QString &message);
 
   static void javascriptLogToConsole(const QString &message, int lineNumber, const QString &sourceUrl);
   // clear output
@@ -68,7 +68,6 @@ public:
 signals:
   // the above function emit this signal that can be connected to a message sink (console)
   void logEmitted(WbLog::Level level, const QString &message, bool popup);
-  void controllerLogEmitted(WbLog::Level level, const QString &message, const QString &prefix, bool popup);
   void cleared();
   void popupOpen();
   void popupClosed();

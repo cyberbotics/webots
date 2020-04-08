@@ -11,6 +11,7 @@ Released on XXX.
     - **Improved [Track](track.md) `textureAnimation` field so that it automatically takes the world basic time step into consideration and removed it from `ConveyorBelt` PROTO object.** ([#1477](https://github.com/cyberbotics/webots/pull/1477)).
     - Added the possibility to edit the `S/MFRotation` fields using quaternions ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
     - Improved edition of `S/MFRotation` fields using the field editor spin-boxes, only the last decimal is now incremented ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
+    - Improved the Webots console by supporting more [ANSI](https://en.wikipedia.org/wiki/ANSI_escape_code) escape codes and removed the controller name prefix ([#1508](https://github.com/cyberbotics/webots/pull/1508)).
   - Dependency Updates
     - Upgraded to Assimp 5.0.1 on Linux and macOS ([#1419](https://github.com/cyberbotics/webots/pull/1463)).
 
