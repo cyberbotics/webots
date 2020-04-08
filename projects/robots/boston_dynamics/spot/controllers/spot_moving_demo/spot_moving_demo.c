@@ -88,8 +88,8 @@ static void passive_wait(double sec) {
 }
 
 // Movement decomposition
-static void movement_decomposition(double *target) {
-  int n_steps_to_achieve_target = DURATION * 1000 / TIME_STEP;
+static void movement_decomposition(double *target, int duration) {
+  int n_steps_to_achieve_target = duration * 1000 / TIME_STEP;
   double step_difference[NUMBER_OF_JOINTS];
   double current_position[NUMBER_OF_JOINTS];
 
@@ -112,7 +112,7 @@ static void lie_down() {
                                                  0.40, -0.99, 1.59,  // Front right leg
                                                 -0.40, -0.99, 1.59,  // Rear left leg
                                                  0.40, -0.99, 1.59}; // Rear right leg
-  movement_decomposition(motors_target_pos);
+  movement_decomposition(motors_target_pos, DURATION);
 }
 
 static void stand_up() {
@@ -121,7 +121,7 @@ static void stand_up() {
                                                 -0.1, 0.0, 0.0,  // Rear left leg
                                                  0.1, 0.0, 0.0}; // Rear right leg
 
-  movement_decomposition(motors_target_pos);
+  movement_decomposition(motors_target_pos, DURATION);
 }
 
 static void sit_down(bool give_paw) {
@@ -131,16 +131,16 @@ static void sit_down(bool give_paw) {
                                                 -0.40, -0.90,  1.18,  // Rear left leg
                                                  0.40, -0.90,  1.18}; // Rear right leg
 
-  movement_decomposition(motors_target_pos);
+  movement_decomposition(motors_target_pos, DURATION);
 
   if (give_paw) { // Front right leg
     // Stabilize posture
     double motors_target_pos_1[NUMBER_OF_JOINTS] = {-0.20, -0.30,  0.05,  // Front left leg
-                                                   0.20, -0.40, -0.19,  // Front right leg
-                                                  -0.40, -0.90,  1.18,  // Rear left leg
-                                                   0.49, -0.90,  0.80}; // Rear right leg
+                                                     0.20, -0.40, -0.19,  // Front right leg
+                                                    -0.40, -0.90,  1.18,  // Rear left leg
+                                                     0.49, -0.90,  0.80}; // Rear right leg
 
-    movement_decomposition(motors_target_pos_1);
+    movement_decomposition(motors_target_pos_1, DURATION);
 
     double initialTime = wb_robot_get_time();
     while (true) {
@@ -157,7 +157,7 @@ static void sit_down(bool give_paw) {
                                                     -0.40, -0.90,  1.18,  // Rear left leg
                                                      0.40, -0.90,  1.18}; // Rear right leg
 
-    movement_decomposition(motors_target_pos_2);
+    movement_decomposition(motors_target_pos_2, DURATION);
   }
 
 }
@@ -229,19 +229,19 @@ static void recover() {
                                                     0.40, -0.99, 1.59,  // Front right leg
                                                    -0.40, -0.75, 1.20,  // Rear left leg
                                                     0.40, -0.99, 1.59}; // Rear right leg
-  movement_decomposition(motors_target_pos_1);
-  movement_decomposition(motors_target_pos_2);
-  movement_decomposition(motors_target_pos_3);
-  movement_decomposition(motors_target_pos_4);
-  movement_decomposition(motors_target_pos_5);
-  movement_decomposition(motors_target_pos_6);
-  movement_decomposition(motors_target_pos_7);
-  movement_decomposition(motors_target_pos_8);
-  movement_decomposition(motors_target_pos_9);
-  movement_decomposition(motors_target_pos_10);
-  movement_decomposition(motors_target_pos_11);
-  movement_decomposition(motors_target_pos_12);
-  movement_decomposition(motors_target_pos_13);
+  movement_decomposition(motors_target_pos_1, DURATION);
+  movement_decomposition(motors_target_pos_2, DURATION);
+  movement_decomposition(motors_target_pos_3, DURATION);
+  movement_decomposition(motors_target_pos_4, DURATION);
+  movement_decomposition(motors_target_pos_5, DURATION);
+  movement_decomposition(motors_target_pos_6, DURATION);
+  movement_decomposition(motors_target_pos_7, DURATION);
+  movement_decomposition(motors_target_pos_8, DURATION);
+  movement_decomposition(motors_target_pos_9, DURATION);
+  movement_decomposition(motors_target_pos_10, DURATION);
+  movement_decomposition(motors_target_pos_11, DURATION);
+  movement_decomposition(motors_target_pos_12, DURATION);
+  movement_decomposition(motors_target_pos_13, DURATION);
   lie_down();
   passive_wait(1);
   stand_up();
