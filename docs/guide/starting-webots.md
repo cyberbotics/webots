@@ -16,10 +16,10 @@ On Windows 10 and Windows 7, open the `Start` menu, go to the `Program Files / C
 
 On Windows 8, open the `Start` screen, scroll to the screen's right until you spot the Cyberbotics section and click on the `Webots` icon.
 
-You can also start Webots from a DOS console (`cmd.exe`) by typing `webots.bat`.
+You can also start Webots from a DOS console (`cmd.exe`) by typing `webots` or `webots.bat`.
 This command works only if executed from the `C:\Program Files\Webots\msys64\mingw64\bin` directory (assuming Webots was installed in `C:\Program Files`).
 It can also work from any directory if the above directory was added to your `Path` environment variable.
-**Note:** Calling `webots.exe` directly from a DOS console may not work, as some settings may be missing (see the contents of `webots.bat` for details).
+**Note:** Calling `webots-bin.exe` directly from a DOS console may not work, as some settings may be missing (see the contents of `webots.bat` for details).
 
 ### Command Line Arguments
 

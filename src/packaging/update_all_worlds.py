@@ -28,7 +28,11 @@ for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep 
         worlds.append(world)
 webotsFullPath = None
 if sys.platform == 'win32':
-    webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + 'msys64' + os.sep + 'mingw64' + os.sep + 'bin' + os.sep + 'webots.exe'
+    webotsFullPath = os.environ['WEBOTS_HOME']
+    + os.sep + 'msys64'
+    + os.sep + 'mingw64'
+    + os.sep + 'bin'
+    + os.sep + 'webots-bin.exe'
 else:
     webotsBinary = 'webots'
     if 'WEBOTS_HOME' in os.environ:

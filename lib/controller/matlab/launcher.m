@@ -14,7 +14,7 @@ if isempty(WEBOTS_CONTROLLER_NAME)
   else
     cd(WEBOTS_HOME)
   end
-  [status, cmdout] = system('msys64/mingw64/bin/webots.exe --version');
+  [status, cmdout] = system('msys64/mingw64/bin/webots-bin.exe --version');
   k = strfind(cmdout, ' Nightly Build ');
   if isempty(k)
     WEBOTS_VERSION = strrep(cmdout(17:end-1),'.','_');
