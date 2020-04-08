@@ -142,12 +142,9 @@ static void sit_down(bool give_paw) {
     movement_decomposition(motors_target_pos_1);
 
     const double initialTime = wb_robot_get_time();
-    while (true) {
-      double time = wb_robot_get_time() - initialTime;
+    while (wb_robot_get_time() - initialTime < 2 * DURATION) {
       wb_motor_set_position(motors[4], 0.2 * sin(2 * time) + 0.6);  // Upperarm movement
       wb_motor_set_position(motors[5], 0.4 * sin(2 * time));  // Forearm movement
-      if (time >= 2*DURATION)
-        break;
       step();
     }
     // Get back in sitting posture
