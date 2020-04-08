@@ -11,7 +11,7 @@ PROTO TruckTrailer [
   field SFFloat    kingPinDistance  3.8               # Defines the distance (along the Z direction) between the front of the trailer and the rotation axis.
   field SFFloat    mass             5000              # Defines the mass of the trailer (wheels not included).
   field MFFloat    wheelAxles       [ 7.93, 9.03, 10.13 ]
-  field MFString   texture          "textures/truck_trailer_webots.jpg"
+  field SFNode     appearance       PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "textures/truck_trailer_webots.jpg" ] } }
 ]
 {
 %{
@@ -42,7 +42,7 @@ PROTO TruckTrailer [
               color 0.7 0.12 0.12
             }
             TruckTrailerMesh {
-              texture IS texture
+              appearance IS appearance
               translation 0 0 -2.48
             }
           ]
