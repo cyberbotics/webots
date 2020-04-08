@@ -32,7 +32,7 @@ if sys.platform == 'win32':
     + os.sep + 'msys64'
     + os.sep + 'mingw64'
     + os.sep + 'bin'
-    + os.sep + 'webots-bin.exe'
+    + os.sep + 'webots.bat'
 else:
     webotsBinary = 'webots'
     if 'WEBOTS_HOME' in os.environ:

@@ -966,32 +966,31 @@ static void create_file(const char *name, int m) {
       fprintf(
         fd, "Name: \"{group}\\Uninstall %s\"; Filename: \"{uninstallexe}\"; WorkingDir: \"{app}\"; Comment: \"Uninstall %s\"\n",
         application_name, application_name);
-      fprintf(
-        fd,
-        "\n[Registry]\n"
-        "Root: HKA; SubKey: \"Software\\Classes\\.wbt\"; ValueType: string; ValueData: \"webotsfile\"; "
-        "Flags: uninsdeletekey\n"
-        "Root: HKA; SubKey: \"Software\\Classes\\.wbt\"; ValueType: string; ValueName: \"Content Type\"; "
-        "ValueData: \"application/webotsfile\"; Flags: uninsdeletekey\n"
-        "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\DefaultIcon\"; ValueType: string; "
-        "ValueData: \"{app}\\resources\\icons\\core\\webots_doc.ico\"; Flags: uninsdeletekey\n"
-        "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\shell\\open\"; ValueType: string; "
-        "ValueName: \"FriendlyAppName\"; ValueData: \"Webots\"; Flags: uninsdeletekey\n"
-        "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\shell\\open\\command\"; ValueType: string; ValueData: "
-        "\"\"\"{app}\\msys64\\mingw64\\bin\\webots-bin.exe\"\" \"\"%%1\"\"\"; Flags: uninsdeletekey\n"
-        "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webots-bin.exe\"; ValueType: string; "
-        "ValueName: \"SupportedTypes\"; ValueData: \".wbt\"; Flags: uninsdeletekey\n"
-        "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webots-bin.exe\"; ValueType: string; "
-        "ValueName: \"FriendlyAppName\"; ValueData: \"Webots\"; Flags: uninsdeletekey\n"
-        "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots-bin.exe\"; ValueType: string; "
-        "ValueData: \"{app}\\msys64\\mingw64\\bin\\webots-bin.exe\"; Flags: uninsdeletekey\n"
-        "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots-bin.exe\"; ValueType: string; "
-        "ValueName: \"Path\"; ValueData: \"{app}\\msys64\\mingw64\\bin;{app}\\msys64\\usr\\bin\"; Flags: uninsdeletekey\n"
-        "Root: HKCU; SubKey: \"Software\\Cyberbotics\"; Flags: uninsdeletekeyifempty dontcreatekey\n"
-        "Root: HKCU; SubKey: \"Software\\Cyberbotics\\%s %s\"; Flags: uninsdeletekey dontcreatekey\n"
-        "Root: HKA; SubKey: \"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\"; ValueType: string; "
-        "ValueName: \"WEBOTS_HOME\"; ValueData: \"{app}\"; Flags: preservestringtype\n",
-        application_name, version);
+      fprintf(fd,
+              "\n[Registry]\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\.wbt\"; ValueType: string; ValueData: \"webotsfile\"; "
+              "Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\.wbt\"; ValueType: string; ValueName: \"Content Type\"; "
+              "ValueData: \"application/webotsfile\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\DefaultIcon\"; ValueType: string; "
+              "ValueData: \"{app}\\resources\\icons\\core\\webots_doc.ico\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\shell\\open\"; ValueType: string; "
+              "ValueName: \"FriendlyAppName\"; ValueData: \"Webots\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\shell\\open\\command\"; ValueType: string; ValueData: "
+              "\"\"\"{app}\\msys64\\mingw64\\bin\\webots.bat\"\" \"\"%%1\"\"\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webots.bat\"; ValueType: string; "
+              "ValueName: \"SupportedTypes\"; ValueData: \".wbt\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webots.bat\"; ValueType: string; "
+              "ValueName: \"FriendlyAppName\"; ValueData: \"Webots\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots.bat\"; ValueType: string; "
+              "ValueData: \"{app}\\msys64\\mingw64\\bin\\webots.bat\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots.bat\"; ValueType: string; "
+              "ValueName: \"Path\"; ValueData: \"{app}\\msys64\\mingw64\\bin;{app}\\msys64\\usr\\bin\"; Flags: uninsdeletekey\n"
+              "Root: HKCU; SubKey: \"Software\\Cyberbotics\"; Flags: uninsdeletekeyifempty dontcreatekey\n"
+              "Root: HKCU; SubKey: \"Software\\Cyberbotics\\%s %s\"; Flags: uninsdeletekey dontcreatekey\n"
+              "Root: HKA; SubKey: \"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\"; ValueType: string; "
+              "ValueName: \"WEBOTS_HOME\"; ValueData: \"{app}\"; Flags: preservestringtype\n",
+              application_name, version);
       fprintf(fd, "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\"; "
                   "Flags: uninsdeletekey dontcreatekey\n");
       // On some systems (as already reported by two Chinese users), some unknown third party software badly installs a
