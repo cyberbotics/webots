@@ -8,7 +8,7 @@
 PROTO TruckTrailer [
   field SFString   name             "truck trailer"
   field SFFloat    length           11.15             # Defines the total length of the trailer.
-  field SFFloat    kingPinDistance  3.8               # Defines the distance (along the Z direction) between the front of the trailer and the rotation axis.
+  field SFFloat    kingPinDistance  2.4               # Defines the distance (along the Z direction) between the front of the trailer and the rotation axis.
   field SFFloat    mass             5000              # Defines the mass of the trailer (wheels not included).
   field MFFloat    wheelAxles       [ 7.93, 9.03, 10.13 ]
   field SFNode     appearance       PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "textures/truck_trailer_webots.jpg" ] } }

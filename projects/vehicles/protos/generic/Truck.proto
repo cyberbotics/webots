@@ -86,22 +86,26 @@ PROTO Truck [
           }
         ]
       }
-      DEF TRAILER_JOINT HingeJoint {
-        jointParameters HingeJointParameters {
-          axis 0 10 0
-          anchor 0 0 %{= fields.kingPinDistance.value }%
-          minStop -1.3
-          maxStop 1.3
-          dampingConstant 10000
-          staticFriction 1000
-          suspensionAxis 0 1 0
-          suspensionSpringConstant 1e+06
-          suspensionDampingConstant 10000
-        }
-        endPoint DEF TRAILER Slot {
-          type "truck trailer"
-          endPoint IS trailer
-        }
+      Transform {
+        translation 0 0 %{= fields.kingPinDistance.value }%
+        children [
+          DEF TRAILER_JOINT HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 10 0
+              minStop -1.3
+              maxStop 1.3
+              dampingConstant 10000
+              staticFriction 1000
+              suspensionAxis 0 1 0
+              suspensionSpringConstant 1e+06
+              suspensionDampingConstant 10000
+            }
+            endPoint DEF TRAILER Slot {
+              type "truck trailer"
+              endPoint IS trailer
+            }
+          }
+        ]
       }
       TruckCab {
         color IS color
