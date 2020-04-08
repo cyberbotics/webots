@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
 # A non-controllable truck trailer model with physics properties.
+# The length and number of wheels is configurable.
 
 PROTO TruckTrailer [
   field SFString   name             "truck trailer"
