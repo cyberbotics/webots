@@ -89,7 +89,7 @@ static void passive_wait(double sec) {
 
 // Movement decomposition
 static void movement_decomposition(double *target, int duration) {
-  int n_steps_to_achieve_target = duration * 1000 / TIME_STEP;
+  cosnt int n_steps_to_achieve_target = duration * 1000 / TIME_STEP;
   double step_difference[NUMBER_OF_JOINTS];
   double current_position[NUMBER_OF_JOINTS];
 
@@ -108,7 +108,7 @@ static void movement_decomposition(double *target, int duration) {
 }
 
 static void lie_down() {
-  double motors_target_pos[NUMBER_OF_JOINTS] = {-0.40, -0.99, 1.59,  // Front left leg
+  const double motors_target_pos[NUMBER_OF_JOINTS] = {-0.40, -0.99, 1.59,  // Front left leg
                                                  0.40, -0.99, 1.59,  // Front right leg
                                                 -0.40, -0.99, 1.59,  // Rear left leg
                                                  0.40, -0.99, 1.59}; // Rear right leg
@@ -116,7 +116,7 @@ static void lie_down() {
 }
 
 static void stand_up() {
-  double motors_target_pos[NUMBER_OF_JOINTS] = {-0.1, 0.0, 0.0,  // Front left leg
+  const double motors_target_pos[NUMBER_OF_JOINTS] = {-0.1, 0.0, 0.0,  // Front left leg
                                                  0.1, 0.0, 0.0,  // Front right leg
                                                 -0.1, 0.0, 0.0,  // Rear left leg
                                                  0.1, 0.0, 0.0}; // Rear right leg
@@ -125,8 +125,7 @@ static void stand_up() {
 }
 
 static void sit_down(bool give_paw) {
-  // Sit down first
-  double motors_target_pos[NUMBER_OF_JOINTS] = {-0.20, -0.40, -0.19,  // Front left leg
+  const double motors_target_pos[NUMBER_OF_JOINTS] = {-0.20, -0.40, -0.19,  // Front left leg
                                                  0.20, -0.40, -0.19,  // Front right leg
                                                 -0.40, -0.90,  1.18,  // Rear left leg
                                                  0.40, -0.90,  1.18}; // Rear right leg
@@ -135,24 +134,21 @@ static void sit_down(bool give_paw) {
 
   if (give_paw) { // Front right leg
     // Stabilize posture
-    double motors_target_pos_1[NUMBER_OF_JOINTS] = {-0.20, -0.30,  0.05,  // Front left leg
+    const double motors_target_pos_1[NUMBER_OF_JOINTS] = {-0.20, -0.30,  0.05,  // Front left leg
                                                      0.20, -0.40, -0.19,  // Front right leg
                                                     -0.40, -0.90,  1.18,  // Rear left leg
                                                      0.49, -0.90,  0.80}; // Rear right leg
 
     movement_decomposition(motors_target_pos_1, DURATION);
 
-    double initialTime = wb_robot_get_time();
-    while (true) {
-      double time = wb_robot_get_time() - initialTime;
+    const double initialTime = wb_robot_get_time();
+    while (wb_robot_get_time() - initialTime < 2 * DURATION) {
       wb_motor_set_position(motors[4], 0.2 * sin(2 * time) + 0.6);  // Upperarm movement
       wb_motor_set_position(motors[5], 0.4 * sin(2 * time));  // Forearm movement
-      if (time >= 2*DURATION)
-        break;
       step();
     }
     // Get back in sitting posture
-    double motors_target_pos_2[NUMBER_OF_JOINTS] = {-0.20, -0.40, -0.19,  // Front left leg
+    const double motors_target_pos_2[NUMBER_OF_JOINTS] = {-0.20, -0.40, -0.19,  // Front left leg
                                                      0.20, -0.40, -0.19,  // Front right leg
                                                     -0.40, -0.90,  1.18,  // Rear left leg
                                                      0.40, -0.90,  1.18}; // Rear right leg
@@ -248,7 +244,7 @@ static void recover() {
 }
 
 static void check_keyboard() {
-  int key = wb_keyboard_get_key();
+  const int key = wb_keyboard_get_key();
   if ((key >= 0) && key != old_key) {
     switch (key) {
       case WB_KEYBOARD_UP:
@@ -297,8 +293,7 @@ static void check_keyboard() {
         wb_camera_disable(cameras[i]);
       cameras_enabled = false;
       printf("Cameras OFF\n");
-    }
-    else {
+    } else {
       for (int i = 0; i < NUMBER_OF_CAMERAS; i++)
         wb_camera_enable(cameras[i], TIME_STEP);
       cameras_enabled = true;
@@ -312,8 +307,7 @@ static void check_keyboard() {
         wb_led_set(leds[i], LEDS_OFF);
       leds_enabled = false;
       printf("LEDs OFF\n");
-    }
-    else {
+    } else {
       for (int i = 0; i < NUMBER_OF_LEDS; i++)
         wb_led_set(leds[i], LEDS_ON);
       leds_enabled = true;
@@ -373,7 +367,7 @@ int main(int argc, char **argv) {
   wb_robot_init();
 
   // List devices
-  int n_devices = wb_robot_get_number_of_devices();
+  const int n_devices = wb_robot_get_number_of_devices();
   printf("Available devices:\n");
   for (int i = 0; i < n_devices; i++) {
     WbDeviceTag tag = wb_robot_get_device_by_index(i);
