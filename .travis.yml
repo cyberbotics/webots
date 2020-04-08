@@ -190,6 +190,7 @@ jobs:
         - make release -j2
         - source /opt/ros/$ROS_DISTRO/setup.bash
         - timeout --preserve-status 240 roslaunch webots_ros complete_test.launch
+        - cat /home/travis/.ros/log/*.log
     - &distribution_staging
       stage: Distribution
       if: type = cron OR commit_message IN (travis_distrib, travis_distrib_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
