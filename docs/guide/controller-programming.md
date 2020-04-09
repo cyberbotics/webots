@@ -7,9 +7,11 @@ The programming examples provided here are in C, but same concepts apply to C++,
 The tradition in computer science is to start with a "Hello World!" example.
 So here is a "Hello World!" example for a Webots controller:
 
+%tab-component "language"
+%tab "C"
 ```c
-#include <webots/robot.h>
 #include <stdio.h>
+#include <webots/robot.h>
 
 int main() {
   wb_robot_init();
@@ -18,10 +20,67 @@ int main() {
     printf("Hello World!\n");
 
   wb_robot_cleanup();
-
   return 0;
 }
 ```
+%tab-end
+
+%tab "C++"
+```cpp
+#include <iostream>
+#include <webots/Robot.hpp>
+
+using namespace webots;
+
+int main() {
+  Robot *robot = new Robot();
+
+  while (robot->step(32) != -1)
+    std::cout << "Hello World!" << std::endl;
+
+  delete robot;
+  return 0;
+}
+```
+%tab-end
+
+%tab "Pyhton"
+```python
+from controller import Robot
+
+robot = Robot()
+
+while robot.step(32) != -1:
+    print("Hello World!")
+    pass
+```
+%tab-end
+
+%tab "Java"
+```java
+import com.cyberbotics.webots.controller.Robot;
+
+public class HelloWorld {
+
+  public static void main(String[] args) {
+
+    final Robot robot = new Robot();
+
+    while (robot.step(32) != -1)
+      System.out.println("Hello World!");
+  }
+}
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+while wb_robot_step(32) ~= -1
+  wb_console_print(sprintf('Hello World!\n'), WB_STDOUT);
+end
+```
+%tab-end
+%end
 
 This code repeatedly prints `"Hello World!"` to the standard output stream which is redirected to Webots console.
 The standard output and error streams are automatically redirected to Webots console for all Webots supported languages.
@@ -51,6 +110,8 @@ When the loop exists, no further communication with Webots is possible and the o
 Now that we have seen how to print a message to the console, we shall see how to read the sensors of a robot.
 The next example does continuously update and print the value returned by a [DistanceSensor](../reference/distancesensor.md):
 
+%tab-component "language"
+%tab "C"
 ```c
 #include <webots/robot.h>
 #include <webots/distance_sensor.h>
@@ -74,6 +135,28 @@ int main() {
   return 0;
 }
 ```
+%tab-end
+
+%tab "C++"
+```cpp
+```
+%tab-end
+
+%tab "Pyhton"
+```python
+```
+%tab-end
+
+%tab "Java"
+```java
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+```
+%tab-end
+%end
 
 As you can notice, prior to using a device, it is necessary to get the corresponding device tag (`WbDeviceTag`); this is done using the `wb_robot_get_device` function.
 The `WbDeviceTag` is an opaque type that is used to identify a device in the controller code.
