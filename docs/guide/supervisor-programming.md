@@ -122,6 +122,7 @@ public class SupervisorController {
     while (supervisor.step(TIME_STEP) != -1) {
       // this is done repeatedly
       final double[] values = trans_field.getSFVec3f();
+      System.out.format("MY_ROBOT is at position: %g %g %g\n",
                         values[0], values[1], values[2]);
     }
   }
@@ -290,19 +291,19 @@ trans_field = robot_node.getField("translation")
 for a in range(0, 25):
     for b in range(0, 33):
         # evaluate robot during 60 seconds (simulation time)
-        for t in range(int(60 * timestep / 1000.0)):
+        for t in range(int(60 * TIME_STEP / 1000.0)):
 
             # perform robot control according to a, b
             # (and possibly t) parameters.
 
             # controller termination
-            if supervisor.step(timestep) == -1:
+            if supervisor.step(TIME_STEP) == -1:
                 quit()
 
         # compute travelled distance
         values = trans_field.getSFVec3f()
         dist = sqrt(values[0] * values[0] + values[2] * values[2])
-        print("a=" + str(a) + " b=" + str(b) + " dist=" + str(dist))
+        print("a=%d, b=%d -> dist=%g" % (a, b, dist))
 
         # reset robot position and physics
         INITIAL = [0, 0.5, 0]
