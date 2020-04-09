@@ -47,7 +47,7 @@ class TestWorldsWarnings(unittest.TestCase):
         self.webotsFullPath = None
         if sys.platform == 'win32':
             self.webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + 'msys64' + \
-                os.sep + 'mingw64' + os.sep + 'bin' + os.sep + 'webots.bat'
+                os.sep + 'mingw64' + os.sep + 'bin' + os.sep + 'webots.exe'
         else:
             webotsBinary = 'webots'
             if 'WEBOTS_HOME' in os.environ:
