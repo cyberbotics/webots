@@ -166,7 +166,6 @@ ifeq ($(MAKECMDGOALS),release)
 # stack size doesn't seems to help, so we need to remove this optimization
 CFLAGS          += -fno-ipa-cp-clone
 LD_FLAGS        += -Wl,-subsystem,windows
-EXTRA_CMD       += ; cp launcher/webots.bat $(TARGET_PATH)/webots.bat
 else
 EXTRA_CMD       += ; cp launcher/webots_debug.bat $(TARGET_PATH)/webots_debug.bat
 endif
@@ -583,6 +582,7 @@ OBJECTS=$(notdir $(C_SOURCES:.c=.o) $(QT_SOURCES:.cpp=.o) $(OTHER_SOURCES:.cpp=.
 
 ifeq ($(OSTYPE),windows)
 OBJECTS += webots.o
+LAUNCHER = ../../msys64/mingw64/bin/webots.exe
 endif
 
 # prevent 'make' from deleting these intermediate files
@@ -606,7 +606,7 @@ endif
 
 .PHONY: debug profile release clean count-lines
 
-debug profile release: $(TARGET)
+debug profile release: $(TARGET) $(LAUNCHER)
 
 $(TARGET): $(OBJECTS) $(LIB_WREN) $(LIB_ODE)
 	@echo "# linking " $@
@@ -621,6 +621,10 @@ $(OBJDIR)/%.d: %.cpp
 $(OBJDIR)/%.moc.cpp: %.hpp
 	@echo "# moc-generating" $@
 	@$(MOC) $(MOC_FLAGS) $(INCLUDE:-isystem:-I) $< -o $@
+
+$(LAUNCHER): launcher/launcher.c
+	@echo "# compiling webots.exe launcher"
+	@gcc -Wall $< -o $@
 
 webots.o:gui/webots.rc gui/webots.ico gui/manifest.xml
 	@echo "# compiling gui/"$@
@@ -712,7 +716,7 @@ webots.o:gui/webots.rc gui/webots.ico gui/manifest.xml
 
 clean:
 	@echo "# cleaning"
-	@rm -rf $(TARGET) $(FILES_TO_REMOVE) build
+	@rm -rf $(TARGET) $(FILES_TO_REMOVE) $(LAUNCHER) build
 
 count-lines:
 	wc -l */*.c* */*.h*
