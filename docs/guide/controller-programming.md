@@ -7,20 +7,16 @@ The programming examples provided here are in C, but same concepts apply to C++,
 The tradition in computer science is to start with a "Hello World!" example.
 So here is a "Hello World!" example for a Webots controller:
 
-Don't pay too much attention to `TIME_STEP`, you will know more about it after a couple of examples.
-
 %tab-component "language"
 %tab "C"
 ```c
 #include <stdio.h>
 #include <webots/robot.h>
 
-#define TIME_STEP 32
-
 int main() {
   wb_robot_init();
 
-  while(wb_robot_step(TIME_STEP) != -1)
+  while(wb_robot_step(32) != -1)
     printf("Hello World!\n");
 
   wb_robot_cleanup();
@@ -34,14 +30,12 @@ int main() {
 #include <iostream>
 #include <webots/Robot.hpp>
 
-#define TIME_STEP 32
-
 using namespace webots;
 
 int main() {
   Robot *robot = new Robot();
 
-  while (robot->step(TIME_STEP) != -1)
+  while (robot->step(32) != -1)
     std::cout << "Hello World!" << std::endl;
 
   delete robot;
@@ -54,11 +48,9 @@ int main() {
 ```python
 from controller import Robot
 
-TIME_STEP = 32
-
 robot = Robot()
 
-while robot.step(TIME_STEP) != -1:
+while robot.step(32) != -1:
     print("Hello World!")
     pass
 ```
@@ -72,11 +64,9 @@ public class HelloWorld {
 
   public static void main(String[] args) {
 
-    final int TIME_STEP = 32;
-
     final Robot robot = new Robot();
 
-    while (robot.step(TIME_STEP) != -1)
+    while (robot.step(32) != -1)
       System.out.println("Hello World!");
   }
 }
@@ -85,8 +75,7 @@ public class HelloWorld {
 
 %tab "MATLAB"
 ```MATLAB
-TIME_STEP = 32;
-while wb_robot_step(TIME_STEP) ~= -1
+while wb_robot_step(32) ~= -1
   wb_console_print(sprintf('Hello World!\n'), WB_STDOUT);
 end
 ```
@@ -128,15 +117,13 @@ The next example does continuously update and print the value returned by a [Dis
 #include <webots/robot.h>
 #include <webots/distance_sensor.h>
 
-#define TIME_STEP 32
-
 int main() {
   wb_robot_init();
 
   WbDeviceTag ds = wb_robot_get_device("my_distance_sensor");
-  wb_distance_sensor_enable(ds, TIME_STEP);
+  wb_distance_sensor_enable(ds, 32);
 
-  while (wb_robot_step(TIME_STEP) != -1) {
+  while (wb_robot_step(32) != -1) {
     double dist = wb_distance_sensor_get_value(ds);
     printf("Sensor value is %f\n", dist);
   }
@@ -154,17 +141,15 @@ int main() {
 #include <webots/Robot.hpp>
 #include <webots/DistanceSensor.hpp>
 
-#define TIME_STEP 32
-
 using namespace webots;
 
 int main() {
   Robot *robot = new Robot();
 
   DistanceSensor *sensor = robot->getDistanceSensor("my_distance_sensor");
-  sensor->enable(TIME_STEP);
+  sensor->enable(32);
 
-  while (robot->step(TIME_STEP) != -1) {
+  while (robot->step(32) != -1) {
     const double value = sensor->getValue();
     std::cout << "Sensor value is: " << value << std::endl;
   }
@@ -179,14 +164,12 @@ int main() {
 ```python
 from controller import Robot, DistanceSensor
 
-TIME_STEP = 32
-
 robot = Robot()
 
 sensor = robot.getDistanceSensor("my_distance_sensor")
-sensor.enable(TIME_STEP)
+sensor.enable(32)
 
-while robot.step(TIME_STEP) != -1:
+while robot.step(32) != -1:
     value = sensor.getValue()
     print("Sensor value is: ", value)
     pass
@@ -202,14 +185,12 @@ public class ReadingSensor {
 
   public static void main(String[] args) {
 
-    final int TIME_STEP = 32;
-
     final Robot robot = new Robot();
 
     final DistanceSensor sensor = robot.getDistanceSensor("my_distance_sensor");
-    sensor.enable(TIME_STEP);
+    sensor.enable(32);
 
-    while (robot.step(TIME_STEP) != -1) {
+    while (robot.step(32) != -1) {
       final double value = sensor.getValue();
       System.out.println("Sensor value is: " + value);
     }
