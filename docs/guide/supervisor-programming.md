@@ -365,7 +365,7 @@ public class SupervisorExample {
 %tab-end
 
 %tab "MATLAB"
-```matlab
+```MATLAB
 timestep = 32;
 
 robot_node = wb_supervisor_node_get_from_def("MY_ROBOT");
