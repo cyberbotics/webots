@@ -622,9 +622,12 @@ $(OBJDIR)/%.moc.cpp: %.hpp
 	@echo "# moc-generating" $@
 	@$(MOC) $(MOC_FLAGS) $(INCLUDE:-isystem:-I) $< -o $@
 
-$(LAUNCHER): launcher/launcher.c
+launcher/launcher.o: launcher/launcher.rc
+	@windres -i $< -o $@ --define _WIN32 --define __WIN32__ --define __WIN95__ --define __GNUWIN32__
+
+$(LAUNCHER): launcher/launcher.c launcher/launcher.o
 	@echo "# compiling webots.exe launcher"
-	@gcc -Wall -mwindows $< -o $@
+	@gcc -Wall -mwindows launcher/launcher.o launcher/launcher.c -o $@
 
 webots.o:gui/webots.rc gui/webots.ico gui/manifest.xml
 	@echo "# compiling gui/"$@
