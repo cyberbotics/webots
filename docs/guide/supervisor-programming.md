@@ -192,11 +192,12 @@ int main() {
   WbNodeRef robot_node = wb_supervisor_node_get_from_def("MY_ROBOT");
   WbFieldRef trans_field = wb_supervisor_node_get_field(robot_node, "translation");
 
-  double a, b, t;
-  for (a = 0.0; a < 5.0; a += 0.2) {
-    for (b = 0.0; b < 10.0; b += 0.3) {
+  int a, b;
+  for (a = 0; a < 25; ++a) {
+    for (b = 0; b < 33; ++b) {
       // evaluate robot during 60 seconds (simulation time)
-      for (t = 0.0; t < 60.0; t += TIME_STEP / 1000.0) {
+      const double t = wb_robot_get_time();
+      while (wb_robot_get_time() - t < 60.0) {
 
         // perform robot control according to a, b
         // (and possibly t) parameters.
@@ -209,7 +210,7 @@ int main() {
       // compute travelled distance
       const double *values = wb_supervisor_field_get_sf_vec3f(trans_field);
       double dist = sqrt(values[0] * values[0] + values[2] * values[2]);
-      printf("a=%g, b=%g -> dist=%g\n", a, b, dist);
+      printf("a=%d, b=%d -> dist=%g\n", a, b, dist);
 
       // reset robot position and physics
       const double INITIAL[3] = { 0, 0.5, 0 };
@@ -244,11 +245,12 @@ int main() {
   Node *robot_node = supervisor->getFromDef("MY_ROBOT");
   Field *trans_field = robot_node->getField("translation");
 
-  double a, b, t;
-  for (a = 0.0; a < 5.0; a += 0.2) {
-    for (b = 0.0; b < 10.0; b += 0.3) {
+  int a, b;
+  for (a = 0; a < 25; ++a) {
+    for (b = 0; b < 33; ++a) {
+      const double t = supervisor->getTime();
       // evaluate robot during 60 seconds (simulation time)
-      for (t = 0.0; t < 60.0; t += TIME_STEP / 1000.0) {
+      while (supervisor->getTime() - t < 60.0) {
 
         // perform robot control according to a, b
         // (and possibly t) parameters.
@@ -291,7 +293,8 @@ trans_field = robot_node.getField("translation")
 for a in range(0, 25):
     for b in range(0, 33):
         # evaluate robot during 60 seconds (simulation time)
-        for t in range(int(60 * TIME_STEP / 1000.0)):
+        t = supervisor.getTime()
+        while supervisor.getTime() - t < 60:
 
             # perform robot control according to a, b
             # (and possibly t) parameters.
@@ -328,26 +331,27 @@ public class SupervisorController {
 
     // get handle to robot's translation field
     final Node robot_node = supervisor.getFromDef("MY_ROBOT");
-    final Field trans_field = robot.getField("translation");
+    final Field trans_field = robot_node.getField("translation");
 
-    double a, b, t;
-    for (a = 0.0; a < 5.0; a += 0.2) {
-      for (b = 0.0; b < 10.0; b += 0.3) {
+    int a, b;
+    for (a = 0; a < 25; ++a) {
+      for (b = 0; b < 33; ++b) {
         // evaluate robot during 60 seconds (simulation time)
-        for (t = 0.0; t < 60.0; t += TIME_STEP / 1000.0) {
+        final double t = supervisor.getTime();
+        while (supervisor.getTime() - t < 60.0) {
 
           // perform robot control according to a, b
           // (and possibly t) parameters.
 
           // controller termination
-          if (supervisor.step(timeStep) == -1)
+          if (supervisor.step(TIME_STEP) == -1)
             return ;
         }
 
         // compute travelled distance
-        double[] values = translation.getSFVec3f();
+        double[] values = trans_field.getSFVec3f();
         double dist = Math.sqrt(values[0] * values[0] + values[2] * values[2]);
-        System.out.format("a=%g, b=%g -> dist=%g\n", a, b, dist);
+        System.out.format("a=%d, b=%d -> dist=%g\n", a, b, dist);
 
         // reset robot position and physics
         double INITIAL[] = {0.0, 0.5, 0.0};
@@ -369,7 +373,8 @@ trans_field = wb_supervisor_node_get_field(robot_node, 'translation');
 for a = 0:25
   for b = 0:33
     % evaluate robot during 60 seconds (simulation time)
-    for t = 0:int64(TIME_STEP / 1000)
+    t = wb_robot_get_time();
+    while wb_robot_get_time() - t < 60
       % perform robot control according to a, b
       % (and possibly t) parameters.
       if wb_robot_step(TIME_STEP) == -1
