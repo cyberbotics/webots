@@ -1055,8 +1055,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "\n[Run]\n");
       fprintf(fd, "Filename: {app}\\msys64\\mingw64\\bin\\webots.exe; Description: \"Launch Webots\"; Flags: nowait "
                   "postinstall skipifsilent\n");
-      // we launch the bat file (and not the exe file) because the installer doesn't have yet the PATH set to msys64/usr/bin
-      // for webots-bin.exe and hence webots cannot compile and fails to load correctly the libjpeg-8.dll library.
       break;
     case DEB:
 #ifdef WEBOTS_UBUNTU_16_04
