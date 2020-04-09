@@ -954,15 +954,14 @@ static void create_file(const char *name, int m) {
       break;
     case ISS:
       fprintf(fd, "\n[Icons]\n");
-      fprintf(
-        fd,
-        "Name: \"{app}\\%s\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webots-bin.exe\"; WorkingDir: \"{app}\"; Comment: "
-        "\"Robot simulator\"\n"
-        "Name: \"{group}\\%s\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webots-bin.exe\"; WorkingDir: \"{app}\"; Comment: "
-        "\"Robot simulator\"\n"
-        "Name: \"{userdesktop}\\%s\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webots-bin.exe\"; WorkingDir: \"{app}\"; "
-        "Comment: \"Robot simulator\"\n",
-        application_name, application_name, application_name);
+      fprintf(fd,
+              "Name: \"{app}\\%s\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webots.exe\"; WorkingDir: \"{app}\"; Comment: "
+              "\"Robot simulator\"\n"
+              "Name: \"{group}\\%s\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webots.exe\"; WorkingDir: \"{app}\"; Comment: "
+              "\"Robot simulator\"\n"
+              "Name: \"{userdesktop}\\%s\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webots.exe\"; WorkingDir: \"{app}\"; "
+              "Comment: \"Robot simulator\"\n",
+              application_name, application_name, application_name);
       fprintf(
         fd, "Name: \"{group}\\Uninstall %s\"; Filename: \"{uninstallexe}\"; WorkingDir: \"{app}\"; Comment: \"Uninstall %s\"\n",
         application_name, application_name);
@@ -977,14 +976,14 @@ static void create_file(const char *name, int m) {
               "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\shell\\open\"; ValueType: string; "
               "ValueName: \"FriendlyAppName\"; ValueData: \"Webots\"; Flags: uninsdeletekey\n"
               "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\shell\\open\\command\"; ValueType: string; ValueData: "
-              "\"\"\"{app}\\msys64\\mingw64\\bin\\webots.bat\"\" \"\"%%1\"\"\"; Flags: uninsdeletekey\n"
-              "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webots.bat\"; ValueType: string; "
+              "\"\"\"{app}\\msys64\\mingw64\\bin\\webots.exe\"\" \"\"%%1\"\"\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webots.exe\"; ValueType: string; "
               "ValueName: \"SupportedTypes\"; ValueData: \".wbt\"; Flags: uninsdeletekey\n"
-              "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webots.bat\"; ValueType: string; "
+              "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webots.exe\"; ValueType: string; "
               "ValueName: \"FriendlyAppName\"; ValueData: \"Webots\"; Flags: uninsdeletekey\n"
-              "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots.bat\"; ValueType: string; "
-              "ValueData: \"{app}\\msys64\\mingw64\\bin\\webots.bat\"; Flags: uninsdeletekey\n"
-              "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots.bat\"; ValueType: string; "
+              "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots.exe\"; ValueType: string; "
+              "ValueData: \"{app}\\msys64\\mingw64\\bin\\webots.exe\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots.exe\"; ValueType: string; "
               "ValueName: \"Path\"; ValueData: \"{app}\\msys64\\mingw64\\bin;{app}\\msys64\\usr\\bin\"; Flags: uninsdeletekey\n"
               "Root: HKCU; SubKey: \"Software\\Cyberbotics\"; Flags: uninsdeletekeyifempty dontcreatekey\n"
               "Root: HKCU; SubKey: \"Software\\Cyberbotics\\%s %s\"; Flags: uninsdeletekey dontcreatekey\n"
@@ -1054,7 +1053,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "  end;\n");
       fprintf(fd, "end;\n");
       fprintf(fd, "\n[Run]\n");
-      fprintf(fd, "Filename: {app}\\msys64\\mingw64\\bin\\webots.bat; Description: \"Launch Webots\"; Flags: nowait "
+      fprintf(fd, "Filename: {app}\\msys64\\mingw64\\bin\\webots.exe; Description: \"Launch Webots\"; Flags: nowait "
                   "postinstall skipifsilent\n");
       // we launch the bat file (and not the exe file) because the installer doesn't have yet the PATH set to msys64/usr/bin
       // for webots-bin.exe and hence webots cannot compile and fails to load correctly the libjpeg-8.dll library.
