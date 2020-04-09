@@ -624,7 +624,7 @@ $(OBJDIR)/%.moc.cpp: %.hpp
 
 $(LAUNCHER): launcher/launcher.c
 	@echo "# compiling webots.exe launcher"
-	@gcc -Wall $< -o $@
+	@gcc -Wall -mwindows $< -o $@
 
 webots.o:gui/webots.rc gui/webots.ico gui/manifest.xml
 	@echo "# compiling gui/"$@
