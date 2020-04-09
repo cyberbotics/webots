@@ -247,7 +247,7 @@ int main() {
 
   int a, b;
   for (a = 0; a < 25; ++a) {
-    for (b = 0; b < 33; ++a) {
+    for (b = 0; b < 33; ++b) {
       const double t = supervisor->getTime();
       // evaluate robot during 60 seconds (simulation time)
       while (supervisor->getTime() - t < 60.0) {
