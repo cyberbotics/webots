@@ -143,16 +143,14 @@ public class SupervisorController {
 %tab-end
 
 %tab "MATLAB"
-```matlab
-timestep = 32;
-
-robot_node = wb_supervisor_node_get_from_def("MY_ROBOT");
-trans_field = wb_supervisor_node_get_field(robot_node, "translation");
-
-while wb_robot_step(timestep) ~= -1
-  trans = wb_supervisor_field_get_sf_vec3f(trans_field);
-  fprintf('MY_ROBOT is at position: %g %g %g\n', trans[0], trans[1], trans[2]);
-  end
+```MATLAB
+TIME_STEP = 32;
+robot_node = wb_supervisor_node_get_from_def('MY_ROBOT');
+translation_field = wb_supervisor_node_get_field(robot_node, 'translation');
+while wb_robot_step(TIME_STEP) ~= -1
+  t = wb_supervisor_field_get_sf_vec3f(translation_field);
+  wb_console_print(sprintf('MY_ROBOT is at position: %g %g %g\n', t(1), t(2), t(3)), WB_STDOUT);
+end
 ```
 %tab-end
 %end
@@ -366,37 +364,30 @@ public class SupervisorExample {
 
 %tab "MATLAB"
 ```MATLAB
-timestep = 32;
-
-robot_node = wb_supervisor_node_get_from_def("MY_ROBOT");
-trans_field = wb_supervisor_node_get_field(robot_node, "translation");
-
+TIME_STEP = 32;
+robot_node = wb_supervisor_node_get_from_def('MY_ROBOT');
+trans_field = wb_supervisor_node_get_field(robot_node, 'translation');
 for a = 0:25
   for b = 0:33
     % evaluate robot during 60 seconds (simulation time)
-    for t = int(60 * timestep / 1000.0)
-
+    for t = 0:int64(TIME_STEP / 1000)
       % perform robot control according to a, b
       % (and possibly t) parameters.
-
-      if wb_robot_step(timestep) == -1
+      if wb_robot_step(TIME_STEP) == -1
         wb_robot_cleanup();
         quit(0);
       end
     end
-
     % compute travelled distance
     ret = wb_supervisor_field_get_sf_vec3f(trans_field);
-    dist = sqrt((ret[0] * ret[0]) + (ret[2] * ret[2]));
-    fprintf('a=%g b=%g dist=%g\n', a, b, dist);
-
+    dist = sqrt((ret(1) * ret(1)) + (ret(3) * ret(3)));
+    wb_console_print(sprintf('a=%g b=%g dist=%g\n', a, b, dist), WB_STDOUT);
     % reset robot position and physics
     INITIAL = [0, 0.5, 0];
     wb_supervisor_field_set_sf_vec3f(trans_field, INITIAL);
     wb_supervisor_node_reset_physics(robot_node);
   end
 end
-
 ```
 %tab-end
 %end
