@@ -193,7 +193,7 @@ double wb_distance_sensor_get_value(WbDeviceTag tag);
 %tab "C++"
 
 ```cpp
-#include "<webots/DistanceSensor.hpp>"
+#include <webots/DistanceSensor.hpp>
 
 namespace webots {
   class DistanceSensor : public Device {
@@ -301,7 +301,7 @@ double wb_distance_sensor_get_aperture(WbDeviceTag tag);
 %tab "C++"
 
 ```cpp
-#include "<webots/DistanceSensor.hpp>"
+#include <webots/DistanceSensor.hpp>
 
 namespace webots {
   class DistanceSensor : public Device {
@@ -404,7 +404,7 @@ WbDistanceSensorType wb_distance_sensor_get_type(WbDeviceTag tag);
 %tab "C++"
 
 ```cpp
-#include "<webots/DistanceSensor.hpp>"
+#include <webots/DistanceSensor.hpp>
 
 namespace webots {
   class DistanceSensor : public Device {
