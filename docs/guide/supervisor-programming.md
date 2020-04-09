@@ -61,7 +61,7 @@ int main() {
 
 using namespace webots;
 
-int main(int argc, char **argv) {
+int main() {
   Supervisor *supervisor = new Supervisor();
 
   // do this once only
@@ -95,8 +95,8 @@ trans_field = robot_node.getField("translation")
 
 while supervisor.step(TIME_STEP) != -1:
     # this is done repeatedly
-    values = translation_field.getSFVec3f()
-    print("MY_ROBOT is at position:", values[0], values[1], values[2])
+    values = trans_field.getSFVec3f()
+    print("MY_ROBOT is at position: %g %g %g" % (values[0], values[1], values[2]))
     pass
 ```
 %tab-end
@@ -117,12 +117,11 @@ public class SupervisorController {
 
     // do this once only
     final Node robot_node = supervisor.getFromDef("MY_ROBOT");
-    final Field trans_field = robot.getField("translation");
+    final Field trans_field = robot_node.getField("translation");
 
     while (supervisor.step(TIME_STEP) != -1) {
       // this is done repeatedly
       final double[] values = trans_field.getSFVec3f();
-      System.out.format("MY_ROBOT is at position: %.2f %.2f %.2f\n",
                         values[0], values[1], values[2]);
     }
   }
@@ -133,9 +132,11 @@ public class SupervisorController {
 %tab "MATLAB"
 ```MATLAB
 TIME_STEP = 32;
+% do this once only
 robot_node = wb_supervisor_node_get_from_def('MY_ROBOT');
 trans_field = wb_supervisor_node_get_field(robot_node, 'translation');
 while wb_robot_step(TIME_STEP) ~= -1
+  % this is done repeatedly
   values = wb_supervisor_field_get_sf_vec3f(trans_field);
   wb_console_print(sprintf('MY_ROBOT is at position: %g %g %g\n', values(1), values(2), values(3)), WB_STDOUT);
 end
@@ -223,6 +224,7 @@ int main() {
 
 %tab "C++"
 ```cpp
+#include <cmath>
 #include <webots/Supervisor.hpp>
 
 #define TIME_STEP 32
@@ -234,12 +236,12 @@ int cleanUp(Supervisor *supervisor) {
   return 0;
 }
 
-int main(int argc, char **argv) {
+int main() {
   Supervisor *supervisor = new Supervisor();
 
   // get handle to robot's translation field
   Node *robot_node = supervisor->getFromDef("MY_ROBOT");
-  Field *trans_field = robotNode->getField("translation");
+  Field *trans_field = robot_node->getField("translation");
 
   double a, b, t;
   for (a = 0.0; a < 5.0; a += 0.2) {
@@ -344,7 +346,7 @@ public class SupervisorController {
         // compute travelled distance
         double[] values = translation.getSFVec3f();
         double dist = Math.sqrt(values[0] * values[0] + values[2] * values[2]);
-        System.out.format("a=%.2f b=%.2f dist=%.6f\n", a, b, dist);
+        System.out.format("a=%g, b=%g -> dist=%g\n", a, b, dist);
 
         // reset robot position and physics
         double INITIAL[] = {0.0, 0.5, 0.0};
@@ -377,7 +379,7 @@ for a = 0:25
     % compute travelled distance
     values = wb_supervisor_field_get_sf_vec3f(trans_field);
     dist = sqrt((values(1) * values(1)) + (values(3) * values(3)));
-    wb_console_print(sprintf('a=%g b=%g dist=%g\n', a, b, dist), WB_STDOUT);
+    wb_console_print(sprintf('a=%g, b=%g -> dist=%g\n', a, b, dist), WB_STDOUT);
     % reset robot position and physics
     INITIAL = [0, 0.5, 0];
     wb_supervisor_field_set_sf_vec3f(trans_field, INITIAL);
