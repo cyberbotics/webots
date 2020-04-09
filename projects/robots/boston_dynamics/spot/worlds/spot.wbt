@@ -35,8 +35,8 @@ RectangleArena {
   }
 }
 Spot {
-  translation 0.2 1.773 0.44
-  rotation -0.1305259853353411 7.992159102076978e-18 -0.9914448886106773 3.14159
+  translation 0.189 1.783 0.399
+  rotation -0.1305 -0.0118 -0.9913 3.1384
 }
 PlasticCrate {
   translation -1.39798 0 0.278303

@@ -30,17 +30,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define LEDS_ON 1
-#define LEDS_OFF 0
+#define LED_OFF 0
+#define LED_GREEN 1
+#define LED_YELLOW 2
+#define LED_RED 3
+#define LEDS_STATE_RUN 2
+#define LEDS_STATE_RECOVER 1
+#define LEDS_STATE_SHUTDOWN 0
 #define DURATION 4  // Time in second to perform action
 #define GIVE_PAW true
 #define TIME_STEP (int)wb_robot_get_basic_time_step()  // From world file
-#define NUMBER_OF_LEDS 2
+#define NUMBER_OF_LEDS 8
 #define NUMBER_OF_JOINTS 12
 #define NUMBER_OF_CAMERAS 5
 
 static int old_key = -1;
-static bool demo = false;
+static bool demo = true;
 static bool leds_enabled = true;
 static bool cameras_enabled = false;
 static bool L_pressed = false;
@@ -71,7 +76,14 @@ static const char *camera_names[NUMBER_OF_CAMERAS] = {"left head camera",
                                                       "right flank camera",
                                                       "rear camera"};
 static WbDeviceTag leds[NUMBER_OF_LEDS];
-static const char *led_names[NUMBER_OF_LEDS] = {"left led", "right led"};
+static const char *led_names[NUMBER_OF_LEDS] = {"left top led",
+                                                "left middle up led",
+                                                "left middle down led",
+                                                "left bottom led",
+                                                "right top led",
+                                                "right middle up led",
+                                                "right middle down led",
+                                                "right bottom led"};
 
 void step() {
   if (wb_robot_step(TIME_STEP) == -1) {
@@ -85,6 +97,23 @@ static void passive_wait(double sec) {
   do {
     step();
   } while (start_time + sec > wb_robot_get_time());
+}
+
+static void led_status(int state) {
+  if (state == LEDS_STATE_RUN) {
+    for (int i = 0; i < NUMBER_OF_LEDS; i++)
+      wb_led_set(leds[i], LED_GREEN);
+  } else if (state == LEDS_STATE_RECOVER) {
+      for (int i = 0; i < NUMBER_OF_LEDS; i++) {
+        if (i == 0 || i == 4)
+          wb_led_set(leds[i], LED_YELLOW);
+        else
+          wb_led_set(leds[i], LED_RED);
+      }
+  } else { // LEDS_STATE_SHUTDOWN
+      for (int i = 0; i < NUMBER_OF_LEDS; i++)
+        wb_led_set(leds[i], LED_OFF);
+  }
 }
 
 // Movement decomposition
@@ -408,13 +437,11 @@ static void check_keyboard() {
   if (L_pressed != old_L_pressed) {
     old_L_pressed = L_pressed;
     if (leds_enabled) {  // Switch off
-      for (int i = 0; i < NUMBER_OF_LEDS; i++)
-        wb_led_set(leds[i], LEDS_OFF);
+      led_status(LEDS_STATE_SHUTDOWN);
       leds_enabled = false;
       printf("LEDs OFF\n");
     } else {
-      for (int i = 0; i < NUMBER_OF_LEDS; i++)
-        wb_led_set(leds[i], LEDS_ON);
+      led_status(LEDS_STATE_RUN);
       leds_enabled = true;
       printf("LEDs ON\n");
     }
@@ -424,7 +451,14 @@ static void check_keyboard() {
 
 // Demonstration
 static void run_demo() {
+  passive_wait(1);
+  printf("Spot activation... \n");
+  led_status(LEDS_STATE_RUN);
+  passive_wait(1);
+  printf("Spot is running... \n");
+  printf("\n");
   printf("The demonstration will start in...\n");
+  led_status(LEDS_STATE_RECOVER);
   printf("3 \n");
   passive_wait(1);
   printf("2 \n");
@@ -435,6 +469,7 @@ static void run_demo() {
 
   printf("Demonstration started !\n");
   recover();
+  led_status(LEDS_STATE_RUN);
   lie_down();
   stand_up();
   sit_down(GIVE_PAW);
@@ -490,10 +525,8 @@ int main(int argc, char **argv) {
     cameras[i] = wb_robot_get_device(camera_names[i]);
 
   // Get the LEDs and enable them
-  for (int i = 0; i < NUMBER_OF_LEDS; i++) {
+  for (int i = 0; i < NUMBER_OF_LEDS; i++)
     leds[i] = wb_robot_get_device(led_names[i]);
-    wb_led_set(leds[i], LEDS_ON);
-  }
 
   // Get the motors (joints) and set initial target position to 0
   for (int i = 0; i < NUMBER_OF_JOINTS; i++) {
