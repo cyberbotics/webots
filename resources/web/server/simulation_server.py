@@ -608,7 +608,7 @@ def main():
     if sys.platform == 'darwin':
         config['webots'] += '/Contents/MacOS/webots'
     elif sys.platform == 'win32':
-        config['webots'] += '/msys64/mingw64/bin/webots.bat'
+        config['webots'] += '/msys64/mingw64/bin/webots.exe'
     else:  # linux
         config['webots'] += '/webots'
     if 'projectsDir' not in config:
