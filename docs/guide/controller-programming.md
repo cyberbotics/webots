@@ -760,6 +760,8 @@ Robot {
 
 And if the controller's name is *"demo"*, then this sample controller code:
 
+%tab-component "language"
+%tab "C"
 ```c
 #include <webots/robot.h>
 #include <stdio.h>
@@ -772,10 +774,67 @@ int main(int argc, const char *argv[]) {
     printf("argv[%i]=%s\n", i, argv[i]);
 
   wb_robot_cleanup();
-
   return 0;
 }
 ```
+%tab-end
+
+%tab "C++"
+```cpp
+#include <webots/Robot.hpp>
+#include <iostream>
+
+using namespace webots;
+
+int main(int argc, const char *argv[]) {
+
+  Robot *robot = new Robot();
+
+  int i;
+  for (i = 0; i < argc; i++)
+    std::cout << "argv[" << i << "]=" << argv[i] << std::endl;
+
+  delete robot;
+  return 0;
+}
+```
+%tab-end
+
+%tab "Python"
+```python
+from controller import Robot
+import sys
+
+robot = Robot()
+
+for i in range(0, len(sys.argv)):
+    print("argv[%i]=%s" % (i, sys.argv[i]))
+```
+%tab-end
+
+%tab "Java"
+```java
+import com.cyberbotics.webots.controller.Robot;
+
+public class Arguments {
+
+  public static void main(String[] args) {
+
+    final Robot robot = new Robot();
+
+    for(int i=0; i < args.length ; i++)
+      System.out.format("argv[%d]=%s\n",i, args[i]);
+  }
+}
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+
+```
+%tab-end
+%end
 
 This will print:
 
@@ -817,7 +876,6 @@ int main() {
   saveExperimentData();
 
   wb_robot_cleanup();
-
   return 0;
 }
 ```
