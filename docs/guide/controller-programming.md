@@ -119,7 +119,7 @@ The next example does continuously update and print the value returned by a [Dis
 int main() {
   wb_robot_init();
 
-  WbDeviceTag ds = wb_robot_get_device("my_distance_sensor");
+  WbDeviceTag sensor = wb_robot_get_device("my_distance_sensor");
   wb_distance_sensor_enable(ds, 32);
 
   while (wb_robot_step(32) != -1) {
