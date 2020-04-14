@@ -233,7 +233,7 @@ int main() {
 
 using namespace webots;
 
-int cleanUp(Supervisor *supervisor) {
+static int cleanUp(Supervisor *supervisor) {
   delete supervisor;
   return 0;
 }
