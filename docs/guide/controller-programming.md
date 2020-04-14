@@ -123,7 +123,7 @@ int main() {
   wb_distance_sensor_enable(ds, 32);
 
   while (wb_robot_step(32) != -1) {
-    double dist = wb_distance_sensor_get_value(ds);
+    const double value = wb_distance_sensor_get_value(ds);
     printf("Sensor value is %f\n", dist);
   }
 
