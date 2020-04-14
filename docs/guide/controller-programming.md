@@ -554,8 +554,8 @@ int main() {
   wb_distance_sensor_enable(left_sensor, TIME_STEP);
   wb_distance_sensor_enable(right_sensor, TIME_STEP);
 
-  WbDeviceTag left_motor = wb_robot_get_device("left wheel motor");
-  WbDeviceTag right_motor = wb_robot_get_device("right wheel motor");
+  WbDeviceTag left_motor = wb_robot_get_device("left_motor");
+  WbDeviceTag right_motor = wb_robot_get_device("right_motor");
   wb_motor_set_position(left_motor, INFINITY);
   wb_motor_set_position(right_motor, INFINITY);
   wb_motor_set_velocity(left_motor, 0.0);
