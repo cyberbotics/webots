@@ -45,7 +45,7 @@
 #define NUMBER_OF_CAMERAS 5
 
 static int old_key = -1;
-static bool demo = false;
+static bool demo = true;
 static bool leds_enabled = true;
 static bool cameras_enabled = false;
 static bool L_pressed = false;
@@ -274,113 +274,85 @@ static void recover() {
 
 static void go_forward() {
 
-  const double motors_target_pos_1[NUMBER_OF_JOINTS] = { 0.00, -0.14,  0.41,  // Front left leg
-                                                         0.00, -0.71,  0.35,  // Front right leg
-                                                         0.00, -0.75,  0.33,  // Rear left leg
-                                                         0.00, -0.07,  0.43}; // Rear right leg
+  const double motors_target_pos_1[NUMBER_OF_JOINTS] = {0.00, -0.14, 0.41,  // Front left leg
+                                                        0.00, -0.71, 0.35,  // Front right leg
+                                                        0.00, -0.75, 0.33,  // Rear left leg
+                                                        0.00, -0.07, 0.43}; // Rear right leg
 
-  const double motors_target_pos_2[NUMBER_OF_JOINTS] = { 0.00, -0.31,  0.39,  // Front left leg
-                                                         0.00, -0.85,  0.70,  // Front right leg
-                                                         0.00, -0.88,  0.72,  // Rear left leg
-                                                         0.00, -0.24,  0.43}; // Rear right leg
+  const double motors_target_pos_2[NUMBER_OF_JOINTS] = {0.00, -0.31, 0.39,  // Front left leg
+                                                        0.00, -0.85, 0.70,  // Front right leg
+                                                        0.00, -0.88, 0.72,  // Rear left leg
+                                                        0.00, -0.24, 0.41}; // Rear right leg
 
-  const double motors_target_pos_3[NUMBER_OF_JOINTS] = { 0.00, -0.31,  0.35 ,  // Front left leg
-                                                        -0.00, -0.61,  0.88,  // Front right leg
-                                                         0.00, -0.68,  0.72,  // Rear left leg
-                                                        -0.00, -0.34,  0.43}; // Rear right leg
+  const double motors_target_pos_3[NUMBER_OF_JOINTS] = {0.00, -0.31, 0.36,  // Front left leg
+                                                        0.00, -0.61, 0.88,  // Front right leg
+                                                        0.00, -0.68, 0.72,  // Rear left leg
+                                                        0.00, -0.34, 0.42}; // Rear right leg
 
-  const double motors_target_pos_4[NUMBER_OF_JOINTS] = { 0.00, -0.51,  0.27,  // Front left leg
-                                                        -0.00, -0.17,  0.76,  // Front right leg
-                                                         0.00, -0.24,  0.72,  // Rear left leg
-                                                         0.00, -0.44,  0.37}; // Rear right leg
+  const double motors_target_pos_4[NUMBER_OF_JOINTS] = {0.00, -0.51, 0.31,  // Front left leg
+                                                        0.00, -0.17, 0.76,  // Front right leg
+                                                        0.00, -0.24, 0.72,  // Rear left leg
+                                                        0.00, -0.44, 0.37}; // Rear right leg
 
-  const double motors_target_pos_5[NUMBER_OF_JOINTS] = { 0.00, -0.51,  0.43,  // Front left leg
-                                                         0.00, -0.10,  0.45,  // Front right leg
-                                                         0.00, -0.17,  0.42,  // Rear left leg
-                                                         0.00, -0.51,  0.35}; // Rear right leg
+  const double motors_target_pos_5[NUMBER_OF_JOINTS] = {0.00, -0.71, 0.50,  // Front left leg
+                                                        0.00, -0.14, 0.41,  // Front right leg
+                                                        0.00, -0.07, 0.43,  // Rear left leg
+                                                        0.00, -0.75, 0.33}; // Rear right leg
 
-  const double motors_target_pos_56[NUMBER_OF_JOINTS] = { 0.00, -0.56,  0.37,  // Front left leg
-                                                          0.00, -0.10,  0.44,  // Front right leg
-                                                          0.00, -0.10,  0.44,  // Rear left leg
-                                                          0.00, -0.56,  0.37}; // Rear right leg
+  const double motors_target_pos_6[NUMBER_OF_JOINTS] = {0.00, -0.85, 0.70,  // Front left leg
+                                                        0.00, -0.31, 0.38,  // Front right leg
+                                                        0.00, -0.24, 0.41,  // Rear left leg
+                                                        0.00, -0.88, 0.72}; // Rear right leg
 
-  const double motors_target_pos_6[NUMBER_OF_JOINTS] = { 0.00, -0.55,  0.55,  // Front left leg
-                                                         0.00, -0.10,  0.37,  // Front right leg
-                                                         0.00, -0.30,  0.45,  // Rear left leg
-                                                         0.00, -0.65,  0.35}; // Rear right leg
+  const double motors_target_pos_7[NUMBER_OF_JOINTS] = {0.00, -0.61, 0.88,  // Front left leg
+                                                        0.00, -0.31, 0.36,  // Front right leg
+                                                        0.00, -0.34, 0.42,  // Rear left leg
+                                                        0.00, -0.68, 0.72}; // Rear right leg
 
-  const double motors_target_pos_7[NUMBER_OF_JOINTS] = { 0.00, -0.78,  0.55,  // Front left leg
-                                                         0.00, -0.20,  0.20,  // Front right leg
-                                                         0.00, -0.20,  0.55,  // Rear left leg
-                                                         0.00, -0.78,  0.35}; // Rear right leg
+  const double motors_target_pos_8[NUMBER_OF_JOINTS] = {0.00, -0.17, 0.76,  // Front left leg
+                                                        0.00, -0.51, 0.31,  // Front right leg
+                                                        0.00, -0.44, 0.37,  // Rear left leg
+                                                        0.00, -0.24, 0.72}; // Rear right leg
 
-  const double motors_target_pos_8[NUMBER_OF_JOINTS] = { 0.00, -0.78,  0.94,  // Front left leg
-                                                         0.00, -0.34,  0.31,  // Front right leg
-                                                         0.00, -0.44,  0.55,  // Rear left leg
-                                                         0.00, -0.65,  0.76}; // Rear right leg
+  const double motors_target_pos_9[NUMBER_OF_JOINTS] = {0.00, -0.14, 0.41,  // Front left leg
+                                                        0.00, -0.71, 0.35,  // Front right leg
+                                                        0.00, -0.75, 0.33,  // Rear left leg
+                                                        0.00, -0.07, 0.50}; // Rear right leg
 
-  const double motors_target_pos_9[NUMBER_OF_JOINTS] = { 0.00, -0.51,  0.94,  // Front left leg
-                                                         0.00, -0.48,  0.31,  // Front right leg
-                                                         0.00, -0.51,  0.65,  // Rear left leg
-                                                         0.00, -0.31,  0.60}; // Rear right leg
+  const double motors_target_pos_10[NUMBER_OF_JOINTS] = {0.00, -0.31, 0.30,  // Front left leg
+                                                         0.00, -0.85, 0.70,  // Front right leg
+                                                         0.00, -0.88, 0.72,  // Rear left leg
+                                                         0.00, -0.24, 0.54}; // Rear right leg
 
-  const double motors_target_pos_10[NUMBER_OF_JOINTS] = {0.00, -0.17,  0.94,  // Front left leg
-                                                         0.00, -0.61,  0.31,  // Front right leg
-                                                         0.00, -0.61,  0.75,  // Rear left leg
-                                                         0.00, -0.07,  0.70}; // Rear right leg
+  const double motors_target_pos_11[NUMBER_OF_JOINTS] = {0.00, -0.31, 0.30,  // Front left leg
+                                                         0.00, -0.61, 0.88,  // Front right leg
+                                                         0.00, -0.68, 0.62,  // Rear left leg
+                                                         0.00, -0.38, 0.52}; // Rear right leg
 
-  const double motors_target_pos_11[NUMBER_OF_JOINTS] = { 0.00, -0.17,  0.45,  // Front left leg
-                                                          0.00, -0.65,  0.33,  // Front right leg
-                                                          0.00, -0.65,  0.39,  // Rear left leg
-                                                          0.00, -0.07,  0.47}; // Rear right leg
+  const double motors_target_pos_12[NUMBER_OF_JOINTS] = {0.00, -0.51, 0.20,  // Front left leg
+                                                         0.00, -0.17, 0.76,  // Front right leg
+                                                         0.00, -0.24, 0.72,  // Rear left leg
+                                                         0.00, -0.44, 0.52}; // Rear right leg
 
-  const double motors_target_pos_12[NUMBER_OF_JOINTS] = { 0.00, -0.14,  0.41,  // Front left leg
-                                                         0.00, -0.71,  0.35,  // Front right leg
-                                                         0.00, -0.75,  0.33,  // Rear left leg
-                                                         0.00, -0.07,  0.43}; // Rear right leg
+  const double motors_target_pos_13[NUMBER_OF_JOINTS] = {0.00, -0.71, 0.50,  // Front left leg
+                                                         0.00, -0.14, 0.41,  // Front right leg
+                                                         0.00, -0.07, 0.43,  // Rear left leg
+                                                         0.00, -0.75, 0.64}; // Rear right leg
 
-/* FIRST ATTEMPTION
-  const double motors_target_pos_1[NUMBER_OF_JOINTS] = { 0.00,  0.00, 0.45,  // Front left leg
-                                                        -0.20, -0.80, 0.50,  // Front right leg
-                                                         0.20, -0.80, 0.50,  // Rear left leg
-                                                         0.00,  0.00, 0.45}; // Rear right leg
-  const double motors_target_pos_2[NUMBER_OF_JOINTS] = { 0.00, -0.20, 0.45,  // Front left leg
-                                                        -0.20, -0.90, 0.90,  // Front right leg
-                                                         0.20, -0.90, 0.90,  // Rear left leg
-                                                         0.00, -0.20, 0.45}; // Rear right leg
-  const double motors_target_pos_3[NUMBER_OF_JOINTS] = { 0.20,  0.30, 0.37,  // Front left leg
-                                                        -0.20, -0.50, 0.90,  // Front right leg
-                                                         0.20, -0.50, 0.90,  // Rear left leg
-                                                        -0.20,  0.30, 0.37}; // Rear right leg
-  const double motors_target_pos_4[NUMBER_OF_JOINTS] = { 0.20,  0.40, 0.37,  // Front left leg
-                                                        -0.20, -0.20, 0.90,  // Front right leg
-                                                         0.20, -0.20, 0.90,  // Rear left leg
-                                                        -0.20,  0.40, 0.37}; // Rear right leg
-  const double motors_target_pos_5[NUMBER_OF_JOINTS] = { 0.20, -0.50, 0.37,  // Front left leg
-                                                         0.00,  0.10, 0.40, // Front right leg
-                                                         0.00,  0.10, 0.40,  // Rear left leg
-                                                        -0.20, -0.50, 0.37}; // Rear right leg
-  const double motors_target_pos_6[NUMBER_OF_JOINTS] = { 0.20, -0.70, 0.37,  // Front left leg
-                                                         0.00,  0.05, 0.40,  // Front right leg
-                                                         0.00,  0.05, 0.40,  // Rear left leg
-                                                        -0.20, -0.70, 0.37}; // Rear right leg
-  const double motors_target_pos_7[NUMBER_OF_JOINTS] = { 0.20, -0.90, 0.64,  // Front left leg
-                                                        -0.20,  0.00, 0.27,  // Front right leg
-                                                         0.20,  0.00, 0.27,  // Rear left leg
-                                                        -0.20, -0.90, 0.64}; // Rear right leg
-  const double motors_target_pos_8[NUMBER_OF_JOINTS] = { 0.25,  0.50, 0.95,  // Front left leg
-                                                        -0.20, -0.30, 0.25,  // Front right leg
-                                                         0.20, -0.30, 0.25,  // Rear left leg
-                                                        -0.25,  0.50, 0.95}; // Rear right leg
-  const double motors_target_pos_9[NUMBER_OF_JOINTS] = { 0.25, -0.30, 0.95,  // Front left leg
-                                                        -0.25, -0.40, 0.20,  // Front right leg
-                                                         0.25, -0.40, 0.20,  // Rear left leg
-                                                        -0.25, -0.30, 0.95}; // Rear right leg
-  const double motors_target_pos_10[NUMBER_OF_JOINTS] = { 0.1, -0.05, 0.65,  // Front left leg
-                                                         -0.2, -0.60, 0.30,  // Front right leg
-                                                          0.2, -0.60, 0.30,  // Rear left leg
-                                                         -0.1, -0.05, 0.65}; // Rear right leg
-*/
+  const double motors_target_pos_14[NUMBER_OF_JOINTS] = {0.00, -0.85, 0.70,  // Front left leg
+                                                         0.00, -0.31, 0.38,  // Front right leg
+                                                         0.00, -0.24, 0.41,  // Rear left leg
+                                                         0.00, -0.88, 0.72}; // Rear right leg
+
+  const double motors_target_pos_15[NUMBER_OF_JOINTS] = {0.00, -0.61, 0.88,  // Front left leg
+                                                         0.00, -0.31, 0.36,  // Front right leg
+                                                         0.00, -0.34, 0.42,  // Rear left leg
+                                                         0.00, -0.68, 0.72}; // Rear right leg
+
+  const double motors_target_pos_16[NUMBER_OF_JOINTS] = {0.00, -0.17, 0.76,  // Front left leg
+                                                         0.00, -0.51, 0.31,  // Front right leg
+                                                         0.00, -0.44, 0.37,  // Rear left leg
+                                                         0.00, -0.24, 0.72}; // Rear right leg
   movement_decomposition(motors_target_pos_1, 1);
   printf("Move 1\n");
   movement_decomposition(motors_target_pos_2, 1);
@@ -391,8 +363,6 @@ static void go_forward() {
   printf("Move 4\n");
   movement_decomposition(motors_target_pos_5, 1);
   printf("Move 5\n");
-  //movement_decomposition(motors_target_pos_56, 1);
-  //printf("Move 56\n");
   movement_decomposition(motors_target_pos_6, 1);
   printf("Move 6\n");
   movement_decomposition(motors_target_pos_7, 1);
@@ -403,8 +373,18 @@ static void go_forward() {
   printf("Move 9\n");
   movement_decomposition(motors_target_pos_10, 1);
   printf("Move 10\n");
-  //movement_decomposition(motors_target_pos_11, 1);
-  //printf("Move 11\n");
+  movement_decomposition(motors_target_pos_11, 1);
+  printf("Move 11\n");
+  movement_decomposition(motors_target_pos_12, 1);
+  printf("Move 12\n");
+  movement_decomposition(motors_target_pos_13, 1);
+  printf("Move 13\n");
+  movement_decomposition(motors_target_pos_14, 1);
+  printf("Move 14\n");
+  movement_decomposition(motors_target_pos_15, 1);
+  printf("Move 15\n");
+  movement_decomposition(motors_target_pos_16, 1);
+  printf("Move 16\n");
 }
 
 static void check_keyboard() {
