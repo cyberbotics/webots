@@ -180,7 +180,7 @@ To move the robot we need the `wb_supervisor_*` functions and hence the `supervi
 
 #define TIME_STEP 32
 
-int my_exit(void) {
+static int my_exit(void) {
   wb_robot_cleanup();
   return 0;
 }
