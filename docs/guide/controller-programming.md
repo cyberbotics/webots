@@ -120,11 +120,11 @@ int main() {
   wb_robot_init();
 
   WbDeviceTag sensor = wb_robot_get_device("my_distance_sensor");
-  wb_distance_sensor_enable(ds, 32);
+  wb_distance_sensor_enable(sensor, 32);
 
   while (wb_robot_step(32) != -1) {
-    const double value = wb_distance_sensor_get_value(ds);
-    printf("Sensor value is %f\n", dist);
+    const double value = wb_distance_sensor_get_value(sensor);
+    printf("Sensor value is %f\n", value);
   }
 
   wb_robot_cleanup();
@@ -200,11 +200,11 @@ public class ReadingSensor {
 %tab "MATLAB"
 ```MATLAB
 sensor = wb_robot_get_device('my_distance_sensor');
-wb_distance_sensor_enable(ds, 32);
+wb_distance_sensor_enable(sensor, 32);
 
 while wb_robot_step(32) ~= -1
-  value = wb_distance_sensor_get_value(ds);
-  wb_console_print(sprintf('Sensor value is %f\n', dist), WB_STDOUT);
+  value = wb_distance_sensor_get_value(sensor);
+  wb_console_print(sprintf('Sensor value is %f\n', value), WB_STDOUT);
 end
 ```
 %tab-end
@@ -371,7 +371,6 @@ while robot.step(TIME_STEP) != -1:
     pos = sin(t * 2.0 * pi * F)
     motor.setPosition(pos)
     t += TIME_STEP / 1000.0
-    pass
 ```
 %tab-end
 
@@ -394,9 +393,9 @@ public class Actuators {
     double t = 0.0;   // elapsed simulation time
 
     while (robot.step(TIME_STEP) != -1) {
-    double pos = Math.sin(t * 2.0 * Math.PI * F);
-    motor.setPosition(pos);
-    t += (double)TIME_STEP / 1000.0;
+      double pos = Math.sin(t * 2.0 * Math.PI * F);
+      motor.setPosition(pos);
+      t += (double)TIME_STEP / 1000.0;
     }
   }
 }
@@ -406,13 +405,13 @@ public class Actuators {
 %tab "MATLAB"
 ```MATLAB
 TIME_STEP = 32;
-motor = wb_robot_get_device("my_motor");
+motor = wb_robot_get_device('my_motor');
 double F = 2.0;   % frequency 2 Hz
 double t = 0.0;   % elapsed simulation time
 while wb_robot_step(TIME_STEP) ~= -1
   pos = sin(t * 2.0 * pi * F);
   wb_motor_set_position(motor, pos);
-    t += TIME_STEP / 1000.0;
+  t += TIME_STEP / 1000.0;
 end
 ```
 %tab-end
@@ -712,12 +711,12 @@ public class ActuSensorJava {
 ```MATLAB
 TIME_STEP = 32;
 left_sensor = wb_robot_get_device('left_sensor');
-right_sensor = wb_robot_get_device("right_sensor");
+right_sensor = wb_robot_get_device('right_sensor');
 wb_distance_sensor_enable(left_sensor, TIME_STEP);
 wb_distance_sensor_enable(right_sensor, TIME_STEP);
 
-wb_robot_get_device("left_motor");
-wb_robot_get_device("right_motor");
+wb_robot_get_device('left_motor');
+wb_robot_get_device('right_motor');
 wb_motor_set_position(left_motor, INFINITY);
 wb_motor_set_position(right_motor, INFINITY);
 wb_motor_set_velocity(left_motor, 0.0);
@@ -745,6 +744,7 @@ end
 In the ".wbt" file, it is possible to specify arguments that are passed to a controller when it starts.
 They are specified in the `controllerArgs` field of the [Robot](../reference/robot.md) node, and they are passed as parameters of the `main` function.
 For example, this can be used to specify parameters that vary for each robot's controller.
+Note that using MATLAB, the controller arguments retrieval is not supported.
 
 For example if we have:
 
@@ -855,12 +855,12 @@ Here is an example that shows how to save data before the upcoming termination:
 int main() {
   wb_robot_init();
 
-  WbDeviceTag ds = wb_robot_get_device("my_distance_sensor");
-  wb_distance_sensor_enable(ds, TIME_STEP);
+  WbDeviceTag sensor = wb_robot_get_device("my_distance_sensor");
+  wb_distance_sensor_enable(sensor, TIME_STEP);
 
   while (wb_robot_step(TIME_STEP) != -1) {
-    double dist = wb_distance_sensor_get_value();
-    printf("sensor value is %f\n", dist);
+    const double value = wb_distance_sensor_get_value();
+    printf("sensor value is %f\n", value);
   }
 
   // Webots triggered termination detected!
