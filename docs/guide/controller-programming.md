@@ -828,12 +828,6 @@ public class Arguments {
 }
 ```
 %tab-end
-
-%tab "MATLAB"
-```MATLAB
-
-```
-%tab-end
 %end
 
 This will print:
