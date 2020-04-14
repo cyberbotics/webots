@@ -537,6 +537,8 @@ Here is a complete example of using sensors and actuators together.
 The robot used here is using differential steering.
 It uses two proximity sensors ([DistanceSensor](../reference/distancesensor.md)) to detect obstacles.
 
+%tab-component "language"
+%tab "C"
 ```c
 #include <webots/robot.h>
 #include <webots/motor.h>
@@ -575,10 +577,170 @@ int main() {
   }
 
   wb_robot_cleanup();
-
   return 0;
 }
 ```
+%tab-end
+
+%tab "C++"
+```cpp
+#include <webots/Robot.hpp>
+#include <webots/Motor.hpp>
+#include <webots/DistanceSensor.hpp>
+#include <iostream>
+#include <cmath>
+
+#define TIME_STEP 32
+
+using namespace webots;
+
+int main() {
+  Robot *robot = new Robot();
+
+  DistanceSensor *left_sensor = robot->getDistanceSensor("left_sensor");
+  DistanceSensor *right_sensor = robot->getDistanceSensor("right_sensor");
+  left_sensor->enable(TIME_STEP);
+  right_sensor->enable(TIME_STEP);
+
+  Motor *left_motor = robot->getMotor("left_motor");
+  Motor *right_motor = robot->getMotor("right_motor");
+  left_motor->setPosition(INFINITY);
+  right_motor->setPosition(INFINITY);
+  left_motor->setVelocity(0.0);
+  right_motor->setVelocity(0.0);
+
+  while (robot->step(TIME_STEP) != -1) {
+
+    // read sensors
+    double left_dist = left_sensor->getValue();
+    double right_dist = right_sensor->getValue();
+
+    // compute behavior
+    double left = compute_left_speed(left_dist, right_dist);
+    double right = compute_right_speed(left_dist, right_dist);
+
+    // actuate wheel motors
+    left_motor->setVelocity(left);
+    right_motor->setVelocity(right);
+  }
+
+  delete robot;
+  return 0;
+}
+```
+%tab-end
+
+%tab "Python"
+```python
+from controller import Robot, Motor, DistanceSensor
+
+TIME_STEP = 32
+
+robot = Robot()
+
+left_sensor = robot.getDistanceSensor("left_sensor")
+right_sensor = robot.getDistanceSensor("right_sensor")
+left_sensor.enable(TIME_STEP)
+right_sensor.enable(TIME_STEP)
+
+left_motor = robot.getMotor("left_motor")
+right_motor = robot.getMotor("right_motor")
+left_motor.setPosition(float('inf'))
+right_motor.setPosition(float('inf'))
+left_motor.setVelocity(0.0)
+right_motor.setVelocity(0.0)
+
+while robot.step(TIME_STEP) != -1:
+
+    # read sensors
+    left_dist = left_sensor.getValue()
+    right_dist = right_sensor.getValue()
+
+    # compute behavior
+    left = compute_left_speed(left_dist, right_dist)
+    right = compute_right_speed(left_dist, right_dist)
+
+    # actuate wheel motors
+    left_motor.setVelocity(left)
+    right_motor.setVelocity(right)
+```
+%tab-end
+
+%tab "Java"
+```java
+import com.cyberbotics.webots.controller.DistanceSensor;
+import com.cyberbotics.webots.controller.Motor;
+import com.cyberbotics.webots.controller.Robot;
+
+public class ActuSensorJava {
+
+  public static void main(String[] args) {
+
+    final int TIME_STEP = 32;
+
+    Robot robot = new Robot();
+
+    DistanceSensor left_sensor = robot.getDistanceSensor("left_sensor");
+    DistanceSensor right_sensor = robot.getDistanceSensor("right_sensor");
+    left_sensor.enable(TIME_STEP);
+    right_sensor.enable(TIME_STEP);
+
+    Motor left_motor = robot.getMotor("left_motor");
+    Motor right_motor = robot.getMotor("right_motor");
+    left_motor.setPosition(Double.POSITIVE_INFINITY);
+    right_motor.setPosition(Double.POSITIVE_INFINITY);
+    left_motor.setVelocity(0.0);
+    right_motor.setVelocity(0.0);
+
+    while (robot.step(TIME_STEP) != -1) {
+    // read sensors
+    left_dist = left_sensor.getValue();
+    right_dist = right_sensor.getValue();
+
+    // compute behavior
+    left = compute_left_speed(left_dist, right_dist)
+    right = compute_right_speed(left_dist, right_dist)
+
+    // actuate wheel motors
+    left_motor.setVelocity(left);
+    right_motor.setVelocity(right);
+    }
+  }
+}
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+TIME_STEP = 32;
+left_sensor = wb_robot_get_device("left_sensor");
+right_sensor = wb_robot_get_device("right_sensor");
+wb_distance_sensor_enable(left_sensor, TIME_STEP);
+wb_distance_sensor_enable(right_sensor, TIME_STEP);
+
+wb_robot_get_device("left_motor");
+wb_robot_get_device("right_motor");
+wb_motor_set_position(left_motor, INFINITY);
+wb_motor_set_position(right_motor, INFINITY);
+wb_motor_set_velocity(left_motor, 0.0);
+wb_motor_set_velocity(right_motor, 0.0);
+
+while wb_robot_step(TIME_STEP) ~= -1
+  % read sensors
+  left_dist = wb_distance_sensor_get_value(left_sensor);
+  right_dist = wb_distance_sensor_get_value(right_sensor);
+
+  % compute behavior
+  left = compute_left_speed(left_dist, right_dist);
+  right = compute_right_speed(left_dist, right_dist);
+
+  % actuate wheel motors
+  wb_motor_set_velocity(left_motor, left);
+  wb_motor_set_velocity(right_motor, right);
+end
+```
+%tab-end
+%end
 
 ### Using Controller Arguments
 
