@@ -199,7 +199,7 @@ public class ReadingSensor {
 
 %tab "MATLAB"
 ```MATLAB
-ds = wb_robot_get_device("my_distance_sensor");
+sensor = wb_robot_get_device('my_distance_sensor');
 wb_distance_sensor_enable(ds, 32);
 
 while wb_robot_step(32) ~= -1
