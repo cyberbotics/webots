@@ -203,7 +203,7 @@ sensor = wb_robot_get_device('my_distance_sensor');
 wb_distance_sensor_enable(ds, 32);
 
 while wb_robot_step(32) ~= -1
-  dist = wb_distance_sensor_get_value(ds);
+  value = wb_distance_sensor_get_value(ds);
   wb_console_print(sprintf('Sensor value is %f\n', dist), WB_STDOUT);
 end
 ```
