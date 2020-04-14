@@ -711,7 +711,7 @@ public class ActuSensorJava {
 %tab "MATLAB"
 ```MATLAB
 TIME_STEP = 32;
-left_sensor = wb_robot_get_device("left_sensor");
+left_sensor = wb_robot_get_device('left_sensor');
 right_sensor = wb_robot_get_device("right_sensor");
 wb_distance_sensor_enable(left_sensor, TIME_STEP);
 wb_distance_sensor_enable(right_sensor, TIME_STEP);
