@@ -171,7 +171,6 @@ sensor.enable(32)
 while robot.step(32) != -1:
     value = sensor.getValue()
     print("Sensor value is: ", value)
-    pass
 ```
 %tab-end
 
