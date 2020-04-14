@@ -48,6 +48,7 @@ Released on XXX.
     - Fixed a crash occurring when changing the `textureAnimation` value of some `Track` node from the scene tree.
   - Documentation
     - Fixed tutorials 1, 4 and 6 with respect to MATLAB controllers and added sample MATLAB controllers.
+    - Translated most relevant examples from [Controller Programming](controller-programming.md) and [Supervisor Programming](supervisor-programming.md) to different languages.
 
 ## Webots R2020a Revision 1
 Released on January 14th, 2020.
