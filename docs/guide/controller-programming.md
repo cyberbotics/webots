@@ -10,8 +10,8 @@ So here is a "Hello World!" example for a Webots controller:
 %tab-component "language"
 %tab "C"
 ```c
-#include <stdio.h>
 #include <webots/robot.h>
+#include <stdio.h>
 
 int main() {
   wb_robot_init();
@@ -27,8 +27,8 @@ int main() {
 
 %tab "C++"
 ```cpp
-#include <iostream>
 #include <webots/Robot.hpp>
+#include <iostream>
 
 using namespace webots;
 
@@ -113,9 +113,9 @@ The next example does continuously update and print the value returned by a [Dis
 %tab-component "language"
 %tab "C"
 ```c
-#include <stdio.h>
 #include <webots/robot.h>
 #include <webots/distance_sensor.h>
+#include <stdio.h>
 
 int main() {
   wb_robot_init();
@@ -137,9 +137,9 @@ int main() {
 
 %tab "C++"
 ```cpp
-#include <iostream>
 #include <webots/Robot.hpp>
 #include <webots/DistanceSensor.hpp>
+#include <iostream>
 
 using namespace webots;
 
@@ -201,6 +201,13 @@ public class ReadingSensor {
 
 %tab "MATLAB"
 ```MATLAB
+ds = wb_robot_get_device("my_distance_sensor");
+wb_distance_sensor_enable(ds, 32);
+
+while wb_robot_step(32) ~= -1
+  dist = wb_distance_sensor_get_value(ds);
+  wb_console_print(sprintf('Sensor value is %f\n', dist), WB_STDOUT);
+end
 ```
 %tab-end
 %end
@@ -288,6 +295,8 @@ Note that the `wb_motor_set_position` function stores the new position, but it d
 The effective actuation starts on the next line, in the call to the `wb_robot_step` function.
 The `wb_robot_step` function sends the actuation command to the [RotationalMotor](../reference/rotationalmotor.md) but it does not wait for the [RotationalMotor](../reference/rotationalmotor.md) to complete the motion (i.e. reach the specified target position); it just simulates the motor's motion for the specified number of milliseconds.
 
+%tab-component "language"
+%tab "C"
 ```c
 #include <webots/robot.h>
 #include <webots/motor.h>
@@ -314,6 +323,103 @@ int main() {
   return 0;
 }
 ```
+%tab-end
+
+%tab "C++"
+```cpp
+#include <webots/Robot.hpp>
+#include <webots/Motor.hpp>
+#include <iostream>
+#include <cmath>
+
+#define TIME_STEP 32
+
+using namespace webots;
+
+int main() {
+
+  Robot *robot = new Robot();
+  Motor *motor = robot->getMotor("my_motor");
+
+  double F = 2.0;   // frequency 2 Hz
+  double t = 0.0;   // elapsed simulation time
+
+  while (robot->step(TIME_STEP) != -1) {
+    double pos = sin(t * 2.0 * M_PI * F);
+    motor->setPosition(pos);
+    t += (double)TIME_STEP / 1000.0;
+  }
+
+  delete robot;
+  return 0;
+}
+```
+%tab-end
+
+%tab "Python"
+```python
+from controller import Robot, Motor
+from math import pi, sin
+
+TIME_STEP = 32
+
+robot = Robot()
+motor = robot.getMotor("my_motor")
+
+F = 2.0   # frequency 2 Hz
+t = 0.0   # elapsed simulation time
+
+while robot.step(TIME_STEP) != -1:
+    pos = sin(t * 2.0 * pi * F)
+    motor.setPosition(pos)
+    t += TIME_STEP / 1000.0
+    pass
+```
+%tab-end
+
+%tab "Java"
+```java
+import com.cyberbotics.webots.controller.Robot;
+import com.cyberbotics.webots.controller.Motor;
+import java.lang.Math.*;
+
+public class Actuators {
+
+  public static void main(String[] args) {
+
+    final int TIME_STEP = 32;
+
+    final Robot robot = new Robot();
+    final Motor motor = robot.getMotor("my_motor");
+
+    double F = 2.0;   // frequency 2 Hz
+    double t = 0.0;   // elapsed simulation time
+
+    while (robot.step(TIME_STEP) != -1) {
+    double pos = Math.sin(t * 2.0 * Math.PI * F);
+    motor.setPosition(pos);
+    t += (double)TIME_STEP / 1000.0;
+    }
+  }
+}
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+TIME_STEP = 32;
+motor = wb_robot_get_device("my_motor");
+double F = 2.0;   % frequency 2 Hz
+double t = 0.0;   % elapsed simulation time
+while wb_robot_step(TIME_STEP) ~= -1
+  pos = sin(t * 2.0 * pi * F);
+  wb_motor_set_position(motor, pos);
+    t += TIME_STEP / 1000.0;
+end
+```
+%tab-end
+%end
+
 
 When the `wb_robot_step` function returns, the motor has moved by a certain (linear or rotational) amount which depends on the target position, the duration of the control step (specified with the `wb_robot_step` function argument), the velocity, acceleration, force, and other parameters specified in the ".wbt" description of the `Motor`.
 For example, if a very small control step or a low motor velocity is specified, the motor will not have moved much when the `wb_robot_step` function returns.
