@@ -326,7 +326,7 @@ public class SupervisorController {
 
   public static void main(String[] args) {
 
-    int TIME_STEP = 32;
+    final int TIME_STEP = 32;
     final Supervisor supervisor = new Supervisor();
 
     // get handle to robot's translation field
