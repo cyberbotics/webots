@@ -614,7 +614,7 @@ wb_robot_step(40);  // BAD: we don't test the return value of this function
 ```cpp
 my_leg->setPosition(0.34);  // BAD: ignored
 my_leg->setPosition(0.56);
-my_leg->step(40);  // BAD: we don't test the return value of this function
+robot->step(40);  // BAD: we don't test the return value of this function
 ```
 %tab-end
 
@@ -622,7 +622,7 @@ my_leg->step(40);  // BAD: we don't test the return value of this function
 ```python
 my_leg.setPosition(0.34) # BAD: ignored
 my_leg.setPosition(0.56)
-my_leg.step(40) # BAD: we don't test the return value of this function
+robot.step(40) # BAD: we don't test the return value of this function
 ```
 %tab-end
 
@@ -630,7 +630,7 @@ my_leg.step(40) # BAD: we don't test the return value of this function
 ```java
 my_leg.setPosition(0.34);  // BAD: ignored
 my_leg.setPosition(0.56);
-my_leg.step(40);  // BAD: we don't test the return value of this function
+robot.step(40);  // BAD: we don't test the return value of this function
 ```
 %tab-end
 
@@ -712,6 +712,57 @@ while (wb_robot_step(40) != -1) {
     break;
   double d2 = wb_distance_sensor_get_value(ds1);
   if (d2 > d1)
+    avoidCollision();
+}
+```
+%tab-end
+
+%tab "C++"
+```cpp
+while (robot->step(40) != -1) {
+  double d1 = robot->getDistanceSensor(ds1);
+  if (robot->step(40) == -1)
+    break;
+  double d2 = robot->getDistanceSensor(ds1);
+  if (d2 > d1)
+    avoidCollision();
+}
+```
+%tab-end
+
+%tab "Python"
+```python
+while robot.step(40) != -1:
+  d1 = robot.getDistanceSensor(ds1)
+  if robot.step(40):
+    break
+  d2 = robot.getDistanceSensor(ds1)
+  if d2 > d1:
+    avoidCollision()
+```
+%tab-end
+
+%tab "Java"
+```java
+while (robot.step(40) != -1) {
+  double d1 = robot.getDistanceSensor(ds1);
+  if (robot.step(40) == -1)
+    break;
+  double d2 = robot.getDistanceSensor(ds1);
+  if (d2 > d1)
+    avoidCollision();
+}
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+while wb_robot_step(40) ~= -1:
+  d1 = wb_distance_sensor_get_value(ds1);
+  if wb_robot_step(40) == -1
+    break
+  d2 = wb_distance_sensor_get_value(ds1);
+  if d2 > d1
     avoidCollision();
 }
 ```
