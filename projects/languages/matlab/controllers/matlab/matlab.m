@@ -63,7 +63,8 @@ wb_motor_set_velocity(right_motor, 0);
 step = 0;
 samples = 0;
 
-wb_console_print('Running Matlab sample Webots controller.', WB_STDOUT);
+wb_console_print('Hello!', WB_STDOUT);
+wb_console_print(strcat('Running', ANSI_RED_FOREGROUND, ' Matlab', ANSI_RESET, ' sample Webots controller.'), WB_STDOUT);
 
 while wb_robot_step(TIME_STEP) ~= -1
 

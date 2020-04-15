@@ -14,7 +14,7 @@ Floor {
   size 1 1
 }
 E-puck {
-  controller "e-puck_avoid_collision"
+  controller "epuck_avoid_collision"
 }
 DEF BALL Solid {
   translation 0 0.1 -0.2

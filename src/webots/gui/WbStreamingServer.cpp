@@ -168,22 +168,14 @@ void WbStreamingServer::create(int port) {
   connect(mTcpServer, &WbStreamingTcpServer::newConnection, this, &WbStreamingServer::onNewTcpConnection);
   connect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this,
           &WbStreamingServer::sendUpdatePackageToClients, Qt::UniqueConnection);
-  if (!mDisableTextStreams) {
-    connect(WbLog::instance(), &WbLog::controllerLogEmitted, this, &WbStreamingServer::propagateControllerLogToClients);
+  if (!mDisableTextStreams)
     connect(WbLog::instance(), &WbLog::logEmitted, this, &WbStreamingServer::propagateWebotsLogToClients);
-  }
 }
 
 void WbStreamingServer::destroy() {
-  // test that the animation recorder is instanciated.
-  // Otherwise, the instance() call can wrongly recreate an instance of the
-  // animation recorder in the cleanup routines.
-  // if (WbAnimationRecorder::isInstantiated()) { // TODO fix test
   disconnect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this,
              &WbStreamingServer::sendUpdatePackageToClients);
-  disconnect(WbLog::instance(), &WbLog::controllerLogEmitted, this, &WbStreamingServer::propagateControllerLogToClients);
   disconnect(WbLog::instance(), &WbLog::logEmitted, this, &WbStreamingServer::propagateWebotsLogToClients);
-  //}
 
   if (mWebSocketServer)
     mWebSocketServer->close();
@@ -459,8 +451,7 @@ void WbStreamingServer::sendActivityPulse() const {
   }
 }
 
-void WbStreamingServer::propagateControllerLogToClients(WbLog::Level level, const QString &message, const QString &prefix,
-                                                        bool popup) {
+void WbStreamingServer::propagateControllerLogToClients(WbLog::Level level, const QString &message, bool popup) {
   propagateLogToClients(level, message);
 }
 

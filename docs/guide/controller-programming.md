@@ -452,6 +452,75 @@ if (finished) {
 
 Note that the exit status as well as the value returned by the `main` function are ignored by Webots.
 
+### Console Output
+
+As mentioned earlier, printing to `stdout` or `stderr` from a controller will be redirected by default to the Webots console.
+Note however, that the Webots console doesn't support `stdin` input.
+Like most terminals, it supports a few basic [ANSI escape codes](https://en.wikipedia.org/wiki/ANSI_escape_code) for setting text styles and clearing the content of the console:
+  - 3-bit color (foreground and background)
+  - Bold style
+  - Underline style
+  - Clear screen (same as issuing `clear` command in your terminal)
+  - Reset (colors and styles)
+
+To demonstrate how to use those, there is an example world and a controller file respectively located in "[WEBOTS\_HOME/projects/samples/howto/worlds/console.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/worlds/console.wbt)" and "[WEBOTS\_HOME/projects/samples/howto/controllers/console/console.c](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/controllers/console/console.c)".
+
+The related C header is located at "[WEBOTS\_HOME/include/controller/c/webots/utils/ansi\_codes.h](https://github.com/cyberbotics/webots/tree/master/include/controller/c/webots/utils/ansi_codes.h)", it contains some useful macros on top of constants, to use it:
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/utils/ansi_codes.h>
+
+printf("This is %sred%s!\n", ANSI_RED_FOREGROUND, ANSI_RESET);
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <AnsiCodes.hpp>
+
+cout << "This is " << AnsiCodes::RED_FOREGROUND << "red" << AnsiCodes::RESET << "!" << endl;
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import AnsiCodes
+
+print("This is " + AnsiCodes.RED_FOREGROUND + "red" + AnsiCodes.RESET + "!")
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.AnsiCodes;
+
+System.out.println("This is " + AnsiCodes.RED_FOREGROUND + "red" + AnsiCodes.RESET + "!");
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+wb_console_print(strcat('This is', ANSI_RED_FOREGROUND, ' red', ANSI_RESET, '!'), WB_STDOUT);
+```
+
+%tab-end
+
+%end
+
+If the console output is altered because of a previous escape code use without reset, recompiling, cleaning or manually clearing the console will reset it.
+
 ### Shared Libraries
 
 Creating shared libraries can be very useful to share code between controllers and/or plugins.

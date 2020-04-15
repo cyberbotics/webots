@@ -44,13 +44,13 @@ def github_api(request):
     content = ''
     try:
         response = urlopen(req)
-        content = response.read()
+        content = response.read().decode()
     except HTTPError as e:
         print(request)
         print(e.reason)
         print(e.info())
     github_api.last_time = time.time()
-    return json.loads(content.decode())
+    return json.loads(content)
 
 
 if len(sys.argv) == 3:
