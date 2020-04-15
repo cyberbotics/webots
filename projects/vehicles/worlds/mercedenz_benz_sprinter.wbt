@@ -100,11 +100,14 @@ Car {
     name "rear left wheel"
   }
   engineType "electric"
+  brakeCoefficient 3500
   time0To100 24
-  engineMaxTorque 580
-  engineMaxPower 75000
+  engineMaxTorque 1200
+  engineMaxPower 150000
   engineMinRPM 1200
+  engineMaxRPM 4000
   gearRatio [
-    -1, 1
+    -2, 2
   ]
+  maxWheelVelocity 65.57
 }
