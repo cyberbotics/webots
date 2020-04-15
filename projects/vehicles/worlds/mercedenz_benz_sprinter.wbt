@@ -32,11 +32,10 @@ Car {
   model "Mercedes-Benz Sprinter"
   trackRear 1.5
   wheelbase 4.325
-  suspensionFrontSpringConstant 140000
+  suspensionFrontSpringConstant 200000
   suspensionFrontDampingConstant 6000
-  suspensionRearSpringConstant 140000
+  suspensionRearSpringConstant 750000
   suspensionRearDampingConstant 6000
-  wheelsDampingConstant 7
   maxSteeringTorque 15000
   extensionSlot [
     MercedesBenzSprinterMesh {
