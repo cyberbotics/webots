@@ -3,13 +3,13 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
-# Model of an EV-Start vehicle.
+# Model of an EV Start vehicle from GreenPower.
 
-PROTO EVStarVehicle [
+PROTO GreenPowerEVStar [
   field SFVec3f      translation              0 0.4445 0
   field SFRotation   rotation                 0 1 0 0
   field SFColor      color                    0.92 0.94 0.94
-  field SFString     name                     "EVStarVehicle"
+  field SFString     name                     "GreenPower EV Star"
   field SFString     controller               "void"
   field SFString     controllerArgs           ""
   field SFBool       supervisor               FALSE
@@ -29,7 +29,7 @@ PROTO EVStarVehicle [
     controllerArgs IS controllerArgs
     supervisor IS supervisor
     synchronization IS synchronization
-    model "EVStarVehicle"
+    model "GreenPower EV Star"
     trackRear 1.5
     wheelbase 4.325
     suspensionFrontSpringConstant 200000
@@ -91,16 +91,16 @@ PROTO EVStarVehicle [
     recognitionColors [
       0.986099 0 0.0271916
     ]
-    wheelFrontRight EVStarFrontWheel {
+    wheelFrontRight GreenPowerEVStarFrontWheel {
       name "front right wheel"
     }
-    wheelFrontLeft EVStarFrontWheel {
+    wheelFrontLeft GreenPowerEVStarFrontWheel {
       name "left right wheel"
     }
-    wheelRearRight EVStarRearWheel {
+    wheelRearRight GreenPowerEVStarRearWheel {
       name "rear right wheel"
     }
-    wheelRearLeft EVStarRearWheel {
+    wheelRearLeft GreenPowerEVStarRearWheel {
       name "rear left wheel"
     }
     engineType "electric"

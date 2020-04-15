@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 
-PROTO EVStarRearWheel [
+PROTO GreenPowerEVStarRearWheel [
   field  SFString  name        "rear wheel"
   field  SFFloat   tireRadius  0.4445
 ]
@@ -16,14 +16,14 @@ PROTO EVStarRearWheel [
           translation 0 0.1075 0
           rotation 0 0 1 3.141592653589793
           children [
-            EVStarWheelShape {
+            GreenPowerEVStarWheelShape {
             }
           ]
         }
         Transform {
           translation 0 -0.1075 0
           children [
-            EVStarWheelShape {
+            GreenPowerEVStarWheelShape {
             }
           ]
         }

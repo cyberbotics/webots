@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 
-PROTO EVStarFrontWheel [
+PROTO GreenPowerEVStarFrontWheel [
 field  SFString  name        "front wheel"
 field  SFFloat   tireRadius  0.4445
 ]
@@ -12,7 +12,7 @@ field  SFFloat   tireRadius  0.4445
     type "vehicle wheel"
     endPoint Solid {
       children [
-        EVStarWheelShape {
+        GreenPowerEVStarWheelShape {
         }
       ]
       name IS name
