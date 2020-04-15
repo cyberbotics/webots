@@ -1,0 +1,42 @@
+#VRML_SIM R2020a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+
+PROTO EVStarRearWheel [
+  field  SFString  name        "rear wheel"
+  field  SFFloat   tireRadius  0.4445
+]
+{
+  Slot {
+    type "vehicle wheel"
+    endPoint Solid {
+      children [
+        Transform {
+          translation 0 0.1075 0
+          rotation 0 0 1 3.141592653589793
+          children [
+            EVStarWheelShape {
+            }
+          ]
+        }
+        Transform {
+          translation 0 -0.1075 0
+          children [
+            EVStarWheelShape {
+            }
+          ]
+        }
+      ]
+      name IS name
+      boundingObject Cylinder {
+        height 0.43
+        radius IS tireRadius
+      }
+      physics Physics {
+        density -1
+        mass 20
+      }
+    }
+  }
+}

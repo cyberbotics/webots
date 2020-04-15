@@ -1,0 +1,29 @@
+#VRML_SIM R2020a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+
+PROTO EVStarFrontWheel [
+field  SFString  name        "front wheel"
+field  SFFloat   tireRadius  0.4445
+]
+{
+  Slot {
+    type "vehicle wheel"
+    endPoint Solid {
+      children [
+        EVStarWheelShape {
+        }
+      ]
+      name IS name
+      boundingObject Cylinder {
+        height 0.215
+        radius IS tireRadius
+      }
+      physics Physics {
+        density -1
+        mass 10
+      }
+    }
+  }
+}
