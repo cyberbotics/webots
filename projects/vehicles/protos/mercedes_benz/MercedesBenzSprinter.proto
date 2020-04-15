@@ -32,10 +32,10 @@ PROTO MercedesBenzSprinter [
     model "Mercedes-Benz Sprinter"
     wheelbase 4.325
     suspensionFrontSpringConstant 200000
-    suspensionFrontDampingConstant 6000
-    suspensionRearSpringConstant 750000
-    suspensionRearDampingConstant 6000
-    maxSteeringTorque 15000
+    suspensionFrontDampingConstant 5000
+    suspensionRearSpringConstant 600000
+    suspensionRearDampingConstant 5000
+    maxSteeringTorque 13000
     extensionSlot [
       MercedesBenzSprinterMesh {
         color IS color
@@ -83,25 +83,20 @@ PROTO MercedesBenzSprinter [
     }
     physics Physics {
       density -1
-      mass 6500
+      mass 4500
       centerOfMass [
         0 0 1.5
       ]
     }
     radarCrossSection 150
     recognitionColors [
-      0.98 0 0.1
+      %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
     ]
-    engineType "electric"
+    engineFunctionCoefficients 600 0.2 0
     brakeCoefficient 3500
-    time0To100 24
-    engineMaxTorque 1200
-    engineMaxPower 150000
-    engineMinRPM 1200
+    time0To100 14
+    engineMinRPM 800
     engineMaxRPM 4000
-    gearRatio [
-      -2, 2
-    ]
     maxWheelVelocity 65.57
   }
 }

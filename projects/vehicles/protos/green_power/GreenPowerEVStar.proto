@@ -89,7 +89,7 @@ PROTO GreenPowerEVStar [
     }
     radarCrossSection 150
     recognitionColors [
-      0.986099 0 0.0271916
+      %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
     ]
     wheelFrontRight GreenPowerEVStarFrontWheel {
       name "front right wheel"
