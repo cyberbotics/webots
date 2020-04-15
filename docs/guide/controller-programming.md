@@ -696,6 +696,8 @@ while wb_robot_step(TIME_STEP) ~= -1
   d2 = wb_distance_sensor_get_value(sensor);
   if d2 > d1 % WRONG: d2 will always equal d1 here
     avoidCollision();
+  end
+end
 ```
 %tab-end
 %end
@@ -764,7 +766,8 @@ while wb_robot_step(40) ~= -1
   d2 = wb_distance_sensor_get_value(sensor);
   if d2 > d1
     avoidCollision();
-}
+  end
+end
 ```
 %tab-end
 %end
@@ -812,6 +815,7 @@ while (robot.step(TIME_STEP) != -1) {
 while robot.step(TIME_STEP) != -1
   readSensors();
   actuateMotors();
+end
 ```
 %tab-end
 %end
@@ -1164,6 +1168,8 @@ The `wb_robot_step` function returns -1 when the controller process is going to 
 Then the controller has 1 second (real time) to save important data, close files, etc. before it is effectively killed by Webots.
 Here is an example that shows how to save data before the upcoming termination:
 
+%tab-component "language"
+%tab "C"
 ```c
 #include <webots/robot.h>
 #include <webots/distance_sensor.h>
@@ -1190,6 +1196,105 @@ int main() {
   return 0;
 }
 ```
+%tab-end
+
+%tab "C++"
+```cpp
+#include <webots/Robot.hpp>
+#include <webots/DistanceSensor.hpp>
+#include <iostream>
+
+#define TIME_STEP 32
+
+using namespace webots;
+
+int main() {
+  Robot *robot = new Robot();
+
+  DistanceSensor *sensor = robot->getDistanceSensor("my_distance_sensor");
+  sensor->enable(TIME_STEP);
+
+  while (robot->step(TIME_STEP) != -1) {
+    const double value = sensor->getValue();
+    std::cout << "Sensor value is: " << value << std::endl;
+  }
+
+  // Webots triggered termination detected!
+
+  saveExperimentData();
+
+  delete robot;
+  return 0;
+}
+```
+%tab-end
+
+%tab "Pyhton"
+```python
+from controller import Robot, DistanceSensor
+
+TIME_STEP = 32
+
+robot = Robot()
+
+sensor = robot.getDistanceSensor("my_distance_sensor")
+sensor.enable(TIME_STEP)
+
+while robot.step(TIME_STEP) != -1:
+    value = sensor.getValue()
+    print("Sensor value is: ", value)
+
+# Webots triggered termination detected!
+
+saveExperimentData()
+```
+%tab-end
+
+%tab "Java"
+```java
+import com.cyberbotics.webots.controller.Robot;
+import com.cyberbotics.webots.controller.DistanceSensor;
+
+public class ReadingSensor {
+
+  public static void main(String[] args) {
+
+    final int TIME_STEP = 32;
+    final Robot robot = new Robot();
+
+    final DistanceSensor sensor = robot.getDistanceSensor("my_distance_sensor");
+    sensor.enable(TIME_STEP);
+
+    while (robot.step(TIME_STEP) != -1) {
+      final double value = sensor.getValue();
+      System.out.println("Sensor value is: " + value);
+    }
+
+    // Webots triggered termination detected!
+
+    saveExperimentData();
+  }
+}
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+TIME_STEP = 32;
+sensor = wb_robot_get_device('my_distance_sensor');
+wb_distance_sensor_enable(sensor, TIME_STEP);
+
+while wb_robot_step(TIME_STEP) ~= -1
+  value = wb_distance_sensor_get_value(sensor);
+  wb_console_print(sprintf('Sensor value is %f\n', value), WB_STDOUT);
+end
+
+% Webots triggered termination detected!
+
+saveExperimentData();
+```
+%tab-end
+%end
 
 In some cases, it is up to the controller to make the decision of terminating the simulation.
 For example in the case of search and optimization algorithms: the search may terminate when a solution is found or after a fixed number of iterations (or generations).
@@ -1198,17 +1303,67 @@ In this case the controller should just save the experiment results and quit by 
 This will terminate the controller process and freeze the simulation at the current simulation step.
 The physics simulation and every robot involved in the simulation will stop.
 
+%tab-component "language"
+%tab "C"
 ```c
+#include <stdlib.h>
+
 // freeze the whole simulation
 if (finished) {
   saveExperimentData();
   exit(0);
 }
 ```
+%tab-end
+
+%tab "C++"
+```cpp
+#include <cstdlib>
+
+// freeze the whole simulation
+if (finished) {
+  saveExperimentData();
+  exit(0);
+}
+```
+%tab-end
+
+%tab "Python"
+```python
+import sys
+
+# freeze the whole simulation
+if finished:
+  saveExperimentData()
+  sys.exit(0)
+```
+%tab-end
+
+%tab "Java"
+```java
+if (finished) {
+  saveExperimentData();
+  System.exit(0);
+}
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+if finished
+  saveExperimentData();
+  quit(0);
+end
+```
+%tab-end
+%end
 
 If only one robot controller needs to terminate but the simulation should continue with the other robots, then the terminating robot should call the `wb_robot_cleanup` function right before quitting:
 
+%tab-component "language"
+%tab "C"
 ```c
+#include <stdlib.h>
 // terminate only this robot controller
 if (finished) {
   saveExperimentsData();
@@ -1216,6 +1371,41 @@ if (finished) {
   exit(0);
 }
 ```
+%tab-end
+
+%tab "C++"
+```cpp
+#include <cstdlib>
+
+// terminate only this robot controller
+if (finished) {
+  saveExperimentsData();
+  delete robot;
+  exit(0);
+}
+```
+%tab-end
+
+%tab "Python"
+```python
+# terminate only this robot controller
+if finished:
+  saveExperimentsData()
+  del robot
+  exit(0)
+```
+%tab-end
+
+%tab "Java"
+```java
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+```
+%tab-end
+%end
 
 Note that the exit status as well as the value returned by the `main` function are ignored by Webots.
 
