@@ -45,7 +45,7 @@ int main() {
 ```
 %tab-end
 
-%tab "Pyhton"
+%tab "Python"
 ```python
 from controller import Robot
 
@@ -159,7 +159,7 @@ int main() {
 ```
 %tab-end
 
-%tab "Pyhton"
+%tab "Python"
 ```python
 from controller import Robot, DistanceSensor
 
@@ -1229,7 +1229,7 @@ int main() {
 ```
 %tab-end
 
-%tab "Pyhton"
+%tab "Python"
 ```python
 from controller import Robot, DistanceSensor
 
@@ -1364,6 +1364,7 @@ If only one robot controller needs to terminate but the simulation should contin
 %tab "C"
 ```c
 #include <stdlib.h>
+
 // terminate only this robot controller
 if (finished) {
   saveExperimentsData();
