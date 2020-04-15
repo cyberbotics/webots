@@ -252,10 +252,11 @@ webots::Gyro::const double *getValues() const;
 
 %tab "Python"
 ```python
-[x, y, z] GPS.getValues()
-[x, y, z] Accelerometer.getValues()
-[z, y, z] Gyro.getValues()
+GPS.getValues()
+Accelerometer.getValues()
+Gyro.getValues()
 ```
+Returns the sensor measurement as an array of 3 floating point numbers: `[x, y, z]`.
 %tab-end
 
 %tab "Java"
@@ -326,6 +327,7 @@ double a[3] = { values[0], values[1], values[2] };
 // OK, yet another way to copy these values (C++ 11)
 std::array<double, 3> b = { values[0], values[1], values[2] };
 ```
+%tab-end
 
 %tab "Python"
 ```python
@@ -367,6 +369,7 @@ double []a = values.clone();
 double []b;
 System.arraycopy(values, 0, b, 0, values.length);
 ```
+%tab-end
 
 %tab "MATLAB"
 ```MATLAB
@@ -597,22 +600,102 @@ Instead it stores the data locally and the data is effectively sent when the `wb
 For that reason the following code snippet is a bad example.
 Clearly, the value specified with the first call to the `wb_motor_set_position` function will be overwritten by the second call:
 
+%tab-component "language"
+%tab "C"
 ```c
 wb_motor_set_position(my_leg, 0.34);  // BAD: ignored
 wb_motor_set_position(my_leg, 0.56);
-wb_robot_step(40); // BAD: we don't test the return value of this function
+wb_robot_step(40);  // BAD: we don't test the return value of this function
 ```
+%tab-end
+
+%tab "C++"
+```cpp
+my_leg->setPosition(0.34);  // BAD: ignored
+my_leg->setPosition(0.56);
+my_leg->step(40);  // BAD: we don't test the return value of this function
+```
+%tab-end
+
+%tab "Python"
+```python
+my_leg.setPosition(0.34) # BAD: ignored
+my_leg.setPosition(0.56)
+my_leg.step(40) # BAD: we don't test the return value of this function
+```
+%tab-end
+
+%tab "Java"
+```java
+my_leg.setPosition(0.34);  // BAD: ignored
+my_leg.setPosition(0.56);
+my_leg.step(40);  // BAD: we don't test the return value of this function
+```
+%tab-end
+
+```MATLAB
+wb_motor_set_position(my_leg, 0.34);  % BAD: ignored
+wb_motor_set_position(my_leg, 0.56);
+wb_robot_step(40);  % BAD: we don't test the return value of this function
+```
+%tab-end
+%end
 
 Similarly this code does not make much sense either:
 
+%tab-component "language"
+%tab "C"
 ```c
 while (wb_robot_step(40) != -1) {
   double d1 = wb_distance_sensor_get_value(ds1);
   double d2 = wb_distance_sensor_get_value(ds1);
-  if (d2 > d1)   // WRONG: d2 will always equal d1 here
+  if (d2 > d1)  // WRONG: d2 will always equal d1 here
     avoidCollision();
 }
 ```
+%tab-end
+
+%tab "C++"
+```cpp
+while (robot->step(40) != -1) {
+  double d1 = robot->getDistanceSensor(ds1);
+  double d2 = robot->getDistanceSensor(ds1);
+  if (d2 > d1)  // WRONG: d2 will always equal d1 here
+    avoidCollision();
+}
+```
+%tab-end
+
+%tab "Python"
+```python
+while robot.step(TIME_STEP) != -1:
+  d1 = robot.getDistanceSensor(ds1)
+  d2 = robot.getDistanceSensor(ds1)
+  if (d2 > d1) # WRONG: d2 will always equal d1 here
+    avoidCollision()
+```
+%tab-end
+
+%tab "Java"
+```java
+while (robot.step(TIME_STEP) != -1) {
+  d1 = robot.getDistanceSensor(ds1);
+  d2 = robot.getDistanceSensor(ds1);
+  if (d2 > d1) // WRONG: d2 will always equal d1 here
+    avoidCollision();
+}
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+while wb_robot_step(TIME_STEP) ~= -1
+  d1 = wb_distance_sensor_get_value(ds1);
+  d2 = wb_distance_sensor_get_value(ds1);
+  if d2 > d1 % WRONG: d2 will always equal d1 here
+    avoidCollision();
+```
+%tab-end
 
 Since there was no call to the `wb_robot_step` function between the two sensor readings, the values returned by the sensor cannot have changed in the meantime.
 A working version would look like this:
