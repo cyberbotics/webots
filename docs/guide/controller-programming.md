@@ -128,7 +128,6 @@ int main() {
   }
 
   wb_robot_cleanup();
-
   return 0;
 }
 ```
@@ -317,7 +316,6 @@ int main() {
   }
 
   wb_robot_cleanup();
-
   return 0;
 }
 ```
