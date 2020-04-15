@@ -1,0 +1,116 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  fieldOfView 0.85
+  orientation -0.08888575959716818 0.955941011161537 0.27977867131054257 6.26114482885042
+  position 0.17053014674645414 0.1607735089540114 2.3415875442581355
+}
+Background {
+  skyColor [
+    0.15 0.45 1
+  ]
+}
+PointLight {
+  attenuation 0 0 1
+  intensity 10
+  location -4 6 5
+  castShadows TRUE
+}
+DEF USE_CASE_1 Solid {
+  children [
+    DEF G Group {
+      children [
+        DEF T1 Transform {
+          children [
+            DEF S1 Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.305882 0.603922 0.0235294
+                }
+              }
+              geometry DEF B1 Box {
+                size 0.1 0.1 0.1
+              }
+            }
+          ]
+        }
+        DEF T2 Transform {
+          translation 0.4 0 0
+          children [
+            USE S1
+          ]
+        }
+      ]
+    }
+  ]
+  boundingObject USE G
+}
+DEF USE_CASE_2 Solid {
+  translation 0 0.4 0
+  children [
+    DEF G1 Group {
+      children [
+        DEF T3 Transform {
+          children [
+            DEF S2 Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.305882 0.603922 0.0235294
+                }
+              }
+              geometry DEF B2 Box {
+                size 0.1 0.1 0.1
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF G2 Group {
+      children [
+        DEF T4 Transform {
+          translation 0.4 0 0
+          children [
+            USE S2
+          ]
+        }
+      ]
+    }
+  ]
+  name "solid(2)"
+  boundingObject Group {
+    children [
+      USE T4
+      USE T3
+    ]
+  }
+}
+Robot {
+  rotation 0 1 0 1.5708003061004252
+  children [
+    DistanceSensor {
+      translation 0 0 0.075
+      name "ds1"
+    }
+    DistanceSensor {
+      translation 0 0 0.475
+      name "ds2"
+    }
+    DistanceSensor {
+      translation 0 0.4 0.075
+      name "ds3"
+    }
+    DistanceSensor {
+      translation 0 0.4 0.475
+      name "ds4"
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "modify_nested_def_node"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}
