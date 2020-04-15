@@ -29,8 +29,15 @@ RectangleArena {
 }
 Car {
   translation -5.15 0.4445 0.1
+  model "Mercedes-Benz Sprinter"
   trackRear 1.5
   wheelbase 4.325
+  suspensionFrontSpringConstant 140000
+  suspensionFrontDampingConstant 6000
+  suspensionRearSpringConstant 140000
+  suspensionRearDampingConstant 6000
+  wheelsDampingConstant 7
+  maxSteeringTorque 15000
   extensionSlot [
     MercedesBenzSprinterMesh {
     }
@@ -77,6 +84,10 @@ Car {
       0 0 1.5
     ]
   }
+  radarCrossSection 150
+  recognitionColors [
+    0.986099 0 0.0271916
+  ]
   wheelFrontRight EVStarFrontWheel {
     name "front right wheel"
   }
