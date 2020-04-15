@@ -649,8 +649,8 @@ Similarly this code does not make much sense either:
 %tab "C"
 ```c
 while (wb_robot_step(40) != -1) {
-  double d1 = wb_distance_sensor_get_value(ds1);
-  double d2 = wb_distance_sensor_get_value(ds1);
+  double d1 = wb_distance_sensor_get_value(sensor);
+  double d2 = wb_distance_sensor_get_value(sensor);
   if (d2 > d1)  // WRONG: d2 will always equal d1 here
     avoidCollision();
 }
@@ -660,8 +660,8 @@ while (wb_robot_step(40) != -1) {
 %tab "C++"
 ```cpp
 while (robot->step(40) != -1) {
-  double d1 = robot->getDistanceSensor(ds1);
-  double d2 = robot->getDistanceSensor(ds1);
+  double d1 = robot->getDistanceSensor(sensor);
+  double d2 = robot->getDistanceSensor(sensor);
   if (d2 > d1)  // WRONG: d2 will always equal d1 here
     avoidCollision();
 }
@@ -671,8 +671,8 @@ while (robot->step(40) != -1) {
 %tab "Python"
 ```python
 while robot.step(TIME_STEP) != -1:
-  d1 = robot.getDistanceSensor(ds1)
-  d2 = robot.getDistanceSensor(ds1)
+  d1 = robot.getDistanceSensor(sensor)
+  d2 = robot.getDistanceSensor(sensor)
   if (d2 > d1) # WRONG: d2 will always equal d1 here
     avoidCollision()
 ```
@@ -681,8 +681,8 @@ while robot.step(TIME_STEP) != -1:
 %tab "Java"
 ```java
 while (robot.step(TIME_STEP) != -1) {
-  d1 = robot.getDistanceSensor(ds1);
-  d2 = robot.getDistanceSensor(ds1);
+  d1 = robot.getDistanceSensor(sensor);
+  d2 = robot.getDistanceSensor(sensor);
   if (d2 > d1) // WRONG: d2 will always equal d1 here
     avoidCollision();
 }
@@ -692,8 +692,8 @@ while (robot.step(TIME_STEP) != -1) {
 %tab "MATLAB"
 ```MATLAB
 while wb_robot_step(TIME_STEP) ~= -1
-  d1 = wb_distance_sensor_get_value(ds1);
-  d2 = wb_distance_sensor_get_value(ds1);
+  d1 = wb_distance_sensor_get_value(sensor);
+  d2 = wb_distance_sensor_get_value(sensor);
   if d2 > d1 % WRONG: d2 will always equal d1 here
     avoidCollision();
 ```
@@ -707,10 +707,10 @@ A working version would look like this:
 %tab "C"
 ```c
 while (wb_robot_step(40) != -1) {
-  double d1 = wb_distance_sensor_get_value(ds1);
+  double d1 = wb_distance_sensor_get_value(sensor);
   if (wb_robot_step(40) == -1)
     break;
-  double d2 = wb_distance_sensor_get_value(ds1);
+  double d2 = wb_distance_sensor_get_value(sensor);
   if (d2 > d1)
     avoidCollision();
 }
@@ -720,10 +720,10 @@ while (wb_robot_step(40) != -1) {
 %tab "C++"
 ```cpp
 while (robot->step(40) != -1) {
-  double d1 = robot->getDistanceSensor(ds1);
+  double d1 = robot->getDistanceSensor(sensor);
   if (robot->step(40) == -1)
     break;
-  double d2 = robot->getDistanceSensor(ds1);
+  double d2 = robot->getDistanceSensor(sensor);
   if (d2 > d1)
     avoidCollision();
 }
@@ -733,10 +733,10 @@ while (robot->step(40) != -1) {
 %tab "Python"
 ```python
 while robot.step(40) != -1:
-  d1 = robot.getDistanceSensor(ds1)
+  d1 = robot.getDistanceSensor(sensor)
   if robot.step(40):
     break
-  d2 = robot.getDistanceSensor(ds1)
+  d2 = robot.getDistanceSensor(sensor)
   if d2 > d1:
     avoidCollision()
 ```
@@ -745,10 +745,10 @@ while robot.step(40) != -1:
 %tab "Java"
 ```java
 while (robot.step(40) != -1) {
-  double d1 = robot.getDistanceSensor(ds1);
+  double d1 = robot.getDistanceSensor(sensor);
   if (robot.step(40) == -1)
     break;
-  double d2 = robot.getDistanceSensor(ds1);
+  double d2 = robot.getDistanceSensor(sensor);
   if (d2 > d1)
     avoidCollision();
 }
@@ -757,11 +757,11 @@ while (robot.step(40) != -1) {
 
 %tab "MATLAB"
 ```MATLAB
-while wb_robot_step(40) ~= -1:
-  d1 = wb_distance_sensor_get_value(ds1);
+while wb_robot_step(40) ~= -1
+  d1 = wb_distance_sensor_get_value(sensor);
   if wb_robot_step(40) == -1
     break
-  d2 = wb_distance_sensor_get_value(ds1);
+  d2 = wb_distance_sensor_get_value(sensor);
   if d2 > d1
     avoidCollision();
 }
@@ -780,10 +780,45 @@ while (wb_robot_step(TIME_STEP) != -1) {
 }
 ```
 %tab-end
+
+%tab "C++"
+```cpp
+while (robot->step(TIME_STEP) != -1) {
+  readSensors();
+  actuateMotors();
+}
+```
+%tab-end
+
+%tab "Python"
+```python
+while robot.step(TIME_STEP) != -1:
+  readSensors()
+  actuateMotors()
+```
+%tab-end
+
+%tab "Java"
+```java
+while (robot.step(TIME_STEP) != -1) {
+  readSensors();
+  actuateMotors();
+}
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+while robot.step(TIME_STEP) != -1
+  readSensors();
+  actuateMotors();
+```
+%tab-end
 %end
 
 Note that it is important to call the `wb_robot_step` function at the beginning of the loop, in order to make sure that the sensors already have valid values prior to entering the `readSensors` function.
 Otherwise the sensors will have undefined values during the first iteration of the loop, hence, the following is not a good example:
+Note the following snippets are only translated to languages that support builtin `do...while` statements. The point is to insist that we should always rely on `wb_robot_step` _before_ making any measure.
 
 %tab-component "language"
 %tab "C"
@@ -792,6 +827,24 @@ do {
   readSensors(); // warning: sensor values are undefined on the first iteration
   actuateMotors();
 } while (wb_robot_step(TIME_STEP) != -1);
+```
+%tab-end
+
+%tab "C++"
+```cpp
+do {
+  readSensors(); // warning: sensor values are undefined on the first iteration
+  actuateMotors();
+} while (robot->step(TIME_STEP) != -1);
+```
+%tab-end
+
+%tab "Java"
+```java
+do {
+  readSensors(); // warning: sensor values are undefined on the first iteration
+  actuateMotors();
+} while (robot.step(TIME_STEP) != -1);
 ```
 %tab-end
 %end
