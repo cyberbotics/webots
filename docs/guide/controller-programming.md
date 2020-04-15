@@ -1,6 +1,7 @@
 ## Controller Programming
 
-The programming examples provided here are in C, but same concepts apply to C++, Java, Python and MATLAB.
+The following page describes how to write controller code. Though originally focused on C, most relevant and non language specific details have been translated to C++, Java, Python and MATLAB.
+To have a more in-depth look for equivalent functions/methods in other languages, please check [Nodes and API functions](https://cyberbotics.com/doc/reference/nodes-and-api-functions) and [C++/Java/Python](https://cyberbotics.com/doc/guide/cpp-java-python).
 
 ### Hello World Example
 
@@ -232,11 +233,47 @@ The call to the `wb_distance_sensor_get_value` function retrieves the latest val
 
 Note that some device return vector values instead of scalar values, for example these functions:
 
+%tab-component "language"
+%tab "C"
 ```c
 const double *wb_gps_get_values(WbDeviceTag tag);
 const double *wb_accelerometer_get_values(WbDeviceTag tag);
 const double *wb_gyro_get_values(WbDeviceTag tag);
 ```
+%tab-end
+
+%tab "C++"
+```cpp
+webots::GPS::const double *getValues() const;
+webots::Accelerometer::const double *getValues() const;
+webots::Gyro::const double *getValues() const;
+```
+%tab-end
+
+%tab "Python"
+```python
+[x, y, z] GPS.getValues()
+[x, y, z] Accelerometer.getValues()
+[z, y, z] Gyro.getValues()
+```
+%tab-end
+
+%tab "Java"
+```java
+public GPS::public double[] getValues();
+public Accelerometer::public double[] getValues();
+public Gyro::public double[] getValues();
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+[x y z] = wb_gps_get_values(tag)
+[x y z] = wb_accelerometer_get_values(tag)
+[x y z] = wb_gyro_get_values(tag)
+```
+%tab-end
+%end
 
 Each function returns a pointer to three double values.
 The pointer is the address of an array allocated by the function internally.
@@ -247,35 +284,117 @@ Hence accessing the array beyond index 2 is illegal and may crash the controller
 Finally, note that the array elements should not be modified, for this reason the pointer is declared as *const*.
 Here are correct examples of code using these functions:
 
+%tab-component "language"
+%tab "C"
 ```c
-const double *pos = wb_gps_get_values(gps);
+const double *values = wb_gps_get_values(gps);
 
-// OK, to read the values they should never be explicitly deleted by the controller code.
-printf("MY_ROBOT is at position: %g %g %g\n", pos[0], pos[1], pos[2]);
+// OK, to read the values they should never be explicitly deleted by the controller code
+printf("MY_ROBOT is at position: %g %g %g\n", values[0], values[1], values[2]);
 
 // OK, to copy the values
 double x, y, z;
-x = pos[0];
-y = pos[1];
-z = pos[2];
+x = values[0];
+y = values[1];
+z = values[2];
 
 // OK, another way to copy the values
-double a[3] = { pos[0], pos[1], pos[2] };
+double a[3] = { values[0], values[1], values[2] };
 
 // OK, yet another way to copy these values
 double b[3];
-memcpy(b, pos, sizeof(b));
+memcpy(b, values, sizeof(b));
+```
+%tab-end
+
+%tab "C++"
+```cpp
+const double *values = gps.getValues();
+
+// OK, to read the values they should never be explicitly deleted by the controller code
+std::cout << "MY_ROBOT is at position: " << values[0] << ' ' << values[1] << ' ' << values[2] << std::endl;
+
+// OK, to copy the values
+double x, y, z;
+x = values[0];
+y = values[1];
+z = values[2];
+
+// OK, another way to copy the values
+double a[3] = { values[0], values[1], values[2] };
+
+// OK, yet another way to copy these values (C++ 11)
+std::array<double, 3> b = { values[0], values[1], values[2] };
 ```
 
-And here are incorrect examples:
+%tab "Python"
+```python
+values = gps.getValues()
+
+# OK, to read the values they should never be explicitly deleted by the controller code
+print("MY_ROBOT is at position: %g %g %g" % (values[0], values[1], values[2]))
+
+# OK, to copy the values
+x = values[0]
+y = values[1]
+z = values[2]
+
+# OK, another way to copy the values
+a = []
+a = values
+
+# There is no really need to copy differently
+```
+%tab-end
+
+%tab "Java"
+```java
+final const values = gps.getValues();
+
+// OK, to read the values they should never be explicitly deleted by the controller code
+System.out.format("MY_ROBOT is at position: %g %g %g\n", values[0], values[1], values[2]);
+
+// OK, to copy the values
+double x, y, z;
+x = values[0];
+y = values[1];
+z = values[2];
+
+// OK, another way to copy the values
+double []a = values.clone();
+
+// OK, yet another way to copy these values
+double []b;
+System.arraycopy(values, 0, b, 0, values.length);
+```
+
+%tab "MATLAB"
+```MATLAB
+values = wb_gps_get_values(gps);
+
+% OK, to read the values they should never be explicitly deleted by the controller code
+wb_console_print(sprintf('MY_ROBOT is at position: %g %g %g\n', values(1), values(2), values(3)), WB_STDOUT);
+
+% OK, to copy the values
+x = values[1];
+y = values[2];
+z = values[3];
+
+% OK, another way to copy the values
+a = copy(values);
+```
+%tab-end
+%end
+
+And here are incorrect examples applicable in languages that support constness and memory handling (Merely C and C++).
 
 ```c
-const double *pos = wb_gps_get_values(gps);
+const double *values = wb_gps_get_values(gps);
 
-pos[0] = 3.5;      // ERROR: assignment of read-only location
-double a = pos[3]; // ERROR: index out of range
-delete [] pos;     // ERROR: illegal free
-free(pos);         // ERROR: illegal free
+values[0] = 3.5;      // ERROR: assignment of read-only location
+double a = values[3]; // ERROR: index out of range
+delete [] values;     // ERROR: illegal free
+free(values);         // ERROR: illegal free
 ```
 
 ### Using Actuators
