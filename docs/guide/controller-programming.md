@@ -257,6 +257,7 @@ Accelerometer.getValues()
 Gyro.getValues()
 ```
 Returns the sensor measurement as an array of 3 floating point numbers: `[x, y, z]`.
+
 %tab-end
 
 %tab "Java"
@@ -633,6 +634,7 @@ my_leg.step(40);  // BAD: we don't test the return value of this function
 ```
 %tab-end
 
+%tab "MATLAB"
 ```MATLAB
 wb_motor_set_position(my_leg, 0.34);  % BAD: ignored
 wb_motor_set_position(my_leg, 0.56);
@@ -696,10 +698,13 @@ while wb_robot_step(TIME_STEP) ~= -1
     avoidCollision();
 ```
 %tab-end
+%end
 
 Since there was no call to the `wb_robot_step` function between the two sensor readings, the values returned by the sensor cannot have changed in the meantime.
 A working version would look like this:
 
+%tab-component "language"
+%tab "C"
 ```c
 while (wb_robot_step(40) != -1) {
   double d1 = wb_distance_sensor_get_value(ds1);
@@ -710,25 +715,35 @@ while (wb_robot_step(40) != -1) {
     avoidCollision();
 }
 ```
+%tab-end
+%end
 
 However, the generally recommended approach is to have a single `wb_robot_step` function call in the main control loop, and to use it to update all the sensors and actuators simultaneously, like this:
 
+%tab-component "language"
+%tab "C"
 ```c
 while (wb_robot_step(TIME_STEP) != -1) {
   readSensors();
   actuateMotors();
 }
 ```
+%tab-end
+%end
 
 Note that it is important to call the `wb_robot_step` function at the beginning of the loop, in order to make sure that the sensors already have valid values prior to entering the `readSensors` function.
 Otherwise the sensors will have undefined values during the first iteration of the loop, hence, the following is not a good example:
 
+%tab-component "language"
+%tab "C"
 ```c
 do {
   readSensors(); // warning: sensor values are undefined on the first iteration
   actuateMotors();
 } while (wb_robot_step(TIME_STEP) != -1);
 ```
+%tab-end
+%end
 
 Here is a complete example of using sensors and actuators together.
 The robot used here is using differential steering.
