@@ -201,7 +201,7 @@ PROTO Car [
     -- compute the max velocity of the rotational motors from 'time0To100'
     local frontMaxVelocity = 0
     local rearMaxVelocity = 0
-    if fields.maxWheelVelocity.value != fields.maxWheelVelocity.defaultValue and fields.maxVelocity.value == fields.maxVelocity.defaultValue then
+    if fields.maxWheelVelocity.value ~= fields.maxWheelVelocity.defaultValue and fields.maxVelocity.value == fields.maxVelocity.defaultValue then
       io.stderr:write("Deprecated 'maxWheelVelocity' field, use the 'maxVelocity' field instead.\n")
       frontMaxVelocity = fields.maxWheelVelocity.value
       rearMaxVelocity = fields.maxWheelVelocity.value
