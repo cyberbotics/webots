@@ -1062,7 +1062,7 @@ Robot {
       ]
     }
     DEF EPUCK_ACCELEROMETER Accelerometer {
-      lookupTable [ -59.875488 -100000 0.003 59.875488 100000 0.003 ]
+      lookupTable [ -100 -100 0.003 100 100 0.003 ]
       rotation 1 0 0 -1.57
     }
     DEF EPUCK_GYRO Gyro {
