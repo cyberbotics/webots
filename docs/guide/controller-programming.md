@@ -254,9 +254,9 @@ const double *wb_gyro_get_values(WbDeviceTag tag);
 
 %tab "C++"
 ```cpp
-webots::GPS::const double *getValues() const;
-webots::Accelerometer::const double *getValues() const;
-webots::Gyro::const double *getValues() const;
+const double *webots::GPS::getValues() const;
+const double *webots::Accelerometer::getValues() const;
+const double *webots::Gyro::getValues() const;
 ```
 %tab-end
 
