@@ -266,7 +266,7 @@ GPS.getValues()
 Accelerometer.getValues()
 Gyro.getValues()
 
-#Returns the sensor measurement as an array of 3 floating point numbers: `[x, y, z]`.
+# Returns the sensor measurement as an array of 3 floating point numbers: `[x, y, z]`.
 ```
 %tab-end
 
