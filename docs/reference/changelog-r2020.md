@@ -5,6 +5,7 @@ Released on XXX.
 
   - New Features
     - macOS and Windows: Added support for Python 3.8.
+    - Added a model of a Mercedes-Benz Sprinter and of a GreenPower EV Star vehicles.
     - Added a 'Convert Root to Base Node(s)' option in the context menu to convert a PROTO node to base node(s) without converting the nested PROTO nodes.
     - Added an `OfficeChair` PROTO object.
     - Added several new appearances: `Marble`, `MetalStainlessSteelCable`, `Pavement`, `Parquetry`, and `SolarCell`.
