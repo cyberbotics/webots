@@ -265,9 +265,9 @@ webots::Gyro::const double *getValues() const;
 GPS.getValues()
 Accelerometer.getValues()
 Gyro.getValues()
-```
-Returns the sensor measurement as an array of 3 floating point numbers: `[x, y, z]`.
 
+#Returns the sensor measurement as an array of 3 floating point numbers: `[x, y, z]`.
+```
 %tab-end
 
 %tab "Java"
@@ -400,7 +400,7 @@ a = copy(values);
 %tab-end
 %end
 
-And here are incorrect examples applicable in languages that support constness and memory handling (Merely C and C++).
+And here are incorrect examples applicable in languages that support constness and memory handling (merely C and C++).
 
 ```c
 const double *values = wb_gps_get_values(gps);
@@ -443,8 +443,8 @@ int main() {
   double t = 0.0;   // elapsed simulation time
 
   while (wb_robot_step(TIME_STEP) != -1) {
-    double pos = sin(t * 2.0 * M_PI * F);
-    wb_motor_set_position(motor, pos);
+    double position = sin(t * 2.0 * M_PI * F);
+    wb_motor_set_position(motor, position);
     t += (double)TIME_STEP / 1000.0;
   }
 
@@ -458,7 +458,6 @@ int main() {
 ```cpp
 #include <webots/Robot.hpp>
 #include <webots/Motor.hpp>
-#include <iostream>
 #include <cmath>
 
 #define TIME_STEP 32
@@ -474,8 +473,8 @@ int main() {
   double t = 0.0;   // elapsed simulation time
 
   while (robot->step(TIME_STEP) != -1) {
-    double pos = sin(t * 2.0 * M_PI * F);
-    motor->setPosition(pos);
+    double position = sin(t * 2.0 * M_PI * F);
+    motor->setPosition(position);
     t += (double)TIME_STEP / 1000.0;
   }
 
@@ -499,8 +498,8 @@ F = 2.0   # frequency 2 Hz
 t = 0.0   # elapsed simulation time
 
 while robot.step(TIME_STEP) != -1:
-    pos = sin(t * 2.0 * pi * F)
-    motor.setPosition(pos)
+    position = sin(t * 2.0 * pi * F)
+    motor.setPosition(position)
     t += TIME_STEP / 1000.0
 ```
 %tab-end
@@ -524,8 +523,8 @@ public class Actuators {
     double t = 0.0;   // elapsed simulation time
 
     while (robot.step(TIME_STEP) != -1) {
-      double pos = Math.sin(t * 2.0 * Math.PI * F);
-      motor.setPosition(pos);
+      double position = Math.sin(t * 2.0 * Math.PI * F);
+      motor.setPosition(position);
       t += (double)TIME_STEP / 1000.0;
     }
   }
@@ -536,12 +535,15 @@ public class Actuators {
 %tab "MATLAB"
 ```MATLAB
 TIME_STEP = 32;
+
 motor = wb_robot_get_device('my_motor');
+
 double F = 2.0;   % frequency 2 Hz
 double t = 0.0;   % elapsed simulation time
+
 while wb_robot_step(TIME_STEP) ~= -1
-  pos = sin(t * 2.0 * pi * F);
-  wb_motor_set_position(motor, pos);
+  position = sin(t * 2.0 * pi * F);
+  wb_motor_set_position(motor, position);
   t += TIME_STEP / 1000.0;
 end
 ```
@@ -680,7 +682,7 @@ while (robot->step(40) != -1) {
 
 %tab "Python"
 ```python
-while robot.step(TIME_STEP) != -1:
+while robot.step(40) != -1:
   d1 = robot.getDistanceSensor(sensor)
   d2 = robot.getDistanceSensor(sensor)
   if (d2 > d1) # WRONG: d2 will always equal d1 here
@@ -690,7 +692,7 @@ while robot.step(TIME_STEP) != -1:
 
 %tab "Java"
 ```java
-while (robot.step(TIME_STEP) != -1) {
+while (robot.step(40) != -1) {
   d1 = robot.getDistanceSensor(sensor);
   d2 = robot.getDistanceSensor(sensor);
   if (d2 > d1) // WRONG: d2 will always equal d1 here
@@ -701,7 +703,7 @@ while (robot.step(TIME_STEP) != -1) {
 
 %tab "MATLAB"
 ```MATLAB
-while wb_robot_step(TIME_STEP) ~= -1
+while wb_robot_step(40) ~= -1
   d1 = wb_distance_sensor_get_value(sensor);
   d2 = wb_distance_sensor_get_value(sensor);
   if d2 > d1 % WRONG: d2 will always equal d1 here
@@ -746,7 +748,7 @@ while (robot->step(40) != -1) {
 ```python
 while robot.step(40) != -1:
   d1 = robot.getDistanceSensor(sensor)
-  if robot.step(40):
+  if robot.step(40) == -1:
     break
   d2 = robot.getDistanceSensor(sensor)
   if d2 > d1:
@@ -773,6 +775,7 @@ while wb_robot_step(40) ~= -1
   d1 = wb_distance_sensor_get_value(sensor);
   if wb_robot_step(40) == -1
     break
+  end
   d2 = wb_distance_sensor_get_value(sensor);
   if d2 > d1
     avoidCollision();
@@ -787,7 +790,7 @@ However, the generally recommended approach is to have a single `wb_robot_step` 
 %tab-component "language"
 %tab "C"
 ```c
-while (wb_robot_step(TIME_STEP) != -1) {
+while (wb_robot_step(40) != -1) {
   readSensors();
   actuateMotors();
 }
@@ -796,7 +799,7 @@ while (wb_robot_step(TIME_STEP) != -1) {
 
 %tab "C++"
 ```cpp
-while (robot->step(TIME_STEP) != -1) {
+while (robot->step(40) != -1) {
   readSensors();
   actuateMotors();
 }
@@ -805,7 +808,7 @@ while (robot->step(TIME_STEP) != -1) {
 
 %tab "Python"
 ```python
-while robot.step(TIME_STEP) != -1:
+while robot.step(40) != -1:
   readSensors()
   actuateMotors()
 ```
@@ -813,7 +816,7 @@ while robot.step(TIME_STEP) != -1:
 
 %tab "Java"
 ```java
-while (robot.step(TIME_STEP) != -1) {
+while (robot.step(40) != -1) {
   readSensors();
   actuateMotors();
 }
@@ -822,7 +825,7 @@ while (robot.step(TIME_STEP) != -1) {
 
 %tab "MATLAB"
 ```MATLAB
-while robot.step(TIME_STEP) != -1
+while robot.step(40) != -1
   readSensors();
   actuateMotors();
 end
@@ -840,7 +843,7 @@ Note the following snippets are only translated to languages that support builti
 do {
   readSensors(); // warning: sensor values are undefined on the first iteration
   actuateMotors();
-} while (wb_robot_step(TIME_STEP) != -1);
+} while (wb_robot_step(40) != -1);
 ```
 %tab-end
 
@@ -849,7 +852,7 @@ do {
 do {
   readSensors(); // warning: sensor values are undefined on the first iteration
   actuateMotors();
-} while (robot->step(TIME_STEP) != -1);
+} while (robot->step(40) != -1);
 ```
 %tab-end
 
@@ -858,7 +861,7 @@ do {
 do {
   readSensors(); // warning: sensor values are undefined on the first iteration
   actuateMotors();
-} while (robot.step(TIME_STEP) != -1);
+} while (robot.step(40) != -1);
 ```
 %tab-end
 %end
@@ -894,10 +897,10 @@ int main() {
   while (wb_robot_step(TIME_STEP) != -1) {
 
     // read sensors
-    double left_dist = wb_distance_sensor_get_value(left_sensor);
-    double right_dist = wb_distance_sensor_get_value(right_sensor);
+    const double left_dist = wb_distance_sensor_get_value(left_sensor);
+    const double right_dist = wb_distance_sensor_get_value(right_sensor);
 
-    // compute behavior
+    // compute behavior (user functions)
     double left = compute_left_speed(left_dist, right_dist);
     double right = compute_right_speed(left_dist, right_dist);
 
@@ -917,8 +920,6 @@ int main() {
 #include <webots/Robot.hpp>
 #include <webots/Motor.hpp>
 #include <webots/DistanceSensor.hpp>
-#include <iostream>
-#include <cmath>
 
 #define TIME_STEP 32
 
@@ -942,12 +943,12 @@ int main() {
   while (robot->step(TIME_STEP) != -1) {
 
     // read sensors
-    double left_dist = left_sensor->getValue();
-    double right_dist = right_sensor->getValue();
+    const double left_dist = left_sensor->getValue();
+    const double right_dist = right_sensor->getValue();
 
-    // compute behavior
-    double left = compute_left_speed(left_dist, right_dist);
-    double right = compute_right_speed(left_dist, right_dist);
+    // compute behavior (user functions)
+    const double left = compute_left_speed(left_dist, right_dist);
+    const double right = compute_right_speed(left_dist, right_dist);
 
     // actuate wheel motors
     left_motor->setVelocity(left);
@@ -986,7 +987,7 @@ while robot.step(TIME_STEP) != -1:
     left_dist = left_sensor.getValue()
     right_dist = right_sensor.getValue()
 
-    # compute behavior
+    # compute behavior (user functions)
     left = compute_left_speed(left_dist, right_dist)
     right = compute_right_speed(left_dist, right_dist)
 
@@ -1008,15 +1009,15 @@ public class ActuSensorJava {
 
     final int TIME_STEP = 32;
 
-    Robot robot = new Robot();
+    final Robot robot = new Robot();
 
-    DistanceSensor left_sensor = robot.getDistanceSensor("left_sensor");
-    DistanceSensor right_sensor = robot.getDistanceSensor("right_sensor");
+    final DistanceSensor left_sensor = robot.getDistanceSensor("left_sensor");
+    final DistanceSensor right_sensor = robot.getDistanceSensor("right_sensor");
     left_sensor.enable(TIME_STEP);
     right_sensor.enable(TIME_STEP);
 
-    Motor left_motor = robot.getMotor("left_motor");
-    Motor right_motor = robot.getMotor("right_motor");
+    final Motor left_motor = robot.getMotor("left_motor");
+    final Motor right_motor = robot.getMotor("right_motor");
     left_motor.setPosition(Double.POSITIVE_INFINITY);
     right_motor.setPosition(Double.POSITIVE_INFINITY);
     left_motor.setVelocity(0.0);
@@ -1024,12 +1025,12 @@ public class ActuSensorJava {
 
     while (robot.step(TIME_STEP) != -1) {
     // read sensors
-    left_dist = left_sensor.getValue();
-    right_dist = right_sensor.getValue();
+    final double left_dist = left_sensor.getValue();
+    final double right_dist = right_sensor.getValue();
 
-    // compute behavior
-    left = compute_left_speed(left_dist, right_dist)
-    right = compute_right_speed(left_dist, right_dist)
+    // compute behavior (user functions)
+    final double left = compute_left_speed(left_dist, right_dist);
+    final double right = compute_right_speed(left_dist, right_dist);
 
     // actuate wheel motors
     left_motor.setVelocity(left);
@@ -1060,7 +1061,7 @@ while wb_robot_step(TIME_STEP) ~= -1
   left_dist = wb_distance_sensor_get_value(left_sensor);
   right_dist = wb_distance_sensor_get_value(right_sensor);
 
-  % compute behavior
+  % compute behavior (user functions)
   left = compute_left_speed(left_dist, right_dist);
   right = compute_right_speed(left_dist, right_dist);
 
