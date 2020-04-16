@@ -636,7 +636,7 @@ while robot.step(40) != -1:
     d1 = robot.getDistanceSensor(sensor)
     d2 = robot.getDistanceSensor(sensor)
     if d2 > d1: # WRONG: d2 will always equal d1 here
-      avoidCollision()
+        avoidCollision()
 ```
 %tab-end
 
@@ -699,10 +699,10 @@ while (robot->step(40) != -1) {
 while robot.step(40) != -1:
     d1 = robot.getDistanceSensor(sensor)
     if robot.step(40) == -1:
-      break
+        break
     d2 = robot.getDistanceSensor(sensor)
     if d2 > d1:
-      avoidCollision()
+        avoidCollision()
 ```
 %tab-end
 
