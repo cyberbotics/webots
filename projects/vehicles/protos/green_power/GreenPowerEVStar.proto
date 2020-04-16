@@ -38,6 +38,23 @@ PROTO GreenPowerEVStar [
     suspensionRearDampingConstant 6000
     maxSteeringTorque 15000
     extensionSlot [
+      Group {
+        children IS sensorsSlotCenter
+      }
+      Transform {
+        translation 0 0.47 5.31
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotFront
+      }
+      Transform {
+        translation 0 0.19 -1.62
+        children IS sensorsSlotRear
+      }
+      Transform {
+      translation 0 2.3 2.99
+      rotation 0 1 0 3.141592653589793
+        children IS sensorsSlotTop
+      }
       MercedesBenzSprinterMesh {
         color IS color
       %{ if fields.interior.value then }%
