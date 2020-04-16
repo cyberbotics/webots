@@ -633,10 +633,10 @@ while (robot->step(40) != -1) {
 %tab "Python"
 ```python
 while robot.step(40) != -1:
-  d1 = robot.getDistanceSensor(sensor)
-  d2 = robot.getDistanceSensor(sensor)
-  if (d2 > d1) # WRONG: d2 will always equal d1 here
-    avoidCollision()
+    d1 = robot.getDistanceSensor(sensor)
+    d2 = robot.getDistanceSensor(sensor)
+    if d2 > d1: # WRONG: d2 will always equal d1 here
+      avoidCollision()
 ```
 %tab-end
 
@@ -697,12 +697,12 @@ while (robot->step(40) != -1) {
 %tab "Python"
 ```python
 while robot.step(40) != -1:
-  d1 = robot.getDistanceSensor(sensor)
-  if robot.step(40) == -1:
-    break
-  d2 = robot.getDistanceSensor(sensor)
-  if d2 > d1:
-    avoidCollision()
+    d1 = robot.getDistanceSensor(sensor)
+    if robot.step(40) == -1:
+      break
+    d2 = robot.getDistanceSensor(sensor)
+    if d2 > d1:
+      avoidCollision()
 ```
 %tab-end
 
@@ -759,8 +759,8 @@ while (robot->step(40) != -1) {
 %tab "Python"
 ```python
 while robot.step(40) != -1:
-  readSensors()
-  actuateMotors()
+    readSensors()
+    actuateMotors()
 ```
 %tab-end
 
@@ -974,17 +974,17 @@ public class ActuSensorJava {
     right_motor.setVelocity(0.0);
 
     while (robot.step(TIME_STEP) != -1) {
-    // read sensors
-    final double left_dist = left_sensor.getValue();
-    final double right_dist = right_sensor.getValue();
+      // read sensors
+      final double left_dist = left_sensor.getValue();
+      final double right_dist = right_sensor.getValue();
 
-    // compute behavior (user functions)
-    final double left = compute_left_speed(left_dist, right_dist);
-    final double right = compute_right_speed(left_dist, right_dist);
+      // compute behavior (user functions)
+      final double left = compute_left_speed(left_dist, right_dist);
+      final double right = compute_right_speed(left_dist, right_dist);
 
-    // actuate wheel motors
-    left_motor.setVelocity(left);
-    right_motor.setVelocity(right);
+      // actuate wheel motors
+      left_motor.setVelocity(left);
+      right_motor.setVelocity(right);
     }
   }
 }
@@ -1297,8 +1297,8 @@ import sys
 
 # freeze the whole simulation
 if finished:
-  saveExperimentData()
-  sys.exit(0)
+    saveExperimentData()
+    sys.exit(0)
 ```
 %tab-end
 
