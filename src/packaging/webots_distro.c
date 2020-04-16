@@ -955,11 +955,11 @@ static void create_file(const char *name, int m) {
     case ISS:
       fprintf(fd, "\n[Icons]\n");
       fprintf(fd,
-              "Name: \"{app}\\%s\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webots.exe\"; WorkingDir: \"{app}\"; Comment: "
+              "Name: \"{app}\\%s\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webotsw.exe\"; WorkingDir: \"{app}\"; Comment: "
               "\"Robot simulator\"\n"
-              "Name: \"{group}\\%s\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webots.exe\"; WorkingDir: \"{app}\"; Comment: "
+              "Name: \"{group}\\%s\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webotsw.exe\"; WorkingDir: \"{app}\"; Comment: "
               "\"Robot simulator\"\n"
-              "Name: \"{userdesktop}\\%s\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webots.exe\"; WorkingDir: \"{app}\"; "
+              "Name: \"{userdesktop}\\%s\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webotsw.exe\"; WorkingDir: \"{app}\"; "
               "Comment: \"Robot simulator\"\n",
               application_name, application_name, application_name);
       fprintf(
@@ -976,14 +976,14 @@ static void create_file(const char *name, int m) {
               "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\shell\\open\"; ValueType: string; "
               "ValueName: \"FriendlyAppName\"; ValueData: \"Webots\"; Flags: uninsdeletekey\n"
               "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\shell\\open\\command\"; ValueType: string; ValueData: "
-              "\"\"\"{app}\\msys64\\mingw64\\bin\\webots.exe\"\" \"\"%%1\"\"\"; Flags: uninsdeletekey\n"
-              "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webots.exe\"; ValueType: string; "
+              "\"\"\"{app}\\msys64\\mingw64\\bin\\webotsw.exe\"\" \"\"%%1\"\"\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webotsw.exe\"; ValueType: string; "
               "ValueName: \"SupportedTypes\"; ValueData: \".wbt\"; Flags: uninsdeletekey\n"
-              "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webots.exe\"; ValueType: string; "
+              "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webotsw.exe\"; ValueType: string; "
               "ValueName: \"FriendlyAppName\"; ValueData: \"Webots\"; Flags: uninsdeletekey\n"
-              "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots.exe\"; ValueType: string; "
-              "ValueData: \"{app}\\msys64\\mingw64\\bin\\webots.exe\"; Flags: uninsdeletekey\n"
-              "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots.exe\"; ValueType: string; "
+              "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webotsw.exe\"; ValueType: string; "
+              "ValueData: \"{app}\\msys64\\mingw64\\bin\\webotsw.exe\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webotsw.exe\"; ValueType: string; "
               "ValueName: \"Path\"; ValueData: \"{app}\\msys64\\mingw64\\bin;{app}\\msys64\\usr\\bin\"; Flags: uninsdeletekey\n"
               "Root: HKCU; SubKey: \"Software\\Cyberbotics\"; Flags: uninsdeletekeyifempty dontcreatekey\n"
               "Root: HKCU; SubKey: \"Software\\Cyberbotics\\%s %s\"; Flags: uninsdeletekey dontcreatekey\n"
@@ -1053,7 +1053,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "  end;\n");
       fprintf(fd, "end;\n");
       fprintf(fd, "\n[Run]\n");
-      fprintf(fd, "Filename: {app}\\msys64\\mingw64\\bin\\webots.exe; Description: \"Launch Webots\"; Flags: nowait "
+      fprintf(fd, "Filename: {app}\\msys64\\mingw64\\bin\\webotsw.exe; Description: \"Launch Webots\"; Flags: nowait "
                   "postinstall skipifsilent\n");
       break;
     case DEB:

@@ -583,6 +583,7 @@ OBJECTS=$(notdir $(C_SOURCES:.c=.o) $(QT_SOURCES:.cpp=.o) $(OTHER_SOURCES:.cpp=.
 ifeq ($(OSTYPE),windows)
 OBJECTS += webots.o
 LAUNCHER = ../../msys64/mingw64/bin/webots.exe
+LAUNCHERW = ../../msys64/mingw64/bin/webotsw.exe
 endif
 
 # prevent 'make' from deleting these intermediate files
@@ -606,7 +607,7 @@ endif
 
 .PHONY: debug profile release clean count-lines
 
-debug profile release: $(TARGET) $(LAUNCHER)
+debug profile release: $(TARGET) $(LAUNCHER) $(LAUNCHERW)
 
 $(TARGET): $(OBJECTS) $(LIB_WREN) $(LIB_ODE)
 	@echo "# linking " $@
@@ -625,9 +626,13 @@ $(OBJDIR)/%.moc.cpp: %.hpp
 launcher/launcher.o: launcher/launcher.rc
 	@windres -i $< -o $@ --define _WIN32 --define __WIN32__ --define __WIN95__ --define __GNUWIN32__
 
-$(LAUNCHER): launcher/launcher.c launcher/launcher.o
-	@echo "# compiling webots.exe launcher"
+$(LAUNCHERW): launcher/launcher.c launcher/launcher.o
+	@echo "# compiling webotsw.exe launcher"
 	@gcc -Wall -mwindows launcher/launcher.o launcher/launcher.c -o $@
+
+$(LAUNCHER): launcher/launcher.c
+	@echo "# compiling webots.exe launcher"
+	@gcc -Wall launcher/launcher.c -o $@
 
 webots.o:gui/webots.rc gui/webots.ico gui/manifest.xml
 	@echo "# compiling gui/"$@
