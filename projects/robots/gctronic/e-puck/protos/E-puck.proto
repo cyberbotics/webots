@@ -1066,7 +1066,7 @@ Robot {
       rotation 1 0 0 -1.57
     }
     DEF EPUCK_GYRO Gyro {
-      lookupTable [ -100 -100 0.003 100 100 0.003 ]
+      lookupTable [ -0.013315805 -100 0.003 0.013315805 100 0.003 ]
       rotation 1 0 0 -1.57
     }
     DEF EPUCK_SMALL_LOGO Transform {
