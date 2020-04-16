@@ -266,15 +266,15 @@ GPS.getValues()
 Accelerometer.getValues()
 Gyro.getValues()
 
-# Returns the sensor measurement as an array of 3 floating point numbers: `[x, y, z]`.
+# return the sensor measurement as an array of 3 floating point numbers: `[x, y, z]`.
 ```
 %tab-end
 
 %tab "Java"
 ```java
-public GPS::public double[] getValues();
-public Accelerometer::public double[] getValues();
-public Gyro::public double[] getValues();
+double[] GPS::getValues();
+double[] Accelerometer::getValues();
+double[] Gyro::getValues();
 ```
 %tab-end
 
@@ -309,13 +309,6 @@ double x, y, z;
 x = values[0];
 y = values[1];
 z = values[2];
-
-// OK, another way to copy the values
-double a[3] = { values[0], values[1], values[2] };
-
-// OK, yet another way to copy these values
-double b[3];
-memcpy(b, values, sizeof(b));
 ```
 %tab-end
 
@@ -331,12 +324,6 @@ double x, y, z;
 x = values[0];
 y = values[1];
 z = values[2];
-
-// OK, another way to copy the values
-double a[3] = { values[0], values[1], values[2] };
-
-// OK, yet another way to copy these values (C++ 11)
-std::array<double, 3> b = { values[0], values[1], values[2] };
 ```
 %tab-end
 
@@ -347,16 +334,7 @@ values = gps.getValues()
 # OK, to read the values they should never be explicitly deleted by the controller code
 print("MY_ROBOT is at position: %g %g %g" % (values[0], values[1], values[2]))
 
-# OK, to copy the values
-x = values[0]
-y = values[1]
-z = values[2]
-
-# OK, another way to copy the values
-a = []
-a = values
-
-# There is no really need to copy differently
+# there is no need to copy these values
 ```
 %tab-end
 
@@ -367,18 +345,7 @@ final const values = gps.getValues();
 // OK, to read the values they should never be explicitly deleted by the controller code
 System.out.format("MY_ROBOT is at position: %g %g %g\n", values[0], values[1], values[2]);
 
-// OK, to copy the values
-double x, y, z;
-x = values[0];
-y = values[1];
-z = values[2];
-
-// OK, another way to copy the values
-double []a = values.clone();
-
-// OK, yet another way to copy these values
-double []b;
-System.arraycopy(values, 0, b, 0, values.length);
+// there is no need to copy these values
 ```
 %tab-end
 
@@ -389,27 +356,10 @@ values = wb_gps_get_values(gps);
 % OK, to read the values they should never be explicitly deleted by the controller code
 wb_console_print(sprintf('MY_ROBOT is at position: %g %g %g\n', values(1), values(2), values(3)), WB_STDOUT);
 
-% OK, to copy the values
-x = values[1];
-y = values[2];
-z = values[3];
-
-% OK, another way to copy the values
-a = copy(values);
+% there is no need to copy these values
 ```
 %tab-end
 %end
-
-And here are incorrect examples applicable in languages that support constness and memory handling (merely C and C++).
-
-```c
-const double *values = wb_gps_get_values(gps);
-
-values[0] = 3.5;      // ERROR: assignment of read-only location
-double a = values[3]; // ERROR: index out of range
-delete [] values;     // ERROR: illegal free
-free(values);         // ERROR: illegal free
-```
 
 ### Using Actuators
 
@@ -1322,6 +1272,7 @@ The physics simulation and every robot involved in the simulation will stop.
 // freeze the whole simulation
 if (finished) {
   saveExperimentData();
+  wb_robot_cleanup();
   exit(0);
 }
 ```
@@ -1334,6 +1285,7 @@ if (finished) {
 // freeze the whole simulation
 if (finished) {
   saveExperimentData();
+  delete robot;
   exit(0);
 }
 ```
@@ -1371,38 +1323,7 @@ end
 %tab-end
 %end
 
-Please note that this specific use case is only possible in C/C++ since controllers written in a different language will handle the cleanup part their own way.
-If only one robot controller needs to terminate but the simulation should continue with the other robots, then the terminating robot should call the `wb_robot_cleanup` function right before quitting:
-
-%tab-component "language"
-%tab "C"
-```c
-#include <stdlib.h>
-
-// terminate only this robot controller
-if (finished) {
-  saveExperimentData();
-  wb_robot_cleanup();
-  exit(0);
-}
-```
-%tab-end
-
-%tab "C++"
-```cpp
-#include <cstdlib>
-
-// terminate only this robot controller
-if (finished) {
-  saveExperimentData();
-  delete robot;
-  exit(0);
-}
-```
-%tab-end
-%end
-
-Note that the exit status as well as the value returned by the `main` function are ignored by Webots.
+Note that the exit status of a Webots controller is ignored by Webots.
 
 ### Shared Libraries
 
