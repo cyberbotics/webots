@@ -19,7 +19,8 @@ On Windows 8, open the `Start` screen, scroll to the screen's right until you sp
 You can also start Webots from a DOS console (`cmd.exe`) by typing `webots` or `webots.exe`.
 This command works only if executed from the `C:\Program Files\Webots\msys64\mingw64\bin` directory (assuming Webots was installed in `C:\Program Files`).
 It can also work from any directory if the above directory was added to your `Path` environment variable.
-**Note:** Calling `webots-bin.exe` directly from a DOS console may not work, as some settings may be missing.
+**Note:** Calling `webots-bin.exe` from a DOS console may not work, as some settings may be missing.
+**Note:** Calling `webotsw.exe` from a DOS console launches Webots in the background and returns immediately.
 
 ### Command Line Arguments
 
