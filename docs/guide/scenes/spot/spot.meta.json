@@ -1,0 +1,372 @@
+{
+  "devices": [
+    {
+      "axis": "1 0 0",
+      "maxPosition": 1.6,
+      "minPosition": -0.45,
+      "name": "front left leg elbow motor",
+      "position": 0,
+      "transformID": "n585",
+      "type": "RotationalMotor"
+    },
+    {
+      "axis": "0 0 1",
+      "maxPosition": 0.5,
+      "minPosition": -0.6,
+      "name": "front left leg shoulder abduction motor",
+      "position": 0,
+      "transformID": "n550",
+      "type": "RotationalMotor"
+    },
+    {
+      "axis": "1 0 0",
+      "maxPosition": 1.7,
+      "minPosition": -1.7,
+      "name": "front left leg shoulder rotation motor",
+      "position": 0,
+      "transformID": "n555",
+      "type": "RotationalMotor"
+    },
+    {
+      "axis": "1 0 0",
+      "maxPosition": 1.6,
+      "minPosition": -0.45,
+      "name": "front right leg elbow motor",
+      "position": 0,
+      "transformID": "n809",
+      "type": "RotationalMotor"
+    },
+    {
+      "axis": "0 0 1",
+      "maxPosition": 0.5,
+      "minPosition": -0.6,
+      "name": "front right leg shoulder abduction motor",
+      "position": 0,
+      "transformID": "n774",
+      "type": "RotationalMotor"
+    },
+    {
+      "axis": "1 0 0",
+      "maxPosition": 1.7,
+      "minPosition": -1.7,
+      "name": "front right leg shoulder rotation motor",
+      "position": 0,
+      "transformID": "n779",
+      "type": "RotationalMotor"
+    },
+    {
+      "axis": "1 0 0",
+      "maxPosition": 1.6,
+      "minPosition": -0.45,
+      "name": "rear left leg elbow motor",
+      "position": 0,
+      "transformID": "n1033",
+      "type": "RotationalMotor"
+    },
+    {
+      "axis": "0 0 1",
+      "maxPosition": 0.5,
+      "minPosition": -0.6,
+      "name": "rear left leg shoulder abduction motor",
+      "position": 0,
+      "transformID": "n998",
+      "type": "RotationalMotor"
+    },
+    {
+      "axis": "1 0 0",
+      "maxPosition": 1.7,
+      "minPosition": -1.7,
+      "name": "rear left leg shoulder rotation motor",
+      "position": 0,
+      "transformID": "n1003",
+      "type": "RotationalMotor"
+    },
+    {
+      "axis": "1 0 0",
+      "maxPosition": 1.6,
+      "minPosition": -0.45,
+      "name": "rear right leg elbow motor",
+      "position": 0,
+      "transformID": "n1257",
+      "type": "RotationalMotor"
+    },
+    {
+      "axis": "0 0 1",
+      "maxPosition": 0.5,
+      "minPosition": -0.6,
+      "name": "rear right leg shoulder abduction motor",
+      "position": 0,
+      "transformID": "n1222",
+      "type": "RotationalMotor"
+    },
+    {
+      "axis": "1 0 0",
+      "maxPosition": 1.7,
+      "minPosition": -1.7,
+      "name": "rear right leg shoulder rotation motor",
+      "position": 0,
+      "transformID": "n1227",
+      "type": "RotationalMotor"
+    },
+    {
+      "axis": "0 0 1",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "front left leg piston motor",
+      "position": 0,
+      "transformID": "n559",
+      "type": "LinearMotor"
+    },
+    {
+      "axis": "0 0 1",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "front right leg piston motor",
+      "position": 0,
+      "transformID": "n783",
+      "type": "LinearMotor"
+    },
+    {
+      "axis": "0 0 1",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "rear left leg piston motor",
+      "position": 0,
+      "transformID": "n1007",
+      "type": "LinearMotor"
+    },
+    {
+      "axis": "0 0 1",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "rear right leg piston motor",
+      "position": 0,
+      "transformID": "n1231",
+      "type": "LinearMotor"
+    },
+    {
+      "ledColors": [
+        "0 1 0",
+        "1 1 0",
+        "1 0 0"
+      ],
+      "ledGradual": false,
+      "ledPBRAppearanceIDs": [
+        "n91"
+      ],
+      "name": "left bottom led",
+      "transformID": "n89",
+      "type": "LED"
+    },
+    {
+      "ledColors": [
+        "0 1 0",
+        "1 1 0",
+        "1 0 0"
+      ],
+      "ledGradual": false,
+      "ledPBRAppearanceIDs": [
+        "n41"
+      ],
+      "name": "left middle down led",
+      "transformID": "n39",
+      "type": "LED"
+    },
+    {
+      "ledColors": [
+        "0 1 0",
+        "1 1 0",
+        "1 0 0"
+      ],
+      "ledGradual": false,
+      "ledPBRAppearanceIDs": [
+        "n31"
+      ],
+      "name": "left middle up led",
+      "transformID": "n29",
+      "type": "LED"
+    },
+    {
+      "ledColors": [
+        "0 1 0",
+        "1 1 0",
+        "1 0 0"
+      ],
+      "ledGradual": false,
+      "ledPBRAppearanceIDs": [
+        "n21"
+      ],
+      "name": "left top led",
+      "transformID": "n19",
+      "type": "LED"
+    },
+    {
+      "ledColors": [
+        "0 1 0",
+        "1 1 0",
+        "1 0 0"
+      ],
+      "ledGradual": false,
+      "ledPBRAppearanceIDs": [
+        "n81"
+      ],
+      "name": "right bottom led",
+      "transformID": "n79",
+      "type": "LED"
+    },
+    {
+      "ledColors": [
+        "0 1 0",
+        "1 1 0",
+        "1 0 0"
+      ],
+      "ledGradual": false,
+      "ledPBRAppearanceIDs": [
+        "n71"
+      ],
+      "name": "right middle down led",
+      "transformID": "n69",
+      "type": "LED"
+    },
+    {
+      "ledColors": [
+        "0 1 0",
+        "1 1 0",
+        "1 0 0"
+      ],
+      "ledGradual": false,
+      "ledPBRAppearanceIDs": [
+        "n61"
+      ],
+      "name": "right middle up led",
+      "transformID": "n59",
+      "type": "LED"
+    },
+    {
+      "ledColors": [
+        "0 1 0",
+        "1 1 0",
+        "1 0 0"
+      ],
+      "ledGradual": false,
+      "ledPBRAppearanceIDs": [
+        "n51"
+      ],
+      "name": "right top led",
+      "transformID": "n49",
+      "type": "LED"
+    },
+    {
+      "name": "accelerometer",
+      "transformID": "n14",
+      "type": "Accelerometer"
+    },
+    {
+      "name": "front left leg elbow sensor",
+      "transformID": "n585",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "front left leg shoulder abduction sensor",
+      "transformID": "n550",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "front left leg shoulder rotation sensor",
+      "transformID": "n555",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "front right leg elbow sensor",
+      "transformID": "n809",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "front right leg shoulder abduction sensor",
+      "transformID": "n774",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "front right leg shoulder rotation sensor",
+      "transformID": "n779",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "gps",
+      "transformID": "n14",
+      "type": "GPS"
+    },
+    {
+      "name": "gyro",
+      "transformID": "n14",
+      "type": "Gyro"
+    },
+    {
+      "name": "inertial unit",
+      "transformID": "n14",
+      "type": "InertialUnit"
+    },
+    {
+      "name": "left flank camera",
+      "transformID": "n261",
+      "transformOffset": "-0.110127 1.71553 -0.32432",
+      "type": "Camera"
+    },
+    {
+      "name": "left head camera",
+      "transformID": "n99",
+      "transformOffset": "-0.045109 1.67955 -0.92325",
+      "type": "Camera"
+    },
+    {
+      "name": "rear camera",
+      "transformID": "n475",
+      "transformOffset": "0.018113 1.66256 -0.0118637",
+      "type": "Camera"
+    },
+    {
+      "name": "rear left leg elbow sensor",
+      "transformID": "n1033",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "rear left leg shoulder abduction sensor",
+      "transformID": "n998",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "rear left leg shoulder rotation sensor",
+      "transformID": "n1003",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "rear right leg elbow sensor",
+      "transformID": "n1257",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "rear right leg shoulder abduction sensor",
+      "transformID": "n1222",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "rear right leg shoulder rotation sensor",
+      "transformID": "n1227",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "right flank camera",
+      "transformID": "n192",
+      "transformOffset": "0.110163 1.71561 -0.324321",
+      "type": "Camera"
+    },
+    {
+      "name": "right head camera",
+      "transformID": "n99",
+      "transformOffset": "0.0448981 1.67797 -0.922603",
+      "type": "Camera"
+    }
+  ],
+  "name": "spot",
+  "robotID": "n14"
+}
