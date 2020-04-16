@@ -46,5 +46,3 @@ MSYS2_WINDOWS_HOME=`cygpath -w /`
 export MSYS2_HOME=${MSYS2_WINDOWS_HOME::-1}
 
 export LANG=en_US.UTF-8  # needed on some locales to avoid floating point representation issues
-
-alias webots=webots-bin.exe
