@@ -439,11 +439,11 @@ int main() {
 
   WbDeviceTag motor = wb_robot_get_device("my_motor");
 
-  double F = 2.0;   // frequency 2 Hz
-  double t = 0.0;   // elapsed simulation time
+  const double F = 2.0;   // frequency 2 Hz
+  double t = 0.0;         // elapsed simulation time
 
   while (wb_robot_step(TIME_STEP) != -1) {
-    double position = sin(t * 2.0 * M_PI * F);
+    const double position = sin(t * 2.0 * M_PI * F);
     wb_motor_set_position(motor, position);
     t += (double)TIME_STEP / 1000.0;
   }
@@ -469,11 +469,11 @@ int main() {
   Robot *robot = new Robot();
   Motor *motor = robot->getMotor("my_motor");
 
-  double F = 2.0;   // frequency 2 Hz
-  double t = 0.0;   // elapsed simulation time
+  const double F = 2.0;   // frequency 2 Hz
+  double t = 0.0;         // elapsed simulation time
 
   while (robot->step(TIME_STEP) != -1) {
-    double position = sin(t * 2.0 * M_PI * F);
+    const double position = sin(t * 2.0 * M_PI * F);
     motor->setPosition(position);
     t += (double)TIME_STEP / 1000.0;
   }
@@ -519,11 +519,11 @@ public class Actuators {
     final Robot robot = new Robot();
     final Motor motor = robot.getMotor("my_motor");
 
-    double F = 2.0;   // frequency 2 Hz
-    double t = 0.0;   // elapsed simulation time
+    final double F = 2.0;   // frequency 2 Hz
+    double t = 0.0;         // elapsed simulation time
 
     while (robot.step(TIME_STEP) != -1) {
-      double position = Math.sin(t * 2.0 * Math.PI * F);
+      final double position = Math.sin(t * 2.0 * Math.PI * F);
       motor.setPosition(position);
       t += (double)TIME_STEP / 1000.0;
     }
@@ -901,8 +901,8 @@ int main() {
     const double right_dist = wb_distance_sensor_get_value(right_sensor);
 
     // compute behavior (user functions)
-    double left = compute_left_speed(left_dist, right_dist);
-    double right = compute_right_speed(left_dist, right_dist);
+    const double left = compute_left_speed(left_dist, right_dist);
+    const double right = compute_right_speed(left_dist, right_dist);
 
     // actuate wheel motors
     wb_motor_set_velocity(left_motor, left);
