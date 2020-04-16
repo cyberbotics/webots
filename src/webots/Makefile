@@ -724,7 +724,7 @@ webots.o:gui/webots.rc gui/webots.ico gui/manifest.xml
 
 clean:
 	@echo "# cleaning"
-	@rm -rf $(TARGET) $(FILES_TO_REMOVE) $(LAUNCHER) build
+	@rm -rf $(TARGET) $(FILES_TO_REMOVE) $(LAUNCHER) $(LAUNCHERW) build launcher/launcher.o
 
 count-lines:
 	wc -l */*.c* */*.h*
