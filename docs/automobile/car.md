@@ -82,11 +82,14 @@ Here again, you can easily create your own PROTO that inherits from the [Car](#c
 Several PROTO models that inherit from the [Car](#car) PROTO are provided.
 They represent different models of car:
 
-- the Sport SVR from Range Rover
-- the X5 from BMW
-- the Prius from Toyota
-- the MKZ from Lincoln
-- the C-Zero from Citroen
+- the Sport SVR from Range Rover.
+- the X5 from BMW.
+- the Prius from Toyota.
+- the MKZ from Lincoln.
+- the C-Zero from Citroen.
+- the Model 3 from Tesla.
+- the Sprinter from Mercedes-Benz.
+- the EV Start from GreenPower.
 
 %figure "Models of cars created using the Car PROTO"
 
