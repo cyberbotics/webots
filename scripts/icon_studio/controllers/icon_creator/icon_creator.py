@@ -71,6 +71,8 @@ def autocrop(im):
     bbox = diff.getbbox()
     if bbox:
         return im.crop(bbox)
+    else:
+        return im
 
 
 def take_screenshot(camera, category, directory, protoDirectory, protoName, options, background, colorThreshold,
