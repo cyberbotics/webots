@@ -117,13 +117,15 @@ The next example does continuously update and print the value returned by a [Dis
 #include <webots/distance_sensor.h>
 #include <stdio.h>
 
+#define TIME_STEP 32
+
 int main() {
   wb_robot_init();
 
   WbDeviceTag sensor = wb_robot_get_device("my_distance_sensor");
-  wb_distance_sensor_enable(sensor, 32);
+  wb_distance_sensor_enable(sensor, TIME_STEP);
 
-  while (wb_robot_step(32) != -1) {
+  while (wb_robot_step(TIME_STEP) != -1) {
     const double value = wb_distance_sensor_get_value(sensor);
     printf("Sensor value is %f\n", value);
   }
@@ -140,15 +142,17 @@ int main() {
 #include <webots/DistanceSensor.hpp>
 #include <iostream>
 
+#define TIME_STEP 32
+
 using namespace webots;
 
 int main() {
   Robot *robot = new Robot();
 
   DistanceSensor *sensor = robot->getDistanceSensor("my_distance_sensor");
-  sensor->enable(32);
+  sensor->enable(TIME_STEP);
 
-  while (robot->step(32) != -1) {
+  while (robot->step(TIME_STEP) != -1) {
     const double value = sensor->getValue();
     std::cout << "Sensor value is: " << value << std::endl;
   }
@@ -163,12 +167,14 @@ int main() {
 ```python
 from controller import Robot, DistanceSensor
 
+TIME_STEP = 32
+
 robot = Robot()
 
 sensor = robot.getDistanceSensor("my_distance_sensor")
-sensor.enable(32)
+sensor.enable(TIME_STEP)
 
-while robot.step(32) != -1:
+while robot.step(TIME_STEP) != -1:
     value = sensor.getValue()
     print("Sensor value is: ", value)
 ```
@@ -183,12 +189,14 @@ public class ReadingSensor {
 
   public static void main(String[] args) {
 
+    final int TIME_STEP = 32;
+
     final Robot robot = new Robot();
 
     final DistanceSensor sensor = robot.getDistanceSensor("my_distance_sensor");
-    sensor.enable(32);
+    sensor.enable(TIME_STEP);
 
-    while (robot.step(32) != -1) {
+    while (robot.step(TIME_STEP) != -1) {
       final double value = sensor.getValue();
       System.out.println("Sensor value is: " + value);
     }
@@ -199,10 +207,12 @@ public class ReadingSensor {
 
 %tab "MATLAB"
 ```MATLAB
-sensor = wb_robot_get_device('my_distance_sensor');
-wb_distance_sensor_enable(sensor, 32);
+TIME_STEP = 32;
 
-while wb_robot_step(32) ~= -1
+sensor = wb_robot_get_device('my_distance_sensor');
+wb_distance_sensor_enable(sensor, TIME_STEP);
+
+while wb_robot_step(TIME_STEP) ~= -1
   value = wb_distance_sensor_get_value(sensor);
   wb_console_print(sprintf('Sensor value is %f\n', value), WB_STDOUT);
 end
