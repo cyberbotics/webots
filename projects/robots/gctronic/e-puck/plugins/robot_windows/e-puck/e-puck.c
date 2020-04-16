@@ -15,10 +15,10 @@
  */
 
 #include <webots/accelerometer.h>
-#include <webots/gyro.h>
 #include <webots/camera.h>
 #include <webots/device.h>
 #include <webots/distance_sensor.h>
+#include <webots/gyro.h>
 #include <webots/light_sensor.h>
 #include <webots/motor.h>
 #include <webots/position_sensor.h>
