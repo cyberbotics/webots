@@ -1352,6 +1352,7 @@ if finished:
 
 %tab "Java"
 ```java
+// freeze the whole simulation
 if (finished) {
   saveExperimentData();
   System.exit(0);
@@ -1361,6 +1362,7 @@ if (finished) {
 
 %tab "MATLAB"
 ```MATLAB
+% freeze the whole simulation
 if finished
   saveExperimentData();
   quit(0);
@@ -1400,11 +1402,13 @@ if (finished) {
 
 %tab "Python"
 ```python
+import sys
+
 # terminate only this robot controller
 if finished:
   saveExperimentsData()
   del robot
-  exit(0)
+  sys.exit(0)
 ```
 %tab-end
 
