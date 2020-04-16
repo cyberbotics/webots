@@ -1371,6 +1371,7 @@ end
 %tab-end
 %end
 
+Please note that this specific use case is only possible in C/C++ since controllers written in a different language will handle the cleanup part their own way.
 If only one robot controller needs to terminate but the simulation should continue with the other robots, then the terminating robot should call the `wb_robot_cleanup` function right before quitting:
 
 %tab-component "language"
@@ -1397,28 +1398,6 @@ if (finished) {
   delete robot;
   exit(0);
 }
-```
-%tab-end
-
-%tab "Python"
-```python
-import sys
-
-# terminate only this robot controller
-if finished:
-  saveExperimentData()
-  del robot
-  sys.exit(0)
-```
-%tab-end
-
-%tab "Java"
-```java
-```
-%tab-end
-
-%tab "MATLAB"
-```MATLAB
 ```
 %tab-end
 %end
