@@ -1,0 +1,160 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+  info [
+    "This simulation shows a Spot moving in an industrial environment."
+  ]
+  title "Simulation of Boston Dynamics' Spot robot."
+}
+Viewpoint {
+  orientation 0.07823012114071712 0.9770375226226808 0.19818609318931268 4.00013131524914
+  position -2.8371186183696078 1.589300568196845 -2.100625485552173
+  followType "None"
+  followSmoothness 0
+}
+TexturedBackground {
+  texture "factory"
+  skybox FALSE
+}
+TexturedBackgroundLight {
+  texture "factory"
+}
+RectangleArena {
+  floorSize 10 10
+  floorAppearance ThreadMetalPlate {
+    textureTransform TextureTransform {
+      scale 0.7 0.7
+    }
+  }
+  wallThickness 0.1
+  wallHeight 2
+  wallAppearance Roughcast {
+    colorOverride 0.662745 0.662745 0.662745
+    textureTransform TextureTransform {
+      scale 10 10
+    }
+  }
+}
+Spot {
+  translation 0.189 1.783 0.399
+  rotation -0.1305 -0.0118 -0.9913 3.1384
+}
+PlasticCrate {
+  translation -1.39798 0 0.278303
+  rotation 0 1 0 -0.523595307179586
+  size 0.3 0.2 0.5
+}
+TrafficCone {
+  translation 4.63526 0.228719 3.89768
+  rotation 0.0003109999849598856 0 0.9999999516395034 1.997414
+}
+TrafficCone {
+  translation 3.38354 0 3.49778
+  rotation 0 -1 0 1.0472
+  name "traffic cone(1)"
+}
+TrafficCone {
+  translation 4.09265 0 3.13193
+  rotation 0 1 0 -1.047195307179586
+  name "traffic cone(2)"
+}
+TrafficCone {
+  translation 3.98473 0 4.41983
+  rotation 0 1 0 -1.047195307179586
+  name "traffic cone(3)"
+}
+OilBarrel {
+  translation 4.67 0.44 0
+}
+OilBarrel {
+  translation 4.69 0.44 0.68
+  name "oil barrel(1)"
+}
+OilBarrel {
+  translation 4.53 0.44 1.34
+  name "oil barrel(2)"
+}
+OilBarrel {
+  translation 4.05 0.44 0.22
+  name "oil barrel(3)"
+}
+OilBarrel {
+  translation 3.89 0.44 1.04
+  name "oil barrel(4)"
+}
+OilBarrel {
+  translation 4.36 1.32 1.04
+  name "oil barrel(5)"
+}
+OilBarrel {
+  translation 4.25 1.32 0.27
+  name "oil barrel(6)"
+}
+Transform {
+  translation -5.04 0.75 4.3
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+      }
+      geometry Box {
+        size 0.1 1.5 0.7
+      }
+    }
+  ]
+}
+ConveyorBelt {
+  translation -2.05 0 4.3
+  size 6 0.6 0.5
+  timer 4
+}
+CardboardBox {
+  translation -4.8 0.75 4.27
+  name "cardboard box(1)"
+  size 0.3 0.3 0.3
+  mass 1
+}
+CardboardBox {
+  translation -3.3 0.75 4.27
+  name "cardboard box(2)"
+  size 0.3 0.3 0.3
+  mass 1
+}
+CardboardBox {
+  translation -1.8 0.75 4.27
+  name "cardboard box(3)"
+  size 0.3 0.3 0.3
+  mass 1
+}
+CardboardBox {
+  translation 1.71781 0.28 4.16794
+  rotation 0 1 0 -0.785395307179586
+  name "cardboard box(4)"
+  size 0.3 0.3 0.3
+}
+CardboardBox {
+  translation 1.47741 0.28 4.40834
+  rotation 0 1 0 -0.785395307179586
+  name "cardboard box(5)"
+  size 0.3 0.3 0.3
+}
+PlatformCart {
+  translation 1.64 0 4.33
+  rotation 0 1 0 -2.3561953071795863
+}
+WoodenPalletStack {
+  translation 4.33683 0 -1.57306
+  rotation 0 1 0 -1.5707953071795862
+}
+WoodenPalletStack {
+  translation 4.45255 0 -2.90052
+  name "wooden pallet stack(1)"
+}
+WoodenPalletStack {
+  translation 4.32255 0 -4.33052
+  name "wooden pallet stack(2)"
+}
+RubberDuck {
+  translation -0.318088 0.059884 1.732082
+  rotation 0 1 0 2.356178
+  scale 3
+}
