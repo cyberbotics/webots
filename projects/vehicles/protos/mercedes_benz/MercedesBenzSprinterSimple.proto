@@ -1,6 +1,6 @@
 #VRML_SIM R2020a utf8
-# license: Creative Commons Attribution 4.0 International License.
-# license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
 # Simple kinematic model of the Mercedes-Benz Sprinter to be moved with a Supervisor.
 
 PROTO MercedesBenzSprinterSimple [
