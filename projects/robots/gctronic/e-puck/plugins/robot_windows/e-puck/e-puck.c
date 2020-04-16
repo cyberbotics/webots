@@ -15,6 +15,7 @@
  */
 
 #include <webots/accelerometer.h>
+#include <webots/gyro.h>
 #include <webots/camera.h>
 #include <webots/device.h>
 #include <webots/distance_sensor.h>
@@ -36,7 +37,7 @@
 
 #include "../../remote_controls/e-puck_bluetooth/UploaderData.hpp"
 
-static WbDeviceTag ps[8], ls[8], tof, accelerometer, camera, gs[3], motors[2], position_sensors[2];
+static WbDeviceTag ps[8], ls[8], tof, accelerometer, gyro, camera, gs[3], motors[2], position_sensors[2];
 static const int N_SENSORS = sizeof(ps) / sizeof(WbDeviceTag);
 static int gs_sensors_count = 0;
 static bool configured = false;
@@ -109,6 +110,7 @@ void wb_robot_window_init() {
     tof = 0;
 
   accelerometer = wb_robot_get_device("accelerometer");
+  gyro = wb_robot_get_device("gyro");
   camera = wb_robot_get_device("camera");
   motors[0] = wb_robot_get_device("left wheel motor");
   motors[1] = wb_robot_get_device("right wheel motor");
@@ -167,6 +169,7 @@ void wb_robot_window_step(int time_step) {
     } else if (strcmp(message, "enable") == 0) {
       wb_camera_enable(camera, time_step);
       wb_accelerometer_enable(accelerometer, time_step);
+      wb_gyro_enable(gyro, time_step);
       wb_position_sensor_enable(position_sensors[0], time_step);
       wb_position_sensor_enable(position_sensors[1], time_step);
       for (i = 0; i < N_SENSORS; i++) {
@@ -325,6 +328,23 @@ void wb_robot_window_step(int time_step) {
     }
   } else
     snprintf(update, UPDATE_SIZE, "X Y Z ");
+  if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
+    strcat(update_message, update);
+
+  if (wb_gyro_get_sampling_period(gyro)) {
+    const double *values = wb_gyro_get_values(gyro);
+    const char name[4] = "Gyro";
+    update[0] = '\0';
+    for (i = 0; i < 3; ++i) {
+      char s[12];  // "[+-]\d\d\.\d\d\d \0"
+      if (isnan(values[i]))
+        sprintf(s, "%c ", name[i]);
+      else
+        sprintf(s, "%.3f ", values[i]);
+      strcat(update, s);
+    }
+  } else
+    snprintf(update, UPDATE_SIZE, "gX gY gZ ");
   if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
     strcat(update_message, update);
 
