@@ -4,8 +4,10 @@
 # tags: hidden
 
 PROTO GreenPowerEVStarFrontWheel [
-field  SFString  name        "front wheel"
-field  SFFloat   tireRadius  0.4445
+field  SFString  name           "front wheel"
+field  SFNode    physics        Physics { density -1 mass 10 }
+field  SFBool    boundingObject TRUE
+field  SFFloat   tireRadius     0.4445
 ]
 {
   Slot {
@@ -16,14 +18,13 @@ field  SFFloat   tireRadius  0.4445
         }
       ]
       name IS name
+      %{ if fields.boundingObject.value then }%
       boundingObject Cylinder {
         height 0.215
         radius IS tireRadius
       }
-      physics Physics {
-        density -1
-        mass 10
-      }
+      physics IS physics
+      %{ end }%
     }
   }
 }

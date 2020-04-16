@@ -4,8 +4,10 @@
 # tags: hidden
 
 PROTO GreenPowerEVStarRearWheel [
-  field  SFString  name        "rear wheel"
-  field  SFFloat   tireRadius  0.4445
+  field  SFString  name           "rear wheel"
+  field  SFNode    physics        Physics { density -1 mass 20 }
+  field  SFBool    boundingObject TRUE
+  field  SFFloat   tireRadius     0.4445
 ]
 {
   Slot {
@@ -29,14 +31,13 @@ PROTO GreenPowerEVStarRearWheel [
         }
       ]
       name IS name
+      %{ if fields.boundingObject.value then }%
       boundingObject Cylinder {
         height 0.43
         radius IS tireRadius
       }
-      physics Physics {
-        density -1
-        mass 20
-      }
+      physics IS physics
+      %{ end }%
     }
   }
 }
