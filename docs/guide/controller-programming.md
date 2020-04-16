@@ -1380,7 +1380,7 @@ If only one robot controller needs to terminate but the simulation should contin
 
 // terminate only this robot controller
 if (finished) {
-  saveExperimentsData();
+  saveExperimentData();
   wb_robot_cleanup();
   exit(0);
 }
@@ -1393,7 +1393,7 @@ if (finished) {
 
 // terminate only this robot controller
 if (finished) {
-  saveExperimentsData();
+  saveExperimentData();
   delete robot;
   exit(0);
 }
@@ -1406,7 +1406,7 @@ import sys
 
 # terminate only this robot controller
 if finished:
-  saveExperimentsData()
+  saveExperimentData()
   del robot
   sys.exit(0)
 ```
