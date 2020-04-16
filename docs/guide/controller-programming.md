@@ -287,7 +287,7 @@ public Gyro::public double[] getValues();
 %tab-end
 %end
 
-Each function returns a pointer to three double values.
+In C and C++, each function returns a pointer to three double values.
 The pointer is the address of an array allocated by the function internally.
 These arrays should never be explicitly deleted by the controller code.
 They will be automatically deleted when necessary.
