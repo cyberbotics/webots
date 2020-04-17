@@ -9,7 +9,7 @@ Released on XXX.
     - macOS and Windows: Added support for Python 3.8.
     - Added a 'Convert Root to Base Node(s)' option in the context menu to convert a PROTO node to base node(s) without converting the nested PROTO nodes.
     - Added an `OfficeChair` PROTO object.
-    - Added several new appearances: `Marble`, `MetalStainlessSteelCable`, `Pavement`, `Parquetry`, and `SolarCell`.
+    - Added several new appearances: `Marble`, `MetalStainlessSteelCable`, `Pavement`, `Parquetry`, `PerforatedMetal` and `SolarCell`.
     - Added a `ConveyorPlatform` PROTO object.
   - New Samples
     - Added a [break\_room](../guide/samples-environments.md#break_room-wbt) world.
