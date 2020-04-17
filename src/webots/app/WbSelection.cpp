@@ -181,8 +181,8 @@ bool WbSelection::showResizeManipulatorFromView3D(bool enabled) {
   WbAbstractTransform *t = selectedAbstractTransform();
   if (!mSelectedNode)
     return false;
-  if (!t || mResizeHandlesEnabledFromSceneTree || mSelectedNode->isUseNode() ||
-   !t->hasResizeManipulator() || WbNodeUtilities::isNodeOrAncestorLocked(t->baseNode()))
+  if (!t || mResizeHandlesEnabledFromSceneTree || mSelectedNode->isUseNode() || !t->hasResizeManipulator() ||
+      WbNodeUtilities::isNodeOrAncestorLocked(t->baseNode()))
     return false;
 
   if (enabled) {
