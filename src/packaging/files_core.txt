@@ -305,7 +305,7 @@ resources/translations/
 resources/translations/Makefile
 resources/translations/*.ts
 resources/translations/*.qm
-resources/translations/readme.txt
+resources/translations/README.md
 resources/web/
 resources/web/local/
 resources/web/local/webots.css
