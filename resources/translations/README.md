@@ -1,7 +1,7 @@
 # How to translate Webots in your own language?
 
 Here is the standard procedure to translate Webots in your own language or improve an existing translation.
-If you encounter any difficulty along this path, please contact us at <a href="mailto:support@cyberbotics.com">support@cyberbotics.com</a> and we will be happy to help you.
+If you encounter any difficulty along this path, please contact us on [Discord](https://discordapp.com/invite/nTWbN9m) or at <a href="mailto:support@cyberbotics.com">support@cyberbotics.com</a> and we will be happy to help you.
 
 1. Install the [Webots development environment](https://github.com/cyberbotics/webots/wiki#installation-of-the-webots-development-environment).
 
