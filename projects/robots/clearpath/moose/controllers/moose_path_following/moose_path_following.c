@@ -196,7 +196,6 @@ int main(int argc, char *argv[]) {
   wb_robot_init();
 
   // print user instructions
-  ANSI_CLEAR_CONSOLE();
   printf("You can drive this robot:\n");
   printf("Select the 3D window and use cursor keys:\n");
   printf("Press 'A' to return to the autopilot mode\n");

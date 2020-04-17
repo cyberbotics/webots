@@ -218,4 +218,3 @@ void dWebotsConsolePrintf(const char *format, ...);
 This function prints a line of formatted text to the Webots console.
 The format argument is the same as the standard C `printf` function, i.e., the format string may contain format characters defining conversion specifiers, and optional extra arguments should match these conversion specifiers.
 A prefix and a '\n' (new line) character will automatically be added to each line.
-A '\f' (form feed) character can optionally be used for clearing up the console.

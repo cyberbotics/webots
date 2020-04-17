@@ -62,9 +62,8 @@ int main() {
   wb_motor_set_velocity(right_motor, 0.0);
 
   wb_keyboard_enable(TIME_STEP);
-  ANSI_CLEAR_CONSOLE();
-  printf("You can drive this robot by using the arrow"
-         " keys of your keyboard\n");
+  if (strcmp(wb_robot_get_name(), "koala") == 0) // matching name
+    printf("You can drive this robot by using the arrow keys of your keyboard\n");
 
   while (wb_robot_step(TIME_STEP) != -1) {
     for (i = 0; i < 16; i++)
