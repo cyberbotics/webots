@@ -87,7 +87,7 @@ void WbSelection::selectNode(WbBaseNode *n) {
 
     if (mSelectedAbstractTransform && transformChanged) {
       connect(mSelectedNode, &WbBaseNode::isBeingDestroyed, this, &WbSelection::clear, Qt::UniqueConnection);
-      if (!WbNodeUtilities::isNodeOrAncestorLocked(mSelectedAbstractTransform->baseNode()))
+      if (!WbNodeUtilities::isNodeOrAncestorLocked(mSelectedAbstractTransform->baseNode()) && !mSelectedNode->isUseNode())
         mSelectedAbstractTransform->attachTranslateRotateManipulator();
     }
   }
@@ -179,8 +179,10 @@ void WbSelection::restoreActiveManipulator() {
 bool WbSelection::showResizeManipulatorFromView3D(bool enabled) {
   // only Transform or Solid nodes can be selected from the 3D view
   WbAbstractTransform *t = selectedAbstractTransform();
-  if (!t || mResizeHandlesEnabledFromSceneTree || !t->hasResizeManipulator() ||
-      WbNodeUtilities::isNodeOrAncestorLocked(t->baseNode()))
+  if (!mSelectedNode)
+    return false;
+  if (!t || mResizeHandlesEnabledFromSceneTree || mSelectedNode->isUseNode() ||
+   !t->hasResizeManipulator() || WbNodeUtilities::isNodeOrAncestorLocked(t->baseNode()))
     return false;
 
   if (enabled) {
