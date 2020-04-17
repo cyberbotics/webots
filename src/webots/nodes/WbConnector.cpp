@@ -145,9 +145,12 @@ void WbConnector::updateType() {
 }
 
 void WbConnector::updateIsLocked() {
-  if (mFaceType == PASSIVE && mIsLocked->isTrue()) {
-    warn(tr("Passive connectors cannot be locked."));
-    mIsLocked->setFalse();
+  if (mFaceType == PASSIVE) {
+    if (mIsLocked->isTrue()) {
+      warn(tr("Passive connectors cannot be locked."));
+      mIsLocked->setFalse();
+    }
+    return;
   }
 
   if (mIsLocked->isTrue())

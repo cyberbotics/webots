@@ -946,5 +946,17 @@
   },
   "projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto": {
     "fields": "rotation 0 1 0 -0.7854"
+  },
+  "projects/vehicles/protos/green_power/GreenPowerEVStar.proto": {
+    "fields": "rotation 0 1 0 2.618"
+  },
+  "projects/vehicles/protos/green_power/GreenPowerEVStarSimple.proto": {
+    "fields": "rotation 0 1 0 2.618"
+  },
+  "projects/vehicles/protos/mercedes_benz/MercedesBenzSprinter.proto": {
+    "fields": "rotation 0 1 0 2.618"
+  },
+  "projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterSimple.proto": {
+    "fields": "rotation 0 1 0 2.618"
   }
 }
