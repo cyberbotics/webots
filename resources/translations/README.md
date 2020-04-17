@@ -8,7 +8,7 @@ If you encounter any difficulty along this path, please contact us at <a href="m
 2. Start [Linguist](https://doc.qt.io/qt-5/qtlinguist-index.html) from your terminal by typing `linguist` and open `wb_generic.ts`.
 
 3. In the appearing dialog box called "Settings for wb_generic", select the source language as POSIX and your own destination language.
-   If the dialog message doesn't appear, open it thanks to the "Edit / Translation File Settings..." menu.
+If the dialog message doesn't appear, open it thanks to the "Edit / Translation File Settings..." menu.
 
 4. Save the project as your own file.
    The file name should match this pattern: `wb_*.ts`
