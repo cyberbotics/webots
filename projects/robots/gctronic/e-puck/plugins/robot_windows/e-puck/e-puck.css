@@ -40,6 +40,13 @@ div.motor {
   width:70px;
   font-size:16px;
 }
+td.motor, td.label {
+  font-family:Arial, Helvetica, sans-serif;
+  text-align:center;
+}
+td.label {
+  font-weight:bold;
+}
 div.groundSensor {
   width:20px;
   height:20px;
