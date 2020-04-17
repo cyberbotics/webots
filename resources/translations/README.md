@@ -11,7 +11,7 @@ If you encounter any difficulty along this path, please contact us at <a href="m
 If the dialog message doesn't appear, open it thanks to the "Edit / Translation File Settings..." menu.
 
 4. Save the project as your own file.
-   The file name should match this pattern: `wb_*.ts`
+The file name should match this pattern: `wb_*.ts`
 
 5. Translate the strings.
 
