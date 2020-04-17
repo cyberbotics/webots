@@ -6,7 +6,7 @@
 # Original model by Greg McKechnie.
 
 PROTO Spot [
-  field SFVec3f     translation      0 -1.028 0.46             # Is `Transform.translation`.
+  field SFVec3f     translation      0 0.624 0                 # Is `Transform.translation`.
   field SFRotation  rotation         0 1 0 0                   # Is `Transform.rotation`.
   field SFString    name             "Spot"                    # Is `Solid.name`.
   field SFString    model            "Boston Dynamics - Spot"  # Is `Robot.model`.
