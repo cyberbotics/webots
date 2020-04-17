@@ -179,9 +179,7 @@ void WbSelection::restoreActiveManipulator() {
 bool WbSelection::showResizeManipulatorFromView3D(bool enabled) {
   // only Transform or Solid nodes can be selected from the 3D view
   WbAbstractTransform *t = selectedAbstractTransform();
-  if (!mSelectedNode)
-    return false;
-  if (!t || mResizeHandlesEnabledFromSceneTree || mSelectedNode->isUseNode() || !t->hasResizeManipulator() ||
+  if (!t || !mSelectedNode || mResizeHandlesEnabledFromSceneTree || mSelectedNode->isUseNode() || !t->hasResizeManipulator() ||
       WbNodeUtilities::isNodeOrAncestorLocked(t->baseNode()))
     return false;
 
