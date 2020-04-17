@@ -172,6 +172,11 @@
       "type \"tiles\" textureTransform TextureTransform { scale 2 1 }"
     ]
   },
+  "PerforatedMetal": {
+    "fields": [
+      "textureTransform TextureTransform { scale 3 1.5 }"
+    ]
+  },
   "Pcb": {
     "fields": [
       "textureTransform TextureTransform { scale 3.2 1.4 }"
