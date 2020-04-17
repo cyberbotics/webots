@@ -55,7 +55,6 @@ public:
   void jumpToError(const QString &errorLine);
 
   // console clear action to be used in menus
-  QAction *clearAction() const { return mClearAction; }
 
   // enable redirecting messages to the terminal
   static void enableStdOutRedirectToTerminal();
@@ -86,25 +85,26 @@ public:
   void setAnsiWhite(const QString &color) { mAnsiWhite = color; }
 
 public slots:
-  // clear console
-  void clear();
+  // clear console and resets its attributes when performed by webots
+  // only from within a controller, this option is set to false
+  void clear(bool reset = true);
 
   // append internal error message of Webots
   // the message color depends on the level
   void appendLog(WbLog::Level level, const QString &message, bool popup);
-  void appendLog(WbLog::Level level, const QString &message, const QString &prefix, bool popup);
 
 private:
   QString mErrorColor, mInfoColor;
   QString mAnsiBlack, mAnsiRed, mAnsiGreen, mAnsiYellow, mAnsiBlue, mAnsiMagenta, mAnsiCyan, mAnsiWhite;
   ConsoleEdit *mEditor;
-  QAction *mClearAction;
   QRegExp **mErrorPatterns;
-  QString mColor;
+  QString mForegroundColor;
+  QString mBackgroundColor;
   bool mBold;
+  bool mUnderline;
   bool mIsOverwriteEnabled;
-  QString mPrefix;
 
+  void resetFormat();
   QString htmlSpan(const QString &s, WbLog::Level level) const;
   void handleCRAndLF(const QString &msg);
   void handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Level);

@@ -1,6 +1,8 @@
 #VRML_SIM R2020b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
+# tags: hidden, static
+# Backward compatibility with the deprecated 'DarkParquetry' PROTO (deprecated in Webots R2020a-rev2)
 # A dark parquetry material.
 
 PROTO DarkParquetry [
@@ -9,23 +11,24 @@ PROTO DarkParquetry [
   field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
 ]
 {
+  %{ io.stderr:write("Deprecated 'DarkParquetry' PROTO, please use the 'Parquetry' PROTO instead and select the right type.\n") }%
   PBRAppearance {
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "textures/dark_parquetry/dark_parquetry_base_color.jpg"
+        "textures/parquetry/dark_strip_parquetry_base_color.jpg"
       ]
     }
     metalness 0
     roughness 0.3
     normalMap ImageTexture {
       url [
-        "textures/dark_parquetry/dark_parquetry_normal.jpg"
+        "textures/parquetry/dark_strip_parquetry_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/dark_parquetry/dark_parquetry_occlusion.jpg"
+        "textures/parquetry/dark_strip_parquetry_occlusion.jpg"
       ]
     }
     IBLStrength IS IBLStrength

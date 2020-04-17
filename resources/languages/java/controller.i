@@ -104,6 +104,46 @@ using namespace std;
 %include "std_string.i"
 
 //----------------------------------------------------------------------------------------------
+//  ANSI Support
+//----------------------------------------------------------------------------------------------
+
+%typemap(javacode) webots::AnsiCodes %{
+  public final static String RESET = "\u001b[0m";
+
+  public final static String BOLD = "\u001b[1m";
+  public final static String UNDERLINE = "\u001b[4m";
+
+  public final static String BLACK_BACKGROUND = "\u001b[40m";
+  public final static String RED_BACKGROUND = "\u001b[41m";
+  public final static String GREEN_BACKGROUND = "\u001b[42m";
+  public final static String YELLOW_BACKGROUND = "\u001b[43m";
+  public final static String BLUE_BACKGROUND = "\u001b[44m";
+  public final static String MAGENTA_BACKGROUND = "\u001b[45m";
+  public final static String CYAN_BACKGROUND = "\u001b[46m";
+  public final static String WHITE_BACKGROUND = "\u001b[47m";
+
+  public final static String BLACK_FOREGROUND = "\u001b[30m";
+  public final static String RED_FOREGROUND = "\u001b[31m";
+  public final static String GREEN_FOREGROUND = "\u001b[32m";
+  public final static String YELLOW_FOREGROUND = "\u001b[33m";
+  public final static String BLUE_FOREGROUND = "\u001b[34m";
+  public final static String MAGENTA_FOREGROUND = "\u001b[35m";
+  public final static String CYAN_FOREGROUND = "\u001b[36m";
+  public final static String WHITE_FOREGROUND = "\u001b[37m";
+
+  public final static String CLEAR_SCREEN = "\u001b[2J";
+%}
+
+
+// we need to create an empty class for SWIG to create a Java module
+%inline %{
+namespace webots {
+  class AnsiCodes {
+  };
+}
+%}
+
+//----------------------------------------------------------------------------------------------
 //  Device
 //----------------------------------------------------------------------------------------------
 

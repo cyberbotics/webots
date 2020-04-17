@@ -272,6 +272,6 @@ PROTO Altino [
     engineMinRPM            1
     engineMaxRPM            250
     gearRatio               [-30 30]
-    maxWheelVelocity         29.8
+    maxVelocity             0.596
   }
 }

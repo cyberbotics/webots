@@ -224,10 +224,8 @@ void WbStreamingServer::create(int port) {
   connect(mTcpServer, &WbStreamingTcpServer::newConnection, this, &WbStreamingServer::onNewTcpConnection);
   connect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this,
           &WbStreamingServer::sendUpdatePackageToClients, Qt::UniqueConnection);
-  if (!mDisableTextStreams) {
-    connect(WbLog::instance(), &WbLog::controllerLogEmitted, this, &WbStreamingServer::propagateControllerLogToClients);
+  if (!mDisableTextStreams)
     connect(WbLog::instance(), &WbLog::logEmitted, this, &WbStreamingServer::propagateWebotsLogToClients);
-  }
 }
 
 void WbStreamingServer::destroy() {
@@ -237,7 +235,6 @@ void WbStreamingServer::destroy() {
   if (WbAnimationRecorder::isInstantiated()) {
     disconnect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this,
                &WbStreamingServer::sendUpdatePackageToClients);
-    disconnect(WbLog::instance(), &WbLog::controllerLogEmitted, this, &WbStreamingServer::propagateControllerLogToClients);
     disconnect(WbLog::instance(), &WbLog::logEmitted, this, &WbStreamingServer::propagateWebotsLogToClients);
   }
 
@@ -622,8 +619,7 @@ void WbStreamingServer::sendUpdatePackageToClients() {
   }
 }
 
-void WbStreamingServer::propagateControllerLogToClients(WbLog::Level level, const QString &message, const QString &prefix,
-                                                        bool popup) {
+void WbStreamingServer::propagateControllerLogToClients(WbLog::Level level, const QString &message, bool popup) {
   propagateLogToClients(level, message);
 }
 

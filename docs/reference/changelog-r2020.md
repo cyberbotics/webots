@@ -5,10 +5,17 @@ Released on XXX.
 
   - New Features
     - Added a [Mesh](mesh.md) node allowing to use external 3D file in Webots ([#1419](https://github.com/cyberbotics/webots/pull/1419)).
+    - Added the possibility to import [3D Studio mesh](https://wiki.fileformat.com/3d/3ds), [Blender](https://www.blender.org/), [Biovision Hierarchy](https://en.wikipedia.org/wiki/Biovision_Hierarchy), [Collada](https://en.wikipedia.org/wiki/COLLADA), [Filmbox](https://wiki.fileformat.com/3d/fbx/), [STL](https://en.wikipedia.org/wiki/STL_(file_format)), [Wavefront](https://wiki.fileformat.com/3d/obj), [X3D](https://www.web3d.org/getting-started-x3d) files in Webots ([#1463](https://github.com/cyberbotics/webots/pull/1463)).
     - Added two new functions to get internal PROTO node fields: [`wb_supervisor_node_get_from_proto_def`](supervisor.md#wb_supervisor_node_get_from_proto_def) and [`wb_supervisor_node_get_proto_field`](supervisor.md#wb_supervisor_node_get_proto_field) ([#1331](https://github.com/cyberbotics/webots/pull/1331)).
   - Enhancements
     - **Improved [Track](track.md) `textureAnimation` field so that it automatically takes the world basic time step into consideration and removed it from `ConveyorBelt` PROTO object.** ([#1477](https://github.com/cyberbotics/webots/pull/1477)).
+    - **Replaced the [Car](../automobile/car.md) `maxWheelVelocity` field by a `maxVelocity` field representing the actual maximum velocity of the car itself.** ([#1552](https://github.com/cyberbotics/webots/pull/1552)).
+    - Added the possibility to edit the `S/MFRotation` fields using quaternions ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
+    - Improved edition of `S/MFRotation` fields using the field editor spin-boxes, only the last decimal is now incremented ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
+    - Improved the Webots console by supporting more [ANSI](https://en.wikipedia.org/wiki/ANSI_escape_code) escape codes and removed the controller name prefix ([#1508](https://github.com/cyberbotics/webots/pull/1508)).
     - Added a [Gyro](https://www.cyberbotics.com/doc/reference/gyro) node to e-puck PROTO ([#1484](https://github.com/cyberbotics/webots/pull/1484)).
+  - Dependency Updates
+    - Upgraded to Assimp 5.0.1 on Linux and macOS ([#1419](https://github.com/cyberbotics/webots/pull/1463)).
 
 ## Webots R2020a Revision 2
 Released on XXX.
@@ -17,8 +24,9 @@ Released on XXX.
     - macOS and Windows: Added support for Python 3.8.
     - Added a 'Convert Root to Base Node(s)' option in the context menu to convert a PROTO node to base node(s) without converting the nested PROTO nodes.
     - Added an `OfficeChair` PROTO object.
-    - Added a `MetalStainlessSteelCable` appearance.
+    - Added several new appearances: `Marble`, `MetalStainlessSteelCable`, `Pavement`, `Parquetry`, and `SolarCell`.
     - Added a `ConveyorPlatform` PROTO object.
+  - New Samples
     - Added a [break\_room](../guide/samples-environments.md#break_room-wbt) world.
   - Enhancements
     - Improved the environment colors of the sojourner simulation (Mars is a red planet).
@@ -26,10 +34,14 @@ Released on XXX.
     - Added missing `supervisor` field in `UR3e`, `UR5e` and `UR10e` robots.
     - Added a `staticBase` field to the `Irb4600-40` PROTO node.
     - Added a `--node-name` argument to the ROS controller of the Universal Robots UR3e, UR5e and UR10e for multi robot simulations.
+    - Added a `type` field to the following appearances: `Rubber` and `ThreadMetalPlate`.
+    - Added an `appearance` field to the `Worktop` PROTO node.
     - Removed the ROS libraries from the default controllers path to avoid possible conflicts with other libraries (thanks to PymZoR).
     - Geometry node now displays its triangles count in the node editor.
   - Dependency Updates
-    - Upgraded to Qt 5.14.1 on Windows.
+    - Upgraded to Qt 5.14.2 on Windows.
+  - Cleanup
+    - Deprecated the following appearances: `ChequeredParquetry`, `DarkParquetry`, `SlatePavement`, `SquarePavement` and `StonePavement`.
   - Bug fixes
     - Fixed the physics behavior of [Connector](connector.md) nodes sometimes remaining idle after being detached from each other (thanks to Giorgio).
     - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images.
@@ -38,16 +50,21 @@ Released on XXX.
     - Fixed the C/C++ Makefiles to handle spaces in the Webots installation directory.
     - Fixed crash when resetting worlds with motorized [BallJoint](balljoint.md) nodes (thanks to lordNil).
     - Fixed addition of PROTO nodes including a [Connector](connector.md) node from the Add Node dialog (thanks to Acwok).
+    - Fixed crash when using the search bar of the Add Node dialog.
     - Fixed the [`wb_display_image_load`](display.md#wb_display_image_load) function when used with a PNG image with transparency.
     - Fixed color of the bounding objects remaining in the collision state if the collision was lasting only one step (thanks to Acwok).
     - Fixed rare issue with the [`wb_supervisor_simulation_reset`](supervisor.md#wb_supervisor_simulation_reset) function when the controller step is not equal to the simulation step.
     - Fixed MATLAB API.
     - Fixed missing stdout/stderr flush when a controller is changed or restarted while simulation is running (thanks to tsampazk).
     - Fixed the ROS controller of the Universal Robots UR3e, UR5e and UR10e to send the success state when a trajectory succeeded (thanks to Tim-Stoll).
+    - Fixed the `Show Contact Points` optional rendering which was causing an OpenGL error.
     - Fixed the [`wb_supervisor_field_set_sf_rotation`](supervisor.md#wb_supervisor_field_set_sf_rotation) and [`wb_supervisor_field_set_mf_rotation`](supervisor.md#wb_supervisor_field_set_mf_rotation) functions to handle non-normalized rotations.
     - Fixed a crash when trying to add an [IndexedLineSet](indexedlineset.md) node to a geometry's [Shape](shape.md) node with no coordinates.
     - Fixed a crash related to [InertialUnit](inertialunit.md) node when gravity was null.
     - Fixed support for MATLAB R2017b on Windows.
+    - Fixed a crash occurring when changing the `textureAnimation` value of some `Track` node from the scene tree.
+  - Documentation
+    - Fixed tutorials 1, 4 and 6 with respect to MATLAB controllers and added sample MATLAB controllers.
 
 ## Webots R2020a Revision 1
 Released on January 14th, 2020.

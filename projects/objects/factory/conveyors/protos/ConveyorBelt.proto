@@ -44,32 +44,8 @@ PROTO ConveyorBelt [
         rotation -1 0 0 3.141592653589793
         children [
           Shape {
-            appearance PBRAppearance {
-              metalness 0
-              baseColorMap ImageTexture {
-                url [
-                  "textures/rubber_base_color.jpg"
-                ]
-                filtering 5
-              }
-              normalMap ImageTexture {
-                url [
-                  "textures/rubber_normal.jpg"
-                ]
-                filtering 5
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "textures/rubber_roughness.jpg"
-                ]
-                filtering 5
-              }
-              occlusionMap ImageTexture {
-                url [
-                  "textures/rubber_occlusion.jpg"
-                ]
-                filtering 5
-              }
+            appearance Rubber {
+              type "dotted"
               textureTransform TextureTransform {
                 scale %{=4.0 * size.x}% %{=4.0 * size.z}%
               }

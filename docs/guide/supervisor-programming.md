@@ -23,12 +23,16 @@ Of course, a robot can find its position using a [GPS](../reference/gps.md), but
 
 The following [Supervisor](../reference/supervisor.md) code shows how to keep track of a single robot, but this can easily be transposed to an arbitrary number of robots.
 This example code finds a `WbNodeRef` that corresponds to the robot node and then a `WbFieldRef` that corresponds to the robot's `translation` field.
-At each iteration it reads and prints the field's values.
+At each iteration it reads and prints the field's `values`.
 
+%tab-component "language"
+%tab "C"
 ```c
 #include <webots/robot.h>
 #include <webots/supervisor.h>
 #include <stdio.h>
+
+#define TIME_STEP 32
 
 int main() {
   wb_robot_init();
@@ -37,17 +41,109 @@ int main() {
   WbNodeRef robot_node = wb_supervisor_node_get_from_def("MY_ROBOT");
   WbFieldRef trans_field = wb_supervisor_node_get_field(robot_node, "translation");
 
-  while (wb_robot_step(32) != -1) {
+  while (wb_robot_step(TIME_STEP) != -1) {
     // this is done repeatedly
-    const double *trans = wb_supervisor_field_get_sf_vec3f(trans_field);
-    printf("MY_ROBOT is at position: %g %g %g\n", trans[0], trans[1], trans[2]);
+    const double *values = wb_supervisor_field_get_sf_vec3f(trans_field);
+    printf("MY_ROBOT is at position: %g %g %g\n", values[0], values[1], values[2]);
   }
 
   wb_robot_cleanup();
-
   return 0;
 }
 ```
+%tab-end
+
+%tab "C++"
+```cpp
+#include <webots/Supervisor.hpp>
+
+#define TIME_STEP 32
+
+using namespace webots;
+
+int main() {
+  Supervisor *supervisor = new Supervisor();
+
+  // do this once only
+  Node *robot_node = supervisor->getFromDef("MY_ROBOT");
+  Field *trans_field = robot_node->getField("translation");
+
+  while (supervisor->step(TIME_STEP) != -1) {
+    // this is done repeatedly
+    const double *values = trans_field->getSFVec3f();
+    std::cout << "MY_ROBOT is at position: " << values[0] << ' '
+              << values[1] << ' ' << values[2] << std::endl;
+  }
+
+  delete supervisor;
+  return 0;
+}
+```
+%tab-end
+
+%tab "Python"
+```python
+from controller import Supervisor
+
+TIME_STEP = 32
+
+supervisor = Supervisor()
+
+# do this once only
+robot_node = supervisor.getFromDef("MY_ROBOT")
+trans_field = robot_node.getField("translation")
+
+while supervisor.step(TIME_STEP) != -1:
+    # this is done repeatedly
+    values = trans_field.getSFVec3f()
+    print("MY_ROBOT is at position: %g %g %g" % (values[0], values[1], values[2]))
+    pass
+```
+%tab-end
+
+%tab "Java"
+```java
+import com.cyberbotics.webots.controller.Supervisor;
+import com.cyberbotics.webots.controller.Node;
+import com.cyberbotics.webots.controller.Field;
+
+public class SupervisorController {
+
+  public static void main(String[] args) {
+
+    final int TIME_STEP = 32;
+
+    final Supervisor supervisor = new Supervisor();
+
+    // do this once only
+    final Node robot_node = supervisor.getFromDef("MY_ROBOT");
+    final Field trans_field = robot_node.getField("translation");
+
+    while (supervisor.step(TIME_STEP) != -1) {
+      // this is done repeatedly
+      final double[] values = trans_field.getSFVec3f();
+      System.out.format("MY_ROBOT is at position: %g %g %g\n",
+                        values[0], values[1], values[2]);
+    }
+  }
+}
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+TIME_STEP = 32;
+% do this once only
+robot_node = wb_supervisor_node_get_from_def('MY_ROBOT');
+trans_field = wb_supervisor_node_get_field(robot_node, 'translation');
+while wb_robot_step(TIME_STEP) ~= -1
+  % this is done repeatedly
+  values = wb_supervisor_field_get_sf_vec3f(trans_field);
+  wb_console_print(sprintf('MY_ROBOT is at position: %g %g %g\n', values(1), values(2), values(3)), WB_STDOUT);
+end
+```
+%tab-end
+%end
 
 Note that the [Supervisor API](../reference/supervisor.md) is defined in the `supervisor.h` header file which should be included in addition to the `robot.h` header file.
 Otherwise a [Supervisor](../reference/supervisor.md) controller works like a regular [Robot](../reference/robot.md) controller and everything that was explained in the "Controller Programming" section does also apply to "Supervisor Programming".
@@ -68,12 +164,14 @@ Now let's examine a more sophisticated [Supervisor](../reference/supervisor.md) 
 In this example we seek to optimize the locomotion of a robot: it should walk as far as possible.
 Suppose that the robot's locomotion depends on two parameters (a and b), hence we have a two-dimensional search space.
 
-In the code, the evaluation of the a and b parameters is carried out in the `while` loop.
-The `actuateMotors` function here is assumed to call the `wb_motor_set_postion` function for each motor involved in the locomotion.
+In the code below, the evaluation of the a and b parameters is carried out in the `for` loop.
+In the third `for` the comments suggest an assumed function which will call the `wb_motor_set_postion` function for each motor involved in the locomotion.
 After each evaluation the distance travelled by the robot is measured and logged.
 Then the robot is moved (translation) back to its initial position (0, 0.5, 0) for the next evaluation.
 To move the robot we need the `wb_supervisor_*` functions and hence the `supervisor` field of the [Robot](../reference/robot.md) node should be `TRUE`.
 
+%tab-component "language"
+%tab "C"
 ```c
 #include <webots/robot.h>
 #include <webots/supervisor.h>
@@ -82,6 +180,11 @@ To move the robot we need the `wb_supervisor_*` functions and hence the `supervi
 
 #define TIME_STEP 32
 
+static int my_exit(void) {
+  wb_robot_cleanup();
+  return 0;
+}
+
 int main() {
   wb_robot_init();
 
@@ -89,33 +192,209 @@ int main() {
   WbNodeRef robot_node = wb_supervisor_node_get_from_def("MY_ROBOT");
   WbFieldRef trans_field = wb_supervisor_node_get_field(robot_node, "translation");
 
-  double a, b, t;
-  for (a = 0.0; a < 5.0; a += 0.2) {
-    for (b = 0.0; b < 10.0; b += 0.3) {
+  int a, b;
+  for (a = 0; a < 25; ++a) {
+    for (b = 0; b < 33; ++b) {
       // evaluate robot during 60 seconds (simulation time)
-      for (t = 0.0; t < 60.0; t += TIME_STEP / 1000.0) {
-        actuateMotors(a, b, t);
-        if (wb_robot_step(TIME_STEP) != -1)
-          goto my_exit;
+      const double t = wb_robot_get_time();
+      while (wb_robot_get_time() - t < 60.0) {
+
+        // perform robot control according to a, b
+        // (and possibly t) parameters.
+
+        // controller termination
+        if (wb_robot_step(TIME_STEP) == -1)
+          return my_exit();
       }
 
       // compute travelled distance
-      const double *pos = wb_supervisor_field_get_sf_vec3f(trans_field);
-      double dist = sqrt(pos[0] * pos[0] + pos[2] * pos[2]);
-      printf("a=%g, b=%g -> dist=%g\n", a, b, dist);
+      const double *values = wb_supervisor_field_get_sf_vec3f(trans_field);
+      double dist = sqrt(values[0] * values[0] + values[2] * values[2]);
+      printf("a=%d, b=%d -> dist=%g\n", a, b, dist);
 
-      // reset robot position
+      // reset robot position and physics
       const double INITIAL[3] = { 0, 0.5, 0 };
       wb_supervisor_field_set_sf_vec3f(trans_field, INITIAL);
+      wb_supervisor_node_reset_physics(robot_node);
     }
   }
-
-my_exit:
-  wb_robot_cleanup();
-
-  return 0;
+  // end of tests
+  return my_exit();
 }
 ```
+%tab-end
+
+%tab "C++"
+```cpp
+#include <cmath>
+#include <webots/Supervisor.hpp>
+
+#define TIME_STEP 32
+
+using namespace webots;
+
+static int cleanUp(Supervisor *supervisor) {
+  delete supervisor;
+  return 0;
+}
+
+int main() {
+  Supervisor *supervisor = new Supervisor();
+
+  // get handle to robot's translation field
+  Node *robot_node = supervisor->getFromDef("MY_ROBOT");
+  Field *trans_field = robot_node->getField("translation");
+
+  int a, b;
+  for (a = 0; a < 25; ++a) {
+    for (b = 0; b < 33; ++b) {
+      const double t = supervisor->getTime();
+      // evaluate robot during 60 seconds (simulation time)
+      while (supervisor->getTime() - t < 60.0) {
+
+        // perform robot control according to a, b
+        // (and possibly t) parameters.
+
+        // controller termination
+        if (supervisor->step(TIME_STEP) == -1)
+          return cleanUp(supervisor);
+      }
+
+      // compute travelled distance
+      const double *values = trans_field->getSFVec3f();
+      double dist = sqrt(values[0] * values[0] + values[2] * values[2]);
+      std::cout << "a=" << a << ", b=" << b << " -> dist=" << dist << std::endl;
+
+      // reset robot position and physics
+      const double INITIAL[3] = {0, 0.5, 0};
+      trans_field->setSFVec3f(INITIAL);
+      robot_node->resetPhysics();
+    }
+  }
+  // end of tests
+  return cleanUp(supervisor);
+}
+```
+%tab-end
+
+%tab "Python"
+```python
+from math import sqrt
+from controller import Supervisor
+
+TIME_STEP = 32
+
+supervisor = Supervisor()
+
+# get handle to robot's translation field
+robot_node = supervisor.getFromDef("MY_ROBOT")
+trans_field = robot_node.getField("translation")
+
+for a in range(0, 25):
+    for b in range(0, 33):
+        # evaluate robot during 60 seconds (simulation time)
+        t = supervisor.getTime()
+        while supervisor.getTime() - t < 60:
+
+            # perform robot control according to a, b
+            # (and possibly t) parameters.
+
+            # controller termination
+            if supervisor.step(TIME_STEP) == -1:
+                quit()
+
+        # compute travelled distance
+        values = trans_field.getSFVec3f()
+        dist = sqrt(values[0] * values[0] + values[2] * values[2])
+        print("a=%d, b=%d -> dist=%g" % (a, b, dist))
+
+        # reset robot position and physics
+        INITIAL = [0, 0.5, 0]
+        trans_field.setSFVec3f(INITIAL)
+        robot_node.resetPhysics()
+```
+%tab-end
+
+%tab "Java"
+```java
+import java.lang.Math;
+import com.cyberbotics.webots.controller.Node;
+import com.cyberbotics.webots.controller.Field;
+import com.cyberbotics.webots.controller.Supervisor;
+
+public class SupervisorController {
+
+  public static void main(String[] args) {
+
+    final int TIME_STEP = 32;
+    final Supervisor supervisor = new Supervisor();
+
+    // get handle to robot's translation field
+    final Node robot_node = supervisor.getFromDef("MY_ROBOT");
+    final Field trans_field = robot_node.getField("translation");
+
+    int a, b;
+    for (a = 0; a < 25; ++a) {
+      for (b = 0; b < 33; ++b) {
+        // evaluate robot during 60 seconds (simulation time)
+        final double t = supervisor.getTime();
+        while (supervisor.getTime() - t < 60.0) {
+
+          // perform robot control according to a, b
+          // (and possibly t) parameters.
+
+          // controller termination
+          if (supervisor.step(TIME_STEP) == -1)
+            return ;
+        }
+
+        // compute travelled distance
+        double[] values = trans_field.getSFVec3f();
+        double dist = Math.sqrt(values[0] * values[0] + values[2] * values[2]);
+        System.out.format("a=%d, b=%d -> dist=%g\n", a, b, dist);
+
+        // reset robot position and physics
+        double INITIAL[] = {0.0, 0.5, 0.0};
+        trans_field.setSFVec3f(INITIAL);
+        robot_node.resetPhysics();
+      }
+    }
+  }
+}
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+TIME_STEP = 32;
+% get handle to robot's translation field
+robot_node = wb_supervisor_node_get_from_def('MY_ROBOT');
+trans_field = wb_supervisor_node_get_field(robot_node, 'translation');
+for a = 0:25
+  for b = 0:33
+    % evaluate robot during 60 seconds (simulation time)
+    t = wb_robot_get_time();
+    while wb_robot_get_time() - t < 60
+      % perform robot control according to a, b
+      % (and possibly t) parameters.
+      if wb_robot_step(TIME_STEP) == -1
+        wb_robot_cleanup();
+        quit(0);
+      end
+    end
+    % compute travelled distance
+    values = wb_supervisor_field_get_sf_vec3f(trans_field);
+    dist = sqrt((values(1) * values(1)) + (values(3) * values(3)));
+    wb_console_print(sprintf('a=%g, b=%g -> dist=%g\n', a, b, dist), WB_STDOUT);
+    % reset robot position and physics
+    INITIAL = [0, 0.5, 0];
+    wb_supervisor_field_set_sf_vec3f(trans_field, INITIAL);
+    wb_supervisor_node_reset_physics(robot_node);
+  end
+end
+```
+%tab-end
+%end
 
 As in the previous example, the `trans_field` variable is a `WbFieldRef` that identifies the `translation` field of the robot.
 In this example the `trans_field` is used both to get (using the `wb_supervisor_field_get_sf_vec3f` function) and to set (using the `wb_supervisor_field_set_sf_vec3f` function) the field's value.

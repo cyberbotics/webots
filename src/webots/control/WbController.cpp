@@ -172,7 +172,6 @@ WbController::~WbController() {
 
 void WbController::updateName(const QString &name) {
   mName = name;
-  mPrefix = QString("[%1] ").arg(mName);
 }
 
 void WbController::resetRequestTime() {
@@ -564,12 +563,7 @@ void WbController::appendMessageToBuffer(const QString &message, QString *buffer
 #else
   const QString &text = message;
 #endif
-  // '\f' to clean the console
-  const int lastFCharIndex = text.lastIndexOf('\f');
-  if (lastFCharIndex < 0)  // no '\f'
-    buffer->append(text);
-  else
-    *buffer = text.mid(lastFCharIndex);
+  buffer->append(text);
   if (buffer == mStdoutBuffer)
     mStdoutNeedsFlush = true;
   else
@@ -579,18 +573,13 @@ void WbController::appendMessageToBuffer(const QString &message, QString *buffer
 void WbController::flushBuffer(QString *buffer) {
   // Split string into lines by detecting '\n', then send lines one by one to WbLog.
   // When several streams or several controllers are used, this prevents to mix unrelated lines
-  if ((*buffer)[0] == '\f') {
-    WbLog::clear();
-    buffer->remove(0, 1);
-  }
   int index = buffer->indexOf('\n');
   while (index != -1) {
-    // extract line and prepend "[controller_name] "
-    QString line = mPrefix + buffer->mid(0, index + 1);
+    const QString line = buffer->mid(0, index + 1);
     if (buffer == mStdoutBuffer)
-      WbLog::appendStdout(line, mPrefix);
+      WbLog::appendStdout(line);
     else
-      WbLog::appendStderr(line, mPrefix);
+      WbLog::appendStderr(line);
     // remove line from buffer
     buffer->remove(0, index + 1);
     index = buffer->indexOf('\n');

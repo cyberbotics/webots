@@ -35,6 +35,10 @@
 
 #include <QtCore/QFileInfo>
 
+#include <assimp/postprocess.h>
+#include <assimp/scene.h>
+#include <assimp/Importer.hpp>
+
 #include <cassert>
 
 static bool isRegionOccupied(const WbVector3 &pos) {
@@ -267,6 +271,190 @@ WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &fi
     *importedNodesNumber = numberOfNodes;
   if (lastBaseNodeCreated && !fromSupervisor)
     WbSelection::instance()->selectNodeFromSceneTree(lastBaseNodeCreated);
+  return result;
+}
+
+bool addTextureMap(QString &stream, const aiMaterial *material, const QString &mapName, aiTextureType textureType,
+                   const QString &referenceFolder) {
+  if (material->GetTextureCount(textureType) > 0) {
+    aiString path;
+    material->GetTexture(textureType, 0, &path);
+    QString texturePath(path.C_Str());
+    texturePath.replace("\\", "\\\\");
+    if (!QFile::exists(texturePath) && QFile::exists(referenceFolder + texturePath))
+      texturePath = referenceFolder + texturePath;  // if absolute path doesn't exist, try with relative
+    stream += QString(" %1 ImageTexture { ").arg(mapName);
+    stream += " url [ ";
+    stream += " \"" + texturePath + "\" ";
+    stream += " ] ";
+    stream += " } ";
+    return true;
+  }
+  return false;
+}
+
+void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &referenceFolder,
+                  bool importTextureCoordinates, bool importNormals, bool importAppearances, bool importAsSolid,
+                  bool importBoundingObjects) {
+  // extract position, orientation and scale of the node
+  aiVector3t<float> scaling, position;
+  aiQuaternion rotation;
+  node->mTransformation.Decompose(scaling, rotation, position);
+  WbQuaternion quaternion(rotation.w, rotation.x, rotation.y, rotation.z);
+  quaternion.normalize();
+  const WbRotation webotsRotation(quaternion);
+
+  // export the node
+  if (importAsSolid)
+    stream += " Solid { ";
+  else
+    stream += " Transform { ";
+  stream += QString(" translation %1 %2 %3 ").arg(position[0]).arg(position[1]).arg(position[2]);
+  stream += " rotation " + webotsRotation.toString(WbPrecision::FLOAT_MAX);
+  stream += QString(" scale %1 %2 %3 ").arg(scaling[0]).arg(scaling[1]).arg(scaling[2]);
+  stream += " children [";
+
+  const bool defNeedGroup = importAsSolid && importBoundingObjects && node->mNumMeshes > 1;
+
+  if (defNeedGroup) {
+    stream += " DEF SHAPE Group { ";
+    stream += " children [ ";
+  }
+
+  for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
+    const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+    const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+    if (defNeedGroup || !importBoundingObjects || !importAsSolid)
+      stream += " Shape { ";
+    else
+      stream += " DEF SHAPE Shape { ";
+    // extract the appearance
+    if (importAppearances) {
+      stream += " appearance PBRAppearance { ";
+      WbVector3 baseColor(1.0, 1.0, 1.0), emissiveColor(0.0, 0.0, 0.0);
+      QString name("PBRAppearance");
+      float roughness = 1.0, transparency = 0.0;
+      for (unsigned int j = 0; j < material->mNumProperties; ++j) {
+        float value[3];
+        unsigned int count = 3;
+        if (aiGetMaterialFloatArray(material, AI_MATKEY_COLOR_DIFFUSE, value, &count) == AI_SUCCESS && count == 3)
+          baseColor = WbVector3(value[0], value[1], value[2]);
+        count = 3;
+        if (aiGetMaterialFloatArray(material, AI_MATKEY_COLOR_EMISSIVE, value, &count) == AI_SUCCESS && count == 3)
+          emissiveColor = WbVector3(value[0], value[1], value[2]);
+        count = 1;
+        if (aiGetMaterialFloatArray(material, AI_MATKEY_SHININESS_STRENGTH, value, &count) == AI_SUCCESS && count == 3)
+          roughness = 0.01 * (100.0 - value[0]);
+        count = 1;
+        if (aiGetMaterialFloatArray(material, AI_MATKEY_REFLECTIVITY, value, &count) == AI_SUCCESS && count == 3)
+          roughness = 1.0 - value[0];
+        count = 1;
+        if (aiGetMaterialFloatArray(material, AI_MATKEY_OPACITY, value, &count) == AI_SUCCESS && count == 3)
+          transparency = 1.0 - value[0];
+        aiString nameProperty;
+        if (aiGetMaterialString(material, AI_MATKEY_NAME, &nameProperty) == AI_SUCCESS)
+          name = nameProperty.C_Str();
+        // Uncomment this part to print all the properties of this material
+        // qDebug() << propertyName << property->mData << property->mSemantic << property->mIndex << property->mDataLength
+        //          << property->mType;
+      }
+      stream += " baseColor " + baseColor.toString(WbPrecision::FLOAT_MAX);
+      stream += " emissiveColor " + emissiveColor.toString(WbPrecision::FLOAT_MAX);
+      stream += " name \"" + name + "\"";
+      stream += " metalness 0";
+      stream += QString(" transparency %1").arg(transparency);
+      stream += QString(" roughness %1").arg(roughness);
+      if (!addTextureMap(stream, material, "baseColorMap", aiTextureType_BASE_COLOR, referenceFolder))
+        addTextureMap(stream, material, "baseColorMap", aiTextureType_DIFFUSE, referenceFolder);
+      addTextureMap(stream, material, "roughnessMap", aiTextureType_DIFFUSE_ROUGHNESS, referenceFolder);
+      addTextureMap(stream, material, "metalnessMap", aiTextureType_METALNESS, referenceFolder);
+      if (!addTextureMap(stream, material, "normalMap", aiTextureType_NORMAL_CAMERA, referenceFolder))
+        addTextureMap(stream, material, "normalMap", aiTextureType_NORMALS, referenceFolder);
+      if (!addTextureMap(stream, material, "occlusionMap", aiTextureType_AMBIENT_OCCLUSION, referenceFolder))
+        addTextureMap(stream, material, "occlusionMap", aiTextureType_LIGHTMAP, referenceFolder);
+      if (!addTextureMap(stream, material, "emissiveColorMap", aiTextureType_EMISSION_COLOR, referenceFolder))
+        addTextureMap(stream, material, "emissiveColorMap", aiTextureType_EMISSIVE, referenceFolder);
+      stream += " } ";
+    }
+    // extract the geometry
+    stream += " geometry IndexedFaceSet { ";
+    stream += " coord Coordinate { ";
+    stream += " point [ ";
+    for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
+      const aiVector3D vertice = mesh->mVertices[j];
+      stream += QString(" %1 %2 %3,").arg(vertice[0]).arg(vertice[1]).arg(vertice[2]);
+    }
+    stream += " ]";
+    stream += " } ";
+    if (importNormals && mesh->HasNormals()) {
+      stream += " normal Normal { ";
+      stream += " vector [ ";
+      for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
+        const aiVector3D normal = mesh->mNormals[j];
+        stream += QString(" %1 %2 %3,").arg(normal[0]).arg(normal[1]).arg(normal[2]);
+      }
+      stream += " ]";
+      stream += " } ";
+    }
+    if (importTextureCoordinates && mesh->HasTextureCoords(0)) {
+      stream += " texCoord TextureCoordinate { ";
+      stream += " point [ ";
+      for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
+        const aiVector3D texCoord = mesh->mTextureCoords[0][j];
+        stream += QString(" %1 %2,").arg(texCoord[0]).arg(texCoord[1]);
+      }
+      stream += " ]";
+      stream += " } ";
+    }
+    stream += " coordIndex [ ";
+    for (unsigned int j = 0; j < mesh->mNumFaces; ++j) {
+      const aiFace face = mesh->mFaces[j];
+      stream += QString(" %1 %2 %3 -1").arg(face.mIndices[0]).arg(face.mIndices[1]).arg(face.mIndices[2]);
+    }
+    stream += " ]";
+    stream += " } ";
+    stream += " } ";
+  }
+
+  if (defNeedGroup) {
+    stream += " ] ";
+    stream += " } ";
+  }
+
+  for (unsigned int i = 0; i < node->mNumChildren; ++i)
+    addModelNode(stream, node->mChildren[i], scene, referenceFolder, importTextureCoordinates, importNormals, importAppearances,
+                 importAsSolid, importBoundingObjects);
+
+  stream += " ] ";
+  if (importAsSolid) {
+    stream += QString(" name \"%1\" ").arg(node->mName.C_Str());
+    if (importBoundingObjects && node->mNumMeshes > 0)
+      stream += " boundingObject USE SHAPE ";
+  }
+  stream += " } ";
+}
+
+WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QString &filename, bool importTextureCoordinates,
+                                                                        bool importNormals, bool importAppearances,
+                                                                        bool importAsSolid, bool importBoundingObjects) {
+  OperationResult result = FAILURE;
+  Assimp::Importer importer;
+  importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
+                              aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS | aiComponent_ANIMATIONS);
+  const aiScene *scene =
+    importer.ReadFile(filename.toStdString().c_str(), aiProcess_ValidateDataStructure | aiProcess_Triangulate |
+                                                        aiProcess_JoinIdenticalVertices | aiProcess_RemoveComponent);
+  if (!scene) {
+    WbLog::warning(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
+    return result;
+  }
+
+  QString stream = "";
+  addModelNode(stream, scene->mRootNode, scene, QFileInfo(filename).dir().absolutePath(), importTextureCoordinates,
+               importNormals, importAppearances, importAsSolid, importBoundingObjects);
+  WbGroup *root = WbWorld::instance()->root();
+  result = importNode(root, root->findField("children"), root->childCount(), QString(), stream);
+
   return result;
 }
 
