@@ -39,7 +39,7 @@ Spot {
 
 ### Samples
 
-You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robots/boston_dynamics/spot/worlds](https://github.com/cyberbotics/webots/tree/master/projects/robots/boston_dynamics/spot/worlds)"
+You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robots/boston\_dynamics/spot/worlds](https://github.com/cyberbotics/webots/tree/master/projects/robots/boston_dynamics/spot/worlds)"
 
 #### [spot.wbt](https://github.com/cyberbotics/webots/tree/master/projects/robots/boston_dynamics/spot/worlds/spot.wbt)
 
