@@ -22,8 +22,11 @@ Released on XXX.
 
   - New Features
     - macOS and Windows: Added support for Python 3.8.
+    - Added a model of a Mercedes-Benz Sprinter and of a GreenPower EV Star vehicles.
     - Added a 'Convert Root to Base Node(s)' option in the context menu to convert a PROTO node to base node(s) without converting the nested PROTO nodes.
     - Added an `OfficeChair` PROTO object.
+    - Added a `wheelbase`, `kingPinDistance` and `mass` fields to the `Truck` PROTO node.
+    - Added a `length`, `kingPinDistance`, `wheelAxles` and `mass` fields to the `TruckTrailer` PROTO node.
     - Added several new appearances: `Marble`, `MetalStainlessSteelCable`, `Pavement`, `Parquetry`, and `SolarCell`.
     - Added a `ConveyorPlatform` PROTO object.
   - New Samples
@@ -33,6 +36,7 @@ Released on XXX.
     - Improved the [KUKA's youBot](../guide/youbot.md) robot to handle variable number of arms.
     - Added missing `supervisor` field in `UR3e`, `UR5e` and `UR10e` robots.
     - Added a `staticBase` field to the `Irb4600-40` PROTO node.
+    - Replaced the `texture` field of the `TruckTrailer` PROTO node by an `appearance` field.
     - Added a `--node-name` argument to the ROS controller of the Universal Robots UR3e, UR5e and UR10e for multi robot simulations.
     - Added a `type` field to the following appearances: `Rubber` and `ThreadMetalPlate`.
     - Added an `appearance` field to the `Worktop` PROTO node.
@@ -43,10 +47,12 @@ Released on XXX.
   - Cleanup
     - Deprecated the following appearances: `ChequeredParquetry`, `DarkParquetry`, `SlatePavement`, `SquarePavement` and `StonePavement`.
   - Bug fixes
+    - Windows: Fixed JPEG texture errors when typing `webots` from a DOS console (`cmd.exe`) by renaming `webots.exe` to `webots-bin.exe` and creating two launchers named `webotsw.exe` and `webots.exe`.
     - Fixed the physics behavior of [Connector](connector.md) nodes sometimes remaining idle after being detached from each other (thanks to Giorgio).
     - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images.
     - Fixed the TurtleBot3Burger robot maximum velocity (thanks to Dorteel).
     - Fixed the TurtleBot3Burger robot center of mass (thanks to Nitrow).
+    - Fixed warnings about duplicated `name` fields in the `TruckTank` PROTO node.
     - Fixed the C/C++ Makefiles to handle spaces in the Webots installation directory.
     - Fixed crash when resetting worlds with motorized [BallJoint](balljoint.md) nodes (thanks to lordNil).
     - Fixed addition of PROTO nodes including a [Connector](connector.md) node from the Add Node dialog (thanks to Acwok).
@@ -65,6 +71,7 @@ Released on XXX.
     - Fixed a crash occurring when changing the `textureAnimation` value of some `Track` node from the scene tree.
   - Documentation
     - Fixed tutorials 1, 4 and 6 with respect to MATLAB controllers and added sample MATLAB controllers.
+    - Translated most relevant examples from [Controller Programming](https://github.com/cyberbotics/webots/blob/master/docs/guide/controller-programming.md) and [Supervisor Programming](https://github.com/cyberbotics/webots/blob/master/docs/guide/supervisor-programming.md) to different languages.
 
 ## Webots R2020a Revision 1
 Released on January 14th, 2020.
