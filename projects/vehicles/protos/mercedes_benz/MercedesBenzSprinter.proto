@@ -112,8 +112,8 @@ PROTO MercedesBenzSprinter [
     engineFunctionCoefficients 600 0.2 0
     brakeCoefficient 3500
     time0To100 14
+    maxVelocity 29.18
     engineMinRPM 800
     engineMaxRPM 4000
-    maxWheelVelocity 65.57
   }
 }

@@ -123,6 +123,7 @@ PROTO GreenPowerEVStar [
     engineType "electric"
     brakeCoefficient 3500
     time0To100 24
+    maxVelocity 40
     engineMaxTorque 1200
     engineMaxPower 150000
     engineMinRPM 1200
@@ -130,6 +131,5 @@ PROTO GreenPowerEVStar [
     gearRatio [
       -2, 2
     ]
-    maxWheelVelocity 65.57
   }
 }
