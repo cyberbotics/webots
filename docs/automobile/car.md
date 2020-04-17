@@ -13,6 +13,7 @@ Car {
   SFFloat    engineSoundRpmReference        1000
   SFFloat    brakeCoefficient               500
   SFFloat    time0To100                     10
+  SFFloat    maxVelocity                    50
   SFFloat    engineMaxTorque                250
   SFFloat    engineMaxPower                 50000
   SFFloat    engineMinRPM                   1000
@@ -33,7 +34,8 @@ See section [Engine models](driver-library.md#engine-models) for more informatio
 - `engineSoundRpmReference`: Defines the reference rotation per minutes of the engine sound.
 See the [Engine sound](#engine-sound) paragraph for more information about the engine sound simulation.
 - `brakeCoefficient`: Defines the maximum `dampingConstant` applied by the [Brake](../reference/brake.md) on the wheels joint.
-- `time0To100`: Defines the time to accelerate from 0 to 100 km/h in seconds, this value is used to compute the wheels acceleration when controlling the car in cruising speed thanks to the [driver](driver-library.md)
+- `time0To100`: Defines the time to accelerate from 0 to 100 km/h in seconds, this value is used to compute the wheels acceleration when controlling the car in cruising speed thanks to the [driver](driver-library.md).
+- `maxVelocity`: Defines the maximum velocity of the car in meters per second.
 - `engineMaxTorque`: Defines the maximum torque of the motor in `Nm` used to compute the electric engine torque.
 - `engineMaxPower`: Defines the maximum power of the motor in `W` used to compute the electric engine torque.
 - `engineMinRPM and engineMaxRPM`: Defines the working range of the engine (`engineMinRPM` not used in case of `electric` `engineType`).
