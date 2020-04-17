@@ -222,22 +222,10 @@ PROTO Spot [
             }
           }
           DEF HEAD_BACKGROUND_HOLES Shape {
-            appearance DEF BLACK_HOLED PBRAppearance {
-              baseColor 0.152941 0.152941 0.152941
-              baseColorMap ImageTexture {
-                url [
-                  "textures/holes_perforated_steel/holes_perforated_steel_base_color.png"
-                ]
-              }
-              roughness 1
-              metalness 0
-              normalMap ImageTexture {
-                url [
-                  "textures/holes_perforated_steel/holes_perforated_steel_normal.png"
-                ]
-              }
+            appearance DEF BLACK_HOLED PerforatedMetal {
+              colorOverride 0.152941 0.152941 0.152941
               textureTransform TextureTransform {
-                scale 40 40
+                scale 4 4
               }
             }
             geometry IndexedFaceSet {
