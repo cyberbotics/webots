@@ -7,7 +7,7 @@ Released on XXX.
     - Added a model of the [Spot](../guide/spot.md) from [Boston Dynamics](https://www.bostondynamics.com/spot).
   - New Features
     - macOS and Windows: Added support for Python 3.8.
-    - Added a model of a Mercedes-Benz Sprinter and of a GreenPower EV Star vehicles.
+    - Added a model of a Mercedes-Benz Sprinter.
     - Added a 'Convert Root to Base Node(s)' option in the context menu to convert a PROTO node to base node(s) without converting the nested PROTO nodes.
     - Added an `OfficeChair` PROTO object.
     - Added a `wheelbase`, `kingPinDistance` and `mass` fields to the `Truck` PROTO node.
@@ -54,6 +54,7 @@ Released on XXX.
     - Fixed a crash related to [InertialUnit](inertialunit.md) node when gravity was null.
     - Fixed support for MATLAB R2017b on Windows.
     - Fixed a crash occurring when changing the `textureAnimation` value of some `Track` node from the scene tree.
+    - Fixed a bug allowing to move a USE node with handles in 3D view.
   - Documentation
     - Fixed tutorials 1, 4 and 6 with respect to MATLAB controllers and added sample MATLAB controllers.
     - Translated most relevant examples from [Controller Programming](https://github.com/cyberbotics/webots/blob/master/docs/guide/controller-programming.md) and [Supervisor Programming](https://github.com/cyberbotics/webots/blob/master/docs/guide/supervisor-programming.md) to different languages.
