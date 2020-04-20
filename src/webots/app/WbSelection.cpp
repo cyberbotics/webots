@@ -167,7 +167,8 @@ void WbSelection::disableActiveManipulator() {
 }
 
 void WbSelection::restoreActiveManipulator() {
-  if (!mSelectedAbstractTransform || WbNodeUtilities::isNodeOrAncestorLocked(mSelectedAbstractTransform->baseNode()))
+  if (!mSelectedAbstractTransform || mSelectedNode->isUseNode() ||
+      WbNodeUtilities::isNodeOrAncestorLocked(mSelectedAbstractTransform->baseNode()))
     return;
 
   if (mResizeHandlesEnabledFromSceneTree)
