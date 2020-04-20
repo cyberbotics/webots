@@ -12,10 +12,10 @@ int main(int argc, char **argv) {
 
   int time_step = wb_robot_get_basic_time_step();
 
-  WbDeviceTag ds_def1 = wb_robot_get_device("ds1"); // generic
-  WbDeviceTag ds_use1 = wb_robot_get_device("ds2"); // generic
-  WbDeviceTag ds_def2 = wb_robot_get_device("ds3"); // generic
-  WbDeviceTag ds_use2 = wb_robot_get_device("ds4"); // infra-red (no bounding object)
+  WbDeviceTag ds_def1 = wb_robot_get_device("ds1");  // generic
+  WbDeviceTag ds_use1 = wb_robot_get_device("ds2");  // generic
+  WbDeviceTag ds_def2 = wb_robot_get_device("ds3");  // generic
+  WbDeviceTag ds_use2 = wb_robot_get_device("ds4");  // infra-red (no bounding object)
   wb_distance_sensor_enable(ds_def1, time_step);
   wb_distance_sensor_enable(ds_use1, time_step);
   wb_distance_sensor_enable(ds_def2, time_step);
