@@ -48,11 +48,12 @@ PROTO SpotRightLeg [
               ]
               endPoint DEF UPPERARM Solid {
                 children [
-                  SliderJoint {
-                    jointParameters JointParameters {
+                  HingeJoint {
+                    jointParameters HingeJointParameters {
+                      anchor 0.17 1.371 -0.615
                     }
                     device [
-                      LinearMotor {
+                      RotationalMotor {
                         name %{= "\"" .. legName .. " piston motor\"" }%
                       }
                     ]
@@ -88,50 +89,6 @@ PROTO SpotRightLeg [
                           }
                         }
                       ]
-                      boundingObject DEF TENDON_BO Group {
-                        children [
-                          Transform {
-                            translation 0.178868 1.37941 -0.615819
-                            rotation 0 0 1 1.5707996938995747
-                            children [
-                              Cylinder {
-                                height 0.004151
-                                radius 0.012075
-                              }
-                            ]
-                          }
-                          Transform {
-                            translation 0.178868 1.44506 -0.6159
-                            children [
-                              Box {
-                                size 0.0041 0.1129 0.0174
-                              }
-                            ]
-                          }
-                          Transform {
-                            translation 0.153208 1.37931 -0.615919
-                            rotation 0 0 1 1.5707996938995747
-                            children [
-                              Cylinder {
-                                height 0.004151
-                                radius 0.012075
-                              }
-                            ]
-                          }
-                          Transform {
-                            translation 0.153208 1.44406 -0.616019
-                            children [
-                              Box {
-                                size 0.0041 0.1129 0.0174
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                      physics Physics {
-                        density -1
-                        mass 0.020377358
-                      }
                     }
                   }
                   DEF ELBOW_JOINT HingeJoint {
