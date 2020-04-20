@@ -227,7 +227,6 @@ void WbGeometry::applyToOdeMass() {
 // Others //
 ////////////
 
-#include <iostream>
 void WbGeometry::updateCollisionMaterial(bool triggerChange, bool onSelection) {
   if (!mWrenMaterial || !isInBoundingObject())
     return;
