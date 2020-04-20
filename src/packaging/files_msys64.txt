@@ -1,4 +1,4 @@
-# needed to execute webots.exe (64 bit binary)
+# needed to execute webots-bin.exe (64 bit binary)
 /mingw64/bin/Qt5Core.dll
 /mingw64/bin/Qt5Gui.dll
 /mingw64/bin/Qt5Multimedia.dll

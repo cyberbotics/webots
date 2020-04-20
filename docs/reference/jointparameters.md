@@ -30,7 +30,7 @@ When changing the `position` field from the Webots scene tree, Webots also chang
 Similarly, when changing the `position` field of a [JointParameters](#jointparameters) node in a text editor, you should take care of also changing the corresponding `rotation` or `translation` field accordingly.
 
 - The `minStop` and `maxStop` fields specify the position of physical (or mechanical) stops.
-These fields are described in more detail in the "Joint Limits" section, see below.
+These fields are described in more detail in the [Joint Limits section](#joint-limits), see below.
 
 - The `springConstant` and `dampingConstant` fields allow the addition of spring and/or damping behavior to the joint.
 These fields are described in more detail in the "Springs and Dampers" section, see below.
@@ -82,7 +82,7 @@ When used for a rotational motion the value of `minStop` must be in the range [-
 When both `minStop` and `maxStop` are zero (the default), the hard limits are deactivated.
 The joint hard limits use ODE joint stops (for more information see the ODE documentation on `dParamLoStop` and `dParamHiStop`).
 
-Finally, note that when both soft (`minPosition` and `maxPosition`, see the [Motor](motor.md)'s "Motor Limits" section) and hard limits (`minStop` and `maxStop`) are activated, the range of the soft limits must be included in the range of the hard limits, such that `minStop <= minValue` and `maxStop>= maxValue`.
+Finally, note that when both soft (`minPosition` and `maxPosition`, see the [Motor](motor.md)'s "Motor Limits" section) and hard limits (`minStop` and `maxStop`) are activated, the range of the soft limits must be included in the range of the hard limits, such that `minStop <= minPosition` and `maxStop >= maxPosition`.
 
 ### Springs and Dampers
 
@@ -93,7 +93,7 @@ If the `springConstant` is greater than zero, then a spring force will be comput
 The spring force is calculated according to Hooke's law: *F = -Kx*, where *K* is the `springConstant` and *x* is the current joint position as represented by the `position` field.
 Therefore, the spring force is computed so as to be proportional to the current joint position, and to move the joint back to its initial position.
 When designing a robot model that uses springs, it is important to remember that the spring's resting position for each joint will correspond to the initial position of the joint.
-The only expection arise when the closest upper [Solid](solid.md) of the [Joint](joint.md) is passive, i.e. the `physics` field is not defined.
+The only exception arises when the closest upper [Solid](solid.md) of the [Joint](joint.md) is passive, i.e. the `physics` field is not defined.
 In this case the spring force direction is inverted.
 
 The `dampingConstant` field specifies the value of the joint damping constant.
