@@ -1627,19 +1627,19 @@ PROTO Spot [
         ]
       }
       DEF FRONT_LEFT_LEG SpotLeftLeg {
-        translation 0 0.0107 -0.3623
+        translation 0 0.0118 -0.3635
         name "front left leg"
       }
       DEF FRONT_RIGHT_LEG SpotRightLeg {
-        translation 0 0.0107 -0.3623
+        translation 0 0.0118 -0.3635
         name "front right leg"
       }
       DEF REAR_LEFT_LEG SpotLeftLeg {
-        translation 0 0.0116 0.308
+        translation 0 0.0117 0.3084
         name "rear left leg"
       }
       DEF REAR_RIGHT_LEG SpotRightLeg {
-        translation 0 0.0116 0.308
+        translation 0 0.0117 0.3084
         name "rear right leg"
       }
       Transform {

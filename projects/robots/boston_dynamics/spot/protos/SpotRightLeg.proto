@@ -15,7 +15,7 @@ PROTO SpotRightLeg [
       HingeJoint {
         jointParameters HingeJointParameters {
           axis 0 0 1
-          anchor 0.053 0.0018 0
+          anchor 0.0528 0.0006 0
         }
         device [
           PositionSensor {
