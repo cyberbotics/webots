@@ -97,7 +97,6 @@ while supervisor.step(TIME_STEP) != -1:
     # this is done repeatedly
     values = trans_field.getSFVec3f()
     print("MY_ROBOT is at position: %g %g %g" % (values[0], values[1], values[2]))
-    pass
 ```
 %tab-end
 

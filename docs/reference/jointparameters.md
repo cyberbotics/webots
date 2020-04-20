@@ -93,7 +93,7 @@ If the `springConstant` is greater than zero, then a spring force will be comput
 The spring force is calculated according to Hooke's law: *F = -Kx*, where *K* is the `springConstant` and *x* is the current joint position as represented by the `position` field.
 Therefore, the spring force is computed so as to be proportional to the current joint position, and to move the joint back to its initial position.
 When designing a robot model that uses springs, it is important to remember that the spring's resting position for each joint will correspond to the initial position of the joint.
-The only expection arise when the closest upper [Solid](solid.md) of the [Joint](joint.md) is passive, i.e. the `physics` field is not defined.
+The only exception arises when the closest upper [Solid](solid.md) of the [Joint](joint.md) is passive, i.e. the `physics` field is not defined.
 In this case the spring force direction is inverted.
 
 The `dampingConstant` field specifies the value of the joint damping constant.

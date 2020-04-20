@@ -150,15 +150,15 @@ QT_WEBSOCKETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtWebSockets
 QT_XML_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtXml
 FREETYPE_INCLUDE   = -I/mingw64/include/freetype2
 TARGET_PATH       = $(WEBOTS_PATH)/msys64/mingw64/bin
-TARGET            = $(TARGET_PATH)/webots.exe
+TARGET            = $(TARGET_PATH)/webots-bin.exe
 CFLAGS            = -isystem /mingw64/lib/libzip/include
 CXXFLAGS          = -std=c++11 -D_USE_MATH_DEFINES
 MOC               = moc
 MOC_FLAGS        += -D_WIN32
 LIBS             += $(LIB_WREN) -L$(TARGET_PATH) -L/mingw64/bin -L/mingw64/lib -lQt5Core -lQt5Network -lQt5Gui -lQt5OpenGL -lQt5WebSockets -lQt5Widgets -lQt5PrintSupport -lQt5WebKit -lQt5WebKitWidgets -lQt5Xml -lode -lopenal -lcrypto -lopengl32 -liphlpapi -ld3d9 -lgdi32 -lglu32 -lOIS -ldinput8 -ldxguid -lole32 -lsapi -loleaut32 -luuid -lpico -llua52 -lfreetype-6 -lopenvr_api -lassimp
 LD_FLAGS          = -Wl,--enable-auto-import
-EXTRA_CMD         = cp launcher/webots.exe.config $(TARGET_PATH)/ ; cp launcher/webots.lnk $(WEBOTS_PATH)/
-FILES_TO_REMOVE   = $(TARGET_PATH)/webots.exe.config $(WEBOTS_PATH)/webots.lnk
+EXTRA_CMD         = cp launcher/webots-bin.exe.config $(TARGET_PATH)/
+FILES_TO_REMOVE   = $(TARGET_PATH)/webots-bin.exe.config
 QT_SOURCES        = WbVirtualRealityHeadset.cpp
 ifeq ($(MAKECMDGOALS),release)
 # -fipa-cp-clone included in -O3 seems to cause some stack overflow on Windows,
@@ -166,7 +166,6 @@ ifeq ($(MAKECMDGOALS),release)
 # stack size doesn't seems to help, so we need to remove this optimization
 CFLAGS          += -fno-ipa-cp-clone
 LD_FLAGS        += -Wl,-subsystem,windows
-EXTRA_CMD       += ; cp launcher/webots.bat $(TARGET_PATH)/webots.bat
 else
 EXTRA_CMD       += ; cp launcher/webots_debug.bat $(TARGET_PATH)/webots_debug.bat
 endif
@@ -583,6 +582,8 @@ OBJECTS=$(notdir $(C_SOURCES:.c=.o) $(QT_SOURCES:.cpp=.o) $(OTHER_SOURCES:.cpp=.
 
 ifeq ($(OSTYPE),windows)
 OBJECTS += webots.o
+LAUNCHER = ../../msys64/mingw64/bin/webots.exe
+LAUNCHERW = ../../msys64/mingw64/bin/webotsw.exe
 endif
 
 # prevent 'make' from deleting these intermediate files
@@ -606,7 +607,7 @@ endif
 
 .PHONY: debug profile release clean count-lines
 
-debug profile release: $(TARGET)
+debug profile release: $(TARGET) $(LAUNCHER) $(LAUNCHERW)
 
 $(TARGET): $(OBJECTS) $(LIB_WREN) $(LIB_ODE)
 	@echo "# linking " $@
@@ -621,6 +622,17 @@ $(OBJDIR)/%.d: %.cpp
 $(OBJDIR)/%.moc.cpp: %.hpp
 	@echo "# moc-generating" $@
 	@$(MOC) $(MOC_FLAGS) $(INCLUDE:-isystem:-I) $< -o $@
+
+launcher/launcher.o: launcher/launcher.rc
+	@windres -i $< -o $@ --define _WIN32 --define __WIN32__ --define __WIN95__ --define __GNUWIN32__
+
+$(LAUNCHERW): launcher/launcher.c launcher/launcher.o
+	@echo "# compiling webotsw.exe launcher"
+	@gcc -Wall -mwindows launcher/launcher.o launcher/launcher.c -o $@
+
+$(LAUNCHER): launcher/launcher.c
+	@echo "# compiling webots.exe launcher"
+	@gcc -Wall launcher/launcher.c -o $@
 
 webots.o:gui/webots.rc gui/webots.ico gui/manifest.xml
 	@echo "# compiling gui/"$@
@@ -712,7 +724,7 @@ webots.o:gui/webots.rc gui/webots.ico gui/manifest.xml
 
 clean:
 	@echo "# cleaning"
-	@rm -rf $(TARGET) $(FILES_TO_REMOVE) build
+	@rm -rf $(TARGET) $(FILES_TO_REMOVE) $(LAUNCHER) $(LAUNCHERW) build launcher/launcher.o
 
 count-lines:
 	wc -l */*.c* */*.h*
