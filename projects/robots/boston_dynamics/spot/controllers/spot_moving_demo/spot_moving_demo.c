@@ -62,15 +62,15 @@ static void movement_decomposition(const double *target, double duration) {
   double step_difference[NUMBER_OF_JOINTS];
   double current_position[NUMBER_OF_JOINTS];
 
-  for (int k = 0; k < NUMBER_OF_JOINTS; k++) {
-    current_position[k] = wb_motor_get_target_position(motors[k]);
-    step_difference[k] = (target[k] - current_position[k]) / n_steps_to_achieve_target;
+  for (int i = 0; i < NUMBER_OF_JOINTS; ++i) {
+    current_position[i] = wb_motor_get_target_position(motors[i]);
+    step_difference[i] = (target[i] - current_position[i]) / n_steps_to_achieve_target;
   }
 
-  for (int i = 0; i < n_steps_to_achieve_target; i++) {
-    for (int k = 0; k < NUMBER_OF_JOINTS; k++) {
-      current_position[k] += step_difference[k];
-      wb_motor_set_position(motors[k], current_position[k]);
+  for (int i = 0; i < n_steps_to_achieve_target; ++i) {
+    for (int j = 0; j < NUMBER_OF_JOINTS; ++j) {
+      current_position[j] += step_difference[j];
+      wb_motor_set_position(motors[j], current_position[j]);
     }
     step();
   }
@@ -132,7 +132,7 @@ int main(int argc, char **argv) {
   const double time_step = wb_robot_get_basic_time_step();
 
   // Get cameras
-  for (int i = 0; i < NUMBER_OF_CAMERAS; i++)
+  for (int i = 0; i < NUMBER_OF_CAMERAS; ++i)
     cameras[i] = wb_robot_get_device(camera_names[i]);
 
   // enable the two front cameras
@@ -140,13 +140,13 @@ int main(int argc, char **argv) {
   wb_camera_enable(cameras[1], 2 * time_step);
 
   // Get the LEDs and turn them on
-  for (int i = 0; i < NUMBER_OF_LEDS; i++) {
+  for (int i = 0; i < NUMBER_OF_LEDS; ++i) {
     leds[i] = wb_robot_get_device(led_names[i]);
     wb_led_set(leds[i], 1);
   }
 
   // Get the motors (joints) and set initial target position to 0
-  for (int i = 0; i < NUMBER_OF_JOINTS; i++)
+  for (int i = 0; i < NUMBER_OF_JOINTS; ++i)
     motors[i] = wb_robot_get_device(motor_names[i]);
 
   while (true) {
