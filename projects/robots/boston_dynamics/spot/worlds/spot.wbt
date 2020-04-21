@@ -6,8 +6,8 @@ WorldInfo {
   title "Simulation of Boston Dynamics' Spot robot."
 }
 Viewpoint {
-  orientation 0.04913335931168911 0.9890218003603077 0.13936208743702141 3.9883525926694112
-  position -3.230808173247195 1.862640758387041 -3.0139666380149723
+  orientation 0.04913336943686446 0.9890217998641079 0.13936208738871841 3.9883527459468486
+  position -3.230808173247196 1.8626407583870415 -3.0139666380149723
   followType "None"
   followSmoothness 0
 }
@@ -26,7 +26,7 @@ RectangleArena {
     }
   }
   wallThickness 0.1
-  wallHeight 2
+  wallHeight 3.4
   wallAppearance Roughcast {
     colorOverride 0.662745 0.662745 0.662745
     textureTransform TextureTransform {
@@ -36,6 +36,65 @@ RectangleArena {
 }
 Spot {
   rotation 0 1 0 0.261799
+}
+StraightStairs {
+  translation -1.8 0 -4.36
+  name "straight stairs(2)"
+  stepSize 0.3 0.03 1.2
+  stepRise 0.1667
+  nSteps 14
+  stepAppearance GalvanizedMetal {
+    textureTransform TextureTransform {
+      scale 0.3 1
+    }
+  }
+  stringerAppearance GalvanizedMetal {
+    textureTransform TextureTransform {
+      scale 4 8
+    }
+  }
+  leftRail [
+    StraightStairsRail {
+      run 4.2
+      rise 2.338
+      balusterHeight 0.5
+      balusterRadius 0.019
+      nBalusters 3
+      appearance GalvanizedMetal {
+        textureTransform TextureTransform {
+          scale 4 8
+        }
+      }
+    }
+  ]
+  rightRail [
+    StraightStairsRail {
+      run 4.2
+      rise 2.338
+      balusterHeight 0.5
+      balusterRadius 0.019
+      nBalusters 3
+      appearance GalvanizedMetal {
+        textureTransform TextureTransform {
+          scale 4 8
+        }
+      }
+    }
+  ]
+}
+WoodenBox {
+  translation 0.821339 0.3 -4.12919
+  rotation 0 -1 0 0.19635
+}
+WoodenBox {
+  translation 1.70404 0.3 -3.95367
+  rotation 0 1 0 0.0654494
+  name "wooden box(1)"
+}
+WoodenBox {
+  translation 1.16604 0.9 -4.05875
+  rotation 0 1 0 0.0654494
+  name "wooden box(2)"
 }
 PlasticCrate {
   translation -0.276141 0 3.89221
