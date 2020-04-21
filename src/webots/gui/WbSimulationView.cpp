@@ -381,7 +381,7 @@ void WbSimulationView::needsActionsUpdate(int position, int index) {
     hidden = false;
   }
 
-  updateToggleView3DAction(mView3D->width() > 0);
+  updateToggleView3DAction(mView3D->width() > 1);
 }
 
 void WbSimulationView::toggleSceneTreeVisibility() {
