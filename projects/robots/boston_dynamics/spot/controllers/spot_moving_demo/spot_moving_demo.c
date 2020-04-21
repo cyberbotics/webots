@@ -269,6 +269,10 @@ int main(int argc, char **argv) {
     stand_up(2.0);
     lie_down(1.0);
     stand_up(1.0);
+    lie_down(0.75);
+    stand_up(0.75);
+    lie_down(0.5);
+    stand_up(0.5);
   }
 
   wb_robot_cleanup();
