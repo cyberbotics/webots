@@ -9,7 +9,6 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/spot_moving_demo/spot_moving_demo.c"
-globalOptionalRendering: CameraFrustums
 renderingDevicePerspectives: Spot:left head camera;1;0.159722;0;0
 renderingDevicePerspectives: Spot:right head camera;1;0.161111;0.699659;0
 renderingDevicePerspectives: Spot:right flank camera;0;0.0842593;0.827458;0.819501
