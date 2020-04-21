@@ -121,7 +121,11 @@ int main(int argc, char *argv[]) {
   const QString webotsDirPath = QDir(QFileInfo(argv[0]).absolutePath() + "/../..").canonicalPath();
 #else
   // on Windows, the webots binary is located in $WEBOTS_HOME/msys64/mingw64/bin/webots
-  const QString webotsDirPath = QDir(QFileInfo(argv[0]).absolutePath() + "/../../..").canonicalPath();
+  const int BUFFER_SIZE = 4096;
+  char *modulePath = new char[BUFFER_SIZE];
+  GetModuleFileName(NULL, modulePath, BUFFER_SIZE);
+  const QString webotsDirPath = QDir(QFileInfo(modulePath).absolutePath() + "/../../..").canonicalPath();
+  delete modulePath;
 #endif
 
   const QString QT_QPA_PLATFORM_PLUGIN_PATH = qEnvironmentVariable("QT_QPA_PLATFORM_PLUGIN_PATH");
