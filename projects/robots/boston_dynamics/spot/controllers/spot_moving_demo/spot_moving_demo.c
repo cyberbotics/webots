@@ -129,9 +129,15 @@ static void give_paw() {
 int main(int argc, char **argv) {
   wb_robot_init();
 
+  const double time_step = wb_robot_get_basic_time_step();
+
   // Get cameras
   for (int i = 0; i < NUMBER_OF_CAMERAS; i++)
     cameras[i] = wb_robot_get_device(camera_names[i]);
+
+  // enable the two front cameras
+  wb_camera_enable(cameras[0], 2 * time_step);
+  wb_camera_enable(cameras[1], 2 * time_step);
 
   // Get the LEDs and turn them on
   for (int i = 0; i < NUMBER_OF_LEDS; i++) {

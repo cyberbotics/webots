@@ -1,13 +1,13 @@
 #VRML_SIM R2020a utf8
 WorldInfo {
   info [
-    "This simulation shows a Spot moving in an industrial environment."
+    "Spot Robot"
   ]
   title "Simulation of Boston Dynamics' Spot robot."
 }
 Viewpoint {
   orientation 0.04913335931168911 0.9890218003603077 0.13936208743702141 3.9883525926694112
-  position -3.2925593642930284 1.8851514172398989 -3.0673037711436466
+  position -3.230808173247195 1.862640758387041 -3.0139666380149723
   followType "None"
   followSmoothness 0
 }
