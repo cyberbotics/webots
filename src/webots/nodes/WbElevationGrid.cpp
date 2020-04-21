@@ -459,7 +459,7 @@ bool WbElevationGrid::isSuitableForInsertionInBoundingObject(bool warning) const
       warn(tr("Invalid 'xDimension' (should be greater than 1) for use in boundingObject."));
 
     if (mZDimension->value() < 2)
-      warn(tr("Invalid 'zDimension' (should be greater than 2) for use in boundingObject."));
+      warn(tr("Invalid 'zDimension' (should be greater than 1) for use in boundingObject."));
 
     if (invalidSpacings)
       warn(tr("'height' must be positive when used in a 'boundingObject'."));
