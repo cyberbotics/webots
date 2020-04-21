@@ -32,8 +32,8 @@ PROTO E-puck [
   field MFNode             turretSlot                   []                       # Extends the robot with new nodes in the turret slot.
   field MFNode             groundSensorsSlot            []                       # Extends the robot with new nodes in the ground slot. Typically: `E-puckGroundSensors.proto`.
   field SFBool             kinematic                    FALSE                    # Defines whether the robot motion and its sensors are computed according to a 2D kinematics algorithm.
-  field SFFloat            infrared_aperture            0.10                     # Is `DistanceSensor.aperture`
-  field SFFloat            tof_aperture                 0.44                     # Is `DistanceSensor.aperture`
+  field SFFloat            infrared_aperture            0.10                     # Is `DistanceSensor.aperture`.
+  field SFFloat            tof_aperture                 0.44                     # Is `DistanceSensor.aperture`.
 ]
 {
 %{
