@@ -59,8 +59,8 @@ WbElevationGrid::WbElevationGrid(WbTokenizer *tokenizer) : WbGeometry("Elevation
   init();
 
   if (tokenizer == NULL) {
-    mXDimension->setValue(2);
-    mZDimension->setValue(2);
+    mXDimension->setValueNoSignal(2);
+    mZDimension->setValueNoSignal(2);
   }
 }
 
