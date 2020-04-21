@@ -150,39 +150,40 @@ class Client:
 
     def setup_project_from_github(self):
         logging.info("setup_project_from_github " + self.url)
-        if not self.url.startswith('https://github.com/'):
-            logging.error('The URL argument should start with "https://github.com/".')
+        if not self.url.startswith('webots://github.com/'):
+            logging.error('The URL argument should start with "webots://github.com/"')
             return False
-        parts = self.url[19:].split('/')
+        parts = self.url[20:].split('/')
         length = len(parts)
-        if length < 2:
-            logging.error('Missing repository in URL.')
-            return False
-        if length == 2 or parts[2] != 'tree':
-            parts.insert(2, 'tree')
-            parts.insert(3, 'master')
-            length += 2
-        elif length == 3:
-            logging.error('Missing tree value.')
+        if length < 6:
+            logging.error('Wrong Webots URL')
             return False
         username = parts[0]
         repository = parts[1]
-        if self.branch:
-            branch = parts[3]
-            tag = ''
-        else:
-            branch = ''
-            tag = parts[3]
-        folder = '/'.join(parts[4:])
+        tag_or_branch = parts[2]
+        tag_or_branch_name = parts[3]
+        folder = '/'.join(parts[4:length - 2])
+        project = '' if length == 6 else '/' + parts[length - 3]
+        if parts[length - 2] != 'worlds':
+            logging.error('Missing worlds folder in Webots URL')
+            return False
+        filename = parts[length - 1]
+        if filename[-4:] != '.wbt':
+            logging.error('Wrong Webots URL: missing world file in ' + filename[-4:])
+            return False
+        self.world = filename
         url = 'https://github.com/' + username + '/' + repository + '/'
-        if branch == 'master':
-            url += 'trunk'
-        elif branch == '':
-            url += 'tags/' + tag
+        if tag_or_branch == 'tag':
+            url += 'tags/' + tag_or_branch_name
+        elif tag_or_branch == 'branch':
+            if tag_or_branch_name == 'master':
+                url += 'trunk'
+            else:
+                url += 'branches/' + tag_or_branch_name
         else:
-            url += 'branches/' + branch
-        if folder:
-            url += '/' + folder
+            logging.error('Wrong tag/branch in Webots URL: ' + tag_or_branch)
+            return False
+        url += '/' + folder
         path = os.getcwd()
         mkdir_p(self.project_instance_path)
         os.chdir(self.project_instance_path)
@@ -200,9 +201,10 @@ class Client:
                 sys.stdout.write("\033[0m")  # reset ANSI code
             sys.stdout.flush()
         logging.info('Done')
-        if branch == 'master' and folder == '':
+        if tag_or_branch == 'branch' and tag_or_branch_name == 'master' and folder == '':
             os.rename('trunk', repository)
         os.chdir(path)
+        self.project_instance_path += project
         return True
 
     def setup_project_from_zip(self):
