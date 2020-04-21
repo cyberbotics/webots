@@ -126,7 +126,7 @@ int main(int argc, char *argv[]) {
   char *modulePath = new char[BUFFER_SIZE];
   GetModuleFileName(NULL, modulePath, BUFFER_SIZE);
   const QString webotsDirPath = QDir(QFileInfo(modulePath).absolutePath() + "/../../..").canonicalPath();
-  delete modulePath;
+  delete[] modulePath;
 #endif
 
   const QString QT_QPA_PLATFORM_PLUGIN_PATH = qEnvironmentVariable("QT_QPA_PLATFORM_PLUGIN_PATH");
