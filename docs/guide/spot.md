@@ -1,4 +1,4 @@
-## Boston Dynamics' Atlas
+## Boston Dynamics' Spot
 
 %robot spot images/robots/spot/model.thumbnail.png
 
