@@ -6,8 +6,8 @@ WorldInfo {
   title "Simulation of Boston Dynamics' Spot robot."
 }
 Viewpoint {
-  orientation 0.07823012114071712 0.9770375226226808 0.19818609318931268 4.00013131524914
-  position -2.8371186183696078 1.589300568196845 -2.100625485552173
+  orientation 0.04911225481797078 0.9890230863784696 0.13936039981680923 3.9880933503901765
+  position -3.2925593642930284 1.8851514172398989 -3.0673037711436457
   followType "None"
   followSmoothness 0
 }
@@ -35,12 +35,11 @@ RectangleArena {
   }
 }
 Spot {
-  translation 0.199303 0.133458 0.436915
-  rotation -0.1305 -0.0118 -0.9913 3.1384
+  rotation 0 1 0 0.261799
 }
 PlasticCrate {
-  translation -1.39798 0 0.278303
-  rotation 0 1 0 -0.523595307179586
+  translation -0.276141 0 3.89221
+  rotation 0 -1 0 0.916294
   size 0.3 0.2 0.5
 }
 TrafficCone {
@@ -88,42 +87,6 @@ OilBarrel {
 OilBarrel {
   translation 4.25 1.32 0.27
   name "oil barrel(6)"
-}
-Transform {
-  translation -5.04 0.75 4.3
-  children [
-    Shape {
-      appearance PBRAppearance {
-        baseColor 0 0 0
-      }
-      geometry Box {
-        size 0.1 1.5 0.7
-      }
-    }
-  ]
-}
-ConveyorBelt {
-  translation -2.05 0 4.3
-  size 6 0.6 0.5
-  timer 4
-}
-CardboardBox {
-  translation -4.8 0.75 4.27
-  name "cardboard box(1)"
-  size 0.3 0.3 0.3
-  mass 1
-}
-CardboardBox {
-  translation -3.3 0.75 4.27
-  name "cardboard box(2)"
-  size 0.3 0.3 0.3
-  mass 1
-}
-CardboardBox {
-  translation -1.8 0.75 4.27
-  name "cardboard box(3)"
-  size 0.3 0.3 0.3
-  mass 1
 }
 CardboardBox {
   translation 1.71781 0.28 4.16794
