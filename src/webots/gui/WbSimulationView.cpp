@@ -427,7 +427,7 @@ void WbSimulationView::setView3DVisibility(bool visible) {
     mSplitter->setSizes(sizes);
     updateToggleView3DAction(false);
 
-  } else if (visible && (view3DWidth == 0)) {
+  } else if (visible && view3DWidth <= 1) {
     // show view 3D
     if (lastSplitterPosition <= 0)
       lastSplitterPosition = mView3D->sizeHint().width();
