@@ -451,16 +451,16 @@ bool WbElevationGrid::isSuitableForInsertionInBoundingObject(bool warning) const
 
   if (warning) {
     if (mXDimension->value() < 2)
-      warn(tr("ElevationGrid: Invalid 'xDimension' (should be greater than 2) for use in boundingObject."));
+      warn(tr("Invalid 'xDimension' (should be greater than 2) for use in boundingObject."));
 
     if (mZDimension->value() < 2)
-      warn(tr("ElevationGrid: Invalid 'zDimension' (should be greater than 2) for use in boundingObject."));
+      warn(tr("Invalid 'zDimension' (should be greater than 2) for use in boundingObject."));
 
     if (invalidSpacings)
-      warn(tr("ElevationGrid: 'height' must be positive when used in a 'boundingObject'."));
+      warn(tr("'height' must be positive when used in a 'boundingObject'."));
 
     if (invalid)
-      warn(tr("ElevationGrid: Cannot create the associated physics object."));
+      warn(tr("Cannot create the associated physics object."));
   }
 
   return !invalid;
