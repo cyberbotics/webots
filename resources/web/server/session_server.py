@@ -21,6 +21,7 @@ import json
 import logging
 import os
 import smtplib
+import socket
 import sys
 import threading
 import time
@@ -164,7 +165,7 @@ def send_email(subject, content):
               "To: Administrator <" + config['administrator'] + ">\n" + \
               "Subject: " + subject + "\n\n" + content
     try:
-        with smtplib.SMTP(config['mailServer'], port, timeout=2) as smtp:
+        with smtplib.SMTP(config['mailServer'], port, timeout=5) as smtp:
             if 'mailSenderPassword' in config:
                 smtp.starttls()
                 if 'mailSenderUser' in config:
@@ -188,7 +189,7 @@ def read_url(url, i):
         check_string = "Check it at " + protocol + config['server'] + ":" + str(config['port']) + "/monitor\n\n" + \
                        "-Simulation Server"
     try:
-        response = urlopen(url, timeout=2)
+        response = urlopen(url, timeout=5)
     except URLError:
         if simulation_server_loads[i] != 100:
             if 'administrator' in config:
@@ -197,7 +198,12 @@ def read_url(url, i):
                            "...\n" + check_string)
             else:
                 logging.info(config['simulationServers'][i] + " simulation server is not responding (assuming 100% load)")
-        simulation_server_loads[i] = 100
+            simulation_server_loads[i] = 100
+    except socket.timeout:
+        if simulation_server_loads[i] != 100:
+            logging.info(config['simulationServers'][i] +
+                         " simulation server is taking too long to respond (assuming 100% load)")
+            simulation_server_loads[i] = 100
     else:
         load = float(response.read())
         if simulation_server_loads[i] == 100:
