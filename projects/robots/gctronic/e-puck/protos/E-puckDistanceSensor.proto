@@ -8,6 +8,7 @@ PROTO E-puckDistanceSensor [
   field SFRotation rotation     0 1 0 0
   field SFString   name         "ds"
   field SFInt32    numberOfRays 1         # Is `DistanceSensor.numberOfRays`.
+  field SFFloat    aperture     0.1       # Is `DistanceSensor.aperture`.
 ]
 {
   Solid {
@@ -65,7 +66,7 @@ PROTO E-puckDistanceSensor [
         ]
         type "infra-red"
         numberOfRays IS numberOfRays
-        aperture 0.1
+        aperture IS aperture
       }
     ]
     name IS name

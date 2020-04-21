@@ -32,6 +32,8 @@ PROTO E-puck [
   field MFNode             turretSlot                   []                       # Extends the robot with new nodes in the turret slot.
   field MFNode             groundSensorsSlot            []                       # Extends the robot with new nodes in the ground slot. Typically: `E-puckGroundSensors.proto`.
   field SFBool             kinematic                    FALSE                    # Defines whether the robot motion and its sensors are computed according to a 2D kinematics algorithm.
+  field SFFloat            infrared_aperture            0.10                     # Is `DistanceSensor.aperture`
+  field SFFloat            tof_aperture                 0.44                     # Is `DistanceSensor.aperture`
 ]
 {
 %{
@@ -660,47 +662,55 @@ Robot {
       rotation 0 1 0 1.27
       name "ps0"
       numberOfRays IS distance_sensor_numberOfRays
+      aperture IS infrared_aperture
     }
     DEF EPUCK_PS1 E-puckDistanceSensor {
       translation 0.025 0.033 -0.022
       rotation 0 1 0 0.77
       name "ps1"
       numberOfRays IS distance_sensor_numberOfRays
+      aperture IS infrared_aperture
     }
     DEF EPUCK_PS2 E-puckDistanceSensor {
       translation 0.031 0.033 0
       name "ps2"
       numberOfRays IS distance_sensor_numberOfRays
+      aperture IS infrared_aperture
     }
     DEF EPUCK_PS3 E-puckDistanceSensor {
       translation 0.015 0.033 0.03
       rotation 0 1 0 5.21
       name "ps3"
       numberOfRays IS distance_sensor_numberOfRays
+      aperture IS infrared_aperture
     }
     DEF EPUCK_PS4 E-puckDistanceSensor {
       translation -0.015 0.033 0.03
       rotation 0 1 0 4.21
       name "ps4"
       numberOfRays IS distance_sensor_numberOfRays
+      aperture IS infrared_aperture
     }
     DEF EPUCK_PS5 E-puckDistanceSensor {
       translation -0.031 0.033 0
       rotation 0 1 0 3.14159
       name "ps5"
       numberOfRays IS distance_sensor_numberOfRays
+      aperture IS infrared_aperture
     }
     DEF EPUCK_PS6 E-puckDistanceSensor {
       translation -0.025 0.033 -0.022
       rotation 0 1 0 2.37
       name "ps6"
       numberOfRays IS distance_sensor_numberOfRays
+      aperture IS infrared_aperture
     }
     DEF EPUCK_PS7 E-puckDistanceSensor {
       translation -0.01 0.033 -0.03
       rotation 0 1 0 1.87
       name "ps7"
       numberOfRays IS distance_sensor_numberOfRays
+      aperture IS infrared_aperture
     }
     DEF EPUCK_LS0 LightSensor {
       translation 0.01 0.0329 -0.03
@@ -771,6 +781,8 @@ Robot {
         rotation 0 1 0 1.57
         name "tof"
         type "generic"
+        numberOfRays IS distance_sensor_numberOfRays
+        aperture IS tof_aperture
         lookupTable [
             0.00    19.8  0.126
             0.05    58.5  0.032
