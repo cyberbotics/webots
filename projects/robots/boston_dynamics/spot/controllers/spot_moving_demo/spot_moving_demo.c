@@ -25,8 +25,8 @@
 #include <webots/robot.h>
 
 #include <math.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define NUMBER_OF_LEDS 8
 #define NUMBER_OF_JOINTS 12
