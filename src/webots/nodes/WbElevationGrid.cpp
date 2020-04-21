@@ -57,6 +57,12 @@ void WbElevationGrid::init() {
 
 WbElevationGrid::WbElevationGrid(WbTokenizer *tokenizer) : WbGeometry("ElevationGrid", tokenizer) {
   init();
+
+  // avoid warning
+  if (mXDimension->value() == 0)
+    mXDimension->setValue(2);
+  if (mZDimension->value() == 0)
+    mZDimension->setValue(2);
 }
 
 WbElevationGrid::WbElevationGrid(const WbElevationGrid &other) : WbGeometry(other) {
