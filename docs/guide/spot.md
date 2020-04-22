@@ -27,7 +27,7 @@ Spot {
   SFBool      supervisor       FALSE
   SFBool      synchronization  TRUE
   SFBool      selfCollision    FALSE
-  MFNode      extension        []
+  MFNode      extensionSlot    []
 }
 ```
 
