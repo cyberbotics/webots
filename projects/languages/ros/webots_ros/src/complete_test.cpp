@@ -2082,7 +2082,7 @@ int main(int argc, char **argv) {
   motor_feedback_srv.request.value = 32;
   if (set_motor_feedback_client.call(motor_feedback_srv) && motor_feedback_srv.response.success) {
     ROS_INFO("Motor feedback enabled.");
-    sub_motor_feedback_32 = n.subscribe(model_name + "/rotational_motor/torque_feedback_sensor/value", 1, motorSensorCallback);
+    sub_motor_feedback_32 = n.subscribe(model_name + "/rotational_motor/torque_feedback", 1, motorSensorCallback);
     while (sub_motor_feedback_32.getNumPublishers() == 0) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
