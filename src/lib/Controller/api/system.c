@@ -139,7 +139,7 @@ const char *wbu_system_webots_tmp_path() {
   const size_t l = strlen(tmp);
   const char *WEBOTS_PID = getenv("WEBOTS_PID");
   int webots_pid = 0;
-  char random_part[16];
+  char random_part[64];
   random_part[0] = '\0';
   if (WEBOTS_PID && strlen(WEBOTS_PID) > 0)
     sscanf(WEBOTS_PID, "%d", &webots_pid);
@@ -161,6 +161,9 @@ const char *wbu_system_webots_tmp_path() {
             continue;
           if (s.st_mtime < most_recent)
             continue;
+          if (strlen(entry->d_name) > 64)
+            continue;
+          // cppcheck-suppress invalidscanf
           sscanf(entry->d_name, "webots-%d%s", &webots_pid, random_part);
           most_recent = s.st_mtime;
         }
@@ -182,6 +185,9 @@ const char *wbu_system_webots_tmp_path() {
             continue;
           if (!S_ISDIR(s.st_mode))
             continue;
+          if (strlen(entry->d_name) > 64)
+            continue;
+          // cppcheck-suppress invalidscanf
           sscanf(entry->d_name, "webots-%d%s", &webots_pid, random_part);
           break;
         }
