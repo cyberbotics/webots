@@ -21,7 +21,7 @@ Spot {
   SFRotation  rotation         0 1 0 0
   SFString    name             "Spot"
   SFString    model            "Boston Dynamics - Spot"
-  SFString    controller       "moving_demo"
+  SFString    controller       "spot_moving_demo"
   SFString    controllerArgs   ""
   SFString    customData       ""
   SFBool      supervisor       FALSE
