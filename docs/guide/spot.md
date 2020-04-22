@@ -5,7 +5,7 @@
 The "Spot" robot, previously called "SpotMini", is is a four-legged dog-like robot developed by [Boston Dynamics](https://www.bostondynamics.com/spot).
 
 The nimble robot is 83 centimeters tall and is designed for a variety of search, inspection and delivery tasks.
-It can climbs stairs and traverses rough terrain with unprecedented ease, yet is small enough to use indoors.
+It can climb stairs and traverse rough terrain with unprecedented ease, yet it is small enough to use indoors.
 It is built to be a rugged (IP54 for dust and wet protection) and customizable platform.
 Spot can go where wheeled robots cannot, while carrying payloads with endurance far beyond aerial drones.
 The maximal speed is 1.6 m/s with a runtime of 90 minutes and the batteries are swappable.
