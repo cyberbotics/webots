@@ -66,7 +66,6 @@ export TMPDIR=$WEBOTS_TMPDIR
 WEBOTS_TMP_PATH="$(mktemp -d $TMPDIR/webots-XXXXXX)/" || exit 1
 export WEBOTS_TMP_PATH
 
-
 # create temporary lib directory
 TMP_LIB_DIR="$WEBOTS_TMP_PATH/lib"
 mkdir -p $TMP_LIB_DIR
