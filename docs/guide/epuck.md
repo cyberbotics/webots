@@ -53,7 +53,7 @@ E-puck is equipped with a large number of devices, as summarized in [this table]
 | Expansion bus  | expansion bus to add new possibilities to your robot                                                                             |
 | Programming    | C programming with the GNU GCC compiler system                                                                                   |
 | Simulation     | Webots facilitates the programming of e-puck with a powerful simulation, remote control and cross-compilation system             |
-
+ 
 %end
 
 ### E-puck Model
