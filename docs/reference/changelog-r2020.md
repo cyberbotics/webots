@@ -4,7 +4,7 @@
 Released on XXX.
 
   - New Robot
-    - Added a model of the [Spot](../guide/spot.md) from [Boston Dynamics](https://www.bostondynamics.com/spot).
+    - Added a model of the [Spot](../guide/spot.md) robot from [Boston Dynamics](https://www.bostondynamics.com/spot).
   - New Features
     - macOS and Windows: Added support for Python 3.8.
     - Added a model of a Mercedes-Benz Sprinter.
