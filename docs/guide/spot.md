@@ -35,7 +35,7 @@ Spot {
 
 #### Spot Field Summary
 
-- `extension`: Extends the robot with new nodes.
+- `extensionSlot`: Extends the robot with new nodes.
 
 ### Samples
 
