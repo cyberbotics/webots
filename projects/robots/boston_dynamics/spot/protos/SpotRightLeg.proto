@@ -114,20 +114,8 @@ PROTO SpotRightLeg [
                           translation -0.165 -1.342041 0.640962
                           children [
                             DEF FOREARM_SH Shape {
-                              appearance DEF GRAY_PART PBRAppearance {
-                                baseColor 0.0862745 0.0862745 0.0862745
-                                roughness 1
-                                roughnessMap ImageTexture {
-                                  url [
-                                    "textures/plastic_rough/plastic_rough_roughness.jpg"
-                                  ]
-                                }
-                                metalness 0
-                                normalMap ImageTexture {
-                                  url [
-                                    "textures/plastic_rough/plastic_rough_normal.jpg"
-                                  ]
-                                }
+                              appearance DEF GRAY_PART Plastic {
+                                colorOverride 0.0862745 0.0862745 0.0862745
                                 textureTransform TextureTransform {
                                   scale 20 20
                                 }
@@ -175,33 +163,9 @@ PROTO SpotRightLeg [
                               }
                             }
                             DEF FOOT_RUBBER Shape {
-                              appearance PBRAppearance {
-                                baseColor 0.0980392 0.0980392 0.0980392
-                                baseColorMap ImageTexture {
-                                  url [
-                                    "textures/plastic_padded/plastic_padded_base_color.jpg"
-                                  ]
-                                }
-                                roughnessMap ImageTexture {
-                                  url [
-                                    "textures/plastic_padded/plastic_padded_roughness.jpg"
-                                  ]
-                                }
-                                metalnessMap ImageTexture {
-                                  url [
-                                    "textures/plastic_padded/plastic_padded_metalness.jpg"
-                                  ]
-                                }
-                                normalMap ImageTexture {
-                                  url [
-                                    "textures/plastic_padded/plastic_padded_normal.jpg"
-                                  ]
-                                }
-                                occlusionMap ImageTexture {
-                                  url [
-                                    "textures/plastic_padded/plastic_padded_occlusion.jpg"
-                                  ]
-                                }
+                              appearance Plastic {
+                                colorOverride 0.0980392 0.0980392 0.0980392
+                                type "padded"
                                 textureTransform TextureTransform {
                                   center 0.032 0
                                   scale 14 24

@@ -12,7 +12,7 @@ Released on XXX.
     - Added an `OfficeChair` PROTO object.
     - Added a `wheelbase`, `kingPinDistance` and `mass` fields to the `Truck` PROTO node.
     - Added a `length`, `kingPinDistance`, `wheelAxles` and `mass` fields to the `TruckTrailer` PROTO node.
-    - Added several new appearances: `Marble`, `MetalStainlessSteelCable`, `Pavement`, `Parquetry`, `PerforatedMetal` and `SolarCell`.
+    - Added several new appearances: `Marble`, `MetalStainlessSteelCable`, `Pavement`, `Plastic`, `Parquetry`, `PerforatedMetal` and `SolarCell`.
     - Added a `ConveyorPlatform` PROTO object.
   - New Samples
     - Added a [break\_room](../guide/samples-environments.md#break_room-wbt) world.
