@@ -1,6 +1,7 @@
 #VRML_SIM R2020a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
+# tags: static
 # A plastic material containing several types.
 
 PROTO Plastic [
@@ -13,11 +14,13 @@ PROTO Plastic [
 {
   PBRAppearance {
     baseColor IS colorOverride
-    baseColorMap ImageTexture {
-      url [
-        %{= "\"textures/plastic/plastic_" .. fields.type.value .. "_base_color.jpg\"" }%
-      ]
-    }
+    %{ if fields.type.value == "rough" then }%
+      baseColorMap ImageTexture {
+        url [
+          %{= "\"textures/plastic/plastic_" .. fields.type.value .. "_base_color.jpg\"" }%
+        ]
+      }
+    %{ end }%
     metalness 0
     %{ if fields.type.value == "padded" then }%
       metalnessMap ImageTexture {
