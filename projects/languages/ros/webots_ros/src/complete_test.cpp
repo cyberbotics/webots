@@ -259,7 +259,7 @@ void lightSensorCallback(const sensor_msgs::Illuminance::ConstPtr &value) {
   ROS_INFO("Light intensity is %f.", value->illuminance);
 }
 
-void motorSensorCallback(const std_msgs::Float64::ConstPtr &value) {
+void motorSensorCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
   ROS_INFO("Motor sensor sent value %f.", value->data);
 }
 
