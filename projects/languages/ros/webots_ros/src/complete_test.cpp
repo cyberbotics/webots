@@ -2070,7 +2070,7 @@ int main(int argc, char **argv) {
 
   ros::ServiceClient set_motor_feedback_client;
   webots_ros::set_int motor_feedback_srv;
-  ros::Subscriber sub_lmotor_feedback_32;
+  ros::Subscriber sub_motor_feedback_32;
   set_motor_feedback_client = n.serviceClient<webots_ros::set_int>(model_name + "/rotational_motor/torque_feedback/enable");
 
   ros::ServiceClient sampling_period_motor_feedback_client;
