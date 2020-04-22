@@ -21,7 +21,6 @@
 #include <webots/keyboard.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
-#include <webots/utils/ansi_codes.h>
 
 #define TIME_STEP 16
 #define TARGET_POINTS_SIZE 13
