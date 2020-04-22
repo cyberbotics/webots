@@ -35,10 +35,10 @@
 // Initialize the robot's information
 static WbDeviceTag motors[NUMBER_OF_JOINTS];
 static const char *motor_names[NUMBER_OF_JOINTS] = {
-  "front left leg shoulder abduction motor",  "front left leg shoulder rotation motor",  "front left leg elbow motor",
-  "front right leg shoulder abduction motor", "front right leg shoulder rotation motor", "front right leg elbow motor",
-  "rear left leg shoulder abduction motor",   "rear left leg shoulder rotation motor",   "rear left leg elbow motor",
-  "rear right leg shoulder abduction motor",  "rear right leg shoulder rotation motor",  "rear right leg elbow motor"};
+  "front left shoulder abduction motor",  "front left shoulder rotation motor",  "front left elbow motor",
+  "front right shoulder abduction motor", "front right shoulder rotation motor", "front right elbow motor",
+  "rear left shoulder abduction motor",   "rear left shoulder rotation motor",   "rear left elbow motor",
+  "rear right shoulder abduction motor",  "rear right shoulder rotation motor",  "rear right elbow motor"};
 static WbDeviceTag cameras[NUMBER_OF_CAMERAS];
 static const char *camera_names[NUMBER_OF_CAMERAS] = {"left head camera", "right head camera", "left flank camera",
                                                       "right flank camera", "rear camera"};
