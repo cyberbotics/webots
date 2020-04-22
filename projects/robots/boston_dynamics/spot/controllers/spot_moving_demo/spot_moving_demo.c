@@ -47,7 +47,7 @@ static const char *led_names[NUMBER_OF_LEDS] = {"left top led",          "left m
                                                 "left bottom led",       "right top led",      "right middle up led",
                                                 "right middle down led", "right bottom led"};
 
-void step() {
+static void step() {
   const double time_step = wb_robot_get_basic_time_step();
   if (wb_robot_step(time_step) == -1) {
     wb_robot_cleanup();
