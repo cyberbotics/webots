@@ -228,7 +228,7 @@ void WbGeometry::applyToOdeMass() {
 ////////////
 
 void WbGeometry::updateCollisionMaterial(bool triggerChange, bool onSelection) {
-  if (!isInBoundingObject())
+  if (!mWrenMaterial || !isInBoundingObject())
     return;
 
   bool isColliding = mCollisionTime >= WbSimulationState::instance()->time();
@@ -517,7 +517,7 @@ bool WbGeometry::isAValidBoundingObject(bool checkOde, bool warning) const {
 }
 
 int WbGeometry::triangleCount() const {
-  if (areWrenObjectsInitialized())
+  if (areWrenObjectsInitialized() && this->wrenMesh())
     return wr_static_mesh_get_triangle_count(this->wrenMesh());
   else
     return 0;
