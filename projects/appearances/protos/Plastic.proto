@@ -14,7 +14,7 @@ PROTO Plastic [
 {
   PBRAppearance {
     baseColor IS colorOverride
-    %{ if fields.type.value == "rough" then }%
+    %{ if fields.type.value == "padded" then }%
       baseColorMap ImageTexture {
         url [
           %{= "\"textures/plastic/plastic_" .. fields.type.value .. "_base_color.jpg\"" }%
