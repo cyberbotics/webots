@@ -2067,6 +2067,47 @@ int main(int argc, char **argv) {
 
   get_max_torque_client.shutdown();
   time_step_client.call(time_step_srv);
+
+  ros::ServiceClient set_motor_feedback_client;
+  webots_ros::set_int motor_feedback_srv;
+  ros::Subscriber sub_lmotor_feedback_32;
+  set_motor_feedback_client = n.serviceClient<webots_ros::set_int>(model_name + "/rotational_motor/torque_feedback/enable");
+
+  ros::ServiceClient sampling_period_motor_feedback_client;
+  webots_ros::get_int sampling_period_motor_feedback_srv;
+  sampling_period_motor_feedback_client =
+    n.serviceClient<webots_ros::get_int>(model_name + "/rotational_motor/torque_feedback/get_sampling_period");
+
+  motor_feedback_srv.request.value = 32;
+  if (set_motor_feedback_client.call(motor_feedback_srv) && motor_feedback_srv.response.success) {
+    ROS_INFO("Motor feedback enabled.");
+    sub_motor_feedback_32 = n.subscribe(model_name + "/rotational_motor/torque_feedback/value", 1, motorSensorCallback);
+    while (sub_motor_feedback_32.getNumPublishers() == 0) {
+      ros::spinOnce();
+      time_step_client.call(time_step_srv);
+    }
+  } else {
+    if (!motor_feedback_srv.response.success)
+      ROS_ERROR("Sampling period is not valid.");
+    ROS_ERROR("Failed to enable motor_feedback.");
+    return 1;
+  }
+
+  sub_motor_feedback_32.shutdown();
+
+  time_step_client.call(time_step_srv);
+
+  sampling_period_motor_feedback_client.call(sampling_period_motor_feedback_srv);
+  ROS_INFO("Motor feedback is enabled with a sampling period of %d.", sampling_period_motor_feedback_srv.response.value);
+
+  time_step_client.call(time_step_srv);
+
+  sampling_period_motor_feedback_client.call(sampling_period_motor_feedback_srv);
+  ROS_INFO("Motor feedback is disabled (sampling period is %d).", sampling_period_motor_feedback_srv.response.value);
+
+  set_motor_feedback_client.shutdown();
+  sampling_period_motor_feedback_client.shutdown();
+  time_step_client.call(time_step_srv);
   time_step_client.call(time_step_srv);
 
   //////////////////////
