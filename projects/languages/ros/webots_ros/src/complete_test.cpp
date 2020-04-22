@@ -2071,17 +2071,18 @@ int main(int argc, char **argv) {
   ros::ServiceClient set_motor_feedback_client;
   webots_ros::set_int motor_feedback_srv;
   ros::Subscriber sub_motor_feedback_32;
-  set_motor_feedback_client = n.serviceClient<webots_ros::set_int>(model_name + "/rotational_motor/torque_feedback/enable");
+  set_motor_feedback_client =
+    n.serviceClient<webots_ros::set_int>(model_name + "/rotational_motor/torque_feedback_sensor/enable");
 
   ros::ServiceClient sampling_period_motor_feedback_client;
   webots_ros::get_int sampling_period_motor_feedback_srv;
   sampling_period_motor_feedback_client =
-    n.serviceClient<webots_ros::get_int>(model_name + "/rotational_motor/torque_feedback/get_sampling_period");
+    n.serviceClient<webots_ros::get_int>(model_name + "/rotational_motor/torque_feedback_sensor/get_sampling_period");
 
   motor_feedback_srv.request.value = 32;
   if (set_motor_feedback_client.call(motor_feedback_srv) && motor_feedback_srv.response.success) {
     ROS_INFO("Motor feedback enabled.");
-    sub_motor_feedback_32 = n.subscribe(model_name + "/rotational_motor/torque_feedback/value", 1, motorSensorCallback);
+    sub_motor_feedback_32 = n.subscribe(model_name + "/rotational_motor/torque_feedback_sensor/value", 1, motorSensorCallback);
     while (sub_motor_feedback_32.getNumPublishers() == 0) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
