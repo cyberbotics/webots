@@ -40,9 +40,9 @@ jobs:
           then
             if [[ "$TRAVIS_EVENT_TYPE" == "pull_request" ]]
             then
-              tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG $TRAVIS_BRANCH;
+              tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG $TRAVIS_BRANCH
             else
-              tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG;
+              tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG
             fi
             echo "File(s) to test for commit '$TRAVIS_COMMIT': $(cat tests/sources/modified_files.txt)"
           fi
