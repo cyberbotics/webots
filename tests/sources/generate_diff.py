@@ -55,7 +55,7 @@ def github_api(request):
 
 
 target_branch = None
-if len(sys.arg) > 3:
+if len(sys.argv) > 3:
     target_branch = sys.argv[3]
 if len(sys.argv) > 2:
     commit = sys.argv[1]
