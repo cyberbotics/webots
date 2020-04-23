@@ -64,7 +64,6 @@ else:
     commit = subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('utf-8').strip()
     repo = subprocess.check_output(['git', 'config', '--get', 'remote.origin.url']).decode().strip()
     repo = repo[19:-4]  # remove leading 'https://github.com/' and trailing '.git'
-print([sys.argv, target_branch])
 github_api.last_time = 0
 github_api.user_agent = repo
 if not target_branch:
@@ -73,7 +72,7 @@ filename = os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_
 if not target_branch and j['total_count'] == 0:
     # if no PR is associated with this commit, create an empty modified_files.txt to disable the tests
     open(filename, 'w').close()
-    sys.stderr.write('No PR open yet!test')
+    sys.stderr.write('No PR open yet!')
 else:
     if not target_branch:
         url = j['items'][0]['pull_request']['url']
