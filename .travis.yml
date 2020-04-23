@@ -39,6 +39,7 @@ jobs:
           if [[ "$TRAVIS_COMMIT_MESSAGE" != travis_* ]] && [[ "$TRAVIS_EVENT_TYPE" != "api" ]] && [[ "$TRAVIS_EVENT_TYPE" != "cron" ]] && [[ -z "${TRAVIS_TAG}" ]]
           then
             tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG;
+            echo "File(s) to Test: \n$(cat tests/sources/modified_files.txt)"
           fi
         - travis_wait 30 python -m unittest discover -s tests/sources
     - <<: *source_tests_staging
