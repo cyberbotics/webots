@@ -29,15 +29,21 @@ WbLoginDialog {
   qproperty-versionColor: #333;
 }
 
+QWidget {
+  color: #000;
+  border: none;
+}
+
 WbMainWindow {
   qproperty-enabledIconPath: "icons/dark";
   qproperty-disabledIconPath: "icons/light";
   qproperty-coreIconPath: "icons/core";
   qproperty-toolBarAlign: "left";
+  background: #efefef;
 }
 
 QMainWindow::separator {
-  background: palette(window);
+  background: #efefef;
   width: 6px;
   height: 6px;
 }
@@ -60,6 +66,7 @@ WbSimulationView {
 
 WbSceneTree {
   qproperty-handleWidth: 6;
+  background: #fff;
 }
 
 QFrame#dockTitleFrame {
