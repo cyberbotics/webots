@@ -70,7 +70,7 @@ github_api.user_agent = repo
 if not target_branch:
     j = github_api('search/issues?q=' + commit)
 filename = os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt')
-if not target_branch and not j['total_count'] == 0:
+if not target_branch and j['total_count'] == 0:
     # if no PR is associated with this commit, create an empty modified_files.txt to disable the tests
     open(filename, 'w').close()
     sys.stderr.write('No PR open yet!')
