@@ -22,29 +22,15 @@ WbSplashScreen {
   qproperty-loadingColor: #666;
 }
 
-QWidget {
-  color: #000;
-  border: none;
-}
-
-QScrollArea  {
-  background: #efefef;
-}
-
-QScrollBar {
-  background-color: #e7e7e7;
-}
-
 WbMainWindow {
   qproperty-enabledIconPath: "icons/dark";
   qproperty-disabledIconPath: "icons/light";
   qproperty-coreIconPath: "icons/core";
   qproperty-toolBarAlign: "left";
-  background: #efefef;
 }
 
 QMainWindow::separator {
-  background: #efefef;
+  background: palette(window);
   width: 6px;
   height: 6px;
 }
@@ -67,7 +53,6 @@ WbSimulationView {
 
 WbSceneTree {
   qproperty-handleWidth: 6;
-  background: #fff;
 }
 
 QFrame#dockTitleFrame {
