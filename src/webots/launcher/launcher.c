@@ -37,7 +37,7 @@ static int fail(const char *function, const char *info) {
     char message[1024];
     const char *lf = info ? "\n" : "";
     const char *i = info ? info : "";
-    snprintf(message, sizeof(message), "%s failed with error %ld.\n%s%s%s", function, e, m, i, lf);
+    snprintf(message, sizeof(message), "%s failed with error %lu.\n%s%s%s", function, e, m, i, lf);
     LocalFree(m);
 #ifdef WEBOTSW
     MessageBox(NULL, message, "Webots launcher error", MB_ICONERROR | MB_OK);
