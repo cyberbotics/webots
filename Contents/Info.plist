@@ -6,11 +6,11 @@
 	<!-- http://developer.apple.com/library/mac/#documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Explained/Explained.html#//apple_ref/doc/uid/TP40012302-CH4-SW7 -->
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>NSRequiresAquaSystemAppearance</key>
-	<string>True</string>
 	<key>NSHighResolutionCapable</key>
 	<string>True</string>
 	<!-- End of retina display fix -->
+	<key>NSRequiresAquaSystemAppearance</key>
+	<string>True</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDocumentTypes</key>
