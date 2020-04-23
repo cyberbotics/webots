@@ -114,6 +114,7 @@
     - [Salamander](salamander.md)
     - [Shrimp](shrimp.md)
     - [Sojourner](sojourner.md)
+    - [Spot](spot.md)
     - [Surveyor SRV-1](surveyor.md)
     - [TIAGo Base](tiago-base.md)
     - [TIAGo Iron](tiago-iron.md)

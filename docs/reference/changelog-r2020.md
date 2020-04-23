@@ -3,6 +3,8 @@
 ## Webots R2020a Revision 2
 Released on XXX.
 
+  - New Robot
+    - Added a model of the [Spot](../guide/spot.md) robot from [Boston Dynamics](https://www.bostondynamics.com/spot).
   - New Features
     - macOS and Windows: Added support for Python 3.8.
     - Added a model of a Mercedes-Benz Sprinter.
@@ -10,7 +12,7 @@ Released on XXX.
     - Added an `OfficeChair` PROTO object.
     - Added a `wheelbase`, `kingPinDistance` and `mass` fields to the `Truck` PROTO node.
     - Added a `length`, `kingPinDistance`, `wheelAxles` and `mass` fields to the `TruckTrailer` PROTO node.
-    - Added several new appearances: `Marble`, `MetalStainlessSteelCable`, `Pavement`, `Parquetry`, and `SolarCell`.
+    - Added several new appearances: `Marble`, `MetalStainlessSteelCable`, `Pavement`, `Plastic`, `Parquetry`, `PerforatedMetal` and `SolarCell`.
     - Added a `ConveyorPlatform` PROTO object.
   - New Samples
     - Added a [break\_room](../guide/samples-environments.md#break_room-wbt) world.
