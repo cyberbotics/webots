@@ -54,7 +54,10 @@ def github_api(request):
     return json.loads(content)
 
 
-if len(sys.argv) == 3:
+target_branch = None
+if len(sys.arg) > 3:
+    target_branch = sys.argv[3]
+if len(sys.argv) > 2:
     commit = sys.argv[1]
     repo = sys.argv[2]
 else:
@@ -63,17 +66,20 @@ else:
     repo = repo[19:-4]  # remove leading 'https://github.com/' and trailing '.git'
 github_api.last_time = 0
 github_api.user_agent = repo
-j = github_api('search/issues?q=' + commit)
+if not target_branch:
+    j = github_api('search/issues?q=' + commit)
 filename = os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt')
-if j['total_count'] == 0:  # if no PR is associated with this commit, create an empty modified_files.txt to disable the tests
+if not target_branch and not j['total_count'] == 0:
+    # if no PR is associated with this commit, create an empty modified_files.txt to disable the tests
     open(filename, 'w').close()
-    print('No PR open yet.')
+    sys.stderr.write('No PR open yet!')
 else:
-    url = j['items'][0]['pull_request']['url']
-    j = github_api(url)
-    branch = j['base']['ref']
+    if not target_branch:
+        url = j['items'][0]['pull_request']['url']
+        j = github_api(url)
+        target_branch = j['base']['ref']
     with open(filename, 'w') as file:
-        j = github_api('repos/' + repo + '/compare/' + branch + '...' + commit)
+        j = github_api('repos/' + repo + '/compare/' + target_branch + '...' + commit)
         for f in j['files']:
             if os.path.isfile(f['filename']):  # In case the file has been deleted.
                 file.write(f['filename'] + '\n')
