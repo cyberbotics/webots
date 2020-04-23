@@ -73,7 +73,7 @@ filename = os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_
 if not target_branch and j['total_count'] == 0:
     # if no PR is associated with this commit, create an empty modified_files.txt to disable the tests
     open(filename, 'w').close()
-    sys.stderr.write('No PR open yet!')
+    sys.stderr.write('No PR open yet!test')
 else:
     if not target_branch:
         url = j['items'][0]['pull_request']['url']
