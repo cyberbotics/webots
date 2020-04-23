@@ -45,7 +45,7 @@ static int fail(const char *function, const char *info) {
     fprintf(stderr, message);
 #endif
   } else
-    fprintf(stderr, "%s sfailed with no error.\n", function);
+    fprintf(stderr, "%s failed with no error.\n", function);
   exit(e);
 }
 
