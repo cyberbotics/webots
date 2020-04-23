@@ -633,7 +633,7 @@ launcher/launcher.o: launcher/launcher.rc
 
 $(LAUNCHERW): launcher/launcher.c launcher/launcher.o
 	@echo "# compiling webotsw.exe launcher"
-	@gcc -Wall -mwindows launcher/launcher.o launcher/launcher.c -o $@
+	@gcc -Wall -mwindows -DWEBOTSW launcher/launcher.o launcher/launcher.c -o $@
 
 $(LAUNCHER): launcher/launcher.c
 	@echo "# compiling webots.exe launcher"

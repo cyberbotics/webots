@@ -91,7 +91,6 @@ They represent different models of car:
 - the C-Zero from Citroen.
 - the Model 3 from Tesla.
 - the Sprinter from Mercedes-Benz.
-- the EV Start from GreenPower.
 
 %figure "Models of cars created using the Car PROTO"
 
@@ -114,7 +113,6 @@ For the three other sensor slots, the positions are different for each model (be
 | ToyotaPrius          | 0.0 0.40 3.635         | 0.0 1.30 1.1         | 0.0 0.3 -0.850        |
 | TeslaModel3          | 0.0 0.142 3.79         | 0.0 1.16 1.11        | 0.0 0.2 -1.05         |
 | MercedesBenzSprinter | 0.0 0.47 5.31          | 0.0 2.3 2.99         | 0.0 0.19 -1.62        |
-| GreenPowerEVStar     | 0.0 0.47 5.31          | 0.0 2.3 2.99         | 0.0 0.19 -1.62        |
 
 %end
 
@@ -189,7 +187,6 @@ The different simple versions of the car PROTO nodes represent the different mod
 - the C-Zero from Citroen.
 - the Model 3 from Tesla.
 - the Sprinter from Mercedes-Benz.
-- the EV Start from GreenPower.
 
 %figure "Models of cars created using the CarSimple PROTO"
 

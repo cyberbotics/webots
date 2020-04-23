@@ -20,14 +20,16 @@ Released on XXX.
 ## Webots R2020a Revision 2
 Released on XXX.
 
+  - New Robot
+    - Added a model of the [Spot](../guide/spot.md) robot from [Boston Dynamics](https://www.bostondynamics.com/spot).
   - New Features
     - macOS and Windows: Added support for Python 3.8.
-    - Added a model of a Mercedes-Benz Sprinter and of a GreenPower EV Star vehicles.
+    - Added a model of a Mercedes-Benz Sprinter.
     - Added a 'Convert Root to Base Node(s)' option in the context menu to convert a PROTO node to base node(s) without converting the nested PROTO nodes.
     - Added an `OfficeChair` PROTO object.
     - Added a `wheelbase`, `kingPinDistance` and `mass` fields to the `Truck` PROTO node.
     - Added a `length`, `kingPinDistance`, `wheelAxles` and `mass` fields to the `TruckTrailer` PROTO node.
-    - Added several new appearances: `Marble`, `MetalStainlessSteelCable`, `Pavement`, `Parquetry`, and `SolarCell`.
+    - Added several new appearances: `Marble`, `MetalStainlessSteelCable`, `Pavement`, `Plastic`, `Parquetry`, `PerforatedMetal` and `SolarCell`.
     - Added a `ConveyorPlatform` PROTO object.
   - New Samples
     - Added a [break\_room](../guide/samples-environments.md#break_room-wbt) world.
@@ -47,9 +49,11 @@ Released on XXX.
   - Cleanup
     - Deprecated the following appearances: `ChequeredParquetry`, `DarkParquetry`, `SlatePavement`, `SquarePavement` and `StonePavement`.
   - Bug fixes
+    - Fixed the restoration of the 3D view which was sometimes not re-appearing after being hidden.
     - Windows: Fixed JPEG texture errors when typing `webots` from a DOS console (`cmd.exe`) by renaming `webots.exe` to `webots-bin.exe` and creating two launchers named `webotsw.exe` and `webots.exe`.
     - Fixed the physics behavior of [Connector](connector.md) nodes sometimes remaining idle after being detached from each other (thanks to Giorgio).
     - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images.
+    - Fixed the motor torque and force feedback of the ros controller.
     - Fixed the TurtleBot3Burger robot maximum velocity (thanks to Dorteel).
     - Fixed the TurtleBot3Burger robot center of mass (thanks to Nitrow).
     - Fixed warnings about duplicated `name` fields in the `TruckTank` PROTO node.
@@ -69,6 +73,7 @@ Released on XXX.
     - Fixed a crash related to [InertialUnit](inertialunit.md) node when gravity was null.
     - Fixed support for MATLAB R2017b on Windows.
     - Fixed a crash occurring when changing the `textureAnimation` value of some `Track` node from the scene tree.
+    - Fixed a bug allowing to move a USE node with handles in 3D view.
   - Documentation
     - Fixed tutorials 1, 4 and 6 with respect to MATLAB controllers and added sample MATLAB controllers.
     - Translated most relevant examples from [Controller Programming](https://github.com/cyberbotics/webots/blob/master/docs/guide/controller-programming.md) and [Supervisor Programming](https://github.com/cyberbotics/webots/blob/master/docs/guide/supervisor-programming.md) to different languages.

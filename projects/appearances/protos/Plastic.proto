@@ -1,0 +1,53 @@
+#VRML_SIM R2020a utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# tags: static
+# A plastic material containing several types.
+
+PROTO Plastic [
+  field SFColor  colorOverride    1 1 1         # Defines the default color multiplied with the texture color.
+  field SFString{"rough", "padded"}
+                 type             "rough"       # Defines the plastic type.
+  field SFNode   textureTransform NULL          # Defines an optional 2d texture transform.
+  field SFFloat  IBLStrength      1             # Defines the strength of ambient lighting from the Background node.
+]
+{
+  PBRAppearance {
+    baseColor IS colorOverride
+    %{ if fields.type.value == "padded" then }%
+      baseColorMap ImageTexture {
+        url [
+          %{= "\"textures/plastic/plastic_" .. fields.type.value .. "_base_color.jpg\"" }%
+        ]
+      }
+    %{ end }%
+    metalness 0
+    %{ if fields.type.value == "padded" then }%
+      metalnessMap ImageTexture {
+        url [
+          %{= "\"textures/plastic/plastic_" .. fields.type.value .. "_metalness.jpg\"" }%
+        ]
+      }
+    %{ end }%
+    roughness 1
+    roughnessMap ImageTexture {
+      url [
+        %{= "\"textures/plastic/plastic_" .. fields.type.value .. "_roughness.jpg\"" }%
+      ]
+    }
+    IBLStrength IS IBLStrength
+    normalMap ImageTexture {
+      url [
+        %{= "\"textures/plastic/plastic_" .. fields.type.value .. "_normal.jpg\"" }%
+      ]
+    }
+    %{ if fields.type.value == "padded" then }%
+    occlusionMap ImageTexture {
+      url [
+        %{= "\"textures/plastic/plastic_" .. fields.type.value .. "_occlusion.jpg\"" }%
+      ]
+    }
+    %{ end }%
+    textureTransform IS textureTransform
+  }
+}
