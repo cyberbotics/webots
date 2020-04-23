@@ -67,6 +67,7 @@ j = github_api('search/issues?q=' + commit)
 filename = os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt')
 if j['total_count'] == 0:  # if no PR is associated with this commit, create an empty modified_files.txt to disable the tests
     open(filename, 'w').close()
+    print('No PR open yet.')
 else:
     url = j['items'][0]['pull_request']['url']
     j = github_api(url)
