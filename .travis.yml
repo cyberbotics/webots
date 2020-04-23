@@ -44,7 +44,7 @@ jobs:
             else
               tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG;
             fi
-            echo "File(s) to test:\\n$(cat tests/sources/modified_files.txt)";
+            echo "File(s) to test: $(cat tests/sources/modified_files.txt)";
           fi
         - travis_wait 30 python -m unittest discover -s tests/sources
     - <<: *source_tests_staging
