@@ -49,6 +49,7 @@ def github_api(request):
         print(request)
         print(e.reason)
         print(e.info())
+        raise(e)
     github_api.last_time = time.time()
     return json.loads(content)
 
