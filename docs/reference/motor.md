@@ -167,7 +167,7 @@ Finally, in MATLAB you should use the `inf` constant.
 
 ### Force and Torque Control
 
-The position control described above are performed by the Webots PID-controller and ODE's joint motor implementation (see ODE documentation).
+The position control described above is performed by the Webots PID-controller and ODE's joint motor implementation (see ODE documentation).
 As an alternative, Webots also allows the user to directly specify the amount of force (resp. torque) that must be applied by a [Motor](#motor).
 This is achieved with the `wb_motor_set_force` (resp. `wb_motor_set_torque`) function which specifies the desired amount of forces (resp. torques) and switches off the PID-controller.
 A subsequent call to the `wb_motor_set_position` function restores the original *position control*.
