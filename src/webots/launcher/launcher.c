@@ -37,6 +37,7 @@ static int fail(const char *function, const char *info) {
     char message[1024];
     const char *lf = info ? "\n" : "";
     const char *i = info ? info : "";
+    // cppcheck-suppress-nullPointer
     snprintf(message, sizeof(message), "%s failed with error %lu.\n%s%s%s", function, e, m, i, lf);
     LocalFree(m);
 #ifdef WEBOTSW
