@@ -65,6 +65,7 @@ PROTO E-puckDistanceSensor [
         ]
         type "infra-red"
         numberOfRays IS numberOfRays
+        aperture 0.1
       }
     ]
     name IS name
