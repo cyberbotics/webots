@@ -79,9 +79,9 @@ int main(int argc, char *argv[]) {
   char *old_path = malloc(LENGTH);
   char *new_path = malloc(LENGTH);
 
-  strncpy(new_path, module_path, l0);
+  strcpy(new_path, module_path);
   new_path[l0 - 11] = ';';  // removes "\webots.exe" or "\webotsw.exe"
-  strncpy(&new_path[l0 - 10], module_path, l0);
+  strcpy(&new_path[l0 - 10], module_path);
   free(module_path);
   new_path[2 * l0 - 32] = '\0';  // add the final '\0'
   strcat(new_path, "usr\\bin;");
