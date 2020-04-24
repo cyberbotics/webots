@@ -771,6 +771,8 @@ Robot {
         rotation 0 1 0 1.57
         name "tof"
         type "generic"
+        numberOfRays IS distance_sensor_numberOfRays
+        aperture 0.44
         lookupTable [
             0.00    19.8  0.126
             0.05    58.5  0.032

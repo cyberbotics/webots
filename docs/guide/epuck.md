@@ -52,8 +52,8 @@ E-puck is equipped with a large number of devices, as summarized in [this table]
 | Remote Control | infra-red LED for receiving standard remote control commands                                                                     |
 | Expansion bus  | expansion bus to add new possibilities to your robot                                                                             |
 | Programming    | C programming with the GNU GCC compiler system                                                                                   |
-| Simulation     | Webots facilitates the programming of e-puck with a powerful simulation, remote control and cross-compilation system  |
-
+| Simulation     | Webots facilitates the programming of e-puck with a powerful simulation, remote control and cross-compilation system             |
+ 
 %end
 
 ### E-puck Model
@@ -170,28 +170,30 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 E-puck {
-  SFVec3f    translation         0 0 0
-  SFRotation rotation            0 1 0 0
-  SFString   name                "e-puck"
-  SFString   controller          "e-puck_avoid_obstacles"
-  SFString   controllerArgs      ""
-  SFString   customData          ""
-  SFBool     supervisor          FALSE
-  SFBool     synchronization     TRUE
-  SFString   version             "1"
-  SFFloat    camera_fieldOfView  0.84
-  SFInt32    camera_width        52
-  SFInt32    camera_height       39
-  SFBool     camera_antiAliasing FALSE
-  SFRotation camera_rotation     1 0 0 0
-  SFFloat    camera_noise        0.0
-  SFInt32    emitter_channel     1
-  SFInt32    receiver_channel    1
-  MFFloat    battery             []
-  SFString   window              "e-puck"
-  MFNode     turretSlot          []
-  MFNode     groundSensorsSlot   []
-  SFBool     kinematic           FALSE
+  SFVec3f    translation                  0 0 0
+  SFRotation rotation                     0 1 0 0
+  SFString   name                         "e-puck"
+  SFString   controller                   "e-puck_avoid_obstacles"
+  SFString   controllerArgs               ""
+  SFString   customData                   ""
+  SFBool     supervisor                   FALSE
+  SFBool     synchronization              TRUE
+  SFString   version                      "1"
+  SFFloat    camera_fieldOfView           0.84
+  SFInt32    camera_width                 52
+  SFInt32    camera_height                39
+  SFBool     camera_antiAliasing          FALSE
+  SFRotation camera_rotation              1 0 0 0
+  SFFloat    camera_noise                 0.0
+  SFFloat    camera_motionBlur            0.0
+  SFInt32    distance_sensor_numberOfRays 1 
+  SFInt32    emitter_channel              1
+  SFInt32    receiver_channel             1
+  MFFloat    battery                      []
+  SFString   window                       "e-puck"
+  MFNode     turretSlot                   []
+  MFNode     groundSensorsSlot            []
+  SFBool     kinematic                    FALSE
 }
 ```
 
@@ -212,6 +214,10 @@ E-puck {
 - `camera_rotation`: Defines the `rotation` field of the [Camera](../reference/camera.md).
 
 - `camera_noise`: Defines the `noise` field of the [Camera](../reference/camera.md).
+
+- `camera_motionBlur`: Defines the `motionBlur` field of the [Camera](../reference/camera.md).
+
+- `distance_sensor_numberOfRays`: Defines the `numberOfRays` field of the [DistanceSensor](../reference/distancesensor.md).
 
 - `emitter_channel`: Defines the `channel` field of the [Emitter](../reference/emitter.md).
 
