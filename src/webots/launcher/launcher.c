@@ -38,7 +38,7 @@ static int fail(const char *function, const char *info) {
     const char *lf = info ? "\n" : "";
     const char *i = info ? info : "";
     // cppcheck-suppress nullPointer
-    snprintf(message, sizeof(message), "%s failed with error %ld.\n%s%s%s", function, e, m, i, lf);
+    snprintf(message, sizeof(message), "%s failed with error %lu.\n%s%s%s", function, e, m, i, lf);
     LocalFree(m);
 #ifdef WEBOTSW
     MessageBox(NULL, message, "Webots launcher error", MB_ICONERROR | MB_OK);
