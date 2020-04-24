@@ -57,6 +57,11 @@ void WbElevationGrid::init() {
 
 WbElevationGrid::WbElevationGrid(WbTokenizer *tokenizer) : WbGeometry("ElevationGrid", tokenizer) {
   init();
+
+  if (tokenizer == NULL) {
+    mXDimension->setValueNoSignal(2);
+    mZDimension->setValueNoSignal(2);
+  }
 }
 
 WbElevationGrid::WbElevationGrid(const WbElevationGrid &other) : WbGeometry(other) {
@@ -451,10 +456,10 @@ bool WbElevationGrid::isSuitableForInsertionInBoundingObject(bool warning) const
 
   if (warning) {
     if (mXDimension->value() < 2)
-      warn(tr("Invalid 'xDimension' for use in boundingObject."));
+      warn(tr("Invalid 'xDimension' (should be greater than 1) for use in boundingObject."));
 
     if (mZDimension->value() < 2)
-      warn(tr("Invalid 'zDimension' for use in boundingObject."));
+      warn(tr("Invalid 'zDimension' (should be greater than 1) for use in boundingObject."));
 
     if (invalidSpacings)
       warn(tr("'height' must be positive when used in a 'boundingObject'."));

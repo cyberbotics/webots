@@ -28,13 +28,40 @@
 #include <stdio.h>
 #include <windows.h>
 
+static int fail(const char *function, const char *info) {
+  DWORD e = GetLastError();
+  if (e) {
+    LPSTR m = NULL;
+    FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, e,
+                  MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), (LPSTR)&m, 0, NULL);
+    char message[1024];
+    const char *lf = info ? "\n" : "";
+    const char *i = info ? info : "";
+    // cppcheck-suppress nullPointer
+    snprintf(message, sizeof(message), "%s failed with error %lu.\n%s%s%s", function, e, m, i, lf);
+    LocalFree(m);
+#ifdef WEBOTSW
+    MessageBox(NULL, message, "Webots launcher error", MB_ICONERROR | MB_OK);
+#else
+    fprintf(stderr, message);
+#endif
+  } else
+    fprintf(stderr, "%s failed with no error.\n", function);
+  exit(e);
+}
+
 int main(int argc, char *argv[]) {
   // compute the full command line with absolute path for webots-bin.exe, options and arguments
   const int LENGTH = 4096;
   char *module_path = malloc(LENGTH);
-  GetModuleFileName(NULL, module_path, LENGTH);
+  if (!GetModuleFileName(NULL, module_path, LENGTH))
+    fail("GetModuleFileName", 0);
   int l = strlen(module_path);
-  const int l0 = (module_path[l - 5] == 'w' || module_path[l - 5] == 'W') ? l - 1 : l;  // webotsw.exe and webots.exe cases
+#ifdef WEBOTSW
+  const int l0 = l - 1;  // webotsw.exe (we need to remove the final 'w')
+#else
+  const int l0 = l;  // webots.exe
+#endif
   l = l0;
   for (int i = 1; i < argc; i++)
     l += 1 + strlen(argv[i]);          // spaces between arguments
@@ -52,30 +79,33 @@ int main(int argc, char *argv[]) {
   char *old_path = malloc(LENGTH);
   char *new_path = malloc(LENGTH);
 
-  strncpy(new_path, module_path, l0);
+  strcpy(new_path, module_path);
   new_path[l0 - 11] = ';';  // removes "\webots.exe" or "\webotsw.exe"
-  strncpy(&new_path[l0 - 10], module_path, l0);
+  strcpy(&new_path[l0 - 10], module_path);
   free(module_path);
   new_path[2 * l0 - 32] = '\0';  // add the final '\0'
   strcat(new_path, "usr\\bin;");
-  GetEnvironmentVariable("PATH", old_path, LENGTH);
+  if (!GetEnvironmentVariable("PATH", old_path, LENGTH))
+    fail("GetEnvironmentVariable", 0);
   strcat(new_path, old_path);
   free(old_path);
-  SetEnvironmentVariable("PATH", new_path);
+  if (!SetEnvironmentVariable("PATH", new_path))
+    fail("SetEnvironmentVariable", new_path);
   free(new_path);
 
   // start the webots-bin.exe process, wait for completion and return exit code
   STARTUPINFO info = {sizeof(info)};
   PROCESS_INFORMATION process_info;
-  DWORD success = CreateProcess(NULL, command_line, NULL, NULL, TRUE, 0, NULL, NULL, &info, &process_info);
+  if (!CreateProcess(NULL, command_line, NULL, NULL, TRUE, 0, NULL, NULL, &info, &process_info))
+    fail("CreateProcess", command_line);
   free(command_line);
-  if (!success)
-    return 1;
-  WaitForSingleObject(process_info.hProcess, INFINITE);
+  WaitForSingleObject(process_info.hProcess, INFINITE);  // return zero in case of success
   DWORD exit_code;
-  GetExitCodeProcess(process_info.hProcess, &exit_code);
-  CloseHandle(process_info.hProcess);
-  CloseHandle(process_info.hThread);
-  fflush(stdout);
+  if (!GetExitCodeProcess(process_info.hProcess, &exit_code))
+    fail("GetExitCodeProcess", 0);
+  if (!CloseHandle(process_info.hProcess))
+    fail("CloseHandle", 0);
+  if (!CloseHandle(process_info.hThread))
+    fail("CloseHandle", 0);
   return exit_code;
 }
