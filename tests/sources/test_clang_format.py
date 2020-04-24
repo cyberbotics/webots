@@ -74,6 +74,7 @@ class TestClangFormat(unittest.TestCase):
             'projects/robots/mobsya/thymio/libraries/dashel',
             'projects/robots/mobsya/thymio/libraries/dashel-src',
             'projects/robots/robotis/darwin-op/libraries/libssh',
+            'projects/robots/robotis/darwin-op/libraries/libzip',
             'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis',
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
             'projects/vehicles/controllers/ros_automobile/include',

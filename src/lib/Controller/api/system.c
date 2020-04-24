@@ -164,7 +164,7 @@ const char *wbu_system_webots_tmp_path() {
             continue;
           if (strlen(entry->d_name) > 64)
             continue;
-          sscanf(entry->d_name, "webots-%d%64s", &webots_pid, random_part);
+          sscanf(entry->d_name, "webots-%d%63s", &webots_pid, random_part);
           most_recent = s.st_mtime;
         }
       }
@@ -187,7 +187,7 @@ const char *wbu_system_webots_tmp_path() {
             continue;
           if (strlen(entry->d_name) > 64)
             continue;
-          sscanf(entry->d_name, "webots-%d%64s", &webots_pid, random_part);
+          sscanf(entry->d_name, "webots-%d%63s", &webots_pid, random_part);
           break;
         }
       }
