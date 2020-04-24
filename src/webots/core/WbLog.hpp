@@ -39,10 +39,10 @@ public:
 
   // Webots messages, e.g. parse error
   // the 'message' argument should not be '\n' terminated
-  static void debug(const QString &message, bool popup = false);
-  static void info(const QString &message, bool popup = false);
-  static void warning(const QString &message, bool popup = false);
-  static void error(const QString &message, bool popup = false);
+  static void debug(const QString &message, bool popup = false, const QString &robotName = QString());
+  static void info(const QString &message, bool popup = false, const QString &robotName = QString());
+  static void warning(const QString &message, bool popup = false, const QString &robotName = QString());
+  static void error(const QString &message, bool popup = false, const QString &robotName = QString());
 
   // display a message in main window's status bar
   static void status(const QString &message);
@@ -52,8 +52,8 @@ public:
 
   // controller or compilation output
   // the 'message' argument can contain newlines (multi-line output)
-  static void appendStdout(const QString &message);
-  static void appendStderr(const QString &message);
+  static void appendStdout(const QString &message, const QString &robotName = QString());
+  static void appendStderr(const QString &message, const QString &robotName = QString());
 
   static void javascriptLogToConsole(const QString &message, int lineNumber, const QString &sourceUrl);
   // clear output
@@ -67,7 +67,7 @@ public:
 
 signals:
   // the above function emit this signal that can be connected to a message sink (console)
-  void logEmitted(WbLog::Level level, const QString &message, bool popup);
+  void logEmitted(WbLog::Level level, const QString &message, bool popup, const QString &robotName);
   void cleared();
   void popupOpen();
   void popupClosed();
@@ -75,7 +75,7 @@ signals:
 private:
   WbLog() : mPopUpMessagesPostponed(false) {}
   virtual ~WbLog() {}
-  void emitLog(Level level, const QString &message, bool popup);
+  void emitLog(Level level, const QString &message, bool popup, const QString &robotName);
   static void cleanup();
 
   struct PostponedMessage {

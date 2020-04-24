@@ -24,6 +24,7 @@
 #include "WbLog.hpp"
 
 class QAction;
+class QComboBox;
 class QRegExp;
 class WbFindReplaceDialog;
 class WbTextFind;
@@ -91,12 +92,13 @@ public slots:
 
   // append internal error message of Webots
   // the message color depends on the level
-  void appendLog(WbLog::Level level, const QString &message, bool popup);
+  void appendLog(WbLog::Level level, const QString &message, bool popup, const QString &robotName);  // TODO: rename in logName?
 
 private:
   QString mErrorColor, mInfoColor;
   QString mAnsiBlack, mAnsiRed, mAnsiGreen, mAnsiYellow, mAnsiBlue, mAnsiMagenta, mAnsiCyan, mAnsiWhite;
   ConsoleEdit *mEditor;
+  QComboBox *mCombobox;
   QRegExp **mErrorPatterns;
   QString mForegroundColor;
   QString mBackgroundColor;

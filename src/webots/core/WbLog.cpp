@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbLog.hpp"
+
 #include <stdio.h>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QMetaType>
@@ -39,7 +40,7 @@ WbLog *WbLog::instance() {
   return gInstance;
 }
 
-void WbLog::debug(const QString &message, bool popup) {
+void WbLog::debug(const QString &message, bool popup, const QString &robotName) {
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, DEBUG);
     return;
@@ -47,48 +48,48 @@ void WbLog::debug(const QString &message, bool popup) {
 
   fprintf(stderr, "DEBUG: %s\n", qPrintable(message));
   fflush(stderr);
-  if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool))))
-    instance()->emitLog(DEBUG, "DEBUG: " + message, popup);
+  if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))))
+    instance()->emitLog(DEBUG, "DEBUG: " + message, popup, robotName);
   else
     instance()->enqueueMessage(instance()->mPendingConsoleMessages, "DEBUG: " + message, DEBUG);
 }
 
-void WbLog::info(const QString &message, bool popup) {
+void WbLog::info(const QString &message, bool popup, const QString &robotName) {
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, INFO);
     return;
   }
 
-  if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool))))
-    instance()->emitLog(INFO, "INFO: " + message, popup);
+  if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))))
+    instance()->emitLog(INFO, "INFO: " + message, popup, robotName);
   else {
     printf("INFO: %s\n", qPrintable(message));
     instance()->enqueueMessage(instance()->mPendingConsoleMessages, "INFO: " + message, INFO);
   }
 }
 
-void WbLog::warning(const QString &message, bool popup) {
+void WbLog::warning(const QString &message, bool popup, const QString &robotName) {
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, WARNING);
     return;
   }
 
-  if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool))))
-    instance()->emitLog(WARNING, "WARNING: " + message, popup);
+  if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))))
+    instance()->emitLog(WARNING, "WARNING: " + message, popup, robotName);
   else {
     fprintf(stderr, "WARNING: %s\n", qPrintable(message));
     instance()->enqueueMessage(instance()->mPendingConsoleMessages, "WARNING: " + message, WARNING);
   }
 }
 
-void WbLog::error(const QString &message, bool popup) {
+void WbLog::error(const QString &message, bool popup, const QString &robotName) {
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, ERROR);
     return;
   }
 
-  if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool))))
-    instance()->emitLog(ERROR, "ERROR: " + message, popup);
+  if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))))
+    instance()->emitLog(ERROR, "ERROR: " + message, popup, robotName);
   else {
     fprintf(stderr, "ERROR: %s\n", qPrintable(message));
     instance()->enqueueMessage(instance()->mPendingConsoleMessages, "ERROR: " + message, ERROR);
@@ -98,32 +99,32 @@ void WbLog::error(const QString &message, bool popup) {
 void WbLog::fatal(const QString &message) {
   fprintf(stderr, "FATAL: %s\n", qPrintable(message));
   fflush(stderr);
-  instance()->emitLog(FATAL, "FATAL: " + message, true);
+  instance()->emitLog(FATAL, "FATAL: " + message, true, QString());
   ::exit(EXIT_FAILURE);
 }
 
 void WbLog::status(const QString &message) {
-  instance()->emitLog(STATUS, message, false);
+  instance()->emitLog(STATUS, message, false, QString());
 }
 
-void WbLog::appendStdout(const QString &message) {
-  emit instance()->logEmitted(STDOUT, message, false);
+void WbLog::appendStdout(const QString &message, const QString &robotName) {
+  emit instance()->logEmitted(STDOUT, message, false, robotName);
 }
 
-void WbLog::appendStderr(const QString &message) {
-  emit instance()->logEmitted(STDERR, message, false);
+void WbLog::appendStderr(const QString &message, const QString &robotName) {
+  emit instance()->logEmitted(STDERR, message, false, robotName);
 }
 
 void WbLog::javascriptLogToConsole(const QString &message, int lineNumber, const QString &sourceUrl) {
   QString sourceFile = QUrl::fromLocalFile(sourceUrl).fileName();
   QString log = "[javascript] " + message + " (" + sourceFile + ":" + QString::number(lineNumber) + ")";
-  WbLog::appendStdout(log);
+  WbLog::appendStdout(log, QString());  // TODO: we might move the javascipt console to a dedicated tab
 }
 
-void WbLog::emitLog(Level level, const QString &message, bool popup) {
+void WbLog::emitLog(Level level, const QString &message, bool popup, const QString &robotName) {
   if (popup)
     emit popupOpen();
-  emit logEmitted(level, message, popup);
+  emit logEmitted(level, message, popup, robotName);
   if (popup)
     emit popupClosed();
 }
@@ -167,6 +168,6 @@ void WbLog::showPostponedPopUpMessages() {
 
 void WbLog::showPendingConsoleMessages() {
   foreach (PostponedMessage msg, instance()->mPendingConsoleMessages)
-    emit instance()->logEmitted(msg.level, msg.text, false);
+    emit instance()->logEmitted(msg.level, msg.text, false, QString());  // TODO
   instance()->mPendingConsoleMessages.clear();
 }

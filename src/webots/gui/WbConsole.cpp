@@ -29,6 +29,8 @@
 #include <QtGui/QTextDocumentFragment>
 
 #include <QtWidgets/QAction>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QLayout>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QStyle>
@@ -184,12 +186,12 @@ WbConsole *WbConsole::instance() {
 namespace {
   void odeErrorFunc(int errnum, const char *msg, va_list ap) {
     const QString error = QString::vasprintf(msg, ap);
-    emit WbLog::instance()->logEmitted(WbLog::ERROR, QString("ODE Error %1: ").arg(errnum) + error, false);
+    emit WbLog::instance()->logEmitted(WbLog::ERROR, QString("ODE Error %1: ").arg(errnum) + error, false, QString());
   }
 
   void odeDebugFunc(int errnum, const char *msg, va_list ap) {
     const QString debug = QString::vasprintf(msg, ap);
-    emit WbLog::instance()->logEmitted(WbLog::DEBUG, QString("ODE INTERNAL ERROR %1: ").arg(errnum) + debug, false);
+    emit WbLog::instance()->logEmitted(WbLog::DEBUG, QString("ODE INTERNAL ERROR %1: ").arg(errnum) + debug, false, QString());
   }
 
   void odeMessageFunc(int errnum, const char *msg, va_list ap) {
@@ -200,9 +202,9 @@ namespace {
                         "your bounding object(s), reducing the number of joints, or reducing "
                         "WorldInfo.basicTimeStep.");
 
-      emit WbLog::instance()->logEmitted(WbLog::WARNING, QString("WARNING: ") + message, false);
+      emit WbLog::instance()->logEmitted(WbLog::WARNING, QString("WARNING: ") + message, false, QString());
     } else
-      emit WbLog::instance()->logEmitted(WbLog::WARNING, QString("ODE Message %1: ").arg(errnum) + message, false);
+      emit WbLog::instance()->logEmitted(WbLog::WARNING, QString("ODE Message %1: ").arg(errnum) + message, false, QString());
   }
 }  // namespace
 
@@ -229,6 +231,11 @@ WbConsole::WbConsole(QWidget *parent) :
   titleBarWidget()->setObjectName("consoleTitleBar");
   titleBarWidget()->style()->polish(titleBarWidget());
 
+  mCombobox = new QComboBox(this);
+  mCombobox->addItem("Webots");
+  mCombobox->addItem("Controllers");
+  titleBarWidget()->layout()->addWidget(mCombobox);
+
   // create text editor
   mEditor->setReadOnly(true);
   mEditor->setMaximumBlockCount(5000);  // limit the memory usage
@@ -246,8 +253,8 @@ WbConsole::WbConsole(QWidget *parent) :
   connect(mTextFind, &WbTextFind::findStringChanged, mEditor, &ConsoleEdit::updateSearchTextHighlighting);
 
   // listen to WbLog
-  connect(WbLog::instance(), SIGNAL(logEmitted(WbLog::Level, const QString &, bool)), this,
-          SLOT(appendLog(WbLog::Level, const QString &, bool)));
+  connect(WbLog::instance(), SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)), this,
+          SLOT(appendLog(WbLog::Level, const QString &, bool, const QString &)));
   connect(WbLog::instance(), SIGNAL(cleared()), this, SLOT(clear()));
 
   // Install ODE message handlers
@@ -517,8 +524,14 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
   handleCRAndLF(htmlSpan(msg, level));
 }
 
-void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup) {
+void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup, const QString &robotName) {
   if (message.isEmpty())
+    return;
+
+  if (robotName.isEmpty() && mCombobox->currentText() == "Controllers")
+    return;
+
+  if (!robotName.isEmpty() && mCombobox->currentText() == "Webots")
     return;
 
   switch (level) {
