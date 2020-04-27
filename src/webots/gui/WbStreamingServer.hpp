@@ -81,7 +81,7 @@ private slots:
   void onNewTcpData();
   void socketDisconnected();
   void propagateWebotsLogToClients(WbLog::Level level, const QString &message, bool popup);
-  void propagateControllerLogToClients(WbLog::Level level, const QString &message, const QString &prefix, bool popup);
+  void propagateControllerLogToClients(WbLog::Level level, const QString &message, bool popup);
   void propagateSimulationStateChange() const;
   void sendToJavascript(const QByteArray &string);
 

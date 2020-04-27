@@ -22,6 +22,7 @@
 #include <webots/distance_sensor.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
+#include <webots/utils/ansi_codes.h>
 
 #include <math.h>
 #include <stdio.h>
@@ -122,7 +123,7 @@ int main(int argc, char **argv) {
     }
 
     // print results
-    printf("\f");
+    ANSI_CLEAR_CONSOLE();
     for (i = 0; i < 3; i++)
       printf("last %s blob seen at (%d,%d) with an angle of %f\n", (i == GREEN) ? "Green" : (i == RED) ? "Red" : "Blue",
              color_index[i][X], color_index[i][Y],

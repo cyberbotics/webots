@@ -26,6 +26,7 @@
 #include <webots/motor.h>
 #include <webots/receiver.h>
 #include <webots/robot.h>
+#include <webots/utils/ansi_codes.h>
 
 #include <math.h>
 #include <stdio.h>
@@ -104,7 +105,8 @@ int main() {
         double signalStrength = wb_receiver_get_signal_strength(communication);
         const double *direction = wb_receiver_get_emitter_direction(communication);
         double dist = 1 / sqrt(signalStrength);
-        printf("\fEmitter position: time = %.3lf   X = %.3lf Z = %.3lf\n", wb_robot_get_time(), direction[0] * dist,
+        ANSI_CLEAR_CONSOLE();
+        printf("Emitter position: time = %.3lf   X = %.3lf Z = %.3lf\n", wb_robot_get_time(), direction[0] * dist,
                direction[2] * dist);
 
         wb_receiver_next_packet(communication);
