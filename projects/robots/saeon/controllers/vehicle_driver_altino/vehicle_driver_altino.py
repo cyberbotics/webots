@@ -159,7 +159,7 @@ while driver.step() != -1:
         angle = -0.4
 
     if (printCounter % 10) == 0:
-        print("\fWelcome to the Altino Sample Controller")
+        print("Welcome to the Altino Sample Controller")
         print("----------------------------------------------")
         print("This sample controller is based on a Braitenberg vehicle, \n")
         print("it uses the vehicle's infrared distance sensors to avoid obstacles.")
