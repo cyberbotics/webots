@@ -9,6 +9,8 @@
 	<key>NSHighResolutionCapable</key>
 	<string>True</string>
 	<!-- End of retina display fix -->
+	<key>NSRequiresAquaSystemAppearance</key>
+	<string>True</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDocumentTypes</key>
