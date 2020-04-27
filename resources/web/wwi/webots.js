@@ -87,7 +87,8 @@ webots.View = class View {
       // Pause the simulation if needed when a pop-up dialog window is open
       // and restart running the simulation when it is closed.
       if (opening && typeof this.isAutomaticallyPaused === 'undefined') {
-        this.isAutomaticallyPaused = this.toolBar && this.toolBar.pauseButton && this.toolBar.pauseButton.style.display === 'inline';
+        this.isAutomaticallyPaused = this.toolBar && this.toolBar.pauseButton && this.toolBar.pauseButton.style.display ===
+          'inline';
         this.toolBar.pauseButton.click();
       } else if (!opening && this.isAutomaticallyPaused) {
         this.toolBar.real_timeButton.click();
@@ -177,8 +178,8 @@ webots.View = class View {
         this.progress = document.createElement('div');
         this.progress.id = 'webotsProgress';
         this.progress.innerHTML = "<div><img src='" + DefaultUrl.wwiImagesUrl() + "load_animation.gif'>" +
-                                  "</div><div id='webotsProgressMessage'>Initializing...</div>" +
-                                  "</div><div id='webotsProgressPercent'></div>";
+          "</div><div id='webotsProgressMessage'>Initializing...</div>" +
+          "</div><div id='webotsProgressPercent'></div>";
         this.view3D.appendChild(this.progress);
 
         if (typeof this.toolBar === 'undefined')
@@ -238,14 +239,20 @@ webots.View = class View {
             user += ']';
           } else
             user = '';
-          win.setProperties({title: this.x3dScene.worldInfo.title + user, close: closeInfoWindow});
+          win.setProperties({
+            title: this.x3dScene.worldInfo.title + user,
+            close: closeInfoWindow
+          });
           this.infoWindow = win;
         } else
-          win.setProperties({title: 'Robot: ' + nodeName});
+          win.setProperties({
+            title: 'Robot: ' + nodeName
+          });
         pendingRequestsCount++;
         $.get('window/' + windowName + '/' + windowName + '.html', (data) => {
           // Fix the img src relative URLs.
-          var d = data.replace(/ src='/g, ' src=\'window/' + windowName + '/').replace(/ src="/g, ' src="window/' + windowName + '/');
+          var d = data.replace(/ src='/g, ' src=\'window/' + windowName + '/').replace(/ src="/g, ' src="window/' +
+            windowName + '/');
           win.setContent(d);
           MathJax.Hub.Queue(['Typeset', MathJax.Hub, win[0]]);
           $.get('window/' + windowName + '/' + windowName + '.js', (data) => {
@@ -345,11 +352,21 @@ webots.View = class View {
       if (authenticatedUser && typeof webots.User1Id !== 'undefined' && webots.User1Id !== '')
         authenticatedUser = Boolean(webots.User1Authentication);
       this.contextMenu = new ContextMenu(authenticatedUser, this.view3D);
-      this.contextMenu.onEditController = (controller) => { this.editController(controller); };
-      this.contextMenu.onFollowObject = (id) => { this.x3dScene.viewpoint.follow(id); };
-      this.contextMenu.isFollowedObject = (object3d, setResult) => { setResult(this.x3dScene.viewpoint.isFollowedObject(object3d)); };
-      this.contextMenu.onOpenRobotWindow = (robotName) => { this.openRobotWindow(robotName); };
-      this.contextMenu.isRobotWindowValid = (robotName, setResult) => { setResult(this.robotWindows[this.robotWindowNames[robotName]]); };
+      this.contextMenu.onEditController = (controller) => {
+        this.editController(controller);
+      };
+      this.contextMenu.onFollowObject = (id) => {
+        this.x3dScene.viewpoint.follow(id);
+      };
+      this.contextMenu.isFollowedObject = (object3d, setResult) => {
+        setResult(this.x3dScene.viewpoint.isFollowedObject(object3d));
+      };
+      this.contextMenu.onOpenRobotWindow = (robotName) => {
+        this.openRobotWindow(robotName);
+      };
+      this.contextMenu.isRobotWindowValid = (robotName, setResult) => {
+        setResult(this.robotWindows[this.robotWindowNames[robotName]]);
+      };
     }
 
     if (typeof this.mouseEvents === 'undefined')
