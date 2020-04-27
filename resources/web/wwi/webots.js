@@ -492,6 +492,7 @@ webots.View = class View {
   quitSimulation() {
     if (this.broadcast)
       return;
+    this.close();
     $('#webotsProgressMessage').html('Bye bye...');
     $('#webotsProgress').show();
     this.quitting = true;
