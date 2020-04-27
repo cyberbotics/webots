@@ -105,7 +105,6 @@
 WbMainWindow::WbMainWindow(bool minimizedOnStart, QWidget *parent) :
   QMainWindow(parent),
   mExitStatus(0),
-  mConsole(NULL),
   mDocumentation(NULL),
   mTextEditor(NULL),
   mSimulationView(NULL),
@@ -316,7 +315,8 @@ bool WbMainWindow::setFullScreen(bool isEnabled, bool isRecording, bool showDial
     }
 
     // hide docks
-    mConsole->hide();
+    for (int i = 0; i < mConsoles.size(); ++i)
+      mConsoles.at(i)->hide();
     mDocumentation->hide();
     if (mTextEditor)
       mTextEditor->hide();
@@ -340,7 +340,8 @@ bool WbMainWindow::setFullScreen(bool isEnabled, bool isRecording, bool showDial
     showNormal();
 
     // show docks
-    mConsole->show();
+    for (int i = 0; i < mConsoles.size(); ++i)
+      mConsoles.at(i)->show();
     mDocumentation->show();
     if (mTextEditor)
       mTextEditor->show();
@@ -378,9 +379,10 @@ void WbMainWindow::createMainTools() {
   // the console is built at first in order to
   // be able to display message boxes if fatal
   // errors come after (ex. initializing WREN)
-  mConsole = new WbConsole(this);
-  addDockWidget(Qt::BottomDockWidgetArea, mConsole);
-  addDock(mConsole);
+  WbConsole *console = new WbConsole(this);
+  addDockWidget(Qt::BottomDockWidgetArea, console);
+  addDock(console);
+  mConsoles.append(console);
 
   mSimulationView = new WbSimulationView(this, toolBarAlign());
   setCentralWidget(mSimulationView);
@@ -709,7 +711,8 @@ void WbMainWindow::enableToolsWidgetItems(bool enabled) {
   WbActionManager::setActionEnabledSilently(mSimulationView->toggleSceneTreeAction(), enabled);
   if (mTextEditor)
     WbActionManager::setActionEnabledSilently(mTextEditor->toggleViewAction(), enabled);
-  WbActionManager::setActionEnabledSilently(mConsole->toggleViewAction(), enabled);
+  for (int i = 0; i < mConsoles.size(); ++i)
+    WbActionManager::setActionEnabledSilently(mConsoles.at(i)->toggleViewAction(), enabled);
   WbActionManager::setActionEnabledSilently(mDocumentation->toggleViewAction(), enabled);
 }
 
@@ -755,7 +758,8 @@ QMenu *WbMainWindow::createToolsMenu() {
   menu->addAction(mSimulationView->toggleSceneTreeAction());
   if (mTextEditor)
     menu->addAction(mTextEditor->toggleViewAction());
-  menu->addAction(mConsole->toggleViewAction());
+  for (int i = 0; i < mConsoles.size(); ++i)
+    menu->addAction(mConsoles.at(i)->toggleViewAction());
   menu->addAction(mDocumentation->toggleViewAction());
 
   QAction *action = new QAction(this);
@@ -769,6 +773,9 @@ QMenu *WbMainWindow::createToolsMenu() {
   menu->addSeparator();
 
   menu->addAction(WbActionManager::instance()->action(WbActionManager::CLEAR_CONSOLE));
+  menu->addAction(WbActionManager::instance()->action(WbActionManager::NEW_CONSOLE));
+  connect(WbActionManager::instance()->action(WbActionManager::NEW_CONSOLE), &QAction::triggered, this,
+          &WbMainWindow::openNewConsole);
 
   action = new QAction(this);
   action->setText(tr("Edit &Physics Plugin"));
@@ -1674,6 +1681,14 @@ void WbMainWindow::showOpenGlInfo() {
     info += tr("N/A");
   info += "\n";
   WbMessageBox::info(info, this, tr("OpenGL information"));
+}
+
+void WbMainWindow::openNewConsole() {
+  WbConsole *console = new WbConsole(this);
+  addDockWidget(Qt::BottomDockWidgetArea, console);
+  tabifyDockWidget(mConsoles.at(0), console);
+  addDock(console);
+  mConsoles.append(console);
 }
 
 void WbMainWindow::showDocument(const QString &url) {

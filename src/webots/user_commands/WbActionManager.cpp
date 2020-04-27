@@ -687,6 +687,13 @@ void WbActionManager::populateActions() {
   action->setShortcut(Qt::CTRL + Qt::Key_K);
   mActions[CLEAR_CONSOLE] = action;
 
+  action = new QAction(this);
+  action->setText(tr("&New Console"));
+  action->setStatusTip(tr("Opens a new Console."));
+  action->setToolTip(action->statusTip());
+  action->setShortcut(Qt::CTRL + Qt::Key_N);
+  mActions[NEW_CONSOLE] = action;
+
   /* VIEWPOINT ACTIONS */
 
   action = new QAction(this);

@@ -145,7 +145,7 @@ private:
   void showOnlineBook(const QString &);
   void showHtmlRobotWindow(WbRobot *);
   int mExitStatus;
-  WbConsole *mConsole;
+  QList<WbConsole *> mConsoles;
   WbDocumentation *mDocumentation;
   WbBuildEditor *mTextEditor;
   WbSimulationView *mSimulationView;
@@ -213,6 +213,8 @@ private slots:
 
   void toggleFullScreen(bool enabled);
   void exitFullScreen();
+
+  void openNewConsole();
 
   void openUrl(const QString &fileName, const QString &message, const QString &title);
 
