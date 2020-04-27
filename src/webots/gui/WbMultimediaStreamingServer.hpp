@@ -19,6 +19,10 @@
 #include "WbVector3.hpp"
 
 #include <QtCore/QElapsedTimer>
+#include <QtCore/QTimer>
+#include <QtGui/QImage>
+#include <QtNetwork/QDtls>
+#include <QtNetwork/QUdpSocket>
 
 class WbMatter;
 class WbView3D;
@@ -40,6 +44,8 @@ signals:
 private slots:
   void removeTcpClient();
   void processTextMessage(QString message) override;
+  void sendImageOnTimeout();
+  void handleWriteComplete(qint64 bytes){};
 
 private:
   void start(int port) override;
@@ -49,14 +55,23 @@ private:
 
   int mImageWidth;
   int mImageHeight;
+  double mImageScale;
+  int mQuality;
   QByteArray mSceneImage;
   QList<QTcpSocket *> mTcpClients;
   QElapsedTimer mUpdateTimer;
+  QTimer mWriteTimer;
+  QByteArray mLastQImage;
+  QByteArray mLastHash;
 
   double mLastSpeedIndicatorTime;
   WbVector3 mTouchEventRotationCenter;
   bool mTouchEventObjectPicked;
   double mTouchEventZoomScale;
+
+  QList<QUdpSocket *> mUdpClients;
+  // QDtls clientDtls;
+  QUdpSocket *udpServer;
 };
 
 #endif

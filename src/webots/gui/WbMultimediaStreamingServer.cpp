@@ -36,6 +36,7 @@ WbMultimediaStreamingServer::WbMultimediaStreamingServer() :
   WbStreamingServer(),
   mImageWidth(-1),
   mImageHeight(-1),
+  mQuality(-1),
   mTouchEventObjectPicked(false) {
   WbMatter::enableShowMatterCenter(false);
 }
@@ -53,6 +54,9 @@ void WbMultimediaStreamingServer::start(int port) {
   WbStreamingServer::start(port);
   WbLog::info(
     tr("Webots multimedia streamer started: resolution %1x%2 on port %3").arg(mImageWidth).arg(mImageHeight).arg(port));
+
+  mWriteTimer.setSingleShot(true);
+  connect(&mWriteTimer, &QTimer::timeout, this, &WbMultimediaStreamingServer::sendImageOnTimeout);
 }
 
 void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
@@ -87,8 +91,8 @@ bool WbMultimediaStreamingServer::isNewFrameNeeded() const {
   if (!mUpdateTimer.isValid() || WbSimulationState::instance()->isPaused())
     return true;
 
-  const qint64 nsecs = mUpdateTimer.nsecsElapsed();
-  return nsecs >= 5e7;  // maximum update frame rate
+  const qint64 msecs = mUpdateTimer.elapsed();
+  return msecs >= 50;  // maximum update frame rate
 }
 
 void WbMultimediaStreamingServer::sendImage(const QImage &image) {
@@ -97,8 +101,17 @@ void WbMultimediaStreamingServer::sendImage(const QImage &image) {
 
   QBuffer bufferJpeg(&mSceneImage);
   bufferJpeg.open(QIODevice::WriteOnly);
-  image.save(&bufferJpeg, "JPG");
+  image.save(&bufferJpeg, "JPG", mQuality);
 
+  const qint64 msecs = mUpdateTimer.elapsed();
+  if (mUpdateTimer.isValid() && WbSimulationState::instance()->isPaused() && msecs < 100)  // postpone sending image
+    mWriteTimer.start(100 - msecs);
+  else
+    sendImageOnTimeout();
+}
+
+void WbMultimediaStreamingServer::sendImageOnTimeout() {
+  mWriteTimer.stop();
   sendLastImage();
   if (WbSimulationState::instance()->isPaused())
     // force the update on the client side
@@ -246,7 +259,7 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
     WbLog::info(
       tr("Streaming server: New client [%1] (%2 connected client(s)).").arg(clientToId(client)).arg(mWebSocketClients.size()));
     QString args;
-    if (mImageWidth <= 0 && mImageHeight <= 0) {
+    if ((mImageWidth <= 0 && mImageHeight <= 0) || client == mWebSocketClients.first()) {
       cMainWindow->setView3DSize(QSize(width, height));
       mImageWidth = width;
       mImageHeight = height;
@@ -283,6 +296,11 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
       viewpoint->setFollowType(mode.toInt());
       viewpoint->startFollowUp(solid, true);
     }
+  } else if (message.startsWith("quality: ")) {
+    bool ok;
+    const int newQuality = message.mid(9).toInt(&ok);
+    if (ok)
+      mQuality = newQuality;
   } else
     WbStreamingServer::processTextMessage(message);
 }
