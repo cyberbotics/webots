@@ -48,8 +48,12 @@ class Server { // eslint-disable-line no-unused-vars
         return;
       }
       this.socket = new WebSocket(data + '/client');
-      this.socket.onopen = (event) => { this.onOpen(event); };
-      this.socket.onmessage = (event) => { this.onMessage(event); };
+      this.socket.onopen = (event) => {
+        this.onOpen(event);
+      };
+      this.socket.onmessage = (event) => {
+        this.onMessage(event);
+      };
       this.socket.onclose = (event) => {
         this.view.console.info('Disconnected to the Webots server.');
       };
@@ -78,8 +82,8 @@ class Server { // eslint-disable-line no-unused-vars
       if (typeof webots.CustomData === 'undefined')
         webots.CustomData = '';
       this.socket.send('{ "init" : [ "' + host + '", "' + this.project + '", "' + this.worldFile + '", "' +
-                webots.User1Id + '", "' + webots.User1Name + '", "' + webots.User1Authentication + '", "' +
-                webots.User2Id + '", "' + webots.User2Name + '", "' + webots.CustomData + '" ] }');
+        webots.User1Id + '", "' + webots.User1Name + '", "' + webots.User1Authentication + '", "' +
+        webots.User2Id + '", "' + webots.User2Name + '", "' + webots.CustomData + '" ] }');
     }
     $('#webotsProgressMessage').html('Starting simulation...');
   }
