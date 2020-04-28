@@ -186,12 +186,13 @@ WbConsole *WbConsole::instance() {
 namespace {
   void odeErrorFunc(int errnum, const char *msg, va_list ap) {
     const QString error = QString::vasprintf(msg, ap);
-    emit WbLog::instance()->logEmitted(WbLog::ERROR, QString("ODE Error %1: ").arg(errnum) + error, false, QString());
+    emit WbLog::instance()->logEmitted(WbLog::ERROR, QString("ODE Error %1: ").arg(errnum) + error, false, "ODE errors");
   }
 
   void odeDebugFunc(int errnum, const char *msg, va_list ap) {
     const QString debug = QString::vasprintf(msg, ap);
-    emit WbLog::instance()->logEmitted(WbLog::DEBUG, QString("ODE INTERNAL ERROR %1: ").arg(errnum) + debug, false, QString());
+    emit WbLog::instance()->logEmitted(WbLog::DEBUG, QString("ODE INTERNAL ERROR %1: ").arg(errnum) + debug, false,
+                                       "ODE errors");
   }
 
   void odeMessageFunc(int errnum, const char *msg, va_list ap) {
@@ -202,9 +203,10 @@ namespace {
                         "your bounding object(s), reducing the number of joints, or reducing "
                         "WorldInfo.basicTimeStep.");
 
-      emit WbLog::instance()->logEmitted(WbLog::WARNING, QString("WARNING: ") + message, false, QString());
+      emit WbLog::instance()->logEmitted(WbLog::WARNING, QString("WARNING: ") + message, false, "ODE errors");
     } else
-      emit WbLog::instance()->logEmitted(WbLog::WARNING, QString("ODE Message %1: ").arg(errnum) + message, false, QString());
+      emit WbLog::instance()->logEmitted(WbLog::WARNING, QString("ODE Message %1: ").arg(errnum) + message, false,
+                                         "ODE errors");
   }
 }  // namespace
 
@@ -232,7 +234,9 @@ WbConsole::WbConsole(QWidget *parent, const QString &name) :
   titleBarWidget()->style()->polish(titleBarWidget());
 
   mCombobox = new QComboBox(this);
+  mCombobox->addItem("All");
   mCombobox->addItem("Webots");
+  mCombobox->addItem("ODE errors");
   mCombobox->addItem("Controllers");
   titleBarWidget()->layout()->addWidget(mCombobox);
 
@@ -544,11 +548,16 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
   if (message.isEmpty())
     return;
 
-  if (robotName.isEmpty() && mCombobox->currentText() == "Controllers")
-    return;
-
-  if (!robotName.isEmpty() && mCombobox->currentText() == "Webots")
-    return;
+  if (mCombobox->currentText() != "All") {
+    if (!robotName.isEmpty()) {
+      if (robotName == "ODE errors") {
+        if (mCombobox->currentText() != robotName)
+          return;
+      } else if (mCombobox->currentText() != "Controllers")
+        return;
+    } else if (mCombobox->currentText() != "Webots")
+      return;
+  }
 
   switch (level) {
     case WbLog::INFO:
