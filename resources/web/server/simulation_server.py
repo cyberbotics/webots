@@ -495,16 +495,16 @@ class MonitorHandler(tornado.web.RequestHandler):
         swap = psutil.swap_memory()
         if nvidia:
             nvmlHandle = nvmlDeviceGetHandleByIndex(0)
-            gpu = str(nvmlDeviceGetName(nvmlHandle))
+            gpu = nvmlDeviceGetName(nvmlHandle).decode('utf-8')
             gpu_memory = nvmlDeviceGetMemoryInfo(nvmlHandle)
-            gpu_ram = gpu_memory.total / (1024 * 1048576)
+            gpu_ram = round(gpu_memory.total / (1024 * 1048576), 2)
             gpu += " - " + str(gpu_ram) + "GB"
         else:
             gpu = "Not recognized"
         ram = str(int(round(float(memory.total) / (1024 * 1048576)))) + "GB"
         ram += " (swap: " + str(int(round(float(swap.total) / (1024 * 1048576)))) + "GB)"
         real_cores = psutil.cpu_count(False)
-        cores_ratio = int(psutil.cpu_count(True)) / real_cores
+        cores_ratio = int(psutil.cpu_count(True) / real_cores)
         cores = " (" + str(cores_ratio) + "x " + str(real_cores) + " cores)"
         if re.search("^linux\\d?$", sys.platform):  # python2: 'linux2' or 'linux3', python3: 'linux'
             distribution = distro.linux_distribution()
@@ -625,7 +625,7 @@ def update_snapshot():
     cpu_load = psutil.cpu_percent()
     try:
         gpu_load = nvmlDeviceGetUtilizationRates(nvmlHandle)
-        gpu_load_compute = gpu_load.gpu.decode('utf-8')
+        gpu_load_compute = gpu_load.gpu
         gpu_load_memory = gpu_load.memory
     except NVMLError:  # not supported on some hardware
         gpu_load_compute = 0
