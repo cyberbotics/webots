@@ -85,6 +85,9 @@ public:
   void setAnsiCyan(const QString &color) { mAnsiCyan = color; }
   void setAnsiWhite(const QString &color) { mAnsiWhite = color; }
 
+  const QStringList getEnabledLogs() const;
+  void enableLogs(const QStringList &logs);
+
 public slots:
   // clear console and resets its attributes when performed by webots
   // only from within a controller, this option is set to false

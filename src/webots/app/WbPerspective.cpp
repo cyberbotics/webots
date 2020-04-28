@@ -145,6 +145,10 @@ bool WbPerspective::readContent(QTextStream &in, bool reloading) {
         continue;
       QString s = line.right(line.length() - 15).trimmed();  // remove label
       splitUniqueNameList(s, mSupportPolygonNodeNames);
+    } else if (key == "consoles:") {
+      const QString s = line.right(line.length() - 10).trimmed();  // remove label
+      QStringList values = s.split(";");
+      mConsoles.append(values);
     } else if (key == "renderingDevicePerspectives:") {
       if (skipNodeIdsOptions)
         continue;
@@ -180,6 +184,7 @@ bool WbPerspective::load(bool reloading) {
   mRobotWindowNodeNames.clear();
   if (!reloading)
     mEnabledOptionalRenderingList.clear();
+  mConsoles.clear();
   clearRenderingDevicesPerspectiveList();
   clearEnabledOptionalRenderings();
 
@@ -251,6 +256,9 @@ bool WbPerspective::save() const {
     out << "centerOfBuoyancy: " << joinUniqueNameList(mCenterOfBuoyancyNodeNames) << "\n";
   if (!mSupportPolygonNodeNames.isEmpty())
     out << "supportPolygon: " << joinUniqueNameList(mSupportPolygonNodeNames) << "\n";
+
+  for (int i = 0; i < mConsoles.size(); ++i)
+    out << "consoles: " << mConsoles.at(i).join(";") << "\n";
 
   QHash<QString, QStringList>::const_iterator it;
   for (it = mRenderingDevicesPerspectiveList.constBegin(); it != mRenderingDevicesPerspectiveList.constEnd(); ++it)

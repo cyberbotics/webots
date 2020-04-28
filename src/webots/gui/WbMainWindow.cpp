@@ -1190,6 +1190,12 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
   perspective->setEnabledOptionalRendering(centerOfMassEnabledNodeNames, centerOfBuoyancyEnabledNodeNames,
                                            supportPolygonEnabledNodeNames);
 
+  // save consoles perspective
+  QVector<QStringList> consoleList;
+  foreach (const WbConsole *console, mConsoles)
+    consoleList.append(console->getEnabledLogs());
+  perspective->setConsoleList(consoleList);
+
   // save rendering devices perspective
   const QList<WbRenderingDevice *> renderingDevices = WbRenderingDevice::renderingDevices();
   foreach (const WbRenderingDevice *device, renderingDevices) {
@@ -1214,6 +1220,26 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
   else {
     meansOfLoading = world->reloadPerspective();
     perspective = world->perspective();
+  }
+
+  // restore consoles
+  foreach (WbConsole *console, mConsoles)
+    delete console;
+  mConsoles.clear();
+  const QVector<QStringList> consoleList = perspective->consoleList();
+  for (int i = 0; i < consoleList.size(); ++i) {
+    WbConsole *console = new WbConsole(this);
+    addDockWidget(Qt::BottomDockWidgetArea, console);
+    addDock(console);
+    mConsoles.append(console);
+    console->enableLogs(consoleList.at(i));
+  }
+  if (mConsoles.size() == 0) {
+    WbConsole *console = new WbConsole(this);
+    addDockWidget(Qt::BottomDockWidgetArea, console);
+    addDock(console);
+    mConsoles.append(console);
+    // TODO: show all
   }
 
   if (meansOfLoading) {
@@ -1319,6 +1345,10 @@ void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
   if (!reloading && WbClipboard::instance()->type() == WB_SF_NODE)
     WbClipboard::instance()->replaceAllExternalDefNodesInString();
   mSimulationView->prepareWorldLoading();
+
+  foreach (WbConsole *console, mConsoles)
+    delete console;
+  mConsoles.clear();
 }
 
 void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {

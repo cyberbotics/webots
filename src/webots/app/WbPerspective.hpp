@@ -79,6 +79,10 @@ public:
   void setRobotWindowNodeNames(const QStringList &robotWindowNodeNames) { mRobotWindowNodeNames = robotWindowNodeNames; }
   const QStringList &enabledRobotWindowNodeNames() const { return mRobotWindowNodeNames; }
 
+  // consoles
+  void setConsoleList(const QVector<QStringList> &consoles) { mConsoles = consoles; }
+  const QVector<QStringList> &consoleList() const { return mConsoles; }
+
   // global optional renderings
   void enableGlobalOptionalRendering(const QString &optionalRenderingName, bool enable);
   bool isGlobalOptionalRenderingEnabled(const QString &optionalRenderingName) const {
@@ -144,6 +148,7 @@ private:
   QStringList mCenterOfMassNodeNames;
   QStringList mCenterOfBuoyancyNodeNames;
   QStringList mSupportPolygonNodeNames;
+  QVector<QStringList> mConsoles;
   QHash<QString, QStringList> mRenderingDevicesPerspectiveList;
   QHash<QString, QString> mX3dExportParameters;
 
