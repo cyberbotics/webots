@@ -27,7 +27,6 @@ import errno
 import json
 import logging
 import os
-import platform
 import psutil
 import re
 import shutil
@@ -45,6 +44,10 @@ import socket
 import zipfile
 if sys.platform == 'win32':
     import wmi
+elif sys.platform == 'darwin':
+    import platform
+else:  # assuming linux
+    import distro
 
 
 SNAPSHOT_REFRESH = 1  # make a performance measurement every second
@@ -501,13 +504,13 @@ class MonitorHandler(tornado.web.RequestHandler):
         ram = str(int(round(float(memory.total) / (1024 * 1048576)))) + "GB"
         ram += " (swap: " + str(int(round(float(swap.total) / (1024 * 1048576)))) + "GB)"
         real_cores = psutil.cpu_count(False)
-        cores_ratio = psutil.cpu_count(True) / real_cores
+        cores_ratio = int(psutil.cpu_count(True)) / real_cores
         cores = " (" + str(cores_ratio) + "x " + str(real_cores) + " cores)"
         if re.search("^linux\\d?$", sys.platform):  # python2: 'linux2' or 'linux3', python3: 'linux'
-            distribution = platform.linux_distribution()
+            distribution = distro.linux_distribution()
             os_name = 'Linux ' + distribution[0] + " " + distribution[1] + " " + distribution[2]
             command = "cat /proc/cpuinfo"
-            all_info = str(subprocess.check_output(command, shell=True).strip())
+            all_info = subprocess.check_output(command, shell=True).decode('utf-8').strip()
             for line in all_info.split("\n"):
                 if "model name" in line:
                     cpu = re.sub(".*model name.*:", "", line, 1)
@@ -622,7 +625,7 @@ def update_snapshot():
     cpu_load = psutil.cpu_percent()
     try:
         gpu_load = nvmlDeviceGetUtilizationRates(nvmlHandle)
-        gpu_load_compute = gpu_load.gpu
+        gpu_load_compute = gpu_load.gpu.decode('utf-8')
         gpu_load_memory = gpu_load.memory
     except NVMLError:  # not supported on some hardware
         gpu_load_compute = 0
