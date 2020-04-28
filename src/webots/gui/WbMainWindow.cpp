@@ -1223,8 +1223,10 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
   }
 
   // restore consoles
-  foreach (WbConsole *console, mConsoles)
+  foreach (WbConsole *console, mConsoles) {
+    mDockWidgets.removeAll(console);
     delete console;
+  }
   mConsoles.clear();
   const QVector<QStringList> consoleList = perspective->consoleList();
   for (int i = 0; i < consoleList.size(); ++i) {
@@ -1346,8 +1348,10 @@ void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
     WbClipboard::instance()->replaceAllExternalDefNodesInString();
   mSimulationView->prepareWorldLoading();
 
-  foreach (WbConsole *console, mConsoles)
+  foreach (WbConsole *console, mConsoles) {
+    mDockWidgets.removeAll(console);
     delete console;
+  }
   mConsoles.clear();
 }
 
