@@ -208,7 +208,7 @@ namespace {
   }
 }  // namespace
 
-WbConsole::WbConsole(QWidget *parent) :
+WbConsole::WbConsole(QWidget *parent, const QString name) :
   WbDockWidget(parent),
   mEditor(new ConsoleEdit(this)),
   mErrorPatterns(createErrorMatchingPatterns()),  // patterns for error matching
@@ -217,9 +217,9 @@ WbConsole::WbConsole(QWidget *parent) :
   mIsOverwriteEnabled(false),  // option to overwrite last line
   mFindDialog(NULL),
   mTextFind(new WbTextFind(mEditor)) {
-  setWindowTitle("Console");
-  setTabbedTitle("Console");
-  setObjectName("Console");
+  setWindowTitle(name);
+  setTabbedTitle(name);
+  setObjectName(name);
   gInstance = this;
 
   // setup for main window

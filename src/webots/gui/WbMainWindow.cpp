@@ -1230,7 +1230,7 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
   mConsoles.clear();
   const QVector<QStringList> consoleList = perspective->consoleList();
   for (int i = 0; i < consoleList.size(); ++i) {
-    WbConsole *console = new WbConsole(this);
+    WbConsole *console = new WbConsole(this, QString("Console(%1)").arg(i));
     addDockWidget(Qt::BottomDockWidgetArea, console);
     addDock(console);
     mConsoles.append(console);
