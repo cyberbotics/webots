@@ -380,6 +380,7 @@ void WbMainWindow::createMainTools() {
   // be able to display message boxes if fatal
   // errors come after (ex. initializing WREN)
   WbConsole *console = new WbConsole(this);
+  connect(console, &WbConsole::closed, this, &WbMainWindow::handleConsoleClosure);
   addDockWidget(Qt::BottomDockWidgetArea, console);
   addDock(console);
   mConsoles.append(console);
@@ -1231,6 +1232,7 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
   const QVector<QStringList> consoleList = perspective->consoleList();
   for (int i = 0; i < consoleList.size(); ++i) {
     WbConsole *console = new WbConsole(this, QString("Console(%1)").arg(i));
+    connect(console, &WbConsole::closed, this, &WbMainWindow::handleConsoleClosure);
     addDockWidget(Qt::BottomDockWidgetArea, console);
     addDock(console);
     mConsoles.append(console);
@@ -1238,6 +1240,7 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
   }
   if (mConsoles.size() == 0) {
     WbConsole *console = new WbConsole(this);
+    connect(console, &WbConsole::closed, this, &WbMainWindow::handleConsoleClosure);
     addDockWidget(Qt::BottomDockWidgetArea, console);
     addDock(console);
     mConsoles.append(console);
@@ -1718,11 +1721,21 @@ void WbMainWindow::showOpenGlInfo() {
 }
 
 void WbMainWindow::openNewConsole() {
-  WbConsole *console = new WbConsole(this);
+  WbConsole *console = new WbConsole(this, QString("Console(%1)").arg(mConsoles.size()));
+  connect(console, &WbConsole::closed, this, &WbMainWindow::handleConsoleClosure);
   addDockWidget(Qt::BottomDockWidgetArea, console);
   tabifyDockWidget(mConsoles.at(0), console);
   addDock(console);
   mConsoles.append(console);
+}
+
+void WbMainWindow::handleConsoleClosure() {
+  WbConsole *console = dynamic_cast<WbConsole *>(sender());
+  if (console) {
+    mConsoles.removeAll(console);
+    mDockWidgets.removeAll(console);
+    delete console;
+  }
 }
 
 void WbMainWindow::showDocument(const QString &url) {

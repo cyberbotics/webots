@@ -654,6 +654,11 @@ void WbConsole::jumpToError(const QString &errorLine) {
   editor->unmarkError();
 }
 
+void WbConsole::closeEvent(QCloseEvent *event) {
+  WbDockWidget::closeEvent(event);
+  emit closed();
+}
+
 void WbConsole::updateFont() {
   // use the font of the preferences
   const WbPreferences *const prefs = WbPreferences::instance();

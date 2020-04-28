@@ -215,6 +215,7 @@ private slots:
   void exitFullScreen();
 
   void openNewConsole();
+  void handleConsoleClosure();
 
   void openUrl(const QString &fileName, const QString &message, const QString &title);
 

@@ -88,6 +88,9 @@ public:
   const QStringList getEnabledLogs() const;
   void enableLogs(const QStringList &logs);
 
+signals:
+  void closed();
+
 public slots:
   // clear console and resets its attributes when performed by webots
   // only from within a controller, this option is set to false
@@ -118,6 +121,9 @@ private:
   void openFindDialog();
   WbFindReplaceDialog *mFindDialog;
   WbTextFind *mTextFind;
+
+protected slots:
+  void closeEvent(QCloseEvent *event) override;
 
 private slots:
   void updateFont();
