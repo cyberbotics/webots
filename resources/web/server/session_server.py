@@ -103,7 +103,11 @@ class MonitorHandler(tornado.web.RequestHandler):
             self.write("<td><a href='" + url + "'>" + config['simulationServers'][i] + "</a></td><td>")
             if simulation_server_loads[i] >= LOAD_THRESHOLD:
                 self.write("<font color='red'>")
-            self.write(str(simulation_server_loads[i]) + "%")
+            if simulation_server_loads[i] == 1000:
+                value = "N/A"
+            else:
+                value = str(simulation_server_loads[i]) + "%"
+            self.write(value)
             average_load += simulation_server_loads[i]
             if simulation_server_loads[i] >= LOAD_THRESHOLD:
                 self.write("</font>")
@@ -178,35 +182,46 @@ def send_email(subject, content):
         logging.error("Error: unable to send email to " + config['administrator'] + "\n")
 
 
-def read_url(url, i):
+def retrieve_load(url, i):
     """Contact the i-th simulation server and retrieve its load."""
     global simulation_server_loads
+    if config['portRewrite']:
+        url = 'http://' + url.replace('/', ':', 1)
+    elif config['ssl']:
+        url = 'https://' + url
+    else:
+        url = 'http://' + url
+    url += '/load'
     if 'administrator' in config:
-        if config['ssl']:
+        if config['ssl'] or config['portRewrite']:
             protocol = 'https://'
         else:
             protocol = 'http://'
-        check_string = "Check it at " + protocol + config['server'] + ":" + str(config['port']) + "/monitor\n\n" + \
+        if config['portRewrite']:
+            separator = '/'
+        else:
+            separator = ':'
+        check_string = "Check it at " + protocol + config['server'] + separator + str(config['port']) + "/monitor\n\n" + \
                        "-Simulation Server"
     try:
         response = urlopen(url, timeout=5)
     except URLError:
-        if simulation_server_loads[i] != 100:
+        if simulation_server_loads[i] != 1000:
             if 'administrator' in config:
                 send_email("Simulation server not responding", "Hello,\n\n" + config['simulationServers'][i] +
                            " simulation server may be down, as it is not responding to the requests of the session server" +
                            "...\n" + check_string)
             else:
                 logging.info(config['simulationServers'][i] + " simulation server is not responding (assuming 100% load)")
-            simulation_server_loads[i] = 100
+            simulation_server_loads[i] = 1000
     except socket.timeout:
-        if simulation_server_loads[i] != 100:
+        if simulation_server_loads[i] != 1000:
             logging.info(config['simulationServers'][i] +
                          " simulation server is taking too long to respond (assuming 100% load)")
-            simulation_server_loads[i] = 100
+            simulation_server_loads[i] = 1000
     else:
         load = float(response.read())
-        if simulation_server_loads[i] == 100:
+        if simulation_server_loads[i] == 1000:
             message = config['simulationServers'][i] + " simulation server is up and running again (load = " + str(load) + "%)"
             if 'administrator' in config:
                 send_email("Simulation server working again", "Hello,\n\n" + message + ".\n" + check_string)
@@ -233,11 +248,7 @@ def update_load():
     global LOAD_REFRESH
     global availability
     global simulation_server_loads
-    if config['ssl']:
-        protocol = 'https://'
-    else:
-        protocol = 'http://'
-    threads = [threading.Thread(target=read_url, args=(protocol + config['simulationServers'][i] + '/load', i))
+    threads = [threading.Thread(target=retrieve_load, args=(config['simulationServers'][i], i))
                for i in range(len(config['simulationServers']))]
     for t in threads:
         t.start()
@@ -265,6 +276,7 @@ def main():
     # are described here:
     #
     # port:               local port on which the server is listening.
+    # portRewrite:        true if local ports are computed from 443 https/wss URLs (apache rewrite rule).
     # server:             host where this session script is running.
     # sslKey:             private key for a SSL enabled server.
     # sslCertificate:     certificate for a SSL enabled server.
@@ -288,6 +300,8 @@ def main():
         config['logDir'] = 'log'
     else:
         config['logDir'] = expand_path(config['logDir'])
+    if 'portRewrite' not in config:
+        config['portRewrite'] = 'false'
     if 'debug' not in config:
         config['debug'] = False
     sessionLogDir = os.path.join(config['logDir'], 'session')
