@@ -382,7 +382,7 @@ webots.View = class View {
   }
 
   close() {
-    if (this.server)
+    if (this.server && this.server.socket)
       this.server.socket.close();
     if (this.stream)
       this.stream.close();
