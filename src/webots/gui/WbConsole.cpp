@@ -264,8 +264,8 @@ WbConsole::WbConsole(QWidget *parent, const QString name) :
 }
 
 WbConsole::~WbConsole() {
-  for (int i = 0; mErrorPatterns[i]; ++i)
-    delete mErrorPatterns[i];
+  // for (int i = 0; mErrorPatterns[i]; ++i)
+  //   delete mErrorPatterns[i];
   gInstance = NULL;
 }
 
