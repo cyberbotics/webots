@@ -341,6 +341,7 @@ QT_SOURCES += \
   WbMouse.cpp \
   WbMultimediaStreamer.cpp \
   WbMultipleValue.cpp \
+  WbMultiSelectionDialog.cpp \
   WbMuscle.cpp \
   WbNewControllerWizard.cpp \
   WbNewPhysicsPluginWizard.cpp \

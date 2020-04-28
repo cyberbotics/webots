@@ -21,6 +21,7 @@
 #include "WbFindReplaceDialog.hpp"
 #include "WbLog.hpp"
 #include "WbMessageBox.hpp"
+#include "WbMultiSelectionDialog.hpp"
 #include "WbPreferences.hpp"
 #include "WbSyntaxHighlighter.hpp"
 #include "WbTextFind.hpp"
@@ -30,10 +31,14 @@
 
 #include <QtWidgets/QAction>
 #include <QtWidgets/QComboBox>
+#include <QtWidgets/QDialog>
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QPlainTextEdit>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStyle>
+
+#include <QtCore/QDebug>
 
 #include <cassert>
 #include <iostream>
@@ -239,6 +244,14 @@ WbConsole::WbConsole(QWidget *parent, const QString &name) :
   mCombobox->addItem("ODE errors");
   mCombobox->addItem("Controllers");
   titleBarWidget()->layout()->addWidget(mCombobox);
+
+  mFiltersButton = new QPushButton(this);
+  QIcon icon = QIcon();
+  icon.addFile("enabledIcons:filters.png", QSize(), QIcon::Normal);
+  icon.addFile("disabledIcons:filters.png", QSize(), QIcon::Disabled);
+  mFiltersButton->setIcon(icon);
+  titleBarWidget()->layout()->addWidget(mFiltersButton);
+  connect(mFiltersButton, &QPushButton::pressed, this, &WbConsole::selectFilters);
 
   // create text editor
   mEditor->setReadOnly(true);
@@ -666,6 +679,18 @@ void WbConsole::jumpToError(const QString &errorLine) {
 void WbConsole::closeEvent(QCloseEvent *event) {
   WbDockWidget::closeEvent(event);
   emit closed();
+}
+
+void WbConsole::selectFilters() {
+  WbMultiSelectionDialog dialog(tr("Select what to display in this console"),
+                                QStringList() << "All"
+                                              << "Webots"
+                                              << "ODE errors"
+                                              << "Controllers",
+                                this);
+  dialog.setWindowTitle("Console Filters");
+
+  int result = dialog.exec();
 }
 
 void WbConsole::updateFont() {
