@@ -271,8 +271,10 @@ WbConsole::~WbConsole() {
 
 const QStringList WbConsole::getEnabledLogs() const {
   QStringList enabledLogs;
-  for (int i = 0; i < mCombobox->count(); ++i)
-    enabledLogs.append(mCombobox->itemText(i));
+  for (int i = 0; i < mCombobox->count(); ++i) {
+    if (i == mCombobox->currentIndex()) // TODO: add support for multi-check
+      enabledLogs.append(mCombobox->itemText(i));
+  }
   return enabledLogs;
 }
 
