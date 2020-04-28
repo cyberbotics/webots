@@ -208,7 +208,7 @@ namespace {
   }
 }  // namespace
 
-WbConsole::WbConsole(QWidget *parent, const QString name) :
+WbConsole::WbConsole(QWidget *parent, const QString &name) :
   WbDockWidget(parent),
   mEditor(new ConsoleEdit(this)),
   mErrorPatterns(createErrorMatchingPatterns()),  // patterns for error matching
@@ -272,7 +272,7 @@ WbConsole::~WbConsole() {
 const QStringList WbConsole::getEnabledLogs() const {
   QStringList enabledLogs;
   for (int i = 0; i < mCombobox->count(); ++i) {
-    if (i == mCombobox->currentIndex()) // TODO: add support for multi-check
+    if (i == mCombobox->currentIndex())  // TODO: add support for multi-check
       enabledLogs.append(mCombobox->itemText(i));
   }
   return enabledLogs;

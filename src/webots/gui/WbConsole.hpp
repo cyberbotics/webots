@@ -49,7 +49,7 @@ public:
   // singleton
   static WbConsole *instance();
 
-  explicit WbConsole(QWidget *parent = NULL, const QString name = QString("Console"));
+  explicit WbConsole(QWidget *parent = NULL, const QString &name = QString("Console"));
   virtual ~WbConsole();
 
   // parse compilation error line
