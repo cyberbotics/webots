@@ -543,14 +543,14 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
   if (message.isEmpty())
     return;
 
-  if (mEnabledLogs.contains("All")) {
+  if (!mEnabledLogs.contains("All")) {
     if (!robotName.isEmpty()) {
       if (robotName == "ODE errors") {
-        if (mEnabledLogs.contains(robotName))
+        if (!mEnabledLogs.contains(robotName))
           return;
-      } else if (mEnabledLogs.contains("Controllers"))
+      } else if (!mEnabledLogs.contains("Controllers"))
         return;
-    } else if (mEnabledLogs.contains("Webots"))
+    } else if (!mEnabledLogs.contains("Webots"))
       return;
   }
 
