@@ -187,7 +187,10 @@ class Client:
             logging.error('Wrong tag/branch in Webots URL: ' + tag_or_branch)
             return False
         url += '/' + folder
-        path = os.getcwd()
+        try:
+            path = os.getcwd()
+        except OSError:
+            path = False
         mkdir_p(self.project_instance_path)
         os.chdir(self.project_instance_path)
         command = AsyncProcess('svn export ' + url)
@@ -206,7 +209,8 @@ class Client:
         logging.info('Done')
         if tag_or_branch == 'branch' and tag_or_branch_name == 'master' and folder == '':
             os.rename('trunk', repository)
-        os.chdir(path)
+        if path:
+            os.chdir(path)
         self.project_instance_path += project
         return True
 
