@@ -68,7 +68,7 @@ class SessionHandler(tornado.web.RequestHandler):
                 minimum = simulation_server_loads[i]
                 minimally_loaded_server = config['simulationServers'][i]
         if minimum < LOAD_THRESHOLD:
-            if config['ssl']:
+            if config['ssl'] or config['portRewrite']:
                 protocol = 'wss:'
             else:
                 protocol = 'ws:'
@@ -97,7 +97,7 @@ class MonitorHandler(tornado.web.RequestHandler):
         for i in range(nServer):
             self.write("<tr><td>%d</td>" % (i + 1))
             url = "http"
-            if config['ssl']:
+            if config['ssl'] or config['portRewrite']:
                 url += "s"
             url += "://" + config['simulationServers'][i] + "/monitor"
             self.write("<td><a href='" + url + "'>" + config['simulationServers'][i] + "</a></td><td>")
@@ -301,7 +301,7 @@ def main():
     else:
         config['logDir'] = expand_path(config['logDir'])
     if 'portRewrite' not in config:
-        config['portRewrite'] = 'false'
+        config['portRewrite'] = False
     if 'debug' not in config:
         config['debug'] = False
     sessionLogDir = os.path.join(config['logDir'], 'session')
