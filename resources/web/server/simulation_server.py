@@ -193,7 +193,7 @@ class Client:
             path = False
         mkdir_p(self.project_instance_path)
         os.chdir(self.project_instance_path)
-        command = AsyncProcess('svn export ' + url)
+        command = AsyncProcess(['svn', 'export', url])
         sys.stdout.write('$ svn export ' + url + '\n')
         sys.stdout.flush()
         while True:
