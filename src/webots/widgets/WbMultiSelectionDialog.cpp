@@ -14,6 +14,7 @@
 
 #include "WbMultiSelectionDialog.hpp"
 
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
@@ -26,6 +27,13 @@ WbMultiSelectionDialog::WbMultiSelectionDialog(const QString &description, const
   // Description label
   QLabel *label = new QLabel(description, this);
   layout->addWidget(label);
+
+  // checkboxes
+  for (int i = 0; i < options.size(); ++i) {
+    QCheckBox *checkbox = new QCheckBox(options.at(i), this);
+    layout->addWidget(checkbox);
+    mCheckboxes.append(checkbox);
+  }
 
   // ok / cancel buttons
   QHBoxLayout *buttonLayout = new QHBoxLayout();
@@ -41,10 +49,11 @@ WbMultiSelectionDialog::WbMultiSelectionDialog(const QString &description, const
   setMinimumHeight(sizeHint().height());
 }
 
-WbMultiSelectionDialog::~WbMultiSelectionDialog() {
-}
-
 void WbMultiSelectionDialog::validate() {
-  // TODO
+  mEnabledOptions.clear();
+  for (int i = 0; i < mCheckboxes.size(); ++i) {
+    if (mCheckboxes.at(i)->isChecked())
+      mEnabledOptions.append(mCheckboxes.at(i)->text());
+  }
   accept();
 }

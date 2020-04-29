@@ -19,17 +19,26 @@
 // Description: a simple input dialog allowing supporting multi selection
 //
 
+#include <QtCore/QVector>
 #include <QtWidgets/QDialog>
+
+class QCheckBox;
 
 class WbMultiSelectionDialog : public QDialog {
   Q_OBJECT
 
 public:
   explicit WbMultiSelectionDialog(const QString &description, const QStringList &options, QWidget *parent = 0);
-  virtual ~WbMultiSelectionDialog();
+  virtual ~WbMultiSelectionDialog() {}
+
+  const QStringList &enabledOptions() const { return mEnabledOptions; }
 
 private slots:
   void validate();
+
+private:
+  QStringList mEnabledOptions;
+  QVector<QCheckBox *> mCheckboxes;
 };
 
 #endif

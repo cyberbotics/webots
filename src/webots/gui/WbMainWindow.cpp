@@ -1236,7 +1236,7 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
     addDockWidget(Qt::BottomDockWidgetArea, console);
     addDock(console);
     mConsoles.append(console);
-    console->enableLogs(consoleList.at(i));
+    console->setEnabledLogs(consoleList.at(i));
   }
   if (mConsoles.size() == 0) {
     WbConsole *console = new WbConsole(this);

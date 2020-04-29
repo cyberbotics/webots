@@ -86,8 +86,8 @@ public:
   void setAnsiCyan(const QString &color) { mAnsiCyan = color; }
   void setAnsiWhite(const QString &color) { mAnsiWhite = color; }
 
-  const QStringList getEnabledLogs() const;
-  void enableLogs(const QStringList &logs);
+  const QStringList getEnabledLogs() const { return mEnabledLogs; }
+  void setEnabledLogs(const QStringList &logs) { mEnabledLogs = logs; }
 
 signals:
   void closed();
@@ -104,8 +104,8 @@ public slots:
 private:
   QString mErrorColor, mInfoColor;
   QString mAnsiBlack, mAnsiRed, mAnsiGreen, mAnsiYellow, mAnsiBlue, mAnsiMagenta, mAnsiCyan, mAnsiWhite;
+  QStringList mEnabledLogs;
   ConsoleEdit *mEditor;
-  QComboBox *mCombobox;
   QPushButton *mFiltersButton;
   QRegExp **mErrorPatterns;
   QString mForegroundColor;

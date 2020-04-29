@@ -30,7 +30,6 @@
 #include <QtGui/QTextDocumentFragment>
 
 #include <QtWidgets/QAction>
-#include <QtWidgets/QComboBox>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QMenu>
@@ -217,6 +216,7 @@ namespace {
 
 WbConsole::WbConsole(QWidget *parent, const QString &name) :
   WbDockWidget(parent),
+  mEnabledLogs("All"),
   mEditor(new ConsoleEdit(this)),
   mErrorPatterns(createErrorMatchingPatterns()),  // patterns for error matching
   mBold(false),
@@ -237,13 +237,6 @@ WbConsole::WbConsole(QWidget *parent, const QString &name) :
 
   titleBarWidget()->setObjectName("consoleTitleBar");
   titleBarWidget()->style()->polish(titleBarWidget());
-
-  mCombobox = new QComboBox(this);
-  mCombobox->addItem("All");
-  mCombobox->addItem("Webots");
-  mCombobox->addItem("ODE errors");
-  mCombobox->addItem("Controllers");
-  titleBarWidget()->layout()->addWidget(mCombobox);
 
   mFiltersButton = new QPushButton(this);
   QIcon icon = QIcon();
@@ -284,22 +277,6 @@ WbConsole::~WbConsole() {
   // for (int i = 0; mErrorPatterns[i]; ++i)
   //   delete mErrorPatterns[i];
   gInstance = NULL;
-}
-
-const QStringList WbConsole::getEnabledLogs() const {
-  QStringList enabledLogs;
-  for (int i = 0; i < mCombobox->count(); ++i) {
-    if (i == mCombobox->currentIndex())  // TODO: add support for multi-check
-      enabledLogs.append(mCombobox->itemText(i));
-  }
-  return enabledLogs;
-}
-
-void WbConsole::enableLogs(const QStringList &logs) {
-  for (int i = 0; i < mCombobox->count(); ++i) {
-    if (logs.contains(mCombobox->itemText(i)))
-      mCombobox->setCurrentIndex(i);  // TODO: add support for multi-check
-  }
 }
 
 void WbConsole::clear(bool reset) {
@@ -561,14 +538,14 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
   if (message.isEmpty())
     return;
 
-  if (mCombobox->currentText() != "All") {
+  if (mEnabledLogs.contains("All")) {
     if (!robotName.isEmpty()) {
       if (robotName == "ODE errors") {
-        if (mCombobox->currentText() != robotName)
+        if (mEnabledLogs.contains(robotName))
           return;
-      } else if (mCombobox->currentText() != "Controllers")
+      } else if (mEnabledLogs.contains("Controllers"))
         return;
-    } else if (mCombobox->currentText() != "Webots")
+    } else if (mEnabledLogs.contains("Webots"))
       return;
   }
 
@@ -682,15 +659,17 @@ void WbConsole::closeEvent(QCloseEvent *event) {
 }
 
 void WbConsole::selectFilters() {
-  WbMultiSelectionDialog dialog(tr("Select what to display in this console"),
+  WbMultiSelectionDialog dialog(tr("Select what to display in this console:"),
                                 QStringList() << "All"
                                               << "Webots"
                                               << "ODE errors"
                                               << "Controllers",
                                 this);
   dialog.setWindowTitle("Console Filters");
-
-  int result = dialog.exec();
+  const int result = dialog.exec();
+  if (result == QDialog::Accepted) {
+    qDebug() << dialog.enabledOptions();
+  }
 }
 
 void WbConsole::updateFont() {
