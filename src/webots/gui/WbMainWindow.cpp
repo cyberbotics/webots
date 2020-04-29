@@ -1110,6 +1110,8 @@ void WbMainWindow::restoreLayout() {
   mMaximizedWidget = NULL;
   foreach (QWidget *dock, mDockWidgets)
     setWidgetMaximized(dock, false);
+  for (int i = 1; i < mConsoles.size(); ++i)
+    tabifyDockWidget(mConsoles.at(0), mConsoles.at(i));
   mSimulationView->restoreFactoryLayout();
   enableToolsWidgetItems(true);
 }
