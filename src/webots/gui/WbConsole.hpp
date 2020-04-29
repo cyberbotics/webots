@@ -87,7 +87,7 @@ public:
   void setAnsiWhite(const QString &color) { mAnsiWhite = color; }
 
   const QStringList getEnabledLogs() const { return mEnabledLogs; }
-  void setEnabledLogs(const QStringList &logs) { mEnabledLogs = logs; }
+  void setEnabledLogs(const QStringList &logs);
 
 signals:
   void closed();
@@ -119,6 +119,7 @@ private:
   void handleCRAndLF(const QString &msg);
   void handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Level);
   QRegExp **createErrorMatchingPatterns() const;
+  void updateTitle();
 
   void openFindDialog();
   WbFindReplaceDialog *mFindDialog;

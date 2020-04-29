@@ -224,9 +224,9 @@ WbConsole::WbConsole(QWidget *parent, const QString &name) :
   mIsOverwriteEnabled(false),  // option to overwrite last line
   mFindDialog(NULL),
   mTextFind(new WbTextFind(mEditor)) {
-  setWindowTitle(name);
   setTabbedTitle(name);
   setObjectName(name);
+  updateTitle();
   gInstance = this;
 
   // setup for main window
@@ -277,6 +277,11 @@ WbConsole::~WbConsole() {
   // for (int i = 0; mErrorPatterns[i]; ++i)
   //   delete mErrorPatterns[i];
   gInstance = NULL;
+}
+
+void WbConsole::setEnabledLogs(const QStringList &logs) {
+  mEnabledLogs = logs;
+  updateTitle();
 }
 
 void WbConsole::clear(bool reset) {
@@ -653,6 +658,12 @@ void WbConsole::jumpToError(const QString &errorLine) {
   editor->unmarkError();
 }
 
+void WbConsole::updateTitle() {
+  QString title("Console - ");
+  title += mEnabledLogs.join(" | ");
+  setWindowTitle(title);
+}
+
 void WbConsole::closeEvent(QCloseEvent *event) {
   WbDockWidget::closeEvent(event);
   emit closed();
@@ -668,7 +679,8 @@ void WbConsole::selectFilters() {
   dialog.setWindowTitle("Console Filters");
   const int result = dialog.exec();
   if (result == QDialog::Accepted) {
-    qDebug() << dialog.enabledOptions();
+    mEnabledLogs = dialog.enabledOptions();
+    updateTitle();
   }
 }
 
