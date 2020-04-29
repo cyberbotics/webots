@@ -675,7 +675,7 @@ void WbConsole::selectFilters() {
                                               << "Webots"
                                               << "ODE errors"
                                               << "Controllers",
-                                this);
+                                mEnabledLogs, this);
   dialog.setWindowTitle("Console Filters");
   const int result = dialog.exec();
   if (result == QDialog::Accepted) {

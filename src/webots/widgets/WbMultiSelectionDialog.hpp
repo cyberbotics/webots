@@ -28,7 +28,8 @@ class WbMultiSelectionDialog : public QDialog {
   Q_OBJECT
 
 public:
-  explicit WbMultiSelectionDialog(const QString &description, const QStringList &options, QWidget *parent = 0);
+  explicit WbMultiSelectionDialog(const QString &description, const QStringList &options,
+                                  const QStringList &enabledOptions = QStringList(), QWidget *parent = 0);
   virtual ~WbMultiSelectionDialog() {}
 
   const QStringList &enabledOptions() const { return mEnabledOptions; }

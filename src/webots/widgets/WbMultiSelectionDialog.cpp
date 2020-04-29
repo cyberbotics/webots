@@ -20,7 +20,8 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QVBoxLayout>
 
-WbMultiSelectionDialog::WbMultiSelectionDialog(const QString &description, const QStringList &options, QWidget *parent) :
+WbMultiSelectionDialog::WbMultiSelectionDialog(const QString &description, const QStringList &options,
+                                               const QStringList &enabledOptions, QWidget *parent) :
   QDialog(parent) {
   QVBoxLayout *layout = new QVBoxLayout(this);
 
@@ -32,6 +33,8 @@ WbMultiSelectionDialog::WbMultiSelectionDialog(const QString &description, const
   for (int i = 0; i < options.size(); ++i) {
     QCheckBox *checkbox = new QCheckBox(options.at(i), this);
     layout->addWidget(checkbox);
+    if (enabledOptions.contains(options.at(i)))
+      checkbox->setChecked(true);
     mCheckboxes.append(checkbox);
   }
 
