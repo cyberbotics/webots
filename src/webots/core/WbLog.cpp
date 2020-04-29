@@ -48,7 +48,7 @@ void WbLog::debug(const QString &message, bool popup, const QString &logName) {
 
   fprintf(stderr, "DEBUG: %s\n", qPrintable(message));
   fflush(stderr);
-  if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))))
+  if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))) > 1)
     instance()->emitLog(DEBUG, "DEBUG: " + message, popup, logName);
   else
     instance()->enqueueMessage(instance()->mPendingConsoleMessages, "DEBUG: " + message, DEBUG);
@@ -60,7 +60,7 @@ void WbLog::info(const QString &message, bool popup, const QString &logName) {
     return;
   }
 
-  if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))))
+  if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))) > 1)
     instance()->emitLog(INFO, "INFO: " + message, popup, logName);
   else {
     printf("INFO: %s\n", qPrintable(message));
@@ -74,7 +74,7 @@ void WbLog::warning(const QString &message, bool popup, const QString &logName) 
     return;
   }
 
-  if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))))
+  if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))) > 1)
     instance()->emitLog(WARNING, "WARNING: " + message, popup, logName);
   else {
     fprintf(stderr, "WARNING: %s\n", qPrintable(message));
@@ -87,8 +87,7 @@ void WbLog::error(const QString &message, bool popup, const QString &logName) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, ERROR);
     return;
   }
-
-  if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))))
+  if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))) > 1)
     instance()->emitLog(ERROR, "ERROR: " + message, popup, logName);
   else {
     fprintf(stderr, "ERROR: %s\n", qPrintable(message));

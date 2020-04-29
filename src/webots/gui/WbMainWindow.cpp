@@ -204,8 +204,6 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, QWidget *parent) :
           &WbMainWindow::discardNodeRegeneration);
   connect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this,
           &WbMainWindow::finalizeNodeRegeneration);
-
-  WbLog::instance()->showPendingConsoleMessages();
 }
 
 WbMainWindow::~WbMainWindow() {
@@ -375,15 +373,6 @@ void WbMainWindow::createMainTools() {
   setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
   setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
   setCorner(Qt::BottomRightCorner, Qt::BottomDockWidgetArea);
-
-  // the console is built at first in order to
-  // be able to display message boxes if fatal
-  // errors come after (ex. initializing WREN)
-  WbConsole *console = new WbConsole(this);
-  connect(console, &WbConsole::closed, this, &WbMainWindow::handleConsoleClosure);
-  addDockWidget(Qt::BottomDockWidgetArea, console);
-  addDock(console);
-  mConsoles.append(console);
 
   mSimulationView = new WbSimulationView(this, toolBarAlign());
   setCentralWidget(mSimulationView);
@@ -1226,11 +1215,6 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
   }
 
   // restore consoles
-  foreach (WbConsole *console, mConsoles) {
-    mDockWidgets.removeAll(console);
-    delete console;
-  }
-  mConsoles.clear();
   const QVector<QStringList> consoleList = perspective->consoleList();
   for (int i = 0; i < consoleList.size(); ++i) {
     WbConsole *console = new WbConsole(this, QString("Console(%1)").arg(i));
@@ -1248,6 +1232,7 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
     mConsoles.append(console);
     // TODO: show all
   }
+  WbLog::instance()->showPendingConsoleMessages();
 
   if (meansOfLoading) {
     if (!perspective->enabledRobotWindowNodeNames().isEmpty()) {
