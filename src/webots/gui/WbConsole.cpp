@@ -539,14 +539,14 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
   handleCRAndLF(htmlSpan(msg, level));
 }
 
-void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup, const QString &robotName) {
+void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup, const QString &logName) {
   if (message.isEmpty())
     return;
 
   if (!mEnabledLogs.contains("All")) {
-    if (!robotName.isEmpty()) {
-      if (robotName == "ODE errors") {
-        if (!mEnabledLogs.contains(robotName))
+    if (!logName.isEmpty()) {
+      if (logName == "ODE errors") {
+        if (!mEnabledLogs.contains(logName))
           return;
       } else if (!mEnabledLogs.contains("Controllers"))
         return;

@@ -39,10 +39,10 @@ public:
 
   // Webots messages, e.g. parse error
   // the 'message' argument should not be '\n' terminated
-  static void debug(const QString &message, bool popup = false, const QString &robotName = QString());
-  static void info(const QString &message, bool popup = false, const QString &robotName = QString());
-  static void warning(const QString &message, bool popup = false, const QString &robotName = QString());
-  static void error(const QString &message, bool popup = false, const QString &robotName = QString());
+  static void debug(const QString &message, bool popup = false, const QString &logName = QString());
+  static void info(const QString &message, bool popup = false, const QString &logName = QString());
+  static void warning(const QString &message, bool popup = false, const QString &logName = QString());
+  static void error(const QString &message, bool popup = false, const QString &logName = QString());
 
   // display a message in main window's status bar
   static void status(const QString &message);
@@ -52,8 +52,8 @@ public:
 
   // controller or compilation output
   // the 'message' argument can contain newlines (multi-line output)
-  static void appendStdout(const QString &message, const QString &robotName = QString());
-  static void appendStderr(const QString &message, const QString &robotName = QString());
+  static void appendStdout(const QString &message, const QString &logName = QString());
+  static void appendStderr(const QString &message, const QString &logName = QString());
 
   static void javascriptLogToConsole(const QString &message, int lineNumber, const QString &sourceUrl);
   // clear output
@@ -67,7 +67,7 @@ public:
 
 signals:
   // the above function emit this signal that can be connected to a message sink (console)
-  void logEmitted(WbLog::Level level, const QString &message, bool popup, const QString &robotName);
+  void logEmitted(WbLog::Level level, const QString &message, bool popup, const QString &logName);
   void cleared();
   void popupOpen();
   void popupClosed();
@@ -75,7 +75,7 @@ signals:
 private:
   WbLog() : mPopUpMessagesPostponed(false) {}
   virtual ~WbLog() {}
-  void emitLog(Level level, const QString &message, bool popup, const QString &robotName);
+  void emitLog(Level level, const QString &message, bool popup, const QString &logName);
   static void cleanup();
 
   struct PostponedMessage {

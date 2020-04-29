@@ -99,7 +99,7 @@ public slots:
 
   // append internal error message of Webots
   // the message color depends on the level
-  void appendLog(WbLog::Level level, const QString &message, bool popup, const QString &robotName);  // TODO: rename in logName?
+  void appendLog(WbLog::Level level, const QString &message, bool popup, const QString &logName);
 
 private:
   QString mErrorColor, mInfoColor;

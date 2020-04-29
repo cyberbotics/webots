@@ -40,7 +40,7 @@ WbLog *WbLog::instance() {
   return gInstance;
 }
 
-void WbLog::debug(const QString &message, bool popup, const QString &robotName) {
+void WbLog::debug(const QString &message, bool popup, const QString &logName) {
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, DEBUG);
     return;
@@ -49,47 +49,47 @@ void WbLog::debug(const QString &message, bool popup, const QString &robotName) 
   fprintf(stderr, "DEBUG: %s\n", qPrintable(message));
   fflush(stderr);
   if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))))
-    instance()->emitLog(DEBUG, "DEBUG: " + message, popup, robotName);
+    instance()->emitLog(DEBUG, "DEBUG: " + message, popup, logName);
   else
     instance()->enqueueMessage(instance()->mPendingConsoleMessages, "DEBUG: " + message, DEBUG);
 }
 
-void WbLog::info(const QString &message, bool popup, const QString &robotName) {
+void WbLog::info(const QString &message, bool popup, const QString &logName) {
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, INFO);
     return;
   }
 
   if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))))
-    instance()->emitLog(INFO, "INFO: " + message, popup, robotName);
+    instance()->emitLog(INFO, "INFO: " + message, popup, logName);
   else {
     printf("INFO: %s\n", qPrintable(message));
     instance()->enqueueMessage(instance()->mPendingConsoleMessages, "INFO: " + message, INFO);
   }
 }
 
-void WbLog::warning(const QString &message, bool popup, const QString &robotName) {
+void WbLog::warning(const QString &message, bool popup, const QString &logName) {
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, WARNING);
     return;
   }
 
   if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))))
-    instance()->emitLog(WARNING, "WARNING: " + message, popup, robotName);
+    instance()->emitLog(WARNING, "WARNING: " + message, popup, logName);
   else {
     fprintf(stderr, "WARNING: %s\n", qPrintable(message));
     instance()->enqueueMessage(instance()->mPendingConsoleMessages, "WARNING: " + message, WARNING);
   }
 }
 
-void WbLog::error(const QString &message, bool popup, const QString &robotName) {
+void WbLog::error(const QString &message, bool popup, const QString &logName) {
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, ERROR);
     return;
   }
 
   if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))))
-    instance()->emitLog(ERROR, "ERROR: " + message, popup, robotName);
+    instance()->emitLog(ERROR, "ERROR: " + message, popup, logName);
   else {
     fprintf(stderr, "ERROR: %s\n", qPrintable(message));
     instance()->enqueueMessage(instance()->mPendingConsoleMessages, "ERROR: " + message, ERROR);
@@ -107,12 +107,12 @@ void WbLog::status(const QString &message) {
   instance()->emitLog(STATUS, message, false, QString());
 }
 
-void WbLog::appendStdout(const QString &message, const QString &robotName) {
-  emit instance()->logEmitted(STDOUT, message, false, robotName);
+void WbLog::appendStdout(const QString &message, const QString &logName) {
+  emit instance()->logEmitted(STDOUT, message, false, logName);
 }
 
-void WbLog::appendStderr(const QString &message, const QString &robotName) {
-  emit instance()->logEmitted(STDERR, message, false, robotName);
+void WbLog::appendStderr(const QString &message, const QString &logName) {
+  emit instance()->logEmitted(STDERR, message, false, logName);
 }
 
 void WbLog::javascriptLogToConsole(const QString &message, int lineNumber, const QString &sourceUrl) {
@@ -121,10 +121,10 @@ void WbLog::javascriptLogToConsole(const QString &message, int lineNumber, const
   WbLog::appendStdout(log, QString());  // TODO: we might move the javascipt console to a dedicated tab
 }
 
-void WbLog::emitLog(Level level, const QString &message, bool popup, const QString &robotName) {
+void WbLog::emitLog(Level level, const QString &message, bool popup, const QString &logName) {
   if (popup)
     emit popupOpen();
-  emit logEmitted(level, message, popup, robotName);
+  emit logEmitted(level, message, popup, logName);
   if (popup)
     emit popupClosed();
 }
