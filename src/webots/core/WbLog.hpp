@@ -80,12 +80,13 @@ private:
 
   struct PostponedMessage {
     QString text;
+    QString logName;
     Level level;
   };
   bool mPopUpMessagesPostponed;
   QList<PostponedMessage> mPostponedPopUpMessageQueue;
   QList<PostponedMessage> mPendingConsoleMessages;
-  void enqueueMessage(QList<PostponedMessage> &list, const QString &message, Level level);
+  void enqueueMessage(QList<PostponedMessage> &list, const QString &message, const QString &logName, Level level);
 };
 
 #endif
