@@ -1224,15 +1224,14 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
     mConsoles.append(console);
     console->setEnabledLogs(consoleList.at(i));
   }
+  // display at least one console
   if (mConsoles.size() == 0) {
     WbConsole *console = new WbConsole(this);
     connect(console, &WbConsole::closed, this, &WbMainWindow::handleConsoleClosure);
     addDockWidget(Qt::BottomDockWidgetArea, console);
     addDock(console);
     mConsoles.append(console);
-    // TODO: show all
   }
-  WbLog::instance()->showPendingConsoleMessages();
 
   if (meansOfLoading) {
     if (!perspective->enabledRobotWindowNodeNames().isEmpty()) {
@@ -1283,6 +1282,8 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
 
   // Refreshing
   mSimulationView->repaintView3D();
+
+  WbLog::instance()->showPendingConsoleMessages();
 }
 
 void WbMainWindow::restoreRenderingDevicesPerspective() {
