@@ -9,22 +9,14 @@ class Server { // eslint-disable-line no-unused-vars
     // url has one of the following form:
     // "ws(s)://cyberbotics1.epfl.ch:80/simple/worlds/simple.wbt", or
     // "wss://cyberbotics1.epfl.ch/1999/session
-    //  ?url=https://github.com/cyberbotics/webots/tree/master/projects/languages/python&branch=1"
+    //  ?url=webots://github.com/cyberbotics/webots/branch/master/projects/languages/python"
     const n = this.url.indexOf('/session?url=', 6);
     if (n === -1) {
       const m = url.lastIndexOf('/');
       this.project = url.substring(this.url.indexOf('/', 6) + 1, m - 7); // e.g., "simple"
       this.worldFile = url.substring(m + 1); // e.g., "simple.wbt"
-    } else {
-      const m = this.url.indexOf('&branch=', n + 24);
-      if (m === -1) {
-        this.repository = this.url.substring(n + 13);
-        this.branch = 0;
-      } else {
-        this.repository = this.url.substring(n + 13, m);
-        this.branch = parseInt(this.url.substring(m + 8));
-      }
-    }
+    } else
+      this.repository = this.url.substring(n + 13);
     this.controllers = [];
   }
 
@@ -66,7 +58,7 @@ class Server { // eslint-disable-line no-unused-vars
 
   onOpen(event) {
     if (this.repository)
-      this.socket.send(`{"start":{"url":"${this.repository}","branch":${this.branch}}}`);
+      this.socket.send(`{"start":{"url":"${this.repository}"}}`);
     else { // legacy format
       const host = location.protocol + '//' + location.host.replace(/^www./, ''); // remove 'www' prefix
       if (typeof webots.User1Id === 'undefined')

@@ -187,7 +187,7 @@ webots.View = class View {
 
         const url = findGetParameter('url');
         if (url || this.url.endsWith('.wbt')) { // url expected form: "wss://localhost:1999/simple/worlds/simple.wbt" or
-          // "wss://localhost/1999/?url=https://github.com/cyberbotics/webots/tree/master/projects/languages/python&branch=1"
+          // "wss://localhost/1999/?url=webots://github.com/cyberbotics/webots/branch/master/projects/languages/python"
           var callback;
           if (this.mode === 'video')
             callback = this.video.finalize;
