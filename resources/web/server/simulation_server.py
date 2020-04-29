@@ -179,10 +179,7 @@ class Client:
         if tag_or_branch == 'tag':
             url += 'tags/' + tag_or_branch_name
         elif tag_or_branch == 'branch':
-            if tag_or_branch_name == 'master':
-                url += 'trunk'
-            else:
-                url += 'branches/' + tag_or_branch_name
+            url += 'trunk' if tag_or_branch_name == 'master' else 'branches/' + tag_or_branch_name
         else:
             logging.error('Wrong tag/branch in Webots URL: ' + tag_or_branch)
             return False
@@ -284,13 +281,11 @@ class Client:
                 if line.startswith('open'):  # Webots world is loaded, ready to receive connections
                     break
             hostname = client.client_websocket.request.host.split(':')[0]
-            if config['ssl']:
-                protocol = 'wss:'
-            else:
-                protocol = 'ws:'
+            protocol = 'wss:' if config['ssl'] or config['portRewrite'] else 'ws:'
+            separator = '/' if config['portRewrite'] else ':'
             asyncio.set_event_loop(asyncio.new_event_loop())
-            client.client_websocket.write_message('webots:' + protocol + '//' +
-                                                  hostname + ':' + str(port))
+            message = 'webots:' + protocol + '//' + hostname + separator + str(port)
+            client.client_websocket.write_message(message)
             for line in iter(client.webots_process.stdout.readline, b''):
                 line = line.rstrip()
                 if line == 'pause':
@@ -413,10 +408,7 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
                 client.customData = data['init'][8]
                 client.idle = True
                 # Check that client.host is allowed
-                if client.host.startswith('https://'):
-                    host = client.host[8:]
-                else:  # assuming 'http://'
-                    host = client.host[7:]
+                host = client.host[8:] if client.host.startswith('https://') else client.host[7:]
                 n = host.find(':')
                 if n > 0:
                     host = host[:n]
@@ -726,19 +718,13 @@ def main():
     root_logger = logging.getLogger()
     root_logger.setLevel(logging.DEBUG)
 
-    if 'logDir' not in config:
-        config['logDir'] = 'log'
-    else:
-        config['logDir'] = expand_path(config['logDir'])
+    config['logDir'] = 'log' if 'logDir' not in config else expand_path(config['logDir'])
     simulationLogDir = os.path.join(config['logDir'], 'simulation')
     logFile = os.path.join(simulationLogDir, 'output.log')
     try:
         if not os.path.exists(simulationLogDir):
             os.makedirs(simulationLogDir)
-        if config['debug']:
-            file_handler = logging.StreamHandler(sys.stdout)
-        else:
-            file_handler = logging.FileHandler(logFile)
+        file_handler = logging.StreamHandler(sys.stdout) if config['debug'] else logging.FileHandler(logFile)
         file_handler.setFormatter(log_formatter)
         file_handler.setLevel(logging.INFO)
         root_logger.addHandler(file_handler)
@@ -784,6 +770,8 @@ def main():
     else:
         config['ssl'] = False
         http_server = tornado.httpserver.HTTPServer(application)
+    if 'portRewrite' not in config:
+        config['portRewrite'] = False
     http_server.listen(config['port'])
     message = "Simulation server running on port %d (" % config['port']
     if not config['ssl']:
