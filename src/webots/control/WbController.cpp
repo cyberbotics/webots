@@ -155,7 +155,7 @@ WbController::~WbController() {
       // kill the process
       if (mProcess->state() != QProcess::NotRunning && !mProcess->waitForFinished(1000)) {
         WbLog::warning(tr("%1: Forced termination (because process didn't terminate itself after 1 second).").arg(name()),
-                       false, robot()->name());
+                       false);
 #ifdef _WIN32
         // on Windows, we need to kill the process as it may not handle the WM_CLOSE message sent by terminate()
         mProcess->kill();
@@ -201,8 +201,7 @@ void WbController::start() {
     WbLog::warning(tr("\'%1\'\nThe path to this Webots project contains non 8-bit characters. "
                       "Webots won't be able to execute any Java controller in this path. "
                       "Please move this Webots project into a folder with only 8-bit characters.")
-                     .arg(mControllerPath),
-                   robot()->name());
+                     .arg(mControllerPath));
 #endif
   switch (mType) {
     case WbFileUtil::EXECUTABLE:
@@ -388,7 +387,7 @@ void WbController::setProcessEnvironment() {
           else if (iniParser.keyAt(i) == "OPTIONS")
             mJavaOptions = iniParser.valueAt(i);
           else
-            WbLog::warning(tr("Unknown key: %1 in java section").arg(iniParser.keyAt(i)), false, robot()->name());
+            WbLog::warning(tr("Unknown key: %1 in java section").arg(iniParser.keyAt(i)), false);
         }
         if (iniParser.sectionAt(i) == "python") {
           if (iniParser.keyAt(i) == "COMMAND")
@@ -396,7 +395,7 @@ void WbController::setProcessEnvironment() {
           else if (iniParser.keyAt(i) == "OPTIONS")
             mPythonOptions = iniParser.valueAt(i);
           else
-            WbLog::warning(tr("Unknown key: %1 in python section").arg(iniParser.keyAt(i)), false, robot()->name());
+            WbLog::warning(tr("Unknown key: %1 in python section").arg(iniParser.keyAt(i)), false);
         }
         if (iniParser.sectionAt(i) == "matlab") {
           if (iniParser.keyAt(i) == "COMMAND")
@@ -404,7 +403,7 @@ void WbController::setProcessEnvironment() {
           else if (iniParser.keyAt(i) == "OPTIONS")
             mMatlabOptions = iniParser.valueAt(i);
           else
-            WbLog::warning(tr("Unknown key: %1 in matlab section").arg(iniParser.keyAt(i)), false, robot()->name());
+            WbLog::warning(tr("Unknown key: %1 in matlab section").arg(iniParser.keyAt(i)), false);
         }
 #ifdef _WIN32
         if (iniParser.sectionAt(i) == "environment variables for windows")
@@ -534,15 +533,15 @@ void WbController::setProcessEnvironment() {
 }
 
 void WbController::info(const QString &message) {
-  WbLog::info(name() + ": " + message, false, robot()->name());
+  WbLog::info(name() + ": " + message, false);
 }
 
 void WbController::warn(const QString &message) {
-  WbLog::warning(name() + ": " + message, false, robot()->name());
+  WbLog::warning(name() + ": " + message, false);
 }
 
 void WbController::error(const QString &message) {
-  WbLog::error(name() + ": " + message, false, robot()->name());
+  WbLog::error(name() + ": " + message, false);
 }
 
 void WbController::appendMessageToConsole(const QString &message, bool useStdout) {
@@ -598,9 +597,9 @@ void WbController::processFinished(int exitCode, QProcess::ExitStatus exitStatus
   switch (exitStatus) {
     case QProcess::NormalExit:
       if (exitCode == 0)
-        WbLog::info(tr("'%1' controller exited successfully.").arg(name()), false, robot()->name());
+        WbLog::info(tr("'%1' controller exited successfully.").arg(name()), false);
       else
-        WbLog::warning(tr("'%1' controller exited with status: %2.").arg(name()).arg(exitCode), false, robot()->name());
+        WbLog::warning(tr("'%1' controller exited with status: %2.").arg(name()).arg(exitCode), false);
       break;
     case QProcess::CrashExit:
       WbLog::warning(tr("'%1' controller crashed.").arg(name()));
@@ -632,7 +631,7 @@ void WbController::reportMissingCommand(const QString &command) {
                     "It may be necessary to add the %1 bin directory to your PATH environment variable. "
                     "More information about the %1 installation is available in Webots' User guide.")
                    .arg(command),
-                 false, robot()->name());
+                 false);
 }
 
 void WbController::reportFailedStart() {
