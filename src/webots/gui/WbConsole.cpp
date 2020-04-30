@@ -781,7 +781,7 @@ void WbConsole::deleteFindDialog() {
 }
 
 void WbConsole::enableFilter(const QString &filter) {
-  assert(!mEnabledLogs.constains(filter));
+  assert(!mEnabledLogs.contains(filter));
   mEnabledLogs.append(filter);
   updateTitle();
 }
