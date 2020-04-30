@@ -16,76 +16,76 @@
 
 from controller import Supervisor
 
-# import c3d
-# import math
-# import os.path
-# import sys
-# transforms3dVailable = True
-# try:
-#     import transforms3d
-# except ImportError:
-#     transforms3dVailable = False
-#
-#
-# angleSignAndOrder = {
-#     'RShoulderAngles': ((-1, -1, 1), 'rxzy'),
-#     'RElbowAngles': ((-1, 0, 0), 'rxzy'),
-#     'RWristAngles': ((1, -1, -1), 'rxzy'),
-#     'LShoulderAngles': ((-1, 1, -1), 'rxzy'),
-#     'LElbowAngles': ((-1, 0, 0), 'rxzy'),
-#     'LWristAngles': ((-1, 1, 1), 'rxzy'),
-#     'LHipAngles': ((-1, -1, -1), 'rxzy'),
-#     'LKneeAngles': ((1, -1, -1), 'rxzy'),
-#     'LAnkleAngles': ((-1, -1, -1), 'rxyz'),
-#     'RHipAngles': ((-1, 1, 1), 'rxzy'),
-#     'RKneeAngles': ((1, 1, 1), 'rxzy'),
-#     'RAnkleAngles': ((-1, 1, 1), 'rxyz'),
-#     'LPelvisAngles': ((1, 1, -1), 'rxzy')
-# }
-#
-#
-# def isVirtualMarker(name):
-#     """Return true is this is known to be a virtual marker."""
-#     prefixList = [
-#         'HED', 'LCL', 'LFE', 'LFO', 'LHN', 'LHU', 'LRA', 'LTI', 'LTO', 'PEL',
-#         'RCL', 'RFE', 'RFO', 'RHN', 'RHU', 'RRA', 'RTI', 'RTO', 'TRX'
-#     ]
-#     virtualMarkers = ['CentreOfMass', 'CentreOfMassFloor']
-#     for prefix in prefixList:
-#         virtualMarkers.append(prefix + 'O')
-#         virtualMarkers.append(prefix + 'A')
-#         virtualMarkers.append(prefix + 'L')
-#         virtualMarkers.append(prefix + 'P')
-#     if name in virtualMarkers:
-#         return True
-#     return False
-#
-#
-# def getPointsList(reader, name):
-#     """Get a group of points and extract it's labels as a list of strings."""
-#     if name not in reader.groups['POINT'].params:
-#         return None
-#     list = reader.groups['POINT'].get_string(name)
-#     elementSize = reader.groups['POINT'].get(name).dimensions[0]
-#     newlist = [list[i:i + elementSize] for i in range(0, len(list), elementSize)]
-#     for i in range(len(newlist)):
-#         newlist[i] = newlist[i].strip()
-#     return newlist
-#
-#
+import c3d
+import math
+import os.path
+import sys
+transforms3dVailable = True
+try:
+    import transforms3d
+except ImportError:
+    transforms3dVailable = False
+
+
+angleSignAndOrder = {
+    'RShoulderAngles': ((-1, -1, 1), 'rxzy'),
+    'RElbowAngles': ((-1, 0, 0), 'rxzy'),
+    'RWristAngles': ((1, -1, -1), 'rxzy'),
+    'LShoulderAngles': ((-1, 1, -1), 'rxzy'),
+    'LElbowAngles': ((-1, 0, 0), 'rxzy'),
+    'LWristAngles': ((-1, 1, 1), 'rxzy'),
+    'LHipAngles': ((-1, -1, -1), 'rxzy'),
+    'LKneeAngles': ((1, -1, -1), 'rxzy'),
+    'LAnkleAngles': ((-1, -1, -1), 'rxyz'),
+    'RHipAngles': ((-1, 1, 1), 'rxzy'),
+    'RKneeAngles': ((1, 1, 1), 'rxzy'),
+    'RAnkleAngles': ((-1, 1, 1), 'rxyz'),
+    'LPelvisAngles': ((1, 1, -1), 'rxzy')
+}
+
+
+def isVirtualMarker(name):
+    """Return true is this is known to be a virtual marker."""
+    prefixList = [
+        'HED', 'LCL', 'LFE', 'LFO', 'LHN', 'LHU', 'LRA', 'LTI', 'LTO', 'PEL',
+        'RCL', 'RFE', 'RFO', 'RHN', 'RHU', 'RRA', 'RTI', 'RTO', 'TRX'
+    ]
+    virtualMarkers = ['CentreOfMass', 'CentreOfMassFloor']
+    for prefix in prefixList:
+        virtualMarkers.append(prefix + 'O')
+        virtualMarkers.append(prefix + 'A')
+        virtualMarkers.append(prefix + 'L')
+        virtualMarkers.append(prefix + 'P')
+    if name in virtualMarkers:
+        return True
+    return False
+
+
+def getPointsList(reader, name):
+    """Get a group of points and extract it's labels as a list of strings."""
+    if name not in reader.groups['POINT'].params:
+        return None
+    list = reader.groups['POINT'].get_string(name)
+    elementSize = reader.groups['POINT'].get(name).dimensions[0]
+    newlist = [list[i:i + elementSize] for i in range(0, len(list), elementSize)]
+    for i in range(len(newlist)):
+        newlist[i] = newlist[i].strip()
+    return newlist
+
+
 supervisor = Supervisor()
 timestep = int(supervisor.getBasicTimeStep())
 # enableValueGraphs = []
 #
-# # parse arguments
-# if len(sys.argv) < 3 or sys.argv[1] == 'None':
-#     sys.exit('C3D file not defined.')
-#
-# if not os.path.isfile(sys.argv[1]):
-#     sys.exit('\'%s\' does not exist.' % sys.argv[1])
-#
-# playbackSpeed = float(sys.argv[2])
-#
+# parse arguments
+if len(sys.argv) < 3 or sys.argv[1] == 'None':
+    sys.exit('C3D file not defined.')
+
+if not os.path.isfile(sys.argv[1]):
+    sys.exit('\'%s\' does not exist.' % sys.argv[1])
+
+playbackSpeed = float(sys.argv[2])
+
 # # parse C3D file
 # reader = c3d.Reader(open(sys.argv[1], 'rb'))
 #
@@ -145,15 +145,15 @@ timestep = int(supervisor.getBasicTimeStep())
 #     'moments': momentsLabels,
 #     'powers': powersLabels
 # }
-# # for key in labelsAndCategory:
-# #     if labelsAndCategory[key]:
-# #         supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + ' '.join(labelsAndCategory[key]).strip())
-# #     else:
-# #         supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + 'None')
-# # supervisor.wwiSendText('configure:' + str(supervisor.getBasicTimeStep()))
+# for key in labelsAndCategory:
+#     if labelsAndCategory[key]:
+#         supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + ' '.join(labelsAndCategory[key]).strip())
+#     else:
+#         supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + 'None')
+# supervisor.wwiSendText('configure:' + str(supervisor.getBasicTimeStep()))
 #
 # # make one step to be sure markers are not imported before pressing play
-# supervisor.step(timestep)
+supervisor.step(timestep)
 #
 # # remove possible previous marker (at regeneration for example)
 # markerField = supervisor.getSelf().getField('markers')
