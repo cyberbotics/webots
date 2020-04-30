@@ -23,8 +23,10 @@
 #include "WbMessageBox.hpp"
 #include "WbMultiSelectionDialog.hpp"
 #include "WbPreferences.hpp"
+#include "WbRobot.hpp"
 #include "WbSyntaxHighlighter.hpp"
 #include "WbTextFind.hpp"
+#include "WbWorld.hpp"
 
 #include <QtGui/QTextBlock>
 #include <QtGui/QTextDocumentFragment>
@@ -544,13 +546,10 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
     return;
 
   if (!mEnabledLogs.contains("All")) {
-    if (!logName.isEmpty()) {
-      if (logName == "ODE errors") {
-        if (!mEnabledLogs.contains(logName))
-          return;
-      } else if (!mEnabledLogs.contains("Controllers"))
+    if (logName.isEmpty()) {
+      if (!mEnabledLogs.contains("Webots"))
         return;
-    } else if (!mEnabledLogs.contains("Webots"))
+    } else if (!mEnabledLogs.contains(logName))
       return;
   }
 
@@ -670,12 +669,16 @@ void WbConsole::closeEvent(QCloseEvent *event) {
 }
 
 void WbConsole::selectFilters() {
-  WbMultiSelectionDialog dialog(tr("Select what to display in this console:"),
-                                QStringList() << "All"
-                                              << "Webots"
-                                              << "ODE errors"
-                                              << "Controllers",
-                                mEnabledLogs, this);
+  QStringList options;
+  options << "All"
+          << "Webots"
+          << "ODE errors";
+  const WbWorld *world = WbWorld::instance();
+  if (world) {
+    foreach (const WbRobot *robot, world->robots())
+      options << robot->name();
+  }
+  WbMultiSelectionDialog dialog(tr("Select what to display in this console:"), options, mEnabledLogs, this);
   dialog.setWindowTitle("Console Filters");
   const int result = dialog.exec();
   if (result == QDialog::Accepted) {
