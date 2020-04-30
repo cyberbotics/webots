@@ -148,6 +148,7 @@ void ConsoleEdit::focusOutEvent(QFocusEvent *event) {
   if (WbActionManager::instance()->focusObject() == this)
     WbActionManager::instance()->setFocusObject(NULL);
 }
+
 void ConsoleEdit::handleFilterChange() {
   QAction *action = dynamic_cast<QAction *>(sender());
   assert(action);
@@ -186,7 +187,11 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   menu->addAction(WbActionManager::instance()->action(WbActionManager::CLEAR_CONSOLE));
   menu->exec(mapToGlobal(pt));
 
-  // TODO: delete actions
+  QList<QAction *> actions = subMenu->actions();
+  for (int i = 0; i < actions.size(); ++i) {
+    subMenu->removeAction(actions[i]);
+    delete actions[i];
+  }
   delete menu;
 }
 
