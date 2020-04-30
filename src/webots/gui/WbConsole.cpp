@@ -162,24 +162,28 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   menu->addAction(WbActionManager::instance()->action(WbActionManager::FIND));
   menu->addSeparator();
   QMenu *subMenu = menu->addMenu(tr("&Filters"));
-  QStringList filters;
-  filters << "All"
-          << "Webots"
-          << "ODE errors"
-          << "Javascript";
+  QMenu *systemSubMenu = subMenu->addMenu(tr("&System"));
+  QMenu *controllerSubMenu = subMenu->addMenu(tr("&Controller(s)"));
+  QHash<QString, QMenu *> filters;
+  filters["All"] = subMenu;
+  filters["Webots"] = systemSubMenu;
+  filters["ODE errors"] = systemSubMenu;
+  filters["Javascript"] = systemSubMenu;
   const WbWorld *world = WbWorld::instance();
   if (world) {
     foreach (const WbRobot *robot, world->robots())
-      filters << robot->name();
+      filters[robot->name()] = controllerSubMenu;
   }
   WbConsole *console = dynamic_cast<WbConsole *>(parentWidget());
   assert(console);
-  foreach (const QString filter, filters) {
+  QHashIterator<QString, QMenu *> filterIterator(filters);
+  while (filterIterator.hasNext()) {
+    filterIterator.next();
     QAction *action = new QAction(this);
-    action->setText(filter);
+    action->setText(filterIterator.key());
     action->setCheckable(true);
-    action->setChecked(console->getEnabledLogs().contains(filter));
-    subMenu->addAction(action);
+    action->setChecked(console->getEnabledLogs().contains(filterIterator.key()));
+    filterIterator.value()->addAction(action);
     connect(action, &QAction::toggled, this, &ConsoleEdit::handleFilterChange);
   }
 
