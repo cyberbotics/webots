@@ -35,6 +35,7 @@ typedef struct {
   double min_value;
   double aperture;
   int lookup_table_size;
+  double **lookup_table;
 } DistanceSensor;
 
 static DistanceSensor *distance_sensor_create() {
@@ -46,6 +47,7 @@ static DistanceSensor *distance_sensor_create() {
   ds->max_value = 0;
   ds->min_value = 0;
   ds->aperture = 0;
+  ds->lookup_table = NULL;
   ds->lookup_table_size = 0;
   return ds;
 }
@@ -67,6 +69,13 @@ static void distance_sensor_read_answer(WbDevice *d, WbRequest *r) {
       ds->max_value = request_read_double(r);
       ds->aperture = request_read_double(r);
       ds->lookup_table_size = request_read_int32(r);
+      ds->lookup_table = (double **)malloc(sizeof(double *) * ds->lookup_table_size);
+      for (int i = 0; i < ds->lookup_table_size; i++) {
+        ds->lookup_table[i] = malloc(sizeof(double) * 3);
+        ds->lookup_table[i][0] = request_read_double(r);
+        ds->lookup_table[i][1] = request_read_double(r);
+        ds->lookup_table[i][2] = request_read_double(r);
+      }
       break;
     default:
       ROBOT_ASSERT(0);  // should never be reached
@@ -86,6 +95,18 @@ int wb_distance_sensor_get_lookup_table_size(WbDeviceTag tag) {
   return result;
 }
 
+double **wb_distance_sensor_get_lookup_table(WbDeviceTag tag) {
+  double **result = NULL;
+  robot_mutex_lock_step();
+  DistanceSensor *ds = distance_sensor_get_struct(tag);
+  if (ds)
+    result = ds->lookup_table;
+  else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
+}
+
 static void distance_sensor_write_request(WbDevice *d, WbRequest *r) {
   DistanceSensor *ds = (DistanceSensor *)d->pdata;
   if (ds->enable) {
@@ -96,6 +117,11 @@ static void distance_sensor_write_request(WbDevice *d, WbRequest *r) {
 }
 
 static void distance_sensor_cleanup(WbDevice *d) {
+  DistanceSensor *ds = (DistanceSensor *)d->pdata;
+  for (int i = 0; i < ds->lookup_table_size; i++)
+    free(ds->lookup_table[i]);
+  free(ds->lookup_table);
+
   free(d->pdata);
 }
 

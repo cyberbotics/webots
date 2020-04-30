@@ -620,6 +620,11 @@ void WbDistanceSensor::addConfigure(QDataStream &stream) {
   stream << (double)mLut->maxValue();
   stream << (double)mAperture->value();
   stream << (int)mLookupTable->size();
+  for (int i = 0; i < mLookupTable->size(); i++) {
+    stream << (double)mLookupTable->item(i).x();
+    stream << (double)mLookupTable->item(i).y();
+    stream << (double)mLookupTable->item(i).z();
+  }
   mNeedToReconfigure = false;
 }
 
