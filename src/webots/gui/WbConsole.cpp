@@ -260,12 +260,6 @@ WbConsole::WbConsole(QWidget *parent, const QString &name) :
   setObjectName(name);
   updateTitle();
 
-  // setup for main window
-  QAction *const action = toggleViewAction();
-  action->setText("Console");
-  action->setStatusTip("Toggle the view of the console.");
-  action->setShortcut(Qt::CTRL + Qt::Key_L);
-
   titleBarWidget()->setObjectName("consoleTitleBar");
   titleBarWidget()->style()->polish(titleBarWidget());
 

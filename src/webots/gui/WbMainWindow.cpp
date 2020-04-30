@@ -748,8 +748,6 @@ QMenu *WbMainWindow::createToolsMenu() {
   menu->addAction(mSimulationView->toggleSceneTreeAction());
   if (mTextEditor)
     menu->addAction(mTextEditor->toggleViewAction());
-  for (int i = 0; i < mConsoles.size(); ++i)
-    menu->addAction(mConsoles.at(i)->toggleViewAction());
   menu->addAction(mDocumentation->toggleViewAction());
 
   QAction *action = new QAction(this);
@@ -1099,8 +1097,11 @@ void WbMainWindow::restoreLayout() {
   mMaximizedWidget = NULL;
   foreach (QWidget *dock, mDockWidgets)
     setWidgetMaximized(dock, false);
-  for (int i = 1; i < mConsoles.size(); ++i)
-    tabifyDockWidget(mConsoles.at(0), mConsoles.at(i));
+  if (mConsoles.size() >= 1) {
+    for (int i = 1; i < mConsoles.size(); ++i)
+      tabifyDockWidget(mConsoles.at(0), mConsoles.at(i));
+  } else
+    openNewConsole();
   mSimulationView->restoreFactoryLayout();
   enableToolsWidgetItems(true);
 }
@@ -1217,21 +1218,12 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
   // restore consoles
   const QVector<QStringList> consoleList = perspective->consoleList();
   for (int i = 0; i < consoleList.size(); ++i) {
-    WbConsole *console = new WbConsole(this, QString("Console(%1)").arg(i));
-    connect(console, &WbConsole::closed, this, &WbMainWindow::handleConsoleClosure);
-    addDockWidget(Qt::BottomDockWidgetArea, console);
-    addDock(console);
-    mConsoles.append(console);
-    console->setEnabledLogs(consoleList.at(i));
+    openNewConsole();
+    mConsoles.last()->setEnabledLogs(consoleList.at(i));
   }
   // display at least one console
-  if (mConsoles.size() == 0) {
-    WbConsole *console = new WbConsole(this);
-    connect(console, &WbConsole::closed, this, &WbMainWindow::handleConsoleClosure);
-    addDockWidget(Qt::BottomDockWidgetArea, console);
-    addDock(console);
-    mConsoles.append(console);
-  }
+  if (mConsoles.size() == 0)
+    openNewConsole();
 
   if (meansOfLoading) {
     if (!perspective->enabledRobotWindowNodeNames().isEmpty()) {
@@ -1709,10 +1701,12 @@ void WbMainWindow::showOpenGlInfo() {
 }
 
 void WbMainWindow::openNewConsole() {
-  WbConsole *console = new WbConsole(this, QString("Console(%1)").arg(mConsoles.size()));
+  const QString name = !mConsoles.isEmpty() ? QString("Console(%1)").arg(mConsoles.size()) : QString("Console");
+  WbConsole *console = new WbConsole(this, name);
   connect(console, &WbConsole::closed, this, &WbMainWindow::handleConsoleClosure);
   addDockWidget(Qt::BottomDockWidgetArea, console);
-  tabifyDockWidget(mConsoles.at(0), console);
+  if (!mConsoles.isEmpty())
+    tabifyDockWidget(mConsoles.at(0), console);
   addDock(console);
   mConsoles.append(console);
 }
