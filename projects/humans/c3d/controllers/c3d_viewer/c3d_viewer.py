@@ -145,12 +145,12 @@ labelsAndCategory = {
     'moments': momentsLabels,
     'powers': powersLabels
 }
-for key in labelsAndCategory:
-    if labelsAndCategory[key]:
-        supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + ' '.join(labelsAndCategory[key]).strip())
-    else:
-        supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + 'None')
-supervisor.wwiSendText('configure:' + str(supervisor.getBasicTimeStep()))
+# for key in labelsAndCategory:
+#     if labelsAndCategory[key]:
+#         supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + ' '.join(labelsAndCategory[key]).strip())
+#     else:
+#         supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + 'None')
+# supervisor.wwiSendText('configure:' + str(supervisor.getBasicTimeStep()))
 
 # make one step to be sure markers are not imported before pressing play
 supervisor.step(timestep)
@@ -349,9 +349,9 @@ while supervisor.step(timestep) != -1:
             if labels[j] in bodyTranslations:
                 bodyTranslations[labels[j]].setSFVec3f([x, y + float(sys.argv[11]), z])
         # send marker position to the robot window
-        if toSend:
-            toSend = toSend[:-1]  # remove last ':'
-            supervisor.wwiSendText('positions:' + str(supervisor.getTime()) + ':' + toSend)
+        # if toSend:
+        #     toSend = toSend[:-1]  # remove last ':'
+        #     supervisor.wwiSendText('positions:' + str(supervisor.getTime()) + ':' + toSend)
         totalFrameCoutner += step
         frameCoutner += step
         if frameCoutner >= len(frameAndPoints):
