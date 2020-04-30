@@ -65,6 +65,7 @@ private slots:
   void handleFilterChange();
 };
 
+// cppcheck-suppress noConstructor
 class WbConsole : public WbDockWidget {
   Q_OBJECT
   // WbLog colors
