@@ -18,6 +18,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QScrollArea>
 #include <QtWidgets/QVBoxLayout>
 
 WbMultiSelectionDialog::WbMultiSelectionDialog(const QString &description, const QStringList &options,
@@ -30,13 +31,23 @@ WbMultiSelectionDialog::WbMultiSelectionDialog(const QString &description, const
   layout->addWidget(label);
 
   // checkboxes
+  QScrollArea *scrollArea = new QScrollArea(this);
+  scrollArea->setWidgetResizable(true);
+  scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+  scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+  QWidget *scrollAreaWidget = new QWidget(scrollArea);
+  QVBoxLayout *scrollAreaLayout = new QVBoxLayout(scrollAreaWidget);
+  scrollAreaWidget->setLayout(scrollAreaLayout);
+  scrollArea->setWidget(scrollAreaWidget);
+
   for (int i = 0; i < options.size(); ++i) {
     QCheckBox *checkbox = new QCheckBox(options.at(i), this);
-    layout->addWidget(checkbox);
+    scrollAreaLayout->addWidget(checkbox);
     if (enabledOptions.contains(options.at(i)))
       checkbox->setChecked(true);
     mCheckboxes.append(checkbox);
   }
+  layout->addWidget(scrollArea);
 
   // ok / cancel buttons
   QHBoxLayout *buttonLayout = new QHBoxLayout();
