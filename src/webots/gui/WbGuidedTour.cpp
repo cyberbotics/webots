@@ -215,7 +215,6 @@ void WbGuidedTour::prev() {
   selectCurrent();
   mAutoBox->setChecked(false);
   mDeadline = DBL_MAX;
-  WbConsole::instance()->clear();
   loadWorld();
 }
 
@@ -224,7 +223,6 @@ void WbGuidedTour::next() {
   selectCurrent();
   mAutoBox->setChecked(false);
   mDeadline = DBL_MAX;
-  WbConsole::instance()->clear();
   loadWorld();
 }
 
@@ -233,7 +231,6 @@ void WbGuidedTour::nextWorld() {
   mIndex = (mIndex + 1) % mFilenames.size();  // loop
   selectCurrent();
   setSimulationDeadline(mAutoBox->isChecked());
-  WbConsole::instance()->clear();
   loadWorld();
 }
 

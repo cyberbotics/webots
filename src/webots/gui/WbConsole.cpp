@@ -210,7 +210,6 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
 
 static bool gStdoutTee = false;
 static bool gStderrTee = false;
-static WbConsole *gInstance = NULL;
 
 void WbConsole::enableStdOutRedirectToTerminal() {
   gStdoutTee = true;
@@ -219,10 +218,6 @@ void WbConsole::enableStdOutRedirectToTerminal() {
 void WbConsole::enableStdErrRedirectToTerminal() {
   gStderrTee = true;
 };
-
-WbConsole *WbConsole::instance() {
-  return gInstance;
-}
 
 namespace {
   void odeErrorFunc(int errnum, const char *msg, va_list ap) {
@@ -264,7 +259,6 @@ WbConsole::WbConsole(QWidget *parent, const QString &name) :
   setTabbedTitle(name);
   setObjectName(name);
   updateTitle();
-  gInstance = this;
 
   // setup for main window
   QAction *const action = toggleViewAction();
@@ -311,12 +305,6 @@ WbConsole::WbConsole(QWidget *parent, const QString &name) :
   dSetErrorHandler(odeErrorFunc);
   dSetDebugHandler(odeDebugFunc);
   dSetMessageHandler(odeMessageFunc);
-}
-
-WbConsole::~WbConsole() {
-  // for (int i = 0; mErrorPatterns[i]; ++i)
-  //   delete mErrorPatterns[i];
-  gInstance = NULL;
 }
 
 void WbConsole::setEnabledLogs(const QStringList &logs) {

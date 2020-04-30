@@ -26,7 +26,6 @@
 #include <QtWidgets/QPlainTextEdit>
 
 class QAction;
-class QComboBox;
 class QPushButton;
 class QRegExp;
 class WbFindReplaceDialog;
@@ -82,11 +81,8 @@ class WbConsole : public WbDockWidget {
   Q_PROPERTY(QString ansiWhite MEMBER mAnsiWhite READ ansiWhite WRITE setAnsiWhite)
 
 public:
-  // singleton
-  static WbConsole *instance();
-
   explicit WbConsole(QWidget *parent = NULL, const QString &name = QString("Console"));
-  virtual ~WbConsole();
+  virtual ~WbConsole() {}
 
   // parse compilation error line
   void jumpToError(const QString &errorLine);
