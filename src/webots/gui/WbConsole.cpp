@@ -184,7 +184,12 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   }
 
   menu->addSeparator();
+  QAction *clearAction = new QAction(this);
+  clearAction->setText(tr("Clear Console"));
+  connect(clearAction, &QAction::triggered, this, &ConsoleEdit::clear);
+  menu->addAction(clearAction);
   menu->addAction(WbActionManager::instance()->action(WbActionManager::CLEAR_CONSOLE));
+  menu->addAction(WbActionManager::instance()->action(WbActionManager::NEW_CONSOLE));
   menu->exec(mapToGlobal(pt));
 
   QList<QAction *> actions = subMenu->actions();
@@ -192,6 +197,8 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
     subMenu->removeAction(actions[i]);
     delete actions[i];
   }
+  menu->removeAction(clearAction);
+  delete clearAction;
   delete menu;
 }
 
