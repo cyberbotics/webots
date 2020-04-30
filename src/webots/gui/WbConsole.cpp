@@ -174,11 +174,13 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
     foreach (const WbRobot *robot, world->robots())
       filters << robot->name();
   }
+  WbConsole *console = dynamic_cast<WbConsole *>(parentWidget());
+  assert(console);
   foreach (const QString filter, filters) {
     QAction *action = new QAction(this);
     action->setText(filter);
     action->setCheckable(true);
-    // action->setChecked(TODO);
+    action->setChecked(console->getEnabledLogs().contains(filter));
     subMenu->addAction(action);
     connect(action, &QAction::toggled, this, &ConsoleEdit::handleFilterChange);
   }
