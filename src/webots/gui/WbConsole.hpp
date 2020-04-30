@@ -23,13 +23,46 @@
 #include "WbDockWidget.hpp"
 #include "WbLog.hpp"
 
+#include <QtWidgets/QPlainTextEdit>
+
 class QAction;
 class QComboBox;
 class QPushButton;
 class QRegExp;
 class WbFindReplaceDialog;
 class WbTextFind;
-class ConsoleEdit;
+class WbSyntaxHighlighter;
+
+class ConsoleEdit : public QPlainTextEdit {
+  Q_OBJECT
+
+public:
+  explicit ConsoleEdit(QWidget *parent);
+  virtual ~ConsoleEdit();
+  void copy();
+  void mouseDoubleClickEvent(QMouseEvent *event) override;
+
+signals:
+  void filterEnabled(const QString &filter);
+  void filterDisabled(const QString &filter);
+
+public slots:
+  void updateSearchTextHighlighting(QRegExp regExp);
+
+protected:
+  void keyPressEvent(QKeyEvent *event) override;
+  void keyReleaseEvent(QKeyEvent *event) override { event->ignore(); }
+  void focusInEvent(QFocusEvent *event) override;
+  void focusOutEvent(QFocusEvent *event) override;
+
+private:
+  WbSyntaxHighlighter *mSyntaxHighlighter;
+
+private slots:
+  void showCustomContextMenu(const QPoint &pt);
+  void resetSearchTextHighlighting() { updateSearchTextHighlighting(QRegExp()); }
+  void handleFilterChange();
+};
 
 class WbConsole : public WbDockWidget {
   Q_OBJECT
@@ -134,6 +167,8 @@ private slots:
   void enableCopyAction(bool enabled);
   void handleUserCommand(WbActionManager::WbActionKind actionKind);
   void deleteFindDialog();
+  void enableFilter(const QString &filter);
+  void disableFilter(const QString &filter);
 };
 
 #endif

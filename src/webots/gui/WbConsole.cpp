@@ -35,7 +35,6 @@
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QMenu>
-#include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStyle>
 
@@ -46,130 +45,148 @@
 
 #include <ode/ode.h>  // for message handlers
 
-// plain text edit with single line highlighting
-class ConsoleEdit : public QPlainTextEdit {
-public:
-  explicit ConsoleEdit(QWidget *parent) : QPlainTextEdit(parent) {
-    setObjectName("ConsoleEdit");
-    setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, &QPlainTextEdit::customContextMenuRequested, this, &ConsoleEdit::showCustomContextMenu);
+ConsoleEdit::ConsoleEdit(QWidget *parent) : QPlainTextEdit(parent) {
+  setObjectName("ConsoleEdit");
+  setContextMenuPolicy(Qt::CustomContextMenu);
+  connect(this, &QPlainTextEdit::customContextMenuRequested, this, &ConsoleEdit::showCustomContextMenu);
 
-    // overwrite selection highlight format
-    // resetting the automatic format applied when searching for some text
-    QPalette p = palette();
-    p.setColor(QPalette::Highlight, p.color(QPalette::Highlight));
-    p.setColor(QPalette::HighlightedText, p.color(QPalette::HighlightedText));
-    setPalette(p);
+  // overwrite selection highlight format
+  // resetting the automatic format applied when searching for some text
+  QPalette p = palette();
+  p.setColor(QPalette::Highlight, p.color(QPalette::Highlight));
+  p.setColor(QPalette::HighlightedText, p.color(QPalette::HighlightedText));
+  setPalette(p);
 
-    mSyntaxHighlighter = WbSyntaxHighlighter::createForLanguage(NULL, document());
-    connect(this, &QPlainTextEdit::selectionChanged, this, &ConsoleEdit::resetSearchTextHighlighting);
+  mSyntaxHighlighter = WbSyntaxHighlighter::createForLanguage(NULL, document());
+  connect(this, &QPlainTextEdit::selectionChanged, this, &ConsoleEdit::resetSearchTextHighlighting);
 
-    // listen to clear console keyboard shortcut
-    addAction(WbActionManager::instance()->action(WbActionManager::CLEAR_CONSOLE));
-    document()->setDefaultStyleSheet("span{\n  white-space:pre;\n}\n");
-  }
+  // listen to clear console keyboard shortcut
+  addAction(WbActionManager::instance()->action(WbActionManager::CLEAR_CONSOLE));
+  document()->setDefaultStyleSheet("span{\n  white-space:pre;\n}\n");
+}
 
-  ~ConsoleEdit() { delete mSyntaxHighlighter; }
+ConsoleEdit::~ConsoleEdit() {
+  delete mSyntaxHighlighter;
+}
 
-  void copy() {
-    if (textCursor().hasSelection())
-      WbClipboard::instance()->setString(textCursor().selection().toPlainText());
-  }
+void ConsoleEdit::copy() {
+  if (textCursor().hasSelection())
+    WbClipboard::instance()->setString(textCursor().selection().toPlainText());
+}
 
-  void mouseDoubleClickEvent(QMouseEvent *event) override {
-    if (event->button() != Qt::LeftButton)
-      return;
+void ConsoleEdit::mouseDoubleClickEvent(QMouseEvent *event) {
+  if (event->button() != Qt::LeftButton)
+    return;
 
-    // find position of double-click
-    QTextCursor cursor(cursorForPosition(event->pos()));
+  // find position of double-click
+  QTextCursor cursor(cursorForPosition(event->pos()));
 
-    // select line under cursor
-    cursor.movePosition(QTextCursor::StartOfLine);
-    cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+  // select line under cursor
+  cursor.movePosition(QTextCursor::StartOfLine);
+  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
 
-    // inform text mEditor
-    static_cast<WbConsole *>(parent())->jumpToError(cursor.selectedText());
+  // inform text mEditor
+  static_cast<WbConsole *>(parent())->jumpToError(cursor.selectedText());
 
-    // mark line
-    QList<QTextEdit::ExtraSelection> selections;
-    QTextEdit::ExtraSelection selection;
-    selection.format.setBackground(Qt::lightGray);
-    selection.cursor = cursor;
-    selections.append(selection);
-    setExtraSelections(selections);
-  }
+  // mark line
+  QList<QTextEdit::ExtraSelection> selections;
+  QTextEdit::ExtraSelection selection;
+  selection.format.setBackground(Qt::lightGray);
+  selection.cursor = cursor;
+  selections.append(selection);
+  setExtraSelections(selections);
+}
 
-public slots:
-  void updateSearchTextHighlighting(QRegExp regExp) {
-    if (regExp.isEmpty())
-      disconnect(this, &QPlainTextEdit::selectionChanged, this, &ConsoleEdit::resetSearchTextHighlighting);
+void ConsoleEdit::updateSearchTextHighlighting(QRegExp regExp) {
+  if (regExp.isEmpty())
+    disconnect(this, &QPlainTextEdit::selectionChanged, this, &ConsoleEdit::resetSearchTextHighlighting);
 
-    mSyntaxHighlighter->setSearchTextRule(regExp);
+  mSyntaxHighlighter->setSearchTextRule(regExp);
 
-    if (!regExp.isEmpty())
-      connect(this, &QPlainTextEdit::selectionChanged, this, &ConsoleEdit::resetSearchTextHighlighting, Qt::UniqueConnection);
-  }
+  if (!regExp.isEmpty())
+    connect(this, &QPlainTextEdit::selectionChanged, this, &ConsoleEdit::resetSearchTextHighlighting, Qt::UniqueConnection);
+}
 
-protected:
-  void keyPressEvent(QKeyEvent *event) override {
-    if (event->modifiers() == Qt::ControlModifier) {
-      switch (event->key()) {
-        case Qt::Key_A:
-          selectAll();
-          event->accept();
-          return;
-        case Qt::Key_C:
-          copy();
-          event->accept();
-          return;
-        default:
-          break;
-      }
+void ConsoleEdit::keyPressEvent(QKeyEvent *event) {
+  if (event->modifiers() == Qt::ControlModifier) {
+    switch (event->key()) {
+      case Qt::Key_A:
+        selectAll();
+        event->accept();
+        return;
+      case Qt::Key_C:
+        copy();
+        event->accept();
+        return;
+      default:
+        break;
     }
-
-    QPlainTextEdit::keyPressEvent(event);
   }
 
-  void keyReleaseEvent(QKeyEvent *event) override { event->ignore(); }
+  QPlainTextEdit::keyPressEvent(event);
+}
 
-  void focusInEvent(QFocusEvent *event) override {
-    QPlainTextEdit::focusInEvent(event);
+void ConsoleEdit::focusInEvent(QFocusEvent *event) {
+  QPlainTextEdit::focusInEvent(event);
 
-    // update application actions
-    WbActionManager *actionManager = WbActionManager::instance();
-    actionManager->setFocusObject(this);
-    actionManager->enableTextEditActions(false);
-    actionManager->setEnabled(WbActionManager::COPY, textCursor().hasSelection());
-    actionManager->setEnabled(WbActionManager::SELECT_ALL, true);
-    actionManager->setEnabled(WbActionManager::FIND, true);
-    actionManager->setEnabled(WbActionManager::FIND_NEXT, true);
-    actionManager->setEnabled(WbActionManager::FIND_PREVIOUS, true);
-    actionManager->setEnabled(WbActionManager::CUT, false);
-    actionManager->setEnabled(WbActionManager::PASTE, false);
-    actionManager->setEnabled(WbActionManager::UNDO, false);
-    actionManager->setEnabled(WbActionManager::REDO, false);
-  }
+  // update application actions
+  WbActionManager *actionManager = WbActionManager::instance();
+  actionManager->setFocusObject(this);
+  actionManager->enableTextEditActions(false);
+  actionManager->setEnabled(WbActionManager::COPY, textCursor().hasSelection());
+  actionManager->setEnabled(WbActionManager::SELECT_ALL, true);
+  actionManager->setEnabled(WbActionManager::FIND, true);
+  actionManager->setEnabled(WbActionManager::FIND_NEXT, true);
+  actionManager->setEnabled(WbActionManager::FIND_PREVIOUS, true);
+  actionManager->setEnabled(WbActionManager::CUT, false);
+  actionManager->setEnabled(WbActionManager::PASTE, false);
+  actionManager->setEnabled(WbActionManager::UNDO, false);
+  actionManager->setEnabled(WbActionManager::REDO, false);
+}
 
-  void focusOutEvent(QFocusEvent *event) override {
-    if (WbActionManager::instance()->focusObject() == this)
-      WbActionManager::instance()->setFocusObject(NULL);
-  }
-
-private:
-  WbSyntaxHighlighter *mSyntaxHighlighter;
-
-private slots:
-  void showCustomContextMenu(const QPoint &pt);
-
-  void resetSearchTextHighlighting() { updateSearchTextHighlighting(QRegExp()); }
-};
+void ConsoleEdit::focusOutEvent(QFocusEvent *event) {
+  if (WbActionManager::instance()->focusObject() == this)
+    WbActionManager::instance()->setFocusObject(NULL);
+}
+void ConsoleEdit::handleFilterChange() {
+  QAction *action = dynamic_cast<QAction *>(sender());
+  assert(action);
+  qDebug() << action << action->isChecked() << action->text();
+  if (action->isChecked())
+    emit filterEnabled(action->text());
+  else
+    emit filterDisabled(action->text());
+}
 
 void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   QMenu *menu = createStandardContextMenu();
   menu->addAction(WbActionManager::instance()->action(WbActionManager::FIND));
   menu->addSeparator();
+  QMenu *subMenu = menu->addMenu(tr("&Filters"));
+  QStringList filters;
+  filters << "All"
+          << "Webots"
+          << "ODE errors"
+          << "Javascript";
+  const WbWorld *world = WbWorld::instance();
+  if (world) {
+    foreach (const WbRobot *robot, world->robots())
+      filters << robot->name();
+  }
+  foreach (const QString filter, filters) {
+    QAction *action = new QAction(this);
+    action->setText(filter);
+    action->setCheckable(true);
+    // action->setChecked(TODO);
+    subMenu->addAction(action);
+    connect(action, &QAction::toggled, this, &ConsoleEdit::handleFilterChange);
+  }
+
+  menu->addSeparator();
   menu->addAction(WbActionManager::instance()->action(WbActionManager::CLEAR_CONSOLE));
   menu->exec(mapToGlobal(pt));
+
+  // TODO: delete actions
   delete menu;
 }
 
@@ -253,6 +270,9 @@ WbConsole::WbConsole(QWidget *parent, const QString &name) :
   mEditor->setMaximumBlockCount(5000);  // limit the memory usage
   mEditor->setFocusPolicy(Qt::ClickFocus);
   setWidget(mEditor);
+
+  connect(mEditor, &ConsoleEdit::filterEnabled, this, &WbConsole::enableFilter);
+  connect(mEditor, &ConsoleEdit::filterDisabled, this, &WbConsole::disableFilter);
 
   connect(mEditor, &ConsoleEdit::copyAvailable, this, &WbConsole::enableCopyAction);
   connect(WbActionManager::instance(), &WbActionManager::userConsoleEditCommandReceived, this, &WbConsole::handleUserCommand);
@@ -753,4 +773,14 @@ void WbConsole::openFindDialog() {
 void WbConsole::deleteFindDialog() {
   // WbFindReplaceDialog deletes automatically on close
   mFindDialog = NULL;
+}
+
+void WbConsole::enableFilter(const QString &filter) {
+  mEnabledLogs.append(filter);
+  updateTitle();
+}
+
+void WbConsole::disableFilter(const QString &filter) {
+  mEnabledLogs.removeAll(filter);
+  updateTitle();
 }
