@@ -812,6 +812,48 @@ p' = R * p + T
 
 Where *p* is a point whose coordinates are given with respect to the local coordinate system of a node, *R* the rotation matrix returned by the `wb_supervisor_node_get_orientation` function, *T* is the position returned by the `wb_supervisor_node_get_position` function and *p'* represents the same point but this time with coordinates expressed in the global (world) coordinate system.
 
+If you want to calculate the position and orientation of any node relative to any other node, you can take a look at this example in python. It should be easily adaptable to any other language, as it uses simple matrix and vector calculations. 
+<details><summary>Python Example - CLICK TO EXPAND</summary>
+<p>
+
+#### Python code for calculating relative positions and orientations
+
+```python
+from controller import Supervisor
+import numpy as np
+
+robot = Supervisor()
+ur10e = robot.getFromDef('ur10e')
+box = robot.getFromDef('box')
+
+# get the transposed rotation matrix of the robot, so we can calculate poses of everything relative to it
+# get orientation of the Node we want as our new reference frame and turn it into numpy array. Returns 1-dim list of len=9
+rot_ur10e = np.array(ur10e.getOrientation())
+# reshape into a 3x3 rotation matrix
+rot_ur10e.reshape(3, 3)
+# transpose the matrix, because we need world relative to the robot, not the robot relative to world
+rot_ur10e = np.transpose(rot_ur10e)
+
+# get the translation between the robot and the world. Basically where the origin of our new realative frame is. 
+# no need to use the reverse vector, as we will subtract instead of add it later
+pos_ur10e = np.array(ur10e.getPosition())
+
+
+# box position relative to world
+box_pos_world = np.array(box.getPosition())
+# calculate the relative translation between the box and the robot
+box_pos_world = np.subtract(box_pos_world, pos_ur10e)
+# matrix multiplication with rotation matrix. Box pos relative to robot
+box_pos_robot = np.dot(rot_ur10e, box_pos_world)
+
+# calculate the orientation of the box, relative to the robot. All in one line
+box_rot_robot = np.dot(rot_ur10e, np.array(box.getOrientation()).reshape(3, 3)) 
+```
+
+</p>
+</details>
+
+
 The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt](https://github.com/cyberbotics/webots/tree/master/projects/robots/neuronics/ipr/worlds/ipr_cube.wbt)" simulation shows how to use these functions to achieve this.
 
 > **Note**: The returned pointers are valid during one time step only as memory will be deallocated at the next time step.
