@@ -106,6 +106,16 @@ void WbLog::status(const QString &message) {
   instance()->emitLog(STATUS, message, false, QString());
 }
 
+const QString &WbLog::filterName(Filter filter) {
+  static const QStringList names = QStringList() << "All"
+                                                 << "Webots"
+                                                 << "ODE errors"
+                                                 << "Javascript";
+  assert(names.size() == FILTER_SIZE);
+  assert(filter < FILTER_SIZE);
+  return names.at(filter);
+};
+
 void WbLog::appendStdout(const QString &message, const QString &logName) {
   emit instance()->logEmitted(STDOUT, message, false, logName);
 }
@@ -117,7 +127,7 @@ void WbLog::appendStderr(const QString &message, const QString &logName) {
 void WbLog::javascriptLogToConsole(const QString &message, int lineNumber, const QString &sourceUrl) {
   QString sourceFile = QUrl::fromLocalFile(sourceUrl).fileName();
   QString log = "[javascript] " + message + " (" + sourceFile + ":" + QString::number(lineNumber) + ")";
-  WbLog::appendStdout(log, "Javascript");
+  WbLog::appendStdout(log, filterName(WbLog::JAVASCRIPT));
 }
 
 void WbLog::emitLog(Level level, const QString &message, bool popup, const QString &logName) {

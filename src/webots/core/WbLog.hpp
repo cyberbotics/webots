@@ -34,6 +34,7 @@ class WbLog : public QObject {
 
 public:
   enum Level { DEBUG, INFO, WARNING, ERROR, FATAL, STATUS, STDOUT, STDERR };
+  enum Filter { ALL, WEBOTS, ODE, JAVASCRIPT, FILTER_SIZE };
 
   static WbLog *instance();
 
@@ -43,6 +44,9 @@ public:
   static void info(const QString &message, bool popup = false, const QString &logName = QString());
   static void warning(const QString &message, bool popup = false, const QString &logName = QString());
   static void error(const QString &message, bool popup = false, const QString &logName = QString());
+
+  // log type filter names
+  static const QString &filterName(Filter filter);
 
   // display a message in main window's status bar
   static void status(const QString &message);

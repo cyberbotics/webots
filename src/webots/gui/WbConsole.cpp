@@ -175,11 +175,12 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   menu->addAction(WbActionManager::instance()->action(WbActionManager::FIND));
   menu->addSeparator();
   QMenu *subMenu = menu->addMenu(tr("&Filters"));
-  addContextMenuFilterItem("All", subMenu, tr("Display all the logs."));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::ALL), subMenu, tr("Display all the logs."));
   QMenu *systemSubMenu = subMenu->addMenu(tr("&System"));
-  addContextMenuFilterItem("Webots", systemSubMenu, tr("Display logs from Webots."));
-  addContextMenuFilterItem("ODE errors", systemSubMenu, tr("Display error message from ODE."));
-  addContextMenuFilterItem("Javascript", systemSubMenu, tr("Display Javascript log from the robot-windows."));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::WEBOTS), systemSubMenu, tr("Display logs from Webots."));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::ODE), systemSubMenu, tr("Display error message from ODE."));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::JAVASCRIPT), systemSubMenu,
+                           tr("Display Javascript log from the robot-windows."));
   QMenu *controllerSubMenu = subMenu->addMenu(tr("&Controller(s)"));
   const WbWorld *world = WbWorld::instance();
   if (world) {
@@ -222,13 +223,14 @@ void WbConsole::enableStdErrRedirectToTerminal() {
 namespace {
   void odeErrorFunc(int errnum, const char *msg, va_list ap) {
     const QString error = QString::vasprintf(msg, ap);
-    emit WbLog::instance()->logEmitted(WbLog::ERROR, QString("ODE Error %1: ").arg(errnum) + error, false, "ODE errors");
+    emit WbLog::instance()->logEmitted(WbLog::ERROR, QString("ODE Error %1: ").arg(errnum) + error, false,
+                                       WbLog::filterName(WbLog::ODE));
   }
 
   void odeDebugFunc(int errnum, const char *msg, va_list ap) {
     const QString debug = QString::vasprintf(msg, ap);
     emit WbLog::instance()->logEmitted(WbLog::DEBUG, QString("ODE INTERNAL ERROR %1: ").arg(errnum) + debug, false,
-                                       "ODE errors");
+                                       WbLog::filterName(WbLog::ODE));
   }
 
   void odeMessageFunc(int errnum, const char *msg, va_list ap) {
@@ -239,16 +241,16 @@ namespace {
                         "your bounding object(s), reducing the number of joints, or reducing "
                         "WorldInfo.basicTimeStep.");
 
-      emit WbLog::instance()->logEmitted(WbLog::WARNING, QString("WARNING: ") + message, false, "ODE errors");
+      emit WbLog::instance()->logEmitted(WbLog::WARNING, QString("WARNING: ") + message, false, WbLog::filterName(WbLog::ODE));
     } else
       emit WbLog::instance()->logEmitted(WbLog::WARNING, QString("ODE Message %1: ").arg(errnum) + message, false,
-                                         "ODE errors");
+                                         WbLog::filterName(WbLog::ODE));
   }
 }  // namespace
 
 WbConsole::WbConsole(QWidget *parent, const QString &name) :
   WbDockWidget(parent),
-  mEnabledLogs("All"),
+  mEnabledLogs(WbLog::filterName(WbLog::ALL)),
   mEditor(new ConsoleEdit(this)),
   mErrorPatterns(createErrorMatchingPatterns()),  // patterns for error matching
   mBold(false),
@@ -565,9 +567,9 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
   if (message.isEmpty())
     return;
 
-  if (!mEnabledLogs.contains("All")) {
+  if (!mEnabledLogs.contains(WbLog::filterName(WbLog::ALL))) {
     if (logName.isEmpty()) {
-      if (!mEnabledLogs.contains("Webots"))
+      if (!mEnabledLogs.contains(WbLog::filterName(WbLog::WEBOTS)))
         return;
     } else if (!mEnabledLogs.contains(logName))
       return;
@@ -690,10 +692,8 @@ void WbConsole::closeEvent(QCloseEvent *event) {
 
 void WbConsole::selectFilters() {
   QStringList options;
-  options << "All"
-          << "Webots"
-          << "ODE errors"
-          << "Javascript";
+  options << WbLog::filterName(WbLog::ALL) << WbLog::filterName(WbLog::WEBOTS) << WbLog::filterName(WbLog::ODE)
+          << WbLog::filterName(WbLog::JAVASCRIPT);
   const WbWorld *world = WbWorld::instance();
   if (world) {
     foreach (const WbRobot *robot, world->robots())
