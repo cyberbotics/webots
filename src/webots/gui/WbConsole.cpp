@@ -38,8 +38,6 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStyle>
 
-#include <QtCore/QDebug>
-
 #include <cassert>
 #include <iostream>
 
@@ -152,7 +150,7 @@ void ConsoleEdit::focusOutEvent(QFocusEvent *event) {
 void ConsoleEdit::handleFilterChange() {
   QAction *action = dynamic_cast<QAction *>(sender());
   assert(action);
-  qDebug() << action << action->isChecked() << action->text();
+
   if (action->isChecked())
     emit filterEnabled(action->text());
   else
