@@ -239,41 +239,41 @@ offsetTime = 0
 inverseY = reader.groups['POINT'].get('X_SCREEN').string_value.strip() == '+X'
 while supervisor.step(timestep) != -1:
     # check for messages from the robot-window
-    message = supervisor.wwiReceiveText()
-    while message:
-        value = message.split(':')
-        action = value[0]
-        if action == 'disable':
-            for i in range(1, len(value)):
-                pointRepresentations[value[i]]['visible'] = False
-                pointRepresentations[value[i]]['transparency'].setSFFloat(1.0)
-        elif action == 'enable':
-            for i in range(1, len(value)):
-                pointRepresentations[value[i]]['visible'] = True
-                pointRepresentations[value[i]]['transparency'].setSFFloat(0.0)
-        elif action == 'radius':
-            for i in range(2, len(value)):
-                pointRepresentations[value[i]]['radius'].setSFFloat(float(value[1]))
-        elif action == 'color':
-            h = value[1].lstrip('#')
-            color = [int(h[i:i + 2], 16) / 255.0 for i in (0, 2, 4)]
-            for i in range(2, len(value)):
-                pointRepresentations[value[i]]['color'].setSFColor(color)
-        elif action == 'graphs':
-            if value[2] == 'true':
-                enableValueGraphs.append(value[1])
-            else:
-                enableValueGraphs.remove(value[1])
-        elif action == 'body_transparency':
-            bodyTransparency = float(value[1])
-            bodyTransparencyField.setSFFloat(bodyTransparency)
-        elif action == 'speed':
-            playbackSpeed = float(value[1])
-            offsetTime = supervisor.getTime()
-            totalFrameCoutner = 0
-        else:
-            print(message)
-        message = supervisor.wwiReceiveText()
+    # message = supervisor.wwiReceiveText()
+    # while message:
+    #     value = message.split(':')
+    #     action = value[0]
+    #     if action == 'disable':
+    #         for i in range(1, len(value)):
+    #             pointRepresentations[value[i]]['visible'] = False
+    #             pointRepresentations[value[i]]['transparency'].setSFFloat(1.0)
+    #     elif action == 'enable':
+    #         for i in range(1, len(value)):
+    #             pointRepresentations[value[i]]['visible'] = True
+    #             pointRepresentations[value[i]]['transparency'].setSFFloat(0.0)
+    #     elif action == 'radius':
+    #         for i in range(2, len(value)):
+    #             pointRepresentations[value[i]]['radius'].setSFFloat(float(value[1]))
+    #     elif action == 'color':
+    #         h = value[1].lstrip('#')
+    #         color = [int(h[i:i + 2], 16) / 255.0 for i in (0, 2, 4)]
+    #         for i in range(2, len(value)):
+    #             pointRepresentations[value[i]]['color'].setSFColor(color)
+    #     elif action == 'graphs':
+    #         if value[2] == 'true':
+    #             enableValueGraphs.append(value[1])
+    #         else:
+    #             enableValueGraphs.remove(value[1])
+    #     elif action == 'body_transparency':
+    #         bodyTransparency = float(value[1])
+    #         bodyTransparencyField.setSFFloat(bodyTransparency)
+    #     elif action == 'speed':
+    #         playbackSpeed = float(value[1])
+    #         offsetTime = supervisor.getTime()
+    #         totalFrameCoutner = 0
+    #     else:
+    #         print(message)
+    #     message = supervisor.wwiReceiveText()
 
     # play the required frame (if needed)
     step = int(playbackSpeed * (supervisor.getTime() - offsetTime) / frameStep - totalFrameCoutner)
