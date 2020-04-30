@@ -34,6 +34,7 @@ typedef struct {
   double max_value;
   double min_value;
   double aperture;
+  int lookup_table_size;
 } DistanceSensor;
 
 static DistanceSensor *distance_sensor_create() {
@@ -45,6 +46,7 @@ static DistanceSensor *distance_sensor_create() {
   ds->max_value = 0;
   ds->min_value = 0;
   ds->aperture = 0;
+  ds->lookup_table_size = 0;
   return ds;
 }
 
@@ -64,11 +66,24 @@ static void distance_sensor_read_answer(WbDevice *d, WbRequest *r) {
       ds->min_value = request_read_double(r);
       ds->max_value = request_read_double(r);
       ds->aperture = request_read_double(r);
+      ds->lookup_table_size = request_read_int32(r);
       break;
     default:
       ROBOT_ASSERT(0);  // should never be reached
       break;
   }
+}
+
+int wb_distance_sensor_get_lookup_table_size(WbDeviceTag tag) {
+  int result = 0;
+  robot_mutex_lock_step();
+  DistanceSensor *ds = distance_sensor_get_struct(tag);
+  if (ds)
+    result = ds->lookup_table_size;
+  else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
 }
 
 static void distance_sensor_write_request(WbDevice *d, WbRequest *r) {

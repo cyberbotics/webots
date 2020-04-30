@@ -28,6 +28,7 @@
 extern "C" {
 #endif
 
+int wb_distance_sensor_get_lookup_table_size(WbDeviceTag tag);
 void wb_distance_sensor_enable(WbDeviceTag tag, int sampling_period);
 void wb_distance_sensor_disable(WbDeviceTag tag);
 int wb_distance_sensor_get_sampling_period(WbDeviceTag tag);
