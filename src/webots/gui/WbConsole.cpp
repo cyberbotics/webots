@@ -672,7 +672,8 @@ void WbConsole::selectFilters() {
   QStringList options;
   options << "All"
           << "Webots"
-          << "ODE errors";
+          << "ODE errors"
+          << "Javascript";
   const WbWorld *world = WbWorld::instance();
   if (world) {
     foreach (const WbRobot *robot, world->robots())

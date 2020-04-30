@@ -117,7 +117,7 @@ void WbLog::appendStderr(const QString &message, const QString &logName) {
 void WbLog::javascriptLogToConsole(const QString &message, int lineNumber, const QString &sourceUrl) {
   QString sourceFile = QUrl::fromLocalFile(sourceUrl).fileName();
   QString log = "[javascript] " + message + " (" + sourceFile + ":" + QString::number(lineNumber) + ")";
-  WbLog::appendStdout(log, QString());  // TODO: we might move the javascipt console to a dedicated tab
+  WbLog::appendStdout(log, "Javascript");
 }
 
 void WbLog::emitLog(Level level, const QString &message, bool popup, const QString &logName) {
