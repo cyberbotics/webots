@@ -157,36 +157,38 @@ void ConsoleEdit::handleFilterChange() {
     emit filterDisabled(action->text());
 }
 
+void ConsoleEdit::addContextMenuFilterItem(const QString &name, QMenu *menu, const QString &toolTip) {
+  WbConsole *console = dynamic_cast<WbConsole *>(parentWidget());
+  assert(console);
+  QAction *action = new QAction(this);
+  action->setText(name);
+  if (!toolTip.isEmpty())
+    action->setToolTip(toolTip);
+  action->setCheckable(true);
+  action->setChecked(console->getEnabledLogs().contains(name));
+  menu->addAction(action);
+  connect(action, &QAction::toggled, this, &ConsoleEdit::handleFilterChange);
+}
+
 void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   QMenu *menu = createStandardContextMenu();
   menu->addAction(WbActionManager::instance()->action(WbActionManager::FIND));
   menu->addSeparator();
   QMenu *subMenu = menu->addMenu(tr("&Filters"));
+  addContextMenuFilterItem("All", subMenu, tr("Display all the logs."));
   QMenu *systemSubMenu = subMenu->addMenu(tr("&System"));
+  addContextMenuFilterItem("Webots", systemSubMenu, tr("Display logs from Webots."));
+  addContextMenuFilterItem("ODE errors", systemSubMenu, tr("Display error message from ODE."));
+  addContextMenuFilterItem("Javascript", systemSubMenu, tr("Display Javascript log from the robot-windows."));
   QMenu *controllerSubMenu = subMenu->addMenu(tr("&Controller(s)"));
-  QHash<QString, QMenu *> filters;
-  filters["All"] = subMenu;
-  filters["Webots"] = systemSubMenu;
-  filters["ODE errors"] = systemSubMenu;
-  filters["Javascript"] = systemSubMenu;
   const WbWorld *world = WbWorld::instance();
   if (world) {
     foreach (const WbRobot *robot, world->robots())
-      filters[robot->name()] = controllerSubMenu;
+      addContextMenuFilterItem(robot->name(), controllerSubMenu,
+                               tr("Display output from the controller of the '%1' controller.").arg(robot->name()));
   }
-  WbConsole *console = dynamic_cast<WbConsole *>(parentWidget());
-  assert(console);
-  QHashIterator<QString, QMenu *> filterIterator(filters);
-  while (filterIterator.hasNext()) {
-    filterIterator.next();
-    QAction *action = new QAction(this);
-    action->setText(filterIterator.key());
-    action->setCheckable(true);
-    action->setChecked(console->getEnabledLogs().contains(filterIterator.key()));
-    filterIterator.value()->addAction(action);
-    connect(action, &QAction::toggled, this, &ConsoleEdit::handleFilterChange);
-  }
-
+  if (controllerSubMenu->actions().size() < 1)
+    controllerSubMenu->setDisabled(true);
   menu->addSeparator();
   QAction *clearAction = new QAction(this);
   clearAction->setText(tr("Clear Console"));
@@ -196,11 +198,11 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   menu->addAction(WbActionManager::instance()->action(WbActionManager::NEW_CONSOLE));
   menu->exec(mapToGlobal(pt));
 
-  QList<QAction *> actions = subMenu->actions();
-  for (int i = 0; i < actions.size(); ++i) {
-    subMenu->removeAction(actions[i]);
+  QList<QAction *> actions = systemSubMenu->actions();
+  actions += controllerSubMenu->actions();
+  actions += subMenu->actions();
+  for (int i = 0; i < actions.size(); ++i)
     delete actions[i];
-  }
   menu->removeAction(clearAction);
   delete clearAction;
   delete menu;

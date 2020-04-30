@@ -58,6 +58,8 @@ protected:
 private:
   WbSyntaxHighlighter *mSyntaxHighlighter;
 
+  void addContextMenuFilterItem(const QString &name, QMenu *menu, const QString &toolTip = QString());
+
 private slots:
   void showCustomContextMenu(const QPoint &pt);
   void resetSearchTextHighlighting() { updateSearchTextHighlighting(QRegExp()); }
