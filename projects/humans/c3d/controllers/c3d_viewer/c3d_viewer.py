@@ -192,171 +192,168 @@ if height < 0:
 bodyScale = height / 1.83  # 1.83m: default size of the human model
 markerField.importMFNodeFromString(-1, 'DEF CentreOfMass_body C3dBodyRepresentation { transparency %s scale %lf %lf %lf }' %
                                    (bodyTransparency, bodyScale, bodyScale, bodyScale))
-# bodyNode = markerField.getMFNode(-1)
-# bodyTransparencyField = bodyNode.getField('transparency')
-# for label in labelsAndCategory['virtual_markers']:
-#     node = supervisor.getFromDef(label + '_body')
-#     if node:
-#         field = node.getField('translation')
-#         if field:
-#             bodyTranslations[label] = field
-# if bodyNode and labelsAndCategory['angles'] is not None:
-#     for label in labelsAndCategory['angles']:
-#         field = bodyNode.getField(label.replace('Angles', 'Rotation'))
-#         if field:
-#             bodyRotations[label] = field
-#
-# # import the marker and initialize the list of points
-# pointRepresentations = {}
-# j = 0
-# for i in range(len(labels)):
-#     pointRepresentations[labels[i]] = {}
-#     pointRepresentations[labels[i]]['visible'] = False
-#     pointRepresentations[labels[i]]['node'] = None
-#     pointRepresentations[labels[i]]['solid'] = supervisor.getFromDef(labels[i]) if labels[i] else None
-#     if labels[i] in filteredLabel:
-#         markerField.importMFNodeFromString(-1, 'C3dMarker { name "%s" }' % labels[i])
-#         pointRepresentations[labels[i]]['node'] = markerField.getMFNode(-1)
-#         pointRepresentations[labels[i]]['translation'] = pointRepresentations[labels[i]]['node'].getField('translation')
-#         pointRepresentations[labels[i]]['transparency'] = pointRepresentations[labels[i]]['node'].getField('transparency')
-#         pointRepresentations[labels[i]]['radius'] = pointRepresentations[labels[i]]['node'].getField('radius')
-#         pointRepresentations[labels[i]]['color'] = pointRepresentations[labels[i]]['node'].getField('color')
-#         if isVirtualMarker(labels[i]):
-#             pointRepresentations[labels[i]]['transparency'].setSFFloat(1.0)
-#         else:
-#             pointRepresentations[labels[i]]['visible'] = True
-#         j += 1
-#
-# # parse the C3D frames
-# frameAndPoints = []
-# frameAndAnalog = []
-# for i, points, analog in reader.read_frames():
-#     frameAndPoints.append((i, points))
-#
-# # main loop
-# frameCoutner = 0
-# totalFrameCoutner = 0
-# offsetTime = 0
-# inverseY = reader.groups['POINT'].get('X_SCREEN').string_value.strip() == '+X'
-print("Entering loop")
+bodyNode = markerField.getMFNode(-1)
+bodyTransparencyField = bodyNode.getField('transparency')
+for label in labelsAndCategory['virtual_markers']:
+    node = supervisor.getFromDef(label + '_body')
+    if node:
+        field = node.getField('translation')
+        if field:
+            bodyTranslations[label] = field
+if bodyNode and labelsAndCategory['angles'] is not None:
+    for label in labelsAndCategory['angles']:
+        field = bodyNode.getField(label.replace('Angles', 'Rotation'))
+        if field:
+            bodyRotations[label] = field
+
+# import the marker and initialize the list of points
+pointRepresentations = {}
+j = 0
+for i in range(len(labels)):
+    pointRepresentations[labels[i]] = {}
+    pointRepresentations[labels[i]]['visible'] = False
+    pointRepresentations[labels[i]]['node'] = None
+    pointRepresentations[labels[i]]['solid'] = supervisor.getFromDef(labels[i]) if labels[i] else None
+    if labels[i] in filteredLabel:
+        markerField.importMFNodeFromString(-1, 'C3dMarker { name "%s" }' % labels[i])
+        pointRepresentations[labels[i]]['node'] = markerField.getMFNode(-1)
+        pointRepresentations[labels[i]]['translation'] = pointRepresentations[labels[i]]['node'].getField('translation')
+        pointRepresentations[labels[i]]['transparency'] = pointRepresentations[labels[i]]['node'].getField('transparency')
+        pointRepresentations[labels[i]]['radius'] = pointRepresentations[labels[i]]['node'].getField('radius')
+        pointRepresentations[labels[i]]['color'] = pointRepresentations[labels[i]]['node'].getField('color')
+        if isVirtualMarker(labels[i]):
+            pointRepresentations[labels[i]]['transparency'].setSFFloat(1.0)
+        else:
+            pointRepresentations[labels[i]]['visible'] = True
+        j += 1
+
+# parse the C3D frames
+frameAndPoints = []
+frameAndAnalog = []
+for i, points, analog in reader.read_frames():
+    frameAndPoints.append((i, points))
+
+# main loop
+frameCoutner = 0
+totalFrameCoutner = 0
+offsetTime = 0
+inverseY = reader.groups['POINT'].get('X_SCREEN').string_value.strip() == '+X'
 while supervisor.step(timestep) != -1:
-    if timestep == 1:
-        print("Should not print that")
     # check for messages from the robot-window
-    # message = supervisor.wwiReceiveText()
-    # while message:
-    #     value = message.split(':')
-    #     action = value[0]
-    #     if action == 'disable':
-    #         for i in range(1, len(value)):
-    #             pointRepresentations[value[i]]['visible'] = False
-    #             pointRepresentations[value[i]]['transparency'].setSFFloat(1.0)
-    #     elif action == 'enable':
-    #         for i in range(1, len(value)):
-    #             pointRepresentations[value[i]]['visible'] = True
-    #             pointRepresentations[value[i]]['transparency'].setSFFloat(0.0)
-    #     elif action == 'radius':
-    #         for i in range(2, len(value)):
-    #             pointRepresentations[value[i]]['radius'].setSFFloat(float(value[1]))
-    #     elif action == 'color':
-    #         h = value[1].lstrip('#')
-    #         color = [int(h[i:i + 2], 16) / 255.0 for i in (0, 2, 4)]
-    #         for i in range(2, len(value)):
-    #             pointRepresentations[value[i]]['color'].setSFColor(color)
-    #     elif action == 'graphs':
-    #         if value[2] == 'true':
-    #             enableValueGraphs.append(value[1])
-    #         else:
-    #             enableValueGraphs.remove(value[1])
-    #     elif action == 'body_transparency':
-    #         bodyTransparency = float(value[1])
-    #         bodyTransparencyField.setSFFloat(bodyTransparency)
-    #     elif action == 'speed':
-    #         playbackSpeed = float(value[1])
-    #         offsetTime = supervisor.getTime()
-    #         totalFrameCoutner = 0
-    #     else:
-    #         print(message)
-    #     message = supervisor.wwiReceiveText()
+    message = supervisor.wwiReceiveText()
+    while message:
+        value = message.split(':')
+        action = value[0]
+        if action == 'disable':
+            for i in range(1, len(value)):
+                pointRepresentations[value[i]]['visible'] = False
+                pointRepresentations[value[i]]['transparency'].setSFFloat(1.0)
+        elif action == 'enable':
+            for i in range(1, len(value)):
+                pointRepresentations[value[i]]['visible'] = True
+                pointRepresentations[value[i]]['transparency'].setSFFloat(0.0)
+        elif action == 'radius':
+            for i in range(2, len(value)):
+                pointRepresentations[value[i]]['radius'].setSFFloat(float(value[1]))
+        elif action == 'color':
+            h = value[1].lstrip('#')
+            color = [int(h[i:i + 2], 16) / 255.0 for i in (0, 2, 4)]
+            for i in range(2, len(value)):
+                pointRepresentations[value[i]]['color'].setSFColor(color)
+        elif action == 'graphs':
+            if value[2] == 'true':
+                enableValueGraphs.append(value[1])
+            else:
+                enableValueGraphs.remove(value[1])
+        elif action == 'body_transparency':
+            bodyTransparency = float(value[1])
+            bodyTransparencyField.setSFFloat(bodyTransparency)
+        elif action == 'speed':
+            playbackSpeed = float(value[1])
+            offsetTime = supervisor.getTime()
+            totalFrameCoutner = 0
+        else:
+            print(message)
+        message = supervisor.wwiReceiveText()
 
     # play the required frame (if needed)
-    # step = int(playbackSpeed * (supervisor.getTime() - offsetTime) / frameStep - totalFrameCoutner)
-    # if step > 0:
-    #     toSend = ''
-    #     frame = frameAndPoints[frameCoutner][0]
-    #     points = frameAndPoints[frameCoutner][1]
-    #     # update the GRF visualization
-    #     for grf in grfList:
-    #         index1 = labels.index(grf['name'] + 'Force')
-    #         index2 = labels.index(grf['name'] + 'Moment')
-    #         CenterOfPressureX = 0
-    #         CenterOfPressureY = 0
-    #         if points[index1][3] >= 0:  # if index 3 or 4 is smaller than 0, the data is not valid for this frame
-    #             CenterOfPressureX = 0.001 * points[index2][1] / points[index1][2]
-    #             CenterOfPressureY = 0.001 * points[index2][0] / points[index1][2]
-    #             vec1 = [0.0, 1, 0.0]
-    #             vec2 = [0.04 * points[index1][0], 0.04 * points[index1][2], 0.04 * points[index1][1]]
-    #             len1 = 1.0
-    #             len2 = math.sqrt(math.pow(vec2[0], 2) + math.pow(vec2[1], 2) + math.pow(vec2[2], 2))
-    #             vec3 = [0.0, 0.0, 0.0] if len2 == 0.0 else [vec2[0] / len2,  vec2[1] / len2, vec2[2] / len2]
-    #             angle = math.acos(vec1[0] * vec3[0] + vec1[1] * vec3[1] + vec1[2] * vec3[2])  # acos(dot-product(vec1, vec3))
-    #             axis = [vec1[1] * vec3[2] - vec1[2] * vec3[1],   # cross-product(vec1, vec3)
-    #                     vec1[2] * vec3[0] - vec1[0] * vec3[2],
-    #                     vec1[0] * vec3[1] - vec1[1] * vec3[0]]
-    #             grf['cylinderTranslation'].setSFVec3f([CenterOfPressureX + 0.5 * vec2[0],
-    #                                                    0.5 * vec2[1],
-    #                                                    CenterOfPressureY + 0.5 * vec2[2]])
-    #             grf['coneTranslation'].setSFVec3f([CenterOfPressureX + 0.5 * vec2[0],
-    #                                                0.5 * (vec2[1] + len2),
-    #                                                CenterOfPressureY + 0.5 * vec2[2]])
-    #             if not (axis[0] == 0.0 and axis[1] == 0.0 and axis[2] == 0.0):
-    #                 grf['rotation'].setSFRotation([axis[0], axis[1], axis[2], angle])
-    #             grf['height'].setSFFloat(max(0.001, len2))
-    #         else:
-    #             grf['cylinderTranslation'].setSFVec3f([0, -1000, 0])
-    #             grf['coneTranslation'].setSFVec3f([0, -1000, 0])
-    #     # update the markers visualization and graph and body angles
-    #     for j in range(numberOfpoints):
-    #         # get actual coordinates
-    #         y = points[j][2] * scale
-    #         if inverseY:
-    #             y = -y
-    #             x = points[j][0] * scale
-    #             z = -points[j][1] * scale
-    #         else:
-    #             x = points[j][1] * scale
-    #             z = -points[j][0] * scale
-    #         # update markers visualization
-    #         if pointRepresentations[labels[j]]['visible'] or pointRepresentations[labels[j]]['solid']:
-    #             if pointRepresentations[labels[j]]['visible']:
-    #                 pointRepresentations[labels[j]]['node'].getField('translation').setSFVec3f([x, y, z])
-    #             if pointRepresentations[labels[j]]['solid']:
-    #                 pointRepresentations[labels[j]]['solid'].getField('translation').setSFVec3f([x, y, z])
-    #         # update markers graph
-    #         for categoryName in labelsAndCategory:
-    #             if labels[j] in labelsAndCategory[categoryName] and categoryName in enableValueGraphs:
-    #                 if categoryName in ['markers', 'virtual_markes']:
-    #                     toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
-    #                 else:
-    #                     toSend += labels[j] + ':' + str(points[j][0]) + ',' + str(points[j][2]) + ',' + str(points[j][1]) + ':'
-    #         # update body representation (if any)
-    #         if labels[j] in bodyRotations and bodyTransparency < 1.0:
-    #             if transforms3dVailable:
-    #                 rot = transforms3d.euler.euler2axangle(angleSignAndOrder[labels[j]][0][0] * points[j][0] * math.pi / 180.0,
-    #                                                        angleSignAndOrder[labels[j]][0][1] * points[j][1] * math.pi / 180.0,
-    #                                                        angleSignAndOrder[labels[j]][0][2] * points[j][2] * math.pi / 180.0,
-    #                                                        axes=angleSignAndOrder[labels[j]][1])
-    #                 bodyRotations[labels[j]].setSFRotation([rot[0][0], rot[0][1], rot[0][2], rot[1]])
-    #             else:
-    #                 sys.stderr.write('Warning: "transforms3d" is required to update body representation.\n')
-    #                 sys.stderr.write('Warning: You can install it with: "pip install transforms3d"\n')
-    #         if labels[j] in bodyTranslations:
-    #             bodyTranslations[labels[j]].setSFVec3f([x, y + float(sys.argv[11]), z])
-    #     # send marker position to the robot window
-    #     # if toSend:
-    #     #     toSend = toSend[:-1]  # remove last ':'
-    #     #     supervisor.wwiSendText('positions:' + str(supervisor.getTime()) + ':' + toSend)
-    #     totalFrameCoutner += step
-    #     frameCoutner += step
-    #     if frameCoutner >= len(frameAndPoints):
-    #         frameCoutner = frameCoutner % len(frameAndPoints)
+    step = int(playbackSpeed * (supervisor.getTime() - offsetTime) / frameStep - totalFrameCoutner)
+    if step > 0:
+        toSend = ''
+        frame = frameAndPoints[frameCoutner][0]
+        points = frameAndPoints[frameCoutner][1]
+        # update the GRF visualization
+        for grf in grfList:
+            index1 = labels.index(grf['name'] + 'Force')
+            index2 = labels.index(grf['name'] + 'Moment')
+            CenterOfPressureX = 0
+            CenterOfPressureY = 0
+            if points[index1][3] >= 0:  # if index 3 or 4 is smaller than 0, the data is not valid for this frame
+                CenterOfPressureX = 0.001 * points[index2][1] / points[index1][2]
+                CenterOfPressureY = 0.001 * points[index2][0] / points[index1][2]
+                vec1 = [0.0, 1, 0.0]
+                vec2 = [0.04 * points[index1][0], 0.04 * points[index1][2], 0.04 * points[index1][1]]
+                len1 = 1.0
+                len2 = math.sqrt(math.pow(vec2[0], 2) + math.pow(vec2[1], 2) + math.pow(vec2[2], 2))
+                vec3 = [0.0, 0.0, 0.0] if len2 == 0.0 else [vec2[0] / len2,  vec2[1] / len2, vec2[2] / len2]
+                angle = math.acos(vec1[0] * vec3[0] + vec1[1] * vec3[1] + vec1[2] * vec3[2])  # acos(dot-product(vec1, vec3))
+                axis = [vec1[1] * vec3[2] - vec1[2] * vec3[1],   # cross-product(vec1, vec3)
+                        vec1[2] * vec3[0] - vec1[0] * vec3[2],
+                        vec1[0] * vec3[1] - vec1[1] * vec3[0]]
+                grf['cylinderTranslation'].setSFVec3f([CenterOfPressureX + 0.5 * vec2[0],
+                                                       0.5 * vec2[1],
+                                                       CenterOfPressureY + 0.5 * vec2[2]])
+                grf['coneTranslation'].setSFVec3f([CenterOfPressureX + 0.5 * vec2[0],
+                                                   0.5 * (vec2[1] + len2),
+                                                   CenterOfPressureY + 0.5 * vec2[2]])
+                if not (axis[0] == 0.0 and axis[1] == 0.0 and axis[2] == 0.0):
+                    grf['rotation'].setSFRotation([axis[0], axis[1], axis[2], angle])
+                grf['height'].setSFFloat(max(0.001, len2))
+            else:
+                grf['cylinderTranslation'].setSFVec3f([0, -1000, 0])
+                grf['coneTranslation'].setSFVec3f([0, -1000, 0])
+        # update the markers visualization and graph and body angles
+        for j in range(numberOfpoints):
+            # get actual coordinates
+            y = points[j][2] * scale
+            if inverseY:
+                y = -y
+                x = points[j][0] * scale
+                z = -points[j][1] * scale
+            else:
+                x = points[j][1] * scale
+                z = -points[j][0] * scale
+            # update markers visualization
+            if pointRepresentations[labels[j]]['visible'] or pointRepresentations[labels[j]]['solid']:
+                if pointRepresentations[labels[j]]['visible']:
+                    pointRepresentations[labels[j]]['node'].getField('translation').setSFVec3f([x, y, z])
+                if pointRepresentations[labels[j]]['solid']:
+                    pointRepresentations[labels[j]]['solid'].getField('translation').setSFVec3f([x, y, z])
+            # update markers graph
+            for categoryName in labelsAndCategory:
+                if labels[j] in labelsAndCategory[categoryName] and categoryName in enableValueGraphs:
+                    if categoryName in ['markers', 'virtual_markes']:
+                        toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
+                    else:
+                        toSend += labels[j] + ':' + str(points[j][0]) + ',' + str(points[j][2]) + ',' + str(points[j][1]) + ':'
+            # update body representation (if any)
+            if labels[j] in bodyRotations and bodyTransparency < 1.0:
+                if transforms3dVailable:
+                    rot = transforms3d.euler.euler2axangle(angleSignAndOrder[labels[j]][0][0] * points[j][0] * math.pi / 180.0,
+                                                           angleSignAndOrder[labels[j]][0][1] * points[j][1] * math.pi / 180.0,
+                                                           angleSignAndOrder[labels[j]][0][2] * points[j][2] * math.pi / 180.0,
+                                                           axes=angleSignAndOrder[labels[j]][1])
+                    bodyRotations[labels[j]].setSFRotation([rot[0][0], rot[0][1], rot[0][2], rot[1]])
+                else:
+                    sys.stderr.write('Warning: "transforms3d" is required to update body representation.\n')
+                    sys.stderr.write('Warning: You can install it with: "pip install transforms3d"\n')
+            if labels[j] in bodyTranslations:
+                bodyTranslations[labels[j]].setSFVec3f([x, y + float(sys.argv[11]), z])
+        # send marker position to the robot window
+        # if toSend:
+        #     toSend = toSend[:-1]  # remove last ':'
+        #     supervisor.wwiSendText('positions:' + str(supervisor.getTime()) + ':' + toSend)
+        totalFrameCoutner += step
+        frameCoutner += step
+        if frameCoutner >= len(frameAndPoints):
+            frameCoutner = frameCoutner % len(frameAndPoints)
