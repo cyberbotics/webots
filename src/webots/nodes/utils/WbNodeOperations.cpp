@@ -184,7 +184,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       if (!field->isTemplateRegenerator() && !isNodeRegenerated) {
         if (childNode->isProtoParameterNode()) {
           foreach (WbNode *nodeInstance, childNode->protoParameterNodeInstances())
-            emit nodeAdded(dynamic_cast<WbBaseNode *>(nodeInstance));
+            emit nodeAdded(nodeInstance);
         } else
           emit nodeAdded(childNode);
       }
