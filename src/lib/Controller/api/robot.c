@@ -397,9 +397,8 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
       robot.device[device_tag]->translation[0] = request_read_double(r);
       robot.device[device_tag]->translation[1] = request_read_double(r);
       robot.device[device_tag]->translation[2] = request_read_double(r);
-      robot.device[device_tag]->rotation[0] = request_read_double(r);
-      robot.device[device_tag]->rotation[1] = request_read_double(r);
-      robot.device[device_tag]->rotation[2] = request_read_double(r);
+      for (int i = 0; i < 9; i++)
+        robot.device[device_tag]->rotation[i] = request_read_double(r);
       /*
       printf("Controller %d T(%f %f %f) R(%f, %f, %f)\n",
         device_tag,
@@ -538,7 +537,7 @@ WbDevice *robot_get_device_with_node(WbDeviceTag tag, WbNodeType node, bool warn
   return NULL;
 }
 
-const double * wb_robot_get_device_translation(WbDeviceTag tag) {
+const double *wb_robot_get_device_translation(WbDeviceTag tag) {
   if (tag >= robot.n_device) {
     fprintf(stderr, "Error: %s() called with tag out of scope.\n", __FUNCTION__);
     return 0;
@@ -551,7 +550,7 @@ const double * wb_robot_get_device_translation(WbDeviceTag tag) {
   return robot.device[tag]->translation;
 }
 
-const double * wb_robot_get_device_rotation(WbDeviceTag tag) {
+const double *wb_robot_get_device_rotation(WbDeviceTag tag) {
     if (tag >= robot.n_device) {
     fprintf(stderr, "Error: %s() called with tag out of scope.\n", __FUNCTION__);
     return 0;

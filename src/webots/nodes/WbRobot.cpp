@@ -1032,20 +1032,20 @@ void WbRobot::writeAnswer(QDataStream &stream) {
     mModelNeedToWriteAnswer = false;
   }
 
-  for (int i = 0; i < 100; i++) {
-    WbDevice *node = findDevice(i);
+  for (int deviceId = 0; deviceId < 100; deviceId++) {
+    WbDevice *node = findDevice(deviceId);
     if (node != NULL) {
-      WbSolidDevice *solidDevice = dynamic_cast<WbSolidDevice *>(node);
+      WbTransform *solidDevice = dynamic_cast<WbTransform *>(node);
       if (solidDevice) {
         stream << (short unsigned int)0;
         stream << (unsigned char)C_ROBOT_DEVICE_TRANSLATION_ROTATION;
-        stream << (short unsigned int)i;
-        stream << (double)solidDevice->translation().x();
-        stream << (double)solidDevice->translation().y();
-        stream << (double)solidDevice->translation().z();
-        stream << (double)solidDevice->rotation().x();
-        stream << (double)solidDevice->rotation().y();
-        stream << (double)solidDevice->rotation().z();
+        stream << (short unsigned int)deviceId;
+        stream << (double)solidDevice->position().x();
+        stream << (double)solidDevice->position().y();
+        stream << (double)solidDevice->position().z();
+        for (int i = 0; i < 3; i++)
+          for (int j = 0; j < 3; j++)
+            stream << (double)solidDevice->rotationMatrix().row(i)[j];
         /*
         std::cout << "Simulation: " << i << 
           " T(" << 
