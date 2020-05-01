@@ -108,6 +108,10 @@ void WbLog::status(const QString &message) {
 
 const QString &WbLog::filterName(Filter filter) {
   static const QStringList names = QStringList() << "All"
+                                                 << "Webots"
+                                                 << "All Webots"
+                                                 << "Controller(s)"
+                                                 << "All Controller(s)"
                                                  << "Others"
                                                  << "Physics"
                                                  << "Javascript";

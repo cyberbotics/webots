@@ -153,6 +153,7 @@ void ConsoleEdit::handleFilterChange() {
 
   if (action->isChecked()) {
     if (action->text() == WbLog::filterName(WbLog::ALL)) {
+      // get filters menu
       QMenu *filterMenu = dynamic_cast<QMenu *>(action->parent());
       assert(filterMenu);
       // for each submenu
@@ -166,8 +167,33 @@ void ConsoleEdit::handleFilterChange() {
           }
         }
       }
-    } else
+    } else if (action->text() == WbLog::filterName(WbLog::ALL_WEBOTS) ||
+               action->text() == WbLog::filterName(WbLog::ALL_CONTROLLERS)) {
+      // get parent menu
+      QMenu *menu = dynamic_cast<QMenu *>(action->parent());
+      assert(menu);
+      const QList<QAction *> actions = menu->actions();
+      // for each action of the menu
+      for (int j = 0; j < actions.size(); ++j) {
+        if (actions[j]->isChecked() && actions[j] != action)
+          emit filterDisabled(actions[j]->text());
+      }
+      // disable global 'All' action
       emit filterDisabled(WbLog::filterName(WbLog::ALL));
+    } else {
+      // disable global 'All' action
+      emit filterDisabled(WbLog::filterName(WbLog::ALL));
+      // disable local 'All' action
+      QMenu *menu = dynamic_cast<QMenu *>(action->parent());
+      assert(menu);
+      const QList<QAction *> actions = menu->actions();
+      // for each action of the menu
+      for (int j = 0; j < actions.size(); ++j) {
+        if (actions[j]->isChecked() && (actions[j]->text() == WbLog::filterName(WbLog::ALL_WEBOTS) ||
+                                        actions[j]->text() == WbLog::filterName(WbLog::ALL_CONTROLLERS)))
+          emit filterDisabled(actions[j]->text());
+      }
+    }
   }
 
   if (action->isChecked())
@@ -195,20 +221,21 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   menu->addSeparator();
   QMenu *subMenu = menu->addMenu(tr("&Filters"));
   addContextMenuFilterItem(WbLog::filterName(WbLog::ALL), subMenu, tr("Display all the logs."));
-  QMenu *systemSubMenu = subMenu->addMenu(tr("&Webots"));
-  addContextMenuFilterItem(WbLog::filterName(WbLog::ODE), systemSubMenu, tr("Display error message from ODE."));
-  addContextMenuFilterItem(WbLog::filterName(WbLog::JAVASCRIPT), systemSubMenu,
+  QMenu *webotsSubMenu = subMenu->addMenu(WbLog::filterName(WbLog::WEBOTS));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::ALL_WEBOTS), webotsSubMenu, tr("Display all the messages from Webots."));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::ODE), webotsSubMenu, tr("Display error messages from ODE."));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::JAVASCRIPT), webotsSubMenu,
                            tr("Display Javascript log from the robot-windows."));
-  addContextMenuFilterItem(WbLog::filterName(WbLog::OTHERS), systemSubMenu, tr("Display all the other logs."));
-  QMenu *controllerSubMenu = subMenu->addMenu(tr("&Controller(s)"));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::WEBOTS_OTHERS), webotsSubMenu, tr("Display all the other logs."));
+  QMenu *controllerSubMenu = subMenu->addMenu(WbLog::filterName(WbLog::CONTROLLERS));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::ALL_CONTROLLERS), controllerSubMenu,
+                           tr("Display all the messages from the controller(s)."));
   const WbWorld *world = WbWorld::instance();
   if (world) {
     foreach (const WbRobot *robot, world->robots())
       addContextMenuFilterItem(robot->name(), controllerSubMenu,
                                tr("Display output from the controller of the '%1' controller.").arg(robot->name()));
   }
-  if (controllerSubMenu->actions().size() < 1)
-    controllerSubMenu->setDisabled(true);
   menu->addSeparator();
   QAction *clearAction = new QAction(this);
   clearAction->setText(tr("Clear Console"));
@@ -218,7 +245,7 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   menu->addAction(WbActionManager::instance()->action(WbActionManager::NEW_CONSOLE));
   menu->exec(mapToGlobal(pt));
 
-  QList<QAction *> actions = systemSubMenu->actions();
+  QList<QAction *> actions = webotsSubMenu->actions();
   actions += controllerSubMenu->actions();
   actions += subMenu->actions();
   for (int i = 0; i < actions.size(); ++i)
@@ -588,10 +615,17 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
 
   if (!mEnabledLogs.contains(WbLog::filterName(WbLog::ALL))) {
     if (logName.isEmpty()) {
-      if (!mEnabledLogs.contains(WbLog::filterName(WbLog::OTHERS)))
+      // WEBOTS_OTHERS
+      if (!mEnabledLogs.contains(WbLog::filterName(WbLog::WEBOTS_OTHERS)) &&
+          !mEnabledLogs.contains(WbLog::filterName(WbLog::ALL_WEBOTS)))
         return;
-    } else if (!mEnabledLogs.contains(logName))
-      return;
+    } else if (!mEnabledLogs.contains(logName)) {
+      if (logName == WbLog::filterName(WbLog::ODE) || logName == WbLog::filterName(WbLog::JAVASCRIPT)) {
+        if (!mEnabledLogs.contains(WbLog::filterName(WbLog::ALL_WEBOTS)))
+          return;
+      } else if (!mEnabledLogs.contains(WbLog::filterName(WbLog::ALL_CONTROLLERS)))
+        return;
+    }
   }
 
   switch (level) {
@@ -711,7 +745,7 @@ void WbConsole::closeEvent(QCloseEvent *event) {
 
 void WbConsole::selectFilters() {
   QStringList options;
-  options << WbLog::filterName(WbLog::ALL) << WbLog::filterName(WbLog::OTHERS) << WbLog::filterName(WbLog::ODE)
+  options << WbLog::filterName(WbLog::ALL) << WbLog::filterName(WbLog::WEBOTS_OTHERS) << WbLog::filterName(WbLog::ODE)
           << WbLog::filterName(WbLog::JAVASCRIPT);
   const WbWorld *world = WbWorld::instance();
   if (world) {
