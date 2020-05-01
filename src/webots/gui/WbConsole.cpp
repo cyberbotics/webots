@@ -155,7 +155,6 @@ void ConsoleEdit::handleFilterChange() {
     if (action->text() == WbLog::filterName(WbLog::ALL)) {
       QMenu *menu = dynamic_cast<QMenu *>(action->parent());
       assert(menu);
-      QList<QAction *> actions = menu->actions();
       // for each submenu
       for (int i = 0; i < menu->actions().size(); ++i) {
         if (menu->actions()[i]->menu()) {
