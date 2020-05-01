@@ -28,6 +28,8 @@ typedef struct _WbDevice WbDevice;
 
 struct _WbDevice {
   WbNodeType node;
+  double rotation[3];
+  double translation[3];
   char *name;
   char *model;
   void *pdata;

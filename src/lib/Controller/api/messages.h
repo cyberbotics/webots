@@ -28,6 +28,7 @@
 // for the root device
 
 // sim -> ctr
+#define C_ROBOT_DEVICE_TRANSLATION_ROTATION 196
 #define C_ROBOT_QUIT 1
 #define C_ROBOT_JOYSTICK_CONFIG 2
 #define C_ROBOT_WAIT_FOR_USER_INPUT_EVENT 3

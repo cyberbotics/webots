@@ -392,6 +392,27 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
     return;
 
   switch (message) {
+    case C_ROBOT_DEVICE_TRANSLATION_ROTATION: {
+      WbDeviceTag device_tag = request_read_uint16(r);
+      robot.device[device_tag]->translation[0] = request_read_double(r);
+      robot.device[device_tag]->translation[1] = request_read_double(r);
+      robot.device[device_tag]->translation[2] = request_read_double(r);
+      robot.device[device_tag]->rotation[0] = request_read_double(r);
+      robot.device[device_tag]->rotation[1] = request_read_double(r);
+      robot.device[device_tag]->rotation[2] = request_read_double(r);
+      /*
+      printf("Controller %d T(%f %f %f) R(%f, %f, %f)\n",
+        device_tag,
+        robot.device[device_tag]->translation[0],
+        robot.device[device_tag]->translation[1],
+        robot.device[device_tag]->translation[2],
+        robot.device[device_tag]->rotation[0],
+        robot.device[device_tag]->rotation[1],
+        robot.device[device_tag]->rotation[2]
+      );
+      */
+    }
+      break;
     case C_ROBOT_TIME:
       simulation_time = request_read_double(r);
       break;
@@ -515,6 +536,32 @@ WbDevice *robot_get_device_with_node(WbDeviceTag tag, WbNodeType node, bool warn
   if (warning)
     fprintf(stderr, "Error: device with tag=%d not found.\n", (int)tag);
   return NULL;
+}
+
+const double * wb_robot_get_device_translation(WbDeviceTag tag) {
+  if (tag >= robot.n_device) {
+    fprintf(stderr, "Error: %s() called with tag out of scope.\n", __FUNCTION__);
+    return 0;
+  }
+  if (!robot_init_was_done) {
+    // we need to redirect the streams to make this message appear in the console
+    wb_robot_init();
+    robot_abort("wb_robot_init() must be called before any other Webots function.\n");
+  }
+  return robot.device[tag]->translation;
+}
+
+const double * wb_robot_get_device_rotation(WbDeviceTag tag) {
+    if (tag >= robot.n_device) {
+    fprintf(stderr, "Error: %s() called with tag out of scope.\n", __FUNCTION__);
+    return 0;
+  }
+  if (!robot_init_was_done) {
+    // we need to redirect the streams to make this message appear in the console
+    wb_robot_init();
+    robot_abort("wb_robot_init() must be called before any other Webots function.\n");
+  }
+  return robot.device[tag]->rotation;
 }
 
 void wb_robot_cleanup() {  // called when the client quits
