@@ -153,12 +153,12 @@ void ConsoleEdit::handleFilterChange() {
 
   if (action->isChecked()) {
     if (action->text() == WbLog::filterName(WbLog::ALL)) {
-      QMenu *menu = dynamic_cast<QMenu *>(action->parent());
-      assert(menu);
+      QMenu *filterMenu = dynamic_cast<QMenu *>(action->parent());
+      assert(filterMenu);
       // for each submenu
-      for (int i = 0; i < menu->actions().size(); ++i) {
-        if (menu->actions()[i]->menu()) {
-          const QList<QAction *> actions = menu->actions()[i]->menu()->actions();
+      for (int i = 0; i < filterMenu->actions().size(); ++i) {
+        if (filterMenu->actions()[i]->menu()) {
+          const QList<QAction *> actions = filterMenu->actions()[i]->menu()->actions();
           // for each action of the submenu
           for (int j = 0; j < actions.size(); ++j) {
             if (actions[j]->isChecked() && actions[j] != action)
@@ -166,7 +166,8 @@ void ConsoleEdit::handleFilterChange() {
           }
         }
       }
-    }  // TODO: else
+    } else
+      emit filterDisabled(WbLog::filterName(WbLog::ALL));
   }
 
   if (action->isChecked())
