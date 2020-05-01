@@ -304,7 +304,6 @@ WbConsole::WbConsole(QWidget *parent, const QString &name) :
   mIsOverwriteEnabled(false),  // option to overwrite last line
   mFindDialog(NULL),
   mTextFind(new WbTextFind(mEditor)) {
-  setTabbedTitle(name);
   setObjectName(name);
   updateTitle();
 
@@ -736,6 +735,10 @@ void WbConsole::updateTitle() {
   QString title("Console - ");
   title += mEnabledLogs.join(" | ");
   setWindowTitle(title);
+  if (mEnabledLogs.size() == 1)
+    setTabbedTitle(mEnabledLogs.at(0));
+  else
+    setTabbedTitle("Console");
 }
 
 void WbConsole::closeEvent(QCloseEvent *event) {
