@@ -44,6 +44,8 @@ public:
 signals:
   void filterEnabled(const QString &filter);
   void filterDisabled(const QString &filter);
+  void levelEnabled(const QString &level);
+  void levelDisabled(const QString &level);
 
 public slots:
   void updateSearchTextHighlighting(QRegExp regExp);
@@ -58,11 +60,13 @@ private:
   WbSyntaxHighlighter *mSyntaxHighlighter;
 
   void addContextMenuFilterItem(const QString &name, QMenu *menu, const QString &toolTip = QString());
+  void addContextMenuLevelItem(const QString &name, QMenu *menu, const QString &toolTip = QString());
 
 private slots:
   void showCustomContextMenu(const QPoint &pt);
   void resetSearchTextHighlighting() { updateSearchTextHighlighting(QRegExp()); }
   void handleFilterChange();
+  void handleLevelChange();
 };
 
 // cppcheck-suppress noConstructor
@@ -121,6 +125,9 @@ public:
   const QStringList getEnabledLogs() const { return mEnabledLogs; }
   void setEnabledLogs(const QStringList &logs);
 
+  const QStringList getEnabledLevels() const { return mEnabledLevels; }
+  void setEnabledLevels(const QStringList &levels) { mEnabledLevels = levels; }
+
 signals:
   void closed();
 
@@ -136,7 +143,7 @@ public slots:
 private:
   QString mErrorColor, mInfoColor;
   QString mAnsiBlack, mAnsiRed, mAnsiGreen, mAnsiYellow, mAnsiBlue, mAnsiMagenta, mAnsiCyan, mAnsiWhite;
-  QStringList mEnabledLogs;
+  QStringList mEnabledLogs, mEnabledLevels;
   ConsoleEdit *mEditor;
   QPushButton *mFiltersButton;
   QRegExp **mErrorPatterns;
@@ -168,6 +175,8 @@ private slots:
   void deleteFindDialog();
   void enableFilter(const QString &filter);
   void disableFilter(const QString &filter);
+  void enableLevel(const QString &level);
+  void disableLevel(const QString &level);
 };
 
 #endif

@@ -120,6 +120,21 @@ const QString &WbLog::filterName(Filter filter) {
   return names.at(filter);
 };
 
+const QString &WbLog::levelName(Level level) {
+  static const QStringList names = QStringList() << "All"
+                                                 << "Debug"
+                                                 << "Info"
+                                                 << "Warning"
+                                                 << "Error"
+                                                 << "Fatal"
+                                                 << "Status"
+                                                 << "Standard"
+                                                 << "Error";
+  assert(names.size() == LEVEL_SIZE);
+  assert(level < LEVEL_SIZE);
+  return names.at(level);
+};
+
 void WbLog::appendStdout(const QString &message, const QString &logName) {
   emit instance()->logEmitted(STDOUT, message, false, logName);
 }
