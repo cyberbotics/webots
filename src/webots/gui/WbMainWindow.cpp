@@ -1184,9 +1184,13 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
                                            supportPolygonEnabledNodeNames);
 
   // save consoles perspective
-  QVector<QStringList> consoleList;
-  foreach (const WbConsole *console, mConsoles)
-    consoleList.append(console->getEnabledLogs());
+  QVector<ConsoleSettings> consoleList;
+  foreach (const WbConsole *console, mConsoles) {
+    ConsoleSettings settings;
+    settings.enabledFilters = console->getEnabledLogs();  // TODO: rename to filters
+    settings.enabledLevels = console->getEnabledLevels();
+    consoleList.append(settings);
+  }
   perspective->setConsoleList(consoleList);
 
   // save rendering devices perspective
@@ -1216,10 +1220,10 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
   }
 
   // restore consoles
-  const QVector<QStringList> consoleList = perspective->consoleList();
+  const QVector<ConsoleSettings> consoleList = perspective->consoleList();
   for (int i = 0; i < consoleList.size(); ++i) {
     openNewConsole();
-    mConsoles.last()->setEnabledLogs(consoleList.at(i));
+    mConsoles.last()->setEnabledLogs(consoleList.at(i).enabledFilters);
   }
   // display at least one console
   if (mConsoles.size() == 0)
