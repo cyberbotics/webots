@@ -151,6 +151,25 @@ void ConsoleEdit::handleFilterChange() {
   QAction *action = dynamic_cast<QAction *>(sender());
   assert(action);
 
+  if (action->isChecked()) {
+    if (action->text() == WbLog::filterName(WbLog::ALL)) {
+      QMenu *menu = dynamic_cast<QMenu *>(action->parent());
+      assert(menu);
+      QList<QAction *> actions = menu->actions();
+      // for each submenu
+      for (int i = 0; i < menu->actions().size(); ++i) {
+        if (menu->actions()[i]->menu()) {
+          const QList<QAction *> actions = menu->actions()[i]->menu()->actions();
+          // for each action of the submenu
+          for (int j = 0; j < actions.size(); ++i) {
+            if (actions[i]->isChecked() && actions[i] != action)
+              emit filterDisabled(actions[i]->text());
+          }
+        }
+      }
+    }  // TODO: else
+  }
+
   if (action->isChecked())
     emit filterEnabled(action->text());
   else
@@ -160,7 +179,7 @@ void ConsoleEdit::handleFilterChange() {
 void ConsoleEdit::addContextMenuFilterItem(const QString &name, QMenu *menu, const QString &toolTip) {
   WbConsole *console = dynamic_cast<WbConsole *>(parentWidget());
   assert(console);
-  QAction *action = new QAction(this);
+  QAction *action = new QAction(menu);
   action->setText(name);
   if (!toolTip.isEmpty())
     action->setToolTip(toolTip);
