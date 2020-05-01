@@ -89,62 +89,62 @@ playbackSpeed = float(sys.argv[2])
 # parse C3D file
 reader = c3d.Reader(open(sys.argv[1], 'rb'))
 
-# # get C3D files settings
-# numberOfpoints = reader.header.point_count
-# frameStep = 1.0 / reader.header.frame_rate
-# scale = -1.0 if reader.header.scale_factor < 0 else 1.0
-# if reader.groups['POINT'].get('UNITS').string_value.strip() == 'mm':
-#     scale *= 0.001
-# elif not reader.groups['POINT'].get('UNITS').string_value.strip() == 'm':
-#     print("Can't determine the size unit.")
-#
-# # extract point group labels
-# labels = getPointsList(reader, 'LABELS') if getPointsList(reader, 'LABELS') is not None else []
-# angleLabels = getPointsList(reader, 'ANGLES') if getPointsList(reader, 'ANGLES') is not None else []
-# forcesLabels = getPointsList(reader, 'FORCES') if getPointsList(reader, 'FORCES') is not None else []
-# momentsLabels = getPointsList(reader, 'MOMENTS') if getPointsList(reader, 'MOMENTS') is not None else []
-# powersLabels = getPointsList(reader, 'POWERS') if getPointsList(reader, 'POWERS') is not None else []
-#
-# # get unit for each label group
-# pointGroup = reader.groups['POINT']
-# units = {
-#     'markers': 'm',
-#     'virtual_markers': 'm',
-#     'angles': pointGroup.get('ANGLE_UNITS').string_value if 'ANGLE_UNITS' in pointGroup.params else 'raw',
-#     'forces': pointGroup.get('FORCE_UNITS').string_value if 'FORCE_UNITS' in pointGroup.params else 'raw',
-#     'moments': pointGroup.get('MOMENT_UNITS').string_value if 'MOMENT_UNITS' in pointGroup.params else 'raw',
-#     'powers': pointGroup.get('POWER_UNITS').string_value if 'POWER_UNITS' in pointGroup.params else 'raw'
-# }
-#
-# # filter non 3D points and send the list to the robot window
-# filteredLabel = labels[:numberOfpoints]
-# if angleLabels:
-#     filteredLabel = [x for x in filteredLabel if x not in angleLabels]
-# if forcesLabels:
-#     filteredLabel = [x for x in filteredLabel if x not in forcesLabels]
-# if momentsLabels:
-#     filteredLabel = [x for x in filteredLabel if x not in momentsLabels]
-# if powersLabels:
-#     filteredLabel = [x for x in filteredLabel if x not in powersLabels]
-#
-# # split between actual and virtual markers
-# markers = []
-# virtualmarkers = []
-# for label in filteredLabel:
-#     if isVirtualMarker(label):
-#         virtualmarkers.append(label)
-#     else:
-#         markers.append(label)
-#
-# # categorize each labels and send the lists to the robot window
-# labelsAndCategory = {
-#     'markers': markers,
-#     'virtual_markers': virtualmarkers,
-#     'angles': angleLabels,
-#     'forces': forcesLabels,
-#     'moments': momentsLabels,
-#     'powers': powersLabels
-# }
+# get C3D files settings
+numberOfpoints = reader.header.point_count
+frameStep = 1.0 / reader.header.frame_rate
+scale = -1.0 if reader.header.scale_factor < 0 else 1.0
+if reader.groups['POINT'].get('UNITS').string_value.strip() == 'mm':
+    scale *= 0.001
+elif not reader.groups['POINT'].get('UNITS').string_value.strip() == 'm':
+    print("Can't determine the size unit.")
+
+# extract point group labels
+labels = getPointsList(reader, 'LABELS') if getPointsList(reader, 'LABELS') is not None else []
+angleLabels = getPointsList(reader, 'ANGLES') if getPointsList(reader, 'ANGLES') is not None else []
+forcesLabels = getPointsList(reader, 'FORCES') if getPointsList(reader, 'FORCES') is not None else []
+momentsLabels = getPointsList(reader, 'MOMENTS') if getPointsList(reader, 'MOMENTS') is not None else []
+powersLabels = getPointsList(reader, 'POWERS') if getPointsList(reader, 'POWERS') is not None else []
+
+# get unit for each label group
+pointGroup = reader.groups['POINT']
+units = {
+    'markers': 'm',
+    'virtual_markers': 'm',
+    'angles': pointGroup.get('ANGLE_UNITS').string_value if 'ANGLE_UNITS' in pointGroup.params else 'raw',
+    'forces': pointGroup.get('FORCE_UNITS').string_value if 'FORCE_UNITS' in pointGroup.params else 'raw',
+    'moments': pointGroup.get('MOMENT_UNITS').string_value if 'MOMENT_UNITS' in pointGroup.params else 'raw',
+    'powers': pointGroup.get('POWER_UNITS').string_value if 'POWER_UNITS' in pointGroup.params else 'raw'
+}
+
+# filter non 3D points and send the list to the robot window
+filteredLabel = labels[:numberOfpoints]
+if angleLabels:
+    filteredLabel = [x for x in filteredLabel if x not in angleLabels]
+if forcesLabels:
+    filteredLabel = [x for x in filteredLabel if x not in forcesLabels]
+if momentsLabels:
+    filteredLabel = [x for x in filteredLabel if x not in momentsLabels]
+if powersLabels:
+    filteredLabel = [x for x in filteredLabel if x not in powersLabels]
+
+# split between actual and virtual markers
+markers = []
+virtualmarkers = []
+for label in filteredLabel:
+    if isVirtualMarker(label):
+        virtualmarkers.append(label)
+    else:
+        markers.append(label)
+
+# categorize each labels and send the lists to the robot window
+labelsAndCategory = {
+    'markers': markers,
+    'virtual_markers': virtualmarkers,
+    'angles': angleLabels,
+    'forces': forcesLabels,
+    'moments': momentsLabels,
+    'powers': powersLabels
+}
 # for key in labelsAndCategory:
 #     if labelsAndCategory[key]:
 #         supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + ' '.join(labelsAndCategory[key]).strip())
