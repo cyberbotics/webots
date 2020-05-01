@@ -145,14 +145,14 @@ labelsAndCategory = {
     'moments': momentsLabels,
     'powers': powersLabels
 }
-# for key in labelsAndCategory:
-#     if labelsAndCategory[key]:
-#         supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + ' '.join(labelsAndCategory[key]).strip())
-#     else:
-#         supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + 'None')
-# supervisor.wwiSendText('configure:' + str(supervisor.getBasicTimeStep()))
-#
-# # make one step to be sure markers are not imported before pressing play
+for key in labelsAndCategory:
+    if labelsAndCategory[key]:
+        supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + ' '.join(labelsAndCategory[key]).strip())
+    else:
+        supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + 'None')
+supervisor.wwiSendText('configure:' + str(supervisor.getBasicTimeStep()))
+
+# make one step to be sure markers are not imported before pressing play
 supervisor.step(timestep)
 
 # remove possible previous marker (at regeneration for example)
@@ -181,7 +181,7 @@ bodyTranslations = {}
 bodyNode = None
 bodyTransparency = float(sys.argv[9])
 height = float(sys.argv[10])
-print('height = ' + height)
+print('height = ' + str(height))
 if height < 0:
     if 'SUBJECTS' in reader.groups and reader.groups['SUBJECTS'].get('A_HEIGHT_MM') is not None:
         height = 0.001 * float(reader.groups['SUBJECTS'].get('A_HEIGHT_MM').string_value)
