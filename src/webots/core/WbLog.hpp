@@ -34,7 +34,7 @@ class WbLog : public QObject {
 
 public:
   enum Level { DEBUG, INFO, WARNING, ERROR, FATAL, STATUS, STDOUT, STDERR };
-  enum Filter { ALL, WEBOTS, ODE, JAVASCRIPT, FILTER_SIZE };
+  enum Filter { ALL, OTHERS, ODE, JAVASCRIPT, FILTER_SIZE };
 
   static WbLog *instance();
 

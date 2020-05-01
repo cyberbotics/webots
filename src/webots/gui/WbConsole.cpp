@@ -176,11 +176,11 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   menu->addSeparator();
   QMenu *subMenu = menu->addMenu(tr("&Filters"));
   addContextMenuFilterItem(WbLog::filterName(WbLog::ALL), subMenu, tr("Display all the logs."));
-  QMenu *systemSubMenu = subMenu->addMenu(tr("&System"));
-  addContextMenuFilterItem(WbLog::filterName(WbLog::WEBOTS), systemSubMenu, tr("Display logs from Webots."));
+  QMenu *systemSubMenu = subMenu->addMenu(tr("&Webots"));
   addContextMenuFilterItem(WbLog::filterName(WbLog::ODE), systemSubMenu, tr("Display error message from ODE."));
   addContextMenuFilterItem(WbLog::filterName(WbLog::JAVASCRIPT), systemSubMenu,
                            tr("Display Javascript log from the robot-windows."));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::OTHERS), systemSubMenu, tr("Display all the other logs."));
   QMenu *controllerSubMenu = subMenu->addMenu(tr("&Controller(s)"));
   const WbWorld *world = WbWorld::instance();
   if (world) {
@@ -569,7 +569,7 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
 
   if (!mEnabledLogs.contains(WbLog::filterName(WbLog::ALL))) {
     if (logName.isEmpty()) {
-      if (!mEnabledLogs.contains(WbLog::filterName(WbLog::WEBOTS)))
+      if (!mEnabledLogs.contains(WbLog::filterName(WbLog::OTHERS)))
         return;
     } else if (!mEnabledLogs.contains(logName))
       return;
@@ -692,7 +692,7 @@ void WbConsole::closeEvent(QCloseEvent *event) {
 
 void WbConsole::selectFilters() {
   QStringList options;
-  options << WbLog::filterName(WbLog::ALL) << WbLog::filterName(WbLog::WEBOTS) << WbLog::filterName(WbLog::ODE)
+  options << WbLog::filterName(WbLog::ALL) << WbLog::filterName(WbLog::OTHERS) << WbLog::filterName(WbLog::ODE)
           << WbLog::filterName(WbLog::JAVASCRIPT);
   const WbWorld *world = WbWorld::instance();
   if (world) {

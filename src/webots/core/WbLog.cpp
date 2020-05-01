@@ -108,8 +108,8 @@ void WbLog::status(const QString &message) {
 
 const QString &WbLog::filterName(Filter filter) {
   static const QStringList names = QStringList() << "All"
-                                                 << "Webots"
-                                                 << "ODE errors"
+                                                 << "Others"
+                                                 << "Physics"
                                                  << "Javascript";
   assert(names.size() == FILTER_SIZE);
   assert(filter < FILTER_SIZE);
