@@ -681,7 +681,7 @@ void WbActionManager::populateActions() {
 
   /* CONSOLE ACTIONS */
   action = new QAction(this);
-  action->setText(tr("&Clear Consoles"));
+  action->setText(tr("&Clear All Consoles"));
   action->setStatusTip(tr("Clears all the Consoles."));
   action->setToolTip(action->statusTip());
   action->setShortcut(Qt::CTRL + Qt::Key_K);
