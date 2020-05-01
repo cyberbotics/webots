@@ -126,7 +126,7 @@ public:
   void setEnabledLogs(const QStringList &logs);
 
   const QStringList getEnabledLevels() const { return mEnabledLevels; }
-  void setEnabledLevels(const QStringList &levels) { mEnabledLevels = levels; }
+  void setEnabledLevels(const QStringList &levels);
 
 signals:
   void closed();

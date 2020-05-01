@@ -414,6 +414,11 @@ void WbConsole::setEnabledLogs(const QStringList &logs) {
   updateTitle();
 }
 
+void WbConsole::setEnabledLevels(const QStringList &levels) {
+  mEnabledLevels = levels;
+  updateTitle();
+}
+
 void WbConsole::clear(bool reset) {
   mEditor->clear();
   if (reset)
@@ -823,6 +828,8 @@ void WbConsole::jumpToError(const QString &errorLine) {
 void WbConsole::updateTitle() {
   QString title("Console - ");
   title += mEnabledLogs.join(" | ");
+  if (!mEnabledLevels.contains(WbLog::levelName(WbLog::ALL_LEVELS)))
+    title += QString(" - ") + mEnabledLevels.join(" | ");
   setWindowTitle(title);
   if (mEnabledLogs.size() == 1)
     setTabbedTitle(mEnabledLogs.at(0));
@@ -934,8 +941,10 @@ void WbConsole::disableFilter(const QString &filter) {
 void WbConsole::enableLevel(const QString &level) {
   assert(!mEnabledLevels.contains(level));
   mEnabledLevels.append(level);
+  updateTitle();
 }
 
 void WbConsole::disableLevel(const QString &level) {
   mEnabledLevels.removeAll(level);
+  updateTitle();
 }
