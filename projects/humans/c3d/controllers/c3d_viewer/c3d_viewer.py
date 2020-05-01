@@ -193,50 +193,50 @@ markerField.importMFNodeFromString(-1, 'DEF CentreOfMass_body C3dBodyRepresentat
                                    (bodyTransparency, bodyScale, bodyScale, bodyScale))
 bodyNode = markerField.getMFNode(-1)
 bodyTransparencyField = bodyNode.getField('transparency')
-for label in labelsAndCategory['virtual_markers']:
-    node = supervisor.getFromDef(label + '_body')
-    if node:
-        field = node.getField('translation')
-        if field:
-            bodyTranslations[label] = field
-if bodyNode and labelsAndCategory['angles'] is not None:
-    for label in labelsAndCategory['angles']:
-        field = bodyNode.getField(label.replace('Angles', 'Rotation'))
-        if field:
-            bodyRotations[label] = field
-
-# import the marker and initialize the list of points
-pointRepresentations = {}
-j = 0
-for i in range(len(labels)):
-    pointRepresentations[labels[i]] = {}
-    pointRepresentations[labels[i]]['visible'] = False
-    pointRepresentations[labels[i]]['node'] = None
-    pointRepresentations[labels[i]]['solid'] = supervisor.getFromDef(labels[i]) if labels[i] else None
-    if labels[i] in filteredLabel:
-        markerField.importMFNodeFromString(-1, 'C3dMarker { name "%s" }' % labels[i])
-        pointRepresentations[labels[i]]['node'] = markerField.getMFNode(-1)
-        pointRepresentations[labels[i]]['translation'] = pointRepresentations[labels[i]]['node'].getField('translation')
-        pointRepresentations[labels[i]]['transparency'] = pointRepresentations[labels[i]]['node'].getField('transparency')
-        pointRepresentations[labels[i]]['radius'] = pointRepresentations[labels[i]]['node'].getField('radius')
-        pointRepresentations[labels[i]]['color'] = pointRepresentations[labels[i]]['node'].getField('color')
-        if isVirtualMarker(labels[i]):
-            pointRepresentations[labels[i]]['transparency'].setSFFloat(1.0)
-        else:
-            pointRepresentations[labels[i]]['visible'] = True
-        j += 1
-
-# parse the C3D frames
-frameAndPoints = []
-frameAndAnalog = []
-for i, points, analog in reader.read_frames():
-    frameAndPoints.append((i, points))
-
-# main loop
-frameCoutner = 0
-totalFrameCoutner = 0
-offsetTime = 0
-inverseY = reader.groups['POINT'].get('X_SCREEN').string_value.strip() == '+X'
+# for label in labelsAndCategory['virtual_markers']:
+#     node = supervisor.getFromDef(label + '_body')
+#     if node:
+#         field = node.getField('translation')
+#         if field:
+#             bodyTranslations[label] = field
+# if bodyNode and labelsAndCategory['angles'] is not None:
+#     for label in labelsAndCategory['angles']:
+#         field = bodyNode.getField(label.replace('Angles', 'Rotation'))
+#         if field:
+#             bodyRotations[label] = field
+#
+# # import the marker and initialize the list of points
+# pointRepresentations = {}
+# j = 0
+# for i in range(len(labels)):
+#     pointRepresentations[labels[i]] = {}
+#     pointRepresentations[labels[i]]['visible'] = False
+#     pointRepresentations[labels[i]]['node'] = None
+#     pointRepresentations[labels[i]]['solid'] = supervisor.getFromDef(labels[i]) if labels[i] else None
+#     if labels[i] in filteredLabel:
+#         markerField.importMFNodeFromString(-1, 'C3dMarker { name "%s" }' % labels[i])
+#         pointRepresentations[labels[i]]['node'] = markerField.getMFNode(-1)
+#         pointRepresentations[labels[i]]['translation'] = pointRepresentations[labels[i]]['node'].getField('translation')
+#         pointRepresentations[labels[i]]['transparency'] = pointRepresentations[labels[i]]['node'].getField('transparency')
+#         pointRepresentations[labels[i]]['radius'] = pointRepresentations[labels[i]]['node'].getField('radius')
+#         pointRepresentations[labels[i]]['color'] = pointRepresentations[labels[i]]['node'].getField('color')
+#         if isVirtualMarker(labels[i]):
+#             pointRepresentations[labels[i]]['transparency'].setSFFloat(1.0)
+#         else:
+#             pointRepresentations[labels[i]]['visible'] = True
+#         j += 1
+#
+# # parse the C3D frames
+# frameAndPoints = []
+# frameAndAnalog = []
+# for i, points, analog in reader.read_frames():
+#     frameAndPoints.append((i, points))
+#
+# # main loop
+# frameCoutner = 0
+# totalFrameCoutner = 0
+# offsetTime = 0
+# inverseY = reader.groups['POINT'].get('X_SCREEN').string_value.strip() == '+X'
 while supervisor.step(timestep) != -1:
     print("Hello")
     # check for messages from the robot-window
