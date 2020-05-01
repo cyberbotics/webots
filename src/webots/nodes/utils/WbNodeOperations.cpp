@@ -183,12 +183,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       ++nodeIndex;
       if (!field->isTemplateRegenerator() && !isNodeRegenerated) {
         if (childNode->isProtoParameterNode()) {
-          QVector<WbNode *> nodeInstances = childNode->protoParameterNodeInstances();
-          WbBaseNode *baseNodeInstance = NULL;
-          foreach (WbNode *nodeInstance, nodeInstances) {
-            baseNodeInstance = dynamic_cast<WbBaseNode *>(nodeInstance);
-            emit nodeAdded(baseNodeInstance);
-          }
+          foreach (WbNode *nodeInstance, childNode->protoParameterNodeInstances())
+            emit nodeAdded(dynamic_cast<WbBaseNode *>(nodeInstance));
         } else
           emit nodeAdded(childNode);
       }
