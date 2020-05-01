@@ -154,8 +154,7 @@ WbController::~WbController() {
       }
       // kill the process
       if (mProcess->state() != QProcess::NotRunning && !mProcess->waitForFinished(1000)) {
-        WbLog::warning(tr("%1: Forced termination (because process didn't terminate itself after 1 second).").arg(name()),
-                       false);
+        WbLog::warning(tr("%1: Forced termination (because process didn't terminate itself after 1 second).").arg(name()));
 #ifdef _WIN32
         // on Windows, we need to kill the process as it may not handle the WM_CLOSE message sent by terminate()
         mProcess->kill();
@@ -387,7 +386,7 @@ void WbController::setProcessEnvironment() {
           else if (iniParser.keyAt(i) == "OPTIONS")
             mJavaOptions = iniParser.valueAt(i);
           else
-            WbLog::warning(tr("Unknown key: %1 in java section").arg(iniParser.keyAt(i)), false);
+            WbLog::warning(tr("Unknown key: %1 in java section").arg(iniParser.keyAt(i)));
         }
         if (iniParser.sectionAt(i) == "python") {
           if (iniParser.keyAt(i) == "COMMAND")
@@ -395,7 +394,7 @@ void WbController::setProcessEnvironment() {
           else if (iniParser.keyAt(i) == "OPTIONS")
             mPythonOptions = iniParser.valueAt(i);
           else
-            WbLog::warning(tr("Unknown key: %1 in python section").arg(iniParser.keyAt(i)), false);
+            WbLog::warning(tr("Unknown key: %1 in python section").arg(iniParser.keyAt(i)));
         }
         if (iniParser.sectionAt(i) == "matlab") {
           if (iniParser.keyAt(i) == "COMMAND")
@@ -403,7 +402,7 @@ void WbController::setProcessEnvironment() {
           else if (iniParser.keyAt(i) == "OPTIONS")
             mMatlabOptions = iniParser.valueAt(i);
           else
-            WbLog::warning(tr("Unknown key: %1 in matlab section").arg(iniParser.keyAt(i)), false);
+            WbLog::warning(tr("Unknown key: %1 in matlab section").arg(iniParser.keyAt(i)));
         }
 #ifdef _WIN32
         if (iniParser.sectionAt(i) == "environment variables for windows")
@@ -533,15 +532,15 @@ void WbController::setProcessEnvironment() {
 }
 
 void WbController::info(const QString &message) {
-  WbLog::info(name() + ": " + message, false);
+  WbLog::info(name() + ": " + message);
 }
 
 void WbController::warn(const QString &message) {
-  WbLog::warning(name() + ": " + message, false);
+  WbLog::warning(name() + ": " + message);
 }
 
 void WbController::error(const QString &message) {
-  WbLog::error(name() + ": " + message, false);
+  WbLog::error(name() + ": " + message);
 }
 
 void WbController::appendMessageToConsole(const QString &message, bool useStdout) {
@@ -597,9 +596,9 @@ void WbController::processFinished(int exitCode, QProcess::ExitStatus exitStatus
   switch (exitStatus) {
     case QProcess::NormalExit:
       if (exitCode == 0)
-        WbLog::info(tr("'%1' controller exited successfully.").arg(name()), false);
+        WbLog::info(tr("'%1' controller exited successfully.").arg(name()));
       else
-        WbLog::warning(tr("'%1' controller exited with status: %2.").arg(name()).arg(exitCode), false);
+        WbLog::warning(tr("'%1' controller exited with status: %2.").arg(name()).arg(exitCode));
       break;
     case QProcess::CrashExit:
       WbLog::warning(tr("'%1' controller crashed.").arg(name()));
@@ -630,8 +629,7 @@ void WbController::reportMissingCommand(const QString &command) {
                     "It should be possible to launch %1 from a terminal by typing '%1'. "
                     "It may be necessary to add the %1 bin directory to your PATH environment variable. "
                     "More information about the %1 installation is available in Webots' User guide.")
-                   .arg(command),
-                 false);
+                   .arg(command));
 }
 
 void WbController::reportFailedStart() {
