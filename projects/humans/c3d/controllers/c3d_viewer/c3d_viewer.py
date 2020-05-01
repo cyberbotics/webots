@@ -190,8 +190,8 @@ if height < 0:
     else:
         height = 1.83
 bodyScale = height / 1.83  # 1.83m: default size of the human model
-# markerField.importMFNodeFromString(-1, 'DEF CentreOfMass_body C3dBodyRepresentation { transparency %s scale %lf %lf %lf }' %
-#                                    (bodyTransparency, bodyScale, bodyScale, bodyScale))
+markerField.importMFNodeFromString(-1, 'DEF CentreOfMass_body C3dBodyRepresentation { transparency %s scale %lf %lf %lf }' %
+                                   (bodyTransparency, bodyScale, bodyScale, bodyScale))
 # bodyNode = markerField.getMFNode(-1)
 # bodyTransparencyField = bodyNode.getField('transparency')
 # for label in labelsAndCategory['virtual_markers']:
