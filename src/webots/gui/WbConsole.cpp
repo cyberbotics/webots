@@ -161,9 +161,9 @@ void ConsoleEdit::handleFilterChange() {
         if (menu->actions()[i]->menu()) {
           const QList<QAction *> actions = menu->actions()[i]->menu()->actions();
           // for each action of the submenu
-          for (int j = 0; j < actions.size(); ++i) {
-            if (actions[i]->isChecked() && actions[i] != action)
-              emit filterDisabled(actions[i]->text());
+          for (int j = 0; j < actions.size(); ++j) {
+            if (actions[j]->isChecked() && actions[j] != action)
+              emit filterDisabled(actions[j]->text());
           }
         }
       }
