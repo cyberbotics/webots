@@ -181,14 +181,15 @@ bodyTranslations = {}
 bodyNode = None
 bodyTransparency = float(sys.argv[9])
 height = float(sys.argv[10])
-# if height < 0:
-#     if 'SUBJECTS' in reader.groups and reader.groups['SUBJECTS'].get('A_HEIGHT_MM') is not None:
-#         height = 0.001 * float(reader.groups['SUBJECTS'].get('A_HEIGHT_MM').string_value)
-#     elif 'SUBJECT' in reader.groups and reader.groups['SUBJECT'].get('HEIGHT') is not None:
-#         height = reader.groups['SUBJECT'].get('HEIGHT').float_value
-#     else:
-#         height = 1.83
-# bodyScale = height / 1.83  # 1.83m: default size of the human model
+print('height = ' + height)
+if height < 0:
+    if 'SUBJECTS' in reader.groups and reader.groups['SUBJECTS'].get('A_HEIGHT_MM') is not None:
+        height = 0.001 * float(reader.groups['SUBJECTS'].get('A_HEIGHT_MM').string_value)
+    elif 'SUBJECT' in reader.groups and reader.groups['SUBJECT'].get('HEIGHT') is not None:
+        height = reader.groups['SUBJECT'].get('HEIGHT').float_value
+    else:
+        height = 1.83
+bodyScale = height / 1.83  # 1.83m: default size of the human model
 # markerField.importMFNodeFromString(-1, 'DEF CentreOfMass_body C3dBodyRepresentation { transparency %s scale %lf %lf %lf }' %
 #                                    (bodyTransparency, bodyScale, bodyScale, bodyScale))
 # bodyNode = markerField.getMFNode(-1)
@@ -237,8 +238,10 @@ height = float(sys.argv[10])
 # totalFrameCoutner = 0
 # offsetTime = 0
 # inverseY = reader.groups['POINT'].get('X_SCREEN').string_value.strip() == '+X'
+print("Entering loop")
 while supervisor.step(timestep) != -1:
-    print("Hello")
+    if timestep == 1:
+        print("Should not print that")
     # check for messages from the robot-window
     # message = supervisor.wwiReceiveText()
     # while message:
