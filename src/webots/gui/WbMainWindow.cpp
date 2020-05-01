@@ -1705,8 +1705,11 @@ void WbMainWindow::openNewConsole() {
   WbConsole *console = new WbConsole(this, name);
   connect(console, &WbConsole::closed, this, &WbMainWindow::handleConsoleClosure);
   addDockWidget(Qt::BottomDockWidgetArea, console);
-  if (!mConsoles.isEmpty())
+  if (!mConsoles.isEmpty()) {
     tabifyDockWidget(mConsoles.at(0), console);
+    console->show();
+    console->raise();
+  }
   addDock(console);
   mConsoles.append(console);
 }
