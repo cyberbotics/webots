@@ -174,13 +174,13 @@ for i in range(len(names)):
         grfList[-1]['cylinderTranslation'] = grfList[-1]['node'].getField('cylinderTranslation')
         grfList[-1]['coneTranslation'] = grfList[-1]['node'].getField('coneTranslation')
         grfList[-1]['height'] = grfList[-1]['node'].getField('height')
-#
-# # get body visualization
-# bodyRotations = {}
-# bodyTranslations = {}
-# bodyNode = None
-# bodyTransparency = float(sys.argv[9])
-# height = float(sys.argv[10])
+
+# get body visualization
+bodyRotations = {}
+bodyTranslations = {}
+bodyNode = None
+bodyTransparency = float(sys.argv[9])
+height = float(sys.argv[10])
 # if height < 0:
 #     if 'SUBJECTS' in reader.groups and reader.groups['SUBJECTS'].get('A_HEIGHT_MM') is not None:
 #         height = 0.001 * float(reader.groups['SUBJECTS'].get('A_HEIGHT_MM').string_value)
