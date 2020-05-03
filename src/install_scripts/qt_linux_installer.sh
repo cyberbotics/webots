@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# install the latest Qt from qt.org
+# install the latest Qt from https://download.qt.io/official_releases/qt/
 
 QT_VERSION=5.13.1
 ICU_VERSION=56
@@ -166,7 +166,7 @@ ln -sf libicuuc.so.$ICU_VERSION.1             libicuuc.so.$ICU_VERSION
 # we need to clear the execstack from this library to enable the creation of the snap package.
 execstack -c libQt5WebEngineCore.so.$QT_VERSION
 
-cd ..
+cd ../..
 
 ARCHIVE=webots-qt-$QT_VERSION-linux64-release.tar.bz2
 echo Compressing $ARCHIVE \(please wait\)
