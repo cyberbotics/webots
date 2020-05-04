@@ -181,7 +181,6 @@ bodyTranslations = {}
 bodyNode = None
 bodyTransparency = float(sys.argv[9])
 height = float(sys.argv[10])
-print('height = ' + str(height))
 if height < 0:
     if 'SUBJECTS' in reader.groups and reader.groups['SUBJECTS'].get('A_HEIGHT_MM') is not None:
         height = 0.001 * float(reader.groups['SUBJECTS'].get('A_HEIGHT_MM').string_value)
@@ -350,9 +349,9 @@ while supervisor.step(timestep) != -1:
             if labels[j] in bodyTranslations:
                 bodyTranslations[labels[j]].setSFVec3f([x, y + float(sys.argv[11]), z])
         # send marker position to the robot window
-        # if toSend:
-        #     toSend = toSend[:-1]  # remove last ':'
-        #     supervisor.wwiSendText('positions:' + str(supervisor.getTime()) + ':' + toSend)
+        if toSend:
+            toSend = toSend[:-1]  # remove last ':'
+            supervisor.wwiSendText('positions:' + str(supervisor.getTime()) + ':' + toSend)
         totalFrameCoutner += step
         frameCoutner += step
         if frameCoutner >= len(frameAndPoints):
