@@ -181,13 +181,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       else if (result == REGENERATION_REQUIRED)
         isNodeRegenerated = true;
       ++nodeIndex;
-      if (!field->isTemplateRegenerator() && !isNodeRegenerated) {
-        if (childNode->isProtoParameterNode()) {
-          foreach (WbNode *nodeInstance, childNode->protoParameterNodeInstances())
-            emit nodeAdded(nodeInstance);
-        } else
-          emit nodeAdded(childNode);
-      }
+      if (!field->isTemplateRegenerator() && !isNodeRegenerated)
+        emit nodeAdded(childNode);
       // we need to emit this signal after finalize so that the mass properties are displayed properly
       // in the scene tree.
       // FIXME: this should be removed as the emit massPropertiesChanged() should be called from within
