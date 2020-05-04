@@ -1187,7 +1187,7 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
   QVector<ConsoleSettings> settingsList;
   foreach (const WbConsole *console, mConsoles) {
     ConsoleSettings settings;
-    settings.enabledFilters = console->getEnabledLogs();  // TODO: rename to filters
+    settings.enabledFilters = console->getEnabledFilters();
     settings.enabledLevels = console->getEnabledLevels();
     settingsList.append(settings);
   }
@@ -1223,7 +1223,7 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
   const QVector<ConsoleSettings> consoleList = perspective->consoleList();
   for (int i = 0; i < consoleList.size(); ++i) {
     openNewConsole();
-    mConsoles.last()->setEnabledLogs(consoleList.at(i).enabledFilters);
+    mConsoles.last()->setEnabledFilters(consoleList.at(i).enabledFilters);
     mConsoles.last()->setEnabledLevels(consoleList.at(i).enabledLevels);
   }
   // display at least one console

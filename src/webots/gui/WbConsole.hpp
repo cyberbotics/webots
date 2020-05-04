@@ -122,8 +122,8 @@ public:
   void setAnsiCyan(const QString &color) { mAnsiCyan = color; }
   void setAnsiWhite(const QString &color) { mAnsiWhite = color; }
 
-  const QStringList getEnabledLogs() const { return mEnabledLogs; }
-  void setEnabledLogs(const QStringList &logs);
+  const QStringList getEnabledFilters() const { return mEnabledFilters; }
+  void setEnabledFilters(const QStringList &filters);
 
   const QStringList getEnabledLevels() const { return mEnabledLevels; }
   void setEnabledLevels(const QStringList &levels);
@@ -143,7 +143,7 @@ public slots:
 private:
   QString mErrorColor, mInfoColor;
   QString mAnsiBlack, mAnsiRed, mAnsiGreen, mAnsiYellow, mAnsiBlue, mAnsiMagenta, mAnsiCyan, mAnsiWhite;
-  QStringList mEnabledLogs, mEnabledLevels;
+  QStringList mEnabledFilters, mEnabledLevels;
   ConsoleEdit *mEditor;
   QPushButton *mFiltersButton;
   QRegExp **mErrorPatterns;

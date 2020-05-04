@@ -239,7 +239,7 @@ void ConsoleEdit::addContextMenuFilterItem(const QString &name, QMenu *menu, con
   if (!toolTip.isEmpty())
     action->setToolTip(toolTip);
   action->setCheckable(true);
-  action->setChecked(console->getEnabledLogs().contains(name));
+  action->setChecked(console->getEnabledFilters().contains(name));
   menu->addAction(action);
   connect(action, &QAction::toggled, this, &ConsoleEdit::handleFilterChange);
 }
@@ -354,7 +354,7 @@ namespace {
 
 WbConsole::WbConsole(QWidget *parent, const QString &name) :
   WbDockWidget(parent),
-  mEnabledLogs(WbLog::filterName(WbLog::ALL_FILTERS)),
+  mEnabledFilters(WbLog::filterName(WbLog::ALL_FILTERS)),
   mEnabledLevels(WbLog::levelName(WbLog::ALL_LEVELS)),
   mEditor(new ConsoleEdit(this)),
   mErrorPatterns(createErrorMatchingPatterns()),  // patterns for error matching
@@ -409,8 +409,8 @@ WbConsole::WbConsole(QWidget *parent, const QString &name) :
   dSetMessageHandler(odeMessageFunc);
 }
 
-void WbConsole::setEnabledLogs(const QStringList &logs) {
-  mEnabledLogs = logs;
+void WbConsole::setEnabledFilters(const QStringList &filters) {
+  mEnabledFilters = filters;
   updateTitle();
 }
 
@@ -679,17 +679,17 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
     return;
 
   // check enabled filters
-  if (!mEnabledLogs.contains(WbLog::filterName(WbLog::ALL_FILTERS))) {
+  if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_FILTERS))) {
     if (logName.isEmpty()) {
       // WEBOTS_OTHERS
-      if (!mEnabledLogs.contains(WbLog::filterName(WbLog::WEBOTS_OTHERS)) &&
-          !mEnabledLogs.contains(WbLog::filterName(WbLog::ALL_WEBOTS)))
+      if (!mEnabledFilters.contains(WbLog::filterName(WbLog::WEBOTS_OTHERS)) &&
+          !mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_WEBOTS)))
         return;
-    } else if (!mEnabledLogs.contains(logName)) {
+    } else if (!mEnabledFilters.contains(logName)) {
       if (logName == WbLog::filterName(WbLog::ODE) || logName == WbLog::filterName(WbLog::JAVASCRIPT)) {
-        if (!mEnabledLogs.contains(WbLog::filterName(WbLog::ALL_WEBOTS)))
+        if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_WEBOTS)))
           return;
-      } else if (!mEnabledLogs.contains(WbLog::filterName(WbLog::ALL_CONTROLLERS)))
+      } else if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_CONTROLLERS)))
         return;
     }
   }
@@ -827,12 +827,12 @@ void WbConsole::jumpToError(const QString &errorLine) {
 
 void WbConsole::updateTitle() {
   QString title("Console - ");
-  title += mEnabledLogs.join(" | ");
+  title += mEnabledFilters.join(" | ");
   if (!mEnabledLevels.contains(WbLog::levelName(WbLog::ALL_LEVELS)))
     title += QString(" - ") + mEnabledLevels.join(" | ");
   setWindowTitle(title);
-  if (mEnabledLogs.size() == 1)
-    setTabbedTitle(mEnabledLogs.at(0));
+  if (mEnabledFilters.size() == 1)
+    setTabbedTitle(mEnabledFilters.at(0));
   else
     setTabbedTitle("Console");
 }
@@ -851,11 +851,11 @@ void WbConsole::selectFilters() {
     foreach (const WbRobot *robot, world->robots())
       options << robot->name();
   }
-  WbMultiSelectionDialog dialog(tr("Select what to display in this console:"), options, mEnabledLogs, this);
+  WbMultiSelectionDialog dialog(tr("Select what to display in this console:"), options, mEnabledFilters, this);
   dialog.setWindowTitle("Console Filters");
   const int result = dialog.exec();
   if (result == QDialog::Accepted) {
-    mEnabledLogs = dialog.enabledOptions();
+    mEnabledFilters = dialog.enabledOptions();
     updateTitle();
   }
 }
@@ -928,13 +928,13 @@ void WbConsole::deleteFindDialog() {
 }
 
 void WbConsole::enableFilter(const QString &filter) {
-  assert(!mEnabledLogs.contains(filter));
-  mEnabledLogs.append(filter);
+  assert(!mEnabledFilters.contains(filter));
+  mEnabledFilters.append(filter);
   updateTitle();
 }
 
 void WbConsole::disableFilter(const QString &filter) {
-  mEnabledLogs.removeAll(filter);
+  mEnabledFilters.removeAll(filter);
   updateTitle();
 }
 
