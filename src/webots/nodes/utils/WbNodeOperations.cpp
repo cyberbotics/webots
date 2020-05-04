@@ -183,7 +183,6 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       ++nodeIndex;
       if (!field->isTemplateRegenerator() && !isNodeRegenerated)
         emit nodeAdded(childNode);
-      }
       // we need to emit this signal after finalize so that the mass properties are displayed properly
       // in the scene tree.
       // FIXME: this should be removed as the emit massPropertiesChanged() should be called from within
