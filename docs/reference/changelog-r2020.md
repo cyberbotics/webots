@@ -32,6 +32,7 @@ Released on XXX.
   - Cleanup
     - Deprecated the following appearances: `ChequeredParquetry`, `DarkParquetry`, `SlatePavement`, `SquarePavement` and `StonePavement`.
   - Bug fixes
+    - Fixed crash occuring when Webots was streaming a 3D scene and some object was inserted into a PROTO node.
     - Fixed the restoration of the 3D view which was sometimes not re-appearing after being hidden.
     - Windows: Fixed JPEG texture errors when typing `webots` from a DOS console (`cmd.exe`) by renaming `webots.exe` to `webots-bin.exe` and creating two launchers named `webotsw.exe` and `webots.exe`.
     - Fixed the physics behavior of [Connector](connector.md) nodes sometimes remaining idle after being detached from each other (thanks to Giorgio).
