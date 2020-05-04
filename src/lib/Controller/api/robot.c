@@ -325,6 +325,21 @@ static void robot_configure(WbRequest *r) {
   robot.has_html_robot_window = request_read_uchar(r);
   wb_robot_window_load_library(robot.window_filename);
   robot.simulation_mode = request_read_int32(r);
+
+  while (1) {
+    unsigned char type = request_read_uchar(r);
+    if (type != C_ROBOT_TREE_DONE) {
+      int id = request_read_int32(r);
+      int parent_id = request_read_int32(r);
+      if (type == C_ROBOT_TREE_LINK) {
+        for(int i = 0; i < 3 + 9; i++) {
+          request_read_double(r);
+        }
+      }
+      printf("%d -> %d\n", id, parent_id);
+    } else 
+      break;
+  }
   // printf("configure done\n");
 }
 

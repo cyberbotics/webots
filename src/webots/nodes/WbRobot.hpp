@@ -258,6 +258,7 @@ private:
   double energyConsumption() const;
   void clearDevices();
   int computeSimulationMode();
+  void writeRobotTree(QDataStream &stream);
 
 private slots:
   void updateDevicesAfterDestruction();

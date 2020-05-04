@@ -44,6 +44,12 @@
 #include "WbTrack.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
+#include "WbPhysics.hpp"
+#include "WbSliderJoint.hpp"
+#include "WbHingeJoint.hpp"
+#include "WbHinge2Joint.hpp"
+#include "WbBallJoint.hpp"
+#include "WbHingeJointParameters.hpp"
 
 #include "../../../include/controller/c/webots/keyboard.h"
 #include "../../../include/controller/c/webots/robot.h"
@@ -53,6 +59,7 @@
 #include <QtCore/QDataStream>
 #include <QtCore/QStringList>
 #include <QtCore/QTimer>
+#include <QtCore/QQueue>
 
 #include <iostream>
 #include <limits>
@@ -147,6 +154,9 @@ void WbRobot::init() {
 
   mBatteryInitialValue = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
   mSupervisorUtilities = supervisor() ? new WbSupervisorUtilities(this) : NULL;
+
+  // QDataStream stream;
+  // writeRobotTree(stream);
 }
 
 WbRobot::WbRobot(WbTokenizer *tokenizer) : WbSolid("Robot", tokenizer) {
@@ -733,12 +743,70 @@ void WbRobot::writeConfigure(QDataStream &stream) {
   stream << (unsigned char)(!windowFile().isEmpty());
   stream << (int)computeSimulationMode();
 
+  writeRobotTree(stream);
+
   mShowWindowMessage = false;
   mUpdateWindowMessage = false;
   mShowWindowCalled = true;
   mConfigureRequest = false;
   if (mSupervisorUtilities)
     mSupervisorUtilities->writeConfigure(stream);
+}
+
+void WbRobot::writeRobotTree(QDataStream &stream) {
+// Publish tf structure
+  // WbDevice *device = findDevice(1);
+  // WbSolid *deviceNode = dynamic_cast<WbSolid *>(device);
+  std::cout << "Robot Children: " << this->children().size() << std::endl;
+  QQueue<WbNode *> queue;
+  queue.enqueue(this);
+  while (queue.size() > 0) {
+    WbNode *node = queue.dequeue();
+    
+    // Do stuff
+    QList<WbNode *> children = node->subNodes(false);
+    for (int i = 0; i < children.size(); i++) {
+      WbNode* child = children.at(i);
+
+      if (dynamic_cast<WbBasicJoint*>(child)) {
+        if (dynamic_cast<WbHingeJoint*>(child)) {
+          // TODO: Add support for WbSliderJoint, WbHingeJoint2 and BallJoint
+          WbHingeJoint* childHingeJoint = (WbHingeJoint *)child;
+          if (childHingeJoint->solidEndPoint())
+            queue.enqueue(childHingeJoint->solidEndPoint());
+        }
+
+        stream << (unsigned char)C_ROBOT_TREE_JOINT;
+        stream << (int)child->uniqueId();
+        stream << (int)node->uniqueId();
+      } else if (dynamic_cast<WbGroup*>(child) && dynamic_cast<WbShape*>(child)) {
+        queue.enqueue(child);
+
+        stream << (unsigned char)C_ROBOT_TREE_LINK;
+        stream << (int)child->uniqueId();
+        stream << (int)node->uniqueId();
+        for (int i = 0; i < 3 + 9; i++)
+          stream << (double)0;
+      } else if (dynamic_cast<WbTransform*>(child)){
+        queue.enqueue(child);
+
+        WbTransform *childTransform = (WbTransform *)child;
+        stream << (unsigned char)C_ROBOT_TREE_LINK;
+        stream << (int)child->uniqueId();
+        stream << (int)node->uniqueId();
+        stream << (double)childTransform->translation().x();
+        stream << (double)childTransform->translation().y();
+        stream << (double)childTransform->translation().z();
+        for (int i = 0; i < 9; i++)
+          stream << (double)childTransform->rotationMatrix().row(i / 3)[i % 3];
+      } else {
+        std::cout << "We don't care" << std::endl;
+      }
+    }
+    if (queue.size() == 0) {
+      stream << (unsigned char)C_ROBOT_TREE_DONE;
+    }
+  }
 }
 
 void WbRobot::dispatchMessage(QDataStream &stream) {
@@ -1030,39 +1098,6 @@ void WbRobot::writeAnswer(QDataStream &stream) {
     stream.writeRawData(n.constData(), n.size() + 1);
 
     mModelNeedToWriteAnswer = false;
-  }
-
-  for (int deviceId = 0; deviceId < 100; deviceId++) {
-    // TODO: Handle this wierd loop
-    WbDevice *deviceNode = findDevice(deviceId);
-    if (deviceNode != NULL) {
-      WbTransform *deviceTransform = dynamic_cast<WbTransform *>(deviceNode);
-      if (deviceTransform) {
-        const WbMatrix3 &relativeDeviceRotation = this->rotationMatrix().transposed() * deviceTransform->rotationMatrix();
-        const WbVector3 &relativePosition = deviceTransform->position() - this->position();
-        stream << (short unsigned int)0;
-        stream << (unsigned char)C_ROBOT_DEVICE_TRANSLATION_ROTATION;
-        stream << (short unsigned int)deviceId;
-        stream << (double)relativePosition.x();
-        stream << (double)relativePosition.y();
-        stream << (double)relativePosition.z();
-        for (int i = 0; i < 3; i++)
-          for (int j = 0; j < 3; j++)
-            stream << (double)relativeDeviceRotation.row(i)[j];
-        /*
-        std::cout << "Simulation: " << i << 
-          " T(" << 
-          solidDevice->translation().x() << ", " <<
-          solidDevice->translation().y() << ", " <<
-          solidDevice->translation().z() << ") " <<
-          " R(" <<
-          solidDevice->rotation().x() << ", " <<
-          solidDevice->rotation().y() << ", " <<
-          solidDevice->rotation().z() << ") " <<
-          std::endl;
-        */
-      }
-    }
   }
 
   int userInputEvents = 0;
