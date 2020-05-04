@@ -743,8 +743,6 @@ void WbRobot::writeConfigure(QDataStream &stream) {
   stream << (unsigned char)(!windowFile().isEmpty());
   stream << (int)computeSimulationMode();
 
-  writeRobotTree(stream);
-
   mShowWindowMessage = false;
   mUpdateWindowMessage = false;
   mShowWindowCalled = true;
@@ -754,10 +752,6 @@ void WbRobot::writeConfigure(QDataStream &stream) {
 }
 
 void WbRobot::writeRobotTree(QDataStream &stream) {
-// Publish tf structure
-  // WbDevice *device = findDevice(1);
-  // WbSolid *deviceNode = dynamic_cast<WbSolid *>(device);
-  std::cout << "Robot Children: " << this->children().size() << std::endl;
   QQueue<WbNode *> queue;
   queue.enqueue(this);
   while (queue.size() > 0) {
@@ -776,12 +770,14 @@ void WbRobot::writeRobotTree(QDataStream &stream) {
             queue.enqueue(childHingeJoint->solidEndPoint());
         }
 
+        stream << (short unsigned int)0;
         stream << (unsigned char)C_ROBOT_TREE_JOINT;
         stream << (int)child->uniqueId();
         stream << (int)node->uniqueId();
       } else if (dynamic_cast<WbGroup*>(child) && dynamic_cast<WbShape*>(child)) {
         queue.enqueue(child);
 
+        stream << (short unsigned int)0;
         stream << (unsigned char)C_ROBOT_TREE_LINK;
         stream << (int)child->uniqueId();
         stream << (int)node->uniqueId();
@@ -791,6 +787,7 @@ void WbRobot::writeRobotTree(QDataStream &stream) {
         queue.enqueue(child);
 
         WbTransform *childTransform = (WbTransform *)child;
+        stream << (short unsigned int)0;
         stream << (unsigned char)C_ROBOT_TREE_LINK;
         stream << (int)child->uniqueId();
         stream << (int)node->uniqueId();
@@ -800,11 +797,9 @@ void WbRobot::writeRobotTree(QDataStream &stream) {
         for (int i = 0; i < 9; i++)
           stream << (double)childTransform->rotationMatrix().row(i / 3)[i % 3];
       } else {
-        std::cout << "We don't care" << std::endl;
+        // TODO: Handle the others
+        // std::cout << "We don't care" << std::endl;
       }
-    }
-    if (queue.size() == 0) {
-      stream << (unsigned char)C_ROBOT_TREE_DONE;
     }
   }
 }
@@ -1067,6 +1062,8 @@ void WbRobot::writeAnswer(QDataStream &stream) {
     stream << (double)time;
     mPreviousTime = time;
   }
+
+  writeRobotTree(stream);
 
   if (mSimulationModeRequested) {
     stream << (short unsigned int)0;

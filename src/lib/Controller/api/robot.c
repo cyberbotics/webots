@@ -326,20 +326,6 @@ static void robot_configure(WbRequest *r) {
   wb_robot_window_load_library(robot.window_filename);
   robot.simulation_mode = request_read_int32(r);
 
-  while (1) {
-    unsigned char type = request_read_uchar(r);
-    if (type != C_ROBOT_TREE_DONE) {
-      int id = request_read_int32(r);
-      int parent_id = request_read_int32(r);
-      if (type == C_ROBOT_TREE_LINK) {
-        for(int i = 0; i < 3 + 9; i++) {
-          request_read_double(r);
-        }
-      }
-      printf("%d -> %d\n", id, parent_id);
-    } else 
-      break;
-  }
   // printf("configure done\n");
 }
 
@@ -407,26 +393,18 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
     return;
 
   switch (message) {
-    case C_ROBOT_DEVICE_TRANSLATION_ROTATION: {
-      WbDeviceTag device_tag = request_read_uint16(r);
-      robot.device[device_tag]->translation[0] = request_read_double(r);
-      robot.device[device_tag]->translation[1] = request_read_double(r);
-      robot.device[device_tag]->translation[2] = request_read_double(r);
-      for (int i = 0; i < 9; i++)
-        robot.device[device_tag]->rotation[i] = request_read_double(r);
-      /*
-      printf("Controller %d T(%f %f %f) R(%f, %f, %f)\n",
-        device_tag,
-        robot.device[device_tag]->translation[0],
-        robot.device[device_tag]->translation[1],
-        robot.device[device_tag]->translation[2],
-        robot.device[device_tag]->rotation[0],
-        robot.device[device_tag]->rotation[1],
-        robot.device[device_tag]->rotation[2]
-      );
-      */
-    }
-      break;
+    case C_ROBOT_TREE_JOINT: {
+      int id = request_read_int32(r);
+      int parent_id = request_read_int32(r);
+      printf("%d -> %d\n", id, parent_id);
+    } break;
+    case C_ROBOT_TREE_LINK: {
+      int id = request_read_int32(r);
+      int parent_id = request_read_int32(r);
+      for (int i = 0; i < 3 + 9; i++)
+        request_read_double(r);
+      printf("%d -> %d\n", id, parent_id);
+    } break;
     case C_ROBOT_TIME:
       simulation_time = request_read_double(r);
       break;
@@ -566,7 +544,7 @@ const double *wb_robot_get_device_translation(WbDeviceTag tag) {
 }
 
 const double *wb_robot_get_device_rotation(WbDeviceTag tag) {
-    if (tag >= robot.n_device) {
+  if (tag >= robot.n_device) {
     fprintf(stderr, "Error: %s() called with tag out of scope.\n", __FUNCTION__);
     return 0;
   }
