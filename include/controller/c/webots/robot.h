@@ -53,6 +53,22 @@ typedef enum {
   WB_EVENT_JOYSTICK_POV = 32
 } WbUserInputEvent;
 
+typedef enum {
+  WB_TF_NODE_JOINT = 0,
+  WB_TF_NODE_LINK
+} WbTfNodeType;
+
+typedef struct {
+  int id;
+  WbTfNode* parent;
+  WbTfNode** children;
+  int n_children;
+  WbDeviceTag tag;
+  WbTfNodeType type;
+  double translation[3];
+  double rotation[9];
+} WbTfNode;
+
 // cart function headers
 #ifdef __cplusplus
 extern "C" {
@@ -80,8 +96,7 @@ int wb_robot_step(int duration);  // milliseconds
 WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type, int timeout);  // milliseconds
 void wb_robot_cleanup();
 double wb_robot_get_time();
-const double *wb_robot_get_device_translation(WbDeviceTag tag);
-const double *wb_robot_get_device_rotation(WbDeviceTag tag);
+const WbTfNode *wb_robot_get_tf_tree();
 const char *wb_robot_get_name();
 const char *wb_robot_get_model();
 const char *wb_robot_get_custom_data();

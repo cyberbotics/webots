@@ -117,6 +117,8 @@ void WbRobot::init() {
 
   mJoystickConfigureRequest = false;
 
+  mShouldWriteRobotTransformTree = true;
+
   mPreviousTime = 0.0;
   mKinematicDifferentialWheels = NULL;
 
@@ -156,7 +158,7 @@ void WbRobot::init() {
   mSupervisorUtilities = supervisor() ? new WbSupervisorUtilities(this) : NULL;
 
   // QDataStream stream;
-  // writeRobotTree(stream);
+  // writeRobotTransformTree(stream);
 }
 
 WbRobot::WbRobot(WbTokenizer *tokenizer) : WbSolid("Robot", tokenizer) {
@@ -751,7 +753,7 @@ void WbRobot::writeConfigure(QDataStream &stream) {
     mSupervisorUtilities->writeConfigure(stream);
 }
 
-void WbRobot::writeRobotTree(QDataStream &stream) {
+void WbRobot::writeRobotTransformTree(QDataStream &stream) {
   QQueue<WbNode *> queue;
   queue.enqueue(this);
   while (queue.size() > 0) {
@@ -1063,7 +1065,10 @@ void WbRobot::writeAnswer(QDataStream &stream) {
     mPreviousTime = time;
   }
 
-  writeRobotTree(stream);
+  if (mShouldWriteRobotTransformTree) {
+    writeRobotTransformTree(stream);
+    mShouldWriteRobotTransformTree = false;
+  }
 
   if (mSimulationModeRequested) {
     stream << (short unsigned int)0;

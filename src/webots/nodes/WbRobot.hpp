@@ -188,6 +188,7 @@ private:
   bool mNeedToRestartController;
   bool mConfigureRequest;
   bool mSimulationModeRequested;
+  bool mShouldWriteRobotTransformTree;
 
   QString mControllerDir;
 
@@ -258,7 +259,7 @@ private:
   double energyConsumption() const;
   void clearDevices();
   int computeSimulationMode();
-  void writeRobotTree(QDataStream &stream);
+  void writeRobotTransformTree(QDataStream &stream);
 
 private slots:
   void updateDevicesAfterDestruction();

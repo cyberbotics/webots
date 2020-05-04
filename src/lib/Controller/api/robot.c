@@ -101,6 +101,7 @@ typedef struct {
   int wwi_message_received_size;
   char *wwi_message_received;
   WbSimulationMode simulation_mode;  // WB_SUPERVISOR_SIMULATION_MODE_RUN, etc.
+  WbTfNode *tf_tree;
 } WbRobot;
 
 static bool robot_init_was_done = false;
@@ -128,6 +129,27 @@ static void init_remote_control_library() {
     if (!remote_control_is_initialized())
       fprintf(stderr, "Error: Cannot load the \"%s\" remote control library.\n", robot.remote_control_filename);
   }
+}
+
+static WbTfNode *tf_tree_find(WbTfNode *root, int id) {
+  if (root->id == id)
+    return root;
+  for (int i = 0; i < root->n_children; i++)
+    if (root->children[i]->id == id)
+      return root->children[i];
+    else
+      return tf_tree_find(root->children[i], id);
+  return NULL;
+}
+
+static void tf_tree_add(WbTfNode *parent, WbTfNode *child) {
+  if (parent->n_children == 0)
+    parent->children = malloc(sizeof(WbTfNode));
+  else
+    parent->children = realloc(parent->children, sizeof(WbTfNode) * parent->n_children);
+  parent->children[parent->n_children] = child;
+  parent->n_children++;
+  child->parent = parent;
 }
 
 static void robot_quit() {  // called when Webots kills a controller
@@ -393,18 +415,22 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
     return;
 
   switch (message) {
-    case C_ROBOT_TREE_JOINT: {
-      int id = request_read_int32(r);
-      int parent_id = request_read_int32(r);
-      printf("%d -> %d\n", id, parent_id);
-    } break;
-    case C_ROBOT_TREE_LINK: {
-      int id = request_read_int32(r);
-      int parent_id = request_read_int32(r);
-      for (int i = 0; i < 3 + 9; i++)
-        request_read_double(r);
-      printf("%d -> %d\n", id, parent_id);
-    } break;
+    case C_ROBOT_TREE_JOINT:
+      robot.tf_tree->id = request_read_int32(r);
+      // robot.tf_tree->parent_id = request_read_int32(r);
+      robot.tf_tree->type = WB_TF_NODE_JOINT;
+      break;
+    case C_ROBOT_TREE_LINK:
+      if (robot.tf_tree == NULL) {
+        robot.tf_tree->id = request_read_int32(r);
+        // robot.tf_tree->parent_id = request_read_int32(r);
+        robot.tf_tree->type = WB_TF_NODE_LINK;
+        for (int i = 0; i < 3; i++)
+          robot.tf_tree->translation[i] = request_read_double(r);
+        for (int i = 0; i < 9; i++)
+          robot.tf_tree->rotation[i] = request_read_double(r);
+      }
+      break;
     case C_ROBOT_TIME:
       simulation_time = request_read_double(r);
       break;
@@ -530,30 +556,8 @@ WbDevice *robot_get_device_with_node(WbDeviceTag tag, WbNodeType node, bool warn
   return NULL;
 }
 
-const double *wb_robot_get_device_translation(WbDeviceTag tag) {
-  if (tag >= robot.n_device) {
-    fprintf(stderr, "Error: %s() called with tag out of scope.\n", __FUNCTION__);
-    return 0;
-  }
-  if (!robot_init_was_done) {
-    // we need to redirect the streams to make this message appear in the console
-    wb_robot_init();
-    robot_abort("wb_robot_init() must be called before any other Webots function.\n");
-  }
-  return robot.device[tag]->translation;
-}
-
-const double *wb_robot_get_device_rotation(WbDeviceTag tag) {
-  if (tag >= robot.n_device) {
-    fprintf(stderr, "Error: %s() called with tag out of scope.\n", __FUNCTION__);
-    return 0;
-  }
-  if (!robot_init_was_done) {
-    // we need to redirect the streams to make this message appear in the console
-    wb_robot_init();
-    robot_abort("wb_robot_init() must be called before any other Webots function.\n");
-  }
-  return robot.device[tag]->rotation;
+const WbTfNode *wb_robot_get_tf_tree() {
+  return robot.tf_tree;
 }
 
 void wb_robot_cleanup() {  // called when the client quits
@@ -1088,6 +1092,7 @@ int wb_robot_init() {  // API initialization
   }
 
   robot.configure = 0;
+  robot.tf_tree = NULL;
 
   atexit(wb_robot_cleanup_shm);
 
