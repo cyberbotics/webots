@@ -85,8 +85,7 @@ public:
   const QStringList &enabledRobotWindowNodeNames() const { return mRobotWindowNodeNames; }
 
   // consoles
-  // TODO: rename to setting
-  void setConsoleList(const QVector<ConsoleSettings> &consoles) { mConsolesSettings = consoles; }
+  void setConsolesSettings(const QVector<ConsoleSettings> &settings) { mConsolesSettings = settings; }
   const QVector<ConsoleSettings> &consoleList() const { return mConsolesSettings; }
 
   // global optional renderings

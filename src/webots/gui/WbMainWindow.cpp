@@ -1184,14 +1184,14 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
                                            supportPolygonEnabledNodeNames);
 
   // save consoles perspective
-  QVector<ConsoleSettings> consoleList;
+  QVector<ConsoleSettings> settingsList;
   foreach (const WbConsole *console, mConsoles) {
     ConsoleSettings settings;
     settings.enabledFilters = console->getEnabledLogs();  // TODO: rename to filters
     settings.enabledLevels = console->getEnabledLevels();
-    consoleList.append(settings);
+    settingsList.append(settings);
   }
-  perspective->setConsoleList(consoleList);
+  perspective->setConsolesSettings(settingsList);
 
   // save rendering devices perspective
   const QList<WbRenderingDevice *> renderingDevices = WbRenderingDevice::renderingDevices();
