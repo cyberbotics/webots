@@ -146,9 +146,11 @@ bool WbPerspective::readContent(QTextStream &in, bool reloading) {
       QString s = line.right(line.length() - 15).trimmed();  // remove label
       splitUniqueNameList(s, mSupportPolygonNodeNames);
     } else if (key == "consoles:") {
-      const QString s = line.right(line.length() - 10).trimmed();  // remove label
+      const QStringList s = line.right(line.length() - 10).trimmed().split(':');  // remove label
+      assert(s.size() == 2);
       ConsoleSettings settings;
-      settings.enabledFilters = s.split(";");  // TODO: add enabledLevel
+      settings.enabledFilters = s[0].split(';');
+      settings.enabledLevels = s[1].split(';');
       mConsolesSettings.append(settings);
     } else if (key == "renderingDevicePerspectives:") {
       if (skipNodeIdsOptions)
@@ -259,8 +261,8 @@ bool WbPerspective::save() const {
     out << "supportPolygon: " << joinUniqueNameList(mSupportPolygonNodeNames) << "\n";
 
   for (int i = 0; i < mConsolesSettings.size(); ++i)
-    out << "consoles: " << mConsolesSettings.at(i).enabledFilters.join(";") << "\n";
-  // TODO: add enabled levels
+    out << "consoles: " << mConsolesSettings.at(i).enabledFilters.join(";") << ":"
+        << mConsolesSettings.at(i).enabledLevels.join(";") << "\n";
 
   QHash<QString, QStringList>::const_iterator it;
   for (it = mRenderingDevicesPerspectiveList.constBegin(); it != mRenderingDevicesPerspectiveList.constEnd(); ++it)
