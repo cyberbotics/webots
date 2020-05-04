@@ -949,7 +949,6 @@ void WbNode::writeParameters(WbVrmlWriter &writer) const {
 }
 
 void WbNode::write(WbVrmlWriter &writer) const {
-  assert(!(writer.isX3d() && isProtoParameterNode()));
   if (uniqueId() == -1) {
     if (nodeModelName() == "Plane" || nodeModelName() == "Capsule") {
       WbNodeFactory::instance()->exportAsVrml(this, writer);
@@ -1096,6 +1095,7 @@ void WbNode::exportNodeContents(WbVrmlWriter &writer) const {
 }
 
 void WbNode::writeExport(WbVrmlWriter &writer) const {
+  assert(!(writer.isX3d() && isProtoParameterNode()));
   if (exportNodeHeader(writer))
     return;
   exportNodeContents(writer);
