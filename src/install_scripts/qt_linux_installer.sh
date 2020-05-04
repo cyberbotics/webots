@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# install the latest Qt from https://download.qt.io/official_releases/qt/
+# follow the instructions from https://github.com/cyberbotics/webots/wiki/Qt-compilation#linux to download and compile Qt before executing this script.
 
 QT_VERSION=5.13.1
 ICU_VERSION=56
