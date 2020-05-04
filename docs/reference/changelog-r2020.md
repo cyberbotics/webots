@@ -16,6 +16,7 @@ Released on XXX.
     - Added a [Gyro](https://www.cyberbotics.com/doc/reference/gyro) node to e-puck PROTO ([#1484](https://github.com/cyberbotics/webots/pull/1484)).
   - Dependency Updates
     - Upgraded to Assimp 5.0.1 on Linux and macOS ([#1419](https://github.com/cyberbotics/webots/pull/1463)).
+    - Upgraded to Qt 5.14.2 on Linux.
 
 ## Webots R2020a Revision 2
 Released on XXX.
