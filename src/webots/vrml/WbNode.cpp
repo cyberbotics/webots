@@ -399,10 +399,9 @@ void WbNode::setUseName(const QString &useName, bool signal) {
 QString WbNode::fullName() const {
   if (isUseNode())
     return "USE " + mUseName;
-  else if (!defName().isEmpty())
+  if (!defName().isEmpty())
     return "DEF " + mDefName + " " + modelName();
-  else
-    return modelName();
+  return modelName();
 }
 
 QString WbNode::fullVrmlName() const {
@@ -413,8 +412,7 @@ QString WbNode::fullVrmlName() const {
 
   if (defName().isEmpty())
     return name;
-  else
-    return "DEF " + mDefName + " " + name;
+  return "DEF " + mDefName + " " + name;
 }
 
 QString WbNode::usefulName() const {
@@ -580,13 +578,12 @@ WbField *WbNode::parentFieldAndIndex(int &index, bool internal) const {
     if (sfnode && sfnode->value() == this) {
       index = 0;
       return field;
-    } else {
-      const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(field->value());
-      if (mfnode) {
-        index = mfnode->nodeIndex(this);
-        if (index != -1)
-          return field;
-      }
+    }
+    const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(field->value());
+    if (mfnode) {
+      index = mfnode->nodeIndex(this);
+      if (index != -1)
+        return field;
     }
   }
 
@@ -785,8 +782,7 @@ int WbNode::findSubFieldIndex(const WbField *const searched) const {
     foreach (WbField *const field, node->mFields) {
       if (field == searched)
         return count;
-      else
-        ++count;
+      ++count;
     }
   }
   assert(0);
@@ -802,8 +798,8 @@ WbField *WbNode::findSubField(int index, WbNode *&parentNode) const {
       if (count == index) {
         parentNode = node;
         return field;
-      } else
-        ++count;
+      }
+      ++count;
     }
   }
   assert(0);
@@ -1037,25 +1033,22 @@ QStringList WbNode::listTextureFiles() const {
 }
 
 bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
-  if (writer.isX3d()) {
-    // actual export is done in WbBaseNode
+  if (writer.isX3d())  // actual export is done in WbBaseNode
     return false;
-  } else {  // VRML or PROTO
-    if (isUseNode()) {
-      writer << "USE " << mUseName << "\n";
-      return true;
-    }
-    if (writer.isVrml())
-      writer << fullVrmlName();
-    else {
-      if (isDefNode())
-        writer << "DEF " << defName() << " ";
-      writer << nodeModelName();
-    }
-    writer << " {\n";
-    writer.increaseIndent();
-    return false;
+  if (isUseNode()) {
+    writer << "USE " << mUseName << "\n";
+    return true;
   }
+  if (writer.isVrml())
+    writer << fullVrmlName();
+  else {
+    if (isDefNode())
+      writer << "DEF " << defName() << " ";
+    writer << nodeModelName();
+  }
+  writer << " {\n";
+  writer.increaseIndent();
+  return false;
 }
 
 void WbNode::exportNodeFields(WbVrmlWriter &writer) const {
@@ -1095,6 +1088,7 @@ void WbNode::exportNodeContents(WbVrmlWriter &writer) const {
 }
 
 void WbNode::writeExport(WbVrmlWriter &writer) const {
+  assert(!(writer.isX3d() && isProtoParameterNode()));
   if (exportNodeHeader(writer))
     return;
   exportNodeContents(writer);
@@ -1297,9 +1291,8 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
       protoLevel = 1;
     else
       ++protoLevel;
-  } else {
+  } else
     gDerivedProtoAncestorFlag = true;
-  }
 
   const bool previousTopParameterFlag = gTopParameterFlag;
   const bool topParameter = (previousProtoLevel == -1) &&
@@ -1684,14 +1677,9 @@ bool WbNode::isProtoParameterChild(const WbNode *node) const {
     const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(field->value());
     if (sfnode && sfnode->value() == node)
       return true;
-    else {
-      const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(field->value());
-      if (mfnode) {
-        int index = mfnode->nodeIndex(node);
-        if (index != -1)
-          return true;
-      }
-    }
+    const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(field->value());
+    if (mfnode && mfnode->nodeIndex(node) != -1)
+      return true;
   }
 
   return false;
