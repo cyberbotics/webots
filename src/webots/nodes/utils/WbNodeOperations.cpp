@@ -181,16 +181,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       else if (result == REGENERATION_REQUIRED)
         isNodeRegenerated = true;
       ++nodeIndex;
-      if (!field->isTemplateRegenerator() && !isNodeRegenerated) {
-        if (childNode->isProtoParameterNode()) {
-          QVector<WbNode *> nodeInstances = childNode->protoParameterNodeInstances();
-          WbBaseNode *baseNodeInstance = NULL;
-          foreach (WbNode *nodeInstance, nodeInstances) {
-            baseNodeInstance = dynamic_cast<WbBaseNode *>(nodeInstance);
-            emit nodeAdded(baseNodeInstance);
-          }
-        } else
-          emit nodeAdded(childNode);
+      if (!field->isTemplateRegenerator() && !isNodeRegenerated)
+        emit nodeAdded(childNode);
       }
       // we need to emit this signal after finalize so that the mass properties are displayed properly
       // in the scene tree.
