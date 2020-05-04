@@ -79,6 +79,7 @@ cp $QT_INSTALLATION_PATH/lib/libQt5OpenGL.so.$QT_VERSION            lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt5Positioning.so.$QT_VERSION       lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt5PrintSupport.so.$QT_VERSION      lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt5Qml.so.$QT_VERSION               lib/webots/
+cp $QT_INSTALLATION_PATH/lib/libQt5QmlModels.so.$QT_VERSION         lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt5Quick.so.$QT_VERSION             lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt5QuickWidgets.so.$QT_VERSION      lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt5Sensors.so.$QT_VERSION           lib/webots/
