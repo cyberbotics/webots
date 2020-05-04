@@ -134,7 +134,7 @@ To work around this problem, such controllers should be launched as extern contr
 Before launching extern controllers, you should set the `WEBOTS_HOME` environment variable to point to `/snap/webots/current/usr/share/webots` and add `$WEBOTS_HOME/lib` to your `LD_LIBRARY_PATH` environment variable, so that your controllers will find the necessary shared libraries.
 The chapter entitled [running extern robot controllers](running-extern-robot-controllers.md) details how to run extern controllers, including with the snap version of Webots.
 
-##### Toubleshooting
+##### Troubleshooting
 
 On some Linux systems, such as Arch Linux, you may get errors related to `fontconfig` when starting Webots.
 If that happens, you should clear the font cache and start Webots again:
