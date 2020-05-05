@@ -120,7 +120,8 @@ void WbRenderingDevice::updateWidth() {
 
   // warn in case of width modification after the setup
   if (mHasBeenSetup)
-    warn(tr("'width' has been modified. This modification will be taken into account after saving and reloading the world."));
+    warn(tr("'width' has been modified. This modification will be taken into account after saving and reloading the world."),
+         false);
 }
 
 void WbRenderingDevice::updateHeight() {
@@ -132,7 +133,8 @@ void WbRenderingDevice::updateHeight() {
 
   // warn in case of height modification after the setup
   if (mHasBeenSetup)
-    warn(tr("'height' has been modified. This modification will be taken into account after saving and reloading the world."));
+    warn(tr("'height' has been modified. This modification will be taken into account after saving and reloading the world."),
+         false);
 }
 
 // backward compatibility

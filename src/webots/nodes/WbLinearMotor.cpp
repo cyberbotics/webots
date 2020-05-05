@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbLinearMotor.hpp"
 #include "WbJoint.hpp"
 #include "WbJointParameters.hpp"
+#include "WbLinearMotor.hpp"
 #include "WbSolid.hpp"
 
 #include <ode/ode.h>
@@ -56,7 +56,7 @@ void WbLinearMotor::turnOffMotor() {
 double WbLinearMotor::computeFeedback() const {
   const WbJoint *j = joint();
   if (j == NULL) {  // function available for motorized joints only
-    warn(tr("Force feedback is available for motorized joints only"));
+    warn(tr("Force feedback is available for motorized joints only"), false);
     return 0.0;
   }
   const dJointID jID = j->jointID();

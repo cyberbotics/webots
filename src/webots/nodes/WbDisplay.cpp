@@ -93,7 +93,7 @@ void WbDisplay::init() {
   mDisplayFont = new WbDisplayFont();
   QString error = mDisplayFont->error();
   if (!error.isEmpty())
-    warn(error);
+    warn(error, false);
   setFont((char *)"Lucida Console", 8);
 }
 
@@ -734,7 +734,7 @@ int WbDisplay::drawChar(unsigned long c, int x, int y) {
   if (c == ' ')
     return horizontalAdvance;
   if (!buffer) {
-    warn(tr("Error while generating character '%1'.").arg(c));
+    warn(tr("Error while generating character '%1'.").arg(c), false);
     return 0;
   }
   const int w = width();
@@ -790,9 +790,9 @@ void WbDisplay::setFont(char *font, unsigned int size) {
   if (fileFound) {
     mDisplayFont->setFont(filename, size);
     if (!mDisplayFont->error().isEmpty())
-      warn(mDisplayFont->error());
+      warn(mDisplayFont->error(), false);
   } else
-    warn(tr("Invalid '%1' font.").arg(font));
+    warn(tr("Invalid '%1' font.").arg(font), false);
 }
 
 void WbDisplay::drawPolygon(const int *px, const int *py, int size, bool fill) {

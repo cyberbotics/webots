@@ -548,9 +548,10 @@ void WbCamera::handleMessage(QDataStream &stream) {
           mFieldOfView->setValue(fov);
         else
           warn(
-            tr("wb_camera_set_fov(%1) out of zoom range [%2, %3].").arg(fov).arg(z->minFieldOfView()).arg(z->maxFieldOfView()));
+            tr("wb_camera_set_fov(%1) out of zoom range [%2, %3].").arg(fov).arg(z->minFieldOfView()).arg(z->maxFieldOfView()),
+            false);
       } else
-        warn(tr("wb_camera_set_fov() cannot be applied to this camera: missing 'zoom'."));
+        warn(tr("wb_camera_set_fov() cannot be applied to this camera: missing 'zoom'."), false);
       break;
     }
     case C_CAMERA_SET_FOCAL: {
@@ -565,9 +566,10 @@ void WbCamera::handleMessage(QDataStream &stream) {
           warn(tr("wb_camera_set_focal_distance(%1) out of focus range [%2, %3].")
                  .arg(focalDistance)
                  .arg(f->minFocalDistance())
-                 .arg(f->maxFocalDistance()));
+                 .arg(f->maxFocalDistance()),
+               false);
       } else
-        warn(tr("wb_camera_set_focal_distance() cannot be applied to this camera: missing 'focus'."));
+        warn(tr("wb_camera_set_focal_distance() cannot be applied to this camera: missing 'focus'."), false);
       break;
     }
     case C_CAMERA_SET_RECOGNITION_SAMPLING_PERIOD: {

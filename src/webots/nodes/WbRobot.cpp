@@ -425,7 +425,7 @@ void WbRobot::updateWindow() {
     if (!key.isEmpty()) {
       const QString &absoluteFilePath = searchDynamicLibraryAbsolutePath(key, "robot_windows");
       if (absoluteFilePath.isEmpty() && windowFile().isEmpty())  // not a HTML robot window
-        warn(tr("The robot window library has not been found."));
+        warn(tr("The robot window library has not been found."), false);
       else
         mAbsoluteWindowFilename = absoluteFilePath;
     }
@@ -439,7 +439,7 @@ void WbRobot::updateWindow() {
     mAbsoluteWindowFilename = WbStandardPaths::resourcesRobotWindowsPluginsPath() + "generic/" +
                               WbStandardPaths::dynamicLibraryPrefix() + "generic" + WbStandardPaths::dynamicLibraryExtension();
     if (!QFile::exists(mAbsoluteWindowFilename))
-      warn(tr("The generic robot window is not found. Please check your Webots installation."));
+      warn(tr("The generic robot window is not found. Please check your Webots installation."), false);
   }
 
   if (!mAbsoluteWindowFilename.isEmpty())
@@ -454,7 +454,7 @@ void WbRobot::updateRemoteControl() {
     if (!key.isEmpty()) {
       const QString &absoluteFilePath = searchDynamicLibraryAbsolutePath(key, "remote_controls");
       if (absoluteFilePath.isEmpty())
-        warn(tr("The remote control library has not been found."));
+        warn(tr("The remote control library has not been found."), false);
       else
         mAbsoluteRemoteControlFilename = absoluteFilePath;
     }
@@ -493,7 +493,7 @@ void WbRobot::updateControllerDir() {
       const int otherSize = path.size();
       for (int i = 0; i < otherSize; ++i)
         warning += "\n" + path[i];
-      warn(warning);
+      warn(warning, false);
     }
   }
 
@@ -820,7 +820,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
             mJoystickConfigureRequest = true;
             mJoystickTimer->start(mJoystickInterface->updateRate());
           } else {
-            warn(mJoystickInterface->initializationError());
+            warn(mJoystickInterface->initializationError(), false);
             delete mJoystickInterface;
             mJoystickInterface = NULL;
           }

@@ -34,7 +34,8 @@ namespace {
     if (node)
       node->warn(QObject::tr("First item of '%1' field expected to be a file but is a directory.").arg(field));
     else
-      WbLog::warning(QObject::tr("'%1' expected to be a file but is a directory.").arg(field));
+      WbLog::warning(QObject::tr("'%1' expected to be a file but is a directory.").arg(field), false,
+                     WbLog::filterName(WbLog::PARSING));
     return "";
   }
 }  // namespace
@@ -90,7 +91,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     if (node)
       node->warn(QObject::tr("First item of '%1' field is empty.").arg(field));
     else
-      WbLog::warning(QObject::tr("Missing '%1' value.").arg(field));
+      WbLog::warning(QObject::tr("Missing '%1' value.").arg(field), false, WbLog::filterName(WbLog::PARSING));
     return "";
   }
 
@@ -104,7 +105,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       if (node)
         node->warn(error);
       else
-        WbLog::warning(error);
+        WbLog::warning(error, false, WbLog::filterName(WbLog::PARSING));
       return "";
     }
   }
@@ -127,7 +128,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     if (node)
       node->warn(warning);
     else
-      WbLog::warning(warning);
+      WbLog::warning(warning, false, WbLog::filterName(WbLog::PARSING));
   }
 
   return "";
@@ -168,7 +169,7 @@ QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QStri
         }
       }
 
-      node->warn(QObject::tr("Texture export fails, because too much textures are sharing the same name: %1.").arg(url));
+      node->warn(QObject::tr("Texture export fails, because too much textures are sharing the same name: %1.").arg(url), false);
       return "";
     }
   } else {  // simple case

@@ -195,7 +195,7 @@ void WbAbstractCamera::initializeSharedMemory() {
   if (!mImageShm->create(size())) {
     QString message = tr("Cannot allocate shared memory. The shared memory is required for the cameras. The shared memory of "
                          "your OS is probably full. Please check your shared memory setup.");
-    warn(message);
+    warn(message, false);
     delete mImageShm;
     mImageShm = NULL;
     return;

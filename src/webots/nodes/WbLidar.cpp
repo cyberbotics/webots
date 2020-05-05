@@ -644,8 +644,9 @@ void WbLidar::updateFieldOfView() {
 
   // warn in case of width modification after the setup
   if (hasBeenSetup())
-    warn(tr(
-      "'fieldOfView' has been modified. This modification will be taken into account after saving and reloading the world."));
+    warn(
+      tr("'fieldOfView' has been modified. This modification will be taken into account after saving and reloading the world."),
+      false);
 }
 
 void WbLidar::updateResolution() {
@@ -730,7 +731,8 @@ void WbLidar::updateHorizontalResolution() {
   // warn in case of width modification after the setup
   if (hasBeenSetup())
     warn(tr("'horizontalResolution' has been modified. This modification will be taken into account after saving and reloading "
-            "the world."));
+            "the world."),
+         false);
 }
 
 void WbLidar::updateVerticalFieldOfView() {
@@ -756,7 +758,8 @@ void WbLidar::updateVerticalFieldOfView() {
   // warn in case of width modification after the setup
   if (hasBeenSetup())
     warn(tr("'verticalFieldOfView' has been modified. This modification will be taken into account after saving and reloading "
-            "the world."));
+            "the world."),
+         false);
   if (areWrenObjectsInitialized())
     applyFrustumToWren();
 }
@@ -783,7 +786,8 @@ void WbLidar::updateNumberOfLayers() {
   // warn in case of width modification after the setup
   if (hasBeenSetup())
     warn(tr("'numberOfLayers' has been modified. This modification will be taken into account after saving and reloading the "
-            "world."));
+            "world."),
+         false);
   if (areWrenObjectsInitialized())
     applyFrustumToWren();
 }

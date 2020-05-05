@@ -74,10 +74,10 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
                                       aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent);
 
   if (!scene) {
-    warn(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
+    warn(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()), false);
     return;
   } else if (!scene->HasMeshes()) {
-    warn(tr("This file doesn't contain any mesh."));
+    warn(tr("This file doesn't contain any mesh."), false);
     return;
   }
 
@@ -161,7 +161,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   }
 
   if (!node) {
-    warn(tr("This file doesn't contain any mesh."));
+    warn(tr("This file doesn't contain any mesh."), false);
     return;
   }
 
@@ -169,10 +169,10 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 
   if (issueWarnings) {
     foreach (QString warning, mTriangleMesh->warnings())
-      warn(warning);
+      warn(warning, false);
 
     if (!mTriangleMeshError.isEmpty())
-      warn(tr("Cannot create IndexedFaceSet because: \"%1\".").arg(mTriangleMeshError));
+      warn(tr("Cannot create IndexedFaceSet because: \"%1\".").arg(mTriangleMeshError), false);
   }
 }
 

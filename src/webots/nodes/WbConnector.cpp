@@ -408,7 +408,7 @@ void WbConnector::createFixedJoint(WbConnector *other) {
   dBodyID b1 = upperSolid()->bodyMerger();
   dBodyID b2 = other->upperSolid()->bodyMerger();
   if (!b1 && !b2) {
-    warn(tr("Connectors could not be attached because none of their parent nodes have Physics nodes."));
+    warn(tr("Connectors could not be attached because none of their parent nodes have Physics nodes."), false);
     return;
   }
 
@@ -449,7 +449,7 @@ void WbConnector::attachTo(WbConnector *other) {
   dBodyID b1 = upperSolid()->bodyMerger();
   dBodyID b2 = other->upperSolid()->bodyMerger();
   if (!b1 && !b2) {
-    warn(tr("Connectors could not be attached because none of their parent nodes have Physics nodes."));
+    warn(tr("Connectors could not be attached because none of their parent nodes have Physics nodes."), false);
     return;
   }
 
