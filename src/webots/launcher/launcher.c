@@ -99,6 +99,17 @@ int main(int argc, char *argv[]) {
   if (!CreateProcess(NULL, command_line, NULL, NULL, TRUE, 0, NULL, NULL, &info, &process_info))
     fail("CreateProcess", command_line);
   free(command_line);
+
+  // webots-bin.exe should be killed whenever its parent (webots.exe or webotsw.exe) terminates.
+  HANDLE job = CreateJobObject(NULL, NULL);
+  JOBOBJECT_EXTENDED_LIMIT_INFORMATION jeli = {0};
+  jeli.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
+  if (!SetInformationJobObject(job, JobObjectExtendedLimitInformation, &jeli, sizeof(jeli)))
+    fail("SetInformationJobObject", 0);
+  if (!AssignProcessToJobObject(job, process_info.hProcess))
+    fail("AssignProcessToJobObject", 0);
+
+  // wait for webots-bin.exe to terminate
   WaitForSingleObject(process_info.hProcess, INFINITE);  // return zero in case of success
   DWORD exit_code;
   if (!GetExitCodeProcess(process_info.hProcess, &exit_code))
