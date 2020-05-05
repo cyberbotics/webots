@@ -29,7 +29,6 @@ int main(int argc, char **argv) {
                          lookup_table[3]);
   ts_assert_double_equal(lookup_table[5], 0, "Lookup table (index 5) returned is wrong (%lf instead of 0)", lookup_table[5]);
 
-
   const double *values = wb_gyro_get_values(gyro);
 
   const double expected[] = {0.0, 10.0, 0.0};
