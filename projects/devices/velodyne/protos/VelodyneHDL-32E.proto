@@ -99,8 +99,8 @@ Lidar {
   }
   %{ end }%
   tiltAngle -0.349
-  horizontalResolution 1125   # 360 / 0.08 / 4
-  fieldOfView 1.570795 # 6.28318 / 4
+  horizontalResolution 4500  # 360 / 0.08
+  fieldOfView 1.570795       # 6.28318 / 4
   verticalFieldOfView 0.7215 # 41.34deg
   numberOfLayers 32
   near 0.1
