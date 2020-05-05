@@ -26,9 +26,9 @@ RosDistanceSensor::RosDistanceSensor(DistanceSensor *distanceSensor, Ros *ros) :
   mApertureServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_aperture",
                                                    &RosDistanceSensor::getApertureCallback);
   mLookupTableSizeServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_lookup_table_size",
-                                                   &RosDistanceSensor::getLookupTableSize);
+                                                          &RosDistanceSensor::getLookupTableSize);
   mLookupTableServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_lookup_table",
-                                                   &RosDistanceSensor::getLookupTable);
+                                                      &RosDistanceSensor::getLookupTable);
   mTypeServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_type",
                                                &RosDistanceSensor::getTypeCallback);
 }
@@ -90,7 +90,7 @@ bool RosDistanceSensor::getLookupTableSize(webots_ros::get_int::Request &req, we
 
 bool RosDistanceSensor::getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res) {
   assert(mDistanceSensor);
-  const double* values = mDistanceSensor->getLookupTable();
+  const double *values = mDistanceSensor->getLookupTable();
   res.value.assign(values, values + mDistanceSensor->getLookupTableSize());
   return true;
 }
