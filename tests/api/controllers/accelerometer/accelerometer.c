@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
   const double *lookup_table = wb_distance_sensor_get_lookup_table(acc);
   ts_assert_double_equal(lookup_table[3], 100, "Lookup table (index 3) returned is wrong (%lf instead of 100)",
                          lookup_table[3]);
-  ts_assert_double_equal(lookup_table[5], 0, "Lookup table (index 5) returned is wrong (%lf instead of 0.2)", lookup_table[5]);
+  ts_assert_double_equal(lookup_table[5], 0, "Lookup table (index 5) returned is wrong (%lf instead of 0)", lookup_table[5]);
 
   const double *values = wb_accelerometer_get_values(acc);
 
