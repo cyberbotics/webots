@@ -92,7 +92,7 @@ int wb_distance_sensor_get_lookup_table_size(WbDeviceTag tag) {
 }
 
 const double *wb_distance_sensor_get_lookup_table(WbDeviceTag tag) {
-  double **result = NULL;
+  double *result = NULL;
   robot_mutex_lock_step();
   DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds)

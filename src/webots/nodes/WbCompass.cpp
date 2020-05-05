@@ -39,6 +39,8 @@ void WbCompass::init() {
   mYAxis = findSFBool("yAxis");
   mZAxis = findSFBool("zAxis");
   mResolution = findSFDouble("resolution");
+
+  mNeedToReconfigure = false;
 }
 
 WbCompass::WbCompass(WbTokenizer *tokenizer) : WbSolidDevice("Compass", tokenizer) {
@@ -80,6 +82,8 @@ void WbCompass::updateLookupTable() {
   // create the lookup table
   delete mLut;
   mLut = new WbLookupTable(*mLookupTable);
+
+  mNeedToReconfigure = true;
 }
 
 void WbCompass::updateResolution() {
@@ -104,13 +108,30 @@ void WbCompass::handleMessage(QDataStream &stream) {
 void WbCompass::writeAnswer(QDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << (short unsigned int)tag();
+    stream << (unsigned char)C_COMPASS_DATA;
     stream << (double)mValues[0] << (double)mValues[1] << (double)mValues[2];
     mSensor->resetPendingValue();
   }
+
+  if (mNeedToReconfigure)
+    addConfigure(stream);
 }
 
 void WbCompass::writeConfigure(QDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
+  addConfigure(stream);
+}
+
+void WbCompass::addConfigure(QDataStream &stream) {
+  stream << (short unsigned int)tag();
+  stream << (unsigned char)C_CONFIGURE;
+  stream << (int)mLookupTable->size();
+  for (int i = 0; i < mLookupTable->size(); i++) {
+    stream << (double)mLookupTable->item(i).x();
+    stream << (double)mLookupTable->item(i).y();
+    stream << (double)mLookupTable->item(i).z();
+  }
+  mNeedToReconfigure = false;
 }
 
 bool WbCompass::refreshSensorIfNeeded() {

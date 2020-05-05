@@ -42,6 +42,8 @@ void WbTouchSensor::init() {
   mLookupTable = findMFVector3("lookupTable");
   mType = findSFString("type");
   mResolution = findSFDouble("resolution");
+
+  mNeedToReconfigure = false;
 }
 
 WbTouchSensor::WbTouchSensor(WbTokenizer *tokenizer) : WbSolidDevice("TouchSensor", tokenizer) {
@@ -87,6 +89,8 @@ void WbTouchSensor::updateLookupTable() {
   mValues[0] = mLut->minValue();
   mValues[1] = mLut->minValue();
   mValues[2] = mLut->minValue();
+
+  mNeedToReconfigure = true;
 }
 
 void WbTouchSensor::updateType() {
@@ -137,6 +141,22 @@ void WbTouchSensor::writeAnswer(QDataStream &stream) {
     }
     mSensor->resetPendingValue();
   }
+
+  if (mNeedToReconfigure)
+    addConfigure(stream);
+}
+
+void WbTouchSensor::addConfigure(QDataStream &stream) {
+  stream << (short unsigned int)tag();
+  stream << (unsigned char)C_CONFIGURE;
+  stream << (int)mDeviceType;
+  stream << (int)mLookupTable->size();
+  for (int i = 0; i < mLookupTable->size(); i++) {
+    stream << (double)mLookupTable->item(i).x();
+    stream << (double)mLookupTable->item(i).y();
+    stream << (double)mLookupTable->item(i).z();
+  }
+  mNeedToReconfigure = false;
 }
 
 bool WbTouchSensor::refreshSensorIfNeeded() {
@@ -252,10 +272,7 @@ dJointID WbTouchSensor::createJoint(dBodyID body, dBodyID parentBody, dWorldID w
 
 void WbTouchSensor::writeConfigure(QDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
-
-  stream << (short unsigned int)tag();
-  stream << (unsigned char)C_CONFIGURE;
-  stream << (int)mDeviceType;
+  addConfigure(stream);
 }
 
 bool WbTouchSensor::forceBehavior() const {

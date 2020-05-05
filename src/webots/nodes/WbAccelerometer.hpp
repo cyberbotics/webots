@@ -58,10 +58,12 @@ private:
   WbLookupTable *mLut;
   double mValues[3];  // current sensor value according to lookup table
   double mVelocity[3];
+  bool mNeedToReconfigure;
 
   // private functions
   WbAccelerometer &operator=(const WbAccelerometer &);  // non copyable
   WbNode *clone() const override { return new WbAccelerometer(*this); }
+  void addConfigure(QDataStream &);
   void init();
   void computeValue();
 

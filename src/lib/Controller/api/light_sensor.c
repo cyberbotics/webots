@@ -29,6 +29,8 @@ typedef struct {
   bool enable;          // need to enable device ?
   int sampling_period;  // milliseconds
   double value;
+  int lookup_table_size;
+  double *lookup_table;
 } LightSensor;
 
 static LightSensor *light_sensor_create() {
@@ -36,6 +38,8 @@ static LightSensor *light_sensor_create() {
   ls->enable = false;
   ls->sampling_period = 0;
   ls->value = NAN;
+  ls->lookup_table = NULL;
+  ls->lookup_table_size = 0;
   return ls;
 }
 
@@ -46,7 +50,45 @@ static LightSensor *light_sensor_get_struct(WbDeviceTag t) {
 
 static void light_sensor_read_answer(WbDevice *d, WbRequest *r) {
   LightSensor *ls = (LightSensor *)d->pdata;
+  switch (request_read_uchar(r)) {
+    case C_LIGHT_SENSOR_DATA:
+      ls->value = request_read_double(r);
+      break;
+    case C_CONFIGURE:
+      ls->lookup_table_size = request_read_int32(r);
+      ls->lookup_table = (double *)malloc(sizeof(double) * ls->lookup_table_size * 3);
+      for (int i = 0; i < ls->lookup_table_size * 3; i++)
+        ls->lookup_table[i] = request_read_double(r);
+      break;
+    default:
+      ROBOT_ASSERT(0);  // should never be reached
+      break;
+  }
   ls->value = request_read_double(r);
+}
+
+int wb_light_sensor_get_lookup_table_size(WbDeviceTag tag) {
+  int result = 0;
+  robot_mutex_lock_step();
+  LightSensor *dev = light_sensor_get_struct(tag);
+  if (dev)
+    result = dev->lookup_table_size;
+  else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
+}
+
+const double *wb_light_sensor_get_lookup_table(WbDeviceTag tag) {
+  double *result = NULL;
+  robot_mutex_lock_step();
+  LightSensor *dev = light_sensor_get_struct(tag);
+  if (dev)
+    result = dev->lookup_table;
+  else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
 }
 
 static void light_sensor_write_request(WbDevice *d, WbRequest *r) {
@@ -59,6 +101,8 @@ static void light_sensor_write_request(WbDevice *d, WbRequest *r) {
 }
 
 static void light_sensor_cleanup(WbDevice *d) {
+  LightSensor *ls = (LightSensor *)d->pdata;
+  free(ls->lookup_table);
   free(d->pdata);
 }
 

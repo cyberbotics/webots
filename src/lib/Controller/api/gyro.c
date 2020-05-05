@@ -26,6 +26,8 @@ typedef struct {
   int enable;           // need to enable device ?
   int sampling_period;  // milliseconds
   double velocity[3];   // angular velocity
+  int lookup_table_size;
+  double *lookup_table;
 } Gyro;
 
 static Gyro *gyro_create() {
@@ -35,6 +37,8 @@ static Gyro *gyro_create() {
   gyro->velocity[0] = NAN;
   gyro->velocity[1] = NAN;
   gyro->velocity[2] = NAN;
+  gyro->lookup_table = NULL;
+  gyro->lookup_table_size = 0;
   return gyro;
 }
 
@@ -47,9 +51,46 @@ static Gyro *gyro_get_struct(WbDeviceTag t) {
 
 static void gyro_read_answer(WbDevice *d, WbRequest *r) {
   Gyro *gyro = d->pdata;
-  gyro->velocity[0] = request_read_double(r);
-  gyro->velocity[1] = request_read_double(r);
-  gyro->velocity[2] = request_read_double(r);
+  switch (request_read_uchar(r)) {
+    case C_GYRO_DATA:
+      gyro->velocity[0] = request_read_double(r);
+      gyro->velocity[1] = request_read_double(r);
+      gyro->velocity[2] = request_read_double(r);
+      break;
+    case C_CONFIGURE:
+      gyro->lookup_table_size = request_read_int32(r);
+      gyro->lookup_table = (double *)malloc(sizeof(double) * gyro->lookup_table_size * 3);
+      for (int i = 0; i < gyro->lookup_table_size * 3; i++)
+        gyro->lookup_table[i] = request_read_double(r);
+      break;
+    default:
+      ROBOT_ASSERT(0);  // should never be reached
+      break;
+  }
+}
+
+int wb_gyro_get_lookup_table_size(WbDeviceTag tag) {
+  int result = 0;
+  robot_mutex_lock_step();
+  Gyro *dev = gyro_get_struct(tag);
+  if (dev)
+    result = dev->lookup_table_size;
+  else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
+}
+
+const double *wb_gyro_get_lookup_table(WbDeviceTag tag) {
+  double *result = NULL;
+  robot_mutex_lock_step();
+  Gyro *dev = gyro_get_struct(tag);
+  if (dev)
+    result = dev->lookup_table;
+  else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
 }
 
 static void gyro_write_request(WbDevice *d, WbRequest *r) {
@@ -62,6 +103,8 @@ static void gyro_write_request(WbDevice *d, WbRequest *r) {
 }
 
 static void gyro_cleanup(WbDevice *d) {
+  Gyro *gyro = (Gyro *)d->pdata;
+  free(gyro->lookup_table);
   free(d->pdata);
 }
 

@@ -29,6 +29,8 @@ typedef struct {
   bool enable;          // need to enable device ?
   int sampling_period;  // milliseconds
   double values[3];     // acceleration
+  int lookup_table_size;
+  double *lookup_table;
 } Accelerometer;
 
 static Accelerometer *accelerometer_create() {
@@ -38,6 +40,8 @@ static Accelerometer *accelerometer_create() {
   acc->values[0] = NAN;
   acc->values[1] = NAN;
   acc->values[2] = NAN;
+  acc->lookup_table = NULL;
+  acc->lookup_table_size = 0;
   return acc;
 }
 
@@ -48,9 +52,46 @@ static Accelerometer *accelerometer_get_struct(WbDeviceTag t) {
 
 static void accelerometer_read_answer(WbDevice *d, WbRequest *r) {
   Accelerometer *acc = d->pdata;
-  acc->values[0] = request_read_double(r);
-  acc->values[1] = request_read_double(r);
-  acc->values[2] = request_read_double(r);
+  switch (request_read_uchar(r)) {
+    case C_ACCELEROMETER_DATA:
+      acc->values[0] = request_read_double(r);
+      acc->values[1] = request_read_double(r);
+      acc->values[2] = request_read_double(r);
+      break;
+    case C_CONFIGURE:
+      acc->lookup_table_size = request_read_int32(r);
+      acc->lookup_table = (double *)malloc(sizeof(double) * acc->lookup_table_size * 3);
+      for (int i = 0; i < acc->lookup_table_size * 3; i++)
+        acc->lookup_table[i] = request_read_double(r);
+      break;
+    default:
+      ROBOT_ASSERT(0);  // should never be reached
+      break;
+  }
+}
+
+int wb_accelerometer_get_lookup_table_size(WbDeviceTag tag) {
+  int result = 0;
+  robot_mutex_lock_step();
+  Accelerometer *dev = accelerometer_get_struct(tag);
+  if (dev)
+    result = dev->lookup_table_size;
+  else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
+}
+
+const double *wb_accelerometer_get_lookup_table(WbDeviceTag tag) {
+  double *result = NULL;
+  robot_mutex_lock_step();
+  Accelerometer *dev = accelerometer_get_struct(tag);
+  if (dev)
+    result = dev->lookup_table;
+  else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
 }
 
 static void accelerometer_write_request(WbDevice *d, WbRequest *r) {
@@ -63,6 +104,8 @@ static void accelerometer_write_request(WbDevice *d, WbRequest *r) {
 }
 
 static void accelerometer_cleanup(WbDevice *d) {
+  Accelerometer *acc = (Accelerometer *)d->pdata;
+  free(acc->lookup_table);
   free(d->pdata);
 }
 

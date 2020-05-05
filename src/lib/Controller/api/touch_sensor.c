@@ -28,6 +28,8 @@ typedef struct {
   int sampling_period;  // milliseconds
   WbTouchSensorType type;
   double values[3];
+  int lookup_table_size;
+  double *lookup_table;
 } TouchSensor;
 
 static TouchSensor *touch_sensor_create() {
@@ -38,6 +40,8 @@ static TouchSensor *touch_sensor_create() {
   ts->values[0] = NAN;
   ts->values[1] = NAN;
   ts->values[2] = NAN;
+  ts->lookup_table = NULL;
+  ts->lookup_table_size = 0;
   return ts;
 }
 
@@ -59,11 +63,39 @@ static void touch_sensor_read_answer(WbDevice *d, WbRequest *r) {
       break;
     case C_CONFIGURE:
       ts->type = request_read_int32(r);
+      ts->lookup_table_size = request_read_int32(r);
+      ts->lookup_table = (double *)malloc(sizeof(double) * ts->lookup_table_size * 3);
+      for (int i = 0; i < ts->lookup_table_size * 3; i++)
+        ts->lookup_table[i] = request_read_double(r);
       break;
     default:
       ROBOT_ASSERT(0);  // should never be reached
       break;
   }
+}
+
+int wb_touch_sensor_get_lookup_table_size(WbDeviceTag tag) {
+  int result = 0;
+  robot_mutex_lock_step();
+  TouchSensor *dev = touch_sensor_get_struct(tag);
+  if (dev)
+    result = dev->lookup_table_size;
+  else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
+}
+
+const double *wb_touch_sensor_get_lookup_table(WbDeviceTag tag) {
+  double *result = NULL;
+  robot_mutex_lock_step();
+  TouchSensor *dev = touch_sensor_get_struct(tag);
+  if (dev)
+    result = dev->lookup_table;
+  else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
 }
 
 static void touch_sensor_write_request(WbDevice *d, WbRequest *r) {
@@ -76,6 +108,8 @@ static void touch_sensor_write_request(WbDevice *d, WbRequest *r) {
 }
 
 static void touch_sensor_cleanup(WbDevice *d) {
+  TouchSensor *ts = (TouchSensor *)d->pdata;
+  free(ts->lookup_table);
   free(d->pdata);
 }
 
