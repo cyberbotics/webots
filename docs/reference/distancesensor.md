@@ -392,6 +392,11 @@ This value is the minimum of the second column of the `DistanceSensor.lookupTabl
 
 The `wb_distance_sensor_get_aperture` function returns the aperture of the distance sensor in radians.
 
+The `wb_distance_sensor_get_lookup_table_size` function returns the size of the [lookup table](#lookup-table).
+
+The `wb_distance_sensor_get_lookup_table` function returns lookup table fields of the [lookup table](#lookup-table).
+This function returns a matrix containing exactly N * 3 values (N represents number of mapped values obtained with function `wb_distance_sensor_get_lookup_table_size`) that shall be interpreted as a N x 3 table.
+
 ---
 
 #### `wb_distance_sensor_get_type`
