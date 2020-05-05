@@ -159,6 +159,8 @@ gen(FUNC, "wb_distance_sensor_get_value(tag)", "distancesensor")
 gen(FUNC, "wb_distance_sensor_get_max_value(tag)", "distancesensor")
 gen(FUNC, "wb_distance_sensor_get_min_value(tag)", "distancesensor")
 gen(FUNC, "wb_distance_sensor_get_aperture(tag)", "distancesensor")
+gen(FUNC, "wb_distance_sensor_get_lookup_table_size(tag)", "distancesensor")
+gen(FUNC, "wb_distance_sensor_get_lookup_table(tag)", "distancesensor")
 gen(FUNC, "wb_distance_sensor_get_type(tag)", "distancesensor")
 
 # emitter.h
