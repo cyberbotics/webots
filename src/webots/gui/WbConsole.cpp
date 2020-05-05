@@ -271,6 +271,8 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   addContextMenuFilterItem(WbLog::filterName(WbLog::ALL_FILTERS), filterMenu, tr("Display all the logs."));
   QMenu *webotsSubMenu = filterMenu->addMenu(WbLog::filterName(WbLog::WEBOTS));
   addContextMenuFilterItem(WbLog::filterName(WbLog::ALL_WEBOTS), webotsSubMenu, tr("Display all the messages from Webots."));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::PARSING), webotsSubMenu,
+                           tr("Display parsing error when editing or loading a world."));
   addContextMenuFilterItem(WbLog::filterName(WbLog::ODE), webotsSubMenu, tr("Display error messages from ODE."));
   addContextMenuFilterItem(WbLog::filterName(WbLog::JAVASCRIPT), webotsSubMenu,
                            tr("Display Javascript log from the robot-windows."));
@@ -705,7 +707,8 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
           !mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_WEBOTS)))
         return;
     } else if (!mEnabledFilters.contains(logName)) {
-      if (logName == WbLog::filterName(WbLog::ODE) || logName == WbLog::filterName(WbLog::JAVASCRIPT)) {
+      if (logName == WbLog::filterName(WbLog::ODE) || logName == WbLog::filterName(WbLog::JAVASCRIPT) ||
+          logName == WbLog::filterName(WbLog::PARSING)) {
         if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_WEBOTS)))
           return;
       } else if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_CONTROLLERS)))
@@ -863,8 +866,8 @@ void WbConsole::closeEvent(QCloseEvent *event) {
 
 void WbConsole::selectFilters() {
   QStringList options;
-  options << WbLog::filterName(WbLog::ALL_FILTERS) << WbLog::filterName(WbLog::WEBOTS_OTHERS) << WbLog::filterName(WbLog::ODE)
-          << WbLog::filterName(WbLog::JAVASCRIPT);
+  options << WbLog::filterName(WbLog::ALL_FILTERS) << WbLog::filterName(WbLog::WEBOTS_OTHERS)
+          << WbLog::filterName(WbLog::PARSING) << WbLog::filterName(WbLog::ODE) << WbLog::filterName(WbLog::JAVASCRIPT);
   const WbWorld *world = WbWorld::instance();
   if (world) {
     foreach (const WbRobot *robot, world->robots())

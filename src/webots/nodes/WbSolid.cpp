@@ -2563,7 +2563,7 @@ void WbSolid::deleteSupportPolygonRepresentation() {
 bool WbSolid::showSupportPolygonRepresentation(bool enabled) {
   if (mIsKinematic || !isTopLevel()) {
     if (enabled)
-      info(tr("A top Solid with a non-NULL Physics node has to be chosen rather."));
+      info(tr("A top Solid with a non-NULL Physics node has to be chosen rather."), false);
     return false;
   }
   mSupportPolygonRepresentationIsEnabled = enabled;
@@ -2603,7 +2603,7 @@ bool WbSolid::showSupportPolygonRepresentation(bool enabled) {
 bool WbSolid::showGlobalCenterOfMassRepresentation(bool enabled) {
   if (mIsKinematic) {
     if (enabled)
-      info(tr("A Solid with a non-NULL Physics node must be chosen."));
+      info(tr("A Solid with a non-NULL Physics node must be chosen."), false);
     return false;
   }
   mGlobalCenterOfMassRepresentationIsEnabled = enabled;
@@ -2626,7 +2626,7 @@ bool WbSolid::showGlobalCenterOfMassRepresentation(bool enabled) {
 bool WbSolid::showCenterOfBuoyancyRepresentation(bool enabled) {
   if (mIsKinematic) {
     if (enabled)
-      info(tr("A Solid with a non-NULL Physics node must be chosen."));
+      info(tr("A Solid with a non-NULL Physics node must be chosen."), false);
     return false;
   }
   mCenterOfBuoyancyRepresentationIsEnabled = enabled;

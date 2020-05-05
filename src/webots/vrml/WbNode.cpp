@@ -485,7 +485,7 @@ QString WbNode::extractFieldName(const QString &message) const {
   return fieldName;
 }
 
-void WbNode::warn(const QString &message) const {
+void WbNode::warn(const QString &message, bool parsingMessage) const {
   QString fieldName = extractFieldName(message);
   QString parameterName;
   QString path = fullPath(fieldName, parameterName);
@@ -495,10 +495,13 @@ void WbNode::warn(const QString &message) const {
     // improve message by displaying parameter name instead of hidden field name
     improvedMsg.replace("'" + fieldName + "'", "'" + parameterName + "'");
 
-  WbLog::warning(path + ": " + improvedMsg);
+  if (parsingMessage)
+    WbLog::warning(path + ": " + improvedMsg, false, WbLog::filterName(WbLog::PARSING));
+  else
+    WbLog::warning(path + ": " + improvedMsg);
 }
 
-void WbNode::info(const QString &message) const {
+void WbNode::info(const QString &message, bool parsingMessage) const {
   QString fieldName = extractFieldName(message);
   QString parameterName;
   QString path = fullPath(fieldName, parameterName);
@@ -508,7 +511,10 @@ void WbNode::info(const QString &message) const {
     // improve message by displaying parameter name instead of hidden field name
     improvedMsg.replace("'" + fieldName + "'", "'" + parameterName + "'");
 
-  WbLog::info(path + ": " + improvedMsg);
+  if (parsingMessage)
+    WbLog::info(path + ": " + improvedMsg, false, WbLog::filterName(WbLog::PARSING));
+  else
+    WbLog::info(path + ": " + improvedMsg);
 }
 
 void WbNode::cleanup() {
