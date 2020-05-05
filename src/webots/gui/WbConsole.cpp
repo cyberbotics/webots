@@ -245,7 +245,6 @@ void ConsoleEdit::addContextMenuFilterItem(const QString &name, QMenu *menu, con
 }
 
 void ConsoleEdit::addContextMenuLevelItem(const QString &name, QMenu *menu, const QString &toolTip) {
-  // TODO: merge with previous function
   WbConsole *console = dynamic_cast<WbConsole *>(parentWidget());
   assert(console);
   QAction *action = new QAction(menu);
