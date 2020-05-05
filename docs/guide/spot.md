@@ -11,6 +11,10 @@ Spot can go where wheeled robots cannot, while carrying payloads with endurance 
 The maximal speed is 1.6 m/s with a runtime of 90 minutes and the batteries are swappable.
 Spot uses five stereo cameras (360 degrees vision) to avoid obstacles and people as it moves through dynamic work sites.
 
+### Movie Presentation
+
+![youtube video](https://www.youtube.com/watch?v=b5mVe6dk0wI)
+
 ### Spot PROTO
 
 Derived from [Robot](../reference/robot.md).
