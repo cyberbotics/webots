@@ -134,19 +134,19 @@ static void init_remote_control_library() {
 static WbTfNode *tf_tree_find(WbTfNode *root, int id) {
   if (root->id == id)
     return root;
-  for (int i = 0; i < root->n_children; i++)
-    if (root->children[i]->id == id)
-      return root->children[i];
-    else
-      return tf_tree_find(root->children[i], id);
+  for (int i = 0; i < root->n_children; i++) {
+    WbTfNode *node = tf_tree_find(root->children[i], id);
+    if (node != NULL)
+      return node;
+  }
   return NULL;
 }
 
 static void tf_tree_add(WbTfNode *parent, WbTfNode *child) {
   if (parent->n_children == 0)
-    parent->children = malloc(sizeof(WbTfNode));
+    parent->children = malloc(sizeof(WbTfNode *));
   else
-    parent->children = realloc(parent->children, sizeof(WbTfNode) * parent->n_children);
+    parent->children = realloc(parent->children, sizeof(WbTfNode *) * (parent->n_children + 1));
   parent->children[parent->n_children] = child;
   parent->n_children++;
   child->parent = parent;
@@ -183,6 +183,8 @@ static void robot_quit() {  // called when Webots kills a controller
   robot.wwi_message_received = NULL;
   robot_window_cleanup();
   remote_control_cleanup();
+
+  // TODO: Clean robot.tf_tree
 }
 
 // this function is also called from supervisor_write_request() and differential_wheels_write_request()
@@ -415,22 +417,33 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
     return;
 
   switch (message) {
-    case C_ROBOT_TREE_JOINT:
-      robot.tf_tree->id = request_read_int32(r);
-      // robot.tf_tree->parent_id = request_read_int32(r);
-      robot.tf_tree->type = WB_TF_NODE_JOINT;
-      break;
-    case C_ROBOT_TREE_LINK:
+    case C_ROBOT_TREE_JOINT: {
+      WbTfNode *node = (WbTfNode *)malloc(sizeof(WbTfNode));
+      node->n_children = 0;
+      node->id = request_read_int32(r);
+      int parent_id = request_read_int32(r);
+      node->type = WB_TF_NODE_JOINT;
+      WbTfNode *parent_node = tf_tree_find(robot.tf_tree, parent_id);
+      tf_tree_add(parent_node, node);
+    } break;
+    case C_ROBOT_TREE_LINK: {
+      WbTfNode *node = (WbTfNode *)malloc(sizeof(WbTfNode));
+      node->n_children = 0;
+      node->id = request_read_int32(r);
+      node->type = WB_TF_NODE_LINK;
+      int parent_id = request_read_int32(r);
+      for (int i = 0; i < 3; i++)
+        node->translation[i] = request_read_double(r);
+      for (int i = 0; i < 9; i++)
+        node->rotation[i] = request_read_double(r);
+
       if (robot.tf_tree == NULL) {
-        robot.tf_tree->id = request_read_int32(r);
-        // robot.tf_tree->parent_id = request_read_int32(r);
-        robot.tf_tree->type = WB_TF_NODE_LINK;
-        for (int i = 0; i < 3; i++)
-          robot.tf_tree->translation[i] = request_read_double(r);
-        for (int i = 0; i < 9; i++)
-          robot.tf_tree->rotation[i] = request_read_double(r);
+        robot.tf_tree = node;
+      } else {
+        WbTfNode *parent_node = tf_tree_find(robot.tf_tree, parent_id);
+        tf_tree_add(parent_node, node);
       }
-      break;
+    } break;
     case C_ROBOT_TIME:
       simulation_time = request_read_double(r);
       break;

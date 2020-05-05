@@ -15,9 +15,13 @@
 #include "WbRobot.hpp"
 
 #include "WbAbstractCamera.hpp"
+#include "WbBallJoint.hpp"
 #include "WbBinaryIncubator.hpp"
 #include "WbControllerPlugin.hpp"
 #include "WbDisplay.hpp"
+#include "WbHinge2Joint.hpp"
+#include "WbHingeJoint.hpp"
+#include "WbHingeJointParameters.hpp"
 #include "WbJoint.hpp"
 #include "WbJoystickInterface.hpp"
 #include "WbKinematicDifferentialWheels.hpp"
@@ -27,6 +31,7 @@
 #include "WbMFDouble.hpp"
 #include "WbMFNode.hpp"
 #include "WbMouse.hpp"
+#include "WbPhysics.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbPropeller.hpp"
@@ -37,6 +42,7 @@
 #include "WbSensor.hpp"
 #include "WbSimulationState.hpp"
 #include "WbSkin.hpp"
+#include "WbSliderJoint.hpp"
 #include "WbSlot.hpp"
 #include "WbSolidDevice.hpp"
 #include "WbStandardPaths.hpp"
@@ -44,12 +50,6 @@
 #include "WbTrack.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
-#include "WbPhysics.hpp"
-#include "WbSliderJoint.hpp"
-#include "WbHingeJoint.hpp"
-#include "WbHinge2Joint.hpp"
-#include "WbBallJoint.hpp"
-#include "WbHingeJointParameters.hpp"
 
 #include "../../../include/controller/c/webots/keyboard.h"
 #include "../../../include/controller/c/webots/robot.h"
@@ -57,9 +57,9 @@
 #include "../../lib/Controller/api/messages.h"
 
 #include <QtCore/QDataStream>
+#include <QtCore/QQueue>
 #include <QtCore/QStringList>
 #include <QtCore/QTimer>
-#include <QtCore/QQueue>
 
 #include <iostream>
 #include <limits>
@@ -754,38 +754,52 @@ void WbRobot::writeConfigure(QDataStream &stream) {
 }
 
 void WbRobot::writeRobotTransformTree(QDataStream &stream) {
+  stream << (short unsigned int)0;
+  stream << (unsigned char)C_ROBOT_TREE_LINK;
+  stream << (int)this->uniqueId();
+  stream << (int)0;
+  for (int i = 0; i < 3 + 9; i++) {
+    if (i > 3 && (i - 3) % 4 == 0)
+      stream << (double)1;
+    else
+      stream << (double)0;
+  }
+
   QQueue<WbNode *> queue;
   queue.enqueue(this);
   while (queue.size() > 0) {
     WbNode *node = queue.dequeue();
-    
-    // Do stuff
     QList<WbNode *> children = node->subNodes(false);
     for (int i = 0; i < children.size(); i++) {
-      WbNode* child = children.at(i);
-
-      if (dynamic_cast<WbBasicJoint*>(child)) {
-        if (dynamic_cast<WbHingeJoint*>(child)) {
+      WbNode *child = children.at(i);
+      if (dynamic_cast<WbBasicJoint *>(child)) {
+        if (dynamic_cast<WbHingeJoint *>(child)) {
           // TODO: Add support for WbSliderJoint, WbHingeJoint2 and BallJoint
-          WbHingeJoint* childHingeJoint = (WbHingeJoint *)child;
-          if (childHingeJoint->solidEndPoint())
-            queue.enqueue(childHingeJoint->solidEndPoint());
+
+          // TODO: Handle children of joints 
+          // WbHingeJoint *childHingeJoint = (WbHingeJoint *)child;
+          // if (childHingeJoint->solidEndPoint())
+          //  queue.enqueue(childHingeJoint->solidEndPoint());
         }
 
         stream << (short unsigned int)0;
         stream << (unsigned char)C_ROBOT_TREE_JOINT;
         stream << (int)child->uniqueId();
         stream << (int)node->uniqueId();
-      } else if (dynamic_cast<WbGroup*>(child) && dynamic_cast<WbShape*>(child)) {
+      } else if (dynamic_cast<WbGroup *>(child) || dynamic_cast<WbShape *>(child)) {
         queue.enqueue(child);
 
         stream << (short unsigned int)0;
         stream << (unsigned char)C_ROBOT_TREE_LINK;
         stream << (int)child->uniqueId();
         stream << (int)node->uniqueId();
-        for (int i = 0; i < 3 + 9; i++)
-          stream << (double)0;
-      } else if (dynamic_cast<WbTransform*>(child)){
+        for (int i = 0; i < 3 + 9; i++) {
+          if (i > 3 && (i - 3) % 4 == 0)
+            stream << (double)1;
+          else
+            stream << (double)0;
+        }
+      } else if (dynamic_cast<WbTransform *>(child)) {
         queue.enqueue(child);
 
         WbTransform *childTransform = (WbTransform *)child;
@@ -800,7 +814,6 @@ void WbRobot::writeRobotTransformTree(QDataStream &stream) {
           stream << (double)childTransform->rotationMatrix().row(i / 3)[i % 3];
       } else {
         // TODO: Handle the others
-        // std::cout << "We don't care" << std::endl;
       }
     }
   }

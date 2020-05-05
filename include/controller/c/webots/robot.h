@@ -53,21 +53,23 @@ typedef enum {
   WB_EVENT_JOYSTICK_POV = 32
 } WbUserInputEvent;
 
+typedef struct _WbTfNode WbTfNode;
+
 typedef enum {
   WB_TF_NODE_JOINT = 0,
   WB_TF_NODE_LINK
 } WbTfNodeType;
 
-typedef struct {
+struct _WbTfNode {
   int id;
   WbTfNode* parent;
   WbTfNode** children;
   int n_children;
-  WbDeviceTag tag;
+  int tag;
   WbTfNodeType type;
   double translation[3];
   double rotation[9];
-} WbTfNode;
+};
 
 // cart function headers
 #ifdef __cplusplus
@@ -108,6 +110,7 @@ bool wb_robot_get_supervisor();
 const char *wb_robot_get_project_path();
 const char *wb_robot_get_world_path();
 double wb_robot_get_basic_time_step();
+const WbTfNode* wb_robot_get_tf_tree();
 WbDeviceTag wb_robot_get_device(const char *name);
 
 // Controller API
