@@ -762,8 +762,7 @@ QMenu *WbMainWindow::createToolsMenu() {
 
   menu->addAction(WbActionManager::instance()->action(WbActionManager::CLEAR_CONSOLE));
   menu->addAction(WbActionManager::instance()->action(WbActionManager::NEW_CONSOLE));
-  connect(WbActionManager::instance()->action(WbActionManager::NEW_CONSOLE), &QAction::triggered, this,
-          &WbMainWindow::openNewConsole);
+  connect(WbActionManager::instance()->action(WbActionManager::NEW_CONSOLE), SIGNAL(triggered()), this, SLOT(openNewConsole()));
 
   action = new QAction(this);
   action->setText(tr("Edit &Physics Plugin"));
@@ -1189,6 +1188,7 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
     ConsoleSettings settings;
     settings.enabledFilters = console->getEnabledFilters();
     settings.enabledLevels = console->getEnabledLevels();
+    settings.name = console->name();
     settingsList.append(settings);
   }
   perspective->setConsolesSettings(settingsList);
@@ -1222,7 +1222,7 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
   // restore consoles
   const QVector<ConsoleSettings> consoleList = perspective->consoleList();
   for (int i = 0; i < consoleList.size(); ++i) {
-    openNewConsole();
+    openNewConsole(consoleList.at(i).name);
     mConsoles.last()->setEnabledFilters(consoleList.at(i).enabledFilters);
     mConsoles.last()->setEnabledLevels(consoleList.at(i).enabledLevels);
   }
@@ -1705,8 +1705,7 @@ void WbMainWindow::showOpenGlInfo() {
   WbMessageBox::info(info, this, tr("OpenGL information"));
 }
 
-void WbMainWindow::openNewConsole() {
-  const QString name = !mConsoles.isEmpty() ? QString("Console(%1)").arg(mConsoles.size()) : QString("Console");
+void WbMainWindow::openNewConsole(const QString &name) {
   WbConsole *console = new WbConsole(this, name);
   connect(console, &WbConsole::closed, this, &WbMainWindow::handleConsoleClosure);
   addDockWidget(Qt::BottomDockWidgetArea, console);

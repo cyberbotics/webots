@@ -92,8 +92,6 @@ public:
   // parse compilation error line
   void jumpToError(const QString &errorLine);
 
-  // console clear action to be used in menus
-
   // enable redirecting messages to the terminal
   static void enableStdOutRedirectToTerminal();
   static void enableStdErrRedirectToTerminal();
@@ -128,6 +126,8 @@ public:
   const QStringList getEnabledLevels() const { return mEnabledLevels; }
   void setEnabledLevels(const QStringList &levels);
 
+  const QString name() const { return mConsoleName; }
+
 signals:
   void closed();
 
@@ -135,6 +135,9 @@ public slots:
   // clear console and resets its attributes when performed by webots
   // only from within a controller, this option is set to false
   void clear(bool reset = true);
+
+  // rename the console
+  void rename();
 
   // append internal error message of Webots
   // the message color depends on the level
@@ -149,6 +152,7 @@ private:
   QRegExp **mErrorPatterns;
   QString mForegroundColor;
   QString mBackgroundColor;
+  QString mConsoleName;
   bool mBold;
   bool mUnderline;
   bool mIsOverwriteEnabled;

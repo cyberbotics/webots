@@ -214,7 +214,7 @@ private slots:
   void toggleFullScreen(bool enabled);
   void exitFullScreen();
 
-  void openNewConsole();
+  void openNewConsole(const QString &name = QString("Console"));
   void handleConsoleClosure();
 
   void openUrl(const QString &fileName, const QString &message, const QString &title);

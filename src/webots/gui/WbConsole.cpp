@@ -33,6 +33,7 @@
 
 #include <QtWidgets/QAction>
 #include <QtWidgets/QDialog>
+#include <QtWidgets/QInputDialog>
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QPushButton>
@@ -258,6 +259,9 @@ void ConsoleEdit::addContextMenuLevelItem(const QString &name, QMenu *menu, cons
 }
 
 void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
+  WbConsole *console = dynamic_cast<WbConsole *>(parentWidget());
+  assert(console);
+
   QMenu *menu = createStandardContextMenu();
   menu->addAction(WbActionManager::instance()->action(WbActionManager::FIND));
   menu->addSeparator();
@@ -291,9 +295,13 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   menu->addSeparator();
 
   // actions
+  QAction *renameAction = new QAction(this);
+  renameAction->setText(tr("Rename Console"));
+  connect(renameAction, &QAction::triggered, console, &WbConsole::rename);
   QAction *clearAction = new QAction(this);
   clearAction->setText(tr("Clear Console"));
   connect(clearAction, &QAction::triggered, this, &ConsoleEdit::clear);
+  menu->addAction(renameAction);
   menu->addAction(clearAction);
   menu->addAction(WbActionManager::instance()->action(WbActionManager::CLEAR_CONSOLE));
   menu->addAction(WbActionManager::instance()->action(WbActionManager::NEW_CONSOLE));
@@ -307,7 +315,9 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   actions += filterMenu->actions();
   for (int i = 0; i < actions.size(); ++i)
     delete actions[i];
+  menu->removeAction(renameAction);
   menu->removeAction(clearAction);
+  delete renameAction;
   delete clearAction;
   delete menu;
 }
@@ -357,12 +367,13 @@ WbConsole::WbConsole(QWidget *parent, const QString &name) :
   mEnabledLevels(WbLog::levelName(WbLog::ALL_LEVELS)),
   mEditor(new ConsoleEdit(this)),
   mErrorPatterns(createErrorMatchingPatterns()),  // patterns for error matching
+  mConsoleName(name),
   mBold(false),
   mUnderline(false),
   mIsOverwriteEnabled(false),  // option to overwrite last line
   mFindDialog(NULL),
   mTextFind(new WbTextFind(mEditor)) {
-  setObjectName(name);
+  setObjectName("Console");
   updateTitle();
 
   titleBarWidget()->setObjectName("consoleTitleBar");
@@ -422,6 +433,15 @@ void WbConsole::clear(bool reset) {
   mEditor->clear();
   if (reset)
     resetFormat();
+}
+
+void WbConsole::rename() {
+  bool ok = false;
+  const QString name = QInputDialog::getText(this, tr("Console Name"), tr("New name:"), QLineEdit::Normal, mConsoleName, &ok);
+  if (ok && !name.isEmpty()) {
+    mConsoleName = name;
+    updateTitle();
+  }
 }
 
 void WbConsole::resetFormat() {
@@ -825,15 +845,15 @@ void WbConsole::jumpToError(const QString &errorLine) {
 }
 
 void WbConsole::updateTitle() {
-  QString title("Console - ");
+  QString title(mConsoleName + " - ");
   title += mEnabledFilters.join(" | ");
   if (!mEnabledLevels.contains(WbLog::levelName(WbLog::ALL_LEVELS)))
     title += QString(" - ") + mEnabledLevels.join(" | ");
   setWindowTitle(title);
-  if (mEnabledFilters.size() == 1)
+  if (mEnabledFilters.size() == 1 && mConsoleName == objectName())
     setTabbedTitle(mEnabledFilters.at(0));
   else
-    setTabbedTitle("Console");
+    setTabbedTitle(mConsoleName);
 }
 
 void WbConsole::closeEvent(QCloseEvent *event) {

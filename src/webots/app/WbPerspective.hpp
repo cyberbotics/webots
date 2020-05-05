@@ -31,6 +31,7 @@ class QTextStream;
 struct ConsoleSettings {
   QStringList enabledFilters;
   QStringList enabledLevels;
+  QString name;
 };
 
 class WbPerspective {
