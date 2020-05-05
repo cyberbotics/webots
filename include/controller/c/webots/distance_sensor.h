@@ -37,6 +37,9 @@ double wb_distance_sensor_get_max_value(WbDeviceTag tag);
 double wb_distance_sensor_get_min_value(WbDeviceTag tag);
 double wb_distance_sensor_get_aperture(WbDeviceTag tag);
 
+int wb_distance_sensor_get_lookup_table_size(WbDeviceTag tag);
+const double* wb_distance_sensor_get_lookup_table(WbDeviceTag tag);
+
 typedef enum {
   WB_DISTANCE_SENSOR_GENERIC = 0,
   WB_DISTANCE_SENSOR_INFRA_RED,
