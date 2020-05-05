@@ -51,7 +51,7 @@ static InertialUnit *inertial_unit_get_struct(WbDeviceTag t) {
 
 static void inertial_unit_read_answer(WbDevice *d, WbRequest *r) {
   InertialUnit *s = d->pdata;
-  
+
   switch (request_read_uchar(r)) {
     case C_INERTIAL_UNIT_DATA:
       s->rpy[0] = request_read_double(r);
