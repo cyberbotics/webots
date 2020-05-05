@@ -40,9 +40,11 @@ int main(int argc, char **argv) {
   // check ds0 lookup table
   int lookup_table_size = wb_distance_sensor_get_lookup_table_size(ds0);
   ts_assert_double_equal(lookup_table_size, 2, "Lookup table size returned is wrong (%d instead of 2)", lookup_table_size);
-  const double* lookup_table = wb_distance_sensor_get_lookup_table(ds0);
-  ts_assert_double_equal(lookup_table[3], 0.2, "Lookup table (index 3) returned is wrong (%lf instead of 0.2)", lookup_table[3]);
-  ts_assert_double_equal(lookup_table[4], 2000, "Lookup table (index 4) returned is wrong (%lf instead of 0.2)", lookup_table[4]);
+  const double *lookup_table = wb_distance_sensor_get_lookup_table(ds0);
+  ts_assert_double_equal(lookup_table[3], 0.2, "Lookup table (index 3) returned is wrong (%lf instead of 0.2)",
+                         lookup_table[3]);
+  ts_assert_double_equal(lookup_table[4], 2000, "Lookup table (index 4) returned is wrong (%lf instead of 0.2)",
+                         lookup_table[4]);
   ts_assert_double_equal(lookup_table[5], 0, "Lookup table (index 5) returned is wrong (%lf instead of 0.2)", lookup_table[5]);
 
   // FIRST STEP - distance to texture
