@@ -123,7 +123,7 @@ const QString &WbLog::filterName(Filter filter) {
                                                  << "Physics"
                                                  << "Javascript"
                                                  << "Parsing"
-                                                 << "Compilation Output";
+                                                 << "Compilation";
   assert(names.size() == FILTER_SIZE);
   assert(filter < FILTER_SIZE);
   return names.at(filter);
