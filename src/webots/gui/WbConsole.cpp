@@ -699,7 +699,7 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
         return;
     } else if (!mEnabledFilters.contains(logName)) {
       if (logName == WbLog::filterName(WbLog::ODE) || logName == WbLog::filterName(WbLog::JAVASCRIPT) ||
-          logName == WbLog::filterName(WbLog::PARSING) || logName == WbLog::filterName(WbLog::COMPILATION)) {
+          logName == WbLog::filterName(WbLog::PARSING) || logName == WbLog::filterName(WbLog::COMPILATION)) {
         if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_WEBOTS)))
           return;
       } else if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_CONTROLLERS)))
