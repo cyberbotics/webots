@@ -51,7 +51,8 @@ void WbParser::parseInt() {
   if (fieldValue->isBoolean() && fieldName == "filtering" && mTokenizer->fileVersion() < WbVersion(8, 6, 0)) {
     WbLog::warning(QObject::tr("Boolean values for 'ImageTexture.filtering' field are deprecated"
                                " from Webots 8.6 onwards; the value has been converted automatically."
-                               " Please update your PROTO and world files accordingly."));
+                               " Please update your PROTO and world files accordingly."),
+                   false, WbLog::filterName(WbLog::PARSING));
 
     bool isFilteringOn = fieldValue->toBool();
     if (isFilteringOn)

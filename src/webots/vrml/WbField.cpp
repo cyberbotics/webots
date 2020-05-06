@@ -179,7 +179,7 @@ void WbField::checkValueIsAccepted() {
     if (parentNode())
       parentNode()->warn(error);
     else
-      WbLog::warning(error);
+      WbLog::warning(error, false, WbLog::filterName(WbLog::PARSING));
   }
 }
 

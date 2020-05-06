@@ -713,7 +713,7 @@ void WbViewpoint::updateFollow() {
       emit followInvalidated(true);  // checks the follow object action at the WbView3D level
       return;
     }
-    WbLog::warning(tr("Viewpoint's follow field is filled with an invalid Solid name."));
+    warn(tr("'follow' field is filled with an invalid Solid name."));
   }
   mFollowedSolid = NULL;
   emit followInvalidated(false);  // unchecks the follow object action at the WbView3D level

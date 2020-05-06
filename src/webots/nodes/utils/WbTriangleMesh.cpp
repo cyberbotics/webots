@@ -361,9 +361,11 @@ void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordI
               continue;
             // don't append if two vertices are on the same spot
             if (a == b || a == c || b == c) {
-              WbLog::error(QObject::tr(
-                "Duplicate vertices detected while triangulating mesh. "
-                "Try opening your model in 3D modeling software and removing duplicate vertices, then re-importing."));
+              WbLog::error(
+                QObject::tr(
+                  "Duplicate vertices detected while triangulating mesh. "
+                  "Try opening your model in 3D modeling software and removing duplicate vertices, then re-importing."),
+                false, WbLog::filterName(WbLog::PARSING));
               continue;
             }
             // see if this triangle has any overlapping vertices and snip triangle to improve tesselation and fill holes

@@ -122,7 +122,7 @@ WbFieldModel *WbNodeModel::findFieldModel(const QString &fieldName) const {
 bool WbNodeModel::fuzzyParseNode(const QString &fileName, QString &nodeInfo) {
   QFile input(WbStandardPaths::resourcesPath() + "nodes/" + fileName + ".wrl");
   if (!input.open(QIODevice::ReadOnly)) {
-    WbLog::warning(fileName + ": could not open file");
+    WbLog::warning(fileName + ": could not open file", false, WbLog::filterName(WbLog::PARSING));
     return false;
   }
 

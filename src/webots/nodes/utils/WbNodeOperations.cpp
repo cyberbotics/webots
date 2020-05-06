@@ -165,7 +165,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   if (sfnode && nodes.size() > 1)
     WbLog::warning(tr("Trying to import multiple nodes in the '%1' SFNode field. "
                       "Only the first node will be inserted")
-                     .arg(field->name()));
+                     .arg(field->name()),
+                   false, WbLog::filterName(WbLog::PARSING));
 
   const WbNode::NodeUse nodeUse = dynamic_cast<WbBaseNode *>(parentNode)->nodeUse();
   WbBaseNode *childNode = NULL;
@@ -196,7 +197,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       //  solid->emit massPropertiesChanged();
     } else {
       assert(!errorMessage.isEmpty());
-      WbLog::error(errorMessage);
+      WbLog::error(errorMessage, false, WbLog::filterName(WbLog::PARSING));
     }
 
     if (sfnode)
@@ -223,7 +224,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &fi
   // check that the file we're importing VRML to is not "unnamed.wbt"
   if (WbWorld::instance()->isUnnamed())
     WbLog::error(QString("Textures could not be imported as this world has not been saved for the first time. Please save and "
-                         "reload the world, then try importing again."));
+                         "reload the world, then try importing again."),
+                 false, WbLog::filterName(WbLog::PARSING));
   else
     // copy textures folder (if any)
     WbFileUtil::copyDir(vrmlFile.absolutePath() + "/textures", WbProject::current()->worldsPath() + "/textures", true, true,
@@ -249,7 +251,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &fi
   foreach (WbNode *node, nodes) {
     WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);
     if (WbNodeUtilities::isSingletonTypeName(baseNode->nodeModelName())) {
-      WbLog::warning(QString("Skipped %1 node (to avoid duplicate) while importing VRML97.").arg(baseNode->nodeModelName()));
+      WbLog::warning(QString("Skipped %1 node (to avoid duplicate) while importing VRML97.").arg(baseNode->nodeModelName()),
+                     false, WbLog::filterName(WbLog::PARSING));
       delete baseNode;
     } else {
       if (WbNodeUtilities::isAllowedToInsert(root->findField("children"), baseNode->nodeModelName(), root, errorMessage,
@@ -262,7 +265,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &fi
         result = SUCCESS;
         numberOfNodes++;
       } else {
-        WbLog::error(errorMessage);
+        WbLog::error(errorMessage, false, WbLog::filterName(WbLog::PARSING));
         delete baseNode;
       }
     }
