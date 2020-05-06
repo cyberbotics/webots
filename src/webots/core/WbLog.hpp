@@ -44,6 +44,7 @@ public:
     ODE,
     JAVASCRIPT,
     PARSING,
+    COMPILATION,
     FILTER_SIZE
   };
 

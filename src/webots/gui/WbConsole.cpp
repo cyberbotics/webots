@@ -273,6 +273,7 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   addContextMenuFilterItem(WbLog::filterName(WbLog::ODE), webotsSubMenu, tr("Display error messages from ODE."));
   addContextMenuFilterItem(WbLog::filterName(WbLog::JAVASCRIPT), webotsSubMenu,
                            tr("Display Javascript log from the robot-windows."));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::COMPILATION), webotsSubMenu, tr("Output from the compilation."));
   addContextMenuFilterItem(WbLog::filterName(WbLog::WEBOTS_OTHERS), webotsSubMenu, tr("Display all the other logs."));
   QMenu *controllerSubMenu = filterMenu->addMenu(WbLog::filterName(WbLog::CONTROLLERS));
   addContextMenuFilterItem(WbLog::filterName(WbLog::ALL_CONTROLLERS), controllerSubMenu,
@@ -696,7 +697,7 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
         return;
     } else if (!mEnabledFilters.contains(logName)) {
       if (logName == WbLog::filterName(WbLog::ODE) || logName == WbLog::filterName(WbLog::JAVASCRIPT) ||
-          logName == WbLog::filterName(WbLog::PARSING)) {
+          logName == WbLog::filterName(WbLog::PARSING) || logName == WbLog::filterName(WbLog::COMPILATION)) {
         if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_WEBOTS)))
           return;
       } else if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_CONTROLLERS)))
