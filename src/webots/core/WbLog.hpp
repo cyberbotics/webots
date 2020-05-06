@@ -51,10 +51,10 @@ public:
 
   // Webots messages, e.g. parse error
   // the 'message' argument should not be '\n' terminated
-  static void debug(const QString &message, bool popup = false, const QString &logName = QString());
-  static void info(const QString &message, bool popup = false, const QString &logName = QString());
-  static void warning(const QString &message, bool popup = false, const QString &logName = QString());
-  static void error(const QString &message, bool popup = false, const QString &logName = QString());
+  static void debug(const QString &message, bool popup = false, const QString &name = QString());
+  static void info(const QString &message, bool popup = false, const QString &name = QString());
+  static void warning(const QString &message, bool popup = false, const QString &name = QString());
+  static void error(const QString &message, bool popup = false, const QString &name = QString());
 
   // log type filter names
   static const QString &filterName(Filter filter);
@@ -69,8 +69,8 @@ public:
 
   // controller or compilation output
   // the 'message' argument can contain newlines (multi-line output)
-  static void appendStdout(const QString &message, const QString &logName = QString());
-  static void appendStderr(const QString &message, const QString &logName = QString());
+  static void appendStdout(const QString &message, const QString &name = QString());
+  static void appendStderr(const QString &message, const QString &name = QString());
 
   static void javascriptLogToConsole(const QString &message, int lineNumber, const QString &sourceUrl);
   // clear output
@@ -84,7 +84,7 @@ public:
 
 signals:
   // the above function emit this signal that can be connected to a message sink (console)
-  void logEmitted(WbLog::Level level, const QString &message, bool popup, const QString &logName);
+  void logEmitted(WbLog::Level level, const QString &message, bool popup, const QString &name);
   void cleared();
   void popupOpen();
   void popupClosed();
@@ -92,18 +92,18 @@ signals:
 private:
   WbLog() : mPopUpMessagesPostponed(false) {}
   virtual ~WbLog() {}
-  void emitLog(Level level, const QString &message, bool popup, const QString &logName);
+  void emitLog(Level level, const QString &message, bool popup, const QString &name);
   static void cleanup();
 
   struct PostponedMessage {
     QString text;
-    QString logName;
+    QString name;
     Level level;
   };
   bool mPopUpMessagesPostponed;
   QList<PostponedMessage> mPostponedPopUpMessageQueue;
   QList<PostponedMessage> mPendingConsoleMessages;
-  void enqueueMessage(QList<PostponedMessage> &list, const QString &message, const QString &logName, Level level);
+  void enqueueMessage(QList<PostponedMessage> &list, const QString &message, const QString &name, Level level);
 };
 
 #endif

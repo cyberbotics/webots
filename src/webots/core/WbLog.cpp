@@ -40,58 +40,58 @@ WbLog *WbLog::instance() {
   return gInstance;
 }
 
-void WbLog::debug(const QString &message, bool popup, const QString &logName) {
+void WbLog::debug(const QString &message, bool popup, const QString &name) {
   if (popup && instance()->mPopUpMessagesPostponed) {
-    instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, logName, DEBUG);
+    instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, DEBUG);
     return;
   }
 
   fprintf(stderr, "DEBUG: %s\n", qPrintable(message));
   fflush(stderr);
   if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))) > 1)
-    instance()->emitLog(DEBUG, "DEBUG: " + message, popup, logName);
+    instance()->emitLog(DEBUG, "DEBUG: " + message, popup, name);
   else
-    instance()->enqueueMessage(instance()->mPendingConsoleMessages, "DEBUG: " + message, logName, DEBUG);
+    instance()->enqueueMessage(instance()->mPendingConsoleMessages, "DEBUG: " + message, name, DEBUG);
 }
 
-void WbLog::info(const QString &message, bool popup, const QString &logName) {
+void WbLog::info(const QString &message, bool popup, const QString &name) {
   if (popup && instance()->mPopUpMessagesPostponed) {
-    instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, logName, INFO);
+    instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, INFO);
     return;
   }
 
   if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))) > 1)
-    instance()->emitLog(INFO, "INFO: " + message, popup, logName);
+    instance()->emitLog(INFO, "INFO: " + message, popup, name);
   else {
     printf("INFO: %s\n", qPrintable(message));
-    instance()->enqueueMessage(instance()->mPendingConsoleMessages, "INFO: " + message, logName, INFO);
+    instance()->enqueueMessage(instance()->mPendingConsoleMessages, "INFO: " + message, name, INFO);
   }
 }
 
-void WbLog::warning(const QString &message, bool popup, const QString &logName) {
+void WbLog::warning(const QString &message, bool popup, const QString &name) {
   if (popup && instance()->mPopUpMessagesPostponed) {
-    instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, logName, WARNING);
+    instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, WARNING);
     return;
   }
 
   if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))) > 1)
-    instance()->emitLog(WARNING, "WARNING: " + message, popup, logName);
+    instance()->emitLog(WARNING, "WARNING: " + message, popup, name);
   else {
     fprintf(stderr, "WARNING: %s\n", qPrintable(message));
-    instance()->enqueueMessage(instance()->mPendingConsoleMessages, "WARNING: " + message, logName, WARNING);
+    instance()->enqueueMessage(instance()->mPendingConsoleMessages, "WARNING: " + message, name, WARNING);
   }
 }
 
-void WbLog::error(const QString &message, bool popup, const QString &logName) {
+void WbLog::error(const QString &message, bool popup, const QString &name) {
   if (popup && instance()->mPopUpMessagesPostponed) {
-    instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, logName, ERROR);
+    instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, ERROR);
     return;
   }
   if (instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))) > 1)
-    instance()->emitLog(ERROR, "ERROR: " + message, popup, logName);
+    instance()->emitLog(ERROR, "ERROR: " + message, popup, name);
   else {
     fprintf(stderr, "ERROR: %s\n", qPrintable(message));
-    instance()->enqueueMessage(instance()->mPendingConsoleMessages, "ERROR: " + message, logName, ERROR);
+    instance()->enqueueMessage(instance()->mPendingConsoleMessages, "ERROR: " + message, name, ERROR);
   }
 }
 
@@ -136,12 +136,12 @@ const QString &WbLog::levelName(Level level) {
   return names.at(level);
 };
 
-void WbLog::appendStdout(const QString &message, const QString &logName) {
-  emit instance()->logEmitted(STDOUT, message, false, logName);
+void WbLog::appendStdout(const QString &message, const QString &name) {
+  emit instance()->logEmitted(STDOUT, message, false, name);
 }
 
-void WbLog::appendStderr(const QString &message, const QString &logName) {
-  emit instance()->logEmitted(STDERR, message, false, logName);
+void WbLog::appendStderr(const QString &message, const QString &name) {
+  emit instance()->logEmitted(STDERR, message, false, name);
 }
 
 void WbLog::javascriptLogToConsole(const QString &message, int lineNumber, const QString &sourceUrl) {
@@ -150,10 +150,10 @@ void WbLog::javascriptLogToConsole(const QString &message, int lineNumber, const
   WbLog::appendStdout(log, filterName(WbLog::JAVASCRIPT));
 }
 
-void WbLog::emitLog(Level level, const QString &message, bool popup, const QString &logName) {
+void WbLog::emitLog(Level level, const QString &message, bool popup, const QString &name) {
   if (popup)
     emit popupOpen();
-  emit logEmitted(level, message, popup, logName);
+  emit logEmitted(level, message, popup, name);
   if (popup)
     emit popupClosed();
 }
@@ -162,10 +162,10 @@ void WbLog::clear() {
   emit instance()->cleared();
 }
 
-void WbLog::enqueueMessage(QList<PostponedMessage> &list, const QString &message, const QString &logName, Level level) {
+void WbLog::enqueueMessage(QList<PostponedMessage> &list, const QString &message, const QString &name, Level level) {
   PostponedMessage msg;
   msg.text = message;
-  msg.logName = logName;
+  msg.name = name;
   msg.level = level;
   list.append(msg);
 }
@@ -176,16 +176,16 @@ void WbLog::showPostponedPopUpMessages() {
   foreach (PostponedMessage msg, instance()->mPostponedPopUpMessageQueue) {
     switch (msg.level) {
       case DEBUG:
-        debug(msg.text, true, msg.logName);
+        debug(msg.text, true, msg.name);
         break;
       case INFO:
-        info(msg.text, true, msg.logName);
+        info(msg.text, true, msg.name);
         break;
       case WARNING:
-        warning(msg.text, true, msg.logName);
+        warning(msg.text, true, msg.name);
         break;
       case ERROR:
-        error(msg.text, true, msg.logName);
+        error(msg.text, true, msg.name);
         break;
       default:
         break;
@@ -198,6 +198,6 @@ void WbLog::showPostponedPopUpMessages() {
 
 void WbLog::showPendingConsoleMessages() {
   foreach (PostponedMessage msg, instance()->mPendingConsoleMessages)
-    emit instance()->logEmitted(msg.level, msg.text, false, msg.logName);
+    emit instance()->logEmitted(msg.level, msg.text, false, msg.name);
   instance()->mPendingConsoleMessages.clear();
 }
