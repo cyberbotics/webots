@@ -18,7 +18,6 @@
 #include <webots/TouchSensor.hpp>
 #include "RosSensor.hpp"
 
-#include <webots_ros/get_int.h>
 #include <webots_ros/get_float_array.h>
 #include <webots_ros/get_int.h>
 
