@@ -124,6 +124,8 @@ Finally, if the sensor's `lookupTable` is filled with correct calibration data, 
 #### `wb_light_sensor_disable`
 #### `wb_light_sensor_get_sampling_period`
 #### `wb_light_sensor_get_value`
+#### `wb_light_sensor_get_lookup_table_size`
+#### `wb_light_sensor_get_lookup_table`
 
 %tab-component "language"
 
@@ -136,6 +138,8 @@ void wb_light_sensor_enable(WbDeviceTag tag, int sampling_period);
 void wb_light_sensor_disable(WbDeviceTag tag);
 int wb_light_sensor_get_sampling_period(WbDeviceTag tag);
 double wb_light_sensor_get_value(WbDeviceTag tag);
+int wb_light_sensor_get_lookup_table_size(WbDeviceTag tag);
+const double *wb_light_sensor_get_lookup_table(WbDeviceTag tag);
 ```
 
 %tab-end
@@ -151,6 +155,8 @@ namespace webots {
     virtual void disable();
     int getSamplingPeriod() const;
     double getValue() const;
+    int getLookupTableSize() const;
+    const double *getLookupTable() const;
   }
 }
 ```
@@ -167,6 +173,8 @@ class LightSensor (Device):
   def disable(self):
   def getSamplingPeriod(self):
   def getValue(self):
+  def getLookupTableSize(self):
+  def getLookupTable(self):
 ```
 
 %tab-end
@@ -181,6 +189,8 @@ public class LightSensor extends Device {
   public void disable();
   public int getSamplingPeriod();
   public double getValue();
+  public int getLookupTableSize();
+  public double[] getLookupTable();
 }
 ```
 
@@ -193,6 +203,8 @@ wb_light_sensor_enable(tag, sampling_period)
 wb_light_sensor_disable(tag)
 period = wb_light_sensor_get_sampling_period(tag)
 value = wb_light_sensor_get_value(tag)
+lookup_table_size = wb_light_sensor_get_lookup_table_size(tag)
+lookup_table = wb_light_sensor_get_lookup_table(tag)
 ```
 
 %tab-end
@@ -204,6 +216,8 @@ value = wb_light_sensor_get_value(tag)
 | `/<device_name>/value` | `topic` | [`sensor_msgs::Illuminance`](http://docs.ros.org/api/sensor_msgs/html/msg/Illuminance.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 illuminance`<br/>`float64 variance` |
 | `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
 | `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
+| `/<device_name>/get_lookup_table_size` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
+| `/<device_name>/get_lookup_table` | `service` | [`webots_ros::get_float_array`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -223,3 +237,8 @@ The `wb_light_sensor_get_sampling_period` function returns the period given into
 
 The `wb_light_sensor_get_value` function returns the most recent value measured by the specified light sensor.
 The returned value is the result of interpolating the irradiance *E* as described above with the sensor's `lookupTable`.
+
+The `wb_light_sensor_get_lookup_table_size` function returns the size of the [lookup table](#lookup-table).
+
+The `wb_light_sensor_get_lookup_table` function returns lookup table fields of the [lookup table](#lookup-table).
+This function returns a matrix containing exactly N * 3 values (N represents number of mapped values obtained with function `wb_light_sensor_get_lookup_table_size`) that shall be interpreted as a N x 3 table.
