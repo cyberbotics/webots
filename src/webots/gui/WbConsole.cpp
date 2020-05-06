@@ -151,7 +151,7 @@ void ConsoleEdit::handleFilterChange() {
 
   // disable conflicting filters
   if (action->isChecked()) {
-    if (action->text() == WbLog::filterName(WbLog::ALL_FILTERS)) {
+    if (action->text() == WbLog::filterName(WbLog::ALL)) {
       // get filters menu
       QMenu *filterMenu = dynamic_cast<QMenu *>(action->parent());
       assert(filterMenu);
@@ -178,10 +178,10 @@ void ConsoleEdit::handleFilterChange() {
           emit filterDisabled(actions[j]->text());
       }
       // disable global 'All' action
-      emit filterDisabled(WbLog::filterName(WbLog::ALL_FILTERS));
+      emit filterDisabled(WbLog::filterName(WbLog::ALL));
     } else {
       // disable global 'All' action
-      emit filterDisabled(WbLog::filterName(WbLog::ALL_FILTERS));
+      emit filterDisabled(WbLog::filterName(WbLog::ALL));
       // disable local 'All' action
       QMenu *menu = dynamic_cast<QMenu *>(action->parent());
       assert(menu);
@@ -208,7 +208,7 @@ void ConsoleEdit::handleLevelChange() {
 
   // disable conflicting levels
   if (action->isChecked()) {
-    if (action->text() == WbLog::levelName(WbLog::ALL_LEVELS)) {
+    if (action->text() == WbLog::filterName(WbLog::ALL)) {
       // disable all the specific levels
       QMenu *menu = dynamic_cast<QMenu *>(action->parent());
       assert(menu);
@@ -218,8 +218,22 @@ void ConsoleEdit::handleLevelChange() {
         if (actions[i]->isChecked() && actions[i] != action)
           emit levelDisabled(actions[i]->text());
       }
-    } else
-      emit levelDisabled(WbLog::levelName(WbLog::ALL_LEVELS));
+    } else if (action->text() == WbLog::filterName(WbLog::ALL_WEBOTS)) {
+      emit levelDisabled(WbLog::levelName(WbLog::INFO));
+      emit levelDisabled(WbLog::levelName(WbLog::WARNING));
+      emit levelDisabled(WbLog::levelName(WbLog::ERROR));
+      emit levelDisabled(WbLog::filterName(WbLog::ALL));
+    } else if (action->text() == WbLog::filterName(WbLog::ALL_CONTROLLERS)) {
+      emit levelDisabled(WbLog::levelName(WbLog::STDOUT));
+      emit levelDisabled(WbLog::levelName(WbLog::STDERR));
+      emit levelDisabled(WbLog::filterName(WbLog::ALL));
+    } else {
+      emit levelDisabled(WbLog::filterName(WbLog::ALL));
+      if (action->text() == WbLog::levelName(WbLog::STDOUT) || action->text() == WbLog::levelName(WbLog::STDERR))
+        emit levelDisabled(WbLog::filterName(WbLog::ALL_CONTROLLERS));
+      else
+        emit levelDisabled(WbLog::filterName(WbLog::ALL_WEBOTS));
+    }
   }
 
   // perform the update
@@ -265,7 +279,7 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
 
   // filters
   QMenu *filterMenu = menu->addMenu(tr("&Filter"));
-  addContextMenuFilterItem(WbLog::filterName(WbLog::ALL_FILTERS), filterMenu, tr("Display all the logs."));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::ALL), filterMenu, tr("Display all the logs."));
   QMenu *webotsSubMenu = filterMenu->addMenu(WbLog::filterName(WbLog::WEBOTS));
   addContextMenuFilterItem(WbLog::filterName(WbLog::ALL_WEBOTS), webotsSubMenu, tr("Display all the messages from Webots."));
   addContextMenuFilterItem(WbLog::filterName(WbLog::PARSING), webotsSubMenu,
@@ -287,11 +301,14 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
 
   // levels
   QMenu *levelMenu = menu->addMenu(tr("&Level"));
-  addContextMenuLevelItem(WbLog::levelName(WbLog::ALL_LEVELS), levelMenu, tr("Display all the logs."));
+  addContextMenuLevelItem(WbLog::filterName(WbLog::ALL), levelMenu, tr("Display all the logs."));
+  levelMenu->addSeparator();
+  addContextMenuLevelItem(WbLog::filterName(WbLog::ALL_WEBOTS), levelMenu, tr("Display all the Webots logs."));
   addContextMenuLevelItem(WbLog::levelName(WbLog::ERROR), levelMenu, tr("Displays Webots errors and controller(s) stderr."));
   addContextMenuLevelItem(WbLog::levelName(WbLog::WARNING), levelMenu, tr("Displays Webots warnings."));
   addContextMenuLevelItem(WbLog::levelName(WbLog::INFO), levelMenu, tr("Displays Webots info."));
   levelMenu->addSeparator();
+  addContextMenuLevelItem(WbLog::filterName(WbLog::ALL_CONTROLLERS), levelMenu, tr("Display controller(s) stdout and stderr."));
   addContextMenuLevelItem(WbLog::levelName(WbLog::STDOUT), levelMenu, tr("Display controller(s) stdout."));
   addContextMenuLevelItem(WbLog::levelName(WbLog::STDERR), levelMenu, tr("Display controller(s) stderr."));
   menu->addSeparator();
@@ -365,8 +382,8 @@ namespace {
 
 WbConsole::WbConsole(QWidget *parent, const QString &name) :
   WbDockWidget(parent),
-  mEnabledFilters(WbLog::filterName(WbLog::ALL_FILTERS)),
-  mEnabledLevels(WbLog::levelName(WbLog::ALL_LEVELS)),
+  mEnabledFilters(WbLog::filterName(WbLog::ALL)),
+  mEnabledLevels(WbLog::filterName(WbLog::ALL)),
   mEditor(new ConsoleEdit(this)),
   mErrorPatterns(createErrorMatchingPatterns()),  // patterns for error matching
   mConsoleName(name),
@@ -691,7 +708,7 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
     return;
 
   // check enabled filters
-  if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_FILTERS))) {
+  if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL))) {
     if (logName.isEmpty()) {
       // WEBOTS_OTHERS
       if (!mEnabledFilters.contains(WbLog::filterName(WbLog::WEBOTS_OTHERS)) &&
@@ -708,7 +725,7 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
   }
 
   // check enabled levels
-  if (!mEnabledLevels.contains(WbLog::levelName(WbLog::ALL_LEVELS))) {
+  if (!mEnabledLevels.contains(WbLog::filterName(WbLog::ALL))) {
     switch (level) {
       case WbLog::DEBUG:
       case WbLog::WARNING:
@@ -836,7 +853,7 @@ void WbConsole::updateTitle() {
   setObjectName(mConsoleName);
   QString title(mConsoleName + " - ");
   title += mEnabledFilters.join(" | ");
-  if (!mEnabledLevels.contains(WbLog::levelName(WbLog::ALL_LEVELS)))
+  if (!mEnabledLevels.contains(WbLog::filterName(WbLog::ALL)))
     title += QString(" - ") + mEnabledLevels.join(" | ");
   setWindowTitle(title);
   if (mEnabledFilters.size() == 1 && mConsoleName == "Console")

@@ -33,9 +33,9 @@ class WbLog : public QObject {
   Q_OBJECT
 
 public:
-  enum Level { ALL_LEVELS, DEBUG, INFO, WARNING, ERROR, FATAL, STATUS, STDOUT, STDERR, LEVEL_SIZE };
+  enum Level { DEBUG, INFO, WARNING, ERROR, FATAL, STATUS, STDOUT, STDERR, LEVEL_SIZE };
   enum Filter {
-    ALL_FILTERS,
+    ALL,
     WEBOTS,
     ALL_WEBOTS,
     CONTROLLERS,

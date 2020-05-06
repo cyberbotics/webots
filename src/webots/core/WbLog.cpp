@@ -130,8 +130,7 @@ const QString &WbLog::filterName(Filter filter) {
 };
 
 const QString &WbLog::levelName(Level level) {
-  static const QStringList names = QStringList() << "All"
-                                                 << "Debug"
+  static const QStringList names = QStringList() << "Debug"
                                                  << "Info"
                                                  << "Warning"
                                                  << "Error"
