@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "WbLinearMotor.hpp"
+
 #include "WbJoint.hpp"
 #include "WbJointParameters.hpp"
-#include "WbLinearMotor.hpp"
 #include "WbSolid.hpp"
 
 #include <ode/ode.h>
