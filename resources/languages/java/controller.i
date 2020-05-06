@@ -153,7 +153,13 @@ namespace webots {
 //  Accelerometer
 //----------------------------------------------------------------------------------------------
 
+%typemap(out) const double * {
+  $result = SWIG_JavaArrayOutDouble(jenv, (double *) $1, arg1->getLookupTableSize()*3);
+}
+
 %include <webots/Accelerometer.hpp>
+
+%clear const double *;
 
 //----------------------------------------------------------------------------------------------
 //  Brake
@@ -301,7 +307,13 @@ namespace webots {
 //  Compass
 //----------------------------------------------------------------------------------------------
 
+%typemap(out) const double * {
+  $result = SWIG_JavaArrayOutDouble(jenv, (double *) $1, arg1->getLookupTableSize()*3);
+}
+
 %include <webots/Compass.hpp>
+
+%clear const double *;
 
 //----------------------------------------------------------------------------------------------
 //  Connector
@@ -364,7 +376,13 @@ namespace webots {
 //  Distance sensor
 //----------------------------------------------------------------------------------------------
 
+%typemap(out) const double * {
+  $result = SWIG_JavaArrayOutDouble(jenv, (double *) $1, arg1->getLookupTableSize()*3);
+}
+
 %include <webots/DistanceSensor.hpp>
+
+%clear const double *;
 
 //----------------------------------------------------------------------------------------------
 //  Emitter
@@ -448,13 +466,25 @@ namespace webots {
 //  Gyro
 //----------------------------------------------------------------------------------------------
 
+%typemap(out) const double * {
+  $result = SWIG_JavaArrayOutDouble(jenv, (double *) $1, arg1->getLookupTableSize()*3);
+}
+
 %include <webots/Gyro.hpp>
+
+%clear const double *;
 
 //----------------------------------------------------------------------------------------------
 //  InertialUnit
 //----------------------------------------------------------------------------------------------
 
+%typemap(out) const double * {
+  $result = SWIG_JavaArrayOutDouble(jenv, (double *) $1, arg1->getLookupTableSize()*3);
+}
+
 %include <webots/InertialUnit.hpp>
+
+%clear const double *;
 
 //----------------------------------------------------------------------------------------------
 //  Joystick
@@ -539,7 +569,13 @@ namespace webots {
 //  LightSensor
 //----------------------------------------------------------------------------------------------
 
+%typemap(out) const double * {
+  $result = SWIG_JavaArrayOutDouble(jenv, (double *) $1, arg1->getLookupTableSize()*3);
+}
+
 %include <webots/LightSensor.hpp>
+
+%clear const double *;
 
 //----------------------------------------------------------------------------------------------
 //  Motion
@@ -747,7 +783,13 @@ namespace webots {
 //  TouchSensor
 //----------------------------------------------------------------------------------------------
 
+%typemap(out) const double * {
+  $result = SWIG_JavaArrayOutDouble(jenv, (double *) $1, arg1->getLookupTableSize()*3);
+}
+
 %include <webots/TouchSensor.hpp>
+
+%clear const double *;
 
 //----------------------------------------------------------------------------------------------
 //  Robot
