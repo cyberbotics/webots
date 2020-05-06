@@ -196,14 +196,16 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
 #endif
   QStringList stderrSplitted = stderrContent.split(newLine, QString::SkipEmptyParts);
   foreach (const QString &line, stderrSplitted)
-    WbLog::instance()->error(QString("'%1': Lua error: %2").arg(logHeaderName).arg(line));
+    WbLog::instance()->error(QString("'%1': Lua error: %2").arg(logHeaderName).arg(line), false,
+                             WbLog::filterName(WbLog::PARSING));
 
   // Get stdout and display it to the console
   lua_getglobal(state, "stdoutString");
   QString stdoutContent = lua_tostring(state, -1);
   QStringList stdoutSplitted = stdoutContent.split(newLine, QString::SkipEmptyParts);
   foreach (const QString &line, stdoutSplitted)
-    WbLog::instance()->info(QString("'%1': Lua output: %2").arg(logHeaderName).arg(line));
+    WbLog::instance()->info(QString("'%1': Lua output: %2").arg(logHeaderName).arg(line), false,
+                            WbLog::filterName(WbLog::PARSING));
 
   // Get the result
   lua_getglobal(state, "content");
