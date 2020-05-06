@@ -264,7 +264,7 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   menu->addSeparator();
 
   // filters
-  QMenu *filterMenu = menu->addMenu(tr("&Filters"));
+  QMenu *filterMenu = menu->addMenu(tr("&Filter"));
   addContextMenuFilterItem(WbLog::filterName(WbLog::ALL_FILTERS), filterMenu, tr("Display all the logs."));
   QMenu *webotsSubMenu = filterMenu->addMenu(WbLog::filterName(WbLog::WEBOTS));
   addContextMenuFilterItem(WbLog::filterName(WbLog::ALL_WEBOTS), webotsSubMenu, tr("Display all the messages from Webots."));
@@ -285,7 +285,7 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   }
 
   // levels
-  QMenu *levelMenu = menu->addMenu(tr("&Levels"));
+  QMenu *levelMenu = menu->addMenu(tr("&Level"));
   addContextMenuLevelItem(WbLog::levelName(WbLog::ALL_LEVELS), levelMenu, tr("Display all the logs."));
   addContextMenuLevelItem(WbLog::levelName(WbLog::ERROR), levelMenu, tr("Displays Webots errors and controller(s) stderr."));
   addContextMenuLevelItem(WbLog::levelName(WbLog::WARNING), levelMenu, tr("Displays Webots warnings."));
