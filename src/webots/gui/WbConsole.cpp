@@ -372,7 +372,6 @@ WbConsole::WbConsole(QWidget *parent, const QString &name) :
   mIsOverwriteEnabled(false),  // option to overwrite last line
   mFindDialog(NULL),
   mTextFind(new WbTextFind(mEditor)) {
-  setObjectName("Console");
   updateTitle();
 
   titleBarWidget()->setObjectName("consoleTitleBar");
@@ -837,12 +836,13 @@ void WbConsole::jumpToError(const QString &errorLine) {
 }
 
 void WbConsole::updateTitle() {
+  setObjectName(mConsoleName);
   QString title(mConsoleName + " - ");
   title += mEnabledFilters.join(" | ");
   if (!mEnabledLevels.contains(WbLog::levelName(WbLog::ALL_LEVELS)))
     title += QString(" - ") + mEnabledLevels.join(" | ");
   setWindowTitle(title);
-  if (mEnabledFilters.size() == 1 && mConsoleName == objectName())
+  if (mEnabledFilters.size() == 1 && mConsoleName == "Console")
     setTabbedTitle(mEnabledFilters.at(0));
   else
     setTabbedTitle(mConsoleName);
