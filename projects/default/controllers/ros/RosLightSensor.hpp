@@ -18,6 +18,9 @@
 #include <webots/LightSensor.hpp>
 #include "RosSensor.hpp"
 
+#include <webots_ros/get_float_array.h>
+#include <webots_ros/get_int.h>
+
 using namespace webots;
 
 class RosLightSensor : public RosSensor {
@@ -30,11 +33,16 @@ public:
   void rosEnable(int samplingPeriod) override { mLightSensor->enable(samplingPeriod); }
   void rosDisable() override { cleanup(); }
   int rosSamplingPeriod() override { return mLightSensor->getSamplingPeriod(); }
+  bool getLookupTableSize(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
+  bool getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res);
 
 private:
   void cleanup() { mLightSensor->disable(); }
 
   LightSensor *mLightSensor;
+
+  ros::ServiceServer mLookupTableSizeServer;
+  ros::ServiceServer mLookupTableServer;
 };
 
 #endif  // ROS_LIGHT_SENSOR_HPP

@@ -17,6 +17,12 @@
 
 RosCompass::RosCompass(Compass *compass, Ros *ros) : RosSensor(compass->getName(), compass, ros) {
   mCompass = compass;
+
+  std::string deviceNameFixed = Ros::fixedNameString(mCompass->getName());
+  mLookupTableSizeServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_lookup_table_size",
+                                                          &RosCompass::getLookupTableSize);
+  mLookupTableServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_lookup_table",
+                                                      &RosCompass::getLookupTable);
 }
 
 // creates a publisher for compass values with a [3x1] {double} array
@@ -38,4 +44,17 @@ void RosCompass::publishValue(ros::Publisher publisher) {
   for (int i = 0; i < 9; ++i)  // means "covariance unknown"
     value.magnetic_field_covariance[i] = 0;
   publisher.publish(value);
+}
+
+bool RosCompass::getLookupTableSize(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res) {
+  assert(mCompass);
+  res.value = mCompass->getLookupTableSize();
+  return true;
+}
+
+bool RosCompass::getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res) {
+  assert(mCompass);
+  const double *values = mCompass->getLookupTable();
+  res.value.assign(values, values + mCompass->getLookupTableSize());
+  return true;
 }

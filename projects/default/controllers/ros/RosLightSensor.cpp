@@ -17,6 +17,12 @@
 
 RosLightSensor::RosLightSensor(LightSensor *lightSensor, Ros *ros) : RosSensor(lightSensor->getName(), lightSensor, ros) {
   mLightSensor = lightSensor;
+
+  std::string deviceNameFixed = Ros::fixedNameString(mLightSensor->getName());
+  mLookupTableSizeServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_lookup_table_size",
+                                                          &RosLightSensor::getLookupTableSize);
+  mLookupTableServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_lookup_table",
+                                                      &RosLightSensor::getLookupTable);
 }
 
 // creates a publisher for light sensor value with a {double} as message type
@@ -34,4 +40,17 @@ void RosLightSensor::publishValue(ros::Publisher publisher) {
   value.illuminance = mLightSensor->getValue();
   value.variance = 0.0;
   publisher.publish(value);
+}
+
+bool RosLightSensor::getLookupTableSize(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res) {
+  assert(mLightSensor);
+  res.value = mLightSensor->getLookupTableSize();
+  return true;
+}
+
+bool RosLightSensor::getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res) {
+  assert(mLightSensor);
+  const double *values = mLightSensor->getLookupTable();
+  res.value.assign(values, values + mLightSensor->getLookupTableSize());
+  return true;
 }

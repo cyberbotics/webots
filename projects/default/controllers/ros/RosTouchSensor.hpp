@@ -19,6 +19,8 @@
 #include "RosSensor.hpp"
 
 #include <webots_ros/get_int.h>
+#include <webots_ros/get_float_array.h>
+#include <webots_ros/get_int.h>
 
 using namespace webots;
 
@@ -33,12 +35,17 @@ public:
   void rosDisable() override { cleanup(); }
   int rosSamplingPeriod() override { return mTouchSensor->getSamplingPeriod(); }
   bool getTypeCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
+  bool getLookupTableSize(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
+  bool getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res);
 
 private:
   void cleanup() { mTouchSensor->disable(); }
 
   TouchSensor *mTouchSensor;
   ros::ServiceServer mTypeServer;
+
+  ros::ServiceServer mLookupTableSizeServer;
+  ros::ServiceServer mLookupTableServer;
 };
 
 #endif  // ROS_TOUCH_SENSOR_HPP

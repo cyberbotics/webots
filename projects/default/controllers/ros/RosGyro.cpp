@@ -17,6 +17,12 @@
 
 RosGyro::RosGyro(Gyro *gyroscope, Ros *ros) : RosSensor(gyroscope->getName(), gyroscope, ros) {
   mGyro = gyroscope;
+
+  std::string deviceNameFixed = Ros::fixedNameString(mGyro->getName());
+  mLookupTableSizeServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_lookup_table_size",
+                                                          &RosGyro::getLookupTableSize);
+  mLookupTableServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_lookup_table", &RosGyro::getLookupTable);
 }
 
 // creates a publisher for Gyro values with a sensor_msgs/Imu as message type
@@ -46,4 +52,17 @@ void RosGyro::publishValue(ros::Publisher publisher) {
   value.linear_acceleration.z = 0.0;
   value.linear_acceleration_covariance[0] = -1.0;  // means no linear_acceleration information
   publisher.publish(value);
+}
+
+bool RosGyro::getLookupTableSize(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res) {
+  assert(mGyro);
+  res.value = mGyro->getLookupTableSize();
+  return true;
+}
+
+bool RosGyro::getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res) {
+  assert(mGyro);
+  const double *values = mGyro->getLookupTable();
+  res.value.assign(values, values + mGyro->getLookupTableSize());
+  return true;
 }
