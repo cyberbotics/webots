@@ -99,14 +99,12 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     QString path = QDir::cleanPath(url);
     if (QFileInfo(path).exists())
       return checkIsFile(node, field, path);
-    else {
-      QString error = QObject::tr("'%1' not found.").arg(url);
-      if (node)
-        node->warn(error);
-      else
-        WbLog::warning(error);
-      return "";
-    }
+    QString error = QObject::tr("'%1' not found.").arg(url);
+    if (node)
+      node->warn(error);
+    else
+      WbLog::warning(error);
+    return "";
   }
 
   // check if the url is defined relatively
