@@ -159,7 +159,7 @@ class AnsiCodes(object):
 
 %{
 template<class DeviceClass>
-PyObject *__lookupTable(webots::Device *dev) {
+PyObject *_getLookupTableHelper(webots::Device *dev) {
     const double *lookupTable = ((DeviceClass *)dev)->getLookupTable();
     int size = ((DeviceClass *)dev)->getLookupTableSize();
     PyObject *ret = Py_None;
@@ -188,7 +188,7 @@ PyObject *__lookupTable(webots::Device *dev) {
 
 %extend webots::Accelerometer {
   PyObject *getLookupTable() {
-    return __lookupTable<webots::Accelerometer>($self);
+    return _getLookupTableHelper<webots::Accelerometer>($self);
   }
 };
 
@@ -387,7 +387,7 @@ PyObject *__lookupTable(webots::Device *dev) {
 
 %extend webots::Compass {
   PyObject *getLookupTable() {
-    return __lookupTable<webots::Compass>($self);
+    return _getLookupTableHelper<webots::Compass>($self);
   }
 };
 
@@ -464,7 +464,7 @@ PyObject *__lookupTable(webots::Device *dev) {
 
 %extend webots::DistanceSensor {
   PyObject *getLookupTable() {
-    return __lookupTable<webots::DistanceSensor>($self);
+    return _getLookupTableHelper<webots::DistanceSensor>($self);
   }
 };
 
@@ -504,7 +504,7 @@ PyObject *__lookupTable(webots::Device *dev) {
 
 %extend webots::Gyro {
   PyObject *getLookupTable() {
-    return __lookupTable<webots::Gyro>($self);
+    return _getLookupTableHelper<webots::Gyro>($self);
   }
 };
 
@@ -516,7 +516,7 @@ PyObject *__lookupTable(webots::Device *dev) {
 
 %extend webots::InertialUnit {
   PyObject *getLookupTable() {
-    return __lookupTable<webots::InertialUnit>($self);
+    return _getLookupTableHelper<webots::InertialUnit>($self);
   }
 };
 
@@ -619,7 +619,7 @@ PyObject *__lookupTable(webots::Device *dev) {
 
 %extend webots::LightSensor {
   PyObject *getLookupTable() {
-    return __lookupTable<webots::LightSensor>($self);
+    return _getLookupTableHelper<webots::LightSensor>($self);
   }
 };
 
@@ -844,7 +844,7 @@ PyObject *__lookupTable(webots::Device *dev) {
 
 %extend webots::TouchSensor {
   PyObject *getLookupTable() {
-    return __lookupTable<webots::TouchSensor>($self);
+    return _getLookupTableHelper<webots::TouchSensor>($self);
   }
 };
 
