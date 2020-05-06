@@ -209,8 +209,9 @@ void WbLightSensor::addConfigure(QDataStream &stream) {
   mNeedToReconfigure = false;
 }
 
-void WbLightSensor::writeConfigure(QDataStream &) {
+void WbLightSensor::writeConfigure(QDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
+  addConfigure(stream);
 }
 
 void WbLightSensor::updateLookupTable() {
