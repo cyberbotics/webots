@@ -21,7 +21,6 @@
 #include "WbFindReplaceDialog.hpp"
 #include "WbLog.hpp"
 #include "WbMessageBox.hpp"
-#include "WbMultiSelectionDialog.hpp"
 #include "WbPreferences.hpp"
 #include "WbRobot.hpp"
 #include "WbSyntaxHighlighter.hpp"
@@ -32,11 +31,9 @@
 #include <QtGui/QTextDocumentFragment>
 
 #include <QtWidgets/QAction>
-#include <QtWidgets/QDialog>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QMenu>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStyle>
 
 #include <cassert>
@@ -380,14 +377,6 @@ WbConsole::WbConsole(QWidget *parent, const QString &name) :
 
   titleBarWidget()->setObjectName("consoleTitleBar");
   titleBarWidget()->style()->polish(titleBarWidget());
-
-  mFiltersButton = new QPushButton(this);
-  QIcon icon = QIcon();
-  icon.addFile("enabledIcons:filters.png", QSize(), QIcon::Normal);
-  icon.addFile("disabledIcons:filters.png", QSize(), QIcon::Disabled);
-  mFiltersButton->setIcon(icon);
-  titleBarWidget()->layout()->addWidget(mFiltersButton);
-  connect(mFiltersButton, &QPushButton::pressed, this, &WbConsole::selectFilters);
 
   // create text editor
   mEditor->setReadOnly(true);
@@ -862,24 +851,6 @@ void WbConsole::updateTitle() {
 void WbConsole::closeEvent(QCloseEvent *event) {
   WbDockWidget::closeEvent(event);
   emit closed();
-}
-
-void WbConsole::selectFilters() {
-  QStringList options;
-  options << WbLog::filterName(WbLog::ALL_FILTERS) << WbLog::filterName(WbLog::WEBOTS_OTHERS)
-          << WbLog::filterName(WbLog::PARSING) << WbLog::filterName(WbLog::ODE) << WbLog::filterName(WbLog::JAVASCRIPT);
-  const WbWorld *world = WbWorld::instance();
-  if (world) {
-    foreach (const WbRobot *robot, world->robots())
-      options << robot->name();
-  }
-  WbMultiSelectionDialog dialog(tr("Select what to display in this console:"), options, mEnabledFilters, this);
-  dialog.setWindowTitle("Console Filters");
-  const int result = dialog.exec();
-  if (result == QDialog::Accepted) {
-    mEnabledFilters = dialog.enabledOptions();
-    updateTitle();
-  }
 }
 
 void WbConsole::updateFont() {

@@ -26,7 +26,6 @@
 #include <QtWidgets/QPlainTextEdit>
 
 class QAction;
-class QPushButton;
 class QRegExp;
 class WbFindReplaceDialog;
 class WbTextFind;
@@ -148,7 +147,6 @@ private:
   QString mAnsiBlack, mAnsiRed, mAnsiGreen, mAnsiYellow, mAnsiBlue, mAnsiMagenta, mAnsiCyan, mAnsiWhite;
   QStringList mEnabledFilters, mEnabledLevels;
   ConsoleEdit *mEditor;
-  QPushButton *mFiltersButton;
   QRegExp **mErrorPatterns;
   QString mForegroundColor;
   QString mBackgroundColor;
@@ -172,7 +170,6 @@ protected slots:
   void closeEvent(QCloseEvent *event) override;
 
 private slots:
-  void selectFilters();
   void updateFont();
   void enableCopyAction(bool enabled);
   void handleUserCommand(WbActionManager::WbActionKind actionKind);
