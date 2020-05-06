@@ -58,7 +58,8 @@ protected:
 private:
   WbSyntaxHighlighter *mSyntaxHighlighter;
 
-  void addContextMenuFilterItem(const QString &name, QMenu *menu, const QString &toolTip = QString());
+  void addContextMenuFilterItem(const QString &name, QMenu *menu, const QString &toolTip = QString(),
+                                bool isControllerAction = false);
   void addContextMenuLevelItem(const QString &name, QMenu *menu, const QString &toolTip = QString());
 
 private slots:

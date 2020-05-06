@@ -59,6 +59,7 @@ public:
 
   // log type filter names
   static const QString &filterName(Filter filter);
+  static const QStringList &webotsFilterNames();
   // level type names
   static const QString &levelName(Level level);
 

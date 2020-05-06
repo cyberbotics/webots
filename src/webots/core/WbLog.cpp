@@ -129,6 +129,12 @@ const QString &WbLog::filterName(Filter filter) {
   return names.at(filter);
 };
 
+const QStringList &WbLog::webotsFilterNames() {
+  static const QStringList names = QStringList() << filterName(WEBOTS_OTHERS) << filterName(ODE) << filterName(JAVASCRIPT)
+                                                 << filterName(PARSING) << filterName(COMPILATION);
+  return names;
+};
+
 const QString &WbLog::levelName(Level level) {
   static const QStringList names = QStringList() << "Debug"
                                                  << "Info"
