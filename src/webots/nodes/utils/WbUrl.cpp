@@ -117,11 +117,12 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   }
 
   if (displayWarning) {
-    const QString warning = QObject::tr("'%1' not found.").arg(url) + "\n" +
-                            QObject::tr("A resource file can be defined relatively to the worlds directory of the current project, "
-                                        "relatively to the worlds directory of the default project, "
-                                        "relatively to its protos directory (if defined in a PROTO), "
-                                        "or absolutely.");
+    const QString warning =
+      QObject::tr("'%1' not found.").arg(url) + "\n" +
+      QObject::tr("A resource file can be defined relatively to the worlds directory of the current project, "
+                  "relatively to the worlds directory of the default project, "
+                  "relatively to its protos directory (if defined in a PROTO), "
+                  "or absolutely.");
     if (node)
       node->warn(warning);
     else
