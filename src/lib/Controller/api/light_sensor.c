@@ -64,7 +64,6 @@ static void light_sensor_read_answer(WbDevice *d, WbRequest *r) {
       ROBOT_ASSERT(0);  // should never be reached
       break;
   }
-  ls->value = request_read_double(r);
 }
 
 int wb_light_sensor_get_lookup_table_size(WbDeviceTag tag) {

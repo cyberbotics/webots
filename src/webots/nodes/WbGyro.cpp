@@ -109,6 +109,7 @@ void WbGyro::handleMessage(QDataStream &stream) {
 void WbGyro::writeAnswer(QDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << (short unsigned int)tag();
+    stream << (unsigned char)C_GYRO_DATA;
     stream << (double)mValues[0] << (double)mValues[1] << (double)mValues[2];
 
     mSensor->resetPendingValue();

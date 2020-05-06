@@ -43,7 +43,6 @@ Robot {
         mass 100
       }
       type "force"
-      lookupTable []
     }
     TestSuiteEmitter {
     }
