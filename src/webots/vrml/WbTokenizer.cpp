@@ -87,10 +87,9 @@ void WbTokenizer::markTokenStart() {
 
 void WbTokenizer::displayHeaderHelp(QString fileName, QString headerTag) {
   const WbVersion &v = WbApplicationInfo::version();
-  WbLog::info(QObject::tr("Please modify the first line of '%1' to \"#%2 %3 utf8\".")
-                .arg(fileName)
-                .arg(headerTag)
-                .arg(v.toString(false)), false, WbLog::filterName(WbLog::PARSING)
+  WbLog::info(
+    QObject::tr("Please modify the first line of '%1' to \"#%2 %3 utf8\".").arg(fileName).arg(headerTag).arg(v.toString(false)),
+    false, WbLog::filterName(WbLog::PARSING));
 }
 
 bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString headerTag) {
