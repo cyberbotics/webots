@@ -246,7 +246,6 @@ class Client:
 
     def start_webots(self, on_webots_quit):
         """Start a Webots instance in a separate thread."""
-        logging.info("start_webots")
 
         def runWebotsInThread(client):
             global config
