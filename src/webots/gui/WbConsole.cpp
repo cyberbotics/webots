@@ -291,7 +291,9 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   addContextMenuLevelItem(WbLog::levelName(WbLog::ERROR), levelMenu, tr("Displays Webots errors and controller(s) stderr."));
   addContextMenuLevelItem(WbLog::levelName(WbLog::WARNING), levelMenu, tr("Displays Webots warnings."));
   addContextMenuLevelItem(WbLog::levelName(WbLog::INFO), levelMenu, tr("Displays Webots info."));
+  levelMenu->addSeparator();
   addContextMenuLevelItem(WbLog::levelName(WbLog::STDOUT), levelMenu, tr("Display controller(s) stdout."));
+  addContextMenuLevelItem(WbLog::levelName(WbLog::STDERR), levelMenu, tr("Display controller(s) stderr."));
   menu->addSeparator();
 
   // actions
@@ -708,22 +710,16 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
   // check enabled levels
   if (!mEnabledLevels.contains(WbLog::levelName(WbLog::ALL_LEVELS))) {
     switch (level) {
-      case WbLog::INFO:
-        if (!mEnabledLevels.contains(WbLog::levelName(WbLog::INFO)))
-          return;
-        break;
       case WbLog::DEBUG:
       case WbLog::WARNING:
         if (!mEnabledLevels.contains(WbLog::levelName(WbLog::WARNING)))
           return;
         break;
-      case WbLog::STDERR:
-      case WbLog::ERROR:
-        if (!mEnabledLevels.contains(WbLog::levelName(WbLog::ERROR)))
-          return;
-        break;
       case WbLog::STDOUT:
-        if (!mEnabledLevels.contains(WbLog::levelName(WbLog::STDOUT)))
+      case WbLog::STDERR:
+      case WbLog::INFO:
+      case WbLog::ERROR:
+        if (!mEnabledLevels.contains(WbLog::levelName(level)))
           return;
         break;
       case WbLog::FATAL:

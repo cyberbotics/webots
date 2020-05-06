@@ -137,8 +137,8 @@ const QString &WbLog::levelName(Level level) {
                                                  << "Error"
                                                  << "Fatal"
                                                  << "Status"
-                                                 << "Standard"
-                                                 << "Error";
+                                                 << "Stdout"
+                                                 << "Stderr";
   assert(names.size() == LEVEL_SIZE);
   assert(level < LEVEL_SIZE);
   return names.at(level);
