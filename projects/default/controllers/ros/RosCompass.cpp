@@ -55,6 +55,6 @@ bool RosCompass::getLookupTableSize(webots_ros::get_int::Request &req, webots_ro
 bool RosCompass::getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res) {
   assert(mCompass);
   const double *values = mCompass->getLookupTable();
-  res.value.assign(values, values + mCompass->getLookupTableSize());
+  res.value.assign(values, values + mCompass->getLookupTableSize() * 3);
   return true;
 }

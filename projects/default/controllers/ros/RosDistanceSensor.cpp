@@ -91,7 +91,7 @@ bool RosDistanceSensor::getLookupTableSize(webots_ros::get_int::Request &req, we
 bool RosDistanceSensor::getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res) {
   assert(mDistanceSensor);
   const double *values = mDistanceSensor->getLookupTable();
-  res.value.assign(values, values + mDistanceSensor->getLookupTableSize());
+  res.value.assign(values, values + mDistanceSensor->getLookupTableSize() * 3);
   return true;
 }
 

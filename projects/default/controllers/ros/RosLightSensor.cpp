@@ -51,6 +51,6 @@ bool RosLightSensor::getLookupTableSize(webots_ros::get_int::Request &req, webot
 bool RosLightSensor::getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res) {
   assert(mLightSensor);
   const double *values = mLightSensor->getLookupTable();
-  res.value.assign(values, values + mLightSensor->getLookupTableSize());
+  res.value.assign(values, values + mLightSensor->getLookupTableSize() * 3);
   return true;
 }

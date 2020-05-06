@@ -64,6 +64,6 @@ bool RosAccelerometer::getLookupTableSize(webots_ros::get_int::Request &req, web
 bool RosAccelerometer::getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res) {
   assert(mAccelerometer);
   const double *values = mAccelerometer->getLookupTable();
-  res.value.assign(values, values + mAccelerometer->getLookupTableSize());
+  res.value.assign(values, values + mAccelerometer->getLookupTableSize() * 3);
   return true;
 }

@@ -96,6 +96,6 @@ bool RosTouchSensor::getLookupTableSize(webots_ros::get_int::Request &req, webot
 bool RosTouchSensor::getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res) {
   assert(mTouchSensor);
   const double *values = mTouchSensor->getLookupTable();
-  res.value.assign(values, values + mTouchSensor->getLookupTableSize());
+  res.value.assign(values, values + mTouchSensor->getLookupTableSize() * 3);
   return true;
 }

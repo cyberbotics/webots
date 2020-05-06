@@ -63,6 +63,6 @@ bool RosGyro::getLookupTableSize(webots_ros::get_int::Request &req, webots_ros::
 bool RosGyro::getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res) {
   assert(mGyro);
   const double *values = mGyro->getLookupTable();
-  res.value.assign(values, values + mGyro->getLookupTableSize());
+  res.value.assign(values, values + mGyro->getLookupTableSize() * 3);
   return true;
 }

@@ -75,6 +75,6 @@ bool RosInertialUnit::getLookupTableSize(webots_ros::get_int::Request &req, webo
 bool RosInertialUnit::getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res) {
   assert(mInertialUnit);
   const double *values = mInertialUnit->getLookupTable();
-  res.value.assign(values, values + mInertialUnit->getLookupTableSize());
+  res.value.assign(values, values + mInertialUnit->getLookupTableSize() * 3);
   return true;
 }
