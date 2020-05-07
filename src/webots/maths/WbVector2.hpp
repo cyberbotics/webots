@@ -25,6 +25,7 @@
 #include <QtCore/QTextStream>
 
 #include <cassert>
+#include <cfloat>
 #include <cmath>
 
 class WbVector2 {
