@@ -73,7 +73,7 @@ static bool check_remote_interface(void) {
 
 void remote_control_init(const char *library_name) {
   if (initialized) {
-    fprintf(stderr, "Error: remote control library %s already initialized\n", library_name);
+    fprintf(stderr, "Error: %s remote control library already initialized\n", library_name);
     return;
   }
 
@@ -88,7 +88,7 @@ void remote_control_init(const char *library_name) {
   // load the library
   library_handle = dynamic_library_init(library_name);
   if (library_handle == NULL) {
-    fprintf(stderr, "Error: remote control initialisation failed for %s\n", library_name);
+    fprintf(stderr, "Error: %s remote control library initialisation failed\n", library_name);
     remote_control_cleanup();
     return;
   }
@@ -99,13 +99,13 @@ void remote_control_init(const char *library_name) {
 
   // check the existence of the required functions
   if (!_wbr_init || !_wbr_cleanup) {
-    fprintf(stderr, "Error: remote control library entry points badly defined in %s\n", library_name);
+    fprintf(stderr, "Error: %s remote control library entry points badly defined\n", library_name);
     remote_control_cleanup();
     return;
   }
 
   if (!_wbr_init(&remoteInterface)) {
-    fprintf(stderr, "Error: remote control library _wbr_init failed for %s\n", library_name);
+    fprintf(stderr, "Error: %s remote control library _wbr_init failed\n", library_name);
     remote_control_cleanup();
     return;
   }
