@@ -348,9 +348,14 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
         """Return a port number available for a new Webots WebSocket server."""
         port = config['port'] + 1
         while True:
+            found = False
             for client in self.clients:
                 if port == client.streaming_server_port:
-                    return port
+                    found = True
+                    break
+            if found:
+                port += 1
+                continue
             # try to create a server to make sure that port is available
             testSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             try:
