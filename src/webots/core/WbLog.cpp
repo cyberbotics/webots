@@ -60,11 +60,11 @@ void WbLog::info(const QString &message, bool popup, const QString &name) {
     return;
   }
 
-  const int numberOfRecivers = instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)));
-  if (numberOfRecivers > 1)
+  const int numberOfReceivers = instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)));
+  if (numberOfReceivers > 1)
     instance()->emitLog(INFO, "INFO: " + message, popup, name);
   else {
-    if (numberOfRecivers == 0)
+    if (numberOfReceivers == 0)
       printf("INFO: %s\n", qPrintable(message));
     instance()->enqueueMessage(instance()->mPendingConsoleMessages, "INFO: " + message, name, INFO);
   }
@@ -76,11 +76,11 @@ void WbLog::warning(const QString &message, bool popup, const QString &name) {
     return;
   }
 
-  const int numberOfRecivers = instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)));
-  if (numberOfRecivers > 1)
+  const int numberOfReceivers = instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)));
+  if (numberOfReceivers > 1)
     instance()->emitLog(WARNING, "WARNING: " + message, popup, name);
   else {
-    if (numberOfRecivers == 0)
+    if (numberOfReceivers == 0)
       fprintf(stderr, "WARNING: %s\n", qPrintable(message));
     instance()->enqueueMessage(instance()->mPendingConsoleMessages, "WARNING: " + message, name, WARNING);
   }
@@ -92,11 +92,11 @@ void WbLog::error(const QString &message, bool popup, const QString &name) {
     return;
   }
 
-  const int numberOfRecivers = instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)));
-  if (numberOfRecivers > 1)
+  const int numberOfReceivers = instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)));
+  if (numberOfReceivers > 1)
     instance()->emitLog(ERROR, "ERROR: " + message, popup, name);
   else {
-    if (numberOfRecivers == 0)
+    if (numberOfReceivers == 0)
       fprintf(stderr, "ERROR: %s\n", qPrintable(message));
     instance()->enqueueMessage(instance()->mPendingConsoleMessages, "ERROR: " + message, name, ERROR);
   }
