@@ -144,7 +144,6 @@ class Client:
         self.cleanup_webots_instance()
 
     def setup_project(self):
-        logging.info("Setup project " + str(self.url))
         self.project_instance_path = config['instancesPath'] + str(id(self))
         if hasattr(self, 'url'):
             return self.setup_project_from_github()
@@ -152,7 +151,6 @@ class Client:
             return self.setup_project_from_zip()
 
     def setup_project_from_github(self):
-        logging.info("Setup project from GitHub " + self.url)
         if not self.url.startswith('webots://github.com/'):
             logging.error('The URL argument should start with "webots://github.com/"')
             return False
