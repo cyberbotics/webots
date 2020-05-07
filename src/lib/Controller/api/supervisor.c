@@ -999,7 +999,7 @@ static bool check_float(const char *function, double value) {
     return false;
   }
   if (value > FLT_MAX) {
-    fprintf(stderr, "Error: %s() called with a value greater FLX_MAX: %g > %g.\n", function, value, FLT_MAX);
+    fprintf(stderr, "Error: %s() called with a value greater than FLX_MAX: %g > %g.\n", function, value, FLT_MAX);
     return false;
   }
   if (value < -FLT_MAX) {
