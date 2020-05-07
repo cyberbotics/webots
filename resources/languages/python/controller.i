@@ -83,6 +83,24 @@ using namespace std;
 //handling std::string
 %include "std_string.i"
 
+%{
+template<class DeviceClass>
+PyObject *_getLookupTableHelper(webots::Device *dev) {
+    const double *lookupTable = ((DeviceClass *)dev)->getLookupTable();
+    int size = ((DeviceClass *)dev)->getLookupTableSize();
+    PyObject *ret = Py_None;
+    if (lookupTable) {
+      ret = PyList_New(size * 3);
+      for (int i = 0; i < size * 3; i++) {
+        PyObject *v = PyFloat_FromDouble(lookupTable[i]);
+        PyList_SetItem(ret, i, v);
+      }
+    }
+    return ret;
+}
+%}
+%rename ("__internalGetLookupTableSize") getLookupTableSize;
+
 // manage double arrays
 %typemap(out) const double * {
   int len = 3;
@@ -156,24 +174,6 @@ class AnsiCodes(object):
 
     CLEAR_SCREEN = '\u001b[2J'
 %}
-
-%{
-template<class DeviceClass>
-PyObject *_getLookupTableHelper(webots::Device *dev) {
-    const double *lookupTable = ((DeviceClass *)dev)->getLookupTable();
-    int size = ((DeviceClass *)dev)->getLookupTableSize();
-    PyObject *ret = Py_None;
-    if (lookupTable) {
-      ret = PyList_New(size * 3);
-      for (int i = 0; i < size * 3; i++) {
-        PyObject *v = PyFloat_FromDouble(lookupTable[i]);
-        PyList_SetItem(ret, i, v);
-      }
-    }
-    return ret;
-}
-%}
-%rename ("__internalGetLookupTableSize") getLookupTableSize;
 
 //----------------------------------------------------------------------------------------------
 //  Device
