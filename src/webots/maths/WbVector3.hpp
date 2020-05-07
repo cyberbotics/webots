@@ -25,6 +25,7 @@
 #include <QtCore/QTextStream>
 
 #include <cassert>
+#include <cfloat>
 #include <cmath>
 
 class WbVector3 {
@@ -149,6 +150,21 @@ public:
   // normalization: |length| = 1.0
   void normalize() { *this /= length(); }
   WbVector3 normalized() const { return *this / length(); }
+
+  void clamp() {  // clamp to FLT_MAX
+    if (mX > FLT_MAX)
+      mX = FLT_MAX;
+    else if (mX < -FLT_MAX)
+      mX = -FLT_MAX;
+    if (mY > FLT_MAX)
+      mY = FLT_MAX;
+    else if (mY < -FLT_MAX)
+      mY = -FLT_MAX;
+    if (mZ > FLT_MAX)
+      mZ = FLT_MAX;
+    else if (mZ < -FLT_MAX)
+      mZ = -FLT_MAX;
+  }
 
   WbVector3 rounded(WbPrecision::Level level) const {
     return WbVector3(WbPrecision::roundValue(mX, level), WbPrecision::roundValue(mY, level),

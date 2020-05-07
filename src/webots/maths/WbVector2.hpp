@@ -129,6 +129,18 @@ public:
   // returns a unit vector with the same direction: / length
   void normalize() { *this /= length(); }
   WbVector2 normalized() const { return *this / length(); }
+
+  void clamp() {  // clamp to FLT_MAX
+    if (mX > FLT_MAX)
+      mX = FLT_MAX;
+    else if (mX < -FLT_MAX)
+      mX = -FLT_MAX;
+    if (mY > FLT_MAX)
+      mY = FLT_MAX;
+    else if (mY < -FLT_MAX)
+      mY = -FLT_MAX;
+  }
+
   // vector comparison
   bool operator==(const WbVector2 &v) const { return mX == v.mX && mY == v.mY; }
   bool operator!=(const WbVector2 &v) const { return mX != v.mX || mY != v.mY; }

@@ -109,7 +109,7 @@ void WbVector3Editor::apply() {
     mVector3.setXyz(WbPrecision::roundValue(mSpinBoxes[0]->value(), WbPrecision::GUI_MEDIUM),
                     WbPrecision::roundValue(mSpinBoxes[1]->value(), WbPrecision::GUI_MEDIUM),
                     WbPrecision::roundValue(mSpinBoxes[2]->value(), WbPrecision::GUI_MEDIUM));
-
+  mVector3.clamp();
   if (singleValue()) {
     WbSFVector3 *const sfVector3 = static_cast<WbSFVector3 *>(singleValue());
     if (sfVector3->value() == mVector3)
