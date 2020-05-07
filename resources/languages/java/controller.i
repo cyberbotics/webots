@@ -78,7 +78,7 @@ using namespace std;
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 6);
   else if (test == "getOrientation" || test == "virtualRealityHeadsetGetOrientation")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 9);
-  else if (test != "getTest")
+  else
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 3);
 }
 %apply double[] {double *};
@@ -153,9 +153,13 @@ namespace webots {
 //  Accelerometer
 //----------------------------------------------------------------------------------------------
 
+%typemap(out) const double * {
+  $result = SWIG_JavaArrayOutDouble(jenv, (double *) $1, arg1->getLookupTableSize()*3);
+}
 
 %include <webots/Accelerometer.hpp>
 
+%clear const double *;
 
 //----------------------------------------------------------------------------------------------
 //  Brake
