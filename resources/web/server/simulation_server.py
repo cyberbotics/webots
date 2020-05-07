@@ -152,7 +152,7 @@ class Client:
             return self.setup_project_from_zip()
 
     def setup_project_from_github(self):
-        logging.info("setup_project_from_github " + self.url)
+        logging.info("Setup project from GitHub " + self.url)
         if not self.url.startswith('webots://github.com/'):
             logging.error('The URL argument should start with "webots://github.com/"')
             return False
