@@ -447,7 +447,7 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
             elif 'start' in data:  # checkout a github folder and run a simulation in there
                 client.streaming_server_port = ClientWebSocketHandler.next_available_port()
                 url = data['start']['url']
-                logging.info('starting simulation from ' + url)
+                logging.info('Starting simulation from ' + url)
                 client.url = url
                 self.start_client()
 
