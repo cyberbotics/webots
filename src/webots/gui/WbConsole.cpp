@@ -840,7 +840,7 @@ void WbConsole::jumpToError(const QString &errorLine) {
 }
 
 void WbConsole::updateTitle() {
-  setObjectName(mConsoleName);
+  setObjectName(mConsoleName + mEnabledFilters.join(QString()) + mEnabledLevels.join(QString()));
   QString title(mConsoleName + " - ");
   title += mEnabledFilters.join(" | ");
   if (!mEnabledLevels.contains(WbLog::filterName(WbLog::ALL)))
