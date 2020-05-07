@@ -511,6 +511,7 @@ OTHER_SOURCES = \
   WbMathsUtilities.cpp \
   WbMessageBox.cpp \
   WbMotorSoundManager.cpp \
+  WbMultimediaStreamingLimiter.cpp \
   WbNetwork.cpp \
   WbNodeFactory.cpp \
   WbNodeModel.cpp \

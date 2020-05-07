@@ -16,6 +16,7 @@
 
 #include "WbDragViewpointEvent.hpp"
 #include "WbMainWindow.hpp"
+#include "WbMultimediaStreamingLimiter.hpp"
 #include "WbRobot.hpp"
 #include "WbSimulationState.hpp"
 #include "WbSimulationWorld.hpp"
@@ -36,12 +37,18 @@ WbMultimediaStreamingServer::WbMultimediaStreamingServer() :
   WbStreamingServer(),
   mImageWidth(-1),
   mImageHeight(-1),
+  mFrameRate(50),
+  mLimiter(NULL),
+  mAverageBytesToWrite(0),
+  mSentImagesCount(0),
+  mFullResolutionOnPause(0),
   mTouchEventObjectPicked(false) {
   WbMatter::enableShowMatterCenter(false);
 }
 
 WbMultimediaStreamingServer::~WbMultimediaStreamingServer() {
   mTcpClients.clear();
+  delete mLimiter;
 }
 
 void WbMultimediaStreamingServer::setView3D(WbView3D *view3D) {
@@ -53,6 +60,8 @@ void WbMultimediaStreamingServer::start(int port) {
   WbStreamingServer::start(port);
   WbLog::info(
     tr("Webots multimedia streamer started: resolution %1x%2 on port %3").arg(mImageWidth).arg(mImageHeight).arg(port));
+  mWriteTimer.setSingleShot(true);
+  connect(&mWriteTimer, &QTimer::timeout, this, &WbMultimediaStreamingServer::sendImageOnTimeout);
 }
 
 void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
@@ -72,6 +81,10 @@ void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUr
   else if (WbSimulationState::instance()->isPaused())
     // request new image if none has been generated yet
     gView3D->refresh();
+
+  mLimiterTimer.setInterval(1000);
+  mLimiterTimer.start();
+  connect(&mLimiterTimer, &QTimer::timeout, this, &WbMultimediaStreamingServer::processLimiterTimout);
 }
 
 void WbMultimediaStreamingServer::removeTcpClient() {
@@ -87,8 +100,8 @@ bool WbMultimediaStreamingServer::isNewFrameNeeded() const {
   if (!mUpdateTimer.isValid() || WbSimulationState::instance()->isPaused())
     return true;
 
-  const qint64 nsecs = mUpdateTimer.nsecsElapsed();
-  return nsecs >= 5e7;  // maximum update frame rate
+  const qint64 msecs = mUpdateTimer.elapsed();
+  return msecs >= mFrameRate;  // maximum update frame rate
 }
 
 void WbMultimediaStreamingServer::sendImage(const QImage &image) {
@@ -99,6 +112,16 @@ void WbMultimediaStreamingServer::sendImage(const QImage &image) {
   bufferJpeg.open(QIODevice::WriteOnly);
   image.save(&bufferJpeg, "JPG");
 
+  const qint64 msecs = mUpdateTimer.elapsed();
+  if (WbSimulationState::instance()->isPaused() && msecs < mFrameRate)
+    mWriteTimer.start(2 * mFrameRate - msecs);
+  else
+    sendImageOnTimeout();
+}
+
+void WbMultimediaStreamingServer::sendImageOnTimeout() {
+  mWriteTimer.stop();
+
   sendLastImage();
   if (WbSimulationState::instance()->isPaused())
     // force the update on the client side
@@ -108,9 +131,59 @@ void WbMultimediaStreamingServer::sendImage(const QImage &image) {
   mUpdateTimer.restart();
 }
 
+void WbMultimediaStreamingServer::processLimiterTimout() {
+  if (mFullResolutionOnPause == 2)
+    return;
+  if (mLimiter->isStopped()) {
+    if (mTcpClients[0]->bytesToWrite() == 0)
+      mLimiter->resetStop();
+    return;
+  }
+  if (mSentImagesCount == 0) {
+    if (WbSimulationState::instance()->isPaused() && mFullResolutionOnPause != 2 && mLimiter->resolutionFactor() > 1) {
+      // nothing sent since a while
+      // send one image in full resolution
+      mFullResolutionOnPause = 2;
+      const QSize &fullSize(mLimiter->fullResolution());
+      cMainWindow->setView3DSize(fullSize);
+    }
+    mLimiter->resetStop();
+    return;
+  }
+
+  double bytes;
+  if (mSentImagesCount > 0)
+    bytes = ((double) mAverageBytesToWrite) / mSentImagesCount;
+  else
+    bytes = 0;
+  updateStreamingParameters(bytes / mSceneImage.size());
+}
+
+void WbMultimediaStreamingServer::updateStreamingParameters(int skippedImagesCount) {
+  mLimiter->recomputeStreamingLimits(skippedImagesCount);
+  if (mFullResolutionOnPause > 0 || mLimiter->resolutionChanged()) {
+    const QSize &newSize(mLimiter->resolution());
+    cMainWindow->setView3DSize(newSize);
+    mFullResolutionOnPause = 0;
+  }
+  mFrameRate = mLimiter->frameRate();
+  mAverageBytesToWrite = 0;
+  mSentImagesCount = 0;
+}
+
 void WbMultimediaStreamingServer::sendLastImage(QTcpSocket *client) {
   if (client && (client->state() != QAbstractSocket::ConnectedState || !client->isValid()))
     return;
+
+  if (mLimiter->isStopped()) {
+    if (mTcpClients[0]->bytesToWrite() == 0) {
+      mLimiter->resetStop();
+    } else
+      return;
+  }
+
+  mAverageBytesToWrite += mTcpClients[0]->bytesToWrite();
+  mSentImagesCount++;
 
   const QByteArray &boundaryString =
     QString("--WebotsFrame\r\nContent-Type: image/jpeg\r\nContent-Length: %1\r\n\r\n").arg(mSceneImage.length()).toUtf8();
@@ -146,6 +219,7 @@ void WbMultimediaStreamingServer::sendContextMenuInfo(const WbMatter *node) {
 
 void WbMultimediaStreamingServer::processTextMessage(QString message) {
   QWebSocket *client = qobject_cast<QWebSocket *>(sender());
+  mFullResolutionOnPause = 1;
 
   if (message.startsWith("mouse")) {
     int action, button, buttons, x, y, modifiers, wheel;
@@ -251,6 +325,8 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
       mImageWidth = width;
       mImageHeight = height;
       WbLog::info(tr("Streaming server: Resolution changed to %1x%2.").arg(width).arg(height));
+      delete mLimiter;
+      mLimiter = new WbMultimediaStreamingLimiter(QSize(mImageWidth, mImageHeight), 50);
     } else {
       // Video streamer already initialized
       WbLog::info(tr("Streaming server: Ignored new client request of resolution: %1x%2.").arg(width).arg(height));
@@ -269,6 +345,7 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
       WbLog::info(tr("Streaming server: Client resize: new resolution %1x%2.").arg(mImageWidth).arg(mImageHeight));
       cMainWindow->setView3DSize(QSize(mImageWidth, mImageHeight));
       sendToClients(QString("resize: %1 %2").arg(mImageWidth).arg(mImageHeight));
+      mLimiter->resetResolution(QSize(mImageWidth, mImageHeight));
     } else
       WbLog::info(tr("Streaming server: Invalid client resize: only the first connected client can resize the simulation."));
   } else if (message.startsWith("follow: ")) {

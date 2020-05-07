@@ -19,8 +19,10 @@
 #include "WbVector3.hpp"
 
 #include <QtCore/QElapsedTimer>
+#include <QtCore/QTimer>
 
 class WbMatter;
+class WbMultimediaStreamingLimiter;
 class WbView3D;
 
 class WbMultimediaStreamingServer : public WbStreamingServer {
@@ -40,18 +42,34 @@ signals:
 private slots:
   void removeTcpClient();
   void processTextMessage(QString message) override;
+  void sendImageOnTimeout();
+  void processLimiterTimout();
 
 private:
   void start(int port) override;
   void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) override;
   void sendContextMenuInfo(const WbMatter *node);
   void sendLastImage(QTcpSocket *client = NULL);
+  void updateStreamingParameters(int skippedImages);
 
   int mImageWidth;
   int mImageHeight;
+  int mFrameRate;
+
   QByteArray mSceneImage;
   QList<QTcpSocket *> mTcpClients;
   QElapsedTimer mUpdateTimer;
+  QTimer mWriteTimer;
+
+  WbMultimediaStreamingLimiter *mLimiter;
+  QTimer mLimiterTimer;
+  int mAverageBytesToWrite;
+  int mSentImagesCount;
+  // flag keeping track of the current status
+  // 0: none
+  // 1: scene changed since full resolution image was sent
+  // 2: full resolution image just sent
+  int mFullResolutionOnPause;
 
   double mLastSpeedIndicatorTime;
   WbVector3 mTouchEventRotationCenter;
