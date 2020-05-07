@@ -664,6 +664,7 @@ def main():
     # are described here:
     #
     # port:              local port on which the server is listening (launching webots instances).
+    # portRewrite:       true if local ports are computed from 443 https/wss URLs (apache rewrite rule).
     # sslKey:            private key for a SSL enabled server.
     # sslCertificate:    certificate for a SSL enabled server.
     # projectsDir:       directory in which projects are located.
