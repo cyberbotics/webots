@@ -166,7 +166,6 @@ class TouchSensor (Device):
     def getSamplingPeriod(self):
     def getValue(self):
     def getValues(self):
-    def getLookupTableSize(self):
     def getLookupTable(self):
     # ...
 ```
@@ -184,7 +183,6 @@ public class TouchSensor extends Device
   public int getSamplingPeriod();
   public double getValue();
   public double[] getValues();
-  public int getLookupTableSize();
   public double[] getLookupTable();
   // ...
 }
@@ -200,7 +198,6 @@ wb_touch_sensor_disable(tag)
 period = wb_touch_sensor_get_sampling_period(tag)
 value = wb_touch_sensor_get_value(tag)
 [x y z] = wb_touch_sensor_get_values(tag)
-lookup_table_size = wb_touch_sensor_get_lookup_table_size(tag)
 lookup_table = wb_touch_sensor_get_lookup_table(tag)
 ```
 
@@ -215,7 +212,6 @@ lookup_table = wb_touch_sensor_get_lookup_table(tag)
 | `/<device_name>/value` | `topic` | `webots_ros::BoolStamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`bool data` |
 | `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
 | `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_lookup_table_size` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
 | `/<device_name>/get_lookup_table` | `service` | [`webots_ros::get_float_array`](ros-api.md#common-services) | |
 
 %tab-end
@@ -327,10 +323,10 @@ type = wb_touch_sensor_get_type(tag)
 
 %end
 
-The `wb_touch_sensor_get_lookup_table_size` function returns the size of the [lookup table](#lookup-table).
+The `wb_touch_sensor_get_lookup_table_size` function returns a number of rows in the [lookup table](#lookup-table).
 
-The `wb_touch_sensor_get_lookup_table` function returns lookup table fields of the [lookup table](#lookup-table).
-This function returns a matrix containing exactly N * 3 values (N represents number of mapped values obtained with function `wb_touch_sensor_get_lookup_table_size`) that shall be interpreted as a N x 3 table.
+The `wb_touch_sensor_get_lookup_table` function returns the values of the [lookup table](#lookup-table).
+This function returns a matrix containing exactly N * 3 values (N represents the number of mapped values optained with the `wb_touch_sensor_get_lookup_table_size` function) that shall be interpreted as a N x 3 table.
 
 ##### Description
 

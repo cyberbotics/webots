@@ -90,7 +90,6 @@ class Compass (Device):
     def disable(self):
     def getSamplingPeriod(self):
     def getValues(self):
-    def getLookupTableSize(self):
     def getLookupTable(self):
     # ...
 ```
@@ -107,7 +106,6 @@ public class Compass extends Device {
   public void disable();
   public int getSamplingPeriod();
   public double[] getValues();
-  public int getLookupTableSize();
   public double[] getLookupTable();
   // ...
 }
@@ -122,7 +120,6 @@ wb_compass_enable(tag, sampling_period)
 wb_compass_disable(tag)
 period = wb_compass_get_sampling_period(tag)
 [x y z] = wb_compass_get_values(tag)
-lookup_table_size = wb_compass_get_lookup_table_size(tag)
 lookup_table = wb_compass_get_lookup_table(tag)
 ```
 
@@ -135,7 +132,6 @@ lookup_table = wb_compass_get_lookup_table(tag)
 | `/<device_name>/values` | `topic` | [`sensor_msgs::MagneticField`](http://docs.ros.org/api/sensor_msgs/html/msg/MagneticField.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `magnetic_field`<br/>`float64[9] magnetic_field_covariance`<br/> |
 | `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
 | `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_lookup_table_size` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
 | `/<device_name>/get_lookup_table` | `service` | [`webots_ros::get_float_array`](ros-api.md#common-services) | |
 
 %tab-end
@@ -192,10 +188,10 @@ double get_bearing_in_degrees() {
 }
 ```
 
-The `wb_compass_get_lookup_table_size` function returns the size of the lookup table.
+The `wb_compass_get_lookup_table_size` function returns a number of rows in the lookup table.
 
-The `wb_compass_get_lookup_table` function returns lookup table fields of the lookup table.
-This function returns a matrix containing exactly N * 3 values (N represents number of mapped values obtained with function `wb_compass_get_lookup_table_size`) that shall be interpreted as a N x 3 table.
+The `wb_compass_get_lookup_table` function returns the values of the lookup table.
+This function returns a matrix containing exactly N * 3 values (N represents the number of mapped values optained with the `wb_compass_get_lookup_table_size` function) that shall be interpreted as a N x 3 table.
 
 > **Note** [C, C++]: The returned vector is a pointer to the internal values managed by the [Compass](#compass) node, therefore it is illegal to free this pointer.
 Furthermore, note that the pointed values are only valid until the next call to the `wb_robot_step` or `Robot::step` functions.
