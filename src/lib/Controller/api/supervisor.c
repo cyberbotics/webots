@@ -1039,9 +1039,25 @@ void wb_supervisor_set_label(int id, const char *text, double x, double y, doubl
   unsigned int color_and_transparency = (unsigned int)color;
   color_and_transparency += (unsigned int)(transparency * 0xff) << 24;
 
-  if (!check_float(__FUNCTION__, x) || !check_float(__FUNCTION__, y) || !check_float(__FUNCTION__, size) ||
-      !check_float(__FUNCTION__, transparency))
+  if (x < 0 || x > 1) {
+    fprintf(stderr, "Error: %s() called with x parameter outside of [0,1] range.\n", __FUNCTION__);
     return;
+  }
+
+  if (y < 0 || y > 1) {
+    fprintf(stderr, "Error: %s() called with y parameter outside of [0,1] range.\n", __FUNCTION__);
+    return;
+  }
+
+  if (size < 0 || size > 1) {
+    fprintf(stderr, "Error: %s() called with size parameter outside of [0,1] range.\n", __FUNCTION__);
+    return;
+  }
+
+  if (transparency < 0 || transparency > 1) {
+    fprintf(stderr, "Error: %s() called with transparency parameter outside of [0,1] range.\n", __FUNCTION__);
+    return;
+  }
 
   if (!robot_check_supervisor(__FUNCTION__))
     return;
