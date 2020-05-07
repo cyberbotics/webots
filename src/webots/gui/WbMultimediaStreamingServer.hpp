@@ -66,9 +66,9 @@ private:
   int mAverageBytesToWrite;
   int mSentImagesCount;
   // flag keeping track of the current status
-  // 0: none
-  // 1: scene changed since full resolution image was sent
-  // 2: full resolution image just sent
+  //   0: none
+  //   1: scene changed since full resolution image was sent
+  //   2: full resolution image just sent
   int mFullResolutionOnPause;
 
   double mLastSpeedIndicatorTime;

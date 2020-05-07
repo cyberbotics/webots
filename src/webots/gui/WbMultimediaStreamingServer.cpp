@@ -81,10 +81,6 @@ void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUr
   else if (WbSimulationState::instance()->isPaused())
     // request new image if none has been generated yet
     gView3D->refresh();
-
-  mLimiterTimer.setInterval(1000);
-  mLimiterTimer.start();
-  connect(&mLimiterTimer, &QTimer::timeout, this, &WbMultimediaStreamingServer::processLimiterTimout);
 }
 
 void WbMultimediaStreamingServer::removeTcpClient() {
@@ -219,7 +215,6 @@ void WbMultimediaStreamingServer::sendContextMenuInfo(const WbMatter *node) {
 
 void WbMultimediaStreamingServer::processTextMessage(QString message) {
   QWebSocket *client = qobject_cast<QWebSocket *>(sender());
-  mFullResolutionOnPause = 1;
 
   if (message.startsWith("mouse")) {
     int action, button, buttons, x, y, modifiers, wheel;
@@ -320,7 +315,7 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
     WbLog::info(
       tr("Streaming server: New client [%1] (%2 connected client(s)).").arg(clientToId(client)).arg(mWebSocketClients.size()));
     QString args;
-    if (mImageWidth <= 0 && mImageHeight <= 0) {
+    if ((mImageWidth <= 0 && mImageHeight <= 0) || client == mWebSocketClients.first()) {
       cMainWindow->setView3DSize(QSize(width, height));
       mImageWidth = width;
       mImageHeight = height;
