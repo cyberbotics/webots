@@ -144,7 +144,7 @@ class Client:
         self.cleanup_webots_instance()
 
     def setup_project(self):
-        logging.info("setup_project " + str(self.url))
+        logging.info("Setup project " + str(self.url))
         self.project_instance_path = config['instancesPath'] + str(id(self))
         if hasattr(self, 'url'):
             return self.setup_project_from_github()
