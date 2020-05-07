@@ -11,6 +11,7 @@ class Server { // eslint-disable-line no-unused-vars
     // "wss://cyberbotics1.epfl.ch/1999/session
     //  ?url=webots://github.com/cyberbotics/webots/branch/master/projects/languages/python"
     const n = this.url.indexOf('/session?url=', 6);
+    // 6 is for skipping the "ws(s)://domain" part of the URL which smallest form is 6 characters long: "ws://a"
     if (n === -1) {
       const m = url.lastIndexOf('/');
       this.project = url.substring(this.url.indexOf('/', 6) + 1, m - 7); // e.g., "simple"
