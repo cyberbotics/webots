@@ -33,7 +33,6 @@ public:
   void rosEnable(int samplingPeriod) override { mCompass->enable(samplingPeriod); }
   void rosDisable() override { mCompass->disable(); }
   int rosSamplingPeriod() override { return mCompass->getSamplingPeriod(); }
-  bool getLookupTableSize(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
   bool getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res);
 
 private:
@@ -41,7 +40,6 @@ private:
 
   Compass *mCompass;
 
-  ros::ServiceServer mLookupTableSizeServer;
   ros::ServiceServer mLookupTableServer;
 };
 

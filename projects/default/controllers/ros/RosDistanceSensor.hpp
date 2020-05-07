@@ -38,7 +38,6 @@ public:
   bool getMinValueCallback(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res);
   bool getMaxValueCallback(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res);
   bool getApertureCallback(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res);
-  bool getLookupTableSize(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
   bool getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res);
   bool getTypeCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
 
@@ -49,7 +48,6 @@ private:
   ros::ServiceServer mMinValueServer;
   ros::ServiceServer mMaxValueServer;
   ros::ServiceServer mApertureServer;
-  ros::ServiceServer mLookupTableSizeServer;
   ros::ServiceServer mLookupTableServer;
   ros::ServiceServer mTypeServer;
 };

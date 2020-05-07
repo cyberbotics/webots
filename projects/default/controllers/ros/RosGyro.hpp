@@ -34,7 +34,6 @@ public:
   void rosDisable() override { cleanup(); }
   int rosSamplingPeriod() override { return mGyro->getSamplingPeriod(); }
 
-  bool getLookupTableSize(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
   bool getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res);
 
 private:
@@ -42,7 +41,6 @@ private:
 
   Gyro *mGyro;
 
-  ros::ServiceServer mLookupTableSizeServer;
   ros::ServiceServer mLookupTableServer;
 };
 

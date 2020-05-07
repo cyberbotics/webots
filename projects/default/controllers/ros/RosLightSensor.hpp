@@ -33,7 +33,6 @@ public:
   void rosEnable(int samplingPeriod) override { mLightSensor->enable(samplingPeriod); }
   void rosDisable() override { cleanup(); }
   int rosSamplingPeriod() override { return mLightSensor->getSamplingPeriod(); }
-  bool getLookupTableSize(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
   bool getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res);
 
 private:
@@ -41,7 +40,6 @@ private:
 
   LightSensor *mLightSensor;
 
-  ros::ServiceServer mLookupTableSizeServer;
   ros::ServiceServer mLookupTableServer;
 };
 

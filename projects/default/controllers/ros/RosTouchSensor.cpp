@@ -20,14 +20,10 @@
 RosTouchSensor::RosTouchSensor(TouchSensor *touchSensor, Ros *ros) : RosSensor(touchSensor->getName(), touchSensor, ros) {
   mTouchSensor = touchSensor;
 
-  std::string deviceNameFixed = Ros::fixedNameString(mTouchSensor->getName());
-  mTypeServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + "/get_type", &RosTouchSensor::getTypeCallback);
-
-  mLookupTableSizeServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_lookup_table_size",
-                                                          &RosTouchSensor::getLookupTableSize);
-  mLookupTableServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_lookup_table",
-                                                      &RosTouchSensor::getLookupTable);
+  RosDevice::rosAdvertiseService((ros->name()) + '/' + RosDevice::fixedDeviceName() + "/get_type",
+                                 &RosTouchSensor::getTypeCallback);
+  mLookupTableServer = RosDevice::rosAdvertiseService(
+    (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosTouchSensor::getLookupTable);
 }
 
 RosTouchSensor::~RosTouchSensor() {
@@ -84,12 +80,6 @@ void RosTouchSensor::publishValue(ros::Publisher publisher) {
 bool RosTouchSensor::getTypeCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res) {
   assert(mTouchSensor);
   res.value = mTouchSensor->getType();
-  return true;
-}
-
-bool RosTouchSensor::getLookupTableSize(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res) {
-  assert(mTouchSensor);
-  res.value = mTouchSensor->getLookupTableSize();
   return true;
 }
 

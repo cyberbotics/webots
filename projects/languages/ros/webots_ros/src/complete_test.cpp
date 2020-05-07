@@ -819,7 +819,8 @@ int main(int argc, char **argv) {
 
   ros::ServiceClient lookup_table_accelerometer_client;
   webots_ros::get_float_array lookup_table_accelerometer_srv;
-  lookup_table_accelerometer_client = n.serviceClient<webots_ros::get_float_array>(model_name + "/accelerometer/get_lookup_table");
+  lookup_table_accelerometer_client =
+    n.serviceClient<webots_ros::get_float_array>(model_name + "/accelerometer/get_lookup_table");
   if (lookup_table_accelerometer_client.call(lookup_table_accelerometer_srv))
     ROS_INFO("Accelerometer lookup table size = %lu.", lookup_table_accelerometer_srv.response.value.size());
   else
@@ -1388,13 +1389,15 @@ int main(int argc, char **argv) {
 
   ros::ServiceClient lookup_table_distance_sensor_client;
   webots_ros::get_float_array lookup_table_distance_sensor_srv;
-  lookup_table_distance_sensor_client = n.serviceClient<webots_ros::get_float_array>(model_name + "/distance_sensor/get_lookup_table");
+  lookup_table_distance_sensor_client =
+    n.serviceClient<webots_ros::get_float_array>(model_name + "/distance_sensor/get_lookup_table");
   if (lookup_table_distance_sensor_client.call(lookup_table_distance_sensor_srv))
     ROS_INFO("Distance_sensor lookup table size = %lu.", lookup_table_distance_sensor_srv.response.value.size());
   else
     ROS_ERROR("Failed to get the lookup table of 'distance_sensor'.");
-  if (lookup_table_distance_sensor_srv.response.value.size() != 0)
-    ROS_ERROR("Size of lookup table of 'distance_sensor' is wrong.");
+  if (lookup_table_distance_sensor_srv.response.value.size() != 6)
+    ROS_ERROR("Size of lookup table of 'distance_sensor' is wrong, expected 0 got %lu.",
+              lookup_table_distance_sensor_srv.response.value.size());
   lookup_table_distance_sensor_client.shutdown();
 
   distance_sensor_srv.request.value = 32;
@@ -1655,7 +1658,8 @@ int main(int argc, char **argv) {
 
   ros::ServiceClient lookup_table_inertial_unit_client;
   webots_ros::get_float_array lookup_table_inertial_unit_srv;
-  lookup_table_inertial_unit_client = n.serviceClient<webots_ros::get_float_array>(model_name + "/inertial_unit/get_lookup_table");
+  lookup_table_inertial_unit_client =
+    n.serviceClient<webots_ros::get_float_array>(model_name + "/inertial_unit/get_lookup_table");
   if (lookup_table_inertial_unit_client.call(lookup_table_inertial_unit_srv))
     ROS_INFO("Inertial unit lookup table size = %lu.", lookup_table_inertial_unit_srv.response.value.size());
   else
@@ -1841,12 +1845,13 @@ int main(int argc, char **argv) {
 
   ros::ServiceClient lookup_table_light_sensor_client;
   webots_ros::get_float_array lookup_table_light_sensor_srv;
-  lookup_table_light_sensor_client = n.serviceClient<webots_ros::get_float_array>(model_name + "/light_sensor/get_lookup_table");
+  lookup_table_light_sensor_client =
+    n.serviceClient<webots_ros::get_float_array>(model_name + "/light_sensor/get_lookup_table");
   if (lookup_table_light_sensor_client.call(lookup_table_light_sensor_srv))
     ROS_INFO("Light sensor lookup table size = %lu.", lookup_table_light_sensor_srv.response.value.size());
   else
     ROS_ERROR("Failed to get the lookup table of 'light_sensor'.");
-  if (lookup_table_light_sensor_srv.response.value.size() != 0)
+  if (lookup_table_light_sensor_srv.response.value.size() != 6)
     ROS_ERROR("Size of lookup table of 'light_sensor' is wrong.");
   lookup_table_light_sensor_client.shutdown();
 
@@ -2585,12 +2590,13 @@ int main(int argc, char **argv) {
 
   ros::ServiceClient lookup_table_touch_sensor_client;
   webots_ros::get_float_array lookup_table_touch_sensor_srv;
-  lookup_table_touch_sensor_client = n.serviceClient<webots_ros::get_float_array>(model_name + "/touch_sensor/get_lookup_table");
+  lookup_table_touch_sensor_client =
+    n.serviceClient<webots_ros::get_float_array>(model_name + "/touch_sensor/get_lookup_table");
   if (lookup_table_touch_sensor_client.call(lookup_table_touch_sensor_srv))
     ROS_INFO("Touch sensor lookup table size = %lu.", lookup_table_touch_sensor_srv.response.value.size());
   else
     ROS_ERROR("Failed to get the lookup table of 'touch_sensor'.");
-  if (lookup_table_touch_sensor_srv.response.value.size() != 0)
+  if (lookup_table_touch_sensor_srv.response.value.size() != 6)
     ROS_ERROR("Size of lookup table of 'touch_sensor' is wrong.");
   lookup_table_touch_sensor_client.shutdown();
 

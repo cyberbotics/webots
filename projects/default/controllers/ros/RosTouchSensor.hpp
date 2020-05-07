@@ -34,7 +34,6 @@ public:
   void rosDisable() override { cleanup(); }
   int rosSamplingPeriod() override { return mTouchSensor->getSamplingPeriod(); }
   bool getTypeCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
-  bool getLookupTableSize(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
   bool getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res);
 
 private:
@@ -43,7 +42,6 @@ private:
   TouchSensor *mTouchSensor;
   ros::ServiceServer mTypeServer;
 
-  ros::ServiceServer mLookupTableSizeServer;
   ros::ServiceServer mLookupTableServer;
 };
 

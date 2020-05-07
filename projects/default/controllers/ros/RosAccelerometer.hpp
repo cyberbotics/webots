@@ -41,7 +41,6 @@ private:
 
   Accelerometer *mAccelerometer;
 
-  ros::ServiceServer mLookupTableSizeServer;
   ros::ServiceServer mLookupTableServer;
 };
 
