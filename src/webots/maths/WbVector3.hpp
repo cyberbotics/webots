@@ -151,19 +151,19 @@ public:
   void normalize() { *this /= length(); }
   WbVector3 normalized() const { return *this / length(); }
 
-  void clamp() {  // clamp to FLT_MAX
-    if (mX > FLT_MAX)
-      mX = FLT_MAX;
-    else if (mX < -FLT_MAX)
-      mX = -FLT_MAX;
-    if (mY > FLT_MAX)
-      mY = FLT_MAX;
-    else if (mY < -FLT_MAX)
-      mY = -FLT_MAX;
-    if (mZ > FLT_MAX)
-      mZ = FLT_MAX;
-    else if (mZ < -FLT_MAX)
-      mZ = -FLT_MAX;
+  void clamp(double min = -FLT_MAX, double max = FLT_MAX) {
+    if (mX > max)
+      mX = max;
+    else if (mX < min)
+      mX = min;
+    if (mY > max)
+      mY = max;
+    else if (mY < min)
+      mY = min;
+    if (mZ > max)
+      mZ = max;
+    else if (mZ < min)
+      mZ = min;
   }
 
   WbVector3 rounded(WbPrecision::Level level) const {
