@@ -328,7 +328,9 @@ This editor can be used for editing and compiling controller source code.
 
 - The **Restore Layout** menu item restores the factory layout of the panels of the main window.
 
-- The **Clear Console** menu item clears the console.
+- The **Clear All Consoles** menu item clears the content of all the opened consoles.
+
+- The **New Console** menu item opens a new console which by default displays all the logs.
 
 - The **Edit Physics Plugin** menu item opens the source code of the physics plugin in the text editor.
 
