@@ -1,6 +1,6 @@
 ## The Console
 
-The Webots console displays the logs coming from Webots (such as parsing warnings or errors when opening a world, compilation output, ODE warnigns, etc.) and the outputs of the controllers.
+The Webots console displays the logs coming from Webots (such as parsing warnings or errors when opening a world, compilation outputs, ODE warnings, etc.) and the outputs of the controllers.
 
 
 %figure "Console Window"
@@ -13,12 +13,15 @@ The Webots console displays the logs coming from Webots (such as parsing warning
 
 By default, the console displays all the Webots logs and controller outputs.
 However, the console possesses a context menu which allows defining which logs and controller outputs can be displayed.
+
 The `Filter` sub-menu allows defining which kind of Webots logs and which robot controllers outputs should be displayed.
-The `Level` sub-menu allows defining which type of Webots logs (classified by severity) and which type (stdout or stderr) of robot controllers outputs should be displayed.
+
+The `Level` sub-menu allows defining which type of Webots logs (classified by severity) and which type (stdout or stderr) of robot controller outputs should be displayed.
 
 ### Multi Consoles
 
-By default, only one console is available, but it might sometime be useful to use more than one console (especially when filtering what is displayed in each console).
+By default, only one console is available, but it might be useful to use more than one console (especially when filtering what is displayed in each console).
 A new console can be opened from the `Tool`menu or from the context menu of an already existing console.
+
 Each console is independent and can have its own log filters and name (it can be renamed from the context menu).
 By default, the consoles are tabbed together, however, it is possible to arrange them as you which and even to move them in a dedicated window.
