@@ -61,9 +61,12 @@ static void accelerometer_read_answer(WbDevice *d, WbRequest *r) {
     case C_CONFIGURE:
       acc->lookup_table_size = request_read_int32(r);
       free(acc->lookup_table);
-      acc->lookup_table = (double *)malloc(sizeof(double) * acc->lookup_table_size * 3);
-      for (int i = 0; i < acc->lookup_table_size * 3; i++)
-        acc->lookup_table[i] = request_read_double(r);
+      acc->lookup_table = NULL;
+      if (acc->lookup_table_size > 0) {
+        acc->lookup_table = (double *)malloc(sizeof(double) * acc->lookup_table_size * 3);
+        for (int i = 0; i < acc->lookup_table_size * 3; i++)
+          acc->lookup_table[i] = request_read_double(r);
+      }
       break;
     default:
       ROBOT_ASSERT(0);  // should never be reached

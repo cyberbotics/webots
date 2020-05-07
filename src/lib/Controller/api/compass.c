@@ -61,9 +61,12 @@ static void compass_read_answer(WbDevice *d, WbRequest *r) {
     case C_CONFIGURE:
       compass->lookup_table_size = request_read_int32(r);
       free(compass->lookup_table);
-      compass->lookup_table = (double *)malloc(sizeof(double) * compass->lookup_table_size * 3);
-      for (int i = 0; i < compass->lookup_table_size * 3; i++)
-        compass->lookup_table[i] = request_read_double(r);
+      compass->lookup_table = NULL;
+      if (compass->lookup_table_size > 0) {
+        compass->lookup_table = (double *)malloc(sizeof(double) * compass->lookup_table_size * 3);
+        for (int i = 0; i < compass->lookup_table_size * 3; i++)
+          compass->lookup_table[i] = request_read_double(r);
+      }
       break;
     default:
       ROBOT_ASSERT(0);  // should never be reached
