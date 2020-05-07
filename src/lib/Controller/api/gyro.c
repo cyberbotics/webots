@@ -59,6 +59,7 @@ static void gyro_read_answer(WbDevice *d, WbRequest *r) {
       break;
     case C_CONFIGURE:
       gyro->lookup_table_size = request_read_int32(r);
+      free(gyro->lookup_table);
       gyro->lookup_table = (double *)malloc(sizeof(double) * gyro->lookup_table_size * 3);
       for (int i = 0; i < gyro->lookup_table_size * 3; i++)
         gyro->lookup_table[i] = request_read_double(r);

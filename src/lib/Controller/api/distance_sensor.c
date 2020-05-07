@@ -69,6 +69,7 @@ static void distance_sensor_read_answer(WbDevice *d, WbRequest *r) {
       ds->max_value = request_read_double(r);
       ds->aperture = request_read_double(r);
       ds->lookup_table_size = request_read_int32(r);
+      free(ds->lookup_table);
       ds->lookup_table = (double *)malloc(sizeof(double) * ds->lookup_table_size * 3);
       for (int i = 0; i < ds->lookup_table_size * 3; i++)
         ds->lookup_table[i] = request_read_double(r);

@@ -64,6 +64,7 @@ static void touch_sensor_read_answer(WbDevice *d, WbRequest *r) {
     case C_CONFIGURE:
       ts->type = request_read_int32(r);
       ts->lookup_table_size = request_read_int32(r);
+      free(ts->lookup_table);
       ts->lookup_table = (double *)malloc(sizeof(double) * ts->lookup_table_size * 3);
       for (int i = 0; i < ts->lookup_table_size * 3; i++)
         ts->lookup_table[i] = request_read_double(r);

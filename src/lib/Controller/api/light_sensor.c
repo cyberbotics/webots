@@ -56,6 +56,7 @@ static void light_sensor_read_answer(WbDevice *d, WbRequest *r) {
       break;
     case C_CONFIGURE:
       ls->lookup_table_size = request_read_int32(r);
+      free(ls->lookup_table);
       ls->lookup_table = (double *)malloc(sizeof(double) * ls->lookup_table_size * 3);
       for (int i = 0; i < ls->lookup_table_size * 3; i++)
         ls->lookup_table[i] = request_read_double(r);
