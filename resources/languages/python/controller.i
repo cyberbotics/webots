@@ -173,6 +173,7 @@ PyObject *_getLookupTableHelper(webots::Device *dev) {
     return ret;
 }
 %}
+%rename ("__internalGetLookupTableSize") getLookupTableSize;
 
 //----------------------------------------------------------------------------------------------
 //  Device

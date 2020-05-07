@@ -83,6 +83,8 @@ using namespace std;
 }
 %apply double[] {double *};
 
+%rename ("__internalGetLookupTableSize") getLookupTableSize;
+
 // for loading the shared library
 %pragma(java) jniclasscode=%{
   static {
