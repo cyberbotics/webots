@@ -25,7 +25,7 @@ using namespace webots;
 class RosCompass : public RosSensor {
 public:
   RosCompass(Compass *compass, Ros *ros);
-  virtual ~RosCompass() { cleanup(); }
+  virtual ~RosCompass();
 
   ros::Publisher createPublisher() override;
   void publishValue(ros::Publisher publisher) override;

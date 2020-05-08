@@ -34,6 +34,7 @@ RosDistanceSensor::~RosDistanceSensor() {
   mMinValueServer.shutdown();
   mMaxValueServer.shutdown();
   mApertureServer.shutdown();
+  mLookupTableServer.shutdown();
   mTypeServer.shutdown();
   cleanup();
 }

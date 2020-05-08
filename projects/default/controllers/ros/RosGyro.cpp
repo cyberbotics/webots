@@ -22,6 +22,11 @@ RosGyro::RosGyro(Gyro *gyroscope, Ros *ros) : RosSensor(gyroscope->getName(), gy
     (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosGyro::getLookupTable);
 }
 
+RosGyro::~RosGyro() {
+  mLookupTableServer.shutdown();
+  cleanup();
+}
+
 // creates a publisher for Gyro values with a sensor_msgs/Imu as message type
 ros::Publisher RosGyro::createPublisher() {
   sensor_msgs::Imu type;

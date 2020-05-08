@@ -22,6 +22,11 @@ RosLightSensor::RosLightSensor(LightSensor *lightSensor, Ros *ros) : RosSensor(l
     (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosLightSensor::getLookupTable);
 }
 
+RosLightSensor::~RosLightSensor() {
+  mLookupTableServer.shutdown();
+  cleanup();
+}
+
 // creates a publisher for light sensor value with a {double} as message type
 ros::Publisher RosLightSensor::createPublisher() {
   sensor_msgs::Illuminance type;

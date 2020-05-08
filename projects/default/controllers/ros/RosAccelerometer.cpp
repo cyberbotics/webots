@@ -23,6 +23,11 @@ RosAccelerometer::RosAccelerometer(Accelerometer *accelerometer, Ros *ros) :
     (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosAccelerometer::getLookupTable);
 }
 
+RosAccelerometer::~RosAccelerometer() {
+  mLookupTableServer.shutdown();
+  cleanup();
+}
+
 // creates a publisher for accelerometer values with a sensor_msgs/Imu as message type
 ros::Publisher RosAccelerometer::createPublisher() {
   sensor_msgs::Imu type;

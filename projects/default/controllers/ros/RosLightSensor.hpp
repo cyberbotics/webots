@@ -25,7 +25,7 @@ using namespace webots;
 class RosLightSensor : public RosSensor {
 public:
   RosLightSensor(LightSensor *lightSensor, Ros *ros);
-  virtual ~RosLightSensor() { cleanup(); }
+  virtual ~RosLightSensor();
 
   ros::Publisher createPublisher() override;
   void publishValue(ros::Publisher publisher) override;

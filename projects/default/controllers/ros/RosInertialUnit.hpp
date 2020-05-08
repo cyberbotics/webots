@@ -25,7 +25,7 @@ using namespace webots;
 class RosInertialUnit : public RosSensor {
 public:
   RosInertialUnit(InertialUnit *inertialUnit, Ros *ros);
-  virtual ~RosInertialUnit() { cleanup(); }
+  virtual ~RosInertialUnit();
 
   ros::Publisher createPublisher() override;
   void publishValue(ros::Publisher publisher) override;

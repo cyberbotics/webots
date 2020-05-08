@@ -25,7 +25,7 @@ using namespace webots;
 class RosAccelerometer : public RosSensor {
 public:
   RosAccelerometer(Accelerometer *accelerometer, Ros *ros);
-  virtual ~RosAccelerometer() { cleanup(); }
+  virtual ~RosAccelerometer();
 
   ros::Publisher createPublisher() override;
   void publishValue(ros::Publisher publisher) override;

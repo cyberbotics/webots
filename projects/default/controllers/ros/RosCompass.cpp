@@ -22,6 +22,11 @@ RosCompass::RosCompass(Compass *compass, Ros *ros) : RosSensor(compass->getName(
     (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosCompass::getLookupTable);
 }
 
+RosCompass::~RosCompass() {
+  mLookupTableServer.shutdown();
+  cleanup();
+}
+
 // creates a publisher for compass values with a [3x1] {double} array
 // for x,y and z north's coordinates as message type
 ros::Publisher RosCompass::createPublisher() {

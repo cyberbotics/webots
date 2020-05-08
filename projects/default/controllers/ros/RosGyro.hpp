@@ -25,7 +25,7 @@ using namespace webots;
 class RosGyro : public RosSensor {
 public:
   RosGyro(Gyro *gyroscope, Ros *ros);
-  virtual ~RosGyro() { cleanup(); }
+  virtual ~RosGyro();
 
   ros::Publisher createPublisher() override;
   void publishValue(ros::Publisher publisher) override;
