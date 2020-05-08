@@ -271,7 +271,7 @@ void WbDistanceSensor::updateRaySetup() {
   if (WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1, -1))
     return;  // in order to avoiding passing twice in this function
   if (mRayType == LASER && mNumberOfRays->value() > 1) {
-    warn(tr("'type' \"laser\" must have one single ray."));
+    parsingWarn(tr("'type' \"laser\" must have one single ray."));
     mNumberOfRays->setValue(1);
     return;  // in order to avoiding passing twice in this function
   }

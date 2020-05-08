@@ -322,13 +322,13 @@ Alternatively it is also possible to double-click on some of the objects in the 
 - The **Text Editor** menu item opens the Webots text editor.
 This editor can be used for editing and compiling controller source code.
 
-- The **Console** menu item opens the Webots Console, which is a read-only console that is used to display Webots error messages and controller outputs.
-
 - The **Documentation** menu item shows or hides the offline Webots documentation window.
 
 - The **Restore Layout** menu item restores the factory layout of the panels of the main window.
 
-- The **Clear Console** menu item clears the console.
+- The **Clear All Consoles** menu item clears the content of all the opened consoles.
+
+- The **New Console** menu item opens a new console which by default displays all the logs.
 
 - The **Edit Physics Plugin** menu item opens the source code of the physics plugin in the text editor.
 

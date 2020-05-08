@@ -105,7 +105,6 @@
 WbMainWindow::WbMainWindow(bool minimizedOnStart, QWidget *parent) :
   QMainWindow(parent),
   mExitStatus(0),
-  mConsole(NULL),
   mDocumentation(NULL),
   mTextEditor(NULL),
   mSimulationView(NULL),
@@ -205,8 +204,6 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, QWidget *parent) :
           &WbMainWindow::discardNodeRegeneration);
   connect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this,
           &WbMainWindow::finalizeNodeRegeneration);
-
-  WbLog::instance()->showPendingConsoleMessages();
 }
 
 WbMainWindow::~WbMainWindow() {
@@ -316,7 +313,8 @@ bool WbMainWindow::setFullScreen(bool isEnabled, bool isRecording, bool showDial
     }
 
     // hide docks
-    mConsole->hide();
+    for (int i = 0; i < mConsoles.size(); ++i)
+      mConsoles.at(i)->hide();
     mDocumentation->hide();
     if (mTextEditor)
       mTextEditor->hide();
@@ -340,7 +338,8 @@ bool WbMainWindow::setFullScreen(bool isEnabled, bool isRecording, bool showDial
     showNormal();
 
     // show docks
-    mConsole->show();
+    for (int i = 0; i < mConsoles.size(); ++i)
+      mConsoles.at(i)->show();
     mDocumentation->show();
     if (mTextEditor)
       mTextEditor->show();
@@ -374,13 +373,6 @@ void WbMainWindow::createMainTools() {
   setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
   setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
   setCorner(Qt::BottomRightCorner, Qt::BottomDockWidgetArea);
-
-  // the console is built at first in order to
-  // be able to display message boxes if fatal
-  // errors come after (ex. initializing WREN)
-  mConsole = new WbConsole(this);
-  addDockWidget(Qt::BottomDockWidgetArea, mConsole);
-  addDock(mConsole);
 
   mSimulationView = new WbSimulationView(this, toolBarAlign());
   setCentralWidget(mSimulationView);
@@ -709,7 +701,8 @@ void WbMainWindow::enableToolsWidgetItems(bool enabled) {
   WbActionManager::setActionEnabledSilently(mSimulationView->toggleSceneTreeAction(), enabled);
   if (mTextEditor)
     WbActionManager::setActionEnabledSilently(mTextEditor->toggleViewAction(), enabled);
-  WbActionManager::setActionEnabledSilently(mConsole->toggleViewAction(), enabled);
+  for (int i = 0; i < mConsoles.size(); ++i)
+    WbActionManager::setActionEnabledSilently(mConsoles.at(i)->toggleViewAction(), enabled);
   WbActionManager::setActionEnabledSilently(mDocumentation->toggleViewAction(), enabled);
 }
 
@@ -755,7 +748,6 @@ QMenu *WbMainWindow::createToolsMenu() {
   menu->addAction(mSimulationView->toggleSceneTreeAction());
   if (mTextEditor)
     menu->addAction(mTextEditor->toggleViewAction());
-  menu->addAction(mConsole->toggleViewAction());
   menu->addAction(mDocumentation->toggleViewAction());
 
   QAction *action = new QAction(this);
@@ -769,6 +761,8 @@ QMenu *WbMainWindow::createToolsMenu() {
   menu->addSeparator();
 
   menu->addAction(WbActionManager::instance()->action(WbActionManager::CLEAR_CONSOLE));
+  menu->addAction(WbActionManager::instance()->action(WbActionManager::NEW_CONSOLE));
+  connect(WbActionManager::instance()->action(WbActionManager::NEW_CONSOLE), SIGNAL(triggered()), this, SLOT(openNewConsole()));
 
   action = new QAction(this);
   action->setText(tr("Edit &Physics Plugin"));
@@ -1102,6 +1096,11 @@ void WbMainWindow::restoreLayout() {
   mMaximizedWidget = NULL;
   foreach (QWidget *dock, mDockWidgets)
     setWidgetMaximized(dock, false);
+  if (mConsoles.size() >= 1) {
+    for (int i = 1; i < mConsoles.size(); ++i)
+      tabifyDockWidget(mConsoles.at(0), mConsoles.at(i));
+  } else
+    openNewConsole();
   mSimulationView->restoreFactoryLayout();
   enableToolsWidgetItems(true);
 }
@@ -1183,6 +1182,17 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
   perspective->setEnabledOptionalRendering(centerOfMassEnabledNodeNames, centerOfBuoyancyEnabledNodeNames,
                                            supportPolygonEnabledNodeNames);
 
+  // save consoles perspective
+  QVector<ConsoleSettings> settingsList;
+  foreach (const WbConsole *console, mConsoles) {
+    ConsoleSettings settings;
+    settings.enabledFilters = console->getEnabledFilters();
+    settings.enabledLevels = console->getEnabledLevels();
+    settings.name = console->name();
+    settingsList.append(settings);
+  }
+  perspective->setConsolesSettings(settingsList);
+
   // save rendering devices perspective
   const QList<WbRenderingDevice *> renderingDevices = WbRenderingDevice::renderingDevices();
   foreach (const WbRenderingDevice *device, renderingDevices) {
@@ -1208,6 +1218,17 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
     meansOfLoading = world->reloadPerspective();
     perspective = world->perspective();
   }
+
+  // restore consoles
+  const QVector<ConsoleSettings> consoleList = perspective->consoleList();
+  for (int i = 0; i < consoleList.size(); ++i) {
+    openNewConsole(consoleList.at(i).name);
+    mConsoles.last()->setEnabledFilters(consoleList.at(i).enabledFilters);
+    mConsoles.last()->setEnabledLevels(consoleList.at(i).enabledLevels);
+  }
+  // display at least one console
+  if (mConsoles.size() == 0)
+    openNewConsole();
 
   if (meansOfLoading) {
     if (!perspective->enabledRobotWindowNodeNames().isEmpty()) {
@@ -1258,6 +1279,8 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
 
   // Refreshing
   mSimulationView->repaintView3D();
+
+  WbLog::instance()->showPendingConsoleMessages();
 }
 
 void WbMainWindow::restoreRenderingDevicesPerspective() {
@@ -1312,6 +1335,12 @@ void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
   if (!reloading && WbClipboard::instance()->type() == WB_SF_NODE)
     WbClipboard::instance()->replaceAllExternalDefNodesInString();
   mSimulationView->prepareWorldLoading();
+
+  foreach (WbConsole *console, mConsoles) {
+    mDockWidgets.removeAll(console);
+    delete console;
+  }
+  mConsoles.clear();
 }
 
 void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
@@ -1674,6 +1703,28 @@ void WbMainWindow::showOpenGlInfo() {
     info += tr("N/A");
   info += "\n";
   WbMessageBox::info(info, this, tr("OpenGL information"));
+}
+
+void WbMainWindow::openNewConsole(const QString &name) {
+  WbConsole *console = new WbConsole(this, name);
+  connect(console, &WbConsole::closed, this, &WbMainWindow::handleConsoleClosure);
+  addDockWidget(Qt::BottomDockWidgetArea, console);
+  if (!mConsoles.isEmpty()) {
+    tabifyDockWidget(mConsoles.at(0), console);
+    console->show();
+    console->raise();
+  }
+  addDock(console);
+  mConsoles.append(console);
+}
+
+void WbMainWindow::handleConsoleClosure() {
+  WbConsole *console = dynamic_cast<WbConsole *>(sender());
+  if (console) {
+    mConsoles.removeAll(console);
+    mDockWidgets.removeAll(console);
+    delete console;
+  }
 }
 
 void WbMainWindow::showDocument(const QString &url) {

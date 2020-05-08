@@ -112,7 +112,7 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
     if (radius <= 0.0) {
       setDefaultMass(&m);
       if (warning)
-        sphere->warn(QObject::tr("Use a positive radius to allow proper mass settings") + defaultValues);
+        sphere->parsingWarn(QObject::tr("Use a positive radius to allow proper mass settings") + defaultValues);
     } else
       dMassSetSphere(&m, density, radius);
     dMassAdd(mass, &m);
@@ -128,8 +128,8 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
     if (radius <= 0.0 || height <= 0.0) {
       setDefaultMass(&m);
       if (warning)
-        cylinder->warn(QObject::tr("Use a positive radius and a positive height to allow proper mass settings") +
-                       defaultValues);
+        cylinder->parsingWarn(QObject::tr("Use a positive radius and a positive height to allow proper mass settings") +
+                              defaultValues);
     } else
       dMassSetCylinder(&m, density, 2, radius, height);  // 2 -> y-axis
     dMassAdd(mass, &m);
@@ -144,7 +144,8 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
     if (radius <= 0.0 || height <= 0.0) {
       setDefaultMass(&m);
       if (warning)
-        capsule->warn(QObject::tr("Use a positive radius and a positive height to allow proper mass settings") + defaultValues);
+        capsule->parsingWarn(QObject::tr("Use a positive radius and a positive height to allow proper mass settings") +
+                             defaultValues);
     } else
       dMassSetCapsule(&m, density, 2, radius, height);  // 2 -> y-axis
     dMassAdd(mass, &m);
@@ -158,7 +159,7 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
     if (size.x() <= 0.0 || size.y() <= 0.0 || size.z() <= 0.0) {
       setDefaultMass(&m);
       if (warning)
-        box->warn(QObject::tr("Use positive dimensions to allow proper mass settings") + defaultValues);
+        box->parsingWarn(QObject::tr("Use positive dimensions to allow proper mass settings") + defaultValues);
     } else
       dMassSetBox(&m, density, size.x(), size.y(), size.z());
     dMassAdd(mass, &m);
@@ -172,9 +173,10 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
     // The trimesh failed to build, probably because of invalid faces
     if (g == NULL) {
       if (warning)
-        ifs->info(QObject::tr("The creation of the IndexedFaceSet physical boundaries failed because its geometry is not "
-                              "suitable for representing a bounded closed volume") +
-                  defaultValues);
+        ifs->parsingInfo(
+          QObject::tr("The creation of the IndexedFaceSet physical boundaries failed because its geometry is not "
+                      "suitable for representing a bounded closed volume") +
+          defaultValues);
       setDefaultMass(&m);
       return;
     }
@@ -186,7 +188,7 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
     if (m.mass <= 0.0 || !dIsPositiveDefinite(m.I, 3)) {
       setDefaultMass(&m);
       if (warning)
-        ifs->warn(
+        ifs->parsingWarn(
           QObject::tr("Mass properties computation failed for this IndexedFaceSet") + defaultValues +
           QObject::tr("Please check this geometry has no singularities and can suitably represent a bounded closed volume. "
                       "Note in particular that every triangle should appear only once with its 'outward' orientation."));
@@ -199,7 +201,7 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
 
   const WbElevationGrid *const elevationGrid = dynamic_cast<WbElevationGrid *>(node);
   if (elevationGrid) {
-    elevationGrid->warn(QObject::tr("Webots cannot compute inertia for ElevationGrid objects."));
+    elevationGrid->parsingWarn(QObject::tr("Webots cannot compute inertia for ElevationGrid objects."));
     return;
   }
 }
@@ -215,7 +217,7 @@ bool WbSolidUtilities::checkBoundingObject(WbNode *const node) {
   if (transform) {
     WbNode *child = transform->child(0);
     if (child == NULL) {
-      node->warn(
+      node->parsingWarn(
         QObject::tr("Invalid 'boundingObject' (a Transform has no 'geometry'): the inertia matrix cannot be calculated."));
       return false;
     }
@@ -227,15 +229,16 @@ bool WbSolidUtilities::checkBoundingObject(WbNode *const node) {
 
     const WbShape *const shape = dynamic_cast<WbShape *>(child);
     if (shape == NULL || shape->geometry() == NULL) {
-      node->warn(QObject::tr("Invalid 'boundingObject' (a Transform, or a Shape within a Transform, has no 'geometry'): the "
-                             "inertia matrix cannot be calculated."));
+      node->parsingWarn(
+        QObject::tr("Invalid 'boundingObject' (a Transform, or a Shape within a Transform, has no 'geometry'): the "
+                    "inertia matrix cannot be calculated."));
       return false;
     }
   }
 
   const WbShape *const shape = dynamic_cast<WbShape *>(node);
   if (shape && shape->geometry() == NULL) {
-    node->warn(QObject::tr(
+    node->parsingWarn(QObject::tr(
       "Invalid 'boundingObject' (a Shape's 'geometry' field is not set): the inertia matrix cannot be calculated."));
     return false;
   }
@@ -245,7 +248,8 @@ bool WbSolidUtilities::checkBoundingObject(WbNode *const node) {
     const WbMFNode &children = group->children();
     const int size = children.size();
     if (size == 0) {
-      node->warn(QObject::tr("Invalid 'boundingObject' (Group with no child set): the inertia matrix cannot be calculated."));
+      node->parsingWarn(
+        QObject::tr("Invalid 'boundingObject' (Group with no child set): the inertia matrix cannot be calculated."));
       return false;
     }
     for (int i = 0; i < size; ++i) {
@@ -269,12 +273,12 @@ WbGeometry *WbSolidUtilities::geometry(WbNode *const node) {
   const WbShape *const shape = dynamic_cast<WbShape *>(node);
   if (shape) {
     if (shape->geometry() == NULL)
-      shape->info(QObject::tr("Please specify 'geometry' (of Shape placed in 'boundingObject')."));
+      shape->parsingInfo(QObject::tr("Please specify 'geometry' (of Shape placed in 'boundingObject')."));
 
     return shape->geometry();
   }
 
-  node->warn(QObject::tr("Ignoring illegal \"%1\" node in 'boundingObject'.").arg(node->usefulName()));
+  node->parsingWarn(QObject::tr("Ignoring illegal \"%1\" node in 'boundingObject'.").arg(node->usefulName()));
   return NULL;
 }
 

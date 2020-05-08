@@ -427,7 +427,7 @@ void WbSolidMerger::attachGeomsToBody(dGeomID g) {
   if (dGeomGetClass(g) != dPlaneClass)
     dGeomSetBody(g, mBody);
   else
-    mSolid->warn(tr("A Plane defined in 'boundingObject' cannot be used with a Physics node."));
+    mSolid->parsingWarn(tr("A Plane defined in 'boundingObject' cannot be used with a Physics node."));
 }
 
 bool WbSolidMerger::isSet() const {

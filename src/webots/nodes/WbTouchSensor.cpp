@@ -104,10 +104,10 @@ void WbTouchSensor::updateType() {
     mDeviceType = BUMPER;
 
   if (mDeviceType == BUMPER && mType->value() != "bumper")
-    warn(tr("Unknown 'type': \"%1\". Set to \"bumper\"").arg(mType->value()));
+    parsingWarn(tr("Unknown 'type': \"%1\". Set to \"bumper\"").arg(mType->value()));
 
   if ((mDeviceType == FORCE || mDeviceType == FORCE3D) && !physics())
-    warn(tr("\"force\" and \"force-3d\" 'type' requires 'physics' to be functional."));
+    parsingWarn(tr("\"force\" and \"force-3d\" 'type' requires 'physics' to be functional."));
 }
 
 void WbTouchSensor::updateResolution() {

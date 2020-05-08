@@ -243,7 +243,7 @@ void WbPlane::updateScale() {
 bool WbPlane::isSuitableForInsertionInBoundingObject(bool warning) const {
   const bool invalidDimensions = (mSize->x() <= 0.0 || mSize->y() <= 0.0);
   if (warning && invalidDimensions)
-    warn(tr("All 'size' components must be positive for a Plane used in a 'boundingObject'."));
+    parsingWarn(tr("All 'size' components must be positive for a Plane used in a 'boundingObject'."));
 
   return !invalidDimensions;
 }

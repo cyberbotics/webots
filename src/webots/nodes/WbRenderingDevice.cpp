@@ -44,13 +44,13 @@ void WbRenderingDevice::init() {
   // backward compatibility of the deprecated fields
   mWindowPositionField = findSFVector2("windowPosition");
   if (mWindowPositionField && mWindowPositionField->value() != WbVector2()) {
-    warn(tr("'windowPosition' is deprecated.") + "\n" +
-         tr("The position of the overlay will be automatically stored after moving it from the 3D view."));
+    parsingWarn(tr("'windowPosition' is deprecated.") + "\n" +
+                tr("The position of the overlay will be automatically stored after moving it from the 3D view."));
   }
   mPixelSizeField = findSFDouble("pixelSize");
   if (mPixelSizeField && mPixelSizeField->value() != 1.0) {
-    warn(tr("'pixelSize' is deprecated.") + "\n" +
-         tr("The size of the overlay will be automatically stored after resizing it from the 3D view."));
+    parsingWarn(tr("'pixelSize' is deprecated.") + "\n" +
+                tr("The size of the overlay will be automatically stored after resizing it from the 3D view."));
   }
 }
 
@@ -113,7 +113,7 @@ void WbRenderingDevice::setup() {
 
 void WbRenderingDevice::updateWidth() {
   if (mWidth && mWidth->value() < 1) {
-    warn(tr("Invalid 'width': changed to 1."));
+    parsingWarn(tr("Invalid 'width': changed to 1."));
     mWidth->setValue(1);
     return;
   }
@@ -125,7 +125,7 @@ void WbRenderingDevice::updateWidth() {
 
 void WbRenderingDevice::updateHeight() {
   if (mHeight && mHeight->value() < 1) {
-    warn(tr("Invalid 'height': changed to 1."));
+    parsingWarn(tr("Invalid 'height': changed to 1."));
     mHeight->setValue(1);
     return;
   }

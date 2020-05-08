@@ -173,5 +173,5 @@ void WbGyro::computeValue() {
         mValues[2] = WbMathsUtilities::discretize(mValues[2], mResolution->value());
     }
   } else
-    warn(tr("this node or its parents requires a 'physics' field to be functional."));
+    parsingWarn(tr("this node or its parents requires a 'physics' field to be functional."));
 }

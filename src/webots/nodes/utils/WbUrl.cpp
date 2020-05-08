@@ -32,9 +32,9 @@ namespace {
     if (QFileInfo(path).isFile())
       return path;
     if (node)
-      node->warn(QObject::tr("First item of '%1' field expected to be a file but is a directory.").arg(field));
+      node->parsingWarn(QObject::tr("First item of '%1' field expected to be a file but is a directory.").arg(field));
     else
-      WbLog::warning(QObject::tr("'%1' expected to be a file but is a directory.").arg(field));
+      WbLog::warning(QObject::tr("'%1' expected to be a file but is a directory.").arg(field), false, WbLog::PARSING);
     return "";
   }
 }  // namespace
@@ -88,9 +88,9 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   // check if the first url is empty
   if (url.isEmpty()) {
     if (node)
-      node->warn(QObject::tr("First item of '%1' field is empty.").arg(field));
+      node->parsingWarn(QObject::tr("First item of '%1' field is empty.").arg(field));
     else
-      WbLog::warning(QObject::tr("Missing '%1' value.").arg(field));
+      WbLog::warning(QObject::tr("Missing '%1' value.").arg(field), false, WbLog::PARSING);
     return "";
   }
 
@@ -102,9 +102,9 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     else {
       QString error = QObject::tr("'%1' not found.").arg(url);
       if (node)
-        node->warn(error);
+        node->parsingWarn(error);
       else
-        WbLog::warning(error);
+        WbLog::warning(error, false, WbLog::PARSING);
       return "";
     }
   }
@@ -125,9 +125,9 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
                                   "relatively to its protos directory (if defined in a PROTO), "
                                   "or absolutely.");
     if (node)
-      node->warn(warning);
+      node->parsingWarn(warning);
     else
-      WbLog::warning(warning);
+      WbLog::warning(warning, false, WbLog::PARSING);
   }
 
   return "";
