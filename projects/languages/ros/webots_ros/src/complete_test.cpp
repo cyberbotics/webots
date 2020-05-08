@@ -159,6 +159,11 @@ void cameraCallback(const sensor_msgs::Image::ConstPtr &values) {
   }
 }
 
+void cameraRecognitionCallback(const webots_ros::RecognitionObject::ConstPtr &object) {
+  ROS_INFO("Camera recognition saw a '%s' (time: %d:%d).", object->model.c_str(), object->header.stamp.sec,
+           object->header.stamp.nsec);
+}
+
 void joystickCallback(const webots_ros::Int8Stamped::ConstPtr &value) {
   ROS_INFO("Joystick button pressed: %d (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
 }
