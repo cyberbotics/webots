@@ -83,22 +83,6 @@ using namespace std;
 //handling std::string
 %include "std_string.i"
 
-%{
-template<class DeviceClass>
-PyObject *_getLookupTableHelper(webots::Device *dev) {
-    const double *lookupTable = ((DeviceClass *)dev)->getLookupTable();
-    int size = ((DeviceClass *)dev)->getLookupTableSize();
-    PyObject *ret = Py_None;
-    if (lookupTable) {
-      ret = PyList_New(size * 3);
-      for (int i = 0; i < size * 3; i++) {
-        PyObject *v = PyFloat_FromDouble(lookupTable[i]);
-        PyList_SetItem(ret, i, v);
-      }
-    }
-    return ret;
-}
-%}
 %rename ("__internalGetLookupTableSize") getLookupTableSize;
 
 // manage double arrays
@@ -113,6 +97,12 @@ PyObject *_getLookupTableHelper(webots::Device *dev) {
     len = 6;
   else if (test == "getOrientation" || test == "virtualRealityHeadsetGetOrientation")
     len = 9;
+  $result = PyList_New(len);
+  for (int i = 0; i < len; ++i)
+    PyList_SetItem($result, i, PyFloat_FromDouble($1[i]));
+}
+%typemap(out) const double *getLookupTable {
+  int len = arg1->getLookupTableSize()*3;
   $result = PyList_New(len);
   for (int i = 0; i < len; ++i)
     PyList_SetItem($result, i, PyFloat_FromDouble($1[i]));
@@ -186,12 +176,6 @@ class AnsiCodes(object):
 //----------------------------------------------------------------------------------------------
 
 %include <webots/Accelerometer.hpp>
-
-%extend webots::Accelerometer {
-  PyObject *getLookupTable() {
-    return _getLookupTableHelper<webots::Accelerometer>($self);
-  }
-};
 
 //----------------------------------------------------------------------------------------------
 //  Brake
@@ -386,12 +370,6 @@ class AnsiCodes(object):
 
 %include <webots/Compass.hpp>
 
-%extend webots::Compass {
-  PyObject *getLookupTable() {
-    return _getLookupTableHelper<webots::Compass>($self);
-  }
-};
-
 //----------------------------------------------------------------------------------------------
 //  Connector
 //----------------------------------------------------------------------------------------------
@@ -463,12 +441,6 @@ class AnsiCodes(object):
 
 %include <webots/DistanceSensor.hpp>
 
-%extend webots::DistanceSensor {
-  PyObject *getLookupTable() {
-    return _getLookupTableHelper<webots::DistanceSensor>($self);
-  }
-};
-
 //----------------------------------------------------------------------------------------------
 //  Emitter
 //----------------------------------------------------------------------------------------------
@@ -503,23 +475,11 @@ class AnsiCodes(object):
 
 %include <webots/Gyro.hpp>
 
-%extend webots::Gyro {
-  PyObject *getLookupTable() {
-    return _getLookupTableHelper<webots::Gyro>($self);
-  }
-};
-
 //----------------------------------------------------------------------------------------------
 //  InertialUnit
 //----------------------------------------------------------------------------------------------
 
 %include <webots/InertialUnit.hpp>
-
-%extend webots::InertialUnit {
-  PyObject *getLookupTable() {
-    return _getLookupTableHelper<webots::InertialUnit>($self);
-  }
-};
 
 //----------------------------------------------------------------------------------------------
 //  Joystick
@@ -617,12 +577,6 @@ class AnsiCodes(object):
 //----------------------------------------------------------------------------------------------
 
 %include <webots/LightSensor.hpp>
-
-%extend webots::LightSensor {
-  PyObject *getLookupTable() {
-    return _getLookupTableHelper<webots::LightSensor>($self);
-  }
-};
 
 //----------------------------------------------------------------------------------------------
 //  Motion
@@ -842,12 +796,6 @@ class AnsiCodes(object):
 //----------------------------------------------------------------------------------------------
 
 %include <webots/TouchSensor.hpp>
-
-%extend webots::TouchSensor {
-  PyObject *getLookupTable() {
-    return _getLookupTableHelper<webots::TouchSensor>($self);
-  }
-};
 
 //----------------------------------------------------------------------------------------------
 //  Robot
