@@ -310,7 +310,7 @@ Also the robot windows are not yet supported.
 Similarly to [this section](web-streaming.md#how-to-embed-a-web-scene-in-your-website), to embed the simulation it is enough to instantiate a `webots.View` object from the [webots.min.js] package.
 In this case the `webots.View.broadcast` parameters doesn't have to be set to true.
 But some other parameters could be used:
-* `webots.CustomData`: application specific data to be passed to the simulation server and then to the `download_project.php` (see [Simulation data management](web-simulation.md#simulation-data-management) section) script. These can be used to specify the setup of the simulation that will be copied in the Webots instance folder.
+* `webots.CustomData`: application specific data to be passed to the simulation server and then to the `download_project.php` (see [init Simulation Data Download](web-simulation.md#init-simulation-data-download) section) script. These can be used to specify the setup of the simulation that will be copied in the Webots instance folder.
 * `webots.showRevert`: defines whether the revert button should be displayed in the web interface toolbar.
 * `webots.showQuit`:  defines whether the quit button should be displayed in the web interface toolbar.
 
