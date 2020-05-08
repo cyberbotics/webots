@@ -120,7 +120,7 @@ wb_compass_enable(tag, sampling_period)
 wb_compass_disable(tag)
 period = wb_compass_get_sampling_period(tag)
 [x y z] = wb_compass_get_values(tag)
-lookup_table = wb_compass_get_lookup_table(tag)
+lookup_table_array = wb_compass_get_lookup_table(tag)
 ```
 
 %tab-end

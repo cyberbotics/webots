@@ -358,7 +358,7 @@ public class DistanceSensor extends Device {
 max_value = wb_distance_sensor_get_max_value(tag)
 min_value = wb_distance_sensor_get_min_value(tag)
 aperture = wb_distance_sensor_get_aperture(tag)
-lookup_table = wb_distance_sensor_get_lookup_table(tag)
+lookup_table_array = wb_distance_sensor_get_lookup_table(tag)
 ```
 
 %tab-end

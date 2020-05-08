@@ -137,7 +137,7 @@ wb_inertial_unit_enable(tag, sampling_period)
 wb_inertial_unit_disable(tag)
 period = wb_inertial_unit_get_sampling_period(tag)
 [roll pitch yaw] = wb_inertial_unit_get_roll_pitch_yaw(tag)
-lookup_table = wb_inertial_unit_get_lookup_table(tag)
+lookup_table_array = wb_inertial_unit_get_lookup_table(tag)
 ```
 
 %tab-end

@@ -118,7 +118,7 @@ wb_gyro_enable(tag, sampling_period)
 wb_gyro_disable(tag)
 period = wb_gyro_get_sampling_period(tag)
 [x y z] = wb_gyro_get_values(tag)
-lookup_table = wb_gyro_get_lookup_table(tag)
+lookup_table_array = wb_gyro_get_lookup_table(tag)
 ```
 
 %tab-end
