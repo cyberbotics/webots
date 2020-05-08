@@ -440,7 +440,7 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
         node->translation[i] = request_read_double(r);
       for (int i = 0; i < 9; i++)
         node->rotation[i] = request_read_double(r);
-
+      node->name = request_read_string(r);
       if (robot.tf_tree == NULL) {
         robot.tf_tree = node;
       } else {

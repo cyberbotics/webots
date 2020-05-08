@@ -752,7 +752,7 @@ void WbRobot::writeConfigure(QDataStream &stream) {
     mSupervisorUtilities->writeConfigure(stream);
 }
 
-void WbRobot::writeTfLink(QDataStream &stream, WbTransform* link) {
+void WbRobot::writeTfLink(QDataStream &stream, WbTransform *link) {
   stream << (short unsigned int)0;
   stream << (unsigned char)C_ROBOT_TREE_LINK;
   stream << (int)link->uniqueId();
@@ -762,22 +762,28 @@ void WbRobot::writeTfLink(QDataStream &stream, WbTransform* link) {
   stream << (double)link->translation().z();
   for (int i = 0; i < 9; i++)
     stream << (double)link->rotationMatrix().row(i / 3)[i % 3];
+  if (link->findSFString("name")) {
+    QByteArray ba = link->findSFString("name")->value().toUtf8();
+    stream.writeRawData(ba.constData(), ba.size() + 1);
+  } else
+    stream.writeRawData("", 1);
 }
 
-void WbRobot::writeTfEmptyLink(QDataStream &stream, WbNode* link) {
-    stream << (short unsigned int)0;
-    stream << (unsigned char)C_ROBOT_TREE_LINK;
-    stream << (int)link->uniqueId();
-    stream << (int)link->parent()->uniqueId();
-    for (int i = 0; i < 3 + 9; i++) {
-      if (i > 3 && (i - 3) % 4 == 0)
-        stream << (double)1;
-      else
-        stream << (double)0;
-    }
+void WbRobot::writeTfEmptyLink(QDataStream &stream, WbNode *link) {
+  stream << (short unsigned int)0;
+  stream << (unsigned char)C_ROBOT_TREE_LINK;
+  stream << (int)link->uniqueId();
+  stream << (int)link->parent()->uniqueId();
+  for (int i = 0; i < 3 + 9; i++) {
+    if (i > 3 && (i - 3) % 4 == 0)
+      stream << (double)1;
+    else
+      stream << (double)0;
+  }
+  stream.writeRawData("", 1);
 }
 
-void WbRobot::writeTfJoint(QDataStream &stream, WbJoint* joint) {
+void WbRobot::writeTfJoint(QDataStream &stream, WbJoint *joint) {
   stream << (short unsigned int)0;
   stream << (unsigned char)C_ROBOT_TREE_JOINT;
   stream << (int)joint->uniqueId();

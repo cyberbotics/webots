@@ -71,6 +71,7 @@ struct _WbTfNode {
   double rotation[9];     // WB_TF_NODE_LINK
   double axis[3];         // WB_TF_NODE_JOINT
   double position;        // WB_TF_NODE_JOINT
+  char *name;             // Device
 };
 
 // cart function headers
