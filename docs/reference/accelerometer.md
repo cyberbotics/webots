@@ -41,6 +41,8 @@ This field accepts any value in the interval (0.0, inf).
 #### `wb_accelerometer_disable`
 #### `wb_accelerometer_get_sampling_period`
 #### `wb_accelerometer_get_values`
+#### `wb_accelerometer_get_lookup_table_size`
+#### `wb_accelerometer_get_lookup_table`
 
 %tab-component "language"
 
@@ -53,6 +55,8 @@ void wb_accelerometer_enable(WbDeviceTag tag, int sampling_period)
 void wb_accelerometer_disable(WbDeviceTag tag)
 int wb_accelerometer_get_sampling_period(WbDeviceTag tag)
 const double *wb_accelerometer_get_values(WbDeviceTag tag)
+int wb_accelerometer_get_lookup_table_size(WbDeviceTag tag)
+const double *wb_accelerometer_get_lookup_table(WbDeviceTag tag)
 ```
 %tab-end
 
@@ -67,6 +71,8 @@ namespace webots {
     virtual void disable();
     int getSamplingPeriod() const;
     const double *getValues() const;
+    int getLookupTableSize() const;
+    const double *getLookupTable() const;
     // ...
   }
 }
@@ -84,6 +90,7 @@ class Accelerometer (Device):
     def disable(self):
     def getSamplingPeriod(self):
     def getValues(self):
+    def getLookupTable(self):
     # ...
 ```
 
@@ -99,6 +106,7 @@ public class Accelerometer extends Device {
   public void disable();
   public int getSamplingPeriod();
   public double[] getValues();
+  public double[] getLookupTable();
   // ...
 }
 ```
@@ -112,6 +120,7 @@ wb_accelerometer_enable(tag, sampling_period)
 wb_accelerometer_disable(tag)
 period = wb_accelerometer_get_sampling_period(tag)
 [x y z] = wb_accelerometer_get_values(tag)
+lookup_table_array = wb_accelerometer_get_lookup_table(tag)
 ```
 
 %tab-end
@@ -123,6 +132,7 @@ period = wb_accelerometer_get_sampling_period(tag)
 | `/<device_name>/values` | `topic` | [`sensor_msgs::Imu`](http://docs.ros.org/api/sensor_msgs/html/msg/Imu.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) `orientation`<br/>`float64[9] orientation_covariance`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `angular_velocity`<br/>`float64[9] angular_velocity_covariance`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `linear_acceleration`<br/>`float64[9] linear_acceleration_covariance`<br/><br/>Note: only the linear_acceleration is filled in |
 | `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
 | `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
+| `/<device_name>/get_lookup_table` | `service` | [`webots_ros::get_float_array`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -148,6 +158,11 @@ An [Accelerometer](#accelerometer) at rest with earth's gravity will indicate 1 
 Note that the gravity can be specified in the `gravity` field in the [WorldInfo](worldinfo.md) node.
 To obtain the acceleration due to motion alone, this offset must be subtracted.
 The device's output will be zero during free fall when no offset is substracted.
+
+The `wb_accelerometer_get_lookup_table_size` function returns the number of rows in the lookup table.
+
+The `wb_accelerometer_get_lookup_table` function returns the values of the lookup table.
+This function returns a matrix containing exactly N * 3 values (N represents the number of mapped values optained with the `wb_accelerometer_get_lookup_table_size` function) that shall be interpreted as a N x 3 table.
 
 > **Note** [C, C++]: The returned vector is a pointer to the internal values managed by the [Accelerometer](#accelerometer) node, therefore it is illegal to free this pointer.
 Furthermore, note that the pointed values are only valid until the next call to the `wb_robot_step` or `Robot::step` functions.

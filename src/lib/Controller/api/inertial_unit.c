@@ -26,6 +26,8 @@ typedef struct {
   int enable;           // need to enable device ?
   int sampling_period;  // milliseconds
   double rpy[3];        // roll/pitch/yaw
+  int lookup_table_size;
+  double *lookup_table;
 } InertialUnit;
 
 static InertialUnit *inertial_unit_create() {
@@ -35,6 +37,8 @@ static InertialUnit *inertial_unit_create() {
   inertial_unit->rpy[0] = NAN;
   inertial_unit->rpy[1] = NAN;
   inertial_unit->rpy[2] = NAN;
+  inertial_unit->lookup_table = NULL;
+  inertial_unit->lookup_table_size = 0;
   return inertial_unit;
 }
 
@@ -47,9 +51,51 @@ static InertialUnit *inertial_unit_get_struct(WbDeviceTag t) {
 
 static void inertial_unit_read_answer(WbDevice *d, WbRequest *r) {
   InertialUnit *s = d->pdata;
-  s->rpy[0] = request_read_double(r);
-  s->rpy[1] = request_read_double(r);
-  s->rpy[2] = request_read_double(r);
+
+  switch (request_read_uchar(r)) {
+    case C_INERTIAL_UNIT_DATA:
+      s->rpy[0] = request_read_double(r);
+      s->rpy[1] = request_read_double(r);
+      s->rpy[2] = request_read_double(r);
+      break;
+    case C_CONFIGURE:
+      s->lookup_table_size = request_read_int32(r);
+      free(s->lookup_table);
+      s->lookup_table = NULL;
+      if (s->lookup_table_size > 0) {
+        s->lookup_table = (double *)malloc(sizeof(double) * s->lookup_table_size * 3);
+        for (int i = 0; i < s->lookup_table_size * 3; i++)
+          s->lookup_table[i] = request_read_double(r);
+      }
+      break;
+    default:
+      ROBOT_ASSERT(0);  // should never be reached
+      break;
+  }
+}
+
+int wb_inertial_unit_get_lookup_table_size(WbDeviceTag tag) {
+  int result = 0;
+  robot_mutex_lock_step();
+  InertialUnit *dev = inertial_unit_get_struct(tag);
+  if (dev)
+    result = dev->lookup_table_size;
+  else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
+}
+
+const double *wb_inertial_unit_get_lookup_table(WbDeviceTag tag) {
+  double *result = NULL;
+  robot_mutex_lock_step();
+  InertialUnit *dev = inertial_unit_get_struct(tag);
+  if (dev)
+    result = dev->lookup_table;
+  else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
 }
 
 static void inertial_unit_write_request(WbDevice *d, WbRequest *r) {
@@ -62,6 +108,8 @@ static void inertial_unit_write_request(WbDevice *d, WbRequest *r) {
 }
 
 static void inertial_unit_cleanup(WbDevice *d) {
+  InertialUnit *acc = (InertialUnit *)d->pdata;
+  free(acc->lookup_table);
   free(d->pdata);
 }
 

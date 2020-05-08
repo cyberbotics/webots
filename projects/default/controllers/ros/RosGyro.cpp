@@ -17,6 +17,14 @@
 
 RosGyro::RosGyro(Gyro *gyroscope, Ros *ros) : RosSensor(gyroscope->getName(), gyroscope, ros) {
   mGyro = gyroscope;
+
+  mLookupTableServer = RosDevice::rosAdvertiseService(
+    (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosGyro::getLookupTable);
+}
+
+RosGyro::~RosGyro() {
+  mLookupTableServer.shutdown();
+  cleanup();
 }
 
 // creates a publisher for Gyro values with a sensor_msgs/Imu as message type
@@ -46,4 +54,11 @@ void RosGyro::publishValue(ros::Publisher publisher) {
   value.linear_acceleration.z = 0.0;
   value.linear_acceleration_covariance[0] = -1.0;  // means no linear_acceleration information
   publisher.publish(value);
+}
+
+bool RosGyro::getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res) {
+  assert(mGyro);
+  const double *values = mGyro->getLookupTable();
+  res.value.assign(values, values + mGyro->getLookupTableSize() * 3);
+  return true;
 }

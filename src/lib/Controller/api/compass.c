@@ -26,6 +26,8 @@ typedef struct {
   bool enable;          // need to enable device ?
   int sampling_period;  // milliseconds
   double north[3];      // north
+  int lookup_table_size;
+  double *lookup_table;
 } Compass;
 
 static Compass *compass_create() {
@@ -35,6 +37,8 @@ static Compass *compass_create() {
   compass->north[0] = NAN;
   compass->north[1] = NAN;
   compass->north[2] = NAN;
+  compass->lookup_table = NULL;
+  compass->lookup_table_size = 0;
   return compass;
 }
 
@@ -47,9 +51,51 @@ static Compass *compass_get_struct(WbDeviceTag t) {
 
 static void compass_read_answer(WbDevice *d, WbRequest *r) {
   Compass *compass = d->pdata;
-  compass->north[0] = request_read_double(r);
-  compass->north[1] = request_read_double(r);
-  compass->north[2] = request_read_double(r);
+
+  switch (request_read_uchar(r)) {
+    case C_COMPASS_DATA:
+      compass->north[0] = request_read_double(r);
+      compass->north[1] = request_read_double(r);
+      compass->north[2] = request_read_double(r);
+      break;
+    case C_CONFIGURE:
+      compass->lookup_table_size = request_read_int32(r);
+      free(compass->lookup_table);
+      compass->lookup_table = NULL;
+      if (compass->lookup_table_size > 0) {
+        compass->lookup_table = (double *)malloc(sizeof(double) * compass->lookup_table_size * 3);
+        for (int i = 0; i < compass->lookup_table_size * 3; i++)
+          compass->lookup_table[i] = request_read_double(r);
+      }
+      break;
+    default:
+      ROBOT_ASSERT(0);  // should never be reached
+      break;
+  }
+}
+
+int wb_compass_get_lookup_table_size(WbDeviceTag tag) {
+  int result = 0;
+  robot_mutex_lock_step();
+  Compass *dev = compass_get_struct(tag);
+  if (dev)
+    result = dev->lookup_table_size;
+  else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
+}
+
+const double *wb_compass_get_lookup_table(WbDeviceTag tag) {
+  double *result = NULL;
+  robot_mutex_lock_step();
+  Compass *dev = compass_get_struct(tag);
+  if (dev)
+    result = dev->lookup_table;
+  else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
 }
 
 static void compass_write_request(WbDevice *d, WbRequest *r) {

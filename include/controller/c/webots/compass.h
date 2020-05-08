@@ -32,6 +32,9 @@ void wb_compass_enable(WbDeviceTag tag, int sampling_period);
 void wb_compass_disable(WbDeviceTag tag);
 int wb_compass_get_sampling_period(WbDeviceTag tag);
 
+int wb_compass_get_lookup_table_size(WbDeviceTag tag);
+const double *wb_compass_get_lookup_table(WbDeviceTag tag);
+
 const double *wb_compass_get_values(WbDeviceTag tag);
 
 #ifdef __cplusplus
