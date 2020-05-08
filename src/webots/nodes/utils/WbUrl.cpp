@@ -32,9 +32,7 @@ namespace {
     if (QFileInfo(path).isFile())
       return path;
     if (node)
-      node->parsingWarn(QObject::tr("First item of '%1' field expected to be a "
-                                    "file but is a directory.")
-                          .arg(field));
+      node->parsingWarn(QObject::tr("First item of '%1' field expected to be a file but is a directory.").arg(field));
     else
       WbLog::warning(QObject::tr("'%1' expected to be a file but is a directory.").arg(field), false, WbLog::PARSING);
     return "";
@@ -119,12 +117,11 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   }
 
   if (displayWarning) {
-    const QString warning = QObject::tr("'%1' not found.").arg(url) + "\n" +
-                            QObject::tr("A resource file can be defined relatively to the worlds directory "
-                                        "of the current project, "
-                                        "relatively to the worlds directory of the default project, "
-                                        "relatively to its protos directory (if defined in a PROTO), "
-                                        "or absolutely.");
+    const QString warning =
+      QObject::tr("'%1' not found.").arg(url) + "\n" +
+      QObject::tr(
+        "A resource file can be defined relatively to the worlds directory of the current project, relatively to the worlds "
+        "directory of the default project, relatively to its protos directory (if defined in a PROTO), or absolutely.");
     if (node)
       node->parsingWarn(warning);
     else
@@ -145,8 +142,7 @@ QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QStri
     return expectedPath;
 
   // otherwise, we need to copy it
-  // but first, we need to check that folders exists and create them if they
-  // don't exist
+  // but first, we need to check that folders exists and create them if they don't exist
   const QFileInfo fi(expectedPath);
   if (!QDir(fi.path()).exists())
     QDir(writer.path()).mkpath(fi.path());
@@ -170,9 +166,7 @@ QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QStri
         }
       }
 
-      node->warn(QObject::tr("Texture export fails, because too much textures "
-                             "are sharing the same name: %1.")
-                   .arg(url));
+      node->warn(QObject::tr("Texture export fails, because too much textures are sharing the same name: %1.").arg(url));
       return "";
     }
   } else {  // simple case
@@ -182,9 +176,9 @@ QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QStri
 }
 
 QString WbUrl::exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbVrmlWriter &writer) {
-  // in addition to writing the node, we want to ensure that the texture file
-  // exists at the expected location. If not, we should copy it, possibly
-  // creating the expected directory structure.
+  // in addition to writing the node, we want to ensure that the texture file exists
+  // at the expected location. If not, we should copy it, possibly creating the expected
+  // directory structure.
   return exportTexture(node, QDir::fromNativeSeparators(urlField->item(index)), computePath(node, "url", urlField, index),
                        writer.relativeTexturesPath(), writer);
 }
