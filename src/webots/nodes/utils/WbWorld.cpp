@@ -378,8 +378,7 @@ WbNode *WbWorld::findTopLevelNode(const QString &modelName, int preferredPositio
     WbNode *const node = it.next();
     if (node->nodeModelName() == modelName) {
       if (result)
-        WbLog::warning(tr("'%1': found duplicate %2 node.").arg(mFileName, modelName), false,
-                       WbLog::filterName(WbLog::PARSING));
+        WbLog::warning(tr("'%1': found duplicate %2 node.").arg(mFileName, modelName), false, WbLog::PARSING);
       else {
         result = node;
         if (position != preferredPosition)
@@ -388,14 +387,14 @@ WbNode *WbWorld::findTopLevelNode(const QString &modelName, int preferredPositio
                            .arg(modelName)
                            .arg(preferredPosition + 1)
                            .arg(position + 1),
-                         false, WbLog::filterName(WbLog::PARSING));
+                         false, WbLog::PARSING);
       }
     }
     ++position;
   }
 
   if (!result)
-    WbLog::warning(tr("'%1': added missing %2 node.").arg(mFileName, modelName), false, WbLog::filterName(WbLog::PARSING));
+    WbLog::warning(tr("'%1': added missing %2 node.").arg(mFileName, modelName), false, WbLog::PARSING);
 
   return result;
 }

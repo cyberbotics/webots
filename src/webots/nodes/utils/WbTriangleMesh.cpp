@@ -365,7 +365,7 @@ void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordI
                 QObject::tr(
                   "Duplicate vertices detected while triangulating mesh. "
                   "Try opening your model in 3D modeling software and removing duplicate vertices, then re-importing."),
-                false, WbLog::filterName(WbLog::PARSING));
+                false, WbLog::PARSING);
               continue;
             }
             // see if this triangle has any overlapping vertices and snip triangle to improve tesselation and fill holes

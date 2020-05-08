@@ -33,7 +33,7 @@ WbLookupTable::WbLookupTable(const WbMFVector3 &lookupTable) {
       mInputs[j] = v.x();
       if (j > 0 && mInputs[j - 1] >= mInputs[j])
         WbLog::warning(QObject::tr("The input values of a lookup table must be sorted in increasing order."), false,
-                       WbLog::filterName(WbLog::PARSING));
+                       WbLog::PARSING);
       mOutputs[j] = v.y();
       mNoises[j] = v.z();
       j++;

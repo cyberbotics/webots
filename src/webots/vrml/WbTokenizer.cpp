@@ -89,7 +89,7 @@ void WbTokenizer::displayHeaderHelp(QString fileName, QString headerTag) {
   const WbVersion &v = WbApplicationInfo::version();
   WbLog::info(
     QObject::tr("Please modify the first line of '%1' to \"#%2 %3 utf8\".").arg(fileName).arg(headerTag).arg(v.toString(false)),
-    false, WbLog::filterName(WbLog::PARSING));
+    false, WbLog::PARSING);
 }
 
 bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString headerTag) {
@@ -115,7 +115,7 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString
   // empty info case
   if (mInfo.isEmpty()) {
     if (headerRequired) {
-      WbLog::error(QObject::tr("'%1': error: Missing header.").arg(mFileName), false, WbLog::filterName(WbLog::PARSING));
+      WbLog::error(QObject::tr("'%1': error: Missing header.").arg(mFileName), false, WbLog::PARSING);
       displayHeaderHelp(mFileName, headerTag);
       return false;
     } else
@@ -156,17 +156,17 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString
                        .arg(mFileName)
                        .arg(mFileVersion.toString())
                        .arg(webotsVersion.toString()),
-                     false, WbLog::filterName(WbLog::PARSING));
+                     false, WbLog::PARSING);
 
     return true;
   } else {
     if (headerRequired) {
-      WbLog::error(QObject::tr("'%1': Invalid header.").arg(mFileName), false, WbLog::filterName(WbLog::PARSING));
+      WbLog::error(QObject::tr("'%1': Invalid header.").arg(mFileName), false, WbLog::PARSING);
       displayHeaderHelp(mFileName, headerTag);
       return false;
     } else {
       if (displayWarning) {
-        WbLog::warning(QObject::tr("'%1': Missing header.").arg(mFileName), false, WbLog::filterName(WbLog::PARSING));
+        WbLog::warning(QObject::tr("'%1': Missing header.").arg(mFileName), false, WbLog::PARSING);
         displayHeaderHelp(mFileName, headerTag);
       }
       return true;
@@ -361,13 +361,13 @@ int WbTokenizer::tokenize(const QString &fileName) {
 
   QFile file(mFileName);
   if (!file.open(QIODevice::ReadOnly)) {
-    WbLog::error(QObject::tr("Could not open file: '%1'.").arg(mFileName), false, WbLog::filterName(WbLog::PARSING));
+    WbLog::error(QObject::tr("Could not open file: '%1'.").arg(mFileName), false, WbLog::PARSING);
     return 1;
   }
 
   mStream = new QTextStream(&file);
   if (mStream->atEnd()) {
-    WbLog::error(QObject::tr("File is empty: '%1'.").arg(mFileName), false, WbLog::filterName(WbLog::PARSING));
+    WbLog::error(QObject::tr("File is empty: '%1'.").arg(mFileName), false, WbLog::PARSING);
     return 1;
   }
 
@@ -404,7 +404,7 @@ int WbTokenizer::tokenizeString(const QString &string) {
 
   mStream = new QTextStream(string.toUtf8());
   if (mStream->atEnd()) {
-    WbLog::error(QObject::tr("File is empty: '%1'.").arg(mFileName), false, WbLog::filterName(WbLog::PARSING));
+    WbLog::error(QObject::tr("File is empty: '%1'.").arg(mFileName), false, WbLog::PARSING);
     return 1;
   }
 
@@ -480,10 +480,10 @@ const QString WbTokenizer::documentationUrl() const {
 void WbTokenizer::reportError(const QString &message, int line, int column) const {
   QString prefix = mErrorPrefix.isEmpty() ? mFileName : mErrorPrefix;
   if (prefix.isEmpty())
-    WbLog::error(QObject::tr("%1.").arg(message), false, WbLog::filterName(WbLog::PARSING));
+    WbLog::error(QObject::tr("%1.").arg(message), false, WbLog::PARSING);
   else
     WbLog::error(QObject::tr("'%1':%2:%3: error: %4.").arg(prefix).arg(line + mErrorOffset).arg(column).arg(message), false,
-                 WbLog::filterName(WbLog::PARSING));
+                 WbLog::PARSING);
 }
 
 void WbTokenizer::reportError(const QString &message, const WbToken *token) const {
@@ -495,7 +495,7 @@ void WbTokenizer::reportError(const QString &message, const WbToken *token) cons
 
 void WbTokenizer::reportFileError(const QString &message) const {
   QString prefix = mErrorPrefix.isEmpty() ? mFileName : mErrorPrefix;
-  WbLog::error(QObject::tr("'%1': error: %2.").arg(prefix, message), false, WbLog::filterName(WbLog::PARSING));
+  WbLog::error(QObject::tr("'%1': error: %2.").arg(prefix, message), false, WbLog::PARSING);
 }
 
 WbTokenizer::FileType WbTokenizer::fileTypeFromFileName(const QString &fileName) {

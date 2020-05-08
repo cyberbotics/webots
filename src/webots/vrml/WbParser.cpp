@@ -52,7 +52,7 @@ void WbParser::parseInt() {
     WbLog::warning(QObject::tr("Boolean values for 'ImageTexture.filtering' field are deprecated"
                                " from Webots 8.6 onwards; the value has been converted automatically."
                                " Please update your PROTO and world files accordingly."),
-                   false, WbLog::filterName(WbLog::PARSING));
+                   false, WbLog::PARSING);
 
     bool isFilteringOn = fieldValue->toBool();
     if (isFilteringOn)

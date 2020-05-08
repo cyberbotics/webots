@@ -52,10 +52,14 @@ public:
 
   // Webots messages, e.g. parse error
   // the 'message' argument should not be '\n' terminated
-  static void debug(const QString &message, bool popup = false, const QString &name = QString());
-  static void info(const QString &message, bool popup = false, const QString &name = QString());
-  static void warning(const QString &message, bool popup = false, const QString &name = QString());
-  static void error(const QString &message, bool popup = false, const QString &name = QString());
+  static void debug(const QString &message, bool popup = false, Filter filter = WEBOTS_OTHERS);
+  static void info(const QString &message, bool popup = false, Filter filter = WEBOTS_OTHERS);
+  static void warning(const QString &message, bool popup = false, Filter filter = WEBOTS_OTHERS);
+  static void error(const QString &message, bool popup = false, Filter filter = WEBOTS_OTHERS);
+  static void debug(const QString &message, const QString &name, bool popup = false);
+  static void info(const QString &message, const QString &name, bool popup = false);
+  static void warning(const QString &message, const QString &name, bool popup = false);
+  static void error(const QString &message, const QString &name, bool popup = false);
 
   // log type filter names
   static const QString &filterName(Filter filter);
@@ -71,8 +75,10 @@ public:
 
   // controller or compilation output
   // the 'message' argument can contain newlines (multi-line output)
-  static void appendStdout(const QString &message, const QString &name = QString());
-  static void appendStderr(const QString &message, const QString &name = QString());
+  static void appendStdout(const QString &message, Filter filter = WEBOTS_OTHERS);
+  static void appendStderr(const QString &message, Filter filter = WEBOTS_OTHERS);
+  static void appendStdout(const QString &message, const QString &name);
+  static void appendStderr(const QString &message, const QString &name);
 
   static void javascriptLogToConsole(const QString &message, int lineNumber, const QString &sourceUrl);
   // clear output

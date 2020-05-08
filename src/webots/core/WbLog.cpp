@@ -40,7 +40,23 @@ WbLog *WbLog::instance() {
   return gInstance;
 }
 
-void WbLog::debug(const QString &message, bool popup, const QString &name) {
+void WbLog::debug(const QString &message, bool popup, Filter filter) {
+  debug(message, filterName(filter), popup);
+}
+
+void WbLog::info(const QString &message, bool popup, Filter filter) {
+  info(message, filterName(filter), popup);
+}
+
+void WbLog::warning(const QString &message, bool popup, Filter filter) {
+  warning(message, filterName(filter), popup);
+}
+
+void WbLog::error(const QString &message, bool popup, Filter filter) {
+  error(message, filterName(filter), popup);
+}
+
+void WbLog::debug(const QString &message, const QString &name, bool popup) {
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, DEBUG);
     return;
@@ -54,7 +70,7 @@ void WbLog::debug(const QString &message, bool popup, const QString &name) {
     instance()->enqueueMessage(instance()->mPendingConsoleMessages, "DEBUG: " + message, name, DEBUG);
 }
 
-void WbLog::info(const QString &message, bool popup, const QString &name) {
+void WbLog::info(const QString &message, const QString &name, bool popup) {
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, INFO);
     return;
@@ -70,7 +86,7 @@ void WbLog::info(const QString &message, bool popup, const QString &name) {
   }
 }
 
-void WbLog::warning(const QString &message, bool popup, const QString &name) {
+void WbLog::warning(const QString &message, const QString &name, bool popup) {
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, WARNING);
     return;
@@ -86,7 +102,7 @@ void WbLog::warning(const QString &message, bool popup, const QString &name) {
   }
 }
 
-void WbLog::error(const QString &message, bool popup, const QString &name) {
+void WbLog::error(const QString &message, const QString &name, bool popup) {
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, ERROR);
     return;
@@ -160,7 +176,7 @@ void WbLog::appendStderr(const QString &message, const QString &name) {
 void WbLog::javascriptLogToConsole(const QString &message, int lineNumber, const QString &sourceUrl) {
   QString sourceFile = QUrl::fromLocalFile(sourceUrl).fileName();
   QString log = "[javascript] " + message + " (" + sourceFile + ":" + QString::number(lineNumber) + ")";
-  WbLog::appendStdout(log, filterName(WbLog::JAVASCRIPT));
+  WbLog::appendStdout(log, WbLog::JAVASCRIPT);
 }
 
 void WbLog::emitLog(Level level, const QString &message, bool popup, const QString &name) {
@@ -189,16 +205,16 @@ void WbLog::showPostponedPopUpMessages() {
   foreach (PostponedMessage msg, instance()->mPostponedPopUpMessageQueue) {
     switch (msg.level) {
       case DEBUG:
-        debug(msg.text, true, msg.name);
+        debug(msg.text, msg.name, true);
         break;
       case INFO:
-        info(msg.text, true, msg.name);
+        info(msg.text, msg.name, true);
         break;
       case WARNING:
-        warning(msg.text, true, msg.name);
+        warning(msg.text, msg.name, true);
         break;
       case ERROR:
-        error(msg.text, true, msg.name);
+        error(msg.text, msg.name, true);
         break;
       default:
         break;

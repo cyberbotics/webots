@@ -496,7 +496,7 @@ void WbNode::warn(const QString &message, bool parsingMessage) const {
     improvedMsg.replace("'" + fieldName + "'", "'" + parameterName + "'");
 
   if (parsingMessage)
-    WbLog::warning(path + ": " + improvedMsg, false, WbLog::filterName(WbLog::PARSING));
+    WbLog::warning(path + ": " + improvedMsg, false, WbLog::PARSING);
   else
     WbLog::warning(path + ": " + improvedMsg);
 }
@@ -512,7 +512,7 @@ void WbNode::info(const QString &message, bool parsingMessage) const {
     improvedMsg.replace("'" + fieldName + "'", "'" + parameterName + "'");
 
   if (parsingMessage)
-    WbLog::info(path + ": " + improvedMsg, false, WbLog::filterName(WbLog::PARSING));
+    WbLog::info(path + ": " + improvedMsg, false, WbLog::PARSING);
   else
     WbLog::info(path + ": " + improvedMsg);
 }

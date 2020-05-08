@@ -207,7 +207,7 @@ void WbBuildEditor::readStdout() {
   out.replace("\r\n", "\n");
 #endif
 
-  WbLog::appendStdout(out, WbLog::filterName(WbLog::COMPILATION));
+  WbLog::appendStdout(out, WbLog::COMPILATION);
 }
 
 void WbBuildEditor::readStderr() {
@@ -219,7 +219,7 @@ void WbBuildEditor::readStderr() {
   err.replace("\r\n", "\n");
 #endif
 
-  WbLog::appendStderr(err, WbLog::filterName(WbLog::COMPILATION));
+  WbLog::appendStderr(err, WbLog::COMPILATION);
 }
 
 void WbBuildEditor::cleanupProcess() {
@@ -232,14 +232,14 @@ void WbBuildEditor::processFinished(int exitCode, QProcess::ExitStatus exitStatu
   switch (exitStatus) {
     case QProcess::NormalExit: {
       if (mIsCleaning)
-        WbLog::appendStdout("Clean finished.\n", WbLog::filterName(WbLog::COMPILATION));
+        WbLog::appendStdout("Clean finished.\n", WbLog::COMPILATION);
       else
         reloadMessageBoxIfNeeded();
       break;
     }
     case QProcess::CrashExit:
       // should not happen, but just in case
-      WbLog::appendStderr("external make process crashed!\n", WbLog::filterName(WbLog::COMPILATION));
+      WbLog::appendStderr("external make process crashed!\n", WbLog::COMPILATION);
       break;
   }
 
@@ -264,7 +264,7 @@ void WbBuildEditor::reloadMessageBoxIfNeeded() {
   if (targetFileInfo.exists() && targetFile.startsWith(WbProject::current()->path())) {
     QDateTime targetModificationTimeAfterMake = targetFileInfo.lastModified();
     if (!mTargetModificationTimeBeforeMake.isValid() || targetModificationTimeAfterMake > mTargetModificationTimeBeforeMake) {
-      WbLog::appendStdout("Build finished.\n", WbLog::filterName(WbLog::COMPILATION));
+      WbLog::appendStdout("Build finished.\n", WbLog::COMPILATION);
       if (WbMessageBox::enabled()) {
         QMessageBox messageBox(QMessageBox::Question, tr("Compilation successful"),
                                tr("Do you want to reset or reload the world?"), QMessageBox::Cancel, this);
@@ -277,7 +277,7 @@ void WbBuildEditor::reloadMessageBoxIfNeeded() {
           emit resetRequested(true);
       }
     } else
-      WbLog::appendStdout("Nothing to be done for build targets.\n", WbLog::filterName(WbLog::COMPILATION));
+      WbLog::appendStdout("Nothing to be done for build targets.\n", WbLog::COMPILATION);
   }
 }
 
@@ -356,7 +356,7 @@ void WbBuildEditor::make(const QString &target) {
     // unknown target
     return;
   } else
-    WbLog::appendStdout(commandLine + "\n", WbLog::filterName(WbLog::COMPILATION));
+    WbLog::appendStdout(commandLine + "\n", WbLog::COMPILATION);
 
   // create mProcess
   mProcess = new QProcess(this);
@@ -388,11 +388,9 @@ void WbBuildEditor::make(const QString &target) {
   if (!started) {
     QString program = commandLine.split(" ")[0];
 #ifdef _WIN32
-    WbLog::appendStderr(tr("Installation problem: could not start '%1'.\n").arg(program),
-                        WbLog::filterName(WbLog::COMPILATION));
+    WbLog::appendStderr(tr("Installation problem: could not start '%1'.\n").arg(program), WbLog::COMPILATION);
 #else
-    WbLog::appendStderr(tr("The '%1' command appears not to be available on your system.\n").arg(program),
-                        WbLog::filterName(WbLog::COMPILATION));
+    WbLog::appendStderr(tr("The '%1' command appears not to be available on your system.\n").arg(program), WbLog::COMPILATION);
 #endif
     cleanupProcess();
   }
