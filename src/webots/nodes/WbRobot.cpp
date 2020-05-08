@@ -753,6 +753,18 @@ void WbRobot::writeConfigure(QDataStream &stream) {
     mSupervisorUtilities->writeConfigure(stream);
 }
 
+void WbRobot::writeTfLink(QDataStream &stream, WbTransform* link) {
+  stream << (short unsigned int)0;
+  stream << (unsigned char)C_ROBOT_TREE_LINK;
+  stream << (int)link->uniqueId();
+  stream << (int)link->parent()->uniqueId();
+  stream << (double)link->translation().x();
+  stream << (double)link->translation().y();
+  stream << (double)link->translation().z();
+  for (int i = 0; i < 9; i++)
+    stream << (double)link->rotationMatrix().row(i / 3)[i % 3];
+}
+
 void WbRobot::writeRobotTransformTree(QDataStream &stream) {
   stream << (short unsigned int)0;
   stream << (unsigned char)C_ROBOT_TREE_LINK;
@@ -773,19 +785,20 @@ void WbRobot::writeRobotTransformTree(QDataStream &stream) {
     for (int i = 0; i < children.size(); i++) {
       WbNode *child = children.at(i);
       if (dynamic_cast<WbBasicJoint *>(child)) {
-        if (dynamic_cast<WbHingeJoint *>(child)) {
-          // TODO: Add support for WbSliderJoint, WbHingeJoint2 and BallJoint
-
-          // TODO: Handle children of joints 
-          // WbHingeJoint *childHingeJoint = (WbHingeJoint *)child;
-          // if (childHingeJoint->solidEndPoint())
-          //  queue.enqueue(childHingeJoint->solidEndPoint());
-        }
-
         stream << (short unsigned int)0;
         stream << (unsigned char)C_ROBOT_TREE_JOINT;
         stream << (int)child->uniqueId();
         stream << (int)node->uniqueId();
+
+        if (dynamic_cast<WbHingeJoint *>(child)) {
+          // TODO: Add support for WbSliderJoint, WbHingeJoint2 and BallJoint
+
+          WbHingeJoint *childHingeJoint = (WbHingeJoint *)child;
+          if (childHingeJoint->solidEndPoint()) {
+            queue.enqueue(childHingeJoint->solidEndPoint());
+            writeTfLink(stream, childHingeJoint->solidEndPoint());
+          }
+        }
       } else if (dynamic_cast<WbGroup *>(child) || dynamic_cast<WbShape *>(child)) {
         queue.enqueue(child);
 

@@ -259,7 +259,9 @@ private:
   double energyConsumption() const;
   void clearDevices();
   int computeSimulationMode();
+
   void writeRobotTransformTree(QDataStream &stream);
+  void writeTfLink(QDataStream &stream, WbTransform* link);
 
 private slots:
   void updateDevicesAfterDestruction();
