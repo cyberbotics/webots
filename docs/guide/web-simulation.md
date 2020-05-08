@@ -191,7 +191,7 @@ WebSocket request handlers:
 
 In order to make the web simulation work properly from the outside world, you have two possibilities:
 1. Configure your web server, `session_server.py` and `simulation_server.py` to perform port rewrite.
-Requests arriving to the web server will be redirected to the local network, e.g.,
+Requests arriving to the web server will be redirected to the local network such as
 `wss://webserver.com/2000/client` &rarr; `ws://webserver.com:2000/client` and
 `https://webserver.com/2000/monitor` &rarr; `http://webserver.com:2000/monitor`.
 You just need to have port 443 open in your local firewall for incoming connections.
@@ -200,14 +200,14 @@ Moreover, it has the advantage of allowing you to run the `session_server.py`, `
 2. Open all the ports used by the `session_server.py`, `simulation_server.py` and Webots.
 On simple networks, this can be done by modifying the NAT settings of the router.
 The disadvantage of this method is that local firewalls may block the connections on non-standard ports, and thus some clients may not be able to use the web simulation if they cannot change their firewall rules.
-Another disadvantage is that you must run the `session_server.py`, `simulation_server.py` and Webots in SSL mode if you want to provide a SSL connection to the simulation server, e.g., from a `https` web page.
+Another disadvantage is that you must run the `session_server.py`, `simulation_server.py` and Webots in SSL mode if you want to provide a SSL connection to the simulation server, so that it can be executed from a `https` web page.
 
 #### Port Rewrite
 
 Port rewrite can be configured in the `session_server.py` and `simulation_server.py` by simply setting the `portRewrite` option to `true`.
-In the `session_server.py` configuration, the `simulationServers` should be listed using the outside URL, e.g., `hostname/2000` instead of `hostname:2000`.
+In the `session_server.py` configuration, the `simulationServers` should be listed using the outside URL: `hostname/2000` instead of `hostname:2000`.
 You web server should be configured to redirect `http` traffic to `https` and to rewrite ports in URLs for both `https` and `wss`.
-In the Apache web server, this can be achieved by adding the following rules in your `httpd.conf` file:
+With the Apache web server, this can be achieved by adding the following rules in your `httpd.conf` file:
 
 ```
 LoadModule proxy_module modules/mod_proxy.so
