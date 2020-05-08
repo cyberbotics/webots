@@ -312,8 +312,9 @@ dGeomID WbMatter::createOdeGeomFromTransform(dSpaceID space, WbTransform *transf
             Qt::UniqueConnection);
     shape->connectGeometryField();
   } else if (dynamic_cast<WbGeometry *>(transformChild) == NULL) {
-    transform->parsingWarn(tr("A Transform node inside a 'boundingObject' can only contain one Shape or one Geometry node. The child "
-                       "node is ignored."));
+    transform->parsingWarn(
+      tr("A Transform node inside a 'boundingObject' can only contain one Shape or one Geometry node. The child "
+         "node is ignored."));
   }
 
   WbGeometry *const geometry = transform->geometry();

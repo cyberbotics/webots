@@ -130,7 +130,7 @@ void WbSpotLight::updateAttenuation() {
 
   if (mAttenuation->value().x() > 0.0 || mAttenuation->value().y() > 0.0)
     parsingWarn(tr("A quadratic 'attenuation' should be preferred to have a realistic simulation of light. "
-            "Only the third component of the 'attenuation' field should be greater than 0."));
+                   "Only the third component of the 'attenuation' field should be greater than 0."));
 
   checkAmbientAndAttenuationExclusivity();
 
@@ -193,7 +193,7 @@ void WbSpotLight::updateBeamWidth() {
     return;
   else if (mBeamWidth->value() > mCutOffAngle->value()) {
     parsingWarn(tr("Invalid 'beamWidth' changed to %1. The value should be less than or equal to 'cutOffAngle'.")
-           .arg(mCutOffAngle->value()));
+                  .arg(mCutOffAngle->value()));
     mBeamWidth->setValue(mCutOffAngle->value());
     return;
   }
@@ -204,8 +204,9 @@ void WbSpotLight::updateBeamWidth() {
 
 void WbSpotLight::checkAmbientAndAttenuationExclusivity() {
   if (mAttenuation->value() != WbVector3(1.0, 0.0, 0.0) && ambientIntensity() != 0.0) {
-    parsingWarn(tr("'ambientIntensity' and 'attenuation' cannot differ from their default values at the same time. 'ambientIntensity' "
-            "was changed to 0."));
+    parsingWarn(
+      tr("'ambientIntensity' and 'attenuation' cannot differ from their default values at the same time. 'ambientIntensity' "
+         "was changed to 0."));
     setAmbientIntensity(0.0);
   }
 }
@@ -239,7 +240,8 @@ void WbSpotLight::applyLightVisibilityToWren() {
   const int maxCount = wr_config_get_max_active_spot_light_count();
   const int activeCount = wr_scene_get_active_spot_light_count(wr_scene_get_instance());
   if (activeCount == maxCount)
-    parsingWarn(tr("Maximum number of active spotlights (%1) has been reached, newly added lights won't be rendered.").arg(maxCount));
+    parsingWarn(
+      tr("Maximum number of active spotlights (%1) has been reached, newly added lights won't be rendered.").arg(maxCount));
 }
 
 void WbSpotLight::applyLightShadowsToWren() {

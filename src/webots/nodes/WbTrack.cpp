@@ -320,8 +320,8 @@ void WbTrack::updateTextureTransform() {
       QList<WbNode *> useNodesList = WbNodeUtilities::findUseNodeAncestors(mTextureTransform);
       if (!useNodesList.isEmpty()) {
         mTextureTransform->parsingWarn(tr("Non-admissible TextureTransform USE node inside Track node."
-                                   "This and ancestor USE nodes turned into DEF nodes: if texture animation enabled, "
-                                   "the USE texture transform values will change independently from DEF node ones."));
+                                          "This and ancestor USE nodes turned into DEF nodes: if texture animation enabled, "
+                                          "the USE texture transform values will change independently from DEF node ones."));
         const int size = useNodesList.size();
         if (size > 0) {
           for (int i = 0; i < size; ++i)
@@ -734,7 +734,7 @@ WbTrack::BeltPosition WbTrack::computeNextGeometryPosition(WbTrack::BeltPosition
   if (newStepSize != newStepSize) {  // NAN
     // abort generation
     parsingWarn(tr("Error during computation of Track animated geometries. "
-            "Please check the TrackWheel nodes in 'children' field."));
+                   "Please check the TrackWheel nodes in 'children' field."));
     return BeltPosition(WbVector2(), 0.0, -1);
   }
 
@@ -861,7 +861,7 @@ void WbTrack::computeBeltPath() {
   if (wheelsPositionError)
     // multiple wheels at the same location
     parsingWarn(tr("Two or more consecutive TrackWheel nodes are located at the same position. "
-            "Only the first node is used."));
+                   "Only the first node is used."));
 }
 
 QString computeTrackDefName() {

@@ -55,7 +55,7 @@ void WbZoom::updateMinFieldOfView() {
     return;
   if (mMinFieldOfView->value() > mMaxFieldOfView->value()) {
     parsingWarn(tr("Invalid 'minFieldOfView' changed to %1. The value should be smaller or equal to 'maxFieldOfView'.")
-           .arg(mMaxFieldOfView->value()));
+                  .arg(mMaxFieldOfView->value()));
     mMinFieldOfView->setValue(mMaxFieldOfView->value());
     return;
   }
@@ -64,7 +64,7 @@ void WbZoom::updateMinFieldOfView() {
 void WbZoom::updateMaxFieldOfView() {
   if (mMaxFieldOfView->value() < mMinFieldOfView->value()) {
     parsingWarn(tr("Invalid 'maxFieldOfView' changed to %1. The value should be bigger or equal to 'minFieldOfView'.")
-           .arg(mMinFieldOfView->value() + 0.1));
+                  .arg(mMinFieldOfView->value() + 0.1));
     mMaxFieldOfView->setValue(mMinFieldOfView->value() + 0.1);
     return;
   }

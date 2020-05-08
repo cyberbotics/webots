@@ -89,7 +89,8 @@ void WbDirectionalLight::applyLightVisibilityToWren() {
   const int maxCount = wr_config_get_max_active_directional_light_count();
   const int activeCount = wr_scene_get_active_directional_light_count(wr_scene_get_instance());
   if (activeCount == maxCount)
-    parsingWarn(tr("Maximum number of directional lights (%1) has been reached, newly added lights won't be rendered.").arg(maxCount));
+    parsingWarn(
+      tr("Maximum number of directional lights (%1) has been reached, newly added lights won't be rendered.").arg(maxCount));
 }
 
 void WbDirectionalLight::applyLightShadowsToWren() {

@@ -138,8 +138,8 @@ void WbLed::findMaterialsAndLights(const WbGroup *group) {
 
   if (group == this && !isAnyMaterialOrLightFound())
     parsingWarn(tr("No PBRAppearance, Material and no Light found. "
-            "The first child of a LED should be either a Shape, a Light "
-            "or a Group containing Shape and Light nodes."));
+                   "The first child of a LED should be either a Shape, a Light "
+                   "or a Group containing Shape and Light nodes."));
 }
 
 bool WbLed::isAnyMaterialOrLightFound() {

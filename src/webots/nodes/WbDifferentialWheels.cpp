@@ -31,8 +31,8 @@
 
 void WbDifferentialWheels::init() {
   parsingWarn(tr("The DifferentialWheels node is deprecated. Please use the Robot node instead with two "
-          "HingeJoint, RotationalMotor and PositionSensor nodes. You can open a support ticket from "
-          "the Help menu to get assistance on converting your DifferentialWheels robot."));
+                 "HingeJoint, RotationalMotor and PositionSensor nodes. You can open a support ticket from "
+                 "the Help menu to get assistance on converting your DifferentialWheels robot."));
 
   for (int i = 0; i < 2; i++) {
     mPosition[i] = 0.0;

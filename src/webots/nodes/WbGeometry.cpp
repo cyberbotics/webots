@@ -151,9 +151,10 @@ void WbGeometry::checkFluidBoundingObjectOrientation() {
   static const double ZERO_THRESHOLD = 1e-3;
 
   if (fabs(alpha) > ZERO_THRESHOLD)
-    parsingWarn("The normal to this geometry's immersion plane is not opposed to the gravity vector. "
-         "This may yield unexpected behaviors when immersing solids. (Please consult the Reference Manual for the definition "
-         "of immersion planes.)");
+    parsingWarn(
+      "The normal to this geometry's immersion plane is not opposed to the gravity vector. "
+      "This may yield unexpected behaviors when immersing solids. (Please consult the Reference Manual for the definition "
+      "of immersion planes.)");
 }
 
 /////////////////////////

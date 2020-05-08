@@ -131,8 +131,8 @@ bool WbCapsule::sanitizeFields() {
   if (mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && isInBoundingObject() &&
       !WbNodeUtilities::hasAUseNodeAncestor(this)) {
     parsingWarn(tr("'subdivision' value has no effect to physical 'boundingObject' geometry. "
-            "A minimum value of %2 is used for the representation.")
-           .arg(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION));
+                   "A minimum value of %2 is used for the representation.")
+                  .arg(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION));
     mSubdivision->setValue(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION);
     return false;
   }
@@ -777,6 +777,7 @@ void WbCapsule::exportNodeSubNodes(WbVrmlWriter &writer) const {
 ////////////////////////
 
 WbVector3 WbCapsule::computeFrictionDirection(const WbVector3 &normal) const {
-  parsingWarn(tr("A Capsule is used in a Bounding object using an asymmetric friction. Capsule does not support asymmetric friction"));
+  parsingWarn(
+    tr("A Capsule is used in a Bounding object using an asymmetric friction. Capsule does not support asymmetric friction"));
   return WbVector3(0, 0, 0);
 }

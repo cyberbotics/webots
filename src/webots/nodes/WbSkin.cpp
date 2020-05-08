@@ -213,8 +213,8 @@ void WbSkin::updateAppearance() {
       wr_renderable_set_material(mRenderables[index], mMaterials[index], NULL);
     else
       parsingWarn(tr("Duplicated Appearance with name '%1' in 'appearance' field. "
-              "Only the first instance will be used.")
-             .arg(appearanceName));
+                     "Only the first instance will be used.")
+                    .arg(appearanceName));
   }
 
   for (int i = 0; i < undefinedList.size(); ++i) {
@@ -275,8 +275,8 @@ void WbSkin::updateAppearanceName(const QString &newName, const QString &prevNam
   if (newNameExistsBefore || newNameExistsAfter)
     // another definition of newName material is specified before this one
     parsingWarn(tr("Duplicated Appearance with name '%1' in 'appearance' field. "
-            "Only the first instance will be used.")
-           .arg(newName));
+                   "Only the first instance will be used.")
+                  .arg(newName));
 
   if (newNameDefined && !newNameExistsBefore) {
     // modify newName material
@@ -580,9 +580,9 @@ bool WbSkin::createSkeletonFromWebotsNodes() {
     QString boneName = solid->name();
     if (boneNames.contains(boneName)) {
       parsingWarn(tr("Invalid item %1 in 'bones' field: "
-              "duplicated reference to Solid with name '%2'.")
-             .arg(i)
-             .arg(solid->name()));
+                     "duplicated reference to Solid with name '%2'.")
+                    .arg(i)
+                    .arg(solid->name()));
       continue;
     }
 
@@ -600,9 +600,9 @@ bool WbSkin::createSkeletonFromWebotsNodes() {
   const int skeletonBoneCount = wr_skeleton_get_bone_count(mSkeleton);
   if (validBoneCount != skeletonBoneCount) {
     parsingWarn(tr("Number of valid bones defined in 'bones' field does not match with skeleton file. "
-            "Expected: %1, was: %2.")
-           .arg(skeletonBoneCount)
-           .arg(validBoneCount));
+                   "Expected: %1, was: %2.")
+                  .arg(skeletonBoneCount)
+                  .arg(validBoneCount));
     return false;
   }
 
@@ -764,8 +764,8 @@ void WbSkin::handleMessage(QDataStream &stream) {
 
   if (webotsSkeletonWarning && !mBonesWarningPrinted) {
     parsingWarn(tr("Skin animation control using %1 is disabled if a Webots "
-            "skeleton is used.\n")
-           .arg(functionName));
+                   "skeleton is used.\n")
+                  .arg(functionName));
     mBonesWarningPrinted = true;
   }
 }

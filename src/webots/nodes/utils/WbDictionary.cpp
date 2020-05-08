@@ -306,14 +306,16 @@ void WbDictionary::updateProtosDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode
             node->makeUseNode(definitionNode);
           mNestedUseNodes.append(node);
         } else {
-          node->parsingWarn(QObject::tr("No previous DEF nodes match; USE node turned into DEF node. Please check that the fields are "
-                                 "listed in the same order as in the base node definition."));
+          node->parsingWarn(
+            QObject::tr("No previous DEF nodes match; USE node turned into DEF node. Please check that the fields are "
+                        "listed in the same order as in the base node definition."));
           makeDefNodeAndUpdateDictionary(node, false);
         }
       } else if (useCase && lookupDegree >= 0) {
         if (!isAValidUseableNode)
-          node->parsingWarn(warning + " " +
-                     QObject::tr("Please replace this non-admissible USE node by an expanded DEF node in your proto file."));
+          node->parsingWarn(
+            warning + " " +
+            QObject::tr("Please replace this non-admissible USE node by an expanded DEF node in your proto file."));
         makeDefNodeAndUpdateDictionary(node, false);
       }
     }

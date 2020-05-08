@@ -148,7 +148,8 @@ void WbPhysics::checkInertiaMatrix(bool showInfo) {
   if (size != 2) {
     mHasAvalidInertiaMatrix = false;
     // if (showInfo && size == 0 && mCenterOfMass->size() == 1)
-    //  parsingWarn(tr("Remove 'centerOfMass' to use bounding object based inertial properties, or insert a new 'inertiaMatrix'."));
+    //  parsingWarn(tr("Remove 'centerOfMass' to use bounding object based inertial properties, or insert a new
+    //  'inertiaMatrix'."));
     return;
   }
 

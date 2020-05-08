@@ -57,7 +57,7 @@ void WbWorldInfo::init() {
 
   if (findSFString("fast2d")->value() != "")
     parsingWarn(tr("fast2d plugin are not supported anymore, if you don't want to simulate dynamic, you can use the built-in "
-            "kinematic mode of Webots."));
+                   "kinematic mode of Webots."));
 }
 
 WbWorldInfo::WbWorldInfo(WbTokenizer *tokenizer) : WbBaseNode("WorldInfo", tokenizer) {

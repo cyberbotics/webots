@@ -129,7 +129,7 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
       setDefaultMass(&m);
       if (warning)
         cylinder->parsingWarn(QObject::tr("Use a positive radius and a positive height to allow proper mass settings") +
-                       defaultValues);
+                              defaultValues);
     } else
       dMassSetCylinder(&m, density, 2, radius, height);  // 2 -> y-axis
     dMassAdd(mass, &m);
@@ -144,7 +144,8 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
     if (radius <= 0.0 || height <= 0.0) {
       setDefaultMass(&m);
       if (warning)
-        capsule->parsingWarn(QObject::tr("Use a positive radius and a positive height to allow proper mass settings") + defaultValues);
+        capsule->parsingWarn(QObject::tr("Use a positive radius and a positive height to allow proper mass settings") +
+                             defaultValues);
     } else
       dMassSetCapsule(&m, density, 2, radius, height);  // 2 -> y-axis
     dMassAdd(mass, &m);
@@ -228,8 +229,9 @@ bool WbSolidUtilities::checkBoundingObject(WbNode *const node) {
 
     const WbShape *const shape = dynamic_cast<WbShape *>(child);
     if (shape == NULL || shape->geometry() == NULL) {
-      node->parsingWarn(QObject::tr("Invalid 'boundingObject' (a Transform, or a Shape within a Transform, has no 'geometry'): the "
-                             "inertia matrix cannot be calculated."));
+      node->parsingWarn(
+        QObject::tr("Invalid 'boundingObject' (a Transform, or a Shape within a Transform, has no 'geometry'): the "
+                    "inertia matrix cannot be calculated."));
       return false;
     }
   }
@@ -246,7 +248,8 @@ bool WbSolidUtilities::checkBoundingObject(WbNode *const node) {
     const WbMFNode &children = group->children();
     const int size = children.size();
     if (size == 0) {
-      node->parsingWarn(QObject::tr("Invalid 'boundingObject' (Group with no child set): the inertia matrix cannot be calculated."));
+      node->parsingWarn(
+        QObject::tr("Invalid 'boundingObject' (Group with no child set): the inertia matrix cannot be calculated."));
       return false;
     }
     for (int i = 0; i < size; ++i) {

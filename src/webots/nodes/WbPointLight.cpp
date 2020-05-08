@@ -117,7 +117,7 @@ void WbPointLight::updateAttenuation() {
 
   if (mAttenuation->value().x() > 0.0 || mAttenuation->value().y() > 0.0)
     parsingWarn(tr("A quadratic 'attenuation' should be preferred to have a realistic simulation of light. "
-            "Only the third component of the 'attenuation' field should be greater than 0."));
+                   "Only the third component of the 'attenuation' field should be greater than 0."));
 
   checkAmbientAndAttenuationExclusivity();
 
@@ -161,8 +161,9 @@ void WbPointLight::updateColor() {
 
 void WbPointLight::checkAmbientAndAttenuationExclusivity() {
   if (mAttenuation->value() != WbVector3(1.0, 0.0, 0.0) && ambientIntensity() != 0.0) {
-    parsingWarn(tr("'ambientIntensity' and 'attenuation' cannot differ from their default values at the same time. 'ambientIntensity' "
-            "was changed to 0."));
+    parsingWarn(
+      tr("'ambientIntensity' and 'attenuation' cannot differ from their default values at the same time. 'ambientIntensity' "
+         "was changed to 0."));
     setAmbientIntensity(0.0);
   }
 }

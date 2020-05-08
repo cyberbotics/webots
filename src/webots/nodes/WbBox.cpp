@@ -194,9 +194,10 @@ void WbBox::checkFluidBoundingObjectOrientation() {
   static const double BOX_THRESHOLD = M_PI_2;
 
   if (fabs(alpha) >= BOX_THRESHOLD)
-    parsingWarn("The normal to the immersion plane defined by this Box has a large defect angle with the gravity vector."
-         "This may yield unexpected behaviors when immersing solids. (Please consult the Reference Manual for the definition "
-         "of immersion planes.)");
+    parsingWarn(
+      "The normal to the immersion plane defined by this Box has a large defect angle with the gravity vector."
+      "This may yield unexpected behaviors when immersing solids. (Please consult the Reference Manual for the definition "
+      "of immersion planes.)");
 }
 
 dGeomID WbBox::createOdeGeom(dSpaceID space) {

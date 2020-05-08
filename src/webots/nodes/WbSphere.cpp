@@ -413,6 +413,7 @@ void WbSphere::recomputeBoundingSphere() const {
 ////////////////////////
 
 WbVector3 WbSphere::computeFrictionDirection(const WbVector3 &normal) const {
-  parsingWarn(tr("A Sphere is used in a Bounding object using an asymmetric friction. Sphere does not support asymmetric friction"));
+  parsingWarn(
+    tr("A Sphere is used in a Bounding object using an asymmetric friction. Sphere does not support asymmetric friction"));
   return WbVector3(0, 0, 0);
 }
