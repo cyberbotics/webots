@@ -19,7 +19,6 @@
 #include "RosSensor.hpp"
 
 #include <webots_ros/get_float_array.h>
-#include <webots_ros/get_int.h>
 
 using namespace webots;
 
