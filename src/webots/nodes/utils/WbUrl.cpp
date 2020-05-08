@@ -28,21 +28,18 @@
 #include <QtCore/QFileInfo>
 
 namespace {
-QString checkIsFile(const WbNode *node, const QString &field,
-                    const QString &path) {
-  if (QFileInfo(path).isFile())
-    return path;
-  if (node)
-    node->parsingWarn(QObject::tr("First item of '%1' field expected to be a "
-                                  "file but is a directory.")
+  QString checkIsFile(const WbNode *node, const QString &field, const QString &path) {
+    if (QFileInfo(path).isFile())
+      return path;
+    if (node)
+      node->parsingWarn(QObject::tr("First item of '%1' field expected to be a "
+                                    "file but is a directory.")
                           .arg(field));
-  else
-    WbLog::warning(QObject::tr("'%1' expected to be a file but is a directory.")
-                       .arg(field),
-                   false, WbLog::PARSING);
-  return "";
-}
-} // namespace
+    else
+      WbLog::warning(QObject::tr("'%1' expected to be a file but is a directory.").arg(field), false, WbLog::PARSING);
+    return "";
+  }
+}  // namespace
 
 QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
   // retrieve PROTOs search paths
@@ -61,8 +58,7 @@ QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
         } else if (!webotsPROTOSearchPath.contains(proto->path()))
           webotsPROTOSearchPath.append(proto->path());
       }
-      if (!proto->projectPath().isEmpty() &&
-          !projectPROTOSearchPath.contains(proto->projectPath() + "/protos"))
+      if (!proto->projectPath().isEmpty() && !projectPROTOSearchPath.contains(proto->projectPath() + "/protos"))
         projectPROTOSearchPath.append(proto->projectPath() + "/protos");
       proto = WbProtoList::current()->findModel(proto->ancestorProtoName(), "");
     }
@@ -79,8 +75,7 @@ QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
   return searchPaths;
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field,
-                           const WbMFString *urlField, int index) {
+QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index) {
   // check if mUrl is empty
   if (urlField->size() < 1)
     return "";
@@ -91,16 +86,13 @@ QString WbUrl::computePath(const WbNode *node, const QString &field,
   return computePath(node, field, url);
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field,
-                           const QString &url, bool displayWarning) {
+QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &url, bool displayWarning) {
   // check if the first url is empty
   if (url.isEmpty()) {
     if (node)
-      node->parsingWarn(
-          QObject::tr("First item of '%1' field is empty.").arg(field));
+      node->parsingWarn(QObject::tr("First item of '%1' field is empty.").arg(field));
     else
-      WbLog::warning(QObject::tr("Missing '%1' value.").arg(field), false,
-                     WbLog::PARSING);
+      WbLog::warning(QObject::tr("Missing '%1' value.").arg(field), false, WbLog::PARSING);
     return "";
   }
 
@@ -123,19 +115,16 @@ QString WbUrl::computePath(const WbNode *node, const QString &field,
   foreach (const QString &path, searchPaths) {
     QDir dir(path);
     if (dir.exists(url))
-      return checkIsFile(node, field,
-                         QDir::cleanPath(dir.absoluteFilePath(url)));
+      return checkIsFile(node, field, QDir::cleanPath(dir.absoluteFilePath(url)));
   }
 
   if (displayWarning) {
-    const QString warning =
-        QObject::tr("'%1' not found.").arg(url) + "\n" +
-        QObject::tr(
-            "A resource file can be defined relatively to the worlds directory "
-            "of the current project, "
-            "relatively to the worlds directory of the default project, "
-            "relatively to its protos directory (if defined in a PROTO), "
-            "or absolutely.");
+    const QString warning = QObject::tr("'%1' not found.").arg(url) + "\n" +
+                            QObject::tr("A resource file can be defined relatively to the worlds directory "
+                                        "of the current project, "
+                                        "relatively to the worlds directory of the default project, "
+                                        "relatively to its protos directory (if defined in a PROTO), "
+                                        "or absolutely.");
     if (node)
       node->parsingWarn(warning);
     else
@@ -145,17 +134,14 @@ QString WbUrl::computePath(const WbNode *node, const QString &field,
   return "";
 }
 
-QString WbUrl::exportTexture(const WbNode *node, const QString &url,
-                             const QString &sourcePath,
-                             const QString &relativeTexturesPath,
-                             const WbVrmlWriter &writer) {
+QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QString &sourcePath,
+                             const QString &relativeTexturesPath, const WbVrmlWriter &writer) {
   const QFileInfo urlFileInfo(url);
   const QString fileName = urlFileInfo.fileName();
   const QString expectedRelativePath = relativeTexturesPath + fileName;
   const QString expectedPath = writer.path() + "/" + expectedRelativePath;
 
-  if (expectedPath ==
-      sourcePath) // everything is fine, the file is where we expect it
+  if (expectedPath == sourcePath)  // everything is fine, the file is where we expect it
     return expectedPath;
 
   // otherwise, we need to copy it
@@ -172,10 +158,8 @@ QString WbUrl::exportTexture(const WbNode *node, const QString &url,
       const QString baseName = urlFileInfo.completeBaseName();
       const QString extension = urlFileInfo.suffix();
 
-      for (int i = 1; i < 100; ++i) { // number of trials before failure
-        const QString newRelativePath = writer.relativeTexturesPath() +
-                                        baseName + '.' + QString::number(i) +
-                                        '.' + extension;
+      for (int i = 1; i < 100; ++i) {  // number of trials before failure
+        const QString newRelativePath = writer.relativeTexturesPath() + baseName + '.' + QString::number(i) + '.' + extension;
         const QString newAbsolutePath = writer.path() + "/" + newRelativePath;
         if (QFileInfo(newAbsolutePath).exists()) {
           if (WbFileUtil::areIdenticalFiles(sourcePath, newAbsolutePath))
@@ -188,21 +172,19 @@ QString WbUrl::exportTexture(const WbNode *node, const QString &url,
 
       node->warn(QObject::tr("Texture export fails, because too much textures "
                              "are sharing the same name: %1.")
-                     .arg(url));
+                   .arg(url));
       return "";
     }
-  } else { // simple case
+  } else {  // simple case
     QFile::copy(sourcePath, expectedPath);
     return expectedRelativePath;
   }
 }
 
-QString WbUrl::exportTexture(const WbNode *node, const WbMFString *urlField,
-                             int index, const WbVrmlWriter &writer) {
+QString WbUrl::exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbVrmlWriter &writer) {
   // in addition to writing the node, we want to ensure that the texture file
   // exists at the expected location. If not, we should copy it, possibly
   // creating the expected directory structure.
-  return exportTexture(node, QDir::fromNativeSeparators(urlField->item(index)),
-                       computePath(node, "url", urlField, index),
+  return exportTexture(node, QDir::fromNativeSeparators(urlField->item(index)), computePath(node, "url", urlField, index),
                        writer.relativeTexturesPath(), writer);
 }
