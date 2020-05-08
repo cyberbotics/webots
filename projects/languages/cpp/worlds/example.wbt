@@ -7,8 +7,8 @@ WorldInfo {
   gravity 0 0 -9.81
 }
 Viewpoint {
-  orientation -0.22167702388326258 0.5189891887356978 0.8255358981036025 3.6243464145956823
-  position -1.1164881961373245 1.4518398647394037 0.6893520379624926
+  orientation -0.7606810770913064 -0.3826914803750958 -0.524320064277086 4.911734539863836
+  position 2.3398827613680377 -1.834664598837444 1.4026445935480145
 }
 Background {
   backUrl [
@@ -109,8 +109,8 @@ DEF ROBOT1 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0 0.025
+        axis 0 1 0
+        anchor 0 -0.045 0.025
       }
       device [
         RotationalMotor {
@@ -121,43 +121,22 @@ DEF ROBOT1 Robot {
         }
       ]
       endPoint DEF LEFT_WHEEL Solid {
-        translation -0.045 0 0.025
-        rotation 1 0 0 0
+        translation 0 -0.045 0.025
         children [
-          DEF WHEEL Transform {
-            rotation 0 0 1 1.57
-            children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 1 0 0
-                  roughness 1
-                  metalness 0
-                }
-                geometry Cylinder {
-                  height 0.01
-                  radius 0.025
-                }
-              }
-            ]
+          DEF WHEEL Shape {
+            appearance PBRAppearance {
+              baseColor 1 0 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.01
+              radius 0.025
+            }
           }
         ]
         name "left wheel"
-        boundingObject DEF WHEEL Transform {
-          rotation 0 0 1 1.57
-          children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 1 0 0
-                roughness 1
-                metalness 0
-              }
-              geometry Cylinder {
-                height 0.01
-                radius 0.025
-              }
-            }
-          ]
-        }
+        boundingObject USE WHEEL
         physics DEF PHYSICS_WHEEL Physics {
           density -1
           mass 0.05
@@ -166,8 +145,8 @@ DEF ROBOT1 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0 0.025
+        axis 0 1 0
+        anchor 0 0.045 0.025
       }
       device [
         RotationalMotor {
@@ -178,37 +157,18 @@ DEF ROBOT1 Robot {
         }
       ]
       endPoint DEF RIGHT_WHEEL Solid {
-        translation 0.045 0 0.025
-        rotation 1 0 0 0
+        translation 0 0.045 0.025
         children [
-          DEF WHEEL Transform {
-            rotation 0 0 1 1.57
-            children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 1 0 0
-                  roughness 1
-                  metalness 0
-                }
-                geometry Cylinder {
-                  height 0.01
-                  radius 0.025
-                }
-              }
-            ]
-          }
+          USE WHEEL
         ]
         name "right wheel"
         boundingObject USE WHEEL
-        physics DEF PHYSICS_WHEEL Physics {
-          density -1
-          mass 0.05
-        }
+        physics USE PHYSICS_WHEEL
       }
     }
     DEF LEFT_EYE DistanceSensor {
-      translation -0.02 -0.042 0.063
-      rotation 0 0 1 -2.07
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.45
       children [
         DEF INFRARED Transform {
           rotation 0 0 1 1.57
@@ -237,25 +197,10 @@ DEF ROBOT1 Robot {
       aperture 1
     }
     DEF RIGHT_EYE DistanceSensor {
-      translation 0.02 -0.042 0.063
-      rotation 0 0 1 -1.07
+      translation 0.042 0.02 0.063
+      rotation 0 0 1 0.45
       children [
-        DEF INFRARED Transform {
-          rotation 0 0 1 1.57
-          children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 0.975691 0.981481 0.0252992
-                roughness 1
-                metalness 0
-              }
-              geometry Cylinder {
-                height 0.004
-                radius 0.008
-              }
-            }
-          ]
-        }
+        USE INFRARED
       ]
       name "ds1"
       lookupTable [
@@ -269,8 +214,8 @@ DEF ROBOT1 Robot {
     Receiver {
     }
     Camera {
-      translation 0 -0.045 0.045
-      rotation 1 0 0 1.5708
+      translation 0.045 0 0.045
+      rotation -0.5773509358554485 0.5773509358554485 0.5773489358556708 -2.09439
       children [
         Transform {
           rotation 1 0 0 1.57
