@@ -91,6 +91,9 @@ cleanse: clean
 ifeq ($(OSTYPE),windows)
 	@rm -rf msys64
 endif
+ifeq ($(OSTYPE),darwin)
+	@rm -rf Contents/Frameworks Contents/MacOS 
+endif
 	@+echo "#"; echo "# * tests *"; echo "#"
 	@find tests -name .*.cache | xargs rm -f
 	@+make --silent -C tests clean

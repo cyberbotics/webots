@@ -84,7 +84,7 @@ $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/objs/.libs/libfreetype.a:
 
 
 ffmpeg-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE) $(WEBOTS_HOME)/util/ffmpeg
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE) $(WEBOTS_HOME)/util
 
 ffmpeg: $(WEBOTS_HOME)/util/ffmpeg
 
@@ -119,7 +119,7 @@ $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
 
 
 lua-gd-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE) $(WEBOTS_HOME_LIB)/libgd.3.dylib $(WEBOTS_HOME)/resources/lua/modules/gd/gd.dylib
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE) $(WEBOTS_HOME_LIB)/libgd.3.dylib $(WEBOTS_HOME)/resources/lua/modules/gd
 
 lua-gd: $(WEBOTS_HOME)/resources/lua/modules/gd/gd.dylib
 
@@ -151,7 +151,7 @@ $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/libminiglu.a:
 
 
 ois-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE) $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE) $(WEBOTS_HOME_LIB)/*OIS.dylib $(WEBOTS_HOME)/include/libOIS
 
 ois: $(WEBOTS_HOME_LIB)/libOIS.dylib
 
