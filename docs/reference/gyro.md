@@ -153,7 +153,7 @@ The values are returned as a 3D-vector therefore only the indices 0, 1, and 2 ar
 Each vector element represents the angular velocity about one of the axes of the [Gyro](#gyro) node, expressed in radians per second [rad/s].
 The first element corresponds to the angular velocity about the *x*-axis, the second element to the *y*-axis, etc.
 
-The `wb_gyro_get_lookup_table_size` function returns a number of rows in the lookup table.
+The `wb_gyro_get_lookup_table_size` function returns the number of rows in the lookup table.
 
 The `wb_gyro_get_lookup_table` function returns the values of the lookup table.
 This function returns a matrix containing exactly N * 3 values (N represents the number of mapped values optained with the `wb_gyro_get_lookup_table_size` function) that shall be interpreted as a N x 3 table.

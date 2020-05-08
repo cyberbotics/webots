@@ -183,7 +183,7 @@ The *yaw* angle indicates the unit orientation, in the interval [-&pi;,&pi;], wi
 The *yaw* angle is zero when the [InertialUnit](#inertialunit)'s *x*-axis is aligned with the north direction, it is &pi;/2 when the unit is heading east, and -&pi;/2 when the unit is oriented towards the west.
 The *yaw* angle can be used as a compass.
 
-The `wb_inertial_unit_get_lookup_table_size` function returns a number of rows in the lookup table.
+The `wb_inertial_unit_get_lookup_table_size` function returns the number of rows in the lookup table.
 
 The `wb_inertial_unit_get_lookup_table` function returns the values of the lookup table.
 This function returns a matrix containing exactly N * 3 values (N represents the number of mapped values optained with the `wb_inertial_unit_get_lookup_table_size` function) that shall be interpreted as a N x 3 table.

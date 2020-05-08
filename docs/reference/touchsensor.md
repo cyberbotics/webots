@@ -323,7 +323,7 @@ type = wb_touch_sensor_get_type(tag)
 
 %end
 
-The `wb_touch_sensor_get_lookup_table_size` function returns a number of rows in the [lookup table](#lookup-table).
+The `wb_touch_sensor_get_lookup_table_size` function returns the number of rows in the [lookup table](#lookup-table).
 
 The `wb_touch_sensor_get_lookup_table` function returns the values of the [lookup table](#lookup-table).
 This function returns a matrix containing exactly N * 3 values (N represents the number of mapped values optained with the `wb_touch_sensor_get_lookup_table_size` function) that shall be interpreted as a N x 3 table.

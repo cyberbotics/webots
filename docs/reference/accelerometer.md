@@ -159,10 +159,10 @@ Note that the gravity can be specified in the `gravity` field in the [WorldInfo]
 To obtain the acceleration due to motion alone, this offset must be subtracted.
 The device's output will be zero during free fall when no offset is substracted.
 
-The `wb_accelerometer_get_lookup_table_size` function returns the size of the lookup table.
+The `wb_accelerometer_get_lookup_table_size` function returns the number of rows in the lookup table.
 
-The `wb_accelerometer_get_lookup_table` function returns lookup table fields of the lookup table.
-This function returns a matrix containing exactly N * 3 values (N represents the number of mapped values optained with the `wb_accelerometer_get_lookup_table_size`function) that shall be interpreted as a N x 3 table.
+The `wb_accelerometer_get_lookup_table` function returns the values of the lookup table.
+This function returns a matrix containing exactly N * 3 values (N represents the number of mapped values optained with the `wb_accelerometer_get_lookup_table_size` function) that shall be interpreted as a N x 3 table.
 
 > **Note** [C, C++]: The returned vector is a pointer to the internal values managed by the [Accelerometer](#accelerometer) node, therefore it is illegal to free this pointer.
 Furthermore, note that the pointed values are only valid until the next call to the `wb_robot_step` or `Robot::step` functions.

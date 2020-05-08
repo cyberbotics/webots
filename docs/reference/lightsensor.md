@@ -234,7 +234,7 @@ The `wb_light_sensor_get_sampling_period` function returns the period given into
 The `wb_light_sensor_get_value` function returns the most recent value measured by the specified light sensor.
 The returned value is the result of interpolating the irradiance *E* as described above with the sensor's `lookupTable`.
 
-The `wb_light_sensor_get_lookup_table_size` function returns a number of rows in the lookup table.
+The `wb_light_sensor_get_lookup_table_size` function returns the number of rows in the lookup table.
 
 The `wb_light_sensor_get_lookup_table` function returns the values of the lookup table.
 This function returns a matrix containing exactly N * 3 values (N represents the number of mapped values optained with the `wb_light_sensor_get_lookup_table_size` function) that shall be interpreted as a N x 3 table.
