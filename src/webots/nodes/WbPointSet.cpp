@@ -105,7 +105,7 @@ bool WbPointSet::sanitizeFields() {
 
   if (color() && color()->color().size() != coord()->pointSize()) {
     parsingWarn(tr("If a 'Color' node is present in the 'color' field, it should have the same number of component as the "
-            "'Coordinate' node in the 'coord' field."));
+                   "'Coordinate' node in the 'coord' field."));
     if (color()->color().isEmpty())
       return false;
     else

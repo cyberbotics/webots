@@ -178,8 +178,9 @@ int WbIndexedLineSet::computeCoordsData(float *data) {
 
   if (invalidIndices.size() > 0) {
     invalidIndices.removeDuplicates();
-    parsingWarn(tr("The following indices are out of the range of coordinates specified in the 'IndexedLineSet.coord' field: %1")
-           .arg(invalidIndices.join(", ")));
+    parsingWarn(
+      tr("The following indices are out of the range of coordinates specified in the 'IndexedLineSet.coord' field: %1")
+        .arg(invalidIndices.join(", ")));
   }
 
   return count;
@@ -276,6 +277,6 @@ void WbIndexedLineSet::recomputeBoundingSphere() const {
 
 WbVector3 WbIndexedLineSet::computeFrictionDirection(const WbVector3 &normal) const {
   parsingWarn(tr("A IndexedLineSet is used in a Bounding object using an asymmetric friction. IndexedLineSet does not support "
-          "asymmetric friction"));
+                 "asymmetric friction"));
   return WbVector3(0, 0, 0);
 }
