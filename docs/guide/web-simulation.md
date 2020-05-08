@@ -191,9 +191,9 @@ WebSocket request handlers:
 
 In order to make the web simulation work properly from the outside world, you have two possibilities:
 1. Configure your web server, `session_server.py` and `simulation_server.py` to perform port rewrite.
-Requests arriving to the web server will be redirected to the local network as examplified below:
-`wss://webserver.com/2000/client` &rarr; `ws://webserver.com:2000/client`
-`https://webserver.com/2000/monitor` &rarr; `http://webserver.com:2000/monitor`
+Requests arriving to the web server will be redirected to the local network, e.g.,
+`wss://webserver.com/2000/client` &rarr; `ws://webserver.com:2000/client` and
+`https://webserver.com/2000/monitor` &rarr; `http://webserver.com:2000/monitor`.
 You just need to have port 443 open in your local firewall for incoming connections.
 Such a setup is compatible with any client firewall allowing outgoing connections on port 443 to your server (which is very standard).
 Moreover, it has the advantage of allowing you to run the `session_server.py`, `simulation_server.py` and Webots without SSL encryption while still proving a SSL interface to the clients via your web server.
@@ -290,7 +290,7 @@ The host where the client website is running should have a `ajax` named folder a
 
 Sample PHP files are located in "[WEBOTS\_HOME/resources/web/server/](https://github.com/omichel/webots/tree/master/resources/web/templates/)".
 
-#### `start` Simulation Data Download (experimental)
+#### `start` Simulation Data Download (Experimental)
 
 Webots will checkout the simulation data from the provided `url` using a custom URI scheme as examplified below:
 ```
