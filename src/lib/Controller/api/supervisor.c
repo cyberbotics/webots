@@ -1004,7 +1004,7 @@ static bool check_field(WbFieldRef f, const char *func, WbFieldType type, bool c
     int offset = is_importing ? 0 : -1;
 
     if (*index < -(count + 1 + offset) || *index > (count + offset)) {
-      fprintf(stderr, "Error: %s() called with an out-of-bound index: %d (should be  between %d and %d).\n", func, *index,
+      fprintf(stderr, "Error: %s() called with an out-of-bound index: %d (should be between %d and %d).\n", func, *index,
               -count - 1 - offset, count + offset);
       return false;
     }
