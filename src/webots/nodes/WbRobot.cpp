@@ -782,6 +782,10 @@ void WbRobot::writeTfJoint(QDataStream &stream, WbJoint* joint) {
   stream << (unsigned char)C_ROBOT_TREE_JOINT;
   stream << (int)joint->uniqueId();
   stream << (int)joint->parent()->uniqueId();
+  stream << (double)joint->parameters()->position();
+  stream << (double)joint->parameters()->axis().x();
+  stream << (double)joint->parameters()->axis().y();
+  stream << (double)joint->parameters()->axis().z();
 }
 
 void WbRobot::writeTfRobot(QDataStream &stream) {

@@ -423,6 +423,10 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
       node->id = request_read_int32(r);
       int parent_id = request_read_int32(r);
       node->type = WB_TF_NODE_JOINT;
+      node->position = request_read_double(r);
+      node->axis[0] = request_read_double(r);
+      node->axis[1] = request_read_double(r);
+      node->axis[2] = request_read_double(r);
       WbTfNode *parent_node = tf_tree_find(robot.tf_tree, parent_id);
       tf_tree_add(parent_node, node);
     } break;

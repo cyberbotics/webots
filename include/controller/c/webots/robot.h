@@ -67,8 +67,10 @@ struct _WbTfNode {
   int n_children;
   int tag;
   WbTfNodeType type;
-  double translation[3];
-  double rotation[9];
+  double translation[3];  // WB_TF_NODE_LINK
+  double rotation[9];     // WB_TF_NODE_LINK
+  double axis[3];         // WB_TF_NODE_JOINT
+  double position;        // WB_TF_NODE_JOINT
 };
 
 // cart function headers
