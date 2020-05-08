@@ -5,7 +5,8 @@
 This section describes how to setup a simulation web service similar to [robotbenchmark.net](https://robotbenchmark.net) to run Webots in the cloud.
 Such a system may be distributed on several machines.
 One machine runs a session server that communicates with several simulation servers.
-Each machine runs one instance of simulation server that receives requests from the session server and instantiates for each connected client a new Webots instance that communicates directly with the client. Webots instances are executed in a secure environment using [Firejail Security Sandbox](https://firejail.wordpress.com/).
+Each machine runs one instance of simulation server that receives requests from the session server and instantiates for each connected client a new Webots instance that communicates directly with the client.
+Webots instances are executed in a secure environment using [Firejail Security Sandbox](https://firejail.wordpress.com/).
 
 The Web Simulation system is still work in progress and could change in the next releases of Webots.
 
@@ -15,16 +16,10 @@ The Web Simulation system is still work in progress and could change in the next
 
 The prerequisites for the server machine(s) are the following:
 
-- Ubuntu last LTS or Windows (macOS X is also supported, but less tested)
-- Webots
-- Python 3
+- Ubuntu 18.04 or 20.04 LTS (Windows and macOS X are also supported, but should not be used for production purposes)
+- Webots latest version
+- Python 3.8
 - Web service dependencies ([Windows instructions](https://github.com/omichel/webots/wiki/Windows-Optional-Dependencies#webots-web-service), [Linux instructions](https://github.com/omichel/webots/wiki/Linux-Optional-Dependencies#webots-web-service)):
-  - tornado (http://www.tornadoweb.org/en/stable/, `pip install tornado`)
-  - websocket-client (https://pypi.python.org/pypi/websocket-client/, `pip install websocket-client`)
-  - nvidia-ml-py3 (https://pypi.python.org/pypi/nvidia-ml-py3/, `pip install nvidia-ml-py3`)
-  - psutil (https://pypi.python.org/pypi/psutil/, `pip install psutil`)
-  - requests (https://pypi.python.org/pypi/requests/, `pip install requests`)
-  - optional: firejail (https://firejail.wordpress.com/, `apt install firejail`)
 
 Note that the simulation server machines have to met the [Webots system requirements](system-requirements.md).
 They may however be virtual machine, such as AWS instances.
@@ -36,8 +31,7 @@ In order to run Webots in the cloud, you need to run at least one session server
 The simulation servers should run on different machines while the session server may run on a machine where a simulation server is running.
 Both servers are Python scripts: `simulation_server.py` and `session_server.py` located in "[WEBOTS\_HOME/resources/web/server/](https://github.com/omichel/webots/tree/master/resources/web/server/)".
 
-Note that Webots have to be installed on all the machines where the simulation server is running.
-
+Note that Webots have to be installed on all the machines where a simulation server is running.
 
 %figure "Web simulation server network infrastructure"
 
@@ -144,6 +138,7 @@ It manages the load of the simulation server machines and sends the URL of the a
 
 These are the configuration parameters for the session server:
 - `port`: local port on which the server is listening.
+- `portRewrite`: true if local ports are computed from 443 https/wss URLs (apache rewrite rule).
 - `server`: host where this session script is running.
 - `administrator`: email address of administrator that will receive notifications about the status of the simulation server machines.
 - `mailServer`: SMTP mail server host from which the notifications are sent.
@@ -155,6 +150,7 @@ These are the configuration parameters for the session server:
 - `sslCertificate`: path to the certificate file for a SSL enabled server.
 - `sslKey`: path to the private key file for a SSL enabled server.
 - `logDir`: directory where the log file is written. Default value is "WEBOTS\_HOME/resources/web/server/log/session".
+- `debug`: if true, the output will be written to `stdout` instead of the log file.
 
 HTTP request handlers:
 * The `/` request queries the availability of the simulation servers and returns 1 if some are available or 0 if no simulation server is available.
@@ -170,11 +166,13 @@ The simulation server creates and starts a Webots instance with the desired simu
 
 These are the configuration parameters for the simulation server:
 - `port`: local port on which the server is listening (launching Webots instances).
+- `portRewrite`: true if local ports are computed from 443 https/wss URLs (apache rewrite rule).
 - `sslKey`: path to the private key file for a SSL enabled server.
 - `sslCertificate`: path to the certificate file for a SSL enabled server.
 - `projectsDir`: directory in which Webots projects are located.
 - `keyDir`: directory where the website host keys needed for validation are stored. This folder should include a file named as the host (for example "robotbenchmark.net") containing a key identifying it.
 - `logDir`: directory where the log files are written. Default value is "WEBOTS\_HOME/resources/web/server/log/simulation".
+- `debug`: if true, the output will be written to `stdout` instead of the log file.
 - `monitorLogEnabled`: specify if the monitor data have to be stored in a file.
 - `maxConnections`: maximum number of simultaneous Webots instances. Default value is 100.
 
@@ -184,20 +182,80 @@ HTTP request handlers:
 
 * The `/monitor` request opens a page showing some information about the current status of the simulation server machines, i.e the number of Webots instances running, the load of the CPU and GPU, the network usage.
 
-
 WebSocket request handlers:
-* The `/client` request on the simulation server URL will setup a new Webots instance and return the Webots WebSocket URL. The payload have to contain a `init` value with the format `[host, projectPart, worldFilename, user1Id, user1Name, user1Authentication, user2Id, user2Name, customData]`. This data is then used to retrieve the simulation data and setup the Webots project.
+* The `/client` request on the simulation server URL will setup a new Webots instance and return the Webots WebSocket URL. The payload have to contain a `init` value or a `start` value:
+- `init` should contain the following data: `[host, projectPart, worldFilename, user1Id, user1Name, user1Authentication, user2Id, user2Name, customData]`. This data is then used to retrieve the simulation data and setup the Webots project.
+- `start` should contain the following data: `[url]`.
 
 #### Network Settings
 
-Please note that in order to be visible from the outside network, all the port used by the `session_server.py` and `simulation_server.py` scripts should be open (e.g. on simple networks, this can be done by modifying the NAT settings of the router).
-The firewall of the local computer may complain about this operation, in this case, please modify its settings.
+In order to make the web simulation work properly from the outside world, you have two possibilities:
+1. Configure your web server, `session_server.py` and `simulation_server.py` to perform port rewrite.
+Requests arriving to the web server will be redirected to the local network as examplified below:
+`wss://webserver.com/2000/client` &rarr; `ws://webserver.com:2000/client`
+`https://webserver.com/2000/monitor` &rarr; `http://webserver.com:2000/monitor`
+You just need to have port 443 open in your local firewall for incoming connections.
+Such a setup is compatible with any client firewall allowing outgoing connections on port 443 to your server (which is very standard).
+Moreover, it has the advantage of allowing you to run the `session_server.py`, `simulation_server.py` and Webots without SSL encryption while still proving a SSL interface to the clients via your web server.
+2. Open all the ports used by the `session_server.py`, `simulation_server.py` and Webots.
+On simple networks, this can be done by modifying the NAT settings of the router.
+The disadvantage of this method is that local firewalls may block the connections on non-standard ports, and thus some clients may not be able to use the web simulation if they cannot change their firewall rules.
+Another disadvantage is that you must run the `session_server.py`, `simulation_server.py` and Webots in SSL mode if you want to provide a SSL connection to the simulation server, e.g., from a `https` web page.
+
+#### Port Rewrite
+
+Port rewrite can be configured in the `session_server.py` and `simulation_server.py` by simply setting the `portRewrite` option to `true`.
+In the `session_server.py` configuration, the `simulationServers` should be listed using the outside URL, e.g., `hostname/2000` instead of `hostname:2000`.
+You web server should be configured to redirect `http` traffic to `https` and to rewrite ports in URLs for both `https` and `wss`.
+In the Apache web server, this can be achieved by adding the following rules in your `httpd.conf` file:
+
+```
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
+LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
+
+<VirtualHost *:80>
+  ServerName webserver.com
+  ServerAlias www.webserver.com
+
+  [ ... ]
+
+  RewriteEngine on
+
+  RewriteCond %{SERVER_NAME} =%{SERVER_NAME} [OR]
+  RewriteCond %{SERVER_NAME} =www.%{SERVER_NAME}
+  RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+</VirtualHost>
+
+<VirtualHost *:443>
+  ServerName webserver.com
+  ServerAlias www.webserver.com
+
+  [ ... ]
+
+  RewriteEngine on
+
+  RewriteCond %{SERVER_NAME} =www.webserver.com
+  RewriteRule ^ https://webserver.com%{REQUEST_URI} [END,NE,R=permanent]
+
+  # port redirection rules (for session_server.py, simulation_server.py and webots)
+  # websockets (should come first)
+  RewriteCond %{HTTP:Upgrade} websocket [NC]
+  RewriteCond %{HTTP:Connection} upgrade [NC]
+  RewriteRule ^/(\d*)/(.*)$ "ws://%{SERVER_NAME}:$1/$2" [P,L]
+  # http traffic (should come after websocket)
+  RewriteRule ^/(\d*)/(.*)$ "http://%{SERVER_NAME}:$1/$2" [P,L]
+
+</VirtualHost>
+```
 
 #### SSL Encryption
 
-The simulation server works with or without SSL encryption.
-SSL encryption is however strongly recommended.
-The application requires the `fullchain.pem` and `privkey.pem` files and their path have to be specified in the `sslKey` and `sslCertificate` values of session and simulation configuration file.
+Webots, the session and simulation servers can work with or without SSL encryption.
+If you use the port rewrite method, applying SSL encryption to Webots, the session server or the simulation server is useless.
+Otherwise, it is strongly recommended.
+SSL encryption requires the `fullchain.pem` and `privkey.pem` files.
+Their path have to be specified in the `sslKey` and `sslCertificate` values of session and simulation configuration file.
 Note that Webots will look for the file "WEBOTS\_HOME/resources/web/server/ssl/cert.pem", so you may have to rename `fullchain.pem` and copy it in the `ssl` folder or create a soft link.
 
 #### Startup Procedure
@@ -215,7 +273,9 @@ Please make sure that the `WEBOTS_HOME` variable is set before running the simul
 
 ### Website Host
 
-#### Simulation Data Management
+Depending on the `/client` request message, `init` or `start` (experimental), the simulation server will download the simulation data:
+
+#### `init` Simulation Data Download
 
 The host where the client website is running should have a `ajax` named folder at the root level containing these scripts:
 * `download-project.php`: a script that returns a zipped archive containing the Webots simulation files to be run. It receives these parameters as POST data:
@@ -229,6 +289,21 @@ The host where the client website is running should have a `ajax` named folder a
   * `content`: content of the file to be stored.
 
 Sample PHP files are located in "[WEBOTS\_HOME/resources/web/server/](https://github.com/omichel/webots/tree/master/resources/web/templates/)".
+
+#### `start` Simulation Data Download (experimental)
+
+Webots will checkout the simulation data from the provided `url` using a custom URI scheme as examplified below:
+```
+webots://github.com/john/simulation/tag/v1.0/project/worlds/sample.wbt
+└─┬──┘   └───┬────┘└──────┬───────┘└───┬───┘└───────────┬────────────┘
+scheme   authority   repository     version            path
+```
+Currently this protocol only supports public GitHub repositories.
+The `version` part support both `/tag/<tag_name>` and `/branch/<branch_name>` formats to refer either to a Git tag or a Git branch.
+In the above sample URL, the simulation server will checkout the content of the `/project` directory and start Webots with the specified `sample.wbt` world file.
+
+This protocol is experimental and doesn't support modifying the source code of robot controllers from the web interface.
+Also the robot windows are not yet supported.
 
 #### How to Embed a Web Scene in Your Website
 
@@ -260,7 +335,7 @@ This is the API of the `webots.View` class:
 ### Scene Refresh Rate
 
 The scene refresh rate is defined by the `WorldInfo.FPS` field.
-The same fields than for the [web animation](web-animation.md#limitations) are updated.
+The same fields as in the [web animation](web-animation.md#limitations) are updated.
 
 ### Limitations
 
