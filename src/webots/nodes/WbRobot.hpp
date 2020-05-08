@@ -260,8 +260,10 @@ private:
   void clearDevices();
   int computeSimulationMode();
 
-  void writeRobotTransformTree(QDataStream &stream);
+  void writeTfRobot(QDataStream &stream);
   void writeTfLink(QDataStream &stream, WbTransform* link);
+  void writeTfEmptyLink(QDataStream &stream, WbNode* link);
+  void writeTfJoint(QDataStream &stream, WbBasicJoint* joint);
 
 private slots:
   void updateDevicesAfterDestruction();

@@ -765,66 +765,54 @@ void WbRobot::writeTfLink(QDataStream &stream, WbTransform* link) {
     stream << (double)link->rotationMatrix().row(i / 3)[i % 3];
 }
 
-void WbRobot::writeRobotTransformTree(QDataStream &stream) {
+void WbRobot::writeTfEmptyLink(QDataStream &stream, WbNode* link) {
+    stream << (short unsigned int)0;
+    stream << (unsigned char)C_ROBOT_TREE_LINK;
+    stream << (int)link->uniqueId();
+    stream << (int)link->parent()->uniqueId();
+    for (int i = 0; i < 3 + 9; i++) {
+      if (i > 3 && (i - 3) % 4 == 0)
+        stream << (double)1;
+      else
+        stream << (double)0;
+    }
+}
+
+void WbRobot::writeTfJoint(QDataStream &stream, WbBasicJoint* joint) {
   stream << (short unsigned int)0;
-  stream << (unsigned char)C_ROBOT_TREE_LINK;
-  stream << (int)this->uniqueId();
-  stream << (int)0;
-  for (int i = 0; i < 3 + 9; i++) {
-    if (i > 3 && (i - 3) % 4 == 0)
-      stream << (double)1;
-    else
-      stream << (double)0;
-  }
+  stream << (unsigned char)C_ROBOT_TREE_JOINT;
+  stream << (int)joint->uniqueId();
+  stream << (int)joint->parent()->uniqueId();
+}
+
+void WbRobot::writeTfRobot(QDataStream &stream) {
+  writeTfEmptyLink(stream, this);
 
   QQueue<WbNode *> queue;
   queue.enqueue(this);
   while (queue.size() > 0) {
     WbNode *node = queue.dequeue();
     QList<WbNode *> children = node->subNodes(false);
+
     for (int i = 0; i < children.size(); i++) {
       WbNode *child = children.at(i);
       if (dynamic_cast<WbBasicJoint *>(child)) {
-        stream << (short unsigned int)0;
-        stream << (unsigned char)C_ROBOT_TREE_JOINT;
-        stream << (int)child->uniqueId();
-        stream << (int)node->uniqueId();
+        writeTfJoint(stream, (WbBasicJoint *)child);
 
         if (dynamic_cast<WbHingeJoint *>(child)) {
-          // TODO: Add support for WbSliderJoint, WbHingeJoint2 and BallJoint
-
-          WbHingeJoint *childHingeJoint = (WbHingeJoint *)child;
-          if (childHingeJoint->solidEndPoint()) {
-            queue.enqueue(childHingeJoint->solidEndPoint());
-            writeTfLink(stream, childHingeJoint->solidEndPoint());
+          WbHingeJoint *childJoint = (WbHingeJoint *)child;
+          if (childJoint->solidEndPoint()) {
+            queue.enqueue(childJoint->solidEndPoint());
+            writeTfLink(stream, childJoint->solidEndPoint());
           }
         }
+        // TODO: Add support for WbSliderJoint, WbHingeJoint2 and BallJoint
       } else if (dynamic_cast<WbGroup *>(child) || dynamic_cast<WbShape *>(child)) {
         queue.enqueue(child);
-
-        stream << (short unsigned int)0;
-        stream << (unsigned char)C_ROBOT_TREE_LINK;
-        stream << (int)child->uniqueId();
-        stream << (int)node->uniqueId();
-        for (int i = 0; i < 3 + 9; i++) {
-          if (i > 3 && (i - 3) % 4 == 0)
-            stream << (double)1;
-          else
-            stream << (double)0;
-        }
+        writeTfEmptyLink(stream, child);
       } else if (dynamic_cast<WbTransform *>(child)) {
         queue.enqueue(child);
-
-        WbTransform *childTransform = (WbTransform *)child;
-        stream << (short unsigned int)0;
-        stream << (unsigned char)C_ROBOT_TREE_LINK;
-        stream << (int)child->uniqueId();
-        stream << (int)node->uniqueId();
-        stream << (double)childTransform->translation().x();
-        stream << (double)childTransform->translation().y();
-        stream << (double)childTransform->translation().z();
-        for (int i = 0; i < 9; i++)
-          stream << (double)childTransform->rotationMatrix().row(i / 3)[i % 3];
+        writeTfLink(stream, (WbTransform *)child);
       } else {
         // TODO: Handle the others
       }
@@ -1092,7 +1080,7 @@ void WbRobot::writeAnswer(QDataStream &stream) {
   }
 
   if (mShouldWriteRobotTransformTree) {
-    writeRobotTransformTree(stream);
+    writeTfRobot(stream);
     mShouldWriteRobotTransformTree = false;
   }
 
