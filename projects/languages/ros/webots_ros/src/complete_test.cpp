@@ -160,6 +160,11 @@ void cameraCallback(const sensor_msgs::Image::ConstPtr &values) {
   }
 }
 
+void cameraRecognitionCallback(const webots_ros::RecognitionObject::ConstPtr &object) {
+  ROS_INFO("Camera recognition saw a '%s' (time: %d:%d).", object->model.c_str(), object->header.stamp.sec,
+           object->header.stamp.nsec);
+}
+
 void joystickCallback(const webots_ros::Int8Stamped::ConstPtr &value) {
   ROS_INFO("Joystick button pressed: %d (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
 }
@@ -723,6 +728,33 @@ int main(int argc, char **argv) {
     ROS_ERROR("Failed to call service camera_get_zoom_info.");
 
   get_info_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // camera recognition enable
+  ros::ServiceClient enable_camera_recognition_client;
+  webots_ros::set_int camera_recognition_srv;
+  ros::Subscriber sub_camera_recognition;
+
+  enable_camera_recognition_client = n.serviceClient<webots_ros::set_int>(model_name + "/camera/recognition_enable");
+  camera_recognition_srv.request.value = TIME_STEP;
+  if (enable_camera_recognition_client.call(camera_recognition_srv) && camera_recognition_srv.response.success) {
+    ROS_INFO("Camera recognition enabled.");
+    sub_camera_recognition = n.subscribe(model_name + "/camera/recognition_objects", 1, cameraRecognitionCallback);
+    ROS_INFO("Topic for camera recognition initialized.");
+    while (sub_camera_recognition.getNumPublishers() == 0) {
+      ros::spinOnce();
+      time_step_client.call(time_step_srv);
+    }
+    ROS_INFO("Topic for camera recognition connected.");
+  } else {
+    if (camera_recognition_srv.response.success == -1)
+      ROS_ERROR("Sampling period is not valid.");
+    ROS_ERROR("Failed to enable camera recognition.");
+    return 1;
+  }
+
+  sub_camera_recognition.shutdown();
+  enable_camera_recognition_client.shutdown();
   time_step_client.call(time_step_srv);
 
   // camera_save_image

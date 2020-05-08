@@ -96,17 +96,15 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 
   // check if the url is an absolute path
   if (QDir::isAbsolutePath(url)) {
-    QString path = QDir::cleanPath(url);
+    const QString path = QDir::cleanPath(url);
     if (QFileInfo(path).exists())
       return checkIsFile(node, field, path);
-    else {
-      QString error = QObject::tr("'%1' not found.").arg(url);
-      if (node)
-        node->parsingWarn(error);
-      else
-        WbLog::warning(error, false, WbLog::PARSING);
-      return "";
-    }
+    const QString error = QObject::tr("'%1' not found.").arg(url);
+    if (node)
+      node->parsingWarn(error);
+    else
+      WbLog::warning(error, false, WbLog::PARSING);
+    return "";
   }
 
   // check if the url is defined relatively
@@ -119,11 +117,11 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   }
 
   if (displayWarning) {
-    QString warning = QObject::tr("'%1' not found.").arg(url) + "\n" +
-                      QObject::tr("A resource file can be defined relatively to the worlds directory of the current project, "
-                                  "relatively to the worlds directory of the default project, "
-                                  "relatively to its protos directory (if defined in a PROTO), "
-                                  "or absolutely.");
+    const QString warning =
+      QObject::tr("'%1' not found.").arg(url) + "\n" +
+      QObject::tr(
+        "A resource file can be defined relatively to the worlds directory of the current project, relatively to the worlds "
+        "directory of the default project, relatively to its protos directory (if defined in a PROTO), or absolutely.");
     if (node)
       node->parsingWarn(warning);
     else

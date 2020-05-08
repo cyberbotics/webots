@@ -15,6 +15,7 @@
  */
 
 #include <assert.h>
+#include <float.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -1015,17 +1016,31 @@ static bool check_field(WbFieldRef f, const char *func, WbFieldType type, bool c
   return true;
 }
 
-static bool checkVector(const char *function, const double values[], int n) {
+static bool check_float(const char *function, double value) {
+  if (isnan(value)) {
+    fprintf(stderr, "Error: %s() called with a NaN value.\n", function);
+    return false;
+  }
+  if (value > FLT_MAX) {
+    fprintf(stderr, "Error: %s() called with a value greater than FLX_MAX: %g > %g.\n", function, value, FLT_MAX);
+    return false;
+  }
+  if (value < -FLT_MAX) {
+    fprintf(stderr, "Error: %s() called with a value smaller than -FLX_MAX): %g < %g.\n", function, value, -FLT_MAX);
+    return false;
+  }
+  return true;
+}
+
+static bool check_vector(const char *function, const double values[], int n) {
   if (!values) {
     fprintf(stderr, "Error: %s() called with NULL argument.\n", function);
     return false;
   }
   int i;
   for (i = 0; i < n; i++) {
-    if (isnan(values[i])) {
-      fprintf(stderr, "Error: %s() called with a NaN value.\n", function);
+    if (!check_float(function, values[i]))
       return false;
-    }
   }
   return true;  // ok
 }
@@ -1047,6 +1062,29 @@ void wb_supervisor_set_label(int id, const char *text, double x, double y, doubl
                              const char *font) {
   unsigned int color_and_transparency = (unsigned int)color;
   color_and_transparency += (unsigned int)(transparency * 0xff) << 24;
+
+  if (x < 0 || x > 1) {
+    fprintf(stderr, "Error: %s() called with x parameter outside of [0,1] range.\n", __FUNCTION__);
+    return;
+  }
+
+  if (y < 0 || y > 1) {
+    fprintf(stderr, "Error: %s() called with y parameter outside of [0,1] range.\n", __FUNCTION__);
+    return;
+  }
+
+  if (size < 0 || size > 1) {
+    fprintf(stderr, "Error: %s() called with size parameter outside of [0,1] range.\n", __FUNCTION__);
+    return;
+  }
+
+  if (transparency < 0 || transparency > 1) {
+    fprintf(stderr,
+            "Error: %s() called with transparency parameter outside of [0,1] "
+            "range.\n",
+            __FUNCTION__);
+    return;
+  }
 
   if (!robot_check_supervisor(__FUNCTION__))
     return;
@@ -1808,11 +1846,11 @@ void wb_supervisor_node_set_velocity(WbNodeRef node, const double velocity[6]) {
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s called with NULL or invalid 'node' argument.\n", __FUNCTION__);
+      fprintf(stderr, "Error: %s() called with NULL or invalid 'node' argument.\n", __FUNCTION__);
     return;
   }
 
-  if (!checkVector(__FUNCTION__, velocity, 6))
+  if (!check_vector(__FUNCTION__, velocity, 6))
     return;
 
   robot_mutex_lock_step();
@@ -1919,7 +1957,7 @@ void wb_supervisor_node_add_force(WbNodeRef node, const double force[3], bool re
     return;
   }
 
-  if (!checkVector(__FUNCTION__, force, 3))
+  if (!check_vector(__FUNCTION__, force, 3))
     return;
 
   robot_mutex_lock_step();
@@ -1942,10 +1980,10 @@ void wb_supervisor_node_add_force_with_offset(WbNodeRef node, const double force
     return;
   }
 
-  if (!checkVector(__FUNCTION__, force, 3))
+  if (!check_vector(__FUNCTION__, force, 3))
     return;
 
-  if (!checkVector(__FUNCTION__, offset, 3))
+  if (!check_vector(__FUNCTION__, offset, 3))
     return;
 
   robot_mutex_lock_step();
@@ -1970,7 +2008,7 @@ void wb_supervisor_node_add_torque(WbNodeRef node, const double torque[3], bool 
     return;
   }
 
-  if (!checkVector(__FUNCTION__, torque, 3))
+  if (!check_vector(__FUNCTION__, torque, 3))
     return;
 
   robot_mutex_lock_step();
@@ -2224,6 +2262,9 @@ void wb_supervisor_field_set_sf_float(WbFieldRef field, double value) {
   if (!check_field(field, __FUNCTION__, WB_SF_FLOAT, true, NULL, false, true))
     return;
 
+  if (!check_float(__FUNCTION__, value))
+    return;
+
   union WbFieldData data;
   data.sf_float = value;
   field_operation_with_data(field, SET, -1, data);
@@ -2233,7 +2274,7 @@ void wb_supervisor_field_set_sf_vec2f(WbFieldRef field, const double values[2]) 
   if (!check_field(field, __FUNCTION__, WB_SF_VEC2F, true, NULL, false, true))
     return;
 
-  if (!checkVector(__FUNCTION__, values, 2))
+  if (!check_vector(__FUNCTION__, values, 2))
     return;
 
   union WbFieldData data;
@@ -2246,7 +2287,7 @@ void wb_supervisor_field_set_sf_vec3f(WbFieldRef field, const double values[3]) 
   if (!check_field(field, __FUNCTION__, WB_SF_VEC3F, true, NULL, false, true))
     return;
 
-  if (!checkVector(__FUNCTION__, values, 3))
+  if (!check_vector(__FUNCTION__, values, 3))
     return;
 
   union WbFieldData data;
@@ -2264,7 +2305,7 @@ void wb_supervisor_field_set_sf_rotation(WbFieldRef field, const double values[4
   if (!check_field(field, __FUNCTION__, WB_SF_ROTATION, true, NULL, false, true))
     return;
 
-  if (!checkVector(__FUNCTION__, values, 4))
+  if (!check_vector(__FUNCTION__, values, 4))
     return;
 
   if (!isValidRotation(values)) {
@@ -2341,10 +2382,8 @@ void wb_supervisor_field_set_mf_float(WbFieldRef field, int index, double value)
   if (!check_field(field, __FUNCTION__, WB_MF_FLOAT, true, &index, false, true))
     return;
 
-  if (isnan(value)) {
-    fprintf(stderr, "Error: %s() called with NaN argument.\n", __FUNCTION__);
+  if (!check_float(__FUNCTION__, value))
     return;
-  }
 
   union WbFieldData data;
   data.sf_float = value;
@@ -2355,7 +2394,7 @@ void wb_supervisor_field_set_mf_vec2f(WbFieldRef field, int index, const double 
   if (!check_field(field, __FUNCTION__, WB_MF_VEC2F, true, &index, false, true))
     return;
 
-  if (!checkVector(__FUNCTION__, values, 2))
+  if (!check_vector(__FUNCTION__, values, 2))
     return;
 
   union WbFieldData data;
@@ -2368,7 +2407,7 @@ void wb_supervisor_field_set_mf_vec3f(WbFieldRef field, int index, const double 
   if (!check_field(field, __FUNCTION__, WB_MF_VEC3F, true, &index, false, true))
     return;
 
-  if (!checkVector(__FUNCTION__, values, 3))
+  if (!check_vector(__FUNCTION__, values, 3))
     return;
 
   union WbFieldData data;
@@ -2382,7 +2421,7 @@ void wb_supervisor_field_set_mf_rotation(WbFieldRef field, int index, const doub
   if (!check_field(field, __FUNCTION__, WB_MF_ROTATION, true, &index, false, true))
     return;
 
-  if (!checkVector(__FUNCTION__, values, 4))
+  if (!check_vector(__FUNCTION__, values, 4))
     return;
 
   if (!isValidRotation(values)) {
@@ -2457,10 +2496,8 @@ void wb_supervisor_field_insert_mf_float(WbFieldRef field, int index, double val
   if (!check_field(field, __FUNCTION__, WB_MF_FLOAT, true, &index, true, true))
     return;
 
-  if (isnan(value)) {
-    fprintf(stderr, "Error: %s() called with NaN argument.\n", __FUNCTION__);
+  if (!check_float(__FUNCTION__, value))
     return;
-  }
 
   union WbFieldData data;
   data.sf_float = value;
@@ -2472,7 +2509,7 @@ void wb_supervisor_field_insert_mf_vec2f(WbFieldRef field, int index, const doub
   if (!check_field(field, __FUNCTION__, WB_MF_VEC2F, true, &index, true, true))
     return;
 
-  if (!checkVector(__FUNCTION__, values, 2))
+  if (!check_vector(__FUNCTION__, values, 2))
     return;
 
   union WbFieldData data;
@@ -2486,7 +2523,7 @@ void wb_supervisor_field_insert_mf_vec3f(WbFieldRef field, int index, const doub
   if (!check_field(field, __FUNCTION__, WB_MF_VEC3F, true, &index, true, true))
     return;
 
-  if (!checkVector(__FUNCTION__, values, 3))
+  if (!check_vector(__FUNCTION__, values, 3))
     return;
 
   union WbFieldData data;
@@ -2501,7 +2538,7 @@ void wb_supervisor_field_insert_mf_rotation(WbFieldRef field, int index, const d
   if (!check_field(field, __FUNCTION__, WB_MF_ROTATION, true, &index, true, true))
     return;
 
-  if (!checkVector(__FUNCTION__, values, 4))
+  if (!check_vector(__FUNCTION__, values, 4))
     return;
 
   if (!isValidRotation(values)) {

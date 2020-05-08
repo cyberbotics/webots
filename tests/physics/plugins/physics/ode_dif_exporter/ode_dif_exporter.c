@@ -67,7 +67,7 @@ void webots_physics_step() {
 
   if (step_counter == 100) {
     char filename[FILENAME_MAX];
-    sprintf(filename, "%s%code.dif", current_path, SEP);
+    snprintf(filename, sizeof(filename), "%s%code.dif", current_path, SEP);
 
     FILE *f = fopen(filename, "w");
 

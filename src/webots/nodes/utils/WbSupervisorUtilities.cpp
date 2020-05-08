@@ -137,6 +137,7 @@ private:
 class WbVector2FieldSetRequest : public WbFieldSetRequest {
 public:
   WbVector2FieldSetRequest(WbField *f, int index, double x, double y) : WbFieldSetRequest(f, index), mValue(x, y) {
+    mValue.clamp();
     assert((f->type() == WB_SF_VEC2F && dynamic_cast<WbSFVector2 *>(f->value()) && index == -1) ||
            (f->type() == WB_MF_VEC2F && dynamic_cast<WbMFVector2 *>(f->value()) && index >= 0));
   }
@@ -154,6 +155,7 @@ private:
 class WbVector3FieldSetRequest : public WbFieldSetRequest {
 public:
   WbVector3FieldSetRequest(WbField *f, int index, double x, double y, double z) : WbFieldSetRequest(f, index), mValue(x, y, z) {
+    mValue.clamp();
     assert((f->type() == WB_SF_VEC3F && dynamic_cast<WbSFVector3 *>(f->value()) && index == -1) ||
            (f->type() == WB_MF_VEC3F && dynamic_cast<WbMFVector3 *>(f->value()) && index >= 0));
   }
