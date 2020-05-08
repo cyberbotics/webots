@@ -57,7 +57,7 @@ void WbLinearMotor::turnOffMotor() {
 double WbLinearMotor::computeFeedback() const {
   const WbJoint *j = joint();
   if (j == NULL) {  // function available for motorized joints only
-    warn(tr("Force feedback is available for motorized joints only"), false);
+    warn(tr("Force feedback is available for motorized joints only"));
     return 0.0;
   }
   const dJointID jID = j->jointID();

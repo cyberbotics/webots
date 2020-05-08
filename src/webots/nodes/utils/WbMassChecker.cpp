@@ -73,8 +73,8 @@ void WbMassChecker::checkMasses() {
                        .arg(max)
                        .arg(lightestSolid->usefulName())
                        .arg(min));
-      heaviestSolid->warn(QObject::tr("heaviest solid"), false);
-      lightestSolid->warn(QObject::tr("lightest solid"), false);
+      heaviestSolid->warn(QObject::tr("heaviest solid"));
+      lightestSolid->warn(QObject::tr("lightest solid"));
     }
   }
 }

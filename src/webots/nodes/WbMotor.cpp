@@ -193,15 +193,15 @@ void WbMotor::updateControlPID() {
   const WbVector3 &pid = mControlPID->value();
   const double p = pid.x();
   if (p <= 0.0)
-    warn(tr("'controlP' (currently %1) must be positive.").arg(p));
+    parsingWarn(tr("'controlP' (currently %1) must be positive.").arg(p));
 
   const double i = pid.y();
   if (i < 0.0)
-    warn(tr("'controlI' (currently %1) must be non-negative.").arg(i));
+    parsingWarn(tr("'controlI' (currently %1) must be non-negative.").arg(i));
 
   const double d = pid.z();
   if (d < 0.0)
-    warn(tr("'controlD' (currently %1) must be non-negative.").arg(d));
+    parsingWarn(tr("'controlD' (currently %1) must be non-negative.").arg(d));
 
   mErrorIntegral = 0.0;
   mPreviousError = 0.0;
@@ -364,7 +364,7 @@ void WbMotor::enableMotorFeedback(int rate) {
   const WbJoint *const j = joint();
 
   if (j == NULL) {
-    warn(tr("Feedback is available for motorized joints only"), false);
+    warn(tr("Feedback is available for motorized joints only"));
     return;
   }
 
@@ -373,16 +373,14 @@ void WbMotor::enableMotorFeedback(int rate) {
   if (s == NULL) {
     warn(nodeType() == WB_NODE_ROTATIONAL_MOTOR ?
            tr("wb_motor_enable_torque_feedback(): cannot be invoked for a Joint with no end point.") :
-           tr("wb_motor_enable_force_feedback(): cannot be invoked for a Joint with no end point."),
-         false);
+           tr("wb_motor_enable_force_feedback(): cannot be invoked for a Joint with no end point."));
     return;
   }
 
   if (s->physics() == NULL) {
     warn(nodeType() == WB_NODE_ROTATIONAL_MOTOR ?
            tr("wb_motor_enable_torque_feedback(): cannot be invoked for a Joint whose end point has no Physics node.") :
-           tr("wb_motor_enable_force_feedback(): cannot be invoked for a Joint whose end point has no Physics node."),
-         false);
+           tr("wb_motor_enable_force_feedback(): cannot be invoked for a Joint whose end point has no Physics node."));
     return;
   }
 
@@ -390,8 +388,7 @@ void WbMotor::enableMotorFeedback(int rate) {
   if (us->physics() == NULL) {
     warn(nodeType() == WB_NODE_ROTATIONAL_MOTOR ?
            tr("wb_motor_enable_torque_feedback(): cannot be invoked because the parent Solid has no Physics node.") :
-           tr("wb_motor_enable_force_feedback(): cannot be invoked because the parent Solid has no Physics node."),
-         false);
+           tr("wb_motor_enable_force_feedback(): cannot be invoked because the parent Solid has no Physics node."));
     return;
   }
 
@@ -433,7 +430,7 @@ void WbMotor::handleMessage(QDataStream &stream) {
       const double m = mMaxVelocity->value();
       const bool isNegative = mTargetVelocity < 0.0;
       if ((isNegative ? -mTargetVelocity : mTargetVelocity) > m) {
-        warn(tr("The requested velocity %1 exceeds 'maxVelocity' = %2.").arg(mTargetVelocity).arg(m), false);
+        warn(tr("The requested velocity %1 exceeds 'maxVelocity' = %2.").arg(mTargetVelocity).arg(m));
         mTargetVelocity = isNegative ? -m : m;
       }
       awake();
@@ -452,9 +449,9 @@ void WbMotor::handleMessage(QDataStream &stream) {
       stream >> mRawInput;
       if (fabs(mRawInput) > mMotorForceOrTorque) {
         if (nodeType() == WB_NODE_ROTATIONAL_MOTOR)
-          warn(tr("The requested motor torque %1 exceeds 'maxTorque' = %2").arg(mRawInput).arg(mMotorForceOrTorque), false);
+          warn(tr("The requested motor torque %1 exceeds 'maxTorque' = %2").arg(mRawInput).arg(mMotorForceOrTorque));
         else
-          warn(tr("The requested motor force %1 exceeds 'maxForce' = %2").arg(mRawInput).arg(mMotorForceOrTorque), false);
+          warn(tr("The requested motor force %1 exceeds 'maxForce' = %2").arg(mRawInput).arg(mMotorForceOrTorque));
         mRawInput = mRawInput >= 0.0 ? mMotorForceOrTorque : -mMotorForceOrTorque;
       }
       awake();
@@ -465,9 +462,9 @@ void WbMotor::handleMessage(QDataStream &stream) {
       const double m = mMaxForceOrTorque->value();
       if (mMotorForceOrTorque > m) {
         if (nodeType() == WB_NODE_ROTATIONAL_MOTOR)
-          warn(tr("The requested available motor torque %1 exceeds 'maxTorque' = %2").arg(mMotorForceOrTorque).arg(m), false);
+          warn(tr("The requested available motor torque %1 exceeds 'maxTorque' = %2").arg(mMotorForceOrTorque).arg(m));
         else
-          warn(tr("The requested available motor force %1 exceeds 'maxForce' = %2").arg(mMotorForceOrTorque).arg(m), false);
+          warn(tr("The requested available motor force %1 exceeds 'maxForce' = %2").arg(mMotorForceOrTorque).arg(m));
 
         mMotorForceOrTorque = m;
       }
@@ -572,10 +569,10 @@ void WbMotor::setTargetPosition(double tp) {
   if (maxp != minp && !velocityControl) {
     if (tp > maxp) {
       mTargetPosition = maxp;
-      warn(QString("too big requested position: %1 > %2").arg(tp).arg(maxp), false);
+      warn(QString("too big requested position: %1 > %2").arg(tp).arg(maxp));
     } else if (tp < minp) {
       mTargetPosition = minp;
-      warn(QString("too low requested position: %1 < %2").arg(tp).arg(minp), false);
+      warn(QString("too low requested position: %1 < %2").arg(tp).arg(minp));
     }
   }
 

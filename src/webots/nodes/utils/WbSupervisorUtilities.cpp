@@ -485,7 +485,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       }
 
       if (!fileFound) {
-        mRobot->warn(tr("wb_supervisor_set_label() called with an invalid '%1' font, 'Arial' used instead.").arg(font), false);
+        mRobot->warn(tr("wb_supervisor_set_label() called with an invalid '%1' font, 'Arial' used instead.").arg(font));
         filename = WbStandardPaths::fontsPath() + "Arial.ttf";
       }
 
@@ -498,7 +498,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         WbWrenLabelOverlay *label = WbWrenLabelOverlay::createOrRetrieve(labelId, filename);
         QString error = label->getFontError();
         if (error != "") {
-          mRobot->warn(tr(error.toStdString().c_str()), false);
+          mRobot->warn(tr(error.toStdString().c_str()));
           return;
         }
         label->setText(text);
@@ -508,7 +508,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         label->applyChangesToWren();
         emit labelChanged(createLabelUpdateString(label));
       } else
-        mRobot->warn(tr("wb_supervisor_set_label() is out of range. The supported range is [0, %1].").arg(MAX_LABELS), false);
+        mRobot->warn(tr("wb_supervisor_set_label() is out of range. The supported range is [0, %1].").arg(MAX_LABELS));
 
       return;
     }
@@ -614,7 +614,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbTransform *const transform = dynamic_cast<WbTransform *>(node);
       mNodeGetPosition = transform;
       if (!transform)
-        mRobot->warn(tr("wb_supervisor_node_get_position() can exclusively be used with Transform (or derived)."), false);
+        mRobot->warn(tr("wb_supervisor_node_get_position() can exclusively be used with Transform (or derived)."));
       return;
     }
     case C_SUPERVISOR_NODE_GET_ORIENTATION: {
@@ -626,7 +626,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbTransform *const transform = dynamic_cast<WbTransform *>(node);
       mNodeGetOrientation = transform;
       if (!transform)
-        mRobot->warn(tr("wb_supervisor_node_get_orientation() can exclusively be used with Transform (or derived)."), false);
+        mRobot->warn(tr("wb_supervisor_node_get_orientation() can exclusively be used with Transform (or derived)."));
       return;
     }
     case C_SUPERVISOR_NODE_GET_CENTER_OF_MASS: {
@@ -638,7 +638,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       mNodeGetCenterOfMass = solid;
       if (!solid)
-        mRobot->warn(tr("wb_supervisor_node_get_center_of_mass() can exclusively be used with Solid"), false);
+        mRobot->warn(tr("wb_supervisor_node_get_center_of_mass() can exclusively be used with Solid"));
       return;
     }
     case C_SUPERVISOR_NODE_GET_CONTACT_POINTS: {
@@ -652,8 +652,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       if (!solid)
         mRobot->warn(
           tr("wb_supervisor_node_get_number_of_contact_points() and wb_supervisor_node_get_contact_point() can exclusively "
-             "be used with a Solid"),
-          false);
+             "be used with a Solid"));
       return;
     }
     case C_SUPERVISOR_NODE_GET_STATIC_BALANCE: {
@@ -665,7 +664,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       mNodeGetStaticBalance = solid;
       if (!solid || !solid->isTopLevel())
-        mRobot->warn(tr("wb_supervisor_node_get_static_balance() can exclusively be used with a top Solid"), false);
+        mRobot->warn(tr("wb_supervisor_node_get_static_balance() can exclusively be used with a top Solid"));
       return;
     }
     case C_SUPERVISOR_NODE_GET_VELOCITY: {
@@ -678,7 +677,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       if (solid)
         mNodeGetVelocity = solid;
       else
-        mRobot->warn(tr("wb_supervisor_node_get_velocity() can exclusively be used with a Solid"), false);
+        mRobot->warn(tr("wb_supervisor_node_get_velocity() can exclusively be used with a Solid"));
       return;
     }
     case C_SUPERVISOR_NODE_SET_VELOCITY: {
@@ -701,7 +700,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         solid->setLinearVelocity(linearVelocity);
         solid->setAngularVelocity(angularVelocity);
       } else
-        mRobot->warn(tr("wb_supervisor_node_set_velocity() can exclusively be used with a Solid"), false);
+        mRobot->warn(tr("wb_supervisor_node_set_velocity() can exclusively be used with a Solid"));
       return;
     }
     case C_SUPERVISOR_NODE_RESET_PHYSICS: {
@@ -714,7 +713,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       if (solid)
         solid->resetPhysics();
       else
-        mRobot->warn(tr("wb_supervisor_node_reset_physics() can exclusively be used with a Solid"), false);
+        mRobot->warn(tr("wb_supervisor_node_reset_physics() can exclusively be used with a Solid"));
       return;
     }
     case C_SUPERVISOR_NODE_RESTART_CONTROLLER: {
@@ -727,7 +726,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       if (robot)  // postpone the restart to the end of the physic step.
         robot->setControllerNeedRestart();
       else
-        mRobot->warn(tr("wb_supervisor_node_restart_controller() can exclusively be used with a Robot"), false);
+        mRobot->warn(tr("wb_supervisor_node_restart_controller() can exclusively be used with a Robot"));
       return;
     }
     case C_SUPERVISOR_NODE_SET_VISIBILITY: {
@@ -784,9 +783,9 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         if (body)
           dBodyAddForceAtRelPos(body, force.x(), force.y(), force.z(), position.x(), position.y(), position.z());
         else
-          mRobot->warn(tr("wb_supervisor_node_add_force() can't be used with a kinematic Solid"), false);
+          mRobot->warn(tr("wb_supervisor_node_add_force() can't be used with a kinematic Solid"));
       } else
-        mRobot->warn(tr("wb_supervisor_node_add_force() can exclusively be used with a Solid"), false);
+        mRobot->warn(tr("wb_supervisor_node_add_force() can exclusively be used with a Solid"));
       return;
     }
     case C_SUPERVISOR_NODE_ADD_FORCE_WITH_OFFSET: {
@@ -818,9 +817,9 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         if (body)
           dBodyAddForceAtPos(body, force.x(), force.y(), force.z(), offset.x(), offset.y(), offset.z());
         else
-          mRobot->warn(tr("wb_supervisor_node_add_force_with_offset() can't be used with a kinematic Solid"), false);
+          mRobot->warn(tr("wb_supervisor_node_add_force_with_offset() can't be used with a kinematic Solid"));
       } else
-        mRobot->warn(tr("wb_supervisor_node_add_force_with_offset() can exclusively be used with a Solid"), false);
+        mRobot->warn(tr("wb_supervisor_node_add_force_with_offset() can exclusively be used with a Solid"));
       return;
     }
     case C_SUPERVISOR_NODE_ADD_TORQUE: {
@@ -844,9 +843,9 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         if (body)
           dBodyAddTorque(body, torque.x(), torque.y(), torque.z());
         else
-          mRobot->warn(tr("wb_supervisor_node_add_torque() can't be used with a kinematic Solid"), false);
+          mRobot->warn(tr("wb_supervisor_node_add_torque() can't be used with a kinematic Solid"));
       } else
-        mRobot->warn(tr("wb_supervisor_node_add_torque() can exclusively be used with a Solid"), false);
+        mRobot->warn(tr("wb_supervisor_node_add_torque() can exclusively be used with a Solid"));
       return;
     }
     case C_SUPERVISOR_LOAD_WORLD: {
@@ -1173,10 +1172,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           WbWorldInfo *worldInfo = dynamic_cast<WbWorldInfo *>(node);
           if (viewpoint || worldInfo) {
             node = NULL;
-            mRobot->warn(
-              tr(
-                "wb_supervisor_field_remove_mf() called with the 'index' argument referring to a Viewpoint or WorldInfo node."),
-              false);
+            mRobot->warn(tr(
+              "wb_supervisor_field_remove_mf() called with the 'index' argument referring to a Viewpoint or WorldInfo node."));
           }
 
           if (node) {
@@ -1207,9 +1204,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 #ifdef _WIN32
       if (!WbVirtualRealityHeadset::isInUse())
 #endif
-        mRobot->warn(
-          tr("wb_supervisor_virtual_reality_headset_get_position() called but no virtual reality headset is currently in use."),
-          false);
+        mRobot->warn(tr(
+          "wb_supervisor_virtual_reality_headset_get_position() called but no virtual reality headset is currently in use."));
 #ifdef _WIN32
       else if (WbVirtualRealityHeadset::instance()->isPositionTrackingEnabled())
         mVirtualRealityHeadsetPositionRequested = true;
@@ -1222,8 +1218,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 #endif
         mRobot->warn(
           tr("wb_supervisor_virtual_reality_headset_get_orientation() called but no virtual reality headset is currently in "
-             "use."),
-          false);
+             "use."));
 #ifdef _WIN32
       else if (WbVirtualRealityHeadset::instance()->isOrientationTrackingEnabled())
         mVirtualRealityHeadsetOrientationRequested = true;

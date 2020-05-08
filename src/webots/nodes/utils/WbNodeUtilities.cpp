@@ -1339,7 +1339,7 @@ bool WbNodeUtilities::validateInsertedNode(WbField *field, const WbNode *newNode
             QObject::tr("Cannot insert %1 node in '%2' field of %3 node: only a slot can be added in the parent slot.");
 
         if (!errorMessage.isEmpty()) {
-          internalParentNode->warn(errorMessage.arg(newNode->modelName()).arg(field->name()).arg(parentNode->nodeModelName()));
+          internalParentNode->parsingWarn(errorMessage.arg(newNode->modelName()).arg(field->name()).arg(parentNode->nodeModelName()));
           return false;
         }
 

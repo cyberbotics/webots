@@ -133,7 +133,7 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
         node->validate();
         mRoot->addChild(node);
       } else
-        mRoot->warn(errorMessage);
+        mRoot->parsingWarn(errorMessage);
     }
     WbTemplateManager::instance()->blockRegeneration(false);
 

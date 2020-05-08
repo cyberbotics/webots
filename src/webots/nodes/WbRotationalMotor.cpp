@@ -86,7 +86,7 @@ void WbRotationalMotor::turnOffMotor() {
 double WbRotationalMotor::computeFeedback() const {
   const WbJoint *j = joint();
   if (j == NULL) {  // function available for motorized joints only
-    warn(tr("Feedback is available for motorized joints only"), false);
+    warn(tr("Feedback is available for motorized joints only"));
     return 0.0;
   }
   const dJointID jID = j->jointID();
@@ -98,7 +98,7 @@ double WbRotationalMotor::computeFeedback() const {
   assert(hinge || hinge2);
   if (hinge2 && dJointGetNumBodies(jID) == 0) {
     // invalid hinge2 linked to static environment
-    warn(tr("Hinge2Joint is invalid: feedback is not available."), false);
+    warn(tr("Hinge2Joint is invalid: feedback is not available."));
     return 0.0;
   }
 

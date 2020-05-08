@@ -89,7 +89,7 @@ void WbLed::updateChildren() {
 
   findMaterialsAndLights(this);
   if (mGradual->isTrue() && colorsCount() > 1)
-    warn(tr("Too many colors defined for a gradual LED."));
+    parsingWarn(tr("Too many colors defined for a gradual LED."));
 
   // update color of lights and materials
   setMaterialsAndLightsColor();
@@ -137,7 +137,7 @@ void WbLed::findMaterialsAndLights(const WbGroup *group) {
   }
 
   if (group == this && !isAnyMaterialOrLightFound())
-    warn(tr("No PBRAppearance, Material and no Light found. "
+    parsingWarn(tr("No PBRAppearance, Material and no Light found. "
             "The first child of a LED should be either a Shape, a Light "
             "or a Group containing Shape and Light nodes."));
 }

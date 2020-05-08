@@ -313,7 +313,7 @@ void WbSphere::rescale(const WbVector3 &scale) {
 
 dGeomID WbSphere::createOdeGeom(dSpaceID space) {
   if (mRadius->value() <= 0.0) {
-    warn(tr("'radius' must be positive when used in 'boundingObject'."));
+    parsingWarn(tr("'radius' must be positive when used in 'boundingObject'."));
     return NULL;
   }
 
@@ -346,7 +346,7 @@ double WbSphere::scaledRadius() const {
 bool WbSphere::isSuitableForInsertionInBoundingObject(bool warning) const {
   const bool invalidRadius = mRadius->value() <= 0.0;
   if (warning && invalidRadius)
-    warn(tr("'radius' must be positive when used in 'boundingObject'."));
+    parsingWarn(tr("'radius' must be positive when used in 'boundingObject'."));
   return !invalidRadius;
 }
 
@@ -413,6 +413,6 @@ void WbSphere::recomputeBoundingSphere() const {
 ////////////////////////
 
 WbVector3 WbSphere::computeFrictionDirection(const WbVector3 &normal) const {
-  warn(tr("A Sphere is used in a Bounding object using an asymmetric friction. Sphere does not support asymmetric friction"));
+  parsingWarn(tr("A Sphere is used in a Bounding object using an asymmetric friction. Sphere does not support asymmetric friction"));
   return WbVector3(0, 0, 0);
 }

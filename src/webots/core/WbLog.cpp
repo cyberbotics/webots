@@ -165,6 +165,14 @@ const QString &WbLog::levelName(Level level) {
   return names.at(level);
 };
 
+void WbLog::appendStdout(const QString &message, Filter filter) {
+  appendStdout(message, filterName(filter));
+}
+
+void WbLog::appendStderr(const QString &message, Filter filter) {
+  appendStderr(message, filterName(filter));
+}
+
 void WbLog::appendStdout(const QString &message, const QString &name) {
   emit instance()->logEmitted(STDOUT, message, false, name);
 }

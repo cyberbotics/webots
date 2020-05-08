@@ -116,7 +116,7 @@ void WbPointLight::updateAttenuation() {
     return;
 
   if (mAttenuation->value().x() > 0.0 || mAttenuation->value().y() > 0.0)
-    warn(tr("A quadratic 'attenuation' should be preferred to have a realistic simulation of light. "
+    parsingWarn(tr("A quadratic 'attenuation' should be preferred to have a realistic simulation of light. "
             "Only the third component of the 'attenuation' field should be greater than 0."));
 
   checkAmbientAndAttenuationExclusivity();
@@ -161,7 +161,7 @@ void WbPointLight::updateColor() {
 
 void WbPointLight::checkAmbientAndAttenuationExclusivity() {
   if (mAttenuation->value() != WbVector3(1.0, 0.0, 0.0) && ambientIntensity() != 0.0) {
-    warn(tr("'ambientIntensity' and 'attenuation' cannot differ from their default values at the same time. 'ambientIntensity' "
+    parsingWarn(tr("'ambientIntensity' and 'attenuation' cannot differ from their default values at the same time. 'ambientIntensity' "
             "was changed to 0."));
     setAmbientIntensity(0.0);
   }
@@ -196,7 +196,7 @@ void WbPointLight::applyLightVisibilityToWren() {
   const int maxCount = wr_config_get_max_active_point_light_count();
   const int activeCount = wr_scene_get_active_point_light_count(wr_scene_get_instance());
   if (activeCount == maxCount)
-    warn(
+    parsingWarn(
       tr("Maximum number of active point lights (%1) has been reached, newly added lights won't be rendered.").arg(maxCount));
 }
 

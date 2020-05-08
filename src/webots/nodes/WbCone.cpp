@@ -389,6 +389,6 @@ void WbCone::recomputeBoundingSphere() const {
 ////////////////////////
 
 WbVector3 WbCone::computeFrictionDirection(const WbVector3 &normal) const {
-  warn(tr("A Cone is used in a Bounding object using an asymmetric friction. Cone does not support asymmetric friction"));
+  parsingWarn(tr("A Cone is used in a Bounding object using an asymmetric friction. Cone does not support asymmetric friction"));
   return WbVector3(0, 0, 0);
 }

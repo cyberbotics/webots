@@ -139,7 +139,7 @@ void WbConnector::updateType() {
   else if (type == "passive")
     mFaceType = PASSIVE;
   else {
-    warn(tr("Unknown 'type' \"%1\": locking disabled.").arg(type));
+    parsingWarn(tr("Unknown 'type' \"%1\": locking disabled.").arg(type));
     mFaceType = UNKNOWN;
   }
 }
@@ -147,7 +147,7 @@ void WbConnector::updateType() {
 void WbConnector::updateIsLocked() {
   if (mFaceType == PASSIVE) {
     if (mIsLocked->isTrue()) {
-      warn(tr("Passive connectors cannot be locked."));
+      parsingWarn(tr("Passive connectors cannot be locked."));
       mIsLocked->setFalse();
     }
     return;
@@ -161,7 +161,7 @@ void WbConnector::updateIsLocked() {
 
 void WbConnector::updateNumberOfRotations() {
   if (mNumberOfRotations->value() < 0) {
-    warn(tr("'numberOfRotations' must be positive or zero."));
+    parsingWarn(tr("'numberOfRotations' must be positive or zero."));
     mNumberOfRotations->setValue(0);
   }
   applyOptionalRenderingToWren();
@@ -169,7 +169,7 @@ void WbConnector::updateNumberOfRotations() {
 
 void WbConnector::updateDistanceTolerance() {
   if (mDistanceTolerance->value() < 0.0) {
-    warn(tr("'distanceTolerance' must be positive or zero."));
+    parsingWarn(tr("'distanceTolerance' must be positive or zero."));
     mDistanceTolerance->setValue(0.0);
   }
   mMinDist2 = mDistanceTolerance->value() * mDistanceTolerance->value();
@@ -177,24 +177,24 @@ void WbConnector::updateDistanceTolerance() {
 
 void WbConnector::updateAxisTolerance() {
   if (mAxisTolerance->clip(0.0, M_PI))
-    warn(tr("'axisTolerance' must be between 0 and pi."));
+    parsingWarn(tr("'axisTolerance' must be between 0 and pi."));
 }
 
 void WbConnector::updateRotationTolerance() {
   if (mRotationTolerance->clip(0.0, M_PI))
-    warn(tr("'rotationTolerance' must between 0 and pi."));
+    parsingWarn(tr("'rotationTolerance' must between 0 and pi."));
 }
 
 void WbConnector::updateTensileStrength() {
   if (mTensileStrength->value() < 0.0 && mTensileStrength->value() != -1.0) {
-    warn(tr("'tensileStrength' must be positive or -1 (infinite)."));
+    parsingWarn(tr("'tensileStrength' must be positive or -1 (infinite)."));
     mTensileStrength->setValue(-1.0);
   }
 }
 
 void WbConnector::updateShearStrength() {
   if (mShearStrength->value() < 0.0 && mShearStrength->value() != -1.0) {
-    warn(tr("'shearStrength' must be positive or -1 (infinite)."));
+    parsingWarn(tr("'shearStrength' must be positive or -1 (infinite)."));
     mShearStrength->setValue(-1.0);
   }
 }
@@ -408,7 +408,7 @@ void WbConnector::createFixedJoint(WbConnector *other) {
   dBodyID b1 = upperSolid()->bodyMerger();
   dBodyID b2 = other->upperSolid()->bodyMerger();
   if (!b1 && !b2) {
-    warn(tr("Connectors could not be attached because none of their parent nodes have Physics nodes."), false);
+    warn(tr("Connectors could not be attached because none of their parent nodes have Physics nodes."));
     return;
   }
 
@@ -449,7 +449,7 @@ void WbConnector::attachTo(WbConnector *other) {
   dBodyID b1 = upperSolid()->bodyMerger();
   dBodyID b2 = other->upperSolid()->bodyMerger();
   if (!b1 && !b2) {
-    warn(tr("Connectors could not be attached because none of their parent nodes have Physics nodes."), false);
+    warn(tr("Connectors could not be attached because none of their parent nodes have Physics nodes."));
     return;
   }
 
@@ -593,7 +593,7 @@ void WbConnector::prePhysicsStep(double ms) {
 // locking required by controller
 void WbConnector::lock() {
   if (mFaceType == PASSIVE) {
-    warn(tr("Passive connectors cannot lock."));
+    parsingWarn(tr("Passive connectors cannot lock."));
     return;
   }
 
@@ -609,7 +609,7 @@ void WbConnector::lock() {
 // unlocking required by controller
 void WbConnector::unlock() {
   if (mFaceType == PASSIVE) {
-    warn(tr("Passive connectors cannot lock."));
+    parsingWarn(tr("Passive connectors cannot lock."));
     return;
   }
 

@@ -99,11 +99,11 @@ void WbCamera::init() {
   // backward compatibility
   WbSFString *type = findSFString("type");
   if (type->value().startsWith('r', Qt::CaseInsensitive))
-    warn("Range finder type is not available for camera since Webots 8.4, please use a RangeFinder node instead.");
+    parsingWarn("Range finder type is not available for camera since Webots 8.4, please use a RangeFinder node instead.");
 
   WbSFDouble *colorNoise = findSFDouble("colorNoise");
   if (colorNoise->value() != 0.0) {  // Introduced in Webots 8.4.0
-    warn("Deprecated 'colorNoise' field, please use the 'noise' field instead.");
+    parsingWarn("Deprecated 'colorNoise' field, please use the 'noise' field instead.");
     if (mNoise->value() == 0.0)
       mNoise->setValue(colorNoise->value());
     colorNoise->setValue(0.0);
@@ -548,10 +548,9 @@ void WbCamera::handleMessage(QDataStream &stream) {
           mFieldOfView->setValue(fov);
         else
           warn(
-            tr("wb_camera_set_fov(%1) out of zoom range [%2, %3].").arg(fov).arg(z->minFieldOfView()).arg(z->maxFieldOfView()),
-            false);
+            tr("wb_camera_set_fov(%1) out of zoom range [%2, %3].").arg(fov).arg(z->minFieldOfView()).arg(z->maxFieldOfView()));
       } else
-        warn(tr("wb_camera_set_fov() cannot be applied to this camera: missing 'zoom'."), false);
+        warn(tr("wb_camera_set_fov() cannot be applied to this camera: missing 'zoom'."));
       break;
     }
     case C_CAMERA_SET_FOCAL: {
@@ -566,10 +565,9 @@ void WbCamera::handleMessage(QDataStream &stream) {
           warn(tr("wb_camera_set_focal_distance(%1) out of focus range [%2, %3].")
                  .arg(focalDistance)
                  .arg(f->minFocalDistance())
-                 .arg(f->maxFocalDistance()),
-               false);
+                 .arg(f->maxFocalDistance()));
       } else
-        warn(tr("wb_camera_set_focal_distance() cannot be applied to this camera: missing 'focus'."), false);
+        warn(tr("wb_camera_set_focal_distance() cannot be applied to this camera: missing 'focus'."));
       break;
     }
     case C_CAMERA_SET_RECOGNITION_SAMPLING_PERIOD: {
@@ -809,7 +807,7 @@ void WbCamera::updateRecognition() {
 void WbCamera::updateLensFlare() {
   if (hasBeenSetup() && lensFlare()) {
     if (spherical()) {
-      warn(tr("Lens flare cannot be applied to spherical cameras."));
+      parsingWarn(tr("Lens flare cannot be applied to spherical cameras."));
       return;
     }
     WrViewport *viewport = mWrenCamera->getSubViewport(WbWrenCamera::CAMERA_ORIENTATION_FRONT);
@@ -825,7 +823,7 @@ void WbCamera::updateNear() {
 
   if (mFar->value() > 0.0 and mFar->value() < mNear->value()) {
     mNear->setValue(mFar->value());
-    warn(tr("'near' is greater than 'far'. Setting 'near' to %1.").arg(mNear->value()));
+    parsingWarn(tr("'near' is greater than 'far'. Setting 'near' to %1.").arg(mNear->value()));
   }
 
   if (hasBeenSetup())
@@ -844,7 +842,7 @@ void WbCamera::updateFar() {
 
   if (mFar->value() > 0.0 and mFar->value() < mNear->value()) {
     mFar->setValue(mNear->value() + 1.0);
-    warn(tr("'far' is less than 'near'. Setting 'far' to %1.").arg(mFar->value()));
+    parsingWarn(tr("'far' is less than 'near'. Setting 'far' to %1.").arg(mFar->value()));
     return;
   }
 
@@ -888,7 +886,7 @@ void WbCamera::updateNoiseMaskUrl() {
     if (!fileName.isEmpty()) {
       const QString error = mWrenCamera->setNoiseMask(fileName.toUtf8().constData());
       if (!error.isEmpty())
-        warn(error);
+        parsingWarn(error);
     }
   }
 }

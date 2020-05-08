@@ -161,7 +161,7 @@ void WbCharger::findMaterialsAndLights(const WbGroup *const g) {
     }
   }
   if (g == this && !isAnyMaterialOrLightFound()) {
-    warn(tr("No Material and no Light found. "
+    parsingWarn(tr("No Material and no Light found. "
             "The first child of a Charger should be either a Shape, a Light "
             "or a Group containing Shape and Light nodes."));
   }

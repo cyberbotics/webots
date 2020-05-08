@@ -177,7 +177,7 @@ void WbField::checkValueIsAccepted() {
       mvalue->removeItem(refusedIndex);
     }
     if (parentNode())
-      parentNode()->warn(error);
+      parentNode()->parsingWarn(error);
     else
       WbLog::warning(error, false, WbLog::PARSING);
   }

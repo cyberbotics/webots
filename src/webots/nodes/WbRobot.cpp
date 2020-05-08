@@ -138,7 +138,7 @@ void WbRobot::init() {
 
   WbSFString *data = findSFString("data");
   if (data->value() != "") {  // Introduced in Webots 2018a
-    warn("Deprecated 'data' field, please use the 'customData' field instead.");
+    parsingWarn("Deprecated 'data' field, please use the 'customData' field instead.");
     if (mCustomData->value() == "")
       mCustomData->setValue(data->value());
     data->setValue("");
@@ -206,7 +206,7 @@ void WbRobot::postFinalize() {
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbRobot::updateSimulationMode);
 
   if (absoluteScale() != WbVector3(1.0, 1.0, 1.0))
-    warn(tr("This Robot node is scaled: this is discouraged as it could compromise the correct physical behavior."));
+    parsingWarn(tr("This Robot node is scaled: this is discouraged as it could compromise the correct physical behavior."));
 }
 
 void WbRobot::reset() {
@@ -318,8 +318,8 @@ void WbRobot::addDevices(WbNode *node) {
       foreach (WbDevice *deviceB, mDevices) {
         if (deviceA != deviceB && deviceA->deviceName() == deviceB->deviceName() &&
             !displayedWarnings.contains(deviceA->deviceName())) {
-          warn(tr("At least two devices are sharing the same name (\"%1\") while unique names are required.")
-                 .arg(deviceA->deviceName()));
+          parsingWarn(tr("At least two devices are sharing the same name (\"%1\") while unique names are required.")
+                        .arg(deviceA->deviceName()));
           displayedWarnings << deviceA->deviceName();
         }
       }
@@ -425,7 +425,7 @@ void WbRobot::updateWindow() {
     if (!key.isEmpty()) {
       const QString &absoluteFilePath = searchDynamicLibraryAbsolutePath(key, "robot_windows");
       if (absoluteFilePath.isEmpty() && windowFile().isEmpty())  // not a HTML robot window
-        warn(tr("The robot window library has not been found."), false);
+        warn(tr("The robot window library has not been found."));
       else
         mAbsoluteWindowFilename = absoluteFilePath;
     }
@@ -439,7 +439,7 @@ void WbRobot::updateWindow() {
     mAbsoluteWindowFilename = WbStandardPaths::resourcesRobotWindowsPluginsPath() + "generic/" +
                               WbStandardPaths::dynamicLibraryPrefix() + "generic" + WbStandardPaths::dynamicLibraryExtension();
     if (!QFile::exists(mAbsoluteWindowFilename))
-      warn(tr("The generic robot window is not found. Please check your Webots installation."), false);
+      warn(tr("The generic robot window is not found. Please check your Webots installation."));
   }
 
   if (!mAbsoluteWindowFilename.isEmpty())
@@ -454,7 +454,7 @@ void WbRobot::updateRemoteControl() {
     if (!key.isEmpty()) {
       const QString &absoluteFilePath = searchDynamicLibraryAbsolutePath(key, "remote_controls");
       if (absoluteFilePath.isEmpty())
-        warn(tr("The remote control library has not been found."), false);
+        warn(tr("The remote control library has not been found."));
       else
         mAbsoluteRemoteControlFilename = absoluteFilePath;
     }
@@ -493,7 +493,7 @@ void WbRobot::updateControllerDir() {
       const int otherSize = path.size();
       for (int i = 0; i < otherSize; ++i)
         warning += "\n" + path[i];
-      warn(warning, false);
+      warn(warning);
     }
   }
 
@@ -820,7 +820,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
             mJoystickConfigureRequest = true;
             mJoystickTimer->start(mJoystickInterface->updateRate());
           } else {
-            warn(mJoystickInterface->initializationError(), false);
+            warn(mJoystickInterface->initializationError());
             delete mJoystickInterface;
             mJoystickInterface = NULL;
           }

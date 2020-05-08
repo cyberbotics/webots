@@ -157,7 +157,7 @@ void WbImageTexture::updateWrenTexture() {
           if (mImage->save(tmpFileName))
             cQualityChangedTexturesList.insert(filePath);
           else
-            warn(tr("Cannot save texture with reduced quality to temporary file '%1'.").arg(tmpFileName), false);
+            warn(tr("Cannot save texture with reduced quality to temporary file '%1'.").arg(tmpFileName));
         }
       }
 
@@ -172,7 +172,7 @@ void WbImageTexture::updateWrenTexture() {
 
       WbWrenOpenGlContext::doneWren();
     } else
-      warn(tr("Cannot load texture '%1': %2.").arg(filePath).arg(imageReader.errorString()), false);
+      warn(tr("Cannot load texture '%1': %2.").arg(filePath).arg(imageReader.errorString()));
   } else
     mIsMainTextureTransparent = wr_texture_is_translucent(WR_TEXTURE(texture));
 

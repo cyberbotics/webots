@@ -99,17 +99,17 @@ void WbPointSet::setWrenMaterial(WrMaterial *material, bool castShadows) {
 
 bool WbPointSet::sanitizeFields() {
   if (!coord() || coord()->point().isEmpty()) {
-    warn(tr("A non-empty 'Coordinate' node should be present in the 'coord' field."));
+    parsingWarn(tr("A non-empty 'Coordinate' node should be present in the 'coord' field."));
     return false;
   }
 
   if (color() && color()->color().size() != coord()->pointSize()) {
-    warn(tr("If a 'Color' node is present in the 'color' field, it should have the same number of component as the "
+    parsingWarn(tr("If a 'Color' node is present in the 'color' field, it should have the same number of component as the "
             "'Coordinate' node in the 'coord' field."));
     if (color()->color().isEmpty())
       return false;
     else
-      warn(tr("Only the %1 first points will be drawn.").arg(qMin(color()->color().size(), coord()->point().size())));
+      parsingWarn(tr("Only the %1 first points will be drawn.").arg(qMin(color()->color().size(), coord()->point().size())));
   }
 
   return true;

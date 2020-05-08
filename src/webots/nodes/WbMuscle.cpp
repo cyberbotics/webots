@@ -56,7 +56,7 @@ void WbMuscle::init() {
   // deprecated field
   mMaxRadius = findSFDouble("maxRadius");
   if (mVolume->value() == 0.01 && mMaxRadius->value() != 0.0)
-    warn(tr("'maxRadius' field is deprecated, please use the 'volume' field instead."));
+    parsingWarn(tr("'maxRadius' field is deprecated, please use the 'volume' field instead."));
 
   mEndPoint = NULL;
   mHeight = 0.1;

@@ -139,7 +139,7 @@ bool WbCylinder::sanitizeFields() {
     return false;
   if (mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && isInBoundingObject() &&
       !WbNodeUtilities::hasAUseNodeAncestor(this)) {
-    warn(tr("'subdivision' value has no effect to physical 'boundingObject' geometry. "
+    parsingWarn(tr("'subdivision' value has no effect to physical 'boundingObject' geometry. "
             "A minimum value of %2 is used for the representation.")
            .arg(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION));
     mSubdivision->setValue(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION);
@@ -313,12 +313,12 @@ void WbCylinder::updateScale() {
 
 dGeomID WbCylinder::createOdeGeom(dSpaceID space) {
   if (mRadius->value() <= 0.0) {
-    warn(tr("'radius' must be positive when used in a 'boundingObject'."));
+    parsingWarn(tr("'radius' must be positive when used in a 'boundingObject'."));
     return NULL;
   }
 
   if (mHeight->value() <= 0.0) {
-    warn(tr("'height' must be positive when used in a 'boundingObject'."));
+    parsingWarn(tr("'height' must be positive when used in a 'boundingObject'."));
     return NULL;
   }
 
@@ -357,10 +357,10 @@ bool WbCylinder::isSuitableForInsertionInBoundingObject(bool warning) const {
   const bool invalidHeight = mHeight->value() <= 0.0;
   if (warning) {
     if (invalidRadius)
-      warn(tr("'radius' must be positive when used in a 'boundingObject'."));
+      parsingWarn(tr("'radius' must be positive when used in a 'boundingObject'."));
 
     if (invalidHeight)
-      warn(tr("'height' must be positive when used in a 'boundingObject'."));
+      parsingWarn(tr("'height' must be positive when used in a 'boundingObject'."));
   }
 
   return (!invalidHeight && !invalidRadius);

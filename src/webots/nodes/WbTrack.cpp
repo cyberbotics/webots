@@ -278,7 +278,7 @@ bool WbTrack::findAndConnectAnimatedGeometries(bool connectSignals, QList<WbShap
     }
 
     // ignore invalid node
-    warn(tr("Invalid %1 used in 'animatedGeometries' field.").arg(node->nodeModelName()));
+    parsingWarn(tr("Invalid %1 used in 'animatedGeometries' field.").arg(node->nodeModelName()));
   }
 
   return true;
@@ -319,7 +319,7 @@ void WbTrack::updateTextureTransform() {
       mTextureTransform->enableX3DTranslationUpdate(true);
       QList<WbNode *> useNodesList = WbNodeUtilities::findUseNodeAncestors(mTextureTransform);
       if (!useNodesList.isEmpty()) {
-        mTextureTransform->warn(tr("Non-admissible TextureTransform USE node inside Track node."
+        mTextureTransform->parsingWarn(tr("Non-admissible TextureTransform USE node inside Track node."
                                    "This and ancestor USE nodes turned into DEF nodes: if texture animation enabled, "
                                    "the USE texture transform values will change independently from DEF node ones."));
         const int size = useNodesList.size();
@@ -330,7 +330,7 @@ void WbTrack::updateTextureTransform() {
         }
       }
     } else if (!mTextureAnimationField->value().isNull())
-      mShape->abstractAppearance()->warn(
+      mShape->abstractAppearance()->parsingWarn(
         tr("Texture animation is enabled only if the TextureTransform node is explicitly defined."));
     if (isPostFinalizedCalled())
       connect(mShape->abstractAppearance(), &WbAppearance::changed, this, &WbTrack::updateTextureTransform,
@@ -340,7 +340,7 @@ void WbTrack::updateTextureTransform() {
 
 void WbTrack::updateTextureAnimation() {
   if (!mTextureTransform && !mTextureAnimationField->value().isNull())
-    warn(tr("Texture animation is enabled only if the TextureTransform node is explicitly defined."));
+    parsingWarn(tr("Texture animation is enabled only if the TextureTransform node is explicitly defined."));
 }
 
 void WbTrack::updateWheelsList() {
@@ -733,7 +733,7 @@ WbTrack::BeltPosition WbTrack::computeNextGeometryPosition(WbTrack::BeltPosition
 
   if (newStepSize != newStepSize) {  // NAN
     // abort generation
-    warn(tr("Error during computation of Track animated geometries. "
+    parsingWarn(tr("Error during computation of Track animated geometries. "
             "Please check the TrackWheel nodes in 'children' field."));
     return BeltPosition(WbVector2(), 0.0, -1);
   }
@@ -860,7 +860,7 @@ void WbTrack::computeBeltPath() {
 
   if (wheelsPositionError)
     // multiple wheels at the same location
-    warn(tr("Two or more consecutive TrackWheel nodes are located at the same position. "
+    parsingWarn(tr("Two or more consecutive TrackWheel nodes are located at the same position. "
             "Only the first node is used."));
 }
 
@@ -885,7 +885,7 @@ void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
   else if (defName.isEmpty()) {
     defName = computeTrackDefName();
     node->setDefName(defName, false);
-    warn(tr("Track field 'animatedGeometry' must have a DEF name for exportation. One have been generated."));
+    parsingWarn(tr("Track field 'animatedGeometry' must have a DEF name for exportation. One have been generated."));
   }
 
   QString position = mBeltPositions[0].position.toString(WbPrecision::DOUBLE_MAX) + " 0";

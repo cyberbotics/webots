@@ -390,10 +390,10 @@ void WbHingeJoint::updateSuspension() {
 void WbHingeJoint::updateMinAndMaxStop(double min, double max) {
   const WbJointParameters *const p = dynamic_cast<WbJointParameters *>(sender());
   if (min <= -M_PI)
-    p->warn(tr("HingeJoint 'minStop' must be greater than -pi to be effective."));
+    p->parsingWarn(tr("HingeJoint 'minStop' must be greater than -pi to be effective."));
 
   if (max >= M_PI)
-    p->warn(tr("HingeJoint 'maxStop' must be less than pi to be effective."));
+    p->parsingWarn(tr("HingeJoint 'maxStop' must be less than pi to be effective."));
 
   WbRotationalMotor *const rm = rotationalMotor();
   if (rm) {
@@ -401,10 +401,10 @@ void WbHingeJoint::updateMinAndMaxStop(double min, double max) {
     const double maxPos = rm->maxPosition();
     if (min != max && minPos != maxPos) {
       if (minPos < min)
-        p->warn(tr("HingeJoint 'minStop' must be less or equal to RotationalMotor 'minPosition'."));
+        p->parsingWarn(tr("HingeJoint 'minStop' must be less or equal to RotationalMotor 'minPosition'."));
 
       if (maxPos > max)
-        p->warn(tr("HingeJoint 'maxStop' must be greater or equal to RotationalMotor 'maxPosition'."));
+        p->parsingWarn(tr("HingeJoint 'maxStop' must be greater or equal to RotationalMotor 'maxPosition'."));
     }
   }
 

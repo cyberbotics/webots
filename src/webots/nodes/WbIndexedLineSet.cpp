@@ -101,12 +101,12 @@ void WbIndexedLineSet::setWrenMaterial(WrMaterial *material, bool castShadows) {
 
 bool WbIndexedLineSet::sanitizeFields() {
   if (!coord() || coord()->point().isEmpty()) {
-    warn(tr("A 'Coordinate' node should be present in the 'coord' field with at least two items."));
+    parsingWarn(tr("A 'Coordinate' node should be present in the 'coord' field with at least two items."));
     return false;
   }
 
   if (mCoordIndex->isEmpty() || estimateIndexCount() < 2) {
-    warn(tr("The 'coordIndex' field should have at least two items."));
+    parsingWarn(tr("The 'coordIndex' field should have at least two items."));
     return false;
   }
 
@@ -178,7 +178,7 @@ int WbIndexedLineSet::computeCoordsData(float *data) {
 
   if (invalidIndices.size() > 0) {
     invalidIndices.removeDuplicates();
-    warn(tr("The following indices are out of the range of coordinates specified in the 'IndexedLineSet.coord' field: %1")
+    parsingWarn(tr("The following indices are out of the range of coordinates specified in the 'IndexedLineSet.coord' field: %1")
            .arg(invalidIndices.join(", ")));
   }
 
@@ -275,7 +275,7 @@ void WbIndexedLineSet::recomputeBoundingSphere() const {
 ////////////////////////
 
 WbVector3 WbIndexedLineSet::computeFrictionDirection(const WbVector3 &normal) const {
-  warn(tr("A IndexedLineSet is used in a Bounding object using an asymmetric friction. IndexedLineSet does not support "
+  parsingWarn(tr("A IndexedLineSet is used in a Bounding object using an asymmetric friction. IndexedLineSet does not support "
           "asymmetric friction"));
   return WbVector3(0, 0, 0);
 }

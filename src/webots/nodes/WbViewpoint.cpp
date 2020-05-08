@@ -126,7 +126,7 @@ void WbViewpoint::init() {
   // backward compatibility
   WbSFBool *followOrientation = findSFBool("followOrientation");
   if (followOrientation->value()) {
-    warn("Deprecated 'followOrientation' field, please use the 'followType' field instead.");
+    parsingWarn("Deprecated 'followOrientation' field, please use the 'followType' field instead.");
     if (mFollowType->value() == "Tracking Shot") {
       mFollowType->setValue("Mounted Shot");
       followOrientation->setValue(false);
@@ -598,7 +598,7 @@ void WbViewpoint::updateNear() {
 
   if (mFar->value() > 0.0 and mFar->value() < mNear->value()) {
     mNear->setValue(mFar->value());
-    warn(tr("'near' is greater than 'far'. Setting 'near' to %1.").arg(mNear->value()));
+    parsingWarn(tr("'near' is greater than 'far'. Setting 'near' to %1.").arg(mNear->value()));
   }
 
   if (areWrenObjectsInitialized())
@@ -611,7 +611,7 @@ void WbViewpoint::updateFar() {
 
   if (mFar->value() > 0.0 and mFar->value() < mNear->value()) {
     mFar->setValue(mNear->value() + 1.0);
-    warn(tr("'far' is less than 'near'. Setting 'far' to %1.").arg(mFar->value()));
+    parsingWarn(tr("'far' is less than 'near'. Setting 'far' to %1.").arg(mFar->value()));
     return;
   }
 
@@ -713,7 +713,7 @@ void WbViewpoint::updateFollow() {
       emit followInvalidated(true);  // checks the follow object action at the WbView3D level
       return;
     }
-    warn(tr("'follow' field is filled with an invalid Solid name."));
+    parsingWarn(tr("'follow' field is filled with an invalid Solid name."));
   }
   mFollowedSolid = NULL;
   emit followInvalidated(false);  // unchecks the follow object action at the WbView3D level

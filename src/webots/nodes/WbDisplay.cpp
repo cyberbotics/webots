@@ -93,7 +93,7 @@ void WbDisplay::init() {
   mDisplayFont = new WbDisplayFont();
   QString error = mDisplayFont->error();
   if (!error.isEmpty())
-    warn(error, false);
+    warn(error);
   setFont((char *)"Lucida Console", 8);
 }
 
@@ -186,7 +186,7 @@ void WbDisplay::findImageTextures() {
 
   // debug code - print the found materials
   // foreach (WbImageTexture *texture, mImageTextures)
-  //   warn(QString("found image texture %1").arg(texture->usefulName()));
+  //   parsingWarn(QString("found image texture %1").arg(texture->usefulName()));
 }
 
 void WbDisplay::clearImageTextures() {
@@ -734,7 +734,7 @@ int WbDisplay::drawChar(unsigned long c, int x, int y) {
   if (c == ' ')
     return horizontalAdvance;
   if (!buffer) {
-    warn(tr("Error while generating character '%1'.").arg(c), false);
+    warn(tr("Error while generating character '%1'.").arg(c));
     return 0;
   }
   const int w = width();
@@ -790,9 +790,9 @@ void WbDisplay::setFont(char *font, unsigned int size) {
   if (fileFound) {
     mDisplayFont->setFont(filename, size);
     if (!mDisplayFont->error().isEmpty())
-      warn(mDisplayFont->error(), false);
+      warn(mDisplayFont->error());
   } else
-    warn(tr("Invalid '%1' font.").arg(font), false);
+    warn(tr("Invalid '%1' font.").arg(font));
 }
 
 void WbDisplay::drawPolygon(const int *px, const int *py, int size, bool fill) {

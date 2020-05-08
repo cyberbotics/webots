@@ -173,7 +173,7 @@ void WbPropeller::updateDevice() {
 void WbPropeller::updateShaftAxis() {
   static const WbVector3 DEFAULT_AXIS(0.0, 1.0, 0.0);
   if (mShaftAxis->value().isNull()) {
-    warn(
+    parsingWarn(
       tr("'shaftAxis'cannot be zero. Defaults to %1 %2 %3").arg(DEFAULT_AXIS.x()).arg(DEFAULT_AXIS.y()).arg(DEFAULT_AXIS.z()));
     mShaftAxis->setValue(DEFAULT_AXIS);
   }
@@ -200,7 +200,7 @@ void WbPropeller::prePhysicsStep(double ms) {
     const WbSolidMerger *const sm = us->solidMerger();
     dBodyID b = sm ? sm->body() : NULL;
     if (b == NULL) {
-      warn(tr("Adds a Physics node to Solid ancestors to enable thrust and torque effect."));
+      parsingWarn(tr("Adds a Physics node to Solid ancestors to enable thrust and torque effect."));
       return;
     }
 

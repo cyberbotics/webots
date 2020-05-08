@@ -427,7 +427,7 @@ void WbShape::createOdeGeom() {
   const WbGeometry *const g = geometry();
 
   if (g == NULL) {
-    info(tr("Please specify 'geometry' field (of Shape placed in 'boundingObject')."));
+    parsingInfo(tr("Please specify 'geometry' field (of Shape placed in 'boundingObject')."));
     return;
   }
 
