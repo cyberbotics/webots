@@ -19,6 +19,7 @@
 #include "WbSFString.hpp"
 #include "WbSolid.hpp"
 #include "WbVector3.hpp"
+#include "WbJoint.hpp"
 
 #include <QtCore/QDateTime>
 #include <QtCore/QList>
@@ -263,7 +264,7 @@ private:
   void writeTfRobot(QDataStream &stream);
   void writeTfLink(QDataStream &stream, WbTransform* link);
   void writeTfEmptyLink(QDataStream &stream, WbNode* link);
-  void writeTfJoint(QDataStream &stream, WbBasicJoint* joint);
+  void writeTfJoint(QDataStream &stream, WbJoint* joint);
 
 private slots:
   void updateDevicesAfterDestruction();

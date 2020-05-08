@@ -22,7 +22,6 @@
 #include "WbHinge2Joint.hpp"
 #include "WbHingeJoint.hpp"
 #include "WbHingeJointParameters.hpp"
-#include "WbJoint.hpp"
 #include "WbJoystickInterface.hpp"
 #include "WbKinematicDifferentialWheels.hpp"
 #include "WbLinearMotor.hpp"
@@ -778,7 +777,7 @@ void WbRobot::writeTfEmptyLink(QDataStream &stream, WbNode* link) {
     }
 }
 
-void WbRobot::writeTfJoint(QDataStream &stream, WbBasicJoint* joint) {
+void WbRobot::writeTfJoint(QDataStream &stream, WbJoint* joint) {
   stream << (short unsigned int)0;
   stream << (unsigned char)C_ROBOT_TREE_JOINT;
   stream << (int)joint->uniqueId();
@@ -796,17 +795,13 @@ void WbRobot::writeTfRobot(QDataStream &stream) {
 
     for (int i = 0; i < children.size(); i++) {
       WbNode *child = children.at(i);
-      if (dynamic_cast<WbBasicJoint *>(child)) {
-        writeTfJoint(stream, (WbBasicJoint *)child);
-
-        if (dynamic_cast<WbHingeJoint *>(child)) {
-          WbHingeJoint *childJoint = (WbHingeJoint *)child;
-          if (childJoint->solidEndPoint()) {
-            queue.enqueue(childJoint->solidEndPoint());
-            writeTfLink(stream, childJoint->solidEndPoint());
-          }
+      if (dynamic_cast<WbJoint *>(child)) {
+        WbJoint *childJoint = (WbJoint *)child;
+        writeTfJoint(stream, childJoint);
+        if (childJoint->solidEndPoint()) {
+          queue.enqueue(childJoint->solidEndPoint());
+          writeTfLink(stream, childJoint->solidEndPoint());
         }
-        // TODO: Add support for WbSliderJoint, WbHingeJoint2 and BallJoint
       } else if (dynamic_cast<WbGroup *>(child) || dynamic_cast<WbShape *>(child)) {
         queue.enqueue(child);
         writeTfEmptyLink(stream, child);
