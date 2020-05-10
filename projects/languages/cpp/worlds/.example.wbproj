@@ -9,6 +9,6 @@ viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/driver/driver.cpp" "controllers/slave/slave.cpp"
 globalOptionalRendering: CoordinateSystem
-renderingDevicePerspectives: robot3:camera;1;1;0.944724;0.00223214
 renderingDevicePerspectives: robot1:camera;1;1;0;0
 renderingDevicePerspectives: robot2:camera;1;1;0.414573;0
+renderingDevicePerspectives: robot3:camera;1;1;0.944724;0.00223214
