@@ -19,9 +19,9 @@
 /mingw64/bin/Qt5Xml.dll
 /mingw64/bin/libbrotlicommon.dll
 /mingw64/bin/libbrotlidec.dll
-/mingw64/bin/libicuuc65.dll
-/mingw64/bin/libicuin65.dll
-/mingw64/bin/libicudt65.dll
+/mingw64/bin/libicuuc??.dll
+/mingw64/bin/libicuin??.dll
+/mingw64/bin/libicudt??.dll
 /mingw64/bin/libminizip-1.dll
 /mingw64/bin/libbz2-1.dll
 /mingw64/bin/libsqlite3-0.dll
