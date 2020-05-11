@@ -747,7 +747,10 @@ void WbRobot::writeConfigure(QDataStream &stream) {
     mSupervisorUtilities->writeConfigure(stream);
 }
 
-WbNode *WbRobot::findRelevantTfParent(WbNode *node) {
+WbNode *WbRobot::findRelevantParent(WbNode *node) {
+  // We assume that each `Robot` has field `name`
+  if (node == this)
+    return this;
   while (true) {
     node = node->parent();
     if (node->findSFString("name") || dynamic_cast<WbJoint *>(node))
@@ -755,31 +758,39 @@ WbNode *WbRobot::findRelevantTfParent(WbNode *node) {
   }
 }
 
-void WbRobot::writeTfLink(QDataStream &stream, WbTransform *link) {
-  stream << (short unsigned int)0;
-  stream << (unsigned char)C_ROBOT_TREE_LINK;
-  stream << (int)link->uniqueId();
-  stream << (int)findRelevantTfParent(link)->uniqueId();
-  stream << (double)link->translation().x();
-  stream << (double)link->translation().y();
-  stream << (double)link->translation().z();
-  for (int i = 0; i < 9; i++)
-    stream << (double)link->rotationMatrix().row(i / 3)[i % 3];
-  QByteArray ba = link->findSFString("name")->value().toUtf8();
-  stream.writeRawData(ba.constData(), ba.size() + 1);
+WbTransform *WbRobot::findRelevantTransfomParent(WbNode *node) {
+  // We assume that each `Robot` has field `name`
+  if (node == this)
+    return this;
+  while (true) {
+    node = node->parent();
+    if (node->findSFString("name") && dynamic_cast<WbTransform *>(node))
+      return (WbTransform *)node;
+  }
 }
 
-void WbRobot::writeTfEmptyLink(QDataStream &stream, WbNode *link) {
+void WbRobot::writeTfLink(QDataStream &stream, WbNode *link) {
+  // `parent` can be either joint, solid, group or shape. However, since
+  // joint, group and shape inherit transformation from solid parent we introduce
+  // `tfParent` that can be only solid.
+  // The similar applies for `tfLink`
+  WbNode *parent = findRelevantParent(link);
+  WbTransform *tfParent = findRelevantTransfomParent(link);
+  WbTransform *tfLink = (dynamic_cast<WbTransform *>(link)) ? 
+    (WbTransform *)link : 
+    findRelevantTransfomParent(link);
+
+  const WbVector3 translation = tfLink->position() - tfParent->position();
+  const WbMatrix3 rotation = tfParent->rotationMatrix() * tfLink->rotationMatrix().transposed();
   stream << (short unsigned int)0;
   stream << (unsigned char)C_ROBOT_TREE_LINK;
   stream << (int)link->uniqueId();
-  stream << (int)link->parent()->uniqueId();
-  for (int i = 0; i < 3 + 9; i++) {
-    if (i > 3 && (i - 3) % 4 == 0)
-      stream << (double)1;
-    else
-      stream << (double)0;
-  }
+  stream << (int)parent->uniqueId();
+  stream << (double)translation.x();
+  stream << (double)translation.y();
+  stream << (double)translation.z();
+  for (int i = 0; i < 9; i++)
+    stream << (double)rotation.row(i / 3)[i % 3];
   QByteArray ba = link->findSFString("name")->value().toUtf8();
   stream.writeRawData(ba.constData(), ba.size() + 1);
 }
@@ -788,7 +799,7 @@ void WbRobot::writeTfJoint(QDataStream &stream, WbJoint *joint) {
   stream << (short unsigned int)0;
   stream << (unsigned char)C_ROBOT_TREE_JOINT;
   stream << (int)joint->uniqueId();
-  stream << (int)findRelevantTfParent(joint)->uniqueId();
+  stream << (int)findRelevantParent(joint)->uniqueId();
   stream << (double)joint->parameters()->position();
   stream << (double)joint->parameters()->axis().x();
   stream << (double)joint->parameters()->axis().y();
@@ -796,13 +807,12 @@ void WbRobot::writeTfJoint(QDataStream &stream, WbJoint *joint) {
 }
 
 void WbRobot::writeTfRobot(QDataStream &stream) {
-  writeTfEmptyLink(stream, this);
+  writeTfLink(stream, this);
 
   QQueue<WbNode *> queue;
   queue.enqueue(this);
   while (queue.size() > 0) {
     WbNode *node = queue.takeLast();
-
     QList<WbNode *> children = node->subNodes(false);
 
     for (int i = 0; i < children.size(); i++) {
@@ -816,16 +826,12 @@ void WbRobot::writeTfRobot(QDataStream &stream) {
             writeTfLink(stream, childJoint->solidEndPoint());
           }
         }
-      } else if (dynamic_cast<WbGroup *>(child) || dynamic_cast<WbShape *>(child)) {
+      } else if (dynamic_cast<WbGroup *>(child) || dynamic_cast<WbShape *>(child) || dynamic_cast<WbTransform *>(child)) {
         queue.enqueue(child);
         if (child->findSFString("name"))
-          writeTfEmptyLink(stream, child);
-      } else if (dynamic_cast<WbTransform *>(child)) {
-        queue.enqueue(child);
-        if (child->findSFString("name"))
-          writeTfLink(stream, (WbTransform *)child);
+          writeTfLink(stream, child);
       } else {
-        // TODO: Handle the others
+        // TODO: Do we even care about the others (e.g. PBRAppearance)
       }
     }
   }
