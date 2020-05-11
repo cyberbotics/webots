@@ -292,7 +292,7 @@ Sample PHP files are located in "[WEBOTS\_HOME/resources/web/server/](https://gi
 
 #### `start` Simulation Data Download (Experimental)
 
-Webots will checkout the simulation data from the provided `url` using a custom URI scheme as examplified below:
+Webots will checkout the simulation data from the provided `url` using a custom URI scheme as exemplified below:
 ```
 webots://github.com/john/simulation/tag/v1.0/project/worlds/sample.wbt
 └─┬──┘   └───┬────┘└──────┬───────┘└───┬───┘└───────────┬────────────┘
