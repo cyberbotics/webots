@@ -1,20 +1,19 @@
 #include "WbMultimediaStreamingLimiter.hpp"
+
 #include "WbLog.hpp"
-#include <QtCore/QString>
+
 #include <QtCore/QObject>
-
-
+#include <QtCore/QString>
 
 WbMultimediaStreamingLimiter::WbMultimediaStreamingLimiter(const QSize &resolution, int frameRate) :
-    mResolution(resolution),
-    mResolutionFactor(1),
-    mResolutionChanged(false),
-    mFrameRate(frameRate),
-    mLevel(-1),
-    mIncreasingSteps(1),
-    mDecreasingSteps(1),
-    mIsStopped(false)
-  {};
+  mResolution(resolution),
+  mResolutionFactor(1),
+  mResolutionChanged(false),
+  mFrameRate(frameRate),
+  mLevel(-1),
+  mIncreasingSteps(1),
+  mDecreasingSteps(1),
+  mIsStopped(false){};
 
 void WbMultimediaStreamingLimiter::resetResolution(const QSize &newSize) {
   mResolution = newSize;
@@ -68,5 +67,6 @@ void WbMultimediaStreamingLimiter::recomputeStreamingLimits(int skippedImages) {
     }
   }
 
-  WbLog::info(QString("Streaming limiter level: %2, resolution: %1, rate %3").arg(mResolution.width()).arg(mLevel).arg(mFrameRate));
+  WbLog::info(
+    QString("Streaming status: resolution: %1x%2, rate %3").arg(mResolution.width()).arg(mResolution.height()).arg(mFrameRate));
 }

@@ -149,7 +149,7 @@ void WbMultimediaStreamingServer::processLimiterTimout() {
 
   double bytes;
   if (mSentImagesCount > 0)
-    bytes = ((double) mAverageBytesToWrite) / mSentImagesCount;
+    bytes = ((double)mAverageBytesToWrite) / mSentImagesCount;
   else
     bytes = 0;
   updateStreamingParameters(bytes / mSceneImage.size());
