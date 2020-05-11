@@ -9,7 +9,7 @@ class Server { // eslint-disable-line no-unused-vars
     // url has one of the following form:
     // "ws(s)://cyberbotics1.epfl.ch:80/simple/worlds/simple.wbt", or
     // "wss://cyberbotics1.epfl.ch/1999/session
-    //  ?url=webots://github.com/cyberbotics/webots/branch/master/projects/languages/python"
+    //  ?url=webots://github.com/cyberbotics/webots/branch/master/projects/languages/python/worlds/example.wbt"
     const n = this.url.indexOf('/session?url=', 6);
     // 6 is for skipping the "ws(s)://domain" part of the URL which smallest form is 6 characters long: "ws://a"
     if (n === -1) {
