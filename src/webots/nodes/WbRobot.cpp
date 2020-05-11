@@ -780,7 +780,11 @@ void WbRobot::writeTfEmptyLink(QDataStream &stream, WbNode *link) {
     else
       stream << (double)0;
   }
-  stream.writeRawData("", 1);
+  if (link->findSFString("name")) {
+    QByteArray ba = link->findSFString("name")->value().toUtf8();
+    stream.writeRawData(ba.constData(), ba.size() + 1);
+  } else
+    stream.writeRawData("", 1);
 }
 
 void WbRobot::writeTfJoint(QDataStream &stream, WbJoint *joint) {
