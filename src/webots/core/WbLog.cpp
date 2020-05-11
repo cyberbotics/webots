@@ -137,6 +137,7 @@ const QString &WbLog::filterName(Filter filter) {
                                                  << "All Controller(s)"
                                                  << "Others"
                                                  << "Physics"
+                                                 << "Physics Plugins"
                                                  << "Javascript"
                                                  << "Parsing"
                                                  << "Compilation";
@@ -146,8 +147,8 @@ const QString &WbLog::filterName(Filter filter) {
 };
 
 const QStringList &WbLog::webotsFilterNames() {
-  static const QStringList names = QStringList() << filterName(WEBOTS_OTHERS) << filterName(ODE) << filterName(JAVASCRIPT)
-                                                 << filterName(PARSING) << filterName(COMPILATION);
+  static const QStringList names = QStringList() << filterName(WEBOTS_OTHERS) << filterName(ODE) << filterName(PHYSICS_PLUGINS)
+                                                 << filterName(JAVASCRIPT) << filterName(PARSING) << filterName(COMPILATION);
   return names;
 };
 

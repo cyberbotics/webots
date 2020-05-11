@@ -278,6 +278,8 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   addContextMenuFilterItem(WbLog::filterName(WbLog::PARSING), filterMenu,
                            tr("Display parsing error when editing or loading a world."));
   addContextMenuFilterItem(WbLog::filterName(WbLog::ODE), filterMenu, tr("Display error messages from ODE."));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::PHYSICS_PLUGINS), filterMenu,
+                           tr("Display messages from the physics plugins."));
   addContextMenuFilterItem(WbLog::filterName(WbLog::JAVASCRIPT), filterMenu,
                            tr("Display Javascript log from the robot-windows."));
   addContextMenuFilterItem(WbLog::filterName(WbLog::COMPILATION), filterMenu, tr("Output from the compilation."));
