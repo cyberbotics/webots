@@ -226,7 +226,7 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
     int action, button, buttons, x, y, modifiers, wheel;
     QString skip;  // will receive "mouse"
     QTextStream(&message) >> skip >> action >> button >> buttons >> x >> y >> modifiers >> wheel;
-    if (mLimiter && mLimiter->resolutionFactor() > 1) {
+    if (mFullResolutionOnPause == 0 && mLimiter && mLimiter->resolutionFactor() > 1) {
       const double factor = pow(2, mLimiter->resolutionFactor() - 1);
       x /= factor;
       y /= factor;
@@ -283,14 +283,13 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
     QString skip;  // will receive "touch"
     QTextStream stream(&message);
     stream >> skip >> action >> eventType;
-    if (mLimiter && mLimiter->resolutionFactor() > 1) {
-      const double factor = pow(2, mLimiter->resolutionFactor() - 1);
-      x /= factor;
-      y /= factor;
-    }
-    const QPointF point(x, y);
     if (action == -1) {  // store touch event center
       stream >> x >> y;
+      if (mFullResolutionOnPause == 0 && mLimiter && mLimiter->resolutionFactor() > 1) {
+        const double factor = pow(2, mLimiter->resolutionFactor() - 1);
+        x /= factor;
+        y /= factor;
+      }
       WbWrenPicker picker;
       picker.pick(x, y);
       WbVector3 screenCoords = picker.screenCoordinates();
@@ -313,6 +312,11 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
         mTouchEventZoomScale = 1.0;
     } else if (action == 0 && eventType == 1) {  // touch rotate event
       stream >> x >> y;
+      if (mFullResolutionOnPause == 0 && mLimiter && mLimiter->resolutionFactor() > 1) {
+        const double factor = pow(2, mLimiter->resolutionFactor() - 1);
+        x /= factor;
+        y /= factor;
+      }
       WbRotateViewpointEvent::applyToViewpoint(QPoint(x, y), mTouchEventRotationCenter,
                                                -WbWorld::instance()->worldInfo()->gravityUnitVector(), mTouchEventObjectPicked,
                                                WbWorld::instance()->viewpoint());
