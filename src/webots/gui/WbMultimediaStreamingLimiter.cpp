@@ -67,7 +67,7 @@ void WbMultimediaStreamingLimiter::recomputeStreamingLimits(int skippedImages) {
     if (skippedImages > 3)
       mIsStopped = true;
     while (skippedImages > 0) {
-      if (mResolutionFactor < 4 && mLevel % 2 == 0) {
+      if (mResolutionFactor < 3 && mLevel % 2 == 0) {
         mLevel++;
         mResolution /= 2;
         mResolutionFactor++;

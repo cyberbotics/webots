@@ -221,6 +221,8 @@ void WbMultimediaStreamingServer::sendContextMenuInfo(const WbMatter *node) {
 
 void WbMultimediaStreamingServer::processTextMessage(QString message) {
   QWebSocket *client = qobject_cast<QWebSocket *>(sender());
+  if (mFullResolutionOnPause == 2)
+    mFullResolutionOnPause = 1;
 
   if (message.startsWith("mouse")) {
     int action, button, buttons, x, y, modifiers, wheel;
