@@ -346,6 +346,9 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
         """Return a port number available for a new Webots WebSocket server."""
         port = config['port'] + 1
         while True:
+            if port > config['port'] + config['maxConnections']:
+                logging.error("Too many open connections (>" + str(config['maxConnections']) + ")")
+                return 0
             found = False
             for client in self.clients:
                 if port == client.streaming_server_port:
@@ -370,9 +373,6 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
                 if found:
                     return port
                 port += 1
-                if port > config['port'] + config['maxConnections']:
-                    logging.error("Too many open connections (>" + str(config['maxConnections']) + ")")
-                    return 0
 
     def open(self):
         """Open a new connection for an incoming client."""
