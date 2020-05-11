@@ -15,11 +15,11 @@
 #ifndef WB_ROBOT_HPP
 #define WB_ROBOT_HPP
 
+#include "WbJoint.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFString.hpp"
 #include "WbSolid.hpp"
 #include "WbVector3.hpp"
-#include "WbJoint.hpp"
 
 #include <QtCore/QDateTime>
 #include <QtCore/QList>
@@ -262,9 +262,10 @@ private:
   int computeSimulationMode();
 
   void writeTfRobot(QDataStream &stream);
-  void writeTfLink(QDataStream &stream, WbTransform* link);
-  void writeTfEmptyLink(QDataStream &stream, WbNode* link);
-  void writeTfJoint(QDataStream &stream, WbJoint* joint);
+  void writeTfLink(QDataStream &stream, WbTransform *link);
+  void writeTfEmptyLink(QDataStream &stream, WbNode *link);
+  void writeTfJoint(QDataStream &stream, WbJoint *joint);
+  WbNode *findRelevantTfParent(WbNode *node);
 
 private slots:
   void updateDevicesAfterDestruction();

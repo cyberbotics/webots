@@ -15,12 +15,9 @@
 #include "WbRobot.hpp"
 
 #include "WbAbstractCamera.hpp"
-#include "WbBallJoint.hpp"
 #include "WbBinaryIncubator.hpp"
 #include "WbControllerPlugin.hpp"
 #include "WbDisplay.hpp"
-#include "WbHinge2Joint.hpp"
-#include "WbHingeJoint.hpp"
 #include "WbHingeJointParameters.hpp"
 #include "WbJoystickInterface.hpp"
 #include "WbKinematicDifferentialWheels.hpp"
@@ -30,7 +27,6 @@
 #include "WbMFDouble.hpp"
 #include "WbMFNode.hpp"
 #include "WbMouse.hpp"
-#include "WbPhysics.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbPropeller.hpp"
@@ -41,7 +37,6 @@
 #include "WbSensor.hpp"
 #include "WbSimulationState.hpp"
 #include "WbSkin.hpp"
-#include "WbSliderJoint.hpp"
 #include "WbSlot.hpp"
 #include "WbSolidDevice.hpp"
 #include "WbStandardPaths.hpp"
@@ -752,21 +747,26 @@ void WbRobot::writeConfigure(QDataStream &stream) {
     mSupervisorUtilities->writeConfigure(stream);
 }
 
+WbNode *WbRobot::findRelevantTfParent(WbNode *node) {
+  while (true) {
+    node = node->parent();
+    if (node->findSFString("name") || dynamic_cast<WbJoint *>(node))
+      return node;
+  }
+}
+
 void WbRobot::writeTfLink(QDataStream &stream, WbTransform *link) {
   stream << (short unsigned int)0;
   stream << (unsigned char)C_ROBOT_TREE_LINK;
   stream << (int)link->uniqueId();
-  stream << (int)link->parent()->uniqueId();
+  stream << (int)findRelevantTfParent(link)->uniqueId();
   stream << (double)link->translation().x();
   stream << (double)link->translation().y();
   stream << (double)link->translation().z();
   for (int i = 0; i < 9; i++)
     stream << (double)link->rotationMatrix().row(i / 3)[i % 3];
-  if (link->findSFString("name")) {
-    QByteArray ba = link->findSFString("name")->value().toUtf8();
-    stream.writeRawData(ba.constData(), ba.size() + 1);
-  } else
-    stream.writeRawData("", 1);
+  QByteArray ba = link->findSFString("name")->value().toUtf8();
+  stream.writeRawData(ba.constData(), ba.size() + 1);
 }
 
 void WbRobot::writeTfEmptyLink(QDataStream &stream, WbNode *link) {
@@ -780,18 +780,15 @@ void WbRobot::writeTfEmptyLink(QDataStream &stream, WbNode *link) {
     else
       stream << (double)0;
   }
-  if (link->findSFString("name")) {
-    QByteArray ba = link->findSFString("name")->value().toUtf8();
-    stream.writeRawData(ba.constData(), ba.size() + 1);
-  } else
-    stream.writeRawData("", 1);
+  QByteArray ba = link->findSFString("name")->value().toUtf8();
+  stream.writeRawData(ba.constData(), ba.size() + 1);
 }
 
 void WbRobot::writeTfJoint(QDataStream &stream, WbJoint *joint) {
   stream << (short unsigned int)0;
   stream << (unsigned char)C_ROBOT_TREE_JOINT;
   stream << (int)joint->uniqueId();
-  stream << (int)joint->parent()->uniqueId();
+  stream << (int)findRelevantTfParent(joint)->uniqueId();
   stream << (double)joint->parameters()->position();
   stream << (double)joint->parameters()->axis().x();
   stream << (double)joint->parameters()->axis().y();
@@ -804,7 +801,8 @@ void WbRobot::writeTfRobot(QDataStream &stream) {
   QQueue<WbNode *> queue;
   queue.enqueue(this);
   while (queue.size() > 0) {
-    WbNode *node = queue.dequeue();
+    WbNode *node = queue.takeLast();
+
     QList<WbNode *> children = node->subNodes(false);
 
     for (int i = 0; i < children.size(); i++) {
@@ -814,14 +812,18 @@ void WbRobot::writeTfRobot(QDataStream &stream) {
         writeTfJoint(stream, childJoint);
         if (childJoint->solidEndPoint()) {
           queue.enqueue(childJoint->solidEndPoint());
-          writeTfLink(stream, childJoint->solidEndPoint());
+          if (childJoint->solidEndPoint()->findSFString("name")) {
+            writeTfLink(stream, childJoint->solidEndPoint());
+          }
         }
       } else if (dynamic_cast<WbGroup *>(child) || dynamic_cast<WbShape *>(child)) {
         queue.enqueue(child);
-        writeTfEmptyLink(stream, child);
+        if (child->findSFString("name"))
+          writeTfEmptyLink(stream, child);
       } else if (dynamic_cast<WbTransform *>(child)) {
         queue.enqueue(child);
-        writeTfLink(stream, (WbTransform *)child);
+        if (child->findSFString("name"))
+          writeTfLink(stream, (WbTransform *)child);
       } else {
         // TODO: Handle the others
       }
