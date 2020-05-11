@@ -62,6 +62,7 @@ void WbMultimediaStreamingServer::start(int port) {
     tr("Webots multimedia streamer started: resolution %1x%2 on port %3").arg(mImageWidth).arg(mImageHeight).arg(port));
   mWriteTimer.setSingleShot(true);
   connect(&mWriteTimer, &QTimer::timeout, this, &WbMultimediaStreamingServer::sendImageOnTimeout);
+  connect(&mLimiterTimer, &QTimer::timeout, this, &WbMultimediaStreamingServer::processLimiterTimeout);
 }
 
 void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
@@ -81,12 +82,17 @@ void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUr
   else if (WbSimulationState::instance()->isPaused())
     // request new image if none has been generated yet
     gView3D->refresh();
+
+  if (!mLimiterTimer.isActive())
+    mLimiterTimer.start(1000);
 }
 
 void WbMultimediaStreamingServer::removeTcpClient() {
   QTcpSocket *client = qobject_cast<QTcpSocket *>(sender());
   if (client)
     mTcpClients.removeAll(client);
+  if (mTcpClients.isEmpty())
+    mLimiterTimer.stop();
 }
 
 bool WbMultimediaStreamingServer::isNewFrameNeeded() const {
@@ -108,8 +114,8 @@ void WbMultimediaStreamingServer::sendImage(const QImage &image) {
   bufferJpeg.open(QIODevice::WriteOnly);
   image.save(&bufferJpeg, "JPG");
 
-  const qint64 msecs = mUpdateTimer.elapsed();
-  if (WbSimulationState::instance()->isPaused() && msecs < mFrameRate)
+  const qint64 msecs = mUpdateTimer.isValid() ? mUpdateTimer.elapsed() : mFrameRate + 1;
+  if (WbSimulationState::instance()->isPaused() && (msecs < mFrameRate))
     mWriteTimer.start(2 * mFrameRate - msecs);
   else
     sendImageOnTimeout();
@@ -127,7 +133,7 @@ void WbMultimediaStreamingServer::sendImageOnTimeout() {
   mUpdateTimer.restart();
 }
 
-void WbMultimediaStreamingServer::processLimiterTimout() {
+void WbMultimediaStreamingServer::processLimiterTimeout() {
   if (mFullResolutionOnPause == 2)
     return;
   if (mLimiter->isStopped()) {
@@ -220,6 +226,11 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
     int action, button, buttons, x, y, modifiers, wheel;
     QString skip;  // will receive "mouse"
     QTextStream(&message) >> skip >> action >> button >> buttons >> x >> y >> modifiers >> wheel;
+    if (mLimiter && mLimiter->resolutionFactor() > 1) {
+      const double factor = pow(2, mLimiter->resolutionFactor() - 1);
+      x /= factor;
+      y /= factor;
+    }
     const QPointF point(x, y);
     const Qt::MouseButtons buttonsPressed = ((buttons & 1) ? Qt::LeftButton : Qt::NoButton) |
                                             ((buttons & 2) ? Qt::RightButton : Qt::NoButton) |
@@ -272,6 +283,11 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
     QString skip;  // will receive "touch"
     QTextStream stream(&message);
     stream >> skip >> action >> eventType;
+    if (mLimiter && mLimiter->resolutionFactor() > 1) {
+      const double factor = pow(2, mLimiter->resolutionFactor() - 1);
+      x /= factor;
+      y /= factor;
+    }
     const QPointF point(x, y);
     if (action == -1) {  // store touch event center
       stream >> x >> y;

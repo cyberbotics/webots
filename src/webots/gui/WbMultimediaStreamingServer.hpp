@@ -43,7 +43,7 @@ private slots:
   void removeTcpClient();
   void processTextMessage(QString message) override;
   void sendImageOnTimeout();
-  void processLimiterTimout();
+  void processLimiterTimeout();
 
 private:
   void start(int port) override;
