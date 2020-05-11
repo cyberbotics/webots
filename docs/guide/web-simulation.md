@@ -206,7 +206,7 @@ Port rewrite is useful for providing an SSL interface using the standard 443 por
 It can be tested on a local host by setting up [XAMPP to use SSL](https://gist.github.com/nguyenanhtu/33aa7ffb6c36fdc110ea8624eeb51e69).
 Port rewrite should be configured in the `session_server.py` and `simulation_server.py` by simply setting the `portRewrite` option to `true`.
 In the `session_server.py` configuration, the `simulationServers` should be listed using the outside URL: `hostname/2000` instead of `hostname:2000`.
-You web server should be configured to redirect `http` traffic to `https` and to rewrite ports in URLs for both `https` and `wss`.
+Your web server should be configured to redirect `http` traffic to `https` and to rewrite ports in URLs for both `https` and `wss`.
 With the Apache web server, this can be achieved by adding the following rules in your `httpd.conf` file:
 
 ```
