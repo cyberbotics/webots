@@ -1083,6 +1083,18 @@ class AnsiCodes(object):
 
 %include <webots/Robot.hpp>
 
+%extend webots::Robot {
+  PyObject *getTfTree() {
+    PyObject *ret = PyList_New(3);
+    /*
+    PyList_SetItem(ret, 0, PyFloat_FromDouble(position[0]));
+    PyList_SetItem(ret, 1, PyFloat_FromDouble(position[1]));
+    PyList_SetItem(ret, 2, PyFloat_FromDouble(position[2]));
+    */
+    return ret;
+  }
+}
+
 //----------------------------------------------------------------------------------------------
 //  DifferentialWheels
 //----------------------------------------------------------------------------------------------

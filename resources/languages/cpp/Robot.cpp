@@ -74,6 +74,10 @@ Robot::Robot() {
   mMouse = new Mouse();
 }
 
+const WbTfNode* Robot::getTfTree() const {
+  return wb_robot_get_tf_tree();
+}
+
 Robot::~Robot() {
   for (size_t i = 0; i < deviceList.size(); ++i)
     delete deviceList[i];
