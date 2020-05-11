@@ -264,9 +264,8 @@ On Linux, a working Linux display (":0") should be available to run Webots remot
 This can be achieved generally simply by executing 'xhost +' on the server computer.
 
 **Note :** On some computers, in addition to the previous comment, the display entity is linked with the fact that a monitor is plugged.
-In this case, you can open automatically a user session when the computer is switched on,
-run `session_server.py` and `simulation_server.py` automatically when the session starts up, and let the monitor switched on at Ubuntu startup.
-If you have a headless system, i.e. a system without any physical monitors attached, then with the NVIDIA graphics card you could fake a monitor in the X session.
+In this case, you can open automatically a user session when the computer is switched on, run `session_server.py` and `simulation_server.py` automatically when the session starts up, and let the monitor switched on at Ubuntu startup.
+If you have a headless system, i.e., a system without any physical monitors attached, then with the NVIDIA graphics card you could fake a monitor in the X session.
 This solution basically consists in adding a screen configuration to the X server configuration file by copying the Extended Display Identification Data (EDID) of a temporary attached monitor.
 
 #### Startup Procedure
