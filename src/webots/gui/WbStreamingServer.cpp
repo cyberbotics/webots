@@ -574,7 +574,7 @@ void WbStreamingServer::setWorldLoadingProgress(const int progress) {
 void WbStreamingServer::propagateNodeAddition(WbNode *node) {
   if (mWebSocketServer == NULL || WbWorld::instance() == NULL)
     return;
-  
+
   if (node->isProtoParameterNode()) {
     // PROTO parameter nodes are not exported to X3D or transmitted to webots.min.js
     foreach (WbNode *nodeInstance, node->protoParameterNodeInstances())

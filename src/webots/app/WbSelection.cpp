@@ -87,7 +87,8 @@ void WbSelection::selectNode(WbBaseNode *n, bool handlesDisabled) {
 
     if (mSelectedAbstractTransform && transformChanged) {
       connect(mSelectedNode, &WbBaseNode::isBeingDestroyed, this, &WbSelection::clear, Qt::UniqueConnection);
-      if (!handlesDisabled && !mSelectedNode->isUseNode() && !WbNodeUtilities::isNodeOrAncestorLocked(mSelectedAbstractTransform->baseNode()))
+      if (!handlesDisabled && !mSelectedNode->isUseNode() &&
+          !WbNodeUtilities::isNodeOrAncestorLocked(mSelectedAbstractTransform->baseNode()))
         mSelectedAbstractTransform->attachTranslateRotateManipulator();
     }
   }

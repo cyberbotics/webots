@@ -50,7 +50,7 @@ private:
   void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) override;
   void sendContextMenuInfo(const WbMatter *node);
   void sendLastImage(QTcpSocket *client = NULL);
-  void updateStreamingParameters(int skippedImages);
+  void updateStreamingParameters(int skippedImagesCount);
 
   int mImageWidth;
   int mImageHeight;
