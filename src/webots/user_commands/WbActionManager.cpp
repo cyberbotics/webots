@@ -238,7 +238,11 @@ void WbActionManager::populateActions() {
   action->setText(tr("&Plain Rendering"));
   action->setStatusTip(tr("Plain OpenGL rendering."));
   action->setToolTip(action->statusTip());
+#ifdef __APPLE__
+  action->setShortcut(Qt::SHIFT + Qt::Key_P);
+#else
   action->setShortcut(Qt::Key_F11);
+#endif
   action->setCheckable(true);
   mActions[PLAIN_RENDERING] = action;
 
@@ -246,7 +250,11 @@ void WbActionManager::populateActions() {
   action->setText(tr("&Wireframe Rendering"));
   action->setStatusTip(tr("Rendering only the segments between the vertices."));
   action->setToolTip(action->statusTip());
+#ifdef __APPLE__
+  action->setShortcut(Qt::SHIFT + Qt::Key_W);
+#else
   action->setShortcut(Qt::Key_F12);
+#endif
   action->setCheckable(true);
   mActions[WIREFRAME_RENDERING] = action;
 
@@ -673,11 +681,18 @@ void WbActionManager::populateActions() {
 
   /* CONSOLE ACTIONS */
   action = new QAction(this);
-  action->setText(tr("&Clear Console"));
-  action->setStatusTip(tr("Clears the Console."));
+  action->setText(tr("&Clear All Consoles"));
+  action->setStatusTip(tr("Clears all the Consoles."));
   action->setToolTip(action->statusTip());
   action->setShortcut(Qt::CTRL + Qt::Key_K);
   mActions[CLEAR_CONSOLE] = action;
+
+  action = new QAction(this);
+  action->setText(tr("&New Console"));
+  action->setStatusTip(tr("Opens a new Console."));
+  action->setToolTip(action->statusTip());
+  action->setShortcut(Qt::CTRL + Qt::Key_N);
+  mActions[NEW_CONSOLE] = action;
 
   /* VIEWPOINT ACTIONS */
 

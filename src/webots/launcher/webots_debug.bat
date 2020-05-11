@@ -24,7 +24,7 @@ IF EXIST %OUTPUT% (
 )
 
 ECHO Starting Webots in debug mode...
-gdb.exe webots.exe < %INPUT% >> %OUTPUT%
+gdb.exe webots-bin.exe < %INPUT% >> %OUTPUT%
 
 ECHO Delete the gdb input file...
 DEL %INPUT%

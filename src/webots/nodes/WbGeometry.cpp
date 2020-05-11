@@ -138,7 +138,7 @@ void WbGeometry::createOdeObjects() {
 
 // Default creation method (overriden in every WbGeometry inherited class)
 dGeomID WbGeometry::createOdeGeom(dSpaceID space) {
-  warn(tr("This type of geometry node cannot be placed in 'boundingObject'."));
+  parsingWarn(tr("This type of geometry node cannot be placed in 'boundingObject'."));
   return NULL;
 }
 
@@ -151,9 +151,10 @@ void WbGeometry::checkFluidBoundingObjectOrientation() {
   static const double ZERO_THRESHOLD = 1e-3;
 
   if (fabs(alpha) > ZERO_THRESHOLD)
-    warn("The normal to this geometry's immersion plane is not opposed to the gravity vector. "
-         "This may yield unexpected behaviors when immersing solids. (Please consult the Reference Manual for the definition "
-         "of immersion planes.)");
+    parsingWarn(
+      "The normal to this geometry's immersion plane is not opposed to the gravity vector. "
+      "This may yield unexpected behaviors when immersing solids. (Please consult the Reference Manual for the definition "
+      "of immersion planes.)");
 }
 
 /////////////////////////
@@ -228,7 +229,7 @@ void WbGeometry::applyToOdeMass() {
 ////////////
 
 void WbGeometry::updateCollisionMaterial(bool triggerChange, bool onSelection) {
-  if (!isInBoundingObject())
+  if (!mWrenMaterial || !isInBoundingObject())
     return;
 
   bool isColliding = mCollisionTime >= WbSimulationState::instance()->time();
@@ -517,7 +518,7 @@ bool WbGeometry::isAValidBoundingObject(bool checkOde, bool warning) const {
 }
 
 int WbGeometry::triangleCount() const {
-  if (areWrenObjectsInitialized())
+  if (areWrenObjectsInitialized() && this->wrenMesh())
     return wr_static_mesh_get_triangle_count(this->wrenMesh());
   else
     return 0;

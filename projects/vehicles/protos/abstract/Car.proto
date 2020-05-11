@@ -44,7 +44,8 @@ PROTO Car [
   field SFString   engineSound                    "sounds/engine.wav"
   field SFFloat    engineSoundRpmReference        1000
   field SFFloat    brakeCoefficient               700
-  field SFFloat    time0To100                     10.0
+  field SFFloat    time0To100                     10.0                       # Defines the acceleration of the car.
+  field SFFloat    maxVelocity                    50                         # Defines the maximum velocity [m/s] of the car.
   field SFFloat    engineMaxTorque                250                        # Defines the maximum torque of the motor [Nm] used to compute the electric engine torque.
   field SFFloat    engineMaxPower                 50000                      # Defines the maximum power of the motor [W] used to compute the electric engine torque.
   field SFFloat    engineMinRPM                   1000                       # Defines the minimum RPM of the motor (only used in the case of combustion engine).
@@ -53,7 +54,9 @@ PROTO Car [
   field MFFloat    gearRatio                      [-12 10 6.5 4.5 3.5 2.75]
   field SFFloat    hybridPowerSplitRatio          0.25                       # Defines power split ratio (only used in the case of 'power-split hybrid' engineType).
   field SFFloat    hybridPowerSplitRPM            3000                       # Defines the power split RPM (only used in the case of 'power-split hybrid' engineType).
-  field SFFloat    maxWheelVelocity               200
+
+  # Deprecated in R2020b
+  hiddenField SFFloat maxWheelVelocity -1.0
 ]
 {
   %{
@@ -181,7 +184,7 @@ PROTO Car [
       end
     end
 
-    -- compute the acelerations of the rotational motors from 'time0To100'
+    -- compute the accelerations of the rotational motors from 'time0To100'
     local frontAcceleration = 0
     local rearAcceleration = 0
     if frontTireRadius == -1 then -- use 0.4 if radius not found
@@ -194,6 +197,25 @@ PROTO Car [
       rearAcceleration = 1000 / 36 / time0To100 / 0.4
     else
       rearAcceleration = 1000 / 36 / time0To100 / rearTireRadius
+    end
+    -- compute the max velocity of the rotational motors from 'time0To100'
+    local frontMaxVelocity = 0
+    local rearMaxVelocity = 0
+    if fields.maxWheelVelocity.value ~= fields.maxWheelVelocity.defaultValue and fields.maxVelocity.value == fields.maxVelocity.defaultValue then
+      io.stderr:write("Deprecated 'maxWheelVelocity' field, use the 'maxVelocity' field instead.\n")
+      frontMaxVelocity = fields.maxWheelVelocity.value
+      rearMaxVelocity = fields.maxWheelVelocity.value
+    else
+      if frontTireRadius == -1 then
+        frontMaxVelocity = fields.maxVelocity.value / 0.4
+      else
+        frontMaxVelocity = fields.maxVelocity.value /  frontTireRadius
+      end
+      if rearTireRadius == -1 then
+        rearMaxVelocity = fields.maxVelocity.value / 0.4
+      else
+        rearMaxVelocity = fields.maxVelocity.value /  rearTireRadius
+      end
     end
 
     -- compute the 'customData' string which is used to communicate configuration of the vehicle to the library
@@ -277,7 +299,7 @@ PROTO Car [
       RotationalMotor {
         name "right_front_wheel"
         acceleration %{= frontAcceleration }%
-        maxVelocity IS maxWheelVelocity
+        maxVelocity %{= frontMaxVelocity }%
         maxTorque 100000000
         sound ""
       }
@@ -294,7 +316,7 @@ PROTO Car [
       RotationalMotor {
         name "left_front_wheel"
         acceleration %{= frontAcceleration }%
-        maxVelocity IS maxWheelVelocity
+        maxVelocity %{= frontMaxVelocity }%
         maxTorque 100000000
         sound ""
       }
@@ -311,7 +333,7 @@ PROTO Car [
       RotationalMotor {
         name "right_rear_wheel"
         acceleration %{= rearAcceleration }%
-        maxVelocity IS maxWheelVelocity
+        maxVelocity %{= rearMaxVelocity }%
         maxTorque 100000000
         sound ""
       }
@@ -328,7 +350,7 @@ PROTO Car [
       RotationalMotor {
         name "left_rear_wheel"
         acceleration %{= rearAcceleration }%
-        maxVelocity IS maxWheelVelocity
+        maxVelocity %{= rearMaxVelocity }%
         maxTorque 100000000
         sound ""
       }

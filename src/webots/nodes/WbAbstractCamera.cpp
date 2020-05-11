@@ -560,7 +560,8 @@ void WbAbstractCamera::updateFieldOfView() {
   if (WbFieldChecker::resetDoubleIfNonPositive(this, mFieldOfView, 0.7854))
     return;
   if (!mSpherical->value() && fieldOfView() > M_PI) {
-    warn(tr("Invalid 'fieldOfView' changed to 0.7854. The field of view is limited to pi if the 'spherical' field is FALSE."));
+    parsingWarn(
+      tr("Invalid 'fieldOfView' changed to 0.7854. The field of view is limited to pi if the 'spherical' field is FALSE."));
     mFieldOfView->setValue(0.7854);
     return;
   }

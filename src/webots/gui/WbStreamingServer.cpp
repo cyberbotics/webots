@@ -54,8 +54,6 @@ WbStreamingServer::WbStreamingServer() :
           &WbStreamingServer::setWorldLoadingProgress);
   connect(WbApplication::instance(), &WbApplication::worldLoadingStatusHasChanged, this,
           &WbStreamingServer::setWorldLoadingStatus);
-  connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
-          &WbStreamingServer::propagateSimulationStateChange);
   connect(WbNodeOperations::instance(), &WbNodeOperations::nodeAdded, this, &WbStreamingServer::propagateNodeAddition);
   connect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this,
           &WbStreamingServer::propagateNodeAddition);
@@ -576,6 +574,13 @@ void WbStreamingServer::setWorldLoadingProgress(const int progress) {
 void WbStreamingServer::propagateNodeAddition(WbNode *node) {
   if (mWebSocketServer == NULL || WbWorld::instance() == NULL)
     return;
+  
+  if (node->isProtoParameterNode()) {
+    // PROTO parameter nodes are not exported to X3D or transmitted to webots.min.js
+    foreach (WbNode *nodeInstance, node->protoParameterNodeInstances())
+      propagateNodeAddition(nodeInstance);
+    return;
+  }
 
   WbRobot *robot = dynamic_cast<WbRobot *>(node);
   if (robot)

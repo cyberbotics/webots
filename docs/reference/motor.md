@@ -167,8 +167,8 @@ Finally, in MATLAB you should use the `inf` constant.
 
 ### Force and Torque Control
 
-The position (resp. velocity) control described above are performed by the Webots PID-controller and ODE's joint motor implementation (see ODE documentation).
-As an alternative, Webots does also allow the user to directly specify the amount of force (resp. torque) that must be applied by a [Motor](#motor).
+The position control described above is performed by the Webots PID-controller and ODE's joint motor implementation (see ODE documentation).
+As an alternative, Webots also allows the user to directly specify the amount of force (resp. torque) that must be applied by a [Motor](#motor).
 This is achieved with the `wb_motor_set_force` (resp. `wb_motor_set_torque`) function which specifies the desired amount of forces (resp. torques) and switches off the PID-controller.
 A subsequent call to the `wb_motor_set_position` function restores the original *position control*.
 Some care must be taken when using *force control*.
@@ -199,7 +199,7 @@ When both `minPosition` and `maxPosition` are zero (the default), the soft limit
 Note that the soft limits can be overstepped when an external force which exceeds the motor force is applied to the motor.
 For example, it is possible that the weight of a robot exceeds the motor force that is required to hold it up.
 
-Finally, note that when both soft (`minPosition` and `maxPosition`) and hard limits (`minStop` and `maxStop`, see [JointParameters](jointparameters.md)) are activated, the range of the soft limits must be included in the range of the hard limits, such that `minStop <= minValue` and `maxStop>= maxValue`.
+Finally, note that when both soft (`minPosition` and `maxPosition`) and hard limits (`minStop` and `maxStop`, see [JointParameters](jointparameters.md#joint-limits)) are activated, the range of the soft limits must be included in the range of the hard limits, such that `minStop <= minPosition` and `maxStop >= maxPosition`.
 Moreover a simulation instability can appear if `position` is exactly equal to one of the bounds defined by the `minStop` and `maxStop` fields at the simulation startup.
 Warnings are displayed if theses rules are not respected.
 

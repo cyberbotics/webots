@@ -33,16 +33,40 @@ class WbLog : public QObject {
   Q_OBJECT
 
 public:
-  enum Level { DEBUG, INFO, WARNING, ERROR, FATAL, STATUS, STDOUT, STDERR };
+  enum Level { DEBUG, INFO, WARNING, ERROR, FATAL, STATUS, STDOUT, STDERR, LEVEL_SIZE };
+  enum Filter {
+    ALL,
+    WEBOTS,
+    ALL_WEBOTS,
+    CONTROLLERS,
+    ALL_CONTROLLERS,
+    WEBOTS_OTHERS,
+    ODE,
+    PHYSICS_PLUGINS,
+    JAVASCRIPT,
+    PARSING,
+    COMPILATION,
+    FILTER_SIZE
+  };
 
   static WbLog *instance();
 
   // Webots messages, e.g. parse error
   // the 'message' argument should not be '\n' terminated
-  static void debug(const QString &message, bool popup = false);
-  static void info(const QString &message, bool popup = false);
-  static void warning(const QString &message, bool popup = false);
-  static void error(const QString &message, bool popup = false);
+  static void debug(const QString &message, bool popup = false, Filter filter = WEBOTS_OTHERS);
+  static void info(const QString &message, bool popup = false, Filter filter = WEBOTS_OTHERS);
+  static void warning(const QString &message, bool popup = false, Filter filter = WEBOTS_OTHERS);
+  static void error(const QString &message, bool popup = false, Filter filter = WEBOTS_OTHERS);
+  static void debug(const QString &message, const QString &name, bool popup = false);
+  static void info(const QString &message, const QString &name, bool popup = false);
+  static void warning(const QString &message, const QString &name, bool popup = false);
+  static void error(const QString &message, const QString &name, bool popup = false);
+
+  // log type filter names
+  static const QString &filterName(Filter filter);
+  static const QStringList &webotsFilterNames();
+  // level type names
+  static const QString &levelName(Level level);
 
   // display a message in main window's status bar
   static void status(const QString &message);
@@ -52,8 +76,10 @@ public:
 
   // controller or compilation output
   // the 'message' argument can contain newlines (multi-line output)
-  static void appendStdout(const QString &message);
-  static void appendStderr(const QString &message);
+  static void appendStdout(const QString &message, Filter filter = WEBOTS_OTHERS);
+  static void appendStderr(const QString &message, Filter filter = WEBOTS_OTHERS);
+  static void appendStdout(const QString &message, const QString &name);
+  static void appendStderr(const QString &message, const QString &name);
 
   static void javascriptLogToConsole(const QString &message, int lineNumber, const QString &sourceUrl);
   // clear output
@@ -67,7 +93,7 @@ public:
 
 signals:
   // the above function emit this signal that can be connected to a message sink (console)
-  void logEmitted(WbLog::Level level, const QString &message, bool popup);
+  void logEmitted(WbLog::Level level, const QString &message, bool popup, const QString &name);
   void cleared();
   void popupOpen();
   void popupClosed();
@@ -75,17 +101,18 @@ signals:
 private:
   WbLog() : mPopUpMessagesPostponed(false) {}
   virtual ~WbLog() {}
-  void emitLog(Level level, const QString &message, bool popup);
+  void emitLog(Level level, const QString &message, bool popup, const QString &name);
   static void cleanup();
 
   struct PostponedMessage {
     QString text;
+    QString name;
     Level level;
   };
   bool mPopUpMessagesPostponed;
   QList<PostponedMessage> mPostponedPopUpMessageQueue;
   QList<PostponedMessage> mPendingConsoleMessages;
-  void enqueueMessage(QList<PostponedMessage> &list, const QString &message, Level level);
+  void enqueueMessage(QList<PostponedMessage> &list, const QString &message, const QString &name, Level level);
 };
 
 #endif

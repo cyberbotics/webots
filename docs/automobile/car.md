@@ -13,6 +13,7 @@ Car {
   SFFloat    engineSoundRpmReference        1000
   SFFloat    brakeCoefficient               500
   SFFloat    time0To100                     10
+  SFFloat    maxVelocity                    50
   SFFloat    engineMaxTorque                250
   SFFloat    engineMaxPower                 50000
   SFFloat    engineMinRPM                   1000
@@ -33,7 +34,8 @@ See section [Engine models](driver-library.md#engine-models) for more informatio
 - `engineSoundRpmReference`: Defines the reference rotation per minutes of the engine sound.
 See the [Engine sound](#engine-sound) paragraph for more information about the engine sound simulation.
 - `brakeCoefficient`: Defines the maximum `dampingConstant` applied by the [Brake](../reference/brake.md) on the wheels joint.
-- `time0To100`: Defines the time to accelerate from 0 to 100 km/h in seconds, this value is used to compute the wheels acceleration when controlling the car in cruising speed thanks to the [driver](driver-library.md)
+- `time0To100`: Defines the time to accelerate from 0 to 100 km/h in seconds, this value is used to compute the wheels acceleration when controlling the car in cruising speed thanks to the [driver](driver-library.md).
+- `maxVelocity`: Defines the maximum velocity of the car in meters per second.
 - `engineMaxTorque`: Defines the maximum torque of the motor in `Nm` used to compute the electric engine torque.
 - `engineMaxPower`: Defines the maximum power of the motor in `W` used to compute the electric engine torque.
 - `engineMinRPM and engineMaxRPM`: Defines the working range of the engine (`engineMinRPM` not used in case of `electric` `engineType`).
@@ -82,11 +84,13 @@ Here again, you can easily create your own PROTO that inherits from the [Car](#c
 Several PROTO models that inherit from the [Car](#car) PROTO are provided.
 They represent different models of car:
 
-- the Sport SVR from Range Rover
-- the X5 from BMW
-- the Prius from Toyota
-- the MKZ from Lincoln
-- the C-Zero from Citroen
+- the Sport SVR from Range Rover.
+- the X5 from BMW.
+- the Prius from Toyota.
+- the MKZ from Lincoln.
+- the C-Zero from Citroen.
+- the Model 3 from Tesla.
+- the Sprinter from Mercedes-Benz.
 
 %figure "Models of cars created using the Car PROTO"
 
@@ -100,13 +104,15 @@ For the three other sensor slots, the positions are different for each model (be
 
 %figure "Positions of the car sensor slots"
 
-| Model              | Front slot translation | Top slot translation | Rear slot translation |
-| ------------------ | ---------------------- | -------------------- | --------------------- |
-| BmwX5              | 0.0 0.45 3.85          | 0.0 1.45 1.0         | 0.0 0.3 -1.0          |
-| LincolnMKZ         | 0.0 0.142 3.944        | 0.0 1.16 1.11        | 0.0 0.33 -1.06        |
-| RangeRoverSportSVR | 0.0 0.5 3.5            | 0.0 1.3 1.4          | 0.0 0.33 -1.06        |
-| CitroenCZero       | 0.0 0.05 3.075         | 0.0 1.35 1.075       | 0.0 0.3 -0.425        |
-| ToyotaPrius        | 0.0 0.40 3.635         | 0.0 1.30 1.1         | 0.0 0.3 -0.850        |
+| Model                | Front slot translation | Top slot translation | Rear slot translation |
+| -------------------- | ---------------------- | -------------------- | --------------------- |
+| BmwX5                | 0.0 0.45 3.85          | 0.0 1.45 1.0         | 0.0 0.3 -1.0          |
+| LincolnMKZ           | 0.0 0.142 3.944        | 0.0 1.16 1.11        | 0.0 0.33 -1.06        |
+| RangeRoverSportSVR   | 0.0 0.5 3.5            | 0.0 1.3 1.4          | 0.0 0.33 -1.06        |
+| CitroenCZero         | 0.0 0.05 3.075         | 0.0 1.35 1.075       | 0.0 0.3 -0.425        |
+| ToyotaPrius          | 0.0 0.40 3.635         | 0.0 1.30 1.1         | 0.0 0.3 -0.850        |
+| TeslaModel3          | 0.0 0.142 3.79         | 0.0 1.16 1.11        | 0.0 0.2 -1.05         |
+| MercedesBenzSprinter | 0.0 0.47 5.31          | 0.0 2.3 2.99         | 0.0 0.19 -1.62        |
 
 %end
 
@@ -174,11 +180,13 @@ It is not recommended to use the `void` controller for efficiency reasons.
 CarSimple is not an actual PROTO but defines the common structure of all the 'simple' versions of the cars.
 The different simple versions of the car PROTO nodes represent the different models of [Car](#car):
 
-- the Sport SVR from Range Rover
-- the X5 from BMW
-- the Prius from Toyota
-- the MKZ from Lincoln
-- the C-Zero from Citroen
+- the Sport SVR from Range Rover.
+- the X5 from BMW.
+- the Prius from Toyota.
+- the MKZ from Lincoln.
+- the C-Zero from Citroen.
+- the Model 3 from Tesla.
+- the Sprinter from Mercedes-Benz.
 
 %figure "Models of cars created using the CarSimple PROTO"
 

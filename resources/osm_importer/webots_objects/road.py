@@ -380,7 +380,7 @@ class Road(WebotsObject):
             f.write('}\n')
         # Export roads
         for road in cls.roads:
-            if not isinstance(road.finalPath, LineString):
+            if not isinstance(road.finalPath, LineString) or not road.finalPath.coords:
                 continue
             coords = road.finalPath.coords
 
@@ -776,7 +776,7 @@ class Crossroad:
             lastPoint = roadPathBeforeEndsRemoval[-1]
 
             road.finalPath = road.finalPath.difference(self.shape)
-            if not isinstance(road.finalPath, LineString):
+            if not isinstance(road.finalPath, LineString) or not road.finalPath.coords:
                 continue
 
             roadPath = [Vector2D(x, y) for (x, y) in road.finalPath.coords]

@@ -18,23 +18,28 @@
 #include <webots/InertialUnit.hpp>
 #include "RosSensor.hpp"
 
+#include <webots_ros/get_float_array.h>
+
 using namespace webots;
 
 class RosInertialUnit : public RosSensor {
 public:
   RosInertialUnit(InertialUnit *inertialUnit, Ros *ros);
-  virtual ~RosInertialUnit() { cleanup(); }
+  virtual ~RosInertialUnit();
 
   ros::Publisher createPublisher() override;
   void publishValue(ros::Publisher publisher) override;
   void rosEnable(int samplingPeriod) override { mInertialUnit->enable(samplingPeriod); }
   void rosDisable() override { cleanup(); }
   int rosSamplingPeriod() override { return mInertialUnit->getSamplingPeriod(); }
+  bool getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res);
 
 private:
   void cleanup() { mInertialUnit->disable(); }
 
   InertialUnit *mInertialUnit;
+
+  ros::ServiceServer mLookupTableServer;
 };
 
 #endif  // ROS_INERTIAL_UNIT_HPP

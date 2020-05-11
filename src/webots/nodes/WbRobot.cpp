@@ -138,7 +138,7 @@ void WbRobot::init() {
 
   WbSFString *data = findSFString("data");
   if (data->value() != "") {  // Introduced in Webots 2018a
-    warn("Deprecated 'data' field, please use the 'customData' field instead.");
+    parsingWarn("Deprecated 'data' field, please use the 'customData' field instead.");
     if (mCustomData->value() == "")
       mCustomData->setValue(data->value());
     data->setValue("");
@@ -206,7 +206,7 @@ void WbRobot::postFinalize() {
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbRobot::updateSimulationMode);
 
   if (absoluteScale() != WbVector3(1.0, 1.0, 1.0))
-    warn(tr("This Robot node is scaled: this is discouraged as it could compromise the correct physical behavior."));
+    parsingWarn(tr("This Robot node is scaled: this is discouraged as it could compromise the correct physical behavior."));
 }
 
 void WbRobot::reset() {
@@ -318,8 +318,8 @@ void WbRobot::addDevices(WbNode *node) {
       foreach (WbDevice *deviceB, mDevices) {
         if (deviceA != deviceB && deviceA->deviceName() == deviceB->deviceName() &&
             !displayedWarnings.contains(deviceA->deviceName())) {
-          warn(tr("At least two devices are sharing the same name (\"%1\") while unique names are required.")
-                 .arg(deviceA->deviceName()));
+          parsingWarn(tr("At least two devices are sharing the same name (\"%1\") while unique names are required.")
+                        .arg(deviceA->deviceName()));
           displayedWarnings << deviceA->deviceName();
         }
       }

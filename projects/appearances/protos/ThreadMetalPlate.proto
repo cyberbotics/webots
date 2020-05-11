@@ -1,6 +1,7 @@
 #VRML_SIM R2020b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
+# tags: static
 # A worn paint layer on a metal surface.
 # The type of metal surface can be set using the `type` field.
 

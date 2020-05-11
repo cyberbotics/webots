@@ -90,10 +90,10 @@ void WbTriangleMeshGeometry::createWrenObjects() {
     updateTriangleMesh(false);
 
   foreach (QString warning, mTriangleMesh->warnings())
-    warn(warning);
+    parsingWarn(warning);
 
   if (!mTriangleMeshError.isEmpty())
-    warn(tr("Cannot create %1 because: \"%2\".").arg(nodeModelName()).arg(mTriangleMeshError));
+    parsingWarn(tr("Cannot create %1 because: \"%2\".").arg(nodeModelName()).arg(mTriangleMeshError));
 
   WbGeometry::createWrenObjects();
 
@@ -671,8 +671,8 @@ void WbTriangleMeshGeometry::exportNodeContents(WbVrmlWriter &writer) const {
 ////////////////////////
 
 WbVector3 WbTriangleMeshGeometry::computeFrictionDirection(const WbVector3 &normal) const {
-  warn(tr("A %1 is used in a Bounding object using an asymmetric friction. %1 does not support "
-          "asymmetric friction")
-         .arg(nodeModelName()));
+  parsingWarn(tr("A %1 is used in a Bounding object using an asymmetric friction. %1 does not support "
+                 "asymmetric friction")
+                .arg(nodeModelName()));
   return WbVector3(0, 0, 0);
 }

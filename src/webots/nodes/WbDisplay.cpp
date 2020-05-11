@@ -186,7 +186,7 @@ void WbDisplay::findImageTextures() {
 
   // debug code - print the found materials
   // foreach (WbImageTexture *texture, mImageTextures)
-  //   warn(QString("found image texture %1").arg(texture->usefulName()));
+  //   parsingWarn(QString("found image texture %1").arg(texture->usefulName()));
 }
 
 void WbDisplay::clearImageTextures() {

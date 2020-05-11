@@ -40,6 +40,7 @@ public:
   const int *valuePointer() const { return &mValue; }
   bool isZero() const { return mValue == 0; }
   void setValue(int i);
+  void setValueNoSignal(int i) { mValue = i; }
   WbSFInt &operator=(const WbSFInt &other);
   bool operator==(const WbSFInt &other) const { return mValue == other.mValue; }
 

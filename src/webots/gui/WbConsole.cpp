@@ -22,15 +22,18 @@
 #include "WbLog.hpp"
 #include "WbMessageBox.hpp"
 #include "WbPreferences.hpp"
+#include "WbRobot.hpp"
 #include "WbSyntaxHighlighter.hpp"
 #include "WbTextFind.hpp"
+#include "WbWorld.hpp"
 
 #include <QtGui/QTextBlock>
 #include <QtGui/QTextDocumentFragment>
 
 #include <QtWidgets/QAction>
+#include <QtWidgets/QInputDialog>
+#include <QtWidgets/QLayout>
 #include <QtWidgets/QMenu>
-#include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QStyle>
 
 #include <cassert>
@@ -38,136 +41,301 @@
 
 #include <ode/ode.h>  // for message handlers
 
-// plain text edit with single line highlighting
-class ConsoleEdit : public QPlainTextEdit {
-public:
-  explicit ConsoleEdit(QWidget *parent) : QPlainTextEdit(parent) {
-    setObjectName("ConsoleEdit");
-    setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, &QPlainTextEdit::customContextMenuRequested, this, &ConsoleEdit::showCustomContextMenu);
+ConsoleEdit::ConsoleEdit(QWidget *parent) : QPlainTextEdit(parent) {
+  setObjectName("ConsoleEdit");
+  setContextMenuPolicy(Qt::CustomContextMenu);
+  connect(this, &QPlainTextEdit::customContextMenuRequested, this, &ConsoleEdit::showCustomContextMenu);
 
-    // overwrite selection highlight format
-    // resetting the automatic format applied when searching for some text
-    QPalette p = palette();
-    p.setColor(QPalette::Highlight, p.color(QPalette::Highlight));
-    p.setColor(QPalette::HighlightedText, p.color(QPalette::HighlightedText));
-    setPalette(p);
+  // overwrite selection highlight format
+  // resetting the automatic format applied when searching for some text
+  QPalette p = palette();
+  p.setColor(QPalette::Highlight, p.color(QPalette::Highlight));
+  p.setColor(QPalette::HighlightedText, p.color(QPalette::HighlightedText));
+  setPalette(p);
 
-    mSyntaxHighlighter = WbSyntaxHighlighter::createForLanguage(NULL, document());
-    connect(this, &QPlainTextEdit::selectionChanged, this, &ConsoleEdit::resetSearchTextHighlighting);
+  mSyntaxHighlighter = WbSyntaxHighlighter::createForLanguage(NULL, document());
+  connect(this, &QPlainTextEdit::selectionChanged, this, &ConsoleEdit::resetSearchTextHighlighting);
 
-    // listen to clear console keyboard shortcut
-    addAction(WbActionManager::instance()->action(WbActionManager::CLEAR_CONSOLE));
-    document()->setDefaultStyleSheet("span{\n  white-space:pre;\n}\n");
-  }
+  // listen to clear console keyboard shortcut
+  addAction(WbActionManager::instance()->action(WbActionManager::CLEAR_CONSOLE));
+  document()->setDefaultStyleSheet("span{\n  white-space:pre;\n}\n");
+}
 
-  ~ConsoleEdit() { delete mSyntaxHighlighter; }
+ConsoleEdit::~ConsoleEdit() {
+  delete mSyntaxHighlighter;
+}
 
-  void copy() {
-    if (textCursor().hasSelection())
-      WbClipboard::instance()->setString(textCursor().selection().toPlainText());
-  }
+void ConsoleEdit::copy() {
+  if (textCursor().hasSelection())
+    WbClipboard::instance()->setString(textCursor().selection().toPlainText());
+}
 
-  void mouseDoubleClickEvent(QMouseEvent *event) override {
-    if (event->button() != Qt::LeftButton)
-      return;
+void ConsoleEdit::mouseDoubleClickEvent(QMouseEvent *event) {
+  if (event->button() != Qt::LeftButton)
+    return;
 
-    // find position of double-click
-    QTextCursor cursor(cursorForPosition(event->pos()));
+  // find position of double-click
+  QTextCursor cursor(cursorForPosition(event->pos()));
 
-    // select line under cursor
-    cursor.movePosition(QTextCursor::StartOfLine);
-    cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+  // select line under cursor
+  cursor.movePosition(QTextCursor::StartOfLine);
+  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
 
-    // inform text mEditor
-    static_cast<WbConsole *>(parent())->jumpToError(cursor.selectedText());
+  // inform text mEditor
+  static_cast<WbConsole *>(parent())->jumpToError(cursor.selectedText());
 
-    // mark line
-    QList<QTextEdit::ExtraSelection> selections;
-    QTextEdit::ExtraSelection selection;
-    selection.format.setBackground(Qt::lightGray);
-    selection.cursor = cursor;
-    selections.append(selection);
-    setExtraSelections(selections);
-  }
+  // mark line
+  QList<QTextEdit::ExtraSelection> selections;
+  QTextEdit::ExtraSelection selection;
+  selection.format.setBackground(Qt::lightGray);
+  selection.cursor = cursor;
+  selections.append(selection);
+  setExtraSelections(selections);
+}
 
-public slots:
-  void updateSearchTextHighlighting(QRegExp regExp) {
-    if (regExp.isEmpty())
-      disconnect(this, &QPlainTextEdit::selectionChanged, this, &ConsoleEdit::resetSearchTextHighlighting);
+void ConsoleEdit::updateSearchTextHighlighting(QRegExp regExp) {
+  if (regExp.isEmpty())
+    disconnect(this, &QPlainTextEdit::selectionChanged, this, &ConsoleEdit::resetSearchTextHighlighting);
 
-    mSyntaxHighlighter->setSearchTextRule(regExp);
+  mSyntaxHighlighter->setSearchTextRule(regExp);
 
-    if (!regExp.isEmpty())
-      connect(this, &QPlainTextEdit::selectionChanged, this, &ConsoleEdit::resetSearchTextHighlighting, Qt::UniqueConnection);
-  }
+  if (!regExp.isEmpty())
+    connect(this, &QPlainTextEdit::selectionChanged, this, &ConsoleEdit::resetSearchTextHighlighting, Qt::UniqueConnection);
+}
 
-protected:
-  void keyPressEvent(QKeyEvent *event) override {
-    if (event->modifiers() == Qt::ControlModifier) {
-      switch (event->key()) {
-        case Qt::Key_A:
-          selectAll();
-          event->accept();
-          return;
-        case Qt::Key_C:
-          copy();
-          event->accept();
-          return;
-        default:
-          break;
-      }
+void ConsoleEdit::keyPressEvent(QKeyEvent *event) {
+  if (event->modifiers() == Qt::ControlModifier) {
+    switch (event->key()) {
+      case Qt::Key_A:
+        selectAll();
+        event->accept();
+        return;
+      case Qt::Key_C:
+        copy();
+        event->accept();
+        return;
+      default:
+        break;
     }
-
-    QPlainTextEdit::keyPressEvent(event);
   }
 
-  void keyReleaseEvent(QKeyEvent *event) override { event->ignore(); }
+  QPlainTextEdit::keyPressEvent(event);
+}
 
-  void focusInEvent(QFocusEvent *event) override {
-    QPlainTextEdit::focusInEvent(event);
+void ConsoleEdit::focusInEvent(QFocusEvent *event) {
+  QPlainTextEdit::focusInEvent(event);
 
-    // update application actions
-    WbActionManager *actionManager = WbActionManager::instance();
-    actionManager->setFocusObject(this);
-    actionManager->enableTextEditActions(false);
-    actionManager->setEnabled(WbActionManager::COPY, textCursor().hasSelection());
-    actionManager->setEnabled(WbActionManager::SELECT_ALL, true);
-    actionManager->setEnabled(WbActionManager::FIND, true);
-    actionManager->setEnabled(WbActionManager::FIND_NEXT, true);
-    actionManager->setEnabled(WbActionManager::FIND_PREVIOUS, true);
-    actionManager->setEnabled(WbActionManager::CUT, false);
-    actionManager->setEnabled(WbActionManager::PASTE, false);
-    actionManager->setEnabled(WbActionManager::UNDO, false);
-    actionManager->setEnabled(WbActionManager::REDO, false);
+  // update application actions
+  WbActionManager *actionManager = WbActionManager::instance();
+  actionManager->setFocusObject(this);
+  actionManager->enableTextEditActions(false);
+  actionManager->setEnabled(WbActionManager::COPY, textCursor().hasSelection());
+  actionManager->setEnabled(WbActionManager::SELECT_ALL, true);
+  actionManager->setEnabled(WbActionManager::FIND, true);
+  actionManager->setEnabled(WbActionManager::FIND_NEXT, true);
+  actionManager->setEnabled(WbActionManager::FIND_PREVIOUS, true);
+  actionManager->setEnabled(WbActionManager::CUT, false);
+  actionManager->setEnabled(WbActionManager::PASTE, false);
+  actionManager->setEnabled(WbActionManager::UNDO, false);
+  actionManager->setEnabled(WbActionManager::REDO, false);
+}
+
+void ConsoleEdit::focusOutEvent(QFocusEvent *event) {
+  if (WbActionManager::instance()->focusObject() == this)
+    WbActionManager::instance()->setFocusObject(NULL);
+}
+
+void ConsoleEdit::handleFilterChange() {
+  QAction *action = dynamic_cast<QAction *>(sender());
+  assert(action);
+
+  // disable conflicting filters
+  if (action->isChecked()) {
+    if (action->text() == WbLog::filterName(WbLog::ALL)) {
+      // disable all the specific filters
+      QMenu *menu = dynamic_cast<QMenu *>(action->parent());
+      assert(menu);
+      const QList<QAction *> actions = menu->actions();
+      // for each action of the menu
+      for (int i = 0; i < actions.size(); ++i) {
+        if (actions[i]->isChecked() && actions[i] != action)
+          emit filterDisabled(actions[i]->text());
+      }
+    } else if (action->text() == WbLog::filterName(WbLog::ALL_WEBOTS)) {
+      // disable all the Webots filters
+      foreach (const QString filter, WbLog::webotsFilterNames())
+        emit filterDisabled(filter);
+      emit filterDisabled(WbLog::filterName(WbLog::ALL));
+    } else if (action->text() == WbLog::filterName(WbLog::ALL_CONTROLLERS)) {
+      // disable all the controller filters
+      QMenu *menu = dynamic_cast<QMenu *>(action->parent());
+      assert(menu);
+      const QList<QAction *> actions = menu->actions();
+      // for each action of the menu
+      for (int i = 0; i < actions.size(); ++i) {
+        if (actions[i]->isChecked() && actions[i]->property("isControllerAction").isValid())
+          emit filterDisabled(actions[i]->text());
+      }
+      emit filterDisabled(WbLog::filterName(WbLog::ALL));
+    } else {
+      emit filterDisabled(WbLog::filterName(WbLog::ALL));
+      if (action->property("isControllerAction").isValid())
+        emit filterDisabled(WbLog::filterName(WbLog::ALL_CONTROLLERS));
+      else
+        emit filterDisabled(WbLog::filterName(WbLog::ALL_WEBOTS));
+    }
   }
 
-  void focusOutEvent(QFocusEvent *event) override {
-    if (WbActionManager::instance()->focusObject() == this)
-      WbActionManager::instance()->setFocusObject(NULL);
+  // perform the update
+  if (action->isChecked())
+    emit filterEnabled(action->text());
+  else
+    emit filterDisabled(action->text());
+}
+
+void ConsoleEdit::handleLevelChange() {
+  QAction *action = dynamic_cast<QAction *>(sender());
+  assert(action);
+
+  // disable conflicting levels
+  if (action->isChecked()) {
+    if (action->text() == WbLog::filterName(WbLog::ALL)) {
+      // disable all the specific levels
+      QMenu *menu = dynamic_cast<QMenu *>(action->parent());
+      assert(menu);
+      const QList<QAction *> actions = menu->actions();
+      // for each action of the menu
+      for (int i = 0; i < actions.size(); ++i) {
+        if (actions[i]->isChecked() && actions[i] != action)
+          emit levelDisabled(actions[i]->text());
+      }
+    } else if (action->text() == WbLog::filterName(WbLog::ALL_WEBOTS)) {
+      emit levelDisabled(WbLog::levelName(WbLog::INFO));
+      emit levelDisabled(WbLog::levelName(WbLog::WARNING));
+      emit levelDisabled(WbLog::levelName(WbLog::ERROR));
+      emit levelDisabled(WbLog::filterName(WbLog::ALL));
+    } else if (action->text() == WbLog::filterName(WbLog::ALL_CONTROLLERS)) {
+      emit levelDisabled(WbLog::levelName(WbLog::STDOUT));
+      emit levelDisabled(WbLog::levelName(WbLog::STDERR));
+      emit levelDisabled(WbLog::filterName(WbLog::ALL));
+    } else {
+      emit levelDisabled(WbLog::filterName(WbLog::ALL));
+      if (action->text() == WbLog::levelName(WbLog::STDOUT) || action->text() == WbLog::levelName(WbLog::STDERR))
+        emit levelDisabled(WbLog::filterName(WbLog::ALL_CONTROLLERS));
+      else
+        emit levelDisabled(WbLog::filterName(WbLog::ALL_WEBOTS));
+    }
   }
 
-private:
-  WbSyntaxHighlighter *mSyntaxHighlighter;
+  // perform the update
+  if (action->isChecked())
+    emit levelEnabled(action->text());
+  else
+    emit levelDisabled(action->text());
+}
 
-private slots:
-  void showCustomContextMenu(const QPoint &pt);
+void ConsoleEdit::addContextMenuFilterItem(const QString &name, QMenu *menu, const QString &toolTip, bool isControllerAction) {
+  WbConsole *console = dynamic_cast<WbConsole *>(parentWidget());
+  assert(console);
+  QAction *action = new QAction(menu);
+  action->setText(name);
+  if (!toolTip.isEmpty())
+    action->setToolTip(toolTip);
+  if (isControllerAction)
+    action->setProperty("isControllerAction", true);
+  action->setCheckable(true);
+  action->setChecked(console->getEnabledFilters().contains(name));
+  menu->addAction(action);
+  connect(action, &QAction::toggled, this, &ConsoleEdit::handleFilterChange);
+}
 
-  void resetSearchTextHighlighting() { updateSearchTextHighlighting(QRegExp()); }
-};
+void ConsoleEdit::addContextMenuLevelItem(const QString &name, QMenu *menu, const QString &toolTip) {
+  WbConsole *console = dynamic_cast<WbConsole *>(parentWidget());
+  assert(console);
+  QAction *action = new QAction(menu);
+  action->setText(name);
+  if (!toolTip.isEmpty())
+    action->setToolTip(toolTip);
+  action->setCheckable(true);
+  action->setChecked(console->getEnabledLevels().contains(name));
+  menu->addAction(action);
+  connect(action, &QAction::toggled, this, &ConsoleEdit::handleLevelChange);
+}
 
 void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
+  WbConsole *console = dynamic_cast<WbConsole *>(parentWidget());
+  assert(console);
+
   QMenu *menu = createStandardContextMenu();
   menu->addAction(WbActionManager::instance()->action(WbActionManager::FIND));
   menu->addSeparator();
+
+  // filters
+  QMenu *filterMenu = menu->addMenu(tr("&Filter"));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::ALL), filterMenu, tr("Display all the logs."));
+  filterMenu->addSeparator();
+  addContextMenuFilterItem(WbLog::filterName(WbLog::ALL_WEBOTS), filterMenu, tr("Display all the messages from Webots."));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::PARSING), filterMenu,
+                           tr("Display parsing error when editing or loading a world."));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::ODE), filterMenu, tr("Display error messages from ODE."));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::PHYSICS_PLUGINS), filterMenu,
+                           tr("Display messages from the physics plugins."));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::JAVASCRIPT), filterMenu,
+                           tr("Display Javascript log from the robot-windows."));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::COMPILATION), filterMenu, tr("Output from the compilation."));
+  addContextMenuFilterItem(WbLog::filterName(WbLog::WEBOTS_OTHERS), filterMenu, tr("Display all the other logs."));
+  filterMenu->addSeparator();
+  addContextMenuFilterItem(WbLog::filterName(WbLog::ALL_CONTROLLERS), filterMenu,
+                           tr("Display all the messages from the controller(s)."));
+  const WbWorld *world = WbWorld::instance();
+  if (world) {
+    foreach (const WbRobot *robot, world->robots())
+      addContextMenuFilterItem(robot->name(), filterMenu,
+                               tr("Display output from the controller of the '%1' controller.").arg(robot->name()), true);
+  }
+
+  // levels
+  QMenu *levelMenu = menu->addMenu(tr("&Level"));
+  addContextMenuLevelItem(WbLog::filterName(WbLog::ALL), levelMenu, tr("Display all the logs."));
+  levelMenu->addSeparator();
+  addContextMenuLevelItem(WbLog::filterName(WbLog::ALL_WEBOTS), levelMenu, tr("Display all the Webots logs."));
+  addContextMenuLevelItem(WbLog::levelName(WbLog::ERROR), levelMenu, tr("Displays Webots errors and controller(s) stderr."));
+  addContextMenuLevelItem(WbLog::levelName(WbLog::WARNING), levelMenu, tr("Displays Webots warnings."));
+  addContextMenuLevelItem(WbLog::levelName(WbLog::INFO), levelMenu, tr("Displays Webots info."));
+  levelMenu->addSeparator();
+  addContextMenuLevelItem(WbLog::filterName(WbLog::ALL_CONTROLLERS), levelMenu, tr("Display controller(s) stdout and stderr."));
+  addContextMenuLevelItem(WbLog::levelName(WbLog::STDOUT), levelMenu, tr("Display controller(s) stdout."));
+  addContextMenuLevelItem(WbLog::levelName(WbLog::STDERR), levelMenu, tr("Display controller(s) stderr."));
+  menu->addSeparator();
+
+  // actions
+  QAction *renameAction = new QAction(this);
+  renameAction->setText(tr("Rename Console"));
+  connect(renameAction, &QAction::triggered, console, &WbConsole::rename);
+  QAction *clearAction = new QAction(this);
+  clearAction->setText(tr("Clear Console"));
+  connect(clearAction, &QAction::triggered, this, &ConsoleEdit::clear);
+  menu->addAction(renameAction);
+  menu->addAction(clearAction);
   menu->addAction(WbActionManager::instance()->action(WbActionManager::CLEAR_CONSOLE));
+  menu->addAction(WbActionManager::instance()->action(WbActionManager::NEW_CONSOLE));
+
+  // execution
   menu->exec(mapToGlobal(pt));
+
+  // cleanup
+  const QList<QAction *> actions = filterMenu->actions() + levelMenu->actions();
+  for (int i = 0; i < actions.size(); ++i)
+    delete actions[i];
+  menu->removeAction(renameAction);
+  menu->removeAction(clearAction);
+  delete renameAction;
+  delete clearAction;
   delete menu;
 }
 
 static bool gStdoutTee = false;
 static bool gStderrTee = false;
-static WbConsole *gInstance = NULL;
 
 void WbConsole::enableStdOutRedirectToTerminal() {
   gStdoutTee = true;
@@ -177,19 +345,17 @@ void WbConsole::enableStdErrRedirectToTerminal() {
   gStderrTee = true;
 };
 
-WbConsole *WbConsole::instance() {
-  return gInstance;
-}
-
 namespace {
   void odeErrorFunc(int errnum, const char *msg, va_list ap) {
     const QString error = QString::vasprintf(msg, ap);
-    emit WbLog::instance()->logEmitted(WbLog::ERROR, QString("ODE Error %1: ").arg(errnum) + error, false);
+    emit WbLog::instance()->logEmitted(WbLog::ERROR, QString("ODE Error %1: ").arg(errnum) + error, false,
+                                       WbLog::filterName(WbLog::ODE));
   }
 
   void odeDebugFunc(int errnum, const char *msg, va_list ap) {
     const QString debug = QString::vasprintf(msg, ap);
-    emit WbLog::instance()->logEmitted(WbLog::DEBUG, QString("ODE INTERNAL ERROR %1: ").arg(errnum) + debug, false);
+    emit WbLog::instance()->logEmitted(WbLog::DEBUG, QString("ODE INTERNAL ERROR %1: ").arg(errnum) + debug, false,
+                                       WbLog::filterName(WbLog::ODE));
   }
 
   void odeMessageFunc(int errnum, const char *msg, va_list ap) {
@@ -200,31 +366,26 @@ namespace {
                         "your bounding object(s), reducing the number of joints, or reducing "
                         "WorldInfo.basicTimeStep.");
 
-      emit WbLog::instance()->logEmitted(WbLog::WARNING, QString("WARNING: ") + message, false);
+      emit WbLog::instance()->logEmitted(WbLog::WARNING, QString("WARNING: ") + message, false, WbLog::filterName(WbLog::ODE));
     } else
-      emit WbLog::instance()->logEmitted(WbLog::WARNING, QString("ODE Message %1: ").arg(errnum) + message, false);
+      emit WbLog::instance()->logEmitted(WbLog::WARNING, QString("ODE Message %1: ").arg(errnum) + message, false,
+                                         WbLog::filterName(WbLog::ODE));
   }
 }  // namespace
 
-WbConsole::WbConsole(QWidget *parent) :
+WbConsole::WbConsole(QWidget *parent, const QString &name) :
   WbDockWidget(parent),
+  mEnabledFilters(WbLog::filterName(WbLog::ALL)),
+  mEnabledLevels(WbLog::filterName(WbLog::ALL)),
   mEditor(new ConsoleEdit(this)),
   mErrorPatterns(createErrorMatchingPatterns()),  // patterns for error matching
+  mConsoleName(name),
   mBold(false),
   mUnderline(false),
   mIsOverwriteEnabled(false),  // option to overwrite last line
   mFindDialog(NULL),
   mTextFind(new WbTextFind(mEditor)) {
-  setWindowTitle("Console");
-  setTabbedTitle("Console");
-  setObjectName("Console");
-  gInstance = this;
-
-  // setup for main window
-  QAction *const action = toggleViewAction();
-  action->setText("Console");
-  action->setStatusTip("Toggle the view of the console.");
-  action->setShortcut(Qt::CTRL + Qt::Key_L);
+  updateTitle();
 
   titleBarWidget()->setObjectName("consoleTitleBar");
   titleBarWidget()->style()->polish(titleBarWidget());
@@ -234,6 +395,11 @@ WbConsole::WbConsole(QWidget *parent) :
   mEditor->setMaximumBlockCount(5000);  // limit the memory usage
   mEditor->setFocusPolicy(Qt::ClickFocus);
   setWidget(mEditor);
+
+  connect(mEditor, &ConsoleEdit::filterEnabled, this, &WbConsole::enableFilter);
+  connect(mEditor, &ConsoleEdit::filterDisabled, this, &WbConsole::disableFilter);
+  connect(mEditor, &ConsoleEdit::levelEnabled, this, &WbConsole::enableLevel);
+  connect(mEditor, &ConsoleEdit::levelDisabled, this, &WbConsole::disableLevel);
 
   connect(mEditor, &ConsoleEdit::copyAvailable, this, &WbConsole::enableCopyAction);
   connect(WbActionManager::instance(), &WbActionManager::userConsoleEditCommandReceived, this, &WbConsole::handleUserCommand);
@@ -246,8 +412,8 @@ WbConsole::WbConsole(QWidget *parent) :
   connect(mTextFind, &WbTextFind::findStringChanged, mEditor, &ConsoleEdit::updateSearchTextHighlighting);
 
   // listen to WbLog
-  connect(WbLog::instance(), SIGNAL(logEmitted(WbLog::Level, const QString &, bool)), this,
-          SLOT(appendLog(WbLog::Level, const QString &, bool)));
+  connect(WbLog::instance(), SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)), this,
+          SLOT(appendLog(WbLog::Level, const QString &, bool, const QString &)));
   connect(WbLog::instance(), SIGNAL(cleared()), this, SLOT(clear()));
 
   // Install ODE message handlers
@@ -256,16 +422,29 @@ WbConsole::WbConsole(QWidget *parent) :
   dSetMessageHandler(odeMessageFunc);
 }
 
-WbConsole::~WbConsole() {
-  for (int i = 0; mErrorPatterns[i]; ++i)
-    delete mErrorPatterns[i];
-  gInstance = NULL;
+void WbConsole::setEnabledFilters(const QStringList &filters) {
+  mEnabledFilters = filters;
+  updateTitle();
+}
+
+void WbConsole::setEnabledLevels(const QStringList &levels) {
+  mEnabledLevels = levels;
+  updateTitle();
 }
 
 void WbConsole::clear(bool reset) {
   mEditor->clear();
   if (reset)
     resetFormat();
+}
+
+void WbConsole::rename() {
+  bool ok = false;
+  const QString name = QInputDialog::getText(this, tr("Console Name"), tr("New name:"), QLineEdit::Normal, mConsoleName, &ok);
+  if (ok && !name.isEmpty()) {
+    mConsoleName = name;
+    updateTitle();
+  }
 }
 
 void WbConsole::resetFormat() {
@@ -517,9 +696,46 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
   handleCRAndLF(htmlSpan(msg, level));
 }
 
-void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup) {
+void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup, const QString &logName) {
   if (message.isEmpty())
     return;
+
+  // check enabled filters
+  if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL))) {
+    if (logName.isEmpty()) {
+      // WEBOTS_OTHERS
+      if (!mEnabledFilters.contains(WbLog::filterName(WbLog::WEBOTS_OTHERS)) &&
+          !mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_WEBOTS)))
+        return;
+    } else if (!mEnabledFilters.contains(logName)) {
+      if (WbLog::webotsFilterNames().contains(logName) && logName != WbLog::filterName(WbLog::WEBOTS_OTHERS)) {
+        if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_WEBOTS)))
+          return;
+      } else if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_CONTROLLERS)))
+        return;
+    }
+  }
+
+  // check enabled levels
+  if (!mEnabledLevels.contains(WbLog::filterName(WbLog::ALL))) {
+    switch (level) {
+      case WbLog::DEBUG:
+      case WbLog::WARNING:
+        if (!mEnabledLevels.contains(WbLog::levelName(WbLog::WARNING)))
+          return;
+        break;
+      case WbLog::STDOUT:
+      case WbLog::STDERR:
+      case WbLog::INFO:
+      case WbLog::ERROR:
+        if (!mEnabledLevels.contains(WbLog::levelName(level)))
+          return;
+        break;
+      case WbLog::FATAL:
+      default:
+        break;
+    }
+  }
 
   switch (level) {
     case WbLog::INFO:
@@ -625,6 +841,24 @@ void WbConsole::jumpToError(const QString &errorLine) {
   editor->unmarkError();
 }
 
+void WbConsole::updateTitle() {
+  setObjectName(mConsoleName + mEnabledFilters.join(QString()) + mEnabledLevels.join(QString()));
+  QString title(mConsoleName + " - ");
+  title += mEnabledFilters.join(" | ");
+  if (!mEnabledLevels.contains(WbLog::filterName(WbLog::ALL)))
+    title += QString(" - ") + mEnabledLevels.join(" | ");
+  setWindowTitle(title);
+  if (mEnabledFilters.size() == 1 && mConsoleName == "Console")
+    setTabbedTitle(mEnabledFilters.at(0));
+  else
+    setTabbedTitle(mConsoleName);
+}
+
+void WbConsole::closeEvent(QCloseEvent *event) {
+  WbDockWidget::closeEvent(event);
+  emit closed();
+}
+
 void WbConsole::updateFont() {
   // use the font of the preferences
   const WbPreferences *const prefs = WbPreferences::instance();
@@ -690,4 +924,26 @@ void WbConsole::openFindDialog() {
 void WbConsole::deleteFindDialog() {
   // WbFindReplaceDialog deletes automatically on close
   mFindDialog = NULL;
+}
+
+void WbConsole::enableFilter(const QString &filter) {
+  assert(!mEnabledFilters.contains(filter));
+  mEnabledFilters.append(filter);
+  updateTitle();
+}
+
+void WbConsole::disableFilter(const QString &filter) {
+  mEnabledFilters.removeAll(filter);
+  updateTitle();
+}
+
+void WbConsole::enableLevel(const QString &level) {
+  assert(!mEnabledLevels.contains(level));
+  mEnabledLevels.append(level);
+  updateTitle();
+}
+
+void WbConsole::disableLevel(const QString &level) {
+  mEnabledLevels.removeAll(level);
+  updateTitle();
 }

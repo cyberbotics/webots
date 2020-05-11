@@ -56,8 +56,8 @@ void WbWorldInfo::init() {
   mPhysicsReceiver = NULL;
 
   if (findSFString("fast2d")->value() != "")
-    warn(tr("fast2d plugin are not supported anymore, if you don't want to simulate dynamic, you can use the built-in "
-            "kinematic mode of Webots."));
+    parsingWarn(tr("fast2d plugin are not supported anymore, if you don't want to simulate dynamic, you can use the built-in "
+                   "kinematic mode of Webots."));
 }
 
 WbWorldInfo::WbWorldInfo(WbTokenizer *tokenizer) : WbBaseNode("WorldInfo", tokenizer) {
@@ -191,7 +191,7 @@ void WbWorldInfo::updateFps() {
 void WbWorldInfo::displayOptimalThreadCountWarning() {
   int threadPreferenceNumber = WbPreferences::instance()->value("General/numberOfThreads", 1).toInt();
   if (mOptimalThreadCount->value() > 1 and threadPreferenceNumber > 1)
-    warn(
+    parsingWarn(
       tr("Physics multi-threading is enabled. "
          "This can have a noticeable impact on the simulation speed (negative or positive depending on the simulated world). "
          "In case of multi-threading, simulation replicability is not guaranteed. "));
@@ -203,7 +203,7 @@ void WbWorldInfo::updateOptimalThreadCount() {
   // raise any warning
   int threadPreferenceNumber = WbPreferences::instance()->value("General/numberOfThreads", 1).toInt();
   if (mOptimalThreadCount->value() > threadPreferenceNumber)
-    warn(tr("A limit of '%1' threads is set in the preferences.").arg(threadPreferenceNumber));
+    parsingWarn(tr("A limit of '%1' threads is set in the preferences.").arg(threadPreferenceNumber));
   else if (!WbFieldChecker::resetIntIfNonPositive(this, mOptimalThreadCount, 1))
     emit optimalThreadCountChanged();
 }
@@ -306,14 +306,14 @@ void WbWorldInfo::updateGravityBasis() {
 void WbWorldInfo::updateNorthDirection() {
   if (mNorthDirection->value().isNull()) {
     mNorthDirection->setValue(1, 0, 0);
-    warn(tr("'northDirection' must be a unit vector. Reset to default value (1, 0, 0)."));
+    parsingWarn(tr("'northDirection' must be a unit vector. Reset to default value (1, 0, 0)."));
   }
 }
 
 void WbWorldInfo::updateGpsCoordinateSystem() {
   if (mGpsCoordinateSystem->value().compare("local") != 0 and mGpsCoordinateSystem->value().compare("WGS84") != 0) {
     mGpsCoordinateSystem->setValue("local");
-    warn(tr("'gpsCoordinateSystem' must either be 'local' or 'WGS84'. Reset to default value 'local'."));
+    parsingWarn(tr("'gpsCoordinateSystem' must either be 'local' or 'WGS84'. Reset to default value 'local'."));
   }
   emit gpsCoordinateSystemChanged();
 }

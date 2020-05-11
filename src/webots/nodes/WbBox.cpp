@@ -194,15 +194,16 @@ void WbBox::checkFluidBoundingObjectOrientation() {
   static const double BOX_THRESHOLD = M_PI_2;
 
   if (fabs(alpha) >= BOX_THRESHOLD)
-    warn("The normal to the immersion plane defined by this Box has a large defect angle with the gravity vector."
-         "This may yield unexpected behaviors when immersing solids. (Please consult the Reference Manual for the definition "
-         "of immersion planes.)");
+    parsingWarn(
+      "The normal to the immersion plane defined by this Box has a large defect angle with the gravity vector."
+      "This may yield unexpected behaviors when immersing solids. (Please consult the Reference Manual for the definition "
+      "of immersion planes.)");
 }
 
 dGeomID WbBox::createOdeGeom(dSpaceID space) {
   const WbVector3 &size = mSize->value();
   if (size.x() <= 0.0 || size.y() <= 0.0 || size.z() <= 0.0) {
-    warn(tr("'size' must be positive: construction of the Box in 'boundingObject' failed."));
+    parsingWarn(tr("'size' must be positive: construction of the Box in 'boundingObject' failed."));
     return NULL;
   }
 
@@ -234,7 +235,7 @@ const WbVector3 WbBox::scaledSize() const {
 bool WbBox::isSuitableForInsertionInBoundingObject(bool warning) const {
   const bool invalidDimensions = (mSize->x() <= 0.0 || mSize->y() <= 0.0 || mSize->z() <= 0.0);
   if (warning && invalidDimensions)
-    warn(tr("All 'size' components must be positive for a Box used in a 'boundingObject'."));
+    parsingWarn(tr("All 'size' components must be positive for a Box used in a 'boundingObject'."));
 
   return !invalidDimensions;
 }

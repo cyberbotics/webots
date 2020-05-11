@@ -399,10 +399,9 @@ void WbNode::setUseName(const QString &useName, bool signal) {
 QString WbNode::fullName() const {
   if (isUseNode())
     return "USE " + mUseName;
-  else if (!defName().isEmpty())
+  if (!defName().isEmpty())
     return "DEF " + mDefName + " " + modelName();
-  else
-    return modelName();
+  return modelName();
 }
 
 QString WbNode::fullVrmlName() const {
@@ -413,8 +412,7 @@ QString WbNode::fullVrmlName() const {
 
   if (defName().isEmpty())
     return name;
-  else
-    return "DEF " + mDefName + " " + name;
+  return "DEF " + mDefName + " " + name;
 }
 
 QString WbNode::usefulName() const {
@@ -485,20 +483,15 @@ QString WbNode::extractFieldName(const QString &message) const {
   return fieldName;
 }
 
-void WbNode::warn(const QString &message) const {
-  QString fieldName = extractFieldName(message);
-  QString parameterName;
-  QString path = fullPath(fieldName, parameterName);
-  QString improvedMsg = message;
-
-  if (!fieldName.isEmpty() && !parameterName.isEmpty())
-    // improve message by displaying parameter name instead of hidden field name
-    improvedMsg.replace("'" + fieldName + "'", "'" + parameterName + "'");
-
-  WbLog::warning(path + ": " + improvedMsg);
+void WbNode::parsingWarn(const QString &message) const {
+  warn(message, true);
 }
 
-void WbNode::info(const QString &message) const {
+void WbNode::parsingInfo(const QString &message) const {
+  info(message, true);
+}
+
+void WbNode::warn(const QString &message, bool parsingMessage) const {
   QString fieldName = extractFieldName(message);
   QString parameterName;
   QString path = fullPath(fieldName, parameterName);
@@ -508,7 +501,26 @@ void WbNode::info(const QString &message) const {
     // improve message by displaying parameter name instead of hidden field name
     improvedMsg.replace("'" + fieldName + "'", "'" + parameterName + "'");
 
-  WbLog::info(path + ": " + improvedMsg);
+  if (parsingMessage)
+    WbLog::warning(path + ": " + improvedMsg, false, WbLog::PARSING);
+  else
+    WbLog::warning(path + ": " + improvedMsg);
+}
+
+void WbNode::info(const QString &message, bool parsingMessage) const {
+  QString fieldName = extractFieldName(message);
+  QString parameterName;
+  QString path = fullPath(fieldName, parameterName);
+  QString improvedMsg = message;
+
+  if (!fieldName.isEmpty() && !parameterName.isEmpty())
+    // improve message by displaying parameter name instead of hidden field name
+    improvedMsg.replace("'" + fieldName + "'", "'" + parameterName + "'");
+
+  if (parsingMessage)
+    WbLog::info(path + ": " + improvedMsg, false, WbLog::PARSING);
+  else
+    WbLog::info(path + ": " + improvedMsg);
 }
 
 void WbNode::cleanup() {
@@ -582,13 +594,12 @@ WbField *WbNode::parentFieldAndIndex(int &index, bool internal) const {
     if (sfnode && sfnode->value() == this) {
       index = 0;
       return field;
-    } else {
-      const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(field->value());
-      if (mfnode) {
-        index = mfnode->nodeIndex(this);
-        if (index != -1)
-          return field;
-      }
+    }
+    const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(field->value());
+    if (mfnode) {
+      index = mfnode->nodeIndex(this);
+      if (index != -1)
+        return field;
     }
   }
 
@@ -798,8 +809,7 @@ int WbNode::findSubFieldIndex(const WbField *const searched) const {
     foreach (WbField *const field, node->mFields) {
       if (field == searched)
         return count;
-      else
-        ++count;
+      ++count;
     }
   }
   assert(0);
@@ -815,8 +825,8 @@ WbField *WbNode::findSubField(int index, WbNode *&parentNode) const {
       if (count == index) {
         parentNode = node;
         return field;
-      } else
-        ++count;
+      }
+      ++count;
     }
   }
   assert(0);
@@ -863,7 +873,7 @@ void WbNode::validate(const WbNode *upperNode, const WbField *upperField, bool i
               errorMessage.prepend(tr(" Skipped node: "));
           }
 
-          warn(errorMessage);
+          parsingWarn(errorMessage);
         } else
           child->validate(NULL, NULL, isInBoundingObject);
       }
@@ -893,7 +903,7 @@ void WbNode::validate(const WbNode *upperNode, const WbField *upperField, bool i
           }
 
           --i;
-          warn(errorMessage);
+          parsingWarn(errorMessage);
         } else
           child->validate(NULL, NULL, isInBoundingObject);
       }
@@ -1050,25 +1060,22 @@ QStringList WbNode::listTextureFiles() const {
 }
 
 bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
-  if (writer.isX3d()) {
-    // actual export is done in WbBaseNode
+  if (writer.isX3d())  // actual export is done in WbBaseNode
     return false;
-  } else {  // VRML or PROTO
-    if (isUseNode()) {
-      writer << "USE " << mUseName << "\n";
-      return true;
-    }
-    if (writer.isVrml())
-      writer << fullVrmlName();
-    else {
-      if (isDefNode())
-        writer << "DEF " << defName() << " ";
-      writer << nodeModelName();
-    }
-    writer << " {\n";
-    writer.increaseIndent();
-    return false;
+  if (isUseNode()) {
+    writer << "USE " << mUseName << "\n";
+    return true;
   }
+  if (writer.isVrml())
+    writer << fullVrmlName();
+  else {
+    if (isDefNode())
+      writer << "DEF " << defName() << " ";
+    writer << nodeModelName();
+  }
+  writer << " {\n";
+  writer.increaseIndent();
+  return false;
 }
 
 void WbNode::exportNodeFields(WbVrmlWriter &writer) const {
@@ -1108,6 +1115,7 @@ void WbNode::exportNodeContents(WbVrmlWriter &writer) const {
 }
 
 void WbNode::writeExport(WbVrmlWriter &writer) const {
+  assert(!(writer.isX3d() && isProtoParameterNode()));
   if (exportNodeHeader(writer))
     return;
   exportNodeContents(writer);
@@ -1274,7 +1282,7 @@ WbNode *WbNode::clone() const {
   // otherwise we need to instantiate the node for a PROTO instance
   WbNode *const copy = WbNodeFactory::instance()->createCopy(*this);
   if (!copy)
-    warn(tr("Could not instantiate '%1' node: this class is not yet implemented in Webots.").arg(model()->name()));
+    parsingWarn(tr("Could not instantiate '%1' node: this class is not yet implemented in Webots.").arg(model()->name()));
 
   return copy;
 }
@@ -1310,9 +1318,8 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
       protoLevel = 1;
     else
       ++protoLevel;
-  } else {
+  } else
     gDerivedProtoAncestorFlag = true;
-  }
 
   const bool previousTopParameterFlag = gTopParameterFlag;
   const bool topParameter = (previousProtoLevel == -1) &&
@@ -1476,8 +1483,8 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
   proto->ref(true);
 
   WbNode *const instance = newNode->cloneAndReferenceProtoInstance();
-  int id = newNode->uniqueId();  // we want to keep this id because it should match the 'context.id' value used when generating
-                                 // procedural PROTO nodes
+  int id = newNode->uniqueId();  // we want to keep this id because it should match the 'context.id' value used when
+                                 // generating procedural PROTO nodes
   delete newNode;
 
   gProtoParameterNodeFlag = true;
@@ -1579,8 +1586,8 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
     }
   }
 
-  // these tests are because of the multiple possible contexts to pass in this function (e.g. regular load versus add node from
-  // scene tree gui)
+  // these tests are because of the multiple possible contexts to pass in this function (e.g. regular load versus add node
+  // from scene tree gui)
   bool topProto = isTopLevel && gProtoParameterList.size() <= 1 && !instance->hasAProtoAncestor();
   instance->setupDescendantAndNestedProtoFlags(topProto, false, fromSceneTree);
 
@@ -1697,14 +1704,9 @@ bool WbNode::isProtoParameterChild(const WbNode *node) const {
     const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(field->value());
     if (sfnode && sfnode->value() == node)
       return true;
-    else {
-      const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(field->value());
-      if (mfnode) {
-        int index = mfnode->nodeIndex(node);
-        if (index != -1)
-          return true;
-      }
-    }
+    const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(field->value());
+    if (mfnode && mfnode->nodeIndex(node) != -1)
+      return true;
   }
 
   return false;

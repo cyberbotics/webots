@@ -181,6 +181,13 @@ void WbX3dStreamingServer::propagateNodeAddition(WbNode *node) {
   if (!isActive() || WbWorld::instance() == NULL)
     return;
 
+  if (node->isProtoParameterNode()) {
+    // PROTO parameter nodes are not exported to X3D or transmitted to webots.min.js
+    foreach (WbNode *nodeInstance, node->protoParameterNodeInstances())
+      propagateNodeAddition(nodeInstance);
+    return;
+  }
+
   WbStreamingServer::propagateNodeAddition(node);
 
   WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);

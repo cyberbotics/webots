@@ -133,6 +133,7 @@ lib/webots/libQt5OpenGL.so* [linux]
 lib/webots/libQt5Positioning.so* [linux]
 lib/webots/libQt5PrintSupport.so* [linux]
 lib/webots/libQt5Qml.so* [linux]
+lib/webots/libQt5QmlModels.so* [linux]
 lib/webots/libQt5Quick.so* [linux]
 lib/webots/libQt5QuickWidgets.so* [linux]
 lib/webots/libQt5Sensors.so* [linux]
@@ -305,7 +306,7 @@ resources/translations/
 resources/translations/Makefile
 resources/translations/*.ts
 resources/translations/*.qm
-resources/translations/readme.txt
+resources/translations/README.md
 resources/web/
 resources/web/local/
 resources/web/local/webots.css

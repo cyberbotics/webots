@@ -21,6 +21,7 @@ void WbSFVector2::readSFVector2(WbTokenizer *tokenizer, const QString &worldPath
     double x = tokenizer->nextToken()->toDouble();
     double y = tokenizer->nextToken()->toDouble();
     mValue.setXy(x, y);
+    mValue.clamp();
   } catch (...) {
     tokenizer->reportError(tr("Expected floating point value, found %1").arg(tokenizer->lastWord()), tokenizer->lastToken());
     tokenizer->ungetToken();  // unexpected token: keep the tokenizer coherent
