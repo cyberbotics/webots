@@ -798,9 +798,43 @@ class AnsiCodes(object):
 
 %include <webots/transform_node_object.h>
 
-%extend WbTransformNodeObject {
+%extend _WbTransformNodeObject {
+  %pythoncode %{
+    def __str__(self):
+      return str(self.get_name())
+
+    def __repr__(self):
+      return self.__str__()
+
+    def get_children(self):
+      children = []
+      for i in range(self.__get_n_children()):
+        child = self.get_child(i)
+        children.append(child)
+      return children
+
+    def get_name(self):
+      return self.__get_name_bytes().decode('utf-8') 
+  %}
+
   PyObject *get_type() {
     return PyInt_FromLong($self->type);
+  }
+
+  _WbTransformNodeObject *get_parent() {
+    return $self->parent;
+  }
+
+  _WbTransformNodeObject *get_child(int index) const {
+    return $self->children[index];
+  }
+
+  PyObject *__get_n_children() {
+    return PyInt_FromLong($self->n_children);
+  }
+
+  PyObject *__get_name_bytes() {
+    return PyBytes_FromStringAndSize($self->name, strlen($self->name));
   }
 };
 
