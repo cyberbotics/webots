@@ -86,7 +86,7 @@ class Server { // eslint-disable-line no-unused-vars
     if (message.indexOf('webots:ws://') === 0 || message.indexOf('webots:wss://') === 0) {
       var url = message.substring(7);
       var httpServerUrl = url.replace(/ws/, 'http'); // Serve the texture images. SSL prefix is supported.
-      TextureLoader.setTexturePathPrefix(httpServerUrl + '/');
+      TextureLoader.setTexturePathPrefix(httpServerUrl);
       this.view.stream = new Stream(url, this.view, this.onready);
       this.view.stream.connect();
     } else if (message.indexOf('controller:') === 0) {
