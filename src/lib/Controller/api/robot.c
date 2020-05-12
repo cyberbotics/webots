@@ -350,6 +350,46 @@ static void robot_configure(WbRequest *r) {
   wb_robot_window_load_library(robot.window_filename);
   robot.simulation_mode = request_read_int32(r);
 
+  // Parse transformation tree
+  int n_nodes = request_read_int32(r);
+  for (int i = 0; i < n_nodes; i++) {
+    unsigned char node_type = request_read_uchar(r);
+    if (node_type == WB_TF_NODE_JOINT) {
+      WbTransformNodeObject *node = (WbTransformNodeObject *)malloc(sizeof(WbTransformNodeObject));
+      node->n_children = 0;
+      node->id = request_read_int32(r);
+      int parent_id = request_read_int32(r);
+      node->name = "";
+      node->type = WB_TF_NODE_JOINT;
+      node->position = request_read_double(r);
+      node->axis[0] = request_read_double(r);
+      node->axis[1] = request_read_double(r);
+      node->axis[2] = request_read_double(r);
+      WbTransformNodeObject *parent_node = tf_tree_find(robot.tf_tree, parent_id);
+      tf_tree_add(parent_node, node);
+    } else if (node_type == WB_TF_NODE_LINK) {
+      WbTransformNodeObject *node = (WbTransformNodeObject *)malloc(sizeof(WbTransformNodeObject));
+      node->n_children = 0;
+      node->id = request_read_int32(r);
+      node->type = WB_TF_NODE_LINK;
+      int parent_id = request_read_int32(r);
+      for (int i = 0; i < 3; i++)
+        node->translation[i] = request_read_double(r);
+      for (int i = 0; i < 9; i++)
+        node->rotation[i] = request_read_double(r);
+      node->name = request_read_string(r);
+      if (robot.tf_tree == NULL) {
+        robot.tf_tree = node;
+        robot.tf_tree->parent = NULL;
+      } else {
+        WbTransformNodeObject *parent_node = tf_tree_find(robot.tf_tree, parent_id);
+        tf_tree_add(parent_node, node);
+      }
+    } else {
+      // Unknown node type
+    }
+  }
+
   // printf("configure done\n");
 }
 
@@ -417,39 +457,6 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
     return;
 
   switch (message) {
-    case C_ROBOT_TREE_JOINT: {
-      WbTransformNodeObject *node = (WbTransformNodeObject *)malloc(sizeof(WbTransformNodeObject));
-      node->n_children = 0;
-      node->id = request_read_int32(r);
-      int parent_id = request_read_int32(r);
-      node->name = "";
-      node->type = WB_TF_NODE_JOINT;
-      node->position = request_read_double(r);
-      node->axis[0] = request_read_double(r);
-      node->axis[1] = request_read_double(r);
-      node->axis[2] = request_read_double(r);
-      WbTransformNodeObject *parent_node = tf_tree_find(robot.tf_tree, parent_id);
-      tf_tree_add(parent_node, node);
-    } break;
-    case C_ROBOT_TREE_LINK: {
-      WbTransformNodeObject *node = (WbTransformNodeObject *)malloc(sizeof(WbTransformNodeObject));
-      node->n_children = 0;
-      node->id = request_read_int32(r);
-      node->type = WB_TF_NODE_LINK;
-      int parent_id = request_read_int32(r);
-      for (int i = 0; i < 3; i++)
-        node->translation[i] = request_read_double(r);
-      for (int i = 0; i < 9; i++)
-        node->rotation[i] = request_read_double(r);
-      node->name = request_read_string(r);
-      if (robot.tf_tree == NULL) {
-        robot.tf_tree = node;
-        robot.tf_tree->parent = NULL;
-      } else {
-        WbTransformNodeObject *parent_node = tf_tree_find(robot.tf_tree, parent_id);
-        tf_tree_add(parent_node, node);
-      }
-    } break;
     case C_ROBOT_TIME:
       simulation_time = request_read_double(r);
       break;
@@ -1111,7 +1118,6 @@ int wb_robot_init() {  // API initialization
   }
 
   robot.configure = 0;
-  robot.tf_tree = NULL;
 
   atexit(wb_robot_cleanup_shm);
 

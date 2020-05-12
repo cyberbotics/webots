@@ -111,8 +111,6 @@ void WbRobot::init() {
 
   mJoystickConfigureRequest = false;
 
-  mShouldWriteRobotTransformTree = true;
-
   mPreviousTime = 0.0;
   mKinematicDifferentialWheels = NULL;
 
@@ -150,9 +148,6 @@ void WbRobot::init() {
 
   mBatteryInitialValue = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
   mSupervisorUtilities = supervisor() ? new WbSupervisorUtilities(this) : NULL;
-
-  // QDataStream stream;
-  // writeRobotTransformTree(stream);
 }
 
 WbRobot::WbRobot(WbTokenizer *tokenizer) : WbSolid("Robot", tokenizer) {
@@ -743,6 +738,9 @@ void WbRobot::writeConfigure(QDataStream &stream) {
   mUpdateWindowMessage = false;
   mShowWindowCalled = true;
   mConfigureRequest = false;
+
+  writeTfRobot(stream);
+
   if (mSupervisorUtilities)
     mSupervisorUtilities->writeConfigure(stream);
 }
@@ -782,8 +780,7 @@ void WbRobot::writeTfLink(QDataStream &stream, WbNode *link) {
 
   const WbVector3 translation = tfLink->position() - tfParent->position();
   const WbMatrix3 rotation = tfParent->rotationMatrix() * tfLink->rotationMatrix().transposed();
-  stream << (short unsigned int)0;
-  stream << (unsigned char)C_ROBOT_TREE_LINK;
+  stream << (unsigned char)WB_TF_NODE_LINK;
   stream << (int)link->uniqueId();
   stream << (int)parent->uniqueId();
   stream << (double)translation.x();
@@ -796,8 +793,7 @@ void WbRobot::writeTfLink(QDataStream &stream, WbNode *link) {
 }
 
 void WbRobot::writeTfJoint(QDataStream &stream, WbJoint *joint) {
-  stream << (short unsigned int)0;
-  stream << (unsigned char)C_ROBOT_TREE_JOINT;
+  stream << (unsigned char)WB_TF_NODE_JOINT;
   stream << (int)joint->uniqueId();
   stream << (int)findRelevantParent(joint)->uniqueId();
   stream << (double)joint->parameters()->position();
@@ -807,31 +803,54 @@ void WbRobot::writeTfJoint(QDataStream &stream, WbJoint *joint) {
 }
 
 void WbRobot::writeTfRobot(QDataStream &stream) {
-  writeTfLink(stream, this);
+  int nNodes = 0;
 
-  QQueue<WbNode *> queue;
-  queue.enqueue(this);
-  while (queue.size() > 0) {
-    WbNode *node = queue.takeLast();
-    QList<WbNode *> children = node->subNodes(false);
+  for (int phase = 0; phase < 2; phase++) {
+    // There are two passes (phases) thorugh the tree. First (phase `0`), number of nodes is calculated and
+    // in second (phase `1`) the actual data is sent. This is necesary so the controller knows
+    // how many nodes to expect.
 
-    for (int i = 0; i < children.size(); i++) {
-      WbNode *child = children.at(i);
-      if (dynamic_cast<WbJoint *>(child)) {
-        WbJoint *childJoint = (WbJoint *)child;
-        writeTfJoint(stream, childJoint);
-        if (childJoint->solidEndPoint()) {
-          queue.enqueue(childJoint->solidEndPoint());
-          if (childJoint->solidEndPoint()->findSFString("name")) {
-            writeTfLink(stream, childJoint->solidEndPoint());
+    if (phase == 0)
+      nNodes++;
+    else {
+      stream << (int)nNodes;
+      writeTfLink(stream, this);
+    }
+
+    QQueue<WbNode *> queue;
+    queue.enqueue(this);
+    while (queue.size() > 0) {
+      WbNode *node = queue.takeLast();
+      QList<WbNode *> children = node->subNodes(false);
+
+      for (int i = 0; i < children.size(); i++) {
+        WbNode *child = children.at(i);
+        if (dynamic_cast<WbJoint *>(child)) {
+          WbJoint *childJoint = (WbJoint *)child;
+          if (phase == 0)
+            nNodes++;
+          else
+            writeTfJoint(stream, childJoint);
+          if (childJoint->solidEndPoint()) {
+            queue.enqueue(childJoint->solidEndPoint());
+            if (childJoint->solidEndPoint()->findSFString("name")) {
+              if (phase == 0)
+                nNodes++;
+              else
+                writeTfLink(stream, childJoint->solidEndPoint());
+            }
           }
+        } else if (dynamic_cast<WbGroup *>(child) || dynamic_cast<WbShape *>(child) || dynamic_cast<WbTransform *>(child)) {
+          queue.enqueue(child);
+          if (child->findSFString("name")) {
+            if (phase == 0)
+              nNodes++;
+            else
+              writeTfLink(stream, child);
+          }
+        } else {
+          // TODO: Do we even care about the others (e.g. PBRAppearance)
         }
-      } else if (dynamic_cast<WbGroup *>(child) || dynamic_cast<WbShape *>(child) || dynamic_cast<WbTransform *>(child)) {
-        queue.enqueue(child);
-        if (child->findSFString("name"))
-          writeTfLink(stream, child);
-      } else {
-        // TODO: Do we even care about the others (e.g. PBRAppearance)
       }
     }
   }
@@ -1094,11 +1113,6 @@ void WbRobot::writeAnswer(QDataStream &stream) {
     stream << (unsigned char)C_ROBOT_TIME;
     stream << (double)time;
     mPreviousTime = time;
-  }
-
-  if (mShouldWriteRobotTransformTree) {
-    writeTfRobot(stream);
-    mShouldWriteRobotTransformTree = false;
   }
 
   if (mSimulationModeRequested) {

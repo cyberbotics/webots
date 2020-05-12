@@ -189,7 +189,6 @@ private:
   bool mNeedToRestartController;
   bool mConfigureRequest;
   bool mSimulationModeRequested;
-  bool mShouldWriteRobotTransformTree;
 
   QString mControllerDir;
 
