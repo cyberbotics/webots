@@ -101,7 +101,7 @@ typedef struct {
   int wwi_message_received_size;
   char *wwi_message_received;
   WbSimulationMode simulation_mode;  // WB_SUPERVISOR_SIMULATION_MODE_RUN, etc.
-  WbTfNode *tf_tree;
+  WbTransformNodeObject *tf_tree;
 } WbRobot;
 
 static bool robot_init_was_done = false;
@@ -131,22 +131,22 @@ static void init_remote_control_library() {
   }
 }
 
-static WbTfNode *tf_tree_find(WbTfNode *root, int id) {
+static WbTransformNodeObject *tf_tree_find(WbTransformNodeObject *root, int id) {
   if (root->id == id)
     return root;
   for (int i = 0; i < root->n_children; i++) {
-    WbTfNode *node = tf_tree_find(root->children[i], id);
+    WbTransformNodeObject *node = tf_tree_find(root->children[i], id);
     if (node != NULL)
       return node;
   }
   return NULL;
 }
 
-static void tf_tree_add(WbTfNode *parent, WbTfNode *child) {
+static void tf_tree_add(WbTransformNodeObject *parent, WbTransformNodeObject *child) {
   if (parent->n_children == 0)
-    parent->children = malloc(sizeof(WbTfNode *));
+    parent->children = malloc(sizeof(WbTransformNodeObject *));
   else
-    parent->children = realloc(parent->children, sizeof(WbTfNode *) * (parent->n_children + 1));
+    parent->children = realloc(parent->children, sizeof(WbTransformNodeObject *) * (parent->n_children + 1));
   parent->children[parent->n_children] = child;
   parent->n_children++;
   child->parent = parent;
@@ -418,7 +418,7 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
 
   switch (message) {
     case C_ROBOT_TREE_JOINT: {
-      WbTfNode *node = (WbTfNode *)malloc(sizeof(WbTfNode));
+      WbTransformNodeObject *node = (WbTransformNodeObject *)malloc(sizeof(WbTransformNodeObject));
       node->n_children = 0;
       node->id = request_read_int32(r);
       int parent_id = request_read_int32(r);
@@ -428,11 +428,11 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
       node->axis[0] = request_read_double(r);
       node->axis[1] = request_read_double(r);
       node->axis[2] = request_read_double(r);
-      WbTfNode *parent_node = tf_tree_find(robot.tf_tree, parent_id);
+      WbTransformNodeObject *parent_node = tf_tree_find(robot.tf_tree, parent_id);
       tf_tree_add(parent_node, node);
     } break;
     case C_ROBOT_TREE_LINK: {
-      WbTfNode *node = (WbTfNode *)malloc(sizeof(WbTfNode));
+      WbTransformNodeObject *node = (WbTransformNodeObject *)malloc(sizeof(WbTransformNodeObject));
       node->n_children = 0;
       node->id = request_read_int32(r);
       node->type = WB_TF_NODE_LINK;
@@ -446,7 +446,7 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
         robot.tf_tree = node;
         robot.tf_tree->parent = NULL;
       } else {
-        WbTfNode *parent_node = tf_tree_find(robot.tf_tree, parent_id);
+        WbTransformNodeObject *parent_node = tf_tree_find(robot.tf_tree, parent_id);
         tf_tree_add(parent_node, node);
       }
     } break;
@@ -575,7 +575,7 @@ WbDevice *robot_get_device_with_node(WbDeviceTag tag, WbNodeType node, bool warn
   return NULL;
 }
 
-const WbTfNode *wb_robot_get_tf_tree() {
+const WbTransformNodeObject *wb_robot_get_transform_tree() {
   return robot.tf_tree;
 }
 

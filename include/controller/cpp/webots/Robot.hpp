@@ -18,7 +18,11 @@
 #include <iostream>
 #include <vector>
 
+#include "../../c/webots/transform_node_object.h"
+
 namespace webots {
+  typedef WbTransformNodeObject TransformNodeObject;
+
   class Accelerometer;
   class Brake;
   class Camera;
@@ -62,27 +66,6 @@ namespace webots {
       EVENT_JOYSTICK_POV = 32
     } UserInputEvent;
 
-    typedef struct _WbTfNode WbTfNode;
-
-    typedef enum {
-      WB_TF_NODE_JOINT = 0,
-      WB_TF_NODE_LINK
-    } WbTfNodeType;
-
-    struct _WbTfNode {
-      int id;
-      WbTfNode* parent;
-      WbTfNode** children;
-      int n_children;
-      int tag;
-      WbTfNodeType type;
-      double translation[3];  // WB_TF_NODE_LINK
-      double rotation[9];     // WB_TF_NODE_LINK
-      double axis[3];         // WB_TF_NODE_JOINT
-      double position;        // WB_TF_NODE_JOINT
-      char *name;             // Device
-    };
-
     Robot();
     virtual ~Robot();
 
@@ -104,7 +87,7 @@ namespace webots {
     double getBasicTimeStep() const;
     int getNumberOfDevices() const;
     Device *getDeviceByIndex(int index);
-    const WbTfNode* getTfTree() const;
+    const TransformNodeObject *getTransformTree() const;
     int getType() const;
 
     virtual void batterySensorEnable(int samplingPeriod);

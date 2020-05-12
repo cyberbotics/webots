@@ -22,6 +22,7 @@
 #define WB_ROBOT_H
 
 #define WB_USING_C_API
+#include "transform_node_object.h"
 #include "types.h"
 
 #ifdef __CYGWIN__
@@ -53,27 +54,6 @@ typedef enum {
   WB_EVENT_JOYSTICK_POV = 32
 } WbUserInputEvent;
 
-typedef struct _WbTfNode WbTfNode;
-
-typedef enum {
-  WB_TF_NODE_JOINT = 0,
-  WB_TF_NODE_LINK
-} WbTfNodeType;
-
-struct _WbTfNode {
-  int id;
-  WbTfNode* parent;
-  WbTfNode** children;
-  int n_children;
-  int tag;
-  WbTfNodeType type;
-  double translation[3];  // WB_TF_NODE_LINK
-  double rotation[9];     // WB_TF_NODE_LINK
-  double axis[3];         // WB_TF_NODE_JOINT
-  double position;        // WB_TF_NODE_JOINT
-  char *name;             // Device
-};
-
 // cart function headers
 #ifdef __cplusplus
 extern "C" {
@@ -101,7 +81,7 @@ int wb_robot_step(int duration);  // milliseconds
 WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type, int timeout);  // milliseconds
 void wb_robot_cleanup();
 double wb_robot_get_time();
-const WbTfNode *wb_robot_get_tf_tree();
+const WbTransformNodeObject *wb_robot_get_transform_tree();
 const char *wb_robot_get_name();
 const char *wb_robot_get_model();
 const char *wb_robot_get_custom_data();
@@ -113,7 +93,6 @@ bool wb_robot_get_supervisor();
 const char *wb_robot_get_project_path();
 const char *wb_robot_get_world_path();
 double wb_robot_get_basic_time_step();
-const WbTfNode* wb_robot_get_tf_tree();
 WbDeviceTag wb_robot_get_device(const char *name);
 
 // Controller API

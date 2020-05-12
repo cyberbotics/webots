@@ -71,6 +71,7 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 #include <webots/Speaker.hpp>
 #include <webots/Supervisor.hpp>
 #include <webots/TouchSensor.hpp>
+#include <webots/transform_node_object.h>
 #include <webots/utils/Motion.hpp>
 
 using namespace std;
@@ -793,6 +794,16 @@ class AnsiCodes(object):
 //  Robot
 //----------------------------------------------------------------------------------------------
 
+%rename WbTransformNodeObject TransformNodeObject;
+
+%include <webots/transform_node_object.h>
+
+%extend WbTransformNodeObject {
+  PyObject *get_type() {
+    return PyInt_FromLong($self->type);
+  }
+};
+
 %ignore webots::Robot::getAccelerometer(const std::string &name);
 %ignore webots::Robot::getBrake(const std::string &name);
 %ignore webots::Robot::getCamera(const std::string &name);
@@ -829,6 +840,7 @@ class AnsiCodes(object):
 %rename ("__internalGetDeviceNameFromTag") webots::Robot::getDeviceNameFromTag;
 %rename ("__internalGetDeviceTagFromIndex") webots::Robot::getDeviceTagFromIndex;
 %rename ("__internalGetDeviceTagFromName") webots::Robot::getDeviceTagFromName;
+
 
 %extend webots::Robot {
   %pythoncode %{
@@ -1082,18 +1094,6 @@ class AnsiCodes(object):
 }
 
 %include <webots/Robot.hpp>
-
-%extend webots::Robot {
-  PyObject *getTfTree() {
-    PyObject *ret = PyList_New(3);
-    /*
-    PyList_SetItem(ret, 0, PyFloat_FromDouble(position[0]));
-    PyList_SetItem(ret, 1, PyFloat_FromDouble(position[1]));
-    PyList_SetItem(ret, 2, PyFloat_FromDouble(position[2]));
-    */
-    return ret;
-  }
-}
 
 //----------------------------------------------------------------------------------------------
 //  DifferentialWheels

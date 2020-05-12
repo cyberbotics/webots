@@ -74,8 +74,8 @@ Robot::Robot() {
   mMouse = new Mouse();
 }
 
-const WbTfNode* Robot::getTfTree() const {
-  return wb_robot_get_tf_tree();
+const TransformNodeObject *Robot::getTransformTree() const {
+  return wb_robot_get_transform_tree();
 }
 
 Robot::~Robot() {
