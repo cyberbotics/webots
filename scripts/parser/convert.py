@@ -57,10 +57,7 @@ def quaternion_to_axis_angle(q):
 
 def rotation(value):
     q0 = axis_angle_to_quaternion([value[2], value[0], value[1]], value[3])
-    q1 = axis_angle_to_quaternion([1, 0, 0], math.pi / 2)
-    q2 = axis_angle_to_quaternion([0, 1, 0], math.pi / 2)
-    qr = quaternion_multiply(q0, q1)
-    qr = quaternion_multiply(qr, q2)
+    qr = quaternion_multiply(q0, [0.5, 0.5, 0.5, 0.5])
     (v, theta) = quaternion_to_axis_angle(qr)
     return [v[0], v[1], v[2], theta]
 
