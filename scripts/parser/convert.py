@@ -83,16 +83,10 @@ for node in world.content['root']:
             gravity['type'] = 'SFVec3f'
             gravity['value'] = g
             node['fields'].append(gravity)
-    elif node['name'] == 'Viewpoint':
-        for field in node['fields']:
-            if field['name'] == 'position':
-                field['value'] = translation(field['value'])
-            elif field['name'] == 'orientation':
-                field['value'] = rotation(field['value'])
     else:
         for field in node['fields']:
-            if field['name'] == 'translation':
+            if field['name'] in ['translation', 'position', 'location', 'direction']:
                 field['value'] = translation(field['value'])
-            elif field['name'] == 'rotation':
+            elif field['name'] in ['rotation', 'orientation']:
                 field['value'] = rotation(field['value'])
 world.save(filename[:-4] + '_enu.wbt')
