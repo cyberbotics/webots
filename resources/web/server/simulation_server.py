@@ -281,9 +281,7 @@ class Client:
             protocol = 'wss:' if config['ssl'] or config['portRewrite'] else 'ws:'
             separator = '/' if config['portRewrite'] else ':'
             asyncio.set_event_loop(asyncio.new_event_loop())
-            message = 'webots:' + protocol + '//' + hostname + separator + str(port)
-            if config['portRewrite']:
-                message += '/'  # so that the URL is valid
+            message = 'webots:' + protocol + '//' + hostname + separator + str(port) + '/'
             client.client_websocket.write_message(message)
             for line in iter(client.webots_process.stdout.readline, b''):
                 line = line.rstrip()
