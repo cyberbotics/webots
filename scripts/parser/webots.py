@@ -16,9 +16,6 @@
 
 '''Parse Webots world files.'''
 
-import json
-import sys
-
 
 class WebotsModel:
     '''This class reads a world file and parser its structure.'''
@@ -230,10 +227,3 @@ class WebotsModel:
                 mffield.append(node)
             words = line.split(' ')
         return (type, mffield)
-
-
-filename = sys.argv[1]
-world = WebotsModel()
-world.load(filename)
-print(json.dumps(world.content, indent=2, sort_keys=True))
-world.save("output.wrl")
