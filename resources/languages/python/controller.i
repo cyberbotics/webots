@@ -833,6 +833,24 @@ class AnsiCodes(object):
     return PyInt_FromLong($self->n_children);
   }
 
+  PyObject *get_id() {
+    return PyInt_FromLong($self->id);
+  }
+
+  PyObject *get_rotation() {
+    PyObject *rotation = PyList_New(9);
+    for (int i = 0; i < 9; i++)
+      PyList_SetItem(rotation, i, PyFloat_FromDouble($self->rotation[i]));
+    return rotation;
+  }
+
+  PyObject *get_translation() {
+    PyObject *rotation = PyList_New(3);
+    for (int i = 0; i < 3; i++)
+      PyList_SetItem(rotation, i, PyFloat_FromDouble($self->translation[i]));
+    return rotation;
+  }
+
   PyObject *__get_name_bytes() {
     return PyBytes_FromStringAndSize($self->name, strlen($self->name));
   }

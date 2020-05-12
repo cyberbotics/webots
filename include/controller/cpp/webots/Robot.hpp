@@ -66,6 +66,8 @@ namespace webots {
       EVENT_JOYSTICK_POV = 32
     } UserInputEvent;
 
+    typedef enum { TF_NODE_JOINT = 0, TF_NODE_LINK } TransformNodeObjectType;
+
     Robot();
     virtual ~Robot();
 
