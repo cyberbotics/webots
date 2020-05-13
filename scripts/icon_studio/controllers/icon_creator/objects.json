@@ -858,6 +858,9 @@
   "projects/robots/festo/robotino3/protos/Robotino3WebcamMountingSupport.proto": {
     "fields": "translation 0 -0.211 0 rotation -0.28109 0.6786 0.6786 2.59356"
   },
+  "projects/robots/fp_robotics/p-rob3/protos/P-Rob3.proto": {
+    "fields": "rotation 0.18615701608601462 0.6947480600338772 0.6947450600336179 -2.7734953071795863"
+  },
   "projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase": {
     "fields": "translation 0 0.02 0 rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393",
     "background": [1.0, 0.0, 1.0]
