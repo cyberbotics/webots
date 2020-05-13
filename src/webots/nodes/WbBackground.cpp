@@ -63,13 +63,19 @@ static const QString gIrradianceUrlNames(int i) {
 }
 
 static int gCoordinateSystemSwap(int i) {
-  const int enu_swap[] = {4, 5, 1, 0, 3, 2};
-  return enu_swap[i];
+  static const int enu_swap[] = {4, 5, 1, 0, 3, 2};
+  if (WbWorld::instance()->worldInfo()->coordinateSystem() == "ENU")
+    return enu_swap[i];
+  else
+    return i;
 }
 
 static int gCoordinateSystemRotate(int i) {
-  const int enu_rotate[] = {90, -90, 0, 180, 90, 90};
-  return enu_rotate[i];
+  static const int enu_rotate[] = {90, -90, 0, 180, 90, 90};
+  if (WbWorld::instance()->worldInfo()->coordinateSystem() == "ENU")
+    return enu_rotate[i];
+  else
+    return 0;
 }
 
 void WbBackground::init() {
@@ -291,7 +297,6 @@ void WbBackground::applySkyBoxToWren() {
 
   QString textureUrls[6];
   QVector<float *> hdrImageData;
-
   // 1. Load the background.
   mCubeMapTexture = wr_texture_cubemap_new();
   QImage image[6];
@@ -361,10 +366,6 @@ void WbBackground::applySkyBoxToWren() {
   if (mCubeMapTexture) {
     wr_texture_set_size(WR_TEXTURE(mCubeMapTexture), edgeLength, edgeLength);
     wr_texture_setup(WR_TEXTURE(mCubeMapTexture));
-
-    while (hdrImageData.size() > 0)
-      stbi_image_free(hdrImageData.takeFirst());
-
     wr_material_set_texture_cubemap(mSkyboxMaterial, mCubeMapTexture, 0);
     wr_material_set_texture_cubemap_wrap_r(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
     wr_material_set_texture_cubemap_wrap_s(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
@@ -392,13 +393,54 @@ void WbBackground::applySkyBoxToWren() {
     // Actually load the irradiance map.
     int w, h, components;
     for (int i = 0; i < 6; ++i) {
-      QString url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0), false);
+      QString url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[gCoordinateSystemSwap(i)]->item(0), false);
       if (url.isEmpty())
         throw QString();
 
       wr_texture_set_internal_format(WR_TEXTURE(cm), WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
       float *data = stbi_loadf(url.toUtf8().constData(), &w, &h, &components, 0);
+      const int rotate = gCoordinateSystemRotate(i);
+      if (rotate != 0) {
+        float *rotated = (float *)stbi__malloc(sizeof(float) * w * h * components);
+        if (rotate == 90) {
+          for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+              const int u = y * w * components + x * components;
+              const int v = (w - 1 - x) * w * components + y * components;
+              for (int c = 0; c < components; c++)
+                rotated[u + c] = data[v + c];
+            }
+          }
+          const int swap = w;
+          w = h;
+          h = swap;
+        } else if (rotate == -90) {
+          for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+              const int u = y * w * components + x * components;
+              const int v = x * w * components + (h - 1 - y) * components;
+              for (int c = 0; c < components; c++)
+                rotated[u + c] = data[v + c];
+            }
+          }
+          const int swap = w;
+          w = h;
+          h = swap;
+        } else if (rotate == 180) {
+          for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+              const int u = y * w * components + x * components;
+              const int v = (h - 1 - y) * w * components + (w - 1 - x) * components;
+              for (int c = 0; c < components; c++)
+                rotated[u + c] = data[v + c];
+            }
+          }
+        }
+        stbi_image_free(data);
+        data = rotated;
+      }
       wr_texture_cubemap_set_data(cm, reinterpret_cast<const char *>(data), static_cast<WrTextureOrientation>(i));
+      hdrImageData << data;
     }
 
     wr_texture_set_size(WR_TEXTURE(cm), w, h);
@@ -432,6 +474,9 @@ void WbBackground::applySkyBoxToWren() {
   WbWrenOpenGlContext::doneWren();
 
   emit cubemapChanged();
+
+  while (hdrImageData.size() > 0)
+    stbi_image_free(hdrImageData.takeFirst());
 }
 
 WbRgb WbBackground::skyColor() const {
