@@ -39,6 +39,7 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 | ![icon.png](images/robots/moose/icon.png)            | [Moose](moose.md)                         | Clearpath Robotics   | *Eight-wheeled outdoor robot*     |
 | ![icon.png](images/robots/nao/icon.png)              | [Nao](nao.md)                             | SoftBankics          | *Small size humanoid*             |
 | ![icon.png](images/robots/pioneer2/icon.png)         | [Pioneer 2](pioneer2.md)                  | Adept                | *Two-wheeled robot*               |
+| ![icon.png](images/robots/p-rob3/icon.png)           | [P-Rob 3](p-rob3.md)                         | F&P Robotics         | *Robotics arm*                 |
 | ![icon.png](images/robots/pioneer-3at/icon.png)      | [Pioneer 3-AT](pioneer-3at.md)            | Adept                | *Four-wheeled robot*              |
 | ![icon.png](images/robots/pioneer-3dx/icon.png)      | [Pioneer 3-DX](pioneer-3dx.md)            | Adept                | *Two-wheeled robot*               |
 | ![icon.png](images/robots/portal/icon.png)           | [Portal](portal.md)                       | A4                   | *Sliding portal*                  |
