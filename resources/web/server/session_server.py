@@ -16,10 +16,12 @@
 
 """Webots session server."""
 
+import asyncio
 import json
 import logging
 import os
 import smtplib
+import socket
 import sys
 import threading
 import time
@@ -59,14 +61,14 @@ class SessionHandler(tornado.web.RequestHandler):
         global simulation_server_loads
         minimum = LOAD_THRESHOLD
         minimally_loaded_server = ''
-        for i in range(len(config[u'simulationServers'])):
+        for i in range(len(config['simulationServers'])):
             if simulation_server_loads[i] >= LOAD_THRESHOLD:
                 continue
             if simulation_server_loads[i] < minimum:
                 minimum = simulation_server_loads[i]
-                minimally_loaded_server = config[u'simulationServers'][i]
+                minimally_loaded_server = config['simulationServers'][i]
         if minimum < LOAD_THRESHOLD:
-            if config[u'ssl']:
+            if config['ssl'] or config['portRewrite']:
                 protocol = 'wss:'
             else:
                 protocol = 'ws:'
@@ -84,7 +86,7 @@ class MonitorHandler(tornado.web.RequestHandler):
         self.write("<html><head><meta charset='utf-8'/><title>Webots simulation server</title>\n")
         self.write("<link rel='stylesheet' type='text/css' href='css/monitor.css'></head>\n")
         self.write("<body><h1>Webots session server</h1>\n")
-        nServer = len(config[u'simulationServers'])
+        nServer = len(config['simulationServers'])
         self.write("<p>Started on " + start_time + "</p>\n")
         self.write("<p>Managing %d simulation server" % nServer)
         if nServer > 1:
@@ -95,13 +97,17 @@ class MonitorHandler(tornado.web.RequestHandler):
         for i in range(nServer):
             self.write("<tr><td>%d</td>" % (i + 1))
             url = "http"
-            if config[u'ssl']:
+            if config['ssl'] or config['portRewrite']:
                 url += "s"
-            url += "://" + config[u'simulationServers'][i] + "/monitor"
-            self.write("<td><a href='" + url + "'>" + config[u'simulationServers'][i] + "</a></td><td>")
+            url += "://" + config['simulationServers'][i] + "/monitor"
+            self.write("<td><a href='" + url + "'>" + config['simulationServers'][i] + "</a></td><td>")
             if simulation_server_loads[i] >= LOAD_THRESHOLD:
                 self.write("<font color='red'>")
-            self.write(str(simulation_server_loads[i]) + "%")
+            if simulation_server_loads[i] == 1000:
+                value = "N/A"
+            else:
+                value = str(simulation_server_loads[i]) + "%"
+            self.write(value)
             average_load += simulation_server_loads[i]
             if simulation_server_loads[i] >= LOAD_THRESHOLD:
                 self.write("</font>")
@@ -152,68 +158,84 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
 
 def send_email(subject, content):
     """Send notification email."""
-    sender = config[u'mailSender']
-    receivers = [config[u'administrator']]
+    sender = config['mailSender']
+    receivers = [config['administrator']]
     if 'mailServerPort' in config:
-        port = config[u'mailServerPort']
+        port = config['mailServerPort']
     else:
         port = 0
 
     message = "From: Simulation Server <" + sender + ">\n" + \
-              "To: Administrator <" + config[u'administrator'] + ">\n" + \
+              "To: Administrator <" + config['administrator'] + ">\n" + \
               "Subject: " + subject + "\n\n" + content
     try:
-        with smtplib.SMTP(config[u'mailServer'], port, timeout=2) as smtp:
+        with smtplib.SMTP(config['mailServer'], port, timeout=5) as smtp:
             if 'mailSenderPassword' in config:
                 smtp.starttls()
                 if 'mailSenderUser' in config:
-                    user = config[u'mailSenderUser']
+                    user = config['mailSenderUser']
                 else:
                     user = sender
-                smtp.login(user, config[u'mailSenderPassword'])
+                smtp.login(user, config['mailSenderPassword'])
             smtp.sendmail(sender, receivers, message)
     except smtplib.SMTPException:
-        logging.error("Error: unable to send email to " + config[u'administrator'] + "\n")
+        logging.error("Error: unable to send email to " + config['administrator'] + "\n")
 
 
-def read_url(url, i):
+def retrieve_load(url, i):
     """Contact the i-th simulation server and retrieve its load."""
     global simulation_server_loads
-    if u'administrator' in config:
-        if config[u'ssl']:
+    if config['portRewrite']:
+        url = 'http://' + url.replace('/', ':', 1)
+    elif config['ssl']:
+        url = 'https://' + url
+    else:
+        url = 'http://' + url
+    url += '/load'
+    if 'administrator' in config:
+        if config['ssl'] or config['portRewrite']:
             protocol = 'https://'
         else:
             protocol = 'http://'
-        check_string = "Check it at " + protocol + config[u'server'] + ":" + str(config[u'port']) + "/monitor\n\n" + \
+        if config['portRewrite']:
+            separator = '/'
+        else:
+            separator = ':'
+        check_string = "Check it at " + protocol + config['server'] + separator + str(config['port']) + "/monitor\n\n" + \
                        "-Simulation Server"
     try:
-        response = urlopen(url, timeout=2)
+        response = urlopen(url, timeout=5)
     except URLError:
-        if simulation_server_loads[i] != 100:
-            if u'administrator' in config:
-                send_email("Simulation server not responding", "Hello,\n\n" + config[u'simulationServers'][i] +
+        if simulation_server_loads[i] != 1000:
+            if 'administrator' in config:
+                send_email("Simulation server not responding", "Hello,\n\n" + config['simulationServers'][i] +
                            " simulation server may be down, as it is not responding to the requests of the session server" +
                            "...\n" + check_string)
             else:
-                logging.info(config[u'simulationServers'][i] + " simulation server is not responding (assuming 100% load)")
-        simulation_server_loads[i] = 100
+                logging.info(config['simulationServers'][i] + " simulation server is not responding (assuming 100% load)")
+            simulation_server_loads[i] = 1000
+    except socket.timeout:
+        if simulation_server_loads[i] != 1000:
+            logging.info(config['simulationServers'][i] +
+                         " simulation server is taking too long to respond (assuming 100% load)")
+            simulation_server_loads[i] = 1000
     else:
         load = float(response.read())
-        if simulation_server_loads[i] == 100:
-            message = config[u'simulationServers'][i] + " simulation server is up and running again (load = " + str(load) + "%)"
-            if u'administrator' in config:
+        if simulation_server_loads[i] == 1000:
+            message = config['simulationServers'][i] + " simulation server is up and running again (load = " + str(load) + "%)"
+            if 'administrator' in config:
                 send_email("Simulation server working again", "Hello,\n\n" + message + ".\n" + check_string)
             else:
                 logging.info(message)
         elif simulation_server_loads[i] < LOAD_THRESHOLD and load >= LOAD_THRESHOLD:
-            message = config[u'simulationServers'][i] + " simulation server has reached maximum load (" + str(load) + "%)"
-            if u'administrator' in config:
+            message = config['simulationServers'][i] + " simulation server has reached maximum load (" + str(load) + "%)"
+            if 'administrator' in config:
                 send_email("Simulation server reached maximum load", "Hello,\n\n" + message + ".\n" + check_string)
             else:
                 logging.info(message)
         elif simulation_server_loads[i] >= LOAD_THRESHOLD and load < LOAD_THRESHOLD:
-            message = config[u'simulationServers'][i] + " simulation server is available again (load = " + str(load) + "%)"
-            if u'administrator' in config:
+            message = config['simulationServers'][i] + " simulation server is available again (load = " + str(load) + "%)"
+            if 'administrator' in config:
                 send_email("Simulation server available again", "Hello,\n\n" + message + ".\n" + check_string)
             else:
                 logging.info(message)
@@ -226,18 +248,14 @@ def update_load():
     global LOAD_REFRESH
     global availability
     global simulation_server_loads
-    if config[u'ssl']:
-        protocol = 'https://'
-    else:
-        protocol = 'http://'
-    threads = [threading.Thread(target=read_url, args=(protocol + config[u'simulationServers'][i] + '/load', i))
-               for i in range(len(config[u'simulationServers']))]
+    threads = [threading.Thread(target=retrieve_load, args=(config['simulationServers'][i], i))
+               for i in range(len(config['simulationServers']))]
     for t in threads:
         t.start()
     for t in threads:
         t.join()
     new_availability = False
-    for i in range(len(config[u'simulationServers'])):
+    for i in range(len(config['simulationServers'])):
         if simulation_server_loads[i] < LOAD_THRESHOLD:
             new_availability = True
     if new_availability != availability:
@@ -258,6 +276,7 @@ def main():
     # are described here:
     #
     # port:               local port on which the server is listening.
+    # portRewrite:        true if local ports are computed from 443 https/wss URLs (apache rewrite rule).
     # server:             host where this session script is running.
     # sslKey:             private key for a SSL enabled server.
     # sslCertificate:     certificate for a SSL enabled server.
@@ -269,6 +288,7 @@ def main():
     # mailSenderUser:     user name to authenticate on the SMTP server.
     # mailSenderPassword: password to authenticate on the SMTP server with the mailSenderUser.
     # logDir:             directory where the log file is written.
+    # debug:              debug mode (output to stdout).
     #
     global config
     global simulation_server_loads
@@ -280,12 +300,19 @@ def main():
         config['logDir'] = 'log'
     else:
         config['logDir'] = expand_path(config['logDir'])
+    if 'portRewrite' not in config:
+        config['portRewrite'] = False
+    if 'debug' not in config:
+        config['debug'] = False
     sessionLogDir = os.path.join(config['logDir'], 'session')
     logFile = os.path.join(sessionLogDir, 'output.log')
     try:
         if not os.path.exists(sessionLogDir):
             os.makedirs(sessionLogDir)
-        file_handler = logging.FileHandler(logFile)
+        if config['debug']:
+            file_handler = logging.StreamHandler(sys.stdout)
+        else:
+            file_handler = logging.FileHandler(logFile)
         formatter = logging.Formatter('%(asctime)-15s [%(levelname)-7s]  %(message)s')
         file_handler.setFormatter(formatter)
         file_handler.setLevel(logging.INFO)
@@ -293,40 +320,40 @@ def main():
     except (OSError, IOError) as e:
         sys.exit("Log file '" + logFile + "' cannot be created: " + str(e))
 
-    simulation_server_loads = [0] * len(config[u'simulationServers'])
-    config[u'WEBOTS_HOME'] = os.getenv('WEBOTS_HOME', '../../..').replace('\\', '/')
-    if u'administrator' in config:
-        if u'mailServer' not in config:
+    simulation_server_loads = [0] * len(config['simulationServers'])
+    config['WEBOTS_HOME'] = os.getenv('WEBOTS_HOME', '../../..').replace('\\', '/')
+    if 'administrator' in config:
+        if 'mailServer' not in config:
             logging.info("No mail server defined in configuration, disabling e-mail notifications to " +
-                         config[u'administrator'] + ".")
-            del config[u'administrator']
-        elif u'mailSender' not in config:
+                         config['administrator'] + ".")
+            del config['administrator']
+        elif 'mailSender' not in config:
             logging.info("No mail sender defined in configuration, disabling e-mail notifications to " +
-                         config[u'administrator'] + ".")
-            del config[u'administrator']
+                         config['administrator'] + ".")
+            del config['administrator']
     handlers = []
     handlers.append((r'/session', SessionHandler))
     handlers.append((r'/', ClientWebSocketHandler))
     handlers.append((r'/monitor', MonitorHandler))
     handlers.append((r'/(.*)', tornado.web.StaticFileHandler,
-                    {'path': config[u'WEBOTS_HOME'] + '/resources/web/server/www',
+                    {'path': config['WEBOTS_HOME'] + '/resources/web/server/www',
                      'default_filename': 'index.html'}))
     application = tornado.web.Application(handlers)
-    if u'server' not in config:
-        config[u'server'] = 'localhost'
-    if u'sslCertificate' in config and u'sslKey' in config:
-        config[u'ssl'] = True
-        ssl_certificate = os.path.abspath(expand_path(config[u'sslCertificate']))
-        ssl_key = os.path.abspath(expand_path(config[u'sslKey']))
+    if 'server' not in config:
+        config['server'] = 'localhost'
+    if 'sslCertificate' in config and 'sslKey' in config:
+        config['ssl'] = True
+        ssl_certificate = os.path.abspath(expand_path(config['sslCertificate']))
+        ssl_key = os.path.abspath(expand_path(config['sslKey']))
         ssl_options = {"certfile": ssl_certificate, "keyfile": ssl_key}
         http_server = tornado.httpserver.HTTPServer(application, ssl_options=ssl_options)
     else:
-        config[u'ssl'] = False
+        config['ssl'] = False
         http_server = tornado.httpserver.HTTPServer(application)
     update_load()
-    http_server.listen(config[u'port'])
+    http_server.listen(config['port'])
     message = "Session server running on port %d (" % config['port']
-    if not config[u'ssl']:
+    if not config['ssl']:
         message += 'no '
     message += 'SSL)'
     logging.info(message)
@@ -351,5 +378,7 @@ else:
 with open(config_json) as config_file:
     config = json.load(config_file)
 start_time = time.strftime("%A, %B %d, %Y at %H:%M:%S")
+if sys.platform == 'win32' and sys.version_info >= (3, 8):
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 if __name__ == '__main__':
     main()
