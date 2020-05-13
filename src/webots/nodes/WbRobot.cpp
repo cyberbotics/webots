@@ -15,9 +15,11 @@
 #include "WbRobot.hpp"
 
 #include "WbAbstractCamera.hpp"
+#include "WbBallJoint.hpp"
 #include "WbBinaryIncubator.hpp"
 #include "WbControllerPlugin.hpp"
 #include "WbDisplay.hpp"
+#include "WbHinge2Joint.hpp"
 #include "WbHingeJointParameters.hpp"
 #include "WbJoystickInterface.hpp"
 #include "WbKinematicDifferentialWheels.hpp"
@@ -774,9 +776,7 @@ void WbRobot::writeTfLink(QDataStream &stream, WbNode *link) {
   // The similar applies for `tfLink`
   WbNode *parent = findRelevantParent(link);
   WbTransform *tfParent = findRelevantTransfomParent(link);
-  WbTransform *tfLink = (dynamic_cast<WbTransform *>(link)) ? 
-    (WbTransform *)link : 
-    findRelevantTransfomParent(link);
+  WbTransform *tfLink = (dynamic_cast<WbTransform *>(link)) ? (WbTransform *)link : findRelevantTransfomParent(link);
 
   const WbVector3 translation = tfLink->position() - tfParent->position();
   const WbMatrix3 rotation = tfParent->rotationMatrix() * tfLink->rotationMatrix().transposed();
@@ -794,6 +794,8 @@ void WbRobot::writeTfLink(QDataStream &stream, WbNode *link) {
 }
 
 void WbRobot::writeTfJoint(QDataStream &stream, WbJoint *joint) {
+  QByteArray ba;
+
   stream << (unsigned char)WB_TF_NODE_JOINT;
   stream << (int)joint->uniqueId();
   stream << (int)findRelevantParent(joint)->uniqueId();
@@ -801,6 +803,30 @@ void WbRobot::writeTfJoint(QDataStream &stream, WbJoint *joint) {
   stream << (double)joint->parameters()->axis().x();
   stream << (double)joint->parameters()->axis().y();
   stream << (double)joint->parameters()->axis().z();
+
+  // position_sensor_name
+  ba = "";
+  if (joint->positionSensor())
+    ba = joint->positionSensor()->findSFString("name")->value().toUtf8();
+  stream.writeRawData(ba.constData(), ba.size() + 1);
+
+  // position_sensor_name_2
+  ba = "";
+  if (dynamic_cast<WbHinge2Joint *>(joint)) {
+    WbHinge2Joint *hinge2Joint = (WbHinge2Joint *)joint;
+    if (hinge2Joint->positionSensor2())
+      ba = hinge2Joint->positionSensor2()->findSFString("name")->value().toUtf8();
+  }
+  stream.writeRawData(ba.constData(), ba.size() + 1);
+
+  // position_sensor_name_3
+  ba = "";
+  if (dynamic_cast<WbBallJoint *>(joint)) {
+    WbBallJoint *ballJoint = (WbBallJoint *)joint;
+    if (ballJoint->positionSensor3())
+      ba = ballJoint->positionSensor3()->findSFString("name")->value().toUtf8();
+  }
+  stream.writeRawData(ba.constData(), ba.size() + 1);
 }
 
 void WbRobot::writeTfRobot(QDataStream &stream) {

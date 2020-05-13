@@ -29,17 +29,23 @@ typedef enum { WB_TF_NODE_JOINT = 0, WB_TF_NODE_LINK } WbTransformNodeObjectType
 
 struct _WbTransformNodeObject {
   int id;
-  WbTransformNodeObject *parent;
-  WbTransformNodeObject **children;
-  int n_children;
-  int tag;
+  char *name;
   WbTransformNodeObjectType type;
-  double translation[3];  // WB_TF_NODE_LINK
-  double rotation[9];     // WB_TF_NODE_LINK
-  double axis[3];         // WB_TF_NODE_JOINT
-  double position;        // WB_TF_NODE_JOINT
-  char *name;             // Device
+  int n_children;
+  WbTransformNodeObject **children;
+  WbTransformNodeObject *parent;
+  
+  // LINK only fields
   bool is_device;
+  double translation[3];
+  double rotation[9];
+
+  // JOINT only fields
+  double axis[3];               
+  double position;
+  char *position_sensor_name;
+  char *position_sensor_name_2; // HingeJoint2
+  char *position_sensor_name_3; // BallJoint
 };
 
 #endif /* WB_TRANSFORM_NODE_OBJECT_H */

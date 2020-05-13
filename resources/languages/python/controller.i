@@ -815,6 +815,15 @@ class AnsiCodes(object):
 
     def get_name(self):
       return self.__get_name_bytes().decode('utf-8')
+
+    def get_position_sensor_name(self):
+      return self.__get_position_sensor_name_bytes().decode('utf-8')
+
+    def get_position_sensor_name_2(self):
+      return self.__get_position_sensor_name_2_bytes().decode('utf-8')
+
+    def get_position_sensor_name_3(self):
+      return self.__get_position_sensor_name_3_bytes().decode('utf-8')
   %}
 
   PyObject *get_type() {
@@ -857,6 +866,18 @@ class AnsiCodes(object):
 
   PyObject *is_link_device() {
     return PyBool_FromLong($self->is_device);
+  }
+
+  PyObject *__get_position_sensor_name_bytes() {
+    return PyBytes_FromStringAndSize($self->position_sensor_name, strlen($self->position_sensor_name));
+  }
+
+  PyObject *__get_position_sensor_name_2_bytes() {
+    return PyBytes_FromStringAndSize($self->position_sensor_name_2, strlen($self->position_sensor_name_2));
+  }
+
+  PyObject *__get_position_sensor_name_3_bytes() {
+    return PyBytes_FromStringAndSize($self->position_sensor_name_3, strlen($self->position_sensor_name_3));
   }
 };
 

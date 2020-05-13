@@ -365,6 +365,9 @@ static void robot_configure(WbRequest *r) {
       node->axis[0] = request_read_double(r);
       node->axis[1] = request_read_double(r);
       node->axis[2] = request_read_double(r);
+      node->position_sensor_name = request_read_string(r);
+      node->position_sensor_name_2 = request_read_string(r);
+      node->position_sensor_name_3 = request_read_string(r);
       WbTransformNodeObject *parent_node = tf_tree_find(robot.tf_tree, parent_id);
       tf_tree_add(parent_node, node);
     } else if (node_type == WB_TF_NODE_LINK) {

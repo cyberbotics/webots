@@ -16,6 +16,7 @@
 #define WB_ROBOT_HPP
 
 #include "WbJoint.hpp"
+#include "WbPositionSensor.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFString.hpp"
 #include "WbSolid.hpp"
