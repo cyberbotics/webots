@@ -1,0 +1,104 @@
+{
+  "robotID": "n10", 
+  "name": "p-rob3", 
+  "devices": [
+    {
+      "transformID": "n45", 
+      "name": "1", 
+      "maxPosition": 2.95903, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -2.95903, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n83", 
+      "name": "2", 
+      "maxPosition": 1.91148, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.91148, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n112", 
+      "name": "3", 
+      "maxPosition": 1.99927, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.99927, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n149", 
+      "name": "4", 
+      "maxPosition": 2.95153, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -2.95153, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n179", 
+      "name": "5", 
+      "maxPosition": 1.9977, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.9977, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n209", 
+      "name": "6", 
+      "maxPosition": 2.95833, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -2.95833, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n223", 
+      "name": "7", 
+      "maxPosition": 0.523599, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n45", 
+      "type": "PositionSensor", 
+      "name": "1 sensor"
+    }, 
+    {
+      "transformID": "n83", 
+      "type": "PositionSensor", 
+      "name": "2 sensor"
+    }, 
+    {
+      "transformID": "n112", 
+      "type": "PositionSensor", 
+      "name": "3 sensor"
+    }, 
+    {
+      "transformID": "n149", 
+      "type": "PositionSensor", 
+      "name": "4 sensor"
+    }, 
+    {
+      "transformID": "n179", 
+      "type": "PositionSensor", 
+      "name": "5 sensor"
+    }, 
+    {
+      "transformID": "n209", 
+      "type": "PositionSensor", 
+      "name": "6 sensor"
+    }, 
+    {
+      "transformID": "n223", 
+      "type": "PositionSensor", 
+      "name": "7 sensor"
+    }
+  ]
+}
