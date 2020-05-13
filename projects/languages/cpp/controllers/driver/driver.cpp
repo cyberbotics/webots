@@ -53,6 +53,7 @@ Driver::Driver() {
   x = 0.1f;
   z = 0.3f;
   translation[0] = x;
+  translation[1] = 0;
   translation[2] = z;
   emitter = getEmitter("emitter");
   Node *robot = getFromDef("ROBOT1");

@@ -19,6 +19,7 @@
  */
 
 #include "round_manager.h"
+
 #include "boolean.h"
 #include "helper.h"
 
@@ -80,7 +81,7 @@ static bool read_input_file() {
       break;
     }
     buffer[strlen(buffer) - 1] = 0;
-    competitor[i] = malloc(strlen(buffer));
+    competitor[i] = malloc(strlen(buffer) + 1);  // add the final '\0'
     strcpy(competitor[i], buffer);
   }
   fclose(file);

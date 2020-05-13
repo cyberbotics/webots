@@ -25,6 +25,7 @@
 #include <QtCore/QTextStream>
 
 #include <cassert>
+#include <cfloat>
 #include <cmath>
 
 class WbVector2 {
@@ -129,6 +130,18 @@ public:
   // returns a unit vector with the same direction: / length
   void normalize() { *this /= length(); }
   WbVector2 normalized() const { return *this / length(); }
+
+  void clamp(double min = -FLT_MAX, double max = FLT_MAX) {
+    if (mX > max)
+      mX = max;
+    else if (mX < min)
+      mX = min;
+    if (mY > max)
+      mY = max;
+    else if (mY < min)
+      mY = min;
+  }
+
   // vector comparison
   bool operator==(const WbVector2 &v) const { return mX == v.mX && mY == v.mY; }
   bool operator!=(const WbVector2 &v) const { return mX != v.mX || mY != v.mY; }
