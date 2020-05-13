@@ -860,6 +860,17 @@ class AnsiCodes(object):
     return rotation;
   }
 
+  PyObject *get_axis() {
+    PyObject *axis = PyList_New(3);
+    for (int i = 0; i < 3; i++)
+      PyList_SetItem(axis, i, PyFloat_FromDouble($self->axis[i]));
+    return axis;
+  }
+
+  PyObject *get_position() {
+    return PyFloat_FromDouble($self->position);
+  }
+
   PyObject *__get_name_bytes() {
     return PyBytes_FromStringAndSize($self->name, strlen($self->name));
   }
