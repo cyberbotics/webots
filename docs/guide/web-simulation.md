@@ -257,6 +257,7 @@ LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
 
 %tab "localhost"
 ```
+LoadModule alias_module modules/mod_alias.so
 LoadModule proxy_module modules/mod_proxy.so
 LoadModule proxy_http_module modules/mod_proxy_http.so
 LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
