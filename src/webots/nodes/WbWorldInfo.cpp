@@ -236,7 +236,7 @@ void WbWorldInfo::updateGravity() {
 }
 
 void WbWorldInfo::applyToOdeGravity() {
-  double gravity = mGravity->value();
+  const double gravity = mGravity->value();
   if (mCoordinateSystem->value() == "ENU")
     WbOdeContext::instance()->setGravity(0, 0, -gravity);
   else
@@ -297,14 +297,17 @@ void WbWorldInfo::applyToOdeGlobalDamping() {
 void WbWorldInfo::updateGravityBasis() {
   if (mCoordinateSystem->value() == "ENU") {
     mGravityVector.setXyz(0, 0, -mGravity->value());
-    mGravityUnitVector.setXyz(0.0, 0.0, -1.0);
+    mGravityUnitVector.setXyz(0, 0, -1);
+    mGravityBasis[X].setXyz(0, 1, 0);
+    mGravityBasis[Y].setXyz(0, 0, 1);
+    mGravityBasis[Z].setXyz(1, 0, 0);
   } else {  // "NUE"
     mGravityVector.setXyz(0, -mGravity->value(), 0);
-    mGravityUnitVector.setXyz(0.0, -1.0, 0.0);
+    mGravityUnitVector.setXyz(0, -1, 0);
+    mGravityBasis[X].setXyz(1, 0, 0);
+    mGravityBasis[Y].setXyz(0, 1, 0);
+    mGravityBasis[Z].setXyz(0, 0, 1);
   }
-  mGravityBasis[X].setXyz(1.0, 0.0, 0.0);
-  mGravityBasis[Y].setXyz(0.0, 1.0, 0.0);
-  mGravityBasis[Z].setXyz(0.0, 0.0, 1.0);
 }
 
 void WbWorldInfo::updateCoordinateSystem() {
