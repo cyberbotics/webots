@@ -133,7 +133,7 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
         node->validate();
         mRoot->addChild(node);
       } else
-        mRoot->warn(errorMessage);
+        mRoot->parsingWarn(errorMessage);
     }
     WbTemplateManager::instance()->blockRegeneration(false);
 
@@ -378,7 +378,7 @@ WbNode *WbWorld::findTopLevelNode(const QString &modelName, int preferredPositio
     WbNode *const node = it.next();
     if (node->nodeModelName() == modelName) {
       if (result)
-        WbLog::warning(tr("'%1': found duplicate %2 node.").arg(mFileName, modelName));
+        WbLog::warning(tr("'%1': found duplicate %2 node.").arg(mFileName, modelName), false, WbLog::PARSING);
       else {
         result = node;
         if (position != preferredPosition)
@@ -386,14 +386,15 @@ WbNode *WbWorld::findTopLevelNode(const QString &modelName, int preferredPositio
                            .arg(mFileName)
                            .arg(modelName)
                            .arg(preferredPosition + 1)
-                           .arg(position + 1));
+                           .arg(position + 1),
+                         false, WbLog::PARSING);
       }
     }
     ++position;
   }
 
   if (!result)
-    WbLog::warning(tr("'%1': added missing %2 node.").arg(mFileName, modelName));
+    WbLog::warning(tr("'%1': added missing %2 node.").arg(mFileName, modelName), false, WbLog::PARSING);
 
   return result;
 }

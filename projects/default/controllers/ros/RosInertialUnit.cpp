@@ -17,6 +17,14 @@
 
 RosInertialUnit::RosInertialUnit(InertialUnit *inertialUnit, Ros *ros) : RosSensor(inertialUnit->getName(), inertialUnit, ros) {
   mInertialUnit = inertialUnit;
+
+  mLookupTableServer = RosDevice::rosAdvertiseService(
+    (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosInertialUnit::getLookupTable);
+}
+
+RosInertialUnit::~RosInertialUnit() {
+  mLookupTableServer.shutdown();
+  cleanup();
 }
 
 // creates a publisher for InertialUnit values with a sensor_msgs/Imu as message type
@@ -58,4 +66,11 @@ void RosInertialUnit::publishValue(ros::Publisher publisher) {
   value.linear_acceleration.z = 0.0;
   value.linear_acceleration_covariance[0] = -1.0;  // means no linear_acceleration information
   publisher.publish(value);
+}
+
+bool RosInertialUnit::getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res) {
+  assert(mInertialUnit);
+  const double *values = mInertialUnit->getLookupTable();
+  res.value.assign(values, values + mInertialUnit->getLookupTableSize() * 3);
+  return true;
 }

@@ -46,6 +46,14 @@ double DistanceSensor::getAperture() const {
   return wb_distance_sensor_get_aperture(getTag());
 }
 
+int DistanceSensor::getLookupTableSize() const {
+  return wb_distance_sensor_get_lookup_table_size(getTag());
+}
+
+const double *DistanceSensor::getLookupTable() const {
+  return wb_distance_sensor_get_lookup_table(getTag());
+}
+
 DistanceSensor::Type DistanceSensor::getType() const {
   return Type(wb_distance_sensor_get_type(getTag()));
 }

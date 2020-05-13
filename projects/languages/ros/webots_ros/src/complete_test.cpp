@@ -39,6 +39,7 @@
 
 #include <webots_ros/get_bool.h>
 #include <webots_ros/get_float.h>
+#include <webots_ros/get_float_array.h>
 #include <webots_ros/get_int.h>
 #include <webots_ros/get_string.h>
 #include <webots_ros/get_uint64.h>
@@ -157,6 +158,11 @@ void cameraCallback(const sensor_msgs::Image::ConstPtr &values) {
     imageColor[i] = *it;
     i++;
   }
+}
+
+void cameraRecognitionCallback(const webots_ros::RecognitionObject::ConstPtr &object) {
+  ROS_INFO("Camera recognition saw a '%s' (time: %d:%d).", object->model.c_str(), object->header.stamp.sec,
+           object->header.stamp.nsec);
 }
 
 void joystickCallback(const webots_ros::Int8Stamped::ConstPtr &value) {
@@ -724,6 +730,33 @@ int main(int argc, char **argv) {
   get_info_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  // camera recognition enable
+  ros::ServiceClient enable_camera_recognition_client;
+  webots_ros::set_int camera_recognition_srv;
+  ros::Subscriber sub_camera_recognition;
+
+  enable_camera_recognition_client = n.serviceClient<webots_ros::set_int>(model_name + "/camera/recognition_enable");
+  camera_recognition_srv.request.value = TIME_STEP;
+  if (enable_camera_recognition_client.call(camera_recognition_srv) && camera_recognition_srv.response.success) {
+    ROS_INFO("Camera recognition enabled.");
+    sub_camera_recognition = n.subscribe(model_name + "/camera/recognition_objects", 1, cameraRecognitionCallback);
+    ROS_INFO("Topic for camera recognition initialized.");
+    while (sub_camera_recognition.getNumPublishers() == 0) {
+      ros::spinOnce();
+      time_step_client.call(time_step_srv);
+    }
+    ROS_INFO("Topic for camera recognition connected.");
+  } else {
+    if (camera_recognition_srv.response.success == -1)
+      ROS_ERROR("Sampling period is not valid.");
+    ROS_ERROR("Failed to enable camera recognition.");
+    return 1;
+  }
+
+  sub_camera_recognition.shutdown();
+  enable_camera_recognition_client.shutdown();
+  time_step_client.call(time_step_srv);
+
   // camera_save_image
   ros::ServiceClient save_image_client = n.serviceClient<webots_ros::save_image>(model_name + "/camera/save_image");
   webots_ros::save_image save_image_srv;
@@ -815,6 +848,18 @@ int main(int argc, char **argv) {
     ROS_ERROR("Failed to enable accelerometer.");
     return 1;
   }
+
+  ros::ServiceClient lookup_table_accelerometer_client;
+  webots_ros::get_float_array lookup_table_accelerometer_srv;
+  lookup_table_accelerometer_client =
+    n.serviceClient<webots_ros::get_float_array>(model_name + "/accelerometer/get_lookup_table");
+  if (lookup_table_accelerometer_client.call(lookup_table_accelerometer_srv))
+    ROS_INFO("Accelerometer lookup table size = %lu.", lookup_table_accelerometer_srv.response.value.size());
+  else
+    ROS_ERROR("Failed to get the lookup table of 'accelerometer'.");
+  if (lookup_table_accelerometer_srv.response.value.size() != 0)
+    ROS_ERROR("Size of lookup table of 'accelerometer' is wrong.");
+  lookup_table_accelerometer_client.shutdown();
 
   sub_accelerometer_32.shutdown();
   set_accelerometer_client.shutdown();
@@ -910,6 +955,17 @@ int main(int argc, char **argv) {
     ROS_ERROR("Failed to enable compass.");
     return 1;
   }
+
+  ros::ServiceClient lookup_table_compass_client;
+  webots_ros::get_float_array lookup_table_compass_srv;
+  lookup_table_compass_client = n.serviceClient<webots_ros::get_float_array>(model_name + "/compass/get_lookup_table");
+  if (lookup_table_compass_client.call(lookup_table_compass_srv))
+    ROS_INFO("Compass lookup table size = %lu.", lookup_table_compass_srv.response.value.size());
+  else
+    ROS_ERROR("Failed to get the lookup table of 'compass'.");
+  if (lookup_table_compass_srv.response.value.size() != 0)
+    ROS_ERROR("Size of lookup table of 'compass' is wrong.");
+  lookup_table_compass_client.shutdown();
 
   sub_compass_32.shutdown();
 
@@ -1363,6 +1419,19 @@ int main(int argc, char **argv) {
     ROS_ERROR("Failed to get the aperture of 'distance_sensor'.");
   aperture_distance_sensor_client.shutdown();
 
+  ros::ServiceClient lookup_table_distance_sensor_client;
+  webots_ros::get_float_array lookup_table_distance_sensor_srv;
+  lookup_table_distance_sensor_client =
+    n.serviceClient<webots_ros::get_float_array>(model_name + "/distance_sensor/get_lookup_table");
+  if (lookup_table_distance_sensor_client.call(lookup_table_distance_sensor_srv))
+    ROS_INFO("Distance_sensor lookup table size = %lu.", lookup_table_distance_sensor_srv.response.value.size());
+  else
+    ROS_ERROR("Failed to get the lookup table of 'distance_sensor'.");
+  if (lookup_table_distance_sensor_srv.response.value.size() != 6)
+    ROS_ERROR("Size of lookup table of 'distance_sensor' is wrong, expected 0 got %lu.",
+              lookup_table_distance_sensor_srv.response.value.size());
+  lookup_table_distance_sensor_client.shutdown();
+
   distance_sensor_srv.request.value = 32;
   if (set_distance_sensor_client.call(distance_sensor_srv) && distance_sensor_srv.response.success) {
     ROS_INFO("Distance_sensor enabled.");
@@ -1563,6 +1632,17 @@ int main(int argc, char **argv) {
   }
   sub_gyro_32.shutdown();
 
+  ros::ServiceClient lookup_table_gyro_client;
+  webots_ros::get_float_array lookup_table_gyro_srv;
+  lookup_table_gyro_client = n.serviceClient<webots_ros::get_float_array>(model_name + "/gyro/get_lookup_table");
+  if (lookup_table_gyro_client.call(lookup_table_gyro_srv))
+    ROS_INFO("Gyro lookup table size = %lu.", lookup_table_gyro_srv.response.value.size());
+  else
+    ROS_ERROR("Failed to get the lookup table of 'gyro'.");
+  if (lookup_table_gyro_srv.response.value.size() != 0)
+    ROS_ERROR("Size of lookup table of 'gyro' is wrong.");
+  lookup_table_gyro_client.shutdown();
+
   time_step_client.call(time_step_srv);
 
   sampling_period_gyro_client.call(sampling_period_gyro_srv);
@@ -1607,6 +1687,18 @@ int main(int argc, char **argv) {
   }
 
   sub_inertial_unit_32.shutdown();
+
+  ros::ServiceClient lookup_table_inertial_unit_client;
+  webots_ros::get_float_array lookup_table_inertial_unit_srv;
+  lookup_table_inertial_unit_client =
+    n.serviceClient<webots_ros::get_float_array>(model_name + "/inertial_unit/get_lookup_table");
+  if (lookup_table_inertial_unit_client.call(lookup_table_inertial_unit_srv))
+    ROS_INFO("Inertial unit lookup table size = %lu.", lookup_table_inertial_unit_srv.response.value.size());
+  else
+    ROS_ERROR("Failed to get the lookup table of 'inertial_unit'.");
+  if (lookup_table_inertial_unit_srv.response.value.size() != 0)
+    ROS_ERROR("Size of lookup table of 'inertial_unit' is wrong.");
+  lookup_table_inertial_unit_client.shutdown();
 
   time_step_client.call(time_step_srv);
 
@@ -1782,6 +1874,18 @@ int main(int argc, char **argv) {
   }
 
   sub_light_sensor_32.shutdown();
+
+  ros::ServiceClient lookup_table_light_sensor_client;
+  webots_ros::get_float_array lookup_table_light_sensor_srv;
+  lookup_table_light_sensor_client =
+    n.serviceClient<webots_ros::get_float_array>(model_name + "/light_sensor/get_lookup_table");
+  if (lookup_table_light_sensor_client.call(lookup_table_light_sensor_srv))
+    ROS_INFO("Light sensor lookup table size = %lu.", lookup_table_light_sensor_srv.response.value.size());
+  else
+    ROS_ERROR("Failed to get the lookup table of 'light_sensor'.");
+  if (lookup_table_light_sensor_srv.response.value.size() != 6)
+    ROS_ERROR("Size of lookup table of 'light_sensor' is wrong.");
+  lookup_table_light_sensor_client.shutdown();
 
   time_step_client.call(time_step_srv);
 
@@ -2515,6 +2619,18 @@ int main(int argc, char **argv) {
   }
 
   sub_touch_sensor_32.shutdown();
+
+  ros::ServiceClient lookup_table_touch_sensor_client;
+  webots_ros::get_float_array lookup_table_touch_sensor_srv;
+  lookup_table_touch_sensor_client =
+    n.serviceClient<webots_ros::get_float_array>(model_name + "/touch_sensor/get_lookup_table");
+  if (lookup_table_touch_sensor_client.call(lookup_table_touch_sensor_srv))
+    ROS_INFO("Touch sensor lookup table size = %lu.", lookup_table_touch_sensor_srv.response.value.size());
+  else
+    ROS_ERROR("Failed to get the lookup table of 'touch_sensor'.");
+  if (lookup_table_touch_sensor_srv.response.value.size() != 6)
+    ROS_ERROR("Size of lookup table of 'touch_sensor' is wrong.");
+  lookup_table_touch_sensor_client.shutdown();
 
   time_step_client.call(time_step_srv);
 

@@ -58,6 +58,8 @@ def gen_consts_from_list(list):
 gen(PROC, "wb_accelerometer_enable(tag, sampling_period))", "accelerometer")
 gen(PROC, "wb_accelerometer_disable(tag)", "accelerometer")
 gen(FUNC, "wb_accelerometer_get_sampling_period(tag)", "accelerometer")
+# gen(FUNC, "wb_accelerometer_get_lookup_table_size(tag)", "accelerometer")
+# gen(FUNC, "wb_accelerometer_get_lookup_table(tag)", "accelerometer")
 # gen(FUNC, "wb_accelerometer_get_values(tag)", "accelerometer")
 
 # brake.h
@@ -95,6 +97,8 @@ gen(FUNC, "wb_camera_save_image(tag, filename, quality)", "camera")
 gen(PROC, "wb_compass_enable(tag, sampling_period)", "compass")
 gen(PROC, "wb_compass_disable(tag)", "compass")
 gen(FUNC, "wb_compass_get_sampling_period(tag)", "compass")
+# gen(FUNC, "wb_compass_get_lookup_table_size(tag)", "compass")
+# gen(FUNC, "wb_compass_get_lookup_table(tag)", "compass")
 # gen(FUNC, "wb_compass_get_values(tag)", "compass")
 
 # connector.h
@@ -159,6 +163,8 @@ gen(FUNC, "wb_distance_sensor_get_value(tag)", "distancesensor")
 gen(FUNC, "wb_distance_sensor_get_max_value(tag)", "distancesensor")
 gen(FUNC, "wb_distance_sensor_get_min_value(tag)", "distancesensor")
 gen(FUNC, "wb_distance_sensor_get_aperture(tag)", "distancesensor")
+# gen(FUNC, "wb_distance_sensor_get_lookup_table_size(tag)", "distancesensor")
+# gen(FUNC, "wb_distance_sensor_get_lookup_table(tag)", "distancesensor")
 gen(FUNC, "wb_distance_sensor_get_type(tag)", "distancesensor")
 
 # emitter.h
@@ -182,12 +188,16 @@ gen(FUNC, "wb_gps_get_speed(tag)", "gps")
 gen(PROC, "wb_gyro_enable(tag, sampling_period)", "gyro")
 gen(PROC, "wb_gyro_disable(tag)", "gyro")
 gen(FUNC, "wb_gyro_get_sampling_period(tag)", "gyro")
+# gen(FUNC, "wb_gyro_get_lookup_table_size(tag)", "gyro")
+# gen(FUNC, "wb_gyro_get_lookup_table(tag)", "gyro")
 # gen(FUNC, "wb_gyro_get_values(tag)", "gyro")
 
 # inertial_unit.h
 gen(PROC, "wb_inertial_unit_enable(tag, sampling_period)", "inertialunit")
 gen(PROC, "wb_inertial_unit_disable(tag)", "inertialunit")
 gen(FUNC, "wb_inertial_unit_get_sampling_period(tag)", "inertialunit")
+# gen(FUNC, "wb_inertial_unit_get_lookup_table_size(tag)", "inertialunit")
+# gen(FUNC, "wb_inertial_unit_get_lookup_table(tag)", "inertialunit")
 # gen(FUNC, "wb_inertial_unit_get_roll_pitch_yaw(tag)", "inertialunit")
 
 # joystick.h
@@ -245,6 +255,8 @@ gen(PROC, "wb_light_sensor_enable(tag, sampling_period)", "lightsensor")
 gen(PROC, "wb_light_sensor_disable(tag)", "lightsensor")
 gen(FUNC, "wb_light_sensor_get_sampling_period(tag)", "lightsensor")
 gen(FUNC, "wb_light_sensor_get_value(tag)", "lightsensor")
+# gen(FUNC, "wb_light_sensor_get_lookup_table_size(tag)", "lightsensor")
+# gen(FUNC, "wb_light_sensor_get_lookup_table(tag)", "lightsensor")
 
 # motor.h
 gen(PROC, "wb_motor_set_acceleration(tag, acceleration)", "motor")
@@ -503,6 +515,8 @@ gen(PROC, "wb_touch_sensor_disable(tag)", "touchsensor")
 gen(FUNC, "wb_touch_sensor_get_sampling_period(tag)", "touchsensor")
 gen(FUNC, "wb_touch_sensor_get_value(tag)", "touchsensor")
 gen(FUNC, "wb_touch_sensor_get_type(tag)", "touchsensor")
+# gen(FUNC, "wb_touch_sensor_get_lookup_table_size(tag)", "touchsensor")
+# gen(FUNC, "wb_touch_sensor_get_lookup_table(tag)", "touchsensor")
 # gen(FUNC, "wb_touch_sensor_get_values(tag)", "touchsensor")
 
 # utils/motion.h

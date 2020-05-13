@@ -126,9 +126,12 @@ public:
 
   // error reporting
   // field name will be extracted from the first single quoted text in the message
-  void warn(const QString &message) const;  // show standard warning message formatted for this node
-  void info(const QString &message) const;  // show standard info message formatted for this node
-  QString usefulName() const;               // user friendy node name for error messages
+  void parsingWarn(const QString &message) const;  // show parsing warning message formatted for this node
+  void parsingInfo(const QString &message) const;  // show parsing info message formatted for this node
+  void warn(const QString &message,
+            bool parsingMessage = false) const;  // show standard warning message formatted for this node
+  void info(const QString &message, bool parsingMessage = false) const;  // show standard info message formatted for this node
+  QString usefulName() const;                                            // user friendy node name for error messages
 
   // destruction
   bool isBeingDeleted() const { return mIsBeingDeleted; }

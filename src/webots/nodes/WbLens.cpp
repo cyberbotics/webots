@@ -53,19 +53,19 @@ void WbLens::postFinalize() {
 
 void WbLens::updateCenter() {
   if (mCenter->value().x() < 0.0) {
-    warn(tr("Invalid 'center.x' changed to 0. The value should be in the range [0;1]."));
+    parsingWarn(tr("Invalid 'center.x' changed to 0. The value should be in the range [0;1]."));
     mCenter->setX(0.0);
   }
   if (mCenter->value().y() < 0.0) {
-    warn(tr("Invalid 'center.y' changed to 0. The value should be in the range [0;1]."));
+    parsingWarn(tr("Invalid 'center.y' changed to 0. The value should be in the range [0;1]."));
     mCenter->setY(0.0);
   }
   if (mCenter->value().x() > 1.0) {
-    warn(tr("Invalid 'center.x' changed to 1. The value should be in the range [0;1]."));
+    parsingWarn(tr("Invalid 'center.x' changed to 1. The value should be in the range [0;1]."));
     mCenter->setX(1.0);
   }
   if (mCenter->value().y() > 1.0) {
-    warn(tr("Invalid 'center.y' changed to 1. The value should be in the range [0;1]."));
+    parsingWarn(tr("Invalid 'center.y' changed to 1. The value should be in the range [0;1]."));
     mCenter->setX(1.0);
   }
 

@@ -142,10 +142,10 @@ void WbSliderJoint::updateMinAndMaxStop(double min, double max) {
     const double maxPos = lm->maxPosition();
     if (min != max && minPos != maxPos) {
       if (minPos < min)
-        p->warn(tr("SliderJoint 'minStop' must be less or equal to LinearMotor 'minPosition'."));
+        p->parsingWarn(tr("SliderJoint 'minStop' must be less or equal to LinearMotor 'minPosition'."));
 
       if (maxPos > max)
-        p->warn(tr("SliderJoint 'maxStop' must be greater or equal to LinearMotor 'maxPosition'."));
+        p->parsingWarn(tr("SliderJoint 'maxStop' must be greater or equal to LinearMotor 'maxPosition'."));
     }
   }
 

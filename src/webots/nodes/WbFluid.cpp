@@ -194,7 +194,7 @@ void WbFluid::createOdeGeomFromInsertedGroupItem(WbBaseNode *node) {
 void WbFluid::updateDensity() {
   const double d = mDensity->value();
   if (d < 0.0) {
-    warn(tr("'density' must be greater than or equal to zero. Reset to default value 1000 kg/m^3"));
+    parsingWarn(tr("'density' must be greater than or equal to zero. Reset to default value 1000 kg/m^3"));
     mDensity->setValue(1000.0);
     return;
   }
@@ -206,7 +206,7 @@ void WbFluid::updateDensity() {
 void WbFluid::updateViscosity() {
   const double v = mViscosity->value();
   if (v < 0.0) {
-    warn(tr("'viscosity' must be greater than or equal to zero. Reset to default value 0.001 kg/(ms)"));
+    parsingWarn(tr("'viscosity' must be greater than or equal to zero. Reset to default value 0.001 kg/(ms)"));
     mViscosity->setValue(1000.0);
     return;
   }

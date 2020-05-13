@@ -28,6 +28,12 @@
 
 class QTextStream;
 
+struct ConsoleSettings {
+  QStringList enabledFilters;
+  QStringList enabledLevels;
+  QString name;
+};
+
 class WbPerspective {
 public:
   // create perspective for this world file
@@ -78,6 +84,10 @@ public:
 
   void setRobotWindowNodeNames(const QStringList &robotWindowNodeNames) { mRobotWindowNodeNames = robotWindowNodeNames; }
   const QStringList &enabledRobotWindowNodeNames() const { return mRobotWindowNodeNames; }
+
+  // consoles
+  void setConsolesSettings(const QVector<ConsoleSettings> &settings) { mConsolesSettings = settings; }
+  const QVector<ConsoleSettings> &consoleList() const { return mConsolesSettings; }
 
   // global optional renderings
   void enableGlobalOptionalRendering(const QString &optionalRenderingName, bool enable);
@@ -144,6 +154,7 @@ private:
   QStringList mCenterOfMassNodeNames;
   QStringList mCenterOfBuoyancyNodeNames;
   QStringList mSupportPolygonNodeNames;
+  QVector<ConsoleSettings> mConsolesSettings;
   QHash<QString, QStringList> mRenderingDevicesPerspectiveList;
   QHash<QString, QString> mX3dExportParameters;
 

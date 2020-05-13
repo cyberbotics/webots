@@ -51,12 +51,14 @@ private:
   WbSensor *mSensor;
   WbLookupTable *mLut;
   double mValues[3];  // current sensor value according to lookup table
+  bool mNeedToReconfigure;
 
   // private functions
   WbInertialUnit &operator=(const WbInertialUnit &);  // non copyable
   WbNode *clone() const override { return new WbInertialUnit(*this); }
   void init();
   void computeValue();
+  void addConfigure(QDataStream &);
 
 private slots:
   void updateLookupTable();

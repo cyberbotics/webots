@@ -98,7 +98,7 @@ void WbVector2Editor::apply() {
   else
     mVector2.setXy(WbPrecision::roundValue(mSpinBoxes[0]->value(), WbPrecision::GUI_MEDIUM),
                    WbPrecision::roundValue(mSpinBoxes[1]->value(), WbPrecision::GUI_MEDIUM));
-
+  mVector2.clamp();
   if (singleValue()) {
     WbSFVector2 *const sfVector2 = static_cast<WbSFVector2 *>(singleValue());
     if (sfVector2->value() == mVector2)

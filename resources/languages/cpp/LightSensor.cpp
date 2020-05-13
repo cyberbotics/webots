@@ -33,3 +33,11 @@ int LightSensor::getSamplingPeriod() const {
 double LightSensor::getValue() const {
   return wb_light_sensor_get_value(getTag());
 }
+
+int LightSensor::getLookupTableSize() const {
+  return wb_light_sensor_get_lookup_table_size(getTag());
+}
+
+const double *LightSensor::getLookupTable() const {
+  return wb_light_sensor_get_lookup_table(getTag());
+}

@@ -483,20 +483,15 @@ QString WbNode::extractFieldName(const QString &message) const {
   return fieldName;
 }
 
-void WbNode::warn(const QString &message) const {
-  QString fieldName = extractFieldName(message);
-  QString parameterName;
-  QString path = fullPath(fieldName, parameterName);
-  QString improvedMsg = message;
-
-  if (!fieldName.isEmpty() && !parameterName.isEmpty())
-    // improve message by displaying parameter name instead of hidden field name
-    improvedMsg.replace("'" + fieldName + "'", "'" + parameterName + "'");
-
-  WbLog::warning(path + ": " + improvedMsg);
+void WbNode::parsingWarn(const QString &message) const {
+  warn(message, true);
 }
 
-void WbNode::info(const QString &message) const {
+void WbNode::parsingInfo(const QString &message) const {
+  info(message, true);
+}
+
+void WbNode::warn(const QString &message, bool parsingMessage) const {
   QString fieldName = extractFieldName(message);
   QString parameterName;
   QString path = fullPath(fieldName, parameterName);
@@ -506,7 +501,26 @@ void WbNode::info(const QString &message) const {
     // improve message by displaying parameter name instead of hidden field name
     improvedMsg.replace("'" + fieldName + "'", "'" + parameterName + "'");
 
-  WbLog::info(path + ": " + improvedMsg);
+  if (parsingMessage)
+    WbLog::warning(path + ": " + improvedMsg, false, WbLog::PARSING);
+  else
+    WbLog::warning(path + ": " + improvedMsg);
+}
+
+void WbNode::info(const QString &message, bool parsingMessage) const {
+  QString fieldName = extractFieldName(message);
+  QString parameterName;
+  QString path = fullPath(fieldName, parameterName);
+  QString improvedMsg = message;
+
+  if (!fieldName.isEmpty() && !parameterName.isEmpty())
+    // improve message by displaying parameter name instead of hidden field name
+    improvedMsg.replace("'" + fieldName + "'", "'" + parameterName + "'");
+
+  if (parsingMessage)
+    WbLog::info(path + ": " + improvedMsg, false, WbLog::PARSING);
+  else
+    WbLog::info(path + ": " + improvedMsg);
 }
 
 void WbNode::cleanup() {
@@ -859,7 +873,7 @@ void WbNode::validate(const WbNode *upperNode, const WbField *upperField, bool i
               errorMessage.prepend(tr(" Skipped node: "));
           }
 
-          warn(errorMessage);
+          parsingWarn(errorMessage);
         } else
           child->validate(NULL, NULL, isInBoundingObject);
       }
@@ -889,7 +903,7 @@ void WbNode::validate(const WbNode *upperNode, const WbField *upperField, bool i
           }
 
           --i;
-          warn(errorMessage);
+          parsingWarn(errorMessage);
         } else
           child->validate(NULL, NULL, isInBoundingObject);
       }
@@ -1268,7 +1282,7 @@ WbNode *WbNode::clone() const {
   // otherwise we need to instantiate the node for a PROTO instance
   WbNode *const copy = WbNodeFactory::instance()->createCopy(*this);
   if (!copy)
-    warn(tr("Could not instantiate '%1' node: this class is not yet implemented in Webots.").arg(model()->name()));
+    parsingWarn(tr("Could not instantiate '%1' node: this class is not yet implemented in Webots.").arg(model()->name()));
 
   return copy;
 }
@@ -1469,8 +1483,8 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
   proto->ref(true);
 
   WbNode *const instance = newNode->cloneAndReferenceProtoInstance();
-  int id = newNode->uniqueId();  // we want to keep this id because it should match the 'context.id' value used when generating
-                                 // procedural PROTO nodes
+  int id = newNode->uniqueId();  // we want to keep this id because it should match the 'context.id' value used when
+                                 // generating procedural PROTO nodes
   delete newNode;
 
   gProtoParameterNodeFlag = true;
@@ -1572,8 +1586,8 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
     }
   }
 
-  // these tests are because of the multiple possible contexts to pass in this function (e.g. regular load versus add node from
-  // scene tree gui)
+  // these tests are because of the multiple possible contexts to pass in this function (e.g. regular load versus add node
+  // from scene tree gui)
   bool topProto = isTopLevel && gProtoParameterList.size() <= 1 && !instance->hasAProtoAncestor();
   instance->setupDescendantAndNestedProtoFlags(topProto, false, fromSceneTree);
 

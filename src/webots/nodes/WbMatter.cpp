@@ -290,12 +290,12 @@ dGeomID WbMatter::createOdeGeomFromTransform(dSpaceID space, WbTransform *transf
 
   const int n = transform->childCount();
   if (n == 0) {
-    info(tr("A child to the Transform placed in 'boundingObject' is expected."));
+    parsingInfo(tr("A child to the Transform placed in 'boundingObject' is expected."));
     return NULL;
   }
 
   if (n != 1)
-    transform->warn(
+    transform->parsingWarn(
       tr("A Transform node inside a 'boundingObject' can only contain one child. Remaining children are ignored."));
 
   WbBaseNode *const transformChild = transform->child(0);
@@ -312,8 +312,9 @@ dGeomID WbMatter::createOdeGeomFromTransform(dSpaceID space, WbTransform *transf
             Qt::UniqueConnection);
     shape->connectGeometryField();
   } else if (dynamic_cast<WbGeometry *>(transformChild) == NULL) {
-    transform->warn(tr("A Transform node inside a 'boundingObject' can only contain one Shape or one Geometry node. The child "
-                       "node is ignored."));
+    transform->parsingWarn(
+      tr("A Transform node inside a 'boundingObject' can only contain one Shape or one Geometry node. The child "
+         "node is ignored."));
   }
 
   WbGeometry *const geometry = transform->geometry();
@@ -399,7 +400,7 @@ dGeomID WbMatter::createOdeGeomFromGroup(dSpaceID space, WbGroup *group) {  // g
   group->setOdeData(simpleSpace);
 
   if (group->childCount() == 0) {
-    info(tr("A child in the Group placed in 'boundingObject' is missing."));
+    parsingInfo(tr("A child in the Group placed in 'boundingObject' is missing."));
     return (dGeomID)simpleSpace;
   }
 
@@ -524,7 +525,7 @@ void WbMatter::updateName() {
   QString nameValue = mName->value();
   if (nameValue.isEmpty()) {
     const QString &defaultName = dynamic_cast<const WbSFString *>(findField("name")->defaultValue())->value();
-    warn(tr("'name' cannot be empty. Default node name '%1' is automatically set.").arg(defaultName));
+    parsingWarn(tr("'name' cannot be empty. Default node name '%1' is automatically set.").arg(defaultName));
     mName->blockSignals(true);
     mName->setValue(defaultName);
     mName->blockSignals(false);
@@ -551,7 +552,7 @@ bool WbMatter::checkScaleAtLoad(bool warning) {
   }
 
   if (b && warning)
-    warn(tr("The 'scale' field components of a Solid must be the same: y and z are reset to x."));
+    parsingWarn(tr("The 'scale' field components of a Solid must be the same: y and z are reset to x."));
 
   return b;
 }

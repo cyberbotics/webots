@@ -109,10 +109,10 @@ void WbIndexedFaceSet::updateTriangleMesh(bool issueWarnings) {
 
   if (issueWarnings) {
     foreach (QString warning, mTriangleMesh->warnings())
-      warn(warning);
+      parsingWarn(warning);
 
     if (!mTriangleMeshError.isEmpty())
-      warn(tr("Cannot create IndexedFaceSet because: \"%1\".").arg(mTriangleMeshError));
+      parsingWarn(tr("Cannot create IndexedFaceSet because: \"%1\".").arg(mTriangleMeshError));
   }
 }
 
@@ -210,7 +210,7 @@ void WbIndexedFaceSet::updateNormal() {
     for (int i = 0; i < normal()->vector().size(); ++i) {
       if (normal()->vector(i).isNull()) {
         normal()->setVector(i, WbVector3(0.0, 1.0, 0.0));
-        warn(tr("Normal values can't be null."));
+        parsingWarn(tr("Normal values can't be null."));
       }
     }
   }

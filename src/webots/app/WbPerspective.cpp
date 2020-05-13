@@ -145,6 +145,14 @@ bool WbPerspective::readContent(QTextStream &in, bool reloading) {
         continue;
       QString s = line.right(line.length() - 15).trimmed();  // remove label
       splitUniqueNameList(s, mSupportPolygonNodeNames);
+    } else if (key == "consoles:") {
+      const QStringList s = line.right(line.length() - 10).trimmed().split(':');  // remove label
+      assert(s.size() == 3);
+      ConsoleSettings settings;
+      settings.name = s[0];
+      settings.enabledFilters = s[1].split(';');
+      settings.enabledLevels = s[2].split(';');
+      mConsolesSettings.append(settings);
     } else if (key == "renderingDevicePerspectives:") {
       if (skipNodeIdsOptions)
         continue;
@@ -180,6 +188,7 @@ bool WbPerspective::load(bool reloading) {
   mRobotWindowNodeNames.clear();
   if (!reloading)
     mEnabledOptionalRenderingList.clear();
+  mConsolesSettings.clear();
   clearRenderingDevicesPerspectiveList();
   clearEnabledOptionalRenderings();
 
@@ -251,6 +260,10 @@ bool WbPerspective::save() const {
     out << "centerOfBuoyancy: " << joinUniqueNameList(mCenterOfBuoyancyNodeNames) << "\n";
   if (!mSupportPolygonNodeNames.isEmpty())
     out << "supportPolygon: " << joinUniqueNameList(mSupportPolygonNodeNames) << "\n";
+
+  for (int i = 0; i < mConsolesSettings.size(); ++i)
+    out << "consoles: " << mConsolesSettings.at(i).name << ":" << mConsolesSettings.at(i).enabledFilters.join(";") << ":"
+        << mConsolesSettings.at(i).enabledLevels.join(";") << "\n";
 
   QHash<QString, QStringList>::const_iterator it;
   for (it = mRenderingDevicesPerspectiveList.constBegin(); it != mRenderingDevicesPerspectiveList.constEnd(); ++it)

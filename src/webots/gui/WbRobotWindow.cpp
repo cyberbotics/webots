@@ -53,7 +53,7 @@ WbRobotWindow::WbRobotWindow(WbRobot *robot, QWidget *parent) :
 
   const QString &windowFileName = robot->windowFile("html");
   if (windowFileName.isEmpty()) {
-    robot->warn(tr("No dockable HTML robot window is set in the 'window' field."));
+    robot->parsingWarn(tr("No dockable HTML robot window is set in the 'window' field."));
     return;
   }
 
@@ -97,7 +97,7 @@ void WbRobotWindow::setupPage() {
 
   const QString &windowFileName = mRobot->windowFile("html");
   if (windowFileName.isEmpty()) {
-    mRobot->warn(tr("No dockable HTML robot window is set in the 'window' field."));
+    mRobot->parsingWarn(tr("No dockable HTML robot window is set in the 'window' field."));
     return;
   }
   QFile htmlFile(windowFileName);

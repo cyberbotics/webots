@@ -577,9 +577,9 @@ void WbController::flushBuffer(QString *buffer) {
   while (index != -1) {
     const QString line = buffer->mid(0, index + 1);
     if (buffer == mStdoutBuffer)
-      WbLog::appendStdout(line);
+      WbLog::appendStdout(line, robot()->name());
     else
-      WbLog::appendStderr(line);
+      WbLog::appendStderr(line, robot()->name());
     // remove line from buffer
     buffer->remove(0, index + 1);
     index = buffer->indexOf('\n');

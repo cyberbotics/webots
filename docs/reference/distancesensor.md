@@ -283,6 +283,8 @@ Hence, the range of the return value is defined by this lookup table.
 #### `wb_distance_sensor_get_max_value`
 #### `wb_distance_sensor_get_min_value`
 #### `wb_distance_sensor_get_aperture`
+#### `wb_distance_sensor_get_lookup_table_size`
+#### `wb_distance_sensor_get_lookup_table`
 
 %tab-component "language"
 
@@ -294,6 +296,8 @@ Hence, the range of the return value is defined by this lookup table.
 double wb_distance_sensor_get_max_value(WbDeviceTag tag);
 double wb_distance_sensor_get_min_value(WbDeviceTag tag);
 double wb_distance_sensor_get_aperture(WbDeviceTag tag);
+int wb_distance_sensor_get_lookup_table_size(WbDeviceTag tag);
+const double *wb_distance_sensor_get_lookup_table(WbDeviceTag tag);
 ```
 
 %tab-end
@@ -308,6 +312,8 @@ namespace webots {
     double getMaxValue() const;
     double getMinValue() const;
     double getAperture() const;
+    int getLookupTableSize() const;
+    const double *getLookupTable() const;
     // ...
   }
 }
@@ -324,6 +330,7 @@ class DistanceSensor (Device):
     def getMaxValue(self):
     def getMinValue(self):
     def getAperture(self):
+    def getLookupTable(self):
     # ...
 ```
 
@@ -338,6 +345,7 @@ public class DistanceSensor extends Device {
   public double getMaxValue();
   public double getMinValue();
   public double getAperture();
+  public double[] getLookupTable();
   // ...
 }
 ```
@@ -350,6 +358,7 @@ public class DistanceSensor extends Device {
 max_value = wb_distance_sensor_get_max_value(tag)
 min_value = wb_distance_sensor_get_min_value(tag)
 aperture = wb_distance_sensor_get_aperture(tag)
+lookup_table_array = wb_distance_sensor_get_lookup_table(tag)
 ```
 
 %tab-end
@@ -361,6 +370,7 @@ aperture = wb_distance_sensor_get_aperture(tag)
 | `/<device_name>/get_max_value` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
 | `/<device_name>/get_min_value` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
 | `/<device_name>/get_aperture` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
+| `/<device_name>/get_lookup_table` | `service` | [`webots_ros::get_float_array`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -377,6 +387,11 @@ The `wb_distance_sensor_get_min_value` function returns the minimum value which 
 This value is the minimum of the second column of the `DistanceSensor.lookupTable` field.
 
 The `wb_distance_sensor_get_aperture` function returns the aperture of the distance sensor in radians.
+
+The `wb_distance_sensor_get_lookup_table_size` function returns the number of rows in the [lookup table](#lookup-table).
+
+The `wb_distance_sensor_get_lookup_table` function returns lookup table fields of the [lookup table](#lookup-table).
+This function returns a matrix containing exactly N * 3 values (N represents the number of mapped values optained with the `wb_distance_sensor_get_lookup_table_size` function) that shall be interpreted as a N x 3 table.
 
 ---
 
