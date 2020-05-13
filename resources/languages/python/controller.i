@@ -814,7 +814,7 @@ class AnsiCodes(object):
       return children
 
     def get_name(self):
-      return self.__get_name_bytes().decode('utf-8') 
+      return self.__get_name_bytes().decode('utf-8')
   %}
 
   PyObject *get_type() {
@@ -853,6 +853,10 @@ class AnsiCodes(object):
 
   PyObject *__get_name_bytes() {
     return PyBytes_FromStringAndSize($self->name, strlen($self->name));
+  }
+
+  PyObject *is_link_device() {
+    return PyBool_FromLong($self->is_device);
   }
 };
 

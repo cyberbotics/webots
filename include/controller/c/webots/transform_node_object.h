@@ -21,17 +21,16 @@
 #ifndef WB_TRANSFORM_NODE_OBJECT_H
 #define WB_TRANSFORM_NODE_OBJECT_H
 
+#include <stdbool.h>
+
 typedef struct _WbTransformNodeObject WbTransformNodeObject;
 
-typedef enum {
-  WB_TF_NODE_JOINT = 0,
-  WB_TF_NODE_LINK
-} WbTransformNodeObjectType;
+typedef enum { WB_TF_NODE_JOINT = 0, WB_TF_NODE_LINK } WbTransformNodeObjectType;
 
 struct _WbTransformNodeObject {
   int id;
-  WbTransformNodeObject* parent;
-  WbTransformNodeObject** children;
+  WbTransformNodeObject *parent;
+  WbTransformNodeObject **children;
   int n_children;
   int tag;
   WbTransformNodeObjectType type;
@@ -40,6 +39,7 @@ struct _WbTransformNodeObject {
   double axis[3];         // WB_TF_NODE_JOINT
   double position;        // WB_TF_NODE_JOINT
   char *name;             // Device
+  bool is_device;
 };
 
 #endif /* WB_TRANSFORM_NODE_OBJECT_H */

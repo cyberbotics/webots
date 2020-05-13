@@ -373,6 +373,7 @@ static void robot_configure(WbRequest *r) {
       node->id = request_read_int32(r);
       node->type = WB_TF_NODE_LINK;
       int parent_id = request_read_int32(r);
+      node->is_device = request_read_uchar(r);
       for (int i = 0; i < 3; i++)
         node->translation[i] = request_read_double(r);
       for (int i = 0; i < 9; i++)

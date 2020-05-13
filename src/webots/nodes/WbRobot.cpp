@@ -783,6 +783,7 @@ void WbRobot::writeTfLink(QDataStream &stream, WbNode *link) {
   stream << (unsigned char)WB_TF_NODE_LINK;
   stream << (int)link->uniqueId();
   stream << (int)parent->uniqueId();
+  stream << (unsigned char)((dynamic_cast<WbDevice *>(link)) ? 1 : 0);
   stream << (double)translation.x();
   stream << (double)translation.y();
   stream << (double)translation.z();
