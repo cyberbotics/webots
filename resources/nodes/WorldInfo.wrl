@@ -5,7 +5,7 @@ WorldInfo {
   vrmlField   MFString                   info                           []
   vrmlField   SFString                   title                          ""
   field       SFString                   window                         ""
-  field       SFVec3f                    gravity                        0 -9.81 0  # expressed in m/s^2
+  field       SFFloat                    gravity                        9.81       # along the down axis, expressed in m/s^2
   field       SFFloat                    CFM                            0.00001    # ODE world constraint force mixing parameter
   field       SFFloat                    ERP                            0.2        # ODE world error reduction parameter
   field       SFString                   physics                        ""         # name of physics plugin
@@ -17,7 +17,7 @@ WorldInfo {
   field       SFFloat                    physicsDisableAngularThreshold 0.01       # threshold determining if an object is idle or not [r/s]
   field       SFNode                     defaultDamping                 NULL       # default damping properties
   field       SFFloat                    inkEvaporation                 0          # make ground textures evaporate to white
-  field       SFVec3f                    northDirection                 1 0 0      # direction of north pole for compass sensors
+  field       SFString{"ENU", "NUE"}     coordinateSystem               "ENU"      # X -> East, Y -> North, Z -> Up
   field       SFString{"local", "WGS84"} gpsCoordinateSystem            "local"    # defines the world coordinate system (used by GPS node)
   field       SFVec3f                    gpsReference                   0 0 0      # defines the offset for each coordinate
   field       SFFloat                    lineScale                      0.1        # order of magnitude of the world in meters, used to display the optional rendering

@@ -147,7 +147,7 @@ void WbCompass::computeValue() {
   // get global north
   WbWorldInfo *info = WbWorld::instance()->worldInfo();
   assert(info);
-  const WbVector3 &globalNorth = info->northDirection();
+  const WbVector3 &globalNorth = info->coordinateSystem() == "ENU" ? WbVector3(0, 1, 0) : WbVector3(1, 0, 0);  // NUE
 
   // convert from global to Compass local coordinate system
   WbVector3 localNorth = globalNorth * matrix();

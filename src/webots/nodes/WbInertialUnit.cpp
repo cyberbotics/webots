@@ -145,8 +145,8 @@ bool WbInertialUnit::refreshSensorIfNeeded() {
 void WbInertialUnit::computeValue() {
   // get north and -gravity in global coordinate systems
   const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
-  const WbVector3 &north = wi->northDirection().normalized();
-  WbVector3 minusGravity = -wi->gravity().normalized();
+  const WbVector3 &north = WbVector3(0, 1, 0);  // wi->northDirection().normalized();
+  WbVector3 minusGravity = WbVector3(0, -wi->gravity(), 0);
 
   if (minusGravity.isNan())
     minusGravity = WbVector3(0.0, 1.0, 0.0);

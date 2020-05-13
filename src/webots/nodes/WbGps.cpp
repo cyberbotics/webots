@@ -27,6 +27,8 @@
 
 #include <cassert>
 
+#include <QtCore/QDebug>
+
 /* ------- WbUTMConverter ------- */
 
 class WbUTMConverter {
@@ -281,15 +283,19 @@ bool WbGps::refreshSensorIfNeeded() {
   // if we are using 'WGS84' coordinate system with non-default 'northDirection'
   // we need to adapt the exact position
   if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem().compare("WGS84") == 0) {
-    WbVector3 northDirection = WbWorld::instance()->worldInfo()->northDirection().normalized();
-    if (northDirection != WbVector3(1.0, 0.0, 0.0)) {
-      WbVector3 axis = northDirection.cross(WbVector3(1.0, 0.0, 0.0));
+    // WbVector3 northDirection = WbWorld::instance()->worldInfo()->northDirection().normalized();
+    if (WbWorld::instance()->worldInfo()->coordinateSystem().compare("ENU") == 0) {
+      // if (northDirection != WbVector3(1.0, 0.0, 0.0)) {
+      WbVector3 northDirection(0, 1, 0);
+      // WbVector3 axis = northDirection.cross(WbVector3(1.0, 0.0, 0.0));
+      WbVector3 axis(0, 0, 1);
       if (axis.isNull())
         axis = WbVector3(0.0, 1.0, 0.0);
       else
         axis.normalize();
       double angle = -northDirection.angle(WbVector3(1.0, 0.0, 0.0));
       WbMatrix3 transformation = WbMatrix3(axis, angle);
+      qDebug() << "matrix =" << transformation(0, 0);
       mMeasuredPosition = mMeasuredPosition * transformation;
     }
   }

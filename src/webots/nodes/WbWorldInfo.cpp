@@ -34,7 +34,7 @@ void WbWorldInfo::init() {
   mInfo = findMFString("info");
   mTitle = findSFString("title");
   mWindow = findSFString("window");
-  mGravity = findSFVector3("gravity");
+  mGravity = findSFDouble("gravity");
   mCfm = findSFDouble("CFM");
   mErp = findSFDouble("ERP");
   mPhysics = findSFString("physics");
@@ -46,7 +46,7 @@ void WbWorldInfo::init() {
   mPhysicsDisableAngularThreshold = findSFDouble("physicsDisableAngularThreshold");
   mDefaultDamping = findSFNode("defaultDamping");
   mInkEvaporation = findSFDouble("inkEvaporation");
-  mNorthDirection = findSFVector3("northDirection");
+  mCoordinateSystem = findSFString("coordinateSystem");
   mGpsCoordinateSystem = findSFString("gpsCoordinateSystem");
   mGpsReference = findSFVector3("gpsReference");
   mLineScale = findSFDouble("lineScale");
@@ -93,7 +93,7 @@ void WbWorldInfo::preFinalize() {
   updateLineScale();
   updateRandomSeed();
   updateDefaultDamping();
-  updateNorthDirection();
+  updateCoordinateSystem();
   updateGpsCoordinateSystem();
 
   const int size = mContactProperties->size();
@@ -110,7 +110,7 @@ void WbWorldInfo::postFinalize() {
     defaultDamping()->postFinalize();
 
   connect(mTitle, &WbSFString::changed, this, &WbWorldInfo::titleChanged);
-  connect(mGravity, &WbSFVector3::changed, this, &WbWorldInfo::updateGravity);
+  connect(mGravity, &WbSFDouble::changed, this, &WbWorldInfo::updateGravity);
   connect(mCfm, &WbSFDouble::changed, this, &WbWorldInfo::updateCfm);
   connect(mErp, &WbSFDouble::changed, this, &WbWorldInfo::updateErp);
   connect(mBasicTimeStep, &WbSFDouble::changed, this, &WbWorldInfo::updateBasicTimeStep);
@@ -123,7 +123,7 @@ void WbWorldInfo::postFinalize() {
   connect(mPhysicsDisableLinearThreshold, &WbSFDouble::changed, this, &WbWorldInfo::physicsDisableChanged);
   connect(mPhysicsDisableAngularThreshold, &WbSFDouble::changed, this, &WbWorldInfo::physicsDisableChanged);
   connect(mDefaultDamping, &WbSFNode::changed, this, &WbWorldInfo::updateDefaultDamping);
-  connect(mNorthDirection, &WbSFVector3::changed, this, &WbWorldInfo::updateNorthDirection);
+  connect(mCoordinateSystem, &WbSFString::changed, this, &WbWorldInfo::updateCoordinateSystem);
   connect(mGpsCoordinateSystem, &WbSFString::changed, this, &WbWorldInfo::updateGpsCoordinateSystem);
   connect(mGpsReference, &WbSFString::changed, this, &WbWorldInfo::gpsReferenceChanged);
 
@@ -236,8 +236,11 @@ void WbWorldInfo::updateGravity() {
 }
 
 void WbWorldInfo::applyToOdeGravity() {
-  const WbVector3 &gravity = mGravity->value();
-  WbOdeContext::instance()->setGravity(gravity.x(), gravity.y(), gravity.z());
+  double gravity = mGravity->value();
+  if (mCoordinateSystem->value() == "ENU")
+    WbOdeContext::instance()->setGravity(0, 0, -gravity);
+  else
+    WbOdeContext::instance()->setGravity(0, -gravity, 0);
   emit globalPhysicsPropertiesChanged();
 }
 
@@ -292,26 +295,27 @@ void WbWorldInfo::applyToOdeGlobalDamping() {
 
 // Computes an orthonormal basis whose 'yaw unit vector' is the opposite of the normalized gravity vector
 void WbWorldInfo::updateGravityBasis() {
-  if (!gravity().isNull()) {
-    mGravityUnitVector = gravity().normalized();
-    WbMathsUtilities::orthoBasis(-gravity(), mGravityBasis);
-  } else {
+  if (mCoordinateSystem->value() == "ENU") {
+    mGravityVector.setXyz(0, 0, -mGravity->value());
+    mGravityUnitVector.setXyz(0.0, 0.0, -1.0);
+  } else {  // "NUE"
+    mGravityVector.setXyz(0, -mGravity->value(), 0);
     mGravityUnitVector.setXyz(0.0, -1.0, 0.0);
-    mGravityBasis[X].setXyz(1.0, 0.0, 0.0);
-    mGravityBasis[Y].setXyz(0.0, 1.0, 0.0);
-    mGravityBasis[Z].setXyz(0.0, 0.0, 1.0);
   }
+  mGravityBasis[X].setXyz(1.0, 0.0, 0.0);
+  mGravityBasis[Y].setXyz(0.0, 1.0, 0.0);
+  mGravityBasis[Z].setXyz(0.0, 0.0, 1.0);
 }
 
-void WbWorldInfo::updateNorthDirection() {
-  if (mNorthDirection->value().isNull()) {
-    mNorthDirection->setValue(1, 0, 0);
-    parsingWarn(tr("'northDirection' must be a unit vector. Reset to default value (1, 0, 0)."));
+void WbWorldInfo::updateCoordinateSystem() {
+  if (mCoordinateSystem->value() != "ENU" && mCoordinateSystem->value() != "NUE") {
+    mCoordinateSystem->setValue("ENU");
+    parsingWarn(tr("'coordinateSystem' must be either 'ENU' or 'NUE'. Reset to default value 'ENU'."));
   }
 }
 
 void WbWorldInfo::updateGpsCoordinateSystem() {
-  if (mGpsCoordinateSystem->value().compare("local") != 0 and mGpsCoordinateSystem->value().compare("WGS84") != 0) {
+  if (mGpsCoordinateSystem->value() != "local" && mGpsCoordinateSystem->value() != "WGS84") {
     mGpsCoordinateSystem->setValue("local");
     parsingWarn(tr("'gpsCoordinateSystem' must either be 'local' or 'WGS84'. Reset to default value 'local'."));
   }

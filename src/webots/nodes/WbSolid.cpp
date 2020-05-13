@@ -2489,7 +2489,7 @@ void WbSolid::extractImmersions() {
 // Computes the support polygon of the robot if needed
 const WbPolygon &WbSolid::supportPolygon() {
   const WbWorldInfo *const worldInfo = WbWorld::instance()->worldInfo();
-  if (worldInfo->gravity().isNull()) {
+  if (worldInfo->gravity() == 0) {
     mSupportPolygon.setActualSize(0);
     return mSupportPolygon;
   }

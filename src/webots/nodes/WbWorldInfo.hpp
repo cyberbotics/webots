@@ -46,7 +46,7 @@ public:
   const WbMFString &info() const { return *mInfo; }
   const QString &title() const { return mTitle->value(); }
   const QString &window() const { return mWindow->value(); }
-  const WbVector3 &gravity() const { return mGravity->value(); }
+  double gravity() const { return mGravity->value(); }
   double cfm() const { return mCfm->value(); }
   double erp() const { return mErp->value(); }
   const QString &physics() const { return mPhysics->value(); }
@@ -58,7 +58,7 @@ public:
   double physicsDisableAngularThreshold() const { return mPhysicsDisableAngularThreshold->value(); }
   WbDamping *defaultDamping() const;
   double lineScale() const;
-  const WbVector3 &northDirection() const { return mNorthDirection->value(); }
+  const QString &coordinateSystem() const { return mCoordinateSystem->value(); }
   const QString &gpsCoordinateSystem() const { return mGpsCoordinateSystem->value(); }
   const WbVector3 &gpsReference() const { return mGpsReference->value(); }
   int randomSeed() const { return mRandomSeed->value(); }
@@ -72,9 +72,10 @@ public:
 
   // other accessors
 
-  // returns a unit vector with same direction and orientation as gravity
+  const WbVector3 &gravityVector() const { return mGravityVector; }
+  // returns a unit vector with the direction and orientation of the gravity
   const WbVector3 &gravityUnitVector() const { return mGravityUnitVector; }
-  // returns an orthonormal basis (b[X], b[Y] = -gravity().normalized(), b[Z])
+  // returns an orthonormal basis
   const WbVector3 *gravityBasis() const { return mGravityBasis; }
 
   const WbReceiver *physicsReceiver() const { return mPhysicsReceiver; }
@@ -101,7 +102,7 @@ private:
   WbMFString *mInfo;
   WbSFString *mTitle;
   WbSFString *mWindow;
-  WbSFVector3 *mGravity;
+  WbSFDouble *mGravity;
   WbSFDouble *mCfm;
   WbSFDouble *mErp;
   WbSFString *mPhysics;
@@ -113,7 +114,7 @@ private:
   WbSFDouble *mPhysicsDisableAngularThreshold;
   WbSFNode *mDefaultDamping;
   WbSFDouble *mInkEvaporation;
-  WbSFVector3 *mNorthDirection;
+  WbSFString *mCoordinateSystem;
   WbSFString *mGpsCoordinateSystem;
   WbSFVector3 *mGpsReference;
   WbSFDouble *mLineScale;
@@ -125,6 +126,7 @@ private:
 
   // Gravity variables
   WbVector3 mGravityUnitVector;
+  WbVector3 mGravityVector;
   WbVector3 mGravityBasis[3];  // An orthonormal basis (b[X], b[Y] = -gravity().normalized(), b[Z])
 
   // Apply methods
@@ -147,7 +149,7 @@ private slots:
   void updateCfm();
   void updateErp();
   void updateDefaultDamping();
-  void updateNorthDirection();
+  void updateCoordinateSystem();
   void updateGpsCoordinateSystem();
   void updateContactProperties();
   void displayOptimalThreadCountWarning();

@@ -739,7 +739,7 @@ void WbViewpoint::updateFollowUp() {
   if (!mIsLocked) {
     int type = followStringToType(mFollowType->value());
     if (type == FOLLOW_PAN_AND_TILT)
-      lookAt(mFollowedSolid->position(), -WbWorld::instance()->worldInfo()->gravity().normalized());
+      lookAt(mFollowedSolid->position(), -WbWorld::instance()->worldInfo()->gravityUnitVector());
     else if (type == FOLLOW_MOUNTED) {
       // Update Orientation
       WbMatrix3 solidRotation = mFollowedSolid->rotationMatrix() * mFollowedSolidReferenceRotation.transposed();
