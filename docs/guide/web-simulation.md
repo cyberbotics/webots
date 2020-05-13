@@ -266,11 +266,8 @@ LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
 
   [ ... ]
 
-  RewriteEngine on
-
   # this rule redirect HTTP requests to HTTPS
-  RewriteCond %{SERVER_NAME} =%{SERVER_NAME}
-  RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+  Redirect "/" "https://localhost/"
 </VirtualHost>
 
 <VirtualHost *:443>
