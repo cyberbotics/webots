@@ -209,6 +209,9 @@ In the `session_server.py` configuration, the `simulationServers` should be list
 Your web server should be configured to redirect `http` traffic to `https` and to rewrite ports in URLs for both `https` and `wss`.
 With the Apache web server, this can be achieved by adding the following rules in your `httpd.conf` file:
 
+%tab-component "host"
+
+%tab "webserver.com"
 ```
 LoadModule proxy_module modules/mod_proxy.so
 LoadModule proxy_http_module modules/mod_proxy_http.so
@@ -250,6 +253,46 @@ LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
 
 </VirtualHost>
 ```
+%tab-end
+
+%tab "localhost"
+```
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
+LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
+
+<VirtualHost *:80>
+  ServerName localhost
+
+  [ ... ]
+
+  RewriteEngine on
+
+  # this rule redirect HTTP requests to HTTPS
+  RewriteCond %{SERVER_NAME} =%{SERVER_NAME}
+  RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+</VirtualHost>
+
+<VirtualHost *:443>
+  ServerName localhost
+
+  [ ... ]
+
+  RewriteEngine on
+
+  # port redirection rules (for session_server.py, simulation_server.py and webots)
+  # websockets (should come first)
+  RewriteCond %{HTTP:Upgrade} websocket [NC]
+  RewriteCond %{HTTP:Connection} upgrade [NC]
+  RewriteRule ^/(\d*)/(.*)$ "ws://%{SERVER_NAME}:$1/$2" [P,L]
+  # http traffic (should come after websocket)
+  RewriteRule ^/(\d*)/(.*)$ "http://%{SERVER_NAME}:$1/$2" [P,L]
+
+</VirtualHost>
+```
+%tab-end
+
+%end
 
 #### SSL Encryption
 
