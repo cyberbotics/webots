@@ -67,19 +67,10 @@ world = WebotsModel()
 world.load(filename)
 for node in world.content['root']:
     if node['name'] == 'WorldInfo':
-        found = False
-        g = [0.0, 0.0, -9.81]
         for field in node['fields']:
             if field['name'] == 'gravity':
-                field['value'] = g
-                found = True
-                break
-        if not found:
-            gravity = {}
-            gravity['name'] = 'gravity'
-            gravity['type'] = 'SFVec3f'
-            gravity['value'] = g
-            node['fields'].append(gravity)
+                field['value'] = -field['value'][1]
+                field['type'] = 'SFFloat'
     else:
         for field in node['fields']:
             if field['name'] in ['translation', 'position', 'location', 'direction']:
