@@ -236,6 +236,7 @@ LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
 
   RewriteEngine on
 
+  # this rule removes the 'www.' prefix from the hostname in the URL if any
   RewriteCond %{SERVER_NAME} =www.webserver.com
   RewriteRule ^ https://webserver.com%{REQUEST_URI} [END,NE,R=permanent]
 
