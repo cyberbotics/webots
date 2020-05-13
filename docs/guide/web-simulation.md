@@ -222,6 +222,7 @@ LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
 
   RewriteEngine on
 
+  # this rule redirect HTTP requests to HTTPS, removing the 'www.' prefix if any
   RewriteCond %{SERVER_NAME} =%{SERVER_NAME} [OR]
   RewriteCond %{SERVER_NAME} =www.%{SERVER_NAME}
   RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
