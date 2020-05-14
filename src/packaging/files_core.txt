@@ -311,7 +311,7 @@ resources/web/local/webots.css
 resources/web/local/webots.js
 resources/web/local/qwebchannel.js [mac,linux]
 resources/web/server/
-resources/web/server/README.md
+resources/web/server/async_process.py
 resources/web/server/server.sh
 resources/web/server/session_server.py
 resources/web/server/simulation_server.py
