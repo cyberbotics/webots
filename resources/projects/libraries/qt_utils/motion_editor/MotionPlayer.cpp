@@ -71,6 +71,7 @@ void MotionPlayer::writeActuators() {
   Pose *afterPose = NULL;
   foreach (Pose *pose, mMotion->poses()) {
     int poseTime = pose->time();
+    // cppcheck-suppress knownConditionTrueFalse
     if (!beforePose && poseTime <= currentTime) {
       beforePose = pose;
       continue;

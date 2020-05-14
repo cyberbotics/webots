@@ -133,6 +133,7 @@ int main(int argc, char *argv[]) {
   command[i++] = 0;     // LED8 green
   command[i++] = 0;     // LED8 blue
   command[i++] = 0;     // speaker
+  // cppcheck-suppress knownArgument
   // cppcheck-suppress constArgument
   assert(i == sizeof(command));
   for (int j = 0; j < 3000; j++) {

@@ -3,21 +3,29 @@
 
 class Server { // eslint-disable-line no-unused-vars
   constructor(url, view, onready) {
+    this.url = url;
     this.view = view;
     this.onready = onready;
-
-    // url has the following form: "ws(s)://cyberbotics1.epfl.ch:80/simple/worlds/simple.wbt"
-    var n = url.indexOf('/', 6);
-    var m = url.lastIndexOf('/');
-    this.url = 'http' + url.substring(2, n); // e.g., "http(s)://cyberbotics1.epfl.ch:80"
-    this.project = url.substring(n + 1, m - 7); // e.g., "simple"
-    this.worldFile = url.substring(m + 1); // e.g., "simple.wbt"
+    // url has one of the following form:
+    // "ws(s)://cyberbotics1.epfl.ch:80/simple/worlds/simple.wbt", or
+    // "wss://cyberbotics1.epfl.ch/1999/session
+    //  ?url=webots://github.com/cyberbotics/webots/branch/master/projects/languages/python/worlds/example.wbt"
+    const n = this.url.indexOf('/session?url=', 6);
+    // 6 is for skipping the "ws(s)://domain" part of the URL which smallest form is 6 characters long: "ws://a"
+    if (n === -1) {
+      const m = url.lastIndexOf('/');
+      this.project = url.substring(this.url.indexOf('/', 6) + 1, m - 7); // e.g., "simple"
+      this.worldFile = url.substring(m + 1); // e.g., "simple.wbt"
+    } else
+      this.repository = this.url.substring(n + 13);
     this.controllers = [];
   }
 
   connect() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', this.url + '/session', true);
+    let xhr = new XMLHttpRequest();
+    const n = this.url.indexOf('/session?url=', 6);
+    const url = 'http' + (n > 0 ? this.url.substring(2, n + 8) : this.url.substring(2, this.url.indexOf('/', 6)) + '/session');
+    xhr.open('GET', url, true);
     $('#webotsProgressMessage').html('Connecting to session server...');
     xhr.onreadystatechange = (e) => {
       if (xhr.readyState !== 4)
@@ -33,8 +41,12 @@ class Server { // eslint-disable-line no-unused-vars
         return;
       }
       this.socket = new WebSocket(data + '/client');
-      this.socket.onopen = (event) => { this.onOpen(event); };
-      this.socket.onmessage = (event) => { this.onMessage(event); };
+      this.socket.onopen = (event) => {
+        this.onOpen(event);
+      };
+      this.socket.onmessage = (event) => {
+        this.onMessage(event);
+      };
       this.socket.onclose = (event) => {
         this.view.console.info('Disconnected to the Webots server.');
       };
@@ -46,22 +58,26 @@ class Server { // eslint-disable-line no-unused-vars
   }
 
   onOpen(event) {
-    var host = location.protocol + '//' + location.host.replace(/^www./, ''); // remove 'www' prefix
-    if (typeof webots.User1Id === 'undefined')
-      webots.User1Id = '';
-    if (typeof webots.User1Name === 'undefined')
-      webots.User1Name = '';
-    if (typeof webots.User1Authentication === 'undefined')
-      webots.User1Authentication = '';
-    if (typeof webots.User2Id === 'undefined')
-      webots.User2Id = '';
-    if (typeof webots.User2Name === 'undefined')
-      webots.User2Name = '';
-    if (typeof webots.CustomData === 'undefined')
-      webots.CustomData = '';
-    this.socket.send('{ "init" : [ "' + host + '", "' + this.project + '", "' + this.worldFile + '", "' +
-              webots.User1Id + '", "' + webots.User1Name + '", "' + webots.User1Authentication + '", "' +
-              webots.User2Id + '", "' + webots.User2Name + '", "' + webots.CustomData + '" ] }');
+    if (this.repository)
+      this.socket.send(`{"start":{"url":"${this.repository}"}}`);
+    else { // legacy format
+      const host = location.protocol + '//' + location.host.replace(/^www./, ''); // remove 'www' prefix
+      if (typeof webots.User1Id === 'undefined')
+        webots.User1Id = '';
+      if (typeof webots.User1Name === 'undefined')
+        webots.User1Name = '';
+      if (typeof webots.User1Authentication === 'undefined')
+        webots.User1Authentication = '';
+      if (typeof webots.User2Id === 'undefined')
+        webots.User2Id = '';
+      if (typeof webots.User2Name === 'undefined')
+        webots.User2Name = '';
+      if (typeof webots.CustomData === 'undefined')
+        webots.CustomData = '';
+      this.socket.send('{ "init" : [ "' + host + '", "' + this.project + '", "' + this.worldFile + '", "' +
+        webots.User1Id + '", "' + webots.User1Name + '", "' + webots.User1Authentication + '", "' +
+        webots.User2Id + '", "' + webots.User2Name + '", "' + webots.CustomData + '" ] }');
+    }
     $('#webotsProgressMessage').html('Starting simulation...');
   }
 
@@ -70,7 +86,7 @@ class Server { // eslint-disable-line no-unused-vars
     if (message.indexOf('webots:ws://') === 0 || message.indexOf('webots:wss://') === 0) {
       var url = message.substring(7);
       var httpServerUrl = url.replace(/ws/, 'http'); // Serve the texture images. SSL prefix is supported.
-      TextureLoader.setTexturePathPrefix(httpServerUrl + '/');
+      TextureLoader.setTexturePathPrefix(httpServerUrl);
       this.view.stream = new Stream(url, this.view, this.onready);
       this.view.stream.connect();
     } else if (message.indexOf('controller:') === 0) {
