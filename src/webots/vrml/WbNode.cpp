@@ -729,7 +729,7 @@ void WbNode::notifyFieldChanged() {
   // this is the changed field
   WbField *const field = static_cast<WbField *>(sender());
 
-  if (isUseNode() || mIsBeingDeleted || cUpdatingDictionary) {
+  if (mIsBeingDeleted || cUpdatingDictionary) {
     emit fieldChanged(field);
     return;
   }
