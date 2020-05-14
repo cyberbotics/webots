@@ -16,6 +16,7 @@
 
 """Webots simulation server."""
 
+from async_process import AsyncProcess
 from io import BytesIO
 from pynvml import nvmlInit, nvmlShutdown, nvmlDeviceGetHandleByIndex, nvmlDeviceGetName, nvmlDeviceGetMemoryInfo, \
                    nvmlDeviceGetUtilizationRates, NVMLError
@@ -26,7 +27,6 @@ import errno
 import json
 import logging
 import os
-import platform
 import psutil
 import re
 import shutil
@@ -44,6 +44,10 @@ import socket
 import zipfile
 if sys.platform == 'win32':
     import wmi
+elif sys.platform == 'darwin':
+    import platform
+else:  # assuming linux
+    import distro
 
 
 SNAPSHOT_REFRESH = 1  # make a performance measurement every second
@@ -139,11 +143,75 @@ class Client:
         self.kill_webots()
         self.cleanup_webots_instance()
 
-    def prepare_webots_instance(self):
-        """Setup a local Webots project to be run by the client."""
-        appPath = config['projectsDir'] + '/' + self.app + '/'
+    def setup_project(self):
         self.project_instance_path = config['instancesPath'] + str(id(self))
-        shutil.copytree(appPath, self.project_instance_path)
+        if hasattr(self, 'url'):
+            return self.setup_project_from_github()
+        else:
+            return self.setup_project_from_zip()
+
+    def setup_project_from_github(self):
+        if not self.url.startswith('webots://github.com/'):
+            logging.error('The URL argument should start with "webots://github.com/"')
+            return False
+        parts = self.url[20:].split('/')
+        length = len(parts)
+        if length < 6:
+            logging.error('Wrong Webots URL')
+            return False
+        username = parts[0]
+        repository = parts[1]
+        tag_or_branch = parts[2]
+        tag_or_branch_name = parts[3]
+        folder = '/'.join(parts[4:length - 2])
+        project = '' if length == 6 else '/' + parts[length - 3]
+        if parts[length - 2] != 'worlds':
+            logging.error('Missing worlds folder in Webots URL')
+            return False
+        filename = parts[length - 1]
+        if filename[-4:] != '.wbt':
+            logging.error('Wrong Webots URL: missing world file in ' + filename[-4:])
+            return False
+        self.world = filename
+        url = 'https://github.com/' + username + '/' + repository + '/'
+        if tag_or_branch == 'tag':
+            url += 'tags/' + tag_or_branch_name
+        elif tag_or_branch == 'branch':
+            url += 'trunk' if tag_or_branch_name == 'master' else 'branches/' + tag_or_branch_name
+        else:
+            logging.error('Wrong tag/branch in Webots URL: ' + tag_or_branch)
+            return False
+        url += '/' + folder
+        try:
+            path = os.getcwd()
+        except OSError:
+            path = False
+        mkdir_p(self.project_instance_path)
+        os.chdir(self.project_instance_path)
+        command = AsyncProcess(['svn', 'export', url])
+        sys.stdout.write('$ svn export ' + url + '\n')
+        sys.stdout.flush()
+        while True:
+            output = command.run()
+            if output[0] == 'x':
+                break
+            if output[0] == '2':  # stderr
+                sys.stdout.write("\033[0;31m")  # ANSI red color
+            sys.stdout.write(output[1:])
+            if output[0] == '2':  # stderr
+                sys.stdout.write("\033[0m")  # reset ANSI code
+            sys.stdout.flush()
+        logging.info('Done')
+        if tag_or_branch == 'branch' and tag_or_branch_name == 'master' and folder == '':
+            os.rename('trunk', repository)
+        if path:
+            os.chdir(path)
+        self.project_instance_path += project
+        return True
+
+    def setup_project_from_zip(self):
+        """Setup a local Webots project to be run by the client."""
+        shutil.copytree(os.path.join(config['projectsDir'], self.app) + '/', self.project_instance_path)
         hostFile = open(self.project_instance_path + "/host.txt", 'w')
         hostFile.write(self.host)
         hostFile.close()
@@ -176,14 +244,16 @@ class Client:
 
     def start_webots(self, on_webots_quit):
         """Start a Webots instance in a separate thread."""
+
         def runWebotsInThread(client):
             global config
             world = self.project_instance_path + '/worlds/' + self.world
             port = client.streaming_server_port
             command = config['webots'] + ' --batch --mode=pause --minimize '
             command += '--stream="port=' + str(port) + ';monitorActivity'
-            if self.user1Authentication or not self.user1Id:  # we are running our own or an anonymous simulation
-                command += ';controllerEdit'
+            if not hasattr(self, 'url'):
+                if self.user1Authentication or not self.user1Id:  # we are running our own or an anonymous simulation
+                    command += ';controllerEdit'
             if 'multimediaServer' in config:
                 command += ';multimediaServer=' + config['multimediaServer']
             if 'multimediaStream' in config:
@@ -208,13 +278,11 @@ class Client:
                 if line.startswith('open'):  # Webots world is loaded, ready to receive connections
                     break
             hostname = client.client_websocket.request.host.split(':')[0]
-            if config['ssl']:
-                protocol = 'wss:'
-            else:
-                protocol = 'ws:'
+            protocol = 'wss:' if config['ssl'] or config['portRewrite'] else 'ws:'
+            separator = '/' if config['portRewrite'] else ':'
             asyncio.set_event_loop(asyncio.new_event_loop())
-            client.client_websocket.write_message('webots:' + protocol + '//' +
-                                                  hostname + ':' + str(port))
+            message = 'webots:' + protocol + '//' + hostname + separator + str(port) + '/'
+            client.client_websocket.write_message(message)
             for line in iter(client.webots_process.stdout.readline, b''):
                 line = line.rstrip()
                 if line == 'pause':
@@ -224,8 +292,7 @@ class Client:
                 elif line == '.':
                     client.client_websocket.write_message('.')
             client.on_exit()
-
-        if self.prepare_webots_instance():
+        if self.setup_project():
             self.on_webots_quit = on_webots_quit
             threading.Thread(target=runWebotsInThread, args=(self,)).start()
         else:
@@ -265,34 +332,45 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
         return True
 
     @classmethod
-    def find_client_from_websocket(cls, client_websocket):
+    def find_client_from_websocket(self, client_websocket):
         """Return client associated with a websocket."""
-        for client in cls.clients:
+        for client in self.clients:
             if client.client_websocket == client_websocket:
                 return client
         return None
 
     @classmethod
-    def next_available_port(cls):
+    def next_available_port(self):
         """Return a port number available for a new Webots WebSocket server."""
         port = config['port'] + 1
         while True:
+            if port > config['port'] + config['maxConnections']:
+                logging.error("Too many open connections (>" + str(config['maxConnections']) + ")")
+                return 0
             found = False
-            for client in cls.clients:
+            for client in self.clients:
                 if port == client.streaming_server_port:
                     found = True
                     break
-            if not found:
-                # try to connect to make sure that port is available
-                testSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                result = testSocket.connect_ex(('localhost', port)) == 0
+            if found:
+                port += 1
+                continue
+            # try to create a server to make sure that port is available
+            testSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            try:
+                testSocket.bind(('0.0.0.0', port))
+                found = True
+            except socket.error as e:
+                found = False
+                if e.errno == errno.EADDRINUSE:
+                    logging.info('Port ' + str(port) + ' is already in use.')
+                else:  # something else raised the socket.error exception
+                    logging.info('Port ' + str(port) + ': ' + e)
+            finally:
                 testSocket.close()
-                if result:
+                if found:
                     return port
-            port += 1
-            if port > config['port'] + config['maxConnections']:
-                logging.error("Too many open connections (>" + config['maxConnections'] + ")")
-                return port
+                port += 1
 
     def open(self):
         """Open a new connection for an incoming client."""
@@ -332,10 +410,7 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
                 client.customData = data['init'][8]
                 client.idle = True
                 # Check that client.host is allowed
-                if client.host.startswith('https://'):
-                    host = client.host[8:]
-                else:  # assuming 'http://'
-                    host = client.host[7:]
+                host = client.host[8:] if client.host.startswith('https://') else client.host[7:]
                 n = host.find(':')
                 if n > 0:
                     host = host[:n]
@@ -370,6 +445,11 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
                                 data['reset controller'],
                                 self.request.remote_ip,
                                 client.streaming_server_port))
+            elif 'start' in data:  # checkout a github folder and run a simulation in there
+                client.streaming_server_port = ClientWebSocketHandler.next_available_port()
+                client.url = data['start']['url']
+                logging.info('Starting simulation from ' + client.url)
+                self.start_client()
 
     def on_webots_quit(self):
         """Cleanup websocket connection."""
@@ -410,22 +490,22 @@ class MonitorHandler(tornado.web.RequestHandler):
         swap = psutil.swap_memory()
         if nvidia:
             nvmlHandle = nvmlDeviceGetHandleByIndex(0)
-            gpu = str(nvmlDeviceGetName(nvmlHandle))
+            gpu = nvmlDeviceGetName(nvmlHandle).decode('utf-8')
             gpu_memory = nvmlDeviceGetMemoryInfo(nvmlHandle)
-            gpu_ram = gpu_memory.total / (1024 * 1048576)
+            gpu_ram = round(gpu_memory.total / (1024 * 1048576), 2)
             gpu += " - " + str(gpu_ram) + "GB"
         else:
             gpu = "Not recognized"
         ram = str(int(round(float(memory.total) / (1024 * 1048576)))) + "GB"
         ram += " (swap: " + str(int(round(float(swap.total) / (1024 * 1048576)))) + "GB)"
         real_cores = psutil.cpu_count(False)
-        cores_ratio = psutil.cpu_count(True) / real_cores
+        cores_ratio = int(psutil.cpu_count(True) / real_cores)
         cores = " (" + str(cores_ratio) + "x " + str(real_cores) + " cores)"
-        if re.search("^linux\\d?$", sys.platform):  # python2: 'linux2' or 'linux3', python3: 'linux'
-            distribution = platform.linux_distribution()
+        if sys.platform.startswith('linux'):
+            distribution = distro.linux_distribution()
             os_name = 'Linux ' + distribution[0] + " " + distribution[1] + " " + distribution[2]
             command = "cat /proc/cpuinfo"
-            all_info = str(subprocess.check_output(command, shell=True).strip())
+            all_info = subprocess.check_output(command, shell=True).decode('utf-8').strip()
             for line in all_info.split("\n"):
                 if "model name" in line:
                     cpu = re.sub(".*model name.*:", "", line, 1)
@@ -434,8 +514,7 @@ class MonitorHandler(tornado.web.RequestHandler):
             computer = wmi.WMI()
             os_info = computer.Win32_OperatingSystem()[0]
             cpu = computer.Win32_Processor()[0].Name
-            os_name = os_info.Name.encode('utf-8').split('|')[0] + ", version "
-            os_name += os_info.Version
+            os_name = os_info.Name.split('|')[0] + ", version " + os_info.Version
         elif sys.platform == 'darwin':
             os_name = 'macOS ' + platform.mac_ver()[0]
             os.environ['PATH'] = os.environ['PATH'] + os.pathsep + '/usr/sbin'
@@ -585,6 +664,7 @@ def main():
     # are described here:
     #
     # port:              local port on which the server is listening (launching webots instances).
+    # portRewrite:       true if local ports are computed from 443 https/wss URLs (apache rewrite rule).
     # sslKey:            private key for a SSL enabled server.
     # sslCertificate:    certificate for a SSL enabled server.
     # projectsDir:       directory in which projects are located.
@@ -592,6 +672,7 @@ def main():
     # logDir:            directory where the log files are written.
     # monitorLogEnabled: specify if the monitor data have to be stored in a file.
     # maxConnections:    maximum number of simultaneous Webots instances.
+    # debug:             debug mode (output to stdout).
     #
     global config
     global snapshots
@@ -623,6 +704,8 @@ def main():
         config['port'] = 2000
     if 'maxConnections' not in config:
         config['maxConnections'] = 100
+    if 'debug' not in config:
+        config['debug'] = False
     os.environ['WEBOTS_FIREJAIL_CONTROLLERS'] = '1'
     config['instancesPath'] = tempfile.gettempdir().replace('\\', '/') + '/webots/instances/'
     # create the instances path
@@ -635,16 +718,13 @@ def main():
     root_logger = logging.getLogger()
     root_logger.setLevel(logging.DEBUG)
 
-    if 'logDir' not in config:
-        config['logDir'] = 'log'
-    else:
-        config['logDir'] = expand_path(config['logDir'])
+    config['logDir'] = 'log' if 'logDir' not in config else expand_path(config['logDir'])
     simulationLogDir = os.path.join(config['logDir'], 'simulation')
     logFile = os.path.join(simulationLogDir, 'output.log')
     try:
         if not os.path.exists(simulationLogDir):
             os.makedirs(simulationLogDir)
-        file_handler = logging.FileHandler(logFile)
+        file_handler = logging.StreamHandler(sys.stdout) if config['debug'] else logging.FileHandler(logFile)
         file_handler.setFormatter(log_formatter)
         file_handler.setLevel(logging.INFO)
         root_logger.addHandler(file_handler)
@@ -690,6 +770,8 @@ def main():
     else:
         config['ssl'] = False
         http_server = tornado.httpserver.HTTPServer(application)
+    if 'portRewrite' not in config:
+        config['portRewrite'] = False
     http_server.listen(config['port'])
     message = "Simulation server running on port %d (" % config['port']
     if not config['ssl']:
@@ -712,6 +794,9 @@ def main():
     if nvidia:
         nvmlShutdown()
 
+
+if sys.platform == 'win32' and sys.version_info >= (3, 8):
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 if sys.platform == 'linux2':
     # kill all the existing instances of Webots to avoid conflicts with web socket port
