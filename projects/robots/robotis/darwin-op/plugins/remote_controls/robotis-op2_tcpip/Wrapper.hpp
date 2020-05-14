@@ -52,7 +52,7 @@ public:
 
 private:
   Wrapper() {}
-  virtual ~Wrapper() {}
+  ~Wrapper() {}
 
   static Communication *cCommunication;
   static Time *cTime;
