@@ -26,8 +26,6 @@
 #include <unistd.h>
 #include <iostream>
 
-#define INVALID_SOCKET -1
-#define SOCKET_ERROR -1
 #define closesocket(s) close(s)
 
 typedef int SOCKET;
@@ -70,7 +68,7 @@ int main(int argc, char *argv[]) {
   sock = socket(AF_INET, SOCK_STREAM, 0);
 
   // If  socket is valid
-  if (sock != INVALID_SOCKET) {
+  if (sock != -1) {
     // Configuration
     sin.sin_addr.s_addr = htonl(INADDR_ANY);     // Adresse IP automatic
     sin.sin_family = AF_INET;                    // Protocole familial (IP)
@@ -84,12 +82,12 @@ int main(int argc, char *argv[]) {
 
     // If socket works
     SOCKET csock = 0;
-    if (sock_err != SOCKET_ERROR) {
+    if (sock_err != -1) {
       // Starting port Listening (server mode)
       sock_err = listen(sock, 1);  // only one connexion
 
       // If socket works
-      if (sock_err != SOCKET_ERROR) {
+      if (sock_err != -1) {
         // Wait until a client connect
         cout << "Waiting for client connection on port " << PORT << "..." << endl;
         csock = accept(sock, (SOCKADDR *)&csin, &crecsize);
@@ -279,7 +277,8 @@ int main(int argc, char *argv[]) {
     free(receiveBuffer);
     free(sendBuffer);
   } else
-    perror("socket");  // cppcheck-suppress resourceLeak ; for socket (which is -1 here)
+    perror("socket");
+  // cppcheck-suppress resourceLeak ; for socket (which is -1 here)
   return EXIT_SUCCESS;
 }
 
