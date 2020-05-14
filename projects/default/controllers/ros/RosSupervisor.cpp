@@ -449,7 +449,7 @@ bool RosSupervisor::virtualRealityHeadsetIsUsedCallback(webots_ros::get_bool::Re
   return true;
 }
 
-bool RosSupervisor::nodeGetIdCallback(webots_ros::node_get_id::Request &req, webots_ros::node_get_id::Response &res) {
+bool RosSupervisor::nodeGetIdCallback(const webots_ros::node_get_id::Request &req, webots_ros::node_get_id::Response &res) {
   assert(this);
   if (!req.node)
     return false;
@@ -458,7 +458,8 @@ bool RosSupervisor::nodeGetIdCallback(webots_ros::node_get_id::Request &req, web
   return true;
 }
 
-bool RosSupervisor::nodeGetTypeCallback(webots_ros::node_get_type::Request &req, webots_ros::node_get_type::Response &res) {
+bool RosSupervisor::nodeGetTypeCallback(const webots_ros::node_get_type::Request &req,
+                                        webots_ros::node_get_type::Response &res) {
   assert(this);
   if (!req.node)
     return false;
@@ -467,7 +468,8 @@ bool RosSupervisor::nodeGetTypeCallback(webots_ros::node_get_type::Request &req,
   return true;
 }
 
-bool RosSupervisor::nodeGetTypeNameCallback(webots_ros::node_get_name::Request &req, webots_ros::node_get_name::Response &res) {
+bool RosSupervisor::nodeGetTypeNameCallback(const webots_ros::node_get_name::Request &req,
+                                            webots_ros::node_get_name::Response &res) {
   assert(this);
   if (!req.node)
     return false;
@@ -476,7 +478,8 @@ bool RosSupervisor::nodeGetTypeNameCallback(webots_ros::node_get_name::Request &
   return true;
 }
 
-bool RosSupervisor::nodeGetDefCallback(webots_ros::node_get_name::Request &req, webots_ros::node_get_name::Response &res) {
+bool RosSupervisor::nodeGetDefCallback(const webots_ros::node_get_name::Request &req,
+                                       webots_ros::node_get_name::Response &res) {
   assert(this);
   if (!req.node)
     return false;
@@ -485,7 +488,7 @@ bool RosSupervisor::nodeGetDefCallback(webots_ros::node_get_name::Request &req, 
   return true;
 }
 
-bool RosSupervisor::nodeGetBaseTypeNameCallback(webots_ros::node_get_name::Request &req,
+bool RosSupervisor::nodeGetBaseTypeNameCallback(const webots_ros::node_get_name::Request &req,
                                                 webots_ros::node_get_name::Response &res) {
   assert(this);
   if (!req.node)
@@ -495,7 +498,7 @@ bool RosSupervisor::nodeGetBaseTypeNameCallback(webots_ros::node_get_name::Reque
   return true;
 }
 
-bool RosSupervisor::nodeGetParentNodeCallback(webots_ros::node_get_parent_node::Request &req,
+bool RosSupervisor::nodeGetParentNodeCallback(const webots_ros::node_get_parent_node::Request &req,
                                               webots_ros::node_get_parent_node::Response &res) {
   assert(this);
   if (!req.node)
@@ -505,7 +508,7 @@ bool RosSupervisor::nodeGetParentNodeCallback(webots_ros::node_get_parent_node::
   return true;
 }
 
-bool RosSupervisor::nodeGetPositionCallback(webots_ros::node_get_position::Request &req,
+bool RosSupervisor::nodeGetPositionCallback(const webots_ros::node_get_position::Request &req,
                                             webots_ros::node_get_position::Response &res) {
   assert(this);
   if (!req.node)
@@ -519,7 +522,7 @@ bool RosSupervisor::nodeGetPositionCallback(webots_ros::node_get_position::Reque
   return true;
 }
 
-bool RosSupervisor::nodeGetOrientationCallback(webots_ros::node_get_orientation::Request &req,
+bool RosSupervisor::nodeGetOrientationCallback(const webots_ros::node_get_orientation::Request &req,
                                                webots_ros::node_get_orientation::Response &res) {
   assert(this);
   if (!req.node)
@@ -531,7 +534,7 @@ bool RosSupervisor::nodeGetOrientationCallback(webots_ros::node_get_orientation:
   return true;
 }
 
-bool RosSupervisor::nodeGetCenterOfMassCallback(webots_ros::node_get_center_of_mass::Request &req,
+bool RosSupervisor::nodeGetCenterOfMassCallback(const webots_ros::node_get_center_of_mass::Request &req,
                                                 webots_ros::node_get_center_of_mass::Response &res) {
   assert(this);
   if (!req.node)
@@ -545,7 +548,7 @@ bool RosSupervisor::nodeGetCenterOfMassCallback(webots_ros::node_get_center_of_m
   return true;
 }
 
-bool RosSupervisor::nodeGetNumberOfContactPointsCallback(webots_ros::node_get_number_of_contact_points::Request &req,
+bool RosSupervisor::nodeGetNumberOfContactPointsCallback(const webots_ros::node_get_number_of_contact_points::Request &req,
                                                          webots_ros::node_get_number_of_contact_points::Response &res) {
   assert(this);
   if (!req.node)
@@ -555,7 +558,7 @@ bool RosSupervisor::nodeGetNumberOfContactPointsCallback(webots_ros::node_get_nu
   return true;
 }
 
-bool RosSupervisor::nodeGetContactPointCallback(webots_ros::node_get_contact_point::Request &req,
+bool RosSupervisor::nodeGetContactPointCallback(const webots_ros::node_get_contact_point::Request &req,
                                                 webots_ros::node_get_contact_point::Response &res) {
   assert(this);
   if (!req.node)
@@ -569,7 +572,7 @@ bool RosSupervisor::nodeGetContactPointCallback(webots_ros::node_get_contact_poi
   return true;
 }
 
-bool RosSupervisor::nodeGetStaticBalanceCallback(webots_ros::node_get_static_balance::Request &req,
+bool RosSupervisor::nodeGetStaticBalanceCallback(const webots_ros::node_get_static_balance::Request &req,
                                                  webots_ros::node_get_static_balance::Response &res) {
   assert(this);
   if (!req.node)
@@ -579,7 +582,7 @@ bool RosSupervisor::nodeGetStaticBalanceCallback(webots_ros::node_get_static_bal
   return true;
 }
 
-bool RosSupervisor::nodeGetVelocityCallback(webots_ros::node_get_velocity::Request &req,
+bool RosSupervisor::nodeGetVelocityCallback(const webots_ros::node_get_velocity::Request &req,
                                             webots_ros::node_get_velocity::Response &res) {
   assert(this);
   if (!req.node)
@@ -596,7 +599,7 @@ bool RosSupervisor::nodeGetVelocityCallback(webots_ros::node_get_velocity::Reque
   return true;
 }
 
-bool RosSupervisor::nodeSetVelocityCallback(webots_ros::node_set_velocity::Request &req,
+bool RosSupervisor::nodeSetVelocityCallback(const webots_ros::node_set_velocity::Request &req,
                                             webots_ros::node_set_velocity::Response &res) {
   assert(this);
   if (!req.node)
@@ -614,7 +617,7 @@ bool RosSupervisor::nodeSetVelocityCallback(webots_ros::node_set_velocity::Reque
   return true;
 }
 
-bool RosSupervisor::nodeAddForceCallback(webots_ros::node_add_force_or_torque::Request &req,
+bool RosSupervisor::nodeAddForceCallback(const webots_ros::node_add_force_or_torque::Request &req,
                                          webots_ros::node_add_force_or_torque::Response &res) {
   assert(this);
   if (!req.node)
@@ -629,7 +632,7 @@ bool RosSupervisor::nodeAddForceCallback(webots_ros::node_add_force_or_torque::R
   return true;
 }
 
-bool RosSupervisor::nodeAddForceWithOffsetCallback(webots_ros::node_add_force_with_offset::Request &req,
+bool RosSupervisor::nodeAddForceWithOffsetCallback(const webots_ros::node_add_force_with_offset::Request &req,
                                                    webots_ros::node_add_force_with_offset::Response &res) {
   assert(this);
   if (!req.node)
@@ -648,7 +651,7 @@ bool RosSupervisor::nodeAddForceWithOffsetCallback(webots_ros::node_add_force_wi
   return true;
 }
 
-bool RosSupervisor::nodeAddTorqueCallback(webots_ros::node_add_force_or_torque::Request &req,
+bool RosSupervisor::nodeAddTorqueCallback(const webots_ros::node_add_force_or_torque::Request &req,
                                           webots_ros::node_add_force_or_torque::Response &res) {
   assert(this);
   if (!req.node)
@@ -663,7 +666,8 @@ bool RosSupervisor::nodeAddTorqueCallback(webots_ros::node_add_force_or_torque::
   return true;
 }
 
-bool RosSupervisor::nodeGetFieldCallback(webots_ros::node_get_field::Request &req, webots_ros::node_get_field::Response &res) {
+bool RosSupervisor::nodeGetFieldCallback(const webots_ros::node_get_field::Request &req,
+                                         webots_ros::node_get_field::Response &res) {
   assert(this);
   if (!req.node)
     return false;
@@ -672,7 +676,7 @@ bool RosSupervisor::nodeGetFieldCallback(webots_ros::node_get_field::Request &re
   return true;
 }
 
-bool RosSupervisor::nodeMoveViewpointCallback(webots_ros::node_move_viewpoint::Request &req,
+bool RosSupervisor::nodeMoveViewpointCallback(const webots_ros::node_move_viewpoint::Request &req,
                                               webots_ros::node_move_viewpoint::Response &res) {
   assert(this);
   if (!req.node)
@@ -683,7 +687,7 @@ bool RosSupervisor::nodeMoveViewpointCallback(webots_ros::node_move_viewpoint::R
   return true;
 }
 
-bool RosSupervisor::nodeSetVisibilityCallback(webots_ros::node_set_visibility::Request &req,
+bool RosSupervisor::nodeSetVisibilityCallback(const webots_ros::node_set_visibility::Request &req,
                                               webots_ros::node_set_visibility::Response &res) {
   assert(this);
   if (!req.node)
@@ -695,7 +699,7 @@ bool RosSupervisor::nodeSetVisibilityCallback(webots_ros::node_set_visibility::R
   return true;
 }
 
-bool RosSupervisor::nodeRemoveCallback(webots_ros::node_remove::Request &req, webots_ros::node_remove::Response &res) {
+bool RosSupervisor::nodeRemoveCallback(const webots_ros::node_remove::Request &req, webots_ros::node_remove::Response &res) {
   assert(this);
   if (!req.node)
     return false;
@@ -705,7 +709,7 @@ bool RosSupervisor::nodeRemoveCallback(webots_ros::node_remove::Request &req, we
   return true;
 }
 
-bool RosSupervisor::nodeResetPhysicsCallback(webots_ros::node_reset_functions::Request &req,
+bool RosSupervisor::nodeResetPhysicsCallback(const webots_ros::node_reset_functions::Request &req,
                                              webots_ros::node_reset_functions::Response &res) {
   assert(this);
   if (!req.node)
@@ -716,7 +720,7 @@ bool RosSupervisor::nodeResetPhysicsCallback(webots_ros::node_reset_functions::R
   return true;
 }
 
-bool RosSupervisor::nodeRestartControllerCallback(webots_ros::node_reset_functions::Request &req,
+bool RosSupervisor::nodeRestartControllerCallback(const webots_ros::node_reset_functions::Request &req,
                                                   webots_ros::node_reset_functions::Response &res) {
   assert(this);
   if (!req.node)
@@ -727,7 +731,8 @@ bool RosSupervisor::nodeRestartControllerCallback(webots_ros::node_reset_functio
   return true;
 }
 
-bool RosSupervisor::fieldGetTypeCallback(webots_ros::field_get_type::Request &req, webots_ros::field_get_type::Response &res) {
+bool RosSupervisor::fieldGetTypeCallback(const webots_ros::field_get_type::Request &req,
+                                         webots_ros::field_get_type::Response &res) {
   assert(this);
   if (!req.field)
     return false;
@@ -736,7 +741,7 @@ bool RosSupervisor::fieldGetTypeCallback(webots_ros::field_get_type::Request &re
   return true;
 }
 
-bool RosSupervisor::fieldGetTypeNameCallback(webots_ros::field_get_type_name::Request &req,
+bool RosSupervisor::fieldGetTypeNameCallback(const webots_ros::field_get_type_name::Request &req,
                                              webots_ros::field_get_type_name::Response &res) {
   assert(this);
   if (!req.field)
@@ -746,7 +751,7 @@ bool RosSupervisor::fieldGetTypeNameCallback(webots_ros::field_get_type_name::Re
   return true;
 }
 
-bool RosSupervisor::fieldGetCountCallback(webots_ros::field_get_count::Request &req,
+bool RosSupervisor::fieldGetCountCallback(const webots_ros::field_get_count::Request &req,
                                           webots_ros::field_get_count::Response &res) {
   assert(this);
   if (!req.field)
@@ -756,7 +761,8 @@ bool RosSupervisor::fieldGetCountCallback(webots_ros::field_get_count::Request &
   return true;
 }
 
-bool RosSupervisor::fieldGetBoolCallback(webots_ros::field_get_bool::Request &req, webots_ros::field_get_bool::Response &res) {
+bool RosSupervisor::fieldGetBoolCallback(const webots_ros::field_get_bool::Request &req,
+                                         webots_ros::field_get_bool::Response &res) {
   assert(this);
   if (!req.field)
     return false;
@@ -768,7 +774,7 @@ bool RosSupervisor::fieldGetBoolCallback(webots_ros::field_get_bool::Request &re
   return true;
 }
 
-bool RosSupervisor::fieldGetInt32Callback(webots_ros::field_get_int32::Request &req,
+bool RosSupervisor::fieldGetInt32Callback(const webots_ros::field_get_int32::Request &req,
                                           webots_ros::field_get_int32::Response &res) {
   assert(this);
   if (!req.field)
@@ -781,7 +787,7 @@ bool RosSupervisor::fieldGetInt32Callback(webots_ros::field_get_int32::Request &
   return true;
 }
 
-bool RosSupervisor::fieldGetFloatCallback(webots_ros::field_get_float::Request &req,
+bool RosSupervisor::fieldGetFloatCallback(const webots_ros::field_get_float::Request &req,
                                           webots_ros::field_get_float::Response &res) {
   assert(this);
   if (!req.field)
@@ -794,7 +800,7 @@ bool RosSupervisor::fieldGetFloatCallback(webots_ros::field_get_float::Request &
   return true;
 }
 
-bool RosSupervisor::fieldGetVec2fCallback(webots_ros::field_get_vec2f::Request &req,
+bool RosSupervisor::fieldGetVec2fCallback(const webots_ros::field_get_vec2f::Request &req,
                                           webots_ros::field_get_vec2f::Response &res) {
   assert(this);
   if (!req.field)
@@ -810,7 +816,7 @@ bool RosSupervisor::fieldGetVec2fCallback(webots_ros::field_get_vec2f::Request &
   return true;
 }
 
-bool RosSupervisor::fieldGetVec3fCallback(webots_ros::field_get_vec3f::Request &req,
+bool RosSupervisor::fieldGetVec3fCallback(const webots_ros::field_get_vec3f::Request &req,
                                           webots_ros::field_get_vec3f::Response &res) {
   assert(this);
   if (!req.field)
@@ -827,7 +833,7 @@ bool RosSupervisor::fieldGetVec3fCallback(webots_ros::field_get_vec3f::Request &
   return true;
 }
 
-bool RosSupervisor::fieldGetRotationCallback(webots_ros::field_get_rotation::Request &req,
+bool RosSupervisor::fieldGetRotationCallback(const webots_ros::field_get_rotation::Request &req,
                                              webots_ros::field_get_rotation::Response &res) {
   assert(this);
   if (!req.field)
@@ -842,7 +848,7 @@ bool RosSupervisor::fieldGetRotationCallback(webots_ros::field_get_rotation::Req
   return true;
 }
 
-bool RosSupervisor::fieldGetColorCallback(webots_ros::field_get_color::Request &req,
+bool RosSupervisor::fieldGetColorCallback(const webots_ros::field_get_color::Request &req,
                                           webots_ros::field_get_color::Response &res) {
   assert(this);
   if (!req.field)
@@ -860,7 +866,7 @@ bool RosSupervisor::fieldGetColorCallback(webots_ros::field_get_color::Request &
   return true;
 }
 
-bool RosSupervisor::fieldGetStringCallback(webots_ros::field_get_string::Request &req,
+bool RosSupervisor::fieldGetStringCallback(const webots_ros::field_get_string::Request &req,
                                            webots_ros::field_get_string::Response &res) {
   assert(this);
   if (!req.field)
@@ -873,7 +879,8 @@ bool RosSupervisor::fieldGetStringCallback(webots_ros::field_get_string::Request
   return true;
 }
 
-bool RosSupervisor::fieldGetNodeCallback(webots_ros::field_get_node::Request &req, webots_ros::field_get_node::Response &res) {
+bool RosSupervisor::fieldGetNodeCallback(const webots_ros::field_get_node::Request &req,
+                                         webots_ros::field_get_node::Response &res) {
   assert(this);
   if (!req.field)
     return false;
