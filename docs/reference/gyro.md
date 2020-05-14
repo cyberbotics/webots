@@ -109,7 +109,7 @@ public class Gyro extends Device {
 wb_gyro_enable(tag, sampling_period)
 wb_gyro_disable(tag)
 period = wb_gyro_get_sampling_period(tag)
-[x y z] = wb_gyro_get_values(tag)
+x_y_z_array = wb_gyro_get_values(tag)
 ```
 
 %tab-end
