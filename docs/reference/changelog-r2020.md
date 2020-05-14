@@ -61,8 +61,8 @@ Released on XXX.
     - Fixed support for MATLAB R2017b on Windows.
     - Fixed a crash occurring when changing the `textureAnimation` value of some `Track` node from the scene tree.
     - Fixed a bug allowing to move a USE node with handles in 3D view.
-    - Fixed update of nested DEF/USE nodes.  
-- Documentation
+    - Fixed update of nested DEF/USE nodes.
+  - Documentation
     - Fixed tutorials 1, 4 and 6 with respect to MATLAB controllers and added sample MATLAB controllers.
     - Translated most relevant examples from [Controller Programming](https://github.com/cyberbotics/webots/blob/master/docs/guide/controller-programming.md) and [Supervisor Programming](https://github.com/cyberbotics/webots/blob/master/docs/guide/supervisor-programming.md) to different languages.
 

@@ -765,7 +765,7 @@ void WbNode::notifyFieldChanged() {
     if (!p || !n->mInsertionCompleted)
       break;
     n = p;
-  } while (n && !n->isWorldRoot());
+  } while (!n->isWorldRoot());
 
   emit fieldChanged(field);
 }
