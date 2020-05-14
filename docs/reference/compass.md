@@ -199,4 +199,4 @@ If these values are needed for a longer period they must be copied.
 
 <!-- -->
 
-> **Note** [Python]: Ths `getValues` function returns the vector as a list containing three floats.
+> **Note** [Python]: The `getValues` function returns the vector as a list containing three floats.

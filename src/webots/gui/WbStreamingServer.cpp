@@ -491,9 +491,11 @@ void WbStreamingServer::propagateLogToClients(WbLog::Level level, const QString 
 }
 
 void WbStreamingServer::sendToClients(const QString &message) {
-  if (mMessageToClients.isEmpty())
+  if (mMessageToClients.isEmpty()) {
+    if (message.isEmpty())
+      return;
     mMessageToClients = message;
-  else if (!message.isEmpty())
+  } else if (!message.isEmpty())
     mMessageToClients += "\n" + message;
   if (mWebSocketClients.isEmpty())
     return;

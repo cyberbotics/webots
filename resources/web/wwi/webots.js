@@ -68,16 +68,8 @@ webots.View = class View {
       this.robotWindows = {}; // delete robot windows
       this.robotWindowNames = {};
     };
-    this.onquit = () => {
-      // If the simulation page URL is this https://mydomain.com/mydir/mysimulation.html, the quit action redirects to the
-      // folder level, e.g., https://mydomain.com/mydir/
-      // If the simulation page is https://mydomain.com/mydir/mysimulation/, the quit action redirects to the upper level:
-      // https://mydomain.com/mydir/
-      // You can change this behavior by overriding this onquit() method.
-      var currentLocation = window.location.href;
-      // Remove filename or last directory name from url and keep the final slash.S
-      var quitDestination = currentLocation.substring(0, currentLocation.lastIndexOf('/', currentLocation.length - 2) + 1);
-      window.location = quitDestination;
+    this.onquit = () => { // You can change this behavior by overriding this onquit() method
+      window.history.back(); // go back to the previous page in the navigation history
     };
     this.onresize = () => {
       if (typeof this.x3dScene !== 'undefined') {
@@ -95,7 +87,8 @@ webots.View = class View {
       // Pause the simulation if needed when a pop-up dialog window is open
       // and restart running the simulation when it is closed.
       if (opening && typeof this.isAutomaticallyPaused === 'undefined') {
-        this.isAutomaticallyPaused = this.toolBar && this.toolBar.pauseButton && this.toolBar.pauseButton.style.display === 'inline';
+        this.isAutomaticallyPaused = this.toolBar && this.toolBar.pauseButton && this.toolBar.pauseButton.style.display ===
+          'inline';
         this.toolBar.pauseButton.click();
       } else if (!opening && this.isAutomaticallyPaused) {
         this.toolBar.real_timeButton.click();
@@ -170,18 +163,30 @@ webots.View = class View {
     this.mode = mode;
 
     var initWorld = () => {
+      function findGetParameter(parameterName) {
+        let tmp = [];
+        let items = window.location.search.substr(1).split('&');
+        for (let index = 0; index < items.length; index++) {
+          tmp = items[index].split('=');
+          if (tmp[0] === parameterName)
+            return decodeURIComponent(tmp[1]);
+        }
+        return null;
+      }
       if (this.isWebSocketProtocol) {
         this.progress = document.createElement('div');
         this.progress.id = 'webotsProgress';
         this.progress.innerHTML = "<div><img src='" + DefaultUrl.wwiImagesUrl() + "load_animation.gif'>" +
-                                  "</div><div id='webotsProgressMessage'>Initializing...</div>" +
-                                  "</div><div id='webotsProgressPercent'></div>";
+          "</div><div id='webotsProgressMessage'>Initializing...</div>" +
+          "</div><div id='webotsProgressPercent'></div>";
         this.view3D.appendChild(this.progress);
 
         if (typeof this.toolBar === 'undefined')
           this.toolBar = new Toolbar(this.view3D, this);
 
-        if (this.url.endsWith('.wbt')) { // url expected form: "ws://localhost:80/simple/worlds/simple.wbt"
+        const url = findGetParameter('url');
+        if (url || this.url.endsWith('.wbt')) { // url expected form: "wss://localhost:1999/simple/worlds/simple.wbt" or
+          // "wss://localhost/1999/?url=webots://github.com/cyberbotics/webots/branch/master/projects/languages/python"
           this.server = new Server(this.url, this, finalizeWorld);
           this.server.connect();
         } else { // url expected form: "ws://cyberbotics1.epfl.ch:80"
@@ -235,14 +240,20 @@ webots.View = class View {
             worldInfoTitle = this.x3dScene.worldInfo.title;
           else
             worldInfoTitle = this.multimediaClient.worldInfo.title;
-          win.setProperties({title: worldInfoTitle + user, close: closeInfoWindow});
+          win.setProperties({
+            title: this.x3dScene.worldInfo.title + user,
+            close: closeInfoWindow
+          });
           this.infoWindow = win;
         } else
-          win.setProperties({title: 'Robot: ' + nodeName});
+          win.setProperties({
+            title: 'Robot: ' + nodeName
+          });
         pendingRequestsCount++;
         $.get('window/' + windowName + '/' + windowName + '.html', (data) => {
           // Fix the img src relative URLs.
-          var d = data.replace(/ src='/g, ' src=\'window/' + windowName + '/').replace(/ src="/g, ' src="window/' + windowName + '/');
+          var d = data.replace(/ src='/g, ' src=\'window/' + windowName + '/').replace(/ src="/g, ' src="window/' +
+            windowName + '/');
           win.setContent(d);
           MathJax.Hub.Queue(['Typeset', MathJax.Hub, win[0]]);
           $.get('window/' + windowName + '/' + windowName + '.js', (data) => {
@@ -289,9 +300,6 @@ webots.View = class View {
         // If no pending requests execute loadFinalize
         // otherwise it will be executed when the last request will be handled.
         loadFinalize();
-
-      if (typeof this.multimediaClient !== 'undefined')
-        this.multimediaClient.finalize();
     };
 
     var loadFinalize = () => {
@@ -336,15 +344,23 @@ webots.View = class View {
       if (authenticatedUser && typeof webots.User1Id !== 'undefined' && webots.User1Id !== '')
         authenticatedUser = Boolean(webots.User1Authentication);
       this.contextMenu = new ContextMenu(authenticatedUser, this.view3D);
-      this.contextMenu.onEditController = (controller) => { this.editController(controller); };
-      this.contextMenu.onOpenRobotWindow = (robotName) => { this.openRobotWindow(robotName); };
-      this.contextMenu.isRobotWindowValid = (robotName, setResult) => { setResult(this.robotWindows[this.robotWindowNames[robotName]]); };
+      this.contextMenu.onEditController = (controller) => {
+        this.editController(controller);
+      };
+      this.contextMenu.onOpenRobotWindow = (robotName) => {
+        this.openRobotWindow(robotName);
+      };
+      this.contextMenu.isRobotWindowValid = (robotName, setResult) => {
+        setResult(this.robotWindows[this.robotWindowNames[robotName]]);
+      };
     }
 
     if (mode === 'mjpeg') {
       this.url = url;
       this.multimediaClient = new MultimediaClient(this, this.view3D, this.contextMenu);
-      this.contextMenu.onFollowObject = (id, mode) => { this.multimediaClient.setFollowed(id, mode); };
+      this.contextMenu.onFollowObject = (id, mode) => {
+        this.multimediaClient.setFollowed(id, mode);
+      };
     } else if (typeof this.x3dScene !== 'undefined') {
       this.x3dDiv = document.createElement('div');
       this.x3dDiv.className = 'webots3DView';
@@ -355,7 +371,6 @@ webots.View = class View {
       param.name = 'showProgress';
       param.value = false;
       this.x3dScene.domElement.appendChild(param);
-      this.contextMenu.onFollowObject = (id, mode) => { this.x3dScene.viewpoint.follow(id); };
     }
 
     if (typeof this.x3dScene !== 'undefined' && typeof this.mouseEvents === 'undefined')
@@ -373,7 +388,7 @@ webots.View = class View {
   close() {
     if (this.multimediaClient)
       this.multimediaClient.disconnect();
-    if (this.server)
+    if (this.server && this.server.socket)
       this.server.socket.close();
     if (this.stream)
       this.stream.close();
@@ -480,6 +495,7 @@ webots.View = class View {
   quitSimulation() {
     if (this.broadcast)
       return;
+    this.close();
     $('#webotsProgressMessage').html('Bye bye...');
     $('#webotsProgress').show();
     this.quitting = true;
