@@ -63,20 +63,20 @@ int main(int argc, char **argv) {
   ts_assert_double_in_delta(def1, 500.0, 1.0, "The size of box B1 is wrong after modifying it.");
   ts_assert_double_in_delta(use1, 500.0, 1.0, "The size of USE node containing box B1 after modifying it.");
   ts_assert_double_in_delta(def2, 500.0, 1.0, "The size of box B2 is wrong after modifying it.");
-  ts_assert_double_in_delta(use2, 526.0, 10.0, "The size of of USE node containing box B2 is wrong after modifying it.");  
-  
-  // modify T2 node translation check position of nested USE nodes 
-  
+  ts_assert_double_in_delta(use2, 526.0, 10.0, "The size of of USE node containing box B2 is wrong after modifying it.");
+
+  // modify T2 node translation check position of nested USE nodes
+
   WbNodeRef transformNode = wb_supervisor_node_get_from_def("T2");
   WbFieldRef translationField = wb_supervisor_node_get_field(transformNode, "translation");
   const double newTranslation[3] = {0.4, -0.2, 0};
   wb_supervisor_field_set_sf_vec3f(translationField, newTranslation);
-  
+
   wb_robot_step(time_step);
-  
+
   use3 = wb_distance_sensor_get_value(ds_use3);
 
-  // object detected: values < 1000.000  
+  // object detected: values < 1000.000
   ts_assert_double_in_delta(use3, 504.0, 1.0, "The translation of USE node in USE_CASE_4 is wrong after modifying it.");
 
   ts_send_success();
