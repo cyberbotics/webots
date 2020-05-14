@@ -280,9 +280,9 @@ double[] Gyro::getValues();
 
 %tab "MATLAB"
 ```MATLAB
-[x y z] = wb_gps_get_values(tag)
-[x y z] = wb_accelerometer_get_values(tag)
-[x y z] = wb_gyro_get_values(tag)
+x_y_z_array = wb_gps_get_values(tag)
+x_y_z_array = wb_accelerometer_get_values(tag)
+x_y_z_array = wb_gyro_get_values(tag)
 ```
 %tab-end
 %end
