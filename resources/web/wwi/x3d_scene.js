@@ -440,7 +440,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   getRobotWindows() {
-    let windows = [['worldInfoWindow', this.worldInfo.window]];
+    let windows = [];
     let nodes = this.root ? this.root.children : [];
     nodes.forEach((node) => {
       if (node.isObject3D && node.userData && node.userData.window && node.userData.name)
