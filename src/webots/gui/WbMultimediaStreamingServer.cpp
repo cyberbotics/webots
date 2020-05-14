@@ -221,12 +221,14 @@ void WbMultimediaStreamingServer::sendContextMenuInfo(const WbMatter *node) {
 
 void WbMultimediaStreamingServer::processTextMessage(QString message) {
   QWebSocket *client = qobject_cast<QWebSocket *>(sender());
+  if (mFullResolutionOnPause == 2)
+    mFullResolutionOnPause = 1;
 
   if (message.startsWith("mouse")) {
     int action, button, buttons, x, y, modifiers, wheel;
     QString skip;  // will receive "mouse"
     QTextStream(&message) >> skip >> action >> button >> buttons >> x >> y >> modifiers >> wheel;
-    if (mLimiter && mLimiter->resolutionFactor() > 1) {
+    if (mFullResolutionOnPause == 0 && mLimiter && mLimiter->resolutionFactor() > 1) {
       const double factor = pow(2, mLimiter->resolutionFactor() - 1);
       x /= factor;
       y /= factor;
@@ -285,7 +287,7 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
     stream >> skip >> action >> eventType;
     if (action == -1) {  // store touch event center
       stream >> x >> y;
-      if (mLimiter && mLimiter->resolutionFactor() > 1) {
+      if (mFullResolutionOnPause == 0 && mLimiter && mLimiter->resolutionFactor() > 1) {
         const double factor = pow(2, mLimiter->resolutionFactor() - 1);
         x /= factor;
         y /= factor;
@@ -312,7 +314,7 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
         mTouchEventZoomScale = 1.0;
     } else if (action == 0 && eventType == 1) {  // touch rotate event
       stream >> x >> y;
-      if (mLimiter && mLimiter->resolutionFactor() > 1) {
+      if (mFullResolutionOnPause == 0 && mLimiter && mLimiter->resolutionFactor() > 1) {
         const double factor = pow(2, mLimiter->resolutionFactor() - 1);
         x /= factor;
         y /= factor;
