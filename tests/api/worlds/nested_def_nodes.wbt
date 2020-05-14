@@ -27,7 +27,7 @@ DEF USE_CASE_1 Solid {
             DEF S1 Shape {
               appearance Appearance {
                 material Material {
-                  diffuseColor 0.305882 0.603922 0.0235294
+                  diffuseColor 0.988235 0.913725 0.309804
                 }
               }
               geometry DEF B1 Box {
@@ -98,6 +98,23 @@ DEF USE_CASE_2 Solid {
     ]
   }
 }
+DEF USE_CASE_3 Transform {
+  translation 0.4 0 0
+  children [
+    USE T2
+  ]
+}
+DEF USE_CASE_4 Transform {
+  translation 0.3 0 0
+  children [
+    DEF USE_CASE_3 Transform {
+      translation 0.49 0 0
+      children [
+        USE T2
+      ]
+    }
+  ]
+}
 Robot {
   translation 0 0 0.1
   rotation 0 1 0 1.5708003061004252
@@ -117,6 +134,11 @@ Robot {
     DistanceSensor {
       translation 0 0.4 0.475
       name "ds4"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 -0.2 1.2
+      name "ds5"
       type "infra-red"
     }
     TestSuiteEmitter {
