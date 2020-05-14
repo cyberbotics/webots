@@ -665,9 +665,11 @@ void WbStreamingServer::propagateLogToClients(WbLog::Level level, const QString 
 }
 
 void WbStreamingServer::sendToClients(const QString &message) {
-  if (mMessageToClients.isEmpty())
+  if (mMessageToClients.isEmpty()) {
+    if (message.isEmpty())
+      return;
     mMessageToClients = message;
-  else if (!message.isEmpty())
+  } else if (!message.isEmpty())
     mMessageToClients += "\n" + message;
   if (mClients.isEmpty())
     return;
@@ -743,6 +745,13 @@ void WbStreamingServer::setWorldLoadingProgress(const int progress) {
 void WbStreamingServer::propagateNodeAddition(WbNode *node) {
   if (mWebSocketServer == NULL || WbWorld::instance() == NULL)
     return;
+
+  if (node->isProtoParameterNode()) {
+    // PROTO parameter nodes are not exported to X3D or transmitted to webots.min.js
+    foreach (WbNode *nodeInstance, node->protoParameterNodeInstances())
+      propagateNodeAddition(nodeInstance);
+    return;
+  }
 
   WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);
   if (baseNode && baseNode->isInBoundingObject())

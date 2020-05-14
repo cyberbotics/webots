@@ -962,13 +962,12 @@ int wb_robot_init() {  // API initialization
   if (WEBOTS_SERVER && WEBOTS_SERVER[0])
     pipe = strdup(WEBOTS_SERVER);
   else {
-    unsigned int trial = 0;
+    int trial = 0;
     while (trial < 10) {
       trial++;
       const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path();
       if (!WEBOTS_TMP_PATH) {
-        if (trial <= 10)
-          fprintf(stderr, "Webots doesn't seems to be ready yet: (retrying in %u second%s)\n", trial, trial > 1 ? "s" : "");
+        fprintf(stderr, "Webots doesn't seems to be ready yet: (retrying in %d second%s)\n", trial, trial > 1 ? "s" : "");
         sleep(trial);
       } else {
         char buffer[1024];
@@ -984,16 +983,14 @@ int wb_robot_init() {  // API initialization
           }
           fclose(fd);
         } else {
-          if (trial <= 10)
-            fprintf(stderr, "Cannot open file: %s (retrying in %u second%s)\n", buffer, trial, trial > 1 ? "s" : "");
+          fprintf(stderr, "Cannot open file: %s (retrying in %d second%s)\n", buffer, trial, trial > 1 ? "s" : "");
           pipe = NULL;
         }
-        if (trial > 10)
-          fprintf(stderr, "Impossible to communicate with Webots: aborting\n");
-        else
-          sleep(trial);
+        sleep(trial);
       }
     }
+    if (trial == 10)
+      fprintf(stderr, "Impossible to communicate with Webots: aborting\n");
   }
   if (!pipe || !scheduler_init(pipe)) {
     if (!pipe)

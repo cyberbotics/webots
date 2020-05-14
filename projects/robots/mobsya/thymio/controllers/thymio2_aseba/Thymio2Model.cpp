@@ -206,7 +206,7 @@ void Thymio2Model::updateEvents(const Thymio2AsebaHub *hub, bool events[]) {
 
         // check that the timer period is a multiple of WorldInfo::timeStep
         // but only for small periods (arbitrarily: < 2*timeStep) because after the generated error is less important
-        if (hub->variables.timers[i] > 0 && hub->variables.timers[i] < 2 * mTimeStep && hub->variables.timers[i] != mTimeStep)
+        if (hub->variables.timers[i] < 2 * mTimeStep && hub->variables.timers[i] != mTimeStep)
           cout << "In simulation, timer " << i << " period should be above or equal to WorldInfo::timeStep" << endl;
       } else
         mTimerStepStart[i] = -1;

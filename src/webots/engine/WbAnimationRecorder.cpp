@@ -409,6 +409,7 @@ void WbAnimationRecorder::stopRecording() {
     // store only ids of nodes that changed during the animation
     if (command->isChangedFromStart()) {
       commandsChangedFromStart << command;
+      // cppcheck-suppress knownConditionTrueFalse
       if (!firstCommand)
         out << ";";
       else

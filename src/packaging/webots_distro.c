@@ -487,7 +487,7 @@ static void create_file(const char *name, int m) {
               "Compression=lzma2/fast\n"
               "DefaultDirName={autopf}\\%s\n"
               "DefaultGroupName=Cyberbotics\n"
-              "UninstallDisplayIcon={app}\\msys64\\mingw64\\bin\\webots.exe\n"
+              "UninstallDisplayIcon={app}\\msys64\\mingw64\\bin\\webots-bin.exe\n"
               "PrivilegesRequired=lowest\n"
               "UsePreviousPrivileges=no\n"
               "PrivilegesRequiredOverridesAllowed=dialog\n",
@@ -955,11 +955,11 @@ static void create_file(const char *name, int m) {
     case ISS:
       fprintf(fd, "\n[Icons]\n");
       fprintf(fd,
-              "Name: \"{app}\\%s\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webots.exe\"; WorkingDir: \"{app}\"; Comment: "
+              "Name: \"{app}\\%s\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webotsw.exe\"; WorkingDir: \"{app}\"; Comment: "
               "\"Robot simulator\"\n"
-              "Name: \"{group}\\%s\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webots.exe\"; WorkingDir: \"{app}\"; Comment: "
+              "Name: \"{group}\\%s\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webotsw.exe\"; WorkingDir: \"{app}\"; Comment: "
               "\"Robot simulator\"\n"
-              "Name: \"{userdesktop}\\%s\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webots.exe\"; WorkingDir: \"{app}\"; "
+              "Name: \"{userdesktop}\\%s\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webotsw.exe\"; WorkingDir: \"{app}\"; "
               "Comment: \"Robot simulator\"\n",
               application_name, application_name, application_name);
       fprintf(
@@ -976,14 +976,14 @@ static void create_file(const char *name, int m) {
               "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\shell\\open\"; ValueType: string; "
               "ValueName: \"FriendlyAppName\"; ValueData: \"Webots\"; Flags: uninsdeletekey\n"
               "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\shell\\open\\command\"; ValueType: string; ValueData: "
-              "\"\"\"{app}\\msys64\\mingw64\\bin\\webots.exe\"\" \"\"%%1\"\"\"; Flags: uninsdeletekey\n"
-              "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webots.exe\"; ValueType: string; "
+              "\"\"\"{app}\\msys64\\mingw64\\bin\\webotsw.exe\"\" \"\"%%1\"\"\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webotsw.exe\"; ValueType: string; "
               "ValueName: \"SupportedTypes\"; ValueData: \".wbt\"; Flags: uninsdeletekey\n"
-              "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webots.exe\"; ValueType: string; "
+              "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webotsw.exe\"; ValueType: string; "
               "ValueName: \"FriendlyAppName\"; ValueData: \"Webots\"; Flags: uninsdeletekey\n"
-              "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots.exe\"; ValueType: string; "
-              "ValueData: \"{app}\\msys64\\mingw64\\bin\\webots.exe\"; Flags: uninsdeletekey\n"
-              "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots.exe\"; ValueType: string; "
+              "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webotsw.exe\"; ValueType: string; "
+              "ValueData: \"{app}\\msys64\\mingw64\\bin\\webotsw.exe\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webotsw.exe\"; ValueType: string; "
               "ValueName: \"Path\"; ValueData: \"{app}\\msys64\\mingw64\\bin;{app}\\msys64\\usr\\bin\"; Flags: uninsdeletekey\n"
               "Root: HKCU; SubKey: \"Software\\Cyberbotics\"; Flags: uninsdeletekeyifempty dontcreatekey\n"
               "Root: HKCU; SubKey: \"Software\\Cyberbotics\\%s %s\"; Flags: uninsdeletekey dontcreatekey\n"
@@ -998,6 +998,7 @@ static void create_file(const char *name, int m) {
       // https://index.ros.org/doc/ros2/Installation/Dashing/Windows-Install-Binary/#install-openssl
       // recommends to install OpenSSL from https://slproweb.com/products/Win32OpenSSL.html
       // By default, this installer copies libcrypto-1_1-x64.dll and libssl-1_1-x64.dll in C:\Windows\System32.
+      // Similarly, libjpeg-8.dll may be found there.
       // This is a very bad practise as such DLLs conflicts with the same DLLs provided in the msys64 folder of Webots.
       // So, we will delete any of these libraries from the C:\Windows\System32 folder before installing Webots.
       fprintf(fd, "\n[InstallDelete]\n");
@@ -1005,6 +1006,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "Type: files; Name: \"{sys}\\libeay32.dll\"\n");
       fprintf(fd, "Type: files; Name: \"{sys}\\libcrypto-1_1-x64.dll\"\n");
       fprintf(fd, "Type: files; Name: \"{sys}\\libssl-1_1-x64.dll\"\n");
+      fprintf(fd, "Type: files; Name: \"{sys}\\libjpeg-8.dll\"\n");
       fprintf(fd, "\n[Code]\n");
       fprintf(fd, "function InitializeSetup(): Boolean;\n");
       fprintf(fd, "var\n");
@@ -1051,10 +1053,8 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "  end;\n");
       fprintf(fd, "end;\n");
       fprintf(fd, "\n[Run]\n");
-      fprintf(fd, "Filename: {app}\\msys64\\mingw64\\bin\\webots.bat; Description: \"Launch Webots\"; Flags: nowait "
+      fprintf(fd, "Filename: {app}\\msys64\\mingw64\\bin\\webotsw.exe; Description: \"Launch Webots\"; Flags: nowait "
                   "postinstall skipifsilent\n");
-      // we launch the bat file (and not the exe file) because the installer doesn't have yet the PATH set to msys64/usr/bin
-      // for webots.exe and hence webots cannot compile
       break;
     case DEB:
 #ifdef WEBOTS_UBUNTU_16_04
@@ -1160,6 +1160,7 @@ static void create_file(const char *name, int m) {
 #endif
       // libraries common to Ubuntu 16.04 and 18.04
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libfreeimage.so.3 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjpeg.so.8 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjxrglue.so.0 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libopenjp2.so.7 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjpegxr.so.0 debian/usr/local/webots/lib/webots\n");

@@ -1,6 +1,7 @@
 #VRML_SIM R2020a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
+# tags: static
 # A rubber material.
 # The type of rubber can be set using the `type` field.
 

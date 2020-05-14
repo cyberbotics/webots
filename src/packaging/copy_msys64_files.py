@@ -39,7 +39,7 @@ folders = ['/tmp', '/mingw32', '/mingw32/bin', '/mingw32/lib', '/mingw64', '/min
            '/mingw64/share/qt5/plugins/imageformats', '/mingw64/share/qt5/plugins/platforms',
            '/mingw64/share/qt5/plugins/printsupport', '/mingw64/share/qt5/plugins/styles']
 files = []
-skip_paths = ['/usr/share/', '/mingw64/bin/zlib1.dll']
+skip_paths = ['/usr/share/', '/mingw64/bin/zlib1.dll', '/mingw64/bin/libjpeg-8.dll']
 
 # add all the files and folders corresponding to the pacman dependencies
 for dependency in dependencies:
