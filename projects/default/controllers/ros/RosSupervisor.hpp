@@ -118,57 +118,53 @@ public:
   bool getFromIdCallback(webots_ros::supervisor_get_from_id::Request &req, webots_ros::supervisor_get_from_id::Response &res);
   bool getSelectedCallback(webots_ros::get_uint64::Request &req, webots_ros::get_uint64::Response &res);
 
-  bool nodeGetIdCallback(const webots_ros::node_get_id::Request &req, webots_ros::node_get_id::Response &res);
-  bool nodeGetTypeCallback(const webots_ros::node_get_type::Request &req, webots_ros::node_get_type::Response &res);
-  bool nodeGetTypeNameCallback(const webots_ros::node_get_name::Request &req, webots_ros::node_get_name::Response &res);
-  bool nodeGetDefCallback(const webots_ros::node_get_name::Request &req, webots_ros::node_get_name::Response &res);
-  bool nodeGetBaseTypeNameCallback(const webots_ros::node_get_name::Request &req, webots_ros::node_get_name::Response &res);
-  bool nodeGetParentNodeCallback(const webots_ros::node_get_parent_node::Request &req,
+  bool nodeGetIdCallback(webots_ros::node_get_id::Request &req, webots_ros::node_get_id::Response &res);
+  bool nodeGetTypeCallback(webots_ros::node_get_type::Request &req, webots_ros::node_get_type::Response &res);
+  bool nodeGetTypeNameCallback(webots_ros::node_get_name::Request &req, webots_ros::node_get_name::Response &res);
+  bool nodeGetDefCallback(webots_ros::node_get_name::Request &req, webots_ros::node_get_name::Response &res);
+  bool nodeGetBaseTypeNameCallback(webots_ros::node_get_name::Request &req, webots_ros::node_get_name::Response &res);
+  bool nodeGetParentNodeCallback(webots_ros::node_get_parent_node::Request &req,
                                  webots_ros::node_get_parent_node::Response &res);
-  bool nodeGetPositionCallback(const webots_ros::node_get_position::Request &req, webots_ros::node_get_position::Response &res);
-  bool nodeGetOrientationCallback(const webots_ros::node_get_orientation::Request &req,
+  bool nodeGetPositionCallback(webots_ros::node_get_position::Request &req, webots_ros::node_get_position::Response &res);
+  bool nodeGetOrientationCallback(webots_ros::node_get_orientation::Request &req,
                                   webots_ros::node_get_orientation::Response &res);
-  bool nodeGetCenterOfMassCallback(const webots_ros::node_get_center_of_mass::Request &req,
+  bool nodeGetCenterOfMassCallback(webots_ros::node_get_center_of_mass::Request &req,
                                    webots_ros::node_get_center_of_mass::Response &res);
-  bool nodeGetNumberOfContactPointsCallback(const webots_ros::node_get_number_of_contact_points::Request &req,
+  bool nodeGetNumberOfContactPointsCallback(webots_ros::node_get_number_of_contact_points::Request &req,
                                             webots_ros::node_get_number_of_contact_points::Response &res);
-  bool nodeGetContactPointCallback(const webots_ros::node_get_contact_point::Request &req,
+  bool nodeGetContactPointCallback(webots_ros::node_get_contact_point::Request &req,
                                    webots_ros::node_get_contact_point::Response &res);
-  bool nodeGetStaticBalanceCallback(const webots_ros::node_get_static_balance::Request &req,
+  bool nodeGetStaticBalanceCallback(webots_ros::node_get_static_balance::Request &req,
                                     webots_ros::node_get_static_balance::Response &res);
-  bool nodeGetVelocityCallback(const webots_ros::node_get_velocity::Request &req, webots_ros::node_get_velocity::Response &res);
-  bool nodeSetVelocityCallback(const webots_ros::node_set_velocity::Request &req, webots_ros::node_set_velocity::Response &res);
-  bool nodeAddForceCallback(const webots_ros::node_add_force_or_torque::Request &req,
+  bool nodeGetVelocityCallback(webots_ros::node_get_velocity::Request &req, webots_ros::node_get_velocity::Response &res);
+  bool nodeSetVelocityCallback(webots_ros::node_set_velocity::Request &req, webots_ros::node_set_velocity::Response &res);
+  bool nodeAddForceCallback(webots_ros::node_add_force_or_torque::Request &req,
                             webots_ros::node_add_force_or_torque::Response &res);
-  bool nodeAddForceWithOffsetCallback(const webots_ros::node_add_force_with_offset::Request &req,
+  bool nodeAddForceWithOffsetCallback(webots_ros::node_add_force_with_offset::Request &req,
                                       webots_ros::node_add_force_with_offset::Response &res);
-  bool nodeAddTorqueCallback(const webots_ros::node_add_force_or_torque::Request &req,
+  bool nodeAddTorqueCallback(webots_ros::node_add_force_or_torque::Request &req,
                              webots_ros::node_add_force_or_torque::Response &res);
-  bool nodeGetFieldCallback(const webots_ros::node_get_field::Request &req, webots_ros::node_get_field::Response &res);
-  bool nodeMoveViewpointCallback(const webots_ros::node_move_viewpoint::Request &req,
-                                 webots_ros::node_move_viewpoint::Response &res);
-  bool nodeSetVisibilityCallback(const webots_ros::node_set_visibility::Request &req,
-                                 webots_ros::node_set_visibility::Response &res);
-  bool nodeRemoveCallback(const webots_ros::node_remove::Request &req, webots_ros::node_remove::Response &res);
-  bool nodeResetPhysicsCallback(const webots_ros::node_reset_functions::Request &req,
+  bool nodeGetFieldCallback(webots_ros::node_get_field::Request &req, webots_ros::node_get_field::Response &res);
+  bool nodeMoveViewpointCallback(webots_ros::node_move_viewpoint::Request &req, webots_ros::node_move_viewpoint::Response &res);
+  bool nodeSetVisibilityCallback(webots_ros::node_set_visibility::Request &req, webots_ros::node_set_visibility::Response &res);
+  bool nodeRemoveCallback(webots_ros::node_remove::Request &req, webots_ros::node_remove::Response &res);
+  bool nodeResetPhysicsCallback(webots_ros::node_reset_functions::Request &req,
                                 webots_ros::node_reset_functions::Response &res);
-  bool nodeRestartControllerCallback(const webots_ros::node_reset_functions::Request &req,
+  bool nodeRestartControllerCallback(webots_ros::node_reset_functions::Request &req,
                                      webots_ros::node_reset_functions::Response &res);
 
-  bool fieldGetTypeCallback(const webots_ros::field_get_type::Request &req, webots_ros::field_get_type::Response &res);
-  bool fieldGetTypeNameCallback(const webots_ros::field_get_type_name::Request &req,
-                                webots_ros::field_get_type_name::Response &res);
-  bool fieldGetCountCallback(const webots_ros::field_get_count::Request &req, webots_ros::field_get_count::Response &res);
-  bool fieldGetBoolCallback(const webots_ros::field_get_bool::Request &req, webots_ros::field_get_bool::Response &res);
-  bool fieldGetInt32Callback(const webots_ros::field_get_int32::Request &req, webots_ros::field_get_int32::Response &res);
-  bool fieldGetFloatCallback(const webots_ros::field_get_float::Request &req, webots_ros::field_get_float::Response &res);
-  bool fieldGetVec2fCallback(const webots_ros::field_get_vec2f::Request &req, webots_ros::field_get_vec2f::Response &res);
-  bool fieldGetVec3fCallback(const webots_ros::field_get_vec3f::Request &req, webots_ros::field_get_vec3f::Response &res);
-  bool fieldGetRotationCallback(const webots_ros::field_get_rotation::Request &req,
-                                webots_ros::field_get_rotation::Response &res);
-  bool fieldGetColorCallback(const webots_ros::field_get_color::Request &req, webots_ros::field_get_color::Response &res);
-  bool fieldGetStringCallback(const webots_ros::field_get_string::Request &req, webots_ros::field_get_string::Response &res);
-  bool fieldGetNodeCallback(const webots_ros::field_get_node::Request &req, webots_ros::field_get_node::Response &res);
+  bool fieldGetTypeCallback(webots_ros::field_get_type::Request &req, webots_ros::field_get_type::Response &res);
+  bool fieldGetTypeNameCallback(webots_ros::field_get_type_name::Request &req, webots_ros::field_get_type_name::Response &res);
+  bool fieldGetCountCallback(webots_ros::field_get_count::Request &req, webots_ros::field_get_count::Response &res);
+  bool fieldGetBoolCallback(webots_ros::field_get_bool::Request &req, webots_ros::field_get_bool::Response &res);
+  bool fieldGetInt32Callback(webots_ros::field_get_int32::Request &req, webots_ros::field_get_int32::Response &res);
+  bool fieldGetFloatCallback(webots_ros::field_get_float::Request &req, webots_ros::field_get_float::Response &res);
+  bool fieldGetVec2fCallback(webots_ros::field_get_vec2f::Request &req, webots_ros::field_get_vec2f::Response &res);
+  bool fieldGetVec3fCallback(webots_ros::field_get_vec3f::Request &req, webots_ros::field_get_vec3f::Response &res);
+  bool fieldGetRotationCallback(webots_ros::field_get_rotation::Request &req, webots_ros::field_get_rotation::Response &res);
+  bool fieldGetColorCallback(webots_ros::field_get_color::Request &req, webots_ros::field_get_color::Response &res);
+  bool fieldGetStringCallback(webots_ros::field_get_string::Request &req, webots_ros::field_get_string::Response &res);
+  bool fieldGetNodeCallback(webots_ros::field_get_node::Request &req, webots_ros::field_get_node::Response &res);
   bool fieldSetBoolCallback(webots_ros::field_set_bool::Request &req, webots_ros::field_set_bool::Response &res);
   bool fieldSetInt32Callback(webots_ros::field_set_int32::Request &req, webots_ros::field_set_int32::Response &res);
   bool fieldSetFloatCallback(webots_ros::field_set_float::Request &req, webots_ros::field_set_float::Response &res);

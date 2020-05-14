@@ -307,12 +307,8 @@ void Motion::newPoseAt(int index) {
     }
 
     if (!hasFixedStep()) {
-      Pose *previousPose = NULL, *nextPose = NULL;
-      if (index > 0)
-        previousPose = mPoses.at(index - 1);
-      if (index < mPoses.count())
-        nextPose = mPoses.at(index);
-
+      Pose *previousPose = index > 0 ? mPoses.at(index - 1) : NULL;
+      Pose *nextPose = index < mPoses.count() ? mPoses.at(index) : NULL;
       if (previousPose && nextPose)
         pose->setTime(0.5 * (previousPose->time() + nextPose->time()));
       else if (previousPose)

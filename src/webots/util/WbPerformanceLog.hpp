@@ -68,7 +68,7 @@ private:
   static WbPerformanceLog *cInstance;
   WbPerformanceLog(const QString &fileName, int stepsCount);
   WbPerformanceLog(const WbPerformanceLog &);  // non constructor-copyable
-  virtual ~WbPerformanceLog();
+  ~WbPerformanceLog();
 
   bool openFile();
   void closeFile();
