@@ -48,7 +48,7 @@ public:
 
 private:
   Wrapper() {}
-  virtual ~Wrapper() {}
+  ~Wrapper() {}
 
   static void initializeCamera();
 
