@@ -36,7 +36,10 @@ WbPerspective::WbPerspective(const QString &worldPath) :
   mSelectedTab(-1),
   mOrthographicViewHeight(1.0),
   mSelectionDisabled(false),
-  mViewpointLocked(false) {
+  mViewpointLocked(false),
+  mObjectMoveDisabled(false),
+  mForceAndTorqueDisabled(false),
+  mFastModeDisabled(false) {
   const QFileInfo info(worldPath);
   mBaseName = info.absolutePath() + "/." + info.completeBaseName();
   mVersion = WbApplicationInfo::version();
@@ -100,6 +103,24 @@ bool WbPerspective::readContent(QTextStream &in, bool reloading) {
       int i;
       ls >> i;
       mViewpointLocked = i;
+    } else if (key == "objectMoveDisabled:") {
+      if (reloading)
+        continue;
+      int i;
+      ls >> i;
+      mObjectMoveDisabled = i;
+    } else if (key == "forceAndTorqueDisabled:") {
+      if (reloading)
+        continue;
+      int i;
+      ls >> i;
+      mForceAndTorqueDisabled = i;
+    } else if (key == "fastModeDisabled:") {
+      if (reloading)
+        continue;
+      int i;
+      ls >> i;
+      mFastModeDisabled = i;
     } else if (key == "orthographicViewHeight:") {
       double value;
       ls >> value;
@@ -239,6 +260,9 @@ bool WbPerspective::save() const {
     out << "renderingMode: " << mRenderingMode << "\n";
   out << "selectionDisabled: " << (int)mSelectionDisabled << "\n";
   out << "viewpointLocked: " << (int)mViewpointLocked << "\n";
+  out << "objectMoveDisabled: " << (int)mObjectMoveDisabled << "\n";
+  out << "forceAndTorqueDisabled: " << (int)mForceAndTorqueDisabled << "\n";
+  out << "fastModeDisabled: " << (int)mFastModeDisabled << "\n";
   out << "orthographicViewHeight: " << (double)mOrthographicViewHeight << "\n";
   out << "textFiles: " << mSelectedTab;
   // convert to relative paths and save

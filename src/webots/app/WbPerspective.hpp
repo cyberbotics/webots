@@ -110,8 +110,14 @@ public:
   // selection and viewpoint lock mechanism
   void setSelectionDisabled(bool disabled) { mSelectionDisabled = disabled; }
   void setViewpointLocked(bool locked) { mViewpointLocked = locked; }
+  void setObjectMoveDisabled(bool locked) { mObjectMoveDisabled = disabled; }
+  void setForceAndTorqieDisabled(bool locked) { mForceAndTorqueDisabled = disabled; }
+  void setFastModeDisabled(bool locked) { mFastModeDisabled = disabled; }
   bool isSelectionDisabled() const { return mSelectionDisabled; }
   bool isViewpointLocked() const { return mViewpointLocked; }
+  bool isObjectMoveDisabled() const { return mObjectMoveDisabled; }
+  bool areForceAndTorqueDisabled() const { return mForceAndTorqueDisabled; }
+  bool isFastModeDisabled() const { return mFastModeDisabled; }
 
   // projection and rendering mode
   void setProjectionMode(const QString &mode) { mProjectionMode = mode; }
@@ -147,6 +153,9 @@ private:
   double mOrthographicViewHeight;
   bool mSelectionDisabled;
   bool mViewpointLocked;
+  bool mObjectMoveDisabled;
+  bool mForceAndTorqueDisabled;
+  bool mFastModeDisabled;
   QString mProjectionMode;
   QString mRenderingMode;
   QStringList mEnabledOptionalRenderingList;
