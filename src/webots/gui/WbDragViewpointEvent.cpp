@@ -22,8 +22,6 @@
 
 #include <wren/camera.h>
 
-#include <QtCore/QDebug>
-
 // WbDragViewpointEvent constructor
 WbDragViewpointEvent::WbDragViewpointEvent(WbViewpoint *viewpoint) : WbDragKinematicsEvent(viewpoint) {
 }
