@@ -779,7 +779,7 @@ void WbRobot::writeTfLink(QDataStream &stream, WbNode *link) {
   WbTransform *tfLink = (dynamic_cast<WbTransform *>(link)) ? (WbTransform *)link : findRelevantTransfomParent(link);
 
   const WbVector3 translation = tfLink->position() - tfParent->position();
-  const WbMatrix3 rotation = tfParent->rotationMatrix() * tfLink->rotationMatrix().transposed();
+  const WbMatrix3 rotation = tfParent->rotationMatrix().transposed() * tfLink->rotationMatrix();
   stream << (unsigned char)WB_TF_NODE_LINK;
   stream << (int)link->uniqueId();
   stream << (int)parent->uniqueId();
