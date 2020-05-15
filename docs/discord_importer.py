@@ -33,7 +33,7 @@ class MyClient(discord.Client):
             file.write('This is an archive of the `%s` channel of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n' % channel.name)
             async for message in channel.history(limit=20):
                 if message.type == discord.MessageType.default and message.content:
-                    file.write('#### ' + message.author.name + ' ' + message.created_at.strftime("%m/%d/%Y %H:%M:%S") + '\n')
+                    file.write('##### ' + message.author.name + ' ' + message.created_at.strftime("%m/%d/%Y %H:%M:%S") + '\n')
                     file.write(message.content)
                     file.write('\n\n')
                 else:
