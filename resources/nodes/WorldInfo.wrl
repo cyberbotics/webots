@@ -17,8 +17,8 @@ WorldInfo {
   field       SFFloat                    physicsDisableAngularThreshold 0.01       # threshold determining if an object is idle or not [r/s]
   field       SFNode                     defaultDamping                 NULL       # default damping properties
   field       SFFloat                    inkEvaporation                 0          # make ground textures evaporate to white
-  field       SFString{"ENU", "NUE"}     coordinateSystem               "ENU"      # X -> East, Y -> North, Z -> Up
   field       SFVec3f                    magneticField                  0 1 0      # Used by the compass devices
+  field       SFString{"ENU", "NUE"}     coordinateSystem               "ENU"      # X -> East, Y -> North, Z -> Up
   field       SFString{"local", "WGS84"} gpsCoordinateSystem            "local"    # defines the world coordinate system (used by GPS node)
   field       SFVec3f                    gpsReference                   0 0 0      # defines the offset for each coordinate
   field       SFFloat                    lineScale                      0.1        # order of magnitude of the world in meters, used to display the optional rendering
