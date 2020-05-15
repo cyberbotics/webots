@@ -1097,7 +1097,7 @@ function renderGraphs() {
 
 function applyAnchorIcons(view) {
   var elements = [];
-  var tags = ['figcaption', 'h1', 'h2', 'h3', 'h4'];
+  var tags = ['figcaption', 'h1', 'h2', 'h3', 'h4', 'h5'];
   var i;
   for (i = 0; i < tags.length; i++) {
     var array = Array.prototype.slice.call(view.querySelectorAll(tags[i]));
