@@ -16,7 +16,6 @@
 # limitations under the License.
 
 import discord
-import sys
 
 channels = [
     'news',
@@ -31,7 +30,8 @@ class MyClient(discord.Client):
         year = None
         with open('reference/discord_' + channel.name + '.md', 'w') as file:
             file.write('# %s\n\n' % channel.name.title())
-            file.write('This is an archive of the `%s` channel of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n' % channel.name)
+            file.write('This is an archive of the `%s` channel of the ' % channel.name +
+                       '[Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n')
             async for message in channel.history(limit=20):
                 if message.type == discord.MessageType.default and message.content:
                     if year is None or year != message.created_at.year:
