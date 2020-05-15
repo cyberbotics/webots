@@ -37,6 +37,16 @@ PROTO P-Rob3 [
 
 - `staticBase`: Defines if the robot base should be pinned to the static environment.
 
+### Gripper
+
+The P-Grip gripper from [F&P Robotics](https://www.fp-robotics.com/en/) can be added in the `toolSlot` of the `P-Rob3` node to give grasping capacity to the robot.
+
+%figure "P-Grip"
+
+![pioneer3at_wheels.png](images/robots/p-rob3/p_grip.png)
+
+%end
+
 ### Samples
 
 You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/fp\_robotics/p-rob3/worlds/prob3.wbt](https://github.com/cyberbotics/webots/tree/master/projects/robots/fp_robotics/p-rob3/worlds/prob3.wbt)".
