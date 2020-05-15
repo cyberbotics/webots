@@ -28,7 +28,7 @@ channels = [
 
 class MyClient(discord.Client):
     async def export_channel(self, channel):
-        with open('discord_' + channel.name + '.md', 'w') as file:
+        with open('reference/discord_' + channel.name + '.md', 'w') as file:
             file.write('# %s\n\n' % channel.name.title())
             file.write('This is an archive of the `%s` channel of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n' % channel.name)
             async for message in channel.history(limit=20):
@@ -41,7 +41,7 @@ class MyClient(discord.Client):
                     print("\tContent:" + str(message.content))
 
     async def on_ready(self):
-        with open('discord.md', 'w') as file:
+        with open('reference/discord.md', 'w') as file:
             file.write('# Discord Archives\n')
             file.write('These are archives of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n')
             for channel in self.get_all_channels():
