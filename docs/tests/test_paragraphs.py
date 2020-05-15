@@ -1,7 +1,8 @@
 """Test module for the Markdown paragraphs."""
 
-import unittest
+import os
 import re
+import unittest
 
 from books import Books
 
@@ -15,6 +16,10 @@ class TestParagraphs(unittest.TestCase):
         books = Books()
         for book in books.books:
             for md_path in book.md_paths:
+                # Exception for file generated from Discord
+                if os.path.basename(md_path).startswith('discord_'):
+                    continue
+
                 # Extract MD content.
                 with open(md_path) as f:
                     content = f.read()
