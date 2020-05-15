@@ -32,6 +32,9 @@ void wb_light_sensor_enable(WbDeviceTag tag, int sampling_period);
 void wb_light_sensor_disable(WbDeviceTag tag);
 int wb_light_sensor_get_sampling_period(WbDeviceTag tag);
 
+int wb_light_sensor_get_lookup_table_size(WbDeviceTag tag);
+const double *wb_light_sensor_get_lookup_table(WbDeviceTag tag);
+
 double wb_light_sensor_get_value(WbDeviceTag tag);
 
 #ifdef __cplusplus

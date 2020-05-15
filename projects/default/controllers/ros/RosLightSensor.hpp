@@ -18,23 +18,28 @@
 #include <webots/LightSensor.hpp>
 #include "RosSensor.hpp"
 
+#include <webots_ros/get_float_array.h>
+
 using namespace webots;
 
 class RosLightSensor : public RosSensor {
 public:
   RosLightSensor(LightSensor *lightSensor, Ros *ros);
-  virtual ~RosLightSensor() { cleanup(); }
+  virtual ~RosLightSensor();
 
   ros::Publisher createPublisher() override;
   void publishValue(ros::Publisher publisher) override;
   void rosEnable(int samplingPeriod) override { mLightSensor->enable(samplingPeriod); }
   void rosDisable() override { cleanup(); }
   int rosSamplingPeriod() override { return mLightSensor->getSamplingPeriod(); }
+  bool getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res);
 
 private:
   void cleanup() { mLightSensor->disable(); }
 
   LightSensor *mLightSensor;
+
+  ros::ServiceServer mLookupTableServer;
 };
 
 #endif  // ROS_LIGHT_SENSOR_HPP

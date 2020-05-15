@@ -69,11 +69,8 @@ WbRobotWindow::WbRobotWindow(WbRobot *robot, QWidget *parent) :
 }
 
 WbRobotWindow::~WbRobotWindow() {
-#ifdef _WIN32
-  // With QWebEngine, deleting WebView is sufficient.
   if (mWebView)
     delete mWebView->page();
-#endif
   delete mWebView;
 }
 

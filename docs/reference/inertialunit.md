@@ -57,6 +57,8 @@ This field accepts any value in the interval (0.0, inf).
 #### `wb_inertial_unit_disable`
 #### `wb_inertial_unit_get_sampling_period`
 #### `wb_inertial_unit_get_roll_pitch_yaw`
+#### `wb_inertial_unit_get_lookup_table_size`
+#### `wb_inertial_unit_get_lookup_table`
 
 %tab-component "language"
 
@@ -69,6 +71,8 @@ void wb_inertial_unit_enable(WbDeviceTag tag, int sampling_period);
 void wb_inertial_unit_disable(WbDeviceTag tag);
 int wb_inertial_unit_get_sampling_period(WbDeviceTag tag);
 const double *wb_inertial_unit_get_roll_pitch_yaw(WbDeviceTag tag);
+int wb_inertial_unit_get_lookup_table_size(WbDeviceTag tag);
+const double *wb_inertial_unit_get_lookup_table(WbDeviceTag tag);
 ```
 
 %tab-end
@@ -84,6 +88,8 @@ namespace webots {
     virtual void disable();
     int getSamplingPeriod() const;
     const double *getRollPitchYaw() const;
+    int getLookupTableSize() const;
+    const double *getLookupTable() const;
     // ...
   }
 }
@@ -101,6 +107,7 @@ class InertialUnit (Device):
     def disable(self):
     def getSamplingPeriod(self):
     def getRollPitchYaw(self):
+    def getLookupTable(self):
     # ...
 ```
 
@@ -116,6 +123,7 @@ public class InertialUnit extends Device {
   public void disable();
   public int getSamplingPeriod();
   public double[] getRollPitchYaw();
+  public double[] getLookupTable();
   // ...
 }
 ```
@@ -129,6 +137,7 @@ wb_inertial_unit_enable(tag, sampling_period)
 wb_inertial_unit_disable(tag)
 period = wb_inertial_unit_get_sampling_period(tag)
 [roll pitch yaw] = wb_inertial_unit_get_roll_pitch_yaw(tag)
+lookup_table_array = wb_inertial_unit_get_lookup_table(tag)
 ```
 
 %tab-end
@@ -140,6 +149,8 @@ period = wb_inertial_unit_get_sampling_period(tag)
 | `/<device_name>/roll_pitch_yaw` | `topic` | [`sensor_msgs::Imu`](http://docs.ros.org/api/sensor_msgs/html/msg/Imu.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) `orientation`<br/>`float64[9] orientation_covariance`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `angular_velocity`<br/>`float64[9] angular_velocity_covariance`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `linear_acceleration`<br/>`float64[9] linear_acceleration_covariance`<br/><br/>Note: only the orientation is filled in |
 | `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
 | `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
+| `/<device_name>/get_lookup_table` | `service` | [`webots_ros::get_float_array`](ros-api.md#common-services) | |
+
 
 %tab-end
 
@@ -171,6 +182,11 @@ If the [InertialUnit](#inertialunit) is placed on the [Robot](robot.md) with a s
 The *yaw* angle indicates the unit orientation, in the interval [-&pi;,&pi;], with respect to [WorldInfo](worldinfo.md).`northDirection`.
 The *yaw* angle is zero when the [InertialUnit](#inertialunit)'s *x*-axis is aligned with the north direction, it is &pi;/2 when the unit is heading east, and -&pi;/2 when the unit is oriented towards the west.
 The *yaw* angle can be used as a compass.
+
+The `wb_inertial_unit_get_lookup_table_size` function returns the number of rows in the lookup table.
+
+The `wb_inertial_unit_get_lookup_table` function returns the values of the lookup table.
+This function returns a matrix containing exactly N * 3 values (N represents the number of mapped values optained with the `wb_inertial_unit_get_lookup_table_size` function) that shall be interpreted as a N x 3 table.
 
 > **Note** [C, C++]: The returned vector is a pointer to internal values managed by the Webots, therefore it is illegal to free this pointer.
 Furthermore, note that the pointed values are only valid until the next call to the `wb_robot_step` or `Robot::step` functions.

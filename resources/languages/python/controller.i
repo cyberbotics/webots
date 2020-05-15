@@ -84,6 +84,8 @@ using namespace std;
 //handling std::string
 %include "std_string.i"
 
+%rename ("__internalGetLookupTableSize") getLookupTableSize;
+
 // manage double arrays
 %typemap(out) const double * {
   int len = 3;
@@ -96,6 +98,12 @@ using namespace std;
     len = 6;
   else if (test == "getOrientation" || test == "virtualRealityHeadsetGetOrientation")
     len = 9;
+  $result = PyList_New(len);
+  for (int i = 0; i < len; ++i)
+    PyList_SetItem($result, i, PyFloat_FromDouble($1[i]));
+}
+%typemap(out) const double *getLookupTable {
+  int len = arg1->getLookupTableSize()*3;
   $result = PyList_New(len);
   for (int i = 0; i < len; ++i)
     PyList_SetItem($result, i, PyFloat_FromDouble($1[i]));

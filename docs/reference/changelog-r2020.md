@@ -16,6 +16,7 @@ Released on XXX.
     - Added a [Gyro](https://www.cyberbotics.com/doc/reference/gyro) node to e-puck PROTO ([#1484](https://github.com/cyberbotics/webots/pull/1484)).
   - Dependency Updates
     - Upgraded to Assimp 5.0.1 on Linux and macOS ([#1419](https://github.com/cyberbotics/webots/pull/1463)).
+    - Upgraded to Qt 5.14.2 on Linux.
 
 ## Webots R2020a Revision 2
 Released on XXX.
@@ -49,11 +50,14 @@ Released on XXX.
   - Cleanup
     - Deprecated the following appearances: `ChequeredParquetry`, `DarkParquetry`, `SlatePavement`, `SquarePavement` and `StonePavement`.
   - Bug fixes
+    - Fixed crash occuring when Webots was streaming a 3D scene and some object was inserted into a PROTO node.
     - Fixed the restoration of the 3D view which was sometimes not re-appearing after being hidden.
     - Windows: Fixed JPEG texture errors when typing `webots` from a DOS console (`cmd.exe`) by renaming `webots.exe` to `webots-bin.exe` and creating two launchers named `webotsw.exe` and `webots.exe`.
     - Fixed the physics behavior of [Connector](connector.md) nodes sometimes remaining idle after being detached from each other (thanks to Giorgio).
     - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images.
     - Fixed the motor torque and force feedback of the ros controller.
+    - Fixed reset of [Lidar](lidar.md) rotation when resetting the simulation (thanks to Jajafarov).
+    - Fixed horizontal resolution of Velodyne HDL-32E and HDL-64E [Lidars](lidar.md) (thanks to jrcblue).
     - Fixed the TurtleBot3Burger robot maximum velocity (thanks to Dorteel).
     - Fixed the TurtleBot3Burger robot center of mass (thanks to Nitrow).
     - Fixed warnings about duplicated `name` fields in the `TruckTank` PROTO node.

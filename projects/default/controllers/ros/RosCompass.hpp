@@ -18,23 +18,28 @@
 #include <webots/Compass.hpp>
 #include "RosSensor.hpp"
 
+#include <webots_ros/get_float_array.h>
+
 using namespace webots;
 
 class RosCompass : public RosSensor {
 public:
   RosCompass(Compass *compass, Ros *ros);
-  virtual ~RosCompass() { cleanup(); }
+  virtual ~RosCompass();
 
   ros::Publisher createPublisher() override;
   void publishValue(ros::Publisher publisher) override;
   void rosEnable(int samplingPeriod) override { mCompass->enable(samplingPeriod); }
   void rosDisable() override { mCompass->disable(); }
   int rosSamplingPeriod() override { return mCompass->getSamplingPeriod(); }
+  bool getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res);
 
 private:
   void cleanup() { mCompass->disable(); }
 
   Compass *mCompass;
+
+  ros::ServiceServer mLookupTableServer;
 };
 
 #endif  // ROS_COMPASS_HPP

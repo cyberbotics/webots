@@ -40,6 +40,8 @@ void WbGyro::init() {
   mYAxis = findSFBool("yAxis");
   mZAxis = findSFBool("zAxis");
   mResolution = findSFDouble("resolution");
+
+  mNeedToReconfigure = false;
 }
 
 WbGyro::WbGyro(WbTokenizer *tokenizer) : WbSolidDevice("Gyro", tokenizer) {
@@ -81,6 +83,8 @@ void WbGyro::updateLookupTable() {
   // create the lookup table
   delete mLut;
   mLut = new WbLookupTable(*mLookupTable);
+
+  mNeedToReconfigure = true;
 }
 
 void WbGyro::updateResolution() {
@@ -105,14 +109,31 @@ void WbGyro::handleMessage(QDataStream &stream) {
 void WbGyro::writeAnswer(QDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << (short unsigned int)tag();
+    stream << (unsigned char)C_GYRO_DATA;
     stream << (double)mValues[0] << (double)mValues[1] << (double)mValues[2];
 
     mSensor->resetPendingValue();
   }
+
+  if (mNeedToReconfigure)
+    addConfigure(stream);
 }
 
-void WbGyro::writeConfigure(QDataStream &) {
+void WbGyro::writeConfigure(QDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
+  addConfigure(stream);
+}
+
+void WbGyro::addConfigure(QDataStream &stream) {
+  stream << (short unsigned int)tag();
+  stream << (unsigned char)C_CONFIGURE;
+  stream << (int)mLookupTable->size();
+  for (int i = 0; i < mLookupTable->size(); i++) {
+    stream << (double)mLookupTable->item(i).x();
+    stream << (double)mLookupTable->item(i).y();
+    stream << (double)mLookupTable->item(i).z();
+  }
+  mNeedToReconfigure = false;
 }
 
 bool WbGyro::refreshSensorIfNeeded() {

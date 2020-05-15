@@ -145,6 +145,9 @@ void WbLidar::reset() {
   if (r)
     r->reset();
 
+  if (mWrenCamera)
+    mWrenCamera->rotateYaw(-mCurrentRotatingAngle);
+
   mIsPointCloudEnabled = false;
   mCurrentRotatingAngle = 0;
   mPreviousRotatingAngle = 0;

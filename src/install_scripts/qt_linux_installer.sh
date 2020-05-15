@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# install the latest Qt from qt.org
+# follow the instructions from https://github.com/cyberbotics/webots/wiki/Qt-compilation#linux to download and compile Qt before executing this script.
 
-QT_VERSION=5.13.1
+QT_VERSION=5.14.2
 ICU_VERSION=56
 QT_INSTALLATION_PATH=~/Qt${QT_VERSION}/${QT_VERSION}/gcc_64
 WEBOTS_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}" )"/../.. && pwd)"
@@ -79,6 +79,7 @@ cp $QT_INSTALLATION_PATH/lib/libQt5OpenGL.so.$QT_VERSION            lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt5Positioning.so.$QT_VERSION       lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt5PrintSupport.so.$QT_VERSION      lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt5Qml.so.$QT_VERSION               lib/webots/
+cp $QT_INSTALLATION_PATH/lib/libQt5QmlModels.so.$QT_VERSION         lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt5Quick.so.$QT_VERSION             lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt5QuickWidgets.so.$QT_VERSION      lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libQt5Sensors.so.$QT_VERSION           lib/webots/
@@ -135,6 +136,8 @@ ln -sf libQt5PrintSupport.so.$QT_VERSION      libQt5PrintSupport.so.5
 ln -sf libQt5PrintSupport.so.$QT_VERSION      libQt5PrintSupport.so
 ln -sf libQt5Qml.so.$QT_VERSION               libQt5Qml.so.5
 ln -sf libQt5Qml.so.$QT_VERSION               libQt5Qml.so
+ln -sf libQt5QmlModels.so.$QT_VERSION         libQt5QmlModels.so.5
+ln -sf libQt5QmlModels.so.$QT_VERSION         libQt5QmlModels.so
 ln -sf libQt5Quick.so.$QT_VERSION             libQt5Quick.so.5
 ln -sf libQt5Quick.so.$QT_VERSION             libQt5Quick.so
 ln -sf libQt5QuickWidgets.so.$QT_VERSION      libQt5QuickWidgets.so.5
@@ -166,7 +169,7 @@ ln -sf libicuuc.so.$ICU_VERSION.1             libicuuc.so.$ICU_VERSION
 # we need to clear the execstack from this library to enable the creation of the snap package.
 execstack -c libQt5WebEngineCore.so.$QT_VERSION
 
-cd ..
+cd ../..
 
 ARCHIVE=webots-qt-$QT_VERSION-linux64-release.tar.bz2
 echo Compressing $ARCHIVE \(please wait\)

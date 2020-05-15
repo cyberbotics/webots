@@ -49,12 +49,14 @@ private:
   WbSensor *mSensor;
   WbLookupTable *mLut;
   double mValues[3];  // current sensor values according to lookup table
+  bool mNeedToReconfigure;
 
   // private functions
   WbCompass &operator=(const WbCompass &);  // non copyable
   WbNode *clone() const override { return new WbCompass(*this); }
   void init();
   void computeValue();
+  void addConfigure(QDataStream &);
 
 private slots:
   void updateLookupTable();
