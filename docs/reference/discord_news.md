@@ -2,6 +2,8 @@
 
 This is an archive of the `news` channel of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m).
 
+## 2020
+
 ##### Olivier Michel 05/12/2020 06:26:44
 Nice @starwars AT-ST inspired Walker running in Webots: https://twitter.com/mantisrobot/status/1254693299702714369
 
@@ -47,6 +49,8 @@ Get it from: https://github.com/cyberbotics/webots/releases/tag/R2020a-rev1
 
 ##### dagd 01/13/2020 10:30:54
 OpenDR / Thessaloniki
+
+## 2019
 
 ##### Olivier Michel 12/20/2019 16:46:04
 <@!630328767776030742> Thank you for the feedback! Merry Christmas!

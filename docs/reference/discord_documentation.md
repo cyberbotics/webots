@@ -2,6 +2,8 @@
 
 This is an archive of the `documentation` channel of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m).
 
+## 2020
+
 ##### Olivier Michel 05/13/2020 15:58:07
 Thank you. We will review it soon.
 

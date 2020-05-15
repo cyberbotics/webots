@@ -28,11 +28,15 @@ channels = [
 
 class MyClient(discord.Client):
     async def export_channel(self, channel):
+        year = None
         with open('reference/discord_' + channel.name + '.md', 'w') as file:
             file.write('# %s\n\n' % channel.name.title())
             file.write('This is an archive of the `%s` channel of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n' % channel.name)
             async for message in channel.history(limit=20):
                 if message.type == discord.MessageType.default and message.content:
+                    if year is None or year != message.created_at.year:
+                        year = message.created_at.year
+                        file.write('## %d\n\n' % year)
                     file.write('##### ' + message.author.name + ' ' + message.created_at.strftime("%m/%d/%Y %H:%M:%S") + '\n')
                     file.write(message.content)
                     file.write('\n\n')

@@ -2,6 +2,8 @@
 
 This is an archive of the `technical-questions` channel of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m).
 
+## 2020
+
 ##### David Mansolino 05/15/2020 08:17:35
 See this question for example: https://stackoverflow.com/questions/59263637/webots-write-controller-data-to-external-csv-file
 
