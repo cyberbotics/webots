@@ -111,7 +111,7 @@ public class Compass extends Device {
 wb_compass_enable(tag, sampling_period)
 wb_compass_disable(tag)
 period = wb_compass_get_sampling_period(tag)
-[x y z] = wb_compass_get_values(tag)
+x_y_z_array = wb_compass_get_values(tag)
 ```
 
 %tab-end
