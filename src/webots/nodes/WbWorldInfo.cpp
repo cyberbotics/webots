@@ -24,6 +24,7 @@
 #include "WbMathsUtilities.hpp"
 #include "WbOdeContext.hpp"
 #include "WbPreferences.hpp"
+#include "WbProtoTemplateEngine.hpp"
 #include "WbReceiver.hpp"
 #include "WbSFNode.hpp"
 #include "WbSFVector3.hpp"
@@ -315,6 +316,7 @@ void WbWorldInfo::updateCoordinateSystem() {
     mCoordinateSystem->setValue("ENU");
     parsingWarn(tr("'coordinateSystem' must be either 'ENU' or 'NUE'. Reset to default value 'ENU'."));
   }
+  WbProtoTemplateEngine::setCoordinateSystem(mCoordinateSystem->value());
 }
 
 void WbWorldInfo::updateGpsCoordinateSystem() {

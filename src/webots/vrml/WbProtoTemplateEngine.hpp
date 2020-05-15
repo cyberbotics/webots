@@ -37,6 +37,7 @@ public:
   bool generate(const QString &logHeaderName, const QVector<WbField *> &parameters, const QString &protoPath,
                 const QString &worldPath, int id);
   static QString convertFieldValueToLuaStatement(const WbField *field);
+  static void setCoordinateSystem(const QString &coordinateSystem);
 
 private:
   static QString convertFieldDefaultValueToLuaStatement(const WbField *field);

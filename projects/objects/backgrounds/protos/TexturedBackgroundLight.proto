@@ -102,6 +102,10 @@ PROTO TexturedBackgroundLight [
     else
       io.stderr:write("Unknown texture identifier\n")
     end
+    if context.coordinate_system == "ENU" then
+      direction = {direction[3], direction[1], direction[2]}
+    end
+
   }%
   DirectionalLight {
     ambientIntensity 1
@@ -109,9 +113,9 @@ PROTO TexturedBackgroundLight [
     color %{=color[1]}% %{=color[2]}% %{=color[3]}%
     intensity %{=luminosity * intensity}%
     %{ if on then }%
-      on TRUE
+    on TRUE
     %{ else }%
-      on FALSE
+    on FALSE
     %{ end }%
     castShadows IS castShadows
   }
