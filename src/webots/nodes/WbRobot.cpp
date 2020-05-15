@@ -765,7 +765,7 @@ WbTransform *WbRobot::findRelevantTransfomParent(WbNode *node) {
   while (true) {
     node = node->parent();
     if (node->findSFString("name") && dynamic_cast<WbTransform *>(node))
-      return (WbTransform *)node;
+      return static_cast<WbTransform *>(node);
   }
 }
 
@@ -776,7 +776,8 @@ void WbRobot::writeTfLink(QDataStream &stream, WbNode *link) {
   // The similar applies for `tfLink`
   const WbNode *parent = findRelevantParent(link);
   const WbTransform *tfParent = findRelevantTransfomParent(link);
-  const WbTransform *tfLink = (dynamic_cast<WbTransform *>(link)) ? static_cast<WbTransform *>(link) : findRelevantTransfomParent(link);
+  const WbTransform *tfLink =
+    (dynamic_cast<WbTransform *>(link)) ? static_cast<WbTransform *>(link) : findRelevantTransfomParent(link);
   const WbVector3 translation = tfLink->position() - tfParent->position();
   const WbMatrix3 rotation = tfParent->rotationMatrix().transposed() * tfLink->rotationMatrix();
 
