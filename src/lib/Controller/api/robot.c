@@ -377,10 +377,10 @@ static void robot_configure(WbRequest *r) {
       node->type = WB_TF_NODE_LINK;
       int parent_id = request_read_int32(r);
       node->is_device = request_read_uchar(r);
-      for (int i = 0; i < 3; i++)
-        node->translation[i] = request_read_double(r);
-      for (int i = 0; i < 9; i++)
-        node->rotation[i] = request_read_double(r);
+      for (int j = 0; j < 3; j++)
+        node->translation[j] = request_read_double(r);
+      for (int j = 0; j < 9; j++)
+        node->rotation[j] = request_read_double(r);
       node->name = request_read_string(r);
       if (robot.tf_tree == NULL) {
         robot.tf_tree = node;

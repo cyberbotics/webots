@@ -774,12 +774,12 @@ void WbRobot::writeTfLink(QDataStream &stream, WbNode *link) {
   // joint, group and shape inherit transformation from solid parent we introduce
   // `tfParent` that can be only solid.
   // The similar applies for `tfLink`
-  WbNode *parent = findRelevantParent(link);
-  WbTransform *tfParent = findRelevantTransfomParent(link);
-  WbTransform *tfLink = (dynamic_cast<WbTransform *>(link)) ? (WbTransform *)link : findRelevantTransfomParent(link);
-
+  const WbNode *parent = findRelevantParent(link);
+  const WbTransform *tfParent = findRelevantTransfomParent(link);
+  const WbTransform *tfLink = (dynamic_cast<WbTransform *>(link)) ? static_cast<WbTransform *>(link) : findRelevantTransfomParent(link);
   const WbVector3 translation = tfLink->position() - tfParent->position();
   const WbMatrix3 rotation = tfParent->rotationMatrix().transposed() * tfLink->rotationMatrix();
+
   stream << (unsigned char)WB_TF_NODE_LINK;
   stream << (int)link->uniqueId();
   stream << (int)parent->uniqueId();
@@ -813,7 +813,7 @@ void WbRobot::writeTfJoint(QDataStream &stream, WbJoint *joint) {
   // position_sensor_name_2
   ba = "";
   if (dynamic_cast<WbHinge2Joint *>(joint)) {
-    WbHinge2Joint *hinge2Joint = (WbHinge2Joint *)joint;
+    WbHinge2Joint *hinge2Joint = static_cast<WbHinge2Joint *>(joint);
     if (hinge2Joint->positionSensor2())
       ba = hinge2Joint->positionSensor2()->findSFString("name")->value().toUtf8();
   }
@@ -822,7 +822,7 @@ void WbRobot::writeTfJoint(QDataStream &stream, WbJoint *joint) {
   // position_sensor_name_3
   ba = "";
   if (dynamic_cast<WbBallJoint *>(joint)) {
-    WbBallJoint *ballJoint = (WbBallJoint *)joint;
+    WbBallJoint *ballJoint = static_cast<WbBallJoint *>(joint);
     if (ballJoint->positionSensor3())
       ba = ballJoint->positionSensor3()->findSFString("name")->value().toUtf8();
   }
@@ -847,13 +847,13 @@ void WbRobot::writeTfRobot(QDataStream &stream) {
     QQueue<WbNode *> queue;
     queue.enqueue(this);
     while (queue.size() > 0) {
-      WbNode *node = queue.takeLast();
-      QList<WbNode *> children = node->subNodes(false);
+      const WbNode *node = queue.takeLast();
+      const QList<WbNode *> children = node->subNodes(false);
 
       for (int i = 0; i < children.size(); i++) {
         WbNode *child = children.at(i);
         if (dynamic_cast<WbJoint *>(child)) {
-          WbJoint *childJoint = (WbJoint *)child;
+          WbJoint *childJoint = static_cast<WbJoint *>(child);
           if (phase == 0)
             nNodes++;
           else

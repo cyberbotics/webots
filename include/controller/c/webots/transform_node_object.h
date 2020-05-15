@@ -34,18 +34,18 @@ struct _WbTransformNodeObject {
   int n_children;
   WbTransformNodeObject **children;
   WbTransformNodeObject *parent;
-  
+
   // LINK only fields
   bool is_device;
   double translation[3];
   double rotation[9];
 
   // JOINT only fields
-  double axis[3];               
+  double axis[3];
   double position;
   char *position_sensor_name;
-  char *position_sensor_name_2; // HingeJoint2
-  char *position_sensor_name_3; // BallJoint
+  char *position_sensor_name_2;  // HingeJoint2
+  char *position_sensor_name_3;  // BallJoint
 };
 
 #endif /* WB_TRANSFORM_NODE_OBJECT_H */
