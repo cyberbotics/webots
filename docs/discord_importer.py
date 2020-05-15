@@ -39,6 +39,9 @@ class MyClient(discord.Client):
                         file.write('## %d\n\n' % year)
                     file.write('##### ' + message.author.name + ' ' + message.created_at.strftime("%m/%d/%Y %H:%M:%S") + '\n')
                     file.write(message.content)
+                    print(message.attachments)
+                    for attachment in message.attachments:
+                        print([attachment.filename, filename.url])
                     file.write('\n\n')
                 else:
                     print("Unsupported message type:" + str(message.type))
