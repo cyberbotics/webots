@@ -2,26 +2,26 @@
 
 This is an archive of the `news` channel of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m).
 
-#### Olivier Michel 05/12/2020 06:26:44
+## Olivier Michel 05/12/2020 06:26:44
 Nice @starwars AT-ST inspired Walker running in Webots: https://twitter.com/mantisrobot/status/1254693299702714369
 
-##### Olivier Michel 05/11/2020 13:27:12
+### Olivier Michel 05/11/2020 13:27:12
 **Get Paid by Google to contribute to the Webots Documentation!**
 
 Cyberbotics is happy to announce it was accepted for participation in Google Season of Docs.
 That means that you can get paid by Google (from $2,400 to $6,000) to write some technical documentation for Webots.
 More information is available here: https://cyberbotics.com/gsod
 
-###### David Mansolino 05/04/2020 13:56:31
+#### David Mansolino 05/04/2020 13:56:31
 You can fin the documentation about this new Webots robot model here: https://cyberbotics.com/doc/guide/spot
 
-####### David Mansolino 05/04/2020 13:56:15
+##### David Mansolino 05/04/2020 13:56:15
 We are happy to share with you a simulation of the Spot robot from Boston Dynamic in Webots: https://www.youtube.com/watch?v=b5mVe6dk0wI
 
-#### Luftwaffel 04/14/2020 12:25:54
+###### Luftwaffel 04/14/2020 12:25:54
 This in python and with inverse kinematics would be awesome 😄
 
-#### sh33p 04/08/2020 20:17:10
+####### sh33p 04/08/2020 20:17:10
 Oh wow great!
 
 #### Olivier Michel 04/06/2020 14:45:33
