@@ -21,7 +21,7 @@
 #ifndef WB_TRANSFORM_NODE_OBJECT_H
 #define WB_TRANSFORM_NODE_OBJECT_H
 
-#include <stdbool.h>
+#include "types.h"
 
 typedef struct _WbTransformNodeObject WbTransformNodeObject;
 
