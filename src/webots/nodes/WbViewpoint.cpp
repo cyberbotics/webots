@@ -54,8 +54,6 @@
 
 #include <QtCore/QVariantAnimation>
 
-#include <QtCore/QDebug>
-
 #define ANIMATION_DURATION 1000
 
 const double WbViewpoint::INCREASE_FACTOR = 1.1;
@@ -1293,7 +1291,6 @@ void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &t
   const WbVector3 defaultUpVector = WbVector3(0, 1, 0);
   const bool enu = WbWorld::instance()->worldInfo()->coordinateSystem() == "ENU";
   const WbVector3 upVector = enu ? WbVector3(0, 0, 1) : WbVector3(0, 1, 0);
-  qDebug() << "upVector" << upVector.x() << upVector.y() << upVector.z();
   mSpaceQuaternion = enu ? WbQuaternion(defaultUpVector.cross(upVector), upVector.angle(defaultUpVector)) : WbQuaternion();
   mSpaceQuaternion.normalize();
 
