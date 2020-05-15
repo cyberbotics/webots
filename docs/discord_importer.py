@@ -42,6 +42,9 @@ class MyClient(discord.Client):
                     print(message.attachments)
                     for attachment in message.attachments:
                         print([attachment.filename, filename.url])
+                    print(message.mentions)
+                    for mention in message.mentions:
+                        print([mention.name, mention.mention])
                     file.write('\n\n')
                 else:
                     print("Unsupported message type:" + str(message.type))
