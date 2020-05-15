@@ -2455,10 +2455,9 @@ void WbSolid::extractContactPoints() {
       const WbVector3 v(pos[0], pos[1], pos[2]);
       mGlobalListOfContactPoints.append(v);
       // stores the smallest y-coordinate of all contact points
-      const WbVector3 *const b = world->worldInfo()->gravityBasis();
-      const double gravityProjection = v.dot(b[Y]);
-      if (gravityProjection < mY)
-        mY = gravityProjection;
+      const double downProjection = v.dot(world->worldInfo()->upVector());
+      if (downProjection < mY)
+        mY = downProjection;
     }
   }
 
@@ -2489,18 +2488,13 @@ void WbSolid::extractImmersions() {
 // Computes the support polygon of the robot if needed
 const WbPolygon &WbSolid::supportPolygon() {
   const WbWorldInfo *const worldInfo = WbWorld::instance()->worldInfo();
-  if (worldInfo->gravity() == 0) {
-    mSupportPolygon.setActualSize(0);
-    return mSupportPolygon;
-  }
-
   if (!mSupportPolygonNeedsUpdate)
     return mSupportPolygon;
 
   extractContactPoints();
   const int numberOfContactPoints = mGlobalListOfContactPoints.size();
-  const WbVector3 *const b = worldInfo->gravityBasis();
-
+  const WbVector3 &eastVector = worldInfo->eastVector();
+  const WbVector3 &northVector = worldInfo->northVector();
   // Rules out 4 trivial cases
   if (numberOfContactPoints == 0) {
     mSupportPolygon.setActualSize(0);
@@ -2508,21 +2502,21 @@ const WbPolygon &WbSolid::supportPolygon() {
   }
 
   const WbVector3 &v0 = mGlobalListOfContactPoints[0];
-  mSupportPolygon[0].setXy(v0.dot(b[X]), v0.dot(b[Z]));
+  mSupportPolygon[0].setXy(v0.dot(northVector), v0.dot(eastVector));
   if (numberOfContactPoints == 1) {
     mSupportPolygon.setActualSize(1);
     return mSupportPolygon;
   }
 
   const WbVector3 &v1 = mGlobalListOfContactPoints[1];
-  mSupportPolygon[1].setXy(v1.dot(b[X]), v1.dot(b[Z]));
+  mSupportPolygon[1].setXy(v1.dot(northVector), v1.dot(eastVector));
   if (numberOfContactPoints == 2) {
     mSupportPolygon.setActualSize(2);
     return mSupportPolygon;
   }
 
   const WbVector3 &v2 = mGlobalListOfContactPoints[2];
-  mSupportPolygon[2].setXy(v2.dot(b[X]), v2.dot(b[Z]));
+  mSupportPolygon[2].setXy(v2.dot(northVector), v2.dot(eastVector));
   if (numberOfContactPoints == 3) {
     mSupportPolygon.setActualSize(3);
     return mSupportPolygon;
@@ -2530,10 +2524,10 @@ const WbPolygon &WbSolid::supportPolygon() {
 
   // From now on, the robot has at least 4 contact points
   QVector<WbVector2> listOfProjectedContactPoints(numberOfContactPoints);
-  // Projects contact points onto a plane orthogonal to the gravity direction
+  // Projects contact points onto a plane orthogonal to the down direction
   for (int i = 0; i < numberOfContactPoints; ++i) {
     const WbVector3 &v = mGlobalListOfContactPoints.at(i);
-    listOfProjectedContactPoints[i].setXy(v.dot(b[X]), v.dot(b[Z]));
+    listOfProjectedContactPoints[i].setXy(v.dot(northVector), v.dot(eastVector));
   }
 
   // Gets the indices of points in the convex hull of the projected contact points
@@ -2665,7 +2659,7 @@ void WbSolid::refreshSupportPolygonRepresentation() {
   c.toFloatArray(position);
   wr_transform_set_position(mGlobalCenterOfMassTransform, position);
   const WbWorldInfo *const worldInfo = WbWorld::instance()->worldInfo();
-  const WbVector3 *const b = worldInfo->gravityBasis();
+  const WbVector3 b[3] = {worldInfo->northVector(), worldInfo->upVector(), worldInfo->eastVector()};
   const WbPolygon &p = supportPolygon();
   mSupportPolygonRepresentation->draw(p, mY, c, b);
 }
@@ -2699,9 +2693,8 @@ unsigned char WbSolid::staticBalance() {
   const WbVector3 &c = computedGlobalCenterOfMass();
   const WbPolygon &p = supportPolygon();
   const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
-  const WbVector3 *const b = wi->gravityBasis();
-  const double globalComX = c.dot(b[X]);
-  const double globalComZ = c.dot(b[Z]);
+  const double globalComX = c.dot(wi->northVector());
+  const double globalComZ = c.dot(wi->eastVector());
   const bool stable = p.contains(globalComX, globalComZ);
   return stable;
 }

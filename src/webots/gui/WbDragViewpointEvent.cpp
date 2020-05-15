@@ -22,6 +22,8 @@
 
 #include <wren/camera.h>
 
+#include <QtCore/QDebug>
+
 // WbDragViewpointEvent constructor
 WbDragViewpointEvent::WbDragViewpointEvent(WbViewpoint *viewpoint) : WbDragKinematicsEvent(viewpoint) {
 }
@@ -64,9 +66,10 @@ WbRotateViewpointEvent::WbRotateViewpointEvent(const QPoint &initialMousePositio
   WbDragViewpointEvent(viewpoint),
   mPreviousMousePosition(initialMousePosition),
   mDelta(),
-  mWorldUpVector(-WbWorld::instance()->worldInfo()->gravityUnitVector()),
+  mWorldUpVector(WbWorld::instance()->worldInfo()->upVector()),
   mIsObjectPicked(objectPicked) {
   mViewpoint->lockRotationCenter();
+  qDebug() << mWorldUpVector.x() << mWorldUpVector.y() << mWorldUpVector.z();
 }
 
 WbRotateViewpointEvent::~WbRotateViewpointEvent() {

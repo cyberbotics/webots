@@ -45,7 +45,7 @@ WbDragTransformEvent::~WbDragTransformEvent() {
 WbTranslateEvent::WbTranslateEvent(WbViewpoint *viewpoint, WbAbstractTransform *selectedTransform) :
   WbDragTransformEvent(viewpoint, selectedTransform),
   mInitialPosition(selectedTransform->translation()),
-  mUpWorldVector(-WbWorld::instance()->worldInfo()->gravityUnitVector()),
+  mUpWorldVector(WbWorld::instance()->worldInfo()->upVector()),
   mMouseRay() {
   WbVector3 computedScaleFromParents = mSelectedTransform->absoluteScale();
   computedScaleFromParents /= mSelectedTransform->scale();
@@ -250,7 +250,7 @@ WbDragRotateAroundWorldVerticalAxisEvent::WbDragRotateAroundWorldVerticalAxisEve
   mInitialQuaternionRotation(selectedTransform->rotation().toQuaternion()),
   mPreviousAngle(0.0),
   mInitialMouseXPosition(initialMousePosition.x()),
-  mUpWorldVector(-WbWorld::instance()->worldInfo()->gravityUnitVector()) {
+  mUpWorldVector(WbWorld::instance()->worldInfo()->upVector()) {
   mViewpoint->lock();
 }
 

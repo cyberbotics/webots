@@ -28,14 +28,14 @@
 #include "WbReceiver.hpp"
 #include "WbSFNode.hpp"
 #include "WbSFVector3.hpp"
+#include "WbTokenizer.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
 
-void WbWorldInfo::init() {
+void WbWorldInfo::init(const WbVersion *version) {
   mInfo = findMFString("info");
   mTitle = findSFString("title");
   mWindow = findSFString("window");
-  mGravity = findSFDouble("gravity");
   mCfm = findSFDouble("CFM");
   mErp = findSFDouble("ERP");
   mPhysics = findSFString("physics");
@@ -47,7 +47,16 @@ void WbWorldInfo::init() {
   mPhysicsDisableAngularThreshold = findSFDouble("physicsDisableAngularThreshold");
   mDefaultDamping = findSFNode("defaultDamping");
   mInkEvaporation = findSFDouble("inkEvaporation");
+  mGravity = findSFVector3("gravity");
+  mNorthDirection = findSFVector3("northDirection");
+  mMagneticField = findSFVector3("magneticField");
   mCoordinateSystem = findSFString("coordinateSystem");
+  if (version && *version < WbVersion(2020, 1, 0, true)) {
+    mCoordinateSystem->setValue("NUE");               // default value for Webots < R2020b
+    if (mGravity->value() == WbVector3(0, 0, -9.81))  // default value
+      mGravity->setValue(0, -9.81, 0);
+    mMagneticField->setValue(mNorthDirection->value());  // renamed field
+  }
   mGpsCoordinateSystem = findSFString("gpsCoordinateSystem");
   mGpsReference = findSFVector3("gpsReference");
   mLineScale = findSFDouble("lineScale");
@@ -62,7 +71,7 @@ void WbWorldInfo::init() {
 }
 
 WbWorldInfo::WbWorldInfo(WbTokenizer *tokenizer) : WbBaseNode("WorldInfo", tokenizer) {
-  init();
+  init(&tokenizer->fileVersion());
 }
 
 WbWorldInfo::WbWorldInfo(const WbWorldInfo &other) : WbBaseNode(other) {
@@ -237,11 +246,8 @@ void WbWorldInfo::updateGravity() {
 }
 
 void WbWorldInfo::applyToOdeGravity() {
-  const double gravity = mGravity->value();
-  if (mCoordinateSystem->value() == "ENU")
-    WbOdeContext::instance()->setGravity(0, 0, -gravity);
-  else
-    WbOdeContext::instance()->setGravity(0, -gravity, 0);
+  const WbVector3 &gravity = mGravity->value();
+  WbOdeContext::instance()->setGravity(gravity.x(), gravity.y(), gravity.z());
   emit globalPhysicsPropertiesChanged();
 }
 
@@ -296,15 +302,18 @@ void WbWorldInfo::applyToOdeGlobalDamping() {
 
 // Computes an orthonormal basis whose 'yaw unit vector' is the opposite of the normalized gravity vector
 void WbWorldInfo::updateGravityBasis() {
+  mGravityUnitVector = gravity().normalized();
   if (mCoordinateSystem->value() == "ENU") {
-    mGravityVector.setXyz(0, 0, -mGravity->value());
-    mGravityUnitVector.setXyz(0, 0, -1);
+    mEastVector = WbVector3(1, 0, 0);
+    mNorthVector = WbVector3(0, 1, 0);
+    mUpVector = WbVector3(0, 0, 1);
     mGravityBasis[X].setXyz(0, 1, 0);
     mGravityBasis[Y].setXyz(0, 0, 1);
     mGravityBasis[Z].setXyz(1, 0, 0);
   } else {  // "NUE"
-    mGravityVector.setXyz(0, -mGravity->value(), 0);
-    mGravityUnitVector.setXyz(0, -1, 0);
+    mNorthVector = WbVector3(1, 0, 0);
+    mUpVector = WbVector3(0, 1, 0);
+    mEastVector = WbVector3(0, 0, 1);
     mGravityBasis[X].setXyz(1, 0, 0);
     mGravityBasis[Y].setXyz(0, 1, 0);
     mGravityBasis[Z].setXyz(0, 0, 1);

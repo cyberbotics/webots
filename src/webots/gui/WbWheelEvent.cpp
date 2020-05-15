@@ -35,7 +35,7 @@ WbWheelLiftSolidEvent::WbWheelLiftSolidEvent(WbViewpoint *viewpoint, WbSolid *se
   mSelectedSolid(selectedSolid),
   mInitialTranslation(selectedSolid->translation()) {
   mScaleFactor = WbWorld::instance()->worldInfo()->lineScale();
-  mUpWorldVector = -WbWorld::instance()->worldInfo()->gravityUnitVector();
+  mUpWorldVector = WbWorld::instance()->worldInfo()->upVector();
   mViewpoint->lock();
   mSelectedSolid->pausePhysics();
 }

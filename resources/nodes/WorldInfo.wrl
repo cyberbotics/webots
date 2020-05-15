@@ -5,7 +5,7 @@ WorldInfo {
   vrmlField   MFString                   info                           []
   vrmlField   SFString                   title                          ""
   field       SFString                   window                         ""
-  field       SFFloat                    gravity                        9.81       # along the down axis, expressed in m/s^2
+  field       SFVec3f                    gravity                        0 0 -9.81  # expressed in m/s^2
   field       SFFloat                    CFM                            0.00001    # ODE world constraint force mixing parameter
   field       SFFloat                    ERP                            0.2        # ODE world error reduction parameter
   field       SFString                   physics                        ""         # name of physics plugin
@@ -18,12 +18,14 @@ WorldInfo {
   field       SFNode                     defaultDamping                 NULL       # default damping properties
   field       SFFloat                    inkEvaporation                 0          # make ground textures evaporate to white
   field       SFString{"ENU", "NUE"}     coordinateSystem               "ENU"      # X -> East, Y -> North, Z -> Up
+  field       SFVec3f                    magneticField                  0 1 0      # Used by the compass devices
   field       SFString{"local", "WGS84"} gpsCoordinateSystem            "local"    # defines the world coordinate system (used by GPS node)
   field       SFVec3f                    gpsReference                   0 0 0      # defines the offset for each coordinate
   field       SFFloat                    lineScale                      0.1        # order of magnitude of the world in meters, used to display the optional rendering
   field       SFInt32                    randomSeed                     0          # defines the seed used internally by the random number generator
   field       MFNode                     contactProperties              []         # contact properties
 
-  # deprecated field
-  deprecatedField SFString fast2d                     ""        # name of fast2d simulation
+  # deprecated fields
+  deprecatedField SFVec3f                northDirection                 0 1 0      # Use magneticField instead
+  deprecatedField SFString               fast2d                         ""         # name of fast2d simulation
 }

@@ -188,7 +188,7 @@ void WbBox::updateScale() {
 void WbBox::checkFluidBoundingObjectOrientation() {
   const WbMatrix3 &m = upperTransform()->rotationMatrix();
   const WbVector3 &yAxis = m.column(1);
-  const WbVector3 &g = WbWorld::instance()->worldInfo()->gravityVector();
+  const WbVector3 &g = WbWorld::instance()->worldInfo()->gravity();
   const double alpha = yAxis.angle(-g);
 
   static const double BOX_THRESHOLD = M_PI_2;

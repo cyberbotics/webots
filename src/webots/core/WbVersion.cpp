@@ -17,13 +17,13 @@
 #include <QtCore/QObject>
 #include <QtCore/QRegExp>
 
-WbVersion::WbVersion(int major, int minor, int revision) :
+WbVersion::WbVersion(int major, int minor, int revision, bool webots) :
   mMajor(major),
   mMinor(minor),
   mRevision(revision),
   mCommit(""),
   mDate(""),
-  mIsWebots(false) {
+  mIsWebots(webots) {
 }
 
 WbVersion::WbVersion(const WbVersion &other) :
@@ -32,7 +32,7 @@ WbVersion::WbVersion(const WbVersion &other) :
   mRevision(other.mRevision),
   mCommit(other.mCommit),
   mDate(other.mDate),
-  mIsWebots(false) {
+  mIsWebots(other.mIsWebots) {
 }
 
 bool WbVersion::fromString(const QString &text, const QString &prefix, const QString &suffix, int expressionCountInPrefix) {

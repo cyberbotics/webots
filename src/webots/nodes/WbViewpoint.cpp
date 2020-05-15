@@ -54,6 +54,8 @@
 
 #include <QtCore/QVariantAnimation>
 
+#include <QtCore/QDebug>
+
 #define ANIMATION_DURATION 1000
 
 const double WbViewpoint::INCREASE_FACTOR = 1.1;
@@ -95,7 +97,7 @@ void WbViewpoint::init() {
   mFinalOrbitQuaternion = WbQuaternion();
   mLookAtInitialQuaternion = WbQuaternion();
   mLookAtFinalQuaternion = WbQuaternion();
-  mGravitySpaceQuaternion = WbQuaternion();
+  mSpaceQuaternion = WbQuaternion();
   mWrenCamera = NULL;
 
   mFieldOfView = findSFDouble("fieldOfView");
@@ -739,7 +741,7 @@ void WbViewpoint::updateFollowUp() {
   if (!mIsLocked) {
     int type = followStringToType(mFollowType->value());
     if (type == FOLLOW_PAN_AND_TILT)
-      lookAt(mFollowedSolid->position(), -WbWorld::instance()->worldInfo()->gravityUnitVector());
+      lookAt(mFollowedSolid->position(), WbWorld::instance()->worldInfo()->upVector());
     else if (type == FOLLOW_MOUNTED) {
       // Update Orientation
       WbMatrix3 solidRotation = mFollowedSolid->rotationMatrix() * mFollowedSolidReferenceRotation.transposed();
@@ -1288,20 +1290,12 @@ void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &t
   WbWorld::instance()->setModified();
 
   // first, we need to calculate the orientation of the world as this will be applied to all orbits
-  WbVector3 gravityUpVector = -WbWorld::instance()->worldInfo()->gravityUnitVector();
-  WbVector3 defaultUpVector = WbVector3(0, 1, 0);
-
-  // In the case of the gravity vector being the default create the identity quaternion
-  if (gravityUpVector.dot(defaultUpVector) > 0.9999)
-    mGravitySpaceQuaternion = WbQuaternion();
-  // The gravity vector is the opposite of the default, so our transform is a vertical flip
-  else if (gravityUpVector.dot(defaultUpVector) < -0.9999)
-    mGravitySpaceQuaternion = WbQuaternion(WbVector3(0, 0, 1), M_PI);
-  // otherwise we can safely get a rotation axis using the cross product of both vectors
-  else
-    mGravitySpaceQuaternion = WbQuaternion(defaultUpVector.cross(gravityUpVector), gravityUpVector.angle(defaultUpVector));
-
-  mGravitySpaceQuaternion.normalize();
+  const WbVector3 defaultUpVector = WbVector3(0, 1, 0);
+  const bool enu = WbWorld::instance()->worldInfo()->coordinateSystem() == "ENU";
+  const WbVector3 upVector = enu ? WbVector3(0, 0, 1) : WbVector3(0, 1, 0);
+  qDebug() << "upVector" << upVector.x() << upVector.y() << upVector.z();
+  mSpaceQuaternion = enu ? WbQuaternion(defaultUpVector.cross(upVector), upVector.angle(defaultUpVector)) : WbQuaternion();
+  mSpaceQuaternion.normalize();
 
   const WbNode *selectedNode = reinterpret_cast<WbNode *>(WbSelection::instance()->selectedNode());
   // for UX reasons, we want the default rotation height just above the floor,
@@ -1327,10 +1321,9 @@ void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &t
     mOrbitRadius = newOrbitRadius;
 
   mCenterToViewpointUnitVector = centerToViewpoint / mOrbitRadius;
-  mOrbitTargetUnitVector = mGravitySpaceQuaternion * targetUnitVector;
-  mInitialOrientationQuaternion =
-    mGravitySpaceQuaternion * WbQuaternion(mOrientation->value().axis(), mOrientation->value().angle());
-  mFinalOrientationQuaternion = mGravitySpaceQuaternion * WbQuaternion(targetRotation.axis(), targetRotation.angle());
+  mOrbitTargetUnitVector = mSpaceQuaternion * targetUnitVector;
+  mInitialOrientationQuaternion = mSpaceQuaternion * WbQuaternion(mOrientation->value().axis(), mOrientation->value().angle());
+  mFinalOrientationQuaternion = mSpaceQuaternion * WbQuaternion(targetRotation.axis(), targetRotation.angle());
   mInitialOrientationQuaternion.normalize();
   mFinalOrientationQuaternion.normalize();
 
@@ -1372,10 +1365,10 @@ void WbViewpoint::firstOrbitStep() {
   WbVector3 orbitAxis;
   // choose prefereable axes for axis-to-axis rotations
   if (mCenterToViewpointUnitVector.dot(mOrbitTargetUnitVector) < -0.99) {
-    if ((mGravitySpaceQuaternion.conjugated() * mOrbitTargetUnitVector).y() == 0.0)
-      orbitAxis = mGravitySpaceQuaternion * WbVector3(0, 1, 0);
+    if ((mSpaceQuaternion.conjugated() * mOrbitTargetUnitVector).y() == 0.0)
+      orbitAxis = mSpaceQuaternion * WbVector3(0, 1, 0);
     else
-      orbitAxis = mGravitySpaceQuaternion * WbVector3(0, 0, 1);
+      orbitAxis = mSpaceQuaternion * WbVector3(0, 0, 1);
   } else {
     orbitAxis = mOrbitTargetUnitVector.cross(mCenterToViewpointUnitVector).normalized();
   }

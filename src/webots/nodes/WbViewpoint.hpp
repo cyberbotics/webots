@@ -229,8 +229,8 @@ private:
   WbQuaternion mFinalOrbitQuaternion;
   double mOrbitRadius;
 
-  // used to ensure view animations correspond to gravity vector
-  WbQuaternion mGravitySpaceQuaternion;
+  // used to ensure view animations correspond to the world coordinate system
+  WbQuaternion mSpaceQuaternion;
 
   // Qt animations
   QVariantAnimation *mTranslateAnimation;

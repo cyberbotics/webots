@@ -146,7 +146,7 @@ bool WbAccelerometer::refreshSensorIfNeeded() {
 
 void WbAccelerometer::computeValue() {
   // set acceleration due to gravity
-  const WbVector3 &gravity = WbWorld::instance()->worldInfo()->gravityVector();
+  const WbVector3 &gravity = WbWorld::instance()->worldInfo()->gravity();
   WbVector3 acceleration(-gravity);
 
   // add other acceleration (computed from changes in velocity)

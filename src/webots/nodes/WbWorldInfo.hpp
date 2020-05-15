@@ -25,6 +25,7 @@
 class WbReceiver;
 class WbDamping;
 class WbContactProperties;
+class WbVersion;
 
 class WbWorldInfo : public WbBaseNode {
   Q_OBJECT
@@ -46,7 +47,7 @@ public:
   const WbMFString &info() const { return *mInfo; }
   const QString &title() const { return mTitle->value(); }
   const QString &window() const { return mWindow->value(); }
-  double gravity() const { return mGravity->value(); }
+  const WbVector3 &gravity() const { return mGravity->value(); }
   double cfm() const { return mCfm->value(); }
   double erp() const { return mErp->value(); }
   const QString &physics() const { return mPhysics->value(); }
@@ -72,7 +73,9 @@ public:
 
   // other accessors
 
-  const WbVector3 &gravityVector() const { return mGravityVector; }
+  const WbVector3 &eastVector() const { return mEastVector; }
+  const WbVector3 &northVector() const { return mNorthVector; }
+  const WbVector3 &upVector() const { return mUpVector; }
   // returns a unit vector with the direction and orientation of the gravity
   const WbVector3 &gravityUnitVector() const { return mGravityUnitVector; }
   // returns an orthonormal basis
@@ -96,13 +99,15 @@ private:
   WbWorldInfo &operator=(const WbWorldInfo &);  // non copyable
   WbNode *clone() const override { return new WbWorldInfo(*this); }
   void exportNodeFields(WbVrmlWriter &writer) const override;
-  void init();
+  void init(const WbVersion *version = NULL);
 
   // User accessible fields
   WbMFString *mInfo;
   WbSFString *mTitle;
   WbSFString *mWindow;
-  WbSFDouble *mGravity;
+  WbSFVector3 *mGravity;
+  WbSFVector3 *mMagneticField;
+  WbSFVector3 *mNorthDirection;  // deprecated in R2020b (replace by magneticField)
   WbSFDouble *mCfm;
   WbSFDouble *mErp;
   WbSFString *mPhysics;
@@ -125,8 +130,10 @@ private:
   WbReceiver *mPhysicsReceiver;
 
   // Gravity variables
+  WbVector3 mEastVector;
+  WbVector3 mNorthVector;
+  WbVector3 mUpVector;
   WbVector3 mGravityUnitVector;
-  WbVector3 mGravityVector;
   WbVector3 mGravityBasis[3];  // An orthonormal basis (b[X], b[Y] = -gravity().normalized(), b[Z])
 
   // Apply methods

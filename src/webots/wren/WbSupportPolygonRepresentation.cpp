@@ -115,7 +115,7 @@ static void addVertex(WrDynamicMesh *mesh, int index, float x, float y, float z)
 }
 
 void WbSupportPolygonRepresentation::draw(const WbPolygon &p, float y, const WbVector3 &globalCenterOfMass,
-                                          const WbVector3 *gravityBasis) {
+                                          const WbVector3 *worldBasis) {
   const int size = p.actualSize();
 
   wr_dynamic_mesh_clear(mPolygonMesh);
@@ -128,8 +128,8 @@ void WbSupportPolygonRepresentation::draw(const WbPolygon &p, float y, const WbV
   }
   show(true);
 
-  const double globalComX = globalCenterOfMass.dot(gravityBasis[X]);
-  const double globalComZ = globalCenterOfMass.dot(gravityBasis[Z]);
+  const double globalComX = globalCenterOfMass.dot(worldBasis[X]);
+  const double globalComZ = globalCenterOfMass.dot(worldBasis[Z]);
   const bool stable = p.contains(globalComX, globalComZ);
 
   // Set materials
@@ -152,7 +152,7 @@ void WbSupportPolygonRepresentation::draw(const WbPolygon &p, float y, const WbV
   }
 
   // Set orientations
-  WbRotation rotation(gravityBasis[X], gravityBasis[Y], gravityBasis[Z]);
+  WbRotation rotation(worldBasis[X], worldBasis[Y], worldBasis[Z]);
   rotation.normalize();
   float orientation[4];
   rotation.toFloatArray(orientation);
