@@ -20,36 +20,39 @@ import sys
 
 channels = [
     'news',
-    #'technical-questions',
-    #'development',
-    #'documentation'
+    'technical-questions',
+    'development',
+    'documentation'
 ]
 
 
 class MyClient(discord.Client):
+    async def export_channel(self, channel):
+        with open('discord_' + channel.name + '.md', 'w') as file:
+            file.write('# %s\n\n' % channel.name.title())
+            file.write('This is an archive of the `%s` channel of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n' % channel.name)
+            async for message in channel.history(limit=20):
+                if message.type == discord.MessageType.default and message.content:
+                    file.write('### ' + message.author.name + ' ' + message.created_at.strftime("%m/%d/%Y %H:%M:%S") + '\n')
+                    file.write(message.content)
+                    file.write('\n\n')
+                else:
+                    print("Unsupported message type:" + str(message.type))
+                    print("\tContent:" + str(message.content))
+
     async def on_ready(self):
-        print(self.cached_messages)
-        print(len(self.cached_messages))
-        for message in self.cached_messages:
-            print(message)
-        print(self.get_all_channels())
-        for channel in self.get_all_channels():
-            print(channel)
-            if type(channel) == discord.channel.TextChannel and channel.name in channels:
-                with open(channel.name + '.md', 'w') as file:  # TODO: slugify
-                    async for message in channel.history(limit=20):
-                        if message.type == discord.MessageType.default and message.content:
-                            file.write('### ' + message.author.name + ' ' + message.created_at.strftime("%m/%d/%Y %H:%M:%S") + '\n')
-                            file.write(message.content)
-                            file.write('\n\n')
-                            print([message.author.name, message.content, message.created_at, message.jump_url])
-                        else:
-                            print("Unsupported message type:" + str(message.type))
-        await self.close()
+        with open('discord.md', 'w') as file:
+            file.write('# Discord Archives\n')
+            file.write('These are archives of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n')
+            for channel in self.get_all_channels():
+                if type(channel) == discord.channel.TextChannel and channel.name in channels:
+                    file.write('- [%s](%s)\n' % (channel.name.title(), 'discord_' + channel.name + '.md'))
+                    await self.export_channel(channel)
+            await self.close()
 
     async def on_message(self, message):
         print('Message from {0.author}: {0.content}'.format(message))
 
 
 client = MyClient()
-client.run('MY_KEY')
+client.run('NjY2NTQ5NTczNjgyMDY5NTQ1.Xr5-8A.WE85Ap174W6VdzbQX_kf8gzSDC8')
