@@ -238,6 +238,8 @@ private slots:
   void setShowBoundingSphereAction(bool show);
   void setSelectionDisabled(bool disabled);
   void setViewPointLocked(bool locked);
+  void disableObjectMove(bool disabled);
+  void disableApplyForceAndTorque(bool disabled);
   void updateMousesPosition(bool fromMouseClick = false, bool fromMouseMove = false);
 
   void cleanWorld() { mWorld = NULL; }

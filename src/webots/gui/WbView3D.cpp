@@ -156,6 +156,9 @@ WbView3D::WbView3D() :
   connect(actionManager->action(WbActionManager::DISABLE_SELECTION), &QAction::triggered, this,
           &WbView3D::setSelectionDisabled);
   connect(actionManager->action(WbActionManager::LOCK_VIEWPOINT), &QAction::triggered, this, &WbView3D::setViewPointLocked);
+  connect(actionManager->action(WbActionManager::DISABLE_OBJECT_MOVE), &QAction::triggered, this, &WbView3D::disableObjectMode);
+  connect(actionManager->action(WbActionManager::DISABLE_FORCE_AND_TORQUE), &QAction::triggered, this,
+          &WbView3D::disableApplyForceAndTorque);
   // optional renderings
   connect(actionManager->action(WbActionManager::COORDINATE_SYSTEM), &QAction::toggled, this,
           &WbView3D::setShowCoordinateSystem);
@@ -830,6 +833,18 @@ void WbView3D::setViewPointLocked(bool locked) {
   mViewpointLocked = locked;
   if (mWorld)
     mWorld->perspective()->setViewpointLocked(locked);
+}
+
+void WbView3D::disabledObjectMode(bool disabled) {
+  mObjectMoveDisabled = disabled;
+  if (mWorld)
+    mWorld->perspective()->disableObjectMode(disabled);
+}
+
+void WbView3D::disableApplyForceAndTorque(bool disabled) {
+  mForceAndTorqueeDisabled = disabled;
+  if (mWorld)
+    mWorld->perspective()->disableForceAndTorque(disabled);
 }
 
 void WbView3D::updateMousesPosition(bool fromMouseClick, bool fromMouseMove) {
