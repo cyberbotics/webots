@@ -39,7 +39,7 @@ class MyClient(discord.Client):
             file.write(u'This is an archive of the `%s` channel of the ' % channel.name +
                        '[Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n')
             previousMessageUser = None
-            async for message in channel.history(limit=100):
+            async for message in channel.history(limit=None):
                 if message.type == discord.MessageType.default and message.content:
                     # statistics
                     if message.author.name not in contributors:
@@ -54,13 +54,13 @@ class MyClient(discord.Client):
                     if previousMessageUser != message.author:
                         previousMessageUser = message.author
                         roles = []
-                        for role in message.author.roles:
-                            if role.name != '@everyone':
-                                roles.append(role.name)
-                        roleString = roleString = '[%s] ' % '-'.join(roles) if roles else ''
+                        if hasattr(message.author, 'roles'):
+                            for role in message.author.roles:
+                                if role.name != '@everyone':
+                                    roles.append(role.name)
                         file.write(u'##### %s %s%s\n' %
                                    (message.author.name,
-                                    roleString,
+                                    '[%s] ' % '-'.join(roles) if roles else '',
                                     message.created_at.strftime("%m/%d/%Y %H:%M:%S")))
                     else:
                         file.write('\n')
