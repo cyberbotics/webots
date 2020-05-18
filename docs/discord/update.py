@@ -70,6 +70,8 @@ class MyClient(discord.Client):
                     for line in message.content.splitlines():
                         if '```' in line:
                             inCode = not inCode
+                            if line.count('```') == 2:
+                                line = line[:-3] + '\n```'
                         if not inCode:
                             # remove problematic parts
                             line = line.replace('<i>', '`<i>`')
