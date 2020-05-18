@@ -171,6 +171,7 @@ If you want to use the C++ API follow these instructions:
     - In `Property Pages`, in the `Configuration Properties`, add the path to Webots
       .hpp files:
 
+          
           C/C++ > General > Additional Include Directories:
             C:\Program Files\Webots\include\controller\c
             C:\Program Files\Webots\include\controller\cpp
