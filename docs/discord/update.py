@@ -50,7 +50,15 @@ class MyClient(discord.Client):
                         year = message.created_at.year
                         file.write(u'## %d\n\n' % year)
                     # author + date header
-                    file.write(u'##### ' + message.author.name + ' ' + message.created_at.strftime("%m/%d/%Y %H:%M:%S") + '\n')
+                    roles = []
+                    for role in message.author.roles:
+                        if role.name != '@everyone':
+                            roles.append(role.name)
+                    roleString = roleString = '[%s] ' % '-'.join(roles) if roles else ''
+                    file.write(u'##### %s %s%s\n' %
+                               (message.author.name,
+                                roleString,
+                                message.created_at.strftime("%m/%d/%Y %H:%M:%S")))
                     content = ''
                     # read message line by line
                     for line in message.content.splitlines():
