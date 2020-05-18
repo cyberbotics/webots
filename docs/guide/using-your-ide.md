@@ -168,7 +168,7 @@ In the `Property Pages`, in the `Configuration Properties`, enter following conf
 5. If you want to use the C API, you should skip step 5 and go directly to step 6.
 If you want to use the C++ API follow these instructions:
 
-   - In `Property Pages`, in the `Configuration Properties`, add the path to Webots
+    In `Property Pages`, in the `Configuration Properties`, add the path to Webots
       .hpp files:
 
           
