@@ -47,7 +47,7 @@ class TestTitles(unittest.TestCase):
         for book in books.books:
 
             # we are not responsible of the content of the discord chats
-            if book.name() == 'discord':
+            if book.name == 'discord':
                 continue
 
             for md_path in book.md_paths:
