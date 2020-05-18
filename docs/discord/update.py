@@ -28,7 +28,7 @@ channels = [
 class MyClient(discord.Client):
     async def export_channel(self, channel):
         year = None
-        with open('reference/discord_' + channel.name + '.md', 'w') as file:
+        with open(channel.name + '.md', 'w') as file:
             file.write('# %s\n\n' % channel.name.title())
             file.write('This is an archive of the `%s` channel of the ' % channel.name +
                        '[Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n')
@@ -67,13 +67,20 @@ class MyClient(discord.Client):
                     print("\tContent:" + str(message.content))
 
     async def on_ready(self):
-        with open('reference/discord.md', 'w') as file:
-            file.write('# Discord Archives\n')
-            file.write('These are archives of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n')
-            for channel in self.get_all_channels():
-                if type(channel) == discord.channel.TextChannel and channel.name in channels:
-                    file.write('- [%s](%s)\n' % (channel.name.title(), 'discord_' + channel.name + '.md'))
-                    await self.export_channel(channel)
+        with open('index.md', 'w') as file:
+            file.write('# Webots Discord Archives\n\n')
+            file.write('Release {{ webots.version.full }}\n\n')
+            file.write('%figure\n')
+            file.write('![Discord](images/discord.jpg)\n')
+            file.write('%end\n\n')
+            file.write('Copyright &copy; {{ date.year }} Cyberbotics Ltd.\n\n')
+            file.write('These are archives of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m):\n')
+            with open('discord/index.md', 'w') as menuFile:
+                for channel in self.get_all_channels():
+                    if type(channel) == discord.channel.TextChannel and channel.name in channels:
+                        file.write('- [%s](%s)\n' % (channel.name.title(), channel.name + '.md'))
+                        menuFile.write('- [%s](%s)\n' % (channel.name.title(), channel.name + '.md'))
+                        await self.export_channel(channel)
             await self.close()
 
     async def on_message(self, message):

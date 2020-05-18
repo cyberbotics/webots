@@ -4,6 +4,14 @@ This is an archive of the `technical-questions` channel of the [Webots Discord s
 
 ## 2020
 
+##### elkelkmuh 05/18/2020 07:39:13
+`@David Mansolino`  How should I determine the wait between movements?Are there sample gait codes?
+
+##### taeyoung 05/18/2020 07:06:57
+Hi, I'm testing the use of sliderjoint in webots with differnet values for the timesteps (basictimestep and wb_robot_step).
+In my simulation the speed is send to the robot controller every 50ms.  I set my basictimestep to 10ms and wb_robot_step to 10ms. It works fine.
+But when I test my simulation with basictimestep 10ms and wb_robot_step 50ms, the slider moves outside(less than minstop), the range i set for it [0,0.15]([minstop,maxstop])
+
 ##### David Mansolino 05/18/2020 06:58:48
 Yes you should controler the motor directly like this indeed.
 
@@ -124,12 +132,4 @@ I've added the "contactProperties" inside the "WorldInfo" tag in the world file,
 ```
 
 Why the bottom wheels are not making the robot move?
-
-##### Conor 05/18/2020 00:01:13
-`@AyresAlmada` I know you can use GPS but I'm not entirely sure how I would translate the GPS into an X,Y position that can then go into a 2d array
-
-##### Conor 05/18/2020 00:00:35
-> hi there. if i use the supervisor to track the position of a robot. is it possible to send the position information to another controller?
-
-`@AyresAlmada` Did you ever find if this was possible? At least getting the robots position?
 

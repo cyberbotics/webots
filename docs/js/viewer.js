@@ -417,6 +417,8 @@ function applyToTitleDiv() {
       newTitle = 'Webots Reference Manual';
     else if (localSetup.book === 'blog')
       newTitle = 'Webots Blog';
+    else if (localSetup.book === 'discord')
+      newTitle = 'Webots Discord Archives';
     else if (localSetup.book === 'automobile')
       newTitle = 'Webots for automobiles';
     else
