@@ -38,13 +38,15 @@ class MyClient(discord.Client):
                         year = message.created_at.year
                         file.write('## %d\n\n' % year)
                     file.write('##### ' + message.author.name + ' ' + message.created_at.strftime("%m/%d/%Y %H:%M:%S") + '\n')
-                    file.write(message.content)
-                    print(message.attachments)
-                    for attachment in message.attachments:
-                        print([attachment.filename, attachment.url])
-                    print(message.mentions)
+                    content = message.content
+                    # print(message.attachments)
+                    # for attachment in message.attachments:
+                    #     print([attachment.filename, attachment.url])
                     for mention in message.mentions:
-                        print([mention.name, mention.mention])
+                        alternativeMention = mention.mention.replace('<@', '<@!')
+                        content = content.replace(alternativeMention, '`@' + mention.name + '`')
+                        content = content.replace(mention.mention, '`@' + mention.name + '`')
+                    file.write(content)
                     file.write('\n\n')
                 else:
                     print("Unsupported message type:" + str(message.type))

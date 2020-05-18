@@ -53,13 +53,13 @@ OpenDR / Thessaloniki
 ## 2019
 
 ##### Olivier Michel 12/20/2019 16:46:04
-<@!630328767776030742> Thank you for the feedback! Merry Christmas!
+`@machinekoder` Thank you for the feedback! Merry Christmas!
 
 ##### machinekoder 12/20/2019 16:45:23
 And merry X-mas 🎄
 
 ##### machinekoder 12/20/2019 16:44:59
-<@!463702976058490893> Debian repo is fixed👍  Thanks.
+`@Olivier Michel` Debian repo is fixed👍  Thanks.
 
 ##### David Mansolino 12/20/2019 15:49:25
 Thank you, you too!

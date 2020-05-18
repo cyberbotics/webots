@@ -5,20 +5,20 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 ## 2020
 
 ##### David Mansolino 05/15/2020 04:57:11
-<@!697782651435745391> the controller of the drone is very simple, it doesn't do any feedback using the GPS position or any inertial unit, it might therefore easily drift.
+`@Sanket Khadse` the controller of the drone is very simple, it doesn't do any feedback using the GPS position or any inertial unit, it might therefore easily drift.
 
 ##### David Mansolino 05/15/2020 04:55:43
-<@!691500051750453268> you want to get the type of distance sensor? If so you should use the ``getType`` function: https://cyberbotics.com/doc/reference/distancesensor?tab-language=python#wb_distance_sensor_get_type
+`@Jesusmd` you want to get the type of distance sensor? If so you should use the ``getType`` function: https://cyberbotics.com/doc/reference/distancesensor?tab-language=python#wb_distance_sensor_get_type
 
 ##### Sanket Khadse 05/15/2020 03:02:49
 Hey, may I know, why does a drone, (let it be DJI Mavic 2 Pro, which is already available into Webots, or a custom made) moves up and down and shifts constantly in one direction even if no such behaviour is defined in the controller code?
 
 ##### Jesusmd 05/15/2020 01:49:44
-<@!564827142345588737> Hi, I am using python, I would like to work with several distance sensors at the same time and comparing their data in console. But instead of obtain the type, I got a number.
+`@David Mansolino` Hi, I am using python, I would like to work with several distance sensors at the same time and comparing their data in console. But instead of obtain the type, I got a number.
 
 ##### Luftwaffel 05/14/2020 12:48:46
-> <@!239507682111913984> Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
-<@!206069036121849857> 
+> `@Luftwaffel` Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
+`@Axel M` 
 
 Awesome, thank you so much. That makes things easier
 
@@ -29,16 +29,16 @@ The integration with ROS is super easy too with http://wiki.ros.org/eigen_conver
 Regarding your example of getting relative position between two nodes, that can be easily achieved with Eigen in cpp (3x3 Matrix -> Quaternion, quaternion / vector product)
 
 ##### Axel M 05/14/2020 09:08:34
-<@!239507682111913984> Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
+`@Luftwaffel` Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
 
 ##### David Mansolino 05/14/2020 05:34:23
-<@!239507682111913984> instead of relying on ROS, if you are using Python you ca probably use the `transforms3d` python package which allows for example to convert from a rotation matrix to quaternions: https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat
+`@Luftwaffel` instead of relying on ROS, if you are using Python you ca probably use the `transforms3d` python package which allows for example to convert from a rotation matrix to quaternions: https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat
 
 ##### Luftwaffel 05/13/2020 18:04:16
-<@!697782651435745391>  perhaps direct .proto file edit can help
+`@Sanket Khadse`  perhaps direct .proto file edit can help
 
 ##### Sanket Khadse 05/13/2020 17:11:36
-<@239507682111913984> that is what my problem is about. The nodes I have to copy paste one by one are in "hundreds".
+`@Luftwaffel` that is what my problem is about. The nodes I have to copy paste one by one are in "hundreds".
 
 ##### Luftwaffel 05/13/2020 16:47:12
 Perhaps add a 'Group' base node, put all your nodes in, and copy paste that

@@ -8,13 +8,13 @@ This is an archive of the `documentation` channel of the [Webots Discord server]
 Thank you. We will review it soon.
 
 ##### Luftwaffel 05/13/2020 15:55:41
-<@!463702976058490893>  thank you so much <3. I created a pull request
+`@Olivier Michel`  thank you so much <3. I created a pull request
 
 ##### Olivier Michel 05/13/2020 15:54:00
 You have to click the "Create pull request" button.
 
 ##### Olivier Michel 05/13/2020 15:53:33
-<@!239507682111913984>: It's here https://github.com/cyberbotics/webots/compare/master...Simon-Steinmann:patch-1
+`@Luftwaffel`: It's here https://github.com/cyberbotics/webots/compare/master...Simon-Steinmann:patch-1
 
 ##### David Mansolino 05/13/2020 15:40:17
 Thank you, I will check and let you know
@@ -33,7 +33,7 @@ great 😩
 
 ##### David Mansolino 05/13/2020 15:26:56
 > I can't find my commit
-<@!239507682111913984> me neither
+`@Luftwaffel` me neither
 
 ##### David Mansolino 05/13/2020 15:26:46
 Did you fork the repo?
@@ -45,7 +45,7 @@ I can't find my commit
 Ok perfect, can you then open a pull-request from the branch where you did the commit so that we can review and merge it?
 
 ##### Luftwaffel 05/13/2020 15:22:20
-<@!564827142345588737>  I made a commit here https://github.com/cyberbotics/webots/edit/master/docs/reference/supervisor.md
+`@David Mansolino`  I made a commit here https://github.com/cyberbotics/webots/edit/master/docs/reference/supervisor.md
 
 ##### David Mansolino 05/13/2020 15:07:12
 For doc correction you can target master directly
