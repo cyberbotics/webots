@@ -4,6 +4,9 @@ This is an archive of the `technical-questions` channel of the [Webots Discord s
 
 ## 2020
 
+##### brianne.byer 05/18/2020 08:36:53
+`@David Mansolino` thank you so much!
+
 ##### elkelkmuh 05/18/2020 07:39:13
 `@David Mansolino`  How should I determine the wait between movements?Are there sample gait codes?
 
@@ -437,7 +440,4 @@ You're welcome, good luck!
 
 ##### yash 05/13/2020 12:28:13
 Okay , let me have a check again , thank you 👍
-
-##### David Mansolino 05/13/2020 12:27:39
-Probably yes, but I am not an expert in friction.
 

@@ -25,6 +25,8 @@ channels = [
     'documentation'
 ]
 
+contributors = {}
+
 
 class MyClient(discord.Client):
     async def export_channel(self, channel):
@@ -35,9 +37,16 @@ class MyClient(discord.Client):
                        '[Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n')
             async for message in channel.history(limit=100):
                 if message.type == discord.MessageType.default and message.content:
+                    # statistics
+                    if message.author.name not in contributors:
+                        contributors[message.author.name] = 0
+                    else:
+                        contributors[message.author.name] += 1
+                    # yearly section
                     if year is None or year != message.created_at.year:
                         year = message.created_at.year
                         file.write('## %d\n\n' % year)
+                    # author + date header
                     file.write('##### ' + message.author.name + ' ' + message.created_at.strftime("%m/%d/%Y %H:%M:%S") + '\n')
                     content = ''
                     # read message line by line
@@ -61,11 +70,11 @@ class MyClient(discord.Client):
                             file.write('![%s](%s)\n' % (attachment.filename, attachment.url))
                             file.write('%end\n')
                         else:
-                            print("Unsupported attachment file:" + attachment.filename)
+                            print("\033[33mUnsupported attachment file:" + attachment.filename + '\033[0m')
                     file.write('\n\n')
                 else:
-                    print("Unsupported message type:" + str(message.type))
-                    print("\tContent:" + str(message.content))
+                    print("\033[33mUnsupported message type:" + str(message.type) + '\033[0m')
+                    print("\033[33m\tContent:" + str(message.content) + '\033[0m')
 
     async def on_ready(self):
         with open('index.md', 'w') as file:
@@ -96,3 +105,10 @@ client = MyClient()
 if args.channels is not None:
     channels = args.channels
 client.run(args.token)
+
+# display statistics
+contributors = sorted(contributors.items(), key=lambda kv: kv[1])
+contributors.reverse()
+print('Top 10 contributors:')
+for contributor in contributors[0:20]:
+    print('  - %s (%d)' % contributor)
