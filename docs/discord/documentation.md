@@ -13,6 +13,7 @@ Thank you. We will review it soon.
 ##### Olivier Michel [cyberbotics] 05/13/2020 15:54:00
 You have to click the "Create pull request" button.
 
+
 `@Luftwaffel`: It's here [https://github.com/cyberbotics/webots/compare/master...Simon-Steinmann:patch-1](https://github.com/cyberbotics/webots/compare/master...Simon-Steinmann:patch-1)
 
 ##### David Mansolino [cyberbotics] 05/13/2020 15:40:17
@@ -27,12 +28,14 @@ Let me check if I can find a stale branch, by the way what is your Github userna
 ##### Luftwaffel 05/13/2020 15:34:08
 I submitted it April 30th, any way to check all activity? perhaps I submited it to a weird branch. Not that familiar with github
 
+
 great 😩
 
 ##### David Mansolino [cyberbotics] 05/13/2020 15:26:56
 > I can't find my commit
 
 `@Luftwaffel` me neither
+
 
 Did you fork the repo?
 
@@ -86,6 +89,7 @@ Python
 ##### David Mansolino [cyberbotics] 05/13/2020 08:05:04
 which language are you using?
 
+
 let me check
 
 ##### İchigogo 05/13/2020 08:00:17
@@ -104,6 +108,7 @@ Hi `@chaytanya`, please send an introductory e-mail to support@cyberbotics.com a
 ##### chaytanya 05/12/2020 22:12:24
 I am interested in How-to Guides for Webots and How-to Guides for robotbenchmark projects to contribute
 
+
 Hello everyone,My name is Chaytanya Sinha,I am an engineering student experienced in c/c++,javascript,nodejs,reactjs,html,css,python and kotlin. I am interested in contributing to webots's documentation.I have been following webots since long. I have experience of documentation as I am working on documentation of webpack v5. Please guide me how to proceed towards documentation of webots
 
 ##### David Mansolino [cyberbotics] 05/12/2020 09:04:01
@@ -118,10 +123,12 @@ That would indeed be something very useful, if you want to contribute you are ve
 ##### mgautam 05/12/2020 09:01:08
 If it is needed.
 
+
 Thanks for fast reply. I was thinking to set up a continuous documentation pipeline for it using sphinx.
 
 ##### David Mansolino [cyberbotics] 05/12/2020 08:59:30
 Let us know if you have any specific question
+
 
 Hi, the documentation is directly in the README file: [https://github.com/cyberbotics/urdf2webots/blob/master/README.md](https://github.com/cyberbotics/urdf2webots/blob/master/README.md)
 
@@ -137,6 +144,7 @@ You're welcome
 ##### David Mansolino [cyberbotics] 05/07/2020 04:54:17
 The you have to select the arm and in the 'Position' tab of the field editor (on the bottom of the scene-tree) you can see the position relative to the robot.
 
+
 Hi `@davisUndergrad`, it is located at '0.156 0 0' from the robot origin. To see it you have to convert the robot node to base node (right click on the youbot in the scene tree, and press 'Convert to Base Node(s)'.
 
 ##### davisUndergrad 05/06/2020 17:21:50
@@ -148,6 +156,7 @@ Oh I understand now thank you so much
 
 ##### Olivier Michel [cyberbotics] 05/01/2020 16:53:42
 which corresponds to 60°
+
 
 Then you should set the aperture field value to 1.0472 rad.
 
@@ -165,6 +174,7 @@ In particular for feature request:
 ##### Luftwaffel 04/30/2020 10:40:04
 do you have something like a trello?
 
+
 where would I propose that?
 
 ##### Olivier Michel [cyberbotics] 04/30/2020 10:37:09
@@ -179,9 +189,12 @@ Yes, that seems to be a good idea.
 ##### Luftwaffel 04/30/2020 10:34:52
 most commonly used in ROS and any 3D application. would really be helpfull
 
+
 perhaps add get_orientation_quaternion while you're at it 😉
 
+
 get_orientation_matrix
+
 
 perhaps adding a function? Would be the non destructive way
 
@@ -191,6 +204,7 @@ Yes, we may consider changing it on the develop branch.
 ##### Luftwaffel 04/30/2020 10:26:50
 but I guess changing that would break existing code
 
+
 oh btw, it's kinda weird that get_orientation returns a 1x9 list, instead of 3x3
 
 ##### Olivier Michel [cyberbotics] 04/30/2020 10:25:15
@@ -198,6 +212,7 @@ OK, looking forward to review it.
 
 ##### Luftwaffel 04/30/2020 10:24:56
 solved it differently
+
 
 added it
 
@@ -210,12 +225,15 @@ I think I got it 🙂
 ##### Olivier Michel [cyberbotics] 04/30/2020 10:18:13
 Something like the **Reminder** and **Tips** here: [https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot#sensors](https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot#sensors) ?
 
+
 Yes, that seems to be a good idea. Let me search how to do that...
 
 ##### Luftwaffel 04/30/2020 10:15:29
 a 'expandable box' would be great, no idea how to implement that
 
+
 in what way should I insert the code? Linked, directly in the description, or in a different way??
+
 
 Okay will do. Feel free to change or edit it btw.
 
@@ -225,20 +243,27 @@ That is great. Could you create a PR to add this contribution to the doc? [https
 ##### Luftwaffel 04/30/2020 10:03:40
 [https://pastebin.com/k7kf4Ez5](https://pastebin.com/k7kf4Ez5)
 
+
 Okay so I finally got it working to quickly and easily calculate any position and orientation of a node relative to any other node. This should be added to the supervisor get_position and get_orientation documentation
 
 ##### Olivier Michel [cyberbotics] 04/21/2020 16:04:21
 From the Help menu.
 
+
 Meanwhile, you can revert to the doc embedded inside Webots.
+
 
 And since the doc uses that...
 
+
 This URL doesn't load for me: [https://github.com/cyberbotics/webots/blob/master/docs/reference/propeller.md](https://github.com/cyberbotics/webots/blob/master/docs/reference/propeller.md)
+
 
 Actually the problem is on github...
 
+
 Well, it is very slow, but works for me...
+
 
 Yes, that's right. Thank you for reporting...
 
@@ -279,7 +304,9 @@ Thank you.
 ##### ClBaze 04/16/2020 12:51:05
 `[ros] [ERROR] [1587023118.216799425, 4.456000000]: client wants service /tile_35_4366_pc047/supervisor/get_from_def to have md5sum ac26007a2c83bd1b38318cda0f4ce627, but it has 3f818aa8f7c2c60588c99f7ee189c5bd. Dropping connection.`
 
+
 It seems that the checksum of the get_from_def message has changed
+
 
 I haven't tested, but it works with the Webots R2020a revision1 .deb
 
@@ -288,6 +315,7 @@ Hi `@ClBaze` is it working on the master branch ?
 
 ##### ClBaze 04/16/2020 12:42:18
 (oops this probably belongs to the development channel)
+
 
 Hello, I'm using Webots from the develop branch, I've noticed that the ROS service supervisor_get_from_def doesn't work anymore
 

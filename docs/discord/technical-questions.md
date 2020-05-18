@@ -4,6 +4,9 @@ This is an archive of the `technical-questions` channel of the [Webots Discord s
 
 ## 2020
 
+##### yash 05/18/2020 13:24:21
+On what basis should I select whether to use controller or supervisor programming? for ex=position of a robot can be obtained through both controller as well as supervisor programming. So which to choose to programme the robot?
+
 ##### taeyoung 05/18/2020 11:29:25
 It doesn't work...
 
@@ -19,7 +22,9 @@ It doesn't work...
 
 `@taeyoung` have you tried using the min/maxPosition instead?
 
+
 `@Rodeknopje` in that case you should use the `Robot.getInertialUnit` method ([https://cyberbotics.com/doc/reference/robot?tab-language=python#wb\_robot\_get\_device).](https://cyberbotics.com/doc/reference/robot?tab-language=python#wb_robot_get_device).)
+
 
 > `@David Mansolino`  How should I determine the wait between movements?Are there sample gait codes?
 
@@ -30,6 +35,7 @@ im using python
 
 ##### David Mansolino [cyberbotics] 05/18/2020 08:49:17
 `@brianne.byer` you're welcome!
+
 
 > which method do i have to call to get acces to my inertial unit?
 
@@ -86,6 +92,7 @@ and error message but simulation is working !
 %end
 
 
+
 Good morning `@David Mansolino`;
 
 I was going to create an issue in Github, but since I need to upload pictures, I am writing here.
@@ -98,6 +105,7 @@ I'm using Linux Debian9 - Pardus 17.5
 
 ##### David Mansolino [cyberbotics] 05/18/2020 06:30:55
 `@dralorg` this might be due to the fact that the center of mass of the robot is not centered but rather to the front.
+
 
 > Does any of the example use pure pursuit path follow algorithm by any chance?
 
@@ -114,6 +122,7 @@ Unfortunately none of them is using pure pursuit.
 
 `@Jatin Sharma` hi, in webots you don't need to implement PWM, you can directly control the motors in speed or position, I would recommend to follow our tutorials (available in Python) to get familiar with controller programming in Webots: [https://cyberbotics.com/doc/guide/tutorial-1-your-first-simulation-in-webots?tab-language=python](https://cyberbotics.com/doc/guide/tutorial-1-your-first-simulation-in-webots?tab-language=python)
 
+
 > On webots i see that the object recognition is giving. X as Z, Y as Y and Z as -X. on webots does rotation match the orientations..
 
 `@Mathie20` Yes the orientations match the 'rotation' field.
@@ -127,6 +136,7 @@ Hi, we are trying to simulate a simple robot in Webot with two rear driving whee
 
 `@brianne.byer` sure, here is an example: [https://github.com/cyberbotics/webots/blob/master/projects/robots/kuka/youbot/libraries/youbot\_control/src/base.c](https://github.com/cyberbotics/webots/blob/master/projects/robots/kuka/youbot/libraries/youbot_control/src/base.c)
 About the HingeJoint, you can indeed add them directly in the body slot as you would do with a regular chidren field (if not already done I would suggest to read this tutorial: [https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot)](https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot))
+
 
 > hi there. if i use the supervisor to track the position of a robot. is it possible to send the position information to another controller?
 
@@ -171,9 +181,11 @@ Why the bottom wheels are not making the robot move?
 ##### Conor 05/18/2020 00:01:13
 `@AyresAlmada` I know you can use GPS but I'm not entirely sure how I would translate the GPS into an X,Y position that can then go into a 2d array
 
+
 > hi there. if i use the supervisor to track the position of a robot. is it possible to send the position information to another controller?
 
 `@AyresAlmada` Did you ever find if this was possible? At least getting the robots position?
+
 
 Hello, I'm working on a room-mapping robot for my final year project and was wondering if it is possible to get the grid that the robot is currently on? I'm trying to do a very basic 2d array as a topological map?
 
@@ -216,7 +228,9 @@ Hi `@David Mansolino` Can I get the engine information in the data for 0.1 secon
 ##### Troy 05/15/2020 04:55:23
 I'll try the urdf2webots program again tomorrow
 
+
 but the URDF is correct, I imported this urdf into V-Rep, and it's correct
+
 
 I'm not sure if I could share this model
 
@@ -226,6 +240,7 @@ Hi `@Troy` it seems there is an issue with the generated PROTO, can you share it
 ##### Troy 05/14/2020 15:46:43
 what should I do with the proto file or the URDF file?
 
+
 Hi! I have a problem. When I used the proto to import the robot, one of my model is correct, but when I import the other one using the same method, webots reminds me that " ERROR: 'D:/Lab/Simulation/5_13TestURDF/protos/MCrab.proto':19:39: error: Expected node or PROTO name, found '{'. " I both used the urdf2webots program to output the proto file, and put them in two separate wbt file. I don't what wrong...
 
 ##### David Mansolino [cyberbotics] 05/14/2020 12:32:23
@@ -234,9 +249,12 @@ Hi! I have a problem. When I used the proto to import the robot, one of my model
 ##### infinity 05/14/2020 12:15:56
 Anybody have any solution
 
+
 I wanna import my track drive robot which is developed in solid works
 
+
 I have a problem in webots
+
 
 Hlo
 
@@ -249,6 +267,7 @@ Or to open another world file?
 
 ##### nav3549 05/14/2020 11:29:15
 I tried to delete these preferences to solve the problem, but still persists. And the preferences variables are set again after i open webots
+
 
 my webots clossing after loading world model
 %figure
@@ -301,9 +320,12 @@ Hi,  I am using the Microsoft Kinect sensor model in Webots. Since I would like 
 ##### Troy 05/13/2020 23:21:13
 I tried again, it suddenly worked. Sorry to bother you guys.
 
+
 when i changed the someRobot.urdf to the path of my file, it reminds me that "math_utils.py:40: RuntimeWarning: invalid value encountered in true_divide "
 
+
 Could you please help on this problem? How can I use this?
+
 
 `@Olivier Michel` Hi Olivier! When I use the urdf2webots program on github, it reminds me that "Can't determine package root path."
 
@@ -316,7 +338,9 @@ Is there any downside of running the webots controller in python 2.7 instead of 
 ##### Olivier Michel [cyberbotics] 05/13/2020 15:59:34
 [https://pages.github.com/](https://pages.github.com/)
 
+
 Doing that on github pages is an option indeed.
+
 
 You simply need to publish the page anywhere on the web.
 
@@ -330,9 +354,11 @@ The tricks for Chrome and Firefox are only if you want to open the webgl page lo
 ##### Rajesh Roy 05/13/2020 15:41:25
 Has anyone gone through the procedure of exporting your Webots file to a webgl file?
 
+
 I want to know that isn't there any other option available? Since this part "--allow-file-access-from-files: turns your browser very vulnerable to attacks.
 
 Also, do you have any idea of how to create a javascript block of code handling this to turn on and turn off automatically whenever calling the .html webpage?
+
 
 I want to create a webgl based simulation which could just run like any other webgl application - "No add-ons, just the browser"
 After referring to the materials provided on the documentation section, I found a paragraph saying
@@ -358,6 +384,7 @@ thx David & Luftwaffel
 ##### Luftwaffel 05/13/2020 15:17:25
 I already needed to go back to reference it, luckily I still had the pastebinlink
 
+
 `@David Mansolino` I already submited a change to the supervisor.md, which includes this code and an explanation on how to get positions of nodes relative to other nodes. Would be nice if that could get added soon to the build 🙂
 
 ##### lojik 05/13/2020 14:53:59
@@ -372,6 +399,7 @@ I already needed to go back to reference it, luckily I still had the pastebinlin
 > how to convert wgs84 coordinate to local coordinate without changing coordinate system in world info? like i want to pass since wgs84 coordinate and convert it into local coordinate
 
 `@Lussfer` In that case you have to convert them in your controller, here is the code in Webots that allows to make the conversion, you can probably take inspiration from it: [https://github.com/cyberbotics/webots/blob/565b5aed95a2aadb73bccf2ad733d37893d5edfe/src/webots/nodes/WbGps.cpp#L85-L106](https://github.com/cyberbotics/webots/blob/565b5aed95a2aadb73bccf2ad733d37893d5edfe/src/webots/nodes/WbGps.cpp#L85-L106)
+
 
 > `@David Mansolino` Thank you for your answer, I did not see this example. Unfortunately it does not work anymore if we put the basicTimeStep to 1ms. If I understand it correctly, it means that the physics behind the simulation has some errors due to a too high timeStep.
 
@@ -388,6 +416,7 @@ how to convert wgs84 coordinate to local coordinate without changing coordinate 
 ##### kwy 05/13/2020 14:06:40
 `@Olivier Michel`  thanks for your help!
 
+
 And I have found, streaming viewer is not so smooth like webots screen.
 So I decide to use its own robot-window.
 It can display 3D graph with vis.js
@@ -396,7 +425,9 @@ It can display 3D graph with vis.js
 %end
 
 
+
 😂
+
 
 I just rebooted my Mac… and opened a Sample on Webots, it could connect to the streaming viewer successfully. So I thought that was the error in my own JS. 
 But just now my own world can also connect to the streaming viewer.

@@ -62,6 +62,8 @@ class MyClient(discord.Client):
                                    (message.author.name,
                                     roleString,
                                     message.created_at.strftime("%m/%d/%Y %H:%M:%S")))
+                    else:
+                        file.write('\n')
                     content = ''
                     # read message line by line
                     for line in message.content.splitlines():
