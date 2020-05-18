@@ -20,8 +20,8 @@ class TestImages(unittest.TestCase):
                 for match in re.finditer(r"!\[(.*?)\]\((.*?)\)", content):
                     # remove parameters
                     is_youtube_video = match.group(1) == "youtube video"
-                    if not is_youtube_video:
-                        image_ref = match.group(2).split(' ')[0]
+                    image_ref = match.group(2).split(' ')[0]
+                    if not is_youtube_video and not image_ref.startswith('http'):
                         image_path = os.path.join(book.path, image_ref)
                         self.assertTrue(
                             os.path.isfile(image_path),

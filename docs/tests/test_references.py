@@ -28,6 +28,11 @@ class TestReferences(unittest.TestCase):
         books = Books()
         self.anchors = {}
         for book in books.books:
+
+            # we are not responsible of the content of the discord chats
+            if book.name == 'discord':
+                continue
+
             for md_path in book.md_paths:
                 anchors = []
                 with open(md_path) as f:
@@ -67,6 +72,11 @@ class TestReferences(unittest.TestCase):
         """Test that the anchors are unique."""
         books = Books()
         for book in books.books:
+
+            # we are not responsible of the content of the discord chats
+            if book.name == 'discord':
+                continue
+
             for md_path in book.md_paths:
                 anchors = self.anchors[md_path]
                 s = set()
@@ -83,6 +93,11 @@ class TestReferences(unittest.TestCase):
         """Test that the MD files refer valid URLs."""
         books = Books()
         for book in books.books:
+
+            # we are not responsible of the content of the discord chats
+            if book.name == 'discord':
+                continue
+
             for md_path in book.md_paths:
                 with open(md_path) as f:
                     content = f.read()

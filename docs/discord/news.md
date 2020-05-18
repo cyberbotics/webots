@@ -27,7 +27,7 @@ This in python and with inverse kinematics would be awesome 😄
 Oh wow great!
 
 ##### Olivier Michel 04/06/2020 14:45:33
-For those interested in Deep Reinforcement Learning with Webots, this github repo is a very good starting point:  [https://github.com/LucasWaelti/RL_Webots](https://github.com/LucasWaelti/RL_Webots)
+For those interested in Deep Reinforcement Learning with Webots, this github repo is a very good starting point:  [https://github.com/LucasWaelti/RL\_Webots](https://github.com/LucasWaelti/RL_Webots)
 
 ##### David Mansolino 02/13/2020 10:16:18
 We are happy to share with you our preliminary demonstration of the AROSYS project which aims at integrating Webots into the SmartMDSD Toolchain in collaboration with the *Technische Hochschule Ulm*: [https://youtu.be/7rNtWxuXHKs](https://youtu.be/7rNtWxuXHKs)
@@ -121,10 +121,10 @@ Get it from [https://github.com/omichel/webots/releases/tag/R2020a](https://gith
 Yet another one: [https://www.youtube.com/watch?v=Z3UyRjnFePk](https://www.youtube.com/watch?v=Z3UyRjnFePk)
 
 ##### Olivier Michel 12/09/2019 20:53:03
-New progresses with the SnowSpeeder: [https://www.youtube.com/watch?v=Xjg2M2iK_rE](https://www.youtube.com/watch?v=Xjg2M2iK_rE)
+New progresses with the SnowSpeeder: [https://www.youtube.com/watch?v=Xjg2M2iK\_rE](https://www.youtube.com/watch?v=Xjg2M2iK_rE)
 
 ##### Olivier Michel 11/29/2019 08:25:43
-Follow-up of the SnowSpeeder story: getting ready to attack the AT-AT. [https://youtu.be/7hU_cipgiDc](https://youtu.be/7hU_cipgiDc)
+Follow-up of the SnowSpeeder story: getting ready to attack the AT-AT. [https://youtu.be/7hU\_cipgiDc](https://youtu.be/7hU_cipgiDc)
 
 ##### SimonDK 11/27/2019 16:54:27
 Great news `@Fabien Rohrer` , I think you may be winning over many Gazebo and vrep users 🙂  I hope integration with ROS will further improve as there is a big research community that would be interested in Webots!
@@ -161,11 +161,11 @@ Would like to share with us when you're using Webots? 🐞
 The main Webots git repository (and other repositories) has been migrated to our brand-new "Cyberbotics" GitHub organization: [https://github.com/cyberbotics](https://github.com/cyberbotics)
 
 ##### David Mansolino 08/13/2019 16:04:48
-New release of the webots_ros package: [http://wiki.ros.org/webots_ros](http://wiki.ros.org/webots_ros)
+New release of the webots_ros package: [http://wiki.ros.org/webots\_ros](http://wiki.ros.org/webots_ros)
 
 The webots_ros package lets you use Webots together with ROS.
 
-This new version of the package greatly simplifies the interface between Webots and ROS, new launch files are provided to start your node and the corresponding simulation easily. We also wrote some documentation about the available sample simulations: [http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations)
+This new version of the package greatly simplifies the interface between Webots and ROS, new launch files are provided to start your node and the corresponding simulation easily. We also wrote some documentation about the available sample simulations: [http://wiki.ros.org/webots\_ros/Tutorials/Sample%20Simulations](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations)
 
 ##### Fabien Rohrer 07/25/2019 08:21:22
 New model of drone: please welcome the DJI Mavic 2 PRO drone in Webots: [https://bit.ly/2JQZNgA](https://bit.ly/2JQZNgA)

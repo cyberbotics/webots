@@ -8,7 +8,7 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 `@Sanket Khadse` the controller of the drone is very simple, it doesn't do any feedback using the GPS position or any inertial unit, it might therefore easily drift.
 
 ##### David Mansolino 05/15/2020 04:55:43
-`@Jesusmd` you want to get the type of distance sensor? If so you should use the ``getType`` function: [https://cyberbotics.com/doc/reference/distancesensor?tab-language=python#wb_distance_sensor_get_type](https://cyberbotics.com/doc/reference/distancesensor?tab-language=python#wb_distance_sensor_get_type)
+`@Jesusmd` you want to get the type of distance sensor? If so you should use the ``getType`` function: [https://cyberbotics.com/doc/reference/distancesensor?tab-language=python#wb\_distance\_sensor\_get\_type](https://cyberbotics.com/doc/reference/distancesensor?tab-language=python#wb_distance_sensor_get_type)
 
 ##### Sanket Khadse 05/15/2020 03:02:49
 Hey, may I know, why does a drone, (let it be DJI Mavic 2 Pro, which is already available into Webots, or a custom made) moves up and down and shifts constantly in one direction even if no such behaviour is defined in the controller code?
@@ -24,7 +24,7 @@ Hey, may I know, why does a drone, (let it be DJI Mavic 2 Pro, which is already 
 Awesome, thank you so much. That makes things easier
 
 ##### Axel M 05/14/2020 09:11:01
-The integration with ROS is super easy too with [http://wiki.ros.org/eigen_conversions](http://wiki.ros.org/eigen_conversions) 🙂
+The integration with ROS is super easy too with [http://wiki.ros.org/eigen\_conversions](http://wiki.ros.org/eigen_conversions) 🙂
 
 ##### Axel M 05/14/2020 09:09:52
 Regarding your example of getting relative position between two nodes, that can be easily achieved with Eigen in cpp (3x3 Matrix -> Quaternion, quaternion / vector product)
@@ -83,7 +83,7 @@ Oops...
 Problem is, the link to their liscense is broken 😅
 
 ##### Luftwaffel 05/13/2020 16:14:47
-[https://sscc.nimh.nih.gov/pub/dist/bin/linux_gcc32/meica.libs/nibabel/quaternions.py](https://sscc.nimh.nih.gov/pub/dist/bin/linux_gcc32/meica.libs/nibabel/quaternions.py)
+[https://sscc.nimh.nih.gov/pub/dist/bin/linux\_gcc32/meica.libs/nibabel/quaternions.py](https://sscc.nimh.nih.gov/pub/dist/bin/linux_gcc32/meica.libs/nibabel/quaternions.py)
 
 ##### Luftwaffel 05/13/2020 16:14:46
 specifically this:
@@ -104,13 +104,13 @@ Yes, you are right. Sorry, my bad.
 but that returns the 3x3 matrix
 
 ##### Olivier Michel 05/13/2020 16:11:40
-If you need absolute rotation (in axis-angle notation), use:  [https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_orientation](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_orientation)
+If you need absolute rotation (in axis-angle notation), use:  [https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_orientation](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_orientation)
 
 ##### Olivier Michel 05/13/2020 16:10:46
 (gives relative rotation in axis-angle notation)
 
 ##### Olivier Michel 05/13/2020 16:10:25
-[https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_field_get_sf_rotation](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_field_get_sf_rotation)
+[https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_field\_get\_sf\_rotation](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_field_get_sf_rotation)
 
 ##### Luftwaffel 05/13/2020 16:09:36
 how do we get axis angles? I have the 3x3 matrix
@@ -289,7 +289,7 @@ Hey again,
 Thank you Olivier!
 
 ##### Olivier Michel 04/26/2020 14:44:13
-See [https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_orientation](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_orientation)
+See [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_orientation](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_orientation)
 
 ##### Olivier Michel 04/26/2020 14:43:52
 It's a rotation matrix (as in OpenGL).

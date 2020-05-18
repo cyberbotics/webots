@@ -56,7 +56,7 @@ class MyClient(discord.Client):
                         line = line.replace('<i>', '`<i>`')
                         # make url links
                         for url in re.findall(r'(?P<url>https?://[^\s]+)', line):
-                            line = line.replace(url, '[%s](%s)' % (url, url))
+                            line = line.replace(url, '[%s](%s)' % (url.replace('_', '\\_'), url))
                         # add line to the content
                         content += line + '\n'
                         # if quote add a new line to make distinction between message and quote

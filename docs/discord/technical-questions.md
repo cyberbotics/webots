@@ -12,12 +12,12 @@ This is an archive of the `technical-questions` channel of the [Webots Discord s
 
 > In my simulation the speed is send to the robot controller every 50ms.  I set my basictimestep to 10ms and wb_robot_step to 10ms. It works fine.
 
-> But when I test my simulation with basictimestep 10ms and wb_robot_step 50ms, the slider moves outside(less than minstop), the range i set for it [0,0.15]([minstop,maxstop])
+> But when I test my simulation with basictimestep 10ms and wb_robot_step 50ms, the slider moves outside(less than minstop), the range i set for it [0,0.15] ([minstop,maxstop])
 
 `@taeyoung` have you tried using the min/maxPosition instead?
 
 ##### David Mansolino 05/18/2020 08:50:42
-`@Rodeknopje` in that case you should use the `Robot.getInertialUnit` method ([https://cyberbotics.com/doc/reference/robot?tab-language=python#wb_robot_get_device).](https://cyberbotics.com/doc/reference/robot?tab-language=python#wb_robot_get_device).)
+`@Rodeknopje` in that case you should use the `Robot.getInertialUnit` method ([https://cyberbotics.com/doc/reference/robot?tab-language=python#wb\_robot\_get\_device).](https://cyberbotics.com/doc/reference/robot?tab-language=python#wb_robot_get_device).)
 
 ##### David Mansolino 05/18/2020 08:49:53
 > `@David Mansolino`  How should I determine the wait between movements?Are there sample gait codes?
@@ -103,7 +103,7 @@ I'm using Linux Debian9 - Pardus 17.5
 ##### David Mansolino 05/18/2020 06:17:07
 > Does any of the example use pure pursuit path follow algorithm by any chance?
 
-`@Lussfer` here are some path plannign example in Webots: [https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum/Advanced_Programming_Exercises#Path_planning_[Advanced]](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum/Advanced_Programming_Exercises#Path_planning_[Advanced])
+`@Lussfer` here are some path plannign example in Webots: [https://en.wikibooks.org/wiki/Cyberbotics%27\_Robot\_Curriculum/Advanced\_Programming\_Exercises#Path\_planning\_[Advanced]](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum/Advanced_Programming_Exercises#Path_planning_[Advanced])
 Unfortunately none of them is using pure pursuit.
 
 ##### Stefania Pedrazzi 05/18/2020 06:14:29
@@ -128,7 +128,7 @@ Hi, we are trying to simulate a simple robot in Webot with two rear driving whee
 ##### David Mansolino 05/18/2020 05:41:58
 > Is there code available online that directly controls the wheels of the youbot? I mean, instead of what the webot demo uses (keyboard control)? The idea is for the youbot to follow a black, straight line. I'm also curious if I am required to add 4 hingejoints to the body slot of youbot. Thanks in advance, it is greatly appreciated as I am very new to coding.
 
-`@brianne.byer` sure, here is an example: [https://github.com/cyberbotics/webots/blob/master/projects/robots/kuka/youbot/libraries/youbot_control/src/base.c](https://github.com/cyberbotics/webots/blob/master/projects/robots/kuka/youbot/libraries/youbot_control/src/base.c)
+`@brianne.byer` sure, here is an example: [https://github.com/cyberbotics/webots/blob/master/projects/robots/kuka/youbot/libraries/youbot\_control/src/base.c](https://github.com/cyberbotics/webots/blob/master/projects/robots/kuka/youbot/libraries/youbot_control/src/base.c)
 About the HingeJoint, you can indeed add them directly in the body slot as you would do with a regular chidren field (if not already done I would suggest to read this tutorial: [https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot)](https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot))
 
 ##### David Mansolino 05/18/2020 05:39:28

@@ -169,7 +169,7 @@ submitted it
 ##### David Mansolino 04/30/2020 10:47:24
 No we are using directly the Github issue mechanism: [https://github.com/cyberbotics/webots/issues](https://github.com/cyberbotics/webots/issues)
 In particular for feature request:
-[https://github.com/cyberbotics/webots/issues/new?template=feature_request.md](https://github.com/cyberbotics/webots/issues/new?template=feature_request.md)
+[https://github.com/cyberbotics/webots/issues/new?template=feature\_request.md](https://github.com/cyberbotics/webots/issues/new?template=feature_request.md)
 
 ##### Luftwaffel 04/30/2020 10:40:04
 do you have something like a trello?
@@ -297,7 +297,7 @@ ok
 
 ##### David Mansolino 04/16/2020 13:03:30
 Ok, thank you for reporting this.
-May I ask you to open a bug report here: [https://github.com/cyberbotics/webots/issues/new?template=bug_report.md](https://github.com/cyberbotics/webots/issues/new?template=bug_report.md)
+May I ask you to open a bug report here: [https://github.com/cyberbotics/webots/issues/new?template=bug\_report.md](https://github.com/cyberbotics/webots/issues/new?template=bug_report.md)
 So that we can log this and try to fix it?
 Thank you.
 
