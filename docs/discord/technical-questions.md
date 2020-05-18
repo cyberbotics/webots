@@ -4,6 +4,40 @@ This is an archive of the `technical-questions` channel of the [Webots Discord s
 
 ## 2020
 
+##### Rodeknopje 05/18/2020 08:51:58
+`@David Mansolino` Thanks
+
+##### David Mansolino 05/18/2020 08:51:10
+> Hi, I'm testing the use of sliderjoint in webots with differnet values for the timesteps (basictimestep and wb_robot_step).
+
+> In my simulation the speed is send to the robot controller every 50ms.  I set my basictimestep to 10ms and wb_robot_step to 10ms. It works fine.
+
+> But when I test my simulation with basictimestep 10ms and wb_robot_step 50ms, the slider moves outside(less than minstop), the range i set for it [0,0.15]([minstop,maxstop])
+
+`@taeyoung` have you tried using the min/maxPosition instead?
+
+##### David Mansolino 05/18/2020 08:50:42
+`@Rodeknopje` in that case you should use the `Robot.getInertialUnit` method (https://cyberbotics.com/doc/reference/robot?tab-language=python#wb_robot_get_device).
+
+##### David Mansolino 05/18/2020 08:49:53
+> `@David Mansolino`  How should I determine the wait between movements?Are there sample gait codes?
+
+`@elkelkmuh` I am sorry, but I am not an expert in gait generation, but I am sure you will fidn a lot of literrature on the subject on internet.
+
+##### Rodeknopje 05/18/2020 08:49:34
+im using python
+
+##### David Mansolino 05/18/2020 08:49:17
+`@brianne.byer` you're welcome!
+
+##### David Mansolino 05/18/2020 08:49:05
+> which method do i have to call to get acces to my inertial unit?
+
+`@Rodeknopje` hi, which language are you using? In any case, it works exactly like for the other sensors, it is based on the sensor name. See for example this tutorial where distance sensors are used: https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers#program-a-controller
+
+##### Rodeknopje 05/18/2020 08:47:19
+which method do i have to call to get acces to my inertial unit?
+
 ##### brianne.byer 05/18/2020 08:36:53
 `@David Mansolino` thank you so much!
 
@@ -399,45 +433,4 @@ So what was the problem exactly?
 
 ##### Dobby 05/13/2020 13:18:57
 `@Robin` will send a screenshot now
-
-##### Olivier Michel 05/13/2020 13:13:17
-It looks like there might be an error in your Javascript code...
-
-##### Dobby 05/13/2020 13:11:13
-Another question, we edited the img files in the thymio2 file to <i> files and to send the function onmousedown and then send it through the javascript with a function but we get this error as soon as we start it! ^^
-
-##### David Mansolino 05/13/2020 12:38:21
-> Hello, I take the opportinity that you are on the subject. Do you know where we can find good values for both friction and forceDependentSlip ?
-
-> 
-
-> I have a four wheels robot. My expectation is that when I would like to turn on spot using differential wheels it will turn. Then if I put it on a slope it will continues to turn on spot until a certain angle of the slope where it will begin to slide.
-
-> 
-
-> Actually, with webots, it begins to slide at a constant speed as soon as there is a slope.
-
-`@lojik` it all depends on your robot, but it doesn't always slide, see for example the 'accelerometer' world, where a differential wheeled robot rotates on a slope: https://cyberbotics.com/doc/guide/samples-devices#accelerometer-wbt
-
-##### jomell310 05/13/2020 12:32:18
-> `@jomell310` unfortunately not, but you can check this sample simulation using supervisor:
-
-> https://cyberbotics.com/doc/guide/samples-devices#supervisor-wbt
-
-> Then to end the simulation you can use the `wb_supervisor_simulation_quit` function: https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_simulation_quit
-
-`@David Mansolino` Thanks a lot David! Really appreciate it!
-
-##### lojik 05/13/2020 12:32:05
-Hello, I take the opportinity that you are on the subject. Do you know where we can find good values for both friction and forceDependentSlip ?
-
-I have a four wheels robot. My expectation is that when I would like to turn on spot using differential wheels it will turn. Then if I put it on a slope it will continues to turn on spot until a certain angle of the slope where it will begin to slide.
-
-Actually, with webots, it begins to slide at a constant speed as soon as there is a slope.
-
-##### David Mansolino 05/13/2020 12:28:34
-You're welcome, good luck!
-
-##### yash 05/13/2020 12:28:13
-Okay , let me have a check again , thank you 👍
 

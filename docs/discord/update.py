@@ -51,6 +51,7 @@ class MyClient(discord.Client):
                     content = ''
                     # read message line by line
                     for line in message.content.splitlines():
+                        # remove problematic parts
                         content += line + '\n'
                         # if quote add a new line to make distinction between message and quote
                         if line.startswith('> '):
