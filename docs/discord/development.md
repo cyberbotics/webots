@@ -1774,49 +1774,6 @@ like a block or something like that
 is there some trick in discord to send code in a more compact way in the chat? 😄
 
 
-output from the clean:
-$ make cleanse
-#
-# * dependencies *
-#
-#
-# * ode *
-#
-#
-# * glad *
-#
-#
-# * wren *
-#
-#
-# * webots (core) *
-#
-# cleaning
-#
-# * libController *
-#
-#
-# * resources *
-#
-# *** languages ***
-# make clean cpp
-# make clean java
-# make clean python3.7
-/bin/sh: python: command not found
-# make clean python2.7
-/bin/sh: python: command not found
-# make clean plugins/physics
-# make clean libraries/qt\_utils
-# make clean plugins/robot\_windows/generic
-# make clean plugins/robot\_windows/generic\_window
-# make clean controllers/void
-# uninstalling npm dependencies
-/bin/sh: npm: command not found
-make[2]: *** [Makefile💯 cleanse] Error 127
-make[1]: *** [Makefile:32: clean] Error 2
-make: *** [Makefile:110: webots\_target] Error 2
-
-
 ok, same error after make -j6
 
 ##### David Mansolino [cyberbotics] 06/12/2019 14:00:51

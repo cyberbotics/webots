@@ -114,7 +114,9 @@ class MyClient(discord.Client):
                             file.write(u'\n> **Attachment**: [%s](%s)\n' % (attachment.filename.replace('_', '\\_'),
                                                                             attachment.url))
                     file.write(u'\n\n')
-                elif message.type == discord.MessageType.pins_add or message.type == discord.MessageType.new_member:
+                elif (message.type == discord.MessageType.pins_add or
+                      message.type == discord.MessageType.new_member or
+                      (message.type == discord.MessageType.default and not message.content)):
                     pass
                 else:
                     print("\033[33mUnsupported message type:" + str(message.type) + '\033[0m')
