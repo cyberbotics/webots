@@ -163,9 +163,9 @@ Would like to share with us when you're using Webots? 🐞
 The main Webots git repository (and other repositories) has been migrated to our brand-new "Cyberbotics" GitHub organization: [https://github.com/cyberbotics](https://github.com/cyberbotics)
 
 ##### David Mansolino [cyberbotics] 08/13/2019 16:04:48
-New release of the webots_ros package: [http://wiki.ros.org/webots\_ros](http://wiki.ros.org/webots_ros)
+New release of the webots\_ros package: [http://wiki.ros.org/webots\_ros](http://wiki.ros.org/webots_ros)
 
-The webots_ros package lets you use Webots together with ROS.
+The webots\_ros package lets you use Webots together with ROS.
 
 This new version of the package greatly simplifies the interface between Webots and ROS, new launch files are provided to start your node and the corresponding simulation easily. We also wrote some documentation about the available sample simulations: [http://wiki.ros.org/webots\_ros/Tutorials/Sample%20Simulations](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations)
 

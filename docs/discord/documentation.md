@@ -148,7 +148,7 @@ The you have to select the arm and in the 'Position' tab of the field editor (on
 Hi `@davisUndergrad`, it is located at '0.156 0 0' from the robot origin. To see it you have to convert the robot node to base node (right click on the youbot in the scene tree, and press 'Convert to Base Node(s)'.
 
 ##### davisUndergrad 05/06/2020 17:21:50
-Hello, I am trying to work with the Kuka youBot, and I am having trouble understanding where the origin of the coordinate frame used by the arm_ik function provided in the arm.c 
+Hello, I am trying to work with the Kuka youBot, and I am having trouble understanding where the origin of the coordinate frame used by the arm\_ik function provided in the arm.c 
 library is located. Is this documented somewhere?
 
 ##### İchigogo 05/01/2020 17:31:51
@@ -190,10 +190,10 @@ Yes, that seems to be a good idea.
 most commonly used in ROS and any 3D application. would really be helpfull
 
 
-perhaps add get_orientation_quaternion while you're at it 😉
+perhaps add get\_orientation\_quaternion while you're at it 😉
 
 
-get_orientation_matrix
+get\_orientation\_matrix
 
 
 perhaps adding a function? Would be the non destructive way
@@ -205,7 +205,7 @@ Yes, we may consider changing it on the develop branch.
 but I guess changing that would break existing code
 
 
-oh btw, it's kinda weird that get_orientation returns a 1x9 list, instead of 3x3
+oh btw, it's kinda weird that get\_orientation returns a 1x9 list, instead of 3x3
 
 ##### Olivier Michel [cyberbotics] 04/30/2020 10:25:15
 OK, looking forward to review it.
@@ -244,7 +244,7 @@ That is great. Could you create a PR to add this contribution to the doc? [https
 [https://pastebin.com/k7kf4Ez5](https://pastebin.com/k7kf4Ez5)
 
 
-Okay so I finally got it working to quickly and easily calculate any position and orientation of a node relative to any other node. This should be added to the supervisor get_position and get_orientation documentation
+Okay so I finally got it working to quickly and easily calculate any position and orientation of a node relative to any other node. This should be added to the supervisor get\_position and get\_orientation documentation
 
 ##### Olivier Michel [cyberbotics] 04/21/2020 16:04:21
 From the Help menu.
@@ -305,7 +305,7 @@ Thank you.
 `[ros] [ERROR] [1587023118.216799425, 4.456000000]: client wants service /tile_35_4366_pc047/supervisor/get_from_def to have md5sum ac26007a2c83bd1b38318cda0f4ce627, but it has 3f818aa8f7c2c60588c99f7ee189c5bd. Dropping connection.`
 
 
-It seems that the checksum of the get_from_def message has changed
+It seems that the checksum of the get\_from\_def message has changed
 
 
 I haven't tested, but it works with the Webots R2020a revision1 .deb
@@ -317,7 +317,7 @@ Hi `@ClBaze` is it working on the master branch ?
 (oops this probably belongs to the development channel)
 
 
-Hello, I'm using Webots from the develop branch, I've noticed that the ROS service supervisor_get_from_def doesn't work anymore
+Hello, I'm using Webots from the develop branch, I've noticed that the ROS service supervisor\_get\_from\_def doesn't work anymore
 
 ##### David Mansolino [cyberbotics] 02/18/2020 11:46:25
 The tooltip is indeed wrong, the actual hotkey is 'control + shift + t'. I am fixing the tooltip right now.

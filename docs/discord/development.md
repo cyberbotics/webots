@@ -162,7 +162,7 @@ very nice thank's 🙂
 
 ##### David Mansolino [cyberbotics] 04/28/2020 14:04:40
 You should have:
-> Create_Webots_World\wbt\worlds\textures\ground.jpg
+> Create\_Webots\_World\wbt\worlds\textures\ground.jpg
 
 
 ##### Psyka 04/28/2020 14:04:40
@@ -193,7 +193,7 @@ it was working fine like last week
 It's still problematic 😉
 
 ##### Psyka 04/28/2020 14:03:05
-it's "Created_World" and not "Created World" I just writte it wrong
+it's "Created\_World" and not "Created World" I just writte it wrong
 
 ##### David Mansolino [cyberbotics] 04/28/2020 14:01:36
 because the names in the project folder should respect a strict convention (you can name the project folder as you want but not the folders inside):
@@ -203,14 +203,14 @@ because the names in the project folder should respect a strict convention (you 
 is a copy past of my path
 
 
-Create_Webots_World\wbt\Created_World\textures\ground.jpg
+Create\_Webots\_World\wbt\Created\_World\textures\ground.jpg
 
 
 yes
 
 ##### David Mansolino [cyberbotics] 04/28/2020 14:00:36
 But that's not what you said:
-> Create_Webots_World\wbt\Created_World\textures\ground.jpg
+> Create\_Webots\_World\wbt\Created\_World\textures\ground.jpg
 
 
 ##### Psyka 04/28/2020 14:00:35
@@ -234,7 +234,7 @@ Create_Webots_World\wbt\
 ```
 
 ##### Psyka 04/28/2020 13:57:47
-Create_Webots_World\wbt\Created_World\textures\ground.jpg
+Create\_Webots\_World\wbt\Created\_World\textures\ground.jpg
 
 
 there I've got a directory "controllers" for controllers and "Created World" with in it "textures" and then the "ground.jpg"
@@ -295,7 +295,7 @@ See [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\
 It's a rotation matrix (as in OpenGL).
 
 ##### mint 04/26/2020 14:38:09
-One question while developing.. what is the convention webot's using for the matrix returned by wb_supervisor_node_get_orientation function?
+One question while developing.. what is the convention webot's using for the matrix returned by wb\_supervisor\_node\_get\_orientation function?
 is it Euler Angles, Rotation Matrix, or Tait–Bryan angles?
 
 ##### David Mansolino [cyberbotics] 04/23/2020 07:38:41

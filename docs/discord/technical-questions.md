@@ -4,6 +4,21 @@ This is an archive of the `technical-questions` channel of the [Webots Discord s
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 05/18/2020 13:37:53
+You're welcome
+
+##### yash 05/18/2020 13:37:40
+alright, thank you!👍
+
+##### David Mansolino [cyberbotics] 05/18/2020 13:36:48
+yes exactly
+
+##### yash 05/18/2020 13:36:36
+okay , so some functionalities that are not available using Robot API, then only may be I should go for supervisor programming?
+
+##### David Mansolino [cyberbotics] 05/18/2020 13:32:04
+It all dends what you want to do, but usually if you can do it only using the robot api it is better to use only the robot api.
+
 ##### yash 05/18/2020 13:24:21
 On what basis should I select whether to use controller or supervisor programming? for ex=position of a robot can be obtained through both controller as well as supervisor programming. So which to choose to programme the robot?
 
@@ -14,11 +29,11 @@ It doesn't work...
 `@David Mansolino` Thanks
 
 ##### David Mansolino [cyberbotics] 05/18/2020 08:51:10
-> Hi, I'm testing the use of sliderjoint in webots with differnet values for the timesteps (basictimestep and wb_robot_step).
+> Hi, I'm testing the use of sliderjoint in webots with differnet values for the timesteps (basictimestep and wb\_robot\_step).
 
-> In my simulation the speed is send to the robot controller every 50ms.  I set my basictimestep to 10ms and wb_robot_step to 10ms. It works fine.
+> In my simulation the speed is send to the robot controller every 50ms.  I set my basictimestep to 10ms and wb\_robot\_step to 10ms. It works fine.
 
-> But when I test my simulation with basictimestep 10ms and wb_robot_step 50ms, the slider moves outside(less than minstop), the range i set for it [0,0.15] ([minstop,maxstop])
+> But when I test my simulation with basictimestep 10ms and wb\_robot\_step 50ms, the slider moves outside(less than minstop), the range i set for it [0,0.15] ([minstop,maxstop])
 
 `@taeyoung` have you tried using the min/maxPosition instead?
 
@@ -51,9 +66,9 @@ which method do i have to call to get acces to my inertial unit?
 `@David Mansolino`  How should I determine the wait between movements?Are there sample gait codes?
 
 ##### taeyoung 05/18/2020 07:06:57
-Hi, I'm testing the use of sliderjoint in webots with differnet values for the timesteps (basictimestep and wb_robot_step).
-In my simulation the speed is send to the robot controller every 50ms.  I set my basictimestep to 10ms and wb_robot_step to 10ms. It works fine.
-But when I test my simulation with basictimestep 10ms and wb_robot_step 50ms, the slider moves outside(less than minstop), the range i set for it [0,0.15]([minstop,maxstop])
+Hi, I'm testing the use of sliderjoint in webots with differnet values for the timesteps (basictimestep and wb\_robot\_step).
+In my simulation the speed is send to the robot controller every 50ms.  I set my basictimestep to 10ms and wb\_robot\_step to 10ms. It works fine.
+But when I test my simulation with basictimestep 10ms and wb\_robot\_step 50ms, the slider moves outside(less than minstop), the range i set for it [0,0.15]([minstop,maxstop])
 
 ##### David Mansolino [cyberbotics] 05/18/2020 06:58:48
 Yes you should controler the motor directly like this indeed.
@@ -126,7 +141,7 @@ Unfortunately none of them is using pure pursuit.
 > On webots i see that the object recognition is giving. X as Z, Y as Y and Z as -X. on webots does rotation match the orientations..
 
 `@Mathie20` Yes the orientations match the 'rotation' field.
-Abotu the axes inversion, I can't unfortunately reproduce this in the 'camera_recognition' sample, do you have a specific case to reproduce this? Note that the position is expressed in the camera frame and not i nthe robot or world frame.
+Abotu the axes inversion, I can't unfortunately reproduce this in the 'camera\_recognition' sample, do you have a specific case to reproduce this? Note that the position is expressed in the camera frame and not i nthe robot or world frame.
 
 ##### Jatin Sharma 05/18/2020 06:03:41
 Hi, we are trying to simulate a simple robot in Webot with two rear driving wheels. To make it simpler among our interdisciplinary team we decided to choose python as the controller language. We are stuck with simple logic like PWM implementation, most of the sample code are written in C/C++ , shall we change it to C or there is some supporting database out there that we have not looked for. We are struggling with this sort of issue from a couple of weeks. Any suggestions would be highly appreciated. Thanks
@@ -241,7 +256,7 @@ Hi `@Troy` it seems there is an issue with the generated PROTO, can you share it
 what should I do with the proto file or the URDF file?
 
 
-Hi! I have a problem. When I used the proto to import the robot, one of my model is correct, but when I import the other one using the same method, webots reminds me that " ERROR: 'D:/Lab/Simulation/5_13TestURDF/protos/MCrab.proto':19:39: error: Expected node or PROTO name, found '{'. " I both used the urdf2webots program to output the proto file, and put them in two separate wbt file. I don't what wrong...
+Hi! I have a problem. When I used the proto to import the robot, one of my model is correct, but when I import the other one using the same method, webots reminds me that " ERROR: 'D:/Lab/Simulation/5\_13TestURDF/protos/MCrab.proto':19:39: error: Expected node or PROTO name, found '{'. " I both used the urdf2webots program to output the proto file, and put them in two separate wbt file. I don't what wrong...
 
 ##### David Mansolino [cyberbotics] 05/14/2020 12:32:23
 `@infinity` [https://www.youtube.com/watch?v=L0FVsFD2rS4&feature=youtu.be](https://www.youtube.com/watch?v=L0FVsFD2rS4&feature=youtu.be)
@@ -321,7 +336,7 @@ Hi,  I am using the Microsoft Kinect sensor model in Webots. Since I would like 
 I tried again, it suddenly worked. Sorry to bother you guys.
 
 
-when i changed the someRobot.urdf to the path of my file, it reminds me that "math_utils.py:40: RuntimeWarning: invalid value encountered in true_divide "
+when i changed the someRobot.urdf to the path of my file, it reminds me that "math\_utils.py:40: RuntimeWarning: invalid value encountered in true\_divide "
 
 
 Could you please help on this problem? How can I use this?
@@ -368,7 +383,7 @@ Chrome: launch with the --allow-file-access-from-files option
 Firefox:
 Open Firefox browser and in the address bar type about:config,
 hit Enter button and click on I'll be careful, I promise!.
-Search for privacy.file_unique_origin or security.fileuri.strict_origin_policy and double click on it to change the status from true to false.
+Search for privacy.file\_unique\_origin or security.fileuri.strict\_origin\_policy and double click on it to change the status from true to false.
 "
 
 Link: [https://cyberbotics.com/doc/guide/web-scene](https://cyberbotics.com/doc/guide/web-scene)
@@ -415,27 +430,4 @@ how to convert wgs84 coordinate to local coordinate without changing coordinate 
 
 ##### kwy 05/13/2020 14:06:40
 `@Olivier Michel`  thanks for your help!
-
-
-And I have found, streaming viewer is not so smooth like webots screen.
-So I decide to use its own robot-window.
-It can display 3D graph with vis.js
-%figure
-![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/710130671724789800/unknown.png)
-%end
-
-
-
-😂
-
-
-I just rebooted my Mac… and opened a Sample on Webots, it could connect to the streaming viewer successfully. So I thought that was the error in my own JS. 
-But just now my own world can also connect to the streaming viewer.
-So the problem is … my Mac need to have a break.
-
-##### Olivier Michel [cyberbotics] 05/13/2020 13:45:49
-So what was the problem exactly?
-
-##### kwy 05/13/2020 13:42:02
-`@Olivier Michel`  you're right, thanks!
 

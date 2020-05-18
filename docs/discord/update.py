@@ -66,12 +66,24 @@ class MyClient(discord.Client):
                         file.write('\n')
                     content = ''
                     # read message line by line
+                    inCode = False
                     for line in message.content.splitlines():
-                        # remove problematic parts
-                        line = line.replace('<i>', '`<i>`')
-                        # make url links
-                        for url in re.findall(r'(?P<url>https?://[^\s]+)', line):
-                            line = line.replace(url, '[%s](%s)' % (url.replace('_', '\\_'), url))
+                        if '```' in line:
+                            inCode = not inCode
+                        if not inCode:
+                            # remove problematic parts
+                            line = line.replace('<i>', '`<i>`')
+                            # protect underscores
+                            undescoreProtected = False
+                            for start, code, end in re.findall(r'([^`]*)`([^`]*)`([^`]*)', line):
+                                line = line.replace(start, start.replace('_', '\\_'))
+                                line = line.replace(end, end.replace('_', '\\_'))
+                                undescoreProtected = True
+                            if not undescoreProtected:
+                                line = line.replace('_', '\\_')
+                            # make url links
+                            for url in re.findall(r'(?P<url>https?://[^\s]+)', line):
+                                line = line.replace(url, '[%s](%s)' % (url, url.replace('\\_', '_')))
                         # add line to the content
                         content += line + '\n'
                         # if quote add a new line to make distinction between message and quote
