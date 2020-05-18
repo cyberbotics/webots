@@ -13,7 +13,6 @@ Thank you. We will review it soon.
 ##### Olivier Michel [cyberbotics] 05/13/2020 15:54:00
 You have to click the "Create pull request" button.
 
-##### Olivier Michel [cyberbotics] 05/13/2020 15:53:33
 `@Luftwaffel`: It's here [https://github.com/cyberbotics/webots/compare/master...Simon-Steinmann:patch-1](https://github.com/cyberbotics/webots/compare/master...Simon-Steinmann:patch-1)
 
 ##### David Mansolino [cyberbotics] 05/13/2020 15:40:17
@@ -28,7 +27,6 @@ Let me check if I can find a stale branch, by the way what is your Github userna
 ##### Luftwaffel 05/13/2020 15:34:08
 I submitted it April 30th, any way to check all activity? perhaps I submited it to a weird branch. Not that familiar with github
 
-##### Luftwaffel 05/13/2020 15:27:46
 great 😩
 
 ##### David Mansolino [cyberbotics] 05/13/2020 15:26:56
@@ -36,7 +34,6 @@ great 😩
 
 `@Luftwaffel` me neither
 
-##### David Mansolino [cyberbotics] 05/13/2020 15:26:46
 Did you fork the repo?
 
 ##### Luftwaffel 05/13/2020 15:26:19
@@ -89,7 +86,6 @@ Python
 ##### David Mansolino [cyberbotics] 05/13/2020 08:05:04
 which language are you using?
 
-##### David Mansolino [cyberbotics] 05/13/2020 08:03:17
 let me check
 
 ##### İchigogo 05/13/2020 08:00:17
@@ -108,7 +104,6 @@ Hi `@chaytanya`, please send an introductory e-mail to support@cyberbotics.com a
 ##### chaytanya 05/12/2020 22:12:24
 I am interested in How-to Guides for Webots and How-to Guides for robotbenchmark projects to contribute
 
-##### chaytanya 05/12/2020 22:11:15
 Hello everyone,My name is Chaytanya Sinha,I am an engineering student experienced in c/c++,javascript,nodejs,reactjs,html,css,python and kotlin. I am interested in contributing to webots's documentation.I have been following webots since long. I have experience of documentation as I am working on documentation of webpack v5. Please guide me how to proceed towards documentation of webots
 
 ##### David Mansolino [cyberbotics] 05/12/2020 09:04:01
@@ -123,13 +118,11 @@ That would indeed be something very useful, if you want to contribute you are ve
 ##### mgautam 05/12/2020 09:01:08
 If it is needed.
 
-##### mgautam 05/12/2020 09:00:57
 Thanks for fast reply. I was thinking to set up a continuous documentation pipeline for it using sphinx.
 
 ##### David Mansolino [cyberbotics] 05/12/2020 08:59:30
 Let us know if you have any specific question
 
-##### David Mansolino [cyberbotics] 05/12/2020 08:59:20
 Hi, the documentation is directly in the README file: [https://github.com/cyberbotics/urdf2webots/blob/master/README.md](https://github.com/cyberbotics/urdf2webots/blob/master/README.md)
 
 ##### mgautam 05/12/2020 08:58:37
@@ -144,7 +137,6 @@ You're welcome
 ##### David Mansolino [cyberbotics] 05/07/2020 04:54:17
 The you have to select the arm and in the 'Position' tab of the field editor (on the bottom of the scene-tree) you can see the position relative to the robot.
 
-##### David Mansolino [cyberbotics] 05/07/2020 04:53:34
 Hi `@davisUndergrad`, it is located at '0.156 0 0' from the robot origin. To see it you have to convert the robot node to base node (right click on the youbot in the scene tree, and press 'Convert to Base Node(s)'.
 
 ##### davisUndergrad 05/06/2020 17:21:50
@@ -157,7 +149,6 @@ Oh I understand now thank you so much
 ##### Olivier Michel [cyberbotics] 05/01/2020 16:53:42
 which corresponds to 60°
 
-##### Olivier Michel [cyberbotics] 05/01/2020 16:53:21
 Then you should set the aperture field value to 1.0472 rad.
 
 ##### İchigogo 05/01/2020 16:33:48
@@ -174,7 +165,6 @@ In particular for feature request:
 ##### Luftwaffel 04/30/2020 10:40:04
 do you have something like a trello?
 
-##### Luftwaffel 04/30/2020 10:39:36
 where would I propose that?
 
 ##### Olivier Michel [cyberbotics] 04/30/2020 10:37:09
@@ -189,13 +179,10 @@ Yes, that seems to be a good idea.
 ##### Luftwaffel 04/30/2020 10:34:52
 most commonly used in ROS and any 3D application. would really be helpfull
 
-##### Luftwaffel 04/30/2020 10:34:31
 perhaps add get_orientation_quaternion while you're at it 😉
 
-##### Luftwaffel 04/30/2020 10:34:11
 get_orientation_matrix
 
-##### Luftwaffel 04/30/2020 10:33:59
 perhaps adding a function? Would be the non destructive way
 
 ##### Olivier Michel [cyberbotics] 04/30/2020 10:28:36
@@ -204,7 +191,6 @@ Yes, we may consider changing it on the develop branch.
 ##### Luftwaffel 04/30/2020 10:26:50
 but I guess changing that would break existing code
 
-##### Luftwaffel 04/30/2020 10:26:13
 oh btw, it's kinda weird that get_orientation returns a 1x9 list, instead of 3x3
 
 ##### Olivier Michel [cyberbotics] 04/30/2020 10:25:15
@@ -213,7 +199,6 @@ OK, looking forward to review it.
 ##### Luftwaffel 04/30/2020 10:24:56
 solved it differently
 
-##### Luftwaffel 04/30/2020 10:24:45
 added it
 
 ##### Olivier Michel [cyberbotics] 04/30/2020 10:19:11
@@ -225,16 +210,13 @@ I think I got it 🙂
 ##### Olivier Michel [cyberbotics] 04/30/2020 10:18:13
 Something like the **Reminder** and **Tips** here: [https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot#sensors](https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot#sensors) ?
 
-##### Olivier Michel [cyberbotics] 04/30/2020 10:16:01
 Yes, that seems to be a good idea. Let me search how to do that...
 
 ##### Luftwaffel 04/30/2020 10:15:29
 a 'expandable box' would be great, no idea how to implement that
 
-##### Luftwaffel 04/30/2020 10:12:12
 in what way should I insert the code? Linked, directly in the description, or in a different way??
 
-##### Luftwaffel 04/30/2020 10:08:41
 Okay will do. Feel free to change or edit it btw.
 
 ##### Olivier Michel [cyberbotics] 04/30/2020 10:07:41
@@ -243,28 +225,21 @@ That is great. Could you create a PR to add this contribution to the doc? [https
 ##### Luftwaffel 04/30/2020 10:03:40
 [https://pastebin.com/k7kf4Ez5](https://pastebin.com/k7kf4Ez5)
 
-##### Luftwaffel 04/30/2020 10:03:35
 Okay so I finally got it working to quickly and easily calculate any position and orientation of a node relative to any other node. This should be added to the supervisor get_position and get_orientation documentation
 
 ##### Olivier Michel [cyberbotics] 04/21/2020 16:04:21
 From the Help menu.
 
-##### Olivier Michel [cyberbotics] 04/21/2020 16:04:10
 Meanwhile, you can revert to the doc embedded inside Webots.
 
-##### Olivier Michel [cyberbotics] 04/21/2020 16:03:13
 And since the doc uses that...
 
-##### Olivier Michel [cyberbotics] 04/21/2020 16:03:04
 This URL doesn't load for me: [https://github.com/cyberbotics/webots/blob/master/docs/reference/propeller.md](https://github.com/cyberbotics/webots/blob/master/docs/reference/propeller.md)
 
-##### Olivier Michel [cyberbotics] 04/21/2020 16:02:25
 Actually the problem is on github...
 
-##### Olivier Michel [cyberbotics] 04/21/2020 16:01:55
 Well, it is very slow, but works for me...
 
-##### Olivier Michel [cyberbotics] 04/21/2020 16:01:39
 Yes, that's right. Thank you for reporting...
 
 ##### Axel M [Premier Service] 04/21/2020 15:59:54
@@ -304,10 +279,8 @@ Thank you.
 ##### ClBaze 04/16/2020 12:51:05
 `[ros] [ERROR] [1587023118.216799425, 4.456000000]: client wants service /tile_35_4366_pc047/supervisor/get_from_def to have md5sum ac26007a2c83bd1b38318cda0f4ce627, but it has 3f818aa8f7c2c60588c99f7ee189c5bd. Dropping connection.`
 
-##### ClBaze 04/16/2020 12:47:16
 It seems that the checksum of the get_from_def message has changed
 
-##### ClBaze 04/16/2020 12:44:19
 I haven't tested, but it works with the Webots R2020a revision1 .deb
 
 ##### David Mansolino [cyberbotics] 04/16/2020 12:42:38
@@ -316,7 +289,6 @@ Hi `@ClBaze` is it working on the master branch ?
 ##### ClBaze 04/16/2020 12:42:18
 (oops this probably belongs to the development channel)
 
-##### ClBaze 04/16/2020 12:40:37
 Hello, I'm using Webots from the develop branch, I've noticed that the ROS service supervisor_get_from_def doesn't work anymore
 
 ##### David Mansolino [cyberbotics] 02/18/2020 11:46:25

@@ -7,7 +7,6 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 ##### Olivier Michel [cyberbotics] 05/12/2020 06:26:44
 Nice @starwars AT-ST inspired Walker running in Webots: [https://twitter.com/mantisrobot/status/1254693299702714369](https://twitter.com/mantisrobot/status/1254693299702714369)
 
-##### Olivier Michel [cyberbotics] 05/11/2020 13:27:12
 **Get Paid by Google to contribute to the Webots Documentation!**
 
 Cyberbotics is happy to announce it was accepted for participation in Google Season of Docs.
@@ -17,7 +16,6 @@ More information is available here: [https://cyberbotics.com/gsod](https://cyber
 ##### David Mansolino [cyberbotics] 05/04/2020 13:56:31
 You can fin the documentation about this new Webots robot model here: [https://cyberbotics.com/doc/guide/spot](https://cyberbotics.com/doc/guide/spot)
 
-##### David Mansolino [cyberbotics] 05/04/2020 13:56:15
 We are happy to share with you a simulation of the Spot robot from Boston Dynamic in Webots: [https://www.youtube.com/watch?v=b5mVe6dk0wI](https://www.youtube.com/watch?v=b5mVe6dk0wI)
 
 ##### Luftwaffel 04/14/2020 12:25:54
@@ -36,10 +34,8 @@ More information about the project: [http://robmosys.eu/arosys](http://robmosys.
 ##### junjihashimoto 02/13/2020 08:49:29
 I've developed VRML library for haskell ,too. It is useful to generate webots's world-file.
 
-##### junjihashimoto 02/13/2020 08:48:59
 [https://hackage.haskell.org/package/VRML](https://hackage.haskell.org/package/VRML)
 
-##### junjihashimoto 02/13/2020 08:48:33
 Hello, I'm Junji Hashimoto, Gree Inc. I've developed webots-bindings for haskell.  [https://hackage.haskell.org/package/HsWebots](https://hackage.haskell.org/package/HsWebots)
 
 ##### David Mansolino [cyberbotics] 01/15/2020 08:51:43
@@ -62,7 +58,6 @@ OpenDR / Thessaloniki
 ##### machinekoder 12/20/2019 16:45:23
 And merry X-mas 🎄
 
-##### machinekoder 12/20/2019 16:44:59
 `@Olivier Michel` Debian repo is fixed👍  Thanks.
 
 ##### David Mansolino [cyberbotics] 12/20/2019 15:49:25
@@ -71,7 +66,6 @@ Thank you, you too!
 ##### Hayden Woodger 12/20/2019 15:49:11
 🎅
 
-##### Hayden Woodger 12/20/2019 15:48:39
 Thanks for your help with all my novice questions. I hope you all have a very merry Christmas and a happy new year
 
 ##### David Mansolino [cyberbotics] 12/20/2019 15:46:50
@@ -80,7 +74,6 @@ Dear @everyone the Cyberbotics team is going to be on holidays during the Christ
 ##### Olivier Michel [cyberbotics] 12/20/2019 14:22:23
 I believe I also fixed the debian repository. Can you try again and confirm?
 
-##### Olivier Michel [cyberbotics] 12/20/2019 11:01:25
 The download link should be fixed now.
 
 ##### David Mansolino [cyberbotics] 12/20/2019 10:53:10
@@ -95,7 +88,6 @@ Indeed, thank you we will fix this right now.
 ##### machinekoder 12/20/2019 10:44:40
 It's cyberbotics.com/#download now
 
-##### machinekoder 12/20/2019 10:44:26
 Thanks. Btw. this download link is dead:
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/568354695513374730/657533768306786314/unknown.png)
@@ -120,10 +112,8 @@ Get it from [https://github.com/omichel/webots/releases/tag/R2020a](https://gith
 ##### Olivier Michel [cyberbotics] 12/17/2019 16:02:49
 Yet another one: [https://www.youtube.com/watch?v=Z3UyRjnFePk](https://www.youtube.com/watch?v=Z3UyRjnFePk)
 
-##### Olivier Michel [cyberbotics] 12/09/2019 20:53:03
 New progresses with the SnowSpeeder: [https://www.youtube.com/watch?v=Xjg2M2iK\_rE](https://www.youtube.com/watch?v=Xjg2M2iK_rE)
 
-##### Olivier Michel [cyberbotics] 11/29/2019 08:25:43
 Follow-up of the SnowSpeeder story: getting ready to attack the AT-AT. [https://youtu.be/7hU\_cipgiDc](https://youtu.be/7hU_cipgiDc)
 
 ##### SimonDK 11/27/2019 16:54:27
@@ -137,7 +127,6 @@ LEGO SnowSpeederBrick drone flying in Webots. This simulation was developed by J
 > **Attachment**: [SnowSpeederBrick\_drone\_for\_webots.mp4](https://cdn.discordapp.com/attachments/568354695513374730/639383651007594496/SnowSpeederBrick_drone_for_webots.mp4)
 
 
-##### Olivier Michel [cyberbotics] 10/15/2019 15:11:46
 We just released Webots R2019b revision 1 on the snap store [https://snapcraft.io/webots](https://snapcraft.io/webots) so that you can install it easily on your favorite Linux distribution (all dependencies are included).
 
 ##### Fabien Rohrer [Moderator] 10/03/2019 09:41:34
@@ -146,11 +135,9 @@ This maintenance release fixes several issues, adds a bunch of new assets, updat
 Download it from here: [https://github.com/cyberbotics/webots/releases/tag/R2019b-rev1](https://github.com/cyberbotics/webots/releases/tag/R2019b-rev1)
 Comlete changelog: [https://cyberbotics.com/doc/reference/changelog-r2019](https://cyberbotics.com/doc/reference/changelog-r2019)
 
-##### Fabien Rohrer [Moderator] 09/24/2019 07:21:48
 The Construct just published a ROS developers podcast about how to use Webots with ROS featuring `@Olivier Michel` and Ricardo Tellez.
 [http://www.theconstructsim.com/webots-robot-simulator-ros-olivier-michel](http://www.theconstructsim.com/webots-robot-simulator-ros-olivier-michel)
 
-##### Fabien Rohrer [Moderator] 09/18/2019 14:21:17
 Would like to share with us when you're using Webots? 🐞
 1. Open Webots
 2. Go in `Discord Settings / Game Activity / Add it`, and select `Webots` 😁
@@ -159,7 +146,6 @@ Would like to share with us when you're using Webots? 🐞
 %end
 
 
-##### Fabien Rohrer [Moderator] 09/03/2019 14:45:58
 The main Webots git repository (and other repositories) has been migrated to our brand-new "Cyberbotics" GitHub organization: [https://github.com/cyberbotics](https://github.com/cyberbotics)
 
 ##### David Mansolino [cyberbotics] 08/13/2019 16:04:48
@@ -179,16 +165,13 @@ This simulation is available in R2019b, if you didn't already updated to this ne
 ##### Fabien Rohrer [Moderator] 07/17/2019 12:58:12
 Our community on Discord has just gone beyond 200 people, this is great!
 
-##### Fabien Rohrer [Moderator] 07/03/2019 08:23:32
 We have just created a new channel for the robotbenchmark community. We are looking forward to seeing you there! [https://discord.gg/Gn6Buyt](https://discord.gg/Gn6Buyt) [https://robotbenchmark.net](https://robotbenchmark.net)
 
-##### Fabien Rohrer [Moderator] 06/25/2019 16:03:28
 Webots R2019b has just been released!
 [https://www.cyberbotics.com/doc/blog/Webots-2019-b-release](https://www.cyberbotics.com/doc/blog/Webots-2019-b-release)
 
 Get it now from [https://github.com/omichel/webots/releases/tag/R2019b](https://github.com/omichel/webots/releases/tag/R2019b)
 
-##### Fabien Rohrer [Moderator] 05/11/2019 08:12:15
 Demonstration of a Universal Robot UR5e with grippers: [https://youtu.be/WIY9ebqSXUc](https://youtu.be/WIY9ebqSXUc)
 
 ##### Olivier Michel [cyberbotics] 04/18/2019 08:39:15

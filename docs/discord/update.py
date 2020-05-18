@@ -38,6 +38,7 @@ class MyClient(discord.Client):
             file.write(u'# %s\n\n' % channel.name.title())
             file.write(u'This is an archive of the `%s` channel of the ' % channel.name +
                        '[Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n')
+            previousMessageUser = None
             async for message in channel.history(limit=100):
                 if message.type == discord.MessageType.default and message.content:
                     # statistics
@@ -50,15 +51,17 @@ class MyClient(discord.Client):
                         year = message.created_at.year
                         file.write(u'## %d\n\n' % year)
                     # author + date header
-                    roles = []
-                    for role in message.author.roles:
-                        if role.name != '@everyone':
-                            roles.append(role.name)
-                    roleString = roleString = '[%s] ' % '-'.join(roles) if roles else ''
-                    file.write(u'##### %s %s%s\n' %
-                               (message.author.name,
-                                roleString,
-                                message.created_at.strftime("%m/%d/%Y %H:%M:%S")))
+                    if previousMessageUser != message.author:
+                        previousMessageUser = message.author
+                        roles = []
+                        for role in message.author.roles:
+                            if role.name != '@everyone':
+                                roles.append(role.name)
+                        roleString = roleString = '[%s] ' % '-'.join(roles) if roles else ''
+                        file.write(u'##### %s %s%s\n' %
+                                   (message.author.name,
+                                    roleString,
+                                    message.created_at.strftime("%m/%d/%Y %H:%M:%S")))
                     content = ''
                     # read message line by line
                     for line in message.content.splitlines():

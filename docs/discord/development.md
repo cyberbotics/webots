@@ -7,7 +7,6 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 ##### David Mansolino [cyberbotics] 05/15/2020 04:57:11
 `@Sanket Khadse` the controller of the drone is very simple, it doesn't do any feedback using the GPS position or any inertial unit, it might therefore easily drift.
 
-##### David Mansolino [cyberbotics] 05/15/2020 04:55:43
 `@Jesusmd` you want to get the type of distance sensor? If so you should use the ``getType`` function: [https://cyberbotics.com/doc/reference/distancesensor?tab-language=python#wb\_distance\_sensor\_get\_type](https://cyberbotics.com/doc/reference/distancesensor?tab-language=python#wb_distance_sensor_get_type)
 
 ##### Sanket Khadse 05/15/2020 03:02:49
@@ -26,10 +25,8 @@ Awesome, thank you so much. That makes things easier
 ##### Axel M [Premier Service] 05/14/2020 09:11:01
 The integration with ROS is super easy too with [http://wiki.ros.org/eigen\_conversions](http://wiki.ros.org/eigen_conversions) 🙂
 
-##### Axel M [Premier Service] 05/14/2020 09:09:52
 Regarding your example of getting relative position between two nodes, that can be easily achieved with Eigen in cpp (3x3 Matrix -> Quaternion, quaternion / vector product)
 
-##### Axel M [Premier Service] 05/14/2020 09:08:34
 `@Luftwaffel` Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
 
 ##### David Mansolino [cyberbotics] 05/14/2020 05:34:23
@@ -58,7 +55,6 @@ I can't find a way to. I imported a VRML97 model into Webots, the model was quit
 ##### Luftwaffel 05/13/2020 16:21:05
 I'll give it a try
 
-##### Luftwaffel 05/13/2020 16:20:54
 oh lordy 😅
 
 ##### Olivier Michel [cyberbotics] 05/13/2020 16:20:18
@@ -73,7 +69,6 @@ If you use Webots with ROS, you need to install ROS, and you should get 'tf' for
 ##### Luftwaffel 05/13/2020 16:16:44
 it is almost a must if working with ROS and robots
 
-##### Luftwaffel 05/13/2020 16:16:25
 how big of a deal would it be to add the 'tf' package to the webots ROS environment?
 
 ##### Olivier Michel [cyberbotics] 05/13/2020 16:15:26
@@ -82,22 +77,17 @@ Oops...
 ##### Luftwaffel 05/13/2020 16:15:08
 Problem is, the link to their liscense is broken 😅
 
-##### Luftwaffel 05/13/2020 16:14:47
 [https://sscc.nimh.nih.gov/pub/dist/bin/linux\_gcc32/meica.libs/nibabel/quaternions.py](https://sscc.nimh.nih.gov/pub/dist/bin/linux_gcc32/meica.libs/nibabel/quaternions.py)
 
-##### Luftwaffel 05/13/2020 16:14:46
 specifically this:
 
-##### Luftwaffel 05/13/2020 16:14:34
 [https://nipy.org/nibabel/reference/nibabel.quaternions.html](https://nipy.org/nibabel/reference/nibabel.quaternions.html)
 
-##### Luftwaffel 05/13/2020 16:14:33
 The thing is, I want it to be able to run in the native webots environment, so no extra packages. I got it to work using their code:
 
 ##### Olivier Michel [cyberbotics] 05/13/2020 16:13:18
 OK, so you need to convert this 3x3 rotation matrix to a quaternion then.
 
-##### Olivier Michel [cyberbotics] 05/13/2020 16:12:56
 Yes, you are right. Sorry, my bad.
 
 ##### Luftwaffel 05/13/2020 16:12:12
@@ -106,10 +96,8 @@ but that returns the 3x3 matrix
 ##### Olivier Michel [cyberbotics] 05/13/2020 16:11:40
 If you need absolute rotation (in axis-angle notation), use:  [https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_orientation](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_orientation)
 
-##### Olivier Michel [cyberbotics] 05/13/2020 16:10:46
 (gives relative rotation in axis-angle notation)
 
-##### Olivier Michel [cyberbotics] 05/13/2020 16:10:25
 [https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_field\_get\_sf\_rotation](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_field_get_sf_rotation)
 
 ##### Luftwaffel 05/13/2020 16:09:36
@@ -122,16 +110,13 @@ def axis_angle_to_quaternion(axis, theta):
     return numpy.append([numpy.cos(theta/2)], numpy.sin(theta/2) * axis)
 ```
 
-##### Olivier Michel [cyberbotics] 05/13/2020 16:08:03
 No, you have to get it as an axis-angle representation, but that's super easy to translate into quaternion.
 
 ##### Luftwaffel 05/13/2020 16:04:22
 Btw, is there a way to get the quaternion orientation directly from webots? That would make things much simpler
 
-##### Luftwaffel 05/13/2020 16:03:27
 Still a bit crude with little error correction, but it works 🙂
 
-##### Luftwaffel 05/13/2020 16:02:55
 <@&568329906048598039> Btw, I'm currently working on a python program, that publishes the PoseStamped of one or more nodes into a rostopic. It also allows to publish the Pose relative to a specific node.
 
 ##### David Mansolino [cyberbotics] 05/11/2020 06:43:54
@@ -157,7 +142,6 @@ You're welcome
 ##### Psyka 04/28/2020 14:06:55
 it working fine
 
-##### Psyka 04/28/2020 14:06:34
 very nice thank's 🙂
 
 ##### David Mansolino [cyberbotics] 04/28/2020 14:04:40
@@ -168,7 +152,6 @@ You should have:
 ##### Psyka 04/28/2020 14:04:40
 so I just have to rename it ?
 
-##### Psyka 04/28/2020 14:04:33
 I understand now what you mean
 
 ##### David Mansolino [cyberbotics] 04/28/2020 14:04:24
@@ -177,16 +160,12 @@ yes indeed
 ##### Psyka 04/28/2020 14:04:20
 ho ok
 
-##### Psyka 04/28/2020 14:04:18
 ?
 
-##### Psyka 04/28/2020 14:04:17
 worlds
 
-##### Psyka 04/28/2020 14:03:58
 how should I name that directory ?
 
-##### Psyka 04/28/2020 14:03:45
 it was working fine like last week
 
 ##### David Mansolino [cyberbotics] 04/28/2020 14:03:18
@@ -202,10 +181,8 @@ because the names in the project folder should respect a strict convention (you 
 ##### Psyka 04/28/2020 14:01:01
 is a copy past of my path
 
-##### Psyka 04/28/2020 14:00:54
 Create_Webots_World\wbt\Created_World\textures\ground.jpg
 
-##### Psyka 04/28/2020 14:00:46
 yes
 
 ##### David Mansolino [cyberbotics] 04/28/2020 14:00:36
@@ -216,10 +193,8 @@ But that's not what you said:
 ##### Psyka 04/28/2020 14:00:35
 hooo why that can't it be ?
 
-##### Psyka 04/28/2020 14:00:14
 and all my .wbt are in worlds
 
-##### Psyka 04/28/2020 13:59:59
 exactly
 
 ##### David Mansolino [cyberbotics] 04/28/2020 13:59:47
@@ -236,22 +211,16 @@ Create_Webots_World\wbt\
 ##### Psyka 04/28/2020 13:57:47
 Create_Webots_World\wbt\Created_World\textures\ground.jpg
 
-##### Psyka 04/28/2020 13:56:57
 there I've got a directory "controllers" for controllers and "Created World" with in it "textures" and then the "ground.jpg"
 
-##### Psyka 04/28/2020 13:55:49
 so all my project are in E:\...\...\Project\wbt\
 
-##### Psyka 04/28/2020 13:55:09
 haaa sorry I'm loosing it
 
-##### Psyka 04/28/2020 13:54:54
 wbt directory
 
-##### Psyka 04/28/2020 13:54:06
 and inside I've got a directory named "textures"
 
-##### Psyka 04/28/2020 13:53:44
 I've got a directory named "Created World" where there is all my .wbt worlds using this
 
 ##### David Mansolino [cyberbotics] 04/28/2020 13:53:08
@@ -260,10 +229,8 @@ And where is it in your project directory exactly?
 ##### Psyka 04/28/2020 13:52:57
 copy pasted
 
-##### Psyka 04/28/2020 13:52:52
 ground
 
-##### Psyka 04/28/2020 13:52:43
 textures
 
 ##### David Mansolino [cyberbotics] 04/28/2020 13:52:11
@@ -272,17 +239,13 @@ Is it correctly in a ``textures``  folder?
 ##### Psyka 04/28/2020 13:51:50
 and it's not working
 
-##### Psyka 04/28/2020 13:51:47
 but the file is int the current directory of the current project
 
-##### Psyka 04/28/2020 13:51:19
 WARNING: DEF GROUND Solid > Shape > PBRAppearance > ImageTexture: 'textures/ground.jpg' not found.
 A resource file can be defined relatively to the worlds directory of the current project, relatively to the worlds directory of the default project, relatively to its protos directory (if defined in a PROTO), or absolutely.
 
-##### Psyka 04/28/2020 13:51:13
 I've got an other issue :
 
-##### Psyka 04/28/2020 13:51:04
 Hey again,
 
 ##### mint 04/26/2020 14:54:05
@@ -291,7 +254,6 @@ Thank you Olivier!
 ##### Olivier Michel [cyberbotics] 04/26/2020 14:44:13
 See [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_orientation](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_orientation)
 
-##### Olivier Michel [cyberbotics] 04/26/2020 14:43:52
 It's a rotation matrix (as in OpenGL).
 
 ##### mint 04/26/2020 14:38:09
