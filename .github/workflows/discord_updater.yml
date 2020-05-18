@@ -2,26 +2,40 @@ name: Discord Doc Updater
 
 on:
   schedule:
-  - cron: "0 15 * * 1"
+  - cron: "0 15 * * 3"
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: 3.8
-
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.8
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install discord
     - name: Run discord updater
       run: |
-        python ./dosc/discord7update.py -t ${{ secrets.DISCORD_TOKEN }}
+        python ./docs/discord/update.py -t ${{ secrets.DISCORD_TOKEN }}
+    - name: Branch and Commit
+      run: |
+        git config --global user.name ${GITHUB_ACTOR}
+        git config --global user.email ${GITHUB_ACTOR}@github.com
+        git checkout -b discord-doc-update
+        git add ./docs/discord
+        git commit -m "Update discord docs."
+        git push origin discord-doc-update
+    - name: GitHub Pull Request Action
+      uses: repo-sync/pull-request@v2.2
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        source_branch: discord-doc-update
+        destination_branch: master
+        pr_title: Update Discord Docs
+        pr_body: Automatic update of the docs from the Discord channels
+        pr_reviewer: cyberbotics/maintainers
+        pr_label: documentation
+
