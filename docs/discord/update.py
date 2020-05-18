@@ -32,9 +32,9 @@ contributors = {}
 class MyClient(discord.Client):
     async def export_channel(self, channel):
         year = None
-        with open(channel.name + '.md', 'w') as file:
-            file.write('# %s\n\n' % channel.name.title())
-            file.write('This is an archive of the `%s` channel of the ' % channel.name +
+        with open(channel.name + '.md', 'w', encoding='utf-8') as file:
+            file.write(u'# %s\n\n' % channel.name.title())
+            file.write(u'This is an archive of the `%s` channel of the ' % channel.name +
                        '[Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n')
             async for message in channel.history(limit=100):
                 if message.type == discord.MessageType.default and message.content:
@@ -46,9 +46,9 @@ class MyClient(discord.Client):
                     # yearly section
                     if year is None or year != message.created_at.year:
                         year = message.created_at.year
-                        file.write('## %d\n\n' % year)
+                        file.write(u'## %d\n\n' % year)
                     # author + date header
-                    file.write('##### ' + message.author.name + ' ' + message.created_at.strftime("%m/%d/%Y %H:%M:%S") + '\n')
+                    file.write(u'##### ' + message.author.name + ' ' + message.created_at.strftime("%m/%d/%Y %H:%M:%S") + '\n')
                     content = ''
                     # read message line by line
                     for line in message.content.splitlines():
@@ -73,12 +73,12 @@ class MyClient(discord.Client):
                     # add attachments
                     for attachment in message.attachments:
                         if attachment.filename.endswith('.png') or attachment.filename.endswith('.jpg'):
-                            file.write('\n%figure\n')
-                            file.write('![%s](%s)\n' % (attachment.filename, attachment.url))
-                            file.write('%end\n')
+                            file.write(u'\n%figure\n')
+                            file.write(u'![%s](%s)\n' % (attachment.filename, attachment.url))
+                            file.write(u'%end\n')
                         else:
                             print("\033[33mUnsupported attachment file:" + attachment.filename + '\033[0m')
-                    file.write('\n\n')
+                    file.write(u'\n\n')
                 elif message.type == discord.MessageType.pins_add:
                     pass
                 else:
@@ -86,19 +86,19 @@ class MyClient(discord.Client):
                     print("\033[33m\tContent:" + str(message.content) + '\033[0m')
 
     async def on_ready(self):
-        with open('index.md', 'w') as file:
-            file.write('# Webots Discord Archives\n\n')
-            file.write('Release {{ webots.version.full }}\n\n')
-            file.write('%figure\n')
-            file.write('![Discord](images/discord.jpg)\n')
-            file.write('%end\n\n')
-            file.write('Copyright &copy; {{ date.year }} Cyberbotics Ltd.\n\n')
-            file.write('These are archives of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m):\n')
-            with open('menu.md', 'w') as menuFile:
+        with open('index.md', 'w', encoding='utf-8') as file:
+            file.write(u'# Webots Discord Archives\n\n')
+            file.write(u'Release {{ webots.version.full }}\n\n')
+            file.write(u'%figure\n')
+            file.write(u'![Discord](images/discord.jpg)\n')
+            file.write(u'%end\n\n')
+            file.write(u'Copyright &copy; {{ date.year }} Cyberbotics Ltd.\n\n')
+            file.write(u'These are archives of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m):\n')
+            with open('menu.md', 'w', encoding='utf-8') as menuFile:
                 for channel in self.get_all_channels():
                     if type(channel) == discord.channel.TextChannel and channel.name in channels:
-                        file.write('- [%s](%s)\n' % (channel.name.title(), channel.name + '.md'))
-                        menuFile.write('- [%s](%s)\n' % (channel.name.title(), channel.name + '.md'))
+                        file.write(u'- [%s](%s)\n' % (channel.name.title(), channel.name + '.md'))
+                        menuFile.write(u'- [%s](%s)\n' % (channel.name.title(), channel.name + '.md'))
                         await self.export_channel(channel)
             await self.close()
 
