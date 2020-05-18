@@ -71,6 +71,7 @@ private:
   //   1: scene changed since full resolution image was sent
   //   2: full resolution image just sent
   int mFullResolutionOnPause;
+  int mBlockedResolutionFactor;
 
   double mLastSpeedIndicatorTime;
   WbVector3 mTouchEventRotationCenter;
