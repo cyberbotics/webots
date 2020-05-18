@@ -71,8 +71,15 @@ class MyClient(discord.Client):
                         # remove wrongly used multi-line code
                         for start, code, end in re.findall(r'([^`]*)```([^`]*)```([^`]*)', line):
                             line = '%s`%s`%s' % (start, code, end)
+                        # multi-line code
                         if '```' in line:
                             inCode = not inCode
+                            # make sure it is on a dedicated line
+                            if inCode and not line.startswith('```'):
+                                line = line.replace('```', '\n```')
+                            if not inCode and len(line) > 3:
+                                line = line.replace('```', '\n```')
+                        # not inside a multi-line code
                         if not inCode:
                             # remove problematic parts
                             line = line.replace('<i>', '`<i>`')

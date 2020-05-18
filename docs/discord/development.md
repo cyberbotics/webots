@@ -989,8 +989,10 @@ You can find some examples in the Webots samples library:
 `@Musuyaba` the Servo node has been deprecated since many years now (starting from Webots 7.2). Please use the joint and motor nodes instead.
 
 ##### Musuyaba 12/03/2019 01:37:29
-Hi, i get this error, ```   11 | #include <webots/servo.h>
-      |          ^~~~~~~~~~~~~~~~ ```
+Hi, i get this error, 
+```   11 | #include <webots/servo.h>
+      |          ^~~~~~~~~~~~~~~~ 
+```
 and i think i need servo library, anyone have it? thankyou
 
 ##### Tahir [Moderator] 12/01/2019 01:45:12

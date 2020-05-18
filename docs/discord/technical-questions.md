@@ -4170,11 +4170,13 @@ If the simulation is not running anymore it means that Webots is waiting for the
 
 > `@kf1375` this error message gives you the answers:
 
-> ```
+> 
+```
 
 > [my_controller] my_controller.py:49: SyntaxWarning: "is not" with a literal. Did you mean "!="?
 
-> ```
+> 
+```
 
 > You should replace the `while (wb_robot_step(timestep) is not -1) {` condition by `while (wb_robot_step(timestep) != -1) {`.
 
@@ -4184,11 +4186,13 @@ If the simulation is not running anymore it means that Webots is waiting for the
 
 > `@kf1375` this error message gives you the answers:
 
-> ```
+> 
+```
 
 > [my_controller] my_controller.py:49: SyntaxWarning: "is not" with a literal. Did you mean "!="?
 
-> ```
+> 
+```
 
 > You should replace the `while (wb_robot_step(timestep) is not -1) {` condition by `while (wb_robot_step(timestep) != -1) {`.
 
@@ -5734,7 +5738,8 @@ lovely!
 gps = robot.getGPS('gps')
 gps.enable(int(robot.getBasicTimeStep()))
 value = gps.getValues()
-print(str(value))```
+print(str(value))
+```
 
 
 Hi, I am trying to get gps coordinates on a robot using python but getting nan as a result. i am using the following code, any idea why?
@@ -8666,7 +8671,8 @@ Thank you.
 for example running
 ```apt-get clean && apt-get autoremove
 sudo apt-get -f install
-dpkg --configure -a```
+dpkg --configure -a
+```
 
 
 but usually you first have to fix the broken package before being able to uninstall it
@@ -10606,7 +10612,8 @@ So should I still proceed as you instructed .?
 `@Olivier Michel`  I tried doing it .... but one solid has hinge joint and one is just a solid
 
 ##### Olivier Michel [cyberbotics] 02/18/2020 12:01:09
-E.g., ```
+E.g., 
+```
 DEF SOLID1 Solid {
   children [
     DEF SHAPE1 Shape {
@@ -10620,7 +10627,8 @@ DEF SOLID2 Solid {
       ...
     }
   ]
-}```
+}
+```
 
 Is merged this way:
 
@@ -12420,7 +12428,8 @@ just had to add it
   {
      maxObjects -1
   }
-}```
+}
+```
 
 ##### zibz 01/24/2020 13:24:49
 kay, done that, gonna fiddle with it
@@ -13141,8 +13150,10 @@ Unfortunately that's not so simple, Node arguments are not simply translated int
 Ok, thanks
 
 
-In effect something like ```extensionSlot [ 
-  %{= fields.extensionSlot.value }%```
+In effect something like 
+```extensionSlot [ 
+  %{= fields.extensionSlot.value }%
+```
 
 ##### David Mansolino [cyberbotics] 01/15/2020 15:44:41
 Yes, simply renaming it in your BaseChassis.proto should fix the problem. You can do this with lua too indeed, but that's more complicated
@@ -15049,6 +15060,7 @@ that other one was the .env file
     }
   ]
 }
+
 ``` is the json
 
 ##### Stefania Pedrazzi [cyberbotics] 12/12/2019 09:13:58
@@ -15059,7 +15071,8 @@ WTF, now it works.... why doesnt the console work tho?
 
 
 ```PYTHONPATH=C:\Program Files\Webots\lib\controller\python37
-PATH=%PATH%;C:\Program Files\Webots\lib\controller;C:\Program Files\Webots\lib\controller\python37;C:\Program Files\Webots\msys64\mingw64\bin``` is my .env that is loaded using the launch.json
+PATH=%PATH%;C:\Program Files\Webots\lib\controller;C:\Program Files\Webots\lib\controller\python37;C:\Program Files\Webots\msys64\mingw64\bin
+``` is my .env that is loaded using the launch.json
 
 
 ........
@@ -15115,7 +15128,8 @@ Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
   File "C:\Program Files\Webots\lib\controller\python37\controller.py", line 15, in <module>
     import _controller
-ImportError: DLL load failed: The specified module could not be found.```
+ImportError: DLL load failed: The specified module could not be found.
+```
 
 
 grrr... still failed
@@ -15177,8 +15191,10 @@ import still failing
 both echo and python see both lib\controller and lib\controller\python37
 
 ##### Stefania Pedrazzi [cyberbotics] 12/12/2019 08:41:05
-or from python ```import os
-print(os.getenv('PATH'))```
+or from python 
+```import os
+print(os.getenv('PATH'))
+```
 
 ##### Nocturnal Warfare 12/12/2019 08:40:54
 yeah both of those new paths are in there
@@ -15214,7 +15230,8 @@ Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
   File "C:\Program Files\Webots\lib\controller\python37\controller.py", line 15, in <module>
     import _controller
-ImportError: DLL load failed: The specified module could not be found.```
+ImportError: DLL load failed: The specified module could not be found.
+```
 
 ##### Stefania Pedrazzi [cyberbotics] 12/12/2019 08:34:19
 no this sets only the PATH, for the PYTHONPATH type:
@@ -15269,7 +15286,8 @@ Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
   File "C:\Program Files\Webots\lib\controller\python37\controller.py", line 15, in <module>
     import _controller
-ImportError: DLL load failed: The specified module could not be found.```
+ImportError: DLL load failed: The specified module could not be found.
+```
 
 ##### Stefania Pedrazzi [cyberbotics] 12/12/2019 08:12:25
 are using cmd terminal? this should work `SET PYTHONPATH=C:\Program Files\Webots\lib\controller\python37; C:\Program Files\Webots\msys64\mingw64\bin; `
@@ -15292,7 +15310,8 @@ Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
   File "C:\Program Files\Webots\lib\controller\python37\controller.py", line 15, in <module>
     import _controller
-ImportError: DLL load failed: The specified module could not be found.```
+ImportError: DLL load failed: The specified module could not be found.
+```
 
 ##### Stefania Pedrazzi [cyberbotics] 12/12/2019 08:08:19
 does the import work correctly if you run python from a terminal?
@@ -15509,9 +15528,11 @@ Success here too.  Needed "camera" instead of "Camera".  lol
 have you had any luck setting up an external controller through something other than the built in editor like Visual Studio Code?
 
 
-hey it works, like if i just do ```leftMotor = Motor('left wheel motor')
+hey it works, like if i just do 
+```leftMotor = Motor('left wheel motor')
 rightMotor = Motor('right wheel motor')` instead of `#leftMotor = robot.getMotor('left wheel motor')
-#rightMotor = robot.getMotor('right wheel motor')``` it works fine
+#rightMotor = robot.getMotor('right wheel motor')
+``` it works fine
 
 
 no i can manipulate the functions associated with them, just the code does not autofill when i put a '.' for instance, where when i do the same with the robot, it does
@@ -15577,7 +15598,8 @@ line 15 is from the Python API files, so line 15 of the controller.py imports \_
 if __package__ or "." in __name__:
     from . import _controller
 else:
-    import \_controller```
+    import \_controller
+```
 
 ##### nap 12/12/2019 06:05:35
 are you sure there should be an underscore in front of \_controller?
@@ -15594,7 +15616,8 @@ I am trying to go through the tutorials and I'm running into an issue with runni
 [e-puck_go_forward]   File "C:\Program Files\Webots\lib\python37\controller.py", line 15, in <module>
 [e-puck_go_forward]     import _controller
 [e-puck_go_forward] ValueError: source code string cannot contain null bytes
-WARNING: 'e-puck\_go\_forward' controller exited with status: 1.```
+WARNING: 'e-puck\_go\_forward' controller exited with status: 1.
+```
 Any ideas as to what is causing "ValueError: source code string cannot contain null bytes"
 
 ##### nap 12/12/2019 05:57:40
@@ -22099,7 +22122,8 @@ One of the leg joints with a rotational motor and sensor looks like this:
           maxVelocity 1
           maxTorque 100
         }
-      ]```
+      ]
+```
 I tried changing parameters such as resolution, but it didn't change the outcome.
 
 ##### Olivier Michel [cyberbotics] 10/11/2019 11:30:37
@@ -22142,7 +22166,8 @@ Looks like this
         value = ps[i].getValue()
         psValues.append(value)
     break
-print(psValues)```
+print(psValues)
+```
 Prints all zeros in the list for all of my sensors.
 
 ##### Olivier Michel [cyberbotics] 10/11/2019 09:48:23
@@ -25536,7 +25561,8 @@ do you have a '\_controller' library in `C:\Users\mariu\AppData\Local\Programs\W
     from controller import Supervisor, Motor, PositionSensor, TouchSensor
   File "C:\Users\mariu\AppData\Local\Programs\Webots\lib\python37\controller.py", line 16, in <module>
     import _controller
-ImportError: DLL load failed: The specified module could not be found.```
+ImportError: DLL load failed: The specified module could not be found.
+```
 
 This is the output when running it through the debugger
 
@@ -27779,9 +27805,11 @@ Would you be so kind as to inform me of what they are please?
 There is quite a large number of environment variables to setup.
 
 ##### MariusJuston [Moderator] 07/16/2019 14:52:08
-Still no... ```bash
+Still no... 
+```bash
 echo %WEBOTS_HOME%
-C:\Users\***\AppData\Local\Programs\Webots\```
+C:\Users\***\AppData\Local\Programs\Webots\
+```
 
 ##### Olivier Michel [cyberbotics] 07/16/2019 14:51:31
 Did you follow the instructions here: [https://cyberbotics.com/doc/guide/running-extern-robot-controllers?](https://cyberbotics.com/doc/guide/running-extern-robot-controllers?)
@@ -27842,7 +27870,8 @@ Traceback (most recent call last):
     from controller import Supervisor, Motor
   File "C:\Users\***\AppData\Local\Programs\Webots\lib\python37\controller.py", line 17, in <module>
     import _controller
-ImportError: DLL load failed: The specified module could not be found.```
+ImportError: DLL load failed: The specified module could not be found.
+```
 I am trying to load the DLLs; however, I have not managed to find them. I have added `'C:\\Users\\***\\AppData\\Local\\Programs\\Webots\\lib\\python37'` to my `sys.path` variable already.
 What can I do to make this work?
 Many thanks!
@@ -31586,7 +31615,8 @@ Webots has detected that your GPU has less than 2Gb of memory. A minimum of 2Gb 
 
  - Texture quality has been reduced.
 
-You can try to re-activate some OpenGL features from the Webots preferences.```
+You can try to re-activate some OpenGL features from the Webots preferences.
+```
 
 ##### Fabien Rohrer [Moderator] 06/11/2019 14:42:43
 yes, that's true, thank you
@@ -32034,7 +32064,8 @@ while robot.step(TIME_STEP) != -1:
    # first position
    position(1.57)
    # second position
-   position(-1.57)```
+   position(-1.57)
+```
 
 
 Hello, could you guys help me?
