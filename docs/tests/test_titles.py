@@ -1,6 +1,5 @@
 """Test module for the titles."""
 
-import os
 import re
 import unittest
 
@@ -46,10 +45,12 @@ class TestTitles(unittest.TestCase):
         self.titles = []
         books = Books()
         for book in books.books:
+
+            # we are not responsible of the content of the discord chats
+            if book.name() == 'discord':
+                continue
+
             for md_path in book.md_paths:
-                # Exception for file generated from Discord
-                if os.path.basename(md_path).startswith('discord_'):
-                    continue
                 # Extract MD content.
                 with open(md_path) as f:
                     content = f.read()
