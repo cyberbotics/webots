@@ -11,7 +11,7 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
     this.domElement.setAttribute('draggable', false);
     parentObject.appendChild(this.domElement);
 
-    this.navigationEnabled = true;
+    this.viewMode = false;
     this.contextMenu = contextMenu;
     this.robotWindows = [];
     this.worldInfo = {title: null, infoWindow: null};
@@ -34,6 +34,7 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
     this.domElement.addEventListener('wheel', (e) => { this._onWheel(e); }, false);
     this.domElement.addEventListener('touchstart', (event) => { this._onTouchStart(event); }, true);
     this.domElement.addEventListener('contextmenu', (e) => { this._onContextMenu(e); }, false);
+    this.view.toolBar.enableToolBarButtons(!this.viewMode);
     if (typeof onready === 'function')
       onready();
   }
@@ -76,19 +77,19 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
       let url = httpUrl + list[1];
       this.view.toolBar.setMode(list[2]);
       this.domElement.src = url;
-      if (list.length > 4) {
+      this.viewMode = list.length > 4; // client in view mode
+      if (this.viewMode) {
         this.domElement.style.width = list[3] + 'px';
         this.domElement.style.height = list[4] + 'px';
-        this.navigationEnabled = false; // client in view mode
       }
+      this.view.toolBar.enableToolBarButtons(!this.viewMode);
       console.log('Multimedia streamed on ' + url);
     } else if (data.startsWith('resize: ')) {
-      let list = data.split(' ');
-      if (this.domElement.width !== parseInt(list[1]) || this.domElement.height !== parseInt(list[2])) {
+      if (this.viewMode) {
+        let list = data.split(' ');
         this.domElement.style.width = list[1] + 'px';
         this.domElement.style.height = list[2] + 'px';
-        this.navigationEnabled = false; // client in view mode
-      }
+      } // else ignore resize triggered from this instance
     } else if (data.startsWith('robot window: ')) {
       let dataString = data.substring(data.indexOf(':') + 1).trim();
       let dataObject = JSON.parse(dataString);
@@ -106,7 +107,7 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
   }
 
   _onMouseDown(event) {
-    if (!this.navigationEnabled)
+    if (this.viewMode)
       return false;
 
     this.mouseDown = 0;
@@ -141,7 +142,7 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
   }
 
   _onMouseUp(event) {
-    if (!this.navigationEnabled)
+    if (this.viewMode)
       return;
 
     event.target.removeEventListener('mousemove', this.onmousemove, false);
@@ -151,7 +152,7 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
   }
 
   _onWheel(event) {
-    if (!this.navigationEnabled)
+    if (this.viewMode)
       return false;
 
     this._sendMouseEvent(2, this._computeRemoteMouseEvent(event), Math.sign(event.deltaY));
@@ -164,7 +165,7 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
   }
 
   _onTouchStart(event) {
-    if (!this.navigationEnabled)
+    if (this.viewMode)
       return;
 
     this.mouseDown = 0;
@@ -201,7 +202,7 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
   }
 
   _onTouchMove(event) {
-    if (!this.navigationEnabled || event.targetTouches.length === 0 || event.targetTouches.length > 2)
+    if (this.viewMode || event.targetTouches.length === 0 || event.targetTouches.length > 2)
       return false;
     if (typeof this.touchEvent.initialTimeStamp === 'undefined')
       // Prevent applying mouse move action before drag initialization in mousedrag event.
@@ -295,7 +296,7 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
   }
 
   _onTouchEnd(event) {
-    if (!this.navigationEnabled)
+    if (this.viewMode)
       return false;
 
     this.domElement.removeEventListener('touchend', this.ontouchend, true);
