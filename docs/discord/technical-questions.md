@@ -6590,36 +6590,7 @@ I will test and let you know
 
 Thank you
 
-##### kwy 03/31/2020 12:41:36
-"""kwy\_gps\_supervisor\_py controller."""
 
-# You may need to import some classes of the controller module. Ex:
-#  from controller import Robot, Motor, DistanceSensor
-from controller import Robot, Supervisor
-
-TIME\_STEP = 64
-# create the Robot instance.
-# robot = Robot()
-
-supervisor = Supervisor()
-# /* get a handler to the emitter and to the robot */
-emitter = supervisor.getEmitter("emitter")
-
-# /* get the field which contains the position of the robot*/
-robot\_node = supervisor.getFromDef("GPS\_ROBOT")
-# robot\_node = Supervisor().getFromDef("GPS\_ROBOT")
-
-robot\_translation = robot\_node.getField("translation")
-
-
-# Main loop:
-# - perform simulation steps until Webots is stopping the controller
-while supervisor.step(TIME\_STEP) != -1:
-    robot\_coords = robot\_translation.getSFVec3f()
-    print(robot\_coords)
-    emitter.send(robot\_coords)
-
-##### David Mansolino [cyberbotics] 03/31/2020 12:40:43
 Probably just the code is enough, thank you
 
 
