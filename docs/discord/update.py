@@ -15,6 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import argparse
 import discord
 
 channels = [
@@ -87,5 +88,11 @@ class MyClient(discord.Client):
         print('Message from {0.author}: {0.content}'.format(message))
 
 
+parser = argparse.ArgumentParser(description='Update the Webots discord doc.')
+parser.add_argument('--token', '-t', dest='token', help='Specifies the Discord token', required=True)
+parser.add_argument('--channels', '-c', dest='channels', nargs='+', help='list of channel to export')
+args = parser.parse_args()
 client = MyClient()
-client.run('MY_KEY')
+if args.channels is not None:
+    channels = args.channels
+client.run(args.token)
