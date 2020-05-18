@@ -75,7 +75,7 @@ class MyClient(discord.Client):
             file.write('%end\n\n')
             file.write('Copyright &copy; {{ date.year }} Cyberbotics Ltd.\n\n')
             file.write('These are archives of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m):\n')
-            with open('index.md', 'w') as menuFile:
+            with open('menu.md', 'w') as menuFile:
                 for channel in self.get_all_channels():
                     if type(channel) == discord.channel.TextChannel and channel.name in channels:
                         file.write('- [%s](%s)\n' % (channel.name.title(), channel.name + '.md'))
