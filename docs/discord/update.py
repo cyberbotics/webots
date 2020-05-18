@@ -17,6 +17,7 @@
 
 import argparse
 import discord
+import re
 
 channels = [
     'news',
@@ -52,6 +53,11 @@ class MyClient(discord.Client):
                     # read message line by line
                     for line in message.content.splitlines():
                         # remove problematic parts
+                        line = line.replace('<i>', '`<i>`')
+                        # make url links
+                        for url in re.findall(r'(?P<url>https?://[^\s]+)', line):
+                            line = line.replace(url, '[%s](%s)' % (url, url))
+                        # add line to the content
                         content += line + '\n'
                         # if quote add a new line to make distinction between message and quote
                         if line.startswith('> '):
@@ -73,6 +79,8 @@ class MyClient(discord.Client):
                         else:
                             print("\033[33mUnsupported attachment file:" + attachment.filename + '\033[0m')
                     file.write('\n\n')
+                elif message.type == discord.MessageType.pins_add:
+                    pass
                 else:
                     print("\033[33mUnsupported message type:" + str(message.type) + '\033[0m')
                     print("\033[33m\tContent:" + str(message.content) + '\033[0m')
@@ -110,6 +118,6 @@ client.run(args.token)
 # display statistics
 contributors = sorted(contributors.items(), key=lambda kv: kv[1])
 contributors.reverse()
-print('Top 10 contributors:')
+print('Top 20 contributors:')
 for contributor in contributors[0:20]:
     print('  - %s (%d)' % contributor)

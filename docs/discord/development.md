@@ -8,7 +8,7 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 `@Sanket Khadse` the controller of the drone is very simple, it doesn't do any feedback using the GPS position or any inertial unit, it might therefore easily drift.
 
 ##### David Mansolino 05/15/2020 04:55:43
-`@Jesusmd` you want to get the type of distance sensor? If so you should use the ``getType`` function: https://cyberbotics.com/doc/reference/distancesensor?tab-language=python#wb_distance_sensor_get_type
+`@Jesusmd` you want to get the type of distance sensor? If so you should use the ``getType`` function: [https://cyberbotics.com/doc/reference/distancesensor?tab-language=python#wb_distance_sensor_get_type](https://cyberbotics.com/doc/reference/distancesensor?tab-language=python#wb_distance_sensor_get_type)
 
 ##### Sanket Khadse 05/15/2020 03:02:49
 Hey, may I know, why does a drone, (let it be DJI Mavic 2 Pro, which is already available into Webots, or a custom made) moves up and down and shifts constantly in one direction even if no such behaviour is defined in the controller code?
@@ -24,7 +24,7 @@ Hey, may I know, why does a drone, (let it be DJI Mavic 2 Pro, which is already 
 Awesome, thank you so much. That makes things easier
 
 ##### Axel M 05/14/2020 09:11:01
-The integration with ROS is super easy too with http://wiki.ros.org/eigen_conversions 🙂
+The integration with ROS is super easy too with [http://wiki.ros.org/eigen_conversions](http://wiki.ros.org/eigen_conversions) 🙂
 
 ##### Axel M 05/14/2020 09:09:52
 Regarding your example of getting relative position between two nodes, that can be easily achieved with Eigen in cpp (3x3 Matrix -> Quaternion, quaternion / vector product)
@@ -33,7 +33,7 @@ Regarding your example of getting relative position between two nodes, that can 
 `@Luftwaffel` Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
 
 ##### David Mansolino 05/14/2020 05:34:23
-`@Luftwaffel` instead of relying on ROS, if you are using Python you ca probably use the `transforms3d` python package which allows for example to convert from a rotation matrix to quaternions: https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat
+`@Luftwaffel` instead of relying on ROS, if you are using Python you ca probably use the `transforms3d` python package which allows for example to convert from a rotation matrix to quaternions: [https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat](https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat)
 
 ##### Luftwaffel 05/13/2020 18:04:16
 `@Sanket Khadse`  perhaps direct .proto file edit can help
@@ -83,13 +83,13 @@ Oops...
 Problem is, the link to their liscense is broken 😅
 
 ##### Luftwaffel 05/13/2020 16:14:47
-https://sscc.nimh.nih.gov/pub/dist/bin/linux_gcc32/meica.libs/nibabel/quaternions.py
+[https://sscc.nimh.nih.gov/pub/dist/bin/linux_gcc32/meica.libs/nibabel/quaternions.py](https://sscc.nimh.nih.gov/pub/dist/bin/linux_gcc32/meica.libs/nibabel/quaternions.py)
 
 ##### Luftwaffel 05/13/2020 16:14:46
 specifically this:
 
 ##### Luftwaffel 05/13/2020 16:14:34
-https://nipy.org/nibabel/reference/nibabel.quaternions.html
+[https://nipy.org/nibabel/reference/nibabel.quaternions.html](https://nipy.org/nibabel/reference/nibabel.quaternions.html)
 
 ##### Luftwaffel 05/13/2020 16:14:33
 The thing is, I want it to be able to run in the native webots environment, so no extra packages. I got it to work using their code:
@@ -104,13 +104,13 @@ Yes, you are right. Sorry, my bad.
 but that returns the 3x3 matrix
 
 ##### Olivier Michel 05/13/2020 16:11:40
-If you need absolute rotation (in axis-angle notation), use:  https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_orientation
+If you need absolute rotation (in axis-angle notation), use:  [https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_orientation](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_orientation)
 
 ##### Olivier Michel 05/13/2020 16:10:46
 (gives relative rotation in axis-angle notation)
 
 ##### Olivier Michel 05/13/2020 16:10:25
-https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_field_get_sf_rotation
+[https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_field_get_sf_rotation](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_field_get_sf_rotation)
 
 ##### Luftwaffel 05/13/2020 16:09:36
 how do we get axis angles? I have the 3x3 matrix
@@ -143,7 +143,7 @@ Still a bit crude with little error correction, but it works 🙂
 Is there an quickly way to get the attribute instead of  predefined values as for example in  Keyboard class.?  I would preffer enum as in c or c++
 
 ##### Luftwaffel 04/29/2020 22:31:07
-https://www.andre-gaschler.com/rotationconverter/
+[https://www.andre-gaschler.com/rotationconverter/](https://www.andre-gaschler.com/rotationconverter/)
 
 ##### Shubham D 04/29/2020 22:30:02
 I am trying to create some solid using transform and shapes.
@@ -197,7 +197,7 @@ it's "Created_World" and not "Created World" I just writte it wrong
 
 ##### David Mansolino 04/28/2020 14:01:36
 because the names in the project folder should respect a strict convention (you can name the project folder as you want but not the folders inside):
-   https://cyberbotics.com/doc/guide/the-standard-file-hierarchy-of-a-project
+   [https://cyberbotics.com/doc/guide/the-standard-file-hierarchy-of-a-project](https://cyberbotics.com/doc/guide/the-standard-file-hierarchy-of-a-project)
 
 ##### Psyka 04/28/2020 14:01:01
 is a copy past of my path
@@ -289,7 +289,7 @@ Hey again,
 Thank you Olivier!
 
 ##### Olivier Michel 04/26/2020 14:44:13
-See https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_orientation
+See [https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_orientation](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_orientation)
 
 ##### Olivier Michel 04/26/2020 14:43:52
 It's a rotation matrix (as in OpenGL).
@@ -305,7 +305,7 @@ You're welcome
 Thank you!
 
 ##### David Mansolino 04/23/2020 07:37:52
-A breaitenberge already compatible with many robot is distributed with Webots, here is the code:  https://github.com/cyberbotics/webots/tree/master/projects/default/controllers/braitenberg
+A breaitenberge already compatible with many robot is distributed with Webots, here is the code:  [https://github.com/cyberbotics/webots/tree/master/projects/default/controllers/braitenberg](https://github.com/cyberbotics/webots/tree/master/projects/default/controllers/braitenberg)
 
 ##### fdvalois 04/23/2020 07:34:46
 You just look braitenberg controller online?
@@ -337,6 +337,6 @@ thank you 😀
 
 ##### David Mansolino 04/16/2020 07:13:19
 Here is the  fix:
-https://github.com/cyberbotics/webots/pull/1548/files
+[https://github.com/cyberbotics/webots/pull/1548/files](https://github.com/cyberbotics/webots/pull/1548/files)
 It will be available in the next release of Webots. But in the meantime, you might apply it locally to your Webots installation files.
 

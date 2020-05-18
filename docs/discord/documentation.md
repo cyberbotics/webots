@@ -14,7 +14,7 @@ Thank you. We will review it soon.
 You have to click the "Create pull request" button.
 
 ##### Olivier Michel 05/13/2020 15:53:33
-`@Luftwaffel`: It's here https://github.com/cyberbotics/webots/compare/master...Simon-Steinmann:patch-1
+`@Luftwaffel`: It's here [https://github.com/cyberbotics/webots/compare/master...Simon-Steinmann:patch-1](https://github.com/cyberbotics/webots/compare/master...Simon-Steinmann:patch-1)
 
 ##### David Mansolino 05/13/2020 15:40:17
 Thank you, I will check and let you know
@@ -46,7 +46,7 @@ I can't find my commit
 Ok perfect, can you then open a pull-request from the branch where you did the commit so that we can review and merge it?
 
 ##### Luftwaffel 05/13/2020 15:22:20
-`@David Mansolino`  I made a commit here https://github.com/cyberbotics/webots/edit/master/docs/reference/supervisor.md
+`@David Mansolino`  I made a commit here [https://github.com/cyberbotics/webots/edit/master/docs/reference/supervisor.md](https://github.com/cyberbotics/webots/edit/master/docs/reference/supervisor.md)
 
 ##### David Mansolino 05/13/2020 15:07:12
 For doc correction you can target master directly
@@ -61,12 +61,12 @@ Yes exactly.
 Thank you, I already have a github account so I will do that. The right way is to fork the repository and then purpose a pull request with my changes ?
 
 ##### David Mansolino 05/13/2020 14:52:55
-Hi, thank you for pointing this out, you can edit this directly on github and create a PR for merging your changes, here is the editor (you need a Github account): https://github.com/cyberbotics/webots/edit/master/docs/reference/worldinfo.md
+Hi, thank you for pointing this out, you can edit this directly on github and create a PR for merging your changes, here is the editor (you need a Github account): [https://github.com/cyberbotics/webots/edit/master/docs/reference/worldinfo.md](https://github.com/cyberbotics/webots/edit/master/docs/reference/worldinfo.md)
 
 ##### lojik 05/13/2020 14:51:20
 Hello everyone, how can we help to document webots ? I would be happy to take part to improve it.
 
-I think there is a mistake on the following part : https://www.cyberbotics.com/doc/reference/worldinfo on the basicTimeStep part it is written that the minimum value could be 0.001 (one microsecond), but in the table at the beginning, the variable should be [1, inf). If we put less than 1, the simulation does not start in the example accelerometer.
+I think there is a mistake on the following part : [https://www.cyberbotics.com/doc/reference/worldinfo](https://www.cyberbotics.com/doc/reference/worldinfo) on the basicTimeStep part it is written that the minimum value could be 0.001 (one microsecond), but in the table at the beginning, the variable should be [1, inf). If we put less than 1, the simulation does not start in the example accelerometer.
 
 ##### David Mansolino 05/13/2020 08:12:06
 You're welcome
@@ -130,7 +130,7 @@ Thanks for fast reply. I was thinking to set up a continuous documentation pipel
 Let us know if you have any specific question
 
 ##### David Mansolino 05/12/2020 08:59:20
-Hi, the documentation is directly in the README file: https://github.com/cyberbotics/urdf2webots/blob/master/README.md
+Hi, the documentation is directly in the README file: [https://github.com/cyberbotics/urdf2webots/blob/master/README.md](https://github.com/cyberbotics/urdf2webots/blob/master/README.md)
 
 ##### mgautam 05/12/2020 08:58:37
 Hi! I was searching for urdf2webots docs. Does it have one?
@@ -167,9 +167,9 @@ hi !  in emitter-receivers how can I calculate aperture?I couldn't understand. f
 submitted it
 
 ##### David Mansolino 04/30/2020 10:47:24
-No we are using directly the Github issue mechanism: https://github.com/cyberbotics/webots/issues
+No we are using directly the Github issue mechanism: [https://github.com/cyberbotics/webots/issues](https://github.com/cyberbotics/webots/issues)
 In particular for feature request:
-https://github.com/cyberbotics/webots/issues/new?template=feature_request.md
+[https://github.com/cyberbotics/webots/issues/new?template=feature_request.md](https://github.com/cyberbotics/webots/issues/new?template=feature_request.md)
 
 ##### Luftwaffel 04/30/2020 10:40:04
 do you have something like a trello?
@@ -223,7 +223,7 @@ Great. It's the `%spoiler` keyword.
 I think I got it 🙂
 
 ##### Olivier Michel 04/30/2020 10:18:13
-Something like the **Reminder** and **Tips** here: https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot#sensors ?
+Something like the **Reminder** and **Tips** here: [https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot#sensors](https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot#sensors) ?
 
 ##### Olivier Michel 04/30/2020 10:16:01
 Yes, that seems to be a good idea. Let me search how to do that...
@@ -238,10 +238,10 @@ in what way should I insert the code? Linked, directly in the description, or in
 Okay will do. Feel free to change or edit it btw.
 
 ##### Olivier Michel 04/30/2020 10:07:41
-That is great. Could you create a PR to add this contribution to the doc? https://github.com/cyberbotics/webots/edit/master/docs/reference/supervisor.md
+That is great. Could you create a PR to add this contribution to the doc? [https://github.com/cyberbotics/webots/edit/master/docs/reference/supervisor.md](https://github.com/cyberbotics/webots/edit/master/docs/reference/supervisor.md)
 
 ##### Luftwaffel 04/30/2020 10:03:40
-https://pastebin.com/k7kf4Ez5
+[https://pastebin.com/k7kf4Ez5](https://pastebin.com/k7kf4Ez5)
 
 ##### Luftwaffel 04/30/2020 10:03:35
 Okay so I finally got it working to quickly and easily calculate any position and orientation of a node relative to any other node. This should be added to the supervisor get_position and get_orientation documentation
@@ -256,7 +256,7 @@ Meanwhile, you can revert to the doc embedded inside Webots.
 And since the doc uses that...
 
 ##### Olivier Michel 04/21/2020 16:03:04
-This URL doesn't load for me: https://github.com/cyberbotics/webots/blob/master/docs/reference/propeller.md
+This URL doesn't load for me: [https://github.com/cyberbotics/webots/blob/master/docs/reference/propeller.md](https://github.com/cyberbotics/webots/blob/master/docs/reference/propeller.md)
 
 ##### Olivier Michel 04/21/2020 16:02:25
 Actually the problem is on github...
@@ -297,7 +297,7 @@ ok
 
 ##### David Mansolino 04/16/2020 13:03:30
 Ok, thank you for reporting this.
-May I ask you to open a bug report here: https://github.com/cyberbotics/webots/issues/new?template=bug_report.md
+May I ask you to open a bug report here: [https://github.com/cyberbotics/webots/issues/new?template=bug_report.md](https://github.com/cyberbotics/webots/issues/new?template=bug_report.md)
 So that we can log this and try to fix it?
 Thank you.
 

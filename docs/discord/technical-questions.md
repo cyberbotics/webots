@@ -17,7 +17,7 @@ This is an archive of the `technical-questions` channel of the [Webots Discord s
 `@taeyoung` have you tried using the min/maxPosition instead?
 
 ##### David Mansolino 05/18/2020 08:50:42
-`@Rodeknopje` in that case you should use the `Robot.getInertialUnit` method (https://cyberbotics.com/doc/reference/robot?tab-language=python#wb_robot_get_device).
+`@Rodeknopje` in that case you should use the `Robot.getInertialUnit` method ([https://cyberbotics.com/doc/reference/robot?tab-language=python#wb_robot_get_device).](https://cyberbotics.com/doc/reference/robot?tab-language=python#wb_robot_get_device).)
 
 ##### David Mansolino 05/18/2020 08:49:53
 > `@David Mansolino`  How should I determine the wait between movements?Are there sample gait codes?
@@ -33,7 +33,7 @@ im using python
 ##### David Mansolino 05/18/2020 08:49:05
 > which method do i have to call to get acces to my inertial unit?
 
-`@Rodeknopje` hi, which language are you using? In any case, it works exactly like for the other sensors, it is based on the sensor name. See for example this tutorial where distance sensors are used: https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers#program-a-controller
+`@Rodeknopje` hi, which language are you using? In any case, it works exactly like for the other sensors, it is based on the sensor name. See for example this tutorial where distance sensors are used: [https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers#program-a-controller](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers#program-a-controller)
 
 ##### Rodeknopje 05/18/2020 08:47:19
 which method do i have to call to get acces to my inertial unit?
@@ -74,7 +74,7 @@ As I understand it, there is a stable version in the only repository. I will dow
 
 
 ##### David Mansolino 05/18/2020 06:42:28
-HI `@w3. eydi`, may I ask you to try with a nightly version of R2020a-revision2 available here, the unsuported image bug should be fixed with this version (let us know if it is not the case): https://github.com/cyberbotics/webots/releases
+HI `@w3. eydi`, may I ask you to try with a nightly version of R2020a-revision2 available here, the unsuported image bug should be fixed with this version (let us know if it is not the case): [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
 
 ##### elkelkmuh 05/18/2020 06:41:41
 Hi `@David Mansolino` I want to do stair climbing work with Op2 with python. When I use the    gaitManager.setYAmplitude  command, the foot does not rise as usual.  The robot is falling.  What's your advice?
@@ -103,18 +103,18 @@ I'm using Linux Debian9 - Pardus 17.5
 ##### David Mansolino 05/18/2020 06:17:07
 > Does any of the example use pure pursuit path follow algorithm by any chance?
 
-`@Lussfer` here are some path plannign example in Webots: https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum/Advanced_Programming_Exercises#Path_planning_[Advanced]
+`@Lussfer` here are some path plannign example in Webots: [https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum/Advanced_Programming_Exercises#Path_planning_[Advanced]](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum/Advanced_Programming_Exercises#Path_planning_[Advanced])
 Unfortunately none of them is using pure pursuit.
 
 ##### Stefania Pedrazzi 05/18/2020 06:14:29
 > Hello, I'm working on a room-mapping robot for my final year project and was wondering if it is possible to get the grid that the robot is currently on? I'm trying to do a very basic 2d array as a topological map?
 
-`@Conor` To get the position  of the robot you can use the GPS device or the Supervisor API. Both methods will give you the global 3D position, to map it to a XY grid map (or XZ using the default Webots coordinate system) you can simply discard the Y value.  I suggest you to check this sample simulation for an example about getting the robot position: https://www.cyberbotics.com/doc/guide/samples-devices#gps-wbt
+`@Conor` To get the position  of the robot you can use the GPS device or the Supervisor API. Both methods will give you the global 3D position, to map it to a XY grid map (or XZ using the default Webots coordinate system) you can simply discard the Y value.  I suggest you to check this sample simulation for an example about getting the robot position: [https://www.cyberbotics.com/doc/guide/samples-devices#gps-wbt](https://www.cyberbotics.com/doc/guide/samples-devices#gps-wbt)
 
 ##### David Mansolino 05/18/2020 06:10:26
 > Hi, we are trying to simulate a simple robot in Webot with two rear driving wheels. To make it simpler among our interdisciplinary team we decided to choose python as the controller language. We are stuck with simple logic like PWM implementation, most of the sample code are written in C/C++ , shall we change it to C or there is some supporting database out there that we have not looked for. We are struggling with this sort of issue from a couple of weeks. Any suggestions would be highly appreciated. Thanks
 
-`@Jatin Sharma` hi, in webots you don't need to implement PWM, you can directly control the motors in speed or position, I would recommend to follow our tutorials (available in Python) to get familiar with controller programming in Webots: https://cyberbotics.com/doc/guide/tutorial-1-your-first-simulation-in-webots?tab-language=python
+`@Jatin Sharma` hi, in webots you don't need to implement PWM, you can directly control the motors in speed or position, I would recommend to follow our tutorials (available in Python) to get familiar with controller programming in Webots: [https://cyberbotics.com/doc/guide/tutorial-1-your-first-simulation-in-webots?tab-language=python](https://cyberbotics.com/doc/guide/tutorial-1-your-first-simulation-in-webots?tab-language=python)
 
 ##### David Mansolino 05/18/2020 06:08:53
 > On webots i see that the object recognition is giving. X as Z, Y as Y and Z as -X. on webots does rotation match the orientations..
@@ -128,8 +128,8 @@ Hi, we are trying to simulate a simple robot in Webot with two rear driving whee
 ##### David Mansolino 05/18/2020 05:41:58
 > Is there code available online that directly controls the wheels of the youbot? I mean, instead of what the webot demo uses (keyboard control)? The idea is for the youbot to follow a black, straight line. I'm also curious if I am required to add 4 hingejoints to the body slot of youbot. Thanks in advance, it is greatly appreciated as I am very new to coding.
 
-`@brianne.byer` sure, here is an example: https://github.com/cyberbotics/webots/blob/master/projects/robots/kuka/youbot/libraries/youbot_control/src/base.c
-About the HingeJoint, you can indeed add them directly in the body slot as you would do with a regular chidren field (if not already done I would suggest to read this tutorial: https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot)
+`@brianne.byer` sure, here is an example: [https://github.com/cyberbotics/webots/blob/master/projects/robots/kuka/youbot/libraries/youbot_control/src/base.c](https://github.com/cyberbotics/webots/blob/master/projects/robots/kuka/youbot/libraries/youbot_control/src/base.c)
+About the HingeJoint, you can indeed add them directly in the body slot as you would do with a regular chidren field (if not already done I would suggest to read this tutorial: [https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot)](https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot))
 
 ##### David Mansolino 05/18/2020 05:39:28
 > hi there. if i use the supervisor to track the position of a robot. is it possible to send the position information to another controller?
@@ -202,7 +202,7 @@ Is there code available online that directly controls the wheels of the youbot? 
 hi there. if i use the supervisor to track the position of a robot. is it possible to send the position information to another controller?
 
 ##### David Mansolino 05/15/2020 08:17:35
-See this question for example: https://stackoverflow.com/questions/59263637/webots-write-controller-data-to-external-csv-file
+See this question for example: [https://stackoverflow.com/questions/59263637/webots-write-controller-data-to-external-csv-file](https://stackoverflow.com/questions/59263637/webots-write-controller-data-to-external-csv-file)
 
 ##### elkelkmuh 05/15/2020 08:12:32
 `@David Mansolino` how can I save them to a file?
@@ -236,7 +236,7 @@ what should I do with the proto file or the URDF file?
 Hi! I have a problem. When I used the proto to import the robot, one of my model is correct, but when I import the other one using the same method, webots reminds me that " ERROR: 'D:/Lab/Simulation/5_13TestURDF/protos/MCrab.proto':19:39: error: Expected node or PROTO name, found '{'. " I both used the urdf2webots program to output the proto file, and put them in two separate wbt file. I don't what wrong...
 
 ##### David Mansolino 05/14/2020 12:32:23
-`@infinity` https://www.youtube.com/watch?v=L0FVsFD2rS4&feature=youtu.be
+`@infinity` [https://www.youtube.com/watch?v=L0FVsFD2rS4&feature=youtu.be](https://www.youtube.com/watch?v=L0FVsFD2rS4&feature=youtu.be)
 
 ##### infinity 05/14/2020 12:15:56
 Anybody have any solution
@@ -254,7 +254,7 @@ Hlo
 sorry, i got a mistake i solve the problem !! thanks
 
 ##### David Mansolino 05/14/2020 11:41:58
-Have you tried the safe mode (https://cyberbotics.com/doc/guide/starting-webots#on-windows )?
+Have you tried the safe mode ([https://cyberbotics.com/doc/guide/starting-webots#on-windows](https://cyberbotics.com/doc/guide/starting-webots#on-windows) )?
 Or to open another world file?
 
 ##### nav3549 05/14/2020 11:29:15
@@ -284,7 +284,7 @@ This is a control question, not really specific to Webots by the way.
 yes, i already control it in speed. i just want the rover to avoid the obstacles, but it can only steer at the moment it see the obstacles. it has to keep steering for a while
 
 ##### David Mansolino 05/14/2020 10:01:19
-Yes, you simply have to control the motor in speed instead of position: https://cyberbotics.com/doc/reference/motor#velocity-control
+Yes, you simply have to control the motor in speed instead of position: [https://cyberbotics.com/doc/reference/motor#velocity-control](https://cyberbotics.com/doc/reference/motor#velocity-control)
 
 ##### AyresAlmada 05/14/2020 09:56:30
 hi there. are there any codes can make the wheels on the rover keep moving at a stable velocity?
@@ -292,7 +292,7 @@ hi there. are there any codes can make the wheels on the rover keep moving at a 
 ##### David Mansolino 05/14/2020 09:33:48
 > What average time does it takes to create an UAV which can be manually controlled? Has anyone build it?
 
-`@Rajesh Roy` it all depends on your UAV, but you can probably take inspiration from an UAV already existing in Webots, such as this one: https://cyberbotics.com/doc/guide/mavic-2-pro
+`@Rajesh Roy` it all depends on your UAV, but you can probably take inspiration from an UAV already existing in Webots, such as this one: [https://cyberbotics.com/doc/guide/mavic-2-pro](https://cyberbotics.com/doc/guide/mavic-2-pro)
 
 ##### Rajesh Roy 05/14/2020 08:16:25
 What average time does it takes to create an UAV which can be manually controlled? Has anyone build it?
@@ -304,7 +304,7 @@ You're welcome
 Great! Thank you so much for the information
 
 ##### David Mansolino 05/14/2020 07:15:49
-Hi, the horizontal field of view is 1.0 radians, you can read this in the PROTO file: https://github.com/cyberbotics/webots/blob/master/projects/devices/microsoft/protos/Kinect.proto#L513-L520
+Hi, the horizontal field of view is 1.0 radians, you can read this in the PROTO file: [https://github.com/cyberbotics/webots/blob/master/projects/devices/microsoft/protos/Kinect.proto#L513-L520](https://github.com/cyberbotics/webots/blob/master/projects/devices/microsoft/protos/Kinect.proto#L513-L520)
 
 ##### YCSU 05/14/2020 07:11:41
 Hi,  I am using the Microsoft Kinect sensor model in Webots. Since I would like to calculate the 3D coordinates (x ,y, z) in meters from the  depth image, I need to know the intrinsic parameter of the camera or at least the FoV angle. I searched the webots document and could not find the information.  I wonder where can I find such information?
@@ -328,7 +328,7 @@ Not to my knowledge.
 Is there any downside of running the webots controller in python 2.7 instead of python3?
 
 ##### Olivier Michel 05/13/2020 15:59:34
-https://pages.github.com/
+[https://pages.github.com/](https://pages.github.com/)
 
 ##### Olivier Michel 05/13/2020 15:58:59
 Doing that on github pages is an option indeed.
@@ -363,7 +363,7 @@ hit Enter button and click on I'll be careful, I promise!.
 Search for privacy.file_unique_origin or security.fileuri.strict_origin_policy and double click on it to change the status from true to false.
 "
 
-Link: https://cyberbotics.com/doc/guide/web-scene
+Link: [https://cyberbotics.com/doc/guide/web-scene](https://cyberbotics.com/doc/guide/web-scene)
 
 ##### David Mansolino 05/13/2020 15:18:48
 > `@David Mansolino` I already submited a change to the supervisor.md, which includes this code and an explanation on how to get positions of nodes relative to other nodes. Would be nice if that could get added soon to the build 🙂
@@ -385,12 +385,12 @@ I already needed to go back to reference it, luckily I still had the pastebinlin
 `@David Mansolino` Thank you, so I will play with this example to try to find good coefficients.
 
 ##### Luftwaffel 05/13/2020 14:52:44
-`@Lussfer` Check out this out https://pastebin.com/k7kf4Ez5
+`@Lussfer` Check out this out [https://pastebin.com/k7kf4Ez5](https://pastebin.com/k7kf4Ez5)
 
 ##### David Mansolino 05/13/2020 14:51:21
 > how to convert wgs84 coordinate to local coordinate without changing coordinate system in world info? like i want to pass since wgs84 coordinate and convert it into local coordinate
 
-`@Lussfer` In that case you have to convert them in your controller, here is the code in Webots that allows to make the conversion, you can probably take inspiration from it: https://github.com/cyberbotics/webots/blob/565b5aed95a2aadb73bccf2ad733d37893d5edfe/src/webots/nodes/WbGps.cpp#L85-L106
+`@Lussfer` In that case you have to convert them in your controller, here is the code in Webots that allows to make the conversion, you can probably take inspiration from it: [https://github.com/cyberbotics/webots/blob/565b5aed95a2aadb73bccf2ad733d37893d5edfe/src/webots/nodes/WbGps.cpp#L85-L106](https://github.com/cyberbotics/webots/blob/565b5aed95a2aadb73bccf2ad733d37893d5edfe/src/webots/nodes/WbGps.cpp#L85-L106)
 
 ##### David Mansolino 05/13/2020 14:50:05
 > `@David Mansolino` Thank you for your answer, I did not see this example. Unfortunately it does not work anymore if we put the basicTimeStep to 1ms. If I understand it correctly, it means that the physics behind the simulation has some errors due to a too high timeStep.
@@ -401,7 +401,7 @@ I already needed to go back to reference it, luckily I still had the pastebinlin
 how to convert wgs84 coordinate to local coordinate without changing coordinate system in world info? like i want to pass since wgs84 coordinate and convert it into local coordinate
 
 ##### lojik 05/13/2020 14:44:42
-> `@lojik` it all depends on your robot, but it doesn't always slide, see for example the 'accelerometer' world, where a differential wheeled robot rotates on a slope: https://cyberbotics.com/doc/guide/samples-devices#accelerometer-wbt
+> `@lojik` it all depends on your robot, but it doesn't always slide, see for example the 'accelerometer' world, where a differential wheeled robot rotates on a slope: [https://cyberbotics.com/doc/guide/samples-devices#accelerometer-wbt](https://cyberbotics.com/doc/guide/samples-devices#accelerometer-wbt)
 
 `@David Mansolino` Thank you for your answer, I did not see this example. Unfortunately it does not work anymore if we put the basicTimeStep to 1ms. If I understand it correctly, it means that the physics behind the simulation has some errors due to a too high timeStep.
 
