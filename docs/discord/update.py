@@ -33,7 +33,7 @@ class MyClient(discord.Client):
             file.write('# %s\n\n' % channel.name.title())
             file.write('This is an archive of the `%s` channel of the ' % channel.name +
                        '[Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n')
-            async for message in channel.history(limit=20):
+            async for message in channel.history(limit=100):
                 if message.type == discord.MessageType.default and message.content:
                     if year is None or year != message.created_at.year:
                         year = message.created_at.year
