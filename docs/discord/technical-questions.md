@@ -15021,33 +15021,6 @@ You are completely right, the makefile.include assumes that you are using the We
 2, If there is a folder named 'controllers' in the branch (presumably one level above), then the code is compiled to an executable, otherwise a shared library, and
 3. Maybe other things which I haven't worked out yet.
 
-
-`@David Mansolino` : I'm still stumped then as to why I'm getting a dylib at the end....  I ran `make -n` and got:
-
-`
-make -n
-# updating epuck.d
-# updating epuckMeander.d
-# updating test-epuck.d
-echo "# compiling" test-epuck.cpp
-clang++ -c -Wall -O3 -DNDEBUG -mmacosx-version-min=10.9 -stdlib=libc++   -I. -I"/Applications/Webots.app/include/controller/cpp" test-epuck.cpp -o build/release/test-epuck.o
-echo "# compiling" epuckMeander.cpp
-clang++ -c -Wall -O3 -DNDEBUG -mmacosx-version-min=10.9 -stdlib=libc++   -I. -I"/Applications/Webots.app/include/controller/cpp" epuckMeander.cpp -o build/release/epuckMeander.o
-echo "# compiling" epuck.cpp
-clang++ -c -Wall -O3 -DNDEBUG -mmacosx-version-min=10.9 -stdlib=libc++   -I. -I"/Applications/Webots.app/include/controller/cpp" epuck.cpp -o build/release/epuck.o
-echo "# linking" libepuckMeanderLinesByGSM.dylib
-clang++ -mmacosx-version-min=10.9 -stdlib=libc++ -shared -dynamiclib -compatibility\_version 1.0 -current\_version 1.0.0 -o build/release/libepuckMeanderLinesByGSM.dylib build/release/test-epuck.o build/release/epuckMeander.o build/release/epuck.o -L"/Applications/Webots.app/lib" -lController -lCppController
-# In Webots context (WEBOTS\_DISABLE\_BINARY\_COPY set), copy only if the target
-# does not exist yet, thus there cannot be error due to replacement.
-# Otherwise, Webots does the copy systematically before running the simulation.
-# Outside Webots context, always copy the target.
-if [ -z "" ] || [ ! -e "libepuckMeanderLinesByGSM.dylib" ]; then \
-        echo "# copying" libepuckMeanderLinesByGSM.dylib; \
-        rm -f libepuckMeanderLinesByGSM.dylib > /dev/null 2>&1 ; \
-        cp build/release/libepuckMeanderLinesByGSM.dylib libepuckMeanderLinesByGSM.dylib > /dev/null 2>&1 ; \
-    fi || :
-`
-
 ##### David Mansolino [cyberbotics] 12/13/2019 14:16:48
 `@nap`, yes if you do not specify any path, make is executing the Makefile in the current folder
 
@@ -23872,31 +23845,7 @@ Args: ask`
 Thanks
 
 
-In  addition,  In Op3MotionPlayer.cpp  file, we used #include "Op3MotionPlayer.hpp"
-#include <RobotisOp2GaitManager.hpp>
-#include <RobotisOp2MotionManager.hpp>
-#include <webots/Accelerometer.hpp>
-
-
 Is there a xm430.h library?
-
-
-#include "RobotisOp2GaitManager.hpp"
-
-//#include <MX28.h>
-#include <XM430.h>
-#include <Walking.h>
-#include <minIni.h>
-#include <webots/Gyro.hpp>
-#include <webots/Motor.hpp>
-#include <webots/Robot.hpp>
-
-#ifdef CROSSCOMPILATION
-#include <MotionManager.h>
-#include <RobotisOp2MotionTimerManager.hpp>
-#else
-#include <MotionStatus.h>
-#endif
 
 
 Hi, we are preparing robotis-op3 gait manager. Is there a xm430.h library? We gone ahaed to write gait manager but it are not standing at the balance.
