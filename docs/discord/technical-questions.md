@@ -172,7 +172,7 @@ I've added the "contactProperties" inside the "WorldInfo" tag in the world file,
 ```
 
 Why the bottom wheels are not making the robot move?
-> **Attachment**: [first_world.mp4](https://cdn.discordapp.com/attachments/565154703139405824/711737634514272369/first_world.mp4)
+> **Attachment**: [first\_world.mp4](https://cdn.discordapp.com/attachments/565154703139405824/711737634514272369/first_world.mp4)
 
 
 ##### Conor 05/18/2020 00:01:13

@@ -86,7 +86,8 @@ class MyClient(discord.Client):
                             file.write(u'![%s](%s)\n' % (attachment.filename, attachment.url))
                             file.write(u'%end\n')
                         else:
-                            file.write(u'\n> **Attachment**: [%s](%s)\n' % (attachment.filename, attachment.url))
+                            file.write(u'\n> **Attachment**: [%s](%s)\n' % (attachment.filename.replace('_', '\\_'),
+                                                                            attachment.url))
                     file.write(u'\n\n')
                 elif message.type == discord.MessageType.pins_add or message.type == discord.MessageType.new_member:
                     pass
