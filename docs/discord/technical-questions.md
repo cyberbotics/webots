@@ -4,6 +4,9 @@ This is an archive of the `technical-questions` channel of the [Webots Discord s
 
 ## 2020
 
+##### taeyoung 05/18/2020 11:29:25
+It doesn't work...
+
 ##### Rodeknopje 05/18/2020 08:51:58
 `@David Mansolino` Thanks
 
@@ -169,6 +172,8 @@ I've added the "contactProperties" inside the "WorldInfo" tag in the world file,
 ```
 
 Why the bottom wheels are not making the robot move?
+> **Attachment**: [first_world.mp4](https://cdn.discordapp.com/attachments/565154703139405824/711737634514272369/first_world.mp4)
+
 
 ##### Conor 05/18/2020 00:01:13
 `@AyresAlmada` I know you can use GPS but I'm not entirely sure how I would translate the GPS into an X,Y position that can then go into a 2d array
@@ -430,7 +435,4 @@ So what was the problem exactly?
 
 ##### kwy 05/13/2020 13:42:02
 `@Olivier Michel`  you're right, thanks!
-
-##### Dobby 05/13/2020 13:18:57
-`@Robin` will send a screenshot now
 

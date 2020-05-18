@@ -134,6 +134,8 @@ Our Discord community has just gone beyond 500 people! 🕺🏻
 
 ##### Olivier Michel 10/31/2019 08:42:21
 LEGO SnowSpeederBrick drone flying in Webots. This simulation was developed by Jaime A, see original post here: [https://youtu.be/y4p-PjtfxQI](https://youtu.be/y4p-PjtfxQI)
+> **Attachment**: [SnowSpeederBrick_drone_for_webots.mp4](https://cdn.discordapp.com/attachments/568354695513374730/639383651007594496/SnowSpeederBrick_drone_for_webots.mp4)
+
 
 ##### Olivier Michel 10/15/2019 15:11:46
 We just released Webots R2019b revision 1 on the snap store [https://snapcraft.io/webots](https://snapcraft.io/webots) so that you can install it easily on your favorite Linux distribution (all dependencies are included).

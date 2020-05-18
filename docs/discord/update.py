@@ -17,6 +17,7 @@
 
 import argparse
 import discord
+import os
 import re
 
 channels = [
@@ -32,7 +33,8 @@ contributors = {}
 class MyClient(discord.Client):
     async def export_channel(self, channel):
         year = None
-        with open(channel.name + '.md', 'w', encoding='utf-8') as file:
+        path = os.path.dirname(os.path.abspath(__file__))
+        with open(os.path.join(path, channel.name + '.md'), 'w', encoding='utf-8') as file:
             file.write(u'# %s\n\n' % channel.name.title())
             file.write(u'This is an archive of the `%s` channel of the ' % channel.name +
                        '[Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n')
@@ -72,21 +74,29 @@ class MyClient(discord.Client):
                     file.write(content)
                     # add attachments
                     for attachment in message.attachments:
-                        if attachment.filename.endswith('.png') or attachment.filename.endswith('.jpg'):
+                        if (attachment.filename.endswith('.png') or
+                                attachment.filename.endswith('.jpg') or
+                                attachment.filename.endswith('.jpeg') or
+                                attachment.filename.endswith('.gif') or
+                                attachment.filename.endswith('.bmp') or
+                                attachment.filename.endswith('.PNG') or
+                                attachment.filename.endswith('.JPG') or
+                                attachment.filename.endswith('.JPEG')):
                             file.write(u'\n%figure\n')
                             file.write(u'![%s](%s)\n' % (attachment.filename, attachment.url))
                             file.write(u'%end\n')
                         else:
-                            print("\033[33mUnsupported attachment file:" + attachment.filename + '\033[0m')
+                            file.write(u'\n> **Attachment**: [%s](%s)\n' % (attachment.filename, attachment.url))
                     file.write(u'\n\n')
-                elif message.type == discord.MessageType.pins_add:
+                elif message.type == discord.MessageType.pins_add or message.type == discord.MessageType.new_member:
                     pass
                 else:
                     print("\033[33mUnsupported message type:" + str(message.type) + '\033[0m')
                     print("\033[33m\tContent:" + str(message.content) + '\033[0m')
 
     async def on_ready(self):
-        with open('index.md', 'w', encoding='utf-8') as file:
+        path = os.path.dirname(os.path.abspath(__file__))
+        with open(os.path.join(path, 'index.md'), 'w', encoding='utf-8') as file:
             file.write(u'# Webots Discord Archives\n\n')
             file.write(u'Release {{ webots.version.full }}\n\n')
             file.write(u'%figure\n')
@@ -94,7 +104,7 @@ class MyClient(discord.Client):
             file.write(u'%end\n\n')
             file.write(u'Copyright &copy; {{ date.year }} Cyberbotics Ltd.\n\n')
             file.write(u'These are archives of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m):\n')
-            with open('menu.md', 'w', encoding='utf-8') as menuFile:
+            with open(os.path.join(path, 'menu.md'), 'w', encoding='utf-8') as menuFile:
                 for channel in self.get_all_channels():
                     if type(channel) == discord.channel.TextChannel and channel.name in channels:
                         file.write(u'- [%s](%s)\n' % (channel.name.title(), channel.name + '.md'))
