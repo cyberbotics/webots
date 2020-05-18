@@ -47,14 +47,20 @@ class MyClient(discord.Client):
                             content += '\n'
                     # remove last new line
                     content = content[:-1]
-                    # print(message.attachments)
-                    # for attachment in message.attachments:
-                    #     print([attachment.filename, attachment.url])
+                    # replace mention by actual name
                     for mention in message.mentions:
                         alternativeMention = mention.mention.replace('<@', '<@!')
                         content = content.replace(alternativeMention, '`@' + mention.name + '`')
                         content = content.replace(mention.mention, '`@' + mention.name + '`')
                     file.write(content)
+                    # add attachments
+                    for attachment in message.attachments:
+                        if attachment.filename.endswith('.png') or attachment.filename.endswith('.png'):
+                            file.write('\n%figure\n')
+                            file.write('![%s](%s)\n' % (attachment.filename, attachment.url))
+                            file.write('%end\n')
+                        else:
+                            print("Unsupported attachment file:" + attachment.filename)
                     file.write('\n\n')
                 else:
                     print("Unsupported message type:" + str(message.type))

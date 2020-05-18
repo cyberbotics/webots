@@ -4,6 +4,15 @@ This is an archive of the `technical-questions` channel of the [Webots Discord s
 
 ## 2020
 
+##### David Mansolino 05/18/2020 06:58:48
+Yes you should controler the motor directly like this indeed.
+
+##### elkelkmuh 05/18/2020 06:58:17
+`@David Mansolino`  Which commands should I use?
+For example: self.getMotor('LegUpperL').setPosition(1.0) 
+            self.getMotor('LegLowerL').setPosition(-1.0)
+            self.getMotor('AnkleL').setPosition(-0.4)
+
 ##### w3. eydi 05/18/2020 06:53:04
 As I understand it, there is a stable version in the only repository. I will download it manually and install it again. I will give you feedback if I get an error. If the problem is not resolved, I will continue to use it on Windows, thank you `@David Mansolino` .
 
@@ -14,6 +23,10 @@ As I understand it, there is a stable version in the only repository. I will dow
 
 ##### w3. eydi 05/18/2020 06:42:31
 `@David Mansolino`  I received this error message when I used it with optirun.
+%figure
+![DeepinEkranGoruntusu_20200516234439.png](https://cdn.discordapp.com/attachments/565154703139405824/711831066775912455/DeepinEkranGoruntusu_20200516234439.png)
+%end
+
 
 ##### David Mansolino 05/18/2020 06:42:28
 HI `@w3. eydi`, may I ask you to try with a nightly version of R2020a-revision2 available here, the unsuported image bug should be fixed with this version (let us know if it is not the case): https://github.com/cyberbotics/webots/releases
@@ -23,6 +36,10 @@ Hi `@David Mansolino` I want to do stair climbing work with Op2 with python. Whe
 
 ##### w3. eydi 05/18/2020 06:41:03
 and error message but simulation is working !
+%figure
+![DeepinEkranGoruntusu_20200516234207.png](https://cdn.discordapp.com/attachments/565154703139405824/711830697127575612/DeepinEkranGoruntusu_20200516234207.png)
+%end
+
 
 ##### w3. eydi 05/18/2020 06:40:19
 Good morning `@David Mansolino`;
@@ -115,10 +132,4 @@ Why the bottom wheels are not making the robot move?
 > hi there. if i use the supervisor to track the position of a robot. is it possible to send the position information to another controller?
 
 `@AyresAlmada` Did you ever find if this was possible? At least getting the robots position?
-
-##### Conor 05/17/2020 23:52:53
-Hello, I'm working on a room-mapping robot for my final year project and was wondering if it is possible to get the grid that the robot is currently on? I'm trying to do a very basic 2d array as a topological map?
-
-##### Lussfer 05/17/2020 09:38:58
-Does any of the example use pure pursuit path follow algorithm by any chance?
 

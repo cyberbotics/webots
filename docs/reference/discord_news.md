@@ -46,6 +46,10 @@ Hello, I'm Junji Hashimoto, Gree Inc. I've developed webots-bindings for haskell
 We are happy to announce the release of Webots "R2020a revision 1".
 This maintenance release fixes several issues, in particular, we cleaned up the libcontroller to remove all the external dependencies to avoid possible conflicts.
 Get it from: https://github.com/cyberbotics/webots/releases/tag/R2020a-rev1
+%figure
+![R2020a-rev1.png](https://cdn.discordapp.com/attachments/568354695513374730/666927483819393024/R2020a-rev1.png)
+%end
+
 
 ##### dagd 01/13/2020 10:30:54
 OpenDR / Thessaloniki
