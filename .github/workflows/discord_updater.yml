@@ -2,7 +2,7 @@ name: Discord Doc Updater
 
 on:
   schedule:
-  - cron: "* 15 * * 1"
+  - cron: "0 15 * * 1"
 
 jobs:
   build:
