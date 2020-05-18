@@ -38,7 +38,15 @@ class MyClient(discord.Client):
                         year = message.created_at.year
                         file.write('## %d\n\n' % year)
                     file.write('##### ' + message.author.name + ' ' + message.created_at.strftime("%m/%d/%Y %H:%M:%S") + '\n')
-                    content = message.content
+                    content = ''
+                    # read message line by line
+                    for line in message.content.splitlines():
+                        content += line + '\n'
+                        # if quote add a new line to make distinction between message and quote
+                        if line.startswith('> '):
+                            content += '\n'
+                    # remove last new line
+                    content = content[:-1]
                     # print(message.attachments)
                     # for attachment in message.attachments:
                     #     print([attachment.filename, attachment.url])

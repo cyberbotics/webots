@@ -18,6 +18,7 @@ Hey, may I know, why does a drone, (let it be DJI Mavic 2 Pro, which is already 
 
 ##### Luftwaffel 05/14/2020 12:48:46
 > `@Luftwaffel` Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
+
 `@Axel M` 
 
 Awesome, thank you so much. That makes things easier
