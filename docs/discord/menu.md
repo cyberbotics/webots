@@ -1,4 +1,0 @@
-- [Technical-Questions](technical-questions.md)
-- [Development](development.md)
-- [Documentation](documentation.md)
-- [News](news.md)
