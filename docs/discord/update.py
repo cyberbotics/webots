@@ -56,7 +56,7 @@ class MyClient(discord.Client):
                     file.write(content)
                     # add attachments
                     for attachment in message.attachments:
-                        if attachment.filename.endswith('.png') or attachment.filename.endswith('.png'):
+                        if attachment.filename.endswith('.png') or attachment.filename.endswith('.jpg'):
                             file.write('\n%figure\n')
                             file.write('![%s](%s)\n' % (attachment.filename, attachment.url))
                             file.write('%end\n')
