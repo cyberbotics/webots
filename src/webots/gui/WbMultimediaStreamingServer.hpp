@@ -48,6 +48,7 @@ private slots:
 private:
   void start(int port) override;
   void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) override;
+  int bytesToWrite();
   void sendContextMenuInfo(const WbMatter *node);
   void sendLastImage(QTcpSocket *client = NULL);
   void updateStreamingParameters(int skippedImagesCount);

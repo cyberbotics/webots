@@ -87,6 +87,13 @@ void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUr
     mLimiterTimer.start(1000);
 }
 
+int WbMultimediaStreamingServer::bytesToWrite() {
+  const QSslSocket *socket = dynamic_cast<QSslSocket *>(mTcpClients[0]);
+  if (socket)
+    return socket->encryptedBytesToWrite();
+  return mTcpClients[0]->bytesToWrite();
+}
+
 void WbMultimediaStreamingServer::removeTcpClient() {
   QTcpSocket *client = qobject_cast<QTcpSocket *>(sender());
   if (client)
@@ -137,7 +144,7 @@ void WbMultimediaStreamingServer::processLimiterTimeout() {
   if (mFullResolutionOnPause == 2)
     return;
   if (mLimiter->isStopped()) {
-    if (mTcpClients[0]->bytesToWrite() == 0)
+    if (bytesToWrite() == 0)
       mLimiter->resetStop();
     return;
   }
@@ -178,13 +185,13 @@ void WbMultimediaStreamingServer::sendLastImage(QTcpSocket *client) {
     return;
 
   if (mLimiter->isStopped()) {
-    if (mTcpClients[0]->bytesToWrite() == 0) {
+    if (bytesToWrite() == 0) {
       mLimiter->resetStop();
     } else
       return;
   }
 
-  mAverageBytesToWrite += mTcpClients[0]->bytesToWrite();
+  mAverageBytesToWrite += bytesToWrite();
   mSentImagesCount++;
 
   const QByteArray &boundaryString =
