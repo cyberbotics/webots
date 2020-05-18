@@ -241,7 +241,7 @@ webots.View = class View {
           else
             worldInfoTitle = this.multimediaClient.worldInfo.title;
           win.setProperties({
-            title: this.x3dScene.worldInfo.title + user,
+            title: worldInfoTitle + user,
             close: closeInfoWindow
           });
           this.infoWindow = win;
@@ -300,6 +300,9 @@ webots.View = class View {
         // If no pending requests execute loadFinalize
         // otherwise it will be executed when the last request will be handled.
         loadFinalize();
+
+      if (typeof this.multimediaClient !== 'undefined')
+        this.multimediaClient.finalize();
     };
 
     var loadFinalize = () => {
