@@ -41,7 +41,7 @@ class MyClient(discord.Client):
                     file.write(message.content)
                     print(message.attachments)
                     for attachment in message.attachments:
-                        print([attachment.filename, filename.url])
+                        print([attachment.filename, attachment.url])
                     print(message.mentions)
                     for mention in message.mentions:
                         print([mention.name, mention.mention])
