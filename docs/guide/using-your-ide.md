@@ -190,7 +190,6 @@ If you want to use the C++ API follow these instructions:
       then select all the .cpp files (but no other file) in that directory and hit the
       `Add` button. This should add the "Accelerometer.cpp, Camera.cpp, Compass.cpp",
       etc. source files to your project.
-
 6. Now you should be able to build your controller with the `Build / Build MyController` menu item (or the F7 key).
 This should generate the "MyProject\controllers\MyController\MyController.exe" file.
 
