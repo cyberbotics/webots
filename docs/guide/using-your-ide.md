@@ -168,20 +168,20 @@ In the `Property Pages`, in the `Configuration Properties`, enter following conf
 5. If you want to use the C API, you should skip step 5 and go directly to step 6.
 If you want to use the C++ API follow these instructions:
 
-   - In `Property Pages`, in the `Configuration Properties`, add the path to Webots
+- In `Property Pages`, in the `Configuration Properties`, add the path to Webots
     .hpp files:
 
         C/C++ > General > Additional Include Directories:
           C:\Program Files\Webots\include\controller\c
           C:\Program Files\Webots\include\controller\cpp
 
-   - Now you should have the path to both the .h and the .hpp files.
+ - Now you should have the path to both the .h and the .hpp files.
 
-   - Then you need to add Webots C++ wrappers to your project. The C++ wrappers are
+ - Then you need to add Webots C++ wrappers to your project. The C++ wrappers are
     .cpp files that implement the interface between the C++ API and the C API. You
     can proceed like this:
 
-   - In Visual Studio, in the `Solution Explorer`: right-mouse-click on the `Sources
+ - In Visual Studio, in the `Solution Explorer`: right-mouse-click on the `Sources
     Files` folder, then select `Add / New Filter`. This should create a `NewFilter1`
     subfolder in your `Sources Files` folder. Then select the `NewFilter1` and with
     the right-mouse-button: choose the `Add / Existing Item...` menu. In the file
