@@ -12518,19 +12518,7 @@ hi guys
 ##### shivajitheboss 02/01/2020 19:21:44
 I wanted to know if i can transfer my code to arduino. Do i have to make any changes? Please help at the earliest.
 
-##### SimonDK 02/01/2020 18:42:21
-I made an MWE only loading the controller and importing Robot, Supervisor and Motor.
-
-Installed Python 3.7.6 from Python.org. and also created a new virtual env with anaconda also with Python 3.7.6.
-
-Using the first with the following shebang works:
-#!/Library/Frameworks/Python.framework/Versions/3.7/bin/python3
-
-Using a shebang to my virtual env, the robot controller immediately crashes with this warning "WARNING: my\_supervisor: The process crashed some time after starting successfully." and this error *Segmentation fault: 11* 🤔
-
-Any idea why?
-
-
+##### SimonDK 02/01/2020 14:57:16
 Not entirely sure what is going on, but looking at the Webots source it is built against the python version living in /Library/Frameworks/Python.framework, which seems to not be recommended in newer MacOS versions. Most people recommend to remove that python directory if it is there, and on MacOS Catalina the folder does not exist.
 
 
@@ -13801,34 +13789,7 @@ Thanks `@Fabien Rohrer`
 ##### nap 01/14/2020 14:35:28
 According to the documentation, there is a world for the KUKA robot called `tower_of_hanoi.wbt`.  However, when I looked in the folder where it's supposed to be at, only the other two example worlds were there.  Can this, including the controller, be downloaded from somewhere?
 
-##### Fabien Rohrer [Moderator] 01/14/2020 14:27:36
-> from time import sleep
-
-> 
-
-> # ...
-
-> 
-
-> # Assuming the simulator is paused
-
-> while True:
-
->     sleep(0.01)  # sleep for 10ms
-
->     if some\_event:
-
->         supervisor.simulationSetMode(Supervisor.SIMULATION\_MODE\_RUN)
-
->         supervisor.step(int(supervisor.getBasicTimeStep()))
-
->         supervisor.simulationSetMode(Supervisor.SIMULATION\_MODE\_PAUSE)
-
-
-
-Something like this (but I didn't tried):
-
-
+##### Fabien Rohrer [Moderator] 01/14/2020 14:24:22
 Especially the: wb\_supervisor\_simulation\_set\_mode() [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_simulation\_set\_mode](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_simulation_set_mode)
 
 
@@ -18015,9 +17976,6 @@ the bottleneck of your simulation comes from physics and/or your controllers and
 
 
 This may mean several things...
-
-
-#thankyoucaptainobvious
 
 
 It seems the bottleneck is on the CPU then.
@@ -24372,79 +24330,6 @@ What does crash? the controller?
 i have used this code but
 it is build 
 but when i clicked the play button it chrashed
-
-
-`@Fabien Rohrer`  Sir 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <webots/accelerometer.h>
-#include <webots/camera.h>
-#include <webots/distance\_sensor.h>
-#include <webots/gps.h>
-#include <webots/gyro.h>
-#include <webots/inertial\_unit.h>
-#include <webots/keyboard.h>
-#include <webots/led.h>
-#include <webots/motor.h>
-#include <webots/robot.h>
-#include <webots/touch\_sensor.h>
-#include <webots/utils/motion.h>
-
-
-
-
-int main() {
-  // call this before any other call to a Webots function
-  wb\_robot\_init();
-
-  // simulation step in milliseconds
-  int time\_step = (int) wb\_robot\_get\_basic\_time\_step();
-  
-  WbMotionRef motions[3] = {
-  wbu\_motion\_new("../../motions/Forwards.motion"),
-  wbu\_motion\_new("../../motions/turn\_left\_60.motion"),
-  wbu\_motion\_new("../../motions/hand\_wave.motion")
-};
-
-
-
-  WbDeviceTag RShoulderPitch = wb\_robot\_get\_device("RShoulderPitch");
-  WbDeviceTag LShoulderPitch = wb\_robot\_get\_device("LShoulderPitch");
-  WbDeviceTag RElbowYaw = wb\_robot\_get\_device("RElbowYaw");
-  WbDeviceTag LElbowYaw = wb\_robot\_get\_device("LElbowYaw");
-  WbDeviceTag RElbowRoll = wb\_robot\_get\_device("RElbowRoll");
-  WbDeviceTag LElbowRoll = wb\_robot\_get\_device("LElbowRoll");
-
-  // Get and enable the keyboard
-  wb\_keyboard\_enable(time\_step);
-  
-  
-
-  // arm initial position
-  wb\_motor\_set\_position(RShoulderPitch, 1.4);
-  wb\_motor\_set\_position(LShoulderPitch, 1.4);
-  
-  // elbow position
-  wb\_motor\_set\_position(RElbowYaw, 1.4);
-  wb\_motor\_set\_position(LElbowYaw, -1.4);
-  wb\_motor\_set\_position(RElbowRoll, 0.5);
-  wb\_motor\_set\_position(LElbowRoll, -0.5);
-  
-  
-  int counter = 0;
-while (true) {
-  counter = (counter + 1) % 3;
-  wbu\_motion\_play(motions[counter]);
-  do {
-    wb\_robot\_step(time\_step);
-  }
-  while (! wbu\_motion\_is\_over(motions));
-}
- return 0;
-  
-}
 
 ##### Fabien Rohrer [Moderator] 09/16/2019 08:34:22
 We are working to reduce the GPU memory usage for Webots R2020a
@@ -36106,19 +35991,6 @@ You are welcome.
 Thank you  very much!
 
 
-# * libController *
-#
-# 'VISUAL\_STUDIO\_PATH' not set, skipping Controller.lib
-# linking Controller.dll and libController.a (32 bit)
-D:/m64/mingw32/bin/../lib/gcc/i686-w64-mingw32/7.4.0/../../../../i686-w64-mingw32/bin/ld.exe: cannot find -ljpeg
-D:/m64/mingw32/bin/../lib/gcc/i686-w64-mingw32/7.4.0/../../../../i686-w64-mingw32/bin/ld.exe: cannot find -ltiff
-D:/m64/mingw32/bin/../lib/gcc/i686-w64-mingw32/7.4.0/../../../../i686-w64-mingw32/bin/ld.exe: cannot find -llzma
-collect2.exe: error: ld returned 1 exit status
-make[1]: *** [Makefile:145: ../../../msys64/mingw32/bin/Controller.dll] Error 1
-make: *** [Makefile:108: webots\_target] Error 2
-make: *** Waiting for unfinished jobs....
-
-
 see. I can handle it.
 
 ##### Olivier Michel [cyberbotics] 04/23/2019 15:14:09
@@ -36197,14 +36069,7 @@ yes
 ##### Olivier Michel [cyberbotics] 04/23/2019 15:01:02
 Did you follow these instructions: [https://github.com/omichel/webots/wiki/Windows-installation?](https://github.com/omichel/webots/wiki/Windows-installation?)
 
-##### cctung 04/23/2019 15:00:55
-# linking Controller.dll and libController.a
-D:/m64/mingw64/bin/../lib/gcc/x86\_64-w64-mingw32/7.3.0/../../../../x86\_64-w64-mingw32/bin/ld.exe: cannot find -lzstd
-collect2.exe: error: ld returned 1 exit status
-make[1]: *** [Makefile:128: ../../../msys64/mingw64/bin/Controller.dll] Error 1
-make: *** [Makefile:108: webots\_target] Error 2
-
-
+##### cctung 04/23/2019 15:00:53
 yes,
 
 ##### Olivier Michel [cyberbotics] 04/23/2019 15:00:25

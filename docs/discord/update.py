@@ -84,6 +84,8 @@ class MyClient(discord.Client):
                             if not inCode:
                                 # remove problematic parts
                                 line = line.replace('<i>', '`<i>`')
+                                if line.startswith('#'):
+                                    print(line)  #TODO
                                 # protect underscores
                                 undescoreProtected = False
                                 for start, code, end in re.findall(r'([^`]*)`([^`]*)`([^`]*)', line):
