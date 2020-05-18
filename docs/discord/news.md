@@ -54,6 +54,13 @@ Get it from: [https://github.com/cyberbotics/webots/releases/tag/R2020a-rev1](ht
 ##### dagd 01/13/2020 10:30:54
 OpenDR / Thessaloniki
 
+
+
+%figure
+![image0.jpg](https://cdn.discordapp.com/attachments/568354695513374730/666227627719131137/image0.jpg)
+%end
+
+
 ## 2019
 
 ##### Olivier Michel [cyberbotics] 12/20/2019 16:46:04

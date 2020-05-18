@@ -1080,7 +1080,14 @@ but still collisions forces are applied after reset
 
 it sounds very correct to me.
 
-##### pavlos27 11/13/2019 12:46:06
+##### pavlos27 11/13/2019 12:46:39
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/644156174123532351/unknown.png)
+%end
+
+
+
 i have 2 robots and a rectangle arena . The robots are moving only in one linear direction  one behind the other and sometimes they are colliding . When i reset my robots to their initial position like this
 
 ##### Fabien Rohrer [Moderator] 11/13/2019 12:29:50
@@ -1113,7 +1120,14 @@ how can i make sure the wheels are not colliding the floor?
 ##### David Mansolino [cyberbotics] 11/07/2019 07:58:34
 `@pavlos27t` you should make sure that the wheels are not colliding the floor when you move the robot. It is also recommended to check what is happenning with the contact points just before and just after the reset, you can see this in the view / Optional Rendering menu.
 
-##### pavlos27t 11/06/2019 18:54:05
+##### pavlos27t 11/06/2019 18:54:11
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/641711950677409813/unknown.png)
+%end
+
+
+
 hello again , i resetphysics but some forces still applying after collision
 
 ##### David Mansolino [cyberbotics] 11/04/2019 13:33:39
@@ -1334,6 +1348,11 @@ If I understand well, you need to simulate a traffic jam after the collision, ri
 ##### MerySgh 08/21/2019 10:26:29
 sumo ? what do  you mean ?
 
+
+
+> **Attachment**: [city\_2.mp4](https://cdn.discordapp.com/attachments/565155651395780609/613680130568617984/city_2.mp4)
+
+
 ##### BlackPearl 08/21/2019 10:24:53
 `@Fabien Rohrer` one minute. We are restarting everything again
 
@@ -1394,7 +1413,14 @@ We are precompiling the Java library with OpenJDK 1.8.0\_222.
 
 ok, this is certainly the issue
 
+##### BlackPearl 08/21/2019 09:57:46
 
+%figure
+![image0.png](https://cdn.discordapp.com/attachments/565155651395780609/613673091335323648/image0.png)
+%end
+
+
+##### Fabien Rohrer [Moderator] 08/21/2019 09:56:07
 not sure. could you give us more precisely your Java version (`java -version`)? It is supposed to be `1.8`. Does it matches with your `javac -version`?
 
 ##### BlackPearl 08/21/2019 09:53:19
@@ -1472,7 +1498,14 @@ It seems your controller called SensorController crashes.
 
 Hi
 
-##### BlackPearl 06/19/2019 08:50:43
+##### BlackPearl 06/19/2019 08:51:47
+
+%figure
+![image0.jpg](https://cdn.discordapp.com/attachments/565155651395780609/590826051312025620/image0.jpg)
+%end
+
+
+
 I think we found a Bug?
 %figure
 ![image0.jpg](https://cdn.discordapp.com/attachments/565155651395780609/590825780716634132/image0.jpg)
@@ -1531,6 +1564,20 @@ that means for me, clipping is not the problem, right?
 
 
 see difference far 0 (default) vs. far 1
+
+
+
+%figure
+![webotsVR03.png](https://cdn.discordapp.com/attachments/565155651395780609/588391025089708196/webotsVR03.png)
+%end
+
+
+
+
+%figure
+![webotsVR02.png](https://cdn.discordapp.com/attachments/565155651395780609/588391019444174858/webotsVR02.png)
+%end
+
 
 ##### David Mansolino [cyberbotics] 06/12/2019 15:32:14
 > the good news: you can simulate the behaviour without a vive, right?
@@ -1605,7 +1652,14 @@ no handles
 ##### David Mansolino [cyberbotics] 06/12/2019 15:10:35
 Can you see the handle in the headset too?
 
-##### TH0 06/12/2019 15:07:26
+##### TH0 06/12/2019 15:10:10
+
+%figure
+![webotsVR01.png](https://cdn.discordapp.com/attachments/565155651395780609/588384559884926987/webotsVR01.png)
+%end
+
+
+
 interessting: when i click on some objects in the treeview, the coordinate systems are shown in the vive
 
 
@@ -1873,7 +1927,14 @@ it should be wheeled
 
 The robot model is encapsulated in a PROTO node. The Robots are linked with Connector nodes:
 
+##### Arsalan.b.r 06/04/2019 07:49:01
 
+%figure
+![tractor-trailer.JPG](https://cdn.discordapp.com/attachments/565155651395780609/585374436270800906/tractor-trailer.JPG)
+%end
+
+
+##### Fabien Rohrer [Moderator] 06/04/2019 07:48:04
 [https://cyberbotics.com/doc/guide/yamor](https://cyberbotics.com/doc/guide/yamor)
 
 

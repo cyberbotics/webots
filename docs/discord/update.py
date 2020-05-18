@@ -40,7 +40,7 @@ class MyClient(discord.Client):
                        '[Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n')
             previousMessageUser = None
             async for message in channel.history(limit=None):
-                if message.type == discord.MessageType.default and message.content:
+                if message.type == discord.MessageType.default and (message.content or message.attachments):
                     # statistics
                     if message.author.name not in contributors:
                         contributors[message.author.name] = 0
@@ -64,49 +64,50 @@ class MyClient(discord.Client):
                                     message.created_at.strftime("%m/%d/%Y %H:%M:%S")))
                     else:
                         file.write('\n')
-                    content = ''
-                    # read message line by line
-                    inCode = False
-                    for line in message.content.splitlines():
-                        # remove wrongly used multi-line code
-                        for start, code, end in re.findall(r'([^`]*)```([^`]*)```([^`]*)', line):
-                            line = '%s`%s`%s' % (start, code, end)
-                        # multi-line code
-                        if '```' in line:
-                            inCode = not inCode
-                            # make sure it is on a dedicated line
-                            if inCode and not line.startswith('```'):
-                                line = line.replace('```', '\n```')
-                            if not inCode and len(line) > 3:
-                                line = line.replace('```', '\n```')
-                        # not inside a multi-line code
-                        if not inCode:
-                            # remove problematic parts
-                            line = line.replace('<i>', '`<i>`')
-                            # protect underscores
-                            undescoreProtected = False
-                            for start, code, end in re.findall(r'([^`]*)`([^`]*)`([^`]*)', line):
-                                line = line.replace(start, start.replace('_', '\\_'))
-                                line = line.replace(end, end.replace('_', '\\_'))
-                                undescoreProtected = True
-                            if not undescoreProtected:
-                                line = line.replace('_', '\\_')
-                            # make url links
-                            for url in re.findall(r'(?P<url>https?://[^\s]+)', line):
-                                line = line.replace(url, '[%s](%s)' % (url, url.replace('\\_', '_')))
-                        # add line to the content
-                        content += line + '\n'
-                        # if quote add a new line to make distinction between message and quote
-                        if line.startswith('> '):
-                            content += '\n'
-                    # remove last new line
-                    content = content[:-1]
-                    # replace mention by actual name
-                    for mention in message.mentions:
-                        alternativeMention = mention.mention.replace('<@', '<@!')
-                        content = content.replace(alternativeMention, '`@' + mention.name + '`')
-                        content = content.replace(mention.mention, '`@' + mention.name + '`')
-                    file.write(content)
+                    if message.content:
+                        content = ''
+                        # read message line by line
+                        inCode = False
+                        for line in message.content.splitlines():
+                            # remove wrongly used multi-line code
+                            for start, code, end in re.findall(r'([^`]*)```([^`]*)```([^`]*)', line):
+                                line = '%s`%s`%s' % (start, code, end)
+                            # multi-line code
+                            if '```' in line:
+                                inCode = not inCode
+                                # make sure it is on a dedicated line
+                                if inCode and not line.startswith('```'):
+                                    line = line.replace('```', '\n```')
+                                if not inCode and len(line) > 3:
+                                    line = line.replace('```', '\n```')
+                            # not inside a multi-line code
+                            if not inCode:
+                                # remove problematic parts
+                                line = line.replace('<i>', '`<i>`')
+                                # protect underscores
+                                undescoreProtected = False
+                                for start, code, end in re.findall(r'([^`]*)`([^`]*)`([^`]*)', line):
+                                    line = line.replace(start, start.replace('_', '\\_'))
+                                    line = line.replace(end, end.replace('_', '\\_'))
+                                    undescoreProtected = True
+                                if not undescoreProtected:
+                                    line = line.replace('_', '\\_')
+                                # make url links
+                                for url in re.findall(r'(?P<url>https?://[^\s]+)', line):
+                                    line = line.replace(url, '[%s](%s)' % (url, url.replace('\\_', '_')))
+                            # add line to the content
+                            content += line + '\n'
+                            # if quote add a new line to make distinction between message and quote
+                            if line.startswith('> '):
+                                content += '\n'
+                        # remove last new line
+                        content = content[:-1]
+                        # replace mention by actual name
+                        for mention in message.mentions:
+                            alternativeMention = mention.mention.replace('<@', '<@!')
+                            content = content.replace(alternativeMention, '`@' + mention.name + '`')
+                            content = content.replace(mention.mention, '`@' + mention.name + '`')
+                        file.write(content)
                     # add attachments
                     for attachment in message.attachments:
                         if (attachment.filename.endswith('.png') or
@@ -124,9 +125,7 @@ class MyClient(discord.Client):
                             file.write(u'\n> **Attachment**: [%s](%s)\n' % (attachment.filename.replace('_', '\\_'),
                                                                             attachment.url))
                     file.write(u'\n\n')
-                elif (message.type == discord.MessageType.pins_add or
-                      message.type == discord.MessageType.new_member or
-                      (message.type == discord.MessageType.default and not message.content)):
+                elif message.type == discord.MessageType.pins_add or message.type == discord.MessageType.new_member:
                     pass
                 else:
                     print("\033[33mUnsupported message type:" + str(message.type) + '\033[0m')
