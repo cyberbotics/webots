@@ -2084,11 +2084,7 @@ in a web browser.
 
 Then, you can open C:\Users\user\AppData\Local\Programs\Webots\resources\web\streaming\_viewer\index.html
 
-##### Quantumfox 05/04/2020 10:03:16
-```--batch (in addition to --stream) for production.
-```
-
-
+##### Quantumfox 05/04/2020 10:02:51
 aight when i stream i can show it in browser?
 
 ##### Olivier Michel [cyberbotics] 05/04/2020 10:02:19
@@ -2175,8 +2171,7 @@ Bye the way, did you installed Webots for all users or only for you?
 I would recommend you to use the latest nightly build of Webots R2020a revision 2 as we fixed several issues related to starting Webots from the DOS cmd.
 
 ##### Quantumfox 05/04/2020 09:52:11
-hey guys i have a question. I read the documentation and they said i can use the command webots in cmd but it doesnt work. ```On Windows 10 and Windows 7, open the Start menu, go to the Program Files / Cyberbotics menu and click on the Webots R2020a revision 2 menu item.``` this is above the commands but this folder doesnt exist on my system.  because i want to stream my webots to a websi
-```
+hey guys i have a question. I read the documentation and they said i can use the command webots in cmd but it doesnt work. `On Windows 10 and Windows 7, open the Start menu, go to the Program Files / Cyberbotics menu and click on the Webots R2020a revision 2 menu item.` this is above the commands but this folder doesnt exist on my system.  because i want to stream my webots to a website.
 
 ##### David Mansolino [cyberbotics] 05/04/2020 08:03:31
 Is the speed of the robot constant?
@@ -8329,8 +8324,7 @@ We know that some users are implementing an interface for OpenAI but it is not p
 
 
 `@Luftwaffel` Supervisor class inherits from Robot class, so you can simply write
-```robot = Supervisor()
-```
+`robot = Supervisor()`
 
 ##### Luftwaffel 03/16/2020 16:26:02
 and on a different note: why does this throw the error: ' Only one instance of the Robot class should be created' ... How can I use the supervisor (to pause and reset the simulation).  The code snippet is from my controller
@@ -14331,8 +14325,7 @@ it does not work!!
 ##### casey 12/23/2019 03:45:27
 I follow this tutorial, [https://en.wikibooks.org/wiki/Cyberbotics%27\_Robot\_Curriculum/Beginner\_programming\_Exercises](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum/Beginner_programming_Exercises)
 but I don't know  how to open the BotStudio, I believe `@Stefania Pedrazzi` said that 
-```we won't drop BotStudio until we have a working alternative
-```
+`we won't drop BotStudio until we have a working alternative`
 Can anyone help me?
 
 ##### swebdev 12/22/2019 21:34:09
@@ -15084,10 +15077,8 @@ wtf it started working
 thats all correct right? cuz thats currently what they are
 
 
-```PYTHONPATH: C:\Program Files\Webots\lib\controller\python37
-```
-```PATH: C:\Users\Username\AppData\Local\Programs\Python\Python37\; C:\Program Files\Webots\lib\controller; C:\Program Files\Webots\lib\controller\python37;C:\Program Files\Webots\msys64\mingw64\bin
-```
+`PYTHONPATH: C:\Program Files\Webots\lib\controller\python37`
+`PATH: C:\Users\Username\AppData\Local\Programs\Python\Python37\; C:\Program Files\Webots\lib\controller; C:\Program Files\Webots\lib\controller\python37;C:\Program Files\Webots\msys64\mingw64\bin`
 
 
 didnt help
@@ -15193,8 +15184,7 @@ print(os.getenv('PATH'))```
 yeah both of those new paths are in there
 
 ##### Stefania Pedrazzi [cyberbotics] 12/12/2019 08:39:50
-yes, with ```echo %PATH%
-```
+yes, with `echo %PATH%`
 
 ##### Nocturnal Warfare 12/12/2019 08:39:20
 is there a way to verify that the path is actually getting set?
@@ -15233,8 +15223,7 @@ set PYTHONPATH=C:\Program Files\Webots\lib\controller\python37
 ```
 
 ##### Nocturnal Warfare 12/12/2019 08:33:20
-```set PATH=%PATH%;C:\Program Files\Webots\lib\controller;C:\Program Files\Webots\lib\controller\python37``` this does bo
-```
+`set PATH=%PATH%;C:\Program Files\Webots\lib\controller;C:\Program Files\Webots\lib\controller\python37` this does both?
 
 ##### Stefania Pedrazzi [cyberbotics] 12/12/2019 08:32:58
 running the two commands I wrote you
@@ -15259,8 +15248,7 @@ so you ran that in CMD, then python, then import controller?
 
 ##### Stefania Pedrazzi [cyberbotics] 12/12/2019 08:29:16
 I could make it work on my system from CMD by also updating the PATH before running python: 
-```set PATH=%PATH%;C:\Program Files\Webots\lib\controller;C:\Program Files\Webots\lib\controller\python37
-```
+`set PATH=%PATH%;C:\Program Files\Webots\lib\controller;C:\Program Files\Webots\lib\controller\python37`
 
 ##### Nocturnal Warfare 12/12/2019 08:16:50
 thank you so much, you have been very helpful
@@ -15414,7 +15402,7 @@ should all 6 be in both locations?
 Ok, thank you. I will check but this seems an error of the installer
 
 ##### Nocturnal Warfare 12/12/2019 07:41:02
-oh also, in this new release for the Python API functions, there are 2 folders, ```C:\Program Files\Webots\lib\controller\python37``` and ```C:\Program Files\Webots\lib\python37``` The first has both controller.py, vehicle.py and _controller.pyd, vehicle.pyd while the latter only has the _controller.py and vehicle.py
+`C:\Program Files\Webots\lib\python37` The first has both controller.py, vehicle.py and \_controller.pyd, vehicle.pyd while the latter only has the \_controller.py and vehicle.py
 
 
 ok i figured as much thank you anyway
@@ -15427,8 +15415,7 @@ BTW its still not finding the \_controller file, failing with the same error
 
 
 like to get my controller to run externally i have to create PYTHONPATH variables that tell the program to look in a certain directory shown below:
-```PYTHONPATH = C:\Program Files\Webots\lib\controller\python37; C:\Program Files\Webots\msys64\mingw64\bin; C:\Program Files\Webots\lib\python37;
-```
+`PYTHONPATH = C:\Program Files\Webots\lib\controller\python37; C:\Program Files\Webots\msys64\mingw64\bin; C:\Program Files\Webots\lib\python37;`
 But I was wondering if there is a more generic way to do that if I want to run this code on multiple computers where that path isnt necessarily valid, so I was wondering if there is any way to get the Webots Directory dynamically versus having it hard coded
 
 ##### Stefania Pedrazzi [cyberbotics] 12/12/2019 07:27:45
@@ -15523,8 +15510,7 @@ have you had any luck setting up an external controller through something other 
 
 
 hey it works, like if i just do ```leftMotor = Motor('left wheel motor')
-rightMotor = Motor('right wheel motor')``` instead of ```#leftMotor = robot.getMotor('left wheel moto
-```
+rightMotor = Motor('right wheel motor')` instead of `#leftMotor = robot.getMotor('left wheel motor')
 #rightMotor = robot.getMotor('right wheel motor')``` it works fine
 
 
@@ -15585,14 +15571,13 @@ im guessing that the \_controller is the C controller module
 
 
 line 3 is just the import in the controller:
-```from controller import Robot, Motor, Camera
-```
-line 15 is from the Python API files, so line 15 of the controller.py imports _controller:
+`from controller import Robot, Motor, Camera`
+line 15 is from the Python API files, so line 15 of the controller.py imports \_controller:
 ```# Import the low-level C/C++ module
-if \_\_package\_\_ or "." in \_\_name\_\_:
-    from . import \_controller
+if __package__ or "." in __name__:
+    from . import _controller
 else:
-    import _controller```
+    import \_controller```
 
 ##### nap 12/12/2019 06:05:35
 are you sure there should be an underscore in front of \_controller?

@@ -68,10 +68,11 @@ class MyClient(discord.Client):
                     # read message line by line
                     inCode = False
                     for line in message.content.splitlines():
+                        # remove wrongly used multi-line code
+                        for start, code, end in re.findall(r'([^`]*)```([^`]*)```([^`]*)', line):
+                            line = '%s`%s`%s' % (start, code, end)
                         if '```' in line:
                             inCode = not inCode
-                            if line.count('```') == 2:
-                                line = line[:-3] + '\n```'
                         if not inCode:
                             # remove problematic parts
                             line = line.replace('<i>', '`<i>`')
