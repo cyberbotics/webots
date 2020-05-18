@@ -42,6 +42,7 @@ WbMultimediaStreamingServer::WbMultimediaStreamingServer() :
   mAverageBytesToWrite(0),
   mSentImagesCount(0),
   mFullResolutionOnPause(0),
+  mBlockedResolutionFactor(-1),
   mTouchEventObjectPicked(false) {
   WbMatter::enableShowMatterCenter(false);
 }
@@ -85,6 +86,13 @@ void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUr
 
   if (!mLimiterTimer.isActive())
     mLimiterTimer.start(1000);
+}
+
+int WbMultimediaStreamingServer::bytesToWrite() {
+  const QSslSocket *socket = dynamic_cast<QSslSocket *>(mTcpClients[0]);
+  if (socket)
+    return socket->encryptedBytesToWrite();
+  return mTcpClients[0]->bytesToWrite();
 }
 
 void WbMultimediaStreamingServer::removeTcpClient() {
@@ -137,7 +145,7 @@ void WbMultimediaStreamingServer::processLimiterTimeout() {
   if (mFullResolutionOnPause == 2)
     return;
   if (mLimiter->isStopped()) {
-    if (mTcpClients[0]->bytesToWrite() == 0)
+    if (bytesToWrite() == 0)
       mLimiter->resetStop();
     return;
   }
@@ -163,7 +171,7 @@ void WbMultimediaStreamingServer::processLimiterTimeout() {
 
 void WbMultimediaStreamingServer::updateStreamingParameters(int skippedImagesCount) {
   mLimiter->recomputeStreamingLimits(skippedImagesCount);
-  if (mFullResolutionOnPause > 0 || mLimiter->resolutionChanged()) {
+  if ((mBlockedResolutionFactor < 0) && (mFullResolutionOnPause > 0 || mLimiter->resolutionChanged())) {
     const QSize &newSize(mLimiter->resolution());
     cMainWindow->setView3DSize(newSize);
     mFullResolutionOnPause = 0;
@@ -178,13 +186,13 @@ void WbMultimediaStreamingServer::sendLastImage(QTcpSocket *client) {
     return;
 
   if (mLimiter->isStopped()) {
-    if (mTcpClients[0]->bytesToWrite() == 0) {
+    if (bytesToWrite() == 0) {
       mLimiter->resetStop();
     } else
       return;
   }
 
-  mAverageBytesToWrite += mTcpClients[0]->bytesToWrite();
+  mAverageBytesToWrite += bytesToWrite();
   mSentImagesCount++;
 
   const QByteArray &boundaryString =
@@ -228,8 +236,10 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
     int action, button, buttons, x, y, modifiers, wheel;
     QString skip;  // will receive "mouse"
     QTextStream(&message) >> skip >> action >> button >> buttons >> x >> y >> modifiers >> wheel;
-    if (mFullResolutionOnPause == 0 && mLimiter && mLimiter->resolutionFactor() > 1) {
-      const double factor = pow(2, mLimiter->resolutionFactor() - 1);
+    if (mBlockedResolutionFactor < 0)
+      mBlockedResolutionFactor = mLimiter->resolutionFactor();
+    if (mFullResolutionOnPause == 0 && mLimiter && mBlockedResolutionFactor > 1) {
+      const double factor = pow(2, mBlockedResolutionFactor - 1);
       x /= factor;
       y /= factor;
     }
@@ -263,9 +273,10 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
         }
         if (action == -1)
           type = QEvent::MouseButtonPress;
-        else if (action == 1)
+        else if (action == 1) {
           type = QEvent::MouseButtonRelease;
-        else
+          mBlockedResolutionFactor = -1;
+        } else
           type = QEvent::MouseMove;
       }
       QMouseEvent event(type, point, buttonPressed, buttonsPressed, keyboardModifiers);
