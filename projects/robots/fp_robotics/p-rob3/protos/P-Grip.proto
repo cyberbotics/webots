@@ -8,7 +8,7 @@ PROTO P-Grip [
   field SFVec3f    translation     0 0 0.07775         # Is `Transform.translation`.
   field SFRotation rotation        0 1 0 0             # Is `Transform.rotation`.
   field SFString   name            "link_base_tcp180"  # Is `Solid.name`.
-  field SFString   model           "180 deg"
+  field SFString   model           "180 deg"           # Is `Solid.model`.
   field SFColor    mainColor       0.98 0.98 0.98      # Defines the main color of the robot.
   field SFColor    secondaryColor  0.036 0.3 0.615     # Defines the secondary color of the robot.
 ]
