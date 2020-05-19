@@ -111,7 +111,7 @@ class MyClient(discord.Client):
                     # add attachments
                     for attachment in message.attachments:
                         name, extension = os.path.splitext(attachment.filename)
-                        if extension.lower() in ['bmp', 'gif', 'jpg', 'jpeg', 'png']:
+                        if extension.lower() in ['.bmp', '.gif', '.jpg', '.jpeg', '.png']:
                             file.write(u'\n%figure\n')
                             file.write(u'![%s](%s)\n' % (attachment.filename, attachment.url))
                             file.write(u'%end\n')
