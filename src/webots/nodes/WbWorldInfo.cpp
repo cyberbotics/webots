@@ -32,6 +32,8 @@
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
 
+#include <QtCore/QDebug>
+
 void WbWorldInfo::init(const WbVersion *version) {
   mInfo = findMFString("info");
   mTitle = findSFString("title");
@@ -47,16 +49,12 @@ void WbWorldInfo::init(const WbVersion *version) {
   mPhysicsDisableAngularThreshold = findSFDouble("physicsDisableAngularThreshold");
   mDefaultDamping = findSFNode("defaultDamping");
   mInkEvaporation = findSFDouble("inkEvaporation");
-  mGravity = findSFVector3("gravity");
+  mGravity = findSFDouble("gravity");
   mNorthDirection = findSFVector3("northDirection");
-  mMagneticField = findSFVector3("magneticField");
   mCoordinateSystem = findSFString("coordinateSystem");
-  if (version && *version < WbVersion(2020, 1, 0, true)) {
-    mCoordinateSystem->setValue("NUE");               // default value for Webots < R2020b
-    if (mGravity->value() == WbVector3(0, 0, -9.81))  // default value
-      mGravity->setValue(0, -9.81, 0);
-    mMagneticField->setValue(mNorthDirection->value());  // renamed field
-  }
+  if (version && *version < WbVersion(2020, 1, 0, true))
+    mCoordinateSystem->setValue("NUE");  // default value for Webots < R2020b
+  WbProtoTemplateEngine::setCoordinateSystem(mCoordinateSystem->value());
   mGpsCoordinateSystem = findSFString("gpsCoordinateSystem");
   mGpsReference = findSFVector3("gpsReference");
   mLineScale = findSFDouble("lineScale");
@@ -246,8 +244,7 @@ void WbWorldInfo::updateGravity() {
 }
 
 void WbWorldInfo::applyToOdeGravity() {
-  const WbVector3 &gravity = mGravity->value();
-  WbOdeContext::instance()->setGravity(gravity.x(), gravity.y(), gravity.z());
+  WbOdeContext::instance()->setGravity(mGravityVector.x(), mGravityVector.y(), mGravityVector.z());
   emit globalPhysicsPropertiesChanged();
 }
 
@@ -302,7 +299,6 @@ void WbWorldInfo::applyToOdeGlobalDamping() {
 
 // Computes an orthonormal basis whose 'yaw unit vector' is the opposite of the normalized gravity vector
 void WbWorldInfo::updateGravityBasis() {
-  mGravityUnitVector = gravity().normalized();
   if (mCoordinateSystem->value() == "ENU") {
     mEastVector = WbVector3(1, 0, 0);
     mNorthVector = WbVector3(0, 1, 0);
@@ -318,13 +314,12 @@ void WbWorldInfo::updateGravityBasis() {
     mGravityBasis[Y].setXyz(0, 1, 0);
     mGravityBasis[Z].setXyz(0, 0, 1);
   }
+  mGravityUnitVector = -mUpVector;
+  mGravityVector = mGravityUnitVector * mGravity->value();
 }
 
 void WbWorldInfo::updateCoordinateSystem() {
-  if (mCoordinateSystem->value() != "ENU" && mCoordinateSystem->value() != "NUE") {
-    mCoordinateSystem->setValue("ENU");
-    parsingWarn(tr("'coordinateSystem' must be either 'ENU' or 'NUE'. Reset to default value 'ENU'."));
-  }
+  qDebug() << "WorldInfo" << mCoordinateSystem->value();
   WbProtoTemplateEngine::setCoordinateSystem(mCoordinateSystem->value());
 }
 

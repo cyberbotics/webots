@@ -33,6 +33,8 @@
 
 #include <QtCore/QVector>
 
+#include <QtCore/QDebug>
+
 #include <cassert>
 
 static QString gCoordinateSystem("ENU");
@@ -79,7 +81,7 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
   tags["context"] += QString("webots_version = { major = \"%1\", revision = \"%2\" }")
                        .arg(version.toString(false))
                        .arg(version.revisionNumber());
-
+  qDebug() << gCoordinateSystem << "for" << protoPath;
   return WbTemplateEngine::generate(tags, logHeaderName);
 }
 
