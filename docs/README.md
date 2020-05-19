@@ -9,11 +9,11 @@ The master branch of this repository is in production on the Cyberbotics website
 - https://www.cyberbotics.com/doc/blog/index
 - https://www.cyberbotics.com/doc/automobile/index
 
-You are very welcome to contribute to make this documentation better.
+You are very welcome to contribute to make this documentation better.<p>
 In order to proceed, follow these steps:
-1.Simply fork this repository 
-2.Make your modifications &
-3.Open a pull request that we will review and merge.
+1.Simply fork this repository <p>
+2.Make your modifications &<p>
+3.Open a pull request that we will review and merge.<p>
 
 ## So as to view a specific version:
 
