@@ -327,9 +327,10 @@ PROTO P-Grip [
         translation 0 0 0.085
         rotation 0 1 0 -1.5707896938995747
         name "gripper middle distance sensor"
+        model "Sharp GP2Y0A60SZ0F"
         lookupTable [
-          0.1 0.1 0
-          1.5 1.5 0
+          0.1 100 0
+          1.5 1500 0
         ]
       }
     ]
