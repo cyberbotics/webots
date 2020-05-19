@@ -133,7 +133,7 @@ PROTO P-Rob3 [
             maxVelocity 1.74533
             minPosition -2.95903
             maxPosition 2.95903
-            maxTorque 0.9919
+            maxTorque 159.6959
           }
           PositionSensor {
             name "1 sensor"
@@ -234,7 +234,7 @@ PROTO P-Rob3 [
                   maxVelocity 1.74533
                   minPosition -1.91148
                   maxPosition 1.91148
-                  maxTorque 0.9919
+                  maxTorque 159.6959
                 }
                 PositionSensor {
                   name "2 sensor"
@@ -312,7 +312,7 @@ PROTO P-Rob3 [
                         maxVelocity 2.44346
                         minPosition -1.99927
                         maxPosition 1.99927
-                        maxTorque 0.79352
+                        maxTorque 80.1455
                       }
                       PositionSensor {
                         name "3 sensor"
@@ -409,7 +409,7 @@ PROTO P-Rob3 [
                               maxVelocity 2.79253
                               minPosition -2.95153
                               maxPosition 2.95153
-                              maxTorque 0.298025
+                              maxTorque 30.1005
                             }
                             PositionSensor {
                               name "4 sensor"
@@ -491,7 +491,7 @@ PROTO P-Rob3 [
                                     maxVelocity 2.79253
                                     minPosition -1.9977
                                     maxPosition 1.9977
-                                    maxTorque 0.298025
+                                    maxTorque 30.1005
                                   }
                                   PositionSensor {
                                     name "5 sensor"
@@ -573,7 +573,7 @@ PROTO P-Rob3 [
                                           maxVelocity 2.79253
                                           minPosition -2.95833
                                           maxPosition 2.95833
-                                          maxTorque 0.163185
+                                          maxTorque 16.4816
                                         }
                                         PositionSensor {
                                           name "6 sensor"
