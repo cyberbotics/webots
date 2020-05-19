@@ -4,6 +4,36 @@ This is an archive of the `technical-questions` channel of the [Webots Discord s
 
 ## 2020
 
+##### Olivier Michel [cyberbotics] 05/19/2020 09:21:24
+I seems some of your controllers are crashing. You should probably fix this first.
+
+##### Professor Felix 05/19/2020 09:15:48
+so I've been having this problem lately where when I launch a controller Webots will say that there are no external robot receivers, but as you can see on the side menu I do have a receiver. Anyone have any ideas as to what is going on
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712231657855254558/unknown.png)
+%end
+
+
+##### David Mansolino [cyberbotics] 05/19/2020 08:31:32
+Have you tried the following:
+
+  - Reduce the world time step?
+
+  - Control the gripper in torque instead of position?
+
+##### chungshan 05/19/2020 08:23:00
+Besides, the yellow box's boundingObject and physics are all set
+
+
+Hello, I'm using ur5e to pick and place experiment. But sometimes the object will be stuck with gripper. Why?
+%figure
+![ur5_pickup_stuck.png](https://cdn.discordapp.com/attachments/565154703139405824/712218557680713768/ur5_pickup_stuck.png)
+%end
+
+
 ##### David Mansolino [cyberbotics] 05/19/2020 08:00:54
 Yes 🙂
 
