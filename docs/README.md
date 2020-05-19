@@ -1,4 +1,4 @@
-# Webots-Documentation
+# Webots Documentation
 
 This repository contains the documentation for the Webots open source simulation software.
 
@@ -11,11 +11,11 @@ The master branch of this repository is in production on the Cyberbotics website
 
 You are very welcome to contribute to make this documentation better.<p>
 In order to proceed, follow these steps:
-1.Simply fork this repository <p>
-2.Make your modifications &<p>
-3.Open a pull request that we will review and merge.<p>
+1. Simply fork this repository <p>
+2. Make your modifications &<p>
+3. Open a pull request that we will review and merge.<p>
 
-## So as to view a specific version:
+## To view a specific version:
 
 You can display the documentation corresponding to a specific version of Webots
 by using the version argument in the URL, for example:
@@ -39,7 +39,7 @@ Or to a github branch (e.g. `reference_proto`) of any public github repository (
 https://www.cyberbotics.com/doc/guide/index?version=remidhum:reference_proto
 ```
 
-## So as to Run the doc locally,follow these steps:
+## To Run the doc locally,follow these steps:
 
 1.Set the terminal to the 'docs' directory.
 
