@@ -17,11 +17,16 @@ class TestLists(unittest.TestCase):
         self.items = []
         books = Books()
         for book in books.books:
+
+            # we are not responsible of the content of the discord chats
+            if book.name == 'discord':
+                continue
+
             for md_path in book.md_paths:
                 # Extract MD content.
                 itemBuffer = ''
                 skipUntil = ''
-                with open(md_path) as f:
+                with open(md_path, encoding='utf-8') as f:
                     content = f.readlines()
                 for line in content:
                     if skipUntil:

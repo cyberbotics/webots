@@ -14,6 +14,7 @@ Released on XXX.
     - Added a `length`, `kingPinDistance`, `wheelAxles` and `mass` fields to the `TruckTrailer` PROTO node.
     - Added several new appearances: `Marble`, `MetalStainlessSteelCable`, `Pavement`, `Plastic`, `Parquetry`, `PerforatedMetal` and `SolarCell`.
     - Added a `ConveyorPlatform` PROTO object.
+    - Added a new [documentation book](../discord/index.md) about the [Discord chat](https://discordapp.com/invite/nTWbN9m) archives.
   - New Samples
     - Added a [break\_room](../guide/samples-environments.md#break_room-wbt) world.
   - Enhancements
