@@ -4,6 +4,9 @@ This is an archive of the `technical-questions` channel of the [Webots Discord s
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 05/19/2020 08:00:54
+Yes 🙂
+
 ##### Musaab 05/19/2020 07:55:26
 > `@Musaab` like any regular node, you can simply use the add node dialog window.
 
