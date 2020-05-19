@@ -417,6 +417,8 @@ function applyToTitleDiv() {
       newTitle = 'Webots Reference Manual';
     else if (localSetup.book === 'blog')
       newTitle = 'Webots Blog';
+    else if (localSetup.book === 'discord')
+      newTitle = 'Webots Discord Archives';
     else if (localSetup.book === 'automobile')
       newTitle = 'Webots for automobiles';
     else
@@ -523,7 +525,7 @@ function createIndex(view) {
 
   // Do not create too small indexes.
   var content = document.querySelector('#content');
-  if (content.offsetHeight < 2 * window.innerHeight || headings.length < 4)
+  if ((content.offsetHeight < 2 * window.innerHeight || headings.length < 4) && localSetup.book !== 'discord')
     return;
 
   var level = parseInt(headings[0].tagName[1]) + 1; // current heading level.

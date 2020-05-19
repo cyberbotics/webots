@@ -1,7 +1,7 @@
 """Test module for the Markdown paragraphs."""
 
-import unittest
 import re
+import unittest
 
 from books import Books
 
@@ -14,9 +14,14 @@ class TestParagraphs(unittest.TestCase):
         self.paragraphs = []
         books = Books()
         for book in books.books:
+
+            # we are not responsible of the content of the discord chats
+            if book.name == 'discord':
+                continue
+
             for md_path in book.md_paths:
                 # Extract MD content.
-                with open(md_path) as f:
+                with open(md_path, encoding='utf-8') as f:
                     content = f.read()
 
                 # Remove annoying string sequences.

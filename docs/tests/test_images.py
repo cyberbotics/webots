@@ -15,13 +15,13 @@ class TestImages(unittest.TestCase):
         books = Books()
         for book in books.books:
             for md_path in book.md_paths:
-                with open(md_path) as f:
+                with open(md_path, encoding='utf-8') as f:
                     content = f.read()
                 for match in re.finditer(r"!\[(.*?)\]\((.*?)\)", content):
                     # remove parameters
                     is_youtube_video = match.group(1) == "youtube video"
-                    if not is_youtube_video:
-                        image_ref = match.group(2).split(' ')[0]
+                    image_ref = match.group(2).split(' ')[0]
+                    if not is_youtube_video and not image_ref.startswith('http'):
                         image_path = os.path.join(book.path, image_ref)
                         self.assertTrue(
                             os.path.isfile(image_path),
@@ -50,7 +50,7 @@ class TestImages(unittest.TestCase):
             for image_path in images_paths:
                 found = False
                 for md_path in book.md_paths:
-                    with open(md_path) as file:
+                    with open(md_path, encoding='utf-8') as file:
                         if (image_path in file.read() or
                                 image_path.replace('.png', '.thumbnail.jpg') in images_paths or
                                 image_path.replace('.png', '.thumbnail.png') in images_paths):

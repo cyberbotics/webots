@@ -28,7 +28,7 @@ class TestMenus(unittest.TestCase):
     def test_menu_refer_valid_files(self):
         """The menu.md refer valid files."""
         for menu in self.menus:
-            with open(menu) as f:
+            with open(menu, encoding='utf-8') as f:
                 content = f.readlines()
             self.assertGreater(len(content), 0, msg='Menu file is empty')
             match_counter = 0
@@ -72,7 +72,7 @@ class TestMenus(unittest.TestCase):
         for menu in self.menus:
             book_path = os.path.dirname(menu)
             # list md files in bookPath
-            with open(menu, 'r') as menu_file:
+            with open(menu, 'r', encoding='utf-8') as menu_file:
                 menu_content = menu_file.read()
             for file_path in os.listdir(book_path):
                 if (file_path.endswith(".md") and

@@ -24,8 +24,8 @@ Make sure that the *-g* flag appears in the compilation line.
 Once you have rebuilt the plugin, you can quit Webots, and restart it using `gdb` in a terminal, like this:
 
 ```sh
-$ cd /usr/local/webots
-$ export LD_LIBRARY_PATH=/usr/local/webots/lib:$LD_LIBRARY_PATH
+$ cd /usr/local/webots/bin
+$ export LD_LIBRARY_PATH=/usr/local/webots/lib/webots:$LD_LIBRARY_PATH
 $ gdb ./webots-bin
 (gdb) run
 ```
