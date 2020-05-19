@@ -1,0 +1,22 @@
+#VRML_SIM R2020b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# tags: hidden
+# A distance sensor to plug in the fingers of the P-Grip gripper.
+
+PROTO P-GripDistanceSensor [
+  field SFVec3f    translation     0 0 0.07775         # Is `Transform.translation`.
+  field SFRotation rotation        0 1 0 0             # Is `Transform.rotation`.
+  field SFString   name            "distance sensor"   # Is `Solid.name`.
+]
+{
+  DistanceSensor {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    lookupTable [
+      0.001 0.001 0
+      0.2 0.2 0
+    ]
+  }
+}
