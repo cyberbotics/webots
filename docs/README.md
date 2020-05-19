@@ -11,7 +11,7 @@ The master branch of this repository is in production on the Cyberbotics website
 
 You are very welcome to contribute to make this documentation better.
 In order to proceed, follow these steps:
-1. Simply fork this repository 
+1. Fork this repository 
 2. Make your modifications 
 3. Open a pull request that we will review and merge.
 
