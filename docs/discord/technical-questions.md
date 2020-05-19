@@ -32834,10 +32834,7 @@ I'm totally newbie here this is why ask you
 ##### Akash 06/27/2019 16:28:42
 Ok, thank you.
 
-##### Emil Enchev 06/27/2019 16:28:24
-=================================
-
-
+##### Emil Enchev 06/27/2019 16:27:13
 The wb\_distance\_sensor\_get\_sampling\_period function returns the period given into the wb\_distance\_sensor\_enable function, or 0 if the device is disabled.
 
 
