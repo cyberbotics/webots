@@ -20,6 +20,7 @@
 #include "WbNodeModel.hpp"
 #include "WbProtoList.hpp"
 #include "WbProtoModel.hpp"
+#include "WbProtoTemplateEngine.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 
@@ -181,7 +182,6 @@ bool WbParser::parseWorld(const QString &worldPath) {
   } catch (...) {
     return false;
   }
-
   return true;
 }
 
@@ -207,7 +207,6 @@ bool WbParser::parseVrml(const QString &worldPath) {
   } catch (...) {
     return false;
   }
-
   return true;
 }
 
@@ -228,7 +227,6 @@ bool WbParser::parseProto(const QString &worldPath) {
   } catch (...) {
     return false;
   }
-
   return true;
 }
 
@@ -240,7 +238,6 @@ bool WbParser::parseObject(const QString &worldPath) {
   } catch (...) {
     return false;
   }
-
   return true;
 }
 
@@ -258,7 +255,6 @@ bool WbParser::parseNodeModel() {
   } catch (...) {
     return false;
   }
-
   return true;
 }
 
@@ -331,6 +327,13 @@ void WbParser::parseNode(const QString &worldPath) {
     while (peekWord() != "}")
       parseField(nodeModel, worldPath);
     skipToken();  // "}";
+    // if no coordinate system was explicitely set in parseField(), set the default value.
+    if (nodeModel->name() == "WorldInfo" && WbProtoTemplateEngine::coordinateSystem().isEmpty()) {
+      if (mTokenizer->fileVersion() < WbVersion(2020, 1, 0))  // earlier than R2020b
+        WbProtoTemplateEngine::setCoordinateSystem("NUE");
+      else
+        WbProtoTemplateEngine::setCoordinateSystem("ENU");
+    }
     return;
   }
 
@@ -349,7 +352,21 @@ void WbParser::parseNode(const QString &worldPath) {
 
 void WbParser::parseField(const WbNodeModel *nodeModel, const QString &worldPath) {
   const QString &fieldName = parseIdentifier(QObject::tr("field name or '}'"));
-
+  // we need to set the coordinate system to the WbProtoTemplateEngine early enough to be able to pass the "coordinate_system"
+  // parameter to procedural PROTO parameter nodes that are created before the WorldInfo node.
+  if (nodeModel->name() == "WorldInfo") {
+    if (mTokenizer->fileVersion() >= WbVersion(2020, 1, 0) && fieldName == "coordinateSystem") {
+      QString coordinateSystem = peekWord();
+      if (coordinateSystem.at(0) == '"' && coordinateSystem.back() == '"') {
+        coordinateSystem = coordinateSystem.mid(1, coordinateSystem.size() - 2);
+        WbProtoTemplateEngine::setCoordinateSystem(coordinateSystem);
+      }
+    } else if (mTokenizer->fileVersion() < WbVersion(2020, 1, 0) && fieldName == "gravity") {
+      reportError(QObject::tr("Found unsupported gravity value in WorldInfo, reverting to default value."));
+      mTokenizer->skipField(true);
+      return;
+    }
+  }
   const WbFieldModel *const fieldModel = nodeModel->findFieldModel(fieldName);
   if (!fieldModel) {
     reportError(QObject::tr("Skipped unknown '%1' field in %2 node").arg(fieldName, nodeModel->name()));
@@ -412,7 +429,6 @@ bool WbParser::parseProtoInterface(const QString &worldPath) {
   } catch (...) {
     return false;
   }
-
   return true;
 }
 

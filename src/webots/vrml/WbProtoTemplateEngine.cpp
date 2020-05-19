@@ -33,11 +33,9 @@
 
 #include <QtCore/QVector>
 
-#include <QtCore/QDebug>
-
 #include <cassert>
 
-static QString gCoordinateSystem("ENU");
+static QString gCoordinateSystem;
 
 WbProtoTemplateEngine::WbProtoTemplateEngine(const QString &templateContent) : WbTemplateEngine(templateContent) {
 }
@@ -81,12 +79,15 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
   tags["context"] += QString("webots_version = { major = \"%1\", revision = \"%2\" }")
                        .arg(version.toString(false))
                        .arg(version.revisionNumber());
-  qDebug() << gCoordinateSystem << "for" << protoPath;
   return WbTemplateEngine::generate(tags, logHeaderName);
 }
 
 void WbProtoTemplateEngine::setCoordinateSystem(const QString &coordinateSystem) {
   gCoordinateSystem = coordinateSystem;
+}
+
+const QString &WbProtoTemplateEngine::coordinateSystem() {
+  return gCoordinateSystem;
 }
 
 QString WbProtoTemplateEngine::convertFieldValueToLuaStatement(const WbField *field) {
