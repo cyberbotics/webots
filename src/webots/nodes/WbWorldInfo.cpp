@@ -32,8 +32,6 @@
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
 
-#include <QtCore/QDebug>
-
 void WbWorldInfo::init(const WbVersion *version) {
   mInfo = findMFString("info");
   mTitle = findSFString("title");
@@ -319,7 +317,6 @@ void WbWorldInfo::updateGravityBasis() {
 }
 
 void WbWorldInfo::updateCoordinateSystem() {
-  qDebug() << "WorldInfo" << mCoordinateSystem->value();
   WbProtoTemplateEngine::setCoordinateSystem(mCoordinateSystem->value());
 }
 
