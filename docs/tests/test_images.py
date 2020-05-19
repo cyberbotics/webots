@@ -15,8 +15,7 @@ class TestImages(unittest.TestCase):
         books = Books()
         for book in books.books:
             for md_path in book.md_paths:
-                with open(md_path) as f:
-                    print(md_path)
+                with open(md_path, encoding='utf-8') as f:
                     content = f.read()
                 for match in re.finditer(r"!\[(.*?)\]\((.*?)\)", content):
                     # remove parameters
@@ -51,7 +50,7 @@ class TestImages(unittest.TestCase):
             for image_path in images_paths:
                 found = False
                 for md_path in book.md_paths:
-                    with open(md_path) as file:
+                    with open(md_path, encoding='utf-8') as file:
                         if (image_path in file.read() or
                                 image_path.replace('.png', '.thumbnail.jpg') in images_paths or
                                 image_path.replace('.png', '.thumbnail.png') in images_paths):
