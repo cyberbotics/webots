@@ -9,11 +9,11 @@ The master branch of this repository is in production on the Cyberbotics website
 - https://www.cyberbotics.com/doc/blog/index
 - https://www.cyberbotics.com/doc/automobile/index
 
-You are very welcome to contribute to make this documentation better.<p>
+You are very welcome to contribute to make this documentation better.
 In order to proceed, follow these steps:
-1. Simply fork this repository <p>
-2. Make your modifications &<p>
-3. Open a pull request that we will review and merge.<p>
+1. Simply fork this repository 
+2. Make your modifications 
+3. Open a pull request that we will review and merge.
 
 ## To view a specific version:
 
@@ -39,7 +39,7 @@ Or to a github branch (e.g. `reference_proto`) of any public github repository (
 https://www.cyberbotics.com/doc/guide/index?version=remidhum:reference_proto
 ```
 
-## To Run the doc locally,follow these steps:
+## To Run the doc locally, follow these steps:
 
 1. Set the terminal to the 'docs' directory.
 
