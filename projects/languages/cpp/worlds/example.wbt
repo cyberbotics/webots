@@ -6,47 +6,49 @@ WorldInfo {
   title "Omniscience"
 }
 Viewpoint {
-  orientation -0.012296901349470573 0.9387131030150339 0.3444800378034808 3.03945
-  position 0.355825 2.19322 -2.66436
+  orientation -0.349698607233039 0.39858070859733 0.847846862843358 4.451430698481937
+  position -2.66436 0.355825 2.19322
 }
 TexturedBackground {
+  texture "noon_park_empty"
 }
 TexturedBackgroundLight {
+  texture "noon_park_empty"
 }
 CircleArena {
 }
 WoodenBox {
-  translation -0.06339 0.05 0.372612
-  rotation 0 1 0 0.5
+  translation 0.372612 -0.06339 0.05
+  rotation 0.386801060227521 0.65206784148847 0.65206784148847 2.403439744412432
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation 0.449512 0.05 -0.488552
-  rotation 0 1 0 4.96782
+  translation -0.488552 0.449512 0.05
+  rotation -0.983906721311856 -0.126347860601898 -0.126347860601898 4.696165510265701
   name "wooden box(1)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation 0.5 0.05 0.35471
-  rotation 0 1 0 5.36782
+  translation 0.35471 0.5 0.05
+  rotation -0.901242887208867 -0.30639946006433 -0.30639946006433 4.6085953647554
   name "wooden box(2)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.3 0.05 -0.36
-  rotation 0 1 0 5.36782
+  translation -0.36 -0.3 0.05
+  rotation -0.901242887208867 -0.30639946006433 -0.30639946006433 4.6085953647554
   name "wooden box(3)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.645944 0.05 0.192254
-  rotation 0 1 0 5.36782
+  translation 0.192254 -0.645944 0.05
+  rotation -0.901242887208867 -0.30639946006433 -0.30639946006433 4.6085953647554
   name "wooden box(4)"
   size 0.1 0.1 0.1
 }
 DEF ROBOT1 Robot {
-  translation -0.362306 0 0.140251
-  rotation 0 -1 0 0.221754
+  translation 0.140251 -0.362306 0
+  rotation 0.662433687469391 0.529708226151768 0.529708226151768 1.971459950780194
   children [
     DEF MAIN_BODY Transform {
       translation 0 0.0415 0
@@ -264,8 +266,8 @@ DEF ROBOT1 Robot {
   controller "slave"
 }
 DEF ROBOT2 Robot {
-  translation 0.288898 0 0.511288
-  rotation 0 -1 0 2.67372
+  translation 0.511288 0.288898 0
+  rotation 0.754477179526436 -0.464092763127069 -0.464092763127069 1.848871951114372
   children [
     DEF MAIN_BODY Transform {
       translation 0 0.0415 0
@@ -483,8 +485,8 @@ DEF ROBOT2 Robot {
   controller "slave"
 }
 DEF ROBOT3 Robot {
-  translation 0.15 0 0
-  rotation 0 1 0 2.54759
+  translation 0 0.15 0
+  rotation -0.351704016172474 0.661930617590753 0.661930617590753 3.817976786742029
   children [
     DEF MAIN_BODY Transform {
       translation 0 0.0415 0
