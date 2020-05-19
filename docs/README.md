@@ -69,14 +69,14 @@ python -m http.server 8000
 
 ## For running the unit tests, the following steps should be followed:
 
-1.Install the pep8 module:
+1. Install the pep8 module:
 
 ```sh
 sudo apt-get install python-pip
 pip install pep8
 ```
 
-2.Run the tests:
+2. Run the tests:
 
 ```sh
 cd $WEBOTS_HOME/docs
