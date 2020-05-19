@@ -23,7 +23,7 @@ class TestMDFiles(unittest.TestCase):
                     os.path.isfile(md_filename),
                     msg='MD file "%s" is not existing' % (md_filename)
                 )
-                with open(md_filename) as f:
+                with open(md_filename, encoding='utf-8') as f:
                     content = f.read()
                 self.assertGreater(
                     len(content), 0,
@@ -45,7 +45,7 @@ class TestMDFiles(unittest.TestCase):
         books = Books()
         for book in books.books:
             for md_path in book.md_paths:
-                with open(md_path) as f:
+                with open(md_path, encoding='utf-8') as f:
                     content = f.readlines()
                 for line in content:
                     # π crashes QtWebEngine on Windows.
