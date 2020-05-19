@@ -26,7 +26,7 @@ class TestLists(unittest.TestCase):
                 # Extract MD content.
                 itemBuffer = ''
                 skipUntil = ''
-                with open(md_path) as f:
+                with open(md_path, encoding='utf-8') as f:
                     content = f.readlines()
                 for line in content:
                     if skipUntil:

@@ -18,7 +18,7 @@ class TestHyperlinks(unittest.TestCase):
         for book in books.books:
             for md_path in book.md_paths:
                 # Extract MD content.
-                with open(md_path) as f:
+                with open(md_path, encoding='utf-8') as f:
                     content = f.read()
                 # Remove code statements
                 content = re.sub(r'```.+?(?=```)```', '', content, flags=re.S)

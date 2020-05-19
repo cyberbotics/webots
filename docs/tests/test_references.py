@@ -35,7 +35,7 @@ class TestReferences(unittest.TestCase):
 
             for md_path in book.md_paths:
                 anchors = []
-                with open(md_path) as f:
+                with open(md_path, encoding='utf-8') as f:
                     skipUntil = ''
                     for line in f:
                         if skipUntil:
@@ -99,7 +99,7 @@ class TestReferences(unittest.TestCase):
                 continue
 
             for md_path in book.md_paths:
-                with open(md_path) as f:
+                with open(md_path, encoding='utf-8') as f:
                     content = f.read()
                 for m in re.finditer(r"[^!]\[(.*?)\]\(([^\)]+)\)", content):
                     # remove parameters

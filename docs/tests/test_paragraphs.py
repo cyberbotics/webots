@@ -21,7 +21,7 @@ class TestParagraphs(unittest.TestCase):
 
             for md_path in book.md_paths:
                 # Extract MD content.
-                with open(md_path) as f:
+                with open(md_path, encoding='utf-8') as f:
                     content = f.read()
 
                 # Remove annoying string sequences.
