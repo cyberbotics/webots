@@ -72,8 +72,11 @@ PROTO Floor [
     ]
     name IS name
     model "floor"
-    boundingObject Plane {
-      size IS size
+    boundingObject Transform {
+      rotation 1 0 0 1.5708
+      children Plane {
+        size IS size
+      }
     }
     contactMaterial IS contactMaterial
     locked TRUE
