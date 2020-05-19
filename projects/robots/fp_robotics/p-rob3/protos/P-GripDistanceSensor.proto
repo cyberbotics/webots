@@ -14,9 +14,28 @@ PROTO P-GripDistanceSensor [
     translation IS translation
     rotation IS rotation
     name IS name
+    model "Vishay Semiconductors VCNL4010"
     lookupTable [
-      0.001 0.001 0
-      0.2 0.2 0
+      0 65535 0
+      0.001 23378 0
+      0.002 19673 0
+      0.003 16783 0
+      0.004 14800 0
+      0.005 13285 0
+      0.0075 11050 0
+      0.01 9837 0
+      0.02 8150 0
+      0.03 7680 0
+      0.05 7370 0
+      0.075 7243 0
+      0.1 7190 0
+      0.15 7160 0
+      0.2 7150 0
     ]
+    type "infra-red"
+    numberOfRays 4
+    aperture 0.5236
+    gaussianWidth 0.5
+    resolution 1
   }
 }
