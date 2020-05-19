@@ -13,8 +13,12 @@ Nice @starwars AT-ST inspired Walker running in Webots: [https://twitter.com/man
 
 **Get Paid by Google to contribute to the Webots Documentation!**
 
+
+
 Cyberbotics is happy to announce it was accepted for participation in Google Season of Docs.
+
 That means that you can get paid by Google (from $2,400 to $6,000) to write some technical documentation for Webots.
+
 More information is available here: [https://cyberbotics.com/gsod](https://cyberbotics.com/gsod)
 
 ##### David Mansolino [cyberbotics] 05/04/2020 13:56:31
@@ -34,6 +38,7 @@ For those interested in Deep Reinforcement Learning with Webots, this github rep
 
 ##### David Mansolino [cyberbotics] 02/13/2020 10:16:18
 We are happy to share with you our preliminary demonstration of the AROSYS project which aims at integrating Webots into the SmartMDSD Toolchain in collaboration with the *Technische Hochschule Ulm*: [https://youtu.be/7rNtWxuXHKs](https://youtu.be/7rNtWxuXHKs)
+
 More information about the project: [http://robmosys.eu/arosys](http://robmosys.eu/arosys)
 
 ##### junjihashimoto 02/13/2020 08:49:29
@@ -47,7 +52,9 @@ Hello, I'm Junji Hashimoto, Gree Inc. I've developed webots-bindings for haskell
 
 ##### David Mansolino [cyberbotics] 01/15/2020 08:51:43
 We are happy to announce the release of Webots "R2020a revision 1".
+
 This maintenance release fixes several issues, in particular, we cleaned up the libcontroller to remove all the external dependencies to avoid possible conflicts.
+
 Get it from: [https://github.com/cyberbotics/webots/releases/tag/R2020a-rev1](https://github.com/cyberbotics/webots/releases/tag/R2020a-rev1)
 %figure
 ![R2020a-rev1.png](https://cdn.discordapp.com/attachments/568354695513374730/666927483819393024/R2020a-rev1.png)
@@ -120,7 +127,9 @@ Hi `@machinekoder` yes R2020a is compatible with ROS1 kinetic and melodic and RO
 
 ##### Stefania Pedrazzi [cyberbotics] 12/19/2019 09:09:25
 Webots "R2020a" released!
+
 This new release adds new robot models other than fixing several issues in particular with #AI and #ML applications.
+
 Get it from [https://github.com/omichel/webots/releases/tag/R2020a](https://github.com/omichel/webots/releases/tag/R2020a)
 %figure
 ![Webots-R2020a-splash.jpg](https://cdn.discordapp.com/attachments/568354695513374730/657147468823396372/Webots-R2020a-splash.jpg)
@@ -152,17 +161,23 @@ We just released Webots R2019b revision 1 on the snap store [https://snapcraft.i
 
 ##### Fabien Rohrer [Moderator] 10/03/2019 09:41:34
 We are happy to announce the release of Webots "R2019b revision 1".
+
 This maintenance release fixes several issues, adds a bunch of new assets, updates some dependencies and adds new device examples.
+
 Download it from here: [https://github.com/cyberbotics/webots/releases/tag/R2019b-rev1](https://github.com/cyberbotics/webots/releases/tag/R2019b-rev1)
+
 Comlete changelog: [https://cyberbotics.com/doc/reference/changelog-r2019](https://cyberbotics.com/doc/reference/changelog-r2019)
 
 
 The Construct just published a ROS developers podcast about how to use Webots with ROS featuring `@Olivier Michel` and Ricardo Tellez.
+
 [http://www.theconstructsim.com/webots-robot-simulator-ros-olivier-michel](http://www.theconstructsim.com/webots-robot-simulator-ros-olivier-michel)
 
 
 Would like to share with us when you're using Webots? 🐞
+
 1. Open Webots
+
 2. Go in `Discord Settings / Game Activity / Add it`, and select `Webots` 😁
 %figure
 ![Capture_decran_2019-09-18_a_16.17.22.png](https://cdn.discordapp.com/attachments/568354695513374730/623886266953498634/Capture_decran_2019-09-18_a_16.17.22.png)
@@ -175,7 +190,11 @@ The main Webots git repository (and other repositories) has been migrated to our
 ##### David Mansolino [cyberbotics] 08/13/2019 16:04:48
 New release of the webots\_ros package: [http://wiki.ros.org/webots\_ros](http://wiki.ros.org/webots_ros)
 
+
+
 The webots\_ros package lets you use Webots together with ROS.
+
+
 
 This new version of the package greatly simplifies the interface between Webots and ROS, new launch files are provided to start your node and the corresponding simulation easily. We also wrote some documentation about the available sample simulations: [http://wiki.ros.org/webots\_ros/Tutorials/Sample%20Simulations](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations)
 
@@ -184,6 +203,7 @@ New model of drone: please welcome the DJI Mavic 2 PRO drone in Webots: [https:/
 
 ##### David Mansolino [cyberbotics] 07/19/2019 06:57:39
 Demonstration of a Telemax robot: [https://www.youtube.com/watch?v=lUWMGk0i9Tc](https://www.youtube.com/watch?v=lUWMGk0i9Tc)
+
 This simulation is available in R2019b, if you didn't already updated to this new version give it a try!
 
 ##### Fabien Rohrer [Moderator] 07/17/2019 12:58:12
@@ -194,7 +214,10 @@ We have just created a new channel for the robotbenchmark community. We are look
 
 
 Webots R2019b has just been released!
+
 [https://www.cyberbotics.com/doc/blog/Webots-2019-b-release](https://www.cyberbotics.com/doc/blog/Webots-2019-b-release)
+
+
 
 Get it now from [https://github.com/omichel/webots/releases/tag/R2019b](https://github.com/omichel/webots/releases/tag/R2019b)
 

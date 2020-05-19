@@ -97,13 +97,11 @@ class MyClient(discord.Client):
                                 # make url links
                                 for url in re.findall(r'(?P<url>https?://[^\s]+)', line):
                                     line = line.replace(url, '[%s](%s)' % (url, url.replace('\\_', '_')))
+                                line += '\n'
                             # add line to the content
                             content += line + '\n'
-                            # if quote add a new line to make distinction between message and quote
-                            if line.startswith('> '):
-                                content += '\n'
                         # remove last new line
-                        content = content[:-1]
+                        content = content[:-2]
                         # replace mention by actual name
                         for mention in message.mentions:
                             alternativeMention = mention.mention.replace('<@', '<@!')
