@@ -353,7 +353,7 @@ void WbParser::parseNode(const QString &worldPath) {
 void WbParser::parseField(const WbNodeModel *nodeModel, const QString &worldPath) {
   const QString &fieldName = parseIdentifier(QObject::tr("field name or '}'"));
   // we need to set the coordinate system to the WbProtoTemplateEngine early enough to be able to pass the "coordinate_system"
-  // parameter to procedural PROTO parameter nodes that are created before the WorldInfo node.
+  // as a context dictionary to procedural PROTO parameter nodes that are created before the WorldInfo node.
   if (nodeModel->name() == "WorldInfo") {
     if (mTokenizer->fileVersion() >= WbVersion(2020, 1, 0) && fieldName == "coordinateSystem") {
       QString coordinateSystem = peekWord();
