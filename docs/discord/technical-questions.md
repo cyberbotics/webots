@@ -4951,8 +4951,8 @@ Awesome. Here is a great reference for the code for each component, with example
 
 ##### Agriope 04/17/2020 01:07:21
 I believe so. Try adding these to the top of your code:
-`#`include <webots/accelerometer.h>
-`#`include <webots/gyro.h>
+\#include <webots/accelerometer.h>
+\#include <webots/gyro.h>
 
 ##### nikzzzlegrande 04/17/2020 01:06:13
 Are there any libraries for accelerometer and gyro in webots?  `@Agriope`
@@ -9669,7 +9669,7 @@ discord messed the formating of it but its got no errors and the simulation take
 
 i made another controller just to be sure, this other controller is  just this:from controller import Supervisor
 
-`#` create the Robot instance.
+\# create the Robot instance.
 supervisor = Supervisor()
 
 timestep = 640
@@ -10257,10 +10257,10 @@ The real part is random while the decimal part always end identically
 Timestamp output example : 3863553536.000032767
 
 
-`#`include <ros/ros.h>
-`#`include <iostream>
-`#`include <memory>
-`#`include <webots/Robot.hpp>
+\#include <ros/ros.h>
+\#include <iostream>
+\#include <memory>
+\#include <webots/Robot.hpp>
 
 using namespace webots;
 int main(int argc, char** argv) {
@@ -16221,7 +16221,7 @@ have you had any luck setting up an external controller through something other 
 hey it works, like if i just do 
 ```leftMotor = Motor('left wheel motor')
 rightMotor = Motor('right wheel motor')` instead of `#leftMotor = robot.getMotor('left wheel motor')
-`#`rightMotor = robot.getMotor('right wheel motor')
+\#rightMotor = robot.getMotor('right wheel motor')
 ``` it works fine
 
 
@@ -16894,7 +16894,7 @@ Here is the complete documentation: [https://github.com/cyberbotics/webots/blob/
 hmmm, I'm now getting an odd error: 
 
 make
-`#` compiling epuckMeanderLinesByGSM.cpp
+\# compiling epuckMeanderLinesByGSM.cpp
 c++: error: unrecognized command line option '-stdlib=libc++'                              <====
 make: *** [build/release/epuckMeanderLinesByGSM.o] Error 1
 
@@ -25521,18 +25521,18 @@ Hi, I just starting to use webots 2019
 ##### Fabien Rohrer [Moderator] 09/04/2019 06:20:33
 >>> import struct
 
-`#` Emitter side
+\# Emitter side
 
-`#` dummy values to test
+\# dummy values to test
 phiR = 1.0
 phiL = 2.1
 data = struct.pack('ff', phiR, phiL)  # pack the 2 floats to a byte array.
 self.emitter.send()
 
-`#` Receiver side
+\# Receiver side
 data = struct.unpack('ff', receiver.getData())
 print(data)
-`#` > (1.0, 2.1)
+\# > (1.0, 2.1)
 
 
 `@Frodo` The idea is to use the struct module to pack the data to string:
@@ -25582,7 +25582,7 @@ Here you are. Thanks for taking the time.
 
 ##### Fabien Rohrer [Moderator] 09/03/2019 18:10:26
 import struct
-`#`...
+\#...
 message=receiver.getData()
 dataList=struct.unpack("chd",message)
 
@@ -25591,7 +25591,7 @@ And to extract:
 
 
 import struct
-`#`...
+\#...
 message = struct.pack("chd","a",45,120.08)
 emitter.send(message)
 
@@ -34705,7 +34705,7 @@ this function can only be used in a 'Supervisor' controller.
 why this error shows
 
 
-`#`include <webots/supervisor.h> i add the library
+\#include <webots/supervisor.h> i add the library
 
 
 ignoring illegal call to wb\_supervisor\_node\_get\_from\_def() in a 'Robot' controller.
@@ -36314,10 +36314,10 @@ Maybe no. (32 bit)
 Do you have these libraries installed?
 
 ##### cctung 04/23/2019 15:08:34
-`#` * libController *
-`#`
-`#` 'VISUAL\_STUDIO\_PATH' not set, skipping Controller.lib
-`#` linking Controller.dll and libController.a (32 bit)
+\# * libController *
+\#
+\# 'VISUAL\_STUDIO\_PATH' not set, skipping Controller.lib
+\# linking Controller.dll and libController.a (32 bit)
 D:/m64/mingw32/bin/../lib/gcc/i686-w64-mingw32/7.4.0/../../../../i686-w64-mingw32/bin/ld.exe: cannot find -lpng
 D:/m64/mingw32/bin/../lib/gcc/i686-w64-mingw32/7.4.0/../../../../i686-w64-mingw32/bin/ld.exe: cannot find -ljpeg
 D:/m64/mingw32/bin/../lib/gcc/i686-w64-mingw32/7.4.0/../../../../i686-w64-mingw32/bin/ld.exe: cannot find -ltiff
