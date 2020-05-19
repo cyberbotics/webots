@@ -41,25 +41,25 @@ https://www.cyberbotics.com/doc/guide/index?version=remidhum:reference_proto
 
 ## To Run the doc locally,follow these steps:
 
-1.Set the terminal to the 'docs' directory.
+1. Set the terminal to the 'docs' directory.
 
 ```sh
 cd $WEBOTS_HOME/docs
 ```
 
-2.Create or update the `index.html` page:
+2. Create or update the `index.html` page:
 
 ```sh
 python local_exporter.py
 ```
 
-3.Run a simple HTTP server:
+3. Run a simple HTTP server:
 
 ```sh
 python -m http.server 8000
 ```
 
-4.Then in a browser, open:
+4. Then in a browser, open:
 
 - [http://localhost:8000/?url=&book=guide](http://localhost:8000/?url=&book=guide)
 - [http://localhost:8000/?url=&book=reference](http://localhost:8000/?url=&book=reference)
