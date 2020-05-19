@@ -16,6 +16,7 @@ class TestImages(unittest.TestCase):
         for book in books.books:
             for md_path in book.md_paths:
                 with open(md_path) as f:
+                    print(md_path)
                     content = f.read()
                 for match in re.finditer(r"!\[(.*?)\]\((.*?)\)", content):
                     # remove parameters
