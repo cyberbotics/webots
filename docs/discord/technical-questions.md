@@ -4,6 +4,297 @@ This is an archive of the `technical-questions` channel of the [Webots Discord s
 
 ## 2020
 
+##### Luiz Felipe 05/19/2020 07:18:33
+😄
+
+##### Olivier Michel [cyberbotics] 05/19/2020 07:17:52
+So, you should try to follow the advice given by Webots 😉
+
+##### Luiz Felipe 05/19/2020 07:15:56
+`@Olivier Michel`  Hi Olivier! Its highly likely that is what is happening in the simulation (large speeds, deep collisions, unstabilities). The GDB freezed webots right before crashing and I did not observed any warning in the console. Usually the 'WARNING: The current physics step could not be computed correctly. Your world may be too complex. If this problem persists, try simplifying your bounding object(s), reducing the number of joints, or reducing WorldInfo.basicTimeStep.' happens during my simulation.
+
+##### Olivier Michel [cyberbotics] 05/19/2020 07:12:06
+`@Luiz Felipe`: it could be that your simulation is reaching edge conditions for ODE, like very large speeds, deep collisions, unstabilities, etc. Do you get any warning in the Webots console before the crash?
+
+##### Luiz Felipe 05/19/2020 07:04:17
+and the backtrace
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712198930959433759/unknown.png)
+%end
+
+
+
+the end of my run command
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712198807974051871/unknown.png)
+%end
+
+
+
+`@David Mansolino` my GDB backtrace is leading me somewhere in the /usr/local/webots/lib/webots/libode.so
+
+##### iagsav 05/19/2020 06:52:01
+> `@iagsav` you may have to tweak the erp and cfm parametrs of your Worldinfo node. Make also sure that the anchor of your HingeJoint are located at the center of the wheels
+
+`@David Mansolino` Thank you!
+
+##### David Mansolino [cyberbotics] 05/19/2020 06:44:01
+Perfect, I am fixing this in the doc right now, thank you for the feedback.
+
+##### Luiz Felipe 05/19/2020 06:42:45
+yups! at least in my ubuntu environment it is.
+
+##### David Mansolino [cyberbotics] 05/19/2020 06:42:12
+This is probably more correct, right?
+```sh
+$ cd /usr/local/webots/bin
+$ export LD_LIBRARY_PATH=/usr/local/webots/lib/webots:$LD_LIBRARY_PATH
+$ gdb ./webots-bin
+(gdb) run
+```
+
+
+you're right, let me fix this!
+
+##### Luiz Felipe 05/19/2020 06:35:39
+yups. The path /usr/local/webots leads to the launcher what can be misleading. The correct paths in my environment were /usr/local/webots/bin and /usr/local/webots/lib/webots. Thanks!!
+
+##### David Mansolino [cyberbotics] 05/19/2020 06:33:24
+The page says to start `gdb ./webots-bin` which is the executable and not the launcher (`webots` is the launcher).
+About the `ERROR: Webots has not been started regularly. Please start Webots from its launcher.` you can indeed ignore it, this is normal when debugging.
+
+##### Luiz Felipe 05/19/2020 06:22:04
+but works. I think the path in the [https://cyberbotics.com/doc/reference/troubleshooting](https://cyberbotics.com/doc/reference/troubleshooting) troubleshooting page leads to the executable launcher?
+
+
+I checked, it exists a 'webots' executable in /usr/local/webots folder and a 'webots-bin' in the /usr/local/webots/bin folder. Also correcting the libraries path to /usr/local/webots/lib/webots and running 'gdb ./webots-bin' again from my /bin folder it works. It shows the ERROR: Webots has not been started regularly. Please start Webots from its launcher.
+
+
+If I run 'ls -la' the name of the executable is 'webots'. I tried to start gdb with 'gdb ./webots', 'gdb ./webots-bin'... I also tried to use 'file' inside the gdb to change the command but got the same error.
+
+##### David Mansolino [cyberbotics] 05/19/2020 05:52:04
+(and attach webots)
+
+
+Which command exactly are you using to start gdb ?
+
+##### Luiz Felipe 05/19/2020 05:27:19
+Hello `@David Mansolino`, I am trying to follow the troubleshooting page: [https://cyberbotics.com/doc/reference/troubleshooting](https://cyberbotics.com/doc/reference/troubleshooting) as my webots is turning off on average every 30 minutes running my world on ubuntu and I want to make sure the problem is not on the physics plugin. But when i try to run the gdb following the instructions on the page i get the error: "No executable file specified". I am using gdb 7.11.1 configured as "x86\_64-linux-gnu".
+
+##### BreeTheBunny 05/19/2020 05:21:57
+Thanks David, I will look into that
+
+##### David Mansolino [cyberbotics] 05/19/2020 05:21:34
+Ok, that's probably an issue rather on your controller code, make sure for example that all the variables are initialised.
+You will also find some documentation about how to use a debugger with your controller here: [https://cyberbotics.com/doc/guide/debugging-c-cpp-controllers](https://cyberbotics.com/doc/guide/debugging-c-cpp-controllers)
+
+##### brianne.byer 05/19/2020 05:12:39
+`@David Mansolino` it keeps crashing
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712170839059202068/unknown.png)
+%end
+
+
+##### David Mansolino [cyberbotics] 05/19/2020 05:07:20
+> For some reason my project works on macOS but not on windows? Is it something to do with the Makefile?
+
+`@brianne.byer` what is not working on Windows? Do you have compilation errors? From the picture you sent we don't see any issue.
+
+
+> hi there. i want to build a bridge in Webots, but have no idea about use which nodes. Any suggestions?
+
+`@AyresAlmada` here is a tutorial showing how to build new objects:
+[https://cyberbotics.com/doc/guide/tutorial-5-compound-solid-and-physics-attributes](https://cyberbotics.com/doc/guide/tutorial-5-compound-solid-and-physics-attributes)
+Since your bridge will be a static object, you should not put any 'Physics' node.
+Note also that this world contains some bridges: [https://cyberbotics.com/doc/automobile/highway](https://cyberbotics.com/doc/automobile/highway)
+
+
+> Hello, I am having trouble using the Robot.getTime function. When trying to store the time (time = robot.getTime), the function is not returning the time. Instead the variable 'time' above contains the method object. Any suggestions?
+
+`@davisUndergrad` this is because it is a function you have to use it like this:
+```
+time = robot.getTime()
+```
+
+
+> Hey hi How do I load PROTO file in webots
+
+`@Musaab` like any regular node, you can simply use the add node dialog window.
+
+
+`@dralorg` Webots is indeed very realistic 😉
+
+
+`@iagsav` you may have to tweak the erp and cfm parametrs of your Worldinfo node. Make also sure that the anchor of your HingeJoint are located at the center of the wheels
+
+##### brianne.byer 05/19/2020 04:43:01
+For some reason my project works on macOS but not on windows? Is it something to do with the Makefile?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712163378860130404/unknown.png)
+%end
+
+
+##### AyresAlmada 05/19/2020 04:01:07
+hi there. i want to build a bridge in Webots, but have no idea about use which nodes. Any suggestions?
+
+##### davisUndergrad 05/18/2020 23:35:42
+Hello, I am having trouble using the Robot.getTime function. When trying to store the time (time = robot.getTime), the function is not returning the time. Instead the variable 'time' above contains the method object. Any suggestions?
+
+##### Musaab 05/18/2020 21:06:42
+Hey hi How do I load PROTO file in webots
+
+##### Conor 05/18/2020 20:55:06
+Done, thank you.
+
+##### Olivier Michel [cyberbotics] 05/18/2020 20:12:55
+See [https://www.cyberbotics.com/doc/reference/robot](https://www.cyberbotics.com/doc/reference/robot)
+
+
+```
+Robot {
+  [ ... ]
+  supervisor TRUE
+}
+```
+
+
+(and there is no equal sign)
+
+
+Yes, but in the world file (.wbt), not in the controller program.
+
+##### Conor 05/18/2020 19:18:16
+Robot.supervisor = TRUE?
+
+
+I assume it's a single line?
+
+
+Thank you!
+
+##### Olivier Michel [cyberbotics] 05/18/2020 19:17:43
+`@Conor`: you can use both robot and supervisor API functions in a robot controller which has the `Robot.supervisor` flag set to `TRUE`.
+
+##### dralorg 05/18/2020 19:09:39
+> `@dralorg` this might be due to the fact that the center of mass of the robot is not centered but rather to the front.
+
+`@David Mansolino` Omg, that sounds like a real world thing, I was expecting something simulator-related. Thanks!
+
+##### Conor 05/18/2020 18:27:40
+Anyone know if it's possible to use robot AND supervisor functions in the same controller or do you need to choose between the two?
+
+##### iagsav 05/18/2020 17:11:12
+Changing the WorldInfo.basicTimeStep parameter did not improve the result
+
+
+Hello! I modeled the ElcBot robot in Webots ([https://tinyroboticsteam.github.io/ElcBot/),](https://tinyroboticsteam.github.io/ElcBot/),) the source codes are located here: [https://github.com/Ronin52/WeBots\_graduation\_project.](https://github.com/Ronin52/WeBots_graduation_project.) During testing, it turned out that when the robot stands still (does not move), it twitches. The wheel sinks into the floor. A video of how it works was posted on the link to instagram: [https://www.instagram.com/p/CAVkbXNDKti/?utm\_source=ig\_web\_copy\_link.](https://www.instagram.com/p/CAVkbXNDKti/?utm_source=ig_web_copy_link.) Everything is fine while the robot is moving. Please tell me what this may be related to? I also get this warning: "WARNING: The current physics step could not be calculated correctly. Your world may be too complex. If this problem persists, try simplifying your bounding object(s), reducing the number of joints, or reducing WorldInfo.basicTimeStep"
+
+##### Conor 05/18/2020 16:35:33
+You are welcome, enjoy.
+
+##### cakar 05/18/2020 16:35:10
+thank you again its all working good now
+
+##### Conor 05/18/2020 16:20:53
+make sure that when you install 3.7.7 you tick the box which adds it to yur PATH
+
+
+You are welcome
+
+##### cakar 05/18/2020 16:20:05
+oh ok ty
+
+##### Conor 05/18/2020 16:19:48
+then install 3.7.7
+
+
+Uninstall it
+
+
+Your problem is that you are using 3.8.1
+
+##### cakar 05/18/2020 16:19:25
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/711976247881891870/unknown.png)
+%end
+
+
+##### Conor 05/18/2020 16:13:51
+`@cakar`
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/711974782903648276/unknown.png)
+%end
+
+
+
+do you get the following output
+
+
+what happens when you open the command prompt and type 'Python'?
+
+##### cakar 05/18/2020 16:12:15
+couldnt work it out
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/711974420377239563/unknown.png)
+%end
+
+
+##### Conor 05/18/2020 16:10:02
+`@cakar` Is it working now?
+
+##### cakar 05/18/2020 16:07:11
+ok thank you
+
+##### Stefania Pedrazzi [cyberbotics] 05/18/2020 16:06:08
+Hi `@cakar`, python code cannot be built it is enough to save the file to apply the modifications
+
+##### Conor 05/18/2020 16:05:57
+to check if it's in your path
+
+
+Go to the command prompt and type in "Python"
+
+##### cakar 05/18/2020 16:05:46
+yes 3.7
+
+##### Conor 05/18/2020 16:05:39
+Do you have Python installed?
+
+##### cakar 05/18/2020 16:05:04
+hello i got  a question  i was following a tutorial and put controlller code to the robot in python but after that it didnt let me build it , anything i am missing?
+
+##### Conor 05/18/2020 16:04:40
+That is perfect!
+
+
+Thank you!
+
+##### Stefania Pedrazzi [cyberbotics] 05/18/2020 16:03:59
+Yes. You can compute it. For example if you are using the Rectangle arena, you can use the Supervisor API to get the `floorSize` and `floorTileSize`. Dividing the size by the tile size you get the number of tiles. [https://www.cyberbotics.com/doc/guide/object-floors#rectanglearena](https://www.cyberbotics.com/doc/guide/object-floors#rectanglearena)
+
+##### Conor 05/18/2020 16:00:23
+You can set the size of the tiles for the floor. So I was wondering if it is possible to programmatically get the number of tiles or the size of the floor?
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/711971307176067192/unknown.png)
+%end
+
+
+##### Stefania Pedrazzi [cyberbotics] 05/18/2020 15:54:50
+what do you mean with tiles?
+
+##### Conor 05/18/2020 15:28:41
+`@David Mansolino`  Thank you David, also is it possible to get the number of tiles programmatically?
+
 ##### David Mansolino [cyberbotics] 05/18/2020 13:37:53
 You're welcome
 

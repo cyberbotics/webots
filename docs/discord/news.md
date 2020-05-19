@@ -4,7 +4,10 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
-##### Olivier Michel [cyberbotics] 05/12/2020 06:26:44
+##### Olivier Michel [cyberbotics] 05/18/2020 19:19:50
+Here is a nice youtube channel with a dozen of recent Webots tutorials: [https://www.youtube.com/watch?v=dt\_iQmPGSrc&list=PLt69C9MnPchlWEV5AEhfT2HajlE2SJ55V](https://www.youtube.com/watch?v=dt_iQmPGSrc&list=PLt69C9MnPchlWEV5AEhfT2HajlE2SJ55V)
+
+
 Nice @starwars AT-ST inspired Walker running in Webots: [https://twitter.com/mantisrobot/status/1254693299702714369](https://twitter.com/mantisrobot/status/1254693299702714369)
 
 
