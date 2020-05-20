@@ -1,6 +1,7 @@
 """Test module for the titles."""
 
 import re
+import sys
 import unittest
 
 from books import Books
@@ -52,7 +53,8 @@ class TestTitles(unittest.TestCase):
 
             for md_path in book.md_paths:
                 # Extract MD content.
-                with open(md_path, encoding='utf-8') as f:
+                args = {} if sys.version_info[0] < 3 else {'encoding': 'utf-8'}
+                with open(md_path, **args) as f:
                     content = f.read()
 
                 # Remove annoying string sequences.
