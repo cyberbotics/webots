@@ -136,6 +136,16 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
     if (this.mouseDown === 0) {
       event.target.removeEventListener('mousemove', this.onmousemove, false);
       return false;
+    } else if (event.buttons === 0) {
+      // mouse button released outside the 3D scene
+      // send a mouse up event to complete the drag
+      let mouseUpEvent = this._computeRemoteMouseEvent(event);
+      mouseUpEvent.offsetX = this.lastMousePosition.x;
+      mouseUpEvent.offsetY = this.lastMousePosition.y;
+      event.target.removeEventListener('mousemove', this.onmousemove, false);
+      this._sendMouseEvent(1, mouseUpEvent, 0);
+      event.preventDefault();
+      return false;
     }
     this._sendMouseEvent(0, this._computeRemoteMouseEvent(event), 0);
     return false;
