@@ -245,10 +245,11 @@ webots.View = class View {
             close: closeInfoWindow
           });
           this.infoWindow = win;
-        } else
+        } else {
           win.setProperties({
             title: 'Robot: ' + nodeName
           });
+        }
         pendingRequestsCount++;
         $.get('window/' + windowName + '/' + windowName + '.html', (data) => {
           // Fix the img src relative URLs.
@@ -300,14 +301,14 @@ webots.View = class View {
         // If no pending requests execute loadFinalize
         // otherwise it will be executed when the last request will be handled.
         loadFinalize();
-
-      if (typeof this.multimediaClient !== 'undefined')
-        this.multimediaClient.finalize();
     };
 
     var loadFinalize = () => {
       $('#webotsProgress').hide();
-      if (this.toolBar)
+      if (typeof this.multimediaClient !== 'undefined')
+        // finalize multimedia client and set toolbar buttons status
+        this.multimediaClient.finalize();
+      else if (this.toolBar)
         this.toolBar.enableToolBarButtons(true);
 
       if (typeof this.onready === 'function')
@@ -429,33 +430,30 @@ webots.View = class View {
       // where multiple users can connect to the same Webots instance.
       return;
 
-    if (typeof this.worldSelect !== 'undefined')
-      this.toolBar.worldSelectionDiv.removeChild(this.worldSelect);
+    if (typeof this.toolBar.worldSelect !== 'undefined')
+      this.toolBar.deleteWorldSelect();
     if (worlds.length <= 1)
       return;
-    this.worldSelect = document.createElement('select');
-    this.worldSelect.id = 'worldSelection';
-    this.worldSelect.classList.add('select-css');
-    this.toolBar.worldSelectionDiv.appendChild(this.worldSelect);
+    this.toolBar.createWorldSelect();
     for (let i in worlds) {
       var option = document.createElement('option');
       option.value = worlds[i];
       option.text = worlds[i];
-      this.worldSelect.appendChild(option);
+      this.toolBar.worldSelect.appendChild(option);
       if (currentWorld === worlds[i])
-        this.worldSelect.selectedIndex = i;
+        this.toolBar.worldSelect.selectedIndex = i;
     }
-    this.worldSelect.onchange = () => {
-      if (this.broadcast || typeof this.worldSelect === 'undefined')
+    this.toolBar.worldSelect.onchange = () => {
+      if (this.broadcast || typeof this.toolBar.worldSelect === 'undefined')
         return;
       if (this.toolBar)
         this.toolBar.enableToolBarButtons(false);
       if (typeof this.x3dScene !== 'undefined')
         this.x3dScene.viewpoint.resetFollow();
       this.onrobotwindowsdestroy();
-      $('#webotsProgressMessage').html('Loading ' + this.worldSelect.value + '...');
+      $('#webotsProgressMessage').html('Loading ' + this.toolBar.worldSelect.value + '...');
       $('#webotsProgress').show();
-      this.stream.socket.send('load:' + this.worldSelect.value);
+      this.stream.socket.send('load:' + this.toolBar.worldSelect.value);
     };
   }
 
