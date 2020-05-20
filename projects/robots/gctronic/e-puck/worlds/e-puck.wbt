@@ -47,6 +47,6 @@ WoodenBox {
   size 0.1 0.1 0.1
 }
 E-puck {
-  rotation 0.000281544030917 0.707106725136283 0.707106725136283 3.14102956552052
+  rotation 0 0 1 -1.5708
   controller "e-puck"
 }
