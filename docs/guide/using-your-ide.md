@@ -7,7 +7,7 @@ A priori, Webots works with any IDE to create, build and debug robot controllers
 It is simply a matter of setting up the IDE correctly to use the build rules of Webots controllers.
 
 Documenting every IDE for each OS is difficult to maintain.
-Thefore, only some of them are documented here.
+Therefore, only some of them are documented here.
 They could serve as a reference for others.
 
 The build rules are:
