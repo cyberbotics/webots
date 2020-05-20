@@ -648,112 +648,112 @@ Robot {
       }
     %{ end }%
     DEF EPUCK_PS0 E-puckDistanceSensor {
-      translation 0.03 0.01 0.033
-      rotation 0 0 1 0.3
+      translation 0.03 -0.01 0.033
+      rotation 0 0 1 -0.3
       name "ps0"
       numberOfRays IS distance_sensor_numberOfRays
     }
     DEF EPUCK_PS1 E-puckDistanceSensor {
-      translation 0.022 0.025 0.033
-      rotation 0 0 1 0.8
+      translation 0.022 -0.025 0.033
+      rotation 0 0 1 -0.8
       name "ps1"
       numberOfRays IS distance_sensor_numberOfRays
     }
     DEF EPUCK_PS2 E-puckDistanceSensor {
-      translation 0 0.031 0.033
-      rotation 0 0 1 1.57
+      translation 0 -0.031 0.033
+      rotation 0 0 1 -1.57
       name "ps2"
       numberOfRays IS distance_sensor_numberOfRays
     }
     DEF EPUCK_PS3 E-puckDistanceSensor {
-      translation -0.03 0.015 0.033
-      rotation 0 0 1 -3.64
+      translation -0.03 -0.015 0.033
+      rotation 0 0 1 -2.64
       name "ps3"
       numberOfRays IS distance_sensor_numberOfRays
     }
     DEF EPUCK_PS4 E-puckDistanceSensor {
-      translation -0.03 -0.015 0.033
-      rotation 0 0 1 -2.64
+      translation -0.03 0.015 0.033
+      rotation 0 0 1 -3.64
       name "ps4"
       numberOfRays IS distance_sensor_numberOfRays
     }
     DEF EPUCK_PS5 E-puckDistanceSensor {
-      translation 0 -0.031 0.033
-      rotation 0 0 1 -1.57
+      translation 0 0.031 0.033
+      rotation 0 0 1 1.57
       name "ps5"
       numberOfRays IS distance_sensor_numberOfRays
     }
     DEF EPUCK_PS6 E-puckDistanceSensor {
-      translation 0.022 -0.025 0.033
-      rotation 0 0 1 -0.8
+      translation 0.022 0.025 0.033
+      rotation 0 0 1 0.8
       name "ps6"
       numberOfRays IS distance_sensor_numberOfRays
     }
     DEF EPUCK_PS7 E-puckDistanceSensor {
-      translation 0.03 -0.01 0.033
-      rotation 0 0 1 -0.3
+      translation 0.03 0.01 0.033
+      rotation 0 0 1 0.3
       name "ps7"
       numberOfRays IS distance_sensor_numberOfRays
     }
     DEF EPUCK_LS0 LightSensor {
-      translation 0.03 0.01 0.0329
-      rotation 0 0 1 0.3
+      translation 0.03 -0.01 0.0329
+      rotation 0 0 1 -0.3
       name "ls0"
       lookupTable [
         1 4095 0.01 2 0 0.01
       ]
     }
     DEF EPUCK_LS1 LightSensor {
-      translation 0.022 0.025 0.0329
-      rotation 0 0 1 0.8
+      translation 0.022 -0.025 0.0329
+      rotation 0 0 1 -0.8
       name "ls1"
       lookupTable [
         1 4095 0.01 2 0 0.01
       ]
     }
     DEF EPUCK_LS2 LightSensor {
-      translation 0 0.031 0.0329
-      rotation 0 0 1 1.57
+      translation 0 -0.031 0.0329
+      rotation 0 0 1 -1.57
       name "ls2"
       lookupTable [
         1 4095 0.01 2 0 0.01
       ]
     }
     DEF EPUCK_LS3 LightSensor {
-      translation -0.03 0.015 0.0329
-      rotation 0 0 1 -3.64
+      translation -0.03 -0.015 0.0329
+      rotation 0 0 1 -2.64
       name "ls3"
       lookupTable [
         1 4095 0.01 2 0 0.01
       ]
     }
     DEF EPUCK_LS4 LightSensor {
-      translation -0.03 -0.015 0.0329
-      rotation 0 0 1 -2.64
+      translation -0.03 0.015 0.0329
+      rotation 0 0 1 -3.64
       name "ls4"
       lookupTable [
         1 4095 0.01 2 0 0.01
       ]
     }
     DEF EPUCK_LS5 LightSensor {
-      translation 0 -0.031 0.0329
-      rotation 0 0 1 -1.57
+      translation 0 0.031 0.0329
+      rotation 0 0 1 1.57
       name "ls5"
       lookupTable [
         1 4095 0.01 2 0 0.01
       ]
     }
     DEF EPUCK_LS6 LightSensor {
-      translation 0.022 -0.025 0.0329
-      rotation 0 0 1 -0.8
+      translation 0.022 0.025 0.0329
+      rotation 0 0 1 0.8
       name "ls6"
       lookupTable [
         1 4095 0.01 2 0 0.01
       ]
     }
     DEF EPUCK_LS7 LightSensor {
-      translation 0.03 -0.01 0.0329
-      rotation 0 0 1 -0.3
+      translation 0.03 0.01 0.0329
+      rotation 0 0 1 0.3
       name "ls7"
       lookupTable [
         1 4095 0.01 2 0 0.01
