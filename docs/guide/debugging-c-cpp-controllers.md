@@ -122,4 +122,5 @@ The next steps are to:
 1. Fix the problem
 2. Recompile the controller 
 3. Reload the world to give it another try.
+
 Once it works and gives the correct output you can remove the *-g* flag from the Makefile.
