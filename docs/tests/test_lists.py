@@ -2,6 +2,7 @@
 
 import unittest
 import re
+import sys
 
 from books import Books
 
@@ -26,7 +27,8 @@ class TestLists(unittest.TestCase):
                 # Extract MD content.
                 itemBuffer = ''
                 skipUntil = ''
-                with open(md_path, encoding='utf-8') as f:
+                args = {} if sys.version_info[0] < 3 else {'encoding': 'utf-8'}
+                with open(md_path, **args) as f:
                     content = f.readlines()
                 for line in content:
                     if skipUntil:

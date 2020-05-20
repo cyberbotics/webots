@@ -38,11 +38,6 @@ skippedDirectories = [
     'projects/languages/ros/controllers/ros_python/python'
 ]
 
-if sys.version_info[0] < 3:
-    # these scripts work only with Python 3
-    skippedDirectories.append('scripts/preferences_cleaner')
-    skippedDirectories.append('src/packaging')
-
 
 class FlakesReporter(Reporter):
     """Flakes reporter."""
@@ -162,6 +157,10 @@ class TestCodeFormat(unittest.TestCase):
                 if shouldContinue:
                     continue
                 filePath = os.path.join(rootPath, fileName)
+                if sys.version_info[0] < 3:
+                    with open(filePath) as file:
+                        if file.readline().startswith('#!/usr/bin/env python3'):
+                            continue
                 self.files.append(filePath)
 
     def test_pep8_conformance(self):

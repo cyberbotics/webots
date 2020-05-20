@@ -5,6 +5,7 @@ from books import Books
 import fnmatch
 import os
 import re
+import sys
 
 
 class TestImages(unittest.TestCase):
@@ -15,7 +16,8 @@ class TestImages(unittest.TestCase):
         books = Books()
         for book in books.books:
             for md_path in book.md_paths:
-                with open(md_path, encoding='utf-8') as f:
+                args = {} if sys.version_info[0] < 3 else {'encoding': 'utf-8'}
+                with open(md_path, **args) as f:
                     content = f.read()
                 for match in re.finditer(r"!\[(.*?)\]\((.*?)\)", content):
                     # remove parameters
@@ -50,7 +52,8 @@ class TestImages(unittest.TestCase):
             for image_path in images_paths:
                 found = False
                 for md_path in book.md_paths:
-                    with open(md_path, encoding='utf-8') as file:
+                    args = {} if sys.version_info[0] < 3 else {'encoding': 'utf-8'}
+                    with open(md_path, **args) as file:
                         if (image_path in file.read() or
                                 image_path.replace('.png', '.thumbnail.jpg') in images_paths or
                                 image_path.replace('.png', '.thumbnail.png') in images_paths):
