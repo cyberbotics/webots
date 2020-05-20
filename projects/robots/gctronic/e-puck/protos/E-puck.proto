@@ -7,7 +7,7 @@
 # The e-puck is powered by a dsPIC processor and features a very large number of sensors in its basic configuration.
 # More info here: http://www.e-puck.org.
 
-PROTO E-puck-FLU [
+PROTO E-puck [
   field SFVec3f            translation                  0 0 0                    # Is `Transform.translation`.
   field SFRotation         rotation                     0 0 1 0                  # Is `Transform.rotation`.
   field SFString           name                         "e-puck"                 # Is `Solid.name`.
@@ -647,49 +647,49 @@ Robot {
         ]
       }
     %{ end }%
-    DEF EPUCK_PS0 E-puckDistanceSensor-FLU {
+    DEF EPUCK_PS0 E-puckDistanceSensor {
       translation 0.03 0.01 0.033
       rotation 0 0 1 0.3
       name "ps0"
       numberOfRays IS distance_sensor_numberOfRays
     }
-    DEF EPUCK_PS1 E-puckDistanceSensor-FLU {
+    DEF EPUCK_PS1 E-puckDistanceSensor {
       translation 0.022 0.025 0.033
       rotation 0 0 1 0.8
       name "ps1"
       numberOfRays IS distance_sensor_numberOfRays
     }
-    DEF EPUCK_PS2 E-puckDistanceSensor-FLU {
+    DEF EPUCK_PS2 E-puckDistanceSensor {
       translation 0 0.031 0.033
       rotation 0 0 1 1.57
       name "ps2"
       numberOfRays IS distance_sensor_numberOfRays
     }
-    DEF EPUCK_PS3 E-puckDistanceSensor-FLU {
+    DEF EPUCK_PS3 E-puckDistanceSensor {
       translation -0.03 0.015 0.033
       rotation 0 0 1 -3.64
       name "ps3"
       numberOfRays IS distance_sensor_numberOfRays
     }
-    DEF EPUCK_PS4 E-puckDistanceSensor-FLU {
+    DEF EPUCK_PS4 E-puckDistanceSensor {
       translation -0.03 -0.015 0.033
       rotation 0 0 1 -2.64
       name "ps4"
       numberOfRays IS distance_sensor_numberOfRays
     }
-    DEF EPUCK_PS5 E-puckDistanceSensor-FLU {
+    DEF EPUCK_PS5 E-puckDistanceSensor {
       translation 0 -0.031 0.033
       rotation 0 0 1 -1.57
       name "ps5"
       numberOfRays IS distance_sensor_numberOfRays
     }
-    DEF EPUCK_PS6 E-puckDistanceSensor-FLU {
+    DEF EPUCK_PS6 E-puckDistanceSensor {
       translation 0.022 -0.025 0.033
       rotation 0 0 1 -0.8
       name "ps6"
       numberOfRays IS distance_sensor_numberOfRays
     }
-    DEF EPUCK_PS7 E-puckDistanceSensor-FLU {
+    DEF EPUCK_PS7 E-puckDistanceSensor {
       translation 0.03 -0.01 0.033
       rotation 0 0 1 -0.3
       name "ps7"
