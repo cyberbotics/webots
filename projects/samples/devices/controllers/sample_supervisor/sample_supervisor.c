@@ -29,6 +29,12 @@ int main(int argc, char *argv[]) {
 
   root = wb_supervisor_node_get_root();
   children = wb_supervisor_node_get_field(root, "children");
+  void wb_supervisor_field_import_mf_node(children, -1, "MyBot.wbo");
+  printf("Imported a node at the last position of the scene tree.")
+  n = wb_supervisor_field_get_count(children);
+  printf("This world contains %d nodes:\n", n);
+  void wb_supervisor_field_remove_mf(children, -1);
+  printf("Removed the last node.")
   n = wb_supervisor_field_get_count(children);
   printf("This world contains %d nodes:\n", n);
   for (i = 0; i < n; i++) {
