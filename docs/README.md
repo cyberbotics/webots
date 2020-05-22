@@ -7,6 +7,7 @@ The master branch of this repository is in production on the Cyberbotics website
 - https://www.cyberbotics.com/doc/guide/index
 - https://www.cyberbotics.com/doc/reference/index
 - https://www.cyberbotics.com/doc/blog/index
+- https://www.cyberbotics.com/doc/discord/index
 - https://www.cyberbotics.com/doc/automobile/index
 
 You are very welcome to contribute to make this documentation better!

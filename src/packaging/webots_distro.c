@@ -836,8 +836,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cd \"%s/%s/lib/webots\"\n", distribution_path, bundle_name);
       fprintf(fd, "ln -s libssl.1.0.0.dylib libssl.dylib\n");
       fprintf(fd, "ln -s libcrypto.1.0.0.dylib libcrypto.dylib\n");
-      fprintf(fd, "ln -s libssh.4.dylib libssh.dylib\n");
-      fprintf(fd, "ln -s libzip.2.dylib libzip.dylib\n");
       fprintf(fd, "cd \"%s/%s/Contents/Frameworks\"\n", distribution_path, bundle_name);
       fprintf(fd, "cd QtConcurrent.framework\n");
       fprintf(fd, "ln -fs Versions/5/QtConcurrent QtConcurrent\n");
