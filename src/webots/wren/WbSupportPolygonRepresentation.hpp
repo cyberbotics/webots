@@ -34,11 +34,11 @@ public:
   virtual ~WbSupportPolygonRepresentation();
 
   void show(bool visible);
-  void draw(const WbPolygon &p, float y, const WbVector3 &globalCenterOfMass, const WbVector3 *gravityBasis);
+  void draw(const WbPolygon &p, float y, const WbVector3 &globalCenterOfMass, const WbVector3 *worldBasis);
   void setScale(const float *scale);
 
 private:
-  enum { X, Y, Z };  // used to index the gravity basis vectors
+  enum { X, Y, Z };  // used to index the world basis vectors
 
   WrTransform *mTransform;
   WrTransform *mCenterOfMassTransform;
