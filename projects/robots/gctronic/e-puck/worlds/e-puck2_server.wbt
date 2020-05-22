@@ -19,35 +19,35 @@ RectangleArena {
 }
 WoodenBox {
   translation 0.683174 -0.2 0.05
-  rotation 0.386801060227521 0.65206784148847 0.65206784148847 2.403439744412432
+  rotation 0 0 1 0.5
   size 0.1 0.1 0.1
 }
 WoodenBox {
   translation -0.35 -0.75 0.05
-  rotation -0.983906721311856 -0.126347860601898 -0.126347860601898 4.696165510265701
+  rotation 0 0 1 4.96782
   name "wooden box(1)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
   translation 0.35471 0.5 0.05
-  rotation -0.901242887208867 -0.30639946006433 -0.30639946006433 4.6085953647554
+  rotation 0 0 1 5.36782
   name "wooden box(2)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
   translation -0.36 -0.3 0.05
-  rotation -0.901242887208867 -0.30639946006433 -0.30639946006433 4.6085953647554
+  rotation 0 0 1 5.36782
   name "wooden box(3)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
   translation 0.66 -0.65 0.05
-  rotation -0.901242887208867 -0.30639946006433 -0.30639946006433 4.6085953647554
+  rotation 0 0 1 5.36782
   name "wooden box(4)"
   size 0.1 0.1 0.1
 }
 E-puck {
-  rotation 0 0 1 -1.57
+  rotation 0 0 1 4.711592653589793
   name "e-puck2"
   controller "e-puck2_server"
   controllerArgs "1000"
