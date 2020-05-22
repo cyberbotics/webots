@@ -16,7 +16,7 @@ install:
   - set PATH=C:\Python38-x64;C:\Python38-x64\Scripts;C:\msys64\usr\bin;%PATH%
   # The following line is needed to work around a bug in MSYS2 pacman, it should be removed when fixed.
   # See: https://github.com/msys2/MSYS2-packages/issues/1967
-  - pacman -U --noconfirm pacman --noconfirm -U http://repo.msys2.org/msys/x86_64/pacman-5.2.1-6-x86_64.pkg.tar.xz
+  - pacman --noconfirm -U http://repo.msys2.org/msys/x86_64/pacman-5.2.1-6-x86_64.pkg.tar.xz
   - pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
   - pacman --noconfirm -Syuu
   - echo export WEBOTS_HOME="%APPVEYOR_BUILD_FOLDER%" >> C:\msys64\home\appveyor\.bash_profile
