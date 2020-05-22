@@ -16,6 +16,9 @@ init:
 
 install:
   - set PATH=C:\Python38-x64;C:\Python38-x64\Scripts;C:\msys64\usr\bin;%PATH%
+  - ps: Start-FileDownload 'http://repo.msys2.org/msys/x86_64/pacman-5.2.1-6-x86_64.pkg.tar.xz'
+  - pacman -U --noconfirm pacman-5.2.1-6-x86_64.pkg.tar.xz
+  - del pacman-5.2.1-6-x86_64.pkg.tar.xz
   - pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
   - pacman --noconfirm -Syuu
   - echo export WEBOTS_HOME="%APPVEYOR_BUILD_FOLDER%" >> C:\msys64\home\appveyor\.bash_profile
