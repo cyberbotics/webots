@@ -45,8 +45,8 @@ WoodenBox {
   size 0.1 0.1 0.1
 }
 DEF ROBOT1 Robot {
-  translation -0.362306 0.140251 0
-  rotation 0 0 1 0
+  translation 0.140251 -0.362306 0
+  rotation 0 0 1 3.1415
   children [
     DEF MAIN_BODY Transform {
       translation 0 0 0.0415
@@ -209,7 +209,7 @@ DEF ROBOT1 Robot {
   controller "slave"
 }
 DEF ROBOT2 Robot {
-  translation 0.509034 0.285251 0
+  translation 0.511288 0.288898 0
   rotation 0 0 1 0.523599
   children [
     USE MAIN_BODY
@@ -320,7 +320,7 @@ DEF ROBOT2 Robot {
   controller "slave"
 }
 DEF ROBOT3 Robot {
-  translation 0.00403361 0.15118 0
+  translation 0 0.15 0
   rotation 0 0 1 -0.523595307179586
   children [
     USE MAIN_BODY
