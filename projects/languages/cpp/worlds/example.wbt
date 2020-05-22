@@ -10,10 +10,8 @@ Viewpoint {
   position 0.7740671379210609 0.5724161426436292 0.31228554332901093
 }
 TexturedBackground {
-  texture "noon_park_empty"
 }
 TexturedBackgroundLight {
-  texture "noon_park_empty"
 }
 CircleArena {
 }
