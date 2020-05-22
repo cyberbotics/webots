@@ -42,45 +42,45 @@ PROTO SolidBox [
     local quads = {
       -- quadTop
       {
+        { x = -halfSize.x, y = -halfSize.y, z =  halfSize.z, u = ratio.y, v = 0       },
+        { x =  halfSize.x, y = -halfSize.y, z =  halfSize.z, u = ratio.y, v = ratio.x },
+        { x =  halfSize.x, y =  halfSize.y, z =  halfSize.z, u = 0,       v = ratio.x },
+        { x = -halfSize.x, y =  halfSize.y, z =  halfSize.z, u = 0,       v = 0       }
+      },
+      -- quadBottom
+      {
+        { x =  halfSize.x, y = -halfSize.y, z = -halfSize.z, u = 0,       v = 0       },
+        { x = -halfSize.x, y = -halfSize.y, z = -halfSize.z, u = ratio.y, v = 0       },
+        { x = -halfSize.x, y =  halfSize.y, z = -halfSize.z, u = ratio.y, v = ratio.x },
+        { x =  halfSize.x, y =  halfSize.y, z = -halfSize.z, u = 0,       v = ratio.x }
+      },
+      -- quadFront
+      {
+        { x =  halfSize.x, y = -halfSize.y, z =  halfSize.z, u = ratio.y, v = 0       },
+        { x =  halfSize.x, y = -halfSize.y, z = -halfSize.z, u = ratio.y, v = ratio.z },
+        { x =  halfSize.x, y =  halfSize.y, z = -halfSize.z, u = 0,       v = ratio.z },
+        { x =  halfSize.x, y =  halfSize.y, z =  halfSize.z, u = 0,       v = 0       }
+      },
+      -- quadBack
+      {
+        { x = -halfSize.x, y = -halfSize.y, z = -halfSize.z, u = ratio.y, v = 0       },
+        { x = -halfSize.x, y = -halfSize.y, z =  halfSize.z, u = ratio.y, v = ratio.z },
+        { x = -halfSize.x, y =  halfSize.y, z =  halfSize.z, u = 0,       v = ratio.z },
+        { x = -halfSize.x, y =  halfSize.y, z = -halfSize.z, u = 0,       v = 0       }
+      },
+      -- quadLeft
+      {
         { x = -halfSize.x, y =  halfSize.y, z =  halfSize.z, u = 0,       v = 0       }, -- vertex A
         { x =  halfSize.x, y =  halfSize.y, z =  halfSize.z, u = ratio.x, v = 0       }, -- vertex B
         { x =  halfSize.x, y =  halfSize.y, z = -halfSize.z, u = ratio.x, v = ratio.z }, -- ...
         { x = -halfSize.x, y =  halfSize.y, z = -halfSize.z, u = 0,       v = ratio.z }
       },
-      -- quadBottom
+      -- quadRight
       {
         { x = -halfSize.x, y = -halfSize.y, z = -halfSize.z, u = 0,       v = 0       },
         { x =  halfSize.x, y = -halfSize.y, z = -halfSize.z, u = ratio.x, v = 0       },
         { x =  halfSize.x, y = -halfSize.y, z =  halfSize.z, u = ratio.x, v = ratio.z },
         { x = -halfSize.x, y = -halfSize.y, z =  halfSize.z, u = 0,       v = ratio.z }
-      },
-      -- quadFront
-      {
-        { x = -halfSize.x, y = -halfSize.y, z =  halfSize.z, u = 0,       v = 0       },
-        { x =  halfSize.x, y = -halfSize.y, z =  halfSize.z, u = ratio.x, v = 0       },
-        { x =  halfSize.x, y =  halfSize.y, z =  halfSize.z, u = ratio.x, v = ratio.y },
-        { x = -halfSize.x, y =  halfSize.y, z =  halfSize.z, u = 0,       v = ratio.y }
-      },
-      -- quadBack
-      {
-        { x =  halfSize.x, y = -halfSize.y, z = -halfSize.z, u = 0,       v = 0       },
-        { x = -halfSize.x, y = -halfSize.y, z = -halfSize.z, u = ratio.x, v = 0       },
-        { x = -halfSize.x, y =  halfSize.y, z = -halfSize.z, u = ratio.x, v = ratio.y },
-        { x =  halfSize.x, y =  halfSize.y, z = -halfSize.z, u = 0,       v = ratio.y }
-      },
-      -- quadLeft
-      {
-        { x = -halfSize.x, y = -halfSize.y, z = -halfSize.z, u = 0,       v = 0 },
-        { x = -halfSize.x, y = -halfSize.y, z =  halfSize.z, u = ratio.z, v = 0 },
-        { x = -halfSize.x, y =  halfSize.y, z =  halfSize.z, u = ratio.z, v = ratio.y },
-        { x = -halfSize.x, y =  halfSize.y, z = -halfSize.z, u = 0,       v = ratio.y }
-      },
-      -- quadRight
-      {
-        { x =  halfSize.x, y = -halfSize.y, z =  halfSize.z, u = 0,       v = 0       },
-        { x =  halfSize.x, y = -halfSize.y, z = -halfSize.z, u = ratio.z, v = 0       },
-        { x =  halfSize.x, y =  halfSize.y, z = -halfSize.z, u = ratio.z, v = ratio.y },
-        { x =  halfSize.x, y =  halfSize.y, z =  halfSize.z, u = 0,       v = ratio.y }
       }
     }
   }%
