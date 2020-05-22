@@ -113,9 +113,9 @@ PROTO TexturedBackgroundLight [
     color %{=color[1]}% %{=color[2]}% %{=color[3]}%
     intensity %{=luminosity * intensity}%
     %{ if on then }%
-    on TRUE
+      on TRUE
     %{ else }%
-    on FALSE
+      on FALSE
     %{ end }%
     castShadows IS castShadows
   }
