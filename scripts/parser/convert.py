@@ -27,6 +27,12 @@ def translation(value):
     return [value[2], value[0], value[1]]
 
 
+def rotation_axis(value, node_name):
+    print(node_name)
+    rotation = value[3] + math.pi if node_name == 'E-puck' else value[3]
+    return [value[2], value[0], value[1], rotation]
+
+
 def axis_angle_to_quaternion(axis, theta):
     axis = numpy.array(axis) / numpy.linalg.norm(axis)
     return numpy.append([numpy.cos(theta/2)], numpy.sin(theta/2) * axis)
@@ -65,16 +71,40 @@ def rotation(value):
 filename = sys.argv[1]
 world = WebotsModel()
 world.load(filename)
+
+updated_protos = ['CircularArena', 'E-puck', 'Floor', 'RectangleArena', 'WoodenBox']
+
+transform_nodes = ['Tranform', 'Solid', 'Robot']
+
 for node in world.content['root']:
     if node['name'] == 'WorldInfo':
         for field in node['fields']:
             if field['name'] == 'gravity':
                 field['value'] = -field['value'][1]
                 field['type'] = 'SFFloat'
+    elif node['name'] in updated_protos:
+        for field in node['fields']:
+            if field['name'] in ['translation', 'location', 'direction']:
+                field['value'] = translation(field['value'])
+                if field['name'] == 'direction':
+                    direction = True
+            elif field['name'] in ['rotation', 'orientation']:
+                field['value'] = rotation_axis(field['value'], node['name'])
     else:
+        direction = False
+        position = False
         for field in node['fields']:
             if field['name'] in ['translation', 'position', 'location', 'direction']:
                 field['value'] = translation(field['value'])
+                if field['name'] == 'direction':
+                    direction = True
+                elif field['name'] == 'position':  # Viewpoint
+                    position = True
             elif field['name'] in ['rotation', 'orientation']:
                 field['value'] = rotation(field['value'])
+        if field['name'] in ['DirectionalLight', 'SpotLight'] and not direction:  # fix default direction for lights
+            node['fields'].append({'name': 'direction', 'type': 'SFVec3f', 'value': [0, -1, 0]})
+        elif field['name'] == 'Viewpoint' and not position:  # fix default position for Viewpoint
+            node['fields'].append({'name': 'position', 'type': 'SFVec3f', 'value': [0, 10, 0]})
+
 world.save(filename[:-4] + '_enu.wbt')
