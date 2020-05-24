@@ -68,11 +68,20 @@ Robot windows are implemented in HTML and provide the following features:
 The equivalent controller functions are `wb_robot_wwi_receive_text` and `wb_robot_wwi_send_text`.
 3. They are web-ready and could be used to display robot windows on web pages.
 
-A simple example of an HTML robot window is provided in the `robots/thymio/thymio2.wbt` sample simulation and demonstrates:
+A simple example of an HTML robot window is provided in the `custom_robot_window` sample simulation and demonstrates:
 
 - How to display sensor information in the robot window.
 - How to send user interface events (like mouse clicks) from the robot window to the controller program.
 - How to change the title of the robot window from the controller program.
+
+How to create your own robot-window:
+
+- To open the robot-window, double-click on the robot body.
+- It will bring up a menu on the left with the DistanceSensor and RotationalMotor graph. 
+- Run the simulation to see the evolution.
+
+Don't forget to set the controller field of the Robot node to indicate your new controller.
+As usual a possible solution of this exercise is located in the tutorials directory.
 
 The HTML robot windows can communicate with controller programs written using any of the supported programming languages, i.e. C, C++, Python, Java, MATLAB and ROS.
 If a [Robot](../reference/robot.md)'s controller is changed or restarted during the simulation run, the robot window associated to the same [Robot](../reference/robot.md) node will be restarted as well.
