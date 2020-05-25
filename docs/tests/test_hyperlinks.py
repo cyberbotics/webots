@@ -3,6 +3,7 @@
 import unittest
 import re
 import os
+import sys
 
 from books import Books
 
@@ -18,7 +19,8 @@ class TestHyperlinks(unittest.TestCase):
         for book in books.books:
             for md_path in book.md_paths:
                 # Extract MD content.
-                with open(md_path, encoding='utf-8') as f:
+                args = {} if sys.version_info[0] < 3 else {'encoding': 'utf-8'}
+                with open(md_path, **args) as f:
                     content = f.read()
                 # Remove code statements
                 content = re.sub(r'```.+?(?=```)```', '', content, flags=re.S)
