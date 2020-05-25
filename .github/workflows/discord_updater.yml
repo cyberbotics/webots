@@ -36,6 +36,6 @@ jobs:
         destination_branch: master
         pr_title: Update Discord Docs
         pr_body: Automatic update of the docs from the Discord channels (https://cyberbotics.com/doc/discord/index?version=discord-doc-update).
-        pr_reviewer: cyberbotics/maintainers
+        pr_reviewer: Maintainers
         pr_label: documentation
 
