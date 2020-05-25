@@ -601,6 +601,198 @@ PROTO P-Rob3 [
                                               creaseAngle 0.5
                                             }
                                           }
+                                          TouchSensor {
+                                            translation -0.0501799 0.0432036 0.0089
+                                            rotation 0 0 1 0.9162996938995747
+                                            children [
+                                              Shape {
+                                                appearance PBRAppearance {
+                                                  baseColor IS secondaryColor
+                                                  baseColorMap ImageTexture {
+                                                    url [
+                                                      "textures/button_1.png"
+                                                    ]
+                                                  }
+                                                  roughness 1
+                                                  metalness 0
+                                                  textureTransform TextureTransform {
+                                                    rotation 3.14159
+                                                  }
+                                                }
+                                                geometry DEF BUTTON_CYLINDER Cylinder {
+                                                  height 0.005
+                                                  radius 0.007
+                                                  side FALSE
+                                                }
+                                              }
+                                            ]
+                                            name "button 0"
+                                            boundingObject USE BUTTON_CYLINDER
+                                            translationStep 0.0001
+                                          }
+                                          TouchSensor {
+                                            translation -0.0643129 0.0151085 0.0089
+                                            rotation 0 0 1 1.3090003061004252
+                                            children [
+                                              Shape {
+                                                appearance PBRAppearance {
+                                                  baseColor IS secondaryColor
+                                                  baseColorMap ImageTexture {
+                                                    url [
+                                                      "textures/button_2.png"
+                                                    ]
+                                                  }
+                                                  roughness 1
+                                                  metalness 0
+                                                  textureTransform TextureTransform {
+                                                    rotation 3.14159
+                                                  }
+                                                }
+                                                geometry USE BUTTON_CYLINDER
+                                              }
+                                            ]
+                                            name "button 1"
+                                            boundingObject USE BUTTON_CYLINDER
+                                            translationStep 0.0001
+                                          }
+                                          TouchSensor {
+                                            translation -0.0642012 -0.0156443 0.0089
+                                            rotation 0 0 1 1.8
+                                            children [
+                                              Shape {
+                                                appearance PBRAppearance {
+                                                  baseColor IS secondaryColor
+                                                  baseColorMap ImageTexture {
+                                                    url [
+                                                      "textures/button_3.png"
+                                                    ]
+                                                  }
+                                                  roughness 1
+                                                  metalness 0
+                                                  textureTransform TextureTransform {
+                                                    rotation 3.14159
+                                                  }
+                                                }
+                                                geometry USE BUTTON_CYLINDER
+                                              }
+                                            ]
+                                            name "button 2"
+                                            boundingObject USE BUTTON_CYLINDER
+                                            translationStep 0.0001
+                                          }
+                                          TouchSensor {
+                                            translation -0.0505297 -0.0431944 0.0089
+                                            rotation 0 0 1 2.28
+                                            children [
+                                              Shape {
+                                                appearance PBRAppearance {
+                                                  baseColor IS secondaryColor
+                                                  baseColorMap ImageTexture {
+                                                    url [
+                                                      "textures/button_4.png"
+                                                    ]
+                                                  }
+                                                  roughness 1
+                                                  metalness 0
+                                                  textureTransform TextureTransform {
+                                                    rotation 3.14159
+                                                  }
+                                                }
+                                                geometry USE BUTTON_CYLINDER
+                                              }
+                                            ]
+                                            name "button 3"
+                                            boundingObject USE BUTTON_CYLINDER
+                                            translationStep 0.0001
+                                          }
+                                          TouchSensor {
+                                            translation 0.0502593 -0.0432647 0.0089
+                                            rotation 0 0 1 0.9162996938995747
+                                            children [
+                                              Shape {
+                                                appearance PBRAppearance {
+                                                  baseColor IS secondaryColor
+                                                  baseColorMap ImageTexture {
+                                                    url [
+                                                      "textures/button_1.png"
+                                                    ]
+                                                  }
+                                                  roughness 1
+                                                  metalness 0
+                                                }
+                                                geometry USE BUTTON_CYLINDER
+                                              }
+                                            ]
+                                            name "button 4"
+                                            boundingObject USE BUTTON_CYLINDER
+                                            translationStep 0.0001
+                                          }
+                                          TouchSensor {
+                                            translation 0.064216 -0.0150831 0.0089
+                                            rotation 0 0 1 1.3090003061004252
+                                            children [
+                                              Shape {
+                                                appearance PBRAppearance {
+                                                  baseColor IS secondaryColor
+                                                  baseColorMap ImageTexture {
+                                                    url [
+                                                      "textures/button_2.png"
+                                                    ]
+                                                  }
+                                                  roughness 1
+                                                  metalness 0
+                                                }
+                                                geometry USE BUTTON_CYLINDER
+                                              }
+                                            ]
+                                            name "button 5"
+                                            boundingObject USE BUTTON_CYLINDER
+                                            translationStep 0.0001
+                                          }
+                                          TouchSensor {
+                                            translation 0.0642009 0.0156447 0.0089
+                                            rotation 0 0 1 1.8
+                                            children [
+                                              Shape {
+                                                appearance PBRAppearance {
+                                                  baseColor IS secondaryColor
+                                                  baseColorMap ImageTexture {
+                                                    url [
+                                                      "textures/button_3.png"
+                                                    ]
+                                                  }
+                                                  roughness 1
+                                                  metalness 0
+                                                }
+                                                geometry USE BUTTON_CYLINDER
+                                              }
+                                            ]
+                                            name "button 6"
+                                            boundingObject USE BUTTON_CYLINDER
+                                            translationStep 0.0001
+                                          }
+                                          TouchSensor {
+                                            translation 0.0503023 0.042999 0.0089
+                                            rotation 0 0 1 2.28
+                                            children [
+                                              Shape {
+                                                appearance PBRAppearance {
+                                                  baseColor IS secondaryColor
+                                                  baseColorMap ImageTexture {
+                                                    url [
+                                                      "textures/button_4.png"
+                                                    ]
+                                                  }
+                                                  roughness 1
+                                                  metalness 0
+                                                }
+                                                geometry USE BUTTON_CYLINDER
+                                              }
+                                            ]
+                                            name "button 7"
+                                            boundingObject USE BUTTON_CYLINDER
+                                            translationStep 0.0001
+                                          }
                                           Group {
                                             children IS toolSlot
                                           }
@@ -612,7 +804,7 @@ PROTO P-Rob3 [
                                           children [
                                             Cylinder {
                                               height 0.04
-                                              radius 0.069
+                                              radius 0.0683
                                             }
                                           ]
                                         }
