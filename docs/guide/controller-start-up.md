@@ -5,7 +5,7 @@ The controller name is a platform and language independent field; for example wh
 This is done deliberately to ensure that the *.wbt* file is independent from the platform and programming language.
 
 So when Webots tries to start a controller it must first determine what programming language is used by this controller.
-So, Webots looks in the project's "controllers" directory for a subdirectory that matches the controller name.
+So, Webots looks in the project's *controllers* directory for a subdirectory that matches the name of the controller.
 Then, in this controller directory, it looks for a file that matches the controller's name.
 For example if the controller's name is "xyz\_controller", then Webots looks for these files in the specified order, in the "PROJECT\_DIRECTORY/controllers/xyz\_controller" directory.
 
