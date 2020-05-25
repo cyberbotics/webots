@@ -206,7 +206,7 @@ void WbStreamingServer::onNewTcpData() {
   const QString &line(socket->peek(1024));  // Peek the request header to determine the requested url.
   QStringList tokens = QString(line).split(QRegExp("[ \r\n][ \r\n]*"));
   if (tokens[0] == "GET") {
-    const QString &requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
+    QString requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
     if (!requestedUrl.isEmpty())  // "/" is reserved for the websocket.
       sendTcpRequestReply(requestedUrl, socket);
   }
@@ -237,7 +237,7 @@ void WbStreamingServer::sendFileToClient(QWebSocket *client, const QString &type
     file.close();
     WbLog::info("Sending " + folder + "/" + filename + " " + type + " to web interface (" + QString::number(numberOfLines) +
                 " lines).");
-    const QString answer =
+    const QString &answer =
       "set " + type + ":" + folder + "/" + filename + ":" + QString::number(numberOfLines) + "\n" + content;
     client->sendTextMessage(answer);
   }
@@ -249,8 +249,8 @@ void WbStreamingServer::processTextMessage(QString message) {
   if (message.startsWith("robot:")) {
     QString name;
     QString robotMessage;
-    const QString data = message.mid(6).trimmed();
-    const QJsonDocument jsonDocument = QJsonDocument::fromJson(data.toUtf8());
+    const QString &data = message.mid(6).trimmed();
+    const QJsonDocument &jsonDocument = QJsonDocument::fromJson(data.toUtf8());
     if (jsonDocument.isNull() || !jsonDocument.isObject()) {
       // backward compatibility
       const int nameSize = message.indexOf(":");
@@ -387,7 +387,7 @@ void WbStreamingServer::processTextMessage(QString message) {
       WbLog::error(tr("Streaming server: non-existing controller folder: %1.").arg(controller));
       return;
     }
-    const QString fullFilename = projectDirPath + "/" + filename;
+    const QString &fullFilename = projectDirPath + "/" + filename;
     QFile file(fullFilename);
     if (!file.exists()) {
       WbLog::error(tr("Streaming server: non-existing controller file: %1.").arg(fullFilename));
@@ -397,7 +397,7 @@ void WbStreamingServer::processTextMessage(QString message) {
       WbLog::error(tr("Streaming server: cannot write controller file: %1.").arg(fullFilename));
       return;
     }
-    const QStringRef content = message.midRef(message.indexOf('\n') + 1);
+    const QStringRef &content = message.midRef(message.indexOf('\n') + 1);
     file.write(content.toUtf8());
     file.close();
   } else
@@ -427,7 +427,7 @@ void WbStreamingServer::sendUpdatePackageToClients() {
   sendActivityPulse();
 
   if (mWebSocketClients.size() > 0) {
-    qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
+    const qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
     if (mLastUpdateTime < 0.0 || currentTime - mLastUpdateTime >= 1000.0 / WbWorld::instance()->worldInfo()->fps()) {
       foreach (QWebSocket *client, mWebSocketClients)
         pauseClientIfNeeded(client);
@@ -584,7 +584,7 @@ void WbStreamingServer::propagateNodeAddition(WbNode *node) {
     return;
   }
 
-  WbRobot *robot = dynamic_cast<WbRobot *>(node);
+  const WbRobot *robot = dynamic_cast<WbRobot *>(node);
   if (robot)
     connectNewRobot(robot);
 }
@@ -634,7 +634,7 @@ void WbStreamingServer::pauseClientIfNeeded(QWebSocket *client) {
 }
 
 void WbStreamingServer::sendWorldToClient(QWebSocket *client) {
-  WbWorld *world = WbWorld::instance();
+  const WbWorld *world = WbWorld::instance();
   const QDir dir = QFileInfo(world->fileName()).dir();
   const QStringList worldList = dir.entryList(QStringList() << "*.wbt", QDir::Files);
   QString worlds;
@@ -642,7 +642,7 @@ void WbStreamingServer::sendWorldToClient(QWebSocket *client) {
     worlds += (i == 0 ? "" : ";") + QFileInfo(worldList.at(i)).fileName();
   client->sendTextMessage("world:" + QFileInfo(world->fileName()).fileName() + ':' + worlds);
 
-  QList<WbRobot *> robots = WbWorld::instance()->robots();
+  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
   foreach (const WbRobot *robot, robots) {
     if (!robot->window().isEmpty()) {
       QJsonObject windowObject;

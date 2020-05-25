@@ -90,7 +90,7 @@ void WbX3dStreamingServer::processTextMessage(QString message) {
     foreach (WbBaseNode *node, WbWorld::instance()->viewpoint()->getInvisibleNodes())
       client->sendTextMessage(QString("visibility:%1:1").arg(node->uniqueId()));
     resetSimulation();
-    QString state = WbAnimationRecorder::instance()->computeUpdateData(true);
+    const QString &state = WbAnimationRecorder::instance()->computeUpdateData(true);
     if (!state.isEmpty()) {
       foreach (QWebSocket *client, mWebSocketClients)
         sendWorldStateToClient(client, state);
@@ -121,9 +121,9 @@ void WbX3dStreamingServer::sendUpdatePackageToClients() {
   sendActivityPulse();
 
   if (mWebSocketClients.size() > 0) {
-    qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
+    const qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
     if (mLastUpdateTime < 0.0 || currentTime - mLastUpdateTime >= 1000.0 / WbWorld::instance()->worldInfo()->fps()) {
-      QString state = WbAnimationRecorder::instance()->computeUpdateData(false);
+      const QString &state = WbAnimationRecorder::instance()->computeUpdateData(false);
       if (!state.isEmpty()) {
         foreach (QWebSocket *client, mWebSocketClients) {
           sendWorldStateToClient(client, state);
@@ -140,7 +140,7 @@ bool WbX3dStreamingServer::prepareWorld() {
     bool regenerationRequired = mX3dWorldReferenceFile != WbWorld::instance()->fileName() || mX3dWorldGenerationTime != 0.0;
     if (!regenerationRequired) {
       // if a non static procedural PROTO is used we need to regenerate the world anyway
-      QList<WbProtoModel *> models = WbProtoList::current()->models();
+      const QList<WbProtoModel *> &models = WbProtoList::current()->models();
       for (int i = 0; i < models.size(); ++i) {
         if (models.at(i)->isTemplate() && !models.at(i)->isStatic()) {
           regenerationRequired = true;
@@ -190,7 +190,7 @@ void WbX3dStreamingServer::propagateNodeAddition(WbNode *node) {
 
   WbStreamingServer::propagateNodeAddition(node);
 
-  WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);
+  const WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);
   if (baseNode && baseNode->isInBoundingObject())
     return;
 
@@ -213,7 +213,7 @@ void WbX3dStreamingServer::propagateNodeDeletion(WbNode *node) {
 }
 
 void WbX3dStreamingServer::generateX3dWorld() {
-  WbWorld *world = WbWorld::instance();
+  const WbWorld *world = WbWorld::instance();
   if (!world)
     return;
 
@@ -228,15 +228,15 @@ void WbX3dStreamingServer::generateX3dWorld() {
 }
 
 void WbX3dStreamingServer::sendWorldToClient(QWebSocket *client) {
-  qint64 ret = client->sendTextMessage(QString("model:") + mX3dWorld);
+  const qint64 ret = client->sendTextMessage(QString("model:") + mX3dWorld);
   if (ret < mX3dWorld.size())
     throw tr("Cannot sent the entire world");
 
-  QString state = WbAnimationRecorder::instance()->computeUpdateData(true);
+  const QString &state = WbAnimationRecorder::instance()->computeUpdateData(true);
   if (!state.isEmpty())
     sendWorldStateToClient(client, state);
 
-  QList<WbRobot *> robots = WbWorld::instance()->robots();
+  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
   foreach (const WbRobot *robot, robots) {
     if (robot->supervisor()) {
       foreach (const QString &label, robot->supervisorUtilities()->labelsState())
