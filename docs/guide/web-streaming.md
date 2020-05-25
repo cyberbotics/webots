@@ -8,7 +8,18 @@ Please refer to the [Web simulation](web-simulation.md) documentation to setup a
 
 Two different streaming modes are available:
 - the `x3d` mode (default) where the simulation is streamed using a mechanism similar to the [web animation export](web-animation.md) except that the `X3D` file and the animation are sent on the fly to the web browser clients.
-- the `mjpeg` mode where the Webots scene render on the server is directly sent as `MJPEG` image to the web browser client.
+- the `mjpeg` mode where the Webots scene rendered on the server is directly sent as `MJPEG` image to the web browser client.
+You should choose between the `x3d` and `mjpeg` depending on the type of application you are developing.
+The following table summarizes the advantages (`+`) and disadvantages (`-`) of the the two modes:
+
+| feature / mode          | `x3d` | `mjpeg` |
+|-------------------------|:-----:|:-------:|
+| high resolution images  | +     | -       |
+| 3D navigation latency   | +     | -       |
+| bandwidth requirements  | +     | -       |
+| simulation server load  | +     | -       |
+| page loading time       | -     | +       |
+| high fidelity to Webots | -     | +       |
 
 %figure "Screenshot of Webots streaming server"
 
