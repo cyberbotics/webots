@@ -2,7 +2,7 @@ name: Discord Doc Updater
 
 on:
   schedule:
-  - cron: "0 15 * * 3"
+  - cron: "0 13 * * 3"
 
 jobs:
   build:
@@ -35,7 +35,7 @@ jobs:
         source_branch: discord-doc-update
         destination_branch: master
         pr_title: Update Discord Docs
-        pr_body: Automatic update of the docs from the Discord channels
-        pr_reviewer: cyberbotics/maintainers
+        pr_body: Automatic update of the docs from the Discord channels (https://cyberbotics.com/doc/discord/index?version=discord-doc-update).
+        pr_reviewer: Maintainers
         pr_label: documentation
 
