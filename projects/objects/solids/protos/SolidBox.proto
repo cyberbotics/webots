@@ -70,9 +70,9 @@ PROTO SolidBox [
       },
       -- quadLeft
       {
-        { x = -halfSize.x, y =  halfSize.y, z =  halfSize.z, u = 0,       v = 0       }, -- vertex A
-        { x =  halfSize.x, y =  halfSize.y, z =  halfSize.z, u = ratio.x, v = 0       }, -- vertex B
-        { x =  halfSize.x, y =  halfSize.y, z = -halfSize.z, u = ratio.x, v = ratio.z }, -- ...
+        { x = -halfSize.x, y =  halfSize.y, z =  halfSize.z, u = 0,       v = 0       },
+        { x =  halfSize.x, y =  halfSize.y, z =  halfSize.z, u = ratio.x, v = 0       },
+        { x =  halfSize.x, y =  halfSize.y, z = -halfSize.z, u = ratio.x, v = ratio.z },
         { x = -halfSize.x, y =  halfSize.y, z = -halfSize.z, u = 0,       v = ratio.z }
       },
       -- quadRight
