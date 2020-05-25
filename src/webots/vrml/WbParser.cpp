@@ -218,18 +218,6 @@ void WbParser::parseProtoDefinition(const QString &worldPath) {
   parseExactWord("}");
 }
 
-bool WbParser::parseProto(const QString &worldPath) {
-  mTokenizer->rewind();
-  mMode = PROTO;
-  try {
-    parseProtoDefinition(worldPath);
-    parseEof();
-  } catch (...) {
-    return false;
-  }
-  return true;
-}
-
 bool WbParser::parseObject(const QString &worldPath) {
   mTokenizer->rewind();
   mMode = WBO;
