@@ -74,7 +74,7 @@ A simple example of an HTML robot window is provided in the `custom_robot_window
 - How to send user interface events (like mouse clicks) from the robot window to the controller program.
 - How to change the title of the robot window from the controller program.
 
-How to create your own robot-window:
+#### How to Create Your Own Robot-window:
 
 - To open the robot-window, double-click on the robot body.
 - It will bring up a menu on the left with the DistanceSensor and RotationalMotor graph. 
