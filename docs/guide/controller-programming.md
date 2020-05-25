@@ -1134,9 +1134,9 @@ Usually a controller process runs in an endless loop until it is terminated by W
 A controller cannot prevent its own termination.
 When one of the above events happens, the `wb_robot_step` function returns -1.
 From this point, Webots will not communicate with the controller any more.
-Therefore, new print statements executed by the controller will no longer appear in the Webots console.
+Therefore, new print statements executed by the controller on `stdout` or `stderr` will no longer appear in the Webots console.
 After one second (real time), if the controller has not terminated by itself, Webots will kill it (`SIGKILL`).
-That leaves limited time to the controller to save important data, close files, etc. before it is actually killed by Webots.
+That leaves a limited amount of time to the controller to save important data, close files, etc. before it is actually killed by Webots.
 Here is an example that shows how to save data before the upcoming termination:
 
 %tab-component "language"
