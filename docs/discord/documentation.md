@@ -4,6 +4,21 @@ This is an archive of the `documentation` channel of the [Webots Discord server]
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 05/20/2020 05:37:11
+You're welcome
+
+##### prubhtej Singh 05/20/2020 05:31:12
+Thanks for the reply. I'll definitely check it out.
+
+##### David Mansolino [cyberbotics] 05/20/2020 04:50:52
+Hi, the documentation is updated directly from our Github repository, you can see all the latest changes here: [https://github.com/cyberbotics/webots/tree/master/docs](https://github.com/cyberbotics/webots/tree/master/docs)
+
+##### prubhtej Singh 05/19/2020 19:10:53
+When was documentation last updated ?
+
+
+I just had a small query.
+
 ##### Olivier Michel [cyberbotics] 05/13/2020 15:58:07
 Thank you. We will review it soon.
 

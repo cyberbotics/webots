@@ -4,6 +4,395 @@ This is an archive of the `technical-questions` channel of the [Webots Discord s
 
 ## 2020
 
+##### ChapoGuzman 05/20/2020 15:54:28
+Thanks in advance.
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712694659821862932/unknown.png)
+%end
+
+
+
+Hello guys, I designed a robotic arm in solidworks and I import it by v97 but I have problems to implement it as a "robot" I am new with the program and I have already read the tutorials and the user guide, there will be a diagram like this that I can follow to implement my parts in a single "robot" section
+
+##### elkelkmuh 05/20/2020 15:33:25
+`@David Mansolino`  How can I find the position of the foot? I can find the position of the robot with the supervisor api.  The robot has fsr on its feet.
+
+##### nap 05/20/2020 14:46:35
+> Did you somehow saved the world after it has run?
+
+> `@David Mansolino` : Yes, that was it.  There were a bunch of `hidden position, hidden linearVelocity, hidden angularVelocity, hidden rotation` nodes saved into the WBT file.  Thanks!!
+
+
+> No you should not get it with the `void` controller.
+
+> Did you somehow saved the world after it has run?
+
+`@David Mansolino` : That may be the problem.  I just loaded the original but local copy of the Tower\_of\_Hanoi world and the warning did not show.  (I'll debug it and come back.)
+
+##### David Mansolino [cyberbotics] 05/20/2020 14:40:14
+No you should not get it with the `void` controller.
+
+Did you somehow saved the world after it has run?
+
+##### nap 05/20/2020 14:38:14
+> `@nap` this error simply means that the controllers send a position request that is slightly out of range of the motor.
+
+`@David Mansolino` :  Should I get the warning when the controller is set to `void`? (In fact the warning seems to be issued before the world is ready to start executing after a reload.)
+
+Can the warning be fixed by editing the PROTO?
+
+##### Luiz Felipe 05/20/2020 13:23:22
+> `@Luiz Felipe`: no, you have no other option.
+
+`@Olivier Michel` 👍
+
+##### PurplePi 05/20/2020 13:20:09
+Ok, thank you
+
+##### Olivier Michel [cyberbotics] 05/20/2020 13:19:58
+`@Luiz Felipe`: no, you have no other option.
+
+
+`@PurplePi`: no.
+
+##### PurplePi 05/20/2020 13:17:32
+Hello, is there a way to have a supervisor not binded to a robot in the simulation. thank you
+
+##### Luiz Felipe 05/20/2020 13:11:06
+To use a external controller, as explained here: [https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-os=windows&tab-language=python](https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-os=windows&tab-language=python) I should add the PYTHONPATH to the environment variables. My end users are not familiar with setting environment variables in linux/windows. Is there a workaround for that? The ${WEBOTS\_HOME}/lib/controller/python3X folder is created after the python version is detected in the user's computer?
+
+##### David Mansolino [cyberbotics] 05/20/2020 12:14:46
+Sorry no idea
+
+##### elkelkmuh 05/20/2020 12:04:48
+`@David Mansolino` supervisor does not work on real robot. what would you recommend in this case?
+
+##### David Mansolino [cyberbotics] 05/20/2020 12:02:57
+Unfortunately not
+
+##### elkelkmuh 05/20/2020 12:02:12
+`@David Mansolino` Is there an example I can examine?
+
+##### David Mansolino [cyberbotics] 05/20/2020 11:53:58
+You should use the Supervisor API to get the position of the foot and then compute the difference
+
+##### elkelkmuh 05/20/2020 11:47:20
+`@David Mansolino` I want to know how many mm the right foot and left foot move. how can i learn this?
+
+##### David Mansolino [cyberbotics] 05/20/2020 10:48:11
+You're welcome
+
+##### elkelkmuh 05/20/2020 10:40:30
+`@David Mansolino` thank you
+
+##### Ork 05/20/2020 09:55:30
+Thnx
+
+##### Olivier Michel [cyberbotics] 05/20/2020 09:50:51
+`@Ork`: yes, using a supervisor.
+
+##### TheOrangeOne 05/20/2020 09:48:25
+`@David Mansolino` Thanks! It seems the correct way to do it is to multiply the y value by the angle, and then convert that to degrees. Most of the guides i've seen divide it, which I guess is for something different. Now this returns sane values, thanks!
+
+##### Ork 05/20/2020 09:47:35
+Is there a way to teleport a robot ?
+
+##### David Mansolino [cyberbotics] 05/20/2020 09:13:13
+`@Ronin52` You're welcome.
+
+
+This might help you to make some tests: [https://www.andre-gaschler.com/rotationconverter/](https://www.andre-gaschler.com/rotationconverter/)
+
+##### Ronin52 05/20/2020 09:12:57
+> `@David Mansolino` Thank you so much!
+
+##### TheOrangeOne 05/20/2020 09:10:38
+`@David Mansolino` so there's no way to convert the axis angles into a rotation around a specific axis?
+
+##### David Mansolino [cyberbotics] 05/20/2020 09:09:44
+`@TheOrangeOne` unfortunately, Webots highly relies on axis angle representation, and there is no way to go around this.
+
+##### cakar 05/20/2020 09:06:47
+ok thank you i will work on it
+
+##### Stefania Pedrazzi [cyberbotics] 05/20/2020 09:05:19
+For simulating fluid on the floor, where the objects are not immersed in it, I don't think that the Fluid node is the best option. I would rather display it on the floor like a graphical effect and then adjust the ContactProperties
+
+
+Hi `@cakar`, the Fluid node is just a functional node and has no graphical appearance. You have to add the Shape node in the children field to visualize it. Here is a sample simulation: [https://cyberbotics.com/doc/guide/samples-geometries#floating\_geometries-wbt](https://cyberbotics.com/doc/guide/samples-geometries#floating_geometries-wbt)
+
+##### cakar 05/20/2020 09:00:50
+Hello i got a question ,i  added a fluid node but i cant see it  is there anything else that i needed to change in the node ,and if there is fluid in the floor can i clean it with a robot.
+
+##### David Mansolino [cyberbotics] 05/20/2020 08:50:20
+> What is the best value for timestep and basictimestep? how should I determine?
+
+`@elkelkmuh` by default 32 is used, but it is recommended to determine it by trial and error, basically try and as long as the simulation is not stable enough you can divide it by two.
+
+##### PurplePi 05/20/2020 08:35:08
+Thank you
+
+
+I will try the emitter/receiver.
+
+
+Yes but if I restart the robots controllers, I have to save the Neural Net 's parameters and reload again.
+
+##### Stefania Pedrazzi [cyberbotics] 05/20/2020 08:33:07
+The other option to automatically notify them, is to restart the robots controllers.
+
+
+> No I am not restarting the robots controller
+
+`@PurplePi` Then you should use a IPC method (like using the Emitter/Receiver nodes) to let the Supervisor controller notify the robot controllers about the reset so that they can execute the initialization function.
+
+##### PurplePi 05/20/2020 08:30:45
+No I am not restarting the robots controller
+
+##### TheOrangeOne 05/20/2020 08:30:19
+`@David Mansolino` Given the following setup and code:
+
+```
+o = obj.get_orientation()
+x, y, z = transforms3d.euler.axangle2euler(o[:3], o[3])
+print(degrees(x), degrees(y), degrees(z))
+```
+
+Rotating the cube around its Y axis should give me sane values, but I actually get:
+
+```
+0.9383443740233955 45.00008200374141 -2.710677376055925e-06
+0.7229730866926742 45.000082000667604 -2.0672197875466448e-06
+0.7342896472589717 45.0000995411886 -2.080906395177219e-06
+0.749429438851949 60.00013461964227 -2.9573789185743686e-06
+0.7645132888899848 60.00013462119542 -2.9684612427260756e-06
+0.7791367763655455 75.00016969917081 -5.7539592431410275e-06
+0.7932387797503188 75.00016970059033 -5.772235723774259e-06
+-178.7728805271608 89.99979521589438 -179.58065165692838
+-178.7586346851022 89.9997952144679 -179.5794361035914
+-179.16841603962547 74.99976014227151 -179.99999417840684
+-179.15628415418655 74.99976014089336 -179.99999416271666
+-179.14707736581408 59.99972506329158 -179.99999697220557
+-179.13734318759495 59.99972506212261 -179.9999969656765
+-179.12869941117953 44.999689984531415 -179.9999978502986
+-179.12106445267116 44.99968998356652 -179.99999784666974
+-179.1136369364455 44.99968998260577 -179.9999978431371
+-179.10357698161877 29.999654904742503 -179.99999823501287
+-179.09389726672924 29.999654903412058 -179.99999823124332
+-179.08655014906373 15.00019278364224 -179.99999841160027
+-179.0775154776643 15.000192782325234 -179.99999840843702
+-179.06882369955719 0.00015770296432111142 -179.99999845977928
+-179.06046157685424 -14.999877373336558 -179.99999840245312
+```
+
+Which screams gimble lock to me
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712582971823095848/unknown.png)
+%end
+
+
+##### Stefania Pedrazzi [cyberbotics] 05/20/2020 08:30:11
+Ok. And on reset, you are not restarting the robots controller, is it right?
+
+##### PurplePi 05/20/2020 08:29:40
+I mean using the Supervisor API.
+
+##### Stefania Pedrazzi [cyberbotics] 05/20/2020 08:28:04
+`@PurplePi` do you mean pushing the reset button or using the Supervisor API to reset the simulation? Which version of Webots are you using?
+
+##### PurplePi 05/20/2020 08:25:04
+Hello,  I need all the robots to run an initialization function every time the sim reset. How can robots detect the reset of the simulation ?
+
+
+I think it depends of your accuracy/efficiency trade off.
+
+##### elkelkmuh 05/20/2020 08:07:22
+What is the best value for timestep and basictimestep? how should I determine?
+
+##### Stefania Pedrazzi [cyberbotics] 05/20/2020 08:02:42
+`@elkelkmuh` you can find the definition of basic time step and (controller) time step in the glossary: [https://www.cyberbotics.com/doc/reference/glossary](https://www.cyberbotics.com/doc/reference/glossary)
+
+##### elkelkmuh 05/20/2020 07:56:41
+> That's up to you to let us know which one you are using?
+
+> If it falls like that it probably means that the gait parameters are not perfect.
+
+  Hi `@David Mansolino`  op2 falls to the ground after taking 3-4 steps. what would you recommend for this?  What is timestep and basictimestep?
+
+##### David Mansolino [cyberbotics] 05/20/2020 07:51:34
+> What is timestep and basictimestep?
+
+That's up to you to let us know which one you are using?
+
+If it falls like that it probably means that the gait parameters are not perfect.
+
+##### Olivier Michel [cyberbotics] 05/20/2020 07:14:05
+Webots produce VRML97 format (not VRML 1.0). So if you third party software is supporting only VRML 1.0, you may get this error.
+
+##### Jeremy Jiang 05/20/2020 07:09:02
+Hello, I create a world in webots and want to  export all objects in the world as VRML model (.wrl file). It is ok! However, when I want to  open the VRML file with other software such as SolidWorks, there will be something wrong but in fact this software can open other VRML files which is not produced from Webots. Could you tell me the reason?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712562515409764362/unknown.png)
+%end
+
+
+##### David Mansolino [cyberbotics] 05/20/2020 05:10:39
+> Hello! A while back I asked what the recognition orientation is on the camera, and got pointed in the direction of axis angles. I can get values out, but they act strangely. Rotating a cube around the Y axis. Is this just a case of unavoidable gimble lock? I can't imagine it is else the vision API is near useless? Thanks!
+
+`@TheOrangeOne` I am sorry but can you be a bit more precise, what is the issue when rotating around the Y axis ? Can you provide an example? Using the axis angle you should not get any gimble lock.
+
+
+> Hello everybody! Please help me write a PROTO of a wheel similar to the one in the screenshot. That is, the wheel rotates on an axis, and the axis with the wheel rotates in around the other axis. I couldn't figure out how to do this, so I replaced it with a sphere and a Hinge2Joint, whose anchor is located in the center of the sphere. This gave me the ability to move in two planes, but periodically triggers a warning "WARNING: The current physics step could not be calculated correctly. Your world may be too complex. If this problem persists, try simplifying your bounding object(s), reducing the number of joints, or reducing WorldInfo.basicTimeStep"
+
+`@Ronin52` to simulate this kind of wheel you usually have to use 2 HingeJoint instead of a Hinge2joint, here is an example: 
+
+```
+DEF CASTER_WHEEL_FRONT_RIGHT_JOINT HingeJoint {
+  jointParameters HingeJointParameters {
+    axis 0 0 1
+    anchor 0.1695 -0.102 -0.0335
+  }
+  device [
+  ]
+  endPoint DEF CASTER_WHEEL_FRONT_RIGHT Solid {
+    translation 0.1695 -0.102 -0.0335
+    rotation 0 0 1 0
+    children [
+      DEF SMALL_WHEEL_JOINT HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor -0.016 0 -0.04
+        }
+        device [
+        ]
+        endPoint DEF SMALL_WHEEL Solid {
+        ...
+        }
+      }
+      ...
+    ]
+  }
+}
+```
+
+In any case, the warning that you are seeing just means that the physics engine encounter some instabilities, but in most of the cases if you just get a few of them you can ignore them.
+
+
+> Hi, I'm using a standard Kuka `youbot` robot in my own project, but am getting an unusual warning regarding positioning of HingeJoints as follows:
+
+> `WARNING: Youbot (PROTO) > DEF ARM Solid > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > SliderJoint > LinearMotor: too low requested position: -2.40623e-11 < 0`
+
+> Reason for saying  it's an unusual warning is because I don't get it when I run the demo from the `Webots Tour`.  I'm using the standard proto definition and don't have anything added to the bodySlot In my project.  Can anyone suggest why this is happening?
+
+`@nap` this error simply means that the controllers send a position request that is slightly out of range of the motor.
+
+
+> Hello, I wonder if I can export objects in webots to stl files, obj files, 3D studio files(3ds) or Direct 3D files?
+
+`@Weiyi` no, only to VRML (and then you can find some other software such as Blender for example, that convert VRML to something else), but be careful to the license.
+
+
+`@AyresAlmada` you're welcome
+
+
+`@jomell310` this is because the Supervisor class inherits from the Robot class, so if you instantiate one Supervisor you should not instantiate any Robot.
+
+##### AyresAlmada 05/20/2020 03:02:18
+> `@AyresAlmada` here is a tutorial showing how to build new objects:
+
+> [https://cyberbotics.com/doc/guide/tutorial-5-compound-solid-and-physics-attributes](https://cyberbotics.com/doc/guide/tutorial-5-compound-solid-and-physics-attributes)
+
+> Since your bridge will be a static object, you should not put any 'Physics' node.
+
+> Note also that this world contains some bridges: [https://cyberbotics.com/doc/automobile/highway](https://cyberbotics.com/doc/automobile/highway)
+
+`@David Mansolino` thanks
+
+##### Weiyi 05/20/2020 02:07:39
+Hello, I wonder if I can export objects in webots to stl files, obj files, 3D studio files(3ds) or Direct 3D files?
+
+##### nap 05/20/2020 00:18:49
+Hi, I'm using a standard Kuka `youbot` robot in my own project, but am getting an unusual warning regarding positioning of HingeJoints as follows:
+
+`WARNING: Youbot (PROTO) > DEF ARM Solid > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > SliderJoint > LinearMotor: too low requested position: -2.40623e-11 < 0`
+
+Reason for saying  it's an unusual warning is because I don't get it when I run the demo from the `Webots Tour`.  I'm using the standard proto definition and don't have anything added to the bodySlot In my project.  Can anyone suggest why this is happening?
+
+##### Ronin52 05/19/2020 18:58:36
+Hello everybody! Please help me write a PROTO of a wheel similar to the one in the screenshot. That is, the wheel rotates on an axis, and the axis with the wheel rotates in around the other axis. I couldn't figure out how to do this, so I replaced it with a sphere and a Hinge2Joint, whose anchor is located in the center of the sphere. This gave me the ability to move in two planes, but periodically triggers a warning "WARNING: The current physics step could not be calculated correctly. Your world may be too complex. If this problem persists, try simplifying your bounding object(s), reducing the number of joints, or reducing WorldInfo.basicTimeStep"
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712378694873907300/unknown.png)
+%end
+
+
+##### TheOrangeOne 05/19/2020 18:52:17
+Hello! A while back I asked what the recognition orientation is on the camera, and got pointed in the direction of axis angles. I can get values out, but they act strangely. Rotating a cube around the Y axis. Is this just a case of unavoidable gimble lock? I can't imagine it is else the vision API is near useless? Thanks!
+
+##### jomell310 05/19/2020 16:26:42
+I'm trying to do as the link, I want to have the supervisor and robot in the same file so that I don't have to deal with Emitter and Receiver, I wasn't to get that working either. It's showing me an error "Only one instance of the Robot class should be created" but I only create on instance so I don't know where the other one is coming from
+
+
+Where robot is the supervisor and thymio2 the actual robot
+
+
+> Did you had a look at this doc about using Webots for optimisation methods?
+
+> [https://cyberbotics.com/doc/guide/using-numerical-optimization-methods](https://cyberbotics.com/doc/guide/using-numerical-optimization-methods)
+
+`@David Mansolino`  Yes and we looked at the sample, genetic sample, we are trying to implement something similar but in python. Right now I'm using this:
+
+robot.simulationResetPhysics()
+
+thymio2.resetPhysics()
+
+thymio2.restartController()
+
+robot.simulationReset()
+
+##### David Mansolino [cyberbotics] 05/19/2020 15:35:53
+You're welcome
+
+##### PurplePi 05/19/2020 15:35:37
+Thank you
+
+##### David Mansolino [cyberbotics] 05/19/2020 15:30:15
+Did you had a look at this doc about using Webots for optimisation methods?
+
+[https://cyberbotics.com/doc/guide/using-numerical-optimization-methods](https://cyberbotics.com/doc/guide/using-numerical-optimization-methods)
+
+
+What do you mean by 'it crashes'? Its controller crashes?
+
+##### jomell310 05/19/2020 15:27:26
+So what happens is that the robot crashes, but my supervisor doesn't know and lets the simulation run
+
+
+Hi, I'm having trouble with resetting the simulation from the supervisor, for some reason the contactPoints of the robot take a long time to reset,
+
+##### David Mansolino [cyberbotics] 05/19/2020 15:23:01
+Since controller are regular processes, if you don't want to use emitter/receiver, you can implement your inter-process communication mechanism (TCP, UDP, shared memory, pipes, etc.).
+
+##### PurplePi 05/19/2020 15:07:52
+Hello, I'm trying to do Multi agent Deep reinforcement learning. The algorithm I want to use is the MADDPG, where all the Critics get the partial observation of all the other agents. Is there an way to share  LIDAR observations and velocities between external controllers (without emitter/receiver) ? Thank you.
+
+##### kwy 05/19/2020 15:02:43
+thanks
+
+##### David Mansolino [cyberbotics] 05/19/2020 15:00:26
+No, this not supported yet, but it is of course possible to improve the robot window to support recording.
+
+##### kwy 05/19/2020 14:32:39
+Hi, can Webots record the Robot-Window?
+
+##### David Mansolino [cyberbotics] 05/19/2020 12:10:39
+It can recognised any Solid node whose `recognitionColors` field is not empty (this field is empty by default): [https://cyberbotics.com/doc/reference/solid](https://cyberbotics.com/doc/reference/solid)
+
+##### Mathie20 05/19/2020 12:06:49
+what objects can the webots object recognition find? since i see it only finds some objects on webots
+
 ##### Olivier Michel [cyberbotics] 05/19/2020 09:21:24
 I seems some of your controllers are crashing. You should probably fix this first.
 
