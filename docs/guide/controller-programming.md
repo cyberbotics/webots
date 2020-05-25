@@ -1160,8 +1160,9 @@ int main() {
   }
 
   // Webots triggered termination detected!
+  // Past this point, new printf statements will no longer be displayed in the Webots console
 
-  saveExperimentData();
+  saveExperimentData();  // this shouldn't last longer than one second
 
   wb_robot_cleanup();
   return 0;
@@ -1191,8 +1192,9 @@ int main() {
   }
 
   // Webots triggered termination detected!
+  // Past this point, new std::cout/cerr printouts will no longer be displayed in the Webots console
 
-  saveExperimentData();
+  saveExperimentData();  // this shouldn't last longer than one second
 
   delete robot;
   return 0;
@@ -1216,8 +1218,9 @@ while robot.step(TIME_STEP) != -1:
     print("Sensor value is: ", value)
 
 # Webots triggered termination detected!
+# Past this point, new print statements will no longer be displayed in the Webots console
 
-saveExperimentData()
+saveExperimentData()  # this shouldn't last longer than one second
 ```
 %tab-end
 
@@ -1242,8 +1245,9 @@ public class ReadingSensor {
     }
 
     // Webots triggered termination detected!
+    // Past this point, new Sytem.out/err print statements will no longer be displayed in the Webots console
 
-    saveExperimentData();
+    saveExperimentData();  // this shouldn't last longer than one second
   }
 }
 ```
@@ -1261,8 +1265,9 @@ while wb_robot_step(TIME_STEP) ~= -1
 end
 
 % Webots triggered termination detected!
+% Past this point, new wb_console_print statements will no longer be displayed in the Webots console
 
-saveExperimentData();
+saveExperimentData();  % this should not last longer than one second
 ```
 %tab-end
 %end
