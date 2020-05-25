@@ -19,11 +19,11 @@
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
-WbMultimediaStreamingLimiter::WbMultimediaStreamingLimiter(const QSize &resolution, int frameRate) :
+WbMultimediaStreamingLimiter::WbMultimediaStreamingLimiter(const QSize &resolution, int updateTimeStep) :
   mResolution(resolution),
   mResolutionFactor(1),
   mResolutionChanged(false),
-  mFrameRate(frameRate),
+  mUpdateTimeStep(updateTimeStep),
   mLevel(-1),
   mIncreasingSteps(1),
   mDecreasingSteps(1),
@@ -60,8 +60,8 @@ void WbMultimediaStreamingLimiter::recomputeStreamingLimits(int skippedImages) {
         mResolution *= 2;
         mResolutionFactor--;
         mResolutionChanged = true;
-      } else if (mFrameRate > 50)
-        mFrameRate -= 50;
+      } else if (mUpdateTimeStep > 50)
+        mUpdateTimeStep -= 50;
     }
   } else {
     if (skippedImages > 3)
@@ -72,15 +72,18 @@ void WbMultimediaStreamingLimiter::recomputeStreamingLimits(int skippedImages) {
         mResolution /= 2;
         mResolutionFactor++;
         mResolutionChanged = true;
-      } else if (mFrameRate < 500) {
+      } else if (mUpdateTimeStep < 500) {
         mLevel++;
-        mFrameRate += 50;
+        mUpdateTimeStep += 50;
       } else
         break;
       skippedImages -= 3;
     }
   }
 
-  WbLog::info(
-    QString("Streaming status: resolution: %1x%2, rate %3").arg(mResolution.width()).arg(mResolution.height()).arg(mFrameRate));
+  // Debug streaming limiter
+  // WbLog::info(QString("Streaming status: resolution: %1x%2, rate %3")
+  //              .arg(mResolution.width())
+  //              .arg(mResolution.height())
+  //              .arg(mUpdateTimeStep));
 }

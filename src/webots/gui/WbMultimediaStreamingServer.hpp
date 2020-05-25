@@ -55,7 +55,7 @@ private:
 
   int mImageWidth;
   int mImageHeight;
-  int mFrameRate;
+  int mImageUpdateTimeStep;
 
   QByteArray mSceneImage;
   QList<QTcpSocket *> mTcpClients;

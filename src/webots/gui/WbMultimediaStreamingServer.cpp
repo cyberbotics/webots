@@ -37,7 +37,7 @@ WbMultimediaStreamingServer::WbMultimediaStreamingServer() :
   WbStreamingServer(),
   mImageWidth(-1),
   mImageHeight(-1),
-  mFrameRate(50),
+  mImageUpdateTimeStep(50),
   mLimiter(NULL),
   mAverageBytesToWrite(0),
   mSentImagesCount(0),
@@ -111,7 +111,7 @@ bool WbMultimediaStreamingServer::isNewFrameNeeded() const {
     return true;
 
   const qint64 msecs = mUpdateTimer.elapsed();
-  return msecs >= mFrameRate;  // maximum update frame rate
+  return msecs >= mImageUpdateTimeStep;  // maximum update frame rate
 }
 
 void WbMultimediaStreamingServer::sendImage(const QImage &image) {
@@ -122,9 +122,9 @@ void WbMultimediaStreamingServer::sendImage(const QImage &image) {
   bufferJpeg.open(QIODevice::WriteOnly);
   image.save(&bufferJpeg, "JPG");
 
-  const qint64 msecs = mUpdateTimer.isValid() ? mUpdateTimer.elapsed() : mFrameRate + 1;
-  if (WbSimulationState::instance()->isPaused() && (msecs < mFrameRate))
-    mWriteTimer.start(2 * mFrameRate - msecs);
+  const qint64 msecs = mUpdateTimer.isValid() ? mUpdateTimer.elapsed() : mImageUpdateTimeStep + 1;
+  if (WbSimulationState::instance()->isPaused() && (msecs < mImageUpdateTimeStep))
+    mWriteTimer.start(2 * mImageUpdateTimeStep - msecs);
   else
     sendImageOnTimeout();
 }
@@ -161,11 +161,7 @@ void WbMultimediaStreamingServer::processLimiterTimeout() {
     return;
   }
 
-  double bytes;
-  if (mSentImagesCount > 0)
-    bytes = ((double)mAverageBytesToWrite) / mSentImagesCount;
-  else
-    bytes = 0;
+  const double bytes = (mSentImagesCount > 0) ? ((double)mAverageBytesToWrite) / mSentImagesCount : 0;
   updateStreamingParameters(bytes / mSceneImage.size());
 }
 
@@ -176,7 +172,7 @@ void WbMultimediaStreamingServer::updateStreamingParameters(int skippedImagesCou
     cMainWindow->setView3DSize(newSize);
     mFullResolutionOnPause = 0;
   }
-  mFrameRate = mLimiter->frameRate();
+  mImageUpdateTimeStep = mLimiter->updateTimeStep();
   mAverageBytesToWrite = 0;
   mSentImagesCount = 0;
 }

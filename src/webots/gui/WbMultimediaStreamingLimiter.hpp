@@ -27,14 +27,14 @@ public:
   int resolutionFactor() const { return mResolutionFactor; }
   bool resolutionChanged() const { return mResolutionChanged; }
   QSize fullResolution() const;
-  int frameRate() const { return mFrameRate; }
+  int updateTimeStep() const { return mUpdateTimeStep; }
   bool isStopped() const { return mIsStopped; }
 
 private:
   QSize mResolution;
   int mResolutionFactor;
   bool mResolutionChanged;
-  int mFrameRate;
+  int mUpdateTimeStep;
   int mLevel;
   int mIncreasingSteps;
   int mDecreasingSteps;
