@@ -16,7 +16,7 @@
 
 class WbMultimediaStreamingLimiter {
 public:
-  WbMultimediaStreamingLimiter(const QSize &resolution, int frameRate);
+  WbMultimediaStreamingLimiter(const QSize &resolution, int updateTimeStep);
 
   void recomputeStreamingLimits(int skippedImages);
 
