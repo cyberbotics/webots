@@ -101,7 +101,7 @@ PROTO P-Grip [
             acceleration 17.4533
             maxVelocity 1.0472
             maxPosition 1.0472
-            maxTorque 0.0544164
+            maxTorque 5.44164
           }
           PositionSensor {
             name "7 sensor"
@@ -286,7 +286,7 @@ PROTO P-Grip [
             acceleration 17.4533
             maxVelocity 1.0472
             maxPosition 1.0472
-            maxTorque 0.0544164
+            maxTorque 5.44164
           }
           PositionSensor {
             name "7 left sensor"
