@@ -46,7 +46,7 @@ Robot {
     HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0 0 0.02
+        anchor 0 0 0.01999  # set 0.01999 instead of 0.02 avoid initial sinking of one wheel in the floor
       }
       device [
         RotationalMotor {
@@ -64,7 +64,7 @@ Robot {
         }
       ]
       endPoint DEF EPUCK_LEFT_WHEEL Solid {
-        translation 0 0.026 0.02
+        translation 0 0.026 0.01999
         children [
           DEF EPUCK_WHEEL Transform {
             children [
@@ -198,7 +198,7 @@ Robot {
     HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0 0 0.02
+        anchor 0 0 0.01999
       }
       device [
         RotationalMotor {
@@ -216,7 +216,7 @@ Robot {
         }
       ]
       endPoint DEF EPUCK_RIGHT_WHEEL Solid {
-        translation 0 -0.026 0.02
+        translation 0 -0.026 0.01999
         rotation 1 0 0 0
         children [
           Transform {
