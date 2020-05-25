@@ -40,7 +40,7 @@ private:
   WbTranslator();
   WbTranslator(const WbTranslator &);             // non construction-copyable
   WbTranslator &operator=(const WbTranslator &);  // non copyable
-  virtual ~WbTranslator();
+  ~WbTranslator();
 
   void updateSupportedLanguages();
 

@@ -119,7 +119,7 @@ public class Accelerometer extends Device {
 wb_accelerometer_enable(tag, sampling_period)
 wb_accelerometer_disable(tag)
 period = wb_accelerometer_get_sampling_period(tag)
-[x y z] = wb_accelerometer_get_values(tag)
+x_y_z_array = wb_accelerometer_get_values(tag)
 lookup_table_array = wb_accelerometer_get_lookup_table(tag)
 ```
 

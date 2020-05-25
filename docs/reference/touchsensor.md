@@ -197,7 +197,7 @@ wb_touch_sensor_enable(tag, sampling_period)
 wb_touch_sensor_disable(tag)
 period = wb_touch_sensor_get_sampling_period(tag)
 value = wb_touch_sensor_get_value(tag)
-[x y z] = wb_touch_sensor_get_values(tag)
+x_y_z_array = wb_touch_sensor_get_values(tag)
 lookup_table_array = wb_touch_sensor_get_lookup_table(tag)
 ```
 

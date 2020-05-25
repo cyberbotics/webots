@@ -2,6 +2,7 @@
 
 import unittest
 import re
+import sys
 
 from books import Books
 
@@ -17,11 +18,17 @@ class TestLists(unittest.TestCase):
         self.items = []
         books = Books()
         for book in books.books:
+
+            # we are not responsible of the content of the discord chats
+            if book.name == 'discord':
+                continue
+
             for md_path in book.md_paths:
                 # Extract MD content.
                 itemBuffer = ''
                 skipUntil = ''
-                with open(md_path) as f:
+                args = {} if sys.version_info[0] < 3 else {'encoding': 'utf-8'}
+                with open(md_path, **args) as f:
                     content = f.readlines()
                 for line in content:
                     if skipUntil:

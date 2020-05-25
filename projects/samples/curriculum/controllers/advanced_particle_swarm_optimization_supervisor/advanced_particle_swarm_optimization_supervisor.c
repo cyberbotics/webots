@@ -212,18 +212,14 @@ int main() {
 
     step();
 
+    outbuffer[0] = -1;
     if (NOISE_RESISTANT == 1 && run_counter % 3 == 2) {
       gbest = 0;
       // broadcast EVAL_PBEST again
-      outbuffer[0] = -1;
       outbuffer[1] = EVAL_PBEST;
-      wb_emitter_send(emitter, outbuffer, 2 * sizeof(float));
-    } else {
-      // broadcast RESET message
-      outbuffer[0] = -1;
+    } else  // broadcast RESET message
       outbuffer[1] = RESET;
-      wb_emitter_send(emitter, outbuffer, 2 * sizeof(float));
-    }
+    wb_emitter_send(emitter, outbuffer, 2 * sizeof(float));
 
     step();
 

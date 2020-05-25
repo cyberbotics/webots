@@ -756,7 +756,7 @@ void WbNode::notifyFieldChanged() {
   // this is the changed field
   WbField *const field = static_cast<WbField *>(sender());
 
-  if (isUseNode() || mIsBeingDeleted || cUpdatingDictionary) {
+  if (mIsBeingDeleted || cUpdatingDictionary) {
     emit fieldChanged(field);
     return;
   }
@@ -775,6 +775,8 @@ void WbNode::notifyFieldChanged() {
         // apply changes to the same field in each USE node
         foreach (WbNode *const useNode, n->mUseNodes) {
           WbField *const subField = useNode->findSubField(index, parentNode);
+          if (!subField || subField->type() != field->type() || subField->name() != field->name())
+            continue;
           assert(parentNode);
           setGlobalParent(parentNode);
           subField->copyValueFrom(field);
@@ -790,7 +792,7 @@ void WbNode::notifyFieldChanged() {
     if (!p || !n->mInsertionCompleted)
       break;
     n = p;
-  } while (n->isUseNode() == false);
+  } while (!n->isWorldRoot());
 
   emit fieldChanged(field);
 }
@@ -829,7 +831,6 @@ WbField *WbNode::findSubField(int index, WbNode *&parentNode) const {
       ++count;
     }
   }
-  assert(0);
   return NULL;
 }
 

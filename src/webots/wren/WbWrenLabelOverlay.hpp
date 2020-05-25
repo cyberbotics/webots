@@ -79,7 +79,7 @@ private:
   static const float HORIZONTAL_MARGIN;
 
   WbWrenLabelOverlay(int id, const QString &font);
-  virtual ~WbWrenLabelOverlay();
+  ~WbWrenLabelOverlay();
 
   void createTexture();
   void updateTextureSize();

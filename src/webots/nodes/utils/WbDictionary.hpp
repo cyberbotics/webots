@@ -54,7 +54,7 @@ public:
 private:
   static WbDictionary *cInstance;
   WbDictionary();
-  virtual ~WbDictionary();
+  ~WbDictionary();
 
   bool updateDef(WbBaseNode *&node, WbSFNode *sfNode = NULL, WbMFNode *mfNode = NULL, int index = -1);
   void updateProtosDef(WbBaseNode *&node, WbSFNode *sfNode = NULL, WbMFNode *mfNode = NULL, int index = -1);

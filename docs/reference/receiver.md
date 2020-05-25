@@ -507,7 +507,7 @@ public class Receiver extends Device {
 
 ```MATLAB
 strength = wb_receiver_get_signal_strength(tag)
-[x y z] = wb_receiver_get_emitter_direction(tag)
+x_y_z_array = wb_receiver_get_emitter_direction(tag)
 ```
 
 %tab-end
