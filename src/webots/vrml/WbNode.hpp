@@ -118,6 +118,7 @@ public:
   QString fullName() const;                                             // e.g. "Robot, "DEF MY_BOT Robot" or "USE MY_BOT"
   virtual const QString &vrmlName() const { return nodeModelName(); };  // e.g. "Transform" instead of "Robot"
   virtual const QString &x3dName() const { return vrmlName(); }
+  virtual const QString &urdfName() const;
   QString fullVrmlName() const;          // e.g. "DEF MY_ROBOT Transform"
   const QString &modelName() const;      // e.g. for Nao -> "Nao"
   const QString &nodeModelName() const;  // e.g. for Nao -> "Robot"

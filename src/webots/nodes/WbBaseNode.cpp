@@ -235,20 +235,24 @@ bool WbBaseNode::isInvisibleNode() const {
 }
 
 bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
-  if (!writer.isX3d())
+  if (writer.isX3d()) {
+    writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+    if (isInvisibleNode())
+      writer << " render=\'false\'";
+    QStringList bookAndPage = documentationBookAndPage(WbNodeUtilities::isRobotTypeName(nodeModelName()));
+    if (!bookAndPage.isEmpty())
+      writer
+        << QString(" docUrl=\'%1/doc/%2/%3\'").arg(WbStandardPaths::cyberboticsUrl()).arg(bookAndPage[0]).arg(bookAndPage[1]);
+
+    if (isUseNode() && defNode()) {  // export referred DEF node id
+      writer << " USE=\'n" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
+      return true;
+    }
+  } else if (writer.isUrdf()) {
+    writer << "<link name=\"" + urdfName() + "\">";
+  } else {
     return WbNode::exportNodeHeader(writer);
-
-  writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
-  if (isInvisibleNode())
-    writer << " render=\'false\'";
-  QStringList bookAndPage = documentationBookAndPage(WbNodeUtilities::isRobotTypeName(nodeModelName()));
-  if (!bookAndPage.isEmpty())
-    writer
-      << QString(" docUrl=\'%1/doc/%2/%3\'").arg(WbStandardPaths::cyberboticsUrl()).arg(bookAndPage[0]).arg(bookAndPage[1]);
-
-  if (isUseNode() && defNode()) {  // export referred DEF node id
-    writer << " USE=\'n" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
-    return true;
   }
+
   return false;
 }

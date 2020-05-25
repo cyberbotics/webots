@@ -150,6 +150,13 @@ void WbRobot::init() {
 
   mBatteryInitialValue = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
   mSupervisorUtilities = supervisor() ? new WbSupervisorUtilities(this) : NULL;
+
+  // Export URDF
+  QString nodeString;
+  WbVrmlWriter writer(&nodeString, this->modelName() + ".urdf");
+  std::cout << writer.isUrdf() << std::endl;
+  this->write(writer);
+  std::cout << writer.readAll().toStdString() << std::endl;
 }
 
 WbRobot::WbRobot(WbTokenizer *tokenizer) : WbSolid("Robot", tokenizer) {

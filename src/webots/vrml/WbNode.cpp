@@ -52,6 +52,8 @@
 #include <QtCore/QSet>
 #include <QtCore/QTemporaryFile>
 
+#include <iostream>
+
 #include <cassert>
 
 struct ProtoParameters {
@@ -433,6 +435,11 @@ QString WbNode::usefulName() const {
 }
 
 const QString &WbNode::nodeModelName() const {
+  return mModel->name();
+}
+
+const QString &WbNode::urdfName() const {
+  std::cout << mModel->name().toStdString() << std::endl;
   return mModel->name();
 }
 
@@ -1046,7 +1053,7 @@ QStringList WbNode::listTextureFiles() const {
 }
 
 bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
-  if (writer.isX3d())  // actual export is done in WbBaseNode
+  if (writer.isX3d() || writer.isUrdf())  // actual export is done in WbBaseNode
     return false;
   if (isUseNode()) {
     writer << "USE " << mUseName << "\n";
@@ -1086,6 +1093,8 @@ void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
 void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
   if (writer.isX3d())
     writer << "</" << x3dName() << ">";
+  else if (writer.isUrdf())
+    writer << "</link>";
   else {  // VRML
     writer.decreaseIndent();
     writer.indent();

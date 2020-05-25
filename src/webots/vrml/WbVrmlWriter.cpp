@@ -52,6 +52,8 @@ void WbVrmlWriter::setVrmlType() {
     mVrmlType = X3D;
   else if (mFileName.endsWith(".proto", Qt::CaseInsensitive))
     mVrmlType = PROTO;
+  else if (mFileName.endsWith(".urdf", Qt::CaseInsensitive))
+    mVrmlType = URDF;
 }
 
 QString WbVrmlWriter::path() const {
