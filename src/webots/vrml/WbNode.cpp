@@ -437,6 +437,8 @@ const QString &WbNode::nodeModelName() const {
 }
 
 const QString &WbNode::urdfName() const {
+  if (this->findSFString("name")) 
+    return this->findSFString("name")->value();
   return mModel->name();
 }
 
