@@ -86,25 +86,28 @@ for node in world.content['root']:
         for field in node['fields']:
             if field['name'] in ['translation', 'location', 'direction']:
                 field['value'] = translation(field['value'])
-                if field['name'] == 'direction':
-                    direction = True
             elif field['name'] in ['rotation', 'orientation']:
                 field['value'] = rotation_axis(field['value'], node['name'])
     else:
-        direction = False
-        position = False
+        default_direction = True
+        default_position = True
+        default_rotation = True
         for field in node['fields']:
             if field['name'] in ['translation', 'position', 'location', 'direction']:
                 field['value'] = translation(field['value'])
                 if field['name'] == 'direction':
-                    direction = True
+                    default_direction = False
                 elif field['name'] == 'position':  # Viewpoint
-                    position = True
+                    default_position = False
+                elif field['name'] == 'rotation':
+                    default_rotation = False
             elif field['name'] in ['rotation', 'orientation']:
                 field['value'] = rotation(field['value'])
-        if field['name'] in ['DirectionalLight', 'SpotLight'] and not direction:  # fix default direction for lights
+        if node['name'] in ['DirectionalLight', 'SpotLight'] and default_direction:  # fix default direction for lights
             node['fields'].append({'name': 'direction', 'type': 'SFVec3f', 'value': [0, -1, 0]})
-        elif field['name'] == 'Viewpoint' and not position:  # fix default position for Viewpoint
+        elif node['name'] == 'Viewpoint' and default_position:  # fix default position for Viewpoint
             node['fields'].append({'name': 'position', 'type': 'SFVec3f', 'value': [0, 10, 0]})
+        elif node['name'] in ['Robot', 'Solid', 'Transform'] and default_rotation:
+            node['fields'].append({'name': 'rotation', 'type': 'SFRotation', 'value': rotation([0, 1, 0, 0])})
 
 world.save(filename[:-4] + '_enu.wbt')
