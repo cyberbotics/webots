@@ -206,7 +206,7 @@ void WbStreamingServer::onNewTcpData() {
   const QString &line(socket->peek(1024));  // Peek the request header to determine the requested url.
   QStringList tokens = QString(line).split(QRegExp("[ \r\n][ \r\n]*"));
   if (tokens[0] == "GET") {
-    QString requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
+    const QString &requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
     if (!requestedUrl.isEmpty())  // "/" is reserved for the websocket.
       sendTcpRequestReply(requestedUrl, socket);
   }
