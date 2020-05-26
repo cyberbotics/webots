@@ -16,6 +16,7 @@
 
 #include "WbField.hpp"
 #include "WbFieldModel.hpp"
+#include "WbJoint.hpp"
 #include "WbLog.hpp"
 #include "WbMFBool.hpp"
 #include "WbMFColor.hpp"
@@ -437,7 +438,7 @@ const QString &WbNode::nodeModelName() const {
 }
 
 const QString &WbNode::urdfName() const {
-  if (this->findSFString("name")) 
+  if (this->findSFString("name"))
     return this->findSFString("name")->value();
   return mModel->name();
 }
@@ -1071,6 +1072,8 @@ bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
   return false;
 }
 
+
+
 void WbNode::exportNodeFields(WbVrmlWriter &writer) const {
   foreach (WbField *field, fields())
     if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() != WB_SF_NODE))
@@ -1084,8 +1087,22 @@ void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
       if (node == NULL || node->value() == NULL || node->value()->shallExport() || writer.isProto()) {
         if (writer.isX3d() || writer.isUrdf())
           field->value()->write(writer);
-        else
+        if (writer.isUrdf()) {
+          if (dynamic_cast<WbJoint *>((WbNode *)this))
+            field->value()->write(writer);
+        } else
           field->write(writer);
+      }
+    }
+}
+
+void WbNode::exportNodeSubLinkNodes(WbVrmlWriter &writer) const {
+  foreach (WbField *field, fields())
+    if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() == WB_SF_NODE)) {
+      const WbSFNode *const node = dynamic_cast<WbSFNode *>(field->value());
+      if ((node == NULL || node->value() == NULL || node->value()->shallExport() || writer.isProto()) &&
+          !dynamic_cast<WbJoint *>((WbNode *)this)) {
+        field->value()->write(writer);
       }
     }
 }
@@ -1115,6 +1132,7 @@ void WbNode::writeExport(WbVrmlWriter &writer) const {
   if (exportNodeHeader(writer))
     return;
   if (writer.isUrdf()) {
+    exportNodeSubLinkNodes(writer);
     exportNodeFooter(writer);
     exportNodeSubNodes(writer);
   } else {

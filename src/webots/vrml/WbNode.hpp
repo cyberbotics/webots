@@ -53,6 +53,7 @@ class WbMFBool;
 class WbMFRotation;
 class WbMFNode;
 class WbVrmlWriter;
+class WbJoint;
 
 class WbNode : public QObject {
   Q_OBJECT
@@ -316,6 +317,8 @@ private slots:
 
 private:
   WbNode &operator=(const WbNode &);  // non copyable
+
+  void exportNodeSubLinkNodes(WbVrmlWriter &writer) const;
 
   // for all nodes
   WbNode *mParent;
