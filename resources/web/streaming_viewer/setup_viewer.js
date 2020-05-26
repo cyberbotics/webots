@@ -33,7 +33,7 @@ function init() {
 function connect() {
   let playerDiv = document.getElementById('playerDiv');
   view = new webots.View(playerDiv, mobileDevice);
-  view.broadcast = false;
+  view.broadcast = true;
   let modeSelect = document.getElementById('mode');
   let streamingMode = modeSelect.options[modeSelect.selectedIndex].value;
   view.open('ws://' + ipInput.value + ':' + portInput.value, streamingMode);
