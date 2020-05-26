@@ -968,7 +968,8 @@ void WbNode::write(WbVrmlWriter &writer) const {
       return;
     }
   }
-  if (writer.isUrdf() || writer.isX3d() || writer.isVrml() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode()))) {
+  if (writer.isUrdf() || writer.isX3d() || writer.isVrml() ||
+      (writer.isProto() && (!writer.rootNode() || this == writer.rootNode()))) {
     writeExport(writer);
     return;
   }
@@ -1108,10 +1109,16 @@ void WbNode::exportNodeContents(WbVrmlWriter &writer) const {
 
 void WbNode::writeExport(WbVrmlWriter &writer) const {
   assert(!(writer.isX3d() && isProtoParameterNode()));
+
   if (exportNodeHeader(writer))
     return;
-  exportNodeContents(writer);
-  exportNodeFooter(writer);
+  if (writer.isUrdf()) {
+    exportNodeFooter(writer);
+    exportNodeSubNodes(writer);
+  } else {
+    exportNodeContents(writer);
+    exportNodeFooter(writer);
+  }
 }
 
 bool WbNode::operator==(const WbNode &other) const {
