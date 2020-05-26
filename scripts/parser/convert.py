@@ -72,7 +72,7 @@ filename = sys.argv[1]
 world = WebotsModel()
 world.load(filename)
 
-updated_protos = ['CircularArena', 'E-puck', 'Floor', 'RectangleArena', 'WoodenBox', 'CardBoardBox']
+updated_protos = ['CardBoardBox', 'CircularArena', 'E-puck', 'Floor', 'Pedestrian', 'RectangleArena', 'WoodenBox']
 
 transform_nodes = ['Tranform', 'Solid', 'Robot']
 
