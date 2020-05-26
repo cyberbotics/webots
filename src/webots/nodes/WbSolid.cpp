@@ -2973,6 +2973,8 @@ void WbSolid::enable(bool enabled, bool ode) {
 }
 
 void WbSolid::exportNodeFields(WbVrmlWriter &writer) const {
+  return;
+
   WbMatter::exportNodeFields(writer);
   if (writer.isX3d()) {
     if (!name().isEmpty())
@@ -2982,6 +2984,8 @@ void WbSolid::exportNodeFields(WbVrmlWriter &writer) const {
 }
 
 void WbSolid::exportNodeFooter(WbVrmlWriter &writer) const {
+  return;
+
   if (writer.isX3d() && boundingObject()) {
     writer << "<Switch whichChoice='-1' class='selector'>";
     const WbGeometry *geom = dynamic_cast<const WbGeometry *>(boundingObject());

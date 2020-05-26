@@ -62,7 +62,7 @@ QString WbVrmlWriter::path() const {
 }
 
 void WbVrmlWriter::writeMFStart() {
-  if (!isX3d()) {
+  if (!isX3d() && !isUrdf()) {
     *this << "[";
     increaseIndent();
   }
@@ -81,7 +81,7 @@ void WbVrmlWriter::writeMFSeparator(bool first, bool smallSeparator) {
 }
 
 void WbVrmlWriter::writeMFEnd(bool empty) {
-  if (!isX3d()) {
+  if (!isX3d() && !isUrdf()) {
     decreaseIndent();
     if (!empty) {
       *this << "\n";

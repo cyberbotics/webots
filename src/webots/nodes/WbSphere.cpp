@@ -149,6 +149,8 @@ void WbSphere::exportNodeFields(WbVrmlWriter &writer) const {
 }
 
 void WbSphere::exportNodeSubNodes(WbVrmlWriter &writer) const {
+  return;
+
   if (!writer.isVrml() || !mIco->value()) {
     WbGeometry::exportNodeSubNodes(writer);
     return;

@@ -52,8 +52,6 @@
 #include <QtCore/QSet>
 #include <QtCore/QTemporaryFile>
 
-#include <iostream>
-
 #include <cassert>
 
 struct ProtoParameters {
@@ -439,7 +437,6 @@ const QString &WbNode::nodeModelName() const {
 }
 
 const QString &WbNode::urdfName() const {
-  std::cout << mModel->name().toStdString() << std::endl;
   return mModel->name();
 }
 
@@ -971,7 +968,7 @@ void WbNode::write(WbVrmlWriter &writer) const {
       return;
     }
   }
-  if (writer.isX3d() || writer.isVrml() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode()))) {
+  if (writer.isUrdf() || writer.isX3d() || writer.isVrml() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode()))) {
     writeExport(writer);
     return;
   }
@@ -1082,7 +1079,7 @@ void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
     if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() == WB_SF_NODE)) {
       const WbSFNode *const node = dynamic_cast<WbSFNode *>(field->value());
       if (node == NULL || node->value() == NULL || node->value()->shallExport() || writer.isProto()) {
-        if (writer.isX3d())
+        if (writer.isX3d() || writer.isUrdf())
           field->value()->write(writer);
         else
           field->write(writer);
