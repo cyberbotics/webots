@@ -111,7 +111,7 @@ bool WbMultimediaStreamingServer::isNewFrameNeeded() const {
     return true;
 
   const qint64 msecs = mUpdateTimer.elapsed();
-  return msecs >= mImageUpdateTimeStep;  // maximum update frame rate
+  return msecs >= mImageUpdateTimeStep;  // maximum update time step
 }
 
 void WbMultimediaStreamingServer::sendImage(const QImage &image) {
