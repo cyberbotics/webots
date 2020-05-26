@@ -31,11 +31,11 @@ JS_SOURCES = \
   viewpoint.js \
   selector.js \
   mouse_events.js \
+  multimedia_client.js \
   texture_loader.js \
   default_url.js \
   server.js \
   stream.js \
-  video.js \
   x3d.js \
   x3d_scene.js \
   animation.js \

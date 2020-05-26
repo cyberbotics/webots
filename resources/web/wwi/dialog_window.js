@@ -134,9 +134,9 @@ webots.confirm = (title, message, okCallback, closeCallback) => {
     width: 400, // enough room to display the social network buttons in a line
     buttons: {
       Ok: () => {
-        $('#webotsConfirm').dialog('close');
         if (typeof okCallback === 'function')
           okCallback();
+        $('#webotsConfirm').dialog('close');
       },
       Cancel: () => { $('#webotsConfirm').dialog('close'); }
     },
