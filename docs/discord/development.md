@@ -545,7 +545,7 @@ You're welcome 😉
 wow.. Thank you I couldn't find that even after hours of search. You saved a lot of time for me 🙂
 
 ##### David Mansolino [cyberbotics] 03/25/2020 12:33:50
-In Python I personnally often use the ``transforms3d``module (available on PIP: [https://pypi.org/project/transforms3d)](https://pypi.org/project/transforms3d)) which allows to convert between many 3D representations, you will probably find what you need in the doc: [http://matthew-brett.github.io/transforms3d/](http://matthew-brett.github.io/transforms3d/)
+In Python I personnally often use the ``transforms3d``module (available on PIP: [https://pypi.org/project/transforms3d](https://pypi.org/project/transforms3d)) which allows to convert between many 3D representations, you will probably find what you need in the doc: [http://matthew-brett.github.io/transforms3d/](http://matthew-brett.github.io/transforms3d/)
 
 ##### mint 03/25/2020 12:32:24
 I have been using python 3..
@@ -995,7 +995,7 @@ Generally all our grippers have physics, collision  shapes and joints.
 Hi,
 
 ##### machinekoder 01/23/2020 10:05:11
-I have acquired an EZgripper ([https://sakerobotics.com/)](https://sakerobotics.com/)) for my robot. What's the best way to simulate such an under actuated gripper? I've written a small Python controller, but I can't really make it grasp properly. Any ideas? I don't really need the physics aspect of the grasping itself, just being able to move objects around.
+I have acquired an EZgripper ([https://sakerobotics.com/](https://sakerobotics.com/)) for my robot. What's the best way to simulate such an under actuated gripper? I've written a small Python controller, but I can't really make it grasp properly. Any ideas? I don't really need the physics aspect of the grasping itself, just being able to move objects around.
 
 ##### David Mansolino [cyberbotics] 01/17/2020 14:29:55
 No sorry, Webots doesn't provide such drag and drop interface
@@ -1141,13 +1141,13 @@ I see, thank you, i will try it later
 ##### Stefania Pedrazzi [cyberbotics] 12/03/2019 07:28:46
 You can find some examples in the Webots samples library:
 
-- samples/devices/motor.wbt ([https://cyberbotics.com/doc/guide/samples-devices#motor-wbt)](https://cyberbotics.com/doc/guide/samples-devices#motor-wbt))
+- samples/devices/motor.wbt ([https://cyberbotics.com/doc/guide/samples-devices#motor-wbt](https://cyberbotics.com/doc/guide/samples-devices#motor-wbt))
 
-- samples/devices/motor2.wbt ([https://cyberbotics.com/doc/guide/samples-devices#motor2-wbt)](https://cyberbotics.com/doc/guide/samples-devices#motor2-wbt))
+- samples/devices/motor2.wbt ([https://cyberbotics.com/doc/guide/samples-devices#motor2-wbt](https://cyberbotics.com/doc/guide/samples-devices#motor2-wbt))
 
-- samples/devices/motor3.wbt ([https://cyberbotics.com/doc/guide/samples-devices#motor3-wbt)](https://cyberbotics.com/doc/guide/samples-devices#motor3-wbt))
+- samples/devices/motor3.wbt ([https://cyberbotics.com/doc/guide/samples-devices#motor3-wbt](https://cyberbotics.com/doc/guide/samples-devices#motor3-wbt))
 
-- samples/devices/linear\_motor.wbt ([https://cyberbotics.com/doc/guide/samples-devices#linear\_motor-wbt)](https://cyberbotics.com/doc/guide/samples-devices#linear_motor-wbt))
+- samples/devices/linear\_motor.wbt ([https://cyberbotics.com/doc/guide/samples-devices#linear\_motor-wbt](https://cyberbotics.com/doc/guide/samples-devices#linear_motor-wbt))
 
 
 `@Musuyaba` the Servo node has been deprecated since many years now (starting from Webots 7.2). Please use the joint and motor nodes instead.
@@ -1484,12 +1484,12 @@ Does webots include this marine robots, exact this one? I can find salamander cl
 
 
 ##### Stefania Pedrazzi [cyberbotics] 09/16/2019 06:11:06
-You can find another example in samples/howto/omni\_wheels.wbt simulation:  [https://www.cyberbotics.com/doc/guide/samples-howto#omni\_wheels-wbt.](https://www.cyberbotics.com/doc/guide/samples-howto#omni_wheels-wbt.) In this case the wheel is simulated using two layers of joints and cylinders.
+You can find another example in samples/howto/omni\_wheels.wbt simulation:  [https://www.cyberbotics.com/doc/guide/samples-howto#omni\_wheels-wbt](https://www.cyberbotics.com/doc/guide/samples-howto#omni_wheels-wbt). In this case the wheel is simulated using two layers of joints and cylinders.
 
 
 Hi `@SimonDK`, the youBot robot has mecanum wheels [https://www.cyberbotics.com/doc/guide/youbot](https://www.cyberbotics.com/doc/guide/youbot)
 
-The mecanum wheel is simulated by setting asymmetric friction  to the [ContactProperties]([https://www.cyberbotics.com/doc/reference/contactproperties)](https://www.cyberbotics.com/doc/reference/contactproperties)) of the wheel.
+The mecanum wheel is simulated by setting asymmetric friction  to the [ContactProperties]([https://www.cyberbotics.com/doc/reference/contactproperties](https://www.cyberbotics.com/doc/reference/contactproperties)) of the wheel.
 
 ##### SimonDK 09/15/2019 14:31:33
 What models for omni-directional mecanum wheel platforms have you seen/are there in Webots? How are the mecanum wheels simulated? I would like to develop my own simulation for a platform so are looking for some examples as a starting point.
