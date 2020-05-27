@@ -299,3 +299,9 @@ void WbIndexedFaceSet::rescaleAndTranslate(const WbVector3 &scale, const WbVecto
 void WbIndexedFaceSet::translate(const WbVector3 &v) {
   coord()->translate(v);
 }
+
+bool WbIndexedFaceSet::exportNodeHeader(WbVrmlWriter &writer) const {
+  if (writer.isUrdf())
+    return true;
+  return WbNode::exportNodeHeader(writer);
+}
