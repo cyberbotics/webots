@@ -99,6 +99,7 @@ PROTO P-Grip [
           RotationalMotor {
             name "7"
             acceleration 17.4533
+            controlPID 3 0 0
             maxVelocity 1.0472
             maxPosition 1.0472
             maxTorque 5.44164
@@ -284,6 +285,7 @@ PROTO P-Grip [
           RotationalMotor {
             name "7 left"
             acceleration 17.4533
+            controlPID 3 0 0
             maxVelocity 1.0472
             maxPosition 1.0472
             maxTorque 5.44164

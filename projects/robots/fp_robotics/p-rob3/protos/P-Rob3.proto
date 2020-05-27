@@ -130,6 +130,7 @@ PROTO P-Rob3 [
           RotationalMotor {
             name "1"
             acceleration 2.61799
+            controlPID 3 0 0
             maxVelocity 1.74533
             minPosition -2.95903
             maxPosition 2.95903
@@ -231,6 +232,7 @@ PROTO P-Rob3 [
                 RotationalMotor {
                   name "2"
                   acceleration 2.61799
+                  controlPID 3 0 0
                   maxVelocity 1.74533
                   minPosition -1.91148
                   maxPosition 1.91148
@@ -309,6 +311,7 @@ PROTO P-Rob3 [
                       RotationalMotor {
                         name "3"
                         acceleration 4.36332
+                        controlPID 3 0 0
                         maxVelocity 2.44346
                         minPosition -1.99927
                         maxPosition 1.99927
@@ -406,6 +409,7 @@ PROTO P-Rob3 [
                             RotationalMotor {
                               name "4"
                               acceleration 3.49066
+                              controlPID 3 0 0
                               maxVelocity 2.79253
                               minPosition -2.95153
                               maxPosition 2.95153
@@ -488,6 +492,7 @@ PROTO P-Rob3 [
                                   RotationalMotor {
                                     name "5"
                                     acceleration 3.49066
+                                    controlPID 3 0 0
                                     maxVelocity 2.79253
                                     minPosition -1.9977
                                     maxPosition 1.9977
@@ -570,6 +575,7 @@ PROTO P-Rob3 [
                                         RotationalMotor {
                                           name "6"
                                           acceleration 6.98132
+                                          controlPID 3 0 0
                                           maxVelocity 2.79253
                                           minPosition -2.95833
                                           maxPosition 2.95833
@@ -628,6 +634,8 @@ PROTO P-Rob3 [
                                             ]
                                             name "button 0"
                                             boundingObject USE BUTTON_CYLINDER
+                                            physics DEF BUTTON_PHYSICS Physics {
+                                            }
                                             translationStep 0.0001
                                           }
                                           TouchSensor {
@@ -653,6 +661,7 @@ PROTO P-Rob3 [
                                             ]
                                             name "button 1"
                                             boundingObject USE BUTTON_CYLINDER
+                                            physics USE BUTTON_PHYSICS
                                             translationStep 0.0001
                                           }
                                           TouchSensor {
@@ -678,6 +687,7 @@ PROTO P-Rob3 [
                                             ]
                                             name "button 2"
                                             boundingObject USE BUTTON_CYLINDER
+                                            physics USE BUTTON_PHYSICS
                                             translationStep 0.0001
                                           }
                                           TouchSensor {
@@ -703,6 +713,7 @@ PROTO P-Rob3 [
                                             ]
                                             name "button 3"
                                             boundingObject USE BUTTON_CYLINDER
+                                            physics USE BUTTON_PHYSICS
                                             translationStep 0.0001
                                           }
                                           TouchSensor {
@@ -725,6 +736,7 @@ PROTO P-Rob3 [
                                             ]
                                             name "button 4"
                                             boundingObject USE BUTTON_CYLINDER
+                                            physics USE BUTTON_PHYSICS
                                             translationStep 0.0001
                                           }
                                           TouchSensor {
@@ -747,6 +759,7 @@ PROTO P-Rob3 [
                                             ]
                                             name "button 5"
                                             boundingObject USE BUTTON_CYLINDER
+                                            physics USE BUTTON_PHYSICS
                                             translationStep 0.0001
                                           }
                                           TouchSensor {
@@ -769,6 +782,7 @@ PROTO P-Rob3 [
                                             ]
                                             name "button 6"
                                             boundingObject USE BUTTON_CYLINDER
+                                            physics USE BUTTON_PHYSICS
                                             translationStep 0.0001
                                           }
                                           TouchSensor {
@@ -791,6 +805,7 @@ PROTO P-Rob3 [
                                             ]
                                             name "button 7"
                                             boundingObject USE BUTTON_CYLINDER
+                                            physics USE BUTTON_PHYSICS
                                             translationStep 0.0001
                                           }
                                           Group {
