@@ -535,6 +535,12 @@ void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
   }
 }
 
+bool WbPbrAppearance::exportNodeHeader(WbVrmlWriter &writer) const {
+  if (writer.isUrdf())
+    return true;
+  return WbAbstractAppearance::exportNodeHeader(writer);
+}
+
 void WbPbrAppearance::exportNodeFooter(WbVrmlWriter &writer) const {
   WbAbstractAppearance::exportNodeFooter(writer);
 

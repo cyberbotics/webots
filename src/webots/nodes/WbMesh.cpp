@@ -182,12 +182,10 @@ uint64_t WbMesh::computeHash() const {
 }
 
 void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
-  return;
   if (!writer.isVrml()) {
     WbTriangleMeshGeometry::exportNodeContents(writer);
     return;
   }
-  
   // export the content as IndexedFaceSet in VRML
   const int n = mTriangleMesh->numberOfTriangles();
   const int n3 = n * 3;

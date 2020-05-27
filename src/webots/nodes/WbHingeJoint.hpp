@@ -54,7 +54,6 @@ protected:
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
   bool exportNodeHeader(WbVrmlWriter &writer) const override;
 
-
 protected slots:
   void updatePosition() override;
   void updateParameters() override;

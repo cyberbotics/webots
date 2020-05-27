@@ -1096,9 +1096,9 @@ void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
 void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
   if (writer.isX3d())
     writer << "</" << x3dName() << ">";
-  else if (writer.isUrdf())
+  else if (writer.isUrdf()) {
     writer << "</link>";
-  else {  // VRML
+  } else {  // VRML
     writer.decreaseIndent();
     writer.indent();
     writer << "}";

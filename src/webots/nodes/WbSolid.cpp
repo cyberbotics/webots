@@ -2973,8 +2973,6 @@ void WbSolid::enable(bool enabled, bool ode) {
 }
 
 void WbSolid::exportNodeFields(WbVrmlWriter &writer) const {
-  return;
-
   WbMatter::exportNodeFields(writer);
   if (writer.isX3d()) {
     if (!name().isEmpty())

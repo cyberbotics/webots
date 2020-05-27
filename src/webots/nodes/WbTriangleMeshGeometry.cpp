@@ -477,8 +477,6 @@ double WbTriangleMeshGeometry::min(int coordinate) const {
 }
 
 bool WbTriangleMeshGeometry::exportNodeHeader(WbVrmlWriter &writer) const {
-  return true;
-
   if (!writer.isX3d())
     return WbGeometry::exportNodeHeader(writer);
 
@@ -496,7 +494,6 @@ bool WbTriangleMeshGeometry::exportNodeHeader(WbVrmlWriter &writer) const {
 }
 
 void WbTriangleMeshGeometry::exportNodeContents(WbVrmlWriter &writer) const {
-  return;
   // before exporting the vertex, normal and texture coordinates, we
   // need to remove duplicates from the arrays to save space in the
   // saved file and adapt the indexes consequently
@@ -506,7 +503,6 @@ void WbTriangleMeshGeometry::exportNodeContents(WbVrmlWriter &writer) const {
     WbNode::exportNodeContents(writer);
     return;
   }
-  return;
 
   // To avoid differences due to normal computations export the computed triangle mesh.
   const int n = mTriangleMesh->numberOfTriangles();

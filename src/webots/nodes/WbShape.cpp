@@ -449,8 +449,6 @@ bool WbShape::isAValidBoundingObject(bool checkOde, bool warning) const {
 ////////////
 
 bool WbShape::exportNodeHeader(WbVrmlWriter &writer) const {
-  return true;
-
   if (writer.isX3d()) {
     writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
     if (isInvisibleNode())
@@ -476,7 +474,6 @@ bool WbShape::exportNodeHeader(WbVrmlWriter &writer) const {
 
 void WbShape::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
   assert(writer.isX3d());
-  return;
 
   writer << "<Shape>";
 

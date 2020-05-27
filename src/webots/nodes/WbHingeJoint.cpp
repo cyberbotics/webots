@@ -451,6 +451,8 @@ void WbHingeJoint::updateOdeWorldCoordinates() {
 }
 
 bool WbHingeJoint::exportNodeHeader(WbVrmlWriter &writer) const {
+  writer << "Ooooooooooooooooooooooooooooooooooooo";
+
   if (writer.isUrdf())
     writer << "<joint name=\"" + urdfName() + "\">";
   return false;
