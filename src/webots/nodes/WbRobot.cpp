@@ -154,7 +154,6 @@ void WbRobot::init() {
   // Export URDF
   QString nodeString;
   WbVrmlWriter writer(&nodeString, this->modelName() + ".urdf");
-  std::cout << writer.isUrdf() << std::endl;
   this->write(writer);
   std::cout << writer.readAll().toStdString() << std::endl;
 }

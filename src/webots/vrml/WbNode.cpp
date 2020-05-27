@@ -1075,9 +1075,10 @@ bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
 
 
 void WbNode::exportNodeFields(WbVrmlWriter &writer) const {
-  foreach (WbField *field, fields())
-    if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() != WB_SF_NODE))
-      field->write(writer);
+  if (!writer.isUrdf())
+    foreach (WbField *field, fields())
+      if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() != WB_SF_NODE))
+        field->write(writer);
 }
 
 void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
@@ -1097,7 +1098,7 @@ void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
   if (writer.isX3d())
     writer << "</" << x3dName() << ">";
   else if (writer.isUrdf()) {
-    writer << "</link>";
+    writer << "</link>\n";
   } else {  // VRML
     writer.decreaseIndent();
     writer.indent();
@@ -1118,6 +1119,7 @@ void WbNode::writeExport(WbVrmlWriter &writer) const {
   if (exportNodeHeader(writer))
     return;
   if (writer.isUrdf()) {
+    exportNodeFields(writer);
     exportNodeFooter(writer);
     exportNodeSubNodes(writer);
   } else {

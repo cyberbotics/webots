@@ -445,7 +445,7 @@ void WbBasicJoint::write(WbVrmlWriter &writer) const {
     s->blockSignals(false);
   }
 
-  if (writer.isWebots())
+  if (writer.isWebots() || writer.isUrdf())
     WbBaseNode::write(writer);
   else {
     // we should not export any SolidReference Solid here,
