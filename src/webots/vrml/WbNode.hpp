@@ -302,7 +302,7 @@ protected:
   // DEF-USE dictionary
   static bool cUpdatingDictionary;  // This flag orders to skip any DEF->USEs update when updating the dictionary
 
-  void writeExport(WbVrmlWriter &writer) const;
+  virtual void writeExport(WbVrmlWriter &writer) const;
   virtual void writeParameters(WbVrmlWriter &writer) const;
   virtual void readHiddenKinematicParameter(WbField *field) {}
 
