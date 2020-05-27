@@ -63,6 +63,7 @@ Options:
     Start the Webots streaming server. Parameters may be
     given as an option:
       port=1234          - Start the streaming server on port 1234.
+      mode=<x3d|mjpeg>   - Specify the streaming mode: x3d (default) or mjpeg.
       monitorActivity    - Print a dot '.' on stdout every 5 seconds.
       disableTextStreams - Disable the streaming of stdout and stderr.
 
@@ -102,11 +103,12 @@ The supported options are described in [this table](#streaming-server-options).
 
 %figure "Streaming server options"
 
-| Key                | Value example | Description                                     |
-| ------------------ | ------------- | ----------------------------------------------- |
-| port               | 1234          | The port on which the streaming server is open. |
-| monitorActivity    |               | Print a dot '.' on stdout every 5 seconds.      |
-| disableTextStreams |               | Disable the streaming of stdout and stderr.     |
+| Key                | Value example | Description                                      |
+| ------------------ | ------------- | ------------------------------------------------ |
+| port               | 1234          | The port on which the streaming server is open.  |
+| mode               | x3d or mjpeg  | The streaming mode used by the streaming server. |
+| monitorActivity    |               | Print a dot '.' on stdout every 5 seconds.       |
+| disableTextStreams |               | Disable the streaming of stdout and stderr.      |
 
 %end
 

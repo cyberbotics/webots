@@ -6,8 +6,8 @@ var portInput = null;
 var connectButton = null;
 var mobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 if (mobileDevice) {
-  var head = document.getElementsByTagName('head')[0];
-  var jqueryTouch = document.createElement('script');
+  let head = document.getElementsByTagName('head')[0];
+  let jqueryTouch = document.createElement('script');
   jqueryTouch.setAttribute('type', 'text/javascript');
   jqueryTouch.setAttribute('src', 'https://www.cyberbotics.com/jquery-ui/1.11.4/jquery.ui.touch-punch.min.js');
   head.appendChild(jqueryTouch);
@@ -31,10 +31,12 @@ function init() {
 }
 
 function connect() {
-  var playerDiv = document.getElementById('playerDiv');
+  let playerDiv = document.getElementById('playerDiv');
   view = new webots.View(playerDiv, mobileDevice);
   view.broadcast = true;
-  view.open('ws://' + ipInput.value + ':' + portInput.value);
+  let modeSelect = document.getElementById('mode');
+  let streamingMode = modeSelect.options[modeSelect.selectedIndex].value;
+  view.open('ws://' + ipInput.value + ':' + portInput.value, streamingMode);
   connectButton.value = 'Disconnect';
   connectButton.onclick = disconnect;
   ipInput.disabled = true;
@@ -44,7 +46,7 @@ function connect() {
 function disconnect() {
   view.close();
   view = null;
-  var playerDiv = document.getElementById('playerDiv');
+  let playerDiv = document.getElementById('playerDiv');
   playerDiv.innerHTML = null;
   connectButton.value = 'Connect';
   connectButton.onclick = connect;
