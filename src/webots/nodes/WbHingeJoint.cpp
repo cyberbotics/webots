@@ -449,3 +449,9 @@ void WbHingeJoint::updateOdeWorldCoordinates() {
   if (p)
     applyToOdeSuspensionAxis();
 }
+
+bool WbHingeJoint::exportNodeHeader(WbVrmlWriter &writer) const {
+  if (writer.isUrdf())
+    writer << "<joint name=\"" + urdfName() + "\">";
+  return false;
+}

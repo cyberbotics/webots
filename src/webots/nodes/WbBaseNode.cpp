@@ -23,6 +23,7 @@
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenOpenGlContext.hpp"
+#include "WbJoint.hpp"
 
 #include <wren/scene.h>
 
