@@ -336,14 +336,26 @@ PROTO P-Grip [
     ]
     name IS name
     model IS model
-    boundingObject Transform {
-      translation 0 0 0.001
-      rotation 1 0 0 1.5707996938995747
+    boundingObject Group {
       children [
-        Capsule {
-          height 0.04
-          radius 0.08
-          subdivision 16
+        Transform {
+          translation 0 0 0.026
+          children [
+            Sphere {
+              radius 0.08
+              subdivision 2
+            }
+          ]
+        }
+        Transform {
+          translation 0 1.34683e-07 -0.014
+          rotation 1 0 0 1.5707996938995747
+          children [
+            Cylinder {
+              height 0.07
+              radius 0.08
+            }
+          ]
         }
       ]
     }
