@@ -16,6 +16,7 @@
 
 #include "WbField.hpp"
 #include "WbFieldModel.hpp"
+#include "WbGroup.hpp"
 #include "WbJoint.hpp"
 #include "WbLog.hpp"
 #include "WbMFBool.hpp"
@@ -42,9 +43,11 @@
 #include "WbSFString.hpp"
 #include "WbSFVector2.hpp"
 #include "WbSFVector3.hpp"
+#include "WbShape.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
+#include "WbTransform.hpp"
 #include "WbVrmlWriter.hpp"
 
 #include <QtCore/QFile>
@@ -1072,8 +1075,6 @@ bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
   return false;
 }
 
-
-
 void WbNode::exportNodeFields(WbVrmlWriter &writer) const {
   if (!writer.isUrdf())
     foreach (WbField *field, fields())
@@ -1113,6 +1114,18 @@ void WbNode::exportNodeContents(WbVrmlWriter &writer) const {
   exportNodeSubNodes(writer);
 }
 
+void WbNode::exportURDFJoint(WbVrmlWriter &writer) const {
+  if ((dynamic_cast<WbGroup *>((WbNode *)this) || dynamic_cast<WbShape *>((WbNode *)this) ||
+       dynamic_cast<WbTransform *>((WbNode *)this)) &&
+      (dynamic_cast<WbGroup *>(parent()) || dynamic_cast<WbShape *>(parent()) || dynamic_cast<WbTransform *>(parent()))) {
+
+    writer << "<joint name=\"" + parent()->urdfName() + "_" + urdfName() + "_joint\" type=\"continious\">\n";
+    writer << "  <parent link=\"" + parent()->urdfName() + "\"/>\n";
+    writer << "  <child link=\"" + urdfName() + "\"/>\n";
+    writer << "</joint>\n";
+  }
+}
+
 void WbNode::writeExport(WbVrmlWriter &writer) const {
   assert(!(writer.isX3d() && isProtoParameterNode()));
 
@@ -1122,6 +1135,7 @@ void WbNode::writeExport(WbVrmlWriter &writer) const {
     exportNodeFields(writer);
     exportNodeFooter(writer);
     exportNodeSubNodes(writer);
+    exportURDFJoint(writer);
   } else {
     exportNodeContents(writer);
     exportNodeFooter(writer);
