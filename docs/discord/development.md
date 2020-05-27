@@ -4,6 +4,92 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 05/25/2020 06:25:16
+You can either convert your car node to base node (right click on the node in the scene-tree) and then you will be able to change the structure, either change directly the `Car.proto` file.
+
+##### hrsh12 05/24/2020 21:21:56
+Is there a way of modifying the usual steering system used in car models?
+
+##### Sanket Khadse 05/22/2020 16:03:44
+Alright, thank you for your understanding!
+
+##### Olivier Michel [cyberbotics] 05/22/2020 16:02:54
+OK, then you should probably run Webots in the cloud and stream your simulation to the web.
+
+##### Sanket Khadse 05/22/2020 16:01:57
+I am a competitor, sir.
+
+##### Olivier Michel [cyberbotics] 05/22/2020 16:00:06
+Are you a competitor or an organizer/developer of this contest?
+
+##### Sanket Khadse 05/22/2020 15:50:50
+`@Olivier Michel` , would you please take a look at this. So it will be easy to help me out.
+
+[http://www.aerialroboticscompetition.org/assets/downloads/simulation\_challenge\_rules\_1.1.pdf](http://www.aerialroboticscompetition.org/assets/downloads/simulation_challenge_rules_1.1.pdf)
+
+Go for " Challenge Rules - 1 ".
+
+##### Olivier Michel [cyberbotics] 05/22/2020 15:46:11
+This is not possible.
+
+##### Sanket Khadse 05/22/2020 15:45:40
+So could you tell me how can I make this static scene to moving? (by using my controller code of course).
+
+No, as I said, its none of these two cases.
+
+##### Olivier Michel [cyberbotics] 05/22/2020 15:41:18
+Exporting a to HTML will simply export a static scene (no motion), so you probably want to either export an animation or stream a live simulation?
+
+##### Sanket Khadse 05/22/2020 15:37:09
+Yes, I have already read it. I need to simulate my world on a web browser using HTML file. I mean anyone with the file can open the simulation on the web. Server streaming or already recorded animation isn't the case.
+
+##### Olivier Michel [cyberbotics] 05/22/2020 15:32:27
+Please refer to the user guide: [https://cyberbotics.com/doc/guide/web-interface](https://cyberbotics.com/doc/guide/web-interface)
+
+
+Do you want to export an animation or to stream a live simulation?
+
+
+That's because you exported to HTML but you are not streaming the simulation.
+
+##### Sanket Khadse 05/22/2020 15:28:54
+`@Olivier Michel` you see, no other option or window opens. neither the drone moves. But in webots, it moves. Any suggestions?
+%figure
+![Screenshot_from_2020-05-22_20-57-46.png](https://cdn.discordapp.com/attachments/565155651395780609/713413087914491904/Screenshot_from_2020-05-22_20-57-46.png)
+%end
+
+
+##### Olivier Michel [cyberbotics] 05/22/2020 14:27:44
+If your robots move in Webots, they should also move in the web view. Don't they?
+
+##### Sanket Khadse 05/22/2020 13:18:06
+Hey, I was trying to simulate a world on a HTTP web page. But I couldn't link the controller to the world. I can only move the viewpoint. How should I link the controllers to that file? So that the robots in my simulation should work.
+
+##### Olivier Michel [cyberbotics] 05/22/2020 06:48:43
+Please open an issue on [https://github.com/cyberbotics/urdf2webots/issues/new](https://github.com/cyberbotics/urdf2webots/issues/new) and upload your URDF file as a ZIP file.
+
+##### ChapoGuzman 05/21/2020 23:44:29
+Thanks in advance
+
+
+I did a good install because I tried the "Human" file and it worked correctly
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/713174651731181749/unknown.png)
+%end
+
+
+
+But i have this error
+
+
+Hi guys im using the urdf package to convert my files between solidworks and webots
+
+##### Alfian 05/21/2020 04:09:02
+There is no controller for lock position of the DJI Mavic 2 Pro
+
 ##### David Mansolino [cyberbotics] 05/15/2020 04:57:11
 `@Sanket Khadse` the controller of the drone is very simple, it doesn't do any feedback using the GPS position or any inertial unit, it might therefore easily drift.
 
@@ -1367,9 +1453,9 @@ Hello Sir, i am trying to understand supervisor programming but i found only thi
 We also have an example with PyCharm here: [https://www.cyberbotics.com/doc/guide/using-pycharm-with-webots](https://www.cyberbotics.com/doc/guide/using-pycharm-with-webots)
 
 ##### Fabien Rohrer [Moderator] 09/30/2019 06:35:35
-`@TheDisposableScientist` Hi, I expect you mean to create a webots controller inside an IDE, such as XCode. Could you refer to this draft page of the documentation? [https://cyberbotics.com/doc/guide/using-your-ide?version=enhancement-ide-section](https://cyberbotics.com/doc/guide/using-your-ide?version=enhancement-ide-section)
+`@ThePolymath` Hi, I expect you mean to create a webots controller inside an IDE, such as XCode. Could you refer to this draft page of the documentation? [https://cyberbotics.com/doc/guide/using-your-ide?version=enhancement-ide-section](https://cyberbotics.com/doc/guide/using-your-ide?version=enhancement-ide-section)
 
-##### TheDisposableScientist 09/29/2019 10:08:43
+##### ThePolymath 09/29/2019 10:08:43
 how to integrate webots with an ide in macOS?
 
 ##### Stefania Pedrazzi [cyberbotics] 09/26/2019 06:20:06
