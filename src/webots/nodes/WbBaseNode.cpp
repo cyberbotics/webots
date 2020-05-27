@@ -255,7 +255,7 @@ bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
       return true;
     }
   } else if (writer.isUrdf())
-    writer << "<link name=\"" + urdfName() + "\">";
+    writer << "  <link name=\"" + urdfName() + "\">\n";
   else {
     return WbNode::exportNodeHeader(writer);
   }

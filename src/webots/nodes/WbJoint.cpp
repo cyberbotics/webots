@@ -296,7 +296,7 @@ void WbJoint::updateJointAxisRepresentation() {
 bool WbJoint::exportNodeHeader(WbVrmlWriter &writer) const {
   if (writer.isUrdf()) {
     if (solidEndPoint()) {
-      writer << "<joint name=\"" + urdfName() + "\" type=\"continious\">\n";
+      writer << "  <joint name=\"" + urdfName() + "\" type=\"continious\">\n";
       return false;
     }
     return true;
@@ -306,12 +306,12 @@ bool WbJoint::exportNodeHeader(WbVrmlWriter &writer) const {
 
 void WbJoint::exportNodeFooter(WbVrmlWriter &writer) const {
   if (writer.isUrdf())
-    writer << "</joint>\n";
+    writer << "  </joint>\n";
   else
     WbNode::exportNodeFooter(writer);
 }
 
 void WbJoint::exportNodeFields(WbVrmlWriter &writer) const {
-  writer << "  <parent link=\"" + parent()->urdfName() + "\"/>\n";
-  writer << "  <child link=\"" + solidEndPoint()->urdfName() + "\"/>\n";
+  writer << "    <parent link=\"" + parent()->urdfName() + "\"/>\n";
+  writer << "    <child link=\"" + solidEndPoint()->urdfName() + "\"/>\n";
 }

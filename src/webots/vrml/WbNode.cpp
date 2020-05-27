@@ -1113,7 +1113,7 @@ void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
   if (writer.isX3d())
     writer << "</" << x3dName() << ">";
   else if (writer.isUrdf())
-    writer << "</link>\n";
+    writer << "  </link>\n";
   else {  // VRML
     writer.decreaseIndent();
     writer.indent();
@@ -1125,10 +1125,10 @@ void WbNode::exportURDFJoint(WbVrmlWriter &writer) const {
   if ((dynamic_cast<WbGroup *>((WbNode *)this) || dynamic_cast<WbShape *>((WbNode *)this) ||
        dynamic_cast<WbTransform *>((WbNode *)this)) &&
       (dynamic_cast<WbGroup *>(parent()) || dynamic_cast<WbShape *>(parent()) || dynamic_cast<WbTransform *>(parent()))) {
-    writer << "<joint name=\"" + parent()->urdfName() + "_" + urdfName() + "_joint\" type=\"continious\">\n";
-    writer << "  <parent link=\"" + parent()->urdfName() + "\"/>\n";
-    writer << "  <child link=\"" + urdfName() + "\"/>\n";
-    writer << "</joint>\n";
+    writer << "  <joint name=\"" + parent()->urdfName() + "_" + urdfName() + "_joint\" type=\"continious\">\n";
+    writer << "    <parent link=\"" + parent()->urdfName() + "\"/>\n";
+    writer << "    <child link=\"" + urdfName() + "\"/>\n";
+    writer << "  </joint>\n";
   }
 }
 

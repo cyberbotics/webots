@@ -1381,13 +1381,13 @@ void WbRobot::writeExport(WbVrmlWriter &writer) const {
   if (writer.isUrdf()) {
     writer << "<?xml version=\"1.0\"?>\n";
     writer << "<robot name=\"" + this->findSFString("name")->value() + "\" xmlns:xacro=\"http://ros.org/wiki/xacro\">\n";
-    writer << "<link name=\"base_link\">\n";
-    writer << "</link>\n";
 
+    // `base_link`
     exportNodeHeader(writer);
     exportNodeFooter(writer);
 
     exportNodeSubNodes(writer);
+
     writer << "</robot>\n";
   } else {
     WbSolid::writeExport(writer);
