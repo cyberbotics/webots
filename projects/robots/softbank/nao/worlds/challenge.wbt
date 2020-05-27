@@ -227,12 +227,11 @@ Book {
 }
 BunchOfSunFlowers {
   translation -0.44332 0.799875 0
-  rotation 0.60215213146151 -0.56454088 -0.56454088 2.05759175860047
   name "bunch of sunflowers(1)"
 }
 BunchOfSunFlowers {
   translation 1.84614 0.0294025 0
-  rotation -0.110450347693905 0.702780449605101 0.702780449605101 3.361601590790578
+  rotation 0 0 1 0.734
 }
 Nao {
   translation 1.80222 -0.390563 0.34
