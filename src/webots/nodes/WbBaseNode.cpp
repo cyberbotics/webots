@@ -235,6 +235,11 @@ bool WbBaseNode::isInvisibleNode() const {
   return WbWorld::instance()->viewpoint()->getInvisibleNodes().contains(const_cast<WbBaseNode *>(this));
 }
 
+QString WbBaseNode::documentationUrl() const {
+  // TODO: Hotfix, undefined method
+  return QString();
+}
+
 bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
   if (writer.isX3d()) {
     writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
