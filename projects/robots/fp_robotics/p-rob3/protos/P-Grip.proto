@@ -94,6 +94,8 @@ PROTO P-Grip [
         jointParameters HingeJointParameters {
           axis -1 0 0
           anchor 0 0 0.058
+          minStop -0.001
+          maxStop 1.048
         }
         device [
           RotationalMotor {
@@ -280,6 +282,8 @@ PROTO P-Grip [
       DEF LEFT_FINGER HingeJoint {
         jointParameters HingeJointParameters {
           anchor 0 0 0.058
+          minStop -0.001
+          maxStop 1.048
         }
         device [
           RotationalMotor {

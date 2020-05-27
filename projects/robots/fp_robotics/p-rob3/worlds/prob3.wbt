@@ -1,6 +1,13 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
   basicTimeStep 16
+  contactProperties [
+    ContactProperties {
+      coulombFriction [
+        10
+      ]
+    }
+  ]
 }
 Viewpoint {
   fieldOfView 0.85
@@ -58,6 +65,7 @@ Table {
 }
 P-Rob3 {
   translation -1.6 0.74 4.84
+  controller "p-rob3"
 }
 P-Rob3 {
   translation -0.39 0.740005 6.04
@@ -70,7 +78,7 @@ P-Rob3 {
   ]
 }
 Can {
-  translation -0.39 0.800005 4.84
+  translation -0.889704 0.801066 4.84
 }
 Door {
   translation 10.04 3.27 4
