@@ -16,6 +16,7 @@
 
 #include "WbField.hpp"
 #include "WbFieldModel.hpp"
+#include "WbGroup.hpp"
 #include "WbLog.hpp"
 #include "WbMFBool.hpp"
 #include "WbMFColor.hpp"
@@ -41,13 +42,12 @@
 #include "WbSFString.hpp"
 #include "WbSFVector2.hpp"
 #include "WbSFVector3.hpp"
+#include "WbShape.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
-#include "WbVrmlWriter.hpp"
 #include "WbTransform.hpp"
-#include "WbGroup.hpp"
-#include "WbShape.hpp"
+#include "WbVrmlWriter.hpp"
 
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
@@ -1064,10 +1064,10 @@ QStringList WbNode::listTextureFiles() const {
   return list;
 }
 
-const QString &WbNode::urdfName() const {
+const QString WbNode::urdfName() const {
   if (this->findSFString("name"))
     return this->findSFString("name")->value();
-  return mModel->name();
+  return QString(mModel->name().toLower() + "_" + QString::number(mUniqueId));
 }
 
 bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
