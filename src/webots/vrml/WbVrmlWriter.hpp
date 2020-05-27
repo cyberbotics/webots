@@ -33,6 +33,7 @@ public:
   bool isVrml() const { return mVrmlType == VRML; }
   bool isX3d() const { return mVrmlType == X3D; }
   bool isProto() const { return mVrmlType == PROTO; }
+  bool isUrdf() const { return mVrmlType == URDF; }
   bool isWebots() const { return mVrmlType == VRML_SIM || mVrmlType == VRML_OBJ || mVrmlType == PROTO; }
   bool isWritingToFile() const { return mIsWritingToFile; }
   QString path() const;
@@ -67,7 +68,7 @@ public:
 private:
   void setVrmlType();
 
-  enum VrmlType { VRML, VRML_SIM, VRML_OBJ, X3D, PROTO };
+  enum VrmlType { VRML, VRML_SIM, VRML_OBJ, X3D, PROTO, URDF };
   QString mFileName;
   VrmlType mVrmlType;
   int mIndent;

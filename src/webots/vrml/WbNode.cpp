@@ -45,6 +45,9 @@
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 #include "WbVrmlWriter.hpp"
+#include "WbTransform.hpp"
+#include "WbGroup.hpp"
+#include "WbShape.hpp"
 
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
@@ -979,7 +982,8 @@ void WbNode::write(WbVrmlWriter &writer) const {
       return;
     }
   }
-  if (writer.isX3d() || writer.isVrml() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode()))) {
+  if (writer.isUrdf() || writer.isX3d() || writer.isVrml() ||
+      (writer.isProto() && (!writer.rootNode() || this == writer.rootNode()))) {
     writeExport(writer);
     return;
   }
@@ -1060,8 +1064,14 @@ QStringList WbNode::listTextureFiles() const {
   return list;
 }
 
+const QString &WbNode::urdfName() const {
+  if (this->findSFString("name"))
+    return this->findSFString("name")->value();
+  return mModel->name();
+}
+
 bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
-  if (writer.isX3d())  // actual export is done in WbBaseNode
+  if (writer.isX3d() || writer.isUrdf())  // actual export is done in WbBaseNode
     return false;
   if (isUseNode()) {
     writer << "USE " << mUseName << "\n";
@@ -1080,9 +1090,10 @@ bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
 }
 
 void WbNode::exportNodeFields(WbVrmlWriter &writer) const {
-  foreach (WbField *field, fields())
-    if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() != WB_SF_NODE))
-      field->write(writer);
+  if (!writer.isUrdf())
+    foreach (WbField *field, fields())
+      if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() != WB_SF_NODE))
+        field->write(writer);
 }
 
 void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
@@ -1090,7 +1101,7 @@ void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
     if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() == WB_SF_NODE)) {
       const WbSFNode *const node = dynamic_cast<WbSFNode *>(field->value());
       if (node == NULL || node->value() == NULL || node->value()->shallExport() || writer.isProto()) {
-        if (writer.isX3d())
+        if (writer.isX3d() || writer.isUrdf())
           field->value()->write(writer);
         else
           field->write(writer);
@@ -1101,10 +1112,23 @@ void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
 void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
   if (writer.isX3d())
     writer << "</" << x3dName() << ">";
+  else if (writer.isUrdf())
+    writer << "</link>\n";
   else {  // VRML
     writer.decreaseIndent();
     writer.indent();
     writer << "}";
+  }
+}
+
+void WbNode::exportURDFJoint(WbVrmlWriter &writer) const {
+  if ((dynamic_cast<WbGroup *>((WbNode *)this) || dynamic_cast<WbShape *>((WbNode *)this) ||
+       dynamic_cast<WbTransform *>((WbNode *)this)) &&
+      (dynamic_cast<WbGroup *>(parent()) || dynamic_cast<WbShape *>(parent()) || dynamic_cast<WbTransform *>(parent()))) {
+    writer << "<joint name=\"" + parent()->urdfName() + "_" + urdfName() + "_joint\" type=\"continious\">\n";
+    writer << "  <parent link=\"" + parent()->urdfName() + "\"/>\n";
+    writer << "  <child link=\"" + urdfName() + "\"/>\n";
+    writer << "</joint>\n";
   }
 }
 
@@ -1117,10 +1141,18 @@ void WbNode::exportNodeContents(WbVrmlWriter &writer) const {
 
 void WbNode::writeExport(WbVrmlWriter &writer) const {
   assert(!(writer.isX3d() && isProtoParameterNode()));
+
   if (exportNodeHeader(writer))
     return;
-  exportNodeContents(writer);
-  exportNodeFooter(writer);
+  if (writer.isUrdf()) {
+    exportNodeFields(writer);
+    exportNodeFooter(writer);
+    exportNodeSubNodes(writer);
+    exportURDFJoint(writer);
+  } else {
+    exportNodeContents(writer);
+    exportNodeFooter(writer);
+  }
 }
 
 bool WbNode::operator==(const WbNode &other) const {

@@ -52,6 +52,8 @@ void WbVrmlWriter::setVrmlType() {
     mVrmlType = X3D;
   else if (mFileName.endsWith(".proto", Qt::CaseInsensitive))
     mVrmlType = PROTO;
+  else if (mFileName.endsWith(".urdf", Qt::CaseInsensitive))
+    mVrmlType = URDF;
 }
 
 QString WbVrmlWriter::path() const {
@@ -60,7 +62,7 @@ QString WbVrmlWriter::path() const {
 }
 
 void WbVrmlWriter::writeMFStart() {
-  if (!isX3d()) {
+  if (!isX3d() && !isUrdf()) {
     *this << "[";
     increaseIndent();
   }
@@ -79,7 +81,7 @@ void WbVrmlWriter::writeMFSeparator(bool first, bool smallSeparator) {
 }
 
 void WbVrmlWriter::writeMFEnd(bool empty) {
-  if (!isX3d()) {
+  if (!isX3d() && !isUrdf()) {
     decreaseIndent();
     if (!empty) {
       *this << "\n";

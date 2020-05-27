@@ -292,3 +292,26 @@ void WbJoint::updateJointAxisRepresentation() {
   mMesh = wr_static_mesh_line_set_new(2, vertices, NULL);
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }
+
+bool WbJoint::exportNodeHeader(WbVrmlWriter &writer) const {
+  if (writer.isUrdf()) {
+    if (solidEndPoint()) {
+      writer << "<joint name=\"" + urdfName() + "\" type=\"continious\">\n";
+      return false;
+    }
+    return true;
+  }
+  return WbNode::exportNodeHeader(writer);
+}
+
+void WbJoint::exportNodeFooter(WbVrmlWriter &writer) const {
+  if (writer.isUrdf())
+    writer << "</joint>\n";
+  else
+    WbNode::exportNodeFooter(writer);
+}
+
+void WbJoint::exportNodeFields(WbVrmlWriter &writer) const {
+  writer << "  <parent link=\"" + parent()->urdfName() + "\"/>\n";
+  writer << "  <child link=\"" + solidEndPoint()->urdfName() + "\"/>\n";
+}

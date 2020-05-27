@@ -54,6 +54,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QTimer>
 
+#include <iostream>
 #include <limits>
 
 static QHash<int, int> createSpecialKeys() {
@@ -146,6 +147,12 @@ void WbRobot::init() {
 
   mBatteryInitialValue = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
   mSupervisorUtilities = supervisor() ? new WbSupervisorUtilities(this) : NULL;
+
+  // TODO: Temp. URDF Export
+  QString nodeString;
+  WbVrmlWriter writer(&nodeString, this->modelName() + ".urdf");
+  this->write(writer);
+  std::cout << writer.readAll().toStdString() << std::endl;
 }
 
 WbRobot::WbRobot(WbTokenizer *tokenizer) : WbSolid("Robot", tokenizer) {
