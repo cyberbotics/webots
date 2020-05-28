@@ -230,7 +230,7 @@ void WbController::start() {
   if (mCommand.isEmpty())  // python has wrong version or Matlab 64 not available
     return;
 
-  info(tr("Starting controller: %1").arg(mCommand + " " + mArguments.join(" ")));
+  info(tr("Starting controller: %1").arg(mCommand + "!" + mArguments.join("+")));
 
 #ifdef __linux__
   if (!qgetenv("WEBOTS_FIREJAIL_CONTROLLERS").isEmpty() && mRobot->findField("controller")) {
@@ -749,7 +749,7 @@ void WbController::startJava(bool jar) {
   else
     mCommand = mJavaCommand;
 
-  mArguments << WbLanguageTools::javaArguments();
+  mArguments = WbLanguageTools::javaArguments();
   const QProcessEnvironment &env = mProcess->processEnvironment();
 
   // add -classpath option (which is necessary for load find Controller.jar).
@@ -782,6 +782,7 @@ void WbController::startPython() {
   if (mPythonCommand == "!")  // wrong python version
     return;
   mCommand = mPythonCommand;
+  mArguments = WbLanguageTools::pythonArguments();
   if (!mPythonOptions.isEmpty())
     mArguments << mPythonOptions.split(" ");
   mArguments << name() + ".py";
@@ -801,6 +802,7 @@ void WbController::startMatlab() {
   } else
     mCommand = mMatlabCommand;
 
+  mArguments = WbLanguageTools::matlabArguments();
   mArguments << "-r"
              << "launcher";
   if (!mMatlabOptions.isEmpty())
