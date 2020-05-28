@@ -17,6 +17,8 @@
 #include <webots/robot.h>
 #include <webots/motor.h>
 
+#include <stdio.h>
+
 #define MOTOR_NUMBER 8
 
 static WbDeviceTag motors[MOTOR_NUMBER];
@@ -43,40 +45,54 @@ int main(int argc, char **argv) {
   for (int i = 0; i < MOTOR_NUMBER; ++i)
     motors[i] = wb_robot_get_device(motor_names[i]);
 
-
-  wb_motor_set_position(motors[1], 0.96);
-  wb_motor_set_position(motors[2], 0.92);
-  wb_motor_set_position(motors[4], 0.8);
-  open_gripper();
-
-  wb_robot_step(2000);
-
-  close_gripper();
-
-  wb_robot_step(2000);
-
-  wb_motor_set_position(motors[1], -0.92);
-  wb_robot_step(300);
-  wb_motor_set_position(motors[2], 1.88);
-  wb_motor_set_position(motors[4], 1.56);
-  wb_robot_step(2000);
-
-  wb_motor_set_position(motors[0], -1.5708);
-
-  wb_motor_set_position(motors[2], 0.92);
-  wb_motor_set_position(motors[4], 0.8);
-  wb_robot_step(2000);
-
-  wb_motor_set_position(motors[1], 0.96);
-  wb_robot_step(2000);
-
-  open_gripper();
-  wb_robot_step(2000);
-
-  wb_motor_set_position(motors[1], 0.0);
-
-  // Main loop
-  while (wb_robot_step(timestep) != -1) {
+  while(true) {
+    wb_motor_set_position(motors[4], -1.95);
+    wb_robot_step(500);
+  
+  
+    wb_motor_set_position(motors[1], 1.55);
+    wb_motor_set_position(motors[2], 1.12);
+    open_gripper();
+    wb_robot_step(2000);
+    printf("A\n");
+    
+    
+    wb_motor_set_position(motors[4], -1.09);
+   
+  
+    wb_robot_step(2000);
+    printf("B\n");
+    close_gripper();
+  
+    wb_robot_step(2000);
+    printf("C\n");
+    wb_motor_set_position(motors[1], -0.92);
+    wb_robot_step(300);
+    wb_motor_set_position(motors[2], 1.88);
+    wb_motor_set_position(motors[4], 1.5);
+    wb_robot_step(2000);
+    printf("D\n");
+    wb_motor_set_position(motors[0], -1.5708);
+    wb_robot_step(2000);
+  
+    wb_motor_set_position(motors[4], -1.04);
+    wb_robot_step(2000);
+    printf("E\n");
+    wb_motor_set_position(motors[2], 1.12);
+    wb_motor_set_position(motors[1], 1.53);
+    wb_robot_step(2000);
+    printf("F\n");
+    open_gripper();
+    wb_robot_step(2000);
+    printf("G\n");
+    wb_motor_set_position(motors[4], -1.95);
+    wb_robot_step(2000);
+    printf("H\n");
+    wb_motor_set_position(motors[1], 0.0);
+    wb_robot_step(2000);
+    printf("I\n");
+    wb_motor_set_position(motors[0], 0.0);
+    wb_robot_step(2000);
   };
 
   wb_robot_cleanup();

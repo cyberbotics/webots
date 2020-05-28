@@ -1,20 +1,20 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
-  basicTimeStep 16
+  basicTimeStep 8
   contactProperties [
     ContactProperties {
       coulombFriction [
-        10
+        20
       ]
+      softCFM 1
     }
   ]
 }
 Viewpoint {
   fieldOfView 0.85
-  orientation 0.13616853140850088 -0.9621915337917399 -0.23589316088761647 4.1555376045083
-  position 2.5682044614703483 3.1837237112416252 3.3810732988997185
-  follow "robot:IRB 4600/40:solid:solid:solid:solid:solid:solid:pen"
-  followType "Pan and Tilt Shot"
+  orientation 0.11279497029090217 -0.9587970754479394 -0.26074022088959187 3.9281593782275817
+  position 1.221898961612291 2.7499184956929903 3.1913874042513246
+  follow "can"
 }
 TexturedBackground {
   texture "empty_office"
@@ -39,7 +39,8 @@ Floor {
   }
 }
 Table {
-  translation -1 0 4.84
+  translation -1.18 0 5.65378
+  size 1.2 0.74 0.6
   feetPadding 0.05
   frameThickness 0.1
   trayAppearance OldSteel {
@@ -51,8 +52,9 @@ Table {
   }
 }
 Table {
-  translation -1 0 6
+  translation -1.18 0 4.84
   name "table(1)"
+  size 1.2 0.74 0.6
   feetPadding 0.05
   frameThickness 0.1
   trayAppearance OldSteel {
@@ -68,8 +70,10 @@ P-Rob3 {
   controller "p-rob3"
 }
 P-Rob3 {
-  translation -0.39 0.740005 6.04
+  translation -0.779695 0.740005 5.66378
+  rotation -3.3905113482557537e-09 0.707108281185553 0.70710528118436 3.14159
   name "P-Rob3(1)"
+  controller "p-rob3"
   secondaryColor 0.960784 0.47451 0
   toolSlot [
     DEF GRIPPER P-Grip {
@@ -78,7 +82,13 @@ P-Rob3 {
   ]
 }
 Can {
-  translation -0.889704 0.801066 4.84
+  translation -0.783 0.801066 4.84
+  mass 0.02
+}
+Can {
+  translation -1.614 0.801098 5.66378
+  name "can(1)"
+  mass 0.02
 }
 Door {
   translation 10.04 3.27 4
