@@ -293,25 +293,18 @@ void WbJoint::updateJointAxisRepresentation() {
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }
 
-bool WbJoint::exportNodeHeader(WbVrmlWriter &writer) const {
+void WbJoint::writeExport(WbVrmlWriter &writer) const {
   if (writer.isUrdf()) {
     if (solidEndPoint()) {
       writer << "  <joint name=\"" + urdfName() + "\" type=\"continuous\">\n";
-      return false;
+      writer << "    <parent link=\"" + parent()->urdfName() + "\"/>\n";
+      writer << "    <child link=\"" + solidEndPoint()->urdfName() + "\"/>\n";
+      writer << "  </joint>\n";
+
+      WbNode::exportNodeSubNodes(writer);
     }
-    return true;
+  } else {
+    WbNode::writeExport(writer);
   }
-  return WbNode::exportNodeHeader(writer);
 }
 
-void WbJoint::exportNodeFooter(WbVrmlWriter &writer) const {
-  if (writer.isUrdf())
-    writer << "  </joint>\n";
-  else
-    WbNode::exportNodeFooter(writer);
-}
-
-void WbJoint::exportNodeFields(WbVrmlWriter &writer) const {
-  writer << "    <parent link=\"" + parent()->urdfName() + "\"/>\n";
-  writer << "    <child link=\"" + solidEndPoint()->urdfName() + "\"/>\n";
-}

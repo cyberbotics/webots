@@ -52,6 +52,7 @@ signals:
 
 protected:
   WbSFVector3 *mAxis;  // axis default value redefined in a derived classes
+  bool exportNodeHeader(WbVrmlWriter &writer) const;
 
 private:
   WbJointParameters &operator=(const WbJointParameters &);  // non copyable

@@ -48,6 +48,7 @@
 #include "WbTokenizer.hpp"
 #include "WbTransform.hpp"
 #include "WbVrmlWriter.hpp"
+#include "WbBasicJoint.hpp"
 
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
@@ -1108,16 +1109,18 @@ void WbNode::exportNodeFields(WbVrmlWriter &writer) const {
 }
 
 void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
-  foreach (WbField *field, fields())
-    if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() == WB_SF_NODE)) {
+  foreach (WbField *field, fields()) {
+    if (!field->isDeprecated() &&
+        ((field->isVrml() || writer.isProto() || writer.isUrdf()) && field->singleType() == WB_SF_NODE)) {
       const WbSFNode *const node = dynamic_cast<WbSFNode *>(field->value());
-      if (node == NULL || node->value() == NULL || node->value()->shallExport() || writer.isProto()) {
-        if (writer.isX3d() || writer.isUrdf())
+      if (node == NULL || node->value() == NULL || node->value()->shallExport() || writer.isProto() || writer.isUrdf()) {
+        if (writer.isX3d() || writer.isUrdf()) {
           field->value()->write(writer);
-        else
+        } else
           field->write(writer);
       }
     }
+  }
 }
 
 void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
@@ -1133,9 +1136,7 @@ void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
 }
 
 void WbNode::exportURDFJoint(WbVrmlWriter &writer) const {
-  if ((dynamic_cast<WbGroup *>((WbNode *)this) || dynamic_cast<WbShape *>((WbNode *)this) ||
-       dynamic_cast<WbTransform *>((WbNode *)this)) &&
-      (dynamic_cast<WbGroup *>(parent()) || dynamic_cast<WbShape *>(parent()) || dynamic_cast<WbTransform *>(parent()))) {
+  if (!dynamic_cast<WbBasicJoint *>(parent())) {
     writer << "  <joint name=\"" + parent()->urdfName() + "_" + urdfName() + "_joint\" type=\"fixed\">\n";
     writer << "    <parent link=\"" + parent()->urdfName() + "\"/>\n";
     writer << "    <child link=\"" + urdfName() + "\"/>\n";

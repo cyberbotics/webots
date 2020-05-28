@@ -61,9 +61,7 @@ signals:
   void updateMuscleStretch(double forcePercentage, bool immediateUpdate, int motorIndex);
 
 protected:
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
-  void exportNodeFooter(WbVrmlWriter &writer) const override;
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void writeExport(WbVrmlWriter &writer) const override;
 
   WbJoint(const QString &modelName, WbTokenizer *tokenizer = NULL);
   WbJoint(const WbJoint &other);
