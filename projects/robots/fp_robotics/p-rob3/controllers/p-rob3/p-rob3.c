@@ -33,8 +33,8 @@ void open_gripper() {
 }
 
 void close_gripper() {
-  wb_motor_set_torque(motors[6], -0.5);
-  wb_motor_set_torque(motors[7], -0.5);
+  wb_motor_set_torque(motors[6], -0.2);
+  wb_motor_set_torque(motors[7], -0.2);
 }
 
 
@@ -64,7 +64,7 @@ int main(int argc, char **argv) {
     printf("B\n");
     close_gripper();
   
-    wb_robot_step(2000);
+    wb_robot_step(500);
     printf("C\n");
     wb_motor_set_position(motors[1], -0.92);
     wb_robot_step(300);
@@ -73,20 +73,20 @@ int main(int argc, char **argv) {
     wb_robot_step(2000);
     printf("D\n");
     wb_motor_set_position(motors[0], -1.5708);
-    wb_robot_step(2000);
+    wb_robot_step(1000);
   
     wb_motor_set_position(motors[4], -1.04);
-    wb_robot_step(2000);
+    wb_robot_step(1000);
     printf("E\n");
     wb_motor_set_position(motors[2], 1.12);
     wb_motor_set_position(motors[1], 1.53);
     wb_robot_step(2000);
     printf("F\n");
     open_gripper();
-    wb_robot_step(2000);
+    wb_robot_step(500);
     printf("G\n");
     wb_motor_set_position(motors[4], -1.95);
-    wb_robot_step(2000);
+    wb_robot_step(1000);
     printf("H\n");
     wb_motor_set_position(motors[1], 0.0);
     wb_robot_step(2000);
