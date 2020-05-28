@@ -284,7 +284,7 @@ void WbController::start() {
       QFile file(runtimeFilePath);
       if (file.open(QIODevice::WriteOnly)) {
         QTextStream stream(&file);
-        stream << endl;
+        stream << Qt::endl;
       } else {
         warn(tr("Could not create the runtime.ini file."));
         return;

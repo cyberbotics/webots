@@ -64,7 +64,6 @@ endif
 
 all: $(WEBOTS_DISTRO_EXE) $(ISCC_FORMATTER) $(XVFB)
 	+@echo "# removing files and folders not in git repository"
-	+@cd $(WEBOTS_HOME_PATH) ; git clean -fdf | sed -e 's/^/# - /' ; cd src/packaging
 	+@echo "# generating project files"
 	+@./generate_projects_files.py > files_projects.txt
 	+@echo "# updating proto cache"

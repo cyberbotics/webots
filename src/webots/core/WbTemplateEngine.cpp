@@ -194,10 +194,10 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
 #else
     "\n";
 #endif
-#ifdef _WIN32  // uses Qt 5.15
-  QStringList stderrSplitted = stderrContent.split(newLine, Qt::SkipEmptyParts);
-#else
+#ifdef __APPLE__
   QStringList stderrSplitted = stderrContent.split(newLine, QString::SkipEmptyParts);
+#else  // Qt >= 5.15
+  QStringList stderrSplitted = stderrContent.split(newLine, Qt::SkipEmptyParts);
 #endif
   foreach (const QString &line, stderrSplitted)
     WbLog::instance()->error(QString("'%1': Lua error: %2").arg(logHeaderName).arg(line));
@@ -205,10 +205,10 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
   // Get stdout and display it to the console
   lua_getglobal(state, "stdoutString");
   QString stdoutContent = lua_tostring(state, -1);
-#ifdef _WIN32  // uses Qt 5.15
-  QStringList stdoutSplitted = stdoutContent.split(newLine, Qt::SkipEmptyParts);
-#else
+#ifdef __APPLE__
   QStringList stdoutSplitted = stdoutContent.split(newLine, QString::SkipEmptyParts);
+#else  // Qt >= 5.15
+  QStringList stdoutSplitted = stdoutContent.split(newLine, Qt::SkipEmptyParts);
 #endif
   foreach (const QString &line, stdoutSplitted)
     WbLog::instance()->info(QString("'%1': Lua output: %2").arg(logHeaderName).arg(line));
