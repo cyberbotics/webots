@@ -48,6 +48,13 @@
 #include <QtWebSockets/QWebSocket>
 #include <QtWebSockets/QWebSocketServer>
 
+#include <QtCore/QDir>
+#include <QtCore/QFileInfo>
+#include <QtCore/QProcess>
+#include <QtCore/QStringList>
+#include <QtCore/QTextStream>
+#include <QtCore/QString>
+
 #include <cassert>
 
 static bool gCleanedFromPostRoutine = false;
