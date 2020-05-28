@@ -14,6 +14,7 @@
 
 #include "WbNode.hpp"
 
+#include "WbBasicJoint.hpp"
 #include "WbField.hpp"
 #include "WbFieldModel.hpp"
 #include "WbGroup.hpp"
@@ -48,7 +49,6 @@
 #include "WbTokenizer.hpp"
 #include "WbTransform.hpp"
 #include "WbVrmlWriter.hpp"
-#include "WbBasicJoint.hpp"
 
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
@@ -1137,9 +1137,27 @@ void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
 
 void WbNode::exportURDFJoint(WbVrmlWriter &writer) const {
   if (!dynamic_cast<WbBasicJoint *>(parent())) {
+    WbVector3 translation;
+    WbMatrix3 rotationMatrix;
+    WbVector3 rotationEuler;
+
+    if (dynamic_cast<WbTransform *>((WbNode *)this) && dynamic_cast<WbTransform *>(parent())) {
+      translation = ((WbTransform *)this)->position() - static_cast<WbTransform *>(parent())->position();
+      rotationMatrix =
+        static_cast<WbTransform *>(parent())->rotationMatrix().transposed() * ((WbTransform *)this)->rotationMatrix();
+    }
+    rotationEuler = rotationMatrix.toEulerAngles();
+
     writer << "  <joint name=\"" + parent()->urdfName() + "_" + urdfName() + "_joint\" type=\"fixed\">\n";
     writer << "    <parent link=\"" + parent()->urdfName() + "\"/>\n";
     writer << "    <child link=\"" + urdfName() + "\"/>\n";
+    writer << QString("    <origin xyz=\"%1 %2 %3\" rpy=\"%4 %5 %6\" />\n")
+                .arg(translation.x())
+                .arg(translation.y())
+                .arg(translation.z())
+                .arg(rotationEuler.x())
+                .arg(rotationEuler.y())
+                .arg(rotationEuler.z());
     writer << "  </joint>\n";
   }
 }

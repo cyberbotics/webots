@@ -115,6 +115,7 @@ public:
 
   // to other rotation types
   WbQuaternion toQuaternion() const;
+  WbVector3 toEulerAngles() const;
 
   // assign from other types of rotation
   void fromOpenGlMatrix(const double m[16]);
