@@ -31,7 +31,7 @@ CONTROLLERS=\
   dji/mavic/controllers.Makefile \
   epfl/biorob/controllers.Makefile \
   festo/robotino3/controllers.Makefile \
-	fp_robotics/p-rob3/controllers/p-rob3.Makefile \
+  fp_robotics/p-rob3/controllers/p-rob3.Makefile \
   fujitsu/hoap2/controllers.Makefile \
   gctronic/e-puck/controllers.Makefile \
   gctronic/elisa/controllers.Makefile \
