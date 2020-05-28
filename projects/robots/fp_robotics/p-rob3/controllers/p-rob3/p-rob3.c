@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include <webots/robot.h>
 #include <webots/motor.h>
+#include <webots/robot.h>
 
 #include <stdlib.h>
 
@@ -23,9 +23,7 @@
 
 static WbDeviceTag motors[MOTOR_NUMBER];
 
-static const char *motor_names[MOTOR_NUMBER] = {
-  "1", "2", "3", "4", "5", "6", "7", "7 left"
-};
+static const char *motor_names[MOTOR_NUMBER] = {"1", "2", "3", "4", "5", "6", "7", "7 left"};
 
 static int get_time_step() {
   static int time_step = -1;
@@ -65,7 +63,7 @@ int main(int argc, char **argv) {
   for (int i = 0; i < MOTOR_NUMBER; ++i)
     motors[i] = wb_robot_get_device(motor_names[i]);
 
-  while(true) {
+  while (true) {
     wb_motor_set_position(motors[4], -1.95);
     passive_wait(0.5);
 
@@ -102,7 +100,7 @@ int main(int argc, char **argv) {
     passive_wait(2.0);
 
     // release the can
-    open_gripper(); 
+    open_gripper();
     passive_wait(0.5);
 
     // remove the arm
