@@ -69,13 +69,11 @@ int main(int argc, char **argv) {
     wb_motor_set_position(motors[4], -1.95);
     passive_wait(0.5);
 
-
     // prepare for grasping the can
     wb_motor_set_position(motors[1], 1.55);
     wb_motor_set_position(motors[2], 1.12);
     open_gripper();
     passive_wait(2.0);
-
 
     // align gripper with the can
     wb_motor_set_position(motors[4], -1.09);
@@ -102,11 +100,11 @@ int main(int argc, char **argv) {
     wb_motor_set_position(motors[2], 1.12);
     wb_motor_set_position(motors[1], 1.53);
     passive_wait(2.0);
-    
+
     // release the can
-    open_gripper();
+    open_gripper(); 
     passive_wait(0.5);
-    
+
     // remove the arm
     wb_motor_set_position(motors[4], -1.95);
     passive_wait(1.0);
