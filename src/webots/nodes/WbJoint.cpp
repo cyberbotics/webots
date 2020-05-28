@@ -296,7 +296,7 @@ void WbJoint::updateJointAxisRepresentation() {
 bool WbJoint::exportNodeHeader(WbVrmlWriter &writer) const {
   if (writer.isUrdf()) {
     if (solidEndPoint()) {
-      writer << "  <joint name=\"" + urdfName() + "\" type=\"continious\">\n";
+      writer << "  <joint name=\"" + urdfName() + "\" type=\"continuous\">\n";
       return false;
     }
     return true;
