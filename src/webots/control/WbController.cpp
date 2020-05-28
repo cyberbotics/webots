@@ -48,6 +48,8 @@
 #include <windows.h>
 #endif
 
+#include <QtCore/QDebug>
+
 /*
 #include <iomanip>
 #include <iostream>
@@ -244,9 +246,9 @@ void WbController::start() {
     // with /tmp/ (including the local socket used by Webots which would prevent the
     // controller from running)
     if (!mControllerPath.startsWith("/tmp/"))
-      mArguments << "--whitelist=\"" + mControllerPath + "\"";
-    mArguments << "--whitelist=\"" + WbStandardPaths::controllerLibPath() + "\"";
-    mArguments << "--read-only=\"" + WbStandardPaths::controllerLibPath() + "\"";
+      mArguments << "--whitelist=" + mControllerPath;
+    mArguments << "--whitelist=" + WbStandardPaths::controllerLibPath();
+    mArguments << "--read-only=" + WbStandardPaths::controllerLibPath();
 
     QString ldEnvironmentVariable = WbStandardPaths::controllerLibPath();
 
@@ -269,8 +271,8 @@ void WbController::start() {
           if (iniParser.keyAt(i) == ("WEBOTS_LIBRARY_PATH") || iniParser.keyAt(i) == ("FIREJAIL_PATH")) {
             const QStringList pathsList = iniParser.resolvedValueAt(i, env).split(":");
             foreach (QString path, pathsList) {
-              mArguments << "--whitelist=\"" + path + "\"";
-              mArguments << "--read-only=\"" + path + "\"";
+              mArguments << "--whitelist=" + path;
+              mArguments << "--read-only=" + path;
               ldEnvironmentVariable += ":" + path;
             }
           } else
@@ -290,8 +292,7 @@ void WbController::start() {
         return;
       }
     }
-    mArguments << "--blacklist=\"" + runtimeFilePath + "\""
-               << "--env=LD_LIBRARY_PATH=\"" + ldEnvironmentVariable + "\"";
+    mArguments << "--blacklist=" + runtimeFilePath << "--env=LD_LIBRARY_PATH=" + ldEnvironmentVariable;
   }
 #endif
 
@@ -729,8 +730,9 @@ void WbController::startVoidExecutable() {
 
   copyBinaryAndDependencies(mCommand);
 
-  mCommand = "\"" + QDir::toNativeSeparators(mCommand) + "\"";
-  mArguments << args().split(" ");
+  mCommand = QDir::toNativeSeparators(mCommand);
+  if (!args().isEmpty())
+    mArguments << args().split(" ");
 }
 
 void WbController::startExecutable() {
@@ -738,8 +740,9 @@ void WbController::startExecutable() {
 
   copyBinaryAndDependencies(mCommand);
 
-  mCommand = "\"" + QDir::toNativeSeparators(mCommand) + "\"";
-  mArguments << args().split(" ");
+  mCommand = QDir::toNativeSeparators(mCommand);
+  if (!args().isEmpty())
+    mArguments << args().split(" ");
 }
 
 void WbController::startJava(bool jar) {
@@ -761,27 +764,31 @@ void WbController::startJava(bool jar) {
   else
     extraClassPath = mControllerPath;
   WbLanguageTools::prependToPath(WbSysInfo::shortPath(extraClassPath), classPath);
-  WbLanguageTools::prependToPath(WbStandardPaths::controllerLibPath() + "java" + QDir::separator() + "Controller.jar",
-                                 classPath);
-  mArguments << "-classpath"
-             << "\"" + classPath + "\"";
+  WbLanguageTools::prependToPath(WbStandardPaths::controllerLibPath() + "java/Controller.jar", classPath);
+  mArguments << "-classpath" << classPath;
 
   // add the java.library.path variable based on the custom JAVA_LIBRARY_PATH
   // environment variable (typically defined in runtime.ini)
   // in order to find the JNI libraries
   QString javaLibraryPath = env.value("JAVA_LIBRARY_PATH");
   WbLanguageTools::prependToPath(WbStandardPaths::controllerLibPath() + "java", javaLibraryPath);
-  mArguments << QString("-Djava.library.path=\"%1\"").arg(javaLibraryPath);
-  mArguments << mJavaOptions.split(" ");
-  mArguments << name() << args().split(" ");
+  mArguments << QString("-Djava.library.path=%1").arg(javaLibraryPath);
+  if (!mJavaOptions.isEmpty())
+    mArguments << mJavaOptions.split(" ");
+  mArguments << name();
+  if (!args().isEmpty())
+    mArguments << args().split(" ");
 }
 
 void WbController::startPython() {
   if (mPythonCommand == "!")  // wrong python version
     return;
   mCommand = mPythonCommand;
-  mArguments << mPythonOptions.split(" ");
-  mArguments << "\"" + name() + ".py\"" << args().split(" ");
+  if (!mPythonOptions.isEmpty())
+    mArguments << mPythonOptions.split(" ");
+  mArguments << name() + ".py";
+  if (!args().isEmpty())
+    mArguments << args().split(" ");
 }
 
 void WbController::startMatlab() {
@@ -798,7 +805,8 @@ void WbController::startMatlab() {
 
   mArguments << "-r"
              << "launcher";
-  mArguments << mMatlabOptions.split(" ");
+  if (!mMatlabOptions.isEmpty())
+    mArguments << mMatlabOptions.split(" ");
 }
 
 void WbController::startBotstudio() {
@@ -811,7 +819,7 @@ void WbController::startBotstudio() {
   QString voidContollerPath = WbStandardPaths::resourcesControllersPath() + "void/";
   mCommand = voidContollerPath + "void" + WbStandardPaths::executableExtension();
   copyBinaryAndDependencies(mCommand);
-  mCommand = "\"" + QDir::toNativeSeparators(mCommand) + "\"";
+  mCommand = QDir::toNativeSeparators(mCommand);
 }
 
 void WbController::copyBinaryAndDependencies(const QString &filename) {
