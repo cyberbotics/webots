@@ -56,7 +56,6 @@ void close_gripper() {
   wb_motor_set_torque(motors[7], -0.2);
 }
 
-
 int main(int argc, char **argv) {
   wb_robot_init();
 
