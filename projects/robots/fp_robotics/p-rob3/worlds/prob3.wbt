@@ -13,8 +13,8 @@ WorldInfo {
 }
 Viewpoint {
   fieldOfView 0.85
-  orientation 0.11279497029090217 -0.9587970754479394 -0.26074022088959187 3.9281593782275817
-  position 1.221898961612291 2.7499184956929903 3.1913874042513246
+  orientation 0.07205790919748699 -0.9837681149764904 -0.164340967739908 3.9564087129963763
+  position 2.2075102133565356 2.5416667743578176 2.3184445231239157
 }
 TexturedBackground {
   texture "empty_office"
@@ -216,6 +216,7 @@ LeverValve {
 LargeValve {
   translation -5.7149744 0.706 -2.9726835
   rotation 0 1 0 1.5707963
+  controller ""
 }
 PipeSection {
   translation -7.5740452 0.18 -3
@@ -262,6 +263,7 @@ PipeSection {
 SmallValve {
   translation -4.8638332 0.707 -3
   rotation 0 1 0 1.5707963
+  controller ""
 }
 Wall {
   translation 0 0 -3.82
