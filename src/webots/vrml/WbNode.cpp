@@ -1125,7 +1125,7 @@ void WbNode::exportURDFJoint(WbVrmlWriter &writer) const {
   if ((dynamic_cast<WbGroup *>((WbNode *)this) || dynamic_cast<WbShape *>((WbNode *)this) ||
        dynamic_cast<WbTransform *>((WbNode *)this)) &&
       (dynamic_cast<WbGroup *>(parent()) || dynamic_cast<WbShape *>(parent()) || dynamic_cast<WbTransform *>(parent()))) {
-    writer << "  <joint name=\"" + parent()->urdfName() + "_" + urdfName() + "_joint\" type=\"continious\">\n";
+    writer << "  <joint name=\"" + parent()->urdfName() + "_" + urdfName() + "_joint\" type=\"fixed\">\n";
     writer << "    <parent link=\"" + parent()->urdfName() + "\"/>\n";
     writer << "    <child link=\"" + urdfName() + "\"/>\n";
     writer << "  </joint>\n";
