@@ -16,8 +16,9 @@
  * Description:  Implementation of the AutomatonWidget.hpp functions
  */
 
-#include "AutomatonScene.hpp"
 #include "AutomatonWidget.hpp"
+
+#include "AutomatonScene.hpp"
 
 #include <QtCore/qmath.h>
 #include <QtGui/QWheelEvent>
