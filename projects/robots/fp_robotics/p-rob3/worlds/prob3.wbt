@@ -1,5 +1,10 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
+  info [
+    "Simulation of the P-Rob3 robotic arm from F&P Robotics."
+    "This simulation shows two P-Rob3 arms working together to move cans in an industrial environment."
+  ]
+  title "P-Rob3 robotic arm from F&P Robotics"
   basicTimeStep 8
   contactProperties [
     ContactProperties {
