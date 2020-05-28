@@ -221,6 +221,7 @@ void WbFieldEditor::editField(WbNode *node, WbField *field, int item) {
 
   // check if the selected item is a Solid node
   const QList<WbValueEditor *> &v = mEditors.values(field->value()->singleType());
+
   const bool editingSolid = dynamic_cast<WbSolid *>(mNodeItem) != NULL;
   if (v.size() == 1)
     editor = v.at(0);

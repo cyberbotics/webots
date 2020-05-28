@@ -336,29 +336,31 @@ void WbBuildEditor::make(const QString &target) {
   // store the target modification date
   updateTargetModificationTime();
 
-  QString commandLine = "";
-  if (isJavaProgram && !makefileExists(compilePath))
-    commandLine = getJavaCommandLine(target);
-  else {
-    commandLine = "make";
+  QString command;
+  QStringList arguments;
+
+  if (isJavaProgram && !makefileExists(compilePath)) {
+    QStringList list = getJavaCommandLine(target).split(' ');
+    command = list[0];
+    list.removeFirst();
+    arguments = list;
+  } else {
+    command = "make";
 
     addMakefileIfNecessary(compilePath);
 
     int numberOfThreads = WbPreferences::instance()->value("General/numberOfThreads", 1).toInt();
-    if (numberOfThreads > 1 && target != "clean" && WbSimulationState::instance()->isPaused())
-      commandLine += " -j " + QString::number(numberOfThreads);
-
+    if (numberOfThreads > 1 && target != "clean" && WbSimulationState::instance()->isPaused()) {
+      arguments << "-j";
+      arguments << QString::number(numberOfThreads);
+    }
     if (!target.isEmpty())
-      commandLine += " " + target;
+      arguments << target;
   }
 
   // clear console before build
   WbLog::clear();
-  if (commandLine.isEmpty()) {
-    // unknown target
-    return;
-  } else
-    WbLog::appendStdout(commandLine + "\n");
+  WbLog::appendStdout(command + " " + arguments.join(" ") + "\n");
 
   // create mProcess
   mProcess = new QProcess(this);
@@ -383,16 +385,15 @@ void WbBuildEditor::make(const QString &target) {
 
   // launch external make and wait at most 5 sec
   mProcess->setWorkingDirectory(compilePath);
-  mProcess->start(commandLine);
+  mProcess->start(command, arguments);
   bool started = mProcess->waitForStarted(5000);
 
   // check that program is available
   if (!started) {
-    QString program = commandLine.split(" ")[0];
 #ifdef _WIN32
-    WbLog::appendStderr(tr("Installation problem: could not start '%1'.\n").arg(program));
+    WbLog::appendStderr(tr("Installation problem: could not start '%1'.\n").arg(command));
 #else
-    WbLog::appendStderr(tr("The '%1' command appears not to be available on your system.\n").arg(program));
+    WbLog::appendStderr(tr("The '%1' command appears not to be available on your system.\n").arg(command));
 #endif
     cleanupProcess();
   }

@@ -220,11 +220,15 @@ void WbWaveFile::loadFromFile(int side) {
 #endif
 
   QString outputFilename = WbStandardPaths::webotsTmpPath() + fi.baseName() + ".wav";
-  ffmpeg += " -y -i " + mFilename + " " + outputFilename + " -sample_fmt s16 -loglevel quiet";
+  QStringList arguments("-y");
+  arguments << "-i" << mFilename << outputFilename << "-sample_fmt"
+            << "s16"
+            << "-loglevel"
+            << "quiet";
   mFilename = outputFilename;
 
   QProcess *conversionProcess = new QProcess();
-  conversionProcess->execute(ffmpeg);
+  conversionProcess->execute(ffmpeg, arguments);
   conversionProcess->waitForFinished(-1);
 
   loadConvertedFile(side);

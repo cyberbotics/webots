@@ -78,7 +78,7 @@ private:
   QString mControllerPath;  // path where the controller file is located
   QString mName;            // controller name, e.g. "void"
   QString mCommand;         // command to be exectuted, e.g. "java"
-  QString mCommandLine;     // full command line including command and arguments
+  QStringList mArguments;   // command arguments
   QString mJavaCommand;
   QString mJavaOptions;
   QString mPythonCommand;

@@ -71,7 +71,7 @@ WbControlledWorld::WbControlledWorld(WbProtoList *protos, WbTokenizer *tokenizer
   QFile file(WbStandardPaths::webotsTmpPath() + "WEBOTS_SERVER");
   if (file.open(QIODevice::WriteOnly)) {
     QTextStream stream(&file);
-    stream << mServer->fullServerName().toUtf8() << endl;
+    stream << mServer->fullServerName().toUtf8() << Qt::endl;
     file.close();
   }
   foreach (WbRobot *const robot, robots()) {
