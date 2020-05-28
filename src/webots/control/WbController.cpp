@@ -234,7 +234,7 @@ void WbController::start() {
 
 #ifdef __linux__
   if (!qgetenv("WEBOTS_FIREJAIL_CONTROLLERS").isEmpty() && mRobot->findField("controller")) {
-    mArguments.preprend(mCommand);
+    mArguments.prepend(mCommand);
     mCommand = "firejail";
     mArguments << "--net=none"
                << "--nosound"
