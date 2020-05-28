@@ -161,7 +161,7 @@ const QStringList WbLanguageTools::matlabArguments() {
   arguments << "-minimize";
 #endif
 #ifdef __linux__
-  arguments << WbSysInfo::isPointerSize64bits() ? "-glnxa64" : "-glnx86";
+  arguments << (WbSysInfo::isPointerSize64bits() ? "-glnxa64" : "-glnx86");
 #endif
   return arguments;
 }
