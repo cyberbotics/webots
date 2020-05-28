@@ -16,8 +16,8 @@
  * Description:  Implementation of the AutomatonWidget.hpp functions
  */
 
-#include "AutomatonWidget.hpp"
 #include "AutomatonScene.hpp"
+#include "AutomatonWidget.hpp"
 
 #include <QtCore/qmath.h>
 #include <QtGui/QWheelEvent>
@@ -49,7 +49,7 @@ AutomatonWidget::~AutomatonWidget() {
 
 void AutomatonWidget::wheelEvent(QWheelEvent *e) {
   double direction = 1.0;
-  if (e->delta() < 0)
+  if (e->angleDelta().y() < 0)
     direction = -1.0;
   mZoomFactor += mWheelAttenuation * direction;
 
@@ -103,9 +103,9 @@ void AutomatonWidget::updateCursor() {
 
 void AutomatonWidget::resetMatrix() {
   double scale = qPow(2.0, mZoomFactor);
-  QMatrix matrix;
-  matrix.scale(scale, scale);
-  setMatrix(matrix);
+  QTransform transform;
+  transform.scale(scale, scale);
+  setTransform(transform);
 }
 
 void AutomatonWidget::setMode(int mode) {
