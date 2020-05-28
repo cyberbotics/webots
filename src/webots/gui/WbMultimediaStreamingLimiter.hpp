@@ -37,6 +37,5 @@ private:
   int mUpdateTimeStep;
   int mLevel;
   int mIncreasingSteps;
-  int mDecreasingSteps;
   bool mIsStopped;
 };
