@@ -194,7 +194,7 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
 #else
     "\n";
 #endif
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+#ifdef _WIN32  // uses Qt 5.15
   QStringList stderrSplitted = stderrContent.split(newLine, Qt::SkipEmptyParts);
 #else
   QStringList stderrSplitted = stderrContent.split(newLine, QString::SkipEmptyParts);
@@ -205,7 +205,7 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
   // Get stdout and display it to the console
   lua_getglobal(state, "stdoutString");
   QString stdoutContent = lua_tostring(state, -1);
-  #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+#ifdef _WIN32  // uses Qt 5.15
   QStringList stdoutSplitted = stdoutContent.split(newLine, Qt::SkipEmptyParts);
 #else
   QStringList stdoutSplitted = stdoutContent.split(newLine, QString::SkipEmptyParts);

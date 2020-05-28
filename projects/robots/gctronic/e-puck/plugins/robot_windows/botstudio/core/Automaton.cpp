@@ -235,7 +235,11 @@ void Automaton::stop() {
 }
 
 void Automaton::fromString(const QString &string) {
+#ifdef _WIN32  // uses Qt 5.15
   QStringList lines = string.split(QRegExp("\n"), Qt::SkipEmptyParts);
+#else
+  QStringList lines = string.split(QRegExp("\n"), QString::SkipEmptyParts);
+#endif
 
   foreach (const QString &line, lines) {
     if (line.startsWith('S')) {
