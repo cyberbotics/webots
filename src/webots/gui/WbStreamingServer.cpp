@@ -51,9 +51,9 @@
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtCore/QProcess>
+#include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QTextStream>
-#include <QtCore/QString>
 
 #include <cassert>
 
@@ -126,7 +126,7 @@ void WbStreamingServer::startFromCommandLine(const QString &argument) {
   // default values
   int port = 1234;
   // parse argument
-#ifdef _WIN32 // uses Qt 5.15
+#ifdef _WIN32  // uses Qt 5.15
   QStringList options = argument.split(';', Qt::SkipEmptyParts);
 #else
   QStringList options = argument.split(';', QString::SkipEmptyParts);
