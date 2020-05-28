@@ -73,21 +73,24 @@ WbQuaternion WbMatrix3::toQuaternion() const {
   return WbQuaternion((mM[3] - mM[1]) * invS, (mM[6] + mM[2]) * invS, (mM[5] + mM[7]) * invS, 0.25 * s);
 }
 
+// Reference: https://www.geometrictools.com/Documentation/EulerAngles.pdf
 WbVector3 WbMatrix3::toEulerAngles() const {
   WbVector3 angles;
 
-  double sy = sqrt(mM[0] * mM[0] + mM[3] * mM[3]);
-  bool singular = sy < 1e-6;
-
-  if (singular) {
-    angles.setX(atan2(-mM[5], mM[4]));
-    angles.setY(atan2(-mM[6], sy));
-    angles.setZ(0);
+  if (mM[2] < 1) {
+    if (mM[2] > -1) {
+      angles.setX(atan2(-mM[5], mM[8]));
+      angles.setY(asin(mM[2]));
+      angles.setZ(atan2(-mM[1], mM[0]));
+    } else {
+      angles.setX(-atan2(-mM[3], mM[4]));
+      angles.setY(-M_PI / 2);
+      angles.setZ(0);
+    }
   } else {
-    angles.setX(atan2(mM[7], mM[8]));
-    angles.setY(atan2(-mM[6], sy));
-    angles.setX(atan2(mM[3], mM[0]));
+    angles.setX(atan2(mM[3], mM[4]));
+    angles.setY(M_PI / 2);
+    angles.setZ(0);
   }
-
   return angles;
 }
