@@ -53,4 +53,4 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### robotino3.wbt
 
-![prob3.wbt.jpg](images/robots/prob3/prob3.wbt.jpg) This simulation shows two P-Rob3 arms working together to move cans in an industrial environment.
+![prob3.wbt.jpg](images/robots/p-rob3/prob3.wbt.jpg) This simulation shows two P-Rob3 arms working together to move cans in an industrial environment.
