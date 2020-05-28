@@ -208,6 +208,7 @@ PROTO P-Grip [
             }
           ]
           name "right finger"
+          contactMaterial "p-grip finger"
           boundingObject DEF FINGER_BO Group {
             children [
               DEF FINGER_BOX_0 Transform {
@@ -325,6 +326,7 @@ PROTO P-Grip [
             }
           ]
           name "left finger"
+          contactMaterial "p-grip finger"
           boundingObject USE FINGER_BO
           physics USE FINGER_PHYSICS
         }

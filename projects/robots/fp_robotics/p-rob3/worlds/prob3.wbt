@@ -3,6 +3,7 @@ WorldInfo {
   basicTimeStep 8
   contactProperties [
     ContactProperties {
+      material1 "p-grip finger"
       coulombFriction [
         20
       ]
