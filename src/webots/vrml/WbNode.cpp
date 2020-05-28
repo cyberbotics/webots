@@ -1065,9 +1065,20 @@ QStringList WbNode::listTextureFiles() const {
 }
 
 const QString WbNode::urdfName() const {
+  QString name;
   if (this->findSFString("name"))
-    return this->findSFString("name")->value();
-  return QString(mModel->name().toLower() + "_" + QString::number(mUniqueId));
+    name = this->findSFString("name")->value();
+  else
+    name = QString(mModel->name().toLower() + "_" + QString::number(mUniqueId));
+
+  // Make sure there are no duplicates
+  const QList<WbNode *> children = subNodes(false);
+  for (int i = 0; i < children.size(); i++) {
+    WbNode *child = children.at(i);
+    if (child->urdfName() == name)
+      name += "_" + name;
+  }
+  return name;
 }
 
 bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
