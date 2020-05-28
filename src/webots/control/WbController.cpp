@@ -48,8 +48,6 @@
 #include <windows.h>
 #endif
 
-#include <QtCore/QDebug>
-
 /*
 #include <iomanip>
 #include <iostream>
