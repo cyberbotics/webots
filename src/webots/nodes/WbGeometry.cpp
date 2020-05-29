@@ -524,6 +524,12 @@ int WbGeometry::triangleCount() const {
     return 0;
 }
 
+bool WbGeometry::exportNodeHeader(WbVrmlWriter &writer) const {
+  if (writer.isUrdf())
+    return true;
+  return WbNode::exportNodeHeader(writer);
+}
+
 ////////////////////////////////
 //  Position and orientation  //
 ////////////////////////////////
