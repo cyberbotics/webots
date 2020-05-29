@@ -91,6 +91,7 @@ protected slots:
   virtual void updateMinAndMaxStop(double min, double max);
   virtual void updateAxis();
   void updateJointAxisRepresentation() override;
+  const QString urdfName() const override;
 
 private:
   WbJoint &operator=(const WbJoint &);  // non copyable

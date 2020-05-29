@@ -293,6 +293,12 @@ void WbJoint::updateJointAxisRepresentation() {
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }
 
+const QString WbJoint::urdfName() const {
+  if (positionSensor() && positionSensor()->findSFString("name"))
+    return positionSensor()->findSFString("name")->value();
+  return WbBaseNode::urdfName();
+}
+
 void WbJoint::writeExport(WbVrmlWriter &writer) const {
   if (writer.isUrdf()) {
     if (solidEndPoint()) {
