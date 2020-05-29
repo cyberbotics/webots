@@ -300,17 +300,17 @@ const QString WbJoint::urdfName() const {
 }
 
 void WbJoint::writeExport(WbVrmlWriter &writer) const {
-  if (writer.isUrdf()) {
+  if (writer.isUrdf())
     if (solidEndPoint()) {
-      writer << "  <joint name=\"" + urdfName() + "\" type=\"continuous\">\n";
-      writer << "    <parent link=\"" + parent()->urdfName() + "\"/>\n";
-      writer << "    <child link=\"" + solidEndPoint()->urdfName() + "\"/>\n";
-      writer << "  </joint>\n";
+      writer << QString("  <joint name=\"%1\" type=\"continuous\">\n").arg(urdfName());
+      writer << QString("    <parent link=\"%1\"/>\n").arg(parent()->urdfName());
+      writer << QString("    <child link=\"%1\"/>\n").arg(solidEndPoint()->urdfName());
+      writer << QString("    <axis>%1 %2 %3</axis>\n").arg(axis().x()).arg(axis().y()).arg(axis().z());
+      writer << QString("  </joint>\n");
 
       WbNode::exportNodeSubNodes(writer);
+      return;
     }
-  } else {
-    WbNode::writeExport(writer);
-  }
-}
 
+  WbNode::writeExport(writer);
+}
