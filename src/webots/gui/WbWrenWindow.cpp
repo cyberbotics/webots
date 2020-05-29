@@ -19,7 +19,7 @@
 #include "WbLightRepresentation.hpp"
 #include "WbLog.hpp"
 #include "WbMessageBox.hpp"
-#include "WbMultimediaStreamer.hpp"
+#include "WbMultimediaStreamingServer.hpp"
 #include "WbPerformanceLog.hpp"
 #include "WbPreferences.hpp"
 #include "WbSysInfo.hpp"
@@ -64,7 +64,8 @@ WbWrenWindow::WbWrenWindow() :
   mWrenMainFrameBuffer(NULL),
   mWrenMainFrameBufferTexture(NULL),
   mWrenNormalFrameBufferTexture(NULL),
-  mWrenDepthFrameBufferTexture(NULL) {
+  mWrenDepthFrameBufferTexture(NULL),
+  mVideoStreamingServer(NULL) {
   assert(WbWrenWindow::cInstance == NULL);
   WbWrenWindow::cInstance = this;
 
@@ -203,15 +204,13 @@ void WbWrenWindow::renderNow(bool culling) {
   if (!isExposed() || !wr_gl_state_is_initialized())
     return;
 
+  static int first = true;
 #ifdef __APPLE__
   // Make sure all events are processed before first render, omitting this snippet
   // causes graphical corruption on macOS due to the main framebuffer being invalid.
   // On Windows, this fix causes a crash on startup for certain worlds.
-  static int first = true;
-  if (first) {
-    first = false;
+  if (first)
     QCoreApplication::processEvents(QEventLoop::AllEvents);
-  }
 #endif
 
   WbPerformanceLog *log = WbPerformanceLog::instance();
@@ -231,12 +230,15 @@ void WbWrenWindow::renderNow(bool culling) {
   WbWrenOpenGlContext::instance()->swapBuffers(this);
   WbWrenOpenGlContext::doneWren();
 
-  WbMultimediaStreamer *multimediaStreamer = WbMultimediaStreamer::instance();
-  if (multimediaStreamer->isReady())
-    feedMultimediaStreamer();
+  if (mVideoStreamingServer && mVideoStreamingServer->isNewFrameNeeded() && !first)
+    // Skip the first call to 'renderNow()' because OpenGL context seems to be not ready. Not skipping causes a freeze.
+    mVideoStreamingServer->sendImage(grabWindowBufferNow());
 
   if (log)
     log->stopMeasure(WbPerformanceLog::MAIN_RENDERING);
+
+  if (first)
+    first = false;
 }
 
 bool WbWrenWindow::event(QEvent *event) {
@@ -433,19 +435,13 @@ QSize WbWrenWindow::sizeHint() const {
   return QSize(400, 400);
 }
 
+void WbWrenWindow::setVideoStreamingServer(WbMultimediaStreamingServer *streamingServer) {
+  mVideoStreamingServer = streamingServer;
+  connect(mVideoStreamingServer, &WbMultimediaStreamingServer::imageRequested, this, &WbWrenWindow::feedMultimediaStreamer);
+}
+
 void WbWrenWindow::feedMultimediaStreamer() {
-  // Skip the first call to 'renderNow()' because OpenGL
-  // context seems to be not ready. Not skipping causes
-  // a freeze.
-  static bool skipFirstFrame = true;
-  if (skipFirstFrame)
-    skipFirstFrame = false;
-  else {
-    WbMultimediaStreamer *multimediaStreamer = WbMultimediaStreamer::instance();
-    void *buffer = multimediaStreamer->buffer();
-    readPixels(multimediaStreamer->imageWidth(), multimediaStreamer->imageHeight(), GL_RGB, buffer);
-    multimediaStreamer->sendImage();
-  }
+  renderNow();
 }
 
 void WbWrenWindow::readPixels(int width, int height, unsigned int format, void *buffer) {

@@ -358,7 +358,7 @@ void WbBuildEditor::make(const QString &target) {
       arguments << target;
   }
 
-  if (command.isEmpty())  // unknown target
+  if (command.isEmpty())
     return;
   WbLog::appendStdout(command + " " + arguments.join(" ") + "\n", WbLog::COMPILATION);
 

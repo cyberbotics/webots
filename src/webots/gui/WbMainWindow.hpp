@@ -32,6 +32,7 @@ class WbOdeDebugger;
 class WbRecentFilesList;
 class WbRobot;
 class WbSimulationView;
+class WbStreamingServer;
 
 class QMenu;
 class QMenuBar;
@@ -47,7 +48,7 @@ class WbMainWindow : public QMainWindow {
   Q_PROPERTY(QString toolBarAlign MEMBER mToolBarAlign READ toolBarAlign WRITE setToolBarAlign)
 
 public:
-  explicit WbMainWindow(bool minimizedOnStart, QWidget *parent = NULL);
+  explicit WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingServer, QWidget *parent = NULL);
   virtual ~WbMainWindow();
 
   void lockFullScreen(bool isLocked);
@@ -199,6 +200,8 @@ private:
 
   // QSS properties
   QString mEnabledIconPath, mDisabledIconPath, mCoreIconPath, mToolBarAlign;
+
+  WbStreamingServer *mStreamingServer;
 
 private slots:
   void updateProjectPath(const QString &oldPath, const QString &newPath);
