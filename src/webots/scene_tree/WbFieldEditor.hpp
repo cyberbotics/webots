@@ -19,7 +19,7 @@
 // Description: editor for editing a WbField at the bottom of the Scene Tree
 //
 
-#include <QtCore/QMap>
+#include <QtCore/QMultiMap>
 #include <QtWidgets/QWidget>
 
 #include "../../../include/controller/c/webots/supervisor.h"
@@ -67,7 +67,7 @@ protected:
   WbNode *mNode;
 
 private:
-  QMap<WbFieldType, WbValueEditor *> mEditors;
+  QMultiMap<WbFieldType, WbValueEditor *> mEditors;
   QStackedLayout *mStackedLayout;
   QWidget *mEmptyPane;
   WbField *mField;
