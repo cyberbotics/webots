@@ -18,7 +18,7 @@
 #include <webots/robot.h>
 #include <webots/supervisor.h>
 
-/*Supervisor is a set of functions, for each Robot node whose supervisor field is set to TRUE*/
+/*Supervisor is a set of functions, for each Robot node whose supervisor field is set to TRUE.*/
 
 int main(int argc, char *argv[]) {
   WbNodeRef root, node;
