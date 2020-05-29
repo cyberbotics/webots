@@ -1148,9 +1148,9 @@ void WbNode::exportURDFJoint(WbVrmlWriter &writer) const {
     }
     rotationEuler = rotationMatrix.toEulerAngles();
 
-    writer << "  <joint name=\"" + parent()->urdfName() + "_" + urdfName() + "_joint\" type=\"fixed\">\n";
-    writer << "    <parent link=\"" + parent()->urdfName() + "\"/>\n";
-    writer << "    <child link=\"" + urdfName() + "\"/>\n";
+    writer << QString("  <joint name=\"%1_%2_joint\" type=\"fixed\">\n").arg(parent()->urdfName()).arg(urdfName());
+    writer << QString("    <parent link=\"%1\"/>\n").arg(parent()->urdfName());
+    writer << QString("    <child link=\"%1\"/>\n").arg(urdfName());
     writer << QString("    <origin xyz=\"%1 %2 %3\" rpy=\"%4 %5 %6\" />\n")
                 .arg(translation.x())
                 .arg(translation.y())
