@@ -2202,14 +2202,14 @@ void WbView3D::wheelEvent(QWheelEvent *event) {
 
 #ifndef __APPLE__  // bug in qt on Mac: -> QWheelEvent->orientation() is wrong when SHIFT + MOUSE_WHEEL_VERTICAL_SCROLL
   // Some mouse wheels can be scrolled horizontally
-  if (event->orientation() != Qt::Vertical)
+  if (event->angleDelta().x() != 0)
     return;
 #endif
 
   WbViewpoint *const viewpoint = mWorld->viewpoint();
   if (event->modifiers() & Qt::ShiftModifier) {
     if (mWheel) {
-      mWheel->apply(event->delta());
+      mWheel->apply(event->angleDelta().y());
       renderLater();
       return;
     }
@@ -2219,12 +2219,12 @@ void WbView3D::wheelEvent(QWheelEvent *event) {
     if (!uppermostSolid || uppermostSolid->isLocked())
       return;
     mWheel = new WbWheelLiftSolidEvent(viewpoint, uppermostSolid);
-    mWheel->apply(event->delta());
+    mWheel->apply(event->angleDelta().y());
     renderLater();
   } else if (!mViewpointLocked) {
     // WHEEL MOUSE only -> zoom
     if (mProjectionMode == WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC) {
-      if (event->delta() > 0)
+      if (event->angleDelta().y() > 0)
         viewpoint->decOrthographicViewHeight();
       else
         viewpoint->incOrthographicViewHeight();
@@ -2243,7 +2243,7 @@ void WbView3D::wheelEvent(QWheelEvent *event) {
         distanceToPickPosition = 0.001;
     }
 
-    const double scaleFactor = -0.02 * (event->delta() < 0.0 ? -1 : 1) * distanceToPickPosition;
+    const double scaleFactor = -0.02 * (event->angleDelta().y() < 0.0 ? -1 : 1) * distanceToPickPosition;
     const WbVector3 zDisplacement(scaleFactor * viewpoint->orientation()->value().direction());
     WbSFVector3 *const position = viewpoint->position();
     position->setValue(position->value() + zDisplacement);

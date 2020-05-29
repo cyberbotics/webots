@@ -83,7 +83,7 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
 
   if (!useCase && isAValidUseableNode) {
     assert(!mNestedDictionaries.isEmpty());
-    mNestedDictionaries.last().insertMulti(defName, node);
+    mNestedDictionaries.last().insert(defName, node);
   } else if (useCase) {
     if (isAValidUseableNode) {
       const WbNode::NodeUse nodeUse = node->nodeUse();
@@ -276,7 +276,7 @@ void WbDictionary::updateProtosDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode
     if (!defName.isEmpty() && isAValidUseableNode) {
       if (node->isProtoInstance())
         lookupDegree--;
-      mNestedDictionaries[lookupDegree].insertMulti(defName, node);
+      mNestedDictionaries[lookupDegree].insert(defName, node);
     } else {
       const QString &useName = node->useName();
       const bool useCase = !useName.isEmpty();
@@ -408,7 +408,7 @@ void WbDictionary::makeDefNodeAndUpdateDictionary(WbBaseNode *node, bool updateS
   node->updateContextDependentObjects();
   assert(mNestedDictionaries.size() >= 2);
   mNestedDictionaries.removeLast();  // remove USE node local dictionary
-  mNestedDictionaries.last().insertMulti(useName, node);
+  mNestedDictionaries.last().insert(useName, node);
   if (updateSceneDictionary && mNestedDictionaries.size() == 1)
     mSceneDictionary.append(QPair<WbNode *, QString>(node, node->defName()));
 }
