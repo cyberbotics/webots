@@ -358,7 +358,7 @@ void WbBuildEditor::make(const QString &target) {
       arguments << target;
   }
 
-  if (commandLine.isEmpty())  // unknown target
+  if (command.isEmpty())  // unknown target
     return;
   WbLog::appendStdout(command + " " + arguments.join(" ") + "\n", WbLog::COMPILATION);
 
@@ -391,16 +391,11 @@ void WbBuildEditor::make(const QString &target) {
   // check that program is available
   if (!started) {
 #ifdef _WIN32
-<<<<<<< HEAD
-    WbLog::appendStderr(tr("Installation problem: could not start '%1'.\n").arg(program), WbLog::COMPILATION);
+    WbLog::appendStderr(tr("Installation problem: could not start '%1'.\n").arg(command), WbLog::COMPILATION);
 #else
-    WbLog::appendStderr(tr("The '%1' command appears not to be available on your system.\n").arg(program), WbLog::COMPILATION);
-=======
-    WbLog::appendStderr(tr("Installation problem: could not start '%1'.\n").arg(command));
-#else
-    WbLog::appendStderr(tr("The '%1' command appears not to be available on your system.\n").arg(command));
->>>>>>> origin
-#endif cleanupProcess();
+    WbLog::appendStderr(tr("The '%1' command appears not to be available on your system.\n").arg(command), WbLog::COMPILATION);
+#endif
+    cleanupProcess();
   }
 }
 
