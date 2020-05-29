@@ -119,7 +119,11 @@ void WbStreamingServer::startFromCommandLine(const QString &argument) {
   // default values
   int port = 1234;
   // parse argument
+#ifdef _WIN32  // uses Qt 5.15
+  QStringList options = argument.split(';', Qt::SkipEmptyParts);
+#else
   QStringList options = argument.split(';', QString::SkipEmptyParts);
+#endif
   foreach (QString option, options) {
     option = option.trimmed();
     QRegExp rx("(\\w+)\\s*=\\s*([A-Za-z0-9:/.\\-]+)?");
@@ -372,7 +376,8 @@ void WbStreamingServer::processTextMessage(QString message) {
         gView3D->remoteMouseEvent(&event);
     } else if (action == 2) {
       wheel = -wheel;  // Wheel delta is inverted in JS and Webots
-      QWheelEvent wheelEvent(point, point, QPoint(), QPoint(), wheel, Qt::Vertical, buttonsPressed, keyboardModifiers);
+      QWheelEvent wheelEvent(point, point, QPoint(), QPoint(0, wheel), buttonsPressed, keyboardModifiers, Qt::ScrollUpdate,
+                             false);
       if (gView3D)
         gView3D->remoteWheelEvent(&wheelEvent);
     }

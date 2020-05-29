@@ -227,21 +227,26 @@ void WbController::start() {
       startVoidExecutable();
       mType = WbFileUtil::EXECUTABLE;
   }
-  if (mCommandLine.isEmpty())  // python has wrong version or Matlab 64 not available
+  if (mCommand.isEmpty())  // python has wrong version or Matlab 64 not available
     return;
 
-  info(tr("Starting controller: %1").arg(mCommandLine));
+  info(tr("Starting controller: %1").arg(mCommand + "!" + mArguments.join("+")));
 
 #ifdef __linux__
   if (!qgetenv("WEBOTS_FIREJAIL_CONTROLLERS").isEmpty() && mRobot->findField("controller")) {
-    QString firejailPrefix = "firejail --net=none --nosound --shell=none --quiet ";
+    mArguments.prepend(mCommand);
+    mCommand = "firejail";
+    mArguments << "--net=none"
+               << "--nosound"
+               << "--shell=none"
+               << "--quiet";
     // adding a path starting with /tmp/ in a whitelist blocks all other paths starting
     // with /tmp/ (including the local socket used by Webots which would prevent the
     // controller from running)
     if (!mControllerPath.startsWith("/tmp/"))
-      firejailPrefix += "--whitelist=\"" + mControllerPath + "\" ";
-    firejailPrefix += "--whitelist=\"" + WbStandardPaths::controllerLibPath() + "\" ";
-    firejailPrefix += "--read-only=\"" + WbStandardPaths::controllerLibPath() + "\" ";
+      mArguments << "--whitelist=" + mControllerPath;
+    mArguments << "--whitelist=" + WbStandardPaths::controllerLibPath();
+    mArguments << "--read-only=" + WbStandardPaths::controllerLibPath();
 
     QString ldEnvironmentVariable = WbStandardPaths::controllerLibPath();
 
@@ -264,8 +269,8 @@ void WbController::start() {
           if (iniParser.keyAt(i) == ("WEBOTS_LIBRARY_PATH") || iniParser.keyAt(i) == ("FIREJAIL_PATH")) {
             const QStringList pathsList = iniParser.resolvedValueAt(i, env).split(":");
             foreach (QString path, pathsList) {
-              firejailPrefix += "--whitelist=\"" + path + "\" ";
-              firejailPrefix += "--read-only=\"" + path + "\" ";
+              mArguments << "--whitelist=" + path;
+              mArguments << "--read-only=" + path;
               ldEnvironmentVariable += ":" + path;
             }
           } else
@@ -285,11 +290,7 @@ void WbController::start() {
         return;
       }
     }
-    firejailPrefix += "--blacklist=\"" + runtimeFilePath +
-                      "\" "
-                      "--env=LD_LIBRARY_PATH=\"" +
-                      ldEnvironmentVariable + "\" ";
-    mCommandLine = firejailPrefix + mCommandLine;
+    mArguments << "--blacklist=" + runtimeFilePath << "--env=LD_LIBRARY_PATH=" + ldEnvironmentVariable;
   }
 #endif
 
@@ -300,7 +301,7 @@ void WbController::start() {
   else
     mProcess->setWorkingDirectory(mControllerPath);
 
-  mProcess->start(mCommandLine);
+  mProcess->start(mCommand, mArguments);
 }
 
 void WbController::addPathEnvironmentVariable(QStringList &env, QString key, QString value, bool override, bool shouldPrepend) {
@@ -644,7 +645,7 @@ void WbController::reportMissingCommand(const QString &command) {
 }
 
 void WbController::reportFailedStart() {
-  warn(tr("failed to start: %1").arg(mCommandLine));
+  warn(tr("failed to start: %1").arg(mCommand + " " + mArguments.join(" ")));
 
   switch (mType) {
     case WbFileUtil::EXECUTABLE: {
@@ -727,9 +728,9 @@ void WbController::startVoidExecutable() {
 
   copyBinaryAndDependencies(mCommand);
 
-  mCommandLine = "\"" + QDir::toNativeSeparators(mCommand) + "\"";
+  mCommand = QDir::toNativeSeparators(mCommand);
   if (!args().isEmpty())
-    mCommandLine += " " + args();
+    mArguments << args().split(" ");
 }
 
 void WbController::startExecutable() {
@@ -737,9 +738,9 @@ void WbController::startExecutable() {
 
   copyBinaryAndDependencies(mCommand);
 
-  mCommandLine = "\"" + QDir::toNativeSeparators(mCommand) + "\"";
+  mCommand = QDir::toNativeSeparators(mCommand);
   if (!args().isEmpty())
-    mCommandLine += " " + args();
+    mArguments << args().split(" ");
 }
 
 void WbController::startJava(bool jar) {
@@ -748,7 +749,7 @@ void WbController::startJava(bool jar) {
   else
     mCommand = mJavaCommand;
 
-  QString options;
+  mArguments = WbLanguageTools::javaArguments();
   const QProcessEnvironment &env = mProcess->processEnvironment();
 
   // add -classpath option (which is necessary for load find Controller.jar).
@@ -761,31 +762,32 @@ void WbController::startJava(bool jar) {
   else
     extraClassPath = mControllerPath;
   WbLanguageTools::prependToPath(WbSysInfo::shortPath(extraClassPath), classPath);
-  WbLanguageTools::prependToPath(WbStandardPaths::controllerLibPath() + "java" + QDir::separator() + "Controller.jar",
-                                 classPath);
-  options += "-classpath \"" + classPath + "\"";
+  WbLanguageTools::prependToPath(WbStandardPaths::controllerLibPath() + "java/Controller.jar", classPath);
+  mArguments << "-classpath" << classPath;
 
   // add the java.library.path variable based on the custom JAVA_LIBRARY_PATH
   // environment variable (typically defined in runtime.ini)
   // in order to find the JNI libraries
   QString javaLibraryPath = env.value("JAVA_LIBRARY_PATH");
   WbLanguageTools::prependToPath(WbStandardPaths::controllerLibPath() + "java", javaLibraryPath);
-  options += QString(" -Djava.library.path=\"%1\"").arg(javaLibraryPath);
-
+  mArguments << QString("-Djava.library.path=%1").arg(javaLibraryPath);
   if (!mJavaOptions.isEmpty())
-    options += " " + mJavaOptions;
-
-  mCommandLine = mCommand + " " + options + " " + name() + " " + args();
+    mArguments << mJavaOptions.split(" ");
+  mArguments << name();
+  if (!args().isEmpty())
+    mArguments << args().split(" ");
 }
 
 void WbController::startPython() {
   if (mPythonCommand == "!")  // wrong python version
     return;
   mCommand = mPythonCommand;
-  mCommandLine = mCommand;
+  mArguments = WbLanguageTools::pythonArguments();
   if (!mPythonOptions.isEmpty())
-    mCommandLine += " " + mPythonOptions;
-  mCommandLine += " \"" + name() + ".py\" " + args();
+    mArguments << mPythonOptions.split(" ");
+  mArguments << name() + ".py";
+  if (!args().isEmpty())
+    mArguments << args().split(" ");
 }
 
 void WbController::startMatlab() {
@@ -800,9 +802,11 @@ void WbController::startMatlab() {
   } else
     mCommand = mMatlabCommand;
 
-  mCommandLine = mCommand + " -r launcher";
+  mArguments = WbLanguageTools::matlabArguments();
+  mArguments << "-r"
+             << "launcher";
   if (!mMatlabOptions.isEmpty())
-    mCommandLine += " " + mMatlabOptions;
+    mArguments << mMatlabOptions.split(" ");
 }
 
 void WbController::startBotstudio() {
@@ -814,10 +818,8 @@ void WbController::startBotstudio() {
   // start simply the void controller, but without modifying the controller path
   QString voidContollerPath = WbStandardPaths::resourcesControllersPath() + "void/";
   mCommand = voidContollerPath + "void" + WbStandardPaths::executableExtension();
-
   copyBinaryAndDependencies(mCommand);
-
-  mCommandLine = "\"" + QDir::toNativeSeparators(mCommand) + "\"";
+  mCommand = QDir::toNativeSeparators(mCommand);
 }
 
 void WbController::copyBinaryAndDependencies(const QString &filename) {
