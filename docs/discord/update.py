@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright 1996-2020 Cyberbotics Ltd.
@@ -95,8 +95,10 @@ class MyClient(discord.Client):
                                 if not undescoreProtected:
                                     line = line.replace('_', '\\_')
                                 # make url links
-                                for url in re.findall(r'(?P<url>https?://[^\s]+)', line):
-                                    line = line.replace(url, '[%s](%s)' % (url, url.replace('\\_', '_')))
+                                regex = r'(?P<url>https?://([\w-]+(?:(?:\.[\w-]+)+))([\w.,\\@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?)'
+                                for url in re.findall(regex, line):
+                                    urlString = url[0]
+                                    line = line.replace(urlString, '[%s](%s)' % (urlString, urlString.replace('\\_', '_')))
                                 line += '\n'
                             # add line to the content
                             content += line + '\n'

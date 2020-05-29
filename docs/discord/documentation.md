@@ -4,6 +4,21 @@ This is an archive of the `documentation` channel of the [Webots Discord server]
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 05/20/2020 05:37:11
+You're welcome
+
+##### prubhtej Singh 05/20/2020 05:31:12
+Thanks for the reply. I'll definitely check it out.
+
+##### David Mansolino [cyberbotics] 05/20/2020 04:50:52
+Hi, the documentation is updated directly from our Github repository, you can see all the latest changes here: [https://github.com/cyberbotics/webots/tree/master/docs](https://github.com/cyberbotics/webots/tree/master/docs)
+
+##### prubhtej Singh 05/19/2020 19:10:53
+When was documentation last updated ?
+
+
+I just had a small query.
+
 ##### Olivier Michel [cyberbotics] 05/13/2020 15:58:07
 Thank you. We will review it soon.
 
@@ -541,7 +556,7 @@ Thank you so much 🙂
 ##### David Mansolino [cyberbotics] 01/27/2020 07:10:51
 Hi `@İchigogo`, Webots provides an example of controller in python using cv2 to process a camera images: [https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/visual\_tracking/controllers/visual\_tracking/visual\_tracking.py](https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/visual_tracking/controllers/visual_tracking/visual_tracking.py)
 
-You can't simply use 'data' as a cv2 image, you have to convert it somehow (see for example: [https://stackoverflow.com/questions/17170752/python-opencv-load-image-from-byte-string?answertab=oldest#tab-top)](https://stackoverflow.com/questions/17170752/python-opencv-load-image-from-byte-string?answertab=oldest#tab-top))
+You can't simply use 'data' as a cv2 image, you have to convert it somehow (see for example: [https://stackoverflow.com/questions/17170752/python-opencv-load-image-from-byte-string?answertab=oldest#tab-top](https://stackoverflow.com/questions/17170752/python-opencv-load-image-from-byte-string?answertab=oldest#tab-top))
 
 ##### İchigogo 01/26/2020 20:04:42
 I'm trying to make image progressing. I get data with << data = camera. getImage() >> but I can't display it with cv2.imshow( data )   what should I do?
@@ -603,7 +618,7 @@ I understand. Thank you so much 🙂
 ##### David Mansolino [cyberbotics] 12/19/2019 06:57:02
 Hi `@bsr.nur.bahadir` which voice recognition documentation are you refeerig too? The Webots API provide text to speech but not voice recognition.
 
-About path planninc, you can find some examples here: [https://en.wikibooks.org/wiki/Cyberbotics%27\_Robot\_Curriculum/Advanced\_Programming\_Exercises#Path\_planning\_[Advanced]](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum/Advanced_Programming_Exercises#Path_planning_[Advanced])
+About path planninc, you can find some examples here: [https://en.wikibooks.org/wiki/Cyberbotics%27\_Robot\_Curriculum/Advanced\_Programming\_Exercises#Path\_planning\_](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum/Advanced_Programming_Exercises#Path_planning_)[Advanced]
 
 ##### bsr.nur.bahadir 12/18/2019 19:40:43
 Hello, need voice recognition documentation but I couldn't open it. And is there any example project for path planning? 🥺
@@ -882,7 +897,7 @@ At the beginning, in the 'Hands on #1' it mentions:
 Is this what you were looking for ?
 
 
-> I just remembered, in Tutorial 4 ([https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers)](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers)) where you make a new controller for simple obstacle avoidance, I believe the tutorial never mentions to actually add the new controller to the robot in the end. It just stops and concludes.
+> I just remembered, in Tutorial 4 ([https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers)) where you make a new controller for simple obstacle avoidance, I believe the tutorial never mentions to actually add the new controller to the robot in the end. It just stops and concludes.
 
 
 
@@ -894,7 +909,7 @@ You're welcome. The links have been updated here: [https://github.com/cyberbotic
 They will be updated on the live version on the website in a few minutes.
 
 ##### SimonDK 10/01/2019 14:43:20
-I just remembered, in Tutorial 4 ([https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers)](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers)) where you make a new controller for simple obstacle avoidance, I believe the tutorial never mentions to actually add the new controller to the robot in the end. It just stops and concludes.
+I just remembered, in Tutorial 4 ([https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers)) where you make a new controller for simple obstacle avoidance, I believe the tutorial never mentions to actually add the new controller to the robot in the end. It just stops and concludes.
 
 
 Great, thank you for the fast reply `@David Mansolino`
@@ -903,7 +918,7 @@ Great, thank you for the fast reply `@David Mansolino`
 You are right, it seems this site is not the official one anymore. Thank you for the notice, we will correct this right now!
 
 ##### SimonDK 10/01/2019 14:33:47
-In Tutorial 5 ([https://cyberbotics.com/doc/guide/tutorial-5-compound-solid-and-physics-attributes)](https://cyberbotics.com/doc/guide/tutorial-5-compound-solid-and-physics-attributes)) the link to ODE ([http://ode-wiki.org/wiki/index.php?title=Manual),](http://ode-wiki.org/wiki/index.php?title=Manual),) the website is full of advertisement and no documentation. One time I clicked it and it directly downloaded maccleaner which is a POS software. I think the link should be updated or removed.
+In Tutorial 5 ([https://cyberbotics.com/doc/guide/tutorial-5-compound-solid-and-physics-attributes](https://cyberbotics.com/doc/guide/tutorial-5-compound-solid-and-physics-attributes)) the link to ODE ([http://ode-wiki.org/wiki/index.php?title=Manual](http://ode-wiki.org/wiki/index.php?title=Manual)), the website is full of advertisement and no documentation. One time I clicked it and it directly downloaded maccleaner which is a POS software. I think the link should be updated or removed.
 
 
 I use it in macos and it works great
@@ -959,7 +974,7 @@ Hi is there an example for other Robots so I can make it for nao in java
 As far as I know there is no default remote controller plugin in Webots for the NAO robot. But you can write your own: [https://www.cyberbotics.com/doc/guide/controller-plugin?tab=c#remote-control-plugin](https://www.cyberbotics.com/doc/guide/controller-plugin?tab=c#remote-control-plugin)
 
 
-Hi `@NaoTeam28` , as explained in the documentation ([https://www.cyberbotics.com/doc/reference/robot?version=fix-contact-properties-doc&tab=c#wb\_robot\_set\_mode)](https://www.cyberbotics.com/doc/reference/robot?version=fix-contact-properties-doc&tab=c#wb_robot_set_mode)) `arg` is the argument that will be passed to the remote control `wbr_start` function.
+Hi `@NaoTeam28` , as explained in the documentation ([https://www.cyberbotics.com/doc/reference/robot?version=fix-contact-properties-doc&tab=c#wb\_robot\_set\_mode](https://www.cyberbotics.com/doc/reference/robot?version=fix-contact-properties-doc&tab=c#wb_robot_set_mode)) `arg` is the argument that will be passed to the remote control `wbr_start` function.
 
 ##### NaoTeam28 09/23/2019 08:36:37
 Hello Guys, 

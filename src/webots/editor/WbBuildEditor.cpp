@@ -336,27 +336,31 @@ void WbBuildEditor::make(const QString &target) {
   // store the target modification date
   updateTargetModificationTime();
 
-  QString commandLine = "";
-  if (isJavaProgram && !makefileExists(compilePath))
-    commandLine = getJavaCommandLine(target);
-  else {
-    commandLine = "make";
+  QString command;
+  QStringList arguments;
+
+  if (isJavaProgram && !makefileExists(compilePath)) {
+    QStringList list = getJavaCommandLine(target);
+    command = list[0];
+    list.removeFirst();
+    arguments = list;
+  } else {
+    command = "make";
 
     addMakefileIfNecessary(compilePath);
 
     int numberOfThreads = WbPreferences::instance()->value("General/numberOfThreads", 1).toInt();
-    if (numberOfThreads > 1 && target != "clean" && WbSimulationState::instance()->isPaused())
-      commandLine += " -j " + QString::number(numberOfThreads);
-
+    if (numberOfThreads > 1 && target != "clean" && WbSimulationState::instance()->isPaused()) {
+      arguments << "-j";
+      arguments << QString::number(numberOfThreads);
+    }
     if (!target.isEmpty())
-      commandLine += " " + target;
+      arguments << target;
   }
 
-  if (commandLine.isEmpty()) {
-    // unknown target
+  if (commandLine.isEmpty())  // unknown target
     return;
-  } else
-    WbLog::appendStdout(commandLine + "\n", WbLog::COMPILATION);
+  WbLog::appendStdout(command + " " + arguments.join(" ") + "\n", WbLog::COMPILATION);
 
   // create mProcess
   mProcess = new QProcess(this);
@@ -381,58 +385,54 @@ void WbBuildEditor::make(const QString &target) {
 
   // launch external make and wait at most 5 sec
   mProcess->setWorkingDirectory(compilePath);
-  mProcess->start(commandLine);
+  mProcess->start(command, arguments);
   bool started = mProcess->waitForStarted(5000);
 
   // check that program is available
   if (!started) {
-    QString program = commandLine.split(" ")[0];
 #ifdef _WIN32
+<<<<<<< HEAD
     WbLog::appendStderr(tr("Installation problem: could not start '%1'.\n").arg(program), WbLog::COMPILATION);
 #else
     WbLog::appendStderr(tr("The '%1' command appears not to be available on your system.\n").arg(program), WbLog::COMPILATION);
-#endif
-    cleanupProcess();
+=======
+    WbLog::appendStderr(tr("Installation problem: could not start '%1'.\n").arg(command));
+#else
+    WbLog::appendStderr(tr("The '%1' command appears not to be available on your system.\n").arg(command));
+>>>>>>> origin
+#endif cleanupProcess();
   }
 }
 
-QString WbBuildEditor::getJavaCommandLine(const QString &target) const {
+QStringList WbBuildEditor::getJavaCommandLine(const QString &target) const {
   QDir controllerDir = compileDir();
   QString controllerPath = controllerDir.absolutePath();
   QString controllerName = QFileInfo(controllerPath).baseName();
-  QString command;
+  QStringList commandLine;
 
-  if (target == "clean") {
-    QStringList classFiles = controllerDir.entryList(QStringList() << "*.class", QDir::Files);
-    command = "rm -fr " + classFiles.join(" ") + " " + controllerName + ".jar";
-
-  } else if (target == "jar") {
-    // create JAR with .class files and all the subfolders in the controller folder
-    QStringList classFiles = controllerDir.entryList(QStringList() << "*.class", QDir::Files);
-    command = "jar cf " + controllerName + ".jar " + classFiles.join(" ");
-
-  } else if (target == "") {  // build, compile all .java files in the controller folder
+  if (target == "clean")
+    commandLine << "rm"
+                << "-fr" << controllerDir.entryList(QStringList("*.class"), QDir::Files) << controllerName + ".jar";
+  else if (target == "jar")  // create JAR with .class files and all the subfolders in the controller folder
+    commandLine << "jar"
+                << "cf " << controllerName + ".jar " << controllerDir.entryList(QStringList("*.class"), QDir::Files);
+  else if (target == "") {  // build, compile all .java files in the controller folder
 #ifdef _WIN32
-    QString separator = ";";
+    const QString separator = ";";
 #else
-    QString separator = ":";
+    const QString separator = ":";
 #endif
-    QString CLASSPATH = qgetenv("CLASSPATH");
-    QString javaOptions = "-Xlint -classpath \"" + QDir::toNativeSeparators(WbStandardPaths::controllerLibPath() + "java/") +
-                          "Controller.jar" + separator;
+    QString classpath = QDir::toNativeSeparators(WbStandardPaths::controllerLibPath() + "java/Controller.jar") + separator;
+    const QString CLASSPATH = qgetenv("CLASSPATH");
     if (!CLASSPATH.isEmpty())
-      javaOptions += CLASSPATH + separator;
-    javaOptions += ".\"";
+      classpath += CLASSPATH + separator;
+    classpath += ".";
 
-    QStringList javaFiles = controllerDir.entryList(QStringList() << "*.java", QDir::Files);
-    command = "javac " + javaOptions + " " + javaFiles.join(" ");
-
-  } else {
-    // unknown target
-    return QString();
+    commandLine << "javac"
+                << "-Xlint"
+                << "-classpath" << classpath << controllerDir.entryList(QStringList("*.java"), QDir::Files);
   }
-
-  return command;
+  return commandLine;
 }
 
 void WbBuildEditor::computeTargetFile() {

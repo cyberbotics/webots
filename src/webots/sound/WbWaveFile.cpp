@@ -211,20 +211,24 @@ void WbWaveFile::loadFromFile(int side) {
   static QString ffmpeg("avconv");
   static QString percentageChar = "%";
 #elif defined(__APPLE__)
-  static QString ffmpeg(QString("\"%1util/ffmpeg\"").arg(WbStandardPaths::webotsHomePath()));
+  static QString ffmpeg(QString("%1util/ffmpeg").arg(WbStandardPaths::webotsHomePath()));
   static QString percentageChar = "%";
 #else  // _WIN32
   static QString ffmpeg =
-    QDir::toNativeSeparators(QString("\"%1mingw64/bin/ffmpeg.exe\"").arg(WbStandardPaths::webotsMsys64Path()));
+    QDir::toNativeSeparators(QString("%1mingw64/bin/ffmpeg.exe").arg(WbStandardPaths::webotsMsys64Path()));
   static QString percentageChar = "%%";
 #endif
 
   QString outputFilename = WbStandardPaths::webotsTmpPath() + fi.baseName() + ".wav";
-  ffmpeg += " -y -i " + mFilename + " " + outputFilename + " -sample_fmt s16 -loglevel quiet";
+  const QStringList arguments = QStringList() << "-y"
+                                              << "-i" << mFilename << outputFilename << "-sample_fmt"
+                                              << "s16"
+                                              << "-loglevel"
+                                              << "quiet";
   mFilename = outputFilename;
 
   QProcess *conversionProcess = new QProcess();
-  conversionProcess->execute(ffmpeg);
+  conversionProcess->execute(ffmpeg, arguments);
   conversionProcess->waitForFinished(-1);
 
   loadConvertedFile(side);

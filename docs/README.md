@@ -1,8 +1,8 @@
-# webots-doc
+# Webots Documentation
 
-This repository contains the documentation of the Webots software.
+This repository contains the documentation for the Webots open source simulation software.
 
-The master branch of this repository is in production on the Cyberbotics website:
+The master branch of this repository is in production on the Cyberbotics website, which you can access by visiting the following links:
 
 - https://www.cyberbotics.com/doc/guide/index
 - https://www.cyberbotics.com/doc/reference/index
@@ -10,11 +10,13 @@ The master branch of this repository is in production on the Cyberbotics website
 - https://www.cyberbotics.com/doc/discord/index
 - https://www.cyberbotics.com/doc/automobile/index
 
-You are very welcome to contribute to make this documentation better!
-In order to proceed, simply fork this repository, make your modifications and
-open a pull request that we will review and merge.
+You are very welcome to contribute to make this documentation better.
+In order to proceed, follow these steps:
+1. Fork this repository 
+2. Make your modifications 
+3. Open a pull request that we will review and merge.
 
-## To view a specific version
+## To view a specific version:
 
 You can display the documentation corresponding to a specific version of Webots
 by using the version argument in the URL, for example:
@@ -38,27 +40,27 @@ Or to a github branch (e.g. `reference_proto`) of any public github repository (
 https://www.cyberbotics.com/doc/guide/index?version=remidhum:reference_proto
 ```
 
-## Run the doc locally
+## To Run the doc locally, follow these steps:
 
-Set the terminal to the 'docs' directory.
+1. Set the terminal to the 'docs' directory.
 
 ```sh
 cd $WEBOTS_HOME/docs
 ```
 
-Create or update the `index.html` page:
+2. Create or update the `index.html` page:
 
 ```sh
 python local_exporter.py
 ```
 
-Run a simple HTTP server:
+3. Run a simple HTTP server:
 
 ```sh
 python -m http.server 8000
 ```
 
-In a browser, open:
+4. Then in a browser, open:
 
 - [http://localhost:8000/?url=&book=guide](http://localhost:8000/?url=&book=guide)
 - [http://localhost:8000/?url=&book=reference](http://localhost:8000/?url=&book=reference)
@@ -66,16 +68,16 @@ In a browser, open:
 - [http://localhost:8000/?url=&book=automobile](http://localhost:8000/?url=&book=automobile)
 
 
-## Run the unit tests
+## For running the unit tests, the following steps should be followed:
 
-Install the pep8 module:
+1. Install the pep8 module:
 
 ```sh
 sudo apt-get install python-pip
 pip install pep8
 ```
 
-Run the tests:
+2. Run the tests:
 
 ```sh
 cd $WEBOTS_HOME/docs

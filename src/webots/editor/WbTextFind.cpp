@@ -63,7 +63,7 @@ bool WbTextFind::findText(const QString &text, int position, FindFlags flags, bo
   }
 
   QTextDocument *document = mEditor->document();
-  QTextDocument::FindFlags findFlags = 0;
+  QTextDocument::FindFlags findFlags;
   if (backwards)
     findFlags |= QTextDocument::FindBackward;
   if (flags & FIND_CASE_SENSITIVE)
@@ -133,7 +133,7 @@ void WbTextFind::replaceAll(const QString &before, const QString &after, FindFla
   cursor.movePosition(QTextCursor::Start);
   cursor.beginEditBlock();
 
-  QTextDocument::FindFlags docFindFlags = 0;
+  QTextDocument::FindFlags docFindFlags;
   if (findFlags & FIND_CASE_SENSITIVE)
     docFindFlags |= QTextDocument::FindCaseSensitively;
   if (findFlags & FIND_WHOLE_WORDS)
