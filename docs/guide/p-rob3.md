@@ -11,7 +11,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 PROTO P-Rob3 [
   SFVec3f    translation     0 0 0
-  SFRotation rotation        1 0 0 -1.57079969
+  SFRotation rotation        0 0 1 0
   SFString   name            "P-Rob3"
   SFString   controller      "void"
   SFString   controllerArgs  ""

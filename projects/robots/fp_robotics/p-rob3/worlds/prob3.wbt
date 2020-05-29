@@ -72,11 +72,12 @@ Table {
 }
 P-Rob3 {
   translation -1.6 0.74 4.84
+  rotation 1 0 0 -1.57079969
   controller "p-rob3"
 }
 P-Rob3 {
   translation -0.779695 0.740005 5.66378
-  rotation -3.3905113482557537e-09 0.707108281185553 0.70710528118436 3.14159
+  rotation 0 0.707108281185553 0.70710528118436 3.14159
   name "P-Rob3(1)"
   controller "p-rob3"
   secondaryColor 0.960784 0.47451 0

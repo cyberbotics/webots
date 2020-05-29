@@ -6,18 +6,18 @@
 # A P-Rob3 robotic arm from F&P Robotics.
 
 PROTO P-Rob3 [
-  field SFVec3f    translation     0 0 0             # Is `Transform.translation`.
-  field SFRotation rotation        1 0 0 -1.57079969 # Is `Transform.rotation`.
-  field SFString   name            "P-Rob3"          # Is `Solid.name`.
-  field SFString   controller      "void"            # Is `Robot.controller`.
-  field SFString   controllerArgs  ""                # Is `Robot.controllerArgs`.
-  field SFBool     supervisor      FALSE             # Is `Robot.supervisor`.
-  field SFBool     synchronization TRUE              # Is `Robot.synchronization`.
-  field SFBool     selfCollision   TRUE              # Is `Robot.selfCollision`.
-  field SFColor    mainColor       0.98 0.98 0.98    # Defines the main color of the robot.
-  field SFColor    secondaryColor  0.036 0.3 0.615   # Defines the secondary color of the robot.
-  field MFNode     toolSlot        [ P-Grip { } ]    # Extend the robot with new nodes at the end of the arm.
-  field SFBool     staticBase      TRUE              # Defines if the robot base should be pinned to the static environment.
+  field SFVec3f    translation     0 0 0            # Is `Transform.translation`.
+  field SFRotation rotation        0 0 1 0          # Is `Transform.rotation`.
+  field SFString   name            "P-Rob3"         # Is `Solid.name`.
+  field SFString   controller      "void"           # Is `Robot.controller`.
+  field SFString   controllerArgs  ""               # Is `Robot.controllerArgs`.
+  field SFBool     supervisor      FALSE            # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE             # Is `Robot.synchronization`.
+  field SFBool     selfCollision   TRUE             # Is `Robot.selfCollision`.
+  field SFColor    mainColor       0.98 0.98 0.98   # Defines the main color of the robot.
+  field SFColor    secondaryColor  0.036 0.3 0.615  # Defines the secondary color of the robot.
+  field MFNode     toolSlot        [ P-Grip { } ]   # Extend the robot with new nodes at the end of the arm.
+  field SFBool     staticBase      TRUE             # Defines if the robot base should be pinned to the static environment.
 ]
 {
   Robot {
