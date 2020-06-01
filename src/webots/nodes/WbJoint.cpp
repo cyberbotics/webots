@@ -301,15 +301,8 @@ const QString WbJoint::urdfName() const {
 
 void WbJoint::writeExport(WbVrmlWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
-    WbVector3 translation;
-    WbMatrix3 rotationMatrix;
-    WbVector3 rotationEuler;
-
-    translation = solidEndPoint()->position() - solidParent()->position();
-    writer << solidEndPoint()->position() << " : " << solidParent()->position() << "\n";
-    rotationMatrix =
-      static_cast<WbTransform *>(parent())->rotationMatrix().transposed() * solidEndPoint()->rotationMatrix();
-    rotationEuler = rotationMatrix.toEulerAngles();
+    WbVector3 translation = solidEndPoint()->translation();
+    WbVector3 rotationEuler = solidEndPoint()->rotation().toMatrix3().toEulerAngles();
 
     writer << QString("  <joint name=\"%1\" type=\"continuous\">\n").arg(urdfName());
     writer << QString("    <parent link=\"%1\"/>\n").arg(parent()->urdfName());
