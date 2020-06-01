@@ -100,6 +100,7 @@ void WbRobot::init() {
   mJoyStickLastValue = NULL;
   mMouse = NULL;
 
+  mNeedToWriteUrdf = false;
   mControllerStarted = false;
   mNeedToRestartController = false;
   mConfigureRequest = true;
@@ -147,12 +148,6 @@ void WbRobot::init() {
 
   mBatteryInitialValue = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
   mSupervisorUtilities = supervisor() ? new WbSupervisorUtilities(this) : NULL;
-
-  // TODO: Temp. URDF Export
-  QString nodeString;
-  WbVrmlWriter writer(&nodeString, this->modelName() + ".urdf");
-  this->write(writer);
-  std::cout << writer.readAll().toStdString() << std::endl;
 }
 
 WbRobot::WbRobot(WbTokenizer *tokenizer) : WbSolid("Robot", tokenizer) {
@@ -784,6 +779,9 @@ void WbRobot::handleMessage(QDataStream &stream) {
       updateDevicesAfterInsertion();
       mConfigureRequest = true;
       return;
+    case C_ROBOT_URDF:
+      mNeedToWriteUrdf = true;
+      return;
     case C_SET_SAMPLING_PERIOD:  // for the scene tracker
       /*
       stream >> mRefreshRate;
@@ -1134,6 +1132,19 @@ void WbRobot::writeAnswer(QDataStream &stream) {
 
   if (mSupervisorUtilities)
     mSupervisorUtilities->writeAnswer(stream);
+
+  if (mNeedToWriteUrdf) {
+    stream << (short unsigned int)0;
+    stream << (unsigned char)C_ROBOT_URDF;
+
+    QString urdfContent;
+    WbVrmlWriter writer(&urdfContent, modelName() + ".urdf");
+    write(writer);
+    const QByteArray n = writer.readAll().toUtf8();
+    stream.writeRawData(n.constData(), n.size() + 1);
+
+    mNeedToWriteUrdf = false;
+  }
 }
 
 bool WbRobot::hasImmediateAnswer() const {

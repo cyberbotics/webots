@@ -96,6 +96,10 @@ string Robot::getName() const {
   return string(wb_robot_get_name());
 }
 
+string Robot::getUrdf() const {
+  return string(wb_robot_get_urdf());
+}
+
 string Robot::getControllerName() const {
   return string(wb_robot_get_controller_name());
 }

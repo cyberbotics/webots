@@ -85,6 +85,8 @@ typedef struct {
   char *remote_control_filename;
   char *controller_name;
   char *arguments;
+  char *urdf;
+  bool need_urdf;
   char *custom_data;
   bool is_waiting_for_user_input_event;
   WbUserInputEvent user_input_event_type;
@@ -210,6 +212,8 @@ void robot_write_request(WbDevice *dev, WbRequest *req) {
     request_write_int32(req, robot.user_input_event_type);
     request_write_int32(req, robot.user_input_event_timeout);
   }
+  if (robot.need_urdf)
+    request_write_uchar(req, C_ROBOT_URDF);
 }
 
 static WbRequest *generate_request(unsigned int step_duration, bool toggle_remote) {
@@ -442,6 +446,9 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
     case C_ROBOT_WAIT_FOR_USER_INPUT_EVENT:
       robot.is_waiting_for_user_input_event = false;
       robot.user_input_event_type = request_read_int32(r);
+      break;
+    case C_ROBOT_URDF:
+      robot.urdf = request_read_string(r);
       break;
     default:
       r->pointer--;  // unread the char from the request
@@ -955,6 +962,8 @@ int wb_robot_init() {  // API initialization
   robot.battery_value = NAN;
   robot.battery_sampling_period = 0;  // initially disabled
   robot.console_text = NULL;
+  robot.urdf = NULL;
+  robot.need_urdf = false;
   robot.pin = -1;
   robot.is_waiting_for_user_input_event = false;
   robot.dataNeedToWriteRequest = false;
@@ -1126,4 +1135,14 @@ WbSimulationMode robot_get_simulation_mode() {
 
 void robot_set_simulation_mode(WbSimulationMode mode) {
   robot.simulation_mode = mode;
+}
+
+const char *wb_robot_get_urdf() {
+  robot_mutex_lock_step();
+  robot.need_urdf = true;
+  generate_request(0, false);
+  wb_robot_flush_unlocked();
+  robot.need_urdf = false;
+  robot_mutex_unlock_step();
+  return robot.urdf;
 }

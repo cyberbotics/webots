@@ -301,12 +301,28 @@ const QString WbJoint::urdfName() const {
 
 void WbJoint::writeExport(WbVrmlWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
+    WbVector3 translation;
+    WbMatrix3 rotationMatrix;
+    WbVector3 rotationEuler;
+
+    translation = solidEndPoint()->position() - solidParent()->position();
+    writer << solidEndPoint()->position() << " : " << solidParent()->position() << "\n";
+    rotationMatrix =
+      static_cast<WbTransform *>(parent())->rotationMatrix().transposed() * solidEndPoint()->rotationMatrix();
+    rotationEuler = rotationMatrix.toEulerAngles();
+
     writer << QString("  <joint name=\"%1\" type=\"continuous\">\n").arg(urdfName());
     writer << QString("    <parent link=\"%1\"/>\n").arg(parent()->urdfName());
     writer << QString("    <child link=\"%1\"/>\n").arg(solidEndPoint()->urdfName());
-    writer << QString("    <axis>%1 %2 %3</axis>\n").arg(axis().x()).arg(axis().y()).arg(axis().z());
+    writer << QString("    <axis xyz=\"%1 %2 %3\"/>\n").arg((int)axis().x()).arg((int)axis().y()).arg((int)axis().z());
+    writer << QString("    <origin xyz=\"%1 %2 %3\" rpy=\"%4 %5 %6\" />\n")
+                .arg(translation.x())
+                .arg(translation.y())
+                .arg(translation.z())
+                .arg(rotationEuler.x())
+                .arg(rotationEuler.y())
+                .arg(rotationEuler.z());
     writer << QString("  </joint>\n");
-
     WbNode::exportNodeSubNodes(writer);
     return;
   }

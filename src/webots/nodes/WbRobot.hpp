@@ -178,6 +178,7 @@ private:
   WbSFString *mWindow;
   WbSFString *mRemoteControl;
 
+  bool mNeedToWriteUrdf;
   bool mShowWindowCalled;
   bool mShowWindowMessage;
   bool mUpdateWindowMessage;

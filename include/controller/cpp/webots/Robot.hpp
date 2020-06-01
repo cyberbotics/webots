@@ -68,6 +68,7 @@ namespace webots {
     virtual int step(int duration);
     UserInputEvent waitForUserInputEvent(UserInputEvent event_type, int timeout);
     std::string getName() const;
+    std::string getUrdf() const;
     std::string getControllerName() const;
     std::string getControllerArguments() const;
     double getTime() const;
