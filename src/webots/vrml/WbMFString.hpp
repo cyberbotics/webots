@@ -22,7 +22,7 @@
 #include "WbMultipleValue.hpp"
 #include "WbVrmlWriter.hpp"
 
-#include <QtCore/QVector>
+#include <QtCore/QStringList>
 
 #include <cassert>
 
