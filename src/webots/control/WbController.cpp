@@ -230,7 +230,7 @@ void WbController::start() {
   if (mCommand.isEmpty())  // python has wrong version or Matlab 64 not available
     return;
 
-  info(tr("Starting controller: %1").arg(mCommand + "!" + mArguments.join("+")));
+  info(tr("Starting controller: %1").arg(commandLine()));
 
 #ifdef __linux__
   if (!qgetenv("WEBOTS_FIREJAIL_CONTROLLERS").isEmpty() && mRobot->findField("controller")) {
@@ -645,7 +645,7 @@ void WbController::reportMissingCommand(const QString &command) {
 }
 
 void WbController::reportFailedStart() {
-  warn(tr("failed to start: %1").arg(mCommand + " " + mArguments.join(" ")));
+  warn(tr("failed to start: %1").arg(commandLine()));
 
   switch (mType) {
     case WbFileUtil::EXECUTABLE: {
@@ -729,8 +729,7 @@ void WbController::startVoidExecutable() {
   copyBinaryAndDependencies(mCommand);
 
   mCommand = QDir::toNativeSeparators(mCommand);
-  if (!args().isEmpty())
-    mArguments << args().split(" ");
+  mArguments << argsList();
 }
 
 void WbController::startExecutable() {
@@ -739,8 +738,7 @@ void WbController::startExecutable() {
   copyBinaryAndDependencies(mCommand);
 
   mCommand = QDir::toNativeSeparators(mCommand);
-  if (!args().isEmpty())
-    mArguments << args().split(" ");
+  mArguments << argsList();
 }
 
 void WbController::startJava(bool jar) {
@@ -774,8 +772,7 @@ void WbController::startJava(bool jar) {
   if (!mJavaOptions.isEmpty())
     mArguments << mJavaOptions.split(" ");
   mArguments << name();
-  if (!args().isEmpty())
-    mArguments << args().split(" ");
+  mArguments << argsList();
 }
 
 void WbController::startPython() {
@@ -786,8 +783,7 @@ void WbController::startPython() {
   if (!mPythonOptions.isEmpty())
     mArguments << mPythonOptions.split(" ");
   mArguments << name() + ".py";
-  if (!args().isEmpty())
-    mArguments << args().split(" ");
+  mArguments << argsList();
 }
 
 void WbController::startMatlab() {
@@ -885,6 +881,36 @@ const QString &WbController::name() const {
 
 const QString &WbController::args() const {
   return mRobot->controllerArgs();
+}
+
+// Extract the argument list from the Robot.controllerArgs string
+// Double quotes are removed from each argument string, as it should
+QStringList WbController::argsList() const {
+  QStringList list;
+  const QString args = mRobot->controllerArgs().trimmed();
+  if (args.length() == 0)
+    return list;
+  bool quote = false;
+  int previous = 0;
+  for (int i = 0; i < args.length(); i++) {
+    if (args[i] == '"')
+      quote = !quote;
+    if (args[i] == ' ' && !quote) {
+      const QString argument = args.mid(previous, i - previous).replace("\"", "").trimmed();
+      if (!argument.isEmpty())
+        list << args.mid(previous, i - previous).replace("\"", "");
+      previous = i + 1;
+    }
+  }
+  list << args.mid(previous).replace("\"", "");
+  return list;
+}
+
+QString WbController::commandLine() const {  // returns the command line with double quotes if needed
+  QString commandLine = mCommand.contains(" ") ? "\"" + mCommand + "\"" : mCommand;
+  foreach (const QString argument, mArguments)
+    commandLine += " " + (argument.contains(" ") ? "\"" + argument + "\"" : argument);
+  return commandLine;
 }
 
 void WbController::handleControllerExit() {
