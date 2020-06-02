@@ -127,7 +127,7 @@ void WbRobot::init() {
   mSupervisor = findSFBool("supervisor");
   mSynchronization = findSFBool("synchronization");
   mController = findSFString("controller");
-  mControllerArgs = findSFString("controllerArgs");
+  mControllerArgs = findMFString("controllerArgs");
   mCustomData = findSFString("customData");
   mBattery = findMFDouble("battery");
   mCpuConsumption = findSFDouble("cpuConsumption");
@@ -722,7 +722,7 @@ void WbRobot::writeConfigure(QDataStream &stream) {
   stream.writeRawData(n.constData(), n.size() + 1);
   n = controllerName().toUtf8();
   stream.writeRawData(n.constData(), n.size() + 1);
-  n = controllerArgs().toUtf8();
+  n = controllerArgs().join(" ").toUtf8();
   stream.writeRawData(n.constData(), n.size() + 1);
   n = customData().toUtf8();
   stream.writeRawData(n.constData(), n.size() + 1);

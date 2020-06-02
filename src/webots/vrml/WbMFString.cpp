@@ -17,57 +17,57 @@
 #include "WbTokenizer.hpp"
 
 void WbMFString::readAndAddItem(WbTokenizer *tokenizer, const QString &worldPath) {
-  mVector.append(tokenizer->nextToken()->toString());
+  mValue.append(tokenizer->nextToken()->toString());
 }
 
 void WbMFString::clear() {
-  if (!mVector.empty()) {
-    mVector.clear();
+  if (!mValue.empty()) {
+    mValue.clear();
     emit changed();
   }
 }
 
 void WbMFString::insertDefaultItem(int index) {
   assert(index >= 0 && index <= size());
-  mVector.insert(mVector.begin() + index, defaultNewVariant().toString());
+  mValue.insert(mValue.begin() + index, defaultNewVariant().toString());
   emit itemInserted(index);
   emit changed();
 }
 
 void WbMFString::removeItem(int index) {
   assert(index >= 0 && index < size());
-  mVector.erase(mVector.begin() + index);
+  mValue.erase(mValue.begin() + index);
   emit itemRemoved(index);
   emit changed();
 }
 
 void WbMFString::setItem(int index, const QString &value) {
   assert(index >= 0 && index < size());
-  if (mVector[index] != value) {
-    mVector[index] = value;
+  if (mValue[index] != value) {
+    mValue[index] = value;
     emit itemChanged(index);
     emit changed();
   }
 }
 
 void WbMFString::addItem(const QString &value) {
-  mVector.push_back(value);
-  emit itemInserted(mVector.size() - 1);
+  mValue.push_back(value);
+  emit itemInserted(mValue.size() - 1);
   emit changed();
 }
 
 void WbMFString::insertItem(int index, const QString &value) {
   assert(index >= 0 && index <= size());
-  mVector.insert(mVector.begin() + index, value);
+  mValue.insert(mValue.begin() + index, value);
   emit itemInserted(index);
   emit changed();
 }
 
 WbMFString &WbMFString::operator=(const WbMFString &other) {
-  if (mVector == other.mVector)
+  if (mValue == other.mValue)
     return *this;
 
-  mVector = other.mVector;
+  mValue = other.mValue;
   emit changed();
   return *this;
 }

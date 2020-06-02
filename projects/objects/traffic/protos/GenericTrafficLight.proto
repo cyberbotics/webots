@@ -27,13 +27,13 @@ PROTO GenericTrafficLight [
     io.stderr:write("'redTime' should be strictly positive.\n")
     io.stderr:write("'redTime' was reset to '" .. redTime .. "'.\n")
   end
-  local controllerArgs = '"' .. redTime .. ' ' .. greenTime .. ' '
+  local controllerArgs = '[ "' .. redTime .. '", "' .. greenTime .. '", "'
   if fields.startGreen.value then
     controllerArgs = controllerArgs .. 'g'
   else
     controllerArgs = controllerArgs .. 'r'
   end
-  controllerArgs = controllerArgs .. '"'
+  controllerArgs = controllerArgs .. '" ]'
 }%
   Robot {
     translation IS translation

@@ -32,15 +32,15 @@ PROTO SumoInterface [
 {
   %{
     -- tracks check
-    local arguments = ""
+    local arguments = "[ "
     if fields.gui.value ~= true then
-      arguments = arguments .. "--no-gui "
+      arguments = arguments .. "\"--no-gui\" "
     end
     if fields.useNetconvert.value ~= true then
-      arguments = arguments .. "--no-netconvert "
+      arguments = arguments .. "\"--no-netconvert\" "
     end
     if fields.enableTrafficLights.value ~= true then
-      arguments = arguments .. "--disable-traffic-lights "
+      arguments = arguments .. "\"--disable-traffic-lights\" "
     end
     local enableWheelsRotation = fields.enableWheelsRotation.value
     if enableWheelsRotation == fields.enableWheelsRotation.defaultValue then
@@ -56,38 +56,39 @@ PROTO SumoInterface [
         io.stderr:write("Deprecated 'maxVehicules' field, use 'maxVehicles' instead\n")
       end
     end
-    arguments = arguments .. "--max-vehicles=" .. maxVehicles .. " "
+    arguments = arguments .. "\"--max-vehicles=" .. maxVehicles .. "\" "
     if enableWheelsRotation == true then
-      arguments = arguments .. "--rotate-wheels "
+      arguments = arguments .. "\"--rotate-wheels\" "
     end
     if fields.verbose.value == true then
-      arguments = arguments .. "--verbose "
+      arguments = arguments .. "\"--verbose\" "
     end
     if fields.enableHeight.value == true then
-      arguments = arguments .. "--enable-height "
+      arguments = arguments .. "\"--enable-height\" "
     end
     if fields.networkFiles.value ~= "" then
-      arguments = arguments .. "--directory=" .. fields.networkFiles.value .. " "
+      arguments = arguments .. "\"--directory=" .. fields.networkFiles.value .. "\" "
     end
     if fields.sumoArguments.value ~= "" then
-      arguments = arguments .. "--sumo-arguments=\\\"" .. fields.sumoArguments.value .. "\\\" "
+      arguments = arguments .. "\"--sumo-arguments=" .. fields.sumoArguments.value .. "\" "
     end
-    arguments = arguments .. "--port=" .. fields.port.value .. " "
-    arguments = arguments .. "--seed=" .. fields.seed.value .. " "
-    arguments = arguments .. "--step=" .. fields.step.value .. " "
-    arguments = arguments .. "--radius=" .. fields.radius.value .. " "
-    arguments = arguments .. "--maximum-lateral-speed=" .. fields.maximumLateralSpeed.value .. " "
-    arguments = arguments .. "--maximum-angular-speed=" .. fields.maximumAngularSpeed.value .. " "
-    arguments = arguments .. "--lane-change-delay=" .. fields.laneChangeDelay.value .. " "
+    arguments = arguments .. "\"--port=" .. fields.port.value .. "\" "
+    arguments = arguments .. "\"--seed=" .. fields.seed.value .. "\" "
+    arguments = arguments .. "\"--step=" .. fields.step.value .. "\" "
+    arguments = arguments .. "\"--radius=" .. fields.radius.value .. "\" "
+    arguments = arguments .. "\"--maximum-lateral-speed=" .. fields.maximumLateralSpeed.value .. "\" "
+    arguments = arguments .. "\"--maximum-angular-speed=" .. fields.maximumAngularSpeed.value .. "\" "
+    arguments = arguments .. "\"--lane-change-delay=" .. fields.laneChangeDelay.value .. "\" "
     local display = fields.display.value
     if display ~= nil then
-      arguments = arguments .. "--use-display "
-      arguments = arguments .. "--display-zoom=" .. display.fields.zoom.value .. " "
-      arguments = arguments .. "--display-refresh-rate=" .. display.fields.refreshRate.value .. " "
+      arguments = arguments .. "\"--use-display\" "
+      arguments = arguments .. "\"--display-zoom=" .. display.fields.zoom.value .. "\" "
+      arguments = arguments .. "\"--display-refresh-rate=" .. display.fields.refreshRate.value .. "\" "
       if display.fields.fitSize.value then
-        arguments = arguments .. "--display-fit-size "
+        arguments = arguments .. "\"--display-fit-size\" "
       end
     end
+    arguments = arguments .. "]"
   }%
 
   Robot {

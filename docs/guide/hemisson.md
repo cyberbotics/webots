@@ -16,7 +16,7 @@ Hemisson {
   SFRotation rotation        0 1 0 0
   SFString   name            "Hemisson"
   SFString   controller      "hemisson"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

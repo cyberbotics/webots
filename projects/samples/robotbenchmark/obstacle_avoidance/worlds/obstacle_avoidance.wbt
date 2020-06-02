@@ -42,7 +42,7 @@ DEF THYMIO2 Thymio2 {
   translation 2.68 0 0
   rotation 0 1 0 4.712389
   controller "avoid_obstacles"
-  controllerArgs ""
+  controllerArgs []
   bodySlot [
     Compass {
     }

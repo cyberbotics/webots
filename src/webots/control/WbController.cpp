@@ -229,7 +229,7 @@ void WbController::start() {
   if (mCommand.isEmpty())  // python has wrong version or Matlab 64 not available
     return;
 
-  info(tr("Starting controller: %1").arg(mCommand + "!" + mArguments.join("+")));
+  info(tr("Starting controller: %1").arg(commandLine()));
 
 #ifdef __linux__
   if (!qgetenv("WEBOTS_FIREJAIL_CONTROLLERS").isEmpty() && mRobot->findField("controller")) {
@@ -634,7 +634,7 @@ void WbController::reportMissingCommand(const QString &command) {
 }
 
 void WbController::reportFailedStart() {
-  warn(tr("failed to start: %1").arg(mCommand + " " + mArguments.join(" ")));
+  warn(tr("failed to start: %1").arg(commandLine()));
 
   switch (mType) {
     case WbFileUtil::EXECUTABLE: {
@@ -718,8 +718,7 @@ void WbController::startVoidExecutable() {
   copyBinaryAndDependencies(mCommand);
 
   mCommand = QDir::toNativeSeparators(mCommand);
-  if (!args().isEmpty())
-    mArguments << args().split(" ");
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startExecutable() {
@@ -728,8 +727,7 @@ void WbController::startExecutable() {
   copyBinaryAndDependencies(mCommand);
 
   mCommand = QDir::toNativeSeparators(mCommand);
-  if (!args().isEmpty())
-    mArguments << args().split(" ");
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startJava(bool jar) {
@@ -763,8 +761,7 @@ void WbController::startJava(bool jar) {
   if (!mJavaOptions.isEmpty())
     mArguments << mJavaOptions.split(" ");
   mArguments << name();
-  if (!args().isEmpty())
-    mArguments << args().split(" ");
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startPython() {
@@ -775,8 +772,7 @@ void WbController::startPython() {
   if (!mPythonOptions.isEmpty())
     mArguments << mPythonOptions.split(" ");
   mArguments << name() + ".py";
-  if (!args().isEmpty())
-    mArguments << args().split(" ");
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startMatlab() {
@@ -794,8 +790,7 @@ void WbController::startMatlab() {
   mArguments = WbLanguageTools::matlabArguments();
   mArguments << "-r"
              << "launcher";
-  if (!mMatlabOptions.isEmpty())
-    mArguments << mMatlabOptions.split(" ");
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startBotstudio() {
@@ -872,8 +867,11 @@ const QString &WbController::name() const {
   return mName;
 }
 
-const QString &WbController::args() const {
-  return mRobot->controllerArgs();
+QString WbController::commandLine() const {  // returns the command line with double quotes if needed
+  QString commandLine = mCommand.contains(" ") ? "\"" + mCommand + "\"" : mCommand;
+  foreach (const QString argument, mArguments)
+    commandLine += " " + (argument.contains(" ") ? "\"" + argument + "\"" : argument);
+  return commandLine;
 }
 
 void WbController::handleControllerExit() {

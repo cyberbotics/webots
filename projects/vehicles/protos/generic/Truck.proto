@@ -15,7 +15,7 @@ PROTO Truck [
   field     SFFloat    mass              8000              # Defines the mass of the truck (trailer not included).
   field     SFString   name              "vehicle"         # Is `Solid.name`.
   field     SFString   controller        "void"            # Is `Robot.controller`.
-  field     SFString   controllerArgs    ""                # Is `Robot.controllerArgs`.
+  field     MFString   controllerArgs    [ ]               # Is `Robot.controllerArgs`.
   field     SFBool     supervisor        FALSE             # Is `Robot.supervisor`.
   field     SFBool     synchronization   TRUE              # Is `Robot.synchronization`.
   field     MFNode     sensorsSlotFront  [ ]               # Extends the truck with new nodes in the front slot.

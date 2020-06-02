@@ -14,7 +14,7 @@ MindstormsRover {
   SFRotation rotation        0 1 0 0
   SFString   name            "MindstormsRover"
   SFString   controller      "Rover"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

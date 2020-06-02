@@ -5,7 +5,7 @@
 # This PROTO manages the inverted pendulum benchmark.
 
 PROTO InvertedPendulumBenchmark [
-  field SFString controllerArgs "seed=2"
+  field MFString controllerArgs "seed=2"
   field SFString window "inverted_pendulum"
 ]
 {

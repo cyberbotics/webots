@@ -18,7 +18,7 @@ Hoap2 {
   SFRotation rotation            0 1 0 0
   SFString   name                "HOAP-2"
   SFString   controller          "hoap2"
-  SFString   controllerArgs      ""
+  MFString   controllerArgs      []
   SFString   customData          ""
   SFBool     supervisor          FALSE
   SFBool     synchronization     TRUE

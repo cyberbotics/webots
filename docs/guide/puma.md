@@ -18,8 +18,8 @@ Puma560 {
   SFRotation rotation        0 1 0 0
   SFString   name            "PUMA 560"
   SFString   controller      "puma560"
-  SFString   controllerArgs  ""
-  SFString   customData      ""
+  MFString   controllerArgs  []
+  MFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE
   MFNode     bodySlot        []

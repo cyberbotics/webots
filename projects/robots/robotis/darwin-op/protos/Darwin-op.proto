@@ -17,7 +17,7 @@ PROTO Darwin-op [
   field SFRotation rotation        0 1 0 0                    # Is `Transform.rotation`.
   field SFString   name            "DARwIn-OP"                # Is `Solid.name`.
   field SFString   controller      "motion_player"            # Is `Robot.controller`.
-  field SFString   controllerArgs  ""                         # Is `Robot.controllerArgs`.
+  field MFString   controllerArgs  []                         # Is `Robot.controllerArgs`.
   field SFString   customData      ""                         # Is `Robot.customData`.
   field SFBool     supervisor      FALSE                      # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE                       # Is `Robot.synchronization`.

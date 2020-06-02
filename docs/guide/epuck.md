@@ -53,7 +53,7 @@ E-puck is equipped with a large number of devices, as summarized in [this table]
 | Expansion bus  | expansion bus to add new possibilities to your robot                                                                             |
 | Programming    | C programming with the GNU GCC compiler system                                                                                   |
 | Simulation     | Webots facilitates the programming of e-puck with a powerful simulation, remote control and cross-compilation system             |
- 
+
 %end
 
 ### E-puck Model
@@ -174,7 +174,7 @@ E-puck {
   SFRotation rotation                     0 1 0 0
   SFString   name                         "e-puck"
   SFString   controller                   "e-puck_avoid_obstacles"
-  SFString   controllerArgs               ""
+  MFString   controllerArgs               []
   SFString   customData                   ""
   SFBool     supervisor                   FALSE
   SFBool     synchronization              TRUE
@@ -186,7 +186,7 @@ E-puck {
   SFRotation camera_rotation              1 0 0 0
   SFFloat    camera_noise                 0.0
   SFFloat    camera_motionBlur            0.0
-  SFInt32    distance_sensor_numberOfRays 1 
+  SFInt32    distance_sensor_numberOfRays 1
   SFInt32    emitter_channel              1
   SFInt32    receiver_channel             1
   MFFloat    battery                      []

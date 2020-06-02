@@ -13,7 +13,7 @@ PROTO ToyotaPriusSimple [
   field     MFString   plate               "textures/plate.jpg"
   field     SFString   name                "vehicle"
   field     SFString   controller          ""
-  field     SFString   controllerArgs      ""
+  field     MFString   controllerArgs      [ ]
   field     MFNode     sensorsSlotFront    [ ]
   field     MFNode     sensorsSlotRear     [ ]
   field     MFNode     sensorsSlotTop      [ ]

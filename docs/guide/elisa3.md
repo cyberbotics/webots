@@ -15,7 +15,7 @@ Elisa3 {
   SFRotation rotation         0 1 0 0
   SFString   name             "Elisa-3"
   SFString   controller       "elisa3"
-  SFString   controllerArgs   ""
+  MFString   controllerArgs   []
   SFString   customData       ""
   SFBool     supervisor       FALSE
   SFBool     synchronization  TRUE

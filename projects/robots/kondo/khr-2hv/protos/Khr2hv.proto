@@ -10,7 +10,7 @@ PROTO Khr2hv [
   field SFRotation rotation        1 0 0 -1.5708  # Is `Transform.rotation`.
   field SFString   name            "KHR-2HV"      # Is `Solid.name`.
   field SFString   controller      "khr-2hv_demo" # Is `Robot.controller`.
-  field SFString   controllerArgs  ""             # Is `Robot.controllerArgs`.
+  field MFString   controllerArgs  []             # Is `Robot.controllerArgs`.
   field SFString   contactMaterial "default"      # Defines the `Solid.contactMaterial` for the robot parts.
   field SFString   customData      ""             # Is `Robot.customData`.
   field SFBool     supervisor      FALSE          # Is `Robot.supervisor`.

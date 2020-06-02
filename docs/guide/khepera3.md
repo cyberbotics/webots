@@ -15,7 +15,7 @@ Khepera3 {
   SFRotation rotation        0 1 0 0
   SFString   name            "Khepera III"
   SFString   controller      "braitenberg"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

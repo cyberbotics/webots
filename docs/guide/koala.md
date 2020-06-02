@@ -15,7 +15,7 @@ Koala {
   SFRotation rotation        0 1 0 0
   SFString   name            "Koala"
   SFString   controller      "koala"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE
