@@ -8,5 +8,5 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/motor/motor.c"
-consoles: motor:robot:All
+consoles: Motor:robot:All
 consoles: Console:All Webots:All
