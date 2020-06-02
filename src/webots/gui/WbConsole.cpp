@@ -414,7 +414,6 @@ WbConsole::WbConsole(QWidget *parent, const QString &name) :
   // listen to WbLog
   connect(WbLog::instance(), SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)), this,
           SLOT(appendLog(WbLog::Level, const QString &, bool, const QString &)));
-  connect(WbLog::instance(), SIGNAL(cleared()), this, SLOT(clear()));
 
   // Install ODE message handlers
   dSetErrorHandler(odeErrorFunc);

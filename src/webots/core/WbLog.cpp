@@ -196,10 +196,6 @@ void WbLog::emitLog(Level level, const QString &message, bool popup, const QStri
     emit popupClosed();
 }
 
-void WbLog::clear() {
-  emit instance()->cleared();
-}
-
 void WbLog::enqueueMessage(QList<PostponedMessage> &list, const QString &message, const QString &name, Level level) {
   PostponedMessage msg;
   msg.text = message;
