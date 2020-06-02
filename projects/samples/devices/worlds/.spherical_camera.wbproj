@@ -9,6 +9,6 @@ viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/spherical_camera/spherical_camera.c"
 globalOptionalRendering: CameraFrustums
-consoles: Sphercial Camera:MyBot:All
+consoles: Spherical Camera:MyBot:All
 consoles: Console:All Webots:All
 renderingDevicePerspectives: MyBot:camera;1;2;0;0
