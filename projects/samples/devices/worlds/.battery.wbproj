@@ -9,5 +9,5 @@ viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/battery/battery.c"
 globalOptionalRendering: DistanceSensorRays
-consoles: battery:MyBot:All
+consoles: Battery:MyBot:All
 consoles: Console:All Webots:All
