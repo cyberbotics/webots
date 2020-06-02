@@ -699,20 +699,15 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
   if (message.isEmpty())
     return;
 
+  assert(!logName.isEmpty());
+
   // check enabled filters
-  if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL))) {
-    if (logName.isEmpty()) {
-      // WEBOTS_OTHERS
-      if (!mEnabledFilters.contains(WbLog::filterName(WbLog::WEBOTS_OTHERS)) &&
-          !mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_WEBOTS)))
+  if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL)) && !mEnabledFilters.contains(logName)) {
+    if (WbLog::webotsFilterNames().contains(logName)) {
+      if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_WEBOTS)))
         return;
-    } else if (!mEnabledFilters.contains(logName)) {
-      if (WbLog::webotsFilterNames().contains(logName) && logName != WbLog::filterName(WbLog::WEBOTS_OTHERS)) {
-        if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_WEBOTS)))
-          return;
-      } else if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_CONTROLLERS)))
-        return;
-    }
+    } else if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL_CONTROLLERS)))
+      return;
   }
 
   // check enabled levels
