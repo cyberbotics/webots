@@ -1140,9 +1140,9 @@ void WbNode::exportURDFJoint(WbVrmlWriter &writer) const {
     WbVector3 translation;
     WbVector3 rotationEuler;
 
-    if (dynamic_cast<WbTransform *>((WbNode *)this) && dynamic_cast<WbTransform *>(parent())) {
-      translation = ((WbTransform *)this)->translation();
-      rotationEuler = ((WbTransform *)this)->rotation().toMatrix3().toEulerAngles();
+    if (dynamic_cast<const WbTransform *>(this) && dynamic_cast<WbTransform *>(parent())) {
+      translation = static_cast<const WbTransform *>(this)->translation();
+      rotationEuler = static_cast<const WbTransform *>(this)->rotation().toMatrix3().toEulerAngles();
     }
 
     writer << QString("  <joint name=\"%1_%2_joint\" type=\"fixed\">\n").arg(parent()->urdfName()).arg(urdfName());
