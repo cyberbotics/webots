@@ -32,6 +32,9 @@ namespace webots {
     double getValue() const;
     const double *getValues() const;
 
+    int getLookupTableSize() const;
+    const double *getLookupTable() const;
+
     Type getType() const;
   };
 }  // namespace webots

@@ -271,11 +271,11 @@ void WbBallJoint::checkMotorLimit() {
   } else {
     if (motor->minPosition() < -M_PI_2) {
       motor->setMinPosition(-M_PI_2);
-      warn(tr("The lower limit of the motor associated to the second axis shouldn't be smaller than -pi/2."));
+      parsingWarn(tr("The lower limit of the motor associated to the second axis shouldn't be smaller than -pi/2."));
     }
     if (motor->maxPosition() > M_PI_2) {
       motor->setMaxPosition(M_PI_2);
-      warn(tr("The upper limit of the motor associated to the second axis shouldn't be greater than pi/2."));
+      parsingWarn(tr("The upper limit of the motor associated to the second axis shouldn't be greater than pi/2."));
     }
   }
 }
@@ -692,7 +692,7 @@ void WbBallJoint::applyToOdeAxis() {
   WbVector3 referenceAxis3 = axis3();
 
   if (referenceAxis.cross(referenceAxis3).isNull()) {
-    warn(tr("Axes are aligned: using x and z axes instead."));
+    parsingWarn(tr("Axes are aligned: using x and z axes instead."));
     referenceAxis = WbVector3(1.0, 0.0, 0.0);
     referenceAxis3 = WbVector3(0.0, 0.0, 1.0);
   }

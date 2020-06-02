@@ -20,6 +20,10 @@ Robot {
   children [
     Compass {
       rotation 0 1 0 1.57079633
+      lookupTable [
+        -1000 -1000 0
+        1000 1000 0
+      ]
     }
     TestSuiteEmitter {
     }

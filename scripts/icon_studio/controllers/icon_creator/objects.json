@@ -833,6 +833,31 @@
   "projects/objects/trees/protos/Tree": {
     "background": [1.0, 1.0, 1.0]
   },
+  "projects/robots/boston_dynamics/spot/protos/Spot.proto": {
+    "fields": "translation -0.573555 -1.028 -0.0370218 rotation 0 1 0 -1.96308 controller \"void\""
+  },
+  "projects/robots/clearpath/moose/protos/Moose.proto": {
+    "background": [1.0, 0.0, 1.0],
+    "fields": "translation 0 0.38 0 rotation 0 1 0 5.76"
+  },
+  "projects/robots/festo/robotino3/protos/Robotino3.proto": {
+    "fields": "rotation -0.2785 0.67622 0.68202 2.58789"
+  },
+  "projects/robots/festo/robotino3/protos/Robotino3HokuyoMountingSupport.proto": {
+    "fields": "rotation -0.7746 0.44721 0.44721 1.82348"
+  },
+  "projects/robots/festo/robotino3/protos/Robotino3Platform.proto": {
+    "fields": "translation 0 -0.16 0 rotation -0.98311 0.12943 0.12943 1.58784"
+  },
+  "projects/robots/festo/robotino3/protos/Robotino3SickMountingSupport.proto": {
+    "fields": "rotation -0.38269 0 0.92388 3.14159"
+  },
+  "projects/robots/festo/robotino3/protos/Robotino3Webcam.proto": {
+    "fields": "translation 0 -0.208 0 rotation -0.18616 0.69475 0.69475 2.7735"
+  },
+  "projects/robots/festo/robotino3/protos/Robotino3WebcamMountingSupport.proto": {
+    "fields": "translation 0 -0.211 0 rotation -0.28109 0.6786 0.6786 2.59356"
+  },
   "projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase": {
     "fields": "translation 0 0.02 0 rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393",
     "background": [1.0, 0.0, 1.0]
@@ -904,28 +929,6 @@
     "colorThreshold": 0.001,
     "nodeString": "Robot { translation 0 0.027 0 rotation -0.6087598420165832 1.0122819105744343e-6 -0.7933545580299642 3.1415961372248167 children [ Slot { endPoint TinkerbotsWheel { } } ] }"
   },
-  "projects/robots/clearpath/moose/protos/Moose.proto": {
-    "background": [1.0, 0.0, 1.0],
-    "fields": "translation 0 0.38 0 rotation 0 1 0 5.76"
-  },
-    "projects/robots/festo/robotino3/protos/Robotino3.proto": {
-      "fields": "rotation -0.2785 0.67622 0.68202 2.58789"
-    },
-    "projects/robots/festo/robotino3/protos/Robotino3HokuyoMountingSupport.proto": {
-      "fields": "rotation -0.7746 0.44721 0.44721 1.82348"
-    },
-    "projects/robots/festo/robotino3/protos/Robotino3Platform.proto": {
-      "fields": "translation 0 -0.16 0 rotation -0.98311 0.12943 0.12943 1.58784"
-    },
-    "projects/robots/festo/robotino3/protos/Robotino3SickMountingSupport.proto": {
-      "fields": "rotation -0.38269 0 0.92388 3.14159"
-    },
-    "projects/robots/festo/robotino3/protos/Robotino3Webcam.proto": {
-      "fields": "translation 0 -0.208 0 rotation -0.18616 0.69475 0.69475 2.7735"
-    },
-    "projects/robots/festo/robotino3/protos/Robotino3WebcamMountingSupport.proto": {
-      "fields": "translation 0 -0.211 0 rotation -0.28109 0.6786 0.6786 2.59356"
-    },
   "projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto": {
     "fields": "rotation 1 0 0 -1.5708"
   },
@@ -943,5 +946,11 @@
   },
   "projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto": {
     "fields": "rotation 0 1 0 -0.7854"
+  },
+  "projects/vehicles/protos/mercedes_benz/MercedesBenzSprinter.proto": {
+    "fields": "rotation 0 1 0 2.618"
+  },
+  "projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterSimple.proto": {
+    "fields": "rotation 0 1 0 2.618"
   }
 }

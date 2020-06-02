@@ -193,15 +193,15 @@ void WbMotor::updateControlPID() {
   const WbVector3 &pid = mControlPID->value();
   const double p = pid.x();
   if (p <= 0.0)
-    warn(tr("'controlP' (currently %1) must be positive.").arg(p));
+    parsingWarn(tr("'controlP' (currently %1) must be positive.").arg(p));
 
   const double i = pid.y();
   if (i < 0.0)
-    warn(tr("'controlI' (currently %1) must be non-negative.").arg(i));
+    parsingWarn(tr("'controlI' (currently %1) must be non-negative.").arg(i));
 
   const double d = pid.z();
   if (d < 0.0)
-    warn(tr("'controlD' (currently %1) must be non-negative.").arg(d));
+    parsingWarn(tr("'controlD' (currently %1) must be non-negative.").arg(d));
 
   mErrorIntegral = 0.0;
   mPreviousError = 0.0;

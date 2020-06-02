@@ -126,7 +126,7 @@ public class GPS extends Device {
 wb_gps_enable(tag, sampling_period)
 wb_gps_disable(tag)
 period = wb_gps_get_sampling_period(tag)
-[x y z] = wb_gps_get_values(tag)
+x_y_z_array = wb_gps_get_values(tag)
 speed = wb_gps_get_speed(tag)
 ```
 

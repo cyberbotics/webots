@@ -4,19 +4,15 @@
 # tags: hidden
 
 PROTO TruckTrailerMesh [
-  field MFString   texture  "textures/truck_trailer.jpg"
+  field SFNode    appearance   PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "textures/truck_trailer_webots.jpg" ] } }
+  field SFVec3f   translation  0 0 0
 ]
 {
-  Group {
+  Transform {
+    translation IS translation
     children [
       DEF TRAILER Shape {
-        appearance PBRAppearance {
-          metalness 0
-          roughness 0.4
-          baseColorMap ImageTexture {
-            url IS texture
-          }
-        }
+        appearance IS appearance
         geometry IndexedFaceSet {
           coord Coordinate {
             point [

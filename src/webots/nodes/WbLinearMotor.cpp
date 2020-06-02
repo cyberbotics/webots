@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbLinearMotor.hpp"
+
 #include "WbJoint.hpp"
 #include "WbJointParameters.hpp"
 #include "WbSolid.hpp"

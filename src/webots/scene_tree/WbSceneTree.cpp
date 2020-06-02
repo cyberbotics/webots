@@ -809,12 +809,12 @@ bool WbSceneTree::insertInertiaMatrix(const WbField *selectedField) {
   if (dialog.inertiaMatrixType() == WbAddInertiaMatrixDialog::IDENTITY_MATRIX) {
     if (physics && physics->mass() <= 0.0) {
       physics->setMass(1.0, true);
-      physics->info(tr("A positive mass is mandatory when using inertiaMatrix. 'mass' set to 1."));
+      physics->parsingInfo(tr("A positive mass is mandatory when using inertiaMatrix. 'mass' set to 1."));
     }
 
     if (physics && physics->centerOfMass().size() == 0) {
       physics->setCenterOfMass(0.0, 0.0, 0.0, true);
-      physics->info(tr("A center of mass is mandatory when using inertiaMatrix. Default center of mass inserted."));
+      physics->parsingInfo(tr("A center of mass is mandatory when using inertiaMatrix. Default center of mass inserted."));
     }
 
     mfvector3->insertItem(0, WbVector3(1.0, 1.0, 1.0));

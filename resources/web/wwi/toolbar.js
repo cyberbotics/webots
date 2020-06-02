@@ -289,6 +289,9 @@ class Toolbar { // eslint-disable-line no-unused-vars
         }
       }
     }
+
+    if (typeof this.worldSelect !== 'undefined')
+      this.worldSelect.disabled = !enabled;
   }
 
   createToolBarButton(name, tooltip) {
@@ -299,6 +302,22 @@ class Toolbar { // eslint-disable-line no-unused-vars
     this[buttonName].title = tooltip;
     this[buttonName].style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + name + '.png)';
     return this[buttonName];
+  }
+
+  deleteWorldSelect() {
+    this.worldSelectionDiv.removeChild(this.worldSelect);
+    this.worldSelect = undefined;
+  }
+
+  createWorldSelect() {
+    this.worldSelect = document.createElement('select');
+    this.worldSelect.id = 'worldSelection';
+    this.worldSelect.classList.add('select-css');
+    this.worldSelectionDiv.appendChild(this.worldSelect);
+
+    // check if toolbar buttons are disabled
+    if (this.real_timeButton && this.real_timeButton.disabled)
+      this.worldSelect.disabled = true;
   }
 
   setMode(mode) {

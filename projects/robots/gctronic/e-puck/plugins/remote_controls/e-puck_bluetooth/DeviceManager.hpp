@@ -55,7 +55,7 @@ private:
   DeviceManager();
   DeviceManager(const DeviceManager &);             // non constructor-copyable
   DeviceManager &operator=(const DeviceManager &);  // non copyable
-  virtual ~DeviceManager();
+  ~DeviceManager();
 
   void clear();
 

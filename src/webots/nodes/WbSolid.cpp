@@ -248,12 +248,12 @@ void WbSolid::validateProtoNode() {
 
     foreach (WbField *parameter, parameters()) {
       if (checkTranslation && parameter->name() == "translation" && parameter->isTemplateRegenerator()) {
-        warn(tr("template regenerator field named 'translation' found. "
-                "It is recommended not to use template statements to update the top Solid 'translation' field"));
+        parsingWarn(tr("template regenerator field named 'translation' found. "
+                       "It is recommended not to use template statements to update the top Solid 'translation' field"));
         checkTranslation = false;
       } else if (checkRotation && parameter->name() == "rotation" && parameter->isTemplateRegenerator()) {
-        warn(tr("template regenerator field named 'rotation' found. "
-                "It is recommended not to use template statements to update the top Solid 'rotation' field"));
+        parsingWarn(tr("template regenerator field named 'rotation' found. "
+                       "It is recommended not to use template statements to update the top Solid 'rotation' field"));
         checkTranslation = false;
       }
 
@@ -327,7 +327,7 @@ void WbSolid::preFinalize() {
   checkScaleAtLoad(true);
   if (nodeType() != WB_NODE_TOUCH_SENSOR && mBoundingObject->value() && mPhysics->value() == NULL &&
       mJointParents.size() == 0 && upperSolid() && upperSolid()->physics())
-    warn(tr("As 'physics' is set to NULL, collisions will have no effect"));
+    parsingWarn(tr("As 'physics' is set to NULL, collisions will have no effect"));
 }
 
 bool WbSolid::restoreHiddenKinematicParameters(const HiddenKinematicParametersMap &map, int &counter) {
@@ -483,8 +483,8 @@ void WbSolid::postFinalize() {
   if (protoParameterNode()) {
     const QVector<WbNode *> nodes = protoParameterNode()->protoParameterNodeInstances();
     if (nodes.size() > 1 && nodes.at(0) == this)
-      warn(tr("Solid node defined in PROTO field is used multiple times. "
-              "Webots doesn't fully support this because the multiple node instances cannot be identical."));
+      parsingWarn(tr("Solid node defined in PROTO field is used multiple times. "
+                     "Webots doesn't fully support this because the multiple node instances cannot be identical."));
   }
 }
 
@@ -498,7 +498,7 @@ void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive,
 
   if (topSolidNameSet && !automaticallyChange) {
     if (topSolidNameSet->contains(name()))
-      warn(warningText);
+      parsingWarn(warningText);
     else
       topSolidNameSet->insert(name());
   } else {
@@ -531,7 +531,7 @@ void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive,
           while (otherParameterNode && otherParameterNode->protoParameterNode())
             otherParameterNode = otherParameterNode->protoParameterNode();
           if (otherParameterNode == parameterNode) {
-            warn(
+            parsingWarn(
               warningText +
               tr(" A unique name cannot be automatically generated because the same PROTO parameter is used multiple times."));
             goto recursion;
@@ -551,10 +551,10 @@ void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive,
           nameField = nameField->parameter();
         bool isTemplateRegenerator = nameField->isTemplateRegenerator();
         if (isTemplateRegenerator)
-          warn(warningText +
-               tr(" A unique name cannot be automatically generated because 'name' is a template regenerator field."));
+          parsingWarn(warningText +
+                      tr(" A unique name cannot be automatically generated because 'name' is a template regenerator field."));
         else if (!WbNodeUtilities::isVisible(findField("name")))
-          warn(warningText);
+          parsingWarn(warningText);
         else {
           // find first available index
           std::sort(indices.begin(), indices.end());
@@ -568,7 +568,7 @@ void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive,
           mName->setValue(newName);
         }
       } else
-        warn(warningText);
+        parsingWarn(warningText);
     }
   }
 
@@ -1102,8 +1102,8 @@ void WbSolid::printKinematicWarningIfNeeded() {
     return;
 
   mKinematicWarningPrinted = true;
-  warn(tr("This node is controlled in kinematics mode "
-          "but some Solid descendant nodes have physics and won't move along with this node."));
+  parsingWarn(tr("This node is controlled in kinematics mode "
+                 "but some Solid descendant nodes have physics and won't move along with this node."));
 }
 
 WbVector3 WbSolid::relativeLinearVelocity(const WbSolid *parentSolid) const {
@@ -1436,7 +1436,7 @@ void WbSolid::setInertiaMatrixFromBoundingObject() {
     double boundingObjectMass = mReferenceMass->mass;
     boundingObjectMass *= 0.001 * p->density();
     p->setMass(boundingObjectMass * s3, true);
-    p->info(tr("'mass' set as bounding object's mass based on 'density'."));
+    p->parsingInfo(tr("'mass' set as bounding object's mass based on 'density'."));
   }
 
   p->setDensity(-1.0, true);
@@ -1448,7 +1448,7 @@ void WbSolid::setInertiaMatrixFromBoundingObject() {
 
   const double *const c = mReferenceMass->c;
   p->setCenterOfMass(c[0] * s, c[1] * s, c[2] * s, true);
-  p->info(tr("Bounding object's center of mass inserted."));
+  p->parsingInfo(tr("Bounding object's center of mass inserted."));
 
   p->updateMode();
   if (parameter)
@@ -1800,16 +1800,17 @@ void WbSolid::setDefaultMassSettings(bool applyCenterOfMassTranslation, bool war
   if (mass > 0.0) {
     dMassSetParameters(mOdeMass, mass, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0);
     if (warning)
-      warn(
+      parsingWarn(
         tr("Undefined inertia matrix: using the identity matrix. Please specify 'boundingObject' or 'inertiaMatrix' values."));
   } else {
     dMassSetParameters(mOdeMass, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0);
     if (warning) {
       if (physics()->density() > 0.0)
-        warn(tr("Mass is invalid because 'boundingObject' is not defined. Using default mass properties: mass = 1, inertia "
-                "matrix = identity"));
+        parsingWarn(
+          tr("Mass is invalid because 'boundingObject' is not defined. Using default mass properties: mass = 1, inertia "
+             "matrix = identity"));
       else
-        warn(tr("Mass is invalid: %1. Using default mass properties: mass = 1, inertia matrix = identity").arg(mass));
+        parsingWarn(tr("Mass is invalid: %1. Using default mass properties: mass = 1, inertia matrix = identity").arg(mass));
     }
   }
 
@@ -2821,9 +2822,9 @@ void WbSolid::displayWarning() {
         inertialMatrixDiagonalMin < 1.0e-5 &&                         // light object : this theshold is empirical
         inertialMatrixDiagonalMax / inertialMatrixDiagonalMin > 15.0  // oblong object : this theshold is empirical
     )
-      warn(tr("Webots has detected that this solid is light and oblong according to its inertia matrix. "
-              "This belongs in the physics edge cases, and can imply weird physical results. "
-              "Increasing the weight of the object or reducing its eccentricity are recommended."));
+      parsingWarn(tr("Webots has detected that this solid is light and oblong according to its inertia matrix. "
+                     "This belongs in the physics edge cases, and can imply weird physical results. "
+                     "Increasing the weight of the object or reducing its eccentricity are recommended."));
   }
 }
 

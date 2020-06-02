@@ -11,7 +11,6 @@ PROTO TruckTank [
   Slot {
     type "truck trailer"
     endPoint Solid {
-      translation 0 0 1.35
       children [
         DEF REAR_LIGHTS LED {
           children [
@@ -38,6 +37,7 @@ PROTO TruckTank [
               endPoint Slot {
                 type "vehicle wheel"
                 endPoint TruckWheel {
+                  name "front right wheel"
                   physics Physics {
                     density -1
                     mass 100
@@ -61,6 +61,7 @@ PROTO TruckTank [
               endPoint Slot {
                 type "vehicle wheel"
                 endPoint TruckWheel {
+                  name "front left wheel"
                   physics Physics {
                     density -1
                     mass 100
@@ -84,6 +85,7 @@ PROTO TruckTank [
               endPoint Slot {
                 type "vehicle wheel"
                 endPoint TruckWheel {
+                  name "central right wheel"
                   physics Physics {
                     density -1
                     mass 100
@@ -107,6 +109,7 @@ PROTO TruckTank [
               endPoint Slot {
                 type "vehicle wheel"
                 endPoint TruckWheel {
+                  name "central left wheel"
                   physics Physics {
                     density -1
                     mass 100
@@ -130,6 +133,7 @@ PROTO TruckTank [
               endPoint Slot {
                 type "vehicle wheel"
                 endPoint TruckWheel {
+                  name "rear right wheel"
                   physics Physics {
                     density -1
                     mass 100
@@ -153,6 +157,7 @@ PROTO TruckTank [
               endPoint Slot {
                 type "vehicle wheel"
                 endPoint TruckWheel {
+                  name "rear left wheel"
                   physics Physics {
                     density -1
                     mass 100

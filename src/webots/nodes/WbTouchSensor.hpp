@@ -67,6 +67,7 @@ private:
   WbLookupTable *mLut;
   double mValues[3];                  // current sensor value according to lookup table
   mutable dJointFeedback *mFeedback;  // for measuring force feedback on the fixed joint
+  bool mNeedToReconfigure;
 
   // private functions
   WbTouchSensor &operator=(const WbTouchSensor &);  // non copyable
@@ -75,6 +76,7 @@ private:
   void computeValue();
   bool forceBehavior() const;
   void setODEDynamicFlag(WbBaseNode *_node);
+  void addConfigure(QDataStream &);
 
 private slots:
   void updateLookupTable();

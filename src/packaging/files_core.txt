@@ -115,6 +115,7 @@ lib/controller/matlab/*.m
 lib/webots/ [linux,mac]
 lib/webots/libassimp.so* [linux]
 lib/webots/libgd.3.dylib [mac]
+lib/webots/libIrrXML.dylib [mac]
 lib/webots/liblua.dylib [mac]
 lib/webots/libOIS-1.4.0.so [linux]
 lib/webots/libOIS.dylib [mac]
@@ -133,6 +134,7 @@ lib/webots/libQt5OpenGL.so* [linux]
 lib/webots/libQt5Positioning.so* [linux]
 lib/webots/libQt5PrintSupport.so* [linux]
 lib/webots/libQt5Qml.so* [linux]
+lib/webots/libQt5QmlModels.so* [linux]
 lib/webots/libQt5Quick.so* [linux]
 lib/webots/libQt5QuickWidgets.so* [linux]
 lib/webots/libQt5Sensors.so* [linux]
@@ -305,14 +307,14 @@ resources/translations/
 resources/translations/Makefile
 resources/translations/*.ts
 resources/translations/*.qm
-resources/translations/readme.txt
+resources/translations/README.md
 resources/web/
 resources/web/local/
 resources/web/local/webots.css
 resources/web/local/webots.js
 resources/web/local/qwebchannel.js [mac,linux]
 resources/web/server/
-resources/web/server/README.md
+resources/web/server/async_process.py
 resources/web/server/server.sh
 resources/web/server/session_server.py
 resources/web/server/simulation_server.py

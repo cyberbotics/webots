@@ -8,19 +8,29 @@
 PROTO Truck [
   field     SFVec3f    translation       0 0.5 0
   field     SFRotation rotation          0 1 0 0
-  field     SFColor    color             0.39 0 0
-  field     SFNode     trailer           TruckTrailer { }
-  field     SFString   name              "vehicle"
-  field     SFString   controller        "void"
-  field     SFString   controllerArgs    ""
-  field     SFBool     supervisor        FALSE
-  field     SFBool     synchronization   TRUE
-  field     MFNode     sensorsSlotFront  [ ]
-  field     MFNode     sensorsSlotRear   [ ]
-  field     MFNode     sensorsSlotTop    [ ]
-  field     MFNode     sensorsSlotCenter [ ]
+  field     SFColor    color             0.39 0 0          # Defines the main color of the truck.
+  field     SFNode     trailer           TruckTrailer { }  # Defines an optional trailer.
+  field     SFFloat    wheelbase         5.25              # Defines the distance between the front and rear wheels.
+  field     SFFloat    kingPinDistance   1.35              # Defines the distance (along the Z direction) between the rear wheel axis and the trailer rotation axis.
+  field     SFFloat    mass              8000              # Defines the mass of the truck (trailer not included).
+  field     SFString   name              "vehicle"         # Is `Solid.name`.
+  field     SFString   controller        "void"            # Is `Robot.controller`.
+  field     SFString   controllerArgs    ""                # Is `Robot.controllerArgs`.
+  field     SFBool     supervisor        FALSE             # Is `Robot.supervisor`.
+  field     SFBool     synchronization   TRUE              # Is `Robot.synchronization`.
+  field     MFNode     sensorsSlotFront  [ ]               # Extends the truck with new nodes in the front slot.
+  field     MFNode     sensorsSlotRear   [ ]               # Extends the truck with new nodes in the rear slot.
+  field     MFNode     sensorsSlotTop    [ ]               # Extends the truck with new nodes in the top slot.
+  field     MFNode     sensorsSlotCenter [ ]               # Extends the truck with new nodes in the center slot.
 ]
 {
+  %{
+    local wheelbase = fields.wheelbase.value
+    if wheelbase < 2.0 then
+      wheelbase = 2.0
+      io.stderr:write("'wheelbase' should not be smaller than 2.0.\n")
+    end
+  }%
   Car {
     translation IS translation
     rotation IS rotation
@@ -31,7 +41,7 @@ PROTO Truck [
     synchronization IS synchronization
     trackFront 2.2
     trackRear 2.2
-    wheelbase 5.25
+    wheelbase %{= wheelbase }%
     type "4x4"
     minSteeringAngle -0.4
     maxSteeringAngle 0.4
@@ -63,33 +73,43 @@ PROTO Truck [
         translation 0 2.7 -7.3
         children IS sensorsSlotRear
       }
-      DEF FRONT_LIGHTS LED {  # VehicleLights are not used because of the trailer rotation and name duplication.
+      Transform {
+        translation 0 0 %{= 0.998 * (wheelbase - 5.25) }%
         children [
-          TruckFrontLight {
+          DEF FRONT_LIGHTS LED {  # VehicleLights are not used because of the trailer rotation and name duplication.
+            children [
+              TruckFrontLight {
+              }
+            ]
+            name "front_lights"
+            color 0.8 0.8 0.8
           }
         ]
-        name "front_lights"
-        color 0.8 0.8 0.8
       }
-      DEF TRAILER_JOINT HingeJoint {
-        jointParameters HingeJointParameters {
-          axis 0 10 0
-          anchor 0 0 1.35
-          minStop -1.3
-          maxStop 1.3
-          dampingConstant 10000
-          staticFriction 1000
-          suspensionAxis 0 1 0
-          suspensionSpringConstant 1e+06
-          suspensionDampingConstant 10000
-        }
-        endPoint DEF TRAILER Slot {
-          type "truck trailer"
-          endPoint IS trailer
-        }
+      Transform {
+        translation 0 0 %{= fields.kingPinDistance.value }%
+        children [
+          DEF TRAILER_JOINT HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 10 0
+              minStop -1.3
+              maxStop 1.3
+              dampingConstant 10000
+              staticFriction 1000
+              suspensionAxis 0 1 0
+              suspensionSpringConstant 1e+06
+              suspensionDampingConstant 10000
+            }
+            endPoint DEF TRAILER Slot {
+              type "truck trailer"
+              endPoint IS trailer
+            }
+          }
+        ]
       }
       TruckCab {
         color IS color
+        sizeRatio %{= 1 + 0.239 * (wheelbase - 5.25) }%
       }
     ]
     radarCrossSection 200
@@ -99,7 +119,7 @@ PROTO Truck [
     boundingObject Group {
       children [
         Transform {
-          translation 0 2 5.4
+          translation 0 2 %{= wheelbase + 0.15 }%
           children [
             Box {
               size 2.8 4.1 3.2
@@ -107,10 +127,10 @@ PROTO Truck [
           ]
         }
         Transform {
-          translation 0 0.35 1.55
+          translation 0 0.35 %{= 0.5 * wheelbase - 1.075 }%
           children [
             Box {
-              size 2.8 0.8 4.5
+              size 2.8 0.8 %{= wheelbase - 0.75 }%
             }
           ]
         }
@@ -118,9 +138,9 @@ PROTO Truck [
     }
     physics Physics {
       density -1
-      mass 8000
+      mass IS mass
       centerOfMass [
-        0 0.1 4.5
+        0 0.1 %{= wheelbase - 0.75 }%
       ]
     }
     wheelFrontLeft TruckWheel {

@@ -32,6 +32,7 @@ class WbOdeDebugger;
 class WbRecentFilesList;
 class WbRobot;
 class WbSimulationView;
+class WbStreamingServer;
 
 class QMenu;
 class QMenuBar;
@@ -47,7 +48,7 @@ class WbMainWindow : public QMainWindow {
   Q_PROPERTY(QString toolBarAlign MEMBER mToolBarAlign READ toolBarAlign WRITE setToolBarAlign)
 
 public:
-  explicit WbMainWindow(bool minimizedOnStart, QWidget *parent = NULL);
+  explicit WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingServer, QWidget *parent = NULL);
   virtual ~WbMainWindow();
 
   void lockFullScreen(bool isLocked);
@@ -145,7 +146,7 @@ private:
   void showOnlineBook(const QString &);
   void showHtmlRobotWindow(WbRobot *);
   int mExitStatus;
-  WbConsole *mConsole;
+  QList<WbConsole *> mConsoles;
   WbDocumentation *mDocumentation;
   WbBuildEditor *mTextEditor;
   WbSimulationView *mSimulationView;
@@ -200,6 +201,8 @@ private:
   // QSS properties
   QString mEnabledIconPath, mDisabledIconPath, mCoreIconPath, mToolBarAlign;
 
+  WbStreamingServer *mStreamingServer;
+
 private slots:
   void updateProjectPath(const QString &oldPath, const QString &newPath);
   void simulationQuit(int exitStatus);
@@ -213,6 +216,9 @@ private slots:
 
   void toggleFullScreen(bool enabled);
   void exitFullScreen();
+
+  void openNewConsole(const QString &name = QString("Console"));
+  void handleConsoleClosure();
 
   void openUrl(const QString &fileName, const QString &message, const QString &title);
 

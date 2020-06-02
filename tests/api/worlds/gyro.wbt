@@ -27,6 +27,10 @@ Robot {
       endPoint Solid {
         children [
           Gyro {
+            lookupTable [
+              -1000 -1000 0
+              1000 1000 0
+            ]
           }
         ]
         physics Physics {

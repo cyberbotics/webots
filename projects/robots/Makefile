@@ -25,6 +25,7 @@ CONTROLLERS=\
   softbank/nao/controllers.Makefile \
   bluebotics/shrimp/controllers.Makefile \
   boston_dynamics/atlas/controllers.Makefile \
+  boston_dynamics/spot/controllers.Makefile \
   clearpath/moose/controllers.Makefile \
   clearpath/pr2/controllers.Makefile \
   dji/mavic/controllers.Makefile \

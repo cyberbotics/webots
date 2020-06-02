@@ -156,6 +156,7 @@ button::-moz-focus-inner {
   border: 2px solid #ddd;
   border-radius: 20px;
   padding: 10px;
+  box-sizing: content-box;
 }
 
 .webotsView {
@@ -207,6 +208,7 @@ button::-moz-focus-inner {
   color: #ccc;
   font-size: 14px;
   font-family: monospace;
+  line-height: normal;
 }
 
 .webotsTabContainer {
@@ -330,4 +332,18 @@ button::-moz-focus-inner {
 .webotsLabel {
   position: absolute;
   white-space: pre;
+}
+
+#remoteScene {
+  background: white;
+  width: 100%;
+  height: calc(100% - 48px);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  /* get rid of whitespace after #remoteScene image */
+  display: block;
+  float: left;
 }

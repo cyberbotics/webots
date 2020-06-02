@@ -34,6 +34,7 @@ fileDirectory = os.path.dirname(os.path.abspath(__file__))
 paths = [
     os.path.join(fileDirectory, 'automobile', 'images'),
     os.path.join(fileDirectory, 'blog', 'images'),
+    os.path.join(fileDirectory, 'discord', 'images'),
     os.path.join(fileDirectory, 'guide', 'images'),
     os.path.join(fileDirectory, 'reference', 'images')
 ]

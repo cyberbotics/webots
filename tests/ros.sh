@@ -2,6 +2,7 @@
 
 echo @@@ Compile ros webots_ros package
 source /opt/ros/$ROS_DISTRO/setup.bash
+[ -d $WEBOTS_HOME/webots_catkin_ws ] && rm -r $WEBOTS_HOME/webots_catkin_ws
 mkdir -p $WEBOTS_HOME/webots_catkin_ws/src
 cd $WEBOTS_HOME/webots_catkin_ws/src
 catkin_init_workspace 2>&1 >> /dev/null
@@ -59,3 +60,6 @@ if $missing_service_file ; then
 else
   echo "OK: all service files found"
 fi
+
+# clean up
+[ -d $WEBOTS_HOME/webots_catkin_ws ] && rm -r $WEBOTS_HOME/webots_catkin_ws

@@ -5,6 +5,7 @@
 
 [Webots Guided Tour]
 
+projects/robots/boston_dynamics/spot/worlds/spot.wbt 20
 projects/robots/dji/mavic/worlds/mavic_2_pro.wbt 20
 projects/robots/robotis/darwin-op/worlds/robotis_op3.wbt 22
 projects/robots/universal_robots/worlds/ure.wbt 20
@@ -17,7 +18,6 @@ projects/robots/kuka/youbot/worlds/youbot.wbt 30
 projects/robots/nasa/worlds/sojourner.wbt 45
 projects/robots/clearpath/pr2/worlds/pr2.wbt 38
 projects/robots/irobot/create/worlds/create.wbt 30
-projects/robots/robotis/bioloid/worlds/bioloid_dog.wbt 12
 projects/robots/adept/pioneer3/worlds/pioneer3at.wbt 14
 projects/robots/robotis/darwin-op/worlds/soccer.wbt 12
 projects/robots/softbank/nao/worlds/nao_demo.wbt 20

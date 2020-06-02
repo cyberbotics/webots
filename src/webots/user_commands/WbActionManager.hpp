@@ -101,6 +101,7 @@ public:
     PRINT_PREVIEW,
     // console actions
     CLEAR_CONSOLE,
+    NEW_CONSOLE,
     // viewpoint actions
     FOLLOW_NONE,
     FOLLOW_TRACKING,

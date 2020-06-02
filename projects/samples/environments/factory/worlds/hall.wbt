@@ -448,18 +448,7 @@ DEF PLATFORM Transform {
           rotation -0.5773502747262953 -0.57735027749463 0.5773502553479516 2.094395119003205
           children [
             DEF SHAPE Shape {
-              appearance PBRAppearance {
-                baseColorMap ImageTexture {
-                  url [
-                    "textures/metal_grid_base_color.png"
-                  ]
-                }
-                roughness 0.3
-                normalMap ImageTexture {
-                  url [
-                    "textures/metal_grid_normal.png"
-                  ]
-                }
+              appearance PerforatedMetal {
                 textureTransform TextureTransform {
                   scale 3 3
                 }

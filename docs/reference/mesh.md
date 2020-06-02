@@ -13,7 +13,7 @@ The [Mesh](#mesh) node can be used either as a graphical or as a collision detec
 Currently, the following formats are supported:
   - [3D Studio mesh](https://wiki.fileformat.com/3d/3ds) files (.3ds).
   - [Blender](https://www.blender.org/) files (.blend).
-  - [Biovision Hierarchy](https://en.wikipedia.org/wiki/Biovision_Hierarchy) files (.bhv).
+  - [Biovision Hierarchy](https://en.wikipedia.org/wiki/Biovision_Hierarchy) files (.bvh).
   - [Collada](https://en.wikipedia.org/wiki/COLLADA) files (.dae).
   - [Filmbox](https://en.wikipedia.org/wiki/FBX) files (.fbx).
   - [STL](https://en.wikipedia.org/wiki/STL_(file_format)) files (.stl).

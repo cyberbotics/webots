@@ -125,6 +125,8 @@ void WbLightSensor::init() {
   mMaterial = NULL;
   mRenderable = NULL;
   mMesh = NULL;
+
+  mNeedToReconfigure = false;
 }
 
 WbLightSensor::WbLightSensor(WbTokenizer *tokenizer) : WbSolidDevice("LightSensor", tokenizer) {
@@ -185,14 +187,31 @@ void WbLightSensor::handleMessage(QDataStream &stream) {
 void WbLightSensor::writeAnswer(QDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << tag();
+    stream << (unsigned char)C_LIGHT_SENSOR_DATA;
     stream << mValue;
 
     mSensor->resetPendingValue();
   }
+
+  if (mNeedToReconfigure)
+    addConfigure(stream);
 }
 
-void WbLightSensor::writeConfigure(QDataStream &) {
+void WbLightSensor::addConfigure(QDataStream &stream) {
+  stream << (short unsigned int)tag();
+  stream << (unsigned char)C_CONFIGURE;
+  stream << (int)mLookupTable->size();
+  for (int i = 0; i < mLookupTable->size(); i++) {
+    stream << (double)mLookupTable->item(i).x();
+    stream << (double)mLookupTable->item(i).y();
+    stream << (double)mLookupTable->item(i).z();
+  }
+  mNeedToReconfigure = false;
+}
+
+void WbLightSensor::writeConfigure(QDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
+  addConfigure(stream);
 }
 
 void WbLightSensor::updateLookupTable() {
@@ -200,6 +219,8 @@ void WbLightSensor::updateLookupTable() {
   delete mLut;
   mLut = new WbLookupTable(*mLookupTable);
   mValue = mLut->minValue();
+
+  mNeedToReconfigure = true;
 }
 
 void WbLightSensor::updateResolution() {

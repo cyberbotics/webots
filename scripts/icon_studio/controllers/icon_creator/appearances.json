@@ -172,6 +172,11 @@
       "type \"tiles\" textureTransform TextureTransform { scale 2 1 }"
     ]
   },
+  "PerforatedMetal": {
+    "fields": [
+      "textureTransform TextureTransform { scale 3 1.5 }"
+    ]
+  },
   "Pcb": {
     "fields": [
       "textureTransform TextureTransform { scale 3.2 1.4 }"
@@ -180,6 +185,12 @@
   "Plaster": {
     "fields": [
       "textureTransform TextureTransform { scale 2 1 }"
+    ]
+  },
+  "Plastic": {
+    "fields": [
+      "colorOverride 0.180392 0.203922 0.211765 type \"rough\" textureTransform TextureTransform { scale 1 0.5 }",
+      "type \"padded\" textureTransform TextureTransform { scale 5 3 }"
     ]
   },
   "PorcelainChevronTiles": {

@@ -31,11 +31,11 @@ JS_SOURCES = \
   viewpoint.js \
   selector.js \
   mouse_events.js \
+  multimedia_client.js \
   texture_loader.js \
   default_url.js \
   server.js \
   stream.js \
-  video.js \
   x3d.js \
   x3d_scene.js \
   animation.js \
@@ -107,7 +107,7 @@ webots.debug.js: $(JS_SOURCES) $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(THREEJS_SOURCE
 
 # JS module intended to be included in another module.
 # webots.lib.js is not processed with babel or minify and does not include three.js.
-webots.lib.js:
+webots.lib.js: $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(JS_SOURCES) $(INSTALL_TOKEN)
 	@echo "# compressing webots.lib.js"
 	@cat $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(JS_SOURCES) > $@
 

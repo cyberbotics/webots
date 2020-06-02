@@ -25,6 +25,8 @@ Robot {
       }
     }
     TouchSensor {
+      lookupTable [
+      ]
       rotation 1 0 0 1.5708
       children [
         DEF SENSOR_SHAPE Shape {
@@ -39,7 +41,6 @@ Robot {
         mass 100
       }
       type "force"
-      lookupTable []
     }
     TestSuiteEmitter {
     }

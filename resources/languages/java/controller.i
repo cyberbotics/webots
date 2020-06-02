@@ -67,6 +67,8 @@ using namespace std;
 //for the conversion between array and pointer
 %include "arrays_java.i"
 
+%javamethodmodifiers getLookupTableSize "private"
+
 // general typemap for determining the size of output double array
 %typemap(out) double [] {
   const string test("$name");
@@ -78,10 +80,14 @@ using namespace std;
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 6);
   else if (test == "getOrientation" || test == "virtualRealityHeadsetGetOrientation")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 9);
-  else
+  else if (test != "getLookupTable")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 3);
 }
 %apply double[] {double *};
+
+%typemap(out) const double *getLookupTable {
+  $result = SWIG_JavaArrayOutDouble(jenv, (double *) $1, arg1->getLookupTableSize()*3);
+}
 
 // for loading the shared library
 %pragma(java) jniclasscode=%{

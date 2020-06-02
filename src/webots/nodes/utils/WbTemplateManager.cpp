@@ -263,7 +263,7 @@ void WbTemplateManager::regenerateNode(WbNode *node) {
                                                                   WbWorld::instance()->fileName(), true, uniqueId);
 
   if (!newNode) {
-    WbLog::error(tr("Template regeneration failed. The node cannot be generated."));
+    WbLog::error(tr("Template regeneration failed. The node cannot be generated."), false, WbLog::PARSING);
     delete newNode;
     if (isWorldInitialized)
       emit abortNodeRegeneration();
@@ -363,7 +363,7 @@ void WbTemplateManager::regenerateNode(WbNode *node) {
     else if (parentJoint && newSlot)
       parentJoint->setSolidEndPoint(newSlot);
     else {
-      WbLog::error(tr("Template regeneration failed. Unsupported node type."));
+      WbLog::error(tr("Template regeneration failed. Unsupported node type."), false, WbLog::PARSING);
       delete newNode;
       emit abortNodeRegeneration();
       return;

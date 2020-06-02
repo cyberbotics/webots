@@ -402,8 +402,8 @@ WbMotionRef wbu_motion_new(const char *filename) {
   if (!motion_check_file(file, filename, &n_joints, &n_poses))
     return NULL;
 
-  if (!file) {
-    fprintf(stderr, "Error: %s(): file '%s' needs to contains at least one joint and one pose.\n", __FUNCTION__, filename);
+  if (n_joints == 0 || n_poses == 0) {
+    fprintf(stderr, "Error: %s(): file '%s' must contain at least one joint and one pose.\n", __FUNCTION__, filename);
     return NULL;
   }
 

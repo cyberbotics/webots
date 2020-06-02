@@ -97,7 +97,7 @@ QWizardPage *WbImportWizard::createIntroPage() {
   QLabel *label =
     new QLabel(tr("This wizard will help you importing a 3D model in Webots.\n\nThe following file formats are supported:"
                   "\n\t- 3D Studio mesh (*.3ds)"
-                  "\n\t- Biovision Hierarchy (*.bhv)"
+                  "\n\t- Biovision Hierarchy (*.bvh)"
                   "\n\t- Blender (*.blend)"
                   "\n\t- Collada (*.dae)"
                   "\n\t- Filmbox (*.fbx)"
@@ -115,10 +115,10 @@ QWizardPage *WbImportWizard::createIntroPage() {
 
 void WbImportWizard::chooseFile() {
   const QString fileName = QFileDialog::getOpenFileName(this, tr("Choose a File"), mFileEdit->text(),
-                                                        tr("3D Files (*.3ds *.3DS *.bhv *.BVH *.blend *.BLEND *.dae *.DAE "
+                                                        tr("3D Files (*.3ds *.3DS *.bvh *.BVH *.blend *.BLEND *.dae *.DAE "
                                                            "*.fbx *.FBX *.stl *.STL *.wrl *.WRL *.obj *.OBJ *.x3d *.X3D);;"
                                                            "3D Studio mesh (*.3ds *.3DS);;"
-                                                           "Biovision Hierarchy (*.bhv *.BVH);;"
+                                                           "Biovision Hierarchy (*.bvh *.BVH);;"
                                                            "Blender (*.blend *.BLEND);;"
                                                            "Collada (*.dae *.DAE);;"
                                                            "Filmbox (*.fbx *.FBX);;"

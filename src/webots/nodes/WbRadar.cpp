@@ -169,13 +169,13 @@ void WbRadar::updateMinRange() {
   if (mMaxRange->value() <= mMinRange->value()) {
     if (mMaxRange->value() == 0.0) {
       double newMaxRange = mMinRange->value() + 1.0;
-      warn(tr("'minRange' is greater or equal to 'maxRange'. Setting 'maxRange' to %1.").arg(newMaxRange));
+      parsingWarn(tr("'minRange' is greater or equal to 'maxRange'. Setting 'maxRange' to %1.").arg(newMaxRange));
       mMaxRange->setValueNoSignal(newMaxRange);
     } else {
       double newMinRange = mMaxRange->value() - 1.0;
       if (newMinRange < 0.0)
         newMinRange = 0.0;
-      warn(tr("'minRange' is greater or equal to 'maxRange'. Setting 'minRange' to %1.").arg(newMinRange));
+      parsingWarn(tr("'minRange' is greater or equal to 'maxRange'. Setting 'minRange' to %1.").arg(newMinRange));
       mMinRange->setValueNoSignal(newMinRange);
     }
     return;
@@ -189,7 +189,7 @@ void WbRadar::updateMaxRange() {
 
   if (mMaxRange->value() <= mMinRange->value()) {
     double newMaxRange = mMinRange->value() + 1.0;
-    warn(tr("'maxRange' is less or equal to 'minRange'. Setting 'maxRange' to %1.").arg(newMaxRange));
+    parsingWarn(tr("'maxRange' is less or equal to 'minRange'. Setting 'maxRange' to %1.").arg(newMaxRange));
     mMaxRange->setValueNoSignal(newMaxRange);
     return;
   }
@@ -220,7 +220,7 @@ void WbRadar::updateMinAndMaxRadialSpeed() {
 
   if (mMaxRadialSpeed->value() <= mMinRadialSpeed->value()) {
     double newMaxRadialSpeed = mMinRadialSpeed->value() + 1.0;
-    warn(
+    parsingWarn(
       tr("'maxRadialSpeed' is less than or equal to 'minRadialSpeed'. Setting 'maxRadialSpeed' to %1.").arg(newMaxRadialSpeed));
     mMaxRadialSpeed->setValueNoSignal(newMaxRadialSpeed);
     return;

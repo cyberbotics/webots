@@ -66,6 +66,7 @@ private:
   void postProcessLightMeasurement();
   void applyOptionalRenderingToWren();
   void updateRaysSetupIfNeeded() override;
+  void addConfigure(QDataStream &);
 
   // user accessible fields
   WbMFVector3 *mLookupTable;
@@ -86,6 +87,7 @@ private:
   WbRgb *mRgbIntensity;
   double mValue;  // current sensor value according to lookup table
   bool mSensorUpdateRequested;
+  bool mNeedToReconfigure;
 
 private slots:
   void updateLineScale() override;

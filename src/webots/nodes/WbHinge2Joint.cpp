@@ -114,7 +114,7 @@ bool WbHinge2Joint::setJoint() {
   if (body && parentBody)
     setOdeJoint(body, parentBody);
   else {
-    warn(tr("Hinge2Joint nodes can only connect Solid nodes that have a Physics node."));
+    parsingWarn(tr("Hinge2Joint nodes can only connect Solid nodes that have a Physics node."));
     return false;
   }
 
@@ -214,7 +214,7 @@ void WbHinge2Joint::applyToOdeAxis() {
         dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a2.x(), a2.y(), a2.z());
     }
   } else {
-    warn(tr("Hinge axes are aligned: using x and z axes instead."));
+    parsingWarn(tr("Hinge axes are aligned: using x and z axes instead."));
     dJointSetHinge2Axis1(mJoint, 1.0, 0.0, 0.0);
     dJointSetHinge2Axis2(mJoint, 0.0, 0.0, 1.0);
     if (mSpringAndDamperMotor) {
@@ -579,10 +579,10 @@ void WbHinge2Joint::updateMinAndMaxStop(double min, double max) {
     const double maxPos = rm->maxPosition();
     if (min != max && minPos != maxPos) {
       if (minPos < min)
-        p->warn(tr("HingeJoint 'minStop' must be less or equal to RotationalMotor 'minPosition'."));
+        p->parsingWarn(tr("HingeJoint 'minStop' must be less or equal to RotationalMotor 'minPosition'."));
 
       if (maxPos > max)
-        p->warn(tr("HingeJoint 'maxStop' must be greater or equal to RotationalMotor 'maxPosition'."));
+        p->parsingWarn(tr("HingeJoint 'maxStop' must be greater or equal to RotationalMotor 'maxPosition'."));
     }
   }
 

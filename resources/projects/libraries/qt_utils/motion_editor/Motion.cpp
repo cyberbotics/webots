@@ -190,7 +190,11 @@ void Motion::parse() {
 
   // parse header
   const QString &firstLine = in.readLine();
+#ifdef _WIN32  // uses Qt 5.15
+  QStringList firstLineTokens = firstLine.split(',', Qt::SkipEmptyParts);
+#else
   QStringList firstLineTokens = firstLine.split(',', QString::SkipEmptyParts);
+#endif
 
   if (firstLineTokens.size() < 2)
     throw tr("Invalid header: not enough tokens");
@@ -229,7 +233,11 @@ void Motion::parse() {
     if (line.isEmpty())
       continue;  // support empty lines
 
+#ifdef _WIN32  // uses Qt 5.15
+    QStringList lineTokens = line.split(',', Qt::SkipEmptyParts);
+#else
     QStringList lineTokens = line.split(',', QString::SkipEmptyParts);
+#endif
 
     if (lineTokens.size() != usedMotorNamesList.size() + 2)
       throw tr("Cannot parse line: %1").arg(lineCounter);
@@ -307,12 +315,8 @@ void Motion::newPoseAt(int index) {
     }
 
     if (!hasFixedStep()) {
-      Pose *previousPose = NULL, *nextPose = NULL;
-      if (index > 0)
-        previousPose = mPoses.at(index - 1);
-      if (index < mPoses.count())
-        nextPose = mPoses.at(index);
-
+      const Pose *previousPose = index > 0 ? mPoses.at(index - 1) : NULL;
+      const Pose *nextPose = index < mPoses.count() ? mPoses.at(index) : NULL;
       if (previousPose && nextPose)
         pose->setTime(0.5 * (previousPose->time() + nextPose->time()));
       else if (previousPose)

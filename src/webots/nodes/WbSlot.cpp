@@ -91,7 +91,7 @@ void WbSlot::updateType() {
 
   QString errorMessage;
   if (!WbNodeUtilities::isSlotTypeMatch(slotType(), connectedType, errorMessage))
-    warn(tr("Invalid 'type' changed to '%1': %2").arg(slotType()).arg(errorMessage));
+    parsingWarn(tr("Invalid 'type' changed to '%1': %2").arg(slotType()).arg(errorMessage));
 }
 
 WbSolid *WbSlot::solidEndPoint() const {

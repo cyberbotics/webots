@@ -32,6 +32,9 @@ void wb_accelerometer_enable(WbDeviceTag tag, int sampling_period);
 void wb_accelerometer_disable(WbDeviceTag tag);
 int wb_accelerometer_get_sampling_period(WbDeviceTag tag);
 
+int wb_accelerometer_get_lookup_table_size(WbDeviceTag tag);
+const double *wb_accelerometer_get_lookup_table(WbDeviceTag tag);
+
 // return a pointer to an array of 3 double for X, Y and Z accelerations
 const double *wb_accelerometer_get_values(WbDeviceTag tag);
 

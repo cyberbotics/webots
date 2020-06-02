@@ -33,3 +33,11 @@ int Gyro::getSamplingPeriod() const {
 const double *Gyro::getValues() const {
   return wb_gyro_get_values(getTag());
 }
+
+int Gyro::getLookupTableSize() const {
+  return wb_gyro_get_lookup_table_size(getTag());
+}
+
+const double *Gyro::getLookupTable() const {
+  return wb_gyro_get_lookup_table(getTag());
+}

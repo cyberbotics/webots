@@ -5,7 +5,7 @@
 E-puck is a miniature mobile robot originally developed at EPFL for teaching purposes by the designers of the successful Khepera robot.
 The hardware and software of e-puck is fully open source, providing low level access to every electronic device and offering unlimited extension possibilities.
 
-The model includes support for the differential wheel motors (encoders are also simulated, as position sensors), the infra-red sensors for proximity and light measurements, the [Accelerometer](../reference/accelerometer.md), the [Camera](../reference/camera.md), the 8 surrounding [LEDs](../reference/led.md), the body and front [LEDs](../reference/led.md), bluetooth communication (modeled using [Emitter](../reference/emitter.md) / [Receiver](../reference/receiver.md) devices) and ground sensors extension.
+The model includes support for the differential wheel motors (encoders are also simulated, as position sensors), the infra-red sensors for proximity and light measurements, the [Accelerometer](../reference/accelerometer.md), the [Gyro](../reference/gyro.md), the [Camera](../reference/camera.md), the 8 surrounding [LEDs](../reference/led.md), the body and front [LEDs](../reference/led.md), bluetooth communication (modeled using [Emitter](../reference/emitter.md) / [Receiver](../reference/receiver.md) devices) and ground sensors extension.
 The other e-puck devices are not yet simulated in the current model.
 
 The official [e-puck website](http://www.e-puck.org) provides the most up-to-date information about this robot.
@@ -44,6 +44,7 @@ E-puck is equipped with a large number of devices, as summarized in [this table]
 | Camera         | color camera with a maximum resolution of 640x480 (typical use: 52x39 or 640x1)                                                  |
 | Microphones    | 3 omni-directional microphones for sound localization                                                                            |
 | Accelerometer  | 3D accelerometer along the X, Y and Z axis                                                                                       |
+| Gyroscope      | 3D gyroscope along the X, Y and Z axis                                                                                           |
 | LEDs           | 8 red LEDs on the ring and one green LED on the body                                                                             |
 | Speaker        | on-board speaker capable of playing WAV or tone sounds                                                                           |
 | Switch         | 16 position rotating switch                                                                                                      |
@@ -51,8 +52,8 @@ E-puck is equipped with a large number of devices, as summarized in [this table]
 | Remote Control | infra-red LED for receiving standard remote control commands                                                                     |
 | Expansion bus  | expansion bus to add new possibilities to your robot                                                                             |
 | Programming    | C programming with the GNU GCC compiler system                                                                                   |
-| Simulation     | Webots facilitates the programming of e-puck with a powerful simulation, remote control and cross-compilation system  |
-
+| Simulation     | Webots facilitates the programming of e-puck with a powerful simulation, remote control and cross-compilation system             |
+ 
 %end
 
 ### E-puck Model
@@ -87,6 +88,7 @@ The names of the simulated devices which are to be used as an argument of the `w
 | LEDs                       | 'led0' to 'led7' (e-puck ring), 'led8' (body) and 'led9' (front) |
 | Camera                     | 'camera'                                                         |
 | Accelerometer              | 'accelerometer'                                                  |
+| Gyro                       | 'gyro'                                                           |
 | Ground sensors (extension) | 'gs0', 'gs1' and 'gs2'                                           |
 | Speaker                    | 'speaker'                                                        |
 
@@ -168,28 +170,30 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 E-puck {
-  SFVec3f    translation         0 0 0
-  SFRotation rotation            0 1 0 0
-  SFString   name                "e-puck"
-  SFString   controller          "e-puck_avoid_obstacles"
-  SFString   controllerArgs      ""
-  SFString   customData          ""
-  SFBool     supervisor          FALSE
-  SFBool     synchronization     TRUE
-  SFString   version             "1"
-  SFFloat    camera_fieldOfView  0.84
-  SFInt32    camera_width        52
-  SFInt32    camera_height       39
-  SFBool     camera_antiAliasing FALSE
-  SFRotation camera_rotation     1 0 0 0
-  SFFloat    camera_noise        0.0
-  SFInt32    emitter_channel     1
-  SFInt32    receiver_channel    1
-  MFFloat    battery             []
-  SFString   window              "e-puck"
-  MFNode     turretSlot          []
-  MFNode     groundSensorsSlot   []
-  SFBool     kinematic           FALSE
+  SFVec3f    translation                  0 0 0
+  SFRotation rotation                     0 1 0 0
+  SFString   name                         "e-puck"
+  SFString   controller                   "e-puck_avoid_obstacles"
+  SFString   controllerArgs               ""
+  SFString   customData                   ""
+  SFBool     supervisor                   FALSE
+  SFBool     synchronization              TRUE
+  SFString   version                      "1"
+  SFFloat    camera_fieldOfView           0.84
+  SFInt32    camera_width                 52
+  SFInt32    camera_height                39
+  SFBool     camera_antiAliasing          FALSE
+  SFRotation camera_rotation              1 0 0 0
+  SFFloat    camera_noise                 0.0
+  SFFloat    camera_motionBlur            0.0
+  SFInt32    distance_sensor_numberOfRays 1 
+  SFInt32    emitter_channel              1
+  SFInt32    receiver_channel             1
+  MFFloat    battery                      []
+  SFString   window                       "e-puck"
+  MFNode     turretSlot                   []
+  MFNode     groundSensorsSlot            []
+  SFBool     kinematic                    FALSE
 }
 ```
 
@@ -210,6 +214,10 @@ E-puck {
 - `camera_rotation`: Defines the `rotation` field of the [Camera](../reference/camera.md).
 
 - `camera_noise`: Defines the `noise` field of the [Camera](../reference/camera.md).
+
+- `camera_motionBlur`: Defines the `motionBlur` field of the [Camera](../reference/camera.md).
+
+- `distance_sensor_numberOfRays`: Defines the `numberOfRays` field of the [DistanceSensor](../reference/distancesensor.md).
 
 - `emitter_channel`: Defines the `channel` field of the [Emitter](../reference/emitter.md).
 
@@ -238,7 +246,7 @@ It includes the visualization of the sensors of the robot.
 The proximity measurements are displayed in black, outside the body of the robot.
 The light measurements are displayed in blue, below the proximity measurements.
 The motor speeds are displayed in red, and the motor positions are displayed in green.
-The camera image is displayed at the top of the window and the XYZ accelerometer values are displayed on the robot.
+The camera image is displayed at the top of the window and the XYZ accelerometer and gyroscope values are displayed on the robot.
 If the e-puck robot is equipped with the ground sensors extension modeled in `E-puckGroundSensors`, then the ground sensors measurements are represented by the three grayscale boxes.
 
 In addition to displaying the sensor information, the e-puck robot window also has a number of buttons.

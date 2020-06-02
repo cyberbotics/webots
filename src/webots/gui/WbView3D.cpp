@@ -122,7 +122,9 @@ WbView3D::WbView3D() :
   mPickedMatter(NULL),
   mWheel(NULL),
   mMouseEventInitialized(false),
-  mLastButtonState(Qt::NoButton) {
+  mLastButtonState(Qt::NoButton),
+  mIsRemoteMouseEvent(false),
+  mRemoteContextMenuMatter(NULL) {
   QDir::addSearchPath("gl", WbStandardPaths::resourcesPath() + "wren");
 
   mLastRefreshTimer.start();
@@ -1414,7 +1416,9 @@ void WbView3D::renderNow(bool culling) {
   }
 }
 
-void WbView3D::remoteMouseEvent(QMouseEvent *event) {
+const WbMatter *WbView3D::remoteMouseEvent(QMouseEvent *event) {
+  mRemoteContextMenuMatter = NULL;
+  mIsRemoteMouseEvent = true;
   switch (event->type()) {
     case QEvent::MouseButtonPress:
       mousePressEvent(event);
@@ -1428,6 +1432,8 @@ void WbView3D::remoteMouseEvent(QMouseEvent *event) {
     default:
       break;
   }
+  mIsRemoteMouseEvent = false;
+  return mRemoteContextMenuMatter;
 }
 
 void WbView3D::remoteWheelEvent(QWheelEvent *event) {
@@ -1446,8 +1452,12 @@ void WbView3D::selectNode(const QMouseEvent *event) {
   WbSelection *const selection = WbSelection::instance();
   if (!mPickedMatter) {
     selection->selectTransformFromView3D(NULL);  // sending NULL allows to unselect
-    if (isContextMenuShortcut(event) && event->type() == QEvent::MouseButtonRelease)
-      emit contextMenuRequested(event->globalPos());
+    if (isContextMenuShortcut(event) && event->type() == QEvent::MouseButtonRelease) {
+      if (mIsRemoteMouseEvent)
+        mRemoteContextMenuMatter = mPickedMatter;
+      else
+        emit contextMenuRequested(event->globalPos());
+    }
     return;
   }
 
@@ -1479,13 +1489,17 @@ void WbView3D::selectNode(const QMouseEvent *event) {
       selectedMatter = topMatter;
   }
 
-  selection->selectTransformFromView3D(selectedMatter);
+  selection->selectTransformFromView3D(selectedMatter, mIsRemoteMouseEvent);
 
   if (WbSysInfo::environmentVariable("WEBOTS_DEBUG").isEmpty())
     WbVisualBoundingSphere::instance()->show(selectedMatter);
 
-  if (isContextMenuShortcut(event) && event->type() == QEvent::MouseButtonRelease)
-    emit contextMenuRequested(event->globalPos());
+  if (isContextMenuShortcut(event) && event->type() == QEvent::MouseButtonRelease) {
+    if (mIsRemoteMouseEvent)
+      mRemoteContextMenuMatter = selectedMatter;
+    else
+      emit contextMenuRequested(event->globalPos());
+  }
 }
 
 void WbView3D::mousePressEvent(QMouseEvent *event) {
@@ -1877,7 +1891,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
   // - LEFT CLICK  -> move the selected solid along horizontal plane
   // - RIGHT CLICK -> rotate the selected solid around world vertical axis
   // - MID CLICK   -> lift the selected solid
-  if (shift) {
+  if (shift && !mIsRemoteMouseEvent) {
     selectNode(event);
     const WbSelection *const selection = WbSelection::instance();
     if (!selection->isObjectMotionAllowed())
@@ -1903,7 +1917,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
       else
         mDragVerticalAxisRotate = new WbDragRotateAroundWorldVerticalAxisEvent(position, viewpoint, uppermostTransform);
     }
-  } else if (alt) {  // Case 2: ALT and CLICK -> add a force / torque to the selected solid
+  } else if (alt && !mIsRemoteMouseEvent) {  // Case 2: ALT and CLICK -> add a force / torque to the selected solid
     WbSolid *const selectedSolid = dynamic_cast<WbSolid *>(mPickedMatter);
     if (!selectedSolid || selectedSolid->bodyMerger() == NULL)
       return;
@@ -2188,14 +2202,14 @@ void WbView3D::wheelEvent(QWheelEvent *event) {
 
 #ifndef __APPLE__  // bug in qt on Mac: -> QWheelEvent->orientation() is wrong when SHIFT + MOUSE_WHEEL_VERTICAL_SCROLL
   // Some mouse wheels can be scrolled horizontally
-  if (event->orientation() != Qt::Vertical)
+  if (event->angleDelta().x() != 0)
     return;
 #endif
 
   WbViewpoint *const viewpoint = mWorld->viewpoint();
   if (event->modifiers() & Qt::ShiftModifier) {
     if (mWheel) {
-      mWheel->apply(event->delta());
+      mWheel->apply(event->angleDelta().y());
       renderLater();
       return;
     }
@@ -2205,12 +2219,12 @@ void WbView3D::wheelEvent(QWheelEvent *event) {
     if (!uppermostSolid || uppermostSolid->isLocked())
       return;
     mWheel = new WbWheelLiftSolidEvent(viewpoint, uppermostSolid);
-    mWheel->apply(event->delta());
+    mWheel->apply(event->angleDelta().y());
     renderLater();
   } else if (!mViewpointLocked) {
     // WHEEL MOUSE only -> zoom
     if (mProjectionMode == WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC) {
-      if (event->delta() > 0)
+      if (event->angleDelta().y() > 0)
         viewpoint->decOrthographicViewHeight();
       else
         viewpoint->incOrthographicViewHeight();
@@ -2229,7 +2243,7 @@ void WbView3D::wheelEvent(QWheelEvent *event) {
         distanceToPickPosition = 0.001;
     }
 
-    const double scaleFactor = -0.02 * (event->delta() < 0.0 ? -1 : 1) * distanceToPickPosition;
+    const double scaleFactor = -0.02 * (event->angleDelta().y() < 0.0 ? -1 : 1) * distanceToPickPosition;
     const WbVector3 zDisplacement(scaleFactor * viewpoint->orientation()->value().direction());
     WbSFVector3 *const position = viewpoint->position();
     position->setValue(position->value() + zDisplacement);
