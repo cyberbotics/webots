@@ -894,7 +894,9 @@ QStringList WbController::argsList() const {
     if (args[i] == '"')
       quote = !quote;
     if (args[i] == ' ' && !quote) {
-      list << args.mid(previous, i - previous - 1).replace("\"", "");
+      const QString argument = args.mid(previous, i - previous).replace("\"", "").trimmed();
+      if (!argument.isEmpty())
+        list << args.mid(previous, i - previous).replace("\"", "");
       previous = i + 1;
     }
   }
