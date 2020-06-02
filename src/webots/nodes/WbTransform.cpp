@@ -407,14 +407,14 @@ QStringList WbTransform::fieldsToSynchronizeWithX3D() const {
 }
 
 WbVector3 WbTransform::translationFrom(WbNode *fromNode) const {
-  WbNode *parentNode = parent();
-  WbNode *childNode = (WbNode *)this;
+  const WbNode *parentNode = parent();
+  const WbNode *childNode = this;
   WbVector3 translationResult;
 
   while (parentNode != fromNode) {
     WbVector3 translation;
-    if (dynamic_cast<WbTransform *>(childNode))
-      translation = static_cast<WbTransform *>(childNode)->translation();
+    if (dynamic_cast<const WbTransform *>(childNode))
+      translation = static_cast<const WbTransform *>(childNode)->translation();
     translationResult += translation;
 
     childNode = parentNode;
@@ -424,7 +424,20 @@ WbVector3 WbTransform::translationFrom(WbNode *fromNode) const {
   return translationResult;
 }
 
-WbMatrix3 WbTransform::rotationFrom(WbNode *node) const {
-  WbMatrix3 rotationFinal;
-  return rotationFinal;
+WbMatrix3 WbTransform::rotationMatrixFrom(WbNode *fromNode) const {
+  const WbNode *parentNode = parent();
+  const WbNode *childNode = this;
+  WbMatrix3 rotationResult;
+
+  while (parentNode != fromNode) {
+    WbRotation rotation;
+    if (dynamic_cast<const WbTransform *>(childNode))
+      rotation = static_cast<const WbTransform *>(childNode)->rotation();
+    rotationResult *= rotation.toMatrix3();
+
+    childNode = parentNode;
+    parentNode = parentNode->parent();
+  }
+
+  return rotationResult.transposed();
 }

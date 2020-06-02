@@ -75,8 +75,8 @@ public:
 
   void enablePoseChangedSignal() const { mPoseChangedSignalEnabled = true; }
   void emitTranslationOrRotationChangedByUser() override;
-  WbVector3 translationFrom(WbNode *node) const;
-  WbMatrix3 rotationFrom(WbNode *node) const;
+  WbVector3 translationFrom(WbNode *fromNode) const;
+  WbMatrix3 rotationMatrixFrom(WbNode *fromNode) const;
 
   // export
   void exportBoundingObjectToX3D(WbVrmlWriter &writer) const override;
