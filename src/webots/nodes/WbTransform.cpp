@@ -41,8 +41,7 @@ WbTransform::WbTransform(const WbNode &other) : WbGroup(other), WbAbstractTransf
 }
 
 WbTransform::WbTransform(const QString &modelName, WbTokenizer *tokenizer) :
-  WbGroup(modelName, tokenizer),
-  WbAbstractTransform(this) {
+  WbGroup(modelName, tokenizer), WbAbstractTransform(this) {
   init();
 }
 
@@ -405,4 +404,27 @@ QStringList WbTransform::fieldsToSynchronizeWithX3D() const {
   fields << "translation"
          << "rotation";
   return fields;
+}
+
+WbVector3 WbTransform::translationFrom(WbNode *fromNode) const {
+  WbNode *parentNode = parent();
+  WbNode *childNode = (WbNode *)this;
+  WbVector3 translationResult;
+
+  while (parentNode != fromNode) {
+    WbVector3 translation;
+    if (dynamic_cast<WbTransform *>(childNode))
+      translation = static_cast<WbTransform *>(childNode)->translation();
+    translationResult += translation;
+
+    childNode = parentNode;
+    parentNode = parentNode->parent();
+  }
+
+  return translationResult;
+}
+
+WbMatrix3 WbTransform::rotationFrom(WbNode *node) const {
+  WbMatrix3 rotationFinal;
+  return rotationFinal;
 }

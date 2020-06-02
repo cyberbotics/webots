@@ -279,6 +279,7 @@ public:
   // debug utility functions
   // void printDebugNodeStructure(int level = 0);
   // void printDebugNodeFields(int level, bool printParameters);
+  WbNode* findRobotRootNode() const;
 
 signals:
   // emitted when any value has changed

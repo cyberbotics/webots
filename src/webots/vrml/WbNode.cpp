@@ -34,6 +34,7 @@
 #include "WbParser.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
+#include "WbRobot.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFColor.hpp"
 #include "WbSFDouble.hpp"
@@ -2103,6 +2104,13 @@ QStringList WbNode::documentationBookAndPage(bool isRobot) const {
       return bookAndPage;
   }
   return mModel->documentationBookAndPage();
+}
+
+WbNode *WbNode::findRobotRootNode() const {
+  WbNode *tmpNode = parent();
+  while (tmpNode != NULL && !dynamic_cast<WbRobot *>(tmpNode))
+    tmpNode = tmpNode->parent();
+  return tmpNode;
 }
 
 /*
