@@ -32,7 +32,7 @@ graph LR
   Geometry -.-> Capsule[[Capsule](capsule.md)]
   Geometry -.-> Cone[[Cone](cone.md)]
   Geometry -.-> Cylinder[[Cylinder](cylinder.md)]
-  Geometry -.-> EleveationGrid[[EleveationGrid](elevationgrid.md)]
+  Geometry -.-> ElevationGrid[[ElevationGrid](elevationgrid.md)]
   Geometry -.-> IndexedFaceSet[[IndexedFaceSet](indexedfaceset.md)]
   Geometry -.-> IndexedLineSet[[IndexedLineSet](indexedlineset.md)]
   Geometry -.-> Plane[[Plane](plane.md)]
