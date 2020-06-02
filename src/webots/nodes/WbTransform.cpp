@@ -41,7 +41,8 @@ WbTransform::WbTransform(const WbNode &other) : WbGroup(other), WbAbstractTransf
 }
 
 WbTransform::WbTransform(const QString &modelName, WbTokenizer *tokenizer) :
-  WbGroup(modelName, tokenizer), WbAbstractTransform(this) {
+  WbGroup(modelName, tokenizer),
+  WbAbstractTransform(this) {
   init();
 }
 

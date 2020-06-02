@@ -254,9 +254,7 @@ bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
       writer << " USE=\'n" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
       return true;
     }
-  } else if (writer.isUrdf())
-    writer << "  <link name=\"" + urdfName() + "\">\n";
-  else {
+  } else {
     return WbNode::exportNodeHeader(writer);
   }
 
