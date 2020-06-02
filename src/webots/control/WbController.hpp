@@ -122,6 +122,7 @@ private:
   void appendMessageToBuffer(const QString &message, QString *buffer);
   void flushBuffer(QString *buffer);
   QStringList argsList() const;
+  QString commandLine() const;
 
 private slots:
   void readStdout();

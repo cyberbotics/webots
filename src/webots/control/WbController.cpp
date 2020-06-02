@@ -230,7 +230,7 @@ void WbController::start() {
   if (mCommand.isEmpty())  // python has wrong version or Matlab 64 not available
     return;
 
-  info(tr("Starting controller: %1").arg(mCommand + " " + mArguments.join(" ")));
+  info(tr("Starting controller: %1").arg(commandLine()));
 
 #ifdef __linux__
   if (!qgetenv("WEBOTS_FIREJAIL_CONTROLLERS").isEmpty() && mRobot->findField("controller")) {
@@ -645,7 +645,7 @@ void WbController::reportMissingCommand(const QString &command) {
 }
 
 void WbController::reportFailedStart() {
-  warn(tr("failed to start: %1").arg(mCommand + " " + mArguments.join(" ")));
+  warn(tr("failed to start: %1").arg(commandLine()));
 
   switch (mType) {
     case WbFileUtil::EXECUTABLE: {
@@ -883,6 +883,8 @@ const QString &WbController::args() const {
   return mRobot->controllerArgs();
 }
 
+// Extract the argument list from the Robot.controllerArgs string
+// Double quotes are removed from each argument string, as it should
 QStringList WbController::argsList() const {
   QStringList list;
   const QString args = mRobot->controllerArgs().trimmed();
@@ -902,6 +904,13 @@ QStringList WbController::argsList() const {
   }
   list << args.mid(previous).replace("\"", "");
   return list;
+}
+
+QString WbController::commandLine() const {  // returns the command line with double quotes if needed
+  QString commandLine = mCommand.contains(" ") ? "\"" + mCommand + "\"" : mCommand;
+  foreach (const QString argument, mArguments)
+    commandLine += " " + (argument.contains(" ") ? "\"" + argument + "\"" : argument);
+  return commandLine;
 }
 
 void WbController::handleControllerExit() {
