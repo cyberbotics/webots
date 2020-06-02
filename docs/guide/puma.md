@@ -19,7 +19,7 @@ Puma560 {
   SFString   name            "PUMA 560"
   SFString   controller      "puma560"
   MFString   controllerArgs  []
-  MFString   customData      ""
+  SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE
   MFNode     bodySlot        []
