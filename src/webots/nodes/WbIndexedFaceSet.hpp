@@ -67,7 +67,7 @@ signals:
 
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
-  bool exportNodeHeader(WbVrmlWriter &writer) const;
+  bool exportNodeHeader(WbVrmlWriter &writer) const override;
 
 private:
   WbIndexedFaceSet &operator=(const WbIndexedFaceSet &);  // non copyable
