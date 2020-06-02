@@ -134,7 +134,7 @@ QVariant WbSceneTreeModel::data(const QModelIndex &index, int role) const {
 
 Qt::ItemFlags WbSceneTreeModel::flags(const QModelIndex &index) const {
   if (!index.isValid())
-    return 0;
+    return Qt::ItemFlags();
 
   return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }

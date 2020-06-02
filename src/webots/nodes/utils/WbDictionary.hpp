@@ -19,7 +19,7 @@
 // Description: Handles the updates of the DEF names Dictionary
 //
 
-#include <QtCore/QMap>
+#include <QtCore/QMultiMap>
 #include <QtCore/QStringList>
 
 class WbBaseNode;
@@ -60,11 +60,11 @@ private:
   void updateProtosDef(WbBaseNode *&node, WbSFNode *sfNode = NULL, WbMFNode *mfNode = NULL, int index = -1);
   void updateForInsertion(const WbNode *const node, bool suitableOnly, QList<WbNode *> &defNodes);
   void makeDefNodeAndUpdateDictionary(WbBaseNode *node, bool updateSceneDictionary);
-  QList<QMap<QString, WbNode *>> mNestedDictionaries;
+  QList<QMultiMap<QString, WbNode *>> mNestedDictionaries;
   void clearNestedDictionaries() {
     mNestedUseNodes.clear();
     mNestedDictionaries.clear();
-    mNestedDictionaries << QMap<QString, WbNode *>();
+    mNestedDictionaries << QMultiMap<QString, WbNode *>();
   }
   WbNode *mTargetNode;
   WbField *mTargetField;
