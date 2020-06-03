@@ -1223,6 +1223,8 @@ void WbNode::writeExport(WbVrmlWriter &writer) const {
   if (writer.isUrdf()) {
     exportNodeSubNodes(writer);
     exportNodeFooter(writer);
+    if (isUrdfLinkRoot() && parent()->isUrdfLinkRoot())
+      exportURDFJoint(writer);
   } else {
     exportNodeContents(writer);
     exportNodeFooter(writer);
