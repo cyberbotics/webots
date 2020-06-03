@@ -44,7 +44,7 @@ WbContactPointsRepresentation::WbContactPointsRepresentation(WbWrenRenderingCont
 
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this,
           &WbContactPointsRepresentation::updateRendering);
-  
+
   mContactMesh = wr_dynamic_mesh_new(false, false, false);
   mImmersionMesh = wr_dynamic_mesh_new(false, false, false);
 
