@@ -17,7 +17,6 @@
 #include "WbBasicJoint.hpp"
 #include "WbField.hpp"
 #include "WbFieldModel.hpp"
-#include "WbGroup.hpp"
 #include "WbLog.hpp"
 #include "WbMFBool.hpp"
 #include "WbMFColor.hpp"
@@ -44,7 +43,6 @@
 #include "WbSFString.hpp"
 #include "WbSFVector2.hpp"
 #include "WbSFVector3.hpp"
-#include "WbShape.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
@@ -985,8 +983,8 @@ bool WbNode::isUrdfLinkRoot() const {
   return false;
 }
 
-WbNode* WbNode::findUrdfLinkRoot() const {
-  WbNode* parentRoot = parent();
+WbNode *WbNode::findUrdfLinkRoot() const {
+  WbNode *parentRoot = parent();
   while (!parentRoot->isUrdfLinkRoot())
     parentRoot = parentRoot->parent();
   return parentRoot;
@@ -1115,8 +1113,6 @@ const QString WbNode::urdfName() const {
   }
   return name;
 }
-
-
 
 bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
   if (writer.isX3d())  // actual export is done in WbBaseNode

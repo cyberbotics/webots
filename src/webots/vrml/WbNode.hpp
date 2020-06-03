@@ -53,8 +53,6 @@ class WbMFBool;
 class WbMFRotation;
 class WbMFNode;
 class WbVrmlWriter;
-class WbGroup;
-class WbShape;
 class WbTransform;
 
 class WbNode : public QObject {
