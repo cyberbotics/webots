@@ -55,7 +55,7 @@ public:
   // write current indentation
   void indent();
 
-  // write .wrl, .wbt, .wbo or .x3d header and footer based on VrmlType
+  // write .wrl, .wbt, .wbo, .x3d or .urdf header and footer based on VrmlType
   void writeHeader(const QString &title);
   void writeFooter(const QStringList *info = NULL);
 
