@@ -148,6 +148,10 @@ void WbVrmlWriter::writeHeader(const QString &title) {
       *this << "</head>\n";
       *this << "<Scene>\n";
       return;
+    case URDF:
+      *this << "<?xml version=\"1.0\"?>\n";
+      *this << "<robot name=\"" + title + "\" xmlns:xacro=\"http://ros.org/wiki/xacro\">\n";
+      return;
     default:
       return;
   }
@@ -157,5 +161,6 @@ void WbVrmlWriter::writeFooter(const QStringList *info) {
   if (isX3d()) {
     *this << "</Scene>\n";
     *this << "</x3d>\n";
-  }
+  } else if(isUrdf())
+    *this << "</robot>\n";
 }

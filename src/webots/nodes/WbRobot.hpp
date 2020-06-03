@@ -160,7 +160,6 @@ protected:
   // export
   void exportNodeFields(WbVrmlWriter &writer) const override;
   const QString urdfName() const override;
-  void writeExport(WbVrmlWriter &writer) const override;
 
   WbKinematicDifferentialWheels *mKinematicDifferentialWheels;
 

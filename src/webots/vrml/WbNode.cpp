@@ -64,6 +64,7 @@ struct ProtoParameters {
 };
 static QList<ProtoParameters *> gProtoParameterList;
 static QList<const WbNode *> gUrdfNodesQueue;
+static const WbNode *gUrdfCurrentNode;
 
 static bool gInstantiateMode = true;
 static QVector<WbNode *> gNodes = {NULL};  // id 0 is reserved for root node
@@ -985,8 +986,26 @@ void WbNode::write(WbVrmlWriter &writer) const {
       return;
     }
   }
-  if (writer.isUrdf() || writer.isX3d() || writer.isVrml() ||
-      (writer.isProto() && (!writer.rootNode() || this == writer.rootNode()))) {
+  if (writer.isUrdf()) {
+    if (gUrdfCurrentNode != this && dynamic_cast<const WbBasicJoint *>(this) && !gUrdfNodesQueue.contains(this)) {
+      gUrdfNodesQueue.append(this);
+      return;
+    }
+    if (!gUrdfCurrentNode)
+      gUrdfCurrentNode = this;
+
+    writeExport(writer);
+
+    if (gUrdfCurrentNode == this) {
+      if (gUrdfNodesQueue.size() > 0) {
+        gUrdfCurrentNode = gUrdfNodesQueue.takeLast();
+        gUrdfCurrentNode->write(writer);
+      } else
+        gUrdfCurrentNode = NULL;
+    }
+    return;
+  }
+  if (writer.isX3d() || writer.isVrml() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode()))) {
     writeExport(writer);
     return;
   }
@@ -1087,14 +1106,17 @@ const QString WbNode::urdfName() const {
 bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
   if (writer.isX3d())  // actual export is done in WbBaseNode
     return false;
-  if (writer.isUrdf()) {
-    if (findSFString("name") || dynamic_cast<WbBasicJoint *>(parent())) {
+  else if (writer.isUrdf()) {
+    if (gUrdfCurrentNode == this) {
+      writer << "  <link name=\"" + urdfName() + "\">\n";
+      return false;
+    } else if (findSFString("name") || dynamic_cast<WbBasicJoint *>(parent())) {
       gUrdfNodesQueue.append(this);
       return true;
+    } else {
+      writer << "    " << urdfName() << "\n";
+      return false;
     }
-
-    writer << "  <link name=\"" + urdfName() + "\">\n";
-    return false;
   }
   if (isUseNode()) {
     writer << "USE " << mUseName << "\n";
@@ -1132,15 +1154,13 @@ void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
       }
     }
   }
-  foreach (const WbNode *node, gUrdfNodesQueue)
-    node->write(writer);
 }
 
 void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
   if (writer.isX3d())
     writer << "</" << x3dName() << ">";
   else if (writer.isUrdf()) {
-    if (findSFString("name"))
+    if (gUrdfCurrentNode == this)
       writer << "  </link>\n";
   } else {  // VRML
     writer.decreaseIndent();
@@ -1182,13 +1202,11 @@ void WbNode::exportNodeContents(WbVrmlWriter &writer) const {
 
 void WbNode::writeExport(WbVrmlWriter &writer) const {
   assert(!(writer.isX3d() && isProtoParameterNode()));
-
   if (exportNodeHeader(writer))
     return;
   if (writer.isUrdf()) {
     exportNodeSubNodes(writer);
     exportNodeFooter(writer);
-    exportNodeSubNodes(writer);
   } else {
     exportNodeContents(writer);
     exportNodeFooter(writer);

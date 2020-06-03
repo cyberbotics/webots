@@ -1139,7 +1139,11 @@ void WbRobot::writeAnswer(QDataStream &stream) {
 
     QString urdfContent;
     WbVrmlWriter writer(&urdfContent, modelName() + ".urdf");
+
+    writer.writeHeader(this->findSFString("name")->value());
     write(writer);
+    writer.writeFooter();
+    
     const QByteArray n = writer.readAll().toUtf8();
     stream.writeRawData(n.constData(), n.size() + 1);
 
@@ -1386,23 +1390,6 @@ void WbRobot::exportNodeFields(WbVrmlWriter &writer) const {
 
 const QString WbRobot::urdfName() const {
   return QString("base_link");
-}
-
-void WbRobot::writeExport(WbVrmlWriter &writer) const {
-  if (writer.isUrdf()) {
-    writer << "<?xml version=\"1.0\"?>\n";
-    writer << "<robot name=\"" + this->findSFString("name")->value() + "\" xmlns:xacro=\"http://ros.org/wiki/xacro\">\n";
-
-    // `base_link`
-    exportNodeHeader(writer);
-    exportNodeFooter(writer);
-
-    exportNodeSubNodes(writer);
-
-    writer << "</robot>\n";
-  } else {
-    WbSolid::writeExport(writer);
-  }
 }
 
 int WbRobot::computeSimulationMode() {
