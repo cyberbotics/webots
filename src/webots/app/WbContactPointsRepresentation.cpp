@@ -42,6 +42,9 @@ WbContactPointsRepresentation::WbContactPointsRepresentation(WbWrenRenderingCont
     connect(WbSimulationWorld::instance(), &WbSimulationWorld::physicsStepEnded, this,
             &WbContactPointsRepresentation::updateRendering, Qt::UniqueConnection);
 
+  connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this,
+        &WbContactPointsRepresentation::updateRendering);
+  
   mContactMesh = wr_dynamic_mesh_new(false, false, false);
   mImmersionMesh = wr_dynamic_mesh_new(false, false, false);
 
