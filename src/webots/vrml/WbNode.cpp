@@ -979,6 +979,19 @@ void WbNode::writeParameters(WbVrmlWriter &writer) const {
     parameter->write(writer);
 }
 
+bool WbNode::isUrdfLinkRoot() const {
+  if (findSFString("name") || dynamic_cast<WbBasicJoint *>(parent()))
+    return true;
+  return false;
+}
+
+WbNode* WbNode::findUrdfLinkRoot() const {
+  WbNode* parentRoot = parent();
+  while (!isUrdfLinkRoot())
+    parentRoot = parentRoot->parent();
+  return parentRoot;
+}
+
 void WbNode::write(WbVrmlWriter &writer) const {
   if (uniqueId() == -1) {
     if (nodeModelName() == "Plane" || nodeModelName() == "Capsule") {
@@ -1103,6 +1116,8 @@ const QString WbNode::urdfName() const {
   return name;
 }
 
+
+
 bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
   if (writer.isX3d())  // actual export is done in WbBaseNode
     return false;
@@ -1110,11 +1125,12 @@ bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
     if (gUrdfCurrentNode == this) {
       writer << "  <link name=\"" + urdfName() + "\">\n";
       return false;
-    } else if (findSFString("name") || dynamic_cast<WbBasicJoint *>(parent())) {
+    } else if (isUrdfLinkRoot()) {
       gUrdfNodesQueue.append(this);
       return true;
     } else {
-      writer << "    " << urdfName() << "\n";
+      // Visual element supposed to go here
+      // writer << "    " << urdfName() << "\n";
       return false;
     }
   }

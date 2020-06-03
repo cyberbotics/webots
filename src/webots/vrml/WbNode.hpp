@@ -313,6 +313,9 @@ protected:
   virtual void exportNodeSubNodes(WbVrmlWriter &writer) const;
   virtual void exportNodeFooter(WbVrmlWriter &writer) const;
 
+  WbNode* findUrdfLinkRoot() const;
+  bool isUrdfLinkRoot() const;
+
   virtual void useNodesChanged() const {};
   bool isNestedProtoNode() const { return mIsNestedProtoNode; }
 
