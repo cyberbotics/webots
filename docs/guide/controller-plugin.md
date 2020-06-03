@@ -76,7 +76,8 @@ A simple example of an HTML robot window is provided in the `projects/samples/ho
 
 #### How to Create Your Own Robot-window:
 
-- In Custom HTML Robot Window there is a the HTML file that contains the page content and the CSS file that contains the page style.
+In the custom HTML robot-window there is an HTML file that contains the page content and a CSS file that contains the page style.
+Here are the steps to create your own robot-window:
 - Create a C file and a Javascript file which will deal with the interactions between the page and the robot, using the WWI API to exchange string messages.
 - In the C file, Window initialisation is required to get some robot devices through which we call the robot devices through  wb_robot_window_init() function:
 ```
