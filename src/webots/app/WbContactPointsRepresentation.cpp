@@ -43,7 +43,7 @@ WbContactPointsRepresentation::WbContactPointsRepresentation(WbWrenRenderingCont
             &WbContactPointsRepresentation::updateRendering, Qt::UniqueConnection);
 
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this,
-        &WbContactPointsRepresentation::updateRendering);
+          &WbContactPointsRepresentation::updateRendering);
   
   mContactMesh = wr_dynamic_mesh_new(false, false, false);
   mImmersionMesh = wr_dynamic_mesh_new(false, false, false);
