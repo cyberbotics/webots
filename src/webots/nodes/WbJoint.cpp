@@ -301,7 +301,7 @@ const QString WbJoint::urdfName() const {
 
 void WbJoint::writeExport(WbVrmlWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
-    WbNode* parentRoot = findUrdfLinkRoot();
+    WbNode *parentRoot = findUrdfLinkRoot();
     WbVector3 translation = solidEndPoint()->translationFrom(parentRoot);
     WbVector3 rotationEuler = solidEndPoint()->rotationMatrixFrom(parentRoot).toEulerAngles();
 
