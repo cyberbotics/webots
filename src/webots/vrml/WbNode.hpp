@@ -277,7 +277,7 @@ public:
   // debug utility functions
   // void printDebugNodeStructure(int level = 0);
   // void printDebugNodeFields(int level, bool printParameters);
-  WbNode* findRobotRootNode() const;
+  WbNode *findRobotRootNode() const;
 
 signals:
   // emitted when any value has changed
@@ -311,7 +311,7 @@ protected:
   virtual void exportNodeSubNodes(WbVrmlWriter &writer) const;
   virtual void exportNodeFooter(WbVrmlWriter &writer) const;
 
-  WbNode* findUrdfLinkRoot() const;
+  WbNode *findUrdfLinkRoot() const;
   bool isUrdfLinkRoot() const;
 
   virtual void useNodesChanged() const {};
