@@ -987,7 +987,7 @@ bool WbNode::isUrdfLinkRoot() const {
 
 WbNode* WbNode::findUrdfLinkRoot() const {
   WbNode* parentRoot = parent();
-  while (!isUrdfLinkRoot())
+  while (!parentRoot->isUrdfLinkRoot())
     parentRoot = parentRoot->parent();
   return parentRoot;
 }
@@ -1128,11 +1128,14 @@ bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
     } else if (isUrdfLinkRoot()) {
       gUrdfNodesQueue.append(this);
       return true;
-    } else {
-      // Visual element supposed to go here
-      // writer << "    " << urdfName() << "\n";
-      return false;
     }
+
+    writer << "    <visual name=\"" << urdfName() << "\">\n";
+    writer << "       <geometry>\n";
+    writer << "         <box size=\"0.01 0.01 0.01\"/>\n";
+    writer << "       </geometry>\n";
+    writer << "    </visual>\n";
+    return false;
   }
   if (isUseNode()) {
     writer << "USE " << mUseName << "\n";
