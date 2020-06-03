@@ -1143,7 +1143,7 @@ void WbRobot::writeAnswer(QDataStream &stream) {
     writer.writeHeader(this->findSFString("name")->value());
     write(writer);
     writer.writeFooter();
-    
+
     const QByteArray n = writer.readAll().toUtf8();
     stream.writeRawData(n.constData(), n.size() + 1);
 
