@@ -82,8 +82,6 @@ public:
   static void appendStderr(const QString &message, const QString &name);
 
   static void javascriptLogToConsole(const QString &message, int lineNumber, const QString &sourceUrl);
-  // clear output
-  static void clear();
 
   // queue pop up messages to be shown later
   static void setPopUpPostponed(bool postponed) { instance()->mPopUpMessagesPostponed = postponed; }
@@ -94,7 +92,6 @@ public:
 signals:
   // the above function emit this signal that can be connected to a message sink (console)
   void logEmitted(WbLog::Level level, const QString &message, bool popup, const QString &name);
-  void cleared();
   void popupOpen();
   void popupClosed();
 

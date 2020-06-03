@@ -21,7 +21,6 @@
 #include <webots/keyboard.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
-#include <webots/utils/ansi_codes.h>
 
 #define TIME_STEP 16
 #define TARGET_POINTS_SIZE 13
@@ -196,7 +195,6 @@ int main(int argc, char *argv[]) {
   wb_robot_init();
 
   // print user instructions
-  ANSI_CLEAR_CONSOLE();
   printf("You can drive this robot:\n");
   printf("Select the 3D window and use cursor keys:\n");
   printf("Press 'A' to return to the autopilot mode\n");
