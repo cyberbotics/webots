@@ -4,6 +4,192 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 06/02/2020 10:51:52
+You're welcome
+
+##### lojik 06/02/2020 10:51:08
+Perfect, thank you 👍
+
+##### David Mansolino [cyberbotics] 06/02/2020 10:50:28
+Hi, yes this is indeed a known bug, it was fixed very recently, you can already download a beta of R2020a-revision2 which incudes the fix here: [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
+
+##### lojik 06/02/2020 10:48:45
+Hello everyone, I do not know if someone else have the same problem as me but it is easy to verify.
+
+
+
+I am on ubuntu 18.04, using webots R2020a-revision1. When I right-click to add new features --> search in the 'find' box and type an underscore '\_' Webots crashes.
+
+
+
+Do someone has the same issue?
+
+##### David Mansolino [cyberbotics] 06/02/2020 05:54:32
+> is there any depth camera that i can use for skeletal tracking?
+
+`@Sergen Aşık` yes of course, you can use range-finders: [https://www.cyberbotics.com/doc/reference/rangefinder](https://www.cyberbotics.com/doc/reference/rangefinder)
+
+
+> How can i run simulator using Qt Creator?
+
+`@Sergen Aşık` do you want to start Webots from Qt Creator, or use Qt in your controller?
+
+
+The supervisor also send plume information to every robot using emitter-receivers.
+
+
+> Hi! Webots noob here, could someone tell me how to add an odor plume in the simulation and make the robot follow it? (Kinda trying to recreate this : [https://en.wikibooks.org/wiki/Webots\_Odor\_Simulation](https://en.wikibooks.org/wiki/Webots_Odor_Simulation))
+
+`@Ans` this is simply emulated from a Supervisor controller that imports shapes to visualize the plume.
+
+
+> does anyone have implemented some kind of pathfinding and can help me ? pls dm
+
+`@Wesst` you will find some examples here: [https://en.wikibooks.org/wiki/Cyberbotics%27\_Robot\_Curriculum/Advanced\_Programming\_Exercises#Path\_planning\_](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum/Advanced_Programming_Exercises#Path_planning_)[Advanced]
+
+##### Sergen Aşık 05/31/2020 22:28:06
+is there any depth camera that i can use for skeletal tracking?
+
+
+How can i run simulator using Qt Creator?
+
+##### Ans 05/30/2020 20:39:57
+Hi! Webots noob here, could someone tell me how to add an odor plume in the simulation and make the robot follow it? (Kinda trying to recreate this : [https://en.wikibooks.org/wiki/Webots\_Odor\_Simulation](https://en.wikibooks.org/wiki/Webots_Odor_Simulation))
+
+##### Wesst 05/30/2020 16:24:35
+does anyone have implemented some kind of pathfinding and can help me ? pls dm
+
+##### Iguins 05/29/2020 05:37:04
+thank you
+
+
+I was afraid of that
+
+##### David Mansolino [cyberbotics] 05/29/2020 05:36:28
+You can, but heightmap is much more efficient and stable than random indexedFaceSet.
+
+##### Iguins 05/29/2020 05:35:32
+do you think that instead of a heightmap I could use a custom mesh to also change the x and z values?
+
+##### David Mansolino [cyberbotics] 05/29/2020 05:33:58
+You're welcome
+
+##### Iguins 05/29/2020 05:33:39
+nice thank you!
+
+##### David Mansolino [cyberbotics] 05/29/2020 05:32:59
+In that case the robots should be Supervisors and they will be able to change the height values.
+
+##### Iguins 05/29/2020 05:31:28
+I wanted the robots to modify an uneven terrain
+
+##### Clara Cardoso Ferreira 05/29/2020 05:20:52
+Ill give it a try, thank you David!
+
+##### David Mansolino [cyberbotics] 05/29/2020 05:06:52
+For the whole moon, it is indeed going to be slow, but if you import only a reasonable sub-section, the performance should be ok. See this example: [https://cyberbotics.com/doc/automobile/ch-vens](https://cyberbotics.com/doc/automobile/ch-vens)
+
+##### Clara Cardoso Ferreira 05/29/2020 05:05:26
+with real data
+
+
+so that my robot can learn how to navigate in unknown terrain
+
+
+I could import the whole moon, but I plan to have at least sections of the moon
+
+
+For my case, it changes every meter. I am trying to import the map of the moon to Webots
+
+##### David Mansolino [cyberbotics] 05/29/2020 05:03:20
+Will the terrain change at each step ?
+
+##### Iguins 05/28/2020 22:10:01
+I was facing that same problem
+
+##### Clara Cardoso Ferreira 05/28/2020 21:34:45
+My guess would be that his solution would work, but it would probably be extremely slow since you would have to generate each individual slide of the terrain at every render pass
+
+
+> One possible solution would be to create a procedural PROTO ([https://www.cyberbotics.com/doc/reference/procedural-proto-nodes](https://www.cyberbotics.com/doc/reference/procedural-proto-nodes)) which will read the float image and generate an ElevationGrid ([https://www.cyberbotics.com/doc/reference/elevationgrid](https://www.cyberbotics.com/doc/reference/elevationgrid)) from it.
+
+`@David Mansolino`
+
+##### AngelAyala 05/28/2020 06:54:54
+I wasn't considering as real context, thanks
+
+
+ok I get it, both running in different controllers
+
+##### Stefania Pedrazzi [cyberbotics] 05/28/2020 06:53:39
+What you can do is to send the GPS data from the Mavic2Pro controller to the supervisor controller using for example the Emitter/Receiver devices
+
+
+This is like in real context.
+
+
+if yes, then you cannot read the Mavic2Pro GPS device values from another robot/supervisor.
+
+##### AngelAyala 05/28/2020 06:52:31
+yes
+
+##### Stefania Pedrazzi [cyberbotics] 05/28/2020 06:52:23
+Is the Supervisor controller different from the Mavic2Pro controller?
+
+##### AngelAyala 05/28/2020 06:51:35
+using python
+
+
+is there anyway to do this?
+
+
+now, how can I access to the GPS node inside the Mavic2Pro PROTO using the supervisor node?
+
+##### David Mansolino [cyberbotics] 05/28/2020 06:20:42
+You're welcome
+
+##### AngelAyala 05/28/2020 06:20:33
+oh greats, thanks
+
+##### David Mansolino [cyberbotics] 05/28/2020 06:20:00
+but you can simply check the return value
+
+
+this s indeed just a warning which doesnt  raise any exception
+
+##### AngelAyala 05/28/2020 06:19:11
+is maybe a especial ExceptionError?
+
+
+I'm currently using, but when appears this error Error: wb\_gps\_enable(): invalid device tag, the code is unable to catch it
+
+##### David Mansolino [cyberbotics] 05/28/2020 06:18:04
+you can always use a  `try` and `except` on the sensitive part
+
+##### AngelAyala 05/28/2020 06:15:18
+Is there anyway to catch the runtime errors in python in order to stop and reset the simulation? I can control the execution of the simulation with Supervisor node
+
+##### David Mansolino [cyberbotics] 05/28/2020 05:25:26
+You will find an example of this here: [https://gist.github.com/DavidMansolino/46d7e0df4c48bbaac4611b3872878347](https://gist.github.com/DavidMansolino/46d7e0df4c48bbaac4611b3872878347)
+
+
+One possible solution would be to create a procedural PROTO ([https://www.cyberbotics.com/doc/reference/procedural-proto-nodes](https://www.cyberbotics.com/doc/reference/procedural-proto-nodes)) which will read the float image and generate an ElevationGrid ([https://www.cyberbotics.com/doc/reference/elevationgrid](https://www.cyberbotics.com/doc/reference/elevationgrid)) from it.
+
+##### Clara Cardoso Ferreira 05/27/2020 18:21:49
+[https://pgda.gsfc.nasa.gov/products/54](https://pgda.gsfc.nasa.gov/products/54)
+
+Im trying to retrieve height maps from the above data and import it to Webots to create a custom terrain. I am not sure if this is possible and easy to do. Please provide me some guidance.
+
+
+
+I was thinking float img files formats would work best since I could import it to Opend CV if necessary.
+
+##### Axel M [Premier Service] 05/27/2020 16:43:13
+Review / PR / issues are welcome 🙂
+
+
+I ported the Atom PROTO extension to VSCode : [https://marketplace.visualstudio.com/items?itemName=pymzor.language-proto-webots](https://marketplace.visualstudio.com/items?itemName=pymzor.language-proto-webots)
+
 ##### David Mansolino [cyberbotics] 05/25/2020 06:25:16
 You can either convert your car node to base node (right click on the node in the scene-tree) and then you will be able to change the structure, either change directly the `Car.proto` file.
 
