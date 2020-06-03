@@ -722,8 +722,6 @@ void WbRobot::writeConfigure(QDataStream &stream) {
   stream.writeRawData(n.constData(), n.size() + 1);
   n = controllerName().toUtf8();
   stream.writeRawData(n.constData(), n.size() + 1);
-  n = controllerArgs().join(" ").toUtf8();
-  stream.writeRawData(n.constData(), n.size() + 1);
   n = customData().toUtf8();
   stream.writeRawData(n.constData(), n.size() + 1);
 

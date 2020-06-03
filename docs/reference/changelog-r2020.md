@@ -18,7 +18,8 @@ Released on XXX.
       - Added a context menu to the console allowing the user to define what should be displayed, by filtering the logs by type and source ([#1595](https://github.com/cyberbotics/webots/pull/1595)).
       - Added the possibility to open several consoles at the same time ([#1595](https://github.com/cyberbotics/webots/pull/1595)).
       - Improved the Webots console by supporting more [ANSI](https://en.wikipedia.org/wiki/ANSI_escape_code) escape codes and removed the controller name prefix ([#1508](https://github.com/cyberbotics/webots/pull/1508)).
-    - Specify `Robot.controllerArgs` as a `MFString` rather than a `SFString` ([#1718](https://github.com/cyberbotics/webots/pull/1718)).
+    - Specified `Robot.controllerArgs` as a `MFString` rather than a `SFString` ([#1718](https://github.com/cyberbotics/webots/pull/1718)).
+    - Removed useless `wb_robot_get_controller_arguments()` and deprecated useless `wb_robot_get_controller_name()` API functions ([#1718](https://github.com/cyberbotics/webots/pull/1718)).
   - Dependency Updates
     - Upgraded to Assimp 5.0.1 on Linux and macOS ([#1419](https://github.com/cyberbotics/webots/pull/1463)).
     - Upgraded to Qt 5.14.2 on Linux.

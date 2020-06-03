@@ -81,8 +81,6 @@ Ros::~Ros() {
   mNamePublisher.shutdown();
   mTimeStepService.shutdown();
   mWaitForUserInputEventService.shutdown();
-  mGetControllerNameService.shutdown();
-  mGetControllerArgumentsService.shutdown();
   mGetTimeService.shutdown();
   mGetModelService.shutdown();
   mGetDataService.shutdown();
@@ -167,10 +165,6 @@ void Ros::launchRos(int argc, char **argv) {
   mTimeStepService = mNodeHandle->advertiseService(mRobotName + "/robot/time_step", &Ros::timeStepCallback, this);
   mWaitForUserInputEventService =
     mNodeHandle->advertiseService(mRobotName + "/robot/wait_for_user_input_event", &Ros::waitForUserInputEventCallback, this);
-  mGetControllerNameService =
-    mNodeHandle->advertiseService(mRobotName + "/robot/get_controller_name", &Ros::getControllerNameCallback, this);
-  mGetControllerArgumentsService =
-    mNodeHandle->advertiseService(mRobotName + "/robot/get_controller_arguments", &Ros::getControllerArgumentsCallback, this);
   mGetTimeService = mNodeHandle->advertiseService(mRobotName + "/robot/get_time", &Ros::getTimeCallback, this);
   mGetModelService = mNodeHandle->advertiseService(mRobotName + "/robot/get_model", &Ros::getModelCallback, this);
   mGetDataService = mNodeHandle->advertiseService(mRobotName + "/robot/get_data", &Ros::getDataCallback, this);
@@ -468,18 +462,6 @@ void Ros::run(int argc, char **argv) {
 bool Ros::waitForUserInputEventCallback(webots_ros::robot_wait_for_user_input_event::Request &req,
                                         webots_ros::robot_wait_for_user_input_event::Response &res) {
   res.event = mRobot->waitForUserInputEvent(Robot::UserInputEvent(req.eventType), req.timeout);
-  return true;
-}
-
-bool Ros::getControllerNameCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res) {
-  assert(mRobot);
-  res.value = mRobot->getControllerName();
-  return true;
-}
-
-bool Ros::getControllerArgumentsCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res) {
-  assert(mRobot);
-  res.value = mRobot->getControllerArguments();
   return true;
 }
 
