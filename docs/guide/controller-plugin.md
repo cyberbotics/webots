@@ -68,100 +68,14 @@ Robot windows are implemented in HTML and provide the following features:
 The equivalent controller functions are `wb_robot_wwi_receive_text` and `wb_robot_wwi_send_text`.
 3. They are web-ready and could be used to display robot windows on web pages.
 
-A simple example of an HTML robot window is provided in the `projects/samples/howto/plugins/robot_windows/custom_html_robot_window/` sample simulation and demonstrates:
+A simple example of an HTML robot window is provided in the [custom robot window](projects/samples/howto/plugins/robot_windows/custom_html_robot_window) sample simulation and demonstrates:
 
 - How to display sensor information in the robot window.
 - How to send user interface events (like mouse clicks) from the robot window to the controller program.
 - How to change the title of the robot window from the controller program.
 
-#### How to Create Your Own Robot-window:
+The HTML robot windows can communicate with controller programs written using any of the supported programming languages, i.e. C, C++, Python, Java, MATLAB and ROS. If a [Robot](../reference/robot.md)'s controller is changed or restarted during the simulation run, the robot window associated to the same [Robot](../reference/robot.md) node will be restarted as well.
 
-- In Custom HTML Robot Window there is a the HTML file that contains the page content and the CSS file that contains the page style.
-- Create a C file and a Javascript file which will deal with the interactions between the page and the robot, using the WWI API to exchange string messages.
-- In the C file, Window initialisation is required to get some robot devices through which we call the robot devices through  wb_robot_window_init() function:
-```
-  void wb_robot_window_init() {
-  left_motor = wb_robot_get_device("left wheel motor");
-  right_motor = wb_robot_get_device("right wheel motor");
-  ps0 = wb_robot_get_device("ps0");
-}
-```
-- Then wb_robot_wwi_receive_text() function is stored under message and then compare with stop motors and if it matches it stop the motors:
-```
-printf("Received 'stop motors' message from JavaScript\n");
-      stop_motors = true;
-    } else if (strcmp(message, "release motors") == 0) {
-```
-- And release the command which stops the motors:
-```
-printf("Received 'release motors' message from JavaScript\n");
-      stop_motors = false;
-    } else
- ```
- - "Unknown message" should not occur.
- - At each step, send the "ps0" distance sensor value to JavaScript:
- ```
-  double ps0_value = wb_distance_sensor_get_value(ps0);
-  if (ps0_value > 0 && !isnan(ps0_value)) {
-    char answer[0x100];
-    sprintf(answer, "ps0: %f", ps0_value);
-    wb_robot_wwi_send_text(answer);
-  }
-}
- ```
- - This callback can be used to store information:
- 
- ```
- void wb_robot_window_cleanup()
- ```
- - In Javascript file, log a message in the console widget and write the message and list out the elements:
- 
- ```
- function log(message) {
-  var ul = document.getElementById('console');
-  var li = document.createElement('li');
-  li.appendChild(document.createTextNode(message));
-  ul.appendChild(li);
-}
- ```
- - When the window user has toggled the "Stop motors" checkbox and this information is sent to the robot with the help of the function toggleStopCheckbox(obj) :
-  ```
-   function toggleStopCheckbox(obj) {
-  if (obj.checked) {
-    obj.parentNode.classList.add('checked');
-    obj.parentNode.lastChild.innerHTML = 'Start Motors';
-    window.robotWindow.send('stop motors');
-    log('Stop motors.');
-  } else {
-    obj.parentNode.classList.remove('checked');
-    obj.parentNode.lastChild.innerHTML = 'Stop Motors';
-    window.robotWindow.send('release motors');
-    log('Release motors.');
-  }
-}
- ```
- - The message coming from the robot has been received with the help function receive(message):
-  ```
- function receive(message) {
-  if (message.startsWith('ps0: ')) {
-    var ps0Value = parseFloat(message.substr(5));
-    var progress = document.getElementById('distanceSensorProgressBar');
-    progress.value = ps0Value;
-  }
-}
- ```
- - Initialize the Webots window class in order to communicate with the robot:
-  ```
- window.onload = function() {
-  log('HTML page loaded.');
-  window.robotWindow = webots.window();
-  window.robotWindow.setTitle('Custom HTML robot window');
-  window.robotWindow.receive = receive;
-};
- ```
-
-The HTML robot windows can communicate with controller programs written using any of the supported programming languages, i.e. C, C++, Python, Java, MATLAB and ROS.
-If a [Robot](../reference/robot.md)'s controller is changed or restarted during the simulation run, the robot window associated to the same [Robot](../reference/robot.md) node will be restarted as well.
 
 ### Remote-Control Plugin
 
