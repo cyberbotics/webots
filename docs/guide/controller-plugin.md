@@ -8,8 +8,8 @@ For example a robot window can be used for several robots.
 
 ### Fundamentals
 
-Whatever its language, a controller executable is linked with the Webots controller library (libController) at startup.
-A controller plugin is a shared library loaded dynamically (at runtime) by libController after a specific event depending on its type.
+Whatever it's language is, a controller executable is linked with the Webots controller library (libController) at startup.
+A controller plugin is a shared library loaded dynamically (at runtime) by libController after a specific event depending on it's type.
 
 The following [figure](#controller-plugin-overview) shows an overview of the controller plugin system.
 In this figure, the dashed arrows shows how the shared libraries are loaded, and the large dash lines represents an Inter-Process Communication (IPC).
@@ -18,7 +18,7 @@ The IPC between libRemoteControl and the real robot is defined by the user (TCP/
 
 The system has been designed as follows.
 All the entities (the controller, the remote control library and the robot window library) should only call the libController interface (Webots API) functions.
-The controller should not be aware of its robot window and its real robot for modularity reasons.
+The controller should not be aware of it's robot window and it's real robot for modularity reasons.
 The only exception is about the robot window library which can be aware of the remote control library in order to initialize and monitor it.
 This can be done via the libController API through the `wb_robot_get_mode`, `wb_robot_set_mode` and the `wb_remote_control_custom_function` functions.
 Of course these rules can be easily broken because every entity runs into the same process.
@@ -27,11 +27,11 @@ However, we recommend to respect them to get a good design.
 The controller plugins have been designed to be written in C/C++, because the result should be a dynamic library.
 However, it's certainly possible to write them in other languages using a C/C++ wrapper inbetween.
 
-After its loading, some controller plugin functions (entry points) are called by libController.
+After it's loading, some controller plugin functions (entry points) are called by libController.
 A set of entry points have to be defined to let the controller plugin work smoothly.
 Some of these entry points are required and some are optional.
 
-The [Robot](../reference/robot.md) node defines the location of the controller plugin through its *window* and its *remoteControl* fields.
+The [Robot](../reference/robot.md) node defines the location of the controller plugin through it's *window* and it's *remoteControl* fields.
 
 The controller plugin runs in the main thread of the process (also known as GUI thread): the same as the controller executable.
 This implies that if an entry point of a plugin is blocked, the controller will also be blocked.
@@ -114,7 +114,7 @@ printf("Received 'release motors' message from JavaScript\n");
  ```
  void wb_robot_window_cleanup()
  ```
- - In Javascript file, log a message in the console widget and write the message and list out the elements.:
+ - In Javascript file, log a message in the console widget and write the message and list out the elements:
  
  ```
  function log(message) {
