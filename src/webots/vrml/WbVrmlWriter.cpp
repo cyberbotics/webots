@@ -161,6 +161,6 @@ void WbVrmlWriter::writeFooter(const QStringList *info) {
   if (isX3d()) {
     *this << "</Scene>\n";
     *this << "</x3d>\n";
-  } else if(isUrdf())
+  } else if (isUrdf())
     *this << "</robot>\n";
 }

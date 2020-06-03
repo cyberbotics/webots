@@ -440,5 +440,5 @@ WbMatrix3 WbTransform::rotationMatrixFrom(WbNode *fromNode) const {
     parentNode = parentNode->parent();
   }
 
-  return rotationResult.transposed();
+  return rotationResult;
 }
