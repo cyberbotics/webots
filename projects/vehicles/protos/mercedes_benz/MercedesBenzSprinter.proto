@@ -11,7 +11,7 @@ PROTO MercedesBenzSprinter [
   field SFColor      color                    0.98 0 0.1
   field SFString     name                     "Mercedes-Benz Sprinter"
   field SFString     controller               "void"
-  field SFString     controllerArgs           ""
+  field MFString     controllerArgs           [ ]
   field SFBool       supervisor               FALSE
   field SFBool       synchronization          TRUE
   field MFNode       sensorsSlotFront         [ ]

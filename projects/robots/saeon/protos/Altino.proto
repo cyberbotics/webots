@@ -9,7 +9,7 @@ PROTO Altino [
   field SFRotation rotation        0 1 0 1.5708            # Is `Transform.rotation`.
   field SFString   name            "vehicle"               # Is `Solid.name`.
   field SFString   controller      "vehicle_driver_altino" # Is `Robot.controller`.
-  field SFString   controllerArgs  ""                      # Is `Robot.controllerArgs`.
+  field MFString   controllerArgs  []                      # Is `Robot.controllerArgs`.
   field SFBool     synchronization TRUE                    # Is `Robot.synchronization`.
   field SFColor    color           0.3 0.3 0.7             # Is `Material.diffuseColor`.
 ]

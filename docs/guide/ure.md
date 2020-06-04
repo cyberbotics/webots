@@ -22,7 +22,7 @@ UR5e/UR5e/UR10e {
   SFRotation rotation        1 0 0 4.712388966
   SFString   name            "UR5e"
   SFString   controller      "void"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE
   SFBool     selfCollision   TRUE

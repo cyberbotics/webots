@@ -15,7 +15,7 @@ PROTO BmwX5 [
   field SFString     engineSound              "sounds/engine.wav"
   field SFString     name                     "vehicle"
   field SFString     controller               "void"
-  field SFString     controllerArgs           ""
+  field MFString     controllerArgs           [ ]
   field SFBool       supervisor               FALSE
   field SFBool       synchronization          TRUE
   field SFBool       windshieldWipers         TRUE

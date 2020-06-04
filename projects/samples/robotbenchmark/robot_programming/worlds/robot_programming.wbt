@@ -31,7 +31,7 @@ CircleArena {
 DEF THYMIO2 Thymio2 {
   rotation 1 0 0 0
   controller "move"
-  controllerArgs ""
+  controllerArgs []
 }
 RobotProgrammingBenchmark {
 }

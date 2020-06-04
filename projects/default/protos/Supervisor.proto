@@ -22,7 +22,7 @@ PROTO Supervisor [
   field     SFFloat    radarCrossSection   0.0
   field     MFColor    recognitionColors   []
   field     SFString   controller          "void"
-  field     SFString   controllerArgs      ""
+  field     MFString   controllerArgs      []
   field     SFString   customData          ""
   field     SFBool     supervisor          FALSE
   field     SFBool     synchronization     TRUE

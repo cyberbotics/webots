@@ -25,6 +25,12 @@
 
 #include <cassert>
 
+static WbVersion cWorldFileVersion;
+
+const WbVersion &WbTokenizer::worldFileVersion() {
+  return cWorldFileVersion;
+}
+
 WbTokenizer::WbTokenizer() :
   mFileType(UNKNOWN),
   mFileVersion(WbApplicationInfo::version()),
@@ -138,6 +144,8 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString
   //   - OBJECT headers without ' utf8' were present before Webots 7.2.5
   bool found = mFileVersion.fromString(header, "^VRML(_...|) V?", "( utf8|)$", 1);
   if (found) {
+    if (mFileType == WORLD)
+      cWorldFileVersion = mFileVersion;
     // remove the header and trim whitespaces from mInfo
     mInfo.clear();
     for (int i = 1; i < splittedInfo.size(); ++i)

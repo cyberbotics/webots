@@ -93,10 +93,6 @@ const char *wb_robot_get_world_path();
 double wb_robot_get_basic_time_step();
 WbDeviceTag wb_robot_get_device(const char *name);
 
-// Controller API
-const char *wb_robot_get_controller_name();
-const char *wb_robot_get_controller_arguments();
-
 // Introspection API
 int wb_robot_get_number_of_devices();
 WbDeviceTag wb_robot_get_device_by_index(int index);
@@ -124,6 +120,7 @@ void wb_robot_pin_to_static_environment(bool pin);
 // Deprecated functions
 // deprecated since Webots 2018a, please use wb_robot_get_custom_data and
 // wb_robot_set_custom_data instead
+const char *wb_robot_get_controller_name() WB_DEPRECATED;
 const char *wb_robot_get_data() WB_DEPRECATED;
 void wb_robot_set_data(const char *data) WB_DEPRECATED;
 

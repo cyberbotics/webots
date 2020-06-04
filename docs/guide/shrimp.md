@@ -20,7 +20,7 @@ Shrimp {
   SFRotation rotation        0 1 0 0
   SFString   name            "Shrimp"
   SFString   controller      "shrimp"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

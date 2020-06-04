@@ -41,6 +41,7 @@
 #include "WbSolidDevice.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbSupervisorUtilities.hpp"
+#include "WbTokenizer.hpp"
 #include "WbTrack.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -127,7 +128,7 @@ void WbRobot::init() {
   mSupervisor = findSFBool("supervisor");
   mSynchronization = findSFBool("synchronization");
   mController = findSFString("controller");
-  mControllerArgs = findSFString("controllerArgs");
+  mControllerArgs = findMFString("controllerArgs");
   mCustomData = findSFString("customData");
   mBattery = findMFDouble("battery");
   mCpuConsumption = findSFDouble("cpuConsumption");
@@ -187,6 +188,14 @@ void WbRobot::preFinalize() {
   mKeyboardSensor = new WbSensor();
   mJoystickSensor = new WbSensor();
 
+  if ((WbTokenizer::worldFileVersion() < WbVersion(2020, 1, 0) ||
+       (proto() && proto()->fileVersion() < WbVersion(2020, 1, 0))) &&
+      mControllerArgs->value().size() == 1 && mControllerArgs->value()[0].contains(" ")) {
+    mControllerArgs->setValue(mControllerArgs->value()[0].split(" "));
+    parsingWarn(tr("Robot.controllerArgs data type changed from SFString to MFString in Webots R2020b. "
+                   "Splitting controllerArgs at space boundaries. "
+                   "You may need to update your PROTO and/or world file(s)."));
+  }
   updateWindow();
   updateRemoteControl();
   updateControllerDir();
@@ -721,8 +730,6 @@ void WbRobot::writeConfigure(QDataStream &stream) {
   n = mAbsoluteRemoteControlFilename.toUtf8();
   stream.writeRawData(n.constData(), n.size() + 1);
   n = controllerName().toUtf8();
-  stream.writeRawData(n.constData(), n.size() + 1);
-  n = controllerArgs().toUtf8();
   stream.writeRawData(n.constData(), n.size() + 1);
   n = customData().toUtf8();
   stream.writeRawData(n.constData(), n.size() + 1);

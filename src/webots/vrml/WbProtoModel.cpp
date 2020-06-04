@@ -45,6 +45,8 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mDerived = false;
   QString baseTypeSlotType;
 
+  mFileVersion = tokenizer->fileVersion();
+
   mInfo.clear();
   const QString &tokenizerInfo = tokenizer->info();
   if (!tokenizerInfo.isEmpty() && !tokenizerInfo.trimmed().isEmpty()) {
