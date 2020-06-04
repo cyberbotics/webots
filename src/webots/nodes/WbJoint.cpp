@@ -301,9 +301,9 @@ const QString WbJoint::urdfName() const {
 
 void WbJoint::writeExport(WbVrmlWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
-    WbNode *parentRoot = findUrdfLinkRoot();
-    WbVector3 translation = solidEndPoint()->translationFrom(parentRoot);
-    WbVector3 rotationEuler = solidEndPoint()->rotationMatrixFrom(parentRoot).toEulerAngles();
+    const WbNode *parentRoot = findUrdfLinkRoot();
+    const WbVector3 translation = solidEndPoint()->translationFrom(parentRoot);
+    const WbVector3 rotationEuler = solidEndPoint()->rotationMatrixFrom(parentRoot).toEulerAngles();
 
     writer << QString("  <joint name=\"%1\" type=\"continuous\">\n").arg(urdfName());
     writer << QString("    <parent link=\"%1\"/>\n").arg(parent()->urdfName());

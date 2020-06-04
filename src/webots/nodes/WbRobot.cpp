@@ -54,7 +54,6 @@
 #include <QtCore/QStringList>
 #include <QtCore/QTimer>
 
-#include <iostream>
 #include <limits>
 
 static QHash<int, int> createSpecialKeys() {
