@@ -325,7 +325,7 @@ private slots:
 private:
   WbNode &operator=(const WbNode &);  // non copyable
 
-  virtual void exportURDFJoint(WbVrmlWriter &writer) const { };
+  virtual void exportURDFJoint(WbVrmlWriter &writer) const {};
 
   // for all nodes
   WbNode *mParent;

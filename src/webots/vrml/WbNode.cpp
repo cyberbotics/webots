@@ -1102,7 +1102,7 @@ const QString WbNode::urdfName() const {
   // Make sure there are no duplicates
   const QList<WbNode *> children = subNodes(false);
   for (int i = 0; i < children.size(); i++) {
-    WbNode *child = children.at(i);
+    const WbNode *const child = children.at(i);
     if (child->urdfName() == name)
       name += "_" + name;
   }
@@ -1158,10 +1158,12 @@ bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
 }
 
 void WbNode::exportNodeFields(WbVrmlWriter &writer) const {
-  if (!writer.isUrdf())
-    foreach (WbField *field, fields())
+  if (!writer.isUrdf()) {
+    foreach (WbField *field, fields()) {
       if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() != WB_SF_NODE))
         field->write(writer);
+    }
+  }
 }
 
 void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
@@ -1170,9 +1172,9 @@ void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
         ((field->isVrml() || writer.isProto() || writer.isUrdf()) && field->singleType() == WB_SF_NODE)) {
       const WbSFNode *const node = dynamic_cast<WbSFNode *>(field->value());
       if (node == NULL || node->value() == NULL || node->value()->shallExport() || writer.isProto() || writer.isUrdf()) {
-        if (writer.isX3d() || writer.isUrdf()) {
+        if (writer.isX3d() || writer.isUrdf())
           field->value()->write(writer);
-        } else
+        else
           field->write(writer);
       }
     }
