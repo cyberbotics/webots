@@ -48,7 +48,10 @@ Robot {
   ]
   name "robot"
   controller "test_cylinder_size_and_resizing"
-  controllerArgs [ "template_proto_with_nested_template_parameter_1", "template_regeneration" ]
+  controllerArgs [
+    "template_proto_with_nested_template_parameter_1"
+    "template_regeneration"
+  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {

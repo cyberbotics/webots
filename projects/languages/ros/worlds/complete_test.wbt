@@ -267,7 +267,11 @@ Robot {
     size 0.2 0.2 0.2
   }
   controller "ros"
-  controllerArgs [ "--name=my_robot", "--clock", "--synchronize" ]
+  controllerArgs [
+    "--name=my_robot"
+    "--clock"
+    "--synchronize"
+  ]
   customData "INITIAL"
   supervisor TRUE
   battery [
