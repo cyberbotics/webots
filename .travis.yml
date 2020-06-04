@@ -121,6 +121,15 @@ jobs:
             - fakeroot
             - pbzip2
             - libxkbcommon-x11-dev
+            - libxcb-keysyms1
+            - libxcb-image0
+            - libxcb-shm0
+            - libxcb-icccm4
+            - libxcb-sync1
+            - libxcb-xfixes0
+            - libxcb-shape0
+            - libxcb-randr0
+            - libxcb-render-util0
       before_install:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - sudo apt update
@@ -191,6 +200,15 @@ jobs:
             - fakeroot
             - pbzip2
             - libxkbcommon-x11-dev
+            - libxcb-keysyms1
+            - libxcb-image0
+            - libxcb-shm0
+            - libxcb-icccm4
+            - libxcb-sync1
+            - libxcb-xfixes0
+            - libxcb-shape0
+            - libxcb-randr0
+            - libxcb-render-util0
       script:  # TODO: remove this part once ROS melodic is fixed to restore the ROS test.
         - make release -j2
         - make release -j2 -C tests
