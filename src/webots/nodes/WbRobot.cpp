@@ -144,10 +144,6 @@ void WbRobot::init() {
       mCustomData->setValue(data->value());
     data->setValue("");
   }
-  if (WbTokenizer::worldFileVersion() < WbVersion(2020, 1, 0) && mControllerArgs->value().size() == 1 &&
-      mControllerArgs->value()[0].contains(" "))
-    parsingWarn(tr("Robot.controllerArgs data type changed from SFString to MFString in Webots R2020b. "
-                   "You may need to update your proto and/or world file(s)."));
 
   mBatteryInitialValue = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
   mSupervisorUtilities = supervisor() ? new WbSupervisorUtilities(this) : NULL;
@@ -191,6 +187,11 @@ void WbRobot::preFinalize() {
   mBatterySensor = new WbSensor();
   mKeyboardSensor = new WbSensor();
   mJoystickSensor = new WbSensor();
+
+  if ((WbTokenizer::worldFileVersion() < WbVersion(2020, 1, 0) || (proto() && proto()->fileVersion() < WbVersion(2020, 1, 0))) &&
+      mControllerArgs->value().size() == 1 &&  mControllerArgs->value()[0].contains(" "))
+    parsingWarn(tr("Robot.controllerArgs data type changed from SFString to MFString in Webots R2020b. "
+                   "You may need to update your proto and/or world file(s)."));
 
   updateWindow();
   updateRemoteControl();
