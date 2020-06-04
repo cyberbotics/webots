@@ -34,7 +34,7 @@ Pedestrian {
   translation 0 1.26 3
   rotation 0 1 0 3.14159
   controllerArgs [
-    "--trajectory=0 3, 0 -3",
+    "--trajectory=0 3, 0 -3"
     "--speed=2.5"
   ]
 }
