@@ -147,7 +147,7 @@ class TestSuite (Supervisor):
         self.isParserTest = "parser" in self.getCustomData()
         isDefaultWorld = "empty" in self.getCustomData()
         if isDefaultWorld:
-            self.cwdPrefix = '../../../../tests/parser/'
+            self.cwdPrefix = '../../../parser/'
         else:
             self.cwdPrefix = '../../'
         self.lastSimulation = False
