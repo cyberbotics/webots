@@ -785,6 +785,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
       stream >> size;
       char data[size];
       stream.readRawData(data, size);
+      setUrdfPrefix(QString(data));
 
       return;
     }
@@ -1395,7 +1396,7 @@ void WbRobot::exportNodeFields(WbVrmlWriter &writer) const {
 }
 
 const QString WbRobot::urdfName() const {
-  return QString("base_link");
+  return getUrdfPrefix() + QString("base_link");
 }
 
 int WbRobot::computeSimulationMode() {

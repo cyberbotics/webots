@@ -1106,7 +1106,7 @@ const QString WbNode::urdfName() const {
     if (child->urdfName() == name)
       name += "_" + name;
   }
-  return mUrdfPrefix + name;
+  return getUrdfPrefix() + name;
 }
 
 bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
@@ -2142,11 +2142,15 @@ QStringList WbNode::documentationBookAndPage(bool isRobot) const {
   return mModel->documentationBookAndPage();
 }
 
-WbNode *WbNode::findRobotRootNode() const {
-  WbNode *tmpNode = parent();
+const WbNode *WbNode::findRobotRootNode() const {
+  const WbNode *tmpNode = this;
   while (tmpNode != NULL && tmpNode->nodeModelName() != "Robot")
     tmpNode = tmpNode->parent();
   return tmpNode;
+}
+
+QString WbNode::getUrdfPrefix() const {
+  return findRobotRootNode()->mUrdfPrefix;
 }
 
 /*

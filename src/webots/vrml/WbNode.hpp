@@ -276,7 +276,7 @@ public:
   // debug utility functions
   // void printDebugNodeStructure(int level = 0);
   // void printDebugNodeFields(int level, bool printParameters);
-  WbNode *findRobotRootNode() const;
+  const WbNode *findRobotRootNode() const;
 
 signals:
   // emitted when any value has changed
@@ -312,10 +312,13 @@ protected:
 
   WbNode *findUrdfLinkRoot() const;
   virtual bool isUrdfLinkRoot() const;
-  QString mUrdfPrefix;
+  virtual void exportURDFJoint(WbVrmlWriter &writer) const {};
 
   virtual void useNodesChanged() const {};
   bool isNestedProtoNode() const { return mIsNestedProtoNode; }
+
+  QString getUrdfPrefix() const;
+  void setUrdfPrefix(QString urdfPrefix) { mUrdfPrefix = urdfPrefix; };
 
 private slots:
   void notifyFieldChanged();
@@ -325,7 +328,7 @@ private slots:
 private:
   WbNode &operator=(const WbNode &);  // non copyable
 
-  virtual void exportURDFJoint(WbVrmlWriter &writer) const {};
+  QString mUrdfPrefix;
 
   // for all nodes
   WbNode *mParent;
