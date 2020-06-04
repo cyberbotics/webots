@@ -1111,7 +1111,7 @@ const QString WbNode::urdfName() const {
     if (child->urdfName() == name)
       name += "_" + name;
   }
-  return name;
+  return mUrdfPrefix + name;
 }
 
 bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {

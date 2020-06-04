@@ -87,6 +87,7 @@ typedef struct {
   char *arguments;
   char *urdf;
   bool need_urdf;
+  char *urdf_prefix;
   char *custom_data;
   bool is_waiting_for_user_input_event;
   WbUserInputEvent user_input_event_type;
@@ -163,6 +164,8 @@ static void robot_quit() {  // called when Webots kills a controller
   robot.wwi_message_received = NULL;
   robot_window_cleanup();
   remote_control_cleanup();
+  free(robot.urdf);
+  free(robot.urdf_prefix);
 }
 
 // this function is also called from supervisor_write_request() and differential_wheels_write_request()
@@ -212,8 +215,11 @@ void robot_write_request(WbDevice *dev, WbRequest *req) {
     request_write_int32(req, robot.user_input_event_type);
     request_write_int32(req, robot.user_input_event_timeout);
   }
-  if (robot.need_urdf)
+  if (robot.need_urdf) {
     request_write_uchar(req, C_ROBOT_URDF);
+    request_write_uint16(req, strlen(robot.urdf_prefix) + 1);
+    request_write_string(req, robot.urdf_prefix);
+  }
 }
 
 static WbRequest *generate_request(unsigned int step_duration, bool toggle_remote) {
@@ -448,6 +454,7 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
       robot.user_input_event_type = request_read_int32(r);
       break;
     case C_ROBOT_URDF:
+      free(robot.urdf);
       robot.urdf = request_read_string(r);
       break;
     default:
@@ -963,6 +970,7 @@ int wb_robot_init() {  // API initialization
   robot.battery_sampling_period = 0;  // initially disabled
   robot.console_text = NULL;
   robot.urdf = NULL;
+  robot.urdf_prefix = NULL;
   robot.need_urdf = false;
   robot.pin = -1;
   robot.is_waiting_for_user_input_event = false;
@@ -1137,12 +1145,18 @@ void robot_set_simulation_mode(WbSimulationMode mode) {
   robot.simulation_mode = mode;
 }
 
-const char *wb_robot_get_urdf() {
+const char *wb_robot_get_urdf(const char *prefix) {
   robot_mutex_lock_step();
+
   robot.need_urdf = true;
+  free(robot.urdf_prefix);
+  robot.urdf_prefix = malloc(strlen(prefix) + 1);
+  strcpy(robot.urdf_prefix, prefix);
+
   generate_request(0, false);
   wb_robot_flush_unlocked();
   robot.need_urdf = false;
+
   robot_mutex_unlock_step();
   return robot.urdf;
 }

@@ -313,6 +313,7 @@ protected:
 
   WbNode *findUrdfLinkRoot() const;
   bool isUrdfLinkRoot() const;
+  QString mUrdfPrefix;
 
   virtual void useNodesChanged() const {};
   bool isNestedProtoNode() const { return mIsNestedProtoNode; }

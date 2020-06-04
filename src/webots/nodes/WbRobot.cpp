@@ -779,9 +779,16 @@ void WbRobot::handleMessage(QDataStream &stream) {
       updateDevicesAfterInsertion();
       mConfigureRequest = true;
       return;
-    case C_ROBOT_URDF:
+    case C_ROBOT_URDF: {
+      short size;
+
       mNeedToWriteUrdf = true;
+      stream >> size;
+      char data[size];
+      stream.readRawData(data, size);
+
       return;
+    }
     case C_SET_SAMPLING_PERIOD:  // for the scene tracker
       /*
       stream >> mRefreshRate;
