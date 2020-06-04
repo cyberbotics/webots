@@ -1119,18 +1119,31 @@ bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
     return false;
   else if (writer.isUrdf()) {
     if (gUrdfCurrentNode == this) {
-      writer << "  <link name=\"" + urdfName() + "\">\n";
+      writer.increaseIndent();
+      writer.indent();
+      writer << "<link name=\"" + urdfName() + "\">\n";
       return false;
     } else if (isUrdfLinkRoot()) {
       gUrdfNodesQueue.append(this);
       return true;
     }
 
-    writer << "    <visual name=\"" << urdfName() << "\">\n";
-    writer << "       <geometry>\n";
-    writer << "         <box size=\"0.01 0.01 0.01\"/>\n";
-    writer << "       </geometry>\n";
-    writer << "    </visual>\n";
+    writer.increaseIndent();
+    writer.indent();
+    writer << "<visual name=\"" << urdfName() << "\">\n";
+    writer.increaseIndent();
+    writer.indent();
+    writer << "<geometry>\n";
+    writer.increaseIndent();
+    writer.indent();
+    writer << "<box size=\"0.01 0.01 0.01\"/>\n";
+    writer.decreaseIndent();
+    writer.indent();
+    writer << "</geometry>\n";
+    writer.decreaseIndent();
+    writer.indent();
+    writer << "</visual>\n";
+    writer.decreaseIndent();
     return false;
   }
   if (isUseNode()) {
@@ -1175,8 +1188,11 @@ void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
   if (writer.isX3d())
     writer << "</" << x3dName() << ">";
   else if (writer.isUrdf()) {
-    if (gUrdfCurrentNode == this)
-      writer << "  </link>\n";
+    if (gUrdfCurrentNode == this) {
+      writer.indent();
+      writer << "</link>\n";
+      writer.decreaseIndent();
+    }
   } else {  // VRML
     writer.decreaseIndent();
     writer.indent();
