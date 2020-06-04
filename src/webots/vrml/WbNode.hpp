@@ -318,7 +318,7 @@ protected:
   bool isNestedProtoNode() const { return mIsNestedProtoNode; }
 
   QString getUrdfPrefix() const;
-  void setUrdfPrefix(QString urdfPrefix) { mUrdfPrefix = urdfPrefix; };
+  void setUrdfPrefix(const QString urdfPrefix) { mUrdfPrefix = urdfPrefix; };
 
 private slots:
   void notifyFieldChanged();
