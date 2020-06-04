@@ -190,10 +190,12 @@ void WbRobot::preFinalize() {
 
   if ((WbTokenizer::worldFileVersion() < WbVersion(2020, 1, 0) ||
        (proto() && proto()->fileVersion() < WbVersion(2020, 1, 0))) &&
-      mControllerArgs->value().size() == 1 && mControllerArgs->value()[0].contains(" "))
+      mControllerArgs->value().size() == 1 && mControllerArgs->value()[0].contains(" ")) {
+    mControllerArgs->setValue(mControllerArgs->value()[0].split(" "));
     parsingWarn(tr("Robot.controllerArgs data type changed from SFString to MFString in Webots R2020b. "
+                   "Splitting controllerArgs at space boundaries. "
                    "You may need to update your PROTO and/or world file(s)."));
-
+  }
   updateWindow();
   updateRemoteControl();
   updateControllerDir();

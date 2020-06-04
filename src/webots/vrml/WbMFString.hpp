@@ -57,6 +57,7 @@ public:
     assert(index >= 0 && index < size());
     return mValue[index];
   }
+  void setValue(const QStringList &value);
   void setItem(int index, const QString &value);
   void addItem(const QString &value);
   void insertItem(int index, const QString &value);
