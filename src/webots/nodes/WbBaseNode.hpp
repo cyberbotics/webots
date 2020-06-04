@@ -121,6 +121,9 @@ public slots:
   virtual void showResizeManipulator(bool enabled) {}
 
 protected:
+  bool isUrdfLinkRoot() const override;
+  void exportURDFJoint(WbVrmlWriter &writer) const override;
+
   // constructor:
   // if the tokenizer is NULL, then the node is constructed with the default field values
   // otherwise the field values are read from the tokenizer

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbBaseNode.hpp"
+#include "WbBasicJoint.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbDictionary.hpp"
 #include "WbNodeOperations.hpp"
@@ -259,4 +260,45 @@ bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
   }
 
   return false;
+}
+
+bool WbBaseNode::isUrdfLinkRoot() const {
+  if (findSFString("name") || dynamic_cast<WbBasicJoint *>(parent()))
+    return true;
+  return false;
+}
+
+void WbBaseNode::exportURDFJoint(WbVrmlWriter &writer) const {
+  if (!dynamic_cast<WbBasicJoint *>(parent())) {
+    WbVector3 translation;
+    WbVector3 rotationEuler;
+
+    if (dynamic_cast<const WbTransform *>(this) && dynamic_cast<WbTransform *>(parent())) {
+      translation = static_cast<const WbTransform *>(this)->translation();
+      rotationEuler = static_cast<const WbTransform *>(this)->rotation().toMatrix3().toEulerAngles();
+    }
+
+    writer.increaseIndent();
+    writer.indent();
+    writer << QString("<joint name=\"%1_%2_joint\" type=\"fixed\">\n").arg(parent()->urdfName()).arg(urdfName());
+
+    writer.increaseIndent();
+    writer.indent();
+    writer << QString("<parent link=\"%1\"/>\n").arg(parent()->urdfName());
+    writer.indent();
+    writer << QString("<child link=\"%1\"/>\n").arg(urdfName());
+    writer.indent();
+    writer << QString("<origin xyz=\"%1 %2 %3\" rpy=\"%4 %5 %6\" />\n")
+                .arg(translation.x())
+                .arg(translation.y())
+                .arg(translation.z())
+                .arg(rotationEuler.x())
+                .arg(rotationEuler.y())
+                .arg(rotationEuler.z());
+    writer.decreaseIndent();
+
+    writer.indent();
+    writer << "</joint>\n";
+    writer.decreaseIndent();
+  }
 }

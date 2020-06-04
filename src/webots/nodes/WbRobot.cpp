@@ -1146,7 +1146,7 @@ void WbRobot::writeAnswer(QDataStream &stream) {
     QString urdfContent;
     WbVrmlWriter writer(&urdfContent, modelName() + ".urdf");
 
-    writer.writeHeader(this->findSFString("name")->value());
+    writer.writeHeader(name());
     write(writer);
     writer.writeFooter();
 

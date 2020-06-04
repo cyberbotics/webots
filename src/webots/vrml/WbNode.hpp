@@ -53,7 +53,6 @@ class WbMFBool;
 class WbMFRotation;
 class WbMFNode;
 class WbVrmlWriter;
-class WbTransform;
 
 class WbNode : public QObject {
   Q_OBJECT
@@ -312,7 +311,7 @@ protected:
   virtual void exportNodeFooter(WbVrmlWriter &writer) const;
 
   WbNode *findUrdfLinkRoot() const;
-  bool isUrdfLinkRoot() const;
+  virtual bool isUrdfLinkRoot() const;
   QString mUrdfPrefix;
 
   virtual void useNodesChanged() const {};
@@ -326,7 +325,7 @@ private slots:
 private:
   WbNode &operator=(const WbNode &);  // non copyable
 
-  void exportURDFJoint(WbVrmlWriter &writer) const;
+  virtual void exportURDFJoint(WbVrmlWriter &writer) const { };
 
   // for all nodes
   WbNode *mParent;

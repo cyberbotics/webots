@@ -14,7 +14,6 @@
 
 #include "WbNode.hpp"
 
-#include "WbBasicJoint.hpp"
 #include "WbField.hpp"
 #include "WbFieldModel.hpp"
 #include "WbLog.hpp"
@@ -33,7 +32,6 @@
 #include "WbParser.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
-#include "WbRobot.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFColor.hpp"
 #include "WbSFDouble.hpp"
@@ -46,7 +44,6 @@
 #include "WbStandardPaths.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
-#include "WbTransform.hpp"
 #include "WbVrmlWriter.hpp"
 
 #include <QtCore/QFile>
@@ -978,9 +975,7 @@ void WbNode::writeParameters(WbVrmlWriter &writer) const {
 }
 
 bool WbNode::isUrdfLinkRoot() const {
-  if (findSFString("name") || dynamic_cast<WbBasicJoint *>(parent()))
-    return true;
-  return false;
+  return findSFString("name") ? true : false;
 }
 
 WbNode *WbNode::findUrdfLinkRoot() const {
@@ -998,7 +993,7 @@ void WbNode::write(WbVrmlWriter &writer) const {
     }
   }
   if (writer.isUrdf()) {
-    if (gUrdfCurrentNode != this && dynamic_cast<const WbBasicJoint *>(this) && !gUrdfNodesQueue.contains(this)) {
+    if (gUrdfCurrentNode != this && nodeModelName().contains("Joint") && !gUrdfNodesQueue.contains(this)) {
       gUrdfNodesQueue.append(this);
       return;
     }
@@ -1197,30 +1192,6 @@ void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
     writer.decreaseIndent();
     writer.indent();
     writer << "}";
-  }
-}
-
-void WbNode::exportURDFJoint(WbVrmlWriter &writer) const {
-  if (!dynamic_cast<WbBasicJoint *>(parent())) {
-    WbVector3 translation;
-    WbVector3 rotationEuler;
-
-    if (dynamic_cast<const WbTransform *>(this) && dynamic_cast<WbTransform *>(parent())) {
-      translation = static_cast<const WbTransform *>(this)->translation();
-      rotationEuler = static_cast<const WbTransform *>(this)->rotation().toMatrix3().toEulerAngles();
-    }
-
-    writer << QString("  <joint name=\"%1_%2_joint\" type=\"fixed\">\n").arg(parent()->urdfName()).arg(urdfName());
-    writer << QString("    <parent link=\"%1\"/>\n").arg(parent()->urdfName());
-    writer << QString("    <child link=\"%1\"/>\n").arg(urdfName());
-    writer << QString("    <origin xyz=\"%1 %2 %3\" rpy=\"%4 %5 %6\" />\n")
-                .arg(translation.x())
-                .arg(translation.y())
-                .arg(translation.z())
-                .arg(rotationEuler.x())
-                .arg(rotationEuler.y())
-                .arg(rotationEuler.z());
-    writer << "  </joint>\n";
   }
 }
 
@@ -2171,7 +2142,7 @@ QStringList WbNode::documentationBookAndPage(bool isRobot) const {
 
 WbNode *WbNode::findRobotRootNode() const {
   WbNode *tmpNode = parent();
-  while (tmpNode != NULL && !dynamic_cast<WbRobot *>(tmpNode))
+  while (tmpNode != NULL && tmpNode->nodeModelName() != "Robot")
     tmpNode = tmpNode->parent();
   return tmpNode;
 }
