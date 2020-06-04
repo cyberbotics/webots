@@ -188,8 +188,9 @@ void WbRobot::preFinalize() {
   mKeyboardSensor = new WbSensor();
   mJoystickSensor = new WbSensor();
 
-  if ((WbTokenizer::worldFileVersion() < WbVersion(2020, 1, 0) || (proto() && proto()->fileVersion() < WbVersion(2020, 1, 0))) &&
-      mControllerArgs->value().size() == 1 &&  mControllerArgs->value()[0].contains(" "))
+  if ((WbTokenizer::worldFileVersion() < WbVersion(2020, 1, 0) ||
+       (proto() && proto()->fileVersion() < WbVersion(2020, 1, 0))) &&
+      mControllerArgs->value().size() == 1 && mControllerArgs->value()[0].contains(" "))
     parsingWarn(tr("Robot.controllerArgs data type changed from SFString to MFString in Webots R2020b. "
                    "You may need to update your PROTO and/or world file(s)."));
 
