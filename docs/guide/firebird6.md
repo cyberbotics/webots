@@ -15,7 +15,7 @@ FireBird6 {
   SFRotation rotation        0 1 0 0        
   SFString   name            "Fire Bird 6"  
   SFString   controller      "fire_bird_6_obstacle_avoidance"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

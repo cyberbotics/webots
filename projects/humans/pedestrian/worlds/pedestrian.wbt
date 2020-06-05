@@ -33,13 +33,18 @@ CircleArena {
 Pedestrian {
   translation 3 0 1.26
   rotation 0 0 1 3.14159
-  controllerArgs "--trajectory=\"0 3, 0 -3\" --speed=2.5"
+  controllerArgs [
+    "--trajectory=0 3, 0 -3"
+    "--speed=2.5"
+  ]
 }
 Pedestrian {
   translation 1 5 1.27
   rotation 0 0 1 3.14159
   name "pedestrian(1)"
-  controllerArgs "--trajectory=\"5 1, 5 -1, 1 -5, -1 -5, -5 -1, -5 1, -1 5, 1 5\""
+  controllerArgs [
+    "--trajectory=5 1, 5 -1, 1 -5, -1 -5, -5 -1, -5 1, -1 5, 1 5"
+  ]
   shirtColor 0.466667 0.0980392 0.458824
 }
 Pedestrian {

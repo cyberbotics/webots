@@ -4,7 +4,7 @@
 
 PROTO NonStaticSupervisor [
   field SFString controller     ""
-  field SFString controllerArgs ""
+  field MFString controllerArgs []
   field SFString description    ""
   field MFNode   children       []
 ]

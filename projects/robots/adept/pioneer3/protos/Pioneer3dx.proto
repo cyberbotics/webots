@@ -9,7 +9,7 @@ PROTO Pioneer3dx [
   field SFRotation rotation        0 0 1 0                          # Is `Transform.rotation`.
   field SFString   name            "Pioneer 3-DX"                   # Is `Solid.name`.
   field SFString   controller      "pioneer3dx_collision_avoidance" # Is `Robot.controller`.
-  field SFString   controllerArgs  ""                               # Is `Robot.controllerArgs`.
+  field MFString   controllerArgs  []                               # Is `Robot.controllerArgs`.
   field SFString   customData      ""                               # Is `Robot.customData`.
   field SFBool     supervisor      FALSE                            # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE                             # Is `Robot.synchronization`.

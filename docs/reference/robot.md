@@ -5,11 +5,11 @@ Derived from [Solid](solid.md).
 ```
 Robot {
   SFString controller      "void"   # any string
-  SFString controllerArgs  ""       # any string
+  MFString controllerArgs  []       # any string
   SFString customData      ""       # any string
   SFBool   supervisor      FALSE    # {TRUE, FALSE}
   SFBool   synchronization TRUE     # {TRUE, FALSE}
-  MFFloat  battery         [ ]      # see below
+  MFFloat  battery         []       # see below
   SFFloat  cpuConsumption  10       # [0, inf)
   SFBool   selfCollision   FALSE    # {TRUE, FALSE}
   SFBool   showWindow      FALSE    # {TRUE, FALSE}
@@ -1647,93 +1647,6 @@ path = wb_robot_get_world_path()
 This function returns the full path of the current opened world.
 The returned pointer is a UTF-8 encoded char string which does include the final ".wbt".
 It should not be deallocated.
-
----
-
-#### `wb_robot_get_controller_name`
-#### `wb_robot_get_controller_arguments`
-
-%tab-component "language"
-
-%tab "C"
-
-```c
-#include <webots/robot.h>
-
-const char *wb_robot_get_controller_name();
-const char *wb_robot_get_controller_arguments();
-```
-
-%tab-end
-
-%tab "C++"
-
-```cpp
-#include <webots/Robot.hpp>
-
-namespace webots {
-  class Robot {
-    std::string getControllerName() const;
-    std::string getControllerArguments() const;
-    // ...
-  }
-}
-```
-
-%tab-end
-
-%tab "Python"
-
-```python
-from controller import Robot
-
-class Robot:
-    def getControllerName(self):
-    def getControllerArguments(self):
-    # ...
-```
-
-%tab-end
-
-%tab "Java"
-
-```java
-import com.cyberbotics.webots.controller.Robot;
-
-public class Robot {
-  public String getControllerName();
-  public String getControllerArguments();
-  // ...
-}
-```
-
-%tab-end
-
-%tab "MATLAB"
-
-```MATLAB
-name = wb_robot_get_controller_name()
-name = wb_robot_get_controller_arguments()
-```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/robot/get_controller_name` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
-| `/robot/get_controller_arguments` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
-
-%tab-end
-
-%end
-
-##### Description
-
-*return the content of the `Robot::controller` and `Robot::controllerArgs` fields*
-
-These functions return the content of respectively the Robot::controller and the Robot::controllerArgs fields.
 
 ---
 

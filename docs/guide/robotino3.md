@@ -19,7 +19,7 @@ Robotino3 {
   SFString    name                 "Robotino 3"
   SFString    model                "Festo - Robotino 3"
   SFString    controller           "robotino3"
-  SFString    controllerArgs       ""
+  MFString    controllerArgs       []
   SFString    customData           ""
   SFBool      supervisor           FALSE
   SFBool      synchronization      TRUE

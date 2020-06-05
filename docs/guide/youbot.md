@@ -23,7 +23,7 @@ Youbot {
   SFRotation rotation        1 0 0 -1.5708
   SFString   name            "youBot"
   SFString   controller      "youbot"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

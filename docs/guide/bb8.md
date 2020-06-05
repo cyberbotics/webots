@@ -22,7 +22,7 @@ BB-8 {
   SFRotation rotation        0 1 0 0
   SFString   name            "BB-8"
   SFString   controller      "bb-8"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

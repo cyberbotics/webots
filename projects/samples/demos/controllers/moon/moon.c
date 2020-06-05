@@ -24,7 +24,6 @@
 #include <webots/keyboard.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
-#include <webots/utils/ansi_codes.h>
 
 #define TIME_STEP 64
 
@@ -62,9 +61,7 @@ int main() {
   wb_motor_set_velocity(right_motor, 0.0);
 
   wb_keyboard_enable(TIME_STEP);
-  ANSI_CLEAR_CONSOLE();
-  printf("You can drive this robot by using the arrow"
-         " keys of your keyboard\n");
+  printf("You can drive this robot by using the arrow keys of your keyboard\n");
 
   while (wb_robot_step(TIME_STEP) != -1) {
     for (i = 0; i < 16; i++)
