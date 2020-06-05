@@ -92,22 +92,26 @@ for node in world.content['root']:
         default_direction = True
         default_position = True
         default_rotation = True
+        default_translation = True
         for field in node['fields']:
             if field['name'] in ['translation', 'position', 'location', 'direction']:
                 field['value'] = translation(field['value'])
+                if field['name'] == 'translation':
+                    default_translation = False
                 if field['name'] == 'direction':
                     default_direction = False
                 elif field['name'] == 'position':  # Viewpoint
                     default_position = False
-                elif field['name'] == 'rotation':
-                    default_rotation = False
+            elif field['name'] == 'rotation':
+                default_rotation = False
             elif field['name'] in ['rotation', 'orientation']:
                 field['value'] = rotation(field['value'])
         if node['name'] in ['DirectionalLight', 'SpotLight'] and default_direction:  # fix default direction for lights
-            node['fields'].append({'name': 'direction', 'type': 'SFVec3f', 'value': [0, -1, 0]})
+            node['fields'].insert(0, {'name': 'direction', 'type': 'SFVec3f', 'value': [0, -1, 0]})
         elif node['name'] == 'Viewpoint' and default_position:  # fix default position for Viewpoint
-            node['fields'].append({'name': 'position', 'type': 'SFVec3f', 'value': [0, 10, 0]})
+            node['fields'].insert(0, {'name': 'position', 'type': 'SFVec3f', 'value': [0, 10, 0]})
         elif node['name'] in ['Robot', 'Solid', 'Transform'] and default_rotation:
-            node['fields'].append({'name': 'rotation', 'type': 'SFRotation', 'value': rotation([0, 1, 0, 0])})
+            node['fields'].insert(0 if default_translation else 1,
+                                  {'name': 'rotation', 'type': 'SFRotation', 'value': rotation([0, 1, 0, 0])})
 
 world.save(filename[:-4] + '_enu.wbt')

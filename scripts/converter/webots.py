@@ -219,6 +219,8 @@ class WebotsModel:
                     elif length == 3:
                         type = 'MFRotation'
                     for number in words:
+                        if number.endswith(','):
+                            number = number[:-1]
                         array.append(float(number))  # MFVec2f / MFVec3f / MFRotation / MFColor
                     mffield.append(array)
             else:
