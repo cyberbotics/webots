@@ -41,11 +41,6 @@ void WbMFString::removeItem(int index) {
   emit changed();
 }
 
-void WbMFString::setValue(const QStringList &value) {
-  mValue = value;
-  emit changed();
-}
-
 void WbMFString::setItem(int index, const QString &value) {
   assert(index >= 0 && index < size());
   if (mValue[index] != value) {

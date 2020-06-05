@@ -190,10 +190,29 @@ void WbRobot::preFinalize() {
 
   if ((WbTokenizer::worldFileVersion() < WbVersion(2020, 1, 0) ||
        (proto() && proto()->fileVersion() < WbVersion(2020, 1, 0))) &&
-      mControllerArgs->value().size() == 1 && mControllerArgs->value()[0].contains(" ")) {
-    mControllerArgs->setValue(mControllerArgs->value()[0].split(" "));
+      mControllerArgs->value().size() == 1 && mControllerArgs->value()[0].contains(' ')) {
+    // we need to split the controllerArgs[0] at space boundaries into a list of strings
+    // taking into account quotes and double quotes to avoid splitting in the middle of a quoted (or double quoted) string
+    QStringList arguments;
+    const QString args = mControllerArgs->value()[0].trimmed();
+    const int l = args.length();
+    bool doubleQuote = false;
+    bool singleQuote = false;
+    int previous = 0;
+    for (int i = 0; i < l; i++) {
+      if (!singleQuote && args[i] == '"' && ((i == 0) || args[i - 1] != '\\'))
+        doubleQuote = !doubleQuote;
+      else if (!doubleQuote && args[i] == '\'' && ((i == 0) || args[i - 1] != '\\'))
+        singleQuote = !singleQuote;
+      else if (args[i] == ' ' && !(singleQuote || doubleQuote)) {
+        arguments << args.mid(previous, i - previous).remove('"').remove('\'');
+        previous = i + 1;
+      }
+    }
+    arguments << args.mid(previous).remove('"').remove('\'');
+    mControllerArgs->setValueNoSignal(arguments);
     parsingWarn(tr("Robot.controllerArgs data type changed from SFString to MFString in Webots R2020b. "
-                   "Splitting controllerArgs at space boundaries. "
+                   "Splitting controllerArgs. "
                    "You may need to update your PROTO and/or world file(s)."));
   }
   updateWindow();
