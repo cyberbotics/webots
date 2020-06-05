@@ -111,7 +111,7 @@ for node in world.content['root']:
             node['fields'].insert(0, {'name': 'direction', 'type': 'SFVec3f', 'value': [0, -1, 0]})
         elif node['name'] == 'Viewpoint' and default_position:  # fix default position for Viewpoint
             node['fields'].insert(0, {'name': 'position', 'type': 'SFVec3f', 'value': [0, 10, 0]})
-        elif node['name'] in ['Robot', 'Solid', 'Transform'] and default_rotation:
+        elif (node['name'] in ['Robot', 'Solid', 'Transform'] or not default_translation) and default_rotation:
             node['fields'].insert(0 if default_translation else 1,
                                   {'name': 'rotation', 'type': 'SFRotation', 'value': rotation([0, 1, 0, 0])})
 

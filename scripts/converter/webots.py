@@ -103,6 +103,7 @@ class WebotsModel:
             if type == 'MFString':
                 self.file.write('"' + value + '"\n')
             elif type == 'MFInt32' or type == 'MFFloat':
+                print(value)
                 self.file.write(WebotsModel._str(value) + '\n')
             elif type == 'MFBool':
                 self.file.write('TRUE\n' if value else 'FALSE\n')
@@ -147,7 +148,11 @@ class WebotsModel:
         field['name'] = words[0]
         character = words[1][0]
         if character == '[':
-            (field['type'], field['value']) = self._read_mf_field()  # MF*
+            if len(words[1]) > 1 and words[1][1] == ']':  # empty MF field
+                field['type'] = 'MF'
+                field['value'] = []
+            else:
+                (field['type'], field['value']) = self._read_mf_field()  # MF*
         elif character == '"':
             field['type'] = 'SFString'
             field['value'] = words[1][1:-1]
@@ -220,6 +225,8 @@ class WebotsModel:
                         type = 'MFRotation'
                     for number in words:
                         if number.endswith(','):
+                            if type == '':
+                                type = 'MFFloat'
                             number = number[:-1]
                         array.append(float(number))  # MFVec2f / MFVec3f / MFRotation / MFColor
                     mffield.append(array)
