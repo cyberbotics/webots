@@ -15,8 +15,6 @@ PROTO TiagoGripper [
       side = "left_hand_"
     elseif fields.name.value == "right" then
       side = "right_hand_"
-    else
-      side = ""
     end
   }%
     Solid {
