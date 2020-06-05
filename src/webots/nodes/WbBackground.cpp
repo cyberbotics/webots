@@ -344,7 +344,7 @@ void WbBackground::applySkyBoxToWren() {
         const int rotate = gCoordinateSystemRotate(i);
         if (rotate != 0) {
           QPoint center = image[i].rect().center();
-          QMatrix matrix;
+          QTransform matrix;
           matrix.translate(center.x(), center.y());
           matrix.rotate(rotate);
           QImage tmp = image[i].transformed(matrix);
