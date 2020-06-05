@@ -102,10 +102,11 @@ for node in world.content['root']:
                     default_direction = False
                 elif field['name'] == 'position':  # Viewpoint
                     default_position = False
-            elif field['name'] == 'rotation':
-                default_rotation = False
             elif field['name'] in ['rotation', 'orientation']:
                 field['value'] = rotation(field['value'])
+                if field['name'] == 'rotation':
+                    default_rotation = False
+
         if node['name'] in ['DirectionalLight', 'SpotLight'] and default_direction:  # fix default direction for lights
             node['fields'].insert(0, {'name': 'direction', 'type': 'SFVec3f', 'value': [0, -1, 0]})
         elif node['name'] == 'Viewpoint' and default_position:  # fix default position for Viewpoint
