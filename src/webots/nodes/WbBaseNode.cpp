@@ -272,19 +272,20 @@ void WbBaseNode::exportURDFJoint(WbVrmlWriter &writer) const {
   if (!dynamic_cast<WbBasicJoint *>(parent())) {
     WbVector3 translation;
     WbVector3 rotationEuler;
+    const WbNode *const upperLinkRoot = findUrdfLinkRoot();
 
-    if (dynamic_cast<const WbTransform *>(this) && dynamic_cast<WbTransform *>(parent())) {
-      translation = static_cast<const WbTransform *>(this)->translation();
-      rotationEuler = static_cast<const WbTransform *>(this)->rotation().toMatrix3().toEulerAngles();
+    if (dynamic_cast<const WbTransform *>(this) && dynamic_cast<const WbTransform *>(upperLinkRoot)) {
+      translation = static_cast<const WbTransform *>(this)->translationFrom(upperLinkRoot);
+      rotationEuler = static_cast<const WbTransform *>(this)->rotationMatrixFrom(upperLinkRoot).toEulerAngles();
     }
 
     writer.increaseIndent();
     writer.indent();
-    writer << QString("<joint name=\"%1_%2_joint\" type=\"fixed\">\n").arg(parent()->urdfName()).arg(urdfName());
+    writer << QString("<joint name=\"%1_%2_joint\" type=\"fixed\">\n").arg(upperLinkRoot->urdfName()).arg(urdfName());
 
     writer.increaseIndent();
     writer.indent();
-    writer << QString("<parent link=\"%1\"/>\n").arg(parent()->urdfName());
+    writer << QString("<parent link=\"%1\"/>\n").arg(upperLinkRoot->urdfName());
     writer.indent();
     writer << QString("<child link=\"%1\"/>\n").arg(urdfName());
     writer.indent();
