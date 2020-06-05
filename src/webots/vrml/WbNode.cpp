@@ -1094,18 +1094,21 @@ QStringList WbNode::listTextureFiles() const {
 
 const QString WbNode::urdfName() const {
   QString name;
-  if (this->findSFString("name"))
+  if (this->findSFString("name")) {
     name = this->findSFString("name")->value();
-  else
+
+    // Make sure there are no duplicates
+    const QList<WbNode *> children = findRobotRootNode()->subNodes(true, true, true);
+    for (int i = 0; i < children.size(); i++) {
+      const WbNode *const child = children.at(i);
+      if (child->findSFString("name") && child->findSFString("name")->value() == name) {
+        name += "_" + QString::number(mUniqueId);
+        break;
+      }
+    }
+  } else
     name = QString(mModel->name().toLower() + "_" + QString::number(mUniqueId));
 
-  // Make sure there are no duplicates
-  const QList<WbNode *> children = subNodes(false);
-  for (int i = 0; i < children.size(); i++) {
-    const WbNode *const child = children.at(i);
-    if (child->urdfName() == name)
-      name += "_" + name;
-  }
   return getUrdfPrefix() + name;
 }
 
