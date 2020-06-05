@@ -197,16 +197,17 @@ void WbRobot::preFinalize() {
     QStringList arguments;
     const QString args = mControllerArgs->value()[0].trimmed();
     const int l = args.length();
-    bool doubleQuote = false;
-    bool singleQuote = false;
+    bool insideDoubleQuote = false;
+    bool insideSingleQuote = false;
     int previous = 0;
     for (int i = 0; i < l; i++) {
-      if (!singleQuote && args[i] == '"' && ((i == 0) || args[i - 1] != '\\'))
-        doubleQuote = !doubleQuote;
-      else if (!doubleQuote && args[i] == '\'' && ((i == 0) || args[i - 1] != '\\'))
-        singleQuote = !singleQuote;
-      else if (args[i] == ' ' && !(singleQuote || doubleQuote)) {
-        arguments << args.mid(previous, i - previous).remove('"').remove('\'');
+      if (!insideSingleQuote && args[i] == '"' && ((i == 0) || args[i - 1] != '\\'))
+        insideDoubleQuote = !insideDoubleQuote;
+      else if (!insideDoubleQuote && args[i] == '\'' && ((i == 0) || args[i - 1] != '\\'))
+        insideSingleQuote = !insideSingleQuote;
+      else if (args[i] == ' ' && !(insideSingleQuote || insideDoubleQuote)) {
+        if (args[i - 1] != ' ')
+          arguments << args.mid(previous, i - previous).remove('"').remove('\'');
         previous = i + 1;
       }
     }
