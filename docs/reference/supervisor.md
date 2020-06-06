@@ -845,10 +845,7 @@ box_pos_robot = np.dot(rot_ur10e, box_pos_world)
 # calculate the orientation of the box, relative to the robot. All in one line
 box_rot_robot = np.dot(rot_ur10e, np.array(box.getOrientation()).reshape(3, 3)) 
 ```
-
-</p>
-</details>
-
+%end
 
 The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt](https://github.com/cyberbotics/webots/tree/master/projects/robots/neuronics/ipr/worlds/ipr_cube.wbt)" simulation shows how to use these functions to achieve this.
 
