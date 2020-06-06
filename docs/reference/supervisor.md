@@ -812,10 +812,7 @@ p' = R * p + T
 
 Where *p* is a point whose coordinates are given with respect to the local coordinate system of a node, *R* the rotation matrix returned by the `wb_supervisor_node_get_orientation` function, *T* is the position returned by the `wb_supervisor_node_get_position` function and *p'* represents the same point but this time with coordinates expressed in the global (world) coordinate system.
 
-<details><summary>Python Example - CLICK TO EXPAND</summary>
-<p>
-
-#### Python code for calculating relative positions and orientations
+%spoiler "**Python Example**: How to calculate relative positions and orientations?"
 
 ```python
 from controller import Supervisor
