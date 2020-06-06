@@ -909,7 +909,7 @@ LargeValve {
   SFFloat    jointFriction   0.5
   SFString   controller      "valve_turner"
   SFBool     supervisor      FALSE
-  SFString   absoluteStop    "15.7079632679"
+  MFString   absoluteStop    "15.7079632679"
   SFString   contactMaterial "default"
 }
 ```
@@ -978,7 +978,7 @@ SmallValve {
   SFFloat    jointFriction 0.1
   SFString   controller    "valve_turner"
   SFBool     supervisor    FALSE
-  SFString   absoluteStop  "15.7079632679"
+  MFString   absoluteStop  "15.7079632679"
 }
 ```
 
@@ -994,4 +994,3 @@ SmallValve {
 - `controller`: Defines the controller of the valve which is used to limit its rotation.
 
 - `absoluteStop`: Defines the maximum rotational angle in radians. This value is sent to the controller using the controllerArgs field.
-

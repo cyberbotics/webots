@@ -16,7 +16,7 @@ PROTO RobotisOp3 [
   field SFRotation rotation            1 0 0 -1.5708
   field SFString   name                "ROBOTIS OP3"                  # Is `Solid.name`.
   field SFString   controller          "void"                         # Is `Robot.controller`.
-  field SFString   controllerArgs      ""                             # Is `Robot.controllerArgs`.
+  field MFString   controllerArgs      []                             # Is `Robot.controllerArgs`.
   field SFString   contactMaterial     "ROBOTIS OP3 default material" # Defines the `Solid.contactMaterial` for all the robot parts, except the feet and the hands.
   field SFString   footContactMaterial "ROBOTIS OP3 foot material"    # Defines the `Solid.contactMaterial` for the feet.
   field SFString   handContactMaterial "ROBOTIS OP3 finger material"  # Defines the `Solid.contactMaterial` for the hands.

@@ -20,7 +20,7 @@ Moose {
   SFRotation rotation        0 1 0 1.5708
   SFString   name            "moose"
   SFString   controller      ""
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFBool     synchronization TRUE
   SFColor    color           0.8 0.5 0.1
   MFNode     bodySlot        []

@@ -24,7 +24,7 @@
 
 WbWindowsRegistry::WbWindowsRegistry(const QString &key) {
   HKEY baseKey = 0;
-  QStringList keys = key.split("\\", QString::SkipEmptyParts);
+  QStringList keys = key.split("\\", Qt::SkipEmptyParts);
   assert(keys.length() > 0);
   QString baseString = keys.takeFirst();
   if (baseString.toUpper() == "HKEY_CLASSES_ROOT")

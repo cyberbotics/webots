@@ -100,14 +100,6 @@ string Robot::getUrdf(string prefix) const {
   return string(wb_robot_get_urdf(prefix.c_str()));
 }
 
-string Robot::getControllerName() const {
-  return string(wb_robot_get_controller_name());
-}
-
-string Robot::getControllerArguments() const {
-  return string(wb_robot_get_controller_arguments());
-}
-
 double Robot::getTime() const {
   return wb_robot_get_time();
 }

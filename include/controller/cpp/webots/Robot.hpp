@@ -69,8 +69,6 @@ namespace webots {
     UserInputEvent waitForUserInputEvent(UserInputEvent event_type, int timeout);
     std::string getName() const;
     std::string getUrdf(std::string urdf = "") const;
-    std::string getControllerName() const;
-    std::string getControllerArguments() const;
     double getTime() const;
     std::string getModel() const;
     std::string getCustomData() const;

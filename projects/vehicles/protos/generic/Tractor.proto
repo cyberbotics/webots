@@ -11,7 +11,7 @@ PROTO Tractor [
   field     SFColor    color             0.24 0.53 0.79
   field     SFString   name              "vehicle"
   field     SFString   controller        "void"
-  field     SFString   controllerArgs    ""
+  field     MFString   controllerArgs    [ ]
   field     SFBool     synchronization   TRUE
   field     MFNode     sensorSlot        [ ]
 ]

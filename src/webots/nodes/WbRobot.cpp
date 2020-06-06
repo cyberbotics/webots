@@ -27,6 +27,7 @@
 #include "WbMFDouble.hpp"
 #include "WbMFNode.hpp"
 #include "WbMouse.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbPropeller.hpp"
@@ -41,6 +42,7 @@
 #include "WbSolidDevice.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbSupervisorUtilities.hpp"
+#include "WbTokenizer.hpp"
 #include "WbTrack.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -128,7 +130,7 @@ void WbRobot::init() {
   mSupervisor = findSFBool("supervisor");
   mSynchronization = findSFBool("synchronization");
   mController = findSFString("controller");
-  mControllerArgs = findSFString("controllerArgs");
+  mControllerArgs = findMFString("controllerArgs");
   mCustomData = findSFString("customData");
   mBattery = findMFDouble("battery");
   mCpuConsumption = findSFDouble("cpuConsumption");
@@ -188,6 +190,39 @@ void WbRobot::preFinalize() {
   mKeyboardSensor = new WbSensor();
   mJoystickSensor = new WbSensor();
 
+  if ((WbTokenizer::worldFileVersion() < WbVersion(2020, 1, 0) ||
+       (proto() && proto()->fileVersion() < WbVersion(2020, 1, 0))) &&
+      mControllerArgs->value().size() == 1 && mControllerArgs->value()[0].contains(' ')) {
+    // we need to split the controllerArgs[0] at space boundaries into a list of strings
+    // taking into account quotes and double quotes to avoid splitting in the middle of a quoted (or double quoted) string
+    QStringList arguments;
+    const QString args = mControllerArgs->value()[0].trimmed();
+    const int l = args.length();
+    bool insideDoubleQuote = false;
+    bool insideSingleQuote = false;
+    int previous = 0;
+    for (int i = 0; i < l; i++) {
+      if (!insideSingleQuote && args[i] == '"' && ((i == 0) || args[i - 1] != '\\'))
+        insideDoubleQuote = !insideDoubleQuote;
+      else if (!insideDoubleQuote && args[i] == '\'' && ((i == 0) || args[i - 1] != '\\'))
+        insideSingleQuote = !insideSingleQuote;
+      else if (args[i] == ' ' && !(insideSingleQuote || insideDoubleQuote)) {
+        if (args[i - 1] != ' ')
+          arguments << args.mid(previous, i - previous).remove('"').remove('\'');
+        previous = i + 1;
+      }
+    }
+    arguments << args.mid(previous).remove('"').remove('\'');
+    const WbField *const controllerArgs = findField("controllerArgs", true);
+    QString message;
+    if (WbNodeUtilities::isTemplateRegeneratorField(controllerArgs))  // it would crash to change controllerArgs from here
+      message = tr("Unable to split arguments automatically, please update your world file manually.");
+    else {
+      mControllerArgs->setValue(arguments);
+      message = tr("Splitting arguments at space boundaries.");
+    }
+    parsingWarn(tr("Robot.controllerArgs data type changed from SFString to MFString in Webots R2020b. %1").arg(message));
+  }
   updateWindow();
   updateRemoteControl();
   updateControllerDir();
@@ -722,8 +757,6 @@ void WbRobot::writeConfigure(QDataStream &stream) {
   n = mAbsoluteRemoteControlFilename.toUtf8();
   stream.writeRawData(n.constData(), n.size() + 1);
   n = controllerName().toUtf8();
-  stream.writeRawData(n.constData(), n.size() + 1);
-  n = controllerArgs().toUtf8();
   stream.writeRawData(n.constData(), n.size() + 1);
   n = customData().toUtf8();
   stream.writeRawData(n.constData(), n.size() + 1);

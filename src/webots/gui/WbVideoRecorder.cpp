@@ -544,7 +544,7 @@ void WbVideoRecorder::createMpeg() {
     env.insert("AV_LOG_FORCE_COLOR", "1");  // force output message to use ANSI Escape sequences
     mScriptProcess = new QProcess();
     mScriptProcess->setProcessEnvironment(env);
-    mScriptProcess->start("./" + mScriptPath);
+    mScriptProcess->start("./" + mScriptPath, QStringList());
     connect(mScriptProcess, (void (QProcess::*)(int, QProcess::ExitStatus)) & QProcess::finished, this,
             &WbVideoRecorder::terminateVideoCreation);
     connect(mScriptProcess, &QProcess::readyReadStandardOutput, this, &WbVideoRecorder::readStdout);

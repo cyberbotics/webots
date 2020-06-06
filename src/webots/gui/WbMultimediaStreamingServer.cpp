@@ -283,7 +283,8 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
       }
     } else if (action == 2) {
       wheel = -wheel;  // Wheel delta is inverted in JS and Webots
-      QWheelEvent wheelEvent(point, point, QPoint(), QPoint(), wheel, Qt::Vertical, buttonsPressed, keyboardModifiers);
+      QWheelEvent wheelEvent(point, point, QPoint(), QPoint(0, wheel), buttonsPressed, keyboardModifiers, Qt::ScrollUpdate,
+                             false);
       if (gView3D)
         gView3D->remoteWheelEvent(&wheelEvent);
     }

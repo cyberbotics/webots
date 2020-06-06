@@ -23,6 +23,6 @@ CircleArena {
 }
 Thymio2 {
   controller "thymio2_demo"
-  controllerArgs ""
+  controllerArgs []
   window "thymio2"
 }

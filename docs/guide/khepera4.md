@@ -19,7 +19,7 @@ Khepera4 {
   SFRotation rotation            0 1 0 0
   SFString   name                "Khepera IV"
   SFString   controller          "khepera4"
-  SFString   controllerArgs      ""
+  MFString   controllerArgs      []
   SFString   customData          ""
   SFBool     supervisor          FALSE
   SFBool     synchronization     TRUE

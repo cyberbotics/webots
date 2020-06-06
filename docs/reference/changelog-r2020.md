@@ -9,8 +9,8 @@ Released on XXX.
     - Added two new functions to get internal PROTO node fields: [`wb_supervisor_node_get_from_proto_def`](supervisor.md#wb_supervisor_node_get_from_proto_def) and [`wb_supervisor_node_get_proto_field`](supervisor.md#wb_supervisor_node_get_proto_field) ([#1331](https://github.com/cyberbotics/webots/pull/1331)).
     - Added the `mjpeg` web streaming mode ([#1352](https://github.com/cyberbotics/webots/pull/1352)).
   - Enhancements
-    - **Improved [Track](track.md) `textureAnimation` field so that it automatically takes the world basic time step into consideration and removed it from `ConveyorBelt` PROTO object.** ([#1477](https://github.com/cyberbotics/webots/pull/1477)).
-    - **Replaced the [Car](../automobile/car.md) `maxWheelVelocity` field by a `maxVelocity` field representing the actual maximum velocity of the car itself.** ([#1552](https://github.com/cyberbotics/webots/pull/1552)).
+    - **Improved [Track](track.md) `textureAnimation` field so that it automatically takes the world basic time step into consideration and removed it from `ConveyorBelt` PROTO object ([#1477](https://github.com/cyberbotics/webots/pull/1477)).**
+    - **Replaced the [Car](../automobile/car.md) `maxWheelVelocity` field by a `maxVelocity` field representing the actual maximum velocity of the car itself ([#1552](https://github.com/cyberbotics/webots/pull/1552)).**
     - Added the possibility to edit the `S/MFRotation` fields using quaternions ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
     - Improved edition of `S/MFRotation` fields using the field editor spin-boxes, only the last decimal is now incremented ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
     - Added a [Gyro](https://www.cyberbotics.com/doc/reference/gyro) node to e-puck PROTO ([#1484](https://github.com/cyberbotics/webots/pull/1484)).
@@ -21,6 +21,9 @@ Released on XXX.
   - Dependency Updates
     - Upgraded to Assimp 5.0.1 on Linux and macOS ([#1419](https://github.com/cyberbotics/webots/pull/1463)).
     - Upgraded to Qt 5.14.2 on Linux.
+  - Cleanup
+    - **Specified `Robot.controllerArgs` as a `MFString` rather than a `SFString` ([#1718](https://github.com/cyberbotics/webots/pull/1718)).**
+    - **Removed useless `wb_robot_get_controller_arguments()` and deprecated useless `wb_robot_get_controller_name()` API functions ([#1718](https://github.com/cyberbotics/webots/pull/1718)).**
 
 ## Webots R2020a Revision 2
 Released on XXX.
@@ -51,7 +54,7 @@ Released on XXX.
     - Removed the ROS libraries from the default controllers path to avoid possible conflicts with other libraries (thanks to PymZoR).
     - Geometry node now displays its triangles count in the node editor.
   - Dependency Updates
-    - Upgraded to Qt 5.14.2 on Windows.
+    - Upgraded to Qt 5.15.0 on Windows.
   - Cleanup
     - Deprecated the following appearances: `ChequeredParquetry`, `DarkParquetry`, `SlatePavement`, `SquarePavement` and `StonePavement`.
   - Bug fixes

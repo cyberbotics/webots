@@ -48,9 +48,8 @@ endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
-# Qt linking
-
-CFLAGS += -std=c++11
+# wb_robot_get_controller_name() is deprecated
+WBCFLAGS += -std=c++11 -Wno-deprecated-declarations
 MOC_SOURCES = $(addprefix $(BUILD_DIR)/,$(notdir $(HPP_FILES_TO_MOC:.hpp=.moc.cpp)))
 MOC_DIRECTORIES = $(sort $(dir $(HPP_FILES_TO_MOC)))
 OBJECTS += $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(MOC_SOURCES:.cpp=.o)))

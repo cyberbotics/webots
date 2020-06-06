@@ -96,6 +96,7 @@ int main() {
       wb_emitter_send(communication, message, strlen(message) + 1);
       const double *gpsPosition = wb_gps_get_values(gps);
       /* print real position measured from the GPS */
+      ANSI_CLEAR_CONSOLE();
       printf("GPS position:     time = %.3lf   X = %.3lf Z = %.3lf\n", wb_robot_get_time(), gpsPosition[0], gpsPosition[2]);
 
     } else {

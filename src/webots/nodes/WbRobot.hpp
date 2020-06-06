@@ -15,6 +15,7 @@
 #ifndef WB_ROBOT_HPP
 #define WB_ROBOT_HPP
 
+#include "WbMFString.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFString.hpp"
 #include "WbSolid.hpp"
@@ -97,7 +98,7 @@ public:
 
   // field accessors
   const QString &controllerName() const { return mController->value(); }
-  const QString &controllerArgs() const { return mControllerArgs->value(); }
+  const QStringList &controllerArgs() const { return mControllerArgs->value(); }
   const QString &customData() const { return mCustomData->value(); }
   const QString &window() const { return mWindow->value(); }
   bool synchronization() const { return mSynchronization->value(); }
@@ -166,7 +167,7 @@ protected:
 private:
   // user accessible fields
   WbSFString *mController;
-  WbSFString *mControllerArgs;
+  WbMFString *mControllerArgs;
   WbSFString *mCustomData;
   WbSFBool *mSupervisor;
   WbSFBool *mSynchronization;
