@@ -814,6 +814,9 @@ Where *p* is a point whose coordinates are given with respect to the local coord
 
 %spoiler "**Python Example**: How to calculate relative positions and orientations?"
 
+If you want to calculate the position and orientation of any node relative to any other node, you can take a look at this example in python.
+It should be easily adaptable to any other language, as it uses simple matrix and vector calculations. 
+
 ```python
 from controller import Supervisor
 import numpy as np
