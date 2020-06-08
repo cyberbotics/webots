@@ -52,6 +52,8 @@ protected:
   void updateEndPointZeroTranslationAndRotation() override;
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
 
+  void writeExport(WbVrmlWriter &writer) const override;
+
 protected slots:
   void updatePosition() override;
   void updateParameters() override;

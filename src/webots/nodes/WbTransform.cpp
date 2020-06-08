@@ -423,10 +423,15 @@ WbMatrix3 WbTransform::rotationMatrixFrom(const WbNode *fromNode) const {
   const WbTransform *parentNode = WbNodeUtilities::findUpperTransform(this);
   const WbTransform *childNode = this;
   WbMatrix3 rotationResult = childNode->rotation().toMatrix3();
+  QTextStream(stdout) << urdfName() << " " << childNode->rotation() << "\n";
+
   while (parentNode != fromNode) {
     childNode = parentNode;
     parentNode = WbNodeUtilities::findUpperTransform(parentNode);
     rotationResult *= childNode->rotation().toMatrix3();
+    QTextStream(stdout) << urdfName() << " " << childNode->rotation() << "\n";
+
+    // QTextStream(stdout) << urdfName() << " " << rotationResult.toString();
   }
 
   return rotationResult;

@@ -117,6 +117,8 @@ public:
   WbQuaternion toQuaternion() const;
   WbVector3 toEulerAnglesZYX() const;
 
+  QString toString(WbPrecision::Level level) const;
+
   // assign from other types of rotation
   void fromOpenGlMatrix(const double m[16]);
   void fromAxisAngle(double rx, double ry, double rz, double angle);
@@ -235,6 +237,24 @@ inline void WbMatrix3::scale(double x, double y, double z) {
 
 inline WbMatrix3 WbMatrix3::operator*(double s) const {
   return WbMatrix3(mM[0] * s, mM[1] * s, mM[2] * s, mM[3] * s, mM[4] * s, mM[5] * s, mM[6] * s, mM[7] * s, mM[8] * s);
+}
+
+inline QString WbMatrix3::toString(WbPrecision::Level level = WbPrecision::Level::DOUBLE_MAX) const {
+  QString result = "[\n";
+  result += QString("  %1 %2 %3\n")
+              .arg(WbPrecision::doubleToString(mM[0], level))
+              .arg(WbPrecision::doubleToString(mM[1], level))
+              .arg(WbPrecision::doubleToString(mM[2], level));
+  result += QString("  %1 %2 %3\n")
+              .arg(WbPrecision::doubleToString(mM[3], level))
+              .arg(WbPrecision::doubleToString(mM[4], level))
+              .arg(WbPrecision::doubleToString(mM[5], level));
+  result += QString("  %1 %2 %3\n")
+              .arg(WbPrecision::doubleToString(mM[6], level))
+              .arg(WbPrecision::doubleToString(mM[7], level))
+              .arg(WbPrecision::doubleToString(mM[8], level));
+  result += "]\n";
+  return result;
 }
 
 #endif
