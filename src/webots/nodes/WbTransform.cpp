@@ -412,10 +412,9 @@ WbVector3 WbTransform::translationFrom(const WbNode *fromNode) const {
   const WbTransform *childNode = this;
   WbVector3 translationResult = childNode->translation();
   while (parentNode != fromNode) {
-    translationResult += childNode->translation();
-
     childNode = parentNode;
     parentNode = WbNodeUtilities::findUpperTransform(parentNode);
+    translationResult += childNode->translation();
   }
   return translationResult;
 }
@@ -425,10 +424,9 @@ WbMatrix3 WbTransform::rotationMatrixFrom(const WbNode *fromNode) const {
   const WbTransform *childNode = this;
   WbMatrix3 rotationResult = childNode->rotation().toMatrix3();
   while (parentNode != fromNode) {
-    rotationResult *= childNode->rotation().toMatrix3();
-
     childNode = parentNode;
     parentNode = WbNodeUtilities::findUpperTransform(parentNode);
+    rotationResult *= childNode->rotation().toMatrix3();
   }
 
   return rotationResult;
