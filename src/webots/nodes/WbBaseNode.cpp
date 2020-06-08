@@ -276,7 +276,7 @@ void WbBaseNode::exportURDFJoint(WbVrmlWriter &writer) const {
 
     if (dynamic_cast<const WbTransform *>(this) && dynamic_cast<const WbTransform *>(upperLinkRoot)) {
       translation = static_cast<const WbTransform *>(this)->translationFrom(upperLinkRoot);
-      rotationEuler = static_cast<const WbTransform *>(this)->rotationMatrixFrom(upperLinkRoot).toEulerAngles();
+      rotationEuler = static_cast<const WbTransform *>(this)->rotationMatrixFrom(upperLinkRoot).toEulerAnglesZYX();
     }
 
     writer.increaseIndent();
