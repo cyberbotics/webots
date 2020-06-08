@@ -408,6 +408,14 @@ void WbActionManager::populateActions() {
   mActions[RADAR_FRUSTUMS] = action;
 
   action = new QAction(this);
+  action->setText(tr("Show Normals"));
+  action->setStatusTip(tr("TODO"));
+  action->setToolTip(action->statusTip());
+  // action->setShortcut(Qt::SHIFT + Qt::Key_F6);
+  action->setCheckable(true);
+  mActions[NORMAL] = action;
+
+  action = new QAction(this);
   action->setText(tr("Show Physics Clusters"));
   action->setStatusTip(tr("Show visual representation of ODE clusters."));
   action->setToolTip(action->statusTip());

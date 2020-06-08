@@ -621,6 +621,7 @@ QMenu *WbMainWindow::createViewMenu() {
   subMenu = menu->addMenu(tr("&Optional Rendering"));
   subMenu->addAction(actionManager->action(WbActionManager::COORDINATE_SYSTEM));
   subMenu->addAction(actionManager->action(WbActionManager::BOUNDING_OBJECT));
+  subMenu->addAction(actionManager->action(WbActionManager::NORMALS));
   subMenu->addAction(actionManager->action(WbActionManager::CONTACT_POINTS));
   subMenu->addAction(actionManager->action(WbActionManager::CONNECTOR_AXES));
   subMenu->addAction(actionManager->action(WbActionManager::JOINT_AXES));

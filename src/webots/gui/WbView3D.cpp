@@ -162,6 +162,7 @@ WbView3D::WbView3D() :
   connect(actionManager->action(WbActionManager::COORDINATE_SYSTEM), &QAction::toggled, this,
           &WbView3D::setShowCoordinateSystem);
   connect(actionManager->action(WbActionManager::BOUNDING_OBJECT), &QAction::toggled, this, &WbView3D::setShowBoundingObjects);
+  connect(actionManager->action(WbActionManager::NORMALS), &QAction::triggered, this, &WbView3D::setShowNormals);
   connect(actionManager->action(WbActionManager::CONTACT_POINTS), &QAction::toggled, this, &WbView3D::setShowContactPoints);
   connect(actionManager->action(WbActionManager::CONNECTOR_AXES), &QAction::toggled, this, &WbView3D::setShowConnectorAxes);
   connect(actionManager->action(WbActionManager::JOINT_AXES), &QAction::toggled, this, &WbView3D::setShowJointAxes);
@@ -809,6 +810,12 @@ void WbView3D::setShowSkeletonAction(bool show) {
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_SKIN_SKELETON, show);
 }
 
+void WbView3D::setShowNormals(bool show) {
+  if (mWorld)
+    mWorld->perspective()->enableGlobalOptionalRendering("Normals", show);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_NORMALS, show);
+}
+
 void WbView3D::setShowPhysicsClustersAction(bool show) {
   if (mWorld)
     mWorld->perspective()->enableGlobalOptionalRendering("PhysicsClusters", show);
@@ -1179,6 +1186,8 @@ void WbView3D::enableOptionalRenderingFromPerspective() {
                                                  perspective->isGlobalOptionalRenderingEnabled("CoordinateSystem"), false);
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_ALL_BOUNDING_OBJECTS,
                                                  perspective->isGlobalOptionalRenderingEnabled("AllBoundingObjects"), false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_NORMALS,
+                                                 perspective->isGlobalOptionalRenderingEnabled("Normals"), false);
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_CONTACT_POINTS,
                                                  perspective->isGlobalOptionalRenderingEnabled("ContactPoints"), false);
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_CONNECTOR_AXES,

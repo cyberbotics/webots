@@ -55,6 +55,7 @@ public:
     VF_LIDAR_RAYS_PATHS = 0x00008000,       // flag for lidar ray path
     VF_RADAR_FRUSTUMS = 0x00010000,         // flag for radar frustum
     VF_SKIN_SKELETON = 0x00020000,          // flag for skin skeleton
+    VF_NORMALS = 0x00040000,                // Display mesh normals
 
     // distance sensors laser beam
     VF_LASER_BEAM = 0x00040000,
