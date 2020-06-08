@@ -16,7 +16,6 @@
 
 #include <stdlib.h>
 
-#include <webots/motor.h>
 #include <webots/robot.h>
 #include <webots/utils/motion.h>
 
