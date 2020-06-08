@@ -24,7 +24,12 @@
 #include "WbSimulationState.hpp"
 #include "WbTransform.hpp"
 #include "WbTriangleMesh.hpp"
+#include "WbWorld.hpp"
 #include "WbWrenMeshBuffers.hpp"
+#include "WbWrenRenderingContext.hpp"
+#include "WbWrenShaders.hpp"
+
+#include <wren/node.h>
 
 #include <ode/ode.h>
 
@@ -36,6 +41,7 @@ void WbTriangleMeshGeometry::init() {
   mScaledVerticesNeedUpdate = true;
   mCorrectSolidMass = true;
   mIsOdeDataApplied = false;
+  mNormalsMesh = NULL;
 }
 
 WbTriangleMeshGeometry::WbTriangleMeshGeometry(const QString &modelName, WbTokenizer *tokenizer) :
@@ -53,6 +59,10 @@ WbTriangleMeshGeometry::WbTriangleMeshGeometry(const WbNode &other) : WbGeometry
 
 WbTriangleMeshGeometry::~WbTriangleMeshGeometry() {
   wr_static_mesh_delete(mWrenMesh);
+
+  wr_node_delete(WR_NODE(mNormalsRenderable));
+  wr_material_delete(mNormalsMaterial);
+  wr_static_mesh_delete(mNormalsMesh);
 
   if (mTriangleMesh) {
     WbTriangleMeshCache::releaseTriangleMesh(this);
@@ -98,6 +108,23 @@ void WbTriangleMeshGeometry::createWrenObjects() {
   WbGeometry::createWrenObjects();
 
   buildWrenMesh(false);
+
+  mNormalsMaterial = wr_phong_material_new();
+  wr_material_set_default_program(mNormalsMaterial, WbWrenShaders::lineSetShader());
+  const float color[3] = {1.0f, 1.0f, 0.0f};
+  wr_phong_material_set_color(mNormalsMaterial, color);
+  wr_phong_material_set_transparency(mNormalsMaterial, 0.4f);
+
+  mNormalsRenderable = wr_renderable_new();
+  wr_renderable_set_cast_shadows(mNormalsRenderable, false);
+  wr_renderable_set_receive_shadows(mNormalsRenderable, false);
+  wr_renderable_set_material(mNormalsRenderable, mNormalsMaterial, NULL);
+  wr_renderable_set_visibility_flags(mNormalsRenderable, WbWrenRenderingContext::VF_NORMALS);
+  wr_renderable_set_drawing_mode(mNormalsRenderable, WR_RENDERABLE_DRAWING_MODE_LINES);
+  wr_transform_attach_child(wrenNode(), WR_NODE(mNormalsRenderable));
+
+  connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::optionalRenderingChanged, this,
+          &WbTriangleMeshGeometry::updateOptionalRendering);
 
   emit wrenObjectsCreated();
 }
@@ -462,6 +489,38 @@ void WbTriangleMeshGeometry::updateScaledVertices() const {
 
 void WbTriangleMeshGeometry::setScaleNeedUpdate() {
   mScaledVerticesNeedUpdate = true;
+}
+
+void WbTriangleMeshGeometry::updateOptionalRendering(int option) {
+  if (mNormalsMesh) {
+    wr_static_mesh_delete(mNormalsMesh);
+    mNormalsMesh = NULL;
+  }
+
+  if (option == WbWrenRenderingContext::VF_NORMALS && mTriangleMesh) {
+    QVector<float> vertices;
+    const int n = mTriangleMesh->numberOfTriangles();
+    for (int t = 0; t < n; ++t) {    // foreach triangle
+      for (int v = 0; v < 3; ++v) {  // foreach vertex
+        const double x = mTriangleMesh->vertexAt(t, v, 0);
+        const double y = mTriangleMesh->vertexAt(t, v, 1);
+        const double z = mTriangleMesh->vertexAt(t, v, 2);
+
+        vertices.push_back(x);
+        vertices.push_back(y);
+        vertices.push_back(z);
+
+        const double linescale = WbWorld::instance()->worldInfo()->lineScale();
+
+        vertices.push_back(x + linescale * mTriangleMesh->normalAt(t, v, 0));
+        vertices.push_back(y + linescale * mTriangleMesh->normalAt(t, v, 1));
+        vertices.push_back(z + linescale * mTriangleMesh->normalAt(t, v, 2));
+      }
+    }
+
+    mNormalsMesh = wr_static_mesh_line_set_new(vertices.size() / 3, vertices.data(), NULL);
+    wr_renderable_set_mesh(mNormalsRenderable, WR_MESH(mNormalsMesh));
+  }
 }
 
 /////////////////////////////////////////////////////////////

@@ -109,6 +109,11 @@ private:
   // Only derived classes can be cloned
   WbNode *clone() const override = 0;
 
+  // normals representation
+  WrRenderable *mNormalsRenderable;
+  WrMaterial *mNormalsMaterial;
+  WrStaticMesh *mNormalsMesh;
+
   void init();
 
   // WREN
@@ -132,6 +137,9 @@ private:
 
   // Hashmap containing triangle meshes, shared by all instances
   static WbTriangleMeshMap cTriangleMeshMap;
+
+private slots:
+  void updateOptionalRendering(int option);
 };
 
 #endif
