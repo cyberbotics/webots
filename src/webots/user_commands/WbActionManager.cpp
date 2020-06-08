@@ -413,7 +413,7 @@ void WbActionManager::populateActions() {
   action->setToolTip(action->statusTip());
   // action->setShortcut(Qt::SHIFT + Qt::Key_F6);
   action->setCheckable(true);
-  mActions[NORMAL] = action;
+  mActions[NORMALS] = action;
 
   action = new QAction(this);
   action->setText(tr("Show Physics Clusters"));
