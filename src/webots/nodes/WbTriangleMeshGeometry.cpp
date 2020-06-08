@@ -125,6 +125,8 @@ void WbTriangleMeshGeometry::createWrenObjects() {
 
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::optionalRenderingChanged, this,
           &WbTriangleMeshGeometry::updateOptionalRendering);
+  connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this,
+          &WbTriangleMeshGeometry::updateNormalsRepresentation);
 
   emit wrenObjectsCreated();
 }
@@ -492,12 +494,19 @@ void WbTriangleMeshGeometry::setScaleNeedUpdate() {
 }
 
 void WbTriangleMeshGeometry::updateOptionalRendering(int option) {
+  if (option != WbWrenRenderingContext::VF_NORMALS)
+    return;
+
+  updateNormalsRepresentation();
+}
+
+void WbTriangleMeshGeometry::updateNormalsRepresentation() {
   if (mNormalsMesh) {
     wr_static_mesh_delete(mNormalsMesh);
     mNormalsMesh = NULL;
   }
 
-  if (option == WbWrenRenderingContext::VF_NORMALS && mTriangleMesh) {
+  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_NORMALS) && mTriangleMesh) {
     QVector<float> vertices;
     const int n = mTriangleMesh->numberOfTriangles();
     for (int t = 0; t < n; ++t) {    // foreach triangle

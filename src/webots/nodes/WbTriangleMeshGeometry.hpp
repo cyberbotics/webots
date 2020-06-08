@@ -140,6 +140,7 @@ private:
 
 private slots:
   void updateOptionalRendering(int option);
+  void updateNormalsRepresentation();
 };
 
 #endif
