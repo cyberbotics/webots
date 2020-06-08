@@ -119,10 +119,10 @@ void WbStreamingServer::startFromCommandLine(const QString &argument) {
   // default values
   int port = 1234;
   // parse argument
-#ifdef _WIN32  // uses Qt 5.15
-  QStringList options = argument.split(';', Qt::SkipEmptyParts);
-#else
+#ifdef __APPLE__
   QStringList options = argument.split(';', QString::SkipEmptyParts);
+#else  //  Qt >= 5.15
+  QStringList options = argument.split(';', Qt::SkipEmptyParts);
 #endif
   foreach (QString option, options) {
     option = option.trimmed();

@@ -190,10 +190,10 @@ void Motion::parse() {
 
   // parse header
   const QString &firstLine = in.readLine();
-#ifdef _WIN32  // uses Qt 5.15
-  QStringList firstLineTokens = firstLine.split(',', Qt::SkipEmptyParts);
-#else
+#ifdef __APPLE__
   QStringList firstLineTokens = firstLine.split(',', QString::SkipEmptyParts);
+#else  // Qt >= 5.15
+  QStringList firstLineTokens = firstLine.split(',', Qt::SkipEmptyParts);
 #endif
 
   if (firstLineTokens.size() < 2)
@@ -233,10 +233,10 @@ void Motion::parse() {
     if (line.isEmpty())
       continue;  // support empty lines
 
-#ifdef _WIN32  // uses Qt 5.15
-    QStringList lineTokens = line.split(',', Qt::SkipEmptyParts);
-#else
+#ifdef __APPLE__
     QStringList lineTokens = line.split(',', QString::SkipEmptyParts);
+#else  // Qt >= 5.15
+    QStringList lineTokens = line.split(',', Qt::SkipEmptyParts);
 #endif
 
     if (lineTokens.size() != usedMotorNamesList.size() + 2)
