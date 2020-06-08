@@ -304,6 +304,7 @@ void WbJoint::writeExport(WbVrmlWriter &writer) const {
     const WbNode *const parentRoot = findUrdfLinkRoot();
     const WbVector3 translation = solidEndPoint()->translationFrom(parentRoot);
     const WbVector3 rotationEuler = solidEndPoint()->rotationMatrixFrom(parentRoot).toEulerAngles();
+    const WbVector3 rotationAxis = axis() * solidEndPoint()->rotationMatrixFrom(parentRoot);
 
     writer.increaseIndent();
     writer.indent();
@@ -315,7 +316,7 @@ void WbJoint::writeExport(WbVrmlWriter &writer) const {
     writer.indent();
     writer << QString("<child link=\"%1\"/>\n").arg(solidEndPoint()->urdfName());
     writer.indent();
-    writer << QString("<axis xyz=\"%1 %2 %3\"/>\n").arg((int)axis().x()).arg((int)axis().y()).arg((int)axis().z());
+    writer << QString("<axis xyz=\"%1 %2 %3\"/>\n").arg(rotationAxis.x()).arg(rotationAxis.y()).arg(rotationAxis.z());
     writer.indent();
     writer << QString("<origin xyz=\"%1 %2 %3\" rpy=\"%4 %5 %6\"/>\n")
                 .arg(translation.x())
