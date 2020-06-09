@@ -312,7 +312,7 @@ void WbJoint::writeExport(WbVrmlWriter &writer) const {
 
     writer.increaseIndent();
     writer.indent();
-    writer << QString("<parent link=\"%1\"/>\n").arg(parent()->urdfName());
+    writer << QString("<parent link=\"%1\"/>\n").arg(parentRoot->urdfName());
     writer.indent();
     writer << QString("<child link=\"%1\"/>\n").arg(solidEndPoint()->urdfName());
     writer.indent();
