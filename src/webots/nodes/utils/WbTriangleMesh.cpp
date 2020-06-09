@@ -671,6 +671,7 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
       const int indexCoord = mCoordIndices[index];
 
       // compute the normal per vertex (from normal per triangle)
+      int creasedLinkedTriangleNumber = 0;
       if (!mNormalsValid || !mNormalPerVertex) {
         WbVector3 triangleNormal;
         const WbVector3 &faceNormal = mTmpTriangleNormals[t];
@@ -685,6 +686,7 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
             const WbVector3 &linkedTriangleNormal = mTmpTriangleNormals[linkedTriangleIndex];
             // perform the creaseAngle check
             if (faceNormal.angle(linkedTriangleNormal) < creaseAngle) {
+              creasedLinkedTriangleNumber++;
               bool found = false;
               // we don't want coplanar face normals on e.g. a cylinder to bias a
               // normal and cause discontinuities, so don't include duplicated
@@ -715,7 +717,7 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
         mNormals.append(triangleNormal[X]);
         mNormals.append(triangleNormal[Y]);
         mNormals.append(triangleNormal[Z]);
-        mIsNormalCreased.append(linkedTriangleNormalsIndex > 0);
+        mIsNormalCreased.append(creasedLinkedTriangleNumber == linkedTriangles.size());
       } else {  // normal already defined per vertex
         const int indexNormal = mTmpNormalIndices[index];
         if (indexNormal >= 0 && indexNormal < normalSize) {
