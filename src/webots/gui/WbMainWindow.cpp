@@ -1103,8 +1103,7 @@ void WbMainWindow::restoreLayout() {
   if (mConsoles.size() >= 1) {
     for (int i = 1; i < mConsoles.size(); ++i)
       tabifyDockWidget(mConsoles.at(0), mConsoles.at(i));
-  } else
-    openNewConsole();
+  }
   mSimulationView->restoreFactoryLayout();
   enableToolsWidgetItems(true);
 }
@@ -1230,9 +1229,6 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
     mConsoles.last()->setEnabledFilters(consoleList.at(i).enabledFilters);
     mConsoles.last()->setEnabledLevels(consoleList.at(i).enabledLevels);
   }
-  // display at least one console
-  if (mConsoles.size() == 0)
-    openNewConsole();
 
   if (meansOfLoading) {
     if (!perspective->enabledRobotWindowNodeNames().isEmpty()) {
