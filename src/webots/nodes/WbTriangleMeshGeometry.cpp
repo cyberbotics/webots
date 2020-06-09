@@ -63,6 +63,8 @@ WbTriangleMeshGeometry::~WbTriangleMeshGeometry() {
   wr_static_mesh_delete(mWrenMesh);
   wr_static_mesh_delete(mNormalsMesh);
 
+  deleteWrenRenderable();
+
   if (mTriangleMesh) {
     WbTriangleMeshCache::releaseTriangleMesh(this);
     clearTrimeshResources();
