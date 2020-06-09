@@ -170,8 +170,7 @@ void WbTriangleMeshGeometry::buildWrenMesh(bool updateCache) {
   // normals representation
   mNormalsMaterial = wr_phong_material_new();
   wr_material_set_default_program(mNormalsMaterial, WbWrenShaders::lineSetShader());
-  const float color[3] = {1.0f, 1.0f, 0.0f};
-  wr_phong_material_set_color(mNormalsMaterial, color);
+  wr_phong_material_set_color_per_vertex(mNormalsMaterial, true);
   wr_phong_material_set_transparency(mNormalsMaterial, 0.4f);
 
   mNormalsRenderable = wr_renderable_new();
@@ -521,6 +520,7 @@ void WbTriangleMeshGeometry::updateNormalsRepresentation() {
 
   if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_NORMALS) && mTriangleMesh) {
     QVector<float> vertices;
+    QVector<float> colors;
     const int n = mTriangleMesh->numberOfTriangles();
     const double linescale = WbWorld::instance()->worldInfo()->lineScale();
     for (int t = 0; t < n; ++t) {    // foreach triangle
@@ -535,11 +535,23 @@ void WbTriangleMeshGeometry::updateNormalsRepresentation() {
         vertices.push_back(x + linescale * mTriangleMesh->normalAt(t, v, 0));
         vertices.push_back(y + linescale * mTriangleMesh->normalAt(t, v, 1));
         vertices.push_back(z + linescale * mTriangleMesh->normalAt(t, v, 2));
+
+        float color[3] = {1.0, 0.0, 0.0};
+        if (mTriangleMesh->isNormalAtCreased(t, v))
+          color[1] = 1.0;
+        else
+          color[2] = 1.0;
+
+        for (int i = 0; i < 2; ++i) {
+          colors.append(color[0]);
+          colors.append(color[1]);
+          colors.append(color[2]);
+        }
       }
     }
 
     if (vertices.size() > 0) {
-      mNormalsMesh = wr_static_mesh_line_set_new(vertices.size() / 3, vertices.data(), NULL);
+      mNormalsMesh = wr_static_mesh_line_set_new(vertices.size() / 3, vertices.data(), colors.data());
       wr_renderable_set_mesh(mNormalsRenderable, WR_MESH(mNormalsMesh));
     }
   }
