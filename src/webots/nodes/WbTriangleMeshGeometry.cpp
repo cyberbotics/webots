@@ -540,8 +540,10 @@ void WbTriangleMeshGeometry::updateNormalsRepresentation() {
       }
     }
 
-    mNormalsMesh = wr_static_mesh_line_set_new(vertices.size() / 3, vertices.data(), NULL);
-    wr_renderable_set_mesh(mNormalsRenderable, WR_MESH(mNormalsMesh));
+    if (vertices.size() > 0) {
+      mNormalsMesh = wr_static_mesh_line_set_new(vertices.size() / 3, vertices.data(), NULL);
+      wr_renderable_set_mesh(mNormalsRenderable, WR_MESH(mNormalsMesh));
+    }
   }
 }
 
