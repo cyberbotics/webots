@@ -1964,6 +1964,86 @@ Users unfamiliar with the mutex concept may wish to consult a reference on multi
 
 ---
 
+#### `wb_robot_get_urdf`
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/robot.h>
+
+const char *wb_robot_get_urdf(const char *prefix);
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/Robot.hpp>
+
+namespace webots {
+  class Robot {
+    std::string getUrdf(std::string prefix="");
+    // ...
+  }
+}
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Robot
+
+class Robot:
+    def getUrdf(self, prefix=''):
+    # ...
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.Robot;
+
+public class Robot {
+  public String getUrdf(String prefix);
+  // ...
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+wb_robot_get_urdf(prefix)
+```
+
+%tab-end
+
+%tab "ROS"
+
+| name | service/topic | data type | data type definition |
+| --- | --- | --- | --- |
+| `/robot/get_urdf` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
+
+%tab-end
+
+%end
+
+##### Description
+
+The `wb_robot_get_urdf` functions allows a robot controller to export [URDF](http://wiki.ros.org/urdf), an XML format for representing a robot model. This is particularly useful for ROS applications in which URDF is widely used to describe robot models.
+
+> **note** Exported URDF is not complete. Currently, the generated URDF consists of a minimal number of elements to be used with [`robot_state_publisher`](http://wiki.ros.org/robot_state_publisher). [RViz](http://wiki.ros.org/rviz) will show only small boxes in places where the links are located.
+
+---
+
 #### `wb_robot_wwi_receive`
 #### `wb_robot_wwi_receive_text`
 #### `wb_robot_wwi_send`
