@@ -414,7 +414,7 @@ WbVector3 WbTransform::translationFrom(const WbNode *fromNode) const {
   while (parentNode != fromNode) {
     childNode = parentNode;
     parentNode = WbNodeUtilities::findUpperTransform(parentNode);
-    translationResult += childNode->translation();
+    translationResult -= childNode->translation();
   }
   return translationResult;
 }
@@ -422,17 +422,18 @@ WbVector3 WbTransform::translationFrom(const WbNode *fromNode) const {
 WbMatrix3 WbTransform::rotationMatrixFrom(const WbNode *fromNode) const {
   const WbTransform *parentNode = WbNodeUtilities::findUpperTransform(this);
   const WbTransform *childNode = this;
-  WbMatrix3 rotationResult = childNode->rotation().toMatrix3();
-  QTextStream(stdout) << urdfName() << " " << childNode->rotation() << "\n";
 
+  QList<const WbTransform *> transformList;
+  transformList.append(childNode);
   while (parentNode != fromNode) {
     childNode = parentNode;
     parentNode = WbNodeUtilities::findUpperTransform(parentNode);
-    rotationResult *= childNode->rotation().toMatrix3();
-    QTextStream(stdout) << urdfName() << " " << childNode->rotation() << "\n";
-
-    // QTextStream(stdout) << urdfName() << " " << rotationResult.toString();
+    transformList.append(childNode);
   }
+
+  WbMatrix3 rotationResult = transformList.takeLast()->rotation().toMatrix3();
+  while (transformList.size() > 0)
+    rotationResult *= transformList.takeLast()->rotation().toMatrix3();
 
   return rotationResult;
 }
