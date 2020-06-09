@@ -671,7 +671,6 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
       const int indexCoord = mCoordIndices[index];
 
       // compute the normal per vertex (from normal per triangle)
-      int creasedLinkedTriangleNumber = 0;
       if (!mNormalsValid || !mNormalPerVertex) {
         WbVector3 triangleNormal;
         const WbVector3 &faceNormal = mTmpTriangleNormals[t];
@@ -679,6 +678,7 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
         const int ltSize = linkedTriangles.size();
         // stores the normals of the linked triangles which are already used.
         const WbVector3 **linkedTriangleNormals = new const WbVector3 *[ltSize];
+        int creasedLinkedTriangleNumber = 0;
         int linkedTriangleNormalsIndex = 0;
         for (int i = 0; i < ltSize; ++i) {
           const int linkedTriangleIndex = linkedTriangles.at(i);
@@ -717,7 +717,7 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
         mNormals.append(triangleNormal[X]);
         mNormals.append(triangleNormal[Y]);
         mNormals.append(triangleNormal[Z]);
-        mIsNormalCreased.append(creasedLinkedTriangleNumber == linkedTriangles.size());
+        mIsNormalCreased.append(creasedLinkedTriangleNumber == ltSize);
       } else {  // normal already defined per vertex
         const int indexNormal = mTmpNormalIndices[index];
         if (indexNormal >= 0 && indexNormal < normalSize) {
