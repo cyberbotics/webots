@@ -30,7 +30,7 @@ T = t1 * |omega| * omega - t2 * |omega| * V
 ```
 
 Where *t1* and *t2* are the constants specified in the `thrustConstants` field, *omega* is the motor angular velocity and *V* is the component of the linear velocity of the center of thrust along the shaft axis.
-- *t1* somehow represents the volume of fluid moved by the propeller: large helices with have a large *t1* value.
+- *t1* somehow represents the volume of fluid moved by the propeller: large helices will have a large *t1* value.
 - *t2* roughly represents the friction on the fluid opposing the motion of the propeller: aerodynamic robots evolving in a low viscosity fluid (like air) should have a low *t2* value.
 
 The thrust is applied at the point specified within the `centerOfThrust` field.
