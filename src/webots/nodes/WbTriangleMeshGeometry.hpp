@@ -39,6 +39,7 @@ public:
   // reimplemented public functions
   void preFinalize() override;
   void createWrenObjects() override;
+  // cppcheck-suppress virtualCallInConstructor
   void deleteWrenRenderable() override;
   void setScaleNeedUpdate() override;
   dGeomID createOdeGeom(dSpaceID space) override;
