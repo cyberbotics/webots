@@ -5,6 +5,7 @@ Released on XXX.
 
   - New Robot
     - Added a model of the [Spot](../guide/spot.md) robot from [Boston Dynamics](https://www.bostondynamics.com/spot).
+    - Added a demo of a Star Wars inspired [scout RX28 walking robot](https://github.com/cyberbotics/webots/blob/master/projects/robots/micromagic/scout/worlds/scout.wbt) (contributed by Matt Denton).
   - New Features
     - macOS and Windows: Added support for Python 3.8.
     - Added a model of a Mercedes-Benz Sprinter.

@@ -1,7 +1,7 @@
 #VRML_SIM R2020a utf8
 WorldInfo {
   info [
-    "A Starwars inspired scout RX28 walking robot"
+    "A Star Wars inspired scout RX28 walking robot"
     "Author: Matt Denton"
     "Date: 08 JUN 2020"
   ]
@@ -24,20 +24,23 @@ Fog {
 TexturedBackground {
   texture "mars"
 }
-TexturedBackgroundLight {
-  texture "mars"
+DirectionalLight {
+  ambientIntensity 1
+  direction -0.6 -1 0.55
+  intensity 2.7
+  castShadows TRUE
 }
 DirectionalLight {
   ambientIntensity 1
   direction -0.5 -2 -0.5
   intensity 0.7
-  castShadows TRUE
 }
-DirectionalLight {
-  ambientIntensity 1
-  direction 0.5 -0.5 0.5
-  intensity 0.7
-  castShadows TRUE
+Floor {
+  translation 0 -0.0001 0
+  size 20 20
+  tileSize 2 2
+  appearance SandyGround {
+  }
 }
 DEF CANVAS Solid {
   translation 0 -1 0
@@ -53,13 +56,6 @@ DEF CANVAS Solid {
     }
   ]
   boundingObject USE FLOOR
-}
-Floor {
-  translation 0 -0.0001 0
-  size 20 20
-  tileSize 2 2
-  appearance SandyGround {
-  }
 }
 DEF WALKER Robot {
   translation 0 0.173064 0
@@ -836,5 +832,4 @@ DEF WALKER Robot {
   physics Physics {
   }
   controller "scout"
-  supervisor TRUE
 }
