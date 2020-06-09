@@ -16,6 +16,10 @@ PointLight {
 }
 UR5e {
   controller "robot_urdf"
+  toolSlot [
+    TestSuiteEmitter {
+    }
+  ]
 }
 TestSuiteSupervisor {
 }
