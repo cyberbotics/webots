@@ -1148,6 +1148,8 @@ void WbView3D::enableOptionalRenderingFromPerspective() {
     ->setChecked(perspective->isGlobalOptionalRenderingEnabled("CoordinateSystem"));
   actionManager->action(WbActionManager::BOUNDING_OBJECT)
     ->setChecked(perspective->isGlobalOptionalRenderingEnabled("AllBoundingObjects"));
+  actionManager->action(WbActionManager::NORMALS)
+    ->setChecked(perspective->isGlobalOptionalRenderingEnabled("Normals"));
   actionManager->action(WbActionManager::CONTACT_POINTS)
     ->setChecked(perspective->isGlobalOptionalRenderingEnabled("ContactPoints"));
   actionManager->action(WbActionManager::CONNECTOR_AXES)
