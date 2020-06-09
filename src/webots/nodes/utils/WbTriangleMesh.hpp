@@ -57,6 +57,7 @@ public:
     return mVertices[coordinateIndexAt(triangle, vertex, component)];
   }
   double normalAt(int triangle, int vertex, int component) const { return mNormals[3 * indexAt(triangle, vertex) + component]; }
+  bool isNormalAtCreased(int triangle, int vertex) const { return mIsNormalCreased[indexAt(triangle, vertex)]; }
   double textureCoordinateAt(int triangle, int vertex, int component) const {
     return mTextureCoordinates[2 * indexAt(triangle, vertex) + component];
   }
@@ -124,6 +125,7 @@ private:
   QVarLengthArray<double, 1> mNonRecursiveTextureCoordinates;
   // contains triplet representing the normals (either per triangle or per vertex) (match with the mIndices order)
   QVarLengthArray<double, 1> mNormals;
+  QVarLengthArray<bool, 1> mIsNormalCreased;
   // improve tesselation problems by cutting bad triangles
   QList<QVector<int>> cutTriangleIfNeeded(const WbMFVector3 *coord, const QList<QVector<int>> &tesselatedPolygon,
                                           const int triangleIndex);

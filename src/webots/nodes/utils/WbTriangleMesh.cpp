@@ -54,6 +54,8 @@ void WbTriangleMesh::cleanup() {
   mNonRecursiveTextureCoordinates.reserve(0);
   mNormals.clear();
   mNormals.reserve(0);
+  mIsNormalCreased.clear();
+  mIsNormalCreased.reserve(0);
 
   cleanupTmpArrays();
 
@@ -134,6 +136,7 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
   mTextureCoordinates.reserve(2 * estimateSize);
   mNonRecursiveTextureCoordinates.reserve(2 * estimateSize);
   mNormals.reserve(3 * estimateSize);
+  mIsNormalCreased.reserve(estimateSize);
 
   // passes to create the final arrays
   indicesPass(coord, coordIndex, (mNormalsValid && mNormalPerVertex && isNormalIndexDefined) ? normalIndex : coordIndex,
@@ -157,6 +160,7 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
   mTextureCoordinates.reserve(mTextureCoordinates.size());
   mNonRecursiveTextureCoordinates.reserve(mNonRecursiveTextureCoordinates.size());
   mNormals.reserve(mNormals.size());
+  mIsNormalCreased.reserve(mIsNormalCreased.size());
 
   // final obvious check
   if (mNTriangles <= 0) {
@@ -185,6 +189,7 @@ QString WbTriangleMesh::init(const double *coord, const double *normal, const do
     mNonRecursiveTextureCoordinates.reserve(2 * coordSize);
   }
   mNormals.reserve(3 * coordSize);
+  mIsNormalCreased.reserve(coordSize);
 
   for (int i = 0; i < indexSize; ++i)
     mCoordIndices.append(index[i]);
@@ -234,6 +239,7 @@ QString WbTriangleMesh::init(const double *coord, const double *normal, const do
         mNormals.append(normal[3 * currentIndex]);
         mNormals.append(normal[3 * currentIndex + 1]);
         mNormals.append(normal[3 * currentIndex + 2]);
+        mIsNormalCreased.append(false);
       }
     }
   }
@@ -709,6 +715,7 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
         mNormals.append(triangleNormal[X]);
         mNormals.append(triangleNormal[Y]);
         mNormals.append(triangleNormal[Z]);
+        mIsNormalCreased.append(linkedTriangleNormalsIndex > 0);
       } else {  // normal already defined per vertex
         const int indexNormal = mTmpNormalIndices[index];
         if (indexNormal >= 0 && indexNormal < normalSize) {
@@ -716,6 +723,7 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
           mNormals.append(nor.x());
           mNormals.append(nor.y());
           mNormals.append(nor.z());
+          mIsNormalCreased.append(false);
         }
       }
 
@@ -740,6 +748,7 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
   // check the resulted size
   assert(mVertices.size() == 3 * coordSize);
   assert(mNormals.size() == 3 * 3 * mNTriangles);
+  assert(mIsNormalCreased.size() == 3 * mNTriangles);
   assert(mTextureCoordinates.size() == 0 || mTextureCoordinates.size() == 2 * 3 * mNTriangles);
   assert(mNonRecursiveTextureCoordinates.size() == 0 || mNonRecursiveTextureCoordinates.size() == 2 * 3 * mNTriangles);
 }
