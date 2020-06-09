@@ -409,9 +409,9 @@ void WbActionManager::populateActions() {
 
   action = new QAction(this);
   action->setText(tr("Show Normals"));
-  action->setStatusTip(tr("TODO"));
+  action->setStatusTip(tr("Show IndexedFaceSet and Mesh nodes normals."));
   action->setToolTip(action->statusTip());
-  // action->setShortcut(Qt::SHIFT + Qt::Key_F6);
+  action->setShortcut(Qt::SHIFT + Qt::Key_F5);
   action->setCheckable(true);
   mActions[NORMALS] = action;
 

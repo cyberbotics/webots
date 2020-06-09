@@ -621,7 +621,6 @@ QMenu *WbMainWindow::createViewMenu() {
   subMenu = menu->addMenu(tr("&Optional Rendering"));
   subMenu->addAction(actionManager->action(WbActionManager::COORDINATE_SYSTEM));
   subMenu->addAction(actionManager->action(WbActionManager::BOUNDING_OBJECT));
-  subMenu->addAction(actionManager->action(WbActionManager::NORMALS));
   subMenu->addAction(actionManager->action(WbActionManager::CONTACT_POINTS));
   subMenu->addAction(actionManager->action(WbActionManager::CONNECTOR_AXES));
   subMenu->addAction(actionManager->action(WbActionManager::JOINT_AXES));
@@ -633,8 +632,9 @@ QMenu *WbMainWindow::createViewMenu() {
   subMenu->addAction(actionManager->action(WbActionManager::LIGHT_SENSOR_RAYS));
   subMenu->addAction(actionManager->action(WbActionManager::LIGHT_POSITIONS));
   subMenu->addAction(actionManager->action(WbActionManager::PEN_PAINTING_RAYS));
-  subMenu->addAction(actionManager->action(WbActionManager::SKIN_SKELETON));
+  subMenu->addAction(actionManager->action(WbActionManager::NORMALS));
   subMenu->addAction(actionManager->action(WbActionManager::RADAR_FRUSTUMS));
+  subMenu->addAction(actionManager->action(WbActionManager::SKIN_SKELETON));
 
   if (!WbSysInfo::environmentVariable("WEBOTS_DEBUG").isEmpty()) {
     subMenu->addSeparator();
