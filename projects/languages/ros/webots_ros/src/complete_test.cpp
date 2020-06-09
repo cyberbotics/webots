@@ -369,8 +369,8 @@ int main(int argc, char **argv) {
   webots_ros::get_string urdf_srv;
 
   if (urdf_client.call(urdf_srv)) {
-    urdf = urdf_srv.response.value;
-    if (urdf != "")
+    std::string urdf = urdf_srv.response.value;
+    if (urdf == "")
       ROS_ERROR("Invalid response from get_urdf.");
     else
       ROS_INFO("URDF has been successfully obtained.");
