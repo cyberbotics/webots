@@ -103,7 +103,6 @@ class WebotsModel:
             if type == 'MFString':
                 self.file.write('"' + value + '"\n')
             elif type == 'MFInt32' or type == 'MFFloat':
-                print(value)
                 self.file.write(WebotsModel._str(value) + '\n')
             elif type == 'MFBool':
                 self.file.write('TRUE\n' if value else 'FALSE\n')
@@ -208,13 +207,18 @@ class WebotsModel:
             elif character.isdigit() or character == '-':
                 words = line.split(' ')
                 length = len(words)
-                if length == 1:
-                    if '.' in words[0]:
-                        type = 'MFFloat'
-                        mffield.append(float(words[0]))
-                    elif type == '':
-                        type = 'MFInt32'  # FIXME: could be wrong (but difficult to fix)
-                        mffield.append(int(words[0]))
+                if length == 1 or ',' in words[0]:
+                    if not type:
+                        type = 'MFInt32'
+                    for value in words:
+                        if value.endswith(','):
+                            value = value[:-1]
+                        if '.' in value:
+                            type = 'MFFloat'
+                        if type == 'MFFloat':
+                            mffield.append(float(value))
+                        else:
+                            mffield.append(int(value))
                 else:
                     array = []
                     if length == 2:
@@ -224,10 +228,6 @@ class WebotsModel:
                     elif length == 3:
                         type = 'MFRotation'
                     for number in words:
-                        if number.endswith(','):
-                            if type == '':
-                                type = 'MFFloat'
-                            number = number[:-1]
                         array.append(float(number))  # MFVec2f / MFVec3f / MFRotation / MFColor
                     mffield.append(array)
             else:
