@@ -194,6 +194,7 @@ void WbTriangleMeshGeometry::buildWrenMesh(bool updateCache) {
   delete buffers;
 
   wr_renderable_set_mesh(mWrenRenderable, WR_MESH(mWrenMesh));
+  updateNormalsRepresentation();
 }
 
 void WbTriangleMeshGeometry::buildGeomIntoBuffers(WbWrenMeshBuffers *buffers, const WbMatrix4 &m,
@@ -516,6 +517,7 @@ void WbTriangleMeshGeometry::updateNormalsRepresentation() {
   if (mNormalsMesh) {
     wr_static_mesh_delete(mNormalsMesh);
     mNormalsMesh = NULL;
+    wr_renderable_set_mesh(mNormalsRenderable, NULL);
   }
 
   if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_NORMALS) && mTriangleMesh) {
