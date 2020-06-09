@@ -365,15 +365,17 @@ int main(int argc, char **argv) {
   device_list_client.shutdown();
   time_step_client.call(time_step_srv);
 
-  ros::ServiceClient urdf_client =
-    n.serviceClient<webots_ros::get_string>(model_name + "/robot/get_urdf");
+  ros::ServiceClient urdf_client = n.serviceClient<webots_ros::get_string>(model_name + "/robot/get_urdf");
   webots_ros::get_string urdf_srv;
 
   if (urdf_client.call(urdf_srv)) {
-    urdf = urdf_srv.response;
-    // TODO
+    urdf = urdf_srv.response.value;
+    if (urdf != "")
+      ROS_ERROR("Invalid response from get_urdf.");
+    else
+      ROS_INFO("URDF has been successfully obtained.");
   } else
-    ROS_ERROR("Failed to call service device_list.");
+    ROS_ERROR("Failed to call service get_urdf.");
 
   urdf_client.shutdown();
   time_step_client.call(time_step_srv);
