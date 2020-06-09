@@ -522,6 +522,7 @@ void WbTriangleMeshGeometry::updateNormalsRepresentation() {
   if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_NORMALS) && mTriangleMesh) {
     QVector<float> vertices;
     const int n = mTriangleMesh->numberOfTriangles();
+    const double linescale = WbWorld::instance()->worldInfo()->lineScale();
     for (int t = 0; t < n; ++t) {    // foreach triangle
       for (int v = 0; v < 3; ++v) {  // foreach vertex
         const double x = mTriangleMesh->vertexAt(t, v, 0);
@@ -531,9 +532,6 @@ void WbTriangleMeshGeometry::updateNormalsRepresentation() {
         vertices.push_back(x);
         vertices.push_back(y);
         vertices.push_back(z);
-
-        const double linescale = WbWorld::instance()->worldInfo()->lineScale();
-
         vertices.push_back(x + linescale * mTriangleMesh->normalAt(t, v, 0));
         vertices.push_back(y + linescale * mTriangleMesh->normalAt(t, v, 1));
         vertices.push_back(z + linescale * mTriangleMesh->normalAt(t, v, 2));
