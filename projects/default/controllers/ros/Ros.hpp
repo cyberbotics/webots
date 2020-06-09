@@ -67,6 +67,7 @@ private:
   bool getTimeCallback(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res);
   bool getModelCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res);
   bool getDataCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res);
+  bool getUrdfCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res);
   bool setDataCallback(webots_ros::set_string::Request &req, webots_ros::set_string::Response &res);
   bool getCustomDataCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res);
   bool setCustomDataCallback(webots_ros::set_string::Request &req, webots_ros::set_string::Response &res);
@@ -95,6 +96,7 @@ private:
   ros::ServiceServer mDeviceListService;
   ros::ServiceServer mGetTimeService;
   ros::ServiceServer mGetModelService;
+  ros::ServiceServer mGetUrdfService;
   ros::ServiceServer mGetDataService;
   ros::ServiceServer mSetDataService;
   ros::ServiceServer mGetCustomDataService;

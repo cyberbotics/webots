@@ -365,6 +365,19 @@ int main(int argc, char **argv) {
   device_list_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  ros::ServiceClient urdf_client =
+    n.serviceClient<webots_ros::get_string>(model_name + "/robot/get_urdf");
+  webots_ros::get_string urdf_srv;
+
+  if (urdf_client.call(urdf_srv)) {
+    urdf = urdf_srv.response;
+    // TODO
+  } else
+    ROS_ERROR("Failed to call service device_list.");
+
+  urdf_client.shutdown();
+  time_step_client.call(time_step_srv);
+
   ros::ServiceClient get_basic_time_step_client =
     n.serviceClient<webots_ros::get_float>(model_name + "/robot/get_basic_time_step");
   webots_ros::get_float get_basic_time_step_srv;
