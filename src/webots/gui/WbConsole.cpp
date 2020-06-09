@@ -699,7 +699,7 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
   if (message.isEmpty())
     return;
 
-  assert(!logName.isEmpty());
+  assert(!logName.isEmpty() || level == WbLog::STATUS);
 
   // check enabled filters
   if (!mEnabledFilters.contains(WbLog::filterName(WbLog::ALL)) && !mEnabledFilters.contains(logName)) {
