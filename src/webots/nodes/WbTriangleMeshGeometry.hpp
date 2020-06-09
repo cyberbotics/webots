@@ -39,6 +39,7 @@ public:
   // reimplemented public functions
   void preFinalize() override;
   void createWrenObjects() override;
+  void deleteWrenRenderable() override;
   void setScaleNeedUpdate() override;
   dGeomID createOdeGeom(dSpaceID space) override;
   bool isAValidBoundingObject(bool checkOde = false, bool warning = true) const override;

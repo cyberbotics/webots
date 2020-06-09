@@ -42,6 +42,8 @@ void WbTriangleMeshGeometry::init() {
   mCorrectSolidMass = true;
   mIsOdeDataApplied = false;
   mNormalsMesh = NULL;
+  mNormalsMaterial = NULL;
+  mNormalsRenderable = NULL;
 }
 
 WbTriangleMeshGeometry::WbTriangleMeshGeometry(const QString &modelName, WbTokenizer *tokenizer) :
@@ -59,9 +61,6 @@ WbTriangleMeshGeometry::WbTriangleMeshGeometry(const WbNode &other) : WbGeometry
 
 WbTriangleMeshGeometry::~WbTriangleMeshGeometry() {
   wr_static_mesh_delete(mWrenMesh);
-
-  wr_node_delete(WR_NODE(mNormalsRenderable));
-  wr_material_delete(mNormalsMaterial);
   wr_static_mesh_delete(mNormalsMesh);
 
   if (mTriangleMesh) {
@@ -109,20 +108,6 @@ void WbTriangleMeshGeometry::createWrenObjects() {
 
   buildWrenMesh(false);
 
-  mNormalsMaterial = wr_phong_material_new();
-  wr_material_set_default_program(mNormalsMaterial, WbWrenShaders::lineSetShader());
-  const float color[3] = {1.0f, 1.0f, 0.0f};
-  wr_phong_material_set_color(mNormalsMaterial, color);
-  wr_phong_material_set_transparency(mNormalsMaterial, 0.4f);
-
-  mNormalsRenderable = wr_renderable_new();
-  wr_renderable_set_cast_shadows(mNormalsRenderable, false);
-  wr_renderable_set_receive_shadows(mNormalsRenderable, false);
-  wr_renderable_set_material(mNormalsRenderable, mNormalsMaterial, NULL);
-  wr_renderable_set_visibility_flags(mNormalsRenderable, WbWrenRenderingContext::VF_NORMALS);
-  wr_renderable_set_drawing_mode(mNormalsRenderable, WR_RENDERABLE_DRAWING_MODE_LINES);
-  wr_transform_attach_child(wrenNode(), WR_NODE(mNormalsRenderable));
-
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::optionalRenderingChanged, this,
           &WbTriangleMeshGeometry::updateOptionalRendering);
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this,
@@ -142,6 +127,17 @@ void WbTriangleMeshGeometry::setResizeManipulatorDimensions() {
   updateResizeHandlesSize();
 }
 
+void WbTriangleMeshGeometry::deleteWrenRenderable() {
+  if (mNormalsMaterial)
+    wr_material_delete(mNormalsMaterial);
+  mNormalsMaterial = NULL;
+  if (mNormalsRenderable)
+    wr_node_delete(WR_NODE(mNormalsRenderable));
+  mNormalsRenderable = NULL;
+
+  WbGeometry::deleteWrenRenderable();
+}
+
 void WbTriangleMeshGeometry::buildWrenMesh(bool updateCache) {
   if (updateCache) {
     WbTriangleMeshCache::releaseTriangleMesh(this);
@@ -150,7 +146,7 @@ void WbTriangleMeshGeometry::buildWrenMesh(bool updateCache) {
   }
 
   const bool resizeManipulator = mResizeManipulator && mResizeManipulator->isAttached();
-  WbGeometry::deleteWrenRenderable();
+  deleteWrenRenderable();
 
   wr_static_mesh_delete(mWrenMesh);
   mWrenMesh = NULL;
@@ -168,6 +164,21 @@ void WbTriangleMeshGeometry::buildWrenMesh(bool updateCache) {
     if (resizeManipulator)
       mResizeManipulator->show();
   }
+
+  // normals representation
+  mNormalsMaterial = wr_phong_material_new();
+  wr_material_set_default_program(mNormalsMaterial, WbWrenShaders::lineSetShader());
+  const float color[3] = {1.0f, 1.0f, 0.0f};
+  wr_phong_material_set_color(mNormalsMaterial, color);
+  wr_phong_material_set_transparency(mNormalsMaterial, 0.4f);
+
+  mNormalsRenderable = wr_renderable_new();
+  wr_renderable_set_cast_shadows(mNormalsRenderable, false);
+  wr_renderable_set_receive_shadows(mNormalsRenderable, false);
+  wr_renderable_set_material(mNormalsRenderable, mNormalsMaterial, NULL);
+  wr_renderable_set_visibility_flags(mNormalsRenderable, WbWrenRenderingContext::VF_NORMALS);
+  wr_renderable_set_drawing_mode(mNormalsRenderable, WR_RENDERABLE_DRAWING_MODE_LINES);
+  wr_transform_attach_child(wrenNode(), WR_NODE(mNormalsRenderable));
 
   // Restore pickable state
   setPickable(isPickable());
