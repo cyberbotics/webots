@@ -2038,7 +2038,7 @@ wb_robot_get_urdf(prefix)
 
 ##### Description
 
-The `wb_robot_get_urdf` functions allows a robot controller to export [URDF](http://wiki.ros.org/urdf), an XML format for representing a robot model. 
+The `wb_robot_get_urdf` function allows a robot controller to export [URDF](http://wiki.ros.org/urdf), an XML format for representing a robot model. 
 This is particularly useful for ROS applications in which URDF is widely used to describe robot models.
 There are certain rules that are followed to create an efficient output.
 Webots nodes are squashed into a single URDF link node whenever is possible to simplify the exported robot model.
