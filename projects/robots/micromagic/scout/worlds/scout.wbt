@@ -42,21 +42,6 @@ Floor {
   appearance SandyGround {
   }
 }
-DEF CANVAS Solid {
-  translation 0 -1 0
-  children [
-    DEF FLOOR Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 0.454902 0.454902 0.454902
-        }
-      }
-      geometry Plane {
-      }
-    }
-  ]
-  boundingObject USE FLOOR
-}
 DEF WALKER Robot {
   translation 0 0.173064 0
   rotation 0 0 1 1.57
