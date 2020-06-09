@@ -4,5 +4,8 @@ simulationViewPerspectives: 000000ff00000000000000020000016c000004a0010000000601
 sceneTreePerspectives: 000000ff0000000000000002000001c60000011201000000060100000002
 maximizedDockId: -1
 centralWidgetVisible: 1
+selectionDisabled: 0
+viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/Rover/Rover.java"
+consoles: Console:All:All

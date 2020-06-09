@@ -8,4 +8,5 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/ers7/ers7.c"
+consoles: Console:All:All
 renderingDevicePerspectives: aibo:PRM:/r1/c1/c2/c3/i1-FbkImageSensor:F1;1;1;0;0

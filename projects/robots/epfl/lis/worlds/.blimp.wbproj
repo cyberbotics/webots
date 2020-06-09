@@ -8,4 +8,5 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/blimp/blimp.cpp" "plugins/physics/blimp_physics/blimp_physics.c"
+consoles: Console:All:All
 renderingDevicePerspectives: Blimp:camera;1;1;0;0

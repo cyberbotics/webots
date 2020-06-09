@@ -4423,11 +4423,6 @@ TruckSimple {
 TruckSimple {
   translation 590.02934 0.5 -349.71482
   rotation 0 -1 0 4.9
-  trailer TruckTrailerSimple {
-    texture [
-      "textures/truck_trailer_red.jpg"
-    ]
-  }
   name "vehicle(26)"
 }
 TruckSimple {

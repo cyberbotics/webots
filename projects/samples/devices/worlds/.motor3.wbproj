@@ -9,3 +9,4 @@ viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/motor3/motor3.c"
 globalOptionalRendering: JointAxes
+consoles: Console:All:All

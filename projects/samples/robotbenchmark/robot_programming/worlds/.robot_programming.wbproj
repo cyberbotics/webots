@@ -8,4 +8,4 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/move/move.py"
-robotWindow: supervisor
+consoles: Console:All:All

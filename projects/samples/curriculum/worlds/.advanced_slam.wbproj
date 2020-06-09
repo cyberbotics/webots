@@ -8,5 +8,6 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/advanced_slam_1/advanced_slam_1.c" "controllers/advanced_slam_2/advanced_slam_2.c"
-renderingDevicePerspectives: e-puck:camera;0;1;0.00110011;0.00138122
+consoles: Console:All:All
 renderingDevicePerspectives: e-puck:display;1;3;0;0
+renderingDevicePerspectives: e-puck:camera;0;1;0.00110011;0.00138122

@@ -8,4 +8,5 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: -1
+consoles: Console:All:All
 renderingDevicePerspectives: DARwIn-OP:Camera;1;1;0;0

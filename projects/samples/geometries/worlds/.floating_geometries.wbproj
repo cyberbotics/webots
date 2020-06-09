@@ -8,5 +8,6 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/water_flow_animation/water_flow_animation.c"
-renderingDevicePerspectives: robot:lower display;0;1;0.218352;0.354972
-renderingDevicePerspectives: robot:upper display;0;1;0.218352;0.354972
+consoles: Console:All:All
+renderingDevicePerspectives: robot:lower display;0;0.554688;0.218352;0
+renderingDevicePerspectives: robot:upper display;0;0.554688;0.218352;0

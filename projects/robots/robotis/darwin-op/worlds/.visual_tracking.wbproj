@@ -8,4 +8,5 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 1 "controllers/visual_tracking/main.cpp" "controllers/visual_tracking/VisualTracking.cpp" "controllers/visual_tracking/VisualTracking.hpp"
+consoles: Console:All:All
 renderingDevicePerspectives: ROBOTIS OP2:Camera;1;1;0;0

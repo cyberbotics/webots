@@ -8,6 +8,7 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/anaglyph/anaglyph.c" "controllers/anaglyph/sc_control.c" "controllers/anaglyph/sc_control.h"
-renderingDevicePerspectives: Create:sc_display;1;2;0;0
-renderingDevicePerspectives: Create:sc_right_camera;0;1;0.141914;0.089779
+consoles: Console:All:All
 renderingDevicePerspectives: Create:sc_left_camera;0;1;0.141914;0.089779
+renderingDevicePerspectives: Create:sc_display;1;1.21875;0;0
+renderingDevicePerspectives: Create:sc_right_camera;0;1;0.141914;0.089779

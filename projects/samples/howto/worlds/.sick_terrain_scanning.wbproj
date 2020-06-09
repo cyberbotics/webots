@@ -8,5 +8,6 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/sick_terrain_scanning/sick_terrain_scanning.c" "controllers/sick_terrain_scanning_supervisor/sick_terrain_scanning_supervisor.c"
-renderingDevicePerspectives: robot:display2;1;1;0;0.791284
-renderingDevicePerspectives: robot:ground_display;0;0.424805;0.000849618;0
+consoles: Console:All:All
+renderingDevicePerspectives: robot:ground_display;0;0.138672;0.000849618;0
+renderingDevicePerspectives: robot:display2;1;1;0;0.359155

@@ -8,4 +8,5 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/bb-8/bb-8.c"
+consoles: Console:All:All
 renderingDevicePerspectives: BB-8:camera;1;1;0;0

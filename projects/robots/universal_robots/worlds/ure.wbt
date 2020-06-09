@@ -285,7 +285,9 @@ UR3e {
   translation 1.30296 0.91 -0.079391
   rotation 1 0 0 -1.5707963071795863
   controller "ure_can_grasper"
-  controllerArgs "3"
+  controllerArgs [
+    "3"
+  ]
   selfCollision FALSE
   toolSlot [
     Robotiq3fGripper {
