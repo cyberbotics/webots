@@ -741,3 +741,11 @@ void WbHinge2Joint::updateJointAxisRepresentation() {
   mMesh = wr_static_mesh_line_set_new(4, vertices, NULL);
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }
+
+void WbHinge2Joint::writeExport(WbVrmlWriter &writer) const {
+  if (writer.isUrdf() && solidEndPoint()) {
+    warn(tr("Exporting `WbHinge2Joint` is currently not supported"));
+    return;
+  }
+  WbBasicJoint::writeExport(writer);
+}
