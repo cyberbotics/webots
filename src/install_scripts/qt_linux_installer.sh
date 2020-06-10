@@ -2,7 +2,7 @@
 
 # follow the instructions from https://github.com/cyberbotics/webots/wiki/Qt-compilation#linux to download and compile Qt before executing this script.
 
-QT_VERSION=5.14.2
+QT_VERSION=5.15.0
 ICU_VERSION=56
 QT_INSTALLATION_PATH=~/Qt${QT_VERSION}/${QT_VERSION}/gcc_64
 WEBOTS_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}" )"/../.. && pwd)"

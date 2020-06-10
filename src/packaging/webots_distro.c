@@ -1074,7 +1074,11 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots_doc.png usr/share/pixmaps/\n");
       fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.applications usr/share/application-registry/\n");
       fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.desktop usr/share/applications/\n");
+#ifdef WEBOTS_UBUNTU_16_04
+      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots_snap.desktop usr/share/app-install/desktop/webots.desktop\n");
+#else
       fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.desktop usr/share/app-install/desktop/\n");
+#endif
       fprintf(fd, "mkdir usr/local/bin\n");
       fprintf(fd, "ln -s /usr/local/%s/webots usr/local/bin/webots\n", application_name_lowercase_and_dashes);
       fprintf(fd, "cd %s/debian\n", distribution_path);
@@ -1108,7 +1112,8 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "libglib2.0-0 (>= 2.10.0), libglu1-mesa | libglu1, libgtk-3-0, ");
       fprintf(fd, "libnss3, libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, ");
       fprintf(fd, "libzzip-0-13 (>= 0.13.62-2), libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, ");
-      fprintf(fd, "libgd3, libfreetype6, libxkbcommon-x11-0\" >> DEBIAN/control\n");
+      fprintf(fd, "libgd3, libfreetype6, libxkbcommon-x11-0, libxcb-keysyms1, libxcb-image0, libxcb-icccm4, ");
+      fprintf(fd, "libxcb-randr0, libxcb-render-util0, libxcb-xinerama0\" >> DEBIAN/control\n");
 
       if (!strcmp(application_name_lowercase_and_dashes, "webots")) {
         fprintf(fd, "echo \"Conflicts: webots-for-nao\" >> DEBIAN/control\n");
@@ -1175,6 +1180,12 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libgd.so.3 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libssh.so.4 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libfreetype.so.6 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libxcb-keysyms.so.1 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libxcb-image.so.0 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libxcb-icccm.so.4 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libxcb-randr.so.0 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libxcb-render-util.so.0 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libxcb-xinerama.so.0 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cd debian/usr/local\n");
       fprintf(fd, "tar cf ../../../%s-%s-%s.tar.bz2 --use-compress-prog=pbzip2 %s\n", application_name_lowercase_and_dashes,
               package_version, arch2, application_name_lowercase_and_dashes);
@@ -1182,12 +1193,13 @@ static void create_file(const char *name, int m) {
       break;
     case SNAP: {
       const char *usr_lib_x68_64_linux_gnu[] = {
-        "libraw.so.16",        "libvpx.so.5",    "libx264.so.152",    "libavcodec.so.57",     "libwebp.so.6",
-        "libwebpmux.so.3",     "libpng16.so.16", "libfreeimage.so.3", "libjxrglue.so.0",      "libopenjp2.so.7",
-        "libjpegxr.so.0",      "libHalf.so.12",  "libIex-2_2.so.12",  "libIexMath-2_2.so.12", "libIlmThread-2_2.so.12",
-        "libIlmImf-2_2.so.22", "libzip.so.4",    "libzzip-0.so.13",   "libjbig.so.0",         "libgomp.so.1",
-        "liblcms2.so.2",       "libXi.so.6",     "libXrender.so.1",   "libfontconfig.so.1",   "libxslt.so.1",
-        "libgd.so.3",          "libssh.so.4",    "libfreetype.so.6"};
+        "libraw.so.16",        "libvpx.so.5",    "libx264.so.152",      "libavcodec.so.57",     "libwebp.so.6",
+        "libwebpmux.so.3",     "libpng16.so.16", "libfreeimage.so.3",   "libjxrglue.so.0",      "libopenjp2.so.7",
+        "libjpegxr.so.0",      "libHalf.so.12",  "libIex-2_2.so.12",    "libIexMath-2_2.so.12", "libIlmThread-2_2.so.12",
+        "libIlmImf-2_2.so.22", "libzip.so.4",    "libzzip-0.so.13",     "libjbig.so.0",         "libgomp.so.1",
+        "liblcms2.so.2",       "libXi.so.6",     "libXrender.so.1",     "libfontconfig.so.1",   "libxslt.so.1",
+        "libgd.so.3",          "libssh.so.4",    "libfreetype.so.6",    "libxcb-keysyms.so.1",  "libxcb-image0",
+        "libxcb-icccm4",       "libxcb-randr0",  "libxcb-render-util0", "libxcb-xinerama0"};
       for (int i = 0; i < sizeof(usr_lib_x68_64_linux_gnu) / sizeof(char *); i++)
         fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/%s $DESTDIR/usr/lib/x86_64-linux-gnu/\n", usr_lib_x68_64_linux_gnu[i]);
       fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libssh\n");
@@ -1195,7 +1207,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libzip\n");
       fprintf(fd, "cp -a /usr/include/zip.h $DESTDIR/usr/share/webots/include/libzip/\n");
       fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h $DESTDIR/usr/share/webots/include/libzip/\n");
-      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.desktop $DESTDIR/usr/share/webots/resources/\n");
+      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots_snap.desktop $DESTDIR/usr/share/webots/resources/webots.desktop\n");
       break;
     }
     default:
