@@ -115,20 +115,18 @@ WbSceneTree::WbSceneTree(QWidget *parent) :
 
   connect(mActionManager, &WbActionManager::userWorldEditCommandReceived, this, &WbSceneTree::handleUserCommand);
   connect(mActionManager, &WbActionManager::transformRequested, this, &WbSceneTree::transform);
-  connect(mActionManager->action(WbActionManager::ADD_NEW), &QAction::triggered, this, &WbSceneTree::addNew);
-  connect(mActionManager->action(WbActionManager::MOVE_VIEWPOINT_TO_OBJECT), &QAction::triggered, this,
+  connect(mActionManager->action(WbAction::ADD_NEW), &QAction::triggered, this, &WbSceneTree::addNew);
+  connect(mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT), &QAction::triggered, this,
           &WbSceneTree::moveViewpointToObject);
-  connect(mActionManager->action(WbActionManager::RESET_VALUE), &QAction::triggered, this, &WbSceneTree::reset);
-  connect(mActionManager->action(WbActionManager::CONVERT_TO_BASE_NODES), &QAction::triggered, this,
-          &WbSceneTree::convertToBaseNode);
-  connect(mActionManager->action(WbActionManager::CONVERT_ROOT_TO_BASE_NODES), &QAction::triggered, this,
+  connect(mActionManager->action(WbAction::RESET_VALUE), &QAction::triggered, this, &WbSceneTree::reset);
+  connect(mActionManager->action(WbAction::CONVERT_TO_BASE_NODES), &QAction::triggered, this, &WbSceneTree::convertToBaseNode);
+  connect(mActionManager->action(WbAction::CONVERT_ROOT_TO_BASE_NODES), &QAction::triggered, this,
           &WbSceneTree::convertRootToBaseNode);
-  connect(mActionManager->action(WbActionManager::OPEN_HELP), &QAction::triggered, this, &WbSceneTree::help);
-  connect(mActionManager->action(WbActionManager::SHOW_PROTO_SOURCE), &QAction::triggered, this,
-          &WbSceneTree::openProtoInTextEditor);
-  connect(mActionManager->action(WbActionManager::SHOW_PROTO_RESULT), &QAction::triggered, this,
+  connect(mActionManager->action(WbAction::OPEN_HELP), &QAction::triggered, this, &WbSceneTree::help);
+  connect(mActionManager->action(WbAction::SHOW_PROTO_SOURCE), &QAction::triggered, this, &WbSceneTree::openProtoInTextEditor);
+  connect(mActionManager->action(WbAction::SHOW_PROTO_RESULT), &QAction::triggered, this,
           &WbSceneTree::openTemplateInstanceInTextEditor);
-  connect(mActionManager->action(WbActionManager::EXPORT_NODE), &QAction::triggered, this, &WbSceneTree::exportObject);
+  connect(mActionManager->action(WbAction::EXPORT_NODE), &QAction::triggered, this, &WbSceneTree::exportObject);
   connect(WbUndoStack::instance(), &WbUndoStack::changed, this, &WbSceneTree::updateValue);
 
   connect(WbTemplateManager::instance(), &WbTemplateManager::preNodeRegeneration, this, &WbSceneTree::prepareNodeRegeneration);
@@ -252,24 +250,24 @@ void WbSceneTree::setWorld(WbWorld *world) {
   mTreeView->scrollToSelection();
 }
 
-void WbSceneTree::handleUserCommand(WbActionManager::WbActionKind actionKind) {
+void WbSceneTree::handleUserCommand(WbAction::WbActionKind actionKind) {
   switch (actionKind) {
-    case WbActionManager::CUT:
+    case WbAction::CUT:
       cut();
       return;
-    case WbActionManager::COPY:
+    case WbAction::COPY:
       copy();
       return;
-    case WbActionManager::PASTE:
+    case WbAction::PASTE:
       paste();
       return;
-    case WbActionManager::UNDO:
+    case WbAction::UNDO:
       WbUndoStack::instance()->undo();
       return;
-    case WbActionManager::REDO:
+    case WbAction::REDO:
       WbUndoStack::instance()->redo();
       return;
-    case WbActionManager::DEL:
+    case WbAction::DEL:
       del();
     default:
       return;
@@ -951,19 +949,19 @@ void WbSceneTree::updateToolbar() {
     // don't use mSelectedItem if updateSelection() was skipped
     return;
 
-  mActionManager->setEnabled(WbActionManager::DEL, mSelectedItem && mSelectedItem->canDelete());
-  mActionManager->setEnabled(WbActionManager::ADD_NEW, !mSelectedItem || mSelectedItem->canInsert());
+  mActionManager->setEnabled(WbAction::DEL, mSelectedItem && mSelectedItem->canDelete());
+  mActionManager->setEnabled(WbAction::ADD_NEW, !mSelectedItem || mSelectedItem->canInsert());
   updateApplicationActions();
 }
 
 void WbSceneTree::updateApplicationActions() {
   mClipboard->update();
-  mActionManager->setEnabled(WbActionManager::UNDO, WbUndoStack::instance()->canUndo());
-  mActionManager->setEnabled(WbActionManager::REDO, WbUndoStack::instance()->canRedo());
-  mActionManager->setEnabled(WbActionManager::COPY, mSelectedItem && mSelectedItem->canCopy());
-  mActionManager->setEnabled(WbActionManager::CUT, mSelectedItem && mSelectedItem->canCut());
-  mActionManager->setEnabled(WbActionManager::PASTE, isPasteAllowed());
-  mActionManager->setEnabled(WbActionManager::SELECT_ALL, false);
+  mActionManager->setEnabled(WbAction::UNDO, WbUndoStack::instance()->canUndo());
+  mActionManager->setEnabled(WbAction::REDO, WbUndoStack::instance()->canRedo());
+  mActionManager->setEnabled(WbAction::COPY, mSelectedItem && mSelectedItem->canCopy());
+  mActionManager->setEnabled(WbAction::CUT, mSelectedItem && mSelectedItem->canCut());
+  mActionManager->setEnabled(WbAction::PASTE, isPasteAllowed());
+  mActionManager->setEnabled(WbAction::SELECT_ALL, false);
 }
 
 bool WbSceneTree::isPasteAllowed() {
@@ -1058,8 +1056,8 @@ void WbSceneTree::updateSelection() {
   QModelIndex currentIndex = mTreeView->currentIndex();
   if (!currentIndex.isValid()) {
     mSelectedItem = NULL;
-    mActionManager->action(WbActionManager::MOVE_VIEWPOINT_TO_OBJECT)->setEnabled(false);
-    mActionManager->action(WbActionManager::OPEN_HELP)->setEnabled(false);
+    mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT)->setEnabled(false);
+    mActionManager->action(WbAction::OPEN_HELP)->setEnabled(false);
     updateToolbar();
     // no item selected
     return;
@@ -1067,8 +1065,8 @@ void WbSceneTree::updateSelection() {
   mSelectedItem = mModel->indexToItem(currentIndex);
   if (mSelectedItem->isInvalid()) {
     mSelectedItem = NULL;
-    mActionManager->action(WbActionManager::MOVE_VIEWPOINT_TO_OBJECT)->setEnabled(false);
-    mActionManager->action(WbActionManager::OPEN_HELP)->setEnabled(false);
+    mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT)->setEnabled(false);
+    mActionManager->action(WbAction::OPEN_HELP)->setEnabled(false);
     updateToolbar();
     return;
   }
@@ -1121,9 +1119,9 @@ void WbSceneTree::updateSelection() {
       return;
 
     // enable move viewpoint to object if the item has a corresponding bounding sphere
-    mActionManager->action(WbActionManager::MOVE_VIEWPOINT_TO_OBJECT)
+    mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT)
       ->setEnabled(WbNodeUtilities::boundingSphereAncestor(baseNode) != NULL);
-    mActionManager->action(WbActionManager::OPEN_HELP)->setEnabled(true);
+    mActionManager->action(WbAction::OPEN_HELP)->setEnabled(true);
     emit nodeSelected(baseNode);
   }
 }

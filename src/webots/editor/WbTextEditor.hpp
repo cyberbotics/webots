@@ -63,7 +63,7 @@ public:
   void updateProjectPath(const QString &oldPath, const QString &newPath);
 
 public slots:
-  void handleUserCommand(WbActionManager::WbActionKind action);
+  void handleUserCommand(WbAction::WbActionKind action);
 
 protected:
   WbTextBuffer *currentBuffer() const { return mCurrentBuffer; }

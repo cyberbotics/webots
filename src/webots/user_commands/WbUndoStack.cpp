@@ -74,6 +74,6 @@ void WbUndoStack::redo() {
 }
 
 void WbUndoStack::updateActions() {
-  WbActionManager::instance()->setEnabled(WbActionManager::UNDO, canUndo());
-  WbActionManager::instance()->setEnabled(WbActionManager::REDO, canRedo());
+  WbActionManager::instance()->setEnabled(WbAction::UNDO, canUndo());
+  WbActionManager::instance()->setEnabled(WbAction::REDO, canRedo());
 }

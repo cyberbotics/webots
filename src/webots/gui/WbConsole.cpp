@@ -57,7 +57,7 @@ ConsoleEdit::ConsoleEdit(QWidget *parent) : QPlainTextEdit(parent) {
   connect(this, &QPlainTextEdit::selectionChanged, this, &ConsoleEdit::resetSearchTextHighlighting);
 
   // listen to clear console keyboard shortcut
-  addAction(WbActionManager::instance()->action(WbActionManager::CLEAR_CONSOLE));
+  addAction(WbActionManager::instance()->action(WbAction::CLEAR_CONSOLE));
   document()->setDefaultStyleSheet("span{\n  white-space:pre;\n}\n");
 }
 
@@ -129,15 +129,15 @@ void ConsoleEdit::focusInEvent(QFocusEvent *event) {
   WbActionManager *actionManager = WbActionManager::instance();
   actionManager->setFocusObject(this);
   actionManager->enableTextEditActions(false);
-  actionManager->setEnabled(WbActionManager::COPY, textCursor().hasSelection());
-  actionManager->setEnabled(WbActionManager::SELECT_ALL, true);
-  actionManager->setEnabled(WbActionManager::FIND, true);
-  actionManager->setEnabled(WbActionManager::FIND_NEXT, true);
-  actionManager->setEnabled(WbActionManager::FIND_PREVIOUS, true);
-  actionManager->setEnabled(WbActionManager::CUT, false);
-  actionManager->setEnabled(WbActionManager::PASTE, false);
-  actionManager->setEnabled(WbActionManager::UNDO, false);
-  actionManager->setEnabled(WbActionManager::REDO, false);
+  actionManager->setEnabled(WbAction::COPY, textCursor().hasSelection());
+  actionManager->setEnabled(WbAction::SELECT_ALL, true);
+  actionManager->setEnabled(WbAction::FIND, true);
+  actionManager->setEnabled(WbAction::FIND_NEXT, true);
+  actionManager->setEnabled(WbAction::FIND_PREVIOUS, true);
+  actionManager->setEnabled(WbAction::CUT, false);
+  actionManager->setEnabled(WbAction::PASTE, false);
+  actionManager->setEnabled(WbAction::UNDO, false);
+  actionManager->setEnabled(WbAction::REDO, false);
 }
 
 void ConsoleEdit::focusOutEvent(QFocusEvent *event) {
@@ -267,7 +267,7 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   assert(console);
 
   QMenu *menu = createStandardContextMenu();
-  menu->addAction(WbActionManager::instance()->action(WbActionManager::FIND));
+  menu->addAction(WbActionManager::instance()->action(WbAction::FIND));
   menu->addSeparator();
 
   // filters
@@ -317,8 +317,8 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   connect(clearAction, &QAction::triggered, this, &ConsoleEdit::clear);
   menu->addAction(renameAction);
   menu->addAction(clearAction);
-  menu->addAction(WbActionManager::instance()->action(WbActionManager::CLEAR_CONSOLE));
-  menu->addAction(WbActionManager::instance()->action(WbActionManager::NEW_CONSOLE));
+  menu->addAction(WbActionManager::instance()->action(WbAction::CLEAR_CONSOLE));
+  menu->addAction(WbActionManager::instance()->action(WbAction::NEW_CONSOLE));
 
   // execution
   menu->exec(mapToGlobal(pt));
@@ -407,7 +407,7 @@ WbConsole::WbConsole(QWidget *parent, const QString &name) :
   connect(WbPreferences::instance(), &WbPreferences::changedByUser, this, &WbConsole::updateFont);
   updateFont();
 
-  connect(WbActionManager::instance()->action(WbActionManager::CLEAR_CONSOLE), &QAction::triggered, this, &WbConsole::clear);
+  connect(WbActionManager::instance()->action(WbAction::CLEAR_CONSOLE), &QAction::triggered, this, &WbConsole::clear);
 
   connect(mTextFind, &WbTextFind::findStringChanged, mEditor, &ConsoleEdit::updateSearchTextHighlighting);
 
@@ -867,24 +867,24 @@ void WbConsole::updateFont() {
   mEditor->setFont(font);
 }
 
-void WbConsole::handleUserCommand(WbActionManager::WbActionKind actionKind) {
+void WbConsole::handleUserCommand(WbAction::WbActionKind actionKind) {
   switch (actionKind) {
-    case WbActionManager::COPY:
+    case WbAction::COPY:
       mEditor->copy();
       break;
-    case WbActionManager::SELECT_ALL:
+    case WbAction::SELECT_ALL:
       mEditor->selectAll();
       break;
-    case WbActionManager::FIND:
+    case WbAction::FIND:
       openFindDialog();
       break;
-    case WbActionManager::FIND_NEXT:
+    case WbAction::FIND_NEXT:
       if (mFindDialog != NULL)
         mFindDialog->next();
       else
         WbFindReplaceDialog::findNext(mTextFind, this);
       break;
-    case WbActionManager::FIND_PREVIOUS:
+    case WbAction::FIND_PREVIOUS:
       if (mFindDialog != NULL)
         mFindDialog->previous();
       else
@@ -896,7 +896,7 @@ void WbConsole::handleUserCommand(WbActionManager::WbActionKind actionKind) {
 }
 
 void WbConsole::enableCopyAction(bool enabled) {
-  WbActionManager::instance()->setEnabled(WbActionManager::COPY, enabled);
+  WbActionManager::instance()->setEnabled(WbAction::COPY, enabled);
 }
 
 void WbConsole::openFindDialog() {

@@ -25,6 +25,8 @@
 
 #include <cassert>
 
+using namespace WbAction;
+
 WbActionManager *WbActionManager::cInstance = NULL;
 
 WbActionManager *WbActionManager::instance() {
@@ -422,6 +424,13 @@ void WbActionManager::populateActions() {
   mActions[BOUNDING_SPHERE] = action;
 
   action = new QAction(this);
+  action->setText(tr("Lock Viewpoint"));
+  action->setStatusTip(tr("Disable Viewpoint translation and rotation from 3D view."));
+  action->setToolTip(action->statusTip());
+  action->setCheckable(true);
+  mActions[LOCK_VIEWPOINT] = action;
+
+  action = new QAction(this);
   action->setText(tr("Disable Selection"));
   action->setStatusTip(tr("Disable selection change from 3D view."));
   action->setToolTip(action->statusTip());
@@ -429,11 +438,32 @@ void WbActionManager::populateActions() {
   mActions[DISABLE_SELECTION] = action;
 
   action = new QAction(this);
-  action->setText(tr("Lock Viewpoint"));
-  action->setStatusTip(tr("Disable Viewpoint translation and rotation from 3D view."));
+  action->setText(tr("Disable 3D View Context Menu"));
+  action->setStatusTip(tr("Disable opening the context menu clicking on the 3D view."));
   action->setToolTip(action->statusTip());
   action->setCheckable(true);
-  mActions[LOCK_VIEWPOINT] = action;
+  mActions[DISABLE_3D_VIEW_CONTEXT_MENU] = action;
+
+  action = new QAction(this);
+  action->setText(tr("Disable Object Move"));
+  action->setStatusTip(tr("Disable moving objects from 3D view."));
+  action->setToolTip(action->statusTip());
+  action->setCheckable(true);
+  mActions[DISABLE_OBJECT_MOVE] = action;
+
+  action = new QAction(this);
+  action->setText(tr("Disable Force and Torque"));
+  action->setStatusTip(tr("Disable applying force and torque to objects from 3D view."));
+  action->setToolTip(action->statusTip());
+  action->setCheckable(true);
+  mActions[DISABLE_FORCE_AND_TORQUE] = action;
+
+  action = new QAction(this);
+  action->setText(tr("Disable Fast Mode"));
+  action->setStatusTip(tr("Disable running the simulation in fast mode."));
+  action->setToolTip(action->statusTip());
+  action->setCheckable(true);
+  mActions[DISABLE_FAST_MODE] = action;
 
   icon = QIcon();
   icon.addFile("enabledIcons:insert_after_button.png", QSize(), QIcon::Normal);

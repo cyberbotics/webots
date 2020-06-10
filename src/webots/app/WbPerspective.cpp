@@ -34,12 +34,7 @@ WbPerspective::WbPerspective(const QString &worldPath) :
   mMaximizedDockId(-1),
   mCentralWidgetVisible(true),
   mSelectedTab(-1),
-  mOrthographicViewHeight(1.0),
-  mSelectionDisabled(false),
-  mViewpointLocked(false),
-  mObjectMoveDisabled(false),
-  mForceAndTorqueDisabled(false),
-  mFastModeDisabled(false) {
+  mOrthographicViewHeight(1.0) {
   const QFileInfo info(worldPath);
   mBaseName = info.absolutePath() + "/." + info.completeBaseName();
   mVersion = WbApplicationInfo::version();
@@ -96,31 +91,37 @@ bool WbPerspective::readContent(QTextStream &in, bool reloading) {
         continue;
       int i;
       ls >> i;
-      mSelectionDisabled = i;
+      mDisabledUserInteractionsMap[WbAction::DISABLE_SELECTION] = i;
     } else if (key == "viewpointLocked:") {
       if (reloading)
         continue;
       int i;
       ls >> i;
-      mViewpointLocked = i;
+      mDisabledUserInteractionsMap[WbAction::LOCK_VIEWPOINT] = i;
+    } else if (key == "3dContextMenuDisabled:") {
+      if (reloading)
+        continue;
+      int i;
+      ls >> i;
+      mDisabledUserInteractionsMap[WbAction::DISABLE_3D_VIEW_CONTEXT_MENU] = i;
     } else if (key == "objectMoveDisabled:") {
       if (reloading)
         continue;
       int i;
       ls >> i;
-      mObjectMoveDisabled = i;
+      mDisabledUserInteractionsMap[WbAction::DISABLE_OBJECT_MOVE] = i;
     } else if (key == "forceAndTorqueDisabled:") {
       if (reloading)
         continue;
       int i;
       ls >> i;
-      mForceAndTorqueDisabled = i;
+      mDisabledUserInteractionsMap[WbAction::DISABLE_FORCE_AND_TORQUE] = i;
     } else if (key == "fastModeDisabled:") {
       if (reloading)
         continue;
       int i;
       ls >> i;
-      mFastModeDisabled = i;
+      mDisabledUserInteractionsMap[WbAction::DISABLE_FAST_MODE] = i;
     } else if (key == "orthographicViewHeight:") {
       double value;
       ls >> value;
@@ -258,11 +259,20 @@ bool WbPerspective::save() const {
     out << "projectionMode: " << mProjectionMode << "\n";
   if (!mRenderingMode.isEmpty())
     out << "renderingMode: " << mRenderingMode << "\n";
-  out << "selectionDisabled: " << (int)mSelectionDisabled << "\n";
-  out << "viewpointLocked: " << (int)mViewpointLocked << "\n";
-  out << "objectMoveDisabled: " << (int)mObjectMoveDisabled << "\n";
-  out << "forceAndTorqueDisabled: " << (int)mForceAndTorqueDisabled << "\n";
-  out << "fastModeDisabled: " << (int)mFastModeDisabled << "\n";
+  if (mDisabledUserInteractionsMap.contains(WbAction::DISABLE_SELECTION))
+    out << "selectionDisabled: " << (int)mDisabledUserInteractionsMap.value(WbAction::DISABLE_SELECTION, false) << "\n";
+  if (mDisabledUserInteractionsMap.contains(WbAction::LOCK_VIEWPOINT))
+    out << "viewpointLocked: " << (int)mDisabledUserInteractionsMap.value(WbAction::LOCK_VIEWPOINT, false) << "\n";
+  if (mDisabledUserInteractionsMap.contains(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU))
+    out << "3dContextMenuDisabled: " << (int)mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false)
+        << "\n";
+  if (mDisabledUserInteractionsMap.contains(WbAction::DISABLE_OBJECT_MOVE))
+    out << "objectMoveDisabled: " << (int)mDisabledUserInteractionsMap.value(WbAction::DISABLE_OBJECT_MOVE, false) << "\n";
+  if (mDisabledUserInteractionsMap.contains(WbAction::DISABLE_FORCE_AND_TORQUE))
+    out << "forceAndTorqueDisabled: " << (int)mDisabledUserInteractionsMap.value(WbAction::DISABLE_FORCE_AND_TORQUE, false)
+        << "\n";
+  if (mDisabledUserInteractionsMap.contains(WbAction::DISABLE_FAST_MODE))
+    out << "fastModeDisabled: " << (int)mDisabledUserInteractionsMap.value(WbAction::DISABLE_FAST_MODE, false) << "\n";
   out << "orthographicViewHeight: " << (double)mOrthographicViewHeight << "\n";
   out << "textFiles: " << mSelectedTab;
   // convert to relative paths and save

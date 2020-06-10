@@ -173,7 +173,7 @@ protected slots:
 private slots:
   void updateFont();
   void enableCopyAction(bool enabled);
-  void handleUserCommand(WbActionManager::WbActionKind actionKind);
+  void handleUserCommand(WbAction::WbActionKind actionKind);
   void deleteFindDialog();
   void enableFilter(const QString &filter);
   void disableFilter(const QString &filter);

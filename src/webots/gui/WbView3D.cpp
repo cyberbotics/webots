@@ -94,8 +94,6 @@ WbView3D::WbView3D() :
   mLastRefreshTimer(),
   mRefreshCounter(0),
   mMousePressTimer(NULL),
-  mSelectionDisabled(false),
-  mViewpointLocked(false),
   mAspectRatio(1.0),
   mFastModeOverlay(NULL),
   mLoadingWorldOverlay(NULL),
@@ -123,7 +121,6 @@ WbView3D::WbView3D() :
   mWheel(NULL),
   mMouseEventInitialized(false),
   mLastButtonState(Qt::NoButton),
-  mIsRemoteMouseEvent(false),
   mRemoteContextMenuMatter(NULL) {
   QDir::addSearchPath("gl", WbStandardPaths::resourcesPath() + "wren");
 
@@ -143,91 +140,85 @@ WbView3D::WbView3D() :
   // update mouses if required
   connect(WbSimulationState::instance(), SIGNAL(physicsStepStarted()), this, SLOT(updateMousesPosition()));
   // viewpoint
-  connect(actionManager->action(WbActionManager::FOLLOW_NONE), &QAction::triggered, this, &WbView3D::followNone);
-  connect(actionManager->action(WbActionManager::FOLLOW_TRACKING), &QAction::triggered, this, &WbView3D::followTracking);
-  connect(actionManager->action(WbActionManager::FOLLOW_MOUNTED), &QAction::triggered, this, &WbView3D::followMounted);
-  connect(actionManager->action(WbActionManager::FOLLOW_PAN_AND_TILT), &QAction::triggered, this, &WbView3D::followPanAndTilt);
-  connect(actionManager->action(WbActionManager::RESTORE_VIEWPOINT), &QAction::triggered, this, &WbView3D::restoreViewpoint);
+  connect(actionManager->action(WbAction::FOLLOW_NONE), &QAction::triggered, this, &WbView3D::followNone);
+  connect(actionManager->action(WbAction::FOLLOW_TRACKING), &QAction::triggered, this, &WbView3D::followTracking);
+  connect(actionManager->action(WbAction::FOLLOW_MOUNTED), &QAction::triggered, this, &WbView3D::followMounted);
+  connect(actionManager->action(WbAction::FOLLOW_PAN_AND_TILT), &QAction::triggered, this, &WbView3D::followPanAndTilt);
+  connect(actionManager->action(WbAction::RESTORE_VIEWPOINT), &QAction::triggered, this, &WbView3D::restoreViewpoint);
   // signal the simulation state about a rendering
-  connect(actionManager->action(WbActionManager::ORTHOGRAPHIC_PROJECTION), &QAction::triggered, this,
+  connect(actionManager->action(WbAction::ORTHOGRAPHIC_PROJECTION), &QAction::triggered, this,
           &WbView3D::setOrthographicProjection);
-  connect(actionManager->action(WbActionManager::PERSPECTIVE_PROJECTION), &QAction::triggered, this,
+  connect(actionManager->action(WbAction::PERSPECTIVE_PROJECTION), &QAction::triggered, this,
           &WbView3D::setPerspectiveProjection);
-  connect(actionManager->action(WbActionManager::PLAIN_RENDERING), &QAction::triggered, this, &WbView3D::setPlain);
-  connect(actionManager->action(WbActionManager::WIREFRAME_RENDERING), &QAction::triggered, this, &WbView3D::setWireframe);
-  connect(actionManager->action(WbActionManager::DISABLE_SELECTION), &QAction::triggered, this,
-          &WbView3D::setSelectionDisabled);
-  connect(actionManager->action(WbActionManager::LOCK_VIEWPOINT), &QAction::triggered, this, &WbView3D::setViewPointLocked);
-  connect(actionManager->action(WbActionManager::DISABLE_OBJECT_MOVE), &QAction::triggered, this, &WbView3D::disableObjectMode);
-  connect(actionManager->action(WbActionManager::DISABLE_FORCE_AND_TORQUE), &QAction::triggered, this,
+  connect(actionManager->action(WbAction::PLAIN_RENDERING), &QAction::triggered, this, &WbView3D::setPlain);
+  connect(actionManager->action(WbAction::WIREFRAME_RENDERING), &QAction::triggered, this, &WbView3D::setWireframe);
+  connect(actionManager->action(WbAction::LOCK_VIEWPOINT), &QAction::triggered, this, &WbView3D::setViewPointLocked);
+  connect(actionManager->action(WbAction::DISABLE_SELECTION), &QAction::triggered, this, &WbView3D::setSelectionDisabled);
+  connect(actionManager->action(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU), &QAction::triggered, this,
+          &WbView3D::setContextMenuDisabled);
+  connect(actionManager->action(WbAction::DISABLE_OBJECT_MOVE), &QAction::triggered, this, &WbView3D::disableObjectMove);
+  connect(actionManager->action(WbAction::DISABLE_FORCE_AND_TORQUE), &QAction::triggered, this,
           &WbView3D::disableApplyForceAndTorque);
   // optional renderings
-  connect(actionManager->action(WbActionManager::COORDINATE_SYSTEM), &QAction::toggled, this,
-          &WbView3D::setShowCoordinateSystem);
-  connect(actionManager->action(WbActionManager::BOUNDING_OBJECT), &QAction::toggled, this, &WbView3D::setShowBoundingObjects);
-  connect(actionManager->action(WbActionManager::CONTACT_POINTS), &QAction::toggled, this, &WbView3D::setShowContactPoints);
-  connect(actionManager->action(WbActionManager::CONNECTOR_AXES), &QAction::toggled, this, &WbView3D::setShowConnectorAxes);
-  connect(actionManager->action(WbActionManager::JOINT_AXES), &QAction::toggled, this, &WbView3D::setShowJointAxes);
-  connect(actionManager->action(WbActionManager::RANGE_FINDER_FRUSTUMS), &QAction::toggled, this,
+  connect(actionManager->action(WbAction::COORDINATE_SYSTEM), &QAction::toggled, this, &WbView3D::setShowCoordinateSystem);
+  connect(actionManager->action(WbAction::BOUNDING_OBJECT), &QAction::toggled, this, &WbView3D::setShowBoundingObjects);
+  connect(actionManager->action(WbAction::CONTACT_POINTS), &QAction::toggled, this, &WbView3D::setShowContactPoints);
+  connect(actionManager->action(WbAction::CONNECTOR_AXES), &QAction::toggled, this, &WbView3D::setShowConnectorAxes);
+  connect(actionManager->action(WbAction::JOINT_AXES), &QAction::toggled, this, &WbView3D::setShowJointAxes);
+  connect(actionManager->action(WbAction::RANGE_FINDER_FRUSTUMS), &QAction::toggled, this,
           &WbView3D::setShowRangeFinderFrustums);
-  connect(actionManager->action(WbActionManager::LIDAR_RAYS_PATH), &QAction::toggled, this, &WbView3D::setShowLidarRaysPaths);
-  connect(actionManager->action(WbActionManager::LIDAR_POINT_CLOUD), &QAction::toggled, this,
-          &WbView3D::setShowLidarPointClouds);
-  connect(actionManager->action(WbActionManager::CAMERA_FRUSTUM), &QAction::toggled, this, &WbView3D::setShowCameraFrustums);
-  connect(actionManager->action(WbActionManager::DISTANCE_SENSOR_RAYS), &QAction::toggled, this,
-          &WbView3D::setShowDistanceSensorRays);
-  connect(actionManager->action(WbActionManager::LIGHT_SENSOR_RAYS), &QAction::toggled, this,
-          &WbView3D::setShowLightSensorRays);
-  connect(actionManager->action(WbActionManager::LIGHT_POSITIONS), &QAction::toggled, this, &WbView3D::setShowLightsPositions);
-  connect(actionManager->action(WbActionManager::CENTER_OF_BUOYANCY), &QAction::triggered, this,
-          &WbView3D::showCenterOfBuoyancy);
-  connect(actionManager->action(WbActionManager::PEN_PAINTING_RAYS), &QAction::toggled, this,
-          &WbView3D::setShowPenPaintingRays);
-  connect(actionManager->action(WbActionManager::CENTER_OF_MASS), &QAction::triggered, this, &WbView3D::showCenterOfMass);
-  connect(actionManager->action(WbActionManager::SUPPORT_POLYGON), &QAction::triggered, this, &WbView3D::showSupportPolygon);
-  connect(actionManager->action(WbActionManager::SKIN_SKELETON), &QAction::triggered, this, &WbView3D::setShowSkeletonAction);
-  connect(actionManager->action(WbActionManager::RADAR_FRUSTUMS), &QAction::toggled, this, &WbView3D::setShowRadarFrustums);
-  connect(actionManager->action(WbActionManager::PHYSICS_CLUSTERS), &QAction::triggered, this,
+  connect(actionManager->action(WbAction::LIDAR_RAYS_PATH), &QAction::toggled, this, &WbView3D::setShowLidarRaysPaths);
+  connect(actionManager->action(WbAction::LIDAR_POINT_CLOUD), &QAction::toggled, this, &WbView3D::setShowLidarPointClouds);
+  connect(actionManager->action(WbAction::CAMERA_FRUSTUM), &QAction::toggled, this, &WbView3D::setShowCameraFrustums);
+  connect(actionManager->action(WbAction::DISTANCE_SENSOR_RAYS), &QAction::toggled, this, &WbView3D::setShowDistanceSensorRays);
+  connect(actionManager->action(WbAction::LIGHT_SENSOR_RAYS), &QAction::toggled, this, &WbView3D::setShowLightSensorRays);
+  connect(actionManager->action(WbAction::LIGHT_POSITIONS), &QAction::toggled, this, &WbView3D::setShowLightsPositions);
+  connect(actionManager->action(WbAction::CENTER_OF_BUOYANCY), &QAction::triggered, this, &WbView3D::showCenterOfBuoyancy);
+  connect(actionManager->action(WbAction::PEN_PAINTING_RAYS), &QAction::toggled, this, &WbView3D::setShowPenPaintingRays);
+  connect(actionManager->action(WbAction::CENTER_OF_MASS), &QAction::triggered, this, &WbView3D::showCenterOfMass);
+  connect(actionManager->action(WbAction::SUPPORT_POLYGON), &QAction::triggered, this, &WbView3D::showSupportPolygon);
+  connect(actionManager->action(WbAction::SKIN_SKELETON), &QAction::triggered, this, &WbView3D::setShowSkeletonAction);
+  connect(actionManager->action(WbAction::RADAR_FRUSTUMS), &QAction::toggled, this, &WbView3D::setShowRadarFrustums);
+  connect(actionManager->action(WbAction::PHYSICS_CLUSTERS), &QAction::triggered, this,
           &WbView3D::setShowPhysicsClustersAction);
-  connect(actionManager->action(WbActionManager::BOUNDING_SPHERE), &QAction::triggered, this,
-          &WbView3D::setShowBoundingSphereAction);
+  connect(actionManager->action(WbAction::BOUNDING_SPHERE), &QAction::triggered, this, &WbView3D::setShowBoundingSphereAction);
   // virtual reality headset
   const WbPreferences *const prefs = WbPreferences::instance();
-  connect(actionManager->action(WbActionManager::VIRTUAL_REALITY_HEADSET_ENABLE), &QAction::triggered, this,
+  connect(actionManager->action(WbAction::VIRTUAL_REALITY_HEADSET_ENABLE), &QAction::triggered, this,
           &WbView3D::setVirtualRealityHeadset);
   setVirtualRealityHeadset(WbPreferences::instance()->value("VirtualRealityHeadset/enable").toBool());
-  connect(actionManager->action(WbActionManager::VIRTUAL_REALITY_HEADSET_POSITION), &QAction::triggered, this,
+  connect(actionManager->action(WbAction::VIRTUAL_REALITY_HEADSET_POSITION), &QAction::triggered, this,
           &WbView3D::setVirtualRealityHeadsetPositionTracking);
   setVirtualRealityHeadsetPositionTracking(WbPreferences::instance()->value("VirtualRealityHeadset/trackPosition").toBool());
-  connect(actionManager->action(WbActionManager::VIRTUAL_REALITY_HEADSET_ORIENTATION), &QAction::triggered, this,
+  connect(actionManager->action(WbAction::VIRTUAL_REALITY_HEADSET_ORIENTATION), &QAction::triggered, this,
           &WbView3D::setVirtualRealityHeadsetOrientationTracking);
   setVirtualRealityHeadsetOrientationTracking(
     WbPreferences::instance()->value("VirtualRealityHeadset/trackOrientation").toBool());
-  connect(actionManager->action(WbActionManager::VIRTUAL_REALITY_HEADSET_LEFT_EYE), &QAction::triggered, this,
+  connect(actionManager->action(WbAction::VIRTUAL_REALITY_HEADSET_LEFT_EYE), &QAction::triggered, this,
           &WbView3D::setVirtualRealityHeadsetLeftEyeView);
   setVirtualRealityHeadsetLeftEyeView(WbPreferences::instance()->value("VirtualRealityHeadset/visibleEye").toString() ==
                                       "left");
-  connect(actionManager->action(WbActionManager::VIRTUAL_REALITY_HEADSET_RIGHT_EYE), &QAction::triggered, this,
+  connect(actionManager->action(WbAction::VIRTUAL_REALITY_HEADSET_RIGHT_EYE), &QAction::triggered, this,
           &WbView3D::setVirtualRealityHeadsetRightEyeView);
   setVirtualRealityHeadsetRightEyeView(WbPreferences::instance()->value("VirtualRealityHeadset/visibleEye").toString() ==
                                        "right");
-  connect(actionManager->action(WbActionManager::VIRTUAL_REALITY_HEADSET_NO_EYE), &QAction::triggered, this,
+  connect(actionManager->action(WbAction::VIRTUAL_REALITY_HEADSET_NO_EYE), &QAction::triggered, this,
           &WbView3D::setVirtualRealityHeadsetNoEyeView);
   setVirtualRealityHeadsetNoEyeView(WbPreferences::instance()->value("VirtualRealityHeadset/visibleEye").toString() == "none");
-  connect(actionManager->action(WbActionManager::VIRTUAL_REALITY_HEADSET_ANTI_ALIASING), &QAction::triggered, this,
+  connect(actionManager->action(WbAction::VIRTUAL_REALITY_HEADSET_ANTI_ALIASING), &QAction::triggered, this,
           &WbView3D::setVirtualRealityHeadsetAntiAliasing);
   setVirtualRealityHeadsetAntiAliasing(WbPreferences::instance()->value("VirtualRealityHeadset/antiAliasing").toBool());
-  actionManager->action(WbActionManager::HIDE_ALL_CAMERA_OVERLAYS)
+  actionManager->action(WbAction::HIDE_ALL_CAMERA_OVERLAYS)
     ->setChecked(prefs->value("View3d/hideAllCameraOverlays", false).toBool());
-  connect(actionManager->action(WbActionManager::HIDE_ALL_CAMERA_OVERLAYS), &QAction::toggled, this,
+  connect(actionManager->action(WbAction::HIDE_ALL_CAMERA_OVERLAYS), &QAction::toggled, this,
           &WbView3D::setHideAllCameraOverlays);
-  actionManager->action(WbActionManager::HIDE_ALL_RANGE_FINDER_OVERLAYS)
+  actionManager->action(WbAction::HIDE_ALL_RANGE_FINDER_OVERLAYS)
     ->setChecked(prefs->value("View3d/hideAllRangeFinderOverlays", false).toBool());
-  connect(actionManager->action(WbActionManager::HIDE_ALL_RANGE_FINDER_OVERLAYS), &QAction::toggled, this,
+  connect(actionManager->action(WbAction::HIDE_ALL_RANGE_FINDER_OVERLAYS), &QAction::toggled, this,
           &WbView3D::setHideAllRangeFinderOverlays);
-  actionManager->action(WbActionManager::HIDE_ALL_DISPLAY_OVERLAYS)
+  actionManager->action(WbAction::HIDE_ALL_DISPLAY_OVERLAYS)
     ->setChecked(prefs->value("View3d/hideAllDisplayOverlays", false).toBool());
-  connect(actionManager->action(WbActionManager::HIDE_ALL_DISPLAY_OVERLAYS), &QAction::toggled, this,
+  connect(actionManager->action(WbAction::HIDE_ALL_DISPLAY_OVERLAYS), &QAction::toggled, this,
           &WbView3D::setHideAllDisplayOverlays);
   // enable/disable shadows when preferences change
   connect(WbPreferences::instance(), &WbPreferences::changedByUser, this, &WbView3D::updateShadowState);
@@ -261,39 +252,37 @@ void WbView3D::onSelectionChanged(WbAbstractTransform *selectedAbstractTransform
     setCheckedShowCenterOfBuoyancyAction(selectedSolid);
     setCheckedFollowObjectAction(selectedSolid);
     selectedSolid->updateTranslateRotateHandlesSize();
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_NONE)->setEnabled(true);
+    WbActionManager::instance()->action(WbAction::FOLLOW_NONE)->setEnabled(true);
   } else {
-    WbActionManager::instance()
-      ->action(WbActionManager::FOLLOW_NONE)
-      ->setEnabled(viewpoint->followType() != WbViewpoint::FOLLOW_NONE);
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_NONE)->setChecked(false);
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_TRACKING)->setChecked(false);
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_MOUNTED)->setChecked(false);
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_PAN_AND_TILT)->setChecked(false);
-    WbActionManager::instance()->action(WbActionManager::SUPPORT_POLYGON)->setChecked(false);
-    WbActionManager::instance()->action(WbActionManager::CENTER_OF_MASS)->setChecked(false);
-    WbActionManager::instance()->action(WbActionManager::CENTER_OF_BUOYANCY)->setChecked(false);
+    WbActionManager::instance()->action(WbAction::FOLLOW_NONE)->setEnabled(viewpoint->followType() != WbViewpoint::FOLLOW_NONE);
+    WbActionManager::instance()->action(WbAction::FOLLOW_NONE)->setChecked(false);
+    WbActionManager::instance()->action(WbAction::FOLLOW_TRACKING)->setChecked(false);
+    WbActionManager::instance()->action(WbAction::FOLLOW_MOUNTED)->setChecked(false);
+    WbActionManager::instance()->action(WbAction::FOLLOW_PAN_AND_TILT)->setChecked(false);
+    WbActionManager::instance()->action(WbAction::SUPPORT_POLYGON)->setChecked(false);
+    WbActionManager::instance()->action(WbAction::CENTER_OF_MASS)->setChecked(false);
+    WbActionManager::instance()->action(WbAction::CENTER_OF_BUOYANCY)->setChecked(false);
   }
 
   bool enable = selectedSolid != NULL;
-  WbActionManager::instance()->action(WbActionManager::CENTER_OF_BUOYANCY)->setEnabled(enable);
-  WbActionManager::instance()->action(WbActionManager::CENTER_OF_MASS)->setEnabled(enable);
-  WbActionManager::instance()->action(WbActionManager::SUPPORT_POLYGON)->setEnabled(enable);
-  WbActionManager::instance()->action(WbActionManager::FOLLOW_TRACKING)->setEnabled(enable);
-  WbActionManager::instance()->action(WbActionManager::FOLLOW_MOUNTED)->setEnabled(enable);
-  WbActionManager::instance()->action(WbActionManager::FOLLOW_PAN_AND_TILT)->setEnabled(enable);
+  WbActionManager::instance()->action(WbAction::CENTER_OF_BUOYANCY)->setEnabled(enable);
+  WbActionManager::instance()->action(WbAction::CENTER_OF_MASS)->setEnabled(enable);
+  WbActionManager::instance()->action(WbAction::SUPPORT_POLYGON)->setEnabled(enable);
+  WbActionManager::instance()->action(WbAction::FOLLOW_TRACKING)->setEnabled(enable);
+  WbActionManager::instance()->action(WbAction::FOLLOW_MOUNTED)->setEnabled(enable);
+  WbActionManager::instance()->action(WbAction::FOLLOW_PAN_AND_TILT)->setEnabled(enable);
   enable = enable && selectedSolid == viewpoint->followedSolid();
   WbActionManager::instance()
-    ->action(WbActionManager::FOLLOW_NONE)
+    ->action(WbAction::FOLLOW_NONE)
     ->setChecked(enable && viewpoint->followType() == WbViewpoint::FOLLOW_NONE);
   WbActionManager::instance()
-    ->action(WbActionManager::FOLLOW_TRACKING)
+    ->action(WbAction::FOLLOW_TRACKING)
     ->setChecked(enable && viewpoint->followType() == WbViewpoint::FOLLOW_TRACKING);
   WbActionManager::instance()
-    ->action(WbActionManager::FOLLOW_MOUNTED)
+    ->action(WbAction::FOLLOW_MOUNTED)
     ->setChecked(enable && viewpoint->followType() == WbViewpoint::FOLLOW_MOUNTED);
   WbActionManager::instance()
-    ->action(WbActionManager::FOLLOW_PAN_AND_TILT)
+    ->action(WbAction::FOLLOW_PAN_AND_TILT)
     ->setChecked(enable && viewpoint->followType() == WbViewpoint::FOLLOW_PAN_AND_TILT);
 
   cleanupEvents();
@@ -415,13 +404,13 @@ void WbView3D::setCheckedFollowObjectAction(WbSolid *selectedSolid) {
   if (selectedSolid) {
     const WbViewpoint *const viewpoint = mWorld->viewpoint();
     if (viewpoint->followType() == WbViewpoint::FOLLOW_NONE)
-      WbActionManager::instance()->action(WbActionManager::FOLLOW_NONE)->setChecked(true);
+      WbActionManager::instance()->action(WbAction::FOLLOW_NONE)->setChecked(true);
     else if (viewpoint->followType() == WbViewpoint::FOLLOW_TRACKING)
-      WbActionManager::instance()->action(WbActionManager::FOLLOW_TRACKING)->setChecked(true);
+      WbActionManager::instance()->action(WbAction::FOLLOW_TRACKING)->setChecked(true);
     else if (viewpoint->followType() == WbViewpoint::FOLLOW_MOUNTED)
-      WbActionManager::instance()->action(WbActionManager::FOLLOW_MOUNTED)->setChecked(true);
+      WbActionManager::instance()->action(WbAction::FOLLOW_MOUNTED)->setChecked(true);
     else if (viewpoint->followType() == WbViewpoint::FOLLOW_PAN_AND_TILT)
-      WbActionManager::instance()->action(WbActionManager::FOLLOW_PAN_AND_TILT)->setChecked(true);
+      WbActionManager::instance()->action(WbAction::FOLLOW_PAN_AND_TILT)->setChecked(true);
   }
 }
 
@@ -429,13 +418,13 @@ void WbView3D::setCheckedFollowObjectAction(WbSolid *selectedSolid) {
 void WbView3D::notifyFollowObjectAction(int type) {
   const WbViewpoint *const viewpoint = mWorld->viewpoint();
   if (viewpoint->followType() == WbViewpoint::FOLLOW_NONE)
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_NONE)->setChecked(true);
+    WbActionManager::instance()->action(WbAction::FOLLOW_NONE)->setChecked(true);
   else if (viewpoint->followType() == WbViewpoint::FOLLOW_TRACKING)
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_TRACKING)->setChecked(true);
+    WbActionManager::instance()->action(WbAction::FOLLOW_TRACKING)->setChecked(true);
   else if (viewpoint->followType() == WbViewpoint::FOLLOW_MOUNTED)
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_MOUNTED)->setChecked(true);
+    WbActionManager::instance()->action(WbAction::FOLLOW_MOUNTED)->setChecked(true);
   else if (viewpoint->followType() == WbViewpoint::FOLLOW_PAN_AND_TILT)
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_PAN_AND_TILT)->setChecked(true);
+    WbActionManager::instance()->action(WbAction::FOLLOW_PAN_AND_TILT)->setChecked(true);
 }
 
 // Shows the center of mass and the support polygon of a dynamic top WbSolid
@@ -444,7 +433,7 @@ void WbView3D::showSupportPolygon(bool checked) {
   assert(selectedSolid);
 
   if (!selectedSolid->showSupportPolygonRepresentation(checked))
-    WbActionManager::instance()->action(WbActionManager::SUPPORT_POLYGON)->setChecked(false);
+    WbActionManager::instance()->action(WbAction::SUPPORT_POLYGON)->setChecked(false);
 
   renderLater();
 }
@@ -455,7 +444,7 @@ void WbView3D::showCenterOfMass(bool checked) {
   assert(selectedSolid);
 
   if (selectedSolid->showGlobalCenterOfMassRepresentation(checked) == false)
-    WbActionManager::instance()->action(WbActionManager::CENTER_OF_MASS)->setChecked(false);
+    WbActionManager::instance()->action(WbAction::CENTER_OF_MASS)->setChecked(false);
 
   renderLater();
 }
@@ -463,7 +452,7 @@ void WbView3D::showCenterOfMass(bool checked) {
 void WbView3D::setCheckedShowCenterOfMassAction(WbSolid *selectedSolid) {
   assert(selectedSolid);
   const bool enabled = selectedSolid->globalCenterOfMassRepresentationEnabled();
-  WbActionManager::instance()->action(WbActionManager::CENTER_OF_MASS)->setChecked(enabled);
+  WbActionManager::instance()->action(WbAction::CENTER_OF_MASS)->setChecked(enabled);
   if (enabled)
     renderLater();
 }
@@ -474,7 +463,7 @@ void WbView3D::showCenterOfBuoyancy(bool checked) {
   assert(selectedSolid);
 
   if (selectedSolid->showCenterOfBuoyancyRepresentation(checked) == false)
-    WbActionManager::instance()->action(WbActionManager::CENTER_OF_BUOYANCY)->setChecked(false);
+    WbActionManager::instance()->action(WbAction::CENTER_OF_BUOYANCY)->setChecked(false);
 
   renderLater();
 }
@@ -482,7 +471,7 @@ void WbView3D::showCenterOfBuoyancy(bool checked) {
 void WbView3D::setCheckedShowCenterOfBuoyancyAction(WbSolid *selectedSolid) {
   assert(selectedSolid);
   const bool enabled = selectedSolid->centerOfBuoyancyRepresentationEnabled();
-  WbActionManager::instance()->action(WbActionManager::CENTER_OF_BUOYANCY)->setChecked(enabled);
+  WbActionManager::instance()->action(WbAction::CENTER_OF_BUOYANCY)->setChecked(enabled);
   if (enabled)
     renderLater();
 }
@@ -491,7 +480,7 @@ void WbView3D::setCheckedShowSupportPolygonAction(WbSolid *selectedSolid) {
   assert(selectedSolid);
   const bool enabled = selectedSolid->supportPolygonRepresentationEnabled();
   WbActionManager::instance()
-    ->action(WbActionManager::SUPPORT_POLYGON)
+    ->action(WbAction::SUPPORT_POLYGON)
     ->setChecked(selectedSolid->supportPolygonRepresentationEnabled());
   if (enabled)
     renderLater();
@@ -522,12 +511,12 @@ void WbView3D::setRenderingMode(WrViewportPolygonMode mode, bool updatePerspecti
     case WR_VIEWPORT_POLYGON_MODE_FILL:
       if (updatePerspective && mWorld)
         mWorld->perspective()->setRenderingMode("PLAIN");
-      WbActionManager::instance()->action(WbActionManager::PLAIN_RENDERING)->setChecked(true);
+      WbActionManager::instance()->action(WbAction::PLAIN_RENDERING)->setChecked(true);
       break;
     case WR_VIEWPORT_POLYGON_MODE_LINE:
       if (updatePerspective && mWorld)
         mWorld->perspective()->setRenderingMode("WIREFRAME");
-      WbActionManager::instance()->action(WbActionManager::WIREFRAME_RENDERING)->setChecked(true);
+      WbActionManager::instance()->action(WbAction::WIREFRAME_RENDERING)->setChecked(true);
       break;
     default:
       assert(false);
@@ -555,7 +544,7 @@ void WbView3D::setVirtualRealityHeadset(bool enable) {
   }
 
   WbPreferences::instance()->setValue("VirtualRealityHeadset/enable", enable);
-  WbActionManager::instance()->action(WbActionManager::VIRTUAL_REALITY_HEADSET_ENABLE)->setChecked(enable);
+  WbActionManager::instance()->action(WbAction::VIRTUAL_REALITY_HEADSET_ENABLE)->setChecked(enable);
 
   if (enable) {
     WbWrenTextureOverlay::setElementsVisible(WbWrenTextureOverlay::OVERLAY_TYPE_CAMERA, false);
@@ -575,7 +564,7 @@ void WbView3D::setVirtualRealityHeadset(bool enable) {
 
 void WbView3D::setVirtualRealityHeadsetPositionTracking(bool enable) {
   WbPreferences::instance()->setValue("VirtualRealityHeadset/trackPosition", enable);
-  WbActionManager::instance()->action(WbActionManager::VIRTUAL_REALITY_HEADSET_POSITION)->setChecked(enable);
+  WbActionManager::instance()->action(WbAction::VIRTUAL_REALITY_HEADSET_POSITION)->setChecked(enable);
 #ifdef _WIN32
   if (WbVirtualRealityHeadset::isInUse()) {
     WbVirtualRealityHeadset::instance()->enablePositionTracking(enable);
@@ -586,7 +575,7 @@ void WbView3D::setVirtualRealityHeadsetPositionTracking(bool enable) {
 
 void WbView3D::setVirtualRealityHeadsetOrientationTracking(bool enable) {
   WbPreferences::instance()->setValue("VirtualRealityHeadset/trackOrientation", enable);
-  WbActionManager::instance()->action(WbActionManager::VIRTUAL_REALITY_HEADSET_ORIENTATION)->setChecked(enable);
+  WbActionManager::instance()->action(WbAction::VIRTUAL_REALITY_HEADSET_ORIENTATION)->setChecked(enable);
 #ifdef _WIN32
   if (WbVirtualRealityHeadset::isInUse()) {
     WbVirtualRealityHeadset::instance()->enableOrientationTracking(enable);
@@ -598,7 +587,7 @@ void WbView3D::setVirtualRealityHeadsetOrientationTracking(bool enable) {
 void WbView3D::setVirtualRealityHeadsetLeftEyeView(bool enable) {
   if (enable)
     WbPreferences::instance()->setValue("VirtualRealityHeadset/visibleEye", "left");
-  WbActionManager::instance()->action(WbActionManager::VIRTUAL_REALITY_HEADSET_LEFT_EYE)->setChecked(enable);
+  WbActionManager::instance()->action(WbAction::VIRTUAL_REALITY_HEADSET_LEFT_EYE)->setChecked(enable);
 #ifdef _WIN32
   if (WbVirtualRealityHeadset::isInUse() && enable) {
     WbVirtualRealityHeadset::instance()->setEyeView(WbVirtualRealityHeadset::LEFT);
@@ -611,7 +600,7 @@ void WbView3D::setVirtualRealityHeadsetLeftEyeView(bool enable) {
 void WbView3D::setVirtualRealityHeadsetRightEyeView(bool enable) {
   if (enable)
     WbPreferences::instance()->setValue("VirtualRealityHeadset/visibleEye", "right");
-  WbActionManager::instance()->action(WbActionManager::VIRTUAL_REALITY_HEADSET_RIGHT_EYE)->setChecked(enable);
+  WbActionManager::instance()->action(WbAction::VIRTUAL_REALITY_HEADSET_RIGHT_EYE)->setChecked(enable);
 #ifdef _WIN32
   if (WbVirtualRealityHeadset::isInUse() && enable) {
     WbVirtualRealityHeadset::instance()->setEyeView(WbVirtualRealityHeadset::RIGHT);
@@ -624,7 +613,7 @@ void WbView3D::setVirtualRealityHeadsetRightEyeView(bool enable) {
 void WbView3D::setVirtualRealityHeadsetNoEyeView(bool enable) {
   if (enable)
     WbPreferences::instance()->setValue("VirtualRealityHeadset/visibleEye", "none");
-  WbActionManager::instance()->action(WbActionManager::VIRTUAL_REALITY_HEADSET_NO_EYE)->setChecked(enable);
+  WbActionManager::instance()->action(WbAction::VIRTUAL_REALITY_HEADSET_NO_EYE)->setChecked(enable);
 #ifdef _WIN32
   if (WbVirtualRealityHeadset::isInUse() && enable) {
     WbVirtualRealityHeadset::instance()->setEyeView(WbVirtualRealityHeadset::NONE);
@@ -636,7 +625,7 @@ void WbView3D::setVirtualRealityHeadsetNoEyeView(bool enable) {
 
 void WbView3D::setVirtualRealityHeadsetAntiAliasing(bool enable) {
   WbPreferences::instance()->setValue("VirtualRealityHeadset/antiAliasing", enable);
-  WbActionManager::instance()->action(WbActionManager::VIRTUAL_REALITY_HEADSET_ANTI_ALIASING)->setChecked(enable);
+  WbActionManager::instance()->action(WbAction::VIRTUAL_REALITY_HEADSET_ANTI_ALIASING)->setChecked(enable);
   if (mWorld) {
     mWorld->viewpoint()->setVirtualRealityHeadsetAntiAliasing(enable);
     renderLater();
@@ -651,7 +640,7 @@ void WbView3D::setProjectionMode(WrCameraProjectionMode mode, bool updatePerspec
 
   switch (mode) {
     case WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC:
-      WbActionManager::instance()->action(WbActionManager::ORTHOGRAPHIC_PROJECTION)->setChecked(true);
+      WbActionManager::instance()->action(WbAction::ORTHOGRAPHIC_PROJECTION)->setChecked(true);
       if (mWorld) {
         mWorld->viewpoint()->updateOrthographicViewHeight();
         if (updatePerspective)
@@ -661,7 +650,7 @@ void WbView3D::setProjectionMode(WrCameraProjectionMode mode, bool updatePerspec
     default:
       if (updatePerspective && mWorld)
         mWorld->perspective()->setProjectionMode("PERSPECTIVE");
-      WbActionManager::instance()->action(WbActionManager::PERSPECTIVE_PROJECTION)->setChecked(true);
+      WbActionManager::instance()->action(WbAction::PERSPECTIVE_PROJECTION)->setChecked(true);
       break;
   }
 
@@ -825,28 +814,16 @@ void WbView3D::setShowBoundingSphereAction(bool show) {
   renderLater();
 }
 
-void WbView3D::setSelectionDisabled(bool disabled) {
-  mSelectionDisabled = disabled;
+void WbView3D::setUserInteractionDisabled(WbAction::WbActionKind action, bool disabled) {
+  mDisabledUserInteractionsMap[action] = disabled;
   if (mWorld)
-    mWorld->perspective()->setSelectionDisabled(disabled);
+    mWorld->perspective()->setUserInteractionDisabled(action, disabled);
 }
 
-void WbView3D::setViewPointLocked(bool locked) {
-  mViewpointLocked = locked;
-  if (mWorld)
-    mWorld->perspective()->setViewpointLocked(locked);
-}
-
-void WbView3D::disabledObjectMode(bool disabled) {
-  mObjectMoveDisabled = disabled;
-  if (mWorld)
-    mWorld->perspective()->disableObjectMode(disabled);
-}
-
-void WbView3D::disableApplyForceAndTorque(bool disabled) {
-  mForceAndTorqueeDisabled = disabled;
-  if (mWorld)
-    mWorld->perspective()->disableForceAndTorque(disabled);
+void WbView3D::disableObjectMove(bool disabled) {
+  setUserInteractionDisabled(WbAction::DISABLE_OBJECT_MOVE, disabled);
+  WbSelection::instance()->disableActiveManipulator();
+  renderLater();
 }
 
 void WbView3D::updateMousesPosition(bool fromMouseClick, bool fromMouseMove) {
@@ -967,18 +944,18 @@ void WbView3D::updateViewport() {
   connect(viewpoint, SIGNAL(virtualRealityHeadsetRequiresRender()), this, SLOT(renderNow()));
   if (viewpoint->followedSolid()) {
     if (viewpoint->followType() == WbViewpoint::FOLLOW_NONE)
-      WbActionManager::instance()->action(WbActionManager::FOLLOW_NONE)->setChecked(true);
+      WbActionManager::instance()->action(WbAction::FOLLOW_NONE)->setChecked(true);
     else if (viewpoint->followType() == WbViewpoint::FOLLOW_TRACKING)
-      WbActionManager::instance()->action(WbActionManager::FOLLOW_TRACKING)->setChecked(true);
+      WbActionManager::instance()->action(WbAction::FOLLOW_TRACKING)->setChecked(true);
     else if (viewpoint->followType() == WbViewpoint::FOLLOW_MOUNTED)
-      WbActionManager::instance()->action(WbActionManager::FOLLOW_MOUNTED)->setChecked(true);
+      WbActionManager::instance()->action(WbAction::FOLLOW_MOUNTED)->setChecked(true);
     else if (viewpoint->followType() == WbViewpoint::FOLLOW_PAN_AND_TILT)
-      WbActionManager::instance()->action(WbActionManager::FOLLOW_PAN_AND_TILT)->setChecked(true);
+      WbActionManager::instance()->action(WbAction::FOLLOW_PAN_AND_TILT)->setChecked(true);
   } else {
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_NONE)->setChecked(false);
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_TRACKING)->setChecked(false);
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_MOUNTED)->setChecked(false);
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_PAN_AND_TILT)->setChecked(false);
+    WbActionManager::instance()->action(WbAction::FOLLOW_NONE)->setChecked(false);
+    WbActionManager::instance()->action(WbAction::FOLLOW_TRACKING)->setChecked(false);
+    WbActionManager::instance()->action(WbAction::FOLLOW_MOUNTED)->setChecked(false);
+    WbActionManager::instance()->action(WbAction::FOLLOW_PAN_AND_TILT)->setChecked(false);
   }
 
   cleanupPickers();
@@ -1026,8 +1003,7 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
   const WbPerspective *perspective = mWorld->perspective();
   setProjectionMode(stringToProjectionMode(perspective->projectionMode()), false);
   setRenderingMode(stringToRenderingMode(perspective->renderingMode()), false);
-  mSelectionDisabled = perspective->isSelectionDisabled();
-  mViewpointLocked = perspective->isViewpointLocked();
+  mDisabledUserInteractionsMap = perspective->disabledUserInteractionsMap();
 
   enableOptionalRenderingFromPerspective();
 
@@ -1041,18 +1017,18 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
   viewpoint->startFollowUpFromField();
   if (viewpoint->followedSolid()) {
     if (viewpoint->followType() == WbViewpoint::FOLLOW_NONE)
-      WbActionManager::instance()->action(WbActionManager::FOLLOW_NONE)->setChecked(true);
+      WbActionManager::instance()->action(WbAction::FOLLOW_NONE)->setChecked(true);
     else if (viewpoint->followType() == WbViewpoint::FOLLOW_TRACKING)
-      WbActionManager::instance()->action(WbActionManager::FOLLOW_TRACKING)->setChecked(true);
+      WbActionManager::instance()->action(WbAction::FOLLOW_TRACKING)->setChecked(true);
     else if (viewpoint->followType() == WbViewpoint::FOLLOW_MOUNTED)
-      WbActionManager::instance()->action(WbActionManager::FOLLOW_MOUNTED)->setChecked(true);
+      WbActionManager::instance()->action(WbAction::FOLLOW_MOUNTED)->setChecked(true);
     else if (viewpoint->followType() == WbViewpoint::FOLLOW_PAN_AND_TILT)
-      WbActionManager::instance()->action(WbActionManager::FOLLOW_PAN_AND_TILT)->setChecked(true);
+      WbActionManager::instance()->action(WbAction::FOLLOW_PAN_AND_TILT)->setChecked(true);
   } else {
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_NONE)->setChecked(false);
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_TRACKING)->setChecked(false);
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_MOUNTED)->setChecked(false);
-    WbActionManager::instance()->action(WbActionManager::FOLLOW_PAN_AND_TILT)->setChecked(false);
+    WbActionManager::instance()->action(WbAction::FOLLOW_NONE)->setChecked(false);
+    WbActionManager::instance()->action(WbAction::FOLLOW_TRACKING)->setChecked(false);
+    WbActionManager::instance()->action(WbAction::FOLLOW_MOUNTED)->setChecked(false);
+    WbActionManager::instance()->action(WbAction::FOLLOW_PAN_AND_TILT)->setChecked(false);
   }
 
   // Prepares the contact point rendering (Note: WbControlledSimulation::instance() is valid after the call to
@@ -1152,44 +1128,35 @@ void WbView3D::enableOptionalRenderingFromPerspective() {
   assert(mWorld);
   const WbPerspective *perspective = mWorld->perspective();
   WbActionManager *actionManager = WbActionManager::instance();
-  actionManager->action(WbActionManager::COORDINATE_SYSTEM)
+  actionManager->action(WbAction::COORDINATE_SYSTEM)
     ->setChecked(perspective->isGlobalOptionalRenderingEnabled("CoordinateSystem"));
-  actionManager->action(WbActionManager::BOUNDING_OBJECT)
+  actionManager->action(WbAction::BOUNDING_OBJECT)
     ->setChecked(perspective->isGlobalOptionalRenderingEnabled("AllBoundingObjects"));
-  actionManager->action(WbActionManager::CONTACT_POINTS)
-    ->setChecked(perspective->isGlobalOptionalRenderingEnabled("ContactPoints"));
-  actionManager->action(WbActionManager::CONNECTOR_AXES)
-    ->setChecked(perspective->isGlobalOptionalRenderingEnabled("ConnectorAxes"));
-  actionManager->action(WbActionManager::JOINT_AXES)->setChecked(perspective->isGlobalOptionalRenderingEnabled("JointAxes"));
-  actionManager->action(WbActionManager::RANGE_FINDER_FRUSTUMS)
+  actionManager->action(WbAction::CONTACT_POINTS)->setChecked(perspective->isGlobalOptionalRenderingEnabled("ContactPoints"));
+  actionManager->action(WbAction::CONNECTOR_AXES)->setChecked(perspective->isGlobalOptionalRenderingEnabled("ConnectorAxes"));
+  actionManager->action(WbAction::JOINT_AXES)->setChecked(perspective->isGlobalOptionalRenderingEnabled("JointAxes"));
+  actionManager->action(WbAction::RANGE_FINDER_FRUSTUMS)
     ->setChecked(perspective->isGlobalOptionalRenderingEnabled("RangeFinderFrustums"));
-  actionManager->action(WbActionManager::LIDAR_RAYS_PATH)
-    ->setChecked(perspective->isGlobalOptionalRenderingEnabled("LidarRaysPaths"));
-  actionManager->action(WbActionManager::LIDAR_POINT_CLOUD)
+  actionManager->action(WbAction::LIDAR_RAYS_PATH)->setChecked(perspective->isGlobalOptionalRenderingEnabled("LidarRaysPaths"));
+  actionManager->action(WbAction::LIDAR_POINT_CLOUD)
     ->setChecked(perspective->isGlobalOptionalRenderingEnabled("LidarPointClouds"));
-  actionManager->action(WbActionManager::CAMERA_FRUSTUM)
-    ->setChecked(perspective->isGlobalOptionalRenderingEnabled("CameraFrustums"));
-  actionManager->action(WbActionManager::DISTANCE_SENSOR_RAYS)
+  actionManager->action(WbAction::CAMERA_FRUSTUM)->setChecked(perspective->isGlobalOptionalRenderingEnabled("CameraFrustums"));
+  actionManager->action(WbAction::DISTANCE_SENSOR_RAYS)
     ->setChecked(perspective->isGlobalOptionalRenderingEnabled("DistanceSensorRays"));
-  actionManager->action(WbActionManager::LIGHT_SENSOR_RAYS)
+  actionManager->action(WbAction::LIGHT_SENSOR_RAYS)
     ->setChecked(perspective->isGlobalOptionalRenderingEnabled("LightSensorRays"));
-  actionManager->action(WbActionManager::LIGHT_POSITIONS)
-    ->setChecked(perspective->isGlobalOptionalRenderingEnabled("LightPositions"));
-  actionManager->action(WbActionManager::CENTER_OF_BUOYANCY)
+  actionManager->action(WbAction::LIGHT_POSITIONS)->setChecked(perspective->isGlobalOptionalRenderingEnabled("LightPositions"));
+  actionManager->action(WbAction::CENTER_OF_BUOYANCY)
     ->setChecked(perspective->isGlobalOptionalRenderingEnabled("CenterOfBuoyancy"));
-  actionManager->action(WbActionManager::PEN_PAINTING_RAYS)
+  actionManager->action(WbAction::PEN_PAINTING_RAYS)
     ->setChecked(perspective->isGlobalOptionalRenderingEnabled("PenPaintingRays"));
-  actionManager->action(WbActionManager::CENTER_OF_MASS)
-    ->setChecked(perspective->isGlobalOptionalRenderingEnabled("CenterOfMass"));
-  actionManager->action(WbActionManager::SUPPORT_POLYGON)
-    ->setChecked(perspective->isGlobalOptionalRenderingEnabled("SupportPolygon"));
-  actionManager->action(WbActionManager::SKIN_SKELETON)->setChecked(perspective->isGlobalOptionalRenderingEnabled("Skeleton"));
-  actionManager->action(WbActionManager::RADAR_FRUSTUMS)
-    ->setChecked(perspective->isGlobalOptionalRenderingEnabled("RadarFrustums"));
-  actionManager->action(WbActionManager::PHYSICS_CLUSTERS)
+  actionManager->action(WbAction::CENTER_OF_MASS)->setChecked(perspective->isGlobalOptionalRenderingEnabled("CenterOfMass"));
+  actionManager->action(WbAction::SUPPORT_POLYGON)->setChecked(perspective->isGlobalOptionalRenderingEnabled("SupportPolygon"));
+  actionManager->action(WbAction::SKIN_SKELETON)->setChecked(perspective->isGlobalOptionalRenderingEnabled("Skeleton"));
+  actionManager->action(WbAction::RADAR_FRUSTUMS)->setChecked(perspective->isGlobalOptionalRenderingEnabled("RadarFrustums"));
+  actionManager->action(WbAction::PHYSICS_CLUSTERS)
     ->setChecked(perspective->isGlobalOptionalRenderingEnabled("PhysicsClusters"));
-  actionManager->action(WbActionManager::BOUNDING_SPHERE)
-    ->setChecked(perspective->isGlobalOptionalRenderingEnabled("BoundingSphere"));
+  actionManager->action(WbAction::BOUNDING_SPHERE)->setChecked(perspective->isGlobalOptionalRenderingEnabled("BoundingSphere"));
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_COORDINATE_SYSTEM,
                                                  perspective->isGlobalOptionalRenderingEnabled("CoordinateSystem"), false);
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_ALL_BOUNDING_OBJECTS,
@@ -1433,7 +1400,6 @@ void WbView3D::renderNow(bool culling) {
 
 const WbMatter *WbView3D::remoteMouseEvent(QMouseEvent *event) {
   mRemoteContextMenuMatter = NULL;
-  mIsRemoteMouseEvent = true;
   switch (event->type()) {
     case QEvent::MouseButtonPress:
       mousePressEvent(event);
@@ -1447,7 +1413,6 @@ const WbMatter *WbView3D::remoteMouseEvent(QMouseEvent *event) {
     default:
       break;
   }
-  mIsRemoteMouseEvent = false;
   return mRemoteContextMenuMatter;
 }
 
@@ -1456,7 +1421,7 @@ void WbView3D::remoteWheelEvent(QWheelEvent *event) {
 }
 
 void WbView3D::selectNode(const QMouseEvent *event) {
-  if (mSelectionDisabled)
+  if (mDisabledUserInteractionsMap.value(WbAction::DISABLE_SELECTION, false))
     return;
 
   // Object selection:
@@ -1466,9 +1431,10 @@ void WbView3D::selectNode(const QMouseEvent *event) {
   // exception in case of context menu shortcut where the selected Matter node is always used
   WbSelection *const selection = WbSelection::instance();
   if (!mPickedMatter) {
-    selection->selectTransformFromView3D(NULL);  // sending NULL allows to unselect
+    selection->selectTransformFromView3D(
+      NULL, mDisabledUserInteractionsMap.value(WbAction::DISABLE_OBJECT_MOVE));  // sending NULL allows to unselect
     if (isContextMenuShortcut(event) && event->type() == QEvent::MouseButtonRelease) {
-      if (mIsRemoteMouseEvent)
+      if (mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false))
         mRemoteContextMenuMatter = mPickedMatter;
       else
         emit contextMenuRequested(event->globalPos());
@@ -1504,13 +1470,13 @@ void WbView3D::selectNode(const QMouseEvent *event) {
       selectedMatter = topMatter;
   }
 
-  selection->selectTransformFromView3D(selectedMatter, mIsRemoteMouseEvent);
+  selection->selectTransformFromView3D(selectedMatter, mDisabledUserInteractionsMap.value(WbAction::DISABLE_OBJECT_MOVE));
 
   if (WbSysInfo::environmentVariable("WEBOTS_DEBUG").isEmpty())
     WbVisualBoundingSphere::instance()->show(selectedMatter);
 
   if (isContextMenuShortcut(event) && event->type() == QEvent::MouseButtonRelease) {
-    if (mIsRemoteMouseEvent)
+    if (mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false))
       mRemoteContextMenuMatter = selectedMatter;
     else
       emit contextMenuRequested(event->globalPos());
@@ -1906,7 +1872,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
   // - LEFT CLICK  -> move the selected solid along horizontal plane
   // - RIGHT CLICK -> rotate the selected solid around world vertical axis
   // - MID CLICK   -> lift the selected solid
-  if (shift && !mIsRemoteMouseEvent) {
+  if (shift) {
     selectNode(event);
     const WbSelection *const selection = WbSelection::instance();
     if (!selection->isObjectMotionAllowed())
@@ -1932,7 +1898,11 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
       else
         mDragVerticalAxisRotate = new WbDragRotateAroundWorldVerticalAxisEvent(position, viewpoint, uppermostTransform);
     }
-  } else if (alt && !mIsRemoteMouseEvent) {  // Case 2: ALT and CLICK -> add a force / torque to the selected solid
+  } else if (alt) {
+    // Case 2: ALT and CLICK -> add a force / torque to the selected solid
+    if (mDisabledUserInteractionsMap.value(WbAction::DISABLE_FORCE_AND_TORQUE, false))
+      // user interaction disabled
+      return;
     WbSolid *const selectedSolid = dynamic_cast<WbSolid *>(mPickedMatter);
     if (!selectedSolid || selectedSolid->bodyMerger() == NULL)
       return;
@@ -1971,7 +1941,8 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
         connect(mDragForce, &WbDragForceEvent::destroyed, WbSelection::instance(), &WbSelection::restoreActiveManipulator);
       }
     }
-  } else if (!mViewpointLocked) {  // Case 3: CLICK only -> move the camera
+  } else if (!mDisabledUserInteractionsMap.value(WbAction::LOCK_VIEWPOINT, false)) {
+    // Case 3: CLICK only -> move the camera
     Qt::MouseButtons buttons = event->buttons();
 
     // For zoom and translation, we need the distance to the clicked object, if any.
@@ -2013,7 +1984,7 @@ void WbView3D::mouseDoubleClick(QMouseEvent *event) {
     return;
   }
 
-  if (mSelectionDisabled)
+  if (mDisabledUserInteractionsMap.value(WbAction::DISABLE_SELECTION, false))
     return;
 
   const bool picked = mPicker->pick(mousePosition.x(), mousePosition.y());
@@ -2236,7 +2207,7 @@ void WbView3D::wheelEvent(QWheelEvent *event) {
     mWheel = new WbWheelLiftSolidEvent(viewpoint, uppermostSolid);
     mWheel->apply(event->delta());
     renderLater();
-  } else if (!mViewpointLocked) {
+  } else if (!mDisabledUserInteractionsMap.value(WbAction::LOCK_VIEWPOINT, false)) {
     // WHEEL MOUSE only -> zoom
     if (mProjectionMode == WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC) {
       if (event->delta() > 0)
