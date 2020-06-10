@@ -310,8 +310,9 @@ protected:
   virtual void exportNodeSubNodes(WbVrmlWriter &writer) const;
   virtual void exportNodeFooter(WbVrmlWriter &writer) const;
 
-  WbNode *findUrdfLinkRoot() const;
-  virtual bool isUrdfRootLink() const;
+  // Methods related to URDF export
+  WbNode *findUrdfLinkRoot() const;     // Finds first upper Webots node that is considered as URDF link
+  virtual bool isUrdfRootLink() const;  // Determines whether the Webots node is considered as URDF link as well
   virtual void exportURDFJoint(WbVrmlWriter &writer) const {};
 
   virtual void useNodesChanged() const {};
