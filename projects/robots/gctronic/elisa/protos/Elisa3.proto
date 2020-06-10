@@ -11,7 +11,7 @@ PROTO Elisa3 [
   field SFRotation rotation         0 1 0 0   # Is `Transform.rotation`.
   field SFString   name             "Elisa-3" # Is `Solid.name`.
   field SFString   controller       "elisa3"  # Is `Robot.controller`.
-  field SFString   controllerArgs   ""        # Is `Robot.controllerArgs`.
+  field MFString   controllerArgs   []        # Is `Robot.controllerArgs`.
   field SFString   customData       ""        # Is `Robot.customData`.
   field SFBool     supervisor       FALSE     # Is `Robot.supervisor`.
   field SFBool     synchronization  TRUE      # Is `Robot.synchronization`.

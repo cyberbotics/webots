@@ -14,12 +14,12 @@ PROTO TeslaModel3 [
   field     SFString   engineSound       ""
   field     SFString   name              "vehicle"
   field     SFString   controller        "void"
-  field     SFString   controllerArgs    ""
+  field     MFString   controllerArgs    []
   field     SFBool     synchronization   TRUE
-  field     MFNode     sensorsSlotFront  NULL
-  field     MFNode     sensorsSlotRear   NULL
-  field     MFNode     sensorsSlotTop    NULL
-  field     MFNode     sensorsSlotCenter NULL
+  field     MFNode     sensorsSlotFront  []
+  field     MFNode     sensorsSlotRear   []
+  field     MFNode     sensorsSlotTop    []
+  field     MFNode     sensorsSlotCenter []
   field     SFBool     frontSpotLights   FALSE
 ]
 {

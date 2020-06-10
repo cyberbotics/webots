@@ -45,6 +45,7 @@ CONTROLLERS=\
   kuka/youbot/controllers.Makefile \
   lego/mindstorms/controllers.Makefile \
   micromagic/mantis/controllers.Makefile \
+  micromagic/scout/controllers.Makefile \
   mobsya/thymio/controllers.Makefile \
   nasa/controllers.Makefile \
   neuronics/ipr/controllers.Makefile \

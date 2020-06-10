@@ -10,7 +10,7 @@ PROTO TiagoIron [
   field  SFRotation  rotation         1 0 0 -1.5708
   field  SFString    name             "TIAGo Iron"
   field  SFString    controller       "tiago_iron"
-  field  SFString    controllerArgs   ""
+  field  MFString    controllerArgs   []
   field  SFString    customData       ""
   field  SFBool      supervisor       FALSE
   field  SFBool      synchronization  TRUE

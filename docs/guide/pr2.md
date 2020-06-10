@@ -20,7 +20,7 @@ Pr2 {
   SFRotation rotation        1 0 0 -1.57
   SFString   name            "PR2"
   SFString   controller      "pr2_demo"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

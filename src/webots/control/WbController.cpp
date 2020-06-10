@@ -283,7 +283,7 @@ void WbController::start() {
       QFile file(runtimeFilePath);
       if (file.open(QIODevice::WriteOnly)) {
         QTextStream stream(&file);
-        stream << endl;
+        stream << '\n';
       } else {
         warn(tr("Could not create the runtime.ini file."));
         return;
@@ -718,7 +718,7 @@ void WbController::startVoidExecutable() {
   copyBinaryAndDependencies(mCommand);
 
   mCommand = QDir::toNativeSeparators(mCommand);
-  mArguments << argsList();
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startExecutable() {
@@ -727,7 +727,7 @@ void WbController::startExecutable() {
   copyBinaryAndDependencies(mCommand);
 
   mCommand = QDir::toNativeSeparators(mCommand);
-  mArguments << argsList();
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startJava(bool jar) {
@@ -761,7 +761,7 @@ void WbController::startJava(bool jar) {
   if (!mJavaOptions.isEmpty())
     mArguments << mJavaOptions.split(" ");
   mArguments << name();
-  mArguments << argsList();
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startPython() {
@@ -772,7 +772,7 @@ void WbController::startPython() {
   if (!mPythonOptions.isEmpty())
     mArguments << mPythonOptions.split(" ");
   mArguments << name() + ".py";
-  mArguments << argsList();
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startMatlab() {
@@ -790,8 +790,7 @@ void WbController::startMatlab() {
   mArguments = WbLanguageTools::matlabArguments();
   mArguments << "-r"
              << "launcher";
-  if (!mMatlabOptions.isEmpty())
-    mArguments << mMatlabOptions.split(" ");
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startBotstudio() {
@@ -868,37 +867,11 @@ const QString &WbController::name() const {
   return mName;
 }
 
-const QString &WbController::args() const {
-  return mRobot->controllerArgs();
-}
-
-// Extract the argument list from the Robot.controllerArgs string
-// Double quotes are removed from each argument string, as it should
-QStringList WbController::argsList() const {
-  QStringList list;
-  const QString args = mRobot->controllerArgs().trimmed();
-  if (args.length() == 0)
-    return list;
-  bool quote = false;
-  int previous = 0;
-  for (int i = 0; i < args.length(); i++) {
-    if (args[i] == '"')
-      quote = !quote;
-    if (args[i] == ' ' && !quote) {
-      const QString argument = args.mid(previous, i - previous).replace("\"", "").trimmed();
-      if (!argument.isEmpty())
-        list << args.mid(previous, i - previous).replace("\"", "");
-      previous = i + 1;
-    }
-  }
-  list << args.mid(previous).replace("\"", "");
-  return list;
-}
-
 QString WbController::commandLine() const {  // returns the command line with double quotes if needed
-  QString commandLine = mCommand.contains(" ") ? "\"" + mCommand + "\"" : mCommand;
-  foreach (const QString argument, mArguments)
-    commandLine += " " + (argument.contains(" ") ? "\"" + argument + "\"" : argument);
+  QString commandLine = mCommand.contains(' ') ? '"' + mCommand + '"' : mCommand;
+  foreach (QString argument, mArguments)
+    commandLine +=
+      ' ' + (argument.contains(' ') || (argument.contains('"')) ? '\"' + argument.replace('"', "\\\"") + '"' : argument);
   return commandLine;
 }
 

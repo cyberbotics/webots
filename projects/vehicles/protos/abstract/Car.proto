@@ -13,7 +13,7 @@ PROTO Car [
   field SFString   name                           "vehicle"
   field SFString   model                          "car"
   field SFString   controller                     "void"
-  field SFString   controllerArgs                 ""
+  field MFString   controllerArgs                 [ ]
   field SFBool     supervisor                     FALSE
   field SFBool     synchronization                TRUE
   field SFFloat    trackFront                     1.7

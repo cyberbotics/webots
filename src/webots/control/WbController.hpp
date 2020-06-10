@@ -52,7 +52,6 @@ public:
   WbRobot *robot() const { return mRobot; }
   int robotId() const;
   const QString &name() const;
-  const QString &args() const;
   bool synchronization() const { return mRobot->synchronization(); }
   double requestTime() const { return mRequestTime; }
   void resetRequestTime();
@@ -120,7 +119,6 @@ private:
   void copyBinaryAndDependencies(const QString &filename);
   void appendMessageToBuffer(const QString &message, QString *buffer);
   void flushBuffer(QString *buffer);
-  QStringList argsList() const;
   QString commandLine() const;
 
 private slots:

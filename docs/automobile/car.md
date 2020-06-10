@@ -162,8 +162,8 @@ They should be used to model parked vehicles (non-moving) or vehicles moved by a
   MFString   plate                   "textures/plate.jpg"
   SFString   name                    "vehicle"
   SFString   controller              ""
-  SFString   controllerArgs          ""
-  MFNode     sensorsSlot...          [ ]
+  MFString   controllerArgs          []
+  MFNode     sensorsSlot...          []
   SFBool     wheelBoundingObject     FALSE
  }
 ```
