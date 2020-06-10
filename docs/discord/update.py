@@ -84,7 +84,7 @@ class MyClient(discord.Client):
                             if not inCode:
                                 # remove problematic parts
                                 line = line.replace('<i>', '`<i>`')
-                                if line.startswith('#'):
+                                if line.startswith('#') or line.startswith('> #'):
                                     line = line.replace('#', '\\#')
                                 # protect underscores
                                 undescoreProtected = False
