@@ -14,7 +14,6 @@ Here you have the kind of objects I imported. These are kind of sinus waves. I p
 %end
 
 
-
 Hello there, I imported a 3d object in webots by using webots 2020b. It happen frequently that an object is suddently not takent into account with contacts. It seems that there is some problems with the bounding object.
 
 
@@ -282,7 +281,6 @@ That's because you exported to HTML but you are not streaming the simulation.
 ![Screenshot_from_2020-05-22_20-57-46.png](https://cdn.discordapp.com/attachments/565155651395780609/713413087914491904/Screenshot_from_2020-05-22_20-57-46.png)
 %end
 
-
 ##### Olivier Michel [cyberbotics] 05/22/2020 14:27:44
 If your robots move in Webots, they should also move in the web view. Don't they?
 
@@ -303,7 +301,6 @@ I did a good install because I tried the "Human" file and it worked correctly
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/713174651731181749/unknown.png)
 %end
-
 
 
 But i have this error
@@ -640,7 +637,6 @@ Any advice about how to get the epuck moves randomly in this world
 %figure
 ![image0.jpg](https://cdn.discordapp.com/attachments/565155651395780609/702614779767947394/image0.jpg)
 %end
-
 
 ##### Dorteel 04/21/2020 09:13:59
 Thank you `@Stefania Pedrazzi` ! 🙂
@@ -1293,7 +1289,6 @@ your response will be highly appreciated !!
 ![image.png](https://cdn.discordapp.com/attachments/565155651395780609/662207440632414248/image.png)
 %end
 
-
 ## 2019
 
 ##### David Mansolino [cyberbotics] 12/10/2019 08:05:30
@@ -1477,7 +1472,6 @@ it sounds very correct to me.
 %end
 
 
-
 i have 2 robots and a rectangle arena . The robots are moving only in one linear direction  one behind the other and sometimes they are colliding . When i reset my robots to their initial position like this
 
 ##### Fabien Rohrer [Moderator] 11/13/2019 12:29:50
@@ -1515,7 +1509,6 @@ how can i make sure the wheels are not colliding the floor?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/641711950677409813/unknown.png)
 %end
-
 
 
 hello again , i resetphysics but some forces still applying after collision
@@ -1706,7 +1699,6 @@ Does webots include this marine robots, exact this one? I can find salamander cl
 ![FluidRobot.png](https://cdn.discordapp.com/attachments/565155651395780609/626228320996032512/FluidRobot.png)
 %end
 
-
 ##### Stefania Pedrazzi [cyberbotics] 09/16/2019 06:11:06
 You can find another example in samples/howto/omni\_wheels.wbt simulation:  [https://www.cyberbotics.com/doc/guide/samples-howto#omni\_wheels-wbt](https://www.cyberbotics.com/doc/guide/samples-howto#omni_wheels-wbt). In this case the wheel is simulated using two layers of joints and cylinders.
 
@@ -1762,7 +1754,6 @@ sumo ? what do  you mean ?
 
 
 > **Attachment**: [city\_2.mp4](https://cdn.discordapp.com/attachments/565155651395780609/613680130568617984/city_2.mp4)
-
 
 ##### BlackPearl 08/21/2019 10:24:53
 `@Fabien Rohrer` one minute. We are restarting everything again
@@ -1829,7 +1820,6 @@ ok, this is certainly the issue
 %figure
 ![image0.png](https://cdn.discordapp.com/attachments/565155651395780609/613673091335323648/image0.png)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 08/21/2019 09:56:07
 not sure. could you give us more precisely your Java version (`java -version`)? It is supposed to be `1.8`. Does it matches with your `javac -version`?
@@ -1916,12 +1906,10 @@ Hi
 %end
 
 
-
 I think we found a Bug?
 %figure
 ![image0.jpg](https://cdn.discordapp.com/attachments/565155651395780609/590825780716634132/image0.jpg)
 %end
-
 
 ##### David Mansolino [cyberbotics] 06/12/2019 15:52:00
 Thank you
@@ -1987,11 +1975,9 @@ see difference far 0 (default) vs. far 1
 
 
 
-
 %figure
 ![webotsVR02.png](https://cdn.discordapp.com/attachments/565155651395780609/588391019444174858/webotsVR02.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 06/12/2019 15:32:14
 > the good news: you can simulate the behaviour without a vive, right?
@@ -2075,7 +2061,6 @@ Can you see the handle in the headset too?
 %figure
 ![webotsVR01.png](https://cdn.discordapp.com/attachments/565155651395780609/588384559884926987/webotsVR01.png)
 %end
-
 
 
 interessting: when i click on some objects in the treeview, the coordinate systems are shown in the vive
@@ -2375,7 +2360,6 @@ The robot model is encapsulated in a PROTO node. The Robots are linked with Conn
 %figure
 ![tractor-trailer.JPG](https://cdn.discordapp.com/attachments/565155651395780609/585374436270800906/tractor-trailer.JPG)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 06/04/2019 07:48:04
 [https://cyberbotics.com/doc/guide/yamor](https://cyberbotics.com/doc/guide/yamor)

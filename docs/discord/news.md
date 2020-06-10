@@ -138,7 +138,6 @@ Get it from: [https://github.com/cyberbotics/webots/releases/tag/R2020a-rev1](ht
 ![R2020a-rev1.png](https://cdn.discordapp.com/attachments/568354695513374730/666927483819393024/R2020a-rev1.png)
 %end
 
-
 ##### dagd 01/13/2020 10:30:54
 OpenDR / Thessaloniki
 
@@ -147,7 +146,6 @@ OpenDR / Thessaloniki
 %figure
 ![image0.jpg](https://cdn.discordapp.com/attachments/568354695513374730/666227627719131137/image0.jpg)
 %end
-
 
 ## 2019
 
@@ -196,7 +194,6 @@ Thanks. Btw. this download link is dead:
 ![unknown.png](https://cdn.discordapp.com/attachments/568354695513374730/657533768306786314/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 12/20/2019 10:43:13
 Hi `@machinekoder` yes R2020a is compatible with ROS1 kinetic and melodic and ROS2 crystal, dashing and eloquent.
 
@@ -212,7 +209,6 @@ Get it from [https://github.com/omichel/webots/releases/tag/R2020a](https://gith
 %figure
 ![Webots-R2020a-splash.jpg](https://cdn.discordapp.com/attachments/568354695513374730/657147468823396372/Webots-R2020a-splash.jpg)
 %end
-
 
 ##### Olivier Michel [cyberbotics] 12/17/2019 16:02:49
 Yet another one: [https://www.youtube.com/watch?v=Z3UyRjnFePk](https://www.youtube.com/watch?v=Z3UyRjnFePk)
@@ -232,7 +228,6 @@ Our Discord community has just gone beyond 500 people! 🕺🏻
 ##### Olivier Michel [cyberbotics] 10/31/2019 08:42:21
 LEGO SnowSpeederBrick drone flying in Webots. This simulation was developed by Jaime A, see original post here: [https://youtu.be/y4p-PjtfxQI](https://youtu.be/y4p-PjtfxQI)
 > **Attachment**: [SnowSpeederBrick\_drone\_for\_webots.mp4](https://cdn.discordapp.com/attachments/568354695513374730/639383651007594496/SnowSpeederBrick_drone_for_webots.mp4)
-
 
 
 We just released Webots R2019b revision 1 on the snap store [https://snapcraft.io/webots](https://snapcraft.io/webots) so that you can install it easily on your favorite Linux distribution (all dependencies are included).
@@ -260,7 +255,6 @@ Would like to share with us when you're using Webots? 🐞
 %figure
 ![Capture_decran_2019-09-18_a_16.17.22.png](https://cdn.discordapp.com/attachments/568354695513374730/623886266953498634/Capture_decran_2019-09-18_a_16.17.22.png)
 %end
-
 
 
 The main Webots git repository (and other repositories) has been migrated to our brand-new "Cyberbotics" GitHub organization: [https://github.com/cyberbotics](https://github.com/cyberbotics)

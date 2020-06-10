@@ -125,7 +125,6 @@ hi ! why setBrakeIntensity(0)  causes this warning ? How can I solve it ?
 ![Untitled.png](https://cdn.discordapp.com/attachments/565155720933146637/710038699077009408/Untitled.png)
 %end
 
-
 ##### chaytanya 05/13/2020 06:46:52
 Sure `@Olivier Michel`
 
@@ -314,7 +313,6 @@ May I ask something? I'm trying to change width of road lines for the making lan
 %figure
 ![road.png](https://cdn.discordapp.com/attachments/565155720933146637/701363563998085170/road.png)
 %end
-
 
 ##### ClBaze 04/16/2020 13:04:43
 kinetic
@@ -770,7 +768,6 @@ Maybe this options is not available any more?
 ![Screen_Shot_2019-10-28_at_6.22.02_PM.png](https://cdn.discordapp.com/attachments/565155720933146637/638428024743657522/Screen_Shot_2019-10-28_at_6.22.02_PM.png)
 %end
 
-
 ##### Stefania Pedrazzi [cyberbotics] 10/28/2019 07:18:31
 and you can find a simple example in the distributed samples folder `projects/samples/devices/worlds/track.wbt`
 
@@ -1051,7 +1048,6 @@ hi, how can i use or download the khepera 4 presentation in the photo to use it 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/594221742008827921/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 06/12/2019 06:34:10
 Hi `@TH0` and `@AnnaLefay`, please feel free to report them directly on our Github repository as a new issue: [https://github.com/omichel/webots/issues](https://github.com/omichel/webots/issues)

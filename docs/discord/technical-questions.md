@@ -56,7 +56,6 @@ Result for 10 m/s step, red is the predicted, blue is the measured
 %end
 
 
-
 I'm trying to model the Tesla Model 3 using a dynamic bicycle model, but there is still a performance difference which I cannot explain. For the motor propulsion, I accounted the motor output accordingly ( min value between maxT and the maxP expression, eletric motor), with aerodynamic force and the wheels resistance torque (with 4*c*w as wheel damping). I am for the moment maintaining the steering angle equal to zero, but for the slip friction a model F=c*alpha will be used. Am I forgetting some longitudinal component ?
 
 ##### David Mansolino [cyberbotics] 06/10/2020 14:40:06
@@ -236,7 +235,6 @@ So my question would be : does the default ros controller really publish (by def
 %end
 
 
-
 I enable the camera with a rosservice call , and right after, call a rostopic hz on the topic of the camera, and it seems to publish at 125 hz
 
 
@@ -315,7 +313,6 @@ It's not the DEF name, but the DistanceSensor.name that should match (and it's c
 %end
 
 
-
 I do have DEF Proto file in world file named Back
 
 ##### Olivier Michel [cyberbotics] 06/09/2020 13:13:53
@@ -330,7 +327,6 @@ this is my controller
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/719901789385654302/unknown.png)
 %end
 
-
 ##### Olivier Michel [cyberbotics] 06/09/2020 13:12:07
 Hi, that means you are trying to get a handle to a device named "BACK", however, no such device exists in your Robot...
 
@@ -339,7 +335,6 @@ hi guys can someone help me with this error?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/719901383666696273/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 06/09/2020 12:10:36
 You're welcome!
@@ -382,7 +377,6 @@ i set it to 100000 but the same happens
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/719876848062038047/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 06/09/2020 11:31:10
 Maybe the maxtorque of the motor is not high enough
@@ -452,7 +446,6 @@ WARNING: 'RobotVisionTestController' controller crashed.)
 %figure
 ![python_screen.png](https://cdn.discordapp.com/attachments/565154703139405824/719598220149260379/python_screen.png)
 %end
-
 
 ##### black\_hammer\_67 06/08/2020 17:03:36
 `@David Mansolino` yes i tried, finally i figured out that this issue is only on C as in other languages as python the tag is a string, the only thing i dont get is why in C it has to be 1, what indicates that ?
@@ -536,7 +529,6 @@ Hi, the following problem keeps happening in my vehicle simulations. Each vehicl
 %figure
 ![webPhysics.png](https://cdn.discordapp.com/attachments/565154703139405824/719452650084630528/webPhysics.png)
 %end
-
 
 ##### yash 06/08/2020 06:48:02
 > This example might interest you: [https://cyberbotics.com/doc/guide/samples-howto#sick\_terrain\_scanning-wbt](https://cyberbotics.com/doc/guide/samples-howto#sick_terrain_scanning-wbt)
@@ -931,7 +923,6 @@ thank you, let me check this
 ![webots.png](https://cdn.discordapp.com/attachments/565154703139405824/718439690797187161/webots.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 06/05/2020 12:20:05
 Can you share the exact parameters you are using for the crossroad?
 
@@ -1007,7 +998,6 @@ I dont remember how I inserted the camera on the physical robot and then positio
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/718347886877736991/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 06/05/2020 06:14:36
 What do you mean exactly by 'get' from the controller? From a Supervisor? From the add node dialog?
 
@@ -1033,7 +1023,6 @@ It seems that you are using OpenCV 4 whereas the controller is made for OpenCV 2
 %end
 
 
-
 what is considered the build file in open CV?
 
 
@@ -1041,7 +1030,6 @@ that changed the error to this
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/718334415402434570/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 06/05/2020 05:12:47
 > I have open cv installed but it is not being recognized in the webots path. I tried editing the makefile as in the screenshot, and tried creating an environment path but has not worked yet. 
@@ -1072,14 +1060,12 @@ Hello, I'm new here! simple question but how do I modify my lookup table for my 
 %end
 
 
-
 I have open cv installed but it is not being recognized in the webots path. I tried editing the makefile as in the screenshot, and tried creating an environment path but has not worked yet. 
 
 Some other people are also having an issue installing this, so it would be great to get some more direction
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/718283594866360400/unknown.png)
 %end
-
 
 ##### Lussfer 06/04/2020 21:48:18
 for practice i have replicated ros\_python world, i am trying to use a custom ros message but getting import error. the custom ros message is in catkin pakage. is it possible to use custom message in webots?
@@ -1279,11 +1265,9 @@ Installed through msys2
 
 
 
-
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/718024786776948806/unknown.png)
 %end
-
 
 
 Yeah that seemed to fix it, I changed my OPENCV\_DIR global value to the right map now, however we are still getting compile errors, hows it going for you? `@Clara Cardoso Ferreira`
@@ -1333,7 +1317,6 @@ Or maybe you have conflicting versions?
 %end
 
 
-
 `@Olivier Michel` now I am getting this error with installing opencv through msys2, while trying to compile the howto -> Vision file
 
 ##### John520 06/03/2020 15:46:00
@@ -1350,7 +1333,6 @@ Here is a screenshot of the context menu item to enable the camera overlay
 %figure
 ![Screenshot_from_2020-06-03_13-47-13.png](https://cdn.discordapp.com/attachments/565154703139405824/717706320106487900/Screenshot_from_2020-06-03_13-47-13.png)
 %end
-
 
 
 `@Professor Felix`, do you mean the camera feedback in the view with a magenta border? This is called "Overlay" and should be enabled by default. If it is not (maybe it was closed in a previous run of the simulation), you can enable it by right-clicking on the robot (from the 3D view or scene tree) and selecting the "Overlays" item in the context menu and checking the camera item
@@ -1381,18 +1363,15 @@ Other guy gets this
 
 
 
-
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/717662025622224946/unknown.png)
 %end
 
 
 
-
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/717661969519476786/unknown.png)
 %end
-
 
 
 I cant get opencv to work with webots for some reason keeps coming up with different errors across our team
@@ -1459,7 +1438,6 @@ In Webots meshes are used for two purpose, for visualization (including sensors 
 %end
 
 
-
 > bounding objects
 
 `@David Mansolino` not sure what you are talking about. Are you asking if I set the meshes like in tutorial 2 with the ball? If so, I did not
@@ -1494,7 +1472,6 @@ How do I put the robots in the terrain? It seems like the Koala bots cannot get 
 %figure
 ![moonmap_inc.PNG](https://cdn.discordapp.com/attachments/565154703139405824/717612891657732116/moonmap_inc.PNG)
 %end
-
 
 ##### dimple.bhuta 06/03/2020 05:37:23
 Ok
@@ -1592,7 +1569,6 @@ does the velocity controller for the motor really not use PID?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/717413087430574166/unknown.png)
 %end
-
 
 ##### Olivier Michel [cyberbotics] 06/02/2020 16:10:47
 OpenGL 3.3 (minimum version).
@@ -1794,7 +1770,6 @@ I'm trying to use TouchSensor for the foot of the robot but i can't  get the sen
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/716528776078426122/unknown.png)
 %end
 
-
 ##### Iguins 05/31/2020 00:06:02
 Thank you Manuel but I could not do it from there either
 
@@ -1819,7 +1794,6 @@ someone know how to change names in the scene tree?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/716361856817692833/unknown.png)
 %end
-
 
 
 hi
@@ -1847,7 +1821,6 @@ What're the available values for the contactMaterial attr. in the Floor node ?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/715961687420960878/unknown.png)
 %end
-
 
 
 > `@dralorg` the center of mass of the robot is not perfectly center (mainly because of the arm), which can cause slight differences like this.
@@ -1944,7 +1917,6 @@ I'm using AMD Radeon 8670M GPU. How to maximise my performance in this hardware?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/715769442260222002/unknown.png)
 %end
-
 
 ##### Samir Hosny Mohamed 05/28/2020 15:41:03
 it worked when i saved the world and restart the program, THANKS ALOT
@@ -2091,7 +2063,6 @@ Can you find me appropriate download file for R2020b version?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/715233383923318865/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 05/27/2020 13:55:26
 You're welcome
@@ -2324,7 +2295,6 @@ But what is your 'robot' variable? Is it the supervisor or is it a handle to the
 %end
 
 
-
 `@David Mansolino`  [Supervisor]   File "Supervisor.py", line 23, in initialization
 
 [Supervisor]     FSRNode = robot.getFromDef('LFsrFL') 
@@ -2420,7 +2390,6 @@ when i try to use the saveImage method on the camera my image displays weird ver
 ![image.jpg](https://cdn.discordapp.com/attachments/565154703139405824/714228142419607583/image.jpg)
 %end
 
-
 ##### iagsav 05/23/2020 16:59:25
 Hi! file radar.wbt shows an excellent example of using radar to detect a target. But when I add an e-puck robot to the scene, the radar "doesn't see" it. How can I make a robot or object visible to radar?
 
@@ -2466,7 +2435,6 @@ The controller can run successfully on my computer, but in my classmate's comput
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/713695046486196304/unknown.png)
 %end
 
-
 ##### Rajesh Roy 05/23/2020 07:47:42
 There used to be some interactive programming guide to Webots right? Some website which uses to let you program under webots player. Can anyone find me the link? I tried.
 
@@ -2511,7 +2479,6 @@ I clicked on the record button and ran the simulation, but the simulation didn't
 %end
 
 
-
 when I added the display, and then tried to record a video, when is the simulation doesn't work
 
 
@@ -2534,7 +2501,6 @@ It's me again...why the numbers are still vague...
 %figure
 ![display.png](https://cdn.discordapp.com/attachments/565154703139405824/713405327487533136/display.png)
 %end
-
 
 
 finally! Thank you so much! It's just under display node
@@ -2721,7 +2687,6 @@ thats the only error
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/713335485996597348/unknown.png)
 %end
 
-
 ##### Olivier Michel [cyberbotics] 05/22/2020 10:19:45
 What is the error message?
 
@@ -2755,7 +2720,6 @@ Are you sure your controller is using the same version of python as the above?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/713329653972205630/unknown.png)
 %end
-
 
 
 i also put the opencv into path variables with 
@@ -2801,7 +2765,6 @@ You simply need to install OpenCV (see the Makefile of the robot controller)
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/713323856609411072/unknown.png)
 %end
-
 
 
 hey guys i have a problem i get the following error when i try the vision demo
@@ -2867,13 +2830,11 @@ See for example: [https://cyberbotics.com/doc/guide/tutorial-5-compound-solid-an
 Hello, I import a vrml file to the webot. It is a bottle created in Solidworks. First, I convert this bottle to Solid node. I set the boundingObject to IndexedFaceSet of this bottle. However, the bottle is floating and it shows "WARNING: The current physics step could not be computed correctly. Your world may be too complex. If this problem persists, try simplifying your bounding object(s), reducing the number of joints, or reducing WorldInfo.basicTimeStep." How can I fix this?
 > **Attachment**: [bottle\_floating.mp4](https://cdn.discordapp.com/attachments/565154703139405824/713263404667764766/bottle_floating.mp4)
 
-
 ##### riddlefive 05/22/2020 02:17:07
 
 %figure
 ![2020-05-22_10.16.33.png](https://cdn.discordapp.com/attachments/565154703139405824/713213827956605039/2020-05-22_10.16.33.png)
 %end
-
 
 
 Hi everyone, urgent problem QAQ, could you tell me how to use(take out) the data like(get\_id,get\_position) when using the CameraRecognitionObject by Python? Thanks a lot.
@@ -2890,7 +2851,6 @@ Hi everyone! when I add the display and trying to drawtext with it, when is the 
 %figure
 ![display.png](https://cdn.discordapp.com/attachments/565154703139405824/713197569844576305/display.png)
 %end
-
 
 ##### G1020BS 05/21/2020 21:53:18
 Hi, I tried both in java, python and c++ but I can't manage to include opencv2. Any tips on how to include opencv. Preferable in java but any other language will suffice. I allready used the vision controller tutorial/example on the webots github but no luck. I get these kind of errors: " fatal error: opencv2/opencv.hpp: No such file or directory"
@@ -2912,12 +2872,10 @@ hi `@kwy` i cant answer your problem but i was interested in your work is your r
 > **Attachment**: [exp\_kwy.mp4](https://cdn.discordapp.com/attachments/565154703139405824/712873398539255828/exp_kwy.mp4)
 
 
-
 there seems be a bug from the Lidar Node, and how to fix it ? Thanks !
 %figure
 ![exp_kwy.png](https://cdn.discordapp.com/attachments/565154703139405824/712873155362029588/exp_kwy.png)
 %end
-
 
 ##### ChapoGuzman 05/20/2020 15:54:28
 Thanks in advance.
@@ -2927,7 +2885,6 @@ Thanks in advance.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712694659821862932/unknown.png)
 %end
-
 
 
 Hello guys, I designed a robotic arm in solidworks and I import it by v97 but I have problems to implement it as a "robot" I am new with the program and I have already read the tutorials and the user guide, there will be a diagram like this that I can follow to implement my parts in a single "robot" section
@@ -3108,7 +3065,6 @@ Which screams gimble lock to me
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712582971823095848/unknown.png)
 %end
 
-
 ##### Stefania Pedrazzi [cyberbotics] 05/20/2020 08:30:11
 Ok. And on reset, you are not restarting the robots controller, is it right?
 
@@ -3152,7 +3108,6 @@ Hello, I create a world in webots and want to  export all objects in the world a
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712562515409764362/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 05/20/2020 05:10:39
 > Hello! A while back I asked what the recognition orientation is on the camera, and got pointed in the direction of axis angles. I can get values out, but they act strangely. Rotating a cube around the Y axis. Is this just a case of unavoidable gimble lock? I can't imagine it is else the vision API is near useless? Thanks!
@@ -3242,7 +3197,6 @@ Hello everybody! Please help me write a PROTO of a wheel similar to the one in t
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712378694873907300/unknown.png)
 %end
 
-
 ##### TheOrangeOne 05/19/2020 18:52:17
 Hello! A while back I asked what the recognition orientation is on the camera, and got pointed in the direction of axis angles. I can get values out, but they act strangely. Rotating a cube around the Y axis. Is this just a case of unavoidable gimble lock? I can't imagine it is else the vision API is near useless? Thanks!
 
@@ -3320,7 +3274,6 @@ so I've been having this problem lately where when I launch a controller Webots 
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712231657855254558/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 05/19/2020 08:31:32
 Have you tried the following:
 
@@ -3336,7 +3289,6 @@ Hello, I'm using ur5e to pick and place experiment. But sometimes the object wil
 %figure
 ![ur5_pickup_stuck.png](https://cdn.discordapp.com/attachments/565154703139405824/712218557680713768/ur5_pickup_stuck.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 05/19/2020 08:00:54
 Yes 🙂
@@ -3365,12 +3317,10 @@ and the backtrace
 %end
 
 
-
 the end of my run command
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712198807974051871/unknown.png)
 %end
-
 
 
 `@David Mansolino` my GDB backtrace is leading me somewhere in the /usr/local/webots/lib/webots/libode.so
@@ -3439,7 +3389,6 @@ You will also find some documentation about how to use a debugger with your cont
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712170839059202068/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 05/19/2020 05:07:20
 > For some reason my project works on macOS but not on windows? Is it something to do with the Makefile?
 
@@ -3481,7 +3430,6 @@ For some reason my project works on macOS but not on windows? Is it something to
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712163378860130404/unknown.png)
 %end
-
 
 ##### AyresAlmada 05/19/2020 04:01:07
 hi there. i want to build a bridge in Webots, but have no idea about use which nodes. Any suggestions?
@@ -3568,7 +3516,6 @@ Your problem is that you are using 3.8.1
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/711976247881891870/unknown.png)
 %end
 
-
 ##### Conor 05/18/2020 16:13:51
 `@cakar`
 
@@ -3577,7 +3524,6 @@ Your problem is that you are using 3.8.1
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/711974782903648276/unknown.png)
 %end
-
 
 
 do you get the following output
@@ -3593,7 +3539,6 @@ couldnt work it out
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/711974420377239563/unknown.png)
 %end
-
 
 ##### Conor 05/18/2020 16:10:02
 `@cakar` Is it working now?
@@ -3636,7 +3581,6 @@ You can set the size of the tiles for the floor. So I was wondering if it is pos
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/711971307176067192/unknown.png)
 %end
-
 
 ##### Stefania Pedrazzi [cyberbotics] 05/18/2020 15:54:50
 what do you mean with tiles?
@@ -3738,7 +3682,6 @@ As I understand it, there is a stable version in the only repository. I will dow
 ![DeepinEkranGoruntusu_20200516234439.png](https://cdn.discordapp.com/attachments/565154703139405824/711831066775912455/DeepinEkranGoruntusu_20200516234439.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 05/18/2020 06:42:28
 HI `@w3. eydi`, may I ask you to try with a nightly version of R2020a-revision2 available here, the unsuported image bug should be fixed with this version (let us know if it is not the case): [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
 
@@ -3750,7 +3693,6 @@ and error message but simulation is working !
 %figure
 ![DeepinEkranGoruntusu_20200516234207.png](https://cdn.discordapp.com/attachments/565154703139405824/711830697127575612/DeepinEkranGoruntusu_20200516234207.png)
 %end
-
 
 
 Good morning `@David Mansolino`;
@@ -3854,7 +3796,6 @@ I've added the "contactProperties" inside the "WorldInfo" tag in the world file,
 Why the bottom wheels are not making the robot move?
 > **Attachment**: [first\_world.mp4](https://cdn.discordapp.com/attachments/565154703139405824/711737634514272369/first_world.mp4)
 
-
 ##### Conor 05/18/2020 00:01:13
 `@AyresAlmada` I know you can use GPS but I'm not entirely sure how I would translate the GPS into an X,Y position that can then go into a 2d array
 
@@ -3875,13 +3816,11 @@ On webots i see that the object recognition is giving. X as Z, Y as Y and Z as -
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/711206156856590387/unknown.png)
 %end
 
-
 ##### brianne.byer 05/16/2020 12:40:16
 Is there code available online that directly controls the wheels of the youbot? I mean, instead of what the webot demo uses (keyboard control)? The idea is for the youbot to follow a black, straight line. I'm also curious if I am required to add 4 hingejoints to the body slot of youbot. Thanks in advance, it is greatly appreciated as I am very new to coding.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/711196323235233802/unknown.png)
 %end
-
 
 ##### AyresAlmada 05/16/2020 06:10:34
 hi there. if i use the supervisor to track the position of a robot. is it possible to send the position information to another controller?
@@ -3900,7 +3839,6 @@ Hi `@David Mansolino` Can I get the engine information in the data for 0.1 secon
 %figure
 ![Screenshot_20200515_100629_com.whatsapp.jpg](https://cdn.discordapp.com/attachments/565154703139405824/710750650992164934/Screenshot_20200515_100629_com.whatsapp.jpg)
 %end
-
 
 ##### Troy 05/15/2020 04:55:23
 I'll try the urdf2webots program again tomorrow
@@ -3951,7 +3889,6 @@ my webots clossing after loading world model
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/710453543940784158/unknown.png)
 %end
-
 
 ##### AyresAlmada 05/14/2020 10:43:13
 got it! thanks
@@ -4120,7 +4057,6 @@ It can display 3D graph with vis.js
 %end
 
 
-
 😂
 
 
@@ -4142,7 +4078,6 @@ So what was the problem exactly?
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/710119209903980574/unknown.png)
 %end
 
-
 ##### Dobby 05/13/2020 13:18:57
 `@Robin` will send a screenshot now
 
@@ -4154,7 +4089,6 @@ It looks like there might be an error in your Javascript code...
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/710116952521048154/unknown.png)
 %end
-
 
 
 Another question, we edited the img files in the thymio2 file to `<i>` files and to send the function onmousedown and then send it through the javascript with a function but we get this error as soon as we start it! ^^
@@ -4260,7 +4194,6 @@ Is it possible to control a robot through html or javascript with an Arduino Esp
 ![esplora-voorkant.png](https://cdn.discordapp.com/attachments/565154703139405824/710093456386555984/esplora-voorkant.png)
 %end
 
-
 ##### kwy 05/13/2020 10:26:25
 in the javascript console
 
@@ -4309,7 +4242,6 @@ I only open my webots and this streaming viewer, and what else should i do
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/710068696047157339/unknown.png)
 %end
 
-
 ##### Olivier Michel [cyberbotics] 05/13/2020 09:58:08
 You mean nothing in the javascript console?
 
@@ -4334,7 +4266,6 @@ It may be because of a local firewall preventing connections to port 1234?
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/710064342045032528/unknown.png)
 %end
 
-
 ##### Olivier Michel [cyberbotics] 05/13/2020 09:40:01
 Do you get any message in the Javascript console?
 
@@ -4343,7 +4274,6 @@ Hi, I'm stuck at this problem, i don't know how to stream a Webots Simulation�
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/710061575511474286/unknown.png)
 %end
-
 
 ##### TheOrangeOne 05/13/2020 08:32:02
 I'll try and push most of this to the docs at some point so it's easier to reason about
@@ -4399,7 +4329,6 @@ Hello, what's the meaning of these points? If I add more points, will the situat
 %end
 
 
-
 OK, I will try it, thank you  very much for your help!!!
 
 ##### Olivier Michel [cyberbotics] 05/13/2020 07:12:56
@@ -4441,7 +4370,6 @@ hello, I have imported an object from vrml file and I have added the bounding. W
 ![15893527451.png](https://cdn.discordapp.com/attachments/565154703139405824/710022527803457546/15893527451.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 05/13/2020 05:17:33
 > rviz shows the wrist 2 joint rotated 180°. Or to be more precise, the wrist\_2\_link coordinate frame is rotated around its z-achses (blue).  I have no idea how this error comes to be
 
@@ -4479,7 +4407,6 @@ Hey guys, just want to ask if anyone knows where an image for a straight line is
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/709956719119433768/unknown.png)
 %end
 
-
 ##### Lussfer 05/13/2020 01:37:25
 Is there a way to convert local coordinate to wgs84 gps coordinate?
 
@@ -4497,7 +4424,6 @@ rviz shows the wrist 2 joint rotated 180°. Or to be more precise, the wrist\_2\
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/709816531961511956/unknown.png)
 %end
-
 
 
 There is a werid issue with webots, ROS and the ur10e robot
@@ -4613,7 +4539,6 @@ Sorry, I don't understand what you mean... The model created using other softwar
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/709686300235661322/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 05/12/2020 08:28:18
 Yes exactly. In that case it perfectly make sense to get (0,0,0) from the supervisor too. It seems the problem is more on your hierarchy side.
 
@@ -4625,7 +4550,6 @@ Do you mean this? They are the same. (0,0,0)
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/709682909854040115/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 05/12/2020 08:19:23
 Can you compare it from what you get in the 'position' tab of the node editor (bottom part of the scene-tree) ?
@@ -4656,7 +4580,6 @@ I have another question. I am using heat map to show a covariance array on Robot
 
 If I open the robotWindow in my own web browser, will it refresh better ?
 > **Attachment**: [kwy.mp4](https://cdn.discordapp.com/attachments/565154703139405824/709677363964936242/kwy.mp4)
-
 
 ##### Olivier Michel [cyberbotics] 05/12/2020 07:52:20
 `wb_supervisor_field_get_sf_vec3f` should return the relative position.
@@ -4726,7 +4649,6 @@ hallo, can Robot-window display  3D graphs? it seems not support WebGL, and I ju
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/709547655616921680/unknown.png)
 %end
 
-
 ##### jomell310 05/11/2020 17:42:02
 Hi, sorry to bother, but I'm a bit stuck at the moment:
 
@@ -4767,7 +4689,6 @@ Hellow, how could I solve this problem?
 %figure
 ![5210a182e31ff8bd.JPG](https://cdn.discordapp.com/attachments/565154703139405824/709421284551032926/5210a182e31ff8bd.JPG)
 %end
-
 
 ##### David Mansolino [cyberbotics] 05/11/2020 15:04:33
 Yes, you can find one here: [https://cyberbotics.com/doc/guide/samples-howto#supervisor\_draw\_trail-wbt](https://cyberbotics.com/doc/guide/samples-howto#supervisor_draw_trail-wbt)
@@ -4842,7 +4763,6 @@ hello, I have make such a track for robots in the form of vrml using other softw
 ![8728f23200303a06.png](https://cdn.discordapp.com/attachments/565154703139405824/709389237782315048/8728f23200303a06.png)
 %end
 
-
 ##### yash 05/11/2020 12:32:39
 Oh okay
 
@@ -4890,7 +4810,6 @@ Hi `@sinancimen` have you tried reducing the time step or playing with the worlf
 ##### sinancimen 05/11/2020 09:55:42
 Hey David, you helped on the problem I had last week and solved it but, I am facing another problem now. I couldn't understand why hingejoints' axes are acting weird. The parts of the hinge become seperated after some time. Do you have any idea about this? Thank you...
 > **Attachment**: [ball\_beam.rar](https://cdn.discordapp.com/attachments/565154703139405824/709342967084744704/ball_beam.rar)
-
 
 ##### David Mansolino [cyberbotics] 05/11/2020 09:36:39
 You can use the PositionSensors device of the joint to get the updated position: [https://cyberbotics.com/doc/reference/positionsensor](https://cyberbotics.com/doc/reference/positionsensor)
@@ -5032,7 +4951,6 @@ Hey I'm extremely new to robotics as well as webots. I'm curious as to how to mo
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/708827364205002782/unknown.png)
 %end
 
-
 ##### erdanielx 05/09/2020 20:19:47
 error: cannot find symbol
 
@@ -5077,7 +4995,6 @@ Hello, how can I make such a object so that it can let go or stop cars?
 ![images.jpg](https://cdn.discordapp.com/attachments/565154703139405824/708503404816760842/images.jpg)
 %end
 
-
 ##### Aan 05/09/2020 00:32:22
 Is there any sensor to know where the sound coming from? Is it possible using speaker node to represent sound source?
 
@@ -5086,12 +5003,10 @@ Is there any sensor to know where the sound coming from? Is it possible using sp
 > **Attachment**: [final\_assem.SLDASM](https://cdn.discordapp.com/attachments/565154703139405824/708394337574191124/final_assem.SLDASM)
 
 
-
 > `@WAYWARD` yes of course you can send them here directly.
 
 `@David Mansolino`
 > **Attachment**: [SnakeBot.wbt](https://cdn.discordapp.com/attachments/565154703139405824/708394052608852038/SnakeBot.wbt)
-
 
 ##### Alejandro Pescathore 05/08/2020 17:49:38
 Hello there, I have a question, how coulomb friction works in Webots? I understand that it is a factor between 0-1 and it is related to the normal force, but in webots I can specify values ​​between 0 and infinity. What is the appropriate value to simulate the friction between rubber and wood?
@@ -5182,7 +5097,6 @@ i tried running the vehicle over a small stripe of road but that still didn't wo
 %end
 
 
-
 i can give that a try
 
 ##### David Mansolino [cyberbotics] 05/08/2020 15:19:28
@@ -5193,7 +5107,6 @@ Can you try splitting the road in smaller sub-roads (PEN works better with small
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/708336633870680094/unknown.png)
 %end
-
 
 ##### Olivier Michel [cyberbotics] 05/08/2020 15:10:54
 You are welcome.
@@ -5234,7 +5147,6 @@ My friend made this bot and I'm trying to steer it by moving the front wheels at
 %end
 
 
-
 Hiya, I'm new to webots
 
 ##### Dobby 05/08/2020 14:36:55
@@ -5253,7 +5165,6 @@ For C++ you should instead use the Robot::wwiReceive function: [https://cyberbot
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/708320741086593135/unknown.png)
 %end
-
 
 
 Where should I declare a receive text in cpp?
@@ -5299,7 +5210,6 @@ The message sent from the robot windows JS are interpreted by the controller her
 %end
 
 
-
 It does launch then but the controls dont work, and I was looking for an example to stop the motors or slow them down, but I couldnt find them anywhere in the thymio2 controller code that was provided, so I couldnt really implement it into our robot yet
 
 
@@ -5316,11 +5226,9 @@ You might be interested by this html robot-windows that allow to control the Thy
 
 
 
-
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/708302201310806056/unknown.png)
 %end
-
 
 
 I am trying to get the window to work for our robot so we can control it through the robot, I used the simple example html in the how to section. But for some reason it doesn't find it
@@ -5334,7 +5242,6 @@ I am trying to use PEN sensor on my vehicle with following parameters but doesn'
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/707990970993475635/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 05/07/2020 14:01:32
 You're welcome!
 
@@ -5344,7 +5251,6 @@ It works! thank you so so much for your help.
 ##### David Mansolino [cyberbotics] 05/07/2020 13:36:20
 Here is a very draft version of this.
 > **Attachment**: [empty3.wbt](https://cdn.discordapp.com/attachments/565154703139405824/707948938723983360/empty3.wbt)
-
 
 
 I checked your simulation, the biggest issue I see is that the weight of the 'BEAM\_BASE' solid is extremely big. I assume this is to simulate the fact that it is part of the ground and can't move ?
@@ -5361,7 +5267,6 @@ thank you, I will try it
 
 > **Attachment**: [ball\_beam.rar](https://cdn.discordapp.com/attachments/565154703139405824/707940186897776680/ball_beam.rar)
 
-
 ##### David Mansolino [cyberbotics] 05/07/2020 10:55:35
 Can you share you world file so that I can have a look at the problem in real?
 
@@ -5370,7 +5275,6 @@ Can you share you world file so that I can have a look at the problem in real?
 %figure
 ![unnamed.png](https://cdn.discordapp.com/attachments/565154703139405824/707897615387197451/unnamed.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 05/07/2020 09:18:18
 You're welcome.
@@ -5561,7 +5465,6 @@ The model is different in the proto on github also I need two other models which
 
 > **Attachment**: [message.txt](https://cdn.discordapp.com/attachments/565154703139405824/707584289486929940/message.txt)
 
-
 ##### David Mansolino [cyberbotics] 05/06/2020 13:25:15
 About your issue, can you share the first 25 lines of the generated PROTO ?
 
@@ -5593,7 +5496,6 @@ As you can see in the picture
 %figure
 ![image0.jpg](https://cdn.discordapp.com/attachments/565154703139405824/707573377661141022/image0.jpg)
 %end
-
 
 
 What could be the issue
@@ -5633,7 +5535,6 @@ Which version of Webots are you using? And how did you install the webots\_ros p
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/707569584189734962/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 05/06/2020 11:02:27
 It probably will 😉
@@ -5757,7 +5658,6 @@ My goal is to setup a Real time data exchange connection from Webots to the Univ
 %end
 
 
-
 I am just getting started with Webots.  Doing the first tutorial I get this error.  Anyone know how to fix it?  I am doing the controller with C++:
 
 ##### JIAO 05/06/2020 01:05:53
@@ -5824,7 +5724,6 @@ Thank you, everything looks good indeed, what you should try to do is:
 ##### Janx1913 05/04/2020 13:45:41
 Here you go. Here the timestep is 8 and coloumb friction -1
 > **Attachment**: [banana\_grasp.webm](https://cdn.discordapp.com/attachments/565154703139405824/706864130518155355/banana_grasp.webm)
-
 
 ##### David Mansolino [cyberbotics] 05/04/2020 13:31:50
 Hi `@Janx1913` time step and coloumb friction are indeed the firest things to try. Can you share a small video of the problem?
@@ -6050,7 +5949,6 @@ Is the speed of the robot constant?
 %end
 
 
-
 Ok, I'll try that.
 
 ##### David Mansolino [cyberbotics] 05/04/2020 05:58:52
@@ -6132,7 +6030,6 @@ You should not change the size of the E-puck.  It will simply look smaller if yo
 ![Add_Relative_Torque.png](https://cdn.discordapp.com/attachments/565154703139405824/706644583983087626/Add_Relative_Torque.png)
 %end
 
-
 ##### Rhino 05/03/2020 20:08:16
 I am trying to achieve something similar as the following link, are the models used in the link available to the public or are these custom made models. I am trying to leave behind a trail of spray by vehicle
 
@@ -6182,7 +6079,6 @@ Hello everyone
 ![epuck_path_anomoly.png](https://cdn.discordapp.com/attachments/565154703139405824/706089517857112064/epuck_path_anomoly.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 05/02/2020 06:38:44
 You're welcome 🙂
 
@@ -6201,7 +6097,6 @@ I'm using tiles of length 0.1 m to have an approx. idea of the lengths of intere
 %figure
 ![size.png](https://cdn.discordapp.com/attachments/565154703139405824/705914711106912306/size.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 05/01/2020 14:07:24
 You're welcome
@@ -6272,7 +6167,6 @@ The floor vibration is  same with void as well
 %figure
 ![Screenshot_from_2020-05-01_15-33-49.png](https://cdn.discordapp.com/attachments/565154703139405824/705774949943476324/Screenshot_from_2020-05-01_15-33-49.png)
 %end
-
 
 
 also when I start moving the robot the UR3 arm joint breaks and look like this
@@ -6447,7 +6341,6 @@ Yes I also have added the environment variables. If there is anything wrong in i
 ![1.JPG](https://cdn.discordapp.com/attachments/565154703139405824/705387699028099102/1.JPG)
 %end
 
-
 ##### David Mansolino [cyberbotics] 04/30/2020 11:52:45
 > Sorry I am confused with "PATH/LD\_LIBRARY\_PATH/DYLD\_LIBRARY\_PATH". But I have added WEBOTS\_HOME/lib/controller/python37 to the Project / Project Structure according to the guide of  [https://cyberbotics.com/doc/guide/using-your-ide#pycharm](https://cyberbotics.com/doc/guide/using-your-ide#pycharm) , is that right?
 
@@ -6595,7 +6488,6 @@ Yes, I agree. By default, all the field of the proto are at "False"
 %end
 
 
-
 We're using the version of webots from the commit " fe5893b968e160447a52cc4619ad68a8f41f8022 " , compiled from the git
 
 ##### David Mansolino [cyberbotics] 04/29/2020 14:26:19
@@ -6606,7 +6498,6 @@ Looks very strange, it seems you get always true whereas the fields are all set 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/705061857945321492/unknown.png)
 %end
-
 
 
 Corresponding c++ code :
@@ -6640,7 +6531,6 @@ Yes, we're using a beta version of Webots R2020b. We compile it from source beca
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/705058003434602526/unknown.png)
 %end
-
 
 
 Here is the scene tree
@@ -6746,7 +6636,6 @@ I'm observing some strange behavior of my fruits in WeBots. Physics and BO is de
 
 Does it all come down to the bounding object and being too complex? Especially the grapes is a bad one I think.
 > **Attachment**: [fruit\_test.mp4](https://cdn.discordapp.com/attachments/565154703139405824/704964802958721024/fruit_test.mp4)
-
 
 ##### David Mansolino [cyberbotics] 04/28/2020 15:42:54
 About the warnings, we are currently improving the Webots console to be able to filter out some logs (such as ODE warnings), this might help you getting ride  of the warning, this is currently in development here (you can follow this PR to get news about it): [https://github.com/cyberbotics/webots/pull/1595](https://github.com/cyberbotics/webots/pull/1595)
@@ -6925,7 +6814,6 @@ My GPU is very low budget (Intel HD520), I already have edited my preferences fo
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/704641696755089478/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 04/28/2020 10:31:33
 > Can anyone help me with finding the total distance travelled by the epuck in webota
 
@@ -7077,7 +6965,6 @@ Yes, you should click OK and go ahead with that.
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/704619057546002463/unknown.png)
 %end
 
-
 ##### Olivier Michel [cyberbotics] 04/28/2020 09:02:13
 Python doesn't need to build as it's not a compiled language like C or C++.
 
@@ -7143,7 +7030,6 @@ Also check that the Python command is set to "python" in the Webots preferences.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/704615829291139112/unknown.png)
 %end
-
 
 
 It may be simpler to start from the `WEBOTS_HOME/projects/languages/python/worlds/example.wbt` sample world and edit the `slave.py` controller for example.
@@ -7215,7 +7101,6 @@ I switched the controller to another one and back and now it works, but the moti
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/704584116300939264/unknown.png)
 %end
 
-
 ##### Olivier Michel [cyberbotics] 04/28/2020 06:38:19
 OK...
 
@@ -7252,7 +7137,6 @@ EDIT: I tried restarting WeBots, but now it just starts up and crashes instantly
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/704580064972636280/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 04/28/2020 05:24:28
 > is there an Webots IRC-channel too?
@@ -7345,12 +7229,10 @@ bit more readable
 %end
 
 
-
 this would indicate python2
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/704326383056453642/unknown.png)
 %end
-
 
 
 are you using a python3 compiled ros?
@@ -7676,7 +7558,6 @@ This is code
 %end
 
 
-
 I am using gyro to turn my robot at certain degree but the problem is when I want it to stop at the particular amount of degree my robot won't stop
 
 ##### machinekoder 04/25/2020 11:43:05
@@ -7689,10 +7570,8 @@ Note: The adapter has no physics node, the gripper has physics enabled. When I e
 %end
 
 
-
 Does anyone know why this happens when moving the object along with a connector?
 > **Attachment**: [webots\_robot\_connector\_weirdness.mp4](https://cdn.discordapp.com/attachments/565154703139405824/703547180677595137/webots_robot_connector_weirdness.mp4)
-
 
 ##### nap 04/25/2020 03:20:09
 `@Professor Felix` looks like your army may be smaller that you originally planned, but you may be able to concentrate the weapons more?
@@ -7802,7 +7681,6 @@ I have tried to place some path point (those red spots)on this map by supervisor
 %end
 
 
-
 `@David Mansolino`  thanks. How to generate such a simulation environment or place object on map by a script? I have read this map as an array. Using this array to place object on map?
 
 
@@ -7854,7 +7732,6 @@ So as long as Include the protos in the protos folder here and the world file is
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/702892496832692244/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 04/23/2020 14:43:36
 To test this you can try to add the ur10e proto to your world using the add node dialog, you will see that the one in your project is available but the one in the Webots installation directory is grey and not addable.
@@ -8026,7 +7903,6 @@ Can you try to download the latest version of Webots R2020a revision 2 which was
 ![webots.png](https://cdn.discordapp.com/attachments/565154703139405824/702238453059944566/webots.png)
 %end
 
-
 ##### Olivier Michel [cyberbotics] 04/21/2020 13:46:22
 Great! Thank you for the feedback.
 
@@ -8150,7 +8026,6 @@ Hi! Is there a way to create dialogue boxes in WeBots? I can´t seem to find a s
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/702095299698622494/unknown.png)
 %end
 
-
 ##### kf1375 04/21/2020 09:53:19
 > `@kf1375` Why are you using `is not -1:` ?
 
@@ -8203,7 +8078,6 @@ If the simulation is not running anymore it means that Webots is waiting for the
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/702081751723540551/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 04/21/2020 08:55:42
 `@kf1375` this error message gives you the answers:
 
@@ -8220,10 +8094,8 @@ You should replace the `while (wb_robot_step(timestep) is not -1) {` condition b
 %end
 
 
-
 Hello, I'm just starting with using Webots for a school project and I have a problem with writing a simple python controller for my quadrotor. I'm on a windows laptop and my controller is uploaded in the attachment. when it gets to <<while self.step(int(self.timeStep)) is not -1:>> at line 49, The simulation freezes. I'm wondering why this is happening and if there is a way to overcome this? Thank you in advance.
 > **Attachment**: [pycontroller.py](https://cdn.discordapp.com/attachments/565154703139405824/702071286452453416/pycontroller.py)
-
 
 ##### Olivier Michel [cyberbotics] 04/21/2020 05:44:58
 `@dmknuth`: in the `Tools` menu, please enable the `3D View`  and disable all other items: `Scene Tree`, `Text Editor`, `Console` and `Documentation`. Let me know if that helps.
@@ -8304,7 +8176,6 @@ basically I want to set this, but from within my controller. And I want to get t
 %end
 
 
-
 How can i get the position and orientation relative to a different frame? I dont want it relative to the world. In the GUI I can select it, but I want to set it by code.
 
 
@@ -8341,7 +8212,6 @@ I have this, where is the controller I have to select?
 %figure
 ![Schermafbeelding_2020-04-20_om_15.50.25.png](https://cdn.discordapp.com/attachments/565154703139405824/701792071903608852/Schermafbeelding_2020-04-20_om_15.50.25.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 04/20/2020 13:45:37
 Hi `@JapieHoeven` welcome. You have to select the 'controller' field before looking the 'Select' button.
@@ -8584,7 +8454,6 @@ Can anyone tell me why I am getting this error
 ![JPEG_20200417_063251.jpg](https://cdn.discordapp.com/attachments/565154703139405824/700511870318018640/JPEG_20200417_063251.jpg)
 %end
 
-
 ##### yash 04/16/2020 18:48:17
 Is it possible to detect RGB colours of LED using a camera ?
 
@@ -8647,7 +8516,6 @@ hi, if Im trying to run multiple instances of webots I always get this error. Is
 %figure
 ![image.png](https://cdn.discordapp.com/attachments/565154703139405824/700021321160982578/image.png)
 %end
-
 
 ##### kwy 04/15/2020 15:30:48
 `@nap` thanks!
@@ -8726,7 +8594,6 @@ These ones
 %figure
 ![Screen_Shot_2020-04-15_at_10.56.54_pm.png](https://cdn.discordapp.com/attachments/565154703139405824/699966597825167390/Screen_Shot_2020-04-15_at_10.56.54_pm.png)
 %end
-
 
 
 thnx
@@ -8823,7 +8690,6 @@ Yes, but I would need at least 3 (Win, MacOS, and Ubuntu)
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/699956192881016833/unknown.png)
 %end
 
-
 ##### nap 04/15/2020 12:15:43
 `@kwy`, thanks
 
@@ -8837,7 +8703,6 @@ Yes, but I would need at least 3 (Win, MacOS, and Ubuntu)
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/699955924114210906/unknown.png)
 %end
-
 
 ##### nap 04/15/2020 12:13:34
 I could be useful here to prevent the students from modifying the supervisor code.
@@ -9036,7 +8901,6 @@ I need help to create an account
 %figure
 ![webots_8.jpg](https://cdn.discordapp.com/attachments/565154703139405824/699760960507871242/webots_8.jpg)
 %end
-
 
 
 Hi there
@@ -9256,12 +9120,10 @@ and this does not
 %end
 
 
-
 why does this work
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/699287546139639868/unknown.png)
 %end
-
 
 
 Hi, I want to make my own ROS controller. However, 'import rospy' doesnt work in a new controller, it only works when changing the existing universal\_robot\_ros controller. Any ideas as to why?
@@ -9423,7 +9285,6 @@ Hi, I want to recognize the things with the camera and for this reason I add rec
 ![Ekran_Alnts.PNG](https://cdn.discordapp.com/attachments/565154703139405824/697948955262058546/Ekran_Alnts.PNG)
 %end
 
-
 ##### nap 04/09/2020 16:56:56
 Never mind, I found the "Speaker" button in the control bar.
 
@@ -9446,7 +9307,6 @@ I am having problem with integrating matlab with webots can anyone help
 %figure
 ![IMG-20200409-WA0021.jpg](https://cdn.discordapp.com/attachments/565154703139405824/697851823817752687/IMG-20200409-WA0021.jpg)
 %end
-
 
 ##### David Mansolino [cyberbotics] 04/09/2020 14:41:02
 `@Ευαγγελία` you might use a Propeller node to be able to add force and thrust on your capsule: [https://cyberbotics.com/doc/reference/propeller](https://cyberbotics.com/doc/reference/propeller)
@@ -9584,7 +9444,6 @@ Can you help me to check my code?
 %end
 
 
-
 In fact, I'm trying to control my model by torque. However, it doesn't move anything. And my code is very simple.
 
 ##### Olivier Michel [cyberbotics] 04/09/2020 08:01:29
@@ -9654,7 +9513,6 @@ it didn't work 😭
 %end
 
 
-
 okay I'll try thank you so much
 
 ##### Olivier Michel [cyberbotics] 04/08/2020 10:14:49
@@ -9701,7 +9559,6 @@ it worked thank you so much again. actually if you know how can I fix this graph
 %figure
 ![1.png](https://cdn.discordapp.com/attachments/565154703139405824/697383069279191050/1.png)
 %end
-
 
 
 I didn't know that I'll try thank you so much
@@ -9807,12 +9664,10 @@ But i'm getting error:
 %end
 
 
-
 Hello, I'm new to Webots and i'm trying to learn how to use the Supervisor functions in a controller. Could anybody help me out with the initial setup? I'm using it in python so that's why i can't find much resources online. I have this so far
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/697328334459109376/unknown.png)
 %end
-
 
 ##### Jie 04/08/2020 06:06:30
 `@David Mansolino` Thank you for your help！👍
@@ -9837,7 +9692,6 @@ Hello. New user trying to learn how to use Webots. Things going smoothly so far,
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/697279949954089040/unknown.png)
 %end
-
 
 ##### Darko Lukić [cyberbotics] 04/07/2020 22:16:41
 You are welcome, I am glad it works!
@@ -9922,7 +9776,6 @@ I am not sure what you mean by splash screen, it stays like on the picture
 ![Capture_decran_2020-04-07_a_13.14.21.png](https://cdn.discordapp.com/attachments/565154703139405824/697064090346061834/Capture_decran_2020-04-07_a_13.14.21.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 04/07/2020 12:42:45
 And what do you mean by it freeze, do you see the splash screen?
 
@@ -9936,7 +9789,6 @@ And what do you mean by it freeze, do you see the splash screen?
 ##### Laojiang 04/07/2020 12:41:13
 
 > **Attachment**: [1586263208735.mp4](https://cdn.discordapp.com/attachments/565154703139405824/697063431794196520/1586263208735.mp4)
-
 
 ##### dédé 04/07/2020 12:40:40
 I am on OS Catalina
@@ -9971,7 +9823,6 @@ os.path.abspath(path)
 %figure
 ![Untitled.png](https://cdn.discordapp.com/attachments/565154703139405824/697017243921547314/Untitled.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 04/07/2020 08:52:28
 You're welcome!
@@ -10047,7 +9898,6 @@ laser
 %figure
 ![ok.PNG](https://cdn.discordapp.com/attachments/565154703139405824/696735625897967768/ok.PNG)
 %end
-
 
 
 i have laser distance sensor and if detect object, this object get red frame
@@ -10133,7 +9983,6 @@ Hi, I have to use Webots for a SIS project course. I installed it, I have window
 ![Capture_decran_370.png](https://cdn.discordapp.com/attachments/565154703139405824/696695368028520478/Capture_decran_370.png)
 %end
 
-
 ##### Shadow 04/06/2020 12:08:25
 Is there any way of a supervisor telling if a robot's LED's are on?
 
@@ -10155,7 +10004,6 @@ but I still can‘t build the project to exe, just prompt for missing these file
 %figure
 ![2020-04-06_183852.jpg](https://cdn.discordapp.com/attachments/565154703139405824/696690296939085864/2020-04-06_183852.jpg)
 %end
-
 
 
 I'm sorry my English is not very good
@@ -10180,12 +10028,10 @@ when I add  "WEBOTS\_HOME" path, I can open those files.The original can not be 
 %end
 
 
-
 ummmm, I find this line is not missing in my files, but I find some promble, I didn't add environment variables，so I add "WEBOTS\_HOME" path ，and it make I can open some file in VS. But, this problems still exist.`@David Mansolino`
 %figure
 ![2020-04-06_183852.jpg](https://cdn.discordapp.com/attachments/565154703139405824/696670445818216468/2020-04-06_183852.jpg)
 %end
-
 
 ##### David Mansolino [cyberbotics] 04/06/2020 06:53:30
 I checked and it seems indeed they are missing.
@@ -10209,7 +10055,6 @@ if I dont add those  resources, it cant generate .exe, every project must be add
 ![2020-04-06_143445.jpg](https://cdn.discordapp.com/attachments/565154703139405824/696608912966680596/2020-04-06_143445.jpg)
 %end
 
-
 ##### David Mansolino [cyberbotics] 04/06/2020 06:32:39
 `@Jie` which resources in particular are you speaking about?
 
@@ -10218,7 +10063,6 @@ if I dont add those  resources, it cant generate .exe, every project must be add
 %figure
 ![2020-04-06_142442.jpg](https://cdn.discordapp.com/attachments/565154703139405824/696607331315875890/2020-04-06_142442.jpg)
 %end
-
 
 ##### David Mansolino [cyberbotics] 04/06/2020 06:04:51
 > hi, when I use Microsoft Visual Studio build my controller , I need add this resources , every new project always need this? how can I solve this problem? I used Microsoft Visual Studio  2017 Community, and webots is R2020a-rev1
@@ -10294,7 +10138,6 @@ hi, when I use Microsoft Visual Studio build my controller , I need add this res
 ![2020-04-06_120640.jpg](https://cdn.discordapp.com/attachments/565154703139405824/696572955806793829/2020-04-06_120640.jpg)
 %end
 
-
 ##### Luftwaffel 04/04/2020 17:57:12
 Especially using moveit would be nice
 
@@ -10344,7 +10187,6 @@ And if so in my case they are not differing .!
 ##### ksardias 04/04/2020 10:46:19
 Why front left get wrong value?
 > **Attachment**: [rontLeftNotWork\_Trim.mp4](https://cdn.discordapp.com/attachments/565154703139405824/695947355954085898/rontLeftNotWork_Trim.mp4)
-
 
 ##### kwy 04/04/2020 03:50:49
 Hello, I'm using "pen" to draw trail. but I'm confused ,when I change the size of the arena, why does the trail  disappear and "pen" no longer draws trail ?
@@ -10424,7 +10266,6 @@ Thank you, I managed to change it, but I have a problem with the wrists. I saw t
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/695582320807116840/unknown.png)
 %end
 
-
 ##### Olivier Michel [cyberbotics] 04/03/2020 09:32:53
 That should be pretty straightforward when you look into the PROTO file. If you have any problem let us know.
 
@@ -10468,7 +10309,6 @@ How can I build new motion files like those?
 ![IMG_20200403_090724.jpg](https://cdn.discordapp.com/attachments/565154703139405824/695439381003108362/IMG_20200403_090724.jpg)
 %end
 
-
 ##### Sashimi 04/03/2020 00:50:55
 Sorry I'm new to webots.
 
@@ -10477,7 +10317,6 @@ For some reason the world will not load, everything else works in the side bars.
 %figure
 ![IMG_20200402_193454.jpg](https://cdn.discordapp.com/attachments/565154703139405824/695431588451975208/IMG_20200402_193454.jpg)
 %end
-
 
 ##### David Mansolino [cyberbotics] 04/02/2020 13:26:43
 You're welcome
@@ -10506,7 +10345,6 @@ Is your controller doing something? are you doing special when it explodes?
 ##### Laojiang 04/02/2020 13:05:24
 
 > **Attachment**: [QQ202004.mp4](https://cdn.discordapp.com/attachments/565154703139405824/695257579429036172/QQ202004.mp4)
-
 
 ##### David Mansolino [cyberbotics] 04/02/2020 13:04:56
 One possible solution is to decrease the simulation step.
@@ -10606,7 +10444,6 @@ Any one familiar with the cause of these errors?
 ![webot.png](https://cdn.discordapp.com/attachments/565154703139405824/694828032208404540/webot.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 04/01/2020 08:20:20
 You're welcome
 
@@ -10686,7 +10523,6 @@ in webot tree!
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/694771077015928842/unknown.png)
 %end
-
 
 
 Hello,Is there a way to change  the maxtorque'value& the maxvelocity's value to infinity ????
@@ -10780,7 +10616,6 @@ Thank you
 
 > **Attachment**: [message.txt](https://cdn.discordapp.com/attachments/565154703139405824/694526787614670918/message.txt)
 
-
 ##### David Mansolino [cyberbotics] 03/31/2020 12:40:43
 Probably just the code is enough, thank you
 
@@ -10807,7 +10642,6 @@ Ok thank you, that's strange, it is supposed to work
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/694524686071234590/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 03/31/2020 12:32:15
 Just to make sure what it returns
 
@@ -10825,7 +10659,6 @@ I'm trying to learn how to use supervisor in Python..
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/694520356924293232/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 03/31/2020 12:15:08
 > Hi again, the rounded box turns into a ball when I try to make it 2cm wide cube. Tried changing the borderradius and subdivision, but didn't notice any changes
@@ -10852,7 +10685,6 @@ Hello, for emitter I can't change "robot" to "supervisor"?
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/694518949915918356/unknown.png)
 %end
 
-
 ##### Dorteel 03/31/2020 12:10:09
 also, is it possible to have different pictures on all sides?
 
@@ -10861,7 +10693,6 @@ Hi again, the rounded box turns into a ball when I try to make it 2cm wide cube.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/694517219631300608/unknown.png)
 %end
-
 
 ##### kwy 03/31/2020 12:01:21
 It works! 😆  thanks
@@ -10905,7 +10736,6 @@ if i try this, there is an error "Only one instance of the Robot class should be
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/694515436267503616/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 03/31/2020 11:54:08
 If you want to get the supervisor itself you should use:
@@ -10980,7 +10810,6 @@ here is my app open form, I installed I think
 ![Capture.PNG](https://cdn.discordapp.com/attachments/565154703139405824/694306603372904458/Capture.PNG)
 %end
 
-
 ##### Darko Lukić [cyberbotics] 03/30/2020 22:05:19
 `@furkann`  You don't need an account to use Webots. Do you have Webots installed on your computer?
 
@@ -11009,7 +10838,6 @@ is there a way to add this node
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/694188272217358416/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 03/30/2020 13:44:03
 > Where can i set those
@@ -11061,7 +10889,6 @@ Hi, how can i make the texture on the floor that the ground sensors spot a diffe
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/694174741090795610/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 03/30/2020 13:18:23
 You're welcome
 
@@ -11080,7 +10907,6 @@ no . and no / worked i think
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/694167857084497950/unknown.png)
 %end
 
-
 ##### Olivier Michel [cyberbotics] 03/30/2020 12:13:40
 Or should remove the "/" at the beginning.
 
@@ -11095,7 +10921,6 @@ nothing i do lets the installer run
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/694155751056474182/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 03/30/2020 12:05:02
 ok in that case you should probably ``cd Downloads``before
@@ -11117,7 +10942,6 @@ is the Webots installer in the correct folder from where you are trying to start
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/694154792121008218/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 03/30/2020 11:59:01
 Can you maybe try to install Webots from a command prompt?
@@ -11196,7 +11020,6 @@ This indicate the position of the node you have selected, this is defined inside
 ![Screenshot_20200330_0852592.jpg](https://cdn.discordapp.com/attachments/565154703139405824/694063102378901515/Screenshot_20200330_0852592.jpg)
 %end
 
-
 ##### David Mansolino [cyberbotics] 03/30/2020 05:50:35
 `@elkelkmuh` I am sorry but your question is not clear, what do you mean by xyz point ?
 
@@ -11205,11 +11028,9 @@ Hi `@David Mansolino`, Can I change the xyz point to the feet, i.e. fsr?  Or how
 %figure
 ![Screenshot_20200325_182645.jpg](https://cdn.discordapp.com/attachments/565154703139405824/694059343435399268/Screenshot_20200325_182645.jpg)
 %end
-
 %figure
 ![Screenshot_20200325_182727_com.whatsapp.jpg](https://cdn.discordapp.com/attachments/565154703139405824/694059343804629062/Screenshot_20200325_182727_com.whatsapp.jpg)
 %end
-
 
 ##### David Mansolino [cyberbotics] 03/30/2020 05:43:28
 `@Luftwaffel` you're right, I will correct the name of the launh files. Thank you
@@ -11399,7 +11220,6 @@ I may have missed something, but I couldnt find the answer in the documentation:
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/692711090106138664/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 03/26/2020 10:21:53
 Reseting the physics just means that the velocity of all the Solids will be set to 0, but this will not reset the position. You probably better reset the simulation if you want the robot to be placed at it's initial position, please see:  [https://cyberbotics.com/doc/guide/using-numerical-optimization-methods#using-the-wb\_supervisor\_world\_reload-function](https://cyberbotics.com/doc/guide/using-numerical-optimization-methods#using-the-wb_supervisor_world_reload-function)
 
@@ -11410,7 +11230,6 @@ Maybe I need to change the code
 %figure
 ![HQH78WCNXL7Y_EPH5S.png](https://cdn.discordapp.com/attachments/565154703139405824/692678530454257724/HQH78WCNXL7Y_EPH5S.png)
 %end
-
 
 
 I restart my webots, and the error has gone.However, my robots don't reset itself.
@@ -11426,7 +11245,6 @@ Isn't it the place I marked?
 %figure
 ![H1DQKJMXJUZCWQNIH95RD.png](https://cdn.discordapp.com/attachments/565154703139405824/692675344297230386/H1DQKJMXJUZCWQNIH95RD.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 03/26/2020 09:52:05
 `@Laojiang`, I checked your wimulation and the Robot `supervisor` field is not set to `TRUE` in the Webots scene-tree.
@@ -11463,12 +11281,10 @@ Terminal output, showing the increased time required
 %end
 
 
-
 I have run into a very peculiar issue. For some reason the time required for this timestep increases with each reset. This adds up quickly. In the simulation this manifests itself by requiring many minutes up to hours of simulation time, even though it should only be milliseconds (128 to be exact). Running at real-time-speed, resets would take literally 30min-2h after a little bit
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/692670134627729458/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 03/26/2020 09:40:26
 Thank you I just received it, let me try.
@@ -11506,7 +11322,6 @@ The result is that.
 ![0HDD_N_N3WWW86DOG5.png](https://cdn.discordapp.com/attachments/565154703139405824/692662955883495495/0HDD_N_N3WWW86DOG5.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 03/26/2020 09:12:28
 Can you print this (just to be sure):
 
@@ -11525,7 +11340,6 @@ I change my cade as you advise, but  this error
 %figure
 ![DUVJ0RXMNIMD0H.png](https://cdn.discordapp.com/attachments/565154703139405824/692659123719766076/DUVJ0RXMNIMD0H.png)
 %end
-
 
 ##### Olivier Michel [cyberbotics] 03/26/2020 08:43:29
 Got it.
@@ -11576,7 +11390,6 @@ I'm sorry but...😔
 ![2EMY3NMUOTHXJJA1LT2W.png](https://cdn.discordapp.com/attachments/565154703139405824/692643042733195294/2EMY3NMUOTHXJJA1LT2W.png)
 %end
 
-
 ##### Olivier Michel [cyberbotics] 03/26/2020 07:52:57
 where `robotNode` points to your robot node.
 
@@ -11591,18 +11404,15 @@ You should call `robot.simulationResetPhysics(robotNode)`
 
 
 
-
 %figure
 ![JS_EGWRG9BBR7ET7ND.png](https://cdn.discordapp.com/attachments/565154703139405824/692641882093912094/JS_EGWRG9BBR7ET7ND.png)
 %end
-
 
 
 I tried many times. However, the error still here😔
 %figure
 ![862GPJM9MK6T5Y_ZP84.png](https://cdn.discordapp.com/attachments/565154703139405824/692641837546209280/862GPJM9MK6T5Y_ZP84.png)
 %end
-
 
 ##### Olivier Michel [cyberbotics] 03/26/2020 07:23:21
 (assuming you are coding your controller in Python).
@@ -11657,11 +11467,9 @@ Hi `@David Mansolino`
 %figure
 ![Screenshot_20200325_182727_com.whatsapp.jpg](https://cdn.discordapp.com/attachments/565154703139405824/692394486172614696/Screenshot_20200325_182727_com.whatsapp.jpg)
 %end
-
 %figure
 ![Screenshot_20200325_182645.jpg](https://cdn.discordapp.com/attachments/565154703139405824/692394487271391232/Screenshot_20200325_182645.jpg)
 %end
-
 
 ##### David Mansolino [cyberbotics] 03/25/2020 12:45:25
 You're welcome 🙂
@@ -11951,7 +11759,6 @@ You have to set the environment variable WEBOTS\_HOME where your installation fo
 %end
 
 
-
 do i have to go to a certain folder or something?
 
 
@@ -12232,7 +12039,6 @@ this is my robot after 9 minutes of simulation 😟
 %end
 
 
-
 is there any online platform where I can try to reproduce the bug?
 
 
@@ -12472,7 +12278,6 @@ Because your `robot` variable should be an instance of a `Supervisor`, not a `Ro
 %end
 
 
-
 ok thanks
 
 ##### Olivier Michel [cyberbotics] 03/17/2020 14:23:21
@@ -12483,7 +12288,6 @@ Yes, this is because it's a non-static member method, therefore, you shouldn't c
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/689478404621467720/unknown.png)
 %end
-
 
 ##### Olivier Michel [cyberbotics] 03/17/2020 14:20:40
 Can you copy this error here?
@@ -12563,7 +12367,6 @@ is it possible to surpress these warnings
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/689470233345261570/unknown.png)
 %end
 
-
 ##### Luftwaffel 03/17/2020 13:35:04
 okay
 
@@ -12598,7 +12401,6 @@ Unfortunately there is not enough details to tell what could be the problem, can
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/689457792842858597/unknown.png)
 %end
-
 
 ##### Gautier A. 03/17/2020 10:23:46
 Ok, thanks, I'm gonna take a look ! 😁
@@ -12668,7 +12470,6 @@ and on a different note: why does this throw the error: ' Only one instance of t
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/689147478431367237/unknown.png)
 %end
-
 
 
 Hi, is there a implementation of OpenAI gym with webots?
@@ -12921,7 +12722,6 @@ I just restart webots and pycharm and when the time increasing first time. Howev
 ![QQ202001.png](https://cdn.discordapp.com/attachments/565154703139405824/687580339366920205/QQ202001.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 03/12/2020 08:27:22
 Can you try to revert the simulation and then start the controller again from PyCharm ?
 
@@ -12939,7 +12739,6 @@ Is there no place for me to configure it?
 %figure
 ![QQ20200312162020.png](https://cdn.discordapp.com/attachments/565154703139405824/687576505068290068/QQ20200312162020.png)
 %end
-
 
 
 no, just one instance
@@ -12962,7 +12761,6 @@ Hello, I' m trying to use pycharm to control my webots. Hewever, after I what th
 ![QQ.png](https://cdn.discordapp.com/attachments/565154703139405824/687574683863875594/QQ.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 03/12/2020 07:01:27
 `@taeyoung`, in that case you should probably ignore the warning.
 
@@ -12982,12 +12780,10 @@ attenuation 0.1 0.3 0.1
 %end
 
 
-
 attenuation 0 0 1
 %figure
 ![2.png](https://cdn.discordapp.com/attachments/565154703139405824/687502416429449216/2.png)
 %end
-
 
 
 Actually, I'm using this in a different way... pointlight is in the ball
@@ -13076,7 +12872,6 @@ Hi, that's an error in the documentation. We should remove the end of this sente
 %end
 
 
-
 Hello , I have a question about the Refence manual 🙂 Why should  the motor force(torque) switch off?
 
 ##### kimkim 03/10/2020 08:56:16
@@ -13119,7 +12914,6 @@ i would suggest you first to check that all the reported resources exist and the
 %end
 
 
-
 And My computer is mac.
 
 
@@ -13132,7 +12926,6 @@ the code is from tutorial 1 at Webot website.
 %end
 
 
-
 Thank you. I tried with python37 version, but same problem..
 
 
@@ -13140,7 +12933,6 @@ Thank you. I tried with python37 version, but same problem..
 %figure
 ![Screenshot_2020-03-10_at_09.07.47.png](https://cdn.discordapp.com/attachments/565154703139405824/686847817070673930/Screenshot_2020-03-10_at_09.07.47.png)
 %end
-
 
 ##### Stefania Pedrazzi [cyberbotics] 03/10/2020 08:07:05
 Hi `@kimkim` , just looking at the screenshot you posted there is a mismatch between the python versions (you run python 3.8  but you link to python 3.7).
@@ -13158,7 +12950,6 @@ I have followed this guide, but error occured.
 %figure
 ![Screenshot_2020-03-10_at_09.00.57.png](https://cdn.discordapp.com/attachments/565154703139405824/686846393888800788/Screenshot_2020-03-10_at_09.00.57.png)
 %end
-
 
 
 Hi, I have problem with using pycharm for webot controller these days, if some can give me help, it would be appreciated.
@@ -13223,11 +13014,9 @@ but the self collision is enabled
 
 
 
-
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/686525900304547860/unknown.png)
 %end
-
 
 
 For example, here's the bounding box of the Universal Robot URE5e, 2 joints collides at the beginning
@@ -13238,14 +13027,12 @@ For example, here's the bounding box of the Universal Robot URE5e, 2 joints coll
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/686525696616431646/unknown.png)
 %end
 
-
 ##### Gautier A. 03/09/2020 10:46:12
 Hey ! I'm currently working on the bounding box of a robot. How do you make sure that the robot doesn't collide with itself when the bounding box of the different joints are a little bit overlaped ?
 
 ##### jinu061353 03/09/2020 10:41:23
 I want to measure the torque applied to the motor in this situation.
 > **Attachment**: [bandicam\_2020-03-08\_13-11-55-245.mp4](https://cdn.discordapp.com/attachments/565154703139405824/686524026729791504/bandicam_2020-03-08_13-11-55-245.mp4)
-
 
 
 Is there an example of motor control using torque?
@@ -13263,7 +13050,6 @@ as you can see the physics mode enabled under the main robot node ....so should 
 %figure
 ![Capture.PNG](https://cdn.discordapp.com/attachments/565154703139405824/686513841403854917/Capture.PNG)
 %end
-
 
 
 just provide the parameters to the main robot node
@@ -13339,7 +13125,6 @@ Hello, getting following error when trying to use webots with ROS, i have added 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/685526638058012690/unknown.png)
 %end
-
 
 ##### Olivier Michel [cyberbotics] 03/06/2020 16:14:50
 You are welcome.
@@ -13720,12 +13505,10 @@ Nao is supported out of the box in Webots up to version 8.4.0
 %end
 
 
-
 `@David Mansolino` I'm usin *webots for Nao*, version 8.2.1 and it was downloaded from softbank's website. Appears to be the only version ever made for nao.
 %figure
 ![New_Bitmap_Image.bmp](https://cdn.discordapp.com/attachments/565154703139405824/684043823063760928/New_Bitmap_Image.bmp)
 %end
-
 
 ##### l\_eslam\_l 03/02/2020 13:40:03
 > Perfect! it's strange because these are the steps followed by the launch file too.
@@ -13746,7 +13529,6 @@ Wow, it's working now, I followed the your steps
 %figure
 ![Screenshot_from_2020-03-02_15-37-47.png](https://cdn.discordapp.com/attachments/565154703139405824/684031859272843268/Screenshot_from_2020-03-02_15-37-47.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 03/02/2020 13:33:01
 > For these errors, there are no corresponding errors on the terminal screen, just webots console
@@ -13773,7 +13555,6 @@ For these errors, there are no corresponding errors on the terminal screen, just
 %figure
 ![Screenshot_from_2020-03-02_15-30-25.png](https://cdn.discordapp.com/attachments/565154703139405824/684029985560068116/Screenshot_from_2020-03-02_15-30-25.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 03/02/2020 13:30:17
 In that case you should probably try runnign this example without the launch file. you can launch manually with this porocedure:
@@ -13834,11 +13615,9 @@ I don't know what other node is running, I didn't run any other nodes, just this
 
 
 
-
 %figure
 ![Screenshot_from_2020-03-02_14-12-24.png](https://cdn.discordapp.com/attachments/565154703139405824/684014526093459511/Screenshot_from_2020-03-02_14-12-24.png)
 %end
-
 
 
 it actually launches Webots but it gives me this error
@@ -14007,7 +13786,6 @@ I dont understand the last function of the TrajectoryFollower code from the univ
 
 Here the Code:
 > **Attachment**: [message.txt](https://cdn.discordapp.com/attachments/565154703139405824/683338393370886267/message.txt)
-
 
 ##### sun 02/29/2020 01:28:07
 hello,how to add a all direction wheel in the webots????this question has fused me for two days::i used two joint\_hinge one for z axis rotation and the other for x axis rotaton, when i simulate this wheel didn't work as i think.
@@ -14249,7 +14027,6 @@ I needed to import a 3D CAD to Webots, so i have exported a solid from Creo (Pro
 Thanks in advance for your help
 > **Attachment**: [roller\_wheel\_60mm\_prt.wrl](https://cdn.discordapp.com/attachments/565154703139405824/682579644587048985/roller_wheel_60mm_prt.wrl)
 
-
 ##### Francony 02/27/2020 11:09:13
 I see, thanks. 
 
@@ -14289,7 +14066,6 @@ Hi @David Mansolino  These values are those of real robotis-op2 or op2 in simula
 %figure
 ![IMG-20200226-WA0004.jpg](https://cdn.discordapp.com/attachments/565154703139405824/682243855655108643/IMG-20200226-WA0004.jpg)
 %end
-
 
 ##### User21 02/26/2020 15:12:14
 `@David Mansolino` Related to my previous question 
@@ -14452,7 +14228,6 @@ Exactly, it is ``ROBOT`` then
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/681955611990425711/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 02/25/2020 20:03:39
 The value is not robot-dependant, but it is the DEF name that you defined (in your case probably 'ROBOT'). You can define the def name by selecting the node in the scene tree and then usinf the node editor: [https://cyberbotics.com/doc/guide/the-scene-tree#field-editor](https://cyberbotics.com/doc/guide/the-scene-tree#field-editor)
@@ -14807,7 +14582,6 @@ inertia by solidworks
 %end
 
 
-
 Hi i want to import inertia matrix into webots so i found 3 type of data from solidworks  and i dont know which one is the answer. would you help me?
 
 ##### David Mansolino [cyberbotics] 02/21/2020 12:11:02
@@ -14861,7 +14635,6 @@ Hi `@David Mansolino`  camera image was corrupted in both real transfer and simu
 ![image2020-02-21-13-24-28-58685.jpg](https://cdn.discordapp.com/attachments/565154703139405824/680355731978977280/image2020-02-21-13-24-28-58685.jpg)
 %end
 
-
 ##### David Mansolino [cyberbotics] 02/21/2020 06:33:41
 Hi `@Troy`, you should indeed replace `someRobot.urdf` with the path to your urdf file. The arguments inside bracket are optional arguments that you can use to enable/disable some features.
 
@@ -14890,7 +14663,6 @@ Very nice model ! 😄
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/680081911099686920/unknown.png)
 %end
-
 
 
 urdf2webots working (almost) like a charm 😄
@@ -15033,7 +14805,6 @@ So, when I import a VRML file, I should use it only for defining geometry, howev
 > **Attachment**: [review\_agent.mp4](https://cdn.discordapp.com/attachments/565154703139405824/679683132865118218/review_agent.mp4)
 
 
-
 I fixed several of these small issues, and I have now a working result, but perfectible. At least it's a new good starting sample for you.
 
 
@@ -15042,9 +14813,7 @@ I fixed several of these small issues, and I have now a working result, but perf
 
 
 
-
 > **Attachment**: [review\_agent.wbt](https://cdn.discordapp.com/attachments/565154703139405824/679682626185068552/review_agent.wbt)
-
 
 
 `@sunnyjerai` 3. The biggest issue is certainly that the boundingObject of the gripper plate is a mesh. This primitive is not very stable. Replacing it by a box gives much better results.
@@ -15084,7 +14853,6 @@ There is a Solid without boundingObject. That can cause issues
 > **Attachment**: [bisro\_pull.py](https://cdn.discordapp.com/attachments/565154703139405824/679673427405176853/bisro_pull.py)
 
 
-
 yeah
 
 ##### Fabien Rohrer [Moderator] 02/19/2020 12:59:04
@@ -15099,7 +14867,6 @@ just looked a bit, and it seems that the contact properties are well defined.
 ##### sunnyjerai 02/19/2020 12:51:46
 
 > **Attachment**: [review\_agent.wbt](https://cdn.discordapp.com/attachments/565154703139405824/679671470137671703/review_agent.wbt)
-
 
 
 Yes , sure
@@ -15138,7 +14905,6 @@ You should check that you defined well the friction.
 Can someone help me figure out why object keeps slipping. I've set the friction between the gripper and the object to infinity so that they won't slip. The object mass is 0.1 Kg and the robot can easily push the object.
 > **Attachment**: [error\_01.mp4](https://cdn.discordapp.com/attachments/565154703139405824/679668362099425299/error_01.mp4)
 
-
 ##### Lifebinder (tsampazk) 02/19/2020 09:26:25
 I don't know if its any extra help but, upon further investigation, i see that i changed the world file in the sphero/worlds and also added an extra texture in the same directory. Apparently that and updating to the new version broke the loading of the robot completely (even from other separate custom projects). Both the world and the texture files were not removed during uninstall. Thanks again.
 
@@ -15156,7 +14922,6 @@ I think i would remember if it threw an error when i updated, i don't think it d
 %figure
 ![SPOILER_Annotation_2020-02-19_110312.png](https://cdn.discordapp.com/attachments/565154703139405824/679616715163828224/SPOILER_Annotation_2020-02-19_110312.png)
 %end
-
 
 ##### Stefania Pedrazzi [cyberbotics] 02/19/2020 09:12:27
 `@Lifebinder (tsampazk)` yes, if you modified a Webots installation file, then the Webots installer cannot delete them. but the installer should report if any file cannot be deleted properly. Did you remember if it was the case for you the first time you installed Webots R2020a rev1?
@@ -15277,7 +15042,6 @@ Does the gripper have physics? All the Solid nodes ?
 ##### sunnyjerai 02/18/2020 15:06:59
 This is the error that we are facing, The grey gripper is supposed to move with the turn-table.
 > **Attachment**: [error.mp4](https://cdn.discordapp.com/attachments/565154703139405824/679343110022758410/error.mp4)
-
 
 ##### David Mansolino [cyberbotics] 02/18/2020 15:04:52
 (you can add a group to create a composed boundign object)
@@ -15431,7 +15195,6 @@ HOwever, time.sleep(5) will not help as it will make the controller wait, but no
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/679039039436881920/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 02/17/2020 14:07:29
 I am sorry but Webots is doesn not provide such high level control for the robot, if you want to define your own motion you have to control the motor of the robot individually, please follow this tutorial for more information: [https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers)
 
@@ -15484,7 +15247,6 @@ I have been unable to work because of this problem for a long time.  I can't fin
 %end
 
 
-
 `@David Mansolino` I did. What should I do now
 
 
@@ -15492,7 +15254,6 @@ I have been unable to work because of this problem for a long time.  I can't fin
 %figure
 ![JPEG_20200217_110458.jpg](https://cdn.discordapp.com/attachments/565154703139405824/678874544148316193/JPEG_20200217_110458.jpg)
 %end
-
 
 ##### David Mansolino [cyberbotics] 02/17/2020 08:01:40
 With whatever you want that uses the SSH protocol
@@ -15514,7 +15275,6 @@ Hi, I'm trying on another windows10 installed computer.  It never connects.  Can
 %figure
 ![IMG_20200217_104310.jpg](https://cdn.discordapp.com/attachments/565154703139405824/678869711043166209/IMG_20200217_104310.jpg)
 %end
-
 
 ##### David Mansolino [cyberbotics] 02/17/2020 07:45:20
 `@paulthemagno`, you should probably include the motion files: [https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/motions](https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/motions)
@@ -15601,7 +15361,6 @@ Very odd, it would be one thing if the Makefile had an error but not to be able 
 %figure
 ![IMG_20200214_180950.jpg](https://cdn.discordapp.com/attachments/565154703139405824/677894471819591690/IMG_20200214_180950.jpg)
 %end
-
 
 
 > and if you explicitly specify the Makefile with your make command. i.e. "make -f Makefile"
@@ -15758,7 +15517,6 @@ If I choose other one for “Python interpreters” on “Configuration”, then
 %end
 
 
-
 Only the selected one is available, which was installed for the “youBot robot” of Webots.
 
 
@@ -15770,7 +15528,6 @@ I have installed so many python …
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/677119341048627220/unknown.png)
 %end
-
 
 ##### Olivier Michel [cyberbotics] 02/12/2020 11:25:51
 So, did you set it to the one of the official Python distribution (which you installed from python.org as explained in the Webots user guide)?
@@ -15875,7 +15632,6 @@ Errors
 > **Attachment**: [message.txt](https://cdn.discordapp.com/attachments/565154703139405824/677038707663962112/message.txt)
 
 
-
 Hi `@David Mansolino`  , I tried the framework at this address (  [https://sourceforge.net/p/darwinop/code/HEAD/tree/trunk/darwin/](https://sourceforge.net/p/darwinop/code/HEAD/tree/trunk/darwin/) )
 
  I get errors when I  installed this.
@@ -15947,7 +15703,6 @@ can i do it from this window?
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/676795890534711305/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 02/11/2020 14:20:28
 You should probably try to uninstall Webots from the robot and re-install it.
 
@@ -15959,7 +15714,6 @@ You should probably try to uninstall Webots from the robot and re-install it.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/676793768933851196/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 02/11/2020 14:12:25
 which version of the robotis framework are you using?
@@ -16412,18 +16166,15 @@ Although MATLAB is installed correctly and path is set as described with MATLAB 
 
 
 
-
 %figure
 ![2020-02-06_17-30-10.png](https://cdn.discordapp.com/attachments/565154703139405824/675001575571193916/2020-02-06_17-30-10.png)
 %end
 
 
 
-
 %figure
 ![3.png](https://cdn.discordapp.com/attachments/565154703139405824/675001523931185152/3.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 02/06/2020 13:51:49
 You're welcome
@@ -16737,7 +16488,6 @@ When I start "roslaunch ur5\_e\_moveit\_config ur5\_e\_moveit\_planning\_executi
 ![Screenshot_from_2020-02-04_10-23-30.png](https://cdn.discordapp.com/attachments/565154703139405824/674183566753792000/Screenshot_from_2020-02-04_10-23-30.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 02/04/2020 09:17:53
 > `@David Mansolino` But if I just add joint in trajectory\_folloer.py so arm joints and gripper joint will all publish to topic /follow\_joint\_trajectory. I want use /arm\_control/follow\_joint\_trajectory for arm and /gripper\_contraol/follow\_joint\_trajectory
 
@@ -16817,7 +16567,6 @@ Shall I also add controller in gripper?
 ![Screenshot_from_2020-02-03_17-06-21.png](https://cdn.discordapp.com/attachments/565154703139405824/673922367969427513/Screenshot_from_2020-02-03_17-06-21.png)
 %end
 
-
 ##### Tahir [Moderator] 02/03/2020 16:02:53
 [http://wiki.ros.org/robotiq/Tutorials/Control%20of%20a%202-Finger%20Gripper%20using%20the%20Modbus%20RTU%20protocol%20%28ros%20kinetic%20and%20newer%20releases%29](http://wiki.ros.org/robotiq/Tutorials/Control%20of%20a%202-Finger%20Gripper%20using%20the%20Modbus%20RTU%20protocol%20%28ros%20kinetic%20and%20newer%20releases%29)
 
@@ -16852,7 +16601,6 @@ Hello everyone, I am working on simulation UR5e + robotiq 2 finger 85 gripper  w
 %end
 
 
-
 I just tried it, there is still some leaks, but there is a noticable improvement
 
 
@@ -16864,7 +16612,6 @@ You just have to replace your folder (do not forget to make a backup first) WEBO
 
 Sorry it tooks a bit longer than expected.
 > **Attachment**: [controller.zip](https://cdn.discordapp.com/attachments/565154703139405824/673896433262264320/controller.zip)
-
 
 ##### Gautier A. 02/03/2020 13:41:36
 Ahah, ok ! 😄
@@ -16892,7 +16639,6 @@ and the resulting message in webots (compiled with the option -fsanitize=address
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/673882135290970122/unknown.png)
 %end
-
 
 
 Here is my controller : [https://pastebin.com/BSLtLKfK](https://pastebin.com/BSLtLKfK) , my makefile: [https://pastebin.com/TCRnuxpw](https://pastebin.com/TCRnuxpw)
@@ -16982,7 +16728,6 @@ I found this for MX-28 from this link [https://cyberbotics.com/doc/guide/robotis
 %figure
 ![Screenshot_from_2020-02-02_17-59-59.png](https://cdn.discordapp.com/attachments/565154703139405824/673537683091488768/Screenshot_from_2020-02-02_17-59-59.png)
 %end
-
 
 
 Hi, I'am trying to prepare simulation of a humanoid robot but unfortunatly i couldnt find some parameters about MX-64 and MX-106 (Dynamixel actuators) can anyone help me?
@@ -17202,7 +16947,6 @@ i made sure the oath is good
 %end
 
 
-
 this is the error i get, although i installed python and am sure the path points to the right version
 
 
@@ -17210,7 +16954,6 @@ this is the error i get, although i installed python and am sure the path points
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/670706238799216651/unknown.png)
 %end
-
 
 
 hello i have a problem in webots, i used to work with C++ i didn't have any problems, now that i want to work with python also i changed my laptop so i reinstalled webots (so we're sure the old configurations on c++ aren't there it's virgin xD) long story short, when i launch the simulation i get error message
@@ -17581,7 +17324,6 @@ if I'm setting linear and angular velocities  to the max in ROS, then I should g
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/669830742016131072/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 01/23/2020 09:05:47
 You mean if the robot is going at the maximum forward speed and rotating in the same time?
 
@@ -17649,7 +17391,6 @@ May I ask you to test with this patched version or the PROTO ?
 > **Attachment**: [TurtleBot3Burger.proto](https://cdn.discordapp.com/attachments/565154703139405824/669461393984061470/TurtleBot3Burger.proto)
 
 
-
 It seems indeed that there is an issue, the 'Maximum rotational velocity' was used to compute the maximum wheel speed instead of the 'Maximum translational velocity'.
 
 
@@ -17660,7 +17401,6 @@ Hi guys! I'm trying to set the built-in TurtleBot 3 Burger's linear velocity to 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/669457204595785758/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 01/22/2020 07:03:56
 Yes that may be an explanation, we have noticed such kind of performance difference across OS (in one way or the other) too. Make sure that your GPU drivers are up to date on Windows.
@@ -17860,7 +17600,6 @@ Is it installed alreadly?
 %end
 
 
-
 Hi guys, I am installing Webots. I first downloaded webots-R2020a-rev1-x86-64.tar.bz2, and followed the instruction as:
 
 ##### David Mansolino [cyberbotics] 01/20/2020 11:26:37
@@ -17884,7 +17623,6 @@ Yes `@David Mansolino` , exactly. But managed to find the problem, I changing th
 ![Untitled1.png](https://cdn.discordapp.com/attachments/565154703139405824/668774919739408384/Untitled1.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 01/20/2020 11:07:03
 What is exactly the error message you get when using jpeg?
 
@@ -17896,7 +17634,6 @@ I found jpeg.dll in << C:\Program Files (x86)\Java\jre1.8.0\_241\bin  >> should 
 %figure
 ![Untitled.png](https://cdn.discordapp.com/attachments/565154703139405824/668772884138819614/Untitled.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 01/20/2020 10:55:50
 What is the content of your PATH environment variable?
@@ -17920,7 +17657,6 @@ Hi! I'm having an issue getting the TurtleBot model to work, the controller cras
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/668766493546250250/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 01/20/2020 09:53:02
 `@bsr.nur.bahadir` using the Nvidia GPU is indeed a better idea to run Webots ;-)
@@ -18275,7 +18011,6 @@ lol, the Kuka didn't place the last block properly...
 ![Screen_Shot_2020-01-15_at_1.05.30_am.png](https://cdn.discordapp.com/attachments/565154703139405824/666659824360226826/Screen_Shot_2020-01-15_at_1.05.30_am.png)
 %end
 
-
 ##### Fabien Rohrer [Moderator] 01/14/2020 14:58:24
 for sure, that will help 😄
 
@@ -18431,7 +18166,6 @@ I beleive there is a step by step guide
 %end
 
 
-
 `mkdir build && cd build && make ../ `?
 
 
@@ -18487,7 +18221,6 @@ Hello everyone, I imported a VRML file of my robot chassis which appeared as mul
 ![agent_error.jpg](https://cdn.discordapp.com/attachments/565154703139405824/665506273390755851/agent_error.jpg)
 %end
 
-
 ##### sajid 01/10/2020 17:10:54
 Hi. For city.wbt, I want to find the coordinates of the lane. The idea is to find the deviation of the current position of the car from the centre of the lane. The current position could be obtained from the GPS coordinate. However, I was wondering if there is a way to obtain the coordinates of the centre of the lane.
 
@@ -18530,12 +18263,10 @@ and this one is of the right
 %end
 
 
-
 This is the name given to the left line sensor
 %figure
 ![ds_left.jpg](https://cdn.discordapp.com/attachments/565154703139405824/664778102135848970/ds_left.jpg)
 %end
-
 
 ##### Stefania Pedrazzi [cyberbotics] 01/09/2020 10:29:22
 Note that from a robot controller you can get only a device defined inside the Robot model running the controller and you cannot access devices of other robots. Not sure if this is the case in your simulation.
@@ -18557,7 +18288,6 @@ Hi `@David Mansolino` , I added print(ds) as you suggested and this is the resul
 %figure
 ![controller_error_ds.jpg](https://cdn.discordapp.com/attachments/565154703139405824/664774134730981376/controller_error_ds.jpg)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 01/09/2020 09:37:26
 However, I think this is a complex solution: from my experiment, having a single, well structured and single-threaded controller is always simpler to implement and more robust.
@@ -18597,7 +18327,6 @@ Hello, I was working with a self made robot, the controller code in almost the s
 %figure
 ![controller_error.jpg](https://cdn.discordapp.com/attachments/565154703139405824/664745495566221312/controller_error.jpg)
 %end
-
 
 ##### David Mansolino [cyberbotics] 01/09/2020 06:57:13
 `@User21` unfortunately not directly, however, you can export the world in VRML format from Webots: File => Export VRML97...
@@ -18697,7 +18426,6 @@ Hello, I wanted to know if I can change the texture of the arena from checked bo
 %figure
 ![arena.jpg](https://cdn.discordapp.com/attachments/565154703139405824/664447379570819087/arena.jpg)
 %end
-
 
 ##### David Mansolino [cyberbotics] 01/08/2020 11:35:12
 Did you add the `--synchronize` in controllerArgs field?
@@ -19021,7 +18749,6 @@ This cloud warning is fine, but here in the screenshot the velocity amd angles a
 %end
 
 
-
 I really am not getting what could be the problem
 
 
@@ -19061,7 +18788,6 @@ Problem solved. thanks a lot `@David Mansolino`
 
 > **Attachment**: [message.txt](https://cdn.discordapp.com/attachments/565154703139405824/663684258325331998/message.txt)
 
-
 ##### David Mansolino [cyberbotics] 01/06/2020 10:03:41
 Hi `@sunnyjerai`, can you show us the content of your PROTO file?
 
@@ -19070,7 +18796,6 @@ I am currently following tutorial 7 and trying to make my own proto node. Howeve
 %figure
 ![Annotation_2020-01-06_152803.jpg](https://cdn.discordapp.com/attachments/565154703139405824/663683904808550420/Annotation_2020-01-06_152803.jpg)
 %end
-
 
 ##### David Mansolino [cyberbotics] 01/06/2020 07:56:44
 `@musabcoskun`, the problem should now be fixed (if it is not the case, please clear the cache of your browser).
@@ -19134,7 +18859,6 @@ My browser can not load the kuka's joints values. Before there was no such probl
 ![xxx.png](https://cdn.discordapp.com/attachments/565154703139405824/662721751054286890/xxx.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 01/03/2020 10:42:19
 You're welcome
 
@@ -19163,7 +18887,6 @@ this the error
 %figure
 ![Screenshot_143.png](https://cdn.discordapp.com/attachments/565154703139405824/662593133833486356/Screenshot_143.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 01/03/2020 09:41:08
 What are exactly the error you get?
@@ -19215,7 +18938,6 @@ this is my modified PUMA560
 %figure
 ![image.png](https://cdn.discordapp.com/attachments/565154703139405824/662206323357646869/image.png)
 %end
-
 
 
 currently working as a research engineer in the department of electrical and electronic engineering, University of Peradeniya, Sri Lanka. These days, I engaged to design simulation using PUMA 560 robot manipulator in WEBOT and note that I'm very new to webot. 
@@ -19297,7 +19019,6 @@ I will suggest spending a little more time on step one and two and making sure t
 %figure
 ![step_1.png](https://cdn.discordapp.com/attachments/565154703139405824/661279920210837509/step_1.png)
 %end
-
 
 
 I have multi-drone system with 4 drones working in an environment. Where I am applying Travelling salesmen Problem (K-TSP) to solve the issue.
@@ -19580,7 +19301,6 @@ Here blue points are robot's home positions but they are shifted towards right
 %end
 
 
-
 Any insight on that will highly be appreciated
 
 
@@ -19593,12 +19313,10 @@ I can see in rviz that every robot is moved from their home position
 %end
 
 
-
 The value in translation field is rounded off but in the down in edit area it shows the right value
 %figure
 ![JPEG_20191217_152841.jpg](https://cdn.discordapp.com/attachments/565154703139405824/656503316632829963/JPEG_20191217_152841.jpg)
 %end
-
 
 
 Hello,
@@ -19783,7 +19501,6 @@ Here is the scene tree, Maybe I did an error in it ?
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/654983945150136337/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 12/13/2019 09:51:53
 Ok, this is kind of reassuring at least the behavior is the same in both cases.
 
@@ -19887,7 +19604,6 @@ It looks like what you want to achieve no ?
 ![khepera3_gripper_1.png](https://cdn.discordapp.com/attachments/565154703139405824/654690656152977428/khepera3_gripper_1.png)
 %end
 
-
 ##### nap 12/12/2019 14:22:51
 kk.  Cheers.
 
@@ -19899,7 +19615,6 @@ Floor Texture
 %figure
 ![Floor_10px_small_Inter_center_boarder_infra-red31_1024.png](https://cdn.discordapp.com/attachments/565154703139405824/654689370242285581/Floor_10px_small_Inter_center_boarder_infra-red31_1024.png)
 %end
-
 
 
 The colours are specifically chosen to be at maximum extremes from each other to make the GroundSensors work best.
@@ -19929,12 +19644,10 @@ This is what I would like it to look like:
 %end
 
 
-
 This is what it looks like atm.
 %figure
 ![Screen_Shot_2019-12-13_at_12.15.27_am.png](https://cdn.discordapp.com/attachments/565154703139405824/654687939913187338/Screen_Shot_2019-12-13_at_12.15.27_am.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 12/12/2019 14:14:36
 You probably want this:
@@ -20513,7 +20226,6 @@ it appears to be all there
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/654591752367374352/unknown.png)
 %end
 
-
 ##### Stefania Pedrazzi [cyberbotics] 12/12/2019 07:53:04
 In the `<WEBOTS>/lib/controller` directory, could you check that you have libController.dll or Controller.dll, Controller.lib, libController.a, libCppController.dll, CppController.lib, libCppController.a
 
@@ -20640,7 +20352,6 @@ anyone have any ideas why it cant find \_controller but has no issues finding co
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/654578665182724096/unknown.png)
 %end
-
 
 
 this is so annoying, it saying it cant find \_controller.py now, even though it literally in the same directory of controller.py, which is what is calling for the import of \_controller
@@ -21059,7 +20770,6 @@ but it stabilized after a while...
 > **Attachment**: [final.zip](https://cdn.discordapp.com/attachments/565154703139405824/654278552476319784/final.zip)
 
 
-
 😦
 
 
@@ -21267,7 +20977,6 @@ but why does kinect.exe, kbotr.exe, and kbotb.exe not take that much RAM
 %end
 
 
-
 okay will do.
 
 ##### Fabien Rohrer [Moderator] 12/11/2019 09:07:26
@@ -21314,7 +21023,6 @@ Hey `@Fabien Rohrer`. couldn't figure out a way to reduce the memory usage. It i
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/654244473576095744/unknown.png)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 12/11/2019 08:03:18
 😄
@@ -21478,9 +21186,7 @@ kbotR is the receiver
 
 
 
-
 > **Attachment**: [kbotR\_controller.c](https://cdn.discordapp.com/attachments/565154703139405824/654054258324406274/kbotR_controller.c)
-
 
 ##### Fabien Rohrer [Moderator] 12/10/2019 20:17:33
 Please send your entire controller 😅 you can drag/drop it here.
@@ -21499,11 +21205,9 @@ this is the emitter code
 
 
 
-
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/654053701161320448/unknown.png)
 %end
-
 
 
 wait a sec
@@ -21529,7 +21233,6 @@ I'm working on the same controller
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/654052869737152542/unknown.png)
 %end
 
-
 ##### Fabien Rohrer [Moderator] 12/10/2019 20:12:17
 Are you sure the invalid device tag comes from this call? Are you sure that the right controller is running?
 
@@ -21547,11 +21250,9 @@ This should work.
 
 
 
-
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/654052237215137794/unknown.png)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 12/10/2019 20:09:30
 About the invalid device tag, this generally occurs when the device name does not match between the model and the controller.
@@ -21618,7 +21319,6 @@ Can anyone give me any tips to reduce memory usage.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/653982805100986388/unknown.png)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 12/10/2019 14:25:44
 You're welcome 😉
@@ -21692,7 +21392,6 @@ Also, its not really visible but it's a supervisor that instanciate the tiles an
 ![test_supervisor_tile_container_2.png](https://cdn.discordapp.com/attachments/565154703139405824/653901392230088714/test_supervisor_tile_container_2.png)
 %end
 
-
 ##### Dorteel 12/10/2019 10:07:25
 R2019b revision 1
 
@@ -21745,7 +21444,6 @@ It seems your environement tries to run another Python:
 %figure
 ![dorteel.png](https://cdn.discordapp.com/attachments/565154703139405824/653897717524725760/dorteel.png)
 %end
-
 
 ##### Dorteel 12/10/2019 09:54:07
 Thanks for the quick answer. I get "lrwxrwxrwx 1 root root 9 Mar 19  2019 /usr/bin/python3 -> python3.5*"
@@ -21935,7 +21633,6 @@ Hi David, i've been trying all day to get the "webots\_exporter" plugin to work.
 ![hmm.png](https://cdn.discordapp.com/attachments/565154703139405824/653756217218433054/hmm.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 12/09/2019 16:24:00
 You're welcome
 
@@ -22030,7 +21727,6 @@ but I can't get it via code
 %end
 
 
-
 it says they expected an int
 
 ##### Olivier Michel [cyberbotics] 12/09/2019 14:53:01
@@ -22041,7 +21737,6 @@ That may be normal. Is there any obstacle in front of the sensor?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/653610044855943169/unknown.png)
 %end
-
 
 
 it returns 0.000 once %f is used
@@ -22060,11 +21755,9 @@ OK, then it's not a problem with the name, but rather with the behavior of the s
 
 
 
-
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/653609409372749834/unknown.png)
 %end
-
 
 
 I'm not getting an error but it only gives out 1 as an ouput
@@ -22080,7 +21773,6 @@ I can't get this device using wb\_robot\_get\_device("distance sensor"); Please 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/653606461795991562/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 12/09/2019 13:41:01
 Hi, yes you can use the supervisor API to diplay shapes in the 3D scene
@@ -22304,7 +21996,6 @@ Hi! I'm trying to use my python virtual environment from webots, but it doesn't 
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/653166381948207104/unknown.png)
 %end
 
-
 ##### UhName 12/08/2019 06:33:44
 Hi all, just downloaded the app, using it for testing a movement program.
 
@@ -22313,7 +22004,6 @@ Hi all, just downloaded the app, using it for testing a movement program.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/652843112535687169/unknown.png)
 %end
-
 
 
 `@Fabien Rohrer` Thanks, that would be great helpful.
@@ -22345,7 +22035,6 @@ Sorry. My fault. The wrong typo.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/652796511524093995/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 12/06/2019 21:54:01
 >   `@askslk`, I am really sorry but it is very difficult to understand what is happening without looking at your simulation.
@@ -22409,7 +22098,6 @@ Hi `@Yang Chen` you can use the Display device to plot data, see for example thi
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/652511899824422952/unknown.png)
 %end
-
 
 
 And can you open these links?
@@ -22603,7 +22291,6 @@ hello, can anyone suggest me a way to receive the location of the two youbots in
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/652045680646422528/unknown.png)
 %end
 
-
 ##### UchihaX2 12/05/2019 07:11:07
 hi. i'm intending to build a bi-pedal robot. any advice to whether webots is suitable for simulating this project
 
@@ -22652,7 +22339,6 @@ Now both trucks are very closed. The radar detects one object and the distance i
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/651835953328947236/unknown.png)
 %end
 
-
 ##### Fabien Rohrer [Moderator] 12/04/2019 17:22:46
 We have to open this in Webots to determine what's going on..
 
@@ -22677,7 +22363,6 @@ Now the white truck is about 8 meters ahead of the grey truck.
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/651835181229146113/unknown.png)
 %end
 
-
 ##### Fabien Rohrer [Moderator] 12/04/2019 17:16:04
 this seems very correct.
 
@@ -22686,7 +22371,6 @@ this seems very correct.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/651833900817186816/unknown.png)
 %end
-
 
 
 Hi `@Fabien Rohrer`, thank you for your response. The locationf of the radar can be seen in the screenshot below
@@ -22705,7 +22389,6 @@ Ok I understand, thank you Fabien
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/651829348998840360/unknown.png)
 %end
-
 
 
 Hi guys, I'd like to ask a question when I add a radar to a truck in Webots. As can be seen from the screenshot, the truck on the right has a radar installed in the front , and another truck is very closed to the radar.
@@ -22730,7 +22413,6 @@ what does the 0.00x means
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/651826861994803200/unknown.png)
 %end
-
 
 
 Ok then I don't understand this widget
@@ -22776,7 +22458,6 @@ Hallo, I want to implement a landmark-based SLAM, is there a GUI that can displa
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/651755060614791169/unknown.png)
 %end
-
 
 
 Greetings to all!
@@ -23006,7 +22687,6 @@ Yes this kind of setup is feasible, see for example some already available envir
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/651017875359924234/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 12/02/2019 11:12:10
 Yes, Webots is exactly the tool you need 🙂
 
@@ -23027,7 +22707,6 @@ I actually get the same if I'm just trying to access the website
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/650981682127699979/unknown.png)
 %end
-
 
 
 ([https://www.cyberbotics.com/doc/reference/supervisor](https://www.cyberbotics.com/doc/reference/supervisor) )
@@ -23164,12 +22843,10 @@ the scope of the "bearing" variable is only in the get\_bearing\_in\_degrees() f
 %end
 
 
-
 Hello, I'm having trouble with the example get\_bearing\_in\_degrees code from the compass page. After this code I want to print the value of bearing into the console, however this only returns an error "bearing" undeclared. I've been having no luck with this for a few hours now, being a noob with code does not help. Is there something fundamental that I'm missing? Thank you for your help in advance.
 %figure
 ![Code.PNG](https://cdn.discordapp.com/attachments/565154703139405824/649666207699566632/Code.PNG)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 11/28/2019 16:52:28
 > sudo apt install ffmpeg libfdk-aac1 ubuntu-restricted-extras
@@ -23215,7 +22892,6 @@ Hi everyone, for some reason I'm having troubles recording a video while running
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/649645162611343360/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 11/28/2019 15:56:52
 `@UncleDucky` assuming you are using a differential wheel, simply setting the left speed lower than the right one (or vice-versa) should do the job 😉
@@ -23264,7 +22940,6 @@ You should call the file "MyProtoName.proto", and put it in "yourWebotsProject/p
 ##### Gautier A. 11/27/2019 16:07:09
 I'm trying to import a simple proto, like this
 > **Attachment**: [Solid.proto](https://cdn.discordapp.com/attachments/565154703139405824/649280061177987111/Solid.proto)
-
 
 
 I'm sorry to bother you again, but it doesn't seems to work 😅
@@ -23368,7 +23043,6 @@ Here is the associated world, too
 > **Attachment**: [bug\_physics.wbt](https://cdn.discordapp.com/attachments/565154703139405824/649180356439703562/bug_physics.wbt)
 
 
-
 [https://www.youtube.com/watch?v=pHSAeZXq5wM&feature=youtu.be](https://www.youtube.com/watch?v=pHSAeZXq5wM&feature=youtu.be)
 
 
@@ -23418,7 +23092,6 @@ We are aware of this severe issue, and we will do our best to solve it quickly: 
 > **Attachment**: [ex-low.mov](https://cdn.discordapp.com/attachments/565154703139405824/648861775395160074/ex-low.mov)
 
 
-
 does anybody know what could be happening here?
 
 
@@ -23429,7 +23102,6 @@ it works for the first few translations but it seems that there is a cumulative 
 %figure
 ![Screen_Shot_2019-11-26_at_1.07.21_PM.png](https://cdn.discordapp.com/attachments/565154703139405824/648857400941477888/Screen_Shot_2019-11-26_at_1.07.21_PM.png)
 %end
-
 
 
 but after 3 minutes of simulation the robot seems to disarm and the wheels start to walk away the robot body... really weird
@@ -23493,7 +23165,6 @@ Hi again guys, I run into a problem when trying to import some libraries from st
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/648482732967723009/unknown.png)
 %end
 
-
 ##### Gautier A. 11/25/2019 11:14:36
 Field*
 
@@ -23537,7 +23208,6 @@ That would be pretty nice  !
 It's the fact that it's treated as a "big object", instead of little small objects, in prescence of force that I would like to correct
 > **Attachment**: [HowTo2-2019-11-25\_12.00.34.mp4](https://cdn.discordapp.com/attachments/565154703139405824/648478732285116426/HowTo2-2019-11-25_12.00.34.mp4)
 
-
 ##### Fabien Rohrer [Moderator] 11/25/2019 11:02:01
 (I definitvely have to add a new background of space for such 0 gravity areas 🙂 )
 
@@ -23550,7 +23220,6 @@ I would like my "robot" to not be considered as a "big object" by my physics eng
 
 So, I have this proto node that generate some other other solid in its "children" thanks to some Lua. The  behavior of the proto in itself is what we excepted, the only thing is that we want to separate the "physics" of the different solid (exemple : At the end of the video, I apply a force on some of the mirror, and I would like that these mirrors "undocks" and just go the other way of the rest of the structure)
 > **Attachment**: [HowTo-2019-11-25\_11.49.28.mp4](https://cdn.discordapp.com/attachments/565154703139405824/648477047772938260/HowTo-2019-11-25_11.49.28.mp4)
-
 
 
 Thank you !
@@ -23822,7 +23491,6 @@ I am sorry but I do not fully understand your last message, Webtos does provide 
 Thanks for looking at it `@David Mansolino`
 > **Attachment**: [masterv2.py](https://cdn.discordapp.com/attachments/565154703139405824/647063165279928321/masterv2.py)
 
-
 ##### KamiRonin 11/21/2019 13:16:48
 `@David Mansolino` hm, no, any library has not found. That is it not complete with Webots? ok what to instal? It is enough to throw in Win a folder and all?
 
@@ -23834,7 +23502,6 @@ Here so
 %figure
 ![SPOILER_unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/647060391289028609/SPOILER_unknown.png)
 %end
-
 
 
 `@David Mansolino` Tried all customisations and High, and Average, and Low.
@@ -23872,7 +23539,6 @@ Hi again! I have an issue when trying to set the translation field of a Solid wi
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/647045582225014784/unknown.png)
 %end
-
 
 ##### Stefania Pedrazzi [cyberbotics] 11/21/2019 10:46:30
 `@JoanGerard` I tested the streaming server from a docker image and  I could successfully run it using the default Webots image "cyberbotics/webots:R2019b-rev1" (and just adding the "--no-sandbox" options to the Webots command). Maybe this could be an alternative for you as well.
@@ -23971,7 +23637,6 @@ But apparently, the current lidar will not work because the laser beams are shoo
 %end
 
 
-
 But what I really want is, the lidar has the coordinate system shown below:
 
 
@@ -23979,7 +23644,6 @@ But what I really want is, the lidar has the coordinate system shown below:
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/646419010883420170/unknown.png)
 %end
-
 
 
 Hi guys, I'd like to ask a question about the lidar coordinate system. I added a lidar to the vehicle and the default coordinate system is shown in figure below:
@@ -24240,7 +23904,6 @@ wow, that's really weird
 ![JPEG_20191119_181830.jpg](https://cdn.discordapp.com/attachments/565154703139405824/646293305885196288/JPEG_20191119_181830.jpg)
 %end
 
-
 ##### Fabien Rohrer [Moderator] 11/19/2019 10:15:47
 for sure, setPosition is a member of the Motor class.
 
@@ -24250,7 +23913,6 @@ Could you try this project?
 
 
 > **Attachment**: [8.zip](https://cdn.discordapp.com/attachments/565154703139405824/646292415531057153/8.zip)
-
 
 ##### HE110 11/19/2019 10:12:58
 Only find in Class Motor
@@ -24284,7 +23946,6 @@ R2019b.rev1. But this mechanism cannot fail in any version.
 %figure
 ![JPEG_20191119_180735.jpg](https://cdn.discordapp.com/attachments/565154703139405824/646290541536870400/JPEG_20191119_180735.jpg)
 %end
-
 
 
 what is your edition?
@@ -24336,7 +23997,6 @@ Select the controller field, and press on the "edit" button. Make sure PYTHON\_c
 %figure
 ![JPEG_20191119_175917.jpg](https://cdn.discordapp.com/attachments/565154703139405824/646288457550921740/JPEG_20191119_175917.jpg)
 %end
-
 
 
 I creating new world and try again
@@ -24570,7 +24230,6 @@ The server.sh file needs to be executed with sudo command otherwise the simulato
 ![Screen_Shot_2019-11-19_at_2.28.06_AM.png](https://cdn.discordapp.com/attachments/565154703139405824/646163679787614223/Screen_Shot_2019-11-19_at_2.28.06_AM.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 11/18/2019 22:16:50
 `@threeal` yes we do expect a better integration and performance, however since the interface is still in development we can't give precise measurements for now.
 
@@ -24651,12 +24310,10 @@ I receive this message together with a "WebSocket network error: The operation c
 %end
 
 
-
 The monitor does not show webots running in any time I do not know why...
 %figure
 ![Screen_Shot_2019-11-18_at_12.07.28_PM.png](https://cdn.discordapp.com/attachments/565154703139405824/645943284505509918/Screen_Shot_2019-11-18_at_12.07.28_PM.png)
 %end
-
 
 
 Hello, I'm still trying to run Webots Simulator without success... 
@@ -24665,7 +24322,6 @@ I receive this information on simulator server even though I'm running a GPU ins
 %figure
 ![Screen_Shot_2019-11-18_at_12.01.57_PM.png](https://cdn.discordapp.com/attachments/565154703139405824/645942508873842688/Screen_Shot_2019-11-18_at_12.01.57_PM.png)
 %end
-
 
 ##### Olivier Michel [cyberbotics] 11/18/2019 10:06:15
 Hi, I just fixed the terrain generator. It should work now.
@@ -24812,7 +24468,6 @@ Do you know why I can't update Webots?
 %end
 
 
-
 is there any tutorial on how to create a Web Simulation using AWS?
 
 ##### JoHn 11/15/2019 16:01:44
@@ -24824,7 +24479,6 @@ I am working on a robot positioning prediction using ML techniques and Probabili
 ![Screen_Shot_2019-11-15_at_4.56.49_PM.png](https://cdn.discordapp.com/attachments/565154703139405824/644929889677606912/Screen_Shot_2019-11-15_at_4.56.49_PM.png)
 %end
 
-
 ##### Fabien Rohrer [Moderator] 11/15/2019 15:58:01
 `@JoanGerard` yes, our web server example can stream the HTML robot windows: [https://cyberbotics.com/doc/guide/web-simulation](https://cyberbotics.com/doc/guide/web-simulation)
 
@@ -24833,7 +24487,6 @@ I am working on a robot positioning prediction using ML techniques and Probabili
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/644928458547265547/unknown.png)
 %end
-
 
 
 Now I set 'basicTimeStep' in WorldInfo to 12, TIME\_STEP of all ServiceClient in the ROS node to 20, and the loop rate to 10.
@@ -24858,7 +24511,6 @@ With the same setup and software, Webots launches fine sometimes, but it also cr
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/644926763268571168/unknown.png)
 %end
-
 
 
 Hi guys, an issue happens to me frequently when I launch Webots, please see the screenshot below:
@@ -25397,7 +25049,6 @@ is there any way to get the value of controlPID in the motor using python?
 hello everyone, Please note that I'm a noob to Webots. I got a problem with KUKA youBot. Here's my code. [https://pastebin.com/j3h9Z4Y3](https://pastebin.com/j3h9Z4Y3). I've only called base\_turn\_left() but the bot seems to be going forward, and also turning to the right as shown in the video :/ Can anyone help me figure out what's wrong?
 > **Attachment**: [C\_\_Users\_Chamuth\_Documents\_P\_Bots\_Round2\_Round2\_worlds\_Round2.wbt\_Round2\_-\_Webots\_R2019b\_2019-11-09\_.mp4](https://cdn.discordapp.com/attachments/565154703139405824/642769143602348055/C__Users_Chamuth_Documents_P_Bots_Round2_Round2_worlds_Round2.wbt_Round2_-_Webots_R2019b_2019-11-09_.mp4)
 
-
 ##### JFXian 11/09/2019 08:13:15
 😋
 
@@ -25410,7 +25061,6 @@ But if I start with this link to build this model, the end point of the last joi
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/642634975820120073/unknown.png)
 %end
 
-
 ##### Hayden Woodger 11/09/2019 07:50:32
 yes
 
@@ -25419,7 +25069,6 @@ yes
 %figure
 ![plotclock.png](https://cdn.discordapp.com/attachments/565154703139405824/642631973356961813/plotclock.png)
 %end
-
 
 
 Hey guys, I want to to build a planar four-bar mechanism simulation in webots, does webots support closed kinematic loops?
@@ -25472,7 +25121,6 @@ The terrain is "highlighted" red
 
 
 > **Attachment**: [Screencast\_2019-11-08\_201306.m4v](https://cdn.discordapp.com/attachments/565154703139405824/642562758671597601/Screencast_2019-11-08_201306.m4v)
-
 
 ##### Hayden Woodger 11/09/2019 03:12:58
 thank you 🙂
@@ -25537,7 +25185,6 @@ Should I raise a bug report on that?
 
 For basicTimeStep 8, rover physics is behaving differently
 > **Attachment**: [Untitled.mp4](https://cdn.discordapp.com/attachments/565154703139405824/642359055498608640/Untitled.mp4)
-
 
 
 Ok. I guess the world has 32. That is why I was getting that error. Awesome. Thanks!
@@ -25645,7 +25292,6 @@ Could you check it's equivalent to this? [https://github.com/cyberbotics/webots/
 ##### chamandana 11/07/2019 12:03:14
 I'm using the Kuka YouBot. I haven't called base\_backwards() but the robot is going backward. What do you think is happening here?
 > **Attachment**: [C\_\_Users\_Chamuth\_Documents\_P\_Bots\_Round2\_Round2\_worlds\_Round2.wbt\_Round2\_-\_Webots\_R2019b\_2019-11-07\_.mp4](https://cdn.discordapp.com/attachments/565154703139405824/641970917882462208/C__Users_Chamuth_Documents_P_Bots_Round2_Round2_worlds_Round2.wbt_Round2_-_Webots_R2019b_2019-11-07_.mp4)
-
 
 ##### Fabien Rohrer [Moderator] 11/07/2019 10:41:41
 Here is the doc: [https://github.com/cyberbotics/webots/blob/revision/CONTRIBUTING.md](https://github.com/cyberbotics/webots/blob/revision/CONTRIBUTING.md)
@@ -25789,7 +25435,6 @@ Can you upload your code with a wire?
 %end
 
 
-
 the only thing I do is double click on the robot and press the transfer icon
 
 ##### Hayden Woodger 11/05/2019 22:43:59
@@ -25822,7 +25467,6 @@ but I don't think the code is the cause of the failure  because I get the same e
 
 
 > **Attachment**: [traker.py](https://cdn.discordapp.com/attachments/565154703139405824/641404011173380107/traker.py)
-
 
 
 yes of course
@@ -25859,11 +25503,9 @@ Have you tried turning it on and off again?
 
 
 
-
 %figure
 ![error4_darwin.PNG](https://cdn.discordapp.com/attachments/565154703139405824/641397822582816768/error4_darwin.PNG)
 %end
-
 
 
 
@@ -25873,18 +25515,15 @@ Have you tried turning it on and off again?
 
 
 
-
 %figure
 ![error2_Darwin.PNG](https://cdn.discordapp.com/attachments/565154703139405824/641397152152551425/error2_Darwin.PNG)
 %end
 
 
 
-
 %figure
 ![error_darwin.PNG](https://cdn.discordapp.com/attachments/565154703139405824/641397089124745226/error_darwin.PNG)
 %end
-
 
 
 i need help. 
@@ -25904,7 +25543,6 @@ oh my god, it seems that the laser shining through the floor
 %figure
 ![2019-11-058.00.12.png](https://cdn.discordapp.com/attachments/565154703139405824/641246773322711090/2019-11-058.00.12.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 11/05/2019 11:17:19
 You're welcome
@@ -25935,7 +25573,6 @@ I wanted to use the ready model VelodyneHDL-32, but it seemed have some problems
 %end
 
 
-
 ok,
 
 ##### Stefania Pedrazzi [cyberbotics] 11/05/2019 10:45:45
@@ -25954,7 +25591,6 @@ the range of this lidar is very big, why the result like this
 %figure
 ![2019-11-056.19.49.png](https://cdn.discordapp.com/attachments/565154703139405824/641220456262664202/2019-11-056.19.49.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 11/05/2019 08:25:54
 You're welcome
@@ -26144,7 +25780,6 @@ Alternatively instead of modifying the Nao PROTO node, you can also convert it t
 %end
 
 
-
 `@Stefania Pedrazzi`
 
 
@@ -26170,7 +25805,6 @@ i have the same issue..there is any solution???
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/640210331020427264/unknown.png)
 %end
-
 
 
 Hi, How do I open the Motion Editor? When I double-click on the NAO, the window appears, but no Motion Editor entry.
@@ -26270,12 +25904,10 @@ Hello. I wanted to ask if anyone has ever tried to run webots in a docker contai
 > **Attachment**: [rock\_anamoly\_2\_1.mp4](https://cdn.discordapp.com/attachments/565154703139405824/639637327664250880/rock_anamoly_2_1.mp4)
 
 
-
 `@David Mansolino` Here are the clips. Sorry it took some time.
 
 The rock on the left is the standard Rock10cm as defined by  webots. The one on the right is the same with coordinate points scaled by 4x to make Rock40cm. In this environment I have created this happens. The left rock is perfect in dynamics by the right one is sinking, etc.
 > **Attachment**: [rock\_anamoly\_2\_clip1.mp4](https://cdn.discordapp.com/attachments/565154703139405824/639637046868312084/rock_anamoly_2_clip1.mp4)
-
 
 ##### buzzlightyear 11/01/2019 00:28:54
 (I am using C)
@@ -26297,7 +25929,6 @@ I am trying to create my first HTML window but I receive this error message whil
 %figure
 ![Screen_Shot_2019-10-31_at_6.53.40_PM.png](https://cdn.discordapp.com/attachments/565154703139405824/639522709767847937/Screen_Shot_2019-10-31_at_6.53.40_PM.png)
 %end
-
 
 
 thanks!
@@ -26328,7 +25959,6 @@ Yes, the 'accuracy' is 0.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/639478102304751649/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 10/31/2019 14:56:24
 > I am just guessing, would the two GPS be conflict with each other?
@@ -26422,16 +26052,13 @@ okay that's fixed the problem of the hingeJoint but I had another problem with s
 ![rover.png](https://cdn.discordapp.com/attachments/565154703139405824/639091045983977484/rover.png)
 %end
 
-
 ##### Fabien Rohrer [Moderator] 10/30/2019 13:04:32
 
 > **Attachment**: [rover.wbt](https://cdn.discordapp.com/attachments/565154703139405824/639087241494265899/rover.wbt)
 
 
-
 I can solve this by setting IiEssieu1.jointParameters.spring/dampingConstant fields to 0.3
 > **Attachment**: [rover\_1.mp4](https://cdn.discordapp.com/attachments/565154703139405824/639087149148405771/rover_1.mp4)
-
 
 ##### Oxygenious 10/30/2019 13:01:09
 I changed the (bois <=> caoutchouc) to 10 and I still have the same problem in the video
@@ -26442,7 +26069,6 @@ the hinge between the 2 front wheel and the body seems too fragile to support th
 
 setting both coulombFriction to 10 gives this result
 > **Attachment**: [rover.mp4](https://cdn.discordapp.com/attachments/565154703139405824/639085975494066195/rover.mp4)
-
 
 
 => you're right about the bois <=> caoutchouc, it's set to -1. this is not a good idea 🙂
@@ -26494,14 +26120,12 @@ And this is the controller
 > **Attachment**: [my\_controller.py](https://cdn.discordapp.com/attachments/565154703139405824/639071785932947469/my_controller.py)
 
 
-
 Hi!
 
 I was trying to make a stair climbing rover but i have a problem with friction as you can see in the world attached. I tried to change contact properties but it did not work.
 
 Thanks in advance.
 > **Attachment**: [rover.wbt](https://cdn.discordapp.com/attachments/565154703139405824/639071593183576064/rover.wbt)
-
 
 ##### Fabien Rohrer [Moderator] 10/30/2019 09:19:22
 If perhaps, we are always looking for funds 😜
@@ -26575,7 +26199,6 @@ Hello, I want to modelise the behavior of Reaction Wheel in Webots. It's basical
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/639012656359145472/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 10/30/2019 07:19:57
 `@Sohil`, can you please check (and even send us a screenshot) of the contact points between the rock and the ground. You can enable contact points visualization from the 'View / Optional Rendering / Show Contact Points' menu.
 
@@ -26585,7 +26208,6 @@ Hello, I want to modelise the behavior of Reaction Wheel in Webots. It's basical
 ##### Sohil 10/30/2019 01:58:00
 I am using the rock10cm proto to make a custom environment. I wanted a bigger rock so I decided to scale all the coordinate values by an appropriate amount to get a bigger rock. For e.g. 40 cm , I scaled the `coord Coordinate points` by a value of 4. Now, I have a bigger rock, but it appears to sink into my environment. What am I not considering in this?
 > **Attachment**: [rock\_anamoly.mp4](https://cdn.discordapp.com/attachments/565154703139405824/638919504319217704/rock_anamoly.mp4)
-
 
 ##### Gordon 10/30/2019 01:14:35
 `@David Mansolino` Thanks so much for your help. I will try to recompile the ROS controller.
@@ -26640,7 +26262,6 @@ When I subscribe this topic, I delete <> and replace X with 0 or 1. Is this a co
 %end
 
 
-
 Hi `@Fabien Rohrer`, thank you very much for your response. Yes, I am use ROS and I subscribe /joystick/axis<X> topic.
 
 ##### Fabien Rohrer [Moderator] 10/29/2019 16:18:50
@@ -26659,13 +26280,11 @@ Hi. Normally, this should work. Do you use the Joystick API directly?
 %end
 
 
-
 Could you see the picture above?
 
 
 
 > **Attachment**: [1111111](https://cdn.discordapp.com/attachments/565154703139405824/638771671871914025/1111111)
-
 
 
 /home/northstar/Documents/1111111
@@ -26705,7 +26324,6 @@ If you want to extend it, here is an example: [https://github.com/cyberbotics/we
 %figure
 ![Capture_decran_2019-10-29_a_10.30.02.png](https://cdn.discordapp.com/attachments/565154703139405824/638670917966495744/Capture_decran_2019-10-29_a_10.30.02.png)
 %end
-
 
 ##### Oxygenious 10/29/2019 09:29:51
 Okay, thank you !
@@ -26783,7 +26401,6 @@ You can check here in the world file protos are the same with different naming a
 > **Attachment**: [E-Puck\_ros.zip](https://cdn.discordapp.com/attachments/565154703139405824/638469847151542341/E-Puck_ros.zip)
 
 
-
 By changing the robot name the all ros names are appended by robot name
 
 
@@ -26820,12 +26437,10 @@ Hey, sorry to bother you again, but I have a question. A solid, that has another
 %end
 
 
-
 `@Amr`, you  might be interested by the 'village\_center' world.
 %figure
 ![22.png](https://cdn.discordapp.com/attachments/565154703139405824/638401055226331146/22.png)
 %end
-
 
 ##### POTATO\_CHIP 10/28/2019 15:28:36
 `@David Mansolino` e-puck2
@@ -26856,7 +26471,6 @@ Ok, thank you a lot !
 %figure
 ![12.png](https://cdn.discordapp.com/attachments/565154703139405824/638373015230480391/12.png)
 %end
-
 
 
 If you select any Robot/Solid node in the scene-tree you can then go to the node editor in the 'mass' field ans select 'including descendants', it will then compute the total mass of the robot/solid with all of its descendants:
@@ -26896,13 +26510,11 @@ Here is the complete archive if you want to take a look 😅 I'm sorry to annoy 
 > **Attachment**: [robotOnRobot.zip](https://cdn.discordapp.com/attachments/565154703139405824/638368600675188756/robotOnRobot.zip)
 
 
-
 Basically, i have to take the inertia matrix of the pionneer as something along -6m on the y axis for it to work properly
 
 
 So, I modified as you said. But there's still a thing I can't understand. The robot to behaves likes the "puma arm" was very heavy, when I explicitely defined all the masses as 0.1kg (and the mass of the pioneer of something like 50kg). It's especially wired when it seems that the change of direction of the Puma seems to impact the inertia force of the "whole robot" (which is good and excepted !)
 > **Attachment**: [show-2019-10-28\_14.22.21](https://cdn.discordapp.com/attachments/565154703139405824/638367874502885416/show-2019-10-28_14.22.21)
-
 
 ##### David Mansolino [cyberbotics] 10/28/2019 13:24:34
 Perfect! thank you for the feedback 🙂
@@ -26924,7 +26536,6 @@ What I would like to do, to put it in a nutshell, is see if I can use a robot fo
 
 I tried to run a puma robotic arm on a pioner, but even when the puma doesn't have any controller, a part of the robot "glitches" and there is some kind of offset between its links
 > **Attachment**: [show-2019-10-28\_12.07.26](https://cdn.discordapp.com/attachments/565154703139405824/638360842689183754/show-2019-10-28_12.07.26)
-
 
 ##### David Mansolino [cyberbotics] 10/28/2019 12:57:32
 Hi `@Gautier A.` what is the behavior that doesn't make sense for you?
@@ -26967,11 +26578,9 @@ how to manually compile a controller in Webots using make command?
 
 
 
-
 %figure
 ![pressreset.png](https://cdn.discordapp.com/attachments/565154703139405824/637562841913622538/pressreset.png)
 %end
-
 
 
 and the uploading stripe is grey.
@@ -27208,7 +26817,6 @@ guys does anyone know how to do inverse kinematics in general
 %end
 
 
-
 Thank you very much for your help `@David Mansolino`. I am using the truck model as shown below:
 
 ##### David Mansolino [cyberbotics] 10/15/2019 17:08:36
@@ -27236,7 +26844,6 @@ One quick question,
 %end
 
 
-
 Thank you very much.
 
 
@@ -27252,7 +26859,6 @@ Hi `@David Mansolino`, I reduces the TimeStep value from 32 to 16, it works now.
 %end
 
 
-
 `@David Mansolino`, yes, I call the timeStepClient in a loop with 32.
 
 ##### David Mansolino [cyberbotics] 10/15/2019 15:25:02
@@ -27266,7 +26872,6 @@ Is the setting for the truck wrong?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/633684526635155466/unknown.png)
 %end
-
 
 
 Hi `@David Mansolino`, I called timeStepClient for both vehicles at the end of the ROS node, and I launched the node, the simulation time still freezed as follows:
@@ -27300,7 +26905,6 @@ Do you call the step service for each node?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/633672000581402664/unknown.png)
 %end
-
 
 
 Hi `@David Mansolino`, I am controlling two trucks by using one ROS node. As you suggested yesterday, I put "--name=leader" and "--name=aaa" in the 'controllerArgs' of each truck. Then in the ROS node, I wrote the code as shown in the picture. But it did not work, the simulation time just freezed. Could you please give me some advice?
@@ -27389,7 +26993,6 @@ to debug this you should inspect what does the Webots instance. First step would
 %end
 
 
-
 😋
 
 
@@ -27398,7 +27001,6 @@ I thought it might be better if you heard my sexy accent
 
 
 > **Attachment**: [webots.mov](https://cdn.discordapp.com/attachments/565154703139405824/633553420891979786/webots.mov)
-
 
 
 always the revision one with you hotfix patch applied
@@ -27444,7 +27046,6 @@ One more hurdle
 %figure
 ![Screen_Shot_2019-10-14_at_18.08.42.png](https://cdn.discordapp.com/attachments/565154703139405824/633335448969936916/Screen_Shot_2019-10-14_at_18.08.42.png)
 %end
-
 
 ##### Stefania Pedrazzi [cyberbotics] 10/14/2019 15:47:27
 > that would the webots.js and than run make right ?
@@ -27525,7 +27126,6 @@ Thank you `@David Mansolino`.
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/633325882257440768/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 10/14/2019 15:24:55
 `@Willem3141`, you're welcome. If you want you can re-ask the question on Wednesday, one of me colleague which is way more aware of the debugging mechanism of the robot-window will be connected.
 
@@ -27546,7 +27146,6 @@ Thank you `@David Mansolino`.
 %figure
 ![Screen_Shot_2019-10-14_at_17.09.39.png](https://cdn.discordapp.com/attachments/565154703139405824/633320585640017940/Screen_Shot_2019-10-14_at_17.09.39.png)
 %end
-
 
 
 in case you are interested
@@ -27692,7 +27291,6 @@ O\_o
 ![Screen_Shot_2019-10-14_at_14.24.42.png](https://cdn.discordapp.com/attachments/565154703139405824/633279102496931841/Screen_Shot_2019-10-14_at_14.24.42.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 10/14/2019 12:20:19
 You're welcome
 
@@ -27776,7 +27374,6 @@ We are getting there slowly. You are a hero Stefania
 %figure
 ![Screen_Shot_2019-10-14_at_10.39.28.png](https://cdn.discordapp.com/attachments/565154703139405824/633222386082381834/Screen_Shot_2019-10-14_at_10.39.28.png)
 %end
-
 
 
 /monitor works on both ports
@@ -27929,7 +27526,6 @@ cat config/session/local.json
 %figure
 ![Screen_Shot_2019-10-14_at_09.58.35.png](https://cdn.discordapp.com/attachments/565154703139405824/633212093478338560/Screen_Shot_2019-10-14_at_09.58.35.png)
 %end
-
 
 
 THanks Stefania
@@ -28133,7 +27729,6 @@ That contains some LUA code which recomputes the coordinates.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/632179555171434526/unknown.png)
 %end
-
 
 ##### Gautier A. 10/11/2019 11:34:55
 `@Olivier Michel`  I think I see. So, for exemple, I can create a new value "coefficient" in my proto, and multiply the points in the field "coordinate" by that coefficient ?
@@ -28363,7 +27958,6 @@ You can read it here.
 ![Capture_du_2019-10-09_14-14-28.png](https://cdn.discordapp.com/attachments/565154703139405824/631464657021960202/Capture_du_2019-10-09_14-14-28.png)
 %end
 
-
 ##### Muhsin Kompas 10/09/2019 12:12:55
 i dont know it
 
@@ -28447,7 +28041,6 @@ Hi again ! Thank you for your help the other day, I was able to achieve what I w
 ![image0_1.jpeg](https://cdn.discordapp.com/attachments/565154703139405824/631225788867412038/image0_1.jpeg)
 %end
 
-
 ##### Tahir [Moderator] 10/08/2019 20:22:58
 `@Sohil` upto my knowledge,
 
@@ -28458,7 +28051,6 @@ Supervisor node is available only in Robot. So here in this case you can add a d
 %figure
 ![Untitled.png](https://cdn.discordapp.com/attachments/565154703139405824/631207438225506304/Untitled.png)
 %end
-
 
 
 `@Stefania Pedrazzi` I have another problem. The image is distorted when I use Floor.
@@ -28546,7 +28138,6 @@ why does this object constantly fall into space?
 > **Attachment**: [video.mov](https://cdn.discordapp.com/attachments/565154703139405824/630868097083113472/video.mov)
 
 
-
 K
 
 ##### David Mansolino [cyberbotics] 10/07/2019 15:54:00
@@ -28589,7 +28180,6 @@ like the second line, not the first line
 %figure
 ![Hinge.jpeg](https://cdn.discordapp.com/attachments/565154703139405824/630784882200543251/Hinge.jpeg)
 %end
-
 
 
 I have a solid part, a hinge and a second solid part. When I activate the motor of the hinge I would like that both parts are lifted with the same angle around the hinge
@@ -28775,7 +28365,6 @@ Might want to skip the initial 10 seconds
 That's awesome. Exactly what I was looking for. I was quickly able to simulate the trajectory I wanted. Example of it
 > **Attachment**: [supervisor\_sunlight.mp4](https://cdn.discordapp.com/attachments/565154703139405824/629713411730833488/supervisor_sunlight.mp4)
 
-
 ##### David Mansolino [cyberbotics] 10/04/2019 15:24:54
 You can find an example of this where the position of a PointLight is moved here: [https://cyberbotics.com/doc/guide/samples-devices#supervisor-wbt](https://cyberbotics.com/doc/guide/samples-devices#supervisor-wbt)
 
@@ -28873,7 +28462,6 @@ If I set the option to --disable-traffic-lights
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/629277552837525505/unknown.png)
 %end
 
-
 ##### Tutu 10/03/2019 11:07:06
 `@Olivier Michel` Thanks
 
@@ -28908,7 +28496,6 @@ Hey, does somebody knows how to fix that? I have Python 3.7 64Bit installed. But
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/629251977422962708/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 10/03/2019 06:57:11
 `@JoHn`, about your second issue with vehicles and ROS, unfortunately there are no specific tutorial for vehicles with ROS, but as you said there is no real difference (juste a few more services and topics), so this tutorial is valid for vehicles too: [https://cyberbotics.com/doc/guide/tutorial-8-using-ros](https://cyberbotics.com/doc/guide/tutorial-8-using-ros)
@@ -29036,7 +28623,6 @@ The situation is just like this. It looks like there are more than one point con
 %figure
 ![grasp_task_ALL_init_v1.png](https://cdn.discordapp.com/attachments/565154703139405824/628564770135736321/grasp_task_ALL_init_v1.png)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 10/01/2019 12:07:13
 >>> ./webots path/to/you/world.wbt
@@ -29615,7 +29201,6 @@ so if the near field is 0.05 for example principal point is (0.05,0.05) ?
 %end
 
 
-
 The focal length is defined optionally by the Focus.focalLength field (to define the depth of field shader).
 
 
@@ -29892,7 +29477,6 @@ Here is the "world"
 > **Attachment**: [mesh-deformation.wbt](https://cdn.discordapp.com/attachments/565154703139405824/622060882142167040/mesh-deformation.wbt)
 
 
-
 No, it's not the field of a proto, just a "basic shape" that I generated thanks to Blender (and converted to a world using the blender's plugin on the cyberbotics website)
 
 
@@ -29954,7 +29538,6 @@ and it returns the not connected statement
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/621311533909278732/unknown.png)
 %end
-
 
 
 No it not, I've written a little test code
@@ -30062,7 +29645,6 @@ If not, is my only option to build the system as a single robot with lots of chi
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/620978009263964192/unknown.png)
 %end
-
 
 
 Hi again. I have a question about using Matlab as the controller for multiple robots linked together. For my project, I am making a snake-like robot and currently I am modelling it as multiple robots using connectors to link them together. The problem is I have built a mathematical controller, which calculates the motor speeds and angles for the drive and joint motors, for each module, depending on the speeds and angles of the modules in front of it.
@@ -30197,7 +29779,6 @@ Ok, let me try
 Here is the simulation archives
 > **Attachment**: [IK.zip](https://cdn.discordapp.com/attachments/565154703139405824/619529879960158219/IK.zip)
 
-
 ##### David Mansolino [cyberbotics] 09/06/2019 13:46:07
 Ok, and which is the node you select ?
 
@@ -30218,7 +29799,6 @@ That is what I'm getting.... I'm sorry, I'm new user of webots so I'm still lost
 %figure
 ![webots.png](https://cdn.discordapp.com/attachments/565154703139405824/619526687457017897/webots.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 09/06/2019 13:30:13
 > Where p is a point whose coordinates are given with respect to the local coordinate system of a node
@@ -30324,7 +29904,6 @@ sorry very new here
 
 I am here now and please what to do ?
 > **Attachment**: [webots.docx](https://cdn.discordapp.com/attachments/565154703139405824/619432936915206154/webots.docx)
-
 
 ##### David Mansolino [cyberbotics] 09/06/2019 07:24:42
 Hi, you can get keyboard input from the controller using the keyboard API: [https://www.cyberbotics.com/doc/reference/keyboard](https://www.cyberbotics.com/doc/reference/keyboard)
@@ -30465,7 +30044,6 @@ the cube would be the robot
 %end
 
 
-
 Hi guys, is there a way to constrain a robot to follow a curved rail and command its position along it ?
 
 ##### David Mansolino [cyberbotics] 09/04/2019 15:32:50
@@ -30493,7 +30071,6 @@ So in this example, After 5 seconds the motor is set to a position (Joint\_Angle
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/618825453540737054/unknown.png)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 09/04/2019 15:02:10
 `@SamSmurfitt` Did you noticed the world I sent you this morning?
@@ -30558,7 +30135,6 @@ Hi,  I  utilize webots2019b to simulate hand grsp task. When the hand is graspin
 ![KK.JPG](https://cdn.discordapp.com/attachments/565154703139405824/618736532156579841/KK.JPG)
 %end
 
-
 ##### jacqueline 09/04/2019 07:37:03
 Thank you for the info.
 
@@ -30589,7 +30165,6 @@ our lab assignment for student
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/618709274591363072/unknown.png)
 %end
 
-
 ##### Fabien Rohrer [Moderator] 09/04/2019 07:28:55
 We didn't wrote such kind of document. Normally most of the assets are backward compatible, except few small issues like this one.
 
@@ -30604,7 +30179,6 @@ I am referring to the wall though
 %figure
 ![Capture_decran_2019-09-04_a_09.25.43.png](https://cdn.discordapp.com/attachments/565154703139405824/618708515531390987/Capture_decran_2019-09-04_a_09.25.43.png)
 %end
-
 
 
 A typical rectangle arena looks like this now:
@@ -30629,7 +30203,6 @@ Sorry I went away just now to do some teaching. In rectangle arena, 2018 version
 > **Attachment**: [worlds.diff](https://cdn.discordapp.com/attachments/565154703139405824/618700902898860043/worlds.diff)
 
 
-
 The controller breaks the connection after 2 seconds.
 
 
@@ -30638,9 +30211,7 @@ The controller breaks the connection after 2 seconds.
 
 
 
-
 > **Attachment**: [Module\_1-2.wbt](https://cdn.discordapp.com/attachments/565154703139405824/618699935688294401/Module_1-2.wbt)
-
 
 
 `@SamSmurfitt` Here is a working solution with active connectors. I simply copied the yamor values inside your robot.
@@ -30718,7 +30289,6 @@ I think the setChannel is working but the data has some problems
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/618509491868270602/unknown.png)
 %end
 
-
 ##### SamSmurfitt 09/03/2019 18:13:32
 thats comepletely fine!
 
@@ -30731,7 +30301,6 @@ Using the struct module, you can stringify any data and extract it
 ##### SamSmurfitt 09/03/2019 18:11:28
 Here you are. Thanks for taking the time.
 > **Attachment**: [Module\_1.wbt](https://cdn.discordapp.com/attachments/565154703139405824/618508375558324234/Module_1.wbt)
-
 
 ##### Fabien Rohrer [Moderator] 09/03/2019 18:10:26
 import struct
@@ -30808,12 +30377,10 @@ You would like to snap first without controller right?
 %end
 
 
-
 I've aligned both the z-axes, and relocked everything but it's still no connecting, is there something else I could be missing?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/618466302000103434/unknown.png)
 %end
-
 
 
 ah that will be it, thanks
@@ -30826,7 +30393,6 @@ Not sure at 100% but it seems your connector is not well aligned (red = x axis t
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/618462674077876235/unknown.png)
 %end
-
 
 
 [https://cyberbotics.com/doc/reference/connector#connector-axis-system](https://cyberbotics.com/doc/reference/connector#connector-axis-system)
@@ -30842,7 +30408,6 @@ I have this set up at the moment, with both connectors touching, and isLocked se
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/618461971871694848/unknown.png)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 09/03/2019 15:06:42
 You should start with the second one (which is simpler to setup and to debug).
@@ -30893,7 +30458,6 @@ FYI there is also a context menu when right clicking in the scene tree view call
 %figure
 ![Capture_decran_2019-09-02_a_17.49.48.png](https://cdn.discordapp.com/attachments/565154703139405824/618110550945300481/Capture_decran_2019-09-02_a_17.49.48.png)
 %end
-
 
 
 😄
@@ -31039,7 +30603,6 @@ Actually I was wondering about these modes
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/617975577684738049/unknown.png)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 09/02/2019 06:49:20
 Do you speak about the wb\_robot\_get\_mode functions? [https://cyberbotics.com/doc/reference/robot#wb\_robot\_get\_mode](https://cyberbotics.com/doc/reference/robot#wb_robot_get_mode)
@@ -31561,7 +31124,6 @@ i wondering if there would be a way to store separate sets of values each robot 
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/612806496777928714/unknown.png)
 %end
 
-
 ##### MariusJuston [Moderator] 08/18/2019 20:09:30
 No problems, as far as I know there is way to export these values directly from the plots
 
@@ -31580,7 +31142,6 @@ Hi, may I know if there s a way to store all values throughout the entire simula
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/612737586481594393/unknown.png)
 %end
 
-
 ##### Akash 08/17/2019 11:10:27
 Is it possible to run some other function while the bot is moving with the setPosition() function  ?
 
@@ -31593,7 +31154,6 @@ Thanks for the .wbt.     I think the reason why it is barely noticeable when you
 ##### MariusJuston [Moderator] 08/16/2019 18:01:04
 Here is my world if you want
 > **Attachment**: [mr\_scruff.wbt](https://cdn.discordapp.com/attachments/565154703139405824/611982779961311239/mr_scruff.wbt)
-
 
 
 For me it never behaves exactly how yours does, it never has wheels jumping around... all I did was copy the same WorldInfo as the moose\_demo.wbt and it works, yes the tractor still sinks a little in the ground but it is barely noticeable
@@ -31624,7 +31184,6 @@ Exactly!   🙂
 %figure
 ![mr_scruff.png](https://cdn.discordapp.com/attachments/565154703139405824/611978319436447745/mr_scruff.png)
 %end
-
 
 ##### Mr. Scruff 08/16/2019 17:30:09
 Hi `@MariusJuston` .  I simplified my experiment by using the standard Boomer vehicle, and driving it in the sample terrain that comes with the Clearpath Moose terrain.   Under these conditions, we've been able to duplicate the issue where, at slow speeds, the tractor tires suddenly sink into the ground and then suddenly pop out of the ground.
@@ -31785,7 +31344,6 @@ Python 3.7.3 (default, Apr 24 2019, 15:29:51) [MSC v.1915 64 bit (AMD64)] on win
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/611211346931089438/unknown.png)
 %end
 
-
 ##### Olivier Michel [cyberbotics] 08/14/2019 14:55:15
 Which version of Python 3 do you have ?
 
@@ -31794,7 +31352,6 @@ Which version of Python 3 do you have ?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/611211057717051392/unknown.png)
 %end
-
 
 
 Can you check that in File / Settings... / Project: driver / Project Structure  you have under "+ Add Content Root" the following path: C:\Users\mariu\AppData\Local\Programs\Webots\lib\python37?
@@ -31807,7 +31364,6 @@ I am just as confused as you guys are. There should be no reason as to why it wo
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/611208981477589013/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 08/14/2019 14:45:37
 do you have a '\_controller' library in `C:\Users\mariu\AppData\Local\Programs\Webots\lib\python37\` ?
@@ -31840,7 +31396,6 @@ This is the output when running it through the debugger
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/611207719617298432/unknown.png)
 %end
-
 
 ##### Olivier Michel [cyberbotics] 08/14/2019 14:40:45
 Did you set it also in the Run/Debug configuration for the PATH environment variable?
@@ -32008,7 +31563,6 @@ That is probably because it is going up the sloped terain
 %end
 
 
-
 also the right hind leg.
 
 
@@ -32020,7 +31574,6 @@ you can see this one.
 
 
 > **Attachment**: [Mantis.mp4](https://cdn.discordapp.com/attachments/565154703139405824/610877003788320808/Mantis.mp4)
-
 
 ##### MariusJuston [Moderator] 08/13/2019 16:42:55
 You are running the mantis sample world right?
@@ -32042,7 +31595,6 @@ And then run it again, it succeed.
 %figure
 ![20190813123611.jpg](https://cdn.discordapp.com/attachments/565154703139405824/610874532601004072/20190813123611.jpg)
 %end
-
 
 ##### MariusJuston [Moderator] 08/13/2019 16:32:59
 Could you show me a video of it happening please
@@ -32076,7 +31628,6 @@ No I meant for in the webots simulation:
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/610857673646407700/unknown.png)
 %end
-
 
 ##### Yang Chen 08/13/2019 15:28:58
 Do you mean this link [https://cyberbotics.com/doc/guide/mantis](https://cyberbotics.com/doc/guide/mantis) ?
@@ -32212,7 +31763,6 @@ I am wondering how can I  caculate  the gait funcion's parameter of mantis?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/609139750770704396/unknown.png)
 %end
-
 
 
 Hello, is there someone dealing with legged-robots?
@@ -32402,7 +31952,6 @@ No, I just joined Discord like a month ago because I had a question about Webots
 %end
 
 
-
 `@Fabien Rohrer` could you teach us  the  Mantis controller function here.
 
 
@@ -32425,7 +31974,6 @@ Oh, I did not know Webots had already implemented this, like me follow along wit
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/606234564074930206/unknown.png)
 %end
-
 
 
 Yep. Does this controller  realize the tripod gait on this vedio
@@ -32462,7 +32010,6 @@ Can you explain why should we use this function? Does it relate to Central Patte
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/606229921005830214/unknown.png)
 %end
-
 
 
 `@MariusJuston` Hi , welcome party.  it begins. I am studying the Mantis now, while the controller is using this function to control the motor's position.
@@ -32561,7 +32108,6 @@ the thing is I want to build hexapod robots like those in pictures, and then sim
 %end
 
 
-
 As you are familiar with Blender combined with our Webots, could you tell me can Blender build hexapod robots,like those in the picture.
 
 ##### Fabien Rohrer [Moderator] 07/31/2019 14:55:03
@@ -32596,7 +32142,6 @@ in the Animated Skin sample, [https://github.com/omichel/webots/blob/master/proj
 %figure
 ![C9EH8UGVWVQQX.png](https://cdn.discordapp.com/attachments/565154703139405824/606135971339304960/C9EH8UGVWVQQX.png)
 %end
-
 
 
 👏 while I am wondering about this one
@@ -32700,7 +32245,6 @@ Hi `@MariusJuston`  i find your reply to yang chen relevant to a problem i may h
 May i know using the export/import method, does it create a replica/will it reference a link to the source? Thank you
 > **Attachment**: [compare\_single\_and\_double\_agent.mp4](https://cdn.discordapp.com/attachments/565154703139405824/606092345280299028/compare_single_and_double_agent.mp4)
 
-
 ##### MariusJuston [Moderator] 07/31/2019 04:31:20
 `@Yang Chen` Sorry for the delay. A simple way to do all this, if you want to just reuse the same GROUND shape is to Export that Shape/Solid. To do this you can left click the Shape/Solid and then select the Export button, this will save the information to a .wbo, to re import this .wbo you can just press the Add button and the press Import (bottom right corner ), find your .wbo and you should see the Shape/Solid appear in the tree directory. If you want to move it around you can `Ctrl + X` (Cut) and then `Ctrl + V` (Paste) it in the location you want it to be; however, please be aware that you cannot place a Shape/Solid everywhere so if `Ctrl + V` fails you can probably assume that that is the reason.  
 
@@ -32722,7 +32266,6 @@ Do you mean copying and pasting them like this?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/605819367380353048/unknown.png)
 %end
-
 
 ##### MariusJuston [Moderator] 07/30/2019 17:35:07
 You can  just copy the index face set and then paste
@@ -32845,7 +32388,6 @@ Here is my Connector fields. (Same for the connector on the robot but with type 
 %end
 
 
-
 But still , the box just fall
 
 
@@ -32853,7 +32395,6 @@ I did that. I added magnetic to the field model for both connector, same for the
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/605695662482259968/unknown.png)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 07/30/2019 09:34:59
 Once this is done, you should explicitly call the wb\_connector\_lock() function to lock the Connector.
@@ -32913,7 +32454,6 @@ Ok thanks a lot ! I think i can solve my issue with all your information now yes
 Another question, may i know why when the robot pushes against something very heavy, the reading falls flat (0.0) again?
 > **Attachment**: [output1.mp4](https://cdn.discordapp.com/attachments/565154703139405824/605665524436697099/output1.mp4)
 
-
 ##### Fabien Rohrer [Moderator] 07/30/2019 07:38:04
 You have certainly all what you need to solve your issue now (?)
 
@@ -32971,7 +32511,6 @@ I set the connectors like this:
 > **Attachment**: [inverse\_kinematics.wbt](https://cdn.discordapp.com/attachments/565154703139405824/605664556521488394/inverse_kinematics.wbt)
 
 
-
 Here is the world:
 
 
@@ -32979,7 +32518,6 @@ Here is the world:
 %figure
 ![connector.png](https://cdn.discordapp.com/attachments/565154703139405824/605664462027882496/connector.png)
 %end
-
 
 
 I tried to do that on an ABB arm:
@@ -33013,7 +32551,6 @@ oh.. that s why. Thanks so much `@David Mansolino`, it looks like it s working, 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/605656450844327950/unknown.png)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 07/30/2019 07:02:09
 i.e. at the beginning of the simulation?
@@ -33096,7 +32633,6 @@ Thank you for the file. The problem is that you are getting the value of the tou
 Sure. Here is the code
 > **Attachment**: [TwoWheelsAgent.java](https://cdn.discordapp.com/attachments/565154703139405824/605651952424058912/TwoWheelsAgent.java)
 
-
 ##### David Mansolino [cyberbotics] 07/30/2019 06:38:58
 Hi `@Huey`, did you enable the sensor? Can you share the whole code of the controller (we can't see the part where you are enabling the sensors and getting the value in your screenshot)?
 
@@ -33109,7 +32645,6 @@ I added a touch sensor to the robot, change the type to 'force'. During the simu
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/605649718546268160/unknown.png)
 %end
-
 
 ##### MariusJuston [Moderator] 07/29/2019 21:28:08
 No problems!!
@@ -33125,7 +32660,6 @@ I tried both methods, somehow both came up with this error messages
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/605511175521959976/unknown.png)
 %end
-
 
 ##### MariusJuston [Moderator] 07/29/2019 21:15:32
 Or instead of removing `extends Robot` you can remove the `Robot robot = new Robot();` and then remove all instances off `robot.SOMETHING` and replace it with `this.SOMETHING` or just `SOMETHING`, either of the options would work
@@ -33154,7 +32688,6 @@ oh of course, my apology
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/605507220154613791/unknown.png)
 %end
 
-
 ##### MariusJuston [Moderator] 07/29/2019 21:08:34
 Can you open up the robot node please , and please verify that it is pointing to the correct controller
 
@@ -33163,7 +32696,6 @@ The robot node in scene tree
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/605506822131941376/unknown.png)
 %end
-
 
 ##### MariusJuston [Moderator] 07/29/2019 21:07:36
 The code looks good
@@ -33181,7 +32713,6 @@ The code 'build' successfully, however, i got this error message
 %end
 
 
-
 Hi, i created a two wheels robot base on this tutorial. 
 
 
@@ -33194,7 +32725,6 @@ As i was hoping to test out different function which the robot can test run on. 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/605500470013853772/unknown.png)
 %end
-
 
 ##### Stefania Pedrazzi [cyberbotics] 07/29/2019 11:36:03
 `@Deleted User` note that what you have now it is a generic programming issue not depending on Webots. You have all the resources needed to execute the Webots commands and move the robot. You just have to structure your code correctly. To write Webots controller programs it is requried to have some programming knowledge. If you struggle with it you may also consider following some programming tutorials.
@@ -33315,7 +32845,6 @@ A
 > **Attachment**: [Nao\_turn\_left.txt](https://cdn.discordapp.com/attachments/565154703139405824/605334306839330868/Nao_turn_left.txt)
 
 
-
 `@Fabien Rohrer` 
 
 sir, i have modified the code that you have given and now i am getting the desired action by robot. 
@@ -33350,7 +32879,6 @@ Anybody please help me
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/605191683017015362/unknown.png)
 %end
 
-
 ##### MariusJuston [Moderator] 07/28/2019 17:54:05
 You can instead of making the bounding object just a simple shape, you can make it into a group and then add as many shapes as you want
 
@@ -33362,11 +32890,9 @@ You can instead of making the bounding object just a simple shape, you can make 
 
 
 
-
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/604999071568232451/unknown.png)
 %end
-
 
 
 Hi, I have a question about boundingObject. To prevent the robot from swaying during motion. 
@@ -33388,11 +32914,9 @@ I have added a cone shape point (touching the ground) (a polulu ball caster like
 Is it possible to set boundingObject to take more than one Shape?
 > **Attachment**: [output.mp4](https://cdn.discordapp.com/attachments/565154703139405824/604999043164405762/output.mp4)
 
-
 ##### Deleted User 07/27/2019 13:15:13
 
 > **Attachment**: [Nao\_turn\_left.txt](https://cdn.discordapp.com/attachments/565154703139405824/604663082391830565/Nao_turn_left.txt)
-
 
 
 i added the below code, it is not showing any error, the file compiled successfully
@@ -33560,7 +33084,6 @@ Ok, the borderHeight should be smaller than the size.y value. A better warning i
 Here is also a working example if you need it..
 > **Attachment**: [tinkerbots\_demo.wbt](https://cdn.discordapp.com/attachments/565154703139405824/603971569907269652/tinkerbots_demo.wbt)
 
-
 ##### MariusJuston [Moderator] 07/25/2019 15:27:10
 That is strange becasue when I put -1 to test if it was the borders it was telling me: `WARNING: DEF ConveyorBelt Robot > ConveyorBelt (PROTO) > Group > Transform > Box: Invalid 'size' changed to 1 1 1. The value should be positive.`
 
@@ -33576,7 +33099,6 @@ Could you set the 2 Conveyor.borderHeight to -0.05 ?
 ##### MariusJuston [Moderator] 07/25/2019 15:25:44
 Here is a video of it happening if it helps
 > **Attachment**: [Test\_Conveor\_Belt\_System.mp4](https://cdn.discordapp.com/attachments/565154703139405824/603971154935283745/Test_Conveor_Belt_System.mp4)
-
 
 
 okay
@@ -33614,7 +33136,6 @@ Sorry about this but I am trying to have this box use conveyor belts to move fro
 ![Conveyor_belt_inbetween.jpg](https://cdn.discordapp.com/attachments/565154703139405824/603968588478414859/Conveyor_belt_inbetween.jpg)
 %end
 
-
 ##### Stefania Pedrazzi [cyberbotics] 07/25/2019 08:56:18
 do not forget to do the same for the motors as well 😉
 
@@ -33629,7 +33150,6 @@ Thanks Stefania, I followed the simple one and tweak the script this way
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/603872801719320584/unknown.png)
 %end
-
 
 ##### Stefania Pedrazzi [cyberbotics] 07/25/2019 08:41:15
 another very simple one is also included in the User Guide: [https://cyberbotics.com/doc/guide/cpp-java-python#java-example](https://cyberbotics.com/doc/guide/cpp-java-python#java-example)
@@ -33687,12 +33207,10 @@ I added few lines in the controller script to initialize it.
 %end
 
 
-
 Hi, I have some coding problem here. After added a camera under the Robot children, name  it as 'camera'.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/603868092912762899/unknown.png)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 07/24/2019 14:28:01
 You're welcome.
@@ -33783,7 +33301,6 @@ Thank you sir.😊
 
 And sorry if i make you angry. 😑
 > **Attachment**: [nao\_demo.mp4](https://cdn.discordapp.com/attachments/565154703139405824/603576029184917504/nao_demo.mp4)
-
 
 ##### Fabien Rohrer [Moderator] 07/24/2019 13:04:14
 Great 👍🏻
@@ -33897,11 +33414,9 @@ Now hand is moving but the robot is not moving.
 Ok sir thank you for your help till now
 > **Attachment**: [nao\_demo.mp4](https://cdn.discordapp.com/attachments/565154703139405824/603571133928701962/nao_demo.mp4)
 
-
 ##### Fabien Rohrer [Moderator] 07/24/2019 12:32:46
 
 > **Attachment**: [nao\_demo-2.c](https://cdn.discordapp.com/attachments/565154703139405824/603565238083911680/nao_demo-2.c)
-
 
 
 `@Deleted User` I allow myself to enter in the discussion. We saw your same question here several times and on several other threads too (youTube comments, private messages, etc.) . We received them all, no need to spam us. Last week I spent time to provide you a complete and working example doing what you expect. You should focus only on letting this example work:
@@ -34043,7 +33558,6 @@ Thanks loads `@David Mansolino` ! will look into it
 %end
 
 
-
 And I also try the example(universal robot->ure.wbt) in webot. However, when I set the enable setting, the view in webot and headset all become blue..
 
 ##### David Mansolino [cyberbotics] 07/23/2019 08:51:49
@@ -34057,7 +33571,6 @@ Hi `@David Mansolino` , here I just see the same blue screen in htc vive headset
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/603142879623512074/unknown.png)
 %end
-
 
 
 possible to use get pixels or certain color? like this?
@@ -34079,7 +33592,6 @@ any idea what d be the appropriate method?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/603141482886594579/unknown.png)
 %end
-
 
 
 Hi, sorry if this question is too general, i like to program a robot to first find 'target', once found, push it towards 'goal'
@@ -34188,7 +33700,6 @@ these blocked resources are required to see the doc...
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/602853942224879631/unknown.png)
 %end
 
-
 ##### Fabien Rohrer [Moderator] 07/22/2019 13:25:49
 Do you have an error in the Javascript console?
 
@@ -34206,7 +33717,6 @@ Hello I do not know if this should be in the technical-question channel, but whe
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/602853057398571078/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 07/22/2019 12:47:03
 Hi Sharavan, yes you can add a 'runtime.ini' file in the same directory than your controller. This is documented here: [https://cyberbotics.com/doc/guide/controller-programming#languages-settings](https://cyberbotics.com/doc/guide/controller-programming#languages-settings)
@@ -34254,11 +33764,9 @@ I need to make it walk like we do (moving hand while walking)
 
 
 
-
 %figure
 ![pedestrianinpython.PNG](https://cdn.discordapp.com/attachments/565154703139405824/602366080685703188/pedestrianinpython.PNG)
 %end
-
 
 
 I tried to add a pedestrian from  files .... but the problem is the city is programmed in C while pedestrian is programmed in python ... so I can't compile the two files
@@ -34293,12 +33801,10 @@ scene tree, these are the children
 %end
 
 
-
 my proto file
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/601097164256575584/unknown.png)
 %end
-
 
 
 Hi.. im following the tutorial to create my first proto,  any idea on where to look for the format to define the 'children' according to the robot i have created earlier? Thank you.
@@ -34558,7 +34064,6 @@ Sir please help
 > **Attachment**: [nao\_demo.c](https://cdn.discordapp.com/attachments/565154703139405824/600547754850254886/nao_demo.c)
 
 
-
 after modifications
 
 
@@ -34573,7 +34078,6 @@ This is happening with the following error
 [NAo] Error: wbu\_motion\_is\_over() called with NULL argument.
 > **Attachment**: [NAo\_1.mp4](https://cdn.discordapp.com/attachments/565154703139405824/600546275729080321/NAo_1.mp4)
 
-
 ##### Fabien Rohrer [Moderator] 07/15/2019 18:23:28
 I'll be back tomorrow
 
@@ -34583,7 +34087,6 @@ I have to leave, have a good evening.
 
 Here is a new controller. Please try to improve it by yourself 😉
 > **Attachment**: [nao\_demo.c](https://cdn.discordapp.com/attachments/565154703139405824/600391887332966514/nao_demo.c)
-
 
 ##### Deleted User 07/15/2019 18:14:00
 Sir, please help me then,
@@ -34708,7 +34211,6 @@ How to change that angle sir
 > **Attachment**: [nao\_demo\_1.mp4](https://cdn.discordapp.com/attachments/565154703139405824/600347332051075102/nao_demo_1.mp4)
 
 
-
 In the controller I sent you, you can refer to another motor, for example by changing "RElbowYaw" to "RShoulderPitch"
 
 ##### Deleted User 07/15/2019 15:15:06
@@ -34731,10 +34233,8 @@ Can't we make NAO move hand as we do while walking
 > **Attachment**: [nao\_demo.mp4](https://cdn.discordapp.com/attachments/565154703139405824/600342639577006102/nao_demo.mp4)
 
 
-
 Here is a complete and working controller which does this. to replace nao\_demo.c
 > **Attachment**: [nao\_demo.c](https://cdn.discordapp.com/attachments/565154703139405824/600342346579836930/nao_demo.c)
-
 
 ##### Deleted User 07/15/2019 15:01:38
 Actually i want to perform task of moving the shoulder while moving forward
@@ -34768,7 +34268,6 @@ Which motion file are you trying to play?
 ##### Deleted User 07/15/2019 14:43:26
 This is what happening now
 > **Attachment**: [NAo.mp4](https://cdn.discordapp.com/attachments/565154703139405824/600336628703166465/NAo.mp4)
-
 
 
 [NAo] Error: wbu\_motion\_new(): could not open '../../motions/HandWave.motion' file.
@@ -34820,13 +34319,11 @@ I replaced the elbow command to shoulder pitch
 > **Attachment**: [move\_arm\_while\_playing\_a\_motion.c](https://cdn.discordapp.com/attachments/565154703139405824/600334204315893781/move_arm_while_playing_a_motion.c)
 
 
-
 please change "t" to "time", sorry for this
 
 
 
 > **Attachment**: [move\_arm\_while\_playing\_a\_motion.c](https://cdn.discordapp.com/attachments/565154703139405824/600331379800145921/move_arm_while_playing_a_motion.c)
-
 
 
 please change "t" to "time", sorry for this
@@ -34878,7 +34375,6 @@ Ok sir, i will test and will inform you, thank you
 
 In this C file, you can see how to move the right elbow when playing a motion file.
 > **Attachment**: [move\_arm\_while\_playing\_a\_motion.c](https://cdn.discordapp.com/attachments/565154703139405824/600309424325787680/move_arm_while_playing_a_motion.c)
-
 
 ##### Deleted User 07/15/2019 12:51:07
 Thank you  sir
@@ -34932,7 +34428,6 @@ please help me to move it
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/600280326216089601/unknown.png)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 07/15/2019 10:02:40
 The default lookupTable does not do any interpolation.
@@ -35010,7 +34505,6 @@ please help me to move it
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/599984961071874052/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 07/12/2019 14:29:03
 You're welcome
 
@@ -35038,7 +34532,6 @@ Hi, can anyone help me in adding a DifferentialWheels node for the e-puck robot 
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/599233895132823552/unknown.png)
 %end
 
-
 ##### MariusJuston [Moderator] 07/12/2019 02:32:26
 `@MerySgh` So a Python Interpreter is what contains the python.exe and contains all the libraries and dependencies associated with it (as far as I understand it).
 
@@ -35063,7 +34556,6 @@ like this ?
 %figure
 ![python_command.PNG](https://cdn.discordapp.com/attachments/565154703139405824/599059921559879700/python_command.PNG)
 %end
-
 
 ##### ThundrHawk 07/12/2019 02:07:29
 you're probably not using a virtual environment if you're not programming in an ide
@@ -35110,7 +34602,6 @@ what next ?
 ![python.PNG](https://cdn.discordapp.com/attachments/565154703139405824/599057772369281029/python.PNG)
 %end
 
-
 ##### MariusJuston [Moderator] 07/12/2019 01:59:34
 `@MerySgh`  Otherwise you can just pass in the Python.exe path in webots ->  Tools -> Preferences -> python. i.e: C:\Users\\...\Anaconda3\envs\\...\python.exe
 
@@ -35135,7 +34626,6 @@ hello everyone , i have a problem of adding pedestrians in my project its give m
 %figure
 ![error.PNG](https://cdn.discordapp.com/attachments/565154703139405824/599050129537892381/error.PNG)
 %end
-
 
 ##### MariusJuston [Moderator] 07/11/2019 19:58:19
 Done: [https://github.com/omichel/webots/issues/711](https://github.com/omichel/webots/issues/711)
@@ -35171,7 +34661,6 @@ for motor, position in zip(motors, positions):
 
 > **Attachment**: [its\_choppy.mp4](https://cdn.discordapp.com/attachments/565154703139405824/598957091700473856/its_choppy.mp4)
 
-
 ##### MariusJuston [Moderator] 07/11/2019 19:18:51
 Yes how they do it is that they use setPosition in very small intervals
 
@@ -35201,7 +34690,6 @@ Hello, I need help with the getVelocity() function. I used the getFromDef functi
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/598935535159083038/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 07/11/2019 14:30:16
 Ok, thank you for the feedback, that sounds indeed like a very good reason.
@@ -35261,7 +34749,6 @@ You shoul dcheck the joint anchor, they are probably wrong...
 %end
 
 
-
 some axis might have been set wrongly, it s now crawling like a baby monster
 
 
@@ -35285,7 +34772,6 @@ if i understand it correctly i named one of the HingeJoint as wheel1
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/598484390116327455/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 07/10/2019 12:01:45
 You should check the name of the wheel 1 motor, does it matches the one used in your controller (e.g. 'wheel1') ?
 
@@ -35297,7 +34783,6 @@ Hi, i am trying to follow this tutorial to build a simple robot, when i get to t
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/598483724291670017/unknown.png)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 07/10/2019 06:45:33
 In this movie (at time = 71s), we can see an older version of the youBot with the subwheels entirely modeled: [https://youtu.be/vFwNwT8dZTU?t=71](https://youtu.be/vFwNwT8dZTU?t=71) but this has been dropped to use the asymmetric friction in newer versions.
@@ -35515,7 +35000,6 @@ Screenshot
 %end
 
 
-
 Hi, I have installed 8.6.2 webots to simulate Pepper for use it with Choregraphe. But the Open Sample World section is empty.
 
 ##### Fabien Rohrer [Moderator] 07/08/2019 08:45:39
@@ -35532,7 +35016,6 @@ Thank you, I struggled a lot but I finally did what I expected, I needed the tri
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/597682190062452744/unknown.png)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 07/08/2019 06:30:20
 `@NearMonzter` From SolidWork, you can export a VRML or X3D file, and then you can import it in Webots as a Shape (the graphical info only). Alternatively, you can use Blender inbetween and add more information (collisions, masses, joints, etc.), using this addon: [https://github.com/omichel/blender-webots-exporter](https://github.com/omichel/blender-webots-exporter)
@@ -35968,7 +35451,6 @@ I installed the MinGW-w64 Compiler thinking that maybe this is the problem but i
 %end
 
 
-
 failed: 
 
 [nao\_matlab] 
@@ -36078,7 +35560,6 @@ Hello. I am trying to implement a Deep Q Network in a webots environment. What i
 %end
 
 
-
 Probably size of these buttons is too small, and when you make padding it eat from first letter small portion of pixels. Its create red color because of some semi-transparency shits  or something of the sort.
 
 
@@ -36100,7 +35581,6 @@ This mean: go to your Qt Editor, and check Button Controls Options  for all Dial
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/594128214276833306/unknown.png)
 %end
-
 
 
 `@David Mansolino`  The problem is not only in .qss files you send me. Manly this line of code in
@@ -36126,7 +35606,6 @@ I like dark. If you want simply put little purple dot outside of the caption to 
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/594061680585998337/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 06/28/2019 07:01:10
 There is indeed an issue with the first letter, we are aware of this, if it is irritating you, you can switch to the 'classic' them, the problem should not be present in this theme.
 
@@ -36136,7 +35615,6 @@ For me it look like some sort of graphical defect. It disrupts the perception of
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/594059204885741568/unknown.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 06/28/2019 06:51:57
 Yes of course, this is done to help you visualize which item is currently focused
 
@@ -36145,7 +35623,6 @@ Is this normal behavior of Webots to color the caption of the button controls wh
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/594057038271873025/unknown.png)
 %end
-
 
 
 0.001
@@ -37205,7 +36682,6 @@ walking simulations at all?
 %end
 
 
-
 Look my first place simulation [https://robotbenchmark.net/benchmark/humanoid\_sprint/](https://robotbenchmark.net/benchmark/humanoid_sprint/) . I'm new in Webots and I think is this good environment for making
 
 ##### David Mansolino [cyberbotics] 06/26/2019 13:10:36
@@ -37228,7 +36704,6 @@ please take a look at the node hierachy, and the object center.
 %figure
 ![blender.png](https://cdn.discordapp.com/attachments/565154703139405824/593424871082557441/blender.png)
 %end
-
 
 
 we guarantee it's clean
@@ -37344,7 +36819,6 @@ Thank you! It works.
 ##### Fabien Rohrer [Moderator] 06/24/2019 15:06:53
 Something like this. We use often this pattern.
 > **Attachment**: [keyboard\_snippet.c](https://cdn.discordapp.com/attachments/565154703139405824/592732386098413589/keyboard_snippet.c)
-
 
 
 Let me a minute to find a snippet
@@ -37887,7 +37361,6 @@ I'm not really understanding this error code. Isn't the first argument here "sel
 ![Screenshot_from_2019-06-18_13-00-51.png](https://cdn.discordapp.com/attachments/565154703139405824/590512773780340766/Screenshot_from_2019-06-18_13-00-51.png)
 %end
 
-
 ##### Karl 06/18/2019 12:06:51
 Yes thats perfect!
 
@@ -38115,7 +37588,6 @@ Here is
 
 > **Attachment**: [out.ogv](https://cdn.discordapp.com/attachments/565154703139405824/589089001751969811/out.ogv)
 
-
 ##### Olivier Michel [cyberbotics] 06/14/2019 13:42:13
 Can you share a movie showing the problem you have?
 
@@ -38288,7 +37760,6 @@ Hey guys, is there a possibility to pass arguments to the controller when starti
 %end
 
 
-
 Just select your Robot.children field, and click on the "+" button, the sick sensors are available in the "Add node dialog..."
 
 ##### nick\_robot\_maker 06/13/2019 12:26:09
@@ -38332,7 +37803,6 @@ yes. this is the world
 %figure
 ![Capture_decran_2019-06-13_a_13.26.36.png](https://cdn.discordapp.com/attachments/565154703139405824/588690928705732618/Capture_decran_2019-06-13_a_13.26.36.png)
 %end
-
 
 ##### nick\_robot\_maker 06/13/2019 11:27:26
 like SICK LD-MRS, SICK LMS 291, Hokuyo URG-04LX-UG01
@@ -38435,7 +37905,6 @@ I already used the webots Recognition-Node to draw bounding boxes around objects
 %figure
 ![mask.png](https://cdn.discordapp.com/attachments/565154703139405824/588050868872675368/mask.png)
 %end
-
 
 ##### JustDN 06/11/2019 15:50:34
 Does webots come with OpenCV?
@@ -38561,7 +38030,6 @@ is this safe to run?
 %end
 
 
-
 I mean I just cba with it lol
 
 
@@ -38677,11 +38145,9 @@ maybe webots does not work in linux?
 
 
 
-
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/588010278382338050/unknown.png)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 06/11/2019 14:19:04
 Could you try an "ls -lF" in this directory?
@@ -38700,7 +38166,6 @@ its not working?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/588008523359584278/unknown.png)
 %end
-
 
 
 one moment
@@ -38776,11 +38241,9 @@ The robot on the right has the wrong COM, so it leans forward
 
 
 
-
 %figure
 ![Screenshot_from_2019-06-11_15-08-03.png](https://cdn.discordapp.com/attachments/565154703139405824/587991670729998346/Screenshot_from_2019-06-11_15-08-03.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 06/11/2019 13:05:39
 Can you send a screen shot of the 2 robot with the different COM ?
@@ -39236,7 +38699,6 @@ after this it automatically closes
 ![Screenshot_2.png](https://cdn.discordapp.com/attachments/565154703139405824/584998214944555036/Screenshot_2.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 06/03/2019 06:50:00
 Hi `@smruti` , what yo you mean by 'a box'? Can you send us a screenshot ?
 
@@ -39368,7 +38830,6 @@ I am having troubles with the version 2019a running in windows... I already unin
 %end
 
 
-
 Hello everyone, first of all thanks for the hard work.. The simulator is amazing...
 
 ##### Fabien Rohrer [Moderator] 05/30/2019 08:12:16
@@ -39412,7 +38873,6 @@ while robot.step(timestep) != -1:
 %figure
 ![Doc_Issue.png](https://cdn.discordapp.com/attachments/565154703139405824/583401806344880128/Doc_Issue.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 05/29/2019 15:56:43
 You're welcome
@@ -39603,7 +39063,6 @@ save the simulation.
 %end
 
 
-
 Then you should add a Lidar node to the Khepera4.turretSlot
 
 ##### Ya 05/27/2019 14:50:49
@@ -39653,7 +39112,6 @@ No 3D view
 %figure
 ![2019-05-25_13.13.14.png](https://cdn.discordapp.com/attachments/565154703139405824/581696384013697027/2019-05-25_13.13.14.png)
 %end
-
 
 
 Could someone tell me how to show 3D view again?
@@ -39732,7 +39190,6 @@ Can you recommend a tool for editing proto files and create or change webots obj
 %end
 
 
-
 Hi!
 
 
@@ -39741,7 +39198,6 @@ i'm currently working on a more realistic version of the Nao-Robocup-Simulator. 
 %figure
 ![webots1.png](https://cdn.discordapp.com/attachments/565154703139405824/581420477193650186/webots1.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 05/24/2019 08:31:37
 Hi, ok good news!
@@ -39758,7 +39214,6 @@ Thank you a lot! I've tried to visualize laser scan by RViz, and there were appe
 ![9.png](https://cdn.discordapp.com/attachments/565154703139405824/581393708214124544/9.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 05/24/2019 08:07:56
 Maybe you could also try to visualize the lascer\_scan in rviz just to check if they make sense
 
@@ -39773,7 +39228,6 @@ laser also works well.
 ![8.png](https://cdn.discordapp.com/attachments/565154703139405824/581390689565278208/8.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 05/24/2019 07:19:09
 Can you check if the sick is pucblishing laser\_scan ?
 
@@ -39783,7 +39237,6 @@ no, the  same...
 ![7.png](https://cdn.discordapp.com/attachments/565154703139405824/581380465362075648/7.png)
 %end
 
-
 ##### David Mansolino [cyberbotics] 05/24/2019 07:05:55
 Perfect and now if you start gmapping after that does it prints something (the order in which you start the node might be important)
 
@@ -39792,7 +39245,6 @@ camera and robot work
 %figure
 ![6.png](https://cdn.discordapp.com/attachments/565154703139405824/581377160376221696/6.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 05/24/2019 07:02:34
 Did you start the 'pioneer3at' ros node ?
@@ -39805,7 +39257,6 @@ webots also doesn't show any error
 %figure
 ![4.png](https://cdn.discordapp.com/attachments/565154703139405824/581376164644257792/4.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 05/24/2019 06:50:48
 Is there any error in the webots console ?
@@ -39821,7 +39272,6 @@ no, there is no errors
 %figure
 ![2.png](https://cdn.discordapp.com/attachments/565154703139405824/581372993784119307/2.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 05/24/2019 06:36:15
 Hi, in the terminal you launched gmapping do you have any error messages or can you see that it is updating the map?
@@ -40133,11 +39583,9 @@ Hi, you have to modify the makefile of your controller to add the includes and l
 
 
 
-
 %figure
 ![60448918_416254715593013_6479608462719320064_n.png](https://cdn.discordapp.com/attachments/565154703139405824/578658470224592896/60448918_416254715593013_6479608462719320064_n.png)
 %end
-
 
 
 We are havin issues attach libreries to the simulator
@@ -40427,7 +39875,6 @@ the feature matching algorythm works fine but i dont know how to take two frames
 %end
 
 
-
 hello 😃  well i want to take a camera frame and the next camera frame and implement a feature matching algorithm using opencv. but as seen in the above code i take the first frame 2 times cause i am in the same timestep .how to take 2 frames one after the other from 2 timwsteps?
 
 ##### fateme 05/11/2019 20:58:39
@@ -40706,7 +40153,6 @@ I also think that OpenCV is only used in some examples in Webots. So you could a
 > **Attachment**: [ok.WRL](https://cdn.discordapp.com/attachments/565154703139405824/574572017534238720/ok.WRL)
 
 
-
 But another wrl file has shadow...
 
 
@@ -40756,7 +40202,6 @@ why it says that there is  no highgui file? i also modified the makefile of the 
 %figure
 ![Selection_012.png](https://cdn.discordapp.com/attachments/565154703139405824/573964888288788481/Selection_012.png)
 %end
-
 
 ##### Thelm76 05/03/2019 12:30:37
 because the cross compilation seems to be too incomplete for what I want to do
@@ -41841,7 +41286,6 @@ i found it
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/570635659115495434/unknown.png)
 %end
 
-
 ##### tilly 04/24/2019 15:42:04
 upsi im new to git hub sry
 
@@ -41930,7 +41374,6 @@ In your model, did you defined min/maxPosition or min/maxStop ?
 %end
 
 
-
 No, I don't define the working mode.
 
 ##### Fabien Rohrer [Moderator] 04/24/2019 14:19:11
@@ -41999,7 +41442,6 @@ ok, so forget this hypothesis.
 ##### 古了个鹏 04/24/2019 07:56:36
 moves video
 > **Attachment**: [rf\_leg.mp4](https://cdn.discordapp.com/attachments/565154703139405824/570518444412502016/rf_leg.mp4)
-
 
 
 it still moves step by step~
@@ -42259,7 +41701,6 @@ do you know whats wrong? thats what i get when i Install the MSYS2 Dependencies 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/569127330770059284/unknown.png)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 04/20/2019 10:40:34
 But to be honest I didn’t tried this since a while 😅
@@ -42717,7 +42158,6 @@ This error appear when the sound engine cannot be initialized smoothly.
 %end
 
 
-
 in  windows 10
 
 
@@ -42865,7 +42305,6 @@ win10   always  show this
 %figure
 ![win10_ERROR.PNG](https://cdn.discordapp.com/attachments/565154703139405824/568352267258953728/win10_ERROR.PNG)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 04/18/2019 08:22:59
 Python is much simpler to use IMO. If it's just a matter of plotting something, why not using [https://matplotlib.org/users/pyplot\_tutorial.html](https://matplotlib.org/users/pyplot_tutorial.html) ?
