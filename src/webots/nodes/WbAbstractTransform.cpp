@@ -291,10 +291,8 @@ void WbAbstractTransform::createTranslateRotateManipulatorIfNeeded() {
       !WbNodeUtilities::isTemplateRegeneratorField(mBaseNode->findField("translation", true)) && isTranslationFieldVisible();
     bool validRotation =
       !WbNodeUtilities::isTemplateRegeneratorField(mBaseNode->findField("rotation", true)) && isRotationFieldVisible();
-    if (!validTranslation && !validRotation) {
-      mTranslateRotateManipulatorInitialized = false;
+    if (!validTranslation && !validRotation)
       return;
-    }
 
     mTranslateRotateManipulator = new WbTranslateRotateManipulator(validTranslation, validRotation);
     if (mTranslateRotateManipulator) {
