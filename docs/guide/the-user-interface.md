@@ -268,7 +268,7 @@ These options can be used to improve interacting with the 3D scene by disabling 
 
   - The **Disable Object Move** option prevents moving object from the 3D window using the translation and rotations handles, the `SHIFT + mouse drag/mouse wheel` method.
   Objects can still be moved by changing the translation and rotation fields from the scene tree.
-  This is particularly useful during online competitions, where users should achieve a task without cheating and moving objects and robots manually.
+  This is particularly useful during online competitions, where users should achieve a task without cheating and moving objects or robots manually.
 
   - The **Disable Force and Torque** option prevents applying a force or torque to an object from the 3D window.
   This is particularly useful during online competitions, where users should achieve a task without cheating and moving objects or robots manually.
