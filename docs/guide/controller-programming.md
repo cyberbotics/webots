@@ -280,9 +280,9 @@ double[] Gyro::getValues();
 
 %tab "MATLAB"
 ```MATLAB
-[x y z] = wb_gps_get_values(tag)
-[x y z] = wb_accelerometer_get_values(tag)
-[x y z] = wb_gyro_get_values(tag)
+x_y_z_array = wb_gps_get_values(tag)
+x_y_z_array = wb_accelerometer_get_values(tag)
+x_y_z_array = wb_gyro_get_values(tag)
 ```
 %tab-end
 %end
@@ -1123,10 +1123,20 @@ argv[3]=three
 
 ### Controller Termination
 
-Usually a controller process runs in an endless loop: it is terminated (killed) when Webots quits, the simulation is reset, the world is reloaded, a new simulation is loaded, or the controller name is changed in the Webots scene tree.
-The controller cannot prevent its own termination but it can be notified shortly before this happens.
-The `wb_robot_step` function returns -1 when the controller process is going to be terminated by Webots.
-Then the controller has 1 second (real time) to save important data, close files, etc. before it is effectively killed by Webots.
+Usually a controller process runs in an endless loop until it is terminated by Webots on one of the following events:
+
+- Webots quits,
+- the simulation is reset,
+- the world is reloaded,
+- a new simulation is loaded, or
+- the controller name is changed (by the user from the scene tree GUI or by a supervisor process).
+
+A controller cannot prevent its own termination.
+When one of the above events happens, the `wb_robot_step` function returns -1.
+From this point, Webots will not communicate with the controller any more.
+Therefore, new print statements executed by the controller on `stdout` or `stderr` will no longer appear in the Webots console.
+After one second (real time), if the controller has not terminated by itself, Webots will kill it (`SIGKILL`).
+That leaves a limited amount of time to the controller to save important data, close files, etc. before it is actually killed by Webots.
 Here is an example that shows how to save data before the upcoming termination:
 
 %tab-component "language"
@@ -1150,8 +1160,10 @@ int main() {
   }
 
   // Webots triggered termination detected!
+  // Past this point, new printf statements will no longer be
+  // displayed in the Webots console
 
-  saveExperimentData();
+  saveExperimentData();  // this shouldn't last longer than one second
 
   wb_robot_cleanup();
   return 0;
@@ -1181,8 +1193,10 @@ int main() {
   }
 
   // Webots triggered termination detected!
+  // Past this point, new std::cout/cerr printouts will no longer be
+  // displayed in the Webots console
 
-  saveExperimentData();
+  saveExperimentData();  // this shouldn't last longer than one second
 
   delete robot;
   return 0;
@@ -1206,8 +1220,9 @@ while robot.step(TIME_STEP) != -1:
     print("Sensor value is: ", value)
 
 # Webots triggered termination detected!
+# Past this point, new print statements will no longer be displayed in the Webots console
 
-saveExperimentData()
+saveExperimentData()  # this shouldn't last longer than one second
 ```
 %tab-end
 
@@ -1232,8 +1247,10 @@ public class ReadingSensor {
     }
 
     // Webots triggered termination detected!
+    // Past this point, new Sytem.out/err print statements will no longer
+    // be displayed in the Webots console
 
-    saveExperimentData();
+    saveExperimentData();  // this shouldn't last longer than one second
   }
 }
 ```
@@ -1251,8 +1268,10 @@ while wb_robot_step(TIME_STEP) ~= -1
 end
 
 % Webots triggered termination detected!
+% Past this point, new wb_console_print statements will no longer be
+% displayed in the Webots console
 
-saveExperimentData();
+saveExperimentData();  % this should not last longer than one second
 ```
 %tab-end
 %end

@@ -63,7 +63,8 @@ public:
   // rendering
   void showFastModeOverlay();
   void hideFastModeOverlay();
-  void remoteMouseEvent(QMouseEvent *event);
+  // in case the context menu show is triggered, return the selected WbMatter node
+  const WbMatter *remoteMouseEvent(QMouseEvent *event);
   void remoteWheelEvent(QWheelEvent *event);
 
   void prepareWorldLoading();
@@ -184,6 +185,8 @@ private:
   bool mMouseEventInitialized;
   QCursor mLastMouseCursor;
   Qt::MouseButtons mLastButtonState;
+  bool mIsRemoteMouseEvent;
+  WbMatter *mRemoteContextMenuMatter;
 
   // On selection changed
   void setCheckedShowCenterOfMassAction(WbSolid *selectedSolid);

@@ -7,6 +7,7 @@ Released on XXX.
     - Added a [Mesh](mesh.md) node allowing to use external 3D file in Webots ([#1419](https://github.com/cyberbotics/webots/pull/1419)).
     - Added the possibility to import [3D Studio mesh](https://wiki.fileformat.com/3d/3ds), [Blender](https://www.blender.org/), [Biovision Hierarchy](https://en.wikipedia.org/wiki/Biovision_Hierarchy), [Collada](https://en.wikipedia.org/wiki/COLLADA), [Filmbox](https://wiki.fileformat.com/3d/fbx/), [STL](https://en.wikipedia.org/wiki/STL_(file_format)), [Wavefront](https://wiki.fileformat.com/3d/obj), [X3D](https://www.web3d.org/getting-started-x3d) files in Webots ([#1463](https://github.com/cyberbotics/webots/pull/1463)).
     - Added two new functions to get internal PROTO node fields: [`wb_supervisor_node_get_from_proto_def`](supervisor.md#wb_supervisor_node_get_from_proto_def) and [`wb_supervisor_node_get_proto_field`](supervisor.md#wb_supervisor_node_get_proto_field) ([#1331](https://github.com/cyberbotics/webots/pull/1331)).
+    - Added the `mjpeg` web streaming mode ([#1352](https://github.com/cyberbotics/webots/pull/1352)).
   - Enhancements
     - **Improved [Track](track.md) `textureAnimation` field so that it automatically takes the world basic time step into consideration and removed it from `ConveyorBelt` PROTO object.** ([#1477](https://github.com/cyberbotics/webots/pull/1477)).
     - **Replaced the [Car](../automobile/car.md) `maxWheelVelocity` field by a `maxVelocity` field representing the actual maximum velocity of the car itself.** ([#1552](https://github.com/cyberbotics/webots/pull/1552)).
@@ -35,6 +36,7 @@ Released on XXX.
     - Added a `length`, `kingPinDistance`, `wheelAxles` and `mass` fields to the `TruckTrailer` PROTO node.
     - Added several new appearances: `Marble`, `MetalStainlessSteelCable`, `Pavement`, `Plastic`, `Parquetry`, `PerforatedMetal` and `SolarCell`.
     - Added a `ConveyorPlatform` PROTO object.
+    - Added a new [documentation book](../discord/index.md) about the [Discord chat](https://discordapp.com/invite/nTWbN9m) archives.
   - New Samples
     - Added a [break\_room](../guide/samples-environments.md#break_room-wbt) world.
   - Enhancements
@@ -82,6 +84,7 @@ Released on XXX.
     - Fixed support for MATLAB R2017b on Windows.
     - Fixed a crash occurring when changing the `textureAnimation` value of some `Track` node from the scene tree.
     - Fixed a bug allowing to move a USE node with handles in 3D view.
+    - Fixed update of nested DEF/USE nodes.
   - Documentation
     - Fixed tutorials 1, 4 and 6 with respect to MATLAB controllers and added sample MATLAB controllers.
     - Translated most relevant examples from [Controller Programming](https://github.com/cyberbotics/webots/blob/master/docs/guide/controller-programming.md) and [Supervisor Programming](https://github.com/cyberbotics/webots/blob/master/docs/guide/supervisor-programming.md) to different languages.

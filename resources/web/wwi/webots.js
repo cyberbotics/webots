@@ -21,7 +21,7 @@
 
 /* global webots */
 /* global Animation, Console, ContextMenu, Editor, MouseEvents, DefaultUrl, RobotWindow, TextureLoader */
-/* global Server, Stream, SystemInfo, Toolbar, Video, X3dScene */
+/* global Server, Stream, SystemInfo, Toolbar, MultimediaClient, X3dScene */
 /* global MathJax: false */
 /* eslint no-eval: "off" */
 
@@ -72,16 +72,16 @@ webots.View = class View {
       window.history.back(); // go back to the previous page in the navigation history
     };
     this.onresize = () => {
-      if (!this.x3dScene)
-        return;
-
-      // Sometimes the page is not fully loaded by that point and the field of view is not yet available.
-      // In that case we add a callback at the end of the queue to try again when all other callbacks are finished.
-      if (this.x3dScene.root === null) {
-        setTimeout(this.onresize, 0);
-        return;
-      }
-      this.x3dScene.resize();
+      if (typeof this.x3dScene !== 'undefined') {
+        // Sometimes the page is not fully loaded by that point and the field of view is not yet available.
+        // In that case we add a callback at the end of the queue to try again when all other callbacks are finished.
+        if (this.x3dScene.root === null) {
+          setTimeout(this.onresize, 0);
+          return;
+        }
+        this.x3dScene.resize();
+      } else if (typeof this.multimediaClient !== 'undefined')
+        this.multimediaClient.requestNewSize();
     };
     this.ondialogwindow = (opening) => {
       // Pause the simulation if needed when a pop-up dialog window is open
@@ -187,12 +187,7 @@ webots.View = class View {
         const url = findGetParameter('url');
         if (url || this.url.endsWith('.wbt')) { // url expected form: "wss://localhost:1999/simple/worlds/simple.wbt" or
           // "wss://localhost/1999/?url=webots://github.com/cyberbotics/webots/branch/master/projects/languages/python"
-          var callback;
-          if (this.mode === 'video')
-            callback = this.video.finalize;
-          else
-            callback = finalizeWorld;
-          this.server = new Server(this.url, this, callback);
+          this.server = new Server(this.url, this, finalizeWorld);
           this.server.connect();
         } else { // url expected form: "ws://cyberbotics1.epfl.ch:80"
           var httpServerUrl = this.url.replace(/ws/, 'http'); // Serve the texture images. SSL prefix is supported.
@@ -206,19 +201,21 @@ webots.View = class View {
 
     var finalizeWorld = () => {
       $('#webotsProgressMessage').html('Loading HTML and JavaScript files...');
-      if (this.x3dScene.viewpoint.followedObjectId == null || this.broadcast)
-        this.x3dScene.viewpoint.initFollowParameters();
-      else
-        // Reset follow parameters.
-        this.x3dScene.viewpoint.follow(this.x3dScene.viewpoint.followedObjectId);
-
-      if (!this.isWebSocketProtocol) { // skip robot windows initialization
-        if (this.animation != null)
-          this.animation.init(loadFinalize);
+      if (typeof this.x3dScene !== 'undefined') {
+        if (this.x3dScene.viewpoint.followedObjectId == null || this.broadcast)
+          this.x3dScene.viewpoint.initFollowParameters();
         else
-          loadFinalize();
-        this.onresize();
-        return;
+          // Reset follow parameters.
+          this.x3dScene.viewpoint.follow(this.x3dScene.viewpoint.followedObjectId);
+
+        if (!this.isWebSocketProtocol) { // skip robot windows initialization
+          if (this.animation != null)
+            this.animation.init(loadFinalize);
+          else
+            loadFinalize();
+          this.onresize();
+          return;
+        }
       }
 
       var loadRobotWindow = (windowName, nodeName) => {
@@ -229,7 +226,7 @@ webots.View = class View {
         function closeInfoWindow() {
           $('#infoButton').removeClass('toolBarButtonActive');
         }
-        if (windowName === infoWindowName) {
+        if (infoWindowName && windowName === infoWindowName) {
           var user;
           if (typeof webots.User1Id !== 'undefined' && webots.User1Id !== '') {
             user = ' [' + webots.User1Name;
@@ -238,15 +235,21 @@ webots.View = class View {
             user += ']';
           } else
             user = '';
+          let worldInfoTitle;
+          if (typeof this.x3dScene !== 'undefined')
+            worldInfoTitle = this.x3dScene.worldInfo.title;
+          else
+            worldInfoTitle = this.multimediaClient.worldInfo.title;
           win.setProperties({
-            title: this.x3dScene.worldInfo.title + user,
+            title: worldInfoTitle + user,
             close: closeInfoWindow
           });
           this.infoWindow = win;
-        } else
+        } else {
           win.setProperties({
             title: 'Robot: ' + nodeName
           });
+        }
         pendingRequestsCount++;
         $.get('window/' + windowName + '/' + windowName + '.html', (data) => {
           // Fix the img src relative URLs.
@@ -273,12 +276,25 @@ webots.View = class View {
         });
       };
 
-      var infoWindowName = this.x3dScene.worldInfo.window;
       var pendingRequestsCount = 1; // start from 1 so that it can be 0 only after the loop is completed and all the nodes are checked
-      var nodes = this.x3dScene.root ? this.x3dScene.root.children : [];
-      nodes.forEach((node) => {
-        if (node.isObject3D && node.userData && node.userData.window && node.userData.name)
-          loadRobotWindow(node.userData.window, node.userData.name);
+      let windowsDict = [];
+      var infoWindowName;
+      if (typeof this.x3dScene !== 'undefined') {
+        windowsDict = this.x3dScene.getRobotWindows();
+        infoWindowName = this.x3dScene.worldInfo.window;
+      } else if (this.multimediaClient) {
+        windowsDict = this.multimediaClient.robotWindows;
+        infoWindowName = this.multimediaClient.worldInfo.infoWindow;
+      } else {
+        loadFinalize();
+        return;
+      }
+
+      windowsDict.forEach((window) => {
+        // window: [robot name, window name]
+        loadRobotWindow(window[1], window[0]);
+        if (window[0] === 'worldInfoWindow')
+          infoWindowName = window[0];
       });
       pendingRequestsCount--; // notify that loop is completed
       if (pendingRequestsCount === 0)
@@ -289,7 +305,10 @@ webots.View = class View {
 
     var loadFinalize = () => {
       $('#webotsProgress').hide();
-      if (this.toolBar)
+      if (typeof this.multimediaClient !== 'undefined')
+        // finalize multimedia client and set toolbar buttons status
+        this.multimediaClient.finalize();
+      else if (this.toolBar)
         this.toolBar.enableToolBarButtons(true);
 
       if (typeof this.onready === 'function')
@@ -314,27 +333,39 @@ webots.View = class View {
       if (this.runOnLoad && this.toolBar)
         this.toolBar.realTime();
 
-      // Force a rendering after 1 second.
-      // This should make sure that all the texture transforms are applied (for example in the Highway Driving benchmark).
-      setTimeout(() => this.x3dScene.render(), 1000);
+      if (typeof this.x3dScene !== 'undefined')
+        // Force a rendering after 1 second.
+        // This should make sure that all the texture transforms are applied (for example in the Highway Driving benchmark).
+        setTimeout(() => this.x3dScene.render(), 1000);
     };
-
-    if (mode === 'video') {
-      this.url = url;
-      this.video = new Video(this.view3D, this.mouseEvents);
-      initWorld();
-      return;
-    }
-    if (mode !== 'x3d') {
-      console.log('Error: webots.View.open: wrong mode argument: ' + mode);
-      return;
-    }
 
     if (this.broadcast)
       this.setTimeout(-1);
     this.isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://');
 
-    if (typeof this.x3dScene === 'undefined') {
+    if (typeof this.contextMenu === 'undefined' && this.isWebSocketProtocol) {
+      let authenticatedUser = !this.broadcast;
+      if (authenticatedUser && typeof webots.User1Id !== 'undefined' && webots.User1Id !== '')
+        authenticatedUser = Boolean(webots.User1Authentication);
+      this.contextMenu = new ContextMenu(authenticatedUser, this.view3D);
+      this.contextMenu.onEditController = (controller) => {
+        this.editController(controller);
+      };
+      this.contextMenu.onOpenRobotWindow = (robotName) => {
+        this.openRobotWindow(robotName);
+      };
+      this.contextMenu.isRobotWindowValid = (robotName, setResult) => {
+        setResult(this.robotWindows[this.robotWindowNames[robotName]]);
+      };
+    }
+
+    if (mode === 'mjpeg') {
+      this.url = url;
+      this.multimediaClient = new MultimediaClient(this, this.view3D, this.contextMenu);
+      this.contextMenu.onFollowObject = (id, mode) => {
+        this.multimediaClient.setFollowed(id, mode);
+      };
+    } else if (typeof this.x3dScene === 'undefined') {
       this.x3dDiv = document.createElement('div');
       this.x3dDiv.className = 'webots3DView';
       this.view3D.appendChild(this.x3dDiv);
@@ -346,29 +377,7 @@ webots.View = class View {
       this.x3dScene.domElement.appendChild(param);
     }
 
-    if (typeof this.contextMenu === 'undefined' && this.isWebSocketProtocol) {
-      let authenticatedUser = !this.broadcast;
-      if (authenticatedUser && typeof webots.User1Id !== 'undefined' && webots.User1Id !== '')
-        authenticatedUser = Boolean(webots.User1Authentication);
-      this.contextMenu = new ContextMenu(authenticatedUser, this.view3D);
-      this.contextMenu.onEditController = (controller) => {
-        this.editController(controller);
-      };
-      this.contextMenu.onFollowObject = (id) => {
-        this.x3dScene.viewpoint.follow(id);
-      };
-      this.contextMenu.isFollowedObject = (object3d, setResult) => {
-        setResult(this.x3dScene.viewpoint.isFollowedObject(object3d));
-      };
-      this.contextMenu.onOpenRobotWindow = (robotName) => {
-        this.openRobotWindow(robotName);
-      };
-      this.contextMenu.isRobotWindowValid = (robotName, setResult) => {
-        setResult(this.robotWindows[this.robotWindowNames[robotName]]);
-      };
-    }
-
-    if (typeof this.mouseEvents === 'undefined')
+    if (typeof this.x3dScene !== 'undefined' && typeof this.mouseEvents === 'undefined')
       this.mouseEvents = new MouseEvents(this.x3dScene, this.contextMenu, this.x3dDiv, this.mobileDevice);
 
     if (typeof this.console === 'undefined')
@@ -381,6 +390,8 @@ webots.View = class View {
   }
 
   close() {
+    if (this.multimediaClient)
+      this.multimediaClient.disconnect();
     if (this.server && this.server.socket)
       this.server.socket.close();
     if (this.stream)
@@ -394,11 +405,6 @@ webots.View = class View {
     // FIXME: there seems to be a bug here: after that step, the current time is not incremented in the web interface,
     // this is because the next 'application/json:' is not received, probably because it gets overwritten by the
     // answer to the robot message...
-  }
-
-  resize(width, height) {
-    if (this.video)
-      this.video.resize(width, height);
   }
 
   getControllerUrl(name) {
@@ -424,32 +430,30 @@ webots.View = class View {
       // where multiple users can connect to the same Webots instance.
       return;
 
-    if (typeof this.worldSelect !== 'undefined')
-      this.toolBar.worldSelectionDiv.removeChild(this.worldSelect);
+    if (typeof this.toolBar.worldSelect !== 'undefined')
+      this.toolBar.deleteWorldSelect();
     if (worlds.length <= 1)
       return;
-    this.worldSelect = document.createElement('select');
-    this.worldSelect.id = 'worldSelection';
-    this.worldSelect.classList.add('select-css');
-    this.toolBar.worldSelectionDiv.appendChild(this.worldSelect);
+    this.toolBar.createWorldSelect();
     for (let i in worlds) {
       var option = document.createElement('option');
       option.value = worlds[i];
       option.text = worlds[i];
-      this.worldSelect.appendChild(option);
+      this.toolBar.worldSelect.appendChild(option);
       if (currentWorld === worlds[i])
-        this.worldSelect.selectedIndex = i;
+        this.toolBar.worldSelect.selectedIndex = i;
     }
-    this.worldSelect.onchange = () => {
-      if (this.broadcast || typeof this.worldSelect === 'undefined')
+    this.toolBar.worldSelect.onchange = () => {
+      if (this.broadcast || typeof this.toolBar.worldSelect === 'undefined')
         return;
       if (this.toolBar)
         this.toolBar.enableToolBarButtons(false);
-      this.x3dScene.viewpoint.resetFollow();
+      if (typeof this.x3dScene !== 'undefined')
+        this.x3dScene.viewpoint.resetFollow();
       this.onrobotwindowsdestroy();
-      $('#webotsProgressMessage').html('Loading ' + this.worldSelect.value + '...');
+      $('#webotsProgressMessage').html('Loading ' + this.toolBar.worldSelect.value + '...');
       $('#webotsProgress').show();
-      this.stream.socket.send('load:' + this.worldSelect.value);
+      this.stream.socket.send('load:' + this.toolBar.worldSelect.value);
     };
   }
 
@@ -485,7 +489,8 @@ webots.View = class View {
       $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(this.deadline));
     else
       $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(0));
-    this.x3dScene.viewpoint.reset(this.time);
+    if (typeof this.x3dScene !== 'undefined')
+      this.x3dScene.viewpoint.reset(this.time);
   }
 
   quitSimulation() {
@@ -499,7 +504,7 @@ webots.View = class View {
   }
 
   destroyWorld() {
-    if (this.x3dScene)
+    if (typeof this.x3dScene !== 'undefined')
       this.x3dScene.destroyWorld();
     this.removeLabels();
   }
