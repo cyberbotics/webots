@@ -822,7 +822,10 @@ void WbView3D::setUserInteractionDisabled(WbAction::WbActionKind action, bool di
 
 void WbView3D::disableObjectMove(bool disabled) {
   setUserInteractionDisabled(WbAction::DISABLE_OBJECT_MOVE, disabled);
-  WbSelection::instance()->disableActiveManipulator();
+  if (disabled)
+    WbSelection::instance()->disableActiveManipulator();
+  else
+    WbSelection::instance()->restoreActiveManipulator();
   renderLater();
 }
 
@@ -1432,7 +1435,7 @@ void WbView3D::selectNode(const QMouseEvent *event) {
   WbSelection *const selection = WbSelection::instance();
   if (!mPickedMatter) {
     selection->selectTransformFromView3D(
-      NULL, mDisabledUserInteractionsMap.value(WbAction::DISABLE_OBJECT_MOVE));  // sending NULL allows to unselect
+      NULL, mDisabledUserInteractionsMap.value(WbAction::DISABLE_OBJECT_MOVE, false));  // sending NULL allows to unselect
     if (isContextMenuShortcut(event) && event->type() == QEvent::MouseButtonRelease) {
       if (mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false))
         mRemoteContextMenuMatter = mPickedMatter;
@@ -1470,7 +1473,8 @@ void WbView3D::selectNode(const QMouseEvent *event) {
       selectedMatter = topMatter;
   }
 
-  selection->selectTransformFromView3D(selectedMatter, mDisabledUserInteractionsMap.value(WbAction::DISABLE_OBJECT_MOVE));
+  selection->selectTransformFromView3D(selectedMatter,
+                                       mDisabledUserInteractionsMap.value(WbAction::DISABLE_OBJECT_MOVE, false));
 
   if (WbSysInfo::environmentVariable("WEBOTS_DEBUG").isEmpty())
     WbVisualBoundingSphere::instance()->show(selectedMatter);
@@ -1873,6 +1877,9 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
   // - RIGHT CLICK -> rotate the selected solid around world vertical axis
   // - MID CLICK   -> lift the selected solid
   if (shift) {
+    if (mDisabledUserInteractionsMap.value(WbAction::DISABLE_OBJECT_MOVE, false))
+      // user interaction disabled
+      return;
     selectNode(event);
     const WbSelection *const selection = WbSelection::instance();
     if (!selection->isObjectMotionAllowed())
@@ -2194,6 +2201,8 @@ void WbView3D::wheelEvent(QWheelEvent *event) {
 
   WbViewpoint *const viewpoint = mWorld->viewpoint();
   if (event->modifiers() & Qt::ShiftModifier) {
+    if (mDisabledUserInteractionsMap.value(WbAction::DISABLE_OBJECT_MOVE, false))
+      return;
     if (mWheel) {
       mWheel->apply(event->delta());
       renderLater();
