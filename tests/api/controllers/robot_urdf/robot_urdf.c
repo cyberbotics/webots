@@ -7,31 +7,54 @@
 #include "../../../lib/ts_assertion.h"
 #include "../../../lib/ts_utils.h"
 
-#define MAX_RESULT_LENGTH (10 * 1024)
+#define MAX_LINE_LENGTH (10 * 1024)
 #define TIME_STEP 16
+
+bool are_files_equals(FILE *file_1, FILE *file_2) {
+  char line_1[MAX_LINE_LENGTH];
+  char line_2[MAX_LINE_LENGTH];
+  char *line_status_1;
+  char *line_status_2;
+
+  do {
+    line_status_1 = fgets(line_1, MAX_LINE_LENGTH, file_1);
+    line_status_2 = fgets(line_2, MAX_LINE_LENGTH, file_2);
+    if (strcmp(line_1, line_2))
+      return false;
+  } while (line_status_1 || line_status_2);
+
+  return true;
+}
 
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
 
   // Write URDF to file
-  FILE *f;
-  f = fopen("robot.urdf", "w");
+  FILE *f_urdf = fopen("robot.urdf", "w");
   const char *urdf = wb_robot_get_urdf("");
-  fprintf(f, "%s", urdf);
-  fclose(f);
+  fprintf(f_urdf, "%s", urdf);
+  fclose(f_urdf);
 
   // Save output of `check_urdf` to file
   int urdf_check_status = system("check_urdf robot.urdf > result.txt");
-  ts_assert_boolean_not_equal(urdf_check_status, "`check_urdf` failed to be executed");
+  if (urdf_check_status != -1) {
+    // `check_urdf` command is available
+    // Verify output from `check_urdf`
+    char result_string[MAX_LINE_LENGTH];
+    bool success_word_found = false;
+    FILE *f_res = fopen("result.txt", "r");
+    while (fgets(result_string, MAX_LINE_LENGTH, f_res))
+      if (strstr(result_string, "Successfully Parsed XML"))
+        success_word_found = true;
+    ts_assert_boolean_equal(success_word_found, "URDF verification failed");
+  }
 
-  // Verify output from `check_urdf`
-  char result_string[MAX_RESULT_LENGTH];
-  bool success_word_found = false;
-  f = fopen("result.txt", "r");
-  while (fgets(result_string, MAX_RESULT_LENGTH, f))
-    if (strstr(result_string, "Successfully Parsed XML"))
-      success_word_found = true;
-  ts_assert_boolean_equal(success_word_found, "URDF verification failed");
+  // Compare URDF output to ground truth
+  f_urdf = fopen("robot.urdf", "r");
+  FILE *f_urdf_ref = fopen("reference_robot.urdf", "r");
+  ts_assert_boolean_equal(are_files_equals(f_urdf_ref, f_urdf), "Reference file and exported files are not the same");
+  fclose(f_urdf);
+  fclose(f_urdf_ref);
 
   ts_send_success();
   return EXIT_SUCCESS;
