@@ -59,7 +59,7 @@ class MyClient(discord.Client):
                                 if role.name != '@everyone':
                                     roles.append(role.name)
                         file.write(u'##### %s %s%s\n' %
-                                   (message.author.name,
+                                   (message.author.name.replace('_', '\\_'),
                                     '[%s] ' % '-'.join(roles) if roles else '',
                                     message.created_at.strftime("%m/%d/%Y %H:%M:%S")))
                     else:

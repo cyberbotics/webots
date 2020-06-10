@@ -457,7 +457,7 @@ Hi! Is there any example project for object recognition from camera data? I read
 ##### Olivier Michel [cyberbotics] 02/11/2020 11:06:26
 Yes, you should use `getMotor` instead.
 
-##### Ptosidis_opendr 02/11/2020 11:05:17
+##### Ptosidis\_opendr 02/11/2020 11:05:17
 nvm it's a Motor, getMotor works fine
 
 
@@ -476,13 +476,13 @@ should translate to
 ##### Stefania Pedrazzi [cyberbotics] 02/11/2020 10:08:36
 No problem!
 
-##### Ptosidis_opendr 02/11/2020 10:07:43
+##### Ptosidis\_opendr 02/11/2020 10:07:43
 Hey Stefania, thank you for your fast reply! I might bombard you with question in the near future, so please be patient with me 🙂
 
 ##### Stefania Pedrazzi [cyberbotics] 02/11/2020 10:06:22
 Hi `@Ptosidis_opendr` in Python controller you should use the method `robot.getCamera('camera roll')` [https://www.cyberbotics.com/doc/reference/robot?tab-language=python#getcamera](https://www.cyberbotics.com/doc/reference/robot?tab-language=python#getcamera)
 
-##### Ptosidis_opendr 02/11/2020 10:04:16
+##### Ptosidis\_opendr 02/11/2020 10:04:16
 Hello, I am trying to convert the mavic2pro controller to python so I can run some experiments with it. (Just starting my webots interaction, so it might be a newbie question). 
 
 I got the following problem: can't seem to find the camera roll device. I tried by camera\_roll\_motor = robot.getDevice('camera roll') but it doesn't seem to work. 
