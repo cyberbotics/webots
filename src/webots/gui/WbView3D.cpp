@@ -1403,6 +1403,7 @@ void WbView3D::renderNow(bool culling) {
 
 const WbMatter *WbView3D::remoteMouseEvent(QMouseEvent *event) {
   mRemoteContextMenuMatter = NULL;
+  const bool isContextMenuDisabled = mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false);
   switch (event->type()) {
     case QEvent::MouseButtonPress:
       mousePressEvent(event);
@@ -1416,6 +1417,7 @@ const WbMatter *WbView3D::remoteMouseEvent(QMouseEvent *event) {
     default:
       break;
   }
+  mDisabledUserInteractionsMap[WbAction::DISABLE_3D_VIEW_CONTEXT_MENU] = isContextMenuDisabled;
   return mRemoteContextMenuMatter;
 }
 
