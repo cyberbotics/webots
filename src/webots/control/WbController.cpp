@@ -252,7 +252,7 @@ void WbController::start() {
 
     // extract the controller resources from runtime.ini and add them in the firejail whitelist
     // the runtime.ini itself has to be put in the blacklist of firejail
-    QStringList env = QProcessEnvironment::systemEnvironment().toStringList();
+    QStringList env = mProcess.environment();
     const QString &runtimeFilePath = mControllerPath + "runtime.ini";
     if (QFile::exists(runtimeFilePath)) {
       WbIniParser iniParser(runtimeFilePath);
