@@ -237,7 +237,9 @@ bool WbBaseNode::isInvisibleNode() const {
 }
 
 QString WbBaseNode::documentationUrl() const {
-  // TODO: Hotfix, undefined method
+  QStringList bookAndPage = documentationBookAndPage(WbNodeUtilities::isRobotTypeName(nodeModelName()));
+  if (!bookAndPage.isEmpty())
+    return QString("%1/doc/%2/%3").arg(WbStandardPaths::cyberboticsUrl()).arg(bookAndPage[0]).arg(bookAndPage[1]);
   return QString();
 }
 
