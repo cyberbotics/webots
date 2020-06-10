@@ -1145,7 +1145,6 @@ const char *wb_robot_get_urdf(const char *prefix) {
   robot.urdf_prefix = malloc(strlen(prefix) + 1);
   strcpy(robot.urdf_prefix, prefix);
 
-  generate_request(0, false);
   wb_robot_flush_unlocked();
   robot.need_urdf = false;
 
