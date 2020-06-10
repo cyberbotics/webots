@@ -1,16 +1,12 @@
-## Pre-requisites for the users
+## PRE-REQUISITES FOR THE USERS
 
-This page is for those users who want to explore this feild of robotics through webots, but their basic knowledge regarding 
-
-robots might not be up to the mark .
+This page is for those users who want to explore this feild of robotics through webots, but their basic knowledge regarding robots might not be up to the mark .
 
 The Prerequisites are as follows:
 
-1. Some Mathematical topics such as : Linear Algebra, Calculus, Probability & Statistics as well as combinatorics.
-   A university level mathematics course should be taken so as to get thorough with these parts.
+1. Some Mathematical topics such as : Linear Algebra, Calculus, Probability & Statistics as well as combinatorics.A university level mathematics course should be taken so as to get thorough with these parts.
 
-2. Knowledge of any/all programming language(s) out of the following upto intermediate level is desired : C++, Python, Java , MATLAB as   
-well as stronghold on basic coding algorithms.
+2. Knowledge of any/all programming language(s) out of the following upto intermediate level is desired : C++, Python, Java , MATLAB as   well as stronghold on basic coding algorithms.
 
 3. Basic knowledge of circuits and circuit components.
 
