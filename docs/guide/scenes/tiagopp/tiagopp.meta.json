@@ -166,16 +166,7 @@
       "axis": "-1 0 0",
       "maxPosition": 0.045,
       "minPosition": 0,
-      "name": "gripper_left_finger_joint",
-      "position": 0,
-      "transformID": "n65387",
-      "type": "LinearMotor"
-    },
-    {
-      "axis": "-1 0 0",
-      "maxPosition": 0.045,
-      "minPosition": 0,
-      "name": "gripper_left_finger_joint",
+      "name": "left_hand_gripper_left_finger_joint",
       "position": 0,
       "transformID": "n68162",
       "type": "LinearMotor"
@@ -184,18 +175,27 @@
       "axis": "1 0 0",
       "maxPosition": 0.045,
       "minPosition": 0,
-      "name": "gripper_right_finger_joint",
+      "name": "left_hand_gripper_right_finger_joint",
       "position": 0,
-      "transformID": "n65420",
+      "transformID": "n68195",
+      "type": "LinearMotor"
+    },
+    {
+      "axis": "-1 0 0",
+      "maxPosition": 0.045,
+      "minPosition": 0,
+      "name": "right_hand_gripper_left_finger_joint",
+      "position": 0,
+      "transformID": "n65387",
       "type": "LinearMotor"
     },
     {
       "axis": "1 0 0",
       "maxPosition": 0.045,
       "minPosition": 0,
-      "name": "gripper_right_finger_joint",
+      "name": "right_hand_gripper_right_finger_joint",
       "position": 0,
-      "transformID": "n68195",
+      "transformID": "n65420",
       "type": "LinearMotor"
     },
     {
@@ -303,26 +303,6 @@
       "type": "DistanceSensor"
     },
     {
-      "name": "gripper_left_finger_joint_sensor",
-      "transformID": "n65387",
-      "type": "PositionSensor"
-    },
-    {
-      "name": "gripper_left_finger_joint_sensor",
-      "transformID": "n68162",
-      "type": "PositionSensor"
-    },
-    {
-      "name": "gripper_right_finger_joint_sensor",
-      "transformID": "n65420",
-      "type": "PositionSensor"
-    },
-    {
-      "name": "gripper_right_finger_joint_sensor",
-      "transformID": "n68195",
-      "type": "PositionSensor"
-    },
-    {
       "name": "gyro",
       "transformID": "n1890",
       "type": "Gyro"
@@ -346,6 +326,26 @@
       "name": "inertial unit",
       "transformID": "n1890",
       "type": "InertialUnit"
+    },
+    {
+      "name": "left_hand_gripper_left_finger_joint_sensor",
+      "transformID": "n68162",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "left_hand_gripper_right_finger_joint_sensor",
+      "transformID": "n68195",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "right_hand_gripper_left_finger_joint_sensor",
+      "transformID": "n65387",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "right_hand_gripper_right_finger_joint_sensor",
+      "transformID": "n65420",
+      "type": "PositionSensor"
     },
     {
       "name": "torso_lift_joint_sensor",
