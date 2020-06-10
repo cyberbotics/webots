@@ -271,7 +271,7 @@ These options can be used to improve interacting with the 3D scene by disabling 
   This is particularly useful during online competitions, where users should achieve a task without cheating and moving objects and robots manually.
 
   - The **Disable Force and Torque** option prevents applying a force or torque to an object from the 3D window.
-  This is particularly useful during online competitions, where users should achieve a task without cheating and moving objects and robots manually.
+  This is particularly useful during online competitions, where users should achieve a task without cheating and moving objects or robots manually.
 
   - The **Disable Fast Mode** option prevents running the simulation in fast mode.
 
