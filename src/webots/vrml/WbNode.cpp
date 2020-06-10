@@ -980,8 +980,11 @@ bool WbNode::isUrdfRootLink() const {
 
 WbNode *WbNode::findUrdfLinkRoot() const {
   WbNode *parentRoot = parent();
-  while (!parentRoot->isUrdfRootLink())
+  while (!parentRoot->isUrdfRootLink()) {
     parentRoot = parentRoot->parent();
+    if (parentRoot == NULL)
+      return NULL;
+  }
   return parentRoot;
 }
 
