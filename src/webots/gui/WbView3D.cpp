@@ -121,6 +121,7 @@ WbView3D::WbView3D() :
   mWheel(NULL),
   mMouseEventInitialized(false),
   mLastButtonState(Qt::NoButton),
+  mIsRemoteMouseEvent(false),
   mRemoteContextMenuMatter(NULL) {
   QDir::addSearchPath("gl", WbStandardPaths::resourcesPath() + "wren");
 
@@ -1403,7 +1404,7 @@ void WbView3D::renderNow(bool culling) {
 
 const WbMatter *WbView3D::remoteMouseEvent(QMouseEvent *event) {
   mRemoteContextMenuMatter = NULL;
-  const bool isContextMenuDisabled = mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false);
+  mIsRemoteMouseEvent = true;
   switch (event->type()) {
     case QEvent::MouseButtonPress:
       mousePressEvent(event);
@@ -1417,7 +1418,7 @@ const WbMatter *WbView3D::remoteMouseEvent(QMouseEvent *event) {
     default:
       break;
   }
-  mDisabledUserInteractionsMap[WbAction::DISABLE_3D_VIEW_CONTEXT_MENU] = isContextMenuDisabled;
+  mIsRemoteMouseEvent = false;
   return mRemoteContextMenuMatter;
 }
 
@@ -1439,7 +1440,7 @@ void WbView3D::selectNode(const QMouseEvent *event) {
     selection->selectTransformFromView3D(
       NULL, mDisabledUserInteractionsMap.value(WbAction::DISABLE_OBJECT_MOVE, false));  // sending NULL allows to unselect
     if (isContextMenuShortcut(event) && event->type() == QEvent::MouseButtonRelease) {
-      if (mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false))
+      if (mIsRemoteMouseEvent || mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false))
         mRemoteContextMenuMatter = mPickedMatter;
       else
         emit contextMenuRequested(event->globalPos());
@@ -1482,7 +1483,7 @@ void WbView3D::selectNode(const QMouseEvent *event) {
     WbVisualBoundingSphere::instance()->show(selectedMatter);
 
   if (isContextMenuShortcut(event) && event->type() == QEvent::MouseButtonRelease) {
-    if (mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false))
+    if (mIsRemoteMouseEvent || mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false))
       mRemoteContextMenuMatter = selectedMatter;
     else
       emit contextMenuRequested(event->globalPos());
@@ -2010,7 +2011,8 @@ void WbView3D::mouseDoubleClick(QMouseEvent *event) {
       pickedRobot = WbNodeUtilities::findRobotAncestor(node);
     if (pickedRobot) {
       mPickedMatter = pickedRobot;
-      emit showRobotWindowRequest();
+      if (!mIsRemoteMouseEvent)
+        emit showRobotWindowRequest();
     } else
       mPickedMatter = WbNodeUtilities::findUpperMatter(node);
   }

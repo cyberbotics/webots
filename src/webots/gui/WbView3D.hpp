@@ -186,6 +186,7 @@ private:
   bool mMouseEventInitialized;
   QCursor mLastMouseCursor;
   Qt::MouseButtons mLastButtonState;
+  bool mIsRemoteMouseEvent;
   WbMatter *mRemoteContextMenuMatter;
 
   // On selection changed
