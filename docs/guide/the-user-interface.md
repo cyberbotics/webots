@@ -251,11 +251,27 @@ By support polygon we mean the projection of the convex hull of the solid's cont
 In addition, the projection of the center of mass in the latter plane is rendered in green if it lies inside the support polygon (static equilibrium), red otherwise.
 This rendering option can be activated only for solids with no other solid at their top.
 
-- If the **Disable selection** option is enabled, it prevents you from changing the selected solid node when clicking on the 3D window.
-This is particularly useful during the modeling phase, when you want to change the viewpoint without modifying the visible and selected fields in the scene tree.
+- The **Scene Interactions** submenu allows you to disable some user interactions with the 3D scene, like selecting or moving objects or moving the viewpoint.
+These options can be used to improve interacting with the 3D scene by disabling some unneeded functionalities, or to prevent some interactions for example when streaming a simulation over the web.
 
-- If the **Lock Viewpoint** option is enabled, it prevents you from changing the position and orientation of the [Viewpoint](../reference/viewpoint.md) node when dragging the mouse or moving the mouse wheel on the 3D window.
-This is particularly useful when you don't want to change accidently the position and orientation of the viewpoint.
+  - If the **Lock Viewpoint** option is enabled, it prevents you from changing the position and orientation of the [Viewpoint](../reference/viewpoint.md) node when dragging the mouse or moving the mouse wheel on the 3D window.
+  This is particularly useful when you don't want to change accidentally the position and orientation of the viewpoint.
+
+  - If the **Disable Selection** option is enabled, it prevents you from changing the selected solid node when clicking on the 3D window.
+  This is particularly useful during the modeling phase, when you want to change the viewpoint without modifying the visible and selected fields in the scene tree.
+
+  - The **Disable 3D View Context Menu** option prevents opening the node context menu when right-clicking on the 3D window.
+  But the context menu can still be open right-clicking on the node in the scene tree.
+  This is particularly useful during web streaming, where the context menu is opened directly on client web interface and it is not needed to open in on the Webots server instance.  
+
+  - The **Disable Object Move** option prevents moving object from the 3D window using the translation and rotations handles, the `SHIFT + mouse drag/mouse wheel` method.
+  Objects can still be moved by changing the translation and rotation fields from the scene tree.
+  This is particularly useful during online competitions, where users should achieve a task without cheating and moving objects and robots manually.
+
+  - The **Disable Force and Torque** option prevents applying a force or torque to an object from the 3D window.
+  This is particularly useful during online competitions, where users should achieve a task without cheating and moving objects and robots manually.
+
+  - The **Disable Fast Mode** option prevents running the simulation in fast mode.
 
 > **Note**:
 The *Follow Object*, *Follow Object and Rotate*, *Projection*, *Rendering*, *Optional Rendering Items*, *Disable Selection* and *Lock Viewpoint* options are saved per world whereas the other options are global.
