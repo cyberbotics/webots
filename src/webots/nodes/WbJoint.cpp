@@ -331,5 +331,5 @@ void WbJoint::writeExport(WbVrmlWriter &writer) const {
     return;
   }
 
-  WbNode::writeExport(writer);
+  WbBasicJoint::writeExport(writer);
 }

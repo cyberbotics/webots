@@ -311,7 +311,7 @@ protected:
   virtual void exportNodeFooter(WbVrmlWriter &writer) const;
 
   WbNode *findUrdfLinkRoot() const;
-  virtual bool isUrdfLinkRoot() const;
+  virtual bool isUrdfRootLink() const;
   virtual void exportURDFJoint(WbVrmlWriter &writer) const {};
 
   virtual void useNodesChanged() const {};

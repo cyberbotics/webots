@@ -527,7 +527,7 @@ int WbGeometry::triangleCount() const {
 bool WbGeometry::exportNodeHeader(WbVrmlWriter &writer) const {
   if (writer.isUrdf())
     return true;
-  return WbNode::exportNodeHeader(writer);
+  return WbBaseNode::exportNodeHeader(writer);
 }
 
 ////////////////////////////////

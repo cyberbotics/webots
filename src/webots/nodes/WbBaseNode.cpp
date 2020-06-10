@@ -260,7 +260,7 @@ bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
   return false;
 }
 
-bool WbBaseNode::isUrdfLinkRoot() const {
+bool WbBaseNode::isUrdfRootLink() const {
   if (findSFString("name") || dynamic_cast<WbBasicJoint *>(parent()))
     return true;
   return false;

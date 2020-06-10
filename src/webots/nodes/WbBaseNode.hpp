@@ -121,7 +121,7 @@ public slots:
   virtual void showResizeManipulator(bool enabled) {}
 
 protected:
-  bool isUrdfLinkRoot() const override;
+  bool isUrdfRootLink() const override;
   void exportURDFJoint(WbVrmlWriter &writer) const override;
 
   // constructor:

@@ -974,13 +974,13 @@ void WbNode::writeParameters(WbVrmlWriter &writer) const {
     parameter->write(writer);
 }
 
-bool WbNode::isUrdfLinkRoot() const {
+bool WbNode::isUrdfRootLink() const {
   return findSFString("name") ? true : false;
 }
 
 WbNode *WbNode::findUrdfLinkRoot() const {
   WbNode *parentRoot = parent();
-  while (!parentRoot->isUrdfLinkRoot())
+  while (!parentRoot->isUrdfRootLink())
     parentRoot = parentRoot->parent();
   return parentRoot;
 }
@@ -1121,7 +1121,7 @@ bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
       writer.indent();
       writer << "<link name=\"" + urdfName() + "\">\n";
       return false;
-    } else if (isUrdfLinkRoot()) {
+    } else if (isUrdfRootLink()) {
       gUrdfNodesQueue.append(this);
       return true;
     }
@@ -1214,7 +1214,7 @@ void WbNode::writeExport(WbVrmlWriter &writer) const {
   if (writer.isUrdf()) {
     exportNodeSubNodes(writer);
     exportNodeFooter(writer);
-    if (isUrdfLinkRoot() && nodeModelName() != "Robot")
+    if (isUrdfRootLink() && nodeModelName() != "Robot")
       exportURDFJoint(writer);
   } else {
     exportNodeContents(writer);
