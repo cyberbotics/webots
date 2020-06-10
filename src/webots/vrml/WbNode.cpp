@@ -2151,7 +2151,7 @@ QStringList WbNode::documentationBookAndPage(bool isRobot) const {
 
 const WbNode *WbNode::findRobotRootNode() const {
   const WbNode *tmpNode = this;
-  while (tmpNode != NULL && tmpNode->nodeModelName() != "Robot")
+  while (tmpNode != NULL && !tmpNode->isRobot())
     tmpNode = tmpNode->parent();
   return tmpNode;
 }

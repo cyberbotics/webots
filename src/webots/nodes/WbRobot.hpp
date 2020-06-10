@@ -163,6 +163,7 @@ protected:
   const QString urdfName() const override;
 
   WbKinematicDifferentialWheels *mKinematicDifferentialWheels;
+  const bool isRobot() const override { return true; };
 
 private:
   // user accessible fields

@@ -320,6 +320,7 @@ protected:
 
   QString getUrdfPrefix() const;
   void setUrdfPrefix(const QString &prefix) { mUrdfPrefix = prefix; };
+  virtual const bool isRobot() const { return false; };
 
 private slots:
   void notifyFieldChanged();
