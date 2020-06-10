@@ -8,5 +8,6 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/marathon/marathon.py"
+robotWindow: robot
 consoles: Console:All:All
 renderingDevicePerspectives: ROBOTIS OP2:Camera;0;0.266667;0;0.0873926
