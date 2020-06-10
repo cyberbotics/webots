@@ -1184,8 +1184,7 @@ void WbRobot::writeAnswer(QDataStream &stream) {
     write(writer);
     writer.writeFooter();
 
-    const QByteArray n = writer.readAll().toUtf8();
-    stream.writeRawData(n.constData(), n.size() + 1);
+    stream.writeRawData(urdfContent.toLocal8Bit(), urdfContent.size() + 1);
 
     mNeedToWriteUrdf = false;
   }
