@@ -274,7 +274,7 @@ These options can be used to improve interacting with the 3D scene by disabling 
   - The **Disable Fast Mode** option prevents running the simulation in fast mode.
 
 > **Note**:
-The *Follow Object*, *Follow Object and Rotate*, *Projection*, *Rendering*, *Optional Rendering Items*, *Disable Selection* and *Lock Viewpoint* options are saved per world whereas the other options are global.
+The *Follow Object*, *Follow Object and Rotate*, *Projection*, *Rendering*, *Optional Rendering Items*, and *Scene Interactions Items* options are saved per world whereas the other options are global.
 
 ### Simulation Menu
 
