@@ -2030,7 +2030,7 @@ wb_robot_get_urdf(prefix)
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/robot/get_urdf` | `service` | [`webots_ros::get_urdf`](ros-api.md#common-services) | |
+| `/robot/get_urdf` | `service` | `webots_ros::get_urdf` | `string prefix`<br/>`---`<br/>`string value` |
 
 %tab-end
 
