@@ -452,7 +452,7 @@ void WbActionManager::populateActions() {
   mActions[DISABLE_OBJECT_MOVE] = action;
 
   action = new QAction(this);
-  action->setText(tr("Disable Force and Torque"));
+  action->setText(tr("Disable Applying Force and Torque"));
   action->setStatusTip(tr("Disable applying force and torque to objects from 3D view."));
   action->setToolTip(action->statusTip());
   action->setCheckable(true);
