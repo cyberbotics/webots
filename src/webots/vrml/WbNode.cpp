@@ -996,7 +996,7 @@ void WbNode::write(WbVrmlWriter &writer) const {
     }
   }
   if (writer.isUrdf()) {
-    if (gUrdfCurrentNode != this && nodeModelName().contains("Joint") && !gUrdfNodesQueue.contains(this)) {
+    if (gUrdfCurrentNode != this && isJoint() && !gUrdfNodesQueue.contains(this)) {
       gUrdfNodesQueue.append(this);
       return;
     }

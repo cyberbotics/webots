@@ -109,6 +109,8 @@ protected:
   WrStaticMesh *mMesh;
   WrMaterial *mMaterial;
 
+  const bool isJoint() const override { return true; };
+
 protected slots:
   virtual void updateParameters() = 0;
   void updateSpringAndDampingConstants();
