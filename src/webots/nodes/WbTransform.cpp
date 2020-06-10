@@ -430,6 +430,7 @@ WbMatrix3 WbTransform::rotationMatrixFrom(const WbNode *fromNode) const {
     childNode = parentNode;
     parentNode = WbNodeUtilities::findUpperTransform(parentNode);
     transformList.append(childNode);
+    assert(parentNode);
   }
 
   WbMatrix3 rotationResult = transformList.takeLast()->rotation().toMatrix3();
