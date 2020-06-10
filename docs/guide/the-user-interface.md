@@ -274,6 +274,7 @@ These options can be used to improve interacting with the 3D scene by disabling 
   This is particularly useful during online competitions, where users should achieve a task without cheating and moving objects or robots manually.
 
   - The **Disable Fast Mode** option prevents running the simulation in fast mode.
+  This option could be useful in case of web streaming to save computer power on the server side and making only the stop, step and the real-time modes available to the clients.
 
 > **Note**:
 The *Follow Object*, *Follow Object and Rotate*, *Projection*, *Rendering*, *Optional Rendering Items*, and *Scene Interactions Items* options are saved per world whereas the other options are global.
