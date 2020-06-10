@@ -1161,11 +1161,12 @@ bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
 }
 
 void WbNode::exportNodeFields(WbVrmlWriter &writer) const {
-  if (!writer.isUrdf()) {
-    foreach (WbField *field, fields()) {
-      if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() != WB_SF_NODE))
-        field->write(writer);
-    }
+  if (writer.isUrdf())
+    return;
+
+  foreach (WbField *field, fields()) {
+    if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() != WB_SF_NODE))
+      field->write(writer);
   }
 }
 
