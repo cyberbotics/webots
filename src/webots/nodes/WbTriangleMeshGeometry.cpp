@@ -209,8 +209,8 @@ void WbTriangleMeshGeometry::buildGeomIntoBuffers(WbWrenMeshBuffers *buffers, co
     int i = buffers->vertexIndex();
     for (int t = 0; t < n; ++t) {    // foreach triangle
       for (int v = 0; v < 3; ++v) {  // foreach vertex
-        WbWrenMeshBuffers::writeCoordinates(mTriangleMesh->vertexAt(t, v, 0), mTriangleMesh->vertexAt(t, v, 1),
-                                            mTriangleMesh->vertexAt(t, v, 2), m, vBuf, i);
+        WbWrenMeshBuffers::writeCoordinates(mTriangleMesh->vertex(t, v, 0), mTriangleMesh->vertex(t, v, 1),
+                                            mTriangleMesh->vertex(t, v, 2), m, vBuf, i);
         i += 3;
       }
     }
@@ -220,8 +220,8 @@ void WbTriangleMeshGeometry::buildGeomIntoBuffers(WbWrenMeshBuffers *buffers, co
     int i = buffers->vertexIndex();
     for (int t = 0; t < n; ++t) {    // foreach triangle
       for (int v = 0; v < 3; ++v) {  // foreach vertex
-        WbWrenMeshBuffers::writeNormal(mTriangleMesh->normalAt(t, v, 0), mTriangleMesh->normalAt(t, v, 1),
-                                       mTriangleMesh->normalAt(t, v, 2), rm, nBuf, i);
+        WbWrenMeshBuffers::writeNormal(mTriangleMesh->normal(t, v, 0), mTriangleMesh->normal(t, v, 1),
+                                       mTriangleMesh->normal(t, v, 2), rm, nBuf, i);
         i += 3;
       }
     }
@@ -232,15 +232,15 @@ void WbTriangleMeshGeometry::buildGeomIntoBuffers(WbWrenMeshBuffers *buffers, co
     int i = start * buffers->texCoordSetsCount() * 2;
     for (int t = 0; t < n; ++t) {    // foreach triangle
       for (int v = 0; v < 3; ++v) {  // foreach vertex
-        tBuf[i] = mTriangleMesh->textureCoordinateAt(t, v, 0);
-        tBuf[i + 1] = mTriangleMesh->textureCoordinateAt(t, v, 1);
+        tBuf[i] = mTriangleMesh->textureCoordinate(t, v, 0);
+        tBuf[i + 1] = mTriangleMesh->textureCoordinate(t, v, 1);
 
         if (generateUserTexCoords) {
-          utBuf[i] = mTriangleMesh->nonRecursiveTextureCoordinateAt(t, v, 0);
-          utBuf[i + 1] = mTriangleMesh->nonRecursiveTextureCoordinateAt(t, v, 1);
+          utBuf[i] = mTriangleMesh->nonRecursiveTextureCoordinate(t, v, 0);
+          utBuf[i + 1] = mTriangleMesh->nonRecursiveTextureCoordinate(t, v, 1);
         } else {
-          utBuf[i] = mTriangleMesh->textureCoordinateAt(t, v, 0);
-          utBuf[i + 1] = mTriangleMesh->textureCoordinateAt(t, v, 1);
+          utBuf[i] = mTriangleMesh->textureCoordinate(t, v, 0);
+          utBuf[i + 1] = mTriangleMesh->textureCoordinate(t, v, 1);
         }
         i += 2;
       }
@@ -252,7 +252,7 @@ void WbTriangleMeshGeometry::buildGeomIntoBuffers(WbWrenMeshBuffers *buffers, co
     int i = buffers->index();
     for (int t = 0; t < n; ++t) {  // foreach triangle
       for (int v = 0; v < 3; ++v)  // foreach vertex
-        iBuf[i++] = start + mTriangleMesh->indexAt(t, v);
+        iBuf[i++] = start + mTriangleMesh->index(t, v);
     }
     buffers->setIndex(i);
   }
@@ -368,9 +368,9 @@ bool WbTriangleMeshGeometry::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, i
   if (!collisionExists)
     return false;
 
-  WbVector3 v0(mTriangleMesh->vertexAt(t, 0, 0), mTriangleMesh->vertexAt(t, 0, 1), mTriangleMesh->vertexAt(t, 0, 2));
-  WbVector3 v1(mTriangleMesh->vertexAt(t, 1, 0), mTriangleMesh->vertexAt(t, 1, 1), mTriangleMesh->vertexAt(t, 1, 2));
-  WbVector3 v2(mTriangleMesh->vertexAt(t, 2, 0), mTriangleMesh->vertexAt(t, 2, 1), mTriangleMesh->vertexAt(t, 2, 2));
+  WbVector3 v0(mTriangleMesh->vertex(t, 0, 0), mTriangleMesh->vertex(t, 0, 1), mTriangleMesh->vertex(t, 0, 2));
+  WbVector3 v1(mTriangleMesh->vertex(t, 1, 0), mTriangleMesh->vertex(t, 1, 1), mTriangleMesh->vertex(t, 1, 2));
+  WbVector3 v2(mTriangleMesh->vertex(t, 2, 0), mTriangleMesh->vertex(t, 2, 1), mTriangleMesh->vertex(t, 2, 2));
 
   const WbTransform *const transform = upperTransform();
   if (transform) {
@@ -384,13 +384,13 @@ bool WbTriangleMeshGeometry::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, i
   ray.intersects(v0, v1, v2, false, u, v);
   WbVector2 tc0, tc1, tc2;
   if (textureCoordSet == 0 || mTriangleMesh->areTextureCoordinatesValid()) {
-    tc0.setXy(mTriangleMesh->textureCoordinateAt(t, 0, 0), mTriangleMesh->textureCoordinateAt(t, 0, 1));
-    tc1.setXy(mTriangleMesh->textureCoordinateAt(t, 1, 0), mTriangleMesh->textureCoordinateAt(t, 1, 1));
-    tc2.setXy(mTriangleMesh->textureCoordinateAt(t, 2, 0), mTriangleMesh->textureCoordinateAt(t, 2, 1));
+    tc0.setXy(mTriangleMesh->textureCoordinate(t, 0, 0), mTriangleMesh->textureCoordinate(t, 0, 1));
+    tc1.setXy(mTriangleMesh->textureCoordinate(t, 1, 0), mTriangleMesh->textureCoordinate(t, 1, 1));
+    tc2.setXy(mTriangleMesh->textureCoordinate(t, 2, 0), mTriangleMesh->textureCoordinate(t, 2, 1));
   } else {  // textureCoordSet == 1 and no user-specified mapping
-    tc0.setXy(mTriangleMesh->nonRecursiveTextureCoordinateAt(t, 0, 0), mTriangleMesh->nonRecursiveTextureCoordinateAt(t, 0, 1));
-    tc1.setXy(mTriangleMesh->nonRecursiveTextureCoordinateAt(t, 1, 0), mTriangleMesh->nonRecursiveTextureCoordinateAt(t, 1, 1));
-    tc2.setXy(mTriangleMesh->nonRecursiveTextureCoordinateAt(t, 2, 0), mTriangleMesh->nonRecursiveTextureCoordinateAt(t, 2, 1));
+    tc0.setXy(mTriangleMesh->nonRecursiveTextureCoordinate(t, 0, 0), mTriangleMesh->nonRecursiveTextureCoordinate(t, 0, 1));
+    tc1.setXy(mTriangleMesh->nonRecursiveTextureCoordinate(t, 1, 0), mTriangleMesh->nonRecursiveTextureCoordinate(t, 1, 1));
+    tc2.setXy(mTriangleMesh->nonRecursiveTextureCoordinate(t, 2, 0), mTriangleMesh->nonRecursiveTextureCoordinate(t, 2, 1));
   }
   uv = (1 - u - v) * tc0 + u * tc1 + v * tc2;
 
@@ -422,12 +422,12 @@ double WbTriangleMeshGeometry::computeLocalCollisionPoint(WbVector3 &point, int 
   bool found = false;
   updateScaledVertices();
   for (int t = 0; t < nTriangles; ++t) {
-    WbVector4 v0(mTriangleMesh->scaledVertexAt(t, 0, 0), mTriangleMesh->scaledVertexAt(t, 0, 1),
-                 mTriangleMesh->scaledVertexAt(t, 0, 2), 1.0);
-    WbVector4 v1(mTriangleMesh->scaledVertexAt(t, 1, 0), mTriangleMesh->scaledVertexAt(t, 1, 1),
-                 mTriangleMesh->scaledVertexAt(t, 1, 2), 1.0);
-    WbVector4 v2(mTriangleMesh->scaledVertexAt(t, 2, 0), mTriangleMesh->scaledVertexAt(t, 2, 1),
-                 mTriangleMesh->scaledVertexAt(t, 2, 2), 1.0);
+    WbVector4 v0(mTriangleMesh->scaledVertex(t, 0, 0), mTriangleMesh->scaledVertex(t, 0, 1),
+                 mTriangleMesh->scaledVertex(t, 0, 2), 1.0);
+    WbVector4 v1(mTriangleMesh->scaledVertex(t, 1, 0), mTriangleMesh->scaledVertex(t, 1, 1),
+                 mTriangleMesh->scaledVertex(t, 1, 2), 1.0);
+    WbVector4 v2(mTriangleMesh->scaledVertex(t, 2, 0), mTriangleMesh->scaledVertex(t, 2, 1),
+                 mTriangleMesh->scaledVertex(t, 2, 2), 1.0);
 
     double u, v;
     std::pair<bool, double> result = localRay.intersects(v0.toVector3(), v1.toVector3(), v2.toVector3(), true, u, v);
@@ -464,7 +464,7 @@ void WbTriangleMeshGeometry::recomputeBoundingSphere() const {
   // estimating the center of the final sphere and thus reducing the bias due to the enclosed
   // vertices order.
   const int nbTriangles = mTriangleMesh->numberOfTriangles();
-  WbVector3 p2(mTriangleMesh->vertexAt(0, 0, 0), mTriangleMesh->vertexAt(0, 0, 1), mTriangleMesh->vertexAt(0, 0, 2));
+  WbVector3 p2(mTriangleMesh->vertex(0, 0, 0), mTriangleMesh->vertex(0, 0, 1), mTriangleMesh->vertex(0, 0, 2));
   WbVector3 p1;
   double maxDistance;  // squared distance
   for (int i = 0; i < 2; ++i) {
@@ -472,8 +472,7 @@ void WbTriangleMeshGeometry::recomputeBoundingSphere() const {
     p1 = p2;
     for (int t = 0; t < nbTriangles; ++t) {
       for (int v = 0; v < 3; ++v) {
-        const WbVector3 point(mTriangleMesh->vertexAt(t, v, 0), mTriangleMesh->vertexAt(t, v, 1),
-                              mTriangleMesh->vertexAt(t, v, 2));
+        const WbVector3 point(mTriangleMesh->vertex(t, v, 0), mTriangleMesh->vertex(t, v, 1), mTriangleMesh->vertex(t, v, 2));
         const double d = p1.distance2(point);
         if (d > maxDistance) {
           maxDistance = d;
@@ -486,8 +485,7 @@ void WbTriangleMeshGeometry::recomputeBoundingSphere() const {
 
   for (int t = 0; t < nbTriangles; ++t) {
     for (int v = 0; v < 3; ++v) {
-      const WbVector3 point(mTriangleMesh->vertexAt(t, v, 0), mTriangleMesh->vertexAt(t, v, 1),
-                            mTriangleMesh->vertexAt(t, v, 2));
+      const WbVector3 point(mTriangleMesh->vertex(t, v, 0), mTriangleMesh->vertex(t, v, 1), mTriangleMesh->vertex(t, v, 2));
       mBoundingSphere->enclose(point);
     }
   }
@@ -527,19 +525,19 @@ void WbTriangleMeshGeometry::updateNormalsRepresentation() {
     const double linescale = WbWorld::instance()->worldInfo()->lineScale();
     for (int t = 0; t < n; ++t) {    // foreach triangle
       for (int v = 0; v < 3; ++v) {  // foreach vertex
-        const double x = mTriangleMesh->vertexAt(t, v, 0);
-        const double y = mTriangleMesh->vertexAt(t, v, 1);
-        const double z = mTriangleMesh->vertexAt(t, v, 2);
+        const double x = mTriangleMesh->vertex(t, v, 0);
+        const double y = mTriangleMesh->vertex(t, v, 1);
+        const double z = mTriangleMesh->vertex(t, v, 2);
 
         vertices.push_back(x);
         vertices.push_back(y);
         vertices.push_back(z);
-        vertices.push_back(x + linescale * mTriangleMesh->normalAt(t, v, 0));
-        vertices.push_back(y + linescale * mTriangleMesh->normalAt(t, v, 1));
-        vertices.push_back(z + linescale * mTriangleMesh->normalAt(t, v, 2));
+        vertices.push_back(x + linescale * mTriangleMesh->normal(t, v, 0));
+        vertices.push_back(y + linescale * mTriangleMesh->normal(t, v, 1));
+        vertices.push_back(z + linescale * mTriangleMesh->normal(t, v, 2));
 
         float color[3] = {1.0, 0.0, 0.0};
-        if (mTriangleMesh->isNormalAtCreased(t, v))
+        if (mTriangleMesh->isNormalCreased(t, v))
           color[1] = 1.0;
         else
           color[2] = 1.0;
@@ -614,9 +612,9 @@ void WbTriangleMeshGeometry::exportNodeContents(WbVrmlWriter &writer) const {
   int textureCount = 0;
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j < 3; ++j) {
-      const double x = mTriangleMesh->vertexAt(i, j, 0);
-      const double y = mTriangleMesh->vertexAt(i, j, 1);
-      const double z = mTriangleMesh->vertexAt(i, j, 2);
+      const double x = mTriangleMesh->vertex(i, j, 0);
+      const double y = mTriangleMesh->vertex(i, j, 1);
+      const double z = mTriangleMesh->vertex(i, j, 2);
       bool found = false;
       for (int l = 0; l < vertexCount; ++l) {
         const int k = 3 * l;
@@ -634,9 +632,9 @@ void WbTriangleMeshGeometry::exportNodeContents(WbVrmlWriter &writer) const {
         coordIndex[indexCount] = vertexCount;
         ++vertexCount;
       }
-      const double nx = mTriangleMesh->normalAt(i, j, 0);
-      const double ny = mTriangleMesh->normalAt(i, j, 1);
-      const double nz = mTriangleMesh->normalAt(i, j, 2);
+      const double nx = mTriangleMesh->normal(i, j, 0);
+      const double ny = mTriangleMesh->normal(i, j, 1);
+      const double nz = mTriangleMesh->normal(i, j, 2);
       found = false;
       for (int l = 0; l < normalCount; ++l) {
         const int k = 3 * l;
@@ -655,8 +653,8 @@ void WbTriangleMeshGeometry::exportNodeContents(WbVrmlWriter &writer) const {
         ++normalCount;
       }
 
-      const double tu = mTriangleMesh->textureCoordinateAt(i, j, 0);
-      const double tv = mTriangleMesh->textureCoordinateAt(i, j, 1);
+      const double tu = mTriangleMesh->textureCoordinate(i, j, 0);
+      const double tv = mTriangleMesh->textureCoordinate(i, j, 1);
       found = false;
       for (int l = 0; l < textureCount; ++l) {
         const int k = 2 * l;
