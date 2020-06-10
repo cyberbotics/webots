@@ -4,6 +4,23 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 
 ## 2020
 
+##### lojik 06/10/2020 16:48:44
+Here you have the kind of objects I imported. These are kind of sinus waves. I put a bit of each pieces down the floor to have smaller mountains.
+
+
+
+%figure
+![Screenshot_from_2020-06-10_18-47-22.png](https://cdn.discordapp.com/attachments/565155651395780609/720318368837533766/Screenshot_from_2020-06-10_18-47-22.png)
+%end
+
+
+
+Hello there, I imported a 3d object in webots by using webots 2020b. It happen frequently that an object is suddently not takent into account with contacts. It seems that there is some problems with the bounding object.
+
+
+
+Could it be a bug on this nightly version or is it a problem on my side?
+
 ##### David Mansolino [cyberbotics] 06/09/2020 11:35:20
 You can either use physics plugins: 
 

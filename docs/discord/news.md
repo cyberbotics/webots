@@ -4,6 +4,9 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
+##### harunkurt00 06/10/2020 13:17:09
+[Turkish] [https://www.youtube.com/watch?v=S4mC2UuwNv0&list=PL2gHOyQeamXK-UtKcDOBqy1TC7iazIaWE](https://www.youtube.com/watch?v=S4mC2UuwNv0&list=PL2gHOyQeamXK-UtKcDOBqy1TC7iazIaWE)
+
 ##### iagsav 06/05/2020 21:59:47
 I use Webots to simulate a maze crawl [https://www.instagram.com/p/CBEX0s1DUg8/?igshid=15cw8mooaxre1](https://www.instagram.com/p/CBEX0s1DUg8/?igshid=15cw8mooaxre1)
 

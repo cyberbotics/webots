@@ -4,6 +4,143 @@ This is an archive of the `technical-questions` channel of the [Webots Discord s
 
 ## 2020
 
+##### Doc 06/10/2020 18:10:50
+Hi again, is it possible to export video from webots with multiple camera angles (without repeating the recording process for each position)?
+
+##### nelsondmmg 06/10/2020 15:31:34
+Sure
+
+##### Luftwaffel 06/10/2020 15:31:21
+we might not wanna spam too much here, switch to pm?
+
+
+is the throttle constant, or do you control it? Because the red line suggest a sudden throttle change
+
+##### nelsondmmg 06/10/2020 15:28:42
+Which is the case, since at this point the throttle remains at the same value (because of the controller)
+
+##### Luftwaffel 06/10/2020 15:27:03
+hmm it also looks like the blue line would never reach 10 m/s. It looks like an asymptote. This would only be the case, if your max power equals the drag and friction losses at 10 m/s
+
+
+did you consider rotational energy of wheels?
+
+##### nelsondmmg 06/10/2020 15:22:15
+Using the model that I described in the message
+
+##### Luftwaffel 06/10/2020 15:21:48
+how did you generate the red line?
+
+##### nelsondmmg 06/10/2020 15:21:37
+Sorry, is ms
+
+##### Luftwaffel 06/10/2020 15:21:23
+or ms probably
+
+
+you mean timesteps? on x? cause seconds would be slow af
+
+##### nelsondmmg 06/10/2020 15:20:44
+seconds on X and m/s on Y
+
+##### Luftwaffel 06/10/2020 15:20:25
+and is that blue spike towards the end reproducible?
+
+
+what are the units of the graph?
+
+##### nelsondmmg 06/10/2020 15:19:26
+Result for 10 m/s step, red is the predicted, blue is the measured
+%figure
+![result.png](https://cdn.discordapp.com/attachments/565154703139405824/720296072995667968/result.png)
+%end
+
+
+
+I'm trying to model the Tesla Model 3 using a dynamic bicycle model, but there is still a performance difference which I cannot explain. For the motor propulsion, I accounted the motor output accordingly ( min value between maxT and the maxP expression, eletric motor), with aerodynamic force and the wheels resistance torque (with 4*c*w as wheel damping). I am for the moment maintaining the steering angle equal to zero, but for the slip friction a model F=c*alpha will be used. Am I forgetting some longitudinal component ?
+
+##### David Mansolino [cyberbotics] 06/10/2020 14:40:06
+The controller is a program you can writte the code like any other program you would write, please find a tutorial here: [https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers)
+
+##### Sergen Aşık 06/10/2020 14:33:41
+> `@Sergen Aşık` not out of the box, you have to implement your own interfeace in the controller.
+
+`@David Mansolino` how ? I'am new
+
+##### David Mansolino [cyberbotics] 06/10/2020 14:31:08
+> Ok Thanks.
+
+`@nelsondmmg` you're welcome
+
+
+> Is Skeletal Tracking available on Microsoft Kinect?
+
+`@Sergen Aşık` not out of the box, you have to implement your own interfeace in the controller.
+
+##### nelsondmmg 06/10/2020 14:30:51
+Ok Thanks.
+
+##### David Mansolino [cyberbotics] 06/10/2020 14:30:39
+`@nelsondmmg` it is for each wheel.
+
+##### JapieHoeven 06/10/2020 14:29:10
+Ah thanks `@Darko Lukić` , I'll take a look at it.
+
+##### Sergen Aşık 06/10/2020 14:27:34
+Is Skeletal Tracking available on Microsoft Kinect?
+
+##### nelsondmmg 06/10/2020 14:26:41
+`@David Mansolino` The definition of c is for each wheel (so I have to multiply F by 4) ? Or it accounts all the resistance torque for all wheels ?
+
+##### David Mansolino [cyberbotics] 06/10/2020 14:22:55
+> The WheelsDampingConstant is a constant c in an expression like F=c*w, with w being the angular velocity of the vehicle's axis (meaning it is a resistance force in each tire against the motor output)?
+
+`@nelsondmmg` yes exaclty
+
+##### Darko Lukić [cyberbotics] 06/10/2020 14:20:25
+`@JapieHoeven` TouchSensor can measure the force, maybe you can use it:
+
+[https://cyberbotics.com/doc/reference/touchsensor#force-sensors](https://cyberbotics.com/doc/reference/touchsensor#force-sensors)
+
+##### nelsondmmg 06/10/2020 13:56:35
+The WheelsDampingConstant is a constant c in an expression like F=c*w, with w being the angular velocity of the vehicle's axis (meaning it is a resistance force in each tire against the motor output)?
+
+##### Sergen Aşık 06/10/2020 13:52:57
+> `@Sergen Aşık` the instructions you posted are to compile a Webots controller in an IDE instead of the Webots editor. If you just want to start Webots from your app, then I suggest you to use something like QProcess to execute a shell command that starts the Webots application.
+
+`@Stefania Pedrazzi` I want to use IDE instead of Text Editor.
+
+
+> `@Sergen Aşık` did you set up your environment variables?
+
+`@Luftwaffel` yep. I did. I edited QT.pro file like this.
+
+##### Soyboy 06/10/2020 13:30:36
+Thank you
+
+
+> Hi, yes, you can have one robot that is a child of the other, or use connector devices.
+
+`@David Mansolino`
+
+##### Stefania Pedrazzi [cyberbotics] 06/10/2020 13:28:32
+`@Sergen Aşık` the instructions you posted are to compile a Webots controller in an IDE instead of the Webots editor. If you just want to start Webots from your app, then I suggest you to use something like QProcess to execute a shell command that starts the Webots application.
+
+##### Luftwaffel 06/10/2020 13:28:13
+`@Sergen Aşık` did you set up your environment variables?
+
+##### Sergen Aşık 06/10/2020 13:24:42
+[https://cyberbotics.com/doc/guide/using-your-ide?tab-language=c++](https://cyberbotics.com/doc/guide/using-your-ide?tab-language=c++) this links didn't help me 😦
+
+
+I'm working on Ubuntu
+
+
+Can anyone help me? How can i build webots simulator on QT Creator? I designed GUI (button, labels etc.)  When i click the button, webots simulator should run.
+
+##### JapieHoeven 06/10/2020 13:21:56
+Hello guys, does anyone know if it is possible to measure the weight of an object with a gripper in Webots? I have to measure the weight of a stone which will be picked up by a gripper, but I haven't found a way to do that yet.
+
 ##### Tosidis 06/10/2020 12:59:41
 I was able to replicate the problem again (Not getting data from the camera)
 
