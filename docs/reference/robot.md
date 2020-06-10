@@ -2043,7 +2043,7 @@ This is particularly useful for ROS applications in which URDF is widely used to
 There are certain rules that are followed to create an efficient output.
 Webots nodes are squashed into a single URDF link node whenever possible to simplify the exported robot model.
 In case you want Webots node to be shown as a separate URDF link it is enough to define `name` field.
-URDF links inherit `name` field from Webots node except when there is no `name` field defined or there are two or more Webots nodes with the name.
+URDF links inherit the `name` field from Webots node except when there is no `name` field defined or there are two or more Webots nodes with the name.
 URDF joints are named after position sensor in the corresponding Webots joints.
 
 
