@@ -6,6 +6,9 @@ maximizedDockId: -1
 centralWidgetVisible: 1
 selectionDisabled: 0
 viewpointLocked: 0
+3dContextMenuDisabled: 1
+objectMoveDisabled: 1
+forceAndTorqueDisabled: 1
 orthographicViewHeight: 1
 textFiles: 0 "controllers/move/move.py"
 robotWindow: supervisor
