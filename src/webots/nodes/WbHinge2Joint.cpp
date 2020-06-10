@@ -744,7 +744,7 @@ void WbHinge2Joint::updateJointAxisRepresentation() {
 
 void WbHinge2Joint::writeExport(WbVrmlWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
-    warn(tr("Exporting `WbHinge2Joint` is currently not supported"));
+    warn(tr("Exporting 'Hinge2Joint' nodes to URDF is currently not supported"));
     return;
   }
   WbBasicJoint::writeExport(writer);
