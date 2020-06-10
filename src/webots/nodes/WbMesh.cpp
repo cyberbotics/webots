@@ -201,9 +201,9 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
   int textureCount = 0;
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j < 3; ++j) {
-      const double x = mTriangleMesh->vertexAt(i, j, 0);
-      const double y = mTriangleMesh->vertexAt(i, j, 1);
-      const double z = mTriangleMesh->vertexAt(i, j, 2);
+      const double x = mTriangleMesh->vertex(i, j, 0);
+      const double y = mTriangleMesh->vertex(i, j, 1);
+      const double z = mTriangleMesh->vertex(i, j, 2);
       bool found = false;
       for (int l = 0; l < vertexCount; ++l) {
         const int k = 3 * l;
@@ -221,9 +221,9 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
         coordIndex[indexCount] = vertexCount;
         ++vertexCount;
       }
-      const double nx = mTriangleMesh->normalAt(i, j, 0);
-      const double ny = mTriangleMesh->normalAt(i, j, 1);
-      const double nz = mTriangleMesh->normalAt(i, j, 2);
+      const double nx = mTriangleMesh->normal(i, j, 0);
+      const double ny = mTriangleMesh->normal(i, j, 1);
+      const double nz = mTriangleMesh->normal(i, j, 2);
       found = false;
       for (int l = 0; l < normalCount; ++l) {
         const int k = 3 * l;
@@ -242,8 +242,8 @@ void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
         ++normalCount;
       }
 
-      const double tu = mTriangleMesh->textureCoordinateAt(i, j, 0);
-      const double tv = mTriangleMesh->textureCoordinateAt(i, j, 1);
+      const double tu = mTriangleMesh->textureCoordinate(i, j, 0);
+      const double tv = mTriangleMesh->textureCoordinate(i, j, 1);
       found = false;
       for (int l = 0; l < textureCount; ++l) {
         const int k = 2 * l;

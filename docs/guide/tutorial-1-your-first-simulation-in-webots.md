@@ -52,7 +52,7 @@ It should currently list the following nodes:
 - [WorldInfo](../reference/worldinfo.md): contains global parameters of the simulation.
 - [Viewpoint](../reference/viewpoint.md): defines the main viewpoint camera parameters.
 - [TexturedBackground](object-backgrounds.md#texturedbackground): defines the background of the scene (you should see mountains far away if you rotate a little bit the viewpoint)
-- [TexturedBackroundLight](object-backgrounds.md#texturedbackgroundlight): defines the light associated with the above background.
+- [TexturedBackgroundLight](object-backgrounds.md#texturedbackgroundlight): defines the light associated with the above background.
 - [RectangleArena](object-floors.md#rectanglearena): define the only object you see so far in this scene.
 
 Each node has some customizable properties called **Fields**.

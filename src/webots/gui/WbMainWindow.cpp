@@ -632,8 +632,9 @@ QMenu *WbMainWindow::createViewMenu() {
   subMenu->addAction(actionManager->action(WbActionManager::LIGHT_SENSOR_RAYS));
   subMenu->addAction(actionManager->action(WbActionManager::LIGHT_POSITIONS));
   subMenu->addAction(actionManager->action(WbActionManager::PEN_PAINTING_RAYS));
-  subMenu->addAction(actionManager->action(WbActionManager::SKIN_SKELETON));
+  subMenu->addAction(actionManager->action(WbActionManager::NORMALS));
   subMenu->addAction(actionManager->action(WbActionManager::RADAR_FRUSTUMS));
+  subMenu->addAction(actionManager->action(WbActionManager::SKIN_SKELETON));
 
   if (!WbSysInfo::environmentVariable("WEBOTS_DEBUG").isEmpty()) {
     subMenu->addSeparator();

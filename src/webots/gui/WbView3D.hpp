@@ -237,6 +237,7 @@ private slots:
   void setShowLightsPositions(bool show);
   void setShowPenPaintingRays(bool show);
   void setShowSkeletonAction(bool show);
+  void setShowNormals(bool show);
   void setShowPhysicsClustersAction(bool show);
   void setShowBoundingSphereAction(bool show);
   void setSelectionDisabled(bool disabled);
