@@ -8,4 +8,5 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/avoid_obstacles/avoid_obstacles.py"
+robotWindow: robot
 consoles: Console:All:All
