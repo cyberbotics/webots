@@ -2,6 +2,7 @@
 
 - [Foreword](foreword.md)
 - [Thanks](thanks.md)
+- [Pre-requisites](pre-requisites.md)
 - [Installing Webots](installing-webots.md)
     - [System Requirements](system-requirements.md)
     - [Verifying Your Graphics Driver Installation](verifying-your-graphics-driver-installation.md)
