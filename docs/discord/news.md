@@ -4,6 +4,12 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
+##### iagsav 06/05/2020 21:59:47
+I use Webots to simulate a maze crawl [https://www.instagram.com/p/CBEX0s1DUg8/?igshid=15cw8mooaxre1](https://www.instagram.com/p/CBEX0s1DUg8/?igshid=15cw8mooaxre1)
+
+
+Hi! One more video about Webots [in Russian] [https://www.youtube.com/watch?v=\_bF6-MiNqwg](https://www.youtube.com/watch?v=_bF6-MiNqwg) 🙂
+
 ##### David Mansolino [cyberbotics] 06/03/2020 06:38:22
 I like how they say Gazebo is not realistic enough so they use Webots instead 😂
 

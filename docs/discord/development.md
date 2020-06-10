@@ -4,6 +4,27 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 06/09/2020 11:35:20
+You can either use physics plugins: 
+
+[https://cyberbotics.com/doc/reference/physics-plugin](https://cyberbotics.com/doc/reference/physics-plugin)
+
+Either extend Webots with new nodes:
+
+[https://github.com/cyberbotics/webots/blob/master/CONTRIBUTING.md](https://github.com/cyberbotics/webots/blob/master/CONTRIBUTING.md)
+
+##### hrsh12 06/09/2020 11:33:40
+Hi, `@David Mansolino` , To make a rack and pinion arrangement, i require more kind of joints than those that are available in the documentation. Can i model my own basic joints?
+
+##### David Mansolino [cyberbotics] 06/05/2020 05:16:30
+We plan to add a new feature which will allow to link joint together and which might help you doing this ([https://github.com/cyberbotics/webots/issues/1365](https://github.com/cyberbotics/webots/issues/1365)).
+
+
+Hi `@hrsh12`, this is not possible directly, however you can combine several base joint to make such system.
+
+##### hrsh12 06/04/2020 21:23:54
+Hello everyone, could someone tell me if we can implement a rack and pinion system for steering in Car. For the jointsI'm trying to recreate a  steer-by-wire system. Thanks
+
 ##### David Mansolino [cyberbotics] 06/02/2020 10:51:52
 You're welcome
 

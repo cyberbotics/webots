@@ -4,6 +4,16 @@ This is an archive of the `documentation` channel of the [Webots Discord server]
 
 ## 2020
 
+##### Olivier Michel [cyberbotics] 06/08/2020 06:20:06
+`@Nitish Gadangi`: Sure I will.
+
+##### Nitish Gadangi 06/06/2020 18:47:41
+Hello `@Olivier Michel` , This is regarding Season Of Docs 2020
+
+I have mailed you the details about me and few doubts about the idea I am interested in.
+
+Could you please check that out and ping me back
+
 ##### David Mansolino [cyberbotics] 05/20/2020 05:37:11
 You're welcome
 
