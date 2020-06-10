@@ -39,7 +39,7 @@ PROTO P-Rob3 [
 
 ### Gripper
 
-The P-Grip gripper from [F&P Robotics](https://www.fp-robotics.com/en/) can be added in the `toolSlot` of the `P-Rob3` node to give grasping capacity to the robot.
+The P-Grip gripper from [F&P Robotics](https://www.fp-robotics.com/en/) can be added in the `toolSlot` of the `P-Rob3` node to give grasping capability to the robot.
 
 %figure "P-Grip"
 
