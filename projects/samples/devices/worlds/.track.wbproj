@@ -7,5 +7,5 @@ centralWidgetVisible: 1
 selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
-textFiles: 0 "controllers/track/track.c"
+textFiles: 0 "controllers/track/track.c" "controllers/track_conveyor_belt/track_conveyor_belt.c"
 consoles: Console:All:All
