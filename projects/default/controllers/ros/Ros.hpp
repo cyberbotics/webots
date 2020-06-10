@@ -22,6 +22,7 @@
 #include <webots_ros/get_float.h>
 #include <webots_ros/get_int.h>
 #include <webots_ros/get_string.h>
+#include <webots_ros/get_urdf.h>
 #include <webots_ros/set_int.h>
 #include <webots_ros/set_string.h>
 
@@ -67,7 +68,7 @@ private:
   bool getTimeCallback(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res);
   bool getModelCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res);
   bool getDataCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res);
-  bool getUrdfCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res);
+  bool getUrdfCallback(webots_ros::get_urdf::Request &req, webots_ros::get_urdf::Response &res);
   bool setDataCallback(webots_ros::set_string::Request &req, webots_ros::set_string::Response &res);
   bool getCustomDataCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res);
   bool setCustomDataCallback(webots_ros::set_string::Request &req, webots_ros::set_string::Response &res);

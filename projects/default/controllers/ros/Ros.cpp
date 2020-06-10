@@ -479,9 +479,9 @@ bool Ros::getModelCallback(webots_ros::get_string::Request &req, webots_ros::get
   return true;
 }
 
-bool Ros::getUrdfCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res) {
+bool Ros::getUrdfCallback(webots_ros::get_urdf::Request &req, webots_ros::get_urdf::Response &res) {
   assert(mRobot);
-  res.value = mRobot->getUrdf();
+  res.value = mRobot->getUrdf(req.prefix);
   return true;
 }
 
