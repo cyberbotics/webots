@@ -11,4 +11,5 @@ objectMoveDisabled: 1
 forceAndTorqueDisabled: 1
 orthographicViewHeight: 1
 textFiles: 0 "controllers/pit_escape/pit_escape.py"
-robotWindow: supervisor
+robotWindow: robot
+consoles: Console:All:All

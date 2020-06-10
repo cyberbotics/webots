@@ -8,5 +8,6 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/binocular/binocular.c"
-renderingDevicePerspectives: MyBot:camera1;1;1;0.192014;0
+consoles: Console:All:All
 renderingDevicePerspectives: MyBot:camera0;1;1;0;0
+renderingDevicePerspectives: MyBot:camera1;1;1;0.192014;0

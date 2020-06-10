@@ -8,5 +8,6 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/hanoi/hanoi.c"
-renderingDevicePerspectives: youBot:kinect range;1;0.634375;0.30143;0
+consoles: Console:All:All
 renderingDevicePerspectives: youBot:kinect color;1;0.634375;0;0
+renderingDevicePerspectives: youBot:kinect range;1;0.634375;0.30143;0

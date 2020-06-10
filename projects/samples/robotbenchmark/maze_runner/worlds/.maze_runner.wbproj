@@ -11,6 +11,7 @@ objectMoveDisabled: 1
 forceAndTorqueDisabled: 1
 orthographicViewHeight: 1
 textFiles: 0 "controllers/move_in_maze/move_in_maze.py"
-robotWindow: supervisor
-renderingDevicePerspectives: laptop:display;0;1;0;0
-renderingDevicePerspectives: laptop(1):display;0;1;0;0
+robotWindow: robot
+consoles: Console:All:All
+renderingDevicePerspectives: laptop(1):display;0;1.07258;0;0
+renderingDevicePerspectives: laptop:display;0;1.07258;0;0

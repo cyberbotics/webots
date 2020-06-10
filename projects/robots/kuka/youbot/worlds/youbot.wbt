@@ -53,5 +53,7 @@ KukaBox {
 }
 Youbot {
   translation 0 0.102838 0
-  controllerArgs "demo"
+  controllerArgs [
+    "demo"
+  ]
 }

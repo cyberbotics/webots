@@ -84,7 +84,6 @@ typedef struct {
   char *window_filename;
   char *remote_control_filename;
   char *controller_name;
-  char *arguments;
   char *custom_data;
   bool is_waiting_for_user_input_event;
   WbUserInputEvent user_input_event_type;
@@ -151,8 +150,6 @@ static void robot_quit() {  // called when Webots kills a controller
   robot.window_filename = NULL;
   free(robot.controller_name);
   robot.controller_name = NULL;
-  free(robot.arguments);
-  robot.arguments = NULL;
   free(robot.custom_data);
   robot.custom_data = NULL;
   free(robot.console_text);
@@ -319,7 +316,6 @@ static void robot_configure(WbRequest *r) {
   robot.window_filename = request_read_string(r);
   robot.remote_control_filename = request_read_string(r);
   robot.controller_name = request_read_string(r);
-  robot.arguments = request_read_string(r);
   robot.custom_data = request_read_string(r);
   robot.show_window = request_read_uchar(r);
   robot.has_html_robot_window = request_read_uchar(r);
@@ -1089,10 +1085,6 @@ const char *wb_robot_get_world_path() {
 
 const char *wb_robot_get_controller_name() {
   return robot.controller_name;
-}
-
-const char *wb_robot_get_controller_arguments() {
-  return robot.arguments;
 }
 
 void wb_robot_pin_to_static_environment(bool pin) {

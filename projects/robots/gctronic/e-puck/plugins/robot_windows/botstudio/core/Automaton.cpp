@@ -235,7 +235,11 @@ void Automaton::stop() {
 }
 
 void Automaton::fromString(const QString &string) {
+#ifdef __APPLE__
   QStringList lines = string.split(QRegExp("\n"), QString::SkipEmptyParts);
+#else  // Qt >= 5.15
+  QStringList lines = string.split(QRegExp("\n"), Qt::SkipEmptyParts);
+#endif
 
   foreach (const QString &line, lines) {
     if (line.startsWith('S')) {

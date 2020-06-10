@@ -8,4 +8,5 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/robotino3/robotino3.c"
+consoles: Console:All:All
 renderingDevicePerspectives: Robotino 3:Webcam for Robotino 3;1;0.467188;0;0

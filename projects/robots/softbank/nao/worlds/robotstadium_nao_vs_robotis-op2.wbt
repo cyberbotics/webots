@@ -50,7 +50,10 @@ DEF GOAL_KEEPER_0 Nao {
   translation -3 0.35 0
   degreeOfFreedom 21
   color 0.8 0.8 0.8
-  controllerArgs "0 0"
+  controllerArgs [
+    "0"
+    "0"
+  ]
   synchronization FALSE
   jersey NaoJersey {
   }
@@ -60,7 +63,10 @@ DEF PLAYER_1_0 Nao {
   name "nao(1)"
   degreeOfFreedom 21
   color 0.8 0.8 0.8
-  controllerArgs "1 0"
+  controllerArgs [
+    "1"
+    "0"
+  ]
   synchronization FALSE
   jersey NaoJersey {
     jerseyTexture [
@@ -73,7 +79,10 @@ DEF PLAYER_2_0 Nao {
   name "nao(2)"
   degreeOfFreedom 21
   color 0.8 0.8 0.8
-  controllerArgs "2 0"
+  controllerArgs [
+    "2"
+    "0"
+  ]
   synchronization FALSE
   jersey NaoJersey {
     jerseyTexture [
@@ -86,7 +95,10 @@ DEF PLAYER_3_0 Nao {
   name "nao(3)"
   degreeOfFreedom 21
   color 0.8 0.8 0.8
-  controllerArgs "3 0"
+  controllerArgs [
+    "3"
+    "0"
+  ]
   synchronization FALSE
   jersey NaoJersey {
     jerseyTexture [
@@ -99,7 +111,10 @@ DEF PLAYER_4_0 Nao {
   name "nao(4)"
   degreeOfFreedom 21
   color 0.8 0.8 0.8
-  controllerArgs "4 0"
+  controllerArgs [
+    "4"
+    "0"
+  ]
   synchronization FALSE
   jersey NaoJersey {
     jerseyTexture [
@@ -111,7 +126,10 @@ DEF GOAL_KEEPER_1 RobotisOp2 {
   translation 3 0.35 0
   rotation 0 1 0 -1.5708
   controller "void"
-  controllerArgs "0 1"
+  controllerArgs [
+    "0"
+    "1"
+  ]
   synchronization FALSE
   jersey RobotisJersey {
     jerseyTexture [
@@ -126,7 +144,10 @@ DEF PLAYER_1_1 RobotisOp2 {
   rotation 0 1 0 -1.5708
   name "ROBOTIS OP2(1)"
   controller "void"
-  controllerArgs "1 1"
+  controllerArgs [
+    "1"
+    "1"
+  ]
   synchronization FALSE
   jersey RobotisJersey {
     jerseyTexture [
@@ -141,7 +162,10 @@ DEF PLAYER_2_1 RobotisOp2 {
   rotation 0 1 0 -1.5708
   name "ROBOTIS OP2(2)"
   controller "void"
-  controllerArgs "2 1"
+  controllerArgs [
+    "2"
+    "1"
+  ]
   synchronization FALSE
   jersey RobotisJersey {
     jerseyTexture [
@@ -156,7 +180,10 @@ DEF PLAYER_3_1 RobotisOp2 {
   rotation 0 1 0 -1.5708
   name "ROBOTIS OP2(3)"
   controller "void"
-  controllerArgs "3 1"
+  controllerArgs [
+    "3"
+    "1"
+  ]
   synchronization FALSE
   jersey RobotisJersey {
     jerseyTexture [
@@ -171,7 +198,10 @@ DEF PLAYER_4_1 RobotisOp2 {
   rotation 0 1 0 -1.5708
   name "ROBOTIS OP2(4)"
   controller "void"
-  controllerArgs "4 1"
+  controllerArgs [
+    "4"
+    "1"
+  ]
   synchronization FALSE
   jersey RobotisJersey {
     jerseyTexture [

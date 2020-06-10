@@ -52,7 +52,6 @@ public:
   WbRobot *robot() const { return mRobot; }
   int robotId() const;
   const QString &name() const;
-  const QString &args() const;
   bool synchronization() const { return mRobot->synchronization(); }
   double requestTime() const { return mRequestTime; }
   void resetRequestTime();
@@ -78,7 +77,7 @@ private:
   QString mControllerPath;  // path where the controller file is located
   QString mName;            // controller name, e.g. "void"
   QString mCommand;         // command to be exectuted, e.g. "java"
-  QString mCommandLine;     // full command line including command and arguments
+  QStringList mArguments;   // command arguments
   QString mJavaCommand;
   QString mJavaOptions;
   QString mPythonCommand;
@@ -120,6 +119,7 @@ private:
   void copyBinaryAndDependencies(const QString &filename);
   void appendMessageToBuffer(const QString &message, QString *buffer);
   void flushBuffer(QString *buffer);
+  QString commandLine() const;
 
 private slots:
   void readStdout();

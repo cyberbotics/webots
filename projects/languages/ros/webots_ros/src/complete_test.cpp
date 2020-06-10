@@ -325,8 +325,6 @@ int main(int argc, char **argv) {
   ////////////////////////
 
   int mode = 0;
-  string controller_args;
-  string controller_name;
   string model;
   string path;
   string data;
@@ -378,32 +376,6 @@ int main(int argc, char **argv) {
     ROS_ERROR("Failed to call service get_basic_time_step.");
 
   get_basic_time_step_client.shutdown();
-  time_step_client.call(time_step_srv);
-
-  ros::ServiceClient get_controller_arguments_client =
-    n.serviceClient<webots_ros::get_string>(model_name + "/robot/get_controller_arguments");
-  webots_ros::get_string get_controller_arguments_srv;
-
-  if (get_controller_arguments_client.call(get_controller_arguments_srv)) {
-    controller_args = get_controller_arguments_srv.response.value;
-    ROS_INFO("Controller arguments of %s are %s.", model_name.c_str(), controller_args.c_str());
-  } else
-    ROS_ERROR("Failed to call service get_controller_arguments.");
-
-  get_controller_arguments_client.shutdown();
-  time_step_client.call(time_step_srv);
-
-  ros::ServiceClient get_controller_name_client =
-    n.serviceClient<webots_ros::get_string>(model_name + "/robot/get_controller_name");
-  webots_ros::get_string get_controller_name_srv;
-
-  if (get_controller_name_client.call(get_controller_name_srv)) {
-    controller_name = get_controller_name_srv.response.value;
-    ROS_INFO("Controller name of %s is %s.", model_name.c_str(), controller_name.c_str());
-  } else
-    ROS_ERROR("Failed to call service get_controller_name.");
-
-  get_controller_name_client.shutdown();
   time_step_client.call(time_step_srv);
 
   ros::ServiceClient robot_get_custom_data_client =

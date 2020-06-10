@@ -8,4 +8,5 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/mavic2pro/mavic2pro.c"
+consoles: Console:All:All
 renderingDevicePerspectives: Mavic 2 PRO:camera;1;1;0;0

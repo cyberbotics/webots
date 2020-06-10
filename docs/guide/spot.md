@@ -26,7 +26,7 @@ Spot {
   SFString    name             "Spot"
   SFString    model            "Boston Dynamics - Spot"
   SFString    controller       "spot_moving_demo"
-  SFString    controllerArgs   ""
+  MFString    controllerArgs   []
   SFString    customData       ""
   SFBool      supervisor       FALSE
   SFBool      synchronization  TRUE

@@ -12,5 +12,6 @@ forceAndTorqueDisabled: 1
 orthographicViewHeight: 1
 textFiles: 0 "controllers/sprinter/sprinter.py"
 robotWindow: race_stopwatch
-renderingDevicePerspectives: NAO:CameraTop;0;0.63125;0;0.903416
+consoles: Console:All:All
 renderingDevicePerspectives: NAO:CameraBottom;0;0.63125;0;0
+renderingDevicePerspectives: NAO:CameraTop;0;0.63125;0;0.726232

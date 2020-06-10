@@ -8,9 +8,10 @@ Released on XXX.
     - Added the possibility to import [3D Studio mesh](https://wiki.fileformat.com/3d/3ds), [Blender](https://www.blender.org/), [Biovision Hierarchy](https://en.wikipedia.org/wiki/Biovision_Hierarchy), [Collada](https://en.wikipedia.org/wiki/COLLADA), [Filmbox](https://wiki.fileformat.com/3d/fbx/), [STL](https://en.wikipedia.org/wiki/STL_(file_format)), [Wavefront](https://wiki.fileformat.com/3d/obj), [X3D](https://www.web3d.org/getting-started-x3d) files in Webots ([#1463](https://github.com/cyberbotics/webots/pull/1463)).
     - Added two new functions to get internal PROTO node fields: [`wb_supervisor_node_get_from_proto_def`](supervisor.md#wb_supervisor_node_get_from_proto_def) and [`wb_supervisor_node_get_proto_field`](supervisor.md#wb_supervisor_node_get_proto_field) ([#1331](https://github.com/cyberbotics/webots/pull/1331)).
     - Added the `mjpeg` web streaming mode ([#1352](https://github.com/cyberbotics/webots/pull/1352)).
+    - Added a new 'Show Normals' optional rendering ([#1740](https://github.com/cyberbotics/webots/pull/1740))
   - Enhancements
-    - **Improved [Track](track.md) `textureAnimation` field so that it automatically takes the world basic time step into consideration and removed it from `ConveyorBelt` PROTO object.** ([#1477](https://github.com/cyberbotics/webots/pull/1477)).
-    - **Replaced the [Car](../automobile/car.md) `maxWheelVelocity` field by a `maxVelocity` field representing the actual maximum velocity of the car itself.** ([#1552](https://github.com/cyberbotics/webots/pull/1552)).
+    - **Improved [Track](track.md) `textureAnimation` field so that it automatically takes the world basic time step into consideration and removed it from `ConveyorBelt` PROTO object ([#1477](https://github.com/cyberbotics/webots/pull/1477)).**
+    - **Replaced the [Car](../automobile/car.md) `maxWheelVelocity` field by a `maxVelocity` field representing the actual maximum velocity of the car itself ([#1552](https://github.com/cyberbotics/webots/pull/1552)).**
     - Added the possibility to edit the `S/MFRotation` fields using quaternions ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
     - Improved edition of `S/MFRotation` fields using the field editor spin-boxes, only the last decimal is now incremented ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
     - Added a [Gyro](https://www.cyberbotics.com/doc/reference/gyro) node to e-puck PROTO ([#1484](https://github.com/cyberbotics/webots/pull/1484)).
@@ -22,12 +23,16 @@ Released on XXX.
   - Dependency Updates
     - Upgraded to Assimp 5.0.1 on Linux and macOS ([#1419](https://github.com/cyberbotics/webots/pull/1463)).
     - Upgraded to Qt 5.14.2 on Linux.
+  - Cleanup
+    - **Specified `Robot.controllerArgs` as a `MFString` rather than a `SFString` ([#1718](https://github.com/cyberbotics/webots/pull/1718)).**
+    - **Removed useless `wb_robot_get_controller_arguments()` and deprecated useless `wb_robot_get_controller_name()` API functions ([#1718](https://github.com/cyberbotics/webots/pull/1718)).**
 
 ## Webots R2020a Revision 2
 Released on XXX.
 
   - New Robot
     - Added a model of the [Spot](../guide/spot.md) robot from [Boston Dynamics](https://www.bostondynamics.com/spot).
+    - Added a demo of a Star Wars inspired [scout RX28 walking robot](https://github.com/cyberbotics/webots/blob/master/projects/robots/micromagic/scout/worlds/scout.wbt) (contributed by Matt Denton).
   - New Features
     - macOS and Windows: Added support for Python 3.8.
     - Added a model of a Mercedes-Benz Sprinter.
@@ -52,7 +57,7 @@ Released on XXX.
     - Removed the ROS libraries from the default controllers path to avoid possible conflicts with other libraries (thanks to PymZoR).
     - Geometry node now displays its triangles count in the node editor.
   - Dependency Updates
-    - Upgraded to Qt 5.14.2 on Windows.
+    - Upgraded to Qt 5.15.0 on Windows and Linux.
   - Cleanup
     - Deprecated the following appearances: `ChequeredParquetry`, `DarkParquetry`, `SlatePavement`, `SquarePavement` and `StonePavement`.
   - Bug fixes
@@ -62,12 +67,14 @@ Released on XXX.
     - Windows: Fixed JPEG texture errors when typing `webots` from a DOS console (`cmd.exe`) by renaming `webots.exe` to `webots-bin.exe` and creating two launchers named `webotsw.exe` and `webots.exe`.
     - Fixed the physics behavior of [Connector](connector.md) nodes sometimes remaining idle after being detached from each other (thanks to Giorgio).
     - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images.
+    - Fixed default name of the left and right grippers of the [Tiago++](../guide/tiagopp.md) robot.
     - Fixed the motor torque and force feedback of the ros controller.
     - Fixed reset of [Lidar](lidar.md) rotation when resetting the simulation (thanks to Jajafarov).
     - Fixed horizontal resolution of Velodyne HDL-32E and HDL-64E [Lidars](lidar.md) (thanks to jrcblue).
     - Fixed the TurtleBot3Burger robot maximum velocity (thanks to Dorteel).
     - Fixed the TurtleBot3Burger robot center of mass (thanks to Nitrow).
     - Fixed warnings about duplicated `name` fields in the `TruckTank` PROTO node.
+    - Fixed contact points optional rendering not updated when the `lineScale` field of the [WorldInfo](worldinfo.md) node was changed.
     - Fixed the C/C++ Makefiles to handle spaces in the Webots installation directory.
     - Fixed crash when resetting worlds with motorized [BallJoint](balljoint.md) nodes (thanks to lordNil).
     - Fixed addition of PROTO nodes including a [Connector](connector.md) node from the Add Node dialog (thanks to Acwok).

@@ -11,4 +11,5 @@ objectMoveDisabled: 1
 forceAndTorqueDisabled: 1
 orthographicViewHeight: 1
 textFiles: 0 "controllers/pick_and_place/pick_and_place.py"
-robotWindow: supervisor
+robotWindow: robot
+consoles: Console:All:All

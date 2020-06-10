@@ -4,6 +4,75 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 06/03/2020 06:38:22
+I like how they say Gazebo is not realistic enough so they use Webots instead 😂
+
+##### Olivier Michel [cyberbotics] 06/03/2020 06:24:59
+Here is an interesting paper: Deepbots: A Webots-Based Deep Reinforcement Learning Framework for Robotics. [https://link.springer.com/chapter/10.1007/978-3-030-49186-4\_6](https://link.springer.com/chapter/10.1007/978-3-030-49186-4_6)
+
+##### dralorg 05/31/2020 19:25:46
+Oh I was just referring to robotbenchmark.net `@iagsav`
+
+##### iagsav 05/31/2020 14:14:36
+> I didn't know about that page, looks so cool! `@iagsav`
+
+`@dralorg` Hi! I didn't understand your message about the page! What did you mean?
+
+##### dralorg 05/30/2020 21:53:27
+I didn't know about that page, looks so cool! `@iagsav`
+
+##### iagsav 05/29/2020 21:57:56
+Hi! I want to share the result obtained by my students. During the lab classes, the Visual Tracking problem was solved from robotbenchmark.net. The solution to the problem is based on a simplified Kalman filter, translation of the image into the HSV space and more precise control over the motor. Performance of proposed solution - 77.94% (ranking # 2/67). Author of the solution - Abrosimov Kirill. [https://www.instagram.com/p/CAyZ8Zrq5aL](https://www.instagram.com/p/CAyZ8Zrq5aL)
+
+##### Alfian 05/27/2020 00:21:07
+`@AngelAyala` If you want to make the drone move, you can change the target position using keyboard input. The default target position is x=0, y=0
+
+##### AngelAyala 05/27/2020 00:11:30
+`@Alfian` thats ok, I used his algorithm as base for controlling the drone with PID, but if is improved, can't take all the credits, its just that. How you control the drone, you pass the X and Y position where must be? I'm trying to controlling manipulating the angles with a keyboard input.
+
+##### Alfian 05/27/2020 00:07:15
+`@AngelAyala` When I try the file is not working correctly. So I fix it. Thus, anyone can run the simulation correctly. Okay, I will reference it. Thank you.
+
+##### AngelAyala 05/26/2020 23:47:09
+> Here, i make the simulation about lock and move position of DJI Mavic 2 Pro using the PD controller. Thank you.
+
+> [https://youtu.be/vXC9\_T7ekWE](https://youtu.be/vXC9_T7ekWE)
+
+`@Alfian` the code is yours? it looks like was previously implemented here, [https://github.com/PrasadNR/Webots-Quadcopter-Python-SITL](https://github.com/PrasadNR/Webots-Quadcopter-Python-SITL) I think you must at least reference the work
+
+##### David Mansolino [cyberbotics] 05/25/2020 06:10:46
+You can create a pull-request directly on the Webots github repository:
+
+[https://github.com/cyberbotics/webots](https://github.com/cyberbotics/webots)
+
+Here is a very short guide:
+
+[https://github.com/cyberbotics/webots/blob/master/CONTRIBUTING.md](https://github.com/cyberbotics/webots/blob/master/CONTRIBUTING.md)
+
+Feel free to open the PR and then we will guide you from the PR directly.
+
+##### Alfian 05/25/2020 06:09:30
+> `@Alfian` very nice video! Would you like to share the code and integrate it in Webots?
+
+`@David Mansolino` Of course. Where could I put the code?
+
+##### David Mansolino [cyberbotics] 05/25/2020 05:43:22
+`@Alfian` very nice video! Would you like to share the code and integrate it in Webots?
+
+##### Alfian 05/25/2020 04:53:00
+Here, I share about stabilizing the position of UAV Quadrotor DJI Mavic 2 Pro Using PID Controller in Python programming.
+
+Also, I share the code in github. Please, give an advice, suggestion or comment for the simulation.
+
+
+
+[https://youtu.be/63LNRWnQPoY](https://youtu.be/63LNRWnQPoY)
+
+
+Here, i make the simulation about lock and move position of DJI Mavic 2 Pro using the PD controller. Thank you.
+
+[https://youtu.be/vXC9\_T7ekWE](https://youtu.be/vXC9_T7ekWE)
+
 ##### Olivier Michel [cyberbotics] 05/18/2020 19:19:50
 Here is a nice youtube channel with a dozen of recent Webots tutorials: [https://www.youtube.com/watch?v=dt\_iQmPGSrc&list=PLt69C9MnPchlWEV5AEhfT2HajlE2SJ55V](https://www.youtube.com/watch?v=dt_iQmPGSrc&list=PLt69C9MnPchlWEV5AEhfT2HajlE2SJ55V)
 

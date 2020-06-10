@@ -11,5 +11,6 @@ objectMoveDisabled: 1
 forceAndTorqueDisabled: 1
 orthographicViewHeight: 1
 textFiles: 0 "controllers/highway_driving/highway_driving.py"
-robotWindow: supervisor
+robotWindow: robot
+consoles: Console:All:All
 renderingDevicePerspectives: vehicle:camera;1;0.25;0;0

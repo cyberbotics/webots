@@ -236,6 +236,8 @@ If the light sensor device is disabled or the first measurement is not available
   - The **Show Pen Painting Rays** allows you to display, or to hide, the rays in which the pen devices paint.
 These rays are drawn as violet lines if painting is enabled, otherwise as gray lines.
 
+- The **Show Normals** allows you to display, or to hide, the normals of the [IndexedFaceSet](../reference/indexedfaceset.md) and [Mesh](../reference/mesh.md) nodes.
+
   - The **Show Radar Frustums** allows you to display, or to hide, the radar frustum.
 If the radar device is enabled the frustum is drawn in blue, otherwise if the radar is disabled or the first measurement is not available yet, the frustum is drawn in gray.
 The radar frustum represents the volume in which a target can be detected by the radar.

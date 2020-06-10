@@ -9,3 +9,4 @@ viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/motor2/motor2.c"
 globalOptionalRendering: JointAxes
+consoles: Console:All:All

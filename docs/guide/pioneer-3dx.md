@@ -82,7 +82,7 @@ Pioneer3dx {
   SFRotation rotation        0 1 0 0
   SFString   name            "Pioneer 3-DX"
   SFString   controller      "pioneer3dx_collision_avoidance"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

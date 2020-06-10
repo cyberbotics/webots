@@ -47,7 +47,7 @@ Nao {
   SFInt32    degreeOfFreedom       25
   SFColor    color                 -1 -1 -1
   SFString   controller            "nao_demo"
-  SFString   controllerArgs        ""
+  MFString   controllerArgs        []
   SFString   customData            ""
   SFBool     supervisor            FALSE
   SFBool     synchronization       TRUE

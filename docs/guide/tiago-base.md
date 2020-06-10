@@ -17,7 +17,7 @@ TiagoBase {
   SFRotation   rotation         1 0 0 -1.5708
   SFString     name             "TIAGo Base"
   SFString     controller       "tiagoBase"
-  SFString     controllerArgs   ""
+  MFString     controllerArgs   []
   SFString     customData       ""
   SFBool       supervisor       FALSE
   SFBool       synchronization  TRUE

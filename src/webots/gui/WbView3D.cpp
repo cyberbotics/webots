@@ -163,6 +163,7 @@ WbView3D::WbView3D() :
   // optional renderings
   connect(actionManager->action(WbAction::COORDINATE_SYSTEM), &QAction::toggled, this, &WbView3D::setShowCoordinateSystem);
   connect(actionManager->action(WbAction::BOUNDING_OBJECT), &QAction::toggled, this, &WbView3D::setShowBoundingObjects);
+  connect(actionManager->action(WbAction::NORMALS), &QAction::triggered, this, &WbView3D::setShowNormals);
   connect(actionManager->action(WbAction::CONTACT_POINTS), &QAction::toggled, this, &WbView3D::setShowContactPoints);
   connect(actionManager->action(WbAction::CONNECTOR_AXES), &QAction::toggled, this, &WbView3D::setShowConnectorAxes);
   connect(actionManager->action(WbAction::JOINT_AXES), &QAction::toggled, this, &WbView3D::setShowJointAxes);
@@ -802,6 +803,12 @@ void WbView3D::setShowSkeletonAction(bool show) {
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_SKIN_SKELETON, show);
 }
 
+void WbView3D::setShowNormals(bool show) {
+  if (mWorld)
+    mWorld->perspective()->enableGlobalOptionalRendering("Normals", show);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_NORMALS, show);
+}
+
 void WbView3D::setShowPhysicsClustersAction(bool show) {
   if (mWorld)
     mWorld->perspective()->enableGlobalOptionalRendering("PhysicsClusters", show);
@@ -1136,6 +1143,7 @@ void WbView3D::enableOptionalRenderingFromPerspective() {
     ->setChecked(perspective->isGlobalOptionalRenderingEnabled("CoordinateSystem"));
   actionManager->action(WbAction::BOUNDING_OBJECT)
     ->setChecked(perspective->isGlobalOptionalRenderingEnabled("AllBoundingObjects"));
+  actionManager->action(WbAction::NORMALS)->setChecked(perspective->isGlobalOptionalRenderingEnabled("Normals"));
   actionManager->action(WbAction::CONTACT_POINTS)->setChecked(perspective->isGlobalOptionalRenderingEnabled("ContactPoints"));
   actionManager->action(WbAction::CONNECTOR_AXES)->setChecked(perspective->isGlobalOptionalRenderingEnabled("ConnectorAxes"));
   actionManager->action(WbAction::JOINT_AXES)->setChecked(perspective->isGlobalOptionalRenderingEnabled("JointAxes"));
@@ -1165,6 +1173,8 @@ void WbView3D::enableOptionalRenderingFromPerspective() {
                                                  perspective->isGlobalOptionalRenderingEnabled("CoordinateSystem"), false);
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_ALL_BOUNDING_OBJECTS,
                                                  perspective->isGlobalOptionalRenderingEnabled("AllBoundingObjects"), false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_NORMALS,
+                                                 perspective->isGlobalOptionalRenderingEnabled("Normals"), false);
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_CONTACT_POINTS,
                                                  perspective->isGlobalOptionalRenderingEnabled("ContactPoints"), false);
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_CONNECTOR_AXES,

@@ -410,6 +410,14 @@ void WbActionManager::populateActions() {
   mActions[RADAR_FRUSTUMS] = action;
 
   action = new QAction(this);
+  action->setText(tr("Show Normals"));
+  action->setStatusTip(tr("Show IndexedFaceSet and Mesh nodes normals."));
+  action->setToolTip(action->statusTip());
+  action->setShortcut(Qt::SHIFT + Qt::Key_F5);
+  action->setCheckable(true);
+  mActions[NORMALS] = action;
+
+  action = new QAction(this);
   action->setText(tr("Show Physics Clusters"));
   action->setStatusTip(tr("Show visual representation of ODE clusters."));
   action->setToolTip(action->statusTip());

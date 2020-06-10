@@ -21,7 +21,7 @@ Mantis {
   SFRotation rotation        0 1 0 0
   SFString   name            "Mantis"
   SFString   controller      "mantis"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

@@ -8,3 +8,4 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/crane/crane.c" "controllers/vehicle/vehicle.c"
+consoles: Console:All:All

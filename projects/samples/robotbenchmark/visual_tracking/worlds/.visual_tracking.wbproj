@@ -11,6 +11,7 @@ objectMoveDisabled: 1
 forceAndTorqueDisabled: 1
 orthographicViewHeight: 1
 textFiles: 0 "controllers/visual_tracking/visual_tracking.py"
-robotWindow: supervisor
-renderingDevicePerspectives: ERS-7:display;1;0.55;0;0
+robotWindow: robot
+consoles: Console:All:All
 renderingDevicePerspectives: ERS-7:PRM:/r1/c1/c2/c3/i1-FbkImageSensor:F1;0;0.1;0;0
+renderingDevicePerspectives: ERS-7:display;1;0.55;0;0

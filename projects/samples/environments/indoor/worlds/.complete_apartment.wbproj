@@ -8,5 +8,6 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: -1
+consoles: Console:All:All
+renderingDevicePerspectives: laptop:display;0;1.5629;0;0
 renderingDevicePerspectives: television:display;0;1;0;0
-renderingDevicePerspectives: laptop:display;0;1;0;0

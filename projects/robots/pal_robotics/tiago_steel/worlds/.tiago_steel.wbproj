@@ -8,3 +8,4 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/tiago_steel/tiago_steel.c"
+consoles: Console:All:All

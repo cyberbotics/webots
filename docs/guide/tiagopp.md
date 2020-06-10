@@ -21,14 +21,14 @@ Tiago++ {
   SFRotation  rotation              1 0 0 -1.5708
   SFString    name                  "TIAGo++"
   SFString    controller            "tiago++"
-  SFString    controllerArgs        ""
+  MFString    controllerArgs        []
   SFString    customData            ""
   SFBool      supervisor            FALSE
   SFBool      synchronization       TRUE
   SFBool      selfCollision         FALSE
   MFNode      lidarSlot             []
-  MFNode      endEffectorRightSlot  TiagoGripper{}
-  MFNode      endEffectorLeftSlot   TiagoGripper{}
+  MFNode      endEffectorRightSlot  TiagoGripper { name "right" }
+  MFNode      endEffectorLeftSlot   TiagoGripper { name "left" }
 }
 ```
 > **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago++/protos/Tiago++.proto](https://github.com/cyberbotics/webots/tree/master/projects/robots/pal_robotics/tiago++/protos/Tiago++.proto)"

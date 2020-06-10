@@ -18,7 +18,7 @@ Salamander {
   SFRotation rotation        0 1 0 0
   SFString   name            "Salamander"
   SFString   controller      "salamander"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

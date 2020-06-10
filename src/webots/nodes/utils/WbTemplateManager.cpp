@@ -186,7 +186,7 @@ void WbTemplateManager::regenerateNodeFromParameterChange(WbField *field) {
 }
 
 // intermediate function to determine which node should be updated
-// Note: The security is probably overkilled there, but its also safer for the first versions of the template mechanism
+// Note: The security is probably overkill there, but its also safer for the first versions of the template mechanism
 void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *field, bool isParameter) {
   // 1. retrieve upper template node where the modification appeared in a template regenerator field
   templateNode = WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, templateNode);

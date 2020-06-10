@@ -11,4 +11,5 @@ objectMoveDisabled: 1
 forceAndTorqueDisabled: 1
 orthographicViewHeight: 1
 textFiles: 0 "controllers/avoid_obstacles/avoid_obstacles.py"
-robotWindow: supervisor
+robotWindow: robot
+consoles: Console:All:All

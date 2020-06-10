@@ -11,4 +11,5 @@ objectMoveDisabled: 1
 forceAndTorqueDisabled: 1
 orthographicViewHeight: 1
 textFiles: 0 "controllers/square_path/square_path.py"
-robotWindow: supervisor
+robotWindow: robot
+consoles: Console:All:All

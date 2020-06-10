@@ -24,7 +24,7 @@ We will now delete the `RectangleArena` node and add a simple floor that we will
 
 > **Hands-on #2**: To remove the `RectangleArena`, select it either in the 3D view or in the scene tree view with a left click and press the `Delete` key on your keyboard.
 Alternatively, you can right click on it in the 3D view and select `Delete` in the context menu (you can also use the context menu directly in the scene tree view).
-Select the `TexturedBackroundLight` node and click on the `Add` button.
+Select the `TexturedBackgroundLight` node and click on the `Add` button.
 In the open dialog box, and choose `PROTO nodes (Webots Projects) / objects / floors / Floor (Solid)`.
 
 The newly added `Floor` PROTO has a default size of 10mx10m, but it is possible to adjust its size, its position and texture by changing the corresponding fields.

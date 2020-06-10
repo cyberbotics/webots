@@ -47,17 +47,22 @@ const QString &WbLanguageTools::javaCommand() {
 #else
     gJavaCommand = "java";
 #endif
-#ifdef __APPLE__
-    // In order to run the robot window on the gui thread (thread 0)
-    // which is a requirement of Qt, this option is required
-    gJavaCommand += " -XstartOnFirstThread";
-#endif
   }
   return gJavaCommand;
 }
 
+const QStringList WbLanguageTools::javaArguments() {
+#ifdef __APPLE__
+  // In order to run the robot window on the gui thread (thread 0)
+  // which is a requirement of Qt, this option is required
+  return QStringList("-XstartOnFirstThread");
+#else
+  return QStringList();
+#endif
+}
+
 QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &command) {
-  QString pythonCommand;
+  QString pythonCommand = command;
   const QString advice =
     QObject::tr("Webots requires Python version 3."
 #ifdef __linux__
@@ -72,37 +77,34 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
                 "3. Fix your PATH environment variable to use the required Python 64 bit version (if available).\n"
                 "4. Install the required Python 64 bit version and ensure your PATH environment variable points to it.\n");
 #ifdef _WIN32
-  QString windowsCommand(command);
   if (!command.endsWith(".exe", Qt::CaseInsensitive))
-    windowsCommand += ".exe";
-  pythonCommand = windowsCommand + " -u";
+    pythonCommand += ".exe";
   QProcess process;
-  process.start(windowsCommand, QStringList() << "-c"
-                                              << "import sys;print(sys.version);print(sys.maxsize > 2**32)");
+  process.start(pythonCommand, QStringList() << "-u"
+                                             << "-c"
+                                             << "import sys;print(sys.version);print(sys.maxsize > 2**32)");
   process.waitForFinished();
   const QString output = process.readAll();
   // "3.6.3 (v3.6.3:2c5fed8, Oct  3 2017, 18:11:49) [MSC v.1900 64 bit (AMD64)]\nTrue\n" or the like
   const QStringList version = output.split("\n");
   if (!version[0].startsWith("3.8.") && !version[0].startsWith("3.7.") && !version[0].startsWith("2.7.")) {
-    WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(windowsCommand) + advice);
+    WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(pythonCommand) + advice);
     pythonCommand = "!";
   } else if (version.size() > 1 && version[1].startsWith("False")) {
-    WbLog::warning(QObject::tr("\"%1\" 64 bit was not found, but the 32 bit version was found.\n").arg(windowsCommand) +
-                   advice);
+    WbLog::warning(QObject::tr("\"%1\" 64 bit was not found, but the 32 bit version was found.\n").arg(pythonCommand) + advice);
     pythonCommand = "!";
   } else
     shortVersion = QString(version[0][0]) + version[0][2];
 #else  // macOS and Linux
-  pythonCommand = command + " -u";
   QProcess process;
-  process.start(command, QStringList() << "-c"
-                                       << "import sys;print(sys.version);");
+  process.start(pythonCommand, QStringList() << "-c"
+                                             << "import sys;print(sys.version);");
   process.waitForFinished();
   const QString output = process.readAll();
   // "2.7.6 (default, Nov 23 2017, 15:49:48) \n[GCC 4.8.4]\n" or the like
   const QStringList version = output.split(" ");
   if (!version[0].startsWith("3.") && !version[0].startsWith("2.7.")) {
-    WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(command) + advice);
+    WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(pythonCommand) + advice);
     pythonCommand = "!";
   } else
     shortVersion = QString(version[0][0]) + version[0][2];
@@ -110,27 +112,27 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   return pythonCommand;
 }
 
+const QStringList WbLanguageTools::pythonArguments() {
+  return QStringList("-u");
+}
+
 const QString &WbLanguageTools::matlabCommand() {
   if (gMatlabCommand.isEmpty()) {
-    QString arguments = " -nosplash -nodesktop";
 #ifdef _WIN32
-    // minimize option is only supported on Windows
-    // http://www.mathworks.ch/ch/help/matlab/matlab_env/startup-options.html
-    arguments += " -minimize";
     // on Windows there are two MATLAB .exe files, one is located in
     // bin/matlab.exe and the other one in bin/win64/MATLAB.exe.
     // bin/matlab.exe is normally in the PATH, but we must call bin/win64/MATLAB.exe
     // because bin/matlab.exe is just a launcher that causes problem with stdout/stderr
     // and with the termination of the QProcess.
     QString PATH = qgetenv("PATH");
-    QStringList dirs = PATH.split(';', QString::SkipEmptyParts);
+    QStringList dirs = PATH.split(';', Qt::SkipEmptyParts);
     bool matlabFound = false;
     foreach (QString dir, dirs) {
       if (dir.contains("matlab", Qt::CaseInsensitive)) {
         matlabFound = QDir(dir).exists();
         QString file = dir + "\\win64\\MATLAB.exe";
         if (QFile::exists(file)) {
-          gMatlabCommand = '"' + file + '"' + arguments;
+          gMatlabCommand = file;
           break;
         }
       }
@@ -144,17 +146,22 @@ const QString &WbLanguageTools::matlabCommand() {
       gMatlabCommand = "!";
     }
 #else
-
-#ifdef __linux__
-    if (WbSysInfo::isPointerSize64bits())
-      arguments += " -glnxa64";
-    else
-      arguments += " -glnx86";
-#endif
-
-    gMatlabCommand = "matlab " + arguments;
+    gMatlabCommand = "matlab";
 #endif
   }
-
   return gMatlabCommand;
+}
+
+const QStringList WbLanguageTools::matlabArguments() {
+  QStringList arguments("-nosplash");
+  arguments << "-nodesktop";
+#ifdef _WIN32
+  // minimize option is only supported on Windows
+  // http://www.mathworks.ch/ch/help/matlab/matlab_env/startup-options.html
+  arguments << "-minimize";
+#endif
+#ifdef __linux__
+  arguments << (WbSysInfo::isPointerSize64bits() ? "-glnxa64" : "-glnx86");
+#endif
+  return arguments;
 }
