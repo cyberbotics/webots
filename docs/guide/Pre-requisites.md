@@ -9,8 +9,8 @@ The Prerequisites are as follows:
 1. Some Mathematical topics such as : Linear Algebra, Calculus, Probability & Statistics as well as combinatorics.
    A university level mathematics course should be taken so as to get thorough with these parts.
 
-2. Knowledge of any/all programming language(s) out of the following upto intermediate level is desired : C++, Python, Java , Matlab
-as well as stronghold on basic coding algorithms.
+2. Knowledge of any/all programming language(s) out of the following upto intermediate level is desired : C++, Python, Java , MATLAB as 
+well as stronghold on basic coding algorithms.
 
 3. Basic knowledge of circuits and circuit components.
 
