@@ -49,8 +49,8 @@ The P-Grip gripper from [F&P Robotics](https://www.fp-robotics.com/en/) can be a
 
 ### Samples
 
-You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/fp\_robotics/p-rob3/worlds/p-rob3.wbt](https://github.com/cyberbotics/webots/tree/master/projects/robots/fp_robotics/p-rob3/worlds/p-rob3.wbt)".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/fp\_robotics/p-rob3/worlds](https://github.com/cyberbotics/webots/tree/master/projects/robots/fp_robotics/p-rob3/worlds)".
 
-#### robotino3.wbt
+#### p-rob3.wbt
 
 ![p-rob3.wbt.jpg](images/robots/p-rob3/p-rob3.wbt.jpg) This simulation shows two P-Rob3 arms working together to move cans in an industrial environment.
