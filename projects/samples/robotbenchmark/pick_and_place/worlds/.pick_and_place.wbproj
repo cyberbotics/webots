@@ -8,4 +8,5 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/pick_and_place/pick_and_place.py"
+robotWindow: robot
 consoles: Console:All:All
