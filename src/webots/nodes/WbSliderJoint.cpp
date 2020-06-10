@@ -324,15 +324,11 @@ void WbSliderJoint::writeExport(WbVrmlWriter &writer) const {
     writer.indent();
     writer << QString("<child link=\"%1\"/>\n").arg(solidEndPoint()->urdfName());
     writer.indent();
-    writer << QString("<axis xyz=\"%1 %2 %3\"/>\n").arg(rotationAxis.x()).arg(rotationAxis.y()).arg(rotationAxis.z());
+    writer << QString("<axis xyz=\"%1\"/>\n").arg(rotationAxis.toString(WbPrecision::DOUBLE_MAX));
     writer.indent();
-    writer << QString("<origin xyz=\"%1 %2 %3\" rpy=\"%4 %5 %6\"/>\n")
-                .arg(translation.x())
-                .arg(translation.y())
-                .arg(translation.z())
-                .arg(rotationEuler.x())
-                .arg(rotationEuler.y())
-                .arg(rotationEuler.z());
+    writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
+                .arg(translation.toString(WbPrecision::DOUBLE_MAX))
+                .arg(rotationEuler.toString(WbPrecision::DOUBLE_MAX));
     writer.indent();
     writer << QString("<limit effort=\"%1\" velocity=\"%2\" />\n").arg(motor()->maxVelocity()).arg(motor()->maxForceOrTorque());
     writer.decreaseIndent();
