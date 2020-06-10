@@ -8,4 +8,5 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/op3_motion_player/Op3MotionPlayer.cpp"
+consoles: Console:All:All
 renderingDevicePerspectives: ROBOTIS OP3:Camera;1;0.588889;0;0

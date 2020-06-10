@@ -8,5 +8,6 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/vision/vision.cpp"
+consoles: Console:All:All
 renderingDevicePerspectives: e-puck:camera;1;1;0;0
-renderingDevicePerspectives: e-puck:proc_im_display;1;1;0;0.790805
+renderingDevicePerspectives: e-puck:proc_im_display;1;1;0;0.359155

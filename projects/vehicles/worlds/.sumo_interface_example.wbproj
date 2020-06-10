@@ -9,3 +9,4 @@ viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: -1
 globalOptionalRendering: LidarPointClouds
+consoles: Console:All:All

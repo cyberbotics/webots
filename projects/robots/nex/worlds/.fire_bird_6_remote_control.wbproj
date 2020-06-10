@@ -4,5 +4,8 @@ simulationViewPerspectives: 000000ff00000001000000020000012500000223010000000601
 sceneTreePerspectives: 000000ff0000000100000002000000c0000000d10100000006010000000200
 maximizedDockId: -1
 centralWidgetVisible: 1
+selectionDisabled: 0
+viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 1 "controllers/fire_bird_6_obstacle_avoidance/fire_bird_6_obstacle_avoidance.c" "controllers/fire_bird_6_sensor_acquisition/fire_bird_6_sensor_acquisition.c"
+consoles: Console:All:All

@@ -121,5 +121,7 @@ DEF TATAMI Solid {
 }
 Hoap2 {
   translation 0 0.495 -0.5
-  controllerArgs "sumo"
+  controllerArgs [
+    "sumo"
+  ]
 }

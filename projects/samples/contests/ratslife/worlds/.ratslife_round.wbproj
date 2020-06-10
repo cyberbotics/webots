@@ -8,7 +8,8 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: -1
-renderingDevicePerspectives: robot:debug_display;1;5.7619;0.875632;0
-renderingDevicePerspectives: robot:helper_display;0;2.5;0.821782;0.0566298
-renderingDevicePerspectives: Rat1:camera;1;3;0;0.863532
-renderingDevicePerspectives: Rat0:camera;1;3;0.840243;0.863532
+consoles: Console:All:All
+renderingDevicePerspectives: Rat0:camera;1;3;0.596939;0.580986
+renderingDevicePerspectives: robot:helper_display;0;2.5;0.586735;0.0566298
+renderingDevicePerspectives: robot:debug_display;1;5.7619;0.686225;0
+renderingDevicePerspectives: Rat1:camera;1;3;0;0.580986

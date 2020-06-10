@@ -53,5 +53,7 @@ DEF TATAMI Solid {
 }
 Hoap2 {
   translation 0 0.3 0
-  controllerArgs "walk"
+  controllerArgs [
+    "walk"
+  ]
 }

@@ -4,7 +4,10 @@ simulationViewPerspectives: 000000ff00000001000000020000013300000647010000000601
 sceneTreePerspectives: 000000ff000000010000000200000250000000dd0100000006010000000200
 maximizedDockId: -1
 centralWidgetVisible: 1
+selectionDisabled: 0
+viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: -1
-renderingDevicePerspectives: ERS-7:PRM:/r1/c1/c2/c3/i1-FbkImageSensor:F1;0;1;0;0
+consoles: Console:All:All
 renderingDevicePerspectives: DARwIn-OP:Camera;0;1;0;0
+renderingDevicePerspectives: ERS-7:PRM:/r1/c1/c2/c3/i1-FbkImageSensor:F1;0;1;0;0

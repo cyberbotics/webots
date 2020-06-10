@@ -4,6 +4,9 @@ simulationViewPerspectives: 000000ff00000001000000020000010000000337010000000601
 sceneTreePerspectives: 000000ff0000000100000002000000c0000000a80100000006010000000201
 maximizedDockId: -1
 centralWidgetVisible: 1
+selectionDisabled: 0
+viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/supervisor_draw_trail/supervisor_draw_trail.c"
-renderingDevicePerspectives: e-puck:camera;0;0.211538;0.00481928;0.00646831
+consoles: Console:All:All
+renderingDevicePerspectives: e-puck:camera;0;0.820513;0.00481928;0.00646831

@@ -8,3 +8,4 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/pioneer3at_obstacle_avoidance_with_lidar/pioneer3at_obstacle_avoidance_with_lidar.c"
+consoles: Console:All:All

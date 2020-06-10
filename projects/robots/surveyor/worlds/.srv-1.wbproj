@@ -9,4 +9,5 @@ viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/surveyor/surveyor.c" "controllers/surveyor/surveyor_protocol.c" "controllers/surveyor/surveyor_protocol.h" "controllers/surveyor/surveyor_scan.c" "controllers/surveyor/surveyor_scan.h" "controllers/surveyor/surveyor_xbee.c"
 globalOptionalRendering: DistanceSensorRays
+consoles: Console:All:All
 renderingDevicePerspectives: SurveyorSrv1:camera;1;1;0;0
