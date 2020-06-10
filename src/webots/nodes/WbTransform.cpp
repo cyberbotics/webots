@@ -415,6 +415,7 @@ WbVector3 WbTransform::translationFrom(const WbNode *fromNode) const {
     childNode = parentNode;
     parentNode = WbNodeUtilities::findUpperTransform(parentNode);
     translationResult -= childNode->translation();
+    assert(parentNode);
   }
   return translationResult;
 }
