@@ -51,7 +51,7 @@ if len(sys.argv) > 1:
 testGroups = ['api', 'physics', 'protos', 'parser', 'rendering']
 
 # global files
-testsFolderPath = os.environ['WEBOTS_HOME'] + os.sep + 'tests' + os.sep
+testsFolderPath = os.path.dirname(os.path.abspath(__file__)) + os.sep
 outputFilename = testsFolderPath + 'output.txt'
 defaultProjectPath = testsFolderPath + 'default' + os.sep
 supervisorControllerName = 'test_suite_supervisor'
@@ -156,7 +156,7 @@ def appendToOutputFile(txt):
 def executeMake():
     """Execute 'make release' to ensure every controller/plugin is compiled."""
     curdir = os.getcwd()
-    os.chdir(os.path.join(os.environ['WEBOTS_HOME'], 'tests'))
+    os.chdir(testsFolderPath)
     command = Command('make release -j%d' % multiprocessing.cpu_count())
     command.run(silent=False)
     os.chdir(curdir)
@@ -189,8 +189,9 @@ def generateWorldsList(groupName, worldsFilename):
 
         # to file
         for filename in filenames:
-            # speaker test not working on travis because of missing sound drivers
-            if not filename.endswith('_temp.wbt') and not ('TRAVIS' in os.environ and filename.endswith('speaker.wbt')):
+            # speaker test not working on travis/github action because of missing sound drivers
+            if (not filename.endswith('_temp.wbt') and
+                    not (('TRAVIS' in os.environ or 'GITHUB_ACTIONS' in os.environ) and filename.endswith('speaker.wbt'))):
                 f.write(filename + '\n')
                 worldsCount += 1
 

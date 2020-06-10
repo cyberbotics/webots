@@ -4,6 +4,26 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 06/03/2020 06:38:22
+I like how they say Gazebo is not realistic enough so they use Webots instead 😂
+
+##### Olivier Michel [cyberbotics] 06/03/2020 06:24:59
+Here is an interesting paper: Deepbots: A Webots-Based Deep Reinforcement Learning Framework for Robotics. [https://link.springer.com/chapter/10.1007/978-3-030-49186-4\_6](https://link.springer.com/chapter/10.1007/978-3-030-49186-4_6)
+
+##### dralorg 05/31/2020 19:25:46
+Oh I was just referring to robotbenchmark.net `@iagsav`
+
+##### iagsav 05/31/2020 14:14:36
+> I didn't know about that page, looks so cool! `@iagsav`
+
+`@dralorg` Hi! I didn't understand your message about the page! What did you mean?
+
+##### dralorg 05/30/2020 21:53:27
+I didn't know about that page, looks so cool! `@iagsav`
+
+##### iagsav 05/29/2020 21:57:56
+Hi! I want to share the result obtained by my students. During the lab classes, the Visual Tracking problem was solved from robotbenchmark.net. The solution to the problem is based on a simplified Kalman filter, translation of the image into the HSV space and more precise control over the motor. Performance of proposed solution - 77.94% (ranking # 2/67). Author of the solution - Abrosimov Kirill. [https://www.instagram.com/p/CAyZ8Zrq5aL](https://www.instagram.com/p/CAyZ8Zrq5aL)
+
 ##### Alfian 05/27/2020 00:21:07
 `@AngelAyala` If you want to make the drone move, you can change the target position using keyboard input. The default target position is x=0, y=0
 
