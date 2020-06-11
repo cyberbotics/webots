@@ -164,6 +164,8 @@ private:
   bool readContent(QTextStream &in, bool reloading);
   static QString joinUniqueNameList(const QStringList &nameList);
   static void splitUniqueNameList(const QString &text, QStringList &targetList);
+  static QString getActionName(WbAction::WbActionKind action);
+  static WbAction::WbActionKind getActionFromString(const QString &actionString);
 };
 
 #endif
