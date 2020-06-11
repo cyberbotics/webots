@@ -832,11 +832,10 @@ void WbController::copyBinaryAndDependencies(const QString &filename) {
     return;
 
   QProcess process;
-  QString cmd;
   bool success;
 
   // get current RPATH
-  cmd = QString("otool -l %1 | grep LC_RPATH -A 3 | grep path | cut -c15- | cut -d' ' -f1").arg(filename);
+  const QString &cmd = QString("otool -l %1 | grep LC_RPATH -A 3 | grep path | cut -c15- | cut -d' ' -f1").arg(filename);
   process.start("bash", QStringList() << "-c" << cmd);
   success = process.waitForFinished(500);
   if (!success || !process.readAllStandardError().isEmpty())
@@ -844,11 +843,12 @@ void WbController::copyBinaryAndDependencies(const QString &filename) {
   QString oldRPath = process.readAllStandardOutput().trimmed();
 
   // change RPATH
+  QStringList arguments;
   if (oldRPath.isEmpty())
-    cmd = QString("install_name_tool -add_rpath %1 %2").arg(WbStandardPaths::webotsHomePath()).arg(filename);
+    arguments << "-add_rpath" << WbStandardPaths::webotsHomePath() << filename;
   else
-    cmd = QString("install_name_tool -rpath %1 %2 %3").arg(oldRPath).arg(WbStandardPaths::webotsHomePath()).arg(filename);
-  process.start(cmd);
+    arguments << "-rpath" << oldRPath << WbStandardPaths::webotsHomePath() << filename;
+  process.start("install_name_tool", arguments);
   process.waitForFinished(-1);
 #endif
 }
