@@ -832,11 +832,10 @@ void WbController::copyBinaryAndDependencies(const QString &filename) {
     return;
 
   QProcess process;
-  QString cmd;
   bool success;
 
   // get current RPATH
-  cmd = QString("otool -l %1 | grep LC_RPATH -A 3 | grep path | cut -c15- | cut -d' ' -f1").arg(filename);
+  QString cmd = QString("otool -l %1 | grep LC_RPATH -A 3 | grep path | cut -c15- | cut -d' ' -f1").arg(filename);
   process.start("bash", QStringList() << "-c" << cmd);
   success = process.waitForFinished(500);
   if (!success || !process.readAllStandardError().isEmpty())
