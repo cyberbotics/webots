@@ -249,6 +249,8 @@ void WbAbstractTransform::updateScale(bool warning) {
 bool WbAbstractTransform::isTranslationFieldVisible() const {
   if (!mIsTranslationFieldVisibleReady) {
     mIsTranslationFieldVisible = WbNodeUtilities::isVisible(mBaseNode->findField("translation", true));
+    mCanBeTranslated =
+      !WbNodeUtilities::isTemplateRegeneratorField(mBaseNode->findField("translation", true)) && mIsTranslationFieldVisible;
     mIsTranslationFieldVisibleReady = true;
   }
   return mIsTranslationFieldVisible;
@@ -257,9 +259,23 @@ bool WbAbstractTransform::isTranslationFieldVisible() const {
 bool WbAbstractTransform::isRotationFieldVisible() const {
   if (!mIsRotationFieldVisibleReady) {
     mIsRotationFieldVisible = WbNodeUtilities::isVisible(mBaseNode->findField("rotation", true));
+    mCanBeRotated =
+      !WbNodeUtilities::isTemplateRegeneratorField(mBaseNode->findField("rotation", true)) && mIsRotationFieldVisible;
     mIsRotationFieldVisibleReady = true;
   }
   return mIsRotationFieldVisible;
+}
+
+bool WbAbstractTransform::canBeTranslated() {
+  if (!mIsTranslationFieldVisibleReady)
+    isTranslationFieldVisible();
+  return mCanBeTranslated;
+}
+
+bool WbAbstractTransform::canBeRotated() {
+  if (!mIsRotationFieldVisibleReady)
+    isTranslationFieldVisible();
+  return mCanBeRotated;
 }
 
 /////////////////////////
@@ -284,16 +300,8 @@ void WbAbstractTransform::createScaleManipulatorIfNeeded() {
 void WbAbstractTransform::createTranslateRotateManipulatorIfNeeded() {
   if (!mTranslateRotateManipulatorInitialized) {
     mTranslateRotateManipulatorInitialized = true;
-
-    // check if translation or rotation fields are visible and don't trigger
-    // parameter node regeneration
-    bool validTranslation =
-      !WbNodeUtilities::isTemplateRegeneratorField(mBaseNode->findField("translation", true)) && isTranslationFieldVisible();
-    bool validRotation =
-      !WbNodeUtilities::isTemplateRegeneratorField(mBaseNode->findField("rotation", true)) && isRotationFieldVisible();
-    if (!validTranslation && !validRotation)
+    if (!canBeTranslated() && !canBeRotated())
       return;
-
     mTranslateRotateManipulator = new WbTranslateRotateManipulator(validTranslation, validRotation);
     if (mTranslateRotateManipulator) {
       mTranslateRotateManipulator->attachTo(baseNode()->wrenNode());

@@ -108,6 +108,9 @@ public:
   virtual void attachTranslateRotateManipulator();
   virtual void detachTranslateRotateManipulator();
 
+  // check if translation and rotation field is visible and don't trigger parameter node regeneration
+  bool canBeTranslated() const;
+  bool canBeRotated() const;
   bool isTranslationFieldVisible() const;
   bool isRotationFieldVisible() const;
 
