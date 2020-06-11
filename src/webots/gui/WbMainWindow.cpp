@@ -166,11 +166,11 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingSe
   createMenus();
 
   WbActionManager *actionManager = WbActionManager::instance();
-  QAction *action = actionManager->action(WbActionManager::EDIT_CONTROLLER);
+  QAction *action = actionManager->action(WbAction::EDIT_CONTROLLER);
   connect(action, &QAction::triggered, this, &WbMainWindow::editRobotController);
   addAction(action);
 
-  action = actionManager->action(WbActionManager::SHOW_ROBOT_WINDOW);
+  action = actionManager->action(WbAction::SHOW_ROBOT_WINDOW);
   connect(action, &QAction::triggered, this, &WbMainWindow::showRobotWindow);
   addAction(action);
 
@@ -418,11 +418,11 @@ QMenu *WbMainWindow::createFileMenu() {
   QAction *action;
   WbActionManager *manager = WbActionManager::instance();
 
-  action = manager->action(WbActionManager::NEW_WORLD);
+  action = manager->action(WbAction::NEW_WORLD);
   connect(action, &QAction::triggered, this, &WbMainWindow::newWorld);
   menu->addAction(action);
 
-  action = manager->action(WbActionManager::OPEN_WORLD);
+  action = manager->action(WbAction::OPEN_WORLD);
   connect(action, &QAction::triggered, this, &WbMainWindow::openWorld);
   menu->addAction(action);
 
@@ -430,40 +430,40 @@ QMenu *WbMainWindow::createFileMenu() {
   mRecentFiles = new WbRecentFilesList(10, mRecentFilesSubMenu);
   connect(mRecentFiles, &WbRecentFilesList::fileChosen, this, &WbMainWindow::loadDifferentWorld);
 
-  action = manager->action(WbActionManager::OPEN_SAMPLE_WORLD);
+  action = manager->action(WbAction::OPEN_SAMPLE_WORLD);
   connect(action, &QAction::triggered, this, &WbMainWindow::openSampleWorld);
   menu->addAction(action);
 
-  action = manager->action(WbActionManager::SAVE_WORLD);
+  action = manager->action(WbAction::SAVE_WORLD);
   connect(action, &QAction::triggered, this, &WbMainWindow::saveWorld);
   menu->addAction(action);
 
-  action = manager->action(WbActionManager::SAVE_WORLD_AS);
+  action = manager->action(WbAction::SAVE_WORLD_AS);
   connect(action, &QAction::triggered, this, &WbMainWindow::saveWorldAs);
   menu->addAction(action);
 
-  action = manager->action(WbActionManager::RELOAD_WORLD);
+  action = manager->action(WbAction::RELOAD_WORLD);
   connect(action, &QAction::triggered, this, &WbMainWindow::reloadWorld);
   menu->addAction(action);
 
-  action = manager->action(WbActionManager::RESET_SIMULATION);
+  action = manager->action(WbAction::RESET_SIMULATION);
   connect(action, &QAction::triggered, this, &WbMainWindow::resetWorldFromGui);
   menu->addAction(action);
 
   menu->addSeparator();
 
   if (mTextEditor) {
-    menu->addAction(manager->action(WbActionManager::NEW_FILE));
-    menu->addAction(manager->action(WbActionManager::OPEN_FILE));
-    menu->addAction(manager->action(WbActionManager::SAVE_FILE));
-    menu->addAction(manager->action(WbActionManager::SAVE_FILE_AS));
-    menu->addAction(manager->action(WbActionManager::SAVE_ALL_FILES));
-    menu->addAction(manager->action(WbActionManager::REVERT_FILE));
+    menu->addAction(manager->action(WbAction::NEW_FILE));
+    menu->addAction(manager->action(WbAction::OPEN_FILE));
+    menu->addAction(manager->action(WbAction::SAVE_FILE));
+    menu->addAction(manager->action(WbAction::SAVE_FILE_AS));
+    menu->addAction(manager->action(WbAction::SAVE_ALL_FILES));
+    menu->addAction(manager->action(WbAction::REVERT_FILE));
 
     menu->addSeparator();
 
-    menu->addAction(manager->action(WbActionManager::PRINT_PREVIEW));
-    menu->addAction(manager->action(WbActionManager::PRINT));
+    menu->addAction(manager->action(WbAction::PRINT_PREVIEW));
+    menu->addAction(manager->action(WbAction::PRINT));
 
     menu->addSeparator();
   }
@@ -483,7 +483,7 @@ QMenu *WbMainWindow::createFileMenu() {
 
   menu->addSeparator();
 
-  menu->addAction(manager->action(WbActionManager::TAKE_SCREENSHOT));
+  menu->addAction(manager->action(WbAction::TAKE_SCREENSHOT));
   menu->addAction(mSimulationView->movieAction());
   action = new QAction(this);
   action->setText(tr("&Export HTML5 Model..."));
@@ -491,8 +491,8 @@ QMenu *WbMainWindow::createFileMenu() {
   action->setToolTip(action->statusTip());
   connect(action, &QAction::triggered, this, &WbMainWindow::exportHtml);
   menu->addAction(action);
-  menu->addAction(manager->action(WbActionManager::ANIMATION));
-  connect(manager->action(WbActionManager::ANIMATION), &QAction::triggered, this, &WbMainWindow::startAnimationRecording);
+  menu->addAction(manager->action(WbAction::ANIMATION));
+  connect(manager->action(WbAction::ANIMATION), &QAction::triggered, this, &WbMainWindow::startAnimationRecording);
 
   menu->addSeparator();
 
@@ -518,25 +518,25 @@ QMenu *WbMainWindow::createEditMenu() {
   menu->setTitle(tr("&Edit"));
 
   WbActionManager *manager = WbActionManager::instance();
-  menu->addAction(manager->action(WbActionManager::UNDO));
-  menu->addAction(manager->action(WbActionManager::REDO));
+  menu->addAction(manager->action(WbAction::UNDO));
+  menu->addAction(manager->action(WbAction::REDO));
   menu->addSeparator();
-  menu->addAction(manager->action(WbActionManager::CUT));
-  menu->addAction(manager->action(WbActionManager::COPY));
-  menu->addAction(manager->action(WbActionManager::PASTE));
-  menu->addAction(manager->action(WbActionManager::SELECT_ALL));
+  menu->addAction(manager->action(WbAction::CUT));
+  menu->addAction(manager->action(WbAction::COPY));
+  menu->addAction(manager->action(WbAction::PASTE));
+  menu->addAction(manager->action(WbAction::SELECT_ALL));
   menu->addSeparator();
-  menu->addAction(manager->action(WbActionManager::FIND));
-  menu->addAction(manager->action(WbActionManager::FIND_NEXT));
-  menu->addAction(manager->action(WbActionManager::FIND_PREVIOUS));
-  menu->addAction(manager->action(WbActionManager::REPLACE));
+  menu->addAction(manager->action(WbAction::FIND));
+  menu->addAction(manager->action(WbAction::FIND_NEXT));
+  menu->addAction(manager->action(WbAction::FIND_PREVIOUS));
+  menu->addAction(manager->action(WbAction::REPLACE));
   menu->addSeparator();
-  menu->addAction(manager->action(WbActionManager::GO_TO_LINE));
+  menu->addAction(manager->action(WbAction::GO_TO_LINE));
   menu->addSeparator();
-  menu->addAction(manager->action(WbActionManager::TOGGLE_LINE_COMMENT));
+  menu->addAction(manager->action(WbAction::TOGGLE_LINE_COMMENT));
   menu->addSeparator();
-  menu->addAction(manager->action(WbActionManager::DUPLICATE_SELECTION));
-  menu->addAction(manager->action(WbActionManager::TRANSPOSE_LINE));
+  menu->addAction(manager->action(WbAction::DUPLICATE_SELECTION));
+  menu->addAction(manager->action(WbAction::TRANSPOSE_LINE));
 
   return menu;
 }
@@ -548,23 +548,23 @@ QMenu *WbMainWindow::createViewMenu() {
 
   WbActionManager *actionManager = WbActionManager::instance();
   subMenu = menu->addMenu(tr("&Follow Object"));
-  subMenu->addAction(actionManager->action(WbActionManager::FOLLOW_NONE));
-  subMenu->addAction(actionManager->action(WbActionManager::FOLLOW_TRACKING));
-  subMenu->addAction(actionManager->action(WbActionManager::FOLLOW_MOUNTED));
-  subMenu->addAction(actionManager->action(WbActionManager::FOLLOW_PAN_AND_TILT));
-  menu->addAction(actionManager->action(WbActionManager::RESTORE_VIEWPOINT));
-  menu->addAction(actionManager->action(WbActionManager::MOVE_VIEWPOINT_TO_OBJECT));
+  subMenu->addAction(actionManager->action(WbAction::FOLLOW_NONE));
+  subMenu->addAction(actionManager->action(WbAction::FOLLOW_TRACKING));
+  subMenu->addAction(actionManager->action(WbAction::FOLLOW_MOUNTED));
+  subMenu->addAction(actionManager->action(WbAction::FOLLOW_PAN_AND_TILT));
+  menu->addAction(actionManager->action(WbAction::RESTORE_VIEWPOINT));
+  menu->addAction(actionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT));
 
   QIcon icon = QIcon();
   icon.addFile("enabledIcons:front_view.png", QSize(), QIcon::Normal);
   icon.addFile("disabledIcons:front_view.png", QSize(), QIcon::Disabled);
   subMenu = menu->addMenu(icon, tr("Change View"));
-  subMenu->addAction(actionManager->action(WbActionManager::FRONT_VIEW));
-  subMenu->addAction(actionManager->action(WbActionManager::BACK_VIEW));
-  subMenu->addAction(actionManager->action(WbActionManager::LEFT_VIEW));
-  subMenu->addAction(actionManager->action(WbActionManager::RIGHT_VIEW));
-  subMenu->addAction(actionManager->action(WbActionManager::TOP_VIEW));
-  subMenu->addAction(actionManager->action(WbActionManager::BOTTOM_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::FRONT_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::BACK_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::LEFT_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::RIGHT_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::TOP_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::BOTTOM_VIEW));
   menu->addSeparator();
 
   mToggleFullScreenAction = new QAction(this);
@@ -598,62 +598,64 @@ QMenu *WbMainWindow::createViewMenu() {
     subMenu->setEnabled(false);
   }
 
-  subMenu->addAction(actionManager->action(WbActionManager::VIRTUAL_REALITY_HEADSET_ENABLE));
+  subMenu->addAction(actionManager->action(WbAction::VIRTUAL_REALITY_HEADSET_ENABLE));
   subMenu->addSeparator();
-  subMenu->addAction(actionManager->action(WbActionManager::VIRTUAL_REALITY_HEADSET_POSITION));
-  subMenu->addAction(actionManager->action(WbActionManager::VIRTUAL_REALITY_HEADSET_ORIENTATION));
+  subMenu->addAction(actionManager->action(WbAction::VIRTUAL_REALITY_HEADSET_POSITION));
+  subMenu->addAction(actionManager->action(WbAction::VIRTUAL_REALITY_HEADSET_ORIENTATION));
   subMenu->addSeparator();
-  subMenu->addAction(actionManager->action(WbActionManager::VIRTUAL_REALITY_HEADSET_LEFT_EYE));
-  subMenu->addAction(actionManager->action(WbActionManager::VIRTUAL_REALITY_HEADSET_RIGHT_EYE));
-  subMenu->addAction(actionManager->action(WbActionManager::VIRTUAL_REALITY_HEADSET_NO_EYE));
+  subMenu->addAction(actionManager->action(WbAction::VIRTUAL_REALITY_HEADSET_LEFT_EYE));
+  subMenu->addAction(actionManager->action(WbAction::VIRTUAL_REALITY_HEADSET_RIGHT_EYE));
+  subMenu->addAction(actionManager->action(WbAction::VIRTUAL_REALITY_HEADSET_NO_EYE));
   subMenu->addSeparator();
-  subMenu->addAction(actionManager->action(WbActionManager::VIRTUAL_REALITY_HEADSET_ANTI_ALIASING));
+  subMenu->addAction(actionManager->action(WbAction::VIRTUAL_REALITY_HEADSET_ANTI_ALIASING));
 #endif
 
   menu->addSeparator();
-  menu->addAction(actionManager->action(WbActionManager::PERSPECTIVE_PROJECTION));
-  menu->addAction(actionManager->action(WbActionManager::ORTHOGRAPHIC_PROJECTION));
+  menu->addAction(actionManager->action(WbAction::PERSPECTIVE_PROJECTION));
+  menu->addAction(actionManager->action(WbAction::ORTHOGRAPHIC_PROJECTION));
   menu->addSeparator();
-  menu->addAction(actionManager->action(WbActionManager::PLAIN_RENDERING));
-  menu->addAction(actionManager->action(WbActionManager::WIREFRAME_RENDERING));
+  menu->addAction(actionManager->action(WbAction::PLAIN_RENDERING));
+  menu->addAction(actionManager->action(WbAction::WIREFRAME_RENDERING));
   menu->addSeparator();
 
   subMenu = menu->addMenu(tr("&Optional Rendering"));
-  subMenu->addAction(actionManager->action(WbActionManager::COORDINATE_SYSTEM));
-  subMenu->addAction(actionManager->action(WbActionManager::BOUNDING_OBJECT));
-  subMenu->addAction(actionManager->action(WbActionManager::CONTACT_POINTS));
-  subMenu->addAction(actionManager->action(WbActionManager::CONNECTOR_AXES));
-  subMenu->addAction(actionManager->action(WbActionManager::JOINT_AXES));
-  subMenu->addAction(actionManager->action(WbActionManager::RANGE_FINDER_FRUSTUMS));
-  subMenu->addAction(actionManager->action(WbActionManager::LIDAR_RAYS_PATH));
-  subMenu->addAction(actionManager->action(WbActionManager::LIDAR_POINT_CLOUD));
-  subMenu->addAction(actionManager->action(WbActionManager::CAMERA_FRUSTUM));
-  subMenu->addAction(actionManager->action(WbActionManager::DISTANCE_SENSOR_RAYS));
-  subMenu->addAction(actionManager->action(WbActionManager::LIGHT_SENSOR_RAYS));
-  subMenu->addAction(actionManager->action(WbActionManager::LIGHT_POSITIONS));
-  subMenu->addAction(actionManager->action(WbActionManager::PEN_PAINTING_RAYS));
-  subMenu->addAction(actionManager->action(WbActionManager::NORMALS));
-  subMenu->addAction(actionManager->action(WbActionManager::RADAR_FRUSTUMS));
-  subMenu->addAction(actionManager->action(WbActionManager::SKIN_SKELETON));
+  subMenu->addAction(actionManager->action(WbAction::COORDINATE_SYSTEM));
+  subMenu->addAction(actionManager->action(WbAction::BOUNDING_OBJECT));
+  subMenu->addAction(actionManager->action(WbAction::CONTACT_POINTS));
+  subMenu->addAction(actionManager->action(WbAction::CONNECTOR_AXES));
+  subMenu->addAction(actionManager->action(WbAction::JOINT_AXES));
+  subMenu->addAction(actionManager->action(WbAction::RANGE_FINDER_FRUSTUMS));
+  subMenu->addAction(actionManager->action(WbAction::LIDAR_RAYS_PATH));
+  subMenu->addAction(actionManager->action(WbAction::LIDAR_POINT_CLOUD));
+  subMenu->addAction(actionManager->action(WbAction::CAMERA_FRUSTUM));
+  subMenu->addAction(actionManager->action(WbAction::DISTANCE_SENSOR_RAYS));
+  subMenu->addAction(actionManager->action(WbAction::LIGHT_SENSOR_RAYS));
+  subMenu->addAction(actionManager->action(WbAction::LIGHT_POSITIONS));
+  subMenu->addAction(actionManager->action(WbAction::PEN_PAINTING_RAYS));
+  subMenu->addAction(actionManager->action(WbAction::NORMALS));
+  subMenu->addAction(actionManager->action(WbAction::RADAR_FRUSTUMS));
+  subMenu->addAction(actionManager->action(WbAction::SKIN_SKELETON));
 
   if (!WbSysInfo::environmentVariable("WEBOTS_DEBUG").isEmpty()) {
     subMenu->addSeparator();
-    subMenu->addAction(actionManager->action(WbActionManager::BOUNDING_SPHERE));
-    subMenu->addAction(actionManager->action(WbActionManager::PHYSICS_CLUSTERS));
+    subMenu->addAction(actionManager->action(WbAction::BOUNDING_SPHERE));
+    subMenu->addAction(actionManager->action(WbAction::PHYSICS_CLUSTERS));
   }
 
   // these optional renderings are selection dependent
   subMenu->addSeparator();
-  subMenu->addAction(actionManager->action(WbActionManager::CENTER_OF_MASS));
-  subMenu->addAction(actionManager->action(WbActionManager::CENTER_OF_BUOYANCY));
-  subMenu->addAction(actionManager->action(WbActionManager::SUPPORT_POLYGON));
+  subMenu->addAction(actionManager->action(WbAction::CENTER_OF_MASS));
+  subMenu->addAction(actionManager->action(WbAction::CENTER_OF_BUOYANCY));
+  subMenu->addAction(actionManager->action(WbAction::SUPPORT_POLYGON));
 
   menu->addSeparator();
-  QAction *action = actionManager->action(WbActionManager::DISABLE_SELECTION);
-  menu->addAction(action);
-
-  action = actionManager->action(WbActionManager::LOCK_VIEWPOINT);
-  menu->addAction(action);
+  subMenu = menu->addMenu(tr("&Scene Interactions"));
+  subMenu->addAction(actionManager->action(WbAction::LOCK_VIEWPOINT));
+  subMenu->addAction(actionManager->action(WbAction::DISABLE_SELECTION));
+  subMenu->addAction(actionManager->action(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU));
+  subMenu->addAction(actionManager->action(WbAction::DISABLE_OBJECT_MOVE));
+  subMenu->addAction(actionManager->action(WbAction::DISABLE_FORCE_AND_TORQUE));
+  subMenu->addAction(actionManager->action(WbAction::DISABLE_FAST_MODE));
 
   return menu;
 }
@@ -663,11 +665,11 @@ QMenu *WbMainWindow::createSimulationMenu() {
 
   QMenu *menu = new QMenu(this);
   menu->setTitle(tr("&Simulation"));
-  menu->addAction(manager->action(WbActionManager::PAUSE));
-  menu->addAction(manager->action(WbActionManager::STEP));
-  menu->addAction(manager->action(WbActionManager::REAL_TIME));
-  menu->addAction(manager->action(WbActionManager::RUN));
-  menu->addAction(manager->action(WbActionManager::FAST));
+  menu->addAction(manager->action(WbAction::PAUSE));
+  menu->addAction(manager->action(WbAction::STEP));
+  menu->addAction(manager->action(WbAction::REAL_TIME));
+  menu->addAction(manager->action(WbAction::RUN));
+  menu->addAction(manager->action(WbAction::FAST));
   return menu;
 }
 
@@ -694,9 +696,9 @@ QMenu *WbMainWindow::createOverlayMenu() {
   WbContextMenuGenerator::setRobotRangeFinderMenu(mRobotRangeFinderMenu);
   WbContextMenuGenerator::setRobotDisplayMenu(mRobotDisplayMenu);
 
-  mOverlayMenu->addAction(WbActionManager::instance()->action(WbActionManager::HIDE_ALL_CAMERA_OVERLAYS));
-  mOverlayMenu->addAction(WbActionManager::instance()->action(WbActionManager::HIDE_ALL_RANGE_FINDER_OVERLAYS));
-  mOverlayMenu->addAction(WbActionManager::instance()->action(WbActionManager::HIDE_ALL_DISPLAY_OVERLAYS));
+  mOverlayMenu->addAction(WbActionManager::instance()->action(WbAction::HIDE_ALL_CAMERA_OVERLAYS));
+  mOverlayMenu->addAction(WbActionManager::instance()->action(WbAction::HIDE_ALL_RANGE_FINDER_OVERLAYS));
+  mOverlayMenu->addAction(WbActionManager::instance()->action(WbAction::HIDE_ALL_DISPLAY_OVERLAYS));
 
   return mOverlayMenu;
 }
@@ -765,9 +767,9 @@ QMenu *WbMainWindow::createToolsMenu() {
 
   menu->addSeparator();
 
-  menu->addAction(WbActionManager::instance()->action(WbActionManager::CLEAR_CONSOLE));
-  menu->addAction(WbActionManager::instance()->action(WbActionManager::NEW_CONSOLE));
-  connect(WbActionManager::instance()->action(WbActionManager::NEW_CONSOLE), SIGNAL(triggered()), this, SLOT(openNewConsole()));
+  menu->addAction(WbActionManager::instance()->action(WbAction::CLEAR_CONSOLE));
+  menu->addAction(WbActionManager::instance()->action(WbAction::NEW_CONSOLE));
+  connect(WbActionManager::instance()->action(WbAction::NEW_CONSOLE), SIGNAL(triggered()), this, SLOT(openNewConsole()));
 
   action = new QAction(this);
   action->setText(tr("Edit &Physics Plugin"));
@@ -982,8 +984,8 @@ void WbMainWindow::createMenus() {
 
   mSimulationMenu = createSimulationMenu();
   mMenuBar->addAction(mSimulationMenu->menuAction());
-  mSimulationMenu->addAction(WbActionManager::instance()->action(WbActionManager::RUN));
-  mSimulationMenu->addAction(WbActionManager::instance()->action(WbActionManager::FAST));
+  mSimulationMenu->addAction(WbActionManager::instance()->action(WbAction::RUN));
+  mSimulationMenu->addAction(WbActionManager::instance()->action(WbAction::FAST));
 
   menu = createBuildMenu();
   mMenuBar->addAction(menu->menuAction());
@@ -1357,8 +1359,24 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
 
   // update 'view' menu
   const WbPerspective *perspective = world->perspective();
-  WbActionManager::instance()->action(WbActionManager::DISABLE_SELECTION)->setChecked(perspective->isSelectionDisabled());
-  WbActionManager::instance()->action(WbActionManager::LOCK_VIEWPOINT)->setChecked(perspective->isViewpointLocked());
+  WbActionManager::instance()
+    ->action(WbAction::LOCK_VIEWPOINT)
+    ->setChecked(perspective->isUserInteractionDisabled(WbAction::LOCK_VIEWPOINT));
+  WbActionManager::instance()
+    ->action(WbAction::DISABLE_SELECTION)
+    ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_SELECTION));
+  WbActionManager::instance()
+    ->action(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU)
+    ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU));
+  WbActionManager::instance()
+    ->action(WbAction::DISABLE_OBJECT_MOVE)
+    ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_OBJECT_MOVE));
+  WbActionManager::instance()
+    ->action(WbAction::DISABLE_FORCE_AND_TORQUE)
+    ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_FORCE_AND_TORQUE));
+  WbActionManager::instance()
+    ->action(WbAction::DISABLE_FAST_MODE)
+    ->setChecked(perspective->isUserInteractionDisabled(WbAction::DISABLE_FAST_MODE));
 
 #ifdef _WIN32
   QWebSettings::globalSettings()->clearMemoryCaches();
@@ -2207,7 +2225,7 @@ void WbMainWindow::stopAnimationRecording() {
 void WbMainWindow::toggleAnimationIcon() {
   static bool isRecOn = false;
 
-  QAction *action = WbActionManager::instance()->action(WbActionManager::ANIMATION);
+  QAction *action = WbActionManager::instance()->action(WbAction::ANIMATION);
   if (!isRecOn) {
     action->setIcon(QIcon("enabledIcons:animation_red_button.png"));
     isRecOn = true;
@@ -2218,7 +2236,7 @@ void WbMainWindow::toggleAnimationIcon() {
 }
 
 void WbMainWindow::toggleAnimationAction(bool isRecording) {
-  QAction *action = WbActionManager::instance()->action(WbActionManager::ANIMATION);
+  QAction *action = WbActionManager::instance()->action(WbAction::ANIMATION);
   if (isRecording) {
     action->setText(tr("Stop HTML5 &Animation..."));
     action->setStatusTip(tr("Stop HTML5 animation recording."));
@@ -2239,11 +2257,11 @@ void WbMainWindow::toggleAnimationAction(bool isRecording) {
 }
 
 void WbMainWindow::enableAnimationAction() {
-  WbActionManager::instance()->action(WbActionManager::ANIMATION)->setEnabled(true);
+  WbActionManager::instance()->action(WbAction::ANIMATION)->setEnabled(true);
 }
 
 void WbMainWindow::disableAnimationAction() {
-  WbActionManager::instance()->action(WbActionManager::ANIMATION)->setEnabled(false);
+  WbActionManager::instance()->action(WbAction::ANIMATION)->setEnabled(false);
 }
 
 void WbMainWindow::logActiveControllersTermination() {

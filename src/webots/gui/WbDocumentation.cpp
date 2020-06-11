@@ -58,15 +58,15 @@ protected:
     WbActionManager *actionManager = WbActionManager::instance();
     actionManager->enableTextEditActions(false);
     actionManager->setFocusObject(this);
-    actionManager->setEnabled(WbActionManager::COPY, false);
-    actionManager->setEnabled(WbActionManager::CUT, false);
-    actionManager->setEnabled(WbActionManager::PASTE, false);
-    actionManager->setEnabled(WbActionManager::SELECT_ALL, false);
-    actionManager->setEnabled(WbActionManager::UNDO, false);
-    actionManager->setEnabled(WbActionManager::REDO, false);
-    actionManager->setEnabled(WbActionManager::FIND, false);
-    actionManager->setEnabled(WbActionManager::FIND_NEXT, false);
-    actionManager->setEnabled(WbActionManager::FIND_PREVIOUS, false);
+    actionManager->setEnabled(WbAction::COPY, false);
+    actionManager->setEnabled(WbAction::CUT, false);
+    actionManager->setEnabled(WbAction::PASTE, false);
+    actionManager->setEnabled(WbAction::SELECT_ALL, false);
+    actionManager->setEnabled(WbAction::UNDO, false);
+    actionManager->setEnabled(WbAction::REDO, false);
+    actionManager->setEnabled(WbAction::FIND, false);
+    actionManager->setEnabled(WbAction::FIND_NEXT, false);
+    actionManager->setEnabled(WbAction::FIND_PREVIOUS, false);
   }
 #endif
 
@@ -76,7 +76,7 @@ protected:
     menu.addAction(pageAction(QWebPage::Forward));
     menu.addSeparator();
 #ifdef _WIN32
-    menu.addAction(WbActionManager::instance()->action(WbActionManager::COPY));
+    menu.addAction(WbActionManager::instance()->action(WbAction::COPY));
 #else
     menu.addAction(pageAction(QWebEnginePage::Copy));
 #endif
@@ -192,11 +192,11 @@ const QString WbDocumentation::page() const {
 }
 
 void WbDocumentation::updateCopyAction() {
-  WbActionManager::instance()->setEnabled(WbActionManager::COPY, !mWebView->selectedText().isEmpty());
+  WbActionManager::instance()->setEnabled(WbAction::COPY, !mWebView->selectedText().isEmpty());
 }
 
-void WbDocumentation::handleUserCommand(WbActionManager::WbActionKind actionKind) {
-  if (actionKind == WbActionManager::COPY) {
+void WbDocumentation::handleUserCommand(WbAction::WbActionKind actionKind) {
+  if (actionKind == WbAction::COPY) {
     const QString selectedText = mWebView->selectedText();
     if (!selectedText.isEmpty())
       WbClipboard::instance()->setString(selectedText);
