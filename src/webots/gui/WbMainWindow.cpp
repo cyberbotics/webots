@@ -1234,9 +1234,6 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
     mConsoles.last()->setEnabledLevels(consoleList.at(i).enabledLevels);
   }
 
-  if (world->isUnnamed() && mConsoles.size() == 0)
-    openNewConsole();
-
   if (meansOfLoading) {
     if (!perspective->enabledRobotWindowNodeNames().isEmpty()) {
       const QList<WbRobot *> &robots = world->robots();
