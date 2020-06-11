@@ -1,0 +1,41 @@
+#VRML_SIM R2020b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# tags: hidden
+# A distance sensor to plug in the fingers of the P-Grip gripper.
+
+PROTO P-GripDistanceSensor [
+  field SFVec3f    translation     0 0 0.07775         # Is `Transform.translation`.
+  field SFRotation rotation        0 1 0 0             # Is `Transform.rotation`.
+  field SFString   name            "distance sensor"   # Is `Solid.name`.
+]
+{
+  DistanceSensor {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "Vishay Semiconductors VCNL4010"
+    lookupTable [
+      0 65535 0.002
+      0.001 23378 0.002
+      0.002 19673 0.002
+      0.003 16783 0.002
+      0.004 14800 0.002
+      0.005 13285 0.002
+      0.0075 11050 0.002
+      0.01 9837 0.002
+      0.02 8150 0.002
+      0.03 7680 0.002
+      0.05 7370 0.002
+      0.075 7243 0.002
+      0.1 7190 0.002
+      0.15 7160 0.002
+      0.2 7150 0.002
+    ]
+    type "infra-red"
+    numberOfRays 4
+    aperture 0.5236
+    gaussianWidth 0.5
+    resolution 1
+  }
+}
