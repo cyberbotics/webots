@@ -20,7 +20,7 @@ Released on XXX.
       - Added a context menu to the console allowing the user to define what should be displayed, by filtering the logs by type and source ([#1595](https://github.com/cyberbotics/webots/pull/1595)).
       - Added the possibility to open several consoles at the same time ([#1595](https://github.com/cyberbotics/webots/pull/1595)).
       - Improved the Webots console by supporting more [ANSI](https://en.wikipedia.org/wiki/ANSI_escape_code) escape codes and removed the controller name prefix ([#1508](https://github.com/cyberbotics/webots/pull/1508)).
-    - Added options in View > Scene Interactions menu to disable interactions with the 3D scene for the current world.
+    - Added options in View > Scene Interactions menu to disable interactions with the 3D scene for the current world ([#1754](https://github.com/cyberbotics/webots/pull/1754)).
   - Dependency Updates
     - Upgraded to Assimp 5.0.1 on Linux and macOS ([#1419](https://github.com/cyberbotics/webots/pull/1463)).
     - Upgraded to Qt 5.14.2 on Linux.
