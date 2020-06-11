@@ -34,9 +34,7 @@ WbPerspective::WbPerspective(const QString &worldPath) :
   mMaximizedDockId(-1),
   mCentralWidgetVisible(true),
   mSelectedTab(-1),
-  mOrthographicViewHeight(1.0),
-  mSelectionDisabled(false),
-  mViewpointLocked(false) {
+  mOrthographicViewHeight(1.0) {
   const QFileInfo info(worldPath);
   mBaseName = info.absolutePath() + "/." + info.completeBaseName();
   mVersion = WbApplicationInfo::version();
@@ -88,18 +86,26 @@ bool WbPerspective::readContent(QTextStream &in, bool reloading) {
       if (reloading)
         continue;
       ls >> mRenderingMode;
-    } else if (key == "selectionDisabled:") {
+    } else if (key == "selectionDisabled:") {  // backward compatibility < R2020b
       if (reloading)
         continue;
       int i;
       ls >> i;
-      mSelectionDisabled = i;
-    } else if (key == "viewpointLocked:") {
+      mDisabledUserInteractionsMap[WbAction::DISABLE_SELECTION] = i;
+    } else if (key == "viewpointLocked:") {  // backward compatibility < R2020b
       if (reloading)
         continue;
       int i;
       ls >> i;
-      mViewpointLocked = i;
+      mDisabledUserInteractionsMap[WbAction::LOCK_VIEWPOINT] = i;
+    } else if (key == "userInteractions:") {
+      if (!mDisabledUserInteractionsMap.isEmpty() || reloading)
+        continue;
+      const QString s = line.right(line.length() - 17).trimmed();  // remove label
+      QStringList actionNamesList;
+      splitUniqueNameList(s, actionNamesList);
+      foreach (const QString name, actionNamesList)
+        mDisabledUserInteractionsMap[getActionFromString(name)] = true;
     } else if (key == "orthographicViewHeight:") {
       double value;
       ls >> value;
@@ -237,8 +243,17 @@ bool WbPerspective::save() const {
     out << "projectionMode: " << mProjectionMode << "\n";
   if (!mRenderingMode.isEmpty())
     out << "renderingMode: " << mRenderingMode << "\n";
-  out << "selectionDisabled: " << (int)mSelectionDisabled << "\n";
-  out << "viewpointLocked: " << (int)mViewpointLocked << "\n";
+
+  // save disabled user interaction options
+  QStringList userInteractionList;
+  QList<WbAction::WbActionKind> actions(mDisabledUserInteractionsMap.keys());
+  foreach (WbAction::WbActionKind action, actions) {
+    if (mDisabledUserInteractionsMap.value(action))
+      userInteractionList << getActionName(action);
+  }
+  if (!userInteractionList.isEmpty())
+    out << "userInteractions: " << joinUniqueNameList(userInteractionList) << "\n";
+
   out << "orthographicViewHeight: " << (double)mOrthographicViewHeight << "\n";
   out << "textFiles: " << mSelectedTab;
   // convert to relative paths and save
@@ -346,4 +361,41 @@ void WbPerspective::splitUniqueNameList(const QString &text, QStringList &target
     return;
   // extract solid unique names joined by '::'
   targetList = WbSolid::splitUniqueNamesByEscapedPattern(text, "::");
+}
+
+QString WbPerspective::getActionName(WbAction::WbActionKind action) {
+  switch (action) {
+    case WbAction::DISABLE_SELECTION:
+      return "selectionDisabled";
+    case WbAction::LOCK_VIEWPOINT:
+      return "viewpointLocked";
+    case WbAction::DISABLE_3D_VIEW_CONTEXT_MENU:
+      return "3dContextMenuDisabled";
+    case WbAction::DISABLE_OBJECT_MOVE:
+      return "objectMoveDisabled";
+    case WbAction::DISABLE_FORCE_AND_TORQUE:
+      return "forceAndTorqueDisabled";
+    case WbAction::DISABLE_FAST_MODE:
+      return "fastModeDisabled";
+    default:
+      return QString();
+  }
+}
+
+WbAction::WbActionKind WbPerspective::getActionFromString(const QString &actionString) {
+  if (actionString == "selectionDisabled")
+    return WbAction::DISABLE_SELECTION;
+  if (actionString == "viewpointLocked")
+    return WbAction::LOCK_VIEWPOINT;
+  if (actionString == "3dContextMenuDisabled")
+    return WbAction::DISABLE_3D_VIEW_CONTEXT_MENU;
+  if (actionString == "objectMoveDisabled")
+    return WbAction::DISABLE_OBJECT_MOVE;
+  if (actionString == "forceAndTorqueDisabled")
+    return WbAction::DISABLE_FORCE_AND_TORQUE;
+  if (actionString == "fastModeDisabled")
+    return WbAction::DISABLE_FAST_MODE;
+
+  assert(false);
+  return WbAction::NACTIONS;
 }

@@ -22,7 +22,9 @@ DEF PIONEER SquarePathPioneer3dx {
   translation 0 0.0943896 0
   rotation 0 1 0 4.7123889
   controller "square_path"
-  controllerArgs "2"
+  controllerArgs [
+    "2"
+  ]
   extensionSlot [
     Pen {
       inkColor 1 0 0

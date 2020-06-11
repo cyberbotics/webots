@@ -4,10 +4,10 @@ simulationViewPerspectives: 000000ff000000010000000200000118000003ca010000000601
 sceneTreePerspectives: 000000ff0000000100000002000000c0000000fc0100000006010000000200
 maximizedDockId: -1
 centralWidgetVisible: 1
-selectionDisabled: 0
-viewpointLocked: 0
+userInteractions: 3dContextMenuDisabled::forceAndTorqueDisabled::objectMoveDisabled
 orthographicViewHeight: 1
 textFiles: 0 "controllers/visual_tracking/visual_tracking.py"
-robotWindow: supervisor
-renderingDevicePerspectives: ERS-7:display;1;0.55;0;0
+robotWindow: robot
+consoles: Console:All:All
 renderingDevicePerspectives: ERS-7:PRM:/r1/c1/c2/c3/i1-FbkImageSensor:F1;0;0.1;0;0
+renderingDevicePerspectives: ERS-7:display;1;0.55;0;0

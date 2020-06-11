@@ -9,4 +9,5 @@ viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/camera/camera.c"
 globalOptionalRendering: CameraFrustums
+consoles: Console:All:All
 renderingDevicePerspectives: MyBot:camera;1;3;0;0

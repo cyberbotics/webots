@@ -8,3 +8,4 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "../../../default/controllers/braitenberg/braitenberg.c"
+consoles: Console:All:All

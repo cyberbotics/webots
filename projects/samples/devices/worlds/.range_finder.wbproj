@@ -9,4 +9,5 @@ viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/range_finder/range_finder.c"
 globalOptionalRendering: RangeFinderFrustums
+consoles: Console:All:All
 renderingDevicePerspectives: MyBot:range-finder;1;1;0;0

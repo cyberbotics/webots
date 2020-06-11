@@ -8,5 +8,6 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/pioneer3dx_obstacle_avoidance_with_kinect/pioneer3dx_obstacle_avoidance_with_kinect.c"
-renderingDevicePerspectives: Pioneer 3-DX:kinect color;1;1;0;0
+consoles: Console:All:All
 renderingDevicePerspectives: Pioneer 3-DX:kinect range;1;1;0.269526;0
+renderingDevicePerspectives: Pioneer 3-DX:kinect color;1;1;0;0

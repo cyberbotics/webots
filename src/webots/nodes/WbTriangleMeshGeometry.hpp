@@ -39,6 +39,8 @@ public:
   // reimplemented public functions
   void preFinalize() override;
   void createWrenObjects() override;
+  // cppcheck-suppress virtualCallInConstructor
+  void deleteWrenRenderable() override;
   void setScaleNeedUpdate() override;
   dGeomID createOdeGeom(dSpaceID space) override;
   bool isAValidBoundingObject(bool checkOde = false, bool warning = true) const override;
@@ -109,6 +111,11 @@ private:
   // Only derived classes can be cloned
   WbNode *clone() const override = 0;
 
+  // normals representation
+  WrRenderable *mNormalsRenderable;
+  WrMaterial *mNormalsMaterial;
+  WrStaticMesh *mNormalsMesh;
+
   void init();
 
   // WREN
@@ -132,6 +139,10 @@ private:
 
   // Hashmap containing triangle meshes, shared by all instances
   static WbTriangleMeshMap cTriangleMeshMap;
+
+private slots:
+  void updateOptionalRendering(int option);
+  void updateNormalsRepresentation();
 };
 
 #endif

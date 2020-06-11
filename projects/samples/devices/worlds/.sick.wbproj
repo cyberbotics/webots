@@ -9,4 +9,5 @@ viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/sick/sick.c"
 globalOptionalRendering: LidarRaysPaths
-renderingDevicePerspectives: robot:display;1;1;0.828377;0.87156
+consoles: Console:All:All
+renderingDevicePerspectives: robot:display;1;1;0.651724;0.605634

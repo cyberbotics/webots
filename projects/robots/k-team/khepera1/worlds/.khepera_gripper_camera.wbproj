@@ -8,4 +8,5 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/khepera_gripper/khepera_gripper.c"
+consoles: Console:All:All
 renderingDevicePerspectives: khepera camera:camera;1;1;0;0

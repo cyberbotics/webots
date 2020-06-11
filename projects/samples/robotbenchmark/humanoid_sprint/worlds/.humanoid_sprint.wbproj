@@ -4,10 +4,10 @@ simulationViewPerspectives: 000000ff000000010000000200000118000003ca010000000601
 sceneTreePerspectives: 000000ff0000000100000002000000c0000000fc0100000006010000000200
 maximizedDockId: -1
 centralWidgetVisible: 1
-selectionDisabled: 0
-viewpointLocked: 0
+userInteractions: 3dContextMenuDisabled::forceAndTorqueDisabled::objectMoveDisabled
 orthographicViewHeight: 1
 textFiles: 0 "controllers/sprinter/sprinter.py"
 robotWindow: race_stopwatch
-renderingDevicePerspectives: NAO:CameraTop;0;0.63125;0;0.903416
+consoles: Console:All:All
 renderingDevicePerspectives: NAO:CameraBottom;0;0.63125;0;0
+renderingDevicePerspectives: NAO:CameraTop;0;0.63125;0;0.726232

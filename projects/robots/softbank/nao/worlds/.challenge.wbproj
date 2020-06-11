@@ -8,5 +8,6 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: -1
+consoles: Console:All:All
 renderingDevicePerspectives: NAO:CameraTop;1;1;0;0
-renderingDevicePerspectives: NAO:CameraBottom;1;1;0;0.71293
+renderingDevicePerspectives: NAO:CameraBottom;1;1;0;0.147887
