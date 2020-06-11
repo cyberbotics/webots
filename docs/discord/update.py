@@ -59,7 +59,7 @@ class MyClient(discord.Client):
                                 if role.name != '@everyone':
                                     roles.append(role.name)
                         file.write(u'##### %s %s%s\n' %
-                                   (message.author.name,
+                                   (message.author.name.replace('_', '\\_'),
                                     '[%s] ' % '-'.join(roles) if roles else '',
                                     message.created_at.strftime("%m/%d/%Y %H:%M:%S")))
                     else:
@@ -84,7 +84,7 @@ class MyClient(discord.Client):
                             if not inCode:
                                 # remove problematic parts
                                 line = line.replace('<i>', '`<i>`')
-                                if line.startswith('#'):
+                                if line.startswith('#') or line.startswith('> #'):
                                     line = line.replace('#', '\\#')
                                 # protect underscores
                                 undescoreProtected = False
@@ -116,10 +116,10 @@ class MyClient(discord.Client):
                         if extension.lower() in ['.bmp', '.gif', '.jpg', '.jpeg', '.png']:
                             file.write(u'\n%figure\n')
                             file.write(u'![%s](%s)\n' % (attachment.filename, attachment.url))
-                            file.write(u'%end\n')
+                            file.write(u'%end')
                         else:
-                            file.write(u'\n> **Attachment**: [%s](%s)\n' % (attachment.filename.replace('_', '\\_'),
-                                                                            attachment.url))
+                            file.write(u'\n> **Attachment**: [%s](%s)' % (attachment.filename.replace('_', '\\_'),
+                                                                          attachment.url))
                     file.write(u'\n\n')
                 elif message.type == discord.MessageType.pins_add or message.type == discord.MessageType.new_member:
                     pass
