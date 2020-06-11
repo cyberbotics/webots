@@ -50,6 +50,7 @@ bool WbPerspective::readContent(QTextStream &in, bool reloading) {
     return false;
 
   const bool skipNodeIdsOptions = mVersion.majorNumber() < 2018;
+  mConsolesSettings.clear();
   while (!in.atEnd()) {
     QString line(in.readLine());
     QTextStream ls(&line, QIODevice::ReadOnly);
@@ -185,15 +186,18 @@ bool WbPerspective::readContent(QTextStream &in, bool reloading) {
   }
 
   // Backward compatibility with < R2020b
-  if (mConsolesSettings.isEmpty() && mVersion < WbVersion(2020, 1, 0)) {
-    ConsoleSettings settings;
-    settings.name = "Console";
-    settings.enabledFilters = QStringList() << "All";
-    settings.enabledLevels = QStringList() << "All";
-    mConsolesSettings.append(settings);
-  }
+  if (mConsolesSettings.isEmpty() && mVersion < WbVersion(2020, 1, 0))
+    addDefaultConsole();
 
   return true;
+}
+
+void WbPerspective::addDefaultConsole() {
+  ConsoleSettings settings;
+  settings.name = "Console";
+  settings.enabledFilters = QStringList() << "All";
+  settings.enabledLevels = QStringList() << "All";
+  mConsolesSettings.append(settings);
 }
 
 bool WbPerspective::load(bool reloading) {
@@ -204,6 +208,7 @@ bool WbPerspective::load(bool reloading) {
   if (!reloading)
     mEnabledOptionalRenderingList.clear();
   mConsolesSettings.clear();
+  addDefaultConsole();
   clearRenderingDevicesPerspectiveList();
   clearEnabledOptionalRenderings();
 
