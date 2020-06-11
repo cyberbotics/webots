@@ -304,7 +304,8 @@ void WbController::start() {
   mProcess->start(mCommand, mArguments);
 }
 
-void WbController::addPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value, bool override, bool shouldPrepend) {
+void WbController::addPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value, bool override,
+                                              bool shouldPrepend) {
   const QString nativeValue(QDir::toNativeSeparators(value));
   if (!env.contains(key) || override) {  // key is the name of the environment variable
     env.insert(key, nativeValue);
