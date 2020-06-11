@@ -9,3 +9,4 @@ viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: -1
 robotWindow: robot
+consoles: Console:All:All

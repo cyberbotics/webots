@@ -8,4 +8,5 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/highway_overtake/highway_overtake.py"
+consoles: Console:All:All
 renderingDevicePerspectives: vehicle:camera;1;1;0;0

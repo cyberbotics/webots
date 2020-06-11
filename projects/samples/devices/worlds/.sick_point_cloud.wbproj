@@ -9,3 +9,4 @@ viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/sick_point_cloud/sick_point_cloud.c"
 globalOptionalRendering: LidarPointClouds
+consoles: Console:All:All

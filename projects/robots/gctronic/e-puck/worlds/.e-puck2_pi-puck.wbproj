@@ -8,4 +8,5 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/e-puck/e-puck.c"
+consoles: Console:All:All
 renderingDevicePerspectives: e-puck2:camera;1;1;0;0

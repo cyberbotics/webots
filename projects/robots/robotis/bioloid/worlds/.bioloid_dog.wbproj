@@ -8,4 +8,5 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/bioloid_dog/bioloid.cpp" "controllers/bioloid_dog/Robot.cpp" "controllers/bioloid_dog/Robot.h"
+consoles: Console:All:All
 renderingDevicePerspectives: BioloidDog:camera;1;1;0;0

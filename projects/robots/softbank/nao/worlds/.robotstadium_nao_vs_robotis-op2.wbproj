@@ -8,18 +8,19 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: -1
-renderingDevicePerspectives: nao(4):CameraTop;1;1;0.249284;0.860092
-renderingDevicePerspectives: NAO:CameraTop;1;1;0;0.860092
-renderingDevicePerspectives: ROBOTIS OP2(2):Camera;0;1;0.498764;0.860092
-renderingDevicePerspectives: ROBOTIS OP2(1):Camera;0;1;0.278121;0.860092
-renderingDevicePerspectives: ROBOTIS OP2(3):Camera;0;1;0.668109;0.860092
-renderingDevicePerspectives: nao(1):CameraTop;1;1;0.868174;0.860092
-renderingDevicePerspectives: NAO:CameraBottom;1;1;0.0491682;0.860092
-renderingDevicePerspectives: nao(2):CameraBottom;1;1;0.695303;0.860092
-renderingDevicePerspectives: nao(4):CameraBottom;1;1;0.295637;0.860092
-renderingDevicePerspectives: nao(1):CameraBottom;1;1;0.895619;0.860092
-renderingDevicePerspectives: nao(3):CameraTop;1;1;0.496292;0.860092
-renderingDevicePerspectives: ROBOTIS OP2(4):Camera;0;1;0.668109;0.860092
-renderingDevicePerspectives: nao(3):CameraBottom;1;1;0.515451;0.860092
-renderingDevicePerspectives: nao(2):CameraTop;1;1;0.724351;0.860092
-renderingDevicePerspectives: ROBOTIS OP2:Camera;0;1;0.0500618;0.860092
+consoles: Console:All:All
+renderingDevicePerspectives: nao(4):CameraBottom;1;1;0.295637;0.570423
+renderingDevicePerspectives: nao(4):CameraTop;1;1;0.249284;0.570423
+renderingDevicePerspectives: nao(1):CameraTop;1;1;0.829653;0.570423
+renderingDevicePerspectives: nao(3):CameraTop;1;1;0.496292;0.570423
+renderingDevicePerspectives: ROBOTIS OP2(1):Camera;0;1;0.278121;0.570423
+renderingDevicePerspectives: nao(3):CameraBottom;1;1;0.515451;0.570423
+renderingDevicePerspectives: ROBOTIS OP2:Camera;0;1;0.0500618;0.570423
+renderingDevicePerspectives: ROBOTIS OP2(3):Camera;0;1;0.668109;0.570423
+renderingDevicePerspectives: ROBOTIS OP2(2):Camera;0;1;0.498764;0.570423
+renderingDevicePerspectives: NAO:CameraTop;1;1;0;0.570423
+renderingDevicePerspectives: nao(1):CameraBottom;1;1;0.829653;0.570423
+renderingDevicePerspectives: nao(2):CameraTop;1;1;0.724351;0.570423
+renderingDevicePerspectives: nao(2):CameraBottom;1;1;0.695303;0.570423
+renderingDevicePerspectives: ROBOTIS OP2(4):Camera;0;1;0.668109;0.570423
+renderingDevicePerspectives: NAO:CameraBottom;1;1;0.0491682;0.570423

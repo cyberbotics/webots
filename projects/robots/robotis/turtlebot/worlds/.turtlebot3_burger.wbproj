@@ -9,3 +9,4 @@ viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/turtlebot3_ostacle_avoidance/turtlebot3_ostacle_avoidance.c"
 globalOptionalRendering: LidarPointClouds
+consoles: Console:All:All

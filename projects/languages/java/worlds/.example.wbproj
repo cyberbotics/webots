@@ -8,6 +8,7 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/Driver/Driver.java" "controllers/Slave/Slave.java"
-renderingDevicePerspectives: robot3:camera;1;1;0.927393;0.924312
+consoles: Console:All:All
 renderingDevicePerspectives: robot1:camera;1;1;0;0
-renderingDevicePerspectives: robot2:camera;1;1;0;0.924312
+renderingDevicePerspectives: robot2:camera;1;1;0;0.767606
+renderingDevicePerspectives: robot3:camera;1;1;0.788462;0.767606

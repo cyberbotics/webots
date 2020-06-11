@@ -8,3 +8,4 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/moose_path_following/moose_path_following.c"
+consoles: Console:All:All

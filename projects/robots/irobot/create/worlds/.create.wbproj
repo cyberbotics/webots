@@ -4,6 +4,9 @@ simulationViewPerspectives: 000000ff00000001000000020000016c000004a0010000000601
 sceneTreePerspectives: 000000ff0000000100000002000001c6000001120100000006010000000201
 maximizedDockId: -1
 centralWidgetVisible: 1
+selectionDisabled: 0
+viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 1 "controllers/ground/ground.c" "controllers/create_avoid_obstacles/create_avoid_obstacles.c"
-renderingDevicePerspectives: robot:ground_display;0;1;0;0
+consoles: Console:All:All
+renderingDevicePerspectives: robot:ground_display;0;0.554688;0;0

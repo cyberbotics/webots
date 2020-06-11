@@ -8,5 +8,6 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: -1
+consoles: Console:All:All
 renderingDevicePerspectives: iCub:RIGHT_CAM;1;1;0.235203;0
 renderingDevicePerspectives: iCub:LEFT_CAM;1;1;0;0

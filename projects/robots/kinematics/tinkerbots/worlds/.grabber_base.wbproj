@@ -8,3 +8,4 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/grabber_base/grabber_base.c"
+consoles: Console:All:All

@@ -8,3 +8,4 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/inverse_kinematics/inverse_kinematics.py"
+consoles: Console:All:All

@@ -8,5 +8,6 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/inverted_pendulum/inverted_pendulum.py"
-robotWindow: supervisor
+robotWindow: robot
+consoles: Console:All:All
 renderingDevicePerspectives: e-puck:camera;0;1;0;0

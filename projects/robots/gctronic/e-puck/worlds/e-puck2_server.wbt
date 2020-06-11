@@ -50,7 +50,9 @@ E-puck {
   rotation 0 0 1 4.711592653589793
   name "e-puck2"
   controller "e-puck2_server"
-  controllerArgs "1000"
+  controllerArgs [
+    "1000"
+  ]
   version "2"
   camera_width 160
   camera_height 120
