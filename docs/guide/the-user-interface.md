@@ -266,14 +266,15 @@ These options can be used to improve interacting with the 3D scene by disabling 
   But the context menu can still be open right-clicking on the node in the scene tree.
   This is particularly useful during web streaming, where the context menu is opened directly on client web interface and it is not needed to open in on the Webots server instance.  
 
-  - The **Disable Object Move** option prevents moving object from the 3D window using the translation and rotations handles, the `SHIFT + mouse drag/mouse wheel` method.
+  - The **Disable Object Move** option prevents moving object from the 3D window using the translation and rotations handles or the `SHIFT + mouse drag/mouse wheel` method.
   Objects can still be moved by changing the translation and rotation fields from the scene tree.
-  This is particularly useful during online competitions, where users should achieve a task without cheating and moving objects and robots manually.
+  This is particularly useful during online competitions, where users should achieve a task without cheating and moving objects or robots manually.
 
   - The **Disable Force and Torque** option prevents applying a force or torque to an object from the 3D window.
-  This is particularly useful during online competitions, where users should achieve a task without cheating and moving objects and robots manually.
+  This is particularly useful during online competitions, where users should achieve a task without cheating and moving objects or robots manually.
 
   - The **Disable Fast Mode** option prevents running the simulation in fast mode.
+  This option could be useful in case of web streaming to save computer power on the server side and making only the stop, step and the real-time modes available to the clients.
 
 > **Note**:
 The *Follow Object*, *Follow Object and Rotate*, *Projection*, *Rendering*, *Optional Rendering Items*, and *Scene Interactions Items* options are saved per world whereas the other options are global.
