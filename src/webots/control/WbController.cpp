@@ -252,7 +252,7 @@ void WbController::start() {
 
     // extract the controller resources from runtime.ini and add them in the firejail whitelist
     // the runtime.ini itself has to be put in the blacklist of firejail
-    QStringList env = QProcessEnvironment::systemEnvironment().toStringList();
+    QProcessEnvironment env = mProcess->processEnvironment();
     const QString &runtimeFilePath = mControllerPath + "runtime.ini";
     if (QFile::exists(runtimeFilePath)) {
       WbIniParser iniParser(runtimeFilePath);
@@ -304,39 +304,19 @@ void WbController::start() {
   mProcess->start(mCommand, mArguments);
 }
 
-void WbController::addPathEnvironmentVariable(QStringList &env, QString key, QString value, bool override, bool shouldPrepend) {
-  int keyIndex = env.indexOf(QRegExp(QString("^%1=.*").arg(key), Qt::CaseInsensitive));
-  bool keyExists = keyIndex != -1;
-
-  if (override && keyExists) {  // remove the key (key = environment variable name)
-    env.removeAt(keyIndex);
-    keyIndex = -1;
-    keyExists = false;
-  }
-
+void WbController::addPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value, bool override, bool shouldPrepend) {
   const QString nativeValue(QDir::toNativeSeparators(value));
-  if (keyExists) {
-    QString previousValue = env.at(keyIndex);
-    // test that the value is not already present
-    if (!previousValue.split(QDir::listSeparator()).contains(nativeValue)) {
-      previousValue = previousValue.remove(QRegExp(QString("^%1=").arg(key)));
-      if (shouldPrepend)
-        env.replace(keyIndex, key + "=" + nativeValue + QDir::listSeparator() + previousValue);
-      else
-        env.replace(keyIndex, key + "=" + previousValue + QDir::listSeparator() + nativeValue);
-    }
-  } else  // add a new key=value
-    env << QString("%1=%2").arg(key).arg(nativeValue);
-}
-
-void WbController::addEnvironmentVariable(QStringList &env, QString key, QString value) {
-  int keyIndex = env.indexOf(QRegExp(QString("^%1=.*").arg(key), Qt::CaseInsensitive));
-  bool keyExists = keyIndex != -1;
-
-  if (keyExists)
-    env.replace(keyIndex, key + "=" + value);
-  else  // add a new key=value
-    env << QString("%1=%2").arg(key).arg(value);
+  if (!env.contains(key) || override) {  // key is the name of the environment variable
+    env.insert(key, nativeValue);
+    return;
+  }
+  const QString &previousValue = env.value(key);
+  if (!previousValue.split(QDir::listSeparator()).contains(nativeValue)) {
+    if (shouldPrepend)
+      env.insert(key, nativeValue + QDir::listSeparator() + previousValue);
+    else
+      env.insert(key, previousValue + QDir::listSeparator() + nativeValue);
+  }
 }
 
 void WbController::setProcessEnvironment() {
@@ -349,13 +329,12 @@ void WbController::setProcessEnvironment() {
 #endif
 
   // starts from the OS environment
-  QStringList env = QProcessEnvironment::systemEnvironment().toStringList();
+  QProcessEnvironment env = mProcess->processEnvironment();
   // store a unique robot ID for the controller
-  addPathEnvironmentVariable(env, "WEBOTS_ROBOT_ID", QString::number(mRobot->uniqueId()), true);
+  env.insert("WEBOTS_ROBOT_ID", QString::number(mRobot->uniqueId()));
 
   // Add the Webots lib path to be able to load (at least) libController
   addPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::controllerLibPath(), false);
-
 #ifndef _WIN32
   // add the controller path in the PATH-like environment variable
   // in order to be able to add easily dynamic libraries there
@@ -381,7 +360,7 @@ void WbController::setProcessEnvironment() {
             iniParser.sectionAt(i) == "environment variables with paths")
           addPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i), true);
         if (iniParser.sectionAt(i) == "environment variables")
-          addEnvironmentVariable(env, iniParser.keyAt(i), iniParser.valueAt(i));
+          env.insert(iniParser.keyAt(i), iniParser.valueAt(i));
         if (iniParser.sectionAt(i) == "java") {
           if (iniParser.keyAt(i) == "COMMAND")
             mJavaCommand = iniParser.valueAt(i);
@@ -429,12 +408,8 @@ void WbController::setProcessEnvironment() {
   }
   // WEBOTS_LIBRARY_PATH is an environment variable of Webots that users can edit to
   // prepend paths to the library path
-  int webotsLibraryPathIndex = env.indexOf(QRegExp(QString("^%1=.*").arg("WEBOTS_LIBRARY_PATH"), Qt::CaseInsensitive));
-  if (webotsLibraryPathIndex != -1) {
-    QString newLibraryPath(env[webotsLibraryPathIndex]);
-    newLibraryPath.remove(0, strlen("WEBOTS_LIBRARY_PATH="));
-    addPathEnvironmentVariable(env, ldEnvironmentVariable, newLibraryPath, false, true);
-  }
+  if (env.contains("WEBOTS_LD_LIBRARY_PATH"))
+    addPathEnvironmentVariable(env, ldEnvironmentVariable, env.value("WEBOTS_LD_LIBRARY_PATH"), false, true);
 
   // Add all the libraries subdirectories to the environment
   QStringList librariesSearchPaths;
@@ -519,18 +494,18 @@ void WbController::setProcessEnvironment() {
     }
     addPathEnvironmentVariable(env, "PYTHONPATH", WbStandardPaths::controllerLibPath() + "python" + mPythonShortVersion, false,
                                true);
-    addEnvironmentVariable(env, "PYTHONIOENCODING", "UTF-8");
+    env.insert("PYTHONIOENCODING", "UTF-8");
   } else if (mType == WbFileUtil::MATLAB) {
     // these variables are read by lib/matlab/launcher.m
-    addEnvironmentVariable(env, "WEBOTS_PROJECT", WbProject::current()->current()->path().toUtf8());
-    addEnvironmentVariable(env, "WEBOTS_CONTROLLER_NAME", name().toUtf8());
-    addEnvironmentVariable(env, "WEBOTS_VERSION", WbApplicationInfo::version().toString().toUtf8());
+    env.insert("WEBOTS_PROJECT", WbProject::current()->current()->path().toUtf8());
+    env.insert("WEBOTS_CONTROLLER_NAME", name().toUtf8());
+    env.insert("WEBOTS_VERSION", WbApplicationInfo::version().toString().toUtf8());
   }
-  addEnvironmentVariable(env, "WEBOTS_TMP_PATH", WbStandardPaths::webotsTmpPath());
+  env.insert("WEBOTS_TMP_PATH", WbStandardPaths::webotsTmpPath());
   // qDebug() << "Environment:";
   // foreach (const QString &element, env)
   //  qDebug() << element;
-  mProcess->setEnvironment(env);
+  mProcess->setProcessEnvironment(env);
 }
 
 void WbController::info(const QString &message) {
