@@ -185,7 +185,7 @@ bool WbPerspective::readContent(QTextStream &in, bool reloading) {
   }
 
   // Backward compatibility with < R2020b
-  if (mConsolesSettings.isEmpty() && mVersion.majorNumber() < WbVersion(2020, 1, 0)) {
+  if (mConsolesSettings.isEmpty() && mVersion < WbVersion(2020, 1, 0)) {
     ConsoleSettings settings;
     settings.name = "Console";
     settings.enabledFilters = QStringList() << "All";
