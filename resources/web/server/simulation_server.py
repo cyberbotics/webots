@@ -724,12 +724,16 @@ def main():
     try:
         if not os.path.exists(simulationLogDir):
             os.makedirs(simulationLogDir)
-        file_handler = logging.StreamHandler(sys.stdout) if config['debug'] else logging.FileHandler(logFile)
+        file_handler = logging.StreamHandler(sys.stdout) if config['debug'] else \
+            logging.handlers.RotatingFileHandler(logFile, maxBytes=500000, backupCount=10)
         file_handler.setFormatter(log_formatter)
         file_handler.setLevel(logging.INFO)
         root_logger.addHandler(file_handler)
     except (OSError, IOError) as e:
         sys.exit("Log file '" + logFile + "' cannot be created: " + str(e))
+    # disable tornado.access INFO logs
+    tornado_access_log = logging.getLogger('tornado.access')
+    tornado_access_log.setLevel(logging.WARNING)
 
     # create monitor.csv used by Snapshot if needed
     if 'monitorLogEnabled' not in config:

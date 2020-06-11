@@ -1076,7 +1076,11 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots_doc.png usr/share/pixmaps/\n");
       fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.applications usr/share/application-registry/\n");
       fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.desktop usr/share/applications/\n");
+#ifdef WEBOTS_UBUNTU_16_04
+      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots_snap.desktop usr/share/app-install/desktop/webots.desktop\n");
+#else
       fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.desktop usr/share/app-install/desktop/\n");
+#endif
       fprintf(fd, "mkdir usr/local/bin\n");
       fprintf(fd, "ln -s /usr/local/%s/webots usr/local/bin/webots\n", application_name_lowercase_and_dashes);
       fprintf(fd, "cd %s/debian\n", distribution_path);
@@ -1209,7 +1213,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libzip\n");
       fprintf(fd, "cp -a /usr/include/zip.h $DESTDIR/usr/share/webots/include/libzip/\n");
       fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h $DESTDIR/usr/share/webots/include/libzip/\n");
-      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.desktop $DESTDIR/usr/share/webots/resources/\n");
+      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots_snap.desktop $DESTDIR/usr/share/webots/resources/webots.desktop\n");
       break;
     }
     default:

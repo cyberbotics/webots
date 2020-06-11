@@ -4,6 +4,229 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 
 ## 2020
 
+##### lojik 06/10/2020 16:48:44
+Here you have the kind of objects I imported. These are kind of sinus waves. I put a bit of each pieces down the floor to have smaller mountains.
+
+
+
+%figure
+![Screenshot_from_2020-06-10_18-47-22.png](https://cdn.discordapp.com/attachments/565155651395780609/720318368837533766/Screenshot_from_2020-06-10_18-47-22.png)
+%end
+
+
+Hello there, I imported a 3d object in webots by using webots 2020b. It happen frequently that an object is suddently not takent into account with contacts. It seems that there is some problems with the bounding object.
+
+
+
+Could it be a bug on this nightly version or is it a problem on my side?
+
+##### David Mansolino [cyberbotics] 06/09/2020 11:35:20
+You can either use physics plugins: 
+
+[https://cyberbotics.com/doc/reference/physics-plugin](https://cyberbotics.com/doc/reference/physics-plugin)
+
+Either extend Webots with new nodes:
+
+[https://github.com/cyberbotics/webots/blob/master/CONTRIBUTING.md](https://github.com/cyberbotics/webots/blob/master/CONTRIBUTING.md)
+
+##### hrsh12 06/09/2020 11:33:40
+Hi, `@David Mansolino` , To make a rack and pinion arrangement, i require more kind of joints than those that are available in the documentation. Can i model my own basic joints?
+
+##### David Mansolino [cyberbotics] 06/05/2020 05:16:30
+We plan to add a new feature which will allow to link joint together and which might help you doing this ([https://github.com/cyberbotics/webots/issues/1365](https://github.com/cyberbotics/webots/issues/1365)).
+
+
+Hi `@hrsh12`, this is not possible directly, however you can combine several base joint to make such system.
+
+##### hrsh12 06/04/2020 21:23:54
+Hello everyone, could someone tell me if we can implement a rack and pinion system for steering in Car. For the jointsI'm trying to recreate a  steer-by-wire system. Thanks
+
+##### David Mansolino [cyberbotics] 06/02/2020 10:51:52
+You're welcome
+
+##### lojik 06/02/2020 10:51:08
+Perfect, thank you 👍
+
+##### David Mansolino [cyberbotics] 06/02/2020 10:50:28
+Hi, yes this is indeed a known bug, it was fixed very recently, you can already download a beta of R2020a-revision2 which incudes the fix here: [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
+
+##### lojik 06/02/2020 10:48:45
+Hello everyone, I do not know if someone else have the same problem as me but it is easy to verify.
+
+
+
+I am on ubuntu 18.04, using webots R2020a-revision1. When I right-click to add new features --> search in the 'find' box and type an underscore '\_' Webots crashes.
+
+
+
+Do someone has the same issue?
+
+##### David Mansolino [cyberbotics] 06/02/2020 05:54:32
+> is there any depth camera that i can use for skeletal tracking?
+
+`@Sergen Aşık` yes of course, you can use range-finders: [https://www.cyberbotics.com/doc/reference/rangefinder](https://www.cyberbotics.com/doc/reference/rangefinder)
+
+
+> How can i run simulator using Qt Creator?
+
+`@Sergen Aşık` do you want to start Webots from Qt Creator, or use Qt in your controller?
+
+
+The supervisor also send plume information to every robot using emitter-receivers.
+
+
+> Hi! Webots noob here, could someone tell me how to add an odor plume in the simulation and make the robot follow it? (Kinda trying to recreate this : [https://en.wikibooks.org/wiki/Webots\_Odor\_Simulation](https://en.wikibooks.org/wiki/Webots_Odor_Simulation))
+
+`@Ans` this is simply emulated from a Supervisor controller that imports shapes to visualize the plume.
+
+
+> does anyone have implemented some kind of pathfinding and can help me ? pls dm
+
+`@Wesst` you will find some examples here: [https://en.wikibooks.org/wiki/Cyberbotics%27\_Robot\_Curriculum/Advanced\_Programming\_Exercises#Path\_planning\_](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum/Advanced_Programming_Exercises#Path_planning_)[Advanced]
+
+##### Sergen Aşık 05/31/2020 22:28:06
+is there any depth camera that i can use for skeletal tracking?
+
+
+How can i run simulator using Qt Creator?
+
+##### Ans 05/30/2020 20:39:57
+Hi! Webots noob here, could someone tell me how to add an odor plume in the simulation and make the robot follow it? (Kinda trying to recreate this : [https://en.wikibooks.org/wiki/Webots\_Odor\_Simulation](https://en.wikibooks.org/wiki/Webots_Odor_Simulation))
+
+##### Wesst 05/30/2020 16:24:35
+does anyone have implemented some kind of pathfinding and can help me ? pls dm
+
+##### Iguins 05/29/2020 05:37:04
+thank you
+
+
+I was afraid of that
+
+##### David Mansolino [cyberbotics] 05/29/2020 05:36:28
+You can, but heightmap is much more efficient and stable than random indexedFaceSet.
+
+##### Iguins 05/29/2020 05:35:32
+do you think that instead of a heightmap I could use a custom mesh to also change the x and z values?
+
+##### David Mansolino [cyberbotics] 05/29/2020 05:33:58
+You're welcome
+
+##### Iguins 05/29/2020 05:33:39
+nice thank you!
+
+##### David Mansolino [cyberbotics] 05/29/2020 05:32:59
+In that case the robots should be Supervisors and they will be able to change the height values.
+
+##### Iguins 05/29/2020 05:31:28
+I wanted the robots to modify an uneven terrain
+
+##### Clara Cardoso Ferreira 05/29/2020 05:20:52
+Ill give it a try, thank you David!
+
+##### David Mansolino [cyberbotics] 05/29/2020 05:06:52
+For the whole moon, it is indeed going to be slow, but if you import only a reasonable sub-section, the performance should be ok. See this example: [https://cyberbotics.com/doc/automobile/ch-vens](https://cyberbotics.com/doc/automobile/ch-vens)
+
+##### Clara Cardoso Ferreira 05/29/2020 05:05:26
+with real data
+
+
+so that my robot can learn how to navigate in unknown terrain
+
+
+I could import the whole moon, but I plan to have at least sections of the moon
+
+
+For my case, it changes every meter. I am trying to import the map of the moon to Webots
+
+##### David Mansolino [cyberbotics] 05/29/2020 05:03:20
+Will the terrain change at each step ?
+
+##### Iguins 05/28/2020 22:10:01
+I was facing that same problem
+
+##### Clara Cardoso Ferreira 05/28/2020 21:34:45
+My guess would be that his solution would work, but it would probably be extremely slow since you would have to generate each individual slide of the terrain at every render pass
+
+
+> One possible solution would be to create a procedural PROTO ([https://www.cyberbotics.com/doc/reference/procedural-proto-nodes](https://www.cyberbotics.com/doc/reference/procedural-proto-nodes)) which will read the float image and generate an ElevationGrid ([https://www.cyberbotics.com/doc/reference/elevationgrid](https://www.cyberbotics.com/doc/reference/elevationgrid)) from it.
+
+`@David Mansolino`
+
+##### AngelAyala 05/28/2020 06:54:54
+I wasn't considering as real context, thanks
+
+
+ok I get it, both running in different controllers
+
+##### Stefania Pedrazzi [cyberbotics] 05/28/2020 06:53:39
+What you can do is to send the GPS data from the Mavic2Pro controller to the supervisor controller using for example the Emitter/Receiver devices
+
+
+This is like in real context.
+
+
+if yes, then you cannot read the Mavic2Pro GPS device values from another robot/supervisor.
+
+##### AngelAyala 05/28/2020 06:52:31
+yes
+
+##### Stefania Pedrazzi [cyberbotics] 05/28/2020 06:52:23
+Is the Supervisor controller different from the Mavic2Pro controller?
+
+##### AngelAyala 05/28/2020 06:51:35
+using python
+
+
+is there anyway to do this?
+
+
+now, how can I access to the GPS node inside the Mavic2Pro PROTO using the supervisor node?
+
+##### David Mansolino [cyberbotics] 05/28/2020 06:20:42
+You're welcome
+
+##### AngelAyala 05/28/2020 06:20:33
+oh greats, thanks
+
+##### David Mansolino [cyberbotics] 05/28/2020 06:20:00
+but you can simply check the return value
+
+
+this s indeed just a warning which doesnt  raise any exception
+
+##### AngelAyala 05/28/2020 06:19:11
+is maybe a especial ExceptionError?
+
+
+I'm currently using, but when appears this error Error: wb\_gps\_enable(): invalid device tag, the code is unable to catch it
+
+##### David Mansolino [cyberbotics] 05/28/2020 06:18:04
+you can always use a  `try` and `except` on the sensitive part
+
+##### AngelAyala 05/28/2020 06:15:18
+Is there anyway to catch the runtime errors in python in order to stop and reset the simulation? I can control the execution of the simulation with Supervisor node
+
+##### David Mansolino [cyberbotics] 05/28/2020 05:25:26
+You will find an example of this here: [https://gist.github.com/DavidMansolino/46d7e0df4c48bbaac4611b3872878347](https://gist.github.com/DavidMansolino/46d7e0df4c48bbaac4611b3872878347)
+
+
+One possible solution would be to create a procedural PROTO ([https://www.cyberbotics.com/doc/reference/procedural-proto-nodes](https://www.cyberbotics.com/doc/reference/procedural-proto-nodes)) which will read the float image and generate an ElevationGrid ([https://www.cyberbotics.com/doc/reference/elevationgrid](https://www.cyberbotics.com/doc/reference/elevationgrid)) from it.
+
+##### Clara Cardoso Ferreira 05/27/2020 18:21:49
+[https://pgda.gsfc.nasa.gov/products/54](https://pgda.gsfc.nasa.gov/products/54)
+
+Im trying to retrieve height maps from the above data and import it to Webots to create a custom terrain. I am not sure if this is possible and easy to do. Please provide me some guidance.
+
+
+
+I was thinking float img files formats would work best since I could import it to Opend CV if necessary.
+
+##### Axel M [Premier Service] 05/27/2020 16:43:13
+Review / PR / issues are welcome 🙂
+
+
+I ported the Atom PROTO extension to VSCode : [https://marketplace.visualstudio.com/items?itemName=pymzor.language-proto-webots](https://marketplace.visualstudio.com/items?itemName=pymzor.language-proto-webots)
+
 ##### David Mansolino [cyberbotics] 05/25/2020 06:25:16
 You can either convert your car node to base node (right click on the node in the scene-tree) and then you will be able to change the structure, either change directly the `Car.proto` file.
 
@@ -58,7 +281,6 @@ That's because you exported to HTML but you are not streaming the simulation.
 ![Screenshot_from_2020-05-22_20-57-46.png](https://cdn.discordapp.com/attachments/565155651395780609/713413087914491904/Screenshot_from_2020-05-22_20-57-46.png)
 %end
 
-
 ##### Olivier Michel [cyberbotics] 05/22/2020 14:27:44
 If your robots move in Webots, they should also move in the web view. Don't they?
 
@@ -79,7 +301,6 @@ I did a good install because I tried the "Human" file and it worked correctly
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/713174651731181749/unknown.png)
 %end
-
 
 
 But i have this error
@@ -416,7 +637,6 @@ Any advice about how to get the epuck moves randomly in this world
 %figure
 ![image0.jpg](https://cdn.discordapp.com/attachments/565155651395780609/702614779767947394/image0.jpg)
 %end
-
 
 ##### Dorteel 04/21/2020 09:13:59
 Thank you `@Stefania Pedrazzi` ! 🙂
@@ -1069,7 +1289,6 @@ your response will be highly appreciated !!
 ![image.png](https://cdn.discordapp.com/attachments/565155651395780609/662207440632414248/image.png)
 %end
 
-
 ## 2019
 
 ##### David Mansolino [cyberbotics] 12/10/2019 08:05:30
@@ -1253,7 +1472,6 @@ it sounds very correct to me.
 %end
 
 
-
 i have 2 robots and a rectangle arena . The robots are moving only in one linear direction  one behind the other and sometimes they are colliding . When i reset my robots to their initial position like this
 
 ##### Fabien Rohrer [Moderator] 11/13/2019 12:29:50
@@ -1291,7 +1509,6 @@ how can i make sure the wheels are not colliding the floor?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/641711950677409813/unknown.png)
 %end
-
 
 
 hello again , i resetphysics but some forces still applying after collision
@@ -1482,7 +1699,6 @@ Does webots include this marine robots, exact this one? I can find salamander cl
 ![FluidRobot.png](https://cdn.discordapp.com/attachments/565155651395780609/626228320996032512/FluidRobot.png)
 %end
 
-
 ##### Stefania Pedrazzi [cyberbotics] 09/16/2019 06:11:06
 You can find another example in samples/howto/omni\_wheels.wbt simulation:  [https://www.cyberbotics.com/doc/guide/samples-howto#omni\_wheels-wbt](https://www.cyberbotics.com/doc/guide/samples-howto#omni_wheels-wbt). In this case the wheel is simulated using two layers of joints and cylinders.
 
@@ -1538,7 +1754,6 @@ sumo ? what do  you mean ?
 
 
 > **Attachment**: [city\_2.mp4](https://cdn.discordapp.com/attachments/565155651395780609/613680130568617984/city_2.mp4)
-
 
 ##### BlackPearl 08/21/2019 10:24:53
 `@Fabien Rohrer` one minute. We are restarting everything again
@@ -1605,7 +1820,6 @@ ok, this is certainly the issue
 %figure
 ![image0.png](https://cdn.discordapp.com/attachments/565155651395780609/613673091335323648/image0.png)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 08/21/2019 09:56:07
 not sure. could you give us more precisely your Java version (`java -version`)? It is supposed to be `1.8`. Does it matches with your `javac -version`?
@@ -1692,12 +1906,10 @@ Hi
 %end
 
 
-
 I think we found a Bug?
 %figure
 ![image0.jpg](https://cdn.discordapp.com/attachments/565155651395780609/590825780716634132/image0.jpg)
 %end
-
 
 ##### David Mansolino [cyberbotics] 06/12/2019 15:52:00
 Thank you
@@ -1763,11 +1975,9 @@ see difference far 0 (default) vs. far 1
 
 
 
-
 %figure
 ![webotsVR02.png](https://cdn.discordapp.com/attachments/565155651395780609/588391019444174858/webotsVR02.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 06/12/2019 15:32:14
 > the good news: you can simulate the behaviour without a vive, right?
@@ -1851,7 +2061,6 @@ Can you see the handle in the headset too?
 %figure
 ![webotsVR01.png](https://cdn.discordapp.com/attachments/565155651395780609/588384559884926987/webotsVR01.png)
 %end
-
 
 
 interessting: when i click on some objects in the treeview, the coordinate systems are shown in the vive
@@ -2151,7 +2360,6 @@ The robot model is encapsulated in a PROTO node. The Robots are linked with Conn
 %figure
 ![tractor-trailer.JPG](https://cdn.discordapp.com/attachments/565155651395780609/585374436270800906/tractor-trailer.JPG)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 06/04/2019 07:48:04
 [https://cyberbotics.com/doc/guide/yamor](https://cyberbotics.com/doc/guide/yamor)
