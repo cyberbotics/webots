@@ -1234,7 +1234,6 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
     mConsoles.last()->setEnabledLevels(consoleList.at(i).enabledLevels);
   }
 
-  // display at least one console
   if (world->isUnnamed() && mConsoles.size() == 0)
     openNewConsole();
 
