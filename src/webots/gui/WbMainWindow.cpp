@@ -1106,7 +1106,8 @@ void WbMainWindow::restoreLayout() {
   if (mConsoles.size() >= 1) {
     for (int i = 1; i < mConsoles.size(); ++i)
       tabifyDockWidget(mConsoles.at(0), mConsoles.at(i));
-  }
+  } else
+    openNewConsole();
   mSimulationView->restoreFactoryLayout();
   enableToolsWidgetItems(true);
 }
