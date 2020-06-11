@@ -33,7 +33,8 @@ TexturedBackgroundLight {
 DEF GROUND Solid {
   children [
     Shape {
-      appearance DarkParquetry {
+      appearance Parquetry {
+        type "dark strip" 
         textureTransform TextureTransform {
           scale 100 100
         }

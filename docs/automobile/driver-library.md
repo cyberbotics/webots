@@ -1078,7 +1078,7 @@ output_torque = c * rpm² + b * rpm + a
 If `maxP` and `maxT` are respectively the `engineMaxPower` and `engineMaxTorque` parameters of the `Car` PROTO, the ouput torque is:
 
 ```
-output_torque = min(maxT; maxP * 60 / 2 * pi * rpm)
+output_torque = min(maxT; maxP * 60 / (2 * pi * rpm))
 ```
 
 #### Parallel Hybrid Engine

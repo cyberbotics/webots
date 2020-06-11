@@ -219,6 +219,7 @@ WbBaseNode *WbBaseNode::getSingleFinalizedProtoInstance() {
   foreach (WbNode *node, nodeInstances) {
     WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(node);
     if (baseNode && baseNode->isPostFinalizedCalled()) {
+      // cppcheck-suppress knownConditionTrueFalse
       if (finalizedInstance)
         // multiple finilized instances found
         return NULL;

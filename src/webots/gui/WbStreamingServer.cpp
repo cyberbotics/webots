@@ -119,7 +119,7 @@ void WbStreamingServer::startFromCommandLine(const QString &argument) {
   // default values
   int port = 1234;
   // parse argument
-  QStringList options = argument.split(';', QString::SkipEmptyParts);
+  QStringList options = argument.split(';', Qt::SkipEmptyParts);
   foreach (QString option, options) {
     option = option.trimmed();
     QRegExp rx("(\\w+)\\s*=\\s*([A-Za-z0-9:/.\\-]+)?");
@@ -372,7 +372,8 @@ void WbStreamingServer::processTextMessage(QString message) {
         gView3D->remoteMouseEvent(&event);
     } else if (action == 2) {
       wheel = -wheel;  // Wheel delta is inverted in JS and Webots
-      QWheelEvent wheelEvent(point, point, QPoint(), QPoint(), wheel, Qt::Vertical, buttonsPressed, keyboardModifiers);
+      QWheelEvent wheelEvent(point, point, QPoint(), QPoint(0, wheel), buttonsPressed, keyboardModifiers, Qt::ScrollUpdate,
+                             false);
       if (gView3D)
         gView3D->remoteWheelEvent(&wheelEvent);
     }
@@ -665,9 +666,11 @@ void WbStreamingServer::propagateLogToClients(WbLog::Level level, const QString 
 }
 
 void WbStreamingServer::sendToClients(const QString &message) {
-  if (mMessageToClients.isEmpty())
+  if (mMessageToClients.isEmpty()) {
+    if (message.isEmpty())
+      return;
     mMessageToClients = message;
-  else if (!message.isEmpty())
+  } else if (!message.isEmpty())
     mMessageToClients += "\n" + message;
   if (mClients.isEmpty())
     return;
@@ -743,6 +746,13 @@ void WbStreamingServer::setWorldLoadingProgress(const int progress) {
 void WbStreamingServer::propagateNodeAddition(WbNode *node) {
   if (mWebSocketServer == NULL || WbWorld::instance() == NULL)
     return;
+
+  if (node->isProtoParameterNode()) {
+    // PROTO parameter nodes are not exported to X3D or transmitted to webots.min.js
+    foreach (WbNode *nodeInstance, node->protoParameterNodeInstances())
+      propagateNodeAddition(nodeInstance);
+    return;
+  }
 
   WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);
   if (baseNode && baseNode->isInBoundingObject())

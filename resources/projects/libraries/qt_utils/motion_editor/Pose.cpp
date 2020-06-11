@@ -30,7 +30,7 @@ Pose::~Pose() {
 }
 
 void Pose::setTimeFromParser(const QString &time) {
-  QStringList timeTokens = time.split(':', QString::SkipEmptyParts);
+  QStringList timeTokens = time.split(':', Qt::SkipEmptyParts);
   if (timeTokens.size() != 3)
     throw tr("Error while parsing time: \"%1\"").arg(time);
 

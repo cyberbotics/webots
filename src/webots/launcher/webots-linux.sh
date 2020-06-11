@@ -61,12 +61,14 @@ fi
 
 export TMPDIR=$WEBOTS_TMPDIR
 
+# safely create a temporary directory.
+# Note that the following two lines cannot be merged into one because `export` would "hide" the return status of `mktemp`.
+WEBOTS_TMP_PATH="$(mktemp -d $TMPDIR/webots-$$-XXXXXX)/" || exit 1
+export WEBOTS_TMP_PATH
+
 # create temporary lib directory
-TMP_LIB_DIR="$TMPDIR/webots-$$/lib"
-if [ ! -d $TMP_LIB_DIR ]; then
-  mkdir -p $TMP_LIB_DIR
-fi
-export WEBOTS_TMP_PATH="$TMPDIR/webots-$$/"
+TMP_LIB_DIR="$WEBOTS_TMP_PATH/lib"
+mkdir -p $TMP_LIB_DIR
 
 # add the "lib" directory into LD_LIBRARY_PATH as the first entry
 export LD_LIBRARY_PATH="$webots_home/lib/webots/":$TMP_LIB_DIR:$LD_LIBRARY_PATH

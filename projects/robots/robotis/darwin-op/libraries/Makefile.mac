@@ -12,11 +12,10 @@ PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 
 WGET=LANG=en_US.UTF-8  wget
 
-.PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
+.PHONY: release debug distrib profile clean $(PACKAGES) $(PACKAGES_CLEAN)
 
 release debug distrib profile: $(PACKAGES)
-clean:
-cleanse: $(PACKAGES_CLEAN)
+clean: $(PACKAGES_CLEAN)
 
 ssh-clean:
 	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE) $(DARWIN_OP_LIB_PATH)/libssh

@@ -22,7 +22,7 @@ namespace webotsQtUtils {
     static QList<Motor *> cMotors;
 
     MotionGlobalSettings() {}
-    virtual ~MotionGlobalSettings() {}
+    ~MotionGlobalSettings() {}
   };
 }  // namespace webotsQtUtils
 

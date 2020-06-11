@@ -111,7 +111,7 @@ public class Compass extends Device {
 wb_compass_enable(tag, sampling_period)
 wb_compass_disable(tag)
 period = wb_compass_get_sampling_period(tag)
-[x y z] = wb_compass_get_values(tag)
+x_y_z_array = wb_compass_get_values(tag)
 ```
 
 %tab-end
@@ -184,4 +184,4 @@ If these values are needed for a longer period they must be copied.
 
 <!-- -->
 
-> **Note** [Python]: Ths `getValues` function returns the vector as a list containing three floats.
+> **Note** [Python]: The `getValues` function returns the vector as a list containing three floats.

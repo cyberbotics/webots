@@ -38,7 +38,13 @@ jobs:
           # in case of manually triggered test, planned test or tag test, run complete test
           if [[ "$TRAVIS_COMMIT_MESSAGE" != travis_* ]] && [[ "$TRAVIS_EVENT_TYPE" != "api" ]] && [[ "$TRAVIS_EVENT_TYPE" != "cron" ]] && [[ -z "${TRAVIS_TAG}" ]]
           then
-            tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG;
+            if [[ "$TRAVIS_EVENT_TYPE" == "pull_request" ]]
+            then
+              tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG $TRAVIS_BRANCH;
+            else
+              tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG;
+            fi
+            echo "File(s) to test: $(cat tests/sources/modified_files.txt)";
           fi
         - travis_wait 30 python -m unittest discover -s tests/sources
     - <<: *source_tests_staging
@@ -58,11 +64,10 @@ jobs:
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_release, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: OSX / Python 2.7
       os: osx
-      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
+      osx_image: xcode11.4  # Xcode: 11.4  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
       addons:
         homebrew:
-          update: true  # TODO: this should be removed once this bug is fixed: https://travis-ci.community/t/macos-build-fails-because-of-homebrew-bundle-unknown-command/7296
           packages:
             - clang-format
             - cppcheck
@@ -116,6 +121,12 @@ jobs:
             - fakeroot
             - pbzip2
             - libxkbcommon-x11-dev
+            - libxcb-keysyms1
+            - libxcb-image0
+            - libxcb-icccm4
+            - libxcb-randr0
+            - libxcb-render-util0
+            - libxcb-xinerama0
       before_install:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - sudo apt update
@@ -186,6 +197,12 @@ jobs:
             - fakeroot
             - pbzip2
             - libxkbcommon-x11-dev
+            - libxcb-keysyms1
+            - libxcb-image0
+            - libxcb-icccm4
+            - libxcb-randr0
+            - libxcb-render-util0
+            - libxcb-xinerama0
       script:  # TODO: remove this part once ROS melodic is fixed to restore the ROS test.
         - make release -j2
         - make release -j2 -C tests
@@ -231,11 +248,10 @@ jobs:
     - <<: *distribution_staging
       name: OSX / Python 2.7
       os: osx
-      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
+      osx_image: xcode11.4  # Xcode: 11.4  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
       addons: &mac_addons
         homebrew:
-          update: true  # TODO: this should be removed once this bug is fixed: https://travis-ci.community/t/macos-build-fails-because-of-homebrew-bundle-unknown-command/7296
           packages:
             - python
             - cmake
@@ -282,7 +298,7 @@ jobs:
       if: commit_message IN (travis_release, travis_release_only)
       name: OSX / Python 2.7
       os: osx
-      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
+      osx_image: xcode11.4  # Xcode: 11.4  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
       addons: *mac_addons
       before_install: *mac_before_install

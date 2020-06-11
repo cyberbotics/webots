@@ -1,0 +1,28 @@
+#VRML_SIM R2020a utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# A perforated metal material.
+
+PROTO PerforatedMetal [
+  field SFColor colorOverride    1 1 1  # Defines the default color multiplied with the texture color.
+  field SFNode  textureTransform NULL   # Defines an optional 2d texture transform.
+  field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
+]
+{
+  PBRAppearance {
+    baseColor IS colorOverride
+    baseColorMap ImageTexture {
+      url [
+        "textures/perforated_metal/perforated_metal_base_color.png"
+      ]
+    }
+    roughness 0.3
+    normalMap ImageTexture {
+      url [
+        "textures/perforated_metal/perforated_metal_normal.png"
+      ]
+    }
+    textureTransform IS textureTransform
+    IBLStrength IS IBLStrength
+  }
+}

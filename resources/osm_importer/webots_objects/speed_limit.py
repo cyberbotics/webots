@@ -23,7 +23,7 @@ class SpeedLimit:
         """Constructor: display a warning if the country is not supported."""
         self.country = country  # Expected: 'CH', 'US', etc.
 
-        if country is None or country not in ['FR', 'DE', 'JP', 'CH', 'GB', 'US']:
+        if country is not None and country not in ['FR', 'DE', 'JP', 'CH', 'GB', 'US']:
             print('Warning: The exported Road.speedLimit may be wrong because the maxspeed rules is not'
                   ' yet implemented for this country.')
             print('  Supported countries:')
@@ -33,7 +33,7 @@ class SpeedLimit:
             print('  - Switzerland')
             print('  - United Kingdom')
             print('  - United States')
-            print('Please contact support@cyberbotics.com to support your country.')
+            print('Please contact support@cyberbotics.com to support your country (you may also safely ignore this warning).')
 
     def compute_speed_limit(self, road):
         """Compute the speed limit, based on the OSM tags of an OSM way."""

@@ -61,7 +61,7 @@ PROTO Crossroad [
         }
         %{ if fields.bottom.value then }%
           Shape {
-            appearance USE CROSSROAD_APPEARANCE
+            appearance IS appearance
             geometry IndexedFaceSet {
               coord Coordinate {
                 point IS shape

@@ -195,7 +195,6 @@ DEF TRACKED_ROBOT Robot {
           name "left motor"
         }
       ]
-      textureAnimation -0.033 0
       animatedGeometry DEF ANIMATED_GEOM Group {
         children [
           Shape {

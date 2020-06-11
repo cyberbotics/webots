@@ -51,8 +51,8 @@ namespace wren {
     void release() override;
     void render(unsigned int drawingMode) override;
     void clear() override {
-      Mesh::clear();
       clear(true, mHasNormals, mHasTextureCoordinates, mHasColorPerVertex);
+      Mesh::clear();
     }
     void clear(bool vertices, bool normals, bool textureCoordinates, bool colors);
 

@@ -126,32 +126,7 @@ PROTO Sojourner [
             translation -25 80 0
             children [
               Shape {
-                appearance PBRAppearance {
-                  baseColorMap ImageTexture {
-                    url [
-                      "textures/solar_cell_base_color.jpg"
-                    ]
-                  }
-                  roughnessMap ImageTexture {
-                    url [
-                      "textures/solar_cell_roughness.jpg"
-                    ]
-                  }
-                  metalnessMap ImageTexture {
-                    url [
-                      "textures/solar_cell_metalness.png"
-                    ]
-                  }
-                  normalMap ImageTexture {
-                    url [
-                      "textures/solar_cell_normal.png"
-                    ]
-                  }
-                  occlusionMap ImageTexture {
-                    url [
-                      "textures/solar_cell_occlusion.png"
-                    ]
-                  }
+                appearance SolarCell {
                   textureTransform TextureTransform {
                     scale 3 3
                   }

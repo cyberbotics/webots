@@ -238,7 +238,11 @@ void WbActionManager::populateActions() {
   action->setText(tr("&Plain Rendering"));
   action->setStatusTip(tr("Plain OpenGL rendering."));
   action->setToolTip(action->statusTip());
+#ifdef __APPLE__
+  action->setShortcut(Qt::SHIFT + Qt::Key_P);
+#else
   action->setShortcut(Qt::Key_F11);
+#endif
   action->setCheckable(true);
   mActions[PLAIN_RENDERING] = action;
 
@@ -246,7 +250,11 @@ void WbActionManager::populateActions() {
   action->setText(tr("&Wireframe Rendering"));
   action->setStatusTip(tr("Rendering only the segments between the vertices."));
   action->setToolTip(action->statusTip());
+#ifdef __APPLE__
+  action->setShortcut(Qt::SHIFT + Qt::Key_W);
+#else
   action->setShortcut(Qt::Key_F12);
+#endif
   action->setCheckable(true);
   mActions[WIREFRAME_RENDERING] = action;
 

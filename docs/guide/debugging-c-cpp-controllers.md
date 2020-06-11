@@ -8,7 +8,7 @@ To debug a C/C++ controller with Microsoft Visual Studio, please see [here](usin
 
 When a controller process performs an illegal instruction, it is terminated by the operating system while the Webots process and the other controller processes remain active.
 Although Webots is still active, the simulation blocks because it waits for data from the terminated controller.
-So if you come across a situation where your simulation stops unexpectedly, but the Webots GUI is still responsive, this usually indicates the crash of a controller.
+So if you come across a situation where your simulation stops unexpectedly, but the Webots GUI is still responsive, this usually indicates that the controller has crashed .
 This can easily be confirmed by listing the active processes at this moment: For example on Linux, type:
 
 ```sh
@@ -26,7 +26,7 @@ $ ps -e
 ```
 
 On macOS, use rather `ps -x` and on Windows use the *Task Manager* for this.
-If one of your robot controllers is missing in the list (or appearing as *<defunct>*) this confirms that it has crashed and therefore blocked the simulation.
+If one of your robot controllers is missing in the list (or appearing as *defunct*) this confirms that it has crashed and therefore blocked the simulation.
 In this example the "soccer\_supervisor" has crashed.
 Note that the crash of a controller is almost certainly caused by an error in the controller code, because an error in Webots would have caused Webots to crash.
 Fortunately, the GNU debugger (`gdb`) can usually help finding the reason of the crash.
@@ -118,5 +118,9 @@ $1 = 0x0
 
 The `frame` command instructs the debugger to select the specified stack frame, and the `print` command prints the current value of an expression.
 In this simple example we clearly see that the problem is caused by a NULL (0x0) *time\_string* argument passed to the `sprintf` function.
-The next steps are to: fix the problem, recompile the controller and reload the world to give it another try.
-Once it works correctly you can remove the *-g* flag from the Makefile.
+The next steps are to: 
+1. Fix the problem
+2. Recompile the controller 
+3. Reload the world to give it another try.
+
+Once it works and gives the correct output you can remove the *-g* flag from the Makefile.

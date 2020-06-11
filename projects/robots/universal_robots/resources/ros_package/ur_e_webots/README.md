@@ -9,13 +9,13 @@ roslaunch ur_e_webots ur5e_joint_limited.launch
 You can then control the robot with MoveIt!, use the following launch file (from the `universal_robot` ROS package) to start MoveIt!:
 
 ```
-roslaunch ur5_moveit_config ur5_moveit_planning_execution.launch
+roslaunch ur5_e_moveit_config ur5_e_moveit_planning_execution.launch
 ```
 
 For starting up RViz with a configuration including the MoveIt! Motion Planning plugin, run the following launch file (from the `universal_robot` ROS package):
 
 ```
-roslaunch ur5_moveit_config moveit_rviz.launch config:=true
+roslaunch ur5_e_moveit_config moveit_rviz.launch config:=true
 ```
 
 ## Multi Robots

@@ -449,6 +449,7 @@ bool RosSupervisor::virtualRealityHeadsetIsUsedCallback(webots_ros::get_bool::Re
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetIdCallback(webots_ros::node_get_id::Request &req, webots_ros::node_get_id::Response &res) {
   assert(this);
   if (!req.node)
@@ -458,6 +459,7 @@ bool RosSupervisor::nodeGetIdCallback(webots_ros::node_get_id::Request &req, web
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetTypeCallback(webots_ros::node_get_type::Request &req, webots_ros::node_get_type::Response &res) {
   assert(this);
   if (!req.node)
@@ -467,6 +469,7 @@ bool RosSupervisor::nodeGetTypeCallback(webots_ros::node_get_type::Request &req,
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetTypeNameCallback(webots_ros::node_get_name::Request &req, webots_ros::node_get_name::Response &res) {
   assert(this);
   if (!req.node)
@@ -476,6 +479,7 @@ bool RosSupervisor::nodeGetTypeNameCallback(webots_ros::node_get_name::Request &
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetDefCallback(webots_ros::node_get_name::Request &req, webots_ros::node_get_name::Response &res) {
   assert(this);
   if (!req.node)
@@ -485,6 +489,7 @@ bool RosSupervisor::nodeGetDefCallback(webots_ros::node_get_name::Request &req, 
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetBaseTypeNameCallback(webots_ros::node_get_name::Request &req,
                                                 webots_ros::node_get_name::Response &res) {
   assert(this);
@@ -495,6 +500,7 @@ bool RosSupervisor::nodeGetBaseTypeNameCallback(webots_ros::node_get_name::Reque
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetParentNodeCallback(webots_ros::node_get_parent_node::Request &req,
                                               webots_ros::node_get_parent_node::Response &res) {
   assert(this);
@@ -505,6 +511,7 @@ bool RosSupervisor::nodeGetParentNodeCallback(webots_ros::node_get_parent_node::
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetPositionCallback(webots_ros::node_get_position::Request &req,
                                             webots_ros::node_get_position::Response &res) {
   assert(this);
@@ -519,6 +526,7 @@ bool RosSupervisor::nodeGetPositionCallback(webots_ros::node_get_position::Reque
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetOrientationCallback(webots_ros::node_get_orientation::Request &req,
                                                webots_ros::node_get_orientation::Response &res) {
   assert(this);
@@ -531,6 +539,7 @@ bool RosSupervisor::nodeGetOrientationCallback(webots_ros::node_get_orientation:
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetCenterOfMassCallback(webots_ros::node_get_center_of_mass::Request &req,
                                                 webots_ros::node_get_center_of_mass::Response &res) {
   assert(this);
@@ -545,6 +554,7 @@ bool RosSupervisor::nodeGetCenterOfMassCallback(webots_ros::node_get_center_of_m
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetNumberOfContactPointsCallback(webots_ros::node_get_number_of_contact_points::Request &req,
                                                          webots_ros::node_get_number_of_contact_points::Response &res) {
   assert(this);
@@ -569,6 +579,7 @@ bool RosSupervisor::nodeGetContactPointCallback(webots_ros::node_get_contact_poi
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetStaticBalanceCallback(webots_ros::node_get_static_balance::Request &req,
                                                  webots_ros::node_get_static_balance::Response &res) {
   assert(this);
@@ -579,6 +590,7 @@ bool RosSupervisor::nodeGetStaticBalanceCallback(webots_ros::node_get_static_bal
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetVelocityCallback(webots_ros::node_get_velocity::Request &req,
                                             webots_ros::node_get_velocity::Response &res) {
   assert(this);
@@ -596,6 +608,7 @@ bool RosSupervisor::nodeGetVelocityCallback(webots_ros::node_get_velocity::Reque
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeSetVelocityCallback(webots_ros::node_set_velocity::Request &req,
                                             webots_ros::node_set_velocity::Response &res) {
   assert(this);
@@ -672,6 +685,7 @@ bool RosSupervisor::nodeGetFieldCallback(webots_ros::node_get_field::Request &re
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeMoveViewpointCallback(webots_ros::node_move_viewpoint::Request &req,
                                               webots_ros::node_move_viewpoint::Response &res) {
   assert(this);
@@ -695,6 +709,7 @@ bool RosSupervisor::nodeSetVisibilityCallback(webots_ros::node_set_visibility::R
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeRemoveCallback(webots_ros::node_remove::Request &req, webots_ros::node_remove::Response &res) {
   assert(this);
   if (!req.node)
@@ -705,6 +720,7 @@ bool RosSupervisor::nodeRemoveCallback(webots_ros::node_remove::Request &req, we
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeResetPhysicsCallback(webots_ros::node_reset_functions::Request &req,
                                              webots_ros::node_reset_functions::Response &res) {
   assert(this);
@@ -716,6 +732,7 @@ bool RosSupervisor::nodeResetPhysicsCallback(webots_ros::node_reset_functions::R
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeRestartControllerCallback(webots_ros::node_reset_functions::Request &req,
                                                   webots_ros::node_reset_functions::Response &res) {
   assert(this);
@@ -727,6 +744,7 @@ bool RosSupervisor::nodeRestartControllerCallback(webots_ros::node_reset_functio
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::fieldGetTypeCallback(webots_ros::field_get_type::Request &req, webots_ros::field_get_type::Response &res) {
   assert(this);
   if (!req.field)
@@ -736,6 +754,7 @@ bool RosSupervisor::fieldGetTypeCallback(webots_ros::field_get_type::Request &re
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::fieldGetTypeNameCallback(webots_ros::field_get_type_name::Request &req,
                                              webots_ros::field_get_type_name::Response &res) {
   assert(this);
@@ -746,6 +765,7 @@ bool RosSupervisor::fieldGetTypeNameCallback(webots_ros::field_get_type_name::Re
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::fieldGetCountCallback(webots_ros::field_get_count::Request &req,
                                           webots_ros::field_get_count::Response &res) {
   assert(this);

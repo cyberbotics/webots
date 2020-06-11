@@ -34,7 +34,7 @@ WoodenBox {
   mass 0.2
 }
 E-puck {
-  controller "e-puck_go_forward"
+  controller "epuck_go_forward"
 }
 DEF BALL Solid {
   translation 0 0.2 -0.2

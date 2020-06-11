@@ -29,14 +29,12 @@ public:
   void publishValue(ros::Publisher publisher) override;
   void rosEnable(int samplingPeriod) override;
   void rosDisable() override { cleanup(); }
-  std::string deviceName() override;
   int rosSamplingPeriod() override;
 
 private:
   void cleanup();
 
   Motor *mMotor;
-  int mType;
 };
 
 #endif  // ROS_MOTOR_SENSOR_HPP

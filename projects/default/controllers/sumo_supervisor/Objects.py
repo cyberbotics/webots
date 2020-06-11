@@ -25,7 +25,8 @@ CAR_MODEL = [
     'ToyotaPriusSimple',
     'LincolnMKZSimple',
     'RangeRoverSportSVRSimple',
-    'TeslaModel3Simple'
+    'TeslaModel3Simple',
+    'MercedesBenzSprinterSimple'
 ]
 
 BUS_MODEL = ['BusSimple']
@@ -49,6 +50,7 @@ WHEEL_RADIUS = {
     'LincolnMKZSimple': 0.358,
     'RangeRoverSportSVRSimple': 0.358,
     'TeslaModel3Simple': 0.36,
+    'MercedesBenzSprinterSimple': 0.4,
     'BusSimple': 0.56,
     'TruckSimple': 0.5,
     'ScooterSimple': 0.23,

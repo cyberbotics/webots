@@ -22,6 +22,7 @@
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
 #include <QtCore/QProcess>
+#include <QtCore/QStringList>
 #include "WbTextEditor.hpp"
 
 class QAction;
@@ -73,7 +74,7 @@ private:
   void updateTargetModificationTime();
   void reloadMessageBoxIfNeeded();
   const QDir compileDir() const;
-  QString getJavaCommandLine(const QString &target) const;
+  QStringList getJavaCommandLine(const QString &target) const;
 
 private slots:
   void readStdout();

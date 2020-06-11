@@ -27,8 +27,8 @@ Tiago++ {
   SFBool      synchronization       TRUE
   SFBool      selfCollision         FALSE
   MFNode      lidarSlot             []
-  MFNode      endEffectorRightSlot  TiagoGripper{}
-  MFNode      endEffectorLeftSlot   TiagoGripper{}
+  MFNode      endEffectorRightSlot  TiagoGripper { name "right" }
+  MFNode      endEffectorLeftSlot   TiagoGripper { name "left" }
 }
 ```
 > **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago++/protos/Tiago++.proto](https://github.com/cyberbotics/webots/tree/master/projects/robots/pal_robotics/tiago++/protos/Tiago++.proto)"

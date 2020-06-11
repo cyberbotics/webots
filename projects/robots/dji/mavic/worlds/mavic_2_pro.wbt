@@ -42,7 +42,8 @@ Road {
     200 0 200
   ]
   splineSubdivision 8
-  appearance SquarePavement {
+  appearance Pavement {
+    type "black stone"
   }
 }
 Windmill {

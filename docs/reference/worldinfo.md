@@ -59,8 +59,7 @@ See [this chapter](physics-plugin.md) for a description on how to set up a physi
 This is especially useful for modeling hydrodynamic forces, wind, non-uniform friction, etc.
 
 - The `basicTimeStep` field defines the duration of the simulation step executed by Webots.
-It is a floating point value expressed in milliseconds.
-The minimum value for this field is 0.001, that is, one microsecond.
+It is a floating point value expressed in milliseconds where the minimum value is 1.
 Setting this field to a high value will accelerate the simulation, but will decrease the accuracy and the stability, especially for physics computations and collision detection.
 It is usually recommended to tune this value in order to find a suitable speed/accuracy trade-off.
 

@@ -445,7 +445,6 @@ void WbAddNodeDialog::buildTree() {
       QTreeWidgetItem *const child = new QTreeWidgetItem(mUsesItem, strl);
 
       child->setIcon(0, QIcon("enabledIcons:node.png"));
-      item->addChild(child);
     }
   }
 

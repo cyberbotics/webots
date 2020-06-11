@@ -8,14 +8,14 @@ PROTO CircleArena [
   field SFVec3f    translation     0 0 0
   field SFRotation rotation        0 1 0 0
   field SFString   name            "circle arena"
-  field SFFloat    radius          1.0                    # Defines the radius of the arena.
-  field SFString   contactMaterial "default"              # Is `Solid.contactMaterial`.
-  field SFNode     floorAppearance ChequeredParquetry {}  # Defines the appearance of the floor.
-  field SFVec2f    floorTileSize   0.5 0.5                # Defines the size of the texture used for the floor.
-  field SFFloat    wallThickness   0.01                   # Defines the thickness of the wall.
-  field SFFloat    wallHeight      0.1                    # Defines the height of the wall.
-  field SFNode     wallAppearance  BrushedAluminium {}    # Defines the appearance of the wall.
-  field SFInt32    subdivision     48                     # Defines the subdivision of the wall cylinder.
+  field SFFloat    radius          1.0                             # Defines the radius of the arena.
+  field SFString   contactMaterial "default"                       # Is `Solid.contactMaterial`.
+  field SFNode     floorAppearance Parquetry { type "chequered" }  # Defines the appearance of the floor.
+  field SFVec2f    floorTileSize   0.5 0.5                         # Defines the size of the texture used for the floor.
+  field SFFloat    wallThickness   0.01                            # Defines the thickness of the wall.
+  field SFFloat    wallHeight      0.1                             # Defines the height of the wall.
+  field SFNode     wallAppearance  BrushedAluminium {}             # Defines the appearance of the wall.
+  field SFInt32    subdivision     48                              # Defines the subdivision of the wall cylinder.
 
   # Deprecated in R2019a
   hiddenField MFString   floorTextureUrl "textures/checkered_parquetry.jpg"

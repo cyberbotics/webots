@@ -1253,7 +1253,7 @@ DEF SALAMANDER Robot {
           roughness 0.2
           roughnessMap ImageTexture {
             url [
-              "textures/salamander_specular.jpg"
+              "textures/salamander_roughness.jpg"
             ]
           }
           metalness 0

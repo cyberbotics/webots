@@ -153,7 +153,7 @@ void EPuckFacade::initDevices() {
 void EPuckFacade::printDeviceError(const QString &deviceName) {
   QTextStream err(stderr);
   err << QObject::tr("Warning: the device %1 is not found. Please make sure your e-puck model has this device").arg(deviceName)
-      << endl;
+      << '\n';
 }
 
 double EPuckFacade::timer() const {
@@ -176,7 +176,7 @@ void EPuckFacade::initializeRobot() {
 
   if (mCameraSize[HEIGHT] != 1) {
     QTextStream err(stderr);
-    err << QObject::tr("Warning: the camera device of the e-puck should have an height of one.") << endl;
+    err << QObject::tr("Warning: the camera device of the e-puck should have an height of one.") << '\n';
   }
 }
 

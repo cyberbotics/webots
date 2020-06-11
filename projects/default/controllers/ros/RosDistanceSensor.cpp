@@ -18,11 +18,7 @@
 RosDistanceSensor::RosDistanceSensor(DistanceSensor *distanceSensor, Ros *ros) :
   RosSensor(distanceSensor->getName(), distanceSensor, ros) {
   mDistanceSensor = distanceSensor;
-  std::string deviceNameFixed = mDistanceSensor->getName();
-  for (size_t i = 0; i < deviceNameFixed.size(); i++) {
-    if (deviceNameFixed[i] == '-' || deviceNameFixed[i] == ' ')
-      deviceNameFixed[i] = '_';
-  }
+  std::string deviceNameFixed = Ros::fixedNameString(mDistanceSensor->getName());
   mMinValueServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_min_value",
                                                    &RosDistanceSensor::getMinValueCallback);
   mMaxValueServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_max_value",

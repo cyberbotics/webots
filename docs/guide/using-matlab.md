@@ -15,7 +15,7 @@ In addition, it becomes possible to reuse your existing MATLAB code directly in 
 In order to use MATLAB controllers in Webots, the MATLAB software must be installed (a MATLAB license is required).
 Webots {{ webots.version.full }} supports only 64bits MATLAB versions from 2015b.
 
-On Windows and MATLAB versions prior to R2019b, the [MATLAB MinGW-w64 C/C++ Compiler](https://fr.mathworks.com/matlabcentral/fileexchange/52848-matlab-support-for-mingw-w64-c-c-compiler) needs to be installed in addition to MATLAB.
+On Windows the [MATLAB MinGW-w64 C/C++ Compiler](https://fr.mathworks.com/matlabcentral/fileexchange/52848-matlab-support-for-mingw-w64-c-c-compiler) needs to be installed in addition to MATLAB.
 
 Webots must be able to access the "matlab" executable (usually a script) in order to run controller m-files.
 Webots looks for the "matlab" executable in every directory of your *PATH* (or *Path* on Windows) environment variable.

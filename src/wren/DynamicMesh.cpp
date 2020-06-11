@@ -123,23 +123,27 @@ namespace wren {
 
   void DynamicMesh::clear(bool vertices, bool normals, bool textureCoordinates, bool colors) {
     if (vertices) {
-      mCoords.clear();
-      mShadowCoords.clear();
-      mCoordsDirty = true;
-      mSupportShadows = true;
+      if (mCoords.size() > 0) {
+        mCoords.clear();
+        mCoordsDirty = true;
+      }
+      if (mShadowCoords.size() > 0) {
+        mShadowCoords.clear();
+        mSupportShadows = true;
+      }
     }
 
-    if (normals) {
+    if (normals && mNormals.size() > 0) {
       mNormals.clear();
       mNormalsDirty = true;
     }
 
-    if (textureCoordinates) {
+    if (textureCoordinates && mTexCoords.size() > 0) {
       mTexCoords.clear();
       mTexCoordsDirty = true;
     }
 
-    if (colors) {
+    if (colors && mColors.size() > 0) {
       mColors.clear();
       mColorsDirty = true;
     }

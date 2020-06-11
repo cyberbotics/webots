@@ -235,8 +235,7 @@ void Automaton::stop() {
 }
 
 void Automaton::fromString(const QString &string) {
-  QStringList lines = string.split(QRegExp("\n"), QString::SkipEmptyParts);
-
+  QStringList lines = string.split(QRegExp("\n"), Qt::SkipEmptyParts);
   foreach (const QString &line, lines) {
     if (line.startsWith('S')) {
       State *s = new State(QPointF());

@@ -21,8 +21,8 @@ static const double values[N_VALUES] = {
   123456789012345.0, 0.123456789012345,
   // +/- double epsilon
   DBL_EPSILON, -DBL_EPSILON,
-  // min/max double
-  DBL_MIN, DBL_MAX};
+  // min/max double/float: we don't use DBL_MAX as it forbidden by Webots because it causes ODE failures.
+  DBL_MIN, FLT_MAX};
 
 int main(int argc, char **argv) {
   wb_robot_init();

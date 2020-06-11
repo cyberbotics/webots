@@ -162,8 +162,8 @@ class Command(object):
             outFile.close()
             errFile.close()
 
-        self.outFileName = os.environ['WEBOTS_HOME'] + os.sep + 'tests' + os.sep + 'webots_stdout.txt'
-        self.errFileName = os.environ['WEBOTS_HOME'] + os.sep + 'tests' + os.sep + 'webots_stderr.txt'
+        self.outFileName = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'webots_stdout.txt')
+        self.errFileName = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'webots_stderr.txt')
         self.resetAttributes()
 
         self.silent = silent

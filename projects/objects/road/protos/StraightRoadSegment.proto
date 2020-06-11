@@ -32,7 +32,7 @@ PROTO StraightRoadSegment [
   field        SFFloat              startingRoadTilt          0                       # Defines the tilt of the road at the beginning.
   field        SFFloat              endingRoadTilt            0                       # Defines the tilt of the road at the end.
   field        SFNode               appearance                Asphalt { }             # Defines the appearance of the road.
-  field        SFNode               pavementAppearance        StonePavement { }       # Defines the appearance of the sidewalk.
+  field        SFNode               pavementAppearance        Pavement { }            # Defines the appearance of the sidewalk.
   field        MFString             bottomTexture             []                      # Defines the texture to be used for the bottom of the road.
   field        SFBool               locked                    TRUE                    # Is `Solid.locked`.
   field        SFBool               roadBoundingObject        FALSE                   # Defines whether the road should have a bounding object.

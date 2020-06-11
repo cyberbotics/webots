@@ -85,14 +85,11 @@ void scheduler_send_request(WbRequest *r) {
 
 WbRequest *scheduler_read_data() {
   int delay = 0;
-  unsigned int tcp = 0;
-  if (scheduler_pipe || tcp) {
+  if (scheduler_pipe) {
     int size = 0, socket_size = 0;
-    if (scheduler_pipe) {
-      do
-        size += g_pipe_receive(scheduler_pipe, scheduler_data + size, sizeof(int) - size);
-      while (size != sizeof(int));
-    }
+    do
+      size += g_pipe_receive(scheduler_pipe, scheduler_data + size, sizeof(int) - size);
+    while (size != sizeof(int));
     // read the size of the socket chunk
     socket_size = scheduler_read_int32(scheduler_data);
     // if more than 1KB needs to be downloaded, show a progress bar

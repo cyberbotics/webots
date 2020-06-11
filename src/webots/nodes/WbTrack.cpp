@@ -339,11 +339,8 @@ void WbTrack::updateTextureTransform() {
 }
 
 void WbTrack::updateTextureAnimation() {
-  if (!mTextureTransform && !mTextureAnimationField->value().isNull()) {
-    assert(mShape && mShape->abstractAppearance());
-    mShape->abstractAppearance()->warn(
-      tr("Texture animation is enabled only if the TextureTransform node is explicitly defined."));
-  }
+  if (!mTextureTransform && !mTextureAnimationField->value().isNull())
+    warn(tr("Texture animation is enabled only if the TextureTransform node is explicitly defined."));
 }
 
 void WbTrack::updateWheelsList() {

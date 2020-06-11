@@ -5,4 +5,4 @@ sceneTreePerspectives: 000000ff0000000000000002000001c60000011201000000060100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 0 "controllers/e-puck_go_forward/e-puck_go_forward.c"
+textFiles: 0 "controllers/epuck_go_forward/epuck_go_forward.c"

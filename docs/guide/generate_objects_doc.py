@@ -123,6 +123,14 @@ for proto in prioritaryProtoList + fileList:
                     newLine = newLine.replace(url, '[%s](%s)' % (url, url))
                 description += newLine + '\n'
         if skipProto:
+            imagePath = 'images/objects/%s/%s/model.png' % (category, protoName)
+            if upperCategory == 'projects':
+                imagePath = 'images/%s/%s.png' % (category, protoName)
+            if os.path.exists(imagePath):
+                os.remove(imagePath)
+            thumbnailPath = imagePath.replace('.png', '.thumbnail.png')
+            if os.path.exists(thumbnailPath):
+                os.remove(thumbnailPath)
             continue
         # fields
         matches = re.finditer(r'\[\n((.*\n)*)\]', content, re.MULTILINE)
@@ -216,7 +224,7 @@ for proto in prioritaryProtoList + fileList:
         file.write(description + '\n')
 
         imagePath = 'images/objects/%s/%s/model.png' % (category, protoName)
-        if upperCategory == 'projects':
+        if upperCategory == 'projects':  # appearances
             imagePath = 'images/%s/%s.png' % (category, protoName)
         thumbnailPath = imagePath.replace('.png', '.thumbnail.png')
         if os.path.isfile(thumbnailPath):
@@ -226,7 +234,31 @@ for proto in prioritaryProtoList + fileList:
             file.write(u'![%s](%s)\n\n' % (protoName, imagePath))
             file.write(u'%end\n\n')
         else:
-            sys.stderr.write('Please add a "%s" file.\n' % imagePath)
+            # maybe multiple images
+            if os.path.exists(os.path.dirname(imagePath)):
+                availableImages = [os.path.dirname(imagePath) + '/' + f for f in os.listdir(os.path.dirname(imagePath))]
+                regex = imagePath.replace('.png', '_..png')
+                files = []
+                for image in availableImages:
+                    if re.match(regex, image):
+                        files.append(image)
+                if files:
+                    files.sort()  # alphapetically ordered
+                    file.write(u'%figure\n\n')
+                    file.write(u'|     |     |\n')
+                    file.write(u'|:---:|:---:|\n')
+                    for i in range(len(files)):
+                        if i % 2 == 0:
+                            file.write(u'| ![%s](%s) |' % (os.path.basename(files[i]), files[i]))
+                        else:
+                            file.write(u'![%s](%s) |\n' % (os.path.basename(files[i]), files[i]))
+                    if not len(files) % 2 == 0:
+                        file.write(u' |\n')
+                    file.write(u'\n%end\n\n')
+                else:
+                    sys.stderr.write('Please add a "%s" file.\n' % imagePath)
+            else:
+                sys.stderr.write('Please add a "%s" file.\n' % imagePath)
 
         if baseType:
             file.write(u'Derived from [%s](../reference/%s.md).\n\n' % (baseType, baseType.lower()))

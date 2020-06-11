@@ -239,7 +239,7 @@ bool WbFileUtil::isDirectoryWritable(const QString &path) {
 
 void WbFileUtil::revealInFileManager(const QString &file) {
 #ifdef _WIN32
-  QProcess::startDetached("explorer /select," + QDir::toNativeSeparators(file));
+  QProcess::startDetached("explorer", QStringList("/select," + QDir::toNativeSeparators(file)));
 #elif defined(__APPLE__)
   QStringList args;
   args << "-e"

@@ -156,6 +156,7 @@ button::-moz-focus-inner {
   border: 2px solid #ddd;
   border-radius: 20px;
   padding: 10px;
+  box-sizing: content-box;
 }
 
 .webotsView {
@@ -207,6 +208,7 @@ button::-moz-focus-inner {
   color: #ccc;
   font-size: 14px;
   font-family: monospace;
+  line-height: normal;
 }
 
 .webotsTabContainer {

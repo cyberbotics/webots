@@ -6,7 +6,7 @@ WEBOTS_HOME_LIB = $(WEBOTS_HOME)/lib/webots
 DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/mac/release
 WGET = LANG=en_US.UTF-8 wget -qq
 
-QT_PACKAGE = qt-5.13.1-release.tar.bz2
+QT_PACKAGE = qt-5.15.0-release.tar.bz2
 ASSIMP_PACKAGE = assimp.tar.bz2
 FREETYPE_PACKAGE = macos-precompiled-freetype-2.9.tar.bz2
 FFMPEG_PACKAGE = ffmpeg.tar.bz2
@@ -45,7 +45,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@echo "# downloading $(QT_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@$(WGET) $(DEPENDENCIES_URL)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "4ed0bfacc119e941b5b73d011736d63c" != `md5 -q $(QT_PACKAGE)` ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
+	@if [ "e22820854180e1ed304a3cc058b73249" != `md5 -q $(QT_PACKAGE)` ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 
 
@@ -84,7 +84,7 @@ $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/objs/.libs/libfreetype.a:
 
 
 ffmpeg-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE) $(WEBOTS_HOME)/util/ffmpeg
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE) $(WEBOTS_HOME)/util
 
 ffmpeg: $(WEBOTS_HOME)/util/ffmpeg
 
@@ -119,7 +119,7 @@ $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
 
 
 lua-gd-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE) $(WEBOTS_HOME_LIB)/libgd.3.dylib $(WEBOTS_HOME)/resources/lua/modules/gd/gd.dylib
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE) $(WEBOTS_HOME_LIB)/libgd.3.dylib $(WEBOTS_HOME)/resources/lua/modules/gd
 
 lua-gd: $(WEBOTS_HOME)/resources/lua/modules/gd/gd.dylib
 
@@ -151,7 +151,7 @@ $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/libminiglu.a:
 
 
 ois-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE) $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE) $(WEBOTS_HOME_LIB)/*OIS.dylib $(WEBOTS_HOME)/include/libOIS
 
 ois: $(WEBOTS_HOME_LIB)/libOIS.dylib
 

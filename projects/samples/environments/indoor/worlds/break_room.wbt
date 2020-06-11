@@ -23,24 +23,8 @@ TexturedBackgroundLight {
 Floor {
   translation -0.93 0 -0.243
   size 7.7 12.86
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/light_strip_parquetry_base_color.jpg"
-      ]
-    }
-    roughness 1
-    roughnessMap ImageTexture {
-      url [
-        "textures/light_strip_parquetry_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/light_strip_parquetry_normal.jpg"
-      ]
-    }
+  appearance Parquetry {
+    type "light strip"
     textureTransform TextureTransform {
       rotation 1.57
       scale 0.4 0.4

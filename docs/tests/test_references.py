@@ -4,6 +4,7 @@ from books import Books
 
 import os
 import re
+import sys
 
 
 def slugify(txt):
@@ -28,9 +29,15 @@ class TestReferences(unittest.TestCase):
         books = Books()
         self.anchors = {}
         for book in books.books:
+
+            # we are not responsible of the content of the discord chats
+            if book.name == 'discord':
+                continue
+
             for md_path in book.md_paths:
                 anchors = []
-                with open(md_path) as f:
+                args = {} if sys.version_info[0] < 3 else {'encoding': 'utf-8'}
+                with open(md_path, **args) as f:
                     skipUntil = ''
                     for line in f:
                         if skipUntil:
@@ -67,6 +74,11 @@ class TestReferences(unittest.TestCase):
         """Test that the anchors are unique."""
         books = Books()
         for book in books.books:
+
+            # we are not responsible of the content of the discord chats
+            if book.name == 'discord':
+                continue
+
             for md_path in book.md_paths:
                 anchors = self.anchors[md_path]
                 s = set()
@@ -83,8 +95,14 @@ class TestReferences(unittest.TestCase):
         """Test that the MD files refer valid URLs."""
         books = Books()
         for book in books.books:
+
+            # we are not responsible of the content of the discord chats
+            if book.name == 'discord':
+                continue
+
             for md_path in book.md_paths:
-                with open(md_path) as f:
+                args = {} if sys.version_info[0] < 3 else {'encoding': 'utf-8'}
+                with open(md_path, **args) as f:
                     content = f.read()
                 for m in re.finditer(r"[^!]\[(.*?)\]\(([^\)]+)\)", content):
                     # remove parameters

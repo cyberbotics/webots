@@ -44,5 +44,8 @@ PROTO SoccerBall [
       mass IS mass
       density -1
     }
+    recognitionColors [
+      1 1 1, 0 0 0
+    ]
   }
 }
