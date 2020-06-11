@@ -1585,12 +1585,15 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
 }
 
 void WbSupervisorUtilities::writeConfigure(QDataStream &stream) {
+  WbNode *selfNode = mRobot;
+  while (selfNode->protoParameterNode())
+    selfNode = selfNode->protoParameterNode();
   stream << (short unsigned int)0;
   stream << (unsigned char)C_CONFIGURE;
-  stream << (int)mRobot->uniqueId();
-  QByteArray s = mRobot->modelName().toUtf8();
+  stream << (int)selfNode->uniqueId();
+  const QByteArray &s = selfNode->modelName().toUtf8();
   stream.writeRawData(s.constData(), s.size() + 1);
-  QByteArray ba = mRobot->defName().toUtf8();
+  const QByteArray &ba = selfNode->defName().toUtf8();
   stream.writeRawData(ba.constData(), ba.size() + 1);
 }
 
