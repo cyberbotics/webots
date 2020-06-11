@@ -184,6 +184,15 @@ bool WbPerspective::readContent(QTextStream &in, bool reloading) {
       WbLog::warning(QObject::tr("Unknown key in perspective file: %1 (ignored).").arg(key));
   }
 
+  // Backward compatibility with < R2020b
+  if (mConsolesSettings.isEmpty() && mVersion.majorNumber() < WbVersion(2020, 1, 0)) {
+    ConsoleSettings settings;
+    settings.name = "Console";
+    settings.enabledFilters = QStringList() << "All";
+    settings.enabledLevels = QStringList() << "All";
+    mConsolesSettings.append(settings);
+  }
+
   return true;
 }
 
