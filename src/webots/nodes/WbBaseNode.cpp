@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbBaseNode.hpp"
+#include "WbBasicJoint.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbDictionary.hpp"
 #include "WbNodeOperations.hpp"
@@ -235,6 +236,13 @@ bool WbBaseNode::isInvisibleNode() const {
   return WbWorld::instance()->viewpoint()->getInvisibleNodes().contains(const_cast<WbBaseNode *>(this));
 }
 
+QString WbBaseNode::documentationUrl() const {
+  QStringList bookAndPage = documentationBookAndPage(WbNodeUtilities::isRobotTypeName(nodeModelName()));
+  if (!bookAndPage.isEmpty())
+    return QString("%1/doc/%2/%3").arg(WbStandardPaths::cyberboticsUrl()).arg(bookAndPage[0]).arg(bookAndPage[1]);
+  return QString();
+}
+
 bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
   if (!writer.isX3d())
     return WbNode::exportNodeHeader(writer);
@@ -242,10 +250,10 @@ bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
   writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
   if (isInvisibleNode())
     writer << " render=\'false\'";
-
-  const QString &docUrl = documentationUrl();
-  if (!docUrl.isEmpty())
-    writer << QString(" docUrl=\'%1'").arg(docUrl);
+  QStringList bookAndPage = documentationBookAndPage(WbNodeUtilities::isRobotTypeName(nodeModelName()));
+  if (!bookAndPage.isEmpty())
+    writer
+      << QString(" docUrl=\'%1/doc/%2/%3\'").arg(WbStandardPaths::cyberboticsUrl()).arg(bookAndPage[0]).arg(bookAndPage[1]);
 
   if (isUseNode() && defNode()) {  // export referred DEF node id
     writer << " USE=\'n" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
@@ -254,9 +262,41 @@ bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
   return false;
 }
 
-QString WbBaseNode::documentationUrl() const {
-  QStringList bookAndPage = documentationBookAndPage(WbNodeUtilities::isRobotTypeName(nodeModelName()));
-  if (!bookAndPage.isEmpty())
-    return QString("%1/doc/%2/%3").arg(WbStandardPaths::cyberboticsUrl()).arg(bookAndPage[0]).arg(bookAndPage[1]);
-  return QString();
+bool WbBaseNode::isUrdfRootLink() const {
+  if (findSFString("name") || dynamic_cast<WbBasicJoint *>(parent()))
+    return true;
+  return false;
+}
+
+void WbBaseNode::exportURDFJoint(WbVrmlWriter &writer) const {
+  if (!dynamic_cast<WbBasicJoint *>(parent())) {
+    WbVector3 translation;
+    WbVector3 rotationEuler;
+    const WbNode *const upperLinkRoot = findUrdfLinkRoot();
+
+    if (dynamic_cast<const WbTransform *>(this) && dynamic_cast<const WbTransform *>(upperLinkRoot)) {
+      const WbTransform *const upperLinkRootTransform = static_cast<const WbTransform *>(this);
+      translation = upperLinkRootTransform->translationFrom(upperLinkRoot);
+      rotationEuler = upperLinkRootTransform->rotationMatrixFrom(upperLinkRoot).toEulerAnglesZYX();
+    }
+
+    writer.increaseIndent();
+    writer.indent();
+    writer << QString("<joint name=\"%1_%2_joint\" type=\"fixed\">\n").arg(upperLinkRoot->urdfName()).arg(urdfName());
+
+    writer.increaseIndent();
+    writer.indent();
+    writer << QString("<parent link=\"%1\"/>\n").arg(upperLinkRoot->urdfName());
+    writer.indent();
+    writer << QString("<child link=\"%1\"/>\n").arg(urdfName());
+    writer.indent();
+    writer << QString("<origin xyz=\"%1\" rpy=\"%2\" />\n")
+                .arg(translation.toString(WbPrecision::DOUBLE_MAX))
+                .arg(rotationEuler.toString(WbPrecision::DOUBLE_MAX));
+    writer.decreaseIndent();
+
+    writer.indent();
+    writer << "</joint>\n";
+    writer.decreaseIndent();
+  }
 }

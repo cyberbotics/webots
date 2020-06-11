@@ -83,6 +83,7 @@ Ros::~Ros() {
   mWaitForUserInputEventService.shutdown();
   mGetTimeService.shutdown();
   mGetModelService.shutdown();
+  mGetUrdfService.shutdown();
   mGetDataService.shutdown();
   mSetDataService.shutdown();
   mGetModeService.shutdown();
@@ -167,6 +168,7 @@ void Ros::launchRos(int argc, char **argv) {
     mNodeHandle->advertiseService(mRobotName + "/robot/wait_for_user_input_event", &Ros::waitForUserInputEventCallback, this);
   mGetTimeService = mNodeHandle->advertiseService(mRobotName + "/robot/get_time", &Ros::getTimeCallback, this);
   mGetModelService = mNodeHandle->advertiseService(mRobotName + "/robot/get_model", &Ros::getModelCallback, this);
+  mGetUrdfService = mNodeHandle->advertiseService(mRobotName + "/robot/get_urdf", &Ros::getUrdfCallback, this);
   mGetDataService = mNodeHandle->advertiseService(mRobotName + "/robot/get_data", &Ros::getDataCallback, this);
   mSetDataService = mNodeHandle->advertiseService(mRobotName + "/robot/set_data", &Ros::setDataCallback, this);
   mGetCustomDataService =
@@ -474,6 +476,12 @@ bool Ros::getTimeCallback(webots_ros::get_float::Request &req, webots_ros::get_f
 bool Ros::getModelCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res) {
   assert(mRobot);
   res.value = mRobot->getModel();
+  return true;
+}
+
+bool Ros::getUrdfCallback(webots_ros::get_urdf::Request &req, webots_ros::get_urdf::Response &res) {
+  assert(mRobot);
+  res.value = mRobot->getUrdf(req.prefix);
   return true;
 }
 

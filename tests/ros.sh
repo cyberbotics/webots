@@ -60,6 +60,3 @@ if $missing_service_file ; then
 else
   echo "OK: all service files found"
 fi
-
-# clean up
-[ -d $WEBOTS_HOME/webots_catkin_ws ] && rm -r $WEBOTS_HOME/webots_catkin_ws

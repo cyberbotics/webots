@@ -61,6 +61,8 @@ signals:
   void updateMuscleStretch(double forcePercentage, bool immediateUpdate, int motorIndex);
 
 protected:
+  void writeExport(WbVrmlWriter &writer) const override;
+
   WbJoint(const QString &modelName, WbTokenizer *tokenizer = NULL);
   WbJoint(const WbJoint &other);
   WbJoint(const WbNode &other);
@@ -89,6 +91,7 @@ protected slots:
   virtual void updateMinAndMaxStop(double min, double max);
   virtual void updateAxis();
   void updateJointAxisRepresentation() override;
+  const QString urdfName() const override;
 
 private:
   WbJoint &operator=(const WbJoint &);  // non copyable

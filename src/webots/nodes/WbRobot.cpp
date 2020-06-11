@@ -101,6 +101,7 @@ void WbRobot::init() {
   mJoyStickLastValue = NULL;
   mMouse = NULL;
 
+  mNeedToWriteUrdf = false;
   mControllerStarted = false;
   mNeedToRestartController = false;
   mConfigureRequest = true;
@@ -810,6 +811,17 @@ void WbRobot::handleMessage(QDataStream &stream) {
       updateDevicesAfterInsertion();
       mConfigureRequest = true;
       return;
+    case C_ROBOT_URDF: {
+      short size;
+
+      mNeedToWriteUrdf = true;
+      stream >> size;
+      char data[size];
+      stream.readRawData(data, size);
+      setUrdfPrefix(QString(data));
+
+      return;
+    }
     case C_SET_SAMPLING_PERIOD:  // for the scene tracker
       /*
       stream >> mRefreshRate;
@@ -1160,6 +1172,22 @@ void WbRobot::writeAnswer(QDataStream &stream) {
 
   if (mSupervisorUtilities)
     mSupervisorUtilities->writeAnswer(stream);
+
+  if (mNeedToWriteUrdf) {
+    stream << (short unsigned int)0;
+    stream << (unsigned char)C_ROBOT_URDF;
+
+    QString urdfContent;
+    WbVrmlWriter writer(&urdfContent, modelName() + ".urdf");
+
+    writer.writeHeader(name());
+    write(writer);
+    writer.writeFooter();
+
+    stream.writeRawData(urdfContent.toLocal8Bit(), urdfContent.size() + 1);
+
+    mNeedToWriteUrdf = false;
+  }
 }
 
 bool WbRobot::hasImmediateAnswer() const {
@@ -1397,6 +1425,10 @@ void WbRobot::exportNodeFields(WbVrmlWriter &writer) const {
       writer.writeLiteralString(window());
     }
   }
+}
+
+const QString WbRobot::urdfName() const {
+  return getUrdfPrefix() + QString("base_link");
 }
 
 int WbRobot::computeSimulationMode() {

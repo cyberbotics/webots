@@ -96,6 +96,10 @@ string Robot::getName() const {
   return string(wb_robot_get_name());
 }
 
+string Robot::getUrdf(string prefix) const {
+  return string(wb_robot_get_urdf(prefix.c_str()));
+}
+
 double Robot::getTime() const {
   return wb_robot_get_time();
 }

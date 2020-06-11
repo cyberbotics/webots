@@ -52,6 +52,8 @@ void WbVrmlWriter::setVrmlType() {
     mVrmlType = X3D;
   else if (mFileName.endsWith(".proto", Qt::CaseInsensitive))
     mVrmlType = PROTO;
+  else if (mFileName.endsWith(".urdf", Qt::CaseInsensitive))
+    mVrmlType = URDF;
 }
 
 QString WbVrmlWriter::path() const {
@@ -60,26 +62,26 @@ QString WbVrmlWriter::path() const {
 }
 
 void WbVrmlWriter::writeMFStart() {
-  if (!isX3d()) {
+  if (!isX3d() && !isUrdf()) {
     *this << "[";
     increaseIndent();
   }
 }
 
 void WbVrmlWriter::writeMFSeparator(bool first, bool smallSeparator) {
-  if (!isX3d()) {
+  if (!isX3d() && !isUrdf()) {
     if (smallSeparator && !first) {
       *this << ", ";
     } else {
       *this << "\n";
       indent();
     }
-  } else if (!first)  // X3D
+  } else if (!first && !isUrdf())  // X3D
     *this << " ";
 }
 
 void WbVrmlWriter::writeMFEnd(bool empty) {
-  if (!isX3d()) {
+  if (!isX3d() && !isUrdf()) {
     decreaseIndent();
     if (!empty) {
       *this << "\n";
@@ -146,6 +148,10 @@ void WbVrmlWriter::writeHeader(const QString &title) {
       *this << "</head>\n";
       *this << "<Scene>\n";
       return;
+    case URDF:
+      *this << "<?xml version=\"1.0\"?>\n";
+      *this << "<robot name=\"" + title + "\" xmlns:xacro=\"http://ros.org/wiki/xacro\">\n";
+      return;
     default:
       return;
   }
@@ -155,5 +161,6 @@ void WbVrmlWriter::writeFooter(const QStringList *info) {
   if (isX3d()) {
     *this << "</Scene>\n";
     *this << "</x3d>\n";
-  }
+  } else if (isUrdf())
+    *this << "</robot>\n";
 }
