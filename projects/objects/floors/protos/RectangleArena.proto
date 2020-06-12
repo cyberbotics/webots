@@ -90,15 +90,17 @@ PROTO RectangleArena [
       }
       SolidBox {
         translation %{= floorSize.y / 2 + wallThickness / 2 }% 0 %{= wallHeight / 2 }%
+        rotation 0 0 1 1.5708
         name "wall#3"
-        size %{= wallThickness }% %{= floorSize.x + 2 * wallThickness }% %{= wallHeight }%
+        size %{= floorSize.x + 2 * wallThickness }% %{= wallThickness }% %{= wallHeight }%
         appearance IS wallAppearance
         contactMaterial IS contactMaterial
       }
       SolidBox {
         translation %{= -(floorSize.y / 2 + wallThickness / 2) }% 0 %{= wallHeight / 2 }%
+        rotation 0 0 1 1.5708
         name "wall#4"
-        size %{= wallThickness }% %{= floorSize.x + 2 * wallThickness }% %{= wallHeight }%
+        size %{= floorSize.x + 2 * wallThickness }% %{= wallThickness }% %{= wallHeight }%
         appearance IS wallAppearance
         contactMaterial IS contactMaterial
       }
