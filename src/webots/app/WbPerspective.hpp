@@ -162,6 +162,7 @@ private:
   QHash<QString, QString> mX3dExportParameters;
 
   bool readContent(QTextStream &in, bool reloading);
+  void addDefaultConsole();
   static QString joinUniqueNameList(const QStringList &nameList);
   static void splitUniqueNameList(const QString &text, QStringList &targetList);
   static QString getActionName(WbAction::WbActionKind action);

@@ -36,13 +36,17 @@ int main(int argc, char **argv) {
   fclose(f_urdf);
 
   // Save output of `check_urdf` to file
-  int urdf_check_status = system("check_urdf robot.urdf > result.txt");
-  if (urdf_check_status != -1) {
+  const int urdf_check_status = system("check_urdf robot.urdf > result.txt");
+  FILE *f_res = fopen("result.txt", "r");
+  fseek(f_res, 0L, SEEK_END);
+  const int file_size = ftell(f_res);
+  if ((urdf_check_status >> 8) != 127 && file_size > 0) {
     // `check_urdf` command is available
     // Verify output from `check_urdf`
+    rewind(f_res);
     char result_string[MAX_LINE_LENGTH];
     bool success_word_found = false;
-    FILE *f_res = fopen("result.txt", "r");
+
     while (fgets(result_string, MAX_LINE_LENGTH, f_res))
       if (strstr(result_string, "Successfully Parsed XML"))
         success_word_found = true;
