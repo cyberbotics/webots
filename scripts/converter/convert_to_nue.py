@@ -20,7 +20,7 @@ import math
 import numpy
 import sys
 
-from webots import WebotsModel
+from webots_parser import WebotsParser
 
 
 def translation(value):
@@ -69,10 +69,12 @@ def rotation(value):
 
 
 filename = sys.argv[1]
-world = WebotsModel()
+world = WebotsParser()
 world.load(filename)
 
-updated_protos = ['CardBoardBox', 'CircularArena', 'E-puck', 'Floor', 'Pedestrian', 'RectangleArena', 'WoodenBox']
+# list of proto which have been rotated to respect the FLU orientation
+rotated_protos = ['Book', 'BunchOfSunFlowers', 'CardBoardBox', 'CircleArena', 'E-puck', 'Floor', 'Nao', 'Pedestrian',
+                  'Pioneer3dx', 'RectangleArena', 'WoodenBox']
 
 transform_nodes = ['Tranform', 'Solid', 'Robot']
 
@@ -82,7 +84,7 @@ for node in world.content['root']:
             if field['name'] == 'gravity':
                 field['value'] = -field['value'][1]
                 field['type'] = 'SFFloat'
-    elif node['name'] in updated_protos:
+    elif node['name'] in rotated_protos:
         for field in node['fields']:
             if field['name'] in ['translation', 'location', 'direction']:
                 field['value'] = translation(field['value'])

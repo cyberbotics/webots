@@ -17,7 +17,7 @@
 '''Parse Webots world files.'''
 
 
-class WebotsModel:
+class WebotsParser:
     '''This class reads a world file and parser its structure.'''
     '''It assumes the world file was saved with Webots and the indentation written by Webots was not changed.'''
     def __init__(self):
@@ -73,17 +73,17 @@ class WebotsModel:
         elif type == 'SFBool':
             line += 'TRUE' if value else 'FALSE'
         elif type == 'SFVec2f':
-            line += WebotsModel._str(value[0]) + ' '
-            line += WebotsModel._str(value[1])
+            line += WebotsParser._str(value[0]) + ' '
+            line += WebotsParser._str(value[1])
         elif type == 'SFVec3f' or type == 'SFColor':
-            line += WebotsModel._str(value[0]) + ' '
-            line += WebotsModel._str(value[1]) + ' '
-            line += WebotsModel._str(value[2])
+            line += WebotsParser._str(value[0]) + ' '
+            line += WebotsParser._str(value[1]) + ' '
+            line += WebotsParser._str(value[2])
         elif type == 'SFRotation':
-            line += WebotsModel._str(value[0]) + ' '
-            line += WebotsModel._str(value[1]) + ' '
-            line += WebotsModel._str(value[2]) + ' '
-            line += WebotsModel._str(value[3])
+            line += WebotsParser._str(value[0]) + ' '
+            line += WebotsParser._str(value[1]) + ' '
+            line += WebotsParser._str(value[2]) + ' '
+            line += WebotsParser._str(value[3])
         elif type == 'SFNode':
             self.file.write(line)
             self._write_node(value)
@@ -103,21 +103,21 @@ class WebotsModel:
             if type == 'MFString':
                 self.file.write('"' + value + '"\n')
             elif type == 'MFInt32' or type == 'MFFloat':
-                self.file.write(WebotsModel._str(value) + '\n')
+                self.file.write(WebotsParser._str(value) + '\n')
             elif type == 'MFBool':
                 self.file.write('TRUE\n' if value else 'FALSE\n')
             elif type == 'MFVec2f':
-                self.file.write(WebotsModel._str(value[0]) + ' ' +
-                                WebotsModel._str(value[1]) + '\n')
+                self.file.write(WebotsParser._str(value[0]) + ' ' +
+                                WebotsParser._str(value[1]) + '\n')
             elif type == 'MFVec3f' or type == 'MFColor':
-                self.file.write(WebotsModel._str(value[0]) + ' ' +
-                                WebotsModel._str(value[1]) + ' ' +
-                                WebotsModel._str(value[2]) + '\n')
+                self.file.write(WebotsParser._str(value[0]) + ' ' +
+                                WebotsParser._str(value[1]) + ' ' +
+                                WebotsParser._str(value[2]) + '\n')
             elif type == 'MFRotation':
-                self.file.write(WebotsModel._str(value[0]) + ' ' +
-                                WebotsModel._str(value[1]) + ' ' +
-                                WebotsModel._str(value[2]) + ' ' +
-                                WebotsModel._str(value[3]) + '\n')
+                self.file.write(WebotsParser._str(value[0]) + ' ' +
+                                WebotsParser._str(value[1]) + ' ' +
+                                WebotsParser._str(value[2]) + ' ' +
+                                WebotsParser._str(value[3]) + '\n')
             elif type == 'MFNode':
                 self._write_node(value)
         self.indentation -= 2
