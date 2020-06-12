@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
   FILE *f_res = fopen("result.txt", "r");
   fseek(f_res, 0L, SEEK_END);
   const int file_size = ftell(f_res);
-  if (urdf_check_status != -1 && file_size > 0) {
+  if ((urdf_check_status >> 8) != 127 && file_size > 0) {
     // `check_urdf` command is available
     // Verify output from `check_urdf`
     rewind(f_res);
