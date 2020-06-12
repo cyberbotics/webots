@@ -1233,9 +1233,6 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
     mConsoles.last()->setEnabledFilters(consoleList.at(i).enabledFilters);
     mConsoles.last()->setEnabledLevels(consoleList.at(i).enabledLevels);
   }
-  // display at least one console
-  if (mConsoles.size() == 0)
-    openNewConsole();
 
   if (meansOfLoading) {
     if (!perspective->enabledRobotWindowNodeNames().isEmpty()) {
