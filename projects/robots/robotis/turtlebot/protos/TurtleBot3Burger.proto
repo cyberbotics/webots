@@ -6,7 +6,7 @@
 
 PROTO TurtleBot3Burger [
   field SFVec3f    translation     0 0 0                 # Is `Transform.translation`.
-  field SFRotation rotation        1 0 0 -1.57               # Is `Transform.rotation`.
+  field SFRotation rotation        1 0 0 -1.57           # Is `Transform.rotation`.
   field SFString   name            "TurtleBot3Burger"    # Is `Solid.name`.
   field SFString   controller      "void"                # Is `Robot.controller`.
   field MFString   controllerArgs  []                    # Is `Robot.controllerArgs`.
