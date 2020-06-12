@@ -62,9 +62,9 @@ void MainWindow::showWindow() {
   // on Ubuntu 12.04 the isMinimized() function doesn't return
   // the correct value if the window has been manually minimized
   if (isMinimized()) {
-    Display *display = XOpenDisplay(NULL);
-    XMapWindow(display, winId());
-    XSync(display, false);
+    //Display *display = XOpenDisplay(NULL);
+    //XMapWindow(display, winId());
+    //XSync(display, false);
 
   } else {
     if (isVisible())

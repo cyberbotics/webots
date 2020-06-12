@@ -33,7 +33,7 @@ double MotorWidget::defaultAbsoluteRange() const {
   if (mDevice->type() == WB_NODE_LINEAR_MOTOR)
     return 1.0;
   else
-    return M_PI;
+    return 3.14;
 }
 
 void MotorWidget::setupBounds() {

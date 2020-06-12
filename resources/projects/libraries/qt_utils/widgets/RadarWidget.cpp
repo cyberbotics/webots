@@ -38,7 +38,7 @@ void RadarWidget::readSensors() {
     double maxRange = wb_radar_get_max_range(tag);
     double horizontalFov = wb_radar_get_horizontal_fov(tag);
     mGraph2D->setXRange(-maxRange, maxRange);
-    if (horizontalFov > M_PI)
+    if (horizontalFov > 3.14)
       mGraph2D->setYRange(-maxRange * 1.2, maxRange * 1.2);
     else
       mGraph2D->setYRange(-maxRange * 0.2, maxRange * 1.2);
