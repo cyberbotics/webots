@@ -3,6 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A gray panel with tubes.
 
+tags: hidden
+
 PROTO PanelWithTubes [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 1 0 0
@@ -10,6 +12,7 @@ PROTO PanelWithTubes [
   field SFNode     appearance  BrushedAluminium { textureTransform TextureTransform { scale 3 3 } }  # Defines the appearance of the panel.
 ]
 {
+  %{ io.stderr:write("Deprecated 'ChequeredParquetry' PROTO, please use the 'Parquetry' PROTO instead and select the right type.\n") }%
   Solid {
     translation IS translation
     rotation IS rotation
