@@ -246,46 +246,46 @@ Table {
 FloorLight {
   translation 7.073 0 -7.105
 }
-PannelWithTubes {
+PanelWithTubes {
   translation 7.1 0 -3.65
   rotation 0 1 0 3.14159
 }
-PannelWithTubes {
+PanelWithTubes {
   translation 6.32 0 -3.65
   rotation 0 1 0 3.14159
   name "panel with tubes(1)"
 }
-PannelWithTubes {
+PanelWithTubes {
   translation 5.54 0 -3.65
   rotation 0 1 0 3.14159
   name "panel with tubes(2)"
 }
-PannelWithTubes {
+PanelWithTubes {
   translation 4.76 0 -3.65
   rotation 0 1 0 3.14159
   name "panel with tubes(3)"
 }
-PannelWithTubes {
+PanelWithTubes {
   translation 3.98 0 -3.65
   rotation 0 1 0 3.14159
   name "panel with tubes(4)"
 }
-PannelWithTubes {
+PanelWithTubes {
   translation 3.2 0 -4.47
   rotation 0 1 0 1.57059
   name "panel with tubes(5)"
 }
-PannelWithTubes {
+PanelWithTubes {
   translation 3.2 0 -5.25
   rotation 0 1 0 1.57059
   name "panel with tubes(6)"
 }
-PannelWithTubes {
+PanelWithTubes {
   translation 3.2 0 -6.03
   rotation 0 1 0 1.57059
   name "panel with tubes(7)"
 }
-PannelWithTubes {
+PanelWithTubes {
   translation 2.77 0 -6.45
   rotation 0 1 0 -3.1456
   name "panel with tubes(8)"

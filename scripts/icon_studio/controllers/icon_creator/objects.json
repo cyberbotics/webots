@@ -503,7 +503,7 @@
   "projects/objects/panels/protos/Panel": {
     "fields": "rotation 0 1 0 1.609"
   },
-  "projects/objects/panels/protos/PannelWithTubes": {
+  "projects/objects/panels/protos/PanelWithTubes": {
     "fields": "rotation 0 1 0 0.8235"
   },
   "projects/objects/plants/protos/BunchOfSunFlowers": {
