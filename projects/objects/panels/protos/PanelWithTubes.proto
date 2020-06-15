@@ -13,7 +13,6 @@ PROTO PannelWithTubes [
 {
   %{ io.stderr:write("Deprecated 'PannelWithTubes' PROTO, please use the 'PanelWithTubes. \n") }%
   PanelWithTubes{
-    Solid {
       translation IS translation
       rotation IS rotation
       children [
@@ -112,6 +111,6 @@ PROTO PannelWithTubes [
           }
         ]
       }
-    }
+
 }
 }
