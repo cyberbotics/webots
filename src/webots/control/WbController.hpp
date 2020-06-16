@@ -107,8 +107,9 @@ private:
   bool mStdoutNeedsFlush;
   bool mStderrNeedsFlush;
 
-  void addPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value, bool override,
-                                  bool shouldPrepend = false);
+  void addToPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value, bool override,
+                                    bool shouldPrepend = false);
+  bool removeFromPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value);
   void setProcessEnvironment();
   void updateName(const QString &name);
 
