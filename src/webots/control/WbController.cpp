@@ -369,11 +369,15 @@ void WbController::setProcessEnvironment() {
   removeFromPathEnvironmentVariable(env, ldEnvironmentVariable, msys64 + "mingw64\\bin");
   removeFromPathEnvironmentVariable(env, ldEnvironmentVariable, msys64 + "usr\\bin");
 #else
-  removeFromPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::webotsLibPath());
+  ldLibraryPath = WbStandardPaths::webotsLibPath();
+  ldLibraryPath.chop(1);
+  removeFromPathEnvironmentVariable(env, ldEnvironmentVariable, ldLibraryPath);
   // add the controller path in the PATH-like environment variable
   // in order to be able to add easily dynamic libraries there
   // Note: on windows, this is the default behavior
-  addToPathEnvironmentVariable(env, ldEnvironmentVariable, mControllerPath, false, true);
+  ldLibraryPath = mControllerPath;
+  ldLibraryPath.chop(1);
+  addToPathEnvironmentVariable(env, ldEnvironmentVariable, ldLibraryPath, false, true);
 #endif
 
   if (QFile::exists(mControllerPath + "runtime.ini")) {
