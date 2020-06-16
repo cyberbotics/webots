@@ -341,8 +341,6 @@ bool WbController::removeFromPathEnvironmentVariable(QProcessEnvironment &env, c
       i.remove();
   }
   env.insert(key, paths.join(';'));
-  qDebug() << "removed" << value;
-  qDebug() << env.value(key);
   return true;
 }
 
@@ -357,8 +355,6 @@ void WbController::setProcessEnvironment() {
 
   // starts from the parent process environment
   QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-  // qDebug() << "process environment =" << env.keys();
-  qDebug() << "parent environment =" << QProcessEnvironment::systemEnvironment().value("PATH");
 
   // store a unique robot ID for the controller
   env.insert("WEBOTS_ROBOT_ID", QString::number(mRobot->uniqueId()));
