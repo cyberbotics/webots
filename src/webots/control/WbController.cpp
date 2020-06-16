@@ -443,8 +443,8 @@ void WbController::setProcessEnvironment() {
   }
   // WEBOTS_LIBRARY_PATH is an environment variable of Webots that users can edit to
   // prepend paths to the library path
-  if (env.contains("WEBOTS_LD_LIBRARY_PATH"))
-    addToPathEnvironmentVariable(env, ldEnvironmentVariable, env.value("WEBOTS_LD_LIBRARY_PATH"), false, true);
+  if (env.contains("WEBOTS_LIBRARY_PATH"))
+    addToPathEnvironmentVariable(env, ldEnvironmentVariable, env.value("WEBOTS_LIBRARY_PATH"), false, true);
 
   // Add all the libraries subdirectories to the environment
   QStringList librariesSearchPaths;
