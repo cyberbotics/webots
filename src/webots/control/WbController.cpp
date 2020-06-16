@@ -363,12 +363,13 @@ void WbController::setProcessEnvironment() {
   QString ldLibraryPath = WbStandardPaths::controllerLibPath();
   ldLibraryPath.chop(1);
   addToPathEnvironmentVariable(env, ldEnvironmentVariable, ldLibraryPath, false);
-#ifdef _WIN32
   // Remove paths needed by Webots only
+#ifdef _WIN32
   const QString msys64 = QDir::toNativeSeparators(WbStandardPaths::webotsMsys64Path());
   removeFromPathEnvironmentVariable(env, ldEnvironmentVariable, msys64 + "mingw64\\bin");
   removeFromPathEnvironmentVariable(env, ldEnvironmentVariable, msys64 + "usr\\bin");
 #else
+  removeFromPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::webotsLibPath());
   // add the controller path in the PATH-like environment variable
   // in order to be able to add easily dynamic libraries there
   // Note: on windows, this is the default behavior
