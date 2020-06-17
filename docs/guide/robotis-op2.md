@@ -48,7 +48,6 @@ RobotisOp2 {
   MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
-  SFBool     supervisor      FALSE
   SFBool     synchronization TRUE
   SFBool     selfCollision   FALSE
   SFColor    plasticColor    0.8 0.8 0.8
