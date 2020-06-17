@@ -323,7 +323,7 @@ void WbController::addToPathEnvironmentVariable(QProcessEnvironment &env, const 
 }
 
 bool WbController::removeFromPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value) {
-  QString path = env.value(key);
+  const QString path = env.value(key);
   QStringList paths = path.split(QDir::listSeparator());
 #ifdef _WIN32
   Qt::CaseSensitivity cs = Qt::CaseInsensitive;
