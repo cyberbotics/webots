@@ -29,7 +29,11 @@ UnevenTerrain {
   size 1000 100 1000
   xDimension 100
   zDimension 100
-  textureScale 5 5
+  appearance SandyGround {
+    textureTransform TextureTransform {
+      scale 1000 1000
+    }
+  }
   perlinNOctaves 8
 }
 Mantis {
