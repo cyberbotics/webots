@@ -42,6 +42,7 @@ Released on XXX.
     - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images.
     - Fixed default name of the left and right grippers of the [Tiago++](../guide/tiagopp.md) robot.
     - Fixed the motor torque and force feedback of the ros controller.
+    - Renamed `PannelWithTubes` [PROTO](../guide/object-panels.md) in `PanelWithTubes`.
     - Fixed reset of [Lidar](lidar.md) rotation when resetting the simulation (thanks to Jajafarov).
     - Fixed horizontal resolution of Velodyne HDL-32E and HDL-64E [Lidars](lidar.md) (thanks to jrcblue).
     - Fixed the TurtleBot3Burger robot maximum velocity (thanks to Dorteel).
