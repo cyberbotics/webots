@@ -22,6 +22,7 @@
 #include "WbRobot.hpp"
 
 class QLocalSocket;
+class QProcessEnvironment;
 
 class WbController : public QObject {
   Q_OBJECT
@@ -106,8 +107,9 @@ private:
   bool mStdoutNeedsFlush;
   bool mStderrNeedsFlush;
 
-  void addEnvironmentVariable(QStringList &env, QString key, QString value);
-  void addPathEnvironmentVariable(QStringList &env, QString key, QString value, bool override, bool shouldPrepend = false);
+  void addToPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value, bool override,
+                                    bool shouldPrepend = false);
+  bool removeFromPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value);
   void setProcessEnvironment();
   void updateName(const QString &name);
 
