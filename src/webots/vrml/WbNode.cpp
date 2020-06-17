@@ -58,6 +58,8 @@ struct ProtoParameters {
   const QVector<WbField *> *params;
 };
 static QList<ProtoParameters *> gProtoParameterList;
+static QList<const WbNode *> gUrdfNodesQueue;
+static const WbNode *gUrdfCurrentNode;
 
 static bool gInstantiateMode = true;
 static QVector<WbNode *> gNodes = {NULL};  // id 0 is reserved for root node
@@ -972,12 +974,45 @@ void WbNode::writeParameters(WbVrmlWriter &writer) const {
     parameter->write(writer);
 }
 
+bool WbNode::isUrdfRootLink() const {
+  return findSFString("name") ? true : false;
+}
+
+WbNode *WbNode::findUrdfLinkRoot() const {
+  WbNode *parentRoot = parent();
+  while (!parentRoot->isUrdfRootLink()) {
+    parentRoot = parentRoot->parent();
+    if (parentRoot == NULL)
+      return NULL;
+  }
+  return parentRoot;
+}
+
 void WbNode::write(WbVrmlWriter &writer) const {
   if (uniqueId() == -1) {
     if (nodeModelName() == "Plane" || nodeModelName() == "Capsule") {
       WbNodeFactory::instance()->exportAsVrml(this, writer);
       return;
     }
+  }
+  if (writer.isUrdf()) {
+    if (gUrdfCurrentNode != this && isJoint() && !gUrdfNodesQueue.contains(this)) {
+      gUrdfNodesQueue.append(this);
+      return;
+    }
+    if (!gUrdfCurrentNode)
+      gUrdfCurrentNode = this;
+
+    writeExport(writer);
+
+    if (gUrdfCurrentNode == this) {
+      if (gUrdfNodesQueue.size() > 0) {
+        gUrdfCurrentNode = gUrdfNodesQueue.takeLast();
+        gUrdfCurrentNode->write(writer);
+      } else
+        gUrdfCurrentNode = NULL;
+    }
+    return;
   }
   if (writer.isX3d() || writer.isVrml() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode()))) {
     writeExport(writer);
@@ -1060,9 +1095,58 @@ QStringList WbNode::listTextureFiles() const {
   return list;
 }
 
+const QString WbNode::urdfName() const {
+  QString name;
+  if (this->findSFString("name")) {
+    name = this->findSFString("name")->value();
+
+    // Make sure there are no duplicates
+    const QList<WbNode *> children = findRobotRootNode()->subNodes(true, true, true);
+    for (int i = 0; i < children.size(); i++) {
+      const WbNode *const child = children.at(i);
+      if (child->findSFString("name") && child->findSFString("name")->value() == name) {
+        name += "_" + QString::number(mUniqueId);
+        break;
+      }
+    }
+  } else
+    name = QString(mModel->name().toLower() + "_" + QString::number(mUniqueId));
+
+  return getUrdfPrefix() + name;
+}
+
 bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
   if (writer.isX3d())  // actual export is done in WbBaseNode
     return false;
+  else if (writer.isUrdf()) {
+    if (gUrdfCurrentNode == this) {
+      writer.increaseIndent();
+      writer.indent();
+      writer << "<link name=\"" + urdfName() + "\">\n";
+      return false;
+    } else if (isUrdfRootLink()) {
+      gUrdfNodesQueue.append(this);
+      return true;
+    }
+
+    writer.increaseIndent();
+    writer.indent();
+    writer << "<visual name=\"" << urdfName() << "\">\n";
+    writer.increaseIndent();
+    writer.indent();
+    writer << "<geometry>\n";
+    writer.increaseIndent();
+    writer.indent();
+    writer << "<box size=\"0.01 0.01 0.01\"/>\n";
+    writer.decreaseIndent();
+    writer.indent();
+    writer << "</geometry>\n";
+    writer.decreaseIndent();
+    writer.indent();
+    writer << "</visual>\n";
+    writer.decreaseIndent();
+    return false;
+  }
   if (isUseNode()) {
     writer << "USE " << mUseName << "\n";
     return true;
@@ -1080,28 +1164,40 @@ bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
 }
 
 void WbNode::exportNodeFields(WbVrmlWriter &writer) const {
-  foreach (WbField *field, fields())
+  if (writer.isUrdf())
+    return;
+
+  foreach (WbField *field, fields()) {
     if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() != WB_SF_NODE))
       field->write(writer);
+  }
 }
 
 void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
-  foreach (WbField *field, fields())
-    if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() == WB_SF_NODE)) {
+  foreach (WbField *field, fields()) {
+    if (!field->isDeprecated() &&
+        ((field->isVrml() || writer.isProto() || writer.isUrdf()) && field->singleType() == WB_SF_NODE)) {
       const WbSFNode *const node = dynamic_cast<WbSFNode *>(field->value());
-      if (node == NULL || node->value() == NULL || node->value()->shallExport() || writer.isProto()) {
-        if (writer.isX3d())
+      if (node == NULL || node->value() == NULL || node->value()->shallExport() || writer.isProto() || writer.isUrdf()) {
+        if (writer.isX3d() || writer.isUrdf())
           field->value()->write(writer);
         else
           field->write(writer);
       }
     }
+  }
 }
 
 void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
   if (writer.isX3d())
     writer << "</" << x3dName() << ">";
-  else {  // VRML
+  else if (writer.isUrdf()) {
+    if (gUrdfCurrentNode == this) {
+      writer.indent();
+      writer << "</link>\n";
+      writer.decreaseIndent();
+    }
+  } else {  // VRML
     writer.decreaseIndent();
     writer.indent();
     writer << "}";
@@ -1119,8 +1215,15 @@ void WbNode::writeExport(WbVrmlWriter &writer) const {
   assert(!(writer.isX3d() && isProtoParameterNode()));
   if (exportNodeHeader(writer))
     return;
-  exportNodeContents(writer);
-  exportNodeFooter(writer);
+  if (writer.isUrdf()) {
+    exportNodeSubNodes(writer);
+    exportNodeFooter(writer);
+    if (isUrdfRootLink() && nodeModelName() != "Robot")
+      exportURDFJoint(writer);
+  } else {
+    exportNodeContents(writer);
+    exportNodeFooter(writer);
+  }
 }
 
 bool WbNode::operator==(const WbNode &other) const {
@@ -2044,6 +2147,17 @@ QStringList WbNode::documentationBookAndPage(bool isRobot) const {
       return bookAndPage;
   }
   return mModel->documentationBookAndPage();
+}
+
+const WbNode *WbNode::findRobotRootNode() const {
+  const WbNode *tmpNode = this;
+  while (tmpNode != NULL && !tmpNode->isRobot())
+    tmpNode = tmpNode->parent();
+  return tmpNode;
+}
+
+QString WbNode::getUrdfPrefix() const {
+  return findRobotRootNode()->mUrdfPrefix;
 }
 
 /*

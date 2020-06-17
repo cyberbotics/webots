@@ -33,6 +33,7 @@ RobotisOp3 {
   field SFString   footContactMaterial "ROBOTIS OP3 foot material"
   field SFString   handContactMaterial "ROBOTIS OP3 finger material"
   field SFString   customData          ""
+  field SFBool     supervisor          FALSE
   field SFBool     synchronization     TRUE
   field SFBool     selfCollision       FALSE
   field SFInt32    cameraWidth         1920

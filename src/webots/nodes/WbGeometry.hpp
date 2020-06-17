@@ -131,6 +131,8 @@ public slots:
   void showResizeManipulator(bool enabled) override;
 
 protected:
+  bool exportNodeHeader(WbVrmlWriter &writer) const override;
+
   static const float LINE_SCALE_FACTOR;
 
   // All constructors are reserved for derived classes only

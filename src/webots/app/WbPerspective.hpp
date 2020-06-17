@@ -19,6 +19,7 @@
 // Description: user interface configuration associated to each world file
 //
 
+#include "WbAction.hpp"
 #include "WbVersion.hpp"
 
 #include <QtCore/QHash>
@@ -108,10 +109,13 @@ public:
   const QStringList &enabledSupportPolygonNodeNames() const { return mSupportPolygonNodeNames; }
 
   // selection and viewpoint lock mechanism
-  void setSelectionDisabled(bool disabled) { mSelectionDisabled = disabled; }
-  void setViewpointLocked(bool locked) { mViewpointLocked = locked; }
-  bool isSelectionDisabled() const { return mSelectionDisabled; }
-  bool isViewpointLocked() const { return mViewpointLocked; }
+  void setUserInteractionDisabled(WbAction::WbActionKind action, bool disabled) {
+    mDisabledUserInteractionsMap[action] = disabled;
+  }
+  QHash<WbAction::WbActionKind, bool> disabledUserInteractionsMap() const { return mDisabledUserInteractionsMap; }
+  bool isUserInteractionDisabled(WbAction::WbActionKind action) const {
+    return mDisabledUserInteractionsMap.value(action, false);
+  }
 
   // projection and rendering mode
   void setProjectionMode(const QString &mode) { mProjectionMode = mode; }
@@ -145,8 +149,7 @@ private:
   QString mDocumentationBook;
   QString mDocumentationPage;
   double mOrthographicViewHeight;
-  bool mSelectionDisabled;
-  bool mViewpointLocked;
+  QHash<WbAction::WbActionKind, bool> mDisabledUserInteractionsMap;
   QString mProjectionMode;
   QString mRenderingMode;
   QStringList mEnabledOptionalRenderingList;
@@ -159,8 +162,11 @@ private:
   QHash<QString, QString> mX3dExportParameters;
 
   bool readContent(QTextStream &in, bool reloading);
+  void addDefaultConsole();
   static QString joinUniqueNameList(const QStringList &nameList);
   static void splitUniqueNameList(const QString &text, QStringList &targetList);
+  static QString getActionName(WbAction::WbActionKind action);
+  static WbAction::WbActionKind getActionFromString(const QString &actionString);
 };
 
 #endif

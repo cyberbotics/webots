@@ -14,6 +14,7 @@
 
 #include "WbFieldEditor.hpp"
 
+#include "WbAction.hpp"
 #include "WbActionManager.hpp"
 #include "WbBoolEditor.hpp"
 #include "WbColorEditor.hpp"
@@ -201,7 +202,7 @@ void WbFieldEditor::editField(WbNode *node, WbField *field, int item) {
 
   if (field == NULL && node == NULL) {
     invalidateValue();
-    WbActionManager::instance()->action(WbActionManager::RESET_VALUE)->setEnabled(false);
+    WbActionManager::instance()->action(WbAction::RESET_VALUE)->setEnabled(false);
     return;
   }
 
@@ -211,7 +212,7 @@ void WbFieldEditor::editField(WbNode *node, WbField *field, int item) {
 
   assert(field);
   WbActionManager::instance()
-    ->action(WbActionManager::RESET_VALUE)
+    ->action(WbAction::RESET_VALUE)
     ->setEnabled(!((field->isMultiple() && mIsValidItemIndex) || mField->isDefault()));
 
   if (field->isMultiple() && !mIsValidItemIndex) {
@@ -248,7 +249,7 @@ void WbFieldEditor::resetFocus() {
 void WbFieldEditor::updateResetButton() {
   const WbMultipleValue *const multipleValue = dynamic_cast<WbMultipleValue *>(mField->value());
   bool enabled = !((multipleValue && (mItem >= 0) && (mItem < multipleValue->size())) || mField->isDefault());
-  WbActionManager::instance()->action(WbActionManager::RESET_VALUE)->setEnabled(enabled);
+  WbActionManager::instance()->action(WbAction::RESET_VALUE)->setEnabled(enabled);
 }
 
 void WbFieldEditor::updateValue(bool copyOriginalValue) {

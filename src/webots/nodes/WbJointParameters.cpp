@@ -130,3 +130,9 @@ void WbJointParameters::updateAxis() {
 
   emit axisChanged();
 }
+
+bool WbJointParameters::exportNodeHeader(WbVrmlWriter &writer) const {
+  if (writer.isUrdf())
+    return true;
+  return WbBaseNode::exportNodeHeader(writer);
+}

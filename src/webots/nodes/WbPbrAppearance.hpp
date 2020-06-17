@@ -69,6 +69,7 @@ public:
   QStringList fieldsToSynchronizeWithX3D() const override;
 
 protected:
+  bool exportNodeHeader(WbVrmlWriter &writer) const override;
   void exportNodeSubNodes(WbVrmlWriter &writer) const override;
   void exportNodeFooter(WbVrmlWriter &writer) const override;
   const QString &vrmlName() const override {

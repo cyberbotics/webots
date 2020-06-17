@@ -71,6 +71,7 @@ protected:
   void updateEndPointZeroTranslationAndRotation() override;
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
   void updateOdePositionOffset() override;
+  void writeExport(WbVrmlWriter &writer) const override;
 
 protected slots:
   virtual void addDevice2(int index);

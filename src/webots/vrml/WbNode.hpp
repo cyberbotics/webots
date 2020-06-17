@@ -118,6 +118,7 @@ public:
   QString fullName() const;                                             // e.g. "Robot, "DEF MY_BOT Robot" or "USE MY_BOT"
   virtual const QString &vrmlName() const { return nodeModelName(); };  // e.g. "Transform" instead of "Robot"
   virtual const QString &x3dName() const { return vrmlName(); }
+  virtual const QString urdfName() const;
   QString fullVrmlName() const;          // e.g. "DEF MY_ROBOT Transform"
   const QString &modelName() const;      // e.g. for Nao -> "Nao"
   const QString &nodeModelName() const;  // e.g. for Nao -> "Robot"
@@ -275,6 +276,7 @@ public:
   // debug utility functions
   // void printDebugNodeStructure(int level = 0);
   // void printDebugNodeFields(int level, bool printParameters);
+  const WbNode *findRobotRootNode() const;
 
 signals:
   // emitted when any value has changed
@@ -298,7 +300,7 @@ protected:
   // DEF-USE dictionary
   static bool cUpdatingDictionary;  // This flag orders to skip any DEF->USEs update when updating the dictionary
 
-  void writeExport(WbVrmlWriter &writer) const;
+  virtual void writeExport(WbVrmlWriter &writer) const;
   virtual void writeParameters(WbVrmlWriter &writer) const;
   virtual void readHiddenKinematicParameter(WbField *field) {}
 
@@ -308,8 +310,18 @@ protected:
   virtual void exportNodeSubNodes(WbVrmlWriter &writer) const;
   virtual void exportNodeFooter(WbVrmlWriter &writer) const;
 
+  // Methods related to URDF export
+  WbNode *findUrdfLinkRoot() const;     // Finds first upper Webots node that is considered as URDF link
+  virtual bool isUrdfRootLink() const;  // Determines whether the Webots node is considered as URDF link as well
+  virtual void exportURDFJoint(WbVrmlWriter &writer) const {};
+
   virtual void useNodesChanged() const {};
   bool isNestedProtoNode() const { return mIsNestedProtoNode; }
+
+  QString getUrdfPrefix() const;
+  void setUrdfPrefix(const QString &prefix) { mUrdfPrefix = prefix; };
+  virtual const bool isRobot() const { return false; };
+  virtual const bool isJoint() const { return false; };
 
 private slots:
   void notifyFieldChanged();
@@ -318,6 +330,8 @@ private slots:
 
 private:
   WbNode &operator=(const WbNode &);  // non copyable
+
+  QString mUrdfPrefix;
 
   // for all nodes
   WbNode *mParent;

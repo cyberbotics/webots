@@ -190,11 +190,7 @@ void Motion::parse() {
 
   // parse header
   const QString &firstLine = in.readLine();
-#ifdef __APPLE__
-  QStringList firstLineTokens = firstLine.split(',', QString::SkipEmptyParts);
-#else  // Qt >= 5.15
   QStringList firstLineTokens = firstLine.split(',', Qt::SkipEmptyParts);
-#endif
 
   if (firstLineTokens.size() < 2)
     throw tr("Invalid header: not enough tokens");
@@ -233,12 +229,7 @@ void Motion::parse() {
     if (line.isEmpty())
       continue;  // support empty lines
 
-#ifdef __APPLE__
-    QStringList lineTokens = line.split(',', QString::SkipEmptyParts);
-#else  // Qt >= 5.15
     QStringList lineTokens = line.split(',', Qt::SkipEmptyParts);
-#endif
-
     if (lineTokens.size() != usedMotorNamesList.size() + 2)
       throw tr("Cannot parse line: %1").arg(lineCounter);
 

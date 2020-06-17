@@ -160,8 +160,10 @@ protected:
 
   // export
   void exportNodeFields(WbVrmlWriter &writer) const override;
+  const QString urdfName() const override;
 
   WbKinematicDifferentialWheels *mKinematicDifferentialWheels;
+  const bool isRobot() const override { return true; };
 
 private:
   // user accessible fields
@@ -177,6 +179,7 @@ private:
   WbSFString *mWindow;
   WbSFString *mRemoteControl;
 
+  bool mNeedToWriteUrdf;
   bool mShowWindowCalled;
   bool mShowWindowMessage;
   bool mUpdateWindowMessage;

@@ -19,6 +19,7 @@
 // Description: 3D window for displaying the scene and for switching the display mode
 //
 
+#include "WbAction.hpp"
 #include "WbWrenWindow.hpp"
 
 #include <wren/camera.h>
@@ -78,6 +79,7 @@ public:
   void restoreOptionalRendering(const QStringList &enabledCenterOfMassNodeNames,
                                 const QStringList &enabledCenterOfBuoyancyNodeNames,
                                 const QStringList &enabledSupportPolygonNodeNames) const;
+  void setUserInteractionDisabled(WbAction::WbActionKind action, bool disabled);
 
   void enableResizeManipulator(bool enabled);
   void resizeWren(int width, int height) override;
@@ -126,8 +128,7 @@ private:
   int mRefreshCounter;
   QElapsedTimer *mMousePressTimer;
   QPoint mMousePressPosition;
-  bool mSelectionDisabled;
-  bool mViewpointLocked;
+  QHash<WbAction::WbActionKind, bool> mDisabledUserInteractionsMap;
   double mAspectRatio;
   WbWrenFullScreenOverlay *mFastModeOverlay;
   WbWrenFullScreenOverlay *mLoadingWorldOverlay;
@@ -240,8 +241,11 @@ private slots:
   void setShowNormals(bool show);
   void setShowPhysicsClustersAction(bool show);
   void setShowBoundingSphereAction(bool show);
-  void setSelectionDisabled(bool disabled);
-  void setViewPointLocked(bool locked);
+  void setViewPointLocked(bool locked) { setUserInteractionDisabled(WbAction::LOCK_VIEWPOINT, locked); }
+  void setSelectionDisabled(bool disabled) { setUserInteractionDisabled(WbAction::DISABLE_SELECTION, disabled); }
+  void setContextMenuDisabled(bool disabled) { setUserInteractionDisabled(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, disabled); }
+  void disableObjectMove(bool disabled);
+  void disableApplyForceAndTorque(bool disabled) { setUserInteractionDisabled(WbAction::DISABLE_FORCE_AND_TORQUE, disabled); }
   void updateMousesPosition(bool fromMouseClick = false, bool fromMouseMove = false);
 
   void cleanWorld() { mWorld = NULL; }

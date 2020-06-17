@@ -291,3 +291,9 @@ void WbPhysics::setInertiaMatrix(double v0x, double v0y, double v0z, double v1x,
   mInertiaMatrix->insertItem(1, WbVector3(v1x, v1y, v1z));
   mSkipUpdate = false;
 }
+
+bool WbPhysics::exportNodeHeader(WbVrmlWriter &writer) const {
+  if (writer.isUrdf())
+    return true;
+  return WbNode::exportNodeHeader(writer);
+}

@@ -43,6 +43,7 @@
 #include <webots_ros/get_int.h>
 #include <webots_ros/get_string.h>
 #include <webots_ros/get_uint64.h>
+#include <webots_ros/get_urdf.h>
 #include <webots_ros/set_bool.h>
 #include <webots_ros/set_float.h>
 #include <webots_ros/set_float_array.h>
@@ -363,6 +364,22 @@ int main(int argc, char **argv) {
     ROS_ERROR("Failed to call service device_list.");
 
   device_list_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  ros::ServiceClient urdf_client = n.serviceClient<webots_ros::get_urdf>(model_name + "/robot/get_urdf");
+  webots_ros::get_urdf urdf_srv;
+  urdf_srv.request.prefix = "unique_robot_prefix_name_";
+
+  if (urdf_client.call(urdf_srv)) {
+    std::string urdf = urdf_srv.response.value;
+    if (urdf.find(urdf_srv.request.prefix) == std::string::npos)
+      ROS_ERROR("Invalid response from get_urdf.");
+    else
+      ROS_INFO("URDF has been successfully obtained.");
+  } else
+    ROS_ERROR("Failed to call service get_urdf.");
+
+  urdf_client.shutdown();
   time_step_client.call(time_step_srv);
 
   ros::ServiceClient get_basic_time_step_client =
