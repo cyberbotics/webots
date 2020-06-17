@@ -33,6 +33,7 @@ Released on XXX.
     - Upgraded to Qt 5.15.0 on Windows and Linux.
   - Cleanup
     - Deprecated the following appearances: `ChequeredParquetry`, `DarkParquetry`, `SlatePavement`, `SquarePavement` and `StonePavement`.
+    - Removed automatic path to Qt libraries for controllers using deprecated Qt robot windows. Such paths should now be specified in `runtime.ini` instead.
   - Bug fixes
     - Fixed crash occuring when setting a 3D coordinate to a huge value (greater than 1e+151).
     - Fixed crash occuring when Webots was streaming a 3D scene and some object was inserted into a PROTO node.
