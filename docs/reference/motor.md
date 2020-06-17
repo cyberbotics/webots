@@ -177,14 +177,14 @@ Hence the [Motor](#motor) will infinitely accelerate its rotational or linear mo
 
 %figure "Motor Control Summary"
 
-| &nbsp;                                                                         | position control                                 | velocity control                                 | force or torque control                      |
-| ------------------------------------------------------------------------------ | ------------------------------------------------ | ------------------------------------------------ | -------------------------------------------- |
-| uses PID-controller                                                            | yes                                              | no                                               | no                                           |
-| wb\_motor\_set\_position()                                                     | * specifies the desired position                 | should be set to INFINITY                        | switches to position/velocity control        |
-| wb\_motor\_set\_velocity()                                                     | specifies the max velocity                       | * specifies the desired velocity                 | is ignored                                   |
-| wb\_motor\_set\_acceleration()                                                 | specifies the max acceleration                   | specifies the max acceleration                   | is ignored                                   |
-| wb\_motor\_set\_available\_force() (resp. wb\_motor\_set\_available\_torque()) | specifies the available force (resp. torque)     | specifies the available force (resp. torque)     | specifies the max force (resp. max torque)   |
-| wb\_motor\_set\_force() (resp. wb\_motor\_set\_torque())                       | switches to force control (resp. torque control) | switches to force control (resp. torque control) | * specifies the desired force (resp. torque) |
+| &nbsp;                                                                         | position control                                 | velocity control                                              | force or torque control                      |
+| ------------------------------------------------------------------------------ | ------------------------------------------------ | ------------------------------------------------------------- | -------------------------------------------- |
+| uses PID-controller                                                            | yes (PID is applied on the velocity)             | no (internal ODE control loop is applied on the force/torque) | no                                           |
+| wb\_motor\_set\_position()                                                     | * specifies the desired position                 | should be set to INFINITY                                     | switches to position/velocity control        |
+| wb\_motor\_set\_velocity()                                                     | specifies the max velocity                       | * specifies the desired velocity                              | is ignored                                   |
+| wb\_motor\_set\_acceleration()                                                 | specifies the max acceleration                   | specifies the max acceleration                                | is ignored                                   |
+| wb\_motor\_set\_available\_force() (resp. wb\_motor\_set\_available\_torque()) | specifies the available force (resp. torque)     | specifies the available force (resp. torque)                  | specifies the max force (resp. max torque)   |
+| wb\_motor\_set\_force() (resp. wb\_motor\_set\_torque())                       | switches to force control (resp. torque control) | switches to force control (resp. torque control)              | * specifies the desired force (resp. torque) |
 
 %end
 

@@ -70,11 +70,7 @@ void Model::fromString(const QString &string) {
     throw tr("Header not readable");
 
   QString header = string.left(firstNewLineIndex);
-#ifdef __APPLE__
-  QStringList headerList = header.split(QRegExp("[#. ]"), QString::SkipEmptyParts);
-#else  // Qt >= 5.15
   QStringList headerList = header.split(QRegExp("[#. ]"), Qt::SkipEmptyParts);
-#endif
   if (headerList.size() == 3 && headerList[0] == "botstudio") {
     int macro = headerList[1].toInt();
     int micro = headerList[2].toInt();
