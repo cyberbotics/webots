@@ -1017,7 +1017,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "  if isAdmin and RegQueryStringValue(HKLM, 'Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"
                   "Webots_is1', 'UninstallString', Uninstall) then begin\n");
       fprintf(fd, "    if MsgBox('A version of Webots is already installed for all users on this computer. "
-                  "'It will be removed and replaced by the version you are installing.', mbInformation, MB_OKCANCEL) = IDOK "
+                  "It will be removed and replaced by the version you are installing.', mbInformation, MB_OKCANCEL) = IDOK "
                   "then begin\n");
       fprintf(fd, "      Exec(RemoveQuotes(Uninstall), ' /SILENT', '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);\n");
       fprintf(fd, "      Result := TRUE;\n");
