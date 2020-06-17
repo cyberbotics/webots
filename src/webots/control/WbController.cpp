@@ -474,23 +474,6 @@ void WbController::setProcessEnvironment() {
     }
   }
 
-  static bool searchDefaultLibraries = true;
-  static QStringList defaultLibrariesPaths;
-  if (searchDefaultLibraries) {
-    // this search is cached because it takes significant time
-    WbFileUtil::searchDirectoryNameRecursively(defaultLibrariesPaths, "libraries", WbStandardPaths::resourcesProjectsPath());
-    if (WbProject::extraDefaultProject()) {
-      const QString extraDefaultLibrariesPath = WbProject::extraDefaultProject()->librariesPath();
-      if (QDir(extraDefaultLibrariesPath).exists())
-        defaultLibrariesPaths << extraDefaultLibrariesPath;
-    }
-    const QString defaultLibrariesPath = WbProject::defaultProject()->librariesPath();
-    if (QDir(defaultLibrariesPath).exists())
-      defaultLibrariesPaths << defaultLibrariesPath;
-    searchDefaultLibraries = false;
-  }
-  librariesSearchPaths << defaultLibrariesPaths;
-
   foreach (const QString &librariesSearchPath, librariesSearchPaths) {
     const QDir dir(librariesSearchPath);
     const QStringList subDirectories = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
