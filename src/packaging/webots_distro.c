@@ -499,6 +499,7 @@ static void create_file(const char *name, int m) {
               "DisableStartupPrompt=yes\n"
               "ArchitecturesInstallIn64BitMode=x64\n"
               "ArchitecturesAllowed=x64\n"
+              "UsePreviousAppDir=yes\n"
               "\n[Dirs]\n",
               distribution_path);
       break;
@@ -1015,8 +1016,8 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "begin\n");
       fprintf(fd, "  if isAdmin and RegQueryStringValue(HKLM, 'Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"
                   "Webots_is1', 'UninstallString', Uninstall) then begin\n");
-      fprintf(fd, "    if MsgBox('A version of Webots is already installed for all users on this computer.' #13 "
-                  "'It will be removed and replaced by the version you are installing.', mbInformation, MB_OKCANCEL) = IDOK "
+      fprintf(fd, "    if MsgBox('A version of Webots is already installed for all users on this computer. "
+                  "It will be removed and replaced by the version you are installing.', mbInformation, MB_OKCANCEL) = IDOK "
                   "then begin\n");
       fprintf(fd, "      Exec(RemoveQuotes(Uninstall), ' /SILENT', '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);\n");
       fprintf(fd, "      Result := TRUE;\n");
@@ -1028,7 +1029,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "  end;\n");
       fprintf(fd, "  if RegQueryStringValue(HKCU, 'Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"
                   "Webots_is1', 'UninstallString', Uninstall) then begin\n");
-      fprintf(fd, "    if MsgBox('A version of Webots is already installed for the current user on this computer.' #13 'It "
+      fprintf(fd, "    if MsgBox('A version of Webots is already installed for the current user on this computer. It "
                   "will be removed and replaced by the version you are installing.', mbInformation, MB_OKCANCEL) = IDOK "
                   "then begin\n");
       fprintf(fd, "      Exec(RemoveQuotes(Uninstall), ' /SILENT', '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);\n");
@@ -1041,7 +1042,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "  end;\n");
       fprintf(fd, "  if RegQueryStringValue(HKLM32, 'Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Webots_is1', "
                   "'UninstallString', Uninstall) then begin\n");
-      fprintf(fd, "    if MsgBox('A version of Webots (32 bit) is already installed on this computer.' #13 'It will be removed "
+      fprintf(fd, "    if MsgBox('A version of Webots (32 bit) is already installed on this computer. It will be removed "
                   "and replaced by the version (64 bit) you are installing.', mbInformation, MB_OKCANCEL) = IDOK then begin\n");
       fprintf(fd, "      Exec(RemoveQuotes(Uninstall), ' /SILENT', '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);\n");
       fprintf(fd, "      Result := TRUE;\n");
@@ -1051,7 +1052,27 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "  end else begin\n");
       fprintf(fd, "    Result := TRUE;\n");
       fprintf(fd, "  end;\n");
-      fprintf(fd, "end;\n");
+      fprintf(fd, "end;\n\n");
+      fprintf(fd, "procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);\n");
+      fprintf(fd, "var\n");
+      fprintf(fd, "  ResultCode: Integer;\n");
+      fprintf(fd, "begin\n");
+      fprintf(fd, "  if (CurUninstallStep = usPostUninstall) and DirExists(ExpandConstant('{app}')) then begin\n");
+      fprintf(fd, "    if MsgBox(ExpandConstant('{app}') + ' was modified!'#13#10#13#10 +\n");
+      fprintf(fd, "        'It seems you created or modified some files in this folder.'#13#10#13#10 +\n");
+      fprintf(fd, "        'This is your last chance to do a backup of these files.'#13#10#13#10 +\n");
+      fprintf(fd, "        'Do you want to delete the whole '+ ExpandConstant('{app}') +' folder now?'#13#10, mbConfirmation, "
+                  "MB_YESNO) = IDYES\n");
+      fprintf(fd, "    then begin  // User clicked YES\n");
+      fprintf(fd, "      // fix read-only status of all files and folders to be able to delete them\n");
+      fprintf(fd, "      Exec('cmd.exe', '/c \"attrib -R ' + ExpandConstant('{app}') + '\\*.* /s /d\"', '', SW_HIDE, "
+                  "ewWaitUntilTerminated, ResultCode);\n");
+      fprintf(fd, "      DelTree(ExpandConstant('{app}'), True, True, True);\n");
+      fprintf(fd, "    end else begin  // User clicked NO\n");
+      fprintf(fd, "      Abort;\n");
+      fprintf(fd, "    end;\n");
+      fprintf(fd, "  end;\n");
+      fprintf(fd, "end;\n\n");
       fprintf(fd, "\n[Run]\n");
       fprintf(fd, "Filename: {app}\\msys64\\mingw64\\bin\\webotsw.exe; Description: \"Launch Webots\"; Flags: nowait "
                   "postinstall skipifsilent\n");
@@ -1199,13 +1220,13 @@ static void create_file(const char *name, int m) {
       break;
     case SNAP: {
       const char *usr_lib_x68_64_linux_gnu[] = {
-        "libraw.so.16",           "libvpx.so.5",         "libx264.so.152",     "libavcodec.so.57",   "libwebp.so.6",
-        "libwebpmux.so.3",        "libpng16.so.16",      "libassimp.so.4",     "libfreeimage.so.3",  "libjxrglue.so.0",
-        "libopenjp2.so.7",        "libjpegxr.so.0",      "libHalf.so.12",      "libIex-2_2.so.12",   "libIexMath-2_2.so.12",
-        "libIlmThread-2_2.so.12", "libIlmImf-2_2.so.22", "libzip.so.4",        "libzzip-0.so.13",    "libjbig.so.0",
-        "libgomp.so.1",           "liblcms2.so.2",       "libXi.so.6",         "libXrender.so.1",    "libfontconfig.so.1",
-        "libxslt.so.1",           "libgd.so.3",          "libssh.so.4",        "libfreetype.so.6",   "libxcb-keysyms.so.1",
-        "libxcb-image0",          "libxcb-icccm4",       "libxcb-randr0",      "libxcb-render-util0","libxcb-xinerama0"};
+        "libraw.so.16",           "libvpx.so.5",         "libx264.so.152", "libavcodec.so.57",    "libwebp.so.6",
+        "libwebpmux.so.3",        "libpng16.so.16",      "libassimp.so.4", "libfreeimage.so.3",   "libjxrglue.so.0",
+        "libopenjp2.so.7",        "libjpegxr.so.0",      "libHalf.so.12",  "libIex-2_2.so.12",    "libIexMath-2_2.so.12",
+        "libIlmThread-2_2.so.12", "libIlmImf-2_2.so.22", "libzip.so.4",    "libzzip-0.so.13",     "libjbig.so.0",
+        "libgomp.so.1",           "liblcms2.so.2",       "libXi.so.6",     "libXrender.so.1",     "libfontconfig.so.1",
+        "libxslt.so.1",           "libgd.so.3",          "libssh.so.4",    "libfreetype.so.6",    "libxcb-keysyms.so.1",
+        "libxcb-image0",          "libxcb-icccm4",       "libxcb-randr0",  "libxcb-render-util0", "libxcb-xinerama0"};
       for (int i = 0; i < sizeof(usr_lib_x68_64_linux_gnu) / sizeof(char *); i++)
         fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/%s $DESTDIR/usr/lib/x86_64-linux-gnu/\n", usr_lib_x68_64_linux_gnu[i]);
       fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libssh\n");
