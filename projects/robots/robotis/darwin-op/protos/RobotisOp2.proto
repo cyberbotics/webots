@@ -18,7 +18,7 @@ PROTO RobotisOp2 [
   field SFString   controller      "motion_player" # Is `Robot.controller`.
   field MFString   controllerArgs  []              # Is `Robot.controllerArgs`.
   field SFString   customData      ""              # Is `Robot.customData`.
-  field SFBool     supervisor      TRUE            # Is `Robot.supervisor`.
+  field SFBool     supervisor      FALSE           # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE            # Is `Robot.synchronization`.
   field SFBool     selfCollision   FALSE           # Is `Robot.selfCollision`.
   field SFColor    plasticColor    0.8 0.8 0.8     # Is `Material.plasticColor`.

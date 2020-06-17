@@ -21,7 +21,7 @@ PROTO RobotisOp3 [
   field SFString   footContactMaterial "ROBOTIS OP3 foot material"    # Defines the `Solid.contactMaterial` for the feet.
   field SFString   handContactMaterial "ROBOTIS OP3 finger material"  # Defines the `Solid.contactMaterial` for the hands.
   field SFString   customData          ""                             # Is `Robot.customData`.
-  field SFBool     supervisor          TRUE                           # Is `Robot.supervisor`.
+  field SFBool     supervisor          FALSE                          # Is `Robot.supervisor`.
   field SFBool     synchronization     TRUE                           # Is `Robot.synchronization`.
   field SFBool     selfCollision       FALSE                          # Is `Robot.selfCollision`.
   field SFInt32    cameraWidth         1920                           # Is `Camera.width`.
