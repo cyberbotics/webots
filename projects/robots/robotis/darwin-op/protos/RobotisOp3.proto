@@ -40,6 +40,7 @@ PROTO RobotisOp3 [
     controller IS controller
     controllerArgs IS controllerArgs
     customData IS customData
+    supervisor IS supervisor
     synchronization IS synchronization
     contactMaterial IS contactMaterial
     selfCollision IS selfCollision
