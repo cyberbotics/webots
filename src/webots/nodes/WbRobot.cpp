@@ -790,6 +790,8 @@ void WbRobot::handleMessage(QDataStream &stream) {
       short rate;
       stream >> rate;
       mBatterySensor->setRefreshRate(rate);
+      if (mBattery->isEmpty())
+        warn(tr("'wb_robot_battery_sensor_enable' called while the 'battery' field is empty."));
       return;
     }
     case C_ROBOT_SET_DATA: {
@@ -1009,7 +1011,7 @@ void WbRobot::writeAnswer(QDataStream &stream) {
   if (refreshBatterySensorIfNeeded() || mBatterySensor->hasPendingValue()) {
     stream << (short unsigned int)0;
     stream << (unsigned char)C_ROBOT_BATTERY_VALUE;
-    stream << (double)mBattery->item(CURRENT_ENERGY);
+    stream << (double)currentEnergy();
     mBatterySensor->resetPendingValue();
   }
 

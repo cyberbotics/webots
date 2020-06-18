@@ -155,6 +155,9 @@ void WbMotor::setupJointFeedback() {
 }
 
 double WbMotor::energyConsumption() const {
+  if (dynamic_cast<WbTrack *>(parent()))
+    return 0.0;
+
   return fabs(computeFeedback()) * mConsumptionFactor->value();
 }
 
