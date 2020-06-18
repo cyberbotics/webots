@@ -13,9 +13,11 @@
 // limitations under the License.
 
 #include "WbLinearMotor.hpp"
+
 #include "WbJoint.hpp"
 #include "WbJointParameters.hpp"
 #include "WbSolid.hpp"
+#include "WbTrack.hpp"
 
 #include <ode/ode.h>
 #include <cassert>
@@ -54,6 +56,11 @@ void WbLinearMotor::turnOffMotor() {
 }
 
 double WbLinearMotor::computeFeedback() const {
+  if (dynamic_cast<WbTrack *>(parent())) {
+    warn(tr("Force feedback is not available for motor of track nodes."));
+    return 0.0;
+  }
+
   const WbJoint *j = joint();
   if (j == NULL) {  // function available for motorized joints only
     warn(tr("Force feedback is available for motorized joints only"));
