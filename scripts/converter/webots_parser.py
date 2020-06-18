@@ -98,14 +98,21 @@ class WebotsParser:
     def _write_mf_field(self, type, values):
         self.indentation += 2
         indent = ' ' * (self.indentation)
+        first = True
         for value in values:
-            self.file.write(indent)
+            if type in ['MFInt32', 'MFFloat', 'MFBool']:
+                if first:
+                    self.file.write(indent)
+                else:
+                    self.file.write(", ")
+            else:
+                self.file.write(indent)
             if type == 'MFString':
                 self.file.write('"' + value + '"\n')
             elif type == 'MFInt32' or type == 'MFFloat':
-                self.file.write(WebotsParser._str(value) + '\n')
+                self.file.write(WebotsParser._str(value))
             elif type == 'MFBool':
-                self.file.write('TRUE\n' if value else 'FALSE\n')
+                self.file.write('TRUE' if value else 'FALSE')
             elif type == 'MFVec2f':
                 self.file.write(WebotsParser._str(value[0]) + ' ' +
                                 WebotsParser._str(value[1]) + '\n')
@@ -120,6 +127,9 @@ class WebotsParser:
                                 WebotsParser._str(value[3]) + '\n')
             elif type == 'MFNode':
                 self._write_node(value)
+            first = False
+        if type in ['MFInt32', 'MFFloat', 'MFBool']:
+            self.file.write('\n')
         self.indentation -= 2
 
     def _read_node(self, line):
