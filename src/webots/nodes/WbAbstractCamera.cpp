@@ -61,6 +61,7 @@ void WbAbstractCamera::init() {
   mSensor = NULL;
   mRefreshRate = 0;
   mNeedToConfigure = false;
+  mNeedToResetUpdateTime = false;
   mHasSharedMemoryChanged = false;
   mNeedToCheckShaderErrors = false;
   mSharedMemoryReset = false;
@@ -275,6 +276,9 @@ void WbAbstractCamera::copyImageToSharedMemory() {
 void WbAbstractCamera::reset() {
   WbRenderingDevice::reset();
 
+  mNeedToResetUpdateTime = true;
+  mNeedToConfigure = true;
+
   if (mLens) {
     WbNode *const l = mLens->value();
     if (l)
@@ -326,9 +330,10 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
 
 void WbAbstractCamera::addConfigureToStream(QDataStream &stream, bool reconfigure) {
   stream << (short unsigned int)tag();
-  if (reconfigure)
+  if (reconfigure) {
     stream << (unsigned char)C_CAMERA_RECONFIGURE;
-  else {
+    stream << (unsigned char)(mNeedToResetUpdateTime ? 1 : 0);
+  } else {
     stream << (unsigned char)C_CONFIGURE;
     stream << (unsigned int)uniqueId();
     stream << (unsigned short)width();
@@ -339,6 +344,7 @@ void WbAbstractCamera::addConfigureToStream(QDataStream &stream, bool reconfigur
   stream << (unsigned char)mSpherical->value();
 
   mNeedToConfigure = false;
+  mNeedToResetUpdateTime = false;
   if (!reconfigure && !mSharedMemoryReset)
     mHasSharedMemoryChanged = false;
   mSharedMemoryReset = false;
