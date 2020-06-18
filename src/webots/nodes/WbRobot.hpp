@@ -192,6 +192,7 @@ private:
   QString mControllerDir;
 
   double mPreviousTime;
+  bool mNeedToForceTime;
 
   // supervisor
   WbSupervisorUtilities *mSupervisorUtilities;
