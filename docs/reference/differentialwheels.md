@@ -56,10 +56,9 @@ It is used only in "kinematics" mode.
 
 - `slipNoise`: slip noise added to each move expressed in percent [%].
 If the value is 0.1, a noise component of +/- 10 percent is added to the command for each simulation step.
-The noise is, of course, different for each wheel.
-The noise has a uniform distribution, also known as as "white noise."
+The noise has a uniform distribution and is different for each wheel.
 
-- `encoderNoise`: white noise added to the incremental encoders.
+- `encoderNoise`: uniform noise added to the incremental encoders.
 If the value is -1, the encoders are not simulated.
 If the value is 0, encoders are simulated without noise.
 Otherwise a cumulative uniform noise is added to encoder values.

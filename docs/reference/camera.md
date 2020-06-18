@@ -144,7 +144,7 @@ In comparison with the frustum description above, the near and the far planes ar
 
 ### Noise
 
-It is possible to add quickly a white noise on the cameras by using the `noise` field.
+It is possible to quickly add some noise on the cameras by using the `noise` field.
 A value of `0.0` corresponds to an image without noise.
 For each channel of the image and at each camera refresh, a gaussian noise is computed and added to the channel.
 This gaussian noise has a standard deviation corresponding to the noise field times the channel range.
