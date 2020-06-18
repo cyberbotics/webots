@@ -57,7 +57,7 @@ void WbLinearMotor::turnOffMotor() {
 
 double WbLinearMotor::computeFeedback() const {
   if (dynamic_cast<WbTrack *>(parent())) {
-    warn(tr("Force feedback is not available for motor of track nodes."));
+    warn(tr("Force feedback is not available for a LinearMotor node inside a Track node."));
     return 0.0;
   }
 
