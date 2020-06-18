@@ -46,14 +46,10 @@ world.load(filename)
 
 for node in world.content['root']:
     if node['name'] == 'WorldInfo':
-        found_gravity = False
         for field in node['fields']:
             if field['name'] == 'gravity':
-                found_gravity = True
                 field['value'] = -field['value'][1]
                 field['type'] = 'SFFloat'
-        if not found_gravity:
-            node['fields'].append({'name': 'gravity', 'value': 9.81, 'type': 'SFFloat'})
         node['fields'].append({'name': 'coordinateSystem', 'value': 'NUE', 'type': 'SFString'})
     elif node['name'] in ConvertedProtos:
         for field in node['fields']:
