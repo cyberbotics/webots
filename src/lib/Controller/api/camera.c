@@ -161,8 +161,6 @@ static void wb_camera_read_answer(WbDevice *d, WbRequest *r) {
       break;
     case C_CAMERA_RECONFIGURE:
       c = ac->pdata;
-      if (request_read_uchar(r) > 0)
-        wb_abstract_camera_update_timestamp(d);
       ac->fov = request_read_double(r);
       ac->camnear = request_read_double(r);
       ac->spherical = request_read_uchar(r);

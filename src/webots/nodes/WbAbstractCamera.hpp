@@ -146,7 +146,6 @@ protected:
   unsigned char *mImageData;
   char mCharType;
   bool mNeedToConfigure;
-  bool mNeedToResetUpdateTime;
   bool mHasSharedMemoryChanged;
   bool mImageReady;
   bool mImageChanged;
