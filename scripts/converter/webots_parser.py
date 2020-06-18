@@ -41,6 +41,10 @@ class WebotsParser:
             for node in self.content['root']:
                 self._write_node(node)
 
+    @staticmethod
+    def str(value):
+        return ('%.15f' % value).rstrip('0').rstrip('.')
+
     def _write_node(self, node):
         if 'DEF' in node:
             name = 'DEF ' + node['DEF'] + ' '
@@ -57,10 +61,6 @@ class WebotsParser:
         self.indentation -= 2
         self.file.write(' ' * self.indentation + '}\n')
 
-    @staticmethod
-    def _str(value):
-        return ('%.15f' % value).rstrip('0').rstrip('.')
-
     def _write_field(self, field):
         line = ' ' * self.indentation
         line += field['name'] + ' '
@@ -69,21 +69,21 @@ class WebotsParser:
         if type == 'SFString':
             line += '"' + value + '"'
         elif type == 'SFInt32' or type == 'SFFloat':
-            line += '%g' % value
+            line += value
         elif type == 'SFBool':
             line += 'TRUE' if value else 'FALSE'
         elif type == 'SFVec2f':
-            line += WebotsParser._str(value[0]) + ' '
-            line += WebotsParser._str(value[1])
+            line += value[0] + ' '
+            line += value[1]
         elif type == 'SFVec3f' or type == 'SFColor':
-            line += WebotsParser._str(value[0]) + ' '
-            line += WebotsParser._str(value[1]) + ' '
-            line += WebotsParser._str(value[2])
+            line += value[0] + ' '
+            line += value[1] + ' '
+            line += value[2]
         elif type == 'SFRotation':
-            line += WebotsParser._str(value[0]) + ' '
-            line += WebotsParser._str(value[1]) + ' '
-            line += WebotsParser._str(value[2]) + ' '
-            line += WebotsParser._str(value[3])
+            line += value[0] + ' '
+            line += value[1] + ' '
+            line += value[2] + ' '
+            line += value[3]
         elif type == 'SFNode':
             self.file.write(line)
             self._write_node(value)
@@ -110,21 +110,15 @@ class WebotsParser:
             if type == 'MFString':
                 self.file.write('"' + value + '"\n')
             elif type == 'MFInt32' or type == 'MFFloat':
-                self.file.write(WebotsParser._str(value))
+                self.file.write(value)
             elif type == 'MFBool':
                 self.file.write('TRUE' if value else 'FALSE')
             elif type == 'MFVec2f':
-                self.file.write(WebotsParser._str(value[0]) + ' ' +
-                                WebotsParser._str(value[1]) + '\n')
+                self.file.write(value[0] + ' ' + value[1] + '\n')
             elif type == 'MFVec3f' or type == 'MFColor':
-                self.file.write(WebotsParser._str(value[0]) + ' ' +
-                                WebotsParser._str(value[1]) + ' ' +
-                                WebotsParser._str(value[2]) + '\n')
+                self.file.write(value[0] + ' ' + value[1] + ' ' + value[2] + '\n')
             elif type == 'MFRotation':
-                self.file.write(WebotsParser._str(value[0]) + ' ' +
-                                WebotsParser._str(value[1]) + ' ' +
-                                WebotsParser._str(value[2]) + ' ' +
-                                WebotsParser._str(value[3]) + '\n')
+                self.file.write(value[0] + ' ' + value[1] + ' ' + value[2] + ' ' + value[3] + '\n')
             elif type == 'MFNode':
                 self._write_node(value)
             first = False
@@ -177,10 +171,10 @@ class WebotsParser:
             if length == 1:
                 if '.' in words[0]:
                     field['type'] = 'SFFloat'
-                    field['value'] = float(words[0])
+                    field['value'] = words[0]
                 else:
                     field['type'] = 'SFInt32'  # FIXME: this may be wrong! But it would be very complicated to the correct value
-                    field['value'] = int(words[0])
+                    field['value'] = words[0]
             else:
                 field['value'] = []
                 if length == 2:
@@ -190,7 +184,7 @@ class WebotsParser:
                 elif length == 4:
                     field['type'] = 'SFRotation'
                 for number in words:
-                    field['value'].append(float(number))
+                    field['value'].append(number)
         else:
             field['type'] = 'SFNode'
             field['value'] = self._read_node(words[1])
@@ -225,10 +219,7 @@ class WebotsParser:
                             value = value[:-1]
                         if '.' in value:
                             type = 'MFFloat'
-                        if type == 'MFFloat':
-                            mffield.append(float(value))
-                        else:
-                            mffield.append(int(value))
+                        mffield.append(value)
                 else:
                     array = []
                     if length == 2:
@@ -238,7 +229,7 @@ class WebotsParser:
                     elif length == 3:
                         type = 'MFRotation'
                     for number in words:
-                        array.append(float(number))  # MFVec2f / MFVec3f / MFRotation / MFColor
+                        array.append(number)  # MFVec2f / MFVec3f / MFRotation / MFColor
                     mffield.append(array)
             else:
                 type = 'MFNode'

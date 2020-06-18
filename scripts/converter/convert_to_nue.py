@@ -21,23 +21,15 @@ import sys
 from transforms3d import quaternions
 
 from webots_parser import WebotsParser
-from converted_protos import ConvertedProtos
+from converted_protos import converted_protos
 
 
-def translation(value):
-    return [value[2], value[0], value[1]]
-
-
-def rotation_axis(value):
-    return [value[2], value[0], value[1], value[3]]
-
-
-def rotation(value):
-    value = rotation_axis(value)
-    q0 = quaternions.axangle2quat([value[0], value[1], value[2]], value[3])
-    qr = quaternions.qmult(q0, quaternions.qinverse([0.5, 0.5, 0.5, 0.5]))
+def rotation(value, r):
+    q0 = quaternions.axangle2quat([float(value[0]), float(value[1]), float(value[2])], float(value[3]))
+    q1 = quaternions.axangle2quat([r[0], r[1], r[2]], r[3])
+    qr = quaternions.qmult(q0, q1)
     v, theta = quaternions.quat2axangle(qr)
-    return [v[0], v[1], v[2], theta]
+    return [WebotsParser.str(v[0]), WebotsParser.str(v[1]), WebotsParser.str(v[2]), WebotsParser.str(theta)]
 
 
 filename = sys.argv[1]
@@ -51,11 +43,16 @@ for node in world.content['root']:
                 field['value'] = -field['value'][1]
                 field['type'] = 'SFFloat'
         node['fields'].append({'name': 'coordinateSystem', 'value': 'NUE', 'type': 'SFString'})
-    elif node['name'] in ConvertedProtos:
+    elif node['name'] in converted_protos:
+        print('Rotating', node['name'])
+        rotation_found = False
         for field in node['fields']:
-            if field['name'] in ['translation']:
-                field['value'] = translation(field['value'])
-            elif field['name'] in ['rotation']:
-                field['value'] = rotation_axis(field['value'], node['name'])
+            if field['name'] in ['rotation']:
+                rotation_found = True
+                field['value'] = rotation(field['value'], converted_protos[node['name']])
+        if not rotation_found:
+            node['fields'].append({'name': 'rotation',
+                                   'value': rotation(['0', '1', '0', '0'], converted_protos[node['name']]),
+                                   'type': 'SFRotation'})
 
 world.save(filename[:-4] + '_nue.wbt')
