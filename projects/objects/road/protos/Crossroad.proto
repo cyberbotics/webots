@@ -27,6 +27,7 @@ PROTO Crossroad [
     local textureCoordinateRatio = 0.2
   }%
   Solid {
+    recognitionColors [ 0.2 0.2 0.2 ]
     translation IS translation
     rotation IS rotation
     %{ if nShape > 0 then }%
