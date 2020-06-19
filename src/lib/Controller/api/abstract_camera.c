@@ -140,7 +140,7 @@ void abstract_camera_toggle_remote(WbDevice *d, WbRequest *r) {
 bool abstract_camera_request_image(AbstractCamera *ac, const char *functionName) {
   const double current_simulation_time = wb_robot_get_time();
   const double previous_image_update_time = ac->image_update_time;  // in case of reset, time can go backward
-  if (ac->image_update_time >= current_simulation_time)
+  if (previous_image_update_time >= current_simulation_time)
     return true;
 
   ac->image_requested = true;
