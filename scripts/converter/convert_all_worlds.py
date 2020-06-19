@@ -37,7 +37,14 @@ nue_world_files = ['tests/api/worlds/*.wbt',
                    'projects/samples/*/*/worlds/*.wbt',
                    'projects/vehicles/worlds/*.wbt'
                    ]
+skip_world_files = []
+skipped_world_files = []
+for file in skip_world_files:
+    skipped_world_files.append(os.path.join(WEBOTS_HOME, file.replace('/', '\\')))
 for file in nue_world_files:
     for f in glob.glob(os.path.join(WEBOTS_HOME, file.replace('/', '\\'))):
-        print(f)
+        if f in skipped_world_files:
+            print('Skipping', f)
+            continue
+        print('Converting', f)
         convert_to_nue(f)
