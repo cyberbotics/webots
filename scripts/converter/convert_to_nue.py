@@ -32,10 +32,7 @@ def rotation(value, r):
     return [WebotsParser.str(v[0]), WebotsParser.str(v[1]), WebotsParser.str(v[2]), WebotsParser.str(theta)]
 
 
-for filename in sys.argv:
-    if not filename.endswith('.wbt'):
-        continue
-    print(filename)
+def convert_to_nue(filename):
     world = WebotsParser()
     world.load(filename)
 
@@ -58,3 +55,12 @@ for filename in sys.argv:
                                        'value': rotation(['0', '1', '0', '0'], converted_protos[node['name']]),
                                        'type': 'SFRotation'})
     world.save(filename)
+
+
+if __name__ == "__main__":
+    # execute only if run as a script
+    for filename in sys.argv:
+        if not filename.endswith('.wbt'):
+            continue
+        print(filename)
+        convert_to_nue(filename)
