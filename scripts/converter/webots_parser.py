@@ -89,10 +89,12 @@ class WebotsParser:
             self._write_node(value)
             return
         else:  # MF*
-            line += '[\n'
-            self.file.write(line)
-            self._write_mf_field(type, value)
-            line = ' ' * self.indentation + ']'
+            if len(value) == 0:
+                line += '[]'
+            else:
+                self.file.write(line + '[\n')
+                self._write_mf_field(type, value)
+                line = ' ' * self.indentation + ']'
         self.file.write(line + '\n')
 
     def _write_mf_field(self, type, values):
