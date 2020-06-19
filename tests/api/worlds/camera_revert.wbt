@@ -4,6 +4,7 @@ WorldInfo {
     "Example use of a color Camera device."
   ]
   title "Camera"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.999365 0.0303157 -0.0187006 5.29098
@@ -24,6 +25,7 @@ DirectionalLight {
   intensity 0
 }
 RectangleArena {
+  rotation -0.577350269189626 0.577350269189626 0.577350269189626 2.094395102393196
 }
 DEF GREEN_BOX Solid {
   translation -0.05 0.05 -0.25

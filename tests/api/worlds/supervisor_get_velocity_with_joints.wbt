@@ -1,5 +1,6 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.677054996936791 0.6976775315778075 0.23418495479944731 0.7564855562113971
@@ -15,6 +16,7 @@ DirectionalLight {
   direction 0.1 -0.5 0.3
 }
 Floor {
+  rotation 0 1 0 1.5708
 }
 DEF DYNAMIC_ROBOT Robot {
   translation 0 0.05 0

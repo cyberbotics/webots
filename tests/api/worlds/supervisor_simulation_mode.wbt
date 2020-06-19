@@ -6,6 +6,7 @@ WorldInfo {
       bounce 1
     }
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.113936 -0.939884 -0.321926 3.9231

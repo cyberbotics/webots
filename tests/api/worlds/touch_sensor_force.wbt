@@ -2,6 +2,7 @@
 WorldInfo {
   basicTimeStep 16
   physicsDisableTime 0
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.964181 0.261768 0.0428191 5.79435
@@ -25,8 +26,7 @@ Robot {
       }
     }
     TouchSensor {
-      lookupTable [
-      ]
+      lookupTable []
       rotation 1 0 0 1.5708
       children [
         DEF SENSOR_SHAPE Shape {
@@ -53,6 +53,7 @@ Robot {
   controller "touch_sensor_force"
 }
 Floor {
+  rotation 0 1 0 1.5708
 }
 TestSuiteSupervisor {
 }

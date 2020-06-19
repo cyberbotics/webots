@@ -1,6 +1,7 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
   title "Camera Restart Controller Test"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.55428436 0.81866738 0.15017515 5.574129
@@ -17,6 +18,7 @@ DirectionalLight {
   castShadows TRUE
 }
 RectangleArena {
+  rotation -0.577350269189626 0.577350269189626 0.577350269189626 2.094395102393196
 }
 TestSuiteSupervisor {
 }

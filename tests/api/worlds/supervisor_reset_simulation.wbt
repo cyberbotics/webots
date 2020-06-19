@@ -4,6 +4,7 @@ WorldInfo {
     "Test world resetting the simulation"
   ]
   basicTimeStep 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.3011392881427894 -0.8944857953945254 -0.3304698034227591 4.845225060401701
@@ -34,6 +35,7 @@ DEF BOX Solid {
 Floor {
   translation 1 0 -4
   size 3 4
+  rotation 0 1 0 1.5708
 }
 DEF SOLID0 Solid {
   translation 0.5700000000000001 0.7800000000000004 -3.449999999999998

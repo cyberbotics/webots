@@ -9,6 +9,7 @@ WorldInfo {
     }
   ]
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.12163300473276177 -0.9557830154652709 -0.2677391258441581 2.32230289470441
@@ -24,6 +25,7 @@ DirectionalLight {
   direction 0.2 -1 0.3
 }
 RectangleArena {
+  rotation -0.577350269189626 0.577350269189626 0.577350269189626 2.094395102393196
 }
 Robot {
   translation 0.15 0 0

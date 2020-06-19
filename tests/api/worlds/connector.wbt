@@ -2,6 +2,7 @@
 WorldInfo {
   title "Modular Robot"
   basicTimeStep 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0 1 0 4.6416
@@ -14,6 +15,7 @@ Background {
 }
 Floor {
   size 2 2
+  rotation 0 1 0 1.5708
 }
 Yamor {
   translation -3.67321e-08 0.23 -0.02

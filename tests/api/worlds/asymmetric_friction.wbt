@@ -11,6 +11,7 @@ WorldInfo {
       frictionRotation 0.1 0
     }
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.147696 -0.931138 -0.33342 4.07756

@@ -2,6 +2,7 @@
 WorldInfo {
   basicTimeStep 16
   physicsDisableTime 0
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.99132 0.127891 0.0304704 5.59588
@@ -52,6 +53,7 @@ Robot {
   controller "touch_sensor_force3d"
 }
 Floor {
+  rotation 0 1 0 1.5708
 }
 TestSuiteSupervisor {
 }

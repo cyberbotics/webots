@@ -3,6 +3,7 @@ WorldInfo {
   info [
     "Test world importing a robot object and checking if his controller is started"
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.00218105 -0.980408 -0.196965 3.38702
@@ -20,9 +21,10 @@ PointLight {
 }
 Floor {
   size 1 1
+  rotation 0 1 0 1.5708
 }
 DEF Test Robot {
-  children[
+  children [
     TestSuiteEmitter {
     }
   ]

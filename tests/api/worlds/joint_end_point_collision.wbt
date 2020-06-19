@@ -3,6 +3,7 @@ WorldInfo {
   info [
     "Test Webots ray collision with joint end point solid"
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.012723201 0.99176608 0.12742901 3.26165

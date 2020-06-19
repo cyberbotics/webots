@@ -2,6 +2,7 @@
 WorldInfo {
   basicTimeStep 16
   physicsDisableTime 0
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.977876 0.204976 0.0417477 5.70922
@@ -49,6 +50,7 @@ Robot {
   controller "touch_sensor_bumper"
 }
 Floor {
+  rotation 0 1 0 1.5708
 }
 TestSuiteSupervisor {
 }

@@ -1,6 +1,7 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
   lineScale 0.3
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.180735 0.982754 0.0391057 5.27826
@@ -16,6 +17,7 @@ PointLight {
   location 0 0.345 0
 }
 Floor {
+  rotation 0 1 0 1.5708
 }
 DEF BLUE_ROBOT Robot {
   translation -0.25 0.025 0

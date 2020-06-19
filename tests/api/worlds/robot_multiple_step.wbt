@@ -1,5 +1,6 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.598865 0.759875 0.252885 5.09863
@@ -17,6 +18,7 @@ PointLight {
 }
 Floor {
   size 1 1
+  rotation 0 1 0 1.5708
 }
 Robot {
   controller "robot_multiple_step_supervisor"

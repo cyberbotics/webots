@@ -3,6 +3,7 @@ WorldInfo {
   info [
     "Test world resetting itself"
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.30621251 -0.92407837 -0.22872049 4.8372312

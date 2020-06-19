@@ -1,6 +1,7 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
   basicTimeStep 40
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.138773 -0.910815 -0.388791 2.63775
@@ -21,6 +22,7 @@ Floor {
   texture [
     "textures/parquetry.jpg"
   ]
+  rotation 0 1 0 1.5708
 }
 DEF HEXAPOD Hexapod {
   controller "motion"

@@ -1,5 +1,6 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.15446 -0.98633 -0.0573986 1.19999
@@ -16,6 +17,7 @@ DirectionalLight {
 }
 Floor {
   size 3 3
+  rotation 0 1 0 1.5708
 }
 Solid {
   translation 0 -0.04 -0.07

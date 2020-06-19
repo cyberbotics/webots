@@ -3,6 +3,7 @@ WorldInfo {
   info [
     "Test world checking the wb_emitter_set_channel function"
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.99097079 -0.10994398 -0.076741283 5.27504
