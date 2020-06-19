@@ -27,7 +27,6 @@ PROTO Crossroad [
     local textureCoordinateRatio = 0.2
   }%
   Solid {
-    recognitionColors [ 0.2 0.2 0.2 ]
     translation IS translation
     rotation IS rotation
     %{ if nShape > 0 then }%
@@ -82,6 +81,7 @@ PROTO Crossroad [
     name IS name
     model "crossroad"
     locked IS locked
+    recognitionColors [ 0.2 0.2 0.2 ]
     %{ if fields.boundingObject.value and nShape > 0 then }%
       contactMaterial IS contactMaterial
       boundingObject USE CROSSROAD_GEOMETRY
