@@ -21,11 +21,13 @@ Robot {
   children [
     DEF ACC1 Slot {
       type "slot"
-      endPoint SlotNode { }
+      endPoint SlotNode {
+      }
     }
     DEF ACC2 Slot {
       type "slot-"
-      endPoint SlotNodeGendered { }
+      endPoint SlotNodeGendered {
+      }
     }
     DEF ACC3&4 Slot {
       endPoint Slot {
