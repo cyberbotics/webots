@@ -24,7 +24,12 @@ import os
 from convert_to_nue import convert_to_nue
 
 WEBOTS_HOME = os.environ['WEBOTS_HOME']
-nue_world_files = ['tests/*/worlds/*.wbt',
+nue_world_files = ['tests/api/worlds/*.wbt',
+                   'tests/default/worlds/*.wbt',
+                   'tests/manual_tests/worlds/*.wbt',
+                   'tests/physics/worlds/*.wbt',
+                   'tests/protos/worlds/*.wbt',
+                   'tests/rendering/worlds/*.wbt',
                    'projects/humans/c3d/worlds/*.wbt',
                    'projects/languages/ros/worlds/pioneer3at.wbt',
                    'projects/robots/*/*/worlds/*.wbt',

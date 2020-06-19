@@ -42,6 +42,8 @@ def convert_to_nue(filename):
                 if field['name'] == 'gravity':
                     field['value'] = -field['value'][1]
                     field['type'] = 'SFFloat'
+                if field['name'] == 'coordinateSystem':  # world file already updated
+                    return
             node['fields'].append({'name': 'coordinateSystem', 'value': 'NUE', 'type': 'SFString'})
         elif node['name'] in converted_protos:
             print('Rotating', node['name'])
