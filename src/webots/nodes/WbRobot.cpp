@@ -109,8 +109,7 @@ void WbRobot::init() {
 
   mJoystickConfigureRequest = false;
 
-  mPreviousTime = 0.0;
-  mNeedToForceTime = false;
+  mPreviousTime = -1.0;
   mKinematicDifferentialWheels = NULL;
 
   mMessageFromWwi = NULL;
@@ -212,7 +211,7 @@ void WbRobot::postFinalize() {
 
 void WbRobot::reset() {
   WbSolid::reset();
-  mNeedToForceTime = true;
+  mPreviousTime = -1.0;
   // restore battery level
   if (mBatteryInitialValue > 0)
     mBattery->setItem(CURRENT_ENERGY, mBatteryInitialValue);
@@ -983,25 +982,22 @@ void WbRobot::dispatchAnswer(QDataStream &stream, bool includeDevices) {
       }
     }
   } else {
-    if (mNeedToForceTime)
-      writeAnswer(stream);
+    writeAnswer(stream);
     if (includeDevices) {
       foreach (WbDevice *const device, mDevices)
         if (device->hasTag())
           device->writeAnswer(stream);
     }
-    writeAnswer(stream);
   }
 }
 
 void WbRobot::writeAnswer(QDataStream &stream) {
   const double time = 0.001 * WbSimulationState::instance()->time();
-  if (time != mPreviousTime || mNeedToForceTime) {
+  if (time != mPreviousTime) {
     stream << (short unsigned int)0;
     stream << (unsigned char)C_ROBOT_TIME;
     stream << (double)time;
     mPreviousTime = time;
-    mNeedToForceTime = false;
   }
 
   if (mSimulationModeRequested) {
