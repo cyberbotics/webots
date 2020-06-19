@@ -40,7 +40,7 @@ def convert_to_nue(filename):
         if node['name'] == 'WorldInfo':
             for field in node['fields']:
                 if field['name'] == 'gravity':
-                    field['value'] = -field['value'][1]
+                    field['value'] = WebotsParser.str(-float(field['value'][1]))
                     field['type'] = 'SFFloat'
                 if field['name'] == 'coordinateSystem':  # world file already updated
                     return
