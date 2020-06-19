@@ -32,27 +32,29 @@ def rotation(value, r):
     return [WebotsParser.str(v[0]), WebotsParser.str(v[1]), WebotsParser.str(v[2]), WebotsParser.str(theta)]
 
 
-filename = sys.argv[1]
-world = WebotsParser()
-world.load(filename)
+for filename in sys.argv:
+    if not filename.endswith('.wbt'):
+        continue
+    print(filename)
+    world = WebotsParser()
+    world.load(filename)
 
-for node in world.content['root']:
-    if node['name'] == 'WorldInfo':
-        for field in node['fields']:
-            if field['name'] == 'gravity':
-                field['value'] = -field['value'][1]
-                field['type'] = 'SFFloat'
-        node['fields'].append({'name': 'coordinateSystem', 'value': 'NUE', 'type': 'SFString'})
-    elif node['name'] in converted_protos:
-        print('Rotating', node['name'])
-        rotation_found = False
-        for field in node['fields']:
-            if field['name'] in ['rotation']:
-                rotation_found = True
-                field['value'] = rotation(field['value'], converted_protos[node['name']])
-        if not rotation_found:
-            node['fields'].append({'name': 'rotation',
-                                   'value': rotation(['0', '1', '0', '0'], converted_protos[node['name']]),
-                                   'type': 'SFRotation'})
-
-world.save(filename[:-4] + '_nue.wbt')
+    for node in world.content['root']:
+        if node['name'] == 'WorldInfo':
+            for field in node['fields']:
+                if field['name'] == 'gravity':
+                    field['value'] = -field['value'][1]
+                    field['type'] = 'SFFloat'
+            node['fields'].append({'name': 'coordinateSystem', 'value': 'NUE', 'type': 'SFString'})
+        elif node['name'] in converted_protos:
+            print('Rotating', node['name'])
+            rotation_found = False
+            for field in node['fields']:
+                if field['name'] in ['rotation']:
+                    rotation_found = True
+                    field['value'] = rotation(field['value'], converted_protos[node['name']])
+            if not rotation_found:
+                node['fields'].append({'name': 'rotation',
+                                       'value': rotation(['0', '1', '0', '0'], converted_protos[node['name']]),
+                                       'type': 'SFRotation'})
+    world.save(filename)
