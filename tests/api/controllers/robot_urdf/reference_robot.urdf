@@ -139,11 +139,11 @@
   </link>
   <joint name="shoulder_pan_joint_sensor" type="continuous">
     <parent link="base_link"/>
-    <child link="shoulder_link_112"/>
+    <child link="shoulder_link"/>
     <axis xyz="0 0 1"/>
     <origin xyz="0 0 0.163" rpy="0 0 0"/>
   </joint>
-  <link name="shoulder_link_112">
+  <link name="shoulder_link">
     <visual name="shape_113">
       <geometry>
         <box size="0.01 0.01 0.01"/>
@@ -181,12 +181,12 @@
     </visual>
   </link>
   <joint name="shoulder_lift_joint_sensor" type="continuous">
-    <parent link="shoulder_link_112"/>
-    <child link="upper_arm_link_136"/>
+    <parent link="shoulder_link"/>
+    <child link="upper_arm_link"/>
     <axis xyz="0 1 0"/>
     <origin xyz="0 0.138 0" rpy="0 1.5707959999869179 0"/>
   </joint>
-  <link name="upper_arm_link_136">
+  <link name="upper_arm_link">
     <visual name="shape_137">
       <geometry>
         <box size="0.01 0.01 0.01"/>
@@ -254,12 +254,12 @@
     </visual>
   </link>
   <joint name="elbow_joint_sensor" type="continuous">
-    <parent link="upper_arm_link_136"/>
-    <child link="forearm_link_187"/>
+    <parent link="upper_arm_link"/>
+    <child link="forearm_link"/>
     <axis xyz="0 1 0"/>
     <origin xyz="0 -0.131 0.425" rpy="0 0 0"/>
   </joint>
-  <link name="forearm_link_187">
+  <link name="forearm_link">
     <visual name="shape_188">
       <geometry>
         <box size="0.01 0.01 0.01"/>
@@ -327,12 +327,12 @@
     </visual>
   </link>
   <joint name="wrist_1_joint_sensor" type="continuous">
-    <parent link="forearm_link_187"/>
-    <child link="wrist_1_link_227"/>
+    <parent link="forearm_link"/>
+    <child link="wrist_1_link"/>
     <axis xyz="0 1 0"/>
     <origin xyz="0 0 0.392" rpy="0 1.5707959999869179 0"/>
   </joint>
-  <link name="wrist_1_link_227">
+  <link name="wrist_1_link">
     <visual name="shape_228">
       <geometry>
         <box size="0.01 0.01 0.01"/>
@@ -370,12 +370,12 @@
     </visual>
   </link>
   <joint name="wrist_2_joint_sensor" type="continuous">
-    <parent link="wrist_1_link_227"/>
-    <child link="wrist_2_link_251"/>
+    <parent link="wrist_1_link"/>
+    <child link="wrist_2_link"/>
     <axis xyz="0 0 1"/>
     <origin xyz="0 0.127 0" rpy="0 0 0"/>
   </joint>
-  <link name="wrist_2_link_251">
+  <link name="wrist_2_link">
     <visual name="shape_252">
       <geometry>
         <box size="0.01 0.01 0.01"/>
@@ -413,12 +413,12 @@
     </visual>
   </link>
   <joint name="wrist_3_joint_sensor" type="continuous">
-    <parent link="wrist_2_link_251"/>
-    <child link="wrist_3_link_275"/>
+    <parent link="wrist_2_link"/>
+    <child link="wrist_3_link"/>
     <axis xyz="0 1 0"/>
     <origin xyz="0 0 0.1" rpy="0 0 0"/>
   </joint>
-  <link name="wrist_3_link_275">
+  <link name="wrist_3_link">
     <visual name="shape_276">
       <geometry>
         <box size="0.01 0.01 0.01"/>

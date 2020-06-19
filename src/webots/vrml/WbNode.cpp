@@ -1104,7 +1104,7 @@ const QString WbNode::urdfName() const {
     const QList<WbNode *> children = findRobotRootNode()->subNodes(true, true, true);
     for (int i = 0; i < children.size(); i++) {
       const WbNode *const child = children.at(i);
-      if (child->findSFString("name") && child->findSFString("name")->value() == name) {
+      if (child != this && child->findSFString("name") && child->findSFString("name")->value() == name) {
         name += "_" + QString::number(mUniqueId);
         break;
       }
