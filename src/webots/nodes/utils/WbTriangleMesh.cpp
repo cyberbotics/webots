@@ -179,6 +179,7 @@ QString WbTriangleMesh::init(const double *coord, const double *normal, const do
   cleanup();
 
   mTextureCoordinatesValid = texCoord != NULL;
+  mNormalsValid = normal != NULL;
   mNTriangles = indexSize / 3;
 
   mCoordIndices.reserve(indexSize);
