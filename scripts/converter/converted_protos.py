@@ -22,7 +22,7 @@ _other = [0, 0.7071067811865476, 0.7071067811865476, 3.1415926535897932]
 
 converted_protos = {'Book': _luf2flu,
                     'BunchOfSunFlowers': _luf2flu,
-                    'CardboardBox': _rub2flu,
+                    'CardboardBox': _luf2flu,
                     'CircleArena': _rub2flu,
                     'E-puck': _rub2flu,
                     'Floor': _rub2flu,
