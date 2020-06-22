@@ -825,7 +825,8 @@ robot = Supervisor()
 ur10e = robot.getFromDef('ur10e')
 box = robot.getFromDef('box')
 
-# get the transposed rotation matrix of the robot, so we can calculate poses of everything relative to it
+# Get the transposed rotation matrix of the robot, so we can calculate poses of
+# everything relative to it.
 # get orientation of the Node we want as our new reference frame and turn it into numpy array. Returns 1-dim list of len=9
 rot_ur10e = np.array(ur10e.getOrientation())
 # reshape into a 3x3 rotation matrix
