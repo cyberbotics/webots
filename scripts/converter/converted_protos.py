@@ -17,15 +17,15 @@
 '''List of protos converted to the FLU orientation.'''
 
 _rub2flu = [0.577350269189626, -0.577350269189626, -0.577350269189626, -2.094395102393196]
-_luf2flu = [0, 0.7071067811865476, 0.7071067811865476, 3.1415926535897932]
+_luf2flu = [0.577350269189626, 0.577350269189626, 0.577350269189626, -2.094395102393196]
+_other = [0, 0.7071067811865476, 0.7071067811865476, 3.1415926535897932]
 
-converted_protos = {'Book': [0.577350269189626, -0.577350269189626, -0.577350269189626, -2.094395102393196],
-                    'BunchOfSunFlowers': [0.577350269189626, -0.577350269189626, -0.577350269189626, -2.094395102393196],
+converted_protos = {'Book': _luf2flu,
+                    'BunchOfSunFlowers': _luf2flu,
                     'CardboardBox': _rub2flu,
                     'CircleArena': _rub2flu,
                     'E-puck': _rub2flu,
                     'Floor': _rub2flu,
-                    'Pedestrian': _luf2flu,
                     'Pioneer3dx': _rub2flu,
                     'RectangleArena': _rub2flu,
                     'WoodenBox': _rub2flu}
