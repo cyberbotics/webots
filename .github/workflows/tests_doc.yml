@@ -18,7 +18,7 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
-    - name: Test
+    - name: Tests
       run: |
         pip install -r docs/tests/requirements.txt
         export WEBOTS_HOME=$PWD
