@@ -831,7 +831,8 @@ box = robot.getFromDef('box')
 rot_ur10e = np.array(ur10e.getOrientation())
 # reshape into a 3x3 rotation matrix
 rot_ur10e.reshape(3, 3)
-# transpose the matrix, because we need world relative to the robot, not the robot relative to world
+# Transpose the matrix, because we need world relative to the robot, not the
+# robot relative to world.
 rot_ur10e = np.transpose(rot_ur10e)
 
 # get the translation between the robot and the world. Basically where the origin of our new realative frame is. 
