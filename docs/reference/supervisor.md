@@ -841,7 +841,7 @@ rot_ur10e = np.transpose(rot_ur10e)
 pos_ur10e = np.array(ur10e.getPosition())
 
 
-# box position relative to world
+# Box position relative to world.
 box_pos_world = np.array(box.getPosition())
 # calculate the relative translation between the box and the robot
 box_pos_world = np.subtract(box_pos_world, pos_ur10e)
