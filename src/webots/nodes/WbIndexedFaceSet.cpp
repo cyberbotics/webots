@@ -73,7 +73,7 @@ void WbIndexedFaceSet::postFinalize() {
   connect(mCcw, &WbSFBool::changed, this, &WbIndexedFaceSet::updateCcw);
   connect(mNormalPerVertex, &WbSFBool::changed, this, &WbIndexedFaceSet::updateNormalPerVertex);
   connect(mCoordIndex, &WbMFInt::changed, this, &WbIndexedFaceSet::updateCoordIndex);
-  connect(mTexCoordIndex, &WbMFInt::changed, this, &WbIndexedFaceSet::updateNormalIndex);
+  connect(mNormalIndex, &WbMFInt::changed, this, &WbIndexedFaceSet::updateNormalIndex);
   connect(mTexCoordIndex, &WbMFInt::changed, this, &WbIndexedFaceSet::updateTexCoordIndex);
   connect(mCreaseAngle, &WbSFDouble::changed, this, &WbIndexedFaceSet::updateCreaseAngle);
 
