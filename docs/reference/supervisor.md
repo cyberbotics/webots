@@ -845,7 +845,7 @@ pos_ur10e = np.array(ur10e.getPosition())
 box_pos_world = np.array(box.getPosition())
 # calculate the relative translation between the box and the robot
 box_pos_world = np.subtract(box_pos_world, pos_ur10e)
-# matrix multiplication with rotation matrix. Box pos relative to robot
+# Matrix multiplication with rotation matrix: box posistion relative to robot.
 box_pos_robot = np.dot(rot_ur10e, box_pos_world)
 
 # calculate the orientation of the box, relative to the robot. All in one line
