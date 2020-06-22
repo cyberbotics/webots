@@ -837,7 +837,7 @@ rot_ur10e.reshape(3, 3)
 rot_ur10e = np.transpose(rot_ur10e)
 
 # get the translation between the robot and the world. Basically where the origin of our new realative frame is. 
-# no need to use the reverse vector, as we will subtract instead of add it later
+# No need to use the reverse vector, as we will subtract instead of add it later.
 pos_ur10e = np.array(ur10e.getPosition())
 
 
