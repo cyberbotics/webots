@@ -84,10 +84,7 @@ def setupWebots():
         else:
             webotsFullPath = '..' + os.sep + '..' + os.sep + webotsBinary
         if not os.path.isfile(webotsFullPath):
-            print('Error: ' + webotsBinary + ' binary not found')
-            if sys.platform == 'win32':
-                sys.stdout.flush()
-            sys.exit(1)
+            sys.exit('Error: ' + webotsBinary + ' binary not found')
         webotsFullPath = os.path.normpath(webotsFullPath)
 
     command = Command(webotsFullPath + ' --version')
