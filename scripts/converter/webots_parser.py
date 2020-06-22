@@ -16,6 +16,8 @@
 
 '''Parse Webots world files.'''
 
+import sys
+
 
 class WebotsParser:
     '''This class reads a world file and parser its structure.'''
@@ -46,6 +48,9 @@ class WebotsParser:
         return ('%.15f' % value).rstrip('0').rstrip('.')
 
     def _write_node(self, node):
+        if node is None:
+            self.file.write('NULL\n')
+            return
         if 'DEF' in node:
             name = 'DEF ' + node['DEF'] + ' '
         elif 'USE' in node:
@@ -151,6 +156,8 @@ class WebotsParser:
         field = {}
         words = line.split(' ', 1)
         field['name'] = words[0]
+        if len(words) < 2:
+            sys.exit('Line:', self.line_count, 'Expecting more than a single word:', words)
         character = words[1][0]
         if character == '[':
             if len(words[1]) > 1 and words[1][1] == ']':  # empty MF field
@@ -167,6 +174,9 @@ class WebotsParser:
         elif words[1] == 'FALSE':
             field['type'] = 'SFBool'
             field['value'] = False
+        elif words[1] == 'NULL':
+            field['type'] = 'SFNode'
+            field['value'] = None
         elif character.isdigit() or character == '-':
             words = words[1].split(' ')
             length = len(words)
