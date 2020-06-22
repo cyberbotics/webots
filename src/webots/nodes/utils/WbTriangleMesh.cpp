@@ -73,6 +73,8 @@ void WbTriangleMesh::cleanup() {
 void WbTriangleMesh::cleanupTmpArrays() {
   mTmpTexIndices.clear();
   mTmpTexIndices.reserve(0);
+  mTmpNormalIndices.clear();
+  mTmpNormalIndices.reserve(0);
   mTmpTriangleNormals.clear();
   mTmpTriangleNormals.reserve(0);
   mTmpVertexToTriangle.clear();
