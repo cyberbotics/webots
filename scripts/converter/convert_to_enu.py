@@ -17,7 +17,6 @@
 '''Convert world file from R2020a to R2020b switching from NUE to ENU coordinate system.'''
 
 import math
-import numpy
 import sys
 
 from transforms3d import quaternions
@@ -31,44 +30,16 @@ def translation(value):
 
 
 def rotation_axis(value, node_name):
-    print(node_name)
     rotation = value[3] + math.pi if node_name == 'E-puck' else value[3]
     return [value[2], value[0], value[1], rotation]
 
 
-def axis_angle_to_quaternion(axis, theta):
-    axis = numpy.array(axis) / numpy.linalg.norm(axis)
-    return numpy.append([numpy.cos(theta/2)], numpy.sin(theta/2) * axis)
-
-
-def quaternion_multiply(q1, q2):
-    q3 = numpy.copy(q1)
-    q3[0] = q1[0]*q2[0] - q1[1]*q2[1] - q1[2]*q2[2] - q1[3]*q2[3]
-    q3[1] = q1[0]*q2[1] + q1[1]*q2[0] + q1[2]*q2[3] - q1[3]*q2[2]
-    q3[2] = q1[0]*q2[2] - q1[1]*q2[3] + q1[2]*q2[0] + q1[3]*q2[1]
-    q3[3] = q1[0]*q2[3] + q1[1]*q2[2] - q1[2]*q2[1] + q1[3]*q2[0]
-    return q3
-
-
-def normalize(v, tolerance=0.00001):
-    mag2 = sum(n * n for n in v)
-    if abs(mag2 - 1.0) > tolerance:
-        mag = math.sqrt(mag2)
-        v = tuple(n / mag for n in v)
-    return v
-
-
-def quaternion_to_axis_angle(q):
-    w, v = q[0], q[1:]
-    theta = math.acos(w) * 2.0
-    return normalize(v), theta
-
-
-def rotation(value):
-    q0 = axis_angle_to_quaternion([value[2], value[0], value[1]], value[3])
-    qr = quaternion_multiply(q0, [0.5, 0.5, 0.5, 0.5])
-    (v, theta) = quaternion_to_axis_angle(qr)
-    return [v[0], v[1], v[2], theta]
+def rotation(value, r):
+    q0 = quaternions.axangle2quat([float(value[0]), float(value[1]), float(value[2])], float(value[3]))
+    q1 = quaternions.axangle2quat([r[0], r[1], r[2]], r[3])
+    qr = quaternions.qmult(q0, q1)
+    v, theta = quaternions.quat2axangle(qr)
+    return [WebotsParser.str(v[0]), WebotsParser.str(v[1]), WebotsParser.str(v[2]), WebotsParser.str(theta)]
 
 
 filename = sys.argv[1]
