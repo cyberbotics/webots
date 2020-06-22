@@ -28,11 +28,9 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python }}
-    - name: Test
+    - name: Tests
       run: |
-        echo "test"
         ${{ matrix.DEPENDENCIES_INSTALLATION }}
-        clang-format --version
         cp dependencies/.clang-format-9 .clang-format
         pip install -r tests/sources/requirements.txt
         export WEBOTS_HOME=$PWD
