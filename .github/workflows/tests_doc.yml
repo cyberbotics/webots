@@ -1,0 +1,25 @@
+name: Test Doc
+
+on: [push, pull_request]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test-doc:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-16.04, ubuntu-18.04, ubuntu-20.04, macos-10.15, windows-2019]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Test
+      run: |
+        pip install -r docs/tests/requirements.txt
+        export WEBOTS_HOME=$PWD
+        python -m unittest discover -s docs/tests
