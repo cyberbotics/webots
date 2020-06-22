@@ -256,6 +256,8 @@ void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordI
                                  const WbMFInt *texCoordIndex) {
   assert(!mNormalsValid || normalIndex);
   assert(!mTextureCoordinatesValid || texCoordIndex);
+  assert(mTmpNormalIndices.size() == 0);
+  assert(mTmpTexIndices.size() == 0);
 
   // parse coordIndex
   QList<QVector<int>> currentFaceIndices;  // keep the coord, normal and tex indices of the current face
