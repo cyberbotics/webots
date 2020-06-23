@@ -31,7 +31,8 @@ dependencies = list(set(  # use a set to make sure to avoid duplication
 ))
 
 # add specific folder dependencies needed by Webots
-folders = ['/tmp', '/mingw32', '/mingw32/bin', '/mingw32/lib', '/mingw64', '/mingw64/bin', '/mingw64/include',
+folders = ['/tmp', '/mingw32', '/mingw32/bin', '/mingw32/lib', '/mingw64', '/mingw64/bin', '/mingw64/bin/cpp',
+           '/mingw64/include',
            '/mingw64/bin/platforms/',  # hack to get qwindows.dll found by Webots
            '/mingw64/include/libssh',
            '/mingw64/lib', '/mingw64/share',
@@ -65,7 +66,7 @@ with open('msys64_folders.iss', 'w') as file:
         file.write('Name: "{app}\\msys64' + folder.replace('/', '\\') + '"\n')
 
 # add the dependencies provided in the files_msys64.txt file
-root = subprocess.check_output(['cygpath', '-w', '/']).decode().strip().rstrip('/')
+root = subprocess.check_output(['cygpath', '-w', '/']).decode().strip().rstrip('\\')
 with open('files_msys64.txt', 'r') as file:
     for line in file:
         line = line.strip()
@@ -84,7 +85,12 @@ for ffmpeg_dll in subprocess.check_output(['bash', 'ffmpeg_dependencies.sh'], sh
 with open('msys64_files.iss', 'w') as iss_file:
     for file in files:
         file = file.replace('/', '\\')
-        iss_file.write('Source: "' + root + file + '"; DestDir: "{app}\\msys64' + os.path.dirname(file) + '"\n')
+        if file in ['\\mingw64\\bin\\libstdc++-6.dll',
+                    '\\mingw64\\bin\\libgcc_s_seh-1.dll',
+                    '\\mingw64\\bin\\libwinpthread-1.dll']:
+            iss_file.write('Source: "' + root + file + '"; DestDir: "{app}\\msys64' + os.path.dirname(file) + '\\cpp"\n')
+        else:
+            iss_file.write('Source: "' + root + file + '"; DestDir: "{app}\\msys64' + os.path.dirname(file) + '"\n')
     # This is a patch needed to ensure qwindows.dll is found by Webots (it should be improved)
     iss_file.write('Source: "' + root + '\\mingw64\\share\\qt5\\plugins\\platforms\\qwindows.dll"; DestDir: ' +
                    '"{app}\\msys64\\mingw64\\bin\\platforms"\n')

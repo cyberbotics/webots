@@ -1,0 +1,37 @@
+name: Test Sources
+
+on: pull_request
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test-sources:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-16.04, ubuntu-18.04, ubuntu-20.04, macos-10.15]
+        python: [2.7, 3.8]
+        include:
+          - os: ubuntu-16.04
+            DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-9"
+          - os: ubuntu-18.04
+            DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-9"
+          - os: ubuntu-20.04
+            DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-9"
+          - os: macos-10.15
+            DEPENDENCIES_INSTALLATION: "brew install clang-format cppcheck"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python }}
+    - name: Tests
+      run: |
+        ${{ matrix.DEPENDENCIES_INSTALLATION }}
+        cp dependencies/.clang-format-9 .clang-format
+        pip install -r tests/sources/requirements.txt
+        export WEBOTS_HOME=$PWD
+        python -m unittest discover -s tests/sources
