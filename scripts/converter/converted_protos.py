@@ -28,4 +28,5 @@ converted_protos = {'Book': _luf2flu,
                     'Floor': _rub2flu,
                     'Pioneer3dx': _rub2flu,
                     'RectangleArena': _rub2flu,
+                    'TurtleBot3Burger': _rub2flu,
                     'WoodenBox': _rub2flu}
