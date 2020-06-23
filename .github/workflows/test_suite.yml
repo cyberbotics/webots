@@ -27,7 +27,7 @@ jobs:
     needs: build
     strategy:
       matrix:
-        test: [tests/test_suite.py, tests/manual_tests/test_worlds_warnings.py]
+        test: [tests/test_suite.py, tests/manual_tests/test_worlds_warnings.py, src/packaging/update_all_worlds.py]
     steps:  
     - uses: actions/checkout@v2
     - name: Make
