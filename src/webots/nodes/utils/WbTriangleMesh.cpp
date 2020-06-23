@@ -73,6 +73,8 @@ void WbTriangleMesh::cleanup() {
 void WbTriangleMesh::cleanupTmpArrays() {
   mTmpTexIndices.clear();
   mTmpTexIndices.reserve(0);
+  mTmpNormalIndices.clear();
+  mTmpNormalIndices.reserve(0);
   mTmpTriangleNormals.clear();
   mTmpTriangleNormals.reserve(0);
   mTmpVertexToTriangle.clear();
@@ -179,6 +181,7 @@ QString WbTriangleMesh::init(const double *coord, const double *normal, const do
   cleanup();
 
   mTextureCoordinatesValid = texCoord != NULL;
+  mNormalsValid = normal != NULL;
   mNTriangles = indexSize / 3;
 
   mCoordIndices.reserve(indexSize);
@@ -255,6 +258,8 @@ void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordI
                                  const WbMFInt *texCoordIndex) {
   assert(!mNormalsValid || normalIndex);
   assert(!mTextureCoordinatesValid || texCoordIndex);
+  assert(mTmpNormalIndices.size() == 0);
+  assert(mTmpTexIndices.size() == 0);
 
   // parse coordIndex
   QList<QVector<int>> currentFaceIndices;  // keep the coord, normal and tex indices of the current face

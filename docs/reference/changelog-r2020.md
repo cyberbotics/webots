@@ -27,6 +27,7 @@ Released on XXX.
     - Upgraded to Assimp 5.0.1 on Linux and macOS ([#1419](https://github.com/cyberbotics/webots/pull/1463)).
   - Bug fixes
     - Fixed mismatch between the bounding object and visual shape of the [UnevenTerrain](https://www.cyberbotics.com/doc/guide/object-floors#uneventerrain), **and removed the `textureScale` field** ([#1792](https://github.com/cyberbotics/webots/pull/1792)).
+    - Fixed crash when using a [Normal](normal.md) node in a PROTO node ([#1813](https://github.com/cyberbotics/webots/pull/1813)).
   - Cleanup
     - **Specified `Robot.controllerArgs` as a `MFString` rather than a `SFString` ([#1718](https://github.com/cyberbotics/webots/pull/1718)).**
     - **Removed useless `wb_robot_get_controller_arguments()` and deprecated useless `wb_robot_get_controller_name()` API functions ([#1718](https://github.com/cyberbotics/webots/pull/1718)).**
