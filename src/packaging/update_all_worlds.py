@@ -22,7 +22,8 @@ from subprocess import call
 
 
 worlds = []
-for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + 'projects'):
+root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+for rootPath, dirNames, fileNames in os.walk(os.path.join(root, 'projects')):
     for fileName in fnmatch.filter(fileNames, '*.wbt'):
         world = os.path.join(rootPath, fileName)
         worlds.append(world)
@@ -41,7 +42,5 @@ else:
     webotsFullPath = os.path.normpath(webotsFullPath)
 
 for i in range(len(worlds)):
-    sys.stdout.write("\r%d/%d" % (i + 1, len(worlds)))
-    sys.stdout.flush()
-    call([webotsFullPath, worlds[i], "--minimize", "--mode=pause", "--update-world"])
-sys.stdout.write("\n")
+    print('%d/%d: %s\n' % (i + 1, len(worlds), worlds[i]))
+    call([webotsFullPath, worlds[i], '--minimize', '--batch', '--no-sandbox', '--mode=pause', '--update-world'])
