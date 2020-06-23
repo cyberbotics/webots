@@ -36,24 +36,17 @@ The following example assumes that there is a problem with the "soccer\_supervis
 
 On Windows GDB can be installed for example from the MSYS2 environment with the `mingw-w64-x86_64-gdb` package as indicated in the [optional dependencies](https://github.com/cyberbotics/webots/wiki/Windows-Optional-Dependencies) of the [Windows installation instructions](https://github.com/cyberbotics/webots/wiki/Windows-installation).
 
-The first step is to recompile the controller code with the *-g* flag, in order to add debugging information to the executable file.
-This can be achieved by adding this line to the controller's Makefile:
-
-```makefile
-CFLAGS = -g
-```
-
-Then, you must recompile the controller, either by using the `Clean` and `Build` buttons of the Webots text editor or directly in a terminal:
+The first step is to recompile the controller with the `debug` target, in order to add debugging information to the executable file. 
+You must recompile the controller directly in a terminal, as the Webots text editor `Build` button will omit debugging information from the build:
 
 ```sh
 $ make clean
-$ make
+$ make debug
 ...
 ```
 
-Note that, the *-g* flag should now appear in the compilation line.
-Once you have recompiled the controller, you will need to change controller of the [Robot](../reference/robot.md) node to be [extern](running-extern-robot-controllers.md).
-This can be done from the scene tree:
+Once you have recompiled the controller, you will need to ensure the controller of the [Robot](../reference/robot.md) node is set to be [extern](running-extern-robot-controllers.md).
+If it is not, this can be set from the scene tree:
 Hit the `Pause` and `Reset` buttons, set the `controller` field of the Robot node to `<extern>` and save the world file.
 From a terminal, go to the folder containing your controller program and start it with `gdb`:
 
