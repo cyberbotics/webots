@@ -331,10 +331,9 @@ private slots:
 private:
   WbNode &operator=(const WbNode &);  // non copyable
 
-  QString mUrdfPrefix;
-
   // for all nodes
   WbNode *mParent;
+  QString mUrdfPrefix;
   WbNodeModel *mModel;
   int mUniqueId;
   bool mIsBeingDeleted;
