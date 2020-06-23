@@ -342,6 +342,7 @@ void WbBackground::applySkyBoxToWren() {
           image[i].swap(tmp);
         }
         const int rotate = gCoordinateSystemRotate(i);
+        // FIXME: this texture rotation should be performed by OpenGL or in the shader to get a better performance
         if (rotate != 0) {
           QPoint center = image[i].rect().center();
           QTransform matrix;
@@ -400,6 +401,7 @@ void WbBackground::applySkyBoxToWren() {
       wr_texture_set_internal_format(WR_TEXTURE(cm), WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
       float *data = stbi_loadf(url.toUtf8().constData(), &w, &h, &components, 0);
       const int rotate = gCoordinateSystemRotate(i);
+      // FIXME: this texture rotation should be performed by OpenGL or in the shader to get a better performance
       if (rotate != 0) {
         float *rotated = (float *)stbi__malloc(sizeof(float) * w * h * components);
         if (rotate == 90) {
