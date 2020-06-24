@@ -84,6 +84,7 @@ Released on XXX.
     - Fixed the TurtleBot3Burger robot maximum velocity (thanks to Dorteel).
     - Fixed the TurtleBot3Burger robot center of mass (thanks to Nitrow).
     - Fixed warnings about duplicated `name` fields in the `TruckTank` PROTO node.
+    - **Fixed value returned by [DistanceSensor](distancesensor.md) devices when sensing untextured shapes.**
     - Fixed contact points optional rendering not updated when the `lineScale` field of the [WorldInfo](worldinfo.md) node was changed.
     - Fixed the C/C++ Makefiles to handle spaces in the Webots installation directory.
     - Fixed crash when resetting worlds with motorized [BallJoint](balljoint.md) nodes (thanks to lordNil).

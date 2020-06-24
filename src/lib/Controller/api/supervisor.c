@@ -1386,8 +1386,7 @@ bool wb_supervisor_world_save(const char *filename) {
   save_request = true;
 
   robot_mutex_lock_step();
-  if (filename)
-    save_filename = supervisor_strdup(filename);
+  save_filename = supervisor_strdup(filename);
   wb_robot_flush_unlocked();
   robot_mutex_unlock_step();
 
