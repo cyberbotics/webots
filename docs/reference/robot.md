@@ -946,7 +946,7 @@ These functions allow you to measure the present energy level of the robot batte
 First, it is necessary to enable battery sensor measurements by calling the `wb_robot_battery_sensor_enable` function.
 The `sampling_period` parameter is expressed in milliseconds and defines how frequently measurements are performed.
 After the battery sensor is enabled a value can be read from it by calling the `wb_robot_battery_sensor_get_value` function.
-The returned value corresponds to the present energy level of the battery expressed in Joules (*J*).
+The returned value corresponds to the present energy level of the battery expressed in Joules (*J*), if the `battery` field is empty, this function will return `-1.0`.
 
 The `wb_robot_battery_sensor_disable` function should be used to stop battery sensor measurements.
 

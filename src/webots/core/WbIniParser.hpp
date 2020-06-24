@@ -17,6 +17,8 @@
 
 #include <QtCore/QStringList>
 
+class QProcessEnvironment;
+
 class WbIniParser {
 public:
   explicit WbIniParser(const QString &filename);
@@ -31,7 +33,7 @@ public:
   // return value with the environment variables replaced by their value
   // for example: valueAt(i) -> $(WEBOTS_HOME)/lib
   //              resolvedValueAt(i) -> /usr/local/webots/lib
-  QString resolvedValueAt(int index, const QStringList &environment) const;
+  QString resolvedValueAt(int index, const QProcessEnvironment &environment) const;
 
 private:
   QStringList mSections;

@@ -15,6 +15,7 @@
 #include "WbIniParser.hpp"
 
 #include <QtCore/QFile>
+#include <QtCore/QProcessEnvironment>
 
 WbIniParser::WbIniParser(const QString &filename) {
   QFile file(filename);
@@ -66,7 +67,7 @@ void WbIniParser::setValue(int index, QString newValue) {
   mValues[index] = newValue;
 }
 
-QString WbIniParser::resolvedValueAt(int index, const QStringList &environment) const {
+QString WbIniParser::resolvedValueAt(int index, const QProcessEnvironment &environment) const {
   QString value = valueAt(index);
   if (sectionAt(index) == "environment variables with relative paths" ||
       sectionAt(index) == "environment variables with paths") {
@@ -77,22 +78,16 @@ QString WbIniParser::resolvedValueAt(int index, const QStringList &environment) 
     value = newWindowsValue;
 #endif
   }
-  int count = value.count("$(");
+  const int count = value.count("$(");
   int position = 0;
   for (int j = 0; j < count; ++j) {
     int startIndex = value.indexOf("$(", position);
     // this test avoid errors caused by multiple instances of the same reference
     if (startIndex == -1)
       break;
-    int endIndex = value.indexOf(')', startIndex);
-    QString environmentKey = value.mid(startIndex + 2, endIndex - startIndex - 2);
-    QString environmentValue;
-    int valueIndex = environment.indexOf(QRegExp(QString("^%1=.*").arg(environmentKey)));
-    if (valueIndex != -1) {
-      environmentValue = environment[valueIndex];
-      environmentValue.remove(0, environmentKey.size() + 1);  // remove the environment variable name and '=' sign
-    } else
-      environmentValue = "";
+    const int endIndex = value.indexOf(')', startIndex);
+    const QString environmentKey = value.mid(startIndex + 2, endIndex - startIndex - 2);
+    const QString &environmentValue = environment.value(environmentKey);
     QString newValue = value;
     newValue.replace("$(" + environmentKey + ")", environmentValue);
     if (sectionAt(index) == "environment variables with relative paths" ||

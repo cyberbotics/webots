@@ -4,6 +4,53 @@ This is an archive of the `documentation` channel of the [Webots Discord server]
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 06/17/2020 09:42:18
+You're welcome
+
+##### ana.dospinescu 06/17/2020 09:41:50
+`@David Mansolino` Thank you!
+
+##### David Mansolino [cyberbotics] 06/17/2020 05:26:17
+Hi, in R2020a, you should instead use the right and left motor instead.
+
+```
+wb_differential_wheels_set_speed
+```
+
+Becomes something like:
+
+```
+  WbDeviceTag left_motor = wb_robot_get_device("left wheel motor");
+  WbDeviceTag right_motor = wb_robot_get_device("right wheel motor");
+  wb_motor_set_position(left_motor, INFINITY);
+  wb_motor_set_position(right_motor, INFINITY);
+  wb_motor_set_velocity(left_motor, 0.0);
+  wb_motor_set_velocity(right_motor, 0.0);
+```
+
+And for the encoders, you should use instead the position sensors:
+
+```
+// get a handler to the position sensors and enable them.
+WbDeviceTag left_position_sensor = wb_robot_get_device("left wheel sensor");
+WbDeviceTag right_position_sensor = wb_robot_get_device("right wheel sensor");
+wb_position_sensor_enable(left_position_sensor, TIME_STEP);
+wb_position_sensor_enable(right_position_sensor, TIME_STEP);
+double left_encoder_value = wb_position_sensor_get_value(left_position_sensor);
+double right_encoder_value = wb_position_sensor_get_value(right_position_sensor);
+```
+
+##### ana.dospinescu 06/16/2020 20:17:02
+Hello!
+
+Can somenone help me with the equivalent of functions in Webots R2020a version for:
+
+wb\_differential\_wheels\_set\_speed
+
+wb\_differential\_wheels\_enable\_encoders
+
+wb\_differential\_wheels\_set\_encoders
+
 ##### Olivier Michel [cyberbotics] 06/08/2020 06:20:06
 `@Nitish Gadangi`: Sure I will.
 
