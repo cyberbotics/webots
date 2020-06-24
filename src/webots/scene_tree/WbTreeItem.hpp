@@ -68,7 +68,7 @@ public:
   bool isSFNode() const;
   bool isItem() const { return mType == ITEM; }
   bool isInvalid() const { return mType == INVALID; }
-  WbField *field() const { return mType == FIELD ? mField : NULL; }
+  WbField *field() const { return (mType == FIELD || mType == ITEM) ? mField : NULL; }
   WbNode *node() const;
   int itemIndex(const WbTreeItem *item) const;
   WbTreeItem *lastChild() const;
