@@ -147,11 +147,12 @@ namespace wren {
     mUseAlphaBlending(true) {}
 
   PostProcessingEffect::Pass::~Pass() {
-    for (TextureRtt *texture : mFrameBuffer->outputTextures())
-      Texture::deleteTexture(texture);
+    if (mFrameBuffer) {
+      for (TextureRtt *texture : mFrameBuffer->outputTextures())
+        Texture::deleteTexture(texture);
 
-    if (mFrameBuffer)
       FrameBuffer::deleteFrameBuffer(mFrameBuffer);
+    }
 
     StaticMesh::deleteMesh(mMesh);
   }
