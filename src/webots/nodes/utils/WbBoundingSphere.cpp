@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbBaseNode.hpp"
 #include "WbBoundingSphere.hpp"
+
+#include "WbBaseNode.hpp"
 #include "WbMatrix3.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbRay.hpp"
