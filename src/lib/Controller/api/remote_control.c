@@ -65,6 +65,7 @@ static bool check_remote_interface(void) {
   int i;
 
   for (i = 0; i < sizeof(remoteInterface.mandatory) / sizeof(void *); i++) {
+    // cppcheck-suppress objectIndex
     if (ptr[i] == NULL)
       return false;
   }
