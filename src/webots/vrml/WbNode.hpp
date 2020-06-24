@@ -330,6 +330,7 @@ private slots:
 
 private:
   WbNode &operator=(const WbNode &);  // non copyable
+
   QString mUrdfPrefix;
 
   // for all nodes
