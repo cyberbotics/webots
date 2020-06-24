@@ -34,7 +34,7 @@ jobs:
           - test: tests/manual_tests/test_worlds_warnings.py
             POST_TASK: ""
           - test: src/packaging/update_all_worlds.py
-            POST_TASK: "if [[ \"$(git diff --name-only *.wbt | wc -l)\" -ne \"0\" ]]; then echo Some worlds are not up to date: \"$(git diff --name-only *.wbt) \"$(git diff *.wbt)\"; exit -1; fi"
+            POST_TASK: "if [[ \"$(git diff --name-only *.wbt | wc -l)\" -ne \"0\" ]]; then echo Some worlds are not up to date: \"$(git diff --name-only *.wbt)\" \"$(git diff *.wbt)\"; exit -1; fi"
     steps:  
     - uses: actions/checkout@v2
     - name: Make
