@@ -366,7 +366,6 @@ void WbField::parameterChanged() {
       sfnode = dynamic_cast<WbSFNode *>(internalField->value());
       sfnode->setValue(instance);
     }
-    setParent(NULL);
 
   } else {
     foreach (WbField *const field, mInternalFields)
@@ -386,7 +385,6 @@ void WbField::parameterNodeInserted(int index) {
     mfnode = dynamic_cast<WbMFNode *>(internalField->value());
     mfnode->insertItem(index, instance);
   }
-  setParent(NULL);
 }
 
 // propagate node remotion to internal fields of parameter

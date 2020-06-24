@@ -1059,7 +1059,7 @@ void WbSolid::removeBoundingGeometry() {
 // this method is overridden in the WbTouchSensor class
 dJointID WbSolid::createJoint(dBodyID body, dBodyID parentBody, dWorldID world) const {
   dJointID joint;
-  const WbDifferentialWheels *const dw = dynamic_cast<WbDifferentialWheels *>(parent());
+  const WbDifferentialWheels *const dw = dynamic_cast<WbDifferentialWheels *>(parentNode());
   if (dw && (this == dw->leftWheel() || this == dw->rightWheel())) {
     // special case: the (Solid) wheels of a DifferentialWheels robot
     // must be attached using hinge joints in order to allow rotation
@@ -1075,7 +1075,7 @@ dJointID WbSolid::createJoint(dBodyID body, dBodyID parentBody, dWorldID world) 
 }
 
 void WbSolid::setJoint(dJointID joint, dBodyID body, dBodyID parentBody) const {
-  const WbDifferentialWheels *const dw = dynamic_cast<WbDifferentialWheels *>(parent());
+  const WbDifferentialWheels *const dw = dynamic_cast<WbDifferentialWheels *>(parentNode());
   if (dw && (this == dw->leftWheel() || this == dw->rightWheel())) {
     // special case: the (Solid) wheels of a DifferentialWheels robot
     // must be attached using hinge joints in order to allow them to rotate
@@ -1945,14 +1945,14 @@ void WbSolid::updateTransformAfterPhysicsStep() {
   applyPhysicsTransform();
 
   WbSolid *s = NULL;
-  WbNode *p = parent();
+  WbNode *p = parentNode();
   while (p != NULL && !p->isWorldRoot()) {
     s = dynamic_cast<WbSolid *>(p);
     if (s != NULL) {
       s->applyPhysicsTransform();
       s->mUpdatedAfterStep = true;
     }
-    p = p->parent();
+    p = p->parentNode();
   }
   mUpdatedAfterStep = true;
 }
@@ -2086,13 +2086,13 @@ void WbSolid::prePhysicsStep(double ms) {
 // Accessors to relatives
 
 WbBasicJoint *WbSolid::jointParent() const {
-  WbSlot *parentSlot = dynamic_cast<WbSlot *>(parent());
+  WbSlot *parentSlot = dynamic_cast<WbSlot *>(parentNode());
   if (parentSlot) {
-    WbSlot *granParentSlot = dynamic_cast<WbSlot *>(parentSlot->parent());
+    WbSlot *granParentSlot = dynamic_cast<WbSlot *>(parentSlot->parentNode());
     if (granParentSlot)
-      return dynamic_cast<WbBasicJoint *>(granParentSlot->parent());
+      return dynamic_cast<WbBasicJoint *>(granParentSlot->parentNode());
   }
-  return dynamic_cast<WbBasicJoint *>(parent());
+  return dynamic_cast<WbBasicJoint *>(parentNode());
 }
 
 dBodyID WbSolid::upperSolidBody() const {
@@ -2160,7 +2160,7 @@ void WbSolid::addTorque(const WbVector3 &torque) {
 // Selection management
 void WbSolid::propagateSelection(bool selected) {
   if (wrenNode() && mIsPermanentlyKinematic) {
-    const WbPropeller *const propeller = dynamic_cast<WbPropeller *>(parent());
+    const WbPropeller *const propeller = dynamic_cast<WbPropeller *>(parentNode());
     if (propeller) {
       const bool active = propeller->helix() == this;
       wr_node_set_visible(WR_NODE(wrenNode()), selected || active);
@@ -2283,11 +2283,11 @@ void WbSolid::jerk(bool resetVelocities, bool rootJerk) {
 }
 
 void WbSolid::notifyChildJerk(WbTransform *childNode) {
-  WbNode *node = childNode->parent();
+  WbNode *node = childNode->parentNode();
   while (node != this && node != NULL) {
     if (mMovedChildren.contains(dynamic_cast<WbTransform *>(node)))
       return;
-    node = node->parent();
+    node = node->parentNode();
   }
 
   mMovedChildren.append(childNode);

@@ -69,11 +69,11 @@ bool WbSolidReference::isClosedLoop() const {
   if (!mSolid)
     return false;
 
-  WbNode *parentNode = parent();
-  while (parentNode && !parentNode->isWorldRoot()) {
-    if (parentNode == mSolid)
+  WbNode *parent = parentNode();
+  while (parent && !parent->isWorldRoot()) {
+    if (parent == mSolid)
       return true;
-    parentNode = parentNode->parent();
+    parent = parent->parentNode();
   }
   return false;
 }

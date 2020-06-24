@@ -215,7 +215,7 @@ void WbTemplateManager::regenerateNode(WbNode *node) {
     node->setRegenerationRequired(false);
 
   // 1. get stuff
-  WbNode *parent = node->parent();
+  WbNode *parent = node->parentNode();
   WbProtoModel *proto = node->proto();
   assert(parent && proto);
   if (!parent || !proto)

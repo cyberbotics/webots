@@ -471,7 +471,7 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
 
   WbBaseNode *const baseNode = dynamic_cast<WbBaseNode *>(newNode);
   // set parent node
-  newNode->setParent(parentNode);
+  newNode->setParentNode(parentNode);
   WbNode *upperTemplate = WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, parentNode);
   bool isInsideATemplateRegenerator = upperTemplate && (upperTemplate != baseNode);
 
@@ -524,7 +524,7 @@ void WbNodeOperations::resolveSolidNameClashIfNeeded(WbNode *node) const {
     solidNodes << WbNodeUtilities::findSolidDescendants(node);
   while (!solidNodes.isEmpty()) {
     WbSolid *s = solidNodes.takeFirst();
-    const WbBaseNode *const parentBaseNode = dynamic_cast<WbBaseNode *>(s->parent());
+    const WbBaseNode *const parentBaseNode = dynamic_cast<WbBaseNode *>(s->parentNode());
     const WbSolid *parentSolidNode = dynamic_cast<const WbSolid *>(parentBaseNode);
     const WbSolid *upperSolid = parentSolidNode ? parentSolidNode : parentBaseNode->upperSolid();
     s->resolveNameClashIfNeeded(true, true,

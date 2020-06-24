@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbBoundingSphere.hpp"
 #include "WbBaseNode.hpp"
+#include "WbBoundingSphere.hpp"
 #include "WbMatrix3.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbRay.hpp"
@@ -42,7 +42,7 @@ void WbBoundingSphere::enableUpdates(bool enabled, WbBoundingSphere *root) {
 
 WbBoundingSphere::WbBoundingSphere(const WbBaseNode *owner) :
   mRadius(0.0),
-  mParent(NULL),
+  mParentBoundingSphere(NULL),
   mOwner(NULL),
   mGeomOwner(NULL),
   mTransformOwner(NULL),
@@ -58,7 +58,7 @@ WbBoundingSphere::WbBoundingSphere(const WbBaseNode *owner) :
 WbBoundingSphere::WbBoundingSphere(const WbBaseNode *owner, const WbVector3 &center, double radius) :
   mCenter(center),
   mRadius(radius),
-  mParent(NULL),
+  mParentBoundingSphere(NULL),
   mOwner(NULL),
   mGeomOwner(NULL),
   mTransformOwner(NULL),
@@ -73,9 +73,9 @@ WbBoundingSphere::WbBoundingSphere(const WbBaseNode *owner, const WbVector3 &cen
 
 WbBoundingSphere::~WbBoundingSphere() {
   foreach (WbBoundingSphere *sub, mSubBoundingSpheres)
-    sub->setParent(NULL);
-  if (mParent)
-    mParent->removeSubBoundingSphere(this);
+    sub->setParentBoundingSphere(NULL);
+  if (mParentBoundingSphere)
+    mParentBoundingSphere->removeSubBoundingSphere(this);
 }
 
 void WbBoundingSphere::setOwner(const WbBaseNode *owner) {
@@ -134,13 +134,13 @@ void WbBoundingSphere::set(const WbVector3 &center, const double radius) {
 }
 
 void WbBoundingSphere::addSubBoundingSphereToParentNode(const WbBaseNode *node) {
-  const WbBaseNode *parent = dynamic_cast<const WbBaseNode *>(node->parent());
+  const WbBaseNode *parent = dynamic_cast<const WbBaseNode *>(node->parentNode());
   while (parent) {
     if (parent->boundingSphere()) {
       parent->boundingSphere()->addSubBoundingSphere(node->boundingSphere());
       return;
     }
-    parent = dynamic_cast<const WbBaseNode *>(parent->parent());
+    parent = dynamic_cast<const WbBaseNode *>(parent->parentNode());
   }
 }
 
@@ -148,7 +148,7 @@ void WbBoundingSphere::addSubBoundingSphere(WbBoundingSphere *subBoundingSphere)
   if (!subBoundingSphere || mSubBoundingSpheres.contains(subBoundingSphere))
     return;
   mSubBoundingSpheres.append(subBoundingSphere);
-  subBoundingSphere->setParent(this);
+  subBoundingSphere->setParentBoundingSphere(this);
   mBoundSpaceDirty = true;
   mParentCoordinatesDirty = true;
   if (gUpdatesEnabled)
@@ -289,25 +289,25 @@ void WbBoundingSphere::recomputeIfNeededInternal(bool dirtyOnly, QSet<const WbBo
   }
   gRayTracingEnabled = prevState;
 
-  if (mParent && (mCenter != prevCenter || mRadius != prevRadius))
+  if (mParentBoundingSphere && (mCenter != prevCenter || mRadius != prevRadius))
     mParentCoordinatesDirty = true;
   mBoundSpaceDirty = false;
 }
 
 void WbBoundingSphere::parentUpdateNotification() const {
-  if (mParent) {
-    WbBoundingSphere *parent = mParent;
+  if (mParentBoundingSphere) {
+    WbBoundingSphere *parent = mParentBoundingSphere;
     while (parent != NULL) {
       parent->mBoundSpaceDirty = true;
       parent->mParentCoordinatesDirty = true;
-      parent = parent->mParent;
+      parent = parent->mParentBoundingSphere;
     }
   }
 }
 
 void WbBoundingSphere::setOwnerMoved() {
   assert(mTransformOwner);
-  if (mParent) {
+  if (mParentBoundingSphere) {
     mParentCoordinatesDirty = true;
     if (gUpdatesEnabled)
       parentUpdateNotification();
@@ -345,7 +345,7 @@ WbBoundingSphere::IntersectingShape WbBoundingSphere::computeIntersection(const 
     if (mGeomOwner != NULL) {
       const double d = mGeomOwner->computeDistance(ray);
       if (d > 0.0) {
-        res.shape = dynamic_cast<WbShape *>(mGeomOwner->parent());
+        res.shape = dynamic_cast<WbShape *>(mGeomOwner->parentNode());
         res.distance = d;
       }
     }

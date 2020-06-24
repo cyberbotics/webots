@@ -97,8 +97,8 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
       for (int defIndex = 0; (!match) && defIndex < numberOfDefs; ++defIndex) {
         definitionNode = static_cast<WbBaseNode *>(defNodes[defIndex]);
         QString error;
-        assert(node->parentField() && node->parent());
-        typeMatch = WbNodeUtilities::isAllowedToInsert(node->parentField(), definitionNode->nodeModelName(), node->parent(),
+        assert(node->parentField() && node->parentNode());
+        typeMatch = WbNodeUtilities::isAllowedToInsert(node->parentField(), definitionNode->nodeModelName(), node->parentNode(),
                                                        error, nodeUse, QString(), QStringList(definitionNode->nodeModelName()));
         match = typeMatch && !definitionNode->isAnAncestorOf(node);
       }
@@ -113,9 +113,9 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
         if (matchingNode && matchingNode->isUseNode()) {
           definitionNode = static_cast<WbBaseNode *>(matchingNode->defNode());
           QString error;
-          assert(node->parentField() && node->parent());
+          assert(node->parentField() && node->parentNode());
           typeMatch =
-            WbNodeUtilities::isAllowedToInsert(node->parentField(), definitionNode->nodeModelName(), node->parent(), error,
+            WbNodeUtilities::isAllowedToInsert(node->parentField(), definitionNode->nodeModelName(), node->parentNode(), error,
                                                nodeUse, QString(), QStringList(definitionNode->nodeModelName()));
         }
       }
@@ -125,10 +125,10 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
           QString deviceModelName;
           if (node->isInBoundingObject() != definitionNode->isInBoundingObject() &&
               !checkBoundingObjectConstraints(definitionNode, warning)) {
-            node->parent()->parsingWarn(QObject::tr("Deleted invalid USE %1 node: %3").arg(useName).arg(warning));
+            node->parentNode()->parsingWarn(QObject::tr("Deleted invalid USE %1 node: %3").arg(useName).arg(warning));
             WbNodeOperations::instance()->deleteNode(node);
             return false;
-          } else if (!checkChargerAndLedConstraints(node->parent(), definitionNode, deviceModelName, index == 0)) {
+          } else if (!checkChargerAndLedConstraints(node->parentNode(), definitionNode, deviceModelName, index == 0)) {
             node->parsingWarn(
               QObject::tr("Non-admissible USE %1 node inside first child of %2 node.\n"
                           "Invalid USE nodes that refer to DEF nodes defined outside the %2 node are turned into DEF nodes "
@@ -138,7 +138,7 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
             makeDefNodeAndUpdateDictionary(node, true);
           } else {
             if (!mLoad) {
-              WbNode *const parent = node->parent();
+              WbNode *const parent = node->parentNode();
               WbNode::setGlobalParent(parent);
               WbBaseNode *const newUseNode = static_cast<WbBaseNode *>(definitionNode->cloneDefNode());
               WbNode::setGlobalParent(NULL);
@@ -161,7 +161,7 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
 
       if (matchingNode && matchingNode->isDefNode()) {
         if (!mLoad) {
-          WbNode *const parent = node->parent();
+          WbNode *const parent = node->parentNode();
           WbNode::setGlobalParent(parent);
           WbBaseNode *const newDefNode = static_cast<WbBaseNode *>(matchingNode->cloneAndReferenceProtoInstance());
           newDefNode->setUseName(useName);  // Deactivates the creation of children items triggered by insertion

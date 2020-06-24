@@ -91,11 +91,11 @@ public:
   QStringList documentationBookAndPage(bool isRobot) const;
 
   // hierarchy
-  void setParent(WbNode *parent) { mParent = parent; }
-  WbNode *parent() const { return mParent; }
-  bool isTopLevel() const { return mParent && mParent->isWorldRoot(); }
-  bool isWorldRoot() const { return !mParent && mUniqueId != -1; }
-  bool isProtoRoot() const { return !mParent && mUniqueId == -1; }
+  void setParentNode(WbNode *parentNode) { mParentNode = parentNode; }
+  WbNode *parentNode() const { return mParentNode; }
+  bool isTopLevel() const { return parentNode() && parentNode()->isWorldRoot(); }
+  bool isWorldRoot() const { return !parentNode() && mUniqueId != -1; }
+  bool isProtoRoot() const { return !parentNode() && mUniqueId == -1; }
   bool isAnAncestorOf(const WbNode *node) const;
 
   // level in the scene tree
@@ -334,7 +334,7 @@ private:
   QString mUrdfPrefix;
 
   // for all nodes
-  WbNode *mParent;
+  WbNode *mParentNode;
   WbNodeModel *mModel;
   int mUniqueId;
   bool mIsBeingDeleted;

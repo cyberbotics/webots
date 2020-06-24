@@ -283,6 +283,6 @@ WbGeometry *WbSolidUtilities::geometry(WbNode *const node) {
 }
 
 bool WbSolidUtilities::isPermanentlyKinematic(const WbNode *node) {
-  const WbBaseNode *const p = node ? static_cast<WbBaseNode *>(node->parent()) : NULL;
+  const WbBaseNode *const p = node ? static_cast<WbBaseNode *>(node->parentNode()) : NULL;
   return p && p->nodeType() == WB_NODE_PROPELLER;
 }

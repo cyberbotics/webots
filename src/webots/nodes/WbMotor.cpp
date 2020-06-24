@@ -155,7 +155,7 @@ void WbMotor::setupJointFeedback() {
 }
 
 double WbMotor::energyConsumption() const {
-  if (dynamic_cast<WbTrack *>(parent()))
+  if (dynamic_cast<WbTrack *>(parentNode()))
     return 0.0;
 
   return fabs(computeFeedback()) * mConsumptionFactor->value();
@@ -170,7 +170,7 @@ void WbMotor::updateMinAndMaxPosition() {
     // no limits
     return;
 
-  WbJoint *parentJoint = dynamic_cast<WbJoint *>(parent());
+  WbJoint *parentJoint = dynamic_cast<WbJoint *>(parentNode());
   double p = 0.0;
   if (parentJoint && parentJoint->parameters())
     p = parentJoint->parameters()->position();
@@ -556,7 +556,7 @@ void WbMotor::awake() const {
   }
 
   const WbPropeller *const p = propeller();
-  const WbTrack *const t = dynamic_cast<WbTrack *>(parent());
+  const WbTrack *const t = dynamic_cast<WbTrack *>(parentNode());
   if (p || t) {
     WbSolid *const s = upperSolid();
     assert(s);

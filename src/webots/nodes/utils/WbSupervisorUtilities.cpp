@@ -432,7 +432,7 @@ void WbSupervisorUtilities::updateDeletedNodeList(WbNode *node) {
 
   struct WbDeletedNodeInfo nodeInfo;
   nodeInfo.nodeId = node->uniqueId();
-  nodeInfo.parent = node->parent();
+  nodeInfo.parent = node->parentNode();
   nodeInfo.parentField = node->parentField();
   mNodesDeletedSinceLastStep.push_back(nodeInfo);
 }
@@ -560,7 +560,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         mFoundNodeUniqueId = node->uniqueId();
         mFoundNodeType = node->nodeType();
         mFoundNodeModelName = node->modelName();
-        mFoundNodeParentUniqueId = (node->parent() ? node->parent()->uniqueId() : -1);
+        mFoundNodeParentUniqueId = (node->parentNode() ? node->parentNode()->uniqueId() : -1);
         connect(node, &WbNode::defUseNameChanged, this, &WbSupervisorUtilities::notifyNodeUpdate, Qt::UniqueConnection);
       }
 
@@ -578,9 +578,9 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       mFoundNodeModelName = baseNode ? baseNode->modelName() : QString();
       mFoundNodeParentUniqueId = -1;
       if (baseNode) {
-        if (baseNode->parent()) {
-          if (baseNode->parent() != WbWorld::instance()->root())
-            mFoundNodeParentUniqueId = baseNode->parent()->uniqueId();
+        if (baseNode->parentNode()) {
+          if (baseNode->parentNode() != WbWorld::instance()->root())
+            mFoundNodeParentUniqueId = baseNode->parentNode()->uniqueId();
           else
             mFoundNodeParentUniqueId = 0;
         }
@@ -597,9 +597,9 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         mFoundNodeType = baseNode->nodeType();
         mFoundNodeModelName = baseNode->modelName();
         mFoundNodeParentUniqueId = -1;
-        if (baseNode->parent()) {
-          if (baseNode->parent() != WbWorld::instance()->root())
-            mFoundNodeParentUniqueId = baseNode->parent()->uniqueId();
+        if (baseNode->parentNode()) {
+          if (baseNode->parentNode() != WbWorld::instance()->root())
+            mFoundNodeParentUniqueId = baseNode->parentNode()->uniqueId();
           else
             mFoundNodeParentUniqueId = 0;
         }
@@ -1236,7 +1236,7 @@ void WbSupervisorUtilities::writeNode(QDataStream &stream, const WbBaseNode *bas
   assert(baseNode);
   stream << (int)baseNode->uniqueId();
   stream << (int)baseNode->nodeType();
-  stream << (int)(baseNode->parent() ? baseNode->parent()->uniqueId() : -1);
+  stream << (int)(baseNode->parentNode() ? baseNode->parentNode()->uniqueId() : -1);
   const QByteArray &modelName = baseNode->modelName().toUtf8();
   const QByteArray &defName = baseNode->defName().toUtf8();
   stream.writeRawData(modelName.constData(), modelName.size() + 1);
