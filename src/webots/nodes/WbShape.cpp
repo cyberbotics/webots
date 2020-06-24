@@ -379,12 +379,10 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness,
           pbrApp->pickRoughnessInTexture(roughness, uv);
         if (occlusion && pbrApp->isOcclusionTextureLoaded())
           pbrApp->pickOcclusionInTexture(occlusion, uv);
-      } else {
-        if (paintTexture)
-          pickedColor = paintColor;
-        // else default value
-        return;
       }
+    } else if (paintTexture) {
+      pickedColor = paintColor;
+      return;
     } else
       return;  // default value
 
