@@ -820,7 +820,7 @@ int WbNode::findSubFieldIndex(const WbField *const searched) const {
   return -1;
 }
 
-WbField *WbNode::findSubField(int index, WbNode *&parent) const {
+WbField *WbNode::findSubField(int index, WbNode *&parentNode) const {
   int count = 0;
   QList<WbNode *> list(subNodes(true));
   list.prepend(const_cast<WbNode *>(this));
