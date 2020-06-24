@@ -96,6 +96,7 @@ namespace wren {
 #ifdef _WIN32  // mbstowcs doesn't work properly on Windows
     l = MultiByteToWideChar(CP_UTF8, 0, text, -1, wcharText, l + 1) - 1;
 #else
+    // cppcheck-suppress uninitdata
     l = mbstowcs(wcharText, text, l + 1);
 #endif
 
