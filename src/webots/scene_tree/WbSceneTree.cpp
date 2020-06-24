@@ -25,6 +25,7 @@
 #include "WbEditCommand.hpp"
 #include "WbField.hpp"
 #include "WbFieldEditor.hpp"
+#include "WbGroup.hpp"
 #include "WbGuiRefreshOracle.hpp"
 #include "WbLog.hpp"
 #include "WbMFNode.hpp"
@@ -38,11 +39,11 @@
 #include "WbProtoModel.hpp"
 #include "WbRemoveItemCommand.hpp"
 #include "WbResetCommand.hpp"
-#include "WbRobot.hpp"
 #include "WbSFNode.hpp"
 #include "WbSceneTreeModel.hpp"
 #include "WbSelection.hpp"
 #include "WbSimulationState.hpp"
+#include "WbSolid.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbTreeItem.hpp"
@@ -1012,11 +1013,10 @@ bool WbSceneTree::isPasteAllowed() {
 
     return true;
   } else {
-    if (mSelectedItem->isField()) {
+    if (mSelectedItem->isField())
       field = mSelectedItem->field();
-    } else if (mSelectedItem->isItem()) {
+    else if (mSelectedItem->isItem())
       field = mSelectedItem->parent()->field();
-    }
   }
 
   if (mSelectedItem->isNode() || mSelectedItem->isSFNode() || !field || (field->isMultiple() && !mSelectedItem->canInsert()))
@@ -1413,12 +1413,13 @@ void WbSceneTree::handleDoubleClickOrEnterPress() {
   // we can't use isDefault() on the SFNode field because PROTOs can have
   // non-NULL default SFNode values, so cast to SFNode and get the real value
   // stored in the field
-  if ((mSelectedItem->isSFNode() && !reinterpret_cast<WbSFNode *>(mSelectedItem->field()->value())->value()) ||
-      (mSelectedItem->field()->isMultiple() && reinterpret_cast<WbMultipleValue *>(mSelectedItem->field()->value())->isEmpty()))
+  if ((mSelectedItem->isSFNode() && mSelectedItem->node() == NULL) ||
+      (mSelectedItem->isField() && mSelectedItem->field()->isMultiple() &&
+       reinterpret_cast<WbMultipleValue *>(mSelectedItem->field()->value())->isEmpty()))
     addNew();
   // set focus on first edit box of the current value editor for immediate keyboard editing
-  else if ((mSelectedItem->field()->isMultiple() && mSelectedItem->isItem() && !mSelectedItem->isNode()) ||
-           (!mSelectedItem->field()->isMultiple() && mSelectedItem->isField() && !mSelectedItem->isSFNode()))
+  else if ((mSelectedItem->isItem() && !mSelectedItem->isNode() && mSelectedItem->field()->isMultiple()) ||
+           (mSelectedItem->isField() && !mSelectedItem->isSFNode() && !mSelectedItem->field()->isMultiple()))
     mFieldEditor->currentEditor()->takeKeyboardFocus();
   // default behavior, collapse/expoand tree item
   else if (mTreeView->isExpanded(mTreeView->currentIndex()))
