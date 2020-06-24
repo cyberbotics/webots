@@ -4,6 +4,61 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 06/24/2020 05:40:46
+> Also, what is the benefit of using the supervisor vs a sensor (like the GPS) to get states such as position?
+
+`@Clara Cardoso Ferreira` no benefit, if you are trying to get your own position, GPS is the way to go, if you are trying to get the position of another node supervisor is the way to go.
+
+
+> Does anyone know if it's possible to reset the terrain in the proto for every simulation and set up the robot's wheels to touch the ground to start the simulation?
+
+`@Clara Cardoso Ferreira` to reset the terrain from the proto file is indeed possible, unfortunately it is not possible to move the robot from there, but you can move it then at the first step of the simulation with a Supervisor controller.
+
+
+> Can somebody help me to figure out how to reset the simulation without having to stop the controller, actually I want every time a condition is true in the controller to reset the robots initial position only, not the simulation time
+
+`@black_hammer_67` yes, you can use the `wb_supervisor_simulation_reset` Supervisor function: [https://www.cyberbotics.com/doc/reference/supervisor?tab-language=c++#wb\_supervisor\_simulation\_reset](https://www.cyberbotics.com/doc/reference/supervisor?tab-language=c++#wb_supervisor_simulation_reset)
+
+##### Andrei 06/23/2020 23:34:32
+I guess it depends what you want to do. I wanna make a pathfinder so I wanna know the whole map when I determine the path I take not just what sensors can give me.
+
+##### Clara Cardoso Ferreira 06/23/2020 23:33:02
+Also, what is the benefit of using the supervisor vs a sensor (like the GPS) to get states such as position?
+
+
+Does anyone know if it's possible to reset the terrain in the proto for every simulation and set up the robot's wheels to touch the ground to start the simulation?
+
+
+I think so`@black_hammer_67` , check the supervisor API and look for position
+
+##### black\_hammer\_67 06/23/2020 16:33:46
+Can somebody help me to figure out how to reset the simulation without having to stop the controller, actually I want every time a condition is true in the controller to reset the robots initial position only, not the simulation time
+
+##### David Mansolino [cyberbotics] 06/23/2020 05:01:36
+No, Webots does not simulate microphones. But you micreate an interface to get the audio from your computer michrophone.
+
+##### webotspro9999 06/22/2020 22:02:26
+> hello `@webotspro9999`, this is unfortunately not available out of the box, you will have to implement your own speach recognition algorithm or use a library implementign this.
+
+`@David Mansolino` thanks for your reply, does the NAO in Webots have sound listening functions? For example, when I say hello can the NAO hear this and take it as an input data?
+
+##### Olivier Michel [cyberbotics] 06/22/2020 15:38:09
+You can simply write a supervisor controller that will move the robot to a random position at the beginning of the simulation.
+
+##### aalmanso 06/22/2020 15:36:42
+Hi everyone,
+
+I want to place E-puck randomly inside arena every time I start or reload the simulation, I need that to test some behaviour. So, i wander how can I find the help about using random numbers and 2D coordinates in webots simulator?
+
+##### David Mansolino [cyberbotics] 06/22/2020 05:27:14
+hello `@webotspro9999`, this is unfortunately not available out of the box, you will have to implement your own speach recognition algorithm or use a library implementign this.
+
+##### webotspro9999 06/20/2020 22:56:16
+I'm new in Webots and I want to develop speech recognition applications using Softbank Robotics NAO. Is this feature available in Webots?
+
+
+hello all
+
 ##### lojik 06/11/2020 12:29:35
 Okay, thank's 👍
 
