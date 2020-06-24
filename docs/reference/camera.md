@@ -36,7 +36,7 @@ Depending on its setup, the Camera node can model a linear camera, a typical RGB
 The value is limited to the range 0 to &pi; radians if the `spherical` field is set to FALSE, otherwise there is no upper limit.
 Since camera pixels are squares, the vertical field of view can be computed from the `width`, `height` and horizontal `fieldOfView`:
 
-    *vertical FOV = fieldOfView * height / width*
+    *vertical FOV = 2 * atan(tan(fieldOfView * 0.5) * (height / width))*
 
 - `width`: width of the image in pixels.
 
