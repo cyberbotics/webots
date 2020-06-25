@@ -14,8 +14,8 @@ DEF REGULAR_OBSTACLE Transform {
   rotation 0 0 1 1.5708
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColor 0.65 0.22 1
+      appearance DEF APPEARANCE PBRAppearance {
+        baseColor 1 0.22 1
         roughness 1
         metalness 0
       }
@@ -30,11 +30,7 @@ DEF ROTATED_OBSTACLE Transform {
   rotation -0.35740681862788 0.3574058186283875 -0.8628565621288802 -1.7177753071795863
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColor 0.65 0.22 1
-        roughness 1
-        metalness 0
-      }
+      appearance USE APPEARANCE
       geometry Plane {
         size 0.13 0.07
       }

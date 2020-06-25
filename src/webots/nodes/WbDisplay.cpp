@@ -709,6 +709,7 @@ void WbDisplay::drawText(const char *txt, int x, int y) {
 #ifdef _WIN32  // mbstowcs doesn't work properly on Windows
   l = MultiByteToWideChar(CP_UTF8, 0, txt, -1, text, l + 1) - 1;
 #else
+  // cppcheck-suppress uninitdata
   l = mbstowcs(text, txt, l + 1);
 #endif
   int fontSize = mDisplayFont->fontSize();

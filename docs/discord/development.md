@@ -4,6 +4,117 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 
 ## 2020
 
+##### lojik 06/11/2020 12:29:35
+Okay, thank's 👍
+
+##### David Mansolino [cyberbotics] 06/11/2020 12:01:48
+Uneven terrai is using an EleveationGrid as mesh, this mesh is way more stable/efficient than IndexedFaceSet for collision but has more constraints ([https://www.cyberbotics.com/doc/reference/elevationgrid](https://www.cyberbotics.com/doc/reference/elevationgrid))
+
+##### lojik 06/11/2020 12:00:12
+I also see that uneven terrain seems to use a symetric grid mesh as a bounding object, is it right?
+
+
+Yes, exactly, you use quite the same idea behind the road PROTO. So I will keep in mind this way to create meshes. Thank you !
+
+##### David Mansolino [cyberbotics] 06/11/2020 11:51:11
+OK, it make sense, for we are using similar meshes to create roads and it works quite well. Note that you might be interested by the road PROTO as it allows to create similar meshes (when varying the height of the road): [https://cyberbotics.com/doc/guide/object-road](https://cyberbotics.com/doc/guide/object-road)
+
+##### lojik 06/11/2020 11:48:58
+Ok thank you, so my intuition is not right, but it works much better with this mesh 👍
+
+##### David Mansolino [cyberbotics] 06/11/2020 11:45:25
+The mesh looks indeed to be very clean like this. Just for the note, for the cylinder, the parallel lines are just for visualization, for the physics it is a perfect cylinder.
+
+##### lojik 06/11/2020 10:34:08
+PS: The first run after importing such an object will provoc a webots' crash.
+
+
+
+%figure
+![Screenshot_from_2020-06-11_12-32-27.png](https://cdn.discordapp.com/attachments/565155651395780609/720586430224793600/Screenshot_from_2020-06-11_12-32-27.png)
+%end
+
+
+Ok, so after playing a bit with my meshes I have a first intuition. I realize that your cylinders are composed with only parallel lines. So I did the same in blender for my sinusoid ground and it seems to work much better. Now it is detected every time instead of 1/3 run.
+
+
+
+Unfortunately it will keep to have triangles by exportations. But since there is a huge number of parallels in  my mesh, it works fine now.
+
+
+
+I do not know if I explain well enough .. Here is my final mesh :
+
+##### David Mansolino [cyberbotics] 06/11/2020 09:03:22
+You're welcome
+
+##### lojik 06/11/2020 09:02:53
+Ok, well, I did not expected that. I have some good results with my meshes. But from one simulation to an other one the results are not the same so I was wondering where it was wrong.
+
+
+
+Thank you for your answer, I will have a deeper look to find a good solution between approximation geometries and find a good mesh.
+
+##### David Mansolino [cyberbotics] 06/11/2020 09:00:04
+> I will always have to approximate the bounding object with a circle
+
+Not exaclty, you can use several geometries to approximate the shape (such as for example several circles to approximate an ellipsoid).
+
+##### lojik 06/11/2020 08:58:23
+If I understand correctly it is actually not possible to create more complexe shapes with their own bounding object? If I would like to have a ramp which look like an ellipsoid more than a circle. I will always have to approximate the bounding object with a circle or take time too find a good threshold with the mesh to make it works?
+
+##### David Mansolino [cyberbotics] 06/11/2020 08:51:10
+I am sorry but there is no magic solution for this, using meshes as bounding object is not the ideal solution.
+
+##### lojik 06/11/2020 08:48:00
+I already have a basicTimeStep set to 1ms 😅
+
+
+I work with blender to do these meshes. My goal is to have well designed unflat terrain to benchmark my robot in that condition.
+
+##### David Mansolino [cyberbotics] 06/11/2020 08:46:16
+it all depends on the complexity of the mesh, but there is a tradeoff (which is not always easy to find).
+
+But maybe a simpler solution for recording the video is to decrease the WeorldInfo.timestep.
+
+##### lojik 06/11/2020 08:46:02
+Because I would like to import custom models to have more freedom on the form of obstacles I have. It would not be a good deal if I have to redo the bounding object after importing them..
+
+
+Would it be better if I have a finner mesh? Or worst?
+
+##### David Mansolino [cyberbotics] 06/11/2020 08:44:01
+This is because the bounding object created automatically when imported are based on the actual mesh, this is known to be not very accurate and stable, for better collisions, you should re-create the key bounding objects using sets of basic geometries (e.g. boxes, spheres, etc.)
+
+##### lojik 06/11/2020 08:42:15
+I just try now to begin recording the video after that the robot well detected my objects. In that case it works fine, but I have to play simulation until the robot detects my objects and then begin to record video.
+
+
+And this effect is worst when I would like to record a video. The object are never well detected.
+
+
+As seen on this picture, the wheel on the left is inside the object and the bounding object (in white) should be in red if it is well detected by the wheel.
+
+
+
+On the right, the wheel is correctly on top of the object.
+
+
+
+%figure
+![Screenshot_from_2020-06-11_10-34-54.png](https://cdn.discordapp.com/attachments/565155651395780609/720557335977787433/Screenshot_from_2020-06-11_10-34-54.png)
+%end
+
+
+Hi `@David Mansolino` sorry, I did not explain well...  My problem is that I actually use the objects shown in the previous picture. With the bounding object as their own shape. But when my robot has to climb them, sometimes the wheel go through the object instead of climb it. It seems that the bounding object is not here.
+
+
+
+I actually use webots nightls R2020b 9\_6\_2020
+
+##### David Mansolino [cyberbotics] 06/11/2020 04:57:15
+Hi `@lojik` what is exactly the problem you have with the bounding object,?We can't see them on this picture.
+
 ##### lojik 06/10/2020 16:48:44
 Here you have the kind of objects I imported. These are kind of sinus waves. I put a bit of each pieces down the floor to have smaller mountains.
 

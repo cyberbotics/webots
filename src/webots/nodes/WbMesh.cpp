@@ -91,13 +91,13 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 
   // create the arrays
   int currentCoordIndex = 0;
-  double coordData[3 * totalVertices];
+  double *const coordData = new double[3 * totalVertices];
   int currentNormalIndex = 0;
-  double normalData[3 * totalVertices];
+  double *const normalData = new double[3 * totalVertices];
   int currentTexCoordIndex = 0;
-  double texCoordData[2 * totalVertices];
+  double *const texCoordData = new double[2 * totalVertices];
   int currentIndexIndex = 0;
-  unsigned int indexData[3 * totalFaces];
+  unsigned int *const indexData = new unsigned int[3 * totalFaces];
 
   // loop over all the node to find meshes
   std::list<aiNode *> queue;
@@ -162,6 +162,10 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 
   if (!node) {
     warn(tr("This file doesn't contain any mesh."));
+    delete[] coordData;
+    delete[] normalData;
+    delete[] texCoordData;
+    delete[] indexData;
     return;
   }
 
@@ -174,6 +178,11 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     if (!mTriangleMeshError.isEmpty())
       warn(tr("Cannot create IndexedFaceSet because: \"%1\".").arg(mTriangleMeshError));
   }
+
+  delete[] coordData;
+  delete[] normalData;
+  delete[] texCoordData;
+  delete[] indexData;
 }
 
 uint64_t WbMesh::computeHash() const {
