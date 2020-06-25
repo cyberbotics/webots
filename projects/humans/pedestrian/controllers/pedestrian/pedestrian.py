@@ -92,11 +92,11 @@ class Pedestrian (Supervisor):
         self.waypoints_distance = []
         for i in range(0, self.number_of_waypoints):
             x = self.waypoints[i][0] - self.waypoints[(i + 1) % self.number_of_waypoints][0]
-            y = self.waypoints[i][1] - self.waypoints[(i + 1) % self.number_of_waypoints][1]
+            z = self.waypoints[i][1] - self.waypoints[(i + 1) % self.number_of_waypoints][1]
             if i == 0:
-                self.waypoints_distance.append(math.sqrt(x * x + y * y))
+                self.waypoints_distance.append(math.sqrt(x * x + z * z))
             else:
-                self.waypoints_distance.append(self.waypoints_distance[i - 1] + math.sqrt(x * x + y * y))
+                self.waypoints_distance.append(self.waypoints_distance[i - 1] + math.sqrt(x * x + z * z))
         while not self.step(self.time_step) == -1:
             time = self.getTime()
 
@@ -130,14 +130,14 @@ class Pedestrian (Supervisor):
             else:
                 distance_ratio = (relative_distance - self.waypoints_distance[i - 1]) / \
                     (self.waypoints_distance[i] - self.waypoints_distance[i - 1])
-            x = distance_ratio * self.waypoints[(i + 1) % self.number_of_waypoints][1] + \
-                (1 - distance_ratio) * self.waypoints[i][1]
-            y = distance_ratio * self.waypoints[(i + 1) % self.number_of_waypoints][0] + \
+            x = distance_ratio * self.waypoints[(i + 1) % self.number_of_waypoints][0] + \
                 (1 - distance_ratio) * self.waypoints[i][0]
-            root_translation = [x, y, self.ROOT_HEIGHT + self.current_height_offset]
+            z = distance_ratio * self.waypoints[(i + 1) % self.number_of_waypoints][1] + \
+                (1 - distance_ratio) * self.waypoints[i][1]
+            root_translation = [x, self.ROOT_HEIGHT + self.current_height_offset, z]
             angle = math.atan2(self.waypoints[(i + 1) % self.number_of_waypoints][0] - self.waypoints[i][0],
                                self.waypoints[(i + 1) % self.number_of_waypoints][1] - self.waypoints[i][1])
-            rotation = [0, 0, 1, angle]
+            rotation = [0, 1, 0, angle]
 
             self.root_translation_field.setSFVec3f(root_translation)
             self.root_rotation_field.setSFRotation(rotation)
