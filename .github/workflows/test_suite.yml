@@ -16,7 +16,17 @@ jobs:
     - name: Checkout Submodules
       uses: textbook/git-checkout-submodule-action@master
     - name: Install Webots Dependencies 
-      run: sudo apt -y install git g++ cmake execstack libusb-dev swig libglu1-mesa-dev libglib2.0-dev libfreeimage-dev libfreetype6-dev libxml2-dev libzzip-0-13 libboost-dev libavcodec-extra libgd-dev libssh-gcrypt-dev libzip-dev libreadline-dev pbzip2 libpci-dev libssl1.0-dev ffmpeg python2.7-dev python3.6-dev python3.7-dev python3.8-dev python-pip openjdk-11-jdk npm libassimp-dev xserver-xorg-core libpulse0 curl fakeroot libxkbcommon-x11-dev libxcb-keysyms1 libxcb-image0 libxcb-icccm4 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 
+      run: |
+        # common dependencies
+        sudo apt -y install git g++ cmake execstack libusb-dev swig python2.7-dev python3.6-dev python3.7-dev python3.8-dev libglu1-mesa-dev libglib2.0-dev libfreeimage-dev libfreetype6-dev libxml2-dev libzzip-0-13 libboost-dev libavcodec-extra libgd-dev libssh-g libxcb-keysyms1 libxcb-image0 libxcb-icccm4 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0
+        # ubuntu 18.04 dependencies
+        sudo apt -y install libssl1.0-dev ffmpeg python-pip
+        # optional dependencies
+        sudo apt -y install  openjdk-11-jdk npm
+        # < R2020b dependencies
+        sudo apt -y install libassimp-dev
+        # ubuntu server dependencies
+        sudo apt -y install xserver-xorg-core libpulse0 curl fakeroot libxkbcommon-x11-dev
     - name: Make
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
