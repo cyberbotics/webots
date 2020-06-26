@@ -139,8 +139,8 @@ void WbBaseNode::reset() {
 void WbBaseNode::createWrenObjects() {
   mWrenObjectsCreatedCalled = true;
 
-  if (parent()) {
-    const WbBaseNode *const p = static_cast<WbBaseNode *>(parent());
+  if (parentNode()) {
+    const WbBaseNode *const p = static_cast<WbBaseNode *>(parentNode());
     mWrenNode = p->wrenNode();
   } else
     mWrenNode = wr_scene_get_root(wr_scene_get_instance());
@@ -263,13 +263,13 @@ bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
 }
 
 bool WbBaseNode::isUrdfRootLink() const {
-  if (findSFString("name") || dynamic_cast<WbBasicJoint *>(parent()))
+  if (findSFString("name") || dynamic_cast<WbBasicJoint *>(parentNode()))
     return true;
   return false;
 }
 
 void WbBaseNode::exportURDFJoint(WbVrmlWriter &writer) const {
-  if (!dynamic_cast<WbBasicJoint *>(parent())) {
+  if (!dynamic_cast<WbBasicJoint *>(parentNode())) {
     WbVector3 translation;
     WbVector3 rotationEuler;
     const WbNode *const upperLinkRoot = findUrdfLinkRoot();

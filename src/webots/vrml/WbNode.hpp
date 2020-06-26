@@ -74,8 +74,8 @@ public:
   virtual ~WbNode();
 
   // set the parent that will be used by the next WbNode constructor
-  static void setGlobalParent(WbNode *parent, bool protoParameterNodeFlag = false);
-  static WbNode *globalParent();
+  static void setGlobalParentNode(WbNode *parent, bool protoParameterNodeFlag = false);
+  static WbNode *globalParentNode();
 
   // unique node number
   int uniqueId() const { return mUniqueId; }
@@ -91,11 +91,11 @@ public:
   QStringList documentationBookAndPage(bool isRobot) const;
 
   // hierarchy
-  void setParent(WbNode *parent) { mParent = parent; }
-  WbNode *parent() const { return mParent; }
-  bool isTopLevel() const { return mParent && mParent->isWorldRoot(); }
-  bool isWorldRoot() const { return !mParent && mUniqueId != -1; }
-  bool isProtoRoot() const { return !mParent && mUniqueId == -1; }
+  void setParentNode(WbNode *node) { mParentNode = node; }
+  WbNode *parentNode() const { return mParentNode; }
+  bool isTopLevel() const { return parentNode() && parentNode()->isWorldRoot(); }
+  bool isWorldRoot() const { return !parentNode() && mUniqueId != -1; }
+  bool isProtoRoot() const { return !parentNode() && mUniqueId == -1; }
   bool isAnAncestorOf(const WbNode *node) const;
 
   // level in the scene tree
@@ -334,7 +334,7 @@ private:
   QString mUrdfPrefix;
 
   // for all nodes
-  WbNode *mParent;
+  WbNode *mParentNode;
   WbNodeModel *mModel;
   int mUniqueId;
   bool mIsBeingDeleted;
@@ -395,7 +395,7 @@ private:
   int findSubFieldIndex(const WbField *const searched) const;
   static void subNodeIndex(const WbNode *currentNode, const WbNode *targetNode, int &index, bool &subNodeFound);
   static WbNode *findNode(int &index, WbNode *root);
-  WbField *findSubField(int index, WbNode *&parentNode) const;
+  WbField *findSubField(int index, WbNode *&parent) const;
   void readFieldValue(WbField *field, WbTokenizer *tokenizer, const QString &worldPath) const;
   static void copyAliasValue(WbField *field, const QString &alias);
 };

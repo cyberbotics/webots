@@ -200,7 +200,7 @@ void WbX3dStreamingServer::propagateNodeAddition(WbNode *node) {
     node->write(writer);
     foreach (QWebSocket *client, mWebSocketClients)
       // add root <nodes> element to handle correctly multiple root elements like in case of PBRAppearance node.
-      client->sendTextMessage(QString("node:%1:<nodes>%2</nodes>").arg(node->parent()->uniqueId()).arg(nodeString));
+      client->sendTextMessage(QString("node:%1:<nodes>%2</nodes>").arg(node->parentNode()->uniqueId()).arg(nodeString));
   }
 }
 

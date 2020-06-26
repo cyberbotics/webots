@@ -155,7 +155,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
     WbSelection::instance()->selectTransformFromView3D(NULL);
 
   // read node
-  WbNode::setGlobalParent(parentNode);
+  WbNode::setGlobalParentNode(parentNode);
   WbNodeReader nodeReader;
   // set available DEF nodes to be used while reading the new nodes
   QList<WbNode *> defNodes = WbDictionary::instance()->computeDefForInsertion(parentNode, field, itemIndex, false);
@@ -243,7 +243,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &fi
   // read node
   QString errorMessage;
   WbGroup *root = WbWorld::instance()->root();
-  WbNode::setGlobalParent(root);
+  WbNode::setGlobalParentNode(root);
   WbNodeReader nodeReader;
   QList<WbNode *> nodes = nodeReader.readVrml(&tokenizer, WbWorld::instance()->fileName());
   WbBaseNode *lastBaseNodeCreated = NULL;
@@ -471,7 +471,7 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
 
   WbBaseNode *const baseNode = dynamic_cast<WbBaseNode *>(newNode);
   // set parent node
-  newNode->setParent(parentNode);
+  newNode->setParentNode(parentNode);
   WbNode *upperTemplate = WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, parentNode);
   bool isInsideATemplateRegenerator = upperTemplate && (upperTemplate != baseNode);
 
@@ -524,7 +524,7 @@ void WbNodeOperations::resolveSolidNameClashIfNeeded(WbNode *node) const {
     solidNodes << WbNodeUtilities::findSolidDescendants(node);
   while (!solidNodes.isEmpty()) {
     WbSolid *s = solidNodes.takeFirst();
-    const WbBaseNode *const parentBaseNode = dynamic_cast<WbBaseNode *>(s->parent());
+    const WbBaseNode *const parentBaseNode = dynamic_cast<WbBaseNode *>(s->parentNode());
     const WbSolid *parentSolidNode = dynamic_cast<const WbSolid *>(parentBaseNode);
     const WbSolid *upperSolid = parentSolidNode ? parentSolidNode : parentBaseNode->upperSolid();
     s->resolveNameClashIfNeeded(true, true,
