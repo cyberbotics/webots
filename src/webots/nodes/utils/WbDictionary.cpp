@@ -139,9 +139,9 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
           } else {
             if (!mLoad) {
               WbNode *const parent = node->parentNode();
-              WbNode::setGlobalParent(parent);
+              WbNode::setGlobalParentNode(parent);
               WbBaseNode *const newUseNode = static_cast<WbBaseNode *>(definitionNode->cloneDefNode());
-              WbNode::setGlobalParent(NULL);
+              WbNode::setGlobalParentNode(NULL);
               newUseNode->setUseName(useName);  // Deactivates the creation of children items triggered by insertion
               if (sfNode)
                 sfNode->setValue(newUseNode);
@@ -162,7 +162,7 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
       if (matchingNode && matchingNode->isDefNode()) {
         if (!mLoad) {
           WbNode *const parent = node->parentNode();
-          WbNode::setGlobalParent(parent);
+          WbNode::setGlobalParentNode(parent);
           WbBaseNode *const newDefNode = static_cast<WbBaseNode *>(matchingNode->cloneAndReferenceProtoInstance());
           newDefNode->setUseName(useName);  // Deactivates the creation of children items triggered by insertion
           if (sfNode)

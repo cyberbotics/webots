@@ -155,7 +155,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
     WbSelection::instance()->selectTransformFromView3D(NULL);
 
   // read node
-  WbNode::setGlobalParent(parentNode);
+  WbNode::setGlobalParentNode(parentNode);
   WbNodeReader nodeReader;
   // set available DEF nodes to be used while reading the new nodes
   QList<WbNode *> defNodes = WbDictionary::instance()->computeDefForInsertion(parentNode, field, itemIndex, false);
@@ -243,7 +243,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &fi
   // read node
   QString errorMessage;
   WbGroup *root = WbWorld::instance()->root();
-  WbNode::setGlobalParent(root);
+  WbNode::setGlobalParentNode(root);
   WbNodeReader nodeReader;
   QList<WbNode *> nodes = nodeReader.readVrml(&tokenizer, WbWorld::instance()->fileName());
   WbBaseNode *lastBaseNodeCreated = NULL;

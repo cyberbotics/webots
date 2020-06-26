@@ -88,10 +88,10 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   mIsCleaning(false) {
   gInstance = this;
   WbNode::setInstantiateMode(true);
-  WbNode::setGlobalParent(NULL);
+  WbNode::setGlobalParentNode(NULL);
   mRoot = new WbGroup();
   mRoot->setUniqueId(0);
-  WbNode::setGlobalParent(mRoot);
+  WbNode::setGlobalParentNode(mRoot);
   mRadarTargets.clear();
   mCameraRecognitionObjects.clear();
 
@@ -152,7 +152,7 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
     mRoot->addChild(mViewpoint);
   }
 
-  WbNode::setGlobalParent(NULL);
+  WbNode::setGlobalParentNode(NULL);
   updateTopLevelLists();
 
   // world loading stuff

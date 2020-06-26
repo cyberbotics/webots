@@ -361,7 +361,7 @@ void WbField::parameterChanged() {
 
     WbNode *instance = NULL;
     foreach (WbField *internalField, mInternalFields) {
-      WbNode::setGlobalParent(internalField->parentNode(), true);
+      WbNode::setGlobalParentNode(internalField->parentNode(), true);
       instance = node->cloneAndReferenceProtoInstance();
       sfnode = dynamic_cast<WbSFNode *>(internalField->value());
       sfnode->setValue(instance);
@@ -380,7 +380,7 @@ void WbField::parameterNodeInserted(int index) {
 
   WbNode *instance = NULL;
   foreach (WbField *internalField, mInternalFields) {
-    WbNode::setGlobalParent(internalField->parentNode(), true);
+    WbNode::setGlobalParentNode(internalField->parentNode(), true);
     instance = node->cloneAndReferenceProtoInstance();
     mfnode = dynamic_cast<WbMFNode *>(internalField->value());
     mfnode->insertItem(index, instance);

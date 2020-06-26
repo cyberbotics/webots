@@ -91,7 +91,7 @@ bool WbNode::instantiateMode() {
   return gInstantiateMode;
 }
 
-void WbNode::setGlobalParent(WbNode *parent, bool protoParameterNodeFlag) {
+void WbNode::setGlobalParentNode(WbNode *parent, bool protoParameterNodeFlag) {
   gParent = parent;
 
   if (parent)
@@ -100,7 +100,7 @@ void WbNode::setGlobalParent(WbNode *parent, bool protoParameterNodeFlag) {
     gProtoParameterNodeFlag = false;
 }
 
-WbNode *WbNode::globalParent() {
+WbNode *WbNode::globalParentNode() {
   return gParent;
 }
 
@@ -780,12 +780,12 @@ void WbNode::notifyFieldChanged() {
           if (!subField || subField->type() != field->type() || subField->name() != field->name())
             continue;
           assert(parent);
-          setGlobalParent(parent);
+          setGlobalParentNode(parent);
           subField->copyValueFrom(field);
           subField->defHasChanged();
         }
 
-        setGlobalParent(NULL);
+        setGlobalParentNode(NULL);
       }
     }
 
@@ -820,7 +820,7 @@ int WbNode::findSubFieldIndex(const WbField *const searched) const {
   return -1;
 }
 
-WbField *WbNode::findSubField(int index, WbNode *&parentNode) const {
+WbField *WbNode::findSubField(int index, WbNode *&parent) const {
   int count = 0;
   QList<WbNode *> list(subNodes(true));
   list.prepend(const_cast<WbNode *>(this));

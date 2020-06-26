@@ -544,9 +544,9 @@ void WbSceneTree::reset() {
     if (sfnode) {
       WbNode *defaultNode = dynamic_cast<const WbSFNode *>(defaultValue)->value();
       if (defaultNode) {
-        WbNode::setGlobalParent(parentNode);
+        WbNode::setGlobalParentNode(parentNode);
         WbNode *newNode = WbConcreteNodeFactory::instance()->createCopy(*defaultNode);
-        WbNode::setGlobalParent(NULL);
+        WbNode::setGlobalParentNode(NULL);
         newNode->setParentNode(parentNode);
 
 #ifndef NDEBUG
@@ -562,9 +562,9 @@ void WbSceneTree::reset() {
       int i = 0;
       while (it.hasNext()) {
         const WbNode *defaultNode = it.next();
-        WbNode::setGlobalParent(parentNode);
+        WbNode::setGlobalParentNode(parentNode);
         WbNode *newNode = WbConcreteNodeFactory::instance()->createCopy(*defaultNode);
-        WbNode::setGlobalParent(NULL);
+        WbNode::setGlobalParentNode(NULL);
         newNode->setParentNode(parentNode);
 #ifndef NDEBUG
         const WbNodeOperations::OperationResult result =
@@ -617,7 +617,7 @@ void WbSceneTree::transform(const QString &modelName) {
   const bool isExpanded = mTreeView->isExpanded(currentModelIndex);
 
   // create new node
-  WbNode::setGlobalParent(currentNode->parentNode());
+  WbNode::setGlobalParentNode(currentNode->parentNode());
   WbNode *const newNode = WbConcreteNodeFactory::instance()->createNode(modelName, 0, currentNode->parentNode());
   if (!newNode) {
     WbLog::error(tr("Transformation aborted: impossible to create a node of type %1.").arg(modelName));
@@ -626,7 +626,7 @@ void WbSceneTree::transform(const QString &modelName) {
   }
 
   // copy fields and adopt children
-  WbNode::setGlobalParent(newNode);
+  WbNode::setGlobalParentNode(newNode);
   QVector<WbField *> fields = currentNode->fieldsOrParameters();
   foreach (WbField *originalField, fields) {
     // copy field if it exists
@@ -635,7 +635,7 @@ void WbSceneTree::transform(const QString &modelName) {
       newField->copyValueFrom(originalField);
   }
   newNode->setDefName(currentNode->defName());
-  WbNode::setGlobalParent(NULL);
+  WbNode::setGlobalParentNode(NULL);
 
   // reassign pointer in parent
   WbField *parentField = mSelectedItem->parent()->field();
@@ -897,7 +897,7 @@ void WbSceneTree::addNew() {
   } else {  // CREATE
 
     // create node
-    WbNode::setGlobalParent(selectedNodeParent);
+    WbNode::setGlobalParentNode(selectedNodeParent);
     WbNode *newNode;
     if (dialog.isUseNode()) {
       // find last DEF node to be copied

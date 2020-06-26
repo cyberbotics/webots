@@ -166,16 +166,16 @@ WbProtoCachedInfo *WbProtoCachedInfo::computeInfo(const QString &protoFileName) 
   tokenizer.rewind();
   WbProtoModel *protoModel = NULL;
   bool prevInstantiateMode = WbNode::instantiateMode();
-  WbNode *previousParent = WbNode::globalParent();
+  WbNode *previousParent = WbNode::globalParentNode();
   try {
-    WbNode::setGlobalParent(NULL);
+    WbNode::setGlobalParentNode(NULL);
     WbNode::setInstantiateMode(false);
     protoModel = new WbProtoModel(&tokenizer, WbWorld::instance() ? WbWorld::instance()->fileName() : "", protoFileName);
     WbNode::setInstantiateMode(prevInstantiateMode);
-    WbNode::setGlobalParent(previousParent);
+    WbNode::setGlobalParentNode(previousParent);
   } catch (...) {
     WbNode::setInstantiateMode(prevInstantiateMode);
-    WbNode::setGlobalParent(previousParent);
+    WbNode::setGlobalParentNode(previousParent);
     return NULL;
   }
 
