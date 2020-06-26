@@ -1,7 +1,6 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
   basicTimeStep 8
-  northDirection 1 0 1
   contactProperties [
     ContactProperties {
       material1 "wheel material"
