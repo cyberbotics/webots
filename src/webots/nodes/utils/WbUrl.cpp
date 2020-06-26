@@ -60,7 +60,7 @@ QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
         projectPROTOSearchPath.append(proto->projectPath() + "/protos");
       proto = WbProtoList::current()->findModel(proto->ancestorProtoName(), "");
     }
-    currentNode = currentNode->parent();
+    currentNode = currentNode->parentNode();
   }
 
   QStringList searchPaths;

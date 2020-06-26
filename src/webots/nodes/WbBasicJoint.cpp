@@ -311,7 +311,7 @@ WbSolidReference *WbBasicJoint::solidReference() const {
 }
 
 WbSolid *WbBasicJoint::solidParent() const {
-  return dynamic_cast<WbSolid *>(parent());
+  return dynamic_cast<WbSolid *>(parentNode());
 }
 
 WbVector3 WbBasicJoint::anchor() const {

@@ -256,7 +256,7 @@ void WbImageTexture::modifyWrenMaterial(WrMaterial *wrenMaterial, const int main
     wr_material_set_texture_enable_interpolation(wrenMaterial, mFiltering->value(), mWrenTextureIndex);
     wr_material_set_texture_enable_mip_maps(wrenMaterial, mFiltering->value(), mWrenTextureIndex);
 
-    if (mExternalTexture && !(static_cast<WbAppearance *>(parent())->textureTransform())) {
+    if (mExternalTexture && !(static_cast<WbAppearance *>(parentNode())->textureTransform())) {
       wr_texture_transform_delete(mWrenTextureTransform);
       mWrenTextureTransform = wr_texture_transform_new();
       wr_texture_transform_set_scale(mWrenTextureTransform, mExternalTextureRatio.x(), mExternalTextureRatio.y());

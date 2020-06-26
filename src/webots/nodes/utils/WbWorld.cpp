@@ -88,10 +88,10 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   mIsCleaning(false) {
   gInstance = this;
   WbNode::setInstantiateMode(true);
-  WbNode::setGlobalParent(NULL);
+  WbNode::setGlobalParentNode(NULL);
   mRoot = new WbGroup();
   mRoot->setUniqueId(0);
-  WbNode::setGlobalParent(mRoot);
+  WbNode::setGlobalParentNode(mRoot);
   mRadarTargets.clear();
   mCameraRecognitionObjects.clear();
 
@@ -152,7 +152,7 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
     mRoot->addChild(mViewpoint);
   }
 
-  WbNode::setGlobalParent(NULL);
+  WbNode::setGlobalParentNode(NULL);
   updateTopLevelLists();
 
   // world loading stuff
@@ -449,7 +449,8 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
         deviceObject.insert("minPosition", motor->minPosition());
         deviceObject.insert("maxPosition", motor->maxPosition());
       } else {  // case: other WbDevice nodes.
-        const WbBaseNode *parent = jointDevice ? dynamic_cast<const WbBaseNode *>(deviceBaseNode->parent()) : deviceBaseNode;
+        const WbBaseNode *parent =
+          jointDevice ? dynamic_cast<const WbBaseNode *>(deviceBaseNode->parentNode()) : deviceBaseNode;
         // Retrieve closest exported Transform parent, and compute its translation offset.
         WbMatrix4 m;
         while (parent) {
@@ -466,7 +467,7 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
             if (transform)
               m *= transform->vrmlMatrix();
           }
-          parent = dynamic_cast<const WbBaseNode *>(parent->parent());
+          parent = dynamic_cast<const WbBaseNode *>(parent->parentNode());
         }
         // LED case: export color data.
         const WbLed *led = dynamic_cast<const WbLed *>(device);

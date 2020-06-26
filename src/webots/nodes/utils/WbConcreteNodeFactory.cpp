@@ -289,7 +289,7 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
 
   // reset global parent that could be changed while parsing the PROTO model
   if (parentNode)
-    WbNode::setGlobalParent(parentNode);
+    WbNode::setGlobalParentNode(parentNode);
   WbNode *protoInstance =
     WbNode::createProtoInstance(model, tokenizer, WbWorld::instance() ? WbWorld::instance()->fileName() : "");
   if (protoInstance)

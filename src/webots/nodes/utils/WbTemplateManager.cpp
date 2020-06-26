@@ -215,7 +215,7 @@ void WbTemplateManager::regenerateNode(WbNode *node) {
     node->setRegenerationRequired(false);
 
   // 1. get stuff
-  WbNode *parent = node->parent();
+  WbNode *parent = node->parentNode();
   WbProtoModel *proto = node->proto();
   assert(parent && proto);
   if (!parent || !proto)
@@ -257,7 +257,7 @@ void WbTemplateManager::regenerateNode(WbNode *node) {
   if (isWorldInitialized)
     emit preNodeRegeneration(node, nested);
 
-  WbNode::setGlobalParent(parent);
+  WbNode::setGlobalParentNode(parent);
 
   WbNode *newNode = WbNode::regenerateProtoInstanceFromParameters(proto, parameters, node->isTopLevel(),
                                                                   WbWorld::instance()->fileName(), true, uniqueId);
@@ -271,7 +271,7 @@ void WbTemplateManager::regenerateNode(WbNode *node) {
   }
 
   newNode->setDefName(node->defName());
-  WbNode::setGlobalParent(NULL);
+  WbNode::setGlobalParentNode(NULL);
 
   WbNodeUtilities::validateInsertedNode(parentField, newNode, parent, isInBoundingObject);
 
