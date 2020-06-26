@@ -1,6 +1,5 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
-  northDirection 1 0 1
 }
 Viewpoint {
   orientation 0.920152 0.3903 0.0314166 5.65888
