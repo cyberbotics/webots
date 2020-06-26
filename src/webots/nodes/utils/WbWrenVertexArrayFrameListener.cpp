@@ -13,7 +13,9 @@
 // limitations under the License.
 
 #include "WbWrenVertexArrayFrameListener.hpp"
+
 #include "WbMuscle.hpp"
+#include "WbSimulationState.hpp"
 #include "WbTrack.hpp"
 
 #include <wren/scene.h>
@@ -21,6 +23,11 @@
 WbWrenVertexArrayFrameListener *WbWrenVertexArrayFrameListener::cInstance = NULL;
 
 static void processEvent() {
+  static double lastUpdateTime = -1.0;
+  const double currentTime = WbSimulationState::instance()->time();
+  if (currentTime == lastUpdateTime)
+    return;
+  lastUpdateTime = currentTime;
   WbWrenVertexArrayFrameListener::instance()->frameStarted();
 }
 
@@ -80,8 +87,12 @@ void WbWrenVertexArrayFrameListener::frameStarted() {
 }
 
 void WbWrenVertexArrayFrameListener::updateListening() {
-  if (!mListening && (mMuscleList.size() > 0 || mTrackList.size() > 0))
+  bool need = mMuscleList.size() > 0 || mTrackList.size() > 0;
+  if (need && !mListening) {
     wr_scene_add_frame_listener(wr_scene_get_instance(), &processEvent);
-  else
+    mListening = true;
+  } else if (!need && mListening) {
     wr_scene_remove_frame_listener(wr_scene_get_instance(), &processEvent);
+    mListening = false;
+  }
 }
