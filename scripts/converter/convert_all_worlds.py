@@ -35,7 +35,8 @@ nue_world_files = ['tests/api/worlds/*.wbt',
                    'projects/robots/*/*/worlds/*.wbt',
                    'projects/samples/*/worlds/*.wbt',
                    'projects/samples/*/*/worlds/*.wbt',
-                   'projects/vehicles/worlds/*.wbt'
+                   'projects/vehicles/worlds/*.wbt',
+                   'scripts/icon_studio/worlds/icon_studio.wbt'
                    ]
 skip_world_files = []
 skipped_world_files = []
