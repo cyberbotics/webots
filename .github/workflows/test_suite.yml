@@ -22,11 +22,11 @@ jobs:
         # ubuntu 18.04 dependencies
         sudo apt -y install libssl1.0-dev ffmpeg python-pip
         # optional dependencies
-        sudo apt -y install  openjdk-11-jdk npm
+        sudo apt -y install openjdk-11-jdk npm
         # < R2020b dependencies
         sudo apt -y install libassimp-dev
         # ubuntu server dependencies
-        sudo apt -y install curl fakeroot libxkbcommon-x11-dev
+        sudo apt -y install fakeroot libxkbcommon-x11-dev
     - name: Make
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
