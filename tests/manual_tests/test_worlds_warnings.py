@@ -68,14 +68,24 @@ class TestWorldsWarnings(unittest.TestCase):
         problematicWorlds = []
         crashedWorlds = []
         for world in self.worlds:
-            self.process = Popen([self.webotsFullPath, '--stdout', '--stderr', '--mode=pause', '--minimize', world], stdin=PIPE,
-                                 stdout=PIPE, stderr=PIPE)
+            print('Testing: %s' % world)
+            self.process = Popen([
+                                    self.webotsFullPath,
+                                    '--stdout',
+                                    '--stderr',
+                                    '--mode=pause',
+                                    '--minimize',
+                                    '--batch',
+                                    '--no-sandbox',
+                                    world
+                                 ], stdin=PIPE,
+                                 stdout=PIPE, stderr=PIPE, text=True)
             t = Timer(20.0, self.stop_webots)
             t.start()
             output, error = self.process.communicate()
-            if error and not any(message in error for message in self.skippedMessages):
+            if error and not any(message in str(error) for message in self.skippedMessages):
                 problematicWorlds.append(world)
-            if error and self.crashError in error:
+            if error and self.crashError in str(error):
                 crashedWorlds.append(world)
         if crashedWorlds:
             print('\n\t'.join(['Impossible to test the following worlds because they crash when loading:'] + crashedWorlds))
