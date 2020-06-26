@@ -15,10 +15,10 @@ PointLight {
   intensity 0
 }
 Robot {
-  rotation 0 1 0 0.19634954
+  rotation 0 1 0 0.392699
   children [
     Compass {
-      rotation 0 1 0 0.19634954
+      rotation 0 1 0 0.392699
       lookupTable [
         -1000 -1000 0
         1000 1000 0
