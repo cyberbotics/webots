@@ -204,7 +204,7 @@ void WbGps::preFinalize() {
   WbSolidDevice::preFinalize();
   mSensor = new WbSensor();
   mUTMConverter = new WbUTMConverter();
-  if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem().compare("WGS84") == 0) {
+  if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem() == "WGS84") {
     WbVector3 reference = WbWorld::instance()->worldInfo()->gpsReference();
     mUTMConverter->setReferenceCoordinates(reference[0], reference[1]);
   }
@@ -243,7 +243,7 @@ void WbGps::updateCoordinateSystem() {
 }
 
 void WbGps::updateReferences() {
-  if (mUTMConverter && WbWorld::instance()->worldInfo()->gpsCoordinateSystem().compare("WGS84") == 0) {
+  if (mUTMConverter && WbWorld::instance()->worldInfo()->gpsCoordinateSystem() == "WGS84") {
     WbVector3 reference = WbWorld::instance()->worldInfo()->gpsReference();
     mUTMConverter->setReferenceCoordinates(reference[0], reference[1]);
   }
@@ -264,7 +264,7 @@ bool WbGps::refreshSensorIfNeeded() {
     ratio = pow(correlation, mSensor->elapsedTime() / 1000.0);
 
   WbVector3 reference = WbWorld::instance()->worldInfo()->gpsReference();
-  if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem().compare("WGS84") == 0) {
+  if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem() == "WGS84") {
     // convert reference from lat-long into UTM X-Y coordinates
     mUTMConverter->computeNorthEast(reference[0], reference[1]);
     double altitude = reference[2];
@@ -280,9 +280,9 @@ bool WbGps::refreshSensorIfNeeded() {
 
   // if we are using 'WGS84' coordinate system with a coordinate system different from "NUE"
   // we need to adapt the exact position
-  if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem().compare("WGS84") == 0) {
+  if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem() == "WGS84") {
     if (WbWorld::instance()->worldInfo()->coordinateSystem() == "ENU") {
-      WbMatrix3 transformation(0, 1, 0, -1, 0, 0, 0, 0, 1);
+      WbMatrix3 transformation(0, -1, 0, 1, 0, 0, 0, 0, 1);
       mMeasuredPosition = mMeasuredPosition * transformation;
     }
   }
