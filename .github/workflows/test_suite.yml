@@ -26,7 +26,7 @@ jobs:
         # < R2020b dependencies
         sudo apt -y install libassimp-dev
         # ubuntu server dependencies
-        sudo apt -y install xserver-xorg-core libpulse0 curl fakeroot libxkbcommon-x11-dev
+        sudo apt -y install libpulse0 curl fakeroot libxkbcommon-x11-dev
     - name: Make
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
