@@ -57,7 +57,7 @@ jobs:
       run: |
         tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
     - name: Install Webots Dependencies
-      run: sudo apt -y install g++ make ffmpeg libglu1-mesa libxkbcommon-x11-dev
+      run: sudo apt -y install g++ make ffmpeg libglu1-mesa libxkbcommon-x11-dev execstack libusb-dev libxcb-keysyms1 libxcb-image0 libxcb-icccm4 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
