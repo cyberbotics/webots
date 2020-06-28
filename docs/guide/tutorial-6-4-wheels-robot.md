@@ -1,4 +1,4 @@
-## Tutorial 6: 4-Wheels Robot (60 Minutes)
+## Tutorial 6: 4-Wheeled Robot (60 Minutes)
 
 This tutorial aims at creating your first robot from scratch.
 The robot will consist of a body, four wheels, and two distance sensors.
