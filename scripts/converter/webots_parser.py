@@ -107,7 +107,7 @@ class WebotsParser:
         indent = ' ' * (self.indentation)
         first = True
         for value in values:
-            if type in ['MFInt32', 'MFFloat', 'MFBool']:
+            if type in ['MFInt32', 'MFFloat']:
                 if first:
                     self.file.write(indent)
                 else:
@@ -119,7 +119,7 @@ class WebotsParser:
             elif type == 'MFInt32' or type == 'MFFloat':
                 self.file.write(value)
             elif type == 'MFBool':
-                self.file.write('TRUE' if value else 'FALSE')
+                self.file.write('TRUE\n' if value else 'FALSE\n')
             elif type == 'MFVec2f':
                 self.file.write(value[0] + ' ' + value[1] + '\n')
             elif type == 'MFVec3f' or type == 'MFColor':
@@ -129,7 +129,7 @@ class WebotsParser:
             elif type == 'MFNode':
                 self._write_node(value)
             first = False
-        if type in ['MFInt32', 'MFFloat', 'MFBool']:
+        if type in ['MFInt32', 'MFFloat']:
             self.file.write('\n')
         self.indentation -= 2
 
@@ -238,7 +238,7 @@ class WebotsParser:
                         type = 'MFVec2f'
                     elif length == 3:
                         type = 'MFVec3f'  # FIXME: could be MFColor as well
-                    elif length == 3:
+                    elif length == 4:
                         type = 'MFRotation'
                     for number in words:
                         array.append(number)  # MFVec2f / MFVec3f / MFRotation / MFColor
