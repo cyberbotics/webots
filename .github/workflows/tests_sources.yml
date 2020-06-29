@@ -17,7 +17,6 @@ jobs:
         include:
           - os: ubuntu-16.04
             DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-9"
-            if: true
           - os: ubuntu-18.04
             DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-9"
             if: "github.event.pull_request.draft == false"
