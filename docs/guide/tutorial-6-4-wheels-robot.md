@@ -75,7 +75,7 @@ Set the color of the [Shape](../reference/shape.md) to red.
 Use the [Shape](../reference/shape.md) to define the `boundingObject` field of the [Robot](../reference/robot.md) node.
 The dimension of the box is `(0.1, 0.05, 0.2)`.
 Add a [Physics](../reference/physics.md) node to the [Robot](../reference/robot.md).
-The [figure](#low-level-representation-of-the-4-wheels-robot) represents all the nodes defining the robot.
+The [figure](high-level-representation-of-the-4-wheeled-robot) represents all the nodes defining the robot.
 So far, only the direct children nodes of the root [Robot](../reference/robot.md) node has been implemented.
 
 %figure "High level representation of the 4 wheeled robot"
