@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
-    steps: 
+    steps:
     - uses: actions/checkout@v2
     - name: Checkout Submodules
       uses: textbook/git-checkout-submodule-action@master
