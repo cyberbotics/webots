@@ -2,8 +2,8 @@
 
 This tutorial aims at creating your first robot from scratch.
 The robot will consist of a body, four wheels, and two distance sensors.
-The result is depicted in [this figure](3d-view-representation-of-the-4-wheeled-robot-note-that-the-coordinate-system-representations-of-the-robot-body-and-its-wheels-are-oriented-the-same-way-the-px-vector-in-red-defines-the-left-of-the-robot-the-y-vector-in-green-defines-the-top-of-the-robot-and-their-z-vector-in-blue-defines-the-front-of-the-robot-the-distance-sensors-are-oriented-differently-their-x-vector-indicates-the-direction-of-the-sensor).
-The [next figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-device) shows the top view of the robot.
+The result is depicted in [this figure](#3d-view-representation-of-the-4-wheeled-robot-note-that-the-coordinate-system-representations-of-the-robot-body-and-its-wheels-are-oriented-the-same-way-the-px-vector-in-red-defines-the-left-of-the-robot-the-y-vector-in-green-defines-the-top-of-the-robot-and-their-z-vector-in-blue-defines-the-front-of-the-robot-the-distance-sensors-are-oriented-differently-their-x-vector-indicates-the-direction-of-the-sensor).
+The [next figure](#top-view-of-the-4-wheeled-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-device) shows the top view of the robot.
 
 %figure "3D view representation of the 4 wheeled robot. Note that the coordinate system representations of the robot body and its wheels are oriented the same way. The +x-vector (in red) defines the left of the robot, the +y-vector (in green) defines the top of the robot, and their +z-vector (in blue) defines the front of the robot. The distance sensors are oriented differently, their +x-vector indicates the direction of the sensor."
 
@@ -11,7 +11,7 @@ The [next figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-
 
 %end
 
-%figure "Top view of the 4 wheels robot. The grid behind the robot has a dimension of 0.2 x 0.3 meters. The text labels correspond to the name of the device."
+%figure "Top view of the 4 wheeled robot. The grid behind the robot has a dimension of 0.2 x 0.3 meters. The text labels correspond to the name of the device."
 
 ![tutorial_4_wheels_top_schema.png](images/tutorial_4_wheels_top_schema.thumbnail.jpg)
 
@@ -75,7 +75,7 @@ Set the color of the [Shape](../reference/shape.md) to red.
 Use the [Shape](../reference/shape.md) to define the `boundingObject` field of the [Robot](../reference/robot.md) node.
 The dimension of the box is `(0.1, 0.05, 0.2)`.
 Add a [Physics](../reference/physics.md) node to the [Robot](../reference/robot.md).
-The [figure](high-level-representation-of-the-4-wheeled-robot) represents all the nodes defining the robot.
+The [figure](#high-level-representation-of-the-4-wheeled-robot) represents all the nodes defining the robot.
 So far, only the direct children nodes of the root [Robot](../reference/robot.md) node has been implemented.
 
 %figure "High level representation of the 4 wheeled robot"
@@ -155,7 +155,7 @@ Find more information about the `lookupTable` field [here](../reference/distance
 The last part of the robot modeling is to add the two distance sensors to the robot.
 This can be done by adding two [DistanceSensor](../reference/distancesensor.md) nodes as direct children of the [Robot](../reference/robot.md) node.
 Note that the distance sensor acquires its data along the +*x*-axis.
-So, it is necessary to rotate the distance sensor to point their x-axis outside the robot (see the [figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-device)).
+So, it is necessary to rotate the distance sensor to point their x-axis outside the robot (see the [figure](#top-view-of-the-4-wheeled-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-device)).
 
 %spoiler "**Reminder**: How to know the orientation of the distance sensor?"
 
@@ -167,7 +167,7 @@ As already says in [Tutorial 3](tutorial-3-appearance.md), the distance sensor r
 The distance sensors are at an angle to 0.3 [rad] with the front vector of the robot.
 Set thei graphical and physical shape to a cube (not transformed) having a edge of `0.01` [m].
 Set thei color to blue.
-Set thei `name` field according to the labels of [this figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-device).
+Set thei `name` field according to the labels of [this figure](#top-view-of-the-4-wheeled-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-device).
 
 %spoiler "**Tips**: How to precisely orient distance sensors?"
 
