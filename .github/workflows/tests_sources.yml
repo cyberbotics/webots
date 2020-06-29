@@ -24,7 +24,7 @@ jobs:
           - os: macos-10.15
             DEPENDENCIES_INSTALLATION: "brew install clang-format cppcheck"
     runs-on: ${{ matrix.os }}
-    if: ${{ matrix.os == 'macOS-10.14' }} || github.event.pull_request.draft == false
+    if: matrix.os == 'macOS-10.14' || github.event.pull_request.draft == false
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python }}
