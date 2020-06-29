@@ -1,6 +1,8 @@
 name: Test Sources
 
-on: pull_request
+on: 
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
 
 defaults:
   run:
@@ -8,7 +10,8 @@ defaults:
 
 jobs:
   test-sources:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.IF }}
+    if: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-16.04, ubuntu-18.04, ubuntu-20.04, macos-10.15]
@@ -22,6 +25,8 @@ jobs:
             DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-9"
           - os: macos-10.15
             DEPENDENCIES_INSTALLATION: "brew install clang-format cppcheck"
+          - python: 2.7
+            IF: "github.event.pull_request.draft == false"
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python }}
