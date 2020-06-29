@@ -36,6 +36,7 @@ Released on XXX.
     - Removed automatic path to Qt libraries for controllers using deprecated Qt robot windows. Such paths should now be specified in `runtime.ini` instead.
   - Bug fixes
     - Fixed rendering of Track and Muscle nodes when the main window was minimized.
+    - Fixed crash occurring when moving with SHIFT+mouse/wheel drag a PROTO object with translation or rotation template field.
     - Fixed crash occurring when setting a 3D coordinate to a huge value (greater than 1e+151).
     - Fixed crash occurring when Webots was streaming a 3D scene and some object was inserted into a PROTO node.
     - Fixed the restoration of the 3D view which was sometimes not re-appearing after being hidden.

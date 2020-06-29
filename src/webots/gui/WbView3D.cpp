@@ -1888,19 +1888,22 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     WbSolid *const uppermostSolid = WbNodeUtilities::findUppermostSolid(selectedNode);
     Qt::MouseButtons buttons = event->buttons();
     if (buttons == Qt::MidButton || buttons == (Qt::LeftButton | Qt::RightButton)) {
-      if (uppermostSolid)
-        mDragKinematics = new WbDragVerticalSolidEvent(position, viewpoint, uppermostSolid);
-      else
+      if (uppermostSolid) {
+        if (uppermostSolid->canBeTranslated())
+          mDragKinematics = new WbDragVerticalSolidEvent(position, viewpoint, uppermostSolid);
+      } else if (uppermostTransform->canBeTranslated())
         mDragKinematics = new WbDragVerticalEvent(position, viewpoint, uppermostTransform);
     } else if (buttons == Qt::LeftButton) {
-      if (uppermostSolid)
-        mDragKinematics = new WbDragHorizontalSolidEvent(position, viewpoint, uppermostSolid);
-      else
+      if (uppermostSolid) {
+        if (uppermostSolid->canBeTranslated())
+          mDragKinematics = new WbDragHorizontalSolidEvent(position, viewpoint, uppermostSolid);
+      } else if (uppermostTransform->canBeTranslated())
         mDragKinematics = new WbDragHorizontalEvent(position, viewpoint, uppermostTransform);
     } else if (buttons == Qt::RightButton) {
-      if (uppermostSolid)
-        mDragVerticalAxisRotate = new WbDragRotateAroundWorldVerticalAxisSolidEvent(position, viewpoint, uppermostSolid);
-      else
+      if (uppermostSolid) {
+        if (uppermostSolid->canBeRotated())
+          mDragVerticalAxisRotate = new WbDragRotateAroundWorldVerticalAxisSolidEvent(position, viewpoint, uppermostSolid);
+      } else if (uppermostTransform->canBeRotated())
         mDragVerticalAxisRotate = new WbDragRotateAroundWorldVerticalAxisEvent(position, viewpoint, uppermostTransform);
     }
   } else if (alt) {  // Case 2: ALT and CLICK -> add a force / torque to the selected solid
@@ -2202,7 +2205,7 @@ void WbView3D::wheelEvent(QWheelEvent *event) {
     // SHIFT and WHEEL MOUSE -> lift the selected solid in the 3D View
     WbBaseNode *const selectedNode = dynamic_cast<WbBaseNode *>(WbSelection::instance()->selectedAbstractTransform());
     WbSolid *const uppermostSolid = WbNodeUtilities::findUppermostSolid(selectedNode);
-    if (!uppermostSolid || uppermostSolid->isLocked())
+    if (!uppermostSolid || uppermostSolid->isLocked() || !uppermostSolid->canBeTranslated())
       return;
     mWheel = new WbWheelLiftSolidEvent(viewpoint, uppermostSolid);
     mWheel->apply(event->angleDelta().y());
