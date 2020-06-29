@@ -10,8 +10,8 @@ defaults:
 
 jobs:
   test-sources:
-    runs-on: ${{ matrix.IF }}
-    if: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    if: ${{ matrix.if }}
     strategy:
       matrix:
         os: [ubuntu-16.04, ubuntu-18.04, ubuntu-20.04, macos-10.15]
@@ -26,7 +26,7 @@ jobs:
           - os: macos-10.15
             DEPENDENCIES_INSTALLATION: "brew install clang-format cppcheck"
           - python: 2.7
-            IF: "github.event.pull_request.draft == false"
+            if: "github.event.pull_request.draft == false"
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python }}
