@@ -177,6 +177,8 @@ private:
   mutable bool mIsRotationFieldVisibleReady;
   mutable bool mCanBeTranslated;
   mutable bool mCanBeRotated;
+  void updateTranslationFieldVisibility() const;
+  void updateRotationFieldVisibility() const;
 
   void updateMatrix() const;
   void updateAbsoluteScale() const;

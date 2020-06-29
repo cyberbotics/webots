@@ -55,6 +55,8 @@ void WbAbstractTransform::init(WbBaseNode *node) {
   mIsRotationFieldVisible = true;
   mIsTranslationFieldVisibleReady = false;
   mIsRotationFieldVisibleReady = false;
+  mCanBeTranslated = false;
+  mCanBeRotated = false;
 }
 
 WbAbstractTransform::~WbAbstractTransform() {
@@ -246,35 +248,41 @@ void WbAbstractTransform::updateScale(bool warning) {
   applyToScale();
 }
 
+void WbAbstractTransform::updateTranslationFieldVisibility() const {
+  if (mIsTranslationFieldVisibleReady)
+    return;
+  mIsTranslationFieldVisible = WbNodeUtilities::isVisible(mBaseNode->findField("translation", true));
+  mCanBeTranslated =
+    !WbNodeUtilities::isTemplateRegeneratorField(mBaseNode->findField("translation", true)) && mIsTranslationFieldVisible;
+  mIsTranslationFieldVisibleReady = true;
+}
+
+void WbAbstractTransform::updateRotationFieldVisibility() const {
+  if (mIsRotationFieldVisibleReady)
+    return;
+  mIsRotationFieldVisible = WbNodeUtilities::isVisible(mBaseNode->findField("rotation", true));
+  mCanBeRotated =
+    !WbNodeUtilities::isTemplateRegeneratorField(mBaseNode->findField("rotation", true)) && mIsRotationFieldVisible;
+  mIsRotationFieldVisibleReady = true;
+}
+
 bool WbAbstractTransform::isTranslationFieldVisible() const {
-  if (!mIsTranslationFieldVisibleReady) {
-    mIsTranslationFieldVisible = WbNodeUtilities::isVisible(mBaseNode->findField("translation", true));
-    mCanBeTranslated =
-      !WbNodeUtilities::isTemplateRegeneratorField(mBaseNode->findField("translation", true)) && mIsTranslationFieldVisible;
-    mIsTranslationFieldVisibleReady = true;
-  }
+  updateTranslationFieldVisibility();
   return mIsTranslationFieldVisible;
 }
 
 bool WbAbstractTransform::isRotationFieldVisible() const {
-  if (!mIsRotationFieldVisibleReady) {
-    mIsRotationFieldVisible = WbNodeUtilities::isVisible(mBaseNode->findField("rotation", true));
-    mCanBeRotated =
-      !WbNodeUtilities::isTemplateRegeneratorField(mBaseNode->findField("rotation", true)) && mIsRotationFieldVisible;
-    mIsRotationFieldVisibleReady = true;
-  }
+  updateRotationFieldVisibility();
   return mIsRotationFieldVisible;
 }
 
 bool WbAbstractTransform::canBeTranslated() const {
-  if (!mIsTranslationFieldVisibleReady)
-    isTranslationFieldVisible();
+  updateTranslationFieldVisibility();
   return mCanBeTranslated;
 }
 
 bool WbAbstractTransform::canBeRotated() const {
-  if (!mIsRotationFieldVisibleReady)
-    isTranslationFieldVisible();
+  updateRotationFieldVisibility();
   return mCanBeRotated;
 }
 
