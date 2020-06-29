@@ -4,6 +4,209 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 06/24/2020 05:40:46
+> Also, what is the benefit of using the supervisor vs a sensor (like the GPS) to get states such as position?
+
+`@Clara Cardoso Ferreira` no benefit, if you are trying to get your own position, GPS is the way to go, if you are trying to get the position of another node supervisor is the way to go.
+
+
+> Does anyone know if it's possible to reset the terrain in the proto for every simulation and set up the robot's wheels to touch the ground to start the simulation?
+
+`@Clara Cardoso Ferreira` to reset the terrain from the proto file is indeed possible, unfortunately it is not possible to move the robot from there, but you can move it then at the first step of the simulation with a Supervisor controller.
+
+
+> Can somebody help me to figure out how to reset the simulation without having to stop the controller, actually I want every time a condition is true in the controller to reset the robots initial position only, not the simulation time
+
+`@black_hammer_67` yes, you can use the `wb_supervisor_simulation_reset` Supervisor function: [https://www.cyberbotics.com/doc/reference/supervisor?tab-language=c++#wb\_supervisor\_simulation\_reset](https://www.cyberbotics.com/doc/reference/supervisor?tab-language=c++#wb_supervisor_simulation_reset)
+
+##### Andrei 06/23/2020 23:34:32
+I guess it depends what you want to do. I wanna make a pathfinder so I wanna know the whole map when I determine the path I take not just what sensors can give me.
+
+##### Clara Cardoso Ferreira 06/23/2020 23:33:02
+Also, what is the benefit of using the supervisor vs a sensor (like the GPS) to get states such as position?
+
+
+Does anyone know if it's possible to reset the terrain in the proto for every simulation and set up the robot's wheels to touch the ground to start the simulation?
+
+
+I think so`@black_hammer_67` , check the supervisor API and look for position
+
+##### black\_hammer\_67 06/23/2020 16:33:46
+Can somebody help me to figure out how to reset the simulation without having to stop the controller, actually I want every time a condition is true in the controller to reset the robots initial position only, not the simulation time
+
+##### David Mansolino [cyberbotics] 06/23/2020 05:01:36
+No, Webots does not simulate microphones. But you micreate an interface to get the audio from your computer michrophone.
+
+##### webotspro9999 06/22/2020 22:02:26
+> hello `@webotspro9999`, this is unfortunately not available out of the box, you will have to implement your own speach recognition algorithm or use a library implementign this.
+
+`@David Mansolino` thanks for your reply, does the NAO in Webots have sound listening functions? For example, when I say hello can the NAO hear this and take it as an input data?
+
+##### Olivier Michel [cyberbotics] 06/22/2020 15:38:09
+You can simply write a supervisor controller that will move the robot to a random position at the beginning of the simulation.
+
+##### aalmanso 06/22/2020 15:36:42
+Hi everyone,
+
+I want to place E-puck randomly inside arena every time I start or reload the simulation, I need that to test some behaviour. So, i wander how can I find the help about using random numbers and 2D coordinates in webots simulator?
+
+##### David Mansolino [cyberbotics] 06/22/2020 05:27:14
+hello `@webotspro9999`, this is unfortunately not available out of the box, you will have to implement your own speach recognition algorithm or use a library implementign this.
+
+##### webotspro9999 06/20/2020 22:56:16
+I'm new in Webots and I want to develop speech recognition applications using Softbank Robotics NAO. Is this feature available in Webots?
+
+
+hello all
+
+##### lojik 06/11/2020 12:29:35
+Okay, thank's 👍
+
+##### David Mansolino [cyberbotics] 06/11/2020 12:01:48
+Uneven terrai is using an EleveationGrid as mesh, this mesh is way more stable/efficient than IndexedFaceSet for collision but has more constraints ([https://www.cyberbotics.com/doc/reference/elevationgrid](https://www.cyberbotics.com/doc/reference/elevationgrid))
+
+##### lojik 06/11/2020 12:00:12
+I also see that uneven terrain seems to use a symetric grid mesh as a bounding object, is it right?
+
+
+Yes, exactly, you use quite the same idea behind the road PROTO. So I will keep in mind this way to create meshes. Thank you !
+
+##### David Mansolino [cyberbotics] 06/11/2020 11:51:11
+OK, it make sense, for we are using similar meshes to create roads and it works quite well. Note that you might be interested by the road PROTO as it allows to create similar meshes (when varying the height of the road): [https://cyberbotics.com/doc/guide/object-road](https://cyberbotics.com/doc/guide/object-road)
+
+##### lojik 06/11/2020 11:48:58
+Ok thank you, so my intuition is not right, but it works much better with this mesh 👍
+
+##### David Mansolino [cyberbotics] 06/11/2020 11:45:25
+The mesh looks indeed to be very clean like this. Just for the note, for the cylinder, the parallel lines are just for visualization, for the physics it is a perfect cylinder.
+
+##### lojik 06/11/2020 10:34:08
+PS: The first run after importing such an object will provoc a webots' crash.
+
+
+
+%figure
+![Screenshot_from_2020-06-11_12-32-27.png](https://cdn.discordapp.com/attachments/565155651395780609/720586430224793600/Screenshot_from_2020-06-11_12-32-27.png)
+%end
+
+
+Ok, so after playing a bit with my meshes I have a first intuition. I realize that your cylinders are composed with only parallel lines. So I did the same in blender for my sinusoid ground and it seems to work much better. Now it is detected every time instead of 1/3 run.
+
+
+
+Unfortunately it will keep to have triangles by exportations. But since there is a huge number of parallels in  my mesh, it works fine now.
+
+
+
+I do not know if I explain well enough .. Here is my final mesh :
+
+##### David Mansolino [cyberbotics] 06/11/2020 09:03:22
+You're welcome
+
+##### lojik 06/11/2020 09:02:53
+Ok, well, I did not expected that. I have some good results with my meshes. But from one simulation to an other one the results are not the same so I was wondering where it was wrong.
+
+
+
+Thank you for your answer, I will have a deeper look to find a good solution between approximation geometries and find a good mesh.
+
+##### David Mansolino [cyberbotics] 06/11/2020 09:00:04
+> I will always have to approximate the bounding object with a circle
+
+Not exaclty, you can use several geometries to approximate the shape (such as for example several circles to approximate an ellipsoid).
+
+##### lojik 06/11/2020 08:58:23
+If I understand correctly it is actually not possible to create more complexe shapes with their own bounding object? If I would like to have a ramp which look like an ellipsoid more than a circle. I will always have to approximate the bounding object with a circle or take time too find a good threshold with the mesh to make it works?
+
+##### David Mansolino [cyberbotics] 06/11/2020 08:51:10
+I am sorry but there is no magic solution for this, using meshes as bounding object is not the ideal solution.
+
+##### lojik 06/11/2020 08:48:00
+I already have a basicTimeStep set to 1ms 😅
+
+
+I work with blender to do these meshes. My goal is to have well designed unflat terrain to benchmark my robot in that condition.
+
+##### David Mansolino [cyberbotics] 06/11/2020 08:46:16
+it all depends on the complexity of the mesh, but there is a tradeoff (which is not always easy to find).
+
+But maybe a simpler solution for recording the video is to decrease the WeorldInfo.timestep.
+
+##### lojik 06/11/2020 08:46:02
+Because I would like to import custom models to have more freedom on the form of obstacles I have. It would not be a good deal if I have to redo the bounding object after importing them..
+
+
+Would it be better if I have a finner mesh? Or worst?
+
+##### David Mansolino [cyberbotics] 06/11/2020 08:44:01
+This is because the bounding object created automatically when imported are based on the actual mesh, this is known to be not very accurate and stable, for better collisions, you should re-create the key bounding objects using sets of basic geometries (e.g. boxes, spheres, etc.)
+
+##### lojik 06/11/2020 08:42:15
+I just try now to begin recording the video after that the robot well detected my objects. In that case it works fine, but I have to play simulation until the robot detects my objects and then begin to record video.
+
+
+And this effect is worst when I would like to record a video. The object are never well detected.
+
+
+As seen on this picture, the wheel on the left is inside the object and the bounding object (in white) should be in red if it is well detected by the wheel.
+
+
+
+On the right, the wheel is correctly on top of the object.
+
+
+
+%figure
+![Screenshot_from_2020-06-11_10-34-54.png](https://cdn.discordapp.com/attachments/565155651395780609/720557335977787433/Screenshot_from_2020-06-11_10-34-54.png)
+%end
+
+
+Hi `@David Mansolino` sorry, I did not explain well...  My problem is that I actually use the objects shown in the previous picture. With the bounding object as their own shape. But when my robot has to climb them, sometimes the wheel go through the object instead of climb it. It seems that the bounding object is not here.
+
+
+
+I actually use webots nightls R2020b 9\_6\_2020
+
+##### David Mansolino [cyberbotics] 06/11/2020 04:57:15
+Hi `@lojik` what is exactly the problem you have with the bounding object,?We can't see them on this picture.
+
+##### lojik 06/10/2020 16:48:44
+Here you have the kind of objects I imported. These are kind of sinus waves. I put a bit of each pieces down the floor to have smaller mountains.
+
+
+
+%figure
+![Screenshot_from_2020-06-10_18-47-22.png](https://cdn.discordapp.com/attachments/565155651395780609/720318368837533766/Screenshot_from_2020-06-10_18-47-22.png)
+%end
+
+
+Hello there, I imported a 3d object in webots by using webots 2020b. It happen frequently that an object is suddently not takent into account with contacts. It seems that there is some problems with the bounding object.
+
+
+
+Could it be a bug on this nightly version or is it a problem on my side?
+
+##### David Mansolino [cyberbotics] 06/09/2020 11:35:20
+You can either use physics plugins: 
+
+[https://cyberbotics.com/doc/reference/physics-plugin](https://cyberbotics.com/doc/reference/physics-plugin)
+
+Either extend Webots with new nodes:
+
+[https://github.com/cyberbotics/webots/blob/master/CONTRIBUTING.md](https://github.com/cyberbotics/webots/blob/master/CONTRIBUTING.md)
+
+##### hrsh12 06/09/2020 11:33:40
+Hi, `@David Mansolino` , To make a rack and pinion arrangement, i require more kind of joints than those that are available in the documentation. Can i model my own basic joints?
+
+##### David Mansolino [cyberbotics] 06/05/2020 05:16:30
+We plan to add a new feature which will allow to link joint together and which might help you doing this ([https://github.com/cyberbotics/webots/issues/1365](https://github.com/cyberbotics/webots/issues/1365)).
+
+
+Hi `@hrsh12`, this is not possible directly, however you can combine several base joint to make such system.
+
+##### hrsh12 06/04/2020 21:23:54
+Hello everyone, could someone tell me if we can implement a rack and pinion system for steering in Car. For the jointsI'm trying to recreate a  steer-by-wire system. Thanks
+
 ##### David Mansolino [cyberbotics] 06/02/2020 10:51:52
 You're welcome
 
@@ -244,7 +447,6 @@ That's because you exported to HTML but you are not streaming the simulation.
 ![Screenshot_from_2020-05-22_20-57-46.png](https://cdn.discordapp.com/attachments/565155651395780609/713413087914491904/Screenshot_from_2020-05-22_20-57-46.png)
 %end
 
-
 ##### Olivier Michel [cyberbotics] 05/22/2020 14:27:44
 If your robots move in Webots, they should also move in the web view. Don't they?
 
@@ -265,7 +467,6 @@ I did a good install because I tried the "Human" file and it worked correctly
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/713174651731181749/unknown.png)
 %end
-
 
 
 But i have this error
@@ -602,7 +803,6 @@ Any advice about how to get the epuck moves randomly in this world
 %figure
 ![image0.jpg](https://cdn.discordapp.com/attachments/565155651395780609/702614779767947394/image0.jpg)
 %end
-
 
 ##### Dorteel 04/21/2020 09:13:59
 Thank you `@Stefania Pedrazzi` ! 🙂
@@ -1255,7 +1455,6 @@ your response will be highly appreciated !!
 ![image.png](https://cdn.discordapp.com/attachments/565155651395780609/662207440632414248/image.png)
 %end
 
-
 ## 2019
 
 ##### David Mansolino [cyberbotics] 12/10/2019 08:05:30
@@ -1439,7 +1638,6 @@ it sounds very correct to me.
 %end
 
 
-
 i have 2 robots and a rectangle arena . The robots are moving only in one linear direction  one behind the other and sometimes they are colliding . When i reset my robots to their initial position like this
 
 ##### Fabien Rohrer [Moderator] 11/13/2019 12:29:50
@@ -1477,7 +1675,6 @@ how can i make sure the wheels are not colliding the floor?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/641711950677409813/unknown.png)
 %end
-
 
 
 hello again , i resetphysics but some forces still applying after collision
@@ -1668,7 +1865,6 @@ Does webots include this marine robots, exact this one? I can find salamander cl
 ![FluidRobot.png](https://cdn.discordapp.com/attachments/565155651395780609/626228320996032512/FluidRobot.png)
 %end
 
-
 ##### Stefania Pedrazzi [cyberbotics] 09/16/2019 06:11:06
 You can find another example in samples/howto/omni\_wheels.wbt simulation:  [https://www.cyberbotics.com/doc/guide/samples-howto#omni\_wheels-wbt](https://www.cyberbotics.com/doc/guide/samples-howto#omni_wheels-wbt). In this case the wheel is simulated using two layers of joints and cylinders.
 
@@ -1724,7 +1920,6 @@ sumo ? what do  you mean ?
 
 
 > **Attachment**: [city\_2.mp4](https://cdn.discordapp.com/attachments/565155651395780609/613680130568617984/city_2.mp4)
-
 
 ##### BlackPearl 08/21/2019 10:24:53
 `@Fabien Rohrer` one minute. We are restarting everything again
@@ -1791,7 +1986,6 @@ ok, this is certainly the issue
 %figure
 ![image0.png](https://cdn.discordapp.com/attachments/565155651395780609/613673091335323648/image0.png)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 08/21/2019 09:56:07
 not sure. could you give us more precisely your Java version (`java -version`)? It is supposed to be `1.8`. Does it matches with your `javac -version`?
@@ -1878,12 +2072,10 @@ Hi
 %end
 
 
-
 I think we found a Bug?
 %figure
 ![image0.jpg](https://cdn.discordapp.com/attachments/565155651395780609/590825780716634132/image0.jpg)
 %end
-
 
 ##### David Mansolino [cyberbotics] 06/12/2019 15:52:00
 Thank you
@@ -1949,11 +2141,9 @@ see difference far 0 (default) vs. far 1
 
 
 
-
 %figure
 ![webotsVR02.png](https://cdn.discordapp.com/attachments/565155651395780609/588391019444174858/webotsVR02.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 06/12/2019 15:32:14
 > the good news: you can simulate the behaviour without a vive, right?
@@ -2037,7 +2227,6 @@ Can you see the handle in the headset too?
 %figure
 ![webotsVR01.png](https://cdn.discordapp.com/attachments/565155651395780609/588384559884926987/webotsVR01.png)
 %end
-
 
 
 interessting: when i click on some objects in the treeview, the coordinate systems are shown in the vive
@@ -2337,7 +2526,6 @@ The robot model is encapsulated in a PROTO node. The Robots are linked with Conn
 %figure
 ![tractor-trailer.JPG](https://cdn.discordapp.com/attachments/565155651395780609/585374436270800906/tractor-trailer.JPG)
 %end
-
 
 ##### Fabien Rohrer [Moderator] 06/04/2019 07:48:04
 [https://cyberbotics.com/doc/guide/yamor](https://cyberbotics.com/doc/guide/yamor)

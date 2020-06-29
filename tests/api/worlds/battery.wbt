@@ -26,9 +26,9 @@ Robot {
       }
       device [
         RotationalMotor {
+          consumptionFactor 100
           maxVelocity 20
           maxTorque 30
-          consumptionFactor 100
         }
         PositionSensor {
         }
@@ -116,9 +116,17 @@ Robot {
   }
   controller "battery"
   battery [
-    600 36000 5
+    600, 36000, 5
   ]
   cpuConsumption 5
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot(1)"
+  controller "battery_empty"
 }
 TestSuiteSupervisor {
 }

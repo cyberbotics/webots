@@ -4,6 +4,63 @@ This is an archive of the `documentation` channel of the [Webots Discord server]
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 06/17/2020 09:42:18
+You're welcome
+
+##### ana.dospinescu 06/17/2020 09:41:50
+`@David Mansolino` Thank you!
+
+##### David Mansolino [cyberbotics] 06/17/2020 05:26:17
+Hi, in R2020a, you should instead use the right and left motor instead.
+
+```
+wb_differential_wheels_set_speed
+```
+
+Becomes something like:
+
+```
+  WbDeviceTag left_motor = wb_robot_get_device("left wheel motor");
+  WbDeviceTag right_motor = wb_robot_get_device("right wheel motor");
+  wb_motor_set_position(left_motor, INFINITY);
+  wb_motor_set_position(right_motor, INFINITY);
+  wb_motor_set_velocity(left_motor, 0.0);
+  wb_motor_set_velocity(right_motor, 0.0);
+```
+
+And for the encoders, you should use instead the position sensors:
+
+```
+// get a handler to the position sensors and enable them.
+WbDeviceTag left_position_sensor = wb_robot_get_device("left wheel sensor");
+WbDeviceTag right_position_sensor = wb_robot_get_device("right wheel sensor");
+wb_position_sensor_enable(left_position_sensor, TIME_STEP);
+wb_position_sensor_enable(right_position_sensor, TIME_STEP);
+double left_encoder_value = wb_position_sensor_get_value(left_position_sensor);
+double right_encoder_value = wb_position_sensor_get_value(right_position_sensor);
+```
+
+##### ana.dospinescu 06/16/2020 20:17:02
+Hello!
+
+Can somenone help me with the equivalent of functions in Webots R2020a version for:
+
+wb\_differential\_wheels\_set\_speed
+
+wb\_differential\_wheels\_enable\_encoders
+
+wb\_differential\_wheels\_set\_encoders
+
+##### Olivier Michel [cyberbotics] 06/08/2020 06:20:06
+`@Nitish Gadangi`: Sure I will.
+
+##### Nitish Gadangi 06/06/2020 18:47:41
+Hello `@Olivier Michel` , This is regarding Season Of Docs 2020
+
+I have mailed you the details about me and few doubts about the idea I am interested in.
+
+Could you please check that out and ping me back
+
 ##### David Mansolino [cyberbotics] 05/20/2020 05:37:11
 You're welcome
 
@@ -114,7 +171,6 @@ hi ! why setBrakeIntensity(0)  causes this warning ? How can I solve it ?
 %figure
 ![Untitled.png](https://cdn.discordapp.com/attachments/565155720933146637/710038699077009408/Untitled.png)
 %end
-
 
 ##### chaytanya 05/13/2020 06:46:52
 Sure `@Olivier Michel`
@@ -305,7 +361,6 @@ May I ask something? I'm trying to change width of road lines for the making lan
 ![road.png](https://cdn.discordapp.com/attachments/565155720933146637/701363563998085170/road.png)
 %end
 
-
 ##### ClBaze 04/16/2020 13:04:43
 kinetic
 
@@ -447,7 +502,7 @@ Hi! Is there any example project for object recognition from camera data? I read
 ##### Olivier Michel [cyberbotics] 02/11/2020 11:06:26
 Yes, you should use `getMotor` instead.
 
-##### Ptosidis_opendr 02/11/2020 11:05:17
+##### Ptosidis\_opendr 02/11/2020 11:05:17
 nvm it's a Motor, getMotor works fine
 
 
@@ -466,13 +521,13 @@ should translate to
 ##### Stefania Pedrazzi [cyberbotics] 02/11/2020 10:08:36
 No problem!
 
-##### Ptosidis_opendr 02/11/2020 10:07:43
+##### Ptosidis\_opendr 02/11/2020 10:07:43
 Hey Stefania, thank you for your fast reply! I might bombard you with question in the near future, so please be patient with me 🙂
 
 ##### Stefania Pedrazzi [cyberbotics] 02/11/2020 10:06:22
 Hi `@Ptosidis_opendr` in Python controller you should use the method `robot.getCamera('camera roll')` [https://www.cyberbotics.com/doc/reference/robot?tab-language=python#getcamera](https://www.cyberbotics.com/doc/reference/robot?tab-language=python#getcamera)
 
-##### Ptosidis_opendr 02/11/2020 10:04:16
+##### Ptosidis\_opendr 02/11/2020 10:04:16
 Hello, I am trying to convert the mavic2pro controller to python so I can run some experiments with it. (Just starting my webots interaction, so it might be a newbie question). 
 
 I got the following problem: can't seem to find the camera roll device. I tried by camera\_roll\_motor = robot.getDevice('camera roll') but it doesn't seem to work. 
@@ -760,7 +815,6 @@ Maybe this options is not available any more?
 ![Screen_Shot_2019-10-28_at_6.22.02_PM.png](https://cdn.discordapp.com/attachments/565155720933146637/638428024743657522/Screen_Shot_2019-10-28_at_6.22.02_PM.png)
 %end
 
-
 ##### Stefania Pedrazzi [cyberbotics] 10/28/2019 07:18:31
 and you can find a simple example in the distributed samples folder `projects/samples/devices/worlds/track.wbt`
 
@@ -1041,7 +1095,6 @@ hi, how can i use or download the khepera 4 presentation in the photo to use it 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/594221742008827921/unknown.png)
 %end
-
 
 ##### David Mansolino [cyberbotics] 06/12/2019 06:34:10
 Hi `@TH0` and `@AnnaLefay`, please feel free to report them directly on our Github repository as a new issue: [https://github.com/omichel/webots/issues](https://github.com/omichel/webots/issues)

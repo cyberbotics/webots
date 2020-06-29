@@ -37,7 +37,7 @@ An object can be semi-transparent either if its texture has an alpha channel, or
 The value is limited to the range 0 to &pi; radians if the `spherical` field is set to FALSE, otherwise there is no upper limit.
 Since range-finder pixels are squares, the vertical field of view can be computed from the `width`, `height` and horizontal `fieldOfView`:
 
-    *vertical FOV = fieldOfView * height / width*
+    *vertical FOV = 2 * atan(tan(fieldOfView * 0.5) * (height / width))*
 
 - `width`: width of the image in pixels
 

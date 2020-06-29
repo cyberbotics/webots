@@ -109,7 +109,7 @@ void WbRobot::init() {
 
   mJoystickConfigureRequest = false;
 
-  mPreviousTime = 0.0;
+  mPreviousTime = -1.0;
   mKinematicDifferentialWheels = NULL;
 
   mMessageFromWwi = NULL;
@@ -211,6 +211,7 @@ void WbRobot::postFinalize() {
 
 void WbRobot::reset() {
   WbSolid::reset();
+  mPreviousTime = -1.0;
   // restore battery level
   if (mBatteryInitialValue > 0)
     mBattery->setItem(CURRENT_ENERGY, mBatteryInitialValue);
@@ -790,6 +791,8 @@ void WbRobot::handleMessage(QDataStream &stream) {
       short rate;
       stream >> rate;
       mBatterySensor->setRefreshRate(rate);
+      if (mBattery->isEmpty())
+        warn(tr("'wb_robot_battery_sensor_enable' called while the 'battery' field is empty."));
       return;
     }
     case C_ROBOT_SET_DATA: {
@@ -981,12 +984,12 @@ void WbRobot::dispatchAnswer(QDataStream &stream, bool includeDevices) {
       }
     }
   } else {
+    writeAnswer(stream);
     if (includeDevices) {
       foreach (WbDevice *const device, mDevices)
         if (device->hasTag())
           device->writeAnswer(stream);
     }
-    writeAnswer(stream);
   }
 }
 
@@ -1009,7 +1012,7 @@ void WbRobot::writeAnswer(QDataStream &stream) {
   if (refreshBatterySensorIfNeeded() || mBatterySensor->hasPendingValue()) {
     stream << (short unsigned int)0;
     stream << (unsigned char)C_ROBOT_BATTERY_VALUE;
-    stream << (double)mBattery->item(CURRENT_ENERGY);
+    stream << (double)currentEnergy();
     mBatterySensor->resetPendingValue();
   }
 

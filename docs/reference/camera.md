@@ -36,7 +36,7 @@ Depending on its setup, the Camera node can model a linear camera, a typical RGB
 The value is limited to the range 0 to &pi; radians if the `spherical` field is set to FALSE, otherwise there is no upper limit.
 Since camera pixels are squares, the vertical field of view can be computed from the `width`, `height` and horizontal `fieldOfView`:
 
-    *vertical FOV = fieldOfView * height / width*
+    *vertical FOV = 2 * atan(tan(fieldOfView * 0.5) * (height / width))*
 
 - `width`: width of the image in pixels.
 
@@ -144,7 +144,7 @@ In comparison with the frustum description above, the near and the far planes ar
 
 ### Noise
 
-It is possible to add quickly a white noise on the cameras by using the `noise` field.
+It is possible to quickly add some noise on the cameras by using the `noise` field.
 A value of `0.0` corresponds to an image without noise.
 For each channel of the image and at each camera refresh, a gaussian noise is computed and added to the channel.
 This gaussian noise has a standard deviation corresponding to the noise field times the channel range.

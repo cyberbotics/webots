@@ -75,15 +75,19 @@ int main(int argc, char *argv[]) {
     strcat(command_line, argv[i]);
   }
 
-  // add "WEBOTS_HOME/msys64/mingw64/bin" and "WEBOTS_HOME/msys64/usr/bin" to the PATH environment variable
+  // add "WEBOTS_HOME/msys64/mingw64/bin", "WEBOTS_HOME/msys64/mingw64/bin/cpp" and "WEBOTS_HOME/msys64/usr/bin" to the PATH
+  // environment variable
   char *old_path = malloc(LENGTH);
   char *new_path = malloc(LENGTH);
 
   strcpy(new_path, module_path);
   new_path[l0 - 11] = ';';  // removes "\webots.exe" or "\webotsw.exe"
   strcpy(&new_path[l0 - 10], module_path);
+  new_path[2 * l0 - 21] = '\0';
+  strcat(new_path, "\\cpp;");
+  strcat(new_path, module_path);
   free(module_path);
-  new_path[2 * l0 - 32] = '\0';  // add the final '\0'
+  new_path[3 * l0 - 38] = '\0';
   strcat(new_path, "usr\\bin;");
   if (!GetEnvironmentVariable("PATH", old_path, LENGTH))
     fail("GetEnvironmentVariable", 0);
