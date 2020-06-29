@@ -66,7 +66,7 @@ This choice is arbitrary, but a solution is often much easier to implement.
 For example, in the case of a humanoid robot, the robot node would be typically the robot chest, because the robot symmetry facilitates the computation of the joint parameters.
 
 In our case, the body box is obviously the better choice.
-The [figure](#high-level-representation-of-the-4-wheels-robot) depicts the solid nodes hierarchy of the robot.
+The [figure](#high-level-representation-of-the-4-wheeled-robot) depicts the solid nodes hierarchy of the robot.
 
 > **Hands on #2**: At the end of the scene tree, add a [Robot](../reference/robot.md) node having four [HingeJoint](../reference/hingejoint.md) nodes having a [Solid](../reference/solid.md) node as `endPoint`.
 Please refer to [this figure](#high-level-representation-of-the-4-wheeled-robot).
