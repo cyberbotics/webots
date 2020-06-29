@@ -136,7 +136,7 @@ Some signs obviously have to be updated for other wheels.
 
 Now, let's implement the cylinder shape of the wheels.
 
-> **Hands on #4**: Complete the missing nodes to get the same structure as the one depicted in [this figure](#low-level-representation-of-the-4-wheels-robot).
+> **Hands on #4**: Complete the missing nodes to get the same structure as the one depicted in [this figure](#low-level-representation-of-the-4-wheeled-robot).
 Don't forget the [Physics](../reference/physics.md) nodes.
 
 For each [HingeJoint](../reference/hingejoint.md), there are three fields in which nodes need to be added.
