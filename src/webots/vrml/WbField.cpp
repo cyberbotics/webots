@@ -101,11 +101,6 @@ void WbField::readValue(WbTokenizer *tokenizer, const QString &worldPath) {
 }
 
 void WbField::write(WbVrmlWriter &writer) const {
-  if (!alias().isEmpty() && writer.isWebots() && !writer.isProto()) {
-    writer.indent();
-    writer << name() << " IS " << alias() << "\n";
-    return;
-  }
   if (isDefault())
     return;
   if (writer.isX3d())
