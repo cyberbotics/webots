@@ -21,6 +21,8 @@ Referring to the [Joint](joint.md) closest upper [Solid](solid.md) node or to a 
 
 The [SolidReference](solidreference.md) node is particularly useful to create closed mechanical loops, here is a very simple example:
 
+The [SolidReference](solidreference.md) node is particularly useful to create closed mechanical loops, here is a very simple example:
+
 ```
 HingeJoint {
   jointParameters HingeJointParameters {
