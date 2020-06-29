@@ -19,13 +19,23 @@ Referring to the [Joint](joint.md) closest upper [Solid](solid.md) node or to a 
 
 ### Mechanical Loop Example
 
+The [SolidReference](solidreference.md) node is particularly useful to create closed mechanical loops, here is a very simple example:
+
 ```
- DEF FRONT_AXLE_HINGE HingeJoint {
-   jointParameters HingeJointParameters {
-     anchor -0.08 -0.038 -0.11
-   }
-   endPoint SolidReference {
-     solidName "front axle"
-   }
- }
+HingeJoint {
+  jointParameters HingeJointParameters {
+    anchor 0 0 1
+  }
+  endPoint Solid {
+    name "front axle"
+  }
+}
+HingeJoint {
+  jointParameters HingeJointParameters {
+    anchor 0 0 -1
+  }
+  endPoint SolidReference {
+    solidName "front axle"
+  }
+}
 ```
