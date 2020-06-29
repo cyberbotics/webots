@@ -387,8 +387,8 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
 
   // aliasing error reports are based on the header, so the error offset has no sense here
   tokenizer.setErrorOffset(0);
-  if (!isTemplate())
-    verifyAliasing(root, &tokenizer);
+
+  verifyAliasing(root, &tokenizer);
 
   if (mTemplate) {
     root->setProtoInstanceTemplateContent(content.toUtf8());
@@ -497,7 +497,7 @@ void WbProtoModel::verifyAliasing(WbNode *root, WbTokenizer *tokenizer) const {
       continue;
     bool ok = false;
     verifyNodeAliasing(root, param, tokenizer, isDerived(), ok);
-    if (!ok)
+    if (!isTemplate() && !ok)
       tokenizer->reportError(tr("PROTO parameter '%1' has no matching IS field").arg(param->name()), param->nameToken());
   }
 }
