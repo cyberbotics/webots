@@ -165,9 +165,9 @@ As already says in [Tutorial 3](tutorial-3-appearance.md), the distance sensor r
 
 > **Hands on #5**: Add the two distance sensors as explained above.
 The distance sensors are at an angle to 0.3 [rad] with the front vector of the robot.
-Set thei graphical and physical shape to a cube (not transformed) having a edge of `0.01` [m].
-Set thei color to blue.
-Set thei `name` field according to the labels of [this figure](#top-view-of-the-4-wheeled-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-device).
+Set the graphical and physical shape to a cube (not transformed) having a edge of `0.01` [m].
+Set the color to blue.
+Set the `name` field according to the labels of [this figure](#top-view-of-the-4-wheeled-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-device).
 
 %spoiler "**Tips**: How to precisely orient distance sensors?"
 
