@@ -2,7 +2,7 @@
 
 This tutorial aims at creating your first robot from scratch.
 The robot will consist of a body, four wheels, and two distance sensors.
-The result is depicted in [this figure](#3d-view-representation-of-the-4-wheeled-robot-note-that-the-coordinate-system-representations-of-the-robot-body-and-its-wheels-are-oriented-the-same-way-the-px-vector-in-red-defines-the-left-of-the-robot-the-y-vector-in-green-defines-the-top-of-the-robot-and-their-z-vector-in-blue-defines-the-front-of-the-robot-the-distance-sensors-are-oriented-differently-their-x-vector-indicates-the-direction-of-the-sensor).
+The result is depicted in [this figure](#3d-view-representation-of-the-4-wheeled-robot-note-that-the-coordinate-system-representations-of-the-robot-body-and-its-wheels-are-oriented-the-same-way-the-px-vector-in-red-defines-the-left-of-the-robot-the-py-vector-in-green-defines-the-top-of-the-robot-and-their-pz-vector-in-blue-defines-the-front-of-the-robot-the-distance-sensors-are-oriented-differently-their-px-vector-indicates-the-direction-of-the-sensor).
 The [next figure](#top-view-of-the-4-wheeled-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-device) shows the top view of the robot.
 
 %figure "3D view representation of the 4 wheeled robot. Note that the coordinate system representations of the robot body and its wheels are oriented the same way. The +x-vector (in red) defines the left of the robot, the +y-vector (in green) defines the top of the robot, and their +z-vector (in blue) defines the front of the robot. The distance sensors are oriented differently, their +x-vector indicates the direction of the sensor."
