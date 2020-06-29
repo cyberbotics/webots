@@ -35,8 +35,9 @@ Released on XXX.
     - Deprecated the following appearances: `ChequeredParquetry`, `DarkParquetry`, `SlatePavement`, `SquarePavement` and `StonePavement`.
     - Removed automatic path to Qt libraries for controllers using deprecated Qt robot windows. Such paths should now be specified in `runtime.ini` instead.
   - Bug fixes
-    - Fixed crash occuring when setting a 3D coordinate to a huge value (greater than 1e+151).
-    - Fixed crash occuring when Webots was streaming a 3D scene and some object was inserted into a PROTO node.
+    - Fixed rendering of Track and Muscle nodes when the main window was minimized.
+    - Fixed crash occurring when setting a 3D coordinate to a huge value (greater than 1e+151).
+    - Fixed crash occurring when Webots was streaming a 3D scene and some object was inserted into a PROTO node.
     - Fixed the restoration of the 3D view which was sometimes not re-appearing after being hidden.
     - Windows: Fixed JPEG texture errors when typing `webots` from a DOS console (`cmd.exe`) by renaming `webots.exe` to `webots-bin.exe` and creating two launchers named `webotsw.exe` and `webots.exe`.
     - Fixed the physics behavior of [Connector](connector.md) nodes sometimes remaining idle after being detached from each other (thanks to Giorgio).

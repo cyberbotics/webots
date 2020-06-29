@@ -215,16 +215,16 @@ namespace wren {
     // debug::printCacheContents();
     // debug::printSceneTree();
 
-    DEBUG("Notify frame listeners...");
-
-    for (auto listener : mListeners)
-      listener();
-
     renderToViewports({mMainViewport}, culling);
   }
 
   void Scene::renderToViewports(std::vector<Viewport *> viewports, bool culling) {
     assert(glstate::isInitialized());
+
+    DEBUG("Notify frame listeners...");
+
+    for (auto listener : mListeners)
+      listener();
 
     DEBUG("\nScene::renderToViewports: viewports.size()=" << viewports.size());
 
