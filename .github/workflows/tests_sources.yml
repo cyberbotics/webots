@@ -24,14 +24,16 @@ jobs:
           - os: macos-10.15
             DEPENDENCIES_INSTALLATION: "brew install clang-format cppcheck"
     runs-on: ${{ matrix.os }}
-    if: matrix.os == 'macOS-10.14' || github.event.pull_request.draft == false
     steps:
     - uses: actions/checkout@v2
+      if: matrix.os == 'macOS-10.14' || github.event.pull_request.draft == false
     - name: Set up Python ${{ matrix.python }}
+      if: matrix.os == 'macOS-10.14' || github.event.pull_request.draft == false
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python }}
     - name: Tests
+      if: matrix.os == 'macOS-10.14' || github.event.pull_request.draft == false
       run: |
         ${{ matrix.DEPENDENCIES_INSTALLATION }}
         cp dependencies/.clang-format-9 .clang-format
