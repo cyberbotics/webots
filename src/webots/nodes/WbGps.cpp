@@ -301,6 +301,14 @@ bool WbGps::refreshSensorIfNeeded() {
     mMeasuredPosition[0] = mUTMConverter->getLatitude();
     mMeasuredPosition[1] = mUTMConverter->getLongitude();
     mMeasuredPosition[2] = altitude;
+
+    // if we are using 'WGS84' coordinate system with a "ENU" coordinate system, we need to swap coordinates
+    if (WbWorld::instance()->worldInfo()->coordinateSystem() == "ENU") {
+      const double tmp = mMeasuredPosition[0];
+      mMeasuredPosition[0] = mMeasuredPosition[2];
+      mMeasuredPosition[2] = mMeasuredPosition[1];
+      mMeasuredPosition[1] = tmp;
+    }
   }
 
   // compute current speed [m/s]
