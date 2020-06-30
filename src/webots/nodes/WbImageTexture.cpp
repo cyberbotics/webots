@@ -217,7 +217,7 @@ void WbImageTexture::updateRepeatT() {
 }
 
 void WbImageTexture::updateFiltering() {
-  if (resetIntIfNotInRangeWithIncludedBounds(this, mFiltering, 0, 5, 4);
+  if (resetIntIfNotInRangeWithIncludedBounds(this, mFiltering, 0, 5, 4))
     return;
 
   // The filtering level has an upper bound defined by the maximum supported anisotropy level.
