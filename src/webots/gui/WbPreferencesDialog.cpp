@@ -353,7 +353,7 @@ QWidget *WbPreferencesDialog::createOpenGLTab() {
 
   // row 2
   mTextureFilteringCombo = new QComboBox(this);
-  for (int i = 0; i < 5; ++i)
+  for (int i = 0; i < 6; ++i)
     mTextureFilteringCombo->addItem(QString::number(i));
   layout->addWidget(new QLabel(tr("Max Texture Filtering:"), this), 2, 0);
   layout->addWidget(mTextureFilteringCombo, 2, 1, Qt::AlignLeft);
