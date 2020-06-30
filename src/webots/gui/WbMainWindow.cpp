@@ -1155,12 +1155,15 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
     perspective->clearEnabledOptionalRenderings();
     perspective->clearRenderingDevicesPerspectiveList();
   }
-  perspective->setMainWindowState(saveState());
-  perspective->setMinimizedState(mMinimizedDockState);
-  const int id = mDockWidgets.indexOf(mMaximizedWidget);
-  perspective->setMaximizedDockId(id);
-  perspective->setCentralWidgetVisible(mSimulationView->isVisible());
-  perspective->setSimulationViewState(mSimulationView->saveState());
+  if (qgetenv("WEBOTS_DISABLE_SAVE_PERSPECTIVE_ONLY_ON_CLOSE").isEmpty()) {
+    perspective->setMainWindowState(saveState());
+    perspective->setMinimizedState(mMinimizedDockState);
+    const int id = mDockWidgets.indexOf(mMaximizedWidget);
+    perspective->setMaximizedDockId(id);
+    perspective->setCentralWidgetVisible(mSimulationView->isVisible());
+    perspective->setSimulationViewState(mSimulationView->saveState());
+  }
+
   if (mTextEditor) {
     perspective->setFilesList(mTextEditor->openFiles());
     perspective->setSelectedTab(mTextEditor->selectedTab());
