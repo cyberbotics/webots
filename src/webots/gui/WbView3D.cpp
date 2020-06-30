@@ -1307,7 +1307,7 @@ void WbView3D::checkRendererCapabilities() {
 
   if (maxTextureFiltering < WbPreferences::instance()->value("OpenGL/textureFiltering").toInt()) {
     message += "\n - ";
-    message += tr("Texture maximum filtering has been reduced.");
+    message += tr("Texture maximum filtering has been reduced due to GPU limitations.");
     WbPreferences::instance()->setValue("OpenGL/textureFiltering", maxTextureFiltering);
   }
 
