@@ -53,7 +53,6 @@ public:
   // Texture features
   int width() const;
   int height() const;
-  int filtering() const;
 
   // external texture
   void setExternalTexture(WrTexture *texture, unsigned char *image, double ratioX, double ratioY);

@@ -326,10 +326,6 @@ int WbImageTexture::height() const {
   return 0;
 }
 
-int WbImageTexture::filtering() const {
-  return mFiltering->value();
-}
-
 void WbImageTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv) const {
   if (!mWrenTexture)
     return;
