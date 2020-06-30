@@ -44,7 +44,7 @@ Robot {
     }
     DEF ACC5 Slot {
       endPoint Slot {
-        endPoint  Accelerometer {
+        endPoint Accelerometer {
           name "acc5"
         }
       }
@@ -53,7 +53,7 @@ Robot {
       type "type with spaces"
       endPoint Slot {
         type "type with spaces"
-        endPoint  Accelerometer {
+        endPoint Accelerometer {
           name "acc6"
         }
       }
