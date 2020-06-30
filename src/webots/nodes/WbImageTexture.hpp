@@ -94,6 +94,7 @@ private:
 
   QString mContainerField;
   QImage *mImage;
+  int mUsedFiltering;
   bool mIsMainTextureTransparent;
   QString mRole;  // Role in a PBR appearance.
 
