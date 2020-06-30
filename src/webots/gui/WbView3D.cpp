@@ -1212,6 +1212,7 @@ void WbView3D::checkRendererCapabilities() {
   bool disableAntiAliasing = false;
   bool disableGTAO = false;
   int reduceTextureQuality = 0;
+  int maxTextureFiltering = 1;
 
   // 2. determine what has to be reduced
   if (!mWrenRenderingContext->isNvidiaRenderer() && !mWrenRenderingContext->isAmdRenderer() &&
@@ -1257,6 +1258,11 @@ void WbView3D::checkRendererCapabilities() {
   }
 #endif
 
+  int maxHardwareAfLevel = wr_gl_state_max_texture_anisotropy();
+  // Find integer log2 of maxHardwareAfLevel to transcribe to user filtering level
+  while (maxHardwareAfLevel >>= 1)
+    ++maxTextureFiltering;
+
   // check GPU memory (not for Intel GPU, because the texture size has no impact on the rendring speed)
   if (mWrenRenderingContext->isNvidiaRenderer() || mWrenRenderingContext->isAmdRenderer()) {
     if (wr_gl_state_get_gpu_memory() == 2097152)
@@ -1297,6 +1303,12 @@ void WbView3D::checkRendererCapabilities() {
     message += "\n - ";
     message += tr("Texture quality has been reduced.");
     WbPreferences::instance()->setValue("OpenGL/textureQuality", 2 - reduceTextureQuality);
+  }
+
+  if (maxTextureFiltering < WbPreferences::instance()->value("OpenGL/textureFiltering").toInt()) {
+    message += "\n - ";
+    message += tr("Texture maximum filtering has been reduced.");
+    WbPreferences::instance()->setValue("OpenGL/textureFiltering", maxTextureFiltering);
   }
 
   // 4. check OpenGL capabilities.

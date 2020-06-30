@@ -220,16 +220,11 @@ void WbImageTexture::updateFiltering() {
   if (WbFieldChecker::resetIntIfNegative(this, mFiltering, 0))
     return;
 
-  int maxHardwareAfLevel = wr_gl_state_max_texture_anisotropy();
-  int maxFiltering = 1;
-  // Find integer log2 of maxHardwareAfLevel to transcribe to user filtering level
-  while (maxHardwareAfLevel >>= 1)
-    ++maxFiltering;
   // The filtering level has an upper bound defined by the maximum supported anisotropy level.
   // A warning is not produced here because the maximum anisotropy level is not up to the user
   // and may be repeatedly shown even though a minimum requirement warning was already given.
-  int filtering = mFiltering->value();
-  if (filtering > maxFiltering) {
+  const int maxFiltering = WbPreferences::instance()->value("OpenGL/textureFiltering").toInt();
+  if (mFiltering->value() > maxFiltering) {
     mFiltering->blockSignals(true);
     mFiltering->setValue(std::min(4, maxFiltering));
     mFiltering->blockSignals(false);

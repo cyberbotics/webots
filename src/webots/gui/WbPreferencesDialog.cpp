@@ -93,6 +93,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   // openGL tab
   mAmbientOcclusionCombo->setCurrentIndex(prefs->value("OpenGL/GTAO", 2).toInt());
   mTextureQualityCombo->setCurrentIndex(prefs->value("OpenGL/textureQuality", 2).toInt());
+  mTextureFilteringCombo->setCurrentIndex(prefs->value("OpenGL/textureFiltering", 4).toInt());
 
   mDisableShadowsCheckBox->setChecked(prefs->value("OpenGL/disableShadows").toBool());
   mDisableAntiAliasingCheckBox->setChecked(prefs->value("OpenGL/disableAntiAliasing").toBool());
@@ -127,6 +128,9 @@ void WbPreferencesDialog::accept() {
   }
   if (!willRestart && prefs->value("OpenGL/textureQuality", 2).toInt() != mTextureQualityCombo->currentIndex())
     WbMessageBox::info(tr("The new texture quality will be applied next time the world is loaded."), this);
+  // TODO: this can probably be set automatically without restart
+  if (!willRestart && prefs->value("OpenGL/textureFiltering", 4).toInt() != mTextureFilteringCombo->currentIndex())
+    WbMessageBox::info(tr("The new texture filtering will be applied next time the world is loaded."), this);
   // Inform the user about possible issues with multi-threading
   if (mNumberOfThreadsCombo->currentIndex() + 1 != mNumberOfThreads && mNumberOfThreadsCombo->currentIndex() != 0)
     WbMessageBox::warning(
@@ -151,6 +155,7 @@ void WbPreferencesDialog::accept() {
   // openGL
   prefs->setValue("OpenGL/GTAO", mAmbientOcclusionCombo->currentIndex());
   prefs->setValue("OpenGL/textureQuality", mTextureQualityCombo->currentIndex());
+  prefs->setValue("OpenGL/textureFiltering", mTextureFilteringCombo->currentIndex());
   prefs->setValue("OpenGL/disableShadows", mDisableShadowsCheckBox->isChecked());
   prefs->setValue("OpenGL/disableAntiAliasing", mDisableAntiAliasingCheckBox->isChecked());
 
@@ -347,13 +352,23 @@ QWidget *WbPreferencesDialog::createOpenGLTab() {
   layout->addWidget(mTextureQualityCombo, 1, 1, Qt::AlignLeft);
 
   // row 2
-  layout->addWidget(new QLabel(tr("Options:"), this), 2, 0);
-  mDisableShadowsCheckBox = new QCheckBox(tr("Disable shadows"), this);
-  layout->addWidget(mDisableShadowsCheckBox, 2, 1, Qt::AlignLeft);
+  mTextureFilteringCombo = new QComboBox(this);
+  mTextureFilteringCombo->addItem(tr("0"));
+  mTextureFilteringCombo->addItem(tr("1"));
+  mTextureFilteringCombo->addItem(tr("2"));
+  mTextureFilteringCombo->addItem(tr("3"));
+  mTextureFilteringCombo->addItem(tr("4"));
+  layout->addWidget(new QLabel(tr("Max Texture Filtering:"), this), 2, 0);
+  layout->addWidget(mTextureFilteringCombo, 2, 1, Qt::AlignLeft);
 
   // row 3
+  layout->addWidget(new QLabel(tr("Options:"), this), 3, 0);
+  mDisableShadowsCheckBox = new QCheckBox(tr("Disable shadows"), this);
+  layout->addWidget(mDisableShadowsCheckBox, 3, 1, Qt::AlignLeft);
+
+  // row 4
   mDisableAntiAliasingCheckBox = new QCheckBox(tr("Disable anti-aliasing"), this);
-  layout->addWidget(mDisableAntiAliasingCheckBox, 3, 1, Qt::AlignLeft);
+  layout->addWidget(mDisableAntiAliasingCheckBox, 4, 1, Qt::AlignLeft);
 
   return widget;
 }
