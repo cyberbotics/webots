@@ -31,7 +31,7 @@ Released on XXX.
   - Cleanup
     - **Specified `Robot.controllerArgs` as a `MFString` rather than a `SFString` ([#1718](https://github.com/cyberbotics/webots/pull/1718)).**
     - **Removed useless `wb_robot_get_controller_arguments()` and deprecated useless `wb_robot_get_controller_name()` API functions ([#1718](https://github.com/cyberbotics/webots/pull/1718)).**
-    - **Improved `WorldInfo`: `gravity` is now a single float value instead of a 3D vector and the `northDirection` field was replaced by a `coordinateSystem` field which can take either `"NUE"` (legacy Webots coordinate system) or `"ENU"` (ROS coordinate system) to define the gravity and cartesian directions ([#1643](https://github.com/cyberbotics/webots/pull/1643)).**
+    - **`WorldInfo.gravity` is now a single float value instead of a 3D vector and `WorldInfo.northDirection` was replaced `WorldInfo.coordinateSystem` which can take either `"NUE"` (legacy Webots coordinate system) or `"ENU"` (ROS coordinate system) to define the gravity and cartesian directions ([#1643](https://github.com/cyberbotics/webots/pull/1643)).**
 ## Webots R2020a Revision 2
 Released on XXX.
 
