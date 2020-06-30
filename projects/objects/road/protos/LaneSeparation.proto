@@ -281,7 +281,9 @@ PROTO LaneSeparation [
         %{ end }%
         bottom IS bottom
         roadBorderHeight IS roadBorderHeight
-        roadBorderWidth IS roadBorderWidth
+        roadBorderWidth [
+          %{= borderWidth }%
+        ]
         appearance IS appearance
         pavementAppearance IS pavementAppearance
         roadBoundingObject IS roadBoundingObject
