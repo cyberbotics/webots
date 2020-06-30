@@ -278,15 +278,6 @@ bool WbGps::refreshSensorIfNeeded() {
   for (int i = 0; i < 3; ++i)  // get exact position
     mMeasuredPosition[i] = t[i];
 
-  // if we are using 'WGS84' coordinate system with a coordinate system different from "NUE"
-  // we need to adapt the exact position
-  if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem() == "WGS84") {
-    if (WbWorld::instance()->worldInfo()->coordinateSystem() == "ENU") {
-      WbMatrix3 transformation(0, -1, 0, 1, 0, 0, 0, 0, 1);
-      mMeasuredPosition = mMeasuredPosition * transformation;
-    }
-  }
-
   for (int i = 0; i < 3; ++i) {
     // add the reference
     mMeasuredPosition[i] += reference[i];
