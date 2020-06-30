@@ -39,7 +39,7 @@ jobs:
     needs: build
     strategy:
       matrix:
-        test: [tests/test_suite.py, tests/manual_tests/update_all_worlds.py]
+        test: [tests/test_suite.py, src/packaging/update_all_worlds.py]
         include:
           - test: tests/test_suite.py
             POST_TASK: ""
