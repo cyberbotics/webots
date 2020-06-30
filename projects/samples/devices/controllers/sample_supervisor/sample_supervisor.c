@@ -21,7 +21,7 @@
 int main(int argc, char *argv[]) {
   WbNodeRef root, node;
   WbFieldRef children, field;
-  const double *gravity;
+  double gravity;
   double location[3] = {0.5, 0.3, 0.5};
   int n, i;
 
@@ -38,8 +38,8 @@ int main(int argc, char *argv[]) {
   printf("\n");
   node = wb_supervisor_field_get_mf_node(children, 0);
   field = wb_supervisor_node_get_field(node, "gravity");
-  gravity = wb_supervisor_field_get_sf_vec3f(field);
-  printf("WorldInfo.gravity = %g %g %g\n\n", gravity[0], gravity[1], gravity[2]);
+  gravity = wb_supervisor_field_get_sf_float(field);
+  printf("WorldInfo.gravity = %g\n\n", gravity);
   printf("Going to move the location of the PointLight in 8 seconds (simulation time)...\n");
   wb_robot_step(8000);                                 /* wait for 8 seconds */
   node = wb_supervisor_field_get_mf_node(children, 3); /* PointLight */

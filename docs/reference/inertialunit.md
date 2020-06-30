@@ -23,7 +23,7 @@ The positive *y*-axis must point to the [Robot](robot.md)'s up/top direction.
 If the [InertialUnit](#inertialunit) has this orientation, then the *roll*, *pitch* and *yaw* angles correspond to the usual automotive, aeronautics or spatial meaning.
 More precisely, the [InertialUnit](#inertialunit) measures the Tait-Bryan angles along *x*-axis (roll), *z*-axis (pitch) and *y*-axis (yaw).
 This convention is commonly referred to as the *x-z-y* extrinsic sequence; it corresponds to the composition of elemental rotations denoted by YZX.
-The reference frame is made of the unit vector giving the north direction, the opposite of the normalized gravity vector and their cross-product (see [WorldInfo](worldinfo.md) to customize this frame).
+The reference frame is made of the unit vector giving the north direction, the opposite of the normalized gravity vector and their cross-product (see [WorldInfo](worldinfo.md) to change the coordinate system).
 
 > **Note**: In a gimbal lock situation, i.e., when the pitch is -&pi;/2 or &pi;/2, the roll and the yaw are set to NaN (Not a Number).
 
@@ -173,7 +173,7 @@ The values are returned as an array of 3 components therefore only the indices 0
 Note that the indices 0, 1 and 2 return the *roll*, *pitch* and *yaw* angles respectively.
 
 The *roll* angle indicates the unit's rotation angle about its *x*-axis, in the interval [-&pi;,&pi;].
-The *roll* angle is zero when the [InertialUnit](#inertialunit) is horizontal, i.e., when its *y*-axis has the opposite direction of the gravity ([WorldInfo](worldinfo.md) defines the `gravity` vector).
+The *roll* angle is zero when the [InertialUnit](#inertialunit) is horizontal, i.e., when its *y*-axis has the opposite direction of the gravity ([WorldInfo](worldinfo.md) defines the coordinate system).
 
 The *pitch* angle indicates the unit's rotation angle about is *z*-axis, in the interval [-&pi;/2,&pi;/2].
 The *pitch* angle is zero when the [InertialUnit](#inertialunit) is horizontal, i.e., when its *y*-axis has the opposite direction of the gravity.
