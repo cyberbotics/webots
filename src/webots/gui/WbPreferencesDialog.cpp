@@ -128,9 +128,6 @@ void WbPreferencesDialog::accept() {
   }
   if (!willRestart && prefs->value("OpenGL/textureQuality", 2).toInt() != mTextureQualityCombo->currentIndex())
     WbMessageBox::info(tr("The new texture quality will be applied next time the world is loaded."), this);
-  // TODO: this can probably be set automatically without restart
-  if (!willRestart && prefs->value("OpenGL/textureFiltering", 4).toInt() != mTextureFilteringCombo->currentIndex())
-    WbMessageBox::info(tr("The new texture filtering will be applied next time the world is loaded."), this);
   // Inform the user about possible issues with multi-threading
   if (mNumberOfThreadsCombo->currentIndex() + 1 != mNumberOfThreads && mNumberOfThreadsCombo->currentIndex() != 0)
     WbMessageBox::warning(

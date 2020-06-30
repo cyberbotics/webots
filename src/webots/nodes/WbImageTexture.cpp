@@ -91,6 +91,7 @@ void WbImageTexture::postFinalize() {
   connect(mRepeatS, &WbSFBool::changed, this, &WbImageTexture::updateRepeatS);
   connect(mRepeatT, &WbSFBool::changed, this, &WbImageTexture::updateRepeatT);
   connect(mFiltering, &WbSFInt::changed, this, &WbImageTexture::updateFiltering);
+  connect(WbPreferences::instance(), &WbPreferences::changedByUser, this, &WbImageTexture::updateFiltering);
 
   if (!WbWorld::instance()->isLoading())
     emit changed();
