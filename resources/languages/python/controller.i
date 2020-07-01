@@ -718,6 +718,7 @@ using namespace std;
   static PyObject *rangeImageGetDepth(PyObject *im, int width, int x, int y) {
     if (!PyList_Check(im)) {
       PyErr_SetString(PyExc_TypeError, "in method 'RangeFinder_rangeImageGetDepth', argument 2 of type 'PyList'\n");
+      return NULL;
     }
     PyObject *value = PyList_GetItem(im, y * width + x);
     if (!PyFloat_Check(value)) {
