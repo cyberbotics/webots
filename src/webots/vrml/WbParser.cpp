@@ -26,6 +26,12 @@
 
 #include <cassert>
 
+static double cLegacyGravity = -1;
+
+double WbParser::legacyGravity() {
+  return cLegacyGravity;
+}
+
 WbParser::WbParser(WbTokenizer *tokenizer) : mTokenizer(tokenizer), mMode(NONE) {
 }
 
@@ -350,7 +356,15 @@ void WbParser::parseField(const WbNodeModel *nodeModel, const QString &worldPath
         WbProtoTemplateEngine::setCoordinateSystem(coordinateSystem);
       }
     } else if (mTokenizer->fileVersion() < WbVersion(2020, 1, 0) && fieldName == "gravity") {
-      reportError(QObject::tr("Found unsupported gravity value in WorldInfo, reverting to default value."));
+      const double x = nextWord().toDouble();
+      const double y = nextWord().toDouble();
+      const double z = peekWord().toDouble();
+      cLegacyGravity = sqrt(x * x + y * y + z * z);
+      reportError(QObject::tr("Found deprecated gravity vector (%1 %2 %3) in WorldInfo, using gravity vector length: %4")
+                    .arg(x)
+                    .arg(y)
+                    .arg(z)
+                    .arg(cLegacyGravity));
       mTokenizer->skipField(true);
       return;
     }

@@ -108,7 +108,6 @@ private:
   WbSFString *mTitle;
   WbSFString *mWindow;
   WbSFDouble *mGravity;
-  WbSFVector3 *mNorthDirection;  // deprecated in R2020b
   WbSFDouble *mCfm;
   WbSFDouble *mErp;
   WbSFString *mPhysics;

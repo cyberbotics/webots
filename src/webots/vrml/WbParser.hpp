@@ -54,6 +54,7 @@ public:
   // this is useful to skip in file PROTO definition for VRML import
   // prerequisite: the tokenizer must point to the "PROTO" keyword
   static void skipProtoDefinition(WbTokenizer *tokenizer);
+  static double legacyGravity();
 
 private:
   WbTokenizer *mTokenizer;

@@ -23,6 +23,7 @@
 #include "WbMFString.hpp"
 #include "WbMathsUtilities.hpp"
 #include "WbOdeContext.hpp"
+#include "WbParser.hpp"
 #include "WbPreferences.hpp"
 #include "WbProtoTemplateEngine.hpp"
 #include "WbReceiver.hpp"
@@ -48,10 +49,11 @@ void WbWorldInfo::init(const WbVersion *version) {
   mDefaultDamping = findSFNode("defaultDamping");
   mInkEvaporation = findSFDouble("inkEvaporation");
   mGravity = findSFDouble("gravity");
-  mNorthDirection = findSFVector3("northDirection");
   mCoordinateSystem = findSFString("coordinateSystem");
-  if (version && *version < WbVersion(2020, 1, 0, true))
+  if (version && *version < WbVersion(2020, 1, 0, true)) {
+    mGravity->setValue(WbParser::legacyGravity());
     mCoordinateSystem->setValue("NUE");  // default value for Webots < R2020b
+  }
   WbProtoTemplateEngine::setCoordinateSystem(mCoordinateSystem->value());
   mGpsCoordinateSystem = findSFString("gpsCoordinateSystem");
   mGpsReference = findSFVector3("gpsReference");
