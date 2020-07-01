@@ -76,10 +76,12 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     field_set_vec2f.srv
     field_set_vec3f.srv
     get_bool.srv
+    get_float_array.srv
     get_float.srv
     get_int.srv
     get_string.srv
     get_uint64.srv
+    get_urdf.srv
     gps_decimal_degrees_to_degrees_minutes_seconds.srv
     lidar_get_frequency_info.srv
     lidar_get_info.srv

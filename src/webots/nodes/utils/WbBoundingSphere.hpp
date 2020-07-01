@@ -115,7 +115,7 @@ public:
 private:
   WbVector3 mCenter;
   double mRadius;
-  WbBoundingSphere *mParent;
+  WbBoundingSphere *mParentBoundingSphere;
   QList<WbBoundingSphere *> mSubBoundingSpheres;
   const WbBaseNode *mOwner;
   const WbGeometry *mGeomOwner;
@@ -138,7 +138,7 @@ private:
   double radiusInParentCoordinates();
   const WbVector3 &centerInParentCoordinates();
   void parentUpdateNotification() const;
-  void setParent(WbBoundingSphere *parent) { mParent = parent; }
+  void setParentBoundingSphere(WbBoundingSphere *parent) { mParentBoundingSphere = parent; }
 
   // setOwner doesn't work correctly if called from the 'node' constructors
   // because of dynamic_cast

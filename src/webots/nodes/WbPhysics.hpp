@@ -77,6 +77,9 @@ signals:
   void dampingChanged();
   void modeSwitched();
 
+protected:
+  bool exportNodeHeader(WbVrmlWriter &writer) const override;
+
 private:
   // user accessible fields
   WbSFDouble *mDensity;

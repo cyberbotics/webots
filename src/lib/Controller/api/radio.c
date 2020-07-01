@@ -242,7 +242,7 @@ void wb_radio_enable(WbDeviceTag tag, int sampling_period) {
     radio->enable = true;
     radio->sampling_period = sampling_period;
   } else
-    fprintf(stderr, "Error: wb_radio_enable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -251,7 +251,7 @@ void wb_radio_disable(WbDeviceTag tag) {
   if (d)
     wb_radio_enable(tag, 0);
   else
-    fprintf(stderr, "Error: wb_radio_disable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 WbRadioMessage wb_radio_message_new(int length, const char *body, const char *destination) {
@@ -291,7 +291,7 @@ const char *wb_radio_message_get_body(WbRadioMessage msg) {
 
 void wb_radio_set_address(WbDeviceTag tag, const char *address) {
   if (address == NULL) {
-    fprintf(stderr, "Error: wb_radio_set_address(): invalid NULL argument.\n");
+    fprintf(stderr, "Error: %s(): invalid NULL argument.\n", __FUNCTION__);
     return;
   }
 
@@ -302,7 +302,7 @@ void wb_radio_set_address(WbDeviceTag tag, const char *address) {
     strcpy(radio->address, address);
     radio->set_address = true;
   } else
-    fprintf(stderr, "Error: wb_radio_set_address(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 const char *wb_radio_get_address(WbDeviceTag tag) {
@@ -310,13 +310,13 @@ const char *wb_radio_get_address(WbDeviceTag tag) {
   if (radio)
     return radio->address;
 
-  fprintf(stderr, "Error: wb_radio_get_address(): invalid device tag.\n");
+  fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return NULL;
 }
 
 void wb_radio_set_frequency(WbDeviceTag tag, double hz) {
   if (hz <= 0.0) {
-    fprintf(stderr, "Error: wb_radio_set_frequency(): invalid negative or zero hz argument: %f.\n", hz);
+    fprintf(stderr, "Error: %s(): invalid negative or zero hz argument: %f.\n", __FUNCTION__, hz);
     return;
   }
 
@@ -325,7 +325,7 @@ void wb_radio_set_frequency(WbDeviceTag tag, double hz) {
     radio->frequency = hz;
     radio->set_frequency = true;
   } else
-    fprintf(stderr, "Error: wb_radio_set_frequency(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 double wb_radio_get_frequency(WbDeviceTag tag) {
@@ -333,7 +333,7 @@ double wb_radio_get_frequency(WbDeviceTag tag) {
   if (radio)
     return radio->frequency;
   else {
-    fprintf(stderr, "Error: wb_radio_get_frequency(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return NAN;
   }
 }
@@ -344,7 +344,7 @@ void wb_radio_set_channel(WbDeviceTag tag, int channel) {
     radio->channel = channel;
     radio->set_channel = true;
   } else
-    fprintf(stderr, "Error: wb_radio_set_channel(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 int wb_radio_get_channel(WbDeviceTag tag) {
@@ -352,14 +352,14 @@ int wb_radio_get_channel(WbDeviceTag tag) {
   if (radio)
     return radio->channel;
   else {
-    fprintf(stderr, "Error: wb_radio_get_channel(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return -1;
   }
 }
 
 void wb_radio_set_bitrate(WbDeviceTag tag, int bits_per_second) {
   if (bits_per_second <= 0) {
-    fprintf(stderr, "Error: wb_radio_set_bitrate(): invalid negative or zero bits_per_second argument: %d.\n", bits_per_second);
+    fprintf(stderr, "Error: %s(): invalid negative or zero bits_per_second argument: %d.\n", __FUNCTION__, bits_per_second);
     return;
   }
 
@@ -368,7 +368,7 @@ void wb_radio_set_bitrate(WbDeviceTag tag, int bits_per_second) {
     radio->bitrate = bits_per_second;
     radio->set_bitrate = true;
   } else
-    fprintf(stderr, "Error: wb_radio_set_bitrate(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 int wb_radio_get_bitrate(WbDeviceTag tag) {
@@ -376,7 +376,7 @@ int wb_radio_get_bitrate(WbDeviceTag tag) {
   if (radio)
     return radio->bitrate;
 
-  fprintf(stderr, "Error: wb_radio_get_bitrate(): invalid device tag.\n");
+  fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return 0;
 }
 
@@ -386,7 +386,7 @@ void wb_radio_set_rx_sensitivity(WbDeviceTag tag, double dBm) {
     radio->rx_sensitivity = dBm;
     radio->set_rx_sensitivity = true;
   } else
-    fprintf(stderr, "Error: wb_radio_set_rx_sensitivity(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 double wb_radio_get_rx_sensitivity(WbDeviceTag tag) {
@@ -394,13 +394,13 @@ double wb_radio_get_rx_sensitivity(WbDeviceTag tag) {
   if (radio)
     return radio->rx_sensitivity;
 
-  fprintf(stderr, "Error: wb_radio_get_rx_sensitivity(): invalid device tag.\n");
+  fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return NAN;
 }
 
 void wb_radio_set_tx_power(WbDeviceTag tag, double dBm) {
   if (dBm <= 0) {
-    fprintf(stderr, "Error: wb_radio_set_tx_power(): invalid negative or zero dBm argument: %f.\n", dBm);
+    fprintf(stderr, "Error: %s(): invalid negative or zero dBm argument: %f.\n", __FUNCTION__, dBm);
     return;
   }
 
@@ -409,7 +409,7 @@ void wb_radio_set_tx_power(WbDeviceTag tag, double dBm) {
     radio->tx_power = dBm;
     radio->set_tx_power = true;
   } else
-    fprintf(stderr, "Error: wb_radio_set_tx_power(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 double wb_radio_get_tx_power(WbDeviceTag tag) {
@@ -417,7 +417,7 @@ double wb_radio_get_tx_power(WbDeviceTag tag) {
   if (radio)
     return radio->tx_power;
 
-  fprintf(stderr, "Error: wb_radio_get_tx_power(): invalid device tag.\n");
+  fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return NAN;
 }
 
@@ -426,22 +426,22 @@ void wb_radio_set_callback(WbDeviceTag tag, void (*callback)(WbRadioEvent)) {
   if (radio)
     radio->callback = callback;
   else
-    fprintf(stderr, "Error: wb_radio_set_callback(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 void wb_radio_send(WbDeviceTag tag, void *msg, double delay) {
   if (msg == NULL) {
-    fprintf(stderr, "Error: wb_radio_send_delayed(): invalid NULL argument.\n");
+    fprintf(stderr, "Error: %s(): invalid NULL argument.\n", __FUNCTION__);
     return;
   }
   if (delay < 0.0) {
-    fprintf(stderr, "Error: wb_radio_send_delayed(): invalid negative delay argument: %f.\n", delay);
+    fprintf(stderr, "Error: %s(): invalid negative delay argument: %f.\n", __FUNCTION__, delay);
     return;
   }
 
   _Radio *radio = radio_get_device_data(tag);
   if (radio == NULL) {
-    fprintf(stderr, "Error: wb_radio_send(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
 

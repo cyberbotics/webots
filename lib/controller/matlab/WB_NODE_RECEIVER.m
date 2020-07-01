@@ -1,2 +1,2 @@
 function value = WB_NODE_RECEIVER
-value = 52;
+value = 53;

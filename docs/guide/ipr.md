@@ -27,7 +27,7 @@ IprHd6* {
   SFRotation rotation         0 1 0 0
   SFString   name             "IPR"
   SFString   controller       "void"
-  SFString   controllerArgs   ""
+  MFString   controllerArgs   []
   SFString   customData       ""
   SFBool     supervisor       FALSE
   SFBool     synchronization  TRUE

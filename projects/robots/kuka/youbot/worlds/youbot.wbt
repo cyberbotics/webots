@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "Simulation of the KUKA youBot robot."
@@ -53,5 +53,7 @@ KukaBox {
 }
 Youbot {
   translation 0 0.102838 0
-  controllerArgs "demo"
+  controllerArgs [
+    "demo"
+  ]
 }

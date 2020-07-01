@@ -5,11 +5,11 @@ Derived from [Solid](solid.md).
 ```
 Robot {
   SFString controller      "void"   # any string
-  SFString controllerArgs  ""       # any string
+  MFString controllerArgs  []       # any string
   SFString customData      ""       # any string
   SFBool   supervisor      FALSE    # {TRUE, FALSE}
   SFBool   synchronization TRUE     # {TRUE, FALSE}
-  MFFloat  battery         [ ]      # see below
+  MFFloat  battery         []       # see below
   SFFloat  cpuConsumption  10       # [0, inf)
   SFBool   selfCollision   FALSE    # {TRUE, FALSE}
   SFBool   showWindow      FALSE    # {TRUE, FALSE}
@@ -1650,93 +1650,6 @@ It should not be deallocated.
 
 ---
 
-#### `wb_robot_get_controller_name`
-#### `wb_robot_get_controller_arguments`
-
-%tab-component "language"
-
-%tab "C"
-
-```c
-#include <webots/robot.h>
-
-const char *wb_robot_get_controller_name();
-const char *wb_robot_get_controller_arguments();
-```
-
-%tab-end
-
-%tab "C++"
-
-```cpp
-#include <webots/Robot.hpp>
-
-namespace webots {
-  class Robot {
-    std::string getControllerName() const;
-    std::string getControllerArguments() const;
-    // ...
-  }
-}
-```
-
-%tab-end
-
-%tab "Python"
-
-```python
-from controller import Robot
-
-class Robot:
-    def getControllerName(self):
-    def getControllerArguments(self):
-    # ...
-```
-
-%tab-end
-
-%tab "Java"
-
-```java
-import com.cyberbotics.webots.controller.Robot;
-
-public class Robot {
-  public String getControllerName();
-  public String getControllerArguments();
-  // ...
-}
-```
-
-%tab-end
-
-%tab "MATLAB"
-
-```MATLAB
-name = wb_robot_get_controller_name()
-name = wb_robot_get_controller_arguments()
-```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/robot/get_controller_name` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
-| `/robot/get_controller_arguments` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
-
-%tab-end
-
-%end
-
-##### Description
-
-*return the content of the `Robot::controller` and `Robot::controllerArgs` fields*
-
-These functions return the content of respectively the Robot::controller and the Robot::controllerArgs fields.
-
----
-
 #### `wb_robot_get_supervisor`
 
 %tab-component "language"
@@ -2048,6 +1961,98 @@ This function returns only after it has locked the specified `mutex`.
 The `wb_robot_mutex_unlock` function unlocks the specified `mutex`, allowing other threads to lock it.
 
 Users unfamiliar with the mutex concept may wish to consult a reference on multi-threaded programming techniques for further information.
+
+---
+
+#### `wb_robot_get_urdf`
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/robot.h>
+
+const char *wb_robot_get_urdf(const char *prefix);
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/Robot.hpp>
+
+namespace webots {
+  class Robot {
+    std::string getUrdf(std::string prefix="");
+    // ...
+  }
+}
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Robot
+
+class Robot:
+    def getUrdf(self, prefix=''):
+    # ...
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.Robot;
+
+public class Robot {
+  public String getUrdf(String prefix);
+  // ...
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+wb_robot_get_urdf(prefix)
+```
+
+%tab-end
+
+%tab "ROS"
+
+| name | service/topic | data type | data type definition |
+| --- | --- | --- | --- |
+| `/robot/get_urdf` | `service` | `webots_ros::get_urdf` | `string prefix`<br/>`---`<br/>`string value` |
+
+%tab-end
+
+%end
+
+##### Description
+
+The `wb_robot_get_urdf` function allows a robot controller to export [URDF](http://wiki.ros.org/urdf), an XML format for representing a robot model.
+A prefix for URDF link and joint names can be specified by `prefix` (useful multi-robot systems to distinguish different robots).
+The function is particularly useful for ROS applications in which URDF is widely used to describe robot models.
+There are certain rules that are followed to create an efficient output.
+Webots nodes are squashed into a single URDF link node whenever possible to simplify the exported robot model.
+In case you want a Webots node to be shown as a separate URDF link it is enough to define its `name` field.
+URDF links inherit the `name` field from Webots node except when there is no `name` field defined or there are two or more Webots nodes with the name.
+URDF joints are named after position sensor in the corresponding Webots joints.
+
+
+
+> **Note**: Exported URDF is not complete. 
+Currently, the generated URDF consists of a minimal number of elements to be used with [`robot_state_publisher`](http://wiki.ros.org/robot_state_publisher).
+[RViz](http://wiki.ros.org/rviz) will show only small boxes in places where the links are located, regardless of the shape defined in Webots.
+Also note that [Hinge2Joint](./hinge2joint.md) and [BallJoint](./balljoint.md) are not supported.
 
 ---
 

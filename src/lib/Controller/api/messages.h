@@ -65,6 +65,7 @@
 #define C_ROBOT_SET_JOYSTICK_AUTO_CENTERING_GAIN 105
 #define C_ROBOT_SET_JOYSTICK_RESISTANCE_GAIN 106
 #define C_ROBOT_SET_JOYSTICK_FORCE_AXIS 107
+#define C_ROBOT_URDF 108
 #define C_SUPERVISOR_SAVE_WORLD 149
 #define C_SUPERVISOR_EXPORT_IMAGE 150
 #define C_SUPERVISOR_LOAD_WORLD 151
@@ -238,6 +239,21 @@
 
 // DistanceSensor device
 #define C_DISTANCE_SENSOR_DATA 50
+
+// Accelerometer device
+#define C_ACCELEROMETER_DATA 51
+
+// Compass device
+#define C_COMPASS_DATA 52
+
+// Gyro device
+#define C_GYRO_DATA 53
+
+// Inertial unit device
+#define C_INERTIAL_UNIT_DATA 54
+
+// LightSensor device
+#define C_LIGHT_SENSOR_DATA 55
 
 // TouchSensor device
 #define C_TOUCH_SENSOR_DATA 40

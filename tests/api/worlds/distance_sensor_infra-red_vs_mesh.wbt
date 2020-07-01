@@ -1,0 +1,258 @@
+#VRML_SIM R2020b utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.9970839647222615 0.03251650993943857 0.06903798863737769 5.73598815675956
+  position -0.05308185021810487 0.27134000889443394 0.3305374425677844
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF MESH Transform {
+  translation -0.972322 -0.75 -0.476789
+  rotation 0 1 0 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "meshes/suzanne.obj"
+        ]
+      }
+    }
+  ]
+}
+DEF MESH Transform {
+  translation 0.763081 -0.75 0.204459
+  rotation 0 -1 0 1.8325953071795864
+  children [
+    Shape {
+      appearance MarbleTiles {
+        textureTransform TextureTransform {
+          scale 7 11
+        }
+      }
+      geometry Mesh {
+        url [
+          "meshes/suzanne.obj"
+        ]
+      }
+    }
+  ]
+}
+Robot {
+  children [
+    DistanceSensor {
+      children [
+        DEF DS_SHAPE Transform {
+          translation -0.026 0 0
+          rotation 0 0 1 -1.5708
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.407507 0.848295 0.499062
+                roughness 0.2
+                metalness 0
+              }
+              geometry Cone {
+                bottomRadius 0.01
+                height 0.05
+                subdivision 24
+              }
+            }
+          ]
+        }
+      ]
+      name "A"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -0.11 0 -5.30718e-08
+      rotation 0 1 0 3.14159
+      children [
+        DEF DS_SHAPE Transform {
+          translation -0.026 0 0
+          rotation 0 0 1 -1.5708
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.407507 0.848295 0.499062
+                roughness 0.2
+                metalness 0
+              }
+              geometry Cone {
+                bottomRadius 0.01
+                height 0.05
+                subdivision 24
+              }
+            }
+          ]
+        }
+      ]
+      name "K"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.05
+      children [
+        USE DS_SHAPE
+      ]
+      name "B"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -0.11 0 -0.05
+      rotation 0 1 0 3.14159
+      children [
+        USE DS_SHAPE
+      ]
+      name "L"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.1
+      children [
+        USE DS_SHAPE
+      ]
+      name "C"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -0.11 0 -0.1
+      rotation 0 1 0 3.14159
+      children [
+        USE DS_SHAPE
+      ]
+      name "M"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.15
+      children [
+        USE DS_SHAPE
+      ]
+      name "D"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -0.11 0 -0.15
+      rotation 0 1 0 3.14159
+      children [
+        USE DS_SHAPE
+      ]
+      name "N"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.2
+      children [
+        USE DS_SHAPE
+      ]
+      name "E"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -0.11 0 -0.2
+      rotation 0 1 0 3.14159
+      children [
+        USE DS_SHAPE
+      ]
+      name "O"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.25
+      children [
+        USE DS_SHAPE
+      ]
+      name "F"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -0.11 0 -0.25
+      rotation 0 1 0 3.14159
+      children [
+        USE DS_SHAPE
+      ]
+      name "P"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.3
+      children [
+        USE DS_SHAPE
+      ]
+      name "G"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -0.11 0 -0.3
+      rotation 0 1 0 3.14159
+      children [
+        USE DS_SHAPE
+      ]
+      name "Q"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.35
+      children [
+        USE DS_SHAPE
+      ]
+      name "H"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -0.11 0 -0.35
+      rotation 0 1 0 3.14159
+      children [
+        USE DS_SHAPE
+      ]
+      name "R"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.4
+      children [
+        USE DS_SHAPE
+      ]
+      name "I"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -0.11 0 -0.4
+      rotation 0 1 0 3.14159
+      children [
+        USE DS_SHAPE
+      ]
+      name "S"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0 -0.45
+      children [
+        USE DS_SHAPE
+      ]
+      name "J"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -0.11 0 -0.45
+      rotation 0 1 0 3.14159
+      children [
+        USE DS_SHAPE
+      ]
+      name "T"
+      type "infra-red"
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "distance_sensor_infra-red_vs_mesh"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

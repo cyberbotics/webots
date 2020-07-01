@@ -72,8 +72,8 @@ void WbFocus::updateMinFocalDistance() {
   if (WbFieldChecker::resetDoubleIfNegative(this, mMinFocalDistance, 0.0))
     return;
   if (mMinFocalDistance->value() > mMaxFocalDistance->value()) {
-    warn(tr("Invalid 'minFocalDistance' changed to %1. The value should be smaller or equal to 'maxFocalDistance'.")
-           .arg(mMaxFocalDistance->value()));
+    parsingWarn(tr("Invalid 'minFocalDistance' changed to %1. The value should be smaller or equal to 'maxFocalDistance'.")
+                  .arg(mMaxFocalDistance->value()));
     mMinFocalDistance->setValue(mMaxFocalDistance->value());
     return;
   }
@@ -81,8 +81,8 @@ void WbFocus::updateMinFocalDistance() {
 
 void WbFocus::updateMaxFocalDistance() {
   if (mMaxFocalDistance->value() < mMinFocalDistance->value()) {
-    warn(tr("Invalid 'maxFocalDistance' changed to %1. The value should be bigger or equal to 'minFocalDistance'.")
-           .arg(mMinFocalDistance->value() + 0.1));
+    parsingWarn(tr("Invalid 'maxFocalDistance' changed to %1. The value should be bigger or equal to 'minFocalDistance'.")
+                  .arg(mMinFocalDistance->value() + 0.1));
     mMaxFocalDistance->setValue(mMinFocalDistance->value() + 0.1);
     return;
   }

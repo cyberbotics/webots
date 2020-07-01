@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/create
@@ -9,7 +9,7 @@ PROTO Create [
   field SFRotation rotation        0 1 0 0                  # Is `Transform.rotation`.
   field SFString   name            "Create"                 # Is `Solid.name`.
   field SFString   controller      "create_avoid_obstacles" # Is `Robot.controller`.
-  field SFString   controllerArgs  ""                       # Is `Robot.controllerArgs`.
+  field MFString   controllerArgs  []                       # Is `Robot.controllerArgs`.
   field SFString   customData      ""                       # Is `Robot.customData`.
   field SFBool     supervisor      FALSE                    # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE                     # Is `Robot.synchronization`.
@@ -46,8 +46,8 @@ Robot {
           url [
             "textures/create_occlusion.jpg"
           ]
-        }  
-        normalMapFactor 0.3                      
+        }
+        normalMapFactor 0.3
       }
       geometry IndexedFaceSet {
         coord Coordinate {

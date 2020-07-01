@@ -151,7 +151,7 @@ void wb_device_init(WbDevice *d) {
       wb_speaker_init(d);
       break;
     default:
-      fprintf(stderr, "wb_device_init(): node not handled\n");
+      fprintf(stderr, "%s(): node not handled\n", __FUNCTION__);
       break;
   }
 }

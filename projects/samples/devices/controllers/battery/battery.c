@@ -22,6 +22,7 @@
 #include <webots/distance_sensor.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
+#include <webots/utils/ansi_codes.h>
 
 #define SPEED 6
 #define TIME_STEP 64
@@ -48,7 +49,8 @@ int main() {
   wb_robot_battery_sensor_enable(TIME_STEP);
 
   while (wb_robot_step(TIME_STEP) != -1) {
-    printf("\fBattery sensor value: %.3f J\n", wb_robot_battery_sensor_get_value());
+    ANSI_CLEAR_CONSOLE();
+    printf("Battery sensor value: %.3f J\n", wb_robot_battery_sensor_get_value());
     const double ds0_value = wb_distance_sensor_get_value(ds0);
     const double ds1_value = wb_distance_sensor_get_value(ds1);
 

@@ -101,7 +101,7 @@ void wb_pen_write(WbDeviceTag tag, bool write) {
     pen->write = write;
     pen->set_write = true;
   } else
-    fprintf(stderr, "Error: wb_pen_write(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -115,6 +115,6 @@ void wb_pen_set_ink_color(WbDeviceTag tag, int color, double density) {
     pen->blue = color & 0xff;
     pen->density = density;
   } else
-    fprintf(stderr, "Error: wb_pen_set_ink_color(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
 }

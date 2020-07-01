@@ -243,17 +243,19 @@ void WbProjectRelocationDialog::copy() {
 
 int WbProjectRelocationDialog::copyExternalProject() {
   // Here we should copy only the files that may be edited / changed by the user, that is:
-  // 1) textures in protos folders if PROTO file was modified
+  // 1) textures and meshes in protos folders if PROTO file was modified
   // 2) controller that was modified or used by modified PROTO
   // 3) possibly the current controller file
   // 4) project libraries if a controller or plugin is copied
   // 5) project motions folder if a controller is copied
   int result = 0;
 
-  if (mIsProtoModified)
+  if (mIsProtoModified) {
     // copy all PROTO textures
     result +=
       WbFileUtil::copyDir(mExternalProjectPath + "/protos/textures", mTargetPath + "/protos/textures", true, true, true);
+    result += WbFileUtil::copyDir(mExternalProjectPath + "/protos/meshes", mTargetPath + "/protos/meshes", true, true, true);
+  }
 
   // copy PROTO controller
   bool projectLibrariesCopied = false;

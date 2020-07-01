@@ -31,6 +31,7 @@ class TestMatlabFunctions(unittest.TestCase):
             'robot',
             'wb_device_get_type',
             'wb_node_get_name',
+            'lookup_table_size',
             'EXPORTS'
         ]
         self.functions = []

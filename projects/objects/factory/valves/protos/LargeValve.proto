@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Large Wheel-based valve. Handle can be moved in either direction by the angle (radians) in the "absolute stop" field.
@@ -10,7 +10,7 @@ PROTO LargeValve [
   field SFFloat    jointFriction   0.5              # Defines the static friction of the valve joint.
   field SFString   controller      "valve_turner"   # Defines the controller of the valve which is used to limit its rotation.
   field SFBool     supervisor      FALSE            # Is `Robot.supervisor`.
-  field SFString   absoluteStop    "15.7079632679"  # Defines the maximum rotational angle in radians. This value is sent to the controller using the controllerArgs field.
+  field MFString   absoluteStop    "15.7079632679"  # Defines the maximum rotational angle in radians. This value is sent to the controller using the controllerArgs field.
   field SFString   contactMaterial "default"        # Is `Solid.contactMaterial`.
 ]
 {

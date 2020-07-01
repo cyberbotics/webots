@@ -63,7 +63,6 @@ then
   ./new_version_file.sh "#VRML_SIM\\s"$old_version_without_revision "#VRML_SIM "$new_version_without_revision ../../docs/reference/proto-example.md
 
   ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/projects/worlds/empty.wbt
-  ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/web/README.md
   ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/web/streaming_viewer/index.html
   ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/web/streaming_viewer/setup_viewer.js
   ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/web/templates/x3d_playback.html

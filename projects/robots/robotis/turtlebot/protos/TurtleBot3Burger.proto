@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://www.cyberbotics.com/doc/guide/turtlebot3burger
@@ -9,7 +9,7 @@ PROTO TurtleBot3Burger [
   field SFRotation rotation        0 1 0 0               # Is `Transform.rotation`.
   field SFString   name            "TurtleBot3Burger"    # Is `Solid.name`.
   field SFString   controller      "void"                # Is `Robot.controller`.
-  field SFString   controllerArgs  ""                    # Is `Robot.controllerArgs`.
+  field MFString   controllerArgs  []                    # Is `Robot.controllerArgs`.
   field SFString   customData      ""                    # Is `Robot.customData`.
   field SFBool     supervisor      FALSE                 # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE                  # Is `Robot.synchronization`.

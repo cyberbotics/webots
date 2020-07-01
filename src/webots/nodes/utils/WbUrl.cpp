@@ -32,9 +32,9 @@ namespace {
     if (QFileInfo(path).isFile())
       return path;
     if (node)
-      node->warn(QObject::tr("First item of '%1' field expected to be a file but is a directory.").arg(field));
+      node->parsingWarn(QObject::tr("First item of '%1' field expected to be a file but is a directory.").arg(field));
     else
-      WbLog::warning(QObject::tr("'%1' expected to be a file but is a directory.").arg(field));
+      WbLog::warning(QObject::tr("'%1' expected to be a file but is a directory.").arg(field), false, WbLog::PARSING);
     return "";
   }
 }  // namespace
@@ -60,7 +60,7 @@ QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
         projectPROTOSearchPath.append(proto->projectPath() + "/protos");
       proto = WbProtoList::current()->findModel(proto->ancestorProtoName(), "");
     }
-    currentNode = currentNode->parent();
+    currentNode = currentNode->parentNode();
   }
 
   QStringList searchPaths;
@@ -88,9 +88,9 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   // check if the first url is empty
   if (url.isEmpty()) {
     if (node)
-      node->warn(QObject::tr("First item of '%1' field is empty.").arg(field));
+      node->parsingWarn(QObject::tr("First item of '%1' field is empty.").arg(field));
     else
-      WbLog::warning(QObject::tr("Missing '%1' value.").arg(field));
+      WbLog::warning(QObject::tr("Missing '%1' value.").arg(field), false, WbLog::PARSING);
     return "";
   }
 
@@ -101,9 +101,9 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       return checkIsFile(node, field, path);
     const QString error = QObject::tr("'%1' not found.").arg(url);
     if (node)
-      node->warn(error);
+      node->parsingWarn(error);
     else
-      WbLog::warning(error);
+      WbLog::warning(error, false, WbLog::PARSING);
     return "";
   }
 
@@ -119,14 +119,13 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   if (displayWarning) {
     const QString warning =
       QObject::tr("'%1' not found.").arg(url) + "\n" +
-      QObject::tr("A resource file can be defined relatively to the worlds directory of the current project, "
-                  "relatively to the worlds directory of the default project, "
-                  "relatively to its protos directory (if defined in a PROTO), "
-                  "or absolutely.");
+      QObject::tr(
+        "A resource file can be defined relatively to the worlds directory of the current project, relatively to the worlds "
+        "directory of the default project, relatively to its protos directory (if defined in a PROTO), or absolutely.");
     if (node)
-      node->warn(warning);
+      node->parsingWarn(warning);
     else
-      WbLog::warning(warning);
+      WbLog::warning(warning, false, WbLog::PARSING);
   }
 
   return "";

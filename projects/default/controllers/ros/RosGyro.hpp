@@ -18,12 +18,14 @@
 #include <webots/Gyro.hpp>
 #include "RosSensor.hpp"
 
+#include <webots_ros/get_float_array.h>
+
 using namespace webots;
 
 class RosGyro : public RosSensor {
 public:
   RosGyro(Gyro *gyroscope, Ros *ros);
-  virtual ~RosGyro() { cleanup(); }
+  virtual ~RosGyro();
 
   ros::Publisher createPublisher() override;
   void publishValue(ros::Publisher publisher) override;
@@ -31,10 +33,14 @@ public:
   void rosDisable() override { cleanup(); }
   int rosSamplingPeriod() override { return mGyro->getSamplingPeriod(); }
 
+  bool getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res);
+
 private:
   void cleanup() { mGyro->disable(); }
 
   Gyro *mGyro;
+
+  ros::ServiceServer mLookupTableServer;
 };
 
 #endif  // ROS_GYRO_HPP

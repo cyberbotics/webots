@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "Pioneer 3AT robot (Adept MobileRobots)."
@@ -676,7 +676,9 @@ DEF KITCHEN Transform {
 DEF PIONEER_3AT Pioneer3at {
   translation 1.69482 0.11 4.10279
   controller "ros"
-  controllerArgs "--name=pioneer3at"
+  controllerArgs [
+    "--name=pioneer3at"
+  ]
   extensionSlot [
     Camera {
       translation 0 0.17 -0.22

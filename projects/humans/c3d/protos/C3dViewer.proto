@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -28,17 +28,19 @@ PROTO C3dViewer [
     rotation IS rotation
     children IS markers
     controller "c3d_viewer"
-    controllerArgs %{= '"' .. c3dFile .. ' ' ..
-                              fields.playbackSpeed.value .. ' ' ..
-                              fields.leftGroundReactionForceOffset.value.x .. ' ' ..
-                              fields.leftGroundReactionForceOffset.value.y .. ' ' ..
-                              fields.leftGroundReactionForceOffset.value.z .. ' ' ..
-                              fields.rightGroundReactionForceOffset.value.x .. ' ' ..
-                              fields.rightGroundReactionForceOffset.value.y .. ' ' ..
-                              fields.rightGroundReactionForceOffset.value.z .. ' ' ..
-                              fields.bodyTransparency.value .. ' ' ..
-                              fields.bodyHeight.value .. ' ' ..
-                              fields.bodyOffset.value .. '"' }%
+    controllerArgs [
+      "%{= c3dFile }%"
+      "%{= fields.playbackSpeed.value }%"
+      "%{= fields.leftGroundReactionForceOffset.value.x }%"
+      "%{= fields.leftGroundReactionForceOffset.value.y }%"
+      "%{= fields.leftGroundReactionForceOffset.value.z }%"
+      "%{= fields.rightGroundReactionForceOffset.value.x }%"
+      "%{= fields.rightGroundReactionForceOffset.value.y }%"
+      "%{= fields.rightGroundReactionForceOffset.value.z }%"
+      "%{= fields.bodyTransparency.value }%"
+      "%{= fields.bodyHeight.value }%"
+      "%{= fields.bodyOffset.value }%"
+    ]
     supervisor TRUE
     showWindow TRUE
     window "c3d_viewer_window"

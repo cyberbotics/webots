@@ -255,14 +255,14 @@ void wb_camera_init(WbDevice *d) {
 void wbr_camera_set_image(WbDeviceTag tag, const unsigned char *image) {
   WbDevice *d = camera_get_device(tag);
   if (!d)
-    fprintf(stderr, "Error: wbr_camera_set_image(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   wbr_abstract_camera_set_image(d, image);
 }
 
 unsigned char *wbr_camera_get_image_buffer(WbDeviceTag tag) {
   WbDevice *d = camera_get_device(tag);
   if (!d)
-    fprintf(stderr, "Error: wbr_camera_get_image_buffer(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return wbr_abstract_camera_get_image_buffer(d);
 }
 
@@ -311,20 +311,20 @@ void wbr_camera_recognition_set_object(WbDeviceTag tag, const WbCameraRecognitio
       strcpy(c->recognized_objects[i].model, objects[i].model);
     }
   } else
-    fprintf(stderr, "Error: wbr_camera_recognition_set_object(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 // Public functions available from the camera API
 
 void wb_camera_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: wb_camera_enable() called with negative sampling period.\n");
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
 
   WbDevice *d = camera_get_device(tag);
   if (!d)
-    fprintf(stderr, "Error: wb_camera_enable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 
   wb_abstract_camera_enable(d, sampling_period);
 }
@@ -334,34 +334,34 @@ void wb_camera_disable(WbDeviceTag tag) {
   if (c)
     wb_camera_enable(tag, 0);
   else
-    fprintf(stderr, "Error: wb_camera_disable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 int wb_camera_get_sampling_period(WbDeviceTag tag) {
   WbDevice *d = camera_get_device(tag);
   if (!d)
-    fprintf(stderr, "Error: wb_camera_get_sampling_period(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s: invalid device tag.\n", __FUNCTION__);
   return wb_abstract_camera_get_sampling_period(d);
 }
 
 int wb_camera_get_height(WbDeviceTag tag) {
   WbDevice *d = camera_get_device(tag);
   if (!d)
-    fprintf(stderr, "Error: wb_camera_get_height(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return wb_abstract_camera_get_height(d);
 }
 
 int wb_camera_get_width(WbDeviceTag tag) {
   WbDevice *d = camera_get_device(tag);
   if (!d)
-    fprintf(stderr, "Error: wb_camera_get_width(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return wb_abstract_camera_get_width(d);
 }
 
 double wb_camera_get_fov(WbDeviceTag tag) {
   WbDevice *d = camera_get_device(tag);
   if (!d)
-    fprintf(stderr, "Error: wb_camera_get_fov(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return wb_abstract_camera_get_fov(d);
 }
 
@@ -372,7 +372,7 @@ double wb_camera_get_min_fov(WbDeviceTag tag) {
   if (c)
     result = c->min_fov;
   else
-    fprintf(stderr, "Error: wb_camera_get_min_fov(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -384,7 +384,7 @@ double wb_camera_get_max_fov(WbDeviceTag tag) {
   if (c)
     result = c->max_fov;
   else
-    fprintf(stderr, "Error: wb_camera_get_max_fov(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -395,17 +395,17 @@ void wb_camera_set_fov(WbDeviceTag tag, double fov) {
   AbstractCamera *ac = camera_get_abstract_camera_struct(tag);
   Camera *c = camera_get_struct(tag);
   if (!ac || !c) {
-    fprintf(stderr, "Error: wb_camera_set_fov(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
   if (ac->spherical && (fov < 0.0 || fov > 2.0 * M_PI)) {
-    fprintf(stderr, "Error: wb_camera_set_fov called with 'fov' argument outside of the [0, 2.0*pi] range.\n");
+    fprintf(stderr, "Error: %s() called with 'fov' argument outside of the [0, 2.0*pi] range.\n", __FUNCTION__);
     in_range = false;
   } else if (!ac->spherical && (fov < 0.0 || fov > M_PI)) {
-    fprintf(stderr, "Error: wb_camera_set_fov called with 'fov' argument outside of the [0, pi] range.\n");
+    fprintf(stderr, "Error: %s() called with 'fov' argument outside of the [0, pi] range.\n", __FUNCTION__);
     in_range = false;
   } else if (fov < c->min_fov || fov > c->max_fov) {
-    fprintf(stderr, "Error: wb_camera_set_fov out of zoom range [%f, %f].\n", c->min_fov, c->max_fov);
+    fprintf(stderr, "Error: %s() out of zoom range [%f, %f].\n", __FUNCTION__, c->min_fov, c->max_fov);
     in_range = false;
   }
   if (in_range) {
@@ -422,7 +422,7 @@ double wb_camera_get_focal_length(WbDeviceTag tag) {
   if (c)
     result = c->focal_length;
   else
-    fprintf(stderr, "Error: wb_camera_get_focal_length(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -434,7 +434,7 @@ double wb_camera_get_focal_distance(WbDeviceTag tag) {
   if (c)
     result = c->focal_distance;
   else
-    fprintf(stderr, "Error: wb_camera_get_focal_distance(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -446,7 +446,7 @@ double wb_camera_get_min_focal_distance(WbDeviceTag tag) {
   if (c)
     result = c->min_focal_distance;
   else
-    fprintf(stderr, "Error: wb_camera_get_min_focal_distance(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -458,7 +458,7 @@ double wb_camera_get_max_focal_distance(WbDeviceTag tag) {
   if (c)
     result = c->max_focal_distance;
   else
-    fprintf(stderr, "Error: wb_camera_get_max_focal_distance(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -469,14 +469,13 @@ void wb_camera_set_focal_distance(WbDeviceTag tag, double focal_distance) {
   AbstractCamera *ac = camera_get_abstract_camera_struct(tag);
   Camera *c = camera_get_struct(tag);
   if (!c || !ac) {
-    fprintf(stderr, "Error: wb_camera_set_focal_distance(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   } else if (ac->spherical) {
-    fprintf(stderr, "Error: wb_camera_set_focal_distance() can't be called on a spherical camera.\n");
+    fprintf(stderr, "Error: %s() can't be called on a spherical camera.\n", __FUNCTION__);
     in_range = false;
   } else if (focal_distance < c->min_focal_distance || focal_distance > c->max_focal_distance) {
-    fprintf(stderr, "Error: wb_camera_set_focal_distance() out of focus range [%f, %f].\n", c->min_focal_distance,
-            c->max_focal_distance);
+    fprintf(stderr, "Error: %s() out of focus range [%f, %f].\n", __FUNCTION__, c->min_focal_distance, c->max_focal_distance);
     in_range = false;
   }
   if (in_range) {
@@ -489,14 +488,14 @@ void wb_camera_set_focal_distance(WbDeviceTag tag, double focal_distance) {
 double wb_camera_get_near(WbDeviceTag tag) {
   WbDevice *d = camera_get_device(tag);
   if (!d)
-    fprintf(stderr, "Error: wb_camera_get_near(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 
   return wb_abstract_camera_get_near(camera_get_device(tag));
 }
 
 void wb_camera_recognition_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: wb_camera_recognition_enable() called with negative sampling period.\n");
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
 
@@ -505,13 +504,13 @@ void wb_camera_recognition_enable(WbDeviceTag tag, int sampling_period) {
 
   if (c) {
     if (!c->has_recognition)
-      fprintf(stderr, "Error: wb_camera_recognition_enable() called on a Camera without Recognition node.\n");
+      fprintf(stderr, "Error: %s() called on a Camera without Recognition node.\n", __FUNCTION__);
     else {
       c->enable_recognition = true;
       c->recognition_sampling_period = sampling_period;
     }
   } else
-    fprintf(stderr, "Error: wb_camera_recognition_enable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 
   robot_mutex_unlock_step();
 }
@@ -521,10 +520,10 @@ void wb_camera_recognition_disable(WbDeviceTag tag) {
   Camera *c = camera_get_struct(tag);
   bool should_return = false;
   if (!c) {
-    fprintf(stderr, "Error: wb_camera_recognition_disable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     should_return = true;
   } else if (!c->has_recognition) {
-    fprintf(stderr, "Error: wb_camera_recognition_disable() called on a Camera without Recognition node.\n");
+    fprintf(stderr, "Error: %s() called on a Camera without Recognition node.\n", __FUNCTION__);
     should_return = true;
   }
   robot_mutex_unlock_step();
@@ -538,11 +537,11 @@ int wb_camera_recognition_get_sampling_period(WbDeviceTag tag) {
   Camera *c = camera_get_struct(tag);
   if (c) {
     if (!c->has_recognition)
-      fprintf(stderr, "Error: wb_camera_recognition_get_sampling_period() called on a Camera without Recognition node.\n");
+      fprintf(stderr, "Error: %s() called on a Camera without Recognition node.\n", __FUNCTION__);
     else
       sampling_period = c->recognition_sampling_period;
   } else
-    fprintf(stderr, "Error: wb_camera_recognition_get_sampling_period(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return sampling_period;
 }
@@ -553,14 +552,13 @@ int wb_camera_recognition_get_number_of_objects(WbDeviceTag tag) {
   Camera *c = camera_get_struct(tag);
   if (c) {
     if (!c->has_recognition)
-      fprintf(stderr, "Error: wb_camera_recognition_get_number_of_objects() called on a Camera without Recognition node.\n");
+      fprintf(stderr, "Error: %s() called on a Camera without Recognition node.\n", __FUNCTION__);
     else if (c->recognition_sampling_period == 0)
-      fprintf(stderr, "Error: wb_camera_recognition_get_number_of_objects() called for a disabled device! Please use: "
-                      "wb_camera_recognition_enable().\n");
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_camera_recognition_enable().\n", __FUNCTION__);
     else
       result = c->recognized_object_number;
   } else
-    fprintf(stderr, "Error: wb_camera_recognition_get_number_of_objects(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -572,7 +570,7 @@ bool wb_camera_has_recognition(WbDeviceTag tag) {
   if (c)
     has_recognition = c->has_recognition;
   else
-    fprintf(stderr, "Error: wb_camera_has_recognition(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return has_recognition;
 }
@@ -583,14 +581,13 @@ const WbCameraRecognitionObject *wb_camera_recognition_get_objects(WbDeviceTag t
   Camera *c = camera_get_struct(tag);
   if (c) {
     if (!c->has_recognition)
-      fprintf(stderr, "Error: wb_camera_recognition_get_objects() called on a Camera without Recognition node.\n");
+      fprintf(stderr, "Error: %s() called on a Camera without Recognition node.\n", __FUNCTION__);
     else if (c->recognition_sampling_period == 0)
-      fprintf(stderr, "Error: wb_camera_recognition_get_objects() called for a disabled device! Please use: "
-                      "wb_camera_recognition_enable().\n");
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_camera_recognition_enable().\n", __FUNCTION__);
     else
       result = c->recognized_objects;
   } else
-    fprintf(stderr, "Error: wb_camera_recognition_get_objects(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -599,12 +596,12 @@ const unsigned char *wb_camera_get_image(WbDeviceTag tag) {
   AbstractCamera *ac = camera_get_abstract_camera_struct(tag);
 
   if (!ac) {
-    fprintf(stderr, "Error: wb_camera_get_image(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return NULL;
   }
 
   if (ac->sampling_period <= 0) {
-    fprintf(stderr, "Error: wb_camera_get_image() called for a disabled device! Please use: wb_camera_enable().\n");
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_camera_enable().\n", __FUNCTION__);
     return NULL;
   }
 
@@ -612,7 +609,7 @@ const unsigned char *wb_camera_get_image(WbDeviceTag tag) {
     return ac->image;
 
   robot_mutex_lock_step();
-  bool success = abstract_camera_request_image(ac, "wb_camera_get_image");
+  bool success = abstract_camera_request_image(ac, __FUNCTION__);
   if (!ac->image || !success) {
     robot_mutex_unlock_step();
     return NULL;
@@ -623,16 +620,16 @@ const unsigned char *wb_camera_get_image(WbDeviceTag tag) {
 
 int wb_camera_save_image(WbDeviceTag tag, const char *filename, int quality) {
   if (!filename || !filename[0]) {
-    fprintf(stderr, "Error: wb_camera_save_image() called with NULL or empty 'filename' argument.\n");
+    fprintf(stderr, "Error: %s() called with NULL or empty 'filename' argument.\n", __FUNCTION__);
     return -1;
   }
   unsigned char type = g_image_get_type(filename);
   if (type != G_IMAGE_PNG && type != G_IMAGE_JPEG) {
-    fprintf(stderr, "Error: wb_camera_save_image() called with unsupported image format (should be PNG or JPEG).\n");
+    fprintf(stderr, "Error: %s() called with unsupported image format (should be PNG or JPEG).\n", __FUNCTION__);
     return -1;
   }
   if (type == G_IMAGE_JPEG && (quality < 1 || quality > 100)) {
-    fprintf(stderr, "Error: wb_camera_save_image() called with invalid 'quality' argument.\n");
+    fprintf(stderr, "Error: %s() called with invalid 'quality' argument.\n", __FUNCTION__);
     return -1;
   }
 
@@ -640,13 +637,13 @@ int wb_camera_save_image(WbDeviceTag tag, const char *filename, int quality) {
   AbstractCamera *ac = camera_get_abstract_camera_struct(tag);
 
   if (!ac) {
-    fprintf(stderr, "Error: wb_camera_save_image(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     robot_mutex_unlock_step();
     return -1;
   }
 
   // make sure image is up to date before saving it
-  if (!ac->image || !abstract_camera_request_image(ac, "wb_camera_save_image")) {
+  if (!ac->image || !abstract_camera_request_image(ac, __FUNCTION__)) {
     robot_mutex_unlock_step();
     return -1;
   }
@@ -665,7 +662,7 @@ int wb_camera_save_image(WbDeviceTag tag, const char *filename, int quality) {
 const WbCameraRecognitionObject *wb_camera_recognition_get_object(WbDeviceTag tag, int index) {
   Camera *c = camera_get_struct(tag);
   if (!c) {
-    fprintf(stderr, "Error: wb_camera_recognition_get_object(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return NULL;
   }
   return (wb_camera_recognition_get_objects(tag) + index);

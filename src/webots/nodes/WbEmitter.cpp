@@ -83,7 +83,7 @@ void WbEmitter::updateTransmissionSetup() {
 
   mMediumType = WbDataPacket::decodeMediumType(mType->value());
   if (mMediumType == WbDataPacket::UNKNOWN) {
-    warn(tr("Unknown 'type': \"%1\".").arg(mType->value()));
+    parsingWarn(tr("Unknown 'type': \"%1\".").arg(mType->value()));
     mMediumType = WbDataPacket::RADIO;
   }
 
@@ -99,7 +99,7 @@ void WbEmitter::updateBufferSize() {
 void WbEmitter::updateRange() {
   WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mRange, -1, -1);
   if (mMaxRange->value() != -1.0 && (mRange->value() > mMaxRange->value() || mRange->value() == -1.0)) {
-    warn(tr("'range' must be less than or equal to 'maxRange'."));
+    parsingWarn(tr("'range' must be less than or equal to 'maxRange'."));
     mRange->setValue(mMaxRange->value());
   }
   mNeedToSetRange = true;

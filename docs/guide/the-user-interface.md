@@ -77,13 +77,23 @@ In order to reset the simulation, the following steps are performed:
 
 - The **Print...** menu item opens a window allowing you to print the current file of the text editor.
 
-- The **Import VRML97...** menu item adds VRML97 objects at the end of the scene tree.
-These objects come from a VRML97 file you must specify.
-This feature is useful for importing complex shapes that were modeled in a 3D modelling program, then exported to VRML97 (previously called VRML 2.0).
-Most 3D modelling software, like 3D Studio Max, Maya, AutoCAD, Pro Engineer, AC3D, or Art Of Illusion, include the VRML97 (or VRML 2.0) export feature.
-Be aware that Webots cannot import files in VRML 1.0 format.
-Once imported, these objects appear as [Group](../reference/group.md), [Transform](../reference/transform.md) or [Shape](../reference/shape.md) nodes at the bottom of the scene tree.
-You can then either turn these objects into Webots nodes (like [Solid](../reference/solid.md), [Robot](../reference/robot.md), etc.) or cut and paste them into the `children` list of existing Webots nodes.
+- The **Import 3D Model...** menu item import 3D objects at the end of the scene tree.
+This feature is useful for importing complex objects that were modeled in a 3D modeling program.
+Once imported, these objects appear as [Group](../reference/group.md), [Transform](../reference/transform.md), [Solid](../reference/solid.md) or [Shape](../reference/shape.md) nodes at the bottom of the scene tree.
+You can then either turn these objects into Webots nodes (e.g. [Robot](../reference/robot.md)) or cut and paste them into the `children` list of existing Webots nodes.
+The following formats are supported:
+  - [3D Studio mesh](https://wiki.fileformat.com/3d/3ds) files (.3ds).
+  - [Blender](https://www.blender.org/) files (.blend).
+  - [Biovision Hierarchy](https://en.wikipedia.org/wiki/Biovision_Hierarchy) files (.bvh).
+  - [Collada](https://en.wikipedia.org/wiki/COLLADA) files (.dae).
+  - [Filmbox](https://en.wikipedia.org/wiki/FBX) files (.fbx).
+  - [STL](https://en.wikipedia.org/wiki/STL_(file_format)) files (.stl).
+  - [VRML](https://en.wikipedia.org/wiki/VRML) files (.wrl).
+  - [Wavefront](https://wiki.fileformat.com/3d/obj) files (.obj).
+  - [X3D](https://www.web3d.org/getting-started-x3d) files (.x3d).
+
+> **Note:** About [VRML](https://en.wikipedia.org/wiki/VRML) files, only VRML97 is supported (previously called VRML 2.0) Webots cannot import files in VRML 1.0 format.
+
 
 - The **Export VRML97...** item allows you to save the currently loaded world as a ".wrl" file, conforming to the VRML97 standard.
 Such a file can, in turn, be opened with any VRML97 viewer and most 3D modeling software.
@@ -226,6 +236,8 @@ If the light sensor device is disabled or the first measurement is not available
   - The **Show Pen Painting Rays** allows you to display, or to hide, the rays in which the pen devices paint.
 These rays are drawn as violet lines if painting is enabled, otherwise as gray lines.
 
+- The **Show Normals** allows you to display, or to hide, the normals of the [IndexedFaceSet](../reference/indexedfaceset.md) and [Mesh](../reference/mesh.md) nodes.
+
   - The **Show Radar Frustums** allows you to display, or to hide, the radar frustum.
 If the radar device is enabled the frustum is drawn in blue, otherwise if the radar is disabled or the first measurement is not available yet, the frustum is drawn in gray.
 The radar frustum represents the volume in which a target can be detected by the radar.
@@ -241,14 +253,31 @@ By support polygon we mean the projection of the convex hull of the solid's cont
 In addition, the projection of the center of mass in the latter plane is rendered in green if it lies inside the support polygon (static equilibrium), red otherwise.
 This rendering option can be activated only for solids with no other solid at their top.
 
-- If the **Disable selection** option is enabled, it prevents you from changing the selected solid node when clicking on the 3D window.
-This is particularly useful during the modeling phase, when you want to change the viewpoint without modifying the visible and selected fields in the scene tree.
+- The **Scene Interactions** submenu allows you to disable some user interactions with the 3D scene, like selecting or moving objects or moving the viewpoint.
+These options can be used to improve interacting with the 3D scene by disabling some unneeded functionalities, or to prevent some interactions for example when streaming a simulation over the web.
 
-- If the **Lock Viewpoint** option is enabled, it prevents you from changing the position and orientation of the [Viewpoint](../reference/viewpoint.md) node when dragging the mouse or moving the mouse wheel on the 3D window.
-This is particularly useful when you don't want to change accidently the position and orientation of the viewpoint.
+  - If the **Lock Viewpoint** option is enabled, it prevents you from changing the position and orientation of the [Viewpoint](../reference/viewpoint.md) node when dragging the mouse or moving the mouse wheel on the 3D window.
+  This is particularly useful when you don't want to change accidentally the position and orientation of the viewpoint.
+
+  - If the **Disable Selection** option is enabled, it prevents you from changing the selected solid node when clicking on the 3D window.
+  This is particularly useful during the modeling phase, when you want to change the viewpoint without modifying the visible and selected fields in the scene tree.
+
+  - The **Disable 3D View Context Menu** option prevents opening the node context menu when right-clicking on the 3D window.
+  But the context menu can still be open right-clicking on the node in the scene tree.
+  This is particularly useful during web streaming, where the context menu is opened directly on client web interface and it is not needed to open in on the Webots server instance.  
+
+  - The **Disable Object Move** option prevents moving object from the 3D window using the translation and rotations handles or the `SHIFT + mouse drag/mouse wheel` method.
+  Objects can still be moved by changing the translation and rotation fields from the scene tree.
+  This is particularly useful during online competitions, where users should achieve a task without cheating and moving objects or robots manually.
+
+  - The **Disable Force and Torque** option prevents applying a force or torque to an object from the 3D window.
+  This is particularly useful during online competitions, where users should achieve a task without cheating and moving objects or robots manually.
+
+  - The **Disable Fast Mode** option prevents running the simulation in fast mode.
+  This option could be useful in case of web streaming to save computer power on the server side and making only the stop, step and the real-time modes available to the clients.
 
 > **Note**:
-The *Follow Object*, *Follow Object and Rotate*, *Projection*, *Rendering*, *Optional Rendering Items*, *Disable Selection* and *Lock Viewpoint* options are saved per world whereas the other options are global.
+The *Follow Object*, *Follow Object and Rotate*, *Projection*, *Rendering*, *Optional Rendering Items*, and *Scene Interactions Items* options are saved per world whereas the other options are global.
 
 ### Simulation Menu
 
@@ -312,13 +341,13 @@ Alternatively it is also possible to double-click on some of the objects in the 
 - The **Text Editor** menu item opens the Webots text editor.
 This editor can be used for editing and compiling controller source code.
 
-- The **Console** menu item opens the Webots Console, which is a read-only console that is used to display Webots error messages and controller outputs.
-
 - The **Documentation** menu item shows or hides the offline Webots documentation window.
 
 - The **Restore Layout** menu item restores the factory layout of the panels of the main window.
 
-- The **Clear Console** menu item clears the console.
+- The **Clear All Consoles** menu item clears the content of all the opened consoles.
+
+- The **New Console** menu item opens a new console which by default displays all the logs.
 
 - The **Edit Physics Plugin** menu item opens the source code of the physics plugin in the text editor.
 

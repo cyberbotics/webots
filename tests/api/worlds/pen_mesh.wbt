@@ -1,0 +1,131 @@
+#VRML_SIM R2020b utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.059271363865404346 0.9864910204775588 0.15271663937724472 1.5915320723899458
+  position 0.38483722454188757 0.14720925170387053 -0.03788324016937938
+}
+Background {
+  skyColor [
+    0.7 0.7 0.7
+  ]
+}
+PointLight {
+  attenuation 0 0 1
+  location 1 1 1
+}
+DEF BOARD Solid {
+  translation -0.06 0.052 -0.13
+  rotation 0.5578327925294718 0.8064497000632672 0.19611592706008768 7.19948
+  scale 0.1 0.1 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.7 0.7 0.7
+        baseColorMap ImageTexture {
+          url [
+            "textures/white256.png"
+          ]
+        }
+      }
+      geometry Mesh {
+        url [
+          "meshes/suzanne.obj"
+        ]
+      }
+    }
+  ]
+  name "board"
+  locked TRUE
+}
+DEF WRITER Robot {
+  children [
+    SliderJoint {
+      jointParameters JointParameters {
+        axis 0.17067 0.7389 -0.6
+      }
+      device [
+        LinearMotor {
+          minPosition -2
+          maxPosition 2
+          muscles [
+            Muscle {
+              volume 0.0001
+              endOffset 0 0.06 0
+              color [
+                0 1 0
+                1 0 0
+                0 0 1
+              ]
+            }
+          ]
+        }
+        PositionSensor {
+        }
+      ]
+      endPoint Pen {
+        translation 0.015 0.09 -0.014
+        rotation 0.34153319654250663 0.844288485863679 0.4129552376438319 3.27249
+        children [
+          Transform {
+            translation 0 0.03 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.33 0.66 1
+                }
+                geometry Box {
+                  size 0.01 0.01 0.01
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0.031 0
+            children [
+              DEF BODY Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 1
+                }
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.002
+                }
+              }
+            ]
+          }
+        ]
+        inkColor 0.980392 0.541176 0.0392157
+        inkDensity 1
+        leadSize 0.03
+      }
+    }
+    Solid {
+      translation 0.09 -0.18 -0.03
+      rotation 0.5578327925294718 0.8064497000632672 0.19611592706008768 0.39269
+      children [
+        Camera {
+          translation 0.0103622 0.270768 -0.0676753
+          rotation -0.0349562042320703 -0.9908391199586999 0.13044501579268944 -1.038025307179586
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.33 0.66 1
+              }
+              geometry Cylinder {
+                height 0.01
+                radius 0.01
+              }
+            }
+          ]
+          fieldOfView 0.56
+        }
+      ]
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "pen_mesh_scaled"
+}
+TestSuiteSupervisor {
+}

@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/altino
@@ -9,7 +9,7 @@ PROTO Altino [
   field SFRotation rotation        0 1 0 1.5708            # Is `Transform.rotation`.
   field SFString   name            "vehicle"               # Is `Solid.name`.
   field SFString   controller      "vehicle_driver_altino" # Is `Robot.controller`.
-  field SFString   controllerArgs  ""                      # Is `Robot.controllerArgs`.
+  field MFString   controllerArgs  []                      # Is `Robot.controllerArgs`.
   field SFBool     synchronization TRUE                    # Is `Robot.synchronization`.
   field SFColor    color           0.3 0.3 0.7             # Is `Material.diffuseColor`.
 ]
@@ -272,6 +272,6 @@ PROTO Altino [
     engineMinRPM            1
     engineMaxRPM            250
     gearRatio               [-30 30]
-    maxWheelVelocity         29.8
+    maxVelocity             0.596
   }
 }

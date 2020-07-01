@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   title "Sphero's BB-8 simulation"
   basicTimeStep 16
@@ -22,6 +22,11 @@ UnevenTerrain {
   size 500 60 500
   xDimension 100
   zDimension 100
+  appearance SandyGround {
+    textureTransform TextureTransform {
+      scale 500 500
+    }
+  }
   perlinNOctaves 6
 }
 BB-8 {

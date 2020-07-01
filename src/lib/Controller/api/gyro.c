@@ -26,6 +26,8 @@ typedef struct {
   int enable;           // need to enable device ?
   int sampling_period;  // milliseconds
   double velocity[3];   // angular velocity
+  int lookup_table_size;
+  double *lookup_table;
 } Gyro;
 
 static Gyro *gyro_create() {
@@ -35,6 +37,8 @@ static Gyro *gyro_create() {
   gyro->velocity[0] = NAN;
   gyro->velocity[1] = NAN;
   gyro->velocity[2] = NAN;
+  gyro->lookup_table = NULL;
+  gyro->lookup_table_size = 0;
   return gyro;
 }
 
@@ -47,9 +51,50 @@ static Gyro *gyro_get_struct(WbDeviceTag t) {
 
 static void gyro_read_answer(WbDevice *d, WbRequest *r) {
   Gyro *gyro = d->pdata;
-  gyro->velocity[0] = request_read_double(r);
-  gyro->velocity[1] = request_read_double(r);
-  gyro->velocity[2] = request_read_double(r);
+  switch (request_read_uchar(r)) {
+    case C_GYRO_DATA:
+      gyro->velocity[0] = request_read_double(r);
+      gyro->velocity[1] = request_read_double(r);
+      gyro->velocity[2] = request_read_double(r);
+      break;
+    case C_CONFIGURE:
+      gyro->lookup_table_size = request_read_int32(r);
+      free(gyro->lookup_table);
+      gyro->lookup_table = NULL;
+      if (gyro->lookup_table_size > 0) {
+        gyro->lookup_table = (double *)malloc(sizeof(double) * gyro->lookup_table_size * 3);
+        for (int i = 0; i < gyro->lookup_table_size * 3; i++)
+          gyro->lookup_table[i] = request_read_double(r);
+      }
+      break;
+    default:
+      ROBOT_ASSERT(0);  // should never be reached
+      break;
+  }
+}
+
+int wb_gyro_get_lookup_table_size(WbDeviceTag tag) {
+  int result = 0;
+  robot_mutex_lock_step();
+  Gyro *dev = gyro_get_struct(tag);
+  if (dev)
+    result = dev->lookup_table_size;
+  else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
+}
+
+const double *wb_gyro_get_lookup_table(WbDeviceTag tag) {
+  double *result = NULL;
+  robot_mutex_lock_step();
+  Gyro *dev = gyro_get_struct(tag);
+  if (dev)
+    result = dev->lookup_table;
+  else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
 }
 
 static void gyro_write_request(WbDevice *d, WbRequest *r) {
@@ -62,6 +107,8 @@ static void gyro_write_request(WbDevice *d, WbRequest *r) {
 }
 
 static void gyro_cleanup(WbDevice *d) {
+  Gyro *gyro = (Gyro *)d->pdata;
+  free(gyro->lookup_table);
   free(d->pdata);
 }
 
@@ -78,7 +125,7 @@ void wbr_gyro_set_values(WbDeviceTag t, const double *values) {
     gyro->velocity[1] = values[1];
     gyro->velocity[2] = values[2];
   } else
-    fprintf(stderr, "Error: wbr_gyro_set_values(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 void wb_gyro_init(WbDevice *);
@@ -95,7 +142,7 @@ void wb_gyro_init(WbDevice *d) {
 
 void wb_gyro_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: wb_gyro_enable() called with negative sampling period.\n");
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
 
@@ -105,7 +152,7 @@ void wb_gyro_enable(WbDeviceTag tag, int sampling_period) {
     gyro->enable = true;
     gyro->sampling_period = sampling_period;
   } else
-    fprintf(stderr, "Error: wb_gyro_enable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -114,7 +161,7 @@ void wb_gyro_disable(WbDeviceTag tag) {
   if (gyro)
     wb_gyro_enable(tag, 0);
   else
-    fprintf(stderr, "Error: wb_gyro_disable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 int wb_gyro_get_sampling_period(WbDeviceTag tag) {
@@ -124,7 +171,7 @@ int wb_gyro_get_sampling_period(WbDeviceTag tag) {
   if (gyro)
     sampling_period = gyro->sampling_period;
   else
-    fprintf(stderr, "Error: wb_gyro_get_sampling_period(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return sampling_period;
 }
@@ -135,10 +182,10 @@ const double *wb_gyro_get_values(WbDeviceTag tag) {
   Gyro *gyro = gyro_get_struct(tag);
   if (gyro) {
     if (gyro->sampling_period <= 0)
-      fprintf(stderr, "Error: wb_gyro_get_values() called for a disabled device! Please use: wb_gyro_enable().\n");
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_gyro_enable().\n", __FUNCTION__);
     result = gyro->velocity;
   } else
-    fprintf(stderr, "Error: wb_gyro_get_values(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }

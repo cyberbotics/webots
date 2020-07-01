@@ -15,7 +15,7 @@ BoeBot {
   SFRotation rotation        0 1 0 0
   SFString   name            "BoeBot"
   SFString   controller      "boebot"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

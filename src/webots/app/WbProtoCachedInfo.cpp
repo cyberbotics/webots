@@ -35,7 +35,7 @@
 
 #include <cassert>
 
-static QString gFileHeader = "Webots Proto Cache File version 1.4";
+static QString gFileHeader = "Webots Proto Cache File version 1.5";
 
 WbProtoCachedInfo::WbProtoCachedInfo(const QString &protoFileName) : mNeedsRobotAncestor(false), mBaseType("UNKNOWN") {
   mHexProtoFileHash.clear();
@@ -166,16 +166,16 @@ WbProtoCachedInfo *WbProtoCachedInfo::computeInfo(const QString &protoFileName) 
   tokenizer.rewind();
   WbProtoModel *protoModel = NULL;
   bool prevInstantiateMode = WbNode::instantiateMode();
-  WbNode *previousParent = WbNode::globalParent();
+  WbNode *previousParent = WbNode::globalParentNode();
   try {
-    WbNode::setGlobalParent(NULL);
+    WbNode::setGlobalParentNode(NULL);
     WbNode::setInstantiateMode(false);
     protoModel = new WbProtoModel(&tokenizer, WbWorld::instance() ? WbWorld::instance()->fileName() : "", protoFileName);
     WbNode::setInstantiateMode(prevInstantiateMode);
-    WbNode::setGlobalParent(previousParent);
+    WbNode::setGlobalParentNode(previousParent);
   } catch (...) {
     WbNode::setInstantiateMode(prevInstantiateMode);
-    WbNode::setGlobalParent(previousParent);
+    WbNode::setGlobalParentNode(previousParent);
     return NULL;
   }
 
@@ -222,7 +222,7 @@ QString WbProtoCachedInfo::label(InfoType infoType) {
     case FILE_HASH:
       return "protoFileHash:";
     case DEVICES:
-      return "containsDevices:";
+      return "needsRobotAncestor:";
     case BASE_TYPE:
       return "baseType:";
     case SLOT_TYPE:

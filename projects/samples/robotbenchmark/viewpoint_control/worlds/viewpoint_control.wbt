@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "Benchmark objective: "
@@ -32,7 +32,7 @@ Thymio2 {
   translation 0 0 0.333
   rotation 1 0 0 0
   controller "void"
-  controllerArgs ""
+  controllerArgs []
 }
 ViewpointControlBenchmark {
 }

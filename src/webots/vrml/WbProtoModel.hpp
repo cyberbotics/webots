@@ -24,6 +24,8 @@ class WbFieldModel;
 class WbNode;
 class WbTokenizer;
 
+#include "WbVersion.hpp"
+
 #include <QtCore/QMap>
 #include <QtCore/QObject>
 #include <QtCore/QString>
@@ -40,6 +42,9 @@ public:
 
   // node name, e.g. "NaoV3R", "EPuck" ...
   const QString &name() const { return mName; }
+
+  // file version found in file header
+  const WbVersion &fileVersion() const { return mFileVersion; }
 
   // info comments (#) found at the beginning of the .proto file
   const QString &info() const { return mInfo; }
@@ -113,6 +118,7 @@ private:
   QString mContent;
 
   bool mTemplate;
+  WbVersion mFileVersion;
   QString mName;
   QString mInfo;
   bool mIsStatic;  // has the 'static' tag

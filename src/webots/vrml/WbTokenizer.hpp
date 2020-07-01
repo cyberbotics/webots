@@ -61,6 +61,9 @@ public:
   // returns file version found in file header
   const WbVersion &fileVersion() const { return mFileVersion; }
 
+  // static method returning the current world file version
+  static const WbVersion &worldFileVersion();
+
   // returns true if peekToken() or nextToken() would be valid
   bool hasMoreTokens() const { return mIndex < mVector.size(); }
 

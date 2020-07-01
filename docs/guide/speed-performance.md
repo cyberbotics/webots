@@ -42,6 +42,6 @@ Unnecessary shadows can be disabled by unchecking the `castShadows` field of lig
 In particular, try to minimize the number of [Physics](../reference/physics.md) nodes.
 Avoid using a [Solid](../reference/solid.md) nodes when a [Transform](../reference/transform.md) or a [Shape](../reference/shape.md) would do the trick.
 8. Simplify the `boundingObject`s to increase the speed of the collision detection.
-Replace complex primitives, like [Cylinder](../reference/cylinder.md), [IndexedFaceSet](../reference/indexedfaceset.md) and [ElevationGrid](../reference/elevationgrid.md) by simpler primitives, like [Sphere](../reference/sphere.md), [Capsule](../reference/capsule.md), [Box](../reference/box.md) and [Plane](../reference/plane.md).
+Replace complex primitives, like [Cylinder](../reference/cylinder.md), [IndexedFaceSet](../reference/indexedfaceset.md), [Mesh](../reference/mesh.md) and [ElevationGrid](../reference/elevationgrid.md) by simpler primitives, like [Sphere](../reference/sphere.md), [Capsule](../reference/capsule.md), [Box](../reference/box.md) and [Plane](../reference/plane.md).
 Avoid using a composition of primitives (in a [Group](../reference/group.md) or a [Transform](../reference/transform.md)) when a single primitive would do the trick.
 9. Set an empty string in the `controller` field for any [Robot](../reference/robot.md) nodes that don't need to be controlled, instead of using the `void` controller.

@@ -17,7 +17,7 @@ TiagoSteel {
   SFRotation  rotation         1 0 0 -1.5708
   SFString    name             "TIAGo Steel"
   SFString    controller       "tiagoSteel"
-  SFString    controllerArgs   ""
+  MFString    controllerArgs   []
   SFString    customData       ""
   SFBool      supervisor       FALSE
   SFBool      synchronization  TRUE

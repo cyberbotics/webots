@@ -113,6 +113,7 @@ private slots:
   void realTime();
   void run();
   void fast();
+  void disableFastMode(bool disabled);
   void updateVisibility();
   void writeScreenshot(QImage image);
   void updateTitleBarTitle();

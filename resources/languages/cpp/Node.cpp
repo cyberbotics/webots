@@ -83,6 +83,11 @@ Field *Node::getField(const std::string &fieldName) const {
   return Field::findField(fieldRef);
 }
 
+Field *Node::getProtoField(const std::string &fieldName) const {
+  WbFieldRef fieldRef = wb_supervisor_node_get_proto_field(nodeRef, fieldName.c_str());
+  return Field::findField(fieldRef);
+}
+
 const double *Node::getPosition() const {
   return wb_supervisor_node_get_position(nodeRef);
 }

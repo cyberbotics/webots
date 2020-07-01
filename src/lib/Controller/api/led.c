@@ -85,7 +85,7 @@ void wb_led_set(WbDeviceTag tag, int value) {
     led->state = value;
     led->set_state = true;
   } else
-    fprintf(stderr, "Error: wb_led_set(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -96,7 +96,7 @@ int wb_led_get(WbDeviceTag tag) {
   if (led)
     state = led->state;
   else
-    fprintf(stderr, "Error: wb_led_get(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return state;
 }

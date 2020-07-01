@@ -271,7 +271,7 @@ void WbDistanceSensor::updateRaySetup() {
   if (WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1, -1))
     return;  // in order to avoiding passing twice in this function
   if (mRayType == LASER && mNumberOfRays->value() > 1) {
-    warn(tr("'type' \"laser\" must have one single ray."));
+    parsingWarn(tr("'type' \"laser\" must have one single ray."));
     mNumberOfRays->setValue(1);
     return;  // in order to avoiding passing twice in this function
   }
@@ -619,6 +619,12 @@ void WbDistanceSensor::addConfigure(QDataStream &stream) {
   stream << (double)mLut->minValue();
   stream << (double)mLut->maxValue();
   stream << (double)mAperture->value();
+  stream << (int)mLookupTable->size();
+  for (int i = 0; i < mLookupTable->size(); i++) {
+    stream << (double)mLookupTable->item(i).x();
+    stream << (double)mLookupTable->item(i).y();
+    stream << (double)mLookupTable->item(i).z();
+  }
   mNeedToReconfigure = false;
 }
 
