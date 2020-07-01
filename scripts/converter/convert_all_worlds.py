@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-'''Convert world files from R2020a to R2020b with either NUE or ENU coordinate system.'''
+"""Convert world files from R2020a to R2020b with either NUE or ENU coordinate system."""
 
 # can be reverted with "git checkout -- *.wbt" at root level
 

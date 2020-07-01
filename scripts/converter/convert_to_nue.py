@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-'''Convert world file from R2020a to R2020b keeping the NUE coordinate system.'''
+"""Convert world file from R2020a to R2020b keeping the NUE coordinate system."""
 
 import sys
 

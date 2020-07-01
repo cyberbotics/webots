@@ -14,9 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-'''List of protos converted to the FLU orientation.'''
-
-_rub2flu = [0.577350269189626, -0.577350269189626, -0.577350269189626, -2.094395102393196]
-_luf2flu = [0.577350269189626, 0.577350269189626, 0.577350269189626, -2.094395102393196]
+"""List of protos converted to the FLU orientation."""
 
 converted_protos = {}

@@ -14,14 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-'''Parse Webots world files.'''
+"""Parse Webots world files."""
 
 import sys
 
 
 class WebotsParser:
-    '''This class reads a world file and parser its structure.'''
-    '''It assumes the world file was saved with Webots and the indentation written by Webots was not changed.'''
+    """This class reads a world file and parser its structure."""
+    """It assumes the world file was saved with Webots and the indentation written by Webots was not changed."""
     def __init__(self):
         self.content = {}
 
