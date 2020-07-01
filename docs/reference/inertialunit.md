@@ -179,7 +179,7 @@ The *pitch* angle indicates the unit's rotation angle about is *z*-axis, in the 
 The *pitch* angle is zero when the [InertialUnit](#inertialunit) is horizontal, i.e., when its *y*-axis has the opposite direction of the gravity.
 If the [InertialUnit](#inertialunit) is placed on the [Robot](robot.md) with a standard orientation, then the *pitch* angle is negative when the [Robot](robot.md) is going down, and positive when the robot is going up.
 
-The *yaw* angle indicates the unit orientation, in the interval [-&pi;,&pi;], with respect to [WorldInfo](worldinfo.md).`northDirection`.
+The *yaw* angle indicates the unit orientation, in the interval [-&pi;,&pi;], with respect to [WorldInfo](worldinfo.md).`coordinateSystem`.
 The *yaw* angle is zero when the [InertialUnit](#inertialunit)'s *x*-axis is aligned with the north direction, it is &pi;/2 when the unit is heading east, and -&pi;/2 when the unit is oriented towards the west.
 The *yaw* angle can be used as a compass.
 
