@@ -4,6 +4,66 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 
 ## 2020
 
+##### Marian 06/30/2020 09:45:52
+Ok, thanks a lot for the explanation. It works!
+
+##### lojik 06/30/2020 09:32:56
+Your "shape" node should be in the "children" one and not "boundingObject". Then you can select it in "boundingObject" because bounding object is just the virtual shape taken into account when performing contact simulation. It is not the visual rendering of the object.
+
+##### Marian 06/30/2020 09:29:18
+Hi, I'm trying to create some simple cylinders in WeBots. It works but unfortunatly it only creates a wireframe but no texture. What is missing here?
+%figure
+![webots_cylinderr.png](https://cdn.discordapp.com/attachments/565155651395780609/727455716390076437/webots_cylinderr.png)
+%end
+
+##### Clara Cardoso Ferreira 06/29/2020 15:04:28
+Thanks I'll try that when I get my computer back.
+
+My controller was not writing anything at the moment it crashed, but it was probably storing data. Yeah, it may have been the harddrive
+
+##### David Mansolino [cyberbotics] 06/25/2020 04:55:19
+About your other question, was your controller writing to a file? Would it be possibl that it saturated the hard drive?
+
+
+You can do this directly from the proto itself, you simply have to set the 'randomSeed' field to 0 as explained here: [https://www.cyberbotics.com/doc/guide/object-floors#uneventerrain-field-summary](https://www.cyberbotics.com/doc/guide/object-floors#uneventerrain-field-summary)
+
+##### Clara Cardoso Ferreira 06/24/2020 19:00:41
+> `@Clara Cardoso Ferreira` to reset the terrain from the proto file is indeed possible, unfortunately it is not possible to move the robot from there, but you can move it then at the first step of the simulation with a Supervisor controller.
+
+`@David Mansolino` 
+
+
+
+Your answer somewhat helps. I understand I can reset the terrain, but would I have to reset it manually or is there a way to make a loop so that a different terrain is used in every simulation iteration? I imagine I would have to connect the supervisor code to the proto somehow
+
+
+
+Another big question, I forgot a simulation running overnight on my computer and the next morning, it would not turn on. It may have been a coincidence that my computer failed even though it is under a year of use. Would you have any suggestions of what may have gone wrong?
+
+##### David Mansolino [cyberbotics] 06/24/2020 14:06:16
+You're welcome 😉
+
+##### black\_hammer\_67 06/24/2020 14:06:02
+thank you clarifying that 😁
+
+##### David Mansolino [cyberbotics] 06/24/2020 14:04:52
+Yes, that sounds good.
+
+##### black\_hammer\_67 06/24/2020 14:04:12
+ok i see, so I am looking for points that they have a certain value on y axis > 0.1 for example ?
+
+##### David Mansolino [cyberbotics] 06/24/2020 14:02:59
+That's unfortunately not so simple, the number of contact points of the wheel can vary, you should rather check the location of the contact points.
+
+##### black\_hammer\_67 06/24/2020 14:01:48
+ok so if I have a pioneer 3dx robot the default contact points are 3 , these that the wheels have with the floor and if I detect 4 or more points I can assume this is a colision right ?
+
+##### David Mansolino [cyberbotics] 06/24/2020 14:00:20
+Yes, you can get the number and location of the contact points of a node:  [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_contact\_point](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_contact_point)
+
+##### black\_hammer\_67 06/24/2020 13:59:32
+hello, is there a way to detect robot colisions in the suppervisor mode ?
+
 ##### David Mansolino [cyberbotics] 06/24/2020 05:40:46
 > Also, what is the benefit of using the supervisor vs a sensor (like the GPS) to get states such as position?
 
