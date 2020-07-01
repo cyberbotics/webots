@@ -294,7 +294,7 @@ bool WbPerspective::save() const {
     out << "consoles: " << mConsolesSettings.at(i).name << ":" << mConsolesSettings.at(i).enabledFilters.join(";") << ":"
         << mConsolesSettings.at(i).enabledLevels.join(";") << "\n";
 
-  QHash<QString, QStringList>::const_iterator it;
+  QMap<QString, QStringList>::const_iterator it;
   for (it = mRenderingDevicesPerspectiveList.constBegin(); it != mRenderingDevicesPerspectiveList.constEnd(); ++it)
     out << "renderingDevicePerspectives: " << it.key() << ";" << it.value().join(";") << "\n";
 

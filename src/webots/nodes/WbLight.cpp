@@ -235,7 +235,7 @@ void WbLight::exportNodeFields(WbVrmlWriter &writer) const {
   findField("intensity", true)->write(writer);
   findField("castShadows", true)->write(writer);
   if (writer.isX3d() && castShadows()) {
-    QHash<QString, QString> x3dExportParameters = WbWorld::instance()->perspective()->x3dExportParameters();
+    QMap<QString, QString> x3dExportParameters = WbWorld::instance()->perspective()->x3dExportParameters();
     if (x3dExportParameters.contains("shadowMapSize"))
       writer << " shadowMapSize=\'" << x3dExportParameters.value("shadowMapSize") << "\'";
     else
