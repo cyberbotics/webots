@@ -1134,14 +1134,6 @@ void WbMainWindow::editPhysicsPlugin() {
 }
 
 void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
-  bool savingIsAllowed = true;
-
-  if (!qgetenv("WEBOTS_DISABLE_SAVE_PERSPECTIVE_ON_CLOSE").isEmpty())
-    savingIsAllowed = false;
-
-  if (!savingIsAllowed && saveToFile)
-    return;
-
   const WbWorld *world = WbWorld::instance();
   if (!world || world->isUnnamed() || WbFileUtil::isLocatedInInstallationDirectory(world->fileName()))
     return;
@@ -1155,6 +1147,7 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
     perspective->clearEnabledOptionalRenderings();
     perspective->clearRenderingDevicesPerspectiveList();
   }
+
   if (qgetenv("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE").isEmpty()) {
     perspective->setMainWindowState(saveState());
     perspective->setMinimizedState(mMinimizedDockState);
@@ -1215,7 +1208,7 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
   WbRenderingDeviceWindowFactory::instance()->saveWindowsPerspective(*perspective);
 
   // save our new perspective in the file
-  if (savingIsAllowed && saveToFile)
+  if (saveToFile)
     perspective->save();
 }
 
