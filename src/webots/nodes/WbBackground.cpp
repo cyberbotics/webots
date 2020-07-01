@@ -63,7 +63,7 @@ static const QString gIrradianceUrlNames(int i) {
 }
 
 static int gCoordinateSystemSwap(int i) {
-  static const int enu_swap[] = {4, 5, 1, 0, 3, 2};
+  static const int enu_swap[] = {5, 4, 0, 1, 3, 2};
   if (WbWorld::instance()->worldInfo()->coordinateSystem() == "ENU")
     return enu_swap[i];
   else
@@ -71,7 +71,7 @@ static int gCoordinateSystemSwap(int i) {
 }
 
 static int gCoordinateSystemRotate(int i) {
-  static const int enu_rotate[] = {90, -90, 0, 180, 90, 90};
+  static const int enu_rotate[] = {90, -90, 0, 180, -90, -90};
   if (WbWorld::instance()->worldInfo()->coordinateSystem() == "ENU")
     return enu_rotate[i];
   else
