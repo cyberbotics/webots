@@ -351,7 +351,7 @@ void WbWorld::write(WbVrmlWriter &writer) const {
   }
 
   assert(mPerspective);
-  QHash<QString, QString> parameters = mPerspective->x3dExportParameters();
+  QMap<QString, QString> parameters = mPerspective->x3dExportParameters();
   writer.setX3DFrustumCullingValue(parameters.value("frustumCulling"));
   writer.writeHeader(worldInfo()->title());
 

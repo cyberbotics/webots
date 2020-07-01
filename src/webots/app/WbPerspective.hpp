@@ -22,8 +22,8 @@
 #include "WbAction.hpp"
 #include "WbVersion.hpp"
 
-#include <QtCore/QHash>
 #include <QtCore/QList>
+#include <QtCore/QMap>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 
@@ -112,7 +112,7 @@ public:
   void setUserInteractionDisabled(WbAction::WbActionKind action, bool disabled) {
     mDisabledUserInteractionsMap[action] = disabled;
   }
-  QHash<WbAction::WbActionKind, bool> disabledUserInteractionsMap() const { return mDisabledUserInteractionsMap; }
+  QMap<WbAction::WbActionKind, bool> disabledUserInteractionsMap() const { return mDisabledUserInteractionsMap; }
   bool isUserInteractionDisabled(WbAction::WbActionKind action) const {
     return mDisabledUserInteractionsMap.value(action, false);
   }
@@ -128,7 +128,7 @@ public:
   void setRenderingDevicePerspective(const QString &deviceUniqueName, const QStringList &perspective);
   QStringList renderingDevicePerspective(const QString &deviceUniqueName) const;
 
-  QHash<QString, QString> &x3dExportParameters() { return mX3dExportParameters; }
+  QMap<QString, QString> &x3dExportParameters() { return mX3dExportParameters; }
   void setX3dExportParameter(const QString &key, QString value);
 
   // load/save perspective
@@ -149,7 +149,7 @@ private:
   QString mDocumentationBook;
   QString mDocumentationPage;
   double mOrthographicViewHeight;
-  QHash<WbAction::WbActionKind, bool> mDisabledUserInteractionsMap;
+  QMap<WbAction::WbActionKind, bool> mDisabledUserInteractionsMap;
   QString mProjectionMode;
   QString mRenderingMode;
   QStringList mEnabledOptionalRenderingList;
@@ -158,8 +158,8 @@ private:
   QStringList mCenterOfBuoyancyNodeNames;
   QStringList mSupportPolygonNodeNames;
   QVector<ConsoleSettings> mConsolesSettings;
-  QHash<QString, QStringList> mRenderingDevicesPerspectiveList;
-  QHash<QString, QString> mX3dExportParameters;
+  QMap<QString, QStringList> mRenderingDevicesPerspectiveList;
+  QMap<QString, QString> mX3dExportParameters;
 
   bool readContent(QTextStream &in, bool reloading);
   void addDefaultConsole();

@@ -1134,14 +1134,6 @@ void WbMainWindow::editPhysicsPlugin() {
 }
 
 void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
-  bool savingIsAllowed = true;
-
-  if (!qgetenv("WEBOTS_DISABLE_SAVE_PERSPECTIVE_ON_CLOSE").isEmpty())
-    savingIsAllowed = false;
-
-  if (!savingIsAllowed && saveToFile)
-    return;
-
   const WbWorld *world = WbWorld::instance();
   if (!world || world->isUnnamed() || WbFileUtil::isLocatedInInstallationDirectory(world->fileName()))
     return;
@@ -1155,12 +1147,18 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
     perspective->clearEnabledOptionalRenderings();
     perspective->clearRenderingDevicesPerspectiveList();
   }
-  perspective->setMainWindowState(saveState());
-  perspective->setMinimizedState(mMinimizedDockState);
+
+  const bool saveScreenPerspective = qgetenv("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE").isEmpty();
+  if (saveScreenPerspective) {
+    perspective->setMainWindowState(saveState());
+    perspective->setMinimizedState(mMinimizedDockState);
+    perspective->setSimulationViewState(mSimulationView->saveState());
+  }
+
   const int id = mDockWidgets.indexOf(mMaximizedWidget);
   perspective->setMaximizedDockId(id);
   perspective->setCentralWidgetVisible(mSimulationView->isVisible());
-  perspective->setSimulationViewState(mSimulationView->saveState());
+
   if (mTextEditor) {
     perspective->setFilesList(mTextEditor->openFiles());
     perspective->setSelectedTab(mTextEditor->selectedTab());
@@ -1200,18 +1198,20 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
   }
   perspective->setConsolesSettings(settingsList);
 
-  // save rendering devices perspective
-  const QList<WbRenderingDevice *> renderingDevices = WbRenderingDevice::renderingDevices();
-  foreach (const WbRenderingDevice *device, renderingDevices) {
-    if (device->overlay() != NULL)
-      perspective->setRenderingDevicePerspective(device->computeShortUniqueName(), device->perspective());
+  if (saveScreenPerspective) {
+    // save rendering devices perspective
+    const QList<WbRenderingDevice *> renderingDevices = WbRenderingDevice::renderingDevices();
+    foreach (const WbRenderingDevice *device, renderingDevices) {
+      if (device->overlay() != NULL)
+        perspective->setRenderingDevicePerspective(device->computeShortUniqueName(), device->perspective());
+    }
+
+    // save rendering devices perspective of external window
+    WbRenderingDeviceWindowFactory::instance()->saveWindowsPerspective(*perspective);
   }
 
-  // save rendering devices perspective of external window
-  WbRenderingDeviceWindowFactory::instance()->saveWindowsPerspective(*perspective);
-
   // save our new perspective in the file
-  if (savingIsAllowed && saveToFile)
+  if (saveToFile)
     perspective->save();
 }
 

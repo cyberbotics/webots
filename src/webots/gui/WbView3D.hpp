@@ -128,7 +128,7 @@ private:
   int mRefreshCounter;
   QElapsedTimer *mMousePressTimer;
   QPoint mMousePressPosition;
-  QHash<WbAction::WbActionKind, bool> mDisabledUserInteractionsMap;
+  QMap<WbAction::WbActionKind, bool> mDisabledUserInteractionsMap;
   double mAspectRatio;
   WbWrenFullScreenOverlay *mFastModeOverlay;
   WbWrenFullScreenOverlay *mLoadingWorldOverlay;
