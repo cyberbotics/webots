@@ -105,13 +105,17 @@ class WebotsParser:
     def _write_mf_field(self, type, values):
         self.indentation += 2
         indent = ' ' * (self.indentation)
-        first = True
+        count = 0
+        smallSeparator = True if len(values) > 25 else False
         for value in values:
-            if type in ['MFInt32', 'MFFloat']:
-                if first:
+            if type in ['MFInt32', 'MFFloat', 'MFVec2f', 'MFVec3f', 'MFColor', 'MFRotation']:
+                if count == 0:
                     self.file.write(indent)
+                elif smallSeparator or (type in ['MFInt32', 'MFFloat'] and count % 10 != 0):
+                    self.file.write(', ')
                 else:
-                    self.file.write(", ")
+                    self.file.write('\n')
+                    self.file.write(indent)
             else:
                 self.file.write(indent)
             if type == 'MFString':
@@ -121,15 +125,15 @@ class WebotsParser:
             elif type == 'MFBool':
                 self.file.write('TRUE\n' if value else 'FALSE\n')
             elif type == 'MFVec2f':
-                self.file.write(value[0] + ' ' + value[1] + '\n')
+                self.file.write(value[0] + ' ' + value[1])
             elif type == 'MFVec3f' or type == 'MFColor':
-                self.file.write(value[0] + ' ' + value[1] + ' ' + value[2] + '\n')
+                self.file.write(value[0] + ' ' + value[1] + ' ' + value[2])
             elif type == 'MFRotation':
-                self.file.write(value[0] + ' ' + value[1] + ' ' + value[2] + ' ' + value[3] + '\n')
+                self.file.write(value[0] + ' ' + value[1] + ' ' + value[2] + ' ' + value[3])
             elif type == 'MFNode':
                 self._write_node(value)
-            first = False
-        if type in ['MFInt32', 'MFFloat']:
+            count += 1
+        if type in ['MFInt32', 'MFFloat', 'MFVec2f', 'MFVec3f', 'MFColor', 'MFRotation']:
             self.file.write('\n')
         self.indentation -= 2
 
@@ -221,28 +225,32 @@ class WebotsParser:
                 type = 'MFBool'
                 mffield.append(False)  # MFBool
             elif character.isdigit() or character == '-':
-                words = line.split(' ')
-                length = len(words)
-                if length == 1 or ',' in words[0]:
-                    if not type:
-                        type = 'MFInt32'
-                    for value in words:
-                        if value.endswith(','):
-                            value = value[:-1]
-                        if '.' in value:
-                            type = 'MFFloat'
-                        mffield.append(value)
-                else:
-                    array = []
-                    if length == 2:
-                        type = 'MFVec2f'
-                    elif length == 3:
-                        type = 'MFVec3f'  # FIXME: could be MFColor as well
-                    elif length == 4:
-                        type = 'MFRotation'
-                    for number in words:
-                        array.append(number)  # MFVec2f / MFVec3f / MFRotation / MFColor
-                    mffield.append(array)
+                groups = line.split(',')
+                for group in groups:
+                    if group is None:
+                        continue
+                    words = group.strip().split(' ')
+                    length = len(words)
+                    if length == 1 or ',' in words[0]:
+                        if not type:
+                            type = 'MFInt32'
+                        for value in words:
+                            if value.endswith(','):
+                                value = value[:-1]
+                            if '.' in value:
+                                type = 'MFFloat'
+                            mffield.append(value)
+                    else:
+                        array = []
+                        if length == 2 or ',' in words[1]:
+                            type = 'MFVec2f'
+                        elif length == 3 or ',' in words[2]:
+                            type = 'MFVec3f'  # FIXME: could be MFColor as well
+                        elif length == 4 or ',' in words[3]:
+                            type = 'MFRotation'
+                        for number in words:
+                            array.append(number)  # MFVec2f / MFVec3f / MFRotation / MFColor
+                        mffield.append(array)
             else:
                 type = 'MFNode'
                 node = self._read_node(line)
