@@ -4,8 +4,6 @@ simulationViewPerspectives: 000000ff00000001000000020000010000000308010000000201
 sceneTreePerspectives: 000000ff0000000100000002000000c0000000fa0100000002010000000200
 maximizedDockId: -1
 centralWidgetVisible: 1
-selectionDisabled: 0
-viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/op3_motion_player/Op3MotionPlayer.cpp"
 consoles: Console:All:All

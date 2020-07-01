@@ -4,12 +4,10 @@ simulationViewPerspectives: 000000ff00000001000000020000017000000349010000000601
 sceneTreePerspectives: 000000ff0000000100000002000000c0000000fc0100000006010000000201
 maximizedDockId: -1
 centralWidgetVisible: 1
-selectionDisabled: 0
-viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: -1
 robotWindow: full_supervisor
 consoles: Console:All:All
 renderingDevicePerspectives: full_supervisor:camera;1;1;0;0
-renderingDevicePerspectives: full_supervisor:range_finder;1;1;0;0
 renderingDevicePerspectives: full_supervisor:display;1;1;0;0
+renderingDevicePerspectives: full_supervisor:range_finder;1;1;0;0

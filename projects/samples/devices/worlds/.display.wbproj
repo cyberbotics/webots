@@ -4,12 +4,10 @@ simulationViewPerspectives: 000000ff00000001000000020000016c000004a0010000000201
 sceneTreePerspectives: 000000ff0000000100000002000000c0000001120100000002010000000201
 maximizedDockId: -1
 centralWidgetVisible: 1
-selectionDisabled: 0
-viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/display/display.c" "controllers/display_supervisor/display_supervisor.c"
 consoles: Console:All:All
 renderingDevicePerspectives: MyBot:camera;1;1;0.14;0
+renderingDevicePerspectives: MyBot:camera_display;1;1;0.14;0.542253
 renderingDevicePerspectives: MyBot:emoticon_display;1;9;0;0.549296
 renderingDevicePerspectives: robot:ground_display;1;1;0;0
-renderingDevicePerspectives: MyBot:camera_display;1;1;0.14;0.542253

@@ -4,8 +4,6 @@ simulationViewPerspectives: 000000ff0000000100000002000001000000016e010000000201
 sceneTreePerspectives: 000000ff0000000100000002000000c0000000fa0100000002010000000200
 maximizedDockId: -1
 centralWidgetVisible: 1
-selectionDisabled: 0
-viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/p-rob3/p-rob3.c"
 consoles: Console:All:All
