@@ -167,11 +167,11 @@ void WbBox::updateLineScale() {
   if (!isAValidBoundingObject())
     return;
 
-  float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
-
-  float scale[] = {static_cast<float>(mSize->value().x()) * (1.0f + offset),
-                   static_cast<float>(mSize->value().y()) * (1.0f + offset),
-                   static_cast<float>(mSize->value().z()) * (1.0f + offset)};
+  const float x = static_cast<float>(mSize->value().x());
+  const float y = static_cast<float>(mSize->value().y());
+  const float z = static_cast<float>(mSize->value().z());
+  const float offset = 10 * std::min({x, y, z}) * wr_config_get_line_scale() / LINE_SCALE_FACTOR;
+  const float scale[] = {x + offset, y + offset, z + offset};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
