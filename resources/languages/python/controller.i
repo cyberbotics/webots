@@ -717,11 +717,11 @@ using namespace std;
 
   static PyObject *rangeImageGetDepth(PyObject *im, int width, int x, int y) {
     if (!PyList_Check(im)) {
-      PyErr_SetString(PyExc_TypeError, "in method 'RangeFinder_rangeImageGetValue', argument 2 of type 'PyList'\n");
+      PyErr_SetString(PyExc_TypeError, "in method 'RangeFinder_rangeImageGetDepth', argument 2 of type 'PyList'\n");
     }
     PyObject *value = PyList_GetItem(im, y * width + x);
     if (!PyFloat_Check(value)) {
-      PyErr_SetString(PyExc_TypeError, "in method 'RangeFinder_rangeImageGetValue', argument 2 of type 'PyList' of 'PyFloat'\n");
+      PyErr_SetString(PyExc_TypeError, "in method 'RangeFinder_rangeImageGetDepth', argument 2 of type 'PyList' of 'PyFloat'\n");
       return NULL;
     }
     // inform Python runtime that the object is used somewhere else
