@@ -64,6 +64,7 @@ jobs:
     - name: ${{ matrix.test }}
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
+        export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
         xvfb-run --auto-servernum python ${{ matrix.test }}
         ${{ matrix.POST_TASK }}
