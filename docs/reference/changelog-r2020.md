@@ -35,7 +35,7 @@ Released on XXX.
     - Deprecated the following appearances: `ChequeredParquetry`, `DarkParquetry`, `SlatePavement`, `SquarePavement` and `StonePavement`.
     - Removed automatic path to Qt libraries for controllers using deprecated Qt robot windows. Such paths should now be specified in `runtime.ini` instead.
   - Bug fixes
-    - Fixed crash with Python [`RangeFinder.rangeImageGetDepth`](rangefinder.md?tab-language=python#wb_range_finder_image_get_depth) function making the controller crash.
+    - Fixed crash with Python [`RangeFinder.rangeImageGetDepth`](rangefinder.md#wb_range_finder_image_get_depth) function.
     - Fixed rendering of Track and Muscle nodes when the main window was minimized.
     - Fixed crash occurring when moving with SHIFT+mouse/wheel drag a PROTO object with translation or rotation template field.
     - Fixed crash occurring when setting a 3D coordinate to a huge value (greater than 1e+151).
