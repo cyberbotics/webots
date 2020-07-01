@@ -1257,6 +1257,12 @@ void WbView3D::checkRendererCapabilities() {
   }
 #endif
 
+  int maxTextureFiltering = 1;
+  int maxHardwareAfLevel = wr_gl_state_max_texture_anisotropy();
+  // Find integer log2 of maxHardwareAfLevel to transcribe to user filtering level
+  while (maxHardwareAfLevel >>= 1)
+    ++maxTextureFiltering;
+
   // check GPU memory (not for Intel GPU, because the texture size has no impact on the rendring speed)
   if (mWrenRenderingContext->isNvidiaRenderer() || mWrenRenderingContext->isAmdRenderer()) {
     if (wr_gl_state_get_gpu_memory() == 2097152)
@@ -1297,6 +1303,12 @@ void WbView3D::checkRendererCapabilities() {
     message += "\n - ";
     message += tr("Texture quality has been reduced.");
     WbPreferences::instance()->setValue("OpenGL/textureQuality", 2 - reduceTextureQuality);
+  }
+
+  if (maxTextureFiltering < WbPreferences::instance()->value("OpenGL/textureFiltering").toInt()) {
+    message += "\n - ";
+    message += tr("Texture maximum filtering has been reduced due to GPU limitations.");
+    WbPreferences::instance()->setValue("OpenGL/textureFiltering", maxTextureFiltering);
   }
 
   // 4. check OpenGL capabilities.
@@ -1903,19 +1915,22 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     WbSolid *const uppermostSolid = WbNodeUtilities::findUppermostSolid(selectedNode);
     Qt::MouseButtons buttons = event->buttons();
     if (buttons == Qt::MidButton || buttons == (Qt::LeftButton | Qt::RightButton)) {
-      if (uppermostSolid)
-        mDragKinematics = new WbDragVerticalSolidEvent(position, viewpoint, uppermostSolid);
-      else
+      if (uppermostSolid) {
+        if (uppermostSolid->canBeTranslated())
+          mDragKinematics = new WbDragVerticalSolidEvent(position, viewpoint, uppermostSolid);
+      } else if (uppermostTransform->canBeTranslated())
         mDragKinematics = new WbDragVerticalEvent(position, viewpoint, uppermostTransform);
     } else if (buttons == Qt::LeftButton) {
-      if (uppermostSolid)
-        mDragKinematics = new WbDragHorizontalSolidEvent(position, viewpoint, uppermostSolid);
-      else
+      if (uppermostSolid) {
+        if (uppermostSolid->canBeTranslated())
+          mDragKinematics = new WbDragHorizontalSolidEvent(position, viewpoint, uppermostSolid);
+      } else if (uppermostTransform->canBeTranslated())
         mDragKinematics = new WbDragHorizontalEvent(position, viewpoint, uppermostTransform);
     } else if (buttons == Qt::RightButton) {
-      if (uppermostSolid)
-        mDragVerticalAxisRotate = new WbDragRotateAroundWorldVerticalAxisSolidEvent(position, viewpoint, uppermostSolid);
-      else
+      if (uppermostSolid) {
+        if (uppermostSolid->canBeRotated())
+          mDragVerticalAxisRotate = new WbDragRotateAroundWorldVerticalAxisSolidEvent(position, viewpoint, uppermostSolid);
+      } else if (uppermostTransform->canBeRotated())
         mDragVerticalAxisRotate = new WbDragRotateAroundWorldVerticalAxisEvent(position, viewpoint, uppermostTransform);
     }
   } else if (alt) {
@@ -2225,7 +2240,7 @@ void WbView3D::wheelEvent(QWheelEvent *event) {
     // SHIFT and WHEEL MOUSE -> lift the selected solid in the 3D View
     WbBaseNode *const selectedNode = dynamic_cast<WbBaseNode *>(WbSelection::instance()->selectedAbstractTransform());
     WbSolid *const uppermostSolid = WbNodeUtilities::findUppermostSolid(selectedNode);
-    if (!uppermostSolid || uppermostSolid->isLocked())
+    if (!uppermostSolid || uppermostSolid->isLocked() || !uppermostSolid->canBeTranslated())
       return;
     mWheel = new WbWheelLiftSolidEvent(viewpoint, uppermostSolid);
     mWheel->apply(event->angleDelta().y());

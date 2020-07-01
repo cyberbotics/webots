@@ -9,7 +9,8 @@ Released on XXX.
     - Added two new functions to get internal PROTO node fields: [`wb_supervisor_node_get_from_proto_def`](supervisor.md#wb_supervisor_node_get_from_proto_def) and [`wb_supervisor_node_get_proto_field`](supervisor.md#wb_supervisor_node_get_proto_field) ([#1331](https://github.com/cyberbotics/webots/pull/1331)).
     - Added a model of the [P-Rob 3](../guide/p-rob3.md) robot from [F&P Robotics](https://www.fp-robotics.com/en/) ([#1657](https://github.com/cyberbotics/webots/pull/1657)).
     - Added the `mjpeg` web streaming mode ([#1352](https://github.com/cyberbotics/webots/pull/1352)).
-    - Added a new 'Show Normals' optional rendering ([#1740](https://github.com/cyberbotics/webots/pull/1740))
+    - Exposed global texture maximum filtering as a parameter in the Webots preferences ([#1851](https://github.com/cyberbotics/webots/pull/1851)).
+    - Added a new 'Show Normals' optional rendering ([#1740](https://github.com/cyberbotics/webots/pull/1740)).
   - Enhancements
     - **Improved [Track](track.md) `textureAnimation` field so that it automatically takes the world basic time step into consideration and removed it from `ConveyorBelt` PROTO object ([#1477](https://github.com/cyberbotics/webots/pull/1477)).**
     - **Replaced the [Car](../automobile/car.md) `maxWheelVelocity` field by a `maxVelocity` field representing the actual maximum velocity of the car itself ([#1552](https://github.com/cyberbotics/webots/pull/1552)).**
@@ -26,6 +27,7 @@ Released on XXX.
   - Dependency Updates
     - Upgraded to Assimp 5.0.1 on Linux and macOS ([#1419](https://github.com/cyberbotics/webots/pull/1463)).
   - Bug fixes
+    - Fixed crash with Python [`RangeFinder.rangeImageGetDepth`](rangefinder.md#wb_range_finder_image_get_depth) function ([#1858](https://github.com/cyberbotics/webots/pull/1858)).
     - Fixed mismatch between the bounding object and visual shape of the [UnevenTerrain](https://www.cyberbotics.com/doc/guide/object-floors#uneventerrain), **and removed the `textureScale` field** ([#1792](https://github.com/cyberbotics/webots/pull/1792)).
     - Fixed crash when using a [Normal](normal.md) node in a PROTO node ([#1813](https://github.com/cyberbotics/webots/pull/1813)).
   - Cleanup
@@ -68,6 +70,7 @@ Released on XXX.
     - Removed automatic path to Qt libraries for controllers using deprecated Qt robot windows. Such paths should now be specified in `runtime.ini` instead.
   - Bug fixes
     - Fixed rendering of Track and Muscle nodes when the main window was minimized.
+    - Fixed crash occurring when moving with SHIFT+mouse/wheel drag a PROTO object with translation or rotation template field.
     - Fixed crash occurring when setting a 3D coordinate to a huge value (greater than 1e+151).
     - Fixed crash occurring when Webots was streaming a 3D scene and some object was inserted into a PROTO node.
     - Fixed the restoration of the 3D view which was sometimes not re-appearing after being hidden.

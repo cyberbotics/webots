@@ -246,6 +246,7 @@ void WbGuiApplication::parseArguments() {
     WbPreferences::instance()->setValue("OpenGL/disableAntiAliasing", true);
     WbPreferences::instance()->setValue("OpenGL/GTAO", 0);
     WbPreferences::instance()->setValue("OpenGL/textureQuality", 0);
+    WbPreferences::instance()->setValue("OpenGL/textureFiltering", 0);
     mStartupMode = WbSimulationState::PAUSE;
     mStartWorldName = WbStandardPaths::resourcesPath() + "projects/worlds/empty.wbt";
   }
