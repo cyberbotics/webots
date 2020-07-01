@@ -49,6 +49,7 @@ void WbImageTexture::init() {
   mExternalTextureData = NULL;
   mContainerField = "";
   mImage = NULL;
+  mUsedFiltering = 0;
   mWrenTextureIndex = 0;
   mIsMainTextureTransparent = true;
   mRole = "";
@@ -91,6 +92,7 @@ void WbImageTexture::postFinalize() {
   connect(mRepeatS, &WbSFBool::changed, this, &WbImageTexture::updateRepeatS);
   connect(mRepeatT, &WbSFBool::changed, this, &WbImageTexture::updateRepeatT);
   connect(mFiltering, &WbSFInt::changed, this, &WbImageTexture::updateFiltering);
+  connect(WbPreferences::instance(), &WbPreferences::changedByUser, this, &WbImageTexture::updateFiltering);
 
   if (!WbWorld::instance()->isLoading())
     emit changed();
@@ -217,23 +219,14 @@ void WbImageTexture::updateRepeatT() {
 }
 
 void WbImageTexture::updateFiltering() {
-  if (WbFieldChecker::resetIntIfNegative(this, mFiltering, 0))
+  if (WbFieldChecker::resetIntIfNotInRangeWithIncludedBounds(this, mFiltering, 0, 5, 4))
     return;
 
-  int maxHardwareAfLevel = wr_gl_state_max_texture_anisotropy();
-  int maxFiltering = 1;
-  // Find integer log2 of maxHardwareAfLevel to transcribe to user filtering level
-  while (maxHardwareAfLevel >>= 1)
-    ++maxFiltering;
   // The filtering level has an upper bound defined by the maximum supported anisotropy level.
   // A warning is not produced here because the maximum anisotropy level is not up to the user
   // and may be repeatedly shown even though a minimum requirement warning was already given.
-  int filtering = mFiltering->value();
-  if (filtering > maxFiltering) {
-    mFiltering->blockSignals(true);
-    mFiltering->setValue(std::min(4, maxFiltering));
-    mFiltering->blockSignals(false);
-  }
+  const int maxFiltering = WbPreferences::instance()->value("OpenGL/textureFiltering").toInt();
+  mUsedFiltering = qMin(mFiltering->value(), maxFiltering);
 
   if (isPostFinalizedCalled())
     emit changed();
@@ -252,9 +245,9 @@ void WbImageTexture::modifyWrenMaterial(WrMaterial *wrenMaterial, const int main
       wrenMaterial, mRepeatS->value() ? WR_TEXTURE_WRAP_MODE_REPEAT : WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, mWrenTextureIndex);
     wr_material_set_texture_wrap_t(
       wrenMaterial, mRepeatT->value() ? WR_TEXTURE_WRAP_MODE_REPEAT : WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, mWrenTextureIndex);
-    wr_material_set_texture_anisotropy(wrenMaterial, 1 << (mFiltering->value() - 1), mWrenTextureIndex);
-    wr_material_set_texture_enable_interpolation(wrenMaterial, mFiltering->value(), mWrenTextureIndex);
-    wr_material_set_texture_enable_mip_maps(wrenMaterial, mFiltering->value(), mWrenTextureIndex);
+    wr_material_set_texture_anisotropy(wrenMaterial, 1 << (mUsedFiltering - 1), mWrenTextureIndex);
+    wr_material_set_texture_enable_interpolation(wrenMaterial, mUsedFiltering, mWrenTextureIndex);
+    wr_material_set_texture_enable_mip_maps(wrenMaterial, mUsedFiltering, mWrenTextureIndex);
 
     if (mExternalTexture && !(static_cast<WbAppearance *>(parentNode())->textureTransform())) {
       wr_texture_transform_delete(mWrenTextureTransform);
@@ -328,10 +321,6 @@ int WbImageTexture::height() const {
   if (mWrenTexture)
     return wr_texture_get_height(WR_TEXTURE(mWrenTexture));
   return 0;
-}
-
-int WbImageTexture::filtering() const {
-  return mFiltering->value();
 }
 
 void WbImageTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv) const {
@@ -437,7 +426,7 @@ void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
 }
 
 void WbImageTexture::exportNodeSubNodes(WbVrmlWriter &writer) const {
-  int filtering = mFiltering->value();
+  const int filtering = mFiltering->value();
   if (writer.isX3d() && filtering > 0)
     writer << "<TextureProperties anisotropicDegree=\"" << (1 << (filtering - 1))
            << "\" generateMipMaps=\"true\" minificationFilter=\"AVG_PIXEL\" magnificationFilter=\"AVG_PIXEL\"/>";
