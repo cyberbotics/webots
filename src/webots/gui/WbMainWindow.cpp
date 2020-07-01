@@ -1155,7 +1155,7 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
     perspective->clearEnabledOptionalRenderings();
     perspective->clearRenderingDevicesPerspectiveList();
   }
-  if (qgetenv("WEBOTS_DISABLE_SAVE_PERSPECTIVE_ONLY_ON_CLOSE").isEmpty()) {
+  if (qgetenv("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE").isEmpty()) {
     perspective->setMainWindowState(saveState());
     perspective->setMinimizedState(mMinimizedDockState);
     const int id = mDockWidgets.indexOf(mMaximizedWidget);
