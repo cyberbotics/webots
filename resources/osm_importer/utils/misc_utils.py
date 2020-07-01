@@ -37,7 +37,7 @@ def print_header(file, minlat, minlon, maxlat, maxlon, elevation=None):
     file.write("    \"World generated using the Open Street Map to Webots importer\"\n")
     file.write("    \"Author: David Mansolino <david.mansolino@epfl.ch>\"\n")
     file.write("  ]\n")
-    file.write("  northDirection 0 0 1\n")
+    file.write("  coordinateSystem \"NUE\"\n")
     longitude = (float(maxlon) + float(minlon)) / 2
     latitude = (float(maxlat) + float(minlat)) / 2
     x, z = Projection.project(longitude, latitude)
