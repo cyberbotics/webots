@@ -4,8 +4,6 @@ simulationViewPerspectives: 000000ff00000001000000020000010000000337010000000601
 sceneTreePerspectives: 000000ff0000000100000002000000c0000000a80100000006010000000201
 maximizedDockId: -1
 centralWidgetVisible: 1
-selectionDisabled: 0
-viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "plugins/robot_windows/custom_html_robot_window/custom_html_robot_window.html" "plugins/robot_windows/custom_html_robot_window/custom_html_robot_window.css" "plugins/robot_windows/custom_html_robot_window/custom_html_robot_window.js" "plugins/robot_windows/custom_html_robot_window/custom_html_robot_window.c"
 robotWindow: e-puck

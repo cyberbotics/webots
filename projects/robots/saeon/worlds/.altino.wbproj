@@ -4,8 +4,6 @@ simulationViewPerspectives: 000000ff0000000100000002000001000000047a010000000601
 sceneTreePerspectives: 000000ff0000000100000002000001dc000000a80100000006010000000200
 maximizedDockId: -1
 centralWidgetVisible: 1
-selectionDisabled: 0
-viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/vehicle_driver_altino/vehicle_driver_altino.py"
 consoles: Console:All:All

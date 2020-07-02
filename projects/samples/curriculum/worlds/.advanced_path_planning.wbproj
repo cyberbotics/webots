@@ -4,8 +4,6 @@ simulationViewPerspectives: 000000ff00000001000000020000016c000004a0010000000601
 sceneTreePerspectives: 000000ff0000000100000002000001c6000001120100000006010000000201
 maximizedDockId: -1
 centralWidgetVisible: 1
-selectionDisabled: 0
-viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 1 "controllers/advanced_path_planning_NF1/advanced_path_planning_NF1.c" "controllers/advanced_path_planning_potential_field/advanced_path_planning_potential_field.c" "lib/odometry_goto.c" "lib/odometry.c"
 consoles: Console:All:All

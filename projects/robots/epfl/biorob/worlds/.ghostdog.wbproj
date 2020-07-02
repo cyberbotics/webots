@@ -4,10 +4,8 @@ simulationViewPerspectives: 000000ff00000001000000020000016c0000049f010000000601
 sceneTreePerspectives: 000000ff0000000100000002000001c5000001120100000006010000000201
 maximizedDockId: -1
 centralWidgetVisible: 1
-selectionDisabled: 0
-viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/ghostdog/ghostdog.c"
 consoles: Console:All:All
-renderingDevicePerspectives: GhostDog:right camera;0;1;0.00110011;0.00138122
 renderingDevicePerspectives: GhostDog:left camera;0;1;0.00110011;0.00138122
+renderingDevicePerspectives: GhostDog:right camera;0;1;0.00110011;0.00138122

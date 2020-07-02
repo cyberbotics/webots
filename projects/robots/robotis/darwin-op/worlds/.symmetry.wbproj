@@ -4,8 +4,6 @@ simulationViewPerspectives: 000000ff0000000100000002000001ac00000139010000000601
 sceneTreePerspectives: 000000ff0000000100000002000000c0000000970100000006010000000201
 maximizedDockId: -1
 centralWidgetVisible: 1
-selectionDisabled: 0
-viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 1 "controllers/symmetry/main.cpp" "controllers/symmetry/Symmetry.cpp" "controllers/symmetry/Symmetry.hpp"
 consoles: Console:All:All

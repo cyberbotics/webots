@@ -4,30 +4,28 @@ simulationViewPerspectives: 000000ff00000001000000020000011b000008e0010000000601
 sceneTreePerspectives: 000000ff0000000100000002000000c0000001120100000006010000000201
 maximizedDockId: -1
 centralWidgetVisible: 1
-selectionDisabled: 0
-viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: -1
 consoles: Console:All:All
+renderingDevicePerspectives: NAO BLUE 0:CameraBottom;1;1;0;0
+renderingDevicePerspectives: NAO BLUE 0:CameraTop;1;1;0;0
+renderingDevicePerspectives: NAO BLUE 1:CameraBottom;1;1;0;0
+renderingDevicePerspectives: NAO BLUE 1:CameraTop;1;1;0;0
+renderingDevicePerspectives: NAO BLUE 2:CameraBottom;1;1;0;0
+renderingDevicePerspectives: NAO BLUE 2:CameraTop;1;1;0;0
+renderingDevicePerspectives: NAO BLUE 3:CameraBottom;1;1;0;0
+renderingDevicePerspectives: NAO BLUE 3:CameraTop;1;1;0;0
+renderingDevicePerspectives: NAO BLUE 4:CameraBottom;1;1;0;0
+renderingDevicePerspectives: NAO BLUE 4:CameraTop;1;1;0;0
+renderingDevicePerspectives: NAO RED 0:CameraBottom;1;1;0;0
+renderingDevicePerspectives: NAO RED 0:CameraTop;1;1;0;0
+renderingDevicePerspectives: NAO RED 1:CameraBottom;1;1;0;0
+renderingDevicePerspectives: NAO RED 1:CameraTop;1;1;0;0
+renderingDevicePerspectives: NAO RED 2:CameraBottom;1;1;0;0
 renderingDevicePerspectives: NAO RED 2:CameraTop;1;1;0;0
 renderingDevicePerspectives: NAO RED 3:CameraBottom;1;1;0;0
-renderingDevicePerspectives: NAO BLUE 3:CameraTop;1;1;0;0
-renderingDevicePerspectives: NAO RED 4:CameraTop;1;1;0;0
-renderingDevicePerspectives: NAO BLUE 4:CameraBottom;1;1;0;0
-renderingDevicePerspectives: NAO RED 1:CameraTop;1;1;0;0
-renderingDevicePerspectives: NAO BLUE 2:CameraTop;1;1;0;0
-renderingDevicePerspectives: NAO BLUE 4:CameraTop;1;1;0;0
-renderingDevicePerspectives: NAO BLUE 1:CameraTop;1;1;0;0
-renderingDevicePerspectives: NAO RED 2:CameraBottom;1;1;0;0
-renderingDevicePerspectives: NAO RED 4:CameraBottom;1;1;0;0
-renderingDevicePerspectives: NAO RED 0:CameraTop;1;1;0;0
 renderingDevicePerspectives: NAO RED 3:CameraTop;1;1;0;0
-renderingDevicePerspectives: NAO BLUE 3:CameraBottom;1;1;0;0
-renderingDevicePerspectives: NAO BLUE 0:CameraTop;1;1;0;0
-renderingDevicePerspectives: NAO BLUE 0:CameraBottom;1;1;0;0
-renderingDevicePerspectives: NAO BLUE 2:CameraBottom;1;1;0;0
-renderingDevicePerspectives: NAO RED 0:CameraBottom;1;1;0;0
-renderingDevicePerspectives: NAO RED 1:CameraBottom;1;1;0;0
+renderingDevicePerspectives: NAO RED 4:CameraBottom;1;1;0;0
+renderingDevicePerspectives: NAO RED 4:CameraTop;1;1;0;0
 renderingDevicePerspectives: NAO:CameraBottom;1;1;0;0.856302
-renderingDevicePerspectives: NAO BLUE 1:CameraBottom;1;1;0;0
 renderingDevicePerspectives: NAO:CameraTop;1;1;0;0

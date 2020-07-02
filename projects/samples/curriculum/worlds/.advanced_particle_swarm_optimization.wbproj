@@ -4,18 +4,16 @@ simulationViewPerspectives: 000000ff00000001000000020000016c000004a0010000000601
 sceneTreePerspectives: 000000ff0000000100000002000001c6000001120100000006010000000201
 maximizedDockId: -1
 centralWidgetVisible: 1
-selectionDisabled: 0
-viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/advanced_particle_swarm_optimization/advanced_particle_swarm_optimization.c" "controllers/advanced_particle_swarm_optimization/pso.c" "controllers/advanced_particle_swarm_optimization/pso.h" "controllers/advanced_particle_swarm_optimization_supervisor/advanced_particle_swarm_optimization_supervisor.c"
 consoles: Console:All:All
 renderingDevicePerspectives: epuck0:camera;0;1;0;0
-renderingDevicePerspectives: epuck9:camera;0;1;0;0
-renderingDevicePerspectives: epuck7:camera;0;1;0;0
-renderingDevicePerspectives: epuck8:camera;0;1;0;0
-renderingDevicePerspectives: epuck6:camera;0;1;0;0
-renderingDevicePerspectives: epuck5:camera;0;1;0;0
-renderingDevicePerspectives: epuck4:camera;0;1;0;0
-renderingDevicePerspectives: epuck3:camera;0;1;0;0
 renderingDevicePerspectives: epuck1:camera;0;1;0;0
 renderingDevicePerspectives: epuck2:camera;0;1;0;0
+renderingDevicePerspectives: epuck3:camera;0;1;0;0
+renderingDevicePerspectives: epuck4:camera;0;1;0;0
+renderingDevicePerspectives: epuck5:camera;0;1;0;0
+renderingDevicePerspectives: epuck6:camera;0;1;0;0
+renderingDevicePerspectives: epuck7:camera;0;1;0;0
+renderingDevicePerspectives: epuck8:camera;0;1;0;0
+renderingDevicePerspectives: epuck9:camera;0;1;0;0

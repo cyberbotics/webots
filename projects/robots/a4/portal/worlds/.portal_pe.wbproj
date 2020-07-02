@@ -4,8 +4,6 @@ simulationViewPerspectives: 000000ff000000010000000200000000000004e2010000000601
 sceneTreePerspectives: 000000ff0000000100000002000000c0000000db0100000006010000000200
 maximizedDockId: -1
 centralWidgetVisible: 1
-selectionDisabled: 0
-viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/portal_pe/portal_pe.c"
 consoles: Console:All:All
