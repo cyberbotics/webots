@@ -4,8 +4,6 @@ simulationViewPerspectives: 000000ff00000001000000020000016c000004a0010000000601
 sceneTreePerspectives: 000000ff0000000100000002000001c6000001120100000006010000000201
 maximizedDockId: -1
 centralWidgetVisible: 1
-selectionDisabled: 0
-viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/driver/driver.py" "controllers/slave/slave.py"
 consoles: Console:All:All
