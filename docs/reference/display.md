@@ -14,9 +14,11 @@ Display {
 The [Display](#display) node allows to handle a 2D pixel array using simple API functions, and render it into a 2D overlay on the 3D view, into a 2D texture of any [Shape](shape.md) node, or both.
 It can model an embedded screen or it can display any graphical information such as graphs, text, robot trajectory, filtered camera images and so on.
 
-If the first child of the [Display](#display) node is or contains (recursive search if the first node is a [Group](group.md)) a [Shape](shape.md) node having a [ImageTexture](imagetexture.md), then the internal texture of the(se) [ImageTexture](imagetexture.md) node(s) is replaced by the texture of the [Display](#display).
-In this case, the `Shape.appearance` field should contain an [Appearance](appearance.md) node (rather than a [PBRAppearance](pbrappearance.md) node).
-It is necessary to set the `filtering` field of the(se) [ImageTexture](imagetexture.md) node(s) to 0 in order to prevent issues when distancing oneself from the display.
+To model an embedded screen, the first child of the [Display](#display) node should be or contain (recursive search if the first node is a [Group](group.md)) a [Shape](shape.md) node having an appearance and an [ImageTexture](imagetexture.md) node set, then the internal texture of the [ImageTexture](imagetexture.md) node is replaced by the texture of the [Display](#display).
+Both [Appearance](appearance.md) and [PBRAppearance](pbrappearance.md) nodes are supported.
+In case of [PBRAppearance](pbrappearance.md) node, at least `PBRAppearance.baseColorMap` or `PBRAppearance.emissiveColorMap` [ImageTexture](imagetexture.md) node should be defined. If both are defined, then both textures will be replaced by the [Display](#display) texture.
+Using the [Appearance](appearance.md) node and setting the [Material](material.md).emissiveColor field to `1 1 1` helps preserving the original colors of the loaded [Display](#display) texture.
+Additionally, it is necessary to set the `filtering` field of the [ImageTexture](imagetexture.md) nodes to 0 in order to prevent issues when distancing oneself from the display.
 
 ### Field Summary
 
