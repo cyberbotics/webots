@@ -320,7 +320,7 @@ void WbWorldInfo::updateGravityBasis() {
 
 void WbWorldInfo::updateCoordinateSystem() {
   warn(tr("Please save and revert the world so that the change of coordinate system is taken into account when reloading "
-          "procedural PROTOs."));
+          "procedural PROTO nodes."));
 }
 
 void WbWorldInfo::updateGpsCoordinateSystem() {
