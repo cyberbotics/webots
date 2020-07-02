@@ -14,6 +14,7 @@
 
 #include "WbWorldInfo.hpp"
 
+#include "WbApplicationInfo.hpp"
 #include "WbContactProperties.hpp"
 #include "WbDamping.hpp"
 #include "WbField.hpp"
@@ -69,7 +70,7 @@ void WbWorldInfo::init(const WbVersion *version) {
 }
 
 WbWorldInfo::WbWorldInfo(WbTokenizer *tokenizer) : WbBaseNode("WorldInfo", tokenizer) {
-  init(&tokenizer->fileVersion());
+  init(tokenizer ? &tokenizer->fileVersion() : &WbApplicationInfo::version());
 }
 
 WbWorldInfo::WbWorldInfo(const WbWorldInfo &other) : WbBaseNode(other) {
