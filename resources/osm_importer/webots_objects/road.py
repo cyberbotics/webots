@@ -767,7 +767,7 @@ class Crossroad:
             # Substract this crossroad shape to the road path
             road.shape = road.shape.difference(self.shape)
 
-            if not isinstance(road.finalPath, LineString):
+            if not isinstance(road.finalPath, LineString) or not road.finalPath.coords:
                 road.finalPath = road.finalPath.difference(self.shape)
                 continue
             roadPathBeforeEndsRemoval = [Vector2D(x, y) for (x, y) in road.finalPath.coords]
