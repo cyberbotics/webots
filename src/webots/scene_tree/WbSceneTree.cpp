@@ -711,13 +711,17 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     else
       writer.setRootNode(NULL);
     currentNode->write(writer);
-    // remove previous node
-    if (parentField->isTemplateRegenerator())
+
+    const bool skipTemplateRegeneration =
+      WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, parentNode);
+    if (skipTemplateRegeneration)
       // PROTO will be regenerated after importing the converted node
       parentField->blockSignals(true);
+    // remove previous node
     WbNodeOperations::instance()->deleteNode(currentNode);
-    if (parentField->isTemplateRegenerator())
+    if (skipTemplateRegeneration)
       parentField->blockSignals(false);
+
     // copy textures
     QHashIterator<QString, QString> it(writer.texturesList());
     while (it.hasNext()) {
