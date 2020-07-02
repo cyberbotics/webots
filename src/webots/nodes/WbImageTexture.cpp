@@ -297,8 +297,6 @@ void WbImageTexture::removeExternalTexture() {
   mExternalTextureRatio.setXy(1.0, 1.0);
 
   updateWrenTexture();
-
-  emit changed();
 }
 
 void WbImageTexture::setBackgroundTexture(WrTexture *backgroundTexture) {
