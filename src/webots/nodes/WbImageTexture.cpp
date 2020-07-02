@@ -14,7 +14,7 @@
 
 #include "WbImageTexture.hpp"
 
-#include "WbAppearance.hpp"
+#include "WbAbstractAppearance.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbImage.hpp"
@@ -249,7 +249,7 @@ void WbImageTexture::modifyWrenMaterial(WrMaterial *wrenMaterial, const int main
     wr_material_set_texture_enable_interpolation(wrenMaterial, mUsedFiltering, mWrenTextureIndex);
     wr_material_set_texture_enable_mip_maps(wrenMaterial, mUsedFiltering, mWrenTextureIndex);
 
-    if (mExternalTexture && !(static_cast<WbAppearance *>(parentNode())->textureTransform())) {
+    if (mExternalTexture && !(static_cast<WbAbstractAppearance *>(parentNode())->textureTransform())) {
       wr_texture_transform_delete(mWrenTextureTransform);
       mWrenTextureTransform = wr_texture_transform_new();
       wr_texture_transform_set_scale(mWrenTextureTransform, mExternalTextureRatio.x(), mExternalTextureRatio.y());
@@ -295,6 +295,7 @@ void WbImageTexture::removeExternalTexture() {
 
   mExternalTexture = false;
   mExternalTextureRatio.setXy(1.0, 1.0);
+  mExternalTextureData = NULL;
 
   updateWrenTexture();
 }
