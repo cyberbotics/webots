@@ -184,9 +184,16 @@ void WbDisplay::findImageTextures() {
       findImageTextures(group);
   }
 
+  for (int i = 0; i < mImageTextures.size(); ++i)
+    connect(mImageTextures.at(i), &QObject::destroyed, this, &WbDisplay::removeImageTexture);
+
   // debug code - print the found materials
   // foreach (WbImageTexture *texture, mImageTextures)
   //   parsingWarn(QString("found image texture %1").arg(texture->usefulName()));
+}
+
+void WbDisplay::removeImageTexture(QObject *object) {
+  mImageTextures.removeAll(static_cast<WbImageTexture *>(object));
 }
 
 void WbDisplay::clearImageTextures() {
