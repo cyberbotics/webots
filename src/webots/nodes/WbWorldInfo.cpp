@@ -101,8 +101,8 @@ void WbWorldInfo::preFinalize() {
   updateLineScale();
   updateRandomSeed();
   updateDefaultDamping();
-  updateCoordinateSystem();
   updateGpsCoordinateSystem();
+  WbProtoTemplateEngine::setCoordinateSystem(mCoordinateSystem->value());
 
   const int size = mContactProperties->size();
   for (int i = 0; i < size; ++i) {
@@ -319,7 +319,8 @@ void WbWorldInfo::updateGravityBasis() {
 }
 
 void WbWorldInfo::updateCoordinateSystem() {
-  WbProtoTemplateEngine::setCoordinateSystem(mCoordinateSystem->value());
+  warn(tr("Please save and revert the world so that the change of coordinate system is taken into account when reloading "
+          "procedural PROTOs."));
 }
 
 void WbWorldInfo::updateGpsCoordinateSystem() {
