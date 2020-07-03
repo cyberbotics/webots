@@ -51,7 +51,7 @@ class OSMCoord(OSMAbstractObject):
         coord.OSMID = osmid
         coord.long = long
         coord.lat = lat
-        coord.z, coord.x = Projection.project(coord.long, coord.lat)
+        coord.x, coord.z = Projection.project(coord.long, coord.lat)
         OSMCoord.coordDictionnary[osmid] = coord
 
     @staticmethod
@@ -75,8 +75,8 @@ class OSMCoord(OSMAbstractObject):
     @staticmethod
     def center_coordinates(minlat, minlon, maxlat, maxlon):
         """Center the coordinate around (0,0) and returns the offsets between earth and local world coordinate."""
-        z1, x1 = Projection.project(minlon, minlat)
-        z2, x2 = Projection.project(maxlon, maxlat)
+        x1, z1 = Projection.project(minlon, minlat)
+        x2, z2 = Projection.project(maxlon, maxlat)
         xOffset = (x1 + x2) / 2
         zOffset = (z1 + z2) / 2
         for osmid in OSMCoord.coordDictionnary:
@@ -123,7 +123,7 @@ class OSMNode(OSMCoord):
         node.OSMID = osmid
         node.long = long
         node.lat = lat
-        node.z, node.x = Projection.project(node.long, node.lat)
+        node.x, node.z = Projection.project(node.long, node.lat)
         node.tags = tags
         OSMNode.nodeDictionnary[osmid] = node
 
