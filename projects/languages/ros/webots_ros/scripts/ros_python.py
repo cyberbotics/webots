@@ -24,6 +24,7 @@ from std_msgs.msg import Float64
 from controller import Robot
 import os
 
+print(os.environ['PYTHONPATH'])
 
 def callback(data):
     global velocity
