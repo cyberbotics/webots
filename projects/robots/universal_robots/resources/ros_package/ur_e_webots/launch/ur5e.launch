@@ -2,6 +2,7 @@
 <launch>
   <arg name="limited" default="false"  doc="If true, limits joint range [-PI, PI] on all joints." />
   <arg name="prefix" default="" doc="Prefix to robot's joints' and links' names" />
+  <arg name="auto-close" default="false" doc="Startup mode"/>
   <param name="prefix" value="$(arg prefix)" type="str" />
   <param name="use_sim_time" value="true" type="bool" />
 
@@ -22,5 +23,10 @@
 
   <!-- Fake Calibration -->
   <node pkg="rostopic" type="rostopic" name="fake_joint_calibration" args="pub /calibrated std_msgs/Bool true" />
+
+  <!-- Webots controller -->
+  <include file="$(find ur_e_webots)/launch/ur_controller.launch">
+    <arg name="auto-close" value="$(arg auto-close)"/>
+  </include>
 
 </launch>

@@ -1,6 +1,6 @@
 ## Usage
 
-Once you have started a simulation with a UR robot and set its controller to `universal_robots_ros`, you can use the following launch file to setup all the required ROS parameters:
+Once you have started a simulation with a UR robot and set its controller to `<extern>`, you can use the following launch file to setup all the required ROS parameters and start the simulated UR robot to ROS interface:
 
 ```
 roslaunch ur_e_webots ur5e_joint_limited.launch
