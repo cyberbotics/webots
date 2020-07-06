@@ -255,6 +255,8 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   bool nested = upperTemplateNode && upperTemplateNode != node;
   cRegeneratingNodeCount++;
   if (isWorldInitialized && !restarted)
+    // signal is not emitted in case a node has been regenerated twice in a row (`restart` == TRUE)
+    // to preserve the scene tree selection
     emit preNodeRegeneration(node, nested);
 
   WbNode::setGlobalParentNode(parent);
