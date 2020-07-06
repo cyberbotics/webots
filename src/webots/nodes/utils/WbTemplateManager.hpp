@@ -37,7 +37,8 @@ public:
 
   // when unblocked, all the templates which have required
   // a regeneration inbetween are regenerated
-  void blockRegeneration(bool block);
+  // `currentNode` is used to identify nested regeneration requests of the same node
+  void blockRegeneration(bool block, const WbNode *currentNode = NULL);
 
   static bool isRegenerating() { return cRegeneratingNodeCount > 0; }
 
@@ -50,7 +51,7 @@ private slots:
   void unsubscribe(QObject *node);
   void regenerateNodeFromFieldChange(WbField *field);
   void regenerateNodeFromParameterChange(WbField *field);
-  void regenerateNode(WbNode *node);
+  void regenerateNode(WbNode *node, bool restarted = false);
   void nodeNeedRegeneration();
 
 private:

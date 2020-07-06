@@ -62,7 +62,7 @@ WbTemplateManager::~WbTemplateManager() {
   clear();
 }
 
-void WbTemplateManager::blockRegeneration(bool block) {
+void WbTemplateManager::blockRegeneration(bool block, const WbNode *currentNode) {
   mBlockRegeneration = block;
 
   if (!block && mTemplatesNeedRegeneration) {  // regenerates all the required nodes
@@ -70,7 +70,7 @@ void WbTemplateManager::blockRegeneration(bool block) {
       bool regenerated = false;
       foreach (WbNode *node, mTemplates) {
         if (node->isRegenerationRequired()) {
-          regenerateNode(node);  // mTemplates can be modified during this call
+          regenerateNode(node, node == currentNode);  // mTemplates can be modified during this call
           regenerated = true;
           break;
         }
@@ -205,7 +205,7 @@ void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *f
   regenerateNode(templateNode);
 }
 
-void WbTemplateManager::regenerateNode(WbNode *node) {
+void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   assert(node);
 
   if (mBlockRegeneration) {
@@ -254,7 +254,7 @@ void WbTemplateManager::regenerateNode(WbNode *node) {
   WbNode *upperTemplateNode = WbNodeUtilities::findUpperTemplateNeedingRegeneration(node);
   bool nested = upperTemplateNode && upperTemplateNode != node;
   cRegeneratingNodeCount++;
-  if (isWorldInitialized)
+  if (isWorldInitialized && !restarted)
     emit preNodeRegeneration(node, nested);
 
   WbNode::setGlobalParentNode(parent);
@@ -393,11 +393,18 @@ void WbTemplateManager::regenerateNode(WbNode *node) {
     }
   }
 
+  blockRegeneration(true);  // prevent regenerating `newNode` in the finalization step due to field checks
+
   WbBaseNode *base = dynamic_cast<WbBaseNode *>(newNode);
   if (isWorldInitialized) {
     assert(base);
     base->finalize();
   }
+
+  const bool stop = newNode->isRegenerationRequired();
+  blockRegeneration(false, newNode);  // if needed, trigger `newNode` regeneration with finalized fields values
+  if (stop)
+    return;
 
   // if the viewpoint is being re-generated we need to re-get the correct pointer, not the old dangling pointer from before
   // the node was regenerated
