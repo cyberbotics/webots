@@ -102,4 +102,8 @@ jobs:
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
         export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
-        xvfb-run --auto-servernum ./tests/ros.sh
+        Xvfb :99 &
+        export DISPLAY=:99
+        ./tests/ros.sh
+        ls ~/.ros/log/latest
+        cat ~/.ros/log/latest/rosout.log
