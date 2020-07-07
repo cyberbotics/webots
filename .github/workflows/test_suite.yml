@@ -71,6 +71,12 @@ jobs:
           - os: ubuntu-16.04
             python: 2.7
             ROS_DISTRO: kinetic
+         # - os: ubuntu-18.04
+         #   python: 2.7
+         #   ROS_DISTRO: melodic
+         # - os: ubuntu-20.04
+         #   python: 3.8
+         #   ROS_DISTRO: noetic
     runs-on: ${{ matrix.os }}
     steps:  
     - uses: actions/checkout@v2
