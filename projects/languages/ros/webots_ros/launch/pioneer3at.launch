@@ -9,5 +9,5 @@
   </include>
 
   <arg name="auto-close" default="false" doc="Startup mode"/>
-  <node name="pioneer3at" pkg="webots_ros" type="pioneer3at" required="$(arg auto-close)"/>
+  <node name="pioneer3at_controller" pkg="webots_ros" type="pioneer3at" required="$(arg auto-close)"/>
 </launch>
