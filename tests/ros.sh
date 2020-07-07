@@ -2,7 +2,7 @@
 
 echo @@@ Compile ros webots_ros package
 source /opt/ros/$ROS_DISTRO/setup.bash
-BASEDIR=..
+BASEDIR=$(dirname $(realpath $0))/..
 [ -d $BASEDIR/webots_catkin_ws ] && rm -r $BASEDIR/webots_catkin_ws
 mkdir -p $BASEDIR/webots_catkin_ws/src
 cd $BASEDIR/webots_catkin_ws/src
