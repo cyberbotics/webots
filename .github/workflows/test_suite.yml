@@ -101,6 +101,7 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_HOME=$PWD/artifact/webots
         export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
+        pip install rospkg catkin_pkg
         Xvfb :99 &
         export DISPLAY=:99
         ./tests/ros.sh
