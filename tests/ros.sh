@@ -2,14 +2,15 @@
 
 echo @@@ Compile ros webots_ros package
 source /opt/ros/$ROS_DISTRO/setup.bash
-[ -d $WEBOTS_HOME/webots_catkin_ws ] && rm -r $WEBOTS_HOME/webots_catkin_ws
-mkdir -p $WEBOTS_HOME/webots_catkin_ws/src
-cd $WEBOTS_HOME/webots_catkin_ws/src
+BASEDIR=$(dirname "$0")/..
+[ -d $BASEDIR/webots_catkin_ws ] && rm -r $BASEDIR/webots_catkin_ws
+mkdir -p $BASEDIR/webots_catkin_ws/src
+cd $BASEDIR/webots_catkin_ws/src
 catkin_init_workspace 2>&1 >> /dev/null
-cp -r $WEBOTS_HOME/projects/languages/ros/webots_ros webots_ros
-cp -r $WEBOTS_HOME/projects/default/controllers/ros/include/srv webots_ros/srv
-cp -r $WEBOTS_HOME/projects/default/controllers/ros/include/msg webots_ros/msg
-cd $WEBOTS_HOME/webots_catkin_ws
+cp -r $BASEDIR/projects/languages/ros/webots_ros webots_ros
+cp -r $BASEDIR/projects/default/controllers/ros/include/srv webots_ros/srv
+cp -r $BASEDIR/projects/default/controllers/ros/include/msg webots_ros/msg
+cd $BASEDIR/webots_catkin_ws
 catkin_make 2>&1 >> ros_compilation.log
 export LD_LIBRARY_PATH=$TMP_LD_LIBRARY_PATH
 if grep -q 'Error' ros_compilation.log; then
@@ -18,12 +19,12 @@ if grep -q 'Error' ros_compilation.log; then
   exit -1
 fi
 
-source $WEBOTS_HOME/webots_catkin_ws/devel/setup.bash
+source $BASEDIR/webots_catkin_ws/devel/setup.bash
 
 # run the complete test
 export ROSCONSOLE_FORMAT='${severity}: ${message}   Line: ${line}'
-export ROSCONSOLE_CONFIG_FILE=$WEBOTS_HOME/tests/rosconsole.config
-cd $WEBOTS_HOME/tests
+export ROSCONSOLE_CONFIG_FILE=$BASEDIR/tests/rosconsole.config
+cd $BASEDIR/tests
 echo @@@ Run ros complete test
 roslaunch webots_ros complete_test.launch auto-close:=true no-gui:=true 2> stderr.log
 if grep 'ERROR' stderr.log | grep -q -v 'ERROR: Cannot initialize the sound engine'; then
@@ -33,7 +34,7 @@ if grep 'ERROR' stderr.log | grep -q -v 'ERROR: Cannot initialize the sound engi
 fi
 
 # checks that all the service messages specific to webots_ros are available
-cd $WEBOTS_HOME/webots_catkin_ws
+cd $BASEDIR/webots_catkin_ws
 source devel/setup.bash
 rossrv list >> available_services.log
 echo @@@ Checking that all webots_ros services are available
@@ -41,7 +42,7 @@ echo @@@ Checking that all webots_ros services are available
 FILES=src/webots_ros/srv/*.srv
 if [ ${#FILES[@]} -gt 1 ]; then
   echo @@@ Error: no service file found
-  rm -rf $WEBOTS_HOME/webots_catkin_ws
+  rm -rf $BASEDIR/webots_catkin_ws
   exit -1
 fi
 # check that each associated service is found
@@ -55,7 +56,7 @@ do
   fi
 done
 if $missing_service_file ; then
-  rm -rf $WEBOTS_HOME/webots_catkin_ws
+  rm -rf $BASEDIR/webots_catkin_ws
   exit -1
 else
   echo "OK: all service files found"
