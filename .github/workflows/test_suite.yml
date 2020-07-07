@@ -101,4 +101,5 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
+        export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
         xvfb-run --auto-servernum ./tests/ros.sh
