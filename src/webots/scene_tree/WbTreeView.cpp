@@ -121,8 +121,8 @@ void WbTreeView::itemInserted(const QModelIndex &index) {
 }
 
 void WbTreeView::showMenu(const QPoint &position) {
-  const WbBaseNode *selectedNode = WbSelection::instance() ? WbSelection::instance()->selectedNode() : NULL;
-  WbContextMenuGenerator::generateContextMenu(mapToGlobal(position), selectedNode);
+  const WbTreeItem *item = static_cast<WbTreeItem *>(currentIndex().internalPointer());
+  WbContextMenuGenerator::generateContextMenu(mapToGlobal(position), item->node());
 }
 
 void WbTreeView::scrollToModelIndex(const QModelIndex &index) {
