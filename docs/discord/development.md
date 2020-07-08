@@ -4,6 +4,121 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 07/07/2020 05:54:27
+> `@David Mansolino` I seem to have figured it out. This shows joint 1 and 3 being changed in percent of their valid range. Looks correct now. Do you want me to make a PR with the new, 'correct' robotiq gripper?
+
+`@Luftwaffel` yes sure if you have any correction to bring to the model any PR is highly appreciated!
+
+
+> I was trying to see what's inside this - "Visual\_tracking.wbt" sample world inside Webots. Unfortunately I didn't found a github link to the file for reference, but this screenshot should be helpful.
+
+> My question was, how does the RubberDuck move? I noticed it has an immersion properties node, with fluid name - "water". But I don't see any fluid node in the scene tree. Also there's no controller code, for it's movement.
+
+> Any explanation please?
+
+`@Sanket Khadse` here is the link: [https://github.com/cyberbotics/webots/tree/master/projects/samples/robotbenchmark/visual\_tracking](https://github.com/cyberbotics/webots/tree/master/projects/samples/robotbenchmark/visual_tracking)
+
+The duck is moved by with a Supervisor, here is the controller of the Supervisor: [https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/visual\_tracking/controllers/visual\_tracking\_benchmark/visual\_tracking\_benchmark.py](https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/visual_tracking/controllers/visual_tracking_benchmark/visual_tracking_benchmark.py)
+
+##### Sanket Khadse 07/07/2020 04:53:42
+I was trying to see what's inside this - "Visual\_tracking.wbt" sample world inside Webots. Unfortunately I didn't found a github link to the file for reference, but this screenshot should be helpful.
+
+My question was, how does the RubberDuck move? I noticed it has an immersion properties node, with fluid name - "water". But I don't see any fluid node in the scene tree. Also there's no controller code, for it's movement.
+
+Any explanation please?
+%figure
+![Screenshot_from_2020-07-07_10-17-01.png](https://cdn.discordapp.com/attachments/565155651395780609/729923074715025518/Screenshot_from_2020-07-07_10-17-01.png)
+%end
+
+##### zeynepp 07/06/2020 20:17:10
+where is the problem
+
+
+
+> **Attachment**: [empty\_.mp4](https://cdn.discordapp.com/attachments/565155651395780609/729792436452196372/empty_.mp4)
+
+
+what do u think
+
+
+I am trying to write the kinematics for the lrb robot for ipr but it is not directed to the target
+
+
+
+%figure
+![2.JPG](https://cdn.discordapp.com/attachments/565155651395780609/729791411846774824/2.JPG)
+%end
+
+
+
+%figure
+![1.JPG](https://cdn.discordapp.com/attachments/565155651395780609/729791407081914508/1.JPG)
+%end
+
+##### Luftwaffel 07/06/2020 17:30:54
+`@David Mansolino` I seem to have figured it out. This shows joint 1 and 3 being changed in percent of their valid range. Looks correct now. Do you want me to make a PR with the new, 'correct' robotiq gripper?
+> **Attachment**: [3f\_gripper.mp4](https://cdn.discordapp.com/attachments/565155651395780609/729751244406521887/3f_gripper.mp4)
+
+##### David Mansolino [cyberbotics] 07/06/2020 15:35:44
+Yes, sure I will answer it tomorrow morning
+
+##### Luftwaffel 07/06/2020 14:32:51
+[https://github.com/cyberbotics/webots/issues/1841](https://github.com/cyberbotics/webots/issues/1841)
+
+
+`@David Mansolino` hi david, could you take a quick look at this issue? If I know how to solve it, I can write up a short tutorial
+
+##### David Mansolino [cyberbotics] 07/06/2020 05:40:57
+> i need to create a 3d environment from a 2d image..Is it possible
+
+`@starstuff_0903` can you tell us more, what does represent your image? The height of the terrain ?
+
+
+> Is it possible to use just python3 with webots?  Could not build the python2 language binding due to my libpython2 missing symbols, and since ROS2 is all python3, figured I would not need it.  But finding python2 dependenceis in webots\_ros2 package
+
+`@henry10210` which python2 dependencies do you see in the webots\_ros2 package?
+
+
+> I set the WEBOTS\_HOME to the root of the source code folder (where I ran the ./webots command).  I wonder if this is an incorrect WEBOTS\_HOME
+
+`@henry10210` yes this is correct.
+
+
+> I got my computer back and it was in fact a hardrive issue. It was just a coincidence that I was running an extensive Webots  simulation
+
+> Thanks for the tips
+
+`@Clara Cardoso Ferreira` you're welcome! thank you for the feedback!
+
+##### mint 07/06/2020 05:01:03
+nevermind, I just  figured out that it is VRML97. my bad XD
+
+
+Hello, is there any ways of writing a proto file  from an external design tool like CAD? What  kind of language does it belong to?
+
+##### starstuff\_0903 07/05/2020 10:26:14
+i need to create a 3d environment from a 2d image..Is it possible
+
+##### Luftwaffel 07/05/2020 09:34:48
+`@henry10210` just select extern as the controller and run your controller outside in your own environment
+
+##### henry10210 07/05/2020 04:36:03
+Is it possible to use just python3 with webots?  Could not build the python2 language binding due to my libpython2 missing symbols, and since ROS2 is all python3, figured I would not need it.  But finding python2 dependenceis in webots\_ros2 package
+
+
+I set the WEBOTS\_HOME to the root of the source code folder (where I ran the ./webots command).  I wonder if this is an incorrect WEBOTS\_HOME
+
+##### Clara Cardoso Ferreira 07/03/2020 23:17:42
+> Thanks I'll try that when I get my computer back.
+
+> My controller was not writing anything at the moment it crashed, but it was probably storing data. Yeah, it may have been the harddrive
+
+
+
+I got my computer back and it was in fact a hardrive issue. It was just a coincidence that I was running an extensive Webots  simulation
+
+Thanks for the tips
+
 ##### Marian 06/30/2020 09:45:52
 Ok, thanks a lot for the explanation. It works!
 
