@@ -1,5 +1,12 @@
 <?xml version="1.0"?>
 <robot name="UR5e" xmlns:xacro="http://ros.org/wiki/xacro">
+  <link name="base_footprint"></link>
+  <joint name="base_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_footprint"/>
+    <axis xyz="0 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
   <link name="base_link">
     <visual name="transform_8">
       <geometry>
