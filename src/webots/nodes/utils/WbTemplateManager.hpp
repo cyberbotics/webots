@@ -37,7 +37,6 @@ public:
 
   // when unblocked, all the templates which have required
   // a regeneration inbetween are regenerated
-  // `currentNode` is used to identify nested regeneration requests of the same node
   void blockRegeneration(bool block);
 
   static bool isRegenerating() { return cRegeneratingNodeCount > 0; }
