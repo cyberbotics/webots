@@ -62,7 +62,7 @@ WbTemplateManager::~WbTemplateManager() {
   clear();
 }
 
-void WbTemplateManager::blockRegeneration(bool block, const WbNode *currentNode) {
+void WbTemplateManager::blockRegeneration(bool block) {
   mBlockRegeneration = block;
 
   if (!block && mTemplatesNeedRegeneration) {  // regenerates all the required nodes
@@ -70,7 +70,7 @@ void WbTemplateManager::blockRegeneration(bool block, const WbNode *currentNode)
       bool regenerated = false;
       foreach (WbNode *node, mTemplates) {
         if (node->isRegenerationRequired()) {
-          regenerateNode(node, node == currentNode);  // mTemplates can be modified during this call
+          regenerateNode(node);  // mTemplates can be modified during this call
           regenerated = true;
           break;
         }
