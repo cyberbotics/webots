@@ -395,7 +395,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
     }
   }
 
-  blockRegeneration(true);  // prevent regenerating `newNode` in the finalization step due to field checks
+  mBlockRegeneration = true;  // prevent regenerating `newNode` in the finalization step due to field checks
 
   WbBaseNode *base = dynamic_cast<WbBaseNode *>(newNode);
   if (isWorldInitialized) {
@@ -403,10 +403,11 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
     base->finalize();
   }
 
-  const bool stop = newNode->isRegenerationRequired();
-  blockRegeneration(false, newNode);  // if needed, trigger `newNode` regeneration with finalized fields values
-  if (stop)
+  mBlockRegeneration = false;
+  if (newNode->isRegenerationRequired()) {  // if needed, trigger `newNode` regeneration with finalized fields values
+    regenerateNode(newNode, true);
     return;
+  }
 
   // if the viewpoint is being re-generated we need to re-get the correct pointer, not the old dangling pointer from before
   // the node was regenerated
