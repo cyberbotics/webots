@@ -105,6 +105,7 @@ private:
   QList<WbImageTexture *> mImageTextures;
 
 private slots:
+  void removeImageTexture(QObject *object);
   void removeExternalTextures();
   void detachCamera();
 };
