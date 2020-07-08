@@ -12,7 +12,7 @@ source devel/setup.bash
 ```
 
 You may also install the `universal_robot` optional package to get the URDF definitions of the robots (used for example for RVIZ visualization).
-Until Kinetic you can install it using the package manager (`apt install ros-$ROS_DISTRO-universal-robot`), but from Melodic you need to compile it from [sources](https://github.com/ros-industrial/universal_robot/tree/melodic-devel).
+Until Kinetic, you can install it using the package manager (`apt install ros-$ROS_DISTRO-universal-robot`), but from Melodic, you need to compile it from [sources](https://github.com/ros-industrial/universal_robot/tree/melodic-devel).
 
 ## Usage
 
