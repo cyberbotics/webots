@@ -1435,30 +1435,31 @@ const QString WbRobot::urdfName() const {
 }
 
 void WbRobot::writeExport(WbVrmlWriter &writer) const {
-    writer.increaseIndent();
-    writer.indent();
-    writer << QString("<link name=\"%1\"></link>\n").arg(getUrdfPrefix() + "base_footprint");
-    writer.indent();
-    writer << QString("<joint name=\"%1\" type=\"fixed\">\n").arg(getUrdfPrefix() + "base_joint");
-    writer.increaseIndent();
-    writer.indent();
-    writer << QString("<parent link=\"%1\"/>\n").arg(getUrdfPrefix() + "base_link");
-    writer.indent();
-    writer << QString("<child link=\"%1\"/>\n").arg(getUrdfPrefix() + "base_footprint");
-    writer.indent();
-    writer << QString("<axis xyz=\"0 0 0\"/>\n");
-    writer.indent();
-    writer << QString("<origin xyz=\"0 0 0\" rpy=\"0 0 0\"/>\n");
-    writer.decreaseIndent();
-    writer.indent();
-    writer << QString("</joint>\n");
+  writer.increaseIndent();
+  writer.indent();
+  writer << QString("<link name=\"%1\"></link>\n").arg(getUrdfPrefix() + "base_footprint");
 
-    writer.indent();
-    writer << QString("<link name=\"%1\">\n").arg(getUrdfPrefix() + "base_link");
-    exportNodeSubNodes(writer);
-    writer.indent();
-    writer << QString("</link>\n");
-    writer.decreaseIndent();
+  writer.indent();
+  writer << QString("<joint name=\"%1\" type=\"fixed\">\n").arg(getUrdfPrefix() + "base_joint");
+  writer.increaseIndent();
+  writer.indent();
+  writer << QString("<parent link=\"%1\"/>\n").arg(getUrdfPrefix() + "base_link");
+  writer.indent();
+  writer << QString("<child link=\"%1\"/>\n").arg(getUrdfPrefix() + "base_footprint");
+  writer.indent();
+  writer << QString("<axis xyz=\"0 0 0\"/>\n");
+  writer.indent();
+  writer << QString("<origin xyz=\"0 0 0\" rpy=\"0 0 0\"/>\n");
+  writer.decreaseIndent();
+  writer.indent();
+  writer << QString("</joint>\n");
+
+  writer.indent();
+  writer << QString("<link name=\"%1\">\n").arg(getUrdfPrefix() + "base_link");
+  exportNodeSubNodes(writer);
+  writer.indent();
+  writer << QString("</link>\n");
+  writer.decreaseIndent();
 }
 
 int WbRobot::computeSimulationMode() {
