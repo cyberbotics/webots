@@ -238,7 +238,7 @@ bool WbPerspective::load(bool reloading) {
 bool WbPerspective::save() const {
   const QString fileName(mBaseName + ".wbproj");
   QFile file(fileName);
-  if (!file.open(QIODevice::WriteOnly) || !qgetenv("WEBOTS_DISABLE_SAVE_PERSPECTIVE_ON_CLOSE").isEmpty())
+  if (!file.open(QIODevice::WriteOnly))
     return false;
 
   QTextStream out(&file);
