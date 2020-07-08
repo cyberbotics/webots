@@ -11,7 +11,7 @@
   <arg name="max_payload"  default="10.0" doc="upper payload bound for the robot" />
 
   <!-- send robot urdf to param server -->
-  <include file="$(find ur_e_description)/launch/ur10e_upload.launch">
+  <include file="$(find ur_e_description)/launch/ur10e_upload.launch" if="$(eval '1' if find('ur_e_description') else '0')">
     <arg name="limited" value="$(arg limited)"/>
   </include>
 
