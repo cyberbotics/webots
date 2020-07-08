@@ -11,6 +11,10 @@ cp -r $WEBOTS_HOME/projects/default/controllers/ros/include/srv webots_ros/srv
 cp -r $WEBOTS_HOME/projects/default/controllers/ros/include/msg webots_ros/msg
 cp -r $WEBOTS_HOME/projects/robots/universal_robots/resources/ros_package/ur_e_webots ur_e_webots
 cd $WEBOTS_HOME/webots_catkin_ws
+echo @@@ Installing dependencies
+rosdep update
+rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO
+echo @@@ Compiling package
 catkin_make 2>&1 >> ros_compilation.log
 export LD_LIBRARY_PATH=$TMP_LD_LIBRARY_PATH
 if grep -q 'Error' ros_compilation.log; then
