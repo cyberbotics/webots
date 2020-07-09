@@ -129,6 +129,7 @@ PROTO Robotiq3fGripper [
                           ]
                           endPoint Solid {
                             translation 0.039 0 0
+                            rotation 0 0 1 -0.0523
                             children [
                               DEF SHAPE3 Transform {
                                 rotation 0 0 1 0.52
@@ -353,6 +354,7 @@ PROTO Robotiq3fGripper [
                       children [
                         HingeJoint {
                           jointParameters HingeJointParameters {
+                            position -0.0523
                             axis 0 0 1
                             anchor 0.039 0 0
                           }
@@ -360,7 +362,8 @@ PROTO Robotiq3fGripper [
                             RotationalMotor {
                               name "finger_2_joint_3"
                               maxVelocity 100.0
-                              minPosition -1.1694
+                              minPosition -1.2217
+                              maxPosition -0.0523
                               maxTorque 100.0
                             }
                             PositionSensor {
@@ -369,7 +372,6 @@ PROTO Robotiq3fGripper [
                           ]
                           endPoint Solid {
                             translation 0.039 0 0
-                            rotation 0.0 0.0 1.0 -0.0523
                             children [
                               USE SHAPE3
                             ]
@@ -501,6 +503,7 @@ PROTO Robotiq3fGripper [
                     children [
                       HingeJoint {
                         jointParameters HingeJointParameters {
+                          position -0.0523
                           axis 0 0 1
                           anchor 0.039 0 0
                         }
@@ -508,7 +511,8 @@ PROTO Robotiq3fGripper [
                           RotationalMotor {
                             name "finger_middle_joint_3"
                             maxVelocity 100.0
-                            minPosition -1.1694
+                            minPosition -1.2217
+                            maxPosition -0.0523
                             maxTorque 100.0
                           }
                           PositionSensor {
@@ -517,7 +521,6 @@ PROTO Robotiq3fGripper [
                         ]
                         endPoint Solid {
                           translation 0.039 0 0
-                          rotation 0.0 0.0 1.0 -0.0523
                           children [
                             USE SHAPE3
                           ]
