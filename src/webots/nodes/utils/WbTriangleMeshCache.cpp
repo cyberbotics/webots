@@ -15,13 +15,13 @@
 #include "WbTriangleMeshCache.hpp"
 
 #include "WbCoordinate.hpp"
-#include "WbIndexedFaceSet.hpp"
 #include "WbMFInt.hpp"
 #include "WbNormal.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFDouble.hpp"
 #include "WbTextureCoordinate.hpp"
 #include "WbTriangleMesh.hpp"
+#include "WbTriangleMeshGeometry.hpp"
 
 #include <cassert>
 #include <cstdlib>
@@ -37,64 +37,21 @@ namespace WbTriangleMeshCache {
   TriangleMeshInfo::TriangleMeshInfo() : mTriangleMesh(NULL), mNumUsers(0) {}
   TriangleMeshInfo::TriangleMeshInfo(WbTriangleMesh *triangleMesh) : mTriangleMesh(triangleMesh), mNumUsers(1) {}
 
-  IndexedFaceSetKey::IndexedFaceSetKey() { mHash = 0; }
-  IndexedFaceSetKey::IndexedFaceSetKey(WbIndexedFaceSet *indexedFaceSet) { set(indexedFaceSet); }
+  TriangleMeshGeometryKey::TriangleMeshGeometryKey() { mHash = 0; }
+  TriangleMeshGeometryKey::TriangleMeshGeometryKey(WbTriangleMeshGeometry *triangleMeshGeometry) { set(triangleMeshGeometry); }
 
-  void IndexedFaceSetKey::set(WbIndexedFaceSet *indexedFaceSet) {
-    mHash = 0;
-
-    const WbCoordinate *coord = indexedFaceSet->coord();
-    if (coord && coord->pointSize()) {
-      const double *startCoord = coord->point().item(0).ptr();
-      int size = 3 * coord->pointSize();
-      mHash ^= sipHash13x(startCoord, size);
-    }
-
-    const WbNormal *normal = indexedFaceSet->normal();
-    if (normal && normal->vectorSize()) {
-      const double *startNormal = normal->vector().item(0).ptr();
-      int size = 2 * normal->vectorSize();
-      mHash ^= sipHash13x(startNormal, size);
-    }
-
-    const WbTextureCoordinate *texCoord = indexedFaceSet->texCoord();
-    if (texCoord && texCoord->pointSize()) {
-      const double *startTexCoord = texCoord->point().item(0).ptr();
-      int size = 2 * texCoord->pointSize();
-      mHash ^= sipHash13x(startTexCoord, size);
-    }
-
-    const WbMFInt *coordIndex = indexedFaceSet->coordIndex();
-    if (coordIndex && coordIndex->size()) {
-      const int *startCoordIndex = &(coordIndex->item(0));
-      mHash ^= sipHash13x(startCoordIndex, coordIndex->size());
-    }
-
-    const WbMFInt *normalIndex = indexedFaceSet->normalIndex();
-    if (normalIndex && normalIndex->size()) {
-      const int *startNormalIndex = &(normalIndex->item(0));
-      mHash ^= sipHash13x(startNormalIndex, normalIndex->size());
-    }
-
-    const WbMFInt *texCoordIndex = indexedFaceSet->texCoordIndex();
-    if (texCoordIndex && texCoordIndex->size()) {
-      const int *startTexCoordIndex = &(texCoordIndex->item(0));
-      mHash ^= sipHash13x(startTexCoordIndex, texCoordIndex->size());
-    }
-
-    mHash ^= sipHash13x(indexedFaceSet->creaseAngle()->valuePointer(), 1);
-    mHash ^= sipHash13x(indexedFaceSet->ccw()->valuePointer(), 1);
-    mHash ^= sipHash13x(indexedFaceSet->normalPerVertex()->valuePointer(), 1);
+  void TriangleMeshGeometryKey::set(WbTriangleMeshGeometry *triangleMeshGeometry) {
+    mHash = triangleMeshGeometry->computeHash();
   }
 
-  bool IndexedFaceSetKey::operator==(const IndexedFaceSetKey &rhs) const { return mHash == rhs.mHash; }
+  bool TriangleMeshGeometryKey::operator==(const TriangleMeshGeometryKey &rhs) const { return mHash == rhs.mHash; }
 
-  std::size_t IndexedFaceSetKeyHasher::operator()(const IndexedFaceSetKey &k) const {
+  std::size_t TriangleMeshGeometryKeyHasher::operator()(const TriangleMeshGeometryKey &k) const {
     assert(sizeof(size_t) == sizeof(uint64_t));
     return static_cast<size_t>(k.mHash);
   }
 
-  void useTriangleMesh(WbIndexedFaceSet *user) {
+  void useTriangleMesh(WbTriangleMeshGeometry *user) {
     if (user->getTriangleMeshMap().count(user->getMeshKey()) == 0)
       user->getTriangleMeshMap()[user->getMeshKey()] = user->createTriangleMesh();
     else
@@ -104,7 +61,7 @@ namespace WbTriangleMeshCache {
     user->updateOdeData();
   }
 
-  void releaseTriangleMesh(WbIndexedFaceSet *user) {
+  void releaseTriangleMesh(WbTriangleMeshGeometry *user) {
     TriangleMeshInfo &triangleMeshInfo = user->getTriangleMeshMap().at(user->getMeshKey());
     if (--triangleMeshInfo.mNumUsers == 0) {
       delete triangleMeshInfo.mTriangleMesh;

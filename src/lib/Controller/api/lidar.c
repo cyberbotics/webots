@@ -195,7 +195,7 @@ void wbr_lidar_set_image(WbDeviceTag t, const unsigned char *image) {
   if (d)
     wbr_abstract_camera_set_image(d, image);
   else
-    fprintf(stderr, "Error: wbr_lidar_set_image(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 unsigned char *wbr_lidar_get_image_buffer(WbDeviceTag t) {
@@ -203,7 +203,7 @@ unsigned char *wbr_lidar_get_image_buffer(WbDeviceTag t) {
   if (d)
     return wbr_abstract_camera_get_image_buffer(d);
 
-  fprintf(stderr, "Error: wbr_lidar_get_image_buffer(): invalid device tag.\n");
+  fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return (unsigned char *)"";  // don't return NULL, swig can't create string objects from NULL
 }
 
@@ -211,21 +211,21 @@ unsigned char *wbr_lidar_get_image_buffer(WbDeviceTag t) {
 
 void wb_lidar_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: wb_lidar_enable() called with negative sampling period.\n");
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
   WbDevice *d = lidar_get_device(tag);
   if (d)
     wb_abstract_camera_enable(d, sampling_period);
   else
-    fprintf(stderr, "Error: wb_lidar_enable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 void wb_lidar_enable_point_cloud(WbDeviceTag tag) {
   robot_mutex_lock_step();
   Lidar *l = lidar_get_struct(tag);
   if (!l)
-    fprintf(stderr, "Error: wb_lidar_enable_point_cloud(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   else {
     l->point_cloud_enabled = true;
     l->set_enable_point_cloud = true;
@@ -237,7 +237,7 @@ void wb_lidar_enable_point_cloud(WbDeviceTag tag) {
 void wb_lidar_disable(WbDeviceTag tag) {
   Lidar *l = lidar_get_struct(tag);
   if (!l)
-    fprintf(stderr, "Error: wb_lidar_disable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   else
     wb_lidar_enable(tag, 0);
 }
@@ -246,7 +246,7 @@ void wb_lidar_disable_point_cloud(WbDeviceTag tag) {
   robot_mutex_lock_step();
   Lidar *l = lidar_get_struct(tag);
   if (!l)
-    fprintf(stderr, "Error: wb_lidar_disable_point_cloud(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   else {
     l->point_cloud_enabled = false;
     l->set_disable_point_cloud = true;
@@ -258,7 +258,7 @@ void wb_lidar_disable_point_cloud(WbDeviceTag tag) {
 int wb_lidar_get_sampling_period(WbDeviceTag tag) {
   Lidar *l = lidar_get_struct(tag);
   if (!l)
-    fprintf(stderr, "Error: wb_lidar_get_sampling_period(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 
   return wb_abstract_camera_get_sampling_period(lidar_get_device(tag));
 }
@@ -270,7 +270,7 @@ bool wb_lidar_is_point_cloud_enabled(WbDeviceTag tag) {
   if (l)
     result = l->point_cloud_enabled;
   else
-    fprintf(stderr, "Error: wb_lidar_is_point_cloud_enabled(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -282,7 +282,7 @@ int wb_lidar_get_number_of_layers(WbDeviceTag tag) {
   if (l)
     result = l->number_of_layers;
   else
-    fprintf(stderr, "Error: wb_lidar_get_number_of_layers(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -294,7 +294,7 @@ double wb_lidar_get_min_frequency(WbDeviceTag tag) {
   if (l)
     result = l->min_frequency;
   else
-    fprintf(stderr, "Error: wb_lidar_get_min_frequency(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -306,7 +306,7 @@ double wb_lidar_get_max_frequency(WbDeviceTag tag) {
   if (l)
     result = l->max_frequency;
   else
-    fprintf(stderr, "Error: wb_lidar_get_max_frequency(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -318,7 +318,7 @@ double wb_lidar_get_frequency(WbDeviceTag tag) {
   if (l)
     result = l->frequency;
   else
-    fprintf(stderr, "Error: wb_lidar_get_frequency(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -327,10 +327,10 @@ void wb_lidar_set_frequency(WbDeviceTag tag, double frequency) {
   robot_mutex_lock_step();
   Lidar *l = lidar_get_struct(tag);
   if (!l)
-    fprintf(stderr, "Error: wb_lidar_set_frequency(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   else {
     if (frequency < l->min_frequency || frequency > l->max_frequency)
-      fprintf(stderr, "Error: wb_lidar_set_frequency() out of frequency range [%f, %f].\n", l->min_frequency, l->max_frequency);
+      fprintf(stderr, "Error: %s() out of frequency range [%f, %f].\n", __FUNCTION__, l->min_frequency, l->max_frequency);
     else {
       l->frequency = frequency;
       l->set_frequency = true;
@@ -346,7 +346,7 @@ int wb_lidar_get_horizontal_resolution(WbDeviceTag tag) {
   if (l)
     result = l->horizontal_resolution;
   else
-    fprintf(stderr, "Error: wb_lidar_get_horizontal_resolution(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -354,7 +354,7 @@ int wb_lidar_get_horizontal_resolution(WbDeviceTag tag) {
 double wb_lidar_get_fov(WbDeviceTag tag) {
   WbDevice *d = lidar_get_device(tag);
   if (!d)
-    fprintf(stderr, "Error: wb_lidar_get_fov(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return wb_abstract_camera_get_fov(d);
 }
 
@@ -365,7 +365,7 @@ double wb_lidar_get_vertical_fov(WbDeviceTag tag) {
   if (l)
     result = l->vertical_fov;
   else
-    fprintf(stderr, "Error: wb_lidar_get_vertical_fov(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -373,7 +373,7 @@ double wb_lidar_get_vertical_fov(WbDeviceTag tag) {
 double wb_lidar_get_min_range(WbDeviceTag tag) {
   WbDevice *d = lidar_get_device(tag);
   if (!d)
-    fprintf(stderr, "Error: wb_lidar_get_min_range(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return wb_abstract_camera_get_near(d);
 }
 
@@ -384,7 +384,7 @@ double wb_lidar_get_max_range(WbDeviceTag tag) {
   if (l)
     result = l->max_range;
   else
-    fprintf(stderr, "Error: wb_lidar_get_max_range(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -393,7 +393,7 @@ const float *wb_lidar_get_range_image(WbDeviceTag tag) {
   AbstractCamera *ac = lidar_get_abstract_camera_struct(tag);
 
   if (!ac) {
-    fprintf(stderr, "Error: wb_lidar_get_range_image(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return NULL;
   }
 
@@ -401,14 +401,14 @@ const float *wb_lidar_get_range_image(WbDeviceTag tag) {
     return (const float *)(void *)ac->image;
 
   robot_mutex_lock_step();
-  bool success = abstract_camera_request_image(ac, "wb_lidar_get_range_image");
+  bool success = abstract_camera_request_image(ac, __FUNCTION__);
   robot_mutex_unlock_step();
 
   if (!ac->image || !success)
     return NULL;
 
   if (ac->sampling_period <= 0)
-    fprintf(stderr, "Error: wb_lidar_get_range_image() called for a disabled device! Please use: wb_lidar_enable().\n");
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_lidar_enable().\n", __FUNCTION__);
 
   return (const float *)(void *)ac->image;
 }
@@ -416,21 +416,21 @@ const float *wb_lidar_get_range_image(WbDeviceTag tag) {
 const float *wb_lidar_get_layer_range_image(WbDeviceTag tag, int layer) {
   Lidar *l = lidar_get_struct(tag);
   if (!l) {
-    fprintf(stderr, "Error: wb_lidar_get_layer_range_image(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return NULL;
   }
 
   if (wb_abstract_camera_get_sampling_period(lidar_get_device(tag)) <= 0) {
-    fprintf(stderr, "Error: wb_lidar_get_layer_range_image() called for a disabled device! Please use: wb_lidar_enable().\n");
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_lidar_enable().\n", __FUNCTION__);
     return NULL;
   }
 
   if (layer > l->number_of_layers) {
-    fprintf(stderr, "Error: wb_lidar_get_layer_range_image() called with a 'layer' argument bigger than the number of layers "
-                    "of this lidar.\n");
+    fprintf(stderr, "Error: %s() called with a 'layer' argument (%d) bigger than the number of layers of this lidar (%d).\n",
+            __FUNCTION__, layer, l->number_of_layers);
     return NULL;
   } else if (layer < 0) {
-    fprintf(stderr, "Error: wb_lidar_get_layer_range_image() called with a negative 'layer' argument.\n");
+    fprintf(stderr, "Error: %s() called with a negative 'layer' argument.\n", __FUNCTION__);
     return NULL;
   }
   const float *image = wb_lidar_get_range_image(tag);
@@ -442,16 +442,16 @@ const float *wb_lidar_get_layer_range_image(WbDeviceTag tag, int layer) {
 const WbLidarPoint *wb_lidar_get_point_cloud(WbDeviceTag tag) {
   Lidar *l = lidar_get_struct(tag);
   if (!l) {
-    fprintf(stderr, "Error: wb_lidar_get_point_cloud(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return NULL;
   }
   if (!l->point_cloud_enabled) {
-    fprintf(stderr, "Error: wb_lidar_get_point_cloud() called for a lidar with point cloud disabled, please call "
-                    "'wb_lidar_enable_point_cloud' before.\n");
+    fprintf(stderr, "Error: %s() called for a lidar with point cloud disabled. Please use: wb_lidar_enable_point_cloud().\n",
+            __FUNCTION__);
     return NULL;
   }
   if (wb_abstract_camera_get_sampling_period(lidar_get_device(tag)) <= 0) {
-    fprintf(stderr, "Error: wb_lidar_get_point_cloud() called for a disabled device! Please use: wb_lidar_enable().\n");
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_lidar_enable().\n", __FUNCTION__);
     return NULL;
   }
   const float *image = wb_lidar_get_range_image(tag);
@@ -463,24 +463,24 @@ const WbLidarPoint *wb_lidar_get_point_cloud(WbDeviceTag tag) {
 const WbLidarPoint *wb_lidar_get_layer_point_cloud(WbDeviceTag tag, int layer) {
   Lidar *l = lidar_get_struct(tag);
   if (!l) {
-    fprintf(stderr, "Error: wb_lidar_get_layer_point_cloud(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return NULL;
   }
   if (!l->point_cloud_enabled) {
-    fprintf(stderr, "Error: wb_lidar_get_layer_point_cloud() called for a lidar with point cloud disabled, please call "
-                    "'wb_lidar_enable_point_cloud' before.\n");
+    fprintf(stderr, "Error: %s() called for a lidar with point cloud disabled. Please use: wb_lidar_enable_point_cloud().\n",
+            __FUNCTION__);
     return NULL;
   }
   if (wb_abstract_camera_get_sampling_period(lidar_get_device(tag)) <= 0) {
-    fprintf(stderr, "Error: wb_lidar_get_layer_point_cloud() called for a disabled device! Please use: wb_lidar_enable().\n");
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_lidar_enable().\n", __FUNCTION__);
     return 0;
   }
   if (layer > l->number_of_layers) {
-    fprintf(stderr, "Error: wb_lidar_get_layer_point_cloud() called with a 'layer' argument bigger than the number of layers "
-                    "of this lidar.\n");
+    fprintf(stderr, "Error: %s() called with a 'layer' argument (%d) bigger than the number of layers of this lidar (%d).\n",
+            __FUNCTION__, layer, l->number_of_layers);
     return NULL;
   } else if (layer < 0) {
-    fprintf(stderr, "Error: wb_lidar_get_layer_point_cloud() called with a negative 'layer' argument.\n");
+    fprintf(stderr, "Error: %s() called with a negative 'layer' argument.\n", __FUNCTION__);
     return NULL;
   }
   const WbLidarPoint *point_cloud = wb_lidar_get_point_cloud(tag);
@@ -492,16 +492,16 @@ const WbLidarPoint *wb_lidar_get_layer_point_cloud(WbDeviceTag tag, int layer) {
 int wb_lidar_get_number_of_points(WbDeviceTag tag) {
   Lidar *l = lidar_get_struct(tag);
   if (!l) {
-    fprintf(stderr, "Error: wb_lidar_get_number_of_points(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return 0;
   }
   if (!l->point_cloud_enabled) {
-    fprintf(stderr, "Error: wb_lidar_get_number_of_points() called for a lidar with point cloud disabled, please call "
-                    "'wb_lidar_enable_point_cloud' before.\n");
+    fprintf(stderr, "Error: %s() called for a lidar with point cloud disabled! Please use: wb_lidar_enable_point_cloud().\n",
+            __FUNCTION__);
     return 0;
   }
   if (wb_abstract_camera_get_sampling_period(lidar_get_device(tag)) <= 0) {
-    fprintf(stderr, "Error: wb_lidar_get_number_of_points() called for a disabled device! Please use: wb_lidar_enable().\n");
+    fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_lidar_enable().\n", __FUNCTION__);
     return 0;
   }
   return l->horizontal_resolution * l->number_of_layers;
@@ -512,6 +512,6 @@ const WbLidarPoint *wb_lidar_get_point(WbDeviceTag tag, int index) {
   if (l)
     return (wb_lidar_get_point_cloud(tag) + index);
 
-  fprintf(stderr, "Error: wb_lidar_get_point(): invalid device tag.\n");
+  fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return NULL;
 }

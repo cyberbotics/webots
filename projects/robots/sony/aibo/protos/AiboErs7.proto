@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/aibo-ers7
@@ -9,7 +9,7 @@ PROTO AiboErs7 [
   field SFRotation rotation            1 0 0 -0.05 # Is `Transform.rotation`.
   field SFString   name                "ERS-7"     # Is `Solid.name`.
   field SFString   controller          "ers7"      # Is `Robot.controller`.
-  field SFString   controllerArgs      ""          # Is `Robot.controllerArgs`.
+  field MFString   controllerArgs      []          # Is `Robot.controllerArgs`.
   field SFString   customData          ""          # Is `Robot.customData`.
   field SFBool     supervisor          FALSE       # Is `Robot.supervisor`.
   field SFBool     synchronization     TRUE        # Is `Robot.synchronization`.
@@ -39,7 +39,7 @@ PROTO AiboErs7 [
           DEF BODY_MAIN Shape {
             appearance DEF AIBO_SILVER_APPEARANCE PBRAppearance {
               metalness 0
-              roughness 0.25 
+              roughness 0.25
             }
             geometry IndexedFaceSet {
               coord Coordinate {
@@ -627,7 +627,7 @@ PROTO AiboErs7 [
           DEF BODY_BACK Shape {
             appearance PBRAppearance {
               baseColor 0.196078 0.6 0.8
-              metalness 0          
+              metalness 0
             }
             geometry IndexedFaceSet {
               coord Coordinate {

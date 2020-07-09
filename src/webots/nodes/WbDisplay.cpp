@@ -184,9 +184,17 @@ void WbDisplay::findImageTextures() {
       findImageTextures(group);
   }
 
+  for (int i = 0; i < mImageTextures.size(); ++i)
+    connect(mImageTextures.at(i), &QObject::destroyed, this, &WbDisplay::removeImageTexture);
+
   // debug code - print the found materials
   // foreach (WbImageTexture *texture, mImageTextures)
-  //   warn(QString("found image texture %1").arg(texture->usefulName()));
+  //   parsingWarn(QString("found image texture %1").arg(texture->usefulName()));
+}
+
+void WbDisplay::removeImageTexture(QObject *object) {
+  assert(dynamic_cast<WbImageTexture *>(object));
+  mImageTextures.removeAll(static_cast<WbImageTexture *>(object));
 }
 
 void WbDisplay::clearImageTextures() {
@@ -1078,8 +1086,13 @@ void WbDisplay::createWrenOverlay() {
 }
 
 void WbDisplay::removeExternalTextures() {
+  // first remove all the references to deleted external textures
   for (int i = 0; i < mImageTextures.size(); ++i)
     mImageTextures.at(i)->removeExternalTexture();
+  // then, trigger the appearance update
+  // two steps needed for PBRAppearance nodes if both baseColorMap and emissiveColorMap are defined
+  for (int i = 0; i < mImageTextures.size(); ++i)
+    emit mImageTextures.at(i)->changed();
 }
 
 void WbDisplay::setTransparentTextureIfNeeded() {

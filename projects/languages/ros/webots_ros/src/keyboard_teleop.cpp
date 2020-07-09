@@ -118,8 +118,7 @@ int main(int argc, char **argv) {
   ros::Subscriber nameSub = n.subscribe("model_name", 100, controllerNameCallback);
   while (controllerCount == 0 || controllerCount < nameSub.getNumPublishers()) {
     ros::spinOnce();
-    ros::spinOnce();
-    ros::spinOnce();
+    ros::Duration(0.5).sleep();
   }
   ros::spinOnce();
 

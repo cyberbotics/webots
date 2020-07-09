@@ -19,14 +19,21 @@
 // Description: user interface configuration associated to each world file
 //
 
+#include "WbAction.hpp"
 #include "WbVersion.hpp"
 
-#include <QtCore/QHash>
 #include <QtCore/QList>
+#include <QtCore/QMap>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 
 class QTextStream;
+
+struct ConsoleSettings {
+  QStringList enabledFilters;
+  QStringList enabledLevels;
+  QString name;
+};
 
 class WbPerspective {
 public:
@@ -79,6 +86,10 @@ public:
   void setRobotWindowNodeNames(const QStringList &robotWindowNodeNames) { mRobotWindowNodeNames = robotWindowNodeNames; }
   const QStringList &enabledRobotWindowNodeNames() const { return mRobotWindowNodeNames; }
 
+  // consoles
+  void setConsolesSettings(const QVector<ConsoleSettings> &settings) { mConsolesSettings = settings; }
+  const QVector<ConsoleSettings> &consoleList() const { return mConsolesSettings; }
+
   // global optional renderings
   void enableGlobalOptionalRendering(const QString &optionalRenderingName, bool enable);
   bool isGlobalOptionalRenderingEnabled(const QString &optionalRenderingName) const {
@@ -98,10 +109,13 @@ public:
   const QStringList &enabledSupportPolygonNodeNames() const { return mSupportPolygonNodeNames; }
 
   // selection and viewpoint lock mechanism
-  void setSelectionDisabled(bool disabled) { mSelectionDisabled = disabled; }
-  void setViewpointLocked(bool locked) { mViewpointLocked = locked; }
-  bool isSelectionDisabled() const { return mSelectionDisabled; }
-  bool isViewpointLocked() const { return mViewpointLocked; }
+  void setUserInteractionDisabled(WbAction::WbActionKind action, bool disabled) {
+    mDisabledUserInteractionsMap[action] = disabled;
+  }
+  QMap<WbAction::WbActionKind, bool> disabledUserInteractionsMap() const { return mDisabledUserInteractionsMap; }
+  bool isUserInteractionDisabled(WbAction::WbActionKind action) const {
+    return mDisabledUserInteractionsMap.value(action, false);
+  }
 
   // projection and rendering mode
   void setProjectionMode(const QString &mode) { mProjectionMode = mode; }
@@ -114,7 +128,7 @@ public:
   void setRenderingDevicePerspective(const QString &deviceUniqueName, const QStringList &perspective);
   QStringList renderingDevicePerspective(const QString &deviceUniqueName) const;
 
-  QHash<QString, QString> &x3dExportParameters() { return mX3dExportParameters; }
+  QMap<QString, QString> &x3dExportParameters() { return mX3dExportParameters; }
   void setX3dExportParameter(const QString &key, QString value);
 
   // load/save perspective
@@ -135,8 +149,7 @@ private:
   QString mDocumentationBook;
   QString mDocumentationPage;
   double mOrthographicViewHeight;
-  bool mSelectionDisabled;
-  bool mViewpointLocked;
+  QMap<WbAction::WbActionKind, bool> mDisabledUserInteractionsMap;
   QString mProjectionMode;
   QString mRenderingMode;
   QStringList mEnabledOptionalRenderingList;
@@ -144,12 +157,16 @@ private:
   QStringList mCenterOfMassNodeNames;
   QStringList mCenterOfBuoyancyNodeNames;
   QStringList mSupportPolygonNodeNames;
-  QHash<QString, QStringList> mRenderingDevicesPerspectiveList;
-  QHash<QString, QString> mX3dExportParameters;
+  QVector<ConsoleSettings> mConsolesSettings;
+  QMap<QString, QStringList> mRenderingDevicesPerspectiveList;
+  QMap<QString, QString> mX3dExportParameters;
 
   bool readContent(QTextStream &in, bool reloading);
+  void addDefaultConsole();
   static QString joinUniqueNameList(const QStringList &nameList);
   static void splitUniqueNameList(const QString &text, QStringList &targetList);
+  static QString getActionName(WbAction::WbActionKind action);
+  static WbAction::WbActionKind getActionFromString(const QString &actionString);
 };
 
 #endif

@@ -110,6 +110,8 @@ const char *wb_node_get_name(WbNodeType t) {
       return "LinearMotor";
     case WB_NODE_MATERIAL:
       return "Material";
+    case WB_NODE_MESH:
+      return "Mesh";
     case WB_NODE_MICROPHONE:
       return "Microphone";
     case WB_NODE_MUSCLE:

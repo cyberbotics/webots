@@ -45,7 +45,7 @@ RobotisOp2 {
   SFRotation rotation        0 1 0 0
   SFString   name            "ROBOTIS OP2"
   SFString   controller      "motion_player"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

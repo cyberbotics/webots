@@ -1,2 +1,2 @@
 function value = WB_NODE_BRAKE
-value = 33;
+value = 34;

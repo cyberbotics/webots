@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
 }
 Viewpoint {
@@ -20,6 +20,10 @@ DEF AIRPLANE Robot {
   translation 0.484785 0.39156 -0.0676172
   children [
     InertialUnit {
+      lookupTable [
+        -1000 -1000 0
+        1000 1000 0
+      ]
     }
     Shape {
       appearance Appearance {

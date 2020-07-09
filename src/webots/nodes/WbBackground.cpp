@@ -149,7 +149,7 @@ void WbBackground::postFinalize() {
   if (isFirstInstance())
     activate();
   else
-    warn(tr("Only one Background node is allowed. The current node won't be taken into account."));
+    parsingWarn(tr("Only one Background node is allowed. The current node won't be taken into account."));
 }
 
 void WbBackground::activate() {
@@ -334,7 +334,7 @@ void WbBackground::applySkyBoxToWren() {
     }
   } catch (QString &error) {
     if (error.length() > 0)
-      warn(error);
+      parsingWarn(error);
     destroySkyBox();
   }
 
@@ -393,7 +393,7 @@ void WbBackground::applySkyBoxToWren() {
 
   } catch (QString &error) {
     if (error.length() > 0)
-      warn(error);
+      parsingWarn(error);
 
     if (mIrradianceCubeTexture) {
       wr_texture_delete(WR_TEXTURE(mIrradianceCubeTexture));

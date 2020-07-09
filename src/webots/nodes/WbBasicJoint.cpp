@@ -124,8 +124,8 @@ void WbBasicJoint::postFinalize() {
   if (protoParameterNode()) {
     const QVector<WbNode *> nodes = protoParameterNode()->protoParameterNodeInstances();
     if (nodes.size() > 1 && nodes.at(0) == this)
-      warn(tr("Joint node defined in PROTO field is used multiple times. "
-              "Webots doesn't fully support this because the multiple node instances cannot be identical."));
+      parsingWarn(tr("Joint node defined in PROTO field is used multiple times. "
+                     "Webots doesn't fully support this because the multiple node instances cannot be identical."));
   }
 }
 
@@ -311,7 +311,7 @@ WbSolidReference *WbBasicJoint::solidReference() const {
 }
 
 WbSolid *WbBasicJoint::solidParent() const {
-  return dynamic_cast<WbSolid *>(parent());
+  return dynamic_cast<WbSolid *>(parentNode());
 }
 
 WbVector3 WbBasicJoint::anchor() const {
@@ -445,7 +445,7 @@ void WbBasicJoint::write(WbVrmlWriter &writer) const {
     s->blockSignals(false);
   }
 
-  if (writer.isWebots())
+  if (writer.isWebots() || writer.isUrdf())
     WbBaseNode::write(writer);
   else {
     // we should not export any SolidReference Solid here,

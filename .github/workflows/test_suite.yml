@@ -17,14 +17,13 @@ jobs:
       uses: textbook/git-checkout-submodule-action@master
     - name: Install Webots Dependencies 
       run: |
+        sudo apt update
         # common dependencies
         sudo apt -y install git g++ cmake execstack libusb-dev swig python2.7-dev python3.6-dev python3.7-dev python3.8-dev libglu1-mesa-dev libglib2.0-dev libfreeimage-dev libfreetype6-dev libxml2-dev libzzip-0-13 libboost-dev libavcodec-extra libgd-dev libssh-gcrypt-dev libzip-dev libreadline-dev pbzip2 libpci-dev libxcb-keysyms1 libxcb-image0 libxcb-icccm4 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0
         # ubuntu 18.04 dependencies
         sudo apt -y install libssl1.0-dev ffmpeg python-pip
         # optional dependencies
         sudo apt -y install openjdk-11-jdk npm
-        # < R2020b dependencies
-        sudo apt -y install libassimp-dev
         # ubuntu server dependencies
         sudo apt -y install libxkbcommon-x11-dev
     - name: Make
@@ -39,15 +38,12 @@ jobs:
     needs: build
     strategy:
       matrix:
-        # TODO: restore once #1830 is fixed test: [tests/test_suite.py, tests/manual_tests/test_worlds_warnings.py, src/packaging/update_all_worlds.py]
-        test: [tests/test_suite.py]
+        test: [tests/test_suite.py, src/packaging/update_all_worlds.py]
         include:
           - test: tests/test_suite.py
             POST_TASK: ""
-          # - test: tests/manual_tests/test_worlds_warnings.py
-          #   POST_TASK: ""
-          # - test: src/packaging/update_all_worlds.py
-          #   POST_TASK: "if [[ \"$(git diff --name-only *.wbt | wc -l)\" -ne \"0\" ]]; then echo Some worlds are not up to date: \"$(git diff --name-only *.wbt)\" \"$(git diff *.wbt)\"; exit -1; fi"
+          - test: src/packaging/update_all_worlds.py
+            POST_TASK: "if [[ \"$(git diff --name-only *.wbt *.wbproj | wc -l)\" -ne \"0\" ]]; then echo Some world and/or wbproj files are not up to date: \"$(git diff *.wbt *.wbproj)\"; exit -1; fi"
     steps:  
     - uses: actions/checkout@v2
     - name: Download Artifacts
@@ -64,6 +60,7 @@ jobs:
     - name: ${{ matrix.test }}
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
+        export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
         xvfb-run --auto-servernum python ${{ matrix.test }}
         ${{ matrix.POST_TASK }}

@@ -40,23 +40,29 @@ public:
   QString init(const WbMFVector3 *coord, const WbMFInt *coordIndex, const WbMFVector3 *normal, const WbMFInt *normalIndex,
                const WbMFVector2 *texCoord, const WbMFInt *texCoordIndex, double creaseAngle, bool counterClockwise,
                bool normalPerVertex);
+  // to be initialized from a WbMesh
+  QString init(const double *coord, const double *normal, const double *texCoord, const unsigned int *index, int coordSize,
+               int indexSize);
+
   void cleanup();
 
   bool isValid() const { return mValid; }
   bool areTextureCoordinatesValid() const { return mTextureCoordinatesValid; }
 
   int numberOfTriangles() const { return mNTriangles; }
+  int numberOfVertices() const { return mVertices.size(); }
 
-  static int indexAt(int triangle, int vertex) { return 3 * triangle + vertex; }
-  double vertexAt(int triangle, int vertex, int component) const {
-    return mVertices[coordinateIndexAt(triangle, vertex, component)];
+  static int index(int triangle, int vertex) { return 3 * triangle + vertex; }
+  double vertex(int triangle, int vertex, int component) const {
+    return mVertices[coordinateIndex(triangle, vertex, component)];
   }
-  double normalAt(int triangle, int vertex, int component) const { return mNormals[3 * indexAt(triangle, vertex) + component]; }
-  double textureCoordinateAt(int triangle, int vertex, int component) const {
-    return mTextureCoordinates[2 * indexAt(triangle, vertex) + component];
+  double normal(int triangle, int vertex, int component) const { return mNormals[3 * index(triangle, vertex) + component]; }
+  bool isNormalCreased(int triangle, int vertex) const { return mIsNormalCreased[index(triangle, vertex)]; }
+  double textureCoordinate(int triangle, int vertex, int component) const {
+    return mTextureCoordinates[2 * index(triangle, vertex) + component];
   }
-  double nonRecursiveTextureCoordinateAt(int triangle, int vertex, int component) const {
-    return mNonRecursiveTextureCoordinates[2 * indexAt(triangle, vertex) + component];
+  double nonRecursiveTextureCoordinate(int triangle, int vertex, int component) const {
+    return mNonRecursiveTextureCoordinates[2 * index(triangle, vertex) + component];
   }
 
   const int *indicesData() const { return mCoordIndices.data(); }
@@ -67,8 +73,8 @@ public:
   const QStringList &warnings() const { return mWarnings; }
   const double *scaledVerticesData() const { return mScaledVertices.data(); }
   void updateScaledVertices(double x, double y, double z);
-  double scaledVertexAt(int triangle, int vertex, int component) const {
-    return mScaledVertices[coordinateIndexAt(triangle, vertex, component)];
+  double scaledVertex(int triangle, int vertex, int component) const {
+    return mScaledVertices[coordinateIndex(triangle, vertex, component)];
   }
   bool areScaledVerticesEmpty() const { return mScaledVertices.isEmpty(); }
 
@@ -77,8 +83,8 @@ public:
 
 private:
   static int estimateNumberOfTriangles(const WbMFInt *coordIndex);
-  int coordinateIndexAt(int triangle, int vertex, int component) const {
-    return 3 * mCoordIndices[indexAt(triangle, vertex)] + component;
+  int coordinateIndex(int triangle, int vertex, int component) const {
+    return 3 * mCoordIndices[index(triangle, vertex)] + component;
   }
 
   void cleanupTmpArrays();
@@ -119,6 +125,7 @@ private:
   QVarLengthArray<double, 1> mNonRecursiveTextureCoordinates;
   // contains triplet representing the normals (either per triangle or per vertex) (match with the mIndices order)
   QVarLengthArray<double, 1> mNormals;
+  QVarLengthArray<bool, 1> mIsNormalCreased;
   // improve tesselation problems by cutting bad triangles
   QList<QVector<int>> cutTriangleIfNeeded(const WbMFVector3 *coord, const QList<QVector<int>> &tesselatedPolygon,
                                           const int triangleIndex);

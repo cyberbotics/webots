@@ -51,12 +51,14 @@ private:
   WbSensor *mSensor;
   WbLookupTable *mLut;
   double mValues[3];  // current sensor value according to lookup table
+  bool mNeedToReconfigure;
 
   // private functions
   WbGyro &operator=(const WbGyro &);  // non copyable
   WbNode *clone() const override { return new WbGyro(*this); }
   void init();
   void computeValue();
+  void addConfigure(QDataStream &);
 
 private slots:
   void updateLookupTable();

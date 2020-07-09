@@ -18,6 +18,14 @@
 RosAccelerometer::RosAccelerometer(Accelerometer *accelerometer, Ros *ros) :
   RosSensor(accelerometer->getName(), accelerometer, ros) {
   mAccelerometer = accelerometer;
+
+  mLookupTableServer = RosDevice::rosAdvertiseService(
+    (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosAccelerometer::getLookupTable);
+}
+
+RosAccelerometer::~RosAccelerometer() {
+  mLookupTableServer.shutdown();
+  cleanup();
 }
 
 // creates a publisher for accelerometer values with a sensor_msgs/Imu as message type
@@ -47,4 +55,11 @@ void RosAccelerometer::publishValue(ros::Publisher publisher) {
   for (int i = 0; i < 9; ++i)  // means "covariance unknown"
     value.linear_acceleration_covariance[i] = 0;
   publisher.publish(value);
+}
+
+bool RosAccelerometer::getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res) {
+  assert(mAccelerometer);
+  const double *values = mAccelerometer->getLookupTable();
+  res.value.assign(values, values + mAccelerometer->getLookupTableSize() * 3);
+  return true;
 }

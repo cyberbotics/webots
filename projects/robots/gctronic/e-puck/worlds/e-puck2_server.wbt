@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "The model of the e-puck 2 robot"
@@ -50,7 +50,9 @@ E-puck {
   rotation 0 1 0 1.57
   name "e-puck2"
   controller "e-puck2_server"
-  controllerArgs "1000"
+  controllerArgs [
+    "1000"
+  ]
   version "2"
   camera_width 160
   camera_height 120

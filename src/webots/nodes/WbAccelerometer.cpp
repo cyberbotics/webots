@@ -40,6 +40,8 @@ void WbAccelerometer::init() {
   mYAxis = findSFBool("yAxis");
   mZAxis = findSFBool("zAxis");
   mResolution = findSFDouble("resolution");
+
+  mNeedToReconfigure = false;
 }
 
 WbAccelerometer::WbAccelerometer(WbTokenizer *tokenizer) : WbSolidDevice("Accelerometer", tokenizer) {
@@ -81,6 +83,8 @@ void WbAccelerometer::updateLookupTable() {
   // create the lookup table
   delete mLut;
   mLut = new WbLookupTable(*mLookupTable);
+
+  mNeedToReconfigure = true;
 }
 
 void WbAccelerometer::updateResolution() {
@@ -104,14 +108,31 @@ void WbAccelerometer::handleMessage(QDataStream &stream) {
 
 void WbAccelerometer::writeConfigure(QDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
+  addConfigure(stream);
+}
+
+void WbAccelerometer::addConfigure(QDataStream &stream) {
+  stream << (short unsigned int)tag();
+  stream << (unsigned char)C_CONFIGURE;
+  stream << (int)mLookupTable->size();
+  for (int i = 0; i < mLookupTable->size(); i++) {
+    stream << (double)mLookupTable->item(i).x();
+    stream << (double)mLookupTable->item(i).y();
+    stream << (double)mLookupTable->item(i).z();
+  }
+  mNeedToReconfigure = false;
 }
 
 void WbAccelerometer::writeAnswer(QDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << tag();
+    stream << (unsigned char)C_ACCELEROMETER_DATA;
     stream << (double)mValues[0] << (double)mValues[1] << (double)mValues[2];
     mSensor->resetPendingValue();
   }
+
+  if (mNeedToReconfigure)
+    addConfigure(stream);
 }
 
 bool WbAccelerometer::refreshSensorIfNeeded() {

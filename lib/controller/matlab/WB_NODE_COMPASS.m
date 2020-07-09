@@ -1,2 +1,2 @@
 function value = WB_NODE_COMPASS
-value = 35;
+value = 36;

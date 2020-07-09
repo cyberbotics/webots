@@ -73,6 +73,7 @@ protected:
   void updateEndPointZeroTranslationAndRotation() override;
   void updatePosition(double position) override;
   void updatePositions(double position, double position2, double position3);
+  void writeExport(WbVrmlWriter &writer) const override;
 
 protected slots:
   void addDevice2(int index) override;

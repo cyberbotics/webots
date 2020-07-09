@@ -142,10 +142,10 @@ void WbSliderJoint::updateMinAndMaxStop(double min, double max) {
     const double maxPos = lm->maxPosition();
     if (min != max && minPos != maxPos) {
       if (minPos < min)
-        p->warn(tr("SliderJoint 'minStop' must be less or equal to LinearMotor 'minPosition'."));
+        p->parsingWarn(tr("SliderJoint 'minStop' must be less or equal to LinearMotor 'minPosition'."));
 
       if (maxPos > max)
-        p->warn(tr("SliderJoint 'maxStop' must be greater or equal to LinearMotor 'maxPosition'."));
+        p->parsingWarn(tr("SliderJoint 'maxStop' must be greater or equal to LinearMotor 'maxPosition'."));
     }
   }
 
@@ -305,4 +305,41 @@ WbVector3 WbSliderJoint::anchor() const {
   }
 
   return WbBasicJoint::anchor();
+}
+
+void WbSliderJoint::writeExport(WbVrmlWriter &writer) const {
+  if (writer.isUrdf() && solidEndPoint()) {
+    const WbNode *const parentRoot = findUrdfLinkRoot();
+    const WbVector3 translation = solidEndPoint()->translationFrom(parentRoot);
+    const WbVector3 rotationEuler = solidEndPoint()->rotationMatrixFrom(parentRoot).toEulerAnglesZYX();
+    const WbVector3 rotationAxis = axis() * solidEndPoint()->rotationMatrixFrom(parentRoot);
+
+    writer.increaseIndent();
+    writer.indent();
+    writer << QString("<joint name=\"%1\" type=\"prismatic\">\n").arg(urdfName());
+
+    writer.increaseIndent();
+    writer.indent();
+    writer << QString("<parent link=\"%1\"/>\n").arg(parentNode()->urdfName());
+    writer.indent();
+    writer << QString("<child link=\"%1\"/>\n").arg(solidEndPoint()->urdfName());
+    writer.indent();
+    writer << QString("<axis xyz=\"%1\"/>\n").arg(rotationAxis.toString(WbPrecision::DOUBLE_MAX));
+    writer.indent();
+    writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
+                .arg(translation.toString(WbPrecision::DOUBLE_MAX))
+                .arg(rotationEuler.toString(WbPrecision::DOUBLE_MAX));
+    writer.indent();
+    writer << QString("<limit effort=\"%1\" velocity=\"%2\" />\n").arg(motor()->maxVelocity()).arg(motor()->maxForceOrTorque());
+    writer.decreaseIndent();
+
+    writer.indent();
+    writer << QString("</joint>\n");
+    writer.decreaseIndent();
+
+    WbNode::exportNodeSubNodes(writer);
+    return;
+  }
+
+  WbNode::writeExport(writer);
 }

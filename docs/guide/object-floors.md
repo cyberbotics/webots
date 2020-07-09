@@ -152,8 +152,7 @@ UnevenTerrain {
   SFVec3f    size           50 5 50
   SFInt32    xDimension     50
   SFInt32    zDimension     50
-  SFNode     appearance     SandyGround {}
-  SFVec2f    textureScale   1.0 1.0
+  SFNode     appearance     SandyGround { textureTransform TextureTransform { scale 50 50 } }
   SFInt32    randomSeed     1
   SFBool     flatCenter     FALSE
   SFBool     flatBounds     FALSE
@@ -176,8 +175,6 @@ UnevenTerrain {
 
 - `appearance`: Defines the appearance of the terrain.
 
-- `textureScale`: Defines the size of the textures used for the terrain.
-
 - `randomSeed`: Defines the seed of the random number generator. A value smaller or equal to 0 sets a random seed.
 
 - `flatCenter`: Defines whether the center of the terrain should be flat.
@@ -185,4 +182,3 @@ UnevenTerrain {
 - `flatBounds`: Defines whether the bounds of the terrain should be flat.
 
 - `perlinNOctaves`: Defines the number of octaves of the perlin noise.
-

@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   northDirection 1 0 1
 }
@@ -20,6 +20,10 @@ Robot {
   children [
     Compass {
       rotation 0 1 0 1.57079633
+      lookupTable [
+        -1000 -1000 0
+        1000 1000 0
+      ]
     }
     TestSuiteEmitter {
     }

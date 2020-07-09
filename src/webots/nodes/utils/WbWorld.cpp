@@ -88,10 +88,10 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   mIsCleaning(false) {
   gInstance = this;
   WbNode::setInstantiateMode(true);
-  WbNode::setGlobalParent(NULL);
+  WbNode::setGlobalParentNode(NULL);
   mRoot = new WbGroup();
   mRoot->setUniqueId(0);
-  WbNode::setGlobalParent(mRoot);
+  WbNode::setGlobalParentNode(mRoot);
   mRadarTargets.clear();
   mCameraRecognitionObjects.clear();
 
@@ -133,7 +133,7 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
         node->validate();
         mRoot->addChild(node);
       } else
-        mRoot->warn(errorMessage);
+        mRoot->parsingWarn(errorMessage);
     }
     WbTemplateManager::instance()->blockRegeneration(false);
 
@@ -152,7 +152,7 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
     mRoot->addChild(mViewpoint);
   }
 
-  WbNode::setGlobalParent(NULL);
+  WbNode::setGlobalParentNode(NULL);
   updateTopLevelLists();
 
   // world loading stuff
@@ -351,7 +351,7 @@ void WbWorld::write(WbVrmlWriter &writer) const {
   }
 
   assert(mPerspective);
-  QHash<QString, QString> parameters = mPerspective->x3dExportParameters();
+  QMap<QString, QString> parameters = mPerspective->x3dExportParameters();
   writer.setX3DFrustumCullingValue(parameters.value("frustumCulling"));
   writer.writeHeader(worldInfo()->title());
 
@@ -378,7 +378,7 @@ WbNode *WbWorld::findTopLevelNode(const QString &modelName, int preferredPositio
     WbNode *const node = it.next();
     if (node->nodeModelName() == modelName) {
       if (result)
-        WbLog::warning(tr("'%1': found duplicate %2 node.").arg(mFileName, modelName));
+        WbLog::warning(tr("'%1': found duplicate %2 node.").arg(mFileName, modelName), false, WbLog::PARSING);
       else {
         result = node;
         if (position != preferredPosition)
@@ -386,14 +386,15 @@ WbNode *WbWorld::findTopLevelNode(const QString &modelName, int preferredPositio
                            .arg(mFileName)
                            .arg(modelName)
                            .arg(preferredPosition + 1)
-                           .arg(position + 1));
+                           .arg(position + 1),
+                         false, WbLog::PARSING);
       }
     }
     ++position;
   }
 
   if (!result)
-    WbLog::warning(tr("'%1': added missing %2 node.").arg(mFileName, modelName));
+    WbLog::warning(tr("'%1': added missing %2 node.").arg(mFileName, modelName), false, WbLog::PARSING);
 
   return result;
 }
@@ -448,7 +449,8 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
         deviceObject.insert("minPosition", motor->minPosition());
         deviceObject.insert("maxPosition", motor->maxPosition());
       } else {  // case: other WbDevice nodes.
-        const WbBaseNode *parent = jointDevice ? dynamic_cast<const WbBaseNode *>(deviceBaseNode->parent()) : deviceBaseNode;
+        const WbBaseNode *parent =
+          jointDevice ? dynamic_cast<const WbBaseNode *>(deviceBaseNode->parentNode()) : deviceBaseNode;
         // Retrieve closest exported Transform parent, and compute its translation offset.
         WbMatrix4 m;
         while (parent) {
@@ -465,7 +467,7 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
             if (transform)
               m *= transform->vrmlMatrix();
           }
-          parent = dynamic_cast<const WbBaseNode *>(parent->parent());
+          parent = dynamic_cast<const WbBaseNode *>(parent->parentNode());
         }
         // LED case: export color data.
         const WbLed *led = dynamic_cast<const WbLed *>(device);

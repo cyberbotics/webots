@@ -172,7 +172,6 @@ WbController::~WbController() {
 
 void WbController::updateName(const QString &name) {
   mName = name;
-  mPrefix = QString("[%1] ").arg(mName);
 }
 
 void WbController::resetRequestTime() {
@@ -558,12 +557,7 @@ void WbController::appendMessageToBuffer(const QString &message, QString *buffer
 #else
   const QString &text = message;
 #endif
-  // '\f' to clean the console
-  const int lastFCharIndex = text.lastIndexOf('\f');
-  if (lastFCharIndex < 0)  // no '\f'
-    buffer->append(text);
-  else
-    *buffer = text.mid(lastFCharIndex);
+  buffer->append(text);
   if (buffer == mStdoutBuffer)
     mStdoutNeedsFlush = true;
   else
@@ -573,18 +567,13 @@ void WbController::appendMessageToBuffer(const QString &message, QString *buffer
 void WbController::flushBuffer(QString *buffer) {
   // Split string into lines by detecting '\n', then send lines one by one to WbLog.
   // When several streams or several controllers are used, this prevents to mix unrelated lines
-  if ((*buffer)[0] == '\f') {
-    WbLog::clear();
-    buffer->remove(0, 1);
-  }
   int index = buffer->indexOf('\n');
   while (index != -1) {
-    // extract line and prepend "[controller_name] "
-    QString line = mPrefix + buffer->mid(0, index + 1);
+    const QString line = buffer->mid(0, index + 1);
     if (buffer == mStdoutBuffer)
-      WbLog::appendStdout(line, mPrefix);
+      WbLog::appendStdout(line, robot()->name());
     else
-      WbLog::appendStderr(line, mPrefix);
+      WbLog::appendStderr(line, robot()->name());
     // remove line from buffer
     buffer->remove(0, index + 1);
     index = buffer->indexOf('\n');
@@ -722,7 +711,7 @@ void WbController::startVoidExecutable() {
   copyBinaryAndDependencies(mCommand);
 
   mCommand = QDir::toNativeSeparators(mCommand);
-  mArguments << argsList();
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startExecutable() {
@@ -731,7 +720,7 @@ void WbController::startExecutable() {
   copyBinaryAndDependencies(mCommand);
 
   mCommand = QDir::toNativeSeparators(mCommand);
-  mArguments << argsList();
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startJava(bool jar) {
@@ -765,7 +754,7 @@ void WbController::startJava(bool jar) {
   if (!mJavaOptions.isEmpty())
     mArguments << mJavaOptions.split(" ");
   mArguments << name();
-  mArguments << argsList();
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startPython() {
@@ -776,7 +765,7 @@ void WbController::startPython() {
   if (!mPythonOptions.isEmpty())
     mArguments << mPythonOptions.split(" ");
   mArguments << name() + ".py";
-  mArguments << argsList();
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startMatlab() {
@@ -794,8 +783,7 @@ void WbController::startMatlab() {
   mArguments = WbLanguageTools::matlabArguments();
   mArguments << "-r"
              << "launcher";
-  if (!mMatlabOptions.isEmpty())
-    mArguments << mMatlabOptions.split(" ");
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startBotstudio() {
@@ -872,37 +860,11 @@ const QString &WbController::name() const {
   return mName;
 }
 
-const QString &WbController::args() const {
-  return mRobot->controllerArgs();
-}
-
-// Extract the argument list from the Robot.controllerArgs string
-// Double quotes are removed from each argument string, as it should
-QStringList WbController::argsList() const {
-  QStringList list;
-  const QString args = mRobot->controllerArgs().trimmed();
-  if (args.length() == 0)
-    return list;
-  bool quote = false;
-  int previous = 0;
-  for (int i = 0; i < args.length(); i++) {
-    if (args[i] == '"')
-      quote = !quote;
-    if (args[i] == ' ' && !quote) {
-      const QString argument = args.mid(previous, i - previous).replace("\"", "").trimmed();
-      if (!argument.isEmpty())
-        list << args.mid(previous, i - previous).replace("\"", "");
-      previous = i + 1;
-    }
-  }
-  list << args.mid(previous).replace("\"", "");
-  return list;
-}
-
 QString WbController::commandLine() const {  // returns the command line with double quotes if needed
-  QString commandLine = mCommand.contains(" ") ? "\"" + mCommand + "\"" : mCommand;
-  foreach (const QString argument, mArguments)
-    commandLine += " " + (argument.contains(" ") ? "\"" + argument + "\"" : argument);
+  QString commandLine = mCommand.contains(' ') ? '"' + mCommand + '"' : mCommand;
+  foreach (QString argument, mArguments)
+    commandLine +=
+      ' ' + (argument.contains(' ') || (argument.contains('"')) ? '\"' + argument.replace('"', "\\\"") + '"' : argument);
   return commandLine;
 }
 

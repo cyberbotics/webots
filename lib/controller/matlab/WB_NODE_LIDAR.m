@@ -1,2 +1,2 @@
 function value = WB_NODE_LIDAR
-value = 44;
+value = 45;

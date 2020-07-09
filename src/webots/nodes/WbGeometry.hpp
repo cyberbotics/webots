@@ -19,7 +19,7 @@
 // Description: abstract base class for all geometry primitives
 // Inherited by:
 //   WbBox, WbSphere, WbPlane, WbCapsule, WbCylinder, WbCone,
-//   WbElevationGrid, WbIndexedFaceSet and WbIndexedLineSet
+//   WbElevationGrid, WbIndexedFaceSet, WbIndexedLineSet and WbMesh
 //
 
 #include "WbBaseNode.hpp"
@@ -131,6 +131,8 @@ public slots:
   void showResizeManipulator(bool enabled) override;
 
 protected:
+  bool exportNodeHeader(WbVrmlWriter &writer) const override;
+
   static const float LINE_SCALE_FACTOR;
 
   // All constructors are reserved for derived classes only

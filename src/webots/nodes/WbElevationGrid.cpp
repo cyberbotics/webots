@@ -88,7 +88,7 @@ void WbElevationGrid::preFinalize() {
 
   if (isInBoundingObject()) {
     if (WbNodeUtilities::findUpperMatter(this)->nodeType() == WB_NODE_FLUID) {
-      warn("The ElevationGrid geometry cannot be used as a Fluid boundingObject. Immersions will have not effect.\n");
+      parsingWarn("The ElevationGrid geometry cannot be used as a Fluid boundingObject. Immersions will have not effect.\n");
       // TODO: enable dHeightField for immersion detection in src/ode/ode/fluid_dynamics
     }
     isSuitableForInsertionInBoundingObject(true);  // boundingObject specific warnings
@@ -214,7 +214,7 @@ void WbElevationGrid::checkHeight() {
 
   const int extra = mHeight->size() - xdzd;
   if (extra > 0)
-    warn(tr("'height' contains %1 ignored extra value(s).").arg(extra));
+    parsingWarn(tr("'height' contains %1 ignored extra value(s).").arg(extra));
 
   // find min/max height
   mMinHeight = 0;
@@ -456,16 +456,16 @@ bool WbElevationGrid::isSuitableForInsertionInBoundingObject(bool warning) const
 
   if (warning) {
     if (mXDimension->value() < 2)
-      warn(tr("Invalid 'xDimension' (should be greater than 1) for use in boundingObject."));
+      parsingWarn(tr("Invalid 'xDimension' (should be greater than 1) for use in boundingObject."));
 
     if (mZDimension->value() < 2)
-      warn(tr("Invalid 'zDimension' (should be greater than 1) for use in boundingObject."));
+      parsingWarn(tr("Invalid 'zDimension' (should be greater than 1) for use in boundingObject."));
 
     if (invalidSpacings)
-      warn(tr("'height' must be positive when used in a 'boundingObject'."));
+      parsingWarn(tr("'height' must be positive when used in a 'boundingObject'."));
 
     if (invalid)
-      warn(tr("Cannot create the associated physics object."));
+      parsingWarn(tr("Cannot create the associated physics object."));
   }
 
   return !invalid;
@@ -656,7 +656,7 @@ void WbElevationGrid::exportNodeFields(WbVrmlWriter &writer) const {
 ////////////////////////
 
 WbVector3 WbElevationGrid::computeFrictionDirection(const WbVector3 &normal) const {
-  warn(tr("A ElevationGrid is used in a Bounding object using an asymmetric friction. ElevationGrid does not support "
-          "asymmetric friction"));
+  parsingWarn(tr("A ElevationGrid is used in a Bounding object using an asymmetric friction. ElevationGrid does not support "
+                 "asymmetric friction"));
   return WbVector3(0, 0, 0);
 }

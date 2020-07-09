@@ -34,3 +34,9 @@ WbLogicalDevice::WbLogicalDevice(const WbNode &other) : WbBaseNode(other), WbDev
 
 WbLogicalDevice::~WbLogicalDevice() {
 }
+
+bool WbLogicalDevice::exportNodeHeader(WbVrmlWriter &writer) const {
+  if (writer.isUrdf())
+    return true;
+  return WbBaseNode::exportNodeHeader(writer);
+}

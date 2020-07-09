@@ -186,7 +186,7 @@ void WbTemplateManager::regenerateNodeFromParameterChange(WbField *field) {
 }
 
 // intermediate function to determine which node should be updated
-// Note: The security is probably overkilled there, but its also safer for the first versions of the template mechanism
+// Note: The security is probably overkill there, but its also safer for the first versions of the template mechanism
 void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *field, bool isParameter) {
   // 1. retrieve upper template node where the modification appeared in a template regenerator field
   templateNode = WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, templateNode);
@@ -215,7 +215,7 @@ void WbTemplateManager::regenerateNode(WbNode *node) {
     node->setRegenerationRequired(false);
 
   // 1. get stuff
-  WbNode *parent = node->parent();
+  WbNode *parent = node->parentNode();
   WbProtoModel *proto = node->proto();
   assert(parent && proto);
   if (!parent || !proto)
@@ -257,13 +257,13 @@ void WbTemplateManager::regenerateNode(WbNode *node) {
   if (isWorldInitialized)
     emit preNodeRegeneration(node, nested);
 
-  WbNode::setGlobalParent(parent);
+  WbNode::setGlobalParentNode(parent);
 
   WbNode *newNode = WbNode::regenerateProtoInstanceFromParameters(proto, parameters, node->isTopLevel(),
                                                                   WbWorld::instance()->fileName(), true, uniqueId);
 
   if (!newNode) {
-    WbLog::error(tr("Template regeneration failed. The node cannot be generated."));
+    WbLog::error(tr("Template regeneration failed. The node cannot be generated."), false, WbLog::PARSING);
     delete newNode;
     if (isWorldInitialized)
       emit abortNodeRegeneration();
@@ -271,7 +271,7 @@ void WbTemplateManager::regenerateNode(WbNode *node) {
   }
 
   newNode->setDefName(node->defName());
-  WbNode::setGlobalParent(NULL);
+  WbNode::setGlobalParentNode(NULL);
 
   WbNodeUtilities::validateInsertedNode(parentField, newNode, parent, isInBoundingObject);
 
@@ -363,7 +363,7 @@ void WbTemplateManager::regenerateNode(WbNode *node) {
     else if (parentJoint && newSlot)
       parentJoint->setSolidEndPoint(newSlot);
     else {
-      WbLog::error(tr("Template regeneration failed. Unsupported node type."));
+      WbLog::error(tr("Template regeneration failed. Unsupported node type."), false, WbLog::PARSING);
       delete newNode;
       emit abortNodeRegeneration();
       return;

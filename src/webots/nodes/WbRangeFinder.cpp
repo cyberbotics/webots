@@ -118,7 +118,7 @@ void WbRangeFinder::updateNear() {
     return;
 
   if (mNear->value() > mMinRange->value()) {
-    warn(tr("'near' is greater than to 'minRange'. Setting 'near' to %1.").arg(mMinRange->value()));
+    parsingWarn(tr("'near' is greater than to 'minRange'. Setting 'near' to %1.").arg(mMinRange->value()));
     mNear->setValueNoSignal(mMinRange->value());
     return;
   }
@@ -132,19 +132,19 @@ void WbRangeFinder::updateMinRange() {
     return;
 
   if (mMinRange->value() < mNear->value()) {
-    warn(tr("'minRange' is less than 'near'. Setting 'minRange' to %1.").arg(mNear->value()));
+    parsingWarn(tr("'minRange' is less than 'near'. Setting 'minRange' to %1.").arg(mNear->value()));
     mMinRange->setValueNoSignal(mNear->value());
   }
   if (mMaxRange->value() <= mMinRange->value()) {
     if (mMaxRange->value() == 0.0) {
       double newMaxRange = mMinRange->value() + 1.0;
-      warn(tr("'minRange' is greater or equal to 'maxRange'. Setting 'maxRange' to %1.").arg(newMaxRange));
+      parsingWarn(tr("'minRange' is greater or equal to 'maxRange'. Setting 'maxRange' to %1.").arg(newMaxRange));
       mMaxRange->setValueNoSignal(newMaxRange);
     } else {
       double newMinRange = mMaxRange->value() - 1.0;
       if (newMinRange < 0.0)
         newMinRange = 0.0;
-      warn(tr("'minRange' is greater or equal to 'maxRange'. Setting 'minRange' to %1.").arg(newMinRange));
+      parsingWarn(tr("'minRange' is greater or equal to 'maxRange'. Setting 'minRange' to %1.").arg(newMinRange));
       mMinRange->setValueNoSignal(newMinRange);
     }
   }
@@ -164,7 +164,7 @@ void WbRangeFinder::updateMinRange() {
 void WbRangeFinder::updateMaxRange() {
   if (mMaxRange->value() <= mMinRange->value()) {
     double newMaxRange = mMinRange->value() + 1.0;
-    warn(tr("'maxRange' is less or equal to 'minRange'. Setting 'maxRange' to %1.").arg(newMaxRange));
+    parsingWarn(tr("'maxRange' is less or equal to 'minRange'. Setting 'maxRange' to %1.").arg(newMaxRange));
     mMaxRange->setValueNoSignal(newMaxRange);
   }
 

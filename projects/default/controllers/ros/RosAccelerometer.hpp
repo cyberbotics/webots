@@ -18,23 +18,28 @@
 #include <webots/Accelerometer.hpp>
 #include "RosSensor.hpp"
 
+#include <webots_ros/get_float_array.h>
+
 using namespace webots;
 
 class RosAccelerometer : public RosSensor {
 public:
   RosAccelerometer(Accelerometer *accelerometer, Ros *ros);
-  virtual ~RosAccelerometer() { cleanup(); }
+  virtual ~RosAccelerometer();
 
   ros::Publisher createPublisher() override;
   void publishValue(ros::Publisher publisher) override;
   void rosEnable(int samplingPeriod) override { mAccelerometer->enable(samplingPeriod); }
   void rosDisable() override { cleanup(); }
   int rosSamplingPeriod() override { return mAccelerometer->getSamplingPeriod(); }
+  bool getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res);
 
 private:
   void cleanup() { mAccelerometer->disable(); }
 
   Accelerometer *mAccelerometer;
+
+  ros::ServiceServer mLookupTableServer;
 };
 
 #endif  // ROS_ACCELEROMETER_HPP

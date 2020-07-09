@@ -17,17 +17,17 @@
 
 #include <QtCore/QObject>
 
-#include <QtCore/QHash>
 #include <QtCore/QList>
 
 #include "WbLog.hpp"
 
-class QSslSocket;
+class QTcpSocket;
 class QWebSocket;
 class QWebSocketServer;
 
 class WbMainWindow;
 class WbNode;
+class WbRobot;
 class WbStreamingTcpServer;
 class WbView3D;
 
@@ -35,66 +35,68 @@ class WbStreamingServer : public QObject {
   Q_OBJECT
 
 public:
-  static WbStreamingServer *instance();
-  static bool instanceExists();
-  static void cleanup();
+  WbStreamingServer();
+  virtual ~WbStreamingServer();
 
   void startFromCommandLine(const QString &argument);
   void setView3D(WbView3D *);
   void setMainWindow(WbMainWindow *mainWindow);
 
-private slots:
-  void propagateNodeAddition(WbNode *node);
-  void propagateNodeDeletion(WbNode *node);
+protected slots:
   void newWorld();
-  void deleteWorld();
+  virtual void deleteWorld();
+  virtual void processTextMessage(QString);
+  virtual void propagateNodeAddition(WbNode *node);
+  virtual void sendUpdatePackageToClients();
+
+protected:
+  virtual void start(int port);
+  virtual void create(int port);
+  virtual void stop();
+  virtual bool prepareWorld();
+  virtual void connectNewRobot(const WbRobot *robot);
+  virtual void sendWorldToClient(QWebSocket *client);
+  virtual void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) = 0;
+
+  bool isActive() const { return mWebSocketServer != NULL; }
+  void destroy();
+  void resetSimulation();
+  void computeEditableControllers();
+  void sendToClients(const QString &message = "");
+  void sendActivityPulse() const;
+  void pauseClientIfNeeded(QWebSocket *client);
+
+  QList<QWebSocket *> mWebSocketClients;
+  double mPauseTimeout;
+
+  static QString clientToId(QWebSocket *client);
+  static QString simulationStateString();
+  static WbMainWindow *cMainWindow;
+
+private slots:
   void setWorldLoadingProgress(const int progress);
   void setWorldLoadingStatus(const QString &status) { mCurrentWorldLoadingStatus = status; }
-  void start(int port);
-  void stop();
   void onNewWebSocketConnection();
   void onNewTcpConnection();
   void onNewTcpData();
   void socketDisconnected();
-  void processTextMessage(QString);
-  void sendUpdatePackageToClients();
   void propagateWebotsLogToClients(WbLog::Level level, const QString &message, bool popup);
-  void propagateControllerLogToClients(WbLog::Level level, const QString &message, const QString &prefix, bool popup);
-  void propagateSimulationStateChange();
-  void sendLabelUpdate(const QString &labelDescription);
+  void propagateControllerLogToClients(WbLog::Level level, const QString &message, bool popup);
+  void propagateSimulationStateChange() const;
   void sendToJavascript(const QByteArray &string);
 
 private:
-  WbStreamingServer();
-  virtual ~WbStreamingServer();
-
-  void create(int port);
-  void destroy();
-
   void toggleAction(bool serverIsCreated);
-
-  void sendToClients(const QString &message = "");
-  void sendWorldToClient(QWebSocket *client);
   bool isControllerEditAllowed(const QString &controller);
   void sendFileToClient(QWebSocket *client, const QString &type, const QString &folder, const QString &path,
                         const QString &filename);
   void sendWorldStateToClient(QWebSocket *client, const QString &state);
-  void startX3dStreaming(QWebSocket *client);
-  void generateX3dWorld();
   void propagateLogToClients(WbLog::Level level, const QString &message);
   bool isControllerMessageIgnored(const QString &pattern, const QString &message) const;
 
-  static QString simulationStateString();
-
-  QString mX3dWorld;
-  QHash<QString, QString> mX3dWorldTextures;
-  double mX3dWorldGenerationTime;
-  QString mX3dWorldReferenceFile;
   QWebSocketServer *mWebSocketServer;
   WbStreamingTcpServer *mTcpServer;
-  QList<QWebSocket *> mClients;
   QStringList mEditableControllers;
-
   qint64 mLastUpdateTime;
 
   QString mCurrentWorldLoadingStatus;
@@ -103,9 +105,6 @@ private:
   bool mDisableTextStreams;
   bool mSsl;
   bool mControllerEdit;
-  QString mMultimediaServer;
-  QString mMultimediaStream;
-  double mPauseTimeout;
 };
 
 #endif

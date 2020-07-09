@@ -62,7 +62,6 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 #include <webots/LightSensor.hpp>
 #include <webots/Motor.hpp>
 #include <webots/Mouse.hpp>
-#include <webots/utils/Motion.hpp>
 #include <webots/Node.hpp>
 #include <webots/Pen.hpp>
 #include <webots/PositionSensor.hpp>
@@ -75,6 +74,7 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 #include <webots/Speaker.hpp>
 #include <webots/Supervisor.hpp>
 #include <webots/TouchSensor.hpp>
+#include <webots/utils/Motion.hpp>
 
 using namespace std;
 %}
@@ -85,6 +85,8 @@ using namespace std;
 
 //handling std::string
 %include "std_string.i"
+
+%rename ("__internalGetLookupTableSize") getLookupTableSize;
 
 // manage double arrays
 %typemap(out) const double * {
@@ -98,6 +100,12 @@ using namespace std;
     len = 6;
   else if (test == "getOrientation" || test == "virtualRealityHeadsetGetOrientation")
     len = 9;
+  $result = PyList_New(len);
+  for (int i = 0; i < len; ++i)
+    PyList_SetItem($result, i, PyFloat_FromDouble($1[i]));
+}
+%typemap(out) const double *getLookupTable {
+  int len = arg1->getLookupTableSize()*3;
   $result = PyList_New(len);
   for (int i = 0; i < len; ++i)
     PyList_SetItem($result, i, PyFloat_FromDouble($1[i]));
@@ -128,6 +136,38 @@ using namespace std;
 %typemap(freearg) const int * {
   free($1);
 }
+//----------------------------------------------------------------------------------------------
+//  ANSI Support
+//----------------------------------------------------------------------------------------------
+
+%pythoncode %{
+class AnsiCodes(object):
+    RESET = '\u001b[0m'
+
+    BOLD = '\u001b[1m'
+    UNDERLINE = '\u001b[4m'
+
+    BLACK_BACKGROUND = '\u001b[40m'
+    RED_BACKGROUND = '\u001b[41m'
+    GREEN_BACKGROUND = '\u001b[42m'
+    YELLOW_BACKGROUND = '\u001b[43m'
+    BLUE_BACKGROUND = '\u001b[44m'
+    MAGENTA_BACKGROUND = '\u001b[45m'
+    CYAN_BACKGROUND = '\u001b[46m'
+    WHITE_BACKGROUND = '\u001b[47m'
+
+    BLACK_FOREGROUND = '\u001b[30m'
+    RED_FOREGROUND = '\u001b[31m'
+    GREEN_FOREGROUND = '\u001b[32m'
+    YELLOW_FOREGROUND = '\u001b[33m'
+    BLUE_FOREGROUND = '\u001b[34m'
+    MAGENTA_FOREGROUND = '\u001b[35m'
+    CYAN_FOREGROUND = '\u001b[36m'
+    WHITE_FOREGROUND = '\u001b[37m'
+
+    CLEAR_SCREEN = '\u001b[2J'
+%}
+
 //----------------------------------------------------------------------------------------------
 //  Device
 //----------------------------------------------------------------------------------------------
@@ -700,28 +740,34 @@ using namespace std;
 
   static PyObject *rangeImageGetValue(PyObject *im, double minRange, double maxRange, int width, int x, int y) {
     if (!PyList_Check(im)) {
-      PyErr_SetString(PyExc_TypeError, "in method 'Camera_rangeImageGetValue', argument 2 of type 'PyList'\n");
+      PyErr_SetString(PyExc_TypeError, "in method 'RangeFinder_rangeImageGetValue', argument 2 of type 'PyList'\n");
       return NULL;
     }
     PyObject *value = PyList_GetItem(im, y * width + x);
     if (!PyFloat_Check(value)) {
-      PyErr_SetString(PyExc_TypeError, "in method 'Camera_rangeImageGetValue', argument 2 of type 'PyList' of 'PyFloat'\n");
+      PyErr_SetString(PyExc_TypeError, "in method 'RangeFinder_rangeImageGetValue', argument 2 of type 'PyList' of 'PyFloat'\n");
       return NULL;
     }
-    fprintf(stderr, "Warning: Camera.rangeImageGetValue is deprecated, please use Camera.rangeImageGetDepth instead\n");
+    fprintf(stderr, "Warning: RangeFinder.rangeImageGetValue is deprecated, please use RangeFinder.rangeImageGetDepth instead\n");
+    // inform Python runtime that the object is used somewhere else
+    // this prevents crashes when updating the range image internal list
+    Py_INCREF(value);
     return value;
   }
 
   static PyObject *rangeImageGetDepth(PyObject *im, int width, int x, int y) {
     if (!PyList_Check(im)) {
-      PyErr_SetString(PyExc_TypeError, "in method 'Camera_rangeImageGetValue', argument 2 of type 'PyList'\n");
+      PyErr_SetString(PyExc_TypeError, "in method 'RangeFinder_rangeImageGetDepth', argument 2 of type 'PyList'\n");
       return NULL;
     }
     PyObject *value = PyList_GetItem(im, y * width + x);
     if (!PyFloat_Check(value)) {
-      PyErr_SetString(PyExc_TypeError, "in method 'Camera_rangeImageGetValue', argument 2 of type 'PyList' of 'PyFloat'\n");
+      PyErr_SetString(PyExc_TypeError, "in method 'RangeFinder_rangeImageGetDepth', argument 2 of type 'PyList' of 'PyFloat'\n");
       return NULL;
     }
+    // inform Python runtime that the object is used somewhere else
+    // this prevents crashes when updating the range image internal list
+    Py_INCREF(value);
     return value;
   }
 };

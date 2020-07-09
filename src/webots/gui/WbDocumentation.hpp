@@ -41,7 +41,7 @@ private:
   DocumentationWebView *mWebView;
 
 private slots:
-  void handleUserCommand(WbActionManager::WbActionKind actionKind);
+  void handleUserCommand(WbAction::WbActionKind actionKind);
   void updateCopyAction();
 };
 

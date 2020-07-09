@@ -79,7 +79,7 @@ signals:
   void documentationRequest(const QString &book, const QString &page, bool visible);
 
 private slots:
-  void handleUserCommand(WbActionManager::WbActionKind actionKind);
+  void handleUserCommand(WbAction::WbActionKind actionKind);
   void reset();
   void transform(const QString &modelName);
   void convertToBaseNode();

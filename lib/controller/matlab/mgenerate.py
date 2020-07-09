@@ -58,6 +58,8 @@ def gen_consts_from_list(list):
 gen(PROC, "wb_accelerometer_enable(tag, sampling_period))", "accelerometer")
 gen(PROC, "wb_accelerometer_disable(tag)", "accelerometer")
 gen(FUNC, "wb_accelerometer_get_sampling_period(tag)", "accelerometer")
+# gen(FUNC, "wb_accelerometer_get_lookup_table_size(tag)", "accelerometer")
+# gen(FUNC, "wb_accelerometer_get_lookup_table(tag)", "accelerometer")
 # gen(FUNC, "wb_accelerometer_get_values(tag)", "accelerometer")
 
 # brake.h
@@ -95,6 +97,8 @@ gen(FUNC, "wb_camera_save_image(tag, filename, quality)", "camera")
 gen(PROC, "wb_compass_enable(tag, sampling_period)", "compass")
 gen(PROC, "wb_compass_disable(tag)", "compass")
 gen(FUNC, "wb_compass_get_sampling_period(tag)", "compass")
+# gen(FUNC, "wb_compass_get_lookup_table_size(tag)", "compass")
+# gen(FUNC, "wb_compass_get_lookup_table(tag)", "compass")
 # gen(FUNC, "wb_compass_get_values(tag)", "compass")
 
 # connector.h
@@ -159,6 +163,8 @@ gen(FUNC, "wb_distance_sensor_get_value(tag)", "distancesensor")
 gen(FUNC, "wb_distance_sensor_get_max_value(tag)", "distancesensor")
 gen(FUNC, "wb_distance_sensor_get_min_value(tag)", "distancesensor")
 gen(FUNC, "wb_distance_sensor_get_aperture(tag)", "distancesensor")
+# gen(FUNC, "wb_distance_sensor_get_lookup_table_size(tag)", "distancesensor")
+# gen(FUNC, "wb_distance_sensor_get_lookup_table(tag)", "distancesensor")
 gen(FUNC, "wb_distance_sensor_get_type(tag)", "distancesensor")
 
 # emitter.h
@@ -182,12 +188,16 @@ gen(FUNC, "wb_gps_get_speed(tag)", "gps")
 gen(PROC, "wb_gyro_enable(tag, sampling_period)", "gyro")
 gen(PROC, "wb_gyro_disable(tag)", "gyro")
 gen(FUNC, "wb_gyro_get_sampling_period(tag)", "gyro")
+# gen(FUNC, "wb_gyro_get_lookup_table_size(tag)", "gyro")
+# gen(FUNC, "wb_gyro_get_lookup_table(tag)", "gyro")
 # gen(FUNC, "wb_gyro_get_values(tag)", "gyro")
 
 # inertial_unit.h
 gen(PROC, "wb_inertial_unit_enable(tag, sampling_period)", "inertialunit")
 gen(PROC, "wb_inertial_unit_disable(tag)", "inertialunit")
 gen(FUNC, "wb_inertial_unit_get_sampling_period(tag)", "inertialunit")
+# gen(FUNC, "wb_inertial_unit_get_lookup_table_size(tag)", "inertialunit")
+# gen(FUNC, "wb_inertial_unit_get_lookup_table(tag)", "inertialunit")
 # gen(FUNC, "wb_inertial_unit_get_roll_pitch_yaw(tag)", "inertialunit")
 
 # joystick.h
@@ -245,6 +255,8 @@ gen(PROC, "wb_light_sensor_enable(tag, sampling_period)", "lightsensor")
 gen(PROC, "wb_light_sensor_disable(tag)", "lightsensor")
 gen(FUNC, "wb_light_sensor_get_sampling_period(tag)", "lightsensor")
 gen(FUNC, "wb_light_sensor_get_value(tag)", "lightsensor")
+# gen(FUNC, "wb_light_sensor_get_lookup_table_size(tag)", "lightsensor")
+# gen(FUNC, "wb_light_sensor_get_lookup_table(tag)", "lightsensor")
 
 # motor.h
 gen(PROC, "wb_motor_set_acceleration(tag, acceleration)", "motor")
@@ -354,13 +366,12 @@ gen(FUNC, "wb_robot_get_custom_data()", "robot")
 gen(FUNC, "wb_robot_get_data()", "robot")
 gen(FUNC, "wb_robot_get_time()", "robot")
 gen(FUNC, "wb_robot_get_name()", "robot")
-gen(FUNC, "wb_robot_get_controller_name()", "robot")
-gen(FUNC, "wb_robot_get_controller_arguments()", "robot")
 gen(FUNC, "wb_robot_get_synchronization()", "robot")
 gen(FUNC, "wb_robot_get_supervisor()", "robot")
 gen(FUNC, "wb_robot_get_project_path()", "robot")
 gen(FUNC, "wb_robot_get_basic_time_step()", "robot")
 gen(FUNC, "wb_robot_get_device(name)", "robot")
+gen(FUNC, "wb_robot_get_urdf(prefix)", "robot")
 gen(FUNC, "wb_robot_get_world_path()", "robot")
 gen(PROC, "wb_robot_set_custom_data(data)", "robot")
 gen(PROC, "wb_robot_set_data(data)", "robot")
@@ -414,6 +425,7 @@ gen(FUNC, "wb_supervisor_movie_failed()", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_root()", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_self()", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_from_def(defname)", "supervisor")
+gen(FUNC, "wb_supervisor_node_get_from_proto_def(defname)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_from_id(id)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_def(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_id(noderef)", "supervisor")
@@ -421,6 +433,7 @@ gen(FUNC, "wb_supervisor_node_get_type(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_type_name(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_base_type_name(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_field(noderef, fieldname)", "supervisor")
+gen(FUNC, "wb_supervisor_node_get_proto_field(noderef, fieldname)", "supervisor")
 # gen(FUNC, "wb_supervisor_node_get_center_of_mass(noderef)", "supervisor")
 gen(FUNC, "wb_supervisor_node_get_number_of_contact_points(noderef)", "supervisor")
 # gen(FUNC, "wb_supervisor_node_get_contact_point(noderef, index)", "supervisor")
@@ -501,6 +514,8 @@ gen(PROC, "wb_touch_sensor_disable(tag)", "touchsensor")
 gen(FUNC, "wb_touch_sensor_get_sampling_period(tag)", "touchsensor")
 gen(FUNC, "wb_touch_sensor_get_value(tag)", "touchsensor")
 gen(FUNC, "wb_touch_sensor_get_type(tag)", "touchsensor")
+# gen(FUNC, "wb_touch_sensor_get_lookup_table_size(tag)", "touchsensor")
+# gen(FUNC, "wb_touch_sensor_get_lookup_table(tag)", "touchsensor")
 # gen(FUNC, "wb_touch_sensor_get_values(tag)", "touchsensor")
 
 # utils/motion.h
@@ -579,6 +594,28 @@ gen_const("WB_EVENT_JOYSTICK_BUTTON", "8")
 gen_const("WB_EVENT_JOYSTICK_AXIS", "16")
 gen_const("WB_EVENT_JOYSTICK_POV", "32")
 
+# ANSI codes
+gen_const("ANSI_RESET", "strcat(27, '[0m')")
+gen_const("ANSI_BOLD", "strcat(27, '[1m')")
+gen_const("ANSI_UNDERLINE", "strcat(27, '[4m')")
+gen_const("ANSI_BLACK_FOREGROUND", "strcat(27, '[30m')")
+gen_const("ANSI_RED_FOREGROUND", "strcat(27, '[31m')")
+gen_const("ANSI_GREEN_FOREGROUND", "strcat(27, '[32m')")
+gen_const("ANSI_YELLOW_FOREGROUND", "strcat(27, '[33m')")
+gen_const("ANSI_BLUE_FOREGROUND", "strcat(27, '[34m')")
+gen_const("ANSI_MAGENTA_FOREGROUND", "strcat(27, '[35m')")
+gen_const("ANSI_CYAN_FOREGROUND", "strcat(27, '[36m')")
+gen_const("ANSI_WHITE_FOREGROUND", "strcat(27, '[37m')")
+gen_const("ANSI_BLACK_BACKGROUND", "strcat(27, '[40m')")
+gen_const("ANSI_RED_BACKGROUND", "strcat(27, '[41m')")
+gen_const("ANSI_GREEN_BACKGROUND", "strcat(27, '[42m')")
+gen_const("ANSI_YELLOW_BACKGROUND", "strcat(27, '[43m')")
+gen_const("ANSI_BLUE_BACKGROUND", "strcat(27, '[44m')")
+gen_const("ANSI_MAGENTA_BACKGROUND", "strcat(27, '[45m')")
+gen_const("ANSI_CYAN_BACKGROUND", "strcat(27, '[46m')")
+gen_const("ANSI_WHITE_BACKGROUND", "strcat(27, '[47m')")
+gen_const("ANSI_CLEAR_SCREEN", "strcat(27, '[2J')")
+
 # these lists are exact copy paste from the doc (without the commented lines and with addition of the experimental nodes)
 gen_consts_from_list('WB_DISTANCE_SENSOR_GENERIC, WB_DISTANCE_SENSOR_INFRA_RED, WB_DISTANCE_SENSOR_SONAR, WB_DISTANCE_SENSOR_LASER')
 gen_consts_from_list('WB_GPS_LOCAL_COORDINATE, WB_GPS_WGS84_COORDINATE')
@@ -589,8 +626,8 @@ gen_consts_from_list("""
     WB_NODE_COLOR, WB_NODE_CONE, WB_NODE_COORDINATE,
     WB_NODE_CYLINDER, WB_NODE_DIRECTIONAL_LIGHT, WB_NODE_ELEVATION_GRID,
     WB_NODE_FOG, WB_NODE_GROUP, WB_NODE_IMAGE_TEXTURE, WB_NODE_INDEXED_FACE_SET,
-    WB_NODE_INDEXED_LINE_SET, WB_NODE_MATERIAL, WB_NODE_MUSCLE, WB_NODE_NORMAL, WB_NODE_PBR_APPEARANCE,
-    WB_NODE_PLANE, WB_NODE_POINT_LIGHT, WB_NODE_POINT_SET, WB_NODE_SHAPE,
+    WB_NODE_INDEXED_LINE_SET, WB_NODE_MATERIAL, WB_NODE_MESH, WB_NODE_MUSCLE, WB_NODE_NORMAL,
+    WB_NODE_PBR_APPEARANCE, WB_NODE_PLANE, WB_NODE_POINT_LIGHT, WB_NODE_POINT_SET, WB_NODE_SHAPE,
     WB_NODE_SPHERE, WB_NODE_SPOT_LIGHT, WB_NODE_TEXTURE_COORDINATE,
     WB_NODE_TEXTURE_TRANSFORM, WB_NODE_TRANSFORM, WB_NODE_VIEWPOINT,
     WB_NODE_ROBOT, WB_NODE_DIFFERENTIAL_WHEELS,

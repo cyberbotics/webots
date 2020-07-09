@@ -96,12 +96,8 @@ string Robot::getName() const {
   return string(wb_robot_get_name());
 }
 
-string Robot::getControllerName() const {
-  return string(wb_robot_get_controller_name());
-}
-
-string Robot::getControllerArguments() const {
-  return string(wb_robot_get_controller_arguments());
+string Robot::getUrdf(string prefix) const {
+  return string(wb_robot_get_urdf(prefix.c_str()));
 }
 
 double Robot::getTime() const {

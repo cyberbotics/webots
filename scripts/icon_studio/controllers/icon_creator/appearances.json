@@ -106,8 +106,9 @@
   },
   "Leather": {
     "fields": [
-      "tone \"dark\" textureTransform TextureTransform { scale 2 1 }",
-      "tone \"light\" textureTransform TextureTransform { scale 2 1 }"
+      "tone \"dark\" type \"dollaro\" textureTransform TextureTransform { scale 2 1 }",
+      "tone \"light\" type \"dollaro\" textureTransform TextureTransform { scale 2 1 }",
+      "type \"grain\" colorOverride 1 0 0 textureTransform TextureTransform { scale 4 2 }"
     ]
   },
   "LedStrip": {

@@ -89,10 +89,12 @@ WbNodeRef wb_supervisor_node_get_self();
 int wb_supervisor_node_get_id(WbNodeRef node);
 WbNodeRef wb_supervisor_node_get_from_id(int id);
 WbNodeRef wb_supervisor_node_get_from_def(const char *def);
+WbNodeRef wb_supervisor_node_get_from_proto_def(const char *def);
 WbNodeRef wb_supervisor_node_get_parent_node(WbNodeRef node);
 WbNodeRef wb_supervisor_node_get_selected();
 WbNodeType wb_supervisor_node_get_type(WbNodeRef node);
 WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name);
+WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name);
 void wb_supervisor_node_remove(WbNodeRef node);
 
 const char *wb_supervisor_node_get_def(WbNodeRef node);

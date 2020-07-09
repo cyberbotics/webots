@@ -67,19 +67,19 @@ void WbImmersionProperties::postFinalize() {
 void WbImmersionProperties::updateDragForceCoefficients() {
   const WbVector3 &c = mDragForceCoefficients->value();
   if (c.x() < 0.0) {
-    warn(tr("'cx' must be greater than or equal to zero."));
+    parsingWarn(tr("'cx' must be greater than or equal to zero."));
     mDragForceCoefficients->setX(0.0);
     return;
   }
 
   if (c.y() < 0.0) {
-    warn(tr("'cy' must be greater than or equal to zero."));
+    parsingWarn(tr("'cy' must be greater than or equal to zero."));
     mDragForceCoefficients->setY(0.0);
     return;
   }
 
   if (c.z() < 0.0) {
-    warn(tr("'cz' must be greater than or equal to zero."));
+    parsingWarn(tr("'cz' must be greater than or equal to zero."));
     mDragForceCoefficients->setZ(0.0);
     return;
   }
@@ -88,19 +88,19 @@ void WbImmersionProperties::updateDragForceCoefficients() {
 void WbImmersionProperties::updateDragTorqueCoefficients() {
   const WbVector3 &t = mDragTorqueCoefficients->value();
   if (t.x() < 0.0) {
-    warn(tr("'tx' must be greater than or equal to zero."));
+    parsingWarn(tr("'tx' must be greater than or equal to zero."));
     mDragTorqueCoefficients->setX(0.0);
     return;
   }
 
   if (t.y() < 0.0) {
-    warn(tr("'ty' must be greater than or equal to zero."));
+    parsingWarn(tr("'ty' must be greater than or equal to zero."));
     mDragTorqueCoefficients->setY(0.0);
     return;
   }
 
   if (t.z() < 0.0) {
-    warn(tr("'tz' must be greater than or equal to zero."));
+    parsingWarn(tr("'tz' must be greater than or equal to zero."));
     mDragTorqueCoefficients->setZ(0.0);
     return;
   }
@@ -109,7 +109,7 @@ void WbImmersionProperties::updateDragTorqueCoefficients() {
 void WbImmersionProperties::updateLinearViscousResistanceCoefficient() {
   const double l = mViscousResistanceForceCoefficient->value();
   if (l < 0.0) {
-    warn(tr("'viscousResistanceForceCoefficient' must be greater than or equal to zero."));
+    parsingWarn(tr("'viscousResistanceForceCoefficient' must be greater than or equal to zero."));
     mViscousResistanceForceCoefficient->setValue(0.0);
     return;
   }
@@ -118,7 +118,7 @@ void WbImmersionProperties::updateLinearViscousResistanceCoefficient() {
 void WbImmersionProperties::updateAngularViscousResistanceCoefficient() {
   const double a = mViscousResistanceTorqueCoefficient->value();
   if (a < 0.0) {
-    warn(tr("'viscousResistanceTorqueCoefficient' must be greater than or equal to zero."));
+    parsingWarn(tr("'viscousResistanceTorqueCoefficient' must be greater than or equal to zero."));
     mViscousResistanceTorqueCoefficient->setValue(0.0);
     return;
   }

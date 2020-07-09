@@ -154,6 +154,11 @@ Node *Supervisor::getFromDef(const std::string &name) const {
   return Node::findNode(nodeRef);
 }
 
+Node *Supervisor::getFromProtoDef(const std::string &name) const {
+  WbNodeRef nodeRef = wb_supervisor_node_get_from_proto_def(name.c_str());
+  return Node::findNode(nodeRef);
+}
+
 Node *Supervisor::getFromId(int id) const {
   WbNodeRef nodeRef = wb_supervisor_node_get_from_id(id);
   return Node::findNode(nodeRef);

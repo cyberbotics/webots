@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbLookupTable.hpp"
+
 #include "WbLog.hpp"
 #include "WbMFVector3.hpp"
 #include "WbRandom.hpp"
@@ -31,7 +32,8 @@ WbLookupTable::WbLookupTable(const WbMFVector3 &lookupTable) {
       const WbVector3 &v = it.next();
       mInputs[j] = v.x();
       if (j > 0 && mInputs[j - 1] >= mInputs[j])
-        WbLog::warning(QObject::tr("The input values of a lookup table must be sorted in increasing order."));
+        WbLog::warning(QObject::tr("The input values of a lookup table must be sorted in increasing order."), false,
+                       WbLog::PARSING);
       mOutputs[j] = v.y();
       mNoises[j] = v.z();
       j++;

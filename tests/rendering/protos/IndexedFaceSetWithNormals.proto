@@ -1,0 +1,32 @@
+#VRML_SIM R2020b utf8
+
+PROTO IndexedFaceSetWithNormals [
+]
+{
+  Shape {
+    appearance PBRAppearance {
+    }
+    geometry IndexedFaceSet {
+      coord Coordinate {
+        point [
+          -1 0 -1
+          1 0 -1
+          -1 0 1
+          1 0 1
+        ]
+      }
+      normal Normal {
+        vector [
+          -0.1 1 -0.1
+          0.1 1 0.1
+        ]
+      }
+      coordIndex [
+        0, 2, 1, -1, 1, 2, 3, -1
+      ]
+      normalIndex [
+        0, 0, 0, -1, 1, 1, 1, -1
+      ]
+    }
+  }
+}

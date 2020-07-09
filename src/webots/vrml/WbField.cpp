@@ -101,11 +101,6 @@ void WbField::readValue(WbTokenizer *tokenizer, const QString &worldPath) {
 }
 
 void WbField::write(WbVrmlWriter &writer) const {
-  if (!alias().isEmpty() && writer.isWebots() && !writer.isProto()) {
-    writer.indent();
-    writer << name() << " IS " << alias() << "\n";
-    return;
-  }
   if (isDefault())
     return;
   if (writer.isX3d())
@@ -177,9 +172,9 @@ void WbField::checkValueIsAccepted() {
       mvalue->removeItem(refusedIndex);
     }
     if (parentNode())
-      parentNode()->warn(error);
+      parentNode()->parsingWarn(error);
     else
-      WbLog::warning(error);
+      WbLog::warning(error, false, WbLog::PARSING);
   }
 }
 
@@ -361,12 +356,11 @@ void WbField::parameterChanged() {
 
     WbNode *instance = NULL;
     foreach (WbField *internalField, mInternalFields) {
-      WbNode::setGlobalParent(internalField->parentNode(), true);
+      WbNode::setGlobalParentNode(internalField->parentNode(), true);
       instance = node->cloneAndReferenceProtoInstance();
       sfnode = dynamic_cast<WbSFNode *>(internalField->value());
       sfnode->setValue(instance);
     }
-    setParent(NULL);
 
   } else {
     foreach (WbField *const field, mInternalFields)
@@ -381,12 +375,11 @@ void WbField::parameterNodeInserted(int index) {
 
   WbNode *instance = NULL;
   foreach (WbField *internalField, mInternalFields) {
-    WbNode::setGlobalParent(internalField->parentNode(), true);
+    WbNode::setGlobalParentNode(internalField->parentNode(), true);
     instance = node->cloneAndReferenceProtoInstance();
     mfnode = dynamic_cast<WbMFNode *>(internalField->value());
     mfnode->insertItem(index, instance);
   }
-  setParent(NULL);
 }
 
 // propagate node remotion to internal fields of parameter

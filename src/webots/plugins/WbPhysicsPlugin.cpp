@@ -110,7 +110,7 @@ const void *dWebotsReceive(int *size) {
 void dWebotsConsolePrintf(const char *format, ...) {
   va_list args;
   va_start(args, format);
-  WbLog::appendStdout(QString::vasprintf(format, args));
+  WbLog::appendStdout(QString::vasprintf(format, args), WbLog::PHYSICS_PLUGINS);
   va_end(args);
 }
 

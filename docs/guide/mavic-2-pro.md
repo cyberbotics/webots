@@ -18,7 +18,7 @@ PROTO Mavic2Pro {
   SFRotation rotation            0 1 0 0
   SFString   name                "Mavic 2 PRO"
   SFString   controller          "mavic2pro"
-  SFString   controllerArgs      ""
+  MFString   controllerArgs      []
   SFString   customData          ""
   SFBool     supervisor          FALSE
   SFBool     synchronization     TRUE
