@@ -5,7 +5,7 @@
   <include file="$(find webots_ros)/launch/webots.launch">
     <arg name="mode" value="realtime"/>
     <arg name="no-gui" value="$(arg no-gui)"/>
-    <arg name="world" value="$(env WEBOTS_HOME)/projects/languages/ros/worlds/e-puck_line.wbt"/>
+    <arg name="world" value="$(find webots_ros)/worlds/e-puck_line.wbt"/>
   </include>
 
   <arg name="auto-close" default="false" doc="Startup mode"/>

@@ -16,7 +16,6 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   <test_depend>roslaunch</test_depend>
-  <run_depend>ur_e_description</run_depend>
   <run_depend>joint_state_controller</run_depend>
   <run_depend>joint_trajectory_controller</run_depend>
   <run_depend>effort_controllers</run_depend>
