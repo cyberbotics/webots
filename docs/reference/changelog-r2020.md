@@ -30,6 +30,7 @@ Released on XXX.
     - **Replaced the [Car](../automobile/car.md) `maxWheelVelocity` field by a `maxVelocity` field representing the actual maximum velocity of the car itself ([#1552](https://github.com/cyberbotics/webots/pull/1552)).**
     - Added the possibility to edit the `S/MFRotation` fields using quaternions ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
     - Improved edition of `S/MFRotation` fields using the field editor spin-boxes, only the last decimal is now incremented ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
+    - Improved the `ros_python` and `universal_robots_ros` ROS simulations to use extern controllers instead of embedding the ROS libraries ([#1876](https://github.com/cyberbotics/webots/pull/1876)).
     - Added a `supervisor` field to the [RobotisOp2](../guide/robotis-op2.md) and [RobotisOp3](../guide/robotis-op3.md) PROTO nodes ([#1790](https://github.com/cyberbotics/webots/pull/1790)).
     - Added a [Gyro](gyro.md) node to e-puck PROTO ([#1484](https://github.com/cyberbotics/webots/pull/1484)).
     - Added a [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function to the [Robot](robot.md) node which allows URDF export ([#1706](https://github.com/cyberbotics/webots/pull/1706))
