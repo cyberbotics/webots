@@ -5,7 +5,7 @@ This tutorial explains how to use the nodes from the `webots_ros` package provid
 These examples were tested with ROS `melodic` and `kinetic` on Linux.
 There is no warranty they will work if you use a different platform or an ancient distribution of ROS.
 
-### Installing ROS and "webots\_ros" Package Installation
+### Installing ROS and "webots\_ros" Package
 
 In order to use these nodes, you will first need to install the ROS framework.
 To install the latest version of ROS on Ubuntu use the following commands:
@@ -73,7 +73,7 @@ The `complete_test` node doesn't show any particular application but contains an
 All the functions from the Webots API have their corresponding services or topics.
 You can find in the [Reference Manual](../reference/nodes-and-api-functions.md) the definitions of all the services and topics associated to each device.
 
-### `webots_ros` package
+### "webots\_ros" Package
 
 If you are running the latest version of Webots, the easiest way to setup the `webots_ros` package is to install the `ros-$ROS_DISTRO-webots-ros` package directly from the package manager as described above.
 But if you are running an older Webots version, some functionality might not be fully supported by the latest `ros-$ROS_DISTRO-webots-ros` package.
