@@ -129,7 +129,6 @@ PROTO Robotiq3fGripper [
                           ]
                           endPoint Solid {
                             translation 0.039 0 0
-                            rotation 0 0 1 -0.0523
                             children [
                               DEF SHAPE3 Transform {
                                 rotation 0 0 1 0.52
