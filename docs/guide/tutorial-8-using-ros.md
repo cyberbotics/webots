@@ -72,3 +72,19 @@ The `complete_test` node doesn't show any particular application but contains an
 
 All the functions from the Webots API have their corresponding services or topics.
 You can find in the [Reference Manual](../reference/nodes-and-api-functions.md) the definitions of all the services and topics associated to each device.
+
+### `webots_ros` package
+
+If you are running the latest version of Webots, the easiest way to setup the `webots_ros` package is to install the `ros-$ROS_DISTRO-webots-ros` package directly from the package manager as described above.
+But if you are running an older Webots version, some functionality might not be fully supported by the latest `ros-$ROS_DISTRO-webots-ros` package.
+In this case, it is possible to install an older `webots_ros` package version from sources following the instructions on the [ROS wiki page](http://wiki.ros.org/webots_ros#From_Sources) and selecting the desired branch in the [`webots_ros` GitHub repository](https://github.com/cyberbotics/webots_ros).
+
+Alternatively, the `webots_ros` package can also be setup taking the resources directly from the Webots installation directory:
+```sh
+cd ~/catkin_ws/src
+cp -r $WEBOTS_HOME/projects/languages/ros/webots_ros webots_ros
+cp -r $WEBOTS_HOME/projects/default/controllers/ros/include/srv webots_ros/srv
+cp -r $WEBOTS_HOME/projects/default/controllers/ros/include/msg webots_ros/msg
+cd ..
+catkin_make
+```
