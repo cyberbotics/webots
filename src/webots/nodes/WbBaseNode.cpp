@@ -27,6 +27,14 @@
 
 #include <wren/scene.h>
 
+bool WbBaseNode::gNodeDeletedNotificationEnabled = false;
+
+bool WbBaseNode::enableNodeDeleteNotification(bool enabled) {
+  const bool previousValue = gNodeDeletedNotificationEnabled;
+  gNodeDeletedNotificationEnabled = enabled;
+  return previousValue;
+}
+
 void WbBaseNode::init() {
   mPreFinalizeCalled = false;
   mPostFinalizeCalled = false;
@@ -63,6 +71,9 @@ WbBaseNode::~WbBaseNode() {
   emit isBeingDestroyed(this);
   if (mPostFinalizeCalled && !defName().isEmpty() && !WbWorld::instance()->isCleaning() && !WbTemplateManager::isRegenerating())
     WbDictionary::instance()->removeNodeFromDictionary(this);
+  if (gNodeDeletedNotificationEnabled)
+    // notify node delete to Supervisor controller and x3d streaming
+    WbNodeOperations::instance()->notifyNodeDeleted(this);
 }
 
 void WbBaseNode::finalize() {

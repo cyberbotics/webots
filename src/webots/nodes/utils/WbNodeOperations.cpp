@@ -547,7 +547,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
   WbSFNode *sfnode = dynamic_cast<WbSFNode *>(parentField->value());
   WbMFNode *mfnode = dynamic_cast<WbMFNode *>(parentField->value());
   assert(sfnode || mfnode);
-  WbNodeOperations::instance()->notifyNodeDeleted(node);
+  notifyNodeDeleted(node);
   bool success;
   if (sfnode) {
     sfnode->setValue(NULL);

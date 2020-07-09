@@ -277,6 +277,8 @@ void WbTemplateManager::regenerateNode(WbNode *node) {
 
   subscribe(newNode);
 
+  const bool notificationEnabled = WbWorld::instance()->isLoading() ? false : WbBaseNode::enableNodeDeleteNotification(true);
+
   bool ancestorTemplateRegeneration = upperTemplateNode != NULL;
   if (node->isProtoParameterNode()) {
     const QVector<WbField *> &parentFields = parent->fieldsOrParameters();
@@ -363,12 +365,17 @@ void WbTemplateManager::regenerateNode(WbNode *node) {
     else if (parentJoint && newSlot)
       parentJoint->setSolidEndPoint(newSlot);
     else {
+      if (!notificationEnabled)
+        WbBaseNode::enableNodeDeleteNotification(false);
       WbLog::error(tr("Template regeneration failed. Unsupported node type."), false, WbLog::PARSING);
       delete newNode;
       emit abortNodeRegeneration();
       return;
     }
   }
+
+  if (!notificationEnabled)
+    WbBaseNode::enableNodeDeleteNotification(false);
 
   // let the supervisor set field functions work as if the node has not been deleted
   newNode->setUniqueId(uniqueId);

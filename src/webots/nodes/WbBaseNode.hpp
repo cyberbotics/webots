@@ -112,6 +112,9 @@ public:
 
   QString documentationUrl() const;
 
+  // enable/disable signal emission in destructor and return previous status
+  static bool enableNodeDeleteNotification(bool enabled);
+
 signals:
   void isBeingDestroyed(WbBaseNode *node);
   void visibleHandlesChanged(bool resizeHandlesEnabled);
@@ -172,6 +175,8 @@ private:
   mutable bool mTopSolidFirstTimeSearch;
   mutable WbNode::NodeUse mNodeUse;
   mutable bool mNodeUseDirty;
+
+  static bool gNodeDeletedNotificationEnabled;
 };
 
 #endif
