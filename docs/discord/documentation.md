@@ -4,6 +4,12 @@ This is an archive of the `documentation` channel of the [Webots Discord server]
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 07/07/2020 11:51:08
+Thank you, we will have a look soon!
+
+##### Luftwaffel 07/07/2020 11:41:29
+`@David Mansolino` I created a PR [https://github.com/cyberbotics/webots/pull/1879](https://github.com/cyberbotics/webots/pull/1879)
+
 ##### David Mansolino [cyberbotics] 06/17/2020 09:42:18
 You're welcome
 

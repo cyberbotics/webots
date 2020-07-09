@@ -5,6 +5,6 @@ sceneTreePerspectives: 000000ff0000000100000002000002aa000000fa01000000020100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 2 "controllers/ros_python/ros_python.py" "controllers/ros_python/ros_controller.py" "controllers/ros_python/runtime.ini"
+textFiles: 0 "scripts/ros_python.py" "scripts/ros_controller.py"
 globalOptionalRendering: DistanceSensorRays
 consoles: Console:All:All

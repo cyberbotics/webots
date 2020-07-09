@@ -19,4 +19,3 @@ release debug profile clean:
 	+make -s -C cpp/controllers $@
 	+make -s -C java/controllers $@
 	+make -s -C matlab/controllers $@
-	+make -s -C ros/controllers/ros_python $@
