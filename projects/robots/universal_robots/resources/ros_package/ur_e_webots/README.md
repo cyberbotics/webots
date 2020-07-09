@@ -1,6 +1,22 @@
+## Installation
+
+To use the package you need to copy it in your catkin workspace, install the dependencies and compile it:
+```shell
+cd /path/to/catkin_ws/src
+cp $WEBOTS_HOME/projects/robots/universal_robots/resources/ros_package/ur_e_webots .
+cd ..
+rosdep update
+rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO
+catkin_make
+source devel/setup.bash
+```
+
+You need to install the `universal_robots` package too in order to get the URDF definitions of the robots (used for example for RVIZ visualization and MoveIt).
+Until Kinetic, you can install it using the package manager (`apt install ros-$ROS_DISTRO-universal-robot`), but from Melodic, you need to compile it from [sources](https://github.com/ros-industrial/universal_robot/tree/melodic-devel).
+
 ## Usage
 
-Once you have started a simulation with a UR robot and set its controller to `universal_robots_ros`, you can use the following launch file to setup all the required ROS parameters:
+Once you have started a simulation with a UR robot and set its controller to `<extern>`, you can use the following launch file to setup all the required ROS parameters and start the simulated UR robot to ROS interface:
 
 ```
 roslaunch ur_e_webots ur5e_joint_limited.launch
