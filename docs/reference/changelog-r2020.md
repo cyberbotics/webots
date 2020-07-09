@@ -58,6 +58,7 @@ Released on XXX.
     - Fixed mismatch between the bounding object and visual shape of the [UnevenTerrain](https://www.cyberbotics.com/doc/guide/object-floors#uneventerrain), **and removed the `textureScale` field** ([#1792](https://github.com/cyberbotics/webots/pull/1792)).
     - Fixed crash when using a [Normal](normal.md) node in a PROTO node ([#1813](https://github.com/cyberbotics/webots/pull/1813)).
     - Fixed rendering of Track and Muscle nodes when the main window was minimized ([#1836](https://github.com/cyberbotics/webots/pull/1836)).
+    - Fixed default position and motor limits of the [Robotiq3fGripper](../guide/gripper-actuators#robotiq-3f-gripper) ([#1879](https://github.com/cyberbotics/webots/pull/1879)).
     - Fixed crash occurring when moving with SHIFT+mouse/wheel drag a PROTO object with translation or rotation template field ([#1761](https://github.com/cyberbotics/webots/pull/1761)).
     - Fixed crash occurring when setting a 3D coordinate to a huge value (greater than 1e+151) ([#1639](https://github.com/cyberbotics/webots/pull/1639)).
     - Fixed crash occurring when Webots was streaming a 3D scene and some object was inserted into a PROTO node ([#1614](https://github.com/cyberbotics/webots/pull/1614)).
