@@ -24,7 +24,10 @@ PROTO ConveyorPlatform [
     name IS name
     model IS model
     controller IS controller
-    controllerArgs "%{=fields.speed.value}% %{=fields.timer.value}%"
+    controllerArgs [
+      "%{=fields.speed.value}%"
+      "%{=fields.timer.value}%"
+    ]
     children [
       Track {
         translation 0 0 0.1

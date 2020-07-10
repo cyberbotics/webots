@@ -10,6 +10,8 @@ PROTO TemplateRobot [
   Robot {
     controller IS controller
     customData IS customData
-    controllerArgs "%{= context.id }%"
+    controllerArgs [
+      "%{= context.id }%"
+    ]
   }
 }
