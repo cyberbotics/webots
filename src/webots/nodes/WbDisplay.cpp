@@ -193,7 +193,6 @@ void WbDisplay::findImageTextures() {
 }
 
 void WbDisplay::removeImageTexture(QObject *object) {
-  assert(dynamic_cast<WbImageTexture *>(object));
   mImageTextures.removeAll(static_cast<WbImageTexture *>(object));
 }
 
