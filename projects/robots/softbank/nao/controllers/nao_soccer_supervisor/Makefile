@@ -22,6 +22,10 @@ ifeq ($(OS),Windows_NT)
 LIBRARIES=-lWs2_32
 endif
 
+ifeq ($(OSTYPE),linux)
+CFLAGS = -Wno-stringop-truncation
+endif
+
 # Do not modify the following: this includes Webots global Makefile.include
 null :=
 space := $(null) $(null)
