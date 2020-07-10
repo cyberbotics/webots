@@ -23,7 +23,7 @@ LIBRARIES=-lWs2_32
 endif
 
 ifeq ($(OSTYPE),linux)
-CFLAGS = -Wformat-truncation=0
+CFLAGS = -Wno-format-truncation
 endif
 
 # Do not modify the following: this includes Webots global Makefile.include
