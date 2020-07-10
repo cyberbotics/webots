@@ -19,7 +19,7 @@ jobs:
           - os: ubuntu-18.04
             DEPENDENCIES: "libssl1.0-dev ffmpeg python-pip openjdk-11-jdk npm"
           - os: ubuntu-20.04
-            DEPENDENCIES: "libssl1.1-dev ffmpeg python-pip-whl openjdk-14-jdk npm"
+            DEPENDENCIES: "libssl-dev ffmpeg python-pip-whl openjdk-14-jdk npm"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
