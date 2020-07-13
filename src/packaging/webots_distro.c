@@ -1160,7 +1160,23 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp -a /usr/include/libssh debian/usr/local/webots/include/libssh/\n");
       fprintf(fd, "mkdir debian/usr/local/webots/include/libzip\n");
       fprintf(fd, "cp -a /usr/include/zip.h debian/usr/local/webots/include/libzip/\n");
+#if defined(WEBOTS_UBUNTU_20_04)
+      fprintf(fd, "cp /usr/include/zipconf.h debian/usr/local/webots/include/libzip/\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libzip.so.5 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libHalf.so.24 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIex-2_3.so.24 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIexMath-2_3.so.24 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmThread-2_3.so.24 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmImf-2_3.so.24 debian/usr/local/webots/lib/webots\n");
+#else
       fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h debian/usr/local/webots/include/libzip/\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libzip.so.4 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libHalf.so.12 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIex-2_2.so.12 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIexMath-2_2.so.12 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmThread-2_2.so.12 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmImf-2_2.so.22 debian/usr/local/webots/lib/webots\n");
+#endif
 
       // add the required libraries in order to avoid conflicts on other Linux distributions
 #ifdef WEBOTS_UBUNTU_16_04
@@ -1192,12 +1208,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjxrglue.so.0 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libopenjp2.so.7 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjpegxr.so.0 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libHalf.so.12 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIex-2_2.so.12 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIexMath-2_2.so.12 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmThread-2_2.so.12 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmImf-2_2.so.22 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libzip.so.4 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libzzip-0.so.13 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjbig.so.0 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libgomp.so.1 debian/usr/local/webots/lib/webots\n");
