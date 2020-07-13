@@ -1104,25 +1104,20 @@ void WbSceneTree::updateSelection() {
   const WbTreeItem *const item = isNonNullNode ? mSelectedItem : mModel->findUpperNodeItem(mSelectedItem);
   if (item) {
     WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(item->node());
-    if (baseNode == NULL)
-      return;
-
-    if (baseNode->isProtoParameterNode()) {
+    if (baseNode && baseNode->isProtoParameterNode())
       // select proto parameter node instance
       // if proto parameter is used only once
+      // baseNode = NULL if none or multiple instances exists
       baseNode = baseNode->getSingleFinalizedProtoInstance();
-      if (!baseNode)
-        return;  // none or multiple instances exists
-    }
 
-    if (!baseNode->areWrenObjectsInitialized())
+    if (baseNode && !baseNode->areWrenObjectsInitialized())
       // ignore not initialized nodes
-      return;
+      baseNode = NULL;
 
     // enable move viewpoint to object if the item has a corresponding bounding sphere
     mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT)
-      ->setEnabled(WbNodeUtilities::boundingSphereAncestor(baseNode) != NULL);
-    mActionManager->action(WbAction::OPEN_HELP)->setEnabled(true);
+      ->setEnabled(baseNode && WbNodeUtilities::boundingSphereAncestor(baseNode) != NULL);
+    mActionManager->action(WbAction::OPEN_HELP)->setEnabled(baseNode);
     emit nodeSelected(baseNode);
   }
 }
