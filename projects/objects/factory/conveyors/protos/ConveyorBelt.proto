@@ -37,7 +37,10 @@ PROTO ConveyorBelt [
     rotation IS rotation
     name IS name
     controller "conveyor_belt"
-    controllerArgs "%{=fields.speed.value}% %{=fields.timer.value}%"
+    controllerArgs [
+      "%{=fields.speed.value}%"
+      "%{=fields.timer.value}%"
+    ]
     children [
       Track {
         translation 0 %{=0.75 * size.y}% 0

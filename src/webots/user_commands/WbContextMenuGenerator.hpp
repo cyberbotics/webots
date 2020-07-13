@@ -22,10 +22,10 @@
 #include <QtCore/QPoint>
 
 class QMenu;
-class WbBaseNode;
+class WbNode;
 
 namespace WbContextMenuGenerator {
-  void generateContextMenu(const QPoint &position, const WbBaseNode *selectedNode);
+  void generateContextMenu(const QPoint &position, const WbNode *selectedNode);
   void enableNodeActions(bool enabled);
   void enableProtoActions(bool enabled);
   void enableRobotActions(bool enabled);
