@@ -49,8 +49,8 @@ jobs:
         xvfb-run --auto-servernum make distrib -j4
         rename 's/\.tar.bz2$/_${{ matrix.os }}.tar.bz2/' distribution/*.tar.bz2
     - uses: actions/upload-artifact@v2
-      name: build-${{ matrix.os }}
       with:
+        name: build-${{ matrix.os }}
         path: distribution/*.tar.bz2
   test-suite:
     runs-on: ubuntu-latest
