@@ -72,6 +72,9 @@ jobs:
         name: build-${{ matrix.os }}
     - name: Extract Webots
       run: |
+        ls
+        ls build-${{ matrix.os }}
+        ls artifact
         tar xjf artifact/webots-*-x86-64_${{ matrix.os }}.tar.bz2 -C artifact
     - name: Install Webots Dependencies
       run: |
