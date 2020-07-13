@@ -1194,12 +1194,20 @@ bool wb_supervisor_movie_is_ready() {
   if (!robot_check_supervisor(__FUNCTION__))
     return false;
 
-  return movie_status == WB_SUPERVISOR_MOVIE_READY || wb_supervisor_movie_failed();
+  robot_mutex_lock_step();
+  wb_robot_flush_unlocked();
+  robot_mutex_unlock_step();
+
+  return movie_status == WB_SUPERVISOR_MOVIE_READY || movie_status > WB_SUPERVISOR_MOVIE_SAVING;
 }
 
 bool wb_supervisor_movie_failed() {
   if (!robot_check_supervisor(__FUNCTION__))
     return true;
+
+  robot_mutex_lock_step();
+  wb_robot_flush_unlocked();
+  robot_mutex_unlock_step();
 
   return movie_status > WB_SUPERVISOR_MOVIE_SAVING;
 }
