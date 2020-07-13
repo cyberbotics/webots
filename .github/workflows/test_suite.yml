@@ -49,6 +49,7 @@ jobs:
         xvfb-run --auto-servernum make distrib -j4
         rename 's/\.tar.bz2$/_${{ matrix.os }}.tar.bz2/' distribution/*.tar.bz2
     - uses: actions/upload-artifact@v2
+      name: build-${{ matrix.os }}
       with:
         path: distribution/*.tar.bz2
   test-suite:
@@ -67,6 +68,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Download Artifacts
       uses: actions/download-artifact@v2
+      with:
+        name: build-${{ matrix.os }}
     - name: Extract Webots
       run: |
         tar xjf artifact/webots-*-x86-64_${{ matrix.os }}.tar.bz2 -C artifact
