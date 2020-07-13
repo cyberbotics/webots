@@ -56,6 +56,7 @@ jobs:
     needs: build
     strategy:
       matrix:
+        os: [ubuntu-18.04, ubuntu-20.04]
         test: [tests/test_suite.py, src/packaging/update_all_worlds.py]
         include:
           - test: tests/test_suite.py
@@ -68,7 +69,7 @@ jobs:
       uses: actions/download-artifact@v2
     - name: Extract Webots
       run: |
-        tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
+        tar xjf artifact/webots-*-x86-64_${{ matrix.os }}.tar.bz2 -C artifact
     - name: Install Webots Dependencies
       run: |
         sudo apt update
