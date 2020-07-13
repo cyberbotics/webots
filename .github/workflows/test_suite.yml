@@ -12,12 +12,12 @@ jobs:
     # if: github.event.pull_request.draft == false
     strategy:
       matrix:
-        #os: [ubuntu-16.04, ubuntu-18.04, ubuntu-20.04]
-        os: [ubuntu-18.04, ubuntu-20.04]
+        os: [ubuntu-16.04, ubuntu-18.04, ubuntu-20.04]
+        #os: [ubuntu-18.04, ubuntu-20.04]
         include:
-         # - os: ubuntu-16.04
-         #   DEPENDENCIES: "libssl-dev libav-tools python-pip; curl -sL https://deb.nodesource.com/setup_12.x -o nodesource_setup.sh; sudo bash nodesource_setup.sh; sudo apt-get install nodejs; rm nodesource_setup.sh"
-         #   JAVA_VERSION: "8"
+          - os: ubuntu-16.04
+            DEPENDENCIES: "libssl-dev libav-tools python-pip; curl -sL https://deb.nodesource.com/setup_12.x -o nodesource_setup.sh; sudo bash nodesource_setup.sh; sudo apt-get install nodejs; rm nodesource_setup.sh"
+            JAVA_VERSION: "8"
           - os: ubuntu-18.04
             DEPENDENCIES: "libssl1.0-dev ffmpeg python-pip npm"
             JAVA_VERSION: "11"
@@ -46,7 +46,8 @@ jobs:
         export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
         export PATH=$JAVA_HOME/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
-        xvfb-run --auto-servernum make distrib -j4
+        xvfb-run --auto-servernum make release -j4
+        xvfb-run --auto-servernum ldd ./bin/webots-bin
         rename 's/\.tar.bz2$/_${{ matrix.os }}.tar.bz2/' distribution/*.tar.bz2
     - uses: actions/upload-artifact@v2
       with:
