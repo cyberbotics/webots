@@ -12,5 +12,9 @@ Finally the sixth one reviews all the worlds provided to run automobile simulati
 
 ![youtube video](https://www.youtube.com/watch?v=RhzZ6Ao6Shc&t)
 
+This work was mainly sponsored by:
 
-This work was sponsored by the project RO2IVSim of the Swiss Commission for Technology and Innovation CTI.
+- [RO2IVSim](https://www.epfl.ch/labs/disal/research/ro2ivsim/): research project of the [CTI](https://www.innosuisse.ch) in partnership with [EPFL](https://epfl.ch) and [PSA](https://www.groupe-psa.com).
+- [Renault](https://group.renault.com) [Technocentre](https://group.renault.com/en/our-company/locations/technocentre-2/).
+- [Perrone Robotics](https://www.perronerobotics.com).
+- [Derq Inc.](https://derq.com).
