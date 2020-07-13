@@ -13,6 +13,7 @@ Released on XXX.
     - Added a model of the [P-Rob 3](../guide/p-rob3.md) robot from [F&P Robotics](https://www.fp-robotics.com/en/) ([#1657](https://github.com/cyberbotics/webots/pull/1657)).
     - Added the `mjpeg` web streaming mode ([#1352](https://github.com/cyberbotics/webots/pull/1352)).
     - Exposed global texture maximum filtering as a parameter in the Webots preferences ([#1851](https://github.com/cyberbotics/webots/pull/1851)).
+    - Added a [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function to the [Robot](robot.md) node which allows URDF export ([#1706](https://github.com/cyberbotics/webots/pull/1706)).
     - Added a new 'Show Normals' optional rendering ([#1740](https://github.com/cyberbotics/webots/pull/1740)).
     - macOS and Windows: Added support for Python 3.8 ([#1299](https://github.com/cyberbotics/webots/pull/1299), [#1311](https://github.com/cyberbotics/webots/pull/1311)).
     - Added a model of a Mercedes-Benz Sprinter ([#1540](https://github.com/cyberbotics/webots/pull/1540)).
@@ -33,7 +34,7 @@ Released on XXX.
     - Improved the `ros_python` and `universal_robots_ros` ROS simulations to use extern controllers instead of embedding the ROS libraries ([#1876](https://github.com/cyberbotics/webots/pull/1876)).
     - Added a `supervisor` field to the [RobotisOp2](../guide/robotis-op2.md) and [RobotisOp3](../guide/robotis-op3.md) PROTO nodes ([#1790](https://github.com/cyberbotics/webots/pull/1790)).
     - Added a [Gyro](gyro.md) node to e-puck PROTO ([#1484](https://github.com/cyberbotics/webots/pull/1484)).
-    - Added a [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function to the [Robot](robot.md) node which allows URDF export ([#1706](https://github.com/cyberbotics/webots/pull/1706))
+    - Improved the [`wb_supervisor_movie_is_ready`](supervisor.md#wb_supervisor_movie_is_ready) and [`wb_supervisor_movie_failed`](supervisor.md#wb_supervisor_movie_failed) functions to return an updated value even if the [`wb_robot_step`](robot.md#wb_robot_step) function is not called ([#1908](https://github.com/cyberbotics/webots/pull/1908)).
     - Console
       - Added a context menu to the console allowing the user to define what should be displayed, by filtering the logs by type and source ([#1595](https://github.com/cyberbotics/webots/pull/1595)).
       - Added the possibility to open several consoles at the same time ([#1595](https://github.com/cyberbotics/webots/pull/1595)).
