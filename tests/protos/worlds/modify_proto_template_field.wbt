@@ -23,6 +23,7 @@ TestRectangleArena {
       ]
       repeatS FALSE
       repeatT FALSE
+      filtering 2
     }
     roughness 1
     metalness 0
