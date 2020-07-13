@@ -53,7 +53,7 @@ Released on XXX.
     - Upgraded to Qt 5.15.0 ([#1709](https://github.com/cyberbotics/webots/pull/1709), [#1710](https://github.com/cyberbotics/webots/pull/1710), [#1736](https://github.com/cyberbotics/webots/pull/1736)).
     - Upgraded to Assimp 5.0.1 on Linux and macOS ([#1463](https://github.com/cyberbotics/webots/pull/1463)).
   - Bug fixes
-    - Fixed issues with context menu available items when requested from the scene tree (thanks to MaxGaukler)[#1889](https://github.com/cyberbotics/webots/pull/1889).
+    - Fixed issues with context menu available items when requested from the scene tree (thanks to MaxGaukler) ([#1889](https://github.com/cyberbotics/webots/pull/1889)).
     - Fixed crash when setting an invalid value to a field that triggers the parent PROTO regeneration ([#1868](https://github.com/cyberbotics/webots/pull/1868)).
     - Fixed crash when converting a PROTO node to Base node(s) if contained in a field that triggers the parent PROTO regeneration ([#1868](https://github.com/cyberbotics/webots/pull/1868)).
     - Fixed crash occurring when reloading or resetting a simulation containing a [Display](display.md) device ([#1865](https://github.com/cyberbotics/webots/pull/1865)).    
