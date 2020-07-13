@@ -833,7 +833,7 @@ Where *p* is a point whose coordinates are given with respect to the local coord
 %spoiler "**Python Example**: How to calculate relative positions and orientations?"
 
 The following Python example calculates the position and orientation of a node relatively to another node.
-It should be easily adaptable to any other language, as it uses simple matrix and vector calculations. 
+It should be easily adaptable to any other language, as it uses simple matrix and vector calculations.
 
 ```python
 from controller import Supervisor
@@ -868,7 +868,7 @@ box_pos_world = np.subtract(box_pos_world, pos_ur10e)
 box_pos_robot = np.dot(rot_ur10e, box_pos_world)
 
 # Calculate the orientation of the box, relative to the robot, all in one line.
-box_rot_robot = np.dot(rot_ur10e, np.array(box.getOrientation()).reshape(3, 3)) 
+box_rot_robot = np.dot(rot_ur10e, np.array(box.getOrientation()).reshape(3, 3))
 ```
 
 %end
@@ -2556,13 +2556,13 @@ The `acceleration` specifies the acceleration factor of the created movie with r
 Default value is 1, i.e. no acceleration.
 If `caption` parameters is set to true, a default caption is printed on the top right corner of the movie showing the current `acceleration` value.
 
-The `wb_supervisor_movie_is_ready` function returns `TRUE` if the application is ready to start recording a movie, i.e. if another recording process is not already running.
+The `wb_supervisor_movie_is_ready` function returns `true` if the application is ready to start recording a movie, i.e. if another recording process is not already running.
 So it could be used to check if the encoding process is completed and the file has been created.
-Note that if the recording process failed, this function will return `TRUE`.
+Note that if the recording process failed, this function will return `true`.
 In order to detect a failure the `wb_supervisor_movie_failed` function has to be called.
 
-The `wb_supervisor_movie_failed` function returns `TRUE` if the recording process failed.
-After starting a new recording process the returned value is reset to `FALSE`.
+The `wb_supervisor_movie_failed` function returns `true` if the recording process failed.
+After starting a new recording process the returned value is reset to `false`.
 
 ---
 
