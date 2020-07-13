@@ -33,9 +33,7 @@ PROTO TestRectangleArena [
       floorSize = fields.floorSize.defaultValue
     end
 
-    if fields.floorTextureUrl.value[0] ~= fields.floorTextureUrl.defaultValue[0] then
-      io.stderr:write("The 'floorTextureUrl' field is deprecated, using the new 'floorAppearance' field instead.\n")
-    end
+    local myVariable = fields.floorAppearance
 
     if fields.wallTextureUrl.value[0] ~= fields.wallTextureUrl.defaultValue[0] then
       io.stderr:write("The 'wallTextureUrl' field is deprecated, using the new 'wallAppearance' field instead.\n")
