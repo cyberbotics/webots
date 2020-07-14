@@ -29,6 +29,7 @@ DEF BALL_A Solid {
   ]
   boundingObject USE SHAPE
   physics Physics {
+    # default damping: 0.4
   }
 }
 DEF BALL_B Solid {
