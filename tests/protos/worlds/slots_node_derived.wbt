@@ -26,6 +26,8 @@ Robot {
     }
     Slot {
       type "default"
+      endPoint SlotNodeGenderedDerived {
+      }
     }
     TestSuiteEmitter {
     }
