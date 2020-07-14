@@ -60,9 +60,21 @@ Robot {
     }
     DEF ACC7 Slot {
       type "slot+"
+      endPoint Slot {
+        type "slot+"
+        endPoint Accelerometer {
+          name "acc7"
+        }
+      }
     }
     DEF ACC8 Slot {
       type "slot"
+      endPoint Slot {
+        type "default"
+        endPoint Accelerometer {
+          name "acc8"
+        }
+      }
     }
     TestSuiteEmitter {
     }
