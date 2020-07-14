@@ -74,6 +74,7 @@ int main(int argc, char *argv[]) {
     translation[2] = 0.3 * cos(wb_robot_get_time());
     wb_supervisor_field_set_sf_vec3f(field, translation);
   }
+
   wb_robot_cleanup();
   return 0;
 }
