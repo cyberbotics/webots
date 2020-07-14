@@ -17,3 +17,5 @@ DirectionalLight {
   direction -0.33 -1 -0.5
   castShadows TRUE
 }
+ProtoMissingEndingCurlyBracket {
+}
