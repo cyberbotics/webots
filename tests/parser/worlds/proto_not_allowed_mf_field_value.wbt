@@ -24,6 +24,8 @@ ProtoRestrictedFieldValues {
   extensionSlot [
     Group {
     }
+    Transform {
+    }
     Solid {
     }
   ]
