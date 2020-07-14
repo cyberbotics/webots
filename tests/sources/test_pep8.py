@@ -33,9 +33,7 @@ skippedDirectories = [
     'lib',
     'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
     'projects/robots/robotis/darwin-op/libraries/python',
-    'projects/default/resources/sumo',
-    'projects/languages/ros/controllers/ros_python/kinetic',
-    'projects/languages/ros/controllers/ros_python/python'
+    'projects/default/resources/sumo'
 ]
 
 

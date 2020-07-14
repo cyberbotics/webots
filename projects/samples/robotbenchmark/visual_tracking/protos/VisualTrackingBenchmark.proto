@@ -6,7 +6,7 @@
 
 PROTO VisualTrackingBenchmark [
   field SFString window "visual_tracking"
-  field MFString controllerArgs "hit-error=0.1"
+  field MFString controllerArgs [ "hit-error=0.1" ]
 ]
 {
 Robot {

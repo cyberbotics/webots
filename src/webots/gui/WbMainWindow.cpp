@@ -1149,11 +1149,13 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
   }
 
   const bool saveScreenPerspective = qgetenv("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE").isEmpty();
-  if (saveScreenPerspective) {
+  if (saveScreenPerspective || perspective->mainWindowState().isEmpty())
     perspective->setMainWindowState(saveState());
-    perspective->setMinimizedState(mMinimizedDockState);
+  if (saveScreenPerspective || perspective->simulationViewState()[0].isEmpty() ||
+      perspective->simulationViewState()[1].isEmpty())
     perspective->setSimulationViewState(mSimulationView->saveState());
-  }
+  if (saveScreenPerspective)
+    perspective->setMinimizedState(mMinimizedDockState);
 
   const int id = mDockWidgets.indexOf(mMaximizedWidget);
   perspective->setMaximizedDockId(id);

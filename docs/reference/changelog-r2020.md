@@ -13,6 +13,7 @@ Released on XXX.
     - Added a model of the [P-Rob 3](../guide/p-rob3.md) robot from [F&P Robotics](https://www.fp-robotics.com/en/) ([#1657](https://github.com/cyberbotics/webots/pull/1657)).
     - Added the `mjpeg` web streaming mode ([#1352](https://github.com/cyberbotics/webots/pull/1352)).
     - Exposed global texture maximum filtering as a parameter in the Webots preferences ([#1851](https://github.com/cyberbotics/webots/pull/1851)).
+    - Added a [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function to the [Robot](robot.md) node which allows URDF export ([#1706](https://github.com/cyberbotics/webots/pull/1706)).
     - Added a new 'Show Normals' optional rendering ([#1740](https://github.com/cyberbotics/webots/pull/1740)).
     - macOS and Windows: Added support for Python 3.8 ([#1299](https://github.com/cyberbotics/webots/pull/1299), [#1311](https://github.com/cyberbotics/webots/pull/1311)).
     - Added a model of a Mercedes-Benz Sprinter ([#1540](https://github.com/cyberbotics/webots/pull/1540)).
@@ -31,9 +32,10 @@ Released on XXX.
     - **Replaced the [Car](../automobile/car.md) `maxWheelVelocity` field by a `maxVelocity` field representing the actual maximum velocity of the car itself ([#1552](https://github.com/cyberbotics/webots/pull/1552)).**
     - Added the possibility to edit the `S/MFRotation` fields using quaternions ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
     - Improved edition of `S/MFRotation` fields using the field editor spin-boxes, only the last decimal is now incremented ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
+    - Improved the `ros_python` and `universal_robots_ros` ROS simulations to use extern controllers instead of embedding the ROS libraries ([#1876](https://github.com/cyberbotics/webots/pull/1876)).
     - Added a `supervisor` field to the [RobotisOp2](../guide/robotis-op2.md) and [RobotisOp3](../guide/robotis-op3.md) PROTO nodes ([#1790](https://github.com/cyberbotics/webots/pull/1790)).
     - Added a [Gyro](gyro.md) node to e-puck PROTO ([#1484](https://github.com/cyberbotics/webots/pull/1484)).
-    - Added a [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function to the [Robot](robot.md) node which allows URDF export ([#1706](https://github.com/cyberbotics/webots/pull/1706))
+    - Improved the [`wb_supervisor_movie_is_ready`](supervisor.md#wb_supervisor_movie_is_ready) and [`wb_supervisor_movie_failed`](supervisor.md#wb_supervisor_movie_failed) functions to return an updated value even if the [`wb_robot_step`](robot.md#wb_robot_step) function is not called ([#1908](https://github.com/cyberbotics/webots/pull/1908)).
     - Console
       - Added a context menu to the console allowing the user to define what should be displayed, by filtering the logs by type and source ([#1595](https://github.com/cyberbotics/webots/pull/1595)).
       - Added the possibility to open several consoles at the same time ([#1595](https://github.com/cyberbotics/webots/pull/1595)).
@@ -53,6 +55,8 @@ Released on XXX.
     - Upgraded to Qt 5.15.0 ([#1709](https://github.com/cyberbotics/webots/pull/1709), [#1710](https://github.com/cyberbotics/webots/pull/1710), [#1736](https://github.com/cyberbotics/webots/pull/1736)).
     - Upgraded to Assimp 5.0.1 on Linux and macOS ([#1463](https://github.com/cyberbotics/webots/pull/1463)).
   - Bug fixes
+    - Fixed issues with context menu available items when requested from the scene tree (thanks to MaxGaukler) ([#1889](https://github.com/cyberbotics/webots/pull/1889)).
+    - Fixed crash occurring when reloading or resetting a simulation containing a [Display](display.md) device ([#1865](https://github.com/cyberbotics/webots/pull/1865)).
     - Fixed crash with Python [`RangeFinder.rangeImageGetDepth`](rangefinder.md#wb_range_finder_image_get_depth) function ([#1858](https://github.com/cyberbotics/webots/pull/1858)).
     - Fixed mismatch between the bounding object and visual shape of the [UnevenTerrain](https://www.cyberbotics.com/doc/guide/object-floors#uneventerrain), **and removed the `textureScale` field** ([#1792](https://github.com/cyberbotics/webots/pull/1792)).
     - Fixed crash when using a [Normal](normal.md) node in a PROTO node ([#1813](https://github.com/cyberbotics/webots/pull/1813)).
