@@ -18,5 +18,6 @@ DirectionalLight {
   castShadows TRUE
 }
 ValidProtoComments {
+  # WBT comment 2
   translation 0.1 0 0
 }
