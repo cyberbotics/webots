@@ -1,11 +1,9 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
   info [
-    "Spot Robot"
     "Simulation of Boston Dynamics' Spot robot in a simple industrial environment."
     "The robot is saying hello with its right leg."
   ]
-  title "Simulation of Boston Dynamics' Spot robot."
   title "Spot Robot demo"
 }
 Viewpoint {
