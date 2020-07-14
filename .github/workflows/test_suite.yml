@@ -22,7 +22,7 @@ jobs:
             DEPENDENCIES: "libssl1.0-dev ffmpeg python-pip npm"
             JAVA_VERSION: "11"
           - os: ubuntu-20.04
-            DEPENDENCIES: "libssl-dev ffmpeg python-pip-whl npm"
+            DEPENDENCIES: "libssl-dev ffmpeg python-pip-whl npm libzip5"
             JAVA_VERSION: "14"
     runs-on: ${{ matrix.os }}
     steps:
