@@ -120,7 +120,7 @@ void WbRobot::init() {
   mShowWindowMessage = false;
   mWaitingForWindow = false;
   mUpdateWindowMessage = false;
-  mDataNeedToWriteAnswer = false;
+  mSupervisorNeedToWriteAnswer = false;
   mModelNeedToWriteAnswer = false;
 
   mPin = false;
@@ -148,7 +148,6 @@ void WbRobot::init() {
   }
 
   mBatteryInitialValue = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
-  mSupervisorUtilities = supervisor() ? new WbSupervisorUtilities(this) : NULL;
 }
 
 WbRobot::WbRobot(WbTokenizer *tokenizer) : WbSolid("Robot", tokenizer) {
@@ -223,6 +222,7 @@ void WbRobot::preFinalize() {
     }
     parsingWarn(tr("Robot.controllerArgs data type changed from SFString to MFString in Webots R2020b. %1").arg(message));
   }
+  updateSupervisor();
   updateWindow();
   updateRemoteControl();
   updateControllerDir();
@@ -238,6 +238,7 @@ void WbRobot::postFinalize() {
   connect(mWindow, &WbSFString::changed, this, &WbRobot::updateWindow);
   connect(mRemoteControl, &WbSFString::changed, this, &WbRobot::updateRemoteControl);
   connect(mCustomData, &WbSFString::changed, this, &WbRobot::updateData);
+  connect(mSupervisor, &WbSFString::changed, this, &WbRobot::updateSupervisor);
   connect(this, &WbMatter::matterModelChanged, this, &WbRobot::updateModel);
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbRobot::updateSimulationMode);
 
@@ -577,6 +578,14 @@ void WbRobot::setWaitingForWindow(bool waiting) {
 
 void WbRobot::updateData() {
   mDataNeedToWriteAnswer = true;
+}
+
+void WbRobot::updateSupervisor() {
+  mSupervisorNeedToWriteAnswer = true;
+
+  if (mSupervisorUtilities)
+    delete mSupervisorUtilities;
+  mSupervisorUtilities = supervisor() ? new WbSupervisorUtilities(this) : NULL;
 }
 
 void WbRobot::updateModel() {
@@ -1068,6 +1077,14 @@ void WbRobot::writeAnswer(QDataStream &stream) {
     stream.writeRawData(n.constData(), n.size() + 1);
 
     mDataNeedToWriteAnswer = false;
+  }
+
+  if (mSupervisorNeedToWriteAnswer) {
+    stream << (short unsigned int)0;
+    stream << (unsigned char)C_ROBOT_SUPERVISOR;
+    stream << (unsigned char)(mSupervisorUtilities ? 1 : 0);
+
+    mSupervisorNeedToWriteAnswer = false;
   }
 
   if (mModelNeedToWriteAnswer) {

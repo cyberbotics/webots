@@ -412,6 +412,9 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
       free(robot.custom_data);
       robot.custom_data = request_read_string(r);
       break;
+    case C_ROBOT_SUPERVISOR:
+      robot.is_supervisor = request_read_uchar(r);
+      break;
     case C_ROBOT_MODEL:
       free(robot.model);
       robot.model = request_read_string(r);

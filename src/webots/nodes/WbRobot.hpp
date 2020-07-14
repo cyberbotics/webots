@@ -186,6 +186,7 @@ private:
   bool mWaitingForWindow;
   const QByteArray *mMessageFromWwi;
   bool mDataNeedToWriteAnswer;
+  bool mSupervisorNeedToWriteAnswer;
   bool mModelNeedToWriteAnswer;
   bool mPowerOn;
   bool mControllerStarted;
@@ -271,6 +272,7 @@ private slots:
   void updateSimulationMode();
   void updateControllerDir();
   void updateData();
+  void updateSupervisor();
   void updateModel();
   void removeRenderingDevice();
   void handleMouseChange();
