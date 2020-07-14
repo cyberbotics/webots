@@ -47,7 +47,6 @@ jobs:
         export PATH=$JAVA_HOME/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
         xvfb-run --auto-servernum make distrib -j4
-        rename 's/\.tar.bz2$/_${{ matrix.os }}.tar.bz2/' distribution/*.tar.bz2
     - uses: actions/upload-artifact@v2
       with:
         name: build-${{ matrix.os }}
@@ -72,9 +71,8 @@ jobs:
         name: build-${{ matrix.os }}
     - name: Extract Webots
       run: |
-        ls
         mkdir artifact
-        tar xjf webots-*-x86-64_${{ matrix.os }}.tar.bz2 -C artifact
+        tar xjf webots-*-x86-64.tar.bz2 -C artifact
     - name: Install Webots Dependencies
       run: |
         sudo apt update
