@@ -19,33 +19,41 @@
 #include <webots/supervisor.h>
 
 int main(int argc, char *argv[]) {
-  WbNodeRef root, node;
+  WbNodeRef node;
   WbFieldRef children, field;
-  const double *gravity;
-  double location[3] = {0.5, 0.3, 0.5};
-  int n, i;
+  const double location[3] = {0.5, 0.3, 0.5};
+  int i;
 
   wb_robot_init();
 
-  root = wb_supervisor_node_get_root();
+  // get the root children field
+  const WbNodeRef root = wb_supervisor_node_get_root();
   children = wb_supervisor_node_get_field(root, "children");
-  n = wb_supervisor_field_get_count(children);
+  const int n = wb_supervisor_field_get_count(children);
   printf("This world contains %d nodes:\n", n);
+
+  // check what type of nodes are present in the world
   for (i = 0; i < n; i++) {
     node = wb_supervisor_field_get_mf_node(children, i);
     printf("-> %s\n", wb_supervisor_node_get_type_name(node));
   }
   printf("\n");
+
+  // get the content of the 'gravity' field of the 'WorldInfo' node
   node = wb_supervisor_field_get_mf_node(children, 0);
   field = wb_supervisor_node_get_field(node, "gravity");
-  gravity = wb_supervisor_field_get_sf_vec3f(field);
+  const double *gravity = wb_supervisor_field_get_sf_vec3f(field);
   printf("WorldInfo.gravity = %g %g %g\n\n", gravity[0], gravity[1], gravity[2]);
+
+  // move the 'PointLight' node after waiting 8 seconds
   printf("Going to move the location of the PointLight in 8 seconds (simulation time)...\n");
   wb_robot_step(8000);                                 /* wait for 8 seconds */
   node = wb_supervisor_field_get_mf_node(children, 3); /* PointLight */
   field = wb_supervisor_node_get_field(node, "location");
   wb_supervisor_field_set_sf_vec3f(field, location);
   printf("Moved location of the PointLight!\n");
+
+  // main simulation loop
   while (wb_robot_step(32) != -1) {
   }
   wb_robot_cleanup();
