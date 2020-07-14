@@ -10,6 +10,9 @@ Background {
     0.4 0.7 1
   ]
 }
+UnknownNode { # issue here: the node doesn't exists
+  unknownField TRUE
+}
 ParserTestSupervisor {
 }
 DirectionalLight {
