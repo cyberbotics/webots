@@ -12,5 +12,3 @@ ParserTestSupervisor {
 }
 DirectionalLight {
 }
-RecursiveProto {
-}

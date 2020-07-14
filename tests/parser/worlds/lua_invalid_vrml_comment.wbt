@@ -3,7 +3,5 @@ WorldInfo {
 }
 Viewpoint {
 }
-LuaVrmlComment {
-}
 ParserTestSupervisor {
 }

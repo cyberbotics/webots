@@ -106,14 +106,14 @@ DEF DYNAMIC_ROBOT Robot {
     TestSuiteEmitter {
     }
   ]
-  name "robot"
   boundingObject USE BODY
   physics Physics {
   }
   controller "supervisor_get_velocity_with_joints"
-  controllerArgs "supervisor_get_velocity_with_joints"
+  controllerArgs [
+    "supervisor_get_velocity_with_joints"
+  ]
   supervisor TRUE
-  cpuConsumption 10
 }
 TestSuiteSupervisor {
 }

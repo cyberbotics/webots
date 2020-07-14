@@ -2,7 +2,7 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.885364 -0.363046 -0.290394 6.09175
+  orientation 0.8853637849239141 -0.3630459118074456 -0.29039392945635367 6.09175
   position -0.47206 0.249955 0.823111
 }
 Background {
@@ -48,7 +48,9 @@ Robot {
     }
   ]
   controller "proto_regeneration_multiple_instances"
-  controllerArgs "proto_regeneration_multiple_instances"
+  controllerArgs [
+    "proto_regeneration_multiple_instances"
+  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {

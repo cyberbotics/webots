@@ -2,7 +2,7 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.33460162 0.92685632 0.17023251 5.0632475
+  orientation 0.3346016217580861 0.9268563248699502 0.170232510894447 5.0632475
   position -1.4014692 0.82937332 0.66081321
 }
 DEF BACKGROUND Background {
@@ -52,7 +52,7 @@ DEF Test Robot {
 }
 DEF BOX Solid {
   translation -0.2 0.2 -0.2
-  rotation 0.70710339 0.5000024 -0.5000024 0.5708
+  rotation 0.7071033885288671 0.500002398959742 -0.500002398959742 0.5708
   children [
     DEF BOX_SHAPE Shape {
       appearance Appearance {

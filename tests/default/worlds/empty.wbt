@@ -1,7 +1,5 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
-  info [
-  ]
 }
 Viewpoint {
 }

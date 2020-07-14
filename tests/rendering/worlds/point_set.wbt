@@ -50,8 +50,6 @@ Robot {
     TestSuiteEmitter {
     }
   ]
-  name "robot"
   controller "point_set"
   supervisor TRUE
-  cpuConsumption 10
 }

@@ -2,7 +2,7 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.234743 0.971933 -0.0155375 5.67785
+  orientation 0.23474306497169567 0.971933269009662 -0.015537504300438017 5.67785
   position -1.46871 0.251512 1.98526
 }
 Background {
@@ -45,7 +45,9 @@ Robot {
     }
   ]
   controller "camera_checker"
-  controllerArgs "camera_color_motion_blur"
+  controllerArgs [
+    "camera_color_motion_blur"
+  ]
 }
 TestSuiteSupervisor {
 }

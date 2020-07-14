@@ -8,7 +8,7 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.999346 0.0347544 0.00999315 0.560353
+  orientation -0.9993459205108881 0.03475439723559569 0.009993149205133538 0.560353
   position 0.163095 0.754028 0.969325
   near 0.001
 }
@@ -18,6 +18,4 @@ ParserTestSupervisor {
 }
 DirectionalLight {
   direction 0.2 -1 0.55
-}
-DerivedProtoUsingSameParameterName {
 }
