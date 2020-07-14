@@ -16,5 +16,5 @@ This work was mainly sponsored by:
 
 - [RO2IVSim](https://www.epfl.ch/labs/disal/research/ro2ivsim/): research project of the [CTI](https://www.innosuisse.ch) in partnership with [EPFL](https://epfl.ch) and [PSA](https://www.groupe-psa.com).
 - [Renault](https://group.renault.com) [Technocentre](https://group.renault.com/en/our-company/locations/technocentre-2/).
-- [Perrone Robotics, Inc.](https://www.perronerobotics.com).
-- [Derq, Inc.](https://derq.com).
+- [Perrone Robotics, Inc.](https://www.perronerobotics.com)
+- [Derq, Inc.](https://derq.com)
