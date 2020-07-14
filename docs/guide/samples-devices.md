@@ -367,8 +367,8 @@ The resulting projection is shown in a 2D camera overlay.
 ![supervisor.png](images/samples/supervisor.thumbnail.jpg) This example shows basic operations of a [Supervisor](../reference/supervisor.md) controller.
 The [Supervisor](../reference/supervisor.md) controller starts with displaying the names of the scene tree root nodes.
 Then it displays the content of the `WorldInfo.gravity` field.
-After two seconds, it moves the [PointLight](../reference/pointlight.md), and then after two more seconds it import a transformed [Sphere](../reference/sphere.md) node.
-Finally, it moves the [Sphere](../reference/sphere.md) node in a circle.
+After two seconds, it moves the [PointLight](../reference/pointlight.md), and then after two more seconds it imports a transformed [Sphere](../reference/sphere.md).
+Finally, it moves the [Sphere](../reference/sphere.md) in a circle.
 
 ### [track.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/worlds/track.wbt)
 
