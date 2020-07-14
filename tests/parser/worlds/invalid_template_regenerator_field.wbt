@@ -22,6 +22,10 @@ TemplateTransformSlot {
     Group {
       children [
         TemplateTransformSlot {
+          slot [
+            TemplateHingeJoint {
+            }
+          ]
         }
       ]
     }
