@@ -47,6 +47,7 @@ jobs:
         export PATH=$JAVA_HOME/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
         xvfb-run --auto-servernum make distrib -j4
+        ldd --version
     - uses: actions/upload-artifact@v2
       with:
         name: build-${{ matrix.os }}
@@ -86,5 +87,6 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
+        ldd --version
         xvfb-run --auto-servernum python ${{ matrix.test }}
         ${{ matrix.POST_TASK }}
