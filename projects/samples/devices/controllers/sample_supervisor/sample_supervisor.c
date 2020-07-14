@@ -14,40 +14,67 @@
  * limitations under the License.
  */
 
+#include <math.h>
 #include <stdio.h>
+
 #include <webots/robot.h>
 #include <webots/supervisor.h>
 
 int main(int argc, char *argv[]) {
-  WbNodeRef root, node;
-  WbFieldRef children, field;
-  double gravity;
-  double location[3] = {0.5, 0.3, 0.5};
-  int n, i;
+  WbNodeRef node;
+  WbFieldRef field;
+  int i;
 
   wb_robot_init();
 
-  root = wb_supervisor_node_get_root();
-  children = wb_supervisor_node_get_field(root, "children");
-  n = wb_supervisor_field_get_count(children);
+  // get the root children field
+  const WbNodeRef root_node = wb_supervisor_node_get_root();
+  const WbFieldRef root_children_field = wb_supervisor_node_get_field(root_node, "children");
+  const int n = wb_supervisor_field_get_count(root_children_field);
   printf("This world contains %d nodes:\n", n);
+
+  // check what type of nodes are present in the world
   for (i = 0; i < n; i++) {
-    node = wb_supervisor_field_get_mf_node(children, i);
+    node = wb_supervisor_field_get_mf_node(root_children_field, i);
     printf("-> %s\n", wb_supervisor_node_get_type_name(node));
   }
   printf("\n");
-  node = wb_supervisor_field_get_mf_node(children, 0);
+
+  // get the content of the 'gravity' field of the 'WorldInfo' node
+  node = wb_supervisor_field_get_mf_node(root_children_field, 0);
   field = wb_supervisor_node_get_field(node, "gravity");
-  gravity = wb_supervisor_field_get_sf_float(field);
+  const double gravity = wb_supervisor_field_get_sf_float(field);
   printf("WorldInfo.gravity = %g\n\n", gravity);
-  printf("Going to move the location of the PointLight in 8 seconds (simulation time)...\n");
-  wb_robot_step(8000);                                 /* wait for 8 seconds */
-  node = wb_supervisor_field_get_mf_node(children, 3); /* PointLight */
+
+  // move the 'PointLight' node after waiting 2 seconds
+  printf("Going to move the location of the PointLight in 2 seconds (simulation time)...\n");
+  wb_robot_step(2000);                                             // wait for 2 seconds
+  node = wb_supervisor_field_get_mf_node(root_children_field, 3);  // PointLight
   field = wb_supervisor_node_get_field(node, "location");
+  const double location[3] = {0.5, 0.3, 0.5};
   wb_supervisor_field_set_sf_vec3f(field, location);
-  printf("Moved location of the PointLight!\n");
+
+  // import a new sphere node after waiting 2 seconds
+  printf("Going to import a Sphere in 2 seconds (simulation time)...\n");
+  wb_robot_step(2000);
+  wb_supervisor_field_import_mf_node_from_string(
+    root_children_field, -1,  // import at the end of the root children field
+    "Transform { children [ Shape { appearance PBRAppearance { } geometry Sphere { radius 0.1 subdivision 3 } } ] }");
+
+  // main simulation loop
+  printf("Going to move the Sphere in 2 seconds (simulation time)...\n");
+  wb_robot_step(2000);
+  double translation[3] = {0.0, 0.0, 0.0};
+  // get the last node of the root children field (the Sphere)
+  node = wb_supervisor_field_get_mf_node(root_children_field, -1);
+  field = wb_supervisor_node_get_field(node, "translation");
   while (wb_robot_step(32) != -1) {
+    // move the Sphere node in a circle of 0.3m of radius
+    translation[0] = 0.3 * sin(wb_robot_get_time());
+    translation[2] = 0.3 * cos(wb_robot_get_time());
+    wb_supervisor_field_set_sf_vec3f(field, translation);
   }
+
   wb_robot_cleanup();
   return 0;
 }

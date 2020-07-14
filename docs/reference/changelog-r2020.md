@@ -44,6 +44,7 @@ Released on XXX.
     - Improved the environment colors of the sojourner simulation (Mars is a red planet) ([#1283](https://github.com/cyberbotics/webots/pull/1283)).
     - Improved the [KUKA's youBot](../guide/youbot.md) robot to handle variable number of arms ([#1468](https://github.com/cyberbotics/webots/pull/1468)).
     - Added missing `supervisor` field in `UR3e`, `UR5e` and `UR10e` robots ([#1341](https://github.com/cyberbotics/webots/pull/1341)).
+    - Improved the `supervisor` sample to show how to import a node in the simulation ([#1691](https://github.com/cyberbotics/webots/pull/1691)).
     - Added a `staticBase` field to the `Irb4600-40` PROTO node ([#1349](https://github.com/cyberbotics/webots/pull/1349)).
     - Replaced the `texture` field of the `TruckTrailer` PROTO node by an `appearance` field ([#1512](https://github.com/cyberbotics/webots/pull/1512)).
     - Added a `--node-name` argument to the ROS controller of the Universal Robots UR3e, UR5e and UR10e for multi robot simulations ([#1423](https://github.com/cyberbotics/webots/pull/1423)).
