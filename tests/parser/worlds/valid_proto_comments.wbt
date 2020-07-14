@@ -14,7 +14,7 @@ ParserTestSupervisor {
 }
 DirectionalLight {
   ambientIntensity 1
-  direction -0.33 -1 -0.5
+  direction -0.33 -1 -0.5 # WBT comment 2
   castShadows TRUE
 }
 ValidProtoComments {
