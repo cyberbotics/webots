@@ -1,43 +1,31 @@
-# Version R2020a Released
+# Version R2020b Released
 
-<p id="publish-data">By Stefania Pedrazzi - 18th December 2019</p>
+<p id="publish-data">By Olivier Michel - 31st July 2020</p>
 
 ---
 
-Here we are! It's already time for a new Webots release!
+Webots R2020b is there! And it's packed with a bunch of new features, new models, improvements and, of course, bug fixes.
 
-This new Webots version focuses on improving the performance of the scene load and the robustness of the simulation.
-But as usual we also extended our asset library with new robots, objects, environments and appearances.
-Moreover the [Supervisor API](../reference/supervisor.md) has been extended.
-
-This article only lists some of the major changes.
-Besides these, we are always fixing bugs and improving the quality and robustness of Webots.
-Please refer to the changelog for a comprehensive list of all the changes, found [here](../reference/changelog-r2020.md).
+However, this article only lists some of the major changes.
+Please refer to the [2020 changelog](../reference/changelog-r2020.md) for a comprehensive list of all changes.
 
 ---
 
 ## New Robot Models
 
-### TIAGo Robots
+### Spot from Boston Dynamics
 
-Simulate the TIAGo robot from [PAL Robotics](http://pal-robotics.com/) in Webots.
+Play around with a simulated Spot robot from [Boston Dynamics](http://bostondynamics.com/) in Webots.
 
-%figure "Tiago Model in Webots"
+%figure "Spot Model in Webots"
 ![Tiago Model in Webots](images/tiago.jpg)
 %end
 
-Several models of the robot have been created for Webots:
-  - [TIAGo Base](../guide/tiago-base.md)
-  - [TIAGo Iron](../guide/tiago-iron.md)
-  - [TIAGo Steel](../guide/tiago-steel.md)
-  - [TIAGo Titanium](../guide/tiago-titanium.md)
-  - [TIAGo++](../guide/tiagopp.md)
+### Walker Robot Inspired from Star Wars
 
-### TurtleBot3 Burger
+Matt Denton contributed a nice [demo](https://twitter.com/mantisrobot/status/1254693299702714369) of a two-legged robot inspired by the Star Wars AT-ST walker.
 
-Simulate the [TurtleBot3 Burger](../guide/turtlebot3-burger.md) robot from [Robotis](http://www.robotis.us) in Webots.
-
-%figure "TurtleBot3 Burger Model in Webots"
+%figure "AT-ST walker in Webots"
 ![TurtleBot3 Burger in Webots](images/turtlebot3.jpg)
 %end
 
