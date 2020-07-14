@@ -9,6 +9,7 @@ Background {
   skyColor [
     0.4 0.7 1
   ]
+  myUnknownField TRUE # error here: unknown field here
 }
 ParserTestSupervisor {
 }
