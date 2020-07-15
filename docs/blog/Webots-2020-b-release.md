@@ -75,33 +75,35 @@ To let you model more realistic robots and environments we expanded our `PBRAppe
 
 | | | |
 | :---: | :---: | :---: |
-| ![Marble](images/appearances/Marble.thumbnail.png) | ![MetalStainlessSteelCable](images/appearances/MetalStainlessSteelCable.thumbnail.png) |  ![Pavement](images/appearances/Pavement.thumbnail.png) |
-| ![Plastic](images/appearances/Plastic.thumbnail.png) | ![Parquetry](images/appearances/Parquetry.thumbnail.png) |  ![PerforatedMetal](images/appearances/PerforatedMetal.thumbnail.png) |
+| ![Marble](images/appearances/Marble.thumbnail.png) | ![MetalStainlessSteelCable](images/appearances/MetalStainlessSteelCable.thumbnail.png) |  ![Pavement](images/appearances/Pavement_a.thumbnail.png) |
+| ![Plastic](images/appearances/Plastic.thumbnail.png) | ![Parquetry](images/appearances/Parquetry_a.thumbnail.png) |  ![PerforatedMetal](images/appearances/PerforatedMetal.thumbnail.png) |
 | ![SolarCell](images/appearances/SolarCell.thumbnail.png) |  |  |
 
 ---
 
-## Support for External Mesh Files
+## Support for External 3D Mesh Files
+
+A new [Mesh](https://cyberbotics.com/doc/reference/mesh) node was added to support the inclusion of a large variety of external 3D mesh files: [3D Studio mesh](https://wiki.fileformat.com/3d/3ds), [Blender](https://www.blender.org/), [Biovision Hierarchy](https://en.wikipedia.org/wiki/Biovision_Hierarchy), [Collada](https://en.wikipedia.org/wiki/COLLADA), [Filmbox](https://wiki.fileformat.com/3d/fbx/), [STL](https://en.wikipedia.org/wiki/STL_(file_format)), [Wavefront](https://wiki.fileformat.com/3d/obj), [X3D](https://www.web3d.org/getting-started-x3d).
+It is also possible to [import](https://cyberbotics.com/doc/guide/the-user-interface) such files as Webots primitives.
 
 ---
 
 ### MJPEG Simulation Streaming
 
+The web interface of Webots now allows you to [stream](https://cyberbotics.com/doc/guide/web-streaming) a simulation as an MJPEG video stream.
+The main advantages of this technology compared to the X3D mode, is that it loads faster and provides high fidelity images.
+However, it requires higher bandwidth and server CPU/GPU power.
+
 ---
 
 ## Extra Goodies
 
+Webots now supports Python 3.8 on all platforms (Windows, Linux and mac OS).
+
+We added a new [documentation book](https://cyberbotics.com/doc/discord/index) that archives the [Discord chat](https://discordapp.com/invite/nTWbN9m) history so that you can better find answers to your Webots questions by searching the web.
+
 Need a break? Go ahead and visit our brand new [break\_room](../guide/samples-environments.md#break_room-wbt) world.
 
-We are very happy to communicate that we fixed the error accumulation issues occurring when reverting the scene using the physics reset function. Thank you to all the users that reported this problem!
-
-Webots R2020a contains a new complete apartment environment: check it [here](../guide/samples-environments.md#complete_apartment-wbt).
-
-On Linux, you can now also program your controllers with Python 3.8.
-
-Finally, after one year of open-source, we removed the license system and turned also the old Webots versions prior to R2019a free.
-Please check the [documentation](../guide/general-faq.md#can-i-still-use-a-webots-version-before-the-r2019a-release) for further details.
-Just note that old versions are no longer maintained.
 
 
 **Go and [download](https://cyberbotics.com/#download) Webots R2020b today, so you don't miss out on all these great new features!**
