@@ -70,8 +70,8 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  ts_assert_boolean_not_equal(wb_supervisor_field_get_sf_bool(repeats_field), "'repeatS' field has not been set.");  
-  ts_assert_boolean_not_equal(wb_supervisor_field_get_sf_bool(repeatt_field), "'repeatT' field has not been set.");  
+  ts_assert_boolean_not_equal(wb_supervisor_field_get_sf_bool(repeats_field), "'repeatS' field has not been set.");
+  ts_assert_boolean_not_equal(wb_supervisor_field_get_sf_bool(repeatt_field), "'repeatT' field has not been set.");
 
   ts_send_success();
   return EXIT_SUCCESS;
