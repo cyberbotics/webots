@@ -15,7 +15,7 @@ Please refer to the [2020 changelog](../reference/changelog-r2020.md) for a comp
 
 ### Spot from Boston Dynamics
 
-Play around with a simulated Spot robot from [Boston Dynamics](http://bostondynamics.com/) in Webots.
+Play around with a simulated Spot robot from [Boston Dynamics](http://bostondynamics.com) in Webots.
 
 %figure "Spot Model in Webots"
 ![Spot Model in Webots](images/spot.jpg)
@@ -39,9 +39,10 @@ Matt Denton contributed a nice [demo](https://twitter.com/mantisrobot/status/125
 
 ---
 
-## ROS 2 & Webots
+## ROS2 & Webots
 
-ROS 2 Eloquent has been [released](https://index.ros.org/doc/ros2/Releases/Release-Eloquent-Elusor/) approximately one month ago.
+We are continuing to develop and improve the support for ROS2 in Webots.
+ROS2 Foxy has been [released](https://index.ros.org/doc/ros2/Releases/Release-Eloquent-Elusor/) approximately one month ago.
 We understood the high interest for ROS 2 among the robotics community and we are therefore proud to announce that Webots is now compatible with the following versions of ROS 2:
   - [Crystal Clemmys](https://index.ros.org/doc/ros2/Releases/Release-Crystal-Clemmys)
   - [Dashing Diademata](https://index.ros.org/doc/ros2/Releases/Release-Dashing-Diademata)
