@@ -69,6 +69,7 @@ Released on XXX.
     - Fixed the physics behavior of [Connector](connector.md) nodes sometimes remaining idle after being detached from each other (thanks to Giorgio) ([#1415](https://github.com/cyberbotics/webots/pull/1415)).
     - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images ([#1285](https://github.com/cyberbotics/webots/pull/1285)).
     - Fixed default name of the left and right grippers of the [Tiago++](../guide/tiagopp.md) robot ([#1733](https://github.com/cyberbotics/webots/pull/1733)).
+    - Fixed update of the `supervisor` field of the [Robot](robot.md) node ([#1916](https://github.com/cyberbotics/webots/pull/1916)).
     - Fixed camera image updates after a simulation reset from a [Supervisor](supervisor.md) controller ([#1802](https://github.com/cyberbotics/webots/pull/1802)).
     - Fixed the motor torque and force feedback of the ROS controller ([#1581](https://github.com/cyberbotics/webots/pull/1581)).
     - Fixed crash when calling the [`wb_robot_battery_sensor_enable()`](robot.md#wb_robot_battery_sensor_enable) function if the `battery` field of the [Robot](robot.md) is empty ([#1801](https://github.com/cyberbotics/webots/pull/1801)).
