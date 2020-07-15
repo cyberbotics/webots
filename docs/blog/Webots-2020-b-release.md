@@ -39,33 +39,32 @@ Matt Denton contributed a nice [demo](https://twitter.com/mantisrobot/status/125
 
 ---
 
-## ROS2 & Webots
+## ROS 2 & Webots
 
-We are continuing to develop and improve the support for ROS2 in Webots.
-ROS2 Foxy has been [released](https://index.ros.org/doc/ros2/Releases/Release-Eloquent-Elusor/) approximately one month ago.
-We understood the high interest for ROS 2 among the robotics community and we are therefore proud to announce that Webots is now compatible with the following versions of ROS 2:
-  - [Crystal Clemmys](https://index.ros.org/doc/ros2/Releases/Release-Crystal-Clemmys)
-  - [Dashing Diademata](https://index.ros.org/doc/ros2/Releases/Release-Dashing-Diademata)
+We are continuing to develop and improve the support for ROS 2 in Webots with now [11 Webots packages for ROS 2](https://discourse.ros.org/t/new-packages-and-patch-release-for-ros-2-foxy-fitzroy-2020-07-10/15348).
+This version of Webots is fully compatible with the two latest versions of ROS 2:
   - [Eloquent Elusor](https://index.ros.org/doc/ros2/Releases/Release-Eloquent-Elusor)
-
-%figure "Simulation of UR and ABB robots in Webots with ROS 2"
-![ROS 2 in Webots](images/ros2_demo.thumbnail.gif)
-%end
+  - [Foxy Fitzroy](https://index.ros.org/doc/ros2/Releases/Release-Foxy-Fitzroy)
 
 See the [webots\_ros2 package documentation](http://wiki.ros.org/webots_ros2) for the installation and usage instructions.
 Or, if you can't wait to see the latest features and supported robots, go directly to the [webots\_ros2 Github repository](https://github.com/cyberbotics/webots_ros2).
 
+Moreover, we added a new API function to facilitate the integration with the ROS ecosystem.
+The [wb_robot_get_urdf](https://cyberbotics.com/doc/reference/robot#wb_robot_get_urdf) function allows users to retrieve a URDF model of a Webots robot.
+This is useful, in particular, to display the robot in [RViz](http://wiki.ros.org/rviz).
+We also improved the `ros_python` and `universal_robots_ros` ROS simulations to use extern controllers instead of embedding the ROS libraries and we enabled multi-robot ROS 2 simulations.
 
 ---
 
-## Extended Supervisor API
+## Improved Console
 
-We are always collecting feedbacks form users, and in particular recently we received many requests about adding new functionalities to the [Supervisor API](../reference/supervisor.md).
-
-So for this release we extended the [Supervisor API](../reference/supervisor.md) features to be able to:
-  - Add a [force](../reference/supervisor.md#wb_supervisor_node_add_force) or a [torque](../reference/supervisor.md#wb_supervisor_node_add_torque) to a [Solid](../reference/solid.md) node.
-  - [Import](../reference/supervisor.md#wb_supervisor_field_import_sf_node) and [remove](../reference/supervisor.md#wb_supervisor_field_remove_sf) nodes in SFNode fields.
-  - [Reset](../reference/supervisor.md#wb_supervisor_simulation_reset) the simulation without restarting the robot controllers.
+The Webots [console](https://www.cyberbotics.com/doc/guide/the-console) was greatly improved to respond to provide a clearer, easier to manage, text output and error log.
+It is now possible to open several consoles.
+A new popup menu allow you to select which kind of output is going to be displayed in each console.
+This way robots may have their own console, the robot name prefix being removed from the console output.
+Other consoles may display for example only the compilation results or only some Webots warnings.
+Also, more ANSI control codes are now supported allowing you to output [colorful styled text](https://cyberbotics.com/doc/guide/controller-programming#console-output) from your controller in the Webots consoles.
+This should make debugging your robot controllers easier and render the corresponding output more elegant.
 
 ---
 
