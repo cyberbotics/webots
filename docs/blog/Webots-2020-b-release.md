@@ -79,7 +79,7 @@ This should make debugging your robot controllers easier and render the correspo
 
 ## New Appearances
 
-To let you model more realistic robots and environments we expanded our `PBRAppearance` library with some new PROTO files.
+To let you model more realistic robots and environments we expanded again our `PBRAppearance` library with some new PROTO files.
 
 | | | |
 | :---: | :---: | :---: |
