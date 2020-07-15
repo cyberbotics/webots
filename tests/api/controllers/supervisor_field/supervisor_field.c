@@ -391,11 +391,14 @@ int main(int argc, char **argv) {
   ts_assert_boolean_equal(wb_robot_get_supervisor(), "'wb_robot_get_supervisor' field should return true");
   wb_supervisor_field_set_sf_bool(supervisor_field, false);
   wb_robot_step(TIME_STEP);
+  wb_robot_step(TIME_STEP);
 
   ts_assert_boolean_equal(!wb_robot_get_supervisor(), "'wb_robot_get_supervisor' field should return false");
+  const int self_id = wb_supervisor_node_get_id(self);
   ts_assert_int_equal(
-    wb_supervisor_node_get_id(self), -1,
-    "Returned value for 'wb_supervisor_node_get_id' field should be '-1' when 'supervisor' field is set to FALSE");
+    self_id, -1,
+    "Returned value for 'wb_supervisor_node_get_id' field should be '-1' when 'supervisor' field is set to FALSE and not '%d'",
+    self_id);
 
   ts_send_success();
   return EXIT_SUCCESS;
