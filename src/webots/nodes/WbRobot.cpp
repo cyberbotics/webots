@@ -56,8 +56,6 @@
 #include <QtCore/QStringList>
 #include <QtCore/QTimer>
 
-#include <QtCore/QDebug>
-
 #include <limits>
 
 static QHash<int, int> createSpecialKeys() {
@@ -585,12 +583,11 @@ void WbRobot::updateData() {
 
 void WbRobot::updateSupervisor() {
   mSupervisorNeedToWriteAnswer = true;
-  qDebug() << this << fullName() << "WbRobot::updateSupervisor()" << mSupervisorUtilities;
+
   if (mSupervisorUtilities)
     delete mSupervisorUtilities;
 
   mSupervisorUtilities = supervisor() ? new WbSupervisorUtilities(this) : NULL;
-  qDebug() << this << fullName() << supervisor() << mSupervisorUtilities;
 }
 
 void WbRobot::updateModel() {
@@ -1335,7 +1332,6 @@ void WbRobot::updateControllerWindow() {  // run a html window step with duratio
 }
 
 void WbRobot::processImmediateMessages() {
-  qDebug() << this << fullName() << "processImmediateMessages" << mSupervisorUtilities;
   if (mSupervisorUtilities)
     mSupervisorUtilities->processImmediateMessages();
 }
