@@ -241,7 +241,7 @@ void WbRobot::postFinalize() {
   connect(mWindow, &WbSFString::changed, this, &WbRobot::updateWindow);
   connect(mRemoteControl, &WbSFString::changed, this, &WbRobot::updateRemoteControl);
   connect(mCustomData, &WbSFString::changed, this, &WbRobot::updateData);
-  connect(mSupervisor, &WbSFString::changed, this, &WbRobot::updateSupervisor);
+  connect(mSupervisor, &WbSFString::changed, this, &WbRobot::updateSupervisor, Qt::QueuedConnection);
   connect(this, &WbMatter::matterModelChanged, this, &WbRobot::updateModel);
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbRobot::updateSimulationMode);
 
