@@ -121,6 +121,7 @@ void WbRobot::init() {
   mShowWindowMessage = false;
   mWaitingForWindow = false;
   mUpdateWindowMessage = false;
+  mDataNeedToWriteAnswer = false;
   mSupervisorNeedToWriteAnswer = false;
   mModelNeedToWriteAnswer = false;
 
