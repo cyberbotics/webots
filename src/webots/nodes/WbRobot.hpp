@@ -199,6 +199,7 @@ private:
   double mPreviousTime;
 
   // supervisor
+  bool mSupervisorUtilitiesNeedUpdate;
   WbSupervisorUtilities *mSupervisorUtilities;
 
   // pin

@@ -391,7 +391,6 @@ int main(int argc, char **argv) {
   ts_assert_boolean_equal(wb_robot_get_supervisor(), "'wb_robot_get_supervisor' field should return true");
   wb_supervisor_field_set_sf_bool(supervisor_field, false);
   wb_robot_step(TIME_STEP);
-  wb_robot_step(TIME_STEP);
 
   ts_assert_boolean_equal(!wb_robot_get_supervisor(), "'wb_robot_get_supervisor' field should return false");
   const int self_id = wb_supervisor_node_get_id(self);

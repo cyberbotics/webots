@@ -113,6 +113,7 @@ void WbRobot::init() {
   mJoystickConfigureRequest = false;
 
   mPreviousTime = -1.0;
+  mSupervisorUtilitiesNeedUpdate = false;
   mSupervisorUtilities = NULL;
   mKinematicDifferentialWheels = NULL;
 
@@ -240,7 +241,7 @@ void WbRobot::postFinalize() {
   connect(mWindow, &WbSFString::changed, this, &WbRobot::updateWindow);
   connect(mRemoteControl, &WbSFString::changed, this, &WbRobot::updateRemoteControl);
   connect(mCustomData, &WbSFString::changed, this, &WbRobot::updateData);
-  connect(mSupervisor, &WbSFString::changed, this, &WbRobot::updateSupervisor, Qt::QueuedConnection);
+  connect(mSupervisor, &WbSFString::changed, this, &WbRobot::updateSupervisor);
   connect(this, &WbMatter::matterModelChanged, this, &WbRobot::updateModel);
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbRobot::updateSimulationMode);
 
@@ -584,8 +585,11 @@ void WbRobot::updateData() {
 
 void WbRobot::updateSupervisor() {
   mSupervisorNeedToWriteAnswer = true;
-  delete mSupervisorUtilities;
-  mSupervisorUtilities = supervisor() ? new WbSupervisorUtilities(this) : NULL;
+  if (mConfigureRequest) {
+    delete mSupervisorUtilities;
+    mSupervisorUtilities = supervisor() ? new WbSupervisorUtilities(this) : NULL;
+  } else
+    mSupervisorUtilitiesNeedUpdate = true;
 }
 
 void WbRobot::updateModel() {
@@ -1080,6 +1084,12 @@ void WbRobot::writeAnswer(QDataStream &stream) {
   }
 
   if (mSupervisorNeedToWriteAnswer) {
+    if (mSupervisorUtilitiesNeedUpdate) {
+      mSupervisorUtilitiesNeedUpdate = false;
+      delete mSupervisorUtilities;
+      mSupervisorUtilities = supervisor() ? new WbSupervisorUtilities(this) : NULL;
+    }
+
     stream << (short unsigned int)0;
     stream << (unsigned char)C_ROBOT_SUPERVISOR;
     stream << (unsigned char)(mSupervisorUtilities ? 1 : 0);
