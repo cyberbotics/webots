@@ -11,7 +11,7 @@ Please refer to the [2020 changelog](../reference/changelog-r2020.md) for a comp
 
 ---
 
-## 3 New Robot Models
+## 4 New Robot Models
 
 ### Spot from Boston Dynamics
 
@@ -35,6 +35,14 @@ Matt Denton contributed a nice [demo](https://twitter.com/mantisrobot/status/125
 
 %figure "AT-ST walker in Webots"
 ![AT-ST walker in Webots](images/at-st-walker.jpg)
+%end
+
+### Sprinter Van from Mercedes-Benz
+
+And if you need to transport a few people in using an autonomous van, you will probably be interested by our brand new Sprinter van model from [Mercedes-Benz](https://www.mercedes-benz.com).
+
+%figure "Sprinter Van Model in Webots"
+![Sprinter Van Model in Webots](images/sprinter.jpg)
 %end
 
 ---
