@@ -11,10 +11,10 @@ int main(int argc, char **argv) {
   ts_setup(argv[0]);
 
   WbNodeRef template = wb_supervisor_node_get_from_def("TEMPLATE");
-  ts_assert_pointer_not_null(template, "Unable to retrive template node");
+  ts_assert_pointer_not_null(template, "Unable to retrieve template node");
 
   WbFieldRef toggle = wb_supervisor_node_get_field(template, "physicsToggle");
-  ts_assert_pointer_not_null(toggle, "Unable to retrive physicsToggle field");
+  ts_assert_pointer_not_null(toggle, "Unable to retrieve physicsToggle field");
 
   wb_supervisor_field_set_sf_bool(toggle, true);
   ts_assert_boolean_equal(wb_supervisor_field_get_sf_bool(toggle), "Problem when setting physicsToggle");
@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
   // by reseting the node at its initial state
   wb_supervisor_field_set_sf_bool(toggle, false);
   WbFieldRef translation_field = wb_supervisor_node_get_field(template, "translation");
-  ts_assert_pointer_not_null(translation_field, "Unable to retrive the translation field after the node regeneration.");
+  ts_assert_pointer_not_null(translation_field, "Unable to retrieve the translation field after the node regeneration.");
   const double initial_translation[3] = {0.0, 1.0, 0.0};
   wb_supervisor_field_set_sf_vec3f(translation_field, initial_translation);
 
