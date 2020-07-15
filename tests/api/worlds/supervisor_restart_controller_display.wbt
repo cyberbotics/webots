@@ -3,7 +3,7 @@ WorldInfo {
   title "Camera Restart Controller Test"
 }
 Viewpoint {
-  orientation 0.55428436 0.81866738 0.15017515 5.574129
+  orientation 0.5542843582001843 0.8186673773417066 0.15017514951236655 5.574129
   position -1.2649792 1.0837943 2.0590679
 }
 Background {

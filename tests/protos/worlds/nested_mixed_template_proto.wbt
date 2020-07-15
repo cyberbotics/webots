@@ -2,7 +2,7 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.999272 -0.0368217 -0.00999375 0.530375
+  orientation -0.9992718787813574 -0.03682169553327173 -0.009993748787688626 0.530375
   position 0.24064 0.93072 1.35507
   near 0.001
 }
@@ -39,9 +39,10 @@ Robot {
     TestSuiteEmitter {
     }
   ]
-  name "robot"
   controller "nested_mixed_template_proto"
-  controllerArgs "nested_mixed_template_proto"
+  controllerArgs [
+    "nested_mixed_template_proto"
+  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {

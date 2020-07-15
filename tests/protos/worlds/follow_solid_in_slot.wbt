@@ -41,12 +41,12 @@ SolidWithExtensionSlot {
   ]
 }
 Robot {
-  controller "follow_solid_in_slot"
-  supervisor TRUE
   children [
     TestSuiteEmitter {
     }
   ]
+  controller "follow_solid_in_slot"
+  supervisor TRUE
 }
 TestSuiteSupervisor {
 }

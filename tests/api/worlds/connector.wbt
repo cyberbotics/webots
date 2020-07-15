@@ -20,8 +20,10 @@ Yamor {
   rotation 0 0 1 1.5708
   name "module_1"
   controller "connector"
-  extensionSlot TestSuiteEmitter {
-  }
+  extensionSlot [
+    TestSuiteEmitter {
+    }
+  ]
 }
 Yamor {
   translation -7.3464e-07 0.23 0.077
