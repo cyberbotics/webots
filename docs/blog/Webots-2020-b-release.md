@@ -84,7 +84,7 @@ To let you model more realistic robots and environments we expanded our `PBRAppe
 | | | |
 | :---: | :---: | :---: |
 | ![Marble](images/appearances/Marble.thumbnail.png) | ![MetalStainlessSteelCable](images/appearances/MetalStainlessSteelCable.thumbnail.png) |  ![Pavement](images/appearances/Pavement_a.thumbnail.png) |
-| ![Plastic](images/appearances/Plastic.thumbnail.png) | ![Parquetry](images/appearances/Parquetry_a.thumbnail.png) |  ![PerforatedMetal](images/appearances/PerforatedMetal.thumbnail.png) |
+| ![Plastic](images/appearances/Plastic_a.thumbnail.png) | ![Parquetry](images/appearances/Parquetry_a.thumbnail.png) |  ![PerforatedMetal](images/appearances/PerforatedMetal.thumbnail.png) |
 | ![SolarCell](images/appearances/SolarCell.thumbnail.png) |  |  |
 
 ---
