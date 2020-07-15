@@ -583,10 +583,7 @@ void WbRobot::updateData() {
 
 void WbRobot::updateSupervisor() {
   mSupervisorNeedToWriteAnswer = true;
-
-  if (mSupervisorUtilities)
-    delete mSupervisorUtilities;
-
+  delete mSupervisorUtilities;
   mSupervisorUtilities = supervisor() ? new WbSupervisorUtilities(this) : NULL;
 }
 
