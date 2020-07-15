@@ -72,6 +72,8 @@ jobs:
             POST_TASK: "if [[ \"$(git diff --name-only *.wbt *.wbproj | wc -l)\" -ne \"0\" ]]; then echo Some world and/or wbproj files are not up to date: \"$(git diff *.wbt *.wbproj)\"; exit -1; fi"
     steps:  
     - uses: actions/checkout@v2
+    - name: Checkout Submodules
+      uses: textbook/git-checkout-submodule-action@master
     - name: Download Artifacts
       uses: actions/download-artifact@v2
       with:
@@ -100,6 +102,8 @@ jobs:
         python-version: 3.8
     - name: ${{ matrix.test }}
       run: |
+        export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
+        export PATH=$JAVA_HOME/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
