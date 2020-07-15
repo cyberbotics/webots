@@ -59,8 +59,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:  
     - uses: actions/checkout@v2
-    - name: Checkout Submodules
-      uses: textbook/git-checkout-submodule-action@master
     - name: Download Artifacts
       uses: actions/download-artifact@v2
       with:
