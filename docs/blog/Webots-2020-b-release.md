@@ -11,35 +11,31 @@ Please refer to the [2020 changelog](../reference/changelog-r2020.md) for a comp
 
 ---
 
-## New Robot Models
+## 3 New Robot Models
 
 ### Spot from Boston Dynamics
 
 Play around with a simulated Spot robot from [Boston Dynamics](http://bostondynamics.com/) in Webots.
 
 %figure "Spot Model in Webots"
-![Tiago Model in Webots](images/tiago.jpg)
+![Spot Model in Webots](images/spot.jpg)
 %end
 
-### Walker Robot Inspired from Star Wars
+### P-Rob 3 from F&P Robotics  
+
+P-Rob 3 is a new collaborative robotic arm developed by [F&P Robotics](https://www.fp-robotics.com).
+
+%figure "P-Rob 3 Model in Webots"
+![P-Rob 3 Model in Webots](images/p-rob3.jpg)
+%end
+
+### AT-ST Walker Robot Inspired from Star Wars
 
 Matt Denton contributed a nice [demo](https://twitter.com/mantisrobot/status/1254693299702714369) of a two-legged robot inspired by the Star Wars AT-ST walker.
 
 %figure "AT-ST walker in Webots"
-![TurtleBot3 Burger in Webots](images/turtlebot3.jpg)
+![AT-ST walker in Webots](images/at-st-walker.jpg)
 %end
-
-The [LDS-01](../guide/lidar-sensors.md#robotis-lds-01) lidar sensor is now available too, just plug it on your favorite simulated robot.
-
-### Robotino 3
-
-Simulate the [Robotino 3](../guide/robotino3.md) from [Festo](https://www.festo-didactic.com/int-en/) in Webots.
-
-%figure "Robotino 3 Model in Webots"
-![Robotino 3](images/robotino3.jpg)
-%end
-
-This omnidirectional robot is highly configurable, you can therefore easily add some lidar, camera or gripper.
 
 ---
 
