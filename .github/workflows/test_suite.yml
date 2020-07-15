@@ -29,7 +29,6 @@ jobs:
       run: |
         sudo add-apt-repository ppa:deadsnakes/ppa
         sudo apt update
-        sudo apt upgrade -y
         # common dependencies
         sudo apt -y install git g++ cmake execstack libusb-dev swig openjdk-${{ matrix.JAVA_VERSION }}-jdk python2.7-dev python3.6-dev python3.7-dev python3.8-dev libglu1-mesa-dev libglib2.0-dev libfreeimage-dev libfreetype6-dev libxml2-dev libzzip-0-13 libboost-dev libavcodec-extra libgd-dev libssh-gcrypt-dev libzip-dev libreadline-dev pbzip2 libpci-dev libxcb-keysyms1 libxcb-image0 libxcb-icccm4 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0
         # ubuntu 18.04 dependencies
