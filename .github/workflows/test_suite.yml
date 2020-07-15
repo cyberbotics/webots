@@ -35,8 +35,6 @@ jobs:
         sudo apt -y install ${{ matrix.DEPENDENCIES }}
         # ubuntu server dependencies
         sudo apt -y install libxkbcommon-x11-dev
-        # tool required by this workflow
-        sudo apt -y install rename
     - name: Make
       run: |
         export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
