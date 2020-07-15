@@ -247,6 +247,7 @@ public:
   static bool instantiateMode();
   static void cleanup();
   static WbNode *findNode(int uniqueId);
+  static bool setRestoreUniqueIdOnClone(bool enable);
 
   // compare two nodes, returns true if they have the same type and all fields have the same values
   bool operator==(const WbNode &other) const;
