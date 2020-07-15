@@ -97,7 +97,9 @@ DEF TEST_SUITE_SUPERVISOR TestSuiteSupervisor {
 }
 NonStaticSupervisor {
   controller "supervisor_reset_simulation"
-  controllerArgs "supervisor_reset_simulation_iteration_0"
+  controllerArgs [
+    "supervisor_reset_simulation_iteration_0"
+  ]
   children [
     TestSuiteEmitter {
     }

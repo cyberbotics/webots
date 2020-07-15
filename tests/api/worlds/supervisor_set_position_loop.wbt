@@ -3,7 +3,7 @@ WorldInfo {
   basicTimeStep 8
 }
 Viewpoint {
-  orientation -0.76089787 0.57759224 0.2956715 1.1844218
+  orientation -0.7608978699273327 0.5775922399448388 0.29567149997176273 1.1844218
   position 0.83478961 1.9617949 0.95280657
 }
 DirectionalLight {
@@ -12,7 +12,7 @@ DirectionalLight {
 }
 DEF ROBOT RobotisOp2 {
   translation 0 0.26 0
-  rotation -0.99158904 0.12232784 0.042273856 -0.12577945
+  rotation -0.9915890382209426 0.12232783978052575 0.042273855924154446 -0.12577945
   controller "void"
 }
 Robot {

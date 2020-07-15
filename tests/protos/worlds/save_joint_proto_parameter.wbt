@@ -43,8 +43,8 @@ Robot {
     TestSuiteEmitter {
     }
   ]
-  customData "init"
   controller "save_joint_proto_parameter"
+  customData "init"
   supervisor TRUE
 }
 TestSuiteSupervisor {

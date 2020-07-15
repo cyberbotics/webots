@@ -4,7 +4,7 @@ WorldInfo {
   physicsDisableTime 0
 }
 Viewpoint {
-  orientation 0.964181 0.261768 0.0428191 5.79435
+  orientation 0.9641805362727534 0.2617678741014873 0.042819079405958686 5.79435
   position -0.0769734 0.744563 0.527158
 }
 Background {
@@ -25,8 +25,6 @@ Robot {
       }
     }
     TouchSensor {
-      lookupTable [
-      ]
       rotation 1 0 0 1.5708
       children [
         DEF SENSOR_SHAPE Shape {
@@ -41,6 +39,7 @@ Robot {
         mass 100
       }
       type "force"
+      lookupTable []
     }
     TestSuiteEmitter {
     }

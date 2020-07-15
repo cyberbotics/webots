@@ -2,7 +2,7 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.188339 0.946267 0.262883 4.15506
+  orientation 0.18833897307703992 0.9462668647316347 0.26288296242101467 4.15506
   position -0.929518 1.5538 -1.06563
 }
 Background {
@@ -61,7 +61,6 @@ DEF AIRPLANE Robot {
     TestSuiteEmitter {
     }
   ]
-  name "robot"
   controller "inertial_unit"
   supervisor TRUE
 }

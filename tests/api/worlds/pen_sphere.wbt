@@ -2,7 +2,7 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.66067 0.740734 0.121773 0.181824
+  orientation -0.6606698773846371 0.7407338625253634 0.1217729773998508 0.181824
   position 0.0708881 0.206517 0.642218
 }
 Background {
@@ -16,7 +16,7 @@ PointLight {
 }
 DEF BOARD Solid {
   translation -0.05 0.061 -0.15
-  rotation 0.56888 0.822421 0 0.7854
+  rotation 0.5688797850655958 0.8224206892726625 0 0.7854
   children [
     Shape {
       appearance Appearance {
@@ -52,7 +52,7 @@ DEF WRITER Robot {
       ]
       endPoint Pen {
         translation 0 0.09 0
-        rotation 0.341533 0.844288 0.412955 3.27249
+        rotation 0.34153319654250663 0.844288485863679 0.4129552376438319 3.27249
         children [
           Transform {
             translation 0 0.03 0

@@ -3,7 +3,7 @@ WorldInfo {
   basicTimeStep 40
 }
 Viewpoint {
-  orientation -0.0531302 -0.996388 -0.0662409 2.42538
+  orientation -0.05313020739761549 -0.996388138732685 -0.06624090922309173 2.42538
   position -1.07875 0.561101 -1.33725
 }
 Background {
@@ -24,7 +24,9 @@ Floor {
 }
 DEF HEXAPOD Hexapod {
   controller "motion"
-  controllerArgs "reverse"
+  controllerArgs [
+    "reverse"
+  ]
 }
 TestSuiteSupervisor {
 }

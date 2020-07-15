@@ -4,7 +4,7 @@ WorldInfo {
   physicsDisableTime 0
 }
 Viewpoint {
-  orientation 0.977876 0.204976 0.0417477 5.70922
+  orientation 0.9778762432920752 0.2049760509973007 0.04174771038667947 5.70922
   position -0.15337 1.20866 1.18415
 }
 Background {

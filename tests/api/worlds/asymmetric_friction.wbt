@@ -13,7 +13,7 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.147696 -0.931138 -0.33342 4.07756
+  orientation 0.14769592763935188 -0.9311375438078949 -0.33341983664765945 4.07756
   position 4.15362 2.76824 -3.60275
 }
 Background {
@@ -28,7 +28,7 @@ DirectionalLight {
 }
 DEF BOX1 Solid {
   translation 0.121931 -0.9 1.17269
-  rotation 0.180072 0.980392 -0.080032 -0.73
+  rotation 0.18007204322882017 0.9803922353569098 -0.08003201921280896 -0.73
   children [
     Shape {
       geometry DEF BOX Box {
@@ -42,7 +42,7 @@ DEF BOX1 Solid {
 }
 DEF BOX2 Solid {
   translation -0.8 -0.9 0.7
-  rotation -0.156677 0.98581 -0.0602604 0.864729
+  rotation -0.15667697224959964 0.9858098253947791 -0.06026038932676636 0.864729
   children [
     Shape {
       geometry DEF BOX Box {
@@ -57,7 +57,7 @@ DEF BOX2 Solid {
 }
 DEF PLANE Solid {
   translation 0 -1.16 0
-  rotation 0.237127 0.969399 -0.0635379 5.74384
+  rotation 0.2371269169977198 0.9693986606783392 -0.06353787775963689 5.74384
   children [
     Shape {
       geometry DEF PLANE Plane {
