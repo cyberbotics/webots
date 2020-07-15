@@ -53,6 +53,7 @@ Moreover, we added a new API function to facilitate the integration with the ROS
 The [wb_robot_get_urdf](https://cyberbotics.com/doc/reference/robot#wb_robot_get_urdf) function allows users to retrieve a URDF model of a Webots robot.
 This is useful, in particular, to display the robot in [RViz](http://wiki.ros.org/rviz).
 We also improved the `ros_python` and `universal_robots_ros` ROS simulations to use extern controllers instead of embedding the ROS libraries and we enabled multi-robot ROS 2 simulations.
+Last, but not least, Webots now fully supports the ENU [axes convention](https://en.wikipedia.org/wiki/Axes_conventions) which is the standard used [in ROS](https://www.ros.org/reps/rep-0103.html#axis-orientation).
 
 ---
 
@@ -80,39 +81,17 @@ To let you model more realistic robots and environments we expanded our `PBRAppe
 
 ---
 
-## Simplify the HDR Backgrounds
-
-In last releases we did a great effort to improve the quality of the rendering in Webots, using PBR and HDR backgrounds.
-Unfortunately former equirectangular HDR background images turned out to be very heavy and memory-intensive.
-This is causing some issues with low to mid range graphics cards and in general they are significantly slowing down the world loading.
-That's why we dropped the support of the equirectangular HDR images and the `Cubemap` node.
-Instead we restored the standard `<cube_face>Url` VRML fields and added the new `<cube_face>IrradianceUrl` and `luminosity` fields of the [Background](../reference/background.md) node to specify light reflections and scale the light contribution on the [PBR appearances](../reference/pbrappearance.md).
-So now we have a better performance with the same realistic rendering quality.
-
-%figure "New structure of Background node"
-![New Background Fields](images/background_new_fields.thumbnail.png)
-%end
-
-But do not worry about the compatibility of your custom HDR backgrounds!
-We are now also providing some tools to help you with the update.
-You can find them on the [Webots GitHub repository](https://github.com/cyberbotics/webots/tree/R2020a/scripts/image_tools), and in case you need some help with the conversion please do not hesitate to contact us on Discord.
-
-### Updated TexturedBackground PROTO
-
-The [TexturedBackground PROTO](../guide/object-backgrounds.md#texturedbackground) has been updated accordingly to the new [Background](../reference/background.md) node definition and we added some new HDR textures.
-
-Note that we deprecated some of the old default backgrounds that were not in HDR format.
+## Support for External Mesh Files
 
 ---
 
-## Viewpoint Follow Functionality
-
-We all know that it could be tricky to make the viewpoint follow smoothly a robot to record fancy movies or just to run nice simulations.
-To help you in this task, we replaced the `followOrientation` field of the [Viewpoint](../reference/viewpoint.md) node with the `followType` and added a new "Pan and Tilt Shot" option that will automatically move the viewpoint so that it always looks at the object center.
+### MJPEG Simulation Streaming
 
 ---
 
 ## Extra Goodies
+
+Need a break? Go ahead and visit our brand new [break\_room](../guide/samples-environments.md#break_room-wbt) world.
 
 We are very happy to communicate that we fixed the error accumulation issues occurring when reverting the scene using the physics reset function. Thank you to all the users that reported this problem!
 
@@ -125,4 +104,4 @@ Please check the [documentation](../guide/general-faq.md#can-i-still-use-a-webot
 Just note that old versions are no longer maintained.
 
 
-**Go and [download](https://cyberbotics.com/#download) Webots R2020a today, so you don't miss out on all these great new features!**
+**Go and [download](https://cyberbotics.com/#download) Webots R2020b today, so you don't miss out on all these great new features!**
