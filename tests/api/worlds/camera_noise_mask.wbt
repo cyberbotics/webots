@@ -2,7 +2,7 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.238049 0.953094 -0.186935 6.23431
+  orientation 0.23804897697328556 0.9530939078062778 -0.18693498191759314 6.23431
   position -0.585149 0.358102 2.71047
 }
 Background {
@@ -48,9 +48,10 @@ Robot {
     TestSuiteEmitter {
     }
   ]
-  name "robot"
   controller "camera_noise_mask"
-  controllerArgs "camera_noise_mask"
+  controllerArgs [
+    "camera_noise_mask"
+  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {

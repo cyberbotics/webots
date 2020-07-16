@@ -2,7 +2,7 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.084769018 -0.9755551 -0.20274728 3.7520944
+  orientation 0.08476901803831169 -0.9755551004409059 -0.2027472800916324 3.7520944
   position 0.69717813 0.6530284 -0.88480606
 }
 Background {
@@ -138,7 +138,9 @@ DEF HINGE2TESTBOT Robot {
   name "robot(1)"
   boundingObject USE BODY
   controller "motor_spinner"
-  controllerArgs "--hinge2"
+  controllerArgs [
+    "--hinge2"
+  ]
 }
 TestSuiteSupervisor {
 }

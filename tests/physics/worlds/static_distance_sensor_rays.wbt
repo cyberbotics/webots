@@ -3,7 +3,7 @@ WorldInfo {
   title "Static distance sensor rays"
 }
 Viewpoint {
-  orientation 0.313306 -0.92548 -0.212897 5.17154
+  orientation 0.3133061546722374 -0.9254804568889912 -0.21289710510253657 5.17154
   position 0.292375 0.2301 0.174721
 }
 Background {
@@ -124,7 +124,9 @@ DEF STATIC_ROBOT Robot {
   ]
   name "static"
   controller "distance_sensor_rays"
-  controllerArgs "static_distance_sensor_rays"
+  controllerArgs [
+    "static_distance_sensor_rays"
+  ]
 }
 TestSuiteSupervisor {
 }

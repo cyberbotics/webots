@@ -6,11 +6,11 @@ Released on XXX.
   - New Robot
     - Added a model of the [Spot](../guide/spot.md) robot from [Boston Dynamics](https://www.bostondynamics.com/spot) ([#1553](https://github.com/cyberbotics/webots/pull/1553)).
     - Added a demo of a Star Wars inspired [scout RX28 walking robot](https://github.com/cyberbotics/webots/blob/master/projects/robots/micromagic/scout/worlds/scout.wbt) (contributed by Matt Denton) ([#1742](https://github.com/cyberbotics/webots/pull/1742)).
+    - Added a model of the [P-Rob 3](../guide/p-rob3.md) robot from [F&P Robotics](https://www.fp-robotics.com/en/) ([#1657](https://github.com/cyberbotics/webots/pull/1657)).
   - New Features
     - Added a [Mesh](mesh.md) node allowing to use external 3D file in Webots ([#1419](https://github.com/cyberbotics/webots/pull/1419)).
     - Added the possibility to import [3D Studio mesh](https://wiki.fileformat.com/3d/3ds), [Blender](https://www.blender.org/), [Biovision Hierarchy](https://en.wikipedia.org/wiki/Biovision_Hierarchy), [Collada](https://en.wikipedia.org/wiki/COLLADA), [Filmbox](https://wiki.fileformat.com/3d/fbx/), [STL](https://en.wikipedia.org/wiki/STL_(file_format)), [Wavefront](https://wiki.fileformat.com/3d/obj), [X3D](https://www.web3d.org/getting-started-x3d) files in Webots ([#1463](https://github.com/cyberbotics/webots/pull/1463)).
     - Added two new functions to get internal PROTO node fields: [`wb_supervisor_node_get_from_proto_def`](supervisor.md#wb_supervisor_node_get_from_proto_def) and [`wb_supervisor_node_get_proto_field`](supervisor.md#wb_supervisor_node_get_proto_field) ([#1331](https://github.com/cyberbotics/webots/pull/1331)).
-    - Added a model of the [P-Rob 3](../guide/p-rob3.md) robot from [F&P Robotics](https://www.fp-robotics.com/en/) ([#1657](https://github.com/cyberbotics/webots/pull/1657)).
     - Added the `mjpeg` web streaming mode ([#1352](https://github.com/cyberbotics/webots/pull/1352)).
     - Exposed global texture maximum filtering as a parameter in the Webots preferences ([#1851](https://github.com/cyberbotics/webots/pull/1851)).
     - Added a [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function to the [Robot](robot.md) node which allows URDF export ([#1706](https://github.com/cyberbotics/webots/pull/1706)).
@@ -70,6 +70,7 @@ Released on XXX.
     - Fixed the physics behavior of [Connector](connector.md) nodes sometimes remaining idle after being detached from each other (thanks to Giorgio) ([#1415](https://github.com/cyberbotics/webots/pull/1415)).
     - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images ([#1285](https://github.com/cyberbotics/webots/pull/1285)).
     - Fixed default name of the left and right grippers of the [Tiago++](../guide/tiagopp.md) robot ([#1733](https://github.com/cyberbotics/webots/pull/1733)).
+    - Fixed update of the `supervisor` field of the [Robot](robot.md) node ([#1916](https://github.com/cyberbotics/webots/pull/1916)).
     - Fixed camera image updates after a simulation reset from a [Supervisor](supervisor.md) controller ([#1802](https://github.com/cyberbotics/webots/pull/1802)).
     - Fixed the motor torque and force feedback of the ROS controller ([#1581](https://github.com/cyberbotics/webots/pull/1581)).
     - Fixed crash when calling the [`wb_robot_battery_sensor_enable()`](robot.md#wb_robot_battery_sensor_enable) function if the `battery` field of the [Robot](robot.md) is empty ([#1801](https://github.com/cyberbotics/webots/pull/1801)).
