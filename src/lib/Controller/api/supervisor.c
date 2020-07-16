@@ -713,7 +713,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const char *def_name = request_read_string(r);
       add_node_to_list(self_uid, WB_NODE_ROBOT, model_name, def_name, 0, is_proto);  // add self node
       self_node_ref = node_list;
-      self_node_ref.is_proto_internal = is_proto_internal;
+      self_node_ref->is_proto_internal = is_proto_internal;
     } break;
     case C_SUPERVISOR_NODE_GET_FROM_DEF: {
       const int uid = request_read_uint32(r);
@@ -735,7 +735,6 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const char *def = request_read_string(r);
       if (selected_node_id) {
         add_node_to_list(selected_node_id, type, model_name, def, parent_uid, is_proto);
-        node_list.is_proto_internal = is_proto_internal;
       }
     } break;
     case C_SUPERVISOR_NODE_GET_FROM_ID: {
@@ -746,8 +745,10 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const bool is_proto_internal = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
-      if (uid)
+      if (uid) {
         add_node_to_list(uid, type, model_name, def_name, parent_uid, is_proto);
+        node_list->is_proto_internal = is_proto_internal;
+      }
     } break;
     case C_SUPERVISOR_FIELD_GET_FROM_NAME: {
       const int field_ref = request_read_int32(r);
