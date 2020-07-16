@@ -61,7 +61,7 @@ Moreover, we added a new API function to facilitate the integration with the ROS
 The [wb\_robot\_get\_urdf](https://cyberbotics.com/doc/reference/robot#wb_robot_get_urdf) function allows users to retrieve a URDF model of a Webots robot.
 This is useful, in particular, to display the robot in [RViz](http://wiki.ros.org/rviz).
 We also improved the `ros_python` and `universal_robots_ros` ROS simulations to use extern controllers instead of embedding the ROS libraries and we enabled multi-robot ROS 2 simulations.
-Last, but not least, Webots now fully supports the ENU [axes convention](https://en.wikipedia.org/wiki/Axes_conventions) which is the standard used [in ROS](https://www.ros.org/reps/rep-0103.html#axis-orientation).
+Last, but not least, Webots now fully supports the ENU [axes convention](https://en.wikipedia.org/wiki/Axes_conventions) which is the standard used in [ROS](https://www.ros.org/reps/rep-0103.html#axis-orientation).
 
 ---
 
@@ -113,8 +113,8 @@ However, it requires higher bandwidth and server CPU/GPU power.
 
 ### Share Your Project with the Community
 
-We have created a new [Github repository](https://github.com/cyberbotics/community-projects) for the community to share your PROTO nodes, controllers, worlds, etc.
-We hope to receive many [contributions](https://github.com/cyberbotics/community-projects/blob/master/CONTRIBUTING.md) from the community.
+We created a new [GitHub repository](https://github.com/cyberbotics/community-projects) for the community to share PROTO nodes, controllers, worlds, etc.
+Your [contributions](https://github.com/cyberbotics/community-projects/blob/master/CONTRIBUTING.md) are welcome!
 
 ---
 
