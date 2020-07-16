@@ -517,6 +517,7 @@ bool RosSupervisor::nodeGetParentNodeCallback(webots_ros::node_get_parent_node::
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeIsProtoCallback(webots_ros::node_is_proto::Request &req, webots_ros::node_is_proto::Response &res) {
   assert(this);
   if (!req.node)
