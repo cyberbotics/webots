@@ -92,7 +92,6 @@ WbView3D::WbView3D() :
   WbWrenWindow(),
   mParentWidget(NULL),
   mLastRefreshTimer(),
-  mRefreshCounter(0),
   mMousePressTimer(NULL),
   mAspectRatio(1.0),
   mFastModeOverlay(NULL),
@@ -930,9 +929,6 @@ void WbView3D::prepareWorldLoading() {
   hideFastModeOverlay();
   mLoadingWorldOverlay->setVisible(true);
   WbWrenWindow::renderNow();
-
-  // restart refresh counter
-  mRefreshCounter = 0;
 
   // Resets the background if no Background node exists
   const float clearColor[] = {1.0f, 1.0f, 1.0f};
