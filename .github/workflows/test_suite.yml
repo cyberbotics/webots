@@ -44,7 +44,9 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: build-${{ matrix.os }}
-        path: distribution/*.tar.bz2
+        path: |
+          distribution/*.tar.bz2
+          distribution/*.deb
   test-suite:
     needs: build
     strategy:
