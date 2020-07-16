@@ -99,7 +99,7 @@ To let you model more realistic robots and environments we expanded again our `P
 ## Support for External 3D Mesh Files
 
 A new [Mesh](https://cyberbotics.com/doc/reference/mesh) node was added to support the inclusion of a large variety of external 3D mesh files: [3D Studio mesh](https://wiki.fileformat.com/3d/3ds), [Blender](https://www.blender.org/), [Biovision Hierarchy](https://en.wikipedia.org/wiki/Biovision_Hierarchy), [Collada](https://en.wikipedia.org/wiki/COLLADA), [Filmbox](https://wiki.fileformat.com/3d/fbx/), [STL](https://en.wikipedia.org/wiki/STL_(file_format)), [Wavefront](https://wiki.fileformat.com/3d/obj), [X3D](https://www.web3d.org/getting-started-x3d).
-It is also possible to [import](https://cyberbotics.com/doc/guide/the-user-interface) such files as Webots primitives.
+It is also possible to [import](https://cyberbotics.com/doc/guide/the-user-interface#file-menu) such files as Webots primitives.
 
 ---
 
