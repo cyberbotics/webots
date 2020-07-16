@@ -419,12 +419,6 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
       free(robot.model);
       robot.model = request_read_string(r);
       break;
-    case C_ROBOT_REMOTE_ON:
-      robot.mode = WB_MODE_REMOTE_CONTROL;
-      break;
-    case C_ROBOT_REMOTE_OFF:
-      robot.mode = WB_MODE_SIMULATION;
-      break;
     case C_ROBOT_WINDOW_SHOW:
       robot.show_window = true;
       break;
