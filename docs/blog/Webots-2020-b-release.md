@@ -86,7 +86,9 @@ To let you model more realistic robots and environments we expanded again our `P
 | ![Marble](images/appearances/Marble.thumbnail.png) | ![MetalStainlessSteelCable](images/appearances/MetalStainlessSteelCable.thumbnail.png) | ![Pavement](images/appearances/Pavement_a.thumbnail.png) |
 | Marble | MetalStainlessSteelCable | Pavement |
 | ![Plastic](images/appearances/Plastic_a.thumbnail.png) | ![Parquetry](images/appearances/Parquetry_a.thumbnail.png) |  ![PerforatedMetal](images/appearances/PerforatedMetal.thumbnail.png) |
+| Plastic | Parquetry | [PerforatedMetal](https://cyberbotics.com/doc/guide/appearances#perforatedmetal) |
 | ![SolarCell](images/appearances/SolarCell.thumbnail.png) |  |  |
+| SolarCell |  |  |
 
 ---
 
