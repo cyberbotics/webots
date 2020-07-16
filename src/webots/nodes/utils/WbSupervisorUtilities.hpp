@@ -71,6 +71,7 @@ private:
   QString mCurrentDefName;
   int mFoundNodeParentUniqueId;
   bool mFoundNodeIsProto;
+  bool mFoundNodeIsProtoInternal;
   int mFoundFieldId;
   int mFoundFieldType;
   int mFoundFieldCount;

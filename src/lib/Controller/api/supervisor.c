@@ -262,7 +262,6 @@ static void add_node_to_list(int uid, WbNodeType type, const char *model_name, c
   n->static_balance = false;
   n->solid_velocity = NULL;
   n->is_proto = is_proto;
-  n->is_proto_internal = false;
   n->next = node_list;
   node_list = n;
 }
@@ -709,10 +708,12 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
     case C_CONFIGURE: {
       const int self_uid = request_read_uint32(r);
       const bool is_proto = request_read_uchar(r) == 1;
+      const bool is_proto_internal = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
       add_node_to_list(self_uid, WB_NODE_ROBOT, model_name, def_name, 0, is_proto);  // add self node
       self_node_ref = node_list;
+      self_node_ref.is_proto_internal = is_proto_internal;
     } break;
     case C_SUPERVISOR_NODE_GET_FROM_DEF: {
       const int uid = request_read_uint32(r);
@@ -732,14 +733,17 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const bool is_proto = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def = request_read_string(r);
-      if (selected_node_id)
+      if (selected_node_id) {
         add_node_to_list(selected_node_id, type, model_name, def, parent_uid, is_proto);
+        node_list.is_proto_internal = is_proto_internal;
+      }
     } break;
     case C_SUPERVISOR_NODE_GET_FROM_ID: {
       const int uid = request_read_uint32(r);
       const WbNodeType type = request_read_uint32(r);
       const int parent_uid = request_read_uint32(r);
       const bool is_proto = request_read_uchar(r) == 1;
+      const bool is_proto_internal = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
       if (uid)
@@ -1550,11 +1554,8 @@ WbNodeRef wb_supervisor_node_get_from_proto_def(WbNodeRef node, const char *def)
     proto_id = node->id;
     allow_search_in_proto = true;
     wb_robot_flush_unlocked();
-    if (node_id >= 0) {
+    if (node_id >= 0)
       result = find_node_by_id(node_id);
-      if (result)
-        result->is_proto_internal = true;
-    }
     node_def_name = NULL;
     node_id = -1;
     proto_id = -1;
@@ -1806,8 +1807,6 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
     if (requested_field_name) {
       requested_field_name = NULL;
       result = field_list;  // was just inserted at list head
-      if (node->is_proto_internal)
-        result->is_proto_internal = true;
     }
   }
   robot_mutex_unlock_step();
@@ -2218,12 +2217,8 @@ WbNodeRef wb_supervisor_field_get_sf_node(WbFieldRef field) {
 
   field_operation(field, GET, -1);
   int id = ((WbFieldStruct *)field)->data.sf_node_uid;
-  if (id > 0) {
-    WbNodeRef result = find_node_by_id(id);
-    if (result && ((WbFieldStruct *)field)->is_proto_internal)
-      result->is_proto_internal = true;
-    return result;
-  }
+  if (id > 0)
+    return find_node_by_id(id);
   return NULL;
 }
 
@@ -2296,10 +2291,7 @@ WbNodeRef wb_supervisor_field_get_mf_node(WbFieldRef field, int index) {
     return NULL;
 
   field_operation(field, GET, index);
-  WbNodeRef result = find_node_by_id(((WbFieldStruct *)field)->data.sf_node_uid);
-  if (result && ((WbFieldStruct *)field)->is_proto_internal)
-    result->is_proto_internal = true;
-  return result;
+  return find_node_by_id(((WbFieldStruct *)field)->data.sf_node_uid);
 }
 
 void wb_supervisor_field_set_sf_bool(WbFieldRef field, bool value) {

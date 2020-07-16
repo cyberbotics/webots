@@ -266,6 +266,7 @@ void WbSupervisorUtilities::initControllerRequests() {
   mFoundNodeType = 0;
   mFoundNodeParentUniqueId = -1;
   mFoundNodeIsProto = false;
+  mFoundNodeIsProtoInternal = false;
   mFoundFieldId = -2;
   mFoundFieldType = 0;
   mFoundFieldCount = -1;
@@ -573,6 +574,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         mFoundNodeModelName = node->modelName();
         mFoundNodeParentUniqueId = (node->parentNode() ? node->parentNode()->uniqueId() : -1);
         mFoundNodeIsProto = node->isProtoInstance();
+        mFoundNodeIsProtoInternal = (WbNodeUtilities::isVisible(node->parentField()));
         connect(node, &WbNode::defUseNameChanged, this, &WbSupervisorUtilities::notifyNodeUpdate, Qt::UniqueConnection);
       }
 
@@ -589,6 +591,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       mFoundNodeUniqueId = baseNode ? baseNode->uniqueId() : 0;
       mFoundNodeType = baseNode ? baseNode->nodeType() : 0;
       mFoundNodeModelName = baseNode ? baseNode->modelName() : QString();
+      mFoundNodeIsProtoInternal = false;
       if (baseNode) {
         if (baseNode->parentNode()) {
           if (baseNode->parentNode() != WbWorld::instance()->root())
@@ -1286,6 +1289,8 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream << (int)mFoundNodeType;
     stream << (int)mFoundNodeParentUniqueId;
     stream << (unsigned char)mFoundNodeIsProto;
+    if (mGetFromId)
+      stream << (unsigned char)mFoundNodeIsProtoInternal;
     const QByteArray &modelName = mFoundNodeModelName.toUtf8();
     const QByteArray &defName = mCurrentDefName.toUtf8();
     stream.writeRawData(modelName.constData(), modelName.size() + 1);
@@ -1611,6 +1616,7 @@ void WbSupervisorUtilities::writeConfigure(QDataStream &stream) {
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)selfNode->uniqueId();
   stream << (unsigned char)selfNode->isProtoInstance();
+  stream << (unsigned char)(WbNodeUtilities::isVisible(selfNode->parentField()));
   const QByteArray &s = selfNode->modelName().toUtf8();
   stream.writeRawData(s.constData(), s.size() + 1);
   const QByteArray &ba = selfNode->defName().toUtf8();
