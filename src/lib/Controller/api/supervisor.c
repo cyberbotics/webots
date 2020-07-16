@@ -92,6 +92,7 @@ typedef struct WbNodeStructPrivate {
   double contact_points_time_stamp;
   bool static_balance;
   double *solid_velocity;  // double[6] (linear[3] + angular[3])
+  bool is_proto;
   WbNodeRef next;
 } WbNodeStruct;
 
@@ -230,7 +231,8 @@ static const char *extract_node_def(const char *def_name_expression) {
   return (const char *)&(def_name_expression[i + 1]);
 }
 
-static void add_node_to_list(int uid, WbNodeType type, const char *model_name, const char *def_name, int parent_id) {
+static void add_node_to_list(int uid, WbNodeType type, const char *model_name, const char *def_name, int parent_id,
+                             bool is_proto) {
   WbNodeRef nodeInList = find_node_by_id(uid);
   if (nodeInList) {
     // already in the list, update DEF name if needed
@@ -258,6 +260,7 @@ static void add_node_to_list(int uid, WbNodeType type, const char *model_name, c
   n->contact_points_time_stamp = -1.0;
   n->static_balance = false;
   n->solid_velocity = NULL;
+  n->is_proto = is_proto;
   n->next = node_list;
   node_list = n;
 }
@@ -303,6 +306,7 @@ static int node_id = -1;
 static WbNodeRef node_to_remove = NULL;
 static bool allow_search_in_proto = false;
 static const char *node_def_name = NULL;
+static int proto_id = -1;
 static const char *requested_field_name = NULL;
 static bool node_get_selected = false;
 static int selected_node_id = -1;
@@ -410,7 +414,7 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
   } else if (node_def_name) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_FROM_DEF);
     request_write_string(r, node_def_name);
-    request_write_uchar(r, allow_search_in_proto ? 1 : 0);
+    request_write_int32(r, proto_id);
   } else if (node_get_selected) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_SELECTED);
   } else if (requested_field_name) {
@@ -702,18 +706,20 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
   switch (request_read_uchar(r)) {
     case C_CONFIGURE: {
       const int self_uid = request_read_uint32(r);
+      const bool is_proto = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
-      add_node_to_list(self_uid, WB_NODE_ROBOT, model_name, def_name, 0);  // add self node
+      add_node_to_list(self_uid, WB_NODE_ROBOT, model_name, def_name, 0, is_proto);  // add self node
       self_node_ref = node_list;
     } break;
     case C_SUPERVISOR_NODE_GET_FROM_DEF: {
       const int uid = request_read_uint32(r);
       const WbNodeType type = request_read_uint32(r);
       const int parent_uid = request_read_uint32(r);
+      const bool is_proto = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       if (uid) {
-        add_node_to_list(uid, type, model_name, node_def_name, parent_uid);
+        add_node_to_list(uid, type, model_name, node_def_name, parent_uid, is_proto);
         node_id = uid;
       }
     } break;
@@ -721,19 +727,21 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       selected_node_id = request_read_uint32(r);
       const WbNodeType type = request_read_uint32(r);
       const int parent_uid = request_read_uint32(r);
+      const bool is_proto = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def = request_read_string(r);
       if (selected_node_id)
-        add_node_to_list(selected_node_id, type, model_name, def, parent_uid);
+        add_node_to_list(selected_node_id, type, model_name, def, parent_uid, is_proto);
     } break;
     case C_SUPERVISOR_NODE_GET_FROM_ID: {
       const int uid = request_read_uint32(r);
       const WbNodeType type = request_read_uint32(r);
       const int parent_uid = request_read_uint32(r);
+      const bool is_proto = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
       if (uid)
-        add_node_to_list(uid, type, model_name, def_name, parent_uid);
+        add_node_to_list(uid, type, model_name, def_name, parent_uid, is_proto);
     } break;
     case C_SUPERVISOR_FIELD_GET_FROM_NAME: {
       const int field_ref = request_read_int32(r);
@@ -805,9 +813,10 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
             if (f->data.sf_node_uid) {
               const WbNodeType type = request_read_uint32(r);
               const int parent_uid = request_read_uint32(r);
+              const bool is_proto = request_read_uchar(r) == 1;
               const char *model_name = request_read_string(r);
               const char *def_name = request_read_string(r);
-              add_node_to_list(f->data.sf_node_uid, type, model_name, def_name, parent_uid);
+              add_node_to_list(f->data.sf_node_uid, type, model_name, def_name, parent_uid, is_proto);
             }
             break;
           default:
@@ -1051,8 +1060,7 @@ void wb_supervisor_init(WbDevice *d) {
   d->write_request = supervisor_write_request;
   d->read_answer = supervisor_read_answer;
   d->cleanup = supervisor_cleanup;
-  add_node_to_list(0, WB_NODE_GROUP, wb_node_get_name(WB_NODE_GROUP), NULL,
-                   -1);  // create root node
+  add_node_to_list(0, WB_NODE_GROUP, wb_node_get_name(WB_NODE_GROUP), NULL, -1, false);  // create root node
   root_ref = node_list;
 }
 
@@ -1495,12 +1503,37 @@ WbNodeRef wb_supervisor_node_get_from_def(const char *def) {
   return result;
 }
 
-WbNodeRef wb_supervisor_node_get_from_proto_def(const char *def) {
+bool wb_supervisor_node_is_proto(WbNodeRef node) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return false;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return false;
+  }
+
+  return node->is_proto;
+}
+
+WbNodeRef wb_supervisor_node_get_from_proto_def(WbNodeRef node, const char *def) {
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
   if (!def || !def[0]) {
     fprintf(stderr, "Error: %s() called with NULL or empty 'def' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  if (!node->is_proto) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s(): 'node' is not a PROTO node.\n", __FUNCTION__);
     return NULL;
   }
 
@@ -1512,12 +1545,14 @@ WbNodeRef wb_supervisor_node_get_from_proto_def(const char *def) {
     // otherwise: need to talk to Webots
     node_def_name = def;
     node_id = -1;
+    proto_id = node->id;
     allow_search_in_proto = true;
     wb_robot_flush_unlocked();
     if (node_id >= 0)
       result = find_node_by_id(node_id);
     node_def_name = NULL;
     node_id = -1;
+    proto_id = -1;
     allow_search_in_proto = false;
   }
   robot_mutex_unlock_step();
@@ -1779,6 +1814,12 @@ WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  if (!node->is_proto) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s(): 'node' is not a PROTO node.\n", __FUNCTION__);
     return NULL;
   }
 

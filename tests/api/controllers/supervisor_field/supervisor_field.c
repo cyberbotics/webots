@@ -69,13 +69,19 @@ int main(int argc, char **argv) {
   wb_supervisor_field_set_sf_float(field, 0.73);
   d = wb_supervisor_field_get_sf_float(field);
   ts_assert_double_equal(d, 0.73, "Proto \"camera_fieldOfView\" SFFloat field should have value 0.73 not %f", d);
+  
+  // invalid to retrive a non-PROTO field or a PROTO parameter
+  internal_field = wb_supervisor_node_get_proto_field(box, "scale");
+  ts_assert_pointer_null(internal_field, "wb_supervisor_node_get_proto_field should only work for PROTO nodes.");
+  internal_field = wb_supervisor_node_get_proto_field(mfTest, "mfBool");
+  ts_assert_pointer_null(internal_field, "wb_supervisor_node_get_proto_field should only work for internal PROTO fields.");
 
   // internal SFNode
   internal_sf_node_field = wb_supervisor_node_get_proto_field(proto, "physics");
   ts_assert_pointer_not_null(internal_sf_node_field, "wb_supervisor_node_get_proto_field should return an internal field.");
   internal_physics = wb_supervisor_field_get_sf_node(internal_sf_node_field);
   ts_assert_pointer_not_null(internal_physics, "wb_supervisor_field_get_sf_node should return an internal node.");
-  internal_field = wb_supervisor_node_get_proto_field(internal_physics, "density");
+  internal_field = wb_supervisor_node_get_field(internal_physics, "density");
   ts_assert_pointer_not_null(internal_field, "wb_supervisor_node_get_proto_field should return an internal field.");
   d = wb_supervisor_field_get_sf_float(internal_field);
   ts_assert_double_equal(d, -1.0, "Returned value should be -1.0 and not %f", d);
@@ -90,7 +96,7 @@ int main(int argc, char **argv) {
   wb_supervisor_field_set_sf_float(internal_field, 1.5);
 
   // internal EPUCK_TRANSPARENT_APPEARANCE SFFloat value
-  internal_appearance = wb_supervisor_node_get_from_proto_def("EPUCK_TRANSPARENT_APPEARANCE");
+  internal_appearance = wb_supervisor_node_get_from_proto_def(proto, "EPUCK_TRANSPARENT_APPEARANCE");
   ts_assert_pointer_not_null(
     internal_appearance, "wb_supervisor_node_get_from_proto_def should return the internal EPUCK_TRANSPARENT_APPEARANCE node.");
   internal_transparency_field = wb_supervisor_node_get_field(internal_appearance, "transparency");

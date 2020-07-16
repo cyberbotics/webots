@@ -17,8 +17,20 @@ int main(int argc, char **argv) {
   WbNodeRef internal_group = wb_supervisor_node_get_from_def("INTERNAL_GROUP");
   ts_assert_pointer_null(internal_group, "wb_supervisor_node_get_from_def should not return internal nodes");
 
-  internal_group = wb_supervisor_node_get_from_proto_def("INTERNAL_GROUP");
+  internal_group = wb_supervisor_node_get_from_proto_def(proto_node, "INTERNAL_GROUP");
   ts_assert_pointer_not_null(internal_group, "wb_supervisor_node_get_from_proto_def should return internal nodes");
+  
+  WbNodeRef emitter_node = wb_supervisor_node_get_from_proto_def(proto_node, "EMITTER");
+  ts_assert_pointer_null(emitter_node, "wb_supervisor_node_get_from_proto_def should not work for non-PROTO nodes");
+
+  WbNodeRef bo_node = wb_supervisor_node_get_from_def("BO");
+  ts_assert_pointer_not_null(bo_node, "wb_supervisor_node_get_from_def(\"BO\") failed");
+  bool is_proto = wb_supervisor_node_is_proto(bo_node);
+  ts_assert_boolean_not_equal(is_proto, "wb_supervisor_node_is_proto should return false for BO node");
+  is_proto = wb_supervisor_node_is_proto(proto_node);
+  ts_assert_boolean_equal(is_proto, "wb_supervisor_node_is_proto should return true for SOLID_PROTO node");
+  is_proto = wb_supervisor_node_is_proto(internal_group);
+  ts_assert_boolean_not_equal(is_proto, "wb_supervisor_node_is_proto should return false for INTERNAL_GROUP node");
 
   if (proto_node == solid_node)
     ts_assert_boolean_equal(false, "wb_supervisor_node_get_from_def(\"SOLID_PROTO_PARAMETER\") failed, reference to proto_node "

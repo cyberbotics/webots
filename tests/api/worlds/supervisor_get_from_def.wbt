@@ -20,7 +20,7 @@ PointLight {
 }
 Robot {
   children [
-    TestSuiteEmitter {
+    DEF EMITTER TestSuiteEmitter {
     }
   ]
   controller "supervisor_get_from_def"
@@ -42,7 +42,7 @@ DEF SOLID_PROTO SolidProto {
       ]
     }
   ]
-  boundingObject Box {
+  boundingObject DEF BO Box {
     size 0.1 0.1 0.1
   }
   physics Physics {

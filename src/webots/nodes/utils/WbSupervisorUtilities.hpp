@@ -70,6 +70,7 @@ private:
   QString mFoundNodeModelName;
   QString mCurrentDefName;
   int mFoundNodeParentUniqueId;
+  bool mFoundNodeIsProto;
   int mFoundFieldId;
   int mFoundFieldType;
   int mFoundFieldCount;
@@ -107,6 +108,7 @@ private:
   void deleteControllerRequests();
   void writeNode(QDataStream &stream, const WbBaseNode *baseNode, int messageType);
   const WbNode *getNodeFromDEF(const QString &defName, bool allowSearchInProto, const WbNode *fromNode = NULL);
+  const WbNode *getNodeFromProtoDEF(const WbNode *fromNode, const QString &defName) const;
   WbNode *getProtoParameterNodeInstance(WbNode *const node) const;
   void applyFieldSetRequest(struct field_set_request *request);
   QString readString(QDataStream &);

@@ -88,6 +88,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                                     &RosSupervisor::nodeGetBaseTypeNameCallback, this);
   mNodeGetParentNodeServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_parent_node",
                                                                   &RosSupervisor::nodeGetParentNodeCallback, this);
+  mNodeIsProtoServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/is_proto",
+                                                                &RosSupervisor::nodeIsProtoCallback, this);
   mNodeGetPositionServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_position",
                                                                 &RosSupervisor::nodeGetPositionCallback, this);
   mNodeGetOrientationServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_orientation",
@@ -405,9 +407,10 @@ bool RosSupervisor::getSelfCallback(webots_ros::get_uint64::Request &req, webots
 bool RosSupervisor::getFromDefCallback(webots_ros::supervisor_get_from_def::Request &req,
                                        webots_ros::supervisor_get_from_def::Response &res) {
   assert(mSupervisor);
-  if (req.proto)
-    res.node = reinterpret_cast<uint64_t>(mSupervisor->getFromProtoDef(req.name));
-  else
+  if (req.proto) {
+    Node *node = reinterpret_cast<Node *>(req.proto);
+    res.node = reinterpret_cast<uint64_t>(node->getFromProtoDef(req.name));
+  } else
     res.node = reinterpret_cast<uint64_t>(mSupervisor->getFromDef(req.name));
   return true;
 }
@@ -511,6 +514,15 @@ bool RosSupervisor::nodeGetParentNodeCallback(webots_ros::node_get_parent_node::
     return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   res.node = reinterpret_cast<uint64_t>(node->getParentNode());
+  return true;
+}
+
+bool RosSupervisor::nodeIsProtoCallback(webots_ros::node_is_proto::Request &req, webots_ros::node_is_proto::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  res.value = node->isProto();
   return true;
 }
 
