@@ -15,7 +15,6 @@ As for a regular [Robot](robot.md) controller, the `wb_robot_init`, `wb_robot_st
 #### `wb_supervisor_node_get_root`
 #### `wb_supervisor_node_get_self`
 #### `wb_supervisor_node_get_from_def`
-#### `wb_supervisor_node_get_from_proto_def`
 #### `wb_supervisor_node_get_from_id`
 #### `wb_supervisor_node_get_selected`
 
