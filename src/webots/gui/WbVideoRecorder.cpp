@@ -177,10 +177,10 @@ void WbVideoRecorder::estimateMovieInfo(double basicTimeStep) {
 
   if (frameStep0 == 0 || abs(frameStep0 - EXPECTED_FRAME_STEP) > abs(frameStep1 - EXPECTED_FRAME_STEP)) {
     mMovieFPS = 1000.0 / frameStep1;
-    cDisplayRefresh = ceilRefresh * mVideoAcceleration;
+    cDisplayRefresh = frameStep1;
   } else {
     mMovieFPS = 1000.0 / frameStep0;
-    cDisplayRefresh = floorRefresh * mVideoAcceleration;
+    cDisplayRefresh = frameStep0;
   }
 }
 

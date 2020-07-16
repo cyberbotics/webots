@@ -329,11 +329,13 @@ void WbView3D::refresh() {
     renderLater();
   else if (sim->isStep() || sim->isRealTime() || sim->isRunning()) {
     if (WbVideoRecorder::instance()->isRecording()) {
-      const int displayRefresh = WbVideoRecorder::displayRefresh();
-      mRefreshCounter = (mRefreshCounter + 1) % displayRefresh;
-      if (mRefreshCounter == 0)
+      const double time = WbSimulationState::instance()->time();
+      static double lastRefreshTime = time;
+      if (time - lastRefreshTime >= WbVideoRecorder::displayRefresh() || time < lastRefreshTime) {
         // render main window immediately even if it is not exposed
+        lastRefreshTime = time;
         renderNow();
+      }
     } else if (sim->isPaused())
       renderLater();
     else {
