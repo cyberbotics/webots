@@ -125,7 +125,6 @@ private:
   static int cView3DNumber;
   WrCameraProjectionMode mProjectionMode;
   WrViewportPolygonMode mRenderingMode;
-  int mRefreshCounter;
   QElapsedTimer *mMousePressTimer;
   QPoint mMousePressPosition;
   QMap<WbAction::WbActionKind, bool> mDisabledUserInteractionsMap;
