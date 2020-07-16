@@ -75,6 +75,10 @@ Other consoles may display for example only the compilation results or only some
 Also, more ANSI control codes are now supported allowing you to output [colorful styled text](https://cyberbotics.com/doc/guide/controller-programming#console-output) from your controller in the Webots consoles.
 This should make debugging your robot controllers easier and render the corresponding output more elegant.
 
+%figure "Consoles in Webots"
+![Consoles in Webots](images/consoles.png)
+%end
+
 ---
 
 ## New Appearances
