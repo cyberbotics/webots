@@ -52,11 +52,11 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-18.04, ubuntu-20.04]
-        test: [tests/test_suite.py, src/packaging/update_all_worlds.py]
+        test: [tests/test_suite.py]
+        POST_TASK: [""]
         include:
-          - test: tests/test_suite.py
-            POST_TASK: ""
-          - test: src/packaging/update_all_worlds.py
+          - os: ubuntu-18.04
+            test: src/packaging/update_all_worlds.py
             POST_TASK: "if [[ \"$(git diff --name-only *.wbt *.wbproj | wc -l)\" -ne \"0\" ]]; then echo Some world and/or wbproj files are not up to date: \"$(git diff *.wbt *.wbproj)\"; exit -1; fi"
     runs-on: ${{ matrix.os }}
     steps:  
