@@ -55,7 +55,7 @@ This version of Webots is fully compatible with the two latest versions of ROS 2
   - [Foxy Fitzroy](https://index.ros.org/doc/ros2/Releases/Release-Foxy-Fitzroy)
 
 See the [webots\_ros2 package documentation](http://wiki.ros.org/webots_ros2) for the installation and usage instructions.
-Or, if you can't wait to see the latest features and supported robots, go directly to the [webots\_ros2 Github repository](https://github.com/cyberbotics/webots_ros2).
+Or, if you can't wait to see the latest features and supported robots, go directly to the [webots\_ros2 GitHub repository](https://github.com/cyberbotics/webots_ros2).
 
 Moreover, we added a new API function to facilitate the integration with the ROS ecosystem.
 The [wb\_robot\_get\_urdf](https://cyberbotics.com/doc/reference/robot#wb_robot_get_urdf) function allows users to retrieve a URDF model of a Webots robot.
