@@ -15,7 +15,7 @@ Please refer to the [2020 changelog](../reference/changelog-r2020.md) for a comp
 
 ### Spot from Boston Dynamics
 
-Play around with a simulated Spot robot from [Boston Dynamics](http://bostondynamics.com) in Webots.
+Play around with a simulated [Spot robot](../guide/spot.md) from [Boston Dynamics](http://bostondynamics.com) in Webots.
 
 %figure "Spot Model in Webots"
 ![Spot Model in Webots](images/spot.jpg)
