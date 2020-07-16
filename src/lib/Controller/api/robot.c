@@ -446,6 +446,10 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
       robot.is_waiting_for_user_input_event = false;
       robot.user_input_event_type = request_read_int32(r);
       break;
+    case C_ROBOT_URDF:
+      free(robot.urdf);
+      robot.urdf = request_read_string(r);
+      break;
     default:
       r->pointer--;  // unread the char from the request
       break;
