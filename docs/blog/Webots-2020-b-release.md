@@ -111,6 +111,13 @@ However, it requires higher bandwidth and server CPU/GPU power.
 
 ---
 
+### Share Your Project with the Community
+
+We have created a new [Github repository](https://github.com/cyberbotics/community-projects) for the community to share your PROTO nodes, controllers, worlds, etc.
+We hope to receive many [contributions](https://github.com/cyberbotics/community-projects/blob/master/CONTRIBUTING.md) from the community.
+
+---
+
 ## Extra Goodies
 
 Webots now supports Python 3.8 on all platforms (Windows, Linux and mac OS).
