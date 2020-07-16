@@ -69,7 +69,7 @@ Last, but not least, Webots now fully supports the ENU [axes convention](https:/
 
 The Webots [console](https://www.cyberbotics.com/doc/guide/the-console) was greatly improved to provide a clearer, easier to manage, text output and error log.
 It is now possible to open several consoles.
-A new popup menu allow you to select which kind of output is going to be displayed in each console.
+A new popup menu allows you to select which kind of output is going to be displayed in each console.
 This way robots may have their own console, the robot name prefix being removed from the console output.
 Other consoles may display for example only the compilation results or only some Webots warnings.
 Also, more ANSI control codes are now supported allowing you to output [colorful styled text](https://cyberbotics.com/doc/guide/controller-programming#console-output) from your controller in the Webots consoles.
