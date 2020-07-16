@@ -23,7 +23,7 @@ Play around with a simulated [Spot robot](../guide/spot.md) from [Boston Dynamic
 
 ### P-Rob 3 from F&P Robotics  
 
-P-Rob 3 is a new collaborative robotic arm developed by [F&P Robotics](https://www.fp-robotics.com).
+[P-Rob 3](../guide/p-rob3.md) is a new collaborative robotic arm developed by [F&P Robotics](https://www.fp-robotics.com).
 
 %figure "P-Rob 3 Model in Webots"
 ![P-Rob 3 Model in Webots](images/p-rob3.jpg)
