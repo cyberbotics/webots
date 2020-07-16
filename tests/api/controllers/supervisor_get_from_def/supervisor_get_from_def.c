@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
 
   internal_group = wb_supervisor_node_get_from_proto_def(proto_node, "INTERNAL_GROUP");
   ts_assert_pointer_not_null(internal_group, "wb_supervisor_node_get_from_proto_def should return internal nodes");
-  
+
   WbNodeRef emitter_node = wb_supervisor_node_get_from_proto_def(proto_node, "EMITTER");
   ts_assert_pointer_null(emitter_node, "wb_supervisor_node_get_from_proto_def should not work for non-PROTO nodes");
 
