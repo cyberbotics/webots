@@ -912,7 +912,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
             mFoundFieldCount = mv ? mv->size() : -1;
             mFoundFieldId = id;
             mFoundFieldType = field->type();
-            mFoundFieldIsInternal = allowSearchInProto == 1 || !WbNodeUtilities::isVisible(field);
+            mFoundFieldIsInternal = allowSearchInProto == 1;
           }
         }
       }
