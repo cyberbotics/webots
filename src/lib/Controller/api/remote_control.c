@@ -375,11 +375,6 @@ static void handleRobotMessage(WbRequest *r, unsigned char c) {
     case C_ROBOT_SET_BATTERY_SAMPLING_PERIOD:
       CALL_INTERFACE_FUNCTION(wbr_robot_battery_set_sampling_period, request_read_uint16(r));
       break;
-    case C_ROBOT_SET_KEYBOARD_SAMPLING_PERIOD: {
-      int sampling_period = request_read_uint16(r);
-      keyboard_set_sampling_period(sampling_period);
-      break;
-    }
     case C_ROBOT_WWI_MESSAGE: {
       int size = request_read_int32(r);
       request_read_data(r, size);  // skip it
