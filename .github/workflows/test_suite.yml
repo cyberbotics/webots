@@ -15,10 +15,10 @@ jobs:
         os: [ubuntu-18.04, ubuntu-20.04]
         include:
           - os: ubuntu-18.04
-            DEPENDENCIES: "libssl1.0-dev ffmpeg python-pip npm"
+            version_dependencies: "libssl1.0-dev ffmpeg python-pip npm"
             JAVA_VERSION: "11"
           - os: ubuntu-20.04
-            DEPENDENCIES: "libssl-dev ffmpeg python-pip-whl npm libzip5"
+            version_dependencies: "libssl-dev ffmpeg python-pip-whl npm libzip5"
             JAVA_VERSION: "14"
     runs-on: ${{ matrix.os }}
     steps:
@@ -32,7 +32,7 @@ jobs:
         # common dependencies
         sudo apt -y install git g++ cmake execstack libusb-dev swig openjdk-${{ matrix.JAVA_VERSION }}-jdk python2.7-dev python3.6-dev python3.7-dev python3.8-dev libglu1-mesa-dev libglib2.0-dev libfreeimage-dev libfreetype6-dev libxml2-dev libzzip-0-13 libboost-dev libavcodec-extra libgd3 libssh-gcrypt-dev libzip-dev libreadline-dev pbzip2 libpci-dev libxcb-keysyms1 libxcb-image0 libxcb-icccm4 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0
         # version specific dependencies
-        sudo apt -y install ${{ matrix.DEPENDENCIES }}
+        sudo apt -y install ${{ matrix.version_dependencies }}
         # ubuntu server dependencies
         sudo apt -y install libxkbcommon-x11-dev
     - name: Webots Package Creation
@@ -53,11 +53,11 @@ jobs:
       matrix:
         os: [ubuntu-18.04, ubuntu-20.04]
         test: [tests/test_suite.py]
-        POST_TASK: [""]
+        post_task: [""]
         include:
           - os: ubuntu-18.04
             test: src/packaging/update_all_worlds.py
-            POST_TASK: "if [[ \"$(git diff --name-only *.wbt *.wbproj | wc -l)\" -ne \"0\" ]]; then echo Some world and/or wbproj files are not up to date: \"$(git diff *.wbt *.wbproj)\"; exit -1; fi"
+            post_task: "if [[ \"$(git diff --name-only *.wbt *.wbproj | wc -l)\" -ne \"0\" ]]; then echo Some world and/or wbproj files are not up to date: \"$(git diff *.wbt *.wbproj)\"; exit -1; fi"
     runs-on: ${{ matrix.os }}
     steps:  
     - uses: actions/checkout@v2
@@ -82,4 +82,4 @@ jobs:
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
         xvfb-run --auto-servernum python ${{ matrix.test }}
-        ${{ matrix.POST_TASK }}
+        ${{ matrix.post_task }}
