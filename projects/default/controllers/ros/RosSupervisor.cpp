@@ -89,7 +89,7 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
   mNodeGetParentNodeServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_parent_node",
                                                                   &RosSupervisor::nodeGetParentNodeCallback, this);
   mNodeIsProtoServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/is_proto",
-                                                                &RosSupervisor::nodeIsProtoCallback, this);
+                                                            &RosSupervisor::nodeIsProtoCallback, this);
   mNodeGetPositionServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_position",
                                                                 &RosSupervisor::nodeGetPositionCallback, this);
   mNodeGetOrientationServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_orientation",
