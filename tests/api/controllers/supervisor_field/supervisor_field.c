@@ -17,8 +17,8 @@
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
 
-  WbNodeRef root, texture, material, background, proto, shape, plane, box, internal_physics, mfTest, self;
-  WbFieldRef field, internal_field, internal_sf_node_field, supervisor_field;
+  WbNodeRef root, texture, material, background, proto, shape, plane, box, internal_physics, mfTest, self, internal_appearance;
+  WbFieldRef field, internal_field, internal_sf_node_field, internal_transparency_field, supervisor_field;
   const char *charArray;
   const double *doubleArray;
   double doubleVec3[3] = {0.0, 0.0, 0.0};
@@ -88,6 +88,18 @@ int main(int argc, char **argv) {
   d = wb_supervisor_field_get_sf_float(internal_field);
   ts_assert_double_equal(d, 1.11, "Returned value should be 1.11 and not %f", d);
   wb_supervisor_field_set_sf_float(internal_field, 1.5);
+
+  // internal EPUCK_TRANSPARENT_APPEARANCE SFFloat value
+  internal_appearance = wb_supervisor_node_get_from_proto_def("EPUCK_TRANSPARENT_APPEARANCE");
+  ts_assert_pointer_not_null(
+    internal_appearance, "wb_supervisor_node_get_from_proto_def should return the internal EPUCK_TRANSPARENT_APPEARANCE node.");
+  internal_transparency_field = wb_supervisor_node_get_field(internal_appearance, "transparency");
+  ts_assert_pointer_not_null(
+    internal_transparency_field,
+    "wb_supervisor_node_get_field should return the field of the internal EPUCK_TRANSPARENT_APPEARANCE node.");
+  wb_supervisor_field_set_sf_float(internal_transparency_field, 0.0);
+  d = wb_supervisor_field_get_sf_float(internal_transparency_field);
+  ts_assert_double_equal(d, 0.4, "Returned value for invalid set of internal node should be 0.4 and not %f", d);
 
   // get SFFloat on a different field type
   field = wb_supervisor_node_get_field(proto, "camera_height");
