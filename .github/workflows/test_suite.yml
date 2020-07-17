@@ -56,7 +56,7 @@ jobs:
           distribution/*.tar.bz2
           distribution/*.deb
     - name: Create/Update GitHub release
-      if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') and matrix.os == 'ubuntu-20.04' }}
+      if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') && matrix.os == 'ubuntu-20.04' }}
       run: |
         sudo apt -y install rename
         rename 's/\.tar.bz2$/_${{ matrix.os }}.tar.bz2/' distribution/*.tar.bz2
