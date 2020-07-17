@@ -168,19 +168,19 @@ bool WbVideoRecorder::setMainWindowFullScreen(bool fullScreen) {
 }
 
 void WbVideoRecorder::estimateMovieInfo(double basicTimeStep) {
-  int roundedBasicTimeStep = round(basicTimeStep);
-  double refresh = EXPECTED_FRAME_STEP / (double)roundedBasicTimeStep;
-  int floorRefresh = floor(refresh);
-  int ceilRefresh = ceil(refresh);
-  int frameStep0 = floorRefresh * roundedBasicTimeStep;
-  int frameStep1 = ceilRefresh * roundedBasicTimeStep;
+  const int roundedBasicTimeStep = round(basicTimeStep);
+  const double refresh = mVideoAcceleration * EXPECTED_FRAME_STEP / (double)roundedBasicTimeStep;
+  const int floorRefresh = floor(refresh);
+  const int ceilRefresh = ceil(refresh);
+  const int frameStep0 = floorRefresh * roundedBasicTimeStep;
+  const int frameStep1 = ceilRefresh * roundedBasicTimeStep;
 
   if (frameStep0 == 0 || abs(frameStep0 - EXPECTED_FRAME_STEP) > abs(frameStep1 - EXPECTED_FRAME_STEP)) {
-    mMovieFPS = 1000.0 / frameStep1;
-    cDisplayRefresh = ceilRefresh * mVideoAcceleration;
+    mMovieFPS = mVideoAcceleration * 1000.0 / frameStep1;
+    cDisplayRefresh = frameStep1;
   } else {
-    mMovieFPS = 1000.0 / frameStep0;
-    cDisplayRefresh = floorRefresh * mVideoAcceleration;
+    mMovieFPS = mVideoAcceleration * 1000.0 / frameStep0;
+    cDisplayRefresh = frameStep0;
   }
 }
 
