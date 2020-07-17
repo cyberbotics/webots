@@ -28,7 +28,7 @@ CC          = gcc
 endif
 
 ifeq ($(OSTYPE),linux)
-CFLAGS      = -fPIC -Wall
+CFLAGS      = -fPIC -Wall -Wno-stringop-truncation
 INCLUDE     = -I$(WEBOTS_PATH)/include/controller/c -I$(WEBOTS_PATH)/include
 LD_FLAGS    = -shared -Wl,-soname,libController.so
 SHARED_LIBS = -lm -lpthread -ldl -lrt

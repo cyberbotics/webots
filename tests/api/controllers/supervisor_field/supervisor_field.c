@@ -17,8 +17,8 @@
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
 
-  WbNodeRef root, texture, material, background, proto, shape, plane, box, internal_physics, mfTest;
-  WbFieldRef field, internal_field, internal_sf_node_field;
+  WbNodeRef root, texture, material, background, proto, shape, plane, box, internal_physics, mfTest, self;
+  WbFieldRef field, internal_field, internal_sf_node_field, supervisor_field;
   const char *charArray;
   const double *doubleArray;
   double doubleVec3[3] = {0.0, 0.0, 0.0};
@@ -383,6 +383,21 @@ int main(int argc, char **argv) {
   ts_assert_double_equal(mf_float_expected, 2.0,
                          "Consecutive wb_supervisor_field_set_mf_float: second set instruction failed.");
   wb_robot_step(TIME_STEP);
+
+  // supervisor field update
+  self = wb_supervisor_node_get_self();
+  supervisor_field = wb_supervisor_node_get_field(self, "supervisor");
+  ts_assert_boolean_equal(wb_supervisor_field_get_sf_bool(supervisor_field), "'supervisor' field should be true");
+  ts_assert_boolean_equal(wb_robot_get_supervisor(), "'wb_robot_get_supervisor' field should return true");
+  wb_supervisor_field_set_sf_bool(supervisor_field, false);
+  wb_robot_step(TIME_STEP);
+
+  ts_assert_boolean_equal(!wb_robot_get_supervisor(), "'wb_robot_get_supervisor' field should return false");
+  const int self_id = wb_supervisor_node_get_id(self);
+  ts_assert_int_equal(
+    self_id, -1,
+    "Returned value for 'wb_supervisor_node_get_id' field should be '-1' when 'supervisor' field is set to FALSE and not '%d'",
+    self_id);
 
   ts_send_success();
   return EXIT_SUCCESS;
