@@ -92,7 +92,6 @@ WbView3D::WbView3D() :
   WbWrenWindow(),
   mParentWidget(NULL),
   mLastRefreshTimer(),
-  mRefreshCounter(0),
   mMousePressTimer(NULL),
   mAspectRatio(1.0),
   mFastModeOverlay(NULL),
@@ -329,11 +328,13 @@ void WbView3D::refresh() {
     renderLater();
   else if (sim->isStep() || sim->isRealTime() || sim->isRunning()) {
     if (WbVideoRecorder::instance()->isRecording()) {
-      const int displayRefresh = WbVideoRecorder::displayRefresh();
-      mRefreshCounter = (mRefreshCounter + 1) % displayRefresh;
-      if (mRefreshCounter == 0)
+      const double time = WbSimulationState::instance()->time();
+      static double lastRefreshTime = time;
+      if (time - lastRefreshTime >= WbVideoRecorder::displayRefresh() || time < lastRefreshTime) {
         // render main window immediately even if it is not exposed
+        lastRefreshTime = time;
         renderNow();
+      }
     } else if (sim->isPaused())
       renderLater();
     else {
@@ -928,9 +929,6 @@ void WbView3D::prepareWorldLoading() {
   hideFastModeOverlay();
   mLoadingWorldOverlay->setVisible(true);
   WbWrenWindow::renderNow();
-
-  // restart refresh counter
-  mRefreshCounter = 0;
 
   // Resets the background if no Background node exists
   const float clearColor[] = {1.0f, 1.0f, 1.0f};
