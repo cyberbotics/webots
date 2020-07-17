@@ -27,7 +27,7 @@ In order for Webots simulation results to be reproducible, the following conditi
 
 1. Each simulation must be executed with the same version of the Webots software, on the same machine.
 Running the same simulation on different machines or different Webots versions may result small numerical differences.
-It is possible to run fully reproducible results on different machines if these machines have the same operating system (same version, same updates, etc.), same graphics card and same graphics driver.
+However, it is possible to run fully reproducible results on different machines if these machines have the same operating system (same version, same updates), same graphics card and same graphics driver.
 It turns out that different OpenGL drivers or different graphics cards produce slightly different 3D rendering results.
 So, if your simulation doesn't rely on OpenGL rendering (no camera, lidar or range-finder), it should be reproducible on machines with a different graphics configuration.
 2. Each simulation must be restarted either by pushing the `Reload` button, or by using the `wb_supervisor_world_reload` function, or by restarting Webots.
