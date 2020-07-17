@@ -74,6 +74,7 @@ Released on XXX.
     - Fixed update of the `supervisor` field of the [Robot](robot.md) node ([#1916](https://github.com/cyberbotics/webots/pull/1916)).
     - Fixed camera image updates after a simulation reset from a [Supervisor](supervisor.md) controller ([#1802](https://github.com/cyberbotics/webots/pull/1802)).
     - Fixed the motor torque and force feedback of the ROS controller ([#1581](https://github.com/cyberbotics/webots/pull/1581)).
+    - Fixed VRML export of the [Background](background.md) node ([#1933](https://github.com/cyberbotics/webots/pull/1933)).
     - Fixed crash when calling the [`wb_robot_battery_sensor_enable()`](robot.md#wb_robot_battery_sensor_enable) function if the `battery` field of the [Robot](robot.md) is empty ([#1801](https://github.com/cyberbotics/webots/pull/1801)).
     - Fixed annoying warning messages when calling the [`wb_robot_battery_sensor_enable()`](robot.md#wb_robot_battery_sensor_enable) function if the [Robot](robot.md) contains a [Track](track.md) node ([#1801](https://github.com/cyberbotics/webots/pull/1801)).
     - Renamed `PannelWithTubes` [PROTO](../guide/object-panels.md) into `PanelWithTubes` ([#1781](https://github.com/cyberbotics/webots/pull/1781)).

@@ -106,7 +106,7 @@ jobs:
             - libssl-dev
             - libboost-dev
             - libavcodec-extra
-            - libgd-dev
+            - libgd3
             - libssh-gcrypt-dev
             - libzip-dev
             - python-pip
@@ -181,7 +181,7 @@ jobs:
             - libssl1.0-dev
             - libboost-dev
             - libavcodec-extra
-            - libgd-dev
+            - libgd3
             - libssh-gcrypt-dev
             - libzip-dev
             - python-pip
