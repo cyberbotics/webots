@@ -61,7 +61,7 @@ Moreover, we added a new API function to facilitate the integration with the ROS
 The [wb\_robot\_get\_urdf](https://cyberbotics.com/doc/reference/robot#wb_robot_get_urdf) function allows users to retrieve a URDF model of a Webots robot.
 This is useful, in particular, to display the robot in [RViz](http://wiki.ros.org/rviz).
 We also improved the `ros_python` and `universal_robots_ros` ROS simulations to use extern controllers instead of embedding the ROS libraries and we enabled multi-robot ROS 2 simulations.
-Last, but not least, Webots now fully supports the ENU [axes convention](https://en.wikipedia.org/wiki/Axes_conventions) which is the standard used [in  ROS](https://www.ros.org/reps/rep-0103.html#axis-orientation).
+Last, but not least, Webots now fully supports the ENU [axes convention](https://en.wikipedia.org/wiki/Axes_conventions) which is the standard used in ROS as specified in [REP-0103](https://www.ros.org/reps/rep-0103.html#axis-orientation).
 
 ---
 
