@@ -23,15 +23,15 @@
 #include "request.h"
 #include "webots/nodes.h"
 
-#ifndef NDEBUG
+#ifdef NDEBUG
+#define ROBOT_ASSERT(condition) \
+  {}
+#else
 #define ROBOT_ASSERT(condition)                                                     \
   {                                                                                 \
     if (!(condition))                                                               \
       robot_abort("%s:%d: assertion failed: %s\n", __FILE__, __LINE__, #condition); \
   }
-#else
-#define ROBOT_ASSERT(condition) \
-  {}
 #endif
 
 int wb_robot_get_step_duration();
