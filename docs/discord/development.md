@@ -4,6 +4,97 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 07/14/2020 14:31:19
+You're welcome
+
+##### Luftwaffel 07/14/2020 14:23:27
+thanks for the infos 🙂
+
+
+hmm, perhaps we have to copy and save the setup file ourselves then
+
+##### David Mansolino [cyberbotics] 07/14/2020 14:23:01
+But we expect to release the official version of R2020b in ~3 weeks from now.
+
+
+Unfortunately not.
+
+##### Luftwaffel 07/14/2020 14:21:39
+that one doesnt have the simulation reset fix included yet right?
+
+##### David Mansolino [cyberbotics] 07/14/2020 14:21:22
+ok, in that case, only the official stable versions will be kept (e.g. latest R2020a-rev1).
+
+##### Luftwaffel 07/14/2020 14:20:24
+collegues are setting up their systems and environments, we need to be able to install the same version, and preferably not have to change it frequently
+
+
+is there a ETA?
+
+##### David Mansolino [cyberbotics] 07/14/2020 14:19:20
+But once we will release the official stable version of R2020b, this one will stay up indefinetely.
+
+##### Luftwaffel 07/14/2020 14:19:05
+hmm
+
+##### David Mansolino [cyberbotics] 07/14/2020 14:18:49
+no, we keep only the one of the last 3 days.
+
+##### Luftwaffel 07/14/2020 14:18:33
+do nightly build files stay up indefinetely?
+
+##### David Mansolino [cyberbotics] 07/14/2020 14:17:25
+yes
+
+##### Luftwaffel 07/14/2020 14:17:20
+version b is the develop branch?
+
+##### David Mansolino [cyberbotics] 07/14/2020 14:16:37
+We usually do 2 version per year, first version a, then aroudn the middle of the year we create version b, then in between these version if needed we create patch release (e.g. a-revision1, a-revision2, etc.). If you need the patch, I would stick to the version b nightly, we will soon release an official version of R2020b when this is the case, I woudl stick to this official and stable R2020b.
+
+##### Luftwaffel 07/14/2020 14:14:17
+Should I just get the latest nightly build of the master branch?
+
+
+For our simulation benchmark project, we have to decide on a  version of webots. Could you give a short explanation on how your versions work?  For example, what is 2020a vs 2020b? When does the official version get updated? And lastly, which version would you recommend? I know that I needed to install a nightly build at the end of mai, to fix the simulation reset issue, and that some proto file updates are essential for our benchmark.
+
+
+A universal(common, not the company) trajectory-arm controller might be something interesting
+
+
+On that node, I highly modified the universal\_ROS controller you guys created. Made it extern and modified the trajectory and pose\_publisher slightly. Now all it takes to switch from ur10e to kinova-Gen3, is to change the joint names and the same controller works.
+
+
+I might make a kinova\_webots git. A bunch of the launch files have to be altered in order for the IK to work. Plus it needs a custom ROS controller for webots.
+
+##### David Mansolino [cyberbotics] 07/09/2020 09:42:36
+> Btw, successfully created a working GEN3 kinova arm. Even got IK through moveIt to run. Any news on the 'unofficial' robot model repo?
+
+`@Luftwaffel` Very nice! No news yet (several of us are in holidays this week, so we will wait next week to discuss about this), but I will for sure let you know, it would be nice to include your model 🙂
+
+
+> I think I had to flip 4/6 joints. Inverse kinematics was broken before, now it works. This should be looked into though in my opinion. It takes deeper knowledge to be able to figure out the issue and fix it. Would be great if it works out of the box and control + IK code can be directly used from the existing urdf based repositories.
+
+`@Luftwaffel` ok thank you for the feedback, we will try to fix this in the URDF exporter directly.
+
+##### Luftwaffel 07/09/2020 09:37:31
+Btw, successfully created a working GEN3 kinova arm. Even got IK through moveIt to run. Any news on the 'unofficial' robot model repo?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/730719273768452136/unknown.png)
+%end
+
+
+I think I had to flip 4/6 joints. Inverse kinematics was broken before, now it works. This should be looked into though in my opinion. It takes deeper knowledge to be able to figure out the issue and fix it. Would be great if it works out of the box and control + IK code can be directly used from the existing urdf based repositories.
+
+
+Yes, that's exactly the same issue. For some joints the direction of rotation is flipped. I fixed it manually, by flipping the rotational axis (0 1 0 --> 0 -1 0)
+
+##### David Mansolino [cyberbotics] 07/09/2020 05:33:58
+Hi, just to make sur I understood correctly, the joint axes were correct, but the direction wrong right? Is the error similar to [https://github.com/cyberbotics/urdf2webots/issues/42](https://github.com/cyberbotics/urdf2webots/issues/42) ?
+
+##### Luftwaffel 07/08/2020 15:55:06
+I had a weird issue with urdf2webots. I converted the kinova gen3 6dof arm and everything worked. However when implementing it with moveit, I noticed that several hingeJoints were rotating in the wrong direction. I had to switch the axis manually to negative (or positve) to change direction.  It might have something to do with the urdf using the z-axis and the proto using the y-axis for the joint.
+
 ##### David Mansolino [cyberbotics] 07/07/2020 05:54:27
 > `@David Mansolino` I seem to have figured it out. This shows joint 1 and 3 being changed in percent of their valid range. Looks correct now. Do you want me to make a PR with the new, 'correct' robotiq gripper?
 
