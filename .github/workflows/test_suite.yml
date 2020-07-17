@@ -3,13 +3,18 @@ name: Test Suite
 on: 
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
+  schedule:
+    - cron:  '0 23 * * *'
+  push:
+    tags:
+      - '*'
 
 defaults:
   run:
     shell: bash
 jobs:
   build:
-    if: github.event.pull_request.draft == false
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || github.event.pull_request.draft == false }}
     strategy:
       matrix:
         os: [ubuntu-18.04, ubuntu-20.04]
@@ -35,6 +40,9 @@ jobs:
         sudo apt -y install ${{ matrix.version_dependencies }}
         # ubuntu server dependencies
         sudo apt -y install libxkbcommon-x11-dev
+    - name: Set Commit SHA in Version
+      if: ${{ github.event_name == 'schedule' }}
+      run: python src/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
     - name: Webots Package Creation
       run: |
         export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
@@ -47,6 +55,12 @@ jobs:
         path: |
           distribution/*.tar.bz2
           distribution/*.deb
+    - name: Create/Update GitHub release
+      if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') && matrix.os == 'ubuntu-20.04' }}
+      run: |
+        sudo apt -y install rename
+        rename 's/\.tar.bz2$/_${{ matrix.os }}.tar.bz2/' distribution/*.tar.bz2
+        src/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
   test-suite:
     needs: build
     strategy:
