@@ -46,7 +46,7 @@ The seed is defined in the `WorldInfo.randomSeed` field, it should be non-negati
 
 If the six above conditions are met, Webots simulations become replicable.
 This means that after the same number of steps two simulations will have exactly the same internal state.
-Hence if both simulation are saved using the `Save as...` button, the resulting files will be identical.
+Hence, if both simulation are saved using the `Save as...` button, the resulting files will be identical.
 This is true independently of the simulation mode used to execute the simulation: `Step`, `Real-Time`, `Run` or `Fast`.
 This is also true whether or not sensor noise is used (see below).
 
