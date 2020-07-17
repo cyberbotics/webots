@@ -469,7 +469,7 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
     for (int i = 0; i < 6; ++i) {
       if (!irradianceFileNames[i].isEmpty()) {
         writer.indent();
-        writer << gUrlNames[i] << " [ \"" << irradianceFileNames[i] << "\" ]\n";
+        writer << gUrlNames[i] << " [ \"" << backgroundFileNames[i] << "\" ]\n";
       }
       if (!irradianceFileNames[i].isEmpty()) {
         writer.indent();
