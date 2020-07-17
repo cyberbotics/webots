@@ -33,7 +33,7 @@ So, if your simulation doesn't rely on OpenGL rendering (no camera, lidar or ran
 2. Each simulation must be restarted either by pushing the `Reload` button, or by using the `wb_supervisor_world_reload` function, or by restarting Webots.
 The random seeds used by Webots internally are reset for each simulation restarted with one of the above methods.
 3. The `synchronization` flag of every robot and supervisor must be TRUE.
-Otherwise the number of physics steps per control step may vary with the current CPU load and hence the robot's behavior may also vary.
+Otherwise, the number of physics steps per control step may vary with the current CPU load and hence the robot's behavior may also vary.
 4. The controllers (and physics plugin) code must also be deterministic.
 In particular that code must not use a pseudo random generator initialized with an non-deterministic seed such as the system time.
 For example this is not suitable for replicable experiments: `srand(time(NULL))`.
