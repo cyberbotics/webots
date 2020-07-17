@@ -35,7 +35,7 @@ The random seeds used by Webots internally are reset for each simulation restart
 3. The `synchronization` flag of every robot and supervisor must be TRUE.
 Otherwise, the number of physics steps per control step may vary with the current CPU load and hence the robot's behavior may also vary.
 4. The controllers (and physics plugin) code must also be deterministic.
-In particular that code must not use a pseudo random generator initialized with an non-deterministic seed such as the system time.
+In particular, that code must not use a pseudo random generator initialized with a non-deterministic seed such as the system time.
 For example this is not suitable for replicable experiments: `srand(time(NULL))`.
 Note that uninitialized variables may also be a source of undeterministc behavior.
 5. Webots physics must run in single thread mode.
