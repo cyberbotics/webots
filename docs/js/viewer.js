@@ -788,6 +788,12 @@ function sliderMotorCallback(transform, slider) {
     transform.position.copy(translation);
     transform.updateMatrix();
   } else {
+    // extract anchor
+    var anchor = slider.getAttribute('webots-anchor').split(/[\s,]+/);
+    anchor = new THREE.Vector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
+
+    //TODO: handle anchor
+
     // Compute angle.
     var angle = value - position;
 
@@ -996,6 +1002,7 @@ function createRobotComponent(view) {
             slider.setAttribute('webots-position', device['position']);
             slider.setAttribute('webots-transform-id', device['transformID']);
             slider.setAttribute('webots-axis', device['axis']);
+            slider.setAttribute('webots-anchor', device['anchor']);
             slider.setAttribute('webots-type', deviceType);
             slider.addEventListener(isInternetExplorer() ? 'change' : 'input', function(e) {
               var id = e.target.getAttribute('webots-transform-id');
