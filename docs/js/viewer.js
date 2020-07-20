@@ -806,15 +806,14 @@ function sliderMotorCallback(transform, slider) {
     );
 
     if (typeof transform.firstRotation !== 'undefined')
-      q.multiply(transform.firstRotation);
+       q.multiply(transform.firstRotation);
 
-    transform.position.sub(anchor); // remove the offset
+    transform.position.sub(anchor + transform.firstPosition); // remove the offset
     transform.position.applyQuaternion(q); // rotate the POSITION
-        transform.rotateOnAxis(axis, angle);
-    transform.position.add(anchor); // re-add the offset
+    transform.position.add(anchor + transform.firstPosition); // re-add the offset
 
-
-    //transform.quaternion.copy(q);
+    //transform.rotateOnAxis(axis, angle);
+    transform.quaternion.copy(q);
     transform.updateMatrix();
   }
 }
