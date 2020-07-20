@@ -59,6 +59,7 @@ jobs:
       if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') && matrix.os == 'ubuntu-20.04' }}
       run: |
         sudo apt -y install rename
+        sudo python -m pip install requests PyGithub
         rename 's/\.tar.bz2$/_${{ matrix.os }}.tar.bz2/' distribution/*.tar.bz2
         src/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
   test-suite:
