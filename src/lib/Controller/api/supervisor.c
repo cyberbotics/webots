@@ -178,7 +178,6 @@ static bool is_node_ref_valid(WbNodeRef n) {
 static void delete_node(WbNodeRef node) {
   // clean the node
   free(node->model_name);
-  node->model_name = NULL;
   free(node->def_name);
   free(node->position);
   free(node->orientation);
