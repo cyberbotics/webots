@@ -33,7 +33,7 @@ In other words, this joint cannot be statically based.
 
 - `jointParameters2`: This field optionally specifies a [JointParameters](jointparameters.md) node.
 It contains, among others, the joint position, the axis position expressed in relative coordinates and the stop positions.
-If the `jointParameters` field is left empty, default values of the HingeJointParameters node apply.
+If the `jointParameters2` field is left empty, default values of the [JointParameters](jointparameters.md) node apply.
 
 - `device2`: This field optionally specifies a [RotationalMotor](rotationalmotor.md), an angular [PositionSensor](positionsensor.md) and/or a [Brake](brake.md) device attached to the second axis.
 If no motor is specified, this part of the joint is passive.
