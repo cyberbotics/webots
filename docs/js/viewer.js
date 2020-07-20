@@ -815,7 +815,8 @@ function sliderMotorCallback(transform, slider) {
     transform.position.applyQuaternion(q); // rotate the POSITION
     transform.position.add(anchor); // re-add the offset
 
-    transform.quaternion.copy(q);
+    transform.rotateOnAxis(axis, angle);
+    //transform.quaternion.copy(q);
     transform.updateMatrix();
   }
 }
