@@ -100,7 +100,7 @@ for release in repo.get_releases():
         if 'WEBOTS_HOME' in os.environ:
             rootPath = os.environ['WEBOTS_HOME']
         else:
-            rootPath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            rootPath = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         for file in os.listdir(os.path.join(rootPath, 'distribution')):
             path = os.path.join(rootPath, 'distribution', file)
             if file != '.gitignore' and not os.path.isdir(path):
