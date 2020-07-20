@@ -792,22 +792,25 @@ function sliderMotorCallback(transform, slider) {
     var anchor = slider.getAttribute('webots-anchor').split(/[\s,]+/);
     anchor = new THREE.Vector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
 
-    //TODO: handle anchor
-
     // Compute angle.
     var angle = value - position;
 
-    // Apply the new axis-angle.
-    var q = new THREE.Quaternion();
-    q.setFromAxisAngle(
-      axis,
-      angle
-    );
+    transform.position.sub(anchor); // remove the offset
+    transform.position.applyAxisAngle(axis, angle); // rotate the POSITION
+    transform.position.add(anchor); // re-add the offset
+    transform.rotateOnAxis(axis, angle);
 
-    if (typeof transform.firstRotation !== 'undefined')
-      q.multiply(transform.firstRotation);
-
-    transform.quaternion.copy(q);
+    // // Apply the new axis-angle.
+    // var q = new THREE.Quaternion();
+    // q.setFromAxisAngle(
+    //   axis,
+    //   angle
+    // );
+    //
+    // if (typeof transform.firstRotation !== 'undefined')
+    //   q.multiply(transform.firstRotation);
+    //
+    // transform.quaternion.copy(q);
     transform.updateMatrix();
   }
 }
