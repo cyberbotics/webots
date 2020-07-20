@@ -229,7 +229,7 @@ id = wb_supervisor_node_get_id(node)
 s = wb_supervisor_node_get_def(node)
 node = wb_supervisor_node_get_parent_node(node)
 b = wb_supervisor_node_is_proto(node)
-node = wb_supervisor_node_get_from_proto_def('def')
+node = wb_supervisor_node_get_from_proto_def(node, 'def')
 ```
 
 %tab-end
