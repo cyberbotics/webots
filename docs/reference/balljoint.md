@@ -37,7 +37,7 @@ It contains, among others, the joint position, the axis anchor expressed in rela
 
 - `jointParameters2` and `jointParameters3`: These fields optionally specifiy a [JointParameters](jointparameters.md) node for the second and third axis.
 They contain, among others, the joint position, the axis position expressed in relative coordinates and the stop positions.
-If these fields are empty, the `springConstant`, `dampingConstant` and `staticFriction` used are those of the [BallJointParameters](balljointparameters.md) node from the `jointParameters` field.
+If these fields are empty, the `springConstant`, `dampingConstant` and `staticFriction` used are those of the first axis defined in the [BallJointParameters](balljointparameters.md) node from the `jointParameters` field.
 
 - `device3`: this field optionally specifies a [RotationalMotor](rotationalmotor.md), an angular [PositionSensor](positionsensor.md) and/or a [Brake](brake.md) device for the third axis.
 If no motor is specified, the corresponding axis is passive.
