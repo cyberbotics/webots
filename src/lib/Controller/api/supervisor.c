@@ -262,6 +262,7 @@ static void add_node_to_list(int uid, WbNodeType type, const char *model_name, c
   n->static_balance = false;
   n->solid_velocity = NULL;
   n->is_proto = is_proto;
+  n->is_proto_internal = false;
   n->next = node_list;
   node_list = n;
 }
@@ -1557,6 +1558,8 @@ WbNodeRef wb_supervisor_node_get_from_proto_def(WbNodeRef node, const char *def)
     wb_robot_flush_unlocked();
     if (node_id >= 0)
       result = find_node_by_id(node_id);
+    if (result)
+      result->is_proto_internal = true;
     node_def_name = NULL;
     node_id = -1;
     proto_id = -1;
@@ -1808,6 +1811,8 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
     if (requested_field_name) {
       requested_field_name = NULL;
       result = field_list;  // was just inserted at list head
+      if (result && node->is_proto_internal)
+        result->is_proto_internal = true;
     }
   }
   robot_mutex_unlock_step();
@@ -2218,9 +2223,12 @@ WbNodeRef wb_supervisor_field_get_sf_node(WbFieldRef field) {
 
   field_operation(field, GET, -1);
   int id = ((WbFieldStruct *)field)->data.sf_node_uid;
-  if (id > 0)
-    return find_node_by_id(id);
-  return NULL;
+  if (id <= 0)
+    return NULL;
+  WbNodeRef result = find_node_by_id(id);
+  if (result && ((WbFieldStruct *)field)->is_proto_internal)
+    result->is_proto_internal = true;
+  return result;
 }
 
 bool wb_supervisor_field_get_mf_bool(WbFieldRef field, int index) {
@@ -2292,7 +2300,10 @@ WbNodeRef wb_supervisor_field_get_mf_node(WbFieldRef field, int index) {
     return NULL;
 
   field_operation(field, GET, index);
-  return find_node_by_id(((WbFieldStruct *)field)->data.sf_node_uid);
+  WbNodeRef result = find_node_by_id(((WbFieldStruct *)field)->data.sf_node_uid);
+  if (result && ((WbFieldStruct *)field)->is_proto_internal)
+    result->is_proto_internal = true;
+  return result;
 }
 
 void wb_supervisor_field_set_sf_bool(WbFieldRef field, bool value) {
