@@ -171,8 +171,19 @@ static bool is_node_ref_valid(WbNodeRef n) {
   WbNodeRef node_from_list = find_node_by_id(n->id);
   if (!node_from_list)
     return false;
+}
 
-  return true;
+static void delete_node(WbNodeRef node) {
+  // clean the node
+  free(node->model_name);
+  node->model_name = NULL;
+  free(node->def_name);
+  free(node->position);
+  free(node->orientation);
+  free(node->center_of_mass);
+  free(node->contact_points);
+  free(node->solid_velocity);
+  free(node);
 }
 
 static void remove_node_from_list(int uid) {
@@ -192,16 +203,7 @@ static void remove_node_from_list(int uid) {
         previous_node_in_list = previous_node_in_list->next;
       }
     }
-    // clean the node
-    free(node->model_name);
-    node->model_name = NULL;
-    free(node->def_name);
-    free(node->position);
-    free(node->orientation);
-    free(node->center_of_mass);
-    free(node->contact_points);
-    free(node->solid_velocity);
-    free(node);
+    delete_node(node);
   }
 
   WbNodeRef n = node_list;
@@ -367,13 +369,7 @@ static void supervisor_cleanup(WbDevice *d) {
   }
   while (node_list) {
     WbNodeStruct *n = node_list->next;
-    free(node_list->def_name);
-    free(node_list->position);
-    free(node_list->orientation);
-    free(node_list->center_of_mass);
-    free(node_list->contact_points);
-    free(node_list->solid_velocity);
-    free(node_list);
+    delete_node(node_list);
     node_list = n;
   }
 
