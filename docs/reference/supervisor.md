@@ -261,7 +261,7 @@ The `wb_supervisor_node_get_parent_node` function retrieves the reference to the
 
 The `wb_supervisor_node_is_proto` function returns `true` if the node given in the argument is a [PROTO node](proto.md).
 
-The `wb_supervisor_node_get_from_proto_def` function returns a handle to a node defined in the [PROTO body](proto-definition.md) of the current node from its DEF name.
+The `wb_supervisor_node_get_from_proto_def` function returns a handle to a node defined in the [PROTO body](proto-definition.md) of the specified node from its DEF name.
 Note that this function works only for PROTO nodes.
 
 ---
