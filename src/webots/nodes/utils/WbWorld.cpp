@@ -436,14 +436,16 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
           deviceObject.insert("minPosition", motor->minPosition());
           deviceObject.insert("maxPosition", motor->maxPosition());
           deviceObject.insert("position", motor->position());
+          const WbJointParameters *jointParameters = NULL;
           if (motor->positionIndex() == 3)
-            deviceObject.insert("axis", motor->joint()->parameters3()->axis().toString(WbPrecision::FLOAT_MAX));
+            jointParameters = motor->joint()->parameters3();
           else if (motor->positionIndex() == 2)
-            deviceObject.insert("axis", motor->joint()->parameters2()->axis().toString(WbPrecision::FLOAT_MAX));
+            jointParameters = motor->joint()->parameters2();
           else {
             assert(motor->positionIndex() == 1);
-            deviceObject.insert("axis", motor->joint()->parameters()->axis().toString(WbPrecision::FLOAT_MAX));
+            jointParameters = motor->joint()->parameters();
           }
+          deviceObject.insert("axis", jointParameters->axis().toString(WbPrecision::FLOAT_MAX));
         }
       } else if (jointDevice && jointDevice->propeller() && motor) {  // case: propeller.
         WbSolid *helix = jointDevice->propeller()->helix(WbPropeller::SLOW_HELIX);
