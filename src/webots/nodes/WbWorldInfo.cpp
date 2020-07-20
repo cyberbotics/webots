@@ -133,6 +133,8 @@ void WbWorldInfo::postFinalize() {
   connect(mPhysicsDisableAngularThreshold, &WbSFDouble::changed, this, &WbWorldInfo::physicsDisableChanged);
   connect(mDefaultDamping, &WbSFNode::changed, this, &WbWorldInfo::updateDefaultDamping);
   connect(mCoordinateSystem, &WbSFString::changed, this, &WbWorldInfo::updateCoordinateSystem);
+  connect(mCoordinateSystem, &WbSFString::changed, this, &WbWorldInfo::updateGravity);
+
   connect(mGpsCoordinateSystem, &WbSFString::changed, this, &WbWorldInfo::updateGpsCoordinateSystem);
   connect(mGpsReference, &WbSFString::changed, this, &WbWorldInfo::gpsReferenceChanged);
 
