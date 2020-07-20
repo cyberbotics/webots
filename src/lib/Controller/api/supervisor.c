@@ -2128,27 +2128,15 @@ const double *wb_supervisor_virtual_reality_headset_get_orientation() {
 }
 
 WbFieldType wb_supervisor_field_get_type(WbFieldRef field) {
-  if (!robot_check_supervisor(__FUNCTION__))
-    return 0;
-
-  if (!field) {
-    if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with a NULL 'field' argument.\n", __FUNCTION__);
-    return 0;
-  }
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
+    return WB_NO_FIELD;
 
   return ((WbFieldStruct *)field)->type;
 }
 
 int wb_supervisor_field_get_count(WbFieldRef field) {
-  if (!robot_check_supervisor(__FUNCTION__))
-    return -1;
-
-  if (!field) {
-    if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with a NULL 'field' argument.\n", __FUNCTION__);
-    return -1;
-  }
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
+    return false;
 
   if (((((WbFieldStruct *)field)->type) & WB_MF) != WB_MF) {
     if (!robot_is_quitting())
@@ -2680,16 +2668,11 @@ void wb_supervisor_field_remove_mf(WbFieldRef field, int index) {
 }
 
 void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const char *filename) {
-  if (!robot_check_supervisor(__FUNCTION__))
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, true))
     return;
 
   if (!filename || !filename[0]) {
     fprintf(stderr, "Error: %s() called with a NULL or empty 'filename' argument.\n", __FUNCTION__);
-    return;
-  }
-
-  if (((WbFieldStruct *)field)->is_proto_internal) {
-    fprintf(stderr, "Error: %s() called on a read-only PROTO internal field.\n", __FUNCTION__);
     return;
   }
 
@@ -2748,7 +2731,7 @@ void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const ch
 }
 
 void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int position, const char *node_string) {
-  if (!robot_check_supervisor(__FUNCTION__))
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, true))
     return;
 
   WbFieldStruct *f = (WbFieldStruct *)field;
@@ -2761,11 +2744,6 @@ void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int positi
 
   if (!node_string || !node_string[0]) {
     fprintf(stderr, "Error: %s() called with a NULL or empty 'node_string' argument.\n", __FUNCTION__);
-    return;
-  }
-
-  if (((WbFieldStruct *)field)->is_proto_internal) {
-    fprintf(stderr, "Error: %s() called on a read-only PROTO internal field.\n", __FUNCTION__);
     return;
   }
 
@@ -2809,7 +2787,7 @@ void wb_supervisor_field_remove_sf(WbFieldRef field) {
 }
 
 void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename) {
-  if (!robot_check_supervisor(__FUNCTION__))
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, true))
     return;
 
   if (!filename || !filename[0]) {
@@ -2826,11 +2804,6 @@ void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename) 
 
   if (strcmp(dot, ".wbo") == 0) {
     fprintf(stderr, "Error: %s() supports only '*.wbo' files.\n", __FUNCTION__);
-    return;
-  }
-
-  if (((WbFieldStruct *)field)->is_proto_internal) {
-    fprintf(stderr, "Error: %s() called on a read-only PROTO internal field.\n", __FUNCTION__);
     return;
   }
 
@@ -2859,7 +2832,7 @@ void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename) 
 }
 
 void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char *node_string) {
-  if (!robot_check_supervisor(__FUNCTION__))
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, true))
     return;
 
   WbFieldStruct *f = (WbFieldStruct *)field;
@@ -2880,11 +2853,6 @@ void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char
     return;
   }
 
-  if (((WbFieldStruct *)field)->is_proto_internal) {
-    fprintf(stderr, "Error: %s() called on a read-only PROTO internal field.\n", __FUNCTION__);
-    return;
-  }
-
   robot_mutex_lock_step();
   union WbFieldData data;
   data.sf_string = supervisor_strdup(node_string);
@@ -2897,17 +2865,8 @@ void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char
 }
 
 const char *wb_supervisor_field_get_type_name(WbFieldRef field) {
-  if (!robot_check_supervisor(__FUNCTION__))
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
     return "";
-
-  if (!field) {
-    if (robot_is_quitting())
-      return "";
-    else {
-      fprintf(stderr, "Error: %s() called with a NULL 'field' argument.\n", __FUNCTION__);
-      return "";
-    }
-  }
 
   switch (field->type) {
     case WB_SF_BOOL:
