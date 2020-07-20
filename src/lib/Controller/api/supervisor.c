@@ -1857,6 +1857,8 @@ WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_
     if (requested_field_name) {
       requested_field_name = NULL;
       result = field_list;  // was just inserted at list head
+      if (result)
+        result->is_proto_internal = true;
     }
     allow_search_in_proto = false;
   }
