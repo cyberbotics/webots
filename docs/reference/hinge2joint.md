@@ -4,6 +4,7 @@ Derived from [HingeJoint](hingejoint.md).
 
 ```
 Hinge2Joint {
+  SFNode  jointParameters  NULL   # {HingeJointParameters, PROTO}
   SFNode  jointParameters2 NULL   # {JointParameters, PROTO}
   MFNode  device2          [ ]    # {RotationalMotor, PositionSensor, Brake, PROTO}
   SFFloat position2        0      # [0, inf)
@@ -20,7 +21,7 @@ Hinge2Joint {
 
 The [Hinge2Joint](#hinge2joint) node can be used to model a hinge2 joint, i.e. a joint allowing only rotational motions around two intersecting axes (2 degrees of freedom).
 These axes cross at the `anchor` point and need not to be perpendicular.
-The suspension fields defined in a [HingeJointParameters](hingejointparameters.md) node allow for spring and damping effects along the suspension axis.
+The suspension fields defined in the [HingeJointParameters](hingejointparameters.md) node of the `jointParameters` field allow for spring and damping effects along the suspension axis.
 
 Note that a universal joint boils down to a hinge2 joint with orthogonal axes and (default) zero suspension.
 
@@ -30,6 +31,10 @@ Typically, [Hinge2Joint](#hinge2joint) can be used to model a steering wheel wit
 In other words, this joint cannot be statically based.
 
 ### Field Summary
+
+- `jointParameters`: This field optionally specifies a [HingeJointParameters](hingejointparameters.md) node.
+It contains, among others, the joint position, the axis position expressed in relative coordinates, the stop positions and suspension parameters.
+If the `jointParameters` field is left empty, default values of the [HingeJointParameters](hingejointparameters.md) node apply.
 
 - `jointParameters2`: This field optionally specifies a [JointParameters](jointparameters.md) node.
 It contains, among others, the joint position, the axis position expressed in relative coordinates and the stop positions.
