@@ -35,7 +35,7 @@ If the `jointParameters2` and/or `jointParameters3` fields are empty, the defaul
 - `jointParameters`: This field optionally specifies a [BallJointParameters](balljointparameters.md) node.
 It contains, among others, the joint position, the axis anchor expressed in relative coordinates and the stop positions.
 
-- `jointParameters2` and `jointParameters3`: These fields optionally specifiy a [JointParameters](jointparameters.md) node for the second and third axis.
+- `jointParameters2` and `jointParameters3`: These fields optionally specify a [JointParameters](jointparameters.md) node for the second and third axis.
 They contain, among others, the joint position, the axis position expressed in relative coordinates and the stop positions.
 If these fields are empty, the `springConstant`, `dampingConstant` and `staticFriction` used are those of the first axis defined in the [BallJointParameters](balljointparameters.md) node from the `jointParameters` field.
 
