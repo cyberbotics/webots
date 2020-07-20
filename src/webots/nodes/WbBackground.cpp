@@ -299,7 +299,8 @@ void WbBackground::applySkyBoxToWren() {
   QVector<float *> hdrImageData;
   // 1. Load the background.
   mCubeMapTexture = wr_texture_cubemap_new();
-  QImage image[6];
+  QImage image[6];  // the texture image data should be persistent until the WREN texture cubemap is fully setup
+                    // hence the scope of this QImage array declaration
   try {
     bool allUrlDefined = true;
     bool atLeastOneUrlDefined = false;
