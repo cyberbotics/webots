@@ -454,6 +454,8 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
             deviceObject.insert("anchor", hingeJointParameters->anchor().toString(WbPrecision::FLOAT_MAX));
           else if (ballJointParameters)
             deviceObject.insert("anchor", ballJointParameters->anchor().toString(WbPrecision::FLOAT_MAX));
+          else
+            deviceObject.insert("anchor", "0 0 0");
         }
       } else if (jointDevice && jointDevice->propeller() && motor) {  // case: propeller.
         WbSolid *helix = jointDevice->propeller()->helix(WbPropeller::SLOW_HELIX);
@@ -462,6 +464,7 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
         deviceObject.insert("axis", motor->propeller()->axis().toString(WbPrecision::FLOAT_MAX));
         deviceObject.insert("minPosition", motor->minPosition());
         deviceObject.insert("maxPosition", motor->maxPosition());
+        deviceObject.insert("anchor", "0 0 0");
       } else {  // case: other WbDevice nodes.
         const WbBaseNode *parent =
           jointDevice ? dynamic_cast<const WbBaseNode *>(deviceBaseNode->parentNode()) : deviceBaseNode;
