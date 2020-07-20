@@ -97,8 +97,12 @@ for release in repo.get_releases():
         for asset in release.get_assets():
             assets[asset.name] = asset
         releaseCommentModified = False
-        for file in os.listdir(os.path.join(os.environ['WEBOTS_HOME'], 'distribution')):
-            path = os.path.join(os.environ['WEBOTS_HOME'], 'distribution', file)
+        if 'WEBOTS_HOME' in os.environ:
+            rootPath = os.environ['WEBOTS_HOME']
+        else:
+            rootPath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        for file in os.listdir(os.path.join(rootPath, 'distribution')):
+            path = os.path.join(rootPath, 'distribution', file)
             if file != '.gitignore' and not os.path.isdir(path):
                 if file in assets:
                     print('Asset "%s" already present in release "%s".' % (file, title))
