@@ -795,11 +795,6 @@ function sliderMotorCallback(transform, slider) {
     // Compute angle.
     var angle = value - position;
 
-    // transform.position.sub(anchor); // remove the offset
-    // transform.position.applyAxisAngle(axis, angle); // rotate the POSITION
-    // transform.position.add(anchor); // re-add the offset
-    //transform.rotateOnAxis(axis, angle);
-
     // Apply the new axis-angle.
     var q = new THREE.Quaternion();
     q.setFromAxisAngle(
@@ -807,11 +802,18 @@ function sliderMotorCallback(transform, slider) {
       angle
     );
 
+    transform.position.sub(anchor); // remove the offset
+    transform.position.applyQuaternion(q); // rotate the POSITION
+
+    //transform.rotateOnAxis(axis, angle);
+
     if (typeof transform.firstRotation !== 'undefined')
       q.multiply(transform.firstRotation);
 
     transform.quaternion.copy(q);
     transform.updateMatrix();
+
+    transform.position.add(anchor); // re-add the offset
   }
 }
 
