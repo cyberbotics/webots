@@ -94,6 +94,7 @@ typedef struct WbNodeStructPrivate {
   double *solid_velocity;  // double[6] (linear[3] + angular[3])
   bool is_proto;
   bool is_proto_internal;
+  WbNodeRef parent_proto;
   WbNodeRef next;
 } WbNodeStruct;
 
@@ -154,10 +155,10 @@ static WbNodeRef find_node_by_id(int id) {
   return NULL;
 }
 
-static WbNodeRef find_node_by_def(const char *def_name) {
+static WbNodeRef find_node_by_def(const char *def_name, WbNodeRef parent_proto) {
   WbNodeRef node = node_list;
   while (node) {
-    if (node->def_name && strcmp(def_name, node->def_name) == 0)
+    if (node->parent_proto == parent_proto && node->def_name && strcmp(def_name, node->def_name) == 0)
       return node;
     node = node->next;
   }
@@ -171,6 +172,7 @@ static bool is_node_ref_valid(WbNodeRef n) {
   WbNodeRef node_from_list = find_node_by_id(n->id);
   if (!node_from_list)
     return false;
+  return true;
 }
 
 static void delete_node(WbNodeRef node) {
@@ -265,6 +267,7 @@ static void add_node_to_list(int uid, WbNodeType type, const char *model_name, c
   n->solid_velocity = NULL;
   n->is_proto = is_proto;
   n->is_proto_internal = false;
+  n->parent_proto = NULL;
   n->next = node_list;
   node_list = n;
 }
@@ -742,10 +745,8 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const bool is_proto_internal = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
-      if (uid) {
+      if (uid && !is_proto_internal)
         add_node_to_list(uid, type, model_name, def_name, parent_uid, is_proto);
-        node_list->is_proto_internal = is_proto_internal;
-      }
     } break;
     case C_SUPERVISOR_FIELD_GET_FROM_NAME: {
       const int field_ref = request_read_int32(r);
@@ -1447,6 +1448,12 @@ int wb_supervisor_node_get_id(WbNodeRef node) {
     return -1;
   }
 
+  if (node->is_proto_internal) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called for an internal PROTO node.\n", __FUNCTION__);
+    return -1;
+  }
+
   return node->id;
 }
 
@@ -1492,7 +1499,7 @@ WbNodeRef wb_supervisor_node_get_from_def(const char *def) {
   robot_mutex_lock_step();
 
   // search if node is already present in node_list
-  WbNodeRef result = find_node_by_def(def);
+  WbNodeRef result = find_node_by_def(def, NULL);
   if (!result) {
     // otherwise: need to talk to Webots
     node_def_name = def;
@@ -1544,23 +1551,23 @@ WbNodeRef wb_supervisor_node_get_from_proto_def(WbNodeRef node, const char *def)
   robot_mutex_lock_step();
 
   // search if node is already present in node_list
-  WbNodeRef result = find_node_by_def(def);
+  WbNodeRef result = find_node_by_def(def, node);
   if (!result) {
     // otherwise: need to talk to Webots
     node_def_name = def;
     node_id = -1;
     proto_id = node->id;
-    allow_search_in_proto = true;
     wb_robot_flush_unlocked();
     if (node_id >= 0) {
       result = find_node_by_id(node_id);
-      if (result)
+      if (result) {
         result->is_proto_internal = true;
+        result->parent_proto = node;
+      }
     }
     node_def_name = NULL;
     node_id = -1;
     proto_id = -1;
-    allow_search_in_proto = false;
   }
   robot_mutex_unlock_step();
   return result;
