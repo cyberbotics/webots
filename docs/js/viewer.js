@@ -795,9 +795,9 @@ function sliderMotorCallback(transform, slider) {
     // Compute angle.
     var angle = value - position;
 
-    transform.position.sub(anchor); // remove the offset
-    transform.position.applyAxisAngle(axis, angle); // rotate the POSITION
-    transform.position.add(anchor); // re-add the offset
+    // transform.position.sub(anchor); // remove the offset
+    // transform.position.applyAxisAngle(axis, angle); // rotate the POSITION
+    // transform.position.add(anchor); // re-add the offset
     //transform.rotateOnAxis(axis, angle);
 
     // Apply the new axis-angle.
