@@ -768,6 +768,9 @@ function sliderMotorCallback(transform, slider) {
   if (typeof transform.firstRotation === 'undefined' && typeof transform.quaternion !== 'undefined')
     transform.firstRotation = transform.quaternion.clone();
 
+  if (typeof transform.firstPosition === 'undefined' && typeof transform.position !== 'undefined')
+    transform.firstPosition = transform.position.clone();
+
   var axis = slider.getAttribute('webots-axis').split(/[\s,]+/);
   axis = new THREE.Vector3(parseFloat(axis[0]), parseFloat(axis[1]), parseFloat(axis[2]));
 
