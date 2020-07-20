@@ -16,10 +16,12 @@
 
 #include "WbApplication.hpp"
 #include "WbBackground.hpp"
+#include "WbBallJointParameters.hpp"
 #include "WbBasicJoint.hpp"
 #include "WbFileUtil.hpp"
 #include "WbGeometry.hpp"
 #include "WbGroup.hpp"
+#include "WbHingeJointParameters.hpp"
 #include "WbImageTexture.hpp"
 #include "WbJoint.hpp"
 #include "WbJointDevice.hpp"
@@ -446,6 +448,12 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
             jointParameters = motor->joint()->parameters();
           }
           deviceObject.insert("axis", jointParameters->axis().toString(WbPrecision::FLOAT_MAX));
+          const WbBallJointParameters *ballJointParameters = dynamic_cast<const WbBallJointParameters *>(jointParameters);
+          const WbHingeJointParameters *hingeJointParameters = dynamic_cast<const WbHingeJointParameters *>(jointParameters);
+          if (hingeJointParameters)
+            deviceObject.insert("anchor", hingeJointParameters->anchor().toString(WbPrecision::FLOAT_MAX));
+          else if (ballJointParameters)
+            deviceObject.insert("anchor", ballJointParameters->anchor().toString(WbPrecision::FLOAT_MAX));
         }
       } else if (jointDevice && jointDevice->propeller() && motor) {  // case: propeller.
         WbSolid *helix = jointDevice->propeller()->helix(WbPropeller::SLOW_HELIX);
