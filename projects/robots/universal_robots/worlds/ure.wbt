@@ -291,7 +291,6 @@ UR3e {
   selfCollision FALSE
   toolSlot [
     Robotiq3fGripper {
-      translation 0 0.04 0
     }
     DistanceSensor {
       translation 0 0.1 0
@@ -306,7 +305,6 @@ UR5e {
   selfCollision FALSE
   toolSlot [
     Robotiq3fGripper {
-      translation 0 0.04 0
     }
     DistanceSensor {
       translation 0 0.1 0
@@ -321,7 +319,6 @@ UR10e {
   selfCollision FALSE
   toolSlot [
     Robotiq3fGripper {
-      translation 0 0.04 0
     }
     DistanceSensor {
       translation 0 0.1 0
