@@ -1556,10 +1556,11 @@ WbNodeRef wb_supervisor_node_get_from_proto_def(WbNodeRef node, const char *def)
     proto_id = node->id;
     allow_search_in_proto = true;
     wb_robot_flush_unlocked();
-    if (node_id >= 0)
+    if (node_id >= 0) {
       result = find_node_by_id(node_id);
-    if (result)
-      result->is_proto_internal = true;
+      if (result)
+        result->is_proto_internal = true;
+    }
     node_def_name = NULL;
     node_id = -1;
     proto_id = -1;
