@@ -574,7 +574,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         mFoundNodeModelName = node->modelName();
         mFoundNodeParentUniqueId = (node->parentNode() ? node->parentNode()->uniqueId() : -1);
         mFoundNodeIsProto = node->isProtoInstance();
-        mFoundNodeIsProtoInternal = (WbNodeUtilities::isVisible(node->parentField()));
+        mFoundNodeIsProtoInternal =
+          node->parentNode() != WbWorld::instance()->root() && WbNodeUtilities::isVisible(node->parentField());
         connect(node, &WbNode::defUseNameChanged, this, &WbSupervisorUtilities::notifyNodeUpdate, Qt::UniqueConnection);
       }
 
@@ -1616,7 +1617,8 @@ void WbSupervisorUtilities::writeConfigure(QDataStream &stream) {
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)selfNode->uniqueId();
   stream << (unsigned char)selfNode->isProtoInstance();
-  stream << (unsigned char)(WbNodeUtilities::isVisible(selfNode->parentField()));
+  stream << (unsigned char)(selfNode->parentNode() != WbWorld::instance()->root() &&
+                            WbNodeUtilities::isVisible(selfNode->parentField()));
   const QByteArray &s = selfNode->modelName().toUtf8();
   stream.writeRawData(s.constData(), s.size() + 1);
   const QByteArray &ba = selfNode->defName().toUtf8();
