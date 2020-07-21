@@ -67,6 +67,19 @@ int main(int argc, char **argv) {
   ts_assert_double_is_bigger(-0.2, positions[5], "Angle 5 should be smaller than -0.2");
   ts_assert_double_in_delta(positions[7], 0.0, 0.01, "Angle 7 should be zero");
   ts_assert_double_in_delta(positions[8], 0.0, 0.01, "Angle 8 should be zero");
+  
+  // let the solid go to sleep
+  for (i = 0; i < 2000; ++i)
+    wb_robot_step(TIME_STEP);
+    
+  const double force[] = {0.0, -0.1, 0.0};
+  for (i = 0; i < 200; ++i) {
+    wb_robot_step(TIME_STEP);
+    wb_supervisor_node_add_force_with_offset(node[0], force, offset0, false);
+  }
+  
+  positions[0] = wb_position_sensor_get_value(ps[0]);
+  ts_assert_double_is_bigger(positions[0], 0.2, "Angle 0 should be bigger than 0.2");
 
   ts_send_success();
   return EXIT_SUCCESS;
