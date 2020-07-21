@@ -2,7 +2,7 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.92 0.39 0.03 5.6
+  orientation 0.9202761242621326 0.3901170526763388 0.03000900405202606 5.6
   position -0.32 0.72 1.12
 }
 Background {
