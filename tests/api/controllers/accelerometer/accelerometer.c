@@ -42,8 +42,8 @@ int main(int argc, char **argv) {
   for (int i = 0; i < N; i++)
     values[i] = wb_accelerometer_get_values(accelerometer[i]);
 
-  const double expected[][3] = {{0, 9.81, 0},     {-1, 9.81, -0.1}, {0, 9.81, 0},     {0, 9.81, -1},
-                                {-1, 9.81, -0.1}, {-2, 9.81, -0.2}, {-1, 9.81, -0.1}, {-1, 9.81, -1.1}};
+  const double expected[][3] = {{0, 9.8, 0},     {-1, 9.8, -0.1}, {0, 9.8, 0},     {0, 9.8, -1},
+                                {-1, 9.8, -0.1}, {-2, 9.8, -0.2}, {-1, 9.8, -0.1}, {-1, 9.8, -1.1}};
   for (int i = 0; i < N; i++) {
     for (int j = 0; j < 3; j++)
       ts_assert_double_in_delta(values[i][j], expected[i][j], 0.1, "The Accelerometer doesn't return the right acceleration.");
