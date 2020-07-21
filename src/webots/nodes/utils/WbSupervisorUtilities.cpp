@@ -265,6 +265,8 @@ void WbSupervisorUtilities::initControllerRequests() {
   mFoundNodeUniqueId = -1;
   mFoundNodeType = 0;
   mFoundNodeParentUniqueId = -1;
+  mFoundNodeIsProto = false;
+  mFoundNodeIsProtoInternal = false;
   mFoundFieldId = -2;
   mFoundFieldType = 0;
   mFoundFieldCount = -1;
@@ -361,6 +363,19 @@ void WbSupervisorUtilities::reset() {
   initControllerRequests();
 }
 
+const WbNode *WbSupervisorUtilities::getNodeFromProtoDEF(const WbNode *fromNode, const QString &defName) const {
+  // recursively search in PROTO body for the DEF node
+  QList<WbNode *> descendants = fromNode->subNodes(false, true, false);  // get nodes from PROTO fields
+  for (int i = 0; i < descendants.size(); ++i) {
+    const WbNode *child = descendants.at(i);
+    if (child->defName() == defName)
+      return child;
+    // recursively search in field or parameters (if PROTO) of descendant nodes
+    descendants.append(child->subNodes(true, false, false));
+  }
+  return NULL;
+}
+
 const WbNode *WbSupervisorUtilities::getNodeFromDEF(const QString &defName, bool allowSearchInProto, const WbNode *fromNode) {
   assert(!defName.isEmpty());
   if (defName.isEmpty())
@@ -373,18 +388,15 @@ const WbNode *WbSupervisorUtilities::getNodeFromDEF(const QString &defName, bool
   const QString &nextDefName = (remainingChars <= 0) ? QString() : defName.right(remainingChars);
 
   const WbNode *baseNode = fromNode;
-  if (baseNode == NULL) {
-    if (allowSearchInProto) {
-      if (fromNode)
-        baseNode = fromNode->getNodeFromDEF(currentDefName);
-      else
-        baseNode = WbWorld::instance()->root()->getNodeFromDEF(currentDefName);
-    } else
+  if (baseNode == NULL || allowSearchInProto) {
+    if (allowSearchInProto)
+      baseNode = getNodeFromProtoDEF(baseNode ? baseNode : WbWorld::instance()->root(), defName);
+    else
       baseNode = WbDictionary::instance()->getNodeFromDEF(currentDefName);
 
     if (!baseNode || nextDefName.isEmpty())
       return baseNode;
-    return getNodeFromDEF(nextDefName, allowSearchInProto, baseNode);
+    return getNodeFromDEF(nextDefName, false, baseNode);
   }
 
   const QList<WbNode *> &descendants = baseNode->subNodes(false, allowSearchInProto, false);
@@ -393,7 +405,7 @@ const WbNode *WbSupervisorUtilities::getNodeFromDEF(const QString &defName, bool
     if (child->defName() == currentDefName) {
       if (nextDefName.isEmpty())
         return child;
-      return getNodeFromDEF(nextDefName, allowSearchInProto, child);
+      return getNodeFromDEF(nextDefName, false, child);
     }
   }
 
@@ -561,6 +573,9 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         mFoundNodeType = node->nodeType();
         mFoundNodeModelName = node->modelName();
         mFoundNodeParentUniqueId = (node->parentNode() ? node->parentNode()->uniqueId() : -1);
+        mFoundNodeIsProto = node->isProtoInstance();
+        mFoundNodeIsProtoInternal =
+          node->parentNode() != WbWorld::instance()->root() && WbNodeUtilities::isVisible(node->parentField());
         connect(node, &WbNode::defUseNameChanged, this, &WbSupervisorUtilities::notifyNodeUpdate, Qt::UniqueConnection);
       }
 
@@ -568,15 +583,16 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     }
     case C_SUPERVISOR_NODE_GET_FROM_DEF: {
       const QString &nodeName = readString(stream);
-      unsigned char allowSearchInProto;
-      stream >> allowSearchInProto;
-      const WbBaseNode *baseNode = dynamic_cast<const WbBaseNode *>(getNodeFromDEF(nodeName, allowSearchInProto));
-      if (allowSearchInProto == 0 && baseNode && !baseNode->parentField())  // make sure the parent field is visible
+      int parentProtoId;
+      stream >> parentProtoId;  // if > 0, then search for a PROTO internal node
+      WbNode *proto = parentProtoId > 0 ? WbNode::findNode(parentProtoId) : NULL;
+      const WbBaseNode *baseNode = dynamic_cast<const WbBaseNode *>(getNodeFromDEF(nodeName, proto != NULL, proto));
+      if (!proto && baseNode && !baseNode->parentField())  // make sure the parent field is visible
         baseNode = NULL;
       mFoundNodeUniqueId = baseNode ? baseNode->uniqueId() : 0;
       mFoundNodeType = baseNode ? baseNode->nodeType() : 0;
       mFoundNodeModelName = baseNode ? baseNode->modelName() : QString();
-      mFoundNodeParentUniqueId = -1;
+      mFoundNodeIsProtoInternal = false;
       if (baseNode) {
         if (baseNode->parentNode()) {
           if (baseNode->parentNode() != WbWorld::instance()->root())
@@ -584,7 +600,11 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           else
             mFoundNodeParentUniqueId = 0;
         }
+        mFoundNodeIsProto = baseNode->isProtoInstance();
         connect(baseNode, &WbNode::defUseNameChanged, this, &WbSupervisorUtilities::notifyNodeUpdate, Qt::UniqueConnection);
+      } else {
+        mFoundNodeParentUniqueId = -1;
+        mFoundNodeIsProto = false;
       }
       return;
     }
@@ -1240,6 +1260,7 @@ void WbSupervisorUtilities::writeNode(QDataStream &stream, const WbBaseNode *bas
   stream << (int)baseNode->uniqueId();
   stream << (int)baseNode->nodeType();
   stream << (int)(baseNode->parentNode() ? baseNode->parentNode()->uniqueId() : -1);
+  stream << (unsigned char)baseNode->isProtoInstance();
   const QByteArray &modelName = baseNode->modelName().toUtf8();
   const QByteArray &defName = baseNode->defName().toUtf8();
   stream.writeRawData(modelName.constData(), modelName.size() + 1);
@@ -1271,6 +1292,9 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream << (int)mFoundNodeUniqueId;
     stream << (int)mFoundNodeType;
     stream << (int)mFoundNodeParentUniqueId;
+    stream << (unsigned char)mFoundNodeIsProto;
+    if (mGetFromId)
+      stream << (unsigned char)mFoundNodeIsProtoInternal;
     const QByteArray &modelName = mFoundNodeModelName.toUtf8();
     const QByteArray &defName = mCurrentDefName.toUtf8();
     stream.writeRawData(modelName.constData(), modelName.size() + 1);
@@ -1284,6 +1308,7 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream << (int)mFoundNodeUniqueId;
     stream << (int)mFoundNodeType;
     stream << (int)mFoundNodeParentUniqueId;
+    stream << (unsigned char)mFoundNodeIsProto;
     QByteArray s = mFoundNodeModelName.toUtf8();
     stream.writeRawData(s.constData(), s.size() + 1);
     mFoundNodeUniqueId = -1;
@@ -1594,6 +1619,9 @@ void WbSupervisorUtilities::writeConfigure(QDataStream &stream) {
   stream << (short unsigned int)0;
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)selfNode->uniqueId();
+  stream << (unsigned char)selfNode->isProtoInstance();
+  stream << (unsigned char)(selfNode->parentNode() != WbWorld::instance()->root() &&
+                            WbNodeUtilities::isVisible(selfNode->parentField()));
   const QByteArray &s = selfNode->modelName().toUtf8();
   stream.writeRawData(s.constData(), s.size() + 1);
   const QByteArray &ba = selfNode->defName().toUtf8();

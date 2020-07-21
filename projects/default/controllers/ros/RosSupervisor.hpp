@@ -48,6 +48,7 @@
 #include <webots_ros/node_get_status.h>
 #include <webots_ros/node_get_type.h>
 #include <webots_ros/node_get_velocity.h>
+#include <webots_ros/node_is_proto.h>
 #include <webots_ros/node_move_viewpoint.h>
 #include <webots_ros/node_remove.h>
 #include <webots_ros/node_reset_functions.h>
@@ -125,6 +126,7 @@ public:
   bool nodeGetBaseTypeNameCallback(webots_ros::node_get_name::Request &req, webots_ros::node_get_name::Response &res);
   bool nodeGetParentNodeCallback(webots_ros::node_get_parent_node::Request &req,
                                  webots_ros::node_get_parent_node::Response &res);
+  bool nodeIsProtoCallback(webots_ros::node_is_proto::Request &req, webots_ros::node_is_proto::Response &res);
   bool nodeGetPositionCallback(webots_ros::node_get_position::Request &req, webots_ros::node_get_position::Response &res);
   bool nodeGetOrientationCallback(webots_ros::node_get_orientation::Request &req,
                                   webots_ros::node_get_orientation::Response &res);
@@ -222,6 +224,7 @@ private:
   ros::ServiceServer mNodeGetDefServer;
   ros::ServiceServer mNodeGetBaseTypeNameServer;
   ros::ServiceServer mNodeGetParentNodeServer;
+  ros::ServiceServer mNodeIsProtoServer;
   ros::ServiceServer mNodeGetPositionServer;
   ros::ServiceServer mNodeGetOrientationServer;
   ros::ServiceServer mNodeGetCenterOfMassServer;
