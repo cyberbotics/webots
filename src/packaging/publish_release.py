@@ -47,9 +47,9 @@ if now.weekday() >= 5:
 warningMessage = '\nIt might be unstable, for a stable version of Webots, please use the [latest official release]' \
                  '(https://github.com/cyberbotics/webots/releases/latest).'
 if options.tag:
-    tag = options.tag
-    title = options.tag
-    message = 'This is a nightly build of Webots from the "%s" tag.%s' % (options.tag, warningMessage)
+    tag = options.tag.replace('refs/tags/', '')
+    title = tag
+    message = 'This is a nightly build of Webots from the "%s" tag.%s' % (tag, warningMessage)
     if tag.startswith('nightly_'):
         print('Skipping nightly build tag.')
         sys.exit(0)
