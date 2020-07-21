@@ -68,6 +68,26 @@ int main(int argc, char **argv) {
   ts_assert_double_in_delta(positions[7], 0.0, 0.01, "Angle 7 should be zero");
   ts_assert_double_in_delta(positions[8], 0.0, 0.01, "Angle 8 should be zero");
 
+  // let the solid go to sleep
+  for (i = 0; i < 200; ++i)
+    wb_robot_step(TIME_STEP);
+
+  const double force[] = {0.0, -0.1, 0.0};
+  const double torque[] = {-0.1, 0.0, 0.0};
+  for (i = 0; i < 200; ++i) {
+    wb_robot_step(TIME_STEP);
+    wb_supervisor_node_add_force_with_offset(node[0], force, offset0, false);
+    wb_supervisor_node_add_torque(node[3], torque, false);
+    wb_supervisor_node_add_force(node[4], force, false);
+  }
+
+  for (i = 0; i < SOLID_NUMBER; ++i)
+    positions[i] = wb_position_sensor_get_value(ps[i]);
+
+  ts_assert_double_is_bigger(positions[0], 0.2, "Angle 0 should be bigger than 0.2");
+  ts_assert_double_is_bigger(-0.2, positions[3], "Angle 3 should be smaller than -0.2");
+  ts_assert_double_is_bigger(positions[4], 0.2, "Angle 4 should be bigger than 0.2");
+
   ts_send_success();
   return EXIT_SUCCESS;
 }

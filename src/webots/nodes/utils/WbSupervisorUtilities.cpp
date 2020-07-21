@@ -782,9 +782,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           force = solid->matrix().extracted3x3Matrix() * force;
         dBodyID body = solid->bodyMerger();
         WbVector3 position = solid->computedGlobalCenterOfMass() - solid->solidMerger()->solid()->computedGlobalCenterOfMass();
-        if (body)
+        if (body) {
           dBodyAddForceAtRelPos(body, force.x(), force.y(), force.z(), position.x(), position.y(), position.z());
-        else
+          dBodyEnable(body);
+        } else
           mRobot->warn(tr("wb_supervisor_node_add_force() can't be used with a kinematic Solid"));
       } else
         mRobot->warn(tr("wb_supervisor_node_add_force() can exclusively be used with a Solid"));
@@ -816,9 +817,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           force = solidMatrix.extracted3x3Matrix() * force;
 
         dBodyID body = solid->bodyMerger();
-        if (body)
+        if (body) {
+          dBodyEnable(body);
           dBodyAddForceAtPos(body, force.x(), force.y(), force.z(), offset.x(), offset.y(), offset.z());
-        else
+        } else
           mRobot->warn(tr("wb_supervisor_node_add_force_with_offset() can't be used with a kinematic Solid"));
       } else
         mRobot->warn(tr("wb_supervisor_node_add_force_with_offset() can exclusively be used with a Solid"));
@@ -842,9 +844,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         if (relative == 1)
           torque = solid->matrix().extracted3x3Matrix() * torque;
         dBodyID body = solid->bodyMerger();
-        if (body)
+        if (body) {
+          dBodyEnable(body);
           dBodyAddTorque(body, torque.x(), torque.y(), torque.z());
-        else
+        } else
           mRobot->warn(tr("wb_supervisor_node_add_torque() can't be used with a kinematic Solid"));
       } else
         mRobot->warn(tr("wb_supervisor_node_add_torque() can exclusively be used with a Solid"));
