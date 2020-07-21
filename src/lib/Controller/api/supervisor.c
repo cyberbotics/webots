@@ -732,9 +732,8 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const bool is_proto = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def = request_read_string(r);
-      if (selected_node_id) {
+      if (selected_node_id)
         add_node_to_list(selected_node_id, type, model_name, def, parent_uid, is_proto);
-      }
     } break;
     case C_SUPERVISOR_NODE_GET_FROM_ID: {
       const int uid = request_read_uint32(r);
