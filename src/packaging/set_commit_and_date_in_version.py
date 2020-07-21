@@ -21,7 +21,7 @@ import sys
 if 'WEBOTS_HOME' in os.environ:
     path = os.environ['WEBOTS_HOME']
 else:
-    path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 if len(sys.argv) != 2:  # no commit id passed as an argument
     sys.exit('Commit id not passed as argument.')
 else:
