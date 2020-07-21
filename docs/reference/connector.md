@@ -24,7 +24,7 @@ Connector {
 [Connector](#connector) nodes are used to simulate mechanical docking systems, or any other type of device, that can dynamically create a physical link (or *connection*) with another device of the same type.
 
 Unlike other [Devices](device.md), a [Connector](#connector) may lie outside of a [Robot](robot.md) node.
-This is useful, for example, to allow some object equipped with a "passive" connector to be grasped by a robotic arm equipped with a corresponding active connector.
+This is useful, for example, to allow some object equipped with a "passive" connector to be grasped by a robotic gripper equipped with a corresponding active connector.
 
 [Connector](#connector) nodes can only connect to other [Connector](#connector) nodes.
 At any time, each connection involves exactly two [Connector](#connector) nodes (peer to peer).
