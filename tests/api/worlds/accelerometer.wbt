@@ -11,21 +11,179 @@ Background {
     0.4 0.7 1
   ]
 }
-PointLight {
-  ambientIntensity 1
-  intensity 0
+DirectionalLight {
 }
 Robot {
   children [
-    Accelerometer {
-      lookupTable [
-        -1000 -1000 0
-        1000 1000 0
-      ]
-    }
     TestSuiteEmitter {
     }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 151.92986685785533
+        axis 0 1 0
+        dampingConstant 1
+      }
+      device [
+        RotationalMotor {
+          name "motor"
+          maxVelocity 10000
+          maxTorque 100000
+        }
+      ]
+      endPoint Solid {
+        children [
+          Accelerometer {
+            name "center"
+            lookupTable [
+              -1000 -1000 0
+              1000 1000 0
+            ]
+          }
+          Accelerometer {
+            translation 0.1 0 0
+            name "tX"
+          }
+          Accelerometer {
+            translation 0 0.1 0
+            name "tY"
+          }
+          Accelerometer {
+            translation 0 0 0.1
+            name "tZ"
+          }
+          Solid {
+            translation 0.1 0.05 0
+            children [
+              Shape {
+                appearance RustyMetal {
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.1
+                }
+              }
+              Accelerometer {
+                name "center offset"
+              }
+              Accelerometer {
+                translation 0.1 0 0
+                name "tX offset"
+              }
+              Accelerometer {
+                translation 0 0.1 0
+                name "tY offset"
+              }
+              Accelerometer {
+                translation 0 0 0.1
+                name "tZ offset"
+              }
+            ]
+            boundingObject Cylinder {
+              height 0.01
+              radius 0.1
+            }
+            physics Physics {
+            }
+          }
+          DEF AXIS Group {
+            children [
+              Transform {
+                translation 0 0.063 0
+                children [
+                  Shape {
+                    appearance DEF METAL_APPEARANCE PBRAppearance {
+                      baseColor 0.5 0.5 0.5
+                      roughness 1
+                      metalness 0
+                    }
+                    geometry Cylinder {
+                      bottom FALSE
+                      height 0.005
+                      radius 0.04
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 0.063 0
+                children [
+                  Shape {
+                    appearance DEF METAL_APPEARANCE PBRAppearance {
+                      baseColor 0.666667 0.666667 0.498039
+                      roughness 1
+                      metalness 0
+                    }
+                    geometry Cylinder {
+                      bottom FALSE
+                      height 0.008
+                      radius 0.03
+                      subdivision 6
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+        boundingObject USE AXIS
+        physics Physics {
+        }
+      }
+    }
+    DEF BASIS_GROUP Group {
+      children [
+        Transform {
+          translation 0 0.02 0
+          children [
+            Shape {
+              appearance USE METAL_APPEARANCE
+              geometry Cylinder {
+                bottom FALSE
+                height 0.04
+                radius 0.1
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.04 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                bottom FALSE
+                height 0.04
+                radius 0.07
+                side FALSE
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.04 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 1 0.866667 0
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                bottom FALSE
+                height 0.04
+                radius 0.07
+                top FALSE
+              }
+            }
+          ]
+        }
+      ]
+    }
   ]
+  boundingObject USE BASIS_GROUP
   controller "accelerometer"
 }
 TestSuiteSupervisor {
