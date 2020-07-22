@@ -225,11 +225,13 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   QList<WbField *> previousParentRedirections;
   WbField *parentField = node->parentField();
   QVector<WbField *> parameters;
+  WbNode::setRestoreUniqueIdOnClone(true);
   foreach (WbField *parameter, node->parameters()) {
     parameters << new WbField(*parameter, NULL);
     if (parameter->parameter() != NULL)
       previousParentRedirections.append(parameter->parameter());
   }
+  WbNode::setRestoreUniqueIdOnClone(false);
   int uniqueId = node->uniqueId();
   const WbSolid *solid = dynamic_cast<const WbSolid *>(node);
   WbVector3 translationFromFile;

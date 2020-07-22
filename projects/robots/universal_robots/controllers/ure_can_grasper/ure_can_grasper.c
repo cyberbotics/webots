@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
             printf("Releasing can\n");
             state = RELEASING;
             for (i = 0; i < 3; ++i)
-              wb_motor_set_position(hand_motors[i], 0);
+              wb_motor_set_position(hand_motors[i], wb_motor_get_min_position(hand_motors[i]));
           }
           break;
         case RELEASING:

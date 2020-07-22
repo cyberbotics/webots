@@ -1,9 +1,8 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
-  northDirection 1 0 1
 }
 Viewpoint {
-  orientation 0.920152 0.3903 0.0314166 5.65888
+  orientation 0.9201516338443356 0.3902998446880996 0.03141658749840674 5.65888
   position -0.321062 0.718685 1.12281
 }
 Background {
@@ -16,10 +15,10 @@ PointLight {
   intensity 0
 }
 Robot {
-  rotation 0 1 0 1.57079633
+  rotation 0 1 0 0.392699
   children [
     Compass {
-      rotation 0 1 0 1.57079633
+      rotation 0 1 0 0.392699
       lookupTable [
         -1000 -1000 0
         1000 1000 0

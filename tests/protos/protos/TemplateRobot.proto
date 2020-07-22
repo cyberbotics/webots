@@ -4,6 +4,7 @@ PROTO TemplateRobot [
   field SFString controller "void"
   field SFString customData ""
   field SFString proceduralField "this is a string"
+  field MFNode   slot []
 ]
 {
   %{ print(fields.proceduralField.value) }%
@@ -12,6 +13,13 @@ PROTO TemplateRobot [
     customData IS customData
     controllerArgs [
       "%{= context.id }%"
+    ]
+    children [ 
+      Group {
+        children IS slot
+      }
+      DEF INTERNAL Transform {
+      }
     ]
   }
 }

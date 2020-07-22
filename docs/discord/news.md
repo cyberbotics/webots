@@ -4,6 +4,19 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 07/14/2020 07:10:56
+We have created a new repository for the community to share your PROTO, controllers, worlds, etc.
+
+We hope to receive many contributions from the community:
+
+[https://github.com/cyberbotics/community-projects](https://github.com/cyberbotics/community-projects)
+
+##### Olivier Michel [cyberbotics] 07/13/2020 14:34:21
+We received a total of 35 submissions to the Webots Google season of Docs. We are now in the process of selecting the best applications.
+
+##### Doc 07/11/2020 14:22:55
+That competition is live now [https://www.youtube.com/watch?v=xLL7SoQywf4](https://www.youtube.com/watch?v=xLL7SoQywf4)
+
 ##### Olivier Michel [cyberbotics] 06/13/2020 09:21:11
 Student competition based on Webots: [https://studentrobotics.org/docs/competition-simulator/](https://studentrobotics.org/docs/competition-simulator/)
 

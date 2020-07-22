@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
 
   const double *values = wb_compass_get_values(compass);
 
-  const double expected[] = {-0.707107, 0.000000, -0.707107};
+  const double expected[] = {0.707107, 0, 0.707107};
 
   int i;
   for (i = 0; i < 3; i++)

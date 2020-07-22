@@ -10,9 +10,10 @@ WorldInfo {
       ]
     }
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.27488671 -0.90071393 -0.3363803 1.779097
+  orientation -0.2748867109265388 -0.900713933035965 -0.3363803011338104 1.779097
   position -20.43118 19.174285 -3.4897581
 }
 Background {
@@ -142,7 +143,6 @@ DEF VEHICLE Robot {
     TestSuiteEmitter {
     }
   ]
-  name "robot"
   boundingObject Transform {
     translation 0 0 -1.64
     children [
@@ -155,7 +155,6 @@ DEF VEHICLE Robot {
   }
   controller "move_vehicle_with_hinge_2_joint"
   supervisor TRUE
-  cpuConsumption 10
   selfCollision TRUE
 }
 DEF CAR Car {
@@ -165,16 +164,12 @@ DEF CAR Car {
   hidden position2_0_1 8.407
   hidden position_0_2 7.03964
   hidden position_0_3 6.66752
-  hidden translation_1 0 0 0
-  hidden rotation_1 0.055386094 -0.99346877 0.099760645 4.1496786
-  hidden translation_2 0 0 0
-  hidden rotation_2 -0.055608208 0.99346506 0.099673974 4.1538011
-  hidden translation_3 0 0 0
-  hidden rotation_3 0 -1 0 5.5267306
-  hidden translation_4 0 0 0
-  hidden rotation_4 0 1 0 5.8988506
+  hidden rotation_1 0.055386094017574695 -0.9934687686711855 0.09976064486777862 4.149678629760579
+  hidden rotation_2 -0.05560820802292396 0.9934650603306239 0.09967397404914154 4.153801098520317
+  hidden rotation_3 0 -1 0 5.526730614359173
+  hidden rotation_4 0 1 0 5.898850614359174
   translation 5.1164165 0.34688528 -1.4528767
-  rotation 0.010146934 -0.99994442 -0.0028622827 0.50605632
+  rotation 0.010146934020187369 -0.9999444219893937 -0.002862282705694524 0.50605632
   controller "move_car"
   extensionSlot [
     TestSuiteEmitter {

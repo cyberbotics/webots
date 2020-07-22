@@ -5,7 +5,7 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.489857 0.827886 0.273213 1.11173
+  orientation -0.4898568890929838 0.827885812560878 0.27321293814268527 1.11173
   position 0.982171 0.73233 0.652271
 }
 Background {
@@ -20,7 +20,7 @@ PointLight {
 }
 Robot {
   children [
-    TestSuiteEmitter {
+    DEF EMITTER TestSuiteEmitter {
     }
   ]
   controller "supervisor_get_from_def"
@@ -42,7 +42,7 @@ DEF SOLID_PROTO SolidProto {
       ]
     }
   ]
-  boundingObject Box {
+  boundingObject DEF BO Box {
     size 0.1 0.1 0.1
   }
   physics Physics {

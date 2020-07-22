@@ -3,7 +3,7 @@ WorldInfo {
   title "Dynamic receiver rays"
 }
 Viewpoint {
-  orientation -0.0636607 0.994194 0.0867518 1.46997
+  orientation -0.06366069143242599 0.9941938661995442 0.08675178832478331 1.46997
   position 0.398982 0.121893 0.0363673
 }
 Background {
@@ -34,7 +34,7 @@ DEF DYNAMIC_EMITTER Robot {
       children [
         Transform {
           translation 0 3.67321e-08 0.05
-          rotation 3.39051e-09 -0.707108 0.707105 3.14159
+          rotation 3.3905113482557537e-09 -0.707108281185553 0.70710528118436 3.14159
           children [
             Shape {
               appearance Appearance {
@@ -59,7 +59,7 @@ DEF DYNAMIC_EMITTER Robot {
       children [
         Transform {
           translation 0 3.67321e-08 0.05
-          rotation 3.39051e-09 -0.707108 0.707105 3.14159
+          rotation 3.3905113482557537e-09 -0.707108281185553 0.70710528118436 3.14159
           children [
             Shape {
               appearance Appearance {
@@ -99,7 +99,7 @@ DEF STATIC_EMITTER Robot {
       children [
         Transform {
           translation 0 3.67321e-08 0.05
-          rotation 3.39051e-09 -0.707108 0.707105 3.14159
+          rotation 3.3905113482557537e-09 -0.707108281185553 0.70710528118436 3.14159
           children [
             Shape {
               appearance Appearance {
@@ -124,7 +124,7 @@ DEF STATIC_EMITTER Robot {
       children [
         Transform {
           translation 0 3.67321e-08 0.05
-          rotation 3.39051e-09 -0.707108 0.707105 3.14159
+          rotation 3.3905113482557537e-09 -0.707108281185553 0.70710528118436 3.14159
           children [
             Shape {
               appearance Appearance {
@@ -204,7 +204,7 @@ DEF DYNAMIC_ROBOT DifferentialWheels {
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0 -0.707108 0.707105 3.14159
+          rotation 0 -0.707108281185553 0.70710528118436 3.14159
           children [
             Shape {
               appearance Appearance {
@@ -230,7 +230,7 @@ DEF DYNAMIC_ROBOT DifferentialWheels {
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0 -0.707108 0.707105 3.14159
+          rotation 0 -0.707108281185553 0.70710528118436 3.14159
           children [
             Shape {
               appearance Appearance {
@@ -256,7 +256,7 @@ DEF DYNAMIC_ROBOT DifferentialWheels {
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0 -0.707108 0.707105 3.14159
+          rotation 0 -0.707108281185553 0.70710528118436 3.14159
           children [
             Shape {
               appearance Appearance {
@@ -283,7 +283,7 @@ DEF DYNAMIC_ROBOT DifferentialWheels {
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0 -0.707108 0.707105 3.14159
+          rotation 0 -0.707108281185553 0.70710528118436 3.14159
           children [
             Shape {
               appearance Appearance {
@@ -321,7 +321,9 @@ DEF DYNAMIC_ROBOT DifferentialWheels {
     mass 0.5
   }
   controller "receiver_rays"
-  controllerArgs "dynamic_receiver_rays"
+  controllerArgs [
+    "dynamic_receiver_rays"
+  ]
   axleLength 0.09
   wheelRadius 0.025
   maxSpeed 1000

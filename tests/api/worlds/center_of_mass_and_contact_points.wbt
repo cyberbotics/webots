@@ -2,7 +2,7 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.0180737 -0.999499 -0.0259827 4.24934
+  orientation -0.018073699906631446 -0.9994989948365981 -0.02598269986577363 4.24934
   position 0.958658 0.130266 -0.44661
 }
 Background {
@@ -18,13 +18,6 @@ DEF FLOOR Solid {
   children [
     Shape {
       geometry ElevationGrid {
-        color Color {
-          color [
-            0.803922 0.498039 0.298039
-            1 1 0
-          ]
-        }
-        colorPerVertex FALSE
         xDimension 11
         xSpacing 0.1
         zDimension 11
@@ -50,7 +43,7 @@ DEF contact_points_and_center_of_mass Robot {
 }
 Robot {
   translation -6.22315e-18 0.074888 2.41338e-17
-  rotation 0.471872 0.880896 0.036865 0
+  rotation 0.47187200579812727 0.8808960108240097 0.03686500045297869 0
   children [
     DEF GROUP Group {
       children [

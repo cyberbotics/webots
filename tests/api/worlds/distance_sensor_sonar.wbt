@@ -2,7 +2,7 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.999382 0.0277185 -0.02164 4.71099
+  orientation 0.9993815069221509 0.027718486324169976 -0.021639989323197082 4.71099
   position -0.0198992 1.24915 -0.0584196
 }
 Background {
@@ -72,7 +72,7 @@ Robot {
 }
 Solid {
   translation -0.101643 0.1 -0.246648
-  rotation 0.198977 0.198978 0.959592 1.61204
+  rotation 0.19897691071141957 0.19897791071097085 0.9595915693944151 1.61204
   children [
     DEF SHAPE Shape {
       geometry Box {

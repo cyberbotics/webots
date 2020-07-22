@@ -15,8 +15,7 @@ Compass {
 ### Description
 
 A [Compass](#compass) node can be used to model a 1, 2 or 3-axis digital compass (magnetic sensor).
-The [Compass](#compass) node returns a vector that indicates the direction of the *virtual north*.
-The *virtual north* is specified by the `northDirection` field in the [WorldInfo](worldinfo.md) node.
+The [Compass](#compass) node returns a vector that indicates the north direction specified by the `coordinateSystem` field of the [WorldInfo](worldinfo.md) node.
 
 ### Field Summary
 
@@ -151,7 +150,7 @@ The `wb_compass_disable` function turns off the [Compass](#compass) device.
 The `wb_compass_get_sampling_period` function returns the period given into the `wb_compass_enable` function, or 0 if the device is disabled.
 
 The `wb_compass_get_values` function returns the current [Compass](#compass) measurement.
-The returned vector indicates the direction of the *virtual north* in the coordinate system of the [Compass](#compass) device.
+The returned vector indicates the north direction in the coordinate system of the [Compass](#compass) device.
 Here is the internal algorithm of the `wb_compass_get_values` function in pseudo-code:
 
 ```c
@@ -173,9 +172,8 @@ If the lookupTable is empty and all three xAxis, yAxis and zAxis fields are TRUE
 
 The values are returned as a 3D-vector, therefore only the indices 0, 1, and 2 are valid for accessing the vector.
 Let's look at one example.
-In Webots global coordinates system, the *xz*-plane represents the horizontal floor and the *y*-axis indicates the elevation.
-The default value of the `northDirection` field is [ 1 0 0 ] and therefore the north direction is horizontal and aligned with the x-axis.
-Now if the [Compass](#compass) node is in *upright* position, meaning that its y-axis is aligned with the global y-axis, then the bearing angle in degrees can be computed as follows:
+The default value of the `WorldInfo.coordinateSystem` field is `"ENU"` and therefore the north direction is along with the Y-positive axis.
+Now if the [Compass](#compass) node is in *upright* position, meaning that its Z-axis is aligned with the global Z-axis, then the bearing angle in degrees can be computed as follows:
 
 ```c
 double get_bearing_in_degrees() {
@@ -191,7 +189,7 @@ double get_bearing_in_degrees() {
 The `wb_compass_get_lookup_table_size` function returns the number of rows in the lookup table.
 
 The `wb_compass_get_lookup_table` function returns the values of the lookup table.
-This function returns a matrix containing exactly N * 3 values (N represents the number of mapped values optained with the `wb_compass_get_lookup_table_size` function) that shall be interpreted as a N x 3 table.
+This function returns a matrix containing exactly N * 3 values (N represents the number of mapped values obtained with the `wb_compass_get_lookup_table_size` function) that shall be interpreted as a N x 3 table.
 
 > **Note** [C, C++]: The returned vector is a pointer to the internal values managed by the [Compass](#compass) node, therefore it is illegal to free this pointer.
 Furthermore, note that the pointed values are only valid until the next call to the `wb_robot_step` or `Robot::step` functions.

@@ -67,5 +67,4 @@ Robot {
   name "mirror supervisor"
   controller "mirror_supervisor"
   supervisor TRUE
-  cpuConsumption 10
 }

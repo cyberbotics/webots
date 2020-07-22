@@ -18,14 +18,28 @@ SignPole {
 }
 DEF ROBOT TemplateRobot {
   controller "copy_args_in_custom_data"
+  slot [
+    DEF SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap DEF TEXTURE ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+      }
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
 }
 Robot {
   children [
     TestSuiteEmitter {
     }
   ]
+  name "supervisor"
   controller "template_node_id"
-  controllerArgs "template_node_id"
   supervisor TRUE
 }
 TestSuiteSupervisor {

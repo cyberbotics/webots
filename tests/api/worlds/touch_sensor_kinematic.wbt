@@ -2,7 +2,7 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.588686 0.799884 0.116762 5.72617
+  orientation 0.5886862988478528 0.7998844060630216 0.11676205927450796 5.72617
   position -1.07024 1.46083 2.18653
 }
 Background {
@@ -34,8 +34,10 @@ Robot {
       jointParameters JointParameters {
         axis 0 1 0
       }
-      device LinearMotor {
-      }
+      device [
+        LinearMotor {
+        }
+      ]
       endPoint Solid {
         translation 0 0.6 0
         children [

@@ -73,6 +73,7 @@ static bool gTopParameterFlag = false;
 static bool gDerivedProtoAncestorFlag = false;
 static QStringList *gInternalDefNamesInWrite = NULL;
 static QList<QPair<WbNode *, int>> *gExternalUseNodesInWrite = NULL;
+static bool gRestoreUniqueIdOnClone;
 
 bool WbNode::cUpdatingDictionary = false;
 
@@ -104,13 +105,19 @@ WbNode *WbNode::globalParentNode() {
   return gParent;
 }
 
+bool WbNode::setRestoreUniqueIdOnClone(bool enable) {
+  const bool previousValue = gRestoreUniqueIdOnClone;
+  gRestoreUniqueIdOnClone = enable;
+  return previousValue;
+}
+
 void WbNode::setUniqueId(int newId) {
   // check new id is valid
   // - correct range
   // - the newId slot is empty (the node was deleted)
   assert(newId >= 0);
   assert(newId < gNodes.size());
-  assert(gNodes[newId] == NULL);
+  assert(gRestoreUniqueIdOnClone || gNodes[newId] == NULL);
 
   // update the id
   if (mUniqueId != -1 && mUniqueId != newId) {
@@ -131,7 +138,7 @@ int WbNode::getFreeUniqueId() {
 
 void WbNode::init() {
   // nodes at the .wbt level are created with a mUniqueId
-  if (gInstantiateMode) {
+  if (gInstantiateMode && !gRestoreUniqueIdOnClone) {
     mUniqueId = gNodes.size();
     gNodes.append(this);
   } else
@@ -183,6 +190,8 @@ WbNode::WbNode(const WbNode &other) :
   mProtoInstanceFilePath(other.mProtoInstanceFilePath),
   mProtoInstanceTemplateContent(other.mProtoInstanceTemplateContent) {
   init();
+  if (gRestoreUniqueIdOnClone)
+    setUniqueId(other.mUniqueId);
 
   // copy mProto reference in any case
   if (other.mProto) {
@@ -327,7 +336,8 @@ WbNode::~WbNode() {
   mProtoParameterNodeInstances.clear();
 
   // nodes in PROTO definitions and in scene tree clipboard are not in gNodes[]
-  if (mUniqueId != -1)
+  // in case of PROTO regeneration, the unique ID could already be assigned to a new node
+  if (mUniqueId != -1 && gNodes[mUniqueId] == this)
     gNodes[mUniqueId] = NULL;
 
   if (isUseNode() && mDefNode) {
@@ -730,17 +740,6 @@ void WbNode::makeDefNode() {
   resetUseAncestorFlag();
 
   emit defUseNameChanged(this, true);
-}
-
-const WbNode *WbNode::getNodeFromDEF(const QString &defName) const {
-  if (defName == mDefName)
-    return this;
-  foreach (const WbNode *node, subNodes(false)) {
-    const WbNode *defNode = node->getNodeFromDEF(defName);
-    if (defNode)
-      return defNode;
-  }
-  return NULL;
 }
 
 void WbNode::resetUseAncestorFlag() {

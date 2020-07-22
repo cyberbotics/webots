@@ -3,54 +3,86 @@ name: Test Suite
 on: 
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
+  schedule:
+    - cron:  '0 23 * * *'
+  push:
+    tags:
+      - '*'
 
 defaults:
   run:
     shell: bash
 jobs:
   build:
-    runs-on: ubuntu-latest
-    if: github.event.pull_request.draft == false
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || github.event.pull_request.draft == false }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04]
+        include:
+          - os: ubuntu-18.04
+            version_dependencies: "libssl1.0-dev ffmpeg python-pip npm"
+            JAVA_VERSION: "11"
+          - os: ubuntu-20.04
+            version_dependencies: "libssl-dev ffmpeg python-pip-whl npm libzip5"
+            JAVA_VERSION: "14"
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
     - name: Checkout Submodules
       uses: textbook/git-checkout-submodule-action@master
-    - name: Install Webots Dependencies 
+    - name: Install Webots Compilation Dependencies 
       run: |
+        sudo add-apt-repository ppa:deadsnakes/ppa
         sudo apt update
         # common dependencies
-        sudo apt -y install git g++ cmake execstack libusb-dev swig python2.7-dev python3.6-dev python3.7-dev python3.8-dev libglu1-mesa-dev libglib2.0-dev libfreeimage-dev libfreetype6-dev libxml2-dev libzzip-0-13 libboost-dev libavcodec-extra libgd-dev libssh-gcrypt-dev libzip-dev libreadline-dev pbzip2 libpci-dev libxcb-keysyms1 libxcb-image0 libxcb-icccm4 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0
-        # ubuntu 18.04 dependencies
-        sudo apt -y install libssl1.0-dev ffmpeg python-pip
-        # optional dependencies
-        sudo apt -y install openjdk-11-jdk npm
+        sudo apt -y install git g++ cmake execstack libusb-dev swig openjdk-${{ matrix.JAVA_VERSION }}-jdk python2.7-dev python3.6-dev python3.7-dev python3.8-dev libglu1-mesa-dev libglib2.0-dev libfreeimage-dev libfreetype6-dev libxml2-dev libzzip-0-13 libboost-dev libavcodec-extra libgd3 libssh-gcrypt-dev libzip-dev libreadline-dev pbzip2 libpci-dev libxcb-keysyms1 libxcb-image0 libxcb-icccm4 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0
+        # version specific dependencies
+        sudo apt -y install ${{ matrix.version_dependencies }}
         # ubuntu server dependencies
         sudo apt -y install libxkbcommon-x11-dev
-    - name: Make
+    - name: Set Commit SHA in Version
+      if: ${{ github.event_name == 'schedule' }}
+      run: python src/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
+    - name: Webots Package Creation
       run: |
+        export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
+        export PATH=$JAVA_HOME/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
         xvfb-run --auto-servernum make distrib -j4
     - uses: actions/upload-artifact@v2
       with:
-        path: distribution/*.tar.bz2
+        name: build-${{ matrix.os }}
+        path: |
+          distribution/*.tar.bz2
+          distribution/*.deb
+    - name: Create/Update GitHub release
+      if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') && matrix.os == 'ubuntu-20.04' }}
+      run: |
+        sudo apt -y install rename
+        sudo python -m pip install requests PyGithub
+        rename 's/\.tar.bz2$/_${{ matrix.os }}.tar.bz2/' distribution/*.tar.bz2
+        src/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
   test-suite:
-    runs-on: ubuntu-latest
     needs: build
     strategy:
       matrix:
-        test: [tests/test_suite.py, src/packaging/update_all_worlds.py]
+        os: [ubuntu-18.04, ubuntu-20.04]
+        test: [tests/test_suite.py]
+        post_task: [""]
         include:
-          - test: tests/test_suite.py
-            POST_TASK: ""
-          - test: src/packaging/update_all_worlds.py
-            POST_TASK: "if [[ \"$(git diff --name-only *.wbt *.wbproj | wc -l)\" -ne \"0\" ]]; then echo Some world and/or wbproj files are not up to date: \"$(git diff *.wbt *.wbproj)\"; exit -1; fi"
+          - os: ubuntu-18.04
+            test: src/packaging/update_all_worlds.py
+            post_task: "if [[ \"$(git diff --name-only *.wbt *.wbproj | wc -l)\" -ne \"0\" ]]; then echo Some world and/or wbproj files are not up to date: \"$(git diff *.wbt *.wbproj)\"; exit -1; fi"
+    runs-on: ${{ matrix.os }}
     steps:  
     - uses: actions/checkout@v2
     - name: Download Artifacts
       uses: actions/download-artifact@v2
+      with:
+        name: build-${{ matrix.os }}
+        path: artifact
     - name: Extract Webots
-      run: |
-        tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
+      run: tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
     - name: Install Webots Dependencies
       run: |
         sudo apt update
@@ -65,4 +97,4 @@ jobs:
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
         xvfb-run --auto-servernum python ${{ matrix.test }}
-        ${{ matrix.POST_TASK }}
+        ${{ matrix.post_task }}

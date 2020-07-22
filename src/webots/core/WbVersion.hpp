@@ -24,7 +24,7 @@
 
 class WbVersion {
 public:
-  WbVersion(int major = 0, int minor = 0, int revision = 0);
+  WbVersion(int major = 0, int minor = 0, int revision = 0, bool webots = false);
   WbVersion(const WbVersion &other);
   virtual ~WbVersion() {}
 

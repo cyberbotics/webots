@@ -244,15 +244,19 @@ static void display() {
   // display team names and current score
   char text[64];
   if (control_data.firstHalf) {
-    snprintf(text, sizeof(text), "%s - %d", get_team_name(TEAM_RED), control_data.teams[TEAM_RED].score);
-    wb_supervisor_set_label(0, text, 0.05, 0.03, FONT_SIZE, 0xec0f0f, 0.0, "Arial");  // red
-    snprintf(text, sizeof(text), "%d - %s", control_data.teams[TEAM_BLUE].score, get_team_name(TEAM_BLUE));
-    wb_supervisor_set_label(1, text, 0.99 - 0.025 * strlen(text), 0.03, FONT_SIZE, 0x0000ff, 0.0, "Arial");  // blue
+    int ret = snprintf(text, sizeof(text), "%s - %d", get_team_name(TEAM_RED), control_data.teams[TEAM_RED].score);
+    if (ret >= 0)
+      wb_supervisor_set_label(0, text, 0.05, 0.03, FONT_SIZE, 0xec0f0f, 0.0, "Arial");  // red
+    ret = snprintf(text, sizeof(text), "%d - %s", control_data.teams[TEAM_BLUE].score, get_team_name(TEAM_BLUE));
+    if (ret >= 0)
+      wb_supervisor_set_label(1, text, 0.99 - 0.025 * strlen(text), 0.03, FONT_SIZE, 0x0000ff, 0.0, "Arial");  // blue
   } else {
-    snprintf(text, sizeof(text), "%s - %d", get_team_name(TEAM_BLUE), control_data.teams[TEAM_BLUE].score);
-    wb_supervisor_set_label(0, text, 0.05, 0.03, FONT_SIZE, 0x0000ff, 0.0, "Arial");  // blue
-    snprintf(text, sizeof(text), "%d - %s", control_data.teams[TEAM_RED].score, get_team_name(TEAM_RED));
-    wb_supervisor_set_label(1, text, 0.99 - 0.025 * strlen(text), 0.03, FONT_SIZE, 0xec0f0f, 0.0, "Arial");  // red
+    int ret = snprintf(text, sizeof(text), "%s - %d", get_team_name(TEAM_BLUE), control_data.teams[TEAM_BLUE].score);
+    if (ret >= 0)
+      wb_supervisor_set_label(0, text, 0.05, 0.03, FONT_SIZE, 0x0000ff, 0.0, "Arial");  // blue
+    ret = snprintf(text, sizeof(text), "%d - %s", control_data.teams[TEAM_RED].score, get_team_name(TEAM_RED));
+    if (ret >= 0)
+      wb_supervisor_set_label(1, text, 0.99 - 0.025 * strlen(text), 0.03, FONT_SIZE, 0xec0f0f, 0.0, "Arial");  // red
   }
 
   // display game state or remaining time
