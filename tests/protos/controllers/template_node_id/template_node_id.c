@@ -17,12 +17,18 @@ int main(int argc, char **argv) {
   WbFieldRef procedural_field = wb_supervisor_node_get_field(robot, "proceduralField");
 
   WbNodeRef texture = wb_supervisor_node_get_from_def("TEXTURE");
-  ts_assert_pointer_not_null(texture, "Can'tB find 'appearance' field of SHAPE node.");
+  ts_assert_pointer_not_null(texture, "Can't find TEXTURE node.");
   WbFieldRef repeats_field = wb_supervisor_node_get_field(texture, "repeatS");
   ts_assert_pointer_not_null(repeats_field, "Can't find 'repeatS' field of TEXTURE node.");
 
   WbNodeRef shape = wb_supervisor_node_get_from_def("SHAPE");
-  ts_assert_pointer_not_null(shape, "Can'tB find 'appearance' field of SHAPE node.");
+  ts_assert_pointer_not_null(shape, "Can't find SHAPE node.");
+
+  WbNodeRef internal_node = wb_supervisor_node_get_from_proto_def(robot, "INTERNAL");
+  ts_assert_pointer_not_null(internal_node, "Can't find INTERNAL node.");
+
+  WbFieldRef internal_children_field = wb_supervisor_node_get_field(internal_node, "children");
+  ts_assert_pointer_not_null(internal_children_field, "Can't find 'children' field of INTERNAL node.");
 
   const char *field_content = wb_supervisor_field_get_sf_string(custom_data_field);
   int id;
@@ -50,6 +56,16 @@ int main(int argc, char **argv) {
   ts_assert_int_equal(0, wb_supervisor_node_get_id(root_node), "The 'id' of the root node should be '0'.");
 
   // test that fields can be retrieved (for the first time) even after PROTO regeneration
+  int field_type = wb_supervisor_field_get_type(internal_children_field);
+  ts_assert_int_equal(field_type, WB_NO_FIELD, "'children' field reference of INTERNAL node should be invalid after PROTO regeneration.");
+  WbFieldRef internal_translation_field = wb_supervisor_node_get_field(internal_node, "translation");
+  ts_assert_pointer_null(internal_translation_field, "INTERNAL node reference should be invalid after PROTO regeneration.");
+  internal_node = wb_supervisor_node_get_from_proto_def(robot, "INTERNAL");
+  ts_assert_pointer_not_null(internal_node, "Can't find INTERNAL node after PROTO regeneration.");
+  internal_translation_field = wb_supervisor_node_get_field(internal_node, "translation");
+  ts_assert_pointer_not_null(internal_translation_field, "Can't find 'translation' field of INTERNAL node.");
+  field_type = wb_supervisor_field_get_type(internal_translation_field);
+  ts_assert_int_equal(field_type, WB_SF_VEC3F, "'translation' field of INTERNAL node is invalid.");
 
   WbFieldRef root_children_field = wb_supervisor_node_get_field(root_node, "children");
   ts_assert_pointer_not_null(root_children_field, "Can't find 'children' field of root node.");
