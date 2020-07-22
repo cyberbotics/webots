@@ -62,6 +62,7 @@ Released on XXX.
     - Fixed issues with context menu available items when requested from the scene tree (thanks to MaxGaukler) ([#1889](https://github.com/cyberbotics/webots/pull/1889)).
     - Fixed crash when setting an invalid value to a field that triggers the parent PROTO regeneration ([#1868](https://github.com/cyberbotics/webots/pull/1868)).
     - Fixed crash when converting a PROTO node to Base node(s) if contained in a field that triggers the parent PROTO regeneration ([#1868](https://github.com/cyberbotics/webots/pull/1868)).
+    - Fixed crash when deleting a node contained in a field that triggers the parent PROTO regeneration ([#1868](https://github.com/cyberbotics/webots/pull/1868)).
     - Fixed crash occurring when reloading or resetting a simulation containing a [Display](display.md) device ([#1865](https://github.com/cyberbotics/webots/pull/1865)).    
     - Fixed crash with Python [`RangeFinder.rangeImageGetDepth`](rangefinder.md#wb_range_finder_image_get_depth) function ([#1858](https://github.com/cyberbotics/webots/pull/1858)).
     - Fixed mismatch between the bounding object and visual shape of the [UnevenTerrain](https://www.cyberbotics.com/doc/guide/object-floors#uneventerrain), **and removed the `textureScale` field** ([#1792](https://github.com/cyberbotics/webots/pull/1792)).
