@@ -4,6 +4,12 @@ This is an archive of the `documentation` channel of the [Webots Discord server]
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 07/20/2020 05:36:54
+This is unfortunaely not possible. However you can view it offline in Webots from the 'Help' menu.
+
+##### Laojiang 07/20/2020 02:21:35
+Hello, how can I download the documentation like user guide?
+
 ##### David Mansolino [cyberbotics] 07/07/2020 11:51:08
 Thank you, we will have a look soon!
 
