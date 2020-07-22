@@ -58,6 +58,7 @@ Released on XXX.
   - Bug fixes
     - Fixed crash occurring when reverting the world while an animation was being recorded (thanks to [Jenny](https://github.com/JennyLynnFletcher)) ([#1957](https://github.com/cyberbotics/webots/pull/1957)).
     - Fixed wrong measurements of [Accelerometer](accelerometer.md) device (thanks to [MauroMombelli](https://github.com/MauroMombelli)) ([#1947](https://github.com/cyberbotics/webots/pull/1947)).
+    - Fixed issues with nodes and fields references in controller program after procedural PROTO regeneration ([#1922](https://github.com/cyberbotics/webots/pull/1922)).
     - Fixed issues with context menu available items when requested from the scene tree (thanks to MaxGaukler) ([#1889](https://github.com/cyberbotics/webots/pull/1889)).
     - Fixed crash occurring when reloading or resetting a simulation containing a [Display](display.md) device ([#1865](https://github.com/cyberbotics/webots/pull/1865)).
     - Fixed crash with Python [`RangeFinder.rangeImageGetDepth`](rangefinder.md#wb_range_finder_image_get_depth) function ([#1858](https://github.com/cyberbotics/webots/pull/1858)).

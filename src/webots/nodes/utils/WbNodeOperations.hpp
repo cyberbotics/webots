@@ -56,6 +56,7 @@ public:
 
   void notifyNodeAdded(WbNode *node);
   void notifyNodeDeleted(WbNode *node);
+  void notifyNodeRegenerated();
 
   void updateDictionary(bool load, WbBaseNode *protoRoot);  // called after every modification of the Scene Tree
 

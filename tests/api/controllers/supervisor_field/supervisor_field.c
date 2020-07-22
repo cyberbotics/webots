@@ -386,6 +386,13 @@ int main(int argc, char **argv) {
   ts_assert_doubles_equal(3, vector3_modified, vector3_expected, "Delayed 'wb_supervisor_field_set_sf_vec3f' failed");
 
   // test internal SFFloat was read-only (wb_supervisor_field_set_sf_float failed)
+  // field reference is invalid after regeneration
+  int internal_field_type = wb_supervisor_field_get_type(internal_field);
+  printf("internal_field_type %d\n", internal_field_type);
+  ts_assert_int_equal(internal_field_type, 0, "Internal field reference is invalid after PROTO regeneration");
+  internal_field = wb_supervisor_node_get_proto_field(proto, "cpuConsumption");
+  printf("internal_field %p\n", internal_field);
+  ts_assert_pointer_not_null(internal_field, "Node reference should be invalid after PROTO regeneration");
   d = wb_supervisor_field_get_sf_float(internal_field);
   ts_assert_double_equal(d, 1.11, "Returned value should be 1.11 and not %f", d);
 
