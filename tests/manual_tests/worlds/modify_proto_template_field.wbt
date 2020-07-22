@@ -2,7 +2,7 @@
 WorldInfo {
   info [
     "Test procedure:"
-    "- convert to base the Floor > appearance Parquetry PROTO node"
+    "- convert to base the TestFloor > appearance Parquetry PROTO node"
     "-> Webots should not crash"
     " "
     "Regression test for issue #1854"
