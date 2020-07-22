@@ -268,7 +268,6 @@ static void remove_internal_proto_nodes_and_fields_from_list() {
       WbFieldStruct *current_field = field;
       field = field->next;
       // clean the field
-      printf("remove_internal field %p\n", current_field);
       if (current_field->type == WB_SF_STRING || current_field->type == WB_MF_STRING)
         free(current_field->data.sf_string);
       free(current_field);
