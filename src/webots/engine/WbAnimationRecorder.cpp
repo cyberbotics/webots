@@ -385,12 +385,17 @@ void WbAnimationRecorder::start(const QString &fileName) {
 void WbAnimationRecorder::stopRecording() {
   disconnect(WbSimulationState::instance(), &WbSimulationState::physicsStepEnded, this, &WbAnimationRecorder::update);
   mIsRecording = false;
-
   if (!mFile)
     return;
-
-  // prepend header and initial state to the file containing updates
   mFile->close();
+  const WbWorld *const world = WbWorld::instance();
+  if (!world) {  // the world is being reverted, aborting the animation and deleting the incomplete animation file
+    mFile->remove();
+    delete mFile;
+    mFile = NULL;
+    return;
+  }
+  // prepend header and initial state to the file containing updates
   mFile->open(QFile::ReadOnly | QFile::Text);
   const QByteArray updates = mFile->readAll();
   mFile->close();
@@ -399,7 +404,7 @@ void WbAnimationRecorder::stopRecording() {
   QTextStream out(mFile);
   out << "{\n";
   // write header
-  const WbWorldInfo *const worldInfo = WbWorld::instance()->worldInfo();
+  const WbWorldInfo *const worldInfo = world->worldInfo();
   const double step = worldInfo->basicTimeStep() * ceil((1000.0 / worldInfo->fps()) / worldInfo->basicTimeStep());
   out << QString(" \"basicTimeStep\":%1,\n").arg(step);
   out << " \"ids\":\"";
