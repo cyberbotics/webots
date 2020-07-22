@@ -9,8 +9,8 @@ WorldInfo {
   CFM 0.0001
   ERP 0.6
   basicTimeStep 4
-  lineScale 0.5
   coordinateSystem "NUE"
+  lineScale 0.5
 }
 Viewpoint {
   orientation 0.05493830068991821 0.9867940123922135 0.1523790019135839 3.78655

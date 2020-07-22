@@ -9,6 +9,7 @@ WorldInfo {
   ]
   title "Animated skin"
   basicTimeStep 4
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "leg"
@@ -29,7 +30,6 @@ WorldInfo {
       bounce 0.9
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.0016330557001559163 -0.9975764200952438 -0.06956018400664127 2.5683405

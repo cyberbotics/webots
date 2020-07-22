@@ -6,12 +6,12 @@ WorldInfo {
   ]
   title "Passive Dynamic Walker"
   basicTimeStep 6
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       bounce 0
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.036696787566263704 0.9893336647904432 0.1409689522363974 2.63711

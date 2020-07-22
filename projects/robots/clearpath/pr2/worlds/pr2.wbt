@@ -6,13 +6,13 @@ WorldInfo {
   ]
   title "PR2"
   basicTimeStep 16
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "pr2_material"
       softCFM 1e-05
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.06091631601174338 0.9680772544573537 0.24313706390813708 2.64476

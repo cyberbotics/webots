@@ -9,6 +9,7 @@ WorldInfo {
   title "Aldebaran's Nao"
   basicTimeStep 20
   FPS 20
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "NAO foot material"
@@ -19,7 +20,6 @@ WorldInfo {
       bounceVelocity 0.003
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.23226100856508938 0.9658260356167674 0.11504300424244096 0.836541

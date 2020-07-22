@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Khepera III"
   basicTimeStep 16
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "wheel"
@@ -20,7 +21,6 @@ WorldInfo {
       softCFM 0.0001
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.010375173565955154 0.9881546100079622 0.15311049112810118 3.390766842814564

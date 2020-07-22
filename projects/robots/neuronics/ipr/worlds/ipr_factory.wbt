@@ -6,6 +6,7 @@ WorldInfo {
   ]
   title "IPR (Katana) 6M"
   basicTimeStep 20
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "object"
@@ -15,7 +16,6 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.07149712122662581 0.9786502905493699 0.192696057209116 2.44314

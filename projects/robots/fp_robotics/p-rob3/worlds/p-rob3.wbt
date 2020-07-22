@@ -6,6 +6,7 @@ WorldInfo {
   ]
   title "P-Rob3 robotic arm from F&P Robotics"
   basicTimeStep 8
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "p-grip finger"
@@ -15,7 +16,6 @@ WorldInfo {
       softCFM 1
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   fieldOfView 0.85

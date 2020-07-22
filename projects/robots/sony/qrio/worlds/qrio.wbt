@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "QRIO Robot"
   basicTimeStep 16
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "floor"
@@ -14,7 +15,6 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.43264709809127555 0.8929382024500976 0.12441002820668025 0.62309

@@ -1,6 +1,7 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
   basicTimeStep 16
+  coordinateSystem "NUE"
   lineScale 0.05
   contactProperties [
     ContactProperties {
@@ -10,7 +11,6 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.11746115960966176 -0.9557627868238798 -0.2696671491038621 2.3526191

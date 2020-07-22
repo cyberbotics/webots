@@ -8,6 +8,7 @@ WorldInfo {
   window "maze_runner"
   basicTimeStep 16
   FPS 50
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       softCFM 0.05
@@ -19,7 +20,6 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.6627586598976201 -0.6843914598942782 -0.30390670995305386 1.1806253

@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Hokuyo"
   basicTimeStep 16
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "body"
@@ -13,7 +14,6 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.5967781452790758 -0.7796262246313995 -0.18983886636897263 0.9853660974676877

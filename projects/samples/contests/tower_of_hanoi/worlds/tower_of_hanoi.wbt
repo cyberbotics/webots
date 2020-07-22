@@ -4,6 +4,7 @@ WorldInfo {
     "Simulation showing the KUKA youBot model"
   ]
   basicTimeStep 16
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "box"
@@ -34,7 +35,6 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.12712896951333258 -0.9255637780415025 -0.35660891448198306 3.85207

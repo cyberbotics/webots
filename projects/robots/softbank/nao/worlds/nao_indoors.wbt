@@ -6,6 +6,7 @@ WorldInfo {
   title "Nao Indoors"
   basicTimeStep 20
   FPS 20
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "Nao foot material"
@@ -16,7 +17,6 @@ WorldInfo {
       bounceVelocity 0.003
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.06784940012364316 -0.9855478736987582 -0.15521548747054348 2.4330084686142914
