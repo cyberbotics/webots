@@ -158,7 +158,8 @@ static WbNodeRef find_node_by_id(int id) {
 static WbNodeRef find_node_by_def(const char *def_name, WbNodeRef parent_proto) {
   WbNodeRef node = node_list;
   while (node) {
-    if (node->parent_proto == parent_proto && node->def_name && strcmp(def_name, node->def_name) == 0)
+    if (node->parent_proto == parent_proto && (parent_proto || !node->is_proto_internal) && node->def_name &&
+        strcmp(def_name, node->def_name) == 0)
       return node;
     node = node->next;
   }
