@@ -50,7 +50,7 @@ The `thickness` field specifies the thickness of the bounding box which is added
 
 ### Texture Mapping
 
-The default texture mapping produces a texture that is upside down when viewed from the positive *y*-axis.
+The default texture mapping produces a texture that is upside down when viewed from the positive y-axis.
 To orient the texture with a more intuitive mapping, use a `TextureTransform` node to reverse the texture coordinate, like this:
 
 ```

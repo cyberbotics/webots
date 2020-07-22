@@ -151,7 +151,7 @@ The `wb_gyro_get_sampling_period` function returns the period given into the `wb
 The `wb_gyro_get_values` function returns the current measurement of the [Gyro](#gyro) device.
 The values are returned as a 3D-vector therefore only the indices 0, 1, and 2 are valid for accessing the vector.
 Each vector element represents the angular velocity about one of the axes of the [Gyro](#gyro) node, expressed in radians per second [rad/s].
-The first element corresponds to the angular velocity about the *x*-axis, the second element to the *y*-axis, etc.
+The first element corresponds to the angular velocity about the x-axis, the second element to the y-axis, etc.
 
 The `wb_gyro_get_lookup_table_size` function returns the number of rows in the lookup table.
 

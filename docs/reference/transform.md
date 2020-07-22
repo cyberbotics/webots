@@ -28,13 +28,13 @@ When α is zero, no rotation is carried out.
 All the values of the rotation field can be positive or negative.
 Note however that the length of the 3D vector *rx ry rz* must be normalized (i.e. its length is 1.0), otherwise the outcome of the simulation is undefined.
 
-    For example, a rotation of &pi;/2 radians around the *z*-axis is represented like
+    For example, a rotation of &pi;/2 radians around the z-axis is represented like
     this:
 
         rotation 0 0 1 1.5708
 
     A rotation of &pi; radians around an axis located exactly between the *x* and
-    *y*-axis is represented like this:
+    y-axis is represented like this:
 
         rotation 0.7071 0.7071 0 3.1416
 

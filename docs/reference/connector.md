@@ -93,7 +93,7 @@ Two [Connector](#connector) nodes can lock when their *z*-axes are parallel (wit
 
 - `rotationTolerance`: the tolerated angle difference with respect to each of the allowed docking rotations (see [this figure](#example-of-rotational-alignment)).
 
-- `numberOfRotations`: specifies how many different docking rotations are allowed in a full 360 degree rotation around the [Connector](#connector)'s *z*-axis.
+- `numberOfRotations`: specifies how many different docking rotations are allowed in a full 360 degree rotation around the [Connector](#connector)'s z-axis.
 For example, modular robots' connectors are often 1-, 2- or 4-way dockable depending on mechanical and electrical interfaces.
 As illustrated in [this figure](#example-of-rotational-alignment), if `numberOfRotations` is 4 then there will be 4 different docking positions (one every 90 degrees).
 If you don't wish to check the rotational alignment criterion this field should be set to zero.
@@ -128,7 +128,7 @@ The default value -1 indicates an infinitely strong docking mechanism that does 
 ### Connector Axis System
 
 A [Connector](#connector)'s axis system is displayed by Webots when the corresponding robot is selected or when *Display Axes* is checked in Webots *Preferences*.
-The *z*-axis is drawn as a 5 cm blue line, the y-axis (a potential docking rotation) is drawn as a 5 cm green line, and each additional potential docking rotation is displayed as a 4 cm black line.
+The z-axis is drawn as a 5 cm blue line, the y-axis (a potential docking rotation) is drawn as a 5 cm green line, and each additional potential docking rotation is displayed as a 4 cm black line.
 The bounding objects and graphical objects of a [Connector](#connector) should normally be designed such that the docking surface corresponds exactly to *xy*-plane of the local coordinate system.
 Furthermore, the [Connector](#connector)'s z-axis should be perpendicular to the docking surface and point outward from the robot body.
 Finally, the bounding objects should allow the superposition of the origin of the coordinate systems.
@@ -259,7 +259,7 @@ The *presence* state is defined as the correct positioning of a compatible peer 
 
 Two connectors are in position if they are axis-aligned, rotation-aligned and near enough.
 To be axis-aligned, the angle between the *z*-axes of the two connectors must be smaller than the `axisTolerance` field.
-To be rotation-aligned, the angle between the *y*-axis of both connectors must be within `distanceTolerance` of one of the possible `numberOfRotations` subdivisions of 360 degrees.
+To be rotation-aligned, the angle between the y-axis of both connectors must be within `distanceTolerance` of one of the possible `numberOfRotations` subdivisions of 360 degrees.
 Two connectors are near enough if the distance between them (measured between the origins of the coordinate systems) is smaller than `distanceTolerance`.
 
 Two connectors are compatible if both types are "symmetric" or if one is "active" and the other is "passive".
