@@ -14,28 +14,24 @@ int main(int argc, char **argv) {
   wb_gps_enable(gps, TIME_STEP);
 
   WbNodeRef worldinfo_node = wb_supervisor_node_get_from_def("WORLDINFO");
-  WbFieldRef north_direction_field = wb_supervisor_node_get_field(worldinfo_node, "northDirection");
+  WbFieldRef coordinate_system_field = wb_supervisor_node_get_field(worldinfo_node, "coordinateSystem");
 
   wb_robot_step(TIME_STEP);
 
+  const double expected_position[] = {0.0451744, 0.0179479, 0};
+  const double expected_enu_position[] = {0, 0.0451744, 0.0179479};
   const double *position = wb_gps_get_values(gps);
-  ts_assert_double_in_delta(position[2], 0.0, 0.0001, "The altitude measured by the GPS should be 0 and not %f", position[2]);
-
-  double old_latitude = position[0];
-  double old_longitude = position[1];
-
-  const double new_direction[3] = {0, 0, 1};
-  wb_supervisor_field_set_sf_vec3f(north_direction_field, new_direction);
+  for (int i = 0; i < 3; i++)
+    ts_assert_double_in_delta(position[i], expected_position[i], 0.0000001,
+                              "The %c value measured by the GPS (NUE) should be %g and not %g",
+                              i == 0 ? 'X' : i == 1 ? 'Y' : 'Z', expected_position[i], position[i]);
+  wb_supervisor_field_set_sf_string(coordinate_system_field, "ENU");
   wb_robot_step(TIME_STEP);
-
   position = wb_gps_get_values(gps);
-  ts_assert_double_in_delta(position[2], 0.0, 0.0001, "The altitude measured by the GPS should be 0 and not %f", position[2]);
-
-  // after changing the northDirection, the latitude and longitude should be inversed
-  ts_assert_double_in_delta(position[0], old_longitude, 0.001,
-                            "The latitude and longitude have not been correctly inversed after changing the northDirection.");
-  ts_assert_double_in_delta(position[1], -old_latitude, 0.001,
-                            "The latitude and longitude have not been correctly inversed after changing the northDirection.");
+  for (int i = 0; i < 3; i++)
+    ts_assert_double_in_delta(position[i], expected_enu_position[i], 0.0000001,
+                              "The %c value measured by the GPS (ENU) should be %g and not %g",
+                              i == 0 ? 'X' : i == 1 ? 'Y' : 'Z', expected_enu_position[i], position[i]);
 
   ts_send_success();
   return EXIT_SUCCESS;

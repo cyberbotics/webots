@@ -3,8 +3,6 @@ WorldInfo {
 }
 Viewpoint {
 }
-Background {
-}
 Robot {
   controller "test_suite_supervisor"
   customData "empty parser"

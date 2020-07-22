@@ -4,7 +4,6 @@ WorldInfo {
     "World generated using the Open Street Map to Webots importer"
   ]
   ERP 0.6
-  northDirection 0 0 1
   gpsCoordinateSystem "WGS84"
   gpsReference 46.5121 6.50915 0
   lineScale 20
