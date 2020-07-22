@@ -150,6 +150,7 @@ Webots requires some graphical features that are usually not available by defaul
 
 - `xserver-xorg-core`
 - `libpulse0`
+- `libxkbcommon-x11-dev`
 
 These packages are automatically installed when using the Debian package, but in case of the tarball package the user has to manually install them.
 
