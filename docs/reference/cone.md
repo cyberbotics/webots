@@ -30,7 +30,7 @@ More precisely, it corresponds to the number of lines used to represent the bott
 When a texture is applied to the sides of the cone, the texture wraps counterclockwise (from above) starting at the back of the cone.
 The texture has a vertical seam at the back in the *yz* plane, from the apex (0, `height`/2, 0) to the point (0, 0, -r).
 For the bottom cap, a circle is cut out of the unit texture square centered at (0, -`height`/2, 0) with dimensions (2 * `bottomRadius`) by (2 * `bottomRadius`).
-The bottom cap texture appears right side up when the top of the cone is rotated towards the -z-axis.
+The bottom cap texture appears right side up when the top of the cone is rotated towards the negative z-axis.
 [TextureTransform](texturetransform.md) affects the texture coordinates of the Cone.
 
 [Cone](#cone) geometries cannot be used as primitives for collision detection in bounding objects.

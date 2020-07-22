@@ -33,7 +33,7 @@ The panorama consists of six images, each of which is mapped onto the faces of a
 The images are applied individually to each face of the cube; the entire image goes on each face.
 On the "front", "back", "right", and "left" faces of the cube, when viewed from the inside with the y-axis up, the texture is mapped onto each face with the same orientation as the if image was displayed normally in 2D.
 On the "top" face of the cube, when viewed from the inside looking up along the positive y-axis with the positive z-axis as the view up direction, the texture is mapped onto the face with the same orientation as the if image was displayed normally in 2D.
-On the "bottom" face of the box, when viewed from the inside down the -y-axis with the -z-axis as the view up direction, the texture is mapped onto the face with the same orientation as the if image was displayed normally in 2D.
+On the "bottom" face of the box, when viewed from the inside down the negative y-axis with the negative z-axis as the view up direction, the texture is mapped onto the face with the same orientation as the if image was displayed normally in 2D.
 The image format supported by the url fields are: JPEG or PNG.
 
 Similarly, the `*IrradianceUrl` fields specify a set of images which define a second cubemap used for the light reflections on the [PBR appearances](pbrappearance.md).
