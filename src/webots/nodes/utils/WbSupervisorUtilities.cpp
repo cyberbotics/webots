@@ -68,8 +68,9 @@ struct WbFieldGetRequest {
 
 struct WbDeletedNodeInfo {
   int nodeId;
-  WbNode *parent;
-  WbField *parentField;
+  int parentNodeId;
+  QString parentFieldName;
+  int parentFieldCount;
 };
 
 class WbFieldSetRequest {
@@ -450,17 +451,22 @@ void WbSupervisorUtilities::updateDeletedNodeList(WbNode *node) {
 
   struct WbDeletedNodeInfo nodeInfo;
   nodeInfo.nodeId = node->uniqueId();
-  nodeInfo.parent = node->parentNode();
-  nodeInfo.parentField = node->parentField();
-  for (int i = 0; i < mNodesDeletedSinceLastStep.size(); ++i) {
-    struct WbDeletedNodeInfo otherInfo = mNodesDeletedSinceLastStep.at(i);
-    if (otherInfo.parent == node) {
-      otherInfo.parent = NULL;
-      otherInfo.parentField = NULL;
-    } else if (nodeInfo.parent && nodeInfo.parent->uniqueId() == otherInfo.nodeId) {
-      nodeInfo.parent = NULL;
-      nodeInfo.parentField = NULL;
-    }
+  // store values in case parent PROTO invalid due to regeneration
+  const WbNode *parentNode = node->parentNode();
+  if (!parentNode)
+    nodeInfo.parentNodeId = -1;
+  else if (parentNode == WbWorld::instance()->root())
+    nodeInfo.parentNodeId = 0;
+  else
+    nodeInfo.parentNodeId = parentNode->uniqueId();
+  const WbField *parentField = node->parentField();
+  if (parentField) {
+    nodeInfo.parentFieldName = parentField->name();
+    nodeInfo.parentFieldCount =
+      parentField->isMultiple() ? (dynamic_cast<WbMultipleValue *>(parentField->value())->size() - 1) : -1;
+  } else {
+    nodeInfo.parentFieldName = " ";
+    nodeInfo.parentFieldCount = -1;
   }
   mNodesDeletedSinceLastStep.push_back(nodeInfo);
 }
@@ -1351,22 +1357,10 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
       stream << (short unsigned int)0;
       stream << (unsigned char)C_SUPERVISOR_NODE_REMOVE_NODE;
       stream << (int)deletedNodeInfo.nodeId;
-      if (!deletedNodeInfo.parent)
-        stream << -1;
-      else if (deletedNodeInfo.parent == WbWorld::instance()->root())
-        stream << (int)0;
-      else
-        stream << (int)deletedNodeInfo.parent->uniqueId();
-      QByteArray ba;
-      if (deletedNodeInfo.parentField && !deletedNodeInfo.parentField->name().isEmpty())
-        ba = deletedNodeInfo.parentField->name().toUtf8();
-      else
-        ba = QString(" ").toUtf8();
+      stream << (int)deletedNodeInfo.parentNodeId;
+      QByteArray ba = deletedNodeInfo.parentFieldName.toUtf8();
       stream.writeRawData(ba.constData(), ba.size() + 1);
-      if (deletedNodeInfo.parentField && deletedNodeInfo.parentField->isMultiple())
-        stream << (int)dynamic_cast<WbMultipleValue *>(deletedNodeInfo.parentField->value())->size();
-      else
-        stream << (int)-1;
+      stream << (int)deletedNodeInfo.parentFieldCount;
     }
     mNodesDeletedSinceLastStep.clear();
   }

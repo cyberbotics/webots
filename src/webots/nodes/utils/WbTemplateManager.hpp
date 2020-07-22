@@ -50,7 +50,7 @@ private slots:
   void unsubscribe(QObject *node);
   void regenerateNodeFromFieldChange(WbField *field);
   void regenerateNodeFromParameterChange(WbField *field);
-  void regenerateNode(WbNode *node);
+  void regenerateNode(WbNode *node, bool restarted = false);
   void nodeNeedRegeneration();
 
 private:

@@ -21,10 +21,10 @@ int main(int argc, char **argv) {
   WbFieldRef ts1_tr_field = wb_supervisor_node_get_field(ts1_node, "translation");
   WbFieldRef ts2_tr_field = wb_supervisor_node_get_field(ts2_node, "translation");
 
-  ts_assert_pointer_not_null(s1_tr_field, "Cannot retrive S1");
-  ts_assert_pointer_not_null(s2_tr_field, "Cannot retrive S2");
-  ts_assert_pointer_not_null(ts1_tr_field, "Cannot retrive TS1");
-  ts_assert_pointer_not_null(ts2_tr_field, "Cannot retrive TS2");
+  ts_assert_pointer_not_null(s1_tr_field, "Cannot retrieve S1");
+  ts_assert_pointer_not_null(s2_tr_field, "Cannot retrieve S2");
+  ts_assert_pointer_not_null(ts1_tr_field, "Cannot retrieve TS1");
+  ts_assert_pointer_not_null(ts2_tr_field, "Cannot retrieve TS2");
 
   const double s1_tr[3] = {0.0, 0.15, 0.0};
   wb_supervisor_field_set_sf_vec3f(s1_tr_field, s1_tr);
