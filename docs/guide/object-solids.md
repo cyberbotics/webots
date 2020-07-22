@@ -48,7 +48,7 @@ SolidBox {
 A pipe object implemented at the Solid-node level.
 Graphically, the SolidPipe is an IndexedFaceSet.
 Physically, the SolidPipe is a set of N boxes, where N is the subdivision field.
-The 'accuracy' field defines how much boxes position can differ on y axis: a 0 value represents an error-free model but it will slow down the simulation.
+The 'accuracy' field defines how much boxes position can differ on y-axis: a 0 value represents an error-free model but it will slow down the simulation.
 
 %figure
 
@@ -90,7 +90,7 @@ SolidPipe {
 
 - `subdivision`: Defines the number of polygons used to represent the pipe and so its resolution.
 
-- `accuracy`: Defines how much boxes position can differ on y axis: a 0 value represents an error-free model but it will slow down the simulation.
+- `accuracy`: Defines how much boxes position can differ on y-axis: a 0 value represents an error-free model but it will slow down the simulation.
 
 - `appearance`: Defines the appearance of the pipe.
 

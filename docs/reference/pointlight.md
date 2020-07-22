@@ -5,7 +5,7 @@ Derived from [Light](light.md).
 ```
 PointLight {
   SFVec3f attenuation 1 0 0   # any positive vector
-  SFVec3f location    0 0 0   # any vector
+  SFVec3f location    0 0 0   # any-vector
   SFFloat radius      100     # [0, inf)
 }
 ```

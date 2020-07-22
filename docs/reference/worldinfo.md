@@ -18,7 +18,7 @@ WorldInfo {
   SFFloat  inkEvaporation                 0          # [0, inf)
   SFString coordinateSystem               "ENU"      # {"ENU", "NUE"}
   SFString gpsCoordinateSystem            "local"    # {"WGS84", "local"}
-  SFVec3f  gpsReference                   0 0 0      # any vector
+  SFVec3f  gpsReference                   0 0 0      # any-vector
   SFFloat  lineScale                      0.1        # [0, inf)
   SFInt32  randomSeed                     0          # {-1, [0, inf)}
   MFNode   contactProperties              []         # {ContactProperties, PROTO}

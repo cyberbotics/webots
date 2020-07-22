@@ -4,7 +4,7 @@ Derived from [JointParameters](jointparameters.md).
 
 ```
 BallJointParameters {
-  SFVec3f anchor  0 0 0   # any vector
+  SFVec3f anchor  0 0 0   # any-vector
 }
 ```
 

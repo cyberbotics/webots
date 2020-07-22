@@ -133,7 +133,7 @@ With lidar devices, all the points are not acquired at the exact same time but r
 
 ### Field Summary
 
-- The `tiltAngle` field defines the tilt angle of the sensor (rotation around the X axis of to the [Lidar](#lidar) node).
+- The `tiltAngle` field defines the tilt angle of the sensor (rotation around the x-axis of to the [Lidar](#lidar) node).
 
 - The `horizontalResolution` field defines the number of points returned by layers.
 
@@ -190,9 +190,9 @@ The value of this field should be smaller or equal to the value of the `maxFrequ
 #### Rotating Lidar
 
 A lidar is said rotating if its `type` field is set to 'rotating'.
-In that case, the node inserted in the `rotatingHead` rotates along the Y axis at the frequency defined in the `defaultFrequency` field.
+In that case, the node inserted in the `rotatingHead` rotates along the y-axis at the frequency defined in the `defaultFrequency` field.
 This rotation starts as soon as the lidar is enabled.
-The internal depth camera is attached to this node and is therefore also rotating along the Y axis.
+The internal depth camera is attached to this node and is therefore also rotating along the y-axis.
 
 > **Note**: The internal depth camera is using a horizontal field of view defined in the `fieldOfView` field, but since it is rotating, the actual field of view is 2 * &pi;.
 

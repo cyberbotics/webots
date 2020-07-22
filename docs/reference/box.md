@@ -24,5 +24,5 @@ Three positive values display the outside faces while three negative values disp
 Textures are applied individually to each face of the box.
 On the front (+*z*), back (-*z*), right (+*x*), and left (-*x*) faces of the box, when viewed from the outside with the +y-axis up, the texture is mapped onto each face with the same orientation as if the image were displayed normally in 2D.
 On the top face of the box (+*y*), when viewed from above and looking down the y-axis toward the origin with the -z-axis as the view up direction, the texture is mapped onto the face with the same orientation as if the image were displayed normally in 2D.
-On the bottom face of the box (-*y*), when viewed from below looking up the y-axis toward the origin with the +Z-axis as the view up direction, the texture is mapped onto the face with the same orientation as if the image were displayed normally in 2D.
+On the bottom face of the box (-*y*), when viewed from below looking up the y-axis toward the origin with the +z-axis as the view up direction, the texture is mapped onto the face with the same orientation as if the image were displayed normally in 2D.
 [TextureTransform](texturetransform.md) affects the texture coordinates of the Box.

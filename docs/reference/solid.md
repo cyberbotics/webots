@@ -16,8 +16,8 @@ Solid {
   MFColor  recognitionColors   []            # any color
   SFFloat  translationStep     0.01          # [0, inf)
   SFFloat  rotationStep        0.261799387   # [0, inf)
-  SFVec3f  linearVelocity      0 0 0         # any vector
-  SFVec3f  angularVelocity     0 0 0         # any vector
+  SFVec3f  linearVelocity      0 0 0         # any-vector
+  SFVec3f  angularVelocity     0 0 0         # any-vector
 }
 ```
 

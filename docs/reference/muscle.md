@@ -3,8 +3,8 @@
 ```
 Muscle {
   SFDouble volume      0.01    # [0, inf)
-  SFVec3f  startOffset 0 0 0   # any vector
-  SFVec3f  endOffset   0 0 0   # any vector
+  SFVec3f  startOffset 0 0 0   # any-vector
+  SFVec3f  endOffset   0 0 0   # any-vector
   MFColor  color       [ ]     # any color
   SFBool   castShadows TRUE    # {TRUE, FALSE}
   SFBool   visible     TRUE    # {TRUE, FALSE}
@@ -14,8 +14,8 @@ Muscle {
 ### Description
 
 A [Muscle](#muscle) node can be used to graphically display the contraction of an artificial muscle implemented using [Joint](joint.md) and [Motor](motor.md) nodes.
-The artificial muscle is represented using a spheroid where the symmetry axis is the vector between the joint's closest upper [Transform](transform.md) node and the `endPoint` [Solid](solid.md) node.
-The other two axes have the same length computed based on the symmetry axis length so that the volume remains constant during stretching.
+The artificial muscle is represented using a spheroid where the symmetry-axis is the vector between the joint's closest upper [Transform](transform.md) node and the `endPoint` [Solid](solid.md) node.
+The other two axes have the same length computed based on the symmetry-axis length so that the volume remains constant during stretching.
 
 Note that the [Muscle](#muscle) node cannot be used in case of a [Motor](motor.md) device included in a [Track](track.md) node.
 

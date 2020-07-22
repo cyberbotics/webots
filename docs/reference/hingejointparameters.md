@@ -4,7 +4,7 @@ Derived from [JointParameters](jointparameters.md).
 
 ```
 HingeJointParameters {
-  SFVec3f anchor                    0 0 0   # any vector
+  SFVec3f anchor                    0 0 0   # any-vector
   SFVec3f axis                      1 0 0   # unit axis
   SFFloat suspensionSpringConstant  0       # [0, inf)
   SFFloat suspensionDampingConstant 0       # [0, inf)
