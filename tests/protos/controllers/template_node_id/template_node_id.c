@@ -57,7 +57,8 @@ int main(int argc, char **argv) {
 
   // test that fields can be retrieved (for the first time) even after PROTO regeneration
   int field_type = wb_supervisor_field_get_type(internal_children_field);
-  ts_assert_int_equal(field_type, WB_NO_FIELD, "'children' field reference of INTERNAL node should be invalid after PROTO regeneration.");
+  ts_assert_int_equal(field_type, WB_NO_FIELD,
+                      "'children' field reference of INTERNAL node should be invalid after PROTO regeneration.");
   WbFieldRef internal_translation_field = wb_supervisor_node_get_field(internal_node, "translation");
   ts_assert_pointer_null(internal_translation_field, "INTERNAL node reference should be invalid after PROTO regeneration.");
   internal_node = wb_supervisor_node_get_from_proto_def(robot, "INTERNAL");
