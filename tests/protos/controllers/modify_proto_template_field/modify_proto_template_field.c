@@ -36,9 +36,9 @@ int main(int argc, char **argv) {
   ts_assert_pointer_not_null(filteringField, "Invalid 'filtering' field after PROTO regeneration.");
   wb_supervisor_field_set_sf_int32(filteringField, -2);
   // webots should not crash after changing the regenerated node again
-  
+
   wb_robot_step(TIME_STEP);
-  
+
   // if set "filtering" was executed, the field has been reset to default value 4
   const int filteringValue = wb_supervisor_field_get_sf_int32(filteringField);
   ts_assert_int_not_equal(filteringValue, 4, "Wrong filtering value after setting to an invalid value.");
