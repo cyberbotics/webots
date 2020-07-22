@@ -6,6 +6,7 @@ WorldInfo {
       material2 "dumbbell"
     }
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.5112230187570285 0.843269030939963 0.16597700608977947 5.42515

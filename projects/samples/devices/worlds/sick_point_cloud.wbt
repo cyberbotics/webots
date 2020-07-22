@@ -6,6 +6,7 @@ WorldInfo {
   ]
   title "LD-MRS"
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.15251328614725776 0.9459688428203066 0.2861514388602211 3.9752500922548824

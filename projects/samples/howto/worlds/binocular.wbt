@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Binocular"
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.997991773315356 0.05140398832405727 -0.03701419159256712 5.52984

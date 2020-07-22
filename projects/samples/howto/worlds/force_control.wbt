@@ -4,8 +4,9 @@ WorldInfo {
     "Example of force control"
   ]
   title "Force control example"
-  gravity 0 0 0
+  gravity 0
   basicTimeStep 4
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.4651670259530646 0.7555660421552973 0.4612370257337981 4.4566

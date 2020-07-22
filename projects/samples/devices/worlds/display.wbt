@@ -4,6 +4,7 @@ WorldInfo {
     "Example use of a Display device."
   ]
   title "Display"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.999954412713123 -0.008134763357476649 -0.004999812063582125 5.18094

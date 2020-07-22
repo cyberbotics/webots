@@ -6,6 +6,7 @@ WorldInfo {
     "It is programmed to perform a simple obstacle avoidance behavior based on sensed values situated on a medium-height line of the kinect display"
   ]
   title "Pioneer 3DX equipped with a Microsoft kinect"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   fieldOfView 0.660595

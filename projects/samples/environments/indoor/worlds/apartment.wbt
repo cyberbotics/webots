@@ -4,6 +4,7 @@ WorldInfo {
     "Sample of how the indoor objects can be placed"
   ]
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.40446783044372553 -0.8043128662009316 -0.4353005713294989 4.545517780099422

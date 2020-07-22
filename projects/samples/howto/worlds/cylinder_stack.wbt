@@ -13,6 +13,7 @@ WorldInfo {
       softCFM 0.0004
     }
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.4017040785490224 0.8742441709492849 0.2726370533113183 4.95319

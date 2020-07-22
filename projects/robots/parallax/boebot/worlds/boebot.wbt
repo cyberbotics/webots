@@ -4,6 +4,7 @@ WorldInfo {
     "The model of the Boebot robot"
   ]
   title "Boebot"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.07354999840617155 -0.9583779792319493 -0.275865994021984 2.67286

@@ -4,6 +4,7 @@ WorldInfo {
     "An example of how to build your own Robot and the result of the motor_set_motor_force() command"
   ]
   title "Biped"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.053568198562683564 0.9979409732237222 0.035274099053542146 4.72798

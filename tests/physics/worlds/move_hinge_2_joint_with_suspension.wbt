@@ -2,6 +2,7 @@
 WorldInfo {
   ERP 0.6
   lineScale 1.7
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.615287128649031 0.7862848882735759 0.05637218987622513 0.4895318

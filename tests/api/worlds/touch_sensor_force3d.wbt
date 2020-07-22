@@ -2,6 +2,7 @@
 WorldInfo {
   basicTimeStep 16
   physicsDisableTime 0
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.9913200517681421 0.12789100667865014 0.03047040159120768 5.59588

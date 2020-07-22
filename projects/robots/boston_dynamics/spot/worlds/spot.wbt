@@ -5,6 +5,7 @@ WorldInfo {
     "The robot is saying hello with its right leg."
   ]
   title "Spot Robot demo"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.04913336943686446 0.9890217998641079 0.13936208738871841 3.9883527459468486

@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Force Sensor"
   basicTimeStep 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.9997227168394336 0.021386593942480294 -0.009854087208937169 5.28181

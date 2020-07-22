@@ -4,6 +4,7 @@ WorldInfo {
     "Model of Aibo ERS 7"
   ]
   title "Aibo ERS 7"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.5924229125186923 -0.795885882473928 -0.12490298155595278 5.43175

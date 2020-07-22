@@ -4,6 +4,7 @@ WorldInfo {
   defaultDamping Damping {
     linear 0.4
   }
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.05989361356740354 0.9853952232166979 0.1594020361085535 3.55295

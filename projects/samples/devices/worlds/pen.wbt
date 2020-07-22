@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Pen"
   inkEvaporation 0.1
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.9991023978354155 0.04067681619721673 -0.011823504708034852 5.48134

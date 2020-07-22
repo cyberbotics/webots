@@ -71,6 +71,7 @@ WorldInfo {
       slideSound ""
     }
   ]
+  coordinateSystem "NUE"
 }
 DEF VIEWPOINT Viewpoint {
   orientation -0.03342290698167803 -0.9945867870527274 -0.09838715520344365 2.897760879502204

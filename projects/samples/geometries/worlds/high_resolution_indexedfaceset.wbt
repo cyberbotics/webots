@@ -3,6 +3,7 @@ WorldInfo {
   info [
     "Huge IndexedFaceSet representing a monkey"
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.7255688589530555 0.6640548709110659 0.18050196491132395 0.469979

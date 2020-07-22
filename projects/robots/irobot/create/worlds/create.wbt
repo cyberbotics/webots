@@ -6,6 +6,7 @@ WorldInfo {
     "The robot can be stopped by the virtual walls emitting IR light."
   ]
   title "iRobot Create"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.3251268673134766 -0.7444466961861541 -0.5831737620027541 2.40689

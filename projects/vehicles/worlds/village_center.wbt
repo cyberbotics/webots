@@ -67,6 +67,7 @@ WorldInfo {
       slideSound ""
     }
   ]
+  coordinateSystem "NUE"
 }
 DEF VIEWPOINT Viewpoint {
   fieldOfView 1

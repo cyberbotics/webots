@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Laser Pointers"
   basicTimeStep 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.16135401412388223 0.8844160774160381 0.43791903833258783 2.46207

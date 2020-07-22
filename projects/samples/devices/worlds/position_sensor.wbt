@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Position Sensor"
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.39405389207180624 -0.8833177580663658 -0.2539119304555631 5.1002

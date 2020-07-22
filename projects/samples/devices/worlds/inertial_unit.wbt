@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Inertial Unit"
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.2954309947130792 -0.9526699829513802 -0.07169679871694135 5.71352
