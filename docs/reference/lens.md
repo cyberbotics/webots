@@ -3,8 +3,8 @@
 ```
 Lens {
   SFVec2f center                 0.5 0.5   # [0, 1] [0, 1]
-  SFVec2f radialCoefficients     0 0       # any-vector
-  SFVec2f tangentialCoefficients 0 0       # any-vector
+  SFVec2f radialCoefficients     0 0       # any vector
+  SFVec2f tangentialCoefficients 0 0       # any vector
 }
 ```
 

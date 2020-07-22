@@ -23,7 +23,7 @@ The positive y-axis must point to the [Robot](robot.md)'s up/top direction.
 If the [InertialUnit](#inertialunit) has this orientation, then the *roll*, *pitch* and *yaw* angles correspond to the usual automotive, aeronautics or spatial meaning.
 More precisely, the [InertialUnit](#inertialunit) measures the Tait-Bryan angles along x-axis (roll), z-axis (pitch) and y-axis (yaw).
 This convention is commonly referred to as the *x-z-y* extrinsic sequence; it corresponds to the composition of elemental rotations denoted by YZX.
-The reference frame is made of the unit vector giving the north direction, the opposite of the normalized gravity-vector and their cross-product (see [WorldInfo](worldinfo.md) to change the coordinate system).
+The reference frame is made of the unit vector giving the north direction, the opposite of the normalized gravity vector and their cross-product (see [WorldInfo](worldinfo.md) to change the coordinate system).
 
 > **Note**: In a gimbal lock situation, i.e., when the pitch is -&pi;/2 or &pi;/2, the roll and the yaw are set to NaN (Not a Number).
 

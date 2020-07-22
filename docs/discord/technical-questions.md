@@ -36629,7 +36629,7 @@ Nice ! I didn't know we have only this parameter to change !
 Several computation (like the main viewpoint movements) are computed thanks to this vector.
 
 
-One thing to know is that the the WorldInfo.gravity-vector should be changed accordingly.
+One thing to know is that the the WorldInfo.gravity vector should be changed accordingly.
 
 
 All our assets support to be rotated.

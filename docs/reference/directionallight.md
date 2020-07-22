@@ -4,7 +4,7 @@ Derived from [Light](light.md).
 
 ```
 DirectionalLight {
-  SFVec3f direction 0 0 -1   # any-vector
+  SFVec3f direction 0 0 -1   # any vector
 }
 ```
 

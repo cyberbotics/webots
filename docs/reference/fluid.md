@@ -10,7 +10,7 @@ Fluid {
   SFString description    ""        # any string
   SFFloat  density        1000      # {-1, [0, inf)}
   SFFloat  viscosity      0.001     # [0, inf)
-  SFVec3f  streamVelocity 0 0 0     # any-vector
+  SFVec3f  streamVelocity 0 0 0     # any vector
   SFNode   boundingObject NULL      # {node, PROTO}
   SFBool   locked         FALSE     # {TRUE, FALSE}
 }

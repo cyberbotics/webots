@@ -2,10 +2,10 @@
 
 ```
 TextureTransform {
-  SFVec2f center      0 0   # any-vector
+  SFVec2f center      0 0   # any vector
   SFFloat rotation    0     # (-inf, inf)
-  SFVec2f scale       1 1   # any-vector
-  SFVec2f translation 0 0   # any-vector
+  SFVec2f scale       1 1   # any vector
+  SFVec2f translation 0 0   # any vector
 }
 ```
 
