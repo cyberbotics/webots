@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Motor"
   basicTimeStep 4
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.12721312999228063 -0.9897589099399406 -0.06476202399607019 5.2504127

@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Compass"
   basicTimeStep 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.3789158794431957 -0.843261731705782 -0.38122487870855887 1.73166

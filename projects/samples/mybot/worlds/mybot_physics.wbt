@@ -4,6 +4,7 @@ WorldInfo {
     "The MyBot robot, the robot used in the tutorial of Webots, with Physics in the simulation"
   ]
   title "MyBot with Physics"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.998830998331188 0.04592579992326878 -0.015081699974802023 5.50068

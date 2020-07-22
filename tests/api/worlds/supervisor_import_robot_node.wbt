@@ -3,6 +3,7 @@ WorldInfo {
   info [
     "Test world importing a robot object and checking if his controller is started"
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.002181050202109096 -0.9804080908504502 -0.19696501825195117 3.38702

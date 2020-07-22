@@ -2,6 +2,7 @@
 WorldInfo {
   title "Detach locked connectors"
   physics "connector_apply_force"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.002049976294169949 0.9933012571750908 0.11553531967142215 3.0908531

@@ -4,6 +4,7 @@ WorldInfo {
     "Example use of a color Camera device."
   ]
   title "Camera"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.9993654210667938 0.030315712773045487 -0.01870060787920498 5.29098

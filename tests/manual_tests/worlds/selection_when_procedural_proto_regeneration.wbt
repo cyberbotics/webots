@@ -14,6 +14,7 @@ WorldInfo {
     "    - when editing SolidBox.size from the scene tree."
     "    - when editing Top.my_parameter.my_custom_parameter from the scene tree."
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.07904782823911338 -0.9720964329405143 -0.22086187066808954 2.340296

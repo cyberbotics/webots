@@ -6,6 +6,7 @@ WorldInfo {
   title "Stewart Platform"
   basicTimeStep 4
   lineScale 1
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.058407373367857035 0.9648525600539822 0.2562188831712927 3.57459

@@ -6,6 +6,7 @@ WorldInfo {
   title "Force-3D TouchSensor"
   basicTimeStep 8
   lineScale 0.2
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.3551789292574214 0.9071718193145244 0.22558195506983134 1.0689

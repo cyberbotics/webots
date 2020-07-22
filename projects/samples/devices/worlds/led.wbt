@@ -4,6 +4,7 @@ WorldInfo {
     "Example use of a LED device."
   ]
   title "LED"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.8289903167727999 0.5454557477491351 0.12350336814987996 5.646092614053312

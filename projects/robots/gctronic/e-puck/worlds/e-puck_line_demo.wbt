@@ -7,6 +7,7 @@ WorldInfo {
   ]
   title "E-Puck"
   lineScale 0.04
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.2737971179330687 0.9518924100101338 0.13760805927213854 5.31154

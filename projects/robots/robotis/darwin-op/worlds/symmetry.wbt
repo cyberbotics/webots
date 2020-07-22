@@ -6,6 +6,7 @@ WorldInfo {
   ]
   title "ROBOTIS OP2"
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.07594343413002892 0.9892124445657446 0.12526505629584758 2.06651

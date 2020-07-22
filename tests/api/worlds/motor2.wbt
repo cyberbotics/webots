@@ -1,6 +1,7 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
   lineScale 0.3
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.18073501621974938 0.9827540881955547 0.039105703509473275 5.27826

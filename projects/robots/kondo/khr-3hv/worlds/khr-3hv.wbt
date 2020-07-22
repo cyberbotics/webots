@@ -4,6 +4,7 @@ WorldInfo {
     "KHR3-HV demo"
   ]
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   fieldOfView 0.660595

@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "This simulation was sponsored by Kamal Othman & Prof. Ahmad Rad from AISL-SFU"
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.9653355746883712 0.2014160891022787 0.16600839524498465 0.9647161791657932

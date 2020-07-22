@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Hemisson Cross Compilation"
   inkEvaporation 0.1
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.15069064640395755 0.9495132141971846 0.2751671949039148 2.326742101257792

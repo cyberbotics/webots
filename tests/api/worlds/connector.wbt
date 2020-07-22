@@ -2,6 +2,7 @@
 WorldInfo {
   title "Modular Robot"
   basicTimeStep 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0 1 0 4.6416

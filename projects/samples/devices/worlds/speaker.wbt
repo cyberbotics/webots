@@ -4,6 +4,7 @@ WorldInfo {
     "Example use of a Speaker device."
   ]
   title "Speaker"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   fieldOfView 1.5

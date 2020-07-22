@@ -11,6 +11,7 @@ WorldInfo {
     " "
     "Regression test for issues 1343"
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.9231326864054177 -0.3667488754128609 -0.11541796079171744 5.78631

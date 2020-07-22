@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Muscle"
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.6999154352723786 0.693914825736349 0.16911711353606218 0.8662245442115495

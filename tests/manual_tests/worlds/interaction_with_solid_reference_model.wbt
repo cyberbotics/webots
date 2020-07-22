@@ -10,6 +10,7 @@ WorldInfo {
     "Regression test for issue #7064"
   ]
   basicTimeStep 1
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.028291589404666157 0.9898196254930011 0.13948725733145992 2.745338711812142

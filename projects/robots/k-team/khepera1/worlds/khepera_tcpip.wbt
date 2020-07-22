@@ -4,6 +4,7 @@ WorldInfo {
     "A simple park in which a Khepera robot move and avoid bumping into the walls."
   ]
   title "Khepera example"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.34042705524212397 0.9055531469468378 0.2531460410787708 4.84222

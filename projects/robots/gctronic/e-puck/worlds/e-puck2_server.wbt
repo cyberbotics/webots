@@ -4,6 +4,7 @@ WorldInfo {
     "The model of the e-puck 2 robot"
   ]
   title "e-puck simulation"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.04913069345659068 0.9922428678493876 0.11419398479121845 3.8679
