@@ -62,6 +62,7 @@ private slots:
   void changeSimulationMode(int newMode);
   void updateDeletedNodeList(WbNode *node);
   void notifyNodeUpdate(WbNode *node);
+  void updateProtoRegeneratedFlag();
 
 private:
   WbRobot *mRobot;
@@ -86,6 +87,7 @@ private:
   WbSolid *mNodeGetContactPoints;
   WbSolid *mNodeGetStaticBalance;
   WbSolid *mNodeGetVelocity;
+  bool mIsProtoRegenerated;
 
   // pointer to a single integer: if not NULL, the new status has to be sent to the libController
   int *mAnimationStartStatus;

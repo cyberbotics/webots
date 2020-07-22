@@ -236,6 +236,8 @@ WbSupervisorUtilities::WbSupervisorUtilities(WbRobot *robot) : mRobot(robot) {
   connect(WbApplication::instance(), &WbApplication::videoCreationStatusChanged, this,
           &WbSupervisorUtilities::movieStatusChanged);
   connect(WbNodeOperations::instance(), &WbNodeOperations::nodeDeleted, this, &WbSupervisorUtilities::updateDeletedNodeList);
+  connect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this,
+          &WbSupervisorUtilities::updateProtoRegeneratedFlag);
 
   // Do not apply the change simulation mode during dealing with a controller message
   // otherwise, conflicts can occur in case of multiple controllers
@@ -436,6 +438,10 @@ WbNode *WbSupervisorUtilities::getProtoParameterNodeInstance(WbNode *const node)
 void WbSupervisorUtilities::changeSimulationMode(int newMode) {
   WbSimulationState::Mode mode = convertSimulationMode(newMode);
   WbSimulationState::instance()->setMode(mode);
+}
+
+void WbSupervisorUtilities::updateProtoRegeneratedFlag() {
+  mIsProtoRegenerated = true;
 }
 
 void WbSupervisorUtilities::updateDeletedNodeList(WbNode *node) {
@@ -1332,6 +1338,11 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     if (mFoundFieldCount != -1)
       stream << (int)mFoundFieldCount;
     mFoundFieldId = -2;
+  }
+  if (mIsProtoRegenerated) {
+    stream << (short unsigned int)0;
+    stream << (unsigned char)C_SUPERVISOR_NODE_REGENERATED;
+    mIsProtoRegenerated = false;
   }
   if (!mNodesDeletedSinceLastStep.isEmpty()) {
     for (int i = 0; i < mNodesDeletedSinceLastStep.size(); ++i) {

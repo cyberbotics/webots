@@ -169,10 +169,13 @@ static bool is_node_ref_valid(WbNodeRef n) {
   if (!n)
     return false;
 
-  WbNodeRef node_from_list = find_node_by_id(n->id);
-  if (!node_from_list)
-    return false;
-  return true;
+  WbNodeRef node = node_list;
+  while (node) {
+    if (node == n)
+      return true;
+    node = node->next;
+  }
+  return false;
 }
 
 static void delete_node(WbNodeRef node) {
@@ -233,6 +236,46 @@ static const char *extract_node_def(const char *def_name_expression) {
 
   // i = -1 || i == '.''s position, so use i + 1 to get first character position
   return (const char *)&(def_name_expression[i + 1]);
+}
+
+static void remove_internal_proto_nodes_and_fields_from_list() {
+  WbNodeRef node = node_list;
+  WbNodeRef previous_node = NULL;
+  while (node) {
+    if (node->is_proto_internal) {
+      if (previous_node)
+        previous_node->next = node->next;
+      else
+        node_list = node->next;
+      WbNodeRef current_node = node;
+      node = node->next;
+      delete_node(current_node);
+    } else {
+      previous_node = node;
+      node = node->next;
+    }
+  }
+
+  WbFieldStruct *field = field_list;
+  WbFieldStruct *previous_field = NULL;
+  while (field) {
+    if (field->is_proto_internal) {
+      if (previous_field)
+        previous_field->next = field->next;
+      else
+        field_list = field->next;
+      WbFieldStruct *current_field = field;
+      field = field->next;
+      // clean the field
+      printf("remove_internal field %p\n", current_field);
+      if (current_field->type == WB_SF_STRING || current_field->type == WB_MF_STRING)
+        free(current_field->data.sf_string);
+      free(current_field);
+    } else {
+      previous_field = field;
+      field = field->next;
+    }
+  }
 }
 
 static void add_node_to_list(int uid, WbNodeType type, const char *model_name, const char *def_name, int parent_id,
@@ -834,6 +877,9 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       }
       break;
     }
+    case C_SUPERVISOR_NODE_REGENERATED:
+      remove_internal_proto_nodes_and_fields_from_list();
+      break;
     case C_SUPERVISOR_FIELD_INSERT_VALUE:
       imported_nodes_number = request_read_int32(r);
       break;
@@ -998,6 +1044,21 @@ static bool check_field(WbFieldRef f, const char *func, WbFieldType type, bool c
   if (!f) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with NULL 'field' argument.\n", func);
+    return false;
+  }
+
+  // check field reference is valid
+  WbFieldStruct *field = field_list;
+  bool found = false;
+  while (field) {
+    if (field == f) {
+      found = true;
+      break;
+    }
+    field = field->next;
+  }
+  if (!found) {
+    fprintf(stderr, "Error: %s() called with invalid 'field' argument.\n", func);
     return false;
   }
 
