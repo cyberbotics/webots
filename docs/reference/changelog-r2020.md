@@ -56,6 +56,7 @@ Released on XXX.
     - Upgraded to Qt 5.15.0 on Windows and Linux ([#1709](https://github.com/cyberbotics/webots/pull/1709), [#1710](https://github.com/cyberbotics/webots/pull/1710)).
     - Upgraded to Assimp 5.0.1 on Linux and macOS ([#1463](https://github.com/cyberbotics/webots/pull/1463)).
   - Bug fixes
+    - Fixed crash occurring when reverting the world while an animation was being recorded (thanks to [Jenny](https://github.com/JennyLynnFletcher)) ([#1957](https://github.com/cyberbotics/webots/pull/1957)).
     - Fixed wrong measurements of [Accelerometer](accelerometer.md) device (thanks to [MauroMombelli](https://github.com/MauroMombelli)) ([#1947](https://github.com/cyberbotics/webots/pull/1947)).
     - Fixed issues with context menu available items when requested from the scene tree (thanks to MaxGaukler) ([#1889](https://github.com/cyberbotics/webots/pull/1889)).
     - Fixed crash occurring when reloading or resetting a simulation containing a [Display](display.md) device ([#1865](https://github.com/cyberbotics/webots/pull/1865)).
