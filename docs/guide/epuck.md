@@ -43,8 +43,8 @@ E-puck is equipped with a large number of devices, as summarized in [this table]
 | IR sensors     | 8 infra-red sensors measuring ambient light and proximity of obstacles in a 4 cm range                                           |
 | Camera         | color camera with a maximum resolution of 640x480 (typical use: 52x39 or 640x1)                                                  |
 | Microphones    | 3 omni-directional microphones for sound localization                                                                            |
-| Accelerometer  | 3D accelerometer along the X, Y and z-axis                                                                                       |
-| Gyroscope      | 3D gyroscope along the X, Y and z-axis                                                                                           |
+| Accelerometer  | 3D accelerometer along the X, Y and Z axes                                                                                       |
+| Gyroscope      | 3D gyroscope along the X, Y and Z axes                                                                                           |
 | LEDs           | 8 red LEDs on the ring and one green LED on the body                                                                             |
 | Speaker        | on-board speaker capable of playing WAV or tone sounds                                                                           |
 | Switch         | 16 position rotating switch                                                                                                      |

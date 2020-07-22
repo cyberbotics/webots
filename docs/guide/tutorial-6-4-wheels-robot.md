@@ -154,7 +154,7 @@ Find more information about the `lookupTable` field [here](../reference/distance
 
 The last part of the robot modeling is to add the two distance sensors to the robot.
 This can be done by adding two [DistanceSensor](../reference/distancesensor.md) nodes as direct children of the [Robot](../reference/robot.md) node.
-Note that the distance sensor acquires its data along the +x-axis.
+Note that the distance sensor acquires its data along the positive x-axis.
 So, it is necessary to rotate the distance sensor to point their x-axis outside the robot (see the [figure](#top-view-of-the-4-wheeled-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-device)).
 
 %spoiler "**Reminder**: How to know the orientation of the distance sensor?"
