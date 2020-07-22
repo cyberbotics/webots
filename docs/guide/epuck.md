@@ -112,13 +112,13 @@ The `wb_motor_set_velocity` and `wb_position_sensor_get_value` functions allow y
 
 %end
 
-The forward direction of the e-puck is given by the negative *z*-axis of the world coordinates.
+The forward direction of the e-puck is given by the negative z-axis of the world coordinates.
 This is also the direction in which the camera eye is looking.
-The direction vector of the camera is pointing in the opposite direction, namely the direction of the positive *z*-axis.
-The axle's direction is given by the positive *x*-axis.
+The direction vector of the camera is pointing in the opposite direction, namely the direction of the positive z-axis.
+The axle's direction is given by the positive x-axis.
 Proximity sensors, light sensors and [LEDs](../reference/led.md) are numbered clockwise.
 Their location and orientation are shown in [this figure](#sensors-leds-and-camera).
-The last column of the latter lists the angles between the negative *x*-axis and the direction of the devices, the plane *zOx* being oriented counter-clockwise.
+The last column of the latter lists the angles between the negative x-axis and the direction of the devices, the plane *zOx* being oriented counter-clockwise.
 Note that the proximity sensors and the light sensors are actually the same devices of the real robot used in a different mode, so their direction coincides.
 Proximity sensor responses are simulated in accordance to the lookup table in [this figure](#proximity-sensor-response-against-distance); this table is the outcome of calibrations performed on the real robot.
 

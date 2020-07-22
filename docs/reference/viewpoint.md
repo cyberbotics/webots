@@ -20,7 +20,7 @@ Viewpoint {
 The [Viewpoint](#viewpoint) node defines a specific location in the local coordinate system from which the user may view the scene.
 
 The `position` and `orientation` fields of the [Viewpoint](#viewpoint) node specify absolute locations in the coordinate system.
-In the default position and orientation, the viewer is on the *z*-axis, looking down the *-z*-axis toward the origin with *+x* to the right and *+y* straight up.
+In the default position and orientation, the viewer is on the z-axis, looking down the *-z*-axis toward the origin with *+x* to the right and *+y* straight up.
 
 Navigating in the 3D view by dragging the mouse pointer dynamically changes the `position` and the `orientation` fields of the [Viewpoint](#viewpoint) node.
 
