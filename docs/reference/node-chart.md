@@ -21,7 +21,7 @@ Note that not all geometry nodes can be used as boundingObjects, and that althou
 ## Insertion Rules
 
 In general, a [Device](device.md) node should lie within the `children` hierarchy of a [Robot](robot.md) node.
-There are some exception though, like the [Connector](connector.md) node which can be inserted outside of a [Robot](robot.md) node.
+There are some exceptions though, like the [Connector](connector.md) node which can be inserted outside of a [Robot](robot.md) node.
 Please refer to the [Nodes and API functions](nodes-and-api-functions.md) section for more details.
 
 %figure "Webots Nodes Chart"
