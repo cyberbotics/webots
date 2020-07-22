@@ -1,5 +1,6 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "load"
@@ -9,7 +10,6 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.9999649479917812 0.008039999581839286 0.0023369198784566995 5.71599

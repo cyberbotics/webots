@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Robocup"
   basicTimeStep 20
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "NAO foot material"
@@ -15,7 +16,6 @@ WorldInfo {
       bounceVelocity 0.003
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.17094980505604018 -0.8417582968897727 -0.5120733675641911 2.62221698868725

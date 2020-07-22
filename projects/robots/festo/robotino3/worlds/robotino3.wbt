@@ -7,6 +7,7 @@ WorldInfo {
     "The simulation shows a Robotino 3 moving in an industrial environment using a Braitenberg algorithm using the information received by its nine infrared sensors."
   ]
   title "Festo's Robotino 3 robot"
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "WheelMat"
@@ -20,7 +21,6 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.019619919314228722 0.9992158907830594 0.03438985857371691 4.67773

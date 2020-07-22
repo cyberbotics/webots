@@ -4,8 +4,8 @@ WorldInfo {
     "Description: Sample of robot mounted by a Sick LMS 291."
   ]
   title "Sick LMS 291"
-  lineScale 0.5
   coordinateSystem "NUE"
+  lineScale 0.5
 }
 Viewpoint {
   orientation -0.10639501977774378 0.9680541479777618 0.2270490395257009 1.195

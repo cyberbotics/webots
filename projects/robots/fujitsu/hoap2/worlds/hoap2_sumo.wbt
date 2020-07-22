@@ -8,12 +8,12 @@ WorldInfo {
   ]
   title "Fujistu HOAP-2 sumo"
   basicTimeStep 16
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       softERP 0.5
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.21348050800411925 0.9764841314513594 0.030080121774811865 5.996528320257578

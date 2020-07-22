@@ -10,6 +10,7 @@ WorldInfo {
   window "humanoid_sprint"
   basicTimeStep 20
   FPS 20
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "NAO foot material"
@@ -20,7 +21,6 @@ WorldInfo {
       bounceVelocity 0.003
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.4229511610638218 -0.8985389522600371 -0.11721803029483097 5.5889281

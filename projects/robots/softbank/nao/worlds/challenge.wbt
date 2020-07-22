@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "NAO Challenge"
   basicTimeStep 10
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "key"
@@ -22,7 +23,6 @@ WorldInfo {
       bounceVelocity 0.003
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.37951271586001384 -0.9172517218104208 -0.12091061713668885 5.719550406102355

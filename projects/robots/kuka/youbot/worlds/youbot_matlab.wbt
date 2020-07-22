@@ -7,6 +7,7 @@ WorldInfo {
   ]
   title "KUKA youBot"
   basicTimeStep 16
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "InteriorWheelMat"
@@ -31,7 +32,6 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.05110129288548202 0.9828348631659609 0.17726897531993338 3.71169

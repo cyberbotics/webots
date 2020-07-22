@@ -4,6 +4,7 @@ WorldInfo {
     "An example of hot to solve the Inverted Pendulum problem using a PID controller"
   ]
   title "Inverted Pendulum"
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "robot_basis"
@@ -13,7 +14,6 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.05317585096836776 0.9887920240003923 0.1395086454202659 3.609723118221519

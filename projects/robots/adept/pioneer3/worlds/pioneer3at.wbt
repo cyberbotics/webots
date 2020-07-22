@@ -6,8 +6,8 @@ WorldInfo {
     "It is programmed to perform a simple obstacle avoidance behavior based on the sensor data measured by the lidar."
   ]
   title "Pioneer 3AT"
-  lineScale 0.5
   coordinateSystem "NUE"
+  lineScale 0.5
 }
 Viewpoint {
   orientation -0.03550849299250827 0.9985127997893296 0.04136829199127195 1.14771

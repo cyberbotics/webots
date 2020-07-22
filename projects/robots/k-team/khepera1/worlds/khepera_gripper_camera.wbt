@@ -7,6 +7,7 @@ WorldInfo {
   CFM 0.001
   ERP 0.4
   basicTimeStep 10
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "gripper"
@@ -22,7 +23,6 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.22724793707732743 0.9603897340777234 0.16127595534430691 4.89882

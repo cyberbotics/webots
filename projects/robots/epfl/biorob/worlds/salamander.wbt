@@ -11,6 +11,7 @@ WorldInfo {
   ]
   title "Salamandra Robotica"
   basicTimeStep 4
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "leg"
@@ -27,7 +28,6 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.3631869715851604 0.9133349285429613 0.18415898559186192 1.10338

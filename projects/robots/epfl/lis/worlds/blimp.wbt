@@ -10,6 +10,7 @@ WorldInfo {
   ]
   title "LIS-EPFL Blimp"
   physics "blimp_physics"
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "blimp"
@@ -20,7 +21,6 @@ WorldInfo {
       bounceVelocity 0
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.05183724120983727 0.9912974151353603 0.12100551710441193 4.246832297580772
