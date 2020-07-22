@@ -2,6 +2,7 @@
 WorldInfo {
   ERP 0.8
   basicTimeStep 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.8416331264924354 0.5386570809569442 0.038758605825187115 5.72059

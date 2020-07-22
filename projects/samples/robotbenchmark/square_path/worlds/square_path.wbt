@@ -8,6 +8,7 @@ WorldInfo {
   title "Square Path"
   window "square_path"
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.2180899997432351 -0.9159779289215875 -0.3367806196034965 2.1285942

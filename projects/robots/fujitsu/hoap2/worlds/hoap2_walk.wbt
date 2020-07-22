@@ -13,6 +13,7 @@ WorldInfo {
       softERP 0.5
     }
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.7921591240814383 0.5976310936111489 0.12377801938821913 5.77173

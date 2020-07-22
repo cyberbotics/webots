@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Pit Escape"
   window "pit_escape"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.033692242186570645 0.995861522966379 0.0844077004278979 2.1665993209762484

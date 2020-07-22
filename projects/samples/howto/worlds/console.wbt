@@ -4,6 +4,7 @@ WorldInfo {
     "Webots console using some ANSI escape codes"
   ]
   title "Console"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.9995664265494058 0.025776351375602483 -0.014231606550659226 5.521444598818434

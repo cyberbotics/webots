@@ -4,6 +4,7 @@ WorldInfo {
     "Example use of a Radar device."
   ]
   title "Radar"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.8155772452921317 0.5766291734263675 0.04829651452560756 5.39295

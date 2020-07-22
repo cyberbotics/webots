@@ -6,6 +6,7 @@ WorldInfo {
     linear 0.8
     angular 0.8
   }
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.6662454307991633 -0.7405006354472371 -0.08818069426737012 6.023202791469208

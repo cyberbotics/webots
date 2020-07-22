@@ -6,6 +6,7 @@ WorldInfo {
   title "Wall Following"
   window "wall_following"
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.10407812983052953 -0.9652828784282292 -0.2395760996098981 2.4222972

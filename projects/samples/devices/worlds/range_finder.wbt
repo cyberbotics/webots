@@ -4,6 +4,7 @@ WorldInfo {
     "Example use of a Range-Finder Camera device."
   ]
   title "Range-Finder"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.9957437534309501 0.07796208069479614 -0.049155787827896626 5.48921

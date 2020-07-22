@@ -7,6 +7,7 @@ WorldInfo {
     "The documentation about PBR is provided in the Webots Reference Manual under the PBRAppearance node."
   ]
   title "Physically Based Rendering"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.015676991137252624 0.9893439295110209 0.144750893222027 2.6449781506012155

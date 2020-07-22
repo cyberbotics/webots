@@ -3,6 +3,7 @@ WorldInfo {
   info [
     "Test world setting the visibility of nodes"
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.02968049451385419 -0.8489718430759529 -0.5276039024776378 3.167

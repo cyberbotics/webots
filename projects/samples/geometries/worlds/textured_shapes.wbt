@@ -4,6 +4,7 @@ WorldInfo {
     "A simple world displaying a Cone geometry primitive"
   ]
   title "Cone"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.030466110336239464 0.9953253376840996 0.09164763109329845 4.08267

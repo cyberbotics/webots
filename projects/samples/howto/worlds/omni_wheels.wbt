@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Omni-wheels"
   basicTimeStep 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.9960190596907585 0.08908160533860125 0.003240420194196223 5.66954

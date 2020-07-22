@@ -1,6 +1,7 @@
 #VRML_SIM R2020b utf8
 DEF WORLDINFO WorldInfo {
   gpsCoordinateSystem "WGS84"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.6221158786668858 -0.7673188503475173 -0.15554296966399098 0.629982

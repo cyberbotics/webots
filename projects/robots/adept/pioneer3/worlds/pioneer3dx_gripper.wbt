@@ -6,6 +6,7 @@ WorldInfo {
     "It is programmed to perform a simple obstacle avoidance behavior based on the values sensed by its 16 sonars"
   ]
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   fieldOfView 0.660595

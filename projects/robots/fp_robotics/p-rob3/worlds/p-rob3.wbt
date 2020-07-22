@@ -15,6 +15,7 @@ WorldInfo {
       softCFM 1
     }
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   fieldOfView 0.85

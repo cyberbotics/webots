@@ -1,6 +1,7 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
   title "Camera Restart Controller Test"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.5542843582001843 0.8186673773417066 0.15017514951236655 5.574129

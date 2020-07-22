@@ -4,6 +4,7 @@ WorldInfo {
     "Rat's life pattern"
   ]
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 DEF VIEWPOINT Viewpoint {
   fieldOfView 0.755398

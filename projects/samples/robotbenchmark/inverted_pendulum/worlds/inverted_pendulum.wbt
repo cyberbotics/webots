@@ -11,6 +11,7 @@ WorldInfo {
   physics "inverted_pendulum_perturbation"
   basicTimeStep 4
   lineScale 0.01
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.0035314798860618924 -0.9991060060567106 -0.042127393833730854 3.118668

@@ -4,6 +4,7 @@ WorldInfo {
     "The model of the Koala robot"
   ]
   title "Koala"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.0958218041718304 0.9415770409937982 0.3228790140573067 3.66461

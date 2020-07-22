@@ -19,6 +19,7 @@ WorldInfo {
       bounceVelocity 0.003
     }
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.23226100856508938 0.9658260356167674 0.11504300424244096 0.836541

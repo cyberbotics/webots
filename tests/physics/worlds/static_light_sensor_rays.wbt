@@ -1,6 +1,7 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
   title "Static light sensor rays"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.1143519454133686 0.9876525285377583 0.10707994888470258 1.17516

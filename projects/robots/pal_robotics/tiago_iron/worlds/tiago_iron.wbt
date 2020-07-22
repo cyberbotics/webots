@@ -4,6 +4,7 @@ WorldInfo {
     "This simulation shows a Tiago Iron moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar."
   ]
   title "Simulation of PAL Robotics' TIAGo Iron robot"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.4438756975933667 -0.8706756957445899 -0.21189194870423084 5.262690513765295

@@ -4,6 +4,7 @@ WorldInfo {
     "Example use of a spherical Camera device."
   ]
   title "Spherical Camera"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.008893302370377151 0.8521192271196752 0.523272139470387 3.12414

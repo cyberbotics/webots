@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Physics primitves"
   basicTimeStep 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.7594660871164611 -0.6305700723311206 -0.15997701835056488 0.298506

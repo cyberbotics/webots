@@ -7,9 +7,10 @@ WorldInfo {
     "Haute Ecole d'Ingenierie et de Gestion de Vaud (HEIG-VD)"
   ]
   title "Sojourner Rover"
-  gravity 0 -3.73 0
+  gravity 3.73
   basicTimeStep 16
   lineScale 0.2
+  coordinateSystem "NUE"
 }
 Viewpoint {
   fieldOfView 0.895398

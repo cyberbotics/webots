@@ -2,6 +2,7 @@
 WorldInfo {
   physics "ode_dif_exporter"
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.18436996701612368 -0.9658498272089984 -0.1820489674313516 1.90043
