@@ -16,7 +16,7 @@ Furthermore, the `dJointSetHingeParam` and `dJointGetHingeParam` functions suppo
 
 ### Hinge 2 Joint
 
-By default in ODE, the suspension is along one of the axes of the joint, in the ODE version of Webots, the suspension has been improved in order to use any arbitrary-axis.
+By default in ODE, the suspension is along one of the axes of the joint, in the ODE version of Webots, the suspension has been improved in order to use any arbitrary axis.
 It is possible to set and get this axis thanks to the following two functions:
 
 ```c
