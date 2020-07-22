@@ -15,7 +15,6 @@ As for a regular [Robot](robot.md) controller, the `wb_robot_init`, `wb_robot_st
 #### `wb_supervisor_node_get_root`
 #### `wb_supervisor_node_get_self`
 #### `wb_supervisor_node_get_from_def`
-#### `wb_supervisor_node_get_from_proto_def`
 #### `wb_supervisor_node_get_from_id`
 #### `wb_supervisor_node_get_selected`
 
@@ -29,7 +28,6 @@ As for a regular [Robot](robot.md) controller, the `wb_robot_init`, `wb_robot_st
 WbNodeRef wb_supervisor_node_get_root();
 WbNodeRef wb_supervisor_node_get_self();
 WbNodeRef wb_supervisor_node_get_from_def(const char *def);
-WbNodeRef wb_supervisor_node_get_from_proto_def(const char *def);
 WbNodeRef wb_supervisor_node_get_from_id(int id);
 WbNodeRef wb_supervisor_node_get_selected();
 ```
@@ -46,7 +44,6 @@ namespace webots {
     Node *getRoot();
     Node *getSelf();
     Node *getFromDef(const std::string &name);
-    Node *getFromProtoDef(const std::string &name);
     Node *getFromId(int id);
     Node *getSelected();
     // ...
@@ -65,7 +62,6 @@ class Supervisor (Robot):
     def getRoot(self):
     def getSelf(self):
     def getFromDef(self, name):
-    def getFromProtoDef(self, name):
     def getFromId(self, id):
     def getSelected(self):
     # ...
@@ -82,7 +78,6 @@ public class Supervisor extends Robot {
   public Node getRoot();
   public Node getSelf();
   public Node getFromDef(String name);
-  public Node getFromProtoDef(String name);
   public Node getFromId(int id);
   public Node getSelected();
   // ...
@@ -97,7 +92,6 @@ public class Supervisor extends Robot {
 node = wb_supervisor_node_get_root()
 node = wb_supervisor_node_get_self()
 node = wb_supervisor_node_get_from_def('def')
-node = wb_supervisor_node_get_from_proto_def('def')
 node = wb_supervisor_node_get_from_id(id)
 node = wb_supervisor_node_get_selected()
 ```
@@ -110,7 +104,7 @@ node = wb_supervisor_node_get_selected()
 | --- | --- | --- | --- |
 | `/supervisor/get_root` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
 | `/supervisor/get_self` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
-| `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`bool proto`<br/>`---`<br/>`uint64 node` |
+| `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`uint64 proto`<br/>`---`<br/>`uint64 node` |
 | `/supervisor/get_from_id` | `service` | `webots_ros::supervisor_get_from_id` | `int32 id`<br/>`---`<br/>`uint64 node` |
 | `/supervisor/get_selected` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
 
@@ -160,6 +154,8 @@ If no node is currently selected, the function returns NULL.
 #### `wb_supervisor_node_get_def`
 #### `wb_supervisor_node_get_id`
 #### `wb_supervisor_node_get_parent_node`
+#### `wb_supervisor_node_is_proto`
+#### `wb_supervisor_node_get_from_proto_def`
 
 %tab-component "language"
 
@@ -171,6 +167,8 @@ If no node is currently selected, the function returns NULL.
 const char *wb_supervisor_node_get_def(WbNodeRef node);
 int wb_supervisor_node_get_id(WbNodeRef node);
 WbNodeRef wb_supervisor_node_get_parent_node(WbNodeRef node);
+bool wb_supervisor_node_is_proto(WbNodeRef node);
+WbNodeRef wb_supervisor_node_get_from_proto_def(WbNodeRef node, const char *def);
 ```
 
 %tab-end
@@ -185,6 +183,8 @@ namespace webots {
     int getId() const;
     std::string getDef() const;
     Node *getParentNode() const;
+    bool isProto() const;
+    Node *getFromProtoDef(const std::string &name);
     // ...
   }
 }
@@ -201,6 +201,8 @@ class Node:
     def getId(self):
     def getDef(self):
     def getParentNode(self):
+    def isProto(self):
+    def getFromProtoDef(self, name):
     # ...
 ```
 
@@ -215,6 +217,8 @@ public class Node {
   public int getId();
   public String getDef();
   public Node getParentNode();
+  public boolean isProto();
+  public Node getFromProtoDef(String name);
   // ...
 }
 ```
@@ -227,6 +231,8 @@ public class Node {
 id = wb_supervisor_node_get_id(node)
 s = wb_supervisor_node_get_def(node)
 node = wb_supervisor_node_get_parent_node(node)
+b = wb_supervisor_node_is_proto(node)
+node = wb_supervisor_node_get_from_proto_def(node, 'def')
 ```
 
 %tab-end
@@ -238,6 +244,8 @@ node = wb_supervisor_node_get_parent_node(node)
 | `/supervisor/node/get_id` | `service` | `webots_ros::node_get_id` | `uint64 node`<br/>`---`<br/>`int32 id` |
 | `/supervisor/node/get_def` | `service` | `webots_ros::node_get_name` | `uint64 node`<br/>`---`<br/>`string name` |
 | `/supervisor/node/get_parent_node` | `service` | `webots_ros::node_get_parent_node` | `uint64 node`<br/>`---`<br/>`uint64 node` |
+| `/supervisor/node/is_proto` | `service` | `webots_ros::node_is_proto` | `uint64 node`<br/>`---`<br/>`bool value` |
+| `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`uint64 proto`<br/>`---`<br/>`uint64 node` |
 
 %tab-end
 
@@ -253,6 +261,11 @@ If no DEF name is specified, this function returns the empty string.
 The `wb_supervisor_node_get_id` function retrieves the unique identifier of the node given in parameter.
 
 The `wb_supervisor_node_get_parent_node` function retrieves the reference to the direct parent node of the node given in parameter.
+
+The `wb_supervisor_node_is_proto` function returns `true` if the node given in the argument is a [PROTO node](proto.md).
+
+The `wb_supervisor_node_get_from_proto_def` function returns a handle to a node defined in the [PROTO body](proto-definition.md) of the specified node from its DEF name.
+Note that this function works only for PROTO nodes.
 
 ---
 

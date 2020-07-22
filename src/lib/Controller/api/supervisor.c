@@ -92,6 +92,9 @@ typedef struct WbNodeStructPrivate {
   double contact_points_time_stamp;
   bool static_balance;
   double *solid_velocity;  // double[6] (linear[3] + angular[3])
+  bool is_proto;
+  bool is_proto_internal;
+  WbNodeRef parent_proto;
   WbNodeRef next;
 } WbNodeStruct;
 
@@ -152,10 +155,10 @@ static WbNodeRef find_node_by_id(int id) {
   return NULL;
 }
 
-static WbNodeRef find_node_by_def(const char *def_name) {
+static WbNodeRef find_node_by_def(const char *def_name, WbNodeRef parent_proto) {
   WbNodeRef node = node_list;
   while (node) {
-    if (node->def_name && strcmp(def_name, node->def_name) == 0)
+    if (node->parent_proto == parent_proto && node->def_name && strcmp(def_name, node->def_name) == 0)
       return node;
     node = node->next;
   }
@@ -169,8 +172,19 @@ static bool is_node_ref_valid(WbNodeRef n) {
   WbNodeRef node_from_list = find_node_by_id(n->id);
   if (!node_from_list)
     return false;
-
   return true;
+}
+
+static void delete_node(WbNodeRef node) {
+  // clean the node
+  free(node->model_name);
+  free(node->def_name);
+  free(node->position);
+  free(node->orientation);
+  free(node->center_of_mass);
+  free(node->contact_points);
+  free(node->solid_velocity);
+  free(node);
 }
 
 static void remove_node_from_list(int uid) {
@@ -190,16 +204,7 @@ static void remove_node_from_list(int uid) {
         previous_node_in_list = previous_node_in_list->next;
       }
     }
-    // clean the node
-    free(node->model_name);
-    node->model_name = NULL;
-    free(node->def_name);
-    free(node->position);
-    free(node->orientation);
-    free(node->center_of_mass);
-    free(node->contact_points);
-    free(node->solid_velocity);
-    free(node);
+    delete_node(node);
   }
 
   WbNodeRef n = node_list;
@@ -230,7 +235,8 @@ static const char *extract_node_def(const char *def_name_expression) {
   return (const char *)&(def_name_expression[i + 1]);
 }
 
-static void add_node_to_list(int uid, WbNodeType type, const char *model_name, const char *def_name, int parent_id) {
+static void add_node_to_list(int uid, WbNodeType type, const char *model_name, const char *def_name, int parent_id,
+                             bool is_proto) {
   WbNodeRef nodeInList = find_node_by_id(uid);
   if (nodeInList) {
     // already in the list, update DEF name if needed
@@ -258,6 +264,9 @@ static void add_node_to_list(int uid, WbNodeType type, const char *model_name, c
   n->contact_points_time_stamp = -1.0;
   n->static_balance = false;
   n->solid_velocity = NULL;
+  n->is_proto = is_proto;
+  n->is_proto_internal = false;
+  n->parent_proto = NULL;
   n->next = node_list;
   node_list = n;
 }
@@ -303,6 +312,7 @@ static int node_id = -1;
 static WbNodeRef node_to_remove = NULL;
 static bool allow_search_in_proto = false;
 static const char *node_def_name = NULL;
+static int proto_id = -1;
 static const char *requested_field_name = NULL;
 static bool node_get_selected = false;
 static int selected_node_id = -1;
@@ -361,13 +371,7 @@ static void supervisor_cleanup(WbDevice *d) {
   }
   while (node_list) {
     WbNodeStruct *n = node_list->next;
-    free(node_list->def_name);
-    free(node_list->position);
-    free(node_list->orientation);
-    free(node_list->center_of_mass);
-    free(node_list->contact_points);
-    free(node_list->solid_velocity);
-    free(node_list);
+    delete_node(node_list);
     node_list = n;
   }
 
@@ -410,7 +414,7 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
   } else if (node_def_name) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_FROM_DEF);
     request_write_string(r, node_def_name);
-    request_write_uchar(r, allow_search_in_proto ? 1 : 0);
+    request_write_int32(r, proto_id);
   } else if (node_get_selected) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_SELECTED);
   } else if (requested_field_name) {
@@ -702,18 +706,22 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
   switch (request_read_uchar(r)) {
     case C_CONFIGURE: {
       const int self_uid = request_read_uint32(r);
+      const bool is_proto = request_read_uchar(r) == 1;
+      const bool is_proto_internal = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
-      add_node_to_list(self_uid, WB_NODE_ROBOT, model_name, def_name, 0);  // add self node
+      add_node_to_list(self_uid, WB_NODE_ROBOT, model_name, def_name, 0, is_proto);  // add self node
       self_node_ref = node_list;
+      self_node_ref->is_proto_internal = is_proto_internal;
     } break;
     case C_SUPERVISOR_NODE_GET_FROM_DEF: {
       const int uid = request_read_uint32(r);
       const WbNodeType type = request_read_uint32(r);
       const int parent_uid = request_read_uint32(r);
+      const bool is_proto = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       if (uid) {
-        add_node_to_list(uid, type, model_name, node_def_name, parent_uid);
+        add_node_to_list(uid, type, model_name, node_def_name, parent_uid, is_proto);
         node_id = uid;
       }
     } break;
@@ -721,19 +729,22 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       selected_node_id = request_read_uint32(r);
       const WbNodeType type = request_read_uint32(r);
       const int parent_uid = request_read_uint32(r);
+      const bool is_proto = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def = request_read_string(r);
       if (selected_node_id)
-        add_node_to_list(selected_node_id, type, model_name, def, parent_uid);
+        add_node_to_list(selected_node_id, type, model_name, def, parent_uid, is_proto);
     } break;
     case C_SUPERVISOR_NODE_GET_FROM_ID: {
       const int uid = request_read_uint32(r);
       const WbNodeType type = request_read_uint32(r);
       const int parent_uid = request_read_uint32(r);
+      const bool is_proto = request_read_uchar(r) == 1;
+      const bool is_proto_internal = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
-      if (uid)
-        add_node_to_list(uid, type, model_name, def_name, parent_uid);
+      if (uid && !is_proto_internal)
+        add_node_to_list(uid, type, model_name, def_name, parent_uid, is_proto);
     } break;
     case C_SUPERVISOR_FIELD_GET_FROM_NAME: {
       const int field_ref = request_read_int32(r);
@@ -805,9 +816,10 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
             if (f->data.sf_node_uid) {
               const WbNodeType type = request_read_uint32(r);
               const int parent_uid = request_read_uint32(r);
+              const bool is_proto = request_read_uchar(r) == 1;
               const char *model_name = request_read_string(r);
               const char *def_name = request_read_string(r);
-              add_node_to_list(f->data.sf_node_uid, type, model_name, def_name, parent_uid);
+              add_node_to_list(f->data.sf_node_uid, type, model_name, def_name, parent_uid, is_proto);
             }
             break;
           default:
@@ -1053,8 +1065,7 @@ void wb_supervisor_init(WbDevice *d) {
   d->write_request = supervisor_write_request;
   d->read_answer = supervisor_read_answer;
   d->cleanup = supervisor_cleanup;
-  add_node_to_list(0, WB_NODE_GROUP, wb_node_get_name(WB_NODE_GROUP), NULL,
-                   -1);  // create root node
+  add_node_to_list(0, WB_NODE_GROUP, wb_node_get_name(WB_NODE_GROUP), NULL, -1, false);  // create root node
   root_ref = node_list;
 }
 
@@ -1437,6 +1448,12 @@ int wb_supervisor_node_get_id(WbNodeRef node) {
     return -1;
   }
 
+  if (node->is_proto_internal) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called for an internal PROTO node.\n", __FUNCTION__);
+    return -1;
+  }
+
   return node->id;
 }
 
@@ -1482,7 +1499,7 @@ WbNodeRef wb_supervisor_node_get_from_def(const char *def) {
   robot_mutex_lock_step();
 
   // search if node is already present in node_list
-  WbNodeRef result = find_node_by_def(def);
+  WbNodeRef result = find_node_by_def(def, NULL);
   if (!result) {
     // otherwise: need to talk to Webots
     node_def_name = def;
@@ -1497,7 +1514,20 @@ WbNodeRef wb_supervisor_node_get_from_def(const char *def) {
   return result;
 }
 
-WbNodeRef wb_supervisor_node_get_from_proto_def(const char *def) {
+bool wb_supervisor_node_is_proto(WbNodeRef node) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return false;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return false;
+  }
+
+  return node->is_proto;
+}
+
+WbNodeRef wb_supervisor_node_get_from_proto_def(WbNodeRef node, const char *def) {
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
@@ -1506,21 +1536,38 @@ WbNodeRef wb_supervisor_node_get_from_proto_def(const char *def) {
     return NULL;
   }
 
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  if (!node->is_proto) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s(): 'node' is not a PROTO node.\n", __FUNCTION__);
+    return NULL;
+  }
+
   robot_mutex_lock_step();
 
   // search if node is already present in node_list
-  WbNodeRef result = find_node_by_def(def);
+  WbNodeRef result = find_node_by_def(def, node);
   if (!result) {
     // otherwise: need to talk to Webots
     node_def_name = def;
     node_id = -1;
-    allow_search_in_proto = true;
+    proto_id = node->id;
     wb_robot_flush_unlocked();
-    if (node_id >= 0)
+    if (node_id >= 0) {
       result = find_node_by_id(node_id);
+      if (result) {
+        result->is_proto_internal = true;
+        result->parent_proto = node;
+      }
+    }
     node_def_name = NULL;
     node_id = -1;
-    allow_search_in_proto = false;
+    proto_id = -1;
   }
   robot_mutex_unlock_step();
   return result;
@@ -1768,6 +1815,8 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
     if (requested_field_name) {
       requested_field_name = NULL;
       result = field_list;  // was just inserted at list head
+      if (result && node->is_proto_internal)
+        result->is_proto_internal = true;
     }
   }
   robot_mutex_unlock_step();
@@ -1781,6 +1830,12 @@ WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  if (!node->is_proto) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s(): 'node' is not a PROTO node.\n", __FUNCTION__);
     return NULL;
   }
 
@@ -1802,6 +1857,8 @@ WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_
     if (requested_field_name) {
       requested_field_name = NULL;
       result = field_list;  // was just inserted at list head
+      if (result)
+        result->is_proto_internal = true;
     }
     allow_search_in_proto = false;
   }
@@ -2071,27 +2128,15 @@ const double *wb_supervisor_virtual_reality_headset_get_orientation() {
 }
 
 WbFieldType wb_supervisor_field_get_type(WbFieldRef field) {
-  if (!robot_check_supervisor(__FUNCTION__))
-    return 0;
-
-  if (!field) {
-    if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with a NULL 'field' argument.\n", __FUNCTION__);
-    return 0;
-  }
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
+    return WB_NO_FIELD;
 
   return ((WbFieldStruct *)field)->type;
 }
 
 int wb_supervisor_field_get_count(WbFieldRef field) {
-  if (!robot_check_supervisor(__FUNCTION__))
-    return -1;
-
-  if (!field) {
-    if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with a NULL 'field' argument.\n", __FUNCTION__);
-    return -1;
-  }
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
+    return false;
 
   if (((((WbFieldStruct *)field)->type) & WB_MF) != WB_MF) {
     if (!robot_is_quitting())
@@ -2172,9 +2217,12 @@ WbNodeRef wb_supervisor_field_get_sf_node(WbFieldRef field) {
 
   field_operation(field, GET, -1);
   int id = ((WbFieldStruct *)field)->data.sf_node_uid;
-  if (id > 0)
-    return find_node_by_id(id);
-  return NULL;
+  if (id <= 0)
+    return NULL;
+  WbNodeRef result = find_node_by_id(id);
+  if (result && ((WbFieldStruct *)field)->is_proto_internal)
+    result->is_proto_internal = true;
+  return result;
 }
 
 bool wb_supervisor_field_get_mf_bool(WbFieldRef field, int index) {
@@ -2246,7 +2294,10 @@ WbNodeRef wb_supervisor_field_get_mf_node(WbFieldRef field, int index) {
     return NULL;
 
   field_operation(field, GET, index);
-  return find_node_by_id(((WbFieldStruct *)field)->data.sf_node_uid);
+  WbNodeRef result = find_node_by_id(((WbFieldStruct *)field)->data.sf_node_uid);
+  if (result && ((WbFieldStruct *)field)->is_proto_internal)
+    result->is_proto_internal = true;
+  return result;
 }
 
 void wb_supervisor_field_set_sf_bool(WbFieldRef field, bool value) {
@@ -2617,16 +2668,11 @@ void wb_supervisor_field_remove_mf(WbFieldRef field, int index) {
 }
 
 void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const char *filename) {
-  if (!robot_check_supervisor(__FUNCTION__))
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, true))
     return;
 
   if (!filename || !filename[0]) {
     fprintf(stderr, "Error: %s() called with a NULL or empty 'filename' argument.\n", __FUNCTION__);
-    return;
-  }
-
-  if (((WbFieldStruct *)field)->is_proto_internal) {
-    fprintf(stderr, "Error: %s() called on a read-only PROTO internal field.\n", __FUNCTION__);
     return;
   }
 
@@ -2685,7 +2731,7 @@ void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const ch
 }
 
 void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int position, const char *node_string) {
-  if (!robot_check_supervisor(__FUNCTION__))
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, true))
     return;
 
   WbFieldStruct *f = (WbFieldStruct *)field;
@@ -2698,11 +2744,6 @@ void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int positi
 
   if (!node_string || !node_string[0]) {
     fprintf(stderr, "Error: %s() called with a NULL or empty 'node_string' argument.\n", __FUNCTION__);
-    return;
-  }
-
-  if (((WbFieldStruct *)field)->is_proto_internal) {
-    fprintf(stderr, "Error: %s() called on a read-only PROTO internal field.\n", __FUNCTION__);
     return;
   }
 
@@ -2746,7 +2787,7 @@ void wb_supervisor_field_remove_sf(WbFieldRef field) {
 }
 
 void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename) {
-  if (!robot_check_supervisor(__FUNCTION__))
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, true))
     return;
 
   if (!filename || !filename[0]) {
@@ -2763,11 +2804,6 @@ void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename) 
 
   if (strcmp(dot, ".wbo") == 0) {
     fprintf(stderr, "Error: %s() supports only '*.wbo' files.\n", __FUNCTION__);
-    return;
-  }
-
-  if (((WbFieldStruct *)field)->is_proto_internal) {
-    fprintf(stderr, "Error: %s() called on a read-only PROTO internal field.\n", __FUNCTION__);
     return;
   }
 
@@ -2796,7 +2832,7 @@ void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename) 
 }
 
 void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char *node_string) {
-  if (!robot_check_supervisor(__FUNCTION__))
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, true))
     return;
 
   WbFieldStruct *f = (WbFieldStruct *)field;
@@ -2817,11 +2853,6 @@ void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char
     return;
   }
 
-  if (((WbFieldStruct *)field)->is_proto_internal) {
-    fprintf(stderr, "Error: %s() called on a read-only PROTO internal field.\n", __FUNCTION__);
-    return;
-  }
-
   robot_mutex_lock_step();
   union WbFieldData data;
   data.sf_string = supervisor_strdup(node_string);
@@ -2834,17 +2865,8 @@ void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char
 }
 
 const char *wb_supervisor_field_get_type_name(WbFieldRef field) {
-  if (!robot_check_supervisor(__FUNCTION__))
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
     return "";
-
-  if (!field) {
-    if (robot_is_quitting())
-      return "";
-    else {
-      fprintf(stderr, "Error: %s() called with a NULL 'field' argument.\n", __FUNCTION__);
-      return "";
-    }
-  }
 
   switch (field->type) {
     case WB_SF_BOOL:

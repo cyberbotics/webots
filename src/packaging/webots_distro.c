@@ -882,10 +882,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "ln -fs Versions/5/QtQml QtQml\n");
       fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
       fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd QtQmlModels.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtQmlModels QtQmlModels\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-      fprintf(fd, "cd ..\n");
       fprintf(fd, "cd QtQuick.framework\n");
       fprintf(fd, "ln -fs Versions/5/QtQuick QtQuick\n");
       fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
