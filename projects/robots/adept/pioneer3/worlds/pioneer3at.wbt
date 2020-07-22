@@ -7,6 +7,7 @@ WorldInfo {
   ]
   title "Pioneer 3AT"
   lineScale 0.5
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.03550849299250827 0.9985127997893296 0.04136829199127195 1.14771

@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Light Sensor"
   basicTimeStep 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.9999145421071924 0.007938046364915017 -0.010387295243325724 5.1417

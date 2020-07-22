@@ -5,7 +5,8 @@ WorldInfo {
     "You can control them with the keyboard if you want: select the 3D view and then use the cursor keys."
   ]
   title "Koala Robot"
-  gravity 0 -1.62 0
+  gravity 1.62
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.025945171984067764 -0.9991154830348528 -0.03309228929448502 2.2406874669346033

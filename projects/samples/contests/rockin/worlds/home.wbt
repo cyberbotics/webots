@@ -7,6 +7,7 @@ WorldInfo {
   basicTimeStep 20
   optimalThreadCount 8
   lineScale 1
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.6079160800683282 -0.7358630969201669 -0.29823403928025877 1.14597

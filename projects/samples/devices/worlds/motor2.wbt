@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Motor 2"
   lineScale 0.3
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.31324569058818835 0.9231043879286132 0.22305924395745047 5.044773530408996

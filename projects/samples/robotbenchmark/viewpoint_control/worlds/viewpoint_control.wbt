@@ -15,6 +15,7 @@ WorldInfo {
       ]
     }
   ]
+  coordinateSystem "NUE"
 }
 DEF VIEWPOINT Viewpoint {
   orientation 0.3658690289554772 -0.9026843774229182 -0.22649672935337245 5.0496699

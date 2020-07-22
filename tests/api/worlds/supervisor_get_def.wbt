@@ -2,6 +2,7 @@
 WorldInfo {
   defaultDamping DEF TESTE Damping {
   }
+  coordinateSystem "NUE"
 }
 Viewpoint {
   position 0 0 10.82

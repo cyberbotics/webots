@@ -4,6 +4,7 @@ WorldInfo {
     "Example use of a Speaker devide to perform text-to-speech."
   ]
   title "Speaker Text-To-Speech"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.22902003976051613 -0.931236161673321 -0.2834590492117551 1.87902

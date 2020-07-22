@@ -6,6 +6,7 @@ WorldInfo {
   title "Four Wheels"
   basicTimeStep 16
   lineScale 0.2
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.25435410654692275 0.9026783781248304 0.34709614539582906 2.13985

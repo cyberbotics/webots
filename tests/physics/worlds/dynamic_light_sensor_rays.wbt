@@ -1,6 +1,7 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
   title "Dynamic light sensor rays"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.250234981523025 0.9148659324476742 0.3168639766032401 1.79401

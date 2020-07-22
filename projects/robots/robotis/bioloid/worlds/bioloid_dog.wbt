@@ -19,6 +19,7 @@ WorldInfo {
       material2 "floor"
     }
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.09502029875768925 0.9847429874888122 0.14578199962824212 4.20022

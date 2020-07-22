@@ -6,6 +6,7 @@ WorldInfo {
     "Biorob, EPFL"
   ]
   lineScale 0.2
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.33486694206627604 -0.9385058376336051 -0.08408878545220244 0.880818

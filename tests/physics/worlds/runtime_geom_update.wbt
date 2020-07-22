@@ -2,6 +2,7 @@
 WorldInfo {
   basicTimeStep 8
   lineScale 2
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.6724079304750408 -0.6560469321667188 -0.34273896456182107 5.12366

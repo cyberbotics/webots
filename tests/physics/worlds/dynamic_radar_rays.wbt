@@ -1,6 +1,7 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
   title "Dynamic radar rays"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.29381699931746896 -0.9176480078683219 -0.2675699993784402 4.83703

@@ -3,6 +3,7 @@ WorldInfo {
   info [
     "Check that the correct proto parameter node instance is returned"
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.4898568890929838 0.827885812560878 0.27321293814268527 1.11173

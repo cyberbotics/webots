@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Gyro"
   basicTimeStep 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.6235639078943174 0.7267648926506559 0.2880639574505081 0.910026

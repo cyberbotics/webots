@@ -1,6 +1,7 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
   title "Static receiver rays"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.06366069143242599 0.9941938661995442 0.08675178832478331 1.46997

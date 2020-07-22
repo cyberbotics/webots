@@ -23,6 +23,7 @@ WorldInfo {
       ]
     }
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.015941149784921154 -0.9995883126915739 -0.023855499867895952 0.33961194261801625
