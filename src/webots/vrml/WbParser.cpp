@@ -321,7 +321,7 @@ void WbParser::parseNode(const QString &worldPath) {
     while (peekWord() != "}")
       parseField(nodeModel, worldPath);
     skipToken();  // "}";
-    // if no coordinate system was explicitely set in parseField(), set the default value.
+    // if no coordinate system was explicitly set in parseField(), set the default value.
     if (nodeModel->name() == "WorldInfo" && WbProtoTemplateEngine::coordinateSystem().isEmpty()) {
       if (mTokenizer->fileVersion() < WbVersion(2020, 1, 0))  // earlier than R2020b
         WbProtoTemplateEngine::setCoordinateSystem("NUE");
