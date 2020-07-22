@@ -146,26 +146,27 @@ bool WbAccelerometer::refreshSensorIfNeeded() {
 
 void WbAccelerometer::computeValue() {
   // set acceleration due to gravity
-  const WbVector3 &gravity = WbWorld::instance()->worldInfo()->gravity();
+  const WbVector3 &gravity = WbWorld::instance()->worldInfo()->gravityVector();
   WbVector3 acceleration(-gravity);
 
   // add other acceleration (computed from changes in velocity)
   dBodyID upperSolidBodyId = upperSolid()->bodyMerger();
   if (upperSolidBodyId) {
     dVector3 newVelocity;
-    const WbVector3 &t = translation();
-    dBodyGetRelPointVel(upperSolidBodyId, t.x(), t.y(), t.z(), newVelocity);
-    const double InvDt = 1000.0 / mSensor->elapsedTime();
+    const WbVector3 &t = position();
+    dBodyGetPointVel(upperSolidBodyId, t.x(), t.y(), t.z(), newVelocity);
+    const double inverseDt = 1000.0 / mSensor->elapsedTime();
 
     for (int i = 0; i < 3; ++i) {
-      acceleration[i] += (newVelocity[i] - mVelocity[i]) * InvDt;
+      acceleration[i] += (newVelocity[i] - mVelocity[i]) * inverseDt;
       mVelocity[i] = newVelocity[i];
     }
-  }
+  } else
+    warn(tr("Parent of Accelerometer node has no physics: measurements may be wrong."));
 
   const WbVector3 &result = acceleration * matrix();
 
-  // lookup
+  // apply lookup table
   mValues[0] = mXAxis->isTrue() ? mLut->lookup(result.x()) : NAN;
   mValues[1] = mYAxis->isTrue() ? mLut->lookup(result.y()) : NAN;
   mValues[2] = mZAxis->isTrue() ? mLut->lookup(result.z()) : NAN;

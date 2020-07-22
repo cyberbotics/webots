@@ -164,9 +164,8 @@ $(OBJDIR)/mingw32/%o:%c
 
 $(OBJDIR)/%.d:%.c
 	@echo "# updating " $@
-	@echo $(basename $(OBJDIR)/$(notdir $@)).o: $(basename $@).d > $(OBJDIR)/$(notdir $@)
+	@echo $(basename $(OBJDIR)/$(notdir $@)).o: $(basename $@).d $(OBJDIR)/ > $(OBJDIR)/$(notdir $@)
 	@echo >> $(OBJDIR)/$(notdir $@)
-	@echo -n $(OBJDIR)/ >> $(OBJDIR)/$(notdir $@)
 	@$(CC) $(CFLAGS) -MM -w $(INCLUDE) $< >> $(OBJDIR)/$(notdir $@)
 
 clean:

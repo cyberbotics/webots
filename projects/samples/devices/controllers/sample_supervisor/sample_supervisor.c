@@ -43,8 +43,8 @@ int main(int argc, char *argv[]) {
   // get the content of the 'gravity' field of the 'WorldInfo' node
   node = wb_supervisor_field_get_mf_node(root_children_field, 0);
   field = wb_supervisor_node_get_field(node, "gravity");
-  const double *gravity = wb_supervisor_field_get_sf_vec3f(field);
-  printf("WorldInfo.gravity = %g %g %g\n\n", gravity[0], gravity[1], gravity[2]);
+  const double gravity = wb_supervisor_field_get_sf_float(field);
+  printf("WorldInfo.gravity = %g\n\n", gravity);
 
   // move the 'PointLight' node after waiting 2 seconds
   printf("Going to move the location of the PointLight in 2 seconds (simulation time)...\n");

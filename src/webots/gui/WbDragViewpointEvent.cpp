@@ -64,7 +64,7 @@ WbRotateViewpointEvent::WbRotateViewpointEvent(const QPoint &initialMousePositio
   WbDragViewpointEvent(viewpoint),
   mPreviousMousePosition(initialMousePosition),
   mDelta(),
-  mWorldUpVector(-WbWorld::instance()->worldInfo()->gravityUnitVector()),
+  mWorldUpVector(WbWorld::instance()->worldInfo()->upVector()),
   mIsObjectPicked(objectPicked) {
   mViewpoint->lockRotationCenter();
 }

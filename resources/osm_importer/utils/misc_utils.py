@@ -37,7 +37,7 @@ def print_header(file, minlat, minlon, maxlat, maxlon, elevation=None):
     file.write("    \"World generated using the Open Street Map to Webots importer\"\n")
     file.write("    \"Author: David Mansolino <david.mansolino@epfl.ch>\"\n")
     file.write("  ]\n")
-    file.write("  northDirection 0 0 1\n")
+    file.write("  coordinateSystem \"NUE\"\n")
     longitude = (float(maxlon) + float(minlon)) / 2
     latitude = (float(maxlat) + float(minlat)) / 2
     x, z = Projection.project(longitude, latitude)
@@ -49,9 +49,9 @@ def print_header(file, minlat, minlon, maxlat, maxlon, elevation=None):
     file.write("  lineScale " + str(round(max(xSize, zSize) / 200.0)) + "\n")
     file.write("}\n")
     file.write("Viewpoint {\n")
-    file.write("  orientation 0 0.92 0.38 3.1416\n")
+    file.write("  orientation 0.305 0.902 0.305 4.609\n")
     position = round(xSize * math.cos(0.785) * 1.5 + zSize * math.cos(0.785) * 1.5)
-    file.write("  position 0 " + str(position) + " " + str(-position) + "\n")
+    file.write("  position " + str(-position * 1.25) + " " + str(position) + " 0\n")
     file.write("  near 3\n")
     file.write("}\n")
     file.write("TexturedBackground {\n")

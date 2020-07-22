@@ -1,6 +1,5 @@
 #VRML_SIM R2020b utf8
 DEF WORLDINFO WorldInfo {
-  northDirection 1 0 1
 }
 Viewpoint {
   orientation 0.9913575571773292 -0.06840626880522833 -0.11194094968127297 5.71846

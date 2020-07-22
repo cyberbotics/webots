@@ -149,8 +149,6 @@ public:
   int useCount() const { return mUseNodes.size(); }
   const QList<WbNode *> &useNodes() const { return mUseNodes; }
   virtual void defHasChanged() {}
-  // Look for a node with this DEF name (this node or any of its children nodes)
-  const WbNode *getNodeFromDEF(const QString &defName) const;
 
   // has this node a referred DEF node descendant, i.e. a descendant with positive use count
   // which is moreover referred outside the subtree below root
@@ -247,6 +245,7 @@ public:
   static bool instantiateMode();
   static void cleanup();
   static WbNode *findNode(int uniqueId);
+  static bool setRestoreUniqueIdOnClone(bool enable);
 
   // compare two nodes, returns true if they have the same type and all fields have the same values
   bool operator==(const WbNode &other) const;

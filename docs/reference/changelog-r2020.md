@@ -27,6 +27,7 @@ Released on XXX.
   - New Samples
     - Added a [break\_room](../guide/samples-environments.md#break_room-wbt) world ([#1457](https://github.com/cyberbotics/webots/pull/1457)).
   - Enhancements
+    - **Improved `WorldInfo`: `gravity` is now a single float value instead of a 3D vector and the `northDirection` field was replaced by a `coordinateSystem` field which can take either `"NUE"` (legacy Webots coordinate system) or `"ENU"` (ROS coordinate system) to define the gravity and cartesian directions ([#1643](https://github.com/cyberbotics/webots/pull/1643)).**
     - **Improved [Track](track.md) `textureAnimation` field so that it automatically takes the world basic time step into consideration and removed it from `ConveyorBelt` PROTO object ([#1477](https://github.com/cyberbotics/webots/pull/1477)).**
     - **Replaced the [Car](../automobile/car.md) `maxWheelVelocity` field by a `maxVelocity` field representing the actual maximum velocity of the car itself ([#1552](https://github.com/cyberbotics/webots/pull/1552)).**
     - Added the possibility to edit the `S/MFRotation` fields using quaternions ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
@@ -52,14 +53,18 @@ Released on XXX.
     - Removed the ROS libraries from the default controllers path to avoid possible conflicts with other libraries (thanks to PymZoR) ([#1426](https://github.com/cyberbotics/webots/pull/1426)).
     - Geometry node now displays its triangles count in the node editor ([#1456](https://github.com/cyberbotics/webots/pull/1456)).
   - Dependency Updates
-    - Upgraded to Qt 5.15.0 ([#1709](https://github.com/cyberbotics/webots/pull/1709), [#1710](https://github.com/cyberbotics/webots/pull/1710), [#1736](https://github.com/cyberbotics/webots/pull/1736)).
+    - Upgraded to Qt 5.15.0 on Windows and Linux ([#1709](https://github.com/cyberbotics/webots/pull/1709), [#1710](https://github.com/cyberbotics/webots/pull/1710)).
     - Upgraded to Assimp 5.0.1 on Linux and macOS ([#1463](https://github.com/cyberbotics/webots/pull/1463)).
   - Bug fixes
+    - Fixed crash occurring when reverting the world while an animation was being recorded (thanks to [Jenny](https://github.com/JennyLynnFletcher)) ([#1957](https://github.com/cyberbotics/webots/pull/1957)).
+    - Fixed wrong measurements of [Accelerometer](accelerometer.md) device (thanks to [MauroMombelli](https://github.com/MauroMombelli)) ([#1947](https://github.com/cyberbotics/webots/pull/1947)).
+    - Fixed issues with nodes and fields references in controller program after procedural PROTO regeneration ([#1922](https://github.com/cyberbotics/webots/pull/1922)).
     - Fixed issues with context menu available items when requested from the scene tree (thanks to MaxGaukler) ([#1889](https://github.com/cyberbotics/webots/pull/1889)).
     - Fixed crash occurring when reloading or resetting a simulation containing a [Display](display.md) device ([#1865](https://github.com/cyberbotics/webots/pull/1865)).
     - Fixed crash with Python [`RangeFinder.rangeImageGetDepth`](rangefinder.md#wb_range_finder_image_get_depth) function ([#1858](https://github.com/cyberbotics/webots/pull/1858)).
     - Fixed mismatch between the bounding object and visual shape of the [UnevenTerrain](https://www.cyberbotics.com/doc/guide/object-floors#uneventerrain), **and removed the `textureScale` field** ([#1792](https://github.com/cyberbotics/webots/pull/1792)).
     - Fixed crash when using a [Normal](normal.md) node in a PROTO node ([#1813](https://github.com/cyberbotics/webots/pull/1813)).
+    - Fixed the [`wb_supervisor_node_add_force()`](supervisor.md#wb_supervisor_node_add_force), [`wb_supervisor_node_add_force_with_offset()`](supervisor.md#wb_supervisor_node_add_force_with_offset) and [`wb_supervisor_node_add_torque()`](supervisor.md#wb_supervisor_node_add_torque) functions not awakening the node ([#1953](https://github.com/cyberbotics/webots/pull/1953)).
     - Fixed rendering of Track and Muscle nodes when the main window was minimized ([#1836](https://github.com/cyberbotics/webots/pull/1836)).
     - Fixed default position and motor limits of the [Robotiq3fGripper](../guide/gripper-actuators.md#robotiq-3f-gripper) ([#1879](https://github.com/cyberbotics/webots/pull/1879)).
     - Fixed crash occurring when moving with SHIFT+mouse/wheel drag a PROTO object with translation or rotation template field ([#1761](https://github.com/cyberbotics/webots/pull/1761)).
