@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
 
   // if set "filtering" was executed, the field has been reset to default value 4
   const int filteringValue = wb_supervisor_field_get_sf_int32(filteringField);
-  ts_assert_int_not_equal(filteringValue, 4, "Wrong filtering value after setting to an invalid value.");
+  ts_assert_int_equal(filteringValue, 4, "Wrong filtering value after setting to an invalid value.");
 
   ts_send_success();
   return EXIT_SUCCESS;
