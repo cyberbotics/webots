@@ -4,6 +4,250 @@ This is an archive of the `technical-questions` channel of the [Webots Discord s
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 07/23/2020 13:36:02
+You're welcome
+
+##### Gautier A. 07/23/2020 13:35:56
+Understood, thank you a lot !
+
+##### David Mansolino [cyberbotics] 07/23/2020 13:34:24
+Unfortunately not, but if you use the 'Overlays' menu, this will be saved for all the world files 'forever'.
+
+##### Gautier A. 07/23/2020 13:33:13
+Is there a way to do it automitcally when loading the world ?
+
+##### David Mansolino [cyberbotics] 07/23/2020 13:31:36
+You can close them manually using the small cross on the top right of the box. Or disable all of them at once from the 'Overlays' menu.
+
+##### Gautier A. 07/23/2020 13:30:51
+Is there a way to desactivate it by default ?
+
+
+Because these camera are only used through Ros, I'm not really interested having the visualizer "open" by default
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/735851245075562506/unknown.png)
+%end
+
+
+When I'm opening a world with two camera, I have these two box
+
+
+So it's just a little question
+
+
+Hi David, thank you !
+
+##### David Mansolino [cyberbotics] 07/23/2020 13:29:43
+hi, yes sure!
+
+##### Gautier A. 07/23/2020 13:29:10
+Hello, might I ask you something ?
+
+##### Olivier Michel [cyberbotics] 07/23/2020 10:39:08
+Yes, certainly.
+
+##### (,-*-) 07/23/2020 10:31:00
+Hi,
+
+there exist a library named aruco ([https://docs.opencv.org/trunk/d5/dae/tutorial\_aruco\_detection.html](https://docs.opencv.org/trunk/d5/dae/tutorial_aruco_detection.html)), can I simulate similar coordinate systems as described in picture?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/735806165384167434/unknown.png)
+%end
+
+##### David Mansolino [cyberbotics] 07/23/2020 07:43:56
+You're welcome
+
+##### watchdogs132 07/23/2020 07:36:53
+Amazing .  Thank you so much .
+
+##### David Mansolino [cyberbotics] 07/23/2020 07:23:40
+Here is a tutorial explaining how to create a new controller and assign it to a robot: [https://cyberbotics.com/doc/guide/tutorial-1-your-first-simulation-in-webots#create-a-new-controller](https://cyberbotics.com/doc/guide/tutorial-1-your-first-simulation-in-webots#create-a-new-controller)
+
+
+Ok, in that case this is probably the reason 😉
+
+##### watchdogs132 07/23/2020 07:22:31
+I clicked on Wizard -> Create a new Robot controller . Do I have manually assign controller to the robot ? . How do I do that ? .
+
+##### David Mansolino [cyberbotics] 07/23/2020 07:20:32
+Did you assigne the controller to your robot?
+
+##### watchdogs132 07/23/2020 07:14:58
+Thank you for your reply , but since I am completely new to Webots , before I report this , I just want to make sure that I didn't mess anything up . Here's a step by step of what I did .
+
+Created a world -> Added a Robot node -> Child node-> Added a camera node .
+
+I created a controller cpp file .
+
+Here's the code :
+
+ #include <webots/Robot.hpp>
+
+\#include <webots/Camera.hpp>
+
+\#define TIME\_STEP 64
+
+using namespace webots;
+
+int main(int argc, char **argv) {
+
+  Robot *robot = new Robot();
+
+  int timeStep = (int)robot->getBasicTimeStep();
+
+  Camera *cm;
+
+  cm=robot->getCamera("camera");
+
+  cm->enable(TIME\_STEP);
+
+  while (robot->step(timeStep) != -1) {
+
+  };
+
+  delete robot;
+
+  return 0;
+
+}
+
+It compiles but the camera window is pitch black .
+
+##### David Mansolino [cyberbotics] 07/23/2020 07:07:40
+In that case it should update the image. Can youplease report this here (including the controller and world files): [https://github.com/cyberbotics/webots/issues/new?template=bug\_report.md](https://github.com/cyberbotics/webots/issues/new?template=bug_report.md)
+
+
+Yes this.
+
+##### watchdogs132 07/23/2020 06:46:11
+while (robot->step(timeStep) != -1) {}; Do you mean this ? . This is there , just left empty .
+
+##### David Mansolino [cyberbotics] 07/23/2020 06:44:39
+You need to call the robot.step otherwise simulation will not run and the sensors will not be updated.
+
+##### watchdogs132 07/23/2020 06:35:20
+`@watchdogs132` no , there is no code inside the while loop . I just want to see the display of camera or range finder .
+
+##### David Mansolino [cyberbotics] 07/23/2020 06:05:55
+> I remember reading something here about anaconda having issues. But python2 with conda works no problem
+
+`@Luftwaffel` yes the problem is anaconda, Webots Python API is compiled for the regular version of Webots, here is instructions how to compile for other version of Python: [https://cyberbotics.com/doc/guide/using-python#use-an-alternative-python-version](https://cyberbotics.com/doc/guide/using-python#use-an-alternative-python-version)
+
+
+`@watchdogs132`, are you doing robot steps after enabling the camera?
+
+##### Laojiang 07/23/2020 04:13:00
+I have solved it.
+
+
+When I use Emitter/Receiver under different robot node in different  controller,should I use 'receiver.getData()' or 'emitter.send()' in Infinite loop statement? In fact, no matter how I use the command, there are error in both emitter and receiver. How can I solve it ?
+
+##### Axel M [Premier Service] 07/22/2020 22:42:53
+> add ${WEBOTS\_HOME}/lib/controller/python3X
+
+
+[https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-language=python](https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-language=python)
+
+
+> I'm sure this has been asked before, but running external controller under python3 doesnt work for me. I get this error:
+
+`@Luftwaffel` could this be the PYTHONPATH that must be exported to python3X ?
+
+##### Luftwaffel 07/22/2020 17:03:37
+I remember reading something here about anaconda having issues. But python2 with conda works no problem
+
+
+I'm sure this has been asked before, but running external controller under python3 doesnt work for me. I get this error:
+
+> from controller import Supervisor
+
+> Traceback (most recent call last):
+
+>   File "<stdin>", line 1, in `<`module`>`
+
+>   File "/usr/local/webots/lib/controller/python27/controller.py", line 39, in `<`module`>`
+
+>     \_controller = swig\_import\_helper()
+
+>   File "/usr/local/webots/lib/controller/python27/controller.py", line 35, in swig\_import\_helper
+
+>     \_mod = imp.load\_module('\_controller', fp, pathname, description)
+
+>   File "/home/simon/anaconda3/lib/python3.7/imp.py", line 242, in load\_module
+
+>     return load\_dynamic(name, filename, file)
+
+>   File "/home/simon/anaconda3/lib/python3.7/imp.py", line 342, in load\_dynamic
+
+>     return \_load(spec)
+
+> ImportError: /usr/local/webots/lib/controller/python27/\_controller.so: undefined symbol: PyClass\_Type
+
+
+`@Olivier Michel` The webots external controller keeps waiting, until a webots instance is open and ready. So I can just start both at the same time 🙂
+
+##### watchdogs132 07/22/2020 15:52:35
+> I am having trouble in implementing camera node . I created a Robot node , the child node of which is a Camera node . Now in the controller program I added these three lines
+
+>  Camera *cm;
+
+>   cm=robot->getCamera("camera");
+
+>   cm->enable(TIME\_STEP);.
+
+> The code compiles but the display window is pitch black .  Sorry if this is a noob question .
+
+##### Olivier Michel [cyberbotics] 07/22/2020 15:33:17
+I would recommend you to have a supervisor process sending some signal to your script to notify that the simulation started. You may use various IPC for that, like pipes, TCP/IP socket, files, etc.
+
+##### Luftwaffel 07/22/2020 15:29:22
+Is there a way to check if the world is fully loaded? The goal is for a python script to automatically launch webots with a wolrd, run several benchmarks, close it, start up another simulation like Mujoco or Gazebo and so on
+
+
+okay i'm blind 😄 ... I just saw the listed options, not the worldfile. Thanks 🙂
+
+##### Stefania Pedrazzi [cyberbotics] 07/22/2020 15:24:33
+`@Luftwaffel` you simply pass the world as argument `webots <my_path_to_wbt_file>`  [https://www.cyberbotics.com/doc/guide/starting-webots#command-line-arguments](https://www.cyberbotics.com/doc/guide/starting-webots#command-line-arguments)
+
+##### Luftwaffel 07/22/2020 15:23:23
+how can I launch webots and automatically load a specified world? Ultimately I need to be able to do it from within my code, but a terminal command should work
+
+##### Stefania Pedrazzi [cyberbotics] 07/22/2020 15:11:58
+> `@culurciello` Am also getting this warning: WARNING: DEF ARM UR5e (PROTO) > DEF GRIPPER Pioneer3Gripper (PROTO) > DEF LIFT\_SLIDER SliderJoint > DEF LIFT Solid > DEF LEFT\_FINGER\_SLIDER SliderJoint > LinearMotor: too low requested position: -0.0845174 < 0
+
+This seems a problem of your controller program that requires an invalid position to the gripper motor.
+
+About your world, you didn't send the controller. But I moved the arm using the robot window (double click on the robot and then move the joints using the sliders) and it works correctly.
+
+##### Olivier Michel [cyberbotics] 07/22/2020 15:10:19
+`@GeoCSBI`: not sure how to help you. Did you modify anything to your controller or simulation?
+
+##### GeoCSBI 07/22/2020 14:58:36
+Hey guys, for some reason webots crashes when the Robot.step(duration) method is being executed. It's very weird since two days ago it was working just fine. I am running the controller code from PyCharm on Windows.
+
+##### culurciello 07/22/2020 14:46:01
+Am also getting this warning: WARNING: DEF ARM UR5e (PROTO) > DEF GRIPPER Pioneer3Gripper (PROTO) > DEF LIFT\_SLIDER SliderJoint > DEF LIFT Solid > DEF LEFT\_FINGER\_SLIDER SliderJoint > LinearMotor: too low requested position: -0.0845174 < 0
+
+
+`@Stefania Pedrazzi` thank you so much you are very kind. Using Webots R2020 r1. here is the world we use:
+> **Attachment**: [ur5\_grip.wbt](https://cdn.discordapp.com/attachments/565154703139405824/735506078011228190/ur5_grip.wbt)
+
+##### Stefania Pedrazzi [cyberbotics] 07/22/2020 13:44:41
+Hi `@culurciello`, quickly tested on the latest version in the `ure.wbt` world just replacing the default gripper with the Pioneer3Gripper and it seems to work fine.
+
+Which Webots version are you using?
+
+Did you save and revert your world after adding the gripper?
+
+##### culurciello 07/22/2020 13:27:27
+Hi Guys, I added a Pioneer3Gripper to a UR-5 robot and when I move the robot the gripper falls apart (see pic). What can I do to fix this? Also is there a simple 2-finger alternative gripper I can use with the UR robots? Thanks a lot for all your kind help~
+%figure
+![gripper_problem.jpg](https://cdn.discordapp.com/attachments/565154703139405824/735488182455369768/gripper_problem.jpg)
+%end
+
 ##### Laojiang 07/22/2020 10:00:14
 OK,thank you
 
@@ -129,11 +373,11 @@ My simulation crashes after 2.176 seconds exactly everytime. I know on what line
 
 Traceback (most recent call last):
 
-  File "C:/DP\_Webots/controllers/Jetson/Jetson.py", line 23, in <module>
+  File "C:/DP\_Webots/controllers/Jetson/Jetson.py", line 23, in `<`module`>`
 
     from controller import Robot
 
-  File "C:\Program Files\Webots\lib\controller\python37\controller.py", line 15, in <module>
+  File "C:\Program Files\Webots\lib\controller\python37\controller.py", line 15, in `<`module`>`
 
     import \_controller
 
@@ -624,11 +868,11 @@ Can I bind Camera overlay to physical camera?
 No size field
 
 ##### (,-*-) 07/19/2020 15:43:35
-File "C:/DP\_Webots/controllers/Jetson/Jetson.py", line 13, in <module>
+File "C:/DP\_Webots/controllers/Jetson/Jetson.py", line 13, in `<`module`>`
 
     from controller\_api.controller import Robot
 
-  File "C:\DP\_Webots\controllers\controller\_api\controller.py", line 13, in <module>
+  File "C:\DP\_Webots\controllers\controller\_api\controller.py", line 13, in `<`module`>`
 
     from . import \_controller
 
@@ -679,11 +923,11 @@ well, i commented everything else and /
 
 Traceback (most recent call last):
 
-  File "C:/DP\_Webots/controllers/Jetson/Jetson.py", line 13, in <module>
+  File "C:/DP\_Webots/controllers/Jetson/Jetson.py", line 13, in `<`module`>`
 
     from controller import Robot
 
-  File "C:\Program Files\Webots\lib\controller\python37\controller.py", line 15, in <module>
+  File "C:\Program Files\Webots\lib\controller\python37\controller.py", line 15, in `<`module`>`
 
     import \_controller
 
@@ -886,11 +1130,11 @@ Did you set `LD_LIBRARY_PATH` and `PYTHONPATH` environment variables appropriate
 
 `Traceback (most recent call last):
 
-  File "seasate3.py", line 5, in <module>
+  File "seasate3.py", line 5, in `<`module`>`
 
     from controller import Robot
 
-  File "/usr/local/webots/lib/controller/python36/controller.py", line 28, in <module>
+  File "/usr/local/webots/lib/controller/python36/controller.py", line 28, in `<`module`>`
 
     \_controller = swig\_import\_helper()
 
@@ -2192,7 +2436,7 @@ However, when I am trying to run Webots from PyCharm I get this error:
 
 
 
-  File "...\Webots\lib\controller\python37\controller.py", line 15, in <module>
+  File "...\Webots\lib\controller\python37\controller.py", line 15, in `<`module`>`
 
     import \_controller
 
@@ -13753,7 +13997,7 @@ Hi `@iagsav` you need to install the 'shapely' pip module, you can do this with:
 `python -m pip install shapely`
 
 ##### iagsav 05/01/2020 10:48:25
-Hi! After starting highway\_driving.wbt I get this error: [highway\_driving\_benchmark] File "highway\_driving\_benchmark.py", line 3, in <module>
+Hi! After starting highway\_driving.wbt I get this error: [highway\_driving\_benchmark] File "highway\_driving\_benchmark.py", line 3, in `<`module`>`
 
 [[highway\_driving\_benchmark] from shape.geometry import Point
 
@@ -13939,7 +14183,7 @@ Yes, I have followed it.
 How could i fix it?
 
 
-File "D:\Webots\lib\controller\python37\controller.py", line 15, in <module>
+File "D:\Webots\lib\controller\python37\controller.py", line 15, in `<`module`>`
 
     import \_controller
 
@@ -31518,7 +31762,7 @@ This is very weird.
 
 [PYTHON\_controller] Traceback (most recent call last):
 
-[PYTHON\_controller]   File "PYTHON\_controller.py", line 9, in <module>
+[PYTHON\_controller]   File "PYTHON\_controller.py", line 9, in `<`module`>`
 
 [PYTHON\_controller]     left.setPosition(float('inf'))  # Set motor in speed mode
 
@@ -31551,7 +31795,7 @@ your error means that the motors cannot be found. Are you using the e-puck?
 ##### HE110 11/19/2019 09:54:48
 [PYTHON\_controller] Traceback (most recent call last):
 
-[PYTHON\_controller]   File "PYTHON\_controller.py", line 9, in <module>
+[PYTHON\_controller]   File "PYTHON\_controller.py", line 9, in `<`module`>`
 
 [PYTHON\_controller]     left.setPosition(float('inf'))  # Set motor in speed mode
 
@@ -34946,7 +35190,7 @@ I am going to try your PR
 
 root@93d179b72523:/webots/resources/web/server# Traceback (most recent call last):
 
-  File "./session\_server.py", line 26, in <module>
+  File "./session\_server.py", line 26, in `<`module`>`
 
     import tornado.ioloop
 
@@ -34960,7 +35204,7 @@ SyntaxError: invalid syntax
 
 Traceback (most recent call last):
 
-  File "./simulation\_server.py", line 37, in <module>
+  File "./simulation\_server.py", line 37, in `<`module`>`
 
     import tornado.ioloop
 
