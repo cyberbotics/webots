@@ -116,7 +116,10 @@ for release in repo.get_releases():
                         except requests.exceptions.ConnectionError:
                             remainingTrials -= 1
                             print('Release upload failed (remaining trials: %d)' % remainingTrials)
-                    if releaseExists and not options.tag and not releaseCommentModified and options.branch.replace('refs/heads/', '') not in release.body:
+                    if (releaseExists and
+                            not options.tag and
+                            not releaseCommentModified and
+                            options.branch.replace('refs/heads/', '') not in release.body):
                         print('Updating release description')
                         releaseCommentModified = True
                         branch = '[%s](https://github.com/%s/blob/%s/docs/reference/changelog-r%d.md)' \
