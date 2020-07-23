@@ -1,6 +1,8 @@
 name: Discord Doc Updater
 
 on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
   schedule:
   - cron: "0 13 * * 3"
 
@@ -38,4 +40,3 @@ jobs:
         pr_body: Automatic update of the docs from the Discord channels (https://cyberbotics.com/doc/discord/index?version=discord-doc-update).
         pr_reviewer: Maintainers
         pr_label: documentation
-
