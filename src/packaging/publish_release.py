@@ -46,7 +46,7 @@ if now.weekday() >= 5:
 
 warningMessage = '\nIt might be unstable, for a stable version of Webots, please use the [latest official release]' \
                  '(https://github.com/cyberbotics/webots/releases/latest).'
-if options.tag:
+if options.tag and not options.tag.startswith('refs/heads/'):
     tag = options.tag.replace('refs/tags/', '')
     title = tag
     message = 'This is a nightly build of Webots from the "%s" tag.%s' % (tag, warningMessage)
@@ -57,7 +57,7 @@ else:
     title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
     tag = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)
     branch = '[%s](https://github.com/%s/blob/%s/docs/reference/changelog-r%d.md)' \
-             % (options.branch, options.repo, options.commit, now.year)
+             % (options.branch.replace('refs/heads/', ''), options.repo, options.commit, now.year)
     message = 'This is a nightly build of Webots from the following branch(es):\n  - %s\n%s' % (branch, warningMessage)
 
 for release in repo.get_releases():
@@ -116,11 +116,14 @@ for release in repo.get_releases():
                         except requests.exceptions.ConnectionError:
                             remainingTrials -= 1
                             print('Release upload failed (remaining trials: %d)' % remainingTrials)
-                    if releaseExists and not options.tag and not releaseCommentModified and options.branch not in release.body:
+                    if (releaseExists and
+                            not (options.tag and not options.tag.startswith('refs/heads/')) and
+                            not releaseCommentModified and
+                            options.branch.replace('refs/heads/', '') not in release.body):
                         print('Updating release description')
                         releaseCommentModified = True
                         branch = '[%s](https://github.com/%s/blob/%s/docs/reference/changelog-r%d.md)' \
-                                 % (options.branch, options.repo, options.commit, now.year)
+                                 % (options.branch.replace('refs/heads/', ''), options.repo, options.commit, now.year)
                         message = release.body.replace('branch(es):', 'branch(es):\n  - %s' % branch)
                         release.update_release(release.title, message, release.draft, release.prerelease, release.tag_name,
                                                release.target_commitish)
