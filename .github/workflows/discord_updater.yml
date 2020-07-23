@@ -1,8 +1,6 @@
 name: Discord Doc Updater
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
   schedule:
   - cron: "0 13 * * 3"
 
