@@ -41,8 +41,8 @@ public:
                const WbMFVector2 *texCoord, const WbMFInt *texCoordIndex, double creaseAngle, bool counterClockwise,
                bool normalPerVertex);
   // to be initialized from a WbMesh
-  QString init(const double *coord, const double *normal, const double *texCoord, const unsigned int *index, int coordSize,
-               int indexSize);
+  QString init(const double *coord, const double *normal, const double *texCoord, const unsigned int *index,
+               int numberOfVertices, int indexSize);
 
   void cleanup();
 
@@ -50,11 +50,11 @@ public:
   bool areTextureCoordinatesValid() const { return mTextureCoordinatesValid; }
 
   int numberOfTriangles() const { return mNTriangles; }
-  int numberOfVertices() const { return mVertices.size() / 3; }
+  int numberOfVertices() const { return mCoordinates.size() / 3; }
 
   static int index(int triangle, int vertex) { return 3 * triangle + vertex; }
   double vertex(int triangle, int vertex, int component) const {
-    return mVertices[coordinateIndex(triangle, vertex, component)];
+    return mCoordinates[coordinateIndex(triangle, vertex, component)];
   }
   double normal(int triangle, int vertex, int component) const { return mNormals[3 * index(triangle, vertex) + component]; }
   bool isNormalCreased(int triangle, int vertex) const { return mIsNormalCreased[index(triangle, vertex)]; }
@@ -66,17 +66,17 @@ public:
   }
 
   const int *indicesData() const { return mCoordIndices.data(); }
-  const double *verticesData() const { return mVertices.data(); }
+  const double *coordinatesData() const { return mCoordinates.data(); }
   const double *normalsData() const { return mNormals.data(); }
   const double *textureCoordinatesData() const { return mTextureCoordinates.data(); }
 
   const QStringList &warnings() const { return mWarnings; }
-  const double *scaledVerticesData() const { return mScaledVertices.data(); }
-  void updateScaledVertices(double x, double y, double z);
+  const double *scaledCoordinatesData() const { return mScaledCoordinates.data(); }
+  void updateScaledCoordinates(double x, double y, double z);
   double scaledVertex(int triangle, int vertex, int component) const {
-    return mScaledVertices[coordinateIndex(triangle, vertex, component)];
+    return mScaledCoordinates[coordinateIndex(triangle, vertex, component)];
   }
-  bool areScaledVerticesEmpty() const { return mScaledVertices.isEmpty(); }
+  bool areScaledCoordinatesEmpty() const { return mScaledCoordinates.isEmpty(); }
 
   double max(int coordinate) const { return mMax[coordinate]; }
   double min(int coordinate) const { return mMin[coordinate]; }
@@ -111,14 +111,14 @@ private:
   QVarLengthArray<WbVector3, 1> mTmpTriangleNormals;
   // contains a map coordIndex->triangleIndex
   QMultiHash<int, int> mTmpVertexToTriangle;
-  // populate mIndices, mVertices, mTextureCoordinates and mNormals
+  // populate mIndices, mCoordinates, mTextureCoordinates and mNormals
   void finalPass(const WbMFVector3 *coord, const WbMFVector3 *normal, const WbMFVector2 *texCoord, double creaseAngle);
   // populate mTextureCoordinates with default values
   void setDefaultTextureCoordinates(const WbMFVector3 *coord);
-  // contains triplets representing the vertices (match with the mIndices order)
-  QVarLengthArray<double, 1> mVertices;
-  // contains triplets representing the vertices coordinates scaled by an absolute factor
-  QVarLengthArray<double, 1> mScaledVertices;
+  // contains triplets representing the vertex coordinates (match with the mIndices order)
+  QVarLengthArray<double, 1> mCoordinates;
+  // contains triplets representing the vertex coordinates scaled by an absolute factor
+  QVarLengthArray<double, 1> mScaledCoordinates;
   // contains doublet representing the texture coordinates (match with the mIndices order or default values)
   QVarLengthArray<double, 1> mTextureCoordinates;
   // contains doublet representing the non-recursive texture coordinates (match with the mIndices order) or nothing

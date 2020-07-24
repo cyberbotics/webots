@@ -44,10 +44,10 @@ void WbTriangleMesh::cleanup() {
 
   mCoordIndices.clear();
   mCoordIndices.reserve(0);
-  mVertices.clear();
-  mVertices.reserve(0);
-  mScaledVertices.clear();
-  mScaledVertices.reserve(0);
+  mCoordinates.clear();
+  mCoordinates.reserve(0);
+  mScaledCoordinates.clear();
+  mScaledCoordinates.reserve(0);
   mTextureCoordinates.clear();
   mTextureCoordinates.reserve(0);
   mNonRecursiveTextureCoordinates.clear();
@@ -134,7 +134,7 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
   mTmpVertexToTriangle.reserve(estimateSize);
 
   // memory allocation of the arrays (overestimated)
-  mVertices.reserve(vertexSize);
+  mCoordinates.reserve(vertexSize);
   mTextureCoordinates.reserve(2 * estimateSize);
   mNonRecursiveTextureCoordinates.reserve(2 * estimateSize);
   mNormals.reserve(3 * estimateSize);
@@ -158,7 +158,7 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
 
   // unallocate the useless data
   cleanupTmpArrays();
-  mVertices.reserve(mVertices.size());
+  mCoordinates.reserve(mCoordinates.size());
   mTextureCoordinates.reserve(mTextureCoordinates.size());
   mNonRecursiveTextureCoordinates.reserve(mNonRecursiveTextureCoordinates.size());
   mNormals.reserve(mNormals.size());
@@ -177,7 +177,7 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
 }
 
 QString WbTriangleMesh::init(const double *coord, const double *normal, const double *texCoord, const unsigned int *index,
-                             int coordSize, int indexSize) {
+                             int numberOfVertices, int indexSize) {
   cleanup();
 
   mTextureCoordinatesValid = texCoord != NULL;
@@ -185,19 +185,19 @@ QString WbTriangleMesh::init(const double *coord, const double *normal, const do
   mNTriangles = indexSize / 3;
 
   mCoordIndices.reserve(indexSize);
-  mVertices.reserve(3 * coordSize);
-  mScaledVertices.reserve(3 * coordSize);
+  mCoordinates.reserve(3 * numberOfVertices);
+  mScaledCoordinates.reserve(3 * numberOfVertices);
   if (mTextureCoordinatesValid) {
-    mTextureCoordinates.reserve(2 * coordSize);
-    mNonRecursiveTextureCoordinates.reserve(2 * coordSize);
+    mTextureCoordinates.reserve(2 * numberOfVertices);
+    mNonRecursiveTextureCoordinates.reserve(2 * numberOfVertices);
   }
-  mNormals.reserve(3 * coordSize);
-  mIsNormalCreased.reserve(coordSize);
+  mNormals.reserve(3 * numberOfVertices);
+  mIsNormalCreased.reserve(numberOfVertices);
 
   for (int i = 0; i < indexSize; ++i)
     mCoordIndices.append(index[i]);
 
-  for (int i = 0; i < coordSize; ++i) {
+  for (int i = 0; i < numberOfVertices; ++i) {
     const double x = coord[3 * i];
     if (mMax[X] < x)
       mMax[X] = x;
@@ -216,12 +216,12 @@ QString WbTriangleMesh::init(const double *coord, const double *normal, const do
     else if (mMin[Z] > z)
       mMin[Z] = z;
 
-    mVertices.append(x);
-    mVertices.append(y);
-    mVertices.append(z);
-    mScaledVertices.append(x);
-    mScaledVertices.append(y);
-    mScaledVertices.append(z);
+    mCoordinates.append(x);
+    mCoordinates.append(y);
+    mCoordinates.append(z);
+    mScaledCoordinates.append(x);
+    mScaledCoordinates.append(y);
+    mScaledCoordinates.append(z);
   }
 
   for (int t = 0; t < mNTriangles; ++t) {  // foreach triangle
@@ -623,7 +623,7 @@ void WbTriangleMesh::setDefaultTextureCoordinates(const WbMFVector3 *coord) {
   }
 }
 
-// populate mIndices, mVertices, mTextureCoordinates and mNormals
+// populate mIndices, mCoordinates, mTextureCoordinates and mNormals
 void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *normal, const WbMFVector2 *texCoord,
                                double creaseAngle) {
   assert(coord && coord->size() > 0);
@@ -664,9 +664,9 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
     else if (mMin[Z] > z)
       mMin[Z] = z;
 
-    mVertices.append(x);
-    mVertices.append(y);
-    mVertices.append(z);
+    mCoordinates.append(x);
+    mCoordinates.append(y);
+    mCoordinates.append(z);
   }
 
   for (int t = 0; t < mNTriangles; ++t) {  // foreach triangle
@@ -753,7 +753,7 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
     setDefaultTextureCoordinates(coord);
 
   // check the resulted size
-  assert(mVertices.size() == 3 * coordSize);
+  assert(mCoordinates.size() == 3 * coordSize);
   assert(mNormals.size() == 3 * 3 * mNTriangles);
   assert(mIsNormalCreased.size() == 3 * mNTriangles);
   assert(mTextureCoordinates.size() == 0 || mTextureCoordinates.size() == 2 * 3 * mNTriangles);
@@ -816,17 +816,17 @@ int WbTriangleMesh::estimateNumberOfTriangles(const WbMFInt *coordIndex) {
   return nTriangles;
 }
 
-void WbTriangleMesh::updateScaledVertices(double x, double y, double z) {
-  const int n = mVertices.size();
+void WbTriangleMesh::updateScaledCoordinates(double x, double y, double z) {
+  const int n = mCoordinates.size();
   assert(n % 3 == 0);
-  mScaledVertices.resize(n);
+  mScaledCoordinates.resize(n);
   int i = 0;
   while (i < n) {
-    mScaledVertices[i] = x * mVertices.at(i);
+    mScaledCoordinates[i] = x * mCoordinates.at(i);
     ++i;
-    mScaledVertices[i] = y * mVertices.at(i);
+    mScaledCoordinates[i] = y * mCoordinates.at(i);
     ++i;
-    mScaledVertices[i] = z * mVertices.at(i);
+    mScaledCoordinates[i] = z * mCoordinates.at(i);
     ++i;
   }
 }
