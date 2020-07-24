@@ -4,6 +4,35 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 
 ## 2020
 
+##### JSON Derulo 07/23/2020 08:57:35
+Awesome, thanks
+
+##### Darko Lukić [cyberbotics] 07/23/2020 08:57:02
+`@JSON Derulo` Yes, you can check this example: [https://www.youtube.com/watch?v=gO0EXKv8x70](https://www.youtube.com/watch?v=gO0EXKv8x70)
+
+
+
+In general, Webots is compatible with ROS and ROS2, therefore you can use ROS packages. A few more links:
+
+- Webots with ROS1 tutorial: [https://cyberbotics.com/doc/guide/tutorial-8-using-ros](https://cyberbotics.com/doc/guide/tutorial-8-using-ros)
+
+- Webots support for ROS2: [http://wiki.ros.org/webots\_ros2](http://wiki.ros.org/webots_ros2)
+
+##### JSON Derulo 07/23/2020 08:54:46
+Hi, does WeBots have to the ability to be integrated with by planners?
+
+##### Olivier Michel [cyberbotics] 07/23/2020 05:33:41
+You are welcome. We plan to release Webots R2020b (including this feature) in the next couple of days. We will make sure we announce it (including this ROS-friendly feature and a few others) on ROS Discourse.
+
+##### Emiliano Borghi 07/22/2020 19:33:46
+Hey, I saw you merged this PR: [https://github.com/cyberbotics/webots/pull/1643](https://github.com/cyberbotics/webots/pull/1643)
+
+I would recommend you to make a post in ROS Discourse because it will help the ROS community with their simulations (included myself).
+
+
+
+Thanks for merging it BTW!
+
 ##### David Mansolino [cyberbotics] 07/14/2020 14:31:19
 You're welcome
 
