@@ -259,9 +259,9 @@ I'm sure this has been asked before, but running external controller under pytho
 
 > Traceback (most recent call last):
 
->   File "<stdin>", line 1, in `<`module`>`
+>   File "<stdin>", line 1, in <module>
 
->   File "/usr/local/webots/lib/controller/python27/controller.py", line 39, in `<`module`>`
+>   File "/usr/local/webots/lib/controller/python27/controller.py", line 39, in <module>
 
 >     \_controller = swig\_import\_helper()
 
@@ -922,11 +922,11 @@ Can I bind Camera overlay to physical camera?
 No size field
 
 ##### (,-*-) 07/19/2020 15:43:35
-File "C:/DP\_Webots/controllers/Jetson/Jetson.py", line 13, in `<`module`>`
+File "C:/DP\_Webots/controllers/Jetson/Jetson.py", line 13, in <module>
 
     from controller\_api.controller import Robot
 
-  File "C:\DP\_Webots\controllers\controller\_api\controller.py", line 13, in `<`module`>`
+  File "C:\DP\_Webots\controllers\controller\_api\controller.py", line 13, in <module>
 
     from . import \_controller
 
@@ -1163,11 +1163,11 @@ Did you set `LD_LIBRARY_PATH` and `PYTHONPATH` environment variables appropriate
 
 `Traceback (most recent call last):
 
-  File "seasate3.py", line 5, in `<`module`>`
+  File "seasate3.py", line 5, in <module>
 
     from controller import Robot
 
-  File "/usr/local/webots/lib/controller/python36/controller.py", line 28, in `<`module`>`
+  File "/usr/local/webots/lib/controller/python36/controller.py", line 28, in <module>
 
     \_controller = swig\_import\_helper()
 
@@ -2469,7 +2469,7 @@ However, when I am trying to run Webots from PyCharm I get this error:
 
 
 
-  File "...\Webots\lib\controller\python37\controller.py", line 15, in `<`module`>`
+  File "...\Webots\lib\controller\python37\controller.py", line 15, in <module>
 
     import \_controller
 
@@ -14030,7 +14030,7 @@ Hi `@iagsav` you need to install the 'shapely' pip module, you can do this with:
 `python -m pip install shapely`
 
 ##### iagsav 05/01/2020 10:48:25
-Hi! After starting highway\_driving.wbt I get this error: [highway\_driving\_benchmark] File "highway\_driving\_benchmark.py", line 3, in `<`module`>`
+Hi! After starting highway\_driving.wbt I get this error: [highway\_driving\_benchmark] File "highway\_driving\_benchmark.py", line 3, in <module>
 
 [[highway\_driving\_benchmark] from shape.geometry import Point
 
@@ -14216,7 +14216,7 @@ Yes, I have followed it.
 How could i fix it?
 
 
-File "D:\Webots\lib\controller\python37\controller.py", line 15, in `<`module`>`
+File "D:\Webots\lib\controller\python37\controller.py", line 15, in <module>
 
     import \_controller
 
@@ -31795,7 +31795,7 @@ This is very weird.
 
 [PYTHON\_controller] Traceback (most recent call last):
 
-[PYTHON\_controller]   File "PYTHON\_controller.py", line 9, in `<`module`>`
+[PYTHON\_controller]   File "PYTHON\_controller.py", line 9, in <module>
 
 [PYTHON\_controller]     left.setPosition(float('inf'))  # Set motor in speed mode
 
@@ -31828,7 +31828,7 @@ your error means that the motors cannot be found. Are you using the e-puck?
 ##### HE110 11/19/2019 09:54:48
 [PYTHON\_controller] Traceback (most recent call last):
 
-[PYTHON\_controller]   File "PYTHON\_controller.py", line 9, in `<`module`>`
+[PYTHON\_controller]   File "PYTHON\_controller.py", line 9, in <module>
 
 [PYTHON\_controller]     left.setPosition(float('inf'))  # Set motor in speed mode
 
@@ -35223,7 +35223,7 @@ I am going to try your PR
 
 root@93d179b72523:/webots/resources/web/server# Traceback (most recent call last):
 
-  File "./session\_server.py", line 26, in `<`module`>`
+  File "./session\_server.py", line 26, in <module>
 
     import tornado.ioloop
 
@@ -35237,7 +35237,7 @@ SyntaxError: invalid syntax
 
 Traceback (most recent call last):
 
-  File "./simulation\_server.py", line 37, in `<`module`>`
+  File "./simulation\_server.py", line 37, in <module>
 
     import tornado.ioloop
 
