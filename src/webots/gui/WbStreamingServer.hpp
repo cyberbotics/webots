@@ -31,6 +31,15 @@ class WbRobot;
 class WbStreamingTcpServer;
 class WbView3D;
 
+struct StreamingServerSettings {
+  bool monitorActivity = false;
+  bool disableTextStreams = false;
+  bool ssl = false;
+  bool controllerEdit = false;
+  int port = 1234;
+  QString mode = "x3d";
+};
+
 class WbStreamingServer : public QObject {
   Q_OBJECT
 
@@ -38,7 +47,7 @@ public:
   WbStreamingServer();
   virtual ~WbStreamingServer();
 
-  void startFromCommandLine(const QString &argument);
+  void startFromCommandLine(const StreamingServerSettings &argument);
   void setView3D(WbView3D *);
   void setMainWindow(WbMainWindow *mainWindow);
 

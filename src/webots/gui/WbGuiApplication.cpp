@@ -27,6 +27,7 @@
 #include "WbSingleTaskApplication.hpp"
 #include "WbSplashScreen.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbStreamingServer.hpp"
 #include "WbSysInfo.hpp"
 #include "WbTranslator.hpp"
 #include "WbVersion.hpp"
@@ -59,10 +60,7 @@ using namespace std;
 // - http://lists-archives.org/kde-devel/20232-qt-4-5-related-crash-on-kdm-startup.html
 // - http://www.qtcentre.org/archive/index.php/t-28785.html
 WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
-  QApplication(argc, argv),
-  mMainWindow(NULL),
-  mTask(NORMAL),
-  mStreamingServer(NULL) {
+  QApplication(argc, argv), mMainWindow(NULL), mTask(NORMAL), mStreamingServer(NULL) {
   setApplicationName("Webots");
   setApplicationVersion(WbApplicationInfo::version().toString(true, false, true));
   setOrganizationName("Cyberbotics");
@@ -178,13 +176,69 @@ void WbGuiApplication::parseArguments() {
         if (serverArgument.endsWith('"'))
           serverArgument = serverArgument.left(serverArgument.size() - 1);
       }
-      if (serverArgument.contains("mode=mjpeg")) {
-        mStreamingServer = new WbMultimediaStreamingServer();
-        mStreamingServer->startFromCommandLine(serverArgument);
-      } else {
-        mStreamingServer = new WbX3dStreamingServer();
-        mStreamingServer->startFromCommandLine(serverArgument);
-        WbWorld::enableX3DStreaming();
+
+      StreamingServerSettings streamingServerSettings;
+#ifdef __APPLE__
+      const QStringList &options = argument.split(';', QString::SkipEmptyParts);
+#else  //  Qt >= 5.15
+      const QStringList &options = serverArgument.split(';', Qt::SkipEmptyParts);
+#endif
+      foreach (QString option, options) {
+        option = option.trimmed();
+        const QRegExp rx("(\\w+)\\s*=\\s*([A-Za-z0-9:/.\\-,]+)?");
+        rx.indexIn(option);
+        const QStringList &capture = rx.capturedTexts();
+        // "key" without value case
+        if (option == "monitorActivity")
+          streamingServerSettings.monitorActivity = true;
+        else if (option == "disableTextStreams")
+          streamingServerSettings.disableTextStreams = true;
+        else if (option == "ssl")
+          streamingServerSettings.ssl = true;
+        else if (option == "controllerEdit")
+          streamingServerSettings.controllerEdit = true;
+        else if (capture.size() == 3) {
+          const QString &key = capture[1];
+          const QString &value = capture[2];
+          if (key == "port") {
+            bool ok;
+            const int tmpPort = value.toInt(&ok);
+            if (ok)
+              streamingServerSettings.port = tmpPort;
+            else {
+              cout << tr("webots: invalid option: '%1' in --stream").arg(arg).toUtf8().constData() << endl;
+              cout << tr("webots: stream port has to be integer").toUtf8().constData() << endl;
+              cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+              mTask = FAILURE;
+            }
+          } else if (key == "mode") {
+            if (value != "x3d" && value != "mjpeg") {
+              streamingServerSettings.mode = value;
+              cout << tr("webots: invalid option: '%1' in --stream").arg(arg).toUtf8().constData() << endl;
+              cout << tr("webots: stream mode can only be x3d or mjpeg").toUtf8().constData() << endl;
+              cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+              mTask = FAILURE;
+            }
+          } else {
+            cout << tr("webots: unknown option: '%1' in --stream").arg(arg).toUtf8().constData() << endl;
+            cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+            mTask = FAILURE;
+          }
+        } else {
+          cout << tr("webots: unknown option: '%1' in --stream").arg(arg).toUtf8().constData() << endl;
+          cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+          mTask = FAILURE;
+        }
+      }
+      if (mTask != FAILURE) {
+        if (streamingServerSettings.mode == "mjpeg") {
+          mStreamingServer = new WbMultimediaStreamingServer();
+          mStreamingServer->startFromCommandLine(streamingServerSettings);
+        } else {
+          mStreamingServer = new WbX3dStreamingServer();
+          mStreamingServer->startFromCommandLine(streamingServerSettings);
+          WbWorld::enableX3DStreaming();
+        }
       }
     } else if (arg == "--stdout")
       WbConsole::enableStdOutRedirectToTerminal();
