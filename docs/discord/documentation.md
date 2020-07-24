@@ -842,7 +842,7 @@ Did you already look at the tutorials? [https://www.cyberbotics.com/doc/guide/tu
 How would you create a custom chassy
 
 ##### Stefania Pedrazzi [cyberbotics] 10/28/2019 07:07:25
-then , for pitch and roll the description also specified that this is only true if the up (or gravity) vector is negative y-axis
+then , for pitch and roll the description also specified that this is only true if the up (or gravity) vector is -y-axis
 
 
 The "first" axis mentioned in the documentation corresponds to the rotation axis if the up (or gravity) vector is the default one (i.e. if the up vector corresponds to the y-axis)
