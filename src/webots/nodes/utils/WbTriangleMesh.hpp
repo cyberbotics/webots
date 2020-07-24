@@ -50,7 +50,7 @@ public:
   bool areTextureCoordinatesValid() const { return mTextureCoordinatesValid; }
 
   int numberOfTriangles() const { return mNTriangles; }
-  int numberOfVertices() const { return mVertices.size(); }
+  int numberOfVertices() const { return mVertices.size() / 3; }
 
   static int index(int triangle, int vertex) { return 3 * triangle + vertex; }
   double vertex(int triangle, int vertex, int component) const {
