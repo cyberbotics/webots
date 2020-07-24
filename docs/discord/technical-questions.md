@@ -4,6 +4,93 @@ This is an archive of the `technical-questions` channel of the [Webots Discord s
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 07/24/2020 06:43:57
+> When I change that or move the axes with my cursor , the entire wheel moves .
+
+`@watchdogs132` yes that's normal, that's not what you need?
+
+##### watchdogs132 07/24/2020 06:36:19
+When I create a shape in webots , then the axis is totally aligned , but that's not the case with imported objects
+
+
+Ideally , I want the intersection of the 3 axis to be aligned with the center of the wheel
+
+
+When I change that or move the axes with my cursor , the entire wheel moves .
+
+##### David Mansolino [cyberbotics] 07/24/2020 06:34:46
+You can align them by changing the `translation` and `rotation` fields of the Transform node.
+
+##### watchdogs132 07/24/2020 06:33:54
+I did that , but as you can see the axes is still not aligned .
+%figure
+![1.png](https://cdn.discordapp.com/attachments/565154703139405824/736108886792077343/1.png)
+%end
+
+##### David Mansolino [cyberbotics] 07/24/2020 06:24:22
+I would recommend following this tutorial: 
+
+[https://cyberbotics.com/doc/guide/tutorial-5-compound-solid-and-physics-attributes](https://cyberbotics.com/doc/guide/tutorial-5-compound-solid-and-physics-attributes)
+
+[https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot](https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot)
+
+
+Hi `@watchdogs132`, you have to add a Transform (or Solid) node as children of the robot node, and then put the shape in the children field of this Transform/Solid ndoe.
+
+##### watchdogs132 07/24/2020 06:18:07
+Hello . I have imported my .wrl file to .wbt using Blender ,  my bot shows up accurately on Webot ,with all the nodes as shape . But when I put one of the shape nodes (say the wheel)as the child node of a robot node , ideally I want the axes of the child node to be totally aligned with the wheel but that is not the case. There is a major offset . How can I fix this? . This offset axes problem is with all the shape nodes .
+
+##### David Mansolino [cyberbotics] 07/24/2020 05:58:48
+> `@Stefania Pedrazzi` see file here for a controller that replicates my proble: as the arm moves, the gripper falls apart (and falls completely apart in some other cases)
+
+`@culurciello` let's continue the discussion on : [https://github.com/cyberbotics/webots/issues/1963#issuecomment-663137831](https://github.com/cyberbotics/webots/issues/1963#issuecomment-663137831)
+
+
+> I was planning to run my Webots world on a github page, using the HTML and x3d file I exported from webscene option. But I am not able to figure out how should the controller code be executed. 
+
+> `extra notes:`
+
+> `I looked into the cross-compilation article in documentation. But I thought of confirming it beforehand here, because that process is too complex for me. `
+
+`@Sanket Khadse` if you want your controller to run you have to export not the scene, but an animation and let the simulation run: [https://cyberbotics.com/doc/guide/web-animation](https://cyberbotics.com/doc/guide/web-animation)
+
+If you want to be able to dynamically change the controller from the web scene, then this is a bit more complexe and requires in adition to GitHub pages a web server able to run Webots i nthe background: [https://cyberbotics.com/doc/guide/web-simulation](https://cyberbotics.com/doc/guide/web-simulation)
+
+
+> Hey, I have a little question. I am trying to determine the dimensions and position of a recognized object bounding box. When i get size\_on\_image attribute it returns a SwigPyObject that I can't do anything with it. Any tips on how can use it to get the dimension and coordinates of the bounding box?
+
+`@GeoCSBI` are you using the `CameraRecognitionObject.get_position_on_image()`  function? If yes, you should be able to use the return value as a simple list.
+
+##### Laojiang 07/24/2020 00:42:46
+> `@Laojiang` I moved them solid node. then I add physics physics to add mass. the solid fall down? Why? How can I correct it?
+
+`@chenpixx` I think the reason of the solid fall down is it doesn't have right 'boundingObject' node
+
+##### chenpixx 07/23/2020 19:15:44
+> I can't use it from camera 'AttributeError: 'Camera' object has no attribute 'CameraRecognitionObject' , and I have use 'camera.getRecognitionNumberOfObjects()' to recognite objects successfully. Then what should I do next?
+
+> And the camera node doesn't have 'CameraRecognitionObject' node.
+
+`@Laojiang` I moved them solid node. then I add physics physics to add mass. the solid fall down? Why? How can I correct it?
+
+##### GeoCSBI 07/23/2020 15:53:44
+Hey, I have a little question. I am trying to determine the dimensions and position of a recognized object bounding box. When i get size\_on\_image attribute it returns a SwigPyObject that I can't do anything with it. Any tips on how can use it to get the dimension and coordinates of the bounding box?
+
+##### Sanket Khadse 07/23/2020 15:32:48
+I was planning to run my Webots world on a github page, using the HTML and x3d file I exported from webscene option. But I am not able to figure out how should the controller code be executed. 
+
+`extra notes:`
+
+`I looked into the cross-compilation article in documentation. But I thought of confirming it beforehand here, because that process is too complex for me. `
+
+##### culurciello 07/23/2020 15:07:35
+> This seems a problem of your controller program that requires an invalid position to the gripper motor.
+
+> About your world, you didn't send the controller. But I moved the arm using the robot window (double click on the robot and then move the joints using the sliders) and it works correctly.
+
+`@Stefania Pedrazzi` see file here for a controller that replicates my proble: as the arm moves, the gripper falls apart (and falls completely apart in some other cases)
+> **Attachment**: [test\_gripper.py](https://cdn.discordapp.com/attachments/565154703139405824/735875768839700490/test_gripper.py)
+
 ##### David Mansolino [cyberbotics] 07/23/2020 13:36:02
 You're welcome
 
@@ -22747,8 +22834,8 @@ ERROR: 'C:/Program Files/Webots/projects/robots/sphero/worlds/pit\_escape.wbt':1
 ##### User21 02/18/2020 17:01:52
 `@David Mansolino` ah sorry im using ros melodic
 
-##### paulthemagno 02/18/2020 16:36:09
-> `@paulthemagno` I think this function can help: [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_reset\_physics](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_reset_physics) ... before you reset physics you probably should set the translation and rotation of your robot node with setSFVec3f(translation) and setSFRotation(rotation)
+##### Staff | paulthemagno 02/18/2020 16:36:09
+> `@Staff | paulthemagno` I think this function can help: [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_reset\_physics](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_reset_physics) ... before you reset physics you probably should set the translation and rotation of your robot node with setSFVec3f(translation) and setSFRotation(rotation)
 
 `@Luiz Felipe` Can you give me a snippet of the code? And how to extract the node of the robot, given the robot itself?
 
@@ -22942,7 +23029,7 @@ I will test it. Thanks 🙂
 `@Luiz Felipe`, in that  case, restarting the controllers ([https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_restart\_controller](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_restart_controller)) wouldn't be enough?
 
 
-`@paulthemagno` In that case you should probably use this instead:
+`@Staff | paulthemagno` In that case you should probably use this instead:
 
 ```
 for x in range(0, 3):
@@ -22956,9 +23043,9 @@ for x in range(0, 3):
 My problem is similar I guess... I want to restart a simulation from a timestep, but keeping the inertia, velocities, and relocating the robots to the positions they were at that timestep (kind of a 'replay' or 'rewind function')... And start to explore again with my robots or repeat the same behavior from that 'point'/'checkpoint'... Is it possible to reset the simulation in this way? I see that when i save an html 5 animation I generate a json with rotation and translation parameters...
 
 
-`@paulthemagno` I think this function can help: [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_reset\_physics](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_reset_physics) ... before you reset physics you probably should set the translation and rotation of your robot node with setSFVec3f(translation) and setSFRotation(rotation)
+`@Staff | paulthemagno` I think this function can help: [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_reset\_physics](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_reset_physics) ... before you reset physics you probably should set the translation and rotation of your robot node with setSFVec3f(translation) and setSFRotation(rotation)
 
-##### paulthemagno 02/18/2020 01:22:48
+##### Staff | paulthemagno 02/18/2020 01:22:48
 > You are completely correct.
 
 > HOwever, time.sleep(5) will not help as it will make the controller wait, but not the simulation runs. As a first step try to call instead `robot.step(5000)`.
@@ -22972,7 +23059,7 @@ You are completely correct.
 
 HOwever, time.sleep(5) will not help as it will make the controller wait, but not the simulation runs. As a first step try to call instead `robot.step(5000)`.
 
-##### paulthemagno 02/17/2020 18:58:43
+##### Staff | paulthemagno 02/17/2020 18:58:43
 > I am sorry but Webots is doesn not provide such high level control for the robot, if you want to define your own motion you have to control the motor of the robot individually, please follow this tutorial for more information: [https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers)
 
 `@David Mansolino` Thank you David. I'm trying to do as you said but I'm founding difficoulties on more than 1 consecutive steps: I put in a for the api motion.play() to do it more times. Unfortunately the nao only does the first step, but not the other ones. I think it's beacuse motion.play() only make the movement start, but doesn't wait the end of the command. Not sure if it's so. It seems that every movement is launched almost together and it takes only the first. I try to put a time.sleep(5) between every method but it didn't changhed
@@ -22983,7 +23070,7 @@ HOwever, time.sleep(5) will not help as it will make the controller wait, but no
 ##### David Mansolino [cyberbotics] 02/17/2020 14:07:29
 I am sorry but Webots is doesn not provide such high level control for the robot, if you want to define your own motion you have to control the motor of the robot individually, please follow this tutorial for more information: [https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers)
 
-##### paulthemagno 02/17/2020 14:04:28
+##### Staff | paulthemagno 02/17/2020 14:04:28
 > One simple solution would be to let the nao do several step and then check the distance made, then you can simply compute the distance per step.
 
 `@David Mansolino` This could be a way, and to turn the nao 90°? Because I see only 60, 40 and 180 in the documentation..
@@ -22991,16 +23078,16 @@ I am sorry but Webots is doesn not provide such high level control for the robot
 ##### David Mansolino [cyberbotics] 02/17/2020 14:02:34
 One simple solution would be to let the nao do several step and then check the distance made, then you can simply compute the distance per step.
 
-##### paulthemagno 02/17/2020 13:56:51
-> `@paulthemagno` here are some informations about motion files: [https://cyberbotics.com/doc/reference/motion-functions](https://cyberbotics.com/doc/reference/motion-functions)
+##### Staff | paulthemagno 02/17/2020 13:56:51
+> `@Staff | paulthemagno` here are some informations about motion files: [https://cyberbotics.com/doc/reference/motion-functions](https://cyberbotics.com/doc/reference/motion-functions)
 
 `@David Mansolino` sorry for the questions about Nao in the server. I have already seen both the [https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/motions](https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/motions) files and the link you have posted ([https://cyberbotics.com/doc/reference/motion?tab-language=python](https://cyberbotics.com/doc/reference/motion?tab-language=python)). Anyway I don't find a way for my purpose: I have a virtual map and I should synchronize it with the map of Webots. For my project the Nao has to make little steps. To make the map in Webots be the same of my virtual map, I should know how long is its step or how to change it. In this way I can change the size of the squares of the chessboard, to make the nao be at the center of a square at the end of any step. How can I do that?
 
 ##### David Mansolino [cyberbotics] 02/17/2020 12:49:08
-`@paulthemagno` here are some informations about motion files: [https://cyberbotics.com/doc/reference/motion-functions](https://cyberbotics.com/doc/reference/motion-functions)
+`@Staff | paulthemagno` here are some informations about motion files: [https://cyberbotics.com/doc/reference/motion-functions](https://cyberbotics.com/doc/reference/motion-functions)
 
-##### paulthemagno 02/17/2020 12:48:20
-> `@paulthemagno`, you should probably include the motion files: [https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/motions](https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/motions)
+##### Staff | paulthemagno 02/17/2020 12:48:20
+> `@Staff | paulthemagno`, you should probably include the motion files: [https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/motions](https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/motions)
 
 `@David Mansolino` Yes I saw these files and I'm using them. But how can I costumize them on a fixed lenght of step forward? I see there are a lot of rows and numbers and I'm not able to change the lenght of the step
 
@@ -23062,7 +23149,7 @@ Hi, I'm trying on another windows10 installed computer.  It never connects.  Can
 %end
 
 ##### David Mansolino [cyberbotics] 02/17/2020 07:45:20
-`@paulthemagno`, you should probably include the motion files: [https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/motions](https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/motions)
+`@Staff | paulthemagno`, you should probably include the motion files: [https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/motions](https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/motions)
 
 
 Hi `@User21`, this examples lets you control the robot using 'FollowJointTrajectoryAction' action (named `follow_joint_trajectory`). The state of the joints is published in the `/joint_states` topic.
@@ -23105,8 +23192,8 @@ Where should I add this h file?
 
 `@David Mansolino`
 
-##### paulthemagno 02/15/2020 15:16:49
-> `@paulthemagno`, here is an example of python controller for the NAO robot: [https://github.com/cyberbotics/webots/blob/master/projects/robots/softbank/nao/controllers/nao\_demo\_python/nao\_demo\_python.py](https://github.com/cyberbotics/webots/blob/master/projects/robots/softbank/nao/controllers/nao_demo_python/nao_demo_python.py)
+##### Staff | paulthemagno 02/15/2020 15:16:49
+> `@Staff | paulthemagno`, here is an example of python controller for the NAO robot: [https://github.com/cyberbotics/webots/blob/master/projects/robots/softbank/nao/controllers/nao\_demo\_python/nao\_demo\_python.py](https://github.com/cyberbotics/webots/blob/master/projects/robots/softbank/nao/controllers/nao_demo_python/nao_demo_python.py)
 
 `@David Mansolino` thank you very much!! I should custom the lenght of the step forward of NAO. How can I do that?
 
@@ -23259,9 +23346,9 @@ Hello again,
 i am trying to access the field 'rotation' within the camera of the Mavic2pro (Mavic2Pro -> cameraslot-> Camera -> Rotation) so i can manually set it from a supervisor, but I can't seem to hit it right. Could you please guide me in the right direction? (python)
 
 ##### David Mansolino [cyberbotics] 02/14/2020 06:38:03
-`@paulthemagno`, here is an example of python controller for the NAO robot: [https://github.com/cyberbotics/webots/blob/master/projects/robots/softbank/nao/controllers/nao\_demo\_python/nao\_demo\_python.py](https://github.com/cyberbotics/webots/blob/master/projects/robots/softbank/nao/controllers/nao_demo_python/nao_demo_python.py)
+`@Staff | paulthemagno`, here is an example of python controller for the NAO robot: [https://github.com/cyberbotics/webots/blob/master/projects/robots/softbank/nao/controllers/nao\_demo\_python/nao\_demo\_python.py](https://github.com/cyberbotics/webots/blob/master/projects/robots/softbank/nao/controllers/nao_demo_python/nao_demo_python.py)
 
-##### paulthemagno 02/14/2020 00:34:30
+##### Staff | paulthemagno 02/14/2020 00:34:30
 have you got a python snippet of the controller for NAO in which it steps forward?
 
 ##### hkdeman 02/13/2020 10:42:48
