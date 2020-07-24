@@ -4,7 +4,13 @@ This is an archive of the `technical-questions` channel of the [Webots Discord s
 
 ## 2020
 
-##### watchdogs132 07/24/2020 07:02:43
+##### watchdogs132 07/24/2020 07:10:22
+This is a shape created in webots . Is there any way to make the axes of imported parts aligned like this ?
+%figure
+![3.png](https://cdn.discordapp.com/attachments/565154703139405824/736118063279112223/3.png)
+%end
+
+
 `@David Mansolino`  I want that , that's possible in this picture too . But look at the offset ,I want the center of the 3 axis to be at the center of the wheel .
 %figure
 ![2.png](https://cdn.discordapp.com/attachments/565154703139405824/736116135841497128/2.png)
@@ -921,29 +927,7 @@ Can I bind Camera overlay to physical camera?
 ##### chenpixx 07/19/2020 16:22:08
 No size field
 
-##### (,-*-) 07/19/2020 15:43:35
-File "C:/DP\_Webots/controllers/Jetson/Jetson.py", line 13, in <module>
-
-    from controller\_api.controller import Robot
-
-  File "C:\DP\_Webots\controllers\controller\_api\controller.py", line 13, in <module>
-
-    from . import \_controller
-
-ImportError: DLL load failed: Module not found
-
-
-
-now problem is in that module \_controller is not found, but its right in the same directory
-
-
-
-and even PyCharm see it
-%figure
-![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/734435277866533005/unknown.png)
-%end
-
-
+##### (,-*-) 07/19/2020 15:40:52
 yeah, that was rough syntax error 😄 shame on me
 
 ##### Luftwaffel 07/19/2020 15:40:36
@@ -1156,38 +1140,7 @@ I have a question regarding using ROS2 with webots. Is creating webots node in R
 ##### Olivier Michel [cyberbotics] 07/17/2020 08:27:57
 Did you set `LD_LIBRARY_PATH` and `PYTHONPATH` environment variables appropriately? Can you print them?
 
-##### Sanket Khadse 07/17/2020 08:22:46
-> See [https://cyberbotics.com/doc/guide/running-extern-robot-controllers](https://cyberbotics.com/doc/guide/running-extern-robot-controllers)
 
-`@Olivier Michel` I followed. But after launching the controller from shell, got this error.
-
-`Traceback (most recent call last):
-
-  File "seasate3.py", line 5, in <module>
-
-    from controller import Robot
-
-  File "/usr/local/webots/lib/controller/python36/controller.py", line 28, in <module>
-
-    \_controller = swig\_import\_helper()
-
-  File "/usr/local/webots/lib/controller/python36/controller.py", line 24, in swig\_import\_helper
-
-    \_mod = imp.load\_module('\_controller', fp, pathname, description)
-
-  File "/usr/lib/python3.6/imp.py", line 243, in load\_module
-
-    return load\_dynamic(name, filename, file)
-
-  File "/usr/lib/python3.6/imp.py", line 343, in load\_dynamic
-
-    return \_load(spec)
-
-ImportError: libCppController.so: cannot open shared object file: No such file or directory
-
-`
-
-##### Olivier Michel [cyberbotics] 07/16/2020 16:27:37
 See [https://cyberbotics.com/doc/guide/running-extern-robot-controllers](https://cyberbotics.com/doc/guide/running-extern-robot-controllers)
 
 ##### Sanket Khadse 07/16/2020 16:23:28
