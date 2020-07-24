@@ -55,6 +55,7 @@ Released on XXX.
     - Upgraded to Qt 5.15.0 on Windows and Linux ([#1709](https://github.com/cyberbotics/webots/pull/1709), [#1710](https://github.com/cyberbotics/webots/pull/1710)).
     - Upgraded to Assimp 5.0.1 on Linux and macOS ([#1463](https://github.com/cyberbotics/webots/pull/1463)).
   - Bug fixes
+    - Fixed random collision detection bugs and with triangle meshes ([#1994](https://github.com/cyberbotics/webots/pull/1994)). 
     - Fixed crash occurring when reverting the world while an animation was being recorded (thanks to [Jenny](https://github.com/JennyLynnFletcher)) ([#1957](https://github.com/cyberbotics/webots/pull/1957)).
     - Fixed wrong measurements of [Accelerometer](accelerometer.md) device (thanks to [MauroMombelli](https://github.com/MauroMombelli)) ([#1947](https://github.com/cyberbotics/webots/pull/1947)).
     - Fixed issues with nodes and fields references in controller program after procedural PROTO regeneration ([#1922](https://github.com/cyberbotics/webots/pull/1922)).
