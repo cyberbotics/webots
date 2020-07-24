@@ -38,7 +38,7 @@ WbTriangleMeshMap WbTriangleMeshGeometry::cTriangleMeshMap;
 void WbTriangleMeshGeometry::init() {
   mTrimeshData = NULL;
   mTriangleMesh = NULL;
-  mScaledVerticesNeedUpdate = true;
+  mScaledCoordinatesNeedUpdate = true;
   mCorrectSolidMass = true;
   mIsOdeDataApplied = false;
   mNormalsMesh = NULL;
@@ -299,10 +299,9 @@ void WbTriangleMeshGeometry::setOdeTrimeshData() {
   const int n = mTriangleMesh->numberOfVertices();
   const int nt = mTriangleMesh->numberOfTriangles();
   mTrimeshData = dGeomTriMeshDataCreate();
-  mScaledVerticesNeedUpdate = true;
-  updateScaledVertices();
-
-  dGeomTriMeshDataBuildDouble(mTrimeshData, mTriangleMesh->scaledVerticesData(), 3 * sizeof(double), n,
+  mScaledCoordinatesNeedUpdate = true;
+  updateScaledCoordinates();
+  dGeomTriMeshDataBuildDouble(mTrimeshData, mTriangleMesh->scaledCoordinatesData(), 3 * sizeof(double), n,
                               mTriangleMesh->indicesData(), 3 * nt, 3 * sizeof(int));
 }
 
@@ -420,7 +419,7 @@ double WbTriangleMeshGeometry::computeLocalCollisionPoint(WbVector3 &point, int 
   int nTriangles = mTriangleMesh->numberOfTriangles();
   double closestDistance = std::numeric_limits<double>::infinity();
   bool found = false;
-  updateScaledVertices();
+  updateScaledCoordinates();
   for (int t = 0; t < nTriangles; ++t) {
     WbVector4 v0(mTriangleMesh->scaledVertex(t, 0, 0), mTriangleMesh->scaledVertex(t, 0, 1),
                  mTriangleMesh->scaledVertex(t, 0, 2), 1.0);
@@ -491,17 +490,17 @@ void WbTriangleMeshGeometry::recomputeBoundingSphere() const {
   }
 }
 
-void WbTriangleMeshGeometry::updateScaledVertices() const {
-  if (mScaledVerticesNeedUpdate) {
+void WbTriangleMeshGeometry::updateScaledCoordinates() const {
+  if (mScaledCoordinatesNeedUpdate) {
     const WbVector3 &s = absoluteScale();
-    mTriangleMesh->updateScaledVertices(s.x(), s.y(), s.z());
-    mScaledVerticesNeedUpdate = false;
+    mTriangleMesh->updateScaledCoordinates(s.x(), s.y(), s.z());
+    mScaledCoordinatesNeedUpdate = false;
     return;
   }
 }
 
 void WbTriangleMeshGeometry::setScaleNeedUpdate() {
-  mScaledVerticesNeedUpdate = true;
+  mScaledCoordinatesNeedUpdate = true;
 }
 
 void WbTriangleMeshGeometry::updateOptionalRendering(int option) {
