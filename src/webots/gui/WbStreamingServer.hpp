@@ -47,7 +47,7 @@ public:
   WbStreamingServer();
   virtual ~WbStreamingServer();
 
-  void startFromCommandLine(const StreamingServerSettings &argument);
+  void startFromCommandLine(const StreamingServerSettings &settings);
   void setView3D(WbView3D *);
   void setMainWindow(WbMainWindow *mainWindow);
 
