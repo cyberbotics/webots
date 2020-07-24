@@ -4,6 +4,12 @@ This is an archive of the `technical-questions` channel of the [Webots Discord s
 
 ## 2020
 
+##### watchdogs132 07/24/2020 07:02:43
+`@David Mansolino`  I want that , that's possible in this picture too . But look at the offset ,I want the center of the 3 axis to be at the center of the wheel .
+%figure
+![2.png](https://cdn.discordapp.com/attachments/565154703139405824/736116135841497128/2.png)
+%end
+
 ##### David Mansolino [cyberbotics] 07/24/2020 06:43:57
 > When I change that or move the axes with my cursor , the entire wheel moves .
 
@@ -446,45 +452,6 @@ When I run my program, it reserves by default (unchangably) almost 3GB of GPU me
 
 
 Are there any simulation data from controllers stored somewhere?
-
-
-That one I did, two times to be sure I did not missed anything
-
-##### Olivier Michel [cyberbotics] 07/22/2020 08:20:43
-You should follow the instructions to run your controller as an extern controller: [https://cyberbotics.com/doc/guide/running-extern-robot-controllers](https://cyberbotics.com/doc/guide/running-extern-robot-controllers)
-
-##### (,-*-) 07/22/2020 08:14:40
-My simulation crashes after 2.176 seconds exactly everytime. I know on what line is a problem that causes this crash, but I cannot debug it since when I start the program from pycharm it crashes under this error:
-
-
-
-Traceback (most recent call last):
-
-  File "C:/DP\_Webots/controllers/Jetson/Jetson.py", line 23, in `<`module`>`
-
-    from controller import Robot
-
-  File "C:\Program Files\Webots\lib\controller\python37\controller.py", line 15, in `<`module`>`
-
-    import \_controller
-
-ImportError: DLL load failed: module not found
-
-
-
-I have set the paths needed for that \_controller.pyd 
-
-When I use sys.path , it does find those folder (C:\\Program Files\\Webots\\lib\\controller') for instance
-
-
-
-But when I used psutil to print out .memory\_maps() and libraries paths, it is not included in those. 
-
-Any suggestions for solution, please? 
-
-
-
-Or is there some debug mode in webots?
 
 ##### Laojiang 07/22/2020 08:07:12
 ok ,thank you!
@@ -1003,28 +970,7 @@ in line 35 you start a 'try:'
 
 I think I found your mistake
 
-##### (,-*-) 07/19/2020 15:36:20
-well, i commented everything else and / 
 
-
-
-Traceback (most recent call last):
-
-  File "C:/DP\_Webots/controllers/Jetson/Jetson.py", line 13, in `<`module`>`
-
-    from controller import Robot
-
-  File "C:\Program Files\Webots\lib\controller\python37\controller.py", line 15, in `<`module`>`
-
-    import \_controller
-
-ImportError: DLL load failed: Uvedený modul nebyl nalezen. 
-
-
-
-:; atleast some reasonable error
-
-##### Luftwaffel 07/19/2020 15:35:27
 perhaps the code above is not correct, so any line that comes there will throw a syntax error
 
 
