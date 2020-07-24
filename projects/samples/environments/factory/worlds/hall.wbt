@@ -6,6 +6,7 @@ WorldInfo {
     "This means that a robot could grab a hammer, turn a valve handle, climb the stairs or open a door."
   ]
   title "A factory hall environment"
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "tube insertion exercise"
@@ -16,7 +17,6 @@ WorldInfo {
       softCFM 1e-05
     }
   ]
-  coordinateSystem "NUE"
 }
 DEF VIEWPOINT Viewpoint {
   orientation -0.2652116046044996 -0.9466678810592469 -0.1829828619130813 1.2979835674974551
