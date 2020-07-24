@@ -3224,7 +3224,7 @@ Can you do this as well?
 Well, if I edit the original file and set the ball position to `-3.22 0.05 0`, the ball stays still when I start the simulation.
 
 ##### nap 06/26/2020 06:05:24
-No.  I thought it may have something to do with how the ball was contacting the ground, so I've changed the y-axis from the normal 0.5, to bring it down.  But it still does that.
+No.  I thought it may have something to do with how the ball was contacting the ground, so I've changed the Y axis from the normal 0.5, to bring it down.  But it still does that.
 
 ##### Olivier Michel [cyberbotics] 06/26/2020 06:04:25
 It there any initial collision with that ball which may cause an initial motion?
@@ -6196,7 +6196,7 @@ what do these arguments do exactly? is there a documentation?
 
 
 
-- the gripper points sideways when attaching it to the endeffector of a robot arm, as the ros model goes along z-axis, not y-axis. How do I change this?
+- the gripper points sideways when attaching it to the endeffector of a robot arm, as the ros model goes along z axis, not y axis. How do I change this?
 
 ##### David Mansolino [cyberbotics] 06/11/2020 12:09:47
 You're welcome
@@ -6911,7 +6911,7 @@ i set it to 100000 but the same happens
 Maybe the maxtorque of the motor is not high enough
 
 ##### black\_hammer\_67 06/09/2020 11:20:31
-`@David Mansolino`  so i tried the Hinge2joint with a rotational motor on device one and nothing on device 2, now the wheels are free to move on the x-axis but i am trying to steer the wheels by setting the position on the motors and nothing happens
+`@David Mansolino`  so i tried the Hinge2joint with a rotational motor on device one and nothing on device 2, now the wheels are free to move on the x axis but i am trying to steer the wheels by setting the position on the motors and nothing happens
 
 ##### David Mansolino [cyberbotics] 06/09/2020 10:37:49
 Hi `@Stanislas Larnier`, where does this model of the motoman gp8 arm comes from, did you created it yourself?
@@ -6943,7 +6943,7 @@ if you use the receiver, fur sure you need it..
 `@David Mansolino` Previously i added it to the robot node. I will add to body slot of op3 now. I will add both emi ter and receiver tiop3 body slot.  Correct?  Mant thanks
 
 ##### David Mansolino [cyberbotics] 06/09/2020 05:12:15
-> also I am trying to build a custom vehicle with 2 rear rotational wheels and 2 front steering wheels and atm I am trying with 4 motor, one on each joint, and the front once having them rotate around y-axis. The problem is that rear wheels are spinning and fronts are not because they are not free to move. Can u help me to solve this problem ? Or there is a different approach for steering wheels ?
+> also I am trying to build a custom vehicle with 2 rear rotational wheels and 2 front steering wheels and atm I am trying with 4 motor, one on each joint, and the front once having them rotate around y axis. The problem is that rear wheels are spinning and fronts are not because they are not free to move. Can u help me to solve this problem ? Or there is a different approach for steering wheels ?
 
 `@black_hammer_67` the front one should use a Hinge2Joint node instead of a simple 'HingeJoint' node. BUt an even better solution would be to use the AckermannVehicle node: [https://cyberbotics.com/doc/automobile/ackermannvehicle](https://cyberbotics.com/doc/automobile/ackermannvehicle)
 
@@ -6963,7 +6963,7 @@ if you use the receiver, fur sure you need it..
 `@elkelkmuh` you should make sure that your robot has an emitter device called 'emitter' and if not you can add one in the slot fields.
 
 ##### black\_hammer\_67 06/08/2020 17:07:02
-also I am trying to build a custom vehicle with 2 rear rotational wheels and 2 front steering wheels and atm I am trying with 4 motor, one on each joint, and the front once having them rotate around y-axis. The problem is that rear wheels are spinning and fronts are not because they are not free to move. Can u help me to solve this problem ? Or there is a different approach for steering wheels ?
+also I am trying to build a custom vehicle with 2 rear rotational wheels and 2 front steering wheels and atm I am trying with 4 motor, one on each joint, and the front once having them rotate around y axis. The problem is that rear wheels are spinning and fronts are not because they are not free to move. Can u help me to solve this problem ? Or there is a different approach for steering wheels ?
 
 ##### TheWiseSidney 06/08/2020 17:06:43
 is this the right way to include a lib?
@@ -9562,7 +9562,7 @@ x, y, z = transforms3d.euler.axangle2euler(o[:3], o[3])
 print(degrees(x), degrees(y), degrees(z))
 ```
 
-Rotating the cube around its y-axis should give me sane values, but I actually get:
+Rotating the cube around its Y axis should give me sane values, but I actually get:
 
 ```
 0.9383443740233955 45.00008200374141 -2.710677376055925e-06
@@ -9639,9 +9639,9 @@ Hello, I create a world in webots and want to  export all objects in the world a
 %end
 
 ##### David Mansolino [cyberbotics] 05/20/2020 05:10:39
-> Hello! A while back I asked what the recognition orientation is on the camera, and got pointed in the direction of axis angles. I can get values out, but they act strangely. Rotating a cube around the y-axis. Is this just a case of unavoidable gimble lock? I can't imagine it is else the vision API is near useless? Thanks!
+> Hello! A while back I asked what the recognition orientation is on the camera, and got pointed in the direction of axis angles. I can get values out, but they act strangely. Rotating a cube around the Y axis. Is this just a case of unavoidable gimble lock? I can't imagine it is else the vision API is near useless? Thanks!
 
-`@TheOrangeOne` I am sorry but can you be a bit more precise, what is the issue when rotating around the y-axis ? Can you provide an example? Using the axis angle you should not get any gimble lock.
+`@TheOrangeOne` I am sorry but can you be a bit more precise, what is the issue when rotating around the Y axis ? Can you provide an example? Using the axis angle you should not get any gimble lock.
 
 
 > Hello everybody! Please help me write a PROTO of a wheel similar to the one in the screenshot. That is, the wheel rotates on an axis, and the axis with the wheel rotates in around the other axis. I couldn't figure out how to do this, so I replaced it with a sphere and a Hinge2Joint, whose anchor is located in the center of the sphere. This gave me the ability to move in two planes, but periodically triggers a warning "WARNING: The current physics step could not be calculated correctly. Your world may be too complex. If this problem persists, try simplifying your bounding object(s), reducing the number of joints, or reducing WorldInfo.basicTimeStep"
@@ -9727,7 +9727,7 @@ Hello everybody! Please help me write a PROTO of a wheel similar to the one in t
 %end
 
 ##### TheOrangeOne 05/19/2020 18:52:17
-Hello! A while back I asked what the recognition orientation is on the camera, and got pointed in the direction of axis angles. I can get values out, but they act strangely. Rotating a cube around the y-axis. Is this just a case of unavoidable gimble lock? I can't imagine it is else the vision API is near useless? Thanks!
+Hello! A while back I asked what the recognition orientation is on the camera, and got pointed in the direction of axis angles. I can get values out, but they act strangely. Rotating a cube around the Y axis. Is this just a case of unavoidable gimble lock? I can't imagine it is else the vision API is near useless? Thanks!
 
 ##### jomell310 05/19/2020 16:26:42
 I'm trying to do as the link, I want to have the supervisor and robot in the same file so that I don't have to deal with Emitter and Receiver, I wasn't to get that working either. It's showing me an error "Only one instance of the Robot class should be created" but I only create on instance so I don't know where the other one is coming from
@@ -12488,17 +12488,17 @@ Oh ok I see, this is because you are using `wb_supervisor_node_get_orientation` 
 This is probably the reason why you have to multiply by `index` too.
 
 ##### nap 05/04/2020 05:55:44
-> About the orientation, it seems from your code that you are correctly rotating around the y-axis and not Z, I am not sure what you mean z-axis orientation (in Webots the up axis is Y).
+> About the orientation, it seems from your code that you are correctly rotating around the Y axis and not Z, I am not sure what you mean Z axis orientation (in Webots the up axis is Y).
 
 `@David Mansolino` you will notice I'm using the indice "2" not "1".
 
 ##### David Mansolino [cyberbotics] 05/04/2020 05:54:57
-About the orientation, it seems from your code that you are correctly rotating around the y-axis and not Z, I am not sure what you mean z-axis orientation (in Webots the up axis is Y).
+About the orientation, it seems from your code that you are correctly rotating around the Y axis and not Z, I am not sure what you mean Z axis orientation (in Webots the up axis is Y).
 
 
 > `@David Mansolino` : I've implemented a Supervisor that rotates the epuck every 10 time\_steps.  In the attached screenshot, I have the trail marked (using the the webots trail example supervisor but with more data points) and my 'noise' code (basically all of it is visible in the image).  The noise at the moment increments the CW rotation of the epuck on each step, while the epuck thinks it's going straight.  However, the result is confusing me.
 
-> 1)  I had to apply rotation around the y-axis but using the z-axis orientation.  I would have thought I should be able to progressively change the Y rotation, but when I do that, there is no rotation.  Is there a  coordinate system swap going on somewhere?
+> 1)  I had to apply rotation around the Y axis but using the Z axis orientation.  I would have thought I should be able to progressively change the Y rotation, but when I do that, there is no rotation.  Is there a  coordinate system swap going on somewhere?
 
 > 2) Since I'm increasing the angle linearly, don't understand why the path is the way it is.  I would have expected to simply read the orientation and add a small amount of noise to it.  However, I need to multiply the noise by the number of iteration otherwise the epuck travels in a straight line after the initial deviation.
 
@@ -12599,7 +12599,7 @@ Hello everyone
 
 `@David Mansolino` : I've implemented a Supervisor that rotates the epuck every 10 time\_steps.  In the attached screenshot, I have the trail marked (using the the webots trail example supervisor but with more data points) and my 'noise' code (basically all of it is visible in the image).  The noise at the moment increments the CW rotation of the epuck on each step, while the epuck thinks it's going straight.  However, the result is confusing me.
 
-1)  I had to apply rotation around the y-axis but using the z-axis orientation.  I would have thought I should be able to progressively change the Y rotation, but when I do that, there is no rotation.  Is there a  coordinate system swap going on somewhere?
+1)  I had to apply rotation around the Y axis but using the Z axis orientation.  I would have thought I should be able to progressively change the Y rotation, but when I do that, there is no rotation.  Is there a  coordinate system swap going on somewhere?
 
 2) Since I'm increasing the angle linearly, don't understand why the path is the way it is.  I would have expected to simply read the orientation and add a small amount of noise to it.  However, I need to multiply the noise by the number of iteration otherwise the epuck travels in a straight line after the initial deviation.
 
@@ -14813,7 +14813,7 @@ it is linear Algebra. The math is the same, no matter what software you use
 `@nap` give this a read: [https://www.tapatalk.com/groups/ultimate3d\_community/understanding-transformation-matrices-t5483.html](https://www.tapatalk.com/groups/ultimate3d_community/understanding-transformation-matrices-t5483.html)
 
 ##### nap 04/18/2020 12:26:57
-Can someone please explain the 4x3 matrix returned from a call to `dBodyGetRotation`?  I know that elements 3, 7, and 11 are to be ignored.  My understanding is that the diagonal of the matrix (0, 5,10) represent the rotation about the X, Y, z-axis respectively.  What I don't understand is the purpose/meaning of the other matrix elements; 1,2,4,6,8,9.  My understanding is that those elements represent coupling between axis, but a body rotation should not have these.  Unless the matrix includes information about inertial, or the body is being distorted around axis?
+Can someone please explain the 4x3 matrix returned from a call to `dBodyGetRotation`?  I know that elements 3, 7, and 11 are to be ignored.  My understanding is that the diagonal of the matrix (0, 5,10) represent the rotation about the X, Y, Z axis respectively.  What I don't understand is the purpose/meaning of the other matrix elements; 1,2,4,6,8,9.  My understanding is that those elements represent coupling between axis, but a body rotation should not have these.  Unless the matrix includes information about inertial, or the body is being distorted around axis?
 
 
 This behaviour doesn't seem to make sense to me.
@@ -15020,7 +15020,7 @@ I am working on swarm robotics . Increasing the number of robots the simulation 
 `@Olivier Michel` : I understand. I didn’t realise it was the case until I was debugging a physics plugin and had my forces in the wrong field.
 
 ##### Olivier Michel [cyberbotics] 04/16/2020 05:30:11
-The y-axis pointing to the sky is a standard in VRML97 from which Webots inherited. I know RViz and other software more often use Z as the vertical axis. We are considering changing this into Webots, but that will take quite some time.
+The Y axis pointing to the sky is a standard in VRML97 from which Webots inherited. I know RViz and other software more often use Z as the vertical axis. We are considering changing this into Webots, but that will take quite some time.
 
 ##### nap 04/15/2020 23:07:53
 `@David Mansolino` : I did it.  It looks crap but it works.  I ended up using a Physics Plugin, but had to resort to dBodyGetRotation and dBodySetRotation because I couldn't get dBodyAddRelTorque and dBodyAddRelForce to work for some reason.
@@ -15029,7 +15029,7 @@ The y-axis pointing to the sky is a standard in VRML97 from which Webots inherit
 Anyone know much about Physics Plugins and the library functions available?
 
 
-Why does the y-axis point up into the sky?  Should that not be the z-axis?
+Why does the Y axis point up into the sky?  Should that not be the Z axis?
 
 ##### Olivier Michel [cyberbotics] 04/15/2020 18:09:02
 It may just slow down the simulation.
@@ -15072,7 +15072,7 @@ hmmm.  `@David Mansolino` :  I decided to use a Physics Plugin.
 
 So I edited the E-puck PROTO and added a DEF leftHinge to the HingeJoint (same for the right side).
 
-Set the physics node in WorldInfo to my plugin name.  In the plugin C file, I have defined a `dBodyID` for each joint in the init() method using `epuckHinges[0] = dWebotsGetBodyFromDEF("epuckLeftHinge");`.  And in the step() method, I have `dBodyAddForce(epuckHinges[0], 0.0, 0.0, 9.0);` for each hinge (-9.0 for the other one.); spin around the z-axis.
+Set the physics node in WorldInfo to my plugin name.  In the plugin C file, I have defined a `dBodyID` for each joint in the init() method using `epuckHinges[0] = dWebotsGetBodyFromDEF("epuckLeftHinge");`.  And in the step() method, I have `dBodyAddForce(epuckHinges[0], 0.0, 0.0, 9.0);` for each hinge (-9.0 for the other one.); spin around the Z axis.
 
 But my epuck still goes straight.
 
@@ -19183,7 +19183,7 @@ Would you recommend usingwebots.maths for this kind of operations (even if the A
 That's indeed the only solution.
 
 ##### Axel M 03/12/2020 14:26:57
-I want to get velocity of a Solid given it's own frame, is the only solution to use  `wb_supervisor_node_get_orientation`, transpose it, and multiply the global velocity-vector with it (ugh, not easy) ?
+I want to get velocity of a Solid given it's own frame, is the only solution to use  `wb_supervisor_node_get_orientation`, transpose it, and multiply the global velocity vector with it (ugh, not easy) ?
 
 ##### David Mansolino [cyberbotics] 03/12/2020 14:25:46
 Yes that's it, it is global velocity.
@@ -20317,7 +20317,7 @@ Here the Code:
 > **Attachment**: [message.txt](https://cdn.discordapp.com/attachments/565154703139405824/683338393370886267/message.txt)
 
 ##### sun 02/29/2020 01:28:07
-hello,how to add a all direction wheel in the webots????this question has fused me for two days::i used two joint\_hinge one for z-axis rotation and the other for x-axis rotaton, when i simulate this wheel didn't work as i think.
+hello,how to add a all direction wheel in the webots????this question has fused me for two days::i used two joint\_hinge one for z axis rotation and the other for x axis rotaton, when i simulate this wheel didn't work as i think.
 
 ##### David Mansolino [cyberbotics] 02/28/2020 15:46:19
 You're welcome
@@ -20401,7 +20401,7 @@ Hi, Webots is awesome! But I have a problem. I have a big world definition input
 Thanks!
 
 ##### User21 02/28/2020 11:06:46
-Hey i have a Problem with the rotation of the ur5e. Can i predefine a rotation for that robot and then rotate it from there? I want to rotate the robot around the robots z-axis over a supervisor filed but its not that easy possible because i get multiple changes in the x,y,z rotations
+Hey i have a Problem with the rotation of the ur5e. Can i predefine a rotation for that robot and then rotate it from there? I want to rotate the robot around the robots z Axis over a supervisor filed but its not that easy possible because i get multiple changes in the x,y,z rotations
 
 ##### David Mansolino [cyberbotics] 02/28/2020 06:27:52
 `@User21`, no problem, yes you can simply check if your action client state is succeded, see this example: [http://wiki.ros.org/actionlib#C.2B-.2B-\_SimpleActionClient](http://wiki.ros.org/actionlib#C.2B-.2B-_SimpleActionClient)
@@ -29584,7 +29584,7 @@ Here's a video to show tou
 But it's still the end point of the slider joint (when I move the slider joint, the "robotic arm" floating stop to float and moves accordingly to the joint)
 
 
-The unexpected behavior is that there seems to be "no constraint" on the z-axis : when a force is applied to the robotic arm, it just "kind off" seperate itself from the rest of the solid
+The unexpected behavior is that there seems to be "no constraint" on the Z axis : when a force is applied to the robotic arm, it just "kind off" seperate itself from the rest of the solid
 
 
 and I put a robot (sample robot, abb I think) on the "end connector"
@@ -30148,7 +30148,7 @@ Hi guys! I've made several protos (1 folder per proto) in the main "protos" fold
 `@Sohil` which transform do you want to publish? Currently it is not possible to retrieve directly the transform matrix from a parent node to a descendant node using the Webots API, but you can compute it in your controller program based on the camera and robot global position and orientation ([https://www.cyberbotics.com/doc/reference/supervisor?tab-language=ros#wb\_supervisor\_node\_get\_orientation](https://www.cyberbotics.com/doc/reference/supervisor?tab-language=ros#wb_supervisor_node_get_orientation))
 
 
-`@JoHn` it is not possible to change the coordinate system of the Lidar device itself. The tilt will always be along the x-axis of the Lidar device node and rotation along the y-axis (see the documentation [https://www.cyberbotics.com/doc/reference/lidar#field-summary](https://www.cyberbotics.com/doc/reference/lidar#field-summary)). About the graphical shape, you can add a Tranform inbetween to change it and if you need to change the coordinates of the Lidar device values you have to do it manually in the controller program.
+`@JoHn` it is not possible to change the coordinate system of the Lidar device itself. The tilt will always be along the X axis of the Lidar device node and rotation along the Y axis (see the documentation [https://www.cyberbotics.com/doc/reference/lidar#field-summary](https://www.cyberbotics.com/doc/reference/lidar#field-summary)). About the graphical shape, you can add a Tranform inbetween to change it and if you need to change the coordinates of the Lidar device values you have to do it manually in the controller program.
 
 ##### Sohil 11/20/2019 04:25:36
 Hi guys! I am working with Webots and ROS. I wanted to know if there is any neat way to publish transforms for suppose between cameras and robot?
@@ -33039,7 +33039,7 @@ Here is the complete archive if you want to take a look 😅 I'm sorry to annoy 
 > **Attachment**: [robotOnRobot.zip](https://cdn.discordapp.com/attachments/565154703139405824/638368600675188756/robotOnRobot.zip)
 
 
-Basically, i have to take the inertia matrix of the pionneer as something along -6m on the y-axis for it to work properly
+Basically, i have to take the inertia matrix of the pionneer as something along -6m on the y axis for it to work properly
 
 
 So, I modified as you said. But there's still a thing I can't understand. The robot to behaves likes the "puma arm" was very heavy, when I explicitely defined all the masses as 0.1kg (and the mass of the pioneer of something like 50kg). It's especially wired when it seems that the change of direction of the Puma seems to impact the inertia force of the "whole robot" (which is good and excepted !)
@@ -33775,19 +33775,19 @@ Because the hingejoint node need a lot of sources of computer, however, we want 
 `@Olivier Michel`  The axis does not pass through the origin of the robot
 
 
-If the Supervisor robot rotates around a defined axis parallel to the y-axis and does not apply the differential drive method, how should the rotation parameters of the Supervisor node be set?
+If the Supervisor robot rotates around a defined axis parallel to the Y-axis and does not apply the differential drive method, how should the rotation parameters of the Supervisor node be set?
 
 
-I want let a cylinder supervisor rotation with a axis parallel to y-axis and do not use hingejoint node,  how can I set supervisor rotation parameters?
+I want let a cylinder supervisor rotation with a axis parallel to y axis and do not use hingejoint node,  how can I set supervisor rotation parameters?
 
 ##### Olivier Michel [cyberbotics] 10/14/2019 13:33:59
 ... not sure to understand what you want to achieve...
 
 ##### John0911 10/14/2019 13:33:22
-And this axis is parallel to y-axis.
+And this axis is parallel to y axis.
 
 
-If a cylinder shape robot rotation with a defined axis but not y-axis, how can I achieve this?
+If a cylinder shape robot rotation with a defined axis but not y axis, how can I achieve this?
 
 ##### Olivier Michel [cyberbotics] 10/14/2019 13:10:21
 This page can help you to define the rotation axis in VRML format: [https://cyberbotics.com/rotation\_tool](https://cyberbotics.com/rotation_tool)
@@ -36635,7 +36635,7 @@ One thing to know is that the the WorldInfo.gravity vector should be changed acc
 All our assets support to be rotated.
 
 
-You can setup a world with up along the z-axis.
+You can setup a world with up along the z axis.
 
 
 Hi Cleni, this direction is quite arbitrary in fact.
@@ -36915,7 +36915,7 @@ I've aligned both the z-axes, and relocked everything but it's still no connecti
 ah that will be it, thanks
 
 ##### Fabien Rohrer [Moderator] 09/03/2019 15:10:51
-Not sure at 100% but it seems your connector is not well aligned (red = x-axis towards)
+Not sure at 100% but it seems your connector is not well aligned (red = x axis towards)
 
 
 
@@ -39091,7 +39091,7 @@ What do you want to achieve exactly? To automatically snap the objects at step 0
 Ok, that's a good step.
 
 ##### Berethore 07/30/2019 07:01:06
-Ok my-axis match but still nothing.
+Ok my axis match but still nothing.
 
 ##### Fabien Rohrer [Moderator] 07/30/2019 06:59:09
 We could look at the parameters together when we are sure this is correct..
@@ -39100,7 +39100,7 @@ We could look at the parameters together when we are sure this is correct..
 Could you check/fix this first?
 
 
-and the y-axis should match
+and the y axis should match
 
 
 the positive z-axis of the connectors should face each other
@@ -43381,7 +43381,7 @@ Hi, is there some helper function to calculate the SFRotation values?
 
 for example: i just like to rotate a Nao (in the soccer simulation) by a supervisor program by alpha degrees keeping the feet on the ground. 
 
-I thought just to set the rotation vector to the y-axis (perpendicular to the field) and than simply adjust the angle. but that does not work.
+I thought just to set the rotation vector to the y axis (perpendicular to the field) and than simply adjust the angle. but that does not work.
 
 
 

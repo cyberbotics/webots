@@ -256,7 +256,7 @@ thank you clarifying that 😁
 Yes, that sounds good.
 
 ##### black\_hammer\_67 06/24/2020 14:04:12
-ok i see, so I am looking for points that they have a certain value on y-axis > 0.1 for example ?
+ok i see, so I am looking for points that they have a certain value on y axis > 0.1 for example ?
 
 ##### David Mansolino [cyberbotics] 06/24/2020 14:02:59
 That's unfortunately not so simple, the number of contact points of the wheel can vary, you should rather check the location of the contact points.
