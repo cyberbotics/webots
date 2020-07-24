@@ -109,9 +109,8 @@ void WbStreamingServer::startFromCommandLine(const QString &argument) {
       } else if (key == "mode") {
         if (value != "x3d" && value != "mjpeg")
           WbLog::error(tr("Streaming server: invalid option: mode '%1'").arg(value));
-        else
+      } else
           WbLog::error(tr("Streaming server: unknown option '%1'").arg(option));
-      }
     } else
       WbLog::error(tr("Streaming server: unknown option '%1'").arg(option));
   }
