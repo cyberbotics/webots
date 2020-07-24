@@ -1228,12 +1228,14 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
     perspective = world->perspective();
   }
 
-  // restore consoles
-  const QVector<ConsoleSettings> consoleList = perspective->consoleList();
-  for (int i = 0; i < consoleList.size(); ++i) {
-    openNewConsole(consoleList.at(i).name);
-    mConsoles.last()->setEnabledFilters(consoleList.at(i).enabledFilters);
-    mConsoles.last()->setEnabledLevels(consoleList.at(i).enabledLevels);
+  if (!loadingFromMemory) {
+    // restore consoles
+    const QVector<ConsoleSettings> consoleList = perspective->consoleList();
+    for (int i = 0; i < consoleList.size(); ++i) {
+      openNewConsole(consoleList.at(i).name);
+      mConsoles.last()->setEnabledFilters(consoleList.at(i).enabledFilters);
+      mConsoles.last()->setEnabledLevels(consoleList.at(i).enabledLevels);
+    }
   }
 
   if (meansOfLoading) {
