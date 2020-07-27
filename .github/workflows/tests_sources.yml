@@ -9,7 +9,7 @@ defaults:
     shell: bash
 
 jobs:
-  cleanup-runs:   
+  cleanup-runs:
     runs-on: ubuntu-latest
     steps:
     - uses: rokroskar/workflow-run-cleanup-action@master
