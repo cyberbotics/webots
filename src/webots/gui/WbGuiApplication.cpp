@@ -164,11 +164,11 @@ void WbGuiApplication::parseStreamArguments(const QString &serverArgument) {
         }
       } else if (key == "mode") {
         if (value != "x3d" && value != "mjpeg") {
-          mode = value;
           cout << tr("webots: invalid option: '%1' in --stream").arg(serverArgument).toUtf8().constData() << endl;
           cout << tr("webots: stream mode can only be x3d or mjpeg").toUtf8().constData() << endl;
           mTask = FAILURE;
-        }
+        } else
+          mode = "mjpeg";
       } else {
         cout << tr("webots: unknown option: '%1' in --stream").arg(serverArgument).toUtf8().constData() << endl;
         mTask = FAILURE;
@@ -181,10 +181,10 @@ void WbGuiApplication::parseStreamArguments(const QString &serverArgument) {
   if (mTask != FAILURE) {
     if (mode == "mjpeg") {
       mStreamingServer = new WbMultimediaStreamingServer();
-      mStreamingServer->startFromCommandLine(port, monitorActivity, disableTextStreams, ssl, controllerEdit);
+      mStreamingServer->start(port, monitorActivity, disableTextStreams, ssl, controllerEdit);
     } else {
       mStreamingServer = new WbX3dStreamingServer();
-      mStreamingServer->startFromCommandLine(port, monitorActivity, disableTextStreams, ssl, controllerEdit);
+      mStreamingServer->start(port, monitorActivity, disableTextStreams, ssl, controllerEdit);
       WbWorld::enableX3DStreaming();
     }
   } else
