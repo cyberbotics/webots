@@ -9,6 +9,12 @@ defaults:
     shell: bash
 
 jobs:
+  cleanup-runs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: rokroskar/workflow-run-cleanup-action@master
+      env:
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
   test-sources:
     strategy:
       matrix:
