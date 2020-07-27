@@ -6,6 +6,7 @@ WorldInfo {
     "You should use the ros node 'pioneer3at' to control the robot."
   ]
   title "Pioneer 3AT"
+  coordinateSystem "NUE"
   lineScale 0.5
 }
 Viewpoint {
