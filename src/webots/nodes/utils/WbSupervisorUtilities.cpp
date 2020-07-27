@@ -283,6 +283,8 @@ void WbSupervisorUtilities::initControllerRequests() {
   mNodeGetContactPoints = NULL;
   mNodeGetStaticBalance = NULL;
   mNodeGetVelocity = NULL;
+  mIsProtoRegenerated = false;
+  mShouldRemoveNode = false;
   mImportedNodesNumber = -1;
   mLoadWorldRequested = false;
   mVirtualRealityHeadsetIsUsedRequested = false;
@@ -353,6 +355,10 @@ void WbSupervisorUtilities::postPhysicsStep() {
   if (mNeedToResetSimulation) {
     mNeedToResetSimulation = false;
     WbApplication::instance()->simulationReset(false);
+  }
+  if (mShouldRemoveNode) {
+    emit worldModified();
+    WbNodeOperations::instance()->deleteNode(mRobot, true);
   }
 }
 
@@ -1181,8 +1187,12 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> nodeId;
       WbNode *node = WbNode::findNode(nodeId);
       if (node) {
-        WbNodeOperations::instance()->deleteNode(node, true);
-        emit worldModified();
+        if (node == mRobot)
+          mShouldRemoveNode = true;
+        else {
+          WbNodeOperations::instance()->deleteNode(node, true);
+          emit worldModified();
+        }
       }
       return;
     }
