@@ -40,7 +40,14 @@
 
 WbMainWindow *WbStreamingServer::cMainWindow = NULL;
 
-WbStreamingServer::WbStreamingServer() : QObject(), mPauseTimeout(-1), mWebSocketServer(NULL) {
+WbStreamingServer::WbStreamingServer() :
+  QObject(),
+  mPauseTimeout(-1),
+  mWebSocketServer(NULL),
+  mMonitorActivity(false),
+  mDisableTextStreams(false),
+  mSsl(false),
+  mControllerEdit(false) {
   connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbStreamingServer::newWorld);
   connect(WbApplication::instance(), &WbApplication::preWorldLoaded, this, &WbStreamingServer::deleteWorld);
   connect(WbApplication::instance(), &WbApplication::worldLoadingHasProgressed, this,
@@ -66,8 +73,7 @@ void WbStreamingServer::setMainWindow(WbMainWindow *mainWindow) {
   cMainWindow = mainWindow;
 }
 
-void WbStreamingServer::startFromCommandLine(int port, bool monitorActivity, bool disableTextStreams, bool ssl,
-                                             bool controllerEdit) {
+void WbStreamingServer::start(int port, bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit) {
   mMonitorActivity = monitorActivity;
   mDisableTextStreams = disableTextStreams;
   mSsl = ssl;

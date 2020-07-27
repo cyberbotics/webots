@@ -38,7 +38,7 @@ public:
   WbStreamingServer();
   virtual ~WbStreamingServer();
 
-  void startFromCommandLine(int port, bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit);
+  void start(int port, bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit);
   void setView3D(WbView3D *);
   void setMainWindow(WbMainWindow *mainWindow);
 
