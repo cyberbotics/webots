@@ -8,7 +8,6 @@ if [[ $(UBUNTU_VERSION) == "16.04" ]]; then
        sudo apt install libssl-dev python3.5-dev python-pip
 elif [[ $(UBUNTU_VERSION) == "18.04" ]]; then
        sudo apt install libssl1.0-dev python3.6-dev python3.7-dev python-pip
-else
 elif [[ $(UBUNTU_VERSION) == "20.04" ]]; then
        sudo apt install libssl-dev python3.8-dev python-pip-whl
 else
