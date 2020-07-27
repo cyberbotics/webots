@@ -8,7 +8,6 @@ if [[ $(UBUNTU_VERSION) == "16.04" ]]; then
        sudo apt install libav-tools
 elif [[ $(UBUNTU_VERSION) == "18.04" ]]; then
        sudo apt install ffmpeg
-else
 elif [[ $(UBUNTU_VERSION) == "20.04" ]]; then
        sudo apt install ffmpeg
 else
