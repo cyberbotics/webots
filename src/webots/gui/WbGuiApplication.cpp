@@ -167,7 +167,7 @@ void WbGuiApplication::parseStreamArguments(const QString &serverArguments) {
           cout << tr("webots: invalid 'mode' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
           cout << tr("webots: stream mode can only be x3d or mjpeg").toUtf8().constData() << endl;
           mTask = FAILURE;
-        } else
+        } else if (value == "mjpeg")
           mode = "mjpeg";
       } else {
         cout << tr("webots: unknown option: '%1' in --stream").arg(option).toUtf8().constData() << endl;
