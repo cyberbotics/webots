@@ -1,6 +1,6 @@
 name: Test Suite
 
-on: 
+on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
   schedule:
@@ -20,26 +20,25 @@ jobs:
         os: [ubuntu-18.04, ubuntu-20.04]
         include:
           - os: ubuntu-18.04
-            version_dependencies: "libssl1.0-dev ffmpeg python-pip npm"
+            version_dependencies: "npm"
             JAVA_VERSION: "11"
           - os: ubuntu-20.04
-            version_dependencies: "libssl-dev ffmpeg python-pip-whl npm libzip5"
+            version_dependencies: "npm libzip5"
             JAVA_VERSION: "14"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
     - name: Checkout Submodules
       uses: textbook/git-checkout-submodule-action@master
-    - name: Install Webots Compilation Dependencies 
+    - name: Install Webots Compilation Dependencies
       run: |
         sudo add-apt-repository ppa:deadsnakes/ppa
         sudo apt update
         # common dependencies
-        sudo apt -y install git g++ cmake execstack libusb-dev swig openjdk-${{ matrix.JAVA_VERSION }}-jdk python2.7-dev python3.6-dev python3.7-dev python3.8-dev libglu1-mesa-dev libglib2.0-dev libfreeimage-dev libfreetype6-dev libxml2-dev libzzip-0-13 libboost-dev libavcodec-extra libgd3 libssh-gcrypt-dev libzip-dev libreadline-dev pbzip2 libpci-dev libxcb-keysyms1 libxcb-image0 libxcb-icccm4 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0
+        sudo apt -y install openjdk-${{ matrix.JAVA_VERSION }}-jdk python3.6-dev python3.7-dev python3.8-dev
         # version specific dependencies
+        src/install_scripts/linux_compilation_dependencies.sh
         sudo apt -y install ${{ matrix.version_dependencies }}
-        # ubuntu server dependencies
-        sudo apt -y install libxkbcommon-x11-dev
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
       run: python src/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
@@ -74,7 +73,7 @@ jobs:
             test: src/packaging/update_all_worlds.py
             post_task: "if [[ \"$(git diff --name-only *.wbt *.wbproj | wc -l)\" -ne \"0\" ]]; then echo Some world and/or wbproj files are not up to date: \"$(git diff *.wbt *.wbproj)\"; exit -1; fi"
     runs-on: ${{ matrix.os }}
-    steps:  
+    steps:
     - uses: actions/checkout@v2
     - name: Download Artifacts
       uses: actions/download-artifact@v2
@@ -84,9 +83,7 @@ jobs:
     - name: Extract Webots
       run: tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
     - name: Install Webots Dependencies
-      run: |
-        sudo apt update
-        sudo apt -y install g++ make ffmpeg libavcodec-extra libglu1-mesa libxkbcommon-x11-dev execstack libusb-dev libxcb-keysyms1 libxcb-image0 libxcb-icccm4 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0
+      run: src/install_scripts/linux_runtime_dependencies.sh
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
