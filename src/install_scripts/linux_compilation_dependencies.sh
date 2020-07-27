@@ -5,11 +5,11 @@ sudo apt install git cmake swig python2.7-dev libglu1-mesa-dev libglib2.0-dev li
 
 UBUNTU_VERSION=$(lsb_release -rs)
 if [[ $(UBUNTU_VERSION) == "16.04" ]]; then
-       sudo apt install libssl-dev python3.5-dev python-pip
+       sudo apt install libssl-dev python-pip
 elif [[ $(UBUNTU_VERSION) == "18.04" ]]; then
-       sudo apt install libssl1.0-dev python3.6-dev python3.7-dev python-pip
+       sudo apt install libssl1.0-dev python-pip
 elif [[ $(UBUNTU_VERSION) == "20.04" ]]; then
-       sudo apt install libssl-dev python3.8-dev python-pip-whl
+       sudo apt install libssl-dev libzip5 python-pip-whl
 else
        echo "Unsupported Linux version."
 fi

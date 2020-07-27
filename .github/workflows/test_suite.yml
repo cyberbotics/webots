@@ -20,10 +20,8 @@ jobs:
         os: [ubuntu-18.04, ubuntu-20.04]
         include:
           - os: ubuntu-18.04
-            version_dependencies: "npm"
             JAVA_VERSION: "11"
           - os: ubuntu-20.04
-            version_dependencies: "npm libzip5"
             JAVA_VERSION: "14"
     runs-on: ${{ matrix.os }}
     steps:
@@ -31,14 +29,7 @@ jobs:
     - name: Checkout Submodules
       uses: textbook/git-checkout-submodule-action@master
     - name: Install Webots Compilation Dependencies
-      run: |
-        sudo add-apt-repository ppa:deadsnakes/ppa
-        sudo apt update
-        # common dependencies
-        sudo apt -y install openjdk-${{ matrix.JAVA_VERSION }}-jdk python3.6-dev python3.7-dev python3.8-dev
-        # version specific dependencies
-        src/install_scripts/linux_compilation_dependencies.sh
-        sudo apt -y install ${{ matrix.version_dependencies }}
+      run: src/install_scripts/linux_optional_compilation_dependencies.sh
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
       run: python src/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
