@@ -196,7 +196,7 @@ class Vehicle:
                 vehicleString += "  trailer " + trailerModel + "{\n"
                 if trailerModel == 'TruckTrailerSimple':
                     vehicleString += "    appearance PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { "
-                    vehicleString += "url [ \"" + random.choice(TRAILER_TEXTURES) + "\" ] } }"
+                    vehicleString += "url [ \"textures/" + random.choice(TRAILER_TEXTURES) + "\" ] } }"
                 else:
                     vehicleString += "    color " + random.choice(TRAILER_COLORS) + "\n"
                 vehicleString += "  }\n"
