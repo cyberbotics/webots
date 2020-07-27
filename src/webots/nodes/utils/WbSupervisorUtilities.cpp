@@ -1234,16 +1234,24 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           }
 
           if (node) {
-            WbNodeOperations::instance()->deleteNode(node, true);
-            emit worldModified();
+            if (node == mRobot)
+              mShouldRemoveNode = true;
+            else {
+              WbNodeOperations::instance()->deleteNode(node, true);
+              emit worldModified();
+            }
           }
           break;
         }
         case WB_SF_NODE: {
           WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
           if (sfNode->value()) {
-            WbNodeOperations::instance()->deleteNode(sfNode->value(), true);
-            emit worldModified();
+            if (sfNode->value() == mRobot)
+              mShouldRemoveNode = true;
+            else {
+              WbNodeOperations::instance()->deleteNode(sfNode->value(), true);
+              emit worldModified();
+            }
           }
           break;
         }
