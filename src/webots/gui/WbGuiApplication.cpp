@@ -183,12 +183,12 @@ void WbGuiApplication::parseStreamArguments(const QString &serverArguments) {
     return;
   }
   if (mode == "mjpeg") {
-    mStreamingServer = new WbMultimediaStreamingServer();
-    mStreamingServer->start(port, monitorActivity, disableTextStreams, ssl, controllerEdit);
+    mStreamingServer = new WbMultimediaStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
+    mStreamingServer->start(port);
     return;
   }
-  mStreamingServer = new WbX3dStreamingServer();
-  mStreamingServer->start(port, monitorActivity, disableTextStreams, ssl, controllerEdit);
+  mStreamingServer = new WbX3dStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
+  mStreamingServer->start(port);
   WbWorld::enableX3DStreaming();
 }
 

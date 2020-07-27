@@ -35,12 +35,12 @@ class WbStreamingServer : public QObject {
   Q_OBJECT
 
 public:
-  WbStreamingServer();
+  WbStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit);
   virtual ~WbStreamingServer();
 
-  void start(int port, bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit);
   void setView3D(WbView3D *);
   void setMainWindow(WbMainWindow *mainWindow);
+  virtual void start(int port);
 
 protected slots:
   void newWorld();
@@ -50,7 +50,6 @@ protected slots:
   virtual void sendUpdatePackageToClients();
 
 protected:
-  virtual void start(int port);
   virtual void create(int port);
   virtual void stop();
   virtual bool prepareWorld();
