@@ -122,7 +122,7 @@ void WbGuiApplication::restart() {
 #endif
 }
 
-void WbGuiApplication::parseStreamArguments(const QString &serverArguments) {
+void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
   bool monitorActivity = false;
   bool disableTextStreams = false;
   bool ssl = false;
@@ -133,7 +133,7 @@ void WbGuiApplication::parseStreamArguments(const QString &serverArguments) {
 #ifdef __APPLE__
   const QStringList &options = argument.split(';', QString::SkipEmptyParts);
 #else  //  Qt >= 5.15
-  const QStringList &options = serverArguments.split(';', Qt::SkipEmptyParts);
+  const QStringList &options = streamArguments.split(';', Qt::SkipEmptyParts);
 #endif
   foreach (QString option, options) {
     option = option.trimmed();
