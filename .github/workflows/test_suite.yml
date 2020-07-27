@@ -20,6 +20,7 @@ jobs:
       env:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
   build:
+    needs: cleanup-runs
     if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || github.event.pull_request.draft == false }}
     strategy:
       matrix:
