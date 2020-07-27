@@ -133,7 +133,7 @@ void WbGuiApplication::parseStreamArguments(const QString &serverArguments) {
 #ifdef __APPLE__
   const QStringList &options = argument.split(';', QString::SkipEmptyParts);
 #else  //  Qt >= 5.15
-  const QStringList &options = serverArgument.split(';', Qt::SkipEmptyParts);
+  const QStringList &options = serverArguments.split(';', Qt::SkipEmptyParts);
 #endif
   foreach (QString option, options) {
     option = option.trimmed();
@@ -158,23 +158,23 @@ void WbGuiApplication::parseStreamArguments(const QString &serverArguments) {
         if (ok)
           port = tmpPort;
         else {
-          cout << tr("webots: invalid option: '%1' in --stream").arg(serverArgument).toUtf8().constData() << endl;
+          cout << tr("webots: invalid 'port' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
           cout << tr("webots: stream port has to be integer").toUtf8().constData() << endl;
           mTask = FAILURE;
         }
       } else if (key == "mode") {
         if (value != "x3d" && value != "mjpeg") {
-          cout << tr("webots: invalid option: '%1' in --stream").arg(serverArgument).toUtf8().constData() << endl;
+          cout << tr("webots: invalid 'mode' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
           cout << tr("webots: stream mode can only be x3d or mjpeg").toUtf8().constData() << endl;
           mTask = FAILURE;
         } else
           mode = "mjpeg";
       } else {
-        cout << tr("webots: unknown option: '%1' in --stream").arg(serverArgument).toUtf8().constData() << endl;
+        cout << tr("webots: unknown option: '%1' in --stream").arg(option).toUtf8().constData() << endl;
         mTask = FAILURE;
       }
     } else {
-      cout << tr("webots: unknown option: '%1' in --stream").arg(serverArgument).toUtf8().constData() << endl;
+      cout << tr("webots: unknown option: '%1' in --stream").arg(option).toUtf8().constData() << endl;
       mTask = FAILURE;
     }
   }
