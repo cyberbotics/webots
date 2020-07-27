@@ -131,7 +131,7 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
   QString mode = "x3d";
 
 #ifdef __APPLE__
-  const QStringList &options = argument.split(';', QString::SkipEmptyParts);
+  const QStringList &options = streamArguments.split(';', QString::SkipEmptyParts);
 #else  //  Qt >= 5.15
   const QStringList &options = streamArguments.split(';', Qt::SkipEmptyParts);
 #endif
