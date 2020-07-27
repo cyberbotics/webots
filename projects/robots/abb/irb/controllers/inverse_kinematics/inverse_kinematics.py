@@ -28,7 +28,7 @@ from controller import Supervisor
 
 if ikpy.__version__[0] < '3':
     sys.exit('The "ikpy" Python module version is too old. '
-             'Please upgrade "ikpy" Python module to version "3.0" or newer with this command: "pip install ikpy"')
+             'Please upgrade "ikpy" Python module to version "3.0" or newer with this command: "pip install --upgrade ikpy"')
 
 # Create the arm chain.
 # The constants below have been manually extracted from the Irb4600-40.proto file, looking at the HingeJoint node fields.
