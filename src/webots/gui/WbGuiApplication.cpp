@@ -178,17 +178,18 @@ void WbGuiApplication::parseStreamArguments(const QString &serverArguments) {
       mTask = FAILURE;
     }
   }
-  if (mTask != FAILURE) {
-    if (mode == "mjpeg") {
-      mStreamingServer = new WbMultimediaStreamingServer();
-      mStreamingServer->start(port, monitorActivity, disableTextStreams, ssl, controllerEdit);
-    } else {
-      mStreamingServer = new WbX3dStreamingServer();
-      mStreamingServer->start(port, monitorActivity, disableTextStreams, ssl, controllerEdit);
-      WbWorld::enableX3DStreaming();
-    }
-  } else
+  if (mTask == FAILURE) {
     cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+    return;
+  }
+  if (mode == "mjpeg") {
+    mStreamingServer = new WbMultimediaStreamingServer();
+    mStreamingServer->start(port, monitorActivity, disableTextStreams, ssl, controllerEdit);
+    return;
+  }
+  mStreamingServer = new WbX3dStreamingServer();
+  mStreamingServer->start(port, monitorActivity, disableTextStreams, ssl, controllerEdit);
+  WbWorld::enableX3DStreaming();
 }
 
 void WbGuiApplication::parseArguments() {
