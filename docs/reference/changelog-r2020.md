@@ -55,7 +55,7 @@ Released on XXX.
     - Upgraded to Qt 5.15.0 on Windows and Linux ([#1709](https://github.com/cyberbotics/webots/pull/1709), [#1710](https://github.com/cyberbotics/webots/pull/1710)).
     - Upgraded to Assimp 5.0.1 on Linux and macOS ([#1463](https://github.com/cyberbotics/webots/pull/1463)).
   - Bug fixes
-    - Fixed random collision detection bugs with triangle meshes ([#1994](https://github.com/cyberbotics/webots/pull/1994)). 
+    - Fixed random collision detection bugs with triangle meshes ([#1994](https://github.com/cyberbotics/webots/pull/1994)).
     - Fixed crash occurring when reverting the world while an animation was being recorded (thanks to [Jenny](https://github.com/JennyLynnFletcher)) ([#1957](https://github.com/cyberbotics/webots/pull/1957)).
     - Fixed wrong measurements of [Accelerometer](accelerometer.md) device (thanks to [MauroMombelli](https://github.com/MauroMombelli)) ([#1947](https://github.com/cyberbotics/webots/pull/1947)).
     - Fixed issues with nodes and fields references in controller program after procedural PROTO regeneration ([#1922](https://github.com/cyberbotics/webots/pull/1922)).
@@ -97,6 +97,7 @@ Released on XXX.
     - Fixed crash when resetting worlds with motorized [BallJoint](balljoint.md) nodes (thanks to lordNil) ([#1455](https://github.com/cyberbotics/webots/pull/1455)).
     - Fixed addition of PROTO nodes including a [Connector](connector.md) node from the Add Node dialog (thanks to Acwok) ([#1317](https://github.com/cyberbotics/webots/pull/1317)).
     - Fixed crash when using the search bar of the Add Node dialog ([#1522](https://github.com/cyberbotics/webots/pull/1522)).
+    - Fixed crash when removing the [Robot](robot.md) node itself using the [Supervisor](supervisor.md) API ([#2006](https://github.com/cyberbotics/webots/pull/2006)).
     - Fixed the [`wb_display_image_load`](display.md#wb_display_image_load) function when used with a PNG image with transparency ([#1328](https://github.com/cyberbotics/webots/pull/1328)).
     - Fixed color of the bounding objects remaining in the collision state if the collision was lasting only one step (thanks to Acwok) ([#1375](https://github.com/cyberbotics/webots/pull/1375)).
     - Fixed rare issue with the [`wb_supervisor_simulation_reset`](supervisor.md#wb_supervisor_simulation_reset) function when the controller step is not equal to the simulation step ([#1448](https://github.com/cyberbotics/webots/pull/1448)).
