@@ -66,12 +66,13 @@ void WbStreamingServer::setMainWindow(WbMainWindow *mainWindow) {
   cMainWindow = mainWindow;
 }
 
-void WbStreamingServer::startFromCommandLine(const StreamingServerSettings &settings) {
-  mMonitorActivity = settings.monitorActivity;
-  mDisableTextStreams = settings.disableTextStreams;
-  mSsl = settings.ssl;
-  mControllerEdit = settings.controllerEdit;
-  start(settings.port);
+void WbStreamingServer::startFromCommandLine(int port, bool monitorActivity, bool disableTextStreams, bool ssl,
+                                             bool controllerEdit) {
+  mMonitorActivity = monitorActivity;
+  mDisableTextStreams = disableTextStreams;
+  mSsl = ssl;
+  mControllerEdit = controllerEdit;
+  start(port);
 }
 
 void WbStreamingServer::start(int port) {
