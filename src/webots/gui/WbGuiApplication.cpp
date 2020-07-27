@@ -122,7 +122,7 @@ void WbGuiApplication::restart() {
 #endif
 }
 
-void WbGuiApplication::parseStreamArguments(const QString &serverArgument) {
+void WbGuiApplication::parseStreamArguments(const QString &serverArguments) {
   bool monitorActivity = false;
   bool disableTextStreams = false;
   bool ssl = false;
