@@ -4,6 +4,12 @@ This is an archive of the `documentation` channel of the [Webots Discord server]
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 07/20/2020 05:36:54
+This is unfortunaely not possible. However you can view it offline in Webots from the 'Help' menu.
+
+##### Laojiang 07/20/2020 02:21:35
+Hello, how can I download the documentation like user guide?
+
 ##### David Mansolino [cyberbotics] 07/07/2020 11:51:08
 Thank you, we will have a look soon!
 
@@ -842,7 +848,7 @@ Did you already look at the tutorials? [https://www.cyberbotics.com/doc/guide/tu
 How would you create a custom chassy
 
 ##### Stefania Pedrazzi [cyberbotics] 10/28/2019 07:07:25
-then , for pitch and roll the description also specified that this is only true if the up (or gravity) vector is negative y-axis
+then , for pitch and roll the description also specified that this is only true if the up (or gravity) vector is -y-axis
 
 
 The "first" axis mentioned in the documentation corresponds to the rotation axis if the up (or gravity) vector is the default one (i.e. if the up vector corresponds to the y-axis)

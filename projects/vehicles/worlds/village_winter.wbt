@@ -4,6 +4,7 @@ WorldInfo {
     "World generated using the Open Street Map to Webots importer"
   ]
   ERP 0.6
+  coordinateSystem "NUE"
   lineScale 25
   contactProperties [
     ContactProperties {
@@ -162,7 +163,6 @@ WorldInfo {
       slideSound ""
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.03069456977120739 0.923836830095174 0.38155386873449604 2.9129693468506797

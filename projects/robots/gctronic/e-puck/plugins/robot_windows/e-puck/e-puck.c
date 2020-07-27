@@ -176,7 +176,8 @@ void wb_robot_window_step(int time_step) {
         wb_distance_sensor_enable(ps[i], time_step);
         wb_light_sensor_enable(ls[i], time_step);
       }
-      wb_distance_sensor_enable(tof, time_step);
+      if (tof != 0)
+        wb_distance_sensor_enable(tof, time_step);
       // optional ground sensors
       for (i = 0; i < gs_sensors_count; i++)
         wb_distance_sensor_enable(gs[i], time_step);
