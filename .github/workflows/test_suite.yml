@@ -29,7 +29,7 @@ jobs:
     - name: Checkout Submodules
       uses: textbook/git-checkout-submodule-action@master
     - name: Install Webots Compilation Dependencies
-      run: src/install_scripts/linux_optional_compilation_dependencies.sh
+      run: src/install_scripts/linux_with_optional_compilation_dependencies.sh
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
       run: python src/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
