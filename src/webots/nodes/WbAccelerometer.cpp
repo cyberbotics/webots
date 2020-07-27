@@ -42,6 +42,7 @@ void WbAccelerometer::init() {
   mResolution = findSFDouble("resolution");
 
   mNeedToReconfigure = false;
+  mWarningWasPrinted = false;
 }
 
 WbAccelerometer::WbAccelerometer(WbTokenizer *tokenizer) : WbSolidDevice("Accelerometer", tokenizer) {
@@ -161,8 +162,14 @@ void WbAccelerometer::computeValue() {
       acceleration[i] += (newVelocity[i] - mVelocity[i]) * inverseDt;
       mVelocity[i] = newVelocity[i];
     }
-  } else
-    warn(tr("Parent of Accelerometer node has no physics: measurements may be wrong."));
+  } else {
+    if (!mWarningWasPrinted) {
+      warn(tr("Parent of Accelerometer node has no physics: measurements may be wrong."));
+      mWarningWasPrinted = true;
+    }
+    mValues[0] = mValues[1] = mValues[2] = NAN;
+    return;
+  }
 
   const WbVector3 &result = acceleration * matrix();
 
