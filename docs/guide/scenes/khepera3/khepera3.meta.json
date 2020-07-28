@@ -1,124 +1,126 @@
 {
+  "robotID": "n10",
+  "name": "khepera3",
   "devices": [
     {
-      "axis": "-1 0 0",
+      "transformID": "n79",
+      "type": "RotationalMotor",
+      "anchor": "0 0.0245 0",
+      "position": 0,
       "maxPosition": 0,
-      "minPosition": 0,
       "name": "left wheel motor",
-      "position": 0,
-      "transformID": "n79",
-      "type": "RotationalMotor"
-    },
-    {
-      "axis": "-1 0 0",
-      "maxPosition": 0,
       "minPosition": 0,
-      "name": "right wheel motor",
+      "axis": "-1 0 0"
+    },
+    {
+      "transformID": "n93",
+      "type": "RotationalMotor",
+      "anchor": "0 0.0245 0",
       "position": 0,
-      "transformID": "n93",
-      "type": "RotationalMotor"
+      "maxPosition": 0,
+      "name": "right wheel motor",
+      "minPosition": 0,
+      "axis": "-1 0 0"
     },
     {
-      "name": "ds0",
       "transformID": "n103",
+      "name": "ds0",
       "type": "DistanceSensor"
     },
     {
-      "name": "ds1",
       "transformID": "n117",
+      "name": "ds1",
       "type": "DistanceSensor"
     },
     {
-      "name": "ds10",
       "transformID": "n243",
+      "name": "ds10",
       "type": "DistanceSensor"
     },
     {
-      "name": "ds2",
       "transformID": "n131",
+      "name": "ds2",
       "type": "DistanceSensor"
     },
     {
-      "name": "ds3",
       "transformID": "n145",
+      "name": "ds3",
       "type": "DistanceSensor"
     },
     {
-      "name": "ds4",
       "transformID": "n159",
+      "name": "ds4",
       "type": "DistanceSensor"
     },
     {
-      "name": "ds5",
       "transformID": "n173",
+      "name": "ds5",
       "type": "DistanceSensor"
     },
     {
-      "name": "ds6",
       "transformID": "n187",
+      "name": "ds6",
       "type": "DistanceSensor"
     },
     {
-      "name": "ds7",
       "transformID": "n201",
+      "name": "ds7",
       "type": "DistanceSensor"
     },
     {
-      "name": "ds8",
       "transformID": "n215",
+      "name": "ds8",
       "type": "DistanceSensor"
     },
     {
-      "name": "ds9",
       "transformID": "n229",
+      "name": "ds9",
       "type": "DistanceSensor"
     },
     {
-      "name": "left wheel sensor",
       "transformID": "n79",
+      "name": "left wheel sensor",
       "type": "PositionSensor"
     },
     {
-      "name": "right wheel sensor",
       "transformID": "n93",
+      "name": "right wheel sensor",
       "type": "PositionSensor"
     },
     {
-      "name": "rs232_in",
       "transformID": "n10",
+      "name": "rs232_in",
       "type": "Receiver"
     },
     {
-      "name": "rs232_out",
       "transformID": "n10",
+      "name": "rs232_out",
       "type": "Emitter"
     },
     {
-      "name": "us0",
       "transformID": "n257",
+      "name": "us0",
       "type": "DistanceSensor"
     },
     {
-      "name": "us1",
       "transformID": "n279",
+      "name": "us1",
       "type": "DistanceSensor"
     },
     {
-      "name": "us2",
       "transformID": "n301",
+      "name": "us2",
       "type": "DistanceSensor"
     },
     {
-      "name": "us3",
       "transformID": "n323",
+      "name": "us3",
       "type": "DistanceSensor"
     },
     {
-      "name": "us4",
       "transformID": "n345",
+      "name": "us4",
       "type": "DistanceSensor"
     }
-  ],
-  "name": "khepera3",
-  "robotID": "n10"
+  ]
 }

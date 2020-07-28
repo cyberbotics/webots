@@ -1,387 +1,387 @@
 {
-  "robotID": "n16", 
-  "name": "spot", 
+  "name": "spot",
+  "robotID": "n16",
   "devices": [
     {
-      "transformID": "n584", 
-      "name": "front left elbow motor", 
-      "maxPosition": 1.6, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "anchor": "-0.1122 -0.319729 0.182338", 
-      "minPosition": -0.45, 
-      "axis": "1 0 0"
-    }, 
+      "maxPosition": 1.6,
+      "transformID": "n584",
+      "minPosition": -0.45,
+      "anchor": "-0.1122 -0.319729 0.182338",
+      "position": 0,
+      "axis": "1 0 0",
+      "type": "RotationalMotor",
+      "name": "front left elbow motor"
+    },
     {
-      "transformID": "n568", 
-      "name": "front left piston motor", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "anchor": "-0.1172 -0.29077 0.2083", 
-      "minPosition": 0, 
-      "axis": "1 0 0"
-    }, 
+      "maxPosition": 0,
+      "transformID": "n568",
+      "minPosition": 0,
+      "anchor": "-0.1172 -0.29077 0.2083",
+      "position": 0,
+      "axis": "1 0 0",
+      "type": "RotationalMotor",
+      "name": "front left piston motor"
+    },
     {
-      "transformID": "n559", 
-      "name": "front left shoulder abduction motor", 
-      "maxPosition": 0.5, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "anchor": "-0.0528 0.0006 0", 
-      "minPosition": -0.6, 
-      "axis": "0 0 1"
-    }, 
+      "maxPosition": 0.5,
+      "transformID": "n559",
+      "minPosition": -0.6,
+      "anchor": "-0.0528 0.0006 0",
+      "position": 0,
+      "axis": "0 0 1",
+      "type": "RotationalMotor",
+      "name": "front left shoulder abduction motor"
+    },
     {
-      "transformID": "n564", 
-      "name": "front left shoulder rotation motor", 
-      "maxPosition": 1.7, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "anchor": "0 -0.00053 0", 
-      "minPosition": -1.7, 
-      "axis": "1 0 0"
-    }, 
+      "maxPosition": 1.7,
+      "transformID": "n564",
+      "minPosition": -1.7,
+      "anchor": "0 -0.00053 0",
+      "position": 0,
+      "axis": "1 0 0",
+      "type": "RotationalMotor",
+      "name": "front left shoulder rotation motor"
+    },
     {
-      "transformID": "n812", 
-      "name": "front right elbow motor", 
-      "maxPosition": 1.6, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "anchor": "0.1122 -0.319729 0.182338", 
-      "minPosition": -0.45, 
-      "axis": "1 0 0"
-    }, 
+      "maxPosition": 1.6,
+      "transformID": "n812",
+      "minPosition": -0.45,
+      "anchor": "0.1122 -0.319729 0.182338",
+      "position": 0,
+      "axis": "1 0 0",
+      "type": "RotationalMotor",
+      "name": "front right elbow motor"
+    },
     {
-      "transformID": "n796", 
-      "name": "front right piston motor", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "anchor": "0.1172 -0.29077 0.2083", 
-      "minPosition": 0, 
-      "axis": "1 0 0"
-    }, 
+      "maxPosition": 0,
+      "transformID": "n796",
+      "minPosition": 0,
+      "anchor": "0.1172 -0.29077 0.2083",
+      "position": 0,
+      "axis": "1 0 0",
+      "type": "RotationalMotor",
+      "name": "front right piston motor"
+    },
     {
-      "transformID": "n787", 
-      "name": "front right shoulder abduction motor", 
-      "maxPosition": 0.5, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "anchor": "0.0528 0.0006 0", 
-      "minPosition": -0.6, 
-      "axis": "0 0 1"
-    }, 
+      "maxPosition": 0.5,
+      "transformID": "n787",
+      "minPosition": -0.6,
+      "anchor": "0.0528 0.0006 0",
+      "position": 0,
+      "axis": "0 0 1",
+      "type": "RotationalMotor",
+      "name": "front right shoulder abduction motor"
+    },
     {
-      "transformID": "n792", 
-      "name": "front right shoulder rotation motor", 
-      "maxPosition": 1.7, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "anchor": "0 -0.00053 0", 
-      "minPosition": -1.7, 
-      "axis": "1 0 0"
-    }, 
+      "maxPosition": 1.7,
+      "transformID": "n792",
+      "minPosition": -1.7,
+      "anchor": "0 -0.00053 0",
+      "position": 0,
+      "axis": "1 0 0",
+      "type": "RotationalMotor",
+      "name": "front right shoulder rotation motor"
+    },
     {
-      "transformID": "n1040", 
-      "name": "rear left elbow motor", 
-      "maxPosition": 1.6, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "anchor": "-0.1122 -0.319729 0.182338", 
-      "minPosition": -0.45, 
-      "axis": "1 0 0"
-    }, 
+      "maxPosition": 1.6,
+      "transformID": "n1040",
+      "minPosition": -0.45,
+      "anchor": "-0.1122 -0.319729 0.182338",
+      "position": 0,
+      "axis": "1 0 0",
+      "type": "RotationalMotor",
+      "name": "rear left elbow motor"
+    },
     {
-      "transformID": "n1024", 
-      "name": "rear left piston motor", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "anchor": "-0.1172 -0.29077 0.2083", 
-      "minPosition": 0, 
-      "axis": "1 0 0"
-    }, 
+      "maxPosition": 0,
+      "transformID": "n1024",
+      "minPosition": 0,
+      "anchor": "-0.1172 -0.29077 0.2083",
+      "position": 0,
+      "axis": "1 0 0",
+      "type": "RotationalMotor",
+      "name": "rear left piston motor"
+    },
     {
-      "transformID": "n1015", 
-      "name": "rear left shoulder abduction motor", 
-      "maxPosition": 0.5, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "anchor": "-0.0528 0.0006 0", 
-      "minPosition": -0.6, 
-      "axis": "0 0 1"
-    }, 
+      "maxPosition": 0.5,
+      "transformID": "n1015",
+      "minPosition": -0.6,
+      "anchor": "-0.0528 0.0006 0",
+      "position": 0,
+      "axis": "0 0 1",
+      "type": "RotationalMotor",
+      "name": "rear left shoulder abduction motor"
+    },
     {
-      "transformID": "n1020", 
-      "name": "rear left shoulder rotation motor", 
-      "maxPosition": 1.7, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "anchor": "0 -0.00053 0", 
-      "minPosition": -1.7, 
-      "axis": "1 0 0"
-    }, 
+      "maxPosition": 1.7,
+      "transformID": "n1020",
+      "minPosition": -1.7,
+      "anchor": "0 -0.00053 0",
+      "position": 0,
+      "axis": "1 0 0",
+      "type": "RotationalMotor",
+      "name": "rear left shoulder rotation motor"
+    },
     {
-      "transformID": "n1268", 
-      "name": "rear right elbow motor", 
-      "maxPosition": 1.6, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "anchor": "0.1122 -0.319729 0.182338", 
-      "minPosition": -0.45, 
-      "axis": "1 0 0"
-    }, 
+      "maxPosition": 1.6,
+      "transformID": "n1268",
+      "minPosition": -0.45,
+      "anchor": "0.1122 -0.319729 0.182338",
+      "position": 0,
+      "axis": "1 0 0",
+      "type": "RotationalMotor",
+      "name": "rear right elbow motor"
+    },
     {
-      "transformID": "n1252", 
-      "name": "rear right piston motor", 
-      "maxPosition": 0, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "anchor": "0.1172 -0.29077 0.2083", 
-      "minPosition": 0, 
-      "axis": "1 0 0"
-    }, 
+      "maxPosition": 0,
+      "transformID": "n1252",
+      "minPosition": 0,
+      "anchor": "0.1172 -0.29077 0.2083",
+      "position": 0,
+      "axis": "1 0 0",
+      "type": "RotationalMotor",
+      "name": "rear right piston motor"
+    },
     {
-      "transformID": "n1243", 
-      "name": "rear right shoulder abduction motor", 
-      "maxPosition": 0.5, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "anchor": "0.0528 0.0006 0", 
-      "minPosition": -0.6, 
-      "axis": "0 0 1"
-    }, 
+      "maxPosition": 0.5,
+      "transformID": "n1243",
+      "minPosition": -0.6,
+      "anchor": "0.0528 0.0006 0",
+      "position": 0,
+      "axis": "0 0 1",
+      "type": "RotationalMotor",
+      "name": "rear right shoulder abduction motor"
+    },
     {
-      "transformID": "n1248", 
-      "name": "rear right shoulder rotation motor", 
-      "maxPosition": 1.7, 
-      "position": 0, 
-      "type": "RotationalMotor", 
-      "anchor": "0 -0.00053 0", 
-      "minPosition": -1.7, 
-      "axis": "1 0 0"
-    }, 
+      "maxPosition": 1.7,
+      "transformID": "n1248",
+      "minPosition": -1.7,
+      "anchor": "0 -0.00053 0",
+      "position": 0,
+      "axis": "1 0 0",
+      "type": "RotationalMotor",
+      "name": "rear right shoulder rotation motor"
+    },
     {
-      "transformID": "n91", 
-      "name": "left bottom led", 
+      "ledColors": [
+        "0 1 0",
+        "1 1 0",
+        "1 0 0"
+      ],
+      "transformID": "n91",
+      "ledGradual": false,
+      "type": "LED",
       "ledPBRAppearanceIDs": [
         "n93"
-      ], 
-      "ledColors": [
-        "0 1 0", 
-        "1 1 0", 
-        "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
+      ],
+      "name": "left bottom led"
+    },
     {
-      "transformID": "n41", 
-      "name": "left middle down led", 
+      "ledColors": [
+        "0 1 0",
+        "1 1 0",
+        "1 0 0"
+      ],
+      "transformID": "n41",
+      "ledGradual": false,
+      "type": "LED",
       "ledPBRAppearanceIDs": [
         "n43"
-      ], 
-      "ledColors": [
-        "0 1 0", 
-        "1 1 0", 
-        "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
+      ],
+      "name": "left middle down led"
+    },
     {
-      "transformID": "n31", 
-      "name": "left middle up led", 
+      "ledColors": [
+        "0 1 0",
+        "1 1 0",
+        "1 0 0"
+      ],
+      "transformID": "n31",
+      "ledGradual": false,
+      "type": "LED",
       "ledPBRAppearanceIDs": [
         "n33"
-      ], 
-      "ledColors": [
-        "0 1 0", 
-        "1 1 0", 
-        "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
+      ],
+      "name": "left middle up led"
+    },
     {
-      "transformID": "n21", 
-      "name": "left top led", 
+      "ledColors": [
+        "0 1 0",
+        "1 1 0",
+        "1 0 0"
+      ],
+      "transformID": "n21",
+      "ledGradual": false,
+      "type": "LED",
       "ledPBRAppearanceIDs": [
         "n23"
-      ], 
-      "ledColors": [
-        "0 1 0", 
-        "1 1 0", 
-        "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
+      ],
+      "name": "left top led"
+    },
     {
-      "transformID": "n81", 
-      "name": "right bottom led", 
+      "ledColors": [
+        "0 1 0",
+        "1 1 0",
+        "1 0 0"
+      ],
+      "transformID": "n81",
+      "ledGradual": false,
+      "type": "LED",
       "ledPBRAppearanceIDs": [
         "n83"
-      ], 
-      "ledColors": [
-        "0 1 0", 
-        "1 1 0", 
-        "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
+      ],
+      "name": "right bottom led"
+    },
     {
-      "transformID": "n71", 
-      "name": "right middle down led", 
+      "ledColors": [
+        "0 1 0",
+        "1 1 0",
+        "1 0 0"
+      ],
+      "transformID": "n71",
+      "ledGradual": false,
+      "type": "LED",
       "ledPBRAppearanceIDs": [
         "n73"
-      ], 
-      "ledColors": [
-        "0 1 0", 
-        "1 1 0", 
-        "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
+      ],
+      "name": "right middle down led"
+    },
     {
-      "transformID": "n61", 
-      "name": "right middle up led", 
+      "ledColors": [
+        "0 1 0",
+        "1 1 0",
+        "1 0 0"
+      ],
+      "transformID": "n61",
+      "ledGradual": false,
+      "type": "LED",
       "ledPBRAppearanceIDs": [
         "n63"
-      ], 
-      "ledColors": [
-        "0 1 0", 
-        "1 1 0", 
-        "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
+      ],
+      "name": "right middle up led"
+    },
     {
-      "transformID": "n51", 
-      "name": "right top led", 
+      "ledColors": [
+        "0 1 0",
+        "1 1 0",
+        "1 0 0"
+      ],
+      "transformID": "n51",
+      "ledGradual": false,
+      "type": "LED",
       "ledPBRAppearanceIDs": [
         "n53"
-      ], 
-      "ledColors": [
-        "0 1 0", 
-        "1 1 0", 
-        "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
+      ],
+      "name": "right top led"
+    },
     {
-      "transformID": "n16", 
-      "type": "Accelerometer", 
+      "type": "Accelerometer",
+      "transformID": "n16",
       "name": "accelerometer"
-    }, 
+    },
     {
-      "transformID": "n584", 
-      "type": "PositionSensor", 
+      "type": "PositionSensor",
+      "transformID": "n584",
       "name": "front left elbow sensor"
-    }, 
+    },
     {
-      "transformID": "n559", 
-      "type": "PositionSensor", 
+      "type": "PositionSensor",
+      "transformID": "n559",
       "name": "front left shoulder abduction sensor"
-    }, 
+    },
     {
-      "transformID": "n564", 
-      "type": "PositionSensor", 
+      "type": "PositionSensor",
+      "transformID": "n564",
       "name": "front left shoulder rotation sensor"
-    }, 
+    },
     {
-      "transformID": "n812", 
-      "type": "PositionSensor", 
+      "type": "PositionSensor",
+      "transformID": "n812",
       "name": "front right elbow sensor"
-    }, 
+    },
     {
-      "transformID": "n787", 
-      "type": "PositionSensor", 
+      "type": "PositionSensor",
+      "transformID": "n787",
       "name": "front right shoulder abduction sensor"
-    }, 
+    },
     {
-      "transformID": "n792", 
-      "type": "PositionSensor", 
+      "type": "PositionSensor",
+      "transformID": "n792",
       "name": "front right shoulder rotation sensor"
-    }, 
+    },
     {
-      "transformID": "n16", 
-      "type": "GPS", 
+      "type": "GPS",
+      "transformID": "n16",
       "name": "gps"
-    }, 
+    },
     {
-      "transformID": "n16", 
-      "type": "Gyro", 
+      "type": "Gyro",
+      "transformID": "n16",
       "name": "gyro"
-    }, 
+    },
     {
-      "transformID": "n16", 
-      "type": "InertialUnit", 
+      "type": "InertialUnit",
+      "transformID": "n16",
       "name": "inertial unit"
-    }, 
+    },
     {
-      "transformID": "n267", 
-      "transformOffset": "-0.110127 1.71553 -0.32432", 
-      "type": "Camera", 
+      "transformOffset": "-0.110127 1.71553 -0.32432",
+      "type": "Camera",
+      "transformID": "n267",
       "name": "left flank camera"
-    }, 
+    },
     {
-      "transformID": "n101", 
-      "transformOffset": "-0.045109 1.67955 -0.92325", 
-      "type": "Camera", 
+      "transformOffset": "-0.045109 1.67955 -0.92325",
+      "type": "Camera",
+      "transformID": "n101",
       "name": "left head camera"
-    }, 
+    },
     {
-      "transformID": "n483", 
-      "transformOffset": "0.018113 1.66256 -0.0118637", 
-      "type": "Camera", 
+      "transformOffset": "0.018113 1.66256 -0.0118637",
+      "type": "Camera",
+      "transformID": "n483",
       "name": "rear camera"
-    }, 
+    },
     {
-      "transformID": "n1040", 
-      "type": "PositionSensor", 
+      "type": "PositionSensor",
+      "transformID": "n1040",
       "name": "rear left elbow sensor"
-    }, 
+    },
     {
-      "transformID": "n1015", 
-      "type": "PositionSensor", 
+      "type": "PositionSensor",
+      "transformID": "n1015",
       "name": "rear left shoulder abduction sensor"
-    }, 
+    },
     {
-      "transformID": "n1020", 
-      "type": "PositionSensor", 
+      "type": "PositionSensor",
+      "transformID": "n1020",
       "name": "rear left shoulder rotation sensor"
-    }, 
+    },
     {
-      "transformID": "n1268", 
-      "type": "PositionSensor", 
+      "type": "PositionSensor",
+      "transformID": "n1268",
       "name": "rear right elbow sensor"
-    }, 
+    },
     {
-      "transformID": "n1243", 
-      "type": "PositionSensor", 
+      "type": "PositionSensor",
+      "transformID": "n1243",
       "name": "rear right shoulder abduction sensor"
-    }, 
+    },
     {
-      "transformID": "n1248", 
-      "type": "PositionSensor", 
+      "type": "PositionSensor",
+      "transformID": "n1248",
       "name": "rear right shoulder rotation sensor"
-    }, 
+    },
     {
-      "transformID": "n196", 
-      "transformOffset": "0.110163 1.71561 -0.324321", 
-      "type": "Camera", 
+      "transformOffset": "0.110163 1.71561 -0.324321",
+      "type": "Camera",
+      "transformID": "n196",
       "name": "right flank camera"
-    }, 
+    },
     {
-      "transformID": "n101", 
-      "transformOffset": "0.0448981 1.67797 -0.922603", 
-      "type": "Camera", 
+      "transformOffset": "0.0448981 1.67797 -0.922603",
+      "type": "Camera",
+      "transformID": "n101",
       "name": "right head camera"
     }
   ]

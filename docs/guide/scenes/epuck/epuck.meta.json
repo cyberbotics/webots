@@ -1,142 +1,146 @@
 {
+  "name": "epuck",
+  "robotID": "n10",
   "devices": [
     {
-      "axis": "-1 0 0",
-      "maxPosition": 0,
-      "minPosition": 0,
       "name": "left wheel motor",
       "position": 0,
+      "maxPosition": 0,
+      "anchor": "0 0.02 0",
       "transformID": "n17",
+      "axis": "-1 0 0",
+      "minPosition": 0,
       "type": "RotationalMotor"
     },
     {
-      "axis": "-1 0 0",
-      "maxPosition": 0,
-      "minPosition": 0,
       "name": "right wheel motor",
       "position": 0,
+      "maxPosition": 0,
+      "anchor": "0 0.02 0",
       "transformID": "n51",
+      "axis": "-1 0 0",
+      "minPosition": 0,
       "type": "RotationalMotor"
     },
     {
-      "ledColors": [
-        "1 0 0"
-      ],
-      "ledGradual": false,
+      "name": "led0",
+      "transformID": "n257",
+      "type": "LED",
       "ledPBRAppearanceIDs": [
         "n259"
       ],
-      "name": "led0",
-      "transformID": "n257",
-      "type": "LED"
-    },
-    {
       "ledColors": [
         "1 0 0"
       ],
-      "ledGradual": false,
+      "ledGradual": false
+    },
+    {
+      "name": "led1",
+      "transformID": "n261",
+      "type": "LED",
       "ledPBRAppearanceIDs": [
         "n263"
       ],
-      "name": "led1",
-      "transformID": "n261",
-      "type": "LED"
-    },
-    {
       "ledColors": [
         "1 0 0"
       ],
-      "ledGradual": false,
+      "ledGradual": false
+    },
+    {
+      "name": "led2",
+      "transformID": "n265",
+      "type": "LED",
       "ledPBRAppearanceIDs": [
         "n267"
       ],
-      "name": "led2",
-      "transformID": "n265",
-      "type": "LED"
-    },
-    {
       "ledColors": [
         "1 0 0"
       ],
-      "ledGradual": false,
+      "ledGradual": false
+    },
+    {
+      "name": "led3",
+      "transformID": "n269",
+      "type": "LED",
       "ledPBRAppearanceIDs": [
         "n271"
       ],
-      "name": "led3",
-      "transformID": "n269",
-      "type": "LED"
-    },
-    {
       "ledColors": [
         "1 0 0"
       ],
-      "ledGradual": false,
+      "ledGradual": false
+    },
+    {
+      "name": "led4",
+      "transformID": "n273",
+      "type": "LED",
       "ledPBRAppearanceIDs": [
         "n275"
       ],
-      "name": "led4",
-      "transformID": "n273",
-      "type": "LED"
-    },
-    {
       "ledColors": [
         "1 0 0"
       ],
-      "ledGradual": false,
+      "ledGradual": false
+    },
+    {
+      "name": "led5",
+      "transformID": "n278",
+      "type": "LED",
       "ledPBRAppearanceIDs": [
         "n280"
       ],
-      "name": "led5",
-      "transformID": "n278",
-      "type": "LED"
-    },
-    {
       "ledColors": [
         "1 0 0"
       ],
-      "ledGradual": false,
+      "ledGradual": false
+    },
+    {
+      "name": "led6",
+      "transformID": "n282",
+      "type": "LED",
       "ledPBRAppearanceIDs": [
         "n284"
       ],
-      "name": "led6",
-      "transformID": "n282",
-      "type": "LED"
-    },
-    {
       "ledColors": [
         "1 0 0"
       ],
-      "ledGradual": false,
+      "ledGradual": false
+    },
+    {
+      "name": "led7",
+      "transformID": "n286",
+      "type": "LED",
       "ledPBRAppearanceIDs": [
         "n288"
       ],
-      "name": "led7",
-      "transformID": "n286",
-      "type": "LED"
+      "ledColors": [
+        "1 0 0"
+      ],
+      "ledGradual": false
     },
     {
-      "ledColors": [
-        "0 1 0"
-      ],
-      "ledGradual": false,
+      "name": "led8",
+      "transformID": "n290",
+      "type": "LED",
       "ledPBRAppearanceIDs": [
         "n292"
       ],
-      "name": "led8",
-      "transformID": "n290",
-      "type": "LED"
+      "ledColors": [
+        "0 1 0"
+      ],
+      "ledGradual": false
     },
     {
-      "ledColors": [
-        "1 0.3 0"
-      ],
-      "ledGradual": false,
+      "name": "led9",
+      "transformID": "n295",
+      "type": "LED",
       "ledPBRAppearanceIDs": [
         "n297"
       ],
-      "name": "led9",
-      "transformID": "n295",
-      "type": "LED"
+      "ledColors": [
+        "1 0.3 0"
+      ],
+      "ledGradual": false
     },
     {
       "name": "accelerometer",
@@ -154,6 +158,11 @@
       "type": "Emitter"
     },
     {
+      "name": "gyro",
+      "transformID": "n10",
+      "type": "Gyro"
+    },
+    {
       "name": "left wheel sensor",
       "transformID": "n17",
       "type": "PositionSensor"
@@ -161,50 +170,50 @@
     {
       "name": "ls0",
       "transformID": "n10",
-      "transformOffset": "0.01 0.0329 -0.03",
-      "type": "LightSensor"
+      "type": "LightSensor",
+      "transformOffset": "0.01 0.0329 -0.03"
     },
     {
       "name": "ls1",
       "transformID": "n10",
-      "transformOffset": "0.025 0.0329 -0.022",
-      "type": "LightSensor"
+      "type": "LightSensor",
+      "transformOffset": "0.025 0.0329 -0.022"
     },
     {
       "name": "ls2",
       "transformID": "n10",
-      "transformOffset": "0.031 0.0329 0",
-      "type": "LightSensor"
+      "type": "LightSensor",
+      "transformOffset": "0.031 0.0329 0"
     },
     {
       "name": "ls3",
       "transformID": "n10",
-      "transformOffset": "0.015 0.0329 0.03",
-      "type": "LightSensor"
+      "type": "LightSensor",
+      "transformOffset": "0.015 0.0329 0.03"
     },
     {
       "name": "ls4",
       "transformID": "n10",
-      "transformOffset": "-0.015 0.0329 0.03",
-      "type": "LightSensor"
+      "type": "LightSensor",
+      "transformOffset": "-0.015 0.0329 0.03"
     },
     {
       "name": "ls5",
       "transformID": "n10",
-      "transformOffset": "-0.031 0.0329 0",
-      "type": "LightSensor"
+      "type": "LightSensor",
+      "transformOffset": "-0.031 0.0329 0"
     },
     {
       "name": "ls6",
       "transformID": "n10",
-      "transformOffset": "-0.025 0.0329 -0.022",
-      "type": "LightSensor"
+      "type": "LightSensor",
+      "transformOffset": "-0.025 0.0329 -0.022"
     },
     {
       "name": "ls7",
       "transformID": "n10",
-      "transformOffset": "-0.01 0.0329 -0.03",
-      "type": "LightSensor"
+      "type": "LightSensor",
+      "transformOffset": "-0.01 0.0329 -0.03"
     },
     {
       "name": "ps0",
@@ -261,7 +270,5 @@
       "transformID": "n10",
       "type": "Speaker"
     }
-  ],
-  "name": "epuck",
-  "robotID": "n10"
+  ]
 }

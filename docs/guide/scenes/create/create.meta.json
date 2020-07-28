@@ -1,110 +1,112 @@
 {
+  "robotID": "n10",
+  "name": "create",
   "devices": [
     {
-      "axis": "-1 0 0",
+      "position": 0,
       "maxPosition": 0,
-      "minPosition": 0,
       "name": "left wheel motor",
-      "position": 0,
+      "anchor": "0 -0.014 0.006176",
       "transformID": "n25",
-      "type": "RotationalMotor"
-    },
-    {
+      "type": "RotationalMotor",
       "axis": "-1 0 0",
-      "maxPosition": 0,
-      "minPosition": 0,
-      "name": "right wheel motor",
-      "position": 0,
-      "transformID": "n44",
-      "type": "RotationalMotor"
+      "minPosition": 0
     },
     {
+      "position": 0,
+      "maxPosition": 0,
+      "name": "right wheel motor",
+      "anchor": "0 -0.014 0.006176",
+      "transformID": "n44",
+      "type": "RotationalMotor",
+      "axis": "-1 0 0",
+      "minPosition": 0
+    },
+    {
+      "name": "led_on",
+      "transformID": "n84",
+      "ledGradual": false,
+      "type": "LED",
       "ledColors": [
         "1 0 0"
       ],
-      "ledGradual": false,
       "ledPBRAppearanceIDs": [
         "n86"
-      ],
-      "name": "led_on",
-      "transformID": "n84",
-      "type": "LED"
+      ]
     },
     {
-      "ledColors": [
-        "0 1 0"
-      ],
-      "ledGradual": false,
-      "ledPBRAppearanceIDs": [
-        "n91"
-      ],
       "name": "led_play",
       "transformID": "n89",
-      "type": "LED"
-    },
-    {
+      "ledGradual": false,
+      "type": "LED",
       "ledColors": [
         "0 1 0"
       ],
-      "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n96"
-      ],
+        "n91"
+      ]
+    },
+    {
       "name": "led_step",
       "transformID": "n94",
-      "type": "LED"
+      "ledGradual": false,
+      "type": "LED",
+      "ledColors": [
+        "0 1 0"
+      ],
+      "ledPBRAppearanceIDs": [
+        "n96"
+      ]
     },
     {
       "name": "bumper_left",
-      "transformID": "n10",
-      "type": "TouchSensor"
+      "type": "TouchSensor",
+      "transformID": "n10"
     },
     {
       "name": "bumper_right",
-      "transformID": "n10",
-      "type": "TouchSensor"
+      "type": "TouchSensor",
+      "transformID": "n10"
     },
     {
-      "name": "cliff_front_left",
-      "transformID": "n10",
       "transformOffset": "-0.04 0 -0.15",
-      "type": "DistanceSensor"
+      "name": "cliff_front_left",
+      "type": "DistanceSensor",
+      "transformID": "n10"
     },
     {
-      "name": "cliff_front_right",
-      "transformID": "n10",
       "transformOffset": "0.04 0 -0.15",
-      "type": "DistanceSensor"
+      "name": "cliff_front_right",
+      "type": "DistanceSensor",
+      "transformID": "n10"
     },
     {
-      "name": "cliff_left",
-      "transformID": "n10",
       "transformOffset": "-0.15 0 -0.07",
-      "type": "DistanceSensor"
+      "name": "cliff_left",
+      "type": "DistanceSensor",
+      "transformID": "n10"
     },
     {
-      "name": "cliff_right",
-      "transformID": "n10",
       "transformOffset": "0.15 0 -0.07",
-      "type": "DistanceSensor"
+      "name": "cliff_right",
+      "type": "DistanceSensor",
+      "transformID": "n10"
     },
     {
       "name": "left wheel sensor",
-      "transformID": "n25",
-      "type": "PositionSensor"
+      "type": "PositionSensor",
+      "transformID": "n25"
     },
     {
-      "name": "receiver",
-      "transformID": "n10",
       "transformOffset": "0 0.037 -0.152",
-      "type": "Receiver"
+      "name": "receiver",
+      "type": "Receiver",
+      "transformID": "n10"
     },
     {
       "name": "right wheel sensor",
-      "transformID": "n44",
-      "type": "PositionSensor"
+      "type": "PositionSensor",
+      "transformID": "n44"
     }
-  ],
-  "name": "create",
-  "robotID": "n10"
+  ]
 }
