@@ -40,14 +40,14 @@
 
 WbMainWindow *WbStreamingServer::cMainWindow = NULL;
 
-WbStreamingServer::WbStreamingServer() :
+WbStreamingServer::WbStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit) :
   QObject(),
   mPauseTimeout(-1),
   mWebSocketServer(NULL),
-  mMonitorActivity(false),
-  mDisableTextStreams(false),
-  mSsl(false),
-  mControllerEdit(false) {
+  mMonitorActivity(monitorActivity),
+  mDisableTextStreams(disableTextStreams),
+  mSsl(ssl),
+  mControllerEdit(controllerEdit) {
   connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbStreamingServer::newWorld);
   connect(WbApplication::instance(), &WbApplication::preWorldLoaded, this, &WbStreamingServer::deleteWorld);
   connect(WbApplication::instance(), &WbApplication::worldLoadingHasProgressed, this,
@@ -71,47 +71,6 @@ QString WbStreamingServer::clientToId(QWebSocket *client) {
 
 void WbStreamingServer::setMainWindow(WbMainWindow *mainWindow) {
   cMainWindow = mainWindow;
-}
-
-void WbStreamingServer::startFromCommandLine(const QString &argument) {
-  // default values
-  int port = 1234;
-  // parse argument
-#ifdef __APPLE__
-  const QStringList &options = argument.split(';', QString::SkipEmptyParts);
-#else  //  Qt >= 5.15
-  const QStringList &options = argument.split(';', Qt::SkipEmptyParts);
-#endif
-  foreach (QString option, options) {
-    option = option.trimmed();
-    const QRegExp rx("(\\w+)\\s*=\\s*([A-Za-z0-9:/.\\-]+)?");
-    rx.indexIn(option);
-    const QStringList &capture = rx.capturedTexts();
-    // "key" without value case
-    if (option == "monitorActivity")
-      mMonitorActivity = true;
-    else if (option == "disableTextStreams")
-      mDisableTextStreams = true;
-    else if (option == "ssl")
-      mSsl = true;
-    else if (option == "controllerEdit")
-      mControllerEdit = true;
-    else if (capture.size() == 3) {
-      const QString &key = capture[1];
-      const QString &value = capture[2];
-      if (key == "port") {
-        bool ok;
-        const int tmpPort = value.toInt(&ok);
-        if (ok)
-          port = tmpPort;
-        else
-          WbLog::error(tr("Streaming server: invalid option: port '%1'").arg(value));
-      } else if (key != "mode")
-        WbLog::error(tr("Streaming server: unknown option '%1'").arg(option));
-    } else
-      WbLog::error(tr("Streaming server: unknown option '%1'").arg(option));
-  }
-  start(port);
 }
 
 void WbStreamingServer::start(int port) {
