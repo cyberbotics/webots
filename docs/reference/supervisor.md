@@ -635,6 +635,7 @@ wb_supervisor_node_remove(node)
 *Remove a specified node*
 
 The `wb_supervisor_node_remove` function removes the node specified as an argument from the Webots scene tree.
+If the node given in argument is the [Robot](robot.md) node itself, it is removed only at the end of the step.
 
 ---
 
@@ -3365,6 +3366,7 @@ Here are a few examples for the `index` parameter:
 - -3: insert at the third index from the end.
 
 The `wb_supervisor_field_remove_sf/mf` functions remove an item from a specified `field` (MF or SF).
+If the item is the [Robot](robot.md) node itself, it is removed only at the end of the step.
 
 ---
 
