@@ -21,10 +21,10 @@ jobs:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
   build:
     needs: cleanup-runs
-    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || github.event.pull_request.draft == false }}
+    # if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || github.event.pull_request.draft == false }}
     strategy:
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04]
+        os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
         include:
           - os: ubuntu-18.04
             version_dependencies: "libssl1.0-dev ffmpeg python-pip npm"
@@ -37,7 +37,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Checkout Submodules
       uses: textbook/git-checkout-submodule-action@master
-    - name: Install Webots Compilation Dependencies 
+    - name: Install Webots Compilation Dependencies [Linux]
+      if: ${{ startsWith(matrix.os, 'ubuntu') }}
       run: |
         sudo add-apt-repository ppa:deadsnakes/ppa
         sudo apt update
@@ -47,15 +48,27 @@ jobs:
         sudo apt -y install ${{ matrix.version_dependencies }}
         # ubuntu server dependencies
         sudo apt -y install libxkbcommon-x11-dev
+    - name: Install Webots Compilation Dependencies [macOS]
+      if: ${{ startsWith(matrix.os, 'macos') }}
+      run: |
+        brew install cmake swig wget node
+        npm install -g appdmg
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
       run: python src/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
-    - name: Webots Package Creation
+    - name: Webots Package Creation [Linux]
+      if: ${{ startsWith(matrix.os, 'ubuntu') }}
       run: |
         export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
         export PATH=$JAVA_HOME/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
         xvfb-run --auto-servernum make distrib -j4
+    - name: Webots Package Creation [macOS]
+      if: ${{ startsWith(matrix.os, 'macos') }}
+      run: |
+        export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+        export PATH=/usr/local/bin/:$PATH
+        make distrib -j4
     - uses: actions/upload-artifact@v2
       with:
         name: build-${{ matrix.os }}
