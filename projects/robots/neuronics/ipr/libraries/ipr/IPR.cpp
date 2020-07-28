@@ -137,7 +137,7 @@ bool IPR::objectDetectedInGripper() const {
   double valueCenter = distanceSensorValue(4);
   double valueRight1 = distanceSensorValue(5);
   double valueRight2 = distanceSensorValue(6);
-  return (valueCenter + valueRight1 + valueRight2) > 120;
+  return (valueCenter + valueRight1 + valueRight2) > 80;
 }
 
 bool IPR::positionReached(int motorIndex, double targetPosition) const {

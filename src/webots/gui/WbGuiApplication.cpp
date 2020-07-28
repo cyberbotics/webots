@@ -122,6 +122,76 @@ void WbGuiApplication::restart() {
 #endif
 }
 
+void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
+  bool monitorActivity = false;
+  bool disableTextStreams = false;
+  bool ssl = false;
+  bool controllerEdit = false;
+  int port = 1234;
+  QString mode = "x3d";
+
+#ifdef __APPLE__
+  const QStringList &options = streamArguments.split(';', QString::SkipEmptyParts);
+#else  //  Qt >= 5.15
+  const QStringList &options = streamArguments.split(';', Qt::SkipEmptyParts);
+#endif
+  foreach (QString option, options) {
+    option = option.trimmed();
+    const QRegExp rx("(\\w+)\\s*=\\s*([A-Za-z0-9:/.\\-,]+)?");
+    rx.indexIn(option);
+    const QStringList &capture = rx.capturedTexts();
+    // "key" without value case
+    if (option == "monitorActivity")
+      monitorActivity = true;
+    else if (option == "disableTextStreams")
+      disableTextStreams = true;
+    else if (option == "ssl")
+      ssl = true;
+    else if (option == "controllerEdit")
+      controllerEdit = true;
+    else if (capture.size() == 3) {
+      const QString &key = capture[1];
+      const QString &value = capture[2];
+      if (key == "port") {
+        bool ok;
+        const int tmpPort = value.toInt(&ok);
+        if (ok)
+          port = tmpPort;
+        else {
+          cout << tr("webots: invalid 'port' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
+          cout << tr("webots: stream port has to be integer").toUtf8().constData() << endl;
+          mTask = FAILURE;
+        }
+      } else if (key == "mode") {
+        if (value != "x3d" && value != "mjpeg") {
+          cout << tr("webots: invalid 'mode' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
+          cout << tr("webots: stream mode can only be x3d or mjpeg").toUtf8().constData() << endl;
+          mTask = FAILURE;
+        } else if (value == "mjpeg")
+          mode = "mjpeg";
+      } else {
+        cout << tr("webots: unknown option: '%1' in --stream").arg(option).toUtf8().constData() << endl;
+        mTask = FAILURE;
+      }
+    } else {
+      cout << tr("webots: unknown option: '%1' in --stream").arg(option).toUtf8().constData() << endl;
+      mTask = FAILURE;
+    }
+  }
+  if (mTask == FAILURE) {
+    cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+    return;
+  }
+  if (mode == "mjpeg") {
+    mStreamingServer = new WbMultimediaStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
+    mStreamingServer->start(port);
+    return;
+  }
+  mStreamingServer = new WbX3dStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
+  mStreamingServer->start(port);
+  WbWorld::enableX3DStreaming();
+}
+
 void WbGuiApplication::parseArguments() {
   // faster when copied according to Qt's doc
   QStringList args = arguments();
@@ -178,14 +248,7 @@ void WbGuiApplication::parseArguments() {
         if (serverArgument.endsWith('"'))
           serverArgument = serverArgument.left(serverArgument.size() - 1);
       }
-      if (serverArgument.contains("mode=mjpeg")) {
-        mStreamingServer = new WbMultimediaStreamingServer();
-        mStreamingServer->startFromCommandLine(serverArgument);
-      } else {
-        mStreamingServer = new WbX3dStreamingServer();
-        mStreamingServer->startFromCommandLine(serverArgument);
-        WbWorld::enableX3DStreaming();
-      }
+      parseStreamArguments(serverArgument);
     } else if (arg == "--stdout")
       WbConsole::enableStdOutRedirectToTerminal();
     else if (arg == "--stderr")
