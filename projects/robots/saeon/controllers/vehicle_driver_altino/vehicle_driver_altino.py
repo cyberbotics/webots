@@ -21,6 +21,7 @@ sensorMax = 1000
 driver = Driver()
 
 basicTimeStep = int(driver.getBasicTimeStep())
+sensorTimeStep = 4 * basicTimeStep
 front_left_sensor = driver.getDistanceSensor('front_left_sensor')
 front_center_sensor = driver.getDistanceSensor('front_center_sensor')
 front_right_sensor = driver.getDistanceSensor('front_right_sensor')
@@ -29,19 +30,19 @@ headlights = driver.getLED("headlights")
 backlights = driver.getLED("backlights")
 
 keyboard = driver.getKeyboard()
-keyboard.enable(basicTimeStep)
+keyboard.enable(sensorTimeStep)
 
-front_left_sensor.enable(basicTimeStep)
-front_center_sensor.enable(basicTimeStep)
-front_right_sensor.enable(basicTimeStep)
+front_left_sensor.enable(sensorTimeStep)
+front_center_sensor.enable(sensorTimeStep)
+front_right_sensor.enable(sensorTimeStep)
 
 side_left_sensor = driver.getDistanceSensor('side_left_sensor')
 side_right_sensor = driver.getDistanceSensor('side_right_sensor')
 back_sensor = driver.getDistanceSensor('back_sensor')
 
-side_left_sensor.enable(basicTimeStep)
-side_right_sensor.enable(basicTimeStep)
-back_sensor.enable(basicTimeStep)
+side_left_sensor.enable(sensorTimeStep)
+side_right_sensor.enable(sensorTimeStep)
+back_sensor.enable(sensorTimeStep)
 
 # speed refers to the speed in km/h at which we want Altino to travel
 speed = 0
