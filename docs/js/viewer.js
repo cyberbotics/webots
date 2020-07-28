@@ -854,8 +854,14 @@ function highlightX3DElement(robot, deviceElement) {
       anchor = new THREE.Vector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
       originBillboard.position.add(anchor);
       object.parent.add(originBillboard);
-    } else
+    } else {
+      if (deviceElement.hasAttribute('webots-transform-offset')) {
+        var offset = deviceElement.getAttribute('webots-transform-offset').split(/[\s,]+/);
+        offset = new THREE.Vector3(parseFloat(offset[0]), parseFloat(offset[1]), parseFloat(offset[2]));
+        originBillboard.position.add(offset);
+      }
       object.add(originBillboard);
+    }
     robotComponent.billboardOrigin = originBillboard;
 
     if (type === 'LED') {
