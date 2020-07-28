@@ -146,14 +146,12 @@ rm ~/.cache/fontconfig/*
 
 #### Server Edition
 
-Webots requires some graphical features that are usually not available by default on a Linux server edition and additional packages needs to be available to make it work:
+Webots requires some graphical features that are usually not available by default on a Linux server edition, [additional packages](https://github.com/cyberbotics/webots/blob/master/src/install_scripts/linux_runtime_dependencies.sh) needs to be manually installed to make it work.
 
-- `xserver-xorg-core`
-- `libpulse0`
-
-These packages are automatically installed when using the Debian package, but in case of the tarball package the user has to manually install them.
-
-Additionally, it is also necessary to install an OS GUI, for example the Unity desktop `ubuntu-desktop` package.
+Webots can be run without GUI using a virtual framebuffer such as [Xvfb](https://en.wikipedia.org/wiki/Xvfb):
+```
+xvfb-run --auto-servernum webots --mode=fast --stdout --stderr --minimize --batch /path/to/world/file
+```
 
 ### Installation on Windows
 
