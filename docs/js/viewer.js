@@ -849,7 +849,13 @@ function highlightX3DElement(robot, deviceElement) {
   if (object) {
     // Show billboard origin.
     var originBillboard = robotComponent.billboardOriginMesh.clone();
-    object.add(originBillboard);
+    if (deviceElement.hasAttribute('device-anchor')) {
+      var anchor = deviceElement.getAttribute('device-anchor').split(/[\s,]+/);
+      anchor = new THREE.Vector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
+      originBillboard.position.add(anchor);
+      object.parent.add(originBillboard);
+    } else
+      object.add(originBillboard);
     robotComponent.billboardOrigin = originBillboard;
 
     if (type === 'LED') {
@@ -1024,6 +1030,7 @@ function createRobotComponent(view) {
             motorDiv.appendChild(slider);
             motorDiv.appendChild(maxLabel);
             deviceDiv.appendChild(motorDiv);
+            deviceDiv.setAttribute('device-anchor', device['anchor']);
           }
 
           // LED case: set the target color.
