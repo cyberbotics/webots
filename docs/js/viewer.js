@@ -809,7 +809,7 @@ function sliderMotorCallback(transform, slider) {
       q.multiply(transform.firstRotation);
 
     if (typeof transform.firstPosition !== 'undefined')
-      anchor += transform.firstPosition;
+      anchor.add(transform.firstPosition);
 
     transform.position.sub(anchor); // remove the offset
     transform.position.applyQuaternion(q); // rotate the POSITION
