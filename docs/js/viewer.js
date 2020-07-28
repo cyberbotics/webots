@@ -808,16 +808,13 @@ function sliderMotorCallback(transform, slider) {
     if (typeof transform.firstRotation !== 'undefined')
       q.multiply(transform.firstRotation);
 
-    if (typeof transform.firstPosition !== 'undefined') {
-      // anchor.add(transform.firstPosition);
-       //anchor.sub(transform.position);
-    }
+    if (typeof transform.firstPosition !== 'undefined')
+      transform.position.copy(transform.firstPosition);
 
     transform.position.sub(anchor); // remove the offset
     transform.position.applyAxisAngle(axis, angle); // rotate the POSITION
     transform.position.add(anchor); // re-add the offset
 
-    //transform.rotateOnAxis(axis, angle);
     transform.quaternion.copy(q);
     transform.updateMatrix();
   }
