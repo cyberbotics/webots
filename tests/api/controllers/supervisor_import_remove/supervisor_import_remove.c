@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
   wb_distance_sensor_enable(ds0, TIME_STEP);
   wb_distance_sensor_enable(ds1, TIME_STEP);
 
-  wb_robot_step(TIME_STEP);
+  wb_robot_step(4 * TIME_STEP);  // let time for the other controller to run
 
   wb_supervisor_node_remove(wb_supervisor_node_get_from_def("WORLDINFO"));
 

@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "RoCKIn@Work"
   basicTimeStep 20
+  coordinateSystem "NUE"
   lineScale 0.5
   contactProperties [
     ContactProperties {
@@ -30,7 +31,6 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.6590701596675975 0.7077881796430266 0.2542880598717497 1.03158

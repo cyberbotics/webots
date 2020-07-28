@@ -5,8 +5,8 @@ WorldInfo {
     "Thanks to Angelos Amanatiadis <aamanat@ee.duth.gr> Group of Robotics and Cognitive Systems - http://robotics.pme.duth.gr/amanatiadis"
   ]
   title "Pioneer 3AT"
-  lineScale 1
   coordinateSystem "NUE"
+  lineScale 1
 }
 Viewpoint {
   orientation -0.0025398403880028285 0.9997231527243259 0.023391603573456186 2.06676

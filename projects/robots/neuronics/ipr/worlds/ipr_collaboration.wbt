@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "IPR Collaboration"
   basicTimeStep 16
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "cube"
@@ -14,7 +15,6 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.0018416599251240434 0.9662309607161634 0.2576709895239281 3.14287

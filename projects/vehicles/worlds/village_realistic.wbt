@@ -6,6 +6,7 @@ WorldInfo {
   ]
   ERP 0.6
   FPS 30
+  coordinateSystem "NUE"
   lineScale 5
   contactProperties [
     ContactProperties {
@@ -68,11 +69,10 @@ WorldInfo {
       slideSound ""
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.06042670177153546 -0.9631916861309017 -0.2619358499352935 2.64150026974578
-  position 133.92404498085006 266.1719029086428 -538.5886187883387
+  position 283.04766693206136 248.33959221256697 -636.6305158186383
   near 3
 }
 TexturedBackground {

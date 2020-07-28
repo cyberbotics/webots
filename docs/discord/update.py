@@ -41,6 +41,14 @@ class MyClient(discord.Client):
             previousMessageUser = None
             async for message in channel.history(limit=None):
                 if message.type == discord.MessageType.default and (message.content or message.attachments):
+                    # ingored massages with a '🚫' reaction
+                    ignoredMessage = False
+                    for reaction in message.reactions:
+                        if reaction.emoji == '🚫':
+                            ignoredMessage = True
+                            break
+                    if ignoredMessage:
+                        continue
                     # statistics
                     if message.author.name not in contributors:
                         contributors[message.author.name] = 0

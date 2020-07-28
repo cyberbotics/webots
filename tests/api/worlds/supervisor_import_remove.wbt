@@ -52,5 +52,10 @@ Robot {
   controller "supervisor_import_remove"
   supervisor TRUE
 }
+Robot {
+  name "robot(1)"
+  controller "supervisor_remove_self"
+  supervisor TRUE
+}
 TestSuiteSupervisor {
 }

@@ -48,6 +48,7 @@ public:
   void postPhysicsStep();
   void reset();
 
+  bool shouldBeRemoved() const { return mShouldRemoveNode; }
   QStringList labelsState() const;
 
 signals:
@@ -88,6 +89,7 @@ private:
   WbSolid *mNodeGetStaticBalance;
   WbSolid *mNodeGetVelocity;
   bool mIsProtoRegenerated;
+  bool mShouldRemoveNode;
 
   // pointer to a single integer: if not NULL, the new status has to be sent to the libController
   int *mAnimationStartStatus;

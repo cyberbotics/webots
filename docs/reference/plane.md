@@ -9,7 +9,7 @@ Plane {
 ### Description
 
 The [Plane](#plane) node defines a plane in 3D-space.
-The plane's normal vector is the *y*-axis of the local coordinate system.
+The plane's normal vector is the y-axis of the local coordinate system.
 The plane can be used as graphical object or as collision detection object.
 
 When a plane is used as graphical object, the `size` field specifies the dimensions of the graphical representation.

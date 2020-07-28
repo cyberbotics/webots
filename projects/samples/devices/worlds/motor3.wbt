@@ -4,8 +4,8 @@ WorldInfo {
     "Example world demonstrating the use of a controlled BallJoint."
   ]
   title "Motor 3"
-  lineScale 0.3
   coordinateSystem "NUE"
+  lineScale 0.3
 }
 Viewpoint {
   orientation 0.3768456500966819 -0.8899212316133752 -0.25695827974000546 4.982679297792563

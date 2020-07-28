@@ -58,15 +58,15 @@ public:
     VF_NORMALS = 0x00040000,                // Display mesh normals
 
     // distance sensors laser beam
-    VF_LASER_BEAM = 0x00040000,
+    VF_LASER_BEAM = 0x00080000,
 
     // sugar for cameras definition
     VM_ALL = 0xFFFFFFFF,
     VM_NONE = 0x00000000,
     VM_REGULAR = 0xFFF00000,  // no special renderings, i.e. no outlines and no optional renderings from menu selection
     VM_MAIN = 0xFFFFFFFE,
-    VM_WEBOTS_CAMERA = 0xFFFE0000,       // mask for WbCamera (all WREN MovableObjects)
-    VM_WEBOTS_RANGE_CAMERA = 0xFFFC0000  // mask for WbRangeFinder and WbLidar (all WREN MovableObjects except laser beam)
+    VM_WEBOTS_CAMERA = 0xFFFA0000,       // mask for WbCamera (all WREN MovableObjects)
+    VM_WEBOTS_RANGE_CAMERA = 0xFFF80000  // mask for WbRangeFinder and WbLidar (all WREN MovableObjects except laser beam)
   };
 
   enum {

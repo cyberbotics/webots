@@ -3,6 +3,7 @@ WorldInfo {
   info [
     "Description: example of fully asymetric friction contact"
   ]
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       coulombFriction [
@@ -10,7 +11,6 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.7859223626466676 -0.5543082557734088 -0.2739861264248995 5.38085

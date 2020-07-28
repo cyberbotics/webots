@@ -142,30 +142,30 @@ using namespace std;
 
 %pythoncode %{
 class AnsiCodes(object):
-    RESET = '\u001b[0m'
+    RESET = u'\u001b[0m'
 
-    BOLD = '\u001b[1m'
-    UNDERLINE = '\u001b[4m'
+    BOLD = u'\u001b[1m'
+    UNDERLINE = u'\u001b[4m'
 
-    BLACK_BACKGROUND = '\u001b[40m'
-    RED_BACKGROUND = '\u001b[41m'
-    GREEN_BACKGROUND = '\u001b[42m'
-    YELLOW_BACKGROUND = '\u001b[43m'
-    BLUE_BACKGROUND = '\u001b[44m'
-    MAGENTA_BACKGROUND = '\u001b[45m'
-    CYAN_BACKGROUND = '\u001b[46m'
-    WHITE_BACKGROUND = '\u001b[47m'
+    BLACK_BACKGROUND = u'\u001b[40m'
+    RED_BACKGROUND = u'\u001b[41m'
+    GREEN_BACKGROUND = u'\u001b[42m'
+    YELLOW_BACKGROUND = u'\u001b[43m'
+    BLUE_BACKGROUND = u'\u001b[44m'
+    MAGENTA_BACKGROUND = u'\u001b[45m'
+    CYAN_BACKGROUND = u'\u001b[46m'
+    WHITE_BACKGROUND = u'\u001b[47m'
 
-    BLACK_FOREGROUND = '\u001b[30m'
-    RED_FOREGROUND = '\u001b[31m'
-    GREEN_FOREGROUND = '\u001b[32m'
-    YELLOW_FOREGROUND = '\u001b[33m'
-    BLUE_FOREGROUND = '\u001b[34m'
-    MAGENTA_FOREGROUND = '\u001b[35m'
-    CYAN_FOREGROUND = '\u001b[36m'
-    WHITE_FOREGROUND = '\u001b[37m'
+    BLACK_FOREGROUND = u'\u001b[30m'
+    RED_FOREGROUND = u'\u001b[31m'
+    GREEN_FOREGROUND = u'\u001b[32m'
+    YELLOW_FOREGROUND = u'\u001b[33m'
+    BLUE_FOREGROUND = u'\u001b[34m'
+    MAGENTA_FOREGROUND = u'\u001b[35m'
+    CYAN_FOREGROUND = u'\u001b[36m'
+    WHITE_FOREGROUND = u'\u001b[37m'
 
-    CLEAR_SCREEN = '\u001b[2J'
+    CLEAR_SCREEN = u'\u001b[2J'
 %}
 
 //----------------------------------------------------------------------------------------------

@@ -4,6 +4,7 @@ WorldInfo {
     "World generated using the Open Street Map to Webots importer"
   ]
   ERP 0.6
+  coordinateSystem "NUE"
   gpsCoordinateSystem "WGS84"
   gpsReference 46.5121 6.50915 0
   lineScale 20
@@ -68,7 +69,6 @@ WorldInfo {
       slideSound ""
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.0796787881453671 -0.9048508616508226 -0.41820594076298073 3.63069

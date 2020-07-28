@@ -61,6 +61,9 @@ void WbWorldInfo::init(const WbVersion *version) {
   mLineScale = findSFDouble("lineScale");
   mRandomSeed = findSFInt("randomSeed");
   mContactProperties = findMFNode("contactProperties");
+  WbSFVector3 *northDirection = findSFVector3("northDirection");
+  if (northDirection->x() != 0 || northDirection->y() != 1 || northDirection->z() != 0)  // not default value
+    parsingWarn(tr("The 'northDirection' field is deprecated, please use the 'coordinateSystem' field instead."));
 
   mPhysicsReceiver = NULL;
 

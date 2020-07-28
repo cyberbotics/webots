@@ -5,8 +5,8 @@ WorldInfo {
   ]
   title "Linear Motor"
   basicTimeStep 16
-  lineScale 0.02
   coordinateSystem "NUE"
+  lineScale 0.02
 }
 Viewpoint {
   orientation 0.2115037393377376 0.9696597369637928 0.1225812496161725 5.2548879

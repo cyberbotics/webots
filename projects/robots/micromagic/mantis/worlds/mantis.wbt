@@ -7,6 +7,7 @@ WorldInfo {
   title "Mantis Hexapod"
   ERP 0.62
   basicTimeStep 10
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       coulombFriction [
@@ -15,7 +16,6 @@ WorldInfo {
       softCFM 1e-05
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.21696542654194298 0.960317981551545 0.17525803260974765 4.8751533541414345

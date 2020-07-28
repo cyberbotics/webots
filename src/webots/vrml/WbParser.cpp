@@ -26,7 +26,7 @@
 
 #include <cassert>
 
-static double cLegacyGravity = -1;
+static double cLegacyGravity = 9.81;
 
 double WbParser::legacyGravity() {
   return cLegacyGravity;

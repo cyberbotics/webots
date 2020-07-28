@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "IPR Models"
   basicTimeStep 20
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "gripper"
@@ -13,7 +14,6 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.000752671143887165 0.9723701858867455 0.23344304462700366 3.13306

@@ -4,8 +4,8 @@ WorldInfo {
     "Example world demonstrating the use of a controlled Hinge2Joint."
   ]
   title "Motor 2"
-  lineScale 0.3
   coordinateSystem "NUE"
+  lineScale 0.3
 }
 Viewpoint {
   orientation 0.31324569058818835 0.9231043879286132 0.22305924395745047 5.044773530408996

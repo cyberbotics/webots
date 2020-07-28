@@ -29,7 +29,9 @@
 #include <QtCore/QFileInfo>
 #include <QtWebSockets/QWebSocket>
 
-WbX3dStreamingServer::WbX3dStreamingServer() : WbStreamingServer(), mX3dWorldGenerationTime(-1.0) {
+WbX3dStreamingServer::WbX3dStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit) :
+  WbStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit),
+  mX3dWorldGenerationTime(-1.0) {
   connect(WbNodeOperations::instance(), &WbNodeOperations::nodeDeleted, this, &WbX3dStreamingServer::propagateNodeDeletion);
   connect(WbTemplateManager::instance(), &WbTemplateManager::preNodeRegeneration, this,
           &WbX3dStreamingServer::propagateNodeDeletion);

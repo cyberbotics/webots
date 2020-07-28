@@ -10,6 +10,7 @@ WorldInfo {
   basicTimeStep 4
   defaultDamping Damping {
   }
+  coordinateSystem "NUE"
   lineScale 0.2
   contactProperties [
     ContactProperties {
@@ -24,7 +25,6 @@ WorldInfo {
       slideSound ""
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.05297605396726527 0.9819112398568539 0.18177968739337574 2.707007801628518

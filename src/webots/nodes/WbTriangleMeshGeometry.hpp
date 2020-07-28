@@ -131,8 +131,8 @@ private:
   // ray tracing
   // compute local collision point and return the distance
   double computeLocalCollisionPoint(WbVector3 &point, int &triangleIndex, const WbRay &ray) const;
-  void updateScaledVertices() const;
-  mutable bool mScaledVerticesNeedUpdate;
+  void updateScaledCoordinates() const;
+  mutable bool mScaledCoordinatesNeedUpdate;
 
   // Hashmap key for this instance's mesh
   WbTriangleMeshCache::TriangleMeshGeometryKey mMeshKey;

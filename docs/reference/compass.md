@@ -173,7 +173,7 @@ If the lookupTable is empty and all three xAxis, yAxis and zAxis fields are TRUE
 The values are returned as a 3D-vector, therefore only the indices 0, 1, and 2 are valid for accessing the vector.
 Let's look at one example.
 The default value of the `WorldInfo.coordinateSystem` field is `"ENU"` and therefore the north direction is along with the Y-positive axis.
-Now if the [Compass](#compass) node is in *upright* position, meaning that its Z-axis is aligned with the global Z-axis, then the bearing angle in degrees can be computed as follows:
+Now if the [Compass](#compass) node is in *upright* position, meaning that its z-axis is aligned with the global z-axis, then the bearing angle in degrees can be computed as follows:
 
 ```c
 double get_bearing_in_degrees() {

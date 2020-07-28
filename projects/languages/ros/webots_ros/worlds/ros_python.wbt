@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "ROS Python"
   basicTimeStep 20
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "thymio body"

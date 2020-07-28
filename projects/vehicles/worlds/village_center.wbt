@@ -4,6 +4,7 @@ WorldInfo {
   ERP 0.6
   basicTimeStep 10
   FPS 40
+  coordinateSystem "NUE"
   gpsReference 46.5156 6.56525 0
   lineScale 5
   contactProperties [
@@ -67,7 +68,6 @@ WorldInfo {
       slideSound ""
     }
   ]
-  coordinateSystem "NUE"
 }
 DEF VIEWPOINT Viewpoint {
   fieldOfView 1

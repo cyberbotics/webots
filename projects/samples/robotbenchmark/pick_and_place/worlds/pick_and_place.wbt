@@ -7,6 +7,7 @@ WorldInfo {
   title "Pick and Place"
   window "pick_and_place"
   basicTimeStep 16
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "box"
@@ -37,7 +38,6 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.07398746518993696 0.9910244125441088 0.11133943028582508 4.3838106

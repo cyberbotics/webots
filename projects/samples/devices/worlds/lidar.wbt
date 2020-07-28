@@ -5,8 +5,8 @@ WorldInfo {
   ]
   title "Lidar Point-Cloud"
   basicTimeStep 8
-  lineScale 0.15
   coordinateSystem "NUE"
+  lineScale 0.15
 }
 Viewpoint {
   orientation 0.7237188841159703 0.6614618940847455 0.19672096850045087 5.15422

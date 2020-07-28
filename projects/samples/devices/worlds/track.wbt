@@ -5,6 +5,7 @@ WorldInfo {
   ]
   title "Track"
   basicTimeStep 16
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "track material"
@@ -14,7 +15,6 @@ WorldInfo {
       softCFM 0.0001
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.2787439164932131 0.9191017246532488 0.278484916570805 4.63136

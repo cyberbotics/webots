@@ -68,8 +68,9 @@ struct WbFieldGetRequest {
 
 struct WbDeletedNodeInfo {
   int nodeId;
-  WbNode *parent;
-  WbField *parentField;
+  int parentNodeId;
+  QString parentFieldName;
+  int parentFieldCount;
 };
 
 class WbFieldSetRequest {
@@ -282,6 +283,8 @@ void WbSupervisorUtilities::initControllerRequests() {
   mNodeGetContactPoints = NULL;
   mNodeGetStaticBalance = NULL;
   mNodeGetVelocity = NULL;
+  mIsProtoRegenerated = false;
+  mShouldRemoveNode = false;
   mImportedNodesNumber = -1;
   mLoadWorldRequested = false;
   mVirtualRealityHeadsetIsUsedRequested = false;
@@ -352,6 +355,10 @@ void WbSupervisorUtilities::postPhysicsStep() {
   if (mNeedToResetSimulation) {
     mNeedToResetSimulation = false;
     WbApplication::instance()->simulationReset(false);
+  }
+  if (mShouldRemoveNode) {
+    emit worldModified();
+    WbNodeOperations::instance()->deleteNode(mRobot, true);
   }
 }
 
@@ -450,17 +457,22 @@ void WbSupervisorUtilities::updateDeletedNodeList(WbNode *node) {
 
   struct WbDeletedNodeInfo nodeInfo;
   nodeInfo.nodeId = node->uniqueId();
-  nodeInfo.parent = node->parentNode();
-  nodeInfo.parentField = node->parentField();
-  for (int i = 0; i < mNodesDeletedSinceLastStep.size(); ++i) {
-    struct WbDeletedNodeInfo otherInfo = mNodesDeletedSinceLastStep.at(i);
-    if (otherInfo.parent == node) {
-      otherInfo.parent = NULL;
-      otherInfo.parentField = NULL;
-    } else if (nodeInfo.parent && nodeInfo.parent->uniqueId() == otherInfo.nodeId) {
-      nodeInfo.parent = NULL;
-      nodeInfo.parentField = NULL;
-    }
+  // store values in case parent PROTO invalid due to regeneration
+  const WbNode *parentNode = node->parentNode();
+  if (!parentNode)
+    nodeInfo.parentNodeId = -1;
+  else if (parentNode == WbWorld::instance()->root())
+    nodeInfo.parentNodeId = 0;
+  else
+    nodeInfo.parentNodeId = parentNode->uniqueId();
+  const WbField *parentField = node->parentField();
+  if (parentField) {
+    nodeInfo.parentFieldName = parentField->name();
+    nodeInfo.parentFieldCount =
+      parentField->isMultiple() ? (dynamic_cast<WbMultipleValue *>(parentField->value())->size() - 1) : -1;
+  } else {
+    nodeInfo.parentFieldName = " ";
+    nodeInfo.parentFieldCount = -1;
   }
   mNodesDeletedSinceLastStep.push_back(nodeInfo);
 }
@@ -591,7 +603,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         mFoundNodeParentUniqueId = (node->parentNode() ? node->parentNode()->uniqueId() : -1);
         mFoundNodeIsProto = node->isProtoInstance();
         mFoundNodeIsProtoInternal =
-          node->parentNode() != WbWorld::instance()->root() && WbNodeUtilities::isVisible(node->parentField());
+          node->parentNode() != WbWorld::instance()->root() && !WbNodeUtilities::isVisible(node->parentField());
         connect(node, &WbNode::defUseNameChanged, this, &WbSupervisorUtilities::notifyNodeUpdate, Qt::UniqueConnection);
       }
 
@@ -1175,8 +1187,12 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> nodeId;
       WbNode *node = WbNode::findNode(nodeId);
       if (node) {
-        WbNodeOperations::instance()->deleteNode(node, true);
-        emit worldModified();
+        if (node == mRobot)
+          mShouldRemoveNode = true;
+        else {
+          WbNodeOperations::instance()->deleteNode(node, true);
+          emit worldModified();
+        }
       }
       return;
     }
@@ -1218,16 +1234,24 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           }
 
           if (node) {
-            WbNodeOperations::instance()->deleteNode(node, true);
-            emit worldModified();
+            if (node == mRobot)
+              mShouldRemoveNode = true;
+            else {
+              WbNodeOperations::instance()->deleteNode(node, true);
+              emit worldModified();
+            }
           }
           break;
         }
         case WB_SF_NODE: {
           WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
           if (sfNode->value()) {
-            WbNodeOperations::instance()->deleteNode(sfNode->value(), true);
-            emit worldModified();
+            if (sfNode->value() == mRobot)
+              mShouldRemoveNode = true;
+            else {
+              WbNodeOperations::instance()->deleteNode(sfNode->value(), true);
+              emit worldModified();
+            }
           }
           break;
         }
@@ -1351,22 +1375,10 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
       stream << (short unsigned int)0;
       stream << (unsigned char)C_SUPERVISOR_NODE_REMOVE_NODE;
       stream << (int)deletedNodeInfo.nodeId;
-      if (!deletedNodeInfo.parent)
-        stream << -1;
-      else if (deletedNodeInfo.parent == WbWorld::instance()->root())
-        stream << (int)0;
-      else
-        stream << (int)deletedNodeInfo.parent->uniqueId();
-      QByteArray ba;
-      if (deletedNodeInfo.parentField && !deletedNodeInfo.parentField->name().isEmpty())
-        ba = deletedNodeInfo.parentField->name().toUtf8();
-      else
-        ba = QString(" ").toUtf8();
+      stream << (int)deletedNodeInfo.parentNodeId;
+      QByteArray ba = deletedNodeInfo.parentFieldName.toUtf8();
       stream.writeRawData(ba.constData(), ba.size() + 1);
-      if (deletedNodeInfo.parentField && deletedNodeInfo.parentField->isMultiple())
-        stream << (int)dynamic_cast<WbMultipleValue *>(deletedNodeInfo.parentField->value())->size();
-      else
-        stream << (int)-1;
+      stream << (int)deletedNodeInfo.parentFieldCount;
     }
     mNodesDeletedSinceLastStep.clear();
   }
@@ -1648,7 +1660,7 @@ void WbSupervisorUtilities::writeConfigure(QDataStream &stream) {
   stream << (int)selfNode->uniqueId();
   stream << (unsigned char)selfNode->isProtoInstance();
   stream << (unsigned char)(selfNode->parentNode() != WbWorld::instance()->root() &&
-                            WbNodeUtilities::isVisible(selfNode->parentField()));
+                            !WbNodeUtilities::isVisible(selfNode->parentField()));
   const QByteArray &s = selfNode->modelName().toUtf8();
   stream.writeRawData(s.constData(), s.size() + 1);
   const QByteArray &ba = selfNode->defName().toUtf8();

@@ -6,13 +6,13 @@ WorldInfo {
   title "Autonomous Vehicle"
   ERP 0.6
   basicTimeStep 10
+  coordinateSystem "NUE"
   lineScale 1
   contactProperties [
     ContactProperties {
       softCFM 0.0003
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.056791464063295376 0.9659535410765772 0.25240540028131153 2.3968598
