@@ -51,7 +51,7 @@ jobs:
     - name: Install Webots Compilation Dependencies [macOS]
       if: ${{ startsWith(matrix.os, 'macos') }}
       run: |
-        brew install cmake swig wget node
+        brew install cmake swig wget # node
         npm install -g appdmg
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
