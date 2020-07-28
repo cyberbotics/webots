@@ -56,14 +56,14 @@ jobs:
       if: ${{ startsWith(matrix.os, 'ubuntu') }}
       run: |
         export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
-        export PATH=/Library/Frameworks/Python.framework/Versions/3.8/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:$JAVA_HOME/bin:$PATH
+        export PATH=$JAVA_HOME/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
         xvfb-run --auto-servernum make distrib -j4
     - name: Webots Package Creation [macOS]
       if: ${{ startsWith(matrix.os, 'macos') }}
       run: |
         export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
-        export PATH=/usr/local/bin/:$PATH
+        export PATH=/Library/Frameworks/Python.framework/Versions/3.8/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin/:$PATH
         make distrib -j4
     - uses: actions/upload-artifact@v2
       with:
