@@ -35,8 +35,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
-    - name: Checkout Submodules
-      uses: textbook/git-checkout-submodule-action@master
+      with:
+        submodules: true
     - name: Install Webots Compilation Dependencies [Linux]
       if: ${{ startsWith(matrix.os, 'ubuntu') }}
       run: |
