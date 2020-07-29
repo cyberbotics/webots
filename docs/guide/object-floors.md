@@ -157,8 +157,6 @@ UnevenTerrain {
   SFBool     flatCenter     FALSE
   SFBool     flatBounds     FALSE
   SFInt32    perlinNOctaves 3
-  deprecatedField MFString   texture        "textures/sand.jpg"
-  deprecatedField SFVec2f    textureScale   1.0 1.0
 }
 ```
 
