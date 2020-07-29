@@ -106,6 +106,8 @@ jobs:
       run: |
         ls artifact
         hdiutil mount artifact/webots-R2020b.dmg
+        sudo cp -R /Volumes/Webots /Applications
+        hdiutil unmount /Volumes/Webots
     - name: Install Webots Dependencies
       run: src/install_scripts/linux_runtime_dependencies.sh
     - name: Set up Python 3.8
