@@ -1,27 +1,162 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
-  northDirection 1 0 1
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.920152 0.3903 0.0314166 5.65888
-  position -0.321062 0.718685 1.12281
+  orientation 0.9202761242621326 0.3901170526763388 0.03000900405202606 5.6
+  position -0.32 0.72 1.12
 }
 Background {
   skyColor [
     0.4 0.7 1
   ]
 }
-PointLight {
-  ambientIntensity 1
-  intensity 0
+DirectionalLight {
 }
 Robot {
   children [
-    Accelerometer {
-    }
     TestSuiteEmitter {
     }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+      }
+      device [
+        RotationalMotor {
+          name "motor"
+        }
+      ]
+      endPoint Solid {
+        children [
+          Accelerometer {
+            name "center"
+            lookupTable [
+              -1000 -1000 0
+              1000 1000 0
+            ]
+          }
+          Accelerometer {
+            translation 0.1 0 0
+            name "tX"
+          }
+          Accelerometer {
+            translation 0 0.1 0
+            name "tY"
+          }
+          Accelerometer {
+            translation 0 0 0.1
+            name "tZ"
+          }
+          Solid {
+            translation 0.1 0.05 0
+            children [
+              Shape {
+                appearance RustyMetal {
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.1
+                }
+              }
+              Accelerometer {
+                name "center offset"
+              }
+              Accelerometer {
+                translation 0.1 0 0
+                name "tX offset"
+              }
+              Accelerometer {
+                translation 0 0.1 0
+                name "tY offset"
+              }
+              Accelerometer {
+                translation 0 0 0.1
+                name "tZ offset"
+              }
+            ]
+            boundingObject Cylinder {
+              height 0.01
+              radius 0.1
+            }
+            physics Physics {
+            }
+          }
+          DEF AXIS Group {
+            children [
+              Transform {
+                translation 0 0.063 0
+                children [
+                  Shape {
+                    appearance Plastic {
+                      colorOverride 0.8 0.8 0.3
+                    }
+                    geometry Cylinder {
+                      bottom FALSE
+                      height 0.005
+                      radius 0.04
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 0.063 0
+                children [
+                  Shape {
+                    appearance Plastic {
+                    }
+                    geometry Cylinder {
+                      bottom FALSE
+                      height 0.008
+                      radius 0.03
+                      subdivision 6
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+        boundingObject USE AXIS
+        physics Physics {
+        }
+      }
+    }
+    DEF BASIS_GROUP Group {
+      children [
+        Transform {
+          translation 0 0.02 0
+          children [
+            Shape {
+              appearance Plastic {
+                colorOverride 0.2 0.4 0.2
+              }
+              geometry Cylinder {
+                bottom FALSE
+                height 0.04
+                radius 0.1
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.04 0
+          children [
+            Shape {
+              appearance Plastic {
+                colorOverride 0.7 0.3 0.2
+              }
+              geometry Cylinder {
+                bottom FALSE
+                height 0.04
+                radius 0.07
+              }
+            }
+          ]
+        }
+      ]
+    }
   ]
+  boundingObject USE BASIS_GROUP
   controller "accelerometer"
 }
 TestSuiteSupervisor {

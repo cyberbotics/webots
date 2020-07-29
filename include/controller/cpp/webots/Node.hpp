@@ -45,6 +45,7 @@ namespace webots {
       INDEXED_FACE_SET,
       INDEXED_LINE_SET,
       MATERIAL,
+      MESH,
       MUSCLE,
       NORMAL,
       PBR_APPEARANCE,
@@ -124,7 +125,10 @@ namespace webots {
     std::string getTypeName() const;
     std::string getBaseTypeName() const;
     Node *getParentNode() const;
+    bool isProto() const;
+    Node *getFromProtoDef(const std::string &name) const;
     Field *getField(const std::string &fieldName) const;
+    Field *getProtoField(const std::string &fieldName) const;
     const double *getPosition() const;
     const double *getOrientation() const;
     const double *getCenterOfMass() const;

@@ -68,12 +68,15 @@ window.onload = function() {
       document.getElementById('accelerometer x').innerHTML = values[21];
       document.getElementById('accelerometer y').innerHTML = values[22];
       document.getElementById('accelerometer z').innerHTML = values[23];
-      document.getElementById('camera').src = values[24] + '#' + new Date().getTime();
-      if (values.length > 25) {
+      document.getElementById('gyro x').innerHTML = values[24];
+      document.getElementById('gyro y').innerHTML = values[25];
+      document.getElementById('gyro z').innerHTML = values[26];
+      document.getElementById('camera').src = values[27] + '#' + new Date().getTime();
+      if (values.length > 28) {
         // optional ground sensors available
-        setGroundSensorValue('gs0', values[25]);
-        setGroundSensorValue('gs1', values[26]);
-        setGroundSensorValue('gs2', values[27]);
+        setGroundSensorValue('gs0', values[28]);
+        setGroundSensorValue('gs1', values[29]);
+        setGroundSensorValue('gs2', values[30]);
       }
     }
   };

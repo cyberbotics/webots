@@ -27,6 +27,7 @@
 #include <webots/gyro.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
+#include <webots/utils/ansi_codes.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,7 +42,8 @@ static void run_for_a_while() {
     if (wb_robot_step(TIME_STEP) == -1)
       exit(EXIT_SUCCESS);
     const double *vel = wb_gyro_get_values(gyro);
-    printf("\frotation axes: [ x y z ] = [ %+.2f %+.2f %+.2f ]\n", vel[0], vel[1], vel[2]);
+    ANSI_CLEAR_CONSOLE();
+    printf("rotation axes: [ x y z ] = [ %+.2f %+.2f %+.2f ]\n", vel[0], vel[1], vel[2]);
   }
 }
 

@@ -53,7 +53,6 @@ public:
   // Texture features
   int width() const;
   int height() const;
-  int filtering() const;
 
   // external texture
   void setExternalTexture(WrTexture *texture, unsigned char *image, double ratioX, double ratioY);
@@ -95,6 +94,7 @@ private:
 
   QString mContainerField;
   QImage *mImage;
+  int mUsedFiltering;
   bool mIsMainTextureTransparent;
   QString mRole;  // Role in a PBR appearance.
 

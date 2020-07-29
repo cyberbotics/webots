@@ -1,0 +1,21 @@
+#VRML_SIM R2020b utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0 1 0 0
+  position 0 0.35 1.5
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Robot {
+  controller "ros"
+  supervisor TRUE
+}
+Floor {
+}
+Nao {
+  controller "void"
+}

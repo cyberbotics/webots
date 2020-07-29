@@ -19,12 +19,16 @@
 
 RosTouchSensor::RosTouchSensor(TouchSensor *touchSensor, Ros *ros) : RosSensor(touchSensor->getName(), touchSensor, ros) {
   mTouchSensor = touchSensor;
+
   mTypeServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + RosDevice::fixedDeviceName() + "/get_type",
                                                &RosTouchSensor::getTypeCallback);
+  mLookupTableServer = RosDevice::rosAdvertiseService(
+    (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosTouchSensor::getLookupTable);
 }
 
 RosTouchSensor::~RosTouchSensor() {
   mTypeServer.shutdown();
+  mLookupTableServer.shutdown();
   cleanup();
 }
 
@@ -77,5 +81,12 @@ void RosTouchSensor::publishValue(ros::Publisher publisher) {
 bool RosTouchSensor::getTypeCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res) {
   assert(mTouchSensor);
   res.value = mTouchSensor->getType();
+  return true;
+}
+
+bool RosTouchSensor::getLookupTable(webots_ros::get_float_array::Request &req, webots_ros::get_float_array::Response &res) {
+  assert(mTouchSensor);
+  const double *values = mTouchSensor->getLookupTable();
+  res.value.assign(values, values + mTouchSensor->getLookupTableSize() * 3);
   return true;
 }

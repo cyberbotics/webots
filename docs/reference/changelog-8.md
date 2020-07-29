@@ -492,7 +492,7 @@ Released on March 9th, 2016.
     - Fixed replacement of regular expressions in text editor's replace dialog.
     - Fixed update of Solid procedural PROTO nodes when internally modifying the `translation`, `rotation` or `position` template regenerator fields.
     - Fixed proposed screenshot file name after switching world.
-    - Fixed crash appearing sometimes when the first axis of a Hinge2Joint node is along the Y axis.
+    - Fixed crash appearing sometimes when the first axis of a Hinge2Joint node is along the y-axis.
   - Documentation
     - Fixed documentation of the Node class.
 

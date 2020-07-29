@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "A Star Wars inspired scout RX28 walking robot"
@@ -10,6 +10,7 @@ WorldInfo {
   FPS 50
   defaultDamping Damping {
   }
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.2507087455358656 0.9348870996710782 0.25125929988844664 0.6807068797882645

@@ -78,8 +78,22 @@ Node *Node::getParentNode() const {
   return findNode(parentRef);
 }
 
+Node *Node::getFromProtoDef(const std::string &name) const {
+  WbNodeRef internalNodeRef = wb_supervisor_node_get_from_proto_def(nodeRef, name.c_str());
+  return findNode(internalNodeRef);
+}
+
+bool Node::isProto() const {
+  return wb_supervisor_node_is_proto(nodeRef);
+}
+
 Field *Node::getField(const std::string &fieldName) const {
   WbFieldRef fieldRef = wb_supervisor_node_get_field(nodeRef, fieldName.c_str());
+  return Field::findField(fieldRef);
+}
+
+Field *Node::getProtoField(const std::string &fieldName) const {
+  WbFieldRef fieldRef = wb_supervisor_node_get_proto_field(nodeRef, fieldName.c_str());
   return Field::findField(fieldRef);
 }
 

@@ -4,6 +4,7 @@
 # Build directories
 build
 com
+webots_catkin_ws
 
 # Compiled source
 *.exe
@@ -54,6 +55,9 @@ Thumbs.db
 
 # Webots generated files
 *.cache
+
+# IDE files
+.vscode
 
 # Local rules #
 ###############

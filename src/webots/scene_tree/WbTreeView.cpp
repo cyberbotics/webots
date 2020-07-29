@@ -17,7 +17,6 @@
 #include "WbActionManager.hpp"
 #include "WbContextMenuGenerator.hpp"
 #include "WbNodeOperations.hpp"
-#include "WbSelection.hpp"
 #include "WbTreeItem.hpp"
 
 #include <QtWidgets/QHeaderView>
@@ -121,8 +120,12 @@ void WbTreeView::itemInserted(const QModelIndex &index) {
 }
 
 void WbTreeView::showMenu(const QPoint &position) {
-  const WbBaseNode *selectedNode = WbSelection::instance() ? WbSelection::instance()->selectedNode() : NULL;
-  WbContextMenuGenerator::generateContextMenu(mapToGlobal(position), selectedNode);
+  const QModelIndexList indexes = selectionModel()->selectedIndexes();
+  if (indexes.isEmpty())
+    return;
+  const WbTreeItem *item = static_cast<WbTreeItem *>(indexes.at(0).internalPointer());
+  assert(item);
+  WbContextMenuGenerator::generateContextMenu(mapToGlobal(position), item->node());
 }
 
 void WbTreeView::scrollToModelIndex(const QModelIndex &index) {

@@ -61,7 +61,7 @@ void WbMicrophone::postFinalize() {
 
 void WbMicrophone::updateAperture() {
   if (mAperture->value() < 0.0 && mAperture->value() != -1.0)
-    warn(tr("'aperture' must be either -1 (infinity) or between 0 and 2*pi."));
+    parsingWarn(tr("'aperture' must be either -1 (infinity) or between 0 and 2*pi."));
 }
 
 void WbMicrophone::writeConfigure(QDataStream &stream) {

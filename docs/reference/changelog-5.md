@@ -500,7 +500,7 @@ Released on May, 9th, 2006 (revision 388).
   - Attempted to fix a bug with the gripper device (thanks to Fernando and Ricardo)
   - Fixed roboka.wbt allowing recompilation of Java controllers (thanks to Dominic)
   - Added dWebotsConsolePrintf() in the physics library API (thanks to Harun)
-  - Automatic mouse control change when gravity is along the Z axis (thanks to David)
+  - Automatic mouse control change when gravity is along the z-axis (thanks to David)
   - Fixed bug with light sensors and batch mode (thanks to Nikolaus and Yvan)
   - Updated the `blimp_lis` model and physics, now includes keyboard control (thanks to Antoine)
   - Fixed problem with cylinder getting down in non-physics gripper simulations (thanks to Ricardo)

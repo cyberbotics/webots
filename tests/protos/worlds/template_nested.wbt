@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.800869 0.522634 0.29234 1.21936
+  orientation -0.8008689484572773 0.5226339663640629 0.29233998118543786 1.21936
   position 4.79469 9.81699 5.08499
   near 0.001
 }
@@ -38,7 +39,9 @@ Robot {
     }
   ]
   controller "nested"
-  controllerArgs "template_nested"
+  controllerArgs [
+    "template_nested"
+  ]
 }
 TestSuiteSupervisor {
 }

@@ -1,82 +1,127 @@
 # Webots R2020 Change Log
 
-## Webots R2020a Revision 2
-Released on XXX.
+## [Webots R2020b](../blog/Webots-2020-b-release.md)
+Released on July 29th, 2020.
 
-  - New Robot
-    - Added a model of the [Spot](../guide/spot.md) robot from [Boston Dynamics](https://www.bostondynamics.com/spot).
-    - Added a demo of a Star Wars inspired [scout RX28 walking robot](https://github.com/cyberbotics/webots/blob/master/projects/robots/micromagic/scout/worlds/scout.wbt) (contributed by Matt Denton).
+  - New Robots
+    - Added a model of the [Spot](../guide/spot.md) robot from [Boston Dynamics](https://www.bostondynamics.com/spot) ([#1553](https://github.com/cyberbotics/webots/pull/1553)).
+    - Added a model of the [P-Rob 3](../guide/p-rob3.md) robot from [F&P Robotics](https://www.fp-robotics.com/en/) ([#1657](https://github.com/cyberbotics/webots/pull/1657)).
+    - Added a demo of a Star Wars inspired [scout RX28 walking robot](https://github.com/cyberbotics/webots/blob/master/projects/robots/micromagic/scout/worlds/scout.wbt) (contributed by Matt Denton) ([#1742](https://github.com/cyberbotics/webots/pull/1742)).
+    - Added a model of a Mercedes-Benz Sprinter ([#1540](https://github.com/cyberbotics/webots/pull/1540)).
   - New Features
-    - macOS and Windows: Added support for Python 3.8.
-    - Added a model of a Mercedes-Benz Sprinter.
-    - Added a 'Convert Root to Base Node(s)' option in the context menu to convert a PROTO node to base node(s) without converting the nested PROTO nodes.
-    - Added an `OfficeChair` PROTO object.
-    - Added a `wheelbase`, `kingPinDistance` and `mass` fields to the `Truck` PROTO node.
-    - Added a `length`, `kingPinDistance`, `wheelAxles` and `mass` fields to the `TruckTrailer` PROTO node.
-    - Added several new appearances: `Marble`, `MetalStainlessSteelCable`, `Pavement`, `Plastic`, `Parquetry`, `PerforatedMetal` and `SolarCell`.
-    - Added a `ConveyorPlatform` PROTO object.
-    - Added a new [documentation book](../discord/index.md) about the [Discord chat](https://discordapp.com/invite/nTWbN9m) archives.
+    - Added a [Mesh](mesh.md) node allowing to use external 3D file in Webots ([#1419](https://github.com/cyberbotics/webots/pull/1419)).
+    - Added the possibility to import [3D Studio mesh](https://wiki.fileformat.com/3d/3ds), [Blender](https://www.blender.org/), [Biovision Hierarchy](https://en.wikipedia.org/wiki/Biovision_Hierarchy), [Collada](https://en.wikipedia.org/wiki/COLLADA), [Filmbox](https://wiki.fileformat.com/3d/fbx/), [STL](https://en.wikipedia.org/wiki/STL_(file_format)), [Wavefront](https://wiki.fileformat.com/3d/obj), [X3D](https://www.web3d.org/getting-started-x3d) files in Webots ([#1463](https://github.com/cyberbotics/webots/pull/1463)).
+    - Added two new functions to get internal PROTO node fields: [`wb_supervisor_node_get_from_proto_def`](supervisor.md#wb_supervisor_node_get_from_proto_def) and [`wb_supervisor_node_get_proto_field`](supervisor.md#wb_supervisor_node_get_proto_field) ([#1331](https://github.com/cyberbotics/webots/pull/1331)).
+    - Added the `mjpeg` web streaming mode ([#1352](https://github.com/cyberbotics/webots/pull/1352)).
+    - Exposed global texture maximum filtering as a parameter in the Webots preferences ([#1851](https://github.com/cyberbotics/webots/pull/1851)).
+    - Added a [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function to the [Robot](robot.md) node which allows URDF export ([#1706](https://github.com/cyberbotics/webots/pull/1706)).
+    - Added a new 'Show Normals' optional rendering ([#1740](https://github.com/cyberbotics/webots/pull/1740)).
+    - macOS and Windows: Added support for Python 3.8 ([#1299](https://github.com/cyberbotics/webots/pull/1299), [#1311](https://github.com/cyberbotics/webots/pull/1311)).
+    - Added a 'Convert Root to Base Node(s)' option in the context menu to convert a PROTO node to base node(s) without converting the nested PROTO nodes ([#1309](https://github.com/cyberbotics/webots/pull/1309)).
+    - Added an `OfficeChair` PROTO object ([#1322](https://github.com/cyberbotics/webots/pull/1322)).
+    - Added a `wheelbase`, `kingPinDistance` and `mass` fields to the `Truck` PROTO node ([#1512](https://github.com/cyberbotics/webots/pull/1512)).
+    - Added a `length`, `kingPinDistance`, `wheelAxles` and `mass` fields to the `TruckTrailer` PROTO node ([#1512](https://github.com/cyberbotics/webots/pull/1512)).
+    - Added several new appearances: `Marble`, `MetalStainlessSteelCable`, `Pavement`, `Plastic`, `Parquetry`, `PerforatedMetal` and `SolarCell` ([#1401](https://github.com/cyberbotics/webots/pull/1401), [#1437](https://github.com/cyberbotics/webots/pull/1437), [#1553](https://github.com/cyberbotics/webots/pull/1553)).
+    - Added a `ConveyorPlatform` PROTO object ([#1414](https://github.com/cyberbotics/webots/pull/1414)).
+    - Added a new [documentation book](../discord/index.md) about the [Discord chat](https://discordapp.com/invite/nTWbN9m) archives ([#1670](https://github.com/cyberbotics/webots/pull/1670)).
   - New Samples
-    - Added a [break\_room](../guide/samples-environments.md#break_room-wbt) world.
+    - Added a [break\_room](../guide/samples-environments.md#break_room-wbt) world ([#1457](https://github.com/cyberbotics/webots/pull/1457)).
   - Enhancements
-    - Improved the environment colors of the sojourner simulation (Mars is a red planet).
-    - Improved the [KUKA's youBot](../guide/youbot.md) robot to handle variable number of arms.
-    - Added missing `supervisor` field in `UR3e`, `UR5e` and `UR10e` robots.
-    - Added a `staticBase` field to the `Irb4600-40` PROTO node.
-    - Replaced the `texture` field of the `TruckTrailer` PROTO node by an `appearance` field.
-    - Added a `--node-name` argument to the ROS controller of the Universal Robots UR3e, UR5e and UR10e for multi robot simulations.
-    - Added a `type` field to the following appearances: `Rubber` and `ThreadMetalPlate`.
-    - Added an `appearance` field to the `Worktop` PROTO node.
-    - Removed the ROS libraries from the default controllers path to avoid possible conflicts with other libraries (thanks to PymZoR).
-    - Geometry node now displays its triangles count in the node editor.
+    - **Improved `WorldInfo`: `gravity` is now a single float value instead of a 3D vector and the `northDirection` field was replaced by a `coordinateSystem` field which can take either `"NUE"` (legacy Webots coordinate system) or `"ENU"` (ROS coordinate system) to define the gravity and cartesian directions ([#1643](https://github.com/cyberbotics/webots/pull/1643)).**
+    - **Improved [Track](track.md) `textureAnimation` field so that it automatically takes the world basic time step into consideration and removed it from `ConveyorBelt` PROTO object ([#1477](https://github.com/cyberbotics/webots/pull/1477)).**
+    - **Replaced the [Car](../automobile/car.md) `maxWheelVelocity` field by a `maxVelocity` field representing the actual maximum velocity of the car itself ([#1552](https://github.com/cyberbotics/webots/pull/1552)).**
+    - Added the possibility to edit the `S/MFRotation` fields using quaternions ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
+    - Improved edition of `S/MFRotation` fields using the field editor spin-boxes, only the last decimal is now incremented ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
+    - Improved the `ros_python` and `universal_robots_ros` ROS simulations to use extern controllers instead of embedding the ROS libraries ([#1876](https://github.com/cyberbotics/webots/pull/1876)).
+    - Added a `supervisor` field to the [RobotisOp2](../guide/robotis-op2.md), [RobotisOp3](../guide/robotis-op3.md), [UR3e](../guide/ure.md), [UR5](../guide/ure.md) and [UR10e](../guide/ure.md) robots ([#1790](https://github.com/cyberbotics/webots/pull/1790) and [#1341](https://github.com/cyberbotics/webots/pull/1341)).
+    - Added a [Gyro](gyro.md) node to e-puck PROTO ([#1484](https://github.com/cyberbotics/webots/pull/1484)).
+    - Improved the [`wb_supervisor_movie_is_ready`](supervisor.md#wb_supervisor_movie_is_ready) and [`wb_supervisor_movie_failed`](supervisor.md#wb_supervisor_movie_failed) functions to return an updated value even if the [`wb_robot_step`](robot.md#wb_robot_step) function is not called ([#1908](https://github.com/cyberbotics/webots/pull/1908)).
+    - Console
+      - Added a context menu to the console allowing the user to define what should be displayed, by filtering the logs by type and source ([#1595](https://github.com/cyberbotics/webots/pull/1595)).
+      - Added the possibility to open several consoles at the same time ([#1595](https://github.com/cyberbotics/webots/pull/1595)).
+      - Improved the Webots console by supporting more [ANSI](https://en.wikipedia.org/wiki/ANSI_escape_code) escape codes and removed the controller name prefix ([#1508](https://github.com/cyberbotics/webots/pull/1508)).
+    - Added options in View > Scene Interactions menu to disable interactions with the 3D scene for the current world ([#1754](https://github.com/cyberbotics/webots/pull/1754)).
+    - Improved the environment colors of the sojourner simulation (Mars is a red planet) ([#1283](https://github.com/cyberbotics/webots/pull/1283)).
+    - Improved the [KUKA's youBot](../guide/youbot.md) robot to handle variable number of arms ([#1468](https://github.com/cyberbotics/webots/pull/1468)).
+    - Improved the `supervisor` sample to show how to import a node in the simulation ([#1691](https://github.com/cyberbotics/webots/pull/1691)).
+    - Added a `staticBase` field to the `Irb4600-40` PROTO node ([#1349](https://github.com/cyberbotics/webots/pull/1349)).
+    - Replaced the `texture` field of the `TruckTrailer` PROTO node by an `appearance` field ([#1512](https://github.com/cyberbotics/webots/pull/1512)).
+    - Added a `--node-name` argument to the ROS controller of the Universal Robots UR3e, UR5e and UR10e for multi robot simulations ([#1423](https://github.com/cyberbotics/webots/pull/1423)).
+    - Added a `type` field to the following appearances: `Rubber` and `ThreadMetalPlate` ([#1437](https://github.com/cyberbotics/webots/pull/1437)).
+    - Added an `appearance` field to the `Worktop` PROTO node ([#1437](https://github.com/cyberbotics/webots/pull/1437)).
+    - Removed the ROS libraries from the default controllers path to avoid possible conflicts with other libraries (thanks to PymZoR) ([#1426](https://github.com/cyberbotics/webots/pull/1426)).
+    - Geometry node now displays its triangles count in the node editor ([#1456](https://github.com/cyberbotics/webots/pull/1456)).
   - Dependency Updates
-    - Upgraded to Qt 5.15.0.
-  - Cleanup
-    - Deprecated the following appearances: `ChequeredParquetry`, `DarkParquetry`, `SlatePavement`, `SquarePavement` and `StonePavement`.
-    - Removed automatic path to Qt libraries for controllers using deprecated Qt robot windows. Such paths should now be specified in `runtime.ini` instead.
+    - Linux: support Ubuntu 20.04 LTS.
+    - Upgraded to Qt 5.15.0 on Windows and Linux ([#1709](https://github.com/cyberbotics/webots/pull/1709), [#1710](https://github.com/cyberbotics/webots/pull/1710)).
+    - Upgraded to Assimp 5.0.1 on Linux and macOS ([#1463](https://github.com/cyberbotics/webots/pull/1463)).
   - Bug fixes
-    - Fixed rendering of Track and Muscle nodes when the main window was minimized.
-    - Fixed crash occurring when moving with SHIFT+mouse/wheel drag a PROTO object with translation or rotation template field.
-    - Fixed crash occurring when setting a 3D coordinate to a huge value (greater than 1e+151).
-    - Fixed crash occurring when Webots was streaming a 3D scene and some object was inserted into a PROTO node.
-    - Fixed the restoration of the 3D view which was sometimes not re-appearing after being hidden.
-    - Windows: Fixed JPEG texture errors when typing `webots` from a DOS console (`cmd.exe`) by renaming `webots.exe` to `webots-bin.exe` and creating two launchers named `webotsw.exe` and `webots.exe`.
-    - Fixed the physics behavior of [Connector](connector.md) nodes sometimes remaining idle after being detached from each other (thanks to Giorgio).
-    - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images.
-    - Fixed default name of the left and right grippers of the [Tiago++](../guide/tiagopp.md) robot.
-    - Fixed camera image updates after a simulation reset from a [Supervisor](supervisor.md) controller.
-    - Fixed the motor torque and force feedback of the ros controller.
-    - Fixed crash when calling the [`wb_robot_battery_sensor_enable()`](robot.md#wb_robot_battery_sensor_enable) function if the `battery` field of the [Robot](robot.md) is empty.
-    - Fixed annoying warning messages when calling the [`wb_robot_battery_sensor_enable()`](robot.md#wb_robot_battery_sensor_enable) function if the [Robot](robot.md) contains a [Track](track.md) node.
-    - Renamed `PannelWithTubes` [PROTO](../guide/object-panels.md) into `PanelWithTubes`.
-    - Fixed reset of [Lidar](lidar.md) rotation when resetting the simulation (thanks to Jajafarov).
-    - Fixed horizontal resolution of Velodyne HDL-32E and HDL-64E [Lidars](lidar.md) (thanks to jrcblue).
-    - Fixed the TurtleBot3Burger robot maximum velocity (thanks to Dorteel).
-    - Fixed the TurtleBot3Burger robot center of mass (thanks to Nitrow).
-    - Fixed warnings about duplicated `name` fields in the `TruckTank` PROTO node.
-    - **Fixed value returned by [DistanceSensor](distancesensor.md) devices when sensing untextured shapes.**
-    - Fixed contact points optional rendering not updated when the `lineScale` field of the [WorldInfo](worldinfo.md) node was changed.
-    - Fixed the C/C++ Makefiles to handle spaces in the Webots installation directory.
-    - Fixed crash when resetting worlds with motorized [BallJoint](balljoint.md) nodes (thanks to lordNil).
-    - Fixed addition of PROTO nodes including a [Connector](connector.md) node from the Add Node dialog (thanks to Acwok).
-    - Fixed crash when using the search bar of the Add Node dialog.
-    - Fixed the [`wb_display_image_load`](display.md#wb_display_image_load) function when used with a PNG image with transparency.
-    - Fixed color of the bounding objects remaining in the collision state if the collision was lasting only one step (thanks to Acwok).
-    - Fixed rare issue with the [`wb_supervisor_simulation_reset`](supervisor.md#wb_supervisor_simulation_reset) function when the controller step is not equal to the simulation step.
-    - Fixed MATLAB API.
-    - Fixed missing stdout/stderr flush when a controller is changed or restarted while simulation is running (thanks to tsampazk).
-    - Fixed the ROS controller of the Universal Robots UR3e, UR5e and UR10e to send the success state when a trajectory succeeded (thanks to Tim-Stoll).
-    - Fixed the `Show Contact Points` optional rendering which was causing an OpenGL error.
-    - Fixed the [`wb_supervisor_field_set_sf_rotation`](supervisor.md#wb_supervisor_field_set_sf_rotation) and [`wb_supervisor_field_set_mf_rotation`](supervisor.md#wb_supervisor_field_set_mf_rotation) functions to handle non-normalized rotations.
-    - Fixed a crash when trying to add an [IndexedLineSet](indexedlineset.md) node to a geometry's [Shape](shape.md) node with no coordinates.
-    - Fixed a crash related to [InertialUnit](inertialunit.md) node when gravity was null.
-    - Fixed support for MATLAB R2017b on Windows.
-    - Fixed a crash occurring when changing the `textureAnimation` value of some `Track` node from the scene tree.
-    - Fixed a bug allowing to move a USE node with handles in 3D view.
-    - Fixed update of nested DEF/USE nodes.
+    - Fixed usability of rotation handles in the 3D view ([#2019](https://github.com/cyberbotics/webots/pull/2019)).
+    - Fixed random collision detection bugs with triangle meshes ([#1994](https://github.com/cyberbotics/webots/pull/1994)).
+    - Fixed crash occurring when reverting the world while an animation was being recorded (thanks to [Jenny](https://github.com/JennyLynnFletcher)) ([#1957](https://github.com/cyberbotics/webots/pull/1957)).
+    - Fixed wrong measurements of [Accelerometer](accelerometer.md) device (thanks to [MauroMombelli](https://github.com/MauroMombelli)) ([#1947](https://github.com/cyberbotics/webots/pull/1947)).
+    - Fixed issues with nodes and fields references in controller program after procedural PROTO regeneration ([#1922](https://github.com/cyberbotics/webots/pull/1922)).
+    - Fixed issues with context menu available items when requested from the scene tree (thanks to MaxGaukler) ([#1889](https://github.com/cyberbotics/webots/pull/1889)).
+    - Fixed crash when setting an invalid value to a field that triggers the parent PROTO regeneration ([#1868](https://github.com/cyberbotics/webots/pull/1868)).
+    - Fixed crash when converting a PROTO node to Base node(s) if contained in a field that triggers the parent PROTO regeneration ([#1868](https://github.com/cyberbotics/webots/pull/1868)).
+    - Fixed crash when deleting a node contained in a field that triggers the parent PROTO regeneration ([#1868](https://github.com/cyberbotics/webots/pull/1868)).
+    - Fixed crash occurring when reloading or resetting a simulation containing a [Display](display.md) device ([#1865](https://github.com/cyberbotics/webots/pull/1865)).    
+    - Fixed crash with Python [`RangeFinder.rangeImageGetDepth`](rangefinder.md#wb_range_finder_image_get_depth) function ([#1858](https://github.com/cyberbotics/webots/pull/1858)).
+    - Fixed mismatch between the bounding object and visual shape of the [UnevenTerrain](https://www.cyberbotics.com/doc/guide/object-floors#uneventerrain), **and removed the `textureScale` field** ([#1792](https://github.com/cyberbotics/webots/pull/1792)).
+    - Fixed crash when using a [Normal](normal.md) node in a PROTO node ([#1813](https://github.com/cyberbotics/webots/pull/1813)).
+    - Fixed the [`wb_supervisor_node_add_force()`](supervisor.md#wb_supervisor_node_add_force), [`wb_supervisor_node_add_force_with_offset()`](supervisor.md#wb_supervisor_node_add_force_with_offset) and [`wb_supervisor_node_add_torque()`](supervisor.md#wb_supervisor_node_add_torque) functions not awakening the node ([#1953](https://github.com/cyberbotics/webots/pull/1953)).
+    - Fixed rendering of Track and Muscle nodes when the main window was minimized ([#1836](https://github.com/cyberbotics/webots/pull/1836)).
+    - Fixed default position and motor limits of the [Robotiq3fGripper](../guide/gripper-actuators.md#robotiq-3f-gripper) ([#1879](https://github.com/cyberbotics/webots/pull/1879)).
+    - Fixed crash occurring when moving with SHIFT+mouse/wheel drag a PROTO object with translation or rotation template field ([#1761](https://github.com/cyberbotics/webots/pull/1761)).
+    - Fixed crash occurring when setting a 3D coordinate to a huge value (greater than 1e+151) ([#1639](https://github.com/cyberbotics/webots/pull/1639)).
+    - Fixed crash occurring when Webots was streaming a 3D scene and some object was inserted into a PROTO node ([#1614](https://github.com/cyberbotics/webots/pull/1614)).
+    - Fixed the restoration of the 3D view which was sometimes not re-appearing after being hidden ([#1573](https://github.com/cyberbotics/webots/pull/1573)).
+    - Fixed video recording when using [asynchronous controllers](robot.md#synchronous-versus-asynchronous-controllers) ([#1927](https://github.com/cyberbotics/webots/pull/1927)).
+    - Windows: Fixed JPEG texture errors when typing `webots` from a DOS console (`cmd.exe`) by renaming `webots.exe` to `webots-bin.exe` and creating two launchers named `webotsw.exe` and `webots.exe` ([#1532](https://github.com/cyberbotics/webots/pull/1532)).
+    - Fixed the physics behavior of [Connector](connector.md) nodes sometimes remaining idle after being detached from each other (thanks to Giorgio) ([#1415](https://github.com/cyberbotics/webots/pull/1415)).
+    - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images ([#1285](https://github.com/cyberbotics/webots/pull/1285)).
+    - Fixed default name of the left and right grippers of the [Tiago++](../guide/tiagopp.md) robot ([#1733](https://github.com/cyberbotics/webots/pull/1733)).
+    - Fixed update of the `supervisor` field of the [Robot](robot.md) node ([#1916](https://github.com/cyberbotics/webots/pull/1916)).
+    - Fixed camera image updates after a simulation reset from a [Supervisor](supervisor.md) controller ([#1802](https://github.com/cyberbotics/webots/pull/1802)).
+    - Fixed the motor torque and force feedback of the ROS controller ([#1581](https://github.com/cyberbotics/webots/pull/1581)).
+    - Fixed VRML export of the [Background](background.md) node ([#1933](https://github.com/cyberbotics/webots/pull/1933)).
+    - Fixed crash when calling the [`wb_robot_battery_sensor_enable()`](robot.md#wb_robot_battery_sensor_enable) function if the `battery` field of the [Robot](robot.md) is empty ([#1801](https://github.com/cyberbotics/webots/pull/1801)).
+    - Fixed annoying warning messages when calling the [`wb_robot_battery_sensor_enable()`](robot.md#wb_robot_battery_sensor_enable) function if the [Robot](robot.md) contains a [Track](track.md) node ([#1801](https://github.com/cyberbotics/webots/pull/1801)).
+    - Renamed `PannelWithTubes` [PROTO](../guide/object-panels.md) into `PanelWithTubes` ([#1781](https://github.com/cyberbotics/webots/pull/1781)).
+    - Fixed reset of [Lidar](lidar.md) rotation when resetting the simulation (thanks to Jajafarov) ([#1627](https://github.com/cyberbotics/webots/pull/1627)).
+    - Fixed horizontal resolution of Velodyne HDL-32E and HDL-64E [Lidars](lidar.md) (thanks to jrcblue) ([#1629](https://github.com/cyberbotics/webots/pull/1629)).
+    - Fixed the TurtleBot3Burger robot maximum velocity (thanks to Dorteel) ([#1294](https://github.com/cyberbotics/webots/pull/1294)).
+    - Fixed the TurtleBot3Burger robot center of mass (thanks to Nitrow) ([#1300](https://github.com/cyberbotics/webots/pull/1300)).
+    - Fixed warnings about duplicated `name` fields in the `TruckTank` PROTO node ([#1512](https://github.com/cyberbotics/webots/pull/1512)).
+    - **Fixed value returned by [DistanceSensor](distancesensor.md) devices when sensing untextured shapes ([#1826](https://github.com/cyberbotics/webots/pull/1826)).**
+    - Fixed contact points optional rendering not updated when the `lineScale` field of the [WorldInfo](worldinfo.md) node was changed ([#1723](https://github.com/cyberbotics/webots/pull/1723)).
+    - Fixed the C/C++ Makefiles to handle spaces in the Webots installation directory ([#1304](https://github.com/cyberbotics/webots/pull/1304)).
+    - Fixed crash when resetting worlds with motorized [BallJoint](balljoint.md) nodes (thanks to lordNil) ([#1455](https://github.com/cyberbotics/webots/pull/1455)).
+    - Fixed addition of PROTO nodes including a [Connector](connector.md) node from the Add Node dialog (thanks to Acwok) ([#1317](https://github.com/cyberbotics/webots/pull/1317)).
+    - Fixed crash when using the search bar of the Add Node dialog ([#1522](https://github.com/cyberbotics/webots/pull/1522)).
+    - Fixed crash when removing the [Robot](robot.md) node itself using the [Supervisor](supervisor.md) API ([#2006](https://github.com/cyberbotics/webots/pull/2006)).
+    - Fixed the [`wb_display_image_load`](display.md#wb_display_image_load) function when used with a PNG image with transparency ([#1328](https://github.com/cyberbotics/webots/pull/1328)).
+    - Fixed color of the bounding objects remaining in the collision state if the collision was lasting only one step (thanks to Acwok) ([#1375](https://github.com/cyberbotics/webots/pull/1375)).
+    - Fixed rare issue with the [`wb_supervisor_simulation_reset`](supervisor.md#wb_supervisor_simulation_reset) function when the controller step is not equal to the simulation step ([#1448](https://github.com/cyberbotics/webots/pull/1448)).
+    - Fixed missing stdout/stderr flush when a controller is changed or restarted while simulation is running (thanks to tsampazk) ([#1394](https://github.com/cyberbotics/webots/pull/1394)).
+    - Fixed the ROS controller of the Universal Robots UR3e, UR5e and UR10e to send the success state when a trajectory succeeded (thanks to Tim-Stoll) ([#1423](https://github.com/cyberbotics/webots/pull/1423)).
+    - Fixed the `Show Contact Points` optional rendering which was causing an OpenGL error ([#1514](https://github.com/cyberbotics/webots/pull/1514)).
+    - Fixed the [`wb_supervisor_field_set_sf_rotation`](supervisor.md#wb_supervisor_field_set_sf_rotation) and [`wb_supervisor_field_set_mf_rotation`](supervisor.md#wb_supervisor_field_set_mf_rotation) functions to handle non-normalized rotations ([#1459](https://github.com/cyberbotics/webots/pull/1459)).
+    - Fixed a crash when trying to add an [IndexedLineSet](indexedlineset.md) node to a geometry's [Shape](shape.md) node with no coordinates ([#1450](https://github.com/cyberbotics/webots/pull/1450)).
+    - Fixed a crash related to [InertialUnit](inertialunit.md) node when gravity was null ([#1466](https://github.com/cyberbotics/webots/pull/1466)).
+    - Fixed MATLAB API ([#1378](https://github.com/cyberbotics/webots/pull/1378)).
+    - Fixed support for MATLAB R2017b on Windows ([#1462](https://github.com/cyberbotics/webots/pull/1462)).
+    - Fixed a crash occurring when changing the `textureAnimation` value of some `Track` node from the scene tree ([#1505](https://github.com/cyberbotics/webots/pull/1505)).
+    - Fixed a bug allowing to move a USE node with handles in 3D view ([#1557](https://github.com/cyberbotics/webots/pull/1557)).
+    - Fixed update of nested DEF/USE nodes ([#1544](https://github.com/cyberbotics/webots/pull/1544)).
+  - Cleanup
+    - **Specified `Robot.controllerArgs` as a `MFString` rather than a `SFString` ([#1718](https://github.com/cyberbotics/webots/pull/1718)).**
+    - **Removed useless `wb_robot_get_controller_arguments()` and deprecated useless `wb_robot_get_controller_name()` API functions ([#1718](https://github.com/cyberbotics/webots/pull/1718)).**
+    - Deprecated the following appearances: `ChequeredParquetry`, `DarkParquetry`, `SlatePavement`, `SquarePavement` and `StonePavement` ([#1437](https://github.com/cyberbotics/webots/pull/1437)).
+    - Removed automatic path to Qt libraries for controllers using deprecated Qt robot windows. Such paths should now be specified in `runtime.ini` instead ([#1765](https://github.com/cyberbotics/webots/pull/1765)).
   - Documentation
-    - Fixed tutorials 1, 4 and 6 with respect to MATLAB controllers and added sample MATLAB controllers.
-    - Translated most relevant examples from [Controller Programming](https://github.com/cyberbotics/webots/blob/master/docs/guide/controller-programming.md) and [Supervisor Programming](https://github.com/cyberbotics/webots/blob/master/docs/guide/supervisor-programming.md) to different languages.
+    - Fixed tutorials 1, 4 and 6 with respect to MATLAB controllers and added sample MATLAB controllers ([#1510](https://github.com/cyberbotics/webots/pull/1510)).
+    - Translated most relevant examples from [Controller Programming](https://github.com/cyberbotics/webots/blob/master/docs/guide/controller-programming.md) and [Supervisor Programming](https://github.com/cyberbotics/webots/blob/master/docs/guide/supervisor-programming.md) to different languages ([#1535](https://github.com/cyberbotics/webots/pull/1535), [#1528](https://github.com/cyberbotics/webots/pull/1528)).
 
 ## Webots R2020a Revision 1
 Released on January 14th, 2020.

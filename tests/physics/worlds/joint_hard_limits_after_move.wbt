@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.44725703 -0.86140286 -0.24072032 1.1169281
+  orientation -0.44725702763814684 -0.8614028554511456 -0.24072031872881583 1.1169281
   position -4.0630652 3.6856586 3.1244738
 }
 Background {
@@ -119,7 +120,6 @@ Robot {
     TestSuiteEmitter {
     }
   ]
-  name "robot"
   boundingObject Transform {
     translation 0 -1 0
     children [

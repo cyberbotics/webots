@@ -22,6 +22,7 @@
 #include <webots_ros/get_float.h>
 #include <webots_ros/get_int.h>
 #include <webots_ros/get_string.h>
+#include <webots_ros/get_urdf.h>
 #include <webots_ros/set_int.h>
 #include <webots_ros/set_string.h>
 
@@ -64,11 +65,10 @@ private:
   bool waitForUserInputEventCallback(webots_ros::robot_wait_for_user_input_event::Request &req,
                                      webots_ros::robot_wait_for_user_input_event::Response &res);
   bool getDeviceListCallback(webots_ros::robot_get_device_list::Request &req, webots_ros::robot_get_device_list::Response &res);
-  bool getControllerNameCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res);
-  bool getControllerArgumentsCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res);
   bool getTimeCallback(webots_ros::get_float::Request &req, webots_ros::get_float::Response &res);
   bool getModelCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res);
   bool getDataCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res);
+  bool getUrdfCallback(webots_ros::get_urdf::Request &req, webots_ros::get_urdf::Response &res);
   bool setDataCallback(webots_ros::set_string::Request &req, webots_ros::set_string::Response &res);
   bool getCustomDataCallback(webots_ros::get_string::Request &req, webots_ros::get_string::Response &res);
   bool setCustomDataCallback(webots_ros::set_string::Request &req, webots_ros::set_string::Response &res);
@@ -95,10 +95,9 @@ private:
   ros::ServiceServer mTimeStepService;
   ros::ServiceServer mWaitForUserInputEventService;
   ros::ServiceServer mDeviceListService;
-  ros::ServiceServer mGetControllerNameService;
-  ros::ServiceServer mGetControllerArgumentsService;
   ros::ServiceServer mGetTimeService;
   ros::ServiceServer mGetModelService;
+  ros::ServiceServer mGetUrdfService;
   ros::ServiceServer mGetDataService;
   ros::ServiceServer mSetDataService;
   ros::ServiceServer mGetCustomDataService;

@@ -1,3 +1,4 @@
 string name
+uint64 proto
 ---
 uint64 node

@@ -1,0 +1,30 @@
+#VRML_SIM R2020b utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0.702730921913247 0.6961909226399652 0.146585983711513 5.45898
+  position -5.30367 5.63958 6.90061
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 4 4
+  wallThickness 0.1
+  wallHeight 0.5
+}
+CardboardBox {
+  translation 1.31407 0.3 -0.444198
+}
+CardboardBox {
+  translation 0.133486 0.3 -1.17773
+  name "cardboard box(1)"
+}
+WoodenBox {
+  translation -0.797045 0.3 1.02408
+}
+DEF PIONEER_3DX Pioneer3dx {
+  controller "ros"
+}

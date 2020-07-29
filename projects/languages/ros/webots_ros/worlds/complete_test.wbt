@@ -1,0 +1,282 @@
+#VRML_SIM R2020b utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.6194591910547989 0.7334082212488283 0.27996909047672397 0.888923
+  position 1.67801 1.75743 2.04642
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF GROUND RectangleArena {
+}
+Solid {
+  translation 0.182984 0.05 0.12186
+  rotation 0 -1 0 0.934348
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1 0.1 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.1 0.1 0.2
+  }
+  physics Physics {
+  }
+}
+DEF CONE Solid {
+  translation 0.240484 0.1 -0.258217
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0.0392157 0.8
+        roughness 0.8760235838
+        metalness 0
+        emissiveColor 0.027451 0.027451 0.968627
+      }
+      geometry Cone {
+        bottomRadius 0.08
+        height 0.2
+      }
+    }
+  ]
+  name "solid(1)"
+}
+DEF RADAR_TARGET Solid {
+  translation 0 0 -1.86
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 0
+        roughness 1
+        metalness 0
+      }
+      geometry DEF SPHERE Sphere {
+        radius 0.1
+      }
+    }
+  ]
+  name "solid(2)"
+  boundingObject USE SPHERE
+  radarCrossSection 1
+}
+Robot {
+  translation 0 0.1 0
+  children [
+    SliderJoint {
+      device [
+        Brake {
+          name "my_brake"
+        }
+        LinearMotor {
+          name "linear_motor"
+          maxPosition 100
+        }
+      ]
+      endPoint Solid {
+        translation -0.12 0 0
+        rotation 1 0 0 1.57
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 1 0 0.0156863
+              roughness 0.6992117618
+              metalness 0
+            }
+            geometry Box {
+              size 0.02 0.25 0.08
+            }
+          }
+        ]
+        name "solid1"
+        boundingObject Box {
+          size 0.02 0.25 0.08
+        }
+      }
+    }
+    HingeJoint {
+      device [
+        PositionSensor {
+          name "position_sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0 -0.15
+        rotation 1 0 0 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.8 0.8 0.8
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.1
+              radius 0.05
+            }
+          }
+        ]
+        boundingObject Cylinder {
+          height 0.1
+          radius 0.05
+        }
+      }
+    }
+    HingeJoint {
+      device [
+        RotationalMotor {
+          name "rotational_motor"
+          acceleration 5
+          maxVelocity 2
+        }
+      ]
+      endPoint DEF TEST2 Solid {
+        translation 0.12 0.05 0
+        rotation 1 0 0 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 1 0 0.0156863
+              roughness 0.6992117618
+              metalness 0
+            }
+            geometry Box {
+              size 0.02 0.25 0.08
+            }
+          }
+        ]
+        name "solid(1)"
+        boundingObject Box {
+          size 0.02 0.25 0.08
+        }
+        physics Physics {
+        }
+      }
+    }
+    Camera {
+      translation 0.14 0 0
+      model "camera model"
+      focus Focus {
+        focalDistance 0.2
+        focalLength 0.3
+        maxFocalDistance 0.4
+        minFocalDistance 0.1
+      }
+      zoom Zoom {
+        maxFieldOfView 1.51
+        minFieldOfView 0.49
+      }
+      recognition Recognition {
+      }
+    }
+    RangeFinder {
+      translation 0.14 0 0
+      name "range_finder"
+      model "range-finder model"
+    }
+    Lidar {
+    }
+    DEF TEST Compass {
+    }
+    Connector {
+    }
+    Display {
+    }
+    DistanceSensor {
+      name "distance_sensor"
+    }
+    Emitter {
+      range 100
+      channel 3
+    }
+    GPS {
+    }
+    Gyro {
+      physics Physics {
+        density -1
+        mass 1
+        centerOfMass [
+          0 0 0
+        ]
+        inertiaMatrix [
+          1 1 1
+          0 0 0
+        ]
+      }
+    }
+    InertialUnit {
+      name "inertial_unit"
+    }
+    LED {
+      translation 0.1 0.05 0.1
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+          }
+          geometry Sphere {
+            radius 0.02
+          }
+        }
+      ]
+      boundingObject Sphere {
+        radius 0.02
+      }
+      color [
+        0.666667 1 1
+      ]
+    }
+    LightSensor {
+      name "light_sensor"
+    }
+    Pen {
+    }
+    Receiver {
+    }
+    TouchSensor {
+      name "touch_sensor"
+    }
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0 0.0117647
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.2 0.2 0.2
+      }
+    }
+    Accelerometer {
+    }
+    Radar {
+      maxRange 2
+    }
+  ]
+  name "full_supervisor"
+  model "all_devices"
+  boundingObject Box {
+    size 0.2 0.2 0.2
+  }
+  controller "ros"
+  controllerArgs [
+    "--name=my_robot"
+    "--clock"
+    "--synchronize"
+  ]
+  customData "INITIAL"
+  supervisor TRUE
+  battery [
+    10, 10, 2
+  ]
+  window "info"
+}

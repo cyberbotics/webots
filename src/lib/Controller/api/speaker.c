@@ -338,37 +338,37 @@ void wb_speaker_play_sound(WbDeviceTag left, WbDeviceTag right, const char *soun
   if (left) {
     left_device = speaker_get_device(left);
     if (!left_device) {
-      fprintf(stderr, "Error: wb_speaker_play_sound(): invalid 'left' device tag.\n");
+      fprintf(stderr, "Error: %s(): invalid 'left' device tag.\n", __FUNCTION__);
       return;
     }
   }
   if (right) {
     right_device = speaker_get_device(right);
     if (!right_device) {
-      fprintf(stderr, "Error: wb_speaker_play_sound(): invalid 'right' device tag.\n");
+      fprintf(stderr, "Error: %s(): invalid 'right' device tag.\n", __FUNCTION__);
       return;
     }
   }
   if (volume < 0) {
-    fprintf(stderr, "Warning: wb_speaker_play_sound() called with a negative volume value: %g. Setting volume to 0.\n", volume);
+    fprintf(stderr, "Warning: %s() called with a negative volume value: %g. Setting volume to 0.\n", __FUNCTION__, volume);
     volume = 0;
   }
   if (volume > 1) {
-    fprintf(stderr, "Warning: wb_speaker_play_sound() called with a volume value greater than 1: %g. Setting volume to 1.\n",
+    fprintf(stderr, "Warning: %s() called with a volume value greater than 1: %g. Setting volume to 1.\n", __FUNCTION__,
             volume);
     volume = 1;
   }
   if (pitch < 0) {
-    fprintf(stderr, "Warning: wb_speaker_play_sound() called with a negative pitch value: %g. Setting pitch to 0.\n", pitch);
+    fprintf(stderr, "Warning: %s() called with a negative pitch value: %g. Setting pitch to 0.\n", __FUNCTION__, pitch);
     pitch = 0;
   }
   if (balance < -1) {
-    fprintf(stderr, "Warning: wb_speaker_play_sound() called with a balance value less than -1: %g. Setting balance to -1.\n",
+    fprintf(stderr, "Warning: %s() called with a balance value less than -1: %g. Setting balance to -1.\n", __FUNCTION__,
             balance);
     balance = -1;
   }
   if (balance > 1) {
-    fprintf(stderr, "Warning: wb_speaker_play_sound() called with a balance value greater than 1: %g. Setting balance to 1.\n",
+    fprintf(stderr, "Warning: %s() called with a balance value greater than 1: %g. Setting balance to 1.\n", __FUNCTION__,
             balance);
     balance = 1;
   }
@@ -393,7 +393,7 @@ void wb_speaker_play_sound(WbDeviceTag left, WbDeviceTag right, const char *soun
 void wb_speaker_stop(WbDeviceTag tag, const char *sound) {
   Speaker *speaker = speaker_get_struct(tag);
   if (!speaker) {
-    fprintf(stderr, "Error: wb_speaker_stop(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
   speaker->need_stop = true;
@@ -422,7 +422,7 @@ void wb_speaker_stop(WbDeviceTag tag, const char *sound) {
 bool wb_speaker_is_sound_playing(WbDeviceTag tag, const char *sound) {
   const Speaker *speaker = speaker_get_struct(tag);
   if (!speaker) {
-    fprintf(stderr, "Error: wb_speaker_is_sound_playing(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return false;
   }
 
@@ -451,7 +451,7 @@ bool wb_speaker_is_sound_playing(WbDeviceTag tag, const char *sound) {
 bool wb_speaker_set_engine(WbDeviceTag tag, const char *engine) {
   Speaker *speaker = speaker_get_struct(tag);
   if (!speaker) {
-    fprintf(stderr, "Error: wb_speaker_set_engine(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return false;
   }
   if (strncmp(engine, "pico", 5) == 0)
@@ -470,7 +470,7 @@ bool wb_speaker_set_language(WbDeviceTag tag, const char *language) {
   int i;
   Speaker *speaker = speaker_get_struct(tag);
   if (!speaker) {
-    fprintf(stderr, "Error: wb_speaker_set_language(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return false;
   }
   int n_languages = 0;
@@ -487,9 +487,9 @@ bool wb_speaker_set_language(WbDeviceTag tag, const char *language) {
 #endif
   if (strlen(language) > 5 || language[2] != '-' || language[0] < 'a' || language[0] > 'z' || language[1] < 'a' ||
       language[1] > 'z' || language[3] < 'A' || language[3] > 'Z' || language[4] < 'A' || language[4] > 'Z') {
-    fprintf(stderr, "Error: wb_speaker_set_language() called with an invalid 'language' argument: \"%s\".\n", language);
-    fprintf(stderr, "'language' should follow the \"ll-CC\" format where ll is the ISO 639-1 language code and CC is "
-                    "the ISO 3166 country code, for example, \"en-US\" or \"fr-FR\".\n");
+    fprintf(stderr, "Error: %s() called with an invalid 'language' argument: \"%s\".\n", __FUNCTION__, language);
+    fprintf(stderr, "'language' should follow the \"ll-CC\" format where ll is the ISO 639-1 language code and CC is the ISO "
+                    "3166 country code, for example, \"en-US\" or \"fr-FR\".\n");
     fprintf(stderr, "Available languages for \"%s\" engine include:\n", speaker->engine);
     for (i = 0; i < n_languages; ++i)
       fprintf(stderr, " - \"%s\"\n", languages[i]);
@@ -514,7 +514,7 @@ bool wb_speaker_set_language(WbDeviceTag tag, const char *language) {
 const char *wb_speaker_get_engine(WbDeviceTag tag) {
   Speaker *speaker = speaker_get_struct(tag);
   if (!speaker) {
-    fprintf(stderr, "Error: wb_speaker_get_engine(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return NULL;
   }
   return speaker->engine;
@@ -523,7 +523,7 @@ const char *wb_speaker_get_engine(WbDeviceTag tag) {
 const char *wb_speaker_get_language(WbDeviceTag tag) {
   Speaker *speaker = speaker_get_struct(tag);
   if (!speaker) {
-    fprintf(stderr, "Error: wb_speaker_get_language(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return NULL;
   }
   return speaker->language;
@@ -532,15 +532,15 @@ const char *wb_speaker_get_language(WbDeviceTag tag) {
 void wb_speaker_speak(WbDeviceTag tag, const char *text, double volume) {
   Speaker *speaker = speaker_get_struct(tag);
   if (!speaker) {
-    fprintf(stderr, "Error: wb_speaker_speak(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
   if (volume < 0) {
-    fprintf(stderr, "Warning: wb_speaker_speak() called with negative volume value: %g. Setting volume to 0.\n", volume);
+    fprintf(stderr, "Warning: %s() called with negative volume value: %g. Setting volume to 0.\n", __FUNCTION__, volume);
     volume = 0;
   }
   if (volume > 1) {
-    fprintf(stderr, "Warning: wb_speaker_speak() called with volume value greater than 1: %g. Setting volume to 1.\n", volume);
+    fprintf(stderr, "Warning: %s() called with volume value greater than 1: %g. Setting volume to 1.\n", __FUNCTION__, volume);
     volume = 1;
   }
   free(speaker->text);
@@ -554,7 +554,7 @@ void wb_speaker_speak(WbDeviceTag tag, const char *text, double volume) {
 bool wb_speaker_is_speaking(WbDeviceTag tag) {
   const Speaker *speaker = speaker_get_struct(tag);
   if (!speaker) {
-    fprintf(stderr, "Error: wb_speaker_speak(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return false;
   }
   return speaker->text != NULL;

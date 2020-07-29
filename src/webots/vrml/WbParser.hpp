@@ -44,7 +44,6 @@ public:
   // return true if there were no errors
   bool parseWorld(const QString &worldPath);   // parse a .wbt file
   bool parseVrml(const QString &worldPath);    // parse a .wrl file before importing
-  bool parseProto(const QString &worldPath);   // parse a .proto file
   bool parseObject(const QString &worldPath);  // parse a .wbo files
   bool parseNodeModel();                       // parse a .wrl node model in resources/nodes
 
@@ -55,6 +54,7 @@ public:
   // this is useful to skip in file PROTO definition for VRML import
   // prerequisite: the tokenizer must point to the "PROTO" keyword
   static void skipProtoDefinition(WbTokenizer *tokenizer);
+  static double legacyGravity();
 
 private:
   WbTokenizer *mTokenizer;

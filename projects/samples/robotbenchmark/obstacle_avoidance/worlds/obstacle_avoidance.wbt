@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "Benchmark objective: "
@@ -7,6 +7,7 @@ WorldInfo {
   title "Obstacle Avoidance"
   window "obstacle_avoidance"
   basicTimeStep 16
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "thymio body"
@@ -42,7 +43,7 @@ DEF THYMIO2 Thymio2 {
   translation 2.68 0 0
   rotation 0 1 0 4.712389
   controller "avoid_obstacles"
-  controllerArgs ""
+  controllerArgs []
   bodySlot [
     Compass {
     }

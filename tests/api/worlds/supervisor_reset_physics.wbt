@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.15446 -0.98633 -0.0573986 1.19999
+  orientation -0.15446004944406294 -0.9863303157332812 -0.05739861837381841 1.19999
   position -3.82074 1.09852 1.79224
 }
 Background {

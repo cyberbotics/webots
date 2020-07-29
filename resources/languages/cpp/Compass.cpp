@@ -33,3 +33,11 @@ int Compass::getSamplingPeriod() const {
 const double *Compass::getValues() const {
   return wb_compass_get_values(getTag());
 }
+
+int Compass::getLookupTableSize() const {
+  return wb_compass_get_lookup_table_size(getTag());
+}
+
+const double *Compass::getLookupTable() const {
+  return wb_compass_get_lookup_table(getTag());
+}

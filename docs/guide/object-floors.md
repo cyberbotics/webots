@@ -19,7 +19,7 @@ CircleArena {
   SFString   name            "circle arena"
   SFFloat    radius          1.0
   SFString   contactMaterial "default"
-  SFNode     floorAppearance ChequeredParquetry {}
+  SFNode     floorAppearance Parquetry { type "chequered" }
   SFVec2f    floorTileSize   0.5 0.5
   SFFloat    wallThickness   0.01
   SFFloat    wallHeight      0.1
@@ -69,7 +69,7 @@ Floor {
   SFString   contactMaterial "default"
   SFVec2f    size            10 10
   SFVec2f    tileSize        0.5 0.5
-  SFNode     appearance      ChequeredParquetry {}
+  SFNode     appearance      Parquetry { type "chequered" }
 }
 ```
 
@@ -106,7 +106,7 @@ RectangleArena {
   SFString   contactMaterial "default"
   SFVec2f    floorSize       1 1
   SFVec2f    floorTileSize   0.5 0.5
-  SFNode     floorAppearance ChequeredParquetry {}
+  SFNode     floorAppearance Parquetry { type "chequered" }
   SFFloat    wallThickness   0.01
   SFFloat    wallHeight      0.1
   SFNode     wallAppearance  BrushedAluminium {}
@@ -152,8 +152,7 @@ UnevenTerrain {
   SFVec3f    size           50 5 50
   SFInt32    xDimension     50
   SFInt32    zDimension     50
-  SFNode     appearance     SandyGround {}
-  SFVec2f    textureScale   1.0 1.0
+  SFNode     appearance     SandyGround { textureTransform TextureTransform { scale 50 50 } }
   SFInt32    randomSeed     1
   SFBool     flatCenter     FALSE
   SFBool     flatBounds     FALSE
@@ -175,8 +174,6 @@ UnevenTerrain {
 - `zDimension`: Defines the number of points in the grid height array in the y direction.
 
 - `appearance`: Defines the appearance of the terrain.
-
-- `textureScale`: Defines the size of the textures used for the terrain.
 
 - `randomSeed`: Defines the seed of the random number generator. A value smaller or equal to 0 sets a random seed.
 

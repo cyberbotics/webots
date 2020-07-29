@@ -74,8 +74,8 @@ public:
   virtual ~WbNode();
 
   // set the parent that will be used by the next WbNode constructor
-  static void setGlobalParent(WbNode *parent, bool protoParameterNodeFlag = false);
-  static WbNode *globalParent();
+  static void setGlobalParentNode(WbNode *parent, bool protoParameterNodeFlag = false);
+  static WbNode *globalParentNode();
 
   // unique node number
   int uniqueId() const { return mUniqueId; }
@@ -91,11 +91,11 @@ public:
   QStringList documentationBookAndPage(bool isRobot) const;
 
   // hierarchy
-  void setParent(WbNode *parent) { mParent = parent; }
-  WbNode *parent() const { return mParent; }
-  bool isTopLevel() const { return mParent && mParent->isWorldRoot(); }
-  bool isWorldRoot() const { return !mParent && mUniqueId != -1; }
-  bool isProtoRoot() const { return !mParent && mUniqueId == -1; }
+  void setParentNode(WbNode *node) { mParentNode = node; }
+  WbNode *parentNode() const { return mParentNode; }
+  bool isTopLevel() const { return parentNode() && parentNode()->isWorldRoot(); }
+  bool isWorldRoot() const { return !parentNode() && mUniqueId != -1; }
+  bool isProtoRoot() const { return !parentNode() && mUniqueId == -1; }
   bool isAnAncestorOf(const WbNode *node) const;
 
   // level in the scene tree
@@ -118,6 +118,7 @@ public:
   QString fullName() const;                                             // e.g. "Robot, "DEF MY_BOT Robot" or "USE MY_BOT"
   virtual const QString &vrmlName() const { return nodeModelName(); };  // e.g. "Transform" instead of "Robot"
   virtual const QString &x3dName() const { return vrmlName(); }
+  virtual const QString urdfName() const;
   QString fullVrmlName() const;          // e.g. "DEF MY_ROBOT Transform"
   const QString &modelName() const;      // e.g. for Nao -> "Nao"
   const QString &nodeModelName() const;  // e.g. for Nao -> "Robot"
@@ -126,9 +127,12 @@ public:
 
   // error reporting
   // field name will be extracted from the first single quoted text in the message
-  void warn(const QString &message) const;  // show standard warning message formatted for this node
-  void info(const QString &message) const;  // show standard info message formatted for this node
-  QString usefulName() const;               // user friendy node name for error messages
+  void parsingWarn(const QString &message) const;  // show parsing warning message formatted for this node
+  void parsingInfo(const QString &message) const;  // show parsing info message formatted for this node
+  void warn(const QString &message,
+            bool parsingMessage = false) const;  // show standard warning message formatted for this node
+  void info(const QString &message, bool parsingMessage = false) const;  // show standard info message formatted for this node
+  QString usefulName() const;                                            // user friendy node name for error messages
 
   // destruction
   bool isBeingDeleted() const { return mIsBeingDeleted; }
@@ -145,6 +149,7 @@ public:
   int useCount() const { return mUseNodes.size(); }
   const QList<WbNode *> &useNodes() const { return mUseNodes; }
   virtual void defHasChanged() {}
+
   // has this node a referred DEF node descendant, i.e. a descendant with positive use count
   // which is moreover referred outside the subtree below root
   bool hasAreferredDefNodeDescendant() const;  // root = this;
@@ -200,14 +205,14 @@ public:
   QVector<WbField *> fields() const { return mFields; }
   const QVector<WbField *> &fieldsOrParameters() const;
   int numFields() const;
-  WbField *field(int index) const;
+  WbField *field(int index, bool internal = false) const;
   WbField *findField(const QString &fieldName, bool internal = false) const;
   WbField *parentField(bool internal = false) const {
     int index = -1;
     return parentFieldAndIndex(index, internal);
   }
   WbField *parentFieldAndIndex(int &index, bool internal = false) const;
-  int findFieldId(const QString &fieldName) const;
+  int findFieldId(const QString &fieldName, bool internal = false) const;
   int fieldIndex(const WbField *field) const;
   int parameterIndex(const WbField *field) const;
   void disconnectFieldNotification(const WbValue *value);
@@ -240,6 +245,7 @@ public:
   static bool instantiateMode();
   static void cleanup();
   static WbNode *findNode(int uniqueId);
+  static bool setRestoreUniqueIdOnClone(bool enable);
 
   // compare two nodes, returns true if they have the same type and all fields have the same values
   bool operator==(const WbNode &other) const;
@@ -269,6 +275,7 @@ public:
   // debug utility functions
   // void printDebugNodeStructure(int level = 0);
   // void printDebugNodeFields(int level, bool printParameters);
+  const WbNode *findRobotRootNode() const;
 
 signals:
   // emitted when any value has changed
@@ -292,7 +299,7 @@ protected:
   // DEF-USE dictionary
   static bool cUpdatingDictionary;  // This flag orders to skip any DEF->USEs update when updating the dictionary
 
-  void writeExport(WbVrmlWriter &writer) const;
+  virtual void writeExport(WbVrmlWriter &writer) const;
   virtual void writeParameters(WbVrmlWriter &writer) const;
   virtual void readHiddenKinematicParameter(WbField *field) {}
 
@@ -302,8 +309,18 @@ protected:
   virtual void exportNodeSubNodes(WbVrmlWriter &writer) const;
   virtual void exportNodeFooter(WbVrmlWriter &writer) const;
 
+  // Methods related to URDF export
+  WbNode *findUrdfLinkRoot() const;     // Finds first upper Webots node that is considered as URDF link
+  virtual bool isUrdfRootLink() const;  // Determines whether the Webots node is considered as URDF link as well
+  virtual void exportURDFJoint(WbVrmlWriter &writer) const {};
+
   virtual void useNodesChanged() const {};
   bool isNestedProtoNode() const { return mIsNestedProtoNode; }
+
+  QString getUrdfPrefix() const;
+  void setUrdfPrefix(const QString &prefix) { mUrdfPrefix = prefix; };
+  virtual const bool isRobot() const { return false; };
+  virtual const bool isJoint() const { return false; };
 
 private slots:
   void notifyFieldChanged();
@@ -313,8 +330,10 @@ private slots:
 private:
   WbNode &operator=(const WbNode &);  // non copyable
 
+  QString mUrdfPrefix;
+
   // for all nodes
-  WbNode *mParent;
+  WbNode *mParentNode;
   WbNodeModel *mModel;
   int mUniqueId;
   bool mIsBeingDeleted;
@@ -375,7 +394,7 @@ private:
   int findSubFieldIndex(const WbField *const searched) const;
   static void subNodeIndex(const WbNode *currentNode, const WbNode *targetNode, int &index, bool &subNodeFound);
   static WbNode *findNode(int &index, WbNode *root);
-  WbField *findSubField(int index, WbNode *&parentNode) const;
+  WbField *findSubField(int index, WbNode *&parent) const;
   void readFieldValue(WbField *field, WbTokenizer *tokenizer, const QString &worldPath) const;
   static void copyAliasValue(WbField *field, const QString &alias);
 };

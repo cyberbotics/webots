@@ -23,6 +23,7 @@ import com.cyberbotics.webots.controller.Camera;
 import com.cyberbotics.webots.controller.DistanceSensor;
 import com.cyberbotics.webots.controller.Motor;
 import com.cyberbotics.webots.controller.Receiver;
+import com.cyberbotics.webots.controller.AnsiCodes;
 
 public class Slave extends Robot {
 
@@ -64,12 +65,11 @@ public class Slave extends Robot {
 
     // perform a simulation steps and leave the loop when the simulation is ended
     while (step(timeStep) != -1) {
-
       // Read sensors, particularly the order of the supervisor
       if (receiver.getQueueLength()>0){
         String message = new String(receiver.getData());
         receiver.nextPacket();
-        System.out.println("I should "+message+"!");
+        System.out.println("I should "+AnsiCodes.RED_FOREGROUND+message+AnsiCodes.RESET+"!");
         if (message.equals("avoid obstacles"))
           mode = Mode.AVOID_OBSTACLES;
         else if (message.equals("move forward"))

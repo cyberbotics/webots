@@ -1,5 +1,6 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
+  basicTimeStep 16
   contactProperties [
     ContactProperties {
       material2 "ice"
@@ -8,7 +9,7 @@ WorldInfo {
       ]
     }
   ]
-  basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.12163300473276177 -0.9557830154652709 -0.2677391258441581 2.32230289470441

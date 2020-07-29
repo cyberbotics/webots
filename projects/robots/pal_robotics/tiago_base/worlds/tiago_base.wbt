@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "This simulation shows a Tiago Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar."
   ]
   title "Simulation of PAL Robotics' TIAGo Base robot"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.05732916548390367 0.9962878606918261 0.06421732961610703 4.655654070084208

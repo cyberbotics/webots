@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbSolidReference.hpp"
+
 #include "WbNodeUtilities.hpp"
 #include "WbSolid.hpp"
 
@@ -60,18 +61,19 @@ void WbSolidReference::updateName() {
   if (!linkToStaticEnvironment)
     mSolid = QPointer<WbSolid>(ts->findSolid(name, upperSolid()));
   if (!name.isEmpty() && !linkToStaticEnvironment && mSolid.isNull())
-    warn(tr("SolidReference has an invalid '%1' name or refers to its closest upper solid, which is prohibited.").arg(name));
+    parsingWarn(
+      tr("SolidReference has an invalid '%1' name or refers to its closest upper solid, which is prohibited.").arg(name));
 }
 
 bool WbSolidReference::isClosedLoop() const {
   if (!mSolid)
     return false;
 
-  WbNode *parentNode = parent();
-  while (parentNode && !parentNode->isWorldRoot()) {
-    if (parentNode == mSolid)
+  WbNode *parent = parentNode();
+  while (parent && !parent->isWorldRoot()) {
+    if (parent == mSolid)
       return true;
-    parentNode = parentNode->parent();
+    parent = parent->parentNode();
   }
   return false;
 }

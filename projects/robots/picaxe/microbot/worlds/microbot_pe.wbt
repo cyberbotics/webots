@@ -1,7 +1,8 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   title "microbot"
   basicTimeStep 25
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.4964529679144939 -0.8373889458799729 -0.2287229852177483 1.08346

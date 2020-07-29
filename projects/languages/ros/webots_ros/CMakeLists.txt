@@ -76,10 +76,12 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     field_set_vec2f.srv
     field_set_vec3f.srv
     get_bool.srv
+    get_float_array.srv
     get_float.srv
     get_int.srv
     get_string.srv
     get_uint64.srv
+    get_urdf.srv
     gps_decimal_degrees_to_degrees_minutes_seconds.srv
     lidar_get_frequency_info.srv
     lidar_get_info.srv
@@ -264,5 +266,20 @@ install(TARGETS panoramic_view_recorder
 install(TARGETS pioneer3at
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
+catkin_install_python(PROGRAMS scripts/ros_controller.py
+        DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+catkin_install_python(PROGRAMS scripts/ros_python.py
+        DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+catkin_install_python(PROGRAMS scripts/webots_launcher.py
+        DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
 install(DIRECTORY launch
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+install(DIRECTORY plugins
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+install(DIRECTORY worlds
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})

@@ -104,7 +104,7 @@ node = wb_supervisor_node_get_selected()
 | --- | --- | --- | --- |
 | `/supervisor/get_root` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
 | `/supervisor/get_self` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
-| `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`---`<br/>`uint64 node` |
+| `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`uint64 proto`<br/>`---`<br/>`uint64 node` |
 | `/supervisor/get_from_id` | `service` | `webots_ros::supervisor_get_from_id` | `int32 id`<br/>`---`<br/>`uint64 node` |
 | `/supervisor/get_selected` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
 
@@ -119,6 +119,10 @@ node = wb_supervisor_node_get_selected()
 The `wb_supervisor_node_get_from_def` function returns a handle to a node in the world from its DEF name.
 The return value can be used for subsequent calls to functions which require a `WbNodeRef` parameter.
 If the requested node does not exist in the current world file or is an internal node of a PROTO, the function returns NULL.
+If a handle to an internal node of a PROTO should be retrieved, the `wb_supervisor_node_get_from_proto_def` should be used instead.
+
+Note that in case of [procedural PROTO nodes](procedural-proto-nodes.md) regeneration, nodes retrieved by `wb_supervisor_node_get_from_proto_def` might become invalid as well as all the descendant nodes and fields.
+In this case, after triggering the PROTO regeneration, the nodes and fields should be retrieved again using the [Supervisor](#supervisor) API functions.
 
 It is possible to use dots (.) as scoping operator in the DEF parameter.
 Dots can be used when looking for a specific node path in the node hierarchy.
@@ -150,6 +154,8 @@ If no node is currently selected, the function returns NULL.
 #### `wb_supervisor_node_get_def`
 #### `wb_supervisor_node_get_id`
 #### `wb_supervisor_node_get_parent_node`
+#### `wb_supervisor_node_is_proto`
+#### `wb_supervisor_node_get_from_proto_def`
 
 %tab-component "language"
 
@@ -161,6 +167,8 @@ If no node is currently selected, the function returns NULL.
 const char *wb_supervisor_node_get_def(WbNodeRef node);
 int wb_supervisor_node_get_id(WbNodeRef node);
 WbNodeRef wb_supervisor_node_get_parent_node(WbNodeRef node);
+bool wb_supervisor_node_is_proto(WbNodeRef node);
+WbNodeRef wb_supervisor_node_get_from_proto_def(WbNodeRef node, const char *def);
 ```
 
 %tab-end
@@ -175,6 +183,8 @@ namespace webots {
     int getId() const;
     std::string getDef() const;
     Node *getParentNode() const;
+    bool isProto() const;
+    Node *getFromProtoDef(const std::string &name);
     // ...
   }
 }
@@ -191,6 +201,8 @@ class Node:
     def getId(self):
     def getDef(self):
     def getParentNode(self):
+    def isProto(self):
+    def getFromProtoDef(self, name):
     # ...
 ```
 
@@ -205,6 +217,8 @@ public class Node {
   public int getId();
   public String getDef();
   public Node getParentNode();
+  public boolean isProto();
+  public Node getFromProtoDef(String name);
   // ...
 }
 ```
@@ -217,6 +231,8 @@ public class Node {
 id = wb_supervisor_node_get_id(node)
 s = wb_supervisor_node_get_def(node)
 node = wb_supervisor_node_get_parent_node(node)
+b = wb_supervisor_node_is_proto(node)
+node = wb_supervisor_node_get_from_proto_def(node, 'def')
 ```
 
 %tab-end
@@ -228,6 +244,8 @@ node = wb_supervisor_node_get_parent_node(node)
 | `/supervisor/node/get_id` | `service` | `webots_ros::node_get_id` | `uint64 node`<br/>`---`<br/>`int32 id` |
 | `/supervisor/node/get_def` | `service` | `webots_ros::node_get_name` | `uint64 node`<br/>`---`<br/>`string name` |
 | `/supervisor/node/get_parent_node` | `service` | `webots_ros::node_get_parent_node` | `uint64 node`<br/>`---`<br/>`uint64 node` |
+| `/supervisor/node/is_proto` | `service` | `webots_ros::node_is_proto` | `uint64 node`<br/>`---`<br/>`bool value` |
+| `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`uint64 proto`<br/>`---`<br/>`uint64 node` |
 
 %tab-end
 
@@ -243,6 +261,11 @@ If no DEF name is specified, this function returns the empty string.
 The `wb_supervisor_node_get_id` function retrieves the unique identifier of the node given in parameter.
 
 The `wb_supervisor_node_get_parent_node` function retrieves the reference to the direct parent node of the node given in parameter.
+
+The `wb_supervisor_node_is_proto` function returns `true` if the node given in the argument is a [PROTO node](proto.md).
+
+The `wb_supervisor_node_get_from_proto_def` function returns a handle to a node defined in the [PROTO body](proto-definition.md) of the specified node from its DEF name.
+Note that this function works only for PROTO nodes.
 
 ---
 
@@ -277,6 +300,7 @@ typedef enum {
   WB_NODE_INDEXED_FACE_SET,
   WB_NODE_INDEXED_LINE_SET,
   WB_NODE_MATERIAL,
+  WB_NODE_MESH,
   WB_NODE_MUSCLE,
   WB_NODE_NORMAL,
   WB_NODE_PBR_APPEARANCE,
@@ -364,7 +388,7 @@ namespace webots {
       // 3D rendering
       APPEARANCE, BACKGROUND, BOX, CAPSULE, COLOR, CONE, COORDINATE,
       CYLINDER, DIRECTIONAL_LIGHT, ELEVATION_GRID, FOG, GROUP, IMAGE_TEXTURE,
-      INDEXED_FACE_SET, INDEXED_LINE_SET, MATERIAL, MUSCLE, NORMAL, PBR_APPEARANCE,
+      INDEXED_FACE_SET, INDEXED_LINE_SET, MATERIAL, MESH, MUSCLE, NORMAL, PBR_APPEARANCE,
       PLANE, POINT_LIGHT, POINT_SET, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
       TEXTURE_TRANSFORM, TRANSFORM, VIEWPOINT,
       // robots
@@ -401,7 +425,7 @@ class Node:
     # 3D rendering
     APPEARANCE, BACKGROUND, BOX, CAPSULE, COLOR, CONE, COORDINATE,
     CYLINDER, DIRECTIONAL_LIGHT, ELEVATION_GRID, FOG, GROUP, IMAGE_TEXTURE,
-    INDEXED_FACE_SET, INDEXED_LINE_SET, MATERIAL, MUSCLE, NORMAL, PBR_APPEARANCE,
+    INDEXED_FACE_SET, INDEXED_LINE_SET, MATERIAL, MESH, MUSCLE, NORMAL, PBR_APPEARANCE,
     PLANE, POINT_LIGHT, POINT_SET, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
     TEXTURE_TRANSFORM, TRANSFORM, VIEWPOINT,
     # robots
@@ -436,7 +460,7 @@ public class Node {
     // 3D rendering
     APPEARANCE, BACKGROUND, BOX, CAPSULE, COLOR, CONE, COORDINATE,
     CYLINDER, DIRECTIONAL_LIGHT, ELEVATION_GRID, FOG, GROUP, IMAGE_TEXTURE,
-    INDEXED_FACE_SET, INDEXED_LINE_SET, MATERIAL, MUSCLE, NORMAL, PBR_APPEARANCE,
+    INDEXED_FACE_SET, INDEXED_LINE_SET, MATERIAL, MESH, MUSCLE, NORMAL, PBR_APPEARANCE,
     PLANE, POINT_LIGHT, POINT_SET, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
     TEXTURE_TRANSFORM, TRANSFORM, VIEWPOINT,
     // robots
@@ -468,9 +492,9 @@ WB_NODE_NO_NODE,
 % 3D rendering
 WB_NODE_APPEARANCE, WB_NODE_BACKGROUND, WB_NODE_BOX, WB_NODE_CAPSULE,
 WB_NODE_COLOR, WB_NODE_CONE, WB_NODE_COORDINATE,
-WB_NODE_CYLINDER, WB_NODE_DIRECTIONAL_LIGHT, WB_NODE_ELEVATION_GRID,
-WB_NODE_FOG, WB_NODE_GROUP, WB_NODE_IMAGE_TEXTURE, WB_NODE_INDEXED_FACE_SET,
-WB_NODE_INDEXED_LINE_SET, WB_NODE_MATERIAL, WB_NODE_MUSCLE, WB_NODE_NORMAL,
+WB_NODE_CYLINDER, WB_NODE_DIRECTIONAL_LIGHT, WB_NODE_ELEVATION_GRID, WB_NODE_FOG,
+WB_NODE_GROUP, WB_NODE_IMAGE_TEXTURE, WB_NODE_INDEXED_FACE_SET, WB_NODE_INDEXED_LINE_SET,
+WB_NODE_MATERIAL, WB_NODE_MESH, WB_NODE_MUSCLE, WB_NODE_NORMAL,
 WB_NODE_PBR_APPEARANCE, WB_NODE_PLANE, WB_NODE_POINT_LIGHT, WB_NODE_POINT_SET,
 WB_NODE_SHAPE, WB_NODE_SPHERE, WB_NODE_SPOT_LIGHT, WB_NODE_TEXTURE_COORDINATE,
 WB_NODE_TEXTURE_TRANSFORM, WB_NODE_TRANSFORM, WB_NODE_VIEWPOINT,
@@ -611,10 +635,12 @@ wb_supervisor_node_remove(node)
 *Remove a specified node*
 
 The `wb_supervisor_node_remove` function removes the node specified as an argument from the Webots scene tree.
+If the node given in argument is the [Robot](robot.md) node itself, it is removed only at the end of the step.
 
 ---
 
 #### `wb_supervisor_node_get_field`
+#### `wb_supervisor_node_get_proto_field`
 
 %tab-component "language"
 
@@ -624,6 +650,7 @@ The `wb_supervisor_node_remove` function removes the node specified as an argume
 #include <webots/supervisor.h>
 
 WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name);
+WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name);
 ```
 
 %tab-end
@@ -636,6 +663,7 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name);
 namespace webots {
   class Node {
     Field *getField(const std::string &fieldName) const;
+    Field *getProtoField(const std::string &fieldName) const;
     // ...
   }
 }
@@ -650,6 +678,7 @@ from controller import Node
 
 class Node:
     def getField(self, fieldName):
+    def getProtoField(self, fieldName):
     # ...
 ```
 
@@ -662,6 +691,7 @@ import com.cyberbotics.webots.controller.Node;
 
 public class Node {
   public Field getField(String fieldName);
+  public Field getProtoField(String fieldName);
   // ...
 }
 ```
@@ -672,6 +702,7 @@ public class Node {
 
 ```MATLAB
 field = wb_supervisor_node_get_field(node, 'field_name')
+field = wb_supervisor_node_get_proto_field(node, 'field_name')
 ```
 
 %tab-end
@@ -680,7 +711,7 @@ field = wb_supervisor_node_get_field(node, 'field_name')
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/supervisor/node/get_field` | `service` | `webots_ros::node_get_field` | `uint64 node`<br/>`string fieldName`<br/>`---`<br/>`uint64 field` |
+| `/supervisor/node/get_field` | `service` | `webots_ros::node_get_field` | `uint64 node`<br/>`string fieldName`<br/>`bool proto`<br/>`---`<br/>`uint64 field` |
 
 %tab-end
 
@@ -697,6 +728,10 @@ If no such field name exists for the specified node or the field is an internal 
 Otherwise, it returns a handler to a field.
 
 > **Note**: The `wb_supervisor_node_get_field` function will return a valid field handler if the field corresponding to the field name is an hidden field.
+
+If the field is an internal field of a PROTO, the `wb_supervisor_node_get_proto_field` function should be used instead.
+
+> **Note**: fields retrieved with the `wb_supervisor_node_get_proto_field` function are read-only. Which means that it is not possible to change them using any of the [`wb_supervisor_field_set_*`](#wb_supervisor_field_set_sf_bool) functions.
 
 ---
 
@@ -815,7 +850,7 @@ Where *p* is a point whose coordinates are given with respect to the local coord
 %spoiler "**Python Example**: How to calculate relative positions and orientations?"
 
 The following Python example calculates the position and orientation of a node relatively to another node.
-It should be easily adaptable to any other language, as it uses simple matrix and vector calculations. 
+It should be easily adaptable to any other language, as it uses simple matrix and vector calculations.
 
 ```python
 from controller import Supervisor
@@ -850,7 +885,7 @@ box_pos_world = np.subtract(box_pos_world, pos_ur10e)
 box_pos_robot = np.dot(rot_ur10e, box_pos_world)
 
 # Calculate the orientation of the box, relative to the robot, all in one line.
-box_rot_robot = np.dot(rot_ur10e, np.array(box.getOrientation()).reshape(3, 3)) 
+box_rot_robot = np.dot(rot_ur10e, np.array(box.getOrientation()).reshape(3, 3))
 ```
 
 %end
@@ -2538,13 +2573,13 @@ The `acceleration` specifies the acceleration factor of the created movie with r
 Default value is 1, i.e. no acceleration.
 If `caption` parameters is set to true, a default caption is printed on the top right corner of the movie showing the current `acceleration` value.
 
-The `wb_supervisor_movie_is_ready` function returns `TRUE` if the application is ready to start recording a movie, i.e. if another recording process is not already running.
+The `wb_supervisor_movie_is_ready` function returns `true` if the application is ready to start recording a movie, i.e. if another recording process is not already running.
 So it could be used to check if the encoding process is completed and the file has been created.
-Note that if the recording process failed, this function will return `TRUE`.
+Note that if the recording process failed, this function will return `true`.
 In order to detect a failure the `wb_supervisor_movie_failed` function has to be called.
 
-The `wb_supervisor_movie_failed` function returns `TRUE` if the recording process failed.
-After starting a new recording process the returned value is reset to `FALSE`.
+The `wb_supervisor_movie_failed` function returns `true` if the recording process failed.
+After starting a new recording process the returned value is reset to `false`.
 
 ---
 
@@ -3331,6 +3366,7 @@ Here are a few examples for the `index` parameter:
 - -3: insert at the third index from the end.
 
 The `wb_supervisor_field_remove_sf/mf` functions remove an item from a specified `field` (MF or SF).
+If the item is the [Robot](robot.md) node itself, it is removed only at the end of the step.
 
 ---
 

@@ -58,3 +58,7 @@ QString WbSolidDevice::computeShortUniqueName() const {
     return QString("%1:%2").arg(robot->computeUniqueName()).arg(WbSolid::name());
   return computeUniqueName();
 }
+
+const QString WbSolidDevice::urdfName() const {
+  return getUrdfPrefix() + name();
+}

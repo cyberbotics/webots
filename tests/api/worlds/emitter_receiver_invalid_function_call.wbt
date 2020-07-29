@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.51915392 -0.77840887 -0.35292894 1.4748
+  orientation -0.5191539204580062 -0.7784088706867252 -0.35292894031135974 1.4748
   position -1.20045 2.13217 0.47028
 }
 Background {
@@ -84,7 +85,9 @@ DEF EMITTER Robot {
   ]
   name "robot_emitter"
   controller "emitter_receiver_invalid_function_call"
-  controllerArgs "emitter_receiver_invalid_function_call_emitter"
+  controllerArgs [
+    "emitter_receiver_invalid_function_call_emitter"
+  ]
 }
 DEF RECEIVER Robot {
   translation 0.234283 0.05 0.224851
@@ -133,7 +136,9 @@ DEF RECEIVER Robot {
   ]
   name "robot_receiver"
   controller "emitter_receiver_invalid_function_call"
-  controllerArgs "emitter_receiver_invalid_function_call_receiver"
+  controllerArgs [
+    "emitter_receiver_invalid_function_call_receiver"
+  ]
 }
 TestSuiteSupervisor {
 }

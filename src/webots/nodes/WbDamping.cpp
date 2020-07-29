@@ -51,13 +51,13 @@ void WbDamping::postFinalize() {
 
 void WbDamping::updateLinear() {
   if (mLinear->value() < 0.0) {
-    warn(tr("'linear' must be greater than or equal to zero."));
+    parsingWarn(tr("'linear' must be greater than or equal to zero."));
     mLinear->setValue(0.0);
     return;
   }
 
   if (mLinear->value() > 1.0) {
-    warn(tr("'linear' must be less than or equal to one."));
+    parsingWarn(tr("'linear' must be less than or equal to one."));
     mLinear->setValue(1.0);
     return;
   }
@@ -67,13 +67,13 @@ void WbDamping::updateLinear() {
 
 void WbDamping::updateAngular() {
   if (mAngular->value() < 0.0) {
-    warn(tr("'angular' must be greater than or equal to zero."));
+    parsingWarn(tr("'angular' must be greater than or equal to zero."));
     mAngular->setValue(0.0);
     return;
   }
 
   if (mAngular->value() > 1.0) {
-    warn(tr("'angular' must be less than or equal to one."));
+    parsingWarn(tr("'angular' must be less than or equal to one."));
     mAngular->setValue(1.0);
     return;
   }

@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -10,7 +10,7 @@ PROTO Pedestrian [
   field       SFRotation rotation              0 1 0 0
   field       SFString   name                  "pedestrian"
   field       SFString   controller            "pedestrian"
-  field       SFString   controllerArgs        ""
+  field       MFString   controllerArgs        []
   field       SFColor    shirtColor            0.25 0.55 0.20
   field       SFColor    pantsColor            0.24 0.25 0.5
   field       SFColor    shoesColor            0.28 0.15 0.06
@@ -34,7 +34,7 @@ PROTO Pedestrian [
   hiddenField SFFloat    headAngle             0.0
 ]
 {
-%{ local static = fields.controllerArgs.value == '' }%
+%{ local static = next(fields.controllerArgs.value) == nil }%
 Robot {
   translation IS translation
   rotation IS rotation

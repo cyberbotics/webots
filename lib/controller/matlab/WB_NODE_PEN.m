@@ -1,2 +1,2 @@
 function value = WB_NODE_PEN
-value = 47;
+value = 48;

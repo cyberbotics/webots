@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "The Pioneer Robot has to perform a square shaped loop."
@@ -8,6 +8,7 @@ WorldInfo {
   title "Square Path"
   window "square_path"
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.2180899997432351 -0.9159779289215875 -0.3367806196034965 2.1285942
@@ -22,7 +23,9 @@ DEF PIONEER SquarePathPioneer3dx {
   translation 0 0.0943896 0
   rotation 0 1 0 4.7123889
   controller "square_path"
-  controllerArgs "2"
+  controllerArgs [
+    "2"
+  ]
   extensionSlot [
     Pen {
       inkColor 1 0 0

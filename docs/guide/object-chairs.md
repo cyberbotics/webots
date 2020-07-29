@@ -33,6 +33,42 @@ Chair {
 
 - `physics`: Define the physcis of the chair.
 
+## OfficeChair
+
+A rotating office chair with customizable appearance.
+
+%figure
+
+![OfficeChair](images/objects/chairs/OfficeChair/model.thumbnail.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+OfficeChair {
+  SFVec3f    translation     0 0 0
+  SFRotation rotation        0 1 0 0
+  SFString   name            "office chair"
+  SFNode     legAppearance   BrushedAluminium { textureTransform TextureTransform { scale 5 5 } }
+  SFNode     seatAppearance  Leather { textureTransform TextureTransform { scale 10 10 } }
+  SFBool     enablePhysics   TRUE
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/OfficeChair.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/chairs/protos/OfficeChair.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+### OfficeChair Field Summary
+
+- `legAppearance`: Defines the appearance of the legs of the chair.
+
+- `seatAppearance`: Defines the appearance of the body of the chair.
+
+- `enablePhysics`: Defines whether the chair should have physics.
+
 ## SimpleChair
 
 A simple two-colors chair with a customizable mass, but a fixed height of 1.25 meter.

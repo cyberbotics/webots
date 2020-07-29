@@ -33,3 +33,11 @@ int Accelerometer::getSamplingPeriod() const {
 const double *Accelerometer::getValues() const {
   return wb_accelerometer_get_values(getTag());
 }
+
+int Accelerometer::getLookupTableSize() const {
+  return wb_accelerometer_get_lookup_table_size(getTag());
+}
+
+const double *Accelerometer::getLookupTable() const {
+  return wb_accelerometer_get_lookup_table(getTag());
+}

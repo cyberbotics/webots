@@ -18,7 +18,7 @@ Khr2hv {
   SFRotation rotation        1 0 0 -1.5708
   SFString   name            "KHR-2HV"
   SFString   controller      "khr-2hv_demo"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   contactMaterial "default"
   SFString   customData      ""
   SFBool     supervisor      FALSE

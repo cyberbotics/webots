@@ -74,7 +74,7 @@ void WbFog::preFinalize() {
     if (!WbWorld::instance()->isLoading())
       emit WbWrenRenderingContext::instance()->fogNodeAdded();
   } else
-    warn(tr("Only one Fog node is allowed. Only the first Fog node will be taken into account."));
+    parsingWarn(tr("Only one Fog node is allowed. Only the first Fog node will be taken into account."));
 }
 
 void WbFog::postFinalize() {
@@ -123,7 +123,7 @@ void WbFog::updateFogType() {
     mWrenFogType = WR_SCENE_FOG_TYPE_LINEAR;
 
   if (mWrenFogType == WR_SCENE_FOG_TYPE_LINEAR && fogText != QString("linear"))
-    warn(tr("Unknown 'fogType': \"%1\". Set to \"LINEAR\"").arg(mFogType->value()));
+    parsingWarn(tr("Unknown 'fogType': \"%1\". Set to \"LINEAR\"").arg(mFogType->value()));
 
   if (areWrenObjectsInitialized()) {
     applyChangesToWren();

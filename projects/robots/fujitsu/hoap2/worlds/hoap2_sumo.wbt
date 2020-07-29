@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "Physics-based simulation of the Fujitsu HOAP-2 robot performing a Shiko dance (sumo)."
@@ -8,6 +8,7 @@ WorldInfo {
   ]
   title "Fujistu HOAP-2 sumo"
   basicTimeStep 16
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       softERP 0.5
@@ -121,5 +122,7 @@ DEF TATAMI Solid {
 }
 Hoap2 {
   translation 0 0.495 -0.5
-  controllerArgs "sumo"
+  controllerArgs [
+    "sumo"
+  ]
 }

@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -102,6 +102,10 @@ PROTO TexturedBackgroundLight [
     else
       io.stderr:write("Unknown texture identifier\n")
     end
+    if context.coordinate_system == "ENU" then
+      direction = {direction[3], direction[1], direction[2]}
+    end
+
   }%
   DirectionalLight {
     ambientIntensity 1

@@ -1,0 +1,1978 @@
+#VRML_SIM R2020b utf8
+WorldInfo {
+  info [
+    "Pioneer 3AT robot (Adept MobileRobots)."
+    "This all terrain four wheels drive robot is equipped with a Sick LMS 291 lidar."
+    "You should use the ros node 'pioneer3at' to control the robot."
+  ]
+  title "Pioneer 3AT"
+  coordinateSystem "NUE"
+  lineScale 0.5
+}
+Viewpoint {
+  orientation -0.9998746704111705 0.010987887687598594 -0.011397797783707198 0.8335816938124668
+  position 8.637520000000002 43.2864 39.212999999999994
+  follow "Pioneer 3-AT"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 60 60
+  tileSize 1 1
+  appearance ThreadMetalPlate {
+  }
+}
+Carpet {
+  translation 7.57085 -4.52971e-14 -0.83
+}
+Carpet {
+  translation 7.57085 -4.52971e-14 -2.42019
+  name "carpet(1)"
+}
+DEF EXTERNAL_WALL Wall {
+  translation 0 0 -30
+  size 22.4 2.4 0.2
+}
+DEF EXTERNAL_WALL Wall {
+  translation 18 0 -30
+  name "wall(1)"
+  size 10.4 2.4 0.2
+}
+DEF EXTERNAL_WALL Wall {
+  translation -18 0 -30
+  name "wall(2)"
+  size 10.4 2.4 0.2
+}
+DEF EXTERNAL_WALL Wall {
+  translation 27.45 0 -30
+  name "wall(3)"
+  size 5.3 2.4 0.2
+}
+DEF EXTERNAL_WALL Wall {
+  translation -27.45 0 -30
+  name "wall(4)"
+  size 5.3 2.4 0.2
+}
+DEF DOUBLE_WINDOW Transform {
+  translation 24 0 -30
+  children [
+    Window {
+      translation -0.4 0 0
+      name "window(7)"
+    }
+    Window {
+      translation 0.4 0 0
+      name "window(8)"
+    }
+  ]
+}
+DEF DOUBLE_WINDOW Transform {
+  translation 12 0 -30
+  children [
+    Window {
+      translation -0.4 0 0
+      name "window(9)"
+    }
+    Window {
+      translation 0.4 0 0
+      name "window(10)"
+    }
+  ]
+}
+DEF DOUBLE_WINDOW Transform {
+  translation -12 0 -30
+  children [
+    Window {
+      translation -0.4 0 0
+      name "window(11)"
+    }
+    Window {
+      translation 0.4 0 0
+      name "window(12)"
+    }
+  ]
+}
+DEF DOUBLE_WINDOW Transform {
+  translation -24 0 -30
+  children [
+    Window {
+      translation -0.4 0 0
+      name "window(13)"
+    }
+    Window {
+      translation 0.4 0 0
+      name "window(14)"
+    }
+  ]
+}
+DEF EXTERNAL_WALL Wall {
+  translation 0 0 30
+  name "wall(5)"
+  size 22.4 2.4 0.2
+}
+DEF EXTERNAL_WALL Wall {
+  translation 18 0 30
+  name "wall(6)"
+  size 10.4 2.4 0.2
+}
+DEF EXTERNAL_WALL Wall {
+  translation -18 0 30
+  name "wall(7)"
+  size 10.4 2.4 0.2
+}
+DEF EXTERNAL_WALL Wall {
+  translation -18 0 30
+  name "wall(8)"
+  size 10.4 2.4 0.2
+}
+DEF EXTERNAL_WALL Wall {
+  translation 27.45 0 30
+  name "wall(9)"
+  size 5.3 2.4 0.2
+}
+DEF EXTERNAL_WALL Wall {
+  translation -27.45 0 30
+  name "wall(10)"
+  size 5.3 2.4 0.2
+}
+DEF DOUBLE_WINDOW Transform {
+  translation 24 0 30
+  children [
+    Window {
+      translation -0.4 0 0
+      name "window(15)"
+    }
+    Window {
+      translation 0.4 0 0
+      name "window(16)"
+    }
+  ]
+}
+DEF DOUBLE_WINDOW Transform {
+  translation 12 0 30
+  children [
+    Window {
+      translation -0.4 0 0
+      name "window(17)"
+    }
+    Window {
+      translation 0.4 0 0
+      name "window(18)"
+    }
+  ]
+}
+DEF DOUBLE_WINDOW Transform {
+  translation -12 0 30
+  children [
+    Window {
+      translation -0.4 0 0
+      name "window(19)"
+    }
+    Window {
+      translation 0.4 0 0
+      name "window(20)"
+    }
+  ]
+}
+DEF DOUBLE_WINDOW Transform {
+  translation -24 0 30
+  children [
+    Window {
+      translation -0.4 0 0
+      name "window(21)"
+    }
+    Window {
+      translation 0.4 0 0
+      name "window(22)"
+    }
+  ]
+}
+DEF EXTERNAL_WALL Wall {
+  translation 30 0 0
+  rotation 0 1 0 1.5708
+  name "wall(11)"
+  size 60 2.4 0.2
+}
+DEF EXTERNAL_WALL Wall {
+  translation -30 0 0
+  rotation 0 1 0 1.5708
+  name "wall(12)"
+  size 60 2.4 0.2
+}
+DEF INTERNAL_WALL Wall {
+  translation -10.8 0 -11
+  rotation 0 1 0 1.5708
+  name "wall(13)"
+  size 8 2.4 0.2
+}
+DEF INTERNAL_WALL Wall {
+  translation -10.8 0 2.6
+  rotation 0 1 0 1.5708
+  name "wall(14)"
+  size 8 2.4 0.2
+}
+DEF INTERNAL_WINDOW Window {
+  translation -10.8 0 -6.6
+  rotation 0 1 0 4.71239
+}
+DEF INTERNAL_WINDOW Window {
+  translation -10.8 0 -5.8
+  rotation 0 1 0 4.71239
+  name "window(1)"
+}
+DEF INTERNAL_WINDOW Window {
+  translation -10.8 0 -5
+  rotation 0 1 0 4.71239
+  name "window(2)"
+}
+DEF INTERNAL_WINDOW Window {
+  translation -10.8 0 -4.2
+  rotation 0 1 0 4.71239
+  name "window(3)"
+}
+DEF INTERNAL_WINDOW Window {
+  translation -10.8 0 -3.4
+  rotation 0 1 0 4.71239
+  name "window(4)"
+}
+DEF INTERNAL_WINDOW Window {
+  translation -10.8 0 -2.6
+  rotation 0 1 0 4.71239
+  name "window(5)"
+}
+DEF INTERNAL_WINDOW Window {
+  translation -10.8 0 -1.8
+  rotation 0 1 0 4.71239
+  name "window(6)"
+}
+DEF INTERNAL_WALL Wall {
+  translation 0 0 -22.5
+  rotation 0 1 0 1.5708
+  name "wall(15)"
+  size 15 2.4 0.2
+}
+DEF INTERNAL_WALL Wall {
+  translation 22.6 0 19.47
+  name "wall(16)"
+  size 15 2.4 0.2
+}
+DEF INTERNAL_WALL Wall {
+  translation -2.4 0 -15
+  name "wall(17)"
+  size 5 2.4 0.2
+}
+DEF INTERNAL_WALL Wall {
+  translation -8.4 0 -15
+  name "wall(18)"
+  size 5 2.4 0.2
+}
+WoodenPallet {
+  translation 27.6528 0.0185916 -3.65572
+  rotation -0.033687506300065374 0.9740331821587109 0.22388504186983704 -0.290318
+  boundingObject FALSE
+}
+WoodenPallet {
+  translation 27.2125 0.0673767 -2.68777
+  rotation 0.020931390902476844 0.6223657294978311 -0.7824466599209943 -0.229223
+  name "wooden pallet(1)"
+  boundingObject FALSE
+}
+WoodenPallet {
+  translation 26.3174 0.133879 -2.69913
+  rotation -0.1916240622215348 0.00039772812914481797 -0.9814683186889186 3.13481
+  name "wooden pallet(2)"
+  boundingObject FALSE
+}
+WoodenPallet {
+  translation 27.9624 0.0761916 -2.15888
+  rotation 0.22218899360784491 0.8036559768796215 -0.5520589841178152 -0.213837
+  name "wooden pallet(3)"
+  boundingObject FALSE
+}
+WoodenPallet {
+  translation 26.2712 -0.000955835 -1.39216
+  rotation -0.0011269403472793512 0.9999983081607331 0.0014538504480203778 -0.796222
+  name "wooden pallet(4)"
+  boundingObject FALSE
+}
+WoodenPallet {
+  translation 26.7856 0.184057 -2.68349
+  rotation -0.0811041397427491 0.9952054876718023 -0.05466402678653282 -1.30147
+  name "wooden pallet(5)"
+  boundingObject FALSE
+}
+WoodenPallet {
+  translation 27.4644 0.178751 -1.26542
+  rotation -0.19265300355272164 0.009799040180704486 0.9812180180946802 -3.02896
+  name "wooden pallet(6)"
+  boundingObject FALSE
+}
+WoodenPallet {
+  translation 28.25 0.0743134 -3.34206
+  rotation -0.08280519684425096 0.6244749762009344 0.7766429704017331 -0.241225
+  name "wooden pallet(7)"
+  boundingObject FALSE
+}
+WoodenPallet {
+  translation 28.5899 -0.00135008 -1.37535
+  rotation 0.0030836204861510977 0.9999801576528153 -0.005493230866040496 -1.72285
+  name "wooden pallet(8)"
+  boundingObject FALSE
+}
+WoodenPallet {
+  translation 27.3443 0.259966 -1.90958
+  rotation 0.9423073049594337 0.13130704249497072 0.3079210996526756 0.235868
+  name "wooden pallet(9)"
+  boundingObject FALSE
+}
+WoodenPallet {
+  translation 26.3837 0.286405 -2.93448
+  rotation -0.34667916342083643 0.08169373850955143 -0.9344194404752943 -0.124508
+  name "wooden pallet(10)"
+  boundingObject FALSE
+}
+WoodenPallet {
+  translation 27.8321 0.439539 -2.08579
+  rotation -0.032235796364420664 0.9494778929171108 0.31217396479276627 -1.13772
+  name "wooden pallet(11)"
+  boundingObject FALSE
+}
+WoodenPallet {
+  translation 26.7651 0.380115 -2.04501
+  rotation -0.8247017295217935 0.42981685903255806 -0.3675928794402155 -0.280561
+  name "wooden pallet(12)"
+  boundingObject FALSE
+}
+WoodenPallet {
+  translation 26.6264 0.112547 -0.687536
+  rotation 0.9990000756434045 0.01503640113854303 -0.04210410318808555 0.185807
+  name "wooden pallet(13)"
+  boundingObject FALSE
+}
+TrafficCone {
+  translation 29.2378 -1.77636e-14 -4.67722
+}
+TrafficCone {
+  translation 27.6275 -1.77636e-14 -5.1122
+  name "traffic cone(1)"
+}
+TrafficCone {
+  translation 26.3918 -1.06581e-14 -4.90082
+  name "traffic cone(2)"
+}
+TrafficCone {
+  translation 25.2459 -2.13163e-14 -4.05644
+  name "traffic cone(3)"
+}
+TrafficCone {
+  translation 24.8748 -1.42109e-14 -2.45977
+  name "traffic cone(4)"
+}
+TrafficCone {
+  translation -27.5033 9.23706e-13 -14.0206
+  name "traffic cone(5)"
+}
+TrafficCone {
+  translation -22.831 9.166e-13 -13.9376
+  name "traffic cone(6)"
+}
+TrafficCone {
+  translation -18.9491 4.47642e-13 -14.1135
+  rotation 0 1 0 4.71239
+  name "traffic cone(7)"
+}
+TrafficCone {
+  translation -13.7591 -1.42109e-14 -13.8483
+  rotation 0 1 0 4.45059
+  name "traffic cone(8)"
+}
+TrafficCone {
+  translation 24.7752 -1.42109e-14 -0.88784
+  name "traffic cone(9)"
+}
+TrafficCone {
+  translation 25.5851 -1.42109e-14 0.255223
+  name "traffic cone(10)"
+}
+TrafficCone {
+  translation 26.7417 -1.42109e-14 0.835499
+  name "traffic cone(11)"
+}
+TrafficCone {
+  translation 27.9622 -1.42109e-14 0.742603
+  name "traffic cone(12)"
+}
+TrafficCone {
+  translation 29.324 -1.42109e-14 0.282551
+  name "traffic cone(13)"
+}
+Door {
+  translation -5.4 0 -15
+}
+DEF KITCHEN Transform {
+  translation 27.8 0 21.2
+  rotation 0 1 0 4.71239
+  children [
+    Cabinet {
+      translation 1 0.83 -2.15
+      depth 0.7
+      outerThickness 0.02
+      rowsHeights [
+        0.2, 0.2, 0.2, 0.2, 0.2, 0.34
+      ]
+      columnsWidths [
+        0.4
+      ]
+      layout [
+        "LeftSidedDoor (1, 1, 1, 6, 1.5)"
+        "Shelf (1,2, 1, 0)"
+        "Shelf (1,3, 1, 0)"
+        "Shelf (1,4, 1, 0)"
+        "Shelf (1,5, 1, 0)"
+        "Shelf (1,6, 1, 0)"
+      ]
+      handle CabinetHandle {
+        translation -0.3 0 0
+        handleLength 0.1
+        handleRadius 0.008
+        handleColor 0.427451 0.513725 0.533333
+      }
+    }
+    Cabinet {
+      translation -1.65 0.15 0.11
+      rotation 0 1 0 1.5708
+      name "cabinet(1)"
+      depth 0.67
+      outerThickness 0.02
+      rowsHeights [
+        0.68, 0.25, 0.25, 0.25, 0.25, 0.34
+      ]
+      columnsWidths [
+        0.44
+      ]
+      layout [
+        "RightSidedDoor (1, 2, 1, 3, 1.5)"
+        "RightSidedDoor (1, 5, 1, 2, 1.5)"
+        "Shelf (1,2, 1, 0)"
+        "Shelf (1,3, 1, 0)"
+        "Shelf (1,4, 1, 0)"
+        "Shelf (1,5, 1, 0)"
+        "Shelf (1,6, 1, 0)"
+      ]
+      handle CabinetHandle {
+        translation -0.15 0 0
+        handleLength 0.1
+        handleRadius 0.008
+        handleColor 0.427451 0.513725 0.533333
+      }
+    }
+    Cabinet {
+      translation 0.1 1.4 -2.15
+      name "cabinet(2)"
+      outerThickness 0.02
+      rowsHeights [
+        0.21, 0.21, 0.22
+      ]
+      columnsWidths [
+        0.44, 0.44, 0.44
+      ]
+      layout [
+        "RightSidedDoor (1, 1, 1, 3, 1.5)"
+        "LeftSidedDoor (2, 1, 1, 3, 1.5)"
+        "LeftSidedDoor (3, 1, 1, 3, 1.5)"
+        "Shelf (1, 2, 3, 0)"
+        "Shelf (1, 3, 2, 0)"
+        "Shelf (1, 1, 0, 1)"
+        "Shelf (2, 1, 0, 3)"
+      ]
+      handle CabinetHandle {
+        translation -0.2 0 0
+        handleLength 0.1
+        handleRadius 0.008
+        handleColor 0.427451 0.513725 0.533333
+      }
+    }
+    Cabinet {
+      translation -1.647 1.4 -0.37
+      rotation 0 1 0 1.5708
+      name "cabinet(3)"
+      outerThickness 0.02
+      rowsHeights [
+        0.21, 0.21, 0.22
+      ]
+      columnsWidths [
+        0.44
+      ]
+      layout [
+        "RightSidedDoor (1, 1, 1, 3, 1.5)"
+        "Shelf (1, 2 ,1 , 0)"
+        "Shelf (1, 3 ,1 , 0)"
+      ]
+      handle CabinetHandle {
+        translation -0.2 0 0
+        handleLength 0.1
+        handleRadius 0.008
+        handleColor 0.427451 0.513725 0.533333
+      }
+    }
+    Cabinet {
+      translation -1.48 0.15 -0.79
+      rotation 0 1 0 1.5708
+      name "cabinet(4)"
+      outerThickness 0.02
+      rowsHeights [
+        0.21, 0.21, 0.22
+      ]
+      columnsWidths [
+        0.34, 0.47, 0.47
+      ]
+      layout [
+        "RightSidedDoor (2, 1, 1, 3, 1.5)"
+        "LeftSidedDoor (3, 1, 1, 3, 1.5)"
+        "RightSidedDoor (1, 1, 1, 3, 1.5)"
+        "Shelf (1, 2, 1, 0)"
+        "Shelf (1, 3, 1, 0)"
+        "Shelf (1, 1, 0, 3)"
+        "Shelf (2, 1, 0, 3)"
+      ]
+      handle CabinetHandle {
+        translation 0.1 0 0
+        handleLength 0.1
+        handleRadius 0.008
+        handleColor 0.427451 0.513725 0.533333
+      }
+    }
+    Cabinet {
+      translation 0.12 0.15 -2.15
+      name "cabinet(5)"
+      depth 0.7
+      outerThickness 0.02
+      rowsHeights [
+        0.25, 0.25, 0.14
+      ]
+      columnsWidths [
+        0.76, 0.54, 0.43, 0.43
+      ]
+      layout [
+        "LeftSidedDoor (2, 1, 1, 2, 1.5)"
+        "LeftSidedDoor (4, 1, 1, 3, 1.5)"
+        "RightSidedDoor (3, 1, 1, 3, 1.5)"
+        "Drawer (1, 1, 1, 1, 3.5)"
+        "Drawer (1, 2, 1, 1, 3.5)"
+        "Drawer (1, 3, 1, 1, 3.5)"
+        "Drawer (2, 3, 1, 1, 3.5)"
+        "Shelf (1, 2, 1, 0)"
+        "Shelf (1, 3, 2, 0)"
+        "Shelf (3, 2, 2, 0)"
+        "Shelf (1, 1, 0, 3)"
+        "Shelf (2, 1, 0, 3)"
+        "Shelf (3, 1, 0, 1)"
+      ]
+      handle CabinetHandle {
+        handleLength 0.1
+        handleRadius 0.008
+        handleColor 0.427451 0.513725 0.533333
+      }
+    }
+    SolidBox {
+      translation 0.12 0.07 -1.55
+      size 2.2 0.16 0.2
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+          scale 4 4
+        }
+      }
+    }
+    SolidBox {
+      translation -1.08 0.07 -0.65
+      rotation 0 1 0 1.5708
+      name "box(1)"
+      size 2 0.16 0.2
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+          scale 4 4
+        }
+      }
+    }
+    SolidBox {
+      translation 1.12 0.07 -1.9
+      rotation 0 -1 0 4.71239
+      name "box(2)"
+      size 0.5 0.16 0.2
+      appearance PBRAppearance {
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+          scale 4 4
+        }
+      }
+    }
+    SolidBox {
+      translation -1.415 0.07 0.25
+      rotation 0 -1 0 6.28318
+      name "box(3)"
+      size 0.47 0.16 0.2
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+          scale 4 4
+        }
+      }
+    }
+    Fridge {
+      translation 1.57 0 -1.8
+      rotation 0 1 0 4.71239
+    }
+    Worktop {
+      translation -1.31 0.86 -0.345
+      rotation 0 1 0 4.71239
+      size 0.43 0.06 0.7
+    }
+    Worktop {
+      translation -1.531 0.86 -0.78
+      rotation 0 1 0 4.71239
+      name "worktop(1)"
+      size 0.44 0.06 0.237
+    }
+    Worktop {
+      translation -1.003 0.86 -0.780001
+      rotation 0 1 0 4.71239
+      name "worktop(2)"
+      size 0.442 0.06 0.085
+    }
+    Worktop {
+      translation -1.306 0.86 -1.22
+      rotation 0 -1 0 1.5708
+      name "worktop(3)"
+      size 0.44 0.06 0.69
+    }
+    Worktop {
+      translation -0.435 0.86 -1.79
+      name "worktop(4)"
+      size 2.43 0.06 0.7
+    }
+    Sink {
+      translation -1.33 0.87 -0.78
+      rotation 0 1 0 4.71239
+    }
+    HotPlate {
+      translation -1.14971 0.86 -1.62912
+      rotation 0 -1 0 5.49779
+    }
+    Oven {
+      translation -1.24 0.51 0.11
+    }
+  ]
+}
+DEF PIONEER_3AT Pioneer3at {
+  translation 1.69482 0.11 4.10279
+  controller "ros"
+  controllerArgs [
+    "--name=pioneer3at"
+  ]
+  extensionSlot [
+    Camera {
+      translation 0 0.17 -0.22
+      width 256
+      height 128
+      motionBlur 500
+      noise 0.02
+    }
+    Accelerometer {
+      lookupTable [
+        -39.24 -39.24 0.005
+        39.24 39.24 0.005
+      ]
+    }
+    Gyro {
+      lookupTable [
+        -50 -50 0.005
+        50 50 0.005
+      ]
+    }
+    SickLms291 {
+      translation 0 0.23 -0.136
+      noise 0.1
+    }
+    GPS {
+    }
+    InertialUnit {
+    }
+  ]
+}
+Table {
+  translation 22.5 0 21.6
+  size 4.2 0.74 1
+}
+Chair {
+  translation 23.2032 0 22.0662
+  rotation 0 -1 0 4.71239
+}
+Chair {
+  translation 23.2032 0 21.2162
+  rotation 0 1 0 4.71239
+  name "chair(1)"
+}
+Chair {
+  translation 22.4132 0 22.0562
+  rotation 0 -1 0 4.71239
+  name "chair(2)"
+}
+Chair {
+  translation 22.4132 0 21.2162
+  rotation 0 1 0 4.71239
+  name "chair(3)"
+}
+Chair {
+  translation 21.6732 0 22.0662
+  rotation 0 -1 0 4.71239
+  name "chair(4)"
+}
+Chair {
+  translation 21.6732 0 21.2162
+  rotation 0 1 0 4.71239
+  name "chair(5)"
+}
+Chair {
+  translation 20.9632 0 22.0662
+  rotation 0 -1 0 4.71239
+  name "chair(6)"
+}
+Chair {
+  translation 20.9632 0 21.2162
+  rotation 0 1 0 4.71239
+  name "chair(7)"
+}
+Chair {
+  translation 23.9732 0 22.0662
+  rotation 0 -1 0 4.71239
+  name "chair(8)"
+}
+Chair {
+  translation 23.9732 0 21.2162
+  rotation 0 1 0 4.71239
+  name "chair(9)"
+}
+DEF TREE Solid {
+  translation 21.2655 1.06048e-12 -13.0987
+  rotation 0 1 0 0.785398
+  scale 1.7 1.7 1.7
+  children [
+    PottedTree {
+      rotation 0 1 0 0.261799
+    }
+  ]
+}
+DEF TREE Solid {
+  translation -21.2183 1.06137e-12 21.6362
+  rotation 0 -1 0 3.66519
+  scale 1.7 1.7 1.7
+  children [
+    PottedTree {
+    }
+  ]
+  name "solid(1)"
+}
+DEF TREE Solid {
+  translation -21.1851 1.06137e-12 20.2765
+  rotation 0 -1 0 6.02139
+  scale 1.7 1.7 1.7
+  children [
+    PottedTree {
+    }
+  ]
+  name "solid(2)"
+}
+DEF TREE Solid {
+  translation -21.223 1.06137e-12 14.4309
+  rotation 0 -1 0 6.02139
+  scale 1.7 1.7 1.7
+  children [
+    PottedTree {
+    }
+  ]
+  name "solid(3)"
+}
+DEF TREE Solid {
+  translation -21.1983 1.06137e-12 13.1633
+  rotation 0 1 0 0.785398
+  scale 1.7 1.7 1.7
+  children [
+    PottedTree {
+    }
+  ]
+  name "solid(4)"
+}
+DEF TREE Solid {
+  translation -9.98679 1.0667e-12 5.37678
+  rotation 0 1 0 0.785398
+  scale 1.7 1.7 1.7
+  children [
+    PottedTree {
+    }
+  ]
+  name "solid(5)"
+}
+DEF TREE Solid {
+  translation -10.1726 1.0667e-12 -0.216214
+  rotation 0 1 0 0.785398
+  scale 1.7 1.7 1.7
+  children [
+    PottedTree {
+    }
+  ]
+  name "solid(6)"
+}
+DEF TREE Solid {
+  translation -10.067 1.0667e-12 -8.47773
+  rotation 0 1 0 0.785398
+  scale 1.7 1.7 1.7
+  children [
+    PottedTree {
+    }
+  ]
+  name "solid(7)"
+}
+DEF TREE Solid {
+  translation -9.86925 1.0667e-12 -13.5549
+  rotation 0 1 0 0.785398
+  scale 1.7 1.7 1.7
+  children [
+    PottedTree {
+    }
+  ]
+  name "solid(8)"
+}
+DEF TREE Solid {
+  translation 1.30651 1.05959e-12 -28.489
+  rotation 0 1 0 0.785398
+  scale 1.7 1.7 1.7
+  children [
+    PottedTree {
+    }
+  ]
+  name "solid(9)"
+}
+DEF TREE Solid {
+  translation 21.2939 1.05071e-12 -14.4648
+  rotation 0 1 0 0.785398
+  scale 1.7 1.7 1.7
+  children [
+    PottedTree {
+    }
+  ]
+  name "solid(10)"
+}
+DEF TREE Solid {
+  translation 21.263 1.0516e-12 -20.4389
+  rotation 0 1 0 0.785398
+  scale 1.7 1.7 1.7
+  children [
+    PottedTree {
+    }
+  ]
+  name "solid(11)"
+}
+DEF TREE Solid {
+  translation 21.2686 1.0516e-12 -21.92
+  scale 1.7 1.7 1.7
+  children [
+    PottedTree {
+    }
+  ]
+  name "solid(12)"
+}
+PottedTree {
+  translation 18.8987 3.55271e-15 29.4672
+}
+PottedTree {
+  translation 27.5526 3.55271e-15 26.7018
+  name "potted tree(1)"
+}
+PottedTree {
+  translation 17.1715 3.55271e-15 20.9225
+  name "potted tree(2)"
+}
+Sofa {
+  translation 27.9791 0 28.4787
+  rotation 0 1 0 2.35619
+}
+DEF OFFICES Transform {
+  children [
+    Panel {
+      translation 28.4604 0 -24.5373
+    }
+    Panel {
+      translation 28.4604 0 -17.2973
+      name "panel(1)"
+    }
+    Panel {
+      translation 28.4604 0 -10.2573
+      name "panel(2)"
+    }
+    Panel {
+      translation 27.0304 0 -24.5573
+      name "panel(3)"
+    }
+    Panel {
+      translation 27.0304 0 -17.2873
+      name "panel(4)"
+    }
+    Panel {
+      translation 27.0304 0 -10.2573
+      name "panel(5)"
+    }
+    Panel {
+      translation 27.0774 0 -10.6551
+      rotation 0 1 0 1.5708
+      name "panel(6)"
+    }
+    Panel {
+      translation 27.0774 0 -15.6551
+      rotation 0 1 0 1.5708
+      name "panel(7)"
+    }
+    Panel {
+      translation 27.0774 0 -17.7651
+      rotation 0 1 0 1.5708
+      name "panel(8)"
+    }
+    Panel {
+      translation 27.0774 0 -22.8751
+      rotation 0 1 0 1.5708
+      name "panel(9)"
+    }
+    Panel {
+      translation 27.0774 0 -24.9451
+      rotation 0 1 0 1.5708
+      name "panel(10)"
+    }
+    Panel {
+      translation 24.2974 0 -10.6551
+      rotation 0 1 0 1.5708
+      name "panel(11)"
+    }
+    Panel {
+      translation 24.2974 0 -15.6951
+      rotation 0 1 0 1.5708
+      name "panel(12)"
+    }
+    Panel {
+      translation 24.2974 0 -17.8051
+      rotation 0 1 0 1.5708
+      name "panel(13)"
+    }
+    Panel {
+      translation 24.2974 0 -22.8551
+      rotation 0 1 0 1.5708
+      name "panel(14)"
+    }
+    Panel {
+      translation 24.2974 0 -25.0151
+      rotation 0 1 0 1.5708
+      name "panel(15)"
+    }
+    Panel {
+      translation 21.2474 0 -10.6551
+      rotation 0 1 0 1.5708
+      name "panel(16)"
+    }
+    Panel {
+      translation 21.2474 0 -15.6951
+      rotation 0 1 0 1.5708
+      name "panel(17)"
+    }
+    Panel {
+      translation 21.2474 0 -17.7551
+      rotation 0 1 0 1.5708
+      name "panel(18)"
+    }
+    Panel {
+      translation 21.2474 0 -24.9351
+      rotation 0 1 0 1.5708
+      name "panel(19)"
+    }
+    Panel {
+      translation 21.2474 0 -28.4451
+      rotation 0 1 0 1.5708
+      name "panel(20)"
+    }
+    Panel {
+      translation 21.2474 0 -26.8251
+      rotation 0 1 0 1.5708
+      name "panel(21)"
+    }
+    Panel {
+      translation 21.2474 0 -22.8651
+      rotation 0 1 0 1.5708
+      name "panel(22)"
+    }
+    Panel {
+      translation 25.5604 0 -24.5873
+      name "panel(23)"
+    }
+    Panel {
+      translation 25.5604 0 -17.3073
+      name "panel(24)"
+    }
+    Panel {
+      translation 25.5604 0 -10.2573
+      name "panel(25)"
+    }
+    Panel {
+      translation 24.1004 0 -24.5973
+      name "panel(26)"
+    }
+    Panel {
+      translation 24.1004 0 -17.3373
+      name "panel(27)"
+    }
+    Panel {
+      translation 24.1004 0 -10.2573
+      name "panel(28)"
+    }
+    Panel {
+      translation 22.5504 0 -24.5873
+      name "panel(29)"
+    }
+    Panel {
+      translation 22.5504 0 -17.3273
+      name "panel(30)"
+    }
+    Panel {
+      translation 22.5504 0 -10.2573
+      name "panel(31)"
+    }
+    Panel {
+      translation 20.9704 0 -10.2573
+      name "panel(32)"
+    }
+    Panel {
+      translation 20.9704 0 -24.5773
+      name "panel(33)"
+    }
+    Panel {
+      translation 20.9704 0 -17.3573
+      name "panel(34)"
+    }
+    WoodenChair {
+      translation 28.2877 7.10543e-15 -16.5637
+    }
+    WoodenChair {
+      translation 28.2877 7.10543e-15 -23.9137
+      name "wooden chair(1)"
+    }
+    WoodenChair {
+      translation 28.2877 7.10543e-15 -18.1537
+      rotation 0 1 0 3.14159
+      name "wooden chair(2)"
+    }
+    WoodenChair {
+      translation 28.2877 7.10543e-15 -25.1237
+      rotation 0 1 0 3.14159
+      name "wooden chair(3)"
+    }
+    WoodenChair {
+      translation 25.7177 7.10543e-15 -23.8937
+      name "wooden chair(4)"
+    }
+    WoodenChair {
+      translation 25.7177 7.10543e-15 -18.0837
+      rotation 0 1 0 3.14159
+      name "wooden chair(5)"
+    }
+    WoodenChair {
+      translation 28.2877 7.10543e-15 -11.1637
+      rotation 0 1 0 3.14159
+      name "wooden chair(6)"
+    }
+    WoodenChair {
+      translation 25.7177 7.10543e-15 -25.2037
+      rotation 0 1 0 3.14159
+      name "wooden chair(7)"
+    }
+    WoodenChair {
+      translation 22.9577 7.10543e-15 -23.8537
+      name "wooden chair(8)"
+    }
+    WoodenChair {
+      translation 25.7177 7.10543e-15 -16.5637
+      name "wooden chair(9)"
+    }
+    WoodenChair {
+      translation 22.9577 7.10543e-15 -18.0537
+      rotation 0 1 0 3.14159
+      name "wooden chair(10)"
+    }
+    WoodenChair {
+      translation 25.7177 7.10543e-15 -11.1037
+      rotation 0 1 0 3.14159
+      name "wooden chair(11)"
+    }
+    WoodenChair {
+      translation 22.9577 7.10543e-15 -25.0837
+      rotation 0 1 0 3.14159
+      name "wooden chair(12)"
+    }
+    WoodenChair {
+      translation 22.9577 7.10543e-15 -16.5637
+      name "wooden chair(13)"
+    }
+    WoodenChair {
+      translation 22.9577 7.10543e-15 -11.1937
+      rotation 0 1 0 3.14159
+      name "wooden chair(14)"
+    }
+    Desk {
+      translation 28.2877 7.10543e-15 -16.1837
+      rotation 0 1 0 6.28319
+    }
+    Desk {
+      translation 28.2877 7.10543e-15 -25.5337
+      rotation 0 1 0 6.28319
+      name "desk(1)"
+    }
+    Desk {
+      translation 28.2877 7.10543e-15 -11.5037
+      rotation 0 1 0 6.28319
+      name "desk(2)"
+    }
+    Desk {
+      translation 28.2877 7.10543e-15 -23.5237
+      rotation 0 1 0 6.28319
+      name "desk(3)"
+    }
+    Desk {
+      translation 25.6977 7.10543e-15 -16.1837
+      rotation 0 1 0 6.28319
+      name "desk(4)"
+    }
+    Desk {
+      translation 25.6977 7.10543e-15 -18.4537
+      rotation 0 1 0 6.28319
+      name "desk(5)"
+    }
+    Desk {
+      translation 25.6977 7.10543e-15 -11.5337
+      rotation 0 1 0 6.28319
+      name "desk(6)"
+    }
+    Desk {
+      translation 22.9277 7.10543e-15 -16.1837
+      rotation 0 1 0 6.28319
+      name "desk(7)"
+    }
+    Desk {
+      translation 22.9277 7.10543e-15 -11.5737
+      rotation 0 1 0 6.28319
+      name "desk(8)"
+    }
+    Desk {
+      translation 25.6977 7.10543e-15 -25.5537
+      rotation 0 1 0 6.28319
+      name "desk(9)"
+    }
+    Desk {
+      translation 28.2877 7.10543e-15 -18.5337
+      rotation 0 1 0 6.28319
+      name "desk(10)"
+    }
+    Desk {
+      translation 22.9277 7.10543e-15 -18.4537
+      rotation 0 1 0 6.28319
+      name "desk(11)"
+    }
+    Desk {
+      translation 25.6977 7.10543e-15 -23.4937
+      rotation 0 1 0 6.28319
+      name "desk(12)"
+    }
+    Desk {
+      translation 22.9277 7.10543e-15 -23.5337
+      rotation 0 1 0 6.28319
+      name "desk(13)"
+    }
+    Desk {
+      translation 22.9277 7.10543e-15 -25.4837
+      rotation 0 1 0 6.28319
+      name "desk(14)"
+    }
+  ]
+}
+DEF OFFICES Transform {
+  rotation 0 1 0 3.14159
+  children [
+    Panel {
+      translation 28.4604 0 -24.5373
+      name "panel(35)"
+    }
+    Panel {
+      translation 28.4604 0 -17.2973
+      name "panel(36)"
+    }
+    Panel {
+      translation 28.4604 0 -10.2573
+      name "panel(37)"
+    }
+    Panel {
+      translation 27.0304 0 -24.5573
+      name "panel(38)"
+    }
+    Panel {
+      translation 27.0304 0 -17.2873
+      name "panel(39)"
+    }
+    Panel {
+      translation 27.0304 0 -10.2573
+      name "panel(40)"
+    }
+    Panel {
+      translation 27.0774 0 -10.6551
+      rotation 0 1 0 1.5708
+      name "panel(41)"
+    }
+    Panel {
+      translation 27.0774 0 -15.6551
+      rotation 0 1 0 1.5708
+      name "panel(42)"
+    }
+    Panel {
+      translation 27.0774 0 -17.7651
+      rotation 0 1 0 1.5708
+      name "panel(43)"
+    }
+    Panel {
+      translation 27.0774 0 -22.8751
+      rotation 0 1 0 1.5708
+      name "panel(44)"
+    }
+    Panel {
+      translation 27.0774 0 -24.9451
+      rotation 0 1 0 1.5708
+      name "panel(45)"
+    }
+    Panel {
+      translation 24.2974 0 -10.6551
+      rotation 0 1 0 1.5708
+      name "panel(46)"
+    }
+    Panel {
+      translation 24.2974 0 -15.6951
+      rotation 0 1 0 1.5708
+      name "panel(47)"
+    }
+    Panel {
+      translation 24.2974 0 -17.8051
+      rotation 0 1 0 1.5708
+      name "panel(48)"
+    }
+    Panel {
+      translation 24.2974 0 -22.8551
+      rotation 0 1 0 1.5708
+      name "panel(49)"
+    }
+    Panel {
+      translation 24.2974 0 -25.0151
+      rotation 0 1 0 1.5708
+      name "panel(50)"
+    }
+    Panel {
+      translation 21.2474 0 -10.6551
+      rotation 0 1 0 1.5708
+      name "panel(51)"
+    }
+    Panel {
+      translation 21.2474 0 -15.6951
+      rotation 0 1 0 1.5708
+      name "panel(52)"
+    }
+    Panel {
+      translation 21.2474 0 -17.7551
+      rotation 0 1 0 1.5708
+      name "panel(53)"
+    }
+    Panel {
+      translation 21.2474 0 -22.8651
+      rotation 0 1 0 1.5708
+      name "panel(54)"
+    }
+    Panel {
+      translation 21.2474 0 -24.8851
+      rotation 0 1 0 1.5708
+      name "panel(55)"
+    }
+    Panel {
+      translation 21.2474 0 -26.6151
+      rotation 0 1 0 1.5708
+      name "panel(56)"
+    }
+    Panel {
+      translation 21.2474 0 -28.2551
+      rotation 0 1 0 1.5708
+      name "panel(57)"
+    }
+    Panel {
+      translation 25.5604 0 -24.5873
+      name "panel(58)"
+    }
+    Panel {
+      translation 25.5604 0 -17.3073
+      name "panel(59)"
+    }
+    Panel {
+      translation 25.5604 0 -10.2573
+      name "panel(60)"
+    }
+    Panel {
+      translation 24.1004 0 -24.5973
+      name "panel(61)"
+    }
+    Panel {
+      translation 24.1004 0 -17.3373
+      name "panel(62)"
+    }
+    Panel {
+      translation 24.1004 0 -10.2573
+      name "panel(63)"
+    }
+    Panel {
+      translation 22.5504 0 -24.5873
+      name "panel(64)"
+    }
+    Panel {
+      translation 22.5504 0 -17.3273
+      name "panel(65)"
+    }
+    Panel {
+      translation 22.5504 0 -10.2573
+      name "panel(66)"
+    }
+    Panel {
+      translation 20.9704 0 -10.2573
+      name "panel(67)"
+    }
+    Panel {
+      translation 20.9704 0 -24.5773
+      name "panel(68)"
+    }
+    Panel {
+      translation 20.9704 0 -17.3573
+      name "panel(69)"
+    }
+    WoodenChair {
+      translation 28.2877 7.10543e-15 -16.5637
+      name "wooden chair(15)"
+    }
+    WoodenChair {
+      translation 28.2877 7.10543e-15 -23.9137
+      name "wooden chair(16)"
+    }
+    WoodenChair {
+      translation 28.2877 7.10543e-15 -18.1537
+      rotation 0 1 0 3.14159
+      name "wooden chair(17)"
+    }
+    WoodenChair {
+      translation 28.2877 7.10543e-15 -25.1237
+      rotation 0 1 0 3.14159
+      name "wooden chair(18)"
+    }
+    WoodenChair {
+      translation 25.7177 7.10543e-15 -23.8937
+      name "wooden chair(19)"
+    }
+    WoodenChair {
+      translation 25.7177 7.10543e-15 -18.0837
+      rotation 0 1 0 3.14159
+      name "wooden chair(20)"
+    }
+    WoodenChair {
+      translation 28.2877 7.10543e-15 -11.1637
+      rotation 0 1 0 3.14159
+      name "wooden chair(21)"
+    }
+    WoodenChair {
+      translation 25.7177 7.10543e-15 -25.2037
+      rotation 0 1 0 3.14159
+      name "wooden chair(22)"
+    }
+    WoodenChair {
+      translation 22.9577 7.10543e-15 -23.8537
+      name "wooden chair(23)"
+    }
+    WoodenChair {
+      translation 25.7177 7.10543e-15 -16.5637
+      name "wooden chair(24)"
+    }
+    WoodenChair {
+      translation 22.9577 7.10543e-15 -18.0537
+      rotation 0 1 0 3.14159
+      name "wooden chair(25)"
+    }
+    WoodenChair {
+      translation 25.7177 7.10543e-15 -11.1037
+      rotation 0 1 0 3.14159
+      name "wooden chair(26)"
+    }
+    WoodenChair {
+      translation 22.9577 7.10543e-15 -25.0837
+      rotation 0 1 0 3.14159
+      name "wooden chair(27)"
+    }
+    WoodenChair {
+      translation 22.9577 7.10543e-15 -16.5637
+      name "wooden chair(28)"
+    }
+    WoodenChair {
+      translation 22.9577 7.10543e-15 -11.1937
+      rotation 0 1 0 3.14159
+      name "wooden chair(29)"
+    }
+    Desk {
+      translation 28.2877 7.10543e-15 -16.1837
+      rotation 0 1 0 6.28319
+      name "desk(15)"
+    }
+    Desk {
+      translation 28.2877 7.10543e-15 -25.5337
+      rotation 0 1 0 6.28319
+      name "desk(16)"
+    }
+    Desk {
+      translation 28.2877 7.10543e-15 -11.5037
+      rotation 0 1 0 6.28319
+      name "desk(17)"
+    }
+    Desk {
+      translation 28.2877 7.10543e-15 -23.5237
+      rotation 0 1 0 6.28319
+      name "desk(18)"
+    }
+    Desk {
+      translation 25.6977 7.10543e-15 -16.1837
+      rotation 0 1 0 6.28319
+      name "desk(19)"
+    }
+    Desk {
+      translation 25.6977 7.10543e-15 -18.4537
+      rotation 0 1 0 6.28319
+      name "desk(20)"
+    }
+    Desk {
+      translation 25.6977 7.10543e-15 -11.5337
+      rotation 0 1 0 6.28319
+      name "desk(21)"
+    }
+    Desk {
+      translation 22.9277 7.10543e-15 -16.1837
+      rotation 0 1 0 6.28319
+      name "desk(22)"
+    }
+    Desk {
+      translation 22.9277 7.10543e-15 -11.5737
+      rotation 0 1 0 6.28319
+      name "desk(23)"
+    }
+    Desk {
+      translation 25.6977 7.10543e-15 -25.5537
+      rotation 0 1 0 6.28319
+      name "desk(24)"
+    }
+    Desk {
+      translation 28.2877 7.10543e-15 -18.5337
+      rotation 0 1 0 6.28319
+      name "desk(25)"
+    }
+    Desk {
+      translation 22.9277 7.10543e-15 -18.4537
+      rotation 0 1 0 6.28319
+      name "desk(26)"
+    }
+    Desk {
+      translation 25.6977 7.10543e-15 -23.4937
+      rotation 0 1 0 6.28319
+      name "desk(27)"
+    }
+    Desk {
+      translation 22.9277 7.10543e-15 -23.5337
+      rotation 0 1 0 6.28319
+      name "desk(28)"
+    }
+    Desk {
+      translation 22.9277 7.10543e-15 -25.4837
+      rotation 0 1 0 6.28319
+      name "desk(29)"
+    }
+  ]
+}
+DEF BOXES Transform {
+  children [
+    WoodenBox {
+      translation 26.7873 0.89 9.13591
+    }
+    WoodenBox {
+      translation 25.3406 0.3 9.13625
+      name "wooden box(1)"
+    }
+    WoodenBox {
+      translation 25.8306 0.91 9.13625
+      name "wooden box(2)"
+    }
+    WoodenBox {
+      translation 24.8506 0.9 9.13625
+      name "wooden box(3)"
+    }
+    WoodenBox {
+      translation 24.3706 0.3 9.13625
+      name "wooden box(4)"
+    }
+    WoodenBox {
+      translation 26.3006 0.3 9.13625
+      name "wooden box(5)"
+    }
+    WoodenBox {
+      translation 27.317 0.3 9.14677
+      name "wooden box(6)"
+    }
+  ]
+}
+DEF BOXES Transform {
+  translation -7 0 0
+  children [
+    WoodenBox {
+      translation 26.7873 0.89 9.13591
+      name "wooden box(7)"
+    }
+    WoodenBox {
+      translation 25.3406 0.3 9.13625
+      name "wooden box(8)"
+    }
+    WoodenBox {
+      translation 25.8306 0.91 9.13625
+      name "wooden box(9)"
+    }
+    WoodenBox {
+      translation 24.8506 0.9 9.13625
+      name "wooden box(10)"
+    }
+    WoodenBox {
+      translation 24.3706 0.3 9.13625
+      name "wooden box(11)"
+    }
+    WoodenBox {
+      translation 26.3006 0.3 9.13625
+      name "wooden box(12)"
+    }
+    WoodenBox {
+      translation 27.317 0.3 9.14677
+      name "wooden box(13)"
+    }
+  ]
+}
+DEF BOXES Transform {
+  translation 0 0 3
+  children [
+    WoodenBox {
+      translation 26.7873 0.89 9.13591
+      name "wooden box(14)"
+    }
+    WoodenBox {
+      translation 25.3406 0.3 9.13625
+      name "wooden box(15)"
+    }
+    WoodenBox {
+      translation 25.8306 0.91 9.13625
+      name "wooden box(16)"
+    }
+    WoodenBox {
+      translation 24.8506 0.9 9.13625
+      name "wooden box(17)"
+    }
+    WoodenBox {
+      translation 24.3706 0.3 9.13625
+      name "wooden box(18)"
+    }
+    WoodenBox {
+      translation 26.3006 0.3 9.13625
+      name "wooden box(19)"
+    }
+    WoodenBox {
+      translation 27.317 0.3 9.14677
+      name "wooden box(20)"
+    }
+  ]
+}
+DEF BOXES Transform {
+  translation -7 0 3
+  children [
+    WoodenBox {
+      translation 26.7873 0.89 9.13591
+      name "wooden box(21)"
+    }
+    WoodenBox {
+      translation 25.3406 0.3 9.13625
+      name "wooden box(22)"
+    }
+    WoodenBox {
+      translation 25.8306 0.91 9.13625
+      name "wooden box(23)"
+    }
+    WoodenBox {
+      translation 24.8506 0.9 9.13625
+      name "wooden box(24)"
+    }
+    WoodenBox {
+      translation 24.3706 0.3 9.13625
+      name "wooden box(25)"
+    }
+    WoodenBox {
+      translation 26.3006 0.3 9.13625
+      name "wooden box(26)"
+    }
+    WoodenBox {
+      translation 27.317 0.3 9.14677
+      name "wooden box(27)"
+    }
+  ]
+}
+DEF BOXES Transform {
+  translation 0 0 6
+  children [
+    WoodenBox {
+      translation 26.7873 0.89 9.13591
+      name "wooden box(28)"
+    }
+    WoodenBox {
+      translation 25.3406 0.3 9.13625
+      name "wooden box(29)"
+    }
+    WoodenBox {
+      translation 25.8306 0.91 9.13625
+      name "wooden box(30)"
+    }
+    WoodenBox {
+      translation 24.8506 0.9 9.13625
+      name "wooden box(31)"
+    }
+    WoodenBox {
+      translation 24.3706 0.3 9.13625
+      name "wooden box(32)"
+    }
+    WoodenBox {
+      translation 26.3006 0.3 9.13625
+      name "wooden box(33)"
+    }
+    WoodenBox {
+      translation 27.317 0.3 9.14677
+      name "wooden box(34)"
+    }
+  ]
+}
+StraightStairs {
+  translation -29.2069 7.10543e-15 -8.43695
+  rotation 9.58976e-09 -1 -9.58979e-09 4.71239
+  stepRise 0.2
+  nSteps 11
+  stepAppearance PBRAppearance {
+    roughness 0.5
+    metalness 0
+    textureTransform TextureTransform {
+      scale 1 2
+    }
+  }
+  stringerAppearance PBRAppearance {
+    roughness 0.5
+    metalness 0
+    textureTransform TextureTransform {
+      rotation 1.1
+    }
+  }
+  leftRail []
+  rightRail [
+    StraightStairsRail {
+      run 4.4
+      rise 2.2
+      newelHeight 0.98
+      balusterHeight 0.7
+      balusterRadius 0.02
+      nBalusters 15
+      appearance PBRAppearance {
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+          rotation 1.5708
+        }
+      }
+    }
+  ]
+}
+StraightStairs {
+  translation -0.529031 7.10543e-15 29.2481
+  rotation 0 -1 0 3.14159
+  name "straight stairs(1)"
+  stepRise 0.2
+  nSteps 11
+  stepAppearance PBRAppearance {
+    roughness 0.5
+    metalness 0
+    textureTransform TextureTransform {
+      scale 1 2
+    }
+  }
+  stringerAppearance PBRAppearance {
+    roughness 0.5
+    metalness 0
+    textureTransform TextureTransform {
+      rotation 1.1
+    }
+  }
+  leftRail []
+  rightRail [
+    StraightStairsRail {
+      run 4.4
+      rise 2.2
+      newelHeight 0.98
+      balusterHeight 0.7
+      balusterRadius 0.02
+      nBalusters 15
+      appearance PBRAppearance {
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+          rotation 1.5708
+        }
+      }
+    }
+  ]
+}
+StraightStairs {
+  translation 0.76 0 -19
+  rotation 0 1 0 1.5708
+  name "straight stairs(2)"
+  stepRise 0.2
+  nSteps 11
+  stepAppearance PBRAppearance {
+    roughness 0.5
+    metalness 0
+    textureTransform TextureTransform {
+      scale 1 2
+    }
+  }
+  stringerAppearance PBRAppearance {
+    roughness 0.5
+    metalness 0
+    textureTransform TextureTransform {
+      rotation 1.1
+    }
+  }
+  leftRail []
+  rightRail [
+    StraightStairsRail {
+      run 4.4
+      rise 2.2
+      newelHeight 0.98
+      balusterHeight 0.7
+      balusterRadius 0.02
+      nBalusters 15
+      appearance PBRAppearance {
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+          rotation 1.5708
+        }
+      }
+    }
+  ]
+}
+DEF BOXES Transform {
+  translation -7 0 6
+  children [
+    WoodenBox {
+      translation 26.7873 0.89 9.13591
+      name "wooden box(35)"
+    }
+    WoodenBox {
+      translation 25.3406 0.3 9.13625
+      name "wooden box(36)"
+    }
+    WoodenBox {
+      translation 25.8306 0.91 9.13625
+      name "wooden box(37)"
+    }
+    WoodenBox {
+      translation 24.8506 0.9 9.13625
+      name "wooden box(38)"
+    }
+    WoodenBox {
+      translation 24.3706 0.3 9.13625
+      name "wooden box(39)"
+    }
+    WoodenBox {
+      translation 26.3006 0.3 9.13625
+      name "wooden box(40)"
+    }
+    WoodenBox {
+      translation 27.317 0.3 9.14677
+      name "wooden box(41)"
+    }
+  ]
+}
+OilBarrel {
+  translation -9.26761 0.44 -20.0914
+}
+OilBarrel {
+  translation -26.1118 0.44 -19.0086
+  name "oil barrel(1)"
+}
+OilBarrel {
+  translation -21.9075 0 -18.9476
+  name "oil barrel(2)"
+}
+OilBarrel {
+  translation -27.6392 0.44 -26.4716
+  name "oil barrel(3)"
+}
+OilBarrel {
+  translation -25.5943 0.44 -22.115
+  name "oil barrel(4)"
+}
+OilBarrel {
+  translation -23.236 0.44 -26.5773
+  name "oil barrel(5)"
+}
+OilBarrel {
+  translation -18.3049 0.44 -20.8934
+  name "oil barrel(6)"
+}
+OilBarrel {
+  translation -13.8601 0 -17.7296
+  name "oil barrel(7)"
+}
+OilBarrel {
+  translation -13.9827 0.44 -23.2832
+  name "oil barrel(8)"
+}
+OilBarrel {
+  translation -15.759 0.44 -27.9069
+  name "oil barrel(9)"
+}
+OilBarrel {
+  translation -10.0871 0.44 -26.0751
+  name "oil barrel(10)"
+}
+OilBarrel {
+  translation -6.54998 0 -22.3303
+  name "oil barrel(11)"
+}
+OilBarrel {
+  translation -3.05266 0.44 -25.4792
+  name "oil barrel(12)"
+}
+OilBarrel {
+  translation -2.93961 0.44 -17.7793
+  name "oil barrel(13)"
+}
+PanelWithTubes {
+  translation 7.47218 1.06581e-14 -3.68619
+  rotation 0 1 0 3.14159
+}
+PanelWithTubes {
+  translation 7.47218 1.06581e-14 0.993814
+  name "panel with tubes(1)"
+}
+PanelWithTubes {
+  translation 9.23218 1.06581e-14 -3.68619
+  rotation 0 1 0 3.14159
+  name "panel with tubes(2)"
+}
+PanelWithTubes {
+  translation 9.23218 1.06581e-14 0.993814
+  name "panel with tubes(3)"
+}
+PanelWithTubes {
+  translation 6.57218 1.06581e-14 -3.68619
+  rotation 0 1 0 3.14159
+  name "panel with tubes(4)"
+}
+PanelWithTubes {
+  translation 6.57218 1.06581e-14 0.993814
+  name "panel with tubes(5)"
+}
+PanelWithTubes {
+  translation 5.65218 1.06581e-14 -3.68619
+  rotation 0 1 0 3.14159
+  name "panel with tubes(6)"
+}
+PanelWithTubes {
+  translation 5.65218 1.06581e-14 0.993814
+  name "panel with tubes(7)"
+}
+PanelWithTubes {
+  translation 5.25302 1.06581e-14 0.48228
+  rotation 0 1 0 4.71239
+  name "panel with tubes(8)"
+}
+PanelWithTubes {
+  translation 9.64302 1.06581e-14 0.48228
+  rotation 0 -1 0 4.71239
+  name "panel with tubes(9)"
+}
+PanelWithTubes {
+  translation 9.64302 1.06581e-14 -0.42772
+  rotation 0 -1 0 4.71239
+  name "panel with tubes(10)"
+}
+PanelWithTubes {
+  translation 5.25302 1.06581e-14 -0.42772
+  rotation 0 1 0 4.71239
+  name "panel with tubes(11)"
+}
+PanelWithTubes {
+  translation 9.64302 1.06581e-14 -1.38772
+  rotation 0 -1 0 4.71239
+  name "panel with tubes(12)"
+}
+PanelWithTubes {
+  translation 5.25302 1.06581e-14 -1.38772
+  rotation 0 1 0 4.71239
+  name "panel with tubes(13)"
+}
+PanelWithTubes {
+  translation 9.64302 1.06581e-14 -2.33772
+  rotation 0 -1 0 4.71239
+  name "panel with tubes(14)"
+}
+PanelWithTubes {
+  translation 5.25302 1.06581e-14 -2.33772
+  rotation 0 1 0 4.71239
+  name "panel with tubes(15)"
+}
+PanelWithTubes {
+  translation 9.64302 1.06581e-14 -3.22772
+  rotation 0 -1 0 4.71239
+  name "panel with tubes(16)"
+}
+PanelWithTubes {
+  translation 5.25302 1.06581e-14 -3.22772
+  rotation 0 1 0 4.71239
+  name "panel with tubes(17)"
+}
+PanelWithTubes {
+  translation 8.33218 1.06581e-14 -3.68619
+  rotation 0 1 0 3.14159
+  name "panel with tubes(18)"
+}
+PanelWithTubes {
+  translation 8.33218 1.06581e-14 0.993814
+  name "panel with tubes(19)"
+}

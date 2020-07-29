@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   title "Dynamic distance sensor rays"
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.451817 -0.864047 -0.222 5.40283
+  orientation 0.45181704073175993 -0.8640470778947117 -0.2220000200135247 5.40283
   position 0.235658 0.239705 0.240214
 }
 Background {
@@ -164,7 +165,9 @@ DEF DYNAMIC_ROBOT DifferentialWheels {
     mass 0.5
   }
   controller "distance_sensor_rays"
-  controllerArgs "dynamic_distance_sensor_rays"
+  controllerArgs [
+    "dynamic_distance_sensor_rays"
+  ]
   axleLength 0.09
   wheelRadius 0.025
   maxSpeed 1000

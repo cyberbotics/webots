@@ -91,33 +91,33 @@ QToolBar *WbTextEditor::createToolBar() {
   QToolBar *mToolBar = new QToolBar(this);
   WbActionManager *actionManager = WbActionManager::instance();
 
-  QAction *action = actionManager->action(WbActionManager::NEW_FILE);
+  QAction *action = actionManager->action(WbAction::NEW_FILE);
   mToolBar->addAction(action);
   mToolBar->widgetForAction(action)->setObjectName("editorButton");
 
-  action = actionManager->action(WbActionManager::OPEN_FILE);
+  action = actionManager->action(WbAction::OPEN_FILE);
   mToolBar->addAction(action);
   mToolBar->widgetForAction(action)->setObjectName("editorButton");
 
-  action = actionManager->action(WbActionManager::SAVE_FILE);
+  action = actionManager->action(WbAction::SAVE_FILE);
   mToolBar->addAction(action);
   mToolBar->widgetForAction(action)->setObjectName("editorButton");
 
-  action = actionManager->action(WbActionManager::SAVE_FILE_AS);
+  action = actionManager->action(WbAction::SAVE_FILE_AS);
   mToolBar->addAction(action);
   mToolBar->widgetForAction(action)->setObjectName("editorButton");
 
-  action = actionManager->action(WbActionManager::REVERT_FILE);
+  action = actionManager->action(WbAction::REVERT_FILE);
   mToolBar->addAction(action);
   mToolBar->widgetForAction(action)->setObjectName("editorButton");
 
   mToolBar->addSeparator();
 
-  action = actionManager->action(WbActionManager::FIND);
+  action = actionManager->action(WbAction::FIND);
   mToolBar->addAction(action);
   mToolBar->widgetForAction(action)->setObjectName("editorButton");
 
-  action = actionManager->action(WbActionManager::REPLACE);
+  action = actionManager->action(WbAction::REPLACE);
   mToolBar->addAction(action);
   mToolBar->widgetForAction(action)->setObjectName("editorButton");
 
@@ -126,30 +126,27 @@ QToolBar *WbTextEditor::createToolBar() {
 
 void WbTextEditor::connectActions() {
   WbActionManager *actionManager = WbActionManager::instance();
-  connect(actionManager->action(WbActionManager::NEW_FILE), &QAction::triggered, this, &WbTextEditor::newFile);
-  connect(actionManager->action(WbActionManager::OPEN_FILE), &QAction::triggered, this, &WbTextEditor::openFileDialog);
-  connect(actionManager->action(WbActionManager::SAVE_FILE), &QAction::triggered, this, &WbTextEditor::saveFile);
-  connect(actionManager->action(WbActionManager::SAVE_FILE_AS), &QAction::triggered, this, &WbTextEditor::saveFileAs);
-  connect(actionManager->action(WbActionManager::REVERT_FILE), &QAction::triggered, this, &WbTextEditor::revertFile);
-  connect(actionManager->action(WbActionManager::REPLACE), &QAction::triggered, this, &WbTextEditor::openReplaceDialog);
-  connect(actionManager->action(WbActionManager::GO_TO_LINE), &QAction::triggered, this, &WbTextEditor::goToLine);
-  connect(actionManager->action(WbActionManager::TOGGLE_LINE_COMMENT), &QAction::triggered, this,
-          &WbTextEditor::toggleLineComment);
-  connect(actionManager->action(WbActionManager::DUPLICATE_SELECTION), &QAction::triggered, this,
-          &WbTextEditor::duplicateSelection);
-  connect(actionManager->action(WbActionManager::TRANSPOSE_LINE), &QAction::triggered, this,
-          &WbTextEditor::transposeCurrentLine);
-  connect(actionManager->action(WbActionManager::PRINT), &QAction::triggered, this, &WbTextEditor::print);
-  connect(actionManager->action(WbActionManager::PRINT_PREVIEW), &QAction::triggered, this, &WbTextEditor::printPreview);
+  connect(actionManager->action(WbAction::NEW_FILE), &QAction::triggered, this, &WbTextEditor::newFile);
+  connect(actionManager->action(WbAction::OPEN_FILE), &QAction::triggered, this, &WbTextEditor::openFileDialog);
+  connect(actionManager->action(WbAction::SAVE_FILE), &QAction::triggered, this, &WbTextEditor::saveFile);
+  connect(actionManager->action(WbAction::SAVE_FILE_AS), &QAction::triggered, this, &WbTextEditor::saveFileAs);
+  connect(actionManager->action(WbAction::REVERT_FILE), &QAction::triggered, this, &WbTextEditor::revertFile);
+  connect(actionManager->action(WbAction::REPLACE), &QAction::triggered, this, &WbTextEditor::openReplaceDialog);
+  connect(actionManager->action(WbAction::GO_TO_LINE), &QAction::triggered, this, &WbTextEditor::goToLine);
+  connect(actionManager->action(WbAction::TOGGLE_LINE_COMMENT), &QAction::triggered, this, &WbTextEditor::toggleLineComment);
+  connect(actionManager->action(WbAction::DUPLICATE_SELECTION), &QAction::triggered, this, &WbTextEditor::duplicateSelection);
+  connect(actionManager->action(WbAction::TRANSPOSE_LINE), &QAction::triggered, this, &WbTextEditor::transposeCurrentLine);
+  connect(actionManager->action(WbAction::PRINT), &QAction::triggered, this, &WbTextEditor::print);
+  connect(actionManager->action(WbAction::PRINT_PREVIEW), &QAction::triggered, this, &WbTextEditor::printPreview);
 
   connect(actionManager, &WbActionManager::userTextEditCommandReceived, this, &WbTextEditor::handleUserCommand);
 }
 
 void WbTextEditor::updateGui() {
   WbActionManager *actionManager = WbActionManager::instance();
-  actionManager->setEnabled(WbActionManager::SAVE_FILE, mCurrentBuffer && mCurrentBuffer->isModified());
-  actionManager->setEnabled(WbActionManager::SAVE_FILE_AS, mCurrentBuffer);
-  actionManager->setEnabled(WbActionManager::REVERT_FILE, mCurrentBuffer);
+  actionManager->setEnabled(WbAction::SAVE_FILE, mCurrentBuffer && mCurrentBuffer->isModified());
+  actionManager->setEnabled(WbAction::SAVE_FILE_AS, mCurrentBuffer);
+  actionManager->setEnabled(WbAction::REVERT_FILE, mCurrentBuffer);
 
   updateFileNames();
   updateEditMenu();
@@ -183,9 +180,9 @@ void WbTextEditor::updateFileNames() {
 }
 
 void WbTextEditor::updateEditMenu() {
-  WbActionManager::instance()->setEnabled(WbActionManager::TOGGLE_LINE_COMMENT, mCurrentBuffer);
-  WbActionManager::instance()->setEnabled(WbActionManager::DUPLICATE_SELECTION, mCurrentBuffer);
-  WbActionManager::instance()->setEnabled(WbActionManager::TRANSPOSE_LINE, mCurrentBuffer);
+  WbActionManager::instance()->setEnabled(WbAction::TOGGLE_LINE_COMMENT, mCurrentBuffer);
+  WbActionManager::instance()->setEnabled(WbAction::DUPLICATE_SELECTION, mCurrentBuffer);
+  WbActionManager::instance()->setEnabled(WbAction::TRANSPOSE_LINE, mCurrentBuffer);
   WbActionManager::instance()->enableTextEditActions(mCurrentBuffer);
   WbActionManager::instance()->setFocusObject(this);
 
@@ -200,26 +197,26 @@ void WbTextEditor::updateApplicationActions() {
   enableUndo(doc && doc->isUndoAvailable());
   enableRedo(doc && doc->isRedoAvailable());
   enableCopy(mCurrentBuffer && mCurrentBuffer->hasSelection());
-  WbActionManager::instance()->setEnabled(WbActionManager::PASTE, mCurrentBuffer && !WbClipboard::instance()->isEmpty());
-  WbActionManager::instance()->setEnabled(WbActionManager::SELECT_ALL, mCurrentBuffer);
+  WbActionManager::instance()->setEnabled(WbAction::PASTE, mCurrentBuffer && !WbClipboard::instance()->isEmpty());
+  WbActionManager::instance()->setEnabled(WbAction::SELECT_ALL, mCurrentBuffer);
 }
 
 void WbTextEditor::enableCopy(bool enabled) {
-  WbActionManager::instance()->setEnabled(WbActionManager::CUT, enabled);
-  WbActionManager::instance()->setEnabled(WbActionManager::COPY, enabled);
+  WbActionManager::instance()->setEnabled(WbAction::CUT, enabled);
+  WbActionManager::instance()->setEnabled(WbAction::COPY, enabled);
 }
 
 void WbTextEditor::enableUndo(bool enabled) {
-  WbActionManager::instance()->setEnabled(WbActionManager::UNDO, enabled);
+  WbActionManager::instance()->setEnabled(WbAction::UNDO, enabled);
 }
 
 void WbTextEditor::enableRedo(bool enabled) {
-  WbActionManager::instance()->setEnabled(WbActionManager::REDO, enabled);
+  WbActionManager::instance()->setEnabled(WbAction::REDO, enabled);
 }
 
 void WbTextEditor::modificationChanged(bool changed) {
   updateFileNames();
-  WbActionManager::instance()->setEnabled(WbActionManager::SAVE_FILE, mCurrentBuffer && changed);
+  WbActionManager::instance()->setEnabled(WbAction::SAVE_FILE, mCurrentBuffer && changed);
 }
 
 void WbTextEditor::tabChanged(int tab) {
@@ -232,7 +229,7 @@ void WbTextEditor::tabChanged(int tab) {
   if (mCurrentBuffer) {
     mCurrentBuffer->setFocusPolicy(Qt::ClickFocus);
     mTextFind->setEditor(mCurrentBuffer);
-    WbActionManager::instance()->setEnabled(WbActionManager::SAVE_FILE, mCurrentBuffer->isModified());
+    WbActionManager::instance()->setEnabled(WbAction::SAVE_FILE, mCurrentBuffer->isModified());
     connect(mCurrentBuffer, &WbTextBuffer::undoAvailable, this, &WbTextEditor::enableUndo);
     connect(mCurrentBuffer, &WbTextBuffer::redoAvailable, this, &WbTextEditor::enableRedo);
     connect(mCurrentBuffer, &WbTextBuffer::copyAvailable, this, &WbTextEditor::enableCopy);
@@ -242,30 +239,30 @@ void WbTextEditor::tabChanged(int tab) {
   updateGui();
 }
 
-void WbTextEditor::handleUserCommand(WbActionManager::WbActionKind action) {
+void WbTextEditor::handleUserCommand(WbAction::WbActionKind action) {
   switch (action) {
-    case WbActionManager::CUT:
+    case WbAction::CUT:
       mCurrentBuffer->cut();
       break;
-    case WbActionManager::COPY:
+    case WbAction::COPY:
       mCurrentBuffer->copy();
       break;
-    case WbActionManager::PASTE:
+    case WbAction::PASTE:
       mCurrentBuffer->paste();
       break;
-    case WbActionManager::SELECT_ALL:
+    case WbAction::SELECT_ALL:
       mCurrentBuffer->selectAll();
       break;
-    case WbActionManager::UNDO:
+    case WbAction::UNDO:
       mCurrentBuffer->undo();
       break;
-    case WbActionManager::REDO:
+    case WbAction::REDO:
       mCurrentBuffer->redo();
       break;
-    case WbActionManager::FIND:
+    case WbAction::FIND:
       openFindDialog();
       break;
-    case WbActionManager::FIND_NEXT:
+    case WbAction::FIND_NEXT:
       if (mFindDialog != NULL)
         mFindDialog->next();
       else if (mReplaceDialog != NULL)
@@ -273,7 +270,7 @@ void WbTextEditor::handleUserCommand(WbActionManager::WbActionKind action) {
       else
         WbFindReplaceDialog::findNext(mTextFind, this);
       break;
-    case WbActionManager::FIND_PREVIOUS:
+    case WbAction::FIND_PREVIOUS:
       if (mFindDialog != NULL)
         mFindDialog->previous();
       else if (mReplaceDialog != NULL)

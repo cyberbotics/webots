@@ -17,8 +17,8 @@
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
 
-  WbNodeRef root, texture, material, background, proto, shape, plane, box, mfTest;
-  WbFieldRef field;
+  WbNodeRef root, texture, material, background, proto, shape, plane, box, internal_physics, mfTest, self, internal_appearance;
+  WbFieldRef field, internal_field, internal_sf_node_field, internal_transparency_field, supervisor_field;
   const char *charArray;
   const double *doubleArray;
   double doubleVec3[3] = {0.0, 0.0, 0.0};
@@ -69,6 +69,43 @@ int main(int argc, char **argv) {
   wb_supervisor_field_set_sf_float(field, 0.73);
   d = wb_supervisor_field_get_sf_float(field);
   ts_assert_double_equal(d, 0.73, "Proto \"camera_fieldOfView\" SFFloat field should have value 0.73 not %f", d);
+
+  // invalid to retrive a non-PROTO field or a PROTO parameter
+  internal_field = wb_supervisor_node_get_proto_field(box, "scale");
+  ts_assert_pointer_null(internal_field, "wb_supervisor_node_get_proto_field should only work for PROTO nodes.");
+  internal_field = wb_supervisor_node_get_proto_field(mfTest, "mfBool");
+  ts_assert_pointer_null(internal_field, "wb_supervisor_node_get_proto_field should only work for internal PROTO fields.");
+
+  // internal SFNode
+  internal_sf_node_field = wb_supervisor_node_get_proto_field(proto, "physics");
+  ts_assert_pointer_not_null(internal_sf_node_field, "wb_supervisor_node_get_proto_field should return an internal field.");
+  internal_physics = wb_supervisor_field_get_sf_node(internal_sf_node_field);
+  ts_assert_pointer_not_null(internal_physics, "wb_supervisor_field_get_sf_node should return an internal node.");
+  internal_field = wb_supervisor_node_get_field(internal_physics, "density");
+  ts_assert_pointer_not_null(internal_field, "wb_supervisor_node_get_proto_field should return an internal field.");
+  d = wb_supervisor_field_get_sf_float(internal_field);
+  ts_assert_double_equal(d, -1.0, "Returned value should be -1.0 and not %f", d);
+
+  // internal SFFloat value
+  internal_field = wb_supervisor_node_get_field(proto, "cpuConsumption");
+  ts_assert_pointer_null(internal_field, "wb_supervisor_node_get_field should not return internal fields.");
+  internal_field = wb_supervisor_node_get_proto_field(proto, "cpuConsumption");
+  ts_assert_pointer_not_null(internal_field, "wb_supervisor_node_get_proto_field should return an internal field.");
+  d = wb_supervisor_field_get_sf_float(internal_field);
+  ts_assert_double_equal(d, 1.11, "Returned value should be 1.11 and not %f", d);
+  wb_supervisor_field_set_sf_float(internal_field, 1.5);
+
+  // internal EPUCK_TRANSPARENT_APPEARANCE SFFloat value
+  internal_appearance = wb_supervisor_node_get_from_proto_def(proto, "EPUCK_TRANSPARENT_APPEARANCE");
+  ts_assert_pointer_not_null(
+    internal_appearance, "wb_supervisor_node_get_from_proto_def should return the internal EPUCK_TRANSPARENT_APPEARANCE node.");
+  internal_transparency_field = wb_supervisor_node_get_field(internal_appearance, "transparency");
+  ts_assert_pointer_not_null(
+    internal_transparency_field,
+    "wb_supervisor_node_get_field should return the field of the internal EPUCK_TRANSPARENT_APPEARANCE node.");
+  wb_supervisor_field_set_sf_float(internal_transparency_field, 0.0);
+  d = wb_supervisor_field_get_sf_float(internal_transparency_field);
+  ts_assert_double_equal(d, 0.4, "Returned value for invalid set of internal node should be 0.4 and not %f", d);
 
   // get SFFloat on a different field type
   field = wb_supervisor_node_get_field(proto, "camera_height");
@@ -348,6 +385,17 @@ int main(int argc, char **argv) {
   vector3_modified = wb_supervisor_field_get_sf_vec3f(field);
   ts_assert_doubles_equal(3, vector3_modified, vector3_expected, "Delayed 'wb_supervisor_field_set_sf_vec3f' failed");
 
+  // test internal SFFloat was read-only (wb_supervisor_field_set_sf_float failed)
+  // field reference is invalid after regeneration
+  int internal_field_type = wb_supervisor_field_get_type(internal_field);
+  printf("internal_field_type %d\n", internal_field_type);
+  ts_assert_int_equal(internal_field_type, 0, "Internal field reference is invalid after PROTO regeneration");
+  internal_field = wb_supervisor_node_get_proto_field(proto, "cpuConsumption");
+  printf("internal_field %p\n", internal_field);
+  ts_assert_pointer_not_null(internal_field, "Node reference should be invalid after PROTO regeneration");
+  d = wb_supervisor_field_get_sf_float(internal_field);
+  ts_assert_double_equal(d, 1.11, "Returned value should be 1.11 and not %f", d);
+
   // multiple MFFloat field operations in one step
   wb_robot_step(TIME_STEP);
   field = wb_supervisor_node_get_field(mfTest, "mfFloat");
@@ -360,6 +408,21 @@ int main(int argc, char **argv) {
   ts_assert_double_equal(mf_float_expected, 2.0,
                          "Consecutive wb_supervisor_field_set_mf_float: second set instruction failed.");
   wb_robot_step(TIME_STEP);
+
+  // supervisor field update
+  self = wb_supervisor_node_get_self();
+  supervisor_field = wb_supervisor_node_get_field(self, "supervisor");
+  ts_assert_boolean_equal(wb_supervisor_field_get_sf_bool(supervisor_field), "'supervisor' field should be true");
+  ts_assert_boolean_equal(wb_robot_get_supervisor(), "'wb_robot_get_supervisor' field should return true");
+  wb_supervisor_field_set_sf_bool(supervisor_field, false);
+  wb_robot_step(TIME_STEP);
+
+  ts_assert_boolean_equal(!wb_robot_get_supervisor(), "'wb_robot_get_supervisor' field should return false");
+  const int self_id = wb_supervisor_node_get_id(self);
+  ts_assert_int_equal(
+    self_id, -1,
+    "Returned value for 'wb_supervisor_node_get_id' field should be '-1' when 'supervisor' field is set to FALSE and not '%d'",
+    self_id);
 
   ts_send_success();
   return EXIT_SUCCESS;

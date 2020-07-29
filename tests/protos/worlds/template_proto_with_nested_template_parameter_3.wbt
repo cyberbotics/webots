@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   lineScale 1.4
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.620767 -0.781164 -0.0665642 0.272813
+  orientation -0.620767106800929 -0.7811641343967074 -0.06656421145215258 0.272813
   position -1.38134 0.59295 3.00648
 }
 Background {
@@ -37,9 +38,11 @@ Robot {
     TestSuiteEmitter {
     }
   ]
-  name "robot"
   controller "test_cylinder_size_and_resizing"
-  controllerArgs "template_proto_with_nested_template_parameter_3 template_regeneration_disabled"
+  controllerArgs [
+    "template_proto_with_nested_template_parameter_3"
+    "template_regeneration_disabled"
+  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {

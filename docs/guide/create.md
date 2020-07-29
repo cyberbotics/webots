@@ -18,7 +18,7 @@ Create {
   SFRotation rotation        0 1 0 0
   SFString   name            "Create"
   SFString   controller      "create_avoid_obstacles"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

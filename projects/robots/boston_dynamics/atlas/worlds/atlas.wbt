@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "Atlas sample"
@@ -6,6 +6,7 @@ WorldInfo {
   CFM 1e-07
   ERP 0.8
   basicTimeStep 8
+  coordinateSystem "NUE"
   lineScale 0.25
 }
 Viewpoint {

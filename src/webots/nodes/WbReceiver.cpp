@@ -163,7 +163,7 @@ void WbReceiver::postFinalize() {
 void WbReceiver::updateTransmissionSetup() {
   mMediumType = WbDataPacket::decodeMediumType(mType->value());
   if (mMediumType == WbDataPacket::UNKNOWN) {
-    warn(tr("Unknown 'type': \"%1\".").arg(mType->value()));
+    parsingWarn(tr("Unknown 'type': \"%1\".").arg(mType->value()));
     mMediumType = WbDataPacket::RADIO;
   }
 

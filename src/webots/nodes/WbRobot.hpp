@@ -15,6 +15,7 @@
 #ifndef WB_ROBOT_HPP
 #define WB_ROBOT_HPP
 
+#include "WbMFString.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFString.hpp"
 #include "WbSolid.hpp"
@@ -97,7 +98,7 @@ public:
 
   // field accessors
   const QString &controllerName() const { return mController->value(); }
-  const QString &controllerArgs() const { return mControllerArgs->value(); }
+  const QStringList &controllerArgs() const { return mControllerArgs->value(); }
   const QString &customData() const { return mCustomData->value(); }
   const QString &window() const { return mWindow->value(); }
   bool synchronization() const { return mSynchronization->value(); }
@@ -159,13 +160,15 @@ protected:
 
   // export
   void exportNodeFields(WbVrmlWriter &writer) const override;
+  const QString urdfName() const override;
 
   WbKinematicDifferentialWheels *mKinematicDifferentialWheels;
+  const bool isRobot() const override { return true; };
 
 private:
   // user accessible fields
   WbSFString *mController;
-  WbSFString *mControllerArgs;
+  WbMFString *mControllerArgs;
   WbSFString *mCustomData;
   WbSFBool *mSupervisor;
   WbSFBool *mSynchronization;
@@ -176,12 +179,14 @@ private:
   WbSFString *mWindow;
   WbSFString *mRemoteControl;
 
+  bool mNeedToWriteUrdf;
   bool mShowWindowCalled;
   bool mShowWindowMessage;
   bool mUpdateWindowMessage;
   bool mWaitingForWindow;
   const QByteArray *mMessageFromWwi;
   bool mDataNeedToWriteAnswer;
+  bool mSupervisorNeedToWriteAnswer;
   bool mModelNeedToWriteAnswer;
   bool mPowerOn;
   bool mControllerStarted;
@@ -194,6 +199,7 @@ private:
   double mPreviousTime;
 
   // supervisor
+  bool mSupervisorUtilitiesNeedUpdate;
   WbSupervisorUtilities *mSupervisorUtilities;
 
   // pin
@@ -267,6 +273,7 @@ private slots:
   void updateSimulationMode();
   void updateControllerDir();
   void updateData();
+  void updateSupervisor();
   void updateModel();
   void removeRenderingDevice();
   void handleMouseChange();

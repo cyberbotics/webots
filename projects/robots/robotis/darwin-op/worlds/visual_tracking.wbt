@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "ROBOTIS OP2 robot."
@@ -6,6 +6,7 @@ WorldInfo {
   ]
   title "ROBOTIS OP2"
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.16290496645257643 0.9377938068777967 0.3066019368607031 2.21925

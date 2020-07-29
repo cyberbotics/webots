@@ -1,0 +1,291 @@
+#VRML_SIM R2020b utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.104674958073239 -0.9575576164575551 -0.26856389242876866 2.60605
+  position -1.59084 1.87221 -2.53085
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+Robot {
+  translation -0.1 0.09 0
+  children [
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+      }
+      device [
+        RotationalMotor {
+          name "motor"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.12 -0.03
+        rotation 1 0 0 1.57
+        children [
+          RangeFinder {
+            translation 0 -0.05 0
+            rotation 1 0 0 -1.57
+          }
+          Shape {
+            appearance PBRAppearance {
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.1
+              radius 0.03
+            }
+          }
+        ]
+        boundingObject Cylinder {
+          height 0.1
+          radius 0.03
+        }
+        physics Physics {
+        }
+      }
+    }
+    Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.18
+        radius 0.05
+      }
+    }
+  ]
+  boundingObject Cylinder {
+    height 0.18
+    radius 0.05
+  }
+  physics Physics {
+  }
+  locked TRUE
+  controller "ros"
+}
+Solid {
+  translation 0.3 0.1 0
+  children [
+    Solid {
+      translation 0 -0.09 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.588235 0.196078 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.1 0.02 0.02
+          }
+        }
+      ]
+      boundingObject Box {
+        size 0.1 0.02 0.02
+      }
+      physics Physics {
+      }
+    }
+    Solid {
+      translation 0 -0.09 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.588235 0.196078 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.02 0.02 0.1
+          }
+        }
+      ]
+      name "solid(1)"
+      boundingObject Box {
+        size 0.02 0.02 0.1
+      }
+      physics Physics {
+      }
+    }
+    Solid {
+      translation -0.02 0.16 0
+      rotation 0 0 1 1
+      children [
+        Solid {
+          translation 0.015 0 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.996078 1 0
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.005 0.07 0.15
+              }
+            }
+          ]
+          name "wings"
+          boundingObject Box {
+            size 0.005 0.07 0.15
+          }
+          physics Physics {
+          }
+        }
+        Solid {
+          translation 0 0.06 0
+          children [
+            Solid {
+              translation -0.01 0.01 0
+              rotation 0 0 1 -0.7
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 1 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.04 0.008 0.008
+                  }
+                }
+              ]
+              name "nose"
+              boundingObject Box {
+                size 0.04 0.008 0.008
+              }
+              physics Physics {
+              }
+            }
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.913725 0.682353 0
+                roughness 1
+                metalness 0
+              }
+              geometry Sphere {
+                radius 0.025
+              }
+            }
+          ]
+          name "head"
+          boundingObject Sphere {
+            radius 0.025
+          }
+          physics Physics {
+          }
+        }
+        Solid {
+          translation -0.02 -0.03 -0.025
+          rotation 0 0 1 -1
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 0
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.015 0.05 0.015
+              }
+            }
+          ]
+          name "right_leg"
+          boundingObject Box {
+            size 0.015 0.05 0.015
+          }
+          physics Physics {
+          }
+        }
+        Solid {
+          translation -0.02 -0.03 0.025
+          rotation 0 0 1 -1
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 0
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.015 0.05 0.015
+              }
+            }
+          ]
+          name "left_leg"
+          boundingObject Box {
+            size 0.015 0.05 0.015
+          }
+          physics Physics {
+          }
+        }
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.772549 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Capsule {
+            height 0.07
+            radius 0.02
+          }
+        }
+      ]
+      name "body"
+      boundingObject Capsule {
+        height 0.07
+        radius 0.02
+        subdivision 16
+      }
+      physics Physics {
+      }
+      locked TRUE
+    }
+    Solid {
+      translation 0 0.1 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.588235 0.196078 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.02 0.02 0.2
+          }
+        }
+      ]
+      name "solid(2)"
+      boundingObject Box {
+        size 0.02 0.02 0.2
+      }
+      physics Physics {
+      }
+    }
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.588235 0.196078 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 0.2 0.02
+      }
+    }
+  ]
+  name "pillar"
+  boundingObject Box {
+    size 0.02 0.2 0.02
+  }
+  physics Physics {
+  }
+  locked TRUE
+}

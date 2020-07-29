@@ -120,10 +120,10 @@ bool WbAbstractTransform::checkScalePositivity(WbVector3 &correctedScale) const 
   if (x <= 0.0) {
     if (x == 0.0) {
       correctedScale.setX(1.0);
-      mBaseNode->warn(QObject::tr("All 'scale' coordinates must be positive: x is set to 1.0."));
+      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: x is set to 1.0."));
     } else {
       correctedScale.setX(fabs(x));
-      mBaseNode->warn(QObject::tr("All 'scale' coordinates must be positive: x is set to abs(x)."));
+      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: x is set to abs(x)."));
     }
     b = true;
   }
@@ -131,10 +131,10 @@ bool WbAbstractTransform::checkScalePositivity(WbVector3 &correctedScale) const 
   if (y <= 0.0) {
     if (y == 0.0) {
       correctedScale.setY(1.0);
-      mBaseNode->warn(QObject::tr("All 'scale' coordinates must be positive: y is set to 1.0."));
+      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: y is set to 1.0."));
     } else {
       correctedScale.setY(fabs(y));
-      mBaseNode->warn(QObject::tr("All 'scale' coordinates must be positive: y is set to abs(y)."));
+      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: y is set to abs(y)."));
     }
     b = true;
   }
@@ -142,10 +142,10 @@ bool WbAbstractTransform::checkScalePositivity(WbVector3 &correctedScale) const 
   if (z <= 0.0) {
     if (z == 0.0) {
       correctedScale.setZ(1.0);
-      mBaseNode->warn(QObject::tr("All 'scale' coordinates must be positive: z is set to 1.0."));
+      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: z is set to 1.0."));
     } else {
       correctedScale.setZ(fabs(z));
-      mBaseNode->warn(QObject::tr("All 'scale' coordinates must be positive: z is set to abs(z)."));
+      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: z is set to abs(z)."));
     }
     b = true;
   }
@@ -164,7 +164,7 @@ bool WbAbstractTransform::checkScalingPhysicsConstraints(WbVector3 &correctedSca
       correctedScale.setZ(mScale->x());
     b = true;
     if (warning)
-      mBaseNode->warn(
+      mBaseNode->parsingWarn(
         QObject::tr("'scale' were changed so that x = z because of physics constraints inside a 'boundingObject'."));
   }
 
@@ -189,7 +189,7 @@ bool WbAbstractTransform::checkScaleUniformity(WbVector3 &correctedScale, bool w
   }
 
   if (b && warning)
-    mBaseNode->warn(QObject::tr("'scale' was made uniform because of physics constraints inside a 'boundingObject'."));
+    mBaseNode->parsingWarn(QObject::tr("'scale' was made uniform because of physics constraints inside a 'boundingObject'."));
 
   return b;
 }

@@ -1,11 +1,12 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "Test world resetting itself"
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.30621251 -0.92407837 -0.22872049 4.8372312
+  orientation 0.3062125103478272 -0.924078371049662 -0.22872049025980393 4.8372312
   position 1.510522 0.83741937 0.23084154
 }
 Background {

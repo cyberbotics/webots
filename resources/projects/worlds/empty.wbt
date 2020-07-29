@@ -1,7 +1,6 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
-  info [
-  ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
 }

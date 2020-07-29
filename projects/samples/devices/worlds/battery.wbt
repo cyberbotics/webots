@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "Example use of a Battery device."
   ]
   title "Battery"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.9998519139498365 0.0028847898113961356 -0.01696549906702087 5.02182

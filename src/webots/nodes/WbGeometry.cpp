@@ -138,22 +138,23 @@ void WbGeometry::createOdeObjects() {
 
 // Default creation method (overriden in every WbGeometry inherited class)
 dGeomID WbGeometry::createOdeGeom(dSpaceID space) {
-  warn(tr("This type of geometry node cannot be placed in 'boundingObject'."));
+  parsingWarn(tr("This type of geometry node cannot be placed in 'boundingObject'."));
   return NULL;
 }
 
 void WbGeometry::checkFluidBoundingObjectOrientation() {
   const WbMatrix3 &m = upperTransform()->rotationMatrix();
   const WbVector3 &yAxis = m.column(1);
-  const WbVector3 &g = WbWorld::instance()->worldInfo()->gravity();
+  const WbVector3 &g = WbWorld::instance()->worldInfo()->gravityVector();
   const double alpha = yAxis.angle(-g);
 
   static const double ZERO_THRESHOLD = 1e-3;
 
   if (fabs(alpha) > ZERO_THRESHOLD)
-    warn("The normal to this geometry's immersion plane is not opposed to the gravity vector. "
-         "This may yield unexpected behaviors when immersing solids. (Please consult the Reference Manual for the definition "
-         "of immersion planes.)");
+    parsingWarn(
+      "The normal to this geometry's immersion plane is not opposed to the gravity vector. "
+      "This may yield unexpected behaviors when immersing solids. (Please consult the Reference Manual for the definition "
+      "of immersion planes.)");
 }
 
 /////////////////////////
@@ -521,6 +522,12 @@ int WbGeometry::triangleCount() const {
     return wr_static_mesh_get_triangle_count(this->wrenMesh());
   else
     return 0;
+}
+
+bool WbGeometry::exportNodeHeader(WbVrmlWriter &writer) const {
+  if (writer.isUrdf())
+    return true;
+  return WbBaseNode::exportNodeHeader(writer);
 }
 
 ////////////////////////////////

@@ -14,16 +14,21 @@
 
 """Demonstration of inverse kinematics using the "ikpy" Python module."""
 
+import sys
 try:
+    import ikpy
     from ikpy.chain import Chain
     from ikpy.link import OriginLink, URDFLink
 except ImportError:
-    import sys
     sys.exit('The "ikpy" Python module is not installed. '
              'To run this sample, please upgrade "pip" and install ikpy with this command: "pip install ikpy"')
 
 import math
 from controller import Supervisor
+
+if ikpy.__version__[0] < '3':
+    sys.exit('The "ikpy" Python module version is too old. '
+             'Please upgrade "ikpy" Python module to version "3.0" or newer with this command: "pip install --upgrade ikpy"')
 
 # Create the arm chain.
 # The constants below have been manually extracted from the Irb4600-40.proto file, looking at the HingeJoint node fields.
@@ -93,12 +98,7 @@ while supervisor.step(timeStep) != -1:
     z = 0.23
 
     # Call "ikpy" to compute the inverse kinematics of the arm.
-    ikResults = armChain.inverse_kinematics([
-        [1, 0, 0, x],
-        [0, 1, 0, y],
-        [0, 0, 1, z],
-        [0, 0, 0, 1]
-    ])
+    ikResults = armChain.inverse_kinematics([x, y, z])
 
     # Actuate the 3 first arm motors with the IK results.
     for i in range(3):
@@ -129,12 +129,7 @@ while supervisor.step(timeStep) != -1:
     z = targetPosition[1] - armPosition[1]
 
     # Call "ikpy" to compute the inverse kinematics of the arm.
-    ikResults = armChain.inverse_kinematics([
-        [1, 0, 0, x],
-        [0, 1, 0, y],
-        [0, 0, 1, z],
-        [0, 0, 0, 1]
-    ])
+    ikResults = armChain.inverse_kinematics([x, y, z])
 
     # Actuate the 3 first arm motors with the IK results.
     for i in range(3):

@@ -36,6 +36,7 @@ public:
   virtual ~WbFieldDoubleSpinBox();
 
   void setValueNoSignals(double value);
+  void setMode(int mode);
 
   // reimplemented public functions
   QString textFromValue(double value) const override;

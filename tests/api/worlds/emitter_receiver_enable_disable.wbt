@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.51915392 -0.77840887 -0.35292894 1.4748
+  orientation -0.5191539204580062 -0.7784088706867252 -0.35292894031135974 1.4748
   position -1.20045 2.13217 0.47028
 }
 Background {
@@ -90,7 +91,9 @@ DEF ROBOT0 Robot {
   ]
   name "robot0"
   controller "emitter_receiver_enable_disable"
-  controllerArgs "emitter_receiver_enable_disable_serial_emitter_radio_receiver"
+  controllerArgs [
+    "emitter_receiver_enable_disable_serial_emitter_radio_receiver"
+  ]
 }
 DEF ROBOT1 Robot {
   translation 0.303192 0.05 -0.0478494
@@ -141,7 +144,9 @@ DEF ROBOT1 Robot {
   ]
   name "robot1"
   controller "emitter_receiver_enable_disable"
-  controllerArgs "emitter_receiver_enable_disable_infra_red_emitter"
+  controllerArgs [
+    "emitter_receiver_enable_disable_infra_red_emitter"
+  ]
 }
 DEF ROBOT2 Robot {
   translation 0.0202317 0.05 -0.309676
@@ -191,7 +196,9 @@ DEF ROBOT2 Robot {
   ]
   name "robot2"
   controller "emitter_receiver_enable_disable"
-  controllerArgs "emitter_receiver_enable_disable_radio_emitter"
+  controllerArgs [
+    "emitter_receiver_enable_disable_radio_emitter"
+  ]
 }
 DEF ROBOT3 Robot {
   translation 0.234283 0.05 0.224851
@@ -243,7 +250,9 @@ DEF ROBOT3 Robot {
   ]
   name "robot3"
   controller "emitter_receiver_enable_disable"
-  controllerArgs "emitter_receiver_enable_disable_serial_receiver"
+  controllerArgs [
+    "emitter_receiver_enable_disable_serial_receiver"
+  ]
 }
 DEF ROBOT4 Robot {
   translation -0.243907 0.05 -0.132252
@@ -294,7 +303,9 @@ DEF ROBOT4 Robot {
   ]
   name "robot4"
   controller "emitter_receiver_enable_disable"
-  controllerArgs "emitter_receiver_enable_disable_infra_red_receiver"
+  controllerArgs [
+    "emitter_receiver_enable_disable_infra_red_receiver"
+  ]
 }
 TestSuiteSupervisor {
 }

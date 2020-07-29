@@ -116,7 +116,7 @@ void wbr_radar_set_targets(WbDeviceTag tag, const WbRadarTarget *targets, int ta
       radar->targets[i].azimuth = targets[i].azimuth;
     }
   } else
-    fprintf(stderr, "Error: wbr_radar_set_targets(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 // Protected functions (exported to device.cc)
@@ -133,7 +133,7 @@ void wb_radar_init(WbDevice *d) {
 
 void wb_radar_enable(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
-    fprintf(stderr, "Error: wb_radar_enable() called with negative sampling period.\n");
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
 
@@ -143,7 +143,7 @@ void wb_radar_enable(WbDeviceTag tag, int sampling_period) {
     radar->sampling_period = sampling_period;
     radar->enable = true;
   } else
-    fprintf(stderr, "Error: wb_radar_enable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -152,7 +152,7 @@ void wb_radar_disable(WbDeviceTag tag) {
   if (radar)
     wb_radar_enable(tag, 0);
   else
-    fprintf(stderr, "Error: wb_radar_disable(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
 int wb_radar_get_sampling_period(WbDeviceTag tag) {
@@ -162,7 +162,7 @@ int wb_radar_get_sampling_period(WbDeviceTag tag) {
   if (radar)
     sampling_period = radar->sampling_period;
   else
-    fprintf(stderr, "Error: wb_radar_get_sampling_period(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return sampling_period;
 }
@@ -173,10 +173,10 @@ int wb_radar_get_number_of_targets(WbDeviceTag tag) {
   Radar *radar = radar_get_struct(tag);
   if (radar) {
     if (radar->sampling_period == 0)
-      fprintf(stderr, "Error: wb_radar_get_number_of_targets() called for a disabled device! Please use: wb_radar_enable().\n");
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_radar_enable().\n", __FUNCTION__);
     result = radar->target_number;
   } else
-    fprintf(stderr, "Error: wb_radar_get_number_of_targets(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -187,10 +187,10 @@ const WbRadarTarget *wb_radar_get_targets(WbDeviceTag tag) {
   Radar *radar = radar_get_struct(tag);
   if (radar) {
     if (radar->sampling_period == 0)
-      fprintf(stderr, "Error: wb_radar_get_targets() called for a disabled device! Please use: wb_radar_enable().\n");
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_radar_enable().\n", __FUNCTION__);
     result = radar->targets;
   } else
-    fprintf(stderr, "Error: wb_radar_get_targets(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -202,7 +202,7 @@ double wb_radar_get_min_range(WbDeviceTag tag) {
   if (radar)
     result = radar->min_range;
   else
-    fprintf(stderr, "Error: wb_radar_get_min_range(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -214,7 +214,7 @@ double wb_radar_get_max_range(WbDeviceTag tag) {
   if (radar)
     result = radar->max_range;
   else
-    fprintf(stderr, "Error: wb_radar_get_max_range(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -226,7 +226,7 @@ double wb_radar_get_horizontal_fov(WbDeviceTag tag) {
   if (radar)
     result = radar->horizontal_fov;
   else
-    fprintf(stderr, "Error: wb_radar_get_horizontal_fov(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -238,7 +238,7 @@ double wb_radar_get_vertical_fov(WbDeviceTag tag) {
   if (radar)
     result = radar->vertical_fov;
   else
-    fprintf(stderr, "Error: wb_radar_get_vertical_fov(): invalid device tag.\n");
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
@@ -248,6 +248,6 @@ const WbRadarTarget *wb_radar_get_target(WbDeviceTag tag, int index) {
   if (radar)
     return (wb_radar_get_targets(tag) + index);
 
-  fprintf(stderr, "Error: wb_radar_get_target(): invalid device tag.\n");
+  fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return NULL;
 }

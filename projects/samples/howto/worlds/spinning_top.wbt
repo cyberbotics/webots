@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "By adding a torque to the spinning top in the middle of the scene, observe its precession and its contacts with the other objects"
@@ -7,6 +7,7 @@ WorldInfo {
   basicTimeStep 8
   defaultDamping Damping {
   }
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.34778692757478485 -0.8913855566668865 -0.29064762578379355 1.3078411793188314

@@ -1,2 +1,2 @@
 function value = WB_NODE_RANGE_FINDER
-value = 51;
+value = 52;

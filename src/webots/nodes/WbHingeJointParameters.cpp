@@ -28,7 +28,7 @@ void WbHingeJointParameters::init(bool fromDeprecatedHinge2JointParameters) {
       else
         mSuspensionAxis = new WbSFVector3(mAxis->value());
     }
-    warn(tr("'Hinge2JointParameters' is deprecated, please use 'HingeJointParameters' instead."));
+    parsingWarn(tr("'Hinge2JointParameters' is deprecated, please use 'HingeJointParameters' instead."));
   }
 }
 
@@ -72,7 +72,7 @@ void WbHingeJointParameters::postFinalize() {
 void WbHingeJointParameters::updateAxis() {
   const WbVector3 &a = mAxis->value();
   if (a.isNull()) {
-    warn(tr("'axis' must be non zero."));
+    parsingWarn(tr("'axis' must be non zero."));
     mAxis->setValue(1.0, 0.0, 0.0);
     return;
   }
@@ -83,7 +83,7 @@ void WbHingeJointParameters::updateAxis() {
 void WbHingeJointParameters::updateSuspension() {
   const WbVector3 &a = mSuspensionAxis->value();
   if (a.isNull()) {
-    warn(tr("'SuspensionAxis' must be non zero."));
+    parsingWarn(tr("'SuspensionAxis' must be non zero."));
     mSuspensionAxis->setValue(1.0, 0.0, 0.0);
     return;
   }

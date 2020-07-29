@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "Benchmark objective: "
@@ -7,6 +7,7 @@ WorldInfo {
   title "Robot Programming"
   window "robot_programming"
   basicTimeStep 20
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "thymio body"
@@ -31,7 +32,7 @@ CircleArena {
 DEF THYMIO2 Thymio2 {
   rotation 1 0 0 0
   controller "move"
-  controllerArgs ""
+  controllerArgs []
 }
 RobotProgrammingBenchmark {
 }

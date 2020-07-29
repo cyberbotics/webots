@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 # license: Creative Commons 4.0
 # license url: https://creativecommons.org/licenses/by/4.0
 # documentation url: https://www.cyberbotics.com/doc/guide/spot
@@ -11,7 +11,7 @@ PROTO Spot [
   field SFString    name             "Spot"                    # Is `Solid.name`.
   field SFString    model            "Boston Dynamics - Spot"  # Is `Robot.model`.
   field SFString    controller       "spot_moving_demo"        # Is `Robot.controller`.
-  field SFString    controllerArgs   ""                        # Is `Robot.controllerArgs`.
+  field MFString    controllerArgs   []                        # Is `Robot.controllerArgs`.
   field SFString    customData       ""                        # Is `Robot.customData`.
   field SFBool      supervisor       FALSE                     # Is `Robot.supervisor`.
   field SFBool      synchronization  TRUE                      # Is `Robot.synchronization`.

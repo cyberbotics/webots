@@ -163,7 +163,7 @@ for proto in prioritaryProtoList + fileList:
         matches = re.finditer(r'^\s*(.*?ield)\s+([^ \{]*)(\s+)([^ ]*)\s+([^#\n]*)(#?)(.*)((\n*(    |  \]).*)*)',
                               fieldsDefinition, re.MULTILINE)
         for i, match in enumerate(matches):
-            if match.group(1) != 'hiddenField':
+            if match.group(1) not in ['hiddenField', 'deprecatedField']:
                 fieldType = match.group(2)
                 spaces = match.group(3)
                 fieldName = match.group(4)

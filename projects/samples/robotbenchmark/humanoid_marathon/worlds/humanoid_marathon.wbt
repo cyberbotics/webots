@@ -1,8 +1,9 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   title "Humanoid Marathon"
   window "humanoid_marathon"
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.22959806948864758 -0.9625869278561616 -0.14391362967948082 5.2328629

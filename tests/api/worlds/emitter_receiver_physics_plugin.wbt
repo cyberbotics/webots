@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   physics "emitter_receiver_physics"
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.999417 0.0192633 0.0282059 1.19169
+  orientation -0.9994165065828456 0.019263290489612776 0.02820588607460658 1.19169
   position -0.00853172 3.13764 1.29146
 }
 Background {

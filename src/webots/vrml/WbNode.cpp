@@ -58,6 +58,8 @@ struct ProtoParameters {
   const QVector<WbField *> *params;
 };
 static QList<ProtoParameters *> gProtoParameterList;
+static QList<const WbNode *> gUrdfNodesQueue;
+static const WbNode *gUrdfCurrentNode;
 
 static bool gInstantiateMode = true;
 static QVector<WbNode *> gNodes = {NULL};  // id 0 is reserved for root node
@@ -71,6 +73,7 @@ static bool gTopParameterFlag = false;
 static bool gDerivedProtoAncestorFlag = false;
 static QStringList *gInternalDefNamesInWrite = NULL;
 static QList<QPair<WbNode *, int>> *gExternalUseNodesInWrite = NULL;
+static bool gRestoreUniqueIdOnClone;
 
 bool WbNode::cUpdatingDictionary = false;
 
@@ -89,7 +92,7 @@ bool WbNode::instantiateMode() {
   return gInstantiateMode;
 }
 
-void WbNode::setGlobalParent(WbNode *parent, bool protoParameterNodeFlag) {
+void WbNode::setGlobalParentNode(WbNode *parent, bool protoParameterNodeFlag) {
   gParent = parent;
 
   if (parent)
@@ -98,8 +101,14 @@ void WbNode::setGlobalParent(WbNode *parent, bool protoParameterNodeFlag) {
     gProtoParameterNodeFlag = false;
 }
 
-WbNode *WbNode::globalParent() {
+WbNode *WbNode::globalParentNode() {
   return gParent;
+}
+
+bool WbNode::setRestoreUniqueIdOnClone(bool enable) {
+  const bool previousValue = gRestoreUniqueIdOnClone;
+  gRestoreUniqueIdOnClone = enable;
+  return previousValue;
 }
 
 void WbNode::setUniqueId(int newId) {
@@ -108,7 +117,7 @@ void WbNode::setUniqueId(int newId) {
   // - the newId slot is empty (the node was deleted)
   assert(newId >= 0);
   assert(newId < gNodes.size());
-  assert(gNodes[newId] == NULL);
+  assert(gRestoreUniqueIdOnClone || gNodes[newId] == NULL);
 
   // update the id
   if (mUniqueId != -1 && mUniqueId != newId) {
@@ -129,7 +138,7 @@ int WbNode::getFreeUniqueId() {
 
 void WbNode::init() {
   // nodes at the .wbt level are created with a mUniqueId
-  if (gInstantiateMode) {
+  if (gInstantiateMode && !gRestoreUniqueIdOnClone) {
     mUniqueId = gNodes.size();
     gNodes.append(this);
   } else
@@ -138,7 +147,7 @@ void WbNode::init() {
 
   mDefNode = NULL;
   mHasUseAncestor = false;
-  mParent = gParent;
+  setParentNode(gParent);
   gParent = this;
   mIsBeingDeleted = false;
   mIsProtoDescendant = false;
@@ -166,7 +175,7 @@ WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *
   foreach (const WbField *const field, mFields)
     connect(field, &WbField::valueChanged, this, &WbNode::notifyFieldChanged);
 
-  gParent = mParent;
+  gParent = parentNode();
 
   if (gProtoParameterNodeFlag)
     mIsProtoDescendant = true;
@@ -181,6 +190,8 @@ WbNode::WbNode(const WbNode &other) :
   mProtoInstanceFilePath(other.mProtoInstanceFilePath),
   mProtoInstanceTemplateContent(other.mProtoInstanceTemplateContent) {
   init();
+  if (gRestoreUniqueIdOnClone)
+    setUniqueId(other.mUniqueId);
 
   // copy mProto reference in any case
   if (other.mProto) {
@@ -188,11 +199,11 @@ WbNode::WbNode(const WbNode &other) :
     mProto->ref();
   }
 
-  if (gDerivedProtoAncestorFlag && other.mProto && (mParent && mParent->mIsNestedProtoNode))
+  if (gDerivedProtoAncestorFlag && other.mProto && (parentNode() && parentNode()->mIsNestedProtoNode))
     mIsNestedProtoNode = true;
 
   // do not redirect fields of DEF node descendant even if included in a PROTO parameter
-  if (gDefCloneFlag || (mParent && mParent->mHasUseAncestor))
+  if (gDefCloneFlag || (parentNode() && parentNode()->mHasUseAncestor))
     mHasUseAncestor = true;
 
   if (!mHasUseAncestor && !gDefCloneFlag && other.mIsProtoDescendant && gProtoParameterNodeFlag) {
@@ -297,7 +308,7 @@ WbNode::WbNode(const WbNode &other) :
     }
   }
 
-  gParent = mParent;
+  gParent = parentNode();
   if (gTopParameterFlag)
     mIsTopParameterDescendant = true;
 }
@@ -325,7 +336,8 @@ WbNode::~WbNode() {
   mProtoParameterNodeInstances.clear();
 
   // nodes in PROTO definitions and in scene tree clipboard are not in gNodes[]
-  if (mUniqueId != -1)
+  // in case of PROTO regeneration, the unique ID could already be assigned to a new node
+  if (mUniqueId != -1 && gNodes[mUniqueId] == this)
     gNodes[mUniqueId] = NULL;
 
   if (isUseNode() && mDefNode) {
@@ -364,25 +376,25 @@ void WbNode::setDefName(const QString &defName, bool recurse) {
   if (!recurse)
     return;
 
-  const WbNode *parentNode = parent();
+  const WbNode *parent = parentNode();
   const WbNode *previousParentNode = this;
   QList<int> parentIndices;
-  while (parentNode) {
-    int index = subNodeIndex(previousParentNode, parentNode);
+  while (parent) {
+    int index = subNodeIndex(previousParentNode, parent);
     if (index < 0)
       // parent-child link not correctly setup
       return;
     parentIndices.prepend(index);
-    if (!parentNode->useNodes().isEmpty()) {
-      const QList<WbNode *> &useList = parentNode->useNodes();
+    if (!parent->useNodes().isEmpty()) {
+      const QList<WbNode *> &useList = parent->useNodes();
       foreach (WbNode *const useNode, useList) {
         WbNode *const defNode = findNodeFromSubNodeIndices(parentIndices, useNode);
         assert(defNode != NULL);
         defNode->setDefName(defName, false);
       }
     }
-    previousParentNode = parentNode;
-    parentNode = parentNode->parent();
+    previousParentNode = parent;
+    parent = parent->parentNode();
   }
 }
 
@@ -464,7 +476,7 @@ QString WbNode::fullPath(const QString &fieldName, QString &parameterName) const
     else
       path = n->usefulName() + " > " + path;
 
-    n = n->parent();
+    n = n->parentNode();
   }
 
   return path;
@@ -483,20 +495,15 @@ QString WbNode::extractFieldName(const QString &message) const {
   return fieldName;
 }
 
-void WbNode::warn(const QString &message) const {
-  QString fieldName = extractFieldName(message);
-  QString parameterName;
-  QString path = fullPath(fieldName, parameterName);
-  QString improvedMsg = message;
-
-  if (!fieldName.isEmpty() && !parameterName.isEmpty())
-    // improve message by displaying parameter name instead of hidden field name
-    improvedMsg.replace("'" + fieldName + "'", "'" + parameterName + "'");
-
-  WbLog::warning(path + ": " + improvedMsg);
+void WbNode::parsingWarn(const QString &message) const {
+  warn(message, true);
 }
 
-void WbNode::info(const QString &message) const {
+void WbNode::parsingInfo(const QString &message) const {
+  info(message, true);
+}
+
+void WbNode::warn(const QString &message, bool parsingMessage) const {
   QString fieldName = extractFieldName(message);
   QString parameterName;
   QString path = fullPath(fieldName, parameterName);
@@ -506,7 +513,26 @@ void WbNode::info(const QString &message) const {
     // improve message by displaying parameter name instead of hidden field name
     improvedMsg.replace("'" + fieldName + "'", "'" + parameterName + "'");
 
-  WbLog::info(path + ": " + improvedMsg);
+  if (parsingMessage)
+    WbLog::warning(path + ": " + improvedMsg, false, WbLog::PARSING);
+  else
+    WbLog::warning(path + ": " + improvedMsg);
+}
+
+void WbNode::info(const QString &message, bool parsingMessage) const {
+  QString fieldName = extractFieldName(message);
+  QString parameterName;
+  QString path = fullPath(fieldName, parameterName);
+  QString improvedMsg = message;
+
+  if (!fieldName.isEmpty() && !parameterName.isEmpty())
+    // improve message by displaying parameter name instead of hidden field name
+    improvedMsg.replace("'" + fieldName + "'", "'" + parameterName + "'");
+
+  if (parsingMessage)
+    WbLog::info(path + ": " + improvedMsg, false, WbLog::PARSING);
+  else
+    WbLog::info(path + ": " + improvedMsg);
 }
 
 void WbNode::cleanup() {
@@ -529,7 +555,9 @@ int WbNode::numFields() const {
   return fieldsOrParameters().size();
 }
 
-WbField *WbNode::field(int index) const {
+WbField *WbNode::field(int index, bool internal) const {
+  if (internal)
+    return mFields[index];
   return fieldsOrParameters().at(index);
 }
 
@@ -543,9 +571,9 @@ WbField *WbNode::findField(const QString &fieldName, bool internal) const {
   return NULL;
 }
 
-int WbNode::findFieldId(const QString &fieldName) const {
+int WbNode::findFieldId(const QString &fieldName, bool internal) const {
   int counter = 0;
-  QVector<WbField *> fields = fieldsOrParameters();
+  const QVector<WbField *> &fields = internal ? mFields : fieldsOrParameters();
   foreach (const WbField *const field, fields) {
     if (field->name() == fieldName)
       return counter;
@@ -568,11 +596,11 @@ int WbNode::parameterIndex(const WbField *field) const {
 // Retrieves the field in which this node sits and returns the index of the node within this field
 WbField *WbNode::parentFieldAndIndex(int &index, bool internal) const {
   index = -1;
-  const WbNode *const parentNode = parent();
-  if (!parentNode)
+  const WbNode *const parent = parentNode();
+  if (!parent)
     return NULL;
 
-  const QVector<WbField *> &fields = internal ? parentNode->fields() : parentNode->fieldsOrParameters();
+  const QVector<WbField *> &fields = internal ? parent->fields() : parent->fieldsOrParameters();
   foreach (WbField *const field, fields) {
     const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(field->value());
     if (sfnode && sfnode->value() == this) {
@@ -705,7 +733,7 @@ void WbNode::makeDefNode() {
   mUseName = "";
   mDefNode = NULL;
 
-  if (mParent && mParent->mHasUseAncestor)
+  if (parentNode() && parentNode()->mHasUseAncestor)
     return;
 
   // reset mHasUseAncestor flag in descendant nodes
@@ -744,24 +772,24 @@ void WbNode::notifyFieldChanged() {
       // find where the changed field is located in the DEF node
       int index = n->findSubFieldIndex(field);
       if (index >= 0) {
-        WbNode *parentNode = NULL;
+        WbNode *parent = NULL;
         // apply changes to the same field in each USE node
         foreach (WbNode *const useNode, n->mUseNodes) {
-          WbField *const subField = useNode->findSubField(index, parentNode);
+          WbField *const subField = useNode->findSubField(index, parent);
           if (!subField || subField->type() != field->type() || subField->name() != field->name())
             continue;
-          assert(parentNode);
-          setGlobalParent(parentNode);
+          assert(parent);
+          setGlobalParentNode(parent);
           subField->copyValueFrom(field);
           subField->defHasChanged();
         }
 
-        setGlobalParent(NULL);
+        setGlobalParentNode(NULL);
       }
     }
 
     // climb up the family tree but stop if child insertion is not completed
-    WbNode *p = n->parent();
+    WbNode *p = n->parentNode();
     if (!p || !n->mInsertionCompleted)
       break;
     n = p;
@@ -791,14 +819,14 @@ int WbNode::findSubFieldIndex(const WbField *const searched) const {
   return -1;
 }
 
-WbField *WbNode::findSubField(int index, WbNode *&parentNode) const {
+WbField *WbNode::findSubField(int index, WbNode *&parent) const {
   int count = 0;
   QList<WbNode *> list(subNodes(true));
   list.prepend(const_cast<WbNode *>(this));
   foreach (WbNode *const node, list) {
     foreach (WbField *const field, node->mFields) {
       if (count == index) {
-        parentNode = node;
+        parent = node;
         return field;
       }
       ++count;
@@ -810,7 +838,7 @@ WbField *WbNode::findSubField(int index, WbNode *&parentNode) const {
 void WbNode::validate(const WbNode *upperNode, const WbField *upperField, bool isInBoundingObject) const {
   if (isUseNode())
     return;
-  const WbNode *parentNode = upperNode == NULL ? this : upperNode;
+  const WbNode *parent = upperNode == NULL ? this : upperNode;
   QVector<WbField *> fieldsToBeValidated;
   if (upperField)
     fieldsToBeValidated << const_cast<WbField *>(upperField);
@@ -826,7 +854,7 @@ void WbNode::validate(const WbNode *upperNode, const WbField *upperField, bool i
       WbNode *child = sfnode->value();
       if (child) {
         QString errorMessage;
-        if (!WbNodeFactory::instance()->validateExistingChildNode(field, child, parentNode, isInBoundingObject, errorMessage)) {
+        if (!WbNodeFactory::instance()->validateExistingChildNode(field, child, parent, isInBoundingObject, errorMessage)) {
           bool emptyErrorMessage = errorMessage.isEmpty();
           if (emptyErrorMessage)
             errorMessage = QString("Skipped unexpected %1 node in '%2' field of %3 node.")
@@ -847,7 +875,7 @@ void WbNode::validate(const WbNode *upperNode, const WbField *upperField, bool i
               errorMessage.prepend(tr(" Skipped node: "));
           }
 
-          warn(errorMessage);
+          parsingWarn(errorMessage);
         } else
           child->validate(NULL, NULL, isInBoundingObject);
       }
@@ -855,7 +883,7 @@ void WbNode::validate(const WbNode *upperNode, const WbField *upperField, bool i
       for (int i = 0; i < mfnode->size(); ++i) {
         WbNode *child = mfnode->item(i);
         QString errorMessage;
-        if (!WbNodeFactory::instance()->validateExistingChildNode(field, child, parentNode, isInBoundingObject, errorMessage)) {
+        if (!WbNodeFactory::instance()->validateExistingChildNode(field, child, parent, isInBoundingObject, errorMessage)) {
           bool emptyErrorMessage = errorMessage.isEmpty();
           if (emptyErrorMessage)
             errorMessage = QString("Skipped unexpected %1 node in '%2' field of %3 node.")
@@ -877,7 +905,7 @@ void WbNode::validate(const WbNode *upperNode, const WbField *upperField, bool i
           }
 
           --i;
-          warn(errorMessage);
+          parsingWarn(errorMessage);
         } else
           child->validate(NULL, NULL, isInBoundingObject);
       }
@@ -919,7 +947,7 @@ void WbNode::readFields(WbTokenizer *tokenizer, const QString &worldPath) {
   }
 
   tokenizer->skipToken("}");
-  gParent = mParent;
+  gParent = parentNode();
 }
 
 void WbNode::enableDefNodeTrackInWrite(bool substituteInStream) {
@@ -945,12 +973,45 @@ void WbNode::writeParameters(WbVrmlWriter &writer) const {
     parameter->write(writer);
 }
 
+bool WbNode::isUrdfRootLink() const {
+  return findSFString("name") ? true : false;
+}
+
+WbNode *WbNode::findUrdfLinkRoot() const {
+  WbNode *parentRoot = parentNode();
+  while (!parentRoot->isUrdfRootLink()) {
+    parentRoot = parentRoot->parentNode();
+    if (parentRoot == NULL)
+      return NULL;
+  }
+  return parentRoot;
+}
+
 void WbNode::write(WbVrmlWriter &writer) const {
   if (uniqueId() == -1) {
     if (nodeModelName() == "Plane" || nodeModelName() == "Capsule") {
       WbNodeFactory::instance()->exportAsVrml(this, writer);
       return;
     }
+  }
+  if (writer.isUrdf()) {
+    if (gUrdfCurrentNode != this && isJoint() && !gUrdfNodesQueue.contains(this)) {
+      gUrdfNodesQueue.append(this);
+      return;
+    }
+    if (!gUrdfCurrentNode)
+      gUrdfCurrentNode = this;
+
+    writeExport(writer);
+
+    if (gUrdfCurrentNode == this) {
+      if (gUrdfNodesQueue.size() > 0) {
+        gUrdfCurrentNode = gUrdfNodesQueue.takeLast();
+        gUrdfCurrentNode->write(writer);
+      } else
+        gUrdfCurrentNode = NULL;
+    }
+    return;
   }
   if (writer.isX3d() || writer.isVrml() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode()))) {
     writeExport(writer);
@@ -1033,9 +1094,58 @@ QStringList WbNode::listTextureFiles() const {
   return list;
 }
 
+const QString WbNode::urdfName() const {
+  QString name;
+  if (this->findSFString("name")) {
+    name = this->findSFString("name")->value();
+
+    // Make sure there are no duplicates
+    const QList<WbNode *> children = findRobotRootNode()->subNodes(true, true, true);
+    for (int i = 0; i < children.size(); i++) {
+      const WbNode *const child = children.at(i);
+      if (child != this && child->findSFString("name") && child->findSFString("name")->value() == name) {
+        name += "_" + QString::number(mUniqueId);
+        break;
+      }
+    }
+  } else
+    name = QString(mModel->name().toLower() + "_" + QString::number(mUniqueId));
+
+  return getUrdfPrefix() + name;
+}
+
 bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
   if (writer.isX3d())  // actual export is done in WbBaseNode
     return false;
+  else if (writer.isUrdf()) {
+    if (gUrdfCurrentNode == this) {
+      writer.increaseIndent();
+      writer.indent();
+      writer << "<link name=\"" + urdfName() + "\">\n";
+      return false;
+    } else if (isUrdfRootLink()) {
+      gUrdfNodesQueue.append(this);
+      return true;
+    }
+
+    writer.increaseIndent();
+    writer.indent();
+    writer << "<visual name=\"" << urdfName() << "\">\n";
+    writer.increaseIndent();
+    writer.indent();
+    writer << "<geometry>\n";
+    writer.increaseIndent();
+    writer.indent();
+    writer << "<box size=\"0.01 0.01 0.01\"/>\n";
+    writer.decreaseIndent();
+    writer.indent();
+    writer << "</geometry>\n";
+    writer.decreaseIndent();
+    writer.indent();
+    writer << "</visual>\n";
+    writer.decreaseIndent();
+    return false;
+  }
   if (isUseNode()) {
     writer << "USE " << mUseName << "\n";
     return true;
@@ -1053,28 +1163,40 @@ bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
 }
 
 void WbNode::exportNodeFields(WbVrmlWriter &writer) const {
-  foreach (WbField *field, fields())
+  if (writer.isUrdf())
+    return;
+
+  foreach (WbField *field, fields()) {
     if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() != WB_SF_NODE))
       field->write(writer);
+  }
 }
 
 void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
-  foreach (WbField *field, fields())
-    if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() == WB_SF_NODE)) {
+  foreach (WbField *field, fields()) {
+    if (!field->isDeprecated() &&
+        ((field->isVrml() || writer.isProto() || writer.isUrdf()) && field->singleType() == WB_SF_NODE)) {
       const WbSFNode *const node = dynamic_cast<WbSFNode *>(field->value());
-      if (node == NULL || node->value() == NULL || node->value()->shallExport() || writer.isProto()) {
-        if (writer.isX3d())
+      if (node == NULL || node->value() == NULL || node->value()->shallExport() || writer.isProto() || writer.isUrdf()) {
+        if (writer.isX3d() || writer.isUrdf())
           field->value()->write(writer);
         else
           field->write(writer);
       }
     }
+  }
 }
 
 void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
   if (writer.isX3d())
     writer << "</" << x3dName() << ">";
-  else {  // VRML
+  else if (writer.isUrdf()) {
+    if (gUrdfCurrentNode == this) {
+      writer.indent();
+      writer << "</link>\n";
+      writer.decreaseIndent();
+    }
+  } else {  // VRML
     writer.decreaseIndent();
     writer.indent();
     writer << "}";
@@ -1092,8 +1214,15 @@ void WbNode::writeExport(WbVrmlWriter &writer) const {
   assert(!(writer.isX3d() && isProtoParameterNode()));
   if (exportNodeHeader(writer))
     return;
-  exportNodeContents(writer);
-  exportNodeFooter(writer);
+  if (writer.isUrdf()) {
+    exportNodeSubNodes(writer);
+    exportNodeFooter(writer);
+    if (isUrdfRootLink() && nodeModelName() != "Robot")
+      exportURDFJoint(writer);
+  } else {
+    exportNodeContents(writer);
+    exportNodeFooter(writer);
+  }
 }
 
 bool WbNode::operator==(const WbNode &other) const {
@@ -1256,7 +1385,7 @@ WbNode *WbNode::clone() const {
   // otherwise we need to instantiate the node for a PROTO instance
   WbNode *const copy = WbNodeFactory::instance()->createCopy(*this);
   if (!copy)
-    warn(tr("Could not instantiate '%1' node: this class is not yet implemented in Webots.").arg(model()->name()));
+    parsingWarn(tr("Could not instantiate '%1' node: this class is not yet implemented in Webots.").arg(model()->name()));
 
   return copy;
 }
@@ -1306,7 +1435,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
     if (!(parent && parent->isWorldRoot())) {
       while (parent) {
         root = parent;
-        parent = root->mParent;
+        parent = root->parentNode();
       }
       insertedProto = root && root->mIsCreationCompleted;
     }
@@ -1457,8 +1586,8 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
   proto->ref(true);
 
   WbNode *const instance = newNode->cloneAndReferenceProtoInstance();
-  int id = newNode->uniqueId();  // we want to keep this id because it should match the 'context.id' value used when generating
-                                 // procedural PROTO nodes
+  int id = newNode->uniqueId();  // we want to keep this id because it should match the 'context.id' value used when
+                                 // generating procedural PROTO nodes
   delete newNode;
 
   gProtoParameterNodeFlag = true;
@@ -1543,7 +1672,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
         assert(mfnode);
         for (int i = 0; i < mfnode->size(); i++) {
           WbNode *subnode = mfnode->item(i);
-          subnode->setParent(instance);
+          subnode->setParentNode(instance);
         }
         break;
       }
@@ -1552,7 +1681,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
         assert(sfnode);
         WbNode *subnode = sfnode->value();
         if (subnode)
-          subnode->setParent(instance);
+          subnode->setParentNode(instance);
         break;
       }
       default:
@@ -1560,8 +1689,8 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
     }
   }
 
-  // these tests are because of the multiple possible contexts to pass in this function (e.g. regular load versus add node from
-  // scene tree gui)
+  // these tests are because of the multiple possible contexts to pass in this function (e.g. regular load versus add node
+  // from scene tree gui)
   bool topProto = isTopLevel && gProtoParameterList.size() <= 1 && !instance->hasAProtoAncestor();
   instance->setupDescendantAndNestedProtoFlags(topProto, false, fromSceneTree);
 
@@ -1690,14 +1819,14 @@ bool WbNode::isProtoParameterNode() const {
   if (mIsCreationCompleted)
     return mIsProtoParameterNodeDescendant;
 
-  WbNode *parentNode = parent();
-  if (!parentNode || parentNode->isWorldRoot())
+  WbNode *parent = parentNode();
+  if (!parent || parent->isWorldRoot())
     return false;
 
-  if (parentNode->isProtoParameterChild(this))
+  if (parent->isProtoParameterChild(this))
     return true;
 
-  return parentNode->isProtoParameterNode();
+  return parent->isProtoParameterNode();
 }
 
 QList<WbNode *> WbNode::subNodes(bool recurse, bool searchInFields, bool searchInParameters) const {
@@ -1749,7 +1878,7 @@ void WbNode::setRegenerationRequired(bool required) {
 }
 
 bool WbNode::hasAProtoAncestor() const {
-  const WbNode *currentNode = parent();
+  const WbNode *currentNode = parentNode();
   while (currentNode) {
     if (currentNode->isProtoInstance())
       return true;
@@ -1758,14 +1887,14 @@ bool WbNode::hasAProtoAncestor() const {
     if (protoParameterNode && protoParameterNode->isProtoInstance())
       return true;
 
-    currentNode = currentNode->parent();
+    currentNode = currentNode->parentNode();
   }
 
   return false;
 }
 
 WbNode *WbNode::protoAncestor() const {
-  WbNode *currentNode = parent();
+  WbNode *currentNode = parentNode();
   while (currentNode) {
     if (currentNode->isProtoInstance())
       return currentNode;
@@ -1774,7 +1903,7 @@ WbNode *WbNode::protoAncestor() const {
     if (protoParameterNode && protoParameterNode->isProtoInstance())
       return protoParameterNode;
 
-    currentNode = currentNode->parent();
+    currentNode = currentNode->parentNode();
   }
   return NULL;
 }
@@ -1782,7 +1911,7 @@ WbNode *WbNode::protoAncestor() const {
 bool WbNode::isAnAncestorOf(const WbNode *node) const {
   const WbNode *currentNode = node;
   while (currentNode) {
-    currentNode = currentNode->parent();
+    currentNode = currentNode->parentNode();
     if (currentNode == this)
       return true;
   }
@@ -1841,8 +1970,8 @@ bool WbNode::hasAreferredDefNodeDescendant(const WbNode *root) const {
 int WbNode::level() const {
   int level = 0;
   const WbNode *node = this;
-  while (node->parent()) {
-    node = node->parent();
+  while (node->parentNode()) {
+    node = node->parentNode();
     ++level;
   };
 
@@ -2017,6 +2146,17 @@ QStringList WbNode::documentationBookAndPage(bool isRobot) const {
       return bookAndPage;
   }
   return mModel->documentationBookAndPage();
+}
+
+const WbNode *WbNode::findRobotRootNode() const {
+  const WbNode *tmpNode = this;
+  while (tmpNode != NULL && !tmpNode->isRobot())
+    tmpNode = tmpNode->parentNode();
+  return tmpNode;
+}
+
+QString WbNode::getUrdfPrefix() const {
+  return findRobotRootNode()->mUrdfPrefix;
 }
 
 /*

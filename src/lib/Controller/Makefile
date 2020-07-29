@@ -28,7 +28,7 @@ CC          = gcc
 endif
 
 ifeq ($(OSTYPE),linux)
-CFLAGS      = -fPIC -Wall
+CFLAGS      = -fPIC -Wall -Wno-stringop-truncation
 INCLUDE     = -I$(WEBOTS_PATH)/include/controller/c -I$(WEBOTS_PATH)/include
 LD_FLAGS    = -shared -Wl,-soname,libController.so
 SHARED_LIBS = -lm -lpthread -ldl -lrt
@@ -165,7 +165,7 @@ $(OBJDIR)/mingw32/%o:%c
 $(OBJDIR)/%.d:%.c
 	@echo "# updating " $@
 	@echo $(basename $(OBJDIR)/$(notdir $@)).o: $(basename $@).d > $(OBJDIR)/$(notdir $@)
-	@echo >> $(OBJDIR)/$(notdir $@)
+	@printf "%s" "$(OBJDIR)/" >> $(OBJDIR)/$(notdir $@)
 	@$(CC) $(CFLAGS) -MM -w $(INCLUDE) $< >> $(OBJDIR)/$(notdir $@)
 
 clean:

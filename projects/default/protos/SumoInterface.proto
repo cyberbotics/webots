@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -32,15 +32,15 @@ PROTO SumoInterface [
 {
   %{
     -- tracks check
-    local arguments = ""
+    local arguments = {}
     if fields.gui.value ~= true then
-      arguments = arguments .. "--no-gui "
+      table.insert(arguments, "--no-gui")
     end
     if fields.useNetconvert.value ~= true then
-      arguments = arguments .. "--no-netconvert "
+      table.insert(arguments, "--no-netconvert")
     end
     if fields.enableTrafficLights.value ~= true then
-      arguments = arguments .. "--disable-traffic-lights "
+      table.insert(arguments, "--disable-traffic-lights")
     end
     local enableWheelsRotation = fields.enableWheelsRotation.value
     if enableWheelsRotation == fields.enableWheelsRotation.defaultValue then
@@ -56,36 +56,36 @@ PROTO SumoInterface [
         io.stderr:write("Deprecated 'maxVehicules' field, use 'maxVehicles' instead\n")
       end
     end
-    arguments = arguments .. "--max-vehicles=" .. maxVehicles .. " "
+    table.insert(arguments, "--max-vehicles=" .. maxVehicles)
     if enableWheelsRotation == true then
-      arguments = arguments .. "--rotate-wheels "
+      table.insert(arguments, "--rotate-wheels")
     end
     if fields.verbose.value == true then
-      arguments = arguments .. "--verbose "
+      table.insert(arguments, "--verbose")
     end
     if fields.enableHeight.value == true then
-      arguments = arguments .. "--enable-height "
+      table.insert(arguments, "--enable-height")
     end
     if fields.networkFiles.value ~= "" then
-      arguments = arguments .. "--directory=" .. fields.networkFiles.value .. " "
+      table.insert(arguments, "--directory=" .. fields.networkFiles.value)
     end
     if fields.sumoArguments.value ~= "" then
-      arguments = arguments .. "--sumo-arguments=\\\"" .. fields.sumoArguments.value .. "\\\" "
+      table.insert(arguments, "--sumo-arguments=" .. fields.sumoArguments.value)
     end
-    arguments = arguments .. "--port=" .. fields.port.value .. " "
-    arguments = arguments .. "--seed=" .. fields.seed.value .. " "
-    arguments = arguments .. "--step=" .. fields.step.value .. " "
-    arguments = arguments .. "--radius=" .. fields.radius.value .. " "
-    arguments = arguments .. "--maximum-lateral-speed=" .. fields.maximumLateralSpeed.value .. " "
-    arguments = arguments .. "--maximum-angular-speed=" .. fields.maximumAngularSpeed.value .. " "
-    arguments = arguments .. "--lane-change-delay=" .. fields.laneChangeDelay.value .. " "
+    table.insert(arguments, "--port=" .. fields.port.value)
+    table.insert(arguments, "--seed=" .. fields.seed.value)
+    table.insert(arguments, "--step=" .. fields.step.value)
+    table.insert(arguments, "--radius=" .. fields.radius.value)
+    table.insert(arguments, "--maximum-lateral-speed=" .. fields.maximumLateralSpeed.value)
+    table.insert(arguments, "--maximum-angular-speed=" .. fields.maximumAngularSpeed.value)
+    table.insert(arguments, "--lane-change-delay=" .. fields.laneChangeDelay.value)
     local display = fields.display.value
     if display ~= nil then
-      arguments = arguments .. "--use-display "
-      arguments = arguments .. "--display-zoom=" .. display.fields.zoom.value .. " "
-      arguments = arguments .. "--display-refresh-rate=" .. display.fields.refreshRate.value .. " "
+      table.insert(arguments, "--use-display")
+      table.insert(arguments, "--display-zoom=" .. display.fields.zoom.value)
+      table.insert(arguments, "--display-refresh-rate=" .. display.fields.refreshRate.value)
       if display.fields.fitSize.value then
-        arguments = arguments .. "--display-fit-size "
+        table.insert(arguments, "--display-fit-size")
       end
     end
   }%
@@ -94,7 +94,11 @@ PROTO SumoInterface [
     name IS name
     model "SUMO interface"
     controller "sumo_supervisor"
-    controllerArgs %{= '"' .. arguments ..'"' }%
+    controllerArgs [
+      %{ for index, value in ipairs(arguments) do }%
+      %{= '"' .. value .. '"\n' }%
+      %{ end }%
+    ]
     supervisor TRUE
     synchronization IS synchronization
     children [

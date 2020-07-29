@@ -113,7 +113,9 @@ lib/controller/matlab/allincludes.h
 lib/controller/matlab/*.m
 
 lib/webots/ [linux,mac]
+lib/webots/libassimp.so* [linux]
 lib/webots/libgd.3.dylib [mac]
+lib/webots/libIrrXML.dylib [mac]
 lib/webots/liblua.dylib [mac]
 lib/webots/libOIS-1.4.0.so [linux]
 lib/webots/libOIS.dylib [mac]
@@ -467,16 +469,6 @@ Contents/Frameworks/QtQml.framework/Versions/5/Headers/*.h [mac]
 Contents/Frameworks/QtQml.framework/Versions/5/QtQml [exe,mac]
 Contents/Frameworks/QtQml.framework/Versions/5/Resources/ [mac]
 Contents/Frameworks/QtQml.framework/Versions/5/Resources/Info.plist [mac]
-
-Contents/Frameworks/QtQmlModels.framework/ [mac]
-Contents/Frameworks/QtQmlModels.framework/Versions/ [mac]
-Contents/Frameworks/QtQmlModels.framework/Versions/5/ [mac]
-Contents/Frameworks/QtQmlModels.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtQmlModels.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtQmlModels.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtQmlModels.framework/Versions/5/QtQmlModels [mac]
-Contents/Frameworks/QtQmlModels.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtQmlModels.framework/Versions/5/Resources/Info.plist [mac]
 
 Contents/Frameworks/QtQuick.framework/ [mac]
 Contents/Frameworks/QtQuick.framework/Versions/ [mac]

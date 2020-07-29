@@ -31,6 +31,8 @@ namespace webots {
     double getMaxValue() const;
     double getMinValue() const;
     double getAperture() const;
+    int getLookupTableSize() const;
+    const double *getLookupTable() const;
     Type getType() const;
   };
 }  // namespace webots

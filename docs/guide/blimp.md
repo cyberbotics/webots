@@ -14,7 +14,7 @@ Blimp {
   SFRotation rotation        0 1 0 0
   SFString   name            "Blimp"
   SFString   controller      "blimp"
-  SFString   controllerArgs  ""
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

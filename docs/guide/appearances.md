@@ -708,6 +708,7 @@ A leather material. The color can be overridden using the `colorOverride` field.
 |     |     |
 |:---:|:---:|
 | ![Leather_a.png](images/appearances/Leather_a.thumbnail.png) |![Leather_b.png](images/appearances/Leather_b.thumbnail.png) |
+| ![Leather_c.png](images/appearances/Leather_c.thumbnail.png) | |
 
 %end
 
@@ -717,6 +718,7 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 Leather {
   SFColor   colorOverride     1 1 1
   SFString  tone              "dark"
+  SFString  type              "dollaro"
   SFNode    textureTransform  NULL
   SFFloat   IBLStrength       1
 }
@@ -732,6 +734,8 @@ Leather {
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
 - `tone`: Defines the tone of the leather. This field accepts the following values: `"dark"` and `"light"`.
+
+- `type`: Defines the type of the leather. This field accepts the following values: `"dollaro"` and `"grain"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1177,6 +1181,39 @@ Pcb {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
 
+## PerforatedMetal
+
+A perforated metal material.
+
+%figure
+
+![PerforatedMetal](images/appearances/PerforatedMetal.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+PerforatedMetal {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/PerforatedMetal.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/PerforatedMetal.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### PerforatedMetal Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
+
 ## Plaster
 
 A plaster material. The color can be overridden using the `colorOverride` field.
@@ -1205,6 +1242,44 @@ Plaster {
 ### Plaster Field Summary
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
+
+## Plastic
+
+A plastic material containing several types.
+
+%figure
+
+|     |     |
+|:---:|:---:|
+| ![Plastic_a.png](images/appearances/Plastic_a.thumbnail.png) |![Plastic_b.png](images/appearances/Plastic_b.thumbnail.png) |
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+Plastic {
+  SFColor  colorOverride    1 1 1
+  SFString type             "rough"
+  SFNode   textureTransform NULL
+  SFFloat  IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Plastic.proto](https://github.com/cyberbotics/webots/tree/master/projects/appearances/protos/Plastic.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### Plastic Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `type`: Defines the plastic type. This field accepts the following values: `"rough"` and `"padded"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 

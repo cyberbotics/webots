@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "Example world demonstrating the use of a controlled Hinge2Joint."
   ]
   title "Motor 2"
+  coordinateSystem "NUE"
   lineScale 0.3
 }
 Viewpoint {

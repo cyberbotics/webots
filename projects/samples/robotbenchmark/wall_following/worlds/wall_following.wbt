@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "The Pioneer Robot has to follow the wall."
@@ -6,6 +6,7 @@ WorldInfo {
   title "Wall Following"
   window "wall_following"
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.10407812983052953 -0.9652828784282292 -0.2395760996098981 2.4222972

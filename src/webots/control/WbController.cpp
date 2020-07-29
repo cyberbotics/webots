@@ -172,7 +172,6 @@ WbController::~WbController() {
 
 void WbController::updateName(const QString &name) {
   mName = name;
-  mPrefix = QString("[%1] ").arg(mName);
 }
 
 void WbController::resetRequestTime() {
@@ -406,7 +405,7 @@ void WbController::setProcessEnvironment() {
         }
         if (iniParser.sectionAt(i) == "python") {
           if (iniParser.keyAt(i) == "COMMAND")
-            mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, iniParser.valueAt(i));
+            mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, iniParser.valueAt(i), env);
           else if (iniParser.keyAt(i) == "OPTIONS")
             mPythonOptions = iniParser.valueAt(i);
           else
@@ -483,7 +482,7 @@ void WbController::setProcessEnvironment() {
   if (mType == WbFileUtil::PYTHON) {
     if (mPythonCommand.isEmpty())
       mPythonCommand = WbLanguageTools::pythonCommand(
-        mPythonShortVersion, WbPreferences::instance()->value("General/pythonCommand", "python").toString());
+        mPythonShortVersion, WbPreferences::instance()->value("General/pythonCommand", "python").toString(), env);
     // read the python shebang (first line starting with #!) to possibly override the python command
     QFile pythonSourceFile(mControllerPath + name() + ".py");
     if (pythonSourceFile.open(QIODevice::ReadOnly)) {
@@ -492,9 +491,9 @@ void WbController::setProcessEnvironment() {
       if (line.startsWith("#!")) {
 #ifndef _WIN32
         if (line.startsWith("#!/usr/bin/env "))
-          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(15).trimmed());
+          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(15).trimmed(), env);
         else
-          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(2).trimmed());
+          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(2).trimmed(), env);
 #else  // Windows: check that the version specified in the shebang corresponds to the version of Python installed
         const QString &expectedVersion = line.mid(line.lastIndexOf("python", -1, Qt::CaseInsensitive) + 6);
         bool mismatch = false;
@@ -558,12 +557,7 @@ void WbController::appendMessageToBuffer(const QString &message, QString *buffer
 #else
   const QString &text = message;
 #endif
-  // '\f' to clean the console
-  const int lastFCharIndex = text.lastIndexOf('\f');
-  if (lastFCharIndex < 0)  // no '\f'
-    buffer->append(text);
-  else
-    *buffer = text.mid(lastFCharIndex);
+  buffer->append(text);
   if (buffer == mStdoutBuffer)
     mStdoutNeedsFlush = true;
   else
@@ -573,18 +567,13 @@ void WbController::appendMessageToBuffer(const QString &message, QString *buffer
 void WbController::flushBuffer(QString *buffer) {
   // Split string into lines by detecting '\n', then send lines one by one to WbLog.
   // When several streams or several controllers are used, this prevents to mix unrelated lines
-  if ((*buffer)[0] == '\f') {
-    WbLog::clear();
-    buffer->remove(0, 1);
-  }
   int index = buffer->indexOf('\n');
   while (index != -1) {
-    // extract line and prepend "[controller_name] "
-    QString line = mPrefix + buffer->mid(0, index + 1);
+    const QString line = buffer->mid(0, index + 1);
     if (buffer == mStdoutBuffer)
-      WbLog::appendStdout(line, mPrefix);
+      WbLog::appendStdout(line, robot()->name());
     else
-      WbLog::appendStderr(line, mPrefix);
+      WbLog::appendStderr(line, robot()->name());
     // remove line from buffer
     buffer->remove(0, index + 1);
     index = buffer->indexOf('\n');
@@ -722,7 +711,7 @@ void WbController::startVoidExecutable() {
   copyBinaryAndDependencies(mCommand);
 
   mCommand = QDir::toNativeSeparators(mCommand);
-  mArguments << argsList();
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startExecutable() {
@@ -731,7 +720,7 @@ void WbController::startExecutable() {
   copyBinaryAndDependencies(mCommand);
 
   mCommand = QDir::toNativeSeparators(mCommand);
-  mArguments << argsList();
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startJava(bool jar) {
@@ -765,7 +754,7 @@ void WbController::startJava(bool jar) {
   if (!mJavaOptions.isEmpty())
     mArguments << mJavaOptions.split(" ");
   mArguments << name();
-  mArguments << argsList();
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startPython() {
@@ -776,7 +765,7 @@ void WbController::startPython() {
   if (!mPythonOptions.isEmpty())
     mArguments << mPythonOptions.split(" ");
   mArguments << name() + ".py";
-  mArguments << argsList();
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startMatlab() {
@@ -794,8 +783,7 @@ void WbController::startMatlab() {
   mArguments = WbLanguageTools::matlabArguments();
   mArguments << "-r"
              << "launcher";
-  if (!mMatlabOptions.isEmpty())
-    mArguments << mMatlabOptions.split(" ");
+  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startBotstudio() {
@@ -825,10 +813,11 @@ void WbController::copyBinaryAndDependencies(const QString &filename) {
     return;
 
   QProcess process;
+  QString cmd;
   bool success;
 
   // get current RPATH
-  const QString &cmd = QString("otool -l %1 | grep LC_RPATH -A 3 | grep path | cut -c15- | cut -d' ' -f1").arg(filename);
+  cmd = QString("otool -l %1 | grep LC_RPATH -A 3 | grep path | cut -c15- | cut -d' ' -f1").arg(filename);
   process.start("bash", QStringList() << "-c" << cmd);
   success = process.waitForFinished(500);
   if (!success || !process.readAllStandardError().isEmpty())
@@ -836,12 +825,11 @@ void WbController::copyBinaryAndDependencies(const QString &filename) {
   QString oldRPath = process.readAllStandardOutput().trimmed();
 
   // change RPATH
-  QStringList arguments;
   if (oldRPath.isEmpty())
-    arguments << "-add_rpath" << WbStandardPaths::webotsHomePath() << filename;
+    cmd = QString("install_name_tool -add_rpath %1 %2").arg(WbStandardPaths::webotsHomePath()).arg(filename);
   else
-    arguments << "-rpath" << oldRPath << WbStandardPaths::webotsHomePath() << filename;
-  process.start("install_name_tool", arguments);
+    cmd = QString("install_name_tool -rpath %1 %2 %3").arg(oldRPath).arg(WbStandardPaths::webotsHomePath()).arg(filename);
+  process.start(cmd);
   process.waitForFinished(-1);
 #endif
 }
@@ -872,37 +860,11 @@ const QString &WbController::name() const {
   return mName;
 }
 
-const QString &WbController::args() const {
-  return mRobot->controllerArgs();
-}
-
-// Extract the argument list from the Robot.controllerArgs string
-// Double quotes are removed from each argument string, as it should
-QStringList WbController::argsList() const {
-  QStringList list;
-  const QString args = mRobot->controllerArgs().trimmed();
-  if (args.length() == 0)
-    return list;
-  bool quote = false;
-  int previous = 0;
-  for (int i = 0; i < args.length(); i++) {
-    if (args[i] == '"')
-      quote = !quote;
-    if (args[i] == ' ' && !quote) {
-      const QString argument = args.mid(previous, i - previous).replace("\"", "").trimmed();
-      if (!argument.isEmpty())
-        list << args.mid(previous, i - previous).replace("\"", "");
-      previous = i + 1;
-    }
-  }
-  list << args.mid(previous).replace("\"", "");
-  return list;
-}
-
 QString WbController::commandLine() const {  // returns the command line with double quotes if needed
-  QString commandLine = mCommand.contains(" ") ? "\"" + mCommand + "\"" : mCommand;
-  foreach (const QString argument, mArguments)
-    commandLine += " " + (argument.contains(" ") ? "\"" + argument + "\"" : argument);
+  QString commandLine = mCommand.contains(' ') ? '"' + mCommand + '"' : mCommand;
+  foreach (QString argument, mArguments)
+    commandLine +=
+      ' ' + (argument.contains(' ') || (argument.contains('"')) ? '\"' + argument.replace('"', "\\\"") + '"' : argument);
   return commandLine;
 }
 

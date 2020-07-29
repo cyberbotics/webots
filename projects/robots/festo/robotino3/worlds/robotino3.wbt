@@ -1,4 +1,4 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   info [
     "Simulation of the Festo's Robotino 3 robot."
@@ -7,6 +7,7 @@ WorldInfo {
     "The simulation shows a Robotino 3 moving in an industrial environment using a Braitenberg algorithm using the information received by its nine infrared sensors."
   ]
   title "Festo's Robotino 3 robot"
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "WheelMat"
@@ -22,7 +23,7 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.01962 0.99922 0.03439 4.67773
+  orientation 0.019619919314228722 0.9992158907830594 0.03438985857371691 4.67773
   position -6.29465 0.25218 -0.2851
   follow "Robotino 3"
   followSmoothness 0
@@ -159,7 +160,7 @@ SolidBox {
 }
 SolidBox {
   translation -6.9 2.5 -2.08
-  rotation -0.57735 0.57735 -0.57735 2.094
+  rotation -0.5773502691896258 0.5773502691896258 -0.5773502691896258 2.094
   name "box(1)"
   size 0.02 2.5 1.2
   appearance PBRAppearance {
@@ -458,12 +459,12 @@ TrafficCone {
 }
 TrafficCone {
   translation -5.06696 0.255908 2.39896
-  rotation 0.88656 -0.281623 0.36702 1.94686
+  rotation 0.886558303071849 -0.281622460956961 0.3670192975020642 1.94686
   name "traffic cone(1)"
 }
 TrafficCone {
   translation 4.25156 0.265925 -1.19568
-  rotation -0.5817 -0.45337 0.67534 -2.30117
+  rotation -0.5816990220193413 -0.4533692377736097 0.6753388645874884 -2.30117
   name "traffic cone(2)"
 }
 TrafficCone {

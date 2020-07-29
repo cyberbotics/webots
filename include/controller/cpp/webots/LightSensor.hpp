@@ -26,6 +26,8 @@ namespace webots {
     virtual void disable();
     int getSamplingPeriod() const;
     double getValue() const;
+    int getLookupTableSize() const;
+    const double *getLookupTable() const;
   };
 }  // namespace webots
 

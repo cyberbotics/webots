@@ -1,9 +1,10 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   title "Static light sensor rays"
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.114352 0.987653 0.10708 1.17516
+  orientation -0.1143519454133686 0.9876525285377583 0.10707994888470258 1.17516
   position 0.448936 0.20009 0.195734
 }
 Background {
@@ -76,7 +77,9 @@ DEF STATIC_ROBOT Robot {
   ]
   name "static"
   controller "light_sensor_rays"
-  controllerArgs "static_light_sensor_rays"
+  controllerArgs [
+    "static_light_sensor_rays"
+  ]
 }
 TestSuiteSupervisor {
 }

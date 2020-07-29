@@ -125,7 +125,6 @@ ConveyorBelt {
   SFFloat    speed            0.5
   SFFloat    acceleration     -1
   SFFloat    timer            0.0
-  SFFloat    textureAnimation 0.008
 }
 ```
 
@@ -147,8 +146,6 @@ ConveyorBelt {
 - `acceleration`: Defines the acceleration of the conveyor belt.
 
 - `timer`: Defines for how long the conveyor belt should move (it will move forever if set to 0).
-
-- `textureAnimation`: defines the speed of the texture animation.
 
 ### ConveyorPlatform
 
@@ -174,7 +171,7 @@ ConveyorPlatform {
    SFFloat     speed            0.3
    SFFloat     acceleration     -1
    SFFloat     timer            0.0
-   SFFloat     textureAnimation 0.004
+   SFFloat     textureAnimation 0.5
 }
 ```
 
@@ -191,7 +188,7 @@ ConveyorPlatform {
 
 - `timer`: Defines for how long the conveyor belt should move (it will move forever if set to 0).
 
-- `textureAnimation`: defines the speed of the texture animation.
+- `textureAnimation`: Defines the speed of the texture animation.
 
 ## Fire Extinguisher
 
@@ -909,7 +906,7 @@ LargeValve {
   SFFloat    jointFriction   0.5
   SFString   controller      "valve_turner"
   SFBool     supervisor      FALSE
-  SFString   absoluteStop    "15.7079632679"
+  MFString   absoluteStop    "15.7079632679"
   SFString   contactMaterial "default"
 }
 ```
@@ -978,7 +975,7 @@ SmallValve {
   SFFloat    jointFriction 0.1
   SFString   controller    "valve_turner"
   SFBool     supervisor    FALSE
-  SFString   absoluteStop  "15.7079632679"
+  MFString   absoluteStop  "15.7079632679"
 }
 ```
 

@@ -24,7 +24,7 @@ We want to implement a dumbbell made of a handle ([Cylinder](../reference/cylind
 This [figure](#representation-of-the-subnodes-of-a-compound-solid-made-of-several-transformed-geometries) depicts the [Solid](../reference/solid.md) nodes and its sub-nodes required to implement the dumbbell.
 
 > **Hands on #2**: Create the dumbbell by following the [figure](#representation-of-the-subnodes-of-a-compound-solid-made-of-several-transformed-geometries).
-Create the handle first without placing it in a [Transform](../reference/transform.md) node (so the handle axis will have the same direction as the *y*-axis of the solid).
+Create the handle first without placing it in a [Transform](../reference/transform.md) node (so the handle axis will have the same direction as the y-axis of the solid).
 The handle should have a length of 0.1 m and a radius of 0.01 m.
 The weights should have a radius of 0.03 m and a subdivision of 2.
 The weights can be moved at the handle extremities thanks to the `translation` field of their [Transform](../reference/transform.md) nodes.
@@ -69,7 +69,7 @@ The center of mass can be modified using the `centerOfMass` field of the [Physic
 The center of mass is specified relatively to the origin of the [Solid](../reference/solid.md).
 
 > **Hands on #4**: Let's say that one of the weights is heavier than the other one.
-Move the center of mass of the dumbbell of `0.01` [m] along the *y*-axis.
+Move the center of mass of the dumbbell of `0.01` [m] along the y-axis.
 
 Note that when the solid is selected, the center of mass is represented in the 3D view by a coordinate system which is darker than the coordinate system representing the solid center.
 
@@ -82,7 +82,7 @@ The fourth component defines the rotation angle about the axis (in [rad]).
 
 The rotation occurs in the sense prescribed by the right-hand rule.
 
-> **Hands on #5**: Modify the rotation of the [Solid](../reference/solid.md) node of the dumbbell in order to move the handle's axis (*y*-axis) parallel to the ground.
+> **Hands on #5**: Modify the rotation of the [Solid](../reference/solid.md) node of the dumbbell in order to move the handle's axis (y-axis) parallel to the ground.
 A unit axis (`1, 0, 0`) and an angle of &pi;/2 (~ `1.5708`) is a possible solution.
 
 ### How to Choose Bounding Objects?

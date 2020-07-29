@@ -1,6 +1,7 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   basicTimeStep 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.04752838915311271 0.9842363802199339 0.17035198876465224 3.642006566220462
@@ -20,7 +21,7 @@ DEF GROUND Solid {
   children [
     Shape {
       appearance Parquetry {
-        type "dark strip" 
+        type "dark strip"
         textureTransform TextureTransform {
           scale 100 100
         }

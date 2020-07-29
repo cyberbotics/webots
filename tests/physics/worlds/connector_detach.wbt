@@ -1,10 +1,11 @@
-#VRML_SIM R2020a utf8
+#VRML_SIM R2020b utf8
 WorldInfo {
   title "Detach locked connectors"
   physics "connector_apply_force"
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.0020499763 0.99330126 0.11553532 3.0908531
+  orientation 0.002049976294169949 0.9933012571750908 0.11553531967142215 3.0908531
   position 0.35479853 0.39389981 -1.1975532
 }
 Background {
@@ -184,7 +185,7 @@ DEF PASSIVE_ROBOT Solid {
           }
           DEF CONNECTOR_DEVICE Connector {
             translation 0 0.055 0
-            rotation 1.0167461e-08 -0.70682518 -0.70738827 3.1415927
+            rotation 1.0167461001954058e-08 -0.706825180135843 -0.7073882701359512 3.1415927
             model "magnetic"
             type "passive"
             tensileStrength 1

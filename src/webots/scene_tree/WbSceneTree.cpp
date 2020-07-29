@@ -25,6 +25,7 @@
 #include "WbEditCommand.hpp"
 #include "WbField.hpp"
 #include "WbFieldEditor.hpp"
+#include "WbGroup.hpp"
 #include "WbGuiRefreshOracle.hpp"
 #include "WbLog.hpp"
 #include "WbMFNode.hpp"
@@ -38,11 +39,11 @@
 #include "WbProtoModel.hpp"
 #include "WbRemoveItemCommand.hpp"
 #include "WbResetCommand.hpp"
-#include "WbRobot.hpp"
 #include "WbSFNode.hpp"
 #include "WbSceneTreeModel.hpp"
 #include "WbSelection.hpp"
 #include "WbSimulationState.hpp"
+#include "WbSolid.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbTreeItem.hpp"
@@ -115,20 +116,18 @@ WbSceneTree::WbSceneTree(QWidget *parent) :
 
   connect(mActionManager, &WbActionManager::userWorldEditCommandReceived, this, &WbSceneTree::handleUserCommand);
   connect(mActionManager, &WbActionManager::transformRequested, this, &WbSceneTree::transform);
-  connect(mActionManager->action(WbActionManager::ADD_NEW), &QAction::triggered, this, &WbSceneTree::addNew);
-  connect(mActionManager->action(WbActionManager::MOVE_VIEWPOINT_TO_OBJECT), &QAction::triggered, this,
+  connect(mActionManager->action(WbAction::ADD_NEW), &QAction::triggered, this, &WbSceneTree::addNew);
+  connect(mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT), &QAction::triggered, this,
           &WbSceneTree::moveViewpointToObject);
-  connect(mActionManager->action(WbActionManager::RESET_VALUE), &QAction::triggered, this, &WbSceneTree::reset);
-  connect(mActionManager->action(WbActionManager::CONVERT_TO_BASE_NODES), &QAction::triggered, this,
-          &WbSceneTree::convertToBaseNode);
-  connect(mActionManager->action(WbActionManager::CONVERT_ROOT_TO_BASE_NODES), &QAction::triggered, this,
+  connect(mActionManager->action(WbAction::RESET_VALUE), &QAction::triggered, this, &WbSceneTree::reset);
+  connect(mActionManager->action(WbAction::CONVERT_TO_BASE_NODES), &QAction::triggered, this, &WbSceneTree::convertToBaseNode);
+  connect(mActionManager->action(WbAction::CONVERT_ROOT_TO_BASE_NODES), &QAction::triggered, this,
           &WbSceneTree::convertRootToBaseNode);
-  connect(mActionManager->action(WbActionManager::OPEN_HELP), &QAction::triggered, this, &WbSceneTree::help);
-  connect(mActionManager->action(WbActionManager::SHOW_PROTO_SOURCE), &QAction::triggered, this,
-          &WbSceneTree::openProtoInTextEditor);
-  connect(mActionManager->action(WbActionManager::SHOW_PROTO_RESULT), &QAction::triggered, this,
+  connect(mActionManager->action(WbAction::OPEN_HELP), &QAction::triggered, this, &WbSceneTree::help);
+  connect(mActionManager->action(WbAction::SHOW_PROTO_SOURCE), &QAction::triggered, this, &WbSceneTree::openProtoInTextEditor);
+  connect(mActionManager->action(WbAction::SHOW_PROTO_RESULT), &QAction::triggered, this,
           &WbSceneTree::openTemplateInstanceInTextEditor);
-  connect(mActionManager->action(WbActionManager::EXPORT_NODE), &QAction::triggered, this, &WbSceneTree::exportObject);
+  connect(mActionManager->action(WbAction::EXPORT_NODE), &QAction::triggered, this, &WbSceneTree::exportObject);
   connect(WbUndoStack::instance(), &WbUndoStack::changed, this, &WbSceneTree::updateValue);
 
   connect(WbTemplateManager::instance(), &WbTemplateManager::preNodeRegeneration, this, &WbSceneTree::prepareNodeRegeneration);
@@ -252,24 +251,24 @@ void WbSceneTree::setWorld(WbWorld *world) {
   mTreeView->scrollToSelection();
 }
 
-void WbSceneTree::handleUserCommand(WbActionManager::WbActionKind actionKind) {
+void WbSceneTree::handleUserCommand(WbAction::WbActionKind actionKind) {
   switch (actionKind) {
-    case WbActionManager::CUT:
+    case WbAction::CUT:
       cut();
       return;
-    case WbActionManager::COPY:
+    case WbAction::COPY:
       copy();
       return;
-    case WbActionManager::PASTE:
+    case WbAction::PASTE:
       paste();
       return;
-    case WbActionManager::UNDO:
+    case WbAction::UNDO:
       WbUndoStack::instance()->undo();
       return;
-    case WbActionManager::REDO:
+    case WbAction::REDO:
       WbUndoStack::instance()->redo();
       return;
-    case WbActionManager::DEL:
+    case WbAction::DEL:
       del();
     default:
       return;
@@ -382,7 +381,7 @@ void WbSceneTree::pasteInMFValue() {
     index = mSelectedItem->row() + 1;
     parentItem = static_cast<WbMultipleValue *>(field->value());
     if (mSelectedItem->isNode())
-      parentNode = mSelectedItem->node()->parent();
+      parentNode = mSelectedItem->node()->parentNode();
   }
 
   if (mClipboard->type() == WB_SF_NODE) {
@@ -545,10 +544,10 @@ void WbSceneTree::reset() {
     if (sfnode) {
       WbNode *defaultNode = dynamic_cast<const WbSFNode *>(defaultValue)->value();
       if (defaultNode) {
-        WbNode::setGlobalParent(parentNode);
+        WbNode::setGlobalParentNode(parentNode);
         WbNode *newNode = WbConcreteNodeFactory::instance()->createCopy(*defaultNode);
-        WbNode::setGlobalParent(NULL);
-        newNode->setParent(parentNode);
+        WbNode::setGlobalParentNode(NULL);
+        newNode->setParentNode(parentNode);
 
 #ifndef NDEBUG
         const WbNodeOperations::OperationResult result =
@@ -563,10 +562,10 @@ void WbSceneTree::reset() {
       int i = 0;
       while (it.hasNext()) {
         const WbNode *defaultNode = it.next();
-        WbNode::setGlobalParent(parentNode);
+        WbNode::setGlobalParentNode(parentNode);
         WbNode *newNode = WbConcreteNodeFactory::instance()->createCopy(*defaultNode);
-        WbNode::setGlobalParent(NULL);
-        newNode->setParent(parentNode);
+        WbNode::setGlobalParentNode(NULL);
+        newNode->setParentNode(parentNode);
 #ifndef NDEBUG
         const WbNodeOperations::OperationResult result =
 #endif
@@ -618,8 +617,8 @@ void WbSceneTree::transform(const QString &modelName) {
   const bool isExpanded = mTreeView->isExpanded(currentModelIndex);
 
   // create new node
-  WbNode::setGlobalParent(currentNode->parent());
-  WbNode *const newNode = WbConcreteNodeFactory::instance()->createNode(modelName, 0, currentNode->parent());
+  WbNode::setGlobalParentNode(currentNode->parentNode());
+  WbNode *const newNode = WbConcreteNodeFactory::instance()->createNode(modelName, 0, currentNode->parentNode());
   if (!newNode) {
     WbLog::error(tr("Transformation aborted: impossible to create a node of type %1.").arg(modelName));
     mRowsAreAboutToBeRemoved = false;
@@ -627,7 +626,7 @@ void WbSceneTree::transform(const QString &modelName) {
   }
 
   // copy fields and adopt children
-  WbNode::setGlobalParent(newNode);
+  WbNode::setGlobalParentNode(newNode);
   QVector<WbField *> fields = currentNode->fieldsOrParameters();
   foreach (WbField *originalField, fields) {
     // copy field if it exists
@@ -636,11 +635,12 @@ void WbSceneTree::transform(const QString &modelName) {
       newField->copyValueFrom(originalField);
   }
   newNode->setDefName(currentNode->defName());
-  WbNode::setGlobalParent(NULL);
+  WbNode::setGlobalParentNode(NULL);
 
   // reassign pointer in parent
   WbField *parentField = mSelectedItem->parent()->field();
-  WbNode *upperTemplate = WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, currentNode->parent());
+  WbNode *upperTemplate =
+    WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, currentNode->parentNode());
   bool isInsideATemplateRegenerator = upperTemplate && upperTemplate != currentNode;
   if (mSelectedItem->isSFNode()) {
     WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(mSelectedItem->field()->value());
@@ -703,7 +703,7 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     const bool isFollowedNode = (solid && viewpoint->followedSolid() == solid);
     int index;
     WbField *parentField = currentNode->parentFieldAndIndex(index);
-    WbNode *parentNode = currentNode->parent();
+    WbNode *parentNode = currentNode->parentNode();
     QString nodeString;
     WbVrmlWriter writer(&nodeString, currentNode->modelName() + ".proto");
     if (rootOnly)
@@ -711,8 +711,17 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     else
       writer.setRootNode(NULL);
     currentNode->write(writer);
+
+    const bool skipTemplateRegeneration =
+      WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, parentNode);
+    if (skipTemplateRegeneration)
+      // PROTO will be regenerated after importing the converted node
+      parentField->blockSignals(true);
     // remove previous node
     WbNodeOperations::instance()->deleteNode(currentNode);
+    if (skipTemplateRegeneration)
+      parentField->blockSignals(false);
+
     // copy textures
     QHashIterator<QString, QString> it(writer.texturesList());
     while (it.hasNext()) {
@@ -809,12 +818,12 @@ bool WbSceneTree::insertInertiaMatrix(const WbField *selectedField) {
   if (dialog.inertiaMatrixType() == WbAddInertiaMatrixDialog::IDENTITY_MATRIX) {
     if (physics && physics->mass() <= 0.0) {
       physics->setMass(1.0, true);
-      physics->info(tr("A positive mass is mandatory when using inertiaMatrix. 'mass' set to 1."));
+      physics->parsingInfo(tr("A positive mass is mandatory when using inertiaMatrix. 'mass' set to 1."));
     }
 
     if (physics && physics->centerOfMass().size() == 0) {
       physics->setCenterOfMass(0.0, 0.0, 0.0, true);
-      physics->info(tr("A center of mass is mandatory when using inertiaMatrix. Default center of mass inserted."));
+      physics->parsingInfo(tr("A center of mass is mandatory when using inertiaMatrix. Default center of mass inserted."));
     }
 
     mfvector3->insertItem(0, WbVector3(1.0, 1.0, 1.0));
@@ -872,7 +881,7 @@ void WbSceneTree::addNew() {
     newNodeIndex = mSelectedItem->row() + 1;
     selectedFieldItem = mSelectedItem->parent();
     selectedField = selectedFieldItem->field();
-    selectedNodeParent = mSelectedItem->node()->parent();
+    selectedNodeParent = mSelectedItem->node()->parentNode();
   }
 
   assert(selectedNodeParent && selectedField);
@@ -897,7 +906,7 @@ void WbSceneTree::addNew() {
   } else {  // CREATE
 
     // create node
-    WbNode::setGlobalParent(selectedNodeParent);
+    WbNode::setGlobalParentNode(selectedNodeParent);
     WbNode *newNode;
     if (dialog.isUseNode()) {
       // find last DEF node to be copied
@@ -951,19 +960,19 @@ void WbSceneTree::updateToolbar() {
     // don't use mSelectedItem if updateSelection() was skipped
     return;
 
-  mActionManager->setEnabled(WbActionManager::DEL, mSelectedItem && mSelectedItem->canDelete());
-  mActionManager->setEnabled(WbActionManager::ADD_NEW, !mSelectedItem || mSelectedItem->canInsert());
+  mActionManager->setEnabled(WbAction::DEL, mSelectedItem && mSelectedItem->canDelete());
+  mActionManager->setEnabled(WbAction::ADD_NEW, !mSelectedItem || mSelectedItem->canInsert());
   updateApplicationActions();
 }
 
 void WbSceneTree::updateApplicationActions() {
   mClipboard->update();
-  mActionManager->setEnabled(WbActionManager::UNDO, WbUndoStack::instance()->canUndo());
-  mActionManager->setEnabled(WbActionManager::REDO, WbUndoStack::instance()->canRedo());
-  mActionManager->setEnabled(WbActionManager::COPY, mSelectedItem && mSelectedItem->canCopy());
-  mActionManager->setEnabled(WbActionManager::CUT, mSelectedItem && mSelectedItem->canCut());
-  mActionManager->setEnabled(WbActionManager::PASTE, isPasteAllowed());
-  mActionManager->setEnabled(WbActionManager::SELECT_ALL, false);
+  mActionManager->setEnabled(WbAction::UNDO, WbUndoStack::instance()->canUndo());
+  mActionManager->setEnabled(WbAction::REDO, WbUndoStack::instance()->canRedo());
+  mActionManager->setEnabled(WbAction::COPY, mSelectedItem && mSelectedItem->canCopy());
+  mActionManager->setEnabled(WbAction::CUT, mSelectedItem && mSelectedItem->canCut());
+  mActionManager->setEnabled(WbAction::PASTE, isPasteAllowed());
+  mActionManager->setEnabled(WbAction::SELECT_ALL, false);
 }
 
 bool WbSceneTree::isPasteAllowed() {
@@ -986,7 +995,7 @@ bool WbSceneTree::isPasteAllowed() {
       parentNode = mSelectedItem->parent()->node();
     } else {  // else sibling node
       field = mSelectedItem->parent()->field();
-      parentNode = mSelectedItem->node()->parent();
+      parentNode = mSelectedItem->node()->parentNode();
     }
 
     // prevent pasting a node between WorldInfo and Viewpoint nodes
@@ -1014,11 +1023,10 @@ bool WbSceneTree::isPasteAllowed() {
 
     return true;
   } else {
-    if (mSelectedItem->isField()) {
+    if (mSelectedItem->isField())
       field = mSelectedItem->field();
-    } else if (mSelectedItem->isItem()) {
+    else if (mSelectedItem->isItem())
       field = mSelectedItem->parent()->field();
-    }
   }
 
   if (mSelectedItem->isNode() || mSelectedItem->isSFNode() || !field || (field->isMultiple() && !mSelectedItem->canInsert()))
@@ -1058,8 +1066,8 @@ void WbSceneTree::updateSelection() {
   QModelIndex currentIndex = mTreeView->currentIndex();
   if (!currentIndex.isValid()) {
     mSelectedItem = NULL;
-    mActionManager->action(WbActionManager::MOVE_VIEWPOINT_TO_OBJECT)->setEnabled(false);
-    mActionManager->action(WbActionManager::OPEN_HELP)->setEnabled(false);
+    mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT)->setEnabled(false);
+    mActionManager->action(WbAction::OPEN_HELP)->setEnabled(false);
     updateToolbar();
     // no item selected
     return;
@@ -1067,8 +1075,8 @@ void WbSceneTree::updateSelection() {
   mSelectedItem = mModel->indexToItem(currentIndex);
   if (mSelectedItem->isInvalid()) {
     mSelectedItem = NULL;
-    mActionManager->action(WbActionManager::MOVE_VIEWPOINT_TO_OBJECT)->setEnabled(false);
-    mActionManager->action(WbActionManager::OPEN_HELP)->setEnabled(false);
+    mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT)->setEnabled(false);
+    mActionManager->action(WbAction::OPEN_HELP)->setEnabled(false);
     updateToolbar();
     return;
   }
@@ -1105,25 +1113,20 @@ void WbSceneTree::updateSelection() {
   const WbTreeItem *const item = isNonNullNode ? mSelectedItem : mModel->findUpperNodeItem(mSelectedItem);
   if (item) {
     WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(item->node());
-    if (baseNode == NULL)
-      return;
-
-    if (baseNode->isProtoParameterNode()) {
+    if (baseNode && baseNode->isProtoParameterNode())
       // select proto parameter node instance
       // if proto parameter is used only once
+      // baseNode = NULL if none or multiple instances exists
       baseNode = baseNode->getSingleFinalizedProtoInstance();
-      if (!baseNode)
-        return;  // none or multiple instances exists
-    }
 
-    if (!baseNode->areWrenObjectsInitialized())
+    if (baseNode && !baseNode->areWrenObjectsInitialized())
       // ignore not initialized nodes
-      return;
+      baseNode = NULL;
 
     // enable move viewpoint to object if the item has a corresponding bounding sphere
-    mActionManager->action(WbActionManager::MOVE_VIEWPOINT_TO_OBJECT)
-      ->setEnabled(WbNodeUtilities::boundingSphereAncestor(baseNode) != NULL);
-    mActionManager->action(WbActionManager::OPEN_HELP)->setEnabled(true);
+    mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT)
+      ->setEnabled(baseNode && WbNodeUtilities::boundingSphereAncestor(baseNode) != NULL);
+    mActionManager->action(WbAction::OPEN_HELP)->setEnabled(baseNode);
     emit nodeSelected(baseNode);
   }
 }
@@ -1247,17 +1250,28 @@ void WbSceneTree::prepareNodeRegeneration(WbNode *node, bool nested) {
 
   mSelectionBeforeTreeStateRegeneration = NULL;
 
-  // Store the selected node only if not inside the node which will be regenerated.
+  // Store the selected item only if not inside the node which will be regenerated.
   // Indeed this node (and its WbTreeItem(s)) will be destroyed and recreated.
-  WbBaseNode *selectedNode = WbSelection::instance()->selectedNode();
-  WbNode *n = selectedNode;
+  WbNode *n = NULL;
+  if (mSelectedItem) {
+    if (mSelectedItem->isField()) {
+      const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(mSelectedItem->field()->value());
+      if (sfnode && sfnode->value())
+        n = sfnode->value();
+      else
+        n = mSelectedItem->parent()->node();
+    } else if (mSelectedItem->isItem())
+      n = mSelectedItem->parent()->parent()->node();
+    else  // node
+      n = mSelectedItem->node();
+  }
   mSelectionInsideTreeStateRecovery = false;
   while (n) {
     if (n == node || n->protoParameterNode() == node) {
       mSelectionInsideTreeStateRecovery = true;
       break;
     }
-    n = n->parent();
+    n = n->parentNode();
   }
   if (!mSelectionInsideTreeStateRecovery)
     mSelectionBeforeTreeStateRegeneration = mModel->indexToItem(mTreeView->currentIndex());
@@ -1415,12 +1429,13 @@ void WbSceneTree::handleDoubleClickOrEnterPress() {
   // we can't use isDefault() on the SFNode field because PROTOs can have
   // non-NULL default SFNode values, so cast to SFNode and get the real value
   // stored in the field
-  if ((mSelectedItem->isSFNode() && !reinterpret_cast<WbSFNode *>(mSelectedItem->field()->value())->value()) ||
-      (mSelectedItem->field()->isMultiple() && reinterpret_cast<WbMultipleValue *>(mSelectedItem->field()->value())->isEmpty()))
+  if ((mSelectedItem->isSFNode() && mSelectedItem->node() == NULL) ||
+      (mSelectedItem->isField() && mSelectedItem->field()->isMultiple() &&
+       reinterpret_cast<WbMultipleValue *>(mSelectedItem->field()->value())->isEmpty()))
     addNew();
   // set focus on first edit box of the current value editor for immediate keyboard editing
-  else if ((mSelectedItem->field()->isMultiple() && mSelectedItem->isItem() && !mSelectedItem->isNode()) ||
-           (!mSelectedItem->field()->isMultiple() && mSelectedItem->isField() && !mSelectedItem->isSFNode()))
+  else if ((mSelectedItem->isItem() && !mSelectedItem->isNode() && mSelectedItem->field()->isMultiple()) ||
+           (mSelectedItem->isField() && !mSelectedItem->isSFNode() && !mSelectedItem->field()->isMultiple()))
     mFieldEditor->currentEditor()->takeKeyboardFocus();
   // default behavior, collapse/expoand tree item
   else if (mTreeView->isExpanded(mTreeView->currentIndex()))

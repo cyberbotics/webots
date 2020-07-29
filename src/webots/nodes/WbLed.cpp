@@ -89,7 +89,7 @@ void WbLed::updateChildren() {
 
   findMaterialsAndLights(this);
   if (mGradual->isTrue() && colorsCount() > 1)
-    warn(tr("Too many colors defined for a gradual LED."));
+    parsingWarn(tr("Too many colors defined for a gradual LED."));
 
   // update color of lights and materials
   setMaterialsAndLightsColor();
@@ -118,14 +118,14 @@ void WbLed::findMaterialsAndLights(const WbGroup *group) {
           mMaterials.append(material);
 
         connect(appearance, &WbAppearance::fieldChanged, this, &WbLed::updateIfNeeded, Qt::UniqueConnection);
-        connect(appearance->parent(), &WbShape::fieldChanged, this, &WbLed::updateIfNeeded, Qt::UniqueConnection);
+        connect(appearance->parentNode(), &WbShape::fieldChanged, this, &WbLed::updateIfNeeded, Qt::UniqueConnection);
       } else {
         WbPbrAppearance *pbrAppearance = dynamic_cast<WbShape *>(n)->pbrAppearance();
         if (pbrAppearance) {
           mPbrAppearances.append(pbrAppearance);
 
           connect(pbrAppearance, &WbPbrAppearance::fieldChanged, this, &WbLed::updateIfNeeded, Qt::UniqueConnection);
-          connect(pbrAppearance->parent(), &WbShape::fieldChanged, this, &WbLed::updateIfNeeded, Qt::UniqueConnection);
+          connect(pbrAppearance->parentNode(), &WbShape::fieldChanged, this, &WbLed::updateIfNeeded, Qt::UniqueConnection);
         }
       }
     } else if (light)
@@ -137,9 +137,9 @@ void WbLed::findMaterialsAndLights(const WbGroup *group) {
   }
 
   if (group == this && !isAnyMaterialOrLightFound())
-    warn(tr("No PBRAppearance, Material and no Light found. "
-            "The first child of a LED should be either a Shape, a Light "
-            "or a Group containing Shape and Light nodes."));
+    parsingWarn(tr("No PBRAppearance, Material and no Light found. "
+                   "The first child of a LED should be either a Shape, a Light "
+                   "or a Group containing Shape and Light nodes."));
 }
 
 bool WbLed::isAnyMaterialOrLightFound() {

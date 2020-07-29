@@ -40,6 +40,9 @@ void WbAccelerometer::init() {
   mYAxis = findSFBool("yAxis");
   mZAxis = findSFBool("zAxis");
   mResolution = findSFDouble("resolution");
+
+  mNeedToReconfigure = false;
+  mWarningWasPrinted = false;
 }
 
 WbAccelerometer::WbAccelerometer(WbTokenizer *tokenizer) : WbSolidDevice("Accelerometer", tokenizer) {
@@ -81,6 +84,8 @@ void WbAccelerometer::updateLookupTable() {
   // create the lookup table
   delete mLut;
   mLut = new WbLookupTable(*mLookupTable);
+
+  mNeedToReconfigure = true;
 }
 
 void WbAccelerometer::updateResolution() {
@@ -104,14 +109,31 @@ void WbAccelerometer::handleMessage(QDataStream &stream) {
 
 void WbAccelerometer::writeConfigure(QDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
+  addConfigure(stream);
+}
+
+void WbAccelerometer::addConfigure(QDataStream &stream) {
+  stream << (short unsigned int)tag();
+  stream << (unsigned char)C_CONFIGURE;
+  stream << (int)mLookupTable->size();
+  for (int i = 0; i < mLookupTable->size(); i++) {
+    stream << (double)mLookupTable->item(i).x();
+    stream << (double)mLookupTable->item(i).y();
+    stream << (double)mLookupTable->item(i).z();
+  }
+  mNeedToReconfigure = false;
 }
 
 void WbAccelerometer::writeAnswer(QDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << tag();
+    stream << (unsigned char)C_ACCELEROMETER_DATA;
     stream << (double)mValues[0] << (double)mValues[1] << (double)mValues[2];
     mSensor->resetPendingValue();
   }
+
+  if (mNeedToReconfigure)
+    addConfigure(stream);
 }
 
 bool WbAccelerometer::refreshSensorIfNeeded() {
@@ -125,26 +147,33 @@ bool WbAccelerometer::refreshSensorIfNeeded() {
 
 void WbAccelerometer::computeValue() {
   // set acceleration due to gravity
-  const WbVector3 &gravity = WbWorld::instance()->worldInfo()->gravity();
+  const WbVector3 &gravity = WbWorld::instance()->worldInfo()->gravityVector();
   WbVector3 acceleration(-gravity);
 
   // add other acceleration (computed from changes in velocity)
   dBodyID upperSolidBodyId = upperSolid()->bodyMerger();
   if (upperSolidBodyId) {
     dVector3 newVelocity;
-    const WbVector3 &t = translation();
-    dBodyGetRelPointVel(upperSolidBodyId, t.x(), t.y(), t.z(), newVelocity);
-    const double InvDt = 1000.0 / mSensor->elapsedTime();
+    const WbVector3 &t = position();
+    dBodyGetPointVel(upperSolidBodyId, t.x(), t.y(), t.z(), newVelocity);
+    const double inverseDt = 1000.0 / mSensor->elapsedTime();
 
     for (int i = 0; i < 3; ++i) {
-      acceleration[i] += (newVelocity[i] - mVelocity[i]) * InvDt;
+      acceleration[i] += (newVelocity[i] - mVelocity[i]) * inverseDt;
       mVelocity[i] = newVelocity[i];
     }
+  } else {
+    if (!mWarningWasPrinted) {
+      warn(tr("Parent of Accelerometer node has no physics: measurements may be wrong."));
+      mWarningWasPrinted = true;
+    }
+    mValues[0] = mValues[1] = mValues[2] = NAN;
+    return;
   }
 
   const WbVector3 &result = acceleration * matrix();
 
-  // lookup
+  // apply lookup table
   mValues[0] = mXAxis->isTrue() ? mLut->lookup(result.x()) : NAN;
   mValues[1] = mYAxis->isTrue() ? mLut->lookup(result.y()) : NAN;
   mValues[2] = mZAxis->isTrue() ? mLut->lookup(result.z()) : NAN;

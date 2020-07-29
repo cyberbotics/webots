@@ -46,10 +46,10 @@ if now.weekday() >= 5:
 
 warningMessage = '\nIt might be unstable, for a stable version of Webots, please use the [latest official release]' \
                  '(https://github.com/cyberbotics/webots/releases/latest).'
-if options.tag:
-    tag = options.tag
-    title = options.tag
-    message = 'This is a nightly build of Webots from the "%s" tag.%s' % (options.tag, warningMessage)
+if options.tag and not options.tag.startswith('refs/heads/'):
+    tag = options.tag.replace('refs/tags/', '')
+    title = tag
+    message = 'This is a nightly build of Webots from the "%s" tag.%s' % (tag, warningMessage)
     if tag.startswith('nightly_'):
         print('Skipping nightly build tag.')
         sys.exit(0)
@@ -57,7 +57,7 @@ else:
     title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
     tag = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)
     branch = '[%s](https://github.com/%s/blob/%s/docs/reference/changelog-r%d.md)' \
-             % (options.branch, options.repo, options.commit, now.year)
+             % (options.branch.replace('refs/heads/', ''), options.repo, options.commit, now.year)
     message = 'This is a nightly build of Webots from the following branch(es):\n  - %s\n%s' % (branch, warningMessage)
 
 for release in repo.get_releases():
@@ -97,8 +97,12 @@ for release in repo.get_releases():
         for asset in release.get_assets():
             assets[asset.name] = asset
         releaseCommentModified = False
-        for file in os.listdir(os.path.join(os.environ['WEBOTS_HOME'], 'distribution')):
-            path = os.path.join(os.environ['WEBOTS_HOME'], 'distribution', file)
+        if 'WEBOTS_HOME' in os.environ:
+            rootPath = os.environ['WEBOTS_HOME']
+        else:
+            rootPath = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        for file in os.listdir(os.path.join(rootPath, 'distribution')):
+            path = os.path.join(rootPath, 'distribution', file)
             if file != '.gitignore' and not os.path.isdir(path):
                 if file in assets:
                     print('Asset "%s" already present in release "%s".' % (file, title))
@@ -112,11 +116,14 @@ for release in repo.get_releases():
                         except requests.exceptions.ConnectionError:
                             remainingTrials -= 1
                             print('Release upload failed (remaining trials: %d)' % remainingTrials)
-                    if releaseExists and not options.tag and not releaseCommentModified and options.branch not in release.body:
+                    if (releaseExists and
+                            not (options.tag and not options.tag.startswith('refs/heads/')) and
+                            not releaseCommentModified and
+                            options.branch.replace('refs/heads/', '') not in release.body):
                         print('Updating release description')
                         releaseCommentModified = True
                         branch = '[%s](https://github.com/%s/blob/%s/docs/reference/changelog-r%d.md)' \
-                                 % (options.branch, options.repo, options.commit, now.year)
+                                 % (options.branch.replace('refs/heads/', ''), options.repo, options.commit, now.year)
                         message = release.body.replace('branch(es):', 'branch(es):\n  - %s' % branch)
                         release.update_release(release.title, message, release.draft, release.prerelease, release.tag_name,
                                                release.target_commitish)

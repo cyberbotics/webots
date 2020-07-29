@@ -591,3 +591,9 @@ QStringList WbPbrAppearance::fieldsToSynchronizeWithX3D() const {
          << "emissiveColor";
   return fields;
 }
+
+bool WbPbrAppearance::exportNodeHeader(WbVrmlWriter &writer) const {
+  if (writer.isUrdf())
+    return true;
+  return WbAbstractAppearance::exportNodeHeader(writer);
+}

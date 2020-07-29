@@ -257,7 +257,7 @@ int main(int argc, char **argv) {
   i = wb_supervisor_node_get_type(self);
   ts_assert_int_equal(i, WB_NODE_ROBOT, "Self node should have type %d not %d", WB_NODE_ROBOT, i);
 
-  ts_assert_boolean_equal(wb_robot_get_supervisor(self), "'wb_robot_get_supervisor' should return true.");
+  ts_assert_boolean_equal(wb_robot_get_supervisor(), "'wb_robot_get_supervisor' should return true.");
 
   controller = wb_supervisor_node_get_field(self, "controller");
   ts_assert_pointer_not_null(controller, "Self node should have a controller field.");
