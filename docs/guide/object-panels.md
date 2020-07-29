@@ -33,7 +33,7 @@ Panel {
 
 ### Panel Field Summary
 
-- `size`: Defines the size of the panel
+- `size`: Defines the size of the panel.
 
 - `borderHeight`: Defines the height of the border.
 
@@ -51,7 +51,7 @@ A gray panel with tubes.
 
 %figure
 
-![PanelWithTubes](images/objects/panels/PannelWithTubes/model.thumbnail.png)
+![PanelWithTubes](images/objects/panels/PanelWithTubes/model.thumbnail.png)
 
 %end
 
@@ -66,7 +66,7 @@ PanelWithTubes {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/panels/protos/PannelWithTubes.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/panels/protos/PannelWithTubes.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/panels/protos/PanelWithTubes.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/panels/protos/PanelWithTubes.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

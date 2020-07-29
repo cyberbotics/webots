@@ -32,7 +32,7 @@ CautionPanel {
 
 - `signImage`: Defines the texture used for the sign.
 
-- `color`: Defines the color of the panel
+- `color`: Defines the color of the panel.
 
 ## CautionSign
 
@@ -301,7 +301,7 @@ ExitPanel {
 
 - `signImage`: Defines the texture used for the sign.
 
-- `color`: Defines the color of the panel
+- `color`: Defines the color of the panel.
 
 ## ExitSign
 
@@ -338,7 +338,7 @@ ExitSign {
 
 - `radius`: Defines the radius of the sign pole.
 
-- `color`: Defines the color of the panel
+- `color`: Defines the color of the panel.
 
 - `signBoards`: Defines the boards.
 
@@ -517,7 +517,7 @@ OrderPanel {
 
 - `signImage`: Defines the texture used for the sign.
 
-- `color`: Defines the color of the panel
+- `color`: Defines the color of the panel.
 
 ## OrderSign
 
@@ -720,9 +720,9 @@ RectangularPanel {
 
 - `signImage`: Defines the texture used for the sign.
 
-- `color`: Defines the color of the panel
+- `color`: Defines the color of the panel.
 
-- `size`: Defines the size of the panel
+- `size`: Defines the size of the panel.
 
 ## SignPole
 
@@ -795,7 +795,7 @@ SpeedLimitPanel {
 
 - `signImage`: Defines the texture used for the sign.
 
-- `color`: Defines the color of the panel
+- `color`: Defines the color of the panel.
 
 ## SpeedLimitSign
 
@@ -868,7 +868,7 @@ StopPanel {
 
 - `signImage`: Defines the texture used for the sign.
 
-- `color`: Defines the color of the panel
+- `color`: Defines the color of the panel.
 
 ## StopSign
 
@@ -1216,7 +1216,7 @@ YieldPanel {
 
 - `signImage`: Defines the texture used for the sign.
 
-- `color`: Defines the color of the panel
+- `color`: Defines the color of the panel.
 
 - `textureRotation`: Defines the rotation of the texture used for the sign.
 

@@ -11,6 +11,8 @@ An asphalt material. The color can be overridden using the `colorOverride` field
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 Asphalt {
   SFColor colorOverride    1 1 1
@@ -40,9 +42,11 @@ A bakelite plastic.
 
 |     |     |
 |:---:|:---:|
-| ![BakelitePlastic_a.png](images/appearances/BakelitePlastic_a.png) |![BakelitePlastic_b.png](images/appearances/BakelitePlastic_b.png) |
+| ![BakelitePlastic_a.png](images/appearances/BakelitePlastic_a.thumbnail.png) |![BakelitePlastic_b.png](images/appearances/BakelitePlastic_b.thumbnail.png) |
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 BakelitePlastic {
@@ -75,6 +79,8 @@ A blanket fabric material.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 BlanketFabric {
   SFColor colorOverride    1 1 1
@@ -105,6 +111,8 @@ A brushed aluminum material.
 ![BrushedAluminium](images/appearances/BrushedAluminium.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 BrushedAluminium {
@@ -137,6 +145,8 @@ A brushed steel material.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 BrushedSteel {
   SFColor colorOverride    1 1 1
@@ -166,10 +176,12 @@ A woolen carpet material.
 
 |     |     |
 |:---:|:---:|
-| ![CarpetFibers_a.png](images/appearances/CarpetFibers_a.png) |![CarpetFibers_b.png](images/appearances/CarpetFibers_b.png) |
-| ![CarpetFibers_c.png](images/appearances/CarpetFibers_c.png) | |
+| ![CarpetFibers_a.png](images/appearances/CarpetFibers_a.thumbnail.png) |![CarpetFibers_b.png](images/appearances/CarpetFibers_b.thumbnail.png) |
+| ![CarpetFibers_c.png](images/appearances/CarpetFibers_c.thumbnail.png) | |
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 CarpetFibers {
@@ -205,6 +217,8 @@ A cement tiles material.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 CementTiles {
   SFColor colorOverride    1 1 1
@@ -236,6 +250,8 @@ A copper material.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 Copper {
   SFNode  textureTransform NULL
@@ -263,6 +279,8 @@ A corroded metal material. The color can be overridden using the `colorOverride`
 ![CorrodedMetal](images/appearances/CorrodedMetal.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 CorrodedMetal {
@@ -295,6 +313,8 @@ A corrugated metal material. The color can be overridden using the `colorOverrid
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 CorrugatedMetal {
   SFColor colorOverride    1 1 1
@@ -325,6 +345,8 @@ A corrugated plates material. The color can be overridden using the `colorOverri
 ![CorrugatedPlates](images/appearances/CorrugatedPlates.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 CorrugatedPlates {
@@ -357,6 +379,8 @@ A corrugated PVC material. The color can be overridden using the `colorOverride`
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 CorrugatedPvc {
   SFColor colorOverride    1 1 1
@@ -387,6 +411,8 @@ A damascus steel material. The color can be overridden using the `colorOverride`
 ![DamascusSteel](images/appearances/DamascusSteel.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 DamascusSteel {
@@ -419,6 +445,8 @@ A dry mud material with cracks.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 DryMud {
   SFNode  textureTransform NULL
@@ -446,6 +474,8 @@ An electric conduit material. The color can be overridden using the `colorOverri
 ![ElectricConduit](images/appearances/ElectricConduit.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 ElectricConduit {
@@ -478,6 +508,8 @@ A flexible aluminium duct material. The color can be overridden using the `color
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 FlexibleAluminiumDuct {
   SFColor colorOverride    1 1 1
@@ -509,6 +541,8 @@ A formed concrete material.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 FormedConcrete {
   SFNode  textureTransform NULL
@@ -536,6 +570,8 @@ A galvanized metal material. The color can be overridden using the `colorOverrid
 ![GalvanizedMetal](images/appearances/GalvanizedMetal.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 GalvanizedMetal {
@@ -568,6 +604,8 @@ A glossy paint material. The color can be selected in the `baseColor` field.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 GlossyPaint {
   SFColor baseColor        1 1 1
@@ -597,10 +635,12 @@ A grass material containing several grass types.
 
 |     |     |
 |:---:|:---:|
-| ![Grass_a.png](images/appearances/Grass_a.png) |![Grass_b.png](images/appearances/Grass_b.png) |
-| ![Grass_c.png](images/appearances/Grass_c.png) |![Grass_d.png](images/appearances/Grass_d.png) |
+| ![Grass_a.png](images/appearances/Grass_a.thumbnail.png) |![Grass_b.png](images/appearances/Grass_b.thumbnail.png) |
+| ![Grass_c.png](images/appearances/Grass_c.thumbnail.png) |![Grass_d.png](images/appearances/Grass_d.thumbnail.png) |
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 Grass {
@@ -636,6 +676,8 @@ An hammered copper steel material. The color can be overridden using the `colorO
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 HammeredCopper {
   SFColor colorOverride    1 1 1
@@ -665,10 +707,12 @@ A leather material. The color can be overridden using the `colorOverride` field.
 
 |     |     |
 |:---:|:---:|
-| ![Leather_a.png](images/appearances/Leather_a.png) |![Leather_b.png](images/appearances/Leather_b.png) |
-| ![Leather_c.png](images/appearances/Leather_c.png) | |
+| ![Leather_a.png](images/appearances/Leather_a.thumbnail.png) |![Leather_b.png](images/appearances/Leather_b.thumbnail.png) |
+| ![Leather_c.png](images/appearances/Leather_c.thumbnail.png) | |
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 Leather {
@@ -707,6 +751,8 @@ A led strip material.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 LedStrip {
   SFColor colorOverride     1 1 1
@@ -741,6 +787,8 @@ A beige marble material.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 Marble {
   SFColor colorOverride     1 1 1
@@ -771,6 +819,8 @@ A marble tiles material.
 ![MarbleTiles](images/appearances/MarbleTiles.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 MarbleTiles {
@@ -803,6 +853,8 @@ A matte paint material. The color can be selected in the `baseColor` field.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 MattePaint {
   SFColor baseColor        1 1 1
@@ -834,6 +886,8 @@ A worn paint layer on a metal surface. Useful with the `PipeSection` PROTO or an
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 MetalPipePaint {
   SFNode  textureTransform NULL
@@ -862,6 +916,8 @@ A stainless steel cable appearance.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 MetalStainlessSteelCable {
   SFNode  textureTransform NULL
@@ -889,6 +945,8 @@ An old plywood material.
 ![OldPlywood](images/appearances/OldPlywood.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 OldPlywood {
@@ -921,6 +979,8 @@ An old battered steel material.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 OldSteel {
   SFColor colorOverride    1 1 1
@@ -951,6 +1011,8 @@ An OSB wood material. The color can be overridden using the `colorOverride` fiel
 ![OsbWood](images/appearances/OsbWood.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 OsbWood {
@@ -983,6 +1045,8 @@ A painted wood material. The color can be overridden using the `colorOverride` f
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 PaintedWood {
   SFColor colorOverride    1 1 1
@@ -1014,10 +1078,12 @@ The color can be overridden using the `colorOverride` field.
 
 |     |     |
 |:---:|:---:|
-| ![Parquetry_a.png](images/appearances/Parquetry_a.png) |![Parquetry_b.png](images/appearances/Parquetry_b.png) |
-| ![Parquetry_c.png](images/appearances/Parquetry_c.png) |![Parquetry_d.png](images/appearances/Parquetry_d.png) |
+| ![Parquetry_a.png](images/appearances/Parquetry_a.thumbnail.png) |![Parquetry_b.png](images/appearances/Parquetry_b.thumbnail.png) |
+| ![Parquetry_c.png](images/appearances/Parquetry_c.thumbnail.png) |![Parquetry_d.png](images/appearances/Parquetry_d.thumbnail.png) |
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 Parquetry {
@@ -1053,11 +1119,13 @@ The color can be overridden using the `colorOverride` field.
 
 |     |     |
 |:---:|:---:|
-| ![Pavement_a.png](images/appearances/Pavement_a.png) |![Pavement_b.png](images/appearances/Pavement_b.png) |
-| ![Pavement_c.png](images/appearances/Pavement_c.png) |![Pavement_d.png](images/appearances/Pavement_d.png) |
-| ![Pavement_e.png](images/appearances/Pavement_e.png) |![Pavement_f.png](images/appearances/Pavement_f.png) |
+| ![Pavement_a.png](images/appearances/Pavement_a.thumbnail.png) |![Pavement_b.png](images/appearances/Pavement_b.thumbnail.png) |
+| ![Pavement_c.png](images/appearances/Pavement_c.thumbnail.png) |![Pavement_d.png](images/appearances/Pavement_d.thumbnail.png) |
+| ![Pavement_e.png](images/appearances/Pavement_e.thumbnail.png) |![Pavement_f.png](images/appearances/Pavement_f.thumbnail.png) |
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 Pavement {
@@ -1093,6 +1161,8 @@ A PCB material.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 Pcb {
   SFNode  textureTransform NULL
@@ -1120,6 +1190,8 @@ A perforated metal material.
 ![PerforatedMetal](images/appearances/PerforatedMetal.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 PerforatedMetal {
@@ -1152,6 +1224,8 @@ A plaster material. The color can be overridden using the `colorOverride` field.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 Plaster {
   SFColor colorOverride    1 1 1
@@ -1181,9 +1255,11 @@ A plastic material containing several types.
 
 |     |     |
 |:---:|:---:|
-| ![Plastic_a.png](images/appearances/Plastic_a.png) |![Plastic_b.png](images/appearances/Plastic_b.png) |
+| ![Plastic_a.png](images/appearances/Plastic_a.thumbnail.png) |![Plastic_b.png](images/appearances/Plastic_b.thumbnail.png) |
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 Plastic {
@@ -1219,6 +1295,8 @@ A porcelain chevron tiles material.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 PorcelainChevronTiles {
   SFColor colorOverride    1 1 1
@@ -1250,6 +1328,8 @@ A tiled brick material. Useful with the `Wall` PROTO.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 RedBricks {
   SFNode  textureTransform NULL
@@ -1277,6 +1357,8 @@ A reflective surface material.
 ![ReflectiveSurface](images/appearances/ReflectiveSurface.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 ReflectiveSurface {
@@ -1313,6 +1395,8 @@ A rough concrete material. The color can be overridden using the `colorOverride`
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 RoughConcrete {
   SFColor colorOverride    1 1 1
@@ -1343,6 +1427,8 @@ A rough oak material. The color can be overridden using the `colorOverride` fiel
 ![RoughOak](images/appearances/RoughOak.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 RoughOak {
@@ -1375,6 +1461,8 @@ A pine wood material. The color can be overridden using the `colorOverride` fiel
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 RoughPine {
   SFColor colorOverride    1 1 1
@@ -1405,6 +1493,8 @@ A rough polymer material.
 ![RoughPolymer](images/appearances/RoughPolymer.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 RoughPolymer {
@@ -1437,6 +1527,8 @@ A rough plaster material. Useful with the `Wall` PROTO.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 Roughcast {
   SFColor colorOverride    1 1 1
@@ -1467,9 +1559,11 @@ The type of rubber can be set using the `type` field.
 
 |     |     |
 |:---:|:---:|
-| ![Rubber_a.png](images/appearances/Rubber_a.png) |![Rubber_b.png](images/appearances/Rubber_b.png) |
+| ![Rubber_a.png](images/appearances/Rubber_a.thumbnail.png) |![Rubber_b.png](images/appearances/Rubber_b.thumbnail.png) |
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 Rubber {
@@ -1502,6 +1596,8 @@ The color can be overridden using the `colorOverride` field and the amount of ru
 ![RustyMetal](images/appearances/RustyMetal.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 RustyMetal {
@@ -1537,6 +1633,8 @@ A sand material.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 Sand {
   SFNode  textureTransform NULL
@@ -1564,6 +1662,8 @@ A sandy ground material. The color can be selected using the `colorOverride` fie
 ![SandyGround](images/appearances/SandyGround.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 SandyGround {
@@ -1595,6 +1695,8 @@ A scratched paint material.
 ![ScratchedPaint](images/appearances/ScratchedPaint.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 ScratchedPaint {
@@ -1630,6 +1732,8 @@ A screw thread material. The color can be overridden using the `colorOverride` f
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 ScrewThread {
   SFColor colorOverride    1 1 1
@@ -1661,6 +1765,8 @@ A shiny leather material. The color can be selected using the `colorOverride` fi
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 ShinyLeather {
   SFColor colorOverride    1 1 1
@@ -1690,9 +1796,11 @@ A soil material.
 
 |     |     |
 |:---:|:---:|
-| ![Soil_a.png](images/appearances/Soil_a.png) |![Soil_b.png](images/appearances/Soil_b.png) |
+| ![Soil_a.png](images/appearances/Soil_a.thumbnail.png) |![Soil_b.png](images/appearances/Soil_b.thumbnail.png) |
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 Soil {
@@ -1726,6 +1834,8 @@ A solar panel cell material.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 SolarCell {
   SFNode  textureTransform  NULL
@@ -1753,9 +1863,11 @@ The type of metal surface can be set using the `type` field.
 
 |     |     |
 |:---:|:---:|
-| ![ThreadMetalPlate_a.png](images/appearances/ThreadMetalPlate_a.png) |![ThreadMetalPlate_b.png](images/appearances/ThreadMetalPlate_b.png) |
+| ![ThreadMetalPlate_a.png](images/appearances/ThreadMetalPlate_a.thumbnail.png) |![ThreadMetalPlate_b.png](images/appearances/ThreadMetalPlate_b.thumbnail.png) |
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 ThreadMetalPlate {
@@ -1790,9 +1902,11 @@ It can be a car tire or a bike tire.
 
 |     |     |
 |:---:|:---:|
-| ![TireRubber_a.png](images/appearances/TireRubber_a.png) |![TireRubber_b.png](images/appearances/TireRubber_b.png) |
+| ![TireRubber_a.png](images/appearances/TireRubber_a.thumbnail.png) |![TireRubber_b.png](images/appearances/TireRubber_b.thumbnail.png) |
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 TireRubber {
@@ -1825,6 +1939,8 @@ A pine wood material covered with a layer of varnish. The color can be overridde
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 VarnishedPine {
   SFColor colorOverride    0.8039 0.6745 0.5764
@@ -1855,6 +1971,8 @@ A wire fence material. The color can be overridden using the `colorOverride` fie
 ![WireFence](images/appearances/WireFence.thumbnail.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 WireFence {

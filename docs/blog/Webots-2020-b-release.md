@@ -76,7 +76,7 @@ Also, more ANSI control codes are now supported allowing you to output [colorful
 This should make debugging your robot controllers easier and render the corresponding output more elegant.
 
 %figure "Consoles in Webots"
-![Consoles in Webots](images/consoles.png)
+![Consoles in Webots](images/consoles.thumbnail.jpg)
 %end
 
 ---
