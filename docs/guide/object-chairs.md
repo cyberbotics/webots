@@ -37,6 +37,12 @@ Chair {
 
 A rotating office chair with customizable appearance.
 
+%figure
+
+![OfficeChair](images/objects/chairs/OfficeChair/model.png)
+
+%end
+
 Derived from [Solid](../reference/solid.md).
 
 ```
