@@ -1,7 +1,7 @@
 # Webots R2020 Change Log
 
 ## [Webots R2020b](../blog/Webots-2020-b-release.md)
-Released on XXX.
+Released on July 29th, 2020.
 
   - New Robots
     - Added a model of the [Spot](../guide/spot.md) robot from [Boston Dynamics](https://www.bostondynamics.com/spot) ([#1553](https://github.com/cyberbotics/webots/pull/1553)).

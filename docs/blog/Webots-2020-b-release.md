@@ -1,6 +1,6 @@
 # Version R2020b Released
 
-<p id="publish-data">By Olivier Michel - 31st July 2020</p>
+<p id="publish-data">By Olivier Michel - 29th July 2020</p>
 
 ---
 
