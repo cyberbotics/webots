@@ -1,129 +1,145 @@
 {
+  "name": "tiago-steel",
+  "robotID": "n31",
   "devices": [
     {
-      "axis": "0 0 1",
-      "maxPosition": 2.68,
-      "minPosition": 0.07,
-      "name": "arm_1_joint",
       "position": 0.07,
+      "axis": "0 0 1",
+      "minPosition": 0.07,
+      "anchor": "0.025 0.194 -0.16",
+      "name": "arm_1_joint",
       "transformID": "n28837",
+      "maxPosition": 2.68,
       "type": "RotationalMotor"
     },
     {
+      "position": 0,
       "axis": "0 -1 0",
-      "maxPosition": 1.02,
       "minPosition": -1.5,
+      "anchor": "0.125 0.0195 -0.031",
       "name": "arm_2_joint",
-      "position": 0,
       "transformID": "n28870",
+      "maxPosition": 1.02,
       "type": "RotationalMotor"
     },
     {
+      "position": 0,
       "axis": "-1 0 0",
-      "maxPosition": 1.5,
       "minPosition": -3.46,
+      "anchor": "0.0895 0 -0.0015",
       "name": "arm_3_joint",
-      "position": 0,
       "transformID": "n28884",
+      "maxPosition": 1.5,
       "type": "RotationalMotor"
     },
     {
+      "position": 0,
       "axis": "0 1 0",
-      "maxPosition": 2.29,
       "minPosition": -0.32,
+      "anchor": "-0.02 -0.027 -0.222",
       "name": "arm_4_joint",
-      "position": 0,
       "transformID": "n28918",
+      "maxPosition": 2.29,
       "type": "RotationalMotor"
     },
     {
+      "position": 0,
       "axis": "-1 0 0",
-      "maxPosition": 2.07,
       "minPosition": -2.07,
+      "anchor": "-0.162 0.02 0.027",
       "name": "arm_5_joint",
-      "position": 0,
       "transformID": "n28952",
-      "type": "RotationalMotor"
-    },
-    {
-      "axis": "0 1 0",
-      "maxPosition": 1.39,
-      "minPosition": -1.39,
-      "name": "arm_6_joint",
-      "position": 0,
-      "transformID": "n28967",
-      "type": "RotationalMotor"
-    },
-    {
-      "axis": "1 0 0",
       "maxPosition": 2.07,
-      "minPosition": -2.07,
-      "name": "arm_7_joint",
-      "position": 0,
-      "transformID": "n28982",
       "type": "RotationalMotor"
     },
     {
-      "axis": "0 0 1",
-      "maxPosition": 1.24,
-      "minPosition": -1.24,
-      "name": "head_1_joint",
       "position": 0,
-      "transformID": "n25863",
-      "type": "RotationalMotor"
-    },
-    {
-      "axis": "0 -1 0",
-      "maxPosition": 0.79,
-      "minPosition": -0.98,
-      "name": "head_2_joint",
-      "position": 0,
-      "transformID": "n25878",
-      "type": "RotationalMotor"
-    },
-    {
       "axis": "0 1 0",
-      "maxPosition": 0,
-      "minPosition": 0,
-      "name": "wheel_left_joint",
-      "position": 0,
-      "transformID": "n7299",
+      "minPosition": -1.39,
+      "anchor": "0 0 0.15",
+      "name": "arm_6_joint",
+      "transformID": "n28967",
+      "maxPosition": 1.39,
       "type": "RotationalMotor"
     },
     {
-      "axis": "0 1 0",
-      "maxPosition": 0,
-      "minPosition": 0,
-      "name": "wheel_right_joint",
       "position": 0,
-      "transformID": "n7266",
-      "type": "RotationalMotor"
-    },
-    {
-      "axis": "-1 0 0",
-      "maxPosition": 0.045,
-      "minPosition": 0,
-      "name": "gripper_left_finger_joint",
-      "position": 0,
-      "transformID": "n29804",
-      "type": "LinearMotor"
-    },
-    {
       "axis": "1 0 0",
-      "maxPosition": 0.045,
-      "minPosition": 0,
-      "name": "gripper_right_finger_joint",
+      "minPosition": -2.07,
+      "anchor": "0 0 0",
+      "name": "arm_7_joint",
+      "transformID": "n28982",
+      "maxPosition": 2.07,
+      "type": "RotationalMotor"
+    },
+    {
       "position": 0,
-      "transformID": "n29837",
+      "axis": "0 0 1",
+      "minPosition": -1.24,
+      "anchor": "0.182 0 0",
+      "name": "head_1_joint",
+      "transformID": "n25863",
+      "maxPosition": 1.24,
+      "type": "RotationalMotor"
+    },
+    {
+      "position": 0,
+      "axis": "0 -1 0",
+      "minPosition": -0.98,
+      "anchor": "0.005 0 0.098",
+      "name": "head_2_joint",
+      "transformID": "n25878",
+      "maxPosition": 0.79,
+      "type": "RotationalMotor"
+    },
+    {
+      "position": 0,
+      "axis": "0 1 0",
+      "minPosition": 0,
+      "anchor": "0 0.2022 0",
+      "name": "wheel_left_joint",
+      "transformID": "n7299",
+      "maxPosition": 0,
+      "type": "RotationalMotor"
+    },
+    {
+      "position": 0,
+      "axis": "0 1 0",
+      "minPosition": 0,
+      "anchor": "0 -0.2022 0",
+      "name": "wheel_right_joint",
+      "transformID": "n7266",
+      "maxPosition": 0,
+      "type": "RotationalMotor"
+    },
+    {
+      "position": 0,
+      "axis": "-1 0 0",
+      "minPosition": 0,
+      "anchor": "0 0 0",
+      "name": "gripper_left_finger_joint",
+      "transformID": "n29804",
+      "maxPosition": 0.045,
       "type": "LinearMotor"
     },
     {
-      "axis": "0 0 1",
-      "maxPosition": 0.35,
-      "minPosition": 0,
-      "name": "torso_lift_joint",
       "position": 0,
+      "axis": "1 0 0",
+      "minPosition": 0,
+      "anchor": "0 0 0",
+      "name": "gripper_right_finger_joint",
+      "transformID": "n29837",
+      "maxPosition": 0.045,
+      "type": "LinearMotor"
+    },
+    {
+      "position": 0,
+      "axis": "0 0 1",
+      "minPosition": 0,
+      "anchor": "0 0 0",
+      "name": "torso_lift_joint",
       "transformID": "n23834",
+      "maxPosition": 0.35,
       "type": "LinearMotor"
     },
     {
@@ -236,7 +252,5 @@
       "transformID": "n7266",
       "type": "PositionSensor"
     }
-  ],
-  "name": "tiago-steel",
-  "robotID": "n31"
+  ]
 }
