@@ -42,7 +42,7 @@ A bakelite plastic.
 
 |     |     |
 |:---:|:---:|
-| ![BakelitePlastic_a.png](images/appearances/BakelitePlastic_a.png) |![BakelitePlastic_b.png](images/appearances/BakelitePlastic_b.png) |
+| ![BakelitePlastic_a.png](images/appearances/BakelitePlastic_a.thumbnail.png) |![BakelitePlastic_b.png](images/appearances/BakelitePlastic_b.thumbnail.png) |
 
 %end
 
@@ -176,8 +176,8 @@ A woolen carpet material.
 
 |     |     |
 |:---:|:---:|
-| ![CarpetFibers_a.png](images/appearances/CarpetFibers_a.png) |![CarpetFibers_b.png](images/appearances/CarpetFibers_b.png) |
-| ![CarpetFibers_c.png](images/appearances/CarpetFibers_c.png) | |
+| ![CarpetFibers_a.png](images/appearances/CarpetFibers_a.thumbnail.png) |![CarpetFibers_b.png](images/appearances/CarpetFibers_b.thumbnail.png) |
+| ![CarpetFibers_c.png](images/appearances/CarpetFibers_c.thumbnail.png) | |
 
 %end
 
@@ -635,8 +635,8 @@ A grass material containing several grass types.
 
 |     |     |
 |:---:|:---:|
-| ![Grass_a.png](images/appearances/Grass_a.png) |![Grass_b.png](images/appearances/Grass_b.png) |
-| ![Grass_c.png](images/appearances/Grass_c.png) |![Grass_d.png](images/appearances/Grass_d.png) |
+| ![Grass_a.png](images/appearances/Grass_a.thumbnail.png) |![Grass_b.png](images/appearances/Grass_b.thumbnail.png) |
+| ![Grass_c.png](images/appearances/Grass_c.thumbnail.png) |![Grass_d.png](images/appearances/Grass_d.thumbnail.png) |
 
 %end
 
@@ -707,8 +707,8 @@ A leather material. The color can be overridden using the `colorOverride` field.
 
 |     |     |
 |:---:|:---:|
-| ![Leather_a.png](images/appearances/Leather_a.png) |![Leather_b.png](images/appearances/Leather_b.png) |
-| ![Leather_c.png](images/appearances/Leather_c.png) | |
+| ![Leather_a.png](images/appearances/Leather_a.thumbnail.png) |![Leather_b.png](images/appearances/Leather_b.thumbnail.png) |
+| ![Leather_c.png](images/appearances/Leather_c.thumbnail.png) | |
 
 %end
 
@@ -1078,8 +1078,8 @@ The color can be overridden using the `colorOverride` field.
 
 |     |     |
 |:---:|:---:|
-| ![Parquetry_a.png](images/appearances/Parquetry_a.png) |![Parquetry_b.png](images/appearances/Parquetry_b.png) |
-| ![Parquetry_c.png](images/appearances/Parquetry_c.png) |![Parquetry_d.png](images/appearances/Parquetry_d.png) |
+| ![Parquetry_a.png](images/appearances/Parquetry_a.thumbnail.png) |![Parquetry_b.png](images/appearances/Parquetry_b.thumbnail.png) |
+| ![Parquetry_c.png](images/appearances/Parquetry_c.thumbnail.png) |![Parquetry_d.png](images/appearances/Parquetry_d.thumbnail.png) |
 
 %end
 
@@ -1119,9 +1119,9 @@ The color can be overridden using the `colorOverride` field.
 
 |     |     |
 |:---:|:---:|
-| ![Pavement_a.png](images/appearances/Pavement_a.png) |![Pavement_b.png](images/appearances/Pavement_b.png) |
-| ![Pavement_c.png](images/appearances/Pavement_c.png) |![Pavement_d.png](images/appearances/Pavement_d.png) |
-| ![Pavement_e.png](images/appearances/Pavement_e.png) |![Pavement_f.png](images/appearances/Pavement_f.png) |
+| ![Pavement_a.png](images/appearances/Pavement_a.thumbnail.png) |![Pavement_b.png](images/appearances/Pavement_b.thumbnail.png) |
+| ![Pavement_c.png](images/appearances/Pavement_c.thumbnail.png) |![Pavement_d.png](images/appearances/Pavement_d.thumbnail.png) |
+| ![Pavement_e.png](images/appearances/Pavement_e.thumbnail.png) |![Pavement_f.png](images/appearances/Pavement_f.thumbnail.png) |
 
 %end
 
@@ -1255,7 +1255,7 @@ A plastic material containing several types.
 
 |     |     |
 |:---:|:---:|
-| ![Plastic_a.png](images/appearances/Plastic_a.png) |![Plastic_b.png](images/appearances/Plastic_b.png) |
+| ![Plastic_a.png](images/appearances/Plastic_a.thumbnail.png) |![Plastic_b.png](images/appearances/Plastic_b.thumbnail.png) |
 
 %end
 
@@ -1559,7 +1559,7 @@ The type of rubber can be set using the `type` field.
 
 |     |     |
 |:---:|:---:|
-| ![Rubber_a.png](images/appearances/Rubber_a.png) |![Rubber_b.png](images/appearances/Rubber_b.png) |
+| ![Rubber_a.png](images/appearances/Rubber_a.thumbnail.png) |![Rubber_b.png](images/appearances/Rubber_b.thumbnail.png) |
 
 %end
 
@@ -1796,7 +1796,7 @@ A soil material.
 
 |     |     |
 |:---:|:---:|
-| ![Soil_a.png](images/appearances/Soil_a.png) |![Soil_b.png](images/appearances/Soil_b.png) |
+| ![Soil_a.png](images/appearances/Soil_a.thumbnail.png) |![Soil_b.png](images/appearances/Soil_b.thumbnail.png) |
 
 %end
 
@@ -1863,7 +1863,7 @@ The type of metal surface can be set using the `type` field.
 
 |     |     |
 |:---:|:---:|
-| ![ThreadMetalPlate_a.png](images/appearances/ThreadMetalPlate_a.png) |![ThreadMetalPlate_b.png](images/appearances/ThreadMetalPlate_b.png) |
+| ![ThreadMetalPlate_a.png](images/appearances/ThreadMetalPlate_a.thumbnail.png) |![ThreadMetalPlate_b.png](images/appearances/ThreadMetalPlate_b.thumbnail.png) |
 
 %end
 
@@ -1902,7 +1902,7 @@ It can be a car tire or a bike tire.
 
 |     |     |
 |:---:|:---:|
-| ![TireRubber_a.png](images/appearances/TireRubber_a.png) |![TireRubber_b.png](images/appearances/TireRubber_b.png) |
+| ![TireRubber_a.png](images/appearances/TireRubber_a.thumbnail.png) |![TireRubber_b.png](images/appearances/TireRubber_b.thumbnail.png) |
 
 %end
 

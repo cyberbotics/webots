@@ -39,7 +39,7 @@ A rotating office chair with customizable appearance.
 
 %figure
 
-![OfficeChair](images/objects/chairs/OfficeChair/model.png)
+![OfficeChair](images/objects/chairs/OfficeChair/model.thumbnail.png)
 
 %end
 

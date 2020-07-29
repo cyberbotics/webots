@@ -76,7 +76,7 @@ Also, more ANSI control codes are now supported allowing you to output [colorful
 This should make debugging your robot controllers easier and render the corresponding output more elegant.
 
 %figure "Consoles in Webots"
-![Consoles in Webots](images/consoles.png)
+![Consoles in Webots](images/consoles.thumbnail.jpg)
 %end
 
 ---
@@ -87,11 +87,11 @@ To let you model more realistic robots and environments we expanded again our `P
 
 | | | |
 | :---: | :---: | :---: |
-| ![Marble](images/appearances/Marble.thumbnail.png) | ![MetalStainlessSteelCable](images/appearances/MetalStainlessSteelCable.thumbnail.png) | ![Pavement](images/appearances/Pavement_a.thumbnail.png) |
+| ![Marble](images/appearances/Marble.png) | ![MetalStainlessSteelCable](images/appearances/MetalStainlessSteelCable.png) | ![Pavement](images/appearances/Pavement_a.png) |
 | [Marble](https://cyberbotics.com/doc/guide/appearances#marble) | [MetalStainlessSteelCable](https://cyberbotics.com/doc/guide/appearances#metalstainlesssteelcable) | [Pavement](https://cyberbotics.com/doc/guide/appearances#pavement) |
-| ![Plastic](images/appearances/Plastic_a.thumbnail.png) | ![Parquetry](images/appearances/Parquetry_a.thumbnail.png) |  ![PerforatedMetal](images/appearances/PerforatedMetal.thumbnail.png) |
+| ![Plastic](images/appearances/Plastic_a.png) | ![Parquetry](images/appearances/Parquetry_a.png) |  ![PerforatedMetal](images/appearances/PerforatedMetal.png) |
 | [Plastic](https://cyberbotics.com/doc/guide/appearances#plastic) | [Parquetry](https://cyberbotics.com/doc/guide/appearances#parquetry) | [PerforatedMetal](https://cyberbotics.com/doc/guide/appearances#perforatedmetal) |
-| ![SolarCell](images/appearances/SolarCell.thumbnail.png) |  |  |
+| ![SolarCell](images/appearances/SolarCell.png) |  |  |
 | [SolarCell](https://cyberbotics.com/doc/guide/appearances#solarcell) |  |  |
 
 ---
