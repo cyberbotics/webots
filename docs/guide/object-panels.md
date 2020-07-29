@@ -49,6 +49,12 @@ Panel {
 
 A gray panel with tubes.
 
+%figure
+
+![PanelWithTubes](images/objects/panels/PanelWithTubes/model.thumbnail.png)
+
+%end
+
 Derived from [Solid](../reference/solid.md).
 
 ```
