@@ -104,7 +104,8 @@ jobs:
     - name: Extract Webots [macOS]
       if: ${{ startsWith(matrix.os, 'macos') }}
       run: |
-        hdiutil mount webots-R2020b.dmg
+        ls artifact
+        hdiutil mount artifact/webots-R2020b.dmg
     - name: Install Webots Dependencies
       run: src/install_scripts/linux_runtime_dependencies.sh
     - name: Set up Python 3.8
