@@ -52,6 +52,7 @@ Released on XXX.
     - Removed the ROS libraries from the default controllers path to avoid possible conflicts with other libraries (thanks to PymZoR) ([#1426](https://github.com/cyberbotics/webots/pull/1426)).
     - Geometry node now displays its triangles count in the node editor ([#1456](https://github.com/cyberbotics/webots/pull/1456)).
   - Dependency Updates
+    - Linux: support Ubuntu 20.04 LTS.
     - Upgraded to Qt 5.15.0 on Windows and Linux ([#1709](https://github.com/cyberbotics/webots/pull/1709), [#1710](https://github.com/cyberbotics/webots/pull/1710)).
     - Upgraded to Assimp 5.0.1 on Linux and macOS ([#1463](https://github.com/cyberbotics/webots/pull/1463)).
   - Bug fixes
