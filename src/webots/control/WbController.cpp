@@ -405,7 +405,7 @@ void WbController::setProcessEnvironment() {
         }
         if (iniParser.sectionAt(i) == "python") {
           if (iniParser.keyAt(i) == "COMMAND")
-            mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, iniParser.valueAt(i));
+            mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, iniParser.valueAt(i), env);
           else if (iniParser.keyAt(i) == "OPTIONS")
             mPythonOptions = iniParser.valueAt(i);
           else
@@ -482,7 +482,7 @@ void WbController::setProcessEnvironment() {
   if (mType == WbFileUtil::PYTHON) {
     if (mPythonCommand.isEmpty())
       mPythonCommand = WbLanguageTools::pythonCommand(
-        mPythonShortVersion, WbPreferences::instance()->value("General/pythonCommand", "python").toString());
+        mPythonShortVersion, WbPreferences::instance()->value("General/pythonCommand", "python").toString(), env);
     // read the python shebang (first line starting with #!) to possibly override the python command
     QFile pythonSourceFile(mControllerPath + name() + ".py");
     if (pythonSourceFile.open(QIODevice::ReadOnly)) {
@@ -491,9 +491,9 @@ void WbController::setProcessEnvironment() {
       if (line.startsWith("#!")) {
 #ifndef _WIN32
         if (line.startsWith("#!/usr/bin/env "))
-          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(15).trimmed());
+          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(15).trimmed(), env);
         else
-          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(2).trimmed());
+          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(2).trimmed(), env);
 #else  // Windows: check that the version specified in the shebang corresponds to the version of Python installed
         const QString &expectedVersion = line.mid(line.lastIndexOf("python", -1, Qt::CaseInsensitive) + 6);
         bool mismatch = false;

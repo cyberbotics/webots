@@ -43,6 +43,8 @@ Python 2.7 installed by default.
 You can install Python 3.7 or 3.8 from the [Python web site](https://www.python.org).
 To check the versions of Python installed on your system, you can type in a terminal: `python --version`, `python3.8 --version`, `python2.7 --version`, `python3 --version`, etc.
 
+> **Note**: To use Python 3.x on macOS, it is recommended to set the absolute path to the python3 executable (i.e. `/Library/Frameworks/Python.framework/Versions/3.x/bin/python3`) in the [`Python command` option of the Preferences](preferences.md#general).
+
 #### Windows Installation
 
 You should install the latest version of Python 3.7 (64 bit) or Python 2.7 (64 bit) from the official [Python website](https://www.python.org).
