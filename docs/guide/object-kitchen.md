@@ -207,7 +207,7 @@ Sink {
 
 ### Worktop
 
-A customizable (size, texture, etc.) worktop.
+A customizable worktop.
 
 %figure
 
@@ -219,12 +219,11 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Worktop {
-  SFVec3f    translation   0 0.71 0
-  SFRotation rotation      0 1 0 0
-  SFString   name          "worktop"
-  SFVec3f    size          0.44 0.06 0.7
-  MFString   textureUrl    "textures/worktop.jpg"
-  SFVec2f    tileSize      0.7 0.7
+  SFVec3f    translation  0 0.71 0
+  SFRotation rotation     0 1 0 0
+  SFString   name         "worktop"
+  SFVec3f    size         0.44 0.06 0.7
+  SFNode     appearance   Marble { }
 }
 ```
 
@@ -237,9 +236,7 @@ Worktop {
 
 - `size`: Defines the size of the worktop.
 
-- `textureUrl`: Defines the texture used for the worktop.
-
-- `tileSize`: Defines the size of texture used for the worktop.
+- `appearance`: Defines the appearance.
 
 ## Fridge
 

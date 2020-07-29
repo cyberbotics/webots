@@ -102,7 +102,7 @@ Door {
 
 - `wallAppearance`: Defines the wall's appearance.
 
-- `frameAppearance`: Defines the frame's appearance
+- `frameAppearance`: Defines the frame's appearance.
 
 - `doorHandle`: Defines an optional door handle.
 

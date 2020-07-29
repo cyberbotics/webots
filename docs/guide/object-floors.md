@@ -19,7 +19,7 @@ CircleArena {
   SFString   name            "circle arena"
   SFFloat    radius          1.0
   SFString   contactMaterial "default"
-  SFNode     floorAppearance ChequeredParquetry {}
+  SFNode     floorAppearance Parquetry { type "chequered" }
   SFVec2f    floorTileSize   0.5 0.5
   SFFloat    wallThickness   0.01
   SFFloat    wallHeight      0.1
@@ -69,7 +69,7 @@ Floor {
   SFString   contactMaterial "default"
   SFVec2f    size            10 10
   SFVec2f    tileSize        0.5 0.5
-  SFNode     appearance      ChequeredParquetry {}
+  SFNode     appearance      Parquetry { type "chequered" }
 }
 ```
 
@@ -106,7 +106,7 @@ RectangleArena {
   SFString   contactMaterial "default"
   SFVec2f    floorSize       1 1
   SFVec2f    floorTileSize   0.5 0.5
-  SFNode     floorAppearance ChequeredParquetry {}
+  SFNode     floorAppearance Parquetry { type "chequered" }
   SFFloat    wallThickness   0.01
   SFFloat    wallHeight      0.1
   SFNode     wallAppearance  BrushedAluminium {}
@@ -157,6 +157,8 @@ UnevenTerrain {
   SFBool     flatCenter     FALSE
   SFBool     flatBounds     FALSE
   SFInt32    perlinNOctaves 3
+  deprecatedField MFString   texture        "textures/sand.jpg"
+  deprecatedField SFVec2f    textureScale   1.0 1.0
 }
 ```
 
@@ -182,3 +184,4 @@ UnevenTerrain {
 - `flatBounds`: Defines whether the bounds of the terrain should be flat.
 
 - `perlinNOctaves`: Defines the number of octaves of the perlin noise.
+

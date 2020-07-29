@@ -92,7 +92,7 @@ Building {
 
 ### Building Field Summary
 
-- `name`: Defines the name of the building
+- `name`: Defines the name of the building.
 
 - `floorHeight`: Defines the height of one floor.
 
