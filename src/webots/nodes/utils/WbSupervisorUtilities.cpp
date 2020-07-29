@@ -283,6 +283,8 @@ void WbSupervisorUtilities::initControllerRequests() {
   mNodeGetContactPoints = NULL;
   mNodeGetStaticBalance = NULL;
   mNodeGetVelocity = NULL;
+  mIsProtoRegenerated = false;
+  mShouldRemoveNode = false;
   mImportedNodesNumber = -1;
   mLoadWorldRequested = false;
   mVirtualRealityHeadsetIsUsedRequested = false;
@@ -353,6 +355,10 @@ void WbSupervisorUtilities::postPhysicsStep() {
   if (mNeedToResetSimulation) {
     mNeedToResetSimulation = false;
     WbApplication::instance()->simulationReset(false);
+  }
+  if (mShouldRemoveNode) {
+    emit worldModified();
+    WbNodeOperations::instance()->deleteNode(mRobot, true);
   }
 }
 
@@ -597,7 +603,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         mFoundNodeParentUniqueId = (node->parentNode() ? node->parentNode()->uniqueId() : -1);
         mFoundNodeIsProto = node->isProtoInstance();
         mFoundNodeIsProtoInternal =
-          node->parentNode() != WbWorld::instance()->root() && WbNodeUtilities::isVisible(node->parentField());
+          node->parentNode() != WbWorld::instance()->root() && !WbNodeUtilities::isVisible(node->parentField());
         connect(node, &WbNode::defUseNameChanged, this, &WbSupervisorUtilities::notifyNodeUpdate, Qt::UniqueConnection);
       }
 
@@ -1181,8 +1187,12 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> nodeId;
       WbNode *node = WbNode::findNode(nodeId);
       if (node) {
-        WbNodeOperations::instance()->deleteNode(node, true);
-        emit worldModified();
+        if (node == mRobot)
+          mShouldRemoveNode = true;
+        else {
+          WbNodeOperations::instance()->deleteNode(node, true);
+          emit worldModified();
+        }
       }
       return;
     }
@@ -1224,16 +1234,24 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           }
 
           if (node) {
-            WbNodeOperations::instance()->deleteNode(node, true);
-            emit worldModified();
+            if (node == mRobot)
+              mShouldRemoveNode = true;
+            else {
+              WbNodeOperations::instance()->deleteNode(node, true);
+              emit worldModified();
+            }
           }
           break;
         }
         case WB_SF_NODE: {
           WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
           if (sfNode->value()) {
-            WbNodeOperations::instance()->deleteNode(sfNode->value(), true);
-            emit worldModified();
+            if (sfNode->value() == mRobot)
+              mShouldRemoveNode = true;
+            else {
+              WbNodeOperations::instance()->deleteNode(sfNode->value(), true);
+              emit worldModified();
+            }
           }
           break;
         }
@@ -1642,7 +1660,7 @@ void WbSupervisorUtilities::writeConfigure(QDataStream &stream) {
   stream << (int)selfNode->uniqueId();
   stream << (unsigned char)selfNode->isProtoInstance();
   stream << (unsigned char)(selfNode->parentNode() != WbWorld::instance()->root() &&
-                            WbNodeUtilities::isVisible(selfNode->parentField()));
+                            !WbNodeUtilities::isVisible(selfNode->parentField()));
   const QByteArray &s = selfNode->modelName().toUtf8();
   stream.writeRawData(s.constData(), s.size() + 1);
   const QByteArray &ba = selfNode->defName().toUtf8();

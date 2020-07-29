@@ -1,142 +1,146 @@
 {
+  "name": "pioneer-3at",
+  "robotID": "n10",
   "devices": [
     {
-      "axis": "-1 0 0",
-      "maxPosition": 0,
+      "position": 0,
+      "transformID": "n29",
       "minPosition": 0,
+      "type": "RotationalMotor",
+      "maxPosition": 0,
+      "anchor": "-0.197 0 0.1331",
       "name": "back left wheel",
-      "position": 0,
-      "transformID": "n29",
-      "type": "RotationalMotor"
+      "axis": "-1 0 0"
     },
     {
-      "axis": "-1 0 0",
-      "maxPosition": 0,
+      "position": 0,
+      "transformID": "n68",
       "minPosition": 0,
+      "type": "RotationalMotor",
+      "maxPosition": 0,
+      "anchor": "0.197 0 0.1331",
       "name": "back right wheel",
-      "position": 0,
-      "transformID": "n68",
-      "type": "RotationalMotor"
+      "axis": "-1 0 0"
     },
     {
-      "axis": "-1 0 0",
-      "maxPosition": 0,
+      "position": 0,
+      "transformID": "n103",
       "minPosition": 0,
+      "type": "RotationalMotor",
+      "maxPosition": 0,
+      "anchor": "-0.197 0 -0.1331",
       "name": "front left wheel",
-      "position": 0,
-      "transformID": "n103",
-      "type": "RotationalMotor"
+      "axis": "-1 0 0"
     },
     {
-      "axis": "-1 0 0",
-      "maxPosition": 0,
+      "position": 0,
+      "transformID": "n138",
       "minPosition": 0,
+      "type": "RotationalMotor",
+      "maxPosition": 0,
+      "anchor": "0.197 0 -0.1331",
       "name": "front right wheel",
-      "position": 0,
-      "transformID": "n138",
-      "type": "RotationalMotor"
+      "axis": "-1 0 0"
     },
     {
-      "name": "back left wheel sensor",
       "transformID": "n29",
+      "name": "back left wheel sensor",
       "type": "PositionSensor"
     },
     {
-      "name": "back right wheel sensor",
       "transformID": "n68",
+      "name": "back right wheel sensor",
       "type": "PositionSensor"
     },
     {
-      "name": "front left wheel sensor",
       "transformID": "n103",
+      "name": "front left wheel sensor",
       "type": "PositionSensor"
     },
     {
-      "name": "front right wheel sensor",
       "transformID": "n138",
+      "name": "front right wheel sensor",
       "type": "PositionSensor"
     },
     {
-      "name": "so0",
       "transformID": "n169",
+      "name": "so0",
       "type": "DistanceSensor"
     },
     {
-      "name": "so1",
       "transformID": "n185",
+      "name": "so1",
       "type": "DistanceSensor"
     },
     {
-      "name": "so10",
       "transformID": "n201",
+      "name": "so10",
       "type": "DistanceSensor"
     },
     {
-      "name": "so11",
       "transformID": "n217",
+      "name": "so11",
       "type": "DistanceSensor"
     },
     {
-      "name": "so12",
       "transformID": "n233",
+      "name": "so12",
       "type": "DistanceSensor"
     },
     {
-      "name": "so13",
       "transformID": "n249",
+      "name": "so13",
       "type": "DistanceSensor"
     },
     {
-      "name": "so14",
       "transformID": "n265",
+      "name": "so14",
       "type": "DistanceSensor"
     },
     {
-      "name": "so15",
       "transformID": "n281",
+      "name": "so15",
       "type": "DistanceSensor"
     },
     {
-      "name": "so2",
       "transformID": "n297",
+      "name": "so2",
       "type": "DistanceSensor"
     },
     {
-      "name": "so3",
       "transformID": "n313",
+      "name": "so3",
       "type": "DistanceSensor"
     },
     {
-      "name": "so4",
       "transformID": "n329",
+      "name": "so4",
       "type": "DistanceSensor"
     },
     {
-      "name": "so5",
       "transformID": "n345",
+      "name": "so5",
       "type": "DistanceSensor"
     },
     {
-      "name": "so6",
       "transformID": "n361",
+      "name": "so6",
       "type": "DistanceSensor"
     },
     {
-      "name": "so7",
       "transformID": "n377",
+      "name": "so7",
       "type": "DistanceSensor"
     },
     {
-      "name": "so8",
       "transformID": "n393",
+      "name": "so8",
       "type": "DistanceSensor"
     },
     {
-      "name": "so9",
       "transformID": "n409",
+      "name": "so9",
       "type": "DistanceSensor"
     }
-  ],
-  "name": "pioneer-3at",
-  "robotID": "n10"
+  ]
 }

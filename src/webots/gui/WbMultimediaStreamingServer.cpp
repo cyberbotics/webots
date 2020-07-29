@@ -33,8 +33,9 @@
 
 static WbView3D *gView3D = NULL;
 
-WbMultimediaStreamingServer::WbMultimediaStreamingServer() :
-  WbStreamingServer(),
+WbMultimediaStreamingServer::WbMultimediaStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl,
+                                                         bool controllerEdit) :
+  WbStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit),
   mImageWidth(-1),
   mImageHeight(-1),
   mImageUpdateTimeStep(50),

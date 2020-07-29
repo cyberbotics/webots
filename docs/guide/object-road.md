@@ -45,7 +45,7 @@ Road {
          MFString             endLine                   []
          SFInt32              splineSubdivision         4
          SFNode               appearance                Asphalt { }
-         SFNode               pavementAppearance        StonePavement { }
+         SFNode               pavementAppearance        Pavement { }
          MFString             bottomTexture             []
          SFString             turnLanesForward          ""
          SFString             turnLanesBackward         ""
@@ -67,7 +67,7 @@ Road {
 
 ### Road Field Summary
 
-- `name`: Optionally defines the street name
+- `name`: Optionally defines the street name.
 
 - `id`: Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
 
@@ -105,9 +105,9 @@ Road {
 
 - `roadTilt`: Defines the tilting angle corresponding to each way-point (if there are less values than way-points, 0 is used for the last remaining way-points).
 
-- `startingAngle`: Optionally defines the angle of the road at the first way-point
+- `startingAngle`: Optionally defines the angle of the road at the first way-point.
 
-- `endingAngle`: Optionally defines the angle of the road at the lasst way-point
+- `endingAngle`: Optionally defines the angle of the road at the lasst way-point.
 
 - `startLine`: Optionally defines the texture used for the road line at the first way-point for each lane. If the string is empty, no road line will be added for the corresponding lane. The two textures `textures/road_line_dashed.png` and `textures/road_line_triangle.png` may be used in this field.
 
@@ -123,7 +123,7 @@ Road {
 
 - `turnLanesForward`: Defines painted arrows before the end of the lanes using the same format as the OSM "turn:lanes:forward" key (e.g. "through|left;through|none"). Please refer to the corresponding OSM tag: http://wiki.openstreetmap.org/wiki/Key:turn.
 
-- `turnLanesBackward`: Same as `turnLanesForward` but for the OSM "turn:lanes:backward" key
+- `turnLanesBackward`: Same as `turnLanesForward` but for the OSM "turn:lanes:backward" key.
 
 - `roadBoundingObject`: Defines whether the road should have a bounding object.
 
@@ -174,7 +174,7 @@ AddLaneRoadSegment {
          MFString    startLine                 []
          MFString    endLine                   []
          SFNode      appearance                Asphalt { }
-         SFNode      pavementAppearance        StonePavement { }
+         SFNode      pavementAppearance        Pavement { }
          MFString    bottomTexture             []
          SFBool      locked                    TRUE
          SFBool      roadBoundingObject        FALSE
@@ -286,7 +286,7 @@ AddLanesRoadSegment {
          MFString    startLine                 []
          MFString    endLine                   []
          SFNode      appearance                Asphalt { }
-         SFNode      pavementAppearance        StonePavement { }
+         SFNode      pavementAppearance        Pavement { }
          MFString    bottomTexture             []
          SFBool      locked                    TRUE
          SFBool      roadBoundingObject        FALSE
@@ -444,13 +444,13 @@ Crossroad {
 
 ### Crossroad Field Summary
 
-- `name`: Defines the the crossroad name
+- `name`: Defines the the crossroad name.
 
 - `id`: Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
 
 - `speedLimit`: Optionally defines the speed limit. The recommended unit is meter per seconds.
 
-- `shape`: Defines the shape of the crossroad
+- `shape`: Defines the shape of the crossroad.
 
 - `connectedRoadIDs`: Optionally defines a list of the identifiers of the connected Road. This is required to use the SUMO exporter.
 
@@ -502,7 +502,7 @@ CurvedRoadSegment {
          SFInt32              subdivision               16
          SFFloat              tilt                      0
          SFNode               appearance                Asphalt { }
-         SFNode               pavementAppearance        StonePavement { }
+         SFNode               pavementAppearance        Pavement { }
          MFString             bottomTexture             []
          SFBool               locked                    TRUE
          SFBool               roadBoundingObject        FALSE
@@ -622,7 +622,7 @@ HelicoidalRoadSegment {
          MFString             endLine                   []
          SFFloat              subdivision               64
          SFNode               appearance                Asphalt { }
-         SFNode               pavementAppearance        StonePavement { }
+         SFNode               pavementAppearance        Pavement { }
          MFString             bottomTexture             []
          SFBool               locked                    TRUE
          SFBool               roadBoundingObject        FALSE
@@ -660,7 +660,7 @@ HelicoidalRoadSegment {
 
 - `roadBorderHeight`: Defines the height of the sidewalk.
 
-- `roadBorderWidth`: Defines the width of the sidewalk
+- `roadBorderWidth`: Defines the width of the sidewalk.
 
 - `rightBorder`: Defines whether the road should have a right sidewalk.
 
@@ -678,7 +678,7 @@ HelicoidalRoadSegment {
 
 - `endLine`: Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
 
-- `subdivision`: Defines the subdivision of the helicoid
+- `subdivision`: Defines the subdivision of the helicoid.
 
 - `appearance`: Defines the appearance of the road.
 
@@ -733,7 +733,7 @@ LaneSeparation {
          MFString    startLine                   []
          MFString    endLine                     []
          SFNode      appearance                  Asphalt { }
-         SFNode      pavementAppearance          StonePavement { }
+         SFNode      pavementAppearance          Pavement { }
          MFString    bottomTexture               []
          SFBool      locked                      TRUE
          SFBool      roadBoundingObject          FALSE
@@ -776,7 +776,7 @@ LaneSeparation {
 
 - `roadBorderHeight`: Defines the height of the sidewalk.
 
-- `roadBorderWidth`: Defines the width of the sidewalk
+- `roadBorderWidth`: Defines the width of the sidewalk.
 
 - `rightBorder`: Defines whether the road should have a right sidewalk.
 
@@ -1139,7 +1139,7 @@ StraightRoadSegment {
          SFFloat              startingRoadTilt          0
          SFFloat              endingRoadTilt            0
          SFNode               appearance                Asphalt { }
-         SFNode               pavementAppearance        StonePavement { }
+         SFNode               pavementAppearance        Pavement { }
          MFString             bottomTexture             []
          SFBool               locked                    TRUE
          SFBool               roadBoundingObject        FALSE
@@ -1199,7 +1199,7 @@ StraightRoadSegment {
 
 - `endLine`: Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
 
-- `startingRoadTilt`: Defines the tilt of the road at the beginning
+- `startingRoadTilt`: Defines the tilt of the road at the beginning.
 
 - `endingRoadTilt`: Defines the tilt of the road at the end.
 

@@ -1,182 +1,192 @@
 {
+  "name": "surveyor",
   "devices": [
     {
-      "axis": "1 0 0",
-      "maxPosition": 0,
-      "minPosition": 0,
-      "name": "wheel_motor00",
-      "position": 0,
+      "type": "RotationalMotor",
       "transformID": "n247",
-      "type": "RotationalMotor"
+      "position": 0,
+      "anchor": "-0.0394 0.014 -0.049",
+      "minPosition": 0,
+      "axis": "1 0 0",
+      "name": "wheel_motor00",
+      "maxPosition": 0
     },
     {
-      "axis": "1 0 0",
-      "maxPosition": 0,
-      "minPosition": 0,
-      "name": "wheel_motor01",
-      "position": 0,
+      "type": "RotationalMotor",
       "transformID": "n255",
-      "type": "RotationalMotor"
+      "position": 0,
+      "anchor": "-0.0394 0.014 -0.0245",
+      "minPosition": 0,
+      "axis": "1 0 0",
+      "name": "wheel_motor01",
+      "maxPosition": 0
     },
     {
-      "axis": "1 0 0",
-      "maxPosition": 0,
-      "minPosition": 0,
-      "name": "wheel_motor02",
-      "position": 0,
+      "type": "RotationalMotor",
       "transformID": "n263",
-      "type": "RotationalMotor"
+      "position": 0,
+      "anchor": "-0.0394 0.014 0",
+      "minPosition": 0,
+      "axis": "1 0 0",
+      "name": "wheel_motor02",
+      "maxPosition": 0
     },
     {
-      "axis": "1 0 0",
-      "maxPosition": 0,
-      "minPosition": 0,
-      "name": "wheel_motor03",
-      "position": 0,
+      "type": "RotationalMotor",
       "transformID": "n271",
-      "type": "RotationalMotor"
+      "position": 0,
+      "anchor": "-0.0394 0.014 0.0245",
+      "minPosition": 0,
+      "axis": "1 0 0",
+      "name": "wheel_motor03",
+      "maxPosition": 0
     },
     {
-      "axis": "1 0 0",
-      "maxPosition": 0,
-      "minPosition": 0,
-      "name": "wheel_motor04",
-      "position": 0,
+      "type": "RotationalMotor",
       "transformID": "n279",
-      "type": "RotationalMotor"
+      "position": 0,
+      "anchor": "-0.0394 0.014 0.049",
+      "minPosition": 0,
+      "axis": "1 0 0",
+      "name": "wheel_motor04",
+      "maxPosition": 0
     },
     {
-      "axis": "1 0 0",
-      "maxPosition": 0,
-      "minPosition": 0,
-      "name": "wheel_motor05",
-      "position": 0,
+      "type": "RotationalMotor",
       "transformID": "n287",
-      "type": "RotationalMotor"
+      "position": 0,
+      "anchor": "0.0394 0.014 -0.049",
+      "minPosition": 0,
+      "axis": "1 0 0",
+      "name": "wheel_motor05",
+      "maxPosition": 0
     },
     {
-      "axis": "1 0 0",
-      "maxPosition": 0,
-      "minPosition": 0,
-      "name": "wheel_motor06",
-      "position": 0,
+      "type": "RotationalMotor",
       "transformID": "n295",
-      "type": "RotationalMotor"
+      "position": 0,
+      "anchor": "0.0394 0.014 -0.0245",
+      "minPosition": 0,
+      "axis": "1 0 0",
+      "name": "wheel_motor06",
+      "maxPosition": 0
     },
     {
-      "axis": "1 0 0",
-      "maxPosition": 0,
-      "minPosition": 0,
-      "name": "wheel_motor07",
-      "position": 0,
+      "type": "RotationalMotor",
       "transformID": "n303",
-      "type": "RotationalMotor"
+      "position": 0,
+      "anchor": "0.0394 0.014 0",
+      "minPosition": 0,
+      "axis": "1 0 0",
+      "name": "wheel_motor07",
+      "maxPosition": 0
     },
     {
-      "axis": "1 0 0",
-      "maxPosition": 0,
-      "minPosition": 0,
-      "name": "wheel_motor08",
-      "position": 0,
+      "type": "RotationalMotor",
       "transformID": "n311",
-      "type": "RotationalMotor"
-    },
-    {
-      "axis": "1 0 0",
-      "maxPosition": 0,
-      "minPosition": 0,
-      "name": "wheel_motor09",
       "position": 0,
-      "transformID": "n319",
-      "type": "RotationalMotor"
+      "anchor": "0.0394 0.014 0.0245",
+      "minPosition": 0,
+      "axis": "1 0 0",
+      "name": "wheel_motor08",
+      "maxPosition": 0
     },
     {
-      "name": "camera",
+      "type": "RotationalMotor",
+      "transformID": "n319",
+      "position": 0,
+      "anchor": "0.0394 0.014 0.049",
+      "minPosition": 0,
+      "axis": "1 0 0",
+      "name": "wheel_motor09",
+      "maxPosition": 0
+    },
+    {
       "transformID": "n234",
+      "name": "camera",
       "type": "Camera"
     },
     {
-      "name": "ds0",
       "transformID": "n323",
+      "name": "ds0",
       "type": "DistanceSensor"
     },
     {
-      "name": "ds1",
       "transformID": "n345",
+      "name": "ds1",
       "type": "DistanceSensor"
     },
     {
-      "name": "ds2",
       "transformID": "n367",
+      "name": "ds2",
       "type": "DistanceSensor"
     },
     {
-      "name": "ds3",
       "transformID": "n389",
+      "name": "ds3",
       "type": "DistanceSensor"
     },
     {
-      "name": "emitter",
       "transformID": "n224",
+      "name": "emitter",
       "type": "Emitter"
     },
     {
-      "name": "receiver",
-      "transformID": "n10",
       "transformOffset": "-0.017 0.08 -0.002",
+      "transformID": "n10",
+      "name": "receiver",
       "type": "Receiver"
     },
     {
-      "name": "wheel_sensor00",
       "transformID": "n247",
+      "name": "wheel_sensor00",
       "type": "PositionSensor"
     },
     {
-      "name": "wheel_sensor01",
       "transformID": "n255",
+      "name": "wheel_sensor01",
       "type": "PositionSensor"
     },
     {
-      "name": "wheel_sensor02",
       "transformID": "n263",
+      "name": "wheel_sensor02",
       "type": "PositionSensor"
     },
     {
-      "name": "wheel_sensor03",
       "transformID": "n271",
+      "name": "wheel_sensor03",
       "type": "PositionSensor"
     },
     {
-      "name": "wheel_sensor04",
       "transformID": "n279",
+      "name": "wheel_sensor04",
       "type": "PositionSensor"
     },
     {
-      "name": "wheel_sensor05",
       "transformID": "n287",
+      "name": "wheel_sensor05",
       "type": "PositionSensor"
     },
     {
-      "name": "wheel_sensor06",
       "transformID": "n295",
+      "name": "wheel_sensor06",
       "type": "PositionSensor"
     },
     {
-      "name": "wheel_sensor07",
       "transformID": "n303",
+      "name": "wheel_sensor07",
       "type": "PositionSensor"
     },
     {
-      "name": "wheel_sensor08",
       "transformID": "n311",
+      "name": "wheel_sensor08",
       "type": "PositionSensor"
     },
     {
-      "name": "wheel_sensor09",
       "transformID": "n319",
+      "name": "wheel_sensor09",
       "type": "PositionSensor"
     }
   ],
-  "name": "surveyor",
   "robotID": "n10"
 }

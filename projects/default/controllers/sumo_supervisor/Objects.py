@@ -195,7 +195,8 @@ class Vehicle:
                 trailerModel = random.choice(TRAILER_MODEL)
                 vehicleString += "  trailer " + trailerModel + "{\n"
                 if trailerModel == 'TruckTrailerSimple':
-                    vehicleString += "    texture " + '"textures/' + random.choice(TRAILER_TEXTURES) + '"\n'
+                    vehicleString += "    appearance PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { "
+                    vehicleString += "url [ \"textures/" + random.choice(TRAILER_TEXTURES) + "\" ] } }"
                 else:
                     vehicleString += "    color " + random.choice(TRAILER_COLORS) + "\n"
                 vehicleString += "  }\n"
