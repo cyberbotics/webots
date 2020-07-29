@@ -4,6 +4,14 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
+##### Doc 07/25/2020 14:11:35
+Final of the student robotics virtual competition live now [https://youtu.be/xBPVqsb\_Ydk](https://youtu.be/xBPVqsb_Ydk)
+
+##### amitsaini 07/24/2020 15:35:03
+Hi I am testing a Robotic Dog on Webots. Earlier I was using CoppelliaSim but faced some problems. So now switching to Webots. 
+
+[https://www.youtube.com/watch?v=4oXSDRn0iBA](https://www.youtube.com/watch?v=4oXSDRn0iBA)
+
 ##### David Mansolino [cyberbotics] 07/14/2020 07:10:56
 We have created a new repository for the community to share your PROTO, controllers, worlds, etc.
 
