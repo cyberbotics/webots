@@ -62,13 +62,16 @@ Derived from [Solid](../reference/solid.md).
 SolidPipe {
   SFVec3f    translation           0 0 0
   SFRotation rotation              0 1 0 0
-  SFString   name                  "box"
-  SFVec3f    size                  2 2 2
+  SFString   name                  "pipe"
+  SFFloat    height                2
+  SFFloat    radius                1
+  SFFloat    thickness             0.1
+  SFInt32    subdivision           24
+  SFFloat    accuracy              0.0001
   SFString   contactMaterial       "default"
   SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics               NULL
   SFBool     enableBoundingObject  TRUE
-  SFBool     castShadows           TRUE
 }
 ```
 
@@ -79,13 +82,19 @@ SolidPipe {
 
 ### SolidPipe Field Summary
 
-- `size`: Defines the size of the box.                                                                                                             # Defines the number of polygons used to represent the box and so its resolution.
+- `height`: Defines the height of the pipe.
 
-- `appearance`: Defines the appearance of the box.
+- `radius`: Defines the radius of the pipe.
+
+- `thickness`: Defines the thickness of the pipe.
+
+- `subdivision`: Defines the number of polygons used to represent the pipe and so its resolution.
+
+- `accuracy`: Defines how much boxes position can differ on y-axis: a 0 value represents an error-free model but it will slow down the simulation.
+
+- `appearance`: Defines the appearance of the pipe.
 
 - `enableBoundingObject`: Defines whether the solid should have a bounding object.
-
-- `castShadows`: Defines whether this object should cast shadows.
 
 ## SolidRoundedBox
 
