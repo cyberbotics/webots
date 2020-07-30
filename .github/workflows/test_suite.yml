@@ -109,15 +109,25 @@ jobs:
         sudo cp -R /Volumes/Webots /Applications
         hdiutil unmount /Volumes/Webots
     - name: Install Webots Dependencies
+      if: ${{ startsWith(matrix.os, 'ubuntu') }}
       run: src/install_scripts/linux_runtime_dependencies.sh
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
     - name: ${{ matrix.test }}
+      if: ${{ startsWith(matrix.os, 'ubuntu') }}
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
         xvfb-run --auto-servernum python ${{ matrix.test }}
+        ${{ matrix.post_task }}
+    - name: ${{ matrix.test }}
+      if: ${{ startsWith(matrix.os, 'macos') }}
+      run: |
+        export LIBGL_ALWAYS_SOFTWARE=true
+        export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
+        export WEBOTS_HOME=$PWD/artifact/webots
+        python ${{ matrix.test }}
         ${{ matrix.post_task }}
