@@ -103,7 +103,7 @@ jobs:
       if: ${{ startsWith(matrix.os, 'macos') }}
       run: |
         ls artifact
-        hdiutil mount artifact/webots-R2020b.dmg
+        hdiutil mount artifact/webots-R2020b-rev1.dmg
         sudo cp -R /Volumes/Webots /Applications
         hdiutil unmount /Volumes/Webots
     - name: Install Webots Dependencies
