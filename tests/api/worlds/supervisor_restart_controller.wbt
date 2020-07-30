@@ -15,6 +15,7 @@ Background {
   ]
 }
 PointLight {
+  attenuation 0 0 1
   location 0 0.3 0
 }
 Floor {

@@ -1,8 +1,8 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
   ERP 0.6
-  lineScale 1.7
   coordinateSystem "NUE"
+  lineScale 1.7
 }
 Viewpoint {
   orientation -0.615287128649031 0.7862848882735759 0.05637218987622513 0.4895318
@@ -117,6 +117,7 @@ Robot {
     TestSuiteEmitter {
     }
   ]
+  name "supervisor"
   controller "move_hinge_2_joint_with_suspension"
   supervisor TRUE
 }

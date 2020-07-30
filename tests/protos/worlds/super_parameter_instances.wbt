@@ -27,9 +27,6 @@ Robot {
     }
   ]
   controller "super_parameter_instances"
-  controllerArgs [
-    "super_parameter_instances"
-  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {

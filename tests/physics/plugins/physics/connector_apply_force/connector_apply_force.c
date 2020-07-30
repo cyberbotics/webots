@@ -19,8 +19,6 @@ void webots_physics_step() {
   dBodyAddRelForce(body, 0, 0, -force);
 }
 
-void webots_physics_draw(int pass, const char *view) {
-}
 
 int webots_physics_collide(dGeomID g1, dGeomID g2) {
   return 0;

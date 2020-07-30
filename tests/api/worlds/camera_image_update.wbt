@@ -60,9 +60,6 @@ Robot {
     }
   ]
   controller "camera_image_update"
-  controllerArgs [
-    "camera_image_update"
-  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {

@@ -26,6 +26,7 @@ Solid {
   boundingObject USE PLANE
 }
 PointLight {
+  attenuation 0 0 4
   location 0 0.3 0
 }
 DEF DYNAMIC_EMITTER Robot {
