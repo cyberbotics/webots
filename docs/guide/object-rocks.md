@@ -18,6 +18,7 @@ Rock10cm {
   SFRotation rotation         0 1 0 0
   SFString   name             "rock 10 cm"
   MFString   texture          "textures/rock.jpg"
+  SFColor    color            1 1 1
   SFNode     physics          NULL
   SFBool     locked           FALSE
 }
@@ -31,6 +32,8 @@ Rock10cm {
 ### Rock10cm Field Summary
 
 - `texture`: Defines the texture used for the rock.
+
+- `color`: Defines the base color of the rock.
 
 ## Rock17cm
 
@@ -50,6 +53,7 @@ Rock17cm {
   SFRotation rotation          0 1 0 0
   SFString   name             "rock 17 cm"
   MFString   texture          "textures/rock.jpg"
+  SFColor    color            1 1 1
   SFNode     physics          NULL
   SFBool     locked           FALSE
 }
@@ -63,4 +67,6 @@ Rock17cm {
 ### Rock17cm Field Summary
 
 - `texture`: Defines the texture used for the rock.
+
+- `color`: Defines the base color of the rock.
 

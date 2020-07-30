@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
   int counter = 0;
   while (wb_robot_step(time_step) != -1) {
     wb_motor_set_position(motor, target);
-    if (counter++ == 100) {
+    if (counter++ == 50) {
       target += M_PI_4;
       counter = 0;
     }

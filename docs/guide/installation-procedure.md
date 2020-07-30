@@ -87,9 +87,11 @@ sudo gdebi webots_{{ webots.version.debian_package }}_amd64.deb
 #### Installing the "tarball" Package
 
 This section explains how to install Webots from the tarball package (having the `.tar.bz2` extension).
-This package can be installed without the `root` privileges.
-It can be uncompressed anywhere using the `tar` `xjf` command line.
-Once uncompressed, it is recommended to set the WEBOTS\_HOME environment variable to point to the `webots` directory obtained from the uncompression of the tarball:
+Note that for the old Ubuntu versions 18.04 and 16.04 you should download the `webots-R2020b-x86-64_ubuntu-16.04.tar.bz2` package.
+
+The tarball package can be installed without the `root` privileges.
+It can be extracted anywhere using the `tar` `xjf` command line.
+Once extracted, it is recommended to set the WEBOTS\_HOME environment variable to point to the `webots` directory obtained from the extraction of the tarball:
 
 ```sh
 tar xjf webots-{{ webots.version.package }}-x86-64.tar.bz2

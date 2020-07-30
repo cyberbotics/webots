@@ -4,6 +4,35 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 07/29/2020 10:48:29
+You're welcome
+
+##### Lukulus 07/29/2020 10:46:56
+ok, thank you 🙂
+
+##### David Mansolino [cyberbotics] 07/29/2020 10:43:48
+Hi `@Lukulus`, Webots APi supports well multi-threading, however, it is strongly recommended to call the step function from one thread only, doing is contrary is extremely error-prone.
+
+##### Lukulus 07/29/2020 10:33:21
+Hello I am trying to use multiple threads for different tasks for an robot. 
+
+But it seems like calling the robot->step() funktion in diffenrent threads leads to stop the Simulation.
+
+Sometimes it runs, sometimes time stops and also the simulation.
+
+So can you tell me if its possible to use different threads in a robot controller and how to use them in a right way?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/737981083752202241/unknown.png)
+%end
+
+##### Luftwaffel 07/27/2020 16:30:05
+read out the appropiate sensor
+
+##### csnametala 07/27/2020 16:11:10
+Hello everyone!
+
+I have an e-puck robot in Webots simulations, and I wanted to detect when it hits a wall. How can I solve this?
+
 ##### JSON Derulo 07/23/2020 08:57:35
 Awesome, thanks
 

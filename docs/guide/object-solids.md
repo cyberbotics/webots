@@ -94,7 +94,7 @@ SolidPipe {
 
 - `appearance`: Defines the appearance of the pipe.
 
-- `enableBoundingObject`: Defines whether the solid should have a bounding object.                                                                                                   # Is `Solid.physics`.
+- `enableBoundingObject`: Defines whether the solid should have a bounding object.
 
 ## SolidRoundedBox
 

@@ -17,10 +17,12 @@
 
 #include <QtCore/QString>
 
+class QProcessEnvironment;
+
 class WbLanguageTools {
 public:
   // get platform dependent commands
-  static QString pythonCommand(QString &shortVersion, const QString &command);
+  static QString pythonCommand(QString &shortVersion, const QString &command, QProcessEnvironment &env);
   static const QStringList pythonArguments();
   static const QString &javaCommand();
   static const QStringList javaArguments();

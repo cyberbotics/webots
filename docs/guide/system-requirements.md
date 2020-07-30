@@ -13,7 +13,7 @@ Webots works well on all the graphics cards included in fairly recent Apple comp
 
 The following operating systems are supported:
 
-- Linux: Webots is ensured to run on the latest Ubuntu Long Term Support (LTS) release, currently version 18.04.
+- Linux: Webots is ensured to run on the latest Ubuntu Long Term Support (LTS) release, currently version 20.04.
 But it is also known to run on most recent major Linux distributions, including RedHat, Mandrake, Debian, Gentoo, Arch, SuSE, and Slackware.
 We recommend using a recent version of Linux.
 Webots is provided for Linux 64 (x86-64) systems.

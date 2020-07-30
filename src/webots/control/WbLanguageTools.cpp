@@ -61,7 +61,7 @@ const QStringList WbLanguageTools::javaArguments() {
 #endif
 }
 
-QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &command) {
+QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &command, QProcessEnvironment &env) {
   QString pythonCommand = command;
   const QString advice =
     QObject::tr("Webots requires Python version 3."
@@ -80,6 +80,7 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   if (!command.endsWith(".exe", Qt::CaseInsensitive))
     pythonCommand += ".exe";
   QProcess process;
+  process.setProcessEnvironment(env);
   process.start(pythonCommand, QStringList() << "-u"
                                              << "-c"
                                              << "import sys;print(sys.version);print(sys.maxsize > 2**32)");
@@ -97,6 +98,7 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
     shortVersion = QString(version[0][0]) + version[0][2];
 #else  // macOS and Linux
   QProcess process;
+  process.setProcessEnvironment(env);
   process.start(pythonCommand, QStringList() << "-c"
                                              << "import sys;print(sys.version);");
   process.waitForFinished();

@@ -768,6 +768,9 @@ function sliderMotorCallback(transform, slider) {
   if (typeof transform.firstRotation === 'undefined' && typeof transform.quaternion !== 'undefined')
     transform.firstRotation = transform.quaternion.clone();
 
+  if (typeof transform.firstPosition === 'undefined' && typeof transform.position !== 'undefined')
+    transform.firstPosition = transform.position.clone();
+
   var axis = slider.getAttribute('webots-axis').split(/[\s,]+/);
   axis = new THREE.Vector3(parseFloat(axis[0]), parseFloat(axis[1]), parseFloat(axis[2]));
 
@@ -788,6 +791,10 @@ function sliderMotorCallback(transform, slider) {
     transform.position.copy(translation);
     transform.updateMatrix();
   } else {
+    // extract anchor
+    var anchor = slider.getAttribute('webots-anchor').split(/[\s,]+/);
+    anchor = new THREE.Vector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
+
     // Compute angle.
     var angle = value - position;
 
@@ -800,6 +807,13 @@ function sliderMotorCallback(transform, slider) {
 
     if (typeof transform.firstRotation !== 'undefined')
       q.multiply(transform.firstRotation);
+
+    if (typeof transform.firstPosition !== 'undefined')
+      transform.position.copy(transform.firstPosition);
+
+    transform.position.sub(anchor); // remove the offset
+    transform.position.applyAxisAngle(axis, angle); // rotate the POSITION
+    transform.position.add(anchor); // re-add the offset
 
     transform.quaternion.copy(q);
     transform.updateMatrix();
@@ -835,7 +849,19 @@ function highlightX3DElement(robot, deviceElement) {
   if (object) {
     // Show billboard origin.
     var originBillboard = robotComponent.billboardOriginMesh.clone();
-    object.add(originBillboard);
+    if (deviceElement.hasAttribute('device-anchor')) {
+      var anchor = deviceElement.getAttribute('device-anchor').split(/[\s,]+/);
+      anchor = new THREE.Vector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
+      originBillboard.position.add(anchor);
+      object.parent.add(originBillboard);
+    } else {
+      if (deviceElement.hasAttribute('webots-transform-offset')) {
+        var offset = deviceElement.getAttribute('webots-transform-offset').split(/[\s,]+/);
+        offset = new THREE.Vector3(parseFloat(offset[0]), parseFloat(offset[1]), parseFloat(offset[2]));
+        originBillboard.position.add(offset);
+      }
+      object.add(originBillboard);
+    }
     robotComponent.billboardOrigin = originBillboard;
 
     if (type === 'LED') {
@@ -996,6 +1022,7 @@ function createRobotComponent(view) {
             slider.setAttribute('webots-position', device['position']);
             slider.setAttribute('webots-transform-id', device['transformID']);
             slider.setAttribute('webots-axis', device['axis']);
+            slider.setAttribute('webots-anchor', device['anchor']);
             slider.setAttribute('webots-type', deviceType);
             slider.addEventListener(isInternetExplorer() ? 'change' : 'input', function(e) {
               var id = e.target.getAttribute('webots-transform-id');
@@ -1009,6 +1036,7 @@ function createRobotComponent(view) {
             motorDiv.appendChild(slider);
             motorDiv.appendChild(maxLabel);
             deviceDiv.appendChild(motorDiv);
+            deviceDiv.setAttribute('device-anchor', device['anchor']);
           }
 
           // LED case: set the target color.
