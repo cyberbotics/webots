@@ -367,7 +367,7 @@ If you are using other libraries (e.g., the `vehicle libraries`, `DARwIn-OP libr
 #### Run the Controller
 
 Once the [PyCharm](https://www.jetbrains.com/pycharm) project configured, you can start Webots and open the desired world.
-To allow [PyCharm](https://www.jetbrains.com/pycharm) to start the controller instead of Webots, set the controller of the robot to `<extern>` (see the [Running Extern Robot Controllers](https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers) chapter for more information about external controller).
+To allow [PyCharm](https://www.jetbrains.com/pycharm) to start the controller instead of Webots, set the controller of the robot to `<extern>` and set the environment variables as explained in the [Running Extern Robot Controllers](https://cyberbotics.com/doc/guide/running-extern-robot-controllers#environment-variables) chapter.
 
 %figure "Robot controller to external"
 
