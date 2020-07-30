@@ -115,7 +115,7 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
-    - name: ${{ matrix.test }}
+    - name: ${{ matrix.test }} [Linux]
       if: ${{ startsWith(matrix.os, 'ubuntu') }}
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
@@ -123,7 +123,7 @@ jobs:
         export WEBOTS_HOME=$PWD/artifact/webots
         xvfb-run --auto-servernum python ${{ matrix.test }}
         ${{ matrix.post_task }}
-    - name: ${{ matrix.test }}
+    - name: ${{ matrix.test }} [macOS]
       if: ${{ startsWith(matrix.os, 'macos') }}
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
