@@ -44,6 +44,7 @@ void WbBasicJoint::init() {
   mMaterial = NULL;
 
   mParameters = findSFNode("jointParameters");
+  mLink = findSFNode("link");
   mEndPoint = findSFNode("endPoint");
 }
 // Constructors
@@ -86,12 +87,16 @@ void WbBasicJoint::preFinalize() {
 
   // set endPoint initial position
   updateParameters();
+  updateLink();
   updateEndPointZeroTranslationAndRotation();
 
   WbBaseNode *const p = dynamic_cast<WbBaseNode *>(mParameters->value());
+  WbBaseNode *const l = dynamic_cast<WbBaseNode *>(mLink->value());
   WbBaseNode *const e = dynamic_cast<WbBaseNode *>(mEndPoint->value());
   if (p && !p->isPreFinalizedCalled())
     p->preFinalize();
+  if (l && !l->isPreFinalizedCalled())
+    l->preFinalize();
   if (e && !e->isPreFinalizedCalled())
     e->preFinalize();
 }
@@ -106,14 +111,18 @@ void WbBasicJoint::postFinalize() {
   WbBaseNode::postFinalize();
 
   WbBaseNode *const p = dynamic_cast<WbBaseNode *>(mParameters->value());
+  WbBaseNode *const l = dynamic_cast<WbBaseNode *>(mLink->value());
   WbBaseNode *const e = dynamic_cast<WbBaseNode *>(mEndPoint->value());
   if (p && !p->isPostFinalizedCalled())
     p->postFinalize();
+  if (l && !l->isPostFinalizedCalled())
+    l->postFinalize();
   if (e && !e->isPostFinalizedCalled())
     e->postFinalize();
 
   connect(mEndPoint, &WbSFNode::changed, this, &WbBasicJoint::updateEndPoint);
   connect(mParameters, &WbSFNode::changed, this, &WbBasicJoint::updateParameters);
+  connect(mLink, &WbSFNode::changed, this, &WbBasicJoint::updateLink);
 
   WbSolid *const s = solidEndPoint();
   if (s) {
@@ -174,9 +183,12 @@ void WbBasicJoint::setOdeJoint(dBodyID body, dBodyID parentBody) {
 void WbBasicJoint::reset() {
   WbBaseNode::reset();
   WbNode *const p = mParameters->value();
+  WbNode *const l = mLink->value();
   WbNode *const e = mEndPoint->value();
   if (p)
     p->reset();
+  if (l)
+    l->reset();
   if (e)
     e->reset();
 }
@@ -184,9 +196,12 @@ void WbBasicJoint::reset() {
 void WbBasicJoint::save() {
   WbBaseNode::save();
   WbNode *const p = mParameters->value();
+  WbNode *const l = mLink->value();
   WbNode *const e = mEndPoint->value();
   if (p)
     p->save();
+  if (l)
+    l->save();
   if (e)
     e->save();
 }

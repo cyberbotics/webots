@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_JOINT_PARAMETERS_HPP
-#define WB_JOINT_PARAMETERS_HPP
+#ifndef WB_JOINT_LINK_HPP
+#define WB_JOINT_LINK_HPP
 
 #include "WbBaseNode.hpp"
 #include "WbSFDouble.hpp"

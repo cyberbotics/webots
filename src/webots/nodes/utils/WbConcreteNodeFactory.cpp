@@ -51,6 +51,7 @@
 #include "WbIndexedFaceSet.hpp"
 #include "WbIndexedLineSet.hpp"
 #include "WbInertialUnit.hpp"
+#include "WbJointLink.hpp"
 #include "WbLed.hpp"
 #include "WbLens.hpp"
 #include "WbLensFlare.hpp"

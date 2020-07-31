@@ -93,6 +93,8 @@ protected:
   WbSFNode *mEndPoint;
   // axis, anchor, initial position, damping and spring constants, min and max stop
   WbSFNode *mParameters;
+  // TODO
+  WbSFNode *mLink;
 
   // variables and methods about the endPoint Solid translation and rotation when joint position is 0
   WbVector3 mEndPointZeroTranslation;
@@ -113,6 +115,7 @@ protected:
 
 protected slots:
   virtual void updateParameters() = 0;
+  virtual void updateLink() = 0;
   void updateSpringAndDampingConstants();
   void updateOptionalRendering(int option);
 

@@ -3,6 +3,7 @@
 
 HingeJoint {
   field SFNode     jointParameters   NULL        # HingeJointParameters specifying axis, anchor, spring constants, minStop, maxStop
+  field SFNode     jointLink         NULL        # TODO
   field MFNode     device            [ ]         # rotational motor, position sensor and brake
   field SFNode     endPoint          NULL        # either a Solid child, or a (non-child) reference to an existing Solid: SolidReference
   # hidden field

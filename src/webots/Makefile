@@ -310,7 +310,7 @@ QT_SOURCES += \
   WbInertialUnit.cpp \
   WbJoint.cpp \
   WbJointDevice.cpp \
-	WbJointParameters.cpp \
+  WbJointLink.cpp \
   WbJointParameters.cpp \
   WbJoystickInterface.cpp \
   WbJoystickListener.cpp \

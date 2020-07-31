@@ -21,6 +21,7 @@
 
 class WbBrake;
 class WbJointDevice;
+class WbJointLink;
 class WbJointParameters;
 class WbLogicalDevice;
 class WbMotor;
@@ -40,11 +41,14 @@ public:
   void save() override;
   virtual QVector<WbLogicalDevice *> devices() const;
 
+  WbJointLink *link() const;
   WbJointParameters *parameters() const;
   virtual double position(int index = 1) const { return (index == 1) ? mPosition : NAN; }
   virtual double initialPosition(int index = 1) const { return (index == 1) ? mInitialPosition : NAN; }
   virtual void setPosition(double position, int index = 1);
   bool resetJointPositions() override;
+  virtual WbJointLink *link2() const { return NULL; }
+  virtual WbJointLink *link3() const { return NULL; }
   virtual WbJointParameters *parameters2() const { return NULL; }
   virtual WbJointParameters *parameters3() const { return NULL; }
 
@@ -88,6 +92,7 @@ protected slots:
   virtual void addDevice(int index);
   virtual void updatePosition() {}
   void updateParameters() override;
+  void updateLink() override;
   virtual void updateMinAndMaxStop(double min, double max);
   virtual void updateAxis();
   void updateJointAxisRepresentation() override;

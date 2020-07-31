@@ -40,14 +40,9 @@ WbJointLink::~WbJointLink() {
 
 void WbJointLink::preFinalize() {
   WbBaseNode::preFinalize();
-
-  updateMinAndMaxStop();
-  updateSpringConstant();
-  updateDampingConstant();
-  updateAxis();
 }
 
-void WbJointParameters::postFinalize() {
+void WbJointLink::postFinalize() {
   WbBaseNode::postFinalize();
 }
 

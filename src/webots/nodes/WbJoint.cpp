@@ -13,7 +13,9 @@
 // limitations under the License.
 
 #include "WbJoint.hpp"
+
 #include "WbBrake.hpp"
+#include "WbJointLink.hpp"
 #include "WbJointParameters.hpp"
 #include "WbMotor.hpp"
 #include "WbPositionSensor.hpp"
@@ -150,10 +152,21 @@ void WbJoint::updateParameters() {
   }
 }
 
+void WbJoint::updateLink() {
+  const WbJointLink *const l = link();
+  if (l) {
+    // TODO
+  }
+}
+
 // Utility functions
 
 WbJointParameters *WbJoint::parameters() const {
   return dynamic_cast<WbJointParameters *>(mParameters->value());
+}
+
+WbJointLink *WbJoint::link() const {
+  return dynamic_cast<WbJointLink *>(mLink->value());
 }
 
 WbJointDevice *WbJoint::device(int index) const {

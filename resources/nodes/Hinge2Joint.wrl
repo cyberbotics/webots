@@ -5,6 +5,8 @@
 Hinge2Joint {
   field SFNode     jointParameters   NULL        # HingeJointParameters specifying anchor, axis, spring and damper constants, minStop, maxStop, suspension
   field SFNode     jointParameters2  NULL        # JointParameters specifying axis, spring and damper constants, minStop, maxStop related to the second hinge
+  field SFNode     jointLink         NULL        # TODO
+  field SFNode     jointLink2        NULL        # TODO
   field MFNode     device            [ ]         # rotational motor, position sensor and brake associated to the first hinge
   field MFNode     device2           [ ]         # rotational motor, position sensor and brake associated to the second hinge
   field SFNode     endPoint          NULL        # either a Solid child, or a (non-child) reference to an existing Solid: SolidReference

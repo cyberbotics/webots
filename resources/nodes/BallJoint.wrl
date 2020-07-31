@@ -4,6 +4,9 @@ BallJoint {
   field SFNode     jointParameters   NULL        # BallJointParameters specifying the joint anchor and spring and damper constants, minStop, maxStop related to the first axis
   field SFNode     jointParameters2  NULL        # JointParameters specifying spring and damper constants, minStop, maxStop related to the second axis
   field SFNode     jointParameters3  NULL        # JointParameters specifying spring and damper constants, minStop, maxStop related to the third axis
+  field SFNode     jointLink         NULL        # TODO
+  field SFNode     jointLink2        NULL        # TODO
+  field SFNode     jointLink3        NULL        # TODO
   field MFNode     device            [ ]         # rotational motor, position sensor and brake associated to the first rotational axis
   field MFNode     device2           [ ]         # rotational motor, position sensor and brake associated to the second rotational axis
   field MFNode     device3           [ ]         # rotational motor, position sensor and brake associated to the third rotational axis
