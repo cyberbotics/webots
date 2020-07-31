@@ -1,0 +1,84 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  coordinateSystem "NUE"
+  lineScale 0.3
+}
+Viewpoint {
+  orientation -0.17585862629916985 0.9325740512539287 0.3152449563181048 2.134028325268693
+  position 0.4089991111934368 0.35349171139034713 -0.2728656409910507
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Robot {
+  children [
+    DEF BODY Shape {
+      appearance PBRAppearance {
+        baseColor 0.643137 0 0
+        roughness 0.5
+        metalness 0
+      }
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.05 0 0
+      }
+      device [
+        PositionSensor {
+        }
+        RotationalMotor {
+        }
+      ]
+      endPoint Solid {
+        translation 0.1 0 0
+        rotation 0 0 -1 1.5708
+        children [
+          DEF CLINDER Shape {
+            appearance PBRAppearance {
+            }
+            geometry Cylinder {
+              height 0.1
+              radius 0.02
+            }
+          }
+        ]
+        name "endpoint solid"
+        boundingObject USE CLINDER
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0 -0.05
+      }
+      jointLink JointLink {
+        endPointName "endpoint solid"
+      }
+      device [
+        RotationalMotor {
+        }
+      ]
+      endPoint Solid {
+        translation 0 0 -0.1
+        rotation 1 0 0 -1.5707953071795862
+        children [
+          DEF CLINDER Shape {
+            appearance PBRAppearance {
+            }
+            geometry Cylinder {
+              height 0.1
+              radius 0.02
+            }
+          }
+        ]
+        boundingObject USE CLINDER
+      }
+    }
+  ]
+  boundingObject USE BODY
+}

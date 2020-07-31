@@ -70,8 +70,7 @@ void WbJointLink::updateEndPointName() {
   const QString &name = mEndPointName->value();
   const WbSolid *solid = ts->findSolid(name, upperSolid());
   if (!name.isEmpty() && !solid)
-    parsingWarn(
-      tr("JointLink has an invalid '%1' endPointName or refers to its closest upper solid, which is prohibited.").arg(name));
+    parsingWarn(tr("JointLink has an invalid '%1' endPointName or refers to itself, which is prohibited.").arg(name));
   return;
   WbBasicJoint *joint = dynamic_cast<WbBasicJoint *>(solid->parentNode());
   if (!joint)
