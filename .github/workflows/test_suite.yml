@@ -102,7 +102,6 @@ jobs:
     - name: Extract Webots [macOS]
       if: ${{ startsWith(matrix.os, 'macos') }}
       run: |
-        ls artifact
         hdiutil mount artifact/webots-R2020b-rev1.dmg
         sudo cp -R /Volumes/Webots/Webots.app /Applications
         hdiutil unmount /Volumes/Webots
@@ -126,7 +125,6 @@ jobs:
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
-        ls /Applications/Webots.app
         export WEBOTS_HOME=/Applications/Webots.app
         python ${{ matrix.test }}
         ${{ matrix.post_task }}
