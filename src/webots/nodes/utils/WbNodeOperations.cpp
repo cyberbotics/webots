@@ -329,7 +329,7 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
     const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
     const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
     if (mesh->mNumVertices > 100000)
-      WbLog::warning(QString("mesh '%1' has more than 100'000 vertices, it is recommended reducing the number of vertices.")
+      WbLog::warning(QString("mesh '%1' has more than 100'000 vertices, it is recommended to reduce the number of vertices.")
                        .arg(mesh->mName.C_Str()));
     QCoreApplication::processEvents();
     if (defNeedGroup || !importBoundingObjects || !importAsSolid)
