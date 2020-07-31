@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   const WbRadarTarget *target = wb_radar_get_targets(radar);
-  ts_assert_int_equal(target[0].speed, 1.5, "The initial speed should be 1.50000");
+  ts_assert_double_in_delta(target[0].speed, 1.5, 0.001, "The initial speed should be 1.5");
 
   // CASE 2: supervisor still, target moving
   wb_supervisor_node_set_velocity(supervisor, supervisorVelocity);
@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   const WbRadarTarget *newTarget = wb_radar_get_targets(radar);
-  ts_assert_int_equal(newTarget[0].speed, 0.75, "The secondary speed should be 0.75000");
+  ts_assert_double_in_delta(newTarget[0].speed, 0.75, 0.001, "The secondary speed should be 0.75");
 
   ts_send_success();
   return EXIT_SUCCESS;
