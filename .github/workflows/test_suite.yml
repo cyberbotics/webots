@@ -126,9 +126,7 @@ jobs:
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
-        ls /Applications
-        ls /Applications/Webots.app
         ls /Applications/Webots
-        export WEBOTS_HOME=/Applications/Webots.app
+        export WEBOTS_HOME=/Applications/Webots
         python ${{ matrix.test }}
         ${{ matrix.post_task }}
