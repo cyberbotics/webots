@@ -94,6 +94,8 @@ const char *wb_node_get_name(WbNodeType t) {
       return "IndexedLineSet";
     case WB_NODE_INERTIAL_UNIT:
       return "InertialUnit";
+    case WB_NODE_JOINT_LINK:
+      return "JointLink";
     case WB_NODE_JOINT_PARAMETERS:
       return "JointParameters";
     case WB_NODE_LED:

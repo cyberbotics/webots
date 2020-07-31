@@ -681,7 +681,7 @@ static const char *WBT_OBJECTS =
   "Capsule Charger Color Cone ContactProperties Coordinate Cylinder Damping "
   "DirectionalLight ElevationGrid Fluid Focus Fog Group HingeJoint "
   "HingeJointParameters Hinge2Joint ImageTexture ImmersionProperties "
-  "IndexedFaceSet IndexedLineSet JointParameters Lens LensFlare Material Mesh Normal PBRAppearance "
+  "IndexedFaceSet IndexedLineSet JointLink JointParameters Lens LensFlare Material Mesh Normal PBRAppearance "
   "Physics Plane PointLight Propeller Recognition Shape SliderJoint Slot Solid SolidReference "
   "Sphere SpotLight TextureCoordinate TextureTransform Track TrackWheel "
   "Transform Viewpoint WorldInfo Zoom";

@@ -188,6 +188,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbIndexedLineSet(tokenizer);
   if (modelName == "InertialUnit")
     return new WbInertialUnit(tokenizer);
+  if (modelName == "JointLink")
+    return new WbJointLink(tokenizer);
   if (modelName == "JointParameters")
     return new WbJointParameters(tokenizer);
   if (modelName == "LED")
@@ -378,6 +380,8 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbIndexedLineSet(original);
   if (modelName == "InertialUnit")
     return new WbInertialUnit(original);
+  if (modelName == "JointLink")
+    return new WbJointLink(original);
   if (modelName == "JointParameters")
     return new WbJointParameters(original);
   if (modelName == "LED")

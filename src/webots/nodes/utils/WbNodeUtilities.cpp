@@ -27,6 +27,7 @@
 #include "WbFluid.hpp"
 #include "WbFog.hpp"
 #include "WbHinge2Joint.hpp"
+#include "WbJointLink.hpp"
 #include "WbJointParameters.hpp"
 #include "WbLinearMotor.hpp"
 #include "WbLogicalDevice.hpp"
@@ -270,9 +271,15 @@ namespace {
               << "Focus"
               << "immersionProperties"
               << "ImmersionProperties"
-              << "jointParameters3"
-              << "JointParameters"
+              << "link"
+              << "JointLink"
+              << "link2"
+              << "JointLink"
+              << "link3"
+              << "JointLink"
               << "jointParameters2"
+              << "JointParameters"
+              << "jointParameters3"
               << "JointParameters"
               << "lens"
               << "Lens"
@@ -1567,6 +1574,13 @@ bool WbNodeUtilities::isAValidUseableNode(const WbNode *node, QString *warning) 
   if (joint) {
     if (warning)
       *warning = QObject::tr("Joint nodes cannot be USEd.");
+    return false;
+  }
+
+  const WbJointLink *const jointLink = dynamic_cast<WbJointLink *>(n);
+  if (jointLink) {
+    if (warning)
+      *warning = QObject::tr("JointLink nodes cannot be USEd.");
     return false;
   }
 

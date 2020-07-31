@@ -99,6 +99,7 @@ namespace webots {
       HINGE_JOINT_PARAMETERS,
       HINGE_2_JOINT,
       IMMERSION_PROPERTIES,
+      JOINT_LINK,
       JOINT_PARAMETERS,
       LENS,
       LENS_FLARE,

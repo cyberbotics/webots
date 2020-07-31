@@ -113,6 +113,7 @@ graph LR
     Fog[[Fog](fog.md)]
     ImageTexture[[ImageTexture](imagetexture.md)]
     ImmersionProperties[[ImmersionProperties](immersionproperties.md)]
+    JointLink[[JointLink](jointlink.md)]
     Lens[[Lens](lens.md)]
     LensFlare[[LensFlare](lensflare.md)]
     Material[[Material](material.md)]

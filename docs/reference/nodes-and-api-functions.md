@@ -42,6 +42,7 @@
 - [IndexedLineSet](indexedlineset.md)
 - [InertialUnit](inertialunit.md)
 - [Joint](joint.md)
+- [JointLink](jointlink.md)
 - [JointParameters](jointparameters.md)
 - [Joystick](joystick.md)
 - [Keyboard](keyboard.md)
