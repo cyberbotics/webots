@@ -37,7 +37,7 @@ public:
   void preFinalize() override;
   void postFinalize() override;
 
-  const WbMotor *jointMotor() const;
+  WbMotor *jointMotor() const;
 
 signals:
 

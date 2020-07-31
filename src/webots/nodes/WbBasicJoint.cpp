@@ -1,4 +1,3 @@
-#include <QtCore/QDebug>
 // Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -46,7 +45,6 @@ void WbBasicJoint::init() {
 
   mParameters = findSFNode("jointParameters");
   mLink = findSFNode("jointLink");
-  qDebug() << "jointLink" << mLink;
   mEndPoint = findSFNode("endPoint");
 }
 // Constructors

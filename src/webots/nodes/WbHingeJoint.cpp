@@ -1,3 +1,4 @@
+#include <QtCore/QDebug>
 // Copyright 1996-2020 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -279,20 +280,25 @@ void WbHingeJoint::applyToOdeSuspension() {
 
 void WbHingeJoint::prePhysicsStep(double ms) {
   assert(solidEndPoint());
-  WbRotationalMotor *const rm = rotationalMotor();
-  const WbRotationalMotor *linkedRm = link() ? dynamic_cast<const WbRotationalMotor *>(link()->jointMotor()) : NULL;
+  WbRotationalMotor *rm = rotationalMotor();
+  bool isLinked = false;
+  if (!rm && link()) {
+    rm = dynamic_cast<WbRotationalMotor *>(link()->jointMotor());
+    isLinked = true;
+  }
   WbJointParameters *const p = parameters();
   if (isEnabled()) {
-    if ((rm && rm->userControl()) || (linkedRm && linkedRm->userControl())) {
+    if (rm && rm->userControl()) {
       // user-defined torque
-      const double torque = rm ? rm->rawInput() : linkedRm->rawInput();
+      const double torque = rm->rawInput();
       dJointAddHingeTorque(mJoint, mIsReverseJoint ? torque : -torque);
-      if (rm ? rm->hasMuscles() : linkedRm->hasMuscles())
+      if (rm->hasMuscles())
         // force is directly applied to the bodies and not included in joint motor feedback
-        emit updateMuscleStretch(torque / (rm ? rm->maxForceOrTorque() : linkedRm->maxForceOrTorque()), false, 1);
+        emit updateMuscleStretch(torque / rm->maxForceOrTorque(), false, 1);
     } else {
       // ODE motor torque (user velocity/position control)
-      const double currentVelocity = rm ? rm->computeCurrentDynamicVelocity(ms, mPosition) : 0.0;
+      const double currentVelocity =
+        rm ? (isLinked ? rm->currentVelocity() : rm->computeCurrentDynamicVelocity(ms, mPosition)) : 0.0;
       const double fMax = qMax(p ? p->staticFriction() : 0.0, rm ? rm->torque() : 0.0);
       const double s = upperTransform()->absoluteScale().x();
       double s4 = s * s;
@@ -329,6 +335,7 @@ void WbHingeJoint::postPhysicsStep() {
     rm = dynamic_cast<const WbRotationalMotor *>(link()->jointMotor());
   if (rm && rm->isPIDPositionControl()) {  // if controlling in position we update position using directly the angle feedback
     double angle = dJointGetHingeAngle(mJoint);
+    qDebug() << angle;
     if (!mIsReverseJoint)
       angle = -angle;
     mPosition = WbMathsUtilities::normalizeAngle(angle + mOdePositionOffset, mPosition);

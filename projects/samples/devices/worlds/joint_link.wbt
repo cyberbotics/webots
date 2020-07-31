@@ -49,6 +49,8 @@ Robot {
         ]
         name "endpoint solid"
         boundingObject USE CLINDER
+        physics Physics {
+        }
       }
     }
     HingeJoint {
@@ -78,6 +80,8 @@ Robot {
           }
         ]
         boundingObject USE CLINDER
+        physics Physics {
+        }
       }
     }
   ]

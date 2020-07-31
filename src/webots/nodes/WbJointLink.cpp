@@ -65,8 +65,8 @@ void WbJointLink::postFinalize() {
   connect(mJointId, &WbSFInt::changed, this, &WbJointLink::updateJointId);
 }
 
-const WbMotor *WbJointLink::jointMotor() const {
-  if (mJoint)
+WbMotor *WbJointLink::jointMotor() const {
+  if (!mJoint)
     return NULL;
 
   // TODO: take 'jointId' into account
