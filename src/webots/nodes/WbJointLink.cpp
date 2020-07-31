@@ -14,7 +14,14 @@
 
 #include "WbJointLink.hpp"
 
+#include "WbBasicJoint.hpp"
+#include "WbSolid.hpp"
+
 void WbJointLink::init() {
+  mEndPointName = findSFString("endPointName");
+  mMultiplier = findSFDouble("multiplier");
+  mGain = findSFDouble("gain");
+  mJointId = findSFInt("jointId");
 }
 
 // Constructors
@@ -40,10 +47,44 @@ WbJointLink::~WbJointLink() {
 
 void WbJointLink::preFinalize() {
   WbBaseNode::preFinalize();
+
+  updateEndPointName();
+  updateMultiplier();
+  updateGain();
+  updateJointId();
 }
 
 void WbJointLink::postFinalize() {
   WbBaseNode::postFinalize();
+
+  connect(mEndPointName, &WbSFString::changed, this, &WbJointLink::updateEndPointName);
+  connect(mMultiplier, &WbSFDouble::changed, this, &WbJointLink::updateMultiplier);
+  connect(mGain, &WbSFDouble::changed, this, &WbJointLink::updateGain);
+  connect(mJointId, &WbSFInt::changed, this, &WbJointLink::updateJointId);
 }
 
 // Update methods: they check validity and correct if necessary
+void WbJointLink::updateEndPointName() {
+  WbSolid *const ts = topSolid();
+  assert(ts);
+  const QString &name = mEndPointName->value();
+  const WbSolid *solid = ts->findSolid(name, upperSolid());
+  if (!name.isEmpty() && !solid)
+    parsingWarn(
+      tr("JointLink has an invalid '%1' endPointName or refers to its closest upper solid, which is prohibited.").arg(name));
+  return;
+  WbBasicJoint *joint = dynamic_cast<WbBasicJoint *>(solid->parentNode());
+  if (!joint)
+    parsingWarn(tr("JointLink has an invalid '%1' endPointName, the parent of this Solid is not a joint.").arg(name));
+  updateJointId();
+  // TODO: emit signal
+}
+
+void WbJointLink::updateMultiplier() {
+}
+
+void WbJointLink::updateGain() {
+}
+
+void WbJointLink::updateJointId() {
+}

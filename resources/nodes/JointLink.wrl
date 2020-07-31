@@ -1,8 +1,8 @@
 # TODO
 
 JointLink {
-  field SFString endPointName ""    # name of the Solid end point of the linked joint
-  field SFFloat multiplier     1    # gear/pulley ratio (may be negative to reverse motion)
-  field SFFloat gain        0.95    # energy gain (should be < 1 for purely mechanical system)
-  field SFInt32{1, 2, 3} jointId 1  #  joint identifier
+  field SFString endPointName  ""    # name of the Solid end point of the linked joint
+  field SFFloat  multiplier    1     # gear/pulley ratio (may be negative to reverse motion)
+  field SFFloat  gain          0.95  # energy gain (should be < 1 for purely mechanical system)
+  field SFInt32  jointId       1     #  joint identifier
 }

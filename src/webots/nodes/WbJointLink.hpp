@@ -17,7 +17,8 @@
 
 #include "WbBaseNode.hpp"
 #include "WbSFDouble.hpp"
-#include "WbSFVector3.hpp"
+#include "WbSFInt.hpp"
+#include "WbSFString.hpp"
 
 class WbJointLink : public WbBaseNode {
   Q_OBJECT
@@ -41,8 +42,16 @@ private:
   void init();
 
   // fields
+  WbSFString *mEndPointName;
+  WbSFDouble *mMultiplier;
+  WbSFDouble *mGain;
+  WbSFInt *mJointId;
 
 private slots:
+  void updateEndPointName();
+  void updateMultiplier();
+  void updateGain();
+  void updateJointId();
 };
 
 #endif
