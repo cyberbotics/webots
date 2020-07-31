@@ -16,6 +16,7 @@
 
 #include "WbBrake.hpp"
 #include "WbHingeJointParameters.hpp"
+#include "WbJointLink.hpp"
 #include "WbMathsUtilities.hpp"
 #include "WbOdeContext.hpp"
 #include "WbOdeUtilities.hpp"
@@ -279,15 +280,16 @@ void WbHingeJoint::applyToOdeSuspension() {
 void WbHingeJoint::prePhysicsStep(double ms) {
   assert(solidEndPoint());
   WbRotationalMotor *const rm = rotationalMotor();
+  const WbRotationalMotor *linkedRm = link() ? dynamic_cast<const WbRotationalMotor *>(link()->jointMotor()) : NULL;
   WbJointParameters *const p = parameters();
   if (isEnabled()) {
-    if (rm && rm->userControl()) {
+    if ((rm && rm->userControl()) || (linkedRm && linkedRm->userControl())) {
       // user-defined torque
-      const double torque = rm->rawInput();
+      const double torque = rm ? rm->rawInput() : linkedRm->rawInput();
       dJointAddHingeTorque(mJoint, mIsReverseJoint ? torque : -torque);
-      if (rm->hasMuscles())
+      if (rm ? rm->hasMuscles() : linkedRm->hasMuscles())
         // force is directly applied to the bodies and not included in joint motor feedback
-        emit updateMuscleStretch(torque / rm->maxForceOrTorque(), false, 1);
+        emit updateMuscleStretch(torque / (rm ? rm->maxForceOrTorque() : linkedRm->maxForceOrTorque()), false, 1);
     } else {
       // ODE motor torque (user velocity/position control)
       const double currentVelocity = rm ? rm->computeCurrentDynamicVelocity(ms, mPosition) : 0.0;
@@ -322,7 +324,9 @@ void WbHingeJoint::prePhysicsStep(double ms) {
 
 void WbHingeJoint::postPhysicsStep() {
   assert(mJoint);
-  WbRotationalMotor *const rm = rotationalMotor();
+  const WbRotationalMotor *rm = rotationalMotor();
+  if (!rm && link())
+    rm = dynamic_cast<const WbRotationalMotor *>(link()->jointMotor());
   if (rm && rm->isPIDPositionControl()) {  // if controlling in position we update position using directly the angle feedback
     double angle = dJointGetHingeAngle(mJoint);
     if (!mIsReverseJoint)

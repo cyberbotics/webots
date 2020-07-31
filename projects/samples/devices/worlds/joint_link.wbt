@@ -60,7 +60,8 @@ Robot {
         endPointName "endpoint solid"
       }
       device [
-        RotationalMotor {
+        PositionSensor {
+          name "position sensor 2"
         }
       ]
       endPoint Solid {

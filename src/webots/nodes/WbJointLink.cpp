@@ -14,7 +14,7 @@
 
 #include "WbJointLink.hpp"
 
-#include "WbBasicJoint.hpp"
+#include "WbJoint.hpp"
 #include "WbSolid.hpp"
 
 void WbJointLink::init() {
@@ -22,6 +22,8 @@ void WbJointLink::init() {
   mMultiplier = findSFDouble("multiplier");
   mGain = findSFDouble("gain");
   mJointId = findSFInt("jointId");
+
+  mJoint = NULL;
 }
 
 // Constructors
@@ -63,18 +65,30 @@ void WbJointLink::postFinalize() {
   connect(mJointId, &WbSFInt::changed, this, &WbJointLink::updateJointId);
 }
 
+const WbMotor *WbJointLink::jointMotor() const {
+  if (mJoint)
+    return NULL;
+
+  // TODO: take 'jointId' into account
+  return mJoint->motor();
+}
+
 // Update methods: they check validity and correct if necessary
 void WbJointLink::updateEndPointName() {
   WbSolid *const ts = topSolid();
   assert(ts);
   const QString &name = mEndPointName->value();
   const WbSolid *solid = ts->findSolid(name, upperSolid());
-  if (!name.isEmpty() && !solid)
+  if (!name.isEmpty() && !solid) {
     parsingWarn(tr("JointLink has an invalid '%1' endPointName or refers to itself, which is prohibited.").arg(name));
-  return;
-  WbBasicJoint *joint = dynamic_cast<WbBasicJoint *>(solid->parentNode());
-  if (!joint)
+    return;
+  }
+  mJoint = dynamic_cast<WbJoint *>(solid->parentNode());
+  // TODO: connect to mJoint deletion
+  if (!mJoint) {
     parsingWarn(tr("JointLink has an invalid '%1' endPointName, the parent of this Solid is not a joint.").arg(name));
+    return;
+  }
   updateJointId();
   // TODO: emit signal
 }

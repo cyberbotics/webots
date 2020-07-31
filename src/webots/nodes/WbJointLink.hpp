@@ -20,6 +20,9 @@
 #include "WbSFInt.hpp"
 #include "WbSFString.hpp"
 
+class WbMotor;
+class WbJoint;
+
 class WbJointLink : public WbBaseNode {
   Q_OBJECT
 
@@ -34,6 +37,8 @@ public:
   void preFinalize() override;
   void postFinalize() override;
 
+  const WbMotor *jointMotor() const;
+
 signals:
 
 private:
@@ -46,6 +51,8 @@ private:
   WbSFDouble *mMultiplier;
   WbSFDouble *mGain;
   WbSFInt *mJointId;
+
+  WbJoint *mJoint;
 
 private slots:
   void updateEndPointName();
