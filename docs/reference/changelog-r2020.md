@@ -6,6 +6,7 @@ Released on XXX YYth, 2020.
   - Bug fixes
     - Fixed the `near` field of the `Robotino3Webcam` [Camera](camera.md) ([#2051](https://github.com/cyberbotics/webots/pull/2051)).
     - Fixed orientation of the [Lights](light.md) in the [`robotino3` world](../guide/robotino3.md#robotino3-wbt) ([#2051](https://github.com/cyberbotics/webots/pull/2051)).
+    - **macOS: Removed the `ros` controller**, the [custom Python ROS controller](https://www.cyberbotics.com/doc/guide/using-ros#custom-ros-controller) should be used instead ([#2053](https://github.com/cyberbotics/webots/pull/2053)).
 
 ## [Webots R2020b](../blog/Webots-2020-b-release.md)
 Released on July 29th, 2020.
