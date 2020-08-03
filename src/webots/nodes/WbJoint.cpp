@@ -309,7 +309,11 @@ void WbJoint::writeExport(WbVrmlWriter &writer) const {
 
     writer.increaseIndent();
     writer.indent();
-    writer << QString("<joint name=\"%1\" type=\"continuous\">\n").arg(urdfName());
+    const WbMotor *m = motor();
+    if (m && (m->minPosition() != 0.0 || m->maxPosition() != 0.0))
+      writer << QString("<joint name=\"%1\" type=\"revolute\">\n").arg(urdfName());
+    else
+      writer << QString("<joint name=\"%1\" type=\"continuous\">\n").arg(urdfName());
 
     writer.increaseIndent();
     writer.indent();
@@ -319,13 +323,16 @@ void WbJoint::writeExport(WbVrmlWriter &writer) const {
     writer.indent();
     writer << QString("<axis xyz=\"%1\"/>\n").arg(rotationAxis.toString(WbPrecision::DOUBLE_MAX));
     writer.indent();
-    const WbMotor *m = motor();
+
     if (m) {
-      writer << QString("<limit effort=\"%1\" lower=\"%2\" upper=\"%3\" velocity=\"%4\"/>\n")
-                  .arg(m->maxForceOrTorque())
-                  .arg(m->minPosition())
-                  .arg(m->maxPosition())
-                  .arg(m->maxVelocity());
+      if (m->minPosition() != 0.0 || m->maxPosition() != 0.0)
+        writer << QString("<limit effort=\"%1\" lower=\"%2\" upper=\"%3\" velocity=\"%4\"/>\n")
+                    .arg(m->maxForceOrTorque())
+                    .arg(m->minPosition())
+                    .arg(m->maxPosition())
+                    .arg(m->maxVelocity());
+      else
+        writer << QString("<limit effort=\"%1\" velocity=\"%2\"/>\n").arg(m->maxForceOrTorque()).arg(m->maxVelocity());
       writer.indent();
     }
     writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
