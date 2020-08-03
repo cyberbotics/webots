@@ -43,10 +43,11 @@ armChain = Chain.from_urdf_file(filename)
 
 # Initialize the arm motors.
 motors = []
-for motorName in ['A motor', 'B motor', 'C motor', 'D motor', 'E motor', 'F motor']:
-    motor = supervisor.getMotor(motorName)
-    motor.setVelocity(1.0)
-    motors.append(motor)
+for link in armChain.links:
+    if 'sensor' in link.name:
+        motor = supervisor.getMotor(link.name.replace('sensor', 'motor'))
+        motor.setVelocity(1.0)
+        motors.append(motor)
 
 # Get the arm and target nodes.
 target = supervisor.getFromDef('TARGET')
@@ -60,7 +61,7 @@ while supervisor.step(timeStep) != -1:
     # Use the circle equation relatively to the arm base as an input of the IK algorithm.
     x = 0.25 * math.cos(t) + 1.1
     y = 0.25 * math.sin(t) - 0.95
-    z = 0.23
+    z = 0.05
 
     # Call "ikpy" to compute the inverse kinematics of the arm.
     ikResults = armChain.inverse_kinematics([x, y, z])
@@ -97,5 +98,5 @@ while supervisor.step(timeStep) != -1:
     ikResults = armChain.inverse_kinematics([x, y, z])
 
     # Actuate the 3 first arm motors with the IK results.
-    for i in range(3):
+    for i in range(len(motors)):
         motors[i].setPosition(ikResults[i + 1])
