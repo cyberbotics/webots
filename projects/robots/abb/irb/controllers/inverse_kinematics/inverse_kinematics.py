@@ -19,7 +19,6 @@ import tempfile
 try:
     import ikpy
     from ikpy.chain import Chain
-    from ikpy.link import OriginLink, URDFLink
 except ImportError:
     sys.exit('The "ikpy" Python module is not installed. '
              'To run this sample, please upgrade "pip" and install ikpy with this command: "pip install ikpy"')
