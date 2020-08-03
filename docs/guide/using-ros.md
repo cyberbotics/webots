@@ -21,14 +21,13 @@ The user contributed packages are licensed under a variety of open source licens
 There are two ways to use ROS with Webots.
 
 The first solution and the easiest one is to use the **standard ROS controller**.
-This solution however doesn't work on Windows, it works only on Linux and macOS.
+This solution however doesn't work on Windows and macOS, it works only on Linux.
 It is part of the Webots default controllers and is available in any project.
 This controller can be used on any robot in Webots and acts as a ROS node, providing all the Webots functions as services or topics to other ROS nodes.
 
 The second solution named **custom ROS controller** requires that you build your own Webots controller that will also be a ROS node using Webots and ROS libraries.
-It is therefore a bit more complicated than the first solution.
-This solution works on Windows (in Python) in addition to Linux and macOS.
-It should only be used for specific applications that cannot be done with the standard ROS controller.
+This solution works on Windows and macOS (in Python) in addition to Linux.
+It is a bit more difficult to set up but allows for more flexibility.
 
 ### Standard ROS Controller
 
