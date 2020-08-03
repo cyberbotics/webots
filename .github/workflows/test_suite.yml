@@ -113,6 +113,11 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
+    - name: Set up Python 2.7
+      if: ${{ startsWith(matrix.os, 'macos') }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: 2.7
     - name: ${{ matrix.test }} [Linux]
       if: ${{ startsWith(matrix.os, 'ubuntu') }}
       run: |
@@ -124,10 +129,6 @@ jobs:
     - name: ${{ matrix.test }} [macOS]
       if: ${{ startsWith(matrix.os, 'macos') }}
       run: |
-        sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7  # we can't use python3.7 from homebrew for the compilation because it is not compatible with the normal one
-        wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7.zip -P dependencies
-        sudo unzip -o -q dependencies/python3.7.zip -d /Library/Frameworks/Python.framework/Versions/3.7
-        export PATH=/Library/Frameworks/Python.framework/Versions/3.7/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=/Applications/Webots.app
