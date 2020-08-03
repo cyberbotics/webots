@@ -12,7 +12,7 @@
 #define TIME_STEP 32
 
 int main(int argc, char **argv) {
-  ts_setup(argv[1]);  // give the controller args
+  ts_setup(argv[0]);  // give the controller args
 
   WbNodeRef node = wb_supervisor_node_get_from_def("SENSOR_SLOT");
   WbFieldRef children_field = wb_supervisor_node_get_field(node, "children");

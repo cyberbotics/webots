@@ -61,9 +61,6 @@ TemplateRobotSlotContainer {
     }
   ]
   controller "template_proto_follow_solid"
-  controllerArgs [
-    "template_proto_follow_solid"
-  ]
 }
 TestSuiteSupervisor {
 }

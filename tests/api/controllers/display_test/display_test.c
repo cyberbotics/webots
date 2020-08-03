@@ -3,8 +3,8 @@
                  devices.
  */
 
-#include <webots/differential_wheels.h>
 #include <webots/display.h>
+#include <webots/motor.h>
 #include <webots/robot.h>
 
 #include <stdlib.h>
@@ -27,7 +27,12 @@ int main() {
   WbImageRef emoticonsImage =
     wb_display_image_load(emoticon_display, "../../../../projects/samples/devices/controllers/display/emoticons.png");
 
-  wb_differential_wheels_set_speed(SPEED, -SPEED);
+  WbDeviceTag left_motor = wb_robot_get_device("left wheel motor");
+  WbDeviceTag right_motor = wb_robot_get_device("right wheel motor");
+  wb_motor_set_position(left_motor, INFINITY);
+  wb_motor_set_position(right_motor, INFINITY);
+  wb_motor_set_velocity(left_motor, SPEED);
+  wb_motor_set_velocity(right_motor, -SPEED);
 
   while (wb_robot_step(TIME_STEP) != -1) {
     counter++;

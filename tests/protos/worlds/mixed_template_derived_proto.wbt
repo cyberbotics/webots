@@ -37,9 +37,6 @@ Robot {
     }
   ]
   controller "mixed_template_derived_proto"
-  controllerArgs [
-    "mixed_template_derived_proto"
-  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {
