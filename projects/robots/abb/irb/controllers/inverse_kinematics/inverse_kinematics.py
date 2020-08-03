@@ -15,6 +15,7 @@
 """Demonstration of inverse kinematics using the "ikpy" Python module."""
 
 import sys
+import tempfile
 try:
     import ikpy
     from ikpy.chain import Chain
@@ -30,51 +31,16 @@ if ikpy.__version__[0] < '3':
     sys.exit('The "ikpy" Python module version is too old. '
              'Please upgrade "ikpy" Python module to version "3.0" or newer with this command: "pip install --upgrade ikpy"')
 
-# Create the arm chain.
-# The constants below have been manually extracted from the Irb4600-40.proto file, looking at the HingeJoint node fields.
-# The chain should contain the "E motor" bone, because this bone defines the hand position.
-armChain = Chain(name='arm', links=[
-    OriginLink(),
-    URDFLink(
-        name="A motor",
-        bounds=[-3.1415, 3.1415],
-        translation_vector=[0, 0, 0.159498],
-        orientation=[0, 0, 0],
-        rotation=[0, 0, 1]
-    ),
-    URDFLink(
-        name="B motor",
-        bounds=[-1.5708, 2.61799],
-        translation_vector=[0.178445, -0.122498, 0.334888],
-        orientation=[0, 0, 0],
-        rotation=[0, 1, 0]
-    ),
-    URDFLink(
-        name="C motor",
-        bounds=[-3.1415, 1.309],
-        translation_vector=[-0.003447, -0.0267, 1.095594],
-        orientation=[0, 0, 0],
-        rotation=[0, 1, 0]
-    ),
-    URDFLink(
-        name="D motor",
-        bounds=[-6.98132, 6.98132],
-        translation_vector=[0.340095, 0.149198, 0.174998],
-        orientation=[0, 0, 0],
-        rotation=[1, 0, 0]
-    ),
-    URDFLink(
-        name="E motor",
-        bounds=[-2.18166, 2.0944],
-        translation_vector=[0.929888, 0, 0],
-        orientation=[0, 0, 0],
-        rotation=[0, 1, 0]
-    )
-])
-
 # Initialize the Webots Supervisor.
 supervisor = Supervisor()
 timeStep = int(4 * supervisor.getBasicTimeStep())
+
+# Create the arm chain from the URDF
+filename = None
+with tempfile.NamedTemporaryFile(suffix='.urdf', delete=False) as file:
+    filename = file.name
+    file.write(supervisor.getUrdf())
+armChain = Chain.from_urdf_file(filename)
 
 # Initialize the arm motors.
 motors = []
