@@ -1,4 +1,4 @@
-#include <webots/differential_wheels.h>
+#include <webots/motor.h>
 #include <webots/radar.h>
 #include <webots/robot.h>
 
@@ -28,9 +28,15 @@ int main(int argc, char **argv) {
   // stabilize the system
   wb_robot_step(3 * time_step);
 
-  if (dynamic)
+  if (dynamic) {
     // move sensors during ODE physics step
-    wb_differential_wheels_set_speed(100, 100);
+    WbDeviceTag left_motor = wb_robot_get_device("left motor");
+    WbDeviceTag right_motor = wb_robot_get_device("right motor");
+    wb_motor_set_position(left_motor, INFINITY);
+    wb_motor_set_position(right_motor, INFINITY);
+    wb_motor_set_velocity(left_motor, 100);
+    wb_motor_set_velocity(right_motor, 100);
+  }
 
   // without occlusion (no ODE rays)
   count = wb_radar_get_number_of_targets(rs);

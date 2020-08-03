@@ -1,11 +1,10 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
   title "Dynamic radar rays"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.29381699931746896 -0.9176480078683219 -0.2675699993784402 4.83703
-  position 0.28569 0.267896 0.0816358
+  orientation 0.25822489743422106 -0.4753048685396449 -0.8410738280838352 2.28437082876568
+  position -0.2618981509009608 0.20601181048673137 0.252846828594311
 }
 Background {
   skyColor [
@@ -13,15 +12,15 @@ Background {
   ]
 }
 PointLight {
-  attenuation 0 0 4
-  location 0 0.3 0
+  attenuation 0 0 1
+  location 0 0 0.3
 }
 Solid {
+  rotation 1 0 0 1.5707996938995747
   children [
     Shape {
-      appearance Appearance {
-        material Material {
-        }
+      appearance PBRAppearance {
+        metalness 0
       }
       geometry DEF PLANE Plane {
       }
@@ -30,17 +29,14 @@ Solid {
   boundingObject USE PLANE
 }
 DEF DYNAMIC_BOX_1 Solid {
-  translation 0 0.13 -0.1
+  translation 0 -0.1 0.14
   children [
     Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 1 1 0
-          specularColor 0.564706 0.933333 0.564706
-        }
+      appearance PBRAppearance {
+        baseColor 1 1 0
       }
       geometry DEF BOX0 Box {
-        size 0.02 0.05 0.02
+        size 0.02 0.02 0.05
       }
     }
   ]
@@ -52,17 +48,14 @@ DEF DYNAMIC_BOX_1 Solid {
   radarCrossSection 1
 }
 DEF STATIC_BOX_1 Solid {
-  translation 0 0.05 0.1
+  translation 0 0.1 0.05
   children [
     Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 1 0 0
-          specularColor 0.564706 0.933333 0.564706
-        }
+      appearance PBRAppearance {
+        baseColor 1 0 0
       }
       geometry DEF BOX1 Box {
-        size 0.03 0.04 0.02
+        size 0.03 0.02 0.04
       }
     }
   ]
@@ -70,73 +63,121 @@ DEF STATIC_BOX_1 Solid {
   boundingObject USE BOX1
   radarCrossSection 1
 }
-DEF DYNAMIC_ROBOT DifferentialWheels {
-  translation 0 0.06 0
-  rotation 0 1 0 1.5708
+DEF DYNAMIC_ROBOT Robot {
+  translation 0 0 0.06
+  rotation 0 -1 0 0
   children [
-    Solid {
-      translation -0.045 -0.03 0
-      rotation 1 0 0 4.98467
-      children [
-        DEF WHEEL Transform {
-          rotation 0 0 1 1.57
-          children [
-            Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0 0 1
-                }
-              }
-              geometry Cylinder {
-                height 0.03
-                radius 0.025
-              }
-            }
-          ]
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0.045 -0.03
+      }
+      device [
+        RotationalMotor {
+          name "left motor"
+          maxVelocity 1000
         }
       ]
-      name "left wheel"
-      boundingObject USE WHEEL
-      physics DEF PHYSICS_WHEEL Physics {
-        density -1
-        mass 0.05
+      endPoint Solid {
+        translation 0 0.045 -0.03
+        rotation 0 0 1 -1.5708
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0.212802 0.869993
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/plastic.jpg"
+                    ]
+                  }
+                }
+                geometry Cylinder {
+                  height 0.03
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
       }
     }
-    Solid {
-      translation 0.045 -0.03 0
-      rotation 1 0 0 4.58735
-      children [
-        USE WHEEL
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 -0.045 -0.03
+      }
+      device [
+        RotationalMotor {
+          name "right motor"
+          maxVelocity 1000
+        }
       ]
-      name "right wheel"
-      boundingObject USE WHEEL
-      physics USE PHYSICS_WHEEL
+      endPoint Solid {
+        translation 0 -0.045 -0.03
+        rotation 0 0 1 -1.5708
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0.212802 0.869993
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/plastic.jpg"
+                    ]
+                  }
+                }
+                geometry Cylinder {
+                  height 0.03
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
     }
     DEF STATIC Radar {
-      translation -0.05 0 0.001
-      rotation 0 1 0 1.5708
+      translation 0.001 0.05 0.001
+      rotation 1 0 0 1.5708
       name "radar static"
       minRange 0.02
       maxRange 0.2
     }
     DEF DYNAMIC Radar {
-      translation 0.05 0 0
-      rotation 0 1 0 -1.5708
+      translation 0 -0.05 0
+      rotation 0 0.70710528118436 0.707108281185553 3.14159
       name "radar dynamic"
       minRange 0.02
       maxRange 0.2
     }
     DEF STATIC_OCCLUSION Radar {
-      translation -0.05 0 0.001
-      rotation 0 1 0 1.5708
+      translation 0.001 0.05 0
+      rotation 1 0 0 1.5707996938995747
       name "radar occlusion static"
       minRange 0.02
       maxRange 0.2
       occlusion TRUE
     }
     DEF DYNAMIC_OCCLUSION Radar {
-      translation 0.05 0 0
-      rotation 0 1 0 -1.5708
+      translation 0 -0.05 0
+      rotation 0 0.70710528118436 0.707108281185553 3.14159
       name "radar occlusion dynamic"
       minRange 0.02
       maxRange 0.2
@@ -147,7 +188,7 @@ DEF DYNAMIC_ROBOT DifferentialWheels {
   ]
   name "dynamic"
   boundingObject Transform {
-    translation 0 -0.03 0
+    translation 0 0 -0.03
     children [
       Sphere {
         radius 0.02
@@ -162,10 +203,6 @@ DEF DYNAMIC_ROBOT DifferentialWheels {
   controllerArgs [
     "dynamic_radar_rays"
   ]
-  axleLength 0.09
-  wheelRadius 0.025
-  maxSpeed 1000
-  maxAcceleration 1000
 }
 TestSuiteSupervisor {
 }
