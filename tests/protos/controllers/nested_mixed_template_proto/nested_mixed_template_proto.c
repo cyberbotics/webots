@@ -12,6 +12,15 @@
 
 #define TIME_STEP 32
 
+static void check_object_status(WbDeviceTag camera, int color, const char *message) {
+  const unsigned char *values = wb_camera_get_image(camera);
+  printf("r %d g %d b %d\n", wb_camera_image_get_red(values, 1, 0, 0), wb_camera_image_get_green(values, 1, 0, 0),
+         wb_camera_image_get_blue(values, 1, 0, 0));
+  ts_assert_color_in_delta(wb_camera_image_get_red(values, 1, 0, 0), wb_camera_image_get_green(values, 1, 0, 0),
+                           wb_camera_image_get_blue(values, 1, 0, 0), color, color, color,  // background
+                           1, message);
+}
+
 int main(int argc, char **argv) {
   ts_setup(argv[1]);  // give the controller args
 
@@ -30,44 +39,37 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  const unsigned char *valuesXA = wb_camera_get_image(cameraX);
-  ts_assert_color_in_delta(wb_camera_image_get_red(valuesXA, 1, 0, 0), wb_camera_image_get_green(valuesXA, 1, 0, 0),
-                           wb_camera_image_get_blue(valuesXA, 1, 0, 0), 255, 255, 255,  // background
-                           1, "Unexpected cameraX color. The box should not be visible.");
+  if (strcmp(argv[1], "nested_mixed_template_proto") == 0) {
+    check_object_status(cameraX, 255, "Unexpected cameraX color. The box should not be visible.");
+    check_object_status(cameraY, 255, "Unexpected cameraY color. The box should not be visible.");
+    wb_supervisor_field_set_sf_float(xField, 0.5);
 
-  const unsigned char *valuesYA = wb_camera_get_image(cameraY);
-  ts_assert_color_in_delta(wb_camera_image_get_red(valuesYA, 1, 0, 0), wb_camera_image_get_green(valuesYA, 1, 0, 0),
-                           wb_camera_image_get_blue(valuesYA, 1, 0, 0), 255, 255, 255,  // background
-                           1, "Unexpected cameraY color. The box should not be visible.");
+    wb_robot_step(TIME_STEP);
 
-  wb_supervisor_field_set_sf_float(xField, 0.5);
+    check_object_status(cameraX, 0, "Unexpected cameraX color after changing x size. The box should be visible.");
+    check_object_status(cameraY, 255, "Unexpected cameraY color after changing x size. The box not should be visible.");
 
-  wb_robot_step(TIME_STEP);
+    const double newPosition[3] = {0.0, 0.2, 0.0};
+    wb_supervisor_field_set_sf_vec3f(tField, newPosition);
 
-  const unsigned char *valuesXB = wb_camera_get_image(cameraX);
-  ts_assert_color_in_delta(wb_camera_image_get_red(valuesXB, 1, 0, 0), wb_camera_image_get_green(valuesXB, 1, 0, 0),
-                           wb_camera_image_get_blue(valuesXB, 1, 0, 0), 0, 0, 0,  // box
-                           1, "Unexpected cameraX after changing x size. The box should be visible.");
+    wb_robot_step(TIME_STEP);
 
-  const unsigned char *valuesYB = wb_camera_get_image(cameraY);
-  ts_assert_color_in_delta(wb_camera_image_get_red(valuesYB, 1, 0, 0), wb_camera_image_get_green(valuesYB, 1, 0, 0),
-                           wb_camera_image_get_blue(valuesYB, 1, 0, 0), 255, 255, 255,  // background
-                           1, "Unexpected cameraY color after changing x size. The box should not be visible.");
+    check_object_status(cameraX, 255, "Unexpected cameraX color after changing translation. The box should not be visible.");
+    check_object_status(cameraY, 0, "Unexpected cameraY color after changing translation. The box should be visible.");
 
-  const double newPosition[3] = {0.0, 0.2, 0.0};
-  wb_supervisor_field_set_sf_vec3f(tField, newPosition);
+  } else {  // argv[1] == "proto_nested_2"
+    check_object_status(cameraX, 0, "Unexpected cameraX color. The cylinder should be visible.");
+    check_object_status(cameraY, 255, "Unexpected cameraY color. The cylinder should not be visible.");
 
-  wb_robot_step(TIME_STEP);
+    const double newPosition[3] = {0.0, 0.2, 0.0};
+    wb_supervisor_field_set_sf_vec3f(tField, newPosition);
 
-  const unsigned char *valuesXD = wb_camera_get_image(cameraX);
-  ts_assert_color_in_delta(wb_camera_image_get_red(valuesXD, 1, 0, 0), wb_camera_image_get_green(valuesXD, 1, 0, 0),
-                           wb_camera_image_get_blue(valuesXD, 1, 0, 0), 255, 255, 255,  // background
-                           1, "Unexpected cameraX after changing translation. The box should not be visible.");
+    wb_robot_step(TIME_STEP);
 
-  const unsigned char *valuesYD = wb_camera_get_image(cameraY);
-  ts_assert_color_in_delta(wb_camera_image_get_red(valuesYD, 1, 0, 0), wb_camera_image_get_green(valuesYD, 1, 0, 0),
-                           wb_camera_image_get_blue(valuesYD, 1, 0, 0), 0, 0, 0,  // box
-                           1, "Unexpected cameraY color after changing translation. The box should be visible.");
+    check_object_status(cameraX, 255,
+                        "Unexpected cameraX color after changing translation. The cylinder should not be visible.");
+    check_object_status(cameraY, 0, "Unexpected cameraY color after changing translation. The cylinder should be visible.");
+  }
 
   ts_send_success();
   return EXIT_SUCCESS;

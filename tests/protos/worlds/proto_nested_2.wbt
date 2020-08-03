@@ -1,0 +1,56 @@
+#VRML_SIM R2020b utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.059313122717996214 -0.996442922813714 -0.059861966622408704 1.5835629835145255
+  position -2.130213432311385 0.4196025226453858 0.5307846625358822
+  near 0.001
+}
+Background {
+  skyColor [
+    1 1 1
+  ]
+}
+DirectionalLight {
+  direction 0.2 -1 0.55
+}
+SlotContainer {
+  slot [
+    SlotWithInternalProto {
+      slot [
+        DEF TEST_PROTO SolidCylinder {
+          height 0.2
+        }
+      ]
+    }
+  ]
+}
+Robot {
+  translation 0 0 0.2
+  children [
+    Camera {
+      translation 0 0 0.15
+      name "cameraX"
+      fieldOfView 0.01
+      width 1
+      height 1
+    }
+    Camera {
+      translation 0 0.2 0.15
+      name "cameraY"
+      fieldOfView 0.01
+      width 1
+      height 1
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "nested_mixed_template_proto"
+  controllerArgs [
+    "proto_nested_2"
+  ]
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

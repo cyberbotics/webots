@@ -1,0 +1,16 @@
+#VRML_SIM R2020b utf8
+
+PROTO SlotWithInternalProto [
+  field MFNode slot NULL
+]
+{
+  Group {
+    children [
+      Empty {
+      }
+      Group {
+        children IS slot
+      }
+    ]
+  }
+}
