@@ -26,6 +26,7 @@ PROTO Robotino3Webcam [
         name IS name
         width IS width
         height IS height
+        near 0.02
       }
       Group {
         children [
