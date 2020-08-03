@@ -240,14 +240,12 @@ WbNode::WbNode(const WbNode &other) :
     }
 
     // copy parameters
-    bool previousNestedProtoFlag = gNestedProtoFlag;
     gNestedProtoFlag = true;
     foreach (WbField *parameter, other.parameters()) {
       WbField *copy = new WbField(*parameter, this);
       mParameters.append(copy);
       connect(copy, &WbField::valueChanged, this, &WbNode::notifyParameterChanged);
     }
-    gNestedProtoFlag = previousNestedProtoFlag;
 
     mIsProtoDescendant = true;
 
