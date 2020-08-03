@@ -206,6 +206,7 @@ WbNode::WbNode(const WbNode &other) :
   if (gDefCloneFlag || (parentNode() && parentNode()->mHasUseAncestor))
     mHasUseAncestor = true;
 
+  const bool previousNestedProtoFlag = gNestedProtoFlag;
   if (!mHasUseAncestor && !gDefCloneFlag && other.mIsProtoDescendant && gProtoParameterNodeFlag) {
     // clone PROTO parameter node
 
@@ -279,7 +280,7 @@ WbNode::WbNode(const WbNode &other) :
       gNestedProtoFlag = false;
 
     if (other.mProto) {
-      bool tmpFlag = gProtoParameterNodeFlag;
+      const bool previousProtoParameterFlag = gProtoParameterNodeFlag;
       if (gInstantiateMode) {
         gProtoParameterNodeFlag = true;
 
@@ -304,13 +305,14 @@ WbNode::WbNode(const WbNode &other) :
             redirectAliasedFields(parameter, this, other.mProto->isDerived());
       }
 
-      gProtoParameterNodeFlag = tmpFlag;
+      gProtoParameterNodeFlag = previousProtoParameterFlag;
     }
   }
 
   gParent = parentNode();
   if (gTopParameterFlag)
     mIsTopParameterDescendant = true;
+  gNestedProtoFlag = previousNestedProtoFlag;
 }
 
 WbNode::~WbNode() {
