@@ -28,11 +28,11 @@ Generic Webots environment variables needed for all the controller languages:
 %tab-component "os"
 
 %tab "Windows"
-| Environment Variable        | Typical Value                                                                                                        |
-|-----------------------------|----------------------------------------------------------------------------------------------------------------------|
-| WEBOTS\_HOME                | `C:\Program Files\Webots`                                                                                            |
-| PATH (C and MATLAB)         | add `${WEBOTS_HOME}\lib\controller`, `${WEBOTS_HOME}\msys64\mingw64\bin`                                             |
-| PATH (C++, Python and Java) | add `${WEBOTS_HOME}\lib\controller`, `${WEBOTS_HOME}\msys64\mingw64\bin` and `${WEBOTS_HOME}\msys64\mingw64\bin\cpp` |
+| Environment Variable                        | Typical Value                                                                                                        |
+|---------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| WEBOTS\_HOME                                | `C:\Program Files\Webots`                                                                                            |
+| PATH (for C and MATLAB controllers)         | add `${WEBOTS_HOME}\lib\controller`, `${WEBOTS_HOME}\msys64\mingw64\bin`                                             |
+| PATH (for C++, Python and Java controllers) | add `${WEBOTS_HOME}\lib\controller`, `${WEBOTS_HOME}\msys64\mingw64\bin` and `${WEBOTS_HOME}\msys64\mingw64\bin\cpp` |
 
 %tab-end
 
