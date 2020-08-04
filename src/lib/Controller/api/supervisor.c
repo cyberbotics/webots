@@ -1591,7 +1591,7 @@ WbNodeRef wb_supervisor_node_get_from_device(WbDeviceTag tag) {
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
-  if (tag < 0 || tag >= robot_get_number_of_devices()) {
+  if (tag >= robot_get_number_of_devices()) {
     fprintf(stderr, "Error: %s() called with an invalid 'tag' argument.\n", __FUNCTION__);
     return NULL;
   }

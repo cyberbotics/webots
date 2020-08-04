@@ -425,6 +425,7 @@ bool RosSupervisor::getFromIdCallback(webots_ros::supervisor_get_from_id::Reques
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosSupervisor::getFromDeviceCallback(webots_ros::supervisor_get_from_string::Request &req,
                                           webots_ros::supervisor_get_from_string::Response &res) {
   assert(mSupervisor);

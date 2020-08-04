@@ -28,8 +28,8 @@
 #include <webots_ros/save_image.h>
 #include <webots_ros/supervisor_get_from_def.h>
 #include <webots_ros/supervisor_get_from_id.h>
-#include <webots_ros/supervisor_movie_start_recording.h>
 #include <webots_ros/supervisor_get_from_string.h>
+#include <webots_ros/supervisor_movie_start_recording.h>
 #include <webots_ros/supervisor_set_label.h>
 #include <webots_ros/supervisor_virtual_reality_headset_get_orientation.h>
 #include <webots_ros/supervisor_virtual_reality_headset_get_position.h>

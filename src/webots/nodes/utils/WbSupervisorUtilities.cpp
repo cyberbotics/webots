@@ -649,26 +649,25 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       if (!device)
         return;
       const WbBaseNode *baseNode = dynamic_cast<const WbBaseNode *>(device);
-      if (baseNode) {
-        mFoundNodeIsProtoInternal =
-          baseNode->parentNode() != WbWorld::instance()->root() && !WbNodeUtilities::isVisible(baseNode->parentField());
-        if (mFoundNodeIsProtoInternal)
-          return;
-        mGetNodeRequest = C_SUPERVISOR_NODE_GET_FROM_TAG;
-        mCurrentDefName = baseNode->defName();
-        mFoundNodeUniqueId = baseNode->uniqueId();
-        mFoundNodeType = baseNode->nodeType();
-        mFoundNodeTag = tag;
-        mFoundNodeModelName = baseNode->modelName();
-        if (baseNode->parentNode()) {
-          if (baseNode->parentNode() != WbWorld::instance()->root())
-            mFoundNodeParentUniqueId = baseNode->parentNode()->uniqueId();
-          else
-            mFoundNodeParentUniqueId = 0;
-        }
-        mFoundNodeIsProto = baseNode->isProtoInstance();
-        connect(baseNode, &WbNode::defUseNameChanged, this, &WbSupervisorUtilities::notifyNodeUpdate, Qt::UniqueConnection);
+      assert(baseNode);
+      mFoundNodeIsProtoInternal =
+        baseNode->parentNode() != WbWorld::instance()->root() && !WbNodeUtilities::isVisible(baseNode->parentField());
+      if (mFoundNodeIsProtoInternal)
+        return;
+      mGetNodeRequest = C_SUPERVISOR_NODE_GET_FROM_TAG;
+      mCurrentDefName = baseNode->defName();
+      mFoundNodeUniqueId = baseNode->uniqueId();
+      mFoundNodeType = baseNode->nodeType();
+      mFoundNodeTag = tag;
+      mFoundNodeModelName = baseNode->modelName();
+      if (baseNode->parentNode()) {
+        if (baseNode->parentNode() != WbWorld::instance()->root())
+          mFoundNodeParentUniqueId = baseNode->parentNode()->uniqueId();
+        else
+          mFoundNodeParentUniqueId = 0;
       }
+      mFoundNodeIsProto = baseNode->isProtoInstance();
+      connect(baseNode, &WbNode::defUseNameChanged, this, &WbSupervisorUtilities::notifyNodeUpdate, Qt::UniqueConnection);
       return;
     }
     case C_SUPERVISOR_NODE_GET_SELECTED: {
