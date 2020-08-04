@@ -6,6 +6,7 @@ Released on XXX YYth, 2020.
 - Enhancements
   - Improved the `inverse_kinematics` controller to use the URDF definition instead of hard-coding the robot model ([#2062](https://github.com/cyberbotics/webots/pull/2062)).
   - Bug fixes
+    - Linux: Fixed the execution of robot controllers with firejail ([#2071](https://github.com/cyberbotics/webots/pull/2071)).
     - Fixed the `near` field of the `Robotino3Webcam` [Camera](camera.md) ([#2051](https://github.com/cyberbotics/webots/pull/2051)).
     - Fixed orientation of the [Lights](light.md) in the [`robotino3` world](../guide/robotino3.md#robotino3-wbt) ([#2051](https://github.com/cyberbotics/webots/pull/2051)).
     - Fixed missing `limit` element when exporting joints with the [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function ([#2062](https://github.com/cyberbotics/webots/pull/2062)).
