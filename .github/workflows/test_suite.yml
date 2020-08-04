@@ -41,6 +41,7 @@ jobs:
     - name: Install Webots Compilation Dependencies [macOS]
       if: ${{ startsWith(matrix.os, 'macos') }}
       run: |
+        echo $PWD
         python --VV
         python -VV
         brew install cmake swig wget # node
