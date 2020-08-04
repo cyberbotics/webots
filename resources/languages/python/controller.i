@@ -1109,3 +1109,7 @@ class AnsiCodes(object):
 //----------------------------------------------------------------------------------------------
 //  Supervisor
 //----------------------------------------------------------------------------------------------
+
+%rename ("__internalGetFromDeviceTag") getFromDeviceTag;
+
+%include <webots/Supervisor.hpp>
