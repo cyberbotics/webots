@@ -38,7 +38,7 @@ timeStep = int(4 * supervisor.getBasicTimeStep())
 filename = None
 with tempfile.NamedTemporaryFile(suffix='.urdf', delete=False) as file:
     filename = file.name
-    file.write(supervisor.getUrdf())
+    file.write(supervisor.getUrdf().encode('utf-8'))
 armChain = Chain.from_urdf_file(filename)
 
 # Initialize the arm motors.
