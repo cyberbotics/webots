@@ -210,14 +210,13 @@ WbNode::WbNode(const WbNode &other) :
   if (!mHasUseAncestor && !gDefCloneFlag && other.mIsProtoDescendant && gProtoParameterNodeFlag) {
     // clone PROTO parameter node
 
+    if (other.mIsNestedProtoNode)
+      // apply nested PROTO method when copying the internal nodes of the nested PROTO node
+      gNestedProtoFlag = true;
+
     // copy fields
     foreach (WbField *parameterNodeField, other.mFields) {
       WbField *field = NULL;
-
-      if (other.mIsNestedProtoNode)
-        // apply nested PROTO method when copying the internal nodes of the nested PROTO node
-        gNestedProtoFlag = true;
-
       if (gNestedProtoFlag) {
         // create an instance of a nested PROTO parameter node
         // don't redirect PROTO instance fields to PROTO node fields
@@ -234,9 +233,6 @@ WbNode::WbNode(const WbNode &other) :
 
       mFields.append(field);
       connect(field, &WbField::valueChanged, this, &WbNode::notifyFieldChanged);
-
-      if (other.mIsNestedProtoNode)
-        gNestedProtoFlag = false;
     }
 
     // copy parameters
@@ -274,9 +270,6 @@ WbNode::WbNode(const WbNode &other) :
     if (gProtoParameterNodeFlag)
       mIsProtoDescendant = true;
 
-    if (other.mIsNestedProtoNode)
-      gNestedProtoFlag = false;
-
     if (other.mProto) {
       const bool previousProtoParameterFlag = gProtoParameterNodeFlag;
       if (gInstantiateMode) {
@@ -287,7 +280,6 @@ WbNode::WbNode(const WbNode &other) :
       }
 
       // add parameters with values copied from PROTO model
-      bool previousNestedProtoFlag = gNestedProtoFlag;
       gNestedProtoFlag = true;
       foreach (WbField *parameter, other.parameters()) {
         WbField *copy = new WbField(*parameter, this);
