@@ -35,12 +35,22 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: true
+    - name: Set up Python 3.8. # TODO: just for debugging
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
     - name: Install Webots Compilation Dependencies [Linux]
       if: ${{ startsWith(matrix.os, 'ubuntu') }}
       run: src/install_scripts/linux_optional_compilation_dependencies.sh
     - name: Install Webots Compilation Dependencies [macOS]
       if: ${{ startsWith(matrix.os, 'macos') }}
       run: |
+        ls /Library
+        ls /Library/Frameworks
+        ls /Library/Frameworks/Python.framework
+        ls /Library/Frameworks/Python.framework/Versions
+        ls /Library/Frameworks/Python.framework/Versions/3.8
+        ls /Library/Frameworks/Python.framework/Versions/3.8/bin
         brew install cmake swig wget # node
         npm install -g appdmg
         sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7  # we can't use python3.7 from homebrew for the compilation because it is not compatible with the normal one
