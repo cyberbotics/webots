@@ -1,127 +1,117 @@
 <?xml version="1.0"?>
 <robot name="UR5e" xmlns:xacro="http://ros.org/wiki/xacro">
   <link name="base_link">
-    <visual name="transform_8">
+    <visual name="transform_22">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="group_9">
+    <visual name="group_23">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="transform_10">
+    <visual name="transform_24">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="shape_11">
+    <visual name="shape_25">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="transform_20">
+    <visual name="transform_34">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="shape_21">
+    <visual name="shape_35">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="transform_31">
+    <visual name="transform_45">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="group_32">
+    <visual name="group_46">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="transform_33">
+    <visual name="transform_47">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="shape_34">
+    <visual name="shape_48">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="transform_43">
+    <visual name="transform_57">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="shape_44">
+    <visual name="shape_58">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="transform_54">
+    <visual name="transform_68">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="group_55">
+    <visual name="group_69">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="transform_56">
+    <visual name="transform_70">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="shape_57">
+    <visual name="shape_71">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="transform_66">
+    <visual name="transform_80">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="shape_67">
+    <visual name="shape_81">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="transform_77">
+    <visual name="transform_91">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="group_78">
+    <visual name="group_92">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="transform_79">
+    <visual name="transform_93">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="shape_80">
+    <visual name="shape_94">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="transform_89">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_90">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_100">
+    <visual name="transform_103">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
@@ -131,108 +121,316 @@
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
+    <visual name="shape_114">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_118">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="transform_351">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="shoulder_pan_joint_sensor" type="revolute">
+    <parent link="base_link"/>
+    <child link="shoulder_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="150" lower="-6.28319" upper="6.28319" velocity="3.14"/>
+    <origin xyz="0 0 0.163" rpy="0 0 0"/>
+  </joint>
+  <link name="shoulder_link">
+    <visual name="shape_127">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_131">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_135">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_142">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="group_345">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="transform_346">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="transform_348">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="shoulder_lift_joint_sensor" type="revolute">
+    <parent link="shoulder_link"/>
+    <child link="upper_arm_link"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="150" lower="-6.28319" upper="6.28319" velocity="3.14"/>
+    <origin xyz="0 0.138 0" rpy="0 1.5707959999869179 0"/>
+  </joint>
+  <link name="upper_arm_link">
+    <visual name="shape_151">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_158">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_162">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_166">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_170">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_177">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_181">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_185">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_189">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_193">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="group_338">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="transform_339">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="transform_342">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="elbow_joint_sensor" type="revolute">
+    <parent link="upper_arm_link"/>
+    <child link="forearm_link"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="150" lower="-3.14159" upper="3.14159" velocity="3.14"/>
+    <origin xyz="0 -0.131 0.425" rpy="0 0 0"/>
+  </joint>
+  <link name="forearm_link">
+    <visual name="shape_202">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_206">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_210">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_214">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_218">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_222">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_229">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_233">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="group_328">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="transform_329">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="transform_331">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="transform_333">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="transform_335">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="wrist_1_joint_sensor" type="revolute">
+    <parent link="forearm_link"/>
+    <child link="wrist_1_link"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="28" lower="-6.28319" upper="6.28319" velocity="6.28"/>
+    <origin xyz="0 0 0.392" rpy="0 1.5707959999869179 0"/>
+  </joint>
+  <link name="wrist_1_link">
+    <visual name="shape_242">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_246">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_253">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="shape_257">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <visual name="group_322">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
     <visual name="transform_323">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
+    <visual name="transform_325">
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
   </link>
-  <joint name="shoulder_pan_joint_sensor" type="continuous">
-    <parent link="base_link"/>
-    <child link="shoulder_link"/>
+  <joint name="wrist_2_joint_sensor" type="revolute">
+    <parent link="wrist_1_link"/>
+    <child link="wrist_2_link"/>
     <axis xyz="0 0 1"/>
-    <origin xyz="0 0 0.163" rpy="0 0 0"/>
+    <limit effort="28" lower="-6.28319" upper="6.28319" velocity="6.28"/>
+    <origin xyz="0 0.127 0" rpy="0 0 0"/>
   </joint>
-  <link name="shoulder_link">
-    <visual name="shape_113">
+  <link name="wrist_2_link">
+    <visual name="shape_266">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="shape_117">
+    <visual name="shape_270">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="shape_121">
+    <visual name="shape_277">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="shape_128">
+    <visual name="shape_281">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="group_317">
+    <visual name="group_316">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="transform_318">
+    <visual name="transform_317">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="transform_320">
+    <visual name="transform_319">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
   </link>
-  <joint name="shoulder_lift_joint_sensor" type="continuous">
-    <parent link="shoulder_link"/>
-    <child link="upper_arm_link"/>
+  <joint name="wrist_3_joint_sensor" type="revolute">
+    <parent link="wrist_2_link"/>
+    <child link="wrist_3_link"/>
     <axis xyz="0 1 0"/>
-    <origin xyz="0 0.138 0" rpy="0 1.5707959999869179 0"/>
+    <limit effort="28" lower="-6.28319" upper="6.28319" velocity="6.28"/>
+    <origin xyz="0 0 0.1" rpy="0 0 0"/>
   </joint>
-  <link name="upper_arm_link">
-    <visual name="shape_137">
+  <link name="wrist_3_link">
+    <visual name="shape_290">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="shape_144">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_148">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_152">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_156">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_163">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_167">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_171">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_175">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_179">
+    <visual name="transform_294">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
@@ -247,202 +445,17 @@
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <visual name="transform_314">
+    <visual name="transform_313">
       <geometry>
         <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
   </link>
-  <joint name="elbow_joint_sensor" type="continuous">
-    <parent link="upper_arm_link"/>
-    <child link="forearm_link"/>
-    <axis xyz="0 1 0"/>
-    <origin xyz="0 -0.131 0.425" rpy="0 0 0"/>
+  <link name="track_354">
+  </link>
+  <joint name="wrist_3_link_track_354_joint" type="fixed">
+    <parent link="wrist_3_link"/>
+    <child link="track_354"/>
+    <origin xyz="0 0.1 0" rpy="0 0 0"/>
   </joint>
-  <link name="forearm_link">
-    <visual name="shape_188">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_192">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_196">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_200">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_204">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_208">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_215">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_219">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="group_300">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_301">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_303">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_305">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_307">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-  </link>
-  <joint name="wrist_1_joint_sensor" type="continuous">
-    <parent link="forearm_link"/>
-    <child link="wrist_1_link"/>
-    <axis xyz="0 1 0"/>
-    <origin xyz="0 0 0.392" rpy="0 1.5707959999869179 0"/>
-  </joint>
-  <link name="wrist_1_link">
-    <visual name="shape_228">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_232">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_239">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_243">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="group_294">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_295">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_297">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-  </link>
-  <joint name="wrist_2_joint_sensor" type="continuous">
-    <parent link="wrist_1_link"/>
-    <child link="wrist_2_link"/>
-    <axis xyz="0 0 1"/>
-    <origin xyz="0 0.127 0" rpy="0 0 0"/>
-  </joint>
-  <link name="wrist_2_link">
-    <visual name="shape_252">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_256">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_263">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_267">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="group_288">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_289">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_291">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-  </link>
-  <joint name="wrist_3_joint_sensor" type="continuous">
-    <parent link="wrist_2_link"/>
-    <child link="wrist_3_link"/>
-    <axis xyz="0 1 0"/>
-    <origin xyz="0 0 0.1" rpy="0 0 0"/>
-  </joint>
-  <link name="wrist_3_link">
-    <visual name="shape_276">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_280">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="group_282">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_283">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_285">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-  </link>
 </robot>

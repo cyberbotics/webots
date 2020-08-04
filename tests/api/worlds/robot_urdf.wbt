@@ -20,6 +20,50 @@ UR5e {
   toolSlot [
     TestSuiteEmitter {
     }
+    Track {
+      children [
+        TrackWheel {
+          position -0.1 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+              }
+              geometry Cylinder {
+                height 0.1
+                radius 0.05
+              }
+            }
+          ]
+        }
+        TrackWheel {
+          position 0.1 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+              }
+              geometry Cylinder {
+                height 0.1
+                radius 0.05
+              }
+            }
+          ]
+        }
+      ]
+      boundingObject Box {
+        size 0.3 0.1 0.1
+      }
+      physics Physics {
+      }
+      animatedGeometry Shape {
+        appearance PBRAppearance {
+          baseColor 0.960784 0.47451 0
+        }
+        geometry Box {
+          size 0.01 0.01 0.1
+        }
+      }
+      geometriesCount 40
+    }
   ]
 }
 TestSuiteSupervisor {
