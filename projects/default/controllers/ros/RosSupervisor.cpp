@@ -65,6 +65,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
     mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/get_from_def", &RosSupervisor::getFromDefCallback, this);
   mGetFromIdServer =
     mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/get_from_id", &RosSupervisor::getFromIdCallback, this);
+  mGetFromDeviceServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/get_from_device",
+                                                              &RosSupervisor::getFromDeviceCallback, this);
   mGetSelectedServer =
     mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/get_selected", &RosSupervisor::getSelectedCallback, this);
   mVirtualRealityHeadsetGetOrientationServer =
@@ -212,6 +214,7 @@ RosSupervisor::~RosSupervisor() {
   mGetSelfServer.shutdown();
   mGetFromDefServer.shutdown();
   mGetFromIdServer.shutdown();
+  mGetFromDeviceServer.shutdown();
   mGetSelectedServer.shutdown();
   mVirtualRealityHeadsetGetOrientationServer.shutdown();
   mVirtualRealityHeadsetGetPositionServer.shutdown();
@@ -419,6 +422,14 @@ bool RosSupervisor::getFromIdCallback(webots_ros::supervisor_get_from_id::Reques
                                       webots_ros::supervisor_get_from_id::Response &res) {
   assert(mSupervisor);
   res.node = reinterpret_cast<uint64_t>(mSupervisor->getFromId(req.id));
+  return true;
+}
+
+bool RosSupervisor::getFromDeviceCallback(webots_ros::supervisor_get_from_string::Request &req,
+                                          webots_ros::supervisor_get_from_string::Response &res) {
+  assert(mSupervisor);
+  const Device *device = mRos->getDevice(req.value);
+  res.node = reinterpret_cast<uint64_t>(mSupervisor->getFromDevice(device));
   return true;
 }
 

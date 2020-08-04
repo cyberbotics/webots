@@ -122,6 +122,7 @@
 #include <webots_ros/speaker_speak.h>
 #include <webots_ros/supervisor_get_from_def.h>
 #include <webots_ros/supervisor_get_from_id.h>
+#include <webots_ros/supervisor_get_from_string.h>
 #include <webots_ros/supervisor_movie_start_recording.h>
 #include <webots_ros/supervisor_set_label.h>
 #include <webots_ros/supervisor_virtual_reality_headset_get_orientation.h>
@@ -3004,7 +3005,7 @@ int main(int argc, char **argv) {
   supervisor_node_get_type_name_client.call(supervisor_node_get_type_name_srv);
   ROS_INFO("Node got from field_get_node is of type %s.", supervisor_node_get_type_name_srv.response.name.c_str());
 
-  // supervisor_node_get_from_id
+  // supervisor_node_get_from_def
   supervisor_get_from_def_srv.request.name = "CONE";
   supervisor_get_from_def_srv.request.proto = 0;
   supervisor_get_from_def_client.call(supervisor_get_from_def_srv);
@@ -3046,6 +3047,22 @@ int main(int argc, char **argv) {
     ROS_ERROR("Failed to call service supervisor_get_from_id.");
 
   node_get_id_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // supervisor_get_from_device
+  ros::ServiceClient supervisor_get_from_device_client;
+  webots_ros::supervisor_get_from_string supervisor_get_from_device_srv;
+  supervisor_get_from_device_client =
+    n.serviceClient<webots_ros::supervisor_get_from_string>(model_name + "/supervisor/get_from_device");
+  supervisor_get_from_device_srv.request.value = "compass";
+  supervisor_get_from_device_client.call(supervisor_get_from_device_srv);
+  uint64_t compass_node_from_device = supervisor_get_from_device_srv.response.node;
+  if (compass_node_from_device == from_def_node)
+    ROS_INFO("Compass node got successfully from tag.");
+  else
+    ROS_ERROR("Failed to call service supervisor_get_from_device.");
+
+  supervisor_get_from_device_client.shutdown();
   time_step_client.call(time_step_srv);
 
   // node_set_velocity

@@ -159,6 +159,15 @@ Node *Supervisor::getFromId(int id) const {
   return Node::findNode(nodeRef);
 }
 
+Node *Supervisor::getFromDevice(const Device *device) const {
+  return getFromDeviceTag(device->getTag());
+}
+
+Node *Supervisor::getFromDeviceTag(int tag) const {
+  WbNodeRef nodeRef = wb_supervisor_node_get_from_device(tag);
+  return Node::findNode(nodeRef);
+}
+
 Node *Supervisor::getSelected() const {
   WbNodeRef nodeRef = wb_supervisor_node_get_selected();
   return Node::findNode(nodeRef);

@@ -419,6 +419,7 @@ static const char *C_API_FUNCTIONS = "wb_accelerometer_enable "
                                      "wb_supervisor_node_get_from_def "
                                      "wb_supervisor_node_get_from_id "
                                      "wb_supervisor_node_get_from_proto_def "
+                                     "wb_supervisor_node_get_from_device "
                                      "wb_supervisor_node_get_id "
                                      "wb_supervisor_node_get_number_of_contact_points "
                                      "wb_supervisor_node_get_orientation "
@@ -695,11 +696,7 @@ void WbLanguage::cleanup() {
 
 WbLanguage::WbLanguage(int code, const QString &name, const QString &defaultFileSuffix, const QString &commentPrefix,
                        bool isCompilable) :
-  mCode(code),
-  mName(name),
-  mDefaultFileSuffix(defaultFileSuffix),
-  mCommentPrefix(commentPrefix),
-  mIsCompilable(isCompilable) {
+  mCode(code), mName(name), mDefaultFileSuffix(defaultFileSuffix), mCommentPrefix(commentPrefix), mIsCompilable(isCompilable) {
 }
 
 WbLanguage::~WbLanguage() {
