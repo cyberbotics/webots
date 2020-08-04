@@ -330,7 +330,18 @@ void WbSliderJoint::writeExport(WbVrmlWriter &writer) const {
                 .arg(translation.toString(WbPrecision::DOUBLE_MAX))
                 .arg(rotationEuler.toString(WbPrecision::DOUBLE_MAX));
     writer.indent();
-    writer << QString("<limit effort=\"%1\" velocity=\"%2\" />\n").arg(motor()->maxVelocity()).arg(motor()->maxForceOrTorque());
+    const WbMotor *m = motor();
+    if (m) {
+      if (m->minPosition() != 0.0 || m->maxPosition() != 0.0)
+        writer << QString("<limit effort=\"%1\" lower=\"%2\" upper=\"%3\" velocity=\"%4\"/>\n")
+                    .arg(m->maxForceOrTorque())
+                    .arg(m->minPosition())
+                    .arg(m->maxPosition())
+                    .arg(m->maxVelocity());
+      else
+        writer << QString("<limit effort=\"%1\" velocity=\"%2\"/>\n").arg(m->maxForceOrTorque()).arg(m->maxVelocity());
+      writer.indent();
+    }
     writer.decreaseIndent();
 
     writer.indent();
