@@ -24,12 +24,13 @@ jobs:
     # if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || github.event.pull_request.draft == false }}
     strategy:
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
-        include:
-          - os: ubuntu-18.04
-            JAVA_VERSION: "11"
-          - os: ubuntu-20.04
-            JAVA_VERSION: "14"
+        os: [macos-10.15]
+       # os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
+       # include:
+       #   - os: ubuntu-18.04
+       #    JAVA_VERSION: "11"
+       #   - os: ubuntu-20.04
+       #     JAVA_VERSION: "14"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
@@ -81,13 +82,14 @@ jobs:
     needs: build
     strategy:
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
+        #os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
+        os: [macos-10.15]
         test: [tests/test_suite.py]
         post_task: [""]
-        include:
-          - os: ubuntu-18.04
-            test: src/packaging/update_all_worlds.py
-            post_task: "if [[ \"$(git diff --name-only *.wbt *.wbproj | wc -l)\" -ne \"0\" ]]; then echo Some world and/or wbproj files are not up to date: \"$(git diff *.wbt *.wbproj)\"; exit -1; fi"
+       # include:
+       #   - os: ubuntu-18.04
+       #     test: src/packaging/update_all_worlds.py
+       #     post_task: "if [[ \"$(git diff --name-only *.wbt *.wbproj | wc -l)\" -ne \"0\" ]]; then echo Some world and/or wbproj files are not up to date: \"$(git diff *.wbt *.wbproj)\"; exit -1; fi"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
