@@ -16,6 +16,7 @@ As for a regular [Robot](robot.md) controller, the `wb_robot_init`, `wb_robot_st
 #### `wb_supervisor_node_get_self`
 #### `wb_supervisor_node_get_from_def`
 #### `wb_supervisor_node_get_from_id`
+#### `wb_supervisor_node_get_from_device`
 #### `wb_supervisor_node_get_selected`
 
 %tab-component "language"
@@ -29,6 +30,7 @@ WbNodeRef wb_supervisor_node_get_root();
 WbNodeRef wb_supervisor_node_get_self();
 WbNodeRef wb_supervisor_node_get_from_def(const char *def);
 WbNodeRef wb_supervisor_node_get_from_id(int id);
+WbNodeRef wb_supervisor_node_get_from_device(WbDeviceTag tag);
 WbNodeRef wb_supervisor_node_get_selected();
 ```
 
@@ -45,6 +47,7 @@ namespace webots {
     Node *getSelf();
     Node *getFromDef(const std::string &name);
     Node *getFromId(int id);
+    Node *getFromDevice(const Device *device);
     Node *getSelected();
     // ...
   }
@@ -63,6 +66,7 @@ class Supervisor (Robot):
     def getSelf(self):
     def getFromDef(self, name):
     def getFromId(self, id):
+    def getFromDevice(self, device);
     def getSelected(self):
     # ...
 ```
@@ -79,6 +83,7 @@ public class Supervisor extends Robot {
   public Node getSelf();
   public Node getFromDef(String name);
   public Node getFromId(int id);
+  public Node getFromDevice(Device device);
   public Node getSelected();
   // ...
 }
@@ -93,6 +98,7 @@ node = wb_supervisor_node_get_root()
 node = wb_supervisor_node_get_self()
 node = wb_supervisor_node_get_from_def('def')
 node = wb_supervisor_node_get_from_id(id)
+node = wb_supervisor_node_get_from_device_tag(tag)
 node = wb_supervisor_node_get_selected()
 ```
 
@@ -106,6 +112,7 @@ node = wb_supervisor_node_get_selected()
 | `/supervisor/get_self` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
 | `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`uint64 proto`<br/>`---`<br/>`uint64 node` |
 | `/supervisor/get_from_id` | `service` | `webots_ros::supervisor_get_from_id` | `int32 id`<br/>`---`<br/>`uint64 node` |
+| `/supervisor/get_from_device` | `service` | `webots_ros::supervisor_get_from_string` | `string value`<br/>`---`<br/>`uint64 node` |
 | `/supervisor/get_selected` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
 
 %tab-end
@@ -138,6 +145,10 @@ The `wb_supervisor_node_get_from_id` function retrieves a handle to a node, but 
 The function returns NULL if the given identifier doesn't match with any node of the current world.
 It is recommended to use this function only when knowing formerly the identifier (rather than looping on this function to retrieve all the nodes of a world).
 For example, when exporting an X3D file, its XML nodes are containing an `id` attribute which matches with the unique identifier described here.
+
+The `wb_supervisor_node_get_from_device` function retrieves the node's handle for a [Device](device.md) object.
+The function returns NULL if the given device is invalid or is an internal node of a PROTO.
+Note that in the ROS API the device name has to be used to retrieve the handle to the node.
 
 The `wb_supervisor_node_get_root` function returns a handle to the root node which is actually a [Group](group.md) node containing all the nodes visible at the top level in the scene tree window of Webots.
 Like any [Group](group.md) node, the root node has a MFNode field called "children" which can be parsed to read each node in the scene tree.
