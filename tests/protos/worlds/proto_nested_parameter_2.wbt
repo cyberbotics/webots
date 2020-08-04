@@ -30,9 +30,6 @@ Robot {
     }
   ]
   controller "proto_nested_parameter_2"
-  controllerArgs [
-    "proto_nested_parameter_2"
-  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {

@@ -9,7 +9,7 @@
 #define TIME_STEP 32
 
 int main(int argc, char **argv) {
-  ts_setup(argv[1]);  // give the controller args
+  ts_setup(argv[0]);  // give the controller args
 
   WbDeviceTag ds = wb_robot_get_device("ds");
   wb_distance_sensor_enable(ds, TIME_STEP);

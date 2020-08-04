@@ -21,9 +21,6 @@ Robot {
     }
   ]
   controller "template_robot_regenerated"
-  controllerArgs [
-    "template_robot_regenerated"
-  ]
   supervisor TRUE
 }
 DEF ROBOT TemplateRobot {
