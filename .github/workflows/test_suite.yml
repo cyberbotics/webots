@@ -41,9 +41,6 @@ jobs:
     - name: Install Webots Compilation Dependencies [macOS]
       if: ${{ startsWith(matrix.os, 'macos') }}
       run: |
-        echo $PWD
-        python --VV
-        python -VV
         brew install cmake swig wget # node
         npm install -g appdmg
         sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7  # we can't use python3.7 from homebrew for the compilation because it is not compatible with the normal one
