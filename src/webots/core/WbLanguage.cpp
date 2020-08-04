@@ -696,7 +696,11 @@ void WbLanguage::cleanup() {
 
 WbLanguage::WbLanguage(int code, const QString &name, const QString &defaultFileSuffix, const QString &commentPrefix,
                        bool isCompilable) :
-  mCode(code), mName(name), mDefaultFileSuffix(defaultFileSuffix), mCommentPrefix(commentPrefix), mIsCompilable(isCompilable) {
+  mCode(code),
+  mName(name),
+  mDefaultFileSuffix(defaultFileSuffix),
+  mCommentPrefix(commentPrefix),
+  mIsCompilable(isCompilable) {
 }
 
 WbLanguage::~WbLanguage() {
