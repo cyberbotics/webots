@@ -874,7 +874,7 @@ QString computeTrackDefName() {
 }
 
 void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
-  if (mAnimatedObjectList.size() == 0)
+  if (mAnimatedObjectList.size() == 0 || writer.isUrdf())
     return;
 
   WbNode *node = mGeometryField->value();
@@ -977,7 +977,7 @@ void WbTrack::exportNodeSubNodes(WbVrmlWriter &writer) const {
   }
 
   bool isEmpty = true;
-  if (!writer.isX3d()) {
+  if (!writer.isX3d() && !writer.isUrdf()) {
     writer.indent();
     writer << "children [";
     writer.increaseIndent();
@@ -995,13 +995,13 @@ void WbTrack::exportNodeSubNodes(WbVrmlWriter &writer) const {
   }
 
   // write animated geometries
-  if (!writer.isX3d() && !isEmpty)
+  if (!writer.isX3d() && !writer.isUrdf() && !isEmpty)
     writer << "\n";
   isEmpty |= mAnimatedObjectList.isEmpty();
 
   exportAnimatedGeometriesMesh(writer);
 
-  if (!writer.isX3d()) {
+  if (!writer.isX3d() && !writer.isUrdf()) {
     writer.decreaseIndent();
     if (!isEmpty)
       writer.indent();
