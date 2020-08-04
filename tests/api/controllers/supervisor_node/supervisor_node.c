@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
   const char *charArray;
   const double *doubleArray;
   int i;
-  
+
   WbDeviceTag sick_lidar = wb_robot_get_device("Sick LMS 291");
   WbDeviceTag compass = wb_robot_get_device("compass");
 
@@ -275,23 +275,24 @@ int main(int argc, char **argv) {
   time = wb_robot_get_time();
   ts_assert_boolean_equal(time == 0.001 * TIME_STEP, "Ending time is wrong. Expected=%f. Received=%f\n", 0.001 * TIME_STEP,
                           time);
-                          
+
   wb_robot_step(TIME_STEP);
-  
+
   WbNodeRef self_by_tag = wb_supervisor_node_get_from_device(0);
   ts_assert_pointer_not_null(self_by_tag, "Null node reference to self node by device tag");
   ts_assert_boolean_equal(self_by_tag == wb_supervisor_node_get_self(), "Invalid node reference to self node by tag");
-  
+
   WbNodeRef compass_node = wb_supervisor_node_get_from_device(compass);
   ts_assert_pointer_not_null(compass_node, "Invalid compass node reference from device tag");
   ts_assert_string_equal(wb_supervisor_node_get_def(compass_node), "COMPASS", "Wrong compass node reference");
-  
+
   WbNodeRef sick_node = wb_supervisor_node_get_from_device(sick_lidar);
   ts_assert_pointer_not_null(sick_node, "Invalid Sick node reference from device tag");
   WbFieldRef sick_translation_field = wb_supervisor_node_get_field(sick_node, "translation");
   ts_assert_pointer_not_null(sick_translation_field, "Invalid translation field for Sick node");
   const double *sick_translation = wb_supervisor_field_get_sf_vec3f(sick_translation_field);
-  ts_assert_vec3_equal(sick_translation[0], sick_translation[1], sick_translation[2], 0.39, 0.1, 0.4, "Invalid translation value for Sick node");
+  ts_assert_vec3_equal(sick_translation[0], sick_translation[1], sick_translation[2], 0.39, 0.1, 0.4,
+                       "Invalid translation value for Sick node");
 
   WbDeviceTag kinect_color = wb_robot_get_device("kinect color");
   ts_assert_int_not_equal(kinect_color, 0, "Kinect color camera not found");
