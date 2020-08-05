@@ -552,21 +552,28 @@ void WbStreamingServer::propagateNodeAddition(WbNode *node) {
     connectNewRobot(robot);
 }
 
-QString WbStreamingServer::simulationStateString() {
+QString WbStreamingServer::simulationStateString(bool pauseTime) {
+  QString string;
   switch (WbSimulationState::instance()->mode()) {
     case WbSimulationState::PAUSE:
-      return "pause";
+      string = pauseTime ? QString("pause: %1").arg(WbSimulationState::instance()->time()) : "pause";
+      break;
     case WbSimulationState::STEP:
-      return "step";
+      string = "step";
+      break;
     case WbSimulationState::REALTIME:
-      return "real-time";
+      string = "real-time";
+      break;
     case WbSimulationState::RUN:
-      return "run";
+      string = "run";
+      break;
     case WbSimulationState::FAST:
-      return "fast";
+      string = "fast";
+      break;
     default:
-      return QString();
+      break;
   }
+  return string;
 }
 
 void WbStreamingServer::propagateSimulationStateChange() const {
@@ -576,8 +583,6 @@ void WbStreamingServer::propagateSimulationStateChange() const {
   QString message = simulationStateString();
   if (message.isEmpty())
     return;
-  if (message == "pause")
-    message = QString("pause: %1").arg(WbSimulationState::instance()->time());
   foreach (QWebSocket *client, mWebSocketClients)
     client->sendTextMessage(message);
 }
