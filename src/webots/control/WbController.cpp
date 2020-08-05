@@ -235,17 +235,18 @@ void WbController::start() {
   if (!qgetenv("WEBOTS_FIREJAIL_CONTROLLERS").isEmpty() && mRobot->findField("controller")) {
     mArguments.prepend(mCommand);
     mCommand = "firejail";
-    mArguments << "--net=none"
-               << "--nosound"
-               << "--shell=none"
-               << "--quiet";
+    QStringList firejailArguments;
+    firejailArguments << "--net=none"
+                      << "--nosound"
+                      << "--shell=none"
+                      << "--quiet";
     // adding a path starting with /tmp/ in a whitelist blocks all other paths starting
     // with /tmp/ (including the local socket used by Webots which would prevent the
     // controller from running)
     if (!mControllerPath.startsWith("/tmp/"))
-      mArguments << "--whitelist=" + mControllerPath;
-    mArguments << "--whitelist=" + WbStandardPaths::controllerLibPath();
-    mArguments << "--read-only=" + WbStandardPaths::controllerLibPath();
+      firejailArguments << "--whitelist=" + mControllerPath;
+    firejailArguments << "--whitelist=" + WbStandardPaths::controllerLibPath();
+    firejailArguments << "--read-only=" + WbStandardPaths::controllerLibPath();
 
     QString ldLibraryPath = WbStandardPaths::controllerLibPath();
     ldLibraryPath.chop(1);
@@ -269,8 +270,8 @@ void WbController::start() {
           if (iniParser.keyAt(i) == ("WEBOTS_LIBRARY_PATH") || iniParser.keyAt(i) == ("FIREJAIL_PATH")) {
             const QStringList pathsList = iniParser.resolvedValueAt(i, env).split(":");
             foreach (QString path, pathsList) {
-              mArguments << "--whitelist=" + path;
-              mArguments << "--read-only=" + path;
+              firejailArguments << "--whitelist=" + path;
+              firejailArguments << "--read-only=" + path;
               ldLibraryPath += ":" + path;
             }
           } else
@@ -291,7 +292,8 @@ void WbController::start() {
         return;
       }
     }
-    mArguments << "--blacklist=" + runtimeFilePath << "--env=LD_LIBRARY_PATH=" + ldLibraryPath;
+    firejailArguments << "--blacklist=" + runtimeFilePath << "--env=LD_LIBRARY_PATH=" + ldLibraryPath;
+    mArguments = firejailArguments + mArguments;
   }
 #endif
 

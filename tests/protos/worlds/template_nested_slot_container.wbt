@@ -29,10 +29,8 @@ Robot {
     TestSuiteEmitter {
     }
   ]
+  name "supervisor"
   controller "template_nested_slot_container"
-  controllerArgs [
-    "template_nested_slot_container"
-  ]
   supervisor TRUE
 }
 DEF TEST_PROTO TemplateNestedSlotContainer {

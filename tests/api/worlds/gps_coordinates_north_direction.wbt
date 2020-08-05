@@ -1,7 +1,7 @@
 #VRML_SIM R2021a utf8
 DEF WORLDINFO WorldInfo {
-  gpsCoordinateSystem "WGS84"
   coordinateSystem "NUE"
+  gpsCoordinateSystem "WGS84"
 }
 Viewpoint {
   orientation -0.6221158786668858 -0.7673188503475173 -0.15554296966399098 0.629982
@@ -13,7 +13,7 @@ Background {
   ]
 }
 PointLight {
-  ambientIntensity 1
+  attenuation 0 0 1
   intensity 0
 }
 DEF ROBOT Robot {

@@ -9,6 +9,9 @@ PROTO SolidCylinder [
     translation IS translation
     children [
       Shape {
+        appearance PBRAppearance {
+          baseColor 0 0 0
+        }
         geometry DEF GEOM Cylinder {
           radius 0.2
           height IS height

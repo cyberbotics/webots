@@ -1,0 +1,8 @@
+#VRML_SIM R2021a utf8
+
+PROTO Empty [
+]
+{
+  Group {
+  }
+}

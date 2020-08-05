@@ -33,6 +33,7 @@ DEF BOX SolidBox {
   translation 3 0 0
 }
 Robot {
+  name "supervisor"
   controller "procedural_proto_regenerator"
   supervisor TRUE
 }

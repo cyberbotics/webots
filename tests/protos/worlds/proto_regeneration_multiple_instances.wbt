@@ -49,9 +49,6 @@ Robot {
     }
   ]
   controller "proto_regeneration_multiple_instances"
-  controllerArgs [
-    "proto_regeneration_multiple_instances"
-  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {

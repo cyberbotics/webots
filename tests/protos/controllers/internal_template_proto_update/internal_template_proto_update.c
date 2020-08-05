@@ -9,7 +9,7 @@
 
 int main(int argc, char **argv) {
   double value;
-  ts_setup(argv[1]);  // give the controller args
+  ts_setup(argv[0]);  // give the controller args
 
   WbNodeRef boxNode = wb_supervisor_node_get_from_def("BOX");
   WbFieldRef widthField = wb_supervisor_node_get_field(boxNode, "width");

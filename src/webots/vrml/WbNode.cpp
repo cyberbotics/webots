@@ -206,17 +206,17 @@ WbNode::WbNode(const WbNode &other) :
   if (gDefCloneFlag || (parentNode() && parentNode()->mHasUseAncestor))
     mHasUseAncestor = true;
 
+  const bool previousNestedProtoFlag = gNestedProtoFlag;
   if (!mHasUseAncestor && !gDefCloneFlag && other.mIsProtoDescendant && gProtoParameterNodeFlag) {
     // clone PROTO parameter node
+
+    if (other.mIsNestedProtoNode)
+      // apply nested PROTO method when copying the internal nodes of the nested PROTO node
+      gNestedProtoFlag = true;
 
     // copy fields
     foreach (WbField *parameterNodeField, other.mFields) {
       WbField *field = NULL;
-
-      if (other.mIsNestedProtoNode)
-        // apply nested PROTO method when copying the internal nodes of the nested PROTO node
-        gNestedProtoFlag = true;
-
       if (gNestedProtoFlag) {
         // create an instance of a nested PROTO parameter node
         // don't redirect PROTO instance fields to PROTO node fields
@@ -233,20 +233,15 @@ WbNode::WbNode(const WbNode &other) :
 
       mFields.append(field);
       connect(field, &WbField::valueChanged, this, &WbNode::notifyFieldChanged);
-
-      if (other.mIsNestedProtoNode)
-        gNestedProtoFlag = false;
     }
 
     // copy parameters
-    bool previousNestedProtoFlag = gNestedProtoFlag;
     gNestedProtoFlag = true;
     foreach (WbField *parameter, other.parameters()) {
       WbField *copy = new WbField(*parameter, this);
       mParameters.append(copy);
       connect(copy, &WbField::valueChanged, this, &WbNode::notifyParameterChanged);
     }
-    gNestedProtoFlag = previousNestedProtoFlag;
 
     mIsProtoDescendant = true;
 
@@ -275,11 +270,8 @@ WbNode::WbNode(const WbNode &other) :
     if (gProtoParameterNodeFlag)
       mIsProtoDescendant = true;
 
-    if (other.mIsNestedProtoNode)
-      gNestedProtoFlag = false;
-
     if (other.mProto) {
-      bool tmpFlag = gProtoParameterNodeFlag;
+      const bool previousProtoParameterFlag = gProtoParameterNodeFlag;
       if (gInstantiateMode) {
         gProtoParameterNodeFlag = true;
 
@@ -288,7 +280,6 @@ WbNode::WbNode(const WbNode &other) :
       }
 
       // add parameters with values copied from PROTO model
-      bool previousNestedProtoFlag = gNestedProtoFlag;
       gNestedProtoFlag = true;
       foreach (WbField *parameter, other.parameters()) {
         WbField *copy = new WbField(*parameter, this);
@@ -304,13 +295,14 @@ WbNode::WbNode(const WbNode &other) :
             redirectAliasedFields(parameter, this, other.mProto->isDerived());
       }
 
-      gProtoParameterNodeFlag = tmpFlag;
+      gProtoParameterNodeFlag = previousProtoParameterFlag;
     }
   }
 
   gParent = parentNode();
   if (gTopParameterFlag)
     mIsTopParameterDescendant = true;
+  gNestedProtoFlag = previousNestedProtoFlag;
 }
 
 WbNode::~WbNode() {

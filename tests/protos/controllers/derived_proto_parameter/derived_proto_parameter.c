@@ -8,7 +8,7 @@
 
 int main(int argc, char **argv) {
   double value = 0.0;
-  ts_setup(argv[1]);  // give the controller args
+  ts_setup(argv[0]);  // give the controller args
 
   WbDeviceTag ds1 = wb_robot_get_device("ds1");
   WbDeviceTag ds2 = wb_robot_get_device("ds2");

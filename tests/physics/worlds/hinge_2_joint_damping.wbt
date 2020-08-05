@@ -1,6 +1,7 @@
 #VRML_SIM R2021a utf8
 WorldInfo {
   basicTimeStep 16
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "body"
@@ -9,7 +10,6 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.285534057832645 -0.9246841872874036 -0.2518520510106233 1.75064
@@ -129,6 +129,7 @@ Robot {
     TestSuiteEmitter {
     }
   ]
+  name "supervisor"
   controller "hinge_2_joint_damping_supervisor"
   supervisor TRUE
 }

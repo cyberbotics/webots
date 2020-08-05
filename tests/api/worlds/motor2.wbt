@@ -1,7 +1,7 @@
 #VRML_SIM R2021a utf8
 WorldInfo {
-  lineScale 0.3
   coordinateSystem "NUE"
+  lineScale 0.3
 }
 Viewpoint {
   orientation 0.18073501621974938 0.9827540881955547 0.039105703509473275 5.27826
@@ -13,6 +13,7 @@ Background {
   ]
 }
 PointLight {
+  attenuation 0 0 1
   intensity 0.5
   location 0 0.345 0
 }

@@ -39,9 +39,6 @@ Robot {
     }
   ]
   controller "template_texture"
-  controllerArgs [
-    "template_texture"
-  ]
 }
 TestSuiteSupervisor {
 }

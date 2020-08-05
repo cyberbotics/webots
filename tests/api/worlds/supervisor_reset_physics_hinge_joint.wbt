@@ -150,6 +150,7 @@ Robot {
     TestSuiteEmitter {
     }
   ]
+  name "supervisor"
   controller "supervisor_reset_physics_hinge"
   supervisor TRUE
 }

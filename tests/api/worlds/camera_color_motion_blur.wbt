@@ -8,7 +8,7 @@ Viewpoint {
 }
 Background {
   skyColor [
-    0 0 1
+    1 1 1
   ]
 }
 DirectionalLight {
@@ -23,10 +23,10 @@ Solid {
   translation 0 0 -0.54
   children [
     DEF SHAPE Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 1 0 0
-        }
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 1
+        metalness 0
       }
       geometry Box {
         size 1 1 0.1
@@ -36,6 +36,20 @@ Solid {
   boundingObject USE SHAPE
   physics Physics {
   }
+}
+Solid {
+  translation 0 0 -0.73
+  children [
+    DEF BACKGROUND Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+      }
+      geometry Box {
+        size 5 5 0.01
+      }
+    }
+  ]
+  name "background"
 }
 Robot {
   children [
