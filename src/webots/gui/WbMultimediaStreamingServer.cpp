@@ -389,3 +389,14 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
   } else
     WbStreamingServer::processTextMessage(message);
 }
+
+void WbMultimediaStreamingServer::sendWorldToClient(QWebSocket *client) {
+  const WbWorldInfo *currentWorldInfo = WbWorld::instance()->worldInfo();
+  QJsonObject infoObject;
+  infoObject.insert("window", currentWorldInfo->window());
+  infoObject.insert("title", currentWorldInfo->title());
+  const QJsonDocument infoDocument(infoObject);
+  client->sendTextMessage("world info: " + infoDocument.toJson(QJsonDocument::Compact));
+
+  WbStreamingServer::sendWorldToClient(client);
+}
