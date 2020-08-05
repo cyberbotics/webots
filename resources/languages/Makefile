@@ -47,11 +47,11 @@ ifeq ($(OSTYPE),darwin)
 	@echo "# make" $@ python2.7;
 	+PYTHON_COMMAND=python2.7 make -s -C python $@
 	@echo "# make" $@ python3.7;
-	+PYTHON_COMMAND=python3.7 make -s -C python $@
+	+PYTHON_COMMAND=/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 make -s -C python $@
 	@echo "# make" $@ python3.8;
-	+PYTHON_COMMAND=python3.8 make -s -C python $@
+	+PYTHON_COMMAND=/Library/Frameworks/Python.framework/Versions/3.8/bin/python3.8 make -s -C python $@
 	@echo "# make" $@ python3.7 brew;
-	+PYTHON_COMMAND=/usr/local/opt/python@3.7/bin/python3.7 make -s -C python $@
+	+PYTHON_COMMAND=/usr/local/opt/python@3.7/bin/python3.7 SUFFIX=_brew make -s -C python $@
 	@echo "# make" $@ python3.8 brew;
-	+PYTHON_COMMAND=/usr/local/opt/python@3.8/bin/python3.8 make -s -C python $@
+	+PYTHON_COMMAND=/usr/local/opt/python@3.8/bin/python3.8 SUFFIX=_brew make -s -C python $@
 endif
