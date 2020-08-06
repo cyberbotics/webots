@@ -3,8 +3,9 @@
 ## Webots R2020b Revision 1
 Released on XXX YYth, 2020.
 
-- Enhancements
-  - Improved the `inverse_kinematics` controller to use the URDF definition instead of hard-coding the robot model ([#2062](https://github.com/cyberbotics/webots/pull/2062)).
+  - Enhancements
+    - Improved the `inverse_kinematics` controller to use the URDF definition instead of hard-coding the robot model ([#2062](https://github.com/cyberbotics/webots/pull/2062)).
+    - macOS: Add support for Python 3.7 and 3.8 installed with [Homebrew](https://brew.sh) ([#2079](https://github.com/cyberbotics/webots/pull/2079)).
   - Bug fixes
         - Linux: Fixed the execution of robot controllers with firejail ([#2071](https://github.com/cyberbotics/webots/pull/2071)).
     - Fixed field changes not applied in case of nested [PROTO](proto.md) nodes ([#2063](https://github.com/cyberbotics/webots/pull/2063)).
