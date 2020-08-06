@@ -2,7 +2,7 @@
 
 If the robot you are working with is not officially included in webots, take a look at the Community Projects repository. There is a chance, someone already converted it for webots and was nice enough to share for everybody.
 
-https://github.com/cyberbotics/community-projects
+<https://github.com/cyberbotics/community-projects>
 
 If you want to add the whole community-projects repository to webots, you can follow these steps:
 
