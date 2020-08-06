@@ -511,8 +511,23 @@ void WbController::setProcessEnvironment() {
       }
       pythonSourceFile.close();
     }
+#ifdef __APPLE__
+    QProcess process;
+    process.setProcessEnvironment(env);
+    process.start(mPythonCommand, QStringList() << "-c"
+                                                << "import sys; print(sys.exec_prefix);");
+    process.waitForFinished();
+    const QString output = process.readAll();
+    if (output.startsWith("/usr/local/Cellar"))
+      addToPathEnvironmentVariable(
+        env, "PYTHONPATH", WbStandardPaths::controllerLibPath() + "python" + mPythonShortVersion + "_brew", false, true);
+    else
+      addToPathEnvironmentVariable(env, "PYTHONPATH", WbStandardPaths::controllerLibPath() + "python" + mPythonShortVersion,
+                                   false, true);
+#else
     addToPathEnvironmentVariable(env, "PYTHONPATH", WbStandardPaths::controllerLibPath() + "python" + mPythonShortVersion,
                                  false, true);
+#endif
     env.insert("PYTHONIOENCODING", "UTF-8");
   } else if (mType == WbFileUtil::MATLAB) {
     // these variables are read by lib/matlab/launcher.m

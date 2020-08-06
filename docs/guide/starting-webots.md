@@ -73,7 +73,7 @@ Options:
     specifies how many steps are logged. If the --sysinfo option is used, the
     system information is prepended into the log file.
 
-Please report any bug to http://www.cyberbotics.com/bug
+Please report any bug to https://cyberbotics.com/bug
 ```
 
 The optional `worldfile` argument specifies the name of a .wbt file to open.
