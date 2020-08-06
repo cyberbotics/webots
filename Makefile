@@ -92,7 +92,7 @@ ifeq ($(OSTYPE),windows)
 	@rm -rf msys64
 endif
 ifeq ($(OSTYPE),darwin)
-	@rm -rf Contents/Frameworks Contents/MacOS 
+	@rm -rf Contents/Frameworks Contents/MacOS
 endif
 	@+echo "#"; echo "# * tests *"; echo "#"
 	@find tests -name .*.cache | xargs rm -f
@@ -117,7 +117,7 @@ endif
 	@+echo "#"; echo "# * webots (core) *"; echo "#"
 	@+make --silent -C src/webots $(TARGET)
 	@+echo "#"; echo "# * libController *"; echo "#"
-	@+make --silent -C src/lib/Controller $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
+	@+make --silent -C src/Controller $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * resources *";
 	@+make --silent -C resources $(MAKECMDGOALS) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * projects *";

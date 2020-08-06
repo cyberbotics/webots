@@ -62,7 +62,7 @@ class TestClangFormat(unittest.TestCase):
             'resources/wren/shaders',
             'tests',
             'include/wren',
-            'src/lib/Controller',
+            'src/Controller',
             'src/license/sign',
             'src/webots',
             'src/wren'
