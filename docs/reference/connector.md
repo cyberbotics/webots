@@ -149,6 +149,7 @@ But it is not necessary to add a [Physics](physics.md) node to the [Connector](#
 #### `wb_connector_disable_presence`
 #### `wb_connector_get_presence_sampling_period`
 #### `wb_connector_get_presence`
+#### `wb_connector_get_state`
 
 %tab-component "language"
 
@@ -161,6 +162,7 @@ void wb_connector_enable_presence(WbDeviceTag tag, int sampling_period);
 void wb_connector_disable_presence(WbDeviceTag tag);
 int wb_connector_get_presence_sampling_period(WbDeviceTag tag);
 int wb_connector_get_presence(WbDeviceTag tag);
+bool wb_connector_get_state(WbDeviceTag tag);
 ```
 
 %tab-end
@@ -176,6 +178,7 @@ namespace webots {
     virtual void disablePresence();
     int getPresenceSamplingPeriod() const;
     int getPresence() const;
+    int getState() const;
     // ...
   }
 }
@@ -193,6 +196,7 @@ class Connector (Device):
     def disablePresence(self):
     def getPresenceSamplingPeriod(self):
     def getPresence(self):
+    def getState(self):
     # ...
 ```
 
@@ -208,6 +212,7 @@ public class Connector extends Device {
   public void disablePresence();
   public int getPresenceSamplingPeriod();
   public int getPresence();
+  public bool getState();
   // ...
 }
 ```
@@ -256,6 +261,8 @@ The `wb_connector_get_presence` function returns the current *presence* state of
 - -1: not applicable (if this connector is of "passive" type)
 
 The *presence* state is defined as the correct positioning of a compatible peer [Connector](#connector).
+
+The `wb_connector_get_state` function returns the current *isLocked* state of this connector.
 
 Two connectors are in position if they are axis-aligned, rotation-aligned and near enough.
 To be axis-aligned, the angle between the *z*-axes of the two connectors must be smaller than the `axisTolerance` field.
