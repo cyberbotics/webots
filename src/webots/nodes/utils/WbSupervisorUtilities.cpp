@@ -49,7 +49,7 @@
 #endif
 
 #include "../../../include/controller/c/webots/supervisor.h"
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 #include <ode/ode.h>
 
