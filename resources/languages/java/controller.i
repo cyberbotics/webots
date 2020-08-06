@@ -1169,6 +1169,15 @@ namespace webots {
     return Node.findNode(cPtr);
   }
 
+  public Node getFromDevice(Device device) {
+    return getFromDeviceTag(device.getTag());
+  }
+
+  private Node getFromDeviceTag(int tag) {
+    long cPtr = wrapperJNI.Supervisor_getFromDeviceTagPrivate(swigCPtr, this, tag);
+    return Node.findNode(cPtr);
+  }
+
   public Node getSelected() {
     long cPtr = wrapperJNI.Supervisor_getSelectedPrivate(swigCPtr, this);
     return Node.findNode(cPtr);
@@ -1179,12 +1188,16 @@ namespace webots {
 %rename("getSelfPrivate") getSelf() const;
 %rename("getFromDefPrivate") getFromDef(const std::string &name) const;
 %rename("getFromIdPrivate") getFromId(int id) const;
+%rename("getFromDevicePrivate") getFromDevice(const Device *device) const;
+%rename("getFromDeviceTagPrivate") getFromDeviceTag(int tag) const;
 %rename("getSelectedPrivate") getSelected() const;
 
 %javamethodmodifiers getRoot() const "private"
 %javamethodmodifiers getSelf() const "private"
 %javamethodmodifiers getFromDef(const std::string &name) const "private"
 %javamethodmodifiers getFromId(int id) const "private"
+%javamethodmodifiers getFromDevice(const Device *device) const "private"
+%javamethodmodifiers getFromDeviceTag(int tag) const "private"
 %javamethodmodifiers getSelected() const "private"
 
 %include <webots/Supervisor.hpp>

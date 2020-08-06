@@ -95,6 +95,7 @@ typedef struct WbNodeStructPrivate {
   bool is_proto;
   bool is_proto_internal;
   WbNodeRef parent_proto;
+  int tag;
   WbNodeRef next;
 } WbNodeStruct;
 
@@ -160,6 +161,16 @@ static WbNodeRef find_node_by_def(const char *def_name, WbNodeRef parent_proto) 
   while (node) {
     if (node->parent_proto == parent_proto && (parent_proto || !node->is_proto_internal) && node->def_name &&
         strcmp(def_name, node->def_name) == 0)
+      return node;
+    node = node->next;
+  }
+  return NULL;
+}
+
+static WbNodeRef find_node_by_tag(int tag) {
+  WbNodeRef node = node_list;
+  while (node) {
+    if (node->tag == tag)
       return node;
     node = node->next;
   }
@@ -278,7 +289,7 @@ static void remove_internal_proto_nodes_and_fields_from_list() {
   }
 }
 
-static void add_node_to_list(int uid, WbNodeType type, const char *model_name, const char *def_name, int parent_id,
+static void add_node_to_list(int uid, WbNodeType type, const char *model_name, const char *def_name, int tag, int parent_id,
                              bool is_proto) {
   WbNodeRef nodeInList = find_node_by_id(uid);
   if (nodeInList) {
@@ -310,6 +321,7 @@ static void add_node_to_list(int uid, WbNodeType type, const char *model_name, c
   n->is_proto = is_proto;
   n->is_proto_internal = false;
   n->parent_proto = NULL;
+  n->tag = tag;
   n->next = node_list;
   node_list = n;
 }
@@ -352,13 +364,13 @@ static bool save_status = true;
 static bool save_request = false;
 static char *save_filename = NULL;
 static int node_id = -1;
+static int node_tag = -1;
 static WbNodeRef node_to_remove = NULL;
 static bool allow_search_in_proto = false;
 static const char *node_def_name = NULL;
 static int proto_id = -1;
 static const char *requested_field_name = NULL;
 static bool node_get_selected = false;
-static int selected_node_id = -1;
 static int node_ref = 0;
 static WbNodeRef root_ref = NULL;
 static WbNodeRef self_node_ref = NULL;
@@ -458,6 +470,9 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_FROM_DEF);
     request_write_string(r, node_def_name);
     request_write_int32(r, proto_id);
+  } else if (node_tag > 0) {
+    request_write_uchar(r, C_SUPERVISOR_NODE_GET_FROM_TAG);
+    request_write_int32(r, node_tag);
   } else if (node_get_selected) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_SELECTED);
   } else if (requested_field_name) {
@@ -753,41 +768,37 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const bool is_proto_internal = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
-      add_node_to_list(self_uid, WB_NODE_ROBOT, model_name, def_name, 0, is_proto);  // add self node
+      add_node_to_list(self_uid, WB_NODE_ROBOT, model_name, def_name, 0, is_proto, 0);  // add self node
       self_node_ref = node_list;
       self_node_ref->is_proto_internal = is_proto_internal;
     } break;
     case C_SUPERVISOR_NODE_GET_FROM_DEF: {
       const int uid = request_read_uint32(r);
       const WbNodeType type = request_read_uint32(r);
+      const int tag = request_read_int32(r);
       const int parent_uid = request_read_uint32(r);
       const bool is_proto = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       if (uid) {
-        add_node_to_list(uid, type, model_name, node_def_name, parent_uid, is_proto);
+        add_node_to_list(uid, type, model_name, node_def_name, tag, parent_uid, is_proto);
         node_id = uid;
       }
     } break;
-    case C_SUPERVISOR_NODE_GET_SELECTED: {
-      selected_node_id = request_read_uint32(r);
-      const WbNodeType type = request_read_uint32(r);
-      const int parent_uid = request_read_uint32(r);
-      const bool is_proto = request_read_uchar(r) == 1;
-      const char *model_name = request_read_string(r);
-      const char *def = request_read_string(r);
-      if (selected_node_id)
-        add_node_to_list(selected_node_id, type, model_name, def, parent_uid, is_proto);
-    } break;
-    case C_SUPERVISOR_NODE_GET_FROM_ID: {
+    case C_SUPERVISOR_NODE_GET_SELECTED:
+    case C_SUPERVISOR_NODE_GET_FROM_ID:
+    case C_SUPERVISOR_NODE_GET_FROM_TAG: {
       const int uid = request_read_uint32(r);
       const WbNodeType type = request_read_uint32(r);
+      const int tag = request_read_int32(r);
       const int parent_uid = request_read_uint32(r);
       const bool is_proto = request_read_uchar(r) == 1;
       const bool is_proto_internal = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
-      if (uid && !is_proto_internal)
-        add_node_to_list(uid, type, model_name, def_name, parent_uid, is_proto);
+      if (uid && !is_proto_internal) {
+        add_node_to_list(uid, type, model_name, def_name, tag, parent_uid, is_proto);
+        node_id = uid;
+      }
     } break;
     case C_SUPERVISOR_FIELD_GET_FROM_NAME: {
       const int field_ref = request_read_int32(r);
@@ -858,11 +869,12 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
             f->data.sf_node_uid = request_read_uint32(r);  // 0 => NULL node
             if (f->data.sf_node_uid) {
               const WbNodeType type = request_read_uint32(r);
+              const int tag = request_read_int32(r);
               const int parent_uid = request_read_uint32(r);
               const bool is_proto = request_read_uchar(r) == 1;
               const char *model_name = request_read_string(r);
               const char *def_name = request_read_string(r);
-              add_node_to_list(f->data.sf_node_uid, type, model_name, def_name, parent_uid, is_proto);
+              add_node_to_list(f->data.sf_node_uid, type, model_name, def_name, tag, parent_uid, is_proto);
             }
             break;
           default:
@@ -1126,7 +1138,7 @@ void wb_supervisor_init(WbDevice *d) {
   d->write_request = supervisor_write_request;
   d->read_answer = supervisor_read_answer;
   d->cleanup = supervisor_cleanup;
-  add_node_to_list(0, WB_NODE_GROUP, wb_node_get_name(WB_NODE_GROUP), NULL, -1, false);  // create root node
+  add_node_to_list(0, WB_NODE_GROUP, wb_node_get_name(WB_NODE_GROUP), NULL, 0, -1, false);  // create root node
   root_ref = node_list;
 }
 
@@ -1575,6 +1587,33 @@ WbNodeRef wb_supervisor_node_get_from_def(const char *def) {
   return result;
 }
 
+WbNodeRef wb_supervisor_node_get_from_device(WbDeviceTag tag) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return NULL;
+
+  if (tag >= robot_get_number_of_devices()) {
+    fprintf(stderr, "Error: %s() called with an invalid 'tag' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  robot_mutex_lock_step();
+
+  // search if node is already present in node_list
+  WbNodeRef result = find_node_by_tag(tag);
+  if (!result) {
+    // otherwise: need to talk to Webots
+    node_tag = tag;
+    node_id = -1;
+    wb_robot_flush_unlocked();
+    if (node_id >= 0)
+      result = find_node_by_id(node_id);
+    node_tag = -1;
+    node_id = -1;
+  }
+  robot_mutex_unlock_step();
+  return result;
+}
+
 bool wb_supervisor_node_is_proto(WbNodeRef node) {
   if (!robot_check_supervisor(__FUNCTION__))
     return false;
@@ -1654,14 +1693,12 @@ WbNodeRef wb_supervisor_node_get_selected() {
   robot_mutex_lock_step();
 
   WbNodeRef result = NULL;
-  WbNodeRef node_list_before = node_list;
   node_get_selected = true;
-  selected_node_id = -1;
+  node_id = -1;
   wb_robot_flush_unlocked();
-  if (node_list != node_list_before)
-    result = node_list;
-  else if (selected_node_id >= 0)
-    result = find_node_by_id(selected_node_id);
+  if (node_id >= 0)
+    result = find_node_by_id(node_id);
+  node_id = -1;
   node_get_selected = false;
 
   robot_mutex_unlock_step();
