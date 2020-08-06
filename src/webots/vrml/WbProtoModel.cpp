@@ -203,7 +203,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
         // condition explanation: if (token contains modelName and not a Lua identifier containing modelName such as
         // "my_awesome_modelName")
         if (token->word().contains(
-              QRegExp(QString("(^|[^a-zA-Z0-9_])%1($|[^a-zA-Z0-9_])").arg(QRegExp::escape(model->name()))))) {
+              QRegExp(QString("(^|[^a-zA-Z0-9_])fields\.%1($|[^a-zA-Z0-9_])").arg(QRegExp::escape(model->name()))))) {
           // qDebug() << "TemplateRegenerator" << mName << model->name();
           model->setTemplateRegenerator(true);
         }
