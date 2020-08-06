@@ -81,7 +81,8 @@ jobs:
     needs: build
     strategy:
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
+       # os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
+        os: [macos-10.15]
         test: [tests/test_suite.py]
         post_task: [""]
        # include:
