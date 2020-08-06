@@ -31,9 +31,6 @@ Robot {
     }
   ]
   controller "derived_proto_parameter"
-  controllerArgs [
-    "derived_proto_parameter"
-  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {

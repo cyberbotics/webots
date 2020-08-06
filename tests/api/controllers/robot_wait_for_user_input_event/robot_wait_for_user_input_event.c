@@ -61,7 +61,7 @@ int main(int argc, char **argv) {
 #endif
 
   ts_assert_double_in_delta(
-    elapsedTime, 0.001 * TIMEOUT, 0.2,
+    elapsedTime, 0.001 * TIMEOUT + 0.1, 0.3,
     "wb_robot_wait_for_user_input_event should return after 2sec when the keyboard is enabled (and not after %lfsec).",
     elapsedTime);
 

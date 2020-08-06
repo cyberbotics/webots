@@ -24,13 +24,12 @@ jobs:
     # if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || github.event.pull_request.draft == false }}
     strategy:
       matrix:
-        os: [macos-10.15]
-       # os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
-       # include:
-       #   - os: ubuntu-18.04
-       #    JAVA_VERSION: "11"
-       #   - os: ubuntu-20.04
-       #     JAVA_VERSION: "14"
+        os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
+        include:
+          - os: ubuntu-18.04
+           JAVA_VERSION: "11"
+          - os: ubuntu-20.04
+            JAVA_VERSION: "14"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
@@ -82,8 +81,7 @@ jobs:
     needs: build
     strategy:
       matrix:
-        #os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
-        os: [macos-10.15]
+        os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
         test: [tests/test_suite.py]
         post_task: [""]
        # include:
@@ -121,10 +119,8 @@ jobs:
     - name: ${{ matrix.test }} [macOS]
       if: ${{ startsWith(matrix.os, 'macos') }}
       run: |
-        sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.8  # we can't use python3.8 from homebrew for the compilation because it is not compatible with the normal one
-        wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.8.zip -P dependencies
-        sudo unzip -o -q dependencies/python3.8.zip -d /Library/Frameworks/Python.framework/Versions/3.8
-        cp tests/com.cyberbotics.Webots-R2020b.plist $HOME/Library/Preferences
+        python --version
+        python -u -c "import sys; print(sys.exec_prefix)"
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=/Applications/Webots.app

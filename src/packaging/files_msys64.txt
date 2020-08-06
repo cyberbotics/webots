@@ -59,6 +59,7 @@
 /mingw64/bin/ffmpeg.exe
 
 # needed to execute the lua-gd module
+/mingw64/bin/imagequant.dll
 /mingw64/bin/libXpm-noX4.dll
 /mingw64/bin/libgd.dll
 /mingw64/bin/libtiff-5.dll

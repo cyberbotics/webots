@@ -1,8 +1,8 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
+  coordinateSystem "NUE"
   gpsCoordinateSystem "WGS84"
   gpsReference 40.67 -73.94 10
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.9996751479865803 0.009038851338063371 -0.023830603527755522 5.7216
@@ -14,7 +14,7 @@ Background {
   ]
 }
 PointLight {
-  ambientIntensity 1
+  attenuation 0 0 1
   intensity 0
 }
 DEF ROBOT Robot {

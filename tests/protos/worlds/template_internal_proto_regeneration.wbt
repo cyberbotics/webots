@@ -29,9 +29,6 @@ Robot {
     }
   ]
   controller "template_internal_proto_regeneration"
-  controllerArgs [
-    "template_internal_proto_regeneration"
-  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {

@@ -30,7 +30,7 @@ static void check_camera_image(WbDeviceTag tag, int width, const double *expecte
 }
 
 int main(int argc, char **argv) {
-  ts_setup(argv[1]);
+  ts_setup(argv[0]);
 
   WbNodeRef materialNode = wb_supervisor_node_get_from_def("MATERIAL");
   WbFieldRef colorField = wb_supervisor_node_get_field(materialNode, "diffuseColor");

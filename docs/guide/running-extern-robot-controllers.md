@@ -28,10 +28,11 @@ Generic Webots environment variables needed for all the controller languages:
 %tab-component "os"
 
 %tab "Windows"
-| Environment Variable     | Typical Value                                                                                                        |
-|--------------------------|----------------------------------------------------------------------------------------------------------------------|
-| WEBOTS\_HOME             | `C:\Program Files\Webots`                                                                                            |
-| PATH                     | add `${WEBOTS_HOME}\lib\controller`, `${WEBOTS_HOME}\msys64\mingw64\bin` and `${WEBOTS_HOME}\msys64\mingw64\bin\cpp` |
+| Environment Variable                        | Typical Value                                                                                                        |
+|---------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| WEBOTS\_HOME                                | `C:\Program Files\Webots`                                                                                            |
+| PATH (for C and MATLAB controllers)         | add `${WEBOTS_HOME}\lib\controller` and `${WEBOTS_HOME}\msys64\mingw64\bin`                                          |
+| PATH (for C++, Python and Java controllers) | add `${WEBOTS_HOME}\lib\controller`, `${WEBOTS_HOME}\msys64\mingw64\bin` and `${WEBOTS_HOME}\msys64\mingw64\bin\cpp` |
 
 %tab-end
 
@@ -73,11 +74,12 @@ No specific setup is needed.
 %tab-end
 
 %tab "Python"
-| Version      | Environment Variable     | Typical Value                                    |
-|--------------|--------------------------|--------------------------------------------------|
-| Python 2.7   | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python27`     |
-| Python 3.X   | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python3X`     |
-| all          | PYTHONIOENCODING         | `UTF-8`                                          |
+| Version               | Environment Variable     | Typical Value                                     |
+|--------------         |--------------------------|---------------------------------------------------|
+| Python 2.7            | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python27`      |
+| Python 3.X            | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python3X`      |
+| Python Homebrew 3.X   | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python3X_brew` |
+| all                   | PYTHONIOENCODING         | `UTF-8`                                           |
 %tab-end
 
 %tab "Java"

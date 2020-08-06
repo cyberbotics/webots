@@ -10,7 +10,7 @@
 
 int main(int argc, char **argv) {
   double value;
-  ts_setup(argv[1]);
+  ts_setup(argv[0]);
 
   WbNodeRef object_node = wb_supervisor_node_get_from_def("OBJECT");
   WbFieldRef color_field = wb_supervisor_node_get_field(object_node, "color");

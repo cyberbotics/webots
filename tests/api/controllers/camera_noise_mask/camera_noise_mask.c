@@ -47,7 +47,7 @@ static void check_expected_colors(WbDeviceTag camera, int width, int height, boo
 }
 
 int main(int argc, char **argv) {
-  ts_setup(argv[1]);
+  ts_setup(argv[0]);
 
   WbNodeRef cameraNode = wb_supervisor_node_get_from_def("CAMERA");
   WbFieldRef noiseMaskUrlField = wb_supervisor_node_get_field(cameraNode, "noiseMaskUrl");
