@@ -174,10 +174,9 @@ bool wb_connector_get_state(WbDeviceTag tag) {
   robot_mutex_lock_step();
   Connector *con = connector_get_struct(tag);
   if (con) {
-    if (con->presence_sampling_period <= 0)
-      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_connector_get_state().\n", __FUNCTION__);
     result = con->is_locked;
-  } else
+  } 
+    else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
