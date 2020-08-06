@@ -37,6 +37,7 @@ int Connector::getPresence() const {
 bool Connector::getState() const {
   return wb_connector_get_state(getTag());
 }
+
 void Connector::lock() {
   wb_connector_lock(getTag());
 }
