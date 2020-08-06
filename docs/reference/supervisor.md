@@ -98,7 +98,7 @@ node = wb_supervisor_node_get_root()
 node = wb_supervisor_node_get_self()
 node = wb_supervisor_node_get_from_def('def')
 node = wb_supervisor_node_get_from_id(id)
-node = wb_supervisor_node_get_from_device_tag(tag)
+node = wb_supervisor_node_get_from_device(tag)
 node = wb_supervisor_node_get_selected()
 ```
 
