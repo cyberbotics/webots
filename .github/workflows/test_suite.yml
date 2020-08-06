@@ -27,7 +27,7 @@ jobs:
         os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
         include:
           - os: ubuntu-18.04
-           JAVA_VERSION: "11"
+            JAVA_VERSION: "11"
           - os: ubuntu-20.04
             JAVA_VERSION: "14"
     runs-on: ${{ matrix.os }}
