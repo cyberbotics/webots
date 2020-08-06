@@ -1739,6 +1739,8 @@ void WbMainWindow::openNewConsole(const QString &name) {
     console->raise();
   }
   addDock(console);
+  console->setStyleSheet(styleSheet());
+  console->update();
   mConsoles.append(console);
 }
 
