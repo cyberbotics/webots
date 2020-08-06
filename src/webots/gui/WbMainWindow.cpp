@@ -1819,7 +1819,7 @@ void WbMainWindow::openBugReport() {
 }
 
 void WbMainWindow::openNewsletterSubscription() {
-  showDocument("https://www.cyberbotics.com/news/subscribe.php");
+  showDocument("https://cyberbotics.com/newsletter");
 }
 
 void WbMainWindow::openDiscord() {
