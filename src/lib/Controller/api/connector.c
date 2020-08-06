@@ -173,7 +173,7 @@ bool wb_connector_get_state(WbDeviceTag tag) {
   bool result = false;
   robot_mutex_lock_step();
   Connector *con = connector_get_struct(tag);
-  if (con) 
+  if (con)
     result = con->is_locked;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
