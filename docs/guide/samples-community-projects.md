@@ -12,4 +12,4 @@ If you want to add the whole Community Projects repository to Webots, you can fo
 
 3. Add robots by pressing the `Add new object` button (Ctrl + Shift + A) and selecting `PROTO nodes (Extra Projects)`
 
-4. Be awesome and add things to the Community Projects repository. It doesnt have to be a robot model, it can also be a sample-world or controller.
+4. Be awesome and add things to the Community Projects repository. It doesn't have to be a robot model, it can also be a sample world or controller.
