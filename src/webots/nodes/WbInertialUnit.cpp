@@ -22,7 +22,7 @@
 #include "WbSensor.hpp"
 #include "WbWorld.hpp"
 
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 #include <ode/ode.h>
 #include <QtCore/QDataStream>

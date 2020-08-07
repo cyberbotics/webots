@@ -358,7 +358,7 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
       WbLog::info(tr("Streaming server: Ignored new client request of resolution: %1x%2.").arg(width).arg(height));
       args = QString("%1 %2").arg(mImageWidth).arg(mImageHeight);
     }
-    client->sendTextMessage(QString("multimedia: /mjpeg %2 %3").arg(simulationStateString()).arg(args));
+    client->sendTextMessage(QString("multimedia: /mjpeg %2 %3").arg(simulationStateString(false)).arg(args));
     const QString &stateMessage = simulationStateString();
     if (!stateMessage.isEmpty())
       client->sendTextMessage(stateMessage);
@@ -388,4 +388,26 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
     }
   } else
     WbStreamingServer::processTextMessage(message);
+}
+
+void WbMultimediaStreamingServer::sendWorldToClient(QWebSocket *client) {
+  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
+  foreach (const WbRobot *robot, robots) {
+    if (!robot->window().isEmpty()) {
+      QJsonObject windowObject;
+      windowObject.insert("robot", robot->name());
+      windowObject.insert("window", robot->window());
+      const QJsonDocument windowDocument(windowObject);
+      client->sendTextMessage("robot window: " + windowDocument.toJson(QJsonDocument::Compact));
+    }
+  }
+
+  const WbWorldInfo *currentWorldInfo = WbWorld::instance()->worldInfo();
+  QJsonObject infoObject;
+  infoObject.insert("window", currentWorldInfo->window());
+  infoObject.insert("title", currentWorldInfo->title());
+  const QJsonDocument infoDocument(infoObject);
+  client->sendTextMessage("world info: " + infoDocument.toJson(QJsonDocument::Compact));
+
+  WbStreamingServer::sendWorldToClient(client);
 }
