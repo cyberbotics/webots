@@ -1,3 +1,19 @@
+/*
+ * Copyright 1996-2020 Cyberbotics Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 // This tool is used to generate the various installation files:
 // a .deb file which is a shell script for creating a deb and a tarball package
 // a .iss file for InnoSetup
@@ -932,7 +948,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "echo \"  \\\"title\\\": \\\"Webots\\\",\" >> appdmg.json\n");
       fprintf(fd, "echo \"  \\\"icon\\\": \\\"%s/Contents/Resources/webots_icon.icns\\\",\" >> appdmg.json\n", webots_home);
       fprintf(fd, "echo \"  \\\"icon-size\\\": 72,\" >> appdmg.json\n");
-      fprintf(fd, "echo \"  \\\"background\\\": \\\"%s/src/packaging/MacOSXBackground.png\\\",\" >> appdmg.json\n",
+      fprintf(fd, "echo \"  \\\"background\\\": \\\"%s/scripts/packaging/MacOSXBackground.png\\\",\" >> appdmg.json\n",
               webots_home);
       fprintf(fd, "echo \"  \\\"format\\\": \\\"UDBZ\\\",\" >> appdmg.json\n");
       fprintf(fd, "echo \"  \\\"window\\\": {\" >> appdmg.json\n");
@@ -1085,16 +1101,16 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "mkdir usr/share/applications\n");
       fprintf(fd, "mkdir usr/share/app-install\n");
       fprintf(fd, "mkdir usr/share/app-install/desktop\n");
-      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.mime usr/share/mime-info/\n");
-      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.keys usr/share/mime-info/\n");
-      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.png usr/share/pixmaps/\n");
-      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots_doc.png usr/share/pixmaps/\n");
-      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.applications usr/share/application-registry/\n");
-      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.desktop usr/share/applications/\n");
+      fprintf(fd, "cp $WEBOTS_HOME/scripts/packaging/webots.mime usr/share/mime-info/\n");
+      fprintf(fd, "cp $WEBOTS_HOME/scripts/packaging/webots.keys usr/share/mime-info/\n");
+      fprintf(fd, "cp $WEBOTS_HOME/scripts/packaging/webots.png usr/share/pixmaps/\n");
+      fprintf(fd, "cp $WEBOTS_HOME/scripts/packaging/webots_doc.png usr/share/pixmaps/\n");
+      fprintf(fd, "cp $WEBOTS_HOME/scripts/packaging/webots.applications usr/share/application-registry/\n");
+      fprintf(fd, "cp $WEBOTS_HOME/scripts/packaging/webots.desktop usr/share/applications/\n");
 #ifdef WEBOTS_UBUNTU_16_04
-      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots_snap.desktop usr/share/app-install/desktop/webots.desktop\n");
+      fprintf(fd, "cp $WEBOTS_HOME/scripts/packaging/webots_snap.desktop usr/share/app-install/desktop/webots.desktop\n");
 #else
-      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.desktop usr/share/app-install/desktop/\n");
+      fprintf(fd, "cp $WEBOTS_HOME/scripts/packaging/webots.desktop usr/share/app-install/desktop/\n");
 #endif
       fprintf(fd, "mkdir usr/local/bin\n");
       fprintf(fd, "ln -s /usr/local/%s/webots usr/local/bin/webots\n", application_name_lowercase_and_dashes);
@@ -1242,7 +1258,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libzip\n");
       fprintf(fd, "cp -a /usr/include/zip.h $DESTDIR/usr/share/webots/include/libzip/\n");
       fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h $DESTDIR/usr/share/webots/include/libzip/\n");
-      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots_snap.desktop $DESTDIR/usr/share/webots/resources/webots.desktop\n");
+      fprintf(fd, "cp $WEBOTS_HOME/scripts/packaging/webots_snap.desktop $DESTDIR/usr/share/webots/resources/webots.desktop\n");
       break;
     }
     default:

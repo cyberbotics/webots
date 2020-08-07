@@ -23,7 +23,7 @@
 #include "WbSoundEngine.hpp"
 #include "WbSoundSource.hpp"
 
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 #include <QtCore/QDataStream>
 #include <QtCore/QDir>

@@ -38,7 +38,7 @@
 #include <cassert>
 #include <cmath>
 
-#include "../../lib/Controller/api/messages.h"  // contains the definitions for the macros C_SET_SAMPLING_PERIOD, C_MOTOR_SET_POSITION, C_MOTOR_SET_VELOCITY ...
+#include "../../Controller/api/messages.h"  // contains the definitions for the macros C_SET_SAMPLING_PERIOD, C_MOTOR_SET_POSITION, C_MOTOR_SET_VELOCITY ...
 
 QList<const WbMotor *> WbMotor::cMotors;
 
