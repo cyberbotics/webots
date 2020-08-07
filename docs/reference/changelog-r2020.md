@@ -12,6 +12,7 @@ Released on XXX YYth, 2020.
     - Fixed the `near` field of the `Robotino3Webcam` [Camera](camera.md) ([#2051](https://github.com/cyberbotics/webots/pull/2051)).
     - Fixed orientation of the [Lights](light.md) in the [`robotino3` world](../guide/robotino3.md#robotino3-wbt) ([#2051](https://github.com/cyberbotics/webots/pull/2051)).
     - Fixed missing `limit` element when exporting joints with the [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function ([#2062](https://github.com/cyberbotics/webots/pull/2062)).
+    - Fixed wrong color of the first log in the console ([#2088](https://github.com/cyberbotics/webots/pull/2088)).
     - **macOS: Removed the `ros` controller**, the [custom Python ROS controller](https://www.cyberbotics.com/doc/guide/using-ros#custom-ros-controller) should be used instead ([#2053](https://github.com/cyberbotics/webots/pull/2053)).
     - Windows: Fixed generation of procedural PROTO nodes using the `gd` module ([#2070](https://github.com/cyberbotics/webots/pull/2070)).
 
