@@ -306,9 +306,9 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   // row 8
   mTelemetryCheckBox = new QCheckBox(tr("Send technical data to Webots developers"), this);
   mTelemetryCheckBox->setToolTip(tr("We need your help to continue to improve Webots: more information at:\n"
-                                    "https://www.cyberbotics.com/doc/guide/telemetry"));
-  QLabel *label = new QLabel(
-    tr("Telemetry (<a style='color: #5DADE2;' href='https://www.cyberbotics.com/doc/guide/telemetry'>info</a>):"), this);
+                                    "https://cyberbotics.com/doc/guide/telemetry"));
+  QLabel *label =
+    new QLabel(tr("Telemetry (<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/telemetry'>info</a>):"), this);
   connect(label, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   layout->addWidget(label, 8, 0);
   layout->addWidget(mTelemetryCheckBox, 8, 1);
