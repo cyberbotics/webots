@@ -10,6 +10,6 @@ If you want to add the whole Community Projects repository to Webots, you can fo
 
 2. Open Webots and go to `Tools > Preferences > Extra projects path` and add the path to the folder you downloaded. 
 
-3. Add robots by pressing the `Add new object` button (Ctrl + Shit +A) and selecting `PROTO Nodes (Extra Projects)`
+3. Add robots by pressing the `Add new object` button (Ctrl + Shift + A) and selecting `PROTO nodes (Extra Projects)`
 
 4. Be awesome and add things to the Community Projects repository. It doesnt have to be a robot model, it can also be a sample-world or controller.
