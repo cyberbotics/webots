@@ -29824,7 +29824,7 @@ Hi, I created a question on SO - [https://stackoverflow.com/questions/59447623/w
 so i can't use webot with choregraph ...
 
 ##### Fabien Rohrer [Moderator] 12/22/2019 18:39:39
-Unfortunately, naoqisim (« wrapper » between Webots and Choregraph) is not maintained anymore.
+Unfortunately, naoqisim (« wrapper » between Webots and Choregraph) is not maintained anymore.
 
 
 Please refer to this documentation: [https://github.com/cyberbotics/naoqisim/blob/master/README.md](https://github.com/cyberbotics/naoqisim/blob/master/README.md)
@@ -29836,7 +29836,7 @@ how can i connect choregraph to webot ?
 thanks !
 
 ##### Fabien Rohrer [Moderator] 12/22/2019 16:28:18
-There no need of account anymore for this old version, you should simply use « webots » as password: [https://www.cyberbotics.com/doc/guide/general-faq#can-i-still-use-a-webots-version-before-the-r2019a-release](https://www.cyberbotics.com/doc/guide/general-faq#can-i-still-use-a-webots-version-before-the-r2019a-release)
+There no need of account anymore for this old version, you should simply use « webots » as password: [https://www.cyberbotics.com/doc/guide/general-faq#can-i-still-use-a-webots-version-before-the-r2019a-release](https://www.cyberbotics.com/doc/guide/general-faq#can-i-still-use-a-webots-version-before-the-r2019a-release)
 
 ##### Hao 12/19/2019 01:20:19
 webots for nao
@@ -32529,7 +32529,7 @@ So the second parameter of wb\_supervisor\_node\_get\_contact\_point() is the po
 
     const double *polygon\_points = wb\_supervisor\_node\_get\_contact\_point(my\_solid, p); // get the polygon coordinates
 
-  printf(« polygon %d\n »,  p);
+  printf(« polygon %d\n »,  p);
 
   int c = 0;
 
@@ -32539,7 +32539,7 @@ So the second parameter of wb\_supervisor\_node\_get\_contact\_point() is the po
 
       break; // no more points for this polygon 
 
-    printf(« point %f %f %f\n »,
+    printf(« point %f %f %f\n »,
 
       polygon\_points[3 * c],
 
@@ -32592,7 +32592,7 @@ You should give a try, and understand how this works.
 `@moustachemartin` the reference example is [https://cyberbotics.com/doc/guide/samples-devices#linear\_motor-wbt](https://cyberbotics.com/doc/guide/samples-devices#linear_motor-wbt)
 
 
-`@chamandana` I just answer you on the « general » chat.
+`@chamandana` I just answer you on the « general » chat.
 
 ##### chamandana 12/08/2019 14:41:42
 Hello, I attached a receiver to the bodyslot in a Kuka youbot and when I try to read data using wb\_receiver\_get\_data it says invalid tag.
@@ -32668,7 +32668,7 @@ About the support polygon, the supervisor api can retrieve some of these values:
 - [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_static\_balance](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_static_balance)
 
 
-About your issue with matlab, could you show us your controller instead? It seems there is an issue with the arguments. Could you check what is « inf »?
+About your issue with matlab, could you show us your controller instead? It seems there is an issue with the arguments. Could you check what is « inf »?
 
 ##### JasonChen 12/07/2019 10:31:21
 Hi, I notice there is a view named "support polygon", and I am recently doing simulation on bipedal robot. I wonder through your Webots API, can I get the support polygon information (data)?
@@ -41008,7 +41008,7 @@ numberOfRotations 0
 But to test I recommend you to exagerate the thresholds:
 
 
-Simple set the type to « passive » and autoLock to TRUE should do the job
+Simple set the type to « passive » and autoLock to TRUE should do the job
 
 ##### SamSmurfitt 09/03/2019 15:41:59
 Yeah ideally without using the controller, although I can do if I have to
@@ -44811,7 +44811,7 @@ I need to control it by pressing the button
 Means it should move when i press the button along with the shoulder pitch
 
 ##### Fabien Rohrer [Moderator] 07/15/2019 17:50:56
-It could be explained if the path to « Forwards50.motion » is wrong. Could you check this file exists? It is defined relatively to your controller directory.
+It could be explained if the path to « Forwards50.motion » is wrong. Could you check this file exists? It is defined relatively to your controller directory.
 
 ##### Deleted User 07/15/2019 17:14:03
 wbu\_motion\_play() called with NULL 'motion' argument
@@ -45115,10 +45115,10 @@ Is there any example file in webots, where the accelerometer is been used?
 We are trying to carry a duty period out during business hours (European time). Out of this period, answers may come with a certain delay 😉
 
 
-This function calls the wb\_robot\_step() function several times until reaching the expected time (in seconds) It is based on the wb\_robot\_get\_time() function. You should obviously stop the motors before calling « wait\_a\_while ».
+This function calls the wb\_robot\_step() function several times until reaching the expected time (in seconds) It is based on the wb\_robot\_get\_time() function. You should obviously stop the motors before calling « wait\_a\_while ».
 
 
-You could take a copy-paste the « wait\_a\_while » function (and the required « step » function defined above) in your code: [https://github.com/omichel/webots/blob/revision/projects/robots/kinematics/tinkerbots/controllers/crane/crane.c#L33](https://github.com/omichel/webots/blob/revision/projects/robots/kinematics/tinkerbots/controllers/crane/crane.c#L33)
+You could take a copy-paste the « wait\_a\_while » function (and the required « step » function defined above) in your code: [https://github.com/omichel/webots/blob/revision/projects/robots/kinematics/tinkerbots/controllers/crane/crane.c#L33](https://github.com/omichel/webots/blob/revision/projects/robots/kinematics/tinkerbots/controllers/crane/crane.c#L33)
 
 ##### NearMonzter 07/14/2019 22:45:08
 Please, help
@@ -45919,7 +45919,7 @@ Sir,
 [https://www.cyberbotics.com/doc/reference/contactproperties](https://www.cyberbotics.com/doc/reference/contactproperties)
 
 
-Hi Marius, yes heavy robots can « sink » with the default physics parameters. Rather than changing the masses, you should rather modify the ContactProperties softCFM value.
+Hi Marius, yes heavy robots can « sink » with the default physics parameters. Rather than changing the masses, you should rather modify the ContactProperties softCFM value.
 
 ##### MariusJuston [Moderator] 07/03/2019 18:49:28
 I seem to have figured out the problem, objects a rest sink in the ground by default because of their weights. I will just make the weight of the objects very little and it should work
@@ -49465,7 +49465,7 @@ You could also try the safe mode: [https://cyberbotics.com/doc/guide/starting-we
 `@Luiz Felipe` are you sure you are above the minimal requirements to run Webots and that your GPU drivers are up to date?
 
 
-<@272974104523702273> did you defined the « robot » variable above?
+<@272974104523702273> did you defined the « robot » variable above?
 
 ##### Mr. Scruff 05/30/2019 20:16:36
 Hi `@Fabien Rohrer` .  If I simply replace « Motor wheels = [] » by « wheels = [] »
@@ -49482,7 +49482,7 @@ I am having troubles with the version 2019a running in windows... I already unin
 Hello everyone, first of all thanks for the hard work.. The simulator is amazing...
 
 ##### Fabien Rohrer [Moderator] 05/30/2019 08:12:16
-I would simply replace « Motor wheels = [] » by « wheels = [] »
+I would simply replace « Motor wheels = [] » by « wheels = [] »
 
 
 There is indeed an issue.
@@ -51116,7 +51116,7 @@ Here is the doc: [https://cyberbotics.com/doc/reference/proto-hidden-fields](htt
 Ohh thats's a good idea. I can try it out thanks!!
 
 ##### Fabien Rohrer [Moderator] 05/01/2019 19:14:50
-Just save a world while vehicles are running, and observe how « hiddenField » are stored in the .wbt file.
+Just save a world while vehicles are running, and observe how « hiddenField » are stored in the .wbt file.
 
 
 I think this is possible thanks to the hidden fields.
@@ -52301,7 +52301,7 @@ Emitter/receiver can deal with occlusions. It’s more what you need. But not wi
 `@Akash` distance sensors uses rays but do not ensure communication
 
 
-`@Jiajun Wang` not sure what you mean by a « planar robot ». A 2 wheeled robots on a planar ground?
+`@Jiajun Wang` not sure what you mean by a « planar robot ». A 2 wheeled robots on a planar ground?
 
 
 It returns the simulated time as a double in seconds.
@@ -53082,3 +53082,4 @@ Hi, if you don't want to rotate  the camera, then the Camera node doesn't have t
 
 ##### shridhar 04/18/2019 07:08:31
 Hello, I have included camera and a Hingejoint in  children field of Robot and wrote a controller to spin a solid cylinder but when I run the controller even the cameras are rotating. so how to rotate the solid without rotating camera ( i tried with two separate Robots but still the result is same.
+
