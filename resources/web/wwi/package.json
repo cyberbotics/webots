@@ -2,11 +2,11 @@
   "name": "webots.min.js",
   "version": "1.0.0",
   "devDependencies": {
-    "@babel/cli": "^7.7.0",
-    "@babel/core": "^7.7.2",
-    "babel-minify": "^0.5.1",
-    "@babel/preset-env": "^7.7.1",
-    "@babel/polyfill": "^7.7.0"
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.1",
+    "@babel/polyfill": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
+    "babel-minify": "^0.5.1"
   },
   "babel": {
     "presets": [],
