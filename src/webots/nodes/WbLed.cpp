@@ -23,7 +23,7 @@
 #include "WbPbrAppearance.hpp"
 #include "WbShape.hpp"
 
-#include "../../lib/Controller/api/messages.h"  // contains the definitions for the macros C_SET_LED
+#include "../../Controller/api/messages.h"  // contains the definitions for the macros C_SET_LED
 
 #include <QtCore/QDataStream>
 #include <cassert>

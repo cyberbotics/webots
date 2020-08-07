@@ -96,7 +96,7 @@ class TestCppCheck(unittest.TestCase):
         sourceDirs = [
             'src/webots',
             'src/wren',
-            'src/lib/Controller',
+            'src/Controller',
             'resources/languages/cpp',
             'resources/projects'
         ]

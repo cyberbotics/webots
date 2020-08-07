@@ -39,7 +39,7 @@
 #include "WbWrenTextureOverlay.hpp"
 #include "WbZoom.hpp"
 
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 #include <QtCore/QDataStream>
 #include <QtCore/QtGlobal>
