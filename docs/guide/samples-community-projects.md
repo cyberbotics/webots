@@ -4,7 +4,7 @@ If the robot you are working with is not officially included in webots, take a l
 
 <https://github.com/cyberbotics/community-projects>
 
-If you want to add the whole community-projects repository to webots, you can follow these steps:
+If you want to add the whole Community Projects repository to Webots, you can follow these steps:
 
 1. Download or clone the repository to a folder of your choice. 
 
