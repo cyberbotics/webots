@@ -451,7 +451,9 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
                 client.streaming_server_port = ClientWebSocketHandler.next_available_port()
                 client.url = data['start']['url']
                 if 'mode' in data['start']:
-                    client.mode = data['start']['mode']  # 'x3d' or 'mjpeg'
+                    client.mode = data['start']['mode']
+                    if client.mode not in ['x3d', 'mjpeg']:
+                        logging.warning("Unsupported client mode: " + client.mode)
                 logging.info('Starting simulation from ' + client.url)
                 self.start_client()
 
