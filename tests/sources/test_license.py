@@ -80,7 +80,7 @@ class TestLicense(unittest.TestCase):
     def setUp(self):
         """Get all the source files which require a license check."""
         directories = [
-            'src/lib/Controller',
+            'src/Controller',
             'src/webots',
             'src/wren',
             'projects',
@@ -115,7 +115,8 @@ class TestLicense(unittest.TestCase):
         skippedFilePaths = [
             'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h',
             'projects/robots/gctronic/e-puck/controllers/e-puck2_server/play_melody.c',
-            'projects/robots/gctronic/e-puck/controllers/e-puck2_server/play_melody.h'
+            'projects/robots/gctronic/e-puck/controllers/e-puck2_server/play_melody.h',
+            'scripts/packaging/iscc_formatter.c'
         ]
 
         skippedDirectories = [

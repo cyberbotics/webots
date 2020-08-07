@@ -40,7 +40,7 @@
 #include <wren/skeleton_bone.h>
 #include <wren/transform.h>
 
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 #include <QtCore/QDataStream>
 #include <QtCore/QQueue>

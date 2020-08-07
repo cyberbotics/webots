@@ -59,12 +59,12 @@ release debug profile: docs webots_target
 
 distrib: release
 	@+echo "#"; echo "# packaging"; echo "#"
-	@+make --silent -C src/packaging
+	@+make --silent -C scripts/packaging
 ifeq ($(OSTYPE),darwin)
-	@+src/packaging/webots.mac
+	@+scripts/packaging/webots.mac
 endif
 ifeq ($(OSTYPE),linux)
-	@+src/packaging/webots.deb
+	@+scripts/packaging/webots.deb
 endif
 	$(eval DT := `expr \`date +%s\` - $(START)`)
 	@printf "# distribution compiled in %d:%02d:%02d\n" $$(($(DT) / 3600)) $$(($(DT) % 3600 / 60)) $$(($(DT) % 60))
@@ -76,7 +76,7 @@ endif
 # we should make clean before building a release
 clean: webots_target clean-docs
 	@+echo "#"; echo "# * packaging *"; echo "#"
-	@+make --silent -C src/packaging clean
+	@+make --silent -C scripts/packaging clean
 	@+echo "#"; echo "# remove OS generated files and text editor backup files";
 	@+find . -type f \( -name "*~" -o -name "*.bak" -o -name ".DS_Store" -o -name ".DS_Store?" -o -name ".Spotlight-V100" -o -name ".Trashes" -o -name "Thumbs.db" -o -name "ehthumbs.db" \) -exec /bin/rm -fv -- {} \;
 ifeq ($(MAKECMDGOALS),clean)
@@ -92,7 +92,7 @@ ifeq ($(OSTYPE),windows)
 	@rm -rf msys64
 endif
 ifeq ($(OSTYPE),darwin)
-	@rm -rf Contents/Frameworks Contents/MacOS 
+	@rm -rf Contents/Frameworks Contents/MacOS
 endif
 	@+echo "#"; echo "# * tests *"; echo "#"
 	@find tests -name .*.cache | xargs rm -f
@@ -117,7 +117,7 @@ endif
 	@+echo "#"; echo "# * webots (core) *"; echo "#"
 	@+make --silent -C src/webots $(TARGET)
 	@+echo "#"; echo "# * libController *"; echo "#"
-	@+make --silent -C src/lib/Controller $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
+	@+make --silent -C src/Controller $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * resources *";
 	@+make --silent -C resources $(MAKECMDGOALS) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * projects *";
@@ -156,7 +156,7 @@ clean-docs:
 
 install:
 	@+echo "#"; echo "# * installing (snap) *";
-	@+make --silent -C src/packaging -f Makefile install
+	@+make --silent -C scripts/packaging -f Makefile install
 
 help:
 	@+echo

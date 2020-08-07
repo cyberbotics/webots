@@ -44,6 +44,7 @@ private slots:
   void processTextMessage(QString message) override;
   void sendImageOnTimeout();
   void processLimiterTimeout();
+  void sendWorldToClient(QWebSocket *client) override;
 
 private:
   void start(int port) override;
