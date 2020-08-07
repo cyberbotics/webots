@@ -553,27 +553,20 @@ void WbStreamingServer::propagateNodeAddition(WbNode *node) {
 }
 
 QString WbStreamingServer::simulationStateString(bool pauseTime) {
-  QString string;
   switch (WbSimulationState::instance()->mode()) {
     case WbSimulationState::PAUSE:
-      string = pauseTime ? QString("pause: %1").arg(WbSimulationState::instance()->time()) : "pause";
-      break;
+      return pauseTime ? QString("pause: %1").arg(WbSimulationState::instance()->time()) : "pause";
     case WbSimulationState::STEP:
-      string = "step";
-      break;
+      return "step";
     case WbSimulationState::REALTIME:
-      string = "real-time";
-      break;
+      return "real-time";
     case WbSimulationState::RUN:
-      string = "run";
-      break;
+      return "run";
     case WbSimulationState::FAST:
-      string = "fast";
-      break;
+      return "fast";
     default:
-      break;
+      return "";
   }
-  return string;
 }
 
 void WbStreamingServer::propagateSimulationStateChange() const {
