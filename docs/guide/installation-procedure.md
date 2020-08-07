@@ -148,7 +148,7 @@ rm ~/.cache/fontconfig/*
 
 #### Server Edition
 
-Webots requires some graphical features that are usually not available by default on a Linux server edition, [additional packages](https://github.com/cyberbotics/webots/blob/master/scripts/install_scripts/linux_runtime_dependencies.sh) needs to be manually installed to make it work.
+Webots requires some graphical features that are usually not available by default on a Linux server edition, [additional packages](https://github.com/cyberbotics/webots/blob/master/scripts/install/linux_runtime_dependencies.sh) needs to be manually installed to make it work.
 
 Webots can be run without GUI using a virtual framebuffer such as [Xvfb](https://en.wikipedia.org/wiki/Xvfb):
 ```

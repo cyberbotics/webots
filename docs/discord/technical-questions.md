@@ -26721,7 +26721,7 @@ You're welcome.
 ##### David Mansolino [cyberbotics] 02/07/2020 15:48:29
 We do not add it, because we want to be able to commit il, to make sure everyone uses the same layout, but it is not a bad practice to ignore it.
 
-Alternatively, if you define the `WEBOTS_ALLOW_MODIFY_INSTALLATION` environment variable, Webots will not change the wbproj file: [https://github.com/cyberbotics/webots/blob/07d7ca6722139cec1415a7d3e308c298512b3124/src/install\_scripts/bashrc.linux#L12](https://github.com/cyberbotics/webots/blob/07d7ca6722139cec1415a7d3e308c298512b3124/src/install_scripts/bashrc.linux#L12)
+Alternatively, if you define the `WEBOTS_ALLOW_MODIFY_INSTALLATION` environment variable, Webots will not change the wbproj file: [https://github.com/cyberbotics/webots/blob/07d7ca6722139cec1415a7d3e308c298512b3124/src/install\_scripts/bashrc.linux#L12](https://github.com/cyberbotics/webots/blob/07d7ca6722139cec1415a7d3e308c298512b3124/src/install/bashrc.linux#L12)
 
 ##### SimonDK 02/07/2020 15:46:35
 `@David Mansolino` Cool thank you. I do not see the wbproj file. It seems to be world related and may update on changing e.g. the view of in WeBots but not the files. Is it good or bad practice to add it to gitignore?
@@ -52504,7 +52504,7 @@ We will create a fix soon
 But it seems to be not released: [https://github.com/omichel/webots/blob/master/src/packaging/files\_msys64.txt](https://github.com/omichel/webots/blob/master/src/packaging/files_msys64.txt)
 
 
-`@el` OpenCv is supposed to be installed from pacman here: [https://github.com/omichel/webots/blob/master/src/install\_scripts/msys64\_installer.sh#L28](https://github.com/omichel/webots/blob/master/src/install_scripts/msys64_installer.sh#L28)
+`@el` OpenCv is supposed to be installed from pacman here: [https://github.com/omichel/webots/blob/master/src/install\_scripts/msys64\_installer.sh#L28](https://github.com/omichel/webots/blob/master/src/install/msys64_installer.sh#L28)
 
 
 `@Lukas_` the source code of the generic robot window is in this directory: [https://github.com/omichel/webots/tree/master/resources/projects/plugins/robot\_windows/generic](https://github.com/omichel/webots/tree/master/resources/projects/plugins/robot_windows/generic)
