@@ -106,8 +106,7 @@ void WbRobotWindow::setupPage() {
     QTextStream htmlInput(&htmlFile);
 
     QString prependToHead = linkTag(WbStandardPaths::resourcesPath() + "web/local/webots.css") +
-                            linkTag(WbStandardPaths::localDocPath() + "dependencies/jqueryui/1.11.4/jquery-ui.min.css") +
-                            linkTag(mRobot->windowFile("css"));
+                            linkTag(WbStandardPaths::localDocPath() + "dependencies/jqueryui/1.11.4/jquery-ui.min.css");
 #ifdef __APPLE__
     // Chromium bug on macOS:
     // - warnings like the following one are displayed in the console: "2018-05-08 11:17:37.496
