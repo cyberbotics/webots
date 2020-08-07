@@ -1740,7 +1740,7 @@ void WbMainWindow::openNewConsole(const QString &name) {
   }
   addDock(console);
   console->setStyleSheet(styleSheet());
-  console->update();
+  console->setVisible(true);
   mConsoles.append(console);
 }
 
