@@ -1,0 +1,61 @@
+#VRML_SIM R2020b utf8
+
+PROTO DefaultDef [
+  field SFNode slot1 DEF BOX Shape { geometry Box { size 0.1 0.1 0.1 } }
+  field SFNode slot2 NULL
+  field SFNode slot3 NULL
+  field SFNode slot4 NULL
+]
+{
+Group {
+  children [
+    Solid {
+      children [
+        Slot {
+          endPoint Slot {
+            endPoint IS slot1
+          }
+        }
+      ]
+      name "solid 1"
+      boundingObject IS slot1
+    }
+    Solid {
+      translation 0.2 0 0
+      children [
+        Slot {
+          endPoint Slot {
+            endPoint IS slot2
+          }
+        }
+      ]
+      name "solid 2"
+      boundingObject IS slot2
+    }
+    Solid {
+      translation 0.4 0 0
+      children [
+        Slot {
+          endPoint Slot {
+            endPoint IS slot3
+          }
+        }
+      ]
+      name "solid 3"
+      boundingObject IS slot3
+    }
+    Solid {
+      translation 0.6 0 0
+      children [
+        Slot {
+          endPoint Slot {
+            endPoint IS slot4
+          }
+        }
+      ]
+      name "solid 4"
+      boundingObject IS slot4
+    }
+  ]
+}
+}
