@@ -1253,7 +1253,7 @@ void WbSceneTree::prepareNodeRegeneration(WbNode *node, bool nested) {
   // Store the selected item only if not inside the node which will be regenerated.
   // Indeed this node (and its WbTreeItem(s)) will be destroyed and recreated.
   WbNode *n = NULL;
-  if (mSelectedItem) {
+  if (mSelectedItem && !mSelectedItem->isInvalid()) {
     if (mSelectedItem->isField()) {
       const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(mSelectedItem->field()->value());
       if (sfnode && sfnode->value())
@@ -1265,7 +1265,7 @@ void WbSceneTree::prepareNodeRegeneration(WbNode *node, bool nested) {
     else  // node
       n = mSelectedItem->node();
   }
-  mSelectionInsideTreeStateRecovery = false;
+  mSelectionInsideTreeStateRecovery = n == NULL;
   while (n) {
     if (n == node || n->protoParameterNode() == node) {
       mSelectionInsideTreeStateRecovery = true;
