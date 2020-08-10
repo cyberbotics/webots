@@ -253,7 +253,6 @@ jobs:
       addons: &mac_addons
         homebrew:
           packages:
-            - python
             - python@3.7
             - python@3.8
             - cmake
