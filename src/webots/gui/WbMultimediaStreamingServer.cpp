@@ -386,6 +386,11 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
       viewpoint->setFollowType(mode.toInt());
       viewpoint->startFollowUp(solid, true);
     }
+  } else if (message.startsWith("x3d;broadcast")) {
+    WbLog::error(tr("Streaming server received unsupported X3D message: '%1'. You should run Webots with the "
+                    "'--stream=\"mode=x3d\"' command line option.")
+                   .arg(message));
+    return;
   } else
     WbStreamingServer::processTextMessage(message);
 }
