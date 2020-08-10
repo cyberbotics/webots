@@ -60,7 +60,7 @@ jobs:
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
   test-suite:
     needs: build
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
+    if: ${{ (contains(github.event.pull_request.labels.*.name, 'test suite') && matrix.os.test == 'tests/test_suite.py') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
     strategy:
       matrix:
         os: [ubuntu-18.04, ubuntu-20.04]
