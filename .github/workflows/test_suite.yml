@@ -42,7 +42,6 @@ jobs:
       run: python scripts/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
     - name: Webots Package Creation
       run: |
-        echo ${{ github.event.pull_request.labels }}
         export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
         export PATH=$JAVA_HOME/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
