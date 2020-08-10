@@ -60,15 +60,16 @@ jobs:
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
   test-suite:
     needs: build
-    if: ${{ (contains(github.event.pull_request.labels.*.name, 'test suite') && matrix.os.test == 'tests/test_suite.py') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
     strategy:
       matrix:
         os: [ubuntu-18.04, ubuntu-20.04]
         test: [tests/test_suite.py]
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') }}
         post_task: [""]
         include:
           - os: ubuntu-18.04
             test: scripts/packaging/update_all_worlds.py
+            if: ${{ contains(github.event.pull_request.labels.*.name, 'test world update') }}
             post_task: "if [[ \"$(git diff --name-only *.wbt *.wbproj | wc -l)\" -ne \"0\" ]]; then echo Some world and/or wbproj files are not up to date: \"$(git diff *.wbt *.wbproj)\"; exit -1; fi"
     runs-on: ${{ matrix.os }}
     steps:
