@@ -69,7 +69,7 @@ protected:
   double mPauseTimeout;
 
   static QString clientToId(QWebSocket *client);
-  static QString simulationStateString();
+  static QString simulationStateString(bool pauseTime = true);
   static WbMainWindow *cMainWindow;
 
 private slots:

@@ -74,11 +74,12 @@ No specific setup is needed.
 %tab-end
 
 %tab "Python"
-| Version      | Environment Variable     | Typical Value                                    |
-|--------------|--------------------------|--------------------------------------------------|
-| Python 2.7   | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python27`     |
-| Python 3.X   | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python3X`     |
-| all          | PYTHONIOENCODING         | `UTF-8`                                          |
+| Version               | Environment Variable     | Typical Value                                     |
+|--------------         |--------------------------|---------------------------------------------------|
+| Python 2.7            | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python27`      |
+| Python 3.X            | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python3X`      |
+| Python Homebrew 3.X   | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python3X_brew` |
+| all                   | PYTHONIOENCODING         | `UTF-8`                                           |
 %tab-end
 
 %tab "Java"

@@ -251,6 +251,8 @@ class Client:
             port = client.streaming_server_port
             command = config['webots'] + ' --batch --mode=pause --minimize '
             command += '--stream="port=' + str(port) + ';monitorActivity'
+            if hasattr(self, 'mode'):
+                command += ';mode=' + self.mode
             if not hasattr(self, 'url'):
                 if self.user1Authentication or not self.user1Id:  # we are running our own or an anonymous simulation
                     command += ';controllerEdit'
@@ -448,6 +450,10 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
             elif 'start' in data:  # checkout a github folder and run a simulation in there
                 client.streaming_server_port = ClientWebSocketHandler.next_available_port()
                 client.url = data['start']['url']
+                if 'mode' in data['start']:
+                    client.mode = data['start']['mode']
+                    if client.mode not in ['x3d', 'mjpeg']:
+                        logging.warning("Unsupported client mode: " + client.mode)
                 logging.info('Starting simulation from ' + client.url)
                 self.start_client()
 

@@ -66,7 +66,7 @@ class Stream { // eslint-disable-line no-unused-vars
         else if (line.startsWith('robot:')) {
           let robot, message;
           try {
-            let str = data.substring(data.indexOf(':') + 1).trim();
+            let str = line.substring(line.indexOf(':') + 1).trim();
             let dataObject = JSON.parse(str);
             robot = dataObject.name;
             message = dataObject.message;

@@ -1739,6 +1739,8 @@ void WbMainWindow::openNewConsole(const QString &name) {
     console->raise();
   }
   addDock(console);
+  console->setStyleSheet(styleSheet());
+  console->setVisible(true);
   mConsoles.append(console);
 }
 
@@ -1819,7 +1821,7 @@ void WbMainWindow::openBugReport() {
 }
 
 void WbMainWindow::openNewsletterSubscription() {
-  showDocument("https://www.cyberbotics.com/news/subscribe.php");
+  showDocument("https://cyberbotics.com/newsletter");
 }
 
 void WbMainWindow::openDiscord() {

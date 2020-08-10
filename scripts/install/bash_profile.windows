@@ -36,10 +36,10 @@ MSYS64_WINDOWS_HOME=`cygpath -m /`
 MSYS64_WINDOWS_HOME_WITHOUT_FINAL_SLASH=${MSYS64_WINDOWS_HOME::-1}
 MSYS64_HOME="/${MSYS64_WINDOWS_HOME_WITHOUT_FINAL_SLASH/:\//\/}"
 # export WEBOTS_DEPENDENCY_PATH=$MSYS64_HOME/home/$USER/webots/dependencies  # to avoid duplicating dependencies
-alias develop="source ~/webots/src/install_scripts/msys.sh \"$MSYS64_HOME/home/$USER/webots-develop\""
-alias master="source ~/webots/src/install_scripts/msys.sh \"$MSYS64_HOME/home/$USER/webots\""
-alias installed="source ~/webots/src/install_scripts/msys.sh \"/C/Program Files/Webots\""
-alias msys="source ~/webots/src/install_scripts/msys.sh"
+alias develop="source ~/webots/scripts/install/msys.sh \"$MSYS64_HOME/home/$USER/webots-develop\""
+alias master="source ~/webots/scripts/install/msys.sh \"$MSYS64_HOME/home/$USER/webots\""
+alias installed="source ~/webots/scripts/install/msys.sh \"/C/Program Files/Webots\""
+alias msys="source ~/webots/scripts/install/msys.sh"
 master  # default to the master branch
 
 MSYS2_WINDOWS_HOME=`cygpath -w /`

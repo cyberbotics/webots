@@ -41,7 +41,7 @@ void WbTelemetry::send(const QString &operation, const QString &file) {
 }
 
 void WbTelemetry::sendRequest(const QString &operation) {
-  QNetworkRequest request(QUrl("https://www.cyberbotics.com/telemetry.php"));
+  QNetworkRequest request(QUrl("https://cyberbotics.com/telemetry.php"));
   QByteArray data;
   data.append("id=");
   const int id = WbPreferences::instance()->value("General/telemetryId", 0).toString().toInt();

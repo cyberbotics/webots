@@ -552,10 +552,10 @@ void WbStreamingServer::propagateNodeAddition(WbNode *node) {
     connectNewRobot(robot);
 }
 
-QString WbStreamingServer::simulationStateString() {
+QString WbStreamingServer::simulationStateString(bool pauseTime) {
   switch (WbSimulationState::instance()->mode()) {
     case WbSimulationState::PAUSE:
-      return "pause";
+      return pauseTime ? QString("pause: %1").arg(WbSimulationState::instance()->time()) : "pause";
     case WbSimulationState::STEP:
       return "step";
     case WbSimulationState::REALTIME:
@@ -565,7 +565,7 @@ QString WbStreamingServer::simulationStateString() {
     case WbSimulationState::FAST:
       return "fast";
     default:
-      return QString();
+      return "";
   }
 }
 
@@ -576,8 +576,6 @@ void WbStreamingServer::propagateSimulationStateChange() const {
   QString message = simulationStateString();
   if (message.isEmpty())
     return;
-  if (message == "pause")
-    message = QString("pause: %1").arg(WbSimulationState::instance()->time());
   foreach (QWebSocket *client, mWebSocketClients)
     client->sendTextMessage(message);
 }
@@ -604,24 +602,6 @@ void WbStreamingServer::sendWorldToClient(QWebSocket *client) {
   for (int i = 0; i < worldList.size(); ++i)
     worlds += (i == 0 ? "" : ";") + QFileInfo(worldList.at(i)).fileName();
   client->sendTextMessage("world:" + QFileInfo(world->fileName()).fileName() + ':' + worlds);
-
-  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-  foreach (const WbRobot *robot, robots) {
-    if (!robot->window().isEmpty()) {
-      QJsonObject windowObject;
-      windowObject.insert("robot", robot->name());
-      windowObject.insert("window", robot->window());
-      const QJsonDocument windowDocument(windowObject);
-      client->sendTextMessage("robot window: " + windowDocument.toJson(QJsonDocument::Compact));
-    }
-  }
-
-  const WbWorldInfo *currentWorldInfo = WbWorld::instance()->worldInfo();
-  QJsonObject infoObject;
-  infoObject.insert("window", currentWorldInfo->window());
-  infoObject.insert("title", currentWorldInfo->title());
-  const QJsonDocument infoDocument(infoObject);
-  client->sendTextMessage("world info: " + infoDocument.toJson(QJsonDocument::Compact));
 
   client->sendTextMessage("scene load completed");
 }

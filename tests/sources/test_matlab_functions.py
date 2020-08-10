@@ -35,7 +35,7 @@ class TestMatlabFunctions(unittest.TestCase):
             'EXPORTS'
         ]
         self.functions = []
-        filename = os.environ['WEBOTS_HOME'] + '/src/lib/Controller/Controller.def'
+        filename = os.environ['WEBOTS_HOME'] + '/src/Controller/Controller.def'
         self.assertTrue(
             os.path.isfile(filename),
             msg='Missing "%s" file.' % filename
