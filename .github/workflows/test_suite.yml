@@ -21,7 +21,7 @@ jobs:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
   build:
     needs: cleanup-runs
-    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
     strategy:
       matrix:
         os: [ubuntu-18.04, ubuntu-20.04]
@@ -60,6 +60,7 @@ jobs:
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
   test-suite:
     needs: build
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite')  || contains(github.event.pull_request.labels.*.name, 'test world update') }}
     strategy:
       matrix:
         os: [ubuntu-18.04, ubuntu-20.04]
