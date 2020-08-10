@@ -14,6 +14,8 @@
 
 #include "WbSolid.hpp"
 
+#include "WbBox.hpp"
+#include "WbCylinder.hpp"
 #include "WbDamping.hpp"
 #include "WbDifferentialWheels.hpp"
 #include "WbField.hpp"
@@ -2964,6 +2966,56 @@ void WbSolid::enable(bool enabled, bool ode) {
         dSpaceRemove(space, g);
     }
   }
+}
+
+#include <QtCore/QDebug>
+
+bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
+  if (writer.isUrdf()) {
+    bool ret = WbMatter::exportNodeHeader(writer);
+    if (!ret) {
+      if (boundingObject()) {
+        QList<WbNode *> nodes = boundingObject()->subNodes(true);
+        for (int i = 0; i < nodes.size(); ++i) {
+          const WbNode *node = nodes[i];
+          const WbCylinder *cylinder = dynamic_cast<const WbCylinder *>(node);
+          const WbBox *box = dynamic_cast<const WbBox *>(node);
+          if (box || cylinder) {
+            const WbTransform *transform = WbNodeUtilities::findUpperTransform(node);
+            writer.increaseIndent();
+            writer.indent();
+            writer << "<visual>\n";
+            writer.increaseIndent();
+            if (transform != this) {
+              writer.indent();
+              writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
+                          .arg(transform->translation().toString(WbPrecision::DOUBLE_MAX))
+                          .arg(transform->rotation().toMatrix3().toEulerAnglesZYX().toString(WbPrecision::DOUBLE_MAX));
+            }
+            writer.indent();
+            writer << "<geometry>\n";
+            writer.increaseIndent();
+            writer.indent();
+            if (box)
+              writer << QString("<box size=\"%1 %2 %3\"/>\n").arg(box->size().x()).arg(box->size().y()).arg(box->size().z());
+            else if (cylinder)
+              writer << QString("<cylinder radius=\"%1\" length=\"%2\"/>\n").arg(cylinder->radius()).arg(cylinder->height());
+            writer.decreaseIndent();
+            writer.indent();
+            writer << "</geometry>\n";
+            writer.decreaseIndent();
+            writer.indent();
+            writer << "</visual>\n";
+            writer.decreaseIndent();
+          }
+        }
+      }
+    }
+
+    return ret;
+  }
+
+  return WbMatter::exportNodeHeader(writer);
 }
 
 void WbSolid::exportNodeFields(WbVrmlWriter &writer) const {

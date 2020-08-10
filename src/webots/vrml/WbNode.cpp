@@ -1122,22 +1122,22 @@ bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
       return true;
     }
 
-    writer.increaseIndent();
-    writer.indent();
-    writer << "<visual name=\"" << urdfName() << "\">\n";
-    writer.increaseIndent();
-    writer.indent();
-    writer << "<geometry>\n";
-    writer.increaseIndent();
-    writer.indent();
-    writer << "<box size=\"0.01 0.01 0.01\"/>\n";
-    writer.decreaseIndent();
-    writer.indent();
-    writer << "</geometry>\n";
-    writer.decreaseIndent();
-    writer.indent();
-    writer << "</visual>\n";
-    writer.decreaseIndent();
+    // writer.increaseIndent();
+    // writer.indent();
+    // writer << "<visual name=\"" << urdfName() << "\">\n";
+    // writer.increaseIndent();
+    // writer.indent();
+    // writer << "<geometry>\n";
+    // writer.increaseIndent();
+    // writer.indent();
+    // writer << "<box size=\"0.01 0.01 0.01\"/>\n";
+    // writer.decreaseIndent();
+    // writer.indent();
+    // writer << "</geometry>\n";
+    // writer.decreaseIndent();
+    // writer.indent();
+    // writer << "</visual>\n";
+    // writer.decreaseIndent();
     return false;
   }
   if (isUseNode()) {

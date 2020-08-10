@@ -293,6 +293,7 @@ protected:
   bool isInsertedOdeGeomPositionUpdateRequired() const override { return mIsKinematic; }
 
   // export
+  bool exportNodeHeader(WbVrmlWriter &writer) const override;
   void exportNodeFields(WbVrmlWriter &writer) const override;
   void exportNodeFooter(WbVrmlWriter &writer) const override;
 
