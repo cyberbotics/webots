@@ -7,11 +7,15 @@ Released on XXX YYth, 2020.
     - Improved the `inverse_kinematics` controller to use the URDF definition instead of hard-coding the robot model ([#2062](https://github.com/cyberbotics/webots/pull/2062)).
     - macOS: Add support for Python 3.7 and 3.8 installed with [Homebrew](https://brew.sh) ([#2079](https://github.com/cyberbotics/webots/pull/2079)).
   - Bug fixes
-        - Linux: Fixed the execution of robot controllers with firejail ([#2071](https://github.com/cyberbotics/webots/pull/2071)).
+    - Fixed crash occurring with some PROTO nodes when modifying fields from the scene tree that trigger the PROTO model regeneration ([#2100](https://github.com/cyberbotics/webots/pull/2100)).
+    - Fixed bugs in streaming server protocol and added support for X3D/MJPEG mode selection in simulation server ([#2077](https://github.com/cyberbotics/webots/pull/2077)).
+    - Fixed the `roadBorderWidth` field of the [HelicoidalRoadSegment](../guide/object-road.md#helicoidalroadsegment) PROTO node ([#2099](https://github.com/cyberbotics/webots/pull/2099)).
+    - Linux: Fixed the execution of robot controllers with firejail ([#2071](https://github.com/cyberbotics/webots/pull/2071)).
     - Fixed field changes not applied in case of nested [PROTO](proto.md) nodes ([#2063](https://github.com/cyberbotics/webots/pull/2063)).
     - Fixed the `near` field of the `Robotino3Webcam` [Camera](camera.md) ([#2051](https://github.com/cyberbotics/webots/pull/2051)).
     - Fixed orientation of the [Lights](light.md) in the [`robotino3` world](../guide/robotino3.md#robotino3-wbt) ([#2051](https://github.com/cyberbotics/webots/pull/2051)).
     - Fixed missing `limit` element when exporting joints with the [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function ([#2062](https://github.com/cyberbotics/webots/pull/2062)).
+    - Fixed wrong color of the first log in the console ([#2088](https://github.com/cyberbotics/webots/pull/2088)).
     - **macOS: Removed the `ros` controller**, the [custom Python ROS controller](https://www.cyberbotics.com/doc/guide/using-ros#custom-ros-controller) should be used instead ([#2053](https://github.com/cyberbotics/webots/pull/2053)).
     - Windows: Fixed generation of procedural PROTO nodes using the `gd` module ([#2070](https://github.com/cyberbotics/webots/pull/2070)).
 

@@ -14,3 +14,4 @@ More detailed explanations can be found in the source code.
 - [Geometries](samples-geometries.md)
 - [Environments](samples-environments.md)
 - [Rendering](samples-rendering.md)
+- [Community Projects](samples-community-projects.md)

@@ -2,7 +2,7 @@ name: Test Suite
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
   schedule:
     - cron:  '0 23 * * *'
   push:
@@ -21,7 +21,7 @@ jobs:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
   build:
     needs: cleanup-runs
-    # if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
     strategy:
       matrix:
         os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
@@ -34,24 +34,24 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        submodules: true
+         submodules: true
     - name: Install Webots Compilation Dependencies [Linux]
       if: ${{ startsWith(matrix.os, 'ubuntu') }}
-      run: src/install_scripts/linux_optional_compilation_dependencies.sh
+      run: scripts/install/linux_optional_compilation_dependencies.sh
     - name: Install Webots Compilation Dependencies [macOS]
-      if: ${{ startsWith(matrix.os, 'macos') }}
-      run: |
-        brew install cmake swig wget # node
-        npm install -g appdmg
-        sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7  # we can't use python3.7 from homebrew for the compilation because it is not compatible with the normal one
-        wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7.zip -P dependencies
-        sudo unzip -o -q dependencies/python3.7.zip -d /Library/Frameworks/Python.framework/Versions/3.7
-        sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.8  # we can't use python3.8 from homebrew for the compilation because it is not compatible with the normal one
-        wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.8.zip -P dependencies
-        sudo unzip -o -q dependencies/python3.8.zip -d /Library/Frameworks/Python.framework/Versions/3.8
+       if: ${{ startsWith(matrix.os, 'macos') }}
+       run: |
+         brew install cmake swig wget # node
+         npm install -g appdmg
+         sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7  # we can't use python3.7 from homebrew for the compilation because it is not compatible with the normal one
+         wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7.zip -P dependencies
+         sudo unzip -o -q dependencies/python3.7.zip -d /Library/Frameworks/Python.framework/Versions/3.7
+         sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.8  # we can't use python3.8 from homebrew for the compilation because it is not compatible with the normal one
+         wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.8.zip -P dependencies
+         sudo unzip -o -q dependencies/python3.8.zip -d /Library/Frameworks/Python.framework/Versions/3.8
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
-      run: python src/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
+      run: python scripts/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
     - name: Webots Package Creation [Linux]
       if: ${{ startsWith(matrix.os, 'ubuntu') }}
       run: |
@@ -60,11 +60,11 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         xvfb-run --auto-servernum make distrib -j4
     - name: Webots Package Creation [macOS]
-      if: ${{ startsWith(matrix.os, 'macos') }}
-      run: |
-        export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
-        export PATH=/Library/Frameworks/Python.framework/Versions/3.8/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin/:$PATH
-        make distrib -j4
+       if: ${{ startsWith(matrix.os, 'macos') }}
+       run: |
+         export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+         export PATH=/Library/Frameworks/Python.framework/Versions/3.8/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin/:$PATH
+         make distrib -j4
     - uses: actions/upload-artifact@v2
       with:
         name: build-${{ matrix.os }}
@@ -76,19 +76,13 @@ jobs:
       if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') && matrix.os == 'ubuntu-20.04' }}
       run: |
         sudo python -m pip install requests PyGithub
-        src/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
+        scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
   test-suite:
     needs: build
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') }}
     strategy:
       matrix:
-       # os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
-        os: [macos-10.15]
-        test: [tests/test_suite.py]
-        post_task: [""]
-       # include:
-       #   - os: ubuntu-18.04
-       #     test: src/packaging/update_all_worlds.py
-       #     post_task: "if [[ \"$(git diff --name-only *.wbt *.wbproj | wc -l)\" -ne \"0\" ]]; then echo Some world and/or wbproj files are not up to date: \"$(git diff *.wbt *.wbproj)\"; exit -1; fi"
+        os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
@@ -107,16 +101,15 @@ jobs:
         sudo cp -R /Volumes/Webots/Webots.app /Applications
         hdiutil unmount /Volumes/Webots
     - name: Install Webots Dependencies
-      if: ${{ startsWith(matrix.os, 'ubuntu') }}
-      run: src/install_scripts/linux_runtime_dependencies.sh
-    - name: ${{ matrix.test }} [Linux]
+      if: ${{ startsWith(matrix.os, 'ubuntu') }
+      run: scripts/install/linux_runtime_dependencies.sh
+    - name: Test Suite [Linux]
       if: ${{ startsWith(matrix.os, 'ubuntu') }}
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
-        xvfb-run --auto-servernum python ${{ matrix.test }}
-        ${{ matrix.post_task }}
+        xvfb-run --auto-servernum python tests/test_suite.py
     - name: ${{ matrix.test }} [macOS]
       if: ${{ startsWith(matrix.os, 'macos') }}
       run: |
@@ -125,5 +118,30 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=/Applications/Webots.app
-        python ${{ matrix.test }}
-        ${{ matrix.post_task }}
+        python tests/test_suite.py
+  world-update:
+    needs: build
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test world update') }}
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download Artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: build-ubuntu-18.04
+        path: artifact
+    - name: Extract Webots
+      run: tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
+    - name: Install Webots Dependencies
+      run: scripts/install/linux_runtime_dependencies.sh
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Update World
+      run: |
+        export LIBGL_ALWAYS_SOFTWARE=true
+        export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
+        export WEBOTS_HOME=$PWD/artifact/webots
+        xvfb-run --auto-servernum python scripts/packaging/update_all_worlds.py
+        if [[ "$(git diff --name-only *.wbt *.wbproj | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(git diff *.wbt *.wbproj)"; exit -1; fi

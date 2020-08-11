@@ -32,7 +32,7 @@
 #include "WbWrenShaders.hpp"
 #include "WbWrenTextureOverlay.hpp"
 
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDataStream>
