@@ -101,7 +101,7 @@ jobs:
         sudo cp -R /Volumes/Webots/Webots.app /Applications
         hdiutil unmount /Volumes/Webots
     - name: Install Webots Dependencies
-      if: ${{ startsWith(matrix.os, 'ubuntu') }
+      if: ${{ startsWith(matrix.os, 'ubuntu') }}
       run: scripts/install/linux_runtime_dependencies.sh
     - name: Test Suite [Linux]
       if: ${{ startsWith(matrix.os, 'ubuntu') }}
