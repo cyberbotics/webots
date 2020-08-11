@@ -47,6 +47,7 @@
 #include "WbSlot.hpp"
 #include "WbSolidMerger.hpp"
 #include "WbSolidReference.hpp"
+#include "WbSphere.hpp"
 #include "WbSupportPolygonRepresentation.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
@@ -2980,33 +2981,49 @@ bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
           const WbNode *node = nodes[i];
           const WbCylinder *cylinder = dynamic_cast<const WbCylinder *>(node);
           const WbBox *box = dynamic_cast<const WbBox *>(node);
-          if (box || cylinder) {
+          const WbSphere *sphere = dynamic_cast<const WbSphere *>(node);
+          if (box || cylinder || sphere) {
+            const QStringList element = QStringList() << "visual"
+                                                      << "collision";
             const WbTransform *transform = WbNodeUtilities::findUpperTransform(node);
-            writer.increaseIndent();
-            writer.indent();
-            writer << "<visual>\n";
-            writer.increaseIndent();
-            if (transform != this) {
+            for (int i = 0; i < element.size(); ++i) {
+              writer.increaseIndent();
               writer.indent();
-              writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
-                          .arg(transform->translation().toString(WbPrecision::DOUBLE_MAX))
-                          .arg(transform->rotation().toMatrix3().toEulerAnglesZYX().toString(WbPrecision::DOUBLE_MAX));
+              writer << QString("<%1>\n").arg(element[i]);
+              writer.increaseIndent();
+              if (transform != this || cylinder) {
+                WbVector3 translation = transform->translation();
+                WbRotation rotation = transform->rotation();
+                writer.indent();
+                if (cylinder) {
+                  if (transform == this) {
+                    translation = WbVector3();
+                    rotation = WbRotation(1.0, 0.0, 0.0, 1.5707963);
+                  } else
+                    rotation = WbRotation(WbRotation(1.0, 0.0, 0.0, 1.5707963).toMatrix3() * rotation.toMatrix3());
+                }
+                writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
+                            .arg(translation.toString(WbPrecision::DOUBLE_MAX))
+                            .arg(rotation.toMatrix3().toEulerAnglesZYX().toString(WbPrecision::DOUBLE_MAX));
+              }
+              writer.indent();
+              writer << "<geometry>\n";
+              writer.increaseIndent();
+              writer.indent();
+              if (box)
+                writer << QString("<box size=\"%1 %2 %3\"/>\n").arg(box->size().x()).arg(box->size().y()).arg(box->size().z());
+              else if (cylinder)
+                writer << QString("<cylinder radius=\"%1\" length=\"%2\"/>\n").arg(cylinder->radius()).arg(cylinder->height());
+              else if (sphere)
+                writer << QString("<sphere radius=\"%1\"/>\n").arg(sphere->radius());
+              writer.decreaseIndent();
+              writer.indent();
+              writer << "</geometry>\n";
+              writer.decreaseIndent();
+              writer.indent();
+              writer << QString("</%1>\n").arg(element[i]);
+              writer.decreaseIndent();
             }
-            writer.indent();
-            writer << "<geometry>\n";
-            writer.increaseIndent();
-            writer.indent();
-            if (box)
-              writer << QString("<box size=\"%1 %2 %3\"/>\n").arg(box->size().x()).arg(box->size().y()).arg(box->size().z());
-            else if (cylinder)
-              writer << QString("<cylinder radius=\"%1\" length=\"%2\"/>\n").arg(cylinder->radius()).arg(cylinder->height());
-            writer.decreaseIndent();
-            writer.indent();
-            writer << "</geometry>\n";
-            writer.decreaseIndent();
-            writer.indent();
-            writer << "</visual>\n";
-            writer.decreaseIndent();
           }
         }
       }
