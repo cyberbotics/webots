@@ -99,6 +99,11 @@ void WbX3dStreamingServer::processTextMessage(QString message) {
     }
     sendToClients("reset finished");
     return;
+  } else if (message.startsWith("mjpeg: ")) {
+    WbLog::error(tr("Streaming server received unsupported MJPEG message: '%1'. You should run Webots with the "
+                    "'--stream=\"mode=mjpeg\"' command line option.")
+                   .arg(message));
+    return;
   }
   WbStreamingServer::processTextMessage(message);
 }

@@ -777,7 +777,10 @@ void WbNode::notifyFieldChanged() {
         }
 
         setGlobalParentNode(NULL);
-      }
+      } else
+        // index could be invalid for fields in sub-PROTO scope
+        // but in this case the USE node will be updated by the parameter change notification
+        break;
     }
 
     // climb up the family tree but stop if child insertion is not completed
@@ -798,7 +801,7 @@ void WbNode::notifyParameterChanged() {
 
 int WbNode::findSubFieldIndex(const WbField *const searched) const {
   int count = 0;
-  QList<WbNode *> list(subNodes(true));
+  QList<WbNode *> list(subNodes(true, false, false));
   list.prepend(const_cast<WbNode *>(this));
   foreach (WbNode *const node, list) {
     foreach (WbField *const field, node->mFields) {
@@ -807,13 +810,12 @@ int WbNode::findSubFieldIndex(const WbField *const searched) const {
       ++count;
     }
   }
-  assert(0);
   return -1;
 }
 
 WbField *WbNode::findSubField(int index, WbNode *&parent) const {
   int count = 0;
-  QList<WbNode *> list(subNodes(true));
+  QList<WbNode *> list(subNodes(true, false, false));
   list.prepend(const_cast<WbNode *>(this));
   foreach (WbNode *const node, list) {
     foreach (WbField *const field, node->mFields) {
