@@ -103,6 +103,10 @@ jobs:
     - name: Install Webots Dependencies
       if: ${{ startsWith(matrix.os, 'ubuntu') }}
       run: scripts/install/linux_runtime_dependencies.sh
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
     - name: Test Suite [Linux]
       if: ${{ startsWith(matrix.os, 'ubuntu') }}
       run: |
