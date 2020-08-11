@@ -306,7 +306,7 @@ void WbJoint::writeExport(WbVrmlWriter &writer) const {
     const WbNode *const parentRoot = findUrdfLinkRoot();
     const WbVector3 translation = solidEndPoint()->translationFrom(parentRoot);
     const WbVector3 rotationEuler = solidEndPoint()->rotationMatrixFrom(parentRoot).toEulerAnglesZYX();
-    const WbVector3 rotationAxis = axis() * solidEndPoint()->rotationMatrixFrom(parentRoot);
+    const WbVector3 rotationAxis = axis() * solidEndPoint()->rotationMatrixFrom(WbNodeUtilities::findUpperTransform(this));
 
     writer.increaseIndent();
     writer.indent();
