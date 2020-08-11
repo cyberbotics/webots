@@ -16,6 +16,7 @@
 
 #include "WbApplication.hpp"
 #include "WbField.hpp"
+#include "WbHttpReply.hpp"
 #include "WbLanguage.hpp"
 #include "WbMainWindow.hpp"
 #include "WbNodeOperations.hpp"
@@ -173,6 +174,15 @@ void WbStreamingServer::onNewTcpData() {
     if (!requestedUrl.isEmpty())  // "/" is reserved for the websocket.
       sendTcpRequestReply(requestedUrl, socket);
   }
+}
+
+void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
+  if (requestedUrl.startsWith("robot_windows/")) {
+    QString fileName = WbProject::current()->path() + "plugins/" + requestedUrl;
+    WbLog::info(tr("Received request for %1").arg(fileName));
+    socket->write(WbHttpReply::forgeFileReply(fileName));
+  } else
+    socket->write(WbHttpReply::forge404Reply());
 }
 
 void WbStreamingServer::onNewWebSocketConnection() {

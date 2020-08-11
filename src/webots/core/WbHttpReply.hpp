@@ -20,7 +20,8 @@
 namespace WbHttpReply {
   QByteArray forge404Reply();
   QByteArray forgeHTMLReply(const QString &htmlContent);
-  QByteArray forgeImageReply(const QString &imageFileName);
+  // QByteArray forgeImageReply(const QString &imageFileName);
+  QByteArray forgeFileReply(const QString &fileName);
 };  // namespace WbHttpReply
 
 #endif

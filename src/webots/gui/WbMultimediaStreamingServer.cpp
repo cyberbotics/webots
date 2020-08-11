@@ -68,8 +68,10 @@ void WbMultimediaStreamingServer::start(int port) {
 }
 
 void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
-  if (requestedUrl != "mjpeg")
+  if (requestedUrl != "mjpeg") {
+    WbStreamingServer::sendTcpRequestReply(requestedUrl, socket);
     return;
+  }
   socket->readAll();
 
   static const QByteArray &contentType = ("HTTP/1.0 200 OK\r\nServer: Webots\r\nConnection: close\r\nMax-Age: 0\r\n"

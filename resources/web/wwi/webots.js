@@ -251,22 +251,58 @@ webots.View = class View {
           });
         }
         pendingRequestsCount++;
-        $.get('window/' + windowName + '/' + windowName + '.html', (data) => {
+        const url = this.server.httpServerUrl + 'robot_windows/' + windowName + '/' + windowName + '.html ';
+        console.log('request: ' + url);
+        $.get(url, (data) => {
           // Fix the img src relative URLs.
+          /*
           var d = data.replace(/ src='/g, ' src=\'window/' + windowName + '/').replace(/ src="/g, ' src="window/' +
             windowName + '/');
-          win.setContent(d);
+            */
+
+          function fixSrc(collection, serverUrl) {
+            for (var i = 0; i < collection.length; i++) {
+              if (collection[i].src) {
+                let url = new URL(collection[i].src);
+                if (url.origin === serverUrl.origin) {
+                  console.log(i, url.pathname);
+                  collection[i].src = serverUrl.href + 'robot_windows/' + windowName + url.pathname;
+                } else
+                  console.log(i, collection[i].src);
+              } else console.log(i, collection[i].innerHTML);
+            }
+          }
+          let parser = new DOMParser();
+          let doc = parser.parseFromString(data, 'text/html');
+          let serverUrl = new URL(this.server.httpServerUrl);
+          fixSrc(doc.getElementsByTagName('script'), serverUrl);
+          fixSrc(doc.getElementsByTagName('img'), serverUrl);
+          let body = doc.getElementsByTagName('body')[0];
+          win.setContent(body.innerHTML);
           MathJax.Hub.Queue(['Typeset', MathJax.Hub, win[0]]);
-          $.get('window/' + windowName + '/' + windowName + '.js', (data) => {
-            eval(data);
-            pendingRequestsCount--;
-            if (pendingRequestsCount === 0)
-              loadFinalize();
-          }).fail(() => {
-            pendingRequestsCount--;
-            if (pendingRequestsCount === 0)
-              loadFinalize();
-          });
+
+          function nodeScriptClone(node) { // this forces the execution of the Javascript code
+            var script = document.createElement('script');
+            script.text = node.innerHTML;
+            for (let i = node.attributes.length - 1; i >= 0; i--)
+              script.setAttribute(node.attributes[i].name, node.attributes[i].value);
+            return script;
+          }
+
+          function nodeScriptReplace(node) {
+            if (node.tagName === 'SCRIPT')
+              node.parentNode.replaceChild(nodeScriptClone(node), node);
+            else {
+              let i = 0;
+              let children = node.childNodes;
+              while (i < children.length)
+                nodeScriptReplace(children[i++]);
+            }
+          }
+          nodeScriptReplace(win.panel); // execute JScode if any script tag
+          pendingRequestsCount--;
+          if (pendingRequestsCount === 0)
+            loadFinalize();
         }).fail(() => {
           if (windowName === infoWindowName)
             this.infoWindow = undefined;

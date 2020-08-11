@@ -69,12 +69,10 @@ void WbX3dStreamingServer::create(int port) {
 }
 
 void WbX3dStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
-  QByteArray reply;
-  if (mX3dWorldTextures.contains(requestedUrl))
-    reply = WbHttpReply::forgeImageReply(mX3dWorldTextures[requestedUrl]);
+  if (!mX3dWorldTextures.contains(requestedUrl))
+    WbStreamingServer::sendTcpRequestReply(requestedUrl, socket);
   else
-    reply = WbHttpReply::forge404Reply();
-  socket->write(reply);
+    socket->write(WbHttpReply::forgeFileReply(mX3dWorldTextures[requestedUrl]));
 }
 
 void WbX3dStreamingServer::processTextMessage(QString message) {
