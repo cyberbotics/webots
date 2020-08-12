@@ -32,10 +32,10 @@ class Server { // eslint-disable-line no-unused-vars
         return;
       if (xhr.status !== 200)
         return;
-      var data = xhr.responseText;
+      const data = xhr.responseText;
       if (data.startsWith('Error:')) {
         $('#webotsProgress').hide();
-        var errorMessage = data.substring(6).trim();
+        let errorMessage = data.substring(6).trim();
         errorMessage = errorMessage.charAt(0).toUpperCase() + errorMessage.substring(1);
         webots.alert('Session server error', errorMessage);
         return;
@@ -86,7 +86,7 @@ class Server { // eslint-disable-line no-unused-vars
   }
 
   onMessage(event) {
-    var message = event.data;
+    const message = event.data;
     if (message.indexOf('webots:ws://') === 0 || message.indexOf('webots:wss://') === 0) {
       const url = message.substring(7);
       this.httpServerUrl = url.replace(/ws/, 'http');
@@ -94,8 +94,8 @@ class Server { // eslint-disable-line no-unused-vars
       this.view.stream = new Stream(url, this.view, this.onready);
       this.view.stream.connect();
     } else if (message.indexOf('controller:') === 0) {
-      var n = message.indexOf(':', 11);
-      var controller = {};
+      const n = message.indexOf(':', 11);
+      let controller = {};
       controller.name = message.substring(11, n);
       controller.port = message.substring(n + 1);
       this.view.console.info('Using controller ' + controller.name + ' on port ' + controller.port);
