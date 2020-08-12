@@ -15,6 +15,7 @@
 #include "WbSolid.hpp"
 
 #include "WbBox.hpp"
+#include "WbCapsule.hpp"
 #include "WbCylinder.hpp"
 #include "WbDamping.hpp"
 #include "WbDifferentialWheels.hpp"
@@ -2969,6 +2970,45 @@ void WbSolid::enable(bool enabled, bool ode) {
   }
 }
 
+void WbSolid::exportURDFShape(WbVrmlWriter &writer, const QString &geometry, const WbTransform *transform,
+                              bool correctOrientation, const WbVector3 &offset) {
+  const QStringList element = QStringList() << "visual"
+                                            << "collision";
+  for (int j = 0; j < element.size(); ++j) {
+    writer.increaseIndent();
+    writer.indent();
+    writer << QString("<%1>\n").arg(element[j]);
+    writer.increaseIndent();
+    if (transform != this || correctOrientation) {
+      WbVector3 translation = transform->translation() + offset;
+      WbRotation rotation = transform->rotation();
+      writer.indent();
+      if (correctOrientation) {
+        if (transform == this) {
+          translation = WbVector3();
+          rotation = WbRotation(1.0, 0.0, 0.0, 1.5707963);
+        } else
+          rotation = WbRotation(WbRotation(1.0, 0.0, 0.0, 1.5707963).toMatrix3() * rotation.toMatrix3());
+      }
+      writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
+                  .arg(translation.toString(WbPrecision::DOUBLE_MAX))
+                  .arg(rotation.toMatrix3().toEulerAnglesZYX().toString(WbPrecision::DOUBLE_MAX));
+    }
+    writer.indent();
+    writer << "<geometry>\n";
+    writer.increaseIndent();
+    writer.indent();
+    writer << geometry;
+    writer.decreaseIndent();
+    writer.indent();
+    writer << "</geometry>\n";
+    writer.decreaseIndent();
+    writer.indent();
+    writer << QString("</%1>\n").arg(element[j]);
+    writer.decreaseIndent();
+  }
+}
+
 bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
   if (writer.isUrdf()) {
     const bool ret = WbMatter::exportNodeHeader(writer);
@@ -2980,48 +3020,41 @@ bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
           const WbCylinder *cylinder = dynamic_cast<const WbCylinder *>(node);
           const WbBox *box = dynamic_cast<const WbBox *>(node);
           const WbSphere *sphere = dynamic_cast<const WbSphere *>(node);
-          if (box || cylinder || sphere) {
-            const QStringList element = QStringList() << "visual"
-                                                      << "collision";
+          const WbCapsule *capsule = dynamic_cast<const WbCapsule *>(node);
+          if (box || cylinder || sphere || capsule) {
             const WbTransform *transform = WbNodeUtilities::findUpperTransform(node);
-            for (int j = 0; j < element.size(); ++j) {
-              writer.increaseIndent();
-              writer.indent();
-              writer << QString("<%1>\n").arg(element[j]);
-              writer.increaseIndent();
-              if (transform != this || cylinder) {
-                WbVector3 translation = transform->translation();
-                WbRotation rotation = transform->rotation();
-                writer.indent();
-                if (cylinder) {
-                  if (transform == this) {
-                    translation = WbVector3();
-                    rotation = WbRotation(1.0, 0.0, 0.0, 1.5707963);
-                  } else
-                    rotation = WbRotation(WbRotation(1.0, 0.0, 0.0, 1.5707963).toMatrix3() * rotation.toMatrix3());
-                }
-                writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
-                            .arg(translation.toString(WbPrecision::DOUBLE_MAX))
-                            .arg(rotation.toMatrix3().toEulerAnglesZYX().toString(WbPrecision::DOUBLE_MAX));
-              }
-              writer.indent();
-              writer << "<geometry>\n";
-              writer.increaseIndent();
-              writer.indent();
-              if (box)
-                writer << QString("<box size=\"%1 %2 %3\"/>\n").arg(box->size().x()).arg(box->size().y()).arg(box->size().z());
-              else if (cylinder)
-                writer << QString("<cylinder radius=\"%1\" length=\"%2\"/>\n").arg(cylinder->radius()).arg(cylinder->height());
-              else if (sphere)
-                writer << QString("<sphere radius=\"%1\"/>\n").arg(sphere->radius());
-              writer.decreaseIndent();
-              writer.indent();
-              writer << "</geometry>\n";
-              writer.decreaseIndent();
-              writer.indent();
-              writer << QString("</%1>\n").arg(element[j]);
-              writer.decreaseIndent();
-            }
+            QList<QPair<QString, WbVector3>> geometries;  // string of the geometry and its offset
+
+            if (box) {
+              QPair<QString, WbVector3> pair;
+              pair.first = QString("<box size=\"%1 %2 %3\"/>\n").arg(box->size().x()).arg(box->size().y()).arg(box->size().z());
+              geometries << pair;
+            } else if (cylinder) {
+              QPair<QString, WbVector3> pair;
+              pair.first = QString("<cylinder radius=\"%1\" length=\"%2\"/>\n").arg(cylinder->radius()).arg(cylinder->height());
+              geometries << pair;
+            } else if (capsule) {
+              QPair<QString, WbVector3> pair;
+              pair.first = QString("<cylinder radius=\"%1\" length=\"%2\"/>\n").arg(capsule->radius()).arg(capsule->height());
+              geometries << pair;
+              pair.first = QString("<sphere radius=\"%1\"/>\n").arg(capsule->radius());
+              pair.second = WbVector3(0.0, 0.5 * capsule->height(), 0.0);
+              if (transform)
+                pair.second = transform->rotation().toMatrix3() * pair.second;
+              geometries << pair;
+              pair.first = QString("<sphere radius=\"%1\"/>\n").arg(capsule->radius());
+              pair.second = WbVector3(0.0, -0.5 * capsule->height(), 0.0);
+              if (transform)
+                pair.second = transform->rotation().toMatrix3() * pair.second;
+              geometries << pair;
+            } else if (sphere) {
+              QPair<QString, WbVector3> pair;
+              pair.first = QString("<sphere radius=\"%1\"/>\n").arg(sphere->radius());
+              geometries << pair;
+            } else
+              assert(false);
+            for (int j = 0; j < geometries.size(); ++j)
+              exportURDFShape(writer, geometries[j].first, transform, cylinder || capsule, geometries[j].second);
           }
         }
       }

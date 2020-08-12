@@ -310,6 +310,9 @@ private:
   WbSolid &operator=(const WbSolid &);  // non copyable
   void init();
 
+  static void exportURDFShape(WbVrmlWriter &writer, const QString &geometry, const WbTransform *transform, bool fixOrientation,
+                              const WbVector3 &offset);
+
   // list of finalized solids
   static QList<const WbSolid *> cSolids;
 
