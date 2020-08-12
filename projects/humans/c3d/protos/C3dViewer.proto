@@ -15,6 +15,7 @@ PROTO C3dViewer [
   field  SFFloat     bodyTransparency                 1             # Defines the transparency of the body representation (transparency to 1 disable body representation).
   field  SFFloat     bodyHeight                       -1            # Defines the height of the body representation, if set to '<0' the height defined in the C3D file is used (or 1.83m is not set in the C3D file).
   field  SFFloat     bodyOffset                       0.25          # Defines the vertical offset of the body representation compared to the 'CenterOfMass' marker.
+  field  SFString    window                           "c3d_viewer_window"
 ]
 {
   %{
@@ -43,6 +44,6 @@ PROTO C3dViewer [
     ]
     supervisor TRUE
     showWindow TRUE
-    window "c3d_viewer_window"
+    window IS window
   }
 }
