@@ -136,7 +136,6 @@ WbRenderingDeviceWindow::WbRenderingDeviceWindow(WbRenderingDevice *device) :
 
 WbRenderingDeviceWindow::~WbRenderingDeviceWindow() {
   QOpenGLFunctions_3_3_Core *f = mContext->versionFunctions<QOpenGLFunctions_3_3_Core>();
-  f->glDeleteBuffers(2, (GLuint *)&mVboId);
   f->glDeleteVertexArrays(1, &mVaoId);
   delete mContext;
 }
@@ -189,11 +188,18 @@ void WbRenderingDeviceWindow::initialize() {
 
   f->glGenVertexArrays(1, &mVaoId);
   f->glBindVertexArray(mVaoId);
-  f->glGenBuffers(2, (GLuint *)&mVboId);
-  f->glBindBuffer(GL_ARRAY_BUFFER, mVboId[0]);
+  GLuint vboId[2];
+  f->glGenBuffers(2, (GLuint *)&vboId);
+  f->glBindBuffer(GL_ARRAY_BUFFER, vboId[0]);
   f->glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-  f->glBindBuffer(GL_ARRAY_BUFFER, mVboId[1]);
+  f->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+  f->glEnableVertexAttribArray(0);
+  f->glBindBuffer(GL_ARRAY_BUFFER, vboId[1]);
   f->glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords, GL_STATIC_DRAW);
+  f->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+  f->glEnableVertexAttribArray(1);
+  f->glBindVertexArray(0);
+  f->glDeleteBuffers(2, (GLuint *)&vboId);
 }
 
 void WbRenderingDeviceWindow::render() {
@@ -206,13 +212,7 @@ void WbRenderingDeviceWindow::render() {
 
   mProgram->bind();
 
-  f->glEnableVertexAttribArray(0);
-  f->glBindBuffer(GL_ARRAY_BUFFER, mVboId[0]);
-  f->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-  f->glEnableVertexAttribArray(1);
-  f->glBindBuffer(GL_ARRAY_BUFFER, mVboId[1]);
-  f->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+  f->glBindVertexArray(mVaoId);
 
   if (mAbstractCamera && mAbstractCamera->isRangeFinder())
     mProgram->setUniformValue(mMaxRangeUniform, static_cast<float>(mAbstractCamera->maxRange()));
@@ -249,8 +249,7 @@ void WbRenderingDeviceWindow::render() {
 
   f->glDrawArrays(GL_TRIANGLES, 0, 6);
 
-  f->glDisableVertexAttribArray(1);
-  f->glDisableVertexAttribArray(0);
+  f->glBindVertexArray(0);
 
   mProgram->release();
 }
