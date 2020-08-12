@@ -2049,9 +2049,9 @@ URDF joints are named after position sensor in the corresponding Webots joints.
 
 
 
-> **Note**: Exported URDF is not complete. 
+> **Note**: Exported URDF is not complete.
 Currently, the generated URDF consists of a minimal number of elements to be used with [`robot_state_publisher`](http://wiki.ros.org/robot_state_publisher).
-[RViz](http://wiki.ros.org/rviz) will show only small boxes in places where the links are located, regardless of the shape defined in Webots.
+Only the [Box](box.md), [Capsule](capsule.md), [Cylinder](cylinder.md) and [Sphere](sphere.md) nodes in the `boundingObject` field of [Solid](solid.md) nodes will be exported (both for `visual` and `collision`), the URDF file can therefore be visualized in [RViz](http://wiki.ros.org/rviz).
 Also note that [Hinge2Joint](./hinge2joint.md) and [BallJoint](./balljoint.md) are not supported.
 
 ---
