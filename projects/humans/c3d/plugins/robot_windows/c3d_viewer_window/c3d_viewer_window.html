@@ -7,13 +7,13 @@
   <body>
     <div ondragstart="return false">
       <div id="menu">
-        <button id="config-menu-button" class="menu-button tablink" onclick="menuTabCallback('config')">Config</button>
-        <button id="markers-menu-button" class="menu-button tablink" onclick="menuTabCallback('markers')">Markers</button>
-        <button id="virtual_markers-menu-button" class="menu-button tablink" onclick="menuTabCallback('virtual_markers')">Virtual Markers</button>
-        <button id="angles-menu-button" class="menu-button tablink" onclick="menuTabCallback('angles')">Angles</button>
-        <button id="forces-menu-button" class="menu-button tablink" onclick="menuTabCallback('forces')">Forces</button>
-        <button id="moments-menu-button" class="menu-button tablink" onclick="menuTabCallback('moments')">Moments</button>
-        <button id="powers-menu-button" class="menu-button tablink" onclick="menuTabCallback('powers')">Powers</button>
+        <button id="config-menu-button" class="menu-button tablink">Config</button>
+        <button id="markers-menu-button" class="menu-button tablink">Markers</button>
+        <button id="virtual_markers-menu-button" class="menu-button tablink">Virtual Markers</button>
+        <button id="angles-menu-button" class="menu-button tablink">Angles</button>
+        <button id="forces-menu-button" class="menu-button tablink">Forces</button>
+        <button id="moments-menu-button" class="menu-button tablink">Moments</button>
+        <button id="powers-menu-button" class="menu-button tablink">Powers</button>
       </div>
       <div id="content">
         <div id="config-tab" class="content">
@@ -22,12 +22,12 @@
           </h2>
           <div>
             Body Transparency
-            <input type="range" class="radiusSlider" min="0.0" max="1.0" step = "0.001" value="1.0" data-show-value="true" class="slider" title="Transparency of the body." onchange="updateTransparency(this)"/>
+            <input id="transparency-slider" type="range" class="radiusSlider" min="0.0" max="1.0" step = "0.001" value="1.0" data-show-value="true" class="slider" title="Transparency of the body."/>
             <span id="slider_value_transparency">1.0</span>
           </div>
           <div>
             Playback Speed
-            <input type="range" class="radiusSlider" min="0.1" max="10" step = "0.1" value="1.0" data-show-value="true" class="slider" title="Playback speed." onchange="updateSpeed(this)"/>
+            <input id="speed-slider" type="range" class="radiusSlider" min="0.1" max="10" step = "0.1" value="1.0" data-show-value="true" class="slider" title="Playback speed."/>
             <span id="slider_value_speed">1.0</span>
           </div>
           <h2>
@@ -54,7 +54,7 @@
         <div id="markers-tab" class="content">
           <h2>
             Marker Graphs
-            <input type="checkbox" id="graph-checkbox" graphtype="markers" onclick="enableGraphs(this)"/>
+            <input type="checkbox" id="graph-markers-checkbox" graphtype="markers"/>
           </h2>
           <div id="graphs-markers">
           </div>
@@ -62,7 +62,7 @@
         <div id="virtual_markers-tab" class="content">
           <h2>
             Virtual Marker Graphs
-            <input type="checkbox" id="graph-checkbox" graphtype="virtual_markers" onclick="enableGraphs(this)"/>
+            <input type="checkbox" id="graph-virtual-markers-checkbox" graphtype="virtual_markers"/>
           </h2>
           <div id="graphs-virtual_markers">
           </div>
@@ -70,7 +70,7 @@
         <div id="angles-tab" class="content">
           <h2>
             Angles Graphs
-            <input type="checkbox" id="graph-checkbox" graphtype="angles" onclick="enableGraphs(this)"/>
+            <input type="checkbox" id="graph-angles-checkbox" graphtype="angles"/>
           </h2>
           <div id="graphs-angles">
           </div>
@@ -78,7 +78,7 @@
         <div id="forces-tab" class="content">
           <h2>
             Forces Graphs
-            <input type="checkbox" id="graph-checkbox" graphtype="forces" onclick="enableGraphs(this)"/>
+            <input type="checkbox" id="graph-forces-checkbox" graphtype="forces"/>
           </h2>
           <div id="graphs-forces">
           </div>
@@ -86,7 +86,7 @@
         <div id="moments-tab" class="content">
           <h2>
             Moments Graphs
-            <input type="checkbox" id="graph-checkbox" graphtype="moments" onclick="enableGraphs(this)"/>
+            <input type="checkbox" id="graph-moments-checkbox" graphtype="moments"/>
           </h2>
           <div id="graphs-moments">
           </div>
@@ -94,7 +94,7 @@
         <div id="powers-tab" class="content">
           <h2>
             Powers Graphs
-            <input type="checkbox" id="graph-checkbox" graphtype="powers" onclick="enableGraphs(this)"/>
+            <input type="checkbox" id="graph-powers-checkbox" graphtype="powers"/>
           </h2>
           <div id="graphs-powers">
           </div>

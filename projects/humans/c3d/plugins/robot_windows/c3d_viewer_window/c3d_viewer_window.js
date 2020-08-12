@@ -1,9 +1,12 @@
-var robotWindow = null;
-var basicTimeStep = 0.032;
-var graphs = {};
+/* global webots */
+/* global PlotWidget, TimeplotWidget */
+
+let robotWindow = null;
+let basicTimeStep = 0.032;
+let graphs = {};
 
 function menuTabCallback(category) {
-  var i, x, tablinks;
+  let i, x, tablinks;
   x = document.getElementsByClassName('content');
   for (i = 0; i < x.length; ++i)
     x[i].style.display = 'none';
@@ -22,10 +25,6 @@ function menuTabCallback(category) {
   });
 }
 
-function enableGraphs(checkbox) {
-  robotWindow.send('graphs:' + checkbox.getAttribute('graphtype') + ':' + checkbox.checked);
-}
-
 function checkboxCallback(checkbox) {
   if (checkbox.checked)
     robotWindow.send('enable:' + checkbox.getAttribute('marker'));
@@ -34,19 +33,9 @@ function checkboxCallback(checkbox) {
 }
 
 function sliderCallback(slider) {
-  var marker = slider.getAttribute('marker');
+  const marker = slider.getAttribute('marker');
   document.getElementById('slider_value_' + marker).innerHTML = slider.value;
   robotWindow.send('radius:' + slider.value + ':' + marker);
-}
-
-function updateTransparency(slider) {
-  document.getElementById('slider_value_transparency').innerHTML = slider.value;
-  robotWindow.send('body_transparency:' + slider.value);
-}
-
-function updateSpeed(slider) {
-  document.getElementById('slider_value_speed').innerHTML = slider.value;
-  robotWindow.send('speed:' + slider.value);
 }
 
 function colorCallback(color) {
@@ -54,29 +43,18 @@ function colorCallback(color) {
 }
 
 function comboboxCallback(combobox) {
-  var markerGraphs = graphs[combobox.getAttribute('marker')];
+  let markerGraphs = graphs[combobox.getAttribute('marker')];
   markerGraphs.forEach(function(widget) {
     widget.show(false);
   });
   markerGraphs[combobox.selectedIndex].show(true);
 }
 
-function hideShowAll(virtual, hide) {
-  var div = virtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
-  var checkboxes = div.getElementsByClassName('visibilityCheckbox');
-  message = hide ? 'disable' : 'enable';
-  for (var i = 0; i < checkboxes.length; i++) {
-    checkboxes[i].checked = true;
-    message += ':' + checkboxes[i].getAttribute('marker');
-  }
-  robotWindow.send(message);
-}
-
 function changeColor(virtual, color) {
-  var div = virtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
-  var colorSelectors = div.getElementsByClassName('colorSelector');
-  message = 'color:' + color;
-  for (var i = 0; i < colorSelectors.length; i++) {
+  let div = virtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
+  let colorSelectors = div.getElementsByClassName('colorSelector');
+  let message = 'color:' + color;
+  for (let i = 0; i < colorSelectors.length; i++) {
     colorSelectors[i].value = color;
     message += ':' + colorSelectors[i].getAttribute('marker');
   }
@@ -84,12 +62,12 @@ function changeColor(virtual, color) {
 }
 
 function changeRadius(virtual, radius) {
-  var div = virtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
-  var radiusSliders = div.getElementsByClassName('radiusSlider');
-  message = 'radius:' + radius;
-  for (var i = 0; i < radiusSliders.length; i++) {
+  let div = virtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
+  let radiusSliders = div.getElementsByClassName('radiusSlider');
+  let message = 'radius:' + radius;
+  for (let i = 0; i < radiusSliders.length; i++) {
     radiusSliders[i].value = radius;
-    var marker = radiusSliders[i].getAttribute('marker')
+    const marker = radiusSliders[i].getAttribute('marker');
     message += ':' + marker;
     document.getElementById('slider_value_' + marker).innerHTML = radius;
   }
@@ -106,11 +84,11 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
     var type = message[0];
     var unit = message[1];
     var names = message[2].split(' ');
-    if (type == 'virtual_markers' || type == 'markers') {
-      var isVirtual = type == 'virtual_markers';
+    if (type === 'virtual_markers' || type === 'markers') {
+      var isVirtual = type === 'virtual_markers';
       var div = document.getElementById(type);
       var content = '';
-      if (message[2] == 'None')
+      if (message[2] === 'None')
         content = 'None';
       else {
         // options
@@ -128,31 +106,31 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
       div.innerHTML = content;
     }
     // graph
-    if (message[2] == 'None') {
-      if (type != 'markers')
+    if (message[2] === 'None') {
+      if (type !== 'markers')
         document.getElementById('graphs-' + type).innerHTML = 'None';
     } else {
-      for (var i = 0; i < names.length; i++) {
-        var name = names[i];
-        var tmp = document.createElement('tmp');
-        var div = '<div id="' + name + '-graph-container" class="marker-plot">';
+      for (let i = 0; i < names.length; i++) {
+        let name = names[i];
+        let tmp = document.createElement('tmp');
+        let div = '<div id="' + name + '-graph-container" class="marker-plot">';
         div += '<h3>' + name;
         div += '<select onChange="comboboxCallback(this)" class="view-selector" marker="' + name + '">' +
                '  <option>Time</option>' +
                '  <option>XY</option>' +
                '  <option>YZ</option>' +
                '  <option>XZ</option>' +
-               '</select>'
+               '</select>';
         div += '</h3>';
         div += '<div id="' + name + '-graph" class="marker-plot-content"/></div>';
         div += '</div>';
         tmp.innerHTML = div;
         document.getElementById('graphs-' + type).appendChild(tmp.firstChild);
 
-        var widgetTime = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.prototype.AutoRangeType.STRETCH, {'min': -1, 'max': 1}, {'x': 'Time [s]', 'y': '[' + unit + ']'}, null);
-        var widgetXY = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 1}, {'min': -1, 'max': 1}, {'min': -1, 'max': 1}, {'x': 'x [' + unit + ']', 'y': 'y [' + unit + ']'}, null);
-        var widgetYZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 1, 'y': 2}, {'min': -1, 'max': 1}, {'min': -1, 'max': 1}, {'x': 'y [' + unit + ']', 'y': 'z [' + unit + ']'}, null);
-        var widgetXZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 2}, {'min': -1, 'max': 1}, {'min': -1, 'max': 1}, {'x': 'x [' + unit + ']', 'y': 'z [' + unit + ']'}, null);
+        let widgetTime = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.prototype.AutoRangeType.STRETCH, {'min': -1, 'max': 1}, {'x': 'Time [s]', 'y': '[' + unit + ']'}, null);
+        let widgetXY = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 1}, {'min': -1, 'max': 1}, {'min': -1, 'max': 1}, {'x': 'x [' + unit + ']', 'y': 'y [' + unit + ']'}, null);
+        let widgetYZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 1, 'y': 2}, {'min': -1, 'max': 1}, {'min': -1, 'max': 1}, {'x': 'y [' + unit + ']', 'y': 'z [' + unit + ']'}, null);
+        let widgetXZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 2}, {'min': -1, 'max': 1}, {'min': -1, 'max': 1}, {'x': 'x [' + unit + ']', 'y': 'z [' + unit + ']'}, null);
 
         widgetXY.show(false);
         widgetYZ.show(false);
@@ -163,15 +141,15 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
       }
     }
   } else if (message.startsWith('positions:')) {
-    var positions = message.split(':');
-    var n = positions.length / 2;
-    time = parseFloat(positions[1]);
-    for (var i = 1; i < n; i++) {  // start at 1 because 0 is 'positions:' and time
-      var name = positions[i * 2];
-      var coordinates = positions[i * 2 + 1].split(',');
-      var x = parseFloat(coordinates[0]);
-      var y = parseFloat(coordinates[1]);
-      var z = parseFloat(coordinates[2]);
+    let positions = message.split(':');
+    let n = positions.length / 2;
+    let time = parseFloat(positions[1]);
+    for (let i = 1; i < n; i++) { // start at 1 because 0 is 'positions:' and time
+      const name = positions[i * 2];
+      const coordinates = positions[i * 2 + 1].split(',');
+      const x = parseFloat(coordinates[0]);
+      const y = parseFloat(coordinates[1]);
+      const z = parseFloat(coordinates[2]);
       if (name in graphs) {
         graphs[name].forEach(function(widget) {
           widget.addValue({'x': time, 'y': [x, y, z]});
@@ -182,32 +160,54 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
     }
   } else
     console.log(message);
-}
-
-window.onload = function() {
-  document.getElementById('select_markers').onclick = function() {
-    hideShowAll(false, false);
-  };
-  document.getElementById('unselect_markers').onclick = function() {
-    hideShowAll(false, true);
-  };
-  document.getElementById('select_virtual_markers').onclick = function() {
-    hideShowAll(true, false);
-  };
-  document.getElementById('unselect_virtual_markers').onclick = function() {
-    hideShowAll(true, true);
-  };
-  document.getElementById('color_virtual_markers').onchange = function() {
-    changeColor(true, this.value);
-  };
-  document.getElementById('color_markers').onchange = function() {
-    changeColor(false, this.value);
-  };
-  document.getElementById('radius_virtual_markers').onchange = function() {
-    changeRadius(true, this.value);
-  };
-  document.getElementById('radius_markers').onchange = function() {
-    changeRadius(false, this.value);
-  };
-  menuTabCallback('config');
 };
+
+document.addEventListener('DOMContentLoaded', function() {
+  function enableGraphs(event) {
+    let checkbox = event.target;
+    robotWindow.send('graphs:' + checkbox.getAttribute('graphtype') + ':' + checkbox.checked);
+  }
+  document.getElementById('graph-markers-checkbox').addEventListener('click', enableGraphs);
+  document.getElementById('graph-virtual-markers-checkbox').addEventListener('click', enableGraphs);
+  document.getElementById('graph-angles-checkbox').addEventListener('click', enableGraphs);
+  document.getElementById('graph-forces-checkbox').addEventListener('click', enableGraphs);
+  document.getElementById('graph-moments-checkbox').addEventListener('click', enableGraphs);
+  document.getElementById('graph-powers-checkbox').addEventListener('click', enableGraphs);
+  function hideShowAll(virtual, hide) {
+    let div = virtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
+    let checkboxes = div.getElementsByClassName('visibilityCheckbox');
+    let message = hide ? 'disable' : 'enable';
+    for (let i = 0; i < checkboxes.length; i++) {
+      checkboxes[i].checked = !hide;
+      message += ':' + checkboxes[i].getAttribute('marker');
+    }
+    robotWindow.send(message);
+  }
+  document.getElementById('select_markers').addEventListener('click', function() { hideShowAll(false, false); });
+  document.getElementById('unselect_markers').addEventListener('click', function() { hideShowAll(false, true); });
+  document.getElementById('select_virtual_markers').addEventListener('click', function() { hideShowAll(true, false); });
+  document.getElementById('unselect_virtual_markers').addEventListener('click', function() { hideShowAll(true, true); });
+  document.getElementById('color_virtual_markers').addEventListener('change', function() { changeColor(true, this.value); });
+  document.getElementById('color_markers').addEventListener('change', function() { changeColor(false, this.value); });
+  document.getElementById('radius_virtual_markers').addEventListener('change', function() { changeRadius(true, this.value); });
+  document.getElementById('radius_markers').addEventListener('change', function() { changeRadius(false, this.value); });
+  document.getElementById('transparency-slider').addEventListener('change', function(event) {
+    let slider = event.target;
+    document.getElementById('slider_value_transparency').innerHTML = slider.value;
+    robotWindow.send('body_transparency:' + slider.value);
+  });
+  document.getElementById('speed-slider').addEventListener('change', function(event) {
+    let slider = event.target;
+    document.getElementById('slider_value_speed').innerHTML = slider.value;
+    robotWindow.send('speed:' + slider.value);
+  });
+  document.getElementById('config-menu-button').addEventListener('click', function() { menuTabCallback('config'); });
+  document.getElementById('markers-menu-button').addEventListener('click', function() { menuTabCallback('markers'); });
+  document.getElementById('virtual_markers-menu-button').addEventListener('click', function() { menuTabCallback('virtual_markers'); });
+  document.getElementById('angles-menu-button').addEventListener('click', function() { menuTabCallback('angles'); });
+  document.getElementById('forces-menu-button').addEventListener('click', function() { menuTabCallback('forces'); });
+  document.getElementById('moments-menu-button').addEventListener('click', function() { menuTabCallback('moments'); });
+  document.getElementById('powers-menu-button').addEventListener('click', function() { menuTabCallback('powers'); });
+
+  menuTabCallback('config');
+});
