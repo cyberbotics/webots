@@ -8,7 +8,7 @@ function menuTabCallback(category) {
   for (i = 0; i < x.length; ++i)
     x[i].style.display = 'none';
   tablinks = document.getElementsByClassName('menu-button');
-  for (i = 0; i < x.length; ++i)
+  for (i = 0; i < tablinks.length; ++i)
     tablinks[i].className = tablinks[i].className.replace(' menu-button-selected', '');
   document.getElementById(category + '-tab').style.display = 'block';
   document.getElementById(category + '-menu-button').className += ' menu-button-selected';
