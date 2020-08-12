@@ -2986,10 +2986,10 @@ bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
             const QStringList element = QStringList() << "visual"
                                                       << "collision";
             const WbTransform *transform = WbNodeUtilities::findUpperTransform(node);
-            for (int i = 0; i < element.size(); ++i) {
+            for (int j = 0; j < element.size(); ++j) {
               writer.increaseIndent();
               writer.indent();
-              writer << QString("<%1>\n").arg(element[i]);
+              writer << QString("<%1>\n").arg(element[j]);
               writer.increaseIndent();
               if (transform != this || cylinder) {
                 WbVector3 translation = transform->translation();
@@ -3021,7 +3021,7 @@ bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
               writer << "</geometry>\n";
               writer.decreaseIndent();
               writer.indent();
-              writer << QString("</%1>\n").arg(element[i]);
+              writer << QString("</%1>\n").arg(element[j]);
               writer.decreaseIndent();
             }
           }
