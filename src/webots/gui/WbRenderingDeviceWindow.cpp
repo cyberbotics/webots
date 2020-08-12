@@ -135,8 +135,10 @@ WbRenderingDeviceWindow::WbRenderingDeviceWindow(WbRenderingDevice *device) :
 }
 
 WbRenderingDeviceWindow::~WbRenderingDeviceWindow() {
+  mContext->makeCurrent(this);
   QOpenGLFunctions_3_3_Core *f = mContext->versionFunctions<QOpenGLFunctions_3_3_Core>();
   f->glDeleteVertexArrays(1, &mVaoId);
+  mContext->doneCurrent();
   delete mContext;
 }
 
