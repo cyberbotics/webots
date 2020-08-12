@@ -6,6 +6,7 @@ Released on XXX YYth, 2020.
   - Enhancements
     - Improved the `inverse_kinematics` controller to use the URDF definition instead of hard-coding the robot model ([#2062](https://github.com/cyberbotics/webots/pull/2062)).
     - macOS: Add support for Python 3.7 and 3.8 installed with [Homebrew](https://brew.sh) ([#2079](https://github.com/cyberbotics/webots/pull/2079)).
+    - Improved the URDF export with the [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function to include the bounding objects exportation ([#2113](https://github.com/cyberbotics/webots/pull/2113)).
   - Bug fixes
     - Fixed crash occurring with some PROTO nodes when modifying fields from the scene tree that trigger the PROTO model regeneration ([#2100](https://github.com/cyberbotics/webots/pull/2100)).
     - Fixed bugs in streaming server protocol and added support for X3D/MJPEG mode selection in simulation server ([#2077](https://github.com/cyberbotics/webots/pull/2077)).
