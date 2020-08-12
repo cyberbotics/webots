@@ -90,7 +90,9 @@ void RosCamera::publishValue(ros::Publisher publisher) {
   memcpy(&image.data[0], colorImage, sizeof(char) * 4 * mCamera->getWidth() * mCamera->getHeight());
 
   publisher.publish(image);
+}
 
+void RosCamera::publishAuxiliaryValue() {
   if (mCamera->hasRecognition() && mCamera->getRecognitionSamplingPeriod() > 0) {
     const CameraRecognitionObject *objects = mCamera->getRecognitionObjects();
     webots_ros::RecognitionObject object;
