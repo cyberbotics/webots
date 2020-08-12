@@ -1,9 +1,9 @@
 /* global webots */
 /* global PlotWidget, TimeplotWidget */
 
-let robotWindow = null;
-let basicTimeStep = 0.032;
-let graphs = {};
+var robotWindow = null;
+var basicTimeStep = 0.032;
+var graphs = {};
 
 function menuTabCallback(category) {
   let i, x, tablinks;
