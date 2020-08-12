@@ -1309,7 +1309,6 @@ void WbSupervisorUtilities::writeNode(QDataStream &stream, const WbBaseNode *bas
     connect(baseNode, &WbNode::defUseNameChanged, this, &WbSupervisorUtilities::notifyNodeUpdate, Qt::UniqueConnection);
 }
 
-#include <QtCore/QDebug>
 void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
   if (!mUpdatedNodeIds.isEmpty()) {
     foreach (int id, mUpdatedNodeIds) {
