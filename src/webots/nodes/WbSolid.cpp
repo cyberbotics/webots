@@ -2981,18 +2981,18 @@ void WbSolid::exportURDFShape(WbVrmlWriter &writer, const QString &geometry, con
     writer.increaseIndent();
     if (transform != this || correctOrientation) {
       WbVector3 translation = transform->translation() + offset;
-      WbRotation rotation = transform->rotation();
+      WbVector3 eulerAngles = transform->rotation().toMatrix3().toEulerAnglesZYX();
       writer.indent();
       if (correctOrientation) {
         if (transform == this) {
           translation = WbVector3();
-          rotation = WbRotation(1.0, 0.0, 0.0, 1.5707963);
+          eulerAngles = WbRotation(1.0, 0.0, 0.0, 1.5707963).toMatrix3().toEulerAnglesZYX();
         } else
-          rotation = WbRotation(WbRotation(1.0, 0.0, 0.0, 1.5707963).toMatrix3() * rotation.toMatrix3());
+          eulerAngles += WbRotation(1.0, 0.0, 0.0, 1.5707963).toMatrix3().toEulerAnglesZYX();
       }
       writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
                   .arg(translation.toString(WbPrecision::DOUBLE_MAX))
-                  .arg(rotation.toMatrix3().toEulerAnglesZYX().toString(WbPrecision::DOUBLE_MAX));
+                  .arg(eulerAngles.toString(WbPrecision::DOUBLE_MAX));
     }
     writer.indent();
     writer << "<geometry>\n";
