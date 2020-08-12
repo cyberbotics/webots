@@ -2969,11 +2969,9 @@ void WbSolid::enable(bool enabled, bool ode) {
   }
 }
 
-#include <QtCore/QDebug>
-
 bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
   if (writer.isUrdf()) {
-    bool ret = WbMatter::exportNodeHeader(writer);
+    const bool ret = WbMatter::exportNodeHeader(writer);
     if (!ret) {
       if (boundingObject()) {
         QList<WbNode *> nodes = boundingObject()->subNodes(true);
@@ -3028,7 +3026,6 @@ bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
         }
       }
     }
-
     return ret;
   }
 
