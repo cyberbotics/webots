@@ -45,27 +45,42 @@ void WbRotation::fromQuaternion(const WbQuaternion &q) {
 }
 
 void WbRotation::fromMatrix3(const WbMatrix3 &M) {
-  double cosAngle = 0.5 * (M(0, 0) + M(1, 1) + M(2, 2) - 1.0);
-  const double absCosAngle = fabs(cosAngle);
-  if (absCosAngle > 1.0) {
-    if ((absCosAngle - 1.0) > WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {
-      // exception
-      mX = 1.0;
-      mY = 0.0;
-      mZ = 0.0;
-      mAngle = 0.0;
-      return;
-    }
-    if (cosAngle < 0.0)
-      cosAngle = -1.0;
-    else
-      cosAngle = 1.0;
-  }
+  // Reference: https://www.geometrictools.com/Documentation/RotationRepresentations.pdf
 
-  mX = M(2, 1) - M(1, 2);
-  mY = M(0, 2) - M(2, 0);
-  mZ = M(1, 0) - M(0, 1);
-  mAngle = acos(cosAngle);
+  const double theta = acos((M(0, 0) + M(1, 1) + M(2, 2) - 1) / 2);
+
+  if (theta < WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {
+    mX = 1;
+    mY = 0;
+    mZ = 0;
+    mAngle = 0;
+  } else if (fabs(theta) < M_PI - WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {
+    mX = M(2, 1) - M(1, 2);
+    mY = M(0, 2) - M(2, 0);
+    mZ = M(1, 0) - M(0, 1);
+    const double norm = sqrt(mX * mX + mY * mY + mZ * mZ);
+    mX /= norm;
+    mY /= norm;
+    mZ /= norm;
+    mAngle = theta;
+  } else {
+    if (M(0, 0) > M(1, 1) && M(0, 0) > M(2, 2)) {
+      mX = sqrt(M(0, 0) - M(1, 1) - M(2, 2) + 0.5);
+      mY = M(0, 1) / (2 * mX);
+      mZ = M(0, 2) / (2 * mX);
+      mAngle = theta;
+    } else if (M(1, 1) > M(0, 0) && M(1, 1) > M(2, 2)) {
+      mY = sqrt(M(1, 1) - M(0, 0) - M(2, 2) + 0.5);
+      mX = M(0, 1) / (2 * mY);
+      mZ = M(1, 2) / (2 * mY);
+      mAngle = theta;
+    } else {
+      mZ = sqrt(M(2, 2) - M(0, 0) - M(1, 1) + 0.5);
+      mX = M(0, 1) / (2 * mZ);
+      mY = M(1, 2) / (2 * mZ);
+      mAngle = theta;
+    }
+  }
 }
 
 void WbRotation::fromBasisVectors(const WbVector3 &vx, const WbVector3 &vy, const WbVector3 &vz) {
