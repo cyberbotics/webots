@@ -254,12 +254,6 @@ webots.View = class View {
         const url = this.server.httpServerUrl + 'robot_windows/' + windowName + '/' + windowName + '.html ';
         console.log('request: ' + url);
         $.get(url, (data) => {
-          // Fix the img src relative URLs.
-          /*
-          var d = data.replace(/ src='/g, ' src=\'window/' + windowName + '/').replace(/ src="/g, ' src="window/' +
-            windowName + '/');
-            */
-
           function fixSrc(collection, serverUrl) {
             for (var i = 0; i < collection.length; i++) {
               if (collection[i].src) {
@@ -312,12 +306,14 @@ webots.View = class View {
         });
       };
 
-      var pendingRequestsCount = 1; // start from 1 so that it can be 0 only after the loop is completed and all the nodes are checked
+      let pendingRequestsCount = 1; // start from 1 so that it can be 0 only after the loop is completed and all the nodes are checked
       let windowsDict = [];
-      var infoWindowName;
+      let infoWindowName;
       if (typeof this.x3dScene !== 'undefined') {
         windowsDict = this.x3dScene.getRobotWindows();
         infoWindowName = this.x3dScene.worldInfo.window;
+        console.log('infoWindowName = ' + infoWindowName);
+        console.log(windowsDict);
       } else if (this.multimediaClient) {
         windowsDict = this.multimediaClient.robotWindows;
         infoWindowName = this.multimediaClient.worldInfo.infoWindow;
@@ -339,7 +335,7 @@ webots.View = class View {
         loadFinalize();
     };
 
-    var loadFinalize = () => {
+    let loadFinalize = () => {
       $('#webotsProgress').hide();
       if (typeof this.multimediaClient !== 'undefined')
         // finalize multimedia client and set toolbar buttons status
@@ -407,7 +403,7 @@ webots.View = class View {
       this.view3D.appendChild(this.x3dDiv);
       this.x3dScene = new X3dScene(this.x3dDiv);
       this.x3dScene.init(texturePathPrefix);
-      var param = document.createElement('param');
+      let param = document.createElement('param');
       param.name = 'showProgress';
       param.value = false;
       this.x3dScene.domElement.appendChild(param);
