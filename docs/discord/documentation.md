@@ -13,7 +13,7 @@ Hello, how can I download the documentation like user guide?
 ##### David Mansolino [cyberbotics] 07/07/2020 11:51:08
 Thank you, we will have a look soon!
 
-##### Luftwaffel 07/07/2020 11:41:29
+##### Simon Steinmann [Moderator] 07/07/2020 11:41:29
 `@David Mansolino` I created a PR [https://github.com/cyberbotics/webots/pull/1879](https://github.com/cyberbotics/webots/pull/1879)
 
 ##### David Mansolino [cyberbotics] 06/17/2020 09:42:18
@@ -91,25 +91,25 @@ I just had a small query.
 ##### Olivier Michel [cyberbotics] 05/13/2020 15:58:07
 Thank you. We will review it soon.
 
-##### Luftwaffel 05/13/2020 15:55:41
+##### Simon Steinmann [Moderator] 05/13/2020 15:55:41
 `@Olivier Michel`  thank you so much <3. I created a pull request
 
 ##### Olivier Michel [cyberbotics] 05/13/2020 15:54:00
 You have to click the "Create pull request" button.
 
 
-`@Luftwaffel`: It's here [https://github.com/cyberbotics/webots/compare/master...Simon-Steinmann:patch-1](https://github.com/cyberbotics/webots/compare/master...Simon-Steinmann:patch-1)
+`@Simon Steinmann`: It's here [https://github.com/cyberbotics/webots/compare/master...Simon-Steinmann:patch-1](https://github.com/cyberbotics/webots/compare/master...Simon-Steinmann:patch-1)
 
 ##### David Mansolino [cyberbotics] 05/13/2020 15:40:17
 Thank you, I will check and let you know
 
-##### Luftwaffel 05/13/2020 15:37:33
+##### Simon Steinmann [Moderator] 05/13/2020 15:37:33
 simon-steinmann
 
 ##### David Mansolino [cyberbotics] 05/13/2020 15:35:21
 Let me check if I can find a stale branch, by the way what is your Github username?
 
-##### Luftwaffel 05/13/2020 15:34:08
+##### Simon Steinmann [Moderator] 05/13/2020 15:34:08
 I submitted it April 30th, any way to check all activity? perhaps I submited it to a weird branch. Not that familiar with github
 
 
@@ -118,18 +118,18 @@ great 😩
 ##### David Mansolino [cyberbotics] 05/13/2020 15:26:56
 > I can't find my commit
 
-`@Luftwaffel` me neither
+`@Simon Steinmann` me neither
 
 
 Did you fork the repo?
 
-##### Luftwaffel 05/13/2020 15:26:19
+##### Simon Steinmann [Moderator] 05/13/2020 15:26:19
 I can't find my commit
 
 ##### David Mansolino [cyberbotics] 05/13/2020 15:25:07
 Ok perfect, can you then open a pull-request from the branch where you did the commit so that we can review and merge it?
 
-##### Luftwaffel 05/13/2020 15:22:20
+##### Simon Steinmann [Moderator] 05/13/2020 15:22:20
 `@David Mansolino`  I made a commit here [https://github.com/cyberbotics/webots/edit/master/docs/reference/supervisor.md](https://github.com/cyberbotics/webots/edit/master/docs/reference/supervisor.md)
 
 ##### David Mansolino [cyberbotics] 05/13/2020 15:07:12
@@ -249,7 +249,7 @@ Then you should set the aperture field value to 1.0472 rad.
 ##### İchigogo 05/01/2020 16:33:48
 hi !  in emitter-receivers how can I calculate aperture?I couldn't understand. from documentation I understand like when it's -1 it sends to 360 degree I want it  send to only 60
 
-##### Luftwaffel 04/30/2020 10:54:50
+##### Simon Steinmann [Moderator] 04/30/2020 10:54:50
 submitted it
 
 ##### David Mansolino [cyberbotics] 04/30/2020 10:47:24
@@ -259,7 +259,7 @@ In particular for feature request:
 
 [https://github.com/cyberbotics/webots/issues/new?template=feature\_request.md](https://github.com/cyberbotics/webots/issues/new?template=feature_request.md)
 
-##### Luftwaffel 04/30/2020 10:40:04
+##### Simon Steinmann [Moderator] 04/30/2020 10:40:04
 do you have something like a trello?
 
 
@@ -268,13 +268,13 @@ where would I propose that?
 ##### Olivier Michel [cyberbotics] 04/30/2020 10:37:09
 😁 . But feel free to go ahead with these good idea and propose an implementation with a PR. That shouldn't be very difficult.
 
-##### Luftwaffel 04/30/2020 10:36:03
+##### Simon Steinmann [Moderator] 04/30/2020 10:36:03
 A frustrated coder is full of good ideas 😄
 
 ##### Olivier Michel [cyberbotics] 04/30/2020 10:35:08
 Yes, that seems to be a good idea.
 
-##### Luftwaffel 04/30/2020 10:34:52
+##### Simon Steinmann [Moderator] 04/30/2020 10:34:52
 most commonly used in ROS and any 3D application. would really be helpfull
 
 
@@ -289,7 +289,7 @@ perhaps adding a function? Would be the non destructive way
 ##### Olivier Michel [cyberbotics] 04/30/2020 10:28:36
 Yes, we may consider changing it on the develop branch.
 
-##### Luftwaffel 04/30/2020 10:26:50
+##### Simon Steinmann [Moderator] 04/30/2020 10:26:50
 but I guess changing that would break existing code
 
 
@@ -298,7 +298,7 @@ oh btw, it's kinda weird that get\_orientation returns a 1x9 list, instead of 3x
 ##### Olivier Michel [cyberbotics] 04/30/2020 10:25:15
 OK, looking forward to review it.
 
-##### Luftwaffel 04/30/2020 10:24:56
+##### Simon Steinmann [Moderator] 04/30/2020 10:24:56
 solved it differently
 
 
@@ -307,7 +307,7 @@ added it
 ##### Olivier Michel [cyberbotics] 04/30/2020 10:19:11
 Great. It's the `%spoiler` keyword.
 
-##### Luftwaffel 04/30/2020 10:18:40
+##### Simon Steinmann [Moderator] 04/30/2020 10:18:40
 I think I got it 🙂
 
 ##### Olivier Michel [cyberbotics] 04/30/2020 10:18:13
@@ -316,7 +316,7 @@ Something like the **Reminder** and **Tips** here: [https://cyberbotics.com/doc/
 
 Yes, that seems to be a good idea. Let me search how to do that...
 
-##### Luftwaffel 04/30/2020 10:15:29
+##### Simon Steinmann [Moderator] 04/30/2020 10:15:29
 a 'expandable box' would be great, no idea how to implement that
 
 
@@ -328,7 +328,7 @@ Okay will do. Feel free to change or edit it btw.
 ##### Olivier Michel [cyberbotics] 04/30/2020 10:07:41
 That is great. Could you create a PR to add this contribution to the doc? [https://github.com/cyberbotics/webots/edit/master/docs/reference/supervisor.md](https://github.com/cyberbotics/webots/edit/master/docs/reference/supervisor.md)
 
-##### Luftwaffel 04/30/2020 10:03:40
+##### Simon Steinmann [Moderator] 04/30/2020 10:03:40
 [https://pastebin.com/k7kf4Ez5](https://pastebin.com/k7kf4Ez5)
 
 
