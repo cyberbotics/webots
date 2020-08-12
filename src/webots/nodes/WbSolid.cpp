@@ -2971,7 +2971,7 @@ void WbSolid::enable(bool enabled, bool ode) {
 }
 
 void WbSolid::exportURDFShape(WbVrmlWriter &writer, const QString &geometry, const WbTransform *transform,
-                              bool correctOrientation, const WbVector3 &offset) {
+                              bool correctOrientation, const WbVector3 &offset) const {
   const QStringList element = QStringList() << "visual"
                                             << "collision";
   for (int j = 0; j < element.size(); ++j) {
