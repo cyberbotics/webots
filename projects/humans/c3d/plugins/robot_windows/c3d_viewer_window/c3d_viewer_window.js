@@ -162,7 +162,10 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
     console.log(message);
 };
 
+console.log('c3d_viewer_window.js executing');
+
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOMContentLoaded event');
   function enableGraphs(event) {
     let checkbox = event.target;
     robotWindow.send('graphs:' + checkbox.getAttribute('graphtype') + ':' + checkbox.checked);

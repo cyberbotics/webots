@@ -256,9 +256,25 @@ webots.View = class View {
           function fixSrc(collection, serverUrl) {
             for (let i = 0; i < collection.length; i++) {
               if (collection[i].src) {
-                let url = new URL(collection[i].src);
-                if (url.origin === serverUrl.origin)
-                  collection[i].src = serverUrl.href + 'robot_windows/' + windowName + url.pathname;
+                const src = collection[i].getAttribute('src');
+                let url, newSrc;
+                try {
+                  url = new URL(src);
+                  newSrc = serverUrl.href + 'robot_windows/' + windowName + url.pathname;
+                } catch (_) {
+                  url = null;
+                  newSrc = serverUrl.href + 'robot_windows/' + windowName + '/' + src;
+                }
+                if (url === null || url.origin === serverUrl.origin) {
+                  if (collection[i].tagName === 'SCRIPT') {
+                    collection[i].removeAttribute('src');
+                    collection[i].setAttribute('disabled-src', newSrc);
+                  } else // IMG
+                    collection[i].setAttribute('src', newSrc);
+                } else {
+                  collection[i].setAttribute('disabled-src', src);
+                  collection[i].removeAttribute('src');
+                }
               }
             }
           }
@@ -267,7 +283,7 @@ webots.View = class View {
           let serverUrl = new URL(this.server.httpServerUrl);
           fixSrc(doc.getElementsByTagName('script'), serverUrl);
           fixSrc(doc.getElementsByTagName('img'), serverUrl);
-          const links = doc.getElementsByTagName('link');
+          let links = doc.getElementsByTagName('link');
           for (let i = 0; i < links.length; i++) {
             if (links[i].rel === 'stylesheet' && links[i].type === 'text/css') {
               let link = document.createElement('link');
@@ -288,8 +304,21 @@ webots.View = class View {
           function nodeScriptClone(node) { // this forces the execution of the Javascript code
             let script = document.createElement('script');
             script.text = node.innerHTML;
-            for (let i = node.attributes.length - 1; i >= 0; i--)
-              script.setAttribute(node.attributes[i].name, node.attributes[i].value);
+            for (let i = node.attributes.length - 1; i >= 0; i--) {
+              const name = node.attributes[i].name;
+              const value = node.attributes[i].value;
+              console.log('name = ' + name);
+              if (name === 'disabled-src') {
+                console.log('value = ' + value);
+                const url = new URL(value);
+                console.log('origins = ' + url.origin + ' and ' + serverUrl.origin);
+                script.removeAttribute('disabled-src');
+                script.setAttribute('src', value);
+                console.log('Setting src attribute to ' + value);
+                continue;
+              }
+              script.setAttribute(name, value);
+            }
             return script;
           }
 
