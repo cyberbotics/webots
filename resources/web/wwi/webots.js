@@ -252,18 +252,14 @@ webots.View = class View {
         }
         pendingRequestsCount++;
         const url = this.server.httpServerUrl + 'robot_windows/' + windowName + '/' + windowName + '.html ';
-        console.log('request: ' + url);
         $.get(url, (data) => {
           function fixSrc(collection, serverUrl) {
-            for (var i = 0; i < collection.length; i++) {
+            for (let i = 0; i < collection.length; i++) {
               if (collection[i].src) {
                 let url = new URL(collection[i].src);
-                if (url.origin === serverUrl.origin) {
-                  console.log(i, url.pathname);
+                if (url.origin === serverUrl.origin)
                   collection[i].src = serverUrl.href + 'robot_windows/' + windowName + url.pathname;
-                } else
-                  console.log(i, collection[i].src);
-              } else console.log(i, collection[i].innerHTML);
+              }
             }
           }
           let parser = new DOMParser();
@@ -271,12 +267,26 @@ webots.View = class View {
           let serverUrl = new URL(this.server.httpServerUrl);
           fixSrc(doc.getElementsByTagName('script'), serverUrl);
           fixSrc(doc.getElementsByTagName('img'), serverUrl);
-          let body = doc.getElementsByTagName('body')[0];
+          const links = doc.getElementsByTagName('link');
+          for (let i = 0; i < links.length; i++) {
+            if (links[i].rel === 'stylesheet' && links[i].type === 'text/css') {
+              let link = document.createElement('link');
+              for (let j = links[i].attributes.length - 1; j >= 0; j--) {
+                const name = links[i].attributes[j].name;
+                let value = links[i].attributes[j].value;
+                if (name === 'href' && !value.startsWith('https://') && !value.startsWith('http://')) // local css file
+                  value = this.server.httpServerUrl + 'robot_windows/' + windowName + '/' + value;
+                link.setAttribute(name, value);
+              }
+              document.getElementsByTagName('head')[0].appendChild(link);
+            }
+          }
+          const body = doc.getElementsByTagName('body')[0];
           win.setContent(body.innerHTML);
           MathJax.Hub.Queue(['Typeset', MathJax.Hub, win[0]]);
 
           function nodeScriptClone(node) { // this forces the execution of the Javascript code
-            var script = document.createElement('script');
+            let script = document.createElement('script');
             script.text = node.innerHTML;
             for (let i = node.attributes.length - 1; i >= 0; i--)
               script.setAttribute(node.attributes[i].name, node.attributes[i].value);
@@ -312,8 +322,6 @@ webots.View = class View {
       if (typeof this.x3dScene !== 'undefined') {
         windowsDict = this.x3dScene.getRobotWindows();
         infoWindowName = this.x3dScene.worldInfo.window;
-        console.log('infoWindowName = ' + infoWindowName);
-        console.log(windowsDict);
       } else if (this.multimediaClient) {
         windowsDict = this.multimediaClient.robotWindows;
         infoWindowName = this.multimediaClient.worldInfo.infoWindow;
