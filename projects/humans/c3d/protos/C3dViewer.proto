@@ -44,5 +44,6 @@ PROTO C3dViewer [
     supervisor TRUE
     showWindow TRUE
     window "c3d_viewer_window"
+    name "C3D viewer"
   }
 }
