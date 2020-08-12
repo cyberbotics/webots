@@ -6,30 +6,11 @@ Viewpoint {
   position 0.24700875425257085 0.6417414696227373 1.8176426671149408
 }
 DefaultDef {
-  # the field order is wrong on purpose to test the DEF dictionary at load
-  slot3 DEF SPHERE Shape {
-    geometry Capsule {
-      height 0.2
-      radius 0.05
-      subdivision 16
-    }
-  }
-  slot2 DEF SPHERE Shape {
-    geometry Sphere {
-      radius 0.07
-    }
-  }
-  slot4 Group {
+  slot2 Group {
     children [
       Transform {
         children [
           USE BOX
-        ]
-      }
-      Transform {
-        translation 0 0.4 0
-        children [
-          USE SPHERE
         ]
       }
     ]
@@ -41,10 +22,6 @@ Robot {
   children [
     DistanceSensor {
       name "box sensor"
-    }
-    DistanceSensor {
-      translation 0 0.3 0
-      name "sphere sensor"
     }
     TestSuiteEmitter {
     }
