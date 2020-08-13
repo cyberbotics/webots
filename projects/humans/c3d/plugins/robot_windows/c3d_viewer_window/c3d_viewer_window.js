@@ -27,19 +27,19 @@ function menuTabCallback(category) {
 
 function checkboxCallback(checkbox) {
   if (checkbox.checked)
-    robotWindow.send('enable:' + checkbox.getAttribute('marker'));
+    robotWindow.send('enable:' + checkbox.getAttribute('marker'), 'c3d_viewer');
   else
-    robotWindow.send('disable:' + checkbox.getAttribute('marker'));
+    robotWindow.send('disable:' + checkbox.getAttribute('marker'), 'c3d_viewer');
 }
 
 function sliderCallback(slider) {
   const marker = slider.getAttribute('marker');
   document.getElementById('slider_value_' + marker).innerHTML = slider.value;
-  robotWindow.send('radius:' + slider.value + ':' + marker);
+  robotWindow.send('radius:' + slider.value + ':' + marker, 'c3d_viewer');
 }
 
 function colorCallback(color) {
-  robotWindow.send('color:' + color.value + ':' + color.getAttribute('marker'));
+  robotWindow.send('color:' + color.value + ':' + color.getAttribute('marker'), 'c3d_viewer');
 }
 
 function comboboxCallback(combobox) {
@@ -58,7 +58,7 @@ function changeColor(virtual, color) {
     colorSelectors[i].value = color;
     message += ':' + colorSelectors[i].getAttribute('marker');
   }
-  robotWindow.send(message);
+  robotWindow.send(message, 'c3d_viewer');
 }
 
 function changeRadius(virtual, radius) {
@@ -71,10 +71,11 @@ function changeRadius(virtual, radius) {
     message += ':' + marker;
     document.getElementById('slider_value_' + marker).innerHTML = radius;
   }
-  robotWindow.send(message);
+  robotWindow.send(message, 'c3d_viewer');
 }
 
 webots.window('c3d_viewer_window').receive = function(message, robot) {
+  console.log('robot window received message from robot "' + robot + '"');
   if (message.startsWith('configure:')) {
     var values = message.split(':');
     basicTimeStep = 0.001 * values[1];
@@ -219,7 +220,7 @@ webots.window('c3d_viewer_window').init(function() {
 
   function enableGraphs(event) {
     let checkbox = event.target;
-    robotWindow.send('graphs:' + checkbox.getAttribute('graphtype') + ':' + checkbox.checked);
+    robotWindow.send('graphs:' + checkbox.getAttribute('graphtype') + ':' + checkbox.checked, 'c3d_viewer');
   }
   document.getElementById('graph-markers-checkbox').addEventListener('click', enableGraphs);
   document.getElementById('graph-virtual-markers-checkbox').addEventListener('click', enableGraphs);
@@ -236,7 +237,7 @@ webots.window('c3d_viewer_window').init(function() {
       checkboxes[i].checked = !hide;
       message += ':' + checkboxes[i].getAttribute('marker');
     }
-    robotWindow.send(message);
+    robotWindow.send(message, 'c3d_viewer');
   }
   document.getElementById('select_markers').addEventListener('click', function() {
     hideShowAll(false, false);
@@ -265,12 +266,12 @@ webots.window('c3d_viewer_window').init(function() {
   document.getElementById('transparency-slider').addEventListener('change', function(event) {
     let slider = event.target;
     document.getElementById('slider_value_transparency').innerHTML = slider.value;
-    robotWindow.send('body_transparency:' + slider.value);
+    robotWindow.send('body_transparency:' + slider.value, 'c3d_viewer');
   });
   document.getElementById('speed-slider').addEventListener('change', function(event) {
     let slider = event.target;
     document.getElementById('slider_value_speed').innerHTML = slider.value;
-    robotWindow.send('speed:' + slider.value);
+    robotWindow.send('speed:' + slider.value, 'c3d_viewer');
   });
   document.getElementById('config-menu-button').addEventListener('click', function() {
     menuTabCallback('config');
