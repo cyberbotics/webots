@@ -50,11 +50,13 @@ void WbRotation::fromMatrix3(const WbMatrix3 &M) {
   const double theta = acos((M(0, 0) + M(1, 1) + M(2, 2) - 1) / 2);
 
   if (theta < WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {
+    // If `theta == 0`
     mX = 1;
     mY = 0;
     mZ = 0;
     mAngle = 0;
-  } else if (fabs(theta) < M_PI - WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {
+  } else if (theta < M_PI - WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {
+    // If `theta in (0, pi)`
     mX = M(2, 1) - M(1, 2);
     mY = M(0, 2) - M(2, 0);
     mZ = M(1, 0) - M(0, 1);
@@ -64,6 +66,7 @@ void WbRotation::fromMatrix3(const WbMatrix3 &M) {
     mZ /= norm;
     mAngle = theta;
   } else {
+    // If `theta == pi`
     if (M(0, 0) > M(1, 1) && M(0, 0) > M(2, 2)) {
       mX = sqrt(M(0, 0) - M(1, 1) - M(2, 2) + 0.5);
       mY = M(0, 1) / (2 * mX);
