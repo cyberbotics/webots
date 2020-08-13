@@ -214,8 +214,8 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
 
 console.log('c3d_viewer_window.js executing');
 
-webots.window('c3d_viewer_window').init = function() {
-  console.log('DOMContentLoaded event');
+webots.window('c3d_viewer_window').init(function() {
+  console.log('c3d_viewer_window.js init event');
 
   function enableGraphs(event) {
     let checkbox = event.target;
@@ -295,4 +295,4 @@ webots.window('c3d_viewer_window').init = function() {
   });
 
   menuTabCallback('config');
-};
+});
