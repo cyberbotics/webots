@@ -56,6 +56,7 @@ webots.View = class View {
         console.log("Robot '" + robot + "' has no associated robot window");
         return;
       }
+      console.log("Received message: '" + message + "' for robot '" + robot + "'");
       this.robotWindows[this.robotWindowNames[robot]].receive(message, robot);
     };
     this.onrobotwindowsdestroy = () => {
@@ -220,7 +221,7 @@ webots.View = class View {
 
       var loadRobotWindow = (windowName, nodeName) => {
         this.robotWindowNames[nodeName] = windowName;
-        var win = new RobotWindow(this.view3D, this.mobileDevice, windowName);
+        let win = new RobotWindow(this.view3D, this.mobileDevice, windowName);
         this.robotWindows[windowName] = win;
         // Initialize robot windows dialogs.
         function closeInfoWindow() {
@@ -307,14 +308,9 @@ webots.View = class View {
             for (let i = node.attributes.length - 1; i >= 0; i--) {
               const name = node.attributes[i].name;
               const value = node.attributes[i].value;
-              console.log('name = ' + name);
               if (name === 'disabled-src') {
-                console.log('value = ' + value);
-                const url = new URL(value);
-                console.log('origins = ' + url.origin + ' and ' + serverUrl.origin);
                 script.removeAttribute('disabled-src');
                 script.setAttribute('src', value);
-                console.log('Setting src attribute to ' + value);
                 continue;
               }
               script.setAttribute(name, value);
