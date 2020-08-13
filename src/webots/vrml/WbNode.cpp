@@ -1444,15 +1444,18 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   QVector<WbField *> parameters;
   QVector<QMap<QString, WbNode *>> parametersDefMap;
   bool hasDefaultDefNodes = false;
-  foreach (WbFieldModel *model, protoFieldModels) {
-    WbField *defaultParameter = new WbField(model, NULL);
+  QListIterator<WbFieldModel *> fieldModelsIt(protoFieldModels);
+  while (fieldModelsIt.hasNext()) {
+    WbField *defaultParameter = new WbField(fieldModelsIt.next(), NULL);
     parameters.append(defaultParameter);
 
     parametersDefMap.append(QMap<QString, WbNode *>());
     if (tokenizer && WbNodeReader::current()) {
       // extract DEF nodes defined in default PROTO parameter
       QList<WbNode *> defNodes = subNodes(defaultParameter, true, false, false);
-      foreach (WbNode *node, defNodes) {
+      QListIterator<WbNode *> defNodesIt(defNodes);
+      while (defNodesIt.hasNext()) {
+        WbNode *node = defNodesIt.next();
         if (!node->defName().isEmpty())
           parametersDefMap.last().insert(node->defName(), node);
       }
@@ -1505,13 +1508,19 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
             fieldOrderWarning = false;
           }
           // remove DEF nodes from default parameter if any
-          foreach (WbNode *defNode, parametersDefMap[currentParameterIndex])
-            WbNodeReader::current()->removeDefNode(defNode);
+          QMapIterator<QString, WbNode *> defNodesMapIt(parametersDefMap[currentParameterIndex]);
+          while (defNodesMapIt.hasNext()) {
+            defNodesMapIt.next();
+            WbNodeReader::current()->removeDefNode(defNodesMapIt.value());
+          }
         } else {
           // add DEF nodes from default parameter defined before the current parameter
           for (int i = nextParameterIndex; i < currentParameterIndex; ++i) {
-            foreach (WbNode *defNode, parametersDefMap[i])
-              WbNodeReader::current()->addDefNode(defNode);
+            QMapIterator<QString, WbNode *> defNodesMapIt(parametersDefMap[i]);
+            while (defNodesMapIt.hasNext()) {
+              defNodesMapIt.next();
+              WbNodeReader::current()->addDefNode(defNodesMapIt.value());
+            }
           }
           nextParameterIndex = currentParameterIndex + 1;
         }
@@ -1564,8 +1573,11 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
     if (hasDefaultDefNodes) {
       // add DEF nodes from the last default parameters
       for (int i = nextParameterIndex; i < protoFieldModels.size(); ++i) {
-        foreach (WbNode *defNode, parametersDefMap[i])
-          WbNodeReader::current()->addDefNode(defNode);
+        QMapIterator<QString, WbNode *> defNodesMapIt(parametersDefMap[i]);
+        while (defNodesMapIt.hasNext()) {
+          defNodesMapIt.next();
+          WbNodeReader::current()->addDefNode(defNodesMapIt.value());
+        }
       }
     }
     tokenizer->skipToken("}");
