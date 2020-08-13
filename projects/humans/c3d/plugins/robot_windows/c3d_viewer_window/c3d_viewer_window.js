@@ -81,19 +81,19 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
     basicTimeStep = 0.001 * values[1];
   } else if (message.startsWith('labels:')) {
     message = message.slice('labels:'.length).split(':');
-    var type = message[0];
-    var unit = message[1];
-    var names = message[2].split(' ');
+    const type = message[0];
+    const unit = message[1];
+    const names = message[2].split(' ');
     if (type === 'virtual_markers' || type === 'markers') {
-      var isVirtual = type === 'virtual_markers';
-      var div = document.getElementById(type);
-      var content = '';
+      const isVirtual = type === 'virtual_markers';
+      let div = document.getElementById(type);
+      let content = '';
       if (message[2] === 'None')
         content = 'None';
       else {
         // options
         for (var i = 0; i < names.length; i++) {
-          var name = names[i];
+          const name = names[i];
           content += '<div class="markerDiv">';
           content += name;
           content += '<input type="checkbox" class="visibilityCheckbox" title="Show/hide this marker." marker="' + name +
@@ -115,19 +115,19 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
         document.getElementById('graphs-' + type).innerHTML = 'None';
     } else {
       for (let i = 0; i < names.length; i++) {
-        let name = names[i];
+        const name = names[i];
         let tmp = document.createElement('tmp');
-        let div = '<div id="' + name + '-graph-container" class="marker-plot">';
-        div += '<h3>' + name;
-        div += '<select onChange="comboboxCallback(this)" class="view-selector" marker="' + name + '">' +
+        const div = '<div id="' + name + '-graph-container" class="marker-plot">' +
+          '<h3>' + name +
+          '<select onChange="comboboxCallback(this)" class="view-selector" marker="' + name + '">' +
           '  <option>Time</option>' +
           '  <option>XY</option>' +
           '  <option>YZ</option>' +
           '  <option>XZ</option>' +
-          '</select>';
-        div += '</h3>';
-        div += '<div id="' + name + '-graph" class="marker-plot-content"/></div>';
-        div += '</div>';
+          '</select>' +
+          '</h3>' +
+          '<div id="' + name + '-graph" class="marker-plot-content"/></div>' +
+          '</div>';
         tmp.innerHTML = div;
         document.getElementById('graphs-' + type).appendChild(tmp.firstChild);
 
