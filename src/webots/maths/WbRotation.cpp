@@ -76,7 +76,7 @@ void WbRotation::fromMatrix3(const WbMatrix3 &M) {
       mAngle = theta;
     } else {
       mZ = sqrt(M(2, 2) - M(0, 0) - M(1, 1) + 0.5);
-      mX = M(0, 1) / (2 * mZ);
+      mX = M(0, 2) / (2 * mZ);
       mY = M(1, 2) / (2 * mZ);
       mAngle = theta;
     }
