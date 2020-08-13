@@ -75,7 +75,7 @@ function changeRadius(virtual, radius) {
 }
 
 webots.window('c3d_viewer_window').receive = function(message, robot) {
-  console.log('robot window received message from robot "' + robot + '"');
+  console.log('robot window received message "' + message + '" from robot "' + robot + '"');
   if (message.startsWith('configure:')) {
     var values = message.split(':');
     basicTimeStep = 0.001 * values[1];
@@ -211,8 +211,6 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
   } else
     console.log(message);
 };
-
-console.log('c3d_viewer_window.js executing');
 
 webots.window('c3d_viewer_window').init(function() {
   robotWindow = webots.window('c3d_viewer_window');
