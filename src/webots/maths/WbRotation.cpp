@@ -60,10 +60,7 @@ void WbRotation::fromMatrix3(const WbMatrix3 &M) {
     mX = M(2, 1) - M(1, 2);
     mY = M(0, 2) - M(2, 0);
     mZ = M(1, 0) - M(0, 1);
-    const double norm = sqrt(mX * mX + mY * mY + mZ * mZ);
-    mX /= norm;
-    mY /= norm;
-    mZ /= norm;
+    normalizeAxis();
     mAngle = theta;
   } else {
     // If `theta == pi`
