@@ -96,10 +96,14 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
           var name = names[i];
           content += '<div class="markerDiv">';
           content += name;
-          content += '<input type="checkbox" class="visibilityCheckbox" title="Show/hide this marker." marker="' + name + '" onclick="checkboxCallback(this)"' + (isVirtual ? '' : ' checked') + '/>';
-          content += '<input type="range" class="radiusSlider" min="0.001" max="0.1" step = "0.001" value="0.01" data-show-value="true" class="slider" title="Radius of the marker." marker="' + name + '" onchange="sliderCallback(this)"/>';
+          content += '<input type="checkbox" class="visibilityCheckbox" title="Show/hide this marker." marker="' + name +
+            '" onclick="checkboxCallback(this)"' + (isVirtual ? '' : ' checked') + '/>';
+          content +=
+            '<input type="range" class="radiusSlider" min="0.001" max="0.1" step = "0.001" value="0.01" data-show-value="true" class="slider" title="Radius of the marker." marker="' +
+            name + '" onchange="sliderCallback(this)"/>';
           content += '<span id="slider_value_' + name + '">0.001</span>';
-          content += '<input type="color" class="colorSelector" marker="' + name + '" value="#00ff00" onchange="colorCallback(this)"/>';
+          content += '<input type="color" class="colorSelector" marker="' + name +
+            '" value="#00ff00" onchange="colorCallback(this)"/>';
           content += '</div>';
         }
       }
@@ -116,21 +120,64 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
         let div = '<div id="' + name + '-graph-container" class="marker-plot">';
         div += '<h3>' + name;
         div += '<select onChange="comboboxCallback(this)" class="view-selector" marker="' + name + '">' +
-               '  <option>Time</option>' +
-               '  <option>XY</option>' +
-               '  <option>YZ</option>' +
-               '  <option>XZ</option>' +
-               '</select>';
+          '  <option>Time</option>' +
+          '  <option>XY</option>' +
+          '  <option>YZ</option>' +
+          '  <option>XZ</option>' +
+          '</select>';
         div += '</h3>';
         div += '<div id="' + name + '-graph" class="marker-plot-content"/></div>';
         div += '</div>';
         tmp.innerHTML = div;
         document.getElementById('graphs-' + type).appendChild(tmp.firstChild);
 
-        let widgetTime = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.prototype.AutoRangeType.STRETCH, {'min': -1, 'max': 1}, {'x': 'Time [s]', 'y': '[' + unit + ']'}, null);
-        let widgetXY = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 1}, {'min': -1, 'max': 1}, {'min': -1, 'max': 1}, {'x': 'x [' + unit + ']', 'y': 'y [' + unit + ']'}, null);
-        let widgetYZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 1, 'y': 2}, {'min': -1, 'max': 1}, {'min': -1, 'max': 1}, {'x': 'y [' + unit + ']', 'y': 'z [' + unit + ']'}, null);
-        let widgetXZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 2}, {'min': -1, 'max': 1}, {'min': -1, 'max': 1}, {'x': 'x [' + unit + ']', 'y': 'z [' + unit + ']'}, null);
+        let widgetTime = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.prototype
+          .AutoRangeType.STRETCH, {
+            'min': -1,
+            'max': 1
+          }, {
+            'x': 'Time [s]',
+            'y': '[' + unit + ']'
+          }, null);
+        let widgetXY = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {
+          'x': 0,
+          'y': 1
+        }, {
+          'min': -1,
+          'max': 1
+        }, {
+          'min': -1,
+          'max': 1
+        }, {
+          'x': 'x [' + unit + ']',
+          'y': 'y [' + unit + ']'
+        }, null);
+        let widgetYZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {
+          'x': 1,
+          'y': 2
+        }, {
+          'min': -1,
+          'max': 1
+        }, {
+          'min': -1,
+          'max': 1
+        }, {
+          'x': 'y [' + unit + ']',
+          'y': 'z [' + unit + ']'
+        }, null);
+        let widgetXZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {
+          'x': 0,
+          'y': 2
+        }, {
+          'min': -1,
+          'max': 1
+        }, {
+          'min': -1,
+          'max': 1
+        }, {
+          'x': 'x [' + unit + ']',
+          'y': 'z [' + unit + ']'
+        }, null);
 
         widgetXY.show(false);
         widgetYZ.show(false);
@@ -152,7 +199,10 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
       const z = parseFloat(coordinates[2]);
       if (name in graphs) {
         graphs[name].forEach(function(widget) {
-          widget.addValue({'x': time, 'y': [x, y, z]});
+          widget.addValue({
+            'x': time,
+            'y': [x, y, z]
+          });
           if (widget.shown)
             widget.refresh();
         });
@@ -164,8 +214,9 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
 
 console.log('c3d_viewer_window.js executing');
 
-document.addEventListener('DOMContentLoaded', function() {
+webots.window('c3d_viewer_window').init = function() {
   console.log('DOMContentLoaded event');
+
   function enableGraphs(event) {
     let checkbox = event.target;
     robotWindow.send('graphs:' + checkbox.getAttribute('graphtype') + ':' + checkbox.checked);
@@ -176,6 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('graph-forces-checkbox').addEventListener('click', enableGraphs);
   document.getElementById('graph-moments-checkbox').addEventListener('click', enableGraphs);
   document.getElementById('graph-powers-checkbox').addEventListener('click', enableGraphs);
+
   function hideShowAll(virtual, hide) {
     let div = virtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
     let checkboxes = div.getElementsByClassName('visibilityCheckbox');
@@ -186,14 +238,30 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     robotWindow.send(message);
   }
-  document.getElementById('select_markers').addEventListener('click', function() { hideShowAll(false, false); });
-  document.getElementById('unselect_markers').addEventListener('click', function() { hideShowAll(false, true); });
-  document.getElementById('select_virtual_markers').addEventListener('click', function() { hideShowAll(true, false); });
-  document.getElementById('unselect_virtual_markers').addEventListener('click', function() { hideShowAll(true, true); });
-  document.getElementById('color_virtual_markers').addEventListener('change', function() { changeColor(true, this.value); });
-  document.getElementById('color_markers').addEventListener('change', function() { changeColor(false, this.value); });
-  document.getElementById('radius_virtual_markers').addEventListener('change', function() { changeRadius(true, this.value); });
-  document.getElementById('radius_markers').addEventListener('change', function() { changeRadius(false, this.value); });
+  document.getElementById('select_markers').addEventListener('click', function() {
+    hideShowAll(false, false);
+  });
+  document.getElementById('unselect_markers').addEventListener('click', function() {
+    hideShowAll(false, true);
+  });
+  document.getElementById('select_virtual_markers').addEventListener('click', function() {
+    hideShowAll(true, false);
+  });
+  document.getElementById('unselect_virtual_markers').addEventListener('click', function() {
+    hideShowAll(true, true);
+  });
+  document.getElementById('color_virtual_markers').addEventListener('change', function() {
+    changeColor(true, this.value);
+  });
+  document.getElementById('color_markers').addEventListener('change', function() {
+    changeColor(false, this.value);
+  });
+  document.getElementById('radius_virtual_markers').addEventListener('change', function() {
+    changeRadius(true, this.value);
+  });
+  document.getElementById('radius_markers').addEventListener('change', function() {
+    changeRadius(false, this.value);
+  });
   document.getElementById('transparency-slider').addEventListener('change', function(event) {
     let slider = event.target;
     document.getElementById('slider_value_transparency').innerHTML = slider.value;
@@ -204,13 +272,27 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('slider_value_speed').innerHTML = slider.value;
     robotWindow.send('speed:' + slider.value);
   });
-  document.getElementById('config-menu-button').addEventListener('click', function() { menuTabCallback('config'); });
-  document.getElementById('markers-menu-button').addEventListener('click', function() { menuTabCallback('markers'); });
-  document.getElementById('virtual_markers-menu-button').addEventListener('click', function() { menuTabCallback('virtual_markers'); });
-  document.getElementById('angles-menu-button').addEventListener('click', function() { menuTabCallback('angles'); });
-  document.getElementById('forces-menu-button').addEventListener('click', function() { menuTabCallback('forces'); });
-  document.getElementById('moments-menu-button').addEventListener('click', function() { menuTabCallback('moments'); });
-  document.getElementById('powers-menu-button').addEventListener('click', function() { menuTabCallback('powers'); });
+  document.getElementById('config-menu-button').addEventListener('click', function() {
+    menuTabCallback('config');
+  });
+  document.getElementById('markers-menu-button').addEventListener('click', function() {
+    menuTabCallback('markers');
+  });
+  document.getElementById('virtual_markers-menu-button').addEventListener('click', function() {
+    menuTabCallback('virtual_markers');
+  });
+  document.getElementById('angles-menu-button').addEventListener('click', function() {
+    menuTabCallback('angles');
+  });
+  document.getElementById('forces-menu-button').addEventListener('click', function() {
+    menuTabCallback('forces');
+  });
+  document.getElementById('moments-menu-button').addEventListener('click', function() {
+    menuTabCallback('moments');
+  });
+  document.getElementById('powers-menu-button').addEventListener('click', function() {
+    menuTabCallback('powers');
+  });
 
   menuTabCallback('config');
-});
+};
