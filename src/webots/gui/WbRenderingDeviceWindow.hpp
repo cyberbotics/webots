@@ -60,6 +60,8 @@ private:
   GLuint mBackgroundTextureUniform;
   GLuint mForegroundTextureUniform;
   GLuint mVaoId;
+  GLuint mVboId[2];
+  bool mVaoInitialized;
   float mXFactor;
   float mYFactor;
   QRect mPreviousGeometry;

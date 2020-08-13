@@ -90,6 +90,7 @@ WbRenderingDeviceWindow::WbRenderingDeviceWindow(WbRenderingDevice *device) :
   mTextureGLId(device->textureGLId()),
   mBackgroundTextureGLId(device->backgroundTextureGLId()),
   mForegroundTextureGLId(device->foregroundTextureGLId()),
+  mVaoInitialized(false),
   mXFactor(0.0f),
   mYFactor(0.0f),
   mUpdateRequested(true),
@@ -135,11 +136,14 @@ WbRenderingDeviceWindow::WbRenderingDeviceWindow(WbRenderingDevice *device) :
 }
 
 WbRenderingDeviceWindow::~WbRenderingDeviceWindow() {
-  mContext->makeCurrent(this);
-  QOpenGLFunctions_3_3_Core *f = mContext->versionFunctions<QOpenGLFunctions_3_3_Core>();
-  f->glDeleteVertexArrays(1, &mVaoId);
-  mContext->doneCurrent();
-  delete mContext;
+  if (mContext && mVaoInitialized) {
+    mContext->makeCurrent(this);
+    QOpenGLFunctions_3_3_Core *f = mContext->versionFunctions<QOpenGLFunctions_3_3_Core>();
+    f->glDeleteVertexArrays(1, &mVaoId);
+    f->glDeleteBuffers(2, (GLuint *)&mVboId);
+    mVaoInitialized = false;
+    mContext->doneCurrent();
+  }
 }
 
 void WbRenderingDeviceWindow::initialize() {
@@ -188,20 +192,21 @@ void WbRenderingDeviceWindow::initialize() {
   static GLfloat const texCoords[] = {0.0f, mYFactor, mXFactor, 0.0,      0.0f,     0.0,
                                       0.0f, mYFactor, mXFactor, mYFactor, mXFactor, 0.0};
 
-  f->glGenVertexArrays(1, &mVaoId);
+  if (!mVaoInitialized) {
+    f->glGenVertexArrays(1, &mVaoId);
+    f->glGenBuffers(2, (GLuint *)&mVboId);
+  }
+
   f->glBindVertexArray(mVaoId);
-  GLuint vboId[2];
-  f->glGenBuffers(2, (GLuint *)&vboId);
-  f->glBindBuffer(GL_ARRAY_BUFFER, vboId[0]);
+  f->glBindBuffer(GL_ARRAY_BUFFER, mVboId[0]);
   f->glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
   f->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
   f->glEnableVertexAttribArray(0);
-  f->glBindBuffer(GL_ARRAY_BUFFER, vboId[1]);
+  f->glBindBuffer(GL_ARRAY_BUFFER, mVboId[1]);
   f->glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords, GL_STATIC_DRAW);
   f->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
   f->glEnableVertexAttribArray(1);
-  f->glBindVertexArray(0);
-  f->glDeleteBuffers(2, (GLuint *)&vboId);
+  mVaoInitialized = true;
 }
 
 void WbRenderingDeviceWindow::render() {
@@ -250,8 +255,6 @@ void WbRenderingDeviceWindow::render() {
   f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
   f->glDrawArrays(GL_TRIANGLES, 0, 6);
-
-  f->glBindVertexArray(0);
 
   mProgram->release();
 }
