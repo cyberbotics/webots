@@ -90,7 +90,7 @@ WbRenderingDeviceWindow::WbRenderingDeviceWindow(WbRenderingDevice *device) :
   mTextureGLId(device->textureGLId()),
   mBackgroundTextureGLId(device->backgroundTextureGLId()),
   mForegroundTextureGLId(device->foregroundTextureGLId()),
-  mVaoInitialized(false),
+  mInitialized(false),
   mXFactor(0.0f),
   mYFactor(0.0f),
   mUpdateRequested(true),
@@ -136,14 +136,19 @@ WbRenderingDeviceWindow::WbRenderingDeviceWindow(WbRenderingDevice *device) :
 }
 
 WbRenderingDeviceWindow::~WbRenderingDeviceWindow() {
-  if (mContext && mVaoInitialized) {
-    mContext->makeCurrent(this);
-    QOpenGLFunctions_3_3_Core *f = mContext->versionFunctions<QOpenGLFunctions_3_3_Core>();
-    f->glDeleteVertexArrays(1, &mVaoId);
-    f->glDeleteBuffers(2, (GLuint *)&mVboId);
-    mVaoInitialized = false;
-    mContext->doneCurrent();
-  }
+  if (!mContext)
+    return;
+
+  if (!isVisible())
+    // if the window is not exposed mContext->makeCurrent() doesn't work
+    show();
+
+  const bool success = mContext->makeCurrent(this);
+  assert(success);
+  QOpenGLFunctions_3_3_Core *f = mContext->versionFunctions<QOpenGLFunctions_3_3_Core>();
+  f->glDeleteVertexArrays(1, &mVaoId);
+  f->glDeleteBuffers(2, (GLuint *)&mVboId);
+  mInitialized = false;
 }
 
 void WbRenderingDeviceWindow::initialize() {
@@ -192,7 +197,7 @@ void WbRenderingDeviceWindow::initialize() {
   static GLfloat const texCoords[] = {0.0f, mYFactor, mXFactor, 0.0,      0.0f,     0.0,
                                       0.0f, mYFactor, mXFactor, mYFactor, mXFactor, 0.0};
 
-  if (!mVaoInitialized) {
+  if (!mInitialized) {
     f->glGenVertexArrays(1, &mVaoId);
     f->glGenBuffers(2, (GLuint *)&mVboId);
   }
@@ -206,7 +211,7 @@ void WbRenderingDeviceWindow::initialize() {
   f->glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords, GL_STATIC_DRAW);
   f->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
   f->glEnableVertexAttribArray(1);
-  mVaoInitialized = true;
+  mInitialized = true;
 }
 
 void WbRenderingDeviceWindow::render() {
