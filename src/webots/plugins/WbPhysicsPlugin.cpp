@@ -246,9 +246,6 @@ const WbNode *WbPhysicsPlugin::findNodeByDef(const WbNode *node, const QString &
   const WbBasicJoint *const joint = dynamic_cast<const WbBasicJoint *>(node);
   if (joint) {
     const WbSolid *endPoint = joint->solidEndPoint();
-    if (!endPoint && joint->solidReference())
-      endPoint = joint->solidReference()->solid();
-
     if (endPoint) {
       const WbNode *const result = findNodeByDef(endPoint, def);
       if (result)
