@@ -30,6 +30,10 @@ webots.Window.prototype.receive = function(message, robot) { // Should be overri
   console.log("Robot.window '" + this.name + "' of Robot.name '" + robot + "' received message: " + message);
 };
 
+webots.Window.prototype.init = function(func) {
+  func();
+};
+
 webots.Window.prototype.setTitle = function(title, tabbedTitle, robot) {
   title = (typeof title === 'undefined') ? '' : title; // Avoid undefined variables.
   tabbedTitle = (typeof tabbedTitle === 'undefined') ? '' : tabbedTitle; // Avoid undefined variables.
