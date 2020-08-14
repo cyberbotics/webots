@@ -134,7 +134,6 @@ using namespace std;
 static int model_count;
 static vector<string> model_list;
 vector<unsigned char> imageColor;
-bool cameraCallbackCalled = false;
 vector<float> imageRangeFinder;
 int connectorPresence = 0;
 double accelerometerValues[3] = {0, 0, 0};
