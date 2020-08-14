@@ -68,14 +68,8 @@ jobs:
     needs: build
     strategy:
       matrix:
-        os: [ubuntu-16.04, ubuntu-18.04, ubuntu-20.04]
+        os: [ubuntu-20.04]
         include:
-          - os: ubuntu-16.04
-            python: 2.7
-            ROS_DISTRO: kinetic
-          - os: ubuntu-18.04
-            python: 2.7
-            ROS_DISTRO: melodic
           - os: ubuntu-20.04
             python: 3.8
             ROS_DISTRO: noetic
@@ -89,10 +83,10 @@ jobs:
         tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
     - name: Install Webots Dependencies
       run: sudo apt -y install g++ make ffmpeg libavcodec-extra libglu1-mesa libxkbcommon-x11-dev execstack libusb-dev libxcb-keysyms1 libxcb-image0 libxcb-icccm4 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0
-    - name: Set up Python ${{ matrix.python }}
+    - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
-        python-version:  ${{ matrix.python }}
+        python-version: 3.8
     - name: Setup ROS environment
       uses: ros-tooling/setup-ros@0.0.25
       with:
