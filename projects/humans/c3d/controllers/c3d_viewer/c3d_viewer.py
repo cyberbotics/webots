@@ -136,6 +136,10 @@ for label in filteredLabel:
     else:
         markers.append(label)
 
+message = supervisor.wwiReceiveText()
+
+print("received message: " + message)
+
 # categorize each labels and send the lists to the robot window
 labelsAndCategory = {
     'markers': markers,
@@ -151,11 +155,6 @@ for key in labelsAndCategory:
         supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + ' '.join(labelsAndCategory[key]).strip())
     else:
         supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + 'None')
-
-
-message = supervisor.wwiReceiveText()
-
-print("received message: " + message)
 
 supervisor.wwiSendText('configure:' + str(supervisor.getBasicTimeStep()))  # FIXME: this message is not received
 
