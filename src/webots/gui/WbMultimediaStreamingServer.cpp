@@ -353,7 +353,6 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
       WbLog::info(tr("Streaming server: Resolution changed to %1x%2.").arg(width).arg(height));
       delete mLimiter;
       mLimiter = new WbMultimediaStreamingLimiter(QSize(mImageWidth, mImageHeight), 50);
-      sendToClients();  // send possible bufferized messages
     } else {
       // Video streamer already initialized
       WbLog::info(tr("Streaming server: Ignored new client request of resolution: %1x%2.").arg(width).arg(height));
@@ -364,6 +363,7 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
     if (!stateMessage.isEmpty())
       client->sendTextMessage(stateMessage);
     sendWorldToClient(client);
+    sendToClients();  // send possible bufferized messages
   } else if (message.startsWith("resize: ")) {
     if (client == mWebSocketClients.first()) {
       const QStringList &resolution = message.mid(8).split("x");
