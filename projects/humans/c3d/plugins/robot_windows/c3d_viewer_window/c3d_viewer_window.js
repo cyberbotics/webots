@@ -117,14 +117,14 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
         const name = names[i];
         let tmp = document.createElement('tmp');
         const div = '<div id="' + name + '-graph-container" class="marker-plot">' +
-          '<h4>' + name + ': ' +
+          '<h3>' + name + ': ' +
           '<select onChange="comboboxCallback(this)" class="view-selector" marker="' + name + '">' +
           '  <option style="font-size:11px">Time</option>' +
           '  <option style="font-size:11px">XY</option>' +
           '  <option style="font-size:11px">YZ</option>' +
           '  <option style="font-size:11px">XZ</option>' +
           '</select>' +
-          '</h4>' +
+          '</h3>' +
           '<div id="' + name + '-graph" class="marker-plot-content"/></div>' +
           '</div>';
         tmp.innerHTML = div;
