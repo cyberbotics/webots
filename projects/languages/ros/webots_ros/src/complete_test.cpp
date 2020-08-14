@@ -133,17 +133,16 @@ using namespace std;
 
 static int model_count;
 static vector<string> model_list;
-vector<unsigned char> imageColor;
-vector<float> imageRangeFinder;
-int connectorPresence = 0;
-double accelerometerValues[3] = {0, 0, 0};
-double compassValues[3] = {0, 0, 0};
-double GPSValues[3] = {0, 0, 0};
-double GyroValues[3] = {0, 0, 0};
-double inertialUnitValues[4] = {0, 0, 0, 0};
-double touchSensorValues[3] = {0, 0, 0};
-
-bool callbackCalled = false;
+static vector<unsigned char> imageColor;
+static vector<float> imageRangeFinder;
+static int connectorPresence = 0;
+static double accelerometerValues[3] = {0, 0, 0};
+static double compassValues[3] = {0, 0, 0};
+static double GPSValues[3] = {0, 0, 0};
+static double GyroValues[3] = {0, 0, 0};
+static double inertialUnitValues[4] = {0, 0, 0, 0};
+static double touchSensorValues[3] = {0, 0, 0};
+static bool callbackCalled = false;
 
 ros::ServiceClient time_step_client;
 webots_ros::set_int time_step_srv;
