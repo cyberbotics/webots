@@ -100,6 +100,7 @@ private:
 
   QString mCurrentWorldLoadingStatus;
   QString mMessageToClients;
+  bool mClientsReadyToReceiveMessages;
   bool mMonitorActivity;
   bool mDisableTextStreams;
   bool mSsl;

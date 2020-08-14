@@ -45,6 +45,8 @@ WbStreamingServer::WbStreamingServer(bool monitorActivity, bool disableTextStrea
   QObject(),
   mPauseTimeout(-1),
   mWebSocketServer(NULL),
+  mMessageToClients(),
+  mClientsReadyToReceiveMessages(false),
   mMonitorActivity(monitorActivity),
   mDisableTextStreams(disableTextStreams),
   mSsl(ssl),
@@ -193,7 +195,6 @@ void WbStreamingServer::onNewWebSocketConnection() {
     mWebSocketClients << client;
     WbLog::info(
       tr("Streaming server: New client [%1] (%2 connected client(s)).").arg(clientToId(client)).arg(mWebSocketClients.size()));
-    sendToClients();  // send possible bufferized messages
   }
 }
 
@@ -464,13 +465,15 @@ void WbStreamingServer::propagateLogToClients(WbLog::Level level, const QString 
 }
 
 void WbStreamingServer::sendToClients(const QString &message) {
-  if (mMessageToClients.isEmpty()) {
-    if (message.isEmpty())
+  if (message.isEmpty()) {
+    mClientsReadyToReceiveMessages = true;
+    if (mMessageToClients.isEmpty())
       return;
+  } else if (mMessageToClients.isEmpty())
     mMessageToClients = message;
-  } else if (!message.isEmpty())
+  else
     mMessageToClients += "\n" + message;
-  if (mWebSocketClients.isEmpty())
+  if (mWebSocketClients.isEmpty() || !mClientsReadyToReceiveMessages)
     return;
   foreach (QWebSocket *client, mWebSocketClients)
     client->sendTextMessage(mMessageToClients);
