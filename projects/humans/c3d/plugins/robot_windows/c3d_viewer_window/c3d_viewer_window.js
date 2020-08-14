@@ -292,6 +292,6 @@ webots.window('c3d_viewer_window').init(function() {
   document.getElementById('powers-menu-button').addEventListener('click', function() {
     menuTabCallback('powers');
   });
-
   menuTabCallback('config');
+  robotWindow.send('ready', 'c3d_viewer');
 });
