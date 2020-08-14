@@ -293,5 +293,4 @@ webots.window('c3d_viewer_window').init(function() {
     menuTabCallback('powers');
   });
   menuTabCallback('config');
-  robotWindow.send('ready', 'c3d_viewer');
 });
