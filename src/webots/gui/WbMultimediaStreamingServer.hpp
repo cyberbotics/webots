@@ -29,7 +29,7 @@ class WbMultimediaStreamingServer : public WbStreamingServer {
   Q_OBJECT
 
 public:
-  WbMultimediaStreamingServer();
+  WbMultimediaStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit);
   ~WbMultimediaStreamingServer();
   void sendImage(const QImage &image);
 
@@ -44,6 +44,7 @@ private slots:
   void processTextMessage(QString message) override;
   void sendImageOnTimeout();
   void processLimiterTimeout();
+  void sendWorldToClient(QWebSocket *client) override;
 
 private:
   void start(int port) override;

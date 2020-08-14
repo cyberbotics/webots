@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "RoCKIn@Home"
@@ -6,6 +6,7 @@ WorldInfo {
   title "RoCKIn@Home"
   basicTimeStep 20
   optimalThreadCount 8
+  coordinateSystem "NUE"
   lineScale 1
 }
 Viewpoint {

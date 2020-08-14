@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 
 PROTO SolidCylinder [
   field SFVec3f translation 0.0 0.0 0.0
@@ -9,6 +9,9 @@ PROTO SolidCylinder [
     translation IS translation
     children [
       Shape {
+        appearance PBRAppearance {
+          baseColor 0 0 0
+        }
         geometry DEF GEOM Cylinder {
           radius 0.2
           height IS height

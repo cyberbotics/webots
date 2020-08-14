@@ -44,3 +44,6 @@ Unfortunately, several remote desktop applications do not support this very well
 
 Because it highly relies on OpenGL, Webots may not work properly in virtualized environments (such as VMWare or VirtualBox) which often lack good OpenGL support.
 Hence, Webots may exhibit some display bugs, run very slowly or crash in such environments.
+
+In the case of VirtualBox, it is known that enabling 3D acceleration in `Settings > Display > Acceleration > Enable 3D Acceleration` will cause Webots to crash (due to the old version of OpenGL provided by VirtualBox).
+Therefore, please disable the 3D acceleration in your VirtualBox to use Webots.

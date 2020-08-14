@@ -23,6 +23,9 @@ Connector {
 
 [Connector](#connector) nodes are used to simulate mechanical docking systems, or any other type of device, that can dynamically create a physical link (or *connection*) with another device of the same type.
 
+Unlike other [Devices](device.md), a [Connector](#connector) may lie outside of a [Robot](robot.md) node.
+This is useful, for example, to allow some object equipped with a "passive" connector to be grasped by a robotic gripper equipped with a corresponding active connector.
+
 [Connector](#connector) nodes can only connect to other [Connector](#connector) nodes.
 At any time, each connection involves exactly two [Connector](#connector) nodes (peer to peer).
 The physical connection between two [Connector](#connector) nodes can be created and destroyed at run time by the robot's controller.
@@ -61,7 +64,7 @@ The *locking state* means the current state of the locking hardware, it does not
 For example, according to the hardware type, `isLocked` can mean that a mechanical latch or a gripper is closed, that electro-magnets are activated, that permanent magnets were moved to an attraction state, or that a suction pump was activated, etc. But the actual physical link exists only if the `wb_connector_lock` function was called when a compatible peer was present (or if the [Connector](#connector) was auto-locked).
 
     > **Note**:
-If `Connectors` nodes are locked and correctly aligned (and compatible) in the
+If `Connector` nodes are locked and correctly aligned (and compatible) in the
 .wbt file then the simulation will start with these connectors already attached
 by a physical link. You can take advantage of this feature to start your
 simulation with the desired mechanical configuration.
@@ -75,22 +78,22 @@ Many spring mounted latching mechanisms or magnetic systems passively lock their
 - `unilateralLock`: indicate that locking one peer only is sufficient to create a physical link.
 This field must be set to FALSE for systems that require both sides to be in the locked state in order to create a physical link.
 For example, symmetric connectors using rotating magnets fall into this category, because both connectors must be simultaneously in a magnetic "attraction" state in order to create a link.
-Note that this field should always be TRUE for "active" `Connectors`, otherwise locking would be impossible for them.
+Note that this field should always be TRUE for "active" connectors, otherwise locking would be impossible for them.
 
 - `unilateralUnlock`: indicates that unlocking one peer only is sufficient to break the physical link.
 This field must be set to FALSE for systems that require both sides to be in an unlocked state in order to break the physical link.
 For example, connectors often use bilateral latching mechanisms, and each side must release its own latch in order for the link to break.
-Note that this field should always be TRUE for "active" `Connectors`, otherwise unlocking would be impossible for them.
+Note that this field should always be TRUE for "active" connectors, otherwise unlocking would be impossible for them.
 
-- `distanceTolerance`: the maximum distance [in meters] between two `Connectors` which still allows them to lock successfully.
+- `distanceTolerance`: the maximum distance [in meters] between two connectors which still allows them to lock successfully.
 The distance is measured between the origins of the coordinate systems of the connectors.
 
-- `axisTolerance`: the maximum angle [in radians] between the *z*-axes of two `Connectors` at which they may successfully lock.
+- `axisTolerance`: the maximum angle [in radians] between the *z*-axes of two connectors at which they may successfully lock.
 Two [Connector](#connector) nodes can lock when their *z*-axes are parallel (within tolerance), but pointed in opposite directions.
 
 - `rotationTolerance`: the tolerated angle difference with respect to each of the allowed docking rotations (see [this figure](#example-of-rotational-alignment)).
 
-- `numberOfRotations`: specifies how many different docking rotations are allowed in a full 360 degree rotation around the [Connector](#connector)'s *z*-axis.
+- `numberOfRotations`: specifies how many different docking rotations are allowed in a full 360 degree rotation around the [Connector](#connector)'s z-axis.
 For example, modular robots' connectors are often 1-, 2- or 4-way dockable depending on mechanical and electrical interfaces.
 As illustrated in [this figure](#example-of-rotational-alignment), if `numberOfRotations` is 4 then there will be 4 different docking positions (one every 90 degrees).
 If you don't wish to check the rotational alignment criterion this field should be set to zero.
@@ -125,7 +128,7 @@ The default value -1 indicates an infinitely strong docking mechanism that does 
 ### Connector Axis System
 
 A [Connector](#connector)'s axis system is displayed by Webots when the corresponding robot is selected or when *Display Axes* is checked in Webots *Preferences*.
-The *z*-axis is drawn as a 5 cm blue line, the y-axis (a potential docking rotation) is drawn as a 5 cm green line, and each additional potential docking rotation is displayed as a 4 cm black line.
+The z-axis is drawn as a 5 cm blue line, the y-axis (a potential docking rotation) is drawn as a 5 cm green line, and each additional potential docking rotation is displayed as a 4 cm black line.
 The bounding objects and graphical objects of a [Connector](#connector) should normally be designed such that the docking surface corresponds exactly to *xy*-plane of the local coordinate system.
 Furthermore, the [Connector](#connector)'s z-axis should be perpendicular to the docking surface and point outward from the robot body.
 Finally, the bounding objects should allow the superposition of the origin of the coordinate systems.
@@ -256,10 +259,10 @@ The *presence* state is defined as the correct positioning of a compatible peer 
 
 Two connectors are in position if they are axis-aligned, rotation-aligned and near enough.
 To be axis-aligned, the angle between the *z*-axes of the two connectors must be smaller than the `axisTolerance` field.
-To be rotation-aligned, the angle between the *y*-axis of both `Connectors` must be within `distanceTolerance` of one of the possible `numberOfRotations` subdivisions of 360 degrees.
-Two `Connectors` are near enough if the distance between them (measured between the origins of the coordinate systems) is smaller than `distanceTolerance`.
+To be rotation-aligned, the angle between the y-axis of both connectors must be within `distanceTolerance` of one of the possible `numberOfRotations` subdivisions of 360 degrees.
+Two connectors are near enough if the distance between them (measured between the origins of the coordinate systems) is smaller than `distanceTolerance`.
 
-Two `Connectors` are compatible if both types are "symmetric" or if one is "active" and the other is "passive".
+Two connectors are compatible if both types are "symmetric" or if one is "active" and the other is "passive".
 A further requirement for the compatibility is that the `model` fields of the connectors must be identical.
 The conditions for detecting presence can be summarized this way:
 
@@ -365,4 +368,4 @@ If the `wb_connector_lock` function is invoked while a peer connector is *presen
 If both the `isLocked` and `autoLock` fields are TRUE, then the physical link will be created automatically as soon as the peer's *presence* is detected.
 If the `wb_connector_lock` function succeeds in creating the link, the two connected bodies will keep a constant distance and orientation with respect to each other from this moment on.
 
-If the `wb_connector_unlock` function is invoked while there is a physical link between two `Connectors`, the link will be destroyed, unless `unilateralUnlock` is FALSE and the peer connector is still in the `isLocked` state.
+If the `wb_connector_unlock` function is invoked while there is a physical link between two connectors, the link will be destroyed, unless `unilateralUnlock` is FALSE and the peer connector is still in the `isLocked` state.

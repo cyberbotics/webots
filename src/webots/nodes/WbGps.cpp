@@ -21,7 +21,7 @@
 #include "WbSensor.hpp"
 #include "WbWorld.hpp"
 
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 #include <QtCore/QDataStream>
 
@@ -204,7 +204,7 @@ void WbGps::preFinalize() {
   WbSolidDevice::preFinalize();
   mSensor = new WbSensor();
   mUTMConverter = new WbUTMConverter();
-  if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem().compare("WGS84") == 0) {
+  if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem() == "WGS84") {
     WbVector3 reference = WbWorld::instance()->worldInfo()->gpsReference();
     mUTMConverter->setReferenceCoordinates(reference[0], reference[1]);
   }
@@ -243,7 +243,7 @@ void WbGps::updateCoordinateSystem() {
 }
 
 void WbGps::updateReferences() {
-  if (mUTMConverter && WbWorld::instance()->worldInfo()->gpsCoordinateSystem().compare("WGS84") == 0) {
+  if (mUTMConverter && WbWorld::instance()->worldInfo()->gpsCoordinateSystem() == "WGS84") {
     WbVector3 reference = WbWorld::instance()->worldInfo()->gpsReference();
     mUTMConverter->setReferenceCoordinates(reference[0], reference[1]);
   }
@@ -264,35 +264,25 @@ bool WbGps::refreshSensorIfNeeded() {
     ratio = pow(correlation, mSensor->elapsedTime() / 1000.0);
 
   WbVector3 reference = WbWorld::instance()->worldInfo()->gpsReference();
-  if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem().compare("WGS84") == 0) {
+  if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem() == "WGS84") {
     // convert reference from lat-long into UTM X-Y coordinates
     mUTMConverter->computeNorthEast(reference[0], reference[1]);
     double altitude = reference[2];
     double north = mUTMConverter->getNorth();
     double east = mUTMConverter->getEast();
-    reference[0] = north;
-    reference[1] = altitude;
-    reference[2] = east;
+    if (WbWorld::instance()->worldInfo()->coordinateSystem() == "ENU") {
+      reference[0] = east;
+      reference[1] = north;
+      reference[2] = altitude;
+    } else {  // NUE
+      reference[0] = north;
+      reference[1] = altitude;
+      reference[2] = east;
+    }
   }
 
   for (int i = 0; i < 3; ++i)  // get exact position
     mMeasuredPosition[i] = t[i];
-
-  // if we are using 'WGS84' coordinate system with non-default 'northDirection'
-  // we need to adapt the exact position
-  if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem().compare("WGS84") == 0) {
-    WbVector3 northDirection = WbWorld::instance()->worldInfo()->northDirection().normalized();
-    if (northDirection != WbVector3(1.0, 0.0, 0.0)) {
-      WbVector3 axis = northDirection.cross(WbVector3(1.0, 0.0, 0.0));
-      if (axis.isNull())
-        axis = WbVector3(0.0, 1.0, 0.0);
-      else
-        axis.normalize();
-      double angle = -northDirection.angle(WbVector3(1.0, 0.0, 0.0));
-      WbMatrix3 transformation = WbMatrix3(axis, angle);
-      mMeasuredPosition = mMeasuredPosition * transformation;
-    }
-  }
 
   for (int i = 0; i < 3; ++i) {
     // add the reference
@@ -311,9 +301,18 @@ bool WbGps::refreshSensorIfNeeded() {
 
   if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem().compare("WGS84") == 0) {
     // convert position from X-Y UTM coordinates into lat-long
-    mUTMConverter->computeLatitudeLongitude(mMeasuredPosition[0], mMeasuredPosition[2]);
-    double altitude = mMeasuredPosition[1];
-
+    // if we are using 'WGS84' coordinate system with a "ENU" coordinate system, we need to swap coordinates
+    double altitude, x, y;
+    if (WbWorld::instance()->worldInfo()->coordinateSystem() == "ENU") {
+      y = mMeasuredPosition[0];
+      x = mMeasuredPosition[1];
+      altitude = mMeasuredPosition[2];
+    } else {
+      x = mMeasuredPosition[0];
+      altitude = mMeasuredPosition[1];
+      y = mMeasuredPosition[2];
+    }
+    mUTMConverter->computeLatitudeLongitude(x, y);
     mMeasuredPosition[0] = mUTMConverter->getLatitude();
     mMeasuredPosition[1] = mUTMConverter->getLongitude();
     mMeasuredPosition[2] = altitude;

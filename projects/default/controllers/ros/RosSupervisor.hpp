@@ -28,6 +28,7 @@
 #include <webots_ros/save_image.h>
 #include <webots_ros/supervisor_get_from_def.h>
 #include <webots_ros/supervisor_get_from_id.h>
+#include <webots_ros/supervisor_get_from_string.h>
 #include <webots_ros/supervisor_movie_start_recording.h>
 #include <webots_ros/supervisor_set_label.h>
 #include <webots_ros/supervisor_virtual_reality_headset_get_orientation.h>
@@ -48,6 +49,7 @@
 #include <webots_ros/node_get_status.h>
 #include <webots_ros/node_get_type.h>
 #include <webots_ros/node_get_velocity.h>
+#include <webots_ros/node_is_proto.h>
 #include <webots_ros/node_move_viewpoint.h>
 #include <webots_ros/node_remove.h>
 #include <webots_ros/node_reset_functions.h>
@@ -116,6 +118,8 @@ public:
   bool getFromDefCallback(webots_ros::supervisor_get_from_def::Request &req,
                           webots_ros::supervisor_get_from_def::Response &res);
   bool getFromIdCallback(webots_ros::supervisor_get_from_id::Request &req, webots_ros::supervisor_get_from_id::Response &res);
+  bool getFromDeviceCallback(webots_ros::supervisor_get_from_string::Request &req,
+                             webots_ros::supervisor_get_from_string::Response &res);
   bool getSelectedCallback(webots_ros::get_uint64::Request &req, webots_ros::get_uint64::Response &res);
 
   bool nodeGetIdCallback(webots_ros::node_get_id::Request &req, webots_ros::node_get_id::Response &res);
@@ -125,6 +129,7 @@ public:
   bool nodeGetBaseTypeNameCallback(webots_ros::node_get_name::Request &req, webots_ros::node_get_name::Response &res);
   bool nodeGetParentNodeCallback(webots_ros::node_get_parent_node::Request &req,
                                  webots_ros::node_get_parent_node::Response &res);
+  bool nodeIsProtoCallback(webots_ros::node_is_proto::Request &req, webots_ros::node_is_proto::Response &res);
   bool nodeGetPositionCallback(webots_ros::node_get_position::Request &req, webots_ros::node_get_position::Response &res);
   bool nodeGetOrientationCallback(webots_ros::node_get_orientation::Request &req,
                                   webots_ros::node_get_orientation::Response &res);
@@ -211,6 +216,7 @@ private:
   ros::ServiceServer mGetSelfServer;
   ros::ServiceServer mGetFromDefServer;
   ros::ServiceServer mGetFromIdServer;
+  ros::ServiceServer mGetFromDeviceServer;
   ros::ServiceServer mGetSelectedServer;
   ros::ServiceServer mVirtualRealityHeadsetGetOrientationServer;
   ros::ServiceServer mVirtualRealityHeadsetGetPositionServer;
@@ -222,6 +228,7 @@ private:
   ros::ServiceServer mNodeGetDefServer;
   ros::ServiceServer mNodeGetBaseTypeNameServer;
   ros::ServiceServer mNodeGetParentNodeServer;
+  ros::ServiceServer mNodeIsProtoServer;
   ros::ServiceServer mNodeGetPositionServer;
   ros::ServiceServer mNodeGetOrientationServer;
   ros::ServiceServer mNodeGetCenterOfMassServer;

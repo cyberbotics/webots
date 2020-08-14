@@ -4,6 +4,262 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 
 ## 2020
 
+##### Luftwaffel 08/04/2020 17:04:49
+looking at the source code, the robot would have to be re-initialized. I think this function should get this value directly from the world instance instead from a value that get's defined on controller initialization
+
+
+Okay I figured out the issue:
+
+robot.getBasicTimeStep()
+
+This always returns the timestep that a controller was initialized with. Changing the timestep does NOT change the return of this function.
+
+
+There seems to be a something strange going on with the sim\_time and timestep
+
+
+Suuuper weird issue. So I run the exact same task several times with increasing timesteps (4, 8, 16, 32). If everything is set correctly, it takes 43 seconds. I use the supervisor to reset the simulation after each run, and set the timestep before each run. Now here is the strange part. If the timestep is 4 or smaller, the time for each run is the same. However, if reset the controller and manually put the timestep to 32 BEFORE i start my script, it uses 32ms increments for the simulation time, even if the steps are actually smaller. This results in times of like 5min, 2,5 min 1,2 min and then finally 43 seconds when actually using 32 timestep again.
+
+##### Olivier Michel [cyberbotics] 08/04/2020 16:05:46
+In general yes, but your case seems tricky...
+
+##### Luftwaffel 08/04/2020 16:04:35
+I just dont understand how decreasing the timestep can cause issues. That's how you're supposed to get rid of these issues
+
+##### Stefania Pedrazzi [cyberbotics] 08/04/2020 16:01:05
+unfortunately not, ODE doesn't give any details. But you can find it by simplifying your simulation until the problem disappears.
+
+##### Luftwaffel 08/04/2020 15:59:52
+is there a way to get more detailed info? where exactle the issue is?
+
+##### Stefania Pedrazzi [cyberbotics] 08/04/2020 15:58:04
+it's a simple task, but it is complex from the physical computation
+
+##### Luftwaffel 08/04/2020 15:57:28
+at something like 4 or 8 timestep, the simulation outcome is also exactly the same. At like 32 there is a bit of variance, which is expected. I find it weird that at timestep 1 it has issues
+
+
+with cylinder objects, and gripper tips are boxes
+
+
+a simple stacking task
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/740236647781630022/unknown.png)
+%end
+
+##### Stefania Pedrazzi [cyberbotics] 08/04/2020 15:54:36
+it depends on the simulation and the collisions between the objects at the computation time. Maybe in your case increasing the time step makes skipping some problematic contact or object's intersection.
+
+##### Luftwaffel 08/04/2020 15:47:22
+the issue is, that I get these errors at timestep 1, which is much smaller than let's say 8, where everythign runs fine
+
+##### Stefania Pedrazzi [cyberbotics] 08/04/2020 15:46:43
+As reported by the warning message, the ODE physics engine has issues in computing the simulation step due to the complexity of the world.
+
+Reducing the time step also reduces the complexity of the computations. Other suggestions to improve the stability of the simulation and avoid this error can be found here:
+
+[https://www.cyberbotics.com/doc/guide/modeling#my-robotsimulation-explodes-what-should-i-do](https://www.cyberbotics.com/doc/guide/modeling#my-robotsimulation-explodes-what-should-i-do)
+
+##### Luftwaffel 08/04/2020 15:17:17
+Found a strange behavior. Running EXACTLY the same simulation, I get several of these errors:
+
+WARNING: The current physics step could not be computed correctly. Your world may be too complex. If this problem persists, try simplifying your bounding object(s), reducing the number of joints, or reducing WorldInfo.basicTimeStep.
+
+
+
+if the timeStep=1    Timestep 4-16  are fine
+
+##### David Mansolino [cyberbotics] 07/31/2020 08:46:40
+You're welcome
+
+##### Yanick Douven 07/31/2020 08:46:31
+Perfect, thank you very much!
+
+##### David Mansolino [cyberbotics] 07/31/2020 08:45:59
+> Or, if not, is there some Python implementation of the generic lidar controller?
+
+`@Yanick Douven` unfortunately not, but you should be able to convert it quite simply, here is the source code: [https://github.com/cyberbotics/webots/blob/master/projects/default/controllers/ros/RosLidar.cpp](https://github.com/cyberbotics/webots/blob/master/projects/default/controllers/ros/RosLidar.cpp)
+
+
+Yes and no, you can split your robot into two robots (one been a child of the other) and assign one controller per robot.
+
+##### Yanick Douven 07/31/2020 08:45:12
+Or, if not, is there some Python implementation of the generic lidar controller?
+
+
+Thanks! I didn't know there was a standard ROS controller. I'm currently writing a custom one in Python, since I need some non-generic interfacing with other components. Is it possible to combine the two? I.e. run the standard and custom ROS controllers side by side?
+
+##### David Mansolino [cyberbotics] 07/31/2020 08:29:32
+Ok, yes in that case the default ros controller does implement an interface for any kind of lidars: 
+
+  - [https://www.cyberbotics.com/doc/guide/using-ros#standard-ros-controller](https://www.cyberbotics.com/doc/guide/using-ros#standard-ros-controller)
+
+  - [https://www.cyberbotics.com/doc/reference/lidar?tab-language=ros#lidar-functions](https://www.cyberbotics.com/doc/reference/lidar?tab-language=ros#lidar-functions)
+
+##### Yanick Douven 07/31/2020 08:28:12
+Hi David,
+
+For ROS 1
+
+##### David Mansolino [cyberbotics] 07/31/2020 08:25:34
+hi, for ROS 1 or 2?
+
+##### Yanick Douven 07/31/2020 07:57:06
+Hi everyone!
+
+I'm trying to implement a ROS controller for a 3D lidar (like the Velodyne). Does anything like this already exist?
+
+Thank you!
+
+##### David Mansolino [cyberbotics] 07/29/2020 10:48:29
+You're welcome
+
+##### Lukulus 07/29/2020 10:46:56
+ok, thank you 🙂
+
+##### David Mansolino [cyberbotics] 07/29/2020 10:43:48
+Hi `@Lukulus`, Webots APi supports well multi-threading, however, it is strongly recommended to call the step function from one thread only, doing is contrary is extremely error-prone.
+
+##### Lukulus 07/29/2020 10:33:21
+Hello I am trying to use multiple threads for different tasks for an robot. 
+
+But it seems like calling the robot->step() funktion in diffenrent threads leads to stop the Simulation.
+
+Sometimes it runs, sometimes time stops and also the simulation.
+
+So can you tell me if its possible to use different threads in a robot controller and how to use them in a right way?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/737981083752202241/unknown.png)
+%end
+
+##### Luftwaffel 07/27/2020 16:30:05
+read out the appropiate sensor
+
+##### csnametala 07/27/2020 16:11:10
+Hello everyone!
+
+I have an e-puck robot in Webots simulations, and I wanted to detect when it hits a wall. How can I solve this?
+
+##### JSON Derulo 07/23/2020 08:57:35
+Awesome, thanks
+
+##### Darko Lukić [cyberbotics] 07/23/2020 08:57:02
+`@JSON Derulo` Yes, you can check this example: [https://www.youtube.com/watch?v=gO0EXKv8x70](https://www.youtube.com/watch?v=gO0EXKv8x70)
+
+
+
+In general, Webots is compatible with ROS and ROS2, therefore you can use ROS packages. A few more links:
+
+- Webots with ROS1 tutorial: [https://cyberbotics.com/doc/guide/tutorial-8-using-ros](https://cyberbotics.com/doc/guide/tutorial-8-using-ros)
+
+- Webots support for ROS2: [http://wiki.ros.org/webots\_ros2](http://wiki.ros.org/webots_ros2)
+
+##### JSON Derulo 07/23/2020 08:54:46
+Hi, does WeBots have to the ability to be integrated with by planners?
+
+##### Olivier Michel [cyberbotics] 07/23/2020 05:33:41
+You are welcome. We plan to release Webots R2020b (including this feature) in the next couple of days. We will make sure we announce it (including this ROS-friendly feature and a few others) on ROS Discourse.
+
+##### Emiliano Borghi 07/22/2020 19:33:46
+Hey, I saw you merged this PR: [https://github.com/cyberbotics/webots/pull/1643](https://github.com/cyberbotics/webots/pull/1643)
+
+I would recommend you to make a post in ROS Discourse because it will help the ROS community with their simulations (included myself).
+
+
+
+Thanks for merging it BTW!
+
+##### David Mansolino [cyberbotics] 07/14/2020 14:31:19
+You're welcome
+
+##### Luftwaffel 07/14/2020 14:23:27
+thanks for the infos 🙂
+
+
+hmm, perhaps we have to copy and save the setup file ourselves then
+
+##### David Mansolino [cyberbotics] 07/14/2020 14:23:01
+But we expect to release the official version of R2020b in ~3 weeks from now.
+
+
+Unfortunately not.
+
+##### Luftwaffel 07/14/2020 14:21:39
+that one doesnt have the simulation reset fix included yet right?
+
+##### David Mansolino [cyberbotics] 07/14/2020 14:21:22
+ok, in that case, only the official stable versions will be kept (e.g. latest R2020a-rev1).
+
+##### Luftwaffel 07/14/2020 14:20:24
+collegues are setting up their systems and environments, we need to be able to install the same version, and preferably not have to change it frequently
+
+
+is there a ETA?
+
+##### David Mansolino [cyberbotics] 07/14/2020 14:19:20
+But once we will release the official stable version of R2020b, this one will stay up indefinetely.
+
+##### Luftwaffel 07/14/2020 14:19:05
+hmm
+
+##### David Mansolino [cyberbotics] 07/14/2020 14:18:49
+no, we keep only the one of the last 3 days.
+
+##### Luftwaffel 07/14/2020 14:18:33
+do nightly build files stay up indefinetely?
+
+##### David Mansolino [cyberbotics] 07/14/2020 14:17:25
+yes
+
+##### Luftwaffel 07/14/2020 14:17:20
+version b is the develop branch?
+
+##### David Mansolino [cyberbotics] 07/14/2020 14:16:37
+We usually do 2 version per year, first version a, then aroudn the middle of the year we create version b, then in between these version if needed we create patch release (e.g. a-revision1, a-revision2, etc.). If you need the patch, I would stick to the version b nightly, we will soon release an official version of R2020b when this is the case, I woudl stick to this official and stable R2020b.
+
+##### Luftwaffel 07/14/2020 14:14:17
+Should I just get the latest nightly build of the master branch?
+
+
+For our simulation benchmark project, we have to decide on a  version of webots. Could you give a short explanation on how your versions work?  For example, what is 2020a vs 2020b? When does the official version get updated? And lastly, which version would you recommend? I know that I needed to install a nightly build at the end of mai, to fix the simulation reset issue, and that some proto file updates are essential for our benchmark.
+
+
+A universal(common, not the company) trajectory-arm controller might be something interesting
+
+
+On that node, I highly modified the universal\_ROS controller you guys created. Made it extern and modified the trajectory and pose\_publisher slightly. Now all it takes to switch from ur10e to kinova-Gen3, is to change the joint names and the same controller works.
+
+
+I might make a kinova\_webots git. A bunch of the launch files have to be altered in order for the IK to work. Plus it needs a custom ROS controller for webots.
+
+##### David Mansolino [cyberbotics] 07/09/2020 09:42:36
+> Btw, successfully created a working GEN3 kinova arm. Even got IK through moveIt to run. Any news on the 'unofficial' robot model repo?
+
+`@Luftwaffel` Very nice! No news yet (several of us are in holidays this week, so we will wait next week to discuss about this), but I will for sure let you know, it would be nice to include your model 🙂
+
+
+> I think I had to flip 4/6 joints. Inverse kinematics was broken before, now it works. This should be looked into though in my opinion. It takes deeper knowledge to be able to figure out the issue and fix it. Would be great if it works out of the box and control + IK code can be directly used from the existing urdf based repositories.
+
+`@Luftwaffel` ok thank you for the feedback, we will try to fix this in the URDF exporter directly.
+
+##### Luftwaffel 07/09/2020 09:37:31
+Btw, successfully created a working GEN3 kinova arm. Even got IK through moveIt to run. Any news on the 'unofficial' robot model repo?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/730719273768452136/unknown.png)
+%end
+
+
+I think I had to flip 4/6 joints. Inverse kinematics was broken before, now it works. This should be looked into though in my opinion. It takes deeper knowledge to be able to figure out the issue and fix it. Would be great if it works out of the box and control + IK code can be directly used from the existing urdf based repositories.
+
+
+Yes, that's exactly the same issue. For some joints the direction of rotation is flipped. I fixed it manually, by flipping the rotational axis (0 1 0 --> 0 -1 0)
+
+##### David Mansolino [cyberbotics] 07/09/2020 05:33:58
+Hi, just to make sur I understood correctly, the joint axes were correct, but the direction wrong right? Is the error similar to [https://github.com/cyberbotics/urdf2webots/issues/42](https://github.com/cyberbotics/urdf2webots/issues/42) ?
+
+##### Luftwaffel 07/08/2020 15:55:06
+I had a weird issue with urdf2webots. I converted the kinova gen3 6dof arm and everything worked. However when implementing it with moveit, I noticed that several hingeJoints were rotating in the wrong direction. I had to switch the axis manually to negative (or positve) to change direction.  It might have something to do with the urdf using the z-axis and the proto using the y-axis for the joint.
+
 ##### David Mansolino [cyberbotics] 07/07/2020 05:54:27
 > `@David Mansolino` I seem to have figured it out. This shows joint 1 and 3 being changed in percent of their valid range. Looks correct now. Do you want me to make a PR with the new, 'correct' robotiq gripper?
 
@@ -16,11 +272,11 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 
 > Any explanation please?
 
-`@Sanket Khadse` here is the link: [https://github.com/cyberbotics/webots/tree/master/projects/samples/robotbenchmark/visual\_tracking](https://github.com/cyberbotics/webots/tree/master/projects/samples/robotbenchmark/visual_tracking)
+`@ContrastNull` here is the link: [https://github.com/cyberbotics/webots/tree/master/projects/samples/robotbenchmark/visual\_tracking](https://github.com/cyberbotics/webots/tree/master/projects/samples/robotbenchmark/visual_tracking)
 
 The duck is moved by with a Supervisor, here is the controller of the Supervisor: [https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/visual\_tracking/controllers/visual\_tracking\_benchmark/visual\_tracking\_benchmark.py](https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/visual_tracking/controllers/visual_tracking_benchmark/visual_tracking_benchmark.py)
 
-##### Sanket Khadse 07/07/2020 04:53:42
+##### ContrastNull 07/07/2020 04:53:42
 I was trying to see what's inside this - "Visual\_tracking.wbt" sample world inside Webots. Unfortunately I didn't found a github link to the file for reference, but this screenshot should be helpful.
 
 My question was, how does the RubberDuck move? I noticed it has an immersion properties node, with fluid name - "water". But I don't see any fluid node in the scene tree. Also there's no controller code, for it's movement.
@@ -574,19 +830,19 @@ You can either convert your car node to base node (right click on the node in th
 ##### hrsh12 05/24/2020 21:21:56
 Is there a way of modifying the usual steering system used in car models?
 
-##### Sanket Khadse 05/22/2020 16:03:44
+##### ContrastNull 05/22/2020 16:03:44
 Alright, thank you for your understanding!
 
 ##### Olivier Michel [cyberbotics] 05/22/2020 16:02:54
 OK, then you should probably run Webots in the cloud and stream your simulation to the web.
 
-##### Sanket Khadse 05/22/2020 16:01:57
+##### ContrastNull 05/22/2020 16:01:57
 I am a competitor, sir.
 
 ##### Olivier Michel [cyberbotics] 05/22/2020 16:00:06
 Are you a competitor or an organizer/developer of this contest?
 
-##### Sanket Khadse 05/22/2020 15:50:50
+##### ContrastNull 05/22/2020 15:50:50
 `@Olivier Michel` , would you please take a look at this. So it will be easy to help me out.
 
 [http://www.aerialroboticscompetition.org/assets/downloads/simulation\_challenge\_rules\_1.1.pdf](http://www.aerialroboticscompetition.org/assets/downloads/simulation_challenge_rules_1.1.pdf)
@@ -596,7 +852,7 @@ Go for " Challenge Rules - 1 ".
 ##### Olivier Michel [cyberbotics] 05/22/2020 15:46:11
 This is not possible.
 
-##### Sanket Khadse 05/22/2020 15:45:40
+##### ContrastNull 05/22/2020 15:45:40
 So could you tell me how can I make this static scene to moving? (by using my controller code of course).
 
 No, as I said, its none of these two cases.
@@ -604,7 +860,7 @@ No, as I said, its none of these two cases.
 ##### Olivier Michel [cyberbotics] 05/22/2020 15:41:18
 Exporting a to HTML will simply export a static scene (no motion), so you probably want to either export an animation or stream a live simulation?
 
-##### Sanket Khadse 05/22/2020 15:37:09
+##### ContrastNull 05/22/2020 15:37:09
 Yes, I have already read it. I need to simulate my world on a web browser using HTML file. I mean anyone with the file can open the simulation on the web. Server streaming or already recorded animation isn't the case.
 
 ##### Olivier Michel [cyberbotics] 05/22/2020 15:32:27
@@ -616,7 +872,7 @@ Do you want to export an animation or to stream a live simulation?
 
 That's because you exported to HTML but you are not streaming the simulation.
 
-##### Sanket Khadse 05/22/2020 15:28:54
+##### ContrastNull 05/22/2020 15:28:54
 `@Olivier Michel` you see, no other option or window opens. neither the drone moves. But in webots, it moves. Any suggestions?
 %figure
 ![Screenshot_from_2020-05-22_20-57-46.png](https://cdn.discordapp.com/attachments/565155651395780609/713413087914491904/Screenshot_from_2020-05-22_20-57-46.png)
@@ -625,7 +881,7 @@ That's because you exported to HTML but you are not streaming the simulation.
 ##### Olivier Michel [cyberbotics] 05/22/2020 14:27:44
 If your robots move in Webots, they should also move in the web view. Don't they?
 
-##### Sanket Khadse 05/22/2020 13:18:06
+##### ContrastNull 05/22/2020 13:18:06
 Hey, I was trying to simulate a world on a HTTP web page. But I couldn't link the controller to the world. I can only move the viewpoint. How should I link the controllers to that file? So that the robots in my simulation should work.
 
 ##### Olivier Michel [cyberbotics] 05/22/2020 06:48:43
@@ -653,12 +909,12 @@ Hi guys im using the urdf package to convert my files between solidworks and web
 There is no controller for lock position of the DJI Mavic 2 Pro
 
 ##### David Mansolino [cyberbotics] 05/15/2020 04:57:11
-`@Sanket Khadse` the controller of the drone is very simple, it doesn't do any feedback using the GPS position or any inertial unit, it might therefore easily drift.
+`@ContrastNull` the controller of the drone is very simple, it doesn't do any feedback using the GPS position or any inertial unit, it might therefore easily drift.
 
 
 `@Jesusmd` you want to get the type of distance sensor? If so you should use the ``getType`` function: [https://cyberbotics.com/doc/reference/distancesensor?tab-language=python#wb\_distance\_sensor\_get\_type](https://cyberbotics.com/doc/reference/distancesensor?tab-language=python#wb_distance_sensor_get_type)
 
-##### Sanket Khadse 05/15/2020 03:02:49
+##### ContrastNull 05/15/2020 03:02:49
 Hey, may I know, why does a drone, (let it be DJI Mavic 2 Pro, which is already available into Webots, or a custom made) moves up and down and shifts constantly in one direction even if no such behaviour is defined in the controller code?
 
 ##### Jesusmd 05/15/2020 01:49:44
@@ -686,15 +942,15 @@ Regarding your example of getting relative position between two nodes, that can 
 `@Luftwaffel` instead of relying on ROS, if you are using Python you ca probably use the `transforms3d` python package which allows for example to convert from a rotation matrix to quaternions: [https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat](https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat)
 
 ##### Luftwaffel 05/13/2020 18:04:16
-`@Sanket Khadse`  perhaps direct .proto file edit can help
+`@ContrastNull`  perhaps direct .proto file edit can help
 
-##### Sanket Khadse 05/13/2020 17:11:36
+##### ContrastNull 05/13/2020 17:11:36
 `@Luftwaffel` that is what my problem is about. The nodes I have to copy paste one by one are in "hundreds".
 
 ##### Luftwaffel 05/13/2020 16:47:12
 Perhaps add a 'Group' base node, put all your nodes in, and copy paste that
 
-##### Sanket Khadse 05/13/2020 16:45:26
+##### ContrastNull 05/13/2020 16:45:26
 Oh, thank you for letting me know!
 
 Keep it as a suggestion for the next update. 😄
@@ -702,7 +958,7 @@ Keep it as a suggestion for the next update. 😄
 ##### Olivier Michel [cyberbotics] 05/13/2020 16:44:11
 Unfortunately, this is not possible.
 
-##### Sanket Khadse 05/13/2020 16:43:42
+##### ContrastNull 05/13/2020 16:43:42
 Hey, could you tell me how to multi-select things in scene-tree? 
 
 I can't find a way to. I imported a VRML97 model into Webots, the model was quite large, and it's difficult to select, cut and paste each 'transform' object into a robot node's children attribute.
@@ -1026,9 +1282,9 @@ hello! sorry for disturbing again. I don't know why but my simulation looks like
 Note also that a customizable door is already available in Webots: [https://cyberbotics.com/doc/guide/object-apartment-structure#door](https://cyberbotics.com/doc/guide/object-apartment-structure#door)
 
 
-Hi `@Sanket Khadse`, the VRML import does indeed import only the visual meshes of the object, you then have to recreate the structure of the object yourself. I would recommend to follow these tutorials to create an objet (1 to 7): [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials)
+Hi `@ContrastNull`, the VRML import does indeed import only the visual meshes of the object, you then have to recreate the structure of the object yourself. I would recommend to follow these tutorials to create an objet (1 to 7): [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials)
 
-##### Sanket Khadse 04/12/2020 06:30:27
+##### ContrastNull 04/12/2020 06:30:27
 Hey, I tried importing a door hinge as a VRML97 file, which was converted from Solidworks model. 
 
 The problem is, it is considering each part of the hinge, like screws, doors as separate individual. (As in the scene tree, it is showing each part differently with same name - "transform") 
@@ -1046,7 +1302,7 @@ Did you follow our tutorials? If not I would strongly advice to follow tutorials
 
 You can either use the Supervisor API to change it's rotation field either mount the radar on a controllable joint.
 
-##### Sanket Khadse 04/09/2020 12:43:17
+##### ContrastNull 04/09/2020 12:43:17
 `@David Mansolino`,  in the first question, after I imported the model into webots,  how should I define the movement of that radar part as needed?
 
 ##### David Mansolino [cyberbotics] 04/09/2020 12:38:42
@@ -1055,7 +1311,7 @@ About the second issue, I would use the Supervisor API to move the whole mast: [
 
 About the first issue, you mean you don't now how to make the radar moving ?
 
-##### Sanket Khadse 04/09/2020 12:35:55
+##### ContrastNull 04/09/2020 12:35:55
 Hey, I want to use a ship mast in my simulation,  which basically has a tower like structure and a radar (dish),  which continuously moves around in a 90° angle.  
 
 So the problem is,  I dont know how to make the part moving in the manner I need.  

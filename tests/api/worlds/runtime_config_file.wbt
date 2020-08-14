@@ -1,8 +1,9 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.999915 0.00793805 -0.0103873 5.1417
+  orientation 0.9999145421071924 0.007938046364915017 -0.010387295243325724 5.1417
   position -0.0282472 1.54298 0.684422
 }
 Background {
@@ -11,9 +12,8 @@ Background {
   ]
 }
 PointLight {
-  ambientIntensity 1.0
-  intensity 0.0
-  color 1.0 1.0 1.0
+  ambientIntensity 1
+  intensity 0
 }
 Robot {
   children [

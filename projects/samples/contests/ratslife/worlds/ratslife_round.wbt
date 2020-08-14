@@ -1,9 +1,10 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Rat's life pattern"
   ]
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 DEF VIEWPOINT Viewpoint {
   fieldOfView 0.755398

@@ -39,6 +39,8 @@ WbWrenRenderingContext::WbWrenRenderingContext(int width, int height) :
   mRenderingMode(RM_PLAIN),
   mProjectionMode(PM_PERSPECTIVE),
   mOptionalRenderingsMask(VM_MAIN) {
+  // cppcheck-suppress integerOverflow
+  assert(VM_WEBOTS_RANGE_CAMERA == VM_REGULAR + VF_LASER_BEAM);
 }
 
 WbWrenRenderingContext::~WbWrenRenderingContext() {

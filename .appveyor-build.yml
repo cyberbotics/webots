@@ -14,14 +14,20 @@ init:
 
 install:
   - set PATH=C:\Python38-x64;C:\Python38-x64\Scripts;C:\msys64\usr\bin;%PATH%
+  - bash -lc "curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
+  - bash -lc "curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
+  - bash -lc "pacman-key --verify msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
+  - bash -lc "pacman -U --noconfirm msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
+  - bash -lc "pacman -Syu --noconfirm"
+  - taskkill /f /fi "MODULES eq msys-2.0.dll"
   - pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
   - pacman --noconfirm -Syuu
   - echo export WEBOTS_HOME="%APPVEYOR_BUILD_FOLDER%" >> C:\msys64\home\appveyor\.bash_profile
-  - type %APPVEYOR_BUILD_FOLDER%\src\install_scripts\bash_profile.appveyor >> C:\msys64\home\appveyor\.bash_profile
+  - type %APPVEYOR_BUILD_FOLDER%\scripts\install\bash_profile.appveyor >> C:\msys64\home\appveyor\.bash_profile
   - bash --login -c "cd $WEBOTS_HOME_PATH; git submodule init; git submodule update"
-  - bash --login -c "$WEBOTS_HOME_PATH/src/install_scripts/msys64_installer.sh --all"
-  - bash --login -c "$WEBOTS_HOME_PATH/src/install_scripts/nodejs_windows_installer.sh"
-  - bash --login -c "$WEBOTS_HOME_PATH/src/install_scripts/inno_setup_installer.sh"
+  - bash --login -c "$WEBOTS_HOME_PATH/scripts/install/msys64_installer.sh --all"
+  - bash --login -c "$WEBOTS_HOME_PATH/scripts/install/nodejs_windows_installer.sh"
+  - bash --login -c "$WEBOTS_HOME_PATH/scripts/install/inno_setup_installer.sh"
   - python -m pip install --upgrade pip
   - pip install PyGithub
   # The following line make the session on the virtual machine last some time to allow remote desktop session debugging
@@ -30,6 +36,6 @@ install:
 build_script:
   - set PATH=C:\Python38-x64;C:\Python38-x64\Scripts;C:\msys64\usr\bin;%PATH%
   - set WEBOTS_HOME=%APPVEYOR_BUILD_FOLDER%
-  - ps: if ($env:APPVEYOR_REPO_TAG -ne "true") { python $env:APPVEYOR_BUILD_FOLDER\src\packaging\set_commit_and_date_in_version.py $env:APPVEYOR_REPO_COMMIT }
+  - ps: if ($env:APPVEYOR_REPO_TAG -ne "true") { python $env:APPVEYOR_BUILD_FOLDER\scripts\packaging\set_commit_and_date_in_version.py $env:APPVEYOR_REPO_COMMIT }
   - bash --login -c "cd $WEBOTS_HOME_PATH; make distrib -j4"
-  - python %APPVEYOR_BUILD_FOLDER%\src\packaging\publish_release.py --key=%GITHUB_API_KEY% --repo=%APPVEYOR_REPO_NAME% --branch=%APPVEYOR_REPO_BRANCH% --commit=%APPVEYOR_REPO_COMMIT% --tag=%APPVEYOR_REPO_TAG_NAME%
+  - python %APPVEYOR_BUILD_FOLDER%\scripts\packaging\publish_release.py --key=%GITHUB_API_KEY% --repo=%APPVEYOR_REPO_NAME% --branch=%APPVEYOR_REPO_BRANCH% --commit=%APPVEYOR_REPO_COMMIT% --tag=%APPVEYOR_REPO_TAG_NAME%

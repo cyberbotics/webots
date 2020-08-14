@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -37,7 +37,10 @@ PROTO ConveyorBelt [
     rotation IS rotation
     name IS name
     controller "conveyor_belt"
-    controllerArgs "%{=fields.speed.value}% %{=fields.timer.value}%"
+    controllerArgs [
+      "%{=fields.speed.value}%"
+      "%{=fields.timer.value}%"
+    ]
     children [
       Track {
         translation 0 %{=0.75 * size.y}% 0

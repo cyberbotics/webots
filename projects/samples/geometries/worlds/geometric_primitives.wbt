@@ -1,9 +1,10 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "This world shows all the base graphical geometries."
   ]
   title "Base graphical geometries"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.08742646544963854 0.9871664543756572 0.13363758638338366 3.8410697195465167

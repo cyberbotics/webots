@@ -1,11 +1,12 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Test world resetting a robot controller and checking it is restarted correctly"
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.29212549 -0.92056164 -0.25928548 4.6716927
+  orientation 0.2921254907177435 -0.9205616422617923 -0.25928548063705664 4.6716927
   position 1.4329559 0.91489558 0.011155372
 }
 Background {
@@ -14,6 +15,7 @@ Background {
   ]
 }
 PointLight {
+  attenuation 0 0 1
   location 0 0.3 0
 }
 Floor {

@@ -1,10 +1,11 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Model of pedal racer."
     "A simple example of a passive system including a mechanical loop"
     "Biorob, EPFL"
   ]
+  coordinateSystem "NUE"
   lineScale 0.2
 }
 Viewpoint {

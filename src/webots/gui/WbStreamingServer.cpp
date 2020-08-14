@@ -40,14 +40,14 @@
 
 WbMainWindow *WbStreamingServer::cMainWindow = NULL;
 
-WbStreamingServer::WbStreamingServer() :
+WbStreamingServer::WbStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit) :
   QObject(),
   mPauseTimeout(-1),
   mWebSocketServer(NULL),
-  mMonitorActivity(false),
-  mDisableTextStreams(false),
-  mSsl(false),
-  mControllerEdit(false) {
+  mMonitorActivity(monitorActivity),
+  mDisableTextStreams(disableTextStreams),
+  mSsl(ssl),
+  mControllerEdit(controllerEdit) {
   connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbStreamingServer::newWorld);
   connect(WbApplication::instance(), &WbApplication::preWorldLoaded, this, &WbStreamingServer::deleteWorld);
   connect(WbApplication::instance(), &WbApplication::worldLoadingHasProgressed, this,
@@ -71,43 +71,6 @@ QString WbStreamingServer::clientToId(QWebSocket *client) {
 
 void WbStreamingServer::setMainWindow(WbMainWindow *mainWindow) {
   cMainWindow = mainWindow;
-}
-
-void WbStreamingServer::startFromCommandLine(const QString &argument) {
-  // default values
-  int port = 1234;
-  // parse argument
-  const QStringList &options = argument.split(';', Qt::SkipEmptyParts);
-  foreach (QString option, options) {
-    option = option.trimmed();
-    const QRegExp rx("(\\w+)\\s*=\\s*([A-Za-z0-9:/.\\-]+)?");
-    rx.indexIn(option);
-    const QStringList &capture = rx.capturedTexts();
-    // "key" without value case
-    if (option == "monitorActivity")
-      mMonitorActivity = true;
-    else if (option == "disableTextStreams")
-      mDisableTextStreams = true;
-    else if (option == "ssl")
-      mSsl = true;
-    else if (option == "controllerEdit")
-      mControllerEdit = true;
-    else if (capture.size() == 3) {
-      const QString &key = capture[1];
-      const QString &value = capture[2];
-      if (key == "port") {
-        bool ok;
-        const int tmpPort = value.toInt(&ok);
-        if (ok)
-          port = tmpPort;
-        else
-          WbLog::error(tr("Streaming server: invalid option: port '%1'").arg(value));
-      } else if (key != "mode")
-        WbLog::error(tr("Streaming server: unknown option '%1'").arg(option));
-    } else
-      WbLog::error(tr("Streaming server: unknown option '%1'").arg(option));
-  }
-  start(port);
 }
 
 void WbStreamingServer::start(int port) {
@@ -589,10 +552,10 @@ void WbStreamingServer::propagateNodeAddition(WbNode *node) {
     connectNewRobot(robot);
 }
 
-QString WbStreamingServer::simulationStateString() {
+QString WbStreamingServer::simulationStateString(bool pauseTime) {
   switch (WbSimulationState::instance()->mode()) {
     case WbSimulationState::PAUSE:
-      return "pause";
+      return pauseTime ? QString("pause: %1").arg(WbSimulationState::instance()->time()) : "pause";
     case WbSimulationState::STEP:
       return "step";
     case WbSimulationState::REALTIME:
@@ -602,7 +565,7 @@ QString WbStreamingServer::simulationStateString() {
     case WbSimulationState::FAST:
       return "fast";
     default:
-      return QString();
+      return "";
   }
 }
 
@@ -613,8 +576,6 @@ void WbStreamingServer::propagateSimulationStateChange() const {
   QString message = simulationStateString();
   if (message.isEmpty())
     return;
-  if (message == "pause")
-    message = QString("pause: %1").arg(WbSimulationState::instance()->time());
   foreach (QWebSocket *client, mWebSocketClients)
     client->sendTextMessage(message);
 }
@@ -641,24 +602,6 @@ void WbStreamingServer::sendWorldToClient(QWebSocket *client) {
   for (int i = 0; i < worldList.size(); ++i)
     worlds += (i == 0 ? "" : ";") + QFileInfo(worldList.at(i)).fileName();
   client->sendTextMessage("world:" + QFileInfo(world->fileName()).fileName() + ':' + worlds);
-
-  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-  foreach (const WbRobot *robot, robots) {
-    if (!robot->window().isEmpty()) {
-      QJsonObject windowObject;
-      windowObject.insert("robot", robot->name());
-      windowObject.insert("window", robot->window());
-      const QJsonDocument windowDocument(windowObject);
-      client->sendTextMessage("robot window: " + windowDocument.toJson(QJsonDocument::Compact));
-    }
-  }
-
-  const WbWorldInfo *currentWorldInfo = WbWorld::instance()->worldInfo();
-  QJsonObject infoObject;
-  infoObject.insert("window", currentWorldInfo->window());
-  infoObject.insert("title", currentWorldInfo->title());
-  const QJsonDocument infoDocument(infoObject);
-  client->sendTextMessage("world info: " + infoDocument.toJson(QJsonDocument::Compact));
 
   client->sendTextMessage("scene load completed");
 }

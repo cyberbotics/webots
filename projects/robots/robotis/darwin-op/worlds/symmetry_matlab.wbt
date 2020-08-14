@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "ROBOTIS OP2 robot controller from Matlab"
@@ -6,6 +6,7 @@ WorldInfo {
   ]
   title "ROBOTIS OP2 Matlab"
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.07594343413002892 0.9892124445657446 0.12526505629584758 2.06651

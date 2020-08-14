@@ -33,6 +33,7 @@
 #include "WbTokenizer.hpp"
 #include "WbWorld.hpp"
 
+#include <QtCore/QCoreApplication>
 #include <QtCore/QFileInfo>
 
 #include <assimp/postprocess.h>
@@ -327,6 +328,10 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
   for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
     const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
     const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+    if (mesh->mNumVertices > 100000)
+      WbLog::warning(QString("mesh '%1' has more than 100'000 vertices, it is recommended to reduce the number of vertices.")
+                       .arg(mesh->mName.C_Str()));
+    QCoreApplication::processEvents();
     if (defNeedGroup || !importBoundingObjects || !importAsSolid)
       stream += " Shape { ";
     else
@@ -547,7 +552,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
   WbSFNode *sfnode = dynamic_cast<WbSFNode *>(parentField->value());
   WbMFNode *mfnode = dynamic_cast<WbMFNode *>(parentField->value());
   assert(sfnode || mfnode);
-  WbNodeOperations::instance()->notifyNodeDeleted(node);
+  notifyNodeDeleted(node);
   bool success;
   if (sfnode) {
     sfnode->setValue(NULL);

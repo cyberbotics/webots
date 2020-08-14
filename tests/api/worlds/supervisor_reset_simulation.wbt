@@ -1,9 +1,10 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Test world resetting the simulation"
   ]
   basicTimeStep 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.3011392881427894 -0.8944857953945254 -0.3304698034227591 4.845225060401701
@@ -97,7 +98,9 @@ DEF TEST_SUITE_SUPERVISOR TestSuiteSupervisor {
 }
 NonStaticSupervisor {
   controller "supervisor_reset_simulation"
-  controllerArgs "supervisor_reset_simulation_iteration_0"
+  controllerArgs [
+    "supervisor_reset_simulation_iteration_0"
+  ]
   children [
     TestSuiteEmitter {
     }

@@ -1,10 +1,11 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example use of a LightSensor device."
   ]
   title "Light Sensor"
   basicTimeStep 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.9999145421071924 0.007938046364915017 -0.010387295243325724 5.1417

@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "This behavior-based controller allows the e-puck robot to follow the black line, avoid obstacles and recover its path afterwards."
@@ -6,6 +6,7 @@ WorldInfo {
     "Thanks to Jean-Christophe Zufferey (EPFL-LIS)."
   ]
   title "E-Puck"
+  coordinateSystem "NUE"
   lineScale 0.04
 }
 Viewpoint {

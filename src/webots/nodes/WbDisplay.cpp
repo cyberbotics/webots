@@ -35,7 +35,7 @@
 #include <climits>
 #include <cmath>
 #include "../../../include/controller/c/webots/display.h"  // contains the definitions of the image format
-#include "../../lib/Controller/api/messages.h"  // contains the definitions for the macros C_DISPLAY_SET_COLOR, C_DISPLAY_SET_ALPHA, C_DISPLAY_SET_OPACITY, ...
+#include "../../Controller/api/messages.h"  // contains the definitions for the macros C_DISPLAY_SET_COLOR, C_DISPLAY_SET_ALPHA, C_DISPLAY_SET_OPACITY, ...
 
 #include <QtCore/QDataStream>
 
@@ -193,7 +193,6 @@ void WbDisplay::findImageTextures() {
 }
 
 void WbDisplay::removeImageTexture(QObject *object) {
-  assert(dynamic_cast<WbImageTexture *>(object));
   mImageTextures.removeAll(static_cast<WbImageTexture *>(object));
 }
 

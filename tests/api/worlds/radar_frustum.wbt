@@ -1,8 +1,9 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.799307 0.413335 -0.436192 2.62846
+  orientation -0.7993066149988747 0.4133348009094877 -0.43619178989998736 2.62846
   position 4.587 1.99424 -5.25583
 }
 Background {
@@ -16,7 +17,7 @@ DirectionalLight {
 }
 DEF VISIBLE_SPHERE Solid {
   translation -3.49077 3.43016 -2.72278
-  rotation 0.645788 0.539888 0.539888 1.36968
+  rotation 0.645787920557758 0.53988793358515 0.53988793358515 1.36968
   children [
     Shape {
       appearance Appearance {
@@ -34,7 +35,7 @@ DEF VISIBLE_SPHERE Solid {
 }
 DEF NOT_VISIBLE_SPHERE Solid {
   translation -5.01688 1.1837 -2.0401
-  rotation 0.645788 0.539888 0.539888 1.36968
+  rotation 0.645787920557758 0.53988793358515 0.53988793358515 1.36968
   children [
     Shape {
       appearance Appearance {
@@ -53,7 +54,7 @@ DEF NOT_VISIBLE_SPHERE Solid {
 }
 DEF VISIBLE_BOX Solid {
   translation -1.34837 0.660611 -1.26226
-  rotation 0.557085 -0.0497567 0.828964 2.51922
+  rotation 0.5570847939578011 -0.0497566815970994 0.8289636934012486 2.51922
   children [
     Shape {
       appearance Appearance {
@@ -72,7 +73,7 @@ DEF VISIBLE_BOX Solid {
 }
 DEF NOT_VISIBLE_BOX Solid {
   translation -1.61501 0.792452 -1.40516
-  rotation 0.645788 0.539888 0.539888 1.36968
+  rotation 0.645787920557758 0.53988793358515 0.53988793358515 1.36968
   children [
     Shape {
       appearance Appearance {
@@ -91,7 +92,7 @@ DEF NOT_VISIBLE_BOX Solid {
 }
 DEF VISIBLE_CAPSULE Solid {
   translation -3.49351 0.0982299 -1.05761
-  rotation 0.557085 -0.0497567 0.828964 2.51922
+  rotation 0.5570847939578011 -0.0497566815970994 0.8289636934012486 2.51922
   children [
     Shape {
       appearance Appearance {
@@ -111,7 +112,7 @@ DEF VISIBLE_CAPSULE Solid {
 }
 DEF NOT_VISIBLE_CAPSULE Solid {
   translation -3.49351 0.0982299 -1.05761
-  rotation -0.645788 -0.539888 -0.539888 4.91351
+  rotation -0.645787920557758 -0.53988793358515 -0.53988793358515 4.91351
   children [
     Shape {
       appearance Appearance {
@@ -131,7 +132,7 @@ DEF NOT_VISIBLE_CAPSULE Solid {
 }
 Robot {
   translation -0.116489 0.196931 -0.132093
-  rotation 0.645788 0.539888 0.539888 1.36968
+  rotation 0.645787920557758 0.53988793358515 0.53988793358515 1.36968
   children [
     Radar {
       maxRange 5
@@ -139,7 +140,6 @@ Robot {
     TestSuiteEmitter {
     }
   ]
-  name "robot"
   controller "radar_frustum"
   supervisor TRUE
 }

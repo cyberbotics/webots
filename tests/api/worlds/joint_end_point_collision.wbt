@@ -1,11 +1,12 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Test Webots ray collision with joint end point solid"
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.012723201 0.99176608 0.12742901 3.26165
+  orientation 0.012723201064431354 0.9917660850223863 0.12742901064531117 3.26165
   position -0.137518 0.398085 -1.35156
 }
 Background {
@@ -47,7 +48,9 @@ DEF OBSTACLE Robot {
   ]
   name "obstacle"
   controller "joint_end_point_collision"
-  controllerArgs "joint_end_point_collision_obstacle"
+  controllerArgs [
+    "joint_end_point_collision_obstacle"
+  ]
 }
 DEF SENSOR Robot {
   translation 0 0.06 0
@@ -90,7 +93,9 @@ DEF SENSOR Robot {
   ]
   name "sensors"
   controller "joint_end_point_collision"
-  controllerArgs "joint_end_point_collision_sensor"
+  controllerArgs [
+    "joint_end_point_collision_sensor"
+  ]
 }
 TestSuiteSupervisor {
 }

@@ -39,7 +39,7 @@ namespace WbContextMenuGenerator {
   void setRobotRangeFinderMenu(QMenu *menu) { gRobotRangeFinderMenu = menu; }
   void setRobotDisplayMenu(QMenu *menu) { gRobotDisplayMenu = menu; }
 
-  const QStringList fillTransformToItems(const WbBaseNode *selectedNode) {
+  const QStringList fillTransformToItems(const WbNode *selectedNode) {
     // populate transform combo box
     QStringList suitableModels;
 
@@ -76,7 +76,7 @@ namespace WbContextMenuGenerator {
   }
 #endif
 
-  void generateContextMenu(const QPoint &position, const WbBaseNode *selectedNode) {
+  void generateContextMenu(const QPoint &position, const WbNode *selectedNode) {
     QMenu contextMenu;
     contextMenu.setObjectName("ContextMenu");
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::CUT));
@@ -128,7 +128,8 @@ namespace WbContextMenuGenerator {
 
         contextMenu.addSeparator();
 
-        if (!(selectedNode->nodeType() == WB_NODE_WORLD_INFO || selectedNode->nodeType() == WB_NODE_VIEWPOINT))
+        const WbBaseNode *selectedBaseNode = static_cast<const WbBaseNode *>(selectedNode);
+        if (!(selectedBaseNode->nodeType() == WB_NODE_WORLD_INFO || selectedBaseNode->nodeType() == WB_NODE_VIEWPOINT))
           contextMenu.addAction(WbActionManager::instance()->action(WbAction::EXPORT_NODE));
 
         if (!gAreProtoActionsEnabled) {

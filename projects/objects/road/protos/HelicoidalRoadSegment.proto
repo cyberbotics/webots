@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -18,7 +18,7 @@ PROTO HelicoidalRoadSegment [
   field        SFFloat              speedLimit                -1.0                    # Optionally defines the speed limit. The recommended unit is meter per seconds.
   field        MFNode{RoadLine {}}  lines                     [ RoadLine { } ]        # Defines the property of each line separating two lanes.
   field        SFFloat              roadBorderHeight          0.15                    # Defines the height of the sidewalk.
-  field        SFFloat              roadBorderWidth           0.8                     # Defines the width of the sidewalk.
+  field        MFFloat              roadBorderWidth           [ 0.8 ]                 # Defines the width of the sidewalk.
   field        SFBool               rightBorder               TRUE                    # Defines whether the road should have a right sidewalk.
   field        SFBool               leftBorder                TRUE                    # Defines whether the road should have a left sidewalk.
   field        SFBool               bottom                    FALSE                   # Defines whether the road bottom should be displayed (useful in case of bridge).

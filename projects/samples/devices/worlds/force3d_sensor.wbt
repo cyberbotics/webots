@@ -1,10 +1,11 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example use of a \"force-3d\" TouchSensor."
   ]
   title "Force-3D TouchSensor"
   basicTimeStep 8
+  coordinateSystem "NUE"
   lineScale 0.2
 }
 Viewpoint {

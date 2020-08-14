@@ -1,8 +1,9 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Description: example of asymetric-symetric friction contact"
   ]
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "body"

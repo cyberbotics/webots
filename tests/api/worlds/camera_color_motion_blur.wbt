@@ -1,13 +1,14 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.234743 0.971933 -0.0155375 5.67785
+  orientation 0.23474306497169567 0.971933269009662 -0.015537504300438017 5.67785
   position -1.46871 0.251512 1.98526
 }
 Background {
   skyColor [
-    0 0 1
+    1 1 1
   ]
 }
 DirectionalLight {
@@ -22,10 +23,10 @@ Solid {
   translation 0 0 -0.54
   children [
     DEF SHAPE Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 1 0 0
-        }
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 1
+        metalness 0
       }
       geometry Box {
         size 1 1 0.1
@@ -36,6 +37,20 @@ Solid {
   physics Physics {
   }
 }
+Solid {
+  translation 0 0 -0.73
+  children [
+    DEF BACKGROUND Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+      }
+      geometry Box {
+        size 5 5 0.01
+      }
+    }
+  ]
+  name "background"
+}
 Robot {
   children [
     Camera {
@@ -45,7 +60,9 @@ Robot {
     }
   ]
   controller "camera_checker"
-  controllerArgs "camera_color_motion_blur"
+  controllerArgs [
+    "camera_color_motion_blur"
+  ]
 }
 TestSuiteSupervisor {
 }

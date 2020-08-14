@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "A soccer game."
@@ -9,6 +9,7 @@ WorldInfo {
   ]
   title "Soccer Game"
   optimalThreadCount 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.7514920402341333 -0.6392670342257186 -0.16308700873151558 5.42412

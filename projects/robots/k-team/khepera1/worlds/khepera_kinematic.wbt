@@ -1,9 +1,10 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Demo for the kinematic simulation mode"
   ]
   title "Khepera kinematic example"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.42902017872984366 0.7930163303706721 0.4325121801846118 1.78202

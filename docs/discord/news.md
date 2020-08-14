@@ -4,6 +4,72 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
+##### Olivier Michel [cyberbotics] 08/03/2020 12:29:29
+Thanks for the nice words. I seems Webots 2020b also made it to ArchLinux thanks to Dan Trickey: [https://aur.archlinux.org/packages/webots/](https://aur.archlinux.org/packages/webots/)
+
+##### W.El-Badry 08/02/2020 19:59:36
+
+%figure
+![f70171d9-4f76-4409-b78f-8ed9b0076e12-a34d0bc7-017e-4af6-9f41-7d6e3df66887-v1.png](https://cdn.discordapp.com/attachments/568354695513374730/739573135350956142/f70171d9-4f76-4409-b78f-8ed9b0076e12-a34d0bc7-017e-4af6-9f41-7d6e3df66887-v1.png)
+%end
+
+
+You are amazing `@Olivier Michel` . By making Webots open source, you opened a window to researchers worldwide to take advantage of what you and your teammates built for years with high quality and endless hours.
+
+##### Olivier Michel [cyberbotics] 07/29/2020 16:04:12
+We are pleased to announce a new release of the open-source Webots robot simulator: R2020b.
+
+
+
+This version brings new robot models, new features, improved support for ROS2 and bug fixes.
+
+Read our online announcement for more details and pictures: [https://cyberbotics.com/doc/blog/Webots-2020-b-release](https://cyberbotics.com/doc/blog/Webots-2020-b-release)
+
+
+
+Binary packages for Windows, Linux and mac OS: [https://cyberbotics.com](https://cyberbotics.com)
+
+Source code: [https://github.com/cyberbotics/webots](https://github.com/cyberbotics/webots)
+
+Change Log: [https://cyberbotics.com/doc/reference/changelog-r2020](https://cyberbotics.com/doc/reference/changelog-r2020)
+
+
+
+Your contributions are welcome:
+
+- Share your Webots simulations: [https://github.com/cyberbotics/community-projects](https://github.com/cyberbotics/community-projects)
+
+- Contribute to the source code and documentation of Webots on GitHub.
+
+- Subscribe to one of our support plans at [https://cyberbotics.com#plans](https://cyberbotics.com#plans).
+
+- Team-up with Cyberbotics on EU project proposals or any other project proposal involving robot simulation.
+
+
+
+Together with you, we are committed  to provide high quality, free and open source software to the robotics community on the long run.
+
+##### Doc 07/25/2020 14:11:35
+Final of the student robotics virtual competition live now [https://youtu.be/xBPVqsb\_Ydk](https://youtu.be/xBPVqsb_Ydk)
+
+##### amitsaini 07/24/2020 15:35:03
+Hi I am testing a Robotic Dog on Webots. Earlier I was using CoppelliaSim but faced some problems. So now switching to Webots. 
+
+[https://www.youtube.com/watch?v=4oXSDRn0iBA](https://www.youtube.com/watch?v=4oXSDRn0iBA)
+
+##### David Mansolino [cyberbotics] 07/14/2020 07:10:56
+We have created a new repository for the community to share your PROTO, controllers, worlds, etc.
+
+We hope to receive many contributions from the community:
+
+[https://github.com/cyberbotics/community-projects](https://github.com/cyberbotics/community-projects)
+
+##### Olivier Michel [cyberbotics] 07/13/2020 14:34:21
+We received a total of 35 submissions to the Webots Google season of Docs. We are now in the process of selecting the best applications.
+
+##### Doc 07/11/2020 14:22:55
+That competition is live now [https://www.youtube.com/watch?v=xLL7SoQywf4](https://www.youtube.com/watch?v=xLL7SoQywf4)
+
 ##### Olivier Michel [cyberbotics] 06/13/2020 09:21:11
 Student competition based on Webots: [https://studentrobotics.org/docs/competition-simulator/](https://studentrobotics.org/docs/competition-simulator/)
 

@@ -1,9 +1,10 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "The model of the Pioneer 2 robot"
   ]
   title "Pioneer 2"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.07270819057857361 0.9877188720127599 0.1382929820801874 4.03347

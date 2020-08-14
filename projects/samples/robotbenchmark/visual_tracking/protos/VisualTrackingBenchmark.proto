@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -6,7 +6,7 @@
 
 PROTO VisualTrackingBenchmark [
   field SFString window "visual_tracking"
-  field MFString controllerArgs "hit-error=0.1"
+  field MFString controllerArgs [ "hit-error=0.1" ]
 ]
 {
 Robot {

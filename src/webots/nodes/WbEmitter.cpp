@@ -18,7 +18,7 @@
 #include "WbFieldChecker.hpp"
 #include "WbReceiver.hpp"
 
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 #include <QtCore/QDataStream>
 

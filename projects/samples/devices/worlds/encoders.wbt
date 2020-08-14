@@ -1,9 +1,10 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example use of the Encoders of a Robot robot."
   ]
   title "Encoders"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.999833125143971 0.011561901447143752 -0.014143701770294424 5.262

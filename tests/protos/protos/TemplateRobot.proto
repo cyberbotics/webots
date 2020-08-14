@@ -1,15 +1,25 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 
 PROTO TemplateRobot [
   field SFString controller "void"
   field SFString customData ""
   field SFString proceduralField "this is a string"
+  field MFNode   slot []
 ]
 {
   %{ print(fields.proceduralField.value) }%
   Robot {
     controller IS controller
     customData IS customData
-    controllerArgs "%{= context.id }%"
+    controllerArgs [
+      "%{= context.id }%"
+    ]
+    children [ 
+      Group {
+        children IS slot
+      }
+      DEF INTERNAL Transform {
+      }
+    ]
   }
 }

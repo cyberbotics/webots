@@ -1,9 +1,10 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 DEF WORLDINFO WorldInfo {
+  coordinateSystem "NUE"
   gpsCoordinateSystem "WGS84"
 }
 Viewpoint {
-  orientation -0.622116 -0.767319 -0.155543 0.629982
+  orientation -0.6221158786668858 -0.7673188503475173 -0.15554296966399098 0.629982
   position 4999.7 0.235938 2000.54
 }
 Background {
@@ -12,7 +13,7 @@ Background {
   ]
 }
 PointLight {
-  ambientIntensity 1
+  attenuation 0 0 1
   intensity 0
 }
 DEF ROBOT Robot {
@@ -42,7 +43,6 @@ DEF ROBOT Robot {
     TestSuiteEmitter {
     }
   ]
-  name "robot"
   boundingObject USE BOX
   controller "gps_coordinates_north_direction"
   supervisor TRUE

@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   basicTimeStep 8
   contactProperties [
@@ -6,9 +6,10 @@ WorldInfo {
       bounce 1
     }
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.113936 -0.939884 -0.321926 3.9231
+  orientation 0.11393601737364886 -0.9398841433191845 -0.3219260490892193 3.9231
   position 2.49266 2.62338 -2.36077
 }
 Background {

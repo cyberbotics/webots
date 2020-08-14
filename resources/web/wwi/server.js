@@ -58,9 +58,13 @@ class Server { // eslint-disable-line no-unused-vars
   }
 
   onOpen(event) {
-    if (this.repository)
-      this.socket.send(`{"start":{"url":"${this.repository}"}}`);
-    else { // legacy format
+    if (this.repository) {
+      let message = `{"start":{"url":"${this.repository}"`;
+      if (this.view.mode == 'mjpeg')
+        message += ',"mode":"mjpeg"';
+      message += '}}';
+      this.socket.send(message);
+    } else { // legacy format
       const host = location.protocol + '//' + location.host.replace(/^www./, ''); // remove 'www' prefix
       if (typeof webots.User1Id === 'undefined')
         webots.User1Id = '';

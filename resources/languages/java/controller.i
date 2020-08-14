@@ -599,6 +599,9 @@ namespace webots {
 %rename("getParentNodePrivate") getParentNode() const;
 %javamethodmodifiers getParentNode() const "private"
 
+%rename("getFromProtoDefPrivate") getFromProtoDef(const std::string &name) const;
+%javamethodmodifiers getFromProtoDef(const std::string &name) const "private"
+
 %rename("getFieldPrivate") getField(const std::string &fieldName) const;
 %javamethodmodifiers getField(const std::string &fieldName) const "private"
 
@@ -606,6 +609,11 @@ namespace webots {
 // ----- begin hand written section ----
   public Node getParentNode() {
     long cPtr = wrapperJNI.Node_getParentNodePrivate(swigCPtr, this);
+    return Node.findNode(cPtr);
+  }
+
+  public Node getFromProtoDef(String name) {
+    long cPtr = wrapperJNI.Node_getFromProtoDefPrivate(swigCPtr, this, name);
     return Node.findNode(cPtr);
   }
 
@@ -1156,13 +1164,17 @@ namespace webots {
     return Node.findNode(cPtr);
   }
 
-  public Node getFromProtoDef(String name) {
-    long cPtr = wrapperJNI.Supervisor_getFromProtoDefPrivate(swigCPtr, this, name);
+  public Node getFromId(int id) {
+    long cPtr = wrapperJNI.Supervisor_getFromIdPrivate(swigCPtr, this, id);
     return Node.findNode(cPtr);
   }
 
-  public Node getFromId(int id) {
-    long cPtr = wrapperJNI.Supervisor_getFromIdPrivate(swigCPtr, this, id);
+  public Node getFromDevice(Device device) {
+    return getFromDeviceTag(device.getTag());
+  }
+
+  private Node getFromDeviceTag(int tag) {
+    long cPtr = wrapperJNI.Supervisor_getFromDeviceTagPrivate(swigCPtr, this, tag);
     return Node.findNode(cPtr);
   }
 
@@ -1175,15 +1187,17 @@ namespace webots {
 %rename("getRootPrivate") getRoot() const;
 %rename("getSelfPrivate") getSelf() const;
 %rename("getFromDefPrivate") getFromDef(const std::string &name) const;
-%rename("getFromProtoDefPrivate") getFromProtoDef(const std::string &name) const;
 %rename("getFromIdPrivate") getFromId(int id) const;
+%rename("getFromDevicePrivate") getFromDevice(const Device *device) const;
+%rename("getFromDeviceTagPrivate") getFromDeviceTag(int tag) const;
 %rename("getSelectedPrivate") getSelected() const;
 
 %javamethodmodifiers getRoot() const "private"
 %javamethodmodifiers getSelf() const "private"
 %javamethodmodifiers getFromDef(const std::string &name) const "private"
-%javamethodmodifiers getFromProtoDef(const std::string &name) const "private"
 %javamethodmodifiers getFromId(int id) const "private"
+%javamethodmodifiers getFromDevice(const Device *device) const "private"
+%javamethodmodifiers getFromDeviceTag(int tag) const "private"
 %javamethodmodifiers getSelected() const "private"
 
 %include <webots/Supervisor.hpp>

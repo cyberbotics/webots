@@ -87,9 +87,11 @@ sudo gdebi webots_{{ webots.version.debian_package }}_amd64.deb
 #### Installing the "tarball" Package
 
 This section explains how to install Webots from the tarball package (having the `.tar.bz2` extension).
-This package can be installed without the `root` privileges.
-It can be uncompressed anywhere using the `tar` `xjf` command line.
-Once uncompressed, it is recommended to set the WEBOTS\_HOME environment variable to point to the `webots` directory obtained from the uncompression of the tarball:
+Note that for the old Ubuntu versions 18.04 and 16.04 you should download the `webots-R2020b-x86-64_ubuntu-16.04.tar.bz2` package.
+
+The tarball package can be installed without the `root` privileges.
+It can be extracted anywhere using the `tar` `xjf` command line.
+Once extracted, it is recommended to set the WEBOTS\_HOME environment variable to point to the `webots` directory obtained from the extraction of the tarball:
 
 ```sh
 tar xjf webots-{{ webots.version.package }}-x86-64.tar.bz2
@@ -146,14 +148,12 @@ rm ~/.cache/fontconfig/*
 
 #### Server Edition
 
-Webots requires some graphical features that are usually not available by default on a Linux server edition and additional packages needs to be available to make it work:
+Webots requires some graphical features that are usually not available by default on a Linux server edition, [additional packages](https://github.com/cyberbotics/webots/blob/master/scripts/install/linux_runtime_dependencies.sh) needs to be manually installed to make it work.
 
-- `xserver-xorg-core`
-- `libpulse0`
-
-These packages are automatically installed when using the Debian package, but in case of the tarball package the user has to manually install them.
-
-Additionally, it is also necessary to install an OS GUI, for example the Unity desktop `ubuntu-desktop` package.
+Webots can be run without GUI using a virtual framebuffer such as [Xvfb](https://en.wikipedia.org/wiki/Xvfb):
+```
+xvfb-run --auto-servernum webots --mode=fast --stdout --stderr --minimize --batch /path/to/world/file
+```
 
 ### Installation on Windows
 

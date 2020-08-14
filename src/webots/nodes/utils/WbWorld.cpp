@@ -16,10 +16,12 @@
 
 #include "WbApplication.hpp"
 #include "WbBackground.hpp"
+#include "WbBallJointParameters.hpp"
 #include "WbBasicJoint.hpp"
 #include "WbFileUtil.hpp"
 #include "WbGeometry.hpp"
 #include "WbGroup.hpp"
+#include "WbHingeJointParameters.hpp"
 #include "WbImageTexture.hpp"
 #include "WbJoint.hpp"
 #include "WbJointDevice.hpp"
@@ -436,10 +438,24 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
           deviceObject.insert("minPosition", motor->minPosition());
           deviceObject.insert("maxPosition", motor->maxPosition());
           deviceObject.insert("position", motor->position());
-          if (motor->positionIndex() == 2)
-            deviceObject.insert("axis", motor->joint()->parameters2()->axis().toString(WbPrecision::FLOAT_MAX));
+          const WbJointParameters *jointParameters = NULL;
+          if (motor->positionIndex() == 3)
+            jointParameters = motor->joint()->parameters3();
+          else if (motor->positionIndex() == 2)
+            jointParameters = motor->joint()->parameters2();
+          else {
+            assert(motor->positionIndex() == 1);
+            jointParameters = motor->joint()->parameters();
+          }
+          deviceObject.insert("axis", jointParameters->axis().toString(WbPrecision::FLOAT_MAX));
+          const WbBallJointParameters *ballJointParameters = dynamic_cast<const WbBallJointParameters *>(jointParameters);
+          const WbHingeJointParameters *hingeJointParameters = dynamic_cast<const WbHingeJointParameters *>(jointParameters);
+          if (hingeJointParameters)
+            deviceObject.insert("anchor", hingeJointParameters->anchor().toString(WbPrecision::FLOAT_MAX));
+          else if (ballJointParameters)
+            deviceObject.insert("anchor", ballJointParameters->anchor().toString(WbPrecision::FLOAT_MAX));
           else
-            deviceObject.insert("axis", motor->joint()->parameters()->axis().toString(WbPrecision::FLOAT_MAX));
+            deviceObject.insert("anchor", "0 0 0");
         }
       } else if (jointDevice && jointDevice->propeller() && motor) {  // case: propeller.
         WbSolid *helix = jointDevice->propeller()->helix(WbPropeller::SLOW_HELIX);
@@ -448,6 +464,7 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
         deviceObject.insert("axis", motor->propeller()->axis().toString(WbPrecision::FLOAT_MAX));
         deviceObject.insert("minPosition", motor->minPosition());
         deviceObject.insert("maxPosition", motor->maxPosition());
+        deviceObject.insert("anchor", "0 0 0");
       } else {  // case: other WbDevice nodes.
         const WbBaseNode *parent =
           jointDevice ? dynamic_cast<const WbBaseNode *>(deviceBaseNode->parentNode()) : deviceBaseNode;

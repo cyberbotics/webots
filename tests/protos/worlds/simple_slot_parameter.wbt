@@ -1,10 +1,11 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   basicTimeStep 16
   lineScale 0.9
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.0132098 -0.974725 -0.223015 3.4817
+  orientation 0.013209806508037086 -0.9747254802151771 -0.22301510987220777 3.4817
   position 0.269593 0.23807 -0.613166
 }
 Background {
@@ -36,7 +37,9 @@ DEF TEST Robot {
     }
   ]
   controller "single_distance_sensor_detection"
-  controllerArgs "simple_slot_parameter"
+  controllerArgs [
+    "simple_slot_parameter"
+  ]
 }
 TestSuiteSupervisor {
 }

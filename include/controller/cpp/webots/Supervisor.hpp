@@ -15,6 +15,7 @@
 #ifndef SUPERVISOR_HPP
 #define SUPERVISOR_HPP
 
+#include <webots/Device.hpp>
 #include <webots/Node.hpp>
 #include <webots/Robot.hpp>
 
@@ -58,8 +59,9 @@ namespace webots {
     Node *getRoot() const;
     Node *getSelf() const;
     Node *getFromDef(const std::string &name) const;
-    Node *getFromProtoDef(const std::string &name) const;
     Node *getFromId(int id) const;
+    Node *getFromDevice(const Device *device) const;
+    Node *getFromDeviceTag(int tag) const;
     Node *getSelected() const;
 
     bool virtualRealityHeadsetIsUsed() const;

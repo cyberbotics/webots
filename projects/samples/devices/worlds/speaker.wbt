@@ -1,9 +1,10 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example use of a Speaker device."
   ]
   title "Speaker"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   fieldOfView 1.5

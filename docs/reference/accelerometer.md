@@ -17,6 +17,7 @@ Accelerometer {
 The [Accelerometer](#accelerometer) node can be used to model accelerometer devices such as those commonly found in mobile electronics, robots and game input devices.
 The [Accelerometer](#accelerometer) node measures acceleration and gravity induced reaction forces over 1, 2 or 3 axes.
 It can be used for example to detect fall, the up/down direction, etc.
+The parent node of an [Accelerometer](#accelerometer) node should have a [Physics](physics.md) node defined in its `physics` field, so that correct measurements can be performed.
 
 ### Field Summary
 

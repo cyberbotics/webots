@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Benchmark objective: "
@@ -7,6 +7,7 @@ WorldInfo {
   title "Robot Programming"
   window "robot_programming"
   basicTimeStep 20
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "thymio body"

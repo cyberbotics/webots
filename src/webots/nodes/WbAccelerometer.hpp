@@ -59,6 +59,7 @@ private:
   double mValues[3];  // current sensor value according to lookup table
   double mVelocity[3];
   bool mNeedToReconfigure;
+  bool mWarningWasPrinted;
 
   // private functions
   WbAccelerometer &operator=(const WbAccelerometer &);  // non copyable

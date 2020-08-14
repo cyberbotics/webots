@@ -1,9 +1,10 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Description: Sample of robot mounted by a Sick LMS 291."
   ]
   title "Sick LMS 291"
+  coordinateSystem "NUE"
   lineScale 0.5
 }
 Viewpoint {

@@ -1,7 +1,8 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   title "Visual Tracking"
   window "visual_tracking"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.581194229109169 -0.8130424087538014 -0.03428278894745272 0.24858132

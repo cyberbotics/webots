@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Test procedure:"
@@ -8,9 +8,10 @@ WorldInfo {
     ""
     "Regression test for issue 867"
   ]
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.856004 -0.319324 0.406557 4.32543
+  orientation -0.8560043170465097 -0.31932411827112916 0.40655715058046205 4.32543
   position -0.524758 -4.86861 -0.720647
 }
 Background {

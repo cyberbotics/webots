@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Mantis Hexapod Robot"
@@ -7,6 +7,7 @@ WorldInfo {
   title "Mantis Hexapod"
   ERP 0.62
   basicTimeStep 10
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       coulombFriction [

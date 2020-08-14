@@ -88,6 +88,12 @@ void WbTrackWheel::rotate(double travelledDistance) {
   updateRotation();
 }
 
+void WbTrackWheel::write(WbVrmlWriter &writer) const {
+  if (writer.isUrdf())
+    return;
+  WbTransform::write(writer);
+}
+
 void WbTrackWheel::exportNodeFields(WbVrmlWriter &writer) const {
   if (writer.isX3d())
     writer << " ";

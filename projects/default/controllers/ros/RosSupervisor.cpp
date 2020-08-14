@@ -65,6 +65,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
     mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/get_from_def", &RosSupervisor::getFromDefCallback, this);
   mGetFromIdServer =
     mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/get_from_id", &RosSupervisor::getFromIdCallback, this);
+  mGetFromDeviceServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/get_from_device",
+                                                              &RosSupervisor::getFromDeviceCallback, this);
   mGetSelectedServer =
     mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/get_selected", &RosSupervisor::getSelectedCallback, this);
   mVirtualRealityHeadsetGetOrientationServer =
@@ -88,6 +90,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                                     &RosSupervisor::nodeGetBaseTypeNameCallback, this);
   mNodeGetParentNodeServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_parent_node",
                                                                   &RosSupervisor::nodeGetParentNodeCallback, this);
+  mNodeIsProtoServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/is_proto",
+                                                            &RosSupervisor::nodeIsProtoCallback, this);
   mNodeGetPositionServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_position",
                                                                 &RosSupervisor::nodeGetPositionCallback, this);
   mNodeGetOrientationServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_orientation",
@@ -210,6 +214,7 @@ RosSupervisor::~RosSupervisor() {
   mGetSelfServer.shutdown();
   mGetFromDefServer.shutdown();
   mGetFromIdServer.shutdown();
+  mGetFromDeviceServer.shutdown();
   mGetSelectedServer.shutdown();
   mVirtualRealityHeadsetGetOrientationServer.shutdown();
   mVirtualRealityHeadsetGetPositionServer.shutdown();
@@ -405,9 +410,10 @@ bool RosSupervisor::getSelfCallback(webots_ros::get_uint64::Request &req, webots
 bool RosSupervisor::getFromDefCallback(webots_ros::supervisor_get_from_def::Request &req,
                                        webots_ros::supervisor_get_from_def::Response &res) {
   assert(mSupervisor);
-  if (req.proto)
-    res.node = reinterpret_cast<uint64_t>(mSupervisor->getFromProtoDef(req.name));
-  else
+  if (req.proto) {
+    Node *node = reinterpret_cast<Node *>(req.proto);
+    res.node = reinterpret_cast<uint64_t>(node->getFromProtoDef(req.name));
+  } else
     res.node = reinterpret_cast<uint64_t>(mSupervisor->getFromDef(req.name));
   return true;
 }
@@ -416,6 +422,15 @@ bool RosSupervisor::getFromIdCallback(webots_ros::supervisor_get_from_id::Reques
                                       webots_ros::supervisor_get_from_id::Response &res) {
   assert(mSupervisor);
   res.node = reinterpret_cast<uint64_t>(mSupervisor->getFromId(req.id));
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::getFromDeviceCallback(webots_ros::supervisor_get_from_string::Request &req,
+                                          webots_ros::supervisor_get_from_string::Response &res) {
+  assert(mSupervisor);
+  const Device *device = mRos->getDevice(req.value);
+  res.node = reinterpret_cast<uint64_t>(mSupervisor->getFromDevice(device));
   return true;
 }
 
@@ -511,6 +526,16 @@ bool RosSupervisor::nodeGetParentNodeCallback(webots_ros::node_get_parent_node::
     return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   res.node = reinterpret_cast<uint64_t>(node->getParentNode());
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeIsProtoCallback(webots_ros::node_is_proto::Request &req, webots_ros::node_is_proto::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  res.value = node->isProto();
   return true;
 }
 

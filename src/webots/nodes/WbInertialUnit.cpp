@@ -22,7 +22,7 @@
 #include "WbSensor.hpp"
 #include "WbWorld.hpp"
 
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 #include <ode/ode.h>
 #include <QtCore/QDataStream>
@@ -145,11 +145,8 @@ bool WbInertialUnit::refreshSensorIfNeeded() {
 void WbInertialUnit::computeValue() {
   // get north and -gravity in global coordinate systems
   const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
-  const WbVector3 &north = wi->northDirection().normalized();
-  WbVector3 minusGravity = -wi->gravity().normalized();
-
-  if (minusGravity.isNan())
-    minusGravity = WbVector3(0.0, 1.0, 0.0);
+  const WbVector3 &north = wi->coordinateSystem() == "ENU" ? WbVector3(0, 1, 0) : WbVector3(1, 0, 0);  // "NUE"
+  WbVector3 minusGravity = -wi->gravityUnitVector();
   WbMatrix3 rm(north, minusGravity, north.cross(minusGravity));  // reference frame
   rm.transpose();
   const WbMatrix3 &e = rotationMatrix() * rm;  // extrensic rotation matrix e = Y(yaw) Z(pitch) X(roll) w.r.t reference frame

@@ -15,8 +15,8 @@ As for a regular [Robot](robot.md) controller, the `wb_robot_init`, `wb_robot_st
 #### `wb_supervisor_node_get_root`
 #### `wb_supervisor_node_get_self`
 #### `wb_supervisor_node_get_from_def`
-#### `wb_supervisor_node_get_from_proto_def`
 #### `wb_supervisor_node_get_from_id`
+#### `wb_supervisor_node_get_from_device`
 #### `wb_supervisor_node_get_selected`
 
 %tab-component "language"
@@ -29,8 +29,8 @@ As for a regular [Robot](robot.md) controller, the `wb_robot_init`, `wb_robot_st
 WbNodeRef wb_supervisor_node_get_root();
 WbNodeRef wb_supervisor_node_get_self();
 WbNodeRef wb_supervisor_node_get_from_def(const char *def);
-WbNodeRef wb_supervisor_node_get_from_proto_def(const char *def);
 WbNodeRef wb_supervisor_node_get_from_id(int id);
+WbNodeRef wb_supervisor_node_get_from_device(WbDeviceTag tag);
 WbNodeRef wb_supervisor_node_get_selected();
 ```
 
@@ -46,8 +46,8 @@ namespace webots {
     Node *getRoot();
     Node *getSelf();
     Node *getFromDef(const std::string &name);
-    Node *getFromProtoDef(const std::string &name);
     Node *getFromId(int id);
+    Node *getFromDevice(const Device *device);
     Node *getSelected();
     // ...
   }
@@ -65,8 +65,8 @@ class Supervisor (Robot):
     def getRoot(self):
     def getSelf(self):
     def getFromDef(self, name):
-    def getFromProtoDef(self, name):
     def getFromId(self, id):
+    def getFromDevice(self, device);
     def getSelected(self):
     # ...
 ```
@@ -82,8 +82,8 @@ public class Supervisor extends Robot {
   public Node getRoot();
   public Node getSelf();
   public Node getFromDef(String name);
-  public Node getFromProtoDef(String name);
   public Node getFromId(int id);
+  public Node getFromDevice(Device device);
   public Node getSelected();
   // ...
 }
@@ -97,8 +97,8 @@ public class Supervisor extends Robot {
 node = wb_supervisor_node_get_root()
 node = wb_supervisor_node_get_self()
 node = wb_supervisor_node_get_from_def('def')
-node = wb_supervisor_node_get_from_proto_def('def')
 node = wb_supervisor_node_get_from_id(id)
+node = wb_supervisor_node_get_from_device(tag)
 node = wb_supervisor_node_get_selected()
 ```
 
@@ -110,8 +110,9 @@ node = wb_supervisor_node_get_selected()
 | --- | --- | --- | --- |
 | `/supervisor/get_root` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
 | `/supervisor/get_self` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
-| `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`bool proto`<br/>`---`<br/>`uint64 node` |
+| `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`uint64 proto`<br/>`---`<br/>`uint64 node` |
 | `/supervisor/get_from_id` | `service` | `webots_ros::supervisor_get_from_id` | `int32 id`<br/>`---`<br/>`uint64 node` |
+| `/supervisor/get_from_device` | `service` | `webots_ros::supervisor_get_from_string` | `string value`<br/>`---`<br/>`uint64 node` |
 | `/supervisor/get_selected` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
 
 %tab-end
@@ -125,7 +126,10 @@ node = wb_supervisor_node_get_selected()
 The `wb_supervisor_node_get_from_def` function returns a handle to a node in the world from its DEF name.
 The return value can be used for subsequent calls to functions which require a `WbNodeRef` parameter.
 If the requested node does not exist in the current world file or is an internal node of a PROTO, the function returns NULL.
-If a handle to an internal node of a PROTO should be retrieve, the `wb_supervisor_node_get_from_proto_def` should be used instead.
+If a handle to an internal node of a PROTO should be retrieved, the `wb_supervisor_node_get_from_proto_def` should be used instead.
+
+Note that in case of [procedural PROTO nodes](procedural-proto-nodes.md) regeneration, nodes retrieved by `wb_supervisor_node_get_from_proto_def` might become invalid as well as all the descendant nodes and fields.
+In this case, after triggering the PROTO regeneration, the nodes and fields should be retrieved again using the [Supervisor](#supervisor) API functions.
 
 It is possible to use dots (.) as scoping operator in the DEF parameter.
 Dots can be used when looking for a specific node path in the node hierarchy.
@@ -142,6 +146,10 @@ The function returns NULL if the given identifier doesn't match with any node of
 It is recommended to use this function only when knowing formerly the identifier (rather than looping on this function to retrieve all the nodes of a world).
 For example, when exporting an X3D file, its XML nodes are containing an `id` attribute which matches with the unique identifier described here.
 
+The `wb_supervisor_node_get_from_device` function retrieves the node's handle for a [Device](device.md) object.
+The function returns NULL if the given device is invalid or is an internal node of a PROTO.
+Note that in the ROS API the device name has to be used to retrieve the handle to the node.
+
 The `wb_supervisor_node_get_root` function returns a handle to the root node which is actually a [Group](group.md) node containing all the nodes visible at the top level in the scene tree window of Webots.
 Like any [Group](group.md) node, the root node has a MFNode field called "children" which can be parsed to read each node in the scene tree.
 An example of such a usage is provided in the "supervisor.wbt" sample worlds (located in the "projects/samples/devices/worlds" directory of Webots.
@@ -157,6 +165,8 @@ If no node is currently selected, the function returns NULL.
 #### `wb_supervisor_node_get_def`
 #### `wb_supervisor_node_get_id`
 #### `wb_supervisor_node_get_parent_node`
+#### `wb_supervisor_node_is_proto`
+#### `wb_supervisor_node_get_from_proto_def`
 
 %tab-component "language"
 
@@ -168,6 +178,8 @@ If no node is currently selected, the function returns NULL.
 const char *wb_supervisor_node_get_def(WbNodeRef node);
 int wb_supervisor_node_get_id(WbNodeRef node);
 WbNodeRef wb_supervisor_node_get_parent_node(WbNodeRef node);
+bool wb_supervisor_node_is_proto(WbNodeRef node);
+WbNodeRef wb_supervisor_node_get_from_proto_def(WbNodeRef node, const char *def);
 ```
 
 %tab-end
@@ -182,6 +194,8 @@ namespace webots {
     int getId() const;
     std::string getDef() const;
     Node *getParentNode() const;
+    bool isProto() const;
+    Node *getFromProtoDef(const std::string &name);
     // ...
   }
 }
@@ -198,6 +212,8 @@ class Node:
     def getId(self):
     def getDef(self):
     def getParentNode(self):
+    def isProto(self):
+    def getFromProtoDef(self, name):
     # ...
 ```
 
@@ -212,6 +228,8 @@ public class Node {
   public int getId();
   public String getDef();
   public Node getParentNode();
+  public boolean isProto();
+  public Node getFromProtoDef(String name);
   // ...
 }
 ```
@@ -224,6 +242,8 @@ public class Node {
 id = wb_supervisor_node_get_id(node)
 s = wb_supervisor_node_get_def(node)
 node = wb_supervisor_node_get_parent_node(node)
+b = wb_supervisor_node_is_proto(node)
+node = wb_supervisor_node_get_from_proto_def(node, 'def')
 ```
 
 %tab-end
@@ -235,6 +255,8 @@ node = wb_supervisor_node_get_parent_node(node)
 | `/supervisor/node/get_id` | `service` | `webots_ros::node_get_id` | `uint64 node`<br/>`---`<br/>`int32 id` |
 | `/supervisor/node/get_def` | `service` | `webots_ros::node_get_name` | `uint64 node`<br/>`---`<br/>`string name` |
 | `/supervisor/node/get_parent_node` | `service` | `webots_ros::node_get_parent_node` | `uint64 node`<br/>`---`<br/>`uint64 node` |
+| `/supervisor/node/is_proto` | `service` | `webots_ros::node_is_proto` | `uint64 node`<br/>`---`<br/>`bool value` |
+| `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`uint64 proto`<br/>`---`<br/>`uint64 node` |
 
 %tab-end
 
@@ -250,6 +272,11 @@ If no DEF name is specified, this function returns the empty string.
 The `wb_supervisor_node_get_id` function retrieves the unique identifier of the node given in parameter.
 
 The `wb_supervisor_node_get_parent_node` function retrieves the reference to the direct parent node of the node given in parameter.
+
+The `wb_supervisor_node_is_proto` function returns `true` if the node given in the argument is a [PROTO node](proto.md).
+
+The `wb_supervisor_node_get_from_proto_def` function returns a handle to a node defined in the [PROTO body](proto-definition.md) of the specified node from its DEF name.
+Note that this function works only for PROTO nodes.
 
 ---
 
@@ -619,6 +646,7 @@ wb_supervisor_node_remove(node)
 *Remove a specified node*
 
 The `wb_supervisor_node_remove` function removes the node specified as an argument from the Webots scene tree.
+If the node given in argument is the [Robot](robot.md) node itself, it is removed only at the end of the step.
 
 ---
 
@@ -833,7 +861,7 @@ Where *p* is a point whose coordinates are given with respect to the local coord
 %spoiler "**Python Example**: How to calculate relative positions and orientations?"
 
 The following Python example calculates the position and orientation of a node relatively to another node.
-It should be easily adaptable to any other language, as it uses simple matrix and vector calculations. 
+It should be easily adaptable to any other language, as it uses simple matrix and vector calculations.
 
 ```python
 from controller import Supervisor
@@ -868,7 +896,7 @@ box_pos_world = np.subtract(box_pos_world, pos_ur10e)
 box_pos_robot = np.dot(rot_ur10e, box_pos_world)
 
 # Calculate the orientation of the box, relative to the robot, all in one line.
-box_rot_robot = np.dot(rot_ur10e, np.array(box.getOrientation()).reshape(3, 3)) 
+box_rot_robot = np.dot(rot_ur10e, np.array(box.getOrientation()).reshape(3, 3))
 ```
 
 %end
@@ -2556,13 +2584,13 @@ The `acceleration` specifies the acceleration factor of the created movie with r
 Default value is 1, i.e. no acceleration.
 If `caption` parameters is set to true, a default caption is printed on the top right corner of the movie showing the current `acceleration` value.
 
-The `wb_supervisor_movie_is_ready` function returns `TRUE` if the application is ready to start recording a movie, i.e. if another recording process is not already running.
+The `wb_supervisor_movie_is_ready` function returns `true` if the application is ready to start recording a movie, i.e. if another recording process is not already running.
 So it could be used to check if the encoding process is completed and the file has been created.
-Note that if the recording process failed, this function will return `TRUE`.
+Note that if the recording process failed, this function will return `true`.
 In order to detect a failure the `wb_supervisor_movie_failed` function has to be called.
 
-The `wb_supervisor_movie_failed` function returns `TRUE` if the recording process failed.
-After starting a new recording process the returned value is reset to `FALSE`.
+The `wb_supervisor_movie_failed` function returns `true` if the recording process failed.
+After starting a new recording process the returned value is reset to `false`.
 
 ---
 
@@ -3349,6 +3377,7 @@ Here are a few examples for the `index` parameter:
 - -3: insert at the third index from the end.
 
 The `wb_supervisor_field_remove_sf/mf` functions remove an item from a specified `field` (MF or SF).
+If the item is the [Robot](robot.md) node itself, it is removed only at the end of the step.
 
 ---
 

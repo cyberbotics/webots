@@ -154,13 +154,17 @@ Node *Supervisor::getFromDef(const std::string &name) const {
   return Node::findNode(nodeRef);
 }
 
-Node *Supervisor::getFromProtoDef(const std::string &name) const {
-  WbNodeRef nodeRef = wb_supervisor_node_get_from_proto_def(name.c_str());
+Node *Supervisor::getFromId(int id) const {
+  WbNodeRef nodeRef = wb_supervisor_node_get_from_id(id);
   return Node::findNode(nodeRef);
 }
 
-Node *Supervisor::getFromId(int id) const {
-  WbNodeRef nodeRef = wb_supervisor_node_get_from_id(id);
+Node *Supervisor::getFromDevice(const Device *device) const {
+  return getFromDeviceTag(device->getTag());
+}
+
+Node *Supervisor::getFromDeviceTag(int tag) const {
+  WbNodeRef nodeRef = wb_supervisor_node_get_from_device(tag);
   return Node::findNode(nodeRef);
 }
 

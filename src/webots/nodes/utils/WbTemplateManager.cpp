@@ -205,7 +205,7 @@ void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *f
   regenerateNode(templateNode);
 }
 
-void WbTemplateManager::regenerateNode(WbNode *node) {
+void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   assert(node);
 
   if (mBlockRegeneration) {
@@ -225,11 +225,13 @@ void WbTemplateManager::regenerateNode(WbNode *node) {
   QList<WbField *> previousParentRedirections;
   WbField *parentField = node->parentField();
   QVector<WbField *> parameters;
+  WbNode::setRestoreUniqueIdOnClone(true);
   foreach (WbField *parameter, node->parameters()) {
     parameters << new WbField(*parameter, NULL);
     if (parameter->parameter() != NULL)
       previousParentRedirections.append(parameter->parameter());
   }
+  WbNode::setRestoreUniqueIdOnClone(false);
   int uniqueId = node->uniqueId();
   const WbSolid *solid = dynamic_cast<const WbSolid *>(node);
   WbVector3 translationFromFile;
@@ -254,7 +256,9 @@ void WbTemplateManager::regenerateNode(WbNode *node) {
   WbNode *upperTemplateNode = WbNodeUtilities::findUpperTemplateNeedingRegeneration(node);
   bool nested = upperTemplateNode && upperTemplateNode != node;
   cRegeneratingNodeCount++;
-  if (isWorldInitialized)
+  if (isWorldInitialized && !restarted)
+    // signal is not emitted in case a node has been regenerated twice in a row (`restart` == TRUE)
+    // to preserve the scene tree selection
     emit preNodeRegeneration(node, nested);
 
   WbNode::setGlobalParentNode(parent);
@@ -393,10 +397,18 @@ void WbTemplateManager::regenerateNode(WbNode *node) {
     }
   }
 
+  mBlockRegeneration = true;  // prevent regenerating `newNode` in the finalization step due to field checks
+
   WbBaseNode *base = dynamic_cast<WbBaseNode *>(newNode);
   if (isWorldInitialized) {
     assert(base);
     base->finalize();
+  }
+
+  mBlockRegeneration = false;
+  if (newNode->isRegenerationRequired()) {  // if needed, trigger `newNode` regeneration with finalized fields values
+    regenerateNode(newNode, true);
+    return;
   }
 
   // if the viewpoint is being re-generated we need to re-get the correct pointer, not the old dangling pointer from before

@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Demonstration of the alternate tripod gait using linear and rotational motors."
@@ -8,6 +8,7 @@ WorldInfo {
   CFM 0.0001
   ERP 0.6
   basicTimeStep 8
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "floor"

@@ -1,9 +1,10 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.71783896 0.68281531 0.13590617 0.74164289
+  orientation -0.7178389574486761 0.6828153075731561 0.13590616951696594 0.74164289
   position 1.361179 1.788431 2.574618
 }
 Background {
@@ -31,7 +32,9 @@ Robot {
             }
           ]
           controller "robot_nested_child"
-          controllerArgs "robot_nested_three_levels"
+          controllerArgs [
+            "robot_nested_three_levels"
+          ]
         }
         TestSuiteEmitter {
         }
@@ -39,7 +42,9 @@ Robot {
         }
       ]
       controller "robot_nested_child"
-      controllerArgs "robot_nested_direct_child"
+      controllerArgs [
+        "robot_nested_direct_child"
+      ]
     }
     Group {
       children [
@@ -50,7 +55,9 @@ Robot {
           ]
           name "robot(1)"
           controller "robot_nested_child"
-          controllerArgs "robot_nested_group_child"
+          controllerArgs [
+            "robot_nested_group_child"
+          ]
         }
         HingeJoint {
           endPoint Solid {
@@ -62,7 +69,9 @@ Robot {
                   }
                 ]
                 controller "robot_nested_child"
-                controllerArgs "robot_nested_joint_endpoint"
+                controllerArgs [
+                  "robot_nested_joint_endpoint"
+                ]
               }
             ]
           }
@@ -76,7 +85,9 @@ Robot {
               ]
               name "robot(2)"
               controller "robot_nested_child"
-              controllerArgs "robot_nested_slot_endpoint"
+              controllerArgs [
+                "robot_nested_slot_endpoint"
+              ]
             }
           }
         }
@@ -84,6 +95,8 @@ Robot {
     }
   ]
   controller "robot_nested"
-  controllerArgs "robot_nested_parent"
+  controllerArgs [
+    "robot_nested_parent"
+  ]
   supervisor TRUE
 }

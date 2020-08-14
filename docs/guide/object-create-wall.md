@@ -37,3 +37,4 @@ CreateWall {
 - `aperture`: Defines the aperture of the infra-red emitter.
 
 - `controller`: Defines the controller which is used to emit infra-red messages.
+

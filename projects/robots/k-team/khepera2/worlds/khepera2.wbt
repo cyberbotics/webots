@@ -1,9 +1,10 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "The model of the Khepera II robot"
   ]
   title "Khepera II"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.15053103891664402 0.9692662505834669 0.194585050305885 4.3841

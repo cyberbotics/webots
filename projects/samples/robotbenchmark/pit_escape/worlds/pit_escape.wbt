@@ -1,10 +1,11 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "The BB-8 robot has to climb out of the pit."
   ]
   title "Pit Escape"
   window "pit_escape"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.033692242186570645 0.995861522966379 0.0844077004278979 2.1665993209762484

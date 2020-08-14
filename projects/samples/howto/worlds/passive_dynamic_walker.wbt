@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Robot walking down a slope using passive dynamics"
@@ -6,6 +6,7 @@ WorldInfo {
   ]
   title "Passive Dynamic Walker"
   basicTimeStep 6
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       bounce 0

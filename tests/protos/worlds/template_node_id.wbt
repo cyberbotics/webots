@@ -1,5 +1,6 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.8189298808408902 0.5253239596234646 0.23105970594512992 0.9857656392773531
@@ -18,14 +19,28 @@ SignPole {
 }
 DEF ROBOT TemplateRobot {
   controller "copy_args_in_custom_data"
+  slot [
+    DEF SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap DEF TEXTURE ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+      }
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
 }
 Robot {
   children [
     TestSuiteEmitter {
     }
   ]
+  name "supervisor"
   controller "template_node_id"
-  controllerArgs "template_node_id"
   supervisor TRUE
 }
 TestSuiteSupervisor {

@@ -1,9 +1,10 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   basicTimeStep 16
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.0570543 -0.985491 -0.159853 2.76296
+  orientation -0.05705428043499259 -0.9854906620563442 -0.15985294518335813 2.76296
   position -0.436058 0.533884 -1.0595
 }
 Background {
@@ -21,28 +22,30 @@ Robot {
   children [
     DEF ACC1 Slot {
       type "slot"
-      endPoint SlotNode { }
+      endPoint SlotNode {
+      }
     }
     DEF ACC2 Slot {
       type "slot-"
-      endPoint SlotNodeGendered { }
+      endPoint SlotNodeGendered {
+      }
     }
     DEF ACC3&4 Slot {
       endPoint Slot {
         type "any"
         endPoint Accelerometer {
-          name "acc3"
           children [
             Accelerometer {
               name "acc4"
             }
           ]
+          name "acc3"
         }
       }
     }
     DEF ACC5 Slot {
       endPoint Slot {
-        endPoint  Accelerometer {
+        endPoint Accelerometer {
           name "acc5"
         }
       }
@@ -51,7 +54,7 @@ Robot {
       type "type with spaces"
       endPoint Slot {
         type "type with spaces"
-        endPoint  Accelerometer {
+        endPoint Accelerometer {
           name "acc6"
         }
       }

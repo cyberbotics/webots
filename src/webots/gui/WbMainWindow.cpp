@@ -1149,11 +1149,13 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
   }
 
   const bool saveScreenPerspective = qgetenv("WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE").isEmpty();
-  if (saveScreenPerspective) {
+  if (saveScreenPerspective || perspective->mainWindowState().isEmpty())
     perspective->setMainWindowState(saveState());
-    perspective->setMinimizedState(mMinimizedDockState);
+  if (saveScreenPerspective || perspective->simulationViewState()[0].isEmpty() ||
+      perspective->simulationViewState()[1].isEmpty())
     perspective->setSimulationViewState(mSimulationView->saveState());
-  }
+  if (saveScreenPerspective)
+    perspective->setMinimizedState(mMinimizedDockState);
 
   const int id = mDockWidgets.indexOf(mMaximizedWidget);
   perspective->setMaximizedDockId(id);
@@ -1226,12 +1228,14 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
     perspective = world->perspective();
   }
 
-  // restore consoles
-  const QVector<ConsoleSettings> consoleList = perspective->consoleList();
-  for (int i = 0; i < consoleList.size(); ++i) {
-    openNewConsole(consoleList.at(i).name);
-    mConsoles.last()->setEnabledFilters(consoleList.at(i).enabledFilters);
-    mConsoles.last()->setEnabledLevels(consoleList.at(i).enabledLevels);
+  if (!loadingFromMemory) {
+    // restore consoles
+    const QVector<ConsoleSettings> consoleList = perspective->consoleList();
+    for (int i = 0; i < consoleList.size(); ++i) {
+      openNewConsole(consoleList.at(i).name);
+      mConsoles.last()->setEnabledFilters(consoleList.at(i).enabledFilters);
+      mConsoles.last()->setEnabledLevels(consoleList.at(i).enabledLevels);
+    }
   }
 
   if (meansOfLoading) {
@@ -1735,6 +1739,8 @@ void WbMainWindow::openNewConsole(const QString &name) {
     console->raise();
   }
   addDock(console);
+  console->setStyleSheet(styleSheet());
+  console->setVisible(true);
   mConsoles.append(console);
 }
 
@@ -1815,7 +1821,7 @@ void WbMainWindow::openBugReport() {
 }
 
 void WbMainWindow::openNewsletterSubscription() {
-  showDocument("https://www.cyberbotics.com/news/subscribe.php");
+  showDocument("https://cyberbotics.com/newsletter");
 }
 
 void WbMainWindow::openDiscord() {

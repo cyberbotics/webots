@@ -711,8 +711,17 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     else
       writer.setRootNode(NULL);
     currentNode->write(writer);
+
+    const bool skipTemplateRegeneration =
+      WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, parentNode);
+    if (skipTemplateRegeneration)
+      // PROTO will be regenerated after importing the converted node
+      parentField->blockSignals(true);
     // remove previous node
     WbNodeOperations::instance()->deleteNode(currentNode);
+    if (skipTemplateRegeneration)
+      parentField->blockSignals(false);
+
     // copy textures
     QHashIterator<QString, QString> it(writer.texturesList());
     while (it.hasNext()) {
@@ -1104,25 +1113,20 @@ void WbSceneTree::updateSelection() {
   const WbTreeItem *const item = isNonNullNode ? mSelectedItem : mModel->findUpperNodeItem(mSelectedItem);
   if (item) {
     WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(item->node());
-    if (baseNode == NULL)
-      return;
-
-    if (baseNode->isProtoParameterNode()) {
+    if (baseNode && baseNode->isProtoParameterNode())
       // select proto parameter node instance
       // if proto parameter is used only once
+      // baseNode = NULL if none or multiple instances exists
       baseNode = baseNode->getSingleFinalizedProtoInstance();
-      if (!baseNode)
-        return;  // none or multiple instances exists
-    }
 
-    if (!baseNode->areWrenObjectsInitialized())
+    if (baseNode && !baseNode->areWrenObjectsInitialized())
       // ignore not initialized nodes
-      return;
+      baseNode = NULL;
 
     // enable move viewpoint to object if the item has a corresponding bounding sphere
     mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT)
-      ->setEnabled(WbNodeUtilities::boundingSphereAncestor(baseNode) != NULL);
-    mActionManager->action(WbAction::OPEN_HELP)->setEnabled(true);
+      ->setEnabled(baseNode && WbNodeUtilities::boundingSphereAncestor(baseNode) != NULL);
+    mActionManager->action(WbAction::OPEN_HELP)->setEnabled(baseNode);
     emit nodeSelected(baseNode);
   }
 }
@@ -1246,11 +1250,22 @@ void WbSceneTree::prepareNodeRegeneration(WbNode *node, bool nested) {
 
   mSelectionBeforeTreeStateRegeneration = NULL;
 
-  // Store the selected node only if not inside the node which will be regenerated.
+  // Store the selected item only if not inside the node which will be regenerated.
   // Indeed this node (and its WbTreeItem(s)) will be destroyed and recreated.
-  WbBaseNode *selectedNode = WbSelection::instance()->selectedNode();
-  WbNode *n = selectedNode;
-  mSelectionInsideTreeStateRecovery = false;
+  WbNode *n = NULL;
+  if (mSelectedItem && !mSelectedItem->isInvalid()) {
+    if (mSelectedItem->isField()) {
+      const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(mSelectedItem->field()->value());
+      if (sfnode && sfnode->value())
+        n = sfnode->value();
+      else
+        n = mSelectedItem->parent()->node();
+    } else if (mSelectedItem->isItem())
+      n = mSelectedItem->parent()->parent()->node();
+    else  // node
+      n = mSelectedItem->node();
+  }
+  mSelectionInsideTreeStateRecovery = n == NULL;
   while (n) {
     if (n == node || n->protoParameterNode() == node) {
       mSelectionInsideTreeStateRecovery = true;

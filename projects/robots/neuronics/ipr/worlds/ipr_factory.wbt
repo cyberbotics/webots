@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Demo of the IPR (Katana) robotic arm (Neuronics AG)."
@@ -6,6 +6,7 @@ WorldInfo {
   ]
   title "IPR (Katana) 6M"
   basicTimeStep 20
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "object"

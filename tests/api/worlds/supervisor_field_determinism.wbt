@@ -1,8 +1,9 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.920152 0.3903 0.0314166 5.65888
+  orientation 0.9201516338443356 0.3902998446880996 0.03141658749840674 5.65888
   position -0.321062 0.718685 1.12281
 }
 Background {
@@ -17,21 +18,25 @@ PointLight {
 Shape {
   appearance Appearance {
     material DEF MATERIAL Material {
-      emissiveColor 1.0 1.0 1.0
+      emissiveColor 1 1 1
     }
   }
   geometry Box {
-   size 0.1 0.1 0.1
+    size 0.1 0.1 0.1
   }
 }
 Robot {
   controller "supervisor_field_determinism"
-  controllerArgs "Red"
+  controllerArgs [
+    "Red"
+  ]
   supervisor TRUE
 }
 Robot {
   controller "supervisor_field_determinism"
-  controllerArgs "Blue"
+  controllerArgs [
+    "Blue"
+  ]
   supervisor TRUE
 }
 Robot {
@@ -40,7 +45,9 @@ Robot {
     }
   ]
   controller "supervisor_field_determinism"
-  controllerArgs "Supervisor"
+  controllerArgs [
+    "Supervisor"
+  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {

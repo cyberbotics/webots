@@ -1,9 +1,10 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "This simulation shows a Tiago++ making hello with both arms in an industrial environment. It can also be controlled using the arrows on the keyboard."
   ]
   title "Simulation of PAL Robotics' TIAGo++ robot"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.28882343295926544 -0.9512999432180493 -0.10774712342777662 5.502273164124365

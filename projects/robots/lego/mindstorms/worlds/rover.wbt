@@ -1,9 +1,10 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "A Mindstorms robot following a line drawn on a textured object"
   ]
   title "Rover"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.6976547152414726 0.5971047562824885 0.39590883840370406 4.69705

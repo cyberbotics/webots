@@ -1,9 +1,10 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example use of a Supervisor to manipulate the world."
   ]
   title "Supervisor Programming"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.9102483501120762 0.39662715255611924 0.11889004572910321 5.38226

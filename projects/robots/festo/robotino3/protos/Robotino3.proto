@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # documentation url: https://www.cyberbotics.com/doc/guide/robotino3
@@ -895,7 +895,7 @@ PROTO Robotino3 [
       DEF WHEEL_0 HingeJoint {
         jointParameters HingeJointParameters {
           axis 0 1 0
-          anchor -0.0001 0.1825 0.05915
+          anchor 0 0.1826 0.05915
         }
         device [
           RotationalMotor {
@@ -959,7 +959,7 @@ PROTO Robotino3 [
       DEF WHEEL_1 HingeJoint {
         jointParameters HingeJointParameters {
           axis -0.61 -0.35 0
-          anchor -0.231 -0.133 0.059
+          anchor -0.15708 -0.0906 0.059
         }
         device [
           RotationalMotor {
@@ -992,7 +992,7 @@ PROTO Robotino3 [
       DEF WHEEL_2 HingeJoint {
         jointParameters HingeJointParameters {
           axis 0.86603 -0.5 0
-          anchor 0.15678 -0.0907 0.05902
+          anchor 0.1568 -0.09074 0.0592
         }
         device [
           RotationalMotor {

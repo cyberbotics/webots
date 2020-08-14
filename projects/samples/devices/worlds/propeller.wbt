@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Example use of a Propeller."
@@ -7,6 +7,7 @@ WorldInfo {
     "They also manage to stabilize both yaw and altitude by a means of simple velocity control."
   ]
   title "Propeller"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.07957811602525919 -0.9395021891948043 -0.3331710670932283 3.59043

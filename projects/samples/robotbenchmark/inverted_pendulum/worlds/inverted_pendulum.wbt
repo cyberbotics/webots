@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Benchmark objective:"
@@ -10,6 +10,7 @@ WorldInfo {
   window "inverted_pendulum"
   physics "inverted_pendulum_perturbation"
   basicTimeStep 4
+  coordinateSystem "NUE"
   lineScale 0.01
 }
 Viewpoint {

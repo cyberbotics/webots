@@ -45,7 +45,7 @@ WbDragTransformEvent::~WbDragTransformEvent() {
 WbTranslateEvent::WbTranslateEvent(WbViewpoint *viewpoint, WbAbstractTransform *selectedTransform) :
   WbDragTransformEvent(viewpoint, selectedTransform),
   mInitialPosition(selectedTransform->translation()),
-  mUpWorldVector(-WbWorld::instance()->worldInfo()->gravityUnitVector()),
+  mUpWorldVector(WbWorld::instance()->worldInfo()->upVector()),
   mMouseRay() {
   WbVector3 computedScaleFromParents = mSelectedTransform->absoluteScale();
   computedScaleFromParents /= mSelectedTransform->scale();
@@ -250,7 +250,7 @@ WbDragRotateAroundWorldVerticalAxisEvent::WbDragRotateAroundWorldVerticalAxisEve
   mInitialQuaternionRotation(selectedTransform->rotation().toQuaternion()),
   mPreviousAngle(0.0),
   mInitialMouseXPosition(initialMousePosition.x()),
-  mUpWorldVector(-WbWorld::instance()->worldInfo()->gravityUnitVector()) {
+  mUpWorldVector(WbWorld::instance()->worldInfo()->upVector()) {
   mViewpoint->lock();
 }
 
@@ -296,7 +296,7 @@ WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMo
   const WbVector3 absoluteScale = mInitialMatrix.scale();
   mInitialMatrix.scale(1.0f / absoluteScale.x(), 1.0f / absoluteScale.y(), 1.0f / absoluteScale.z());
 
-  WbVector4 scaledPos = WbVector4(mManipulator->relativeHandlePosition(mHandleNumber)) * mViewDistanceUnscaling;
+  WbVector4 scaledPos(mManipulator->relativeHandlePosition(mHandleNumber) * mViewDistanceUnscaling);
   WbVector4 handlePos = mInitialMatrix * scaledPos;
   mZEye = viewpoint->zEye(handlePos.toVector3());
 

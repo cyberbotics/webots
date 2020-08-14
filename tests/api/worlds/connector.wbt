@@ -1,7 +1,8 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   title "Modular Robot"
   basicTimeStep 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0 1 0 4.6416
@@ -20,8 +21,10 @@ Yamor {
   rotation 0 0 1 1.5708
   name "module_1"
   controller "connector"
-  extensionSlot TestSuiteEmitter {
-  }
+  extensionSlot [
+    TestSuiteEmitter {
+    }
+  ]
 }
 Yamor {
   translation -7.3464e-07 0.23 0.077

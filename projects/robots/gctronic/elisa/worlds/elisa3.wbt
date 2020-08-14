@@ -1,9 +1,10 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "The model of the Elisa-3 robot"
   ]
   title "Elisa-3"
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.19000603987410167 -0.9492991992171028 -0.25045705256017115 1.93021

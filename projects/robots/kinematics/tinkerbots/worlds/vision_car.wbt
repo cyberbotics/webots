@@ -1,6 +1,7 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   basicTimeStep 8
+  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.21254233658173552 0.9584996876628747 0.1900107994576834 1.468477722323009

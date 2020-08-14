@@ -48,6 +48,7 @@ public:
   void postPhysicsStep();
   void reset();
 
+  bool shouldBeRemoved() const { return mShouldRemoveNode; }
   QStringList labelsState() const;
 
 signals:
@@ -62,20 +63,23 @@ private slots:
   void changeSimulationMode(int newMode);
   void updateDeletedNodeList(WbNode *node);
   void notifyNodeUpdate(WbNode *node);
+  void updateProtoRegeneratedFlag();
 
 private:
   WbRobot *mRobot;
   int mFoundNodeUniqueId;
   int mFoundNodeType;
+  int mFoundNodeTag;
   QString mFoundNodeModelName;
   QString mCurrentDefName;
   int mFoundNodeParentUniqueId;
+  bool mFoundNodeIsProto;
+  bool mFoundNodeIsProtoInternal;
   int mFoundFieldId;
   int mFoundFieldType;
   int mFoundFieldCount;
   bool mFoundFieldIsInternal;
-  bool mGetSelectedNode;
-  bool mGetFromId;
+  int mGetNodeRequest;
   bool mNeedToResetSimulation;
   QList<int> mUpdatedNodeIds;
   WbTransform *mNodeGetPosition;
@@ -84,6 +88,8 @@ private:
   WbSolid *mNodeGetContactPoints;
   WbSolid *mNodeGetStaticBalance;
   WbSolid *mNodeGetVelocity;
+  bool mIsProtoRegenerated;
+  bool mShouldRemoveNode;
 
   // pointer to a single integer: if not NULL, the new status has to be sent to the libController
   int *mAnimationStartStatus;
@@ -107,6 +113,7 @@ private:
   void deleteControllerRequests();
   void writeNode(QDataStream &stream, const WbBaseNode *baseNode, int messageType);
   const WbNode *getNodeFromDEF(const QString &defName, bool allowSearchInProto, const WbNode *fromNode = NULL);
+  const WbNode *getNodeFromProtoDEF(const WbNode *fromNode, const QString &defName) const;
   WbNode *getProtoParameterNodeInstance(WbNode *const node) const;
   void applyFieldSetRequest(struct field_set_request *request);
   QString readString(QDataStream &);

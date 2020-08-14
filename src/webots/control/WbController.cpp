@@ -42,7 +42,7 @@
 #include <QtCore/QProcessEnvironment>
 #include <QtNetwork/QLocalSocket>
 #include <cassert>
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -235,17 +235,18 @@ void WbController::start() {
   if (!qgetenv("WEBOTS_FIREJAIL_CONTROLLERS").isEmpty() && mRobot->findField("controller")) {
     mArguments.prepend(mCommand);
     mCommand = "firejail";
-    mArguments << "--net=none"
-               << "--nosound"
-               << "--shell=none"
-               << "--quiet";
+    QStringList firejailArguments;
+    firejailArguments << "--net=none"
+                      << "--nosound"
+                      << "--shell=none"
+                      << "--quiet";
     // adding a path starting with /tmp/ in a whitelist blocks all other paths starting
     // with /tmp/ (including the local socket used by Webots which would prevent the
     // controller from running)
     if (!mControllerPath.startsWith("/tmp/"))
-      mArguments << "--whitelist=" + mControllerPath;
-    mArguments << "--whitelist=" + WbStandardPaths::controllerLibPath();
-    mArguments << "--read-only=" + WbStandardPaths::controllerLibPath();
+      firejailArguments << "--whitelist=" + mControllerPath;
+    firejailArguments << "--whitelist=" + WbStandardPaths::controllerLibPath();
+    firejailArguments << "--read-only=" + WbStandardPaths::controllerLibPath();
 
     QString ldLibraryPath = WbStandardPaths::controllerLibPath();
     ldLibraryPath.chop(1);
@@ -269,8 +270,8 @@ void WbController::start() {
           if (iniParser.keyAt(i) == ("WEBOTS_LIBRARY_PATH") || iniParser.keyAt(i) == ("FIREJAIL_PATH")) {
             const QStringList pathsList = iniParser.resolvedValueAt(i, env).split(":");
             foreach (QString path, pathsList) {
-              mArguments << "--whitelist=" + path;
-              mArguments << "--read-only=" + path;
+              firejailArguments << "--whitelist=" + path;
+              firejailArguments << "--read-only=" + path;
               ldLibraryPath += ":" + path;
             }
           } else
@@ -291,7 +292,8 @@ void WbController::start() {
         return;
       }
     }
-    mArguments << "--blacklist=" + runtimeFilePath << "--env=LD_LIBRARY_PATH=" + ldLibraryPath;
+    firejailArguments << "--blacklist=" + runtimeFilePath << "--env=LD_LIBRARY_PATH=" + ldLibraryPath;
+    mArguments = firejailArguments + mArguments;
   }
 #endif
 
@@ -405,7 +407,7 @@ void WbController::setProcessEnvironment() {
         }
         if (iniParser.sectionAt(i) == "python") {
           if (iniParser.keyAt(i) == "COMMAND")
-            mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, iniParser.valueAt(i));
+            mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, iniParser.valueAt(i), env);
           else if (iniParser.keyAt(i) == "OPTIONS")
             mPythonOptions = iniParser.valueAt(i);
           else
@@ -482,7 +484,7 @@ void WbController::setProcessEnvironment() {
   if (mType == WbFileUtil::PYTHON) {
     if (mPythonCommand.isEmpty())
       mPythonCommand = WbLanguageTools::pythonCommand(
-        mPythonShortVersion, WbPreferences::instance()->value("General/pythonCommand", "python").toString());
+        mPythonShortVersion, WbPreferences::instance()->value("General/pythonCommand", "python").toString(), env);
     // read the python shebang (first line starting with #!) to possibly override the python command
     QFile pythonSourceFile(mControllerPath + name() + ".py");
     if (pythonSourceFile.open(QIODevice::ReadOnly)) {
@@ -491,9 +493,9 @@ void WbController::setProcessEnvironment() {
       if (line.startsWith("#!")) {
 #ifndef _WIN32
         if (line.startsWith("#!/usr/bin/env "))
-          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(15).trimmed());
+          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(15).trimmed(), env);
         else
-          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(2).trimmed());
+          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(2).trimmed(), env);
 #else  // Windows: check that the version specified in the shebang corresponds to the version of Python installed
         const QString &expectedVersion = line.mid(line.lastIndexOf("python", -1, Qt::CaseInsensitive) + 6);
         bool mismatch = false;
@@ -509,8 +511,23 @@ void WbController::setProcessEnvironment() {
       }
       pythonSourceFile.close();
     }
+#ifdef __APPLE__
+    QProcess process;
+    process.setProcessEnvironment(env);
+    process.start(mPythonCommand, QStringList() << "-c"
+                                                << "import sys; print(sys.exec_prefix);");
+    process.waitForFinished();
+    const QString output = process.readAll();
+    if (output.startsWith("/usr/local/Cellar"))
+      addToPathEnvironmentVariable(
+        env, "PYTHONPATH", WbStandardPaths::controllerLibPath() + "python" + mPythonShortVersion + "_brew", false, true);
+    else
+      addToPathEnvironmentVariable(env, "PYTHONPATH", WbStandardPaths::controllerLibPath() + "python" + mPythonShortVersion,
+                                   false, true);
+#else
     addToPathEnvironmentVariable(env, "PYTHONPATH", WbStandardPaths::controllerLibPath() + "python" + mPythonShortVersion,
                                  false, true);
+#endif
     env.insert("PYTHONIOENCODING", "UTF-8");
   } else if (mType == WbFileUtil::MATLAB) {
     // these variables are read by lib/matlab/launcher.m
@@ -813,10 +830,11 @@ void WbController::copyBinaryAndDependencies(const QString &filename) {
     return;
 
   QProcess process;
+  QString cmd;
   bool success;
 
   // get current RPATH
-  const QString &cmd = QString("otool -l %1 | grep LC_RPATH -A 3 | grep path | cut -c15- | cut -d' ' -f1").arg(filename);
+  cmd = QString("otool -l %1 | grep LC_RPATH -A 3 | grep path | cut -c15- | cut -d' ' -f1").arg(filename);
   process.start("bash", QStringList() << "-c" << cmd);
   success = process.waitForFinished(500);
   if (!success || !process.readAllStandardError().isEmpty())
@@ -824,12 +842,11 @@ void WbController::copyBinaryAndDependencies(const QString &filename) {
   QString oldRPath = process.readAllStandardOutput().trimmed();
 
   // change RPATH
-  QStringList arguments;
   if (oldRPath.isEmpty())
-    arguments << "-add_rpath" << WbStandardPaths::webotsHomePath() << filename;
+    cmd = QString("install_name_tool -add_rpath %1 %2").arg(WbStandardPaths::webotsHomePath()).arg(filename);
   else
-    arguments << "-rpath" << oldRPath << WbStandardPaths::webotsHomePath() << filename;
-  process.start("install_name_tool", arguments);
+    cmd = QString("install_name_tool -rpath %1 %2 %3").arg(oldRPath).arg(WbStandardPaths::webotsHomePath()).arg(filename);
+  process.start(cmd);
   process.waitForFinished(-1);
 #endif
 }
