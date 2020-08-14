@@ -56,7 +56,6 @@ webots.View = class View {
         console.log("Robot '" + robot + "' has no associated robot window");
         return;
       }
-      console.log("Received message: '" + message + "' for robot '" + robot + "'");
       this.robotWindows[this.robotWindowNames[robot]].receive(message, robot);
     };
     this.onrobotwindowsdestroy = () => {
