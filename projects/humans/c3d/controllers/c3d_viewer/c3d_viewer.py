@@ -140,6 +140,7 @@ message = supervisor.wwiReceiveText()
 
 print("received message: " + message)
 supervisor.wwiSendText('OK')
+supervisor.wwiSendText('OK')
 
 # categorize each labels and send the lists to the robot window
 labelsAndCategory = {
