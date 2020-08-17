@@ -28,8 +28,10 @@ jobs:
         include:
           - os: ubuntu-18.04
             JAVA_VERSION: "11"
+            ROS_DISTRO: "melodic"
           - os: ubuntu-20.04
             JAVA_VERSION: "14"
+            ROS_DISTRO: "noetic"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
@@ -45,7 +47,9 @@ jobs:
         export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
         export PATH=$JAVA_HOME/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
+        source /opt/ros/${{ matrix.ROS_DISTRO }}/setup.bash
         xvfb-run --auto-servernum make distrib -j4
+        ldd projects/default/controllers/ros  #TODO: just for debugging
     - uses: actions/upload-artifact@v2
       with:
         name: build-${{ matrix.os }}
