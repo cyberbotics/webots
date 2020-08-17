@@ -22,7 +22,7 @@ TARGETS = controllers/braitenberg.Makefile libraries/vehicle.Makefile resources.
 
 ifeq ($(OSTYPE),linux)
 TARGETS += controllers/ros.Makefile
-ROS_DEPENDENCIES = controllers/ros/lib.Makefile controllers/ros/include.Makefile
+ROS_DEPENDENCIES = controllers/ros/include.Makefile
 endif
 
 release debug profile: $(TARGETS)
@@ -37,7 +37,7 @@ controllers/%.Makefile libraries/%.Makefile: $(ROS_DEPENDENCIES)
 	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
 	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
 
-controllers/ros/lib.Makefile controllers/ros/include.Makefile:
+controllers/ros/include.Makefile:
 	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
 	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
 

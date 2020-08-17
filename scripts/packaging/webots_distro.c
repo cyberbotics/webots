@@ -1198,6 +1198,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libavcodec-ffmpeg.so.56 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng12.so.0 debian/usr/local/webots/lib/webots\n");
       // ros dependencies
+      fprintf(fd, "mkdir -p debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
       fprintf(fd, "cp /opt/ros/kinetic/lib/libroscpp.so debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
       fprintf(fd,
               "cp /opt/ros/kinetic/lib/librosconsole.so debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
