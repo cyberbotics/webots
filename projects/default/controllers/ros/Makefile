@@ -69,7 +69,6 @@ include/services/%.h: include/srv/%.srv include/templateHeader.h include/templat
 	$(SILENT)cp include/webots_ros/$(basename $(notdir $<)).h include/services/$(basename $(notdir $<)).h
 
 ROS_HEADERS: $(GENERATED_HEADERS)
-	+@make -s -C include $(MAKECMDGOALS)
 	+@cp -f include/RecognitionObject.h include/webots_ros/RecognitionObject.h
 
 INCLUDE = -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include -isystem /opt/ros/$(ROS_DISTRO)/include
