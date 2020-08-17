@@ -200,11 +200,10 @@ void WbRenderingDeviceWindow::initialize() {
   static GLfloat const texCoords[] = {0.0f, mYFactor, mXFactor, 0.0,      0.0f,     0.0,
                                       0.0f, mYFactor, mXFactor, mYFactor, mXFactor, 0.0};
 
-  if (!mInitialized) {
+  if (!f->glIsVertexArray(mVaoId))
     f->glGenVertexArrays(1, &mVaoId);
+  if (!f->glIsBuffer(mVboId[0]))
     f->glGenBuffers(2, (GLuint *)&mVboId);
-  }
-
   f->glBindVertexArray(mVaoId);
   f->glBindBuffer(GL_ARRAY_BUFFER, mVboId[0]);
   f->glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -214,6 +213,7 @@ void WbRenderingDeviceWindow::initialize() {
   f->glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords, GL_STATIC_DRAW);
   f->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
   f->glEnableVertexAttribArray(1);
+
   mInitialized = true;
 }
 
@@ -280,12 +280,16 @@ void WbRenderingDeviceWindow::renderNow() {
     mContext->setFormat(requestedFormat());
     mContext->setShareContext(cMainOpenGLContext);
     mContext->create();
+  }
 
+#ifndef NDEBUG
+  const bool success =
+#endif  // NDEBUG
     mContext->makeCurrent(this);
+  assert(success);
 
+  if (!mInitialized)
     initialize();
-  } else
-    mContext->makeCurrent(this);
 
   render();
 
@@ -337,19 +341,19 @@ int WbRenderingDeviceWindow::deviceId() const {
 void WbRenderingDeviceWindow::updateTextureGLId(int id) {
   mTextureGLId = id;
   mUpdateRequested = true;
-  initialize();
+  mInitialized = false;
 }
 
 void WbRenderingDeviceWindow::updateBackgroundTextureGLId(int id) {
   mBackgroundTextureGLId = id;
   mUpdateRequested = true;
-  initialize();
+  mInitialized = false;
 }
 
 void WbRenderingDeviceWindow::updateForegroundTextureGLId(int id) {
   mForegroundTextureGLId = id;
   mUpdateRequested = true;
-  initialize();
+  mInitialized = false;
 }
 
 QStringList WbRenderingDeviceWindow::perspective() const {
