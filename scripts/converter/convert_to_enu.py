@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Convert world file from R2020a to R2020b keeping the NUE coordinate system."""
+"""Convert world file from R2020b from the NUE to the ENU coordinate system."""
 
 import math
 import sys
@@ -22,7 +22,6 @@ import sys
 from transforms3d import quaternions
 
 from webots_parser import WebotsParser
-from converted_protos import converted_protos
 
 
 def rotation(value, r, invert=False):
@@ -37,33 +36,13 @@ def convert_to_nue(filename):
     world = WebotsParser()
     world.load(filename)
 
-    isNUE = False
     for node in world.content['root']:
         if node['name'] == 'WorldInfo':
             for field in node['fields']:
-                if field['name'] == 'gravity':
-                    gravity = float(field['value'][1])
-                    if gravity != 0:
-                        gravity = -gravity
-                    field['value'] = WebotsParser.str(gravity)
-                    field['type'] = 'SFFloat'
-                if field['name'] == 'coordinateSystem':  # world file already updated
+                if field['name'] == 'coordinateSystem':
+                    # remove the 'coordinateSystem ENU'
                     del node['fields'][node['fields'].index(field)]
-                    isNUE = True
-            if not isNUE:
-                node['fields'].append({'name': 'coordinateSystem', 'value': 'NUE', 'type': 'SFString'})
-        elif not isNUE and node['name'] in converted_protos:
-            print('Rotating', node['name'])
-            rotation_found = False
-            for field in node['fields']:
-                if field['name'] in ['rotation']:
-                    rotation_found = True
-                    field['value'] = rotation(field['value'], converted_protos[node['name']])
-            if not rotation_found:
-                node['fields'].append({'name': 'rotation',
-                                       'value': rotation(['0', '1', '0', '0'], converted_protos[node['name']]),
-                                       'type': 'SFRotation'})
-        elif isNUE and node['name'] not in ['Viewpoint', 'TexturedBackground', 'TexturedBackgroundLight']:
+        elif node['name'] not in ['Viewpoint', 'TexturedBackground', 'TexturedBackgroundLight']:
             print('Rotating', node['name'])
             rotation_found = False
             for field in node['fields']:
