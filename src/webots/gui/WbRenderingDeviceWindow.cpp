@@ -140,15 +140,18 @@ WbRenderingDeviceWindow::~WbRenderingDeviceWindow() {
     return;
 
   if (!isVisible())
-    // if the window is not exposed mContext->makeCurrent() doesn't work
-    show();
+    show();  // if the window is not exposed mContext->makeCurrent() doesn't work
 
   const bool success = mContext->makeCurrent(this);
   assert(success);
+  if (!success)
+    return;
+
   QOpenGLFunctions_3_3_Core *f = mContext->versionFunctions<QOpenGLFunctions_3_3_Core>();
   f->glDeleteVertexArrays(1, &mVaoId);
   f->glDeleteBuffers(2, (GLuint *)&mVboId);
   mInitialized = false;
+  mContext->doneCurrent();
 }
 
 void WbRenderingDeviceWindow::initialize() {
