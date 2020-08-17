@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Convert world file from R2020b from the NUE to the ENU coordinate system."""
+"""Convert R2020b world file from the NUE to the ENU coordinate system."""
 
 import math
 import sys
