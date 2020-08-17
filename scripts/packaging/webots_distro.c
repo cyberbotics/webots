@@ -1197,6 +1197,43 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libx264.so.148 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libavcodec-ffmpeg.so.56 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng12.so.0 debian/usr/local/webots/lib/webots\n");
+      // ros dependencies
+      fprintf(fd, "cp /opt/ros/kinetic/lib/libroscpp.so debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(fd,
+              "cp /opt/ros/kinetic/lib/librosconsole.so debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(fd, "cp /opt/ros/kinetic/lib/libroscpp_serialization.so "
+                  "debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(fd, "cp /opt/ros/kinetic/lib/librostime.so debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(fd, "cp /opt/ros/kinetic/lib/libxmlrpcpp.so debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(fd,
+              "cp /opt/ros/kinetic/lib/libcpp_common.so debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(
+        fd,
+        "cp /opt/ros/kinetic/lib/librosconsole_log4cxx.so debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(fd, "cp /opt/ros/kinetic/lib/librosconsole_backend_interface.so "
+                  "debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(fd, "cp /opt/ros/kinetic/lib/libroscpp.so debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(fd, "cp /opt/ros/kinetic/lib/libroscpp.so debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(fd, "cp /opt/ros/kinetic/lib/libroscpp.so debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_system.so.1.58.0 "
+                  "debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.58.0 "
+                  "debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.58.0 "
+                  "debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.58.0 "
+                  "debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(
+        fd, "cp /usr/lib/x86_64-linux-gnu/liblog4cxx.so.10 debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.58.0 "
+                  "debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.2 "
+                  "debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(fd,
+              "cp /usr/lib/x86_64-linux-gnu/libapr-1.so.0 debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
+      fprintf(
+        fd,
+        "cp /usr/lib/x86_64-linux-gnu/libaprutil-1.so.0 debian/usr/local/webots/projects/default/controllers/ros/lib/ros\n");
 #elif defined(WEBOTS_UBUNTU_18_04)
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libraw.so.16 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libvpx.so.5 debian/usr/local/webots/lib/webots\n");
