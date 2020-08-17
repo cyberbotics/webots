@@ -1960,6 +1960,8 @@ const double *wb_supervisor_node_get_velocity(WbNodeRef node) {
   }
 
   robot_mutex_lock_step();
+  free(node->solid_velocity);
+  node->solid_velocity = NULL;
   get_velocity_node_ref = node;
   wb_robot_flush_unlocked();
   get_velocity_node_ref = NULL;
