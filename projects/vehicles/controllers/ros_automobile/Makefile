@@ -35,6 +35,10 @@ ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
 release debug profile clean:
 	@echo -e "# \033[0;33m$(PYTHON_COMMAND) not installed, impossible to generate services/messages required by the ros controller, skipping ros controller\033[0m"
 else
+ifeq (, $(ROS_DISTRO))
+release debug profile clean:
+	@echo -e "# \033[0;33mROS not installed or 'ROS_DISTRO' not defined\033[0m"
+else
 CXX_SOURCES = $(wildcard *.cpp)
 CXX_SOURCES += $(wildcard $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/Ros*.cpp)
 
@@ -50,12 +54,12 @@ include/webots_ros/%.h : include/srv/%.srv $(WEBOTS_HOME_PATH)/projects/default/
 	@echo "# generating ROS header" $(notdir $<)
 	$(SILENT)python $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/headersFromSRV.py $< $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include
 
-INCLUDE = -I$(WEBOTS_HOME_PATH)/projects/default/controllers/ros -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include -Iinclude
+INCLUDE = -I$(WEBOTS_HOME_PATH)/projects/default/controllers/ros -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include -isystem /opt/ros/$(ROS_DISTRO)/include -Iinclude
 LIBRARIES += -lCppDriver -lCppCar -ldriver -lcar
 
 # include ros libraries
 
-LIBRARIES += -L$(WEBOTS_HOME_PATH)/projects/default/controllers/ros/lib/ros -lroscpp -lrosconsole -lroscpp_serialization -lrostime
+LIBRARIES += -L/opt/ros/$(ROS_DISTRO)/lib -lroscpp -lrosconsole -lrosconsole_log4cxx -lroscpp_serialization -lrostime
 ifeq ($(OSTYPE),windows)
  LIBRARIES += -lws2_32
  ifeq ($(MAKECMDGOALS),debug)
@@ -81,4 +85,5 @@ endif
 FILES_TO_REMOVE += include/webots_ros
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
+endif
 endif

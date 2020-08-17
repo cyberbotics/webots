@@ -17,44 +17,7 @@ space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-ifeq ($(OSTYPE),linux)
- OS_TAG=linux64
- ROS_PACKAGE=ros_kinetic_ubuntu16.04.tar.gz
- EXTRACT=tar xfz
- WGET=wget --quiet
-endif
-
-ifeq ($(OSTYPE),darwin)
- OS_TAG=mac
- ROS_PACKAGE=ros_mac.zip
- EXTRACT=unzip -q
- WGET=LANG=en_US.UTF-8 wget --quiet
-endif
-
-ROS_TARGET=ros/libroscpp$(SHARED_LIB_EXTENSION)
-
-# remove .tar.gz
-ROS_SOURCE=$(basename $(basename $(ROS_PACKAGE)))
-
-release debug profile: $(ROS_TARGET)
-
-$(ROS_TARGET):
-	@if ! $(WGET) -h > /dev/null ; then echo "You need to download the" $(ROS_PACKAGE) "package and copy it in this directory"; fi
-	@echo "#" downloading $(ROS_PACKAGE)
-	@$(WGET) https://www.cyberbotics.com/files/repository/dependencies/$(OS_TAG)/release/$(ROS_PACKAGE)
-	@echo "#" extracting $(ROS_PACKAGE)
-	@$(EXTRACT) $(ROS_PACKAGE)
-	@echo "#" removing old ros
-	@rm -rf $(ROS_PACKAGE)
-	@rm -rf ros/*$(SHARED_LIB_EXTENSION).* ros/*
-	@echo "#" installing $(ROS_PACKAGE)
-ifeq ($(OSTYPE),darwin)
-	@mv *.dylib ros
-else ifeq ($(OSTYPE),linux)
-	@mv $(ROS_SOURCE)/* ros
-endif
-	@rm -rf $(ROS_SOURCE)
-	@touch ros/* # update modification date on Linux and Mac
+release debug profile:
 
 clean:
 	rm -rf ros/*$(SHARED_LIB_EXTENSION).* ros/*$(SHARED_LIB_EXTENSION)
