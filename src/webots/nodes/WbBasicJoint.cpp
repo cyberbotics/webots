@@ -137,11 +137,10 @@ void WbBasicJoint::createOdeObjects() {
 }
 
 bool WbBasicJoint::setJoint() {
-  WbSolidReference *const r = solidReference();
-  if (r)
-    r->updateName();
+  WbSolidReference *const sr = solidReference();
+  if (sr)
+    sr->updateName();
   const WbSolid *const s = solidEndPoint();
-  const WbSolidReference *const sr = solidReference();
   const bool invalidEndPoint = s == NULL && (sr == NULL || !sr->pointsToStaticEnvironment());
   if (invalidEndPoint || upperSolid() == NULL || (s && s->physics() == NULL) || (s && s->solidMerger().isNull())) {
     if (mJoint) {
@@ -477,6 +476,8 @@ void WbBasicJoint::write(WbVrmlWriter &writer) const {
 }
 
 WbBoundingSphere *WbBasicJoint::boundingSphere() const {
+  if (solidReference())
+    return NULL;
   const WbSolid *const solid = solidEndPoint();
   if (solid)
     return solid->boundingSphere();
