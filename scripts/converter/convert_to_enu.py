@@ -24,10 +24,10 @@ from transforms3d import quaternions
 from webots_parser import WebotsParser
 
 
-def rotation(value, r, invert=False):
+def rotation(value, r):
     q0 = quaternions.axangle2quat([float(value[0]), float(value[1]), float(value[2])], float(value[3]))
     q1 = quaternions.axangle2quat([r[0], r[1], r[2]], r[3])
-    qr = quaternions.qmult(q1, q0) if invert else quaternions.qmult(q0, q1)
+    qr = quaternions.qmult(q1, q0)
     v, theta = quaternions.quat2axangle(qr)
     return [WebotsParser.str(v[0]), WebotsParser.str(v[1]), WebotsParser.str(v[2]), WebotsParser.str(theta)]
 
@@ -48,7 +48,7 @@ def convert_to_nue(filename):
             for field in node['fields']:
                 if field['name'] in ['rotation']:
                     rotation_found = True
-                    field['value'] = rotation(field['value'], [1, 0, 0, 0.5 * math.pi], True)
+                    field['value'] = rotation(field['value'], [1, 0, 0, 0.5 * math.pi])
                 elif field['name'] in ['translation']:
                     field['value'] = [field['value'][0], str(-float(field['value'][2])), field['value'][1]]
             if not rotation_found:
