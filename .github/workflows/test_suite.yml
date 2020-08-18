@@ -49,7 +49,6 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         source /opt/ros/${{ matrix.ROS_DISTRO }}/setup.bash
         xvfb-run --auto-servernum make distrib -j4
-        ldd projects/default/controllers/ros/ros  #TODO: just for debugging
     - uses: actions/upload-artifact@v2
       with:
         name: build-${{ matrix.os }}
