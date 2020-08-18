@@ -180,7 +180,7 @@ void WbStreamingServer::onNewTcpData() {
 
 void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
   if (requestedUrl.startsWith("robot_windows/")) {
-    QString fileName = WbProject::current()->path() + "plugins/" + requestedUrl;
+    const QString fileName(WbProject::current()->path() + "plugins/" + requestedUrl);
     WbLog::info(tr("Received request for %1").arg(fileName));
     socket->write(WbHttpReply::forgeFileReply(fileName));
   } else
