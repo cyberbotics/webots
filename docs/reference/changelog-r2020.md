@@ -11,6 +11,7 @@ Released on XXX YYth, 2020.
     - Fixed crash occurring when selecting a [Robot](robot.md) with mechanical closed-loop ([#2117](https://github.com/cyberbotics/webots/pull/2117)).
     - Remove scaling factor in matrix returned by [`wb_supervisor_node_get_orientation`](supervisor.md#wb_supervisor_node_get_orientation) ([#2112](https://github.com/cyberbotics/webots/pull/2112)).
     - Fixed conversion of identity matrix to quaternion in ROS API ([#2112](https://github.com/cyberbotics/webots/pull/2112)).
+    - Fixed header stamps of the topics published by the ros controller ([#2127](https://github.com/cyberbotics/webots/pull/2127)).
     - Fixed bugs in streaming server protocol and added support for X3D/MJPEG mode selection in simulation server ([#2077](https://github.com/cyberbotics/webots/pull/2077)).
     - Fixed the `roadBorderWidth` field of the [HelicoidalRoadSegment](../guide/object-road.md#helicoidalroadsegment) PROTO node ([#2099](https://github.com/cyberbotics/webots/pull/2099)).
     - Linux: Fixed the execution of robot controllers with firejail ([#2071](https://github.com/cyberbotics/webots/pull/2071)).
