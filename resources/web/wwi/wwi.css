@@ -123,6 +123,11 @@ iframe {
   outline: 0;
 }
 
+/* fix conflict wit bulma.min.css */
+.ui-dialog {
+  box-sizing: content-box;
+}
+
 button::-moz-focus-inner {
   border: 0;
 }
