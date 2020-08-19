@@ -97,7 +97,7 @@ class RobotWindow extends DialogWindow { // eslint-disable-line no-unused-vars
 
   init(func) { // immediately initialize a robot window upon load of the javascript
     func();
-    if (this.message) { // flush messages received before initialisation if any
+    if (this.message) { // flush messages received before initialization if any
       for (let i = 0; i < this.message.length; i++)
         this.receive(this.message[i].message, this.message[i].robot);
       delete this.message;
