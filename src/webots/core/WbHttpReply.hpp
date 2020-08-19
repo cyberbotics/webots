@@ -21,6 +21,7 @@ namespace WbHttpReply {
   QByteArray forge404Reply();
   QByteArray forgeHTMLReply(const QString &htmlContent);
   QByteArray forgeFileReply(const QString &fileName);
+  QString mimeType(const QString &url, bool generic = false);
 };  // namespace WbHttpReply
 
 #endif

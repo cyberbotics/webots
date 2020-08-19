@@ -49,22 +49,27 @@ QByteArray WbHttpReply::forgeFileReply(const QString &fileName) {
     return forge404Reply();
 
   const QByteArray data = file.readAll();
-  QFileInfo fi(file);
-  const QString extension = fi.suffix().toLower();
-  QString type;
-  if (extension == "png" || extension == "jpg" || extension == "jpeg")
-    type = QString("image/%1").arg(extension);
-  else if (extension == "html" || extension == "css")
-    type = QString("text/%1").arg(extension);
-  else if (extension == "js")
-    type = "application/javascript";
+  const QString mimeType = WbHttpReply::mimeType(fileName, true);
   reply.append("HTTP/1.1 200 OK\r\n");
   reply.append("Access-Control-Allow-Origin: *\r\n");
   reply.append("Cache-Control: public, max-age=3600\r\n");  // Help the browsers to cache the file for 1 hour.
-  reply.append(QString("Content-Type: %1\r\n").arg(type));
+  reply.append(QString("Content-Type: %1\r\n").arg(mimeType));
   reply.append(QString("Content-Length: %1\r\n").arg(data.length()));
   reply.append("\r\n");
   reply.append(data);
 
   return reply;
+}
+
+QString WbHttpReply::mimeType(const QString &url, bool generic) {
+  const QString extension = url.mid(url.lastIndexOf('.')).toLower();
+  QString type;
+  if (extension == "png" || extension == "jpg" || extension == "jpeg")
+    return QString("image/%1").arg(extension);
+  else if (extension == "html" || extension == "css")
+    return QString("text/%1").arg(extension);
+  else if (extension == "js")
+    return "application/javascript";
+  else
+    return generic ? "application/octet-stream" : "";  // generic binary format
 }

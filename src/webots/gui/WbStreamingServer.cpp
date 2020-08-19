@@ -178,12 +178,19 @@ void WbStreamingServer::onNewTcpData() {
 }
 
 void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
-  if (requestedUrl.startsWith("robot_windows/")) {
-    const QString fileName(WbProject::current()->path() + "plugins/" + requestedUrl);
-    WbLog::info(tr("Received request for %1").arg(fileName));
-    socket->write(WbHttpReply::forgeFileReply(fileName));
-  } else
+  if (!requestedUrl.startsWith("robot_windows/")) {
+    WbLog::warning(tr("Unsupported URL %1").arg(requestedUrl));
     socket->write(WbHttpReply::forge404Reply());
+    return;
+  }
+  const QString fileName(WbProject::current()->path() + "plugins/" + requestedUrl);
+  if (WbHttpReply::mimeType(fileName).isEmpty()) {
+    WbLog::warning(tr("Unsupported file type %1").arg(fileName));
+    socket->write(WbHttpReply::forge404Reply());
+    return;
+  }
+  WbLog::info(tr("Received request for %1").arg(fileName));
+  socket->write(WbHttpReply::forgeFileReply(fileName));
 }
 
 void WbStreamingServer::onNewWebSocketConnection() {
