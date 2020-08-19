@@ -327,7 +327,7 @@ webots.View = class View {
                 nodeScriptReplace(children[i++]);
             }
           }
-          nodeScriptReplace(win.panel); // execute JScode if any script tag
+          nodeScriptReplace(win.panel); // execute Javascript code if any script tag
           pendingRequestsCount--;
           if (pendingRequestsCount === 0)
             loadFinalize();
