@@ -36,7 +36,7 @@ function connect() {
   // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
   let playerDiv = document.getElementById('playerDiv');
   view = new webots.View(playerDiv, mobileDevice);
-  view.broadcast = true; // disable global changes to the simulation
+  view.broadcast = true; // disable controlling the simulation
   view.setTimeout(-1); // disable timeout that stops the simulation after a given time
   view.broadcast = true;
   let modeSelect = document.getElementById('mode');
