@@ -30,6 +30,16 @@ int main(int argc, char **argv) {
   ts_assert_doubles_in_delta(9, orientation, ROTATION, 0.0001,
                              "wb_supervisor_node_get_orientation() did not return the expected values.");
 
+  // change node scale and check that `wb_supervisor_node_get_orientation` still returns the unscaled matrix
+  WbFieldRef scale_field = wb_supervisor_node_get_field(node, "scale");
+  const double new_scale[] = {2.0, 3.0, 4.0};
+  wb_supervisor_field_set_sf_vec3f(scale_field, new_scale);
+
+  wb_robot_step(TIME_STEP);
+
+  orientation = wb_supervisor_node_get_orientation(node);
+  ts_assert_doubles_in_delta(9, orientation, ROTATION, 0.0001,
+                             "wb_supervisor_node_get_orientation() did not return the expected values for scaled node.");
   ts_send_success();
   return EXIT_SUCCESS;
 }

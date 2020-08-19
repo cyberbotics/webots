@@ -34,6 +34,7 @@ public:
 
   ros::Publisher createPublisher() override;
   void publishValue(ros::Publisher publisher) override;
+  void publishAuxiliaryValue() override;
   bool getInfoCallback(webots_ros::camera_get_info::Request &req, webots_ros::camera_get_info::Response &res);
   bool getFocusInfoCallback(webots_ros::camera_get_focus_info::Request &req, webots_ros::camera_get_focus_info::Response &res);
   bool getZoomInfoCallback(webots_ros::camera_get_zoom_info::Request &req, webots_ros::camera_get_zoom_info::Response &res);
