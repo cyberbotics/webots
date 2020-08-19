@@ -4,6 +4,12 @@ This is an archive of the `documentation` channel of the [Webots Discord server]
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 08/19/2020 05:44:59
+Hi `@lance`, you can get many of these information directly in Webots, if you select the drone, in the node editor (part below the scene-tree) you have a 'Mass' tab that allows you to retrieve many information. Then the simplest solution to get the rotor/propeller position, the simplest solution is to convert temporarily the PROTO node in Base node (right clik on the ndoe in the scene-tree => 'Convert to Base Node(s)') then you can select the propeller node and chek it's position (relatively to any parent node in the 'position' tab of the node editor.
+
+##### lance 08/19/2020 00:08:18
+Hi, in a project I am trying to write a adaptive controller for the DJI  mavic 2 pro drone and, therefore, require some detailed parameters of the drone model. I have read the proto file and I am still confused about where to find parameters like moment of inertia around 3 axis, total mass of the drone, and distance from center of mass to the rotor. I am wondering where I can find those parameters? Thanks in advance！
+
 ##### David Mansolino [cyberbotics] 07/20/2020 05:36:54
 This is unfortunaely not possible. However you can view it offline in Webots from the 'Help' menu.
 
