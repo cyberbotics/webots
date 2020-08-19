@@ -308,7 +308,7 @@ webots.View = class View {
               const name = node.attributes[i].name;
               const value = node.attributes[i].value;
               if (name === 'disabled-src') {
-                script.removeAttribute('disabled-src');
+                node.removeAttribute('disabled-src');
                 script.setAttribute('src', value);
                 continue;
               }
