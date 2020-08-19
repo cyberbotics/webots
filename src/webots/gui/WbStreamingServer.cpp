@@ -45,7 +45,6 @@ WbStreamingServer::WbStreamingServer(bool monitorActivity, bool disableTextStrea
   QObject(),
   mPauseTimeout(-1),
   mWebSocketServer(NULL),
-  mMessageToClients(),
   mClientsReadyToReceiveMessages(false),
   mMonitorActivity(monitorActivity),
   mDisableTextStreams(disableTextStreams),
