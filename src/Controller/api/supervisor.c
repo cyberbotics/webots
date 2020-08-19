@@ -194,7 +194,6 @@ static void delete_node(WbNodeRef node) {
 static void remove_node_from_list(int uid) {
   WbNodeRef node = find_node_by_id(uid);
   if (node) {  // make sure this node is in the list
-    printf("remove_node_from_list %d %s\n", uid, node->def_name);
     // look for the previous node in the list
     if (node_list == node)  // the node is the first of the list
       node_list = node->next;
