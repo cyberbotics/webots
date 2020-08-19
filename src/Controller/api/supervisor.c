@@ -194,6 +194,7 @@ static void delete_node(WbNodeRef node) {
 static void remove_node_from_list(int uid) {
   WbNodeRef node = find_node_by_id(uid);
   if (node) {  // make sure this node is in the list
+    printf("remove_node_from_list %d %s\n", uid, node->def_name);
     // look for the previous node in the list
     if (node_list == node)  // the node is the first of the list
       node_list = node->next;
@@ -1966,6 +1967,7 @@ const double *wb_supervisor_node_get_velocity(WbNodeRef node) {
   wb_robot_flush_unlocked();
   get_velocity_node_ref = NULL;
   robot_mutex_unlock_step();
+  // cppcheck-suppress knownConditionTrueFalse
   return node->solid_velocity ? node->solid_velocity : invalid_vector;  // will be NULL if n is not a Solid
 }
 
