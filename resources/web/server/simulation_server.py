@@ -250,7 +250,7 @@ class Client:
             world = self.project_instance_path + '/worlds/' + self.world
             port = client.streaming_server_port
             command = config['webots'] + ' --batch --mode=pause '
-            # on Windows, the MJPEG stream won't work if the Webots window is minimized
+            # the MJPEG stream won't work if the Webots window is minimized
             if not hasattr(self, 'mode') or self.mode == 'x3d':
                 command += '--minimize '
             command += '--stream="port=' + str(port) + ';monitorActivity'
