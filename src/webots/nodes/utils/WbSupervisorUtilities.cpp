@@ -1428,7 +1428,10 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     mNodeGetPosition = NULL;
   }
   if (mNodeGetOrientation) {
-    const WbMatrix4 &m = mNodeGetOrientation->matrix();
+    WbMatrix4 m(mNodeGetOrientation->matrix());
+    // remove scale from matrix
+    const WbVector3 &s = m.scale();
+    m.scale(1.0 / s.x(), 1.0 / s.y(), 1.0 / s.z());
     stream << (short unsigned int)0;
     stream << (unsigned char)C_SUPERVISOR_NODE_GET_ORIENTATION;
     stream << (double)m(0, 0) << (double)m(0, 1) << (double)m(0, 2);

@@ -90,6 +90,7 @@ WbRenderingDeviceWindow::WbRenderingDeviceWindow(WbRenderingDevice *device) :
   mTextureGLId(device->textureGLId()),
   mBackgroundTextureGLId(device->backgroundTextureGLId()),
   mForegroundTextureGLId(device->foregroundTextureGLId()),
+  mInitialized(false),
   mXFactor(0.0f),
   mYFactor(0.0f),
   mUpdateRequested(true),
@@ -135,10 +136,21 @@ WbRenderingDeviceWindow::WbRenderingDeviceWindow(WbRenderingDevice *device) :
 }
 
 WbRenderingDeviceWindow::~WbRenderingDeviceWindow() {
+  if (!mContext)
+    return;
+
+  if (!isVisible())
+    show();  // if the window is not exposed mContext->makeCurrent() doesn't work
+
+  const bool success = mContext->makeCurrent(this);
+  assert(success);
+  if (!success)
+    return;
+
   QOpenGLFunctions_3_3_Core *f = mContext->versionFunctions<QOpenGLFunctions_3_3_Core>();
-  f->glDeleteBuffers(2, (GLuint *)&mVboId);
   f->glDeleteVertexArrays(1, &mVaoId);
-  delete mContext;
+  f->glDeleteBuffers(2, (GLuint *)&mVboId);
+  mContext->doneCurrent();
 }
 
 void WbRenderingDeviceWindow::initialize() {
@@ -187,13 +199,21 @@ void WbRenderingDeviceWindow::initialize() {
   static GLfloat const texCoords[] = {0.0f, mYFactor, mXFactor, 0.0,      0.0f,     0.0,
                                       0.0f, mYFactor, mXFactor, mYFactor, mXFactor, 0.0};
 
-  f->glGenVertexArrays(1, &mVaoId);
+  if (!f->glIsVertexArray(mVaoId))
+    f->glGenVertexArrays(1, &mVaoId);
+  if (!f->glIsBuffer(mVboId[0]))
+    f->glGenBuffers(2, (GLuint *)&mVboId);
   f->glBindVertexArray(mVaoId);
-  f->glGenBuffers(2, (GLuint *)&mVboId);
   f->glBindBuffer(GL_ARRAY_BUFFER, mVboId[0]);
   f->glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+  f->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+  f->glEnableVertexAttribArray(0);
   f->glBindBuffer(GL_ARRAY_BUFFER, mVboId[1]);
   f->glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords, GL_STATIC_DRAW);
+  f->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+  f->glEnableVertexAttribArray(1);
+
+  mInitialized = true;
 }
 
 void WbRenderingDeviceWindow::render() {
@@ -206,13 +226,7 @@ void WbRenderingDeviceWindow::render() {
 
   mProgram->bind();
 
-  f->glEnableVertexAttribArray(0);
-  f->glBindBuffer(GL_ARRAY_BUFFER, mVboId[0]);
-  f->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-  f->glEnableVertexAttribArray(1);
-  f->glBindBuffer(GL_ARRAY_BUFFER, mVboId[1]);
-  f->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+  f->glBindVertexArray(mVaoId);
 
   if (mAbstractCamera && mAbstractCamera->isRangeFinder())
     mProgram->setUniformValue(mMaxRangeUniform, static_cast<float>(mAbstractCamera->maxRange()));
@@ -249,9 +263,6 @@ void WbRenderingDeviceWindow::render() {
 
   f->glDrawArrays(GL_TRIANGLES, 0, 6);
 
-  f->glDisableVertexAttribArray(1);
-  f->glDisableVertexAttribArray(0);
-
   mProgram->release();
 }
 
@@ -268,12 +279,16 @@ void WbRenderingDeviceWindow::renderNow() {
     mContext->setFormat(requestedFormat());
     mContext->setShareContext(cMainOpenGLContext);
     mContext->create();
+  }
 
+#ifndef NDEBUG
+  const bool success =
+#endif  // NDEBUG
     mContext->makeCurrent(this);
+  assert(success);
 
+  if (!mInitialized)
     initialize();
-  } else
-    mContext->makeCurrent(this);
 
   render();
 
@@ -325,19 +340,19 @@ int WbRenderingDeviceWindow::deviceId() const {
 void WbRenderingDeviceWindow::updateTextureGLId(int id) {
   mTextureGLId = id;
   mUpdateRequested = true;
-  initialize();
+  mInitialized = false;
 }
 
 void WbRenderingDeviceWindow::updateBackgroundTextureGLId(int id) {
   mBackgroundTextureGLId = id;
   mUpdateRequested = true;
-  initialize();
+  mInitialized = false;
 }
 
 void WbRenderingDeviceWindow::updateForegroundTextureGLId(int id) {
   mForegroundTextureGLId = id;
   mUpdateRequested = true;
-  initialize();
+  mInitialized = false;
 }
 
 QStringList WbRenderingDeviceWindow::perspective() const {
