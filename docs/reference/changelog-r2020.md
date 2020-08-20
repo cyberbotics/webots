@@ -8,7 +8,7 @@ Released on XXX YYth, 2020.
     - macOS: Add support for Python 3.7 and 3.8 installed with [Homebrew](https://brew.sh) ([#2079](https://github.com/cyberbotics/webots/pull/2079)).
     - Improved the URDF export with the [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function to include the bounding objects exportation ([#2113](https://github.com/cyberbotics/webots/pull/2113)).
   - Bug fixes
-    - Fixed using [Camera](camera.md), [Lidar](lidar.md), and [RangeFinder](rangefinder.md) in asynchronous controllers ([#2138](https://github.com/cyberbotics/webots/pull/2138)).
+    - Fixed removing nodes from [Supervisor](supervisor.md) API's internal list after deleting the parent node ([#2123](https://github.com/cyberbotics/webots/pull/2123)).
     - Fixed various crashes and rendering issues occurring when opening an external rendering device window ([#2119](https://github.com/cyberbotics/webots/pull/2119)).
     - Fixed crash occurring when selecting a [Robot](robot.md) with mechanical closed-loop ([#2117](https://github.com/cyberbotics/webots/pull/2117)).
     - Remove scaling factor in matrix returned by [`wb_supervisor_node_get_orientation`](supervisor.md#wb_supervisor_node_get_orientation) ([#2112](https://github.com/cyberbotics/webots/pull/2112)).
@@ -27,6 +27,8 @@ Released on XXX YYth, 2020.
     - Fixed crash occurring with some PROTO nodes when modifying fields from the scene tree that trigger the PROTO model regeneration ([#2100](https://github.com/cyberbotics/webots/pull/2100)).
     - Fixed field changes not applied in case of nested [PROTO](proto.md) nodes ([#2063](https://github.com/cyberbotics/webots/pull/2063)).
     - Windows: Fixed generation of procedural PROTO nodes using the `gd` module ([#2070](https://github.com/cyberbotics/webots/pull/2070)).
+    - Fixed using [Camera](camera.md), [Lidar](lidar.md), and [RangeFinder](rangefinder.md) in asynchronous controllers ([#2138](https://github.com/cyberbotics/webots/pull/2138)).
+
 
 ## [Webots R2020b](../blog/Webots-2020-b-release.md)
 Released on July 29th, 2020.
