@@ -150,8 +150,6 @@ bool abstract_camera_request_image(AbstractCamera *ac, const char *functionName)
     current_simulation_time = wb_robot_get_time();
   if (ac->image_update_time != current_simulation_time && previous_image_update_time <= ac->image_update_time &&
       robot_is_quitting() == 0) {
-    printf("image_update_time %f current_simulation_time %f previous %f\n", ac->image_update_time, current_simulation_time,
-           previous_image_update_time);
     fprintf(stderr, "Warning: %s: image could not be retrieved.\n", functionName);
     return false;
   }
