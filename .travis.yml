@@ -234,7 +234,6 @@ jobs:
         - sudo apt-get install -y ros-$ROS_DISTRO-ros-base ros-$ROS_DISTRO-sensor-msgs ros-$ROS_DISTRO-tf liburdfdom-tools
       script:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python scripts/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
-        - source /opt/ros/$ROS_DISTRO/setup.bash
         - make distrib -j2
         - rename 's/\.tar.bz2$/_ubuntu-16.04.tar.bz2/' distribution/*.tar.bz2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
@@ -256,7 +255,6 @@ jobs:
         - sudo apt-get install -y ros-$ROS_DISTRO-ros-base ros-$ROS_DISTRO-sensor-msgs ros-$ROS_DISTRO-tf liburdfdom-tools
       addons: *bionic_apt_packages
       script:
-        - source /opt/ros/$ROS_DISTRO/setup.bash
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
     - <<: *distribution_staging
