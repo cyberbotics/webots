@@ -63,7 +63,7 @@ LIBRARIES += -lCppDriver -lCppCar -ldriver -lcar
 
 # include ros libraries
 
-LIBRARIES += -L/opt/ros/$(ROS_DISTRO)/lib -lroscpp -lrosconsole -lrosconsole_log4cxx -lroscpp_serialization -lrostime
+LIBRARIES += -L/opt/ros/$(ROS_DISTRO)/lib -lxmlrpcpp -lcpp_common -lrosconsole_backend_interface -lroscpp -lrosconsole -lrosconsole_log4cxx -lroscpp_serialization -lrostime
 ifeq ($(OSTYPE),windows)
  LIBRARIES += -lws2_32
  ifeq ($(MAKECMDGOALS),debug)
