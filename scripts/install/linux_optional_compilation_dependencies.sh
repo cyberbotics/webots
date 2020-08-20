@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo add-apt-repository ppa:deadsnakes/ppa
+sudo add-apt-repository -y ppa:deadsnakes/ppa
 sudo apt update
 sudo apt install python3.5-dev python3.6-dev python3.7-dev python3.8-dev
 
