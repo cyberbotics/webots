@@ -128,21 +128,12 @@ jobs:
             - libxcb-xinerama0
             - rename
       before_install:
-        - sudo add-apt-repository ppa:deadsnakes/ppa -y
-        - sudo apt update
-        - sudo apt install -y python3.6-dev python3.7-dev python3.8-dev
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
         - export PATH=$JAVA_HOME/bin:$PATH
-        - export ROS_DISTRO=kinetic
-        - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-        - sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-        - sudo apt update -qq
-        - sudo apt-get install -y ros-$ROS_DISTRO-ros-base ros-$ROS_DISTRO-sensor-msgs ros-$ROS_DISTRO-tf liburdfdom-tools
-        - sudo rosdep init
-        - rosdep update
+        - sudo scripts/install/linux_optional_compilation_dependencies.sh
         - pip install rospkg catkin_pkg empy defusedxml netifaces  # by default ros only comes with python2.7 libraries
       script:
-        - source /opt/ros/$ROS_DISTRO/setup.bash
+        - export ROS_DISTRO=kinetic
         - make release -j2
         - make release -j2 -C tests
         - python tests/test_suite.py --no-ansi-escape --nomake
@@ -151,21 +142,6 @@ jobs:
       name: Ubuntu 18.04 / Python 3.8 / openjdk 11 / ROS melodic
       dist: bionic
       jdk: openjdk11
-      before_install:
-        - sudo add-apt-repository ppa:deadsnakes/ppa -y
-        - sudo apt update
-        - sudo apt install -y python3.8-dev
-        - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-        - export PATH=$JAVA_HOME/bin:$PATH
-        - export ROS_DISTRO=melodic
-        - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-        - sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-        - sudo apt update -qq
-        - sudo apt-get install -y ros-$ROS_DISTRO-ros-base ros-$ROS_DISTRO-sensor-msgs ros-$ROS_DISTRO-tf liburdfdom-tools
-        - sudo apt-get install -y python-rosdep
-        - sudo rosdep init
-        - rosdep update
-        - pip install rospkg catkin_pkg empy defusedxml netifaces  # by default ros only comes with python2.7 libraries
       addons: &bionic_apt_packages
         apt:
           packages:
@@ -204,7 +180,7 @@ jobs:
             - libxcb-render-util0
             - libxcb-xinerama0
       script:  # TODO: remove this part once ROS melodic is fixed to restore the ROS test.
-        - source /opt/ros/$ROS_DISTRO/setup.bash
+        - export ROS_DISTRO=melodic
         - make release -j2
         - make release -j2 -C tests
         - python tests/test_suite.py --no-ansi-escape --nomake
