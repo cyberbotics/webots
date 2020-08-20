@@ -62,7 +62,7 @@ They are expressed in *meter* [m] for [LinearMotor](linearmotor.md) and in *radi
 These fields are described in more detail in the [Motor Limits section](#motor-limits), see below.
 
 - The `maxVelocity` field specifies both the upper limit and the default value for the motor *velocity*.
-It is expressed in *meter per second* [m/s] for linear motors and in *meter per radian* [rad/s] for rotational motors.
+It is expressed in *meter per second* [m/s] for linear motors and in *radian per second* [rad/s] for rotational motors.
 The *velocity* can be changed at run-time with the `wb_motor_set_velocity` function.
 The value should always be positive (the default is 10).
 
