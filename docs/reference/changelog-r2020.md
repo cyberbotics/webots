@@ -29,7 +29,6 @@ Released on XXX YYth, 2020.
     - Windows: Fixed generation of procedural PROTO nodes using the `gd` module ([#2070](https://github.com/cyberbotics/webots/pull/2070)).
     - Fixed using [Camera](camera.md), [Lidar](lidar.md), and [RangeFinder](rangefinder.md) in asynchronous controllers ([#2138](https://github.com/cyberbotics/webots/pull/2138)).
 
-
 ## [Webots R2020b](../blog/Webots-2020-b-release.md)
 Released on July 29th, 2020.
 
