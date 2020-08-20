@@ -33,11 +33,15 @@ endif
 PYTHON_COMMAND ?= python
 ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
 release debug profile clean:
-	@echo -e "# \033[0;33m$(PYTHON_COMMAND) not installed, impossible to generate services/messages required by the ros controller, skipping ros controller\033[0m"
+	@echo "# \033[0;33m$(PYTHON_COMMAND) not installed, impossible to generate services/messages required by the ros controller, skipping ros controller\033[0m"
 else
 ifeq (, $(ROS_DISTRO))
 release debug profile clean:
-	@echo -e "# \033[0;33mROS not installed or 'ROS_DISTRO' not defined\033[0m"
+	@echo "# \033[0;33mROS not installed or 'ROS_DISTRO' not defined\033[0m"
+else
+ifeq (2, $(ROS_VERSION))
+release debug profile clean:
+	@echo "# \033[0;33mROS_DISTRO should not be a ROS2 distribution\033[0m"
 else
 CXX_SOURCES = $(wildcard *.cpp)
 CXX_SOURCES += $(wildcard $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/Ros*.cpp)
@@ -85,5 +89,6 @@ endif
 FILES_TO_REMOVE += include/webots_ros
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
+endif
 endif
 endif
