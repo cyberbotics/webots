@@ -4,6 +4,1118 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 
 ## 2020
 
+##### Simon Steinmann [Moderator] 08/18/2020 19:35:45
+but we will have to check and recompile several official robot arms, as they dont include the last link, when converting to urdf. Good idea anyways, using multi-file, so viewing and editing PROTO-source is less laggy
+
+##### David Mansolino [cyberbotics] 08/18/2020 19:30:11
+> it works super well now. you just have to assignt the controller and do nothing else. If there is no target node, it adds it for you. Even tells you to enable supervisor, if not done so already
+
+`@Simon Steinmann` looks very nice 🙂
+
+##### Simon Steinmann [Moderator] 08/18/2020 19:30:08
+that's cleaner
+
+##### David Mansolino [cyberbotics] 08/18/2020 19:29:52
+> that returns the worldpath including the filename though, that's why I needed the next 2 lines to remove it
+
+`@Simon Steinmann` a simplest solution would be:
+
+```Python
+worldPath = os.path.dirname(supervisor.getWorldPath())
+```
+
+##### Simon Steinmann [Moderator] 08/18/2020 19:28:29
+it works super well now. you just have to assignt the controller and do nothing else. If there is no target node, it adds it for you. Even tells you to enable supervisor, if not done so already
+
+##### David Mansolino [cyberbotics] 08/18/2020 19:27:23
+> what I used 😉
+
+`@Simon Steinmann` just saw it (I was reading messages from top to bottom)
+
+##### Simon Steinmann [Moderator] 08/18/2020 19:27:17
+that returns the worldpath including the filename though, that's why I needed the next 2 lines to remove it
+
+
+what I used 😉
+
+##### David Mansolino [cyberbotics] 08/18/2020 19:25:45
+> Can you try to getenv and print WEBOTS\_PROJECT environment variable? Then append "/worlds" to it should do the trick.
+
+`@Olivier Michel` `@Simon Steinmann`  we have an API function for this: Robot.getWorldPath()
+
+##### Simon Steinmann [Moderator] 08/18/2020 18:22:51
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/745346993257185430/unknown.png)
+%end
+
+
+btw, figured out the world path problem
+
+
+figured it out, have to parse it. Can't init supervisor twice
+
+
+meaning, do I have to parse the supervisor for the module-class \_\_init\_\_ function or can it just import it directly
+
+
+is there a conflict, if I inialize a supervisor in my main controler, and also in a imported module?
+
+
+I think I'll just remove the texture and make the sphere yellow
+
+
+shucks
+
+##### Olivier Michel [cyberbotics] 08/18/2020 16:17:17
+Unfortunately, I don't see any better way to do this...
+
+##### Simon Steinmann [Moderator] 08/18/2020 16:14:49
+well, using it for the generic controller 😉
+
+##### Olivier Michel [cyberbotics] 08/18/2020 16:14:29
+Otherwise, you can assume it's `../../worlds/` relative to your controller.
+
+##### Simon Steinmann [Moderator] 08/18/2020 16:13:36
+it's not a system variable
+
+##### Olivier Michel [cyberbotics] 08/18/2020 16:13:24
+No, that won't work...
+
+
+Can you try to getenv and print WEBOTS\_PROJECT environment variable? Then append "/worlds" to it should do the trick.
+
+
+There must be a project path environment variable... Let me search...
+
+##### Simon Steinmann [Moderator] 08/18/2020 16:07:39
+how can I get the path to the world?
+
+##### Olivier Michel [cyberbotics] 08/18/2020 16:06:54
+It's better to copy them in the worlds folder under a textures subfolder.
+
+##### Simon Steinmann [Moderator] 08/18/2020 16:06:15
+can I link textures relative to the controller? or would it be easier to copy the files into the world folder?
+
+
+okay works beautifully
+
+
+just saw, thx 🙂
+
+##### Olivier Michel [cyberbotics] 08/18/2020 15:58:50
+`children.getCount()`
+
+
+Get the root node, its children field and get the number of items (see my code sample)
+
+##### Simon Steinmann [Moderator] 08/18/2020 15:57:23
+how can I get the number of children? I wanna insert the target node on the bottom
+
+
+gonna try 🙂
+
+##### Olivier Michel [cyberbotics] 08/18/2020 15:46:37
+Yes.
+
+##### Simon Steinmann [Moderator] 08/18/2020 15:46:14
+as a string I can just use the world file part of the node then?
+
+##### Olivier Michel [cyberbotics] 08/18/2020 15:44:20
+Probably with `importSFNodeFromString`: [https://www.cyberbotics.com/doc/reference/supervisor?tab-language=python#wb\_supervisor\_field\_import\_sf\_node\_from\_string](https://www.cyberbotics.com/doc/reference/supervisor?tab-language=python#wb_supervisor_field_import_sf_node_from_string)
+
+##### Simon Steinmann [Moderator] 08/18/2020 15:42:33
+how would I spawn that target sphere?
+
+
+finally done 😄
+
+##### Olivier Michel [cyberbotics] 08/18/2020 15:26:02
+Simply commit the previous version of the file.
+
+##### Simon Steinmann [Moderator] 08/18/2020 15:25:00
+how do I revert commits?
+
+
+[https://github.com/cyberbotics/community-projects/pull/12](https://github.com/cyberbotics/community-projects/pull/12)
+
+##### Olivier Michel [cyberbotics] 08/18/2020 14:28:18
+Then, you will be able to upload your files and delete the dummy.txt file.
+
+##### Simon Steinmann [Moderator] 08/18/2020 14:28:06
+that seems to work
+
+##### Olivier Michel [cyberbotics] 08/18/2020 14:27:53
+Enter "default/controllers/generic\_inverse\_kinematics/dummy.txt"
+
+
+Click "Add file" / "Create new files".
+
+
+You should create a temporary dummy file.
+
+
+Yes, I see.
+
+##### Simon Steinmann [Moderator] 08/18/2020 14:26:19
+Something went really wrong, and we can’t process that file.
+
+
+doesnt let me
+
+
+still something wrong
+
+##### Olivier Michel [cyberbotics] 08/18/2020 14:25:47
+4. Upload your two python files.
+
+
+3. On this branch, click "Add files" popup menu.
+
+
+2. Click on the "master" pop-up menu and create a branch (give it a name)
+
+
+1. Go on the "Code" tab.
+
+
+I see. So from GitHub web page, you should be able to create a branch and upload your controller files on this branch (creating the folder structure at the same time).
+
+##### Simon Steinmann [Moderator] 08/18/2020 14:23:10
+I dont wanna pull, because I have many working changes, guess I could clone again for upload
+
+##### Olivier Michel [cyberbotics] 08/18/2020 14:22:43
+Did you checked out locally the community-projects repo?
+
+##### Simon Steinmann [Moderator] 08/18/2020 14:22:21
+you guys do it 😉
+> **Attachment**: [default.zip](https://cdn.discordapp.com/attachments/565155651395780609/745286472424489010/default.zip)
+
+
+usually I can upload and crerate a new branch from those files
+
+##### Olivier Michel [cyberbotics] 08/18/2020 14:21:26
+You need to create a new branch
+
+
+(it may be optional, triggered by a controllerArg)
+
+##### Simon Steinmann [Moderator] 08/18/2020 14:20:50
+i can't upload to github through the webpage 😦
+
+##### Olivier Michel [cyberbotics] 08/18/2020 14:20:29
+Yes, that could be a nice demo.
+
+##### Simon Steinmann [Moderator] 08/18/2020 14:19:43
+perhaps that target sphere can be generated by the controller. that would make the implementation even simpler
+
+##### Olivier Michel [cyberbotics] 08/18/2020 14:17:59
+OK, so let's go for the solution proposed by `@David Mansolino`.
+
+##### David Mansolino [cyberbotics] 08/18/2020 14:17:18
+And as we already have a n'inverse\_kinematic' controller in Webots looks safer to avoid duplicating it.
+
+##### Simon Steinmann [Moderator] 08/18/2020 14:17:05
+but up to you guys
+
+
+I like consistency
+
+##### David Mansolino [cyberbotics] 08/18/2020 14:16:27
+That's fine too, I was suggesting 'default' to be like in Webots ([https://github.com/cyberbotics/webots/tree/master/projects](https://github.com/cyberbotics/webots/tree/master/projects)), but it is not mandatory to be exactly the same.
+
+##### Olivier Michel [cyberbotics] 08/18/2020 14:15:37
+OK, in that case, I would prefer something like `generic/controllers/inverse_kinematic`
+
+##### Simon Steinmann [Moderator] 08/18/2020 14:15:27
+putting controller in the base directory, removes everything
+
+
+that was it
+
+##### David Mansolino [cyberbotics] 08/18/2020 14:14:16
+You should rather put it in somethig like 'default/controllers/generic\_inverse\_kinematic'
+
+##### Simon Steinmann [Moderator] 08/18/2020 14:14:10
+wait, it doesnt find anything in the extra path now
+
+##### David Mansolino [cyberbotics] 08/18/2020 14:13:38
+> Like [https://github.com/cyberbotics/community-projects/tree/master/controllers/generic\_inverse\_kinematic/](https://github.com/cyberbotics/community-projects/tree/master/controllers/generic_inverse_kinematic/)
+
+`@Olivier Michel` this does not respect the Webots project hierarchy
+
+##### Simon Steinmann [Moderator] 08/18/2020 14:11:58
+does not find the controller
+
+##### Olivier Michel [cyberbotics] 08/18/2020 14:09:02
+Feel free to open a PR to do so.
+
+
+Sure, you need to create it.
+
+##### Simon Steinmann [Moderator] 08/18/2020 14:08:46
+404
+
+##### Olivier Michel [cyberbotics] 08/18/2020 14:08:31
+Like [https://github.com/cyberbotics/community-projects/tree/master/controllers/generic\_inverse\_kinematic/](https://github.com/cyberbotics/community-projects/tree/master/controllers/generic_inverse_kinematic/)
+
+##### Simon Steinmann [Moderator] 08/18/2020 14:08:13
+that would be good
+
+##### Olivier Michel [cyberbotics] 08/18/2020 14:07:55
+Probably we should create a `controllers` folder at the level and put it in there.
+
+##### Simon Steinmann [Moderator] 08/18/2020 14:07:00
+new\_lower = armChain.links[i].bounds[0] + 0.0000001
+
+        new\_upper = armChain.links[i].bounds[1] - 0.0000001       
+
+        armChain.links[i].bounds = (new\_lower, new\_upper)
+
+this should be enough, since lower is always smaller than upper
+
+
+where would that folder be? I added the whole comm.proj. git to extra paths
+
+##### Olivier Michel [cyberbotics] 08/18/2020 14:05:20
+Yes, there might be rounding problems with small values.
+
+##### Simon Steinmann [Moderator] 08/18/2020 14:04:50
+yeah
+
+##### Olivier Michel [cyberbotics] 08/18/2020 14:04:50
+Yes, I would recommend you to add such a controller in a folder named "generic\_inverse\_kinematic" or the like.
+
+##### Simon Steinmann [Moderator] 08/18/2020 14:04:48
+because of 0
+
+
+ohhhhh
+
+
+i'm not dividing, so there should be no issues?!
+
+##### Olivier Michel [cyberbotics] 08/18/2020 14:03:54
+```python
+        new_lower = armChain.links[i].bounds[0] - 0.0000001 if armChain.links[i].bounds[0] > 0 else armChain.links[i].bounds[0] + 0.0000001
+        new_upper = armChain.links[i].bounds[1] - 0.0000001 if armChain.links[i].bounds[1] > 0 else armChain.links[i].bounds[1] + 0.0000001
+        armChain.links[i].bounds = (new_lower, new_upper)
+```
+
+##### Simon Steinmann [Moderator] 08/18/2020 14:03:49
+hmm, so my IK controller now works flawlessly with all the robots (at least kuka) in the community projects. Is it possible to add a controller on a higher abstraction level and not a per-world basis?
+
+##### Olivier Michel [cyberbotics] 08/18/2020 14:01:40
+It's maybe less dangerous to do:
+
+##### Simon Steinmann [Moderator] 08/18/2020 14:00:56
+problem fixed :p still makes me smile
+
+
+😄
+
+
+\# ikpy includes the bounds as valid, In Webots they have to be less than the limit
+
+        new\_lower = armChain.links[i].bounds[0] * 0.9999999
+
+        new\_upper = armChain.links[i].bounds[1] * 0.9999999        
+
+        armChain.links[i].bounds = (new\_lower, new\_upper)
+
+
+exactly 🙂
+
+##### Olivier Michel [cyberbotics] 08/18/2020 13:57:28
+Yes, something like `wb_supervisor_node_get_from_proto_root`.
+
+##### Simon Steinmann [Moderator] 08/18/2020 13:55:14
+requireing no argument would be good, as we arleady specify which node.
+
+##### Olivier Michel [cyberbotics] 08/18/2020 13:54:19
+I know. Then we probably need another API function to get the root proto node even if it has no DEF...
+
+##### Simon Steinmann [Moderator] 08/18/2020 13:53:27
+the screenshot above is your model 😉
+
+
+trying to make it work for general and existing protos
+
+##### Olivier Michel [cyberbotics] 08/18/2020 13:49:48
+You should add one. Or use one if any at a lower level.
+
+##### Simon Steinmann [Moderator] 08/18/2020 13:49:04
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/745278094939783168/unknown.png)
+%end
+
+
+there is no DEF in most proto files
+
+##### Olivier Michel [cyberbotics] 08/18/2020 13:47:55
+```
+PROTO MyRobot [ ... ] { DEF MY_ROBOT_ROOT Robot { ... } }
+```
+
+
+And in your `MyRobot.proto` file:
+
+
+```
+DEF MY_PROTO_ROBOT MyRobot { ... }
+```
+
+
+No, it's not the same. In your world file, you will have:
+
+##### Simon Steinmann [Moderator] 08/18/2020 13:43:59
+would that not be the same as MY\_PROTO\_ROBOT?
+
+
+oh so the DEF of the robot with the supervisor controller?
+
+##### Olivier Michel [cyberbotics] 08/18/2020 13:40:13
+The one that contains the node you are looking for.
+
+
+It's the DEF node inside your proto definition.
+
+##### Simon Steinmann [Moderator] 08/18/2020 13:38:29
+what is MY\_ROBOT\_ROOT?
+
+##### Olivier Michel [cyberbotics] 08/18/2020 13:33:52
+```python
+def getNode(node, name):
+    nameField = node.getField('name')
+    if nameField:
+        if nameField.getSFString() == name:
+            return node
+    children = node.getField('children')
+    if children:
+        for i in range(children.getCount()):
+            child = children.getMFNode(i)
+            n = getNode(child, name)
+            if n:
+                return n
+    return None
+
+proto = supervisor.getFromDef('MY_PROTO_ROBOT')
+root = proto.getFromProtoDef('MY_ROBOT_ROOT')
+node = getNode(root, 'my_searched_name')
+```
+
+##### Simon Steinmann [Moderator] 08/18/2020 13:33:14
+can you paste it again?
+
+##### Olivier Michel [cyberbotics] 08/18/2020 13:33:01
+No. It requires R2020b.
+
+##### Simon Steinmann [Moderator] 08/18/2020 13:32:42
+is it compatible with 2020a? I'm not running it, but would be nice for other people to be able to use it
+
+##### Olivier Michel [cyberbotics] 08/18/2020 13:31:59
+I just fixed a couple of errors in my code snippet (it should be slightly more correct now).
+
+##### Simon Steinmann [Moderator] 08/18/2020 13:31:04
+added a fix for singularities, and generating the active link mask is now independant of the naming scheme
+
+##### David Mansolino [cyberbotics] 08/18/2020 13:30:32
+🙂
+
+##### Simon Steinmann [Moderator] 08/18/2020 13:26:42
+omg it works!!!
+
+
+[https://tenor.com/view/yay-market-yellow-man-gif-6195464](https://tenor.com/view/yay-market-yellow-man-gif-6195464)
+
+##### David Mansolino [cyberbotics] 08/18/2020 13:20:11
+Yes: [https://cyberbotics.com/doc/reference/motor#wb\_motor\_get\_position\_sensor](https://cyberbotics.com/doc/reference/motor#wb_motor_get_position_sensor)
+
+##### Simon Steinmann [Moderator] 08/18/2020 13:19:04
+is there a way to get the motor name, given the sensorname?
+
+
+...testing with irb... the whole calling the joints after the sensors is really screwing with the ik controller here, because it is not using the convention of the sensor being named 'motorname\_sensor'
+
+
+perhaps adding it to the gui would be good. Right click robot - export - as urdf
+
+
+that urdf export function is awesome!
+
+
+full world, easier to test 🙂
+
+
+
+> **Attachment**: [lbr\_iiwa\_IK.zip](https://cdn.discordapp.com/attachments/565155651395780609/745260355437199380/lbr_iiwa_IK.zip)
+
+
+only requires the robot to be supervisor, and a target node, where it gets position and orientation
+
+
+can take it for a spin
+> **Attachment**: [webots\_IK\_controller2.py](https://cdn.discordapp.com/attachments/565155651395780609/745258824138489926/webots_IK_controller2.py)
+
+
+finished with the universal IK controller
+
+
+😄
+
+
+WARNING: UR10e (PROTO) > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > RotationalMotor: too low requested position: -6.28319 < -6.28319
+
+WARNING: UR10e (PROTO) > HingeJoint > RotationalMotor: too low requested position: -6.28319 < -6.28319
+
+WARNING: UR10e (PROTO) > HingeJoint > Solid > HingeJoint > RotationalMotor: too low requested position: -6.28319 < -6.28319
+
+WARNING: UR10e (PROTO) > HingeJoint > RotationalMotor: too low requested position: -6.28319 < -6.28319
+
+WARNING: UR10e (PROTO) > HingeJoint > Solid > HingeJoint > RotationalMotor: too low requested position: -6.28319 < -6.28319
+
+WARNING: UR10e (PROTO) > HingeJoint > RotationalMotor: too low requested position: -6.28319 < -6.28319
+
+WARNING: UR10e (PROTO) > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > RotationalMotor: too big requested position: 6.28319 > 6.28319
+
+WARNING: UR10e (PROTO) > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > RotationalMotor: too low requested position: -6.28319 < -6.28319
+
+WARNING: UR10e (PROTO) > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > RotationalMotor: too low requested position: -6.28319 < -6.28319
+
+WARNING: UR10e (PROTO) > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > RotationalMotor: too big requested position: 6.28319 > 6.28319
+
+
+oh man, ikpy uses >= for limits, webots uses just >
+
+##### David Mansolino [cyberbotics] 08/18/2020 12:30:45
+Only on the develop branch
+
+##### Olivier Michel [cyberbotics] 08/18/2020 12:30:40
+I believe it is implemented in the nightly build of R2021a.
+
+##### Simon Steinmann [Moderator] 08/18/2020 12:29:47
+node from device is not implemented in the main build yyet right?
+
+##### David Mansolino [cyberbotics] 08/18/2020 12:29:15
+No, you can only get the min and max, but the robot is not able to change them (except using the Supervisor API).
+
+##### Simon Steinmann [Moderator] 08/18/2020 12:28:27
+is there a quick way to set max and min position of a motor from code? or to ignore limits
+
+##### David Mansolino [cyberbotics] 08/18/2020 10:56:23
+You're welcome
+
+##### Simon Steinmann [Moderator] 08/18/2020 10:56:00
+okay, thx ^
+
+##### David Mansolino [cyberbotics] 08/18/2020 10:55:55
+*should 😉
+
+
+That's indeed not clearly said
+
+##### Simon Steinmann [Moderator] 08/18/2020 10:55:45
+can or should? :p
+
+##### David Mansolino [cyberbotics] 08/18/2020 10:55:27
+For up you can take webots-R2020b-rev1-x86-64.tar.bz2
+
+
+For ubuntu 18.04 you can take the webots-R2020b-rev1-x86-64\_ubuntu-16.04.tar.bz2
+
+##### Simon Steinmann [Moderator] 08/18/2020 10:54:40
+for ubuntu 18.04 and up I take 
+
+webots-R2020b-rev1-x86-64.tar.bz2 
+
+right?
+
+##### David Mansolino [cyberbotics] 08/18/2020 10:53:05
+Yes exactly
+
+##### Simon Steinmann [Moderator] 08/18/2020 10:52:47
+would have to install 2020b, With the tar install, I just have to extract and change environment variable right?
+
+##### David Mansolino [cyberbotics] 08/18/2020 10:46:08
+But the code is probably wrong:
+
+=> root = supervisor.getProtoFromDef('MY\_ROBOT\_ROOT')
+
+##### Simon Steinmann [Moderator] 08/18/2020 10:46:00
+oh, running a
+
+##### David Mansolino [cyberbotics] 08/18/2020 10:45:39
+no, it is in R2020b
+
+##### Simon Steinmann [Moderator] 08/18/2020 10:45:14
+is the getProto a new develop-branch function?
+
+
+what would be 'MY\_ROBOT\_ROOT'
+
+
+root = proto.getProtoFromDef('MY\_ROBOT\_ROOT') 
+
+this is not a valid function
+
+##### David Mansolino [cyberbotics] 08/18/2020 10:38:01
+I think there is an issue:
+
+n = getSFNode(child, name)  = > n = getNode(child, name)
+
+##### Simon Steinmann [Moderator] 08/18/2020 10:37:03
+thx I will test it
+
+##### Olivier Michel [cyberbotics] 08/18/2020 10:35:41
+Something like this should do the job (not tested).
+
+
+```python
+function getNode(node, name):
+    nameField = node.getField('name'):
+    if nameField:
+        if nameField.getSFString() == name:
+            return node
+    children = node.getField('children')
+    if children:
+        for i in range(children.getCount()):
+                child = children.getMFNode(i)
+                n = getNode(child, name)
+                if n:
+                    return n
+    return None
+
+proto = supervisor.getFromDef('MY_PROTO_ROBOT')
+root = proto.getFromProtoDef('MY_ROBOT_ROOT')
+node = getNode(root, 'my_searched_name')
+```
+
+##### Simon Steinmann [Moderator] 08/18/2020 10:34:57
+those are correct. the issue will be the tool slot. with the webots model, the y-axis points out, with the urdff model, the x-axis points out. But we can adjust that to be the same, like the old webots model
+
+##### David Mansolino [cyberbotics] 08/18/2020 10:33:30
+We can indeed add the tool link, but we should be carreful to not break compatibility (e.g. changing motor/sensor names) when updating it.
+
+##### Simon Steinmann [Moderator] 08/18/2020 10:32:08
+the structure of the proto is not like the official urdf. mainly the tool link is missing.
+
+
+okay, so the ur robots will have to be created again.
+
+
+but the supervisor loop would be great in general, and perhaps preferable here
+
+
+would have liked to prevent more libraries, but that is an option as well of course
+
+
+we might have to update all official robotic arms with the new urdf2webots convention
+
+##### David Mansolino [cyberbotics] 08/18/2020 10:19:30
+> I especially need the rotation matrix, urdf only has rpy
+
+`@Simon Steinmann` can't you convert the rpy into matrix? (in python e.g. `transforms3d` allows to do this: [https://matthew-brett.github.io/transforms3d/reference/transforms3d.euler.html#terms-used-in-function-names](https://matthew-brett.github.io/transforms3d/reference/transforms3d.euler.html#terms-used-in-function-names))
+
+##### Olivier Michel [cyberbotics] 08/18/2020 10:19:08
+OK.
+
+##### Simon Steinmann [Moderator] 08/18/2020 10:19:02
+i guess name
+
+##### Olivier Michel [cyberbotics] 08/18/2020 10:18:38
+How will your recognize the node you want to get the orientation/position? By its name, any other field?
+
+##### Simon Steinmann [Moderator] 08/18/2020 10:16:30
+thank you
+
+##### Olivier Michel [cyberbotics] 08/18/2020 10:13:06
+OK, let me have a look.
+
+##### Simon Steinmann [Moderator] 08/18/2020 10:12:47
+python
+
+##### Olivier Michel [cyberbotics] 08/18/2020 10:12:41
+Which programming language are you using?
+
+##### Simon Steinmann [Moderator] 08/18/2020 10:12:20
+could you help me with that loop?
+
+
+trying to make a universal-IK controller for you guys
+
+##### Olivier Michel [cyberbotics] 08/18/2020 10:11:54
+A fairly simple loop should do the job.
+
+##### Simon Steinmann [Moderator] 08/18/2020 10:11:32
+problem is, I need it for the last solid 😄
+
+##### Olivier Michel [cyberbotics] 08/18/2020 10:11:29
+Yes.
+
+##### Simon Steinmann [Moderator] 08/18/2020 10:11:23
+I would have to go through the whole tree right?
+
+##### Olivier Michel [cyberbotics] 08/18/2020 10:11:05
+If an upper parent has a DEF name, this may be workable though.
+
+##### Simon Steinmann [Moderator] 08/18/2020 10:10:35
+damn
+
+##### Olivier Michel [cyberbotics] 08/18/2020 10:10:30
+Yes.
+
+##### Simon Steinmann [Moderator] 08/18/2020 10:10:25
+but  the solid needs to have a defined DEF right?
+
+##### Olivier Michel [cyberbotics] 08/18/2020 10:10:20
+And [https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_position](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_position)
+
+
+See [https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_from\_proto\_def](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_from_proto_def)
+
+
+Yes, you should be able to do this from a supervisor controller.
+
+##### Simon Steinmann [Moderator] 08/18/2020 10:06:27
+I especially need the rotation matrix, urdf only has rpy
+
+
+is there a easy way to get translation and orientation of a specific solid in a proto file?
+
+
+automatically
+
+
+universal IK controller nearly done :D. already requires no urdf import (used your armChain creation). only thing left is to figure out, which axis points out of the robot
+
+
+true I guess, still would be usefull. I might update the documentation and link to a implementation. Or we update the irb inverse kinematics world with this function, showing a general implementation on how to get relative positions and orientationis
+
+##### David Mansolino [cyberbotics] 08/18/2020 08:11:04
+It is indeed useful, but we somehow have to keep the number of API functions low (as to keep the quality level high it requires maintenance time) so we have to be careful when adding function to get information that can already be extracted from other API functions.
+
+##### Simon Steinmann [Moderator] 08/18/2020 08:10:07
+Doing all this linear algebra manually is a big obstacle for many people. Took me a while to figure out too. First time I needed linear algebra since uni pretty much 😄
+
+
+In the controller I sent you, there is the extra file 'get\_relative\_position.py'. I think this is a much needed functionality for the supervisor. Could look something like this:
+
+supervisor.getPositionRelative(self, node)
+
+
+glad to be of service 😄
+
+##### David Mansolino [cyberbotics] 08/18/2020 07:54:21
+indeed good point, I should admit that the name of the joint was chosen without particularly thinking about this, it need indeed a bit more thinking about this.
+
+##### Simon Steinmann [Moderator] 08/18/2020 07:53:16
+if you were to convert it back, the motors would be called 'joint\_sensor' and the sensors 'joint\_sensor\_sensor'
+
+##### David Mansolino [cyberbotics] 08/18/2020 07:53:02
+Makes sense indeed.
+
+##### Simon Steinmann [Moderator] 08/18/2020 07:52:41
+converting urdf2webots uses joint names as motor names, that's why I'd assume the other way around would do the same
+
+##### David Mansolino [cyberbotics] 08/18/2020 07:52:18
+Sure, here it is: [https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/controllers/inverse\_kinematics/inverse\_kinematics.py](https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/controllers/inverse_kinematics/inverse_kinematics.py)
+
+
+No, it was either the motor or sensor name, we decided sensor name.
+
+##### Simon Steinmann [Moderator] 08/18/2020 07:51:46
+oh and can you link me the IK controller you're working on?
+
+
+particular reason it does this?
+
+##### David Mansolino [cyberbotics] 08/18/2020 07:50:52
+No, it uses indeed the sensor as names, but you should be able to easily switch from one to the other (removing the 'sensor' postfix).
+
+##### Simon Steinmann [Moderator] 08/18/2020 07:49:13
+the version I have uses the sensor names for the joints. has this been fixed in the new nightlies?
+
+##### David Mansolino [cyberbotics] 08/18/2020 07:35:24
+(and improved in the nightly)
+
+
+Yes, that's new in R2020b 😉
+
+##### Simon Steinmann [Moderator] 08/18/2020 07:33:02
+😮 that exists? That would be awesome, I'll check it out later when I have time
+
+##### David Mansolino [cyberbotics] 08/18/2020 05:48:43
+> I wonder if the link-setup information could be extracted straight from the protofile. Then it would truly be an universal controller, that wouldn't need any adjustments between robot arms
+
+`@Simon Steinmann` what about using the new `wb_robot_get_urdf` function?
+
+
+That looks very cool, I have been trying to do the same using IKPY last week ([https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/controllers/inverse\_kinematics/inverse\_kinematics.py](https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/controllers/inverse_kinematics/inverse_kinematics.py)) but I am not 100% happy with the result, I would be very interested to see which library you are using and how.
+
+##### Simon Steinmann [Moderator] 08/17/2020 19:38:03
+do you need help with IK?
+
+
+`@Dennet` have not uploaded it yet
+
+##### Dennet 08/17/2020 19:31:23
+> I wonder if the link-setup information could be extracted straight from the protofile. Then it would truly be an universal controller, that wouldn't need any adjustments between robot arms
+
+`@Simon Steinmann` where did you upload the controller?
+
+##### Simon Steinmann [Moderator] 08/17/2020 17:30:13
+
+> **Attachment**: [ik3.mp4](https://cdn.discordapp.com/attachments/565155651395780609/744971358995349504/ik3.mp4)
+
+
+I wonder if the link-setup information could be extracted straight from the protofile. Then it would truly be an universal controller, that wouldn't need any adjustments between robot arms
+
+
+I created a universal IK controller. only parameters that need to be changed are the urdf filename and which axis points out of the toolSlot. Works really well
+
+##### David Mansolino [cyberbotics] 08/17/2020 06:11:46
+Just opened an issue about this: [https://github.com/cyberbotics/urdf2webots/issues/72](https://github.com/cyberbotics/urdf2webots/issues/72)
+
+
+Oh yes indeed, we should open the 'name' field too.
+
+##### Simon Steinmann [Moderator] 08/14/2020 16:06:00
+Can this be an issue? The base node of every robot is called 'base\_link'. Could this lead to problems?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/743863005908959352/unknown.png)
+%end
+
+
+Oh I didn't see that one still being open. I replaced all files. pull/9 can be discarded
+
+##### David Mansolino [cyberbotics] 08/13/2020 14:02:09
+Can you also update the one of [https://github.com/cyberbotics/community-projects/pull/9](https://github.com/cyberbotics/community-projects/pull/9) ?
+
+##### Simon Steinmann [Moderator] 08/13/2020 13:04:28
+converted and added bunch of KUKA arms:
+
+[https://github.com/cyberbotics/community-projects/pull/11](https://github.com/cyberbotics/community-projects/pull/11)
+
+
+done
+
+##### David Mansolino [cyberbotics] 08/13/2020 12:14:29
+That's already a good start
+
+##### Simon Steinmann [Moderator] 08/13/2020 12:13:46
+well at least for robot arms 🙂
+
+##### David Mansolino [cyberbotics] 08/13/2020 12:13:26
+> No manual edits needed after converting
+
+`@Simon Steinmann` 🎉
+
+##### Simon Steinmann [Moderator] 08/13/2020 12:08:13
+No manual edits needed after converting
+
+
+after this I'll be happy, I swear
+
+
+[https://github.com/cyberbotics/urdf2webots/pull/71](https://github.com/cyberbotics/urdf2webots/pull/71)
+
+
+... Sorry to do this, but one final PR 😄
+
+
+merged
+
+
+pushed it
+
+
+if float(limitElement.getAttribute('effort')) != 0:
+
+
+jup, adding this line works:
+
+
+line 825 in parserURDF needs a condition I think
+
+##### David Mansolino [cyberbotics] 08/13/2020 11:29:32
+oups, will try
+
+##### Simon Steinmann [Moderator] 08/13/2020 11:28:51
+the torque limits are still 0.0, not 10000
+
+
+max torque implementation doesnt work for me
+
+##### David Mansolino [cyberbotics] 08/13/2020 11:06:55
+I just finished, if you're fine with the changes feel free to merge it.
+
+##### Simon Steinmann [Moderator] 08/13/2020 10:09:27
+implemented the physics node thing too. Not sure it is the cleanest solution, but at least it only needs 4 lines of extra code
+
+##### David Mansolino [cyberbotics] 08/13/2020 09:39:37
+Perfect, I will check it just after lunch
+
+##### Simon Steinmann [Moderator] 08/13/2020 09:39:35
+now we just have to remove the physics nodes from epmty liks
+
+
+added it
+
+##### David Mansolino [cyberbotics] 08/13/2020 09:36:50
+(I was going to do it ^^, but if you can do it while I am testing it's cool
+
+##### Simon Steinmann [Moderator] 08/13/2020 09:36:36
+already tested it. change 1 indet + change 2 lines
+
+
+I can add the torque fix while we are at it.
+
+##### David Mansolino [cyberbotics] 08/13/2020 09:33:28
+That looks all good, I will try and update the test.
+
+##### Simon Steinmann [Moderator] 08/13/2020 09:29:55
+implemented and tested. works 🙂
+
+
+[https://github.com/cyberbotics/urdf2webots/pull/70](https://github.com/cyberbotics/urdf2webots/pull/70)
+
+##### David Mansolino [cyberbotics] 08/13/2020 09:09:47
+Perfect, thank  you 🙂
+
+##### Simon Steinmann [Moderator] 08/13/2020 09:09:34
+already at it 😄
+
+##### David Mansolino [cyberbotics] 08/13/2020 09:09:05
+We are are going to re-work this indeed (that's on our medium term plan), but in any case avoiding duplcating PROTO names is a good practice (think for example if a user then move the files to put them all in the same folder).
+
+It should be sufficient to prepend the name of the robot to the `name` variable here: [https://github.com/cyberbotics/urdf2webots/blob/master/urdf2webots/writeProto.py#L461](https://github.com/cyberbotics/urdf2webots/blob/master/urdf2webots/writeProto.py#L461)
+
+Would you give a try? Or I can do this if you want.
+
+##### Simon Steinmann [Moderator] 08/13/2020 09:05:56
+but perhaps it would be better to (or in addition), to change the mesh-lookup algorithm. So it starts in the same directory as the main proto file
+
+##### David Mansolino [cyberbotics] 08/13/2020 09:04:54
+Yes, that shouldn't be too dificult to include this prefix
+
+##### Simon Steinmann [Moderator] 08/13/2020 09:04:24
+fix should be easy enough
+
+
+okay, then names have to be unique
+
+
+ohhhh, it doesnt start searching at the location of the proto file, but at the base level
+
+##### David Mansolino [cyberbotics] 08/13/2020 09:03:12
+We should probably improve the name of the sub-PROTO to include as prefix the name of the robot.
+
+##### Simon Steinmann [Moderator] 08/13/2020 09:03:06
+yes, same
+
+##### David Mansolino [cyberbotics] 08/13/2020 09:02:47
+Ok, I think I found the reason. The problem is that both robot are defining the same PROTO names, and therefore in the case of the `lrb_iiwa` some meshes of the `kr5` are used.
+
+##### Simon Steinmann [Moderator] 08/13/2020 09:01:23
+hold on
+
+##### David Mansolino [cyberbotics] 08/13/2020 09:01:14
+Ohhh I can reprocude the issue with the `lrb_iiwa` but not with the `kr5` is it the same for you?
+
+
+> from my understanding, if not defined in urdf, it is handled as not having a limit
+
+`@Simon Steinmann`ok then in that case, if not defined we should probably set a very high value (e.g. 10'000)
+
+##### Simon Steinmann [Moderator] 08/13/2020 08:59:31
+restarting webots didnt fix the issue weirdly enough
+
+##### David Mansolino [cyberbotics] 08/13/2020 08:59:06
+> simply copy pasting the meshes folder into my current project's protos folder, fixes all the issues and looks like this:
+
+`@Simon Steinmann` for me it works fine from the commuity project without any changes too. Maybe you need to close and re-open Webots? It is possible that if you made some changes to the 'extern project' files they are updated only next time you restart Webots.
+
+##### Simon Steinmann [Moderator] 08/13/2020 08:58:52
+I mean, Gazebo handles it that way
+
+
+from my understanding, if not defined in urdf, it is handled as not having a limit
+
+
+ahhh I understand
+
+##### David Mansolino [cyberbotics] 08/13/2020 08:54:08
+In the urdf2webtos, if the maxtorque is not specified in th eurdf file, we just do not specify it in the PROTO file, Webots will then use the fedault value  which is quite small and probably doesn't correspond to the URDF default value. Instead, if the maxtorque is not defined in the URDF file, we can still export the maxTorque to a higher value (ideally corresponding to the URDF default maxTorque).
+
+##### Simon Steinmann [Moderator] 08/13/2020 08:51:17
+what do you mean?
+
+##### David Mansolino [cyberbotics] 08/13/2020 08:50:49
+ok, maybe if we find it, we can export to the standard urdf maxtorque if not specified in the urdf file.
+
+##### Simon Steinmann [Moderator] 08/13/2020 08:50:44
+not defined
+
+
+nope
+
+##### David Mansolino [cyberbotics] 08/13/2020 08:50:12
+ok, and do you know what is the default maxtorque in URDF ?
+
+##### Simon Steinmann [Moderator] 08/13/2020 08:49:57
+no it is not
+
+##### David Mansolino [cyberbotics] 08/13/2020 08:49:52
+the maxtorque is not defined in the urdf ?
+
+##### Simon Steinmann [Moderator] 08/13/2020 08:49:49
+on the kr5 I changed it to maxTorque 1000, and it fixes it (not pushed yet)
+
+
+There is also a issue with the standard maxTorque  of 100 being too low
+
+##### David Mansolino [cyberbotics] 08/13/2020 08:48:53
+I am currently reviewing your PR and checking this.
+
+##### Simon Steinmann [Moderator] 08/13/2020 08:14:38
+simply copy pasting the meshes folder into my current project's protos folder, fixes all the issues and looks like this:
+%figure
+![Screenshot_from_2020-08-13_10-10-20.png](https://cdn.discordapp.com/attachments/565155651395780609/743381994280321034/Screenshot_from_2020-08-13_10-10-20.png)
+%end
+
+
+another strange issue. This is the kr5 robot, loaded from the community projects folder
+%figure
+![Screenshot_from_2020-08-13_10-09-47.png](https://cdn.discordapp.com/attachments/565155651395780609/743381846217457694/Screenshot_from_2020-08-13_10-09-47.png)
+%end
+
+##### David Mansolino [cyberbotics] 08/13/2020 07:43:14
+That's strange, I will try thsi too if I can reproduce the problem
+
+##### Simon Steinmann [Moderator] 08/13/2020 07:42:54
+[https://tenor.com/view/elmo-shrug-gif-5094560](https://tenor.com/view/elmo-shrug-gif-5094560)
+
+
+removing and adding the hidden tag again seemed to have fixed the issue
+
+##### David Mansolino [cyberbotics] 08/13/2020 07:39:11
+ok, that's strange, will have a look as soon as I have the time to.
+
+##### Simon Steinmann [Moderator] 08/13/2020 07:38:17
+I can load the link itself as well, but for some reason, it doesnt work loading it into the robot link
+
+
+the kr5 robot
+
+
+[https://github.com/cyberbotics/community-projects/pull/9](https://github.com/cyberbotics/community-projects/pull/9)
+
+
+uploading to community, one sec
+
+##### David Mansolino [cyberbotics] 08/13/2020 07:30:05
+To me it works fine, without any error in the console
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/743370782125719562/unknown.png)
+%end
+
+##### Simon Steinmann [Moderator] 08/13/2020 07:25:43
+The file looks correct. I have no idea why this error comes up
+
+
+DEF link\_4\_0 IndexedFaceSet: Cannot create IndexedFaceSet because: "'coordIndex' is empty.".
+> **Attachment**: [link\_4\_0Mesh.proto](https://cdn.discordapp.com/attachments/565155651395780609/743369609666625587/link_4_0Mesh.proto)
+
+##### David Mansolino [cyberbotics] 08/13/2020 07:06:45
+perfect, thank you
+
+##### Simon Steinmann [Moderator] 08/13/2020 07:05:30
+done, opened issue
+
+##### David Mansolino [cyberbotics] 08/13/2020 07:00:07
+thank you
+
+##### Simon Steinmann [Moderator] 08/13/2020 07:00:02
+will do
+
+##### David Mansolino [cyberbotics] 08/13/2020 06:59:43
+Please open an issue on the urdf2webots repo about this.
+
+##### Simon Steinmann [Moderator] 08/13/2020 06:59:14
+I agree. giving them mass, doesnt seem logical
+
+##### David Mansolino [cyberbotics] 08/13/2020 06:58:39
+We should probably improve the importer to handle this exception and avoid exporting the physis in this case.
+
+##### Simon Steinmann [Moderator] 08/13/2020 06:56:36
+Question is, how should empty links be handled properly? And can we automate this
+
+
+converting the kuka repo atm. Getting these errors:
+
+WARNING: KukaLbrIiwa14R820 (PROTO) > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > HingeJoint > Solid > Solid: Undefined inertia matrix: using the identity matrix. Please specify 'boundingObject' or 'inertiaMatrix' values.
+
+WARNING: KukaLbrIiwa14R820 (PROTO) > Solid: Undefined inertia matrix: using the identity matrix. Please specify 'boundingObject' or 'inertiaMatrix' values.
+
+
+
+I'm pretty sure, these are due to the two 'empty' links in the urdf:
+
+<link name="tool0"/>
+
+<link name="base"/>
+
+##### David Mansolino [cyberbotics] 08/13/2020 05:17:10
+Hi `@MarioAndres7`, welcome? Do you mean mobile robot?
+
+##### MarioAndres7 08/12/2020 23:14:33
+Hello Im new. Does anyone knows if exists and example of a movile robot? i want to give it 
+
+coordinates
+
+##### Olivier Michel [cyberbotics] 08/12/2020 16:58:51
+Thanks. I will check it tomorrow.
+
+##### Simon Steinmann [Moderator] 08/12/2020 16:21:17
+okay done. Accepted all changes except 2 minor ones
+
+##### Olivier Michel [cyberbotics] 08/12/2020 16:17:30
+OK, thank you.
+
+##### Simon Steinmann [Moderator] 08/12/2020 16:17:16
+i'll do it manually
+
+##### Olivier Michel [cyberbotics] 08/12/2020 16:16:35
+Probably...
+
+##### Simon Steinmann [Moderator] 08/12/2020 16:07:59
+outdated?!
+
+
+can't commit the last one
+
+##### Olivier Michel [cyberbotics] 08/12/2020 15:43:19
+Reviewed.
+
+##### Simon Steinmann [Moderator] 08/12/2020 15:06:12
+PR is ready for review [https://github.com/cyberbotics/urdf2webots/pull/68](https://github.com/cyberbotics/urdf2webots/pull/68)
+
+
+sounds good
+
+##### David Mansolino [cyberbotics] 08/12/2020 13:42:49
+Like it is currently the case for the 'webots' repository: [https://github.com/cyberbotics/webots/tree/master/docs](https://github.com/cyberbotics/webots/tree/master/docs)
+
+
+Yes, a 'docs' folder with an 'images' folder inside look good.
+
+##### Simon Steinmann [Moderator] 08/12/2020 13:41:18
+I could create a new directory called 'docs' and put everything, including the images there
+
+
+When I include images in a tutorial, where do I put them? I'm currently creating a 'tutorial.md' for urdf2webots. My plan is to have it in the base directory and link it in the README.md.
+
 ##### Olivier Michel [cyberbotics] 08/07/2020 13:47:32
 Yes, that would be great.
 
