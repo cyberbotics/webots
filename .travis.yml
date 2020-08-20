@@ -142,6 +142,7 @@ jobs:
         - rosdep update
         - pip install rospkg catkin_pkg empy defusedxml netifaces  # by default ros only comes with python2.7 libraries
       script:
+        - source /opt/ros/$ROS_DISTRO/setup.bash
         - make release -j2
         - make release -j2 -C tests
         - python tests/test_suite.py --no-ansi-escape --nomake
@@ -203,6 +204,7 @@ jobs:
             - libxcb-render-util0
             - libxcb-xinerama0
       script:  # TODO: remove this part once ROS melodic is fixed to restore the ROS test.
+        - source /opt/ros/$ROS_DISTRO/setup.bash
         - make release -j2
         - make release -j2 -C tests
         - python tests/test_suite.py --no-ansi-escape --nomake
