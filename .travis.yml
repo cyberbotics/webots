@@ -130,7 +130,7 @@ jobs:
       before_install: &ubuntu_before_install
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
         - export PATH=$JAVA_HOME/bin:$PATH
-        - source scripts/install/linux_optional_compilation_dependencies.sh
+        - cd scripts/install; source ./linux_optional_compilation_dependencies.sh; cd ../..
         - pip install rospkg catkin_pkg empy defusedxml netifaces  # by default ros only comes with python2.7 libraries
       script:
         - make release -j2
