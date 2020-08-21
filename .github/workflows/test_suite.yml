@@ -47,7 +47,7 @@ jobs:
         export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
         export PATH=$JAVA_HOME/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
-        source /opt/ros/${{ matrix.ROS_DISTRO }}/setup.bash
+        export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
         xvfb-run --auto-servernum make distrib -j4
     - uses: actions/upload-artifact@v2
       with:
