@@ -183,7 +183,7 @@ void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSoc
     socket->write(WbHttpReply::forge404Reply());
     return;
   }
-  const QString fileName(WbProject::current()->path() + "plugins/" + requestedUrl);
+  const QString fileName(WbProject::current()->pluginsPath() + requestedUrl);
   if (WbHttpReply::mimeType(fileName).isEmpty()) {
     WbLog::warning(tr("Unsupported file type %1").arg(fileName));
     socket->write(WbHttpReply::forge404Reply());
