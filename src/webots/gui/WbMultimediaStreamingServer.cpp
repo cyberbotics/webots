@@ -358,7 +358,7 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
       WbLog::info(tr("Streaming server: Ignored new client request of resolution: %1x%2.").arg(width).arg(height));
       args = QString("%1 %2").arg(mImageWidth).arg(mImageHeight);
     }
-    client->sendTextMessage(QString("multimedia: /mjpeg %2 %3").arg(simulationStateString(false)).arg(args));
+    client->sendTextMessage(QString("multimedia: mjpeg %2 %3").arg(simulationStateString(false)).arg(args));
     const QString &stateMessage = simulationStateString();
     if (!stateMessage.isEmpty())
       client->sendTextMessage(stateMessage);
