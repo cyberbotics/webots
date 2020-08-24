@@ -127,19 +127,8 @@ jobs:
             - libxcb-render-util0
             - libxcb-xinerama0
             - rename
-      before_install:
-        - sudo add-apt-repository ppa:deadsnakes/ppa -y
-        - sudo apt update
-        - sudo apt install -y python3.6-dev python3.7-dev python3.8-dev
-        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-        - export PATH=$JAVA_HOME/bin:$PATH
-        - export ROS_DISTRO=kinetic
-        - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-        - sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-        - sudo apt update -qq
-        - sudo apt-get install -y ros-$ROS_DISTRO-ros-base ros-$ROS_DISTRO-sensor-msgs ros-$ROS_DISTRO-tf liburdfdom-tools
-        - sudo rosdep init
-        - rosdep update
+      before_install: &ubuntu_before_install
+        - cd scripts/install; source ./linux_optional_compilation_dependencies.sh; cd ../..
         - pip install rospkg catkin_pkg empy defusedxml netifaces  # by default ros only comes with python2.7 libraries
       script:
         - make release -j2
@@ -150,21 +139,6 @@ jobs:
       name: Ubuntu 18.04 / Python 3.8 / openjdk 11 / ROS melodic
       dist: bionic
       jdk: openjdk11
-      before_install:
-        - sudo add-apt-repository ppa:deadsnakes/ppa -y
-        - sudo apt update
-        - sudo apt install -y python3.8-dev
-        - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-        - export PATH=$JAVA_HOME/bin:$PATH
-        - export ROS_DISTRO=melodic
-        - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-        - sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-        - sudo apt update -qq
-        - sudo apt-get install -y ros-$ROS_DISTRO-ros-base ros-$ROS_DISTRO-sensor-msgs ros-$ROS_DISTRO-tf liburdfdom-tools
-        - sudo apt-get install -y python-rosdep
-        - sudo rosdep init
-        - rosdep update
-        - pip install rospkg catkin_pkg empy defusedxml netifaces  # by default ros only comes with python2.7 libraries
       addons: &bionic_apt_packages
         apt:
           packages:
@@ -218,29 +192,18 @@ jobs:
       python: 3.8
       jdk: openjdk8
       addons: *apt_packages
-      before_install:
-        - sudo add-apt-repository ppa:deadsnakes/ppa -y
-        - sudo apt update
-        - sudo apt install python3.6-dev python3.7-dev python3.8-dev
-        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-        - export PATH=$JAVA_HOME/bin:$PATH
-        - pip install PyGithub # used to upload packages to Github releases
+      before_install: *ubuntu_before_install
       script:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python scripts/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
         - rename 's/\.tar.bz2$/_ubuntu-16.04.tar.bz2/' distribution/*.tar.bz2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
+        - pip install PyGithub # used to upload packages to Github releases
         - scripts/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
     - <<: *distribution_staging
       name: Ubuntu 18.04 / Python 3.8 / openjdk 11 (no release upload)
       dist: bionic  # on Ubuntu 18.04 we just test the package creation but do not upload it
       jdk: openjdk11
-      before_install: &bionic_before_install
-        - sudo add-apt-repository ppa:deadsnakes/ppa -y
-        - sudo apt update
-        - sudo apt install -y python3.8-dev
-        - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-        - export PATH=$JAVA_HOME/bin:$PATH
       addons: *bionic_apt_packages
       script:
         - make distrib -j2
@@ -287,7 +250,7 @@ jobs:
       name: Ubuntu 18.04 / Python 3.8 / openjdk 11
       dist: bionic
       jdk: openjdk11
-      before_install: *bionic_before_install
+      before_install: *ubuntu_before_install
       addons: *bionic_apt_packages
       script:
         - make distrib -j2
