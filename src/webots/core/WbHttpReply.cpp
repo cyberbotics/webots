@@ -62,7 +62,7 @@ QByteArray WbHttpReply::forgeFileReply(const QString &fileName) {
 }
 
 QString WbHttpReply::mimeType(const QString &url, bool generic) {
-  const QString extension = url.mid(url.lastIndexOf('.')).toLower();
+  const QString extension = url.mid(url.lastIndexOf('.') + 1).toLower();
   QString type;
   if (extension == "png" || extension == "jpg" || extension == "jpeg")
     return QString("image/%1").arg(extension);
