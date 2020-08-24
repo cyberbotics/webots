@@ -67,6 +67,8 @@ public:
 
   // Add DEF node that can be referenced by the read node
   void addDefNode(WbNode *defNode);
+  // Remove DEF node that becomes invalid
+  void removeDefNode(WbNode *defNode);
 
 public slots:
   void cancelReadNodes();

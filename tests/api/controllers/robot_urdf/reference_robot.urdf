@@ -1,141 +1,18 @@
 <?xml version="1.0"?>
 <robot name="UR5e" xmlns:xacro="http://ros.org/wiki/xacro">
   <link name="base_link">
-    <visual name="transform_22">
+    <visual>
+      <origin xyz="0 0 0.05" rpy="-4.2146848510894035e-08 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.076" length="0.1"/>
       </geometry>
     </visual>
-    <visual name="group_23">
+    <collision>
+      <origin xyz="0 0 0.05" rpy="-4.2146848510894035e-08 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.076" length="0.1"/>
       </geometry>
-    </visual>
-    <visual name="transform_24">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_25">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_34">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_35">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_45">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="group_46">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_47">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_48">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_57">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_58">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_68">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="group_69">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_70">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_71">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_80">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_81">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_91">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="group_92">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_93">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_94">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_103">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_104">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_114">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_118">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_351">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
+    </collision>
   </link>
   <joint name="shoulder_pan_joint_sensor" type="revolute">
     <parent link="base_link"/>
@@ -145,41 +22,30 @@
     <origin xyz="0 0 0.163" rpy="0 0 0"/>
   </joint>
   <link name="shoulder_link">
-    <visual name="shape_127">
+    <visual>
+      <origin xyz="0 0 0" rpy="-4.2146848510894035e-08 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.059" length="0.135"/>
       </geometry>
     </visual>
-    <visual name="shape_131">
+    <collision>
+      <origin xyz="0 0 0" rpy="-4.2146848510894035e-08 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.059" length="0.135"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0.03 0" rpy="1.5707963 0 0"/>
+      <geometry>
+        <cylinder radius="0.059" length="0.093"/>
       </geometry>
     </visual>
-    <visual name="shape_135">
+    <collision>
+      <origin xyz="0 0.03 0" rpy="1.5707963 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.059" length="0.093"/>
       </geometry>
-    </visual>
-    <visual name="shape_142">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="group_345">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_346">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_348">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
+    </collision>
   </link>
   <joint name="shoulder_lift_joint_sensor" type="revolute">
     <parent link="shoulder_link"/>
@@ -189,71 +55,42 @@
     <origin xyz="0 0.138 0" rpy="0 1.5707959999869179 0"/>
   </joint>
   <link name="upper_arm_link">
-    <visual name="shape_151">
+    <visual>
+      <origin xyz="0 0 0.22" rpy="-4.2146848510894035e-08 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.059" length="0.407"/>
       </geometry>
     </visual>
-    <visual name="shape_158">
+    <collision>
+      <origin xyz="0 0 0.22" rpy="-4.2146848510894035e-08 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.059" length="0.407"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5707963 0 0"/>
+      <geometry>
+        <cylinder radius="0.059" length="0.133"/>
       </geometry>
     </visual>
-    <visual name="shape_162">
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5707963 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.059" length="0.133"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 -0.005 0.424" rpy="1.5707963 0 0"/>
+      <geometry>
+        <cylinder radius="0.059" length="0.149"/>
       </geometry>
     </visual>
-    <visual name="shape_166">
+    <collision>
+      <origin xyz="0 -0.005 0.424" rpy="1.5707963 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.059" length="0.149"/>
       </geometry>
-    </visual>
-    <visual name="shape_170">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_177">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_181">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_185">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_189">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="shape_193">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="group_338">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_339">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_342">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
+    </collision>
   </link>
   <joint name="elbow_joint_sensor" type="revolute">
     <parent link="upper_arm_link"/>
@@ -263,71 +100,102 @@
     <origin xyz="0 -0.131 0.425" rpy="0 0 0"/>
   </joint>
   <link name="forearm_link">
-    <visual name="shape_202">
+    <visual>
+      <origin xyz="0 0 0.207" rpy="-4.2146848510894035e-08 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.038" length="0.36"/>
       </geometry>
     </visual>
-    <visual name="shape_206">
+    <collision>
+      <origin xyz="0 0 0.207" rpy="-4.2146848510894035e-08 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.038" length="0.36"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 -0.001 0.39" rpy="1.5707963 0 0"/>
+      <geometry>
+        <cylinder radius="0.039" length="0.109"/>
       </geometry>
     </visual>
-    <visual name="shape_210">
+    <collision>
+      <origin xyz="0 -0.001 0.39" rpy="1.5707963 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.039" length="0.109"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0.06 0" rpy="1.5707962701976774 0 0"/>
+      <geometry>
+        <cylinder radius="0.058" length="0.05"/>
       </geometry>
     </visual>
-    <visual name="shape_214">
+    <collision>
+      <origin xyz="0 0.06 0" rpy="1.5707962701976774 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.058" length="0.05"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0.08499999999999999 -7.450580658156168e-10" rpy="1.5707962701976774 0 0"/>
+      <geometry>
+        <sphere radius="0.058"/>
       </geometry>
     </visual>
-    <visual name="shape_218">
+    <collision>
+      <origin xyz="0 0.08499999999999999 -7.450580658156168e-10" rpy="1.5707962701976774 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <sphere radius="0.058"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0.035 7.450580658156168e-10" rpy="1.5707962701976774 0 0"/>
+      <geometry>
+        <sphere radius="0.058"/>
       </geometry>
     </visual>
-    <visual name="shape_222">
+    <collision>
+      <origin xyz="0 0.035 7.450580658156168e-10" rpy="1.5707962701976774 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <sphere radius="0.058"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0.07" rpy="3.1415925939851483 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
       </geometry>
     </visual>
-    <visual name="shape_229">
+    <collision>
+      <origin xyz="0 0 0.07" rpy="3.1415925939851483 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 1.7298609563976235e-09 0.11999999999999998" rpy="3.1415925939851483 0 0"/>
+      <geometry>
+        <sphere radius="0.04"/>
       </geometry>
     </visual>
-    <visual name="shape_233">
+    <collision>
+      <origin xyz="0 1.7298609563976235e-09 0.11999999999999998" rpy="3.1415925939851483 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <sphere radius="0.04"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 -1.7298609563976235e-09 0.02000000000000003" rpy="3.1415925939851483 0 0"/>
+      <geometry>
+        <sphere radius="0.04"/>
       </geometry>
     </visual>
-    <visual name="group_328">
+    <collision>
+      <origin xyz="0 -1.7298609563976235e-09 0.02000000000000003" rpy="3.1415925939851483 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <sphere radius="0.04"/>
       </geometry>
-    </visual>
-    <visual name="transform_329">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_331">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_333">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_335">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
+    </collision>
   </link>
   <joint name="wrist_1_joint_sensor" type="revolute">
     <parent link="forearm_link"/>
@@ -337,41 +205,30 @@
     <origin xyz="0 0 0.392" rpy="0 1.5707959999869179 0"/>
   </joint>
   <link name="wrist_1_link">
-    <visual name="shape_242">
+    <visual>
+      <origin xyz="0 0.089 0" rpy="1.5707963 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.038" length="0.086"/>
       </geometry>
     </visual>
-    <visual name="shape_246">
+    <collision>
+      <origin xyz="0 0.089 0" rpy="1.5707963 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.038" length="0.086"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0.126 0" rpy="-4.2146848510894035e-08 0 0"/>
+      <geometry>
+        <cylinder radius="0.038" length="0.112"/>
       </geometry>
     </visual>
-    <visual name="shape_253">
+    <collision>
+      <origin xyz="0 0.126 0" rpy="-4.2146848510894035e-08 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.038" length="0.112"/>
       </geometry>
-    </visual>
-    <visual name="shape_257">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="group_322">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_323">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_325">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
+    </collision>
   </link>
   <joint name="wrist_2_joint_sensor" type="revolute">
     <parent link="wrist_1_link"/>
@@ -381,41 +238,30 @@
     <origin xyz="0 0.127 0" rpy="0 0 0"/>
   </joint>
   <link name="wrist_2_link">
-    <visual name="shape_266">
+    <visual>
+      <origin xyz="0 -0.001 0.0995" rpy="1.5707963 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.04" length="0.108"/>
       </geometry>
     </visual>
-    <visual name="shape_270">
+    <collision>
+      <origin xyz="0 -0.001 0.0995" rpy="1.5707963 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.04" length="0.108"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 -0.001 0.0676" rpy="-4.2146848510894035e-08 0 0"/>
+      <geometry>
+        <cylinder radius="0.038" length="0.043"/>
       </geometry>
     </visual>
-    <visual name="shape_277">
+    <collision>
+      <origin xyz="0 -0.001 0.0676" rpy="-4.2146848510894035e-08 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.038" length="0.043"/>
       </geometry>
-    </visual>
-    <visual name="shape_281">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="group_316">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_317">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_319">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
+    </collision>
   </link>
   <joint name="wrist_3_joint_sensor" type="revolute">
     <parent link="wrist_2_link"/>
@@ -425,31 +271,30 @@
     <origin xyz="0 0 0.1" rpy="0 0 0"/>
   </joint>
   <link name="wrist_3_link">
-    <visual name="shape_290">
+    <visual>
+      <origin xyz="0 0.07 0" rpy="1.5707963 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.038" length="0.048"/>
       </geometry>
     </visual>
-    <visual name="transform_294">
+    <collision>
+      <origin xyz="0 0.07 0" rpy="1.5707963 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.038" length="0.048"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0.09 0" rpy="1.5707963 0 0"/>
+      <geometry>
+        <cylinder radius="0.032" length="0.018"/>
       </geometry>
     </visual>
-    <visual name="group_310">
+    <collision>
+      <origin xyz="0 0.09 0" rpy="1.5707963 0 0"/>
       <geometry>
-        <box size="0.01 0.01 0.01"/>
+        <cylinder radius="0.032" length="0.018"/>
       </geometry>
-    </visual>
-    <visual name="transform_311">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
-    <visual name="transform_313">
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-    </visual>
+    </collision>
   </link>
   <link name="track_354">
   </link>

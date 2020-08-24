@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright 1996-2020 Cyberbotics Ltd.
 #
@@ -21,6 +21,9 @@ import fnmatch
 import sys
 from threading import Timer
 from subprocess import Popen, PIPE
+
+if sys.version_info[0] != 3 or sys.version_info[1] < 7:
+    sys.exit('This script requires Python version 3.7')
 
 
 class TestWorldsWarnings(unittest.TestCase):

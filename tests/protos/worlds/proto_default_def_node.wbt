@@ -1,0 +1,32 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.9836196728275075 -0.02459561612092397 0.17857041998701564 0.2782506603994355
+  position 0.24700875425257085 0.6417414696227373 1.8176426671149408
+}
+DefaultDef {
+  slot2 Group {
+    children [
+      Transform {
+        children [
+          USE BOX
+        ]
+      }
+    ]
+  }
+}
+Robot {
+  translation 0.6 0 0.08
+  rotation 0 1 0 1.5708
+  children [
+    DistanceSensor {
+      name "box sensor"
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "proto_default_def_node"
+}
+TestSuiteSupervisor {
+}
