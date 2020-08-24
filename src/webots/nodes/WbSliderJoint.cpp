@@ -340,7 +340,6 @@ void WbSliderJoint::writeExport(WbVrmlWriter &writer) const {
                     .arg(m->maxVelocity());
       else
         writer << QString("<limit effort=\"%1\" velocity=\"%2\"/>\n").arg(m->maxForceOrTorque()).arg(m->maxVelocity());
-      writer.indent();
     }
     writer.decreaseIndent();
 
