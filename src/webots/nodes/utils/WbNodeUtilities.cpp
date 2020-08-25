@@ -496,8 +496,10 @@ namespace {
       } else if (fieldName == "geometry") {
         if (nodeName == "IndexedLineSet" || nodeName == "PointSet") {
           const WbShape *const shape = dynamic_cast<const WbShape *const>(node);
-          if (shape && shape->pbrAppearance())
+          if (shape && shape->pbrAppearance()) {
+            errorMessage = QObject::tr("Can't insert '%1' node in 'geometry' field of 'Shape' node if the 'appearance' field contains a 'PBRAppearance' node, please use 'Appearance' instead.").arg(nodeName);
             return false;
+          }
         }
         if (WbNodeUtilities::isGeometryTypeName(nodeName))
           return true;
