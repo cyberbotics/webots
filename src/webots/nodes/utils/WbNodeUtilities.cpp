@@ -316,6 +316,7 @@ namespace {
         if (!geometry)
           return true;
         if (dynamic_cast<const WbIndexedLineSet *const>(geometry) || dynamic_cast<const WbPointSet *const>(geometry))
+          errorMessage = QObject::tr("The '%1' node doesn't support 'PBRAppearance' in its 'appearance' field, please use 'Appearance' instead.").arg(geometry->nodeModelName());
           return false;
         return true;
       } else {
