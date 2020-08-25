@@ -7,6 +7,7 @@ Released on XXX YYth, 2020.
     - Improved the `inverse_kinematics` controller to use the URDF definition instead of hard-coding the robot model ([#2062](https://github.com/cyberbotics/webots/pull/2062)).
     - macOS: Add support for Python 3.7 and 3.8 installed with [Homebrew](https://brew.sh) ([#2079](https://github.com/cyberbotics/webots/pull/2079)).
     - Improved the URDF export with the [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function to include the bounding objects exportation ([#2113](https://github.com/cyberbotics/webots/pull/2113)).
+    - Removed all the assertions of ODE to speed up simulation ([#2141](https://github.com/cyberbotics/webots/pull/2141)).
   - Bug fixes
     - Fixed removing nodes from [Supervisor](supervisor.md) API's internal list after deleting the parent node ([#2123](https://github.com/cyberbotics/webots/pull/2123)).
     - Fixed various crashes and rendering issues occurring when opening an external rendering device window ([#2119](https://github.com/cyberbotics/webots/pull/2119)).
@@ -28,6 +29,7 @@ Released on XXX YYth, 2020.
     - Fixed crash occurring with some PROTO nodes when modifying fields from the scene tree that trigger the PROTO model regeneration ([#2100](https://github.com/cyberbotics/webots/pull/2100)).
     - Fixed field changes not applied in case of nested [PROTO](proto.md) nodes ([#2063](https://github.com/cyberbotics/webots/pull/2063)).
     - Windows: Fixed generation of procedural PROTO nodes using the `gd` module ([#2070](https://github.com/cyberbotics/webots/pull/2070)).
+    - macOS: Fixed crash of the `animated_skin` simulation ([#2141](https://github.com/cyberbotics/webots/pull/2141)).
 
 ## [Webots R2020b](../blog/Webots-2020-b-release.md)
 Released on July 29th, 2020.
