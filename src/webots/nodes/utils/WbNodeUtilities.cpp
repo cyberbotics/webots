@@ -27,11 +27,13 @@
 #include "WbFluid.hpp"
 #include "WbFog.hpp"
 #include "WbHinge2Joint.hpp"
+#include "WbIndexedLineSet.hpp"
 #include "WbJointParameters.hpp"
 #include "WbLinearMotor.hpp"
 #include "WbLogicalDevice.hpp"
 #include "WbMFNode.hpp"
 #include "WbNodeReader.hpp"
+#include "WbPointSet.hpp"
 #include "WbPositionSensor.hpp"
 #include "WbRobot.hpp"
 #include "WbSFNode.hpp"
@@ -304,9 +306,19 @@ namespace {
     }
 
     if (fieldName == "appearance") {
-      if (nodeName == "Appearance" || nodeName == "PBRAppearance")
+      if (nodeName == "Appearance")
         return true;
-      else {
+      else if (nodeName == "PBRAppearance") {
+        const WbShape *const shape = dynamic_cast<const WbShape *const>(node);
+        if (!shape)
+          return false;
+        const WbGeometry *const geometry = shape->geometry();
+        if (!geometry)
+          return true;
+        if (dynamic_cast<const WbIndexedLineSet *const>(geometry) || dynamic_cast<const WbPointSet *const>(geometry))
+          return false;
+        return true;
+      } else {
         errorMessage = defaultErrorMessage;
         return false;
       }
@@ -482,6 +494,11 @@ namespace {
         }
 
       } else if (fieldName == "geometry") {
+        if (nodeName == "IndexedLineSet" || nodeName == "PointSet") {
+          const WbShape *const shape = dynamic_cast<const WbShape *const>(node);
+          if (shape && shape->pbrAppearance())
+            return false;
+        }
         if (WbNodeUtilities::isGeometryTypeName(nodeName))
           return true;
       }
