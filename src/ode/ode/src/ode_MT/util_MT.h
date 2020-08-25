@@ -48,8 +48,10 @@ public:
     static dReal odeMax(dReal val1, dReal val2, dReal val3);
     static dReal odeMin(dReal val1, dReal val2, dReal val3);
 
+#ifndef dNODEBUG
     static void checkClusterNodes(int clusterCount, struct dxClusterNode** clusterAABBs);
     static void checkBodyAndGeomConsistency(int clusterCount, struct ClusterNode** clusterArray);
+#endif
     static void printWorldJoints(dxWorld *_world);
     static void printJoints(dxBody *body);
     static void printBodyInfo(dxBody *_body);
