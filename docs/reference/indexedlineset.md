@@ -15,7 +15,7 @@ The last polyline may be (but does not have to be) followed by a "-1".
 
 The `coord` field contains a [Coordinate](coordinate.md) node that specifies the 3D vertices of the line set.
 
-[IndexedLineSet](#indexedlineset) nodes don't support [PBRAppearance](#pbrappearance).
-You may however set an [Appearance](#appearance) node in the [Shape](#shape) containing the [IndexedLineSet](#indexedlineset) geometry.
+[IndexedLineSet](#indexedlineset) nodes don't support [PBRAppearance](pbrappearance.md).
+You may however set an [Appearance](appearance.md) node in the [Shape](shape.md) containing the [IndexedLineSet](#indexedlineset) geometry.
 [IndexedLineSet](#indexedlineset) nodes are not lit, not texture-mapped and they do not cast or receive shadows.
 [IndexedLineSet](#indexedlineset) nodes cannot be used for collision detection (boundingObject).
