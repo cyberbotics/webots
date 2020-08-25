@@ -196,6 +196,7 @@ void util_MT::printAABBList(dxClusterAABB* _aabb)
     printf("X\n\n");
 }
 
+#ifndef dNODEBUG
 void util_MT::checkBodyAndGeomConsistency(int clusterCount, ClusterNode** clusterArray)
 {
     //ODE_PRINT("Checking consistency...\n");
@@ -243,7 +244,6 @@ void util_MT::checkBodyAndGeomConsistency(int clusterCount, ClusterNode** cluste
 
 void util_MT::checkClusterNodes(int clusterCount, dxClusterNode** clusterAABBs)
 {
-#ifdef ODE_DEBUG
     for (int k = 0; k < clusterCount; ++k)
     {
         dxClusterNode *prevNode = 0x0;
@@ -254,5 +254,5 @@ void util_MT::checkClusterNodes(int clusterCount, dxClusterNode** clusterAABBs)
             prevNode = node;
         }
     }
-#endif
 }
+#endif
