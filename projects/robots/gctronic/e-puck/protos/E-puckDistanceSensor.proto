@@ -29,8 +29,10 @@ PROTO E-puckDistanceSensor [
             }
           }
           Shape { # pins
-            appearance PBRAppearance {
-              roughness 0.2
+            appearance Appearance {
+              material Material {
+                diffuseColor 0.02 0.02 0.02
+              }
             }
             geometry IndexedLineSet {
               coord Coordinate {
