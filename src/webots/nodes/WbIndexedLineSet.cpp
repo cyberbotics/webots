@@ -110,13 +110,6 @@ bool WbIndexedLineSet::sanitizeFields() {
     return false;
   }
 
-  const WbShape *const shape = dynamic_cast<WbShape *>(parentNode());
-  if (shape && shape->pbrAppearance()) {
-    parsingWarn(tr(
-      "The 'IndexedLineSet' node doesn't support 'PBRAppearance' in its 'appearance' field, please use 'Appearance' instead."));
-    return false;
-  }
-
   return true;
 }
 
