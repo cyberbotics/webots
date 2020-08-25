@@ -21,6 +21,7 @@
 #include "WbMFVector3.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbSFNode.hpp"
+#include "WbShape.hpp"
 #include "WbWrenMeshBuffers.hpp"
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
@@ -76,7 +77,6 @@ void WbIndexedLineSet::createWrenObjects() {
     connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this,
             &WbIndexedLineSet::updateLineScale);
 
-  sanitizeFields();
   buildWrenMesh();
 
   emit wrenObjectsCreated();
@@ -107,6 +107,13 @@ bool WbIndexedLineSet::sanitizeFields() {
 
   if (mCoordIndex->isEmpty() || estimateIndexCount() < 2) {
     parsingWarn(tr("The 'coordIndex' field should have at least two items."));
+    return false;
+  }
+
+  WbShape *shape = dynamic_cast<WbShape *>(parentNode());
+  if (shape && shape->pbrAppearance()) {
+    parsingWarn(tr(
+      "The 'IndexedLineSet' node doesn't support 'PBRAppearance' in its 'appearance' field, please use 'Appearance' instead."));
     return false;
   }
 
