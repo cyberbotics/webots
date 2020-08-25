@@ -22,6 +22,7 @@
 #include "WbMFVector3.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbSFNode.hpp"
+#include "WbShape.hpp"
 #include "WbWrenMeshBuffers.hpp"
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
@@ -79,10 +80,7 @@ void WbPointSet::createWrenObjects() {
   WbGeometry::createWrenObjects();
   wr_config_enable_point_size(true);
   updateCoord();
-
-  sanitizeFields();
   buildWrenMesh();
-
   emit wrenObjectsCreated();
 }
 
@@ -110,6 +108,13 @@ bool WbPointSet::sanitizeFields() {
       return false;
     else
       parsingWarn(tr("Only the %1 first points will be drawn.").arg(qMin(color()->color().size(), coord()->point().size())));
+  }
+
+  WbShape *shape = dynamic_cast<WbShape *>(parentNode());
+  if (shape && shape->pbrAppearance()) {
+    parsingWarn(
+      tr("The 'PointSet' node doesn't support 'PBRAppearance' in its 'appearance' field, please use 'Appearance' instead."));
+    return false;
   }
 
   return true;
