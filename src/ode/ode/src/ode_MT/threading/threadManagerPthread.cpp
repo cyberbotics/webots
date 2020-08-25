@@ -160,7 +160,7 @@ void dxThreadManagerPthread::reinit(int numThreads)
     if (numThreads > threadCount)
     {
         // first, adjust barrier limit
-#ifdef ODE_DEBUG
+#ifndef dNODEBUG
         int result1 = ode_barrier_reinit(&simLoopBarrier1, NULL, numThreads + 1);
         int result2 = ode_barrier_reinit(&simLoopBarrier2, NULL, numThreads + 1);
         ODE_INFO("pthread barrier reinit results: %d %d\n", result1, result2);
@@ -210,7 +210,7 @@ void dxThreadManagerPthread::reinit(int numThreads)
         ode_barrier_wait(&simLoopBarrier1);
 
         // first, adjust barrier limit
-#ifdef ODE_DEBUG
+#ifndef dNODEBUG
         int result1 = ode_barrier_reinit(&simLoopBarrier1, NULL, numThreads + 1);
         int result2 = ode_barrier_reinit(&simLoopBarrier2, NULL, numThreads + 1);
         ODE_PRINT("pthread barrier reinit results: %d %d\n", result1, result2);

@@ -243,6 +243,7 @@ void util_MT::checkBodyAndGeomConsistency(int clusterCount, ClusterNode** cluste
 
 void util_MT::checkClusterNodes(int clusterCount, dxClusterNode** clusterAABBs)
 {
+#ifdef ODE_DEBUG
     for (int k = 0; k < clusterCount; ++k)
     {
         dxClusterNode *prevNode = 0x0;
@@ -253,4 +254,5 @@ void util_MT::checkClusterNodes(int clusterCount, dxClusterNode** clusterAABBs)
             prevNode = node;
         }
     }
+#endif
 }
