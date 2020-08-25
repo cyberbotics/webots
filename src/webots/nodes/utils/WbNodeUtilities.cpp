@@ -311,7 +311,7 @@ namespace {
       else if (nodeName == "PBRAppearance") {
         const WbShape *const shape = dynamic_cast<const WbShape *const>(node);
         if (!shape)
-          return false;
+          return true;
         const WbGeometry *const geometry = shape->geometry();
         if (!geometry)
           return true;
