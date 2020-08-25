@@ -7,6 +7,7 @@ Released on XXX YYth, 2020.
     - Improved the `inverse_kinematics` controller to use the URDF definition instead of hard-coding the robot model ([#2062](https://github.com/cyberbotics/webots/pull/2062)).
     - macOS: Add support for Python 3.7 and 3.8 installed with [Homebrew](https://brew.sh) ([#2079](https://github.com/cyberbotics/webots/pull/2079)).
     - Improved the URDF export with the [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function to include the bounding objects exportation ([#2113](https://github.com/cyberbotics/webots/pull/2113)).
+    - Added a warning in case a [PBRAppearance](pbrappearance.md) is used in a [Shape](shape.md) containing a [PointSet](pointset.md) or [IndexedLineSet](indexedlineset.md) geometry ([#2142](https://github.com/cyberbotics/webots/pull/2142)).
   - Bug fixes
     - Fixed removing nodes from [Supervisor](supervisor.md) API's internal list after deleting the parent node ([#2123](https://github.com/cyberbotics/webots/pull/2123)).
     - Fixed various crashes and rendering issues occurring when opening an external rendering device window ([#2119](https://github.com/cyberbotics/webots/pull/2119)).
