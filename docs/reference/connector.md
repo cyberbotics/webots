@@ -178,7 +178,7 @@ namespace webots {
     virtual void disablePresence();
     int getPresenceSamplingPeriod() const;
     int getPresence() const;
-    int getState() const;
+    bool isLocked() const;
     // ...
   }
 }
@@ -196,7 +196,7 @@ class Connector (Device):
     def disablePresence(self):
     def getPresenceSamplingPeriod(self):
     def getPresence(self):
-    def getState(self):
+    def isLocked(self):
     # ...
 ```
 
@@ -212,7 +212,7 @@ public class Connector extends Device {
   public void disablePresence();
   public int getPresenceSamplingPeriod();
   public int getPresence();
-  public bool getState();
+  public boolean isLocked();
   // ...
 }
 ```
