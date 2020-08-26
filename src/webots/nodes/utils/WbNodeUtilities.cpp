@@ -314,10 +314,9 @@ namespace {
         if (!geometry)
           return true;
         if (geometry->nodeType() == WB_NODE_INDEXED_LINE_SET || geometry->nodeType() == WB_NODE_POINT_SET) {
-          errorMessage =
-            QObject::tr(
-              "The '%1' node doesn't support 'PBRAppearance' in the 'appearance' field of its parent node, please use 'Appearance' instead.")
-              .arg(geometry->nodeModelName());
+          errorMessage = QObject::tr("The '%1' node doesn't support 'PBRAppearance' in the 'appearance' field of its parent "
+                                     "node, please use 'Appearance' instead.")
+                           .arg(geometry->nodeModelName());
           return false;
         }
         return true;
