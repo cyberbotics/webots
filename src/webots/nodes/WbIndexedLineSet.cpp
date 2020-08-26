@@ -21,7 +21,6 @@
 #include "WbMFVector3.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbSFNode.hpp"
-#include "WbShape.hpp"
 #include "WbWrenMeshBuffers.hpp"
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
