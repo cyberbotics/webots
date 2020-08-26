@@ -20,12 +20,12 @@ import discord
 import os
 import re
 
-channels = [
-    'news',
-    'technical-questions',
-    'development',
-    'documentation'
-]
+channels = {
+    'news': {'preserveMessageOrder': True},
+    'technical-questions': {'preserveMessageOrder': False},
+    'development': {'preserveMessageOrder': False},
+    'documentation': {'preserveMessageOrder': False},
+}
 
 contributors = {}
 
@@ -42,7 +42,8 @@ class MyClient(discord.Client):
             messages = []
             async for message in channel.history(limit=None):
                 messages.append(message)
-            messages.reverse()
+            if not channels[channel]['preserveMessageOrder']:
+                messages.reverse()
             for message in messages:
                 if message.type == discord.MessageType.default and (message.content or message.attachments):
                     # ingored massages with a '🚫' reaction
