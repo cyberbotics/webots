@@ -162,7 +162,7 @@ void wb_connector_enable_presence(WbDeviceTag tag, int sampling_period);
 void wb_connector_disable_presence(WbDeviceTag tag);
 int wb_connector_get_presence_sampling_period(WbDeviceTag tag);
 int wb_connector_get_presence(WbDeviceTag tag);
-bool wb_connector_get_state(WbDeviceTag tag);
+bool wb_connector_is_locked(WbDeviceTag tag);
 ```
 
 %tab-end
