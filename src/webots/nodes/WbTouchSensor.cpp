@@ -26,7 +26,7 @@
 #include <ode/ode.h>
 #include <QtCore/QDataStream>
 #include <cassert>
-#include "../../lib/Controller/api/messages.h"
+#include "../../Controller/api/messages.h"
 
 void WbTouchSensor::init() {
   mIsTouching = false;

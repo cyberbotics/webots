@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
     - 'docs/**'
+    - '.github/workflows/**'
 
 defaults:
   run:
@@ -14,7 +15,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-16.04, ubuntu-18.04, ubuntu-20.04, macos-10.15, windows-2019]
+        os: [ubuntu-latest]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.8

@@ -38,19 +38,19 @@
     },
     "controller release": {
       "cmd": "make",
-      "cwd": "{PROJECT_PATH}/src/lib/Controller",
+      "cwd": "{PROJECT_PATH}/src/Controller",
       "args": [ "release", "-j$NUMBER_OF_PROCESSOR" ],
       "errorMatch": "(?<file>[\\/0-9a-zA-Z\\._]+):(?<line>\\d+):(?<col>\\d+):\\s+(?<message>.+)"
     },
     "controller debug": {
       "cmd": "make",
-      "cwd": "{PROJECT_PATH}/src/lib/Controller",
+      "cwd": "{PROJECT_PATH}/src/Controller",
       "args": [ "debug", "-j$NUMBER_OF_PROCESSOR" ],
       "errorMatch": "(?<file>[\\/0-9a-zA-Z\\._]+):(?<line>\\d+):(?<col>\\d+):\\s+(?<message>.+)"
     },
     "controller clean": {
       "cmd": "make",
-      "cwd": "{PROJECT_PATH}/src/lib/Controller",
+      "cwd": "{PROJECT_PATH}/src/Controller",
       "args": [ "clean" ]
     },
     "export doc": {

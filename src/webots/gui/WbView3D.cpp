@@ -244,6 +244,9 @@ void WbView3D::setWireframe() {
 void WbView3D::onSelectionChanged(WbAbstractTransform *selectedAbstractTransform) {
   assert(mWorld);
 
+  if (mWorld->isCleaning())
+    return;
+
   WbSolid *const selectedSolid = dynamic_cast<WbSolid *>(selectedAbstractTransform);
   WbViewpoint *const viewpoint = mWorld->viewpoint();
 

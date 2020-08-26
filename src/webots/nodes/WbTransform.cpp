@@ -410,13 +410,24 @@ QStringList WbTransform::fieldsToSynchronizeWithX3D() const {
 WbVector3 WbTransform::translationFrom(const WbNode *fromNode) const {
   const WbTransform *parentNode = WbNodeUtilities::findUpperTransform(this);
   const WbTransform *childNode = this;
-  WbVector3 translationResult = childNode->translation();
+  QList<const WbTransform *> transformList;
+
+  transformList.append(childNode);
   while (parentNode != fromNode) {
     childNode = parentNode;
     parentNode = WbNodeUtilities::findUpperTransform(parentNode);
-    translationResult += childNode->translation();
+    transformList.append(childNode);
     assert(parentNode);
   }
+
+  WbTransform *previousTransform = const_cast<WbTransform *>(transformList.takeLast());
+  WbVector3 translationResult = previousTransform->translation();
+  while (transformList.size() > 0) {
+    const WbTransform *transform = transformList.takeLast();
+    translationResult += previousTransform->rotation().toMatrix3() * transform->translation();
+    previousTransform = const_cast<WbTransform *>(transform);
+  }
+
   return translationResult;
 }
 

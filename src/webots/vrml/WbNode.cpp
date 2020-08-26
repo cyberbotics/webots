@@ -777,7 +777,10 @@ void WbNode::notifyFieldChanged() {
         }
 
         setGlobalParentNode(NULL);
-      }
+      } else
+        // index could be invalid for fields in sub-PROTO scope
+        // but in this case the USE node will be updated by the parameter change notification
+        break;
     }
 
     // climb up the family tree but stop if child insertion is not completed
@@ -798,7 +801,7 @@ void WbNode::notifyParameterChanged() {
 
 int WbNode::findSubFieldIndex(const WbField *const searched) const {
   int count = 0;
-  QList<WbNode *> list(subNodes(true));
+  QList<WbNode *> list(subNodes(true, false, false));
   list.prepend(const_cast<WbNode *>(this));
   foreach (WbNode *const node, list) {
     foreach (WbField *const field, node->mFields) {
@@ -807,13 +810,12 @@ int WbNode::findSubFieldIndex(const WbField *const searched) const {
       ++count;
     }
   }
-  assert(0);
   return -1;
 }
 
 WbField *WbNode::findSubField(int index, WbNode *&parent) const {
   int count = 0;
-  QList<WbNode *> list(subNodes(true));
+  QList<WbNode *> list(subNodes(true, false, false));
   list.prepend(const_cast<WbNode *>(this));
   foreach (WbNode *const node, list) {
     foreach (WbField *const field, node->mFields) {
@@ -1119,23 +1121,6 @@ bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
       gUrdfNodesQueue.append(this);
       return true;
     }
-
-    writer.increaseIndent();
-    writer.indent();
-    writer << "<visual name=\"" << urdfName() << "\">\n";
-    writer.increaseIndent();
-    writer.indent();
-    writer << "<geometry>\n";
-    writer.increaseIndent();
-    writer.indent();
-    writer << "<box size=\"0.01 0.01 0.01\"/>\n";
-    writer.decreaseIndent();
-    writer.indent();
-    writer << "</geometry>\n";
-    writer.decreaseIndent();
-    writer.indent();
-    writer << "</visual>\n";
-    writer.decreaseIndent();
     return false;
   }
   if (isUseNode()) {
@@ -1440,8 +1425,26 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
 
   // 2. create the parameters list from the model (default values)
   QVector<WbField *> parameters;
-  foreach (WbFieldModel *model, protoFieldModels)
-    parameters.append(new WbField(model, NULL));
+  QVector<QMap<QString, WbNode *>> parametersDefMap;
+  bool hasDefaultDefNodes = false;
+  QListIterator<WbFieldModel *> fieldModelsIt(protoFieldModels);
+  while (fieldModelsIt.hasNext()) {
+    WbField *defaultParameter = new WbField(fieldModelsIt.next(), NULL);
+    parameters.append(defaultParameter);
+
+    parametersDefMap.append(QMap<QString, WbNode *>());
+    if (tokenizer && WbNodeReader::current()) {
+      // extract DEF nodes defined in default PROTO parameter
+      QList<WbNode *> defNodes = subNodes(defaultParameter, true, false, false);
+      QListIterator<WbNode *> defNodesIt(defNodes);
+      while (defNodesIt.hasNext()) {
+        WbNode *node = defNodesIt.next();
+        if (!node->defName().isEmpty())
+          parametersDefMap.last().insert(node->defName(), node);
+      }
+      hasDefaultDefNodes = hasDefaultDefNodes || !parametersDefMap.last().isEmpty();
+    }
+  }
 
   const bool previousParameterNodeFlag = gProtoParameterNodeFlag;
   gProtoParameterNodeFlag = true;
@@ -1451,6 +1454,9 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   if (tokenizer) {
     tokenizer->skipToken("{");
 
+    int nextParameterIndex = 0;
+    int currentParameterIndex = 0;
+    bool fieldOrderWarning = true;
     while (tokenizer->peekWord() != "}") {
       QString parameterName = tokenizer->nextWord();
       WbFieldModel *parameterModel = NULL;
@@ -1466,11 +1472,40 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
         if (pos1 != -1 && pos2 != -1 && cHiddenParameterNames.indexOf(rx2.cap(0)) != -1)
           parameterModel = new WbFieldModel(tokenizer, worldPath);
       } else {
-        foreach (WbFieldModel *model, protoFieldModels) {
+        for (currentParameterIndex = 0; currentParameterIndex < protoFieldModels.size(); ++currentParameterIndex) {
+          WbFieldModel *model = protoFieldModels.at(currentParameterIndex);
           if (parameterName == model->name()) {
             parameterModel = model;
             break;
           }
+        }
+      }
+
+      if (hasDefaultDefNodes) {
+        if (currentParameterIndex < nextParameterIndex) {
+          // if the parameters are not listed using the order defined in the PROTO declaration the DEF map could be wrong
+          if (fieldOrderWarning) {
+            tokenizer->reportFileError(
+              tr("Wrong order of fields in the instance of PROTO %1: USE nodes might refer to the wrong DEF nodes")
+                .arg(proto->name()));
+            fieldOrderWarning = false;
+          }
+          // remove DEF nodes from default parameter if any
+          QMapIterator<QString, WbNode *> defNodesMapIt(parametersDefMap[currentParameterIndex]);
+          while (defNodesMapIt.hasNext()) {
+            defNodesMapIt.next();
+            WbNodeReader::current()->removeDefNode(defNodesMapIt.value());
+          }
+        } else {
+          // add DEF nodes from default parameter defined before the current parameter
+          for (int i = nextParameterIndex; i < currentParameterIndex; ++i) {
+            QMapIterator<QString, WbNode *> defNodesMapIt(parametersDefMap[i]);
+            while (defNodesMapIt.hasNext()) {
+              defNodesMapIt.next();
+              WbNodeReader::current()->addDefNode(defNodesMapIt.value());
+            }
+          }
+          nextParameterIndex = currentParameterIndex + 1;
         }
       }
 
@@ -1518,9 +1553,20 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
         tokenizer->reportFileError(tr("Parameter %1 not supported in PROTO %2").arg(parameterName).arg(proto->name()));
     }
 
+    if (hasDefaultDefNodes) {
+      // add DEF nodes from the last default parameters
+      for (int i = nextParameterIndex; i < protoFieldModels.size(); ++i) {
+        QMapIterator<QString, WbNode *> defNodesMapIt(parametersDefMap[i]);
+        while (defNodesMapIt.hasNext()) {
+          defNodesMapIt.next();
+          WbNodeReader::current()->addDefNode(defNodesMapIt.value());
+        }
+      }
+    }
     tokenizer->skipToken("}");
   }
 
+  parametersDefMap.clear();
   gProtoParameterNodeFlag = previousParameterNodeFlag;
   gDerivedProtoFlag = gDerivedProtoParentFlag;
   gDerivedProtoParentFlag = previousDerivedProtoFlag;
@@ -1832,24 +1878,29 @@ QList<WbNode *> WbNode::subNodes(bool recurse, bool searchInFields, bool searchI
   if (!searchInFields && !searchInParameters)
     fields += fieldsOrParameters();
 
-  QVector<WbField *>::iterator field;
-  for (field = fields.begin(); field != fields.end(); ++field) {
-    const WbValue *const value = (*field)->value();
-    const WbSFNode *const sfnode = dynamic_cast<const WbSFNode *>(value);
-    if (sfnode && sfnode->value()) {
-      WbNode *const node = sfnode->value();
-      result.append(node);
-      if (recurse)
-        result.append(node->subNodes(recurse, searchInFields, searchInParameters));
-    } else {
-      const WbMFNode *const mfnode = dynamic_cast<const WbMFNode *>(value);
-      if (mfnode) {
-        for (int i = 0; i < mfnode->size(); ++i) {
-          WbNode *const node = mfnode->item(i);
-          result.append(node);
-          if (recurse)
-            result.append(node->subNodes(recurse, searchInFields, searchInParameters));
-        }
+  QVector<WbField *>::iterator fieldIt;
+  for (fieldIt = fields.begin(); fieldIt != fields.end(); ++fieldIt)
+    result.append(subNodes((*fieldIt), recurse, searchInFields, searchInParameters));
+  return result;
+}
+
+QList<WbNode *> WbNode::subNodes(const WbField *field, bool recurse, bool searchInFields, bool searchInParameters) {
+  QList<WbNode *> result;
+  const WbValue *const value = field->value();
+  const WbSFNode *const sfnode = dynamic_cast<const WbSFNode *>(value);
+  if (sfnode && sfnode->value()) {
+    WbNode *const node = sfnode->value();
+    result.append(node);
+    if (recurse)
+      result.append(node->subNodes(recurse, searchInFields, searchInParameters));
+  } else {
+    const WbMFNode *const mfnode = dynamic_cast<const WbMFNode *>(value);
+    if (mfnode) {
+      for (int i = 0; i < mfnode->size(); ++i) {
+        WbNode *const node = mfnode->item(i);
+        result.append(node);
+        if (recurse)
+          result.append(node->subNodes(recurse, searchInFields, searchInParameters));
       }
     }
   }
