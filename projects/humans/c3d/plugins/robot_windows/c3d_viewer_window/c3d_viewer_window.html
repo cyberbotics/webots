@@ -18,6 +18,10 @@
       <div id="content">
         <div id="config-tab" class="content">
           <h2>Configuration</h2>
+          <form enctype="multipart/form-data">
+            <input id="upload_file" type="file" accept=".c3d" name="c3file">
+          </form>
+          <textarea rows=35 cols=120 id="uploaded_file"></textarea>
           <div>
             Body Transparency
             <input id="transparency-slider" type="range" class="radiusSlider" min="0.0" max="1.0" step = "0.001" value="1.0" data-show-value="true" class="slider" title="Transparency of the body."/>

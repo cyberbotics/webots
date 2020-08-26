@@ -214,6 +214,18 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
 webots.window('c3d_viewer_window').init(function() {
   robotWindow = webots.window('c3d_viewer_window');
 
+  document.getElementById('upload_file').addEventListener('change', function(event) {
+    let files = event.target.files;
+    let f = files[0];
+    let reader = new FileReader();
+    reader.onload = (function(theFile) {
+      return function(e) {
+        document.getElementById('uploaded_file').innerHTML = e.target.result.slice(13); // remove the "data:;base64," header
+      };
+    })(f);
+    reader.readAsDataURL(f); // perform base64 encoding suitable for sending text through the wwi interface
+  });
+
   function enableGraphs(event) {
     let checkbox = event.target;
     robotWindow.send('graphs:' + checkbox.getAttribute('graphtype') + ':' + checkbox.checked, 'c3d_viewer');
