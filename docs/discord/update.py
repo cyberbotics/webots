@@ -37,6 +37,7 @@ class MyClient(discord.Client):
         year = None
         month = None
         path = os.path.dirname(os.path.abspath(__file__))
+        years = []
         with open(os.path.join(path, channel.name + '.md'), 'w', encoding='utf-8') as rootFile:
             file = rootFile
             file.write(u'# %s\n\n' % channel.name.title())
@@ -76,6 +77,7 @@ class MyClient(discord.Client):
                                              '[Webots Discord server](https://discordapp.com/invite/nTWbN9m)' +
                                              ' for year %d.\n\n' % year)
                             yearlyFiles.append(yearlyfile)
+                            years.append(year)
                             rootFile.write(u'  - [%d](%s)\n' % (year, channel.name + '-' + str(year) + '.md'))
                             file = yearlyfile
                             month = None
@@ -162,6 +164,7 @@ class MyClient(discord.Client):
                     print("\033[33m\tContent:" + str(message.content) + '\033[0m')
             for yearlyfile in yearlyFiles:
                 yearlyfile.close()
+            return years
 
     async def on_ready(self):
         path = os.path.dirname(os.path.abspath(__file__))
@@ -178,7 +181,9 @@ class MyClient(discord.Client):
                     if type(channel) == discord.channel.TextChannel and channel.name in channels:
                         file.write(u'- [%s](%s)\n' % (channel.name.title(), channel.name + '.md'))
                         menuFile.write(u'- [%s](%s)\n' % (channel.name.title(), channel.name + '.md'))
-                        await self.export_channel(channel)
+                        years = await self.export_channel(channel)
+                        for year in years:
+                            menuFile.write(u'  - [%d](%s)\n' % (year, channel.name + '-' + str(year) + '.md'))
             await self.close()
 
     async def on_message(self, message):

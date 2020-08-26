@@ -33426,3 +33426,15 @@ I'll go and try right now
 ##### mint 08/26/2020 14:31:47
 It works perfect. I thought defaultDamping is set to NULL by default. Now everything's okay. Thank you `@Simon Steinmann` and `@Olivier Michel` !
 
+##### Vyshak 08/26/2020 15:06:48
+Hi , I am a new comer tp webots and robotics. Have knowledge on c/c++. Hope to learn much more as i am starting with creating a simulator for a robot vaccum cleaner and finally integrate it with the android application and validate this application workinh with the help of the simulator (iot application). Can this be done using webot ?? If yes, how can i start it with?
+
+##### David Mansolino [cyberbotics] 08/26/2020 15:09:12
+Yes sure this can be done!
+
+First, I strongly recommend to start by following the tutorials (at least 1 to 6):   [https://www.cyberbotics.com/doc/guide/tutorials](https://www.cyberbotics.com/doc/guide/tutorials)
+
+Then you should probably have a look at this vacum cleaner example: [https://cyberbotics.com/doc/guide/create](https://cyberbotics.com/doc/guide/create)
+
+Finally, to interface Webots with your android application, you will need to write a controller that control the robot and communicate with your application: [https://cyberbotics.com/doc/guide/interfacing-webots-to-third-party-software-with-tcp-ip](https://cyberbotics.com/doc/guide/interfacing-webots-to-third-party-software-with-tcp-ip)
+
