@@ -4,6 +4,35 @@ This is an archive of the `documentation` channel of the [Webots Discord server]
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 08/24/2020 10:16:57
+You're welcome
+
+##### Kricklobderno 08/24/2020 10:15:49
+> You don't need to put it in the camera as child to do this, you just need to retrieve the image of the camera, process it and then use the display functions to draw on it: [https://cyberbotics.com/doc/reference/display#display-functions](https://cyberbotics.com/doc/reference/display#display-functions)
+
+`@David Mansolino` Thank you. I achieved it as you refer.
+
+##### David Mansolino [cyberbotics] 08/24/2020 05:51:00
+You don't need to put it in the camera as child to do this, you just need to retrieve the image of the camera, process it and then use the display functions to draw on it: [https://cyberbotics.com/doc/reference/display#display-functions](https://cyberbotics.com/doc/reference/display#display-functions)
+
+##### Kricklobderno 08/21/2020 16:57:44
+But Can I put the display node to camera as child node? I want to achieve the hough circle transform by taking frames from the camera, processing it and after than showing it to display screen.
+
+##### David Mansolino [cyberbotics] 08/21/2020 11:33:36
+Hi, you should have a look at the examples provided within Webots, e.g. [https://cyberbotics.com/doc/guide/samples-devices#display-wbt](https://cyberbotics.com/doc/guide/samples-devices#display-wbt)
+
+##### Kricklobderno 08/21/2020 11:31:48
+Hi, How can I use display node? When I add it to the child node of camera controller crashes.
+
+##### David Mansolino [cyberbotics] 08/20/2020 05:21:21
+Then you will be able to select the children Solid nodes and get their inertia matrix too.
+
+
+`@lance` what you can do is to convert the PROTO node to base node (right click on the node in the scene-tree => Convert to Base Node(s))
+
+##### lance 08/20/2020 00:11:27
+Thank you `@David Mansolino` ! In the mass tab, it seems that moment of inertia is only shown with excluding descendants option, do I have to calculate the moment of inertia including descendants by myself?
+
 ##### David Mansolino [cyberbotics] 08/19/2020 05:44:59
 Hi `@lance`, you can get many of these information directly in Webots, if you select the drone, in the node editor (part below the scene-tree) you have a 'Mass' tab that allows you to retrieve many information. Then the simplest solution to get the rotor/propeller position, the simplest solution is to convert temporarily the PROTO node in Base node (right clik on the ndoe in the scene-tree => 'Convert to Base Node(s)') then you can select the propeller node and chek it's position (relatively to any parent node in the 'position' tab of the node editor.
 

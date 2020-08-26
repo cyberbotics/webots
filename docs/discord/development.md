@@ -4,7 +4,1033 @@ This is an archive of the `development` channel of the [Webots Discord server](h
 
 ## 2020
 
-##### Simon Steinmann [Moderator] 08/18/2020 19:35:45
+##### Simon Steinmann [Moderator] 08/26/2020 12:43:22
+`@David Mansolino` consolidated all the changes [https://github.com/cyberbotics/urdf2webots/pull/79](https://github.com/cyberbotics/urdf2webots/pull/79)
+
+
+yeah read that yesterda, just double checking 🙂
+
+##### Olivier Michel [cyberbotics] 08/26/2020 12:29:00
+This is documented here: [https://cyberbotics.com/doc/reference/physics](https://cyberbotics.com/doc/reference/physics)
+
+##### Simon Steinmann [Moderator] 08/26/2020 12:28:33
+ok great
+
+##### Olivier Michel [cyberbotics] 08/26/2020 12:28:23
+No, if left empty, the center of mass will be automatically computed from the bounding object.
+
+##### Simon Steinmann [Moderator] 08/26/2020 12:27:01
+and the center of Mass gets automatically taken from the bounding box, or does it have to be specified?
+
+##### Olivier Michel [cyberbotics] 08/26/2020 12:26:36
+Yep.
+
+##### Simon Steinmann [Moderator] 08/26/2020 12:26:20
+So if collision exists, and mass == None, we add an empty physics node, which should calculate the mass of the bounding object with a default density of 1000 right?
+
+
+Okay so this gets into specific cases, where urdf-links have collision values, but no inertia tag. We dont want empty links (which are common) to get a physics node
+
+##### Olivier Michel [cyberbotics] 08/26/2020 12:21:31
+Maybe you can re-use this default value?
+
+
+Sure, by default Webots assumes a density of 1000 kg/m^3 for objects (based on the volume of the bounding object). This is default value of the Physics node.
+
+##### David Mansolino [cyberbotics] 08/26/2020 12:20:32
+That sounds good indeed.
+
+##### Simon Steinmann [Moderator] 08/26/2020 12:04:18
+Hey, I want your opinion. If no mass or inertia is specified, wouldn't it be better to use a density calculation instead of assuming a mass of 1 kg? Especially for very small or very large objects, this seems like a much better approach
+
+##### David Mansolino [cyberbotics] 08/26/2020 05:24:39
+Perfect, I will try it, thank you
+
+##### Simon Steinmann [Moderator] 08/25/2020 16:08:56
+`@David Mansolino` I implemented the fix, you can try it out with this urdf file. [https://github.com/cyberbotics/urdf2webots/pull/76](https://github.com/cyberbotics/urdf2webots/pull/76)
+> **Attachment**: [UR10e\_urdf.zip](https://cdn.discordapp.com/attachments/565155651395780609/747850006773366814/UR10e_urdf.zip)
+
+##### David Mansolino [cyberbotics] 08/25/2020 13:13:31
+Ok, thank you
+
+##### Simon Steinmann [Moderator] 08/25/2020 13:09:49
+I might make a PR later if I have some time
+
+
+in that case it could just be multiplied by the rotation matrix derived from the rpy I think
+
+
+I found it due to the error message, when the inertia had 'rpy'
+
+##### David Mansolino [cyberbotics] 08/25/2020 13:08:28
+Yes and it is used to check if center of mass should be set (which is wrong).
+
+
+This seems indeed to be a bug (not sure if it was always like this or if a wrong conflict merge introduced it).
+
+##### Simon Steinmann [Moderator] 08/25/2020 13:08:07
+inertia is never actually added
+
+##### David Mansolino [cyberbotics] 08/25/2020 13:07:19
+It seems there is a misunderstanding there betwen center of mass and inertia
+
+##### Simon Steinmann [Moderator] 08/25/2020 13:07:08
+exactly, that's the area I found
+
+##### David Mansolino [cyberbotics] 08/25/2020 13:06:09
+But then there is a problem when exporting the Physics: [https://github.com/cyberbotics/urdf2webots/blob/master/urdf2webots/writeProto.py#L158](https://github.com/cyberbotics/urdf2webots/blob/master/urdf2webots/writeProto.py#L158)
+
+
+It seems th einertia get parsed here: [https://github.com/cyberbotics/urdf2webots/blob/master/urdf2webots/parserURDF.py#L601](https://github.com/cyberbotics/urdf2webots/blob/master/urdf2webots/parserURDF.py#L601)
+
+##### Simon Steinmann [Moderator] 08/25/2020 13:03:48
+But you might have additional info that i'm missing
+
+
+I tested it, and the calculated inertia matrices are quite different from the ones in the urdf file.  It might not be an issue for pure simulation, but I think for the transfer of Sim-to-real, this could be a factor
+
+
+Is there a reason that the inertia matrix from a urdf file does not get used in the converter? I've noticed that no .proto model has those values. Instead it get's calculated from the boundingObject, which, in almost all cases, is a box.
+
+##### David Mansolino [cyberbotics] 08/25/2020 05:14:42
+`@Dave` you're welcome, have a nice day too.
+
+##### Dave 08/24/2020 19:29:54
+> You're welcome
+
+`@David Mansolino` Finally did it (haha thank you again for the help !) Indeed I did not added in the field of the groundSensorSlot.
+
+
+
+Wish you a nice evening !
+
+##### Simon Steinmann [Moderator] 08/24/2020 18:07:07
+take a look at this
+> **Attachment**: [Mirobot\_noAttachment.zip](https://cdn.discordapp.com/attachments/565155651395780609/747517360113451048/Mirobot_noAttachment.zip)
+
+##### alxy 08/24/2020 17:34:03
+Looks very promising now
+
+
+I eventually want to use it for my job, as we have the mirobot there, but its really time consuming to test the control code. Right now its only a weekend/after work project, but I hope it will really help to speed up development
+
+##### Simon Steinmann [Moderator] 08/24/2020 17:31:28
+but interesting project, learned a lot doing it
+
+
+heh, I'll hold you to it 😉
+
+##### alxy 08/24/2020 17:29:33
+uh yeah, very nice, a big thanks again! Definetly worth at least one beer, if we ever meet in person 🙂
+
+
+Yeah I have the same issue, way too many files with the same or similar names 😄
+
+##### Simon Steinmann [Moderator] 08/24/2020 17:26:27
+😅
+
+
+
+> **Attachment**: [MirobotGripper.proto](https://cdn.discordapp.com/attachments/565155651395780609/747507112984313996/MirobotGripper.proto)
+
+
+wrong file
+
+
+wups
+
+##### alxy 08/24/2020 17:26:10
+Not the gripper?
+
+
+So you needed to change the Mirobot?
+
+##### Simon Steinmann [Moderator] 08/24/2020 17:24:04
+fixed it. I removed the extra layered Solid node (now wrist is first solid) and added a physics node to it
+> **Attachment**: [Mirobot.proto](https://cdn.discordapp.com/attachments/565155651395780609/747506528566902874/Mirobot.proto)
+
+
+lemme investigate
+
+
+lol
+
+##### alxy 08/24/2020 17:06:07
+I think its the wrist joint somehow not connected to the rest of the gripper
+
+##### Simon Steinmann [Moderator] 08/24/2020 17:05:57
+it does, but turning wrist of gripper screws it
+
+
+ohh I see
+
+##### alxy 08/24/2020 17:05:27
+so if you move joint1 (which rotates the base) the gripper moves along with the arm?
+
+##### Simon Steinmann [Moderator] 08/24/2020 17:04:42
+looks fine to me
+
+##### alxy 08/24/2020 17:03:53
+as said, just use void controller
+
+##### Simon Steinmann [Moderator] 08/24/2020 17:03:31
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/747501356654526505/unknown.png)
+%end
+
+##### alxy 08/24/2020 17:02:52
+I can create a more minimal example if you want
+
+
+mirobot\_gripper\_original is my world, I need to definetly clean up the projext once it is working, sorry for that
+
+
+The controller wont work as it has a lot of dependencies, but the same happens when just using the manual motor control
+
+
+[https://github.com/alxy/webots-mirobot/archive/master.zip](https://github.com/alxy/webots-mirobot/archive/master.zip)
+
+##### Simon Steinmann [Moderator] 08/24/2020 16:59:53
+send me your project as a zip
+
+##### alxy 08/24/2020 16:59:21
+mh, same issue. It contains the same file I was using, just with one additional max position set
+
+
+Thanks! I will check this version out
+
+##### Simon Steinmann [Moderator] 08/24/2020 16:56:22
+The issue with the meshes is, they are all in reference to the origin of the wrist mesh, so I needed to add transform nodes before the mesh nodes
+
+
+both, the robot and the solid version have physics nodes
+
+
+
+> **Attachment**: [MirobotGripper.zip](https://cdn.discordapp.com/attachments/565155651395780609/747499242016473188/MirobotGripper.zip)
+
+##### alxy 08/24/2020 16:54:03
+ver weird that the preview is my own portrait
+
+
+[https://github.com/alxy/webots-mirobot/commit/209eae53e1233c5e59491447de03029aeb713093#diff-5f0cbd16163d674dc1f6dd994a25cf05](https://github.com/alxy/webots-mirobot/commit/209eae53e1233c5e59491447de03029aeb713093#diff-5f0cbd16163d674dc1f6dd994a25cf05)
+
+
+nope, I copied the children attribute of the robot node directly to the other proto file
+
+##### Simon Steinmann [Moderator] 08/24/2020 16:50:32
+did you convert it to base nodes?
+
+##### alxy 08/24/2020 16:50:10
+As they were only present in the Robot proto
+
+##### Simon Steinmann [Moderator] 08/24/2020 16:50:10
+i added physics nodes
+
+##### alxy 08/24/2020 16:50:01
+The second one from yesterday, I just made the changes to the Solid proto node as well (adding the physics nodes)
+
+##### Simon Steinmann [Moderator] 08/24/2020 16:49:32
+what model are you using?
+
+##### alxy 08/24/2020 16:49:08
+`@Simon Steinmann` Whoops, I added the physics nodes and now I see the following phenomenon when moving the arm. What could that be?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/747497736135376906/unknown.png)
+%end
+
+
+Yeah, adding it an everything works as expected. I was really starting to become desperate 😄
+
+##### Simon Steinmann [Moderator] 08/24/2020 16:36:55
+doh
+
+##### alxy 08/24/2020 16:35:17
+interestingly, it does not throw an error when compared to a number
+
+
+lol, I now tried to figure out why the gripper isnt working in the greater setup for like an hour. Turns out I have used an old version of he gripper there without the Physics node, meaning torque is alsways nan
+
+##### David Mansolino [cyberbotics] 08/24/2020 10:10:33
+You're welcome
+
+##### Dave 08/24/2020 10:10:27
+Thank you! At least I know that it is already implemented 😁
+
+
+Ok thank you! I will try again and be more persistence!
+
+##### David Mansolino [cyberbotics] 08/24/2020 10:09:35
+they can be get the same way as the other distance sensors.
+
+
+Then they names of the ground sensors devices are 'gs0', 'gs1' and 'gs2'
+
+
+In any language, but you have to make sure that the 'groundSensorsSlot' field contains an 'E-puckGroundSensors' node.
+
+##### Dave 08/24/2020 10:06:57
+I don't understand how I can import in Python 😓
+
+##### David Mansolino [cyberbotics] 08/24/2020 10:06:50
+Here is an introduction about PROTO: [https://cyberbotics.com/doc/reference/proto](https://cyberbotics.com/doc/reference/proto)
+
+
+HI `@Dave`, the ground sensor is available for Python too in simulation.
+
+##### Dave 08/24/2020 10:05:38
+Hello everyone,
+
+I would need some guidance please.
+
+
+
+I am currently simulating en EPUCK on Webots with Python.
+
+
+
+As I understand, the ground sensors functions are only available on C language but not on Python because it is an "extension" and it is not implemented in the API.
+
+
+
+[https://cyberbotics.com/doc/guide/epuck](https://cyberbotics.com/doc/guide/epuck)
+
+
+
+`In particular, the ground sensors module extension of the real e-puck robot is modelled using the "E-puckGroundSensors.proto" PROTO in Webots to provide 3 optional infra-red sensors pointing to the ground in front of the robot. `
+
+
+
+How can I add the python functions for the ground sensors in my code please ? 
+
+
+
+Thank you in advance for your help !
+
+
+
+I have been searching for a solution, but it seems that I need to go trough PROTO ? Not sure what is Proto
+
+##### alxy 08/23/2020 14:47:31
+yeah like that I can just use your GripperXController class in my main controller and just pass the calls for the gripper to that instance 🙂
+
+##### Simon Steinmann [Moderator] 08/23/2020 14:45:23
+works too
+
+##### alxy 08/23/2020 14:43:40
+I have by the way now done it the following way. Added a target\_pos attribute to the class and the open and close actions set that, and in each iterationf og the controller loop I call this function: ``def run(self):
+
+        self.gripperMoveIncrement(self.target\_pos, 2)``
+
+##### Simon Steinmann [Moderator] 08/23/2020 14:42:46
+oh yeah
+
+##### alxy 08/23/2020 14:42:37
+do you mean max()  ?
+
+##### Simon Steinmann [Moderator] 08/23/2020 14:42:01
+rahter add a min(1, ...)
+
+##### alxy 08/23/2020 14:40:35
+but if intervals > 0: really fixes the problem, so everything alright
+
+
+in your test code the sin always gives a different value for each time step
+
+
+if you call the function again with the exact same position
+
+##### Simon Steinmann [Moderator] 08/23/2020 14:38:52
+unlikely but possible
+
+##### alxy 08/23/2020 14:38:35
+then probably pos\_end exactly matched pos\_start
+
+##### Simon Steinmann [Moderator] 08/23/2020 14:38:27
+perhaps there needs to be an abs() in there.
+
+
+they should not be, as i'm using math.ceil(), which always rounds up
+
+##### alxy 08/23/2020 14:37:00
+Minor issue, if the gripper only needs to move a very tiny bit, itnervals might be zero, hwich leads to an error (division by zero). I'll make sure to check if intervals > 0 🙂
+
+##### Simon Steinmann [Moderator] 08/23/2020 13:35:34
+I added a function at the bottom, that only moves it incrementally, and you call the timestep in your main loop
+
+##### alxy 08/23/2020 13:34:47
+will see tomorrow how I can integrate it with my code. I was jsut a bnit concerned about having blocking calls inside the main controller loop, as I have other things which have to continuously work inside the loop, like the tcp/ip server
+
+##### Simon Steinmann [Moderator] 08/23/2020 12:32:58
+this one
+
+
+sorry, typo
+> **Attachment**: [MirobotGripper\_controller.py](https://cdn.discordapp.com/attachments/565155651395780609/747070845209280572/MirobotGripper_controller.py)
+
+
+you will have to call it every time though. the current implementation, you only have to call once
+
+##### alxy 08/23/2020 12:19:39
+I do something similar for the joint angles to determine if the robot is busy or idle
+
+
+I was thinking about a watcher pattern, that just monitors the torque at each step and fixes the positions to the current positions once a threshold is reached
+
+##### Simon Steinmann [Moderator] 08/23/2020 12:18:25
+I guess you could add another function, that moves it closer to the target location for one increment
+
+
+that is intentional
+
+##### alxy 08/23/2020 12:17:08
+I just think about rewriting the controller so that the gripperPosTorqueLimited does not call supervisor.step(), will see if I can get it working...
+
+
+thanks a lot!
+
+
+yes, nice 🙂
+
+##### Simon Steinmann [Moderator] 08/23/2020 12:14:12
+should work now
+
+
+have to enable the sensors, was late last night ^^
+
+
+line 15 and 16 were wrong
+
+
+
+> **Attachment**: [MirobotGripper\_controller.py](https://cdn.discordapp.com/attachments/565155651395780609/747065705785983046/MirobotGripper_controller.py)
+
+##### alxy 08/23/2020 12:11:52
+Ok, I think I understand the code, but getTorqueFeedback() appears to always return nan? Why is that?
+
+##### Simon Steinmann [Moderator] 08/23/2020 10:30:11
+torque feedback almost done
+
+
+my work in progress
+> **Attachment**: [for\_alex2.zip](https://cdn.discordapp.com/attachments/565155651395780609/747039918563262504/for_alex2.zip)
+
+
+I already did that
+
+##### alxy 08/23/2020 10:18:51
+mh, simply adding Physics nodes to all solides makes it look a bit weird 😄
+
+
+> WARNING: Mirobot (PROTO) > MirobotGripper (PROTO) > Solid > HingeJoint > Solid > HingeJoint > RotationalMotor: wb\_motor\_enable\_torque\_feedback(): cannot be invoked for a Joint whose end point has no Physics node.
+
+
+right\_1 is the actual motor which is actuated in the real robot?
+
+
+but you are right, in this case its not enoug to simply change the troque limits, teh gripper is not able to grab like that
+
+##### Simon Steinmann [Moderator] 08/23/2020 09:29:57
+(open in text editor)
+
+
+little tip. You can convert it to basenodes, adjust it, then save the world. If you open the world file, you have the .proto definition in there
+
+##### alxy 08/23/2020 09:29:33
+its not an issue, I just dont initialize or use this motor
+
+##### Simon Steinmann [Moderator] 08/23/2020 09:29:11
+you can try to do it yourself. Otherwise I'll do it later
+
+
+[https://www.robotshop.com/media/catalog/product/cache/image/1350x/9df78eab33525d08d6e5fb8d27136e95/w/l/wlkata-6-axis-mini-robot-arm-mirobot-education-kit-2.jpg](https://www.robotshop.com/media/catalog/product/cache/image/1350x/9df78eab33525d08d6e5fb8d27136e95/w/l/wlkata-6-axis-mini-robot-arm-mirobot-education-kit-2.jpg)
+
+
+I think you're right
+
+##### alxy 08/23/2020 09:01:59
+I think the wrist motor is not necessary and not in the real robot as well, as the last joint of the arm has the same axis and can thus be used to achieve the same functionality. Maybe be usedfull if used with another arm though
+
+##### Simon Steinmann [Moderator] 08/23/2020 08:57:32
+well, let me know if you have any improvements or feedback, so I can improve the model and then upload it
+
+##### alxy 08/23/2020 08:36:48
+yeah, I can do it if you want me to, but as its your work, you should probably do it 😄
+
+##### Simon Steinmann [Moderator] 08/23/2020 08:35:10
+good luck. Let me know if you have any changes or improvements for the model. We should probably add it to community projects
+
+##### alxy 08/23/2020 08:33:59
+Im not entirely sure if I understand the problem, but I will see what happens. I am going to integrate the new gripper with my IP based controller first and then go on to see if I can grab something 🙂
+
+##### Simon Steinmann [Moderator] 08/23/2020 08:31:55
+if you do, let me know 😉
+
+
+perhaps you can come up with a better solution 😄
+
+
+you could manually synchronize all motors to let's say on main motor, but then all the 'slave' motors will be one timestep behind
+
+
+and they have different level action. so torques will be different
+
+
+because you have 3 virtual motors, they have to have the EXACT same value, for them to be parallel
+
+
+then they all stop
+
+##### alxy 08/23/2020 08:29:26
+why dont you set it too some lower, more realistic torque?
+
+##### Simon Steinmann [Moderator] 08/23/2020 08:28:53
+basically I use high torque on the motors, but with torque feedback, and they incrementally close each timestep, as long as the torque is lower than a threshhold
+
+
+I have a script somewhere to do that. I can check later, when I'm on linux
+
+##### alxy 08/23/2020 08:27:29
+ok, will see, I needed to do that for the old gripper as well to properly grab the wooden boxes
+
+##### Simon Steinmann [Moderator] 08/23/2020 08:25:53
+perhaps use torque feedback
+
+
+the problem is, that the motors should be exactly the same value
+
+
+you gonna have to adjust the torques perhaps
+
+##### alxy 08/23/2020 08:19:24
+I am very curious how good it matches the real bot in the end. It looks really close now
+
+
+yeah, thats indeed vbery easy to use like that. I had thought ahout a rather complex controller script when you told me about the virtual motors yesterday...
+
+##### Simon Steinmann [Moderator] 08/23/2020 08:10:25
+but all 6 gripper motors can be moved with the same position command to have it open and close correctly
+
+
+uses 3 virtual motors per gripper side, instead of 1
+
+##### alxy 08/23/2020 08:09:07
+but it really contains a lot of motors 😄
+
+
+Nice, works very well 🙂
+
+##### Simon Steinmann [Moderator] 08/23/2020 08:05:34
+it doesnt contain the mirobot, so it is the same model you have
+
+
+either that or a newly converted, but with correct values
+
+##### alxy 08/23/2020 08:04:25
+The Mirobot.proto is the current one from the community project?
+
+
+Ok, yeah, sure. Will test it now 🙂
+
+##### Simon Steinmann [Moderator] 08/22/2020 22:32:50
+`@alxy` wrote a very simple and easy to include controller too
+
+
+you owe me a beer once rona is over 😄
+> **Attachment**: [for\_alex.zip](https://cdn.discordapp.com/attachments/565155651395780609/746859366459899914/for_alex.zip)
+
+
+preliminary proto for the gripper. names for meshes are still bonked, and of course motors have no limits
+> **Attachment**: [MirobotGripper.proto](https://cdn.discordapp.com/attachments/565155651395780609/746808418400206853/MirobotGripper.proto)
+
+##### alxy 08/22/2020 17:19:10
+ok, so let me install zoom then
+
+##### Simon Steinmann [Moderator] 08/22/2020 17:18:41
+jep
+
+##### alxy 08/22/2020 17:18:36
+sure, are you from germany btw?
+
+##### Simon Steinmann [Moderator] 08/22/2020 17:18:16
+if you're curious, we could zoom and I show you what i'm doing
+
+
+[https://tenor.com/view/elmo-shrug-gif-5094560](https://tenor.com/view/elmo-shrug-gif-5094560)
+
+##### alxy 08/22/2020 17:17:48
+I really dont know why the manufacturer does not provide the files for the gripper. It is basically useless to do simulations without the gripper I assume
+
+##### Simon Steinmann [Moderator] 08/22/2020 17:16:48
+never done it that way, learning opportunity 😉
+
+##### alxy 08/22/2020 17:16:21
+wow, thanks 🙂
+
+##### Simon Steinmann [Moderator] 08/22/2020 17:16:09
+I'm adding jonits and motors atm
+
+
+seperate parts
+
+##### alxy 08/22/2020 17:11:16
+`@Simon Steinmann`
+
+
+it is a sigle IndexedFacedSet for me
+
+
+I mean importing was not an issue, that worked with either of the format
+
+
+but is it in separate parts?
+
+##### Simon Steinmann [Moderator] 08/22/2020 16:51:30
+used this: [https://cadexchanger.com/downloads](https://cadexchanger.com/downloads)
+
+to convert it to a .dae file. It needed some editing, but managed to import it
+
+
+here we go
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/746773437116186765/unknown.png)
+%end
+
+
+try it 🙂
+
+##### alxy 08/22/2020 16:44:45
+[https://github.com/rjvallett/URDF-Converter](https://github.com/rjvallett/URDF-Converter) that looks promising, but hasnt been updated in a while and lacks any documentation
+
+##### Simon Steinmann [Moderator] 08/22/2020 16:36:36
+fusion 360 might be a good optioni
+
+##### alxy 08/22/2020 16:35:59
+the easier thing is to first try all the other available cad programs and see if they can export to other formats (I will try blender now)
+
+
+probably not, if just time permits to do all the things... 😄
+
+##### Simon Steinmann [Moderator] 08/22/2020 16:33:35
+can never hurt
+
+##### alxy 08/22/2020 16:33:20
+Its a bit far from what I wanted to achieve originally 😄
+
+##### Simon Steinmann [Moderator] 08/22/2020 16:32:43
+great opportunity to learn 😉
+
+##### alxy 08/22/2020 16:32:00
+No idea, as said I have no prior experience with CAD programs. The interface looks rather complicated to me
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/746768350914281633/unknown.png)
+%end
+
+##### Simon Steinmann [Moderator] 08/22/2020 16:30:43
+can you export individual parts?
+
+##### alxy 08/22/2020 16:30:25
+so it is somehow encoded in the file
+
+
+and I can see the hierarchy of different parts there
+
+
+autodesk inventor
+
+##### Simon Steinmann [Moderator] 08/22/2020 16:29:18
+what program did you load the file into?
+
+##### alxy 08/22/2020 16:26:26
+but the problem persists with the obj, it is just one single node in webots then
+
+
+yeah, its in that black whole facing the front. You can see it
+
+##### Simon Steinmann [Moderator] 08/22/2020 16:25:55
+perhaps you can change the unit somewhere before exporting?
+
+
+so that would be 1000x
+
+
+perhaps it uses millimeters as its unit
+
+
+nope :p
+
+##### alxy 08/22/2020 16:23:26
+can you find my mirobot 😄
+
+
+lol, scales dont seem to match:
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/746766447845310506/unknown.png)
+%end
+
+
+I try .obj now
+
+
+Yeah, I checked the list on the import wizzward with the list of available export options
+
+##### Simon Steinmann [Moderator] 08/22/2020 16:20:20
+A new Mesh node was added to support the inclusion of a large variety of external 3D mesh files: 3D Studio mesh, Blender, Biovision Hierarchy, Collada, Filmbox, STL, Wavefront, X3D. It is also possible to import such files as Webots primitives.
+
+##### alxy 08/22/2020 16:19:36
+of course that is not available as an export option 😄
+
+##### Simon Steinmann [Moderator] 08/22/2020 16:17:28
+.dae has the advantage to be readable in a text editor
+
+
+collada (.dae) does. But i'm not an expert in this
+
+##### alxy 08/22/2020 16:16:51
+do you know which formats preserve the structure?
+
+
+I checked out the other file (catpart) in inventor, that looks more promising
+
+##### Simon Steinmann [Moderator] 08/22/2020 16:16:07
+perhaps you can convert it to another format, which includes data for the different components
+
+
+that would not be ideal :p
+
+##### alxy 08/22/2020 16:14:31
+yeah that might be possible, but not if it gets created as a signle IndexedFaceSet, the parts are not separate nodes in webots
+
+##### Simon Steinmann [Moderator] 08/22/2020 16:13:26
+no, in webots, or with urdf.
+
+##### alxy 08/22/2020 16:12:55
+given I have no experience with any cad/3d software, I can imagine it is very hard 😄
+
+##### Simon Steinmann [Moderator] 08/22/2020 16:12:19
+well, having the parts, it should not be too complicated assembing it
+
+##### alxy 08/22/2020 16:11:39
+Not sure where that guy got the 3d model from, maybe he has assembled it on his own
+
+
+yeah, they did not release the urdf for the gripper, just for the arm itself
+
+
+It comes with Mirobot in the satndard package
+
+##### Simon Steinmann [Moderator] 08/22/2020 16:10:23
+except the one you linked, I find no mirobot package containing a gripper
+
+##### alxy 08/22/2020 16:09:56
+I dont think it has a dedicated name?
+
+##### Simon Steinmann [Moderator] 08/22/2020 16:09:31
+you could try to manually assemble them
+
+
+what is the name of that gripper?
+
+##### alxy 08/22/2020 16:07:30
+So I cannot really use it, sadly 😦
+
+
+yeah, I have just realized it really only contains the 3d mockup, no joints defined
+
+##### Simon Steinmann [Moderator] 08/22/2020 16:06:05
+having a urdf file or something that dictates the structure would be good
+
+##### alxy 08/22/2020 16:03:56
+Mh, exported to stl and was able to successfully import, but nothing shows up. It created a bunch of new elements under a solid node though, but I dont see the gripper
+
+##### Simon Steinmann [Moderator] 08/22/2020 15:57:10
+you gonna have to convert it to .obj, stl or .dae for proto conversion. Or check the import in webots itself. it supports a bunch of formats
+
+##### alxy 08/22/2020 15:52:51
+`@Simon Steinmann` Sorry to bug you again, but I have found the original gripper for Mirobot in github as step (stp) file: [https://github.com/CBerauer/Mirobot-CAD-Files/tree/master/Gripper](https://github.com/CBerauer/Mirobot-CAD-Files/tree/master/Gripper) I just installed a viewer and it indeed looks good, however I am now struggling how to convert that to webots? Is it possible?
+
+
+I'd also suggest to use your own fork for the PRs, otherwise the main repo gets cluttered with all these branches
+
+
+yeah, the PRs definetly need fixing 😄
+
+##### Simon Steinmann [Moderator] 08/21/2020 19:12:29
+[https://github.com/cyberbotics/urdf2webots/pull/75](https://github.com/cyberbotics/urdf2webots/pull/75)
+
+
+fixed it, assuming that LineSets cannot get properly imported into Webots:
+
+
+so the <line> part in collada meshes dont get correctly converted.  It tries to create a triangle mesh, which of course fails (coordIndex is empty)
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/746425729868103701/unknown.png)
+%end
+
+
+FINALLY!!!!!!!!!!! figured out the issue with some meshes not being created. Collision and Material references get added. Have to manually reset them:
+
+importer.urdf2webots.parserURDF.Geometry.reference = {}
+
+importer.urdf2webots.parserURDF.Material.namedMaterial = {}
+
+
+was interesting creating this, super fun. Sat at it till from like 4pm to 5am 😅
+
+
+please check it out and see if it works for you
+
+
+`@alxy` `@David Mansolino` [https://github.com/cyberbotics/urdf2webots/pull/74](https://github.com/cyberbotics/urdf2webots/pull/74)
+
+
+wooo, PR merged
+
+
+pllus it's easy to get changes implemented if you make them 😄
+
+##### alxy 08/21/2020 14:04:32
+yeah, the support is really impresive
+
+##### Simon Steinmann [Moderator] 08/21/2020 14:04:02
+you picked a good one. For me the main advantages of Webots are:
+
+- excellent and detailed documentation
+
+- native API in multiple languages (not incomplete and slow wrappers)
+
+- this discord, where you get answers immediatley
+
+##### alxy 08/21/2020 14:02:48
+Ok, for me its my first experience with a robot simulation tool, or robotics in general 😄
+
+##### Simon Steinmann [Moderator] 08/21/2020 14:02:22
+Gazebo
+
+##### alxy 08/21/2020 14:02:17
+what did you use earlier?
+
+##### Simon Steinmann [Moderator] 08/21/2020 14:01:43
+really have over the past month. It was the reason I didnt switch a year earlier. Getting your own robot into the simulator is so important
+
+##### alxy 08/21/2020 14:01:05
+you have taken the converter to a whole new level! 🙂
+
+##### Simon Steinmann [Moderator] 08/21/2020 14:00:28
+works, gets converted automatically now 🙂
+
+##### alxy 08/21/2020 13:57:52
+Nice, thanks!
+
+##### Simon Steinmann [Moderator] 08/21/2020 13:57:37
+well i'm gonna add the velocities to the .urdf, so they get converted automatically
+
+##### alxy 08/21/2020 13:54:19
+or entirely different from what is documented
+
+
+or not documented
+
+
+return values of the firmware to the serial connection are not correct
+
+
+They use gcodes to communicate, and there is one gcode to open the gripper, but it actually closes it
+
+##### Simon Steinmann [Moderator] 08/21/2020 13:53:34
+yeah ofc they have. they are NOT 200Nm, that would be very impressive 😄
+
+##### alxy 08/21/2020 13:53:15
+They certainly do have torque limits, but they are not specified
+
+##### Simon Steinmann [Moderator] 08/21/2020 13:53:10
+like what?
+
+##### alxy 08/21/2020 13:52:24
+but I have to say the docuemtnation is not entirely correct, I have already found some quite major errors
+
+
+[https://uploads-ssl.webflow.com/5edc22ea8e58c13e2883e09b/5efd245acdbcfb27deb727ce\_WLKATA%20Mirobot%20User%20Manual%20V1.2.pdf](https://uploads-ssl.webflow.com/5edc22ea8e58c13e2883e09b/5efd245acdbcfb27deb727ce_WLKATA%20Mirobot%20User%20Manual%20V1.2.pdf) page 55
+
+
+I linked the document in the PR
+
+##### Simon Steinmann [Moderator] 08/21/2020 13:50:39
+and are there torque limits too?
+
+
+where did you get the mirobot vel limits?
+
+##### alxy 08/21/2020 13:48:15
+that sounds good
+
+##### Simon Steinmann [Moderator] 08/21/2020 13:47:53
+and control the robot by adressing the joint angles directly
+
+
+but you can use your own ik, use it for both, the simulation and the real robot
+
+
+cartesian control is xyz for the tool
+
+##### alxy 08/21/2020 13:47:13
+ah, yeah you can do that, obviously that is something we dont use at all 😄
+
+##### Simon Steinmann [Moderator] 08/21/2020 13:46:54
+position control is joint angles
+
+##### alxy 08/21/2020 13:46:42
+position control as in your provide coordinates and it moves?
+
+##### Simon Steinmann [Moderator] 08/21/2020 13:46:29
+where you run into differences is when using IK. Most real robots also have cartesian control, using IK in their controller. That might be quite different
+
+
+if your max vel is low enough, it should be pretty much 1 to 1
+
+
+i'm sure the real robot has position control right?
+
+##### alxy 08/21/2020 13:44:49
+Ok, after googling around it appears more or less impossible for me 😄
+
+##### David Mansolino [cyberbotics] 08/21/2020 13:37:00
+Just a small typo.
+
+##### Simon Steinmann [Moderator] 08/21/2020 13:21:00
+pushed update doc
+
+
+😅  oh yeah right
+
+##### David Mansolino [cyberbotics] 08/21/2020 13:03:31
+Cool, remains just to update:
+
+  - [https://github.com/cyberbotics/urdf2webots/blob/Simon-Steinmann-nameFixes%26more/README.md](https://github.com/cyberbotics/urdf2webots/blob/Simon-Steinmann-nameFixes%26more/README.md)
+
+  - [https://github.com/cyberbotics/urdf2webots/blob/Simon-Steinmann-nameFixes%26more/docs/tutorial.md](https://github.com/cyberbotics/urdf2webots/blob/Simon-Steinmann-nameFixes%26more/docs/tutorial.md)
+
+##### Simon Steinmann [Moderator] 08/21/2020 13:00:44
+approved the changes
+
+
+editing a 5MB proto file is just so horrible
+
+##### David Mansolino [cyberbotics] 08/21/2020 12:58:28
+> The difference with mutli-file for the user-experrience is HUGE
+
+`@Simon Steinmann` yes indeed, it much simpler for the maintenance too!
+
+##### Simon Steinmann [Moderator] 08/21/2020 12:58:11
+The difference with mutli-file for the user-experrience is HUGE
+
+##### David Mansolino [cyberbotics] 08/21/2020 12:58:06
+That sounds very nice 😄
+
+##### Simon Steinmann [Moderator] 08/21/2020 12:57:41
+making improvements to the convertion tools, allows to reconvert and update all robots
+
+
+right now, I can convert the entire community projects repo, plus universal robots ur3, 5 and 10 in like 10 seconds
+
+
+ohh okay
+
+##### David Mansolino [cyberbotics] 08/21/2020 12:56:37
+Unfortunately, most (almost all) of the robots are designed from scratch without using the URDF files 😕
+
+##### Simon Steinmann [Moderator] 08/21/2020 12:56:02
+as many as possible 😉
+
+##### David Mansolino [cyberbotics] 08/21/2020 12:55:50
+Which ones?
+
+##### Simon Steinmann [Moderator] 08/21/2020 12:55:35
+`@David Mansolino` do you have the urdf files and meshes of the robots you created?
+
+##### alxy 08/21/2020 12:55:23
+On a first glance it appears these guys who coded the firmware in C are wizards 😄
+
+
+the steps would be to first kind of build the program and see how to map input and output I assume?
+
+
+Yeah, Im on the same side, but some C code I can really hardly read
+
+##### Simon Steinmann [Moderator] 08/21/2020 12:51:07
+I can read it if I absolutely have to, but I can't code in it
+
+
+I'm a python guy. c scares me 😅
+
+
+of course it's possible, but not easy. Feel free to do it 😉
+
+##### alxy 08/21/2020 12:48:55
+What do you guys think? Is it somehow possible to interface the original firmware ( [https://github.com/wlkata/WLkata-Mirobot-Firmware](https://github.com/wlkata/WLkata-Mirobot-Firmware) ) for the microcontroller of the real robot with webots? I have no idea if this is could even somehow be possible, but I imagine much more realistic movements and trajectories of the robot, as it uses the original algorithms to calculate motor positons...
+
+##### Simon Steinmann [Moderator] 08/21/2020 12:29:26
+the issue came up, when I rant the batch conversion inside a class. removed the class and just used normal functions. Seems to work now... super strange
+
+
+Once we are through with the current PR (just updated it), I'll upload the batch conversion. Perhaps you can then take a look. The issue is super weird
+
+##### David Mansolino [cyberbotics] 08/21/2020 11:40:50
+This is part of the automatic DEF-USE mechanism to avoid defining twice the same mesh, if you set the condition to True, then it will an any case export the mesh and disable DEF-USE mechanism
+
+##### Simon Steinmann [Moderator] 08/21/2020 10:54:52
+`@David Mansolino` Could you tell me why [https://github.com/cyberbotics/urdf2webots/blob/master/urdf2webots/writeProto.py#L462](https://github.com/cyberbotics/urdf2webots/blob/master/urdf2webots/writeProto.py#L462) this condition is needed? I created a batch-convertion, automatically converting a whole nested directory of urdf files (with options defined in .json configs). And for some reason, this line stops SOME, but not all Mesh protos to be created. I spent 5 hours yesterday trying to figure that out.  Setting this line to 
+
+if True: 
+
+fixes this issue. My question is, why is it needed?
+
+##### alxy 08/20/2020 19:38:05
+yeah, will see if I can do that tomorrow. I also plan to export my gripper to a proto file again
+
+##### Simon Steinmann [Moderator] 08/20/2020 18:45:59
+you can check out my model in the PR above. I'd recommend using it, as it is super lightweight and easy to edit, due to the meshes being in seperate files
+
+
+figured it out and fixed it
+
+##### alxy 08/20/2020 18:12:47
+you can check my world in my repo, my gripper works...
+
+
+yes?
+
+##### Simon Steinmann [Moderator] 08/20/2020 18:11:46
+you can attach grippers without falling down?
+
+##### alxy 08/20/2020 18:11:08
+Ok, so I will now merge my PR, however I guess it doesnt really matter....
+
+##### Simon Steinmann [Moderator] 08/20/2020 18:10:50
+added a bit of code that improves the singularity handling
+> **Attachment**: [ik\_module.py](https://cdn.discordapp.com/attachments/565155651395780609/746068745415557170/ik_module.py)
+
+
+I now found an issue, where attached things to the toolSlot fall down 😄
+
+
+the bounds get exported
+
+##### alxy 08/20/2020 18:09:14
+Did you check if it works if the bounds are not set?
+
+##### Simon Steinmann [Moderator] 08/20/2020 17:46:53
+`@alxy` you can merge your PR
+
+`@Olivier Michel` `@David Mansolino` I created a new PR for the Mirobot, already including alxy's changes:
+
+[https://github.com/cyberbotics/community-projects/pull/14](https://github.com/cyberbotics/community-projects/pull/14)
+
+
 but we will have to check and recompile several official robot arms, as they dont include the last link, when converting to urdf. Good idea anyways, using multi-file, so viewing and editing PROTO-source is less laggy
 
 ##### David Mansolino [cyberbotics] 08/18/2020 19:30:11
