@@ -196,7 +196,7 @@ class Connector (Device):
     def disablePresence(self):
     def getPresenceSamplingPeriod(self):
     def getPresence(self):
-    def getState(self):
+    def isLocked(self):
     # ...
 ```
 
