@@ -20,9 +20,8 @@ int compare_files(FILE *file_1, FILE *file_2) {
     count++;
     line_status_1 = fgets(line_1, MAX_LINE_LENGTH, file_1);
     line_status_2 = fgets(line_2, MAX_LINE_LENGTH, file_2);
-    if (strcmp(line_1, line_2)) {
+    if (strcmp(line_1, line_2))
       return count;
-    }
   } while (line_status_1 || line_status_2);
 
   return 0;
