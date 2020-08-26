@@ -22,9 +22,13 @@ int main(int argc, char **argv) {
       ts_assert_int_equal(wb_connector_get_presence(rear_connector), 1, "connector presence should be 1");
       wb_connector_unlock(front_connector);
       wb_connector_unlock(rear_connector);
+      ts_assert_boolean_equal(wb_connector_is_locked(rear_connector), false, "connector presence should be unlocked");
+ 
     } else if (t == 38 * TIME_STEP) {
       ts_assert_int_equal(wb_connector_get_presence(rear_connector), 0,
                           "connector presence should be 0, as the other module should have fallen.");
+      wb_connector_unlock(rear_connector);
+      ts_assert_boolean_equal(wb_connector_is_locked(rear_connector), true, "connector presence should be locked");
       break;
     }
     t += TIME_STEP;
