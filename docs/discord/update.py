@@ -42,7 +42,7 @@ class MyClient(discord.Client):
             messages = []
             async for message in channel.history(limit=None):
                 messages.append(message)
-            if not channels[channel]['preserveMessageOrder']:
+            if not channels[channel.name]['preserveMessageOrder']:
                 messages.reverse()
             for message in messages:
                 if message.type == discord.MessageType.default and (message.content or message.attachments):
