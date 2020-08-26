@@ -39,7 +39,11 @@ class MyClient(discord.Client):
             file.write(u'This is an archive of the `%s` channel of the ' % channel.name +
                        '[Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n')
             previousMessageUser = None
+            messages = []
             async for message in channel.history(limit=None):
+                messages.append(message)
+            messages.reverse()
+            for message in messages:
                 if message.type == discord.MessageType.default and (message.content or message.attachments):
                     # ingored massages with a '🚫' reaction
                     ignoredMessage = False
