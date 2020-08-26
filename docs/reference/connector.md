@@ -212,7 +212,7 @@ public class Connector extends Device {
   public void disablePresence();
   public int getPresenceSamplingPeriod();
   public int getPresence();
-  public bool getState();
+  public boolean isLocked();
   // ...
 }
 ```
