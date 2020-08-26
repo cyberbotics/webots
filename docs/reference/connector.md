@@ -178,7 +178,7 @@ namespace webots {
     virtual void disablePresence();
     int getPresenceSamplingPeriod() const;
     int getPresence() const;
-    int getState() const;
+    bool isLocked() const;
     // ...
   }
 }
