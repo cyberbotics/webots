@@ -149,7 +149,7 @@ But it is not necessary to add a [Physics](physics.md) node to the [Connector](#
 #### `wb_connector_disable_presence`
 #### `wb_connector_get_presence_sampling_period`
 #### `wb_connector_get_presence`
-#### `wb_connector_get_state`
+#### `wb_connector_is_locked`
 
 %tab-component "language"
 
@@ -162,7 +162,7 @@ void wb_connector_enable_presence(WbDeviceTag tag, int sampling_period);
 void wb_connector_disable_presence(WbDeviceTag tag);
 int wb_connector_get_presence_sampling_period(WbDeviceTag tag);
 int wb_connector_get_presence(WbDeviceTag tag);
-bool wb_connector_get_state(WbDeviceTag tag);
+bool wb_connector_is_locked(WbDeviceTag tag);
 ```
 
 %tab-end
@@ -262,7 +262,7 @@ The `wb_connector_get_presence` function returns the current *presence* state of
 
 The *presence* state is defined as the correct positioning of a compatible peer [Connector](#connector).
 
-The `wb_connector_get_state` function returns the current *isLocked* state of this connector.
+The `wb_connector_is_locked` function returns the current *isLocked* state of this connector.
 
 Two connectors are in position if they are axis-aligned, rotation-aligned and near enough.
 To be axis-aligned, the angle between the *z*-axes of the two connectors must be smaller than the `axisTolerance` field.
