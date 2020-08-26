@@ -2,6 +2,8 @@
 
 This is an archive of the `development` channel of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m) for year 2019.
 
+## April
+
 ##### Thelm76 04/25/2019 10:34:24
 Hi, I don't know if this is the good place to post this, tell me if I'm wrong.
 
@@ -48,6 +50,8 @@ I would propose you to open an issue on [https://github.com/omichel/webots/issue
 
 
 Eventually, you will be able to open a pull request to merge your contribution.
+
+## June
 
 ##### Arsalan.b.r 06/04/2019 07:42:35
 hello
@@ -583,8 +587,12 @@ The latest (java 8 and webots R2019-R1)
 ##### BlackPearl 06/28/2019 05:00:03
 `@David Mansolino`  thanks, will try
 
+## July
+
 ##### Deleted User 07/20/2019 10:21:57
 `@BlackPearl` hello sir, are you using nao ?
+
+## August
 
 ##### BlackPearl 08/21/2019 09:42:49
 `@David Mansolino`  so we are using the new version but we got the controller crash again
@@ -727,6 +735,8 @@ It still doesn’t work `@fa`
 ##### MerySgh 08/21/2019 11:36:36
 `@Fabien Rohrer` No thank you so much 🙂
 
+## September
+
 ##### Derek 09/10/2019 01:23:04
 How can I add some joints in a robot by GUI operation?
 
@@ -779,6 +789,8 @@ how to integrate webots with an ide in macOS?
 
 ##### David Mansolino [cyberbotics] 09/30/2019 06:40:07
 We also have an example with PyCharm here: [https://www.cyberbotics.com/doc/guide/using-pycharm-with-webots](https://www.cyberbotics.com/doc/guide/using-pycharm-with-webots)
+
+## October
 
 ##### pavlos27t 10/17/2019 14:39:46
 Hello Sir, i am trying to understand supervisor programming but i found only this example in C : [https://www.cyberbotics.com/doc/guide/supervisor-programming](https://www.cyberbotics.com/doc/guide/supervisor-programming) , could you give me something similar in python?I'm trying this on a robot controller: from controller import * ;robot = Robot();robot.getFromDef(name =  "robotname")  ---> and i get error robot object has no attribute getFromDef , but i have supervisor field :TRUE on the robot
@@ -902,6 +914,8 @@ See details here: [https://cyberbotics.com/doc/guide/using-ros#standard-ros-cont
 
 ##### SimonDK 10/25/2019 17:24:39
 `@Flo` I sent you a PM, did you receive it? /cheers
+
+## November
 
 ##### threeal 11/02/2019 00:48:58
 how can i launch python controller in webots?
@@ -1055,6 +1069,8 @@ Great to hear it is in the long-term plans at least 😊 I get there are more ur
 
 ##### Enger 11/30/2019 22:42:33
 Hi Guys, I am new to Webots but I want to use it for a robot soccer simulation project. I would like to use the Robotis OP2 robot but I want to code in python. Is it possible?
+
+## December
 
 ##### Tahir [Moderator] 12/01/2019 01:44:29
 Hi 

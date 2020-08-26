@@ -35,6 +35,7 @@ contributors = {}
 class MyClient(discord.Client):
     async def export_channel(self, channel):
         year = None
+        month = None
         path = os.path.dirname(os.path.abspath(__file__))
         with open(os.path.join(path, channel.name + '.md'), 'w', encoding='utf-8') as rootFile:
             file = rootFile
@@ -77,8 +78,12 @@ class MyClient(discord.Client):
                             yearlyFiles.append(yearlyfile)
                             rootFile.write(u'  - [%d](%s)\n' % (year, channel.name + '-' + str(year) + '.md'))
                             file = yearlyfile
+                            month = None
                         else:
                             file.write(u'## %d\n\n' % year)
+                    if file != rootFile and message.created_at.month != month:
+                        month = message.created_at.month
+                        file.write(u'## {0:%B}\n\n'.format(message.created_at, "month"))
                     # author + date header
                     if previousMessageUser != message.author:
                         previousMessageUser = message.author

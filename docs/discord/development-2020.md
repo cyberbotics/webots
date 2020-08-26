@@ -2,6 +2,8 @@
 
 This is an archive of the `development` channel of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m) for year 2020.
 
+## January
+
 ##### Shanaka 01/02/2020 08:15:57
 I'm shanaka currently working as a research engineer in the department of electrical and electronic engineering, University of Peradeniya, Sri Lanka. These days, I engaged to design simulation using PUMA 560 robot manipulator in WEBOT and note that I'm very new to webot. 
 
@@ -157,6 +159,8 @@ Hi `@nitrow`, thank you for the suggestion, I will check in the datasheet if I f
 
 ##### David Mansolino [cyberbotics] 01/28/2020 10:19:07
 `@nitrow` perfect, thank you for the feedback!
+
+## February
 
 ##### rbhuva 02/07/2020 16:51:33
 Hi there
@@ -431,6 +435,8 @@ Was able to solve my own problem by running 'make' on the main /projects folder.
 
 I had comment most of the child make(s) and just compile the vehicles folder
 
+## March
+
 ##### David Mansolino [cyberbotics] 03/02/2020 06:39:28
 `@KyleM` Welcome!
 
@@ -547,6 +553,8 @@ Thanks!😁
 
 ##### David Mansolino [cyberbotics] 03/27/2020 07:49:44
 You're welcome.
+
+## April
 
 ##### imjusta23 04/01/2020 17:12:59
 Hey, does someone has a code for a light follower?
@@ -837,6 +845,8 @@ Or is their any simple way to convert normal vector direction to euler angles
 
 ##### Simon Steinmann [Moderator] 04/29/2020 22:31:07
 [https://www.andre-gaschler.com/rotationconverter/](https://www.andre-gaschler.com/rotationconverter/)
+
+## May
 
 ##### Jesusmd 05/10/2020 06:29:26
 Is there an quickly way to get the attribute instead of  predefined values as for example in  Keyboard class.?  I would preffer enum as in c or c++
@@ -1207,6 +1217,8 @@ How can i run simulator using Qt Creator?
 
 is there any depth camera that i can use for skeletal tracking?
 
+## June
+
 ##### David Mansolino [cyberbotics] 06/02/2020 05:51:17
 > does anyone have implemented some kind of pathfinding and can help me ? pls dm
 
@@ -1513,6 +1525,8 @@ Your "shape" node should be in the "children" one and not "boundingObject". Then
 ##### Marian 06/30/2020 09:45:52
 Ok, thanks a lot for the explanation. It works!
 
+## July
+
 ##### Clara Cardoso Ferreira 07/03/2020 23:17:42
 > Thanks I'll try that when I get my computer back.
 
@@ -1818,6 +1832,8 @@ Perfect, thank you very much!
 
 ##### David Mansolino [cyberbotics] 07/31/2020 08:46:40
 You're welcome
+
+## August
 
 ##### Simon Steinmann [Moderator] 08/04/2020 15:17:17
 Found a strange behavior. Running EXACTLY the same simulation, I get several of these errors:

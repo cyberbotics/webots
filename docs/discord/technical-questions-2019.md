@@ -2,6 +2,8 @@
 
 This is an archive of the `technical-questions` channel of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m) for year 2019.
 
+## April
+
 ##### shridhar 04/18/2019 07:08:31
 Hello, I have included camera and a Hingejoint in  children field of Robot and wrote a controller to spin a solid cylinder but when I run the controller even the cameras are rotating. so how to rotate the solid without rotating camera ( i tried with two separate Robots but still the result is same.
 
@@ -1831,6 +1833,8 @@ OK.
 
 ##### Ahmad Ali 04/30/2019 16:03:19
 Hi, is there any way to get the world file as a 3D mesh model?
+
+## May
 
 ##### Olivier Michel [cyberbotics] 05/01/2019 06:05:27
 Hi,
@@ -3718,6 +3722,8 @@ Please feel free to contribute such a suggestion on github:  [https://github.com
 
 
 We will quickly review your suggestion and merge it in the Webots documentation.
+
+## June
 
 ##### Amey 06/01/2019 10:33:08
 Hello,
@@ -6996,6 +7002,8 @@ I installed the MinGW-w64 Compiler thinking that maybe this is the problem but i
 
 
 webots 2019a and matlab 2018a
+
+## July
 
 ##### MariusJuston [Moderator] 07/01/2019 01:12:47
 Sorry, I have been trying to set up my robot *.iam file through Blender and I have not managed to figure out how to do it. I have managed to export the file as a *.wrl; however, I have no idea how I would actually set it up in Webots, it is a simple 6 axis robot however how do you set up a custom robot from a custom .wrl? 
@@ -10590,6 +10598,8 @@ Ok. I get it.
 
 👏
 
+## August
+
 ##### MariusJuston [Moderator] 08/01/2019 00:39:18
 `@Yang Chen` Here is the video [https://youtu.be/L0FVsFD2rS4](https://youtu.be/L0FVsFD2rS4)
 
@@ -11794,6 +11804,8 @@ I didn't use launchRos in my controller, I'll test it
 
 ##### David Mansolino [cyberbotics] 08/30/2019 10:20:34
 `@ClLebi` if you call the ``ROS::run`` function the ``launchRos`` function is called automatically.
+
+## September
 
 ##### Frodo 09/02/2019 06:32:51
 Do you guys know why I cant change the robot from the example.wbt from the python folder to an e-puck robot. When I do that it just tells me "INFO: slave: Starting controller: python.exe -u "slave.py" 
@@ -13781,6 +13793,8 @@ Ok, thanks for the advice! I will try them and see if anything new pops up.
 
 ##### SimonDK 09/30/2019 19:39:21
 `@Fabien Rohrer` Hi. I found that page as well, my challenge is that I cannot figure out where to add it in vscode 🤔Any ideas?
+
+## October
 
 ##### chamandana 10/01/2019 01:10:59
 guys, sorry for interrupting, can you point me to some quick resources to learn Inverse Kinematics. I need to move an end plate vertically upwards, which is connected to the base with two arms.
@@ -16514,6 +16528,8 @@ I am trying to create my first HTML window but I receive this error message whil
 
 
 I'm using Python3.7
+
+## November
 
 ##### buzzlightyear 11/01/2019 00:28:21
 Quick question,
@@ -19686,6 +19702,8 @@ hi everyone,how differential robot go to the target point use controller ？
 
 
 hi, why after add a  camera to my robot, the camera cant shot, just a plot of black
+
+## December
 
 ##### chenpixx 12/01/2019 20:52:45
 Hi,  I want to plot a point on the right foot sole of robotis-op2. How can I do it?

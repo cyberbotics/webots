@@ -2,6 +2,8 @@
 
 This is an archive of the `technical-questions` channel of the [Webots Discord server](https://discordapp.com/invite/nTWbN9m) for year 2020.
 
+## January
+
 ##### Shanaka 01/02/2020 08:10:14
 currently working as a research engineer in the department of electrical and electronic engineering, University of Peradeniya, Sri Lanka. These days, I engaged to design simulation using PUMA 560 robot manipulator in WEBOT and note that I'm very new to webot. 
 
@@ -2184,6 +2186,8 @@ Hello, right now i'm using Webots 8.4.0, the login system says my password was i
 
 ##### David Mansolino [cyberbotics] 01/31/2020 06:21:03
 Hi `@LISC`, Webots is now free and open-source, we had therefore to change the login system of the older version to make it free for everyone. You simply need to use 'webots' as password.
+
+## February
 
 ##### Nocturnal Warfare 02/01/2020 00:31:05
 does anyone know where the terrain generator went? It is just returning Error 404 Not Found. [https://cyberbotics.com/terrain\_generator](https://cyberbotics.com/terrain_generator)
@@ -5195,6 +5199,8 @@ Here the Code:
 
 
 When i test the code the last else function never gets called and throught that the goal\_handle.set suceeded never gets called. And to my knowledge is that the way i get the feedback if my robot reached the goal. Im quite confused about the variable goal\_handle because of his type. its either None or some sort of adress. maybe im just missing something. I hope you understand my problem.
+
+## March
 
 ##### jinu061353 03/01/2020 05:15:54
 What is the weight of a op3 on the webots?
@@ -8441,6 +8447,8 @@ Does blender webots exporter work on windows? And second question is : will expo
 
 
 I couldn't find any information about these questions here.
+
+## April
 
 ##### kwy 04/01/2020 02:49:15
 `@David Mansolino` Thanks!!!
@@ -12674,6 +12682,8 @@ You're welcome
 
 ##### iagsav 04/30/2020 21:55:57
 Hello! the Opencv library has functions that allow you to perform camera calibration: [https://docs.opencv.org/2.4/modules/calib3d/doc/camera\_calibration\_and\_3d\_reconstruction.html](https://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html). Please tell me, is it possible to do the same operation for a camera that is a sensor in Webots?
+
+## May
 
 ##### nap 05/01/2020 00:26:43
 In the `supervisor.h` API, there are a number of functions that include `sf` in their names; e.g. `wb_supervisor_field_get_sf_rotation` .  What is the meaning of `sf`?
@@ -17169,6 +17179,8 @@ when i first installed webots I had no issue seeing the 3d view, it was after i 
 
 ##### furkann 05/31/2020 23:53:22
 Hello all, can anybody help to make connection between webots and qtcreator ide
+
+## June
 
 ##### taeyoung 06/01/2020 04:43:13
 Hi, I'm trying to load some png images to display by wb\_display\_image\_load.
@@ -23026,6 +23038,8 @@ As a hint, you can check the return value of these getter functions and if you g
 ##### Robsicky 06/30/2020 13:36:38
 Perfect. It works🥳  Thank you very much!
 
+## July
+
 ##### Soft\_illusion 07/01/2020 01:36:30
 Any suggestions on how to dynamically change proto in the Webots simulators? While it is running.
 
@@ -28333,6 +28347,8 @@ Adding a symlink to a different python.framework on my PC in the specified locat
 
 
 So far, nothing has been super helpful. Was wondering if anyone else has run into this issue and if they'd be willing to help
+
+## August
 
 ##### Akash 08/01/2020 15:14:37
 How can I store the experimental values/console display values to a text file?
