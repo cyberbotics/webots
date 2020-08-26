@@ -20,6 +20,8 @@ import discord
 import os
 import re
 
+MAX_MESSAGES_PER_PAGE = 1000
+
 channels = {
     'news': {'preserveMessageOrder': True},
     'technical-questions': {'preserveMessageOrder': False},
@@ -34,7 +36,8 @@ class MyClient(discord.Client):
     async def export_channel(self, channel):
         year = None
         path = os.path.dirname(os.path.abspath(__file__))
-        with open(os.path.join(path, channel.name + '.md'), 'w', encoding='utf-8') as file:
+        with open(os.path.join(path, channel.name + '.md'), 'w', encoding='utf-8') as rootFile:
+            file = rootFile
             file.write(u'# %s\n\n' % channel.name.title())
             file.write(u'This is an archive of the `%s` channel of the ' % channel.name +
                        '[Webots Discord server](https://discordapp.com/invite/nTWbN9m).\n\n')
@@ -44,6 +47,9 @@ class MyClient(discord.Client):
                 messages.append(message)
             if not channels[channel.name]['preserveMessageOrder']:
                 messages.reverse()
+
+            yearlyFiles = []
+
             for message in messages:
                 if message.type == discord.MessageType.default and (message.content or message.attachments):
                     # ingored massages with a '🚫' reaction
@@ -62,7 +68,17 @@ class MyClient(discord.Client):
                     # yearly section
                     if year is None or year != message.created_at.year:
                         year = message.created_at.year
-                        file.write(u'## %d\n\n' % year)
+                        if len(messages) > MAX_MESSAGES_PER_PAGE:
+                            yearlyfile = open(os.path.join(path, channel.name + '-' + str(year) + '.md'), 'w', encoding='utf-8')
+                            yearlyfile.write(u'# %s %s\n\n' % (channel.name.title(), year))
+                            yearlyfile.write(u'This is an archive of the `%s` channel of the ' % channel.name +
+                                             '[Webots Discord server](https://discordapp.com/invite/nTWbN9m)' +
+                                             ' for year %d.\n\n' % year)
+                            yearlyFiles.append(yearlyfile)
+                            rootFile.write(u'  - [%d](%s)\n' % (year, channel.name + '-' + str(year) + '.md'))
+                            file = yearlyfile
+                        else:
+                            file.write(u'## %d\n\n' % year)
                     # author + date header
                     if previousMessageUser != message.author:
                         previousMessageUser = message.author
@@ -139,6 +155,8 @@ class MyClient(discord.Client):
                 else:
                     print("\033[33mUnsupported message type:" + str(message.type) + '\033[0m')
                     print("\033[33m\tContent:" + str(message.content) + '\033[0m')
+            for yearlyfile in yearlyFiles:
+                yearlyfile.close()
 
     async def on_ready(self):
         path = os.path.dirname(os.path.abspath(__file__))
