@@ -18,6 +18,7 @@
 #include <webots/Connector.hpp>
 #include "RosSensor.hpp"
 
+#include <webots_ros/get_bool.h>
 #include <webots_ros/set_bool.h>
 
 using namespace webots;
@@ -34,12 +35,14 @@ public:
   int rosSamplingPeriod() override { return mConnector->getPresenceSamplingPeriod(); }
 
   bool lockCallback(webots_ros::set_bool::Request &req, webots_ros::set_bool::Response &res);
+  bool isLockedCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res);
 
 private:
   void cleanup() { mConnector->disablePresence(); }
 
   Connector *mConnector;
   ros::ServiceServer mLockServer;
+  ros::ServiceServer mIsLockedServer;
 };
 
 #endif  // ROS_CONNECTOR_HPP
