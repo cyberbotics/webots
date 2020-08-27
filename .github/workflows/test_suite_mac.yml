@@ -53,3 +53,33 @@ jobs:
         name: build-${{ matrix.os }}
         path: |
           distribution/*.dmg
+  test-suite:
+    needs: build
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') }}
+    strategy:
+      matrix:
+        os: [macos-10.15]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download Artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: build-${{ matrix.os }}
+        path: artifact
+    - name: Extract Webots
+      run: |
+        hdiutil mount artifact/webots-R2020b-rev1.dmg
+        sudo cp -R /Volumes/Webots/Webots.app /Applications
+        hdiutil unmount /Volumes/Webots
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Test
+      run: 
+        export LIBGL_ALWAYS_SOFTWARE=true
+        export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
+        export WEBOTS_HOME=/Applications/Webots.app
+        # we currently can't run the test suite because of https://github.com/cyberbotics/webots/issues/2110
+        # python tests/test_suite.py
