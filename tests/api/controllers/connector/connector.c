@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
       wb_connector_unlock(rear_connector);
       break;
 
-    }  else if (t == 39 * TIME_STEP) {
+    } else if (t == 39 * TIME_STEP) {
       ts_assert_boolean_equal(wb_connector_is_locked(rear_connector), true, "connector presence should be locked");
       break;
     }
