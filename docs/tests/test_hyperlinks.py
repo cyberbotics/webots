@@ -17,6 +17,11 @@ class TestHyperlinks(unittest.TestCase):
 
         books = Books()
         for book in books.books:
+
+            # we don't want to maintain links posted on Discord
+            if book.name == 'discord':
+                continue
+
             for md_path in book.md_paths:
                 # Extract MD content.
                 args = {} if sys.version_info[0] < 3 else {'encoding': 'utf-8'}

@@ -21,6 +21,7 @@ Robot {
     TestSuiteEmitter {
     }
   ]
+  name "supervisor"
   controller "supervisor_get_position_orientation"
   supervisor TRUE
 }

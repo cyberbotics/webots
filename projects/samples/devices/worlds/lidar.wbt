@@ -296,10 +296,10 @@ DEF ROBOT Robot {
           scale 6 5 3
           children [
             DEF STRUCTURE_AXES Shape {
-              appearance PBRAppearance {
-                baseColor 0 0 0
-                roughness 1
-                metalness 0
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.02 0.02 0.02
+                }
               }
               geometry IndexedLineSet {
                 coord Coordinate {

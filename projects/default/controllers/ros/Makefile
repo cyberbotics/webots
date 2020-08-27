@@ -38,7 +38,15 @@ endif
 PYTHON_COMMAND ?= python
 ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
 release debug profile clean:
-	@echo -e "# \033[0;33mPython not installed, impossible to generate services/messages required by the ros controller, skipping ros controller\033[0m"
+	@echo "# \033[0;33mPython not installed, impossible to generate services/messages required by the ros controller, skipping ros controller\033[0m"
+else
+ifeq (, $(ROS_DISTRO))
+release debug profile clean:
+	@echo "# \033[0;33mROS not installed or 'ROS_DISTRO' not defined\033[0m"
+else
+ifeq (2, $(ROS_VERSION))
+release debug profile clean:
+	@echo "# \033[0;33mROS_DISTRO should not be a ROS2 distribution\033[0m"
 else
 CXX_SOURCES = $(wildcard *.cpp)
 
@@ -65,14 +73,13 @@ include/services/%.h: include/srv/%.srv include/templateHeader.h include/templat
 	$(SILENT)cp include/webots_ros/$(basename $(notdir $<)).h include/services/$(basename $(notdir $<)).h
 
 ROS_HEADERS: $(GENERATED_HEADERS)
-	+@make -s -C include $(MAKECMDGOALS)
 	+@cp -f include/RecognitionObject.h include/webots_ros/RecognitionObject.h
 
-INCLUDE = -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include
+INCLUDE = -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include -isystem /opt/ros/$(ROS_DISTRO)/include
 
 # include ros libraries
 
-LIBRARIES += -L$(WEBOTS_HOME_PATH)/projects/default/controllers/ros/lib/ros -lroscpp -lrosconsole -lroscpp_serialization -lrostime
+LIBRARIES += -L/opt/ros/$(ROS_DISTRO)/lib -lxmlrpcpp -lcpp_common -lrosconsole_backend_interface -lroscpp -lrosconsole -lrosconsole_log4cxx -lroscpp_serialization -lrostime
 ifeq ($(OSTYPE),windows)
  LIBRARIES += -lws2_32
  ifeq ($(MAKECMDGOALS),debug)
@@ -100,4 +107,6 @@ FILES_TO_REMOVE += include/webots_ros include/messages include/services headersG
 ### Do not modify: this includes Webots global Makefile.include
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
+endif
+endif
 endif

@@ -10,7 +10,9 @@ PointSet {
 ### Description
 
 The [PointSet](#pointset) node represents a set of 3D points specified in the `coord` field.
-[PointSet](#pointset) nodes are not lit, are not texture-mapped and they do not cast or receive shadows.
+[PointSet](#pointset) nodes don't support [PBRAppearance](pbrappearance.md).
+Instead, you should use an [Appearance](appearance.md) node in the [Shape](shape.md) containing the [PointSet](#pointset) geometry or leave the `appearance` field to NULL.
+[PointSet](#pointset) nodes are not lit, not texture-mapped and they do not cast or receive shadows.
 [PointSet](#pointset) nodes cannot be used for collision detection (boundingObject).
 
 ### Field Summary
