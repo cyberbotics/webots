@@ -226,6 +226,7 @@ wb_connector_enable_presence(tag, sampling_period)
 wb_connector_disable_presence(tag)
 period = wb_connector_get_presence_sampling_period(tag)
 presence = wb_connector_get_presence(tag)
+locked = wb_connector_is_locked(tag)
 ```
 
 %tab-end
