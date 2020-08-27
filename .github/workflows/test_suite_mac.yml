@@ -24,7 +24,7 @@ jobs:
     if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
     strategy:
       matrix:
-        os: [acos-10.15]
+        os: [macos-10.15]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
