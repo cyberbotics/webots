@@ -34,7 +34,7 @@ int wb_connector_get_presence_sampling_period(WbDeviceTag tag);
 int wb_connector_get_presence(WbDeviceTag tag);
 void wb_connector_lock(WbDeviceTag tag);
 void wb_connector_unlock(WbDeviceTag tag);
-bool wb_connector_get_state(WbDeviceTag tag);
+bool wb_connector_is_locked(WbDeviceTag tag);
 
 #ifdef __cplusplus
 }
