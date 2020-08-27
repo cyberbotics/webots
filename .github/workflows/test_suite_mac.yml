@@ -31,10 +31,12 @@ jobs:
       run: |
         brew install cmake swig wget
         npm install -g appdmg
-        sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7  # we can't use python3.7 from homebrew for the compilation because it is not compatible with the normal one
+        # install regular Python 3.7
+        sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7
         wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7.zip -P dependencies
         sudo unzip -o -q dependencies/python3.7.zip -d /Library/Frameworks/Python.framework/Versions/3.7
-        sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.8  # we can't use python3.8 from homebrew for the compilation because it is not compatible with the normal one
+        # install regular Python 3.8
+        sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.8
         wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.8.zip -P dependencies
         sudo unzip -o -q dependencies/python3.8.zip -d /Library/Frameworks/Python.framework/Versions/3.8
     - name: Set Commit SHA in Version
