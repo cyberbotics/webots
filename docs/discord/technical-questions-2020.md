@@ -2450,13 +2450,13 @@ ROS 1 with moveit
 I try to run arm and gripper in two group like running gazebo. Thank you very much! `@David Mansolino`
 
 ##### David Mansolino [cyberbotics] 02/04/2020 06:35:19
-Hi again `@rachel`, for ROS1 our interface with the FollowJointTrajectory action is limited to the univrsal robot robots. It is implemented in this controller: [https://github.com/cyberbotics/webots/tree/master/projects/robots/universal\_robots/controllers/universal\_robots\_ros](https://github.com/cyberbotics/webots/tree/master/projects/robots/universal_robots/controllers/universal_robots_ros)
+Hi again `@rachel`, for ROS1 our interface with the FollowJointTrajectory action is limited to the univrsal robot robots. It is implemented in this controller: [https://github.com/cyberbotics/webots/tree/master/projects/robots/universal\_robots/resources/ros\_package/ur\_e\_webots/scripts](https://github.com/cyberbotics/webots/tree/master/projects/robots/universal_robots/resources/ros_package/ur_e_webots/scripts)
 
 It should be quite easy to extend it to the gripper too. It is just a metter of adding the names of the gripper motors:
 
-[https://github.com/cyberbotics/webots/blob/master/projects/robots/universal\_robots/controllers/universal\_robots\_ros/joint\_state\_publisher.py#L24](https://github.com/cyberbotics/webots/blob/master/projects/robots/universal_robots/controllers/universal_robots_ros/joint_state_publisher.py#L24)
+[https://github.com/cyberbotics/webots/tree/master/projects/robots/universal\_robots/resources/ros\_package/ur\_e\_webots/scripts/joint\_state\_publisher.py#L24](https://github.com/cyberbotics/webots/tree/master/projects/robots/universal_robots/resources/ros_package/ur_e_webots/scripts/joint_state_publisher.py#L24)
 
-[https://github.com/cyberbotics/webots/blob/master/projects/robots/universal\_robots/controllers/universal\_robots\_ros/trajectory\_follower.py#L106](https://github.com/cyberbotics/webots/blob/master/projects/robots/universal_robots/controllers/universal_robots_ros/trajectory_follower.py#L106)
+[https://github.com/cyberbotics/webots/tree/master/projects/robots/universal\_robots/resources/ros\_package/ur\_e\_webots/scripts/trajectory\_follower.py#L106](https://github.com/cyberbotics/webots/tree/master/projects/robots/universal_robots/resources/ros_package/ur_e_webots/scripts/trajectory_follower.py#L106)
 
 ##### rachel 02/04/2020 08:07:25
 Hello `@David Mansolino`. Thank yo for your response. I will explain what I already did. According to robotiq 85 simulation in Gazebo [https://github.com/StanleyInnovation/robotiq\_85\_gripper/blob/master/robotiq\_85\_simulation/robotiq\_85\_gazebo/controller/gripper\_controller\_robotiq.yaml](https://github.com/StanleyInnovation/robotiq_85_gripper/blob/master/robotiq_85_simulation/robotiq_85_gazebo/controller/gripper_controller_robotiq.yaml) The gripper is only controlled by one joint "gripper\_finger1\_joint". So I added this joint in the file  [https://github.com/ipa-rwu/ur5\_2f\_webots/blob/master/controllers/universal\_robots\_ros/joint\_state\_publisher.py](https://github.com/ipa-rwu/ur5_2f_webots/blob/master/controllers/universal_robots_ros/joint_state_publisher.py) which is this file [https://github.com/cyberbotics/webots/blob/master/projects/robots/universal\_robots/controllers/universal\_robots\_ros/joint\_state\_publisher.py](https://github.com/cyberbotics/webots/blob/master/projects/robots/universal_robots/controllers/universal_robots_ros/joint_state_publisher.py). And I modify the file [https://github.com/cyberbotics/webots/blob/master/projects/robots/universal\_robots/controllers/universal\_robots\_ros/trajectory\_follower.py](https://github.com/cyberbotics/webots/blob/master/projects/robots/universal_robots/controllers/universal_robots_ros/trajectory_follower.py). You can find here [https://github.com/ipa-rwu/ur5\_2f\_webots/blob/master/controllers/universal\_robots\_ros/trajectory\_follower.py](https://github.com/ipa-rwu/ur5_2f_webots/blob/master/controllers/universal_robots_ros/trajectory_follower.py). Could you have look the file I modify? I am not so sure how to write FollowJointTrajectoryAction for gripper in Webots.
@@ -33437,4 +33437,61 @@ First, I strongly recommend to start by following the tutorials (at least 1 to 6
 Then you should probably have a look at this vacum cleaner example: [https://cyberbotics.com/doc/guide/create](https://cyberbotics.com/doc/guide/create)
 
 Finally, to interface Webots with your android application, you will need to write a controller that control the robot and communicate with your application: [https://cyberbotics.com/doc/guide/interfacing-webots-to-third-party-software-with-tcp-ip](https://cyberbotics.com/doc/guide/interfacing-webots-to-third-party-software-with-tcp-ip)
+
+##### Vyshak 08/26/2020 15:23:09
+Thank you `@David Mansolino`  , will refer these .
+
+##### bondolo 08/26/2020 20:52:08
+I am new to webots and trying to get my first world loading. I am using 2020a-rev1. The world I have was created by someone else. When I try to load the world I get the following error message: "error: Skipped unknown 'MultiSenseS21' node or PROTO."
+
+
+i checked and there is a MultiSense21.proto file at /Applications/Webots.app/projects/devices/multisense/protos/MultiSenseS21.proto
+
+
+any idea why webots can't find it?
+
+##### Simon Steinmann [Moderator] 08/26/2020 20:54:55
+you should probably update to 2020b
+
+
+there have been many important updates
+
+##### bondolo 08/26/2020 20:56:28
+Unfortuantely i am told i must use 2020a-rev1 for some custom protos that have not been updated.
+
+##### Simon Steinmann [Moderator] 08/26/2020 20:56:48
+they should be forward compatible
+
+
+you can try to manually copy the proto file into your project
+
+
+in the protos/ folder
+
+##### bondolo 08/26/2020 20:58:47
+Figuring out the search path has been one of my questions. 🙂 where would the protos folder be relative to the wbt file?
+
+
+i currently have no project, just the world i opened.
+
+##### Simon Steinmann [Moderator] 08/26/2020 21:00:24
+make a 'protos' folder next to the 'worlds' and 'controllers' folder
+
+
+you might wanna create a new project
+
+
+that might be your problem
+
+##### bondolo 08/26/2020 21:07:47
+OK, if i have an existing directory with those directories, how do i open it as a project?
+
+
+I found the "New project directory…" under wizards menu but don't see how to open a project.
+
+##### Simon Steinmann [Moderator] 08/26/2020 21:17:11
+create a new one, then put the world file in
+
+
+or create that structure yourself
 
