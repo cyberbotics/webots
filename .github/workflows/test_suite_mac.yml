@@ -32,7 +32,7 @@ jobs:
          submodules: true
     - name: Install Webots Compilation Dependencies
       run: |
-        brew install cmake swig wget # node
+        brew install cmake swig wget
         npm install -g appdmg
         sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7  # we can't use python3.7 from homebrew for the compilation because it is not compatible with the normal one
         wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7.zip -P dependencies
