@@ -1,4 +1,4 @@
-name: Test Suite
+name: Test Suite Linux
 
 on:
   pull_request:
@@ -24,54 +24,37 @@ jobs:
     if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
     strategy:
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
+        os: [ubuntu-18.04, ubuntu-20.04]
         include:
           - os: ubuntu-18.04
             JAVA_VERSION: "11"
+            ROS_DISTRO: "melodic"
           - os: ubuntu-20.04
             JAVA_VERSION: "14"
+            ROS_DISTRO: "noetic"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
       with:
          submodules: true
-    - name: Install Webots Compilation Dependencies [Linux]
-      if: ${{ startsWith(matrix.os, 'ubuntu') }}
+    - name: Install Webots Compilation Dependencies
       run: scripts/install/linux_optional_compilation_dependencies.sh
-    - name: Install Webots Compilation Dependencies [macOS]
-      if: ${{ startsWith(matrix.os, 'macos') }}
-      run: |
-        brew install cmake swig wget # node
-        npm install -g appdmg
-        sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7  # we can't use python3.7 from homebrew for the compilation because it is not compatible with the normal one
-        wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7.zip -P dependencies
-        sudo unzip -o -q dependencies/python3.7.zip -d /Library/Frameworks/Python.framework/Versions/3.7
-        sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.8  # we can't use python3.8 from homebrew for the compilation because it is not compatible with the normal one
-        wget -qq https://cyberbotics.com/files/repository/dependencies/mac/release/python3.8.zip -P dependencies
-        sudo unzip -o -q dependencies/python3.8.zip -d /Library/Frameworks/Python.framework/Versions/3.8
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
       run: python scripts/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
-    - name: Webots Package Creation [Linux]
-      if: ${{ startsWith(matrix.os, 'ubuntu') }}
+    - name: Webots Package Creation
       run: |
         export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
         export PATH=$JAVA_HOME/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
+        export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
         xvfb-run --auto-servernum make distrib -j4
-    - name: Webots Package Creation [macOS]
-      if: ${{ startsWith(matrix.os, 'macos') }}
-      run: |
-        export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
-        export PATH=/Library/Frameworks/Python.framework/Versions/3.8/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin/:$PATH
-        make distrib -j4
     - uses: actions/upload-artifact@v2
       with:
         name: build-${{ matrix.os }}
         path: |
           distribution/*.tar.bz2
           distribution/*.deb
-          distribution/*.dmg
     - name: Create/Update GitHub release
       if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') && matrix.os == 'ubuntu-20.04' }}
       run: |
@@ -82,7 +65,7 @@ jobs:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') }}
     strategy:
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
+        os: [ubuntu-18.04, ubuntu-20.04]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
@@ -91,38 +74,20 @@ jobs:
       with:
         name: build-${{ matrix.os }}
         path: artifact
-    - name: Extract Webots [Linux]
-      if: ${{ startsWith(matrix.os, 'ubuntu') }}
+    - name: Extract Webots
       run: tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
-    - name: Extract Webots [macOS]
-      if: ${{ startsWith(matrix.os, 'macos') }}
-      run: |
-        hdiutil mount artifact/webots-R2020b-rev1.dmg
-        sudo cp -R /Volumes/Webots/Webots.app /Applications
-        hdiutil unmount /Volumes/Webots
     - name: Install Webots Dependencies
-      if: ${{ startsWith(matrix.os, 'ubuntu') }}
       run: scripts/install/linux_runtime_dependencies.sh
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
-    - name: Test Suite [Linux]
-      if: ${{ startsWith(matrix.os, 'ubuntu') }}
+    - name: Test Suite
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
         xvfb-run --auto-servernum python tests/test_suite.py
-    - name: ${{ matrix.test }} [macOS]
-      if: ${{ startsWith(matrix.os, 'macos') }}
-      run: |
-        python --version
-        python -u -c "import sys; print(sys.exec_prefix)"
-        export LIBGL_ALWAYS_SOFTWARE=true
-        export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
-        export WEBOTS_HOME=/Applications/Webots.app
-        python tests/test_suite.py
   world-update:
     needs: build
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test world update') }}
