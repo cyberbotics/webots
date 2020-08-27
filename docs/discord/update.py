@@ -85,7 +85,7 @@ class MyClient(discord.Client):
                             file.write(u'## %d\n\n' % year)
                     if file != rootFile and message.created_at.month != month:
                         month = message.created_at.month
-                        file.write(u'## {0:%B}\n\n'.format(message.created_at, "month"))
+                        file.write(u'## {0:%B}\n\n'.format(message.created_at))
                     # author + date header
                     if previousMessageUser != message.author:
                         previousMessageUser = message.author
