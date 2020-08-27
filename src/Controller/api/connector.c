@@ -169,7 +169,7 @@ int wb_connector_get_presence(WbDeviceTag tag) {
   return result;
 }
 
-bool wb_connector_get_state(WbDeviceTag tag) {
+bool wb_connector_is_locked(WbDeviceTag tag) {
   bool result = false;
   robot_mutex_lock_step();
   Connector *con = connector_get_struct(tag);
