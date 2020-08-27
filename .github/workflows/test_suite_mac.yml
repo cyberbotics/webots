@@ -9,9 +9,6 @@ on:
     tags:
       - '*'
 
-defaults:
-  run:
-    shell: bash
 jobs:
   cleanup-runs:
     runs-on: ubuntu-latest
