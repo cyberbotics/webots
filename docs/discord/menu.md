@@ -1,4 +1,8 @@
 - [Technical-Questions](technical-questions.md)
+  - [2019](technical-questions-2019.md)
+  - [2020](technical-questions-2020.md)
 - [Development](development.md)
+  - [2019](development-2019.md)
+  - [2020](development-2020.md)
 - [Documentation](documentation.md)
 - [News](news.md)
