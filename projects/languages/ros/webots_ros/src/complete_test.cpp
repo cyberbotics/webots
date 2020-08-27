@@ -582,7 +582,7 @@ int main(int argc, char **argv) {
     ROS_INFO("Topics for keyboard connected.");
   } else
     ROS_ERROR("Failed to enable keyboard.");
-value
+
   ros::ServiceClient wait_for_user_input_event_client =
     n.serviceClient<webots_ros::robot_wait_for_user_input_event>(model_name + "/robot/wait_for_user_input_event");
   webots_ros::robot_wait_for_user_input_event wait_for_user_input_event_srv;
@@ -1063,7 +1063,7 @@ value
   connector_lock_client.shutdown();
   connector_enable_presence_client.shutdown();
   time_step_client.call(time_step_srv);
-  
+
   ros::ServiceClient connector_is_locked_client;
   webots_ros::get_bool connector_is_locked_srv;
   connector_is_locked_client = n.serviceClient<webots_ros::get_bool>(model_name + "/connector/is_locked");
