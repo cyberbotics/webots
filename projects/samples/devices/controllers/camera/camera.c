@@ -101,7 +101,7 @@ int main() {
      * The robot turns and analyse the camera image in order
      * to find a new blob
      */
-    else if (!image) {  // image may be NULL is Robot.synchronization is FALSE
+    else if (!image) {  // image may be NULL if Robot.synchronization is FALSE
       left_speed = 0;
       right_speed = 0;
     } else {  // pause_counter == 0
