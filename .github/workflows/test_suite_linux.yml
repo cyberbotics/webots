@@ -1,4 +1,4 @@
-name: Test Suite
+name: Test Suite Linux
 
 on:
   pull_request:
