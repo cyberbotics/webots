@@ -32,6 +32,7 @@ Robot {
   ]
   name "extern1"
   controller "<extern>"
+  supervisor TRUE
 }
 Robot {
   name "launcher"

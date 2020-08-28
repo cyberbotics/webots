@@ -13,6 +13,7 @@ Released on XXX YYth, 2020.
     - Fixed removing nodes from [Supervisor](supervisor.md) API's internal list after deleting the parent node ([#2123](https://github.com/cyberbotics/webots/pull/2123)).
     - Fixed various crashes and rendering issues occurring when opening an external rendering device window ([#2119](https://github.com/cyberbotics/webots/pull/2119)).
     - Fixed crash occurring when selecting a [Robot](robot.md) with mechanical closed-loop ([#2117](https://github.com/cyberbotics/webots/pull/2117)).
+    - Fixed various issues when an extern [Robot](robot.md) controller exits and then a new one connects to the same [Robot](robot.md) ([#2152](https://github.com/cyberbotics/webots/pull/2152)).
     - Remove scaling factor in matrix returned by [`wb_supervisor_node_get_orientation`](supervisor.md#wb_supervisor_node_get_orientation) ([#2112](https://github.com/cyberbotics/webots/pull/2112)).
     - Fixed conversion of identity matrix to quaternion in ROS API ([#2112](https://github.com/cyberbotics/webots/pull/2112)).
     - Fixed header stamps of the topics published by the ros controller ([#2127](https://github.com/cyberbotics/webots/pull/2127)).
