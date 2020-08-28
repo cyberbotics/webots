@@ -20,18 +20,14 @@ int main(int argc, char **argv) {
   while (wb_robot_step(TIME_STEP) != -1) {
     if (t == 34 * TIME_STEP) {  // fail from 34 because the modules are now sleeping.
       ts_assert_int_equal(wb_connector_get_presence(rear_connector), 1, "connector presence should be 1");
+      ts_assert_boolean_equal(wb_connector_is_locked(rear_connector), "connector should be locked");
       wb_connector_unlock(front_connector);
       wb_connector_unlock(rear_connector);
-    } else if (t == 35 * TIME_STEP)
-      ts_assert_boolean_equal(wb_connector_is_locked(rear_connector), "connector presence should be locked");
-    else if (t == 38 * TIME_STEP) {
+    } else if (t == 38 * TIME_STEP) {
       ts_assert_int_equal(wb_connector_get_presence(rear_connector), 0,
                           "connector presence should be 0, as the other module should have fallen.");
-      wb_connector_unlock(rear_connector);
+      ts_assert_boolean_equal(!wb_connector_is_locked(rear_connector), "connector should not be locked");
 
-    } else if (t == 39 * TIME_STEP) {
-      ts_assert_boolean_equal(wb_connector_is_locked(rear_connector), "connector presence should be locked");
-      break;
     }
     t += TIME_STEP;
   }
