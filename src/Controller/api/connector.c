@@ -69,6 +69,9 @@ static void connector_read_answer(WbDevice *d, WbRequest *r) {
     case C_CONNECTOR_GET_PRESENCE:
       con->presence = request_read_int16(r);
       break;
+    case C_CONFIGURE:
+      con->is_locked = request_read_uchar(r);
+      break;
     default:
       ROBOT_ASSERT(0);
   }
