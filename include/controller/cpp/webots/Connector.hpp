@@ -26,6 +26,7 @@ namespace webots {
     virtual void disablePresence();
     int getPresenceSamplingPeriod() const;
     int getPresence() const;
+    bool isLocked() const;
     virtual void lock();
     virtual void unlock();
   };
