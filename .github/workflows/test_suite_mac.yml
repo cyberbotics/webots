@@ -77,7 +77,6 @@ jobs:
         python-version: 3.8
     - name: Test
       run: 
-        export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=/Applications/Webots.app
         # we currently can't run the test suite because of https://github.com/cyberbotics/webots/issues/2110
