@@ -304,9 +304,23 @@ namespace {
     }
 
     if (fieldName == "appearance") {
-      if (nodeName == "Appearance" || nodeName == "PBRAppearance")
+      if (nodeName == "Appearance")
         return true;
-      else {
+      else if (nodeName == "PBRAppearance") {
+        const WbShape *const shape = dynamic_cast<const WbShape *const>(node);
+        if (!shape)
+          return true;
+        const WbGeometry *const geometry = shape->geometry();
+        if (!geometry)
+          return true;
+        if (geometry->nodeType() == WB_NODE_INDEXED_LINE_SET || geometry->nodeType() == WB_NODE_POINT_SET) {
+          errorMessage = QObject::tr("The '%1' node doesn't support 'PBRAppearance' in the 'appearance' field of its parent "
+                                     "node, please use 'Appearance' instead.")
+                           .arg(geometry->nodeModelName());
+          return false;
+        }
+        return true;
+      } else {
         errorMessage = defaultErrorMessage;
         return false;
       }
@@ -482,6 +496,16 @@ namespace {
         }
 
       } else if (fieldName == "geometry") {
+        if (nodeName == "IndexedLineSet" || nodeName == "PointSet") {
+          const WbShape *const shape = dynamic_cast<const WbShape *const>(node);
+          if (shape && shape->pbrAppearance()) {
+            errorMessage =
+              QObject::tr("Can't insert a '%1' node in the 'geometry' field of 'Shape' node if the 'appearance' field "
+                          "contains a 'PBRAppearance' node, please use an 'Appearance' node instead.")
+                .arg(nodeName);
+            return false;
+          }
+        }
         if (WbNodeUtilities::isGeometryTypeName(nodeName))
           return true;
       }

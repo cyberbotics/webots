@@ -1337,7 +1337,9 @@ void dJointAttach (dxJoint *joint, dxBody *body1, dxBody *body2)
     // check arguments
     dUASSERT (joint,"bad joint argument");
     dUASSERT (body1 == 0 || body1 != body2,"can't have body1==body2");
+#ifndef dNODEBUG
     dxWorld *world = joint->world;
+#endif
     dUASSERT ( (!body1 || body1->world == world) &&
         (!body2 || body2->world == world),
         "joint and bodies must be in same world");

@@ -60,8 +60,10 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 ifeq ($(OSTYPE),darwin)
  WGET=LANG=en_US.UTF-8 wget -qN -O
+ DISABLE_NPM_INSTALL_WARNING=2>&1
 else
  WGET=wget -qN -O
+ DISABLE_NPM_INSTALL_WARNING=
 endif
 
 # external sources to be downloaded and minified
@@ -124,7 +126,7 @@ $(LOCAL_THREEJS_EXAMPLE_SOURCES):
 
 $(INSTALL_TOKEN): package.json
 	@echo "# installing npm dependencies"
-	@npm --silent install 1> /dev/null
+	@npm --silent install 1> /dev/null $(DISABLE_NPM_INSTALL_WARNING)
 	@touch $(INSTALL_TOKEN)
 
 cleanse: clean
