@@ -28,7 +28,6 @@ int main(int argc, char **argv) {
                           "connector presence should be 0, as the other module should have fallen.");
       ts_assert_boolean_equal(!wb_connector_is_locked(rear_connector), "connector should not be locked");
       break;
-
     }
     t += TIME_STEP;
   }
