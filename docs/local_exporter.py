@@ -24,10 +24,10 @@ import sys
 
 try:
     # For Python 3.0 and later
-    from urllib.request import urlopen, HTTPError, URLError
+    from urllib.request import urlopen, HTTPError, URLError, Request
 except ImportError:
     # Fall back to Python 2's urllib2
-    from urllib2 import urlopen, HTTPError, URLError
+    from urllib2 import urlopen, HTTPError, URLError, Request
 
 
 def download(url, target_file_path):
@@ -44,15 +44,16 @@ def download(url, target_file_path):
     nTrials = 3
     for i in range(nTrials):
         try:
+            request = Request(url, headers={'User-Agent': 'Mozilla'})
             if platform.system() == 'Linux' and \
                hasattr(ssl, 'create_default_context'):
                 # On Ubuntu 16.04 there are issues with the certificates.
                 ctx = ssl.create_default_context()
                 ctx.check_hostname = False
                 ctx.verify_mode = ssl.CERT_NONE
-                response = urlopen(url, timeout=5, context=ctx)
+                response = urlopen(request, timeout=5, context=ctx)
             else:
-                response = urlopen(url, timeout=5)
+                response = urlopen(request, timeout=5)
             content = response.read()
 
             f = open(target_file_path, 'wb')

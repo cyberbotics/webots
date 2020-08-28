@@ -28,9 +28,10 @@ PROTO Elisa3DistanceSensor [
             }
           }
           Shape { # pins
-            appearance PBRAppearance {
-              roughness 1
-              metalness 0
+            appearance Appearance {
+              material Material {
+                diffuseColor 0.02 0.02 0.02
+              }
             }
             geometry IndexedLineSet {
               coord Coordinate {
