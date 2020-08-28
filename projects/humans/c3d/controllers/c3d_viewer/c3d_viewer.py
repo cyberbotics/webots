@@ -16,6 +16,7 @@
 
 from controller import Supervisor
 
+import base64
 import c3d
 import math
 import os.path
@@ -271,6 +272,9 @@ while supervisor.step(timestep) != -1:
             playbackSpeed = float(value[1])
             offsetTime = supervisor.getTime()
             totalFrameCoutner = 0
+        elif action == 'c3dfile':
+            with open('tmp-file.c3d', 'wb') as file:
+                file.write(base64.b64decode(value[1]))
         else:
             print(message)
         message = supervisor.wwiReceiveText()

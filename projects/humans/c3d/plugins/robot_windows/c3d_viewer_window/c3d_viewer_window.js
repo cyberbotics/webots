@@ -220,7 +220,9 @@ webots.window('c3d_viewer_window').init(function() {
     let reader = new FileReader();
     reader.onload = (function(theFile) {
       return function(e) {
-        document.getElementById('uploaded_file').innerHTML = e.target.result.slice(13); // remove the "data:;base64," header
+        const message = 'c3dfile:' + e.target.result.slice(13); // remove the "data:;base64," header
+        // console.log(message);
+        robotWindow.send(message, 'c3d_viewer');
       };
     })(f);
     reader.readAsDataURL(f); // perform base64 encoding suitable for sending text through the wwi interface
