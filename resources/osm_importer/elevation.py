@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Copyright 1996-2020 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +19,8 @@ import json
 import math
 import sys
 import time
-import urllib
+import urllib.parse
+import urllib.request
 
 from utils.misc_utils import length2D
 
@@ -43,7 +45,7 @@ class Elevation(object):
                 locationString = locationString + str(locations[i][0]) + "," + str(locations[i][1]) + "|"
                 # maximum of 512 locations per request and url max length of 2000
                 if ((i - offset) > 500 or
-                        len(GOOGLE_ELEVATION_BASE_URL + '?' + urllib.urlencode({'locations': locationString})) > 1800):
+                        len(GOOGLE_ELEVATION_BASE_URL + '?' + urllib.parse.urlencode({'locations': locationString})) > 1800):
                     offset = i + 1
                     finished = False
                     time.sleep(0.3)  # maximum 5 request per second
@@ -56,8 +58,8 @@ class Elevation(object):
             if key:
                 elvtn_args['key'] = key
 
-            url = GOOGLE_ELEVATION_BASE_URL + '?' + urllib.urlencode(elvtn_args)
-            response = json.load(urllib.urlopen(url))
+            url = GOOGLE_ELEVATION_BASE_URL + '?' + urllib.parse.urlencode(elvtn_args)
+            response = json.load(urllib.request.urlopen(url))
 
             if not response['status'] == 'OK':
                 sys.stderr.write(response['status'])
@@ -87,8 +89,8 @@ class Elevation(object):
             if not key == "":
                 elvtn_args['username'] = key
 
-            url = GEAONAMES_ELEVATION_BASE_URI + '?' + urllib.urlencode(elvtn_args)
-            response = json.load(urllib.urlopen(url))
+            url = GEAONAMES_ELEVATION_BASE_URI + '?' + urllib.parse.urlencode(elvtn_args)
+            response = json.load(urllib.request.urlopen(url))
             if 'status' in response:
                 sys.stderr.write(response['status']['message'])
                 return []
