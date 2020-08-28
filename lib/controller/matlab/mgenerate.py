@@ -106,6 +106,7 @@ gen(PROC, "wb_connector_enable_presence(tag, sampling_period)", "connector")
 gen(PROC, "wb_connector_disable_presence(tag)", "connector")
 gen(FUNC, "wb_connector_get_presence(tag)", "connector")
 gen(FUNC, "wb_connector_get_presence_sampling_period(tag)", "connector")
+gen(FUNC, "wb_connector_is_locked(tag)", "connector")
 gen(PROC, "wb_connector_lock(tag)", "connector")
 gen(PROC, "wb_connector_unlock(tag)", "connector")
 

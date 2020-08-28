@@ -69,6 +69,9 @@ static void connector_read_answer(WbDevice *d, WbRequest *r) {
     case C_CONNECTOR_GET_PRESENCE:
       con->presence = request_read_int16(r);
       break;
+    case C_CONFIGURE:
+      con->is_locked = request_read_uchar(r);
+      break;
     default:
       ROBOT_ASSERT(0);
   }
@@ -165,6 +168,20 @@ int wb_connector_get_presence(WbDeviceTag tag) {
     result = con->presence;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+  return result;
+}
+
+bool wb_connector_is_locked(WbDeviceTag tag) {
+  bool result;
+  robot_mutex_lock_step();
+  Connector *con = connector_get_struct(tag);
+  if (con)
+    result = con->is_locked;
+  else {
+    result = false;
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  }
   robot_mutex_unlock_step();
   return result;
 }
