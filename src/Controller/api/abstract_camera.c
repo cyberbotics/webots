@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+#include "abstract_camera.h"
+
 #ifdef _WIN32
 #include <windows.h>
 #else  // POSIX shared memory segments
@@ -24,7 +26,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "abstract_camera.h"
+#include <webots/robot.h>
 #include "messages.h"
 #include "robot_private.h"
 
