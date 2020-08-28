@@ -69,16 +69,11 @@ WbCoordinate *WbIndexedLineSet::coord() const {
 
 void WbIndexedLineSet::createWrenObjects() {
   WbGeometry::createWrenObjects();
-
   updateCoord();
-
   if (isInBoundingObject())
     connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this,
             &WbIndexedLineSet::updateLineScale);
-
-  sanitizeFields();
   buildWrenMesh();
-
   emit wrenObjectsCreated();
 }
 

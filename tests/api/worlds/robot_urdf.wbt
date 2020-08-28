@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.9201516338443356 0.3902998446880996 0.03141658749840674 5.65888
-  position -0.325516 0.729488 1.13904
+  orientation 0.9244648125466844 0.3812671342176207 0.0004274675506317637 5.659198519693561
+  position -0.817698556809651 2.086105061694742 2.9473537985573715
 }
 Background {
   skyColor [
@@ -17,6 +17,9 @@ PointLight {
 }
 UR5e {
   controller "robot_urdf"
+  controllerArgs [
+    "ur5e"
+  ]
   toolSlot [
     TestSuiteEmitter {
     }
@@ -63,6 +66,18 @@ UR5e {
         }
       }
       geometriesCount 40
+    }
+  ]
+}
+Tiago++ {
+  translation -0.4 0.095 0
+  rotation 0.7745972141184518 0.44721412362140484 0.44721212362085194 -1.823475307179586
+  controller "robot_urdf"
+  controllerArgs [
+    "tiago"
+  ]
+  cameraSlot [
+    TestSuiteEmitter {
     }
   ]
 }

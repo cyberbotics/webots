@@ -103,11 +103,11 @@ DEF INDEXED_LINE_SET Transform {
   translation 0 0 5
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        roughness 1
-        metalness 0
-        emissiveColor 0.264 0.621333 0.8
+      appearance Appearance {
+        material Material {
+          ambientIntensity 0.8
+          diffuseColor 0 1 1
+        }
       }
       geometry IndexedLineSet {
         coord Coordinate {

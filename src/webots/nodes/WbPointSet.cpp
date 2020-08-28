@@ -79,10 +79,7 @@ void WbPointSet::createWrenObjects() {
   WbGeometry::createWrenObjects();
   wr_config_enable_point_size(true);
   updateCoord();
-
-  sanitizeFields();
   buildWrenMesh();
-
   emit wrenObjectsCreated();
 }
 

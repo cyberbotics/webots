@@ -7,14 +7,17 @@ Released on XXX YYth, 2020.
     - Improved the `inverse_kinematics` controller to use the URDF definition instead of hard-coding the robot model ([#2062](https://github.com/cyberbotics/webots/pull/2062)).
     - macOS: Add support for Python 3.7 and 3.8 installed with [Homebrew](https://brew.sh) ([#2079](https://github.com/cyberbotics/webots/pull/2079)).
     - Improved the URDF export with the [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function to include the bounding objects exportation ([#2113](https://github.com/cyberbotics/webots/pull/2113)).
+    - Added a warning in case a [PBRAppearance](pbrappearance.md) is used in a [Shape](shape.md) containing a [PointSet](pointset.md) or [IndexedLineSet](indexedlineset.md) geometry ([#2142](https://github.com/cyberbotics/webots/pull/2142)).
     - Removed all the assertions of ODE to speed up simulation ([#2141](https://github.com/cyberbotics/webots/pull/2141)).
   - Bug fixes
     - Fixed removing nodes from [Supervisor](supervisor.md) API's internal list after deleting the parent node ([#2123](https://github.com/cyberbotics/webots/pull/2123)).
     - Fixed various crashes and rendering issues occurring when opening an external rendering device window ([#2119](https://github.com/cyberbotics/webots/pull/2119)).
     - Fixed crash occurring when selecting a [Robot](robot.md) with mechanical closed-loop ([#2117](https://github.com/cyberbotics/webots/pull/2117)).
+    - Fixed various issues when an extern [Robot](robot.md) controller exits and then a new one connects to the same [Robot](robot.md) ([#2152](https://github.com/cyberbotics/webots/pull/2152)).
     - Remove scaling factor in matrix returned by [`wb_supervisor_node_get_orientation`](supervisor.md#wb_supervisor_node_get_orientation) ([#2112](https://github.com/cyberbotics/webots/pull/2112)).
     - Fixed conversion of identity matrix to quaternion in ROS API ([#2112](https://github.com/cyberbotics/webots/pull/2112)).
     - Fixed header stamps of the topics published by the ros controller ([#2127](https://github.com/cyberbotics/webots/pull/2127)).
+    - Fixed the [vision](../guide/samples-howto.md#vision-wbt) sample simulation ([#2143](https://github.com/cyberbotics/webots/pull/2143)).
     - Fixed bugs in streaming server protocol and added support for X3D/MJPEG mode selection in simulation server ([#2077](https://github.com/cyberbotics/webots/pull/2077)).
     - Fixed the `roadBorderWidth` field of the [HelicoidalRoadSegment](../guide/object-road.md#helicoidalroadsegment) PROTO node ([#2099](https://github.com/cyberbotics/webots/pull/2099)).
     - Linux: Fixed the execution of robot controllers with firejail ([#2071](https://github.com/cyberbotics/webots/pull/2071)).
