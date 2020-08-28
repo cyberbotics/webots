@@ -9,7 +9,7 @@ Released on XXX YYth, 2020.
     - Improved the URDF export with the [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function to include the bounding objects exportation ([#2113](https://github.com/cyberbotics/webots/pull/2113)).
     - Added a warning in case a [PBRAppearance](pbrappearance.md) is used in a [Shape](shape.md) containing a [PointSet](pointset.md) or [IndexedLineSet](indexedlineset.md) geometry ([#2142](https://github.com/cyberbotics/webots/pull/2142)).
     - Removed all the assertions of ODE to speed up simulation ([#2141](https://github.com/cyberbotics/webots/pull/2141)).
-    - OSM_Importer upgraded to support only Python3 ([2150](https://github.com/cyberbotics/webots/pull/2150)).
+    - Upgraded the [OSM importer](../automobile/openstreetmap-importer.md) to Python 3 ([2150](https://github.com/cyberbotics/webots/pull/2150)).
   - Bug fixes
     - Fixed removing nodes from [Supervisor](supervisor.md) API's internal list after deleting the parent node ([#2123](https://github.com/cyberbotics/webots/pull/2123)).
     - Fixed various crashes and rendering issues occurring when opening an external rendering device window ([#2119](https://github.com/cyberbotics/webots/pull/2119)).
