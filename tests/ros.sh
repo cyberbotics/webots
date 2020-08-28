@@ -12,6 +12,7 @@ cp -r $WEBOTS_HOME/projects/default/controllers/ros/include/msg webots_ros/msg
 cp -r $WEBOTS_HOME/projects/robots/universal_robots/resources/ros_package/ur_e_webots ur_e_webots
 cd $WEBOTS_HOME/webots_catkin_ws
 echo @@@ Installing dependencies
+sudo rosdep init
 rosdep update
 rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO
 echo @@@ Compiling package

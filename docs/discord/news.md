@@ -4,6 +4,20 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
+##### Olivier Michel [cyberbotics] 08/17/2020 07:53:07
+Here is a new publication comparing Webots to Gazebo and V-REP, performance wise (use of system resources): [https://arxiv.org/abs/2008.04627](https://arxiv.org/abs/2008.04627).
+
+##### Simon Steinmann [Moderator] 08/14/2020 16:02:38
+Multiple KUKA robotic arms are now available in the Community Projects Repository!! Check them out :)
+
+[https://github.com/cyberbotics/community-projects](https://github.com/cyberbotics/community-projects)
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/568354695513374730/743862156612730880/unknown.png)
+%end
+
+
+New tutorial on how to convert a ROS repository (or other URDF files) into a Webots PROTO model and load it into your world. [https://github.com/cyberbotics/urdf2webots/blob/master/docs/tutorial.md](https://github.com/cyberbotics/urdf2webots/blob/master/docs/tutorial.md)
+
 ##### Olivier Michel [cyberbotics] 08/10/2020 08:39:48
 A nice video tutorial on Creating a Simple Twin Robot in Webots: [https://www.youtube.com/watch?v=mX8p07a7K30](https://www.youtube.com/watch?v=mX8p07a7K30)
 

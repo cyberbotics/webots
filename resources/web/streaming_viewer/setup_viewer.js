@@ -31,8 +31,13 @@ function init() {
 }
 
 function connect() {
+  // This `streaming viewer` setups a broadcast streaming where the simulation is shown but it is not possible to control it.
+  // For any other use, please refer to the documentation:
+  // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
   let playerDiv = document.getElementById('playerDiv');
   view = new webots.View(playerDiv, mobileDevice);
+  view.broadcast = true; // disable controlling the simulation
+  view.setTimeout(-1); // disable timeout that stops the simulation after a given time
   view.broadcast = true;
   let modeSelect = document.getElementById('mode');
   let streamingMode = modeSelect.options[modeSelect.selectedIndex].value;

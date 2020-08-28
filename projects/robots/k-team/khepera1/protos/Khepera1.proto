@@ -155,8 +155,10 @@ PROTO Khepera1 [
                 }
               }
               Shape {
-                appearance PBRAppearance {
-                  baseColor 0.0223048 0.0223048 0.022304
+                appearance Appearance {
+                  material Material {
+                    diffuseColor 0.02 0.02 0.02
+                  }
                 }
                 geometry IndexedLineSet {
                   coord Coordinate {

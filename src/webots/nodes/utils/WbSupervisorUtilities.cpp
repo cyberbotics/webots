@@ -455,6 +455,13 @@ void WbSupervisorUtilities::updateDeletedNodeList(WbNode *node) {
   if (!node)
     return;
 
+  // check if node already in the list
+  const int deletedNodesSize = mNodesDeletedSinceLastStep.size();
+  for (int i = 0; i < deletedNodesSize; ++i) {
+    if (mNodesDeletedSinceLastStep[i].nodeId == node->uniqueId())
+      return;
+  }
+
   struct WbDeletedNodeInfo nodeInfo;
   nodeInfo.nodeId = node->uniqueId();
   // store values in case parent PROTO invalid due to regeneration
@@ -475,6 +482,10 @@ void WbSupervisorUtilities::updateDeletedNodeList(WbNode *node) {
     nodeInfo.parentFieldCount = -1;
   }
   mNodesDeletedSinceLastStep.push_back(nodeInfo);
+  QList<WbNode *> children = node->subNodes(false, true, true);
+  const int childrenSize = children.size();
+  for (int i = 0; i < childrenSize; ++i)
+    updateDeletedNodeList(children[i]);
 }
 
 void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
