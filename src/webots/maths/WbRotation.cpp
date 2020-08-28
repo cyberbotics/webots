@@ -13,9 +13,11 @@
 // limitations under the License.
 
 #include "WbRotation.hpp"
-#include <cassert>
+
 #include "WbMatrix3.hpp"
 #include "WbQuaternion.hpp"
+
+#include <cassert>
 
 void WbRotation::fromQuaternion(const WbQuaternion &q) {
   // ensure that the quaternion is normalized as it should be
@@ -46,41 +48,34 @@ void WbRotation::fromQuaternion(const WbQuaternion &q) {
 
 void WbRotation::fromMatrix3(const WbMatrix3 &M) {
   // Reference: https://www.geometrictools.com/Documentation/RotationRepresentations.pdf
-
   const double theta = acos((M(0, 0) + M(1, 1) + M(2, 2) - 1) / 2);
-
-  if (theta < WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {
-    // If `theta == 0`
+  if (theta < WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {  // If `theta == 0`
     mX = 1;
     mY = 0;
     mZ = 0;
     mAngle = 0;
-  } else if (theta < M_PI - WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {
-    // If `theta in (0, pi)`
+    return;
+  } else if (M_PI - theta < WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {  // If `theta == pi`
+    if (M(0, 0) > M(1, 1) && M(0, 0) > M(2, 2)) {
+      mX = sqrt(M(0, 0) - M(1, 1) - M(2, 2) + 1) / 2;
+      mY = M(0, 1) / (2 * mX);
+      mZ = M(0, 2) / (2 * mX);
+    } else if (M(1, 1) > M(0, 0) && M(1, 1) > M(2, 2)) {
+      mY = sqrt(M(1, 1) - M(0, 0) - M(2, 2) + 1) / 2;
+      mX = M(0, 1) / (2 * mY);
+      mZ = M(1, 2) / (2 * mY);
+    } else {
+      mZ = sqrt(M(2, 2) - M(0, 0) - M(1, 1) + 1) / 2;
+      mX = M(0, 2) / (2 * mZ);
+      mY = M(1, 2) / (2 * mZ);
+    }
+  } else {  // If `theta in (0, pi)`
     mX = M(2, 1) - M(1, 2);
     mY = M(0, 2) - M(2, 0);
     mZ = M(1, 0) - M(0, 1);
-    normalizeAxis();
-    mAngle = theta;
-  } else {
-    // If `theta == pi`
-    if (M(0, 0) > M(1, 1) && M(0, 0) > M(2, 2)) {
-      mX = sqrt(M(0, 0) - M(1, 1) - M(2, 2) + 0.5);
-      mY = M(0, 1) / (2 * mX);
-      mZ = M(0, 2) / (2 * mX);
-      mAngle = theta;
-    } else if (M(1, 1) > M(0, 0) && M(1, 1) > M(2, 2)) {
-      mY = sqrt(M(1, 1) - M(0, 0) - M(2, 2) + 0.5);
-      mX = M(0, 1) / (2 * mY);
-      mZ = M(1, 2) / (2 * mY);
-      mAngle = theta;
-    } else {
-      mZ = sqrt(M(2, 2) - M(0, 0) - M(1, 1) + 0.5);
-      mX = M(0, 2) / (2 * mZ);
-      mY = M(1, 2) / (2 * mZ);
-      mAngle = theta;
-    }
   }
+  mAngle = theta;
+  normalizeAxis();
 }
 
 void WbRotation::fromBasisVectors(const WbVector3 &vx, const WbVector3 &vy, const WbVector3 &vz) {
