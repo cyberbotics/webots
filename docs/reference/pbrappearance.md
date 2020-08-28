@@ -39,6 +39,8 @@ For a detailed guide on PBR and how to use it for content creation and model des
 
 Our PBR shading model makes use of Lambertian Diffuse, Cook-Torrence Specular and Fresnel-Schlick GGX for direct illumination, and an advanced Image-Based Lighting (IBL) BRDF for ambient diffuse lighting and reflections.
 
+[PBRAppearance](#pbrappearance) cannot be used in a [Shape](shape.md) node containing an [IndexedLineSet](indexedlineset.md) or [PointSet](pointset.md) node.
+
 ### Field Summary
 
 - The `baseColor` field specifies the base color or "albedo" of the material's surface, analogous to the `diffuseColor` field of the [Material](material.md) node.

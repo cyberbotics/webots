@@ -324,11 +324,11 @@ void WbSliderJoint::writeExport(WbVrmlWriter &writer) const {
     writer.indent();
     writer << QString("<child link=\"%1\"/>\n").arg(solidEndPoint()->urdfName());
     writer.indent();
-    writer << QString("<axis xyz=\"%1\"/>\n").arg(rotationAxis.toString(WbPrecision::DOUBLE_MAX));
+    writer << QString("<axis xyz=\"%1\"/>\n").arg(rotationAxis.toString(WbPrecision::FLOAT_MAX));
     writer.indent();
     writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
-                .arg(translation.toString(WbPrecision::DOUBLE_MAX))
-                .arg(rotationEuler.toString(WbPrecision::DOUBLE_MAX));
+                .arg(translation.toString(WbPrecision::FLOAT_MAX))
+                .arg(rotationEuler.toString(WbPrecision::FLOAT_MAX));
     writer.indent();
     const WbMotor *m = motor();
     if (m) {
@@ -340,7 +340,6 @@ void WbSliderJoint::writeExport(WbVrmlWriter &writer) const {
                     .arg(m->maxVelocity());
       else
         writer << QString("<limit effort=\"%1\" velocity=\"%2\"/>\n").arg(m->maxForceOrTorque()).arg(m->maxVelocity());
-      writer.indent();
     }
     writer.decreaseIndent();
 
