@@ -55,7 +55,7 @@ void WbRotation::fromMatrix3(const WbMatrix3 &M) {
     mZ = 0;
     mAngle = 0;
     return;
-  } else if (fabs(theta - M_PI) < WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {  // If `theta == pi`
+  } else if (M_PI - theta < WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {  // If `theta == pi`
     if (M(0, 0) > M(1, 1) && M(0, 0) > M(2, 2)) {
       mX = sqrt(M(0, 0) - M(1, 1) - M(2, 2) + 1) / 2;
       mY = M(0, 1) / (2 * mX);
