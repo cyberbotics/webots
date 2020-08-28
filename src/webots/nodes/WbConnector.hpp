@@ -81,6 +81,7 @@ private:
   int mValue;
   bool mIsJointInversed;
   bool mIsInitiallyLocked;
+  bool mNeedToReconfigure;
 
   WrTransform *mTransform;
   WrTransform *mAxesTransform;
@@ -96,6 +97,7 @@ private:
 
   WbConnector &operator=(const WbConnector &);  // non copyable
   WbNode *clone() const override { return new WbConnector(*this); }
+  void addConfigure(QDataStream &);
 
   bool isReadyToAttachTo(const WbConnector *other) const;
   void attachTo(WbConnector *other);
