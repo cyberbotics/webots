@@ -198,7 +198,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="wheel_left_joint_sensor" type="continuous">
+  <joint name="wheel_left_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_left_link"/>
     <axis xyz="0 -3.6732051e-06 -1"/>
@@ -219,7 +219,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="wheel_right_joint_sensor" type="continuous">
+  <joint name="wheel_right_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_right_link"/>
     <axis xyz="0 -3.6732051e-06 -1"/>
@@ -342,7 +342,7 @@
     <child link="Torso"/>
     <origin xyz="-0.054 0 0.193" rpy="0 0 0"/>
   </joint>
-  <joint name="torso_lift_joint_sensor" type="prismatic">
+  <joint name="torso_lift_joint" type="prismatic">
     <parent link="Torso"/>
     <child link="torso_lift_link"/>
     <axis xyz="0 0 1"/>
@@ -399,7 +399,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="head_1_joint_sensor" type="revolute">
+  <joint name="head_1_joint" type="revolute">
     <parent link="torso_lift_link"/>
     <child link="head_1_link"/>
     <axis xyz="0 0 1"/>
@@ -432,7 +432,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="head_2_joint_sensor" type="revolute">
+  <joint name="head_2_joint" type="revolute">
     <parent link="head_1_link"/>
     <child link="head_2_link"/>
     <axis xyz="0 3.6732051e-06 1"/>
@@ -544,7 +544,7 @@
     <child link="TIAGo left arm_61030"/>
     <origin xyz="0 0 0" rpy="0 0 0"/>
   </joint>
-  <joint name="arm_left_1_joint_sensor" type="revolute">
+  <joint name="arm_left_1_joint" type="revolute">
     <parent link="TIAGo left arm_61030"/>
     <child link="TIAGo_left_arm_61045"/>
     <axis xyz="0 0 -1"/>
@@ -601,7 +601,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="arm_left_2_joint_sensor" type="revolute">
+  <joint name="arm_left_2_joint" type="revolute">
     <parent link="TIAGo_left_arm_61045"/>
     <child link="arm_left_2_link_61078"/>
     <axis xyz="0 -3.6732051e-06 -1"/>
@@ -634,7 +634,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="arm_left_3_joint_sensor" type="revolute">
+  <joint name="arm_left_3_joint" type="revolute">
     <parent link="arm_left_2_link_61078"/>
     <child link="arm_left_3_link_61092"/>
     <axis xyz="-6.056618e-05 -6.055936e-05 -1"/>
@@ -667,7 +667,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="arm_left_4_joint_sensor" type="revolute">
+  <joint name="arm_left_4_joint" type="revolute">
     <parent link="arm_left_3_link_61092"/>
     <child link="arm_left_4_link_61126"/>
     <axis xyz="2.8276386e-06 -2.8276306e-06 1"/>
@@ -700,7 +700,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="arm_left_5_joint_sensor" type="revolute">
+  <joint name="arm_left_5_joint" type="revolute">
     <parent link="arm_left_4_link_61126"/>
     <child link="arm_left_5_link_61160"/>
     <axis xyz="-3.6732051e-06 0 -1"/>
@@ -745,7 +745,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="arm_left_6_joint_sensor" type="revolute">
+  <joint name="arm_left_6_joint" type="revolute">
     <parent link="arm_left_5_link_61160"/>
     <child link="arm_left_6_link_61175"/>
     <axis xyz="-2.8276386e-06 2.8276306e-06 -1"/>
@@ -766,7 +766,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="arm_left_7_joint_sensor" type="revolute">
+  <joint name="arm_left_7_joint" type="revolute">
     <parent link="arm_left_6_link_61175"/>
     <child link="arm_left_7_link_61190"/>
     <axis xyz="2.8276306e-06 -2.8276386e-06 -1"/>
@@ -873,7 +873,7 @@
     <child link="left_61205"/>
     <origin xyz="0 0.016 0" rpy="-2.356193 1.5707923 0.78539306"/>
   </joint>
-  <joint name="left_hand_gripper_right_finger_joint_sensor" type="prismatic">
+  <joint name="left_hand_gripper_right_finger_joint" type="prismatic">
     <parent link="left_61205"/>
     <child link="gripper_right_finger_link_62046"/>
     <axis xyz="1 0 0"/>
@@ -918,7 +918,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="left_hand_gripper_left_finger_joint_sensor" type="prismatic">
+  <joint name="left_hand_gripper_left_finger_joint" type="prismatic">
     <parent link="left_61205"/>
     <child link="gripper_left_finger_link_62013"/>
     <axis xyz="1 9.265359e-05 0"/>
@@ -1626,7 +1626,7 @@
     <child link="TIAGo right arm_59023"/>
     <origin xyz="1.3492402e-12 -3.6732052e-07 0" rpy="0 0 4.6928203e-06"/>
   </joint>
-  <joint name="arm_right_1_joint_sensor" type="revolute">
+  <joint name="arm_right_1_joint" type="revolute">
     <parent link="TIAGo right arm_59023"/>
     <child link="TIAGo_right_arm_59038"/>
     <axis xyz="0 0 1"/>
@@ -1683,7 +1683,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="arm_right_2_joint_sensor" type="revolute">
+  <joint name="arm_right_2_joint" type="revolute">
     <parent link="TIAGo_right_arm_59038"/>
     <child link="arm_right_2_link_59072"/>
     <axis xyz="0 3.6732051e-06 1"/>
@@ -1716,7 +1716,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="arm_right_3_joint_sensor" type="revolute">
+  <joint name="arm_right_3_joint" type="revolute">
     <parent link="arm_right_2_link_59072"/>
     <child link="arm_right_3_link_59086"/>
     <axis xyz="-2.8276306e-06 2.8276386e-06 1"/>
@@ -1749,7 +1749,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="arm_right_4_joint_sensor" type="revolute">
+  <joint name="arm_right_4_joint" type="revolute">
     <parent link="arm_right_3_link_59086"/>
     <child link="arm_right_4_link_59120"/>
     <axis xyz="2.8276386e-06 2.8276306e-06 -1"/>
@@ -1782,7 +1782,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="arm_right_5_joint_sensor" type="revolute">
+  <joint name="arm_right_5_joint" type="revolute">
     <parent link="arm_right_4_link_59120"/>
     <child link="arm_right_5_link_59154"/>
     <axis xyz="1.349254e-11 5.1946963e-06 1"/>
@@ -1827,7 +1827,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="arm_right_6_joint_sensor" type="revolute">
+  <joint name="arm_right_6_joint" type="revolute">
     <parent link="arm_right_5_link_59154"/>
     <child link="arm_right_6_link_59169"/>
     <axis xyz="2.8276386e-06 2.8276306e-06 -1"/>
@@ -1848,7 +1848,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="arm_right_7_joint_sensor" type="revolute">
+  <joint name="arm_right_7_joint" type="revolute">
     <parent link="arm_right_6_link_59169"/>
     <child link="arm_right_7_link_59184"/>
     <axis xyz="2.8276306e-06 -2.8276386e-06 1"/>
@@ -1955,7 +1955,7 @@
     <child link="right_59199"/>
     <origin xyz="0 0.016 0" rpy="-2.356193 1.5707923 0.78539306"/>
   </joint>
-  <joint name="right_hand_gripper_right_finger_joint_sensor" type="prismatic">
+  <joint name="right_hand_gripper_right_finger_joint" type="prismatic">
     <parent link="right_59199"/>
     <child link="gripper_right_finger_link_60040"/>
     <axis xyz="1 0 0"/>
@@ -2000,7 +2000,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="right_hand_gripper_left_finger_joint_sensor" type="prismatic">
+  <joint name="right_hand_gripper_left_finger_joint" type="prismatic">
     <parent link="right_59199"/>
     <child link="gripper_left_finger_link_60007"/>
     <axis xyz="1 9.265359e-05 0"/>
