@@ -32,6 +32,7 @@ Released on XXX YYth, 2020.
     - Fixed crash occurring with some PROTO nodes when modifying fields from the scene tree that trigger the PROTO model regeneration ([#2100](https://github.com/cyberbotics/webots/pull/2100)).
     - Fixed field changes not applied in case of nested [PROTO](proto.md) nodes ([#2063](https://github.com/cyberbotics/webots/pull/2063)).
     - Windows: Fixed generation of procedural PROTO nodes using the `gd` module ([#2070](https://github.com/cyberbotics/webots/pull/2070)).
+    - Fixed using [Camera](camera.md), [Lidar](lidar.md), and [RangeFinder](rangefinder.md) in asynchronous controllers ([#2138](https://github.com/cyberbotics/webots/pull/2138)).
     - macOS: Fixed crash of the `animated_skin` simulation ([#2141](https://github.com/cyberbotics/webots/pull/2141)).
 
 ## [Webots R2020b](../blog/Webots-2020-b-release.md)

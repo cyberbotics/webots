@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+#include "abstract_camera.h"
+
 #ifdef _WIN32
 #include <windows.h>
 #else  // POSIX shared memory segments
@@ -24,7 +26,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "abstract_camera.h"
+#include <webots/robot.h>
 #include "messages.h"
 #include "robot_private.h"
 
@@ -138,13 +140,16 @@ void abstract_camera_toggle_remote(WbDevice *d, WbRequest *r) {
 }
 
 bool abstract_camera_request_image(AbstractCamera *ac, const char *functionName) {
-  const double current_simulation_time = wb_robot_get_time();
+  double current_simulation_time = wb_robot_get_time();
   const double previous_image_update_time = ac->image_update_time;  // in case of reset, time can go backward
   if (previous_image_update_time >= current_simulation_time)
     return true;
 
   ac->image_requested = true;
   wb_robot_flush_unlocked();
+  if (!wb_robot_get_synchronization())
+    // if controller is asynchronous, wb_robot_get_time() could be increased while requesting the image
+    current_simulation_time = wb_robot_get_time();
   if (ac->image_update_time != current_simulation_time && previous_image_update_time <= ac->image_update_time &&
       robot_is_quitting() == 0) {
     fprintf(stderr, "Warning: %s: image could not be retrieved.\n", functionName);
