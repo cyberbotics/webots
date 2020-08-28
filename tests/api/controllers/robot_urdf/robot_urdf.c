@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
   char reference_filename[64], generated_filename[64];
   snprintf(generated_filename, 64, "%s.urdf", argv[1]);
   snprintf(reference_filename, 64, "%s_reference.urdf", argv[1]);
-  
+
   ts_setup(generated_filename);
 
   // Write URDF to file
