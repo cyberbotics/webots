@@ -45,7 +45,7 @@ ifeq ($(OSTYPE),windows)
 endif
 ifeq ($(OSTYPE),darwin)
 	@echo "# make" $@ python2.7;
-	+PYTHON_COMMAND=python2.7 make -s -C python $@
+	+PYTHON_COMMAND=/usr/bin/python2.7 make -s -C python $@
 	@echo "# make" $@ python3.7;
 	+PYTHON_COMMAND=/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 make -s -C python $@
 	@echo "# make" $@ python3.8;
