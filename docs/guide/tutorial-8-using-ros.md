@@ -46,7 +46,7 @@ sudo apt-get install ros-melodic-webots-ros
 %end
 
 For more information or to install it on another platform please read [http://wiki.ros.org/ROS/Installation](http://wiki.ros.org/ROS/Installation).
-Unless you need older version for some other application, you should choose the latest distribution (Melodic Morenia or Kinetic Kame).
+Unless you need older version for some other application, you should choose the latest distribution (Noetic Ninjemys or Melodic Morenia).
 
 The last line is to install the [webots\_ros](http://wiki.ros.org/webots\_ros) package.
 
