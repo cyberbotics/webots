@@ -261,6 +261,8 @@ function addDynamicLoadEvent(el) {
     return;
   el.addEventListener('click',
     function(event) {
+      if (event.ctrlKey)
+        return;
       aClick(event.target);
       event.preventDefault();
     },
