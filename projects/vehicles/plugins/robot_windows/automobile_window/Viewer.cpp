@@ -51,6 +51,7 @@ QStringList hiddenDevices = (QStringList() << "left_steer"
                                            << "rear_pitch_mirror_frame_motor"
                                            << "steering_wheel_motor"
                                            << "speed_needle_motor"
+                                           << "indicator_lever_motor"
                                            << "rpm_needle_motor");
 
 Viewer::Viewer() : GenericWindow(hiddenDevices) {

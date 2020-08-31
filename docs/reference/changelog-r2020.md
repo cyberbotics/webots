@@ -31,6 +31,7 @@ Released on September 1st, 2020.
     - Fixed the `roadBorderWidth` field of the [HelicoidalRoadSegment](../guide/object-road.md#helicoidalroadsegment) PROTO node ([#2099](https://github.com/cyberbotics/webots/pull/2099)).
     - Fixed the `near` field of the `Robotino3Webcam` [Camera](camera.md) ([#2051](https://github.com/cyberbotics/webots/pull/2051)).
     - Fixed orientation of the [Lights](light.md) in the [`robotino3` world](../guide/robotino3.md#robotino3-wbt) ([#2051](https://github.com/cyberbotics/webots/pull/2051)).
+    - Removed unwanted `indicator_lever_motor` motor displayed in the `automobile_window` robot-window ([#2162](https://github.com/cyberbotics/webots/pull/2162)).
     - Fixed missing `limit` element when exporting joints with the [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function ([#2062](https://github.com/cyberbotics/webots/pull/2062)).
     - Fixed the `axis` element when exporting joints with the [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function ([#2062](https://github.com/cyberbotics/webots/pull/2062)).
     - Fixed wrong color of the first log in the console ([#2088](https://github.com/cyberbotics/webots/pull/2088)).
