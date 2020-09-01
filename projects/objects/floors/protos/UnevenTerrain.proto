@@ -81,8 +81,18 @@ PROTO UnevenTerrain [
     local nOctave = fields.perlinNOctaves.value
 
     local size = fields.size.value
+    
     local xDimension = fields.xDimension.value
+    if xDimension < 2 then
+      xDimension = fields.xDimension.defaultValue
+      io.stderr:write("'xDimension' should be at least equalt to 2.\n")
+    end
+    
     local zDimension = fields.zDimension.value
+    if zDimension < 2 then
+      zDimension = fields.zDimension.defaultValue
+      io.stderr:write("'zDimension' should be at least equalt to 2.\n")
+    end
   }%
   Solid {
     translation IS translation
@@ -96,9 +106,9 @@ PROTO UnevenTerrain [
             geometry ElevationGrid {
               %{ if xDimension > 2 and zDimension > 2 then }%
                 xDimension IS xDimension
-                xSpacing %{= size.x / xDimension }%
+                xSpacing %{= size.x / (xDimension - 1) }%
                 zDimension IS zDimension
-                zSpacing %{= size.z / zDimension }%
+                zSpacing %{= size.z / (zDimension - 1) }%
 
                 height [
                   %{ for i=0, xDimension - 1 do }%

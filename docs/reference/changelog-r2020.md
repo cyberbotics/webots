@@ -16,6 +16,8 @@ Released on September 1st, 2020.
     - Fixed crash when inserting an empty [PointSet](pointset.md) node ([#2182](https://github.com/cyberbotics/webots/pull/2182)).
     - Fixed crash occurring when selecting a [Robot](robot.md) with mechanical closed-loop ([#2117](https://github.com/cyberbotics/webots/pull/2117)).
     - Fixed various issues when an extern [Robot](robot.md) controller exits and then a new one connects to the same [Robot](robot.md) ([#2152](https://github.com/cyberbotics/webots/pull/2152)).
+    - Fixed size of the [UnevenTerrain](../guide/object-floors.md#uneventerrain) PROTO node ([#2185](https://github.com/cyberbotics/webots/pull/2185)).
+    - Fixed texture mapping of the [ElevationGrid](elevationgrid.md) node ([#2185](https://github.com/cyberbotics/webots/pull/2185)).
     - macOS: Fixed crash of the `animated_skin` simulation ([#2141](https://github.com/cyberbotics/webots/pull/2141)).
     - Remove scaling factor in matrix returned by [`wb_supervisor_node_get_orientation`](supervisor.md#wb_supervisor_node_get_orientation) ([#2112](https://github.com/cyberbotics/webots/pull/2112)).
     - Fixed conversion of identity matrix to quaternion in ROS API ([#2112](https://github.com/cyberbotics/webots/pull/2112)).

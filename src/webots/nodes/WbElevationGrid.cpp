@@ -482,15 +482,15 @@ bool WbElevationGrid::isAValidBoundingObject(bool checkOde, bool warning) const 
 
 bool WbElevationGrid::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoordSet) const {
   WbVector3 localCollisionPoint;
-  double collisionDistance = computeLocalCollisionPoint(ray, localCollisionPoint);
+  const double collisionDistance = computeLocalCollisionPoint(ray, localCollisionPoint);
   if (collisionDistance < 0)
     return false;
 
-  double sizeX = scaledWidth();
-  double sizeZ = scaledDepth();
+  const double sizeX = scaledWidth();
+  const double sizeZ = scaledDepth();
 
-  double u = (double)localCollisionPoint.x() / sizeX;
-  double v = 1 - (double)localCollisionPoint.z() / sizeZ;
+  const double u = (double)localCollisionPoint.x() / sizeX;
+  const double v = (double)localCollisionPoint.z() / sizeZ;
 
   // result
   uv.setXy(u, v);

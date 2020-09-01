@@ -38,6 +38,6 @@ UnevenTerrain {
   perlinNOctaves 8
 }
 Mantis {
-  translation -24.12 61.31 -6.15
+  translation -24.12 61.42 -6.15
   rotation 0 1 0 1.3
 }
