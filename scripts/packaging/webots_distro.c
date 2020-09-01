@@ -408,8 +408,8 @@ static char **expand_wildcard_filename(const char *big_buffer, int *n) {
 }
 
 static void add_ros_dependencies(const char *path) {
-#ifdef WEBOTS_UBUNTU_16_04
   fprintf(fd, "mkdir -p %s/projects/default/controllers/ros/lib/ros\n", path);
+#ifdef WEBOTS_UBUNTU_16_04
   fprintf(fd, "cp /opt/ros/kinetic/lib/libroscpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/kinetic/lib/librosconsole.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/kinetic/lib/libroscpp_serialization.so %s/projects/default/controllers/ros/lib/ros\n", path);
@@ -431,7 +431,6 @@ static void add_ros_dependencies(const char *path) {
   fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libapr-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libaprutil-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
 #elif defined(WEBOTS_UBUNTU_18_04)
-  fprintf(fd, "mkdir -p %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/melodic/lib/libroscpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/melodic/lib/librosconsole.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/melodic/lib/libroscpp_serialization.so %s/projects/default/controllers/ros/lib/ros\n", path);
@@ -450,7 +449,6 @@ static void add_ros_dependencies(const char *path) {
   fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libapr-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libaprutil-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
 #elif defined(WEBOTS_UBUNTU_20_04)
-  fprintf(fd, "mkdir -p %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/libroscpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/librosconsole.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/libroscpp_serialization.so %s/projects/default/controllers/ros/lib/ros\n", path);
