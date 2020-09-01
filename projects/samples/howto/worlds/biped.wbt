@@ -15,7 +15,6 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 DEF FLOOR Solid {
-  translation -0.5 0 -0.5
   children [
     Shape {
       appearance PBRAppearance {
@@ -23,21 +22,11 @@ DEF FLOOR Solid {
         roughness 1
         metalness 0
       }
-      geometry ElevationGrid {
-        xDimension 11
-        xSpacing 0.1
-        zDimension 11
-        zSpacing 0.1
+      geometry DEF PLANE Plane {
       }
     }
   ]
-  boundingObject Transform {
-    translation 0.5 0 0.5
-    children [
-      Plane {
-      }
-    ]
-  }
+  boundingObject USE PLANE
 }
 DEF BIPED Robot {
   translation 0.1 0.18 -0.2
