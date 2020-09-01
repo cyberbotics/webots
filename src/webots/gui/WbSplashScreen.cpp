@@ -20,8 +20,7 @@
 #include <QtCore/QTime>
 #include <QtGui/QPainter>
 
-WbSplashScreen::WbSplashScreen(const QStringList &screenshots, const QString &logoFileName) :
-  QSplashScreen(QPixmap(), Qt::WindowStaysOnTopHint) {
+WbSplashScreen::WbSplashScreen(const QStringList &screenshots, const QString &logoFileName) {
   QPixmap background(960, 580);
   background.fill(Qt::black);
   QSplashScreen::setPixmap(background);
