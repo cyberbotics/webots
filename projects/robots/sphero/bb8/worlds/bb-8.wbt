@@ -31,7 +31,7 @@ UnevenTerrain {
   perlinNOctaves 6
 }
 BB-8 {
-  translation -16.19 36.5 -4.36
+  translation -16.19 36.68 -4.36
   rotation 0 1 0 5.75959
   headSlot [
     Camera {
