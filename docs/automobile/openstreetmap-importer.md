@@ -25,7 +25,8 @@ python3 -m pip install lxml pyproj shapely webcolors configparser --user
 ### macOS
 
 ```
-pip install lxml pyproj shapely webcolors configparser --user
+python3 -m pip install --upgrade pip
+python3 -m pip install lxml pyproj shapely webcolors configparser --user
 ```
 
 ### Windows
