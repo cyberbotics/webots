@@ -10,22 +10,23 @@ You can download an OpenStreetMap map of any part of the world from [www.openstr
 
 ## Dependencies
 
-Follow [these instructions](../guide/using-python.md) to install Python.
+Follow [these instructions](../guide/using-python.md) to install Python 3.
 
 Then install the Python `lxml`, `pyproj`, `shapely` and `webcolors` modules, as described below.
 
 ### Linux
 
 ```sh
-sudo apt-get install python-pip
-pip install --upgrade pip
-pip install lxml pyproj shapely webcolors configparser --user
+sudo apt-get install python3-pip
+python3 -m pip install --upgrade pip
+python3 -m pip install lxml pyproj shapely webcolors configparser --user
 ```
 
 ### macOS
 
 ```
-pip install lxml pyproj shapely webcolors configparser --user
+python3 -m pip install --upgrade pip
+python3 -m pip install lxml pyproj shapely webcolors configparser --user
 ```
 
 ### Windows
@@ -51,7 +52,7 @@ You should use the `importer.py` Python script to generate the `myMap.wbt` webot
 
 ```sh
 cd $WEBOTS_HOME/resources/osm_importer
-python importer.py --input=myMap.osm --output=myMap.wbt
+python3 importer.py --input=myMap.osm --output=myMap.wbt
 ```
 
 Some extra folders such as `forest` can be generated in the target directory depending on the importer arguments.
