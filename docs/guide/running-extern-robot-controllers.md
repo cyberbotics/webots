@@ -84,7 +84,11 @@ No specific setup is needed.
 
 %tab "Java"
 
-Add the `-classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/my_project/controllers/MyController/ -Djava.library.path=${WEBOTS_HOME}/lib/controller/java` options to the `java` command line launching the Java controller, for example:
+Add the following options to the `java` command line launching the Java controller:
+- `-classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/my_project/controllers/MyController/`
+- `-Djava.library.path=${WEBOTS_HOME}/lib/controller/java`
+
+For example to launch the `Driver` Java controller, type:
 ```bash
 java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/projects/languages/java/controllers/Driver/ -Djava.library.path=$WEBOTS_HOME/lib/controller/java Driver
 ```
