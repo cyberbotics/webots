@@ -13,6 +13,7 @@ Released on September 1st, 2020.
   - Bug fixes
     - Fixed removing nodes from [Supervisor](supervisor.md) API's internal list after deleting the parent node ([#2123](https://github.com/cyberbotics/webots/pull/2123)).
     - Fixed various crashes and rendering issues occurring when opening an external rendering device window ([#2119](https://github.com/cyberbotics/webots/pull/2119)).
+    - Fixed crash when inserting an empty [PointSet](pointset.md) node ([#2182](https://github.com/cyberbotics/webots/pull/2182)).
     - Fixed crash occurring when selecting a [Robot](robot.md) with mechanical closed-loop ([#2117](https://github.com/cyberbotics/webots/pull/2117)).
     - Fixed various issues when an extern [Robot](robot.md) controller exits and then a new one connects to the same [Robot](robot.md) ([#2152](https://github.com/cyberbotics/webots/pull/2152)).
     - macOS: Fixed crash of the `animated_skin` simulation ([#2141](https://github.com/cyberbotics/webots/pull/2141)).
