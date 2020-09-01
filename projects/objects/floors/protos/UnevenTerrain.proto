@@ -83,13 +83,13 @@ PROTO UnevenTerrain [
     local size = fields.size.value
     
     local xDimension = fields.xDimension.value
-    if xDimension < 2 thens
+    if xDimension < 2 then
       xDimension = fields.xDimension.defaultValue
       io.stderr:write("'xDimension' should be at least equalt to 2.\n")
     end
     
     local zDimension = fields.zDimension.value
-    if zDimension < 2 thens
+    if zDimension < 2 then
       zDimension = fields.zDimension.defaultValue
       io.stderr:write("'zDimension' should be at least equalt to 2.\n")
     end
