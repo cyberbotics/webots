@@ -2,7 +2,7 @@
 
 This tutorial explains how to use the nodes from the `webots_ros` package provided with Webots.
 
-These examples were tested with ROS `noetic` and `melodic` on Linux.
+These examples were tested with ROS `noetic`, `melodic` and `kinetic` on Linux.
 There is no warranty they will work if you use a different platform or an ancient distribution of ROS.
 
 ### Installing ROS and "webots\_ros" Package
@@ -46,7 +46,7 @@ sudo apt-get install ros-melodic-webots-ros
 %end
 
 For more information or to install it on another platform please read [http://wiki.ros.org/ROS/Installation](http://wiki.ros.org/ROS/Installation).
-Unless you need older version for some other application, you should choose the latest distribution (Noetic Ninjemys or Melodic Morenia).
+Unless you need older version for some other application, you should choose a recent distribution (Noetic Ninjemys, Melodic Morenia or Kinetic Kame).
 
 The last line is to install the [webots\_ros](http://wiki.ros.org/webots\_ros) package.
 
