@@ -10,7 +10,7 @@ You can download an OpenStreetMap map of any part of the world from [www.openstr
 
 ## Dependencies
 
-Follow [these instructions](../guide/using-python.md) to install Python3.
+Follow [these instructions](../guide/using-python.md) to install Python 3.
 
 Then install the Python `lxml`, `pyproj`, `shapely` and `webcolors` modules, as described below.
 
