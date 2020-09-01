@@ -28,7 +28,6 @@ Robot {
       height 180
     }
     Transform {
-      translation -50 0 -50
       children [
         Shape {
           appearance PBRAppearance {
@@ -43,9 +42,8 @@ Robot {
               scale 3 3
             }
           }
-          geometry ElevationGrid {
-            xDimension 100
-            zDimension 100
+          geometry Plane {
+            size 100 100
           }
         }
       ]
