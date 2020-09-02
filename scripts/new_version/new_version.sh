@@ -42,7 +42,7 @@ new_version_without_revision=$3
 new_version_year=${new_version:1:4}
 new_version_letter=${new_version:5:1}
 
-CURRENT_DIR=$WEBOTS_HOME/scripts/new_version
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo "Update application and documentation version..."
 $CURRENT_DIR/new_version_file.sh $old_version $new_version $WEBOTS_HOME/src/webots/core/WbApplicationInfo.cpp
@@ -50,12 +50,11 @@ $CURRENT_DIR/new_version_file.sh $old_version $new_version $WEBOTS_HOME/resource
 $CURRENT_DIR/new_version_file.sh $old_version $new_version $WEBOTS_HOME/scripts/packaging/webots_version.txt
 $CURRENT_DIR/new_version_file.sh $old_version $new_version $WEBOTS_HOME/Contents/Info.plist
 if [ $new_version_year -ne $old_version_year ]; then
-  ./new_version_file.sh "Copyright 1998-[0-9]\+" "Copyright 1998-"$new_version_year $WEBOTS_HOME/Contents/Info.plist
+  $CURRENT_DIR/new_version_file.sh "Copyright 1998-[0-9]\+" "Copyright 1998-"$new_version_year $WEBOTS_HOME/Contents/Info.plist
 fi
 # documentation
 if [ $new_version_without_revision != $old_version_without_revision ]; then
   $CURRENT_DIR/new_version_file.sh "major:\\s'.*'" "major: '"$new_version_without_revision"'" $WEBOTS_HOME/docs/js/showdown-extensions.js
-  $CURRENT_DIR/new_version_file.sh "Webots-"$old_version_year"-"$old_version_letter"-release" "Webots-"$new_version_year"-"$new_version_letter"-release" $WEBOTS_HOME/docs/doc.php
 fi
 $CURRENT_DIR/new_version_file.sh "full:\\s'.*'" "full: '"$new_version"'" $WEBOTS_HOME/docs/js/showdown-extensions.js
 $CURRENT_DIR/new_version_file.sh "package:\\s'.*'" "package: '"$new_package"'" $WEBOTS_HOME/docs/js/showdown-extensions.js
@@ -69,7 +68,6 @@ then
   $CURRENT_DIR/new_version_file_headers.sh $old_version_without_revision $new_version_without_revision
   $CURRENT_DIR/new_version_file.sh "#VRML_SIM\\s"$old_version_without_revision "#VRML_SIM "$new_version_without_revision $WEBOTS_HOME//docs/reference/proto-example.md
 
-  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/projects/worlds/empty.wbt
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/streaming_viewer/index.html
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/streaming_viewer/setup_viewer.js
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/templates/x3d_playback.html
