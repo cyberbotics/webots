@@ -792,7 +792,7 @@ void WbCamera::updateFocus() {
 
 void WbCamera::updateRecognition() {
   if (hasBeenSetup()) {
-    if (recognition() && !mOverlay->foregroundTexture())
+    if (recognition() && !mOverlay->foregroundTexture()) {
       mRecognizedObjectsTexture = WR_TEXTURE(mOverlay->createForegroundTexture());
       emit foregroundTextureIdUpdated(mOverlay->foregroundTextureGLId());
     } else if (mOverlay->foregroundTexture()) {
