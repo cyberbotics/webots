@@ -1252,7 +1252,7 @@ static void create_file(const char *name, int m) {
 #endif
 
       // add the required libraries in order to avoid conflicts on other Linux distributions
-      add_ros_dependencies("debian/usr/local/webots/");
+      add_ros_dependencies("debian/usr/local/webots");
 #ifdef WEBOTS_UBUNTU_16_04
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libraw.so.15 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libvpx.so.3 debian/usr/local/webots/lib/webots\n");
