@@ -41,7 +41,7 @@ function connect() {
   view.broadcast = true;
   let modeSelect = document.getElementById('mode');
   let streamingMode = modeSelect.options[modeSelect.selectedIndex].value;
-  view.open('ws://' + ipInput.value + ':' + portInput.value + '/', streamingMode);
+  view.open('ws://' + ipInput.value + ':' + portInput.value, streamingMode);
   connectButton.value = 'Disconnect';
   connectButton.onclick = disconnect;
   ipInput.disabled = true;
