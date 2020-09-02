@@ -758,8 +758,10 @@ void WbCamera::createWrenCamera() {
 void WbCamera::createWrenOverlay() {
   WbAbstractCamera::createWrenOverlay();
 
-  if (recognition())
+  if (recognition()) {
     mRecognizedObjectsTexture = WR_TEXTURE(mOverlay->createForegroundTexture());
+    emit foregroundTextureIdUpdated(mOverlay->foregroundTextureGLId());
+  }
 }
 
 void WbCamera::setup() {
@@ -792,8 +794,10 @@ void WbCamera::updateRecognition() {
   if (hasBeenSetup()) {
     if (recognition() && !mOverlay->foregroundTexture())
       mRecognizedObjectsTexture = WR_TEXTURE(mOverlay->createForegroundTexture());
-    else if (mOverlay->foregroundTexture()) {
+      emit foregroundTextureIdUpdated(mOverlay->foregroundTextureGLId());
+    } else if (mOverlay->foregroundTexture()) {
       mOverlay->deleteForegroundTexture(true);
+      emit foregroundTextureIdUpdated(mOverlay->foregroundTextureGLId());
       mRecognizedObjectsTexture = NULL;
     }
     if (recognition()) {
