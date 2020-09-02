@@ -242,6 +242,8 @@ function addDynamicAnchorEvent(el) {
     return;
   el.addEventListener('click',
     function(event) {
+      if (event.ctrlKey)
+        return;
       var node = event.target;
       while (node && !node.hasAttribute('href'))
         node = node.getParent();
@@ -261,6 +263,8 @@ function addDynamicLoadEvent(el) {
     return;
   el.addEventListener('click',
     function(event) {
+      if (event.ctrlKey)
+        return;
       aClick(event.target);
       event.preventDefault();
     },

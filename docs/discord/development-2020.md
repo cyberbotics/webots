@@ -4197,3 +4197,509 @@ yeah read that yesterda, just double checking 🙂
 
 `@David Mansolino` consolidated all the changes [https://github.com/cyberbotics/urdf2webots/pull/79](https://github.com/cyberbotics/urdf2webots/pull/79)
 
+
+[https://github.com/cyberbotics/urdf2webots/pull/76](https://github.com/cyberbotics/urdf2webots/pull/76) this should be done right?
+
+
+reverted the .gitignore change
+
+##### David Mansolino [cyberbotics] 08/27/2020 14:47:14
+👍 checking it right now.
+
+
+Perfect, accepted!
+
+Once merged it would be nice to update [https://github.com/cyberbotics/urdf2webots/pull/74](https://github.com/cyberbotics/urdf2webots/pull/74) with master as this branch is getting a bit out of sync.
+
+##### Simon Steinmann [Moderator] 08/27/2020 14:49:53
+will do
+
+
+`@Olivier Michel`  quick question: how to do you transform rotation matrices into axis angles in webots? Does it by any chance use the same math\_util function as urdf2webots? Because I found it to be faulty yesterday in certain circumstances
+
+##### Olivier Michel [cyberbotics] 08/27/2020 17:03:14
+No, it's not a Python, but a C++ method doing this. So, it's likely not the same. But I will check your fix against our C++ method. Did you already publish it somewhere?
+
+##### Simon Steinmann [Moderator] 08/27/2020 17:04:45
+line 110 is the old one, line 120 my implementation
+> **Attachment**: [math\_utils.py](https://cdn.discordapp.com/attachments/565155651395780609/748588831690981507/math_utils.py)
+
+
+in some edge cases the current implementation produced wrong values
+
+
+rotationFromMatrix([-1, 0, 0, 0, 0, 1, 0, 1, 0]) 
+
+this was my test, or where I noticed an issue
+
+
+axis angle should be:
+
+{ [ 0, 0.7071068, 0.7071068 ], 3.1415927 }
+
+##### Olivier Michel [cyberbotics] 08/27/2020 17:20:11
+Thanks. I'll check it tomorrow.
+
+##### Simon Steinmann [Moderator] 08/27/2020 17:20:32
+no problem 🙂
+
+
+just something I found in a ridiculous project
+
+
+can be Webots launched with the ExtraProjectPath set as a variable?
+
+##### David Mansolino [cyberbotics] 08/27/2020 18:23:37
+> can be Webots launched with the ExtraProjectPath set as a variable?
+
+`@Simon Steinmann` no, but since this is saved in the settings file, you might edit this file from within a script (on Linux, this file is located at `$HOME/.config/Cyberbotics`).
+
+##### Simon Steinmann [Moderator] 08/27/2020 18:24:28
+ah good to know. FYI, just pushed the batch-conversion if you're bored. and seperately pushed the sources to community-projects
+
+##### David Mansolino [cyberbotics] 08/27/2020 18:33:49
+Perfect, I will have a look tomorrow (it is already late here 😉).
+
+##### Simon Steinmann [Moderator] 08/27/2020 18:34:23
+I'm currently in Germany, so yeah I know ;), hence the 'if you're bored'
+
+##### Olivier Michel [cyberbotics] 08/28/2020 07:14:55
+`@Simon Steinmann`: so we have something quite different from your implementation (in webots/src/webots/maths/WbRotation.cpp):
+
+```C++
+void WbRotation::fromMatrix3(const WbMatrix3 &M) {
+  // Reference: https://www.geometrictools.com/Documentation/RotationRepresentations.pdf
+
+  const double theta = acos((M(0, 0) + M(1, 1) + M(2, 2) - 1) / 2);
+
+  if (theta < WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {
+    // If `theta == 0`
+    mX = 1;
+    mY = 0;
+    mZ = 0;
+    mAngle = 0;
+  } else if (theta < M_PI - WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {
+    // If `theta in (0, pi)`
+    mX = M(2, 1) - M(1, 2);
+    mY = M(0, 2) - M(2, 0);
+    mZ = M(1, 0) - M(0, 1);
+    normalizeAxis();
+    mAngle = theta;
+  } else {
+    // If `theta == pi`
+    if (M(0, 0) > M(1, 1) && M(0, 0) > M(2, 2)) {
+      mX = sqrt(M(0, 0) - M(1, 1) - M(2, 2) + 0.5);
+      mY = M(0, 1) / (2 * mX);
+      mZ = M(0, 2) / (2 * mX);
+      mAngle = theta;
+    } else if (M(1, 1) > M(0, 0) && M(1, 1) > M(2, 2)) {
+      mY = sqrt(M(1, 1) - M(0, 0) - M(2, 2) + 0.5);
+      mX = M(0, 1) / (2 * mY);
+      mZ = M(1, 2) / (2 * mY);
+      mAngle = theta;
+    } else {
+      mZ = sqrt(M(2, 2) - M(0, 0) - M(1, 1) + 0.5);
+      mX = M(0, 2) / (2 * mZ);
+      mY = M(1, 2) / (2 * mZ);
+      mAngle = theta;
+    }
+  }
+}
+```
+
+
+Well, I am not getting the same results as you:
+
+```c++
+  WbMatrix3 m(-1, 0, 0,
+               0, 0, 1,
+               0, 1, 0);
+  WbRotation r(m);
+  qDebug() << r.toString(WbPrecision::DOUBLE_MAX);  // "0 0.4082482904638631 1.224744871391589 3.141592653589793"
+```
+
+
+According to [https://www.andre-gaschler.com/rotationconverter](https://www.andre-gaschler.com/rotationconverter), your result seems correct.
+
+##### David Mansolino [cyberbotics] 08/28/2020 08:22:48
+> ah good to know. FYI, just pushed the batch-conversion if you're bored. and seperately pushed the sources to community-projects
+
+`@Simon Steinmann` I don't see your PR on community-projects.
+
+##### Simon Steinmann [Moderator] 08/28/2020 09:08:45
+That is exactly how I stumbled across this issue. It is the rotation to rotate a cylinder that is defined with the z-axis as it's height, so it points into the y-axis direction.  It most likely is rarely an issue, as webots uses rotation matrices I'd assume
+
+##### Olivier Michel [cyberbotics] 08/28/2020 09:09:06
+Thanks `@Simon Steinmann`: we could fix a bug in our C++ matrix3 to axis-angle thanks to you! See [https://github.com/cyberbotics/webots/pull/2155](https://github.com/cyberbotics/webots/pull/2155)
+
+##### Simon Steinmann [Moderator] 08/28/2020 09:09:11
+However, when converting the axis angles back to rotation matrix, it is different to the original one
+
+
+Happy I could be of help. Really getting good at troubleshooting and linear algebra diving into this stuff 😄
+
+
+should I make a PR for the urdf2webots?
+
+
+the math\_utils.py
+
+##### Olivier Michel [cyberbotics] 08/28/2020 09:12:46
+Yes, please.
+
+##### Simon Steinmann [Moderator] 08/28/2020 10:07:13
+Is there an automated tool to make code pep8 compliant?
+
+##### David Mansolino [cyberbotics] 08/28/2020 10:07:51
+Probably, but I am personnally not using it, but I am using a linter just to display where my code is not pep8 compliant
+
+##### Simon Steinmann [Moderator] 08/28/2020 10:08:28
+linter?
+
+##### David Mansolino [cyberbotics] 08/28/2020 10:09:39
+Here are the instructions if you use atom editor (probably similar linter exists for other editors): [https://github.com/cyberbotics/webots/wiki/Python-Coding-Style#cs100-use-pep8](https://github.com/cyberbotics/webots/wiki/Python-Coding-Style#cs100-use-pep8)
+
+##### Simon Steinmann [Moderator] 08/28/2020 10:10:07
+thx, I'll have a look
+
+##### David Mansolino [cyberbotics] 08/28/2020 10:10:14
+A linter just hightlights issue in your code while you are writting
+
+##### Simon Steinmann [Moderator] 08/28/2020 11:33:19
+How do I resolve merge conflicts. I just wanna take the master, and change to files and push that to my  branch. I pulled the master, checked out my branch and did 'git merge master'. But that creates conflicts
+
+
+managed to do it with some extra steps. The batch conversion should no be 'clean' and ready to test:
+
+[https://github.com/cyberbotics/urdf2webots/pull/74](https://github.com/cyberbotics/urdf2webots/pull/74)
+
+##### David Mansolino [cyberbotics] 08/28/2020 11:51:25
+> How do I resolve merge conflicts. I just wanna take the master, and change to files and push that to my  branch. I pulled the master, checked out my branch and did 'git merge master'. But that creates conflicts
+
+`@Simon Steinmann` [https://www.atlassian.com/git/tutorials/using-branches/merge-conflicts](https://www.atlassian.com/git/tutorials/using-branches/merge-conflicts) 😉
+
+##### Simon Steinmann [Moderator] 08/28/2020 13:09:25
+The automatic-conversion pull request failes the check with this error:
+
+[https://travis-ci.com/github/cyberbotics/urdf2webots/jobs/378767198](https://travis-ci.com/github/cyberbotics/urdf2webots/jobs/378767198)
+
+
+
+I dont quite understand what that means
+
+##### David Mansolino [cyberbotics] 08/28/2020 13:11:47
+The test is converting the files in the source directory ([https://github.com/cyberbotics/urdf2webots/tree/master/tests/sources](https://github.com/cyberbotics/urdf2webots/tree/master/tests/sources)) with these arguments: [https://github.com/cyberbotics/urdf2webots/blob/master/tests/test\_export.py#L13-L34](https://github.com/cyberbotics/urdf2webots/blob/master/tests/test_export.py#L13-L34)
+
+And comparing them with the references: [https://github.com/cyberbotics/urdf2webots/tree/master/tests/expected](https://github.com/cyberbotics/urdf2webots/tree/master/tests/expected)
+
+If something difeers, it will then fail.
+
+
+I saw that you managed to fix the merge issue 🙂
+
+
+Maybe can we speak about this part here?
+
+[https://github.com/cyberbotics/urdf2webots/pull/74/files#diff-68c204ae057e777029c1e7dbd77d1f03L157-L162](https://github.com/cyberbotics/urdf2webots/pull/74/files#diff-68c204ae057e777029c1e7dbd77d1f03L157-L162)
+
+##### alxy 08/28/2020 13:25:55
+`@Simon Steinmann` Regarding git workflow, I do sync with the remote (pull), create new feature branch from remote/master, do changes, commit, push
+
+##### Simon Steinmann [Moderator] 08/28/2020 13:40:40
+`@alxy` the issue was, that the master changed, since I did that
+
+##### alxy 08/28/2020 13:57:28
+[https://imgs.xkcd.com/comics/git.png](https://imgs.xkcd.com/comics/git.png)
+
+
+It's shockingly true
+
+##### Simon Steinmann [Moderator] 08/28/2020 15:46:08
+Any idea how I could only get the urdf of the robot arm, without including things  attached in the toolSlot field?
+
+
+i'm so far that I can get the node added:
+
+toolSlotNode = self.supervisor.getSelf().getField('toolSlot').getMFNode(0)
+
+
+but since it's not a robot node, I cant get a urdf from it, nor can I get devices
+
+
+is there a way to copy nodes, remove them and then insert them again? I got so far as to removing them, but how can I insert a node
+
+
+Can I somehow convert a node to string? So I can insert with string
+
+##### alxy 08/29/2020 11:37:53
+I'd say you need an optional aprameter in your ik\_module to pass a list of joints/motors you want in the chain
+
+
+You can then just create the entire chain from the urdf from the supervisor, and later remove the joints that dont actually belong to the arm by comparing to that passed list of names
+
+##### Simon Steinmann [Moderator] 08/29/2020 13:55:03
+The issue is, that some inlcude a end link, and some don't
+
+##### alxy 08/29/2020 14:09:48
+yeah, thats why I mean make it optional, if it is None for example use all joints
+
+
+else, use the ones specified
+
+
+I mean there might even be robots where an arm is mounted on top of some kind of platform with wheel, to move around, so that would introduce even more motors
+
+##### Simon Steinmann [Moderator] 08/30/2020 18:39:31
+Do you guys have a benchmark to test collision detection performance?
+
+##### David Mansolino [cyberbotics] 08/31/2020 05:59:12
+Hi `@Simon Steinmann`, not really (or at least not maintained). However, you might fidn in our CI some tests checking that the behavior of the physics and the collisions is the expected one: [https://github.com/cyberbotics/webots/tree/master/tests/physics/worlds](https://github.com/cyberbotics/webots/tree/master/tests/physics/worlds)
+
+##### Simon Steinmann [Moderator] 08/31/2020 10:38:19
+Thank you
+
+
+Is there any work on adding more native support for motion planning? Something like OMPL?
+
+##### David Mansolino [cyberbotics] 08/31/2020 10:40:27
+I am currently investigating the use of IKFast for a private project (the current result doesn't look very promising), if I have something nice I will let you know.
+
+##### Simon Steinmann [Moderator] 08/31/2020 10:40:45
+I was looking into that 1-2 weeks ago
+
+##### David Mansolino [cyberbotics] 08/31/2020 10:40:58
+OMPL is indeed the next alternative I will try if I can't have nice result with IKFast
+
+##### Simon Steinmann [Moderator] 08/31/2020 10:41:14
+I managed to compile it with docker, but not getting it to run with a wrapper
+
+
+how far are you with IKFast?
+
+##### David Mansolino [cyberbotics] 08/31/2020 10:42:23
+Currently it fails generating the solution for my model after hours of computation (I am still not 100% sure the problem is on my model definition or just that IKFast is not able to find a solution for this kind of robot).
+
+##### Simon Steinmann [Moderator] 08/31/2020 10:42:59
+I had that issue too... gosh I dont remember what I did to fix it
+
+
+hold on, lemme try to find it
+
+
+[http://docs.ros.org/kinetic/api/moveit\_tutorials/html/doc/ikfast/ikfast\_tutorial.html](http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/ikfast/ikfast_tutorial.html)
+
+
+the part here:
+
+Often floating point issues arise in converting a URDF file to Collada file, so a script has been created to round all the numbers down to x decimal places in your .dae file.
+
+
+rounding the decimal places. That did the trick
+
+##### David Mansolino [cyberbotics] 08/31/2020 10:46:54
+Thank you, unfortunately, I am following this exact same tutorial and already did the rounding trick, but it doesn't seem to fix the problem (but my arm is not 'conventional' as it contains a slider joint, I suspect this is causing issues to the solver).
+
+##### Simon Steinmann [Moderator] 08/31/2020 10:49:14
+that might be. Never used IK with sliding joints. Is it supposed to be supported?
+
+
+what error are you getting? I got "maximum recursion depth reached"
+
+##### David Mansolino [cyberbotics] 08/31/2020 10:51:23
+> that might be. Never used IK with sliding joints. Is it supposed to be supported?
+
+`@Simon Steinmann` from a theoretical point a view, slider should be simpler to solve than rotational joints, but since they are less commun I suspect they are less supported, but IKFast doesn't complains about it, it just fails with something like 'Could not resolve the system' (don't remember exactly the error message, I will in any case retry later this week).
+
+##### Simon Steinmann [Moderator] 08/31/2020 10:53:09
+let me know if you make any progress. Especially implementing and using the compiled file would be very interesting. There is a python wrapper library, but I failed to understand how to add my own model to it
+
+
+I used it in the past with the already included irb planner, and successfully controlled the arm in webots. This would be a fantastic solution and addition, if we manage to establish an implementation workflow
+
+##### David Mansolino [cyberbotics] 08/31/2020 11:50:35
+> I used it in the past with the already included irb planner, and successfully controlled the arm in webots. This would be a fantastic solution and addition, if we manage to establish an implementation workflow
+
+`@Simon Steinmann` was the motion better than with IKPY ? Especially, was the orientation working fine?
+
+
+> let me know if you make any progress. Especially implementing and using the compiled file would be very interesting. There is a python wrapper library, but I failed to understand how to add my own model to it
+
+`@Simon Steinmann` Yes sure, currently we are preparing the release if Webots R2020b-rev1, I am quite busy with this, but right after the release I will continue on this topic.
+
+##### Simon Steinmann [Moderator] 08/31/2020 12:22:41
+I got ikpy rotation to work with my latest iteration of the generic IK controller. I cannot make a good judgement about accuracy, however, the speed difference is HUGE. ikpy you cannot run at high frequency. IKFast is very fast
+
+##### David Mansolino [cyberbotics] 08/31/2020 12:23:11
+Yes that's indeed what I read that IKFast is much more efficient.
+
+##### Simon Steinmann [Moderator] 08/31/2020 12:23:57
+it is a analytical instead of numerical solver. The big drawback is, that every robot and task needs to be compiled
+
+##### David Mansolino [cyberbotics] 08/31/2020 12:24:39
+Yes, for making something generic this is indeed a huge drawback!
+
+##### Simon Steinmann [Moderator] 08/31/2020 12:26:24
+[https://github.com/sebastianstarke/BioIK](https://github.com/sebastianstarke/BioIK) this looks interesting as well... it just seems so difficult to find a proper ik solution, that can be implemented without moveit
+
+
+perhaps moveIt 2 with ROS2 could be implemented with webots.
+
+##### David Mansolino [cyberbotics] 08/31/2020 12:32:38
+Yes I saw indeed that there are many many alternative to implement IK.
+
+
+Unfortunately, I would like to avoid using ROS/ROS2 in my project. But for sure integrating MoveIt2 is on the roadmap (once it is out of beta).
+
+##### Simon Steinmann [Moderator] 08/31/2020 12:35:14
+what are some alternatives?
+
+##### David Mansolino [cyberbotics] 08/31/2020 12:37:14
+IKPY, IKFAST, TheComet/ik, OMPL, KDL, etc.
+
+##### Simon Steinmann [Moderator] 08/31/2020 12:41:02
+Comet is new to me, gonna check it out
+
+##### David Mansolino [cyberbotics] 08/31/2020 12:41:56
+> Comet is new to me, gonna check it out
+
+`@Simon Steinmann` not sure about the maturity of this one, I haven't tested it yet.
+
+##### Simon Steinmann [Moderator] 08/31/2020 12:41:57
+but it's not just the solvers, the implementation has to be doable too. There ikpy is 'simple', even if the documentation is very confusing and misleading at times
+
+
+it uses the Fabrik solver, reading up on it right now 🙂
+
+##### David Mansolino [cyberbotics] 08/31/2020 12:42:18
+Yes, in the ease of use, ikpy is clearly the best
+
+##### Simon Steinmann [Moderator] 08/31/2020 12:42:32
+comet seems to be similar to ikpy, but for C
+
+
+Do you guys have more detailed documentation on your multithreading work for ODE? Was it based on this paper?
+
+[https://link.springer.com/chapter/10.1007/978-3-642-23397-5\_20](https://link.springer.com/chapter/10.1007/978-3-642-23397-5_20)
+
+I went into a deep rabbit hole yeserday, reading countless papers till 2am in the morning, around collision detection, mesh optimizations and anything related. I'm curious as to how your branch of ODE differs. Did you parallelize the collision detection portion? The dynamics simulation? both, or even more than that? Also I'm curious as to how collisions are parsed to ODE. From what `@Olivier Michel` told me, I gather that you use hierachical (nested) spaces.
+
+
+From my paper-reading spree yesterday, I concluded that there are several different options on how to structure collision detection, and that this can have large performance impacts. For example one method can be very effective and fast when having nested collision spaces with the same number of levels and approximately same numper of objects / complexity per level. But the same method can be slow or imprecise when comparing spaces of different depth or complexity
+
+
+If you have some reading or implementations or documentations on your side you can point me too, I'd be appreciative
+
+##### Olivier Michel [cyberbotics] 08/31/2020 13:14:11
+I am afraid there is little documentation about it. However, it was performed during a master project if I remember well, so there might be a master thesis about it...
+
+##### Simon Steinmann [Moderator] 08/31/2020 13:15:42
+you wouldnt happen to have it? or the name of the author?
+
+##### Olivier Michel [cyberbotics] 08/31/2020 13:16:26
+Basically, the idea behind parallelization was simply to create islands of objects which are mechanically isolated from each other (no contact, no joint). And to run these islands in parallel. However these islands have to be dynamically updated as the simulation evolves and object may move from one island to another.
+
+
+I will send you the report privately.
+
+##### Simon Steinmann [Moderator] 08/31/2020 13:17:02
+okay, thank you 🙂
+
+##### alxy 08/31/2020 13:42:31
+Wouldnt have thought inverse kinematics is such a hard problem
+
+##### Simon Steinmann [Moderator] 08/31/2020 15:05:29
+I GOT IKFAST RUNNING ON THE UR10E!!!!!
+
+
+when computing an ik-solution every 10 timesteps, ikpy runs at 0.9-1.2 realtime factor, ikfast at 90-120x!!!!!
+
+##### David Mansolino [cyberbotics] 08/31/2020 15:09:56
+Oh cool!!
+
+##### Simon Steinmann [Moderator] 08/31/2020 15:11:47
+once things are compiled, the implementation is actually way easier than ikpy
+
+
+but getting there... oh boy
+
+
+okay, ikfast isn't even the bottleneck anymore. now it runs at 185x . The only thing I changed, was instead of creating a new transformation matrix every time, I just init it once, and override it with each call.... wow
+
+##### David Mansolino [cyberbotics] 08/31/2020 15:20:37
+Yes indeed at this speed the Webots step is probably the bootlneck
+
+##### Simon Steinmann [Moderator] 08/31/2020 15:23:11
+Any request for a robotic arm, to do next? Gotta create a workflow that can be reproduced
+
+##### alxy 08/31/2020 15:24:45
+is it using a c++ controller then or does it work from python as well?
+
+##### Simon Steinmann [Moderator] 08/31/2020 15:25:06
+I got it to work through python
+
+##### alxy 08/31/2020 15:25:14
+nice work
+
+##### Simon Steinmann [Moderator] 08/31/2020 15:26:09
+this is all it takes to implement it
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/750013567855493251/unknown.png)
+%end
+
+
+There might be some work to be done, which solution to pick (it returns all possible solutions)
+
+##### alxy 08/31/2020 15:27:43
+not bad, and it handels orientation and position correctly and fast?
+
+##### Simon Steinmann [Moderator] 08/31/2020 15:27:51
+yes
+
+## September
+
+
+so I made a ikfast controller for ur3, 5 and 10e
+
+
+7DOF kuka failed. But I could make it for every 6DOF arm
+
+
+it always requires a compiled file, the rest of the ik controller for webots can be reused
+
+
+how would you guys like it for an official implementation?
+
+
+have it seperate for every supported robot?
+
+
+or have a general one, that picks the correct file when available. And perhaps use ikpy when not
+
+##### David Mansolino [cyberbotics] 09/01/2020 14:34:41
+Very nice, I think personnally that having it for one of the ur robot along with a small README file explaining how you did generate it (so that users can reproduce this for other robots) would be very nice and usefull!
+
+##### Simon Steinmann [Moderator] 09/01/2020 14:36:33
+The process of generating these files is not easy though. I think providing it for the already supported ones would be great
+
+
+If anyone wants to test the ikfast implementation. Let me know if it works out of the box
+> **Attachment**: [ur10e\_ik.zip](https://cdn.discordapp.com/attachments/565155651395780609/750399802331758684/ur10e_ik.zip)
+
+
+pip install numpy Cython
+
+
+you might have to install those two packages
+
+
+`@alxy` can you test this world?
+
+##### alxy 09/01/2020 18:59:05
+sorry, want do anything more today :p
+
+
+*wont
+
+##### Simon Steinmann [Moderator] 09/01/2020 18:59:24
+okay, tomorrow perhaps 🙂
+

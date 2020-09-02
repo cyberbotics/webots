@@ -2,13 +2,33 @@
 
 This tutorial explains how to use the nodes from the `webots_ros` package provided with Webots.
 
-These examples were tested with ROS `melodic` and `kinetic` on Linux.
+These examples were tested with ROS `noetic`, `melodic` and `kinetic` on Linux.
 There is no warranty they will work if you use a different platform or an ancient distribution of ROS.
 
 ### Installing ROS and "webots\_ros" Package
 
 In order to use these nodes, you will first need to install the ROS framework.
 To install the latest version of ROS on Ubuntu use the following commands:
+
+%tab-component "ros"
+
+%tab "noetic"
+
+
+```sh
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+sudo apt-get update
+sudo apt-get install ros-noetic-desktop-full # takes time, get a coffee :)
+sudo apt-get install python3-rosdep
+sudo rosdep init
+rosdep update
+sudo apt-get install ros-noetic-webots-ros
+```
+
+%tab-end
+
+%tab "melodic"
 
 ```sh
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -21,8 +41,28 @@ rosdep update
 sudo apt-get install ros-melodic-webots-ros
 ```
 
+%tab-end
+
+%tab "kinetic"
+
+```sh
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+sudo apt-get update
+sudo apt-get install ros-kinetic-desktop-full # takes time, get a coffee :)
+sudo apt-get install python-rosdep
+sudo rosdep init
+rosdep update
+sudo apt-get install ros-kinetic-webots-ros
+```
+
+%tab-end
+
+
+%end
+
 For more information or to install it on another platform please read [http://wiki.ros.org/ROS/Installation](http://wiki.ros.org/ROS/Installation).
-Unless you need older version for some other application, you should choose the latest distribution (Melodic Morenia or Kinetic Kame).
+Unless you need older version for some other application, you should choose a recent distribution (Noetic Ninjemys, Melodic Morenia or Kinetic Kame).
 
 The last line is to install the [webots\_ros](http://wiki.ros.org/webots\_ros) package.
 
