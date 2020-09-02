@@ -13953,7 +13953,7 @@ Hi `@JoHn`, for the `time_step` question: also in vehicle simulation you have to
 
 The only main difference is that instead of the 'ros' controller you should use the 'ros\_automobile' one.
 
-##### MaWa 10/03/2019 09:42:42
+##### TunfischKorn 10/03/2019 09:42:42
 Hey, does somebody knows how to fix that? I have Python 3.7 64Bit installed. But I can't make a connection to SUMO?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/629251977422962708/unknown.png)
@@ -13962,7 +13962,7 @@ Hey, does somebody knows how to fix that? I have Python 3.7 64Bit installed. But
 ##### Fabien Rohrer [Moderator] 10/03/2019 09:44:06
 Could you tell us what is your traci version?
 
-##### MaWa 10/03/2019 09:45:58
+##### TunfischKorn 10/03/2019 09:45:58
 It is the one witch gets installed with the "webots-R2019b\_setup" so it is "sumo-0.30-windows".
 
 From the \_init\_.py file -> @version $Id: \_\_init\_\_.py 23953 2017-04-16 16:19:38Z behrisch $
@@ -13988,7 +13988,7 @@ is it a possibility for you to disable the traffic lights? (By passing "--disabl
 ##### Tutu 10/03/2019 11:07:06
 `@Olivier Michel` Thanks
 
-##### MaWa 10/03/2019 11:24:20
+##### TunfischKorn 10/03/2019 11:24:20
 `@Fabien Rohrer` 
 
 The Python example ->WEBOTS\_HOME/projects/languages/python/worlds/example.wbt works just fine. I can control the 3 robots and there is no crash. So I think Python is working with Webots software.
@@ -14007,9 +14007,9 @@ If I set the option to --disable-traffic-lights
 %end
 
 ##### David Mansolino [cyberbotics] 10/03/2019 11:56:50
-Hi `@MaWa`, from the output it seems you have another conflicting installation of traci in 'Program files(x86)\Eclipse\Sumo'. This other version is probably not compatible with the one used by Webots. Please make sure that this path is not included neither in your PYTHONPATH and PATH environment variables
+Hi `@TunfischKorn`, from the output it seems you have another conflicting installation of traci in 'Program files(x86)\Eclipse\Sumo'. This other version is probably not compatible with the one used by Webots. Please make sure that this path is not included neither in your PYTHONPATH and PATH environment variables
 
-##### MaWa 10/03/2019 12:17:11
+##### TunfischKorn 10/03/2019 12:17:11
 `@Fabien Rohrer`
 
 `@David Mansolino` Absolutely right! Thanks. Haven't seen it 😂 🙌

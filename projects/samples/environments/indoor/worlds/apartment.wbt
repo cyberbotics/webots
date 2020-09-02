@@ -19,6 +19,7 @@ TexturedBackground {
   ]
 }
 DEF FLOOR Solid {
+  translation 3.3 0 4.95
   children [
     Shape {
       appearance Parquetry {
@@ -26,27 +27,17 @@ DEF FLOOR Solid {
           scale 6 9
         }
       }
-      geometry ElevationGrid {
-        xDimension 5
-        xSpacing 1.65
-        zDimension 7
-        zSpacing 1.65
+      geometry DEF FLOOR_PLANE Plane {
+        size 6.6 9.9
       }
     }
   ]
   name "floor"
-  boundingObject Transform {
-    translation 3.3 0 4.96
-    children [
-      Plane {
-        size 6.6 9.9
-      }
-    ]
-  }
+  boundingObject USE FLOOR_PLANE
   locked TRUE
 }
 DEF ROOF Solid {
-  translation 0 2.4 9.9
+  translation 3.3 2.4 4.95
   rotation 1 0 0 3.14159
   children [
     Shape {
@@ -63,23 +54,11 @@ DEF ROOF Solid {
           scale 8 8
         }
       }
-      geometry ElevationGrid {
-        xDimension 5
-        xSpacing 1.65
-        zDimension 7
-        zSpacing 1.65
-      }
+      geometry USE FLOOR_PLANE
     }
   ]
   name "roof"
-  boundingObject Transform {
-    translation 3.3 0 4.96
-    children [
-      Plane {
-        size 6.6 9.9
-      }
-    ]
-  }
+  boundingObject USE FLOOR_PLANE
   locked TRUE
 }
 Wall {

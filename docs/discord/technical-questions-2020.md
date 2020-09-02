@@ -32063,11 +32063,11 @@ Thanks a lot@
 
 E
 
-##### FTNBT 08/19/2020 20:54:30
+##### Toledo 08/19/2020 20:54:30
 Hi,  Can i transfer the results of the simulations for my real robot?
 
 ##### David Mansolino [cyberbotics] 08/20/2020 05:30:37
-`@FTNBT` it depends, which real robot? Which programming language are you using?
+`@Toledo` it depends, which real robot? Which programming language are you using?
 
 
 > Hi, I need to mark a point in space in the GUI to debug. How can I do that?
@@ -32126,8 +32126,8 @@ On which scale are the x,y,z-coordinates when using an inverse kinematics contro
 ##### David Mansolino [cyberbotics] 08/20/2020 12:05:50
 They should match the Webots scale, what let you think it is not the case?
 
-##### FTNBT 08/20/2020 12:07:31
-> `@FTNBT` it depends, which real robot? Which programming language are you using?
+##### Toledo 08/20/2020 12:07:31
+> `@Toledo` it depends, which real robot? Which programming language are you using?
 
 `@David Mansolino` A robot with Arduino, C/C++
 
@@ -32587,10 +32587,10 @@ I didnt change much that could affect the controller I would assume
 ##### Simon Steinmann [Moderator] 08/20/2020 16:30:04
 let me investigate before you merge
 
-##### FTNBT 08/20/2020 16:31:00
+##### Toledo 08/20/2020 16:31:00
 > `@David Mansolino` A robot with Arduino, C/C++
 
-`@FTNBT` .
+`@Toledo` .
 
 ##### alxy 08/20/2020 16:33:27
 So I can just merge my own PRs after they have been approved?
@@ -32630,9 +32630,9 @@ but good to see you creating PRs 🙂
 Here is an example (but with only one e-puck): [https://github.com/cyberbotics/webots/blob/master/projects/languages/ros/webots\_ros/src/e\_puck\_line.cpp](https://github.com/cyberbotics/webots/blob/master/projects/languages/ros/webots_ros/src/e_puck_line.cpp)
 
 
-> `@FTNBT` .
+> `@Toledo` .
 
-`@FTNBT` unfortunately Webots does not support transfer to arduino out of the box, however, since arduino also uses C as Webots, it should be quite straightforward to 'convert' it.
+`@Toledo` unfortunately Webots does not support transfer to arduino out of the box, however, since arduino also uses C as Webots, it should be quite straightforward to 'convert' it.
 
 ##### creative 08/21/2020 06:06:59
 thanks, we study the  e\_puck\_line.cpp, but we don't control 10 epucks at the same time in a cpp file via ROS. For loop over each of the epucks and send wheel speed to webot published services and call .../robot/time\_step each time in order to update the motor status.
@@ -33494,4 +33494,1667 @@ create a new one, then put the world file in
 
 
 or create that structure yourself
+
+##### Kricklobderno 08/27/2020 06:57:59
+Hi.  I am getting this error for visual studio debug mode. Severity    Code    Description    Project    File    Line    Suppression State
+
+Error    LNK2019    unresolved external symbol wb\_robot\_get\_controller\_arguments referenced in function "public: class std::basic\_string<char,struct std::char\_traits<char>,class std::allocator<char> > \_\_cdecl webots::Robot::getControllerArguments(void)const " (?getControllerArguments@Robot@webots@@QEBA?AV?$basic\_string@DU?$char\_traits@D@std@@V?$allocator@D@2@@std@@XZ)    OpenCVtest    C:\Users\kamil\source\repos\OpenCVtest\Robot.obj    1
+
+
+It is okay for release mode and I have the same configurations with debug mode. Why is this occuring?
+
+##### David Mansolino [cyberbotics] 08/27/2020 07:00:48
+It seems you are somehow missing to link with the 'libController' (to which belong 'wb\_robot\_get\_controller\_arguments').
+
+##### Kricklobderno 08/27/2020 07:09:07
+So which libraries should I add? Since It is different from release mode libraries.
+
+##### David Mansolino [cyberbotics] 08/27/2020 07:09:49
+Usually the same should be fine :-/
+
+Can you make sure that you are linking with libcontroller in debug mode too?
+
+##### alxy 08/27/2020 08:36:00
+I Have another logic question question regarding orientation of my gripper. The ikpy works like this ( [https://github.com/Phylliade/ikpy/wiki/Orientation#orientation-on-a-single-axis](https://github.com/Phylliade/ikpy/wiki/Orientation#orientation-on-a-single-axis) ), meaning the orierntation is specified by aligning/parallelizing two vectors if I get that correctly. And if I just want to ensure an orientation perpendicular to the ground I just align the global Z axis with the last joints z axis: [https://github.com/alxy/webots-mirobot/blob/master/controllers/mirobot\_default\_controller/ip\_controller.py#L190-L193](https://github.com/alxy/webots-mirobot/blob/master/controllers/mirobot_default_controller/ip_controller.py#L190-L193)
+
+However, as problem arises if I want to rotate exactly around this z axis. So the gripper is still perpendicular to the ground, but rotatet at its wrist. How do I do that?
+
+##### David Mansolino [cyberbotics] 08/27/2020 08:38:30
+I am not sure to perfectly understand your question, can you maybe add images to your question?
+
+Not also that in my experience ikpy does not support well target orientation.
+
+##### alxy 08/27/2020 08:39:57
+Sure, let me capture some
+
+
+So, with the current code (see my github repository), I fix the orientation. And basically what I'm telling the ikpy lib is: I want the global z axis (z axis of base) to be parallel to the last joint axis (Z) of the arm. It looks like this:
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/748462564308025394/unknown.png)
+%end
+
+
+Now consider I want to rotate the gripper like this:
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/748463169571389450/unknown.png)
+%end
+
+
+Note still the two z axis are parallel, its just rotated exactly around this axis
+
+
+I will probably need the orientation on full referential is my best guess
+
+
+as two vectors willnever be enough to describe an orientation in 3d space
+
+##### David Mansolino [cyberbotics] 08/27/2020 08:51:19
+But can't you simply 'force' the rotation of the last joint that rotates around Z ?
+
+##### alxy 08/27/2020 08:53:18
+sure, I could do that. However it would be easier if the lib would handle that as well, especially if I need more complex orientations in the future 😄
+
+
+Right now In just need to pick rotated cubes, so that is rather easy
+
+##### David Mansolino [cyberbotics] 08/27/2020 08:54:58
+Oh ok, I understand, in that case yes you probably need a complete 3d orientation definition of your gripper.
+
+##### alxy 08/27/2020 08:55:35
+yeah, and I want the robot to be as similar as possible to the real robot 🙂
+
+
+Mh, surprisingly, setting a different orientation using the full 3x3 matrix also changes the entire position of the arm. Very weird...
+
+##### David Mansolino [cyberbotics] 08/27/2020 09:13:38
+From my experience setting the full orientation doesn't works perfectly with ikpy
+
+##### alxy 08/27/2020 09:14:27
+with an eye matrix everything seems fine
+
+
+also the rotation is correct
+
+
+however now the position is not correct
+
+
+If I just rotate around z, and stick the position, why is it moving any othher joint than the last one 😄
+
+
+it looks like it does half of the rotation using the base, and half using the last joint, so for a 90° rotation 45+45, which results in the correct rotation
+
+
+but obviously a completely wrong position, as the  base joint moved the entire arm
+
+##### David Mansolino [cyberbotics] 08/27/2020 09:23:58
+Sorry, I am not an inverse kinematic expert, I don't understand it too.
+
+##### alxy 08/27/2020 09:24:36
+Will need to wati for `@Simon Steinmann` , I guess he has spent quite some time with this lib. Maybe he has some insights
+
+##### Simon Steinmann [Moderator] 08/27/2020 09:50:17
+`@alxy` The controller and modules I wrote dont just align the axis, but do the full rotation. You can either use my code, or do it manually. For the z-axis this would entail getting the rotation matrix of you desired orientation, and taking the 3rd column as the rotation vector you pass to ikpy.  R(3x3) * (0, 0, 1). When you use the getOrientation() function of Webots, it returns 1-dim, len(9) list. So your rotation vector for ikpy is
+
+R[2,5,8]
+
+
+[https://github.com/cyberbotics/community-projects/blob/Simon-Steinmann-IK/default/controllers/generic\_inverse\_kinematic/ik\_module.py#L105](https://github.com/cyberbotics/community-projects/blob/Simon-Steinmann-IK/default/controllers/generic_inverse_kinematic/ik_module.py#L105)
+
+
+with rot\_index being 2 for the z-axis
+
+
+line 108 then calls ikpy with that rotation
+
+##### alxy 08/27/2020 09:54:24
+Yeah, I have used your code as a reference
+
+
+However, I think your code doesnt do the full rotation
+
+##### Simon Steinmann [Moderator] 08/27/2020 09:55:17
+it does
+
+
+how are you defining the rotation vector you are parsing to ikpy?
+
+##### alxy 08/27/2020 09:56:27
+Consider orientation\_mode is "Z", how do you do a rotation around this axis by only passing one additioal vector (target\_orientation)
+
+
+I mean orientation with regards to the other two axis is possible
+
+##### Simon Steinmann [Moderator] 08/27/2020 09:58:01
+hmmm
+
+##### alxy 08/27/2020 09:58:05
+and it perfectly works with ikpy (I tested it)
+
+##### Simon Steinmann [Moderator] 08/27/2020 09:58:29
+let me switch to lilnux 😉
+
+##### alxy 08/27/2020 10:02:01
+I try to create a more minimal example. as my code is really heavy now and has lots of dependencies
+
+##### Simon Steinmann [Moderator] 08/27/2020 10:04:15
+you are right, tested it. I remembered rotating axis and it working, but that was always rotation the other 2 axis. Makes sense, that you couldnt solve 4 variables (direction and rotation), given a 3-dim vector
+
+##### alxy 08/27/2020 10:05:22
+I did the following now
+
+##### Simon Steinmann [Moderator] 08/27/2020 10:05:23
+My approach would be to calculate the rotation seperately. ikpy doesnt support xyz orientation
+
+
+the last joint only does rotation and is aligned with the same axis
+
+##### alxy 08/27/2020 10:05:47
+```
+orientation = R.from_euler('xyz', [0, 0, 90], degrees=True).as_matrix()
+ikResults = self.armChain.inverse\_kinematics(translation, orientation, orientation\_mode="all")
+```
+
+##### Simon Steinmann [Moderator] 08/27/2020 10:06:26
+that works? I thought the wiki said it is not implemented
+
+##### alxy 08/27/2020 10:06:35
+yeah, have seen that as well
+
+
+but looking at the code it works 😄
+
+##### Simon Steinmann [Moderator] 08/27/2020 10:06:44
+that works? 😮
+
+##### alxy 08/27/2020 10:06:51
+yeah, the orientation works
+
+##### Simon Steinmann [Moderator] 08/27/2020 10:06:54
+xD damn that outdated documentation
+
+
+omg, the code will be so much simpler then
+
+##### alxy 08/27/2020 10:07:11
+however, it somehow kills the translation
+
+##### Simon Steinmann [Moderator] 08/27/2020 10:07:23
+ah okay, then it doesnt work
+
+##### alxy 08/27/2020 10:07:32
+as I said, the orientation woprks 😄
+
+##### Simon Steinmann [Moderator] 08/27/2020 10:07:41
+that's probably why they said it's not implemented
+
+##### alxy 08/27/2020 10:08:36
+[https://github.com/Phylliade/ikpy/commit/691c86f5ccf6a316428509e975e3e218baf26ed9](https://github.com/Phylliade/ikpy/commit/691c86f5ccf6a316428509e975e3e218baf26ed9)
+
+
+According to their tests it all works
+
+
+I am on my way creating a simple example with the mirobot chain to test
+
+
+lol, this is what bad testing looks like: [https://github.com/Phylliade/ikpy/commit/691c86f5ccf6a316428509e975e3e218baf26ed9#diff-a656ba05b54787c68ede6d639bfa71bbR25](https://github.com/Phylliade/ikpy/commit/691c86f5ccf6a316428509e975e3e218baf26ed9#diff-a656ba05b54787c68ede6d639bfa71bbR25)
+
+
+They only have one test using np.eye() as orientation
+
+##### Simon Steinmann [Moderator] 08/27/2020 10:15:28
+[https://tenor.com/view/blank-stare-really-idontbelieveyou-side-gif-6151149](https://tenor.com/view/blank-stare-really-idontbelieveyou-side-gif-6151149)
+
+##### alxy 08/27/2020 10:17:10
+I bet we see the same issue if using a different orientation
+
+##### Simon Steinmann [Moderator] 08/27/2020 10:20:09
+does forward kinematics work for you?
+
+
+I always get errors
+
+##### alxy 08/27/2020 10:20:37
+never tested
+
+
+I just try to figure how to run theses tests
+
+##### Simon Steinmann [Moderator] 08/27/2020 10:21:32
+oh wait, it works
+
+
+my brain is not in full gear yet... linear algebra urgh
+
+
+okay, so you get the end transformation matrix with this:
+
+self.armChain.forward\_kinematics(ikResults)
+
+
+it's a 4x4 matris, with the upper left 3x3 being the rotation matrix and the right column being the translation vector (the first 3 values, 4th is always 1)
+
+
+should be possible to calculate how much we have to rotate around the z-axis, to reach our target rot
+
+##### alxy 08/27/2020 10:31:41
+yeah its this wuaternion rotation/translation matrix right? which does both in one matrix vector caclulation
+
+
+I just ran the tests, and even in it current form the est\_orientation\_full\_frame fails
+
+##### Simon Steinmann [Moderator] 08/27/2020 10:32:46
+lol
+
+##### alxy 08/27/2020 10:33:41
+But its due to numerics, I just dont get the required precision up to 5 digits
+
+
+``E       Mismatched elements: 3 / 3 (100%)
+
+E       Max absolute difference: 0.00041896
+
+E       Max relative difference: 0.00292389
+
+E        x: array([ 0.10029,  0.39958, -0.09998])
+
+E        y: array([ 0.1,  0.4, -0.1])``
+
+
+In general that appears to work with the eye amtrix
+
+
+Decreasing that to 3 decimals fixes that
+
+##### Simon Steinmann [Moderator] 08/27/2020 10:36:14
+fixes what exactly?
+
+##### alxy 08/27/2020 10:38:33
+Mh, now, that is weird now, using their arm chain I can also use other orientations, it seems to work
+
+
+Ok, it depends which axis I am rotating
+
+
+No idea whats going on there
+
+##### Simon Steinmann [Moderator] 08/27/2020 10:43:27
+can you find where the acutal IK calculations are done? I dont see it in their code
+
+##### alxy 08/27/2020 10:44:02
+[https://github.com/Phylliade/ikpy/blob/87509bb371034b819d082f5a6cf0e7fbccf4e7e4/src/ikpy/inverse\_kinematics.py#L134](https://github.com/Phylliade/ikpy/blob/87509bb371034b819d082f5a6cf0e7fbccf4e7e4/src/ikpy/inverse_kinematics.py#L134)
+
+
+What does actual calculation mean?
+
+
+It a minimization problem
+
+##### Simon Steinmann [Moderator] 08/27/2020 10:44:38
+where in the code they turn the target frame into joint angles
+
+
+ohh
+
+##### alxy 08/27/2020 10:45:32
+the angles are the parameters with respect to them the function is optimized
+
+##### Simon Steinmann [Moderator] 08/27/2020 10:57:29
+so did you get it to work?
+
+##### alxy 08/27/2020 11:24:09
+No, was having lunch :p But managed to add a failing test
+
+##### Simon Steinmann [Moderator] 08/27/2020 11:24:26
+and then what? 😄
+
+##### alxy 08/27/2020 11:25:08
+No idea, but a failing test is the first step towards a solution
+
+
+for the baxter arm I reailized a start to get wrong results once I do a rotation along more than one axis
+
+##### Simon Steinmann [Moderator] 08/27/2020 11:26:55
+using the 'all' rotation always gives me the correct rotation, but rarely the right translation
+
+
+code seems to be broken
+
+##### alxy 08/27/2020 11:27:31
+yes, I have the same behavior when using the mirobot chain
+
+
+using the baxter chain, the orientation fials
+
+
+[https://github.com/Phylliade/ikpy/pull/93](https://github.com/Phylliade/ikpy/pull/93)
+
+##### Simon Steinmann [Moderator] 08/27/2020 11:32:32
+I'm onto something
+
+
+manual workaround, but close to figuring it out
+
+##### alxy 08/27/2020 11:33:14
+nice
+
+
+The orientation examples are completely overloaded, dont get why they not just simply only plot the left arm, as this is the only one beein oriented
+
+##### Simon Steinmann [Moderator] 08/27/2020 11:51:21
+I figured it out, but sometimes it is very slightly of, but within like 2 degrees or something
+
+
+the error comes from when the z-axis is not perfectly aligned with the target z-axis
+
+##### alxy 08/27/2020 11:55:34
+and why does it cripple the position then?
+
+##### Simon Steinmann [Moderator] 08/27/2020 11:55:50
+oh no, I made my own solution 😄
+
+
+fk = self.armChain.forward\_kinematics(ikResults)
+
+            R\_fk = fk[:3,:3]
+
+            R\_new = np.dot(target\_rot, R\_fk)
+
+            r = R.from\_matrix(R\_new)
+
+            euler = r.as\_euler('xyz', False)
+
+            print(np.round(R\_new, 3), euler)
+
+            ikResults[6] = ikResults[6] + euler[2]
+
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+all should be on the same indent, after calculating ikResults
+
+
+and you need:
+
+from scipy.spatial.transform import Rotation as R
+
+
+basically I get the rotation matrix from the ikResult, and do the dot product with the target rotation matrix, So we get the 'difference' or 'error' in rotation between the ik and target. Then we turn this into euler angles, and add the z-angle to the 6th motor
+
+
+does that make somewhat sense?
+
+##### alxy 08/27/2020 11:59:45
+If it works, probably 😄
+
+##### Simon Steinmann [Moderator] 08/27/2020 12:00:31
+works pretty well. you wanna try it? Not that many lines to add
+
+
+code is on the bottom of this
+> **Attachment**: [ik\_module.py](https://cdn.discordapp.com/attachments/565154703139405824/748512630041346059/ik_module.py)
+
+##### alxy 08/27/2020 12:02:02
+yeah definetly will, Im just super curious why it behaves like that. It is dependant on position and rotation, sometimes one ios wrong, sometimes the other
+
+
+[https://github.com/Phylliade/ikpy/blob/master/src/ikpy/inverse\_kinematics.py#L99](https://github.com/Phylliade/ikpy/blob/master/src/ikpy/inverse_kinematics.py#L99) this comment does exactly describe what we are seeing I think
+
+##### Simon Steinmann [Moderator] 08/27/2020 12:09:38
+yeah
+
+
+if you could figure this out and do a PR for ikpy, that would be amazing
+
+##### adaptive 08/27/2020 12:11:19
+I have a problem getting the Matlab-Demo-World running.. [https://bpa.st/JB3A](https://bpa.st/JB3A)
+
+##### alxy 08/27/2020 12:11:30
+I wonder why it still fails if I do it in two calls, first to get the position right and second to get the orientation
+
+##### adaptive 08/27/2020 12:11:34
+it says "could not find allincludes.h"
+
+
+as on [https://www.cyberbotics.com/doc/guide/using-matlab](https://www.cyberbotics.com/doc/guide/using-matlab) mentioned.. perl/gcc is installed.. im running an 64bit System with 64bit webots/matlab
+
+##### David Mansolino [cyberbotics] 08/27/2020 12:13:55
+Which version of Webots are you using?
+
+##### adaptive 08/27/2020 12:14:12
+R2020a
+
+##### David Mansolino [cyberbotics] 08/27/2020 12:14:39
+Please try with R2020b, we fixed many related issues in this new version.
+
+##### adaptive 08/27/2020 12:14:59
+ok
+
+##### alxy 08/27/2020 12:21:07
+`@Simon Steinmann` Do you know how I can easily edit the source files of this lib to do some testing?
+
+##### Simon Steinmann [Moderator] 08/27/2020 12:21:41
+pull the repo, create a branch and go nuts 😄
+
+##### alxy 08/27/2020 12:22:07
+ya, but if I run the tests for example it falls back to use the files from the pip isntalled version
+
+##### Simon Steinmann [Moderator] 08/27/2020 12:23:42
+you can import the modules directly, if it's in your directory
+
+
+[https://pypi.org/project/ikpy/](https://pypi.org/project/ikpy/)
+
+
+you can install from source
+
+
+make sure you uninstall the current pip version first
+
+##### adaptive 08/27/2020 12:27:22
+> Please try with R2020b, we fixed many related issues in this new version.
+
+`@David Mansolino` thanks it works! "/usr/local/bin/matlab: Zeile 1209: /usr/local/webots/lib/controller: is a directory" why is that error popping up in terminal when running sample-language controller?
+
+##### alxy 08/27/2020 12:28:18
+I have cloned the git repo, so no problem and already editing files there, I just need to ensure my imports now point to src/ikpy somehow
+
+##### Simon Steinmann [Moderator] 08/27/2020 12:29:26
+install from source as described in the link
+
+##### alxy 08/27/2020 12:32:18
+ok, and then it will use the source files from, the directory where I cloned?
+
+##### Simon Steinmann [Moderator] 08/27/2020 12:32:52
+From source - first download and extract the archive, then run:
+
+
+
+    pip install ./
+
+
+
+    NB: You must have the proper rights to execute this command
+
+##### alxy 08/27/2020 12:33:16
+did that
+
+##### Simon Steinmann [Moderator] 08/27/2020 12:33:28
+then you should be able to use it as before
+
+
+but it points to your code
+
+##### alxy 08/27/2020 12:33:47
+yeah works, thanks 🙂
+
+##### Simon Steinmann [Moderator] 08/27/2020 12:33:51
+np 🙂
+
+
+it's in python so needs no compiling, which is nice
+
+##### David Mansolino [cyberbotics] 08/27/2020 12:35:08
+> `@David Mansolino` thanks it works! "/usr/local/bin/matlab: Zeile 1209: /usr/local/webots/lib/controller: is a directory" why is that error popping up in terminal when running sample-language controller?
+
+`@adaptive` because `/usr/local/webots/lib/controller` is actually a directory. In which terminal is this error popping up?
+
+##### adaptive 08/27/2020 12:35:40
+in the internal webots terminal which executes matlab i think
+
+
+in the same terminal some controller-specific Messages are routed
+
+##### alxy 08/27/2020 12:37:09
+didnt expect this to be such a difficult problem
+
+##### David Mansolino [cyberbotics] 08/27/2020 12:37:47
+And is the controller running?
+
+##### adaptive 08/27/2020 12:37:58
+yes
+
+##### David Mansolino [cyberbotics] 08/27/2020 12:38:17
+Ok, in that case you can probably just ignore this message 😉
+
+##### alxy 08/27/2020 12:39:19
+woha, do I need to always call pip install again when I make any change?
+
+##### Simon Steinmann [Moderator] 08/27/2020 12:39:45
+probably, as it installs it into your python directory
+
+##### alxy 08/27/2020 12:44:15
+but really it isnt an easy problem, as sometimes if you change orientation, you need to change the entire chain to fix the endpoint at that specific location
+
+
+however that is not the case when rotating around the z axis, not sure why it fails so hard
+
+##### Simon Steinmann [Moderator] 08/27/2020 12:45:41
+while most arms are set up in a way, where the last joint rotates the final axis, that is not ALWAYS the case. When it is not, you have to calculate a whole new ik solution
+
+##### alxy 08/27/2020 12:45:54
+If I just want the wrist position to be correct, I think in the second inverse\_kinematics call I could just do target\_position=None, that will only optimize for orientation, see here: [https://github.com/Phylliade/ikpy/blob/master/src/ikpy/inverse\_kinematics.py#L107](https://github.com/Phylliade/ikpy/blob/master/src/ikpy/inverse_kinematics.py#L107)
+
+##### Simon Steinmann [Moderator] 08/27/2020 12:47:24
+I tried that, used 'inverse\_kinematics\_frame' with the first ikResult (correct position) as the starting position
+
+
+it completely calculated a new solution that was completely different
+
+##### alxy 08/27/2020 12:48:15
+yeah, If I think about it it makes sense, as there are no contraints on the positions, it just tries to reach orientation *somehow*
+
+##### Simon Steinmann [Moderator] 08/27/2020 12:48:38
+My workaround works very well now, for any robot, were the last motor rotates th wrist
+
+##### alxy 08/27/2020 12:49:09
+but it makes sense that the orientation has more weight for the optimization than the position
+
+
+since one is a 3 value vector, the other a 9 value matrix
+
+##### Simon Steinmann [Moderator] 08/27/2020 12:50:02
+IK is complex, their approach is a very simple solution
+
+##### alxy 08/27/2020 12:51:10
+does you solition only work if I want to rotate around the wrist or for other orientations as well?
+
+
+Actually I dont get why they are not only optimizing for the 4x4 matrix, but somehow manually split it up
+
+##### Simon Steinmann [Moderator] 08/27/2020 12:55:21
+it does now exactly what you expect. matches the target orientation exactly
+
+##### saditya 08/27/2020 12:55:29
+Hey! I have some difficulty in obtaining a line following behavior , although they are distance sensors, I need to calibrate the sensors with another UI , the values seem to be not really good in order to differentiate black and white. The black part is a texture on a solid plate. Is it something wrong with the reflection from the black surface or something else? It works really well with white line on a brown floor than a black one.
+%figure
+![Selection_051.png](https://cdn.discordapp.com/attachments/565154703139405824/748526099100860416/Selection_051.png)
+%end
+
+##### Simon Steinmann [Moderator] 08/27/2020 12:55:32
+(besides a very tiny error that sometimes exists)
+
+##### David Mansolino [cyberbotics] 08/27/2020 12:56:21
+> Hey! I have some difficulty in obtaining a line following behavior , although they are distance sensors, I need to calibrate the sensors with another UI , the values seem to be not really good in order to differentiate black and white. The black part is a texture on a solid plate. Is it something wrong with the reflection from the black surface or something else? It works really well with white line on a brown floor than a black one.
+
+`@saditya` ideally you should not change only the color but also the 'roughness' of the different parts
+
+##### alxy 08/27/2020 12:56:24
+Ok, will definetly test it later, need to do some other work now unfortunatly 😦
+
+
+Another thing I might try is this regularization option, which appears to penalize if the angles are far from the initial angles: [https://github.com/Phylliade/ikpy/blob/master/src/ikpy/inverse\_kinematics.py#L118-L119](https://github.com/Phylliade/ikpy/blob/master/src/ikpy/inverse_kinematics.py#L118-L119)
+
+##### Simon Steinmann [Moderator] 08/27/2020 12:57:23
+`@alxy` put that into your project and try it out. It'll automatically spawn a target if you dont have one
+> **Attachment**: [generic\_inverse\_kinematic.zip](https://cdn.discordapp.com/attachments/565154703139405824/748526580543913985/generic_inverse_kinematic.zip)
+
+##### saditya 08/27/2020 12:57:33
+> `@saditya` ideally you should not change only the color but also the 'roughness' of the different parts
+
+`@David Mansolino` Thanks for your reply. I changed that as well. Do you have some black textures that I could try or that already exist in WEBOTS?
+
+##### David Mansolino [cyberbotics] 08/27/2020 12:59:52
+You should try with the textures already used for line following in Webots (e.g. the on of the line following demo of the e-puck robot)
+
+##### saditya 08/27/2020 13:28:30
+> You should try with the textures already used for line following in Webots (e.g. the on of the line following demo of the e-puck robot)
+
+`@David Mansolino` Can i download the texture from Github?
+
+##### Simon Steinmann [Moderator] 08/27/2020 13:59:10
+all the resources are already in the install direcotry
+
+##### David Mansolino [cyberbotics] 08/27/2020 14:11:26
+> `@David Mansolino` Can i download the texture from Github?
+
+`@saditya`: `@Simon Steinmann` is right you can find them in your installation folder of Webots. But if you really want to get them on Github, here they are: [https://github.com/cyberbotics/webots/tree/master/projects/robots/gctronic/e-puck/worlds/textures](https://github.com/cyberbotics/webots/tree/master/projects/robots/gctronic/e-puck/worlds/textures)
+
+##### Simon Steinmann [Moderator] 08/27/2020 14:34:12
+`@saditya` what exactly is not working if I may ask?
+
+
+you could just draw your own texture, in paint even
+
+##### saditya 08/27/2020 15:33:04
+> `@saditya` what exactly is not working if I may ask?
+
+`@Simon Steinmann` So when I calibrate the sensors with my GUI, for this surface it works decently well. As soon as I have a black surface with lines over it, it tends to completely lose track of the lines. Maybe it's because of the reflective surface?
+> **Attachment**: [linetrial\_PD85zNiQ.compressed.mp4](https://cdn.discordapp.com/attachments/565154703139405824/748565756089860208/linetrial_PD85zNiQ.compressed.mp4)
+
+##### Simon Steinmann [Moderator] 08/27/2020 15:33:56
+[https://cyberbotics.com/doc/reference/distancesensor#infra-red-sensors](https://cyberbotics.com/doc/reference/distancesensor#infra-red-sensors) here is some exact detail. That formula is important to keep in mind
+
+##### saditya 08/27/2020 15:36:16
+> [https://cyberbotics.com/doc/reference/distancesensor#infra-red-sensors](https://cyberbotics.com/doc/reference/distancesensor#infra-red-sensors) here is some exact detail. That formula is important to keep in mind
+
+`@Simon Steinmann` Alright I will have a read, this thing works really well with the wooden floor and not with the black surface with the right calibration. Thankyou so much anyway! 🙂
+
+##### Simon Steinmann [Moderator] 08/27/2020 15:36:56
+do you have the lines as a different object, or all in the same texture?
+
+
+you want high contrast between background and line. Making a line red or white, turning roughness and occlusion to 0 will result in a high value,
+
+##### saditya 08/27/2020 15:39:03
+> do you have the lines as a different object, or all in the same texture?
+
+`@Simon Steinmann` The lines are .stl file. In the video above I just import it and place it on the surface. I have to draw a lot of curves, so i avoid using paint.
+
+##### Simon Steinmann [Moderator] 08/27/2020 15:39:48
+can I see your worldfile? or screenshot of your background material and the line material?
+
+##### saditya 08/27/2020 15:40:42
+> can I see your worldfile? or screenshot of your background material and the line material?
+
+`@Simon Steinmann` Can i share it here or how? The world file. I really need to make this working, sorry for a lot of questions.
+
+##### Simon Steinmann [Moderator] 08/27/2020 15:41:17
+yeah, just drag n drop
+
+##### saditya 08/27/2020 15:45:46
+> yeah, just drag n drop
+
+`@Simon Steinmann` It's a very heavy file apparently.
+
+##### Simon Steinmann [Moderator] 08/27/2020 15:46:01
+just the world file
+
+
+or you use google drive or something
+
+##### Adriaan 08/27/2020 18:17:17
+Hi can I ask for some assistance with IprHdm90 arm.
+
+##### Simon Steinmann [Moderator] 08/27/2020 18:17:53
+what's your issue?
+
+##### Adriaan 08/27/2020 18:23:25
+How do I change the acceleration of the arm between the grab position and the drop position. And can I also change the moving path that the arm takes between the grab and drop position?
+
+##### Simon Steinmann [Moderator] 08/27/2020 18:24:58
+are you using a sample world? or your own controller
+
+
+generally, motors try to reach their set position as quickly as they can within their limits (max velocity, max torque)
+
+##### Adriaan 08/27/2020 18:26:01
+I used the sample worlds controller from the IPR factory
+
+##### Simon Steinmann [Moderator] 08/27/2020 18:26:25
+to get it faster, you'd have to increase the limits. To get it slower, either reduce the limits or send incremental commands
+
+##### Adriaan 08/27/2020 18:30:23
+I have built an assembly between 3 parts base with shaft and lid, but when moving the completed unit to the conveyor the lid is thrown off. Do I set the limit in the PROTO Source file
+
+##### Simon Steinmann [Moderator] 08/27/2020 18:32:15
+yes you can set it there. However there is just a torque limit, but that might be the reason
+
+
+RotationalMotor {
+
+                                          name "right\_gripper"
+
+                                          maxVelocity 2.20894
+
+                                          maxPosition 1.22171
+
+                                          maxTorque 20
+
+                                        }
+
+
+
+These you have to change
+
+
+`@Adriaan` [https://github.com/cyberbotics/webots/blob/master/projects/robots/neuronics/ipr/libraries/ipr/IPR.cpp](https://github.com/cyberbotics/webots/blob/master/projects/robots/neuronics/ipr/libraries/ipr/IPR.cpp)
+
+This is the actual controller, where the execution is defined. As far as I can tell there is no timing there. So raising the maxTorque values should do the trick
+
+##### Yang Chen 08/27/2020 21:38:20
+David MansolinoToday at 1:23 AM
+
+Hello, in my simulation, I used position control. And It turned out thant the Position Sensor tab shows the current position is smaller than The RotationalMotor tab shows the target position. Then, I try to change the PID parameter, then the current position is almost the same as the current position. Is this a right direction.
+
+
+I mean if this is a right solution?
+
+
+Also, could you please tell me how to get the Energy Consumption of the whole robot. I look up this link. [https://cyberbotics.com/doc/reference/motor#energy-consumption](https://cyberbotics.com/doc/reference/motor#energy-consumption) I uses 18 rotational motors on my robot. Does that mean I need to caculate the energy consumption based on The power consumption for a rotational motor (electrical\_input\_power) is computed according to the following equation:
+
+
+
+electrical\_input\_power = output\_torque * consumptionFactor
+
+
+Thank you!
+
+##### John520 08/28/2020 01:07:40
+Hi guys, I successfully conducted simulations in Webots on controlling the trucks to follow a given path. The map I used was imported from the open street map. Now I would like to extend my research to path planning that includes global and local planning. My question is: whether the imported map supports path planning? For example, for global planning, by given a start and a goal position, the map would contain lane information so that the path planning algorithm could find the path. The lane information may include the number of lanes on a road and the directions of the lanes. By the way, I use ROS. I would appreciate your kind advice and help.
+
+##### David Mansolino [cyberbotics] 08/28/2020 05:54:57
+Hi `@John520`, yes sure this is feasible, the worls file includes all the information required to generate a local map, for example the 'Road' PROTO ([https://cyberbotics.com/doc/guide/object-road#road-proto](https://cyberbotics.com/doc/guide/object-road#road-proto)), contains an id o the road, as well as an id of the start and end intersection. it contains also the width of the road, the number of lanes and even the speed limit. Then for intersections, the 'Crossroad' PROTO ([https://cyberbotics.com/doc/guide/object-road#crossroad](https://cyberbotics.com/doc/guide/object-road#crossroad)) contains information about the intersection id, as well as all the connected road IS.
+
+
+From a Supevisor controller ([https://cyberbotics.com/doc/reference/supervisor](https://cyberbotics.com/doc/reference/supervisor)) you can parse the scene-tree and retrieve all these informations, I have already done this in the past, I will check if I can share some part of my code and let you know.
+
+
+> David MansolinoToday at 1:23 AM
+
+> Hello, in my simulation, I used position control. And It turned out thant the Position Sensor tab shows the current position is smaller than The RotationalMotor tab shows the target position. Then, I try to change the PID parameter, then the current position is almost the same as the current position. Is this a right direction.
+
+`@Yang Chen` that sounds good indeed, make also sure that the available torque of the motor is high enough.
+
+
+> Also, could you please tell me how to get the Energy Consumption of the whole robot. I look up this link. [https://cyberbotics.com/doc/reference/motor#energy-consumption](https://cyberbotics.com/doc/reference/motor#energy-consumption) I uses 18 rotational motors on my robot. Does that mean I need to caculate the energy consumption based on The power consumption for a rotational motor (electrical\_input\_power) is computed according to the following equation:
+
+> 
+
+> electrical\_input\_power = output\_torque * consumptionFactor
+
+`@Yang Chen` the Robot node has a battery field (empty by default): [https://cyberbotics.com/doc/reference/robot](https://cyberbotics.com/doc/reference/robot), that you can use to enable energy consumption: [https://cyberbotics.com/doc/reference/robot](https://cyberbotics.com/doc/reference/robot)#field-summary
+
+You can then use this API to retrieve the state of the battery over time: [https://cyberbotics.com/doc/reference/robot#wb\_robot\_battery\_sensor\_enable](https://cyberbotics.com/doc/reference/robot#wb_robot_battery_sensor_enable)
+
+##### Domenico Ardito 08/28/2020 07:28:18
+I have a problem with e-puck for Maze Simulation. Following the second online lesson, I added the following instructions to activate the camera:
+
+
+camera=robot.getCamera("camera")    camera.enable(timeStep),  but the console gave me these informations: INFO: MainSupervisor: Starting controller: python.exe -u "MainSupervisor.py" 
+
+INFO: robot0Controller: Starting controller: python.exe -u "robot0Controller.py" 
+
+INFO: 'robot0Controller' controller exited successfully.
+
+[MainSupervisor] Robot 0 exited a checkpoint
+
+INFO: robot0Controller: Starting controller: python.exe -u "robot0Controller.py" 
+
+[robot0Controller] Warning: "camera" device not found.
+
+[robot0Controller] Traceback (most recent call last):
+
+[robot0Controller]   File "robot0Controller.py", line 23, in <module>
+
+[robot0Controller]     camera.enable(timeStep)
+
+[robot0Controller] AttributeError: 'NoneType' object has no attribute 'enable'
+
+WARNING: Il programma di controllo 'robot0Controller' è terminato con lo stato: 1.
+
+##### David Mansolino [cyberbotics] 08/28/2020 08:17:58
+The robot in the 'maze' simulation is not an e-puck, but a thymio2, this robot doesn't have any camera: [https://www.cyberbotics.com/doc/guide/thymio2](https://www.cyberbotics.com/doc/guide/thymio2)
+
+##### Domenico Ardito 08/28/2020 08:21:58
+thanks for your explanation.  I had referred to  the course held in June, that anyway has been referred in the offcial competition
+
+
+In fact, for  Rescue Maze Release 6 (the last official platform for the September challenge) the proto refers to e-puck, that should include camera
+%figure
+![Rescue_Maze_Releas_6_proto_e-puck.jpg](https://cdn.discordapp.com/attachments/565154703139405824/748826374680215632/Rescue_Maze_Releas_6_proto_e-puck.jpg)
+%end
+
+##### David Mansolino [cyberbotics] 08/28/2020 08:50:10
+I am sorry, but where did you get these files?
+
+This does not reflect the one distributed within Webots ([https://github.com/cyberbotics/webots/tree/master/projects/samples/robotbenchmark/maze\_runner](https://github.com/cyberbotics/webots/tree/master/projects/samples/robotbenchmark/maze_runner)).
+
+##### Domenico Ardito 08/28/2020 08:57:21
+from erebus #announcements from Alfred Roberts on Augut 18 he gave us this link for oficial competition : [https://github.com/Shadow149/RescueMaze/releases/tag/v1.2.2](https://github.com/Shadow149/RescueMaze/releases/tag/v1.2.2)
+
+##### David Mansolino [cyberbotics] 08/28/2020 08:59:48
+Ok, I didn't knew about this contest, I just checked the simulation files and it seems the name of the camera is 'colour\_sensor'.
+
+
+So you should change `camera=robot.getCamera("camera")` into `camera=robot.getCamera("colour_sensor")`.
+
+##### Domenico Ardito 08/28/2020 09:00:53
+ok thanks, I'm going to try.
+
+##### David Mansolino [cyberbotics] 08/28/2020 09:01:15
+You're welcome
+
+##### Domenico Ardito 08/28/2020 09:05:17
+thanks, it worked! 👍
+
+##### Simon Steinmann [Moderator] 08/28/2020 12:39:40
+how do I parse controllerArgs?
+
+##### David Mansolino [cyberbotics] 08/28/2020 12:40:31
+It depends on the language you are using, but in any case the arguments are sent to the controller like any regular program argument.
+
+##### Simon Steinmann [Moderator] 08/28/2020 12:40:44
+python
+
+
+you got an example you can point me to?
+
+##### David Mansolino [cyberbotics] 08/28/2020 12:41:34
+In python, optparse/argparse is a good solution: [https://github.com/cyberbotics/webots/blob/master/projects/default/controllers/sumo\_supervisor/sumo\_supervisor.py#L68-L117](https://github.com/cyberbotics/webots/blob/master/projects/default/controllers/sumo_supervisor/sumo_supervisor.py#L68-L117)
+
+##### Simon Steinmann [Moderator] 08/28/2020 12:41:56
+thx
+
+##### David Mansolino [cyberbotics] 08/28/2020 12:43:09
+You're welcome
+
+##### alxy 08/28/2020 14:32:30
+`@Simon Steinmann`  I just went through your code, but I am unusre what this line does: ikResults[6] = ikResults[-2] + euler[self.rot\_index]
+
+
+it sets the angle for the last joint
+
+##### Simon Steinmann [Moderator] 08/28/2020 14:33:09
+yes
+
+
+pull the newest version [https://github.com/cyberbotics/community-projects/pull/12](https://github.com/cyberbotics/community-projects/pull/12)
+
+##### alxy 08/28/2020 14:34:11
+yes, but what does the rest mean
+
+##### Simon Steinmann [Moderator] 08/28/2020 14:35:11
+so we take the rotation of our desired pose, and the one that we get from applying the ikResult to forwadkinematics (what orientation we would have, executing the ikResults)
+
+
+we calculate the difference between the two, turn it into an euler angle, and rotate the last joint by that amount
+
+
+the new version I pushed has many fixes in it, making it applicable to 'all' robots
+
+##### alxy 08/28/2020 14:38:38
+need to think about it
+
+##### John520 08/28/2020 14:39:19
+> Hi `@John520`, yes sure this is feasible, the worls file includes all the information required to generate a local map, for example the 'Road' PROTO ([https://cyberbotics.com/doc/guide/object-road#road-proto](https://cyberbotics.com/doc/guide/object-road#road-proto)), contains an id o the road, as well as an id of the start and end intersection. it contains also the width of the road, the number of lanes and even the speed limit. Then for intersections, the 'Crossroad' PROTO ([https://cyberbotics.com/doc/guide/object-road#crossroad](https://cyberbotics.com/doc/guide/object-road#crossroad)) contains information about the intersection id, as well as all the connected road IS.
+
+`@David Mansolino` Thank you, David, for your help. I would like to ask a question about simulations of autonomous vehicles. In a simulation, my program would control several vehicles at the same time. To have a realistic simulation, is it possible to add more vehicles or pedestrians to the world and they will be controlled by the Webots simulator (not by my program)?
+
+##### Simon Steinmann [Moderator] 08/28/2020 14:40:10
+we can zoom if you want me to explain it
+
+##### alxy 08/28/2020 14:40:15
+ah, kk, I missed the part that you are still using the orientation on one axis. So its only the rotation around that axis which is missing
+
+##### Simon Steinmann [Moderator] 08/28/2020 14:40:49
+exactly
+
+##### alxy 08/28/2020 14:41:11
+I was wondering how you fix the position and oriebntation by just setting the last joint
+
+##### Simon Steinmann [Moderator] 08/28/2020 14:41:14
+this is where the tiny error sometimes comes from
+
+##### alxy 08/28/2020 14:41:23
+because the behavior I was seeing couldnt be fixed by that 😄
+
+##### Simon Steinmann [Moderator] 08/28/2020 14:41:40
+when the axis are not perfectly aligned
+
+##### alxy 08/28/2020 14:41:59
+may be something numeric
+
+##### David Mansolino [cyberbotics] 08/28/2020 14:42:33
+> `@David Mansolino` Thank you, David, for your help. I would like to ask a question about simulations of autonomous vehicles. In a simulation, my program would control several vehicles at the same time. To have a realistic simulation, is it possible to add more vehicles or pedestrians to the world and they will be controlled by the Webots simulator (not by my program)?
+
+`@John520` yes, you probably want to use the SUMO interface: 
+
+  - [https://cyberbotics.com/doc/automobile/sumo-interface](https://cyberbotics.com/doc/automobile/sumo-interface)
+
+  - [https://cyberbotics.com/doc/automobile/sumo-interface-example](https://cyberbotics.com/doc/automobile/sumo-interface-example)
+
+  - [https://cyberbotics.com/doc/automobile/village-center](https://cyberbotics.com/doc/automobile/village-center)
+
+##### Simon Steinmann [Moderator] 08/28/2020 14:42:38
+IK solving is very complex. ikpy takes an easy method. And this is an 'easy' fix for its shortcomings
+
+
+ikpy is super easy to implement, which makes it great. but it doesnt even come close to MoveIt with proper solvers
+
+
+that requires ROS though, and is not out for noetic, so you need python2, and ROS melodic (ubuntu 18.04).... yeah. ugly
+
+##### alxy 08/28/2020 14:45:49
+[https://github.com/cyberbotics/community-projects/pull/12/files#diff-e8f64de93979acb8a20fffa3ac330715R150](https://github.com/cyberbotics/community-projects/pull/12/files#diff-e8f64de93979acb8a20fffa3ac330715R150) I think that coild be simplified to target\_rot[:,self.rot\_index]
+
+##### Simon Steinmann [Moderator] 08/28/2020 14:47:50
+I think you're right
+
+##### John520 08/28/2020 14:53:36
+Thank you `@David Mansolino`  very much. The SUMO interface would be really useful. I will look into it. 🙏
+
+##### alxy 08/28/2020 14:57:01
+lol, was wondering why my arm wasnt moving at all. Turns out I was still using the library with my changes which actually made the whole process break 😄
+
+##### Simon Steinmann [Moderator] 08/28/2020 14:57:43
+use my latest stuff
+
+
+and I recommend leaving the ik\_module and importing it
+
+
+if it doesnt work, we have to change it anyways
+
+##### alxy 08/28/2020 14:58:56
+yeah I just ned some major rework, maybe I can do it this weekend
+
+
+the problem is I have the gripper attached as well
+
+
+not sure if you lib handles that well with the addtional motors
+
+##### Simon Steinmann [Moderator] 08/28/2020 14:59:32
+well let me know 😉
+
+
+perhaps we have to add a motor-list we parse
+
+
+and it only uses those joints
+
+##### alxy 08/28/2020 15:00:27
+but I should be able to just override the armChain
+
+##### Simon Steinmann [Moderator] 08/28/2020 15:00:35
+I recommend splitting your code into modules for the different areas. Like one for IK, one for controlling the gripper etc
+
+
+much easier to reuse code
+
+##### alxy 08/28/2020 15:01:07
+The gripper controller is your module already, so that is extracted
+
+
+but you are right of course
+
+##### Cloud Salazar 08/28/2020 20:53:36
+Hello there! 
+
+I'm trying to integrate an arduino with a simulation in WeBots. Is there a way to send data from arduino to WeBots and vise versa?
+
+
+I want to use real life switches and sensors connected to the arduino to control the robot in simulation. One example would be for the robot to keep moving forward in the simulation until an obstacle is detected by the arduino as I wave my hand in front of it.
+
+##### John520 08/29/2020 05:00:25
+Hi `@David Mansolino` , I am trying to convert an osm map from open street map to wbt map by following your tutorial. But I am having this issue:
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/749131344382263336/unknown.png)
+%end
+
+
+Could you advise me on how to solve this problem? Thank you very much.
+
+
+Please ignore the above picture. Should be this one:
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/749132271688220672/unknown.png)
+%end
+
+##### Cloud Salazar 08/29/2020 08:27:57
+anyone?
+
+##### Simon Steinmann [Moderator] 08/29/2020 08:54:24
+`@Cloud Salazar` wevits natively supports c, cpp, python, Java. Use any of those to communicate with your arduino and webots at the same time
+
+
+Using external controllers can be useful. Check the Dokumentation for that
+
+
+`@John520` the error says the index is out of range, you could insert some print function before that line to check the length of those lists. Perhaps there is a check missing or you import something empty
+
+##### Cloud Salazar 08/29/2020 09:01:29
+`@Simon Steinmann` Could you please elaborate on how to go by it? I already had an idea that I'll need to use external controllers, but I have no idea how. Can you suggest a way I could go by achieving this?
+
+##### Simon Steinmann [Moderator] 08/29/2020 13:57:03
+[https://cyberbotics.com/doc/guide/running-extern-robot-controllers](https://cyberbotics.com/doc/guide/running-extern-robot-controllers)
+
+##### adaptive 08/30/2020 16:10:16
+hello, i want to implement an image-based line-following algorithm in Matlab (according to the curriculum).. since I have my image stored in "  rgb = wb\_camera\_get\_image(camera);"  I have problems getting the RGB-Code from third column extracted.. as in [https://cyberbotics.com/doc/reference/camera?tab-language=matlab#wb\_camera\_get\_image](https://cyberbotics.com/doc/reference/camera?tab-language=matlab#wb_camera_get_image) mentioned, first column in rgb should be width, second the height, and third rgb
+
+##### alxy 08/30/2020 16:24:41
+`@adaptive` you mention the wb\_camera\_get\_height (notive the height at the end). I am not sure that is the correct function
+
+##### adaptive 08/30/2020 16:25:19
+I think one problem is that my "camera\_width" (640) and "camera\_height" (480) -Node in epuck is not present in the simulation..   disp(wb\_camera\_get\_width(camera))  shows "40" instead of 640..
+
+
+> `@adaptive` you mention the wb\_camera\_get\_height (notive the height at the end). I am not sure that is the correct function
+
+`@alxy` was an Typo, thanks
+
+##### alxy 08/30/2020 16:27:27
+yeah that is weird. Are you sure you are referencing the correct camera node, if there are multiple
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:29:04
+what exactly is it that you want to do?
+
+
+there is multiple ways to grab an image
+
+
+what information do you actually need?
+
+##### adaptive 08/30/2020 16:29:56
+I want to extract the RGB-Values for some range from my image
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:30:27
+Note [MATLAB]: The wb\_camera\_get\_image function returns a 3-dimensional array of uint(8). The first two dimensions of the array are the width and the height of camera's image, the third being the RGB code: 1 for red, 2 for blue and 3 for green. The wb\_camera\_get\_range\_image function returns a 2-dimensional array of float('single'). The dimensions of the array are the width and the length of camera's image and the float values are the metric distance values deduced from the OpenGL z-buffer.
+
+##### adaptive 08/30/2020 16:30:42
+yes i read that already
+
+
+but the indexing is wrong because of "wb\_camera\_get\_height" is equal to 1
+
+
+I set my camera\_width, height in the epuck-node to 640x480
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:31:41
+what is the width?
+
+
+I bet that is 480*640
+
+##### adaptive 08/30/2020 16:31:58
+but reading out the height/width is showing other values
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:32:09
+what is the value for width?
+
+##### adaptive 08/30/2020 16:32:15
+640
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:32:27
+which sensor are you using?
+
+##### adaptive 08/30/2020 16:32:38
+epuck internal camera
+
+
+[https://bpa.st/E4ZQ](https://bpa.st/E4ZQ) thats my code
+
+
+pretty basic
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:34:14
+can I see your world?
+
+##### adaptive 08/30/2020 16:35:41
+[https://www.pastefile.com/mty9mh](https://www.pastefile.com/mty9mh)
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:35:43
+because in the proto model, you can define the camera depening on what you put in the properties
+
+##### adaptive 08/30/2020 16:36:28
+its a copy of the beginner\_linear\_camera world from the curriculum
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:41:42
+and the height realls is 1?
+
+
+and what curriculum?
+
+##### adaptive 08/30/2020 16:42:37
+[https://upload.wikimedia.org/wikipedia/commons/3/3d/Cyberbotics%27\_Robot\_Curriculum.pdf](https://upload.wikimedia.org/wikipedia/commons/3/3d/Cyberbotics%27_Robot_Curriculum.pdf) Page 48
+
+
+yes
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:44:02
+where can you download the world files? dont wanna search through the manual
+
+##### adaptive 08/30/2020 16:44:49
+File -> Open Sample World -> samples -> curriculum -> beginner\_linear\_camera.wbt
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:44:57
+ahh found it 🙂
+
+
+this has a height of 1 set as default
+
+##### adaptive 08/30/2020 16:46:07
+> Note [MATLAB]: The wb\_camera\_get\_image function returns a 3-dimensional array of uint(8). The first two dimensions of the array are the width and the height of camera's image, the third being the RGB code: 1 for red, 2 for blue and 3 for green. The wb\_camera\_get\_range\_image function returns a 2-dimensional array of float('single'). The dimensions of the array are the width and the length of camera's image and the float values are the metric distance values deduced from the OpenGL z-buffer.
+
+`@Simon Steinmann` the sourcecode example in "[https://cyberbotics.com/doc/reference/camera?tab-language=matlab#wb\_camera\_get\_image](https://cyberbotics.com/doc/reference/camera?tab-language=matlab#wb_camera_get_image)" for Matlab is not running anyway.. some typos and keywords-errors
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:46:49
+where exaclty do you get an error?
+
+##### adaptive 08/30/2020 16:46:50
+> ahh found it 🙂
+
+`@Simon Steinmann` yes, in the node of epuck was an 1. I wanted to increase that to get access to the matrix
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:47:19
+for line following, that just creates much more data
+
+##### adaptive 08/30/2020 16:47:40
+> where exaclty do you get an error?
+
+`@Simon Steinmann` image() is an function in matlab.. no good idea to call an variable like that.. typo is "height" in the red\_middle\_point var init.
+
+
+> for line following, that just creates much more data
+
+`@Simon Steinmann` hm ok.. i dont know. Im discovering^^
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:48:23
+ohh yeah, there is a type!
+
+
+I would not change the default values
+
+##### adaptive 08/30/2020 16:48:57
+that was the first idea came to my mind how I would set up the algorithm.. but anyway.. how do i access the rgb values for the matrix?
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:49:27
+image = wb\_camera\_get\_image(camera);
+
+
+image(width, height, rgb\_index)
+
+
+so (20, 1, 1) would give you the red value at pixel 20 in row 1
+
+##### alxy 08/30/2020 16:52:30
+amazing, this pdf is 11 years old and the apis didnt change since then so it ca still be used?
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:52:31
+if you're just following a line, it makes sense to just use one row and compare the left and right half of the row
+
+
+Webots devs generally follow the rule, that updates can't break old stuff
+
+##### alxy 08/30/2020 16:53:49
+They seem to make a very good job 😄
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:54:08
+I'm actually quite impressed too
+
+##### adaptive 08/30/2020 16:54:18
+> if you're just following a line, it makes sense to just use one row and compare the left and right half of the row
+
+`@Simon Steinmann` do you gut some lectures for so simple techniques?
+
+##### alxy 08/30/2020 16:54:32
+I ususally do web development and there is no chance you can run a 3 year old application without any breaking changes
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:55:06
+I studied aerospace engineering, just started a year ago with python, ROS, robotics, AI and all that
+
+
+So I just learned by doing and reading tutorials etc.
+
+##### adaptive 08/30/2020 16:55:56
+nice! I applied to an Robotics Master and want to practice a little bit before it starts^^
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:56:18
+very good! This is certainly good practice
+
+##### adaptive 08/30/2020 16:56:47
+hopefully
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:57:21
+I'm not sure about the use of mathlab, but it might very well be, what your university may use
+
+
+Generally, ROS, Python and cpp is where it's at
+
+##### adaptive 08/30/2020 16:57:48
+I already asked an PhD.. faculty uses Matlab with Ros
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:58:04
+then yes, definitely get into those 2
+
+##### adaptive 08/30/2020 16:58:10
+so i thought I can practice my Matlab skills (as you can see, I have to practice more :D)
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:58:16
+ROS is great. Takes a while to get used to though
+
+
+but you only learn it by actually doing and using it
+
+##### adaptive 08/30/2020 16:59:12
+yes sure.. i never did anything in ROS but I think of it like RTOS (which i worked with).. its just an OS providing handles and architecture to program an system
+
+##### Simon Steinmann [Moderator] 08/30/2020 16:59:53
+ROS is not real time, ROS2 is though
+
+
+ROS is not a OS in the classical sense though
+
+
+it's more of a middleware
+
+
+think of it as a communication web, where you have individual nodes that run code and talk to one another over ROS-topics (messages)
+
+##### adaptive 08/30/2020 17:01:23
+like networked agents?
+
+##### Simon Steinmann [Moderator] 08/30/2020 17:02:04
+I guess. But of course there is more to it. And it includes many tools, that make controlling robots relatively easy
+
+
+watch some youtube videos on it :p
+
+##### adaptive 08/30/2020 17:02:24
+Yes sure.. im wondering which ROS they will teach
+
+##### Simon Steinmann [Moderator] 08/30/2020 17:02:49
+and if you're serious about learning ROS, I recommend this: [https://www.theconstructsim.com/](https://www.theconstructsim.com/)
+
+
+not free, but how I learned ROS, after trying to learn it on my own, using online tutorials for 3 month
+
+
+100% can recommend
+
+##### adaptive 08/30/2020 17:03:19
+> watch some youtube videos on it :p
+
+`@Simon Steinmann` I will! But first of all i want to get used to image processing and kinematics.. without knowledge about manipulating robots.. ROS dont help^^
+
+
+> 100% can recommend
+
+`@Simon Steinmann` besides study?
+
+
+how much time did you spend on the course?
+
+##### Simon Steinmann [Moderator] 08/30/2020 17:04:21
+If you do it full time, then you can really get a good grasp and knowledge about ROS in one month. 3 weeks if you're fast
+
+##### alxy 08/30/2020 17:04:40
+Hoe do you like MATLAB programming? I mean its a quite impressive sofware in terms of toolboxes and algorithms included, but I really dont like this M language
+
+##### Simon Steinmann [Moderator] 08/30/2020 17:05:04
+I never used mathlab much. I like python 🙂
+
+##### adaptive 08/30/2020 17:05:26
+> If you do it full time, then you can really get a good grasp and knowledge about ROS in one month. 3 weeks if you're fast
+
+`@Simon Steinmann` ok!
+
+##### Simon Steinmann [Moderator] 08/30/2020 17:05:29
+but mathlab is big at universities. Although most AI researchers use Python
+
+
+And ROS is natively python or c++
+
+
+not sure how mathlab handles that
+
+##### alxy 08/30/2020 17:05:58
+yeah foe signal processing and modling of physical systems there is no way around matlab
+
+##### adaptive 08/30/2020 17:06:19
+> Hoe do you like MATLAB programming? I mean its a quite impressive sofware in terms of toolboxes and algorithms included, but I really dont like this M language
+
+`@alxy` Its quite ok. I asked if Python were OK, too but some Practice are using some toolbox-specific functions for control-systems (like MPC, etc)
+
+
+that isnt implemented in Python libs yet.. sure you can program everything on your own, but besides courses you dont have time for
+
+##### alxy 08/30/2020 17:07:59
+at which university did you apply if I may ask?
+
+##### Simon Steinmann [Moderator] 08/30/2020 17:08:05
+better ask your profs or engineers at uni, what you could learn to improve and practice. I know python and ROS 😄
+
+##### adaptive 08/30/2020 17:08:35
+> at which university did you apply if I may ask?
+
+`@alxy` in Eastgermany
+
+##### Simon Steinmann [Moderator] 08/30/2020 17:09:03
+lol we are Germans too :p
+
+##### adaptive 08/30/2020 17:09:29
+Saw that on your name^^
+
+##### Simon Steinmann [Moderator] 08/30/2020 17:12:05
+little tipp: with ctrl + F9  you can show the camera's field of view
+
+##### adaptive 08/30/2020 17:14:51
+yes thats useful!
+
+##### David Mansolino [cyberbotics] 08/31/2020 06:01:25
+> I want to use real life switches and sensors connected to the arduino to control the robot in simulation. One example would be for the robot to keep moving forward in the simulation until an obstacle is detected by the arduino as I wave my hand in front of it.
+
+`@Cloud Salazar` you can use the serial port of the arduino to communicate between your controller and the arduino connected through USB to the computer.
+
+
+You don't really need to use extern controller (but you can if you want).
+
+
+`@John520`, please make sure to use the latest version of the importer (i.e. from the latest version of Webots), if this still doesn't solve the issue, please report this here (including the OSM file): [https://github.com/cyberbotics/webots/issues/new?template=bug\_report.md](https://github.com/cyberbotics/webots/issues/new?template=bug_report.md)
+
+##### Kricklobderno 08/31/2020 08:45:39
+is there any easy way to find stable pid control coefficients?
+
+##### David Mansolino [cyberbotics] 08/31/2020 08:46:10
+Here is an example: [https://cyberbotics.com/doc/guide/samples-howto#ziegler\_nichols-wbt](https://cyberbotics.com/doc/guide/samples-howto#ziegler_nichols-wbt)
+
+##### Kricklobderno 08/31/2020 11:26:16
+> Here is an example: [https://cyberbotics.com/doc/guide/samples-howto#ziegler\_nichols-wbt](https://cyberbotics.com/doc/guide/samples-howto#ziegler_nichols-wbt)
+
+`@David Mansolino` That is useful. But can I use it for stewart platform in order to balance the ball?
+
+
+Also Do I really need to use position sensors while using PID control?
+
+##### David Mansolino [cyberbotics] 08/31/2020 11:48:07
+> `@David Mansolino` That is useful. But can I use it for stewart platform in order to balance the ball?
+
+`@Kricklobderno` yes, in that case You probably need to monitor (Supervisors API, overhead camera, etc.) the position of the ball for the calibration.
+
+
+> Also Do I really need to use position sensors while using PID control?
+
+`@Kricklobderno` no, if you are not interested in the position, the Webots internal PID will do the job for you.
+
+## September
+
+##### Kricklobderno 09/01/2020 07:51:17
+`@David Mansolino` thank you.
+
+##### David Mansolino [cyberbotics] 09/01/2020 07:59:20
+You're welcome
+
+##### dimple.bhuta 09/01/2020 10:12:24
+Hello there are few errors that I am getting and I am not sure what is causing it
+
+
+ERROR: '/home/dimpleb/static\_ws/src/vehicle\_data/protos/abstract/Car.proto':16:20: error: Type mismatch between 'controllerArgs' PROTO parameter and field 'controllerArgs'.
+
+ERROR: '/home/dimpleb/static\_ws/src/vehicle\_data/protos/tesla/TeslaModel3.proto':17:24: error: Type mismatch between 'controllerArgs' PROTO parameter and field 'controllerArgs'.
+
+ERROR: '/home/dimpleb/static\_ws/src/vehicle\_data/protos/abstract/Car.proto':16:20: error: Type mismatch between 'controllerArgs' PROTO parameter and field 'controllerArgs'.
+
+ERROR: '/home/dimpleb/static\_ws/src/vehicle\_data/protos/bmw/BmwX5.proto':18:22: error: Type mismatch between 'controllerArgs' PROTO parameter and field 'controllerArgs'.
+
+WARNING: TeslaModel3 (PROTO): The robot window library has not been found.
+
+WARNING: BmwX5 (PROTO): The robot window library has not been found.
+
+
+Do I need to update files as all of this particular code was working fine few months back
+
+##### Olivier Michel [cyberbotics] 09/01/2020 10:13:57
+Yes, the `controllerArgs` data type changed from `SFString` to `MFString`, and this is why you are getting these warnings.
+
+
+You should copy the new proto files from the new version of Webots in your project.
+
+##### dimple.bhuta 09/01/2020 10:15:16
+how do i do this ?
+
+
+do i need to update webots?
+
+##### Olivier Michel [cyberbotics] 09/01/2020 10:15:45
+e.g., `Car.proto`, `TeslaModel3.proto` and `BmwX5.proto`.
+
+##### dimple.bhuta 09/01/2020 10:15:46
+and than copy the changed files
+
+##### Olivier Michel [cyberbotics] 09/01/2020 10:15:55
+Yes, exactly.
+
+##### dimple.bhuta 09/01/2020 11:40:54
+i still get all these warning
+
+
+WARNING: TeslaModel3 (PROTO): Robot.controllerArgs data type changed from SFString to MFString in Webots R2020b. Splitting arguments at space boundaries.
+
+WARNING: TeslaModel3 (PROTO): The robot window library has not been found.
+
+WARNING: BmwX5 (PROTO): The robot window library has not been found.
+
+INFO: ros\_automobile: Starting controller: /home/dimpleb/static\_ws/src/vehicle\_data/controllers/ros\_automobile/ros\_automobile --name=agent\_0 --clock --use-sim-time
+
+INFO: void: Starting controller: /usr/local/webots/resources/projects/controllers/void/void
+
+WARNING: ros\_automobile: The process crashed some time after starting successfully.
+
+[ INFO] [1598960383.975866551]: Robot's unique name is agent\_0.
+
+[ INFO] [1598960383.980380803]: The controller is now connected to the ROS master.
+
+WARNING: 'ros\_automobile' controller crashed.
+
+
+I downloaded the new ros\_automobile controller
+
+
+Is there any other changes that I am suppose to make
+
+
+I am adding following arguments in the wbt file for vehicle
+
+
+name "agent\_0"
+
+  controller "ros\_automobile"
+
+  controllerArgs "--name=agent\_0 --clock --use-sim-time"
+
+
+does the controller Args parameter change for MFString
+
+##### Olivier Michel [cyberbotics] 09/01/2020 11:49:52
+Yes, in Webots R2020b, you should write `controllerArgs [ "--name=agent_0" "--clock" "--use-sim-time"]` instead.
+
+##### dimple.bhuta 09/01/2020 11:51:51
+thank you for your reply
+
+
+the ros\_automobile controller is still crashing
+
+
+WARNING: TeslaModel3 (PROTO): The robot window library has not been found.
+
+WARNING: BmwX5 (PROTO): The robot window library has not been found.
+
+INFO: ros\_automobile: Starting controller: /home/dimpleb/static\_ws/src/vehicle\_data/controllers/ros\_automobile/ros\_automobile --name=agent\_0 --clock --use-sim-time
+
+INFO: void: Starting controller: /usr/local/webots/resources/projects/controllers/void/void
+
+WARNING: ros\_automobile: The process crashed some time after starting successfully.
+
+[ INFO] [1598961088.255928425]: Robot's unique name is agent\_0.
+
+[ INFO] [1598961088.261187690]: The controller is now connected to the ROS master.
+
+WARNING: 'ros\_automobile' controller crashed.
+
+
+the problem is robot window library. I am not really sure what it is being used for
+
+##### Olivier Michel [cyberbotics] 09/01/2020 11:53:59
+Does your local project have a plugins folder which contains copies of robot windows?
+
+
+If so, you should copy the original robot windows from Webots R2020b.
+
+##### dimple.bhuta 09/01/2020 11:54:31
+ok yeah I will look at it thank you
+
+
+It worked thank you sir
+
+
+i had one other question,  we used rosparam set use\_sim\_time true
+
+
+to sync ros timing and used it for our controller that controls the vehicle using ros\_automobile with these arguments
+
+
+however it not working well
+
+
+Is use\_sim\_time flag no longer valid? what is the alternative to it
+
+
+i have downloaded the recent webots\_ros interface
+
+
+[https://github.com/cyberbotics/webots\_ros](https://github.com/cyberbotics/webots_ros)
+
+##### David Mansolino [cyberbotics] 09/01/2020 13:31:15
+> Is use\_sim\_time flag no longer valid? what is the alternative to it
+
+`@dimple.bhuta` it is still available as far as I know, what is not working well?
+
+##### dimple.bhuta 09/01/2020 13:31:40
+my controller is no longer working well with the ros\_automobile controller
+
+
+i am trying to figure out what could have gone wrong
+
+##### David Mansolino [cyberbotics] 09/01/2020 13:32:32
+You should probably try minimizing your controller to check which part is causing the issue.
+
+##### dimple.bhuta 09/01/2020 13:32:35
+the topic /model\_name is publishing well
+
+
+ok thank you
+
+##### David Mansolino [cyberbotics] 09/01/2020 13:32:53
+You're welcome
+
+##### Simon Steinmann [Moderator] 09/01/2020 18:13:56
+what could cause these collision points? They dont seem to touch in any way
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/750418179175612456/unknown.png)
+%end
+
+##### alxy 09/01/2020 18:52:00
+`@Simon Steinmann` Doing robotics all day long? 😄
+
+##### Simon Steinmann [Moderator] 09/01/2020 18:52:16
+yes ^^
+
+##### Olivier Michel [cyberbotics] 09/02/2020 05:45:09
+Difficult to say from this screenshot... Did you enabled `Robot.selfCollision`?
+
+##### Simon Steinmann [Moderator] 09/02/2020 07:38:42
+yes I did
+
+
+I enabled the contact point rendering if you look closely
+
+##### Olivier Michel [cyberbotics] 09/02/2020 07:39:50
+If you disable `Robot.selfCollision`, do you get the same collisions?
+
+##### Simon Steinmann [Moderator] 09/02/2020 07:40:09
+no, then it's fine
+
+
+But it should be possible to run it with selfCollision on
+
+##### Olivier Michel [cyberbotics] 09/02/2020 07:40:34
+Sure.
+
+
+selfCollision will enable collision only for non-consecutive joints.
+
+
+It could be that some non-consecutive joints are too close to each other, causing these collisions.
+
+##### Simon Steinmann [Moderator] 09/02/2020 07:42:16
+but as you can see, they aren't touching each other even remotely
+
+
+it's also only in certain positions, like this. not all the time. But this position should be valid
+
+##### Olivier Michel [cyberbotics] 09/02/2020 07:43:13
+What primitives are you using for bounding objects? Cylinders or meshes?
+
+##### Simon Steinmann [Moderator] 09/02/2020 07:43:49
+using the official ur10e model. So it is using your cylinder + capsule bounding objects
+
+##### Olivier Michel [cyberbotics] 09/02/2020 07:44:13
+Okay... And which version of Webots are you using?
+
+##### Simon Steinmann [Moderator] 09/02/2020 07:44:23
+2020b
+
+##### Olivier Michel [cyberbotics] 09/02/2020 07:45:12
+OK, so that looks like a bug... Can you open an issue about it, including the exact procedure allowing us to reproduce the collision problem?
+
+##### Simon Steinmann [Moderator] 09/02/2020 07:45:39
+sure will do. But got a meeting first
+
+##### Olivier Michel [cyberbotics] 09/02/2020 07:46:18
+And also, are you sure these two cylinders are not colliding with some other object (instead of colliding with each other)?
+
+##### Simon Steinmann [Moderator] 09/02/2020 07:46:38
+yes, i'm sure
+
+
+Buttery smooth velocity control through ikfast. IK calculation EVERY single timestep, and still runs 40x realtime factor
+> **Attachment**: [ur10e\_ik\_velocity\_control.mp4](https://cdn.discordapp.com/attachments/565154703139405824/750623450208665600/ur10e_ik_velocity_control.mp4)
+
+##### saditya 09/02/2020 12:03:38
+How can I have image/texture only one face of this solid? I need a goal type image on the face towards us.
+%figure
+![Selection_056.png](https://cdn.discordapp.com/attachments/565154703139405824/750687379869663332/Selection_056.png)
+%end
+
+##### David Mansolino [cyberbotics] 09/02/2020 12:04:15
+The simplest solution is to add a slightly offseted plane shape.
+
+
+(but of course other solutions exists)
+
+##### saditya 09/02/2020 12:07:22
+> The simplest solution is to add a slightly offseted plane shape.
+
+`@David Mansolino` How do you add the offset?
+
+##### David Mansolino [cyberbotics] 09/02/2020 12:07:54
+Simply put it in Transform node.
+
+##### saditya 09/02/2020 12:59:37
+Also how could I simulate this? The gates and the blade are separate solids!
+%figure
+![Selection_057.png](https://cdn.discordapp.com/attachments/565154703139405824/750701467496611910/Selection_057.png)
+%end
+
+##### Simon Steinmann [Moderator] 09/02/2020 13:00:06
+are you building a battlebot? 😮
+
+##### saditya 09/02/2020 13:01:29
+> are 
+
+> are you building a battlebot? 😮
+
+> `@Simon Steinmann` you building a battlebot? 😮
+
+`@Simon Steinmann` Haha, no. Far away from that. We have this event every year. And a lot of obstacles are too comlpex
+
+##### Simon Steinmann [Moderator] 09/02/2020 13:02:01
+ohhh... and no i'm not... but I fantasized about it a lot 😄
+
+
+very expensive though
+
+##### saditya 09/02/2020 13:03:35
+> ohhh... and no i'm not... but I fantasized about it a lot 😄
+
+`@Simon Steinmann` Probably a lot of fun to play around it. But we students aren't allowed to play around with expensive robots.
 

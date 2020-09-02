@@ -17,7 +17,7 @@ usage() {
   echo
   echo "Assumptions:"
   echo "- The OSM file is located in the resources directory. e.g. ./resources/osm_files/$(ARG1).osm"
-  echo "- Webots and Python are installed as described in the Webots documentation."
+  echo "- Webots and Python 3 are installed as described in the Webots documentation."
   echo "- The WEBOTS_HOME environment variable is defined. e.g. 'export WEBOTS_HOME=/Applications/Webots.app'"
   echo
   echo "Example:"
@@ -63,7 +63,7 @@ echo
 set -o xtrace
 cd $WEBOTS_HOME/resources/osm_importer
 rm -f $script_dir/worlds/$1.wbt
-python importer.py --input=$osm_file_path --config-file=$WEBOTS_HOME/resources/osm_importer/config.ini --output=$script_dir/worlds/$1.wbt
+python3 importer.py --input=$osm_file_path --config-file=$WEBOTS_HOME/resources/osm_importer/config.ini --output=$script_dir/worlds/$1.wbt
 set +o xtrace
 
 echo
@@ -72,7 +72,7 @@ echo
 set -o xtrace
 cd $WEBOTS_HOME/resources/sumo_exporter
 rm -f $script_dir/worlds/$1_net/sumo.nod.xml $script_dir/worlds/$1_net/sumo.edg.xml $script_dir/worlds/$1_net/sumo.sumocfg $script_dir/worlds/$1_net/sumo.net.xml
-python exporter.py --input $script_dir/worlds/$1.wbt --output $script_dir/worlds/$1_net
+python3 exporter.py --input $script_dir/worlds/$1.wbt --output $script_dir/worlds/$1_net
 $SUMO_HOME/bin/netconvert --node-files=$script_dir/worlds/$1_net/sumo.nod.xml --edge-files=$script_dir/worlds/$1_net/sumo.edg.xml --output-file=$script_dir/worlds/$1_net/sumo.net.xml
 set +o xtrace
 
@@ -80,6 +80,6 @@ echo
 echo "# Generate SUMO random traffic..."
 echo
 set -o xtrace
-python $SUMO_HOME/tools/randomTrips.py -n $script_dir/worlds/$1_net/sumo.net.xml -o $script_dir/worlds/$1_net/sumo.trip.xml -e 3600 -p 2
+python3 $SUMO_HOME/tools/randomTrips.py -n $script_dir/worlds/$1_net/sumo.net.xml -o $script_dir/worlds/$1_net/sumo.trip.xml -e 3600 -p 2
 $SUMO_HOME/bin/duarouter --trip-files $script_dir/worlds/$1_net/sumo.trip.xml --net-file $script_dir/worlds/$1_net/sumo.net.xml --output-file $script_dir/worlds/$1_net/sumo.rou.xml --ignore-errors true --departlane="random"
 set +o xtrace
