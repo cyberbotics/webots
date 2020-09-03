@@ -1029,19 +1029,19 @@ WrShaderProgram *WbWrenShaders::rangeNoiseShader() {
 }
 
 WrShaderProgram *WbWrenShaders::segmentationShader() {
-  if (!cShaders[SHADER_SEGMENTATION]) {
-    cShaders[SHADER_SEGMENTATION] = wr_shader_program_new();
+  if (!gShaders[SHADER_SEGMENTATION]) {
+    gShaders[SHADER_SEGMENTATION] = wr_shader_program_new();
 
-    wr_shader_program_use_uniform(cShaders[SHADER_SEGMENTATION], WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
+    wr_shader_program_use_uniform(gShaders[SHADER_SEGMENTATION], WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
 
-    wr_shader_program_use_uniform_buffer(cShaders[SHADER_SEGMENTATION], WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL);
-    wr_shader_program_use_uniform_buffer(cShaders[SHADER_SEGMENTATION], WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
+    wr_shader_program_use_uniform_buffer(gShaders[SHADER_SEGMENTATION], WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL_PHONG);
+    wr_shader_program_use_uniform_buffer(gShaders[SHADER_SEGMENTATION], WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
-    buildShader(cShaders[SHADER_SEGMENTATION], QFileInfo("gl:shaders/segmentation.vert"),
+    buildShader(gShaders[SHADER_SEGMENTATION], QFileInfo("gl:shaders/segmentation.vert"),
                 QFileInfo("gl:shaders/segmentation.frag"));
   }
 
-  return cShaders[SHADER_SEGMENTATION];
+  return gShaders[SHADER_SEGMENTATION];
 }
 
 WrShaderProgram *WbWrenShaders::shadowVolumeShader() {

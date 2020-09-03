@@ -201,7 +201,7 @@ void WbGeometry::setSegmentationColor(const WbRgb &color) {
     return;
 
   const float segmentationColor[3] = {(float)color.red(), (float)color.green(), (float)color.blue()};
-  wr_material_set_diffuse(mWrenSegmentationMaterial, segmentationColor);
+  wr_phong_material_set_diffuse(mWrenSegmentationMaterial, segmentationColor);
 }
 
 ///////////////////
@@ -340,8 +340,8 @@ void WbGeometry::computeWrenRenderable() {
 
   // used for rendering segmentation camera
   if (!mWrenSegmentationMaterial) {
-    mWrenSegmentationMaterial = wr_material_new();
-    wr_material_set_default_program(mWrenSegmentationMaterial, WbWrenShaders::instance()->segmentationShader());
+    mWrenSegmentationMaterial = wr_phong_material_new();
+    wr_material_set_default_program(mWrenSegmentationMaterial, WbWrenShaders::segmentationShader());
   }
   wr_renderable_set_material(mWrenRenderable, mWrenSegmentationMaterial, "segmentation");
 
