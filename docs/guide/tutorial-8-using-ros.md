@@ -117,5 +117,5 @@ You can find in the [Reference Manual](../reference/nodes-and-api-functions.md) 
 ### "webots\_ros" Package
 
 If you are running the latest version of Webots, the easiest way to setup the `webots_ros` package is to install the `ros-$ROS_DISTRO-webots-ros` package directly from the package manager as described above.
-But if you are running an older Webots version, some functionality might not be fully supported by the latest `ros-$ROS_DISTRO-webots-ros` package.
-In this case, it is possible to install an older `webots_ros` package version from sources following the instructions on the [ROS wiki page](http://wiki.ros.org/webots_ros#From_Sources) and selecting the desired branch in the [`webots_ros` GitHub repository](https://github.com/cyberbotics/webots_ros).
+But if you are running an older Webots version, some functionalities might not be fully supported or might be broken by the latest `ros-$ROS_DISTRO-webots-ros` package.
+In this case, it is possible to install an older `webots_ros` package version from sources following the instructions on the [ROS wiki page](http://wiki.ros.org/webots_ros#From_Sources) and selecting the tag/release matching the Webots version in the [`webots_ros` GitHub repository](https://github.com/cyberbotics/webots_ros/releases).
