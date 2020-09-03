@@ -1,4 +1,0 @@
-int32 x1
-int32 y1
----
-int8 success
