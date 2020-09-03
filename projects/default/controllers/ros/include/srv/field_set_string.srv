@@ -1,5 +1,0 @@
-uint64 field
-int32 index
-string value
----
-int32 success
