@@ -102,6 +102,7 @@ enum SHADER {
   SHADER_PICKING,
   SHADER_POINT_SET,
   SHADER_RANGE_NOISE,
+  SHADER_SEGMENTATION,
   SHADER_SHADOW_VOLUME,
   SHADER_SIMPLE,
   SHADER_SKYBOX,
@@ -1025,6 +1026,22 @@ WrShaderProgram *WbWrenShaders::rangeNoiseShader() {
   }
 
   return gShaders[SHADER_RANGE_NOISE];
+}
+
+WrShaderProgram *WbWrenShaders::segmentationShader() {
+  if (!cShaders[SHADER_SEGMENTATION]) {
+    cShaders[SHADER_SEGMENTATION] = wr_shader_program_new();
+
+    wr_shader_program_use_uniform(cShaders[SHADER_SEGMENTATION], WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
+
+    wr_shader_program_use_uniform_buffer(cShaders[SHADER_SEGMENTATION], WR_GLSL_LAYOUT_UNIFORM_BUFFER_MATERIAL);
+    wr_shader_program_use_uniform_buffer(cShaders[SHADER_SEGMENTATION], WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
+
+    buildShader(cShaders[SHADER_SEGMENTATION], QFileInfo("gl:shaders/segmentation.vert"),
+                QFileInfo("gl:shaders/segmentation.frag"));
+  }
+
+  return cShaders[SHADER_SEGMENTATION];
 }
 
 WrShaderProgram *WbWrenShaders::shadowVolumeShader() {
