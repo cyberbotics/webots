@@ -387,11 +387,6 @@ bool WbGuiApplication::setup() {
     const QDir screenshotLocation = QDir("images:splash_images/", "*.jpg");
     const QString webotsLogoName("webots.png");
     mSplash = new WbSplashScreen(screenshotLocation.entryList(), webotsLogoName);
-    mSplash->setWindowFlags(Qt::SplashScreen);
-#ifdef _WIN32
-    mSplash->setWindowModality(Qt::ApplicationModal);
-#endif
-
     if (WbPreferences::instance()->value("MainWindow/maximized", false).toBool()) {
       // we need to center the splash screen on the same window as the mainWindow,
       // which is positioned wherever the mouse is on launch

@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <webots/nodes.h>
+#include <webots/robot.h>
 #include <webots/supervisor.h>
 #include "device_private.h"
 #include "file.h"
