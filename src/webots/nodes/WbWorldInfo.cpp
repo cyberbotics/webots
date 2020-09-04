@@ -51,16 +51,17 @@ void WbWorldInfo::init(const WbVersion *version) {
   mInkEvaporation = findSFDouble("inkEvaporation");
   mGravity = findSFDouble("gravity");
   mCoordinateSystem = findSFString("coordinateSystem");
+  WbField *northDirectionField = findField("northDirection");
   if (version && *version < WbVersion(2020, 1, 0, true)) {
     mGravity->setValue(WbParser::legacyGravity());
     mCoordinateSystem->setValue("NUE");  // default value for Webots < R2020b
     const WbSFVector3 *const northDirection = findSFVector3("northDirection");
     if (northDirection->value() == WbVector3(1.0, 0.0, 0.0))
-      findField("northDirection")->reset();
-    else
+      northDirectionField->reset();
+    else if (!northDirectionField->isDefault())
       parsingWarn(tr("The 'northDirection' field is deprecated, according to the 'coordinateSystem' field, the north is "
                      "aligned along the x-axis."));
-  } else if (!findField("northDirection")->isDefault())
+  } else if (!northDirectionField->isDefault())
     parsingWarn(tr("The 'northDirection' field is deprecated, please use the 'coordinateSystem' field instead."));
 
   WbProtoTemplateEngine::setCoordinateSystem(mCoordinateSystem->value());
