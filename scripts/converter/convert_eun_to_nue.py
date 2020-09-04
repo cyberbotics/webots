@@ -49,12 +49,12 @@ def convert_to_nue(filename):
             for field in node['fields']:
                 if field['name'] in ['rotation']:
                     rotation_found = True
-                    field['value'] = rotation(field['value'], [0, 1, 0, -0.5 * math.pi])
+                    field['value'] = rotation(field['value'], [0, 1, 0, 0.5 * math.pi])
                 elif field['name'] in ['translation']:
-                    field['value'] = [str(-float(field['value'][2])), field['value'][1], field['value'][0]]
+                    field['value'] = [field['value'][2], field['value'][1], str(-float(field['value'][0]))]
             if not rotation_found:
                 node['fields'].append({'name': 'rotation',
-                                       'value': ['0', '1', '0', str(-0.5 * math.pi)],
+                                       'value': ['0', '1', '0', str(0.5 * math.pi)],
                                        'type': 'SFRotation'})
     world.save(filename)
 
