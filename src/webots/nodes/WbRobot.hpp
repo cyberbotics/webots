@@ -107,7 +107,7 @@ public:
   bool selfCollision() const { return mSelfCollision->value(); }
 
   WbSupervisorUtilities *supervisorUtilities() const { return mSupervisorUtilities; }
-  
+
   const bool isRobot() const override { return true; };
 
   // energy accessors and setters
