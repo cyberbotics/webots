@@ -14,7 +14,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="shoulder_pan_joint_sensor" type="revolute">
+  <joint name="shoulder_pan_joint" type="revolute">
     <parent link="base_link"/>
     <child link="shoulder_link"/>
     <axis xyz="0 0 1"/>
@@ -47,7 +47,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="shoulder_lift_joint_sensor" type="revolute">
+  <joint name="shoulder_lift_joint" type="revolute">
     <parent link="shoulder_link"/>
     <child link="upper_arm_link"/>
     <axis xyz="0 1 0"/>
@@ -92,7 +92,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="elbow_joint_sensor" type="revolute">
+  <joint name="elbow_joint" type="revolute">
     <parent link="upper_arm_link"/>
     <child link="forearm_link"/>
     <axis xyz="0 1 0"/>
@@ -197,7 +197,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="wrist_1_joint_sensor" type="revolute">
+  <joint name="wrist_1_joint" type="revolute">
     <parent link="forearm_link"/>
     <child link="wrist_1_link"/>
     <axis xyz="0 1 0"/>
@@ -230,7 +230,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="wrist_2_joint_sensor" type="revolute">
+  <joint name="wrist_2_joint" type="revolute">
     <parent link="wrist_1_link"/>
     <child link="wrist_2_link"/>
     <axis xyz="0 0 1"/>
@@ -263,7 +263,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="wrist_3_joint_sensor" type="revolute">
+  <joint name="wrist_3_joint" type="revolute">
     <parent link="wrist_2_link"/>
     <child link="wrist_3_link"/>
     <axis xyz="0 1 0"/>

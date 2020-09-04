@@ -296,8 +296,10 @@ void WbJoint::updateJointAxisRepresentation() {
 }
 
 const QString WbJoint::urdfName() const {
-  if (positionSensor() && positionSensor()->findSFString("name"))
-    return getUrdfPrefix() + positionSensor()->findSFString("name")->value();
+  if (motor())
+    return getUrdfPrefix() + motor()->deviceName();
+  else if (positionSensor())
+    return getUrdfPrefix() + positionSensor()->deviceName();
   return WbBaseNode::urdfName();
 }
 

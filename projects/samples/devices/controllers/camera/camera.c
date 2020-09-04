@@ -72,7 +72,7 @@ int main() {
     /* Get the new camera values */
     const unsigned char *image = wb_camera_get_image(camera);
 
-    /* Decrement the pause_counter*/
+    /* Decrement the pause_counter */
     if (pause_counter > 0)
       pause_counter--;
 
@@ -101,8 +101,10 @@ int main() {
      * The robot turns and analyse the camera image in order
      * to find a new blob
      */
-    else {  // pause_counter == 0
-
+    else if (!image) {  // image may be NULL if Robot.synchronization is FALSE
+      left_speed = 0;
+      right_speed = 0;
+    } else {  // pause_counter == 0
       /* Reset the sums */
       red = 0;
       green = 0;

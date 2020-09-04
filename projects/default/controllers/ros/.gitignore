@@ -1,18 +1,4 @@
 /ros
 
 # Headers
-/include/ros
-/include/rosconsole
-/include/rosgraph_msgs
-/include/sensor_msgs
 /include/webots_ros
-/include/messages
-/include/services
-/include/std_msgs
-/include/XmlRpcDecl.h
-/include/XmlRpcValue.h
-/include/boost
-/include/geometry_msgs
-/include/log4cxx
-/include/xmlrpcpp
-
