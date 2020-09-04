@@ -36,6 +36,10 @@ ifneq ($(OSTYPE),darwin)
 CFLAGS = -fno-strict-aliasing
 endif
 
+ifeq ($(OSTYPE),windows)
+CFLAGS = -Wno-address -Wno-unused-function -DDISABLE_WEAK_CALLBACKS
+endif
+
 INCLUDE = -I"$(DASHEL_HOME)" -Iaseba
 LIBRARIES = -L"$(DASHEL_HOME)" -ldashel
 
