@@ -2047,12 +2047,11 @@ In case you want a Webots node to be shown as a separate URDF link it is enough 
 URDF links inherit the `name` field from Webots node except when there is no `name` field defined or there are two or more Webots nodes with the name.
 URDF joints are named after position sensor in the corresponding Webots joints.
 
-
-
 > **Note**: Exported URDF is not complete.
 Currently, the generated URDF consists of a minimal number of elements to be used with [`robot_state_publisher`](http://wiki.ros.org/robot_state_publisher).
 Only the [Box](box.md), [Capsule](capsule.md), [Cylinder](cylinder.md) and [Sphere](sphere.md) nodes in the `boundingObject` field of [Solid](solid.md) nodes will be exported (both for `visual` and `collision`), the URDF file can therefore be visualized in [RViz](http://wiki.ros.org/rviz).
 Also note that [Hinge2Joint](./hinge2joint.md) and [BallJoint](./balljoint.md) are not supported.
+The URDF joints are named according to the [Joint](joint.md) [Motor](motor.md) names (or [PositionSensor](positionsensor.md) if the [Joint](joint.md) has no [Motor](motor.md)).
 
 ---
 

@@ -180,63 +180,65 @@ PROTO Forest [
     translation IS translation
     rotation IS rotation
     children [
-      Shape {
-        appearance PBRAppearance {
-          baseColorMap ImageTexture {
-            %{ if fields.withSnow.value then }%
-              url [ "textures/trees_with_snow.png" ]
-            %{ else }%
-              url [ "textures/trees.png" ]
-            %{ end }%
-            repeatS FALSE
-            repeatT FALSE
+      %{ if numberOfTree > 0 then }%
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              %{ if fields.withSnow.value then }%
+                url [ "textures/trees_with_snow.png" ]
+              %{ else }%
+                url [ "textures/trees.png" ]
+              %{ end }%
+              repeatS FALSE
+              repeatT FALSE
+            }
+            metalness 0
+            roughness 1
           }
-          metalness 0
-          roughness 1
-        }
-        geometry IndexedFaceSet {
-          coord Coordinate {
-            point [
-              %{ for _, v in ipairs(trees) do }%
-                %{ local circle = wbgeometry.circle(v["radius"], 4, v["x"], v["z"], v["angle"]) }%
-                %{ for i = 0, 3 do }%
-                  %{= circle[i+1].x }% %{= v["y"] }% %{= circle[i+1].y }%
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                %{ for _, v in ipairs(trees) do }%
+                  %{ local circle = wbgeometry.circle(v["radius"], 4, v["x"], v["z"], v["angle"]) }%
+                  %{ for i = 0, 3 do }%
+                    %{= circle[i+1].x }% %{= v["y"] }% %{= circle[i+1].y }%
+                  %{ end }%
+                  # top cylinder
+                  %{ for i = 0, 3 do }%
+                    %{= circle[i+1].x }% %{= v["height"] + v["y"] }% %{= circle[i+1].y }%
+                  %{ end }%
                 %{ end }%
-                # top cylinder
-                %{ for i = 0, 3 do }%
-                  %{= circle[i+1].x }% %{= v["height"] + v["y"] }% %{= circle[i+1].y }%
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                %{ for i = 0, treeTypeNumber do }%
+                  0 %{= i / treeTypeNumber }%
+                  1 %{= i / treeTypeNumber }%
                 %{ end }%
+              ]
+            }
+            coordIndex [
+              # each tree (4faces by tree)
+              %{ for i = 0, numberOfTree - 1 do }%
+                %{= 4 + i * 8 }% %{= 0 + i * 8 }% %{= 2 + i * 8 }% %{= 6 + i * 8 }% -1
+                %{= 4 + i * 8 }% %{= 6 + i * 8 }% %{= 2 + i * 8 }% %{= 0 + i * 8 }% -1
+                %{= 5 + i * 8 }% %{= 1 + i * 8 }% %{= 3 + i * 8 }% %{= 7 + i * 8 }% -1
+                %{= 5 + i * 8 }% %{= 7 + i * 8 }% %{= 3 + i * 8 }% %{= 1 + i * 8 }% -1
+              %{ end }%
+            ]
+            texCoordIndex [
+              %{ for i = 0, numberOfTree - 1 do }%
+                %{ local CurrentIndex = treeType[types[i]] }%
+                %{= 2 * (CurrentIndex + 1) }% %{= 2 * CurrentIndex }% %{= 2 * CurrentIndex + 1}% %{= 2 * (CurrentIndex + 1) + 1 }% -1
+                %{= 2 * (CurrentIndex + 1) + 1}% %{= 2 * (CurrentIndex + 1) }% %{= 2 * CurrentIndex }% %{= 2 * CurrentIndex + 1}% -1
+                %{= 2 * (CurrentIndex + 1) }% %{= 2 * CurrentIndex }% %{= 2 * CurrentIndex + 1}% %{= 2 * (CurrentIndex + 1) + 1 }% -1
+                %{= 2 * (CurrentIndex + 1) + 1}% %{= 2 * (CurrentIndex + 1) }% %{= 2 * CurrentIndex }% %{= 2 * CurrentIndex + 1}% -1
               %{ end }%
             ]
           }
-          texCoord TextureCoordinate {
-            point [
-              %{ for i = 0, treeTypeNumber do }%
-                0 %{= i / treeTypeNumber }%
-                1 %{= i / treeTypeNumber }%
-              %{ end }%
-            ]
-          }
-          coordIndex [
-            # each tree (4faces by tree)
-            %{ for i = 0, numberOfTree - 1 do }%
-              %{= 4 + i * 8 }% %{= 0 + i * 8 }% %{= 2 + i * 8 }% %{= 6 + i * 8 }% -1
-              %{= 4 + i * 8 }% %{= 6 + i * 8 }% %{= 2 + i * 8 }% %{= 0 + i * 8 }% -1
-              %{= 5 + i * 8 }% %{= 1 + i * 8 }% %{= 3 + i * 8 }% %{= 7 + i * 8 }% -1
-              %{= 5 + i * 8 }% %{= 7 + i * 8 }% %{= 3 + i * 8 }% %{= 1 + i * 8 }% -1
-            %{ end }%
-          ]
-          texCoordIndex [
-            %{ for i = 0, numberOfTree - 1 do }%
-              %{ local CurrentIndex = treeType[types[i]] }%
-              %{= 2 * (CurrentIndex + 1) }% %{= 2 * CurrentIndex }% %{= 2 * CurrentIndex + 1}% %{= 2 * (CurrentIndex + 1) + 1 }% -1
-              %{= 2 * (CurrentIndex + 1) + 1}% %{= 2 * (CurrentIndex + 1) }% %{= 2 * CurrentIndex }% %{= 2 * CurrentIndex + 1}% -1
-              %{= 2 * (CurrentIndex + 1) }% %{= 2 * CurrentIndex }% %{= 2 * CurrentIndex + 1}% %{= 2 * (CurrentIndex + 1) + 1 }% -1
-              %{= 2 * (CurrentIndex + 1) + 1}% %{= 2 * (CurrentIndex + 1) }% %{= 2 * CurrentIndex }% %{= 2 * CurrentIndex + 1}% -1
-            %{ end }%
-          ]
         }
-      }
+      %{ end }%
       %{ if wbcore.tablelength(groundTexture) > 0 and nbShapePoint > 2 then }%
         DEF GROUND Shape {
           appearance PBRAppearance {

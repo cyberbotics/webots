@@ -611,7 +611,7 @@ HelicoidalRoadSegment {
          SFFloat              speedLimit                -1.0
          MFNode               lines                     [ RoadLine { } ]
          SFFloat              roadBorderHeight          0.15
-         SFFloat              roadBorderWidth           0.8
+         MFFloat              roadBorderWidth           [ 0.8 ]
          SFBool               rightBorder               TRUE
          SFBool               leftBorder                TRUE
          SFBool               bottom                    FALSE

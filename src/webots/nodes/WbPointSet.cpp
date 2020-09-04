@@ -118,6 +118,9 @@ void WbPointSet::buildWrenMesh() {
   wr_static_mesh_delete(mWrenMesh);
   mWrenMesh = NULL;
 
+  if (!coord() || coord()->pointSize() == 0)
+    return;
+
   WbGeometry::computeWrenRenderable();
 
   float *coordsData = new float[coord()->pointSize() * 3];

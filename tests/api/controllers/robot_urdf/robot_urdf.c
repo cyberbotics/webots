@@ -28,10 +28,14 @@ int compare_files(FILE *file_1, FILE *file_2) {
 }
 
 int main(int argc, char **argv) {
-  ts_setup(argv[0]);
+  char reference_filename[64], generated_filename[64];
+  snprintf(generated_filename, 64, "%s.urdf", argv[1]);
+  snprintf(reference_filename, 64, "%s_reference.urdf", argv[1]);
+
+  ts_setup(generated_filename);
 
   // Write URDF to file
-  FILE *f_urdf = fopen("robot.urdf", "w");
+  FILE *f_urdf = fopen(generated_filename, "w");
   const char *urdf = wb_robot_get_urdf("");
   fprintf(f_urdf, "%s", urdf);
   fclose(f_urdf);
@@ -57,8 +61,8 @@ int main(int argc, char **argv) {
 #endif
 
   // Compare URDF output to ground truth
-  f_urdf = fopen("robot.urdf", "r");
-  FILE *f_urdf_ref = fopen("reference_robot.urdf", "r");
+  f_urdf = fopen(generated_filename, "r");
+  FILE *f_urdf_ref = fopen(reference_filename, "r");
   int line = compare_files(f_urdf_ref, f_urdf);
   ts_assert_int_equal(line, 0, "Reference file and exported file differ at line %d", line);
   fclose(f_urdf);
