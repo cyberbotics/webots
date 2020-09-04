@@ -1,4 +1,0 @@
-int32 index
-bool absolute
----
-geometry_msgs/Quaternion orientation
