@@ -179,6 +179,7 @@ void AsebaWriteBytecode(AsebaVMState *vm) {
 void AsebaResetIntoBootloader(AsebaVMState *vm) {
 }
 
+#ifndef DISABLE_WEAK_CALLBACKS
 void AsebaVMRunCB(AsebaVMState *vm) {
 }
 
@@ -187,6 +188,7 @@ void AsebaVMErrorCB(AsebaVMState *vm, const char *message) {
 
 void AsebaVMResetCB(AsebaVMState *vm) {
 }
+#endif
 
 void AsebaAssert(AsebaVMState *vm, AsebaAssertReason reason) {
   cerr << "\nFatal error: ";
