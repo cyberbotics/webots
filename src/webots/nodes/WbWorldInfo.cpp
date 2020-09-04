@@ -58,8 +58,8 @@ void WbWorldInfo::init(const WbVersion *version) {
     if (northDirection->value() == WbVector3(1.0, 0.0, 0.0))
       findField("northDirection")->reset();
     else
-      parsingWarn(tr("The 'northDirection' field is deprecated, according to the 'coordinateSystem' field north is aligned "
-                     "along the x-axis."));
+      parsingWarn(tr("The 'northDirection' field is deprecated, according to the 'coordinateSystem' field, the north is "
+                     "aligned along the x-axis."));
   } else if (!findField("northDirection")->isDefault())
     parsingWarn(tr("The 'northDirection' field is deprecated, please use the 'coordinateSystem' field instead."));
 
