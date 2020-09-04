@@ -54,7 +54,7 @@ def convert_to_nue(filename):
                     field['value'] = [str(-float(field['value'][2])), field['value'][1], field['value'][0]]
             if not rotation_found:
                 node['fields'].append({'name': 'rotation',
-                                       'value': ['0', '01', '0', str(-0.5 * math.pi)],
+                                       'value': ['0', '1', '0', str(-0.5 * math.pi)],
                                        'type': 'SFRotation'})
     world.save(filename)
 
