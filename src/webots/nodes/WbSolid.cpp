@@ -2985,7 +2985,7 @@ void WbSolid::exportURDFShape(WbVrmlWriter &writer, const QString &geometry, con
       writer.indent();
       if (correctOrientation) {
         if (transform == this) {
-          translation = WbVector3();
+          translation = offset;
           rotation = WbRotation(1.0, 0.0, 0.0, 1.5707963);
         } else
           rotation = WbRotation(rotation.toMatrix3() * WbRotation(1.0, 0.0, 0.0, 1.5707963).toMatrix3());
@@ -3054,7 +3054,7 @@ bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
             } else
               assert(false);
             for (int j = 0; j < geometries.size(); ++j)
-              exportURDFShape(writer, geometries[j].first, transform, cylinder || capsule,
+              exportURDFShape(writer, geometries[j].first, transform, cylinder || capsule || !writer.jointOffset().isNull(),
                               geometries[j].second + writer.jointOffset());
           }
         }
