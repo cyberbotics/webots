@@ -586,7 +586,7 @@ static void lidar_update(WbDeviceTag tag) {
 
   append_rescaled_image_to_buffer(&img, new_width, new_height, wb_lidar_get_max_range(tag));
 
-  free(img.float_data);
+  free(img.data);
 }
 
 static void range_finder_update(WbDeviceTag tag) {
@@ -627,7 +627,7 @@ static void range_finder_update(WbDeviceTag tag) {
 
   append_rescaled_image_to_buffer(&img, new_width, new_height, wb_range_finder_get_max_range(tag));
 
-  free(img.float_data);
+  free(img.data);
 }
 
 static void accelerometer_collect_value(WbDeviceTag tag, struct UpdateElement *ue, double update_time) {
