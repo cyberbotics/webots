@@ -23,11 +23,6 @@ function init() {
   ipInput = document.getElementById('IPInput');
   portInput = document.getElementById('PortInput');
   connectButton = document.getElementById('ConnectButton');
-  $('body').layout({
-    center__maskContents: true,
-    south__size: 128,
-    north__resizable: false
-  });
 }
 
 function connect() {
