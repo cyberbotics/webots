@@ -38,7 +38,7 @@ jobs:
       with:
          submodules: true
     - name: Install Webots Compilation Dependencies
-      run: scripts/install/linux_optional_compilation_dependencies.sh
+      run: sudo scripts/install/linux_optional_compilation_dependencies.sh
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
       run: python scripts/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
@@ -77,7 +77,7 @@ jobs:
     - name: Extract Webots
       run: tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
     - name: Install Webots Dependencies
-      run: scripts/install/linux_runtime_dependencies.sh
+      run: sudo scripts/install/linux_runtime_dependencies.sh
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -102,7 +102,7 @@ jobs:
     - name: Extract Webots
       run: tar xjf artifact/webots-*-x86-64.tar.bz2 -C artifact
     - name: Install Webots Dependencies
-      run: scripts/install/linux_runtime_dependencies.sh
+      run: sudo scripts/install/linux_runtime_dependencies.sh
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
