@@ -1,4 +1,4 @@
-#version 410
+#version 330
 
 in vec2 texUv;
 in vec2 seed1;
