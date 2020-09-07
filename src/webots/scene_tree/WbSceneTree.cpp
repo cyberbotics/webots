@@ -1505,7 +1505,7 @@ void WbSceneTree::exportObject() {
 
   QFile file(fileName);
   if (!file.open(QIODevice::WriteOnly)) {
-    WbLog::error(tr("File not writable."));
+    WbLog::error(tr("Impossible to write file: '%1'.").arg(fileName) + "\n" + tr("Node exportation failed."));
     return;
   }
 
