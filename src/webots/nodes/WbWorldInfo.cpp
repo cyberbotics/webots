@@ -51,19 +51,25 @@ void WbWorldInfo::init(const WbVersion *version) {
   mInkEvaporation = findSFDouble("inkEvaporation");
   mGravity = findSFDouble("gravity");
   mCoordinateSystem = findSFString("coordinateSystem");
+  WbField *northDirectionField = findField("northDirection");
   if (version && *version < WbVersion(2020, 1, 0, true)) {
     mGravity->setValue(WbParser::legacyGravity());
     mCoordinateSystem->setValue("NUE");  // default value for Webots < R2020b
-  }
+    const WbSFVector3 *const northDirection = findSFVector3("northDirection");
+    if (northDirection->value() == WbVector3(1.0, 0.0, 0.0))
+      northDirectionField->reset();
+    else if (!northDirectionField->isDefault())
+      parsingWarn(tr("The 'northDirection' field is deprecated, according to the 'coordinateSystem' field, the north is "
+                     "aligned along the x-axis."));
+  } else if (!northDirectionField->isDefault())
+    parsingWarn(tr("The 'northDirection' field is deprecated, please use the 'coordinateSystem' field instead."));
+
   WbProtoTemplateEngine::setCoordinateSystem(mCoordinateSystem->value());
   mGpsCoordinateSystem = findSFString("gpsCoordinateSystem");
   mGpsReference = findSFVector3("gpsReference");
   mLineScale = findSFDouble("lineScale");
   mRandomSeed = findSFInt("randomSeed");
   mContactProperties = findMFNode("contactProperties");
-  WbSFVector3 *northDirection = findSFVector3("northDirection");
-  if (northDirection->x() != 0 || northDirection->y() != 1 || northDirection->z() != 0)  // not default value
-    parsingWarn(tr("The 'northDirection' field is deprecated, please use the 'coordinateSystem' field instead."));
 
   mPhysicsReceiver = NULL;
 
