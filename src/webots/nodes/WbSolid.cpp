@@ -3054,7 +3054,8 @@ bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
             } else
               assert(false);
             for (int j = 0; j < geometries.size(); ++j)
-              exportURDFShape(writer, geometries[j].first, transform, cylinder || capsule, geometries[j].second);
+              exportURDFShape(writer, geometries[j].first, transform, cylinder || capsule,
+                              geometries[j].second + writer.jointOffset());
           }
         }
       }
