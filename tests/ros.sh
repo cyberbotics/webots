@@ -6,12 +6,11 @@ source /opt/ros/$ROS_DISTRO/setup.bash
 mkdir -p $WEBOTS_HOME/webots_catkin_ws/src
 cd $WEBOTS_HOME/webots_catkin_ws/src
 catkin_init_workspace 2>&1 >> /dev/null
-cp -r $WEBOTS_HOME/projects/languages/ros/webots_ros webots_ros
-cp -r $WEBOTS_HOME/projects/default/controllers/ros/include/srv webots_ros/srv
-cp -r $WEBOTS_HOME/projects/default/controllers/ros/include/msg webots_ros/msg
+cp -r $WEBOTS_HOME/resources/webots_ros webots_ros
 cp -r $WEBOTS_HOME/projects/robots/universal_robots/resources/ros_package/ur_e_webots ur_e_webots
 cd $WEBOTS_HOME/webots_catkin_ws
 echo @@@ Installing dependencies
+sudo rosdep init
 rosdep update
 rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO
 echo @@@ Compiling package

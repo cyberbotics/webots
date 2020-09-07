@@ -13,9 +13,11 @@
 // limitations under the License.
 
 #include "WbRotation.hpp"
-#include <cassert>
+
 #include "WbMatrix3.hpp"
 #include "WbQuaternion.hpp"
+
+#include <cassert>
 
 void WbRotation::fromQuaternion(const WbQuaternion &q) {
   // ensure that the quaternion is normalized as it should be
@@ -45,27 +47,35 @@ void WbRotation::fromQuaternion(const WbQuaternion &q) {
 }
 
 void WbRotation::fromMatrix3(const WbMatrix3 &M) {
-  double cosAngle = 0.5 * (M(0, 0) + M(1, 1) + M(2, 2) - 1.0);
-  const double absCosAngle = fabs(cosAngle);
-  if (absCosAngle > 1.0) {
-    if ((absCosAngle - 1.0) > WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {
-      // exception
-      mX = 1.0;
-      mY = 0.0;
-      mZ = 0.0;
-      mAngle = 0.0;
-      return;
+  // Reference: https://www.geometrictools.com/Documentation/RotationRepresentations.pdf
+  const double theta = acos((M(0, 0) + M(1, 1) + M(2, 2) - 1) / 2);
+  if (theta < WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {  // If `theta == 0`
+    mX = 1;
+    mY = 0;
+    mZ = 0;
+    mAngle = 0;
+    return;
+  } else if (M_PI - theta < WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {  // If `theta == pi`
+    if (M(0, 0) > M(1, 1) && M(0, 0) > M(2, 2)) {
+      mX = sqrt(M(0, 0) - M(1, 1) - M(2, 2) + 1) / 2;
+      mY = M(0, 1) / (2 * mX);
+      mZ = M(0, 2) / (2 * mX);
+    } else if (M(1, 1) > M(0, 0) && M(1, 1) > M(2, 2)) {
+      mY = sqrt(M(1, 1) - M(0, 0) - M(2, 2) + 1) / 2;
+      mX = M(0, 1) / (2 * mY);
+      mZ = M(1, 2) / (2 * mY);
+    } else {
+      mZ = sqrt(M(2, 2) - M(0, 0) - M(1, 1) + 1) / 2;
+      mX = M(0, 2) / (2 * mZ);
+      mY = M(1, 2) / (2 * mZ);
     }
-    if (cosAngle < 0.0)
-      cosAngle = -1.0;
-    else
-      cosAngle = 1.0;
+  } else {  // If `theta in (0, pi)`
+    mX = M(2, 1) - M(1, 2);
+    mY = M(0, 2) - M(2, 0);
+    mZ = M(1, 0) - M(0, 1);
   }
-
-  mX = M(2, 1) - M(1, 2);
-  mY = M(0, 2) - M(2, 0);
-  mZ = M(1, 0) - M(0, 1);
-  mAngle = acos(cosAngle);
+  mAngle = theta;
+  normalizeAxis();
 }
 
 void WbRotation::fromBasisVectors(const WbVector3 &vx, const WbVector3 &vy, const WbVector3 &vz) {

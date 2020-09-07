@@ -17,19 +17,19 @@
 # You may add some variable definitions hereafter to customize the build process
 # See documentation in $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
-SERVICE_FILES = $(wildcard include/srv/*.srv)
-SERVICE_HEADERS = $(SERVICE_FILES:include/srv/%.srv=include/services/%.h)
-
-MESSAGE_FILES = $(wildcard include/msg/*.msg)
-MESSAGE_HEADERS = $(MESSAGE_FILES:include/msg/%.msg=include/messages/%.h)
-
-GENERATED_HEADERS = $(MESSAGE_HEADERS:include/messages/%.h=include/webots_ros/%.h)
-GENERATED_HEADERS += $(SERVICE_HEADERS:include/services/%.h=include/webots_ros/%.h)
-
 null :=
 space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
+
+SERVICE_FILES = $(wildcard $(WEBOTS_HOME_PATH)/resources/webots_ros/srv/*.srv)
+SERVICE_HEADERS = $(SERVICE_FILES:$(WEBOTS_HOME_PATH)/resources/webots_ros/srv/%.srv=include/services/%.h)
+
+MESSAGE_FILES = $(wildcard $(WEBOTS_HOME_PATH)/resources/webots_ros/msg/*.msg)
+MESSAGE_HEADERS = $(MESSAGE_FILES:$(WEBOTS_HOME_PATH)/resources/webots_ros/msg/%.msg=include/messages/%.h)
+
+GENERATED_HEADERS = $(MESSAGE_HEADERS:include/messages/%.h=include/webots_ros/%.h)
+GENERATED_HEADERS += $(SERVICE_HEADERS:include/services/%.h=include/webots_ros/%.h)
 
 ifeq ($(OSTYPE),linux)
  CFLAGS = -std=c++11
@@ -38,7 +38,15 @@ endif
 PYTHON_COMMAND ?= python
 ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
 release debug profile clean:
-	@echo -e "# \033[0;33mPython not installed, impossible to generate services/messages required by the ros controller, skipping ros controller\033[0m"
+	@echo "# \033[0;33mPython not installed, impossible to generate services/messages required by the ros controller, skipping ros controller\033[0m"
+else
+ifeq (, $(ROS_DISTRO))
+release debug profile clean:
+	@echo "# \033[0;33mROS not installed or 'ROS_DISTRO' not defined\033[0m"
+else
+ifeq (2, $(ROS_VERSION))
+release debug profile clean:
+	@echo "# \033[0;33mROS_DISTRO should not be a ROS2 distribution\033[0m"
 else
 CXX_SOURCES = $(wildcard *.cpp)
 
@@ -52,27 +60,22 @@ $(CXX_SOURCES:.cxx=.d): $(GENERATED_HEADERS) ROS_HEADERS include/templateHeader.
 
 $(GENERATED_HEADERS): $(SERVICE_HEADERS) $(MESSAGE_HEADERS)
 
-include/messages/%.h: include/msg/%.msg include/templateHeader.h include/templateRequest.h include/templateResponse.h headersFromMSG.py headersGenerator.py
+include/messages/%.h: $(WEBOTS_HOME_PATH)/resources/webots_ros/msg/%.msg include/templateHeader.h include/templateRequest.h include/templateResponse.h headersFromMSG.py headersGenerator.py
 	@echo "# generating message header" $(notdir $<)
-	$(SILENT)python headersFromMSG.py $<
-	$(SILENT)mkdir -p include/messages
-	$(SILENT)cp include/webots_ros/$(basename $(notdir $<)).h include/messages/$(basename $(notdir $<)).h
+	$(SILENT)$(PYTHON_COMMAND) headersFromMSG.py $<
 
-include/services/%.h: include/srv/%.srv include/templateHeader.h include/templateRequest.h include/templateResponse.h headersFromSRV.py headersGenerator.py
+include/services/%.h: $(WEBOTS_HOME_PATH)/resources/webots_ros/srv/%.srv include/templateHeader.h include/templateRequest.h include/templateResponse.h headersFromSRV.py headersGenerator.py
 	@echo "# generating service header" $(notdir $<)
-	$(SILENT)python headersFromSRV.py $<
-	$(SILENT)mkdir -p include/services
-	$(SILENT)cp include/webots_ros/$(basename $(notdir $<)).h include/services/$(basename $(notdir $<)).h
+	$(SILENT)$(PYTHON_COMMAND) headersFromSRV.py $<
 
 ROS_HEADERS: $(GENERATED_HEADERS)
-	+@make -s -C include $(MAKECMDGOALS)
 	+@cp -f include/RecognitionObject.h include/webots_ros/RecognitionObject.h
 
-INCLUDE = -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include
+INCLUDE = -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include -isystem /opt/ros/$(ROS_DISTRO)/include
 
 # include ros libraries
 
-LIBRARIES += -L$(WEBOTS_HOME_PATH)/projects/default/controllers/ros/lib/ros -lroscpp -lrosconsole -lroscpp_serialization -lrostime
+LIBRARIES += -L/opt/ros/$(ROS_DISTRO)/lib -lxmlrpcpp -lcpp_common -lrosconsole_backend_interface -lroscpp -lrosconsole -lrosconsole_log4cxx -lroscpp_serialization -lrostime
 ifeq ($(OSTYPE),windows)
  LIBRARIES += -lws2_32
  ifeq ($(MAKECMDGOALS),debug)
@@ -100,4 +103,6 @@ FILES_TO_REMOVE += include/webots_ros include/messages include/services headersG
 ### Do not modify: this includes Webots global Makefile.include
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
+endif
+endif
 endif

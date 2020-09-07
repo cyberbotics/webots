@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <webots/nodes.h>
+#include <webots/robot.h>
 #include <webots/supervisor.h>
 #include "device_private.h"
 #include "file.h"
@@ -1960,10 +1961,13 @@ const double *wb_supervisor_node_get_velocity(WbNodeRef node) {
   }
 
   robot_mutex_lock_step();
+  free(node->solid_velocity);
+  node->solid_velocity = NULL;
   get_velocity_node_ref = node;
   wb_robot_flush_unlocked();
   get_velocity_node_ref = NULL;
   robot_mutex_unlock_step();
+  // cppcheck-suppress knownConditionTrueFalse
   return node->solid_velocity ? node->solid_velocity : invalid_vector;  // will be NULL if n is not a Solid
 }
 

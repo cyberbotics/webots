@@ -102,7 +102,7 @@ DEF IROBOT_CREATE Create {
 Robot {
   children [
     Transform {
-      translation -4.95 0 -4.95
+      translation 0 0 0
       children [
         Shape {
           appearance Parquetry {
@@ -110,11 +110,8 @@ Robot {
               scale 7 7
             }
           }
-          geometry ElevationGrid {
-            xDimension 7
-            xSpacing 1.65
-            zDimension 7
-            zSpacing 1.65
+          geometry Plane {
+            size 10 10
           }
         }
       ]

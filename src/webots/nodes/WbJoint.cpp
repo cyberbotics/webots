@@ -296,8 +296,10 @@ void WbJoint::updateJointAxisRepresentation() {
 }
 
 const QString WbJoint::urdfName() const {
-  if (positionSensor() && positionSensor()->findSFString("name"))
-    return getUrdfPrefix() + positionSensor()->findSFString("name")->value();
+  if (motor())
+    return getUrdfPrefix() + motor()->deviceName();
+  else if (positionSensor())
+    return getUrdfPrefix() + positionSensor()->deviceName();
   return WbBaseNode::urdfName();
 }
 
@@ -322,7 +324,7 @@ void WbJoint::writeExport(WbVrmlWriter &writer) const {
     writer.indent();
     writer << QString("<child link=\"%1\"/>\n").arg(solidEndPoint()->urdfName());
     writer.indent();
-    writer << QString("<axis xyz=\"%1\"/>\n").arg(rotationAxis.toString(WbPrecision::DOUBLE_MAX));
+    writer << QString("<axis xyz=\"%1\"/>\n").arg(rotationAxis.toString(WbPrecision::FLOAT_MAX));
     writer.indent();
 
     if (m) {
@@ -337,8 +339,8 @@ void WbJoint::writeExport(WbVrmlWriter &writer) const {
       writer.indent();
     }
     writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
-                .arg(translation.toString(WbPrecision::DOUBLE_MAX))
-                .arg(rotationEuler.toString(WbPrecision::DOUBLE_MAX));
+                .arg(translation.toString(WbPrecision::FLOAT_MAX))
+                .arg(rotationEuler.toString(WbPrecision::FLOAT_MAX));
     writer.decreaseIndent();
 
     writer.indent();

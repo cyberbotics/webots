@@ -242,6 +242,8 @@ function addDynamicAnchorEvent(el) {
     return;
   el.addEventListener('click',
     function(event) {
+      if (event.ctrlKey)
+        return;
       var node = event.target;
       while (node && !node.hasAttribute('href'))
         node = node.getParent();
@@ -261,6 +263,8 @@ function addDynamicLoadEvent(el) {
     return;
   el.addEventListener('click',
     function(event) {
+      if (event.ctrlKey)
+        return;
       aClick(event.target);
       event.preventDefault();
     },
@@ -525,7 +529,7 @@ function createIndex(view) {
 
   // Do not create too small indexes.
   var content = document.querySelector('#content');
-  if ((content.offsetHeight < 2 * window.innerHeight || headings.length < 4) && localSetup.book !== 'discord')
+  if ((content.offsetHeight < 2 * window.innerHeight || headings.length < 4) && (localSetup.book !== 'discord' || headings.length < 2))
     return;
 
   var level = parseInt(headings[0].tagName[1]) + 1; // current heading level.
