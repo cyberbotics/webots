@@ -402,7 +402,10 @@ WrTexture2d *WbWrenTextureOverlay::createForegroundTexture() {
   wr_texture_set_size(WR_TEXTURE(texture2d), mWidth, mHeight);
   wr_texture_set_translucent(WR_TEXTURE(texture2d), true);
   wr_texture_2d_set_data(texture2d, NULL);
+  // make context active to generate immediately the foreground texture name
+  WbWrenOpenGlContext::makeWrenCurrent();
   wr_texture_setup(WR_TEXTURE(texture2d));
+  WbWrenOpenGlContext::doneWren();
 
   mWrenForegroundTexture = WR_TEXTURE(texture2d);
   wr_overlay_set_foreground_texture(mWrenOverlay, mWrenForegroundTexture);
