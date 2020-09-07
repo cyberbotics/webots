@@ -474,7 +474,7 @@ void wbu_default_robot_window_configure() {
   free_buffer();
 }
 
-static void append_rescaled_image_to_buffer(GImage *img, int new_width, int new_height, float max_range) {
+static void append_rescaled_image_to_buffer_and_free_data(GImage *img, int new_width, int new_height, float max_range) {
   unsigned char *jpeg_data = NULL;
   char *base64_data = NULL;
 
@@ -546,7 +546,7 @@ static void camera_update(WbDeviceTag tag) {
   img.failed = 0;
   img.flipped = 0;
 
-  append_rescaled_image_to_buffer(&img, new_width, new_height, 0.0f);
+  append_rescaled_image_to_buffer_and_free_data(&img, new_width, new_height, 0.0f);
 
   free(img.data);
 }
@@ -584,7 +584,7 @@ static void lidar_update(WbDeviceTag tag) {
   img.failed = 0;
   img.flipped = 0;
 
-  append_rescaled_image_to_buffer(&img, new_width, new_height, wb_lidar_get_max_range(tag));
+  append_rescaled_image_to_buffer_and_free_data(&img, new_width, new_height, wb_lidar_get_max_range(tag));
 
   free(img.data);  // make sure to free the generated image after rescale and not the shared memory pointer
 }
@@ -625,7 +625,7 @@ static void range_finder_update(WbDeviceTag tag) {
   img.failed = 0;
   img.flipped = 0;
 
-  append_rescaled_image_to_buffer(&img, new_width, new_height, wb_range_finder_get_max_range(tag));
+  append_rescaled_image_to_buffer_and_free_data(&img, new_width, new_height, wb_range_finder_get_max_range(tag));
 
   free(img.data);  // make sure to free the generated image after rescale and not the shared memory pointer
 }
