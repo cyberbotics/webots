@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "WbHingeJointParameters.hpp"
+
 void WbHingeJointParameters::init(bool fromDeprecatedHinge2JointParameters) {
   mAnchor = findSFVector3("anchor");
   mSuspensionSpringConstant = findSFDouble("suspensionSpringConstant");

@@ -15,7 +15,6 @@
 #include "WbJoint.hpp"
 
 #include "WbBrake.hpp"
-#include "WbHingeJointParameters.hpp"
 #include "WbJointParameters.hpp"
 #include "WbMotor.hpp"
 #include "WbNodeUtilities.hpp"
