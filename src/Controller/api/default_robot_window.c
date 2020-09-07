@@ -506,6 +506,8 @@ static void append_rescaled_image_to_buffer_and_free_data(GImage *img, int new_w
   // 5. Cleanup
   free(jpeg_data);
   free(base64_data);
+  free(img->data);
+  img->data = NULL;
 }
 
 // Device update functions.
@@ -547,8 +549,6 @@ static void camera_update(WbDeviceTag tag) {
   img.flipped = 0;
 
   append_rescaled_image_to_buffer_and_free_data(&img, new_width, new_height, 0.0f);
-
-  free(img.data);
 }
 
 static void lidar_update(WbDeviceTag tag) {
@@ -585,8 +585,6 @@ static void lidar_update(WbDeviceTag tag) {
   img.flipped = 0;
 
   append_rescaled_image_to_buffer_and_free_data(&img, new_width, new_height, wb_lidar_get_max_range(tag));
-
-  free(img.data);  // make sure to free the generated image after rescale and not the shared memory pointer
 }
 
 static void range_finder_update(WbDeviceTag tag) {
@@ -626,8 +624,6 @@ static void range_finder_update(WbDeviceTag tag) {
   img.flipped = 0;
 
   append_rescaled_image_to_buffer_and_free_data(&img, new_width, new_height, wb_range_finder_get_max_range(tag));
-
-  free(img.data);  // make sure to free the generated image after rescale and not the shared memory pointer
 }
 
 static void accelerometer_collect_value(WbDeviceTag tag, struct UpdateElement *ue, double update_time) {
