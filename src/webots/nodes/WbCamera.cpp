@@ -758,6 +758,8 @@ void WbCamera::createWrenCamera() {
 void WbCamera::createWrenOverlay() {
   WbAbstractCamera::createWrenOverlay();
 
+  // mRecognizedObjectsTexture deleted when creating the WREN overlay
+  assert(recognition() || !mRecognizedObjectsTexture);
   if (recognition()) {
     mRecognizedObjectsTexture = WR_TEXTURE(mOverlay->createForegroundTexture());
     emit foregroundTextureIdUpdated(mOverlay->foregroundTextureGLId());
