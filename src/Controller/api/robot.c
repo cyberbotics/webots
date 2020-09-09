@@ -419,6 +419,21 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
       free(robot.model);
       robot.model = request_read_string(r);
       break;
+    case C_ROBOT_NEW_DEVICE:
+      n = request_read_uint16(r);
+      robot.device = realloc(robot.device, sizeof(WbDevice *) * (robot.n_device + n));
+      if (!robot.device) {
+        fprintf(stderr, "Error initializing the new device: not enough memory.\n");
+        exit(EXIT_FAILURE);
+      }
+      for (int i = 0; i < n; i++) {
+        robot.device[robot.n_device] = malloc(sizeof(WbDevice));
+        robot.device[robot.n_device]->node = request_read_uint16(r);
+        robot.device[robot.n_device]->name = request_read_string(r);
+        robot.device[robot.n_device]->model = request_read_string(r);
+        wb_device_init(robot.device[robot.n_device]);  // set device specific fields (read_answer and device_data)
+        robot.n_device++;
+      }
     case C_ROBOT_WINDOW_SHOW:
       robot.show_window = true;
       break;
