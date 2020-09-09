@@ -167,7 +167,7 @@ xvfb-run webots --stdout --stderr --batch --mode=realtime /path/to/your/world/fi
 ##### Run Webots in Docker with GPU Acceleration
 
 GPU acceleration is required to run Webots with graphical user interface.
-To run GPU accelerated docker containers, the `nvidia-docker2` package need to be installed.
+To run GPU accelerated docker containers, the `nvidia-docker2` package needs to be installed.
 Please follow the [official instructions](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) to install it.
 
 > **Note**: GPU accelerated docker containers will work only with recent NVIDIA drivers and Docker version (see the complete list of requirements [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#pre-requisites).
