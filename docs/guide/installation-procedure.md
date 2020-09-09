@@ -140,7 +140,7 @@ The chapter entitled [running extern robot controllers](running-extern-robot-con
 
 A [Docker](https://www.docker.com) image of Webots based on Ubuntu 18.04 is available on [dockerhub](https://hub.docker.com/r/cyberbotics/webots).
 
-This image can be used to use Webots in your continuous-integration (CI) workflow without requiring any graphical user interface or to get a clean and sandboxed environment with Webots pre-installed including GPU accelerated graphical user interface.
+This image can be used to run Webots in your continuous integration (CI) workflow without requiring any graphical user interface or to get a clean and sandboxed environment with Webots pre-installed including GPU accelerated graphical user interface.
 
 ##### Install Docker
 
@@ -162,7 +162,7 @@ After starting the docker container you can start Webots headlessly using xvfb:
 xvfb-run webots --stdout --stderr --batch --mode=realtime /path/to/your/world/file
 ```
 
-> **Note**: Since Webots runs in headless mode, the `--stdout` and `--stderr` arguments are used to redirect these streams from the Webots console to the console in which Webots was started, the `--batch` argument is there to make sure no blocking pop-up window is displayed and the `--mode=realtime` is used to make sure the simulation is not started in pause mode (you might replace `realtime` by `fast`), finally don't forget to specify which simulation you want to run.
+> **Note**: Since Webots runs in headless mode, the `--stdout` and `--stderr` arguments are used to redirect these streams from the Webots console to the console in which Webots was started, the `--batch` argument disables any blocking pop-up window and the `--mode=realtime` makes sure that the simulation is not started in pause mode (you may replace `realtime` by `fast`), finally don't forget to specify which simulation you want to run.
 
 ##### Run Webots in Docker with GPU Acceleration
 
