@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Convert R2020b world file from the NUE to the ENU coordinate system."""
+"""Convert R2020b world file from the EUN (northDirection = '0 0 1') to the NUE coordinate system."""
 
 import math
 import sys
@@ -39,8 +39,9 @@ def convert_to_nue(filename):
     for node in world.content['root']:
         if node['name'] == 'WorldInfo':
             for field in node['fields']:
-                if field['name'] == 'coordinateSystem':
-                    # remove the 'coordinateSystem ENU'
+                if field['name'] == 'northDirection':
+                    assert field['value'] == ['0', '0', '1']
+                    # remove the 'northDirection 0 0 1'
                     del node['fields'][node['fields'].index(field)]
         elif node['name'] not in ['Viewpoint', 'TexturedBackground', 'TexturedBackgroundLight']:
             print('Rotating', node['name'])
@@ -48,12 +49,12 @@ def convert_to_nue(filename):
             for field in node['fields']:
                 if field['name'] in ['rotation']:
                     rotation_found = True
-                    field['value'] = rotation(field['value'], [1, 0, 0, 0.5 * math.pi])
+                    field['value'] = rotation(field['value'], [0, 1, 0, 0.5 * math.pi])
                 elif field['name'] in ['translation']:
-                    field['value'] = [field['value'][0], str(-float(field['value'][2])), field['value'][1]]
+                    field['value'] = [field['value'][2], field['value'][1], str(-float(field['value'][0]))]
             if not rotation_found:
                 node['fields'].append({'name': 'rotation',
-                                       'value': ['1', '0', '0', str(0.5 * math.pi)],
+                                       'value': ['0', '1', '0', str(0.5 * math.pi)],
                                        'type': 'SFRotation'})
     world.save(filename)
 
