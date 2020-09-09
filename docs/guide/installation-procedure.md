@@ -172,7 +172,7 @@ Please follow the [official instructions](https://docs.nvidia.com/datacenter/clo
 
 > **Note**: GPU accelerated docker containers will work only with recent NVIDIA drivers and Docker version (see the complete list of requirements [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#pre-requisites)).
 
-Once this package is installed, you need to enable connection to server X before starting the docker container:
+Once this package is installed, you need to enable connections to the X server before starting the docker container:
 ```
 xhost +local:root > /dev/null 2>&1
 ```
