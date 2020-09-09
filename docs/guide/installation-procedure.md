@@ -170,6 +170,8 @@ GPU acceleration is required to run Webots with graphical user interface.
 To run GPU accelerated docker containers, the `nvidia-docker2` package need to be installed.
 Please follow the [official instructions](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) to install it.
 
+> **Note**: GPU accelerated docker containers will work only with recent NVIDIA drivers and Docker version (see the complete list of requirements [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#pre-requisites).
+
 Once this package is installed, you need to enable connection to server X before starting the docker container:
 ```
 xhost +local:root > /dev/null 2>&1
