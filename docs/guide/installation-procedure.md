@@ -173,7 +173,7 @@ To run Webots with a graphical user interface in a docker container, you need to
 xhost +local:root > /dev/null 2>&1
 ```
 
-> **Note**: If you need to disable connection to the X server, you can do it with the following command: `xhost -local:root > /dev/null 2>&1`.
+> **Note**: If you need to disable connections to the X server, you can do it with the following command: `xhost -local:root > /dev/null 2>&1`.
 
 You can then start the container with the following command:
 ```
