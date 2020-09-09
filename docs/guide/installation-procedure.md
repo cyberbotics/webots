@@ -177,7 +177,7 @@ Once this package is installed, you need to enable connections to the X server b
 xhost +local:root > /dev/null 2>&1
 ```
 
-> **Note**: If you need to disable connection to server X you can do it with the following command: `xhost -local:root > /dev/null 2>&1`.
+> **Note**: If you need to disable connection to the X server, you can do it with the following command: `xhost -local:root > /dev/null 2>&1`.
 
 You can then start the container with the following command:
 ```
