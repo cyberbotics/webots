@@ -164,15 +164,11 @@ xvfb-run webots --stdout --stderr --batch --mode=realtime /path/to/your/world/fi
 
 > **Note**: Since Webots runs in headless mode, the `--stdout` and `--stderr` arguments are used to redirect these streams from the Webots console to the console in which Webots was started, the `--batch` argument disables any blocking pop-up window and the `--mode=realtime` makes sure that the simulation is not started in pause mode (you may replace `realtime` by `fast`), finally don't forget to specify which simulation you want to run.
 
-##### Run Webots in Docker with GPU Acceleration
+##### Run Webots in Docker with GUI 
 
-GPU acceleration is required to run Webots with graphical user interface.
-To run GPU accelerated docker containers, the `nvidia-docker2` package needs to be installed.
-Please follow the [official instructions](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) to install it.
+###### Without GPU Acceleration
 
-> **Note**: GPU accelerated docker containers will work only with recent NVIDIA drivers and Docker version (see the complete list of requirements [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#pre-requisites)).
-
-Once this package is installed, you need to enable connections to the X server before starting the docker container:
+To run Webots with a graphical user interface in a docker container, you need to enable connections to the X server before starting the docker container:
 ```
 xhost +local:root > /dev/null 2>&1
 ```
@@ -181,12 +177,24 @@ xhost +local:root > /dev/null 2>&1
 
 You can then start the container with the following command:
 ```
-docker run --gpus=all -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest /bin/bash
+docker run -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest /bin/bash
 ```
 
 Or if you want to directly launch Webots:
 ```
-docker run --gpus=all -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest webots
+docker run -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest webots
+```
+
+###### With GPU Acceleration
+
+To run GPU accelerated docker containers, the `nvidia-docker2` package needs to be installed.
+Please follow the [official instructions](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) to install it.
+
+> **Note**: GPU accelerated docker containers will work only with recent NVIDIA drivers and Docker versions (see the complete list of requirements [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#pre-requisites)).
+
+Once this package is installed, use the same procedure than without GPU acceleration, but add the `--gpus=all` when starting the docker container:
+```
+docker run --gpus=all -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest /bin/bash
 ```
 
 ##### Troubleshooting
