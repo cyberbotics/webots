@@ -162,7 +162,7 @@ After starting the docker container you can start Webots headlessly using xvfb:
 xvfb-run webots --stdout --stderr --batch --mode=realtime /path/to/your/world/file
 ```
 
-> **Note**: Since Webots runs in headless mode, the `--stdout` and `--stderr` arguments are used to redirect these streams from the Webots console to the console in which Webots was started, the `--batch` argument is there to make sure not blocking pop-up window is displayed and the `--mode=realtime` is used to make sure the simulation is not started in pause mode you might replace `realtime` by `fast`), finally don't forget to specify which simulation you want to run.
+> **Note**: Since Webots runs in headless mode, the `--stdout` and `--stderr` arguments are used to redirect these streams from the Webots console to the console in which Webots was started, the `--batch` argument is there to make sure no blocking pop-up window is displayed and the `--mode=realtime` is used to make sure the simulation is not started in pause mode (you might replace `realtime` by `fast`), finally don't forget to specify which simulation you want to run.
 
 ##### Run Webots in Docker with GPU Acceleration
 
