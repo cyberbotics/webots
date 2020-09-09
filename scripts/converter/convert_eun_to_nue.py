@@ -45,7 +45,7 @@ def convert_to_nue(filename):
                     # remove the 'northDirection 0 0 1'
                     del node['fields'][node['fields'].index(field)]
                 if field['name'] == 'coordinateSystem':
-                    field['value'] == 'NUE'
+                    field['value'] = 'NUE'
                     is_nue = True
             if not is_nue:
                 node['fields'].append({'name': 'coordinateSystem',
