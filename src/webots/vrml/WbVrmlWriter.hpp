@@ -51,7 +51,7 @@ public:
   void writeFieldEnd(bool x3dQuote);
 
   WbVector3 jointOffset() const { return mJointOffset; }
-  void setJointOffset(WbVector3 offset) { mJointOffset = offset; }
+  void setJointOffset(const WbVector3 &offset) { mJointOffset = offset; }
 
   // change current indentation
   void increaseIndent() { mIndent++; }
