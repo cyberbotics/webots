@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.9244648125466844 0.3812671342176207 0.0004274675506317637 5.659198519693561
-  position -0.817698556809651 2.086105061694742 2.9473537985573715
+  orientation 0.9236089235704741 -0.32121948220486557 -0.20919990571945374 5.699539597706397
+  position 0.42331352632666963 2.354696798830847 2.8658361436051814
 }
 Background {
   skyColor [
@@ -77,6 +77,20 @@ Tiago++ {
     "tiago"
   ]
   cameraSlot [
+    TestSuiteEmitter {
+    }
+  ]
+}
+P-Rob3 {
+  translation 0 1.89645e-06 -0.94
+  rotation 1 0 0 -1.5707953071795862
+  controller "robot_urdf"
+  controllerArgs [
+    "prob3"
+  ]
+  toolSlot [
+    DEF GRIPPER P-Grip {
+    }
     TestSuiteEmitter {
     }
   ]
