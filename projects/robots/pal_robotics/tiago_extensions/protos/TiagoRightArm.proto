@@ -616,7 +616,7 @@ PROTO TiagoRightArm [
                                         ]
                                         name "arm_right_6_link"
                                         boundingObject Transform {
-                                          translation 0.0409 0 0
+                                          translation -0.0409 0 0
                                           rotation 0 0 -1 1.5708
                                           children [
                                             Cylinder {
