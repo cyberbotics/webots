@@ -248,15 +248,15 @@
       </geometry>
     </collision>
   </link>
-  <link name="link_base_tcp180_66015">
+  <link name="link_base_tcp180_50255">
     <visual>
-      <origin xyz="0 0 0.04675" rpy="1.5707963 0 0"/>
+      <origin xyz="0 0 0.04675" rpy="0 0 0"/>
       <geometry>
         <sphere radius="0.08"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0.04675" rpy="1.5707963 0 0"/>
+      <origin xyz="0 0 0.04675" rpy="0 0 0"/>
       <geometry>
         <sphere radius="0.08"/>
       </geometry>
@@ -274,19 +274,19 @@
       </geometry>
     </collision>
   </link>
-  <joint name="link_6_top_link_base_tcp180_66015_joint" type="fixed">
+  <joint name="link_6_top_link_base_tcp180_50255_joint" type="fixed">
     <parent link="link_6_top"/>
-    <child link="link_base_tcp180_66015"/>
-    <origin xyz="0 0 0.07775" rpy="0 0 0"/>
+    <child link="link_base_tcp180_50255"/>
+    <origin xyz="0 0 0.0985" rpy="0 0 0"/>
   </joint>
   <joint name="7 left" type="revolute">
-    <parent link="link_base_tcp180_66015"/>
-    <child link="left finger_66100"/>
+    <parent link="link_base_tcp180_50255"/>
+    <child link="left finger_50340"/>
     <axis xyz="-1 -2.614661e-06 4.528642e-07"/>
     <limit effort="5.44164" lower="0" upper="1.0472" velocity="1.0472"/>
-    <origin xyz="0 0 0.07875" rpy="0.3430009 4.528642e-07 3.14159"/>
+    <origin xyz="0 0 0.058" rpy="0.3430009 4.528642e-07 3.14159"/>
   </joint>
-  <link name="left finger_66100">
+  <link name="left finger_50340">
     <visual>
       <origin xyz="0 0.0437334 0.0442707" rpy="-0.2879853 0 0"/>
       <geometry>
@@ -373,13 +373,13 @@
     </collision>
   </link>
   <joint name="7" type="revolute">
-    <parent link="link_base_tcp180_66015"/>
-    <child link="right finger_66052"/>
+    <parent link="link_base_tcp180_50255"/>
+    <child link="right finger_50292"/>
     <axis xyz="-1 0 0"/>
     <limit effort="5.44164" lower="0" upper="1.0472" velocity="1.0472"/>
     <origin xyz="0 0 0.058" rpy="0.343 0 0"/>
   </joint>
-  <link name="right finger_66052">
+  <link name="right finger_50292">
     <visual>
       <origin xyz="0 0.0437334 0.0442707" rpy="-0.2879853 0 0"/>
       <geometry>
