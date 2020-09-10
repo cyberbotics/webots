@@ -58,7 +58,10 @@ void WbWorldInfo::init(const WbVersion *version) {
     const WbSFVector3 *const northDirection = findSFVector3("northDirection");
     if (northDirection->value() == WbVector3(1.0, 0.0, 0.0))
       northDirectionField->reset();
-    else if (!northDirectionField->isDefault())
+    else if (northDirection->value() == WbVector3(0.0, 0.0, 1.0)) {
+      northDirectionField->reset();
+      mCoordinateSystem->setValue("EUN");
+    } else if (!northDirectionField->isDefault())
       parsingWarn(tr("The 'northDirection' field is deprecated, according to the 'coordinateSystem' field, the north is "
                      "aligned along the x-axis."));
   } else if (!northDirectionField->isDefault())
@@ -311,21 +314,11 @@ void WbWorldInfo::applyToOdeGlobalDamping() {
 
 // Computes an orthonormal basis whose 'yaw unit vector' is the opposite of the normalized gravity vector
 void WbWorldInfo::updateGravityBasis() {
-  if (mCoordinateSystem->value() == "ENU") {
-    mEastVector = WbVector3(1, 0, 0);
-    mNorthVector = WbVector3(0, 1, 0);
-    mUpVector = WbVector3(0, 0, 1);
-    mGravityBasis[X].setXyz(0, 1, 0);
-    mGravityBasis[Y].setXyz(0, 0, 1);
-    mGravityBasis[Z].setXyz(1, 0, 0);
-  } else {  // "NUE"
-    mNorthVector = WbVector3(1, 0, 0);
-    mUpVector = WbVector3(0, 1, 0);
-    mEastVector = WbVector3(0, 0, 1);
-    mGravityBasis[X].setXyz(1, 0, 0);
-    mGravityBasis[Y].setXyz(0, 1, 0);
-    mGravityBasis[Z].setXyz(0, 0, 1);
-  }
+  const QString &system = mCoordinateSystem->value();
+  assert(system.size() == 3);
+  mNorthVector = WbVector3(system[0] == 'N' ? 1 : 0, system[1] == 'N' ? 1 : 0, system[2] == 'N' ? 1 : 0);
+  mEastVector = WbVector3(system[0] == 'E' ? 1 : 0, system[1] == 'E' ? 1 : 0, system[2] == 'E' ? 1 : 0);
+  mUpVector = WbVector3(system[0] == 'U' ? 1 : 0, system[1] == 'U' ? 1 : 0, system[2] == 'U' ? 1 : 0);
   mGravityUnitVector = -mUpVector;
   mGravityVector = mGravityUnitVector * mGravity->value();
 }
