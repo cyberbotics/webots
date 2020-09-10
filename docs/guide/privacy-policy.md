@@ -50,6 +50,5 @@ Unless stated otherwise, the then-current privacy policy applies to all personal
 ### Communications
 
 If you have questions regarding this Privacy Policy, please contact us at info@cyberbotics.com.
-
-
+<br/>
 Latest update: September 10, 2020
