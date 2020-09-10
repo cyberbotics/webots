@@ -61,7 +61,7 @@ WbAboutBox::WbAboutBox(QWidget *parent) : QDialog(parent) {
   description = new QLabel();
   connect(description, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   description->setWordWrap(true);
-  description->setText("<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/giode/privacy-policy'>Privacy Policy</a>");
+  description->setText("<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/privacy-policy'>Privacy Policy</a>");
   secondRowLayout->addWidget(description, 1, 2, 1, 1, Qt::AlignBottom | Qt::AlignCenter);
 
   layout->addLayout(firstRowLayout);
