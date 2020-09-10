@@ -32,7 +32,7 @@ Cyberbotics S.à.r.l retains your personal information only for as long as neces
 
 ### Rights of the Users
 
-Users have the right, at any time, to request access, rectification and erasure of your personal information
+You have the right, at any time, to request access, rectification and erasure of your personal information.
 In addition, you have the right to withdraw your consent, without this affecting the lawfulness of processing based on consent before its withdrawal.
 To exercise your rights under these provisions, please contact us at the “Communications” details below.
 
@@ -40,7 +40,7 @@ To exercise your rights under these provisions, please contact us at the “Comm
 
 Cyberbotics fully understands the importance of privacy and takes all the necessary steps to ensure that all the collected personal data is processed, stored and deleted in a safe and secure way.
 
-### Changes to this Privacy Policy
+### Changes to This Privacy Policy
 
 Cyberbotics reserves the right to make changes to this privacy policy at any time by given notice to its Users on this page.
 It is strongly recommended to check this page often, referring to the date of the last modification listed at the bottom.
