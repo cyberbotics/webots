@@ -386,7 +386,7 @@ PROTO TiagoRightArm [
                               }
                               DEF ARM_RIGHT_5_JOINT HingeJoint {
                                 jointParameters HingeJointParameters {
-                                  anchor -0.162 0.02 0.027
+                                  anchor 0.163 0.02 0.027
                                   dampingConstant 1
                                   staticFriction 1
                                 }
