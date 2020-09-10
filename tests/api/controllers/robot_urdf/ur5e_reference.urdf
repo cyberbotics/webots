@@ -296,11 +296,11 @@
       </geometry>
     </collision>
   </link>
-  <link name="track_362">
+  <link name="track_354">
   </link>
-  <joint name="wrist_3_link_track_362_joint" type="fixed">
+  <joint name="wrist_3_link_track_354_joint" type="fixed">
     <parent link="wrist_3_link"/>
-    <child link="track_362"/>
+    <child link="track_354"/>
     <origin xyz="0 0.1 0" rpy="0 0 0"/>
   </joint>
 </robot>
