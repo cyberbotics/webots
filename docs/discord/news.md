@@ -4,6 +4,20 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
+##### Stefania Pedrazzi [cyberbotics] 09/02/2020 12:09:51
+We are happy to annouce the release of #Webots "R2020b revision 1".
+
+
+
+This maintenance release fixes several issues. In particular we focused on fixing specific issues reported by users and improving the support on macOS. 
+
+
+
+Get it from [https://github.com/cyberbotics/webots/releases/tag/R2020b-rev1](https://github.com/cyberbotics/webots/releases/tag/R2020b-rev1)
+%figure
+![webots_R2020b_rev1.jpg](https://cdn.discordapp.com/attachments/568354695513374730/750688942646362203/webots_R2020b_rev1.jpg)
+%end
+
 ##### Olivier Michel [cyberbotics] 08/17/2020 07:53:07
 Here is a new publication comparing Webots to Gazebo and V-REP, performance wise (use of system resources): [https://arxiv.org/abs/2008.04627](https://arxiv.org/abs/2008.04627).
 

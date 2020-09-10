@@ -1476,16 +1476,38 @@ void WbSceneTree::exportObject() {
     topLevelWidget, tr("Export Webots Object"),
     WbProject::computeBestPathForSaveAs(WbPreferences::instance()->value("Directories/objects").toString() + "/" +
                                         mSelectedItem->node()->modelName() + ".wbo"),
-    tr("Files (*.wbo *.WBO)"));
+    tr("All files(*.wbo *.WBO *.wrl *.WRL *.urdf *.URDF);;Webots object (*.wbo *.WBO);;VRML (*.wrl *.WRL);;URDF (*.urdf "
+       "*.URDF)"));
 
   if (fileName.isEmpty())
     return;
 
-  WbPreferences::instance()->setValue("Directories/objects", QFileInfo(fileName).absolutePath() + "/");
+  const QStringList supportedExtension = QStringList() << ".wbo"
+                                                       << ".wrl"
+                                                       << ".urdf";
+  bool extensionSupported = false;
+  for (int i = 0; i < supportedExtension.size(); ++i) {
+    if (fileName.endsWith(supportedExtension[i], Qt::CaseInsensitive)) {
+      extensionSupported = true;
+      break;
+    }
+  }
+
+  if (!extensionSupported) {
+    WbLog::error(tr("Unsupported '%1' extension.").arg(QFileInfo(fileName).suffix()));
+    return;
+  }
+
+  if (fileName.endsWith("urdf", Qt::CaseInsensitive) && !mSelectedItem->node()->isRobot()) {
+    WbLog::error(tr("URDF exportation available only for Robot nodes."));
+    return;
+  }
 
   QFile file(fileName);
-  if (!file.open(QIODevice::WriteOnly))
+  if (!file.open(QIODevice::WriteOnly)) {
+    WbLog::error(tr("Impossible to write file: '%1'.").arg(fileName) + "\n" + tr("Node exportation failed."));
     return;
+  }
 
   WbNode::enableDefNodeTrackInWrite(true);
   WbVrmlWriter writer(&file, fileName);

@@ -21,9 +21,6 @@ null :=
 space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 
-SERVICE_FILES = $(wildcard include/srv/*.srv)
-SERVICE_HEADERS = $(SERVICE_FILES:include/srv/%.srv=include/webots_ros/%.h)
-
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 ifeq ($(OSTYPE),linux)
@@ -52,13 +49,7 @@ else
  ros_automobile: $(CXX_SOURCES:.cxx=.d)
 endif
 
-$(CXX_SOURCES:.cxx=.d): $(SERVICE_HEADERS) $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include/templateHeader.h $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include/templateRequest.h $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include/templateResponse.h
-
-include/webots_ros/%.h : include/srv/%.srv $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include/templateHeader.h $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include/templateRequest.h $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include/templateResponse.h $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/headersFromSRV.py $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/headersGenerator.py
-	@echo "# generating ROS header" $(notdir $<)
-	$(SILENT)python $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/headersFromSRV.py $< $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include
-
-INCLUDE = -I$(WEBOTS_HOME_PATH)/projects/default/controllers/ros -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include -isystem /opt/ros/$(ROS_DISTRO)/include -Iinclude
+INCLUDE = -I$(WEBOTS_HOME_PATH)/projects/default/controllers/ros -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include -isystem /opt/ros/$(ROS_DISTRO)/include
 LIBRARIES += -lCppDriver -lCppCar -ldriver -lcar
 
 # include ros libraries
@@ -85,8 +76,6 @@ CFLAGS += -Wno-unused-local-typedefs
 # Fix warnings about the 'override' keyword.
 CFLAGS += -std=c++11
 endif
-
-FILES_TO_REMOVE += include/webots_ros
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 endif

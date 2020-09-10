@@ -623,8 +623,8 @@ namespace wren {
       for (int zi = 0; zi < dimensionZ; ++zi) {
         for (int xi = 0; xi < dimensionX; ++xi) {
           mesh->addCoord(glm::vec3(spacingX * xi, heightData[dimensionX * zi + xi], spacingZ * zi));
-          mesh->addTexCoord(glm::vec2(du * xi, dv * (stepsZ - zi)));
-          mesh->addUnwrappedTexCoord(glm::vec2(du * xi, dv * (stepsZ - zi)));
+          mesh->addTexCoord(glm::vec2(du * xi, dv * zi));
+          mesh->addUnwrappedTexCoord(glm::vec2(du * xi, dv * zi));
         }
       }
 

@@ -41,6 +41,10 @@ Shape {
     }
   }
 }
+Shape {
+  geometry PointSet {
+  }
+}
 Robot {
   translation 0 0 4.8
   children [

@@ -44,8 +44,8 @@ armChain = Chain.from_urdf_file(filename)
 # Initialize the arm motors.
 motors = []
 for link in armChain.links:
-    if 'sensor' in link.name:
-        motor = supervisor.getMotor(link.name.replace('sensor', 'motor'))
+    if 'motor' in link.name:
+        motor = supervisor.getMotor(link.name)
         motor.setVelocity(1.0)
         motors.append(motor)
 

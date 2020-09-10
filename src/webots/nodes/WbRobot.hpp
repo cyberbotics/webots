@@ -108,6 +108,8 @@ public:
 
   WbSupervisorUtilities *supervisorUtilities() const { return mSupervisorUtilities; }
 
+  const bool isRobot() const override { return true; };
+
   // energy accessors and setters
   double currentEnergy() const;
   void setCurrentEnergy(double e);
@@ -163,7 +165,6 @@ protected:
   const QString urdfName() const override;
 
   WbKinematicDifferentialWheels *mKinematicDifferentialWheels;
-  const bool isRobot() const override { return true; };
 
 private:
   // user accessible fields
