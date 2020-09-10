@@ -190,7 +190,7 @@ webots.View = class View {
           this.server = new Server(this.url, this, finalizeWorld);
           this.server.connect();
         } else { // url expected form: "ws://cyberbotics1.epfl.ch:80"
-          var httpServerUrl = this.url.replace(/ws/, 'http'); // Serve the texture images. SSL prefix is supported.
+          const httpServerUrl = 'http' + this.url.slice(2); // replace 'ws'/'wss' with 'http'/'https'
           this.stream = new Stream(this.url, this, finalizeWorld);
           TextureLoader.setTexturePathPrefix(httpServerUrl + '/');
           this.stream.connect();
@@ -251,7 +251,8 @@ webots.View = class View {
           });
         }
         pendingRequestsCount++;
-        const url = this.server.httpServerUrl + 'robot_windows/' + windowName + '/' + windowName + '.html ';
+        const baseUrl = this.server ? this.server.httpServerUrl : this.url + '/';
+        const url = baseUrl + 'robot_windows/' + windowName + '/' + windowName + '.html ';
         $.get(url, (data) => {
           function fixSrc(collection, serverUrl) {
             for (let i = 0; i < collection.length; i++) {
