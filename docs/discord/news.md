@@ -4,6 +4,27 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
+##### Soft\_illusion 09/04/2020 17:00:48
+Get it from : [https://youtu.be/xMPyqbtYc\_E](https://youtu.be/xMPyqbtYc_E)
+
+
+3. Code review of the controller ..
+
+
+2. Applications of supervisor API ?
+
+
+1. What is supervisor ?
+
+
+Our latest video is on tutorial of Supervisor API which will answer some questions like :
+
+
+Get it from : [https://www.youtube.com/watch?v=yi4e5FoVWbQ&list=PLt69C9MnPchlWEV5AEhfT2HajlE2SJ55V](https://www.youtube.com/watch?v=yi4e5FoVWbQ&list=PLt69C9MnPchlWEV5AEhfT2HajlE2SJ55V)
+
+
+This is a new tutorial Series on Webots. Kindly take a look it includers step by step tutorials from making a custom robot , using different sensors and implementing different controllers.
+
 ##### Stefania Pedrazzi [cyberbotics] 09/02/2020 12:09:51
 We are happy to annouce the release of #Webots "R2020b revision 1".
 

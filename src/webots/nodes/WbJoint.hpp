@@ -96,8 +96,6 @@ protected slots:
 private:
   WbJoint &operator=(const WbJoint &);  // non copyable
   void init();
-  WbVector3 mAnchor;  // anchor value with coordinates relative to Solid parent's frame; defaults to endPoint translation if
-                      // JointParameters is NULL, to zero if endPoint is NULL.
   virtual void applyToOdeMinAndMaxStop() = 0;
   virtual void applyToOdeAxis() = 0;
 };
