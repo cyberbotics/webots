@@ -21,6 +21,8 @@
 
 #include <QtCore/QTextStream>
 
+#include "WbVector3.hpp"
+
 class QIODevice;
 class WbNode;
 
@@ -47,6 +49,9 @@ public:
   void writeMFEnd(bool empty);
   void writeFieldStart(const QString &name, bool x3dQuote);
   void writeFieldEnd(bool x3dQuote);
+
+  WbVector3 jointOffset() const { return mJointOffset; }
+  void setJointOffset(const WbVector3 &offset) { mJointOffset = offset; }
 
   // change current indentation
   void increaseIndent() { mIndent++; }
@@ -77,6 +82,7 @@ private:
   QHash<QString, QString> mTexturesList;  // this hash represents the list of textures used and their associated filepath
   WbNode *mRootNode;
   bool mIsWritingToFile;
+  WbVector3 mJointOffset;
 };
 
 #endif
