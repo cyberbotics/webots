@@ -1288,11 +1288,18 @@ void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &t
   WbWorld::instance()->setModified();
 
   // first, we need to calculate the orientation of the world as this will be applied to all orbits
-  const WbVector3 defaultUpVector = WbVector3(0, 1, 0);
-  const bool enu = WbWorld::instance()->worldInfo()->coordinateSystem() == "ENU";
-  const WbVector3 upVector = enu ? WbVector3(0, 0, 1) : WbVector3(0, 1, 0);
-  mSpaceQuaternion = enu ? WbQuaternion(defaultUpVector.cross(upVector), upVector.angle(defaultUpVector)) : WbQuaternion();
-  mSpaceQuaternion.normalize();
+  const WbVector3 &defaultUpVector = WbVector3(0, 1, 0);
+  const WbVector3 &gravityUpVector = -WbWorld::instance()->worldInfo()->gravityUnitVector();
+  if (gravityUpVector.dot(defaultUpVector) > 0.9999)
+    // In the case of the gravity vector being the default create the identity quaternion
+    mSpaceQuaternion = WbQuaternion();
+  else if (gravityUpVector.dot(defaultUpVector) < -0.9999)
+    // The gravity vector is the opposite of the default, so our transform is a vertical flip
+    mSpaceQuaternion = WbQuaternion(WbVector3(0, 0, 1), M_PI);
+  else {  // otherwise we can safely get a rotation axis using the cross product of both vectors
+    mSpaceQuaternion = WbQuaternion(defaultUpVector.cross(gravityUpVector), gravityUpVector.angle(defaultUpVector));
+    mSpaceQuaternion.normalize();
+  }
 
   const WbNode *selectedNode = reinterpret_cast<WbNode *>(WbSelection::instance()->selectedNode());
   // for UX reasons, we want the default rotation height just above the floor,

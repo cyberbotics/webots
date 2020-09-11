@@ -52,7 +52,7 @@ IF you didn't already did, I strongly recommend to follow our tutorial (which ex
 `@BoBo73` Unfortunately the motion editor is not available in the latest version of Webots anymore, instead you should use directly motor control: [https://cyberbotics.com/doc/reference/motor#motor-functions](https://cyberbotics.com/doc/reference/motor#motor-functions)
 
 
-`@『DEMÎ』Ghozt (Redsign)` and `@sugus105`, you can export your robot in VRML from SolidWorks and then import this VRML file in Webots directly (not that this will import only the shapes, you will then have to add solids, bounding objects, physics, sensors, etc.). Or import from SolidWorks to Blender and then Blender to Webots, here is an example with Catia (Solidworks works similarly): [https://youtu.be/L0FVsFD2rS4](https://youtu.be/L0FVsFD2rS4)
+`@DEMI Redsign` and `@sugus105`, you can export your robot in VRML from SolidWorks and then import this VRML file in Webots directly (not that this will import only the shapes, you will then have to add solids, bounding objects, physics, sensors, etc.). Or import from SolidWorks to Blender and then Blender to Webots, here is an example with Catia (Solidworks works similarly): [https://youtu.be/L0FVsFD2rS4](https://youtu.be/L0FVsFD2rS4)
 
 
 `@Tahir`, there are many ways to increase the lightning of your scene, have you tried increasing the value of the Background.luminosity field for example?
@@ -35157,4 +35157,1359 @@ very expensive though
 > ohhh... and no i'm not... but I fantasized about it a lot 😄
 
 `@Simon Steinmann` Probably a lot of fun to play around it. But we students aren't allowed to play around with expensive robots.
+
+
+> Also how could I simulate this? The gates and the blade are separate solids!
+
+`@saditya` Anyone who could guide a bit?
+
+##### Stefania Pedrazzi [cyberbotics] 09/02/2020 13:48:31
+> `@saditya` Also how could I simulate this? The gates and the blade are separate solids!
+
+You can model and simulate them as separate solids in Webots as well.
+
+the blade should rotate? Then add a joint as the parent of the blade solid.
+
+##### saditya 09/02/2020 14:01:48
+> You can model and simulate them as separate solids in Webots as well.
+
+> the blade should rotate? Then add a joint as the parent of the blade solid.
+
+`@Stefania Pedrazzi` Yeah only the blade should rotate
+
+
+> You can model and simulate them as separate solids in Webots as well.
+
+> the blade should rotate? Then add a joint as the parent of the blade solid.
+
+`@Stefania Pedrazzi` Is this the right way?
+%figure
+![Selection_058.png](https://cdn.discordapp.com/attachments/565154703139405824/750718070724755537/Selection_058.png)
+%end
+
+##### Stefania Pedrazzi [cyberbotics] 09/02/2020 14:11:14
+You have to add the blade Solid in the joint `endPoint` field if you want to make it move.
+
+Please have a look at our tutorials to better understand how to build models using joints:
+
+[https://www.cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot](https://www.cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot)
+
+The same structure applies also for obstacles and not only for robots
+
+##### Dendrik Rendar 09/02/2020 18:59:24
+Hi All, I'm having trouble importing a VRML2.0 file into my simulation. Its a fairly large (120Mb) file of a CNC machine tool, and I am getting this error several times when it imports: `ERROR: '~/Desktop/Haas Lathe ST10-15_1.wrl':3166555:1: error: Skipped unknown 'Separator' node or PROTO.` Any help would be much appreciated!
+
+
+I guess I could also try the 2020b developer version as well, I just wanted to see if it was something dumb I was doing first 😄
+
+##### Simon Steinmann [Moderator] 09/02/2020 20:58:19
+As the Error says, there is a 'Separator' node in there, that webots doesnt know what it is. You might wanna edit the file and remove it
+
+##### dimple.bhuta 09/03/2020 12:30:19
+Hello,
+
+I need help regarding what to look into for debugging following the webots update
+
+Before the update: [https://youtu.be/Wdj-BNEZcpc](https://youtu.be/Wdj-BNEZcpc)
+
+After the update: [https://youtu.be/oFaf4fxlMnc](https://youtu.be/oFaf4fxlMnc)
+
+
+
+We use ros\_automobile controller in webots and we have PID controller and reference trajectory planner that outputs time, position and orientation for a vehicle, I am not very sure what changed that causing vehicle to go beyound the stop point. I will really appreciate any help. Thank you.
+
+
+the time\_step in the new update I am not sure whether it is causing a problem
+
+
+Also the north direction is replaced
+
+
+northDirection  0 0 1
+
+##### Stefania Pedrazzi [cyberbotics] 09/03/2020 12:44:30
+what did you update?
+
+##### dimple.bhuta 09/03/2020 12:44:32
+i mean its no longer valid
+
+
+so what to use instead of this
+
+
+I had a chat they before yesterday
+
+
+and there is a change ros\_automobile
+
+
+within webots
+
+
+I am asking about that
+
+##### Stefania Pedrazzi [cyberbotics] 09/03/2020 12:46:48
+if you are using the latest webots\_ros packages, then you should probably also upgrade Webots to the latest version R2020b rev1
+
+
+northDirection field has been removed in Webots R2020b
+
+##### dimple.bhuta 09/03/2020 12:52:50
+ok i will try that
+
+
+so the northDirection is it not relevant anymore?
+
+##### Stefania Pedrazzi [cyberbotics] 09/03/2020 12:54:52
+no, in R2020b it has been replaced by the `WorldInfo.coordinateSystem` field. You should just check this field is correctly set.
+
+
+[https://www.cyberbotics.com/doc/reference/worldinfo](https://www.cyberbotics.com/doc/reference/worldinfo)
+
+##### dimple.bhuta 09/03/2020 13:01:09
+ok thank you
+
+##### Stefania Pedrazzi [cyberbotics] 09/03/2020 13:02:06
+you're welcome
+
+##### culurciello 09/03/2020 16:45:55
+hi guys does any of you have a model of a lathe where you can insert a rod into?
+
+##### dimple.bhuta 09/04/2020 05:33:03
+`@Stefania Pedrazzi` thank you by installing the lastest version of webots and making some modifications. I am able to reproduce the controller/ velocity planner properly.
+
+
+However I have one warning (its not affecting in anyway but just for understanding)
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/751314340740857856/unknown.png)
+%end
+
+
+WARNING: EgoInterface (PROTO): Robot.controllerArgs data type changed from SFString to MFString in Webots R2020b. Splitting arguments at space boundaries.
+
+
+This is the warning
+
+
+and following is the proto file that I have written
+
+
+VRML\_SIM R2020a utf8
+
+\# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+
+\# license url: [https://cyberbotics.com/webots\_assets\_license](https://cyberbotics.com/webots_assets_license)
+
+\# tags: static
+
+\# documentation url: [https://www.cyberbotics.com/doc/automobile/sumo-interface](https://www.cyberbotics.com/doc/automobile/sumo-interface)
+
+\# Supervisor interfacing SUMO with Webots
+
+
+
+PROTO EgoInterface [
+
+  field SFString  name                  "ego interface"
+
+  field SFBool    enableEgo             TRUE
+
+  field MFNode    children              []
+
+]
+
+{
+
+  %{
+
+    -- tracks check
+
+    local arguments = ""
+
+    if fields.enableEgo.value == true then
+
+      arguments = arguments .. "--no-enableEgo "
+
+    end
+
+  }%
+
+
+
+  Robot {
+
+    name IS name
+
+    model "Ego vehicle"
+
+    controller "ego\_vehicle"
+
+    controllerArgs %{= '"' .. arguments ..'"' }%
+
+    supervisor TRUE
+
+    synchronization IS synchronization
+
+    children [
+
+      Group {
+
+        children IS children
+
+      }
+
+    ]
+
+  }
+
+
+
+}
+
+
+What should I change to get rid of this warning
+
+##### David Mansolino [cyberbotics] 09/04/2020 06:00:38
+> hi guys does any of you have a model of a lathe where you can insert a rod into?
+
+`@culurciello` unfortunately we don't have it, but you can of course create your own model
+
+
+`@dimple.bhuta`, the 'controllerArgs' field is now a MFString (multiple string field), you should therefore change your PROTO like this to avoid this warning (untested):
+
+```
+VRML_SIM R2020b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# documentation url: https://www.cyberbotics.com/doc/automobile/sumo-interface
+# Supervisor interfacing SUMO with Webots
+
+PROTO EgoInterface [
+  field SFString  name                  "ego interface"
+  field SFBool    enableEgo             TRUE
+  field MFNode    children              []
+]
+{
+  %{
+    local arguments = {}
+    if fields.enableEgo.value == true then
+      table.insert(arguments, "--no-enableEgo")
+    end
+  }%
+
+  Robot {
+    name IS name
+    model "Ego vehicle"
+    controller "ego_vehicle"
+    controllerArgs [
+      %{ for index, value in ipairs(arguments) do }%
+      %{= '"' .. value .. '"\n' }%
+      %{ end }%
+    ]
+    supervisor TRUE
+    synchronization IS synchronization
+    children [
+      Group {
+        children IS children
+      }
+    ]
+  }
+}
+```
+
+##### dimple.bhuta 09/04/2020 06:25:56
+Thank you it works
+
+##### David Mansolino [cyberbotics] 09/04/2020 06:29:16
+You're welcome
+
+##### saditya 09/04/2020 07:20:28
+Is the height of the base box or the joint position that the base comes out of the solid?
+> **Attachment**: [seesawfinal.mp4](https://cdn.discordapp.com/attachments/565154703139405824/751340893767860294/seesawfinal.mp4)
+
+##### Olivier Michel [cyberbotics] 09/04/2020 07:25:55
+You should set a vertical offset to the joint to avoid having the box appearing on the seesaw. Also, the base box would look better if created with a composite object including a horizontal cylinder on the top of the box.
+
+##### saditya 09/04/2020 07:27:13
+> You should set a vertical offset to the joint to avoid having the box appearing on the seesaw. Also, the base box would look better if created with a composite object including a horizontal cylinder on the top of the box.
+
+`@Olivier Michel` Vertical offset how?
+
+
+> You should set a vertical offset to the joint to avoid having the box appearing on the seesaw. Also, the base box would look better if created with a composite object including a horizontal cylinder on the top of the box.
+
+`@Olivier Michel` That's how it is right now. What about the horizontal cylinder thing you mentioned?
+%figure
+![Selection_059.png](https://cdn.discordapp.com/attachments/565154703139405824/751346313093709864/Selection_059.png)
+%end
+
+##### Olivier Michel [cyberbotics] 09/04/2020 07:42:37
+It's a matter of moving the anchor up.
+
+
+The horizontal cylinder is just for cosmetics.
+
+##### saditya 09/04/2020 08:01:45
+> It's a matter of moving the anchor up.
+
+`@Olivier Michel` Alright Thanks! 🙂
+
+##### Bkarso 09/04/2020 09:44:58
+hello,I use webots with ros,when I run the example(roslaunch webots\_ros pioneer3at.launch),it run success,but when I rosrun rviz,there are some problem (the transform between laser and odom ).please tell me how can i do?
+
+##### David Mansolino [cyberbotics] 09/04/2020 09:46:37
+Did you follow the instruction in [http://wiki.ros.org/webots\_ros/Tutorials/Sample%20Simulations#Simulation\_Pionneer\_3\_AT](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations#Simulation_Pionneer_3_AT) ?
+
+##### Bkarso 09/04/2020 09:51:36
+> Did you follow the instruction in [http://wiki.ros.org/webots\_ros/Tutorials/Sample%20Simulations#Simulation\_Pionneer\_3\_AT](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations#Simulation_Pionneer_3_AT) ?
+
+`@David Mansolino` i can't map ,because the time of baselink\_to\_laser is wrong
+
+
+> Did you follow the instruction in [http://wiki.ros.org/webots\_ros/Tutorials/Sample%20Simulations#Simulation\_Pionneer\_3\_AT](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations#Simulation_Pionneer_3_AT) ?
+
+`@David Mansolino`
+%figure
+![6e224832878c5d674f56e4e1c6e9239.jpg](https://cdn.discordapp.com/attachments/565154703139405824/751379352935071744/6e224832878c5d674f56e4e1c6e9239.jpg)
+%end
+
+##### David Mansolino [cyberbotics] 09/04/2020 09:53:22
+did you enabled the 'use\_sim\_time' parameter?
+
+##### Bkarso 09/04/2020 09:53:54
+yes
+
+
+but I must use the sim\_time? I want to use ros time the best
+
+##### David Mansolino [cyberbotics] 09/04/2020 09:56:42
+ok, in that case you should make sure that both are using the ros wall time, and there is no mismatch between the one use by the simulation and the one used by rviz
+
+##### Bkarso 09/04/2020 09:59:10
+how can i make sure the simulation lidarmessage use ros wall time ?
+
+##### David Mansolino [cyberbotics] 09/04/2020 09:59:58
+[https://cyberbotics.com/doc/guide/using-ros#standard-ros-controller](https://cyberbotics.com/doc/guide/using-ros#standard-ros-controller)
+
+Make sure the 'use\_sim\_time' is not set, and the controller argument does not incldue '--clock' and '--use-sim-time'.
+
+##### Bkarso 09/04/2020 10:01:27
+yes,i not set the use\_sim\_time and the arg also not include '--clock' and '--use-sim-time'
+
+##### David Mansolino [cyberbotics] 09/04/2020 10:02:20
+Ok, let me try...
+
+##### Bkarso 09/04/2020 10:04:11
+
+%figure
+![5a12e57320be2dc281fb4c27af1411d.jpg](https://cdn.discordapp.com/attachments/565154703139405824/751382096202694716/5a12e57320be2dc281fb4c27af1411d.jpg)
+%end
+
+
+
+%figure
+![657feb6b9ee22056a3bef5509412759.jpg](https://cdn.discordapp.com/attachments/565154703139405824/751382113164591124/657feb6b9ee22056a3bef5509412759.jpg)
+%end
+
+
+I use R2020b
+
+##### David Mansolino [cyberbotics] 09/04/2020 10:07:25
+I just tried and it works perfectly for me, here are the steps:
+
+1. roslaunch webots\_ros pioneer3at.launch
+
+2. rosrun gmapping slam\_gmapping scan:=/pioneer3at/Sick\_LMS\_291/laser\_scan/layer0 \_xmax:=30 \_xmin:=-30 \_ymax:=30 \_ymin:=-30 \_delta:=0.2
+
+3. rosrun rviz rviz
+
+4. in rviz add the 'LaserScan' visualization and then set the topic to '/pioneer3at/Sick\_LMS\_291/laser\_scan/layer0' and then set the 'Size' to 0.1
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/751382909138501672/unknown.png)
+%end
+
+
+I use R2020b-rev1 with ROS kinetic.
+
+
+If it still doesn't work with this procedure, can you try updating to Webots R2020b-rev1 as we fixed several ROS related issues in this new version of Webots.
+
+##### Bkarso 09/04/2020 10:21:06
+no ok .so I update to R2020-REVL first.
+%figure
+![0e1938b0e2356787c5d49947e4f5ece.jpg](https://cdn.discordapp.com/attachments/565154703139405824/751386352070950932/0e1938b0e2356787c5d49947e4f5ece.jpg)
+%end
+
+##### Lance 09/04/2020 11:07:13
+Hi, I'm migrating the problem I asked in general channel here. I am using a ros controller but could like to use the functionality in the extern controller, to be specific, just the "Robot" class(the line of code that gives my error is "from controller import Robot"). How can I do this? Thank you !
+
+##### David Mansolino [cyberbotics] 09/04/2020 12:00:20
+Hi `@Lance` to use an extern controller in Python, you need set a few environement variables: [https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-os=linux&tab-language=python#environment-variables](https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-os=linux&tab-language=python#environment-variables)
+
+##### Lance 09/04/2020 13:11:33
+this is my runtime.ini file
+%figure
+![Screenshot_from_2020-09-04_09-10-13.png](https://cdn.discordapp.com/attachments/565154703139405824/751429246228103248/Screenshot_from_2020-09-04_09-10-13.png)
+%end
+
+
+this is the output from webots console
+%figure
+![Screenshot_from_2020-09-04_09-10-34.png](https://cdn.discordapp.com/attachments/565154703139405824/751429333792456714/Screenshot_from_2020-09-04_09-10-34.png)
+%end
+
+
+I have set the environment variables, but the still receiving the error
+
+##### Olivier Michel [cyberbotics] 09/04/2020 13:20:37
+The environment variables shouldn't be set in your `runtime.ini` file, but in your system environment.
+
+##### Lance 09/04/2020 14:04:38
+I also added those lines to bashrc file and it produces the same result.
+
+##### Olivier Michel [cyberbotics] 09/04/2020 14:12:08
+Are you sure it is set in your environment? From the Terminal where you launch the controller, can you type `printenv` to check it correct? Also, note that Python Anaconda may not be supported. I would recommend you to use the official Python (from python.org) at least to test.
+
+##### Lance 09/04/2020 14:58:42
+Thank you! I think I have solved the problem now. But here is a new one: when I tried to initialize a ros node in the base controller, it throws an error of "rospkg.common.ResourceNotFound: rosgraph"
+
+
+
+%figure
+![Screenshot_from_2020-09-04_10-59-05.png](https://cdn.discordapp.com/attachments/565154703139405824/751456381936074793/Screenshot_from_2020-09-04_10-59-05.png)
+%end
+
+##### David Mansolino [cyberbotics] 09/04/2020 15:00:48
+Maybe you need to try installing rosgraph: [http://wiki.ros.org/rosgraph](http://wiki.ros.org/rosgraph)
+
+
+Or add it to your PYTHONPATH
+
+##### Lance 09/04/2020 15:12:29
+I have tried in the runtime.ini file adding: PYTHONPATH=$PYTHONPATH:/opt/ros/melodic:/opt/ros/melodic/lib. But it didn't work out, is the correct? thank you!
+
+##### David Mansolino [cyberbotics] 09/04/2020 15:13:34
+Which version of Webots are you using?
+
+##### Simon Steinmann [Moderator] 09/04/2020 15:13:47
+export WEBOTS\_HOME='/home/simon/webots/webots'
+
+export LD\_LIBRARY\_PATH="${LD\_LIBRARY\_PATH}:${WEBOTS\_HOME}/lib/controller"
+
+export PYTHONPATH="${PYTHONPATH}:${WEBOTS\_HOME}/lib/controller/python27"
+
+
+this in .bashrc
+
+
+or in your ini file
+
+##### Lance 09/04/2020 15:14:36
+2020b
+
+##### Simon Steinmann [Moderator] 09/04/2020 15:14:50
+with this line you gotta be careful:
+
+PYTHONPATH="${PYTHONPATH}:${WEBOTS\_HOME}/lib/controller/python27"
+
+
+
+as it now will use python 2.7 for all external controllers
+
+
+gotta switch it back to 
+
+export PYTHONPATH="${WEBOTS\_HOME}/lib/controller/python37:${PYTHONPATH}"
+
+for python 3.7
+
+
+and just have 
+
+source /opt/ros/melodic/setup.bash
+
+below for your ROS setup
+
+##### Lance 09/04/2020 15:16:10
+this is my current ini file
+%figure
+![Screenshot_from_2020-09-04_11-15-20.png](https://cdn.discordapp.com/attachments/565154703139405824/751460607189975120/Screenshot_from_2020-09-04_11-15-20.png)
+%end
+
+##### Simon Steinmann [Moderator] 09/04/2020 15:17:48
+did you edit your .bashrc?
+
+##### Lance 09/04/2020 15:22:02
+Nope. I am trying to run "rospy.init\_node("scout")" in the base controller, not in the terminal
+
+##### David Mansolino [cyberbotics] 09/04/2020 15:23:24
+I am sorry to as the question again, but are you using regular or extern controller (i.e. are you launching the controller yourself from the terminal or is Webots launching the controller itself)?
+
+##### Lance 09/04/2020 15:24:51
+regular controller, webots launching the controller
+
+##### David Mansolino [cyberbotics] 09/04/2020 15:26:18
+Ok, in that case the runtime.ini makes sense
+
+##### Zuxin 09/04/2020 15:27:35
+Should we add PYTHONPATH under the [environment variables] tab or the [environment variables with paths] tab?
+
+##### David Mansolino [cyberbotics] 09/04/2020 15:28:20
+the problem may also be the fact that you are using python3 and ros melodic is using python2.
+
+
+'environment variables with paths' should be fine
+
+##### Lance 09/04/2020 15:30:37
+That sounds right.. I have met a lot of issues with ros being in python 2. Is there a solution to this?
+
+##### Olivier Michel [cyberbotics] 09/04/2020 15:32:49
+You should either use Python 2 with melodic or switch to noetic and use Python 3...
+
+##### Lance 09/04/2020 15:49:32
+Okay, thanks for the help!!
+
+##### bondolo 09/04/2020 17:01:10
+I am converting some R2020a-rev1 and earlier webots worlds to R2020b. Is it sufficient to just text replace 'northDirection 0 0 1' with 'coordinateSystem "NEU"'?
+
+##### Bkarso 09/05/2020 03:42:07
+hello,help me please!      I find that the actual direction is inconsistent with that in rviz. It is mirrored. so how can i change the tf ?             I use 2020b rev1 -kinetic
+%figure
+![bbb29a09b336945529cdda63b494b05.png](https://cdn.discordapp.com/attachments/565154703139405824/751648332241174548/bbb29a09b336945529cdda63b494b05.png)
+%end
+
+
+> hello,help me please!      I find that the actual direction is inconsistent with that in rviz. It is mirrored. so how can i change the tf ?             I use 2020b rev1 -kinetic
+
+`@Bkarso` It's also mirrored after mapping.
+%figure
+![b5167517f34f8aeb318d26ba0574d3b.jpg](https://cdn.discordapp.com/attachments/565154703139405824/751683771413299220/b5167517f34f8aeb318d26ba0574d3b.jpg)
+%end
+
+##### ContrastNull 09/05/2020 07:38:56
+I wanted the two moving rods to get attached with the top part.  I tried clubbing them together using `transform`, but could not figure out. The problem here is the two rods are already transform nodes of `endpoints` of two separate `HingeJoints`. Also, after this is done, where should I use `BallJoint` so that the top will be able to move, being ball-jointly attached with the central rod? Please any workaround??
+> **Attachment**: [newtable.mp4](https://cdn.discordapp.com/attachments/565154703139405824/751707931170439248/newtable.mp4)
+
+##### Simon Steinmann [Moderator] 09/05/2020 10:43:26
+`@Bkarso` it really depends on your reference frame and which frames you are publishing. Try setting to base-frame to your robot base and see if that matches.
+
+
+alyo from your screenshot, it looks to be correct if you look from the other side (below). There might be just an axis flip
+
+
+`@ContrastNull` You definetely need joints for a connection.  Am I correct in the assumption, that you want the top 'table' to turn clockwise and anticlockwise (when looking at it from above)?.  If so, you have to keep in mind, that the top and bottom part would not stay parallel, as the two rods have a fixed length. Generally you want each solid part  to be a 'Solid' node (which can be be multiple parts, but moving as one). And then connect them with joints. Joints already give you a enpoint Solid. Simply put all parts of that solid, into its children, and then add another joint to its children. Also, for a part to stay attached, it needs a physics node
+
+##### ContrastNull 09/05/2020 12:44:46
+`@Simon Steinmann` , thanks for your reply.
+
+I understand what you said about joints, but I could not do so, because I have already declared the top part to be endpoint of a BallJoint node.
+
+I don't see how should I club together different joints.
+
+By the way, I want the top to move like a sea surface, not clockwise technically.
+
+##### Simon Steinmann [Moderator] 09/05/2020 12:46:59
+having multiple joint endpoints attached to the same part is difficult. Not sure that is supported. That is a problem in rigid body simulations in general. They calculate kinematic chains, but you close the chain into a loop, if that makes sense
+
+
+I have dealt with this in grippers before, like this one: [https://assets.robotiq.com/website-assets/products/page\_image/bb0e4c86fdb1e8ebee6795cf452773880729b0fed8981fcc65e1a2a5789491bb.png](https://assets.robotiq.com/website-assets/products/page_image/bb0e4c86fdb1e8ebee6795cf452773880729b0fed8981fcc65e1a2a5789491bb.png)
+
+
+the way I made it work, was to have only the inner links actually connected, and to have the others just move in tandem, so it looks right
+
+##### ContrastNull 09/05/2020 12:48:58
+Basically what I want to make is a two DOF table. You might have got it. Do you have any resources for an already made one please?
+
+##### Simon Steinmann [Moderator] 09/05/2020 12:49:22
+I dont
+
+
+however, what you could try is to do it backwards. have the table surface as your base solid, and to have the 3 rods connect to static solids on the ground
+
+
+that might work
+
+##### ContrastNull 09/05/2020 12:51:04
+Sure, thanks for your help. Let me try that out.
+
+##### Simon Steinmann [Moderator] 09/05/2020 12:51:56
+otherwise, only have the middle one connected and use [https://cyberbotics.com/doc/reference/hinge2joint?tab-language=python](https://cyberbotics.com/doc/reference/hinge2joint?tab-language=python)
+
+this with motors. You would have to calculate how everything has to move, but should be fairly simple trigonometry
+
+##### Nakamura 09/05/2020 15:53:35
+I am trying to run the sample used MATLAB scripts as robot controller, but when Webots called the MATLAB .m function, the Matlab Command Window is not responding. I have installed MinGW-w64 C/C++ Compiler to MATLAB, and added MATLAB's bin directories to the path environment variable. Could someone help a bit? Thanks.
+%figure
+![20200905231336.png](https://cdn.discordapp.com/attachments/565154703139405824/751832411859320862/20200905231336.png)
+%end
+
+##### David Mansolino [cyberbotics] 09/07/2020 05:49:54
+> I am converting some R2020a-rev1 and earlier webots worlds to R2020b. Is it sufficient to just text replace 'northDirection 0 0 1' with 'coordinateSystem "NEU"'?
+
+`@bondolo` yes fo r a simple compatibility, but this might change the direction of the north (which is going to be '1 0 0') and this will have impact on the inertial unit, gps and compass.
+
+
+If you really want to 'convert' your wourld, you have to rotate the world completely, we have created a script for doing this: [https://github.com/cyberbotics/webots/pull/2204](https://github.com/cyberbotics/webots/pull/2204)
+
+
+> hello,help me please!      I find that the actual direction is inconsistent with that in rviz. It is mirrored. so how can i change the tf ?             I use 2020b rev1 -kinetic
+
+`@Bkarso` the problem is actually due to the fact that the Webots and RVIZ coordinate systems are not equivalent.
+
+The Webots X-axis becomes -Y in RVIZ.
+
+The Webots Y-axis becomes Z in RVIZ.
+
+The Webots Z-axis becomes -X in RVIZ.
+
+
+`@ContrastNull`, what you are looking for is the SolidReference node ([https://cyberbotics.com/doc/reference/solidreference](https://cyberbotics.com/doc/reference/solidreference)) which allows you to create closed loops.
+
+
+> I am trying to run the sample used MATLAB scripts as robot controller, but when Webots called the MATLAB .m function, the Matlab Command Window is not responding. I have installed MinGW-w64 C/C++ Compiler to MATLAB, and added MATLAB's bin directories to the path environment variable. Could someone help a bit? Thanks.
+
+`@Nakamura`  which version of Webots and Matlab are you using? Are you experiencing this with the sample simulation distributed within Webots? And if yes, which ones?
+
+##### Nakamura 09/07/2020 07:37:57
+`@David Mansolino` Thanks for your reply. Webots version is R2020a revision 1 and MATLAB R2018 a. The first time the program can be run correctly,  but then it became like this.
+
+##### Olivier Michel [cyberbotics] 09/07/2020 07:59:47
+`@Nakamura`: I would recommend you to upgrade to R2020b revision 1 as several MATLAB related bugs have been fixed since Webots R2020a revision 1.
+
+##### teo nik 09/07/2020 12:19:00
+i write i wb\_receiver\_enable(receiver, 64) /is special id  of robot . when i debug says invalid tag..i was wrong with tag ?must set before something?
+
+##### Stefania Pedrazzi [cyberbotics] 09/07/2020 12:21:37
+`@teo nik` `receiver` variable should contain the tag of the Receiver device, i.e. you should get it using the `wb_robot_get_device("your device name")` command
+
+##### teo nik 09/07/2020 12:25:53
+i did it .maybe i must set something before or nomatter
+
+##### Stefania Pedrazzi [cyberbotics] 09/07/2020 12:28:37
+The only instruction that it is required before is to execute `wb_robot_init` (as shown in this tutorial [https://www.cyberbotics.com/doc/guide/tutorial-4-more-about-controllers#program-a-controller](https://www.cyberbotics.com/doc/guide/tutorial-4-more-about-controllers#program-a-controller))
+
+##### teo nik 09/07/2020 12:29:12
+thank you
+
+##### Justin Fisher 09/08/2020 02:37:22
+I've been having trouble getting Python controllers to import any library written by me except for ones I put in the very same folder as the controller itself.  The only example I could find in Webots samples of a Python controller importing local libraries is the sumo controller, which also does it the only way I've managed to get it to work, by putting all the things you want to import right there in the same folder as the controller itself.  The controller documentation suggests that we should be able to locate shared libraries in a libraries folder of the project, but it can't seem to find it there (even with me putting \_\_init\_\_.py files in the folders, which python sometimes wants).  It also doesn't seem able to use relative pathing to path back up from the controller's own folder to find sibling (or cousin) folders.  Is there a way to get shared libraries to work in Python, ideally one that won't be really complicated to walk all my students through too?  (They'll be programming 4 different controllers for 4 different objectives, and it would obviously be suboptimal to have to keep track of 4 duplicate copies of the libraries the 4 controllers will all use.)
+
+##### Bkarso 09/08/2020 03:16:28
+hello,I use 2020b-rev1 with ros(16.04),I want to change the RosInertialUnit.cpp,so i need to build? or is it working after changing?
+
+##### David Mansolino [cyberbotics] 09/08/2020 05:34:56
+> hello,I use 2020b-rev1 with ros(16.04),I want to change the RosInertialUnit.cpp,so i need to build? or is it working after changing?
+
+`@Bkarso` the ros controller is written in C++, so yes you need to compile it.
+
+
+> I've been having trouble getting Python controllers to import any library written by me except for ones I put in the very same folder as the controller itself.  The only example I could find in Webots samples of a Python controller importing local libraries is the sumo controller, which also does it the only way I've managed to get it to work, by putting all the things you want to import right there in the same folder as the controller itself.  The controller documentation suggests that we should be able to locate shared libraries in a libraries folder of the project, but it can't seem to find it there (even with me putting \_\_init\_\_.py files in the folders, which python sometimes wants).  It also doesn't seem able to use relative pathing to path back up from the controller's own folder to find sibling (or cousin) folders.  Is there a way to get shared libraries to work in Python, ideally one that won't be really complicated to walk all my students through too?  (They'll be programming 4 different controllers for 4 different objectives, and it would obviously be suboptimal to have to keep track of 4 duplicate copies of the libraries the 4 controllers will all use.)
+
+`@Justin Fisher` have you tried setting the 'PYTHONPATH' environment variable from a runtime.ini file in the controller folder ([https://cyberbotics.com/doc/guide/controller-programming#environment-variables](https://cyberbotics.com/doc/guide/controller-programming#environment-variables))?
+
+##### Miller 09/08/2020 07:09:32
+`@David Mansolino` Hello David, I have an error as following: Error: wb\_motor\_set\_velocity() called with negative 'velocity' argument in position control mode (0). Do you have any idea what might be causing this issue?
+
+##### David Mansolino [cyberbotics] 09/08/2020 07:10:08
+Hi, are you using a negative velocity?
+
+##### Miller 09/08/2020 07:12:27
+Yes, my intention of using a negative velocity is to make the differential wheel spin counterclockwise
+
+
+I'm using epuck2 model, this happens when I have 10 epucks in the world, however I don't have the issue with 3 epucks
+
+##### Bkarso 09/08/2020 07:13:49
+> `@Bkarso` the ros controller is written in C++, so yes you need to compile it.
+
+`@David Mansolino` hello ,I try to build the current project ,but it warn This operation is not permitted.
+
+
+> `@David Mansolino` hello ,I try to build the current project ,but it warn This operation is not permitted.
+
+`@Bkarso`
+%figure
+![5b6d15187234f9bbb76cddda4b0f21e.jpg](https://cdn.discordapp.com/attachments/565154703139405824/752789172036698132/5b6d15187234f9bbb76cddda4b0f21e.jpg)
+%end
+
+##### David Mansolino [cyberbotics] 09/08/2020 07:15:54
+`@Miller` did you set the target position to infinity?
+
+##### Miller 09/08/2020 07:16:13
+yes
+
+##### David Mansolino [cyberbotics] 09/08/2020 07:16:54
+that's strange, because this warning mention that you are using the position control (i.e. position is not set to infinity)
+
+##### Miller 09/08/2020 07:17:53
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/752789794135998505/unknown.png)
+%end
+
+##### David Mansolino [cyberbotics] 09/08/2020 07:18:13
+I just tried with 10 epucks and it works fine for me.
+
+##### Miller 09/08/2020 07:18:18
+This is the piece of code I used to set it to infinity
+
+##### David Mansolino [cyberbotics] 09/08/2020 07:18:34
+Maybe this service fails for some of the robot
+
+##### Miller 09/08/2020 07:19:01
+Is there any work around to the issue?
+
+##### David Mansolino [cyberbotics] 09/08/2020 07:19:32
+You should proably check the returned value of the service call and make sure it is 'true'
+
+##### Miller 09/08/2020 07:20:47
+Thanks! Will check
+
+##### David Mansolino [cyberbotics] 09/08/2020 07:21:10
+`@Bkarso` you are not allowed to modify the files in the Webots installation folder, you hav first to copy paste the folder of this controller in your local project.
+
+
+`@Miller` you're welcome
+
+##### Bkarso 09/08/2020 07:44:35
+hello ,I copy paste the fold(controller)  in my local project,but when i try to build the current project ,it can't success compile
+%figure
+![bb76efa61bf37d7a74e13c00d1cb835.jpg](https://cdn.discordapp.com/attachments/565154703139405824/752796515994435634/bb76efa61bf37d7a74e13c00d1cb835.jpg)
+%end
+
+##### David Mansolino [cyberbotics] 09/08/2020 07:49:54
+You need to have ROS installed on your computer and to have the 'ROS\_DISTRO' environmental varibale set to compile this controller
+
+##### Bkarso 09/08/2020 07:51:39
+how can i set the environment?
+
+##### David Mansolino [cyberbotics] 09/08/2020 07:52:04
+[https://www.cyberciti.biz/faq/set-environment-variable-linux/](https://www.cyberciti.biz/faq/set-environment-variable-linux/)
+
+
+Or you can define it directly in the Makefile
+
+##### Bkarso 09/08/2020 07:55:02
+if I want to define it in the Makefile ,how can Ido ?
+
+##### David Mansolino [cyberbotics] 09/08/2020 07:55:26
+[https://ftp.gnu.org/old-gnu/Manuals/make-3.79.1/html\_chapter/make\_6.html](https://ftp.gnu.org/old-gnu/Manuals/make-3.79.1/html_chapter/make_6.html)
+
+##### creative 09/08/2020 12:23:26
+`@David Mansolino` hi, David, I set epuck2 supervisor TRUE with an error as following:Error: wb\_motor\_set\_velocity() called with negative 'velocity' argument in position control mode (0). and I set epuck2 supervisor FALSE, no error, but i want to use supervisor. Do you have any idea what might be causing this issue?
+
+##### David Mansolino [cyberbotics] 09/08/2020 12:24:42
+Is this reproducible? The supervisor field should have strigly no impact on this.
+
+##### creative 09/08/2020 12:31:54
+I just discovered this problem, and if 10 robots are copied and do not change their positions, there will be no problem. Once I move 10 robots to the position I want, this problem occurs after restarting Error: wb\_motor\_set\_velocity() called with negative 'velocity' argument in position control mode (0).
+
+##### David Mansolino [cyberbotics] 09/08/2020 12:32:55
+Restarting? The simulation of just the control node?
+
+##### creative 09/08/2020 12:33:30
+yes, I use ros control.
+
+##### anathema 09/08/2020 12:57:20
+hello everyone, i am trying to use he vehicle proto ,when i try to write a controller and include "#include <webots/driver.h> " it gives me error saying file not found. if anyone can tell me where to find it and where to include it . thank you
+
+##### David Mansolino [cyberbotics] 09/08/2020 12:59:01
+The include is the following:
+
+```
+#include <webots/vehicle/driver.h>
+```
+
+##### anathema 09/08/2020 12:59:54
+`@David Mansolino` thank you ill try and let you know.
+
+##### David Mansolino [cyberbotics] 09/08/2020 13:00:02
+You're welcome
+
+
+I just saw that the doc is wrong about this, I am fixing it right now
+
+##### anathema 09/08/2020 13:02:08
+`@David Mansolino`  that worked thanks, what is for the  car library
+
+##### David Mansolino [cyberbotics] 09/08/2020 13:03:20
+it is the same for the car:
+
+```
+#include <webots/vehicle/car.h>
+```
+
+##### anathema 09/08/2020 13:06:00
+`@David Mansolino`  i tried to include a distance sensor in the vehicle  slot of one of the vehicle,but the distance sensor just gives the max value as set in the lookup table. I tried putting the sensor in a robot and i worked so may i know if there is something  i am doing wrong
+
+##### David Mansolino [cyberbotics] 09/08/2020 13:08:12
+Did you change the lookup table of the distance sensor to make sure the range is long enough? Make also sure that the sensor ray does not collide with the car itself
+
+##### anathema 09/08/2020 13:12:08
+ok ill study the look up table again, i think i have not properly understood.. thanks again.
+
+
+can you find if anything is wrong  with the scene tree basically the lookup table values
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/752879163014250577/unknown.png)
+%end
+
+##### David Mansolino [cyberbotics] 09/08/2020 13:15:07
+Yes something is wrong, you set the maxRange to 0.1 meters
+
+
+as a simple test, try setting the second line to '5e03 5e03 0'
+
+##### anathema 09/08/2020 13:17:54
+`@David Mansolino`  thanks now the values are changing, can yo please explain me
+
+##### David Mansolino [cyberbotics] 09/08/2020 13:27:51
+Here is the lookup table description: [https://cyberbotics.com/doc/reference/distancesensor#lookup-table](https://cyberbotics.com/doc/reference/distancesensor#lookup-table)
+
+Let me know if after reading this something is still not clear
+
+##### anathema 09/08/2020 13:28:35
+sure thanks again
+
+##### David Mansolino [cyberbotics] 09/08/2020 13:28:41
+You're welcome
+
+##### owongcho 09/08/2020 14:34:26
+Hello, I am relative new in Webots and need some help with an issue.  I used the ABB IBR 4600 robot from the included inverse\_kinematics example and added an parallel gripper to its hand slot.  So, when I added the x dimension length to the last link of the ikpy module URDFLink (see below) and run it, I don't get an accurate movement to the target location as compared to without the added tool length. Is something else, I need to modify such as the anchor and joint in the proto? URDFLink(
+
+        name="F motor",
+
+        bounds=[-6.98132, 6.98132],
+
+        translation\_vector=[0.125+*0.205*, 0, 0],
+
+        orientation=[0, 0, 0],
+
+        rotation=[1, 0, 0]
+
+##### David Mansolino [cyberbotics] 09/08/2020 14:35:37
+Hi, welcome
+
+
+Which version of Webots are you using?
+
+##### owongcho 09/08/2020 14:38:04
+I am using the R2020b and today I just updated to R2020b revision 1
+
+##### David Mansolino [cyberbotics] 09/08/2020 14:39:26
+Ok, I would recommend trying with the new version of the 'inverse\_kinematic' controller of R2020b-rev1 as this one is creating the kinematic chain automatically from the Webots robot definition
+
+##### owongcho 09/08/2020 14:40:36
+ok. I will try it and will let know. thanks
+
+##### David Mansolino [cyberbotics] 09/08/2020 14:41:00
+You're welcome
+
+##### owongcho 09/08/2020 15:29:04
+Hello David. I am using the new version of the 'inverse\_kinematic' controller (R2020b-rev1) and I would like to know if automated kinematic chain function also consider any end effector attached to the robot? Also, I run I am getting this error (even with the default demo):      
+
+Traceback (most recent call last):
+
+  File "inverse\_kinematics.py", line 71, in <module>
+
+    motors[i].setPosition(ikResults[i + 1])
+
+IndexError: list index out of range
+
+WARNING: 'inverse\_kinematics' controller exited with status: 1.
+
+##### David Mansolino [cyberbotics] 09/08/2020 15:30:57
+Yes, it does take the end effector into account, but the 'name' field of the end-effector has to include the 'motor' keyword, or you will need to adapt this condition: [https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/controllers/inverse\_kinematics/inverse\_kinematics.py#L47](https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/controllers/inverse_kinematics/inverse_kinematics.py#L47)
+
+##### owongcho 09/08/2020 15:54:54
+Could you please verify if the new provided ibr example is correct? because I using and it does not run.  I print the motors variable after the "Initialize the arm motors"  and I am getting an empty list.
+
+##### Simon Steinmann [Moderator] 09/08/2020 15:57:35
+is lbr officially included?
+
+##### owongcho 09/08/2020 15:59:48
+yes
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/752921140887814204/unknown.png)
+%end
+
+##### Simon Steinmann [Moderator] 09/08/2020 16:00:23
+ohh that one. I can give you my solver for it if you want. Or do you want it for a different robot?
+
+##### owongcho 09/08/2020 16:01:34
+I am using the same robot.
+
+##### Simon Steinmann [Moderator] 09/08/2020 16:01:52
+what operating system are you using?
+
+##### owongcho 09/08/2020 16:02:02
+I am using Windows 10
+
+##### Simon Steinmann [Moderator] 09/08/2020 16:04:50
+I think it's not merged into the community projects yet, but try this
+
+
+
+> **Attachment**: [generic\_inverse\_kinematic.zip](https://cdn.discordapp.com/attachments/565154703139405824/752922422310731887/generic_inverse_kinematic.zip)
+
+
+your robot has to be a supervisor, other than that, you just have to enable the controller and it should work
+
+
+if you are interested, I also made a solver using ikfast, which is 100s to 1000s times faster than this. But you would have to compile something for it. I'm not sure how confident you are with that
+
+##### owongcho 09/08/2020 16:17:49
+Thank you. so, to run use it. I just need to assign the "ik\_module" to the robot, right? I am not familiar with ikfast, so is ikfast better than ikpy?
+
+##### Simon Steinmann [Moderator] 09/08/2020 16:18:19
+do you have a project directory?
+
+##### owongcho 09/08/2020 16:18:41
+Yes, I created one
+
+##### Simon Steinmann [Moderator] 09/08/2020 16:18:51
+there should be a controllers folder
+
+
+open that folder and extract my .zip there
+
+
+then any robot in your project can use that controller
+
+
+'generic\_inverse\_kinematics'
+
+
+there is still a few bugs, with robots that have a gripper, but it should work with most robotic arms
+
+
+and yes, ikfast is MUCH faster than ikpy
+
+##### owongcho 09/08/2020 16:25:36
+ok. I did that. Now, if I want to write a script to do some operations, show I use the "ik\_module"?
+
+##### Simon Steinmann [Moderator] 09/08/2020 16:25:46
+yes
+
+##### owongcho 09/08/2020 16:25:50
+I will check ikfast as well
+
+
+thank you
+
+##### Simon Steinmann [Moderator] 09/08/2020 16:26:13
+ikfast is very complicated. it is a solver that you have to compile for each robot specifically
+
+
+And to use it, you have to compile a wrapper
+
+##### owongcho 09/08/2020 16:29:40
+I see. Then for now, I will use the ikpy since I dont have good undestanding of those concepts to make ikfast work
+
+##### Simon Steinmann [Moderator] 09/08/2020 16:30:04
+try to unpack this
+> **Attachment**: [ikfastpy.zip](https://cdn.discordapp.com/attachments/565154703139405824/752928759081992282/ikfastpy.zip)
+
+
+you will need the python packages numpy and Cython
+
+
+if you have those, run 
+
+'python setup.py build\_ext --inplace'
+
+in that directory to compile it. I placed the correct solver in there already for you
+
+
+if that works, I can show you the controller for ikfast
+
+##### David Mansolino [cyberbotics] 09/08/2020 16:39:12
+> Could you please verify if the new provided ibr example is correct? because I using and it does not run.  I print the motors variable after the "Initialize the arm motors"  and I am getting an empty list.
+
+`@owongcho` you are right, sorry I forgot about it, but it is indeed broken in the latest release, please use the latest code from the master branch: [https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/controllers/inverse\_kinematics/inverse\_kinematics.py](https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/controllers/inverse_kinematics/inverse_kinematics.py)
+
+##### owongcho 09/08/2020 16:45:52
+> 
+
+> if you have those, run 
+
+> 'python setup.py build\_ext --inplace'
+
+> in that directory to compile it. I placed the correct solver in there already for you
+
+> `@Simon Steinmann` I followed the instructions:
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/752932734099390657/unknown.png)
+%end
+
+##### Simon Steinmann [Moderator] 09/08/2020 16:47:12
+did you execute the setup file with those arguments?
+
+##### owongcho 09/08/2020 16:47:27
+yes
+
+##### Simon Steinmann [Moderator] 09/08/2020 16:48:00
+i'm not sure how it works on windows.
+
+
+in what did you enter the command?
+
+
+pip install  numpy Cython
+
+
+did you install those?
+
+##### owongcho 09/08/2020 16:50:51
+> pip install  numpy Cython
+
+`@Simon Steinmann` yes
+
+
+so, after I copy the ikfastpy folder to my controller folder, I run the "setup.py"
+
+##### Simon Steinmann [Moderator] 09/08/2020 16:51:26
+no, that has nothing to do with the controller
+
+
+it's a repository, to create a python wrapper for the ikfast solver
+
+
+ikfast61.cpp  
+
+That is the solver for the irb robot. But in order to use it in the controller, you have to compile the python wrapper for it
+
+
+python -m pip install --upgrade setuptools
+
+
+try this
+
+##### owongcho 09/08/2020 16:54:26
+> done
+
+##### Simon Steinmann [Moderator] 09/08/2020 16:54:37
+maybe try:
+
+python setup.py install
+
+##### owongcho 09/08/2020 16:55:33
+I got this: (null): can't open file 'setup.py': [Errno 2] No such file or directory
+
+##### Simon Steinmann [Moderator] 09/08/2020 16:55:50
+then you are in the wrong directory
+
+
+you have to 'cd' into it
+
+##### owongcho 09/08/2020 16:57:48
+I am now in C:\ and still get the error
+
+##### Simon Steinmann [Moderator] 09/08/2020 16:58:04
+you have to be in the ikfastpy directory
+
+
+wherever you put it
+
+##### owongcho 09/08/2020 17:00:27
+I think now I am in the correct directory: running install
+
+running build
+
+running build\_ext
+
+skipping 'ikfastpy.cpp' Cython extension (up-to-date)
+
+building 'ikfastpy' extension
+
+error: Unable to find vcvarsall.bat
+
+##### Simon Steinmann [Moderator] 09/08/2020 17:01:26
+python setup.py build\_ext --inplace
+
+
+try that command
+
+
+if you have errors, google them, I dont really know anything about that
+
+##### owongcho 09/08/2020 17:02:19
+ok I am getting: running build\_ext
+
+skipping 'ikfastpy.cpp' Cython extension (up-to-date)
+
+building 'ikfastpy' extension
+
+error: Unable to find vcvarsall.bat
+
+
+> if you have errors, google them, I dont really know anything about that
+
+`@Simon Steinmann` ok. thanks
+
+##### Simon Steinmann [Moderator] 09/08/2020 17:03:22
+[https://devblogs.microsoft.com/python/unable-to-find-vcvarsall-bat/](https://devblogs.microsoft.com/python/unable-to-find-vcvarsall-bat/)
+
+##### owongcho 09/08/2020 17:32:46
+could not make it work, I will try to fix this error later.
+
+
+> `@owongcho` you are right, sorry I forgot about it, but it is indeed broken in the latest release, please use the latest code from the master branch: [https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/controllers/inverse\_kinematics/inverse\_kinematics.py](https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/controllers/inverse_kinematics/inverse_kinematics.py)
+
+`@David Mansolino` 👍
+
+##### Simon Steinmann [Moderator] 09/08/2020 17:34:09
+sure thing, until then, just use the other controller. How you use both controllers is the same, both include an ik\_module, which you parse the position and rotation of your desired position, and it returns the joint angles
+
+##### owongcho 09/08/2020 17:34:34
+for now, I am going try understand the solver you provided (ikpy) and try to write my own rutine
+
+##### Simon Steinmann [Moderator] 09/08/2020 17:35:48
+the ik\_module you should not have to change, but the high level controller you can change, so it does what you do. The example with the target sphere is just to visualize, how it works
+
+##### owongcho 09/08/2020 17:47:27
+> the ik\_module you should not have to change, but the high level controller you can change, so it does what you do. The example with the target sphere is just to visualize, how it works
+
+`@Simon Steinmann` 👍
+
+
+thank you
+
+##### Simon Steinmann [Moderator] 09/08/2020 17:48:05
+you're welcome
+
+##### LeonardoH 09/08/2020 18:59:40
+hi, i am new to webots2020, how to show up coordinates in pioneer3dx to console?
+
+##### Simon Steinmann [Moderator] 09/08/2020 20:07:20
+can you rephrase your question? I'm not quite sure what you mean
+
+##### David Mansolino [cyberbotics] 09/09/2020 05:50:50
+> hi, i am new to webots2020, how to show up coordinates in pioneer3dx to console?
+
+`@LeonardoH` Are you speaking about printing the gps X-Y-Z position in the console?
+
+##### Justin Fisher 09/09/2020 07:52:53
+> `@Justin Fisher` have you tried setting the 'PYTHONPATH' environment variable from a runtime.ini file in the controller folder ([https://cyberbotics.com/doc/guide/controller-programming#environment-variables](https://cyberbotics.com/doc/guide/controller-programming#environment-variables))?
+
+`@David Mansolino` I tried adding WEBOTS\_LIBRARY\_PATH, PYTHONPATH and PYTHON\_PATH to runtime.ini, but none seemed to do anything.  E.g., requesting sys.path from within the Python controller still revealed only the controller's own directory, not anything like $(WEBOTS\_PROJECT)/libraries, as I'd been trying to add, and as the controller documentation says should be available.
+
+> `@Justin Fisher`  This seems like a solution that only works in certain cases
+
+`@Simon Steinmann` Do you mean only in the case where you want to have your self-written modules be in the "libraries" folder of your project?  Yes, that's right, but that is where Webots docs say you should put them (and Webots requires that controllers be two levels down from top in controllers/controllername/ so that relative path should always be right).  Of course, if you did want to put your Python modules someplace different, it'd be easy enough to change runtime.ini to point there.  Or is there some other sort of case you're worried about?
+
+##### David Mansolino [cyberbotics] 09/09/2020 07:57:35
+In that case you should probably take inspiration from this controller that is doing something very similar: [https://github.com/cyberbotics/webots/tree/master/projects/samples/robotbenchmark/humanoid\_marathon/controllers/marathon](https://github.com/cyberbotics/webots/tree/master/projects/samples/robotbenchmark/humanoid_marathon/controllers/marathon)
+
+Here are the key parts:
+
+[https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/humanoid\_marathon/controllers/marathon/runtime.ini#L4](https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/humanoid_marathon/controllers/marathon/runtime.ini#L4)
+
+[https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/humanoid\_marathon/controllers/marathon/marathon.py#L9-L18](https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/humanoid_marathon/controllers/marathon/marathon.py#L9-L18)
+
+##### Justin Fisher 09/09/2020 07:59:14
+I did eventually find a kludgy way to make it work, by adding the path to sys.path from within Python.  I'll post it here in case it is helpful to anyone, or in case you can foresee a problem with doing it this way.
+
+
+
+```import sys, os.path
+sys.path.append(os.path.normpath( sys.path[0]+'/../../libraries' ))
+```
+
+This seems to work fine, though it does rely upon the controller's own directory being the first entry in sys.path.
+
+##### David Mansolino [cyberbotics] 09/09/2020 08:01:52
+It is indeed very similar to what is done in the controller I pointed out.
+
+
+> This seems to work fine, though it does rely upon the controller's own directory being the first entry in sys.path.
+
+`@Justin Fisher` to make it a bit more robust, you can get the path of the current file with `os.path.abspath(__file__)`.
+
+
+It should then looks something like this:
+
+```Python
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+```
+
+##### Justin Fisher 09/09/2020 08:04:52
+Examples like the one you linked all use paths that place things relative to the Webots installation, whereas I don't think I can be confident that my students will store their projects in any particular place.  Making reference to `__file__` does sound like a good way to get a handle on the local path, so that I can then go relative from there.
+
+
+Any idea why we can't just add this from the runtime ini?  Or why it doesn't just default to being included as the controller documentation seems to suggest it would be?
+
+##### David Mansolino [cyberbotics] 09/09/2020 08:07:01
+No, this looks like a bug, if you can reproduce this in a very simple setup and report it here, we will have a look and try to fix this: [https://github.com/cyberbotics/webots/issues/new?template=bug\_report.md](https://github.com/cyberbotics/webots/issues/new?template=bug_report.md)
+
+##### Justin Fisher 09/09/2020 08:33:32
+In the Robotis example you linked, it seems like the runtime.ini part probably wasn't doing everything we'd hope it to do either, right? 
+
+ Because if it was working, why would that Python code itself need to add something to sys.path?  I thought the point of specifying the path to the libraries in runtime.ini was that so when Webots started the Python controller it would put a path to the libraries directory into Python's sys.path, e.g., by setting PYTHONPATH appropriately just before starting the controller.   (I also expected from the controller docs that it would do this automatically without you even needing to specify it in runtime.ini.)
+
+##### David Mansolino [cyberbotics] 09/09/2020 08:34:35
+Actually this example is a bit more complexe because in addition to the python files, it also need to load a compiled library. But in your case the runtime.ini file is indeed useless
+
+##### Justin Fisher 09/09/2020 08:35:13
+And its uselessness is not a bug?
+
+##### David Mansolino [cyberbotics] 09/09/2020 08:36:10
+I am not sure to understand, in the humanoid\_marathon, it is usefull to load the compiled library
+
+##### Justin Fisher 09/09/2020 08:38:07
+I guess it doesn't matter -- I've got a solution that works fine, so no big deal whether it's a sys.path modification at the top of the Python controller rather than in runtime.ini    .  I guess if this needs to be done at the top of the Python controller, it'd be good to make the docs say that.
+
+
+But in case it sounds like I'm complaining, I wanted to say that Webots is awesome, and that it's awesome that you're so helpful!
+
+##### David Mansolino [cyberbotics] 09/09/2020 08:39:07
+> But in case it sounds like I'm complaining, I wanted to say that Webots is awesome, and that it's awesome that you're so helpful!
+
+`@Justin Fisher` thank you 🙂
+
+##### Justin Fisher 09/09/2020 08:40:02
+In fiddling around with this to set up activities for my students, I've made a number of things that might be of interest to more Webots users.
+
+
+E.g., I rewrote the extrusion proto to give more/better options for controlling orientations of cross-sections along the extrusion.
+
+
+And I figured out pretty good ways to use normal maps and some trickery to make water actually look a lot more like water, rather than just looking like semi-transparent boxes like it does in the water demos I saw (e.g., ones with the salamander)
+
+
+Is this the sort of stuff that other people might want?  If so would it make sense to just put pull requests in github, or something else?
+
+##### David Mansolino [cyberbotics] 09/09/2020 08:43:07
+That looks very good, do not hesitate to create a pull-request to integrate this directly into Webots (one the PR is open we will guide you how to integrate your changes if needed), here is for the extrusion for example: [https://github.com/cyberbotics/webots/edit/master/projects/objects/geometries/protos/Extrusion.proto](https://github.com/cyberbotics/webots/edit/master/projects/objects/geometries/protos/Extrusion.proto)
+
+##### Justin Fisher 09/09/2020 08:44:27
+I'll make a mental note to do that sometime then, though now I'm rushing for other deadlines, like getting this Webots project ready for my students!  Thanks again for all your help!
+
+
+Ok, I'm an idiot!  I figured out why the runtime.ini wasn't working for me.  I have two controllers running in the world and I had put runtime.ini in the wrong controller's folder.  Copying it over to the right one's folder works fine, even without my kludgy solution.  Amazing how much time we (or I anyway) end up wasting over the tiniest little mistakes!
+
+##### David Mansolino [cyberbotics] 09/09/2020 08:56:06
+You are re-assuring me, because I was currently trying and for me the runtime.ini file was working perfectly 😅
+
+##### Justin Fisher 09/09/2020 08:57:07
+Oh sorry to have wasted your time.  Thanks again for the help!
+
+##### David Mansolino [cyberbotics] 09/09/2020 08:57:20
+No problem, you're welcome
+
+##### Justin Fisher 09/09/2020 09:05:01
+So, in case anyone stumbles across this later, it looks like the easy key to be able to get a Python controller to be able to import self-written python modules from the Webots project libraries folder is to put `PYTHONPATH = $(PYTHONPATH):../../libraries` in the `[environmental variables with paths]` section of `runtime.ini` in that controller's own folder.
+
+I think I would suggest having Webots do this automatically, or at least making the wizard that creates a dummy Python controller do this automatically.  That would better fit with the documentation.
+
+##### Simon Steinmann [Moderator] 09/09/2020 09:57:48
+> `PYTHONPATH = $(PYTHONPATH):../../libraries` 
+
+`@Justin Fisher`  This seems like a solution that only works in certain cases
+
+##### anathema 09/09/2020 09:58:14
+hi, i have a simple question. i just closed the camera view, how can i get it back
+
+##### David Mansolino [cyberbotics] 09/09/2020 09:58:52
+From the 'Overlays' menu
+
+##### anathema 09/09/2020 09:59:12
+thanks as always
+
+##### LeonardoH 09/09/2020 10:21:28
+> `@LeonardoH` Are you speaking about printing the gps X-Y-Z position in the console?
+
+`@David Mansolino` yes, can you help me with that?
+
+##### David Mansolino [cyberbotics] 09/09/2020 10:22:54
+You need to add a gps node in the `extensionSlot` field of the robot, then you can enable it and get the value like with any other sensors
+
+
+If not already done, i woudl recommend following at least tutorials 1 to 4: [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials)
+
+##### Simon Steinmann [Moderator] 09/09/2020 11:44:59
+can hidden positions be implemented directly into the proto file? Setting the position field in the HingJoint node, does not actually do anything
+
+##### Çağrı Kaymak 09/09/2020 11:47:15
+Hey everyone, I have a Robotis-Op2. When I upload the Walk.cpp controller to the robot, the robot can walk stably. However, when I create my own controller using Python, the robot cannot walk stably and falls. Both controllers use GaitManager. What kind of problem could it be, Anyone have any ideas? Thanks in advance.
+
+##### Justin Fisher 09/09/2020 12:09:06
+> `@Justin Fisher`  This seems like a solution that only works in certain cases
+
+`@Simon Steinmann` What sort of cases are you worried about?  Webots docs say you should put shared libraries for your controllers in a libraries folder at the top level of the project, and this relative path from controllers/controllername/ should always get there, right?
+
+##### Simon Steinmann [Moderator] 09/09/2020 12:10:36
+Sorry, I did not read the whole thread. I thought it was about connecting extern controllers to webots
+
+##### Justin Fisher 09/09/2020 12:12:37
+Just a tiny question:  does anyone know why my distance sensor rays disappear whenever I hit "reset simulation" even though their checkbox still shows as being checked in the view menu?  They show up again if I reload world, or turn them off and on again in the view menu or by hitting CTRL-F10 twice.
+
+
+And another tiny question:  is it "web bots" or "wee bots"?
+
+##### Olivier Michel [cyberbotics] 09/09/2020 12:15:15
+`@Çağrı Kaymak`: please have a look at `webots/projects/samples/robotbenchmark/humanoid_marathon/controllers/marathon/marathon.py`([https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/humanoid\_marathon/controllers/marathon/marathon.py](https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/humanoid_marathon/controllers/marathon/marathon.py)) and associated `runtime.ini`([https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/humanoid\_marathon/controllers/marathon/runtime.ini](https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/humanoid_marathon/controllers/marathon/runtime.ini)) for an example of working Robotis-op2 walking using GaitManager in Python.
+
+
+It could be that the GaitMananger library was not compiled or not properly compiled on your real robot.
+
+##### Çağrı Kaymak 09/09/2020 12:24:26
+Many thanks 👍
+
+##### David Mansolino [cyberbotics] 09/09/2020 12:24:36
+> can hidden positions be implemented directly into the proto file? Setting the position field in the HingJoint node, does not actually do anything
+
+`@Simon Steinmann` yes this is possible.
+
+##### Simon Steinmann [Moderator] 09/09/2020 12:25:26
+how? because I think I came across a more fundamental bug when converting from urdf
+
+##### David Mansolino [cyberbotics] 09/09/2020 12:26:00
+> Just a tiny question:  does anyone know why my distance sensor rays disappear whenever I hit "reset simulation" even though their checkbox still shows as being checked in the view menu?  They show up again if I reload world, or turn them off and on again in the view menu or by hitting CTRL-F10 twice.
+
+`@Justin Fisher` that's a bug (well spotted) we will fix this for the next version of Webots.
+
+##### Olivier Michel [cyberbotics] 09/09/2020 12:31:30
+`@Justin Fisher`: the original name was based on "web bots" as the plan was to deploy robot simulations in a web of 3D environments (connected to each other with hyper gates, similar to hyper links). But since the release of the "I, Robot" movie, "we, bots" also became interesting... So, it's really the way you prefer.
+
+##### David Mansolino [cyberbotics] 09/09/2020 12:32:19
+> that's a bug (well spotted) we will fix this for the next version of Webots.
+
+
+
+`@Justin Fisher`  I created a bug report about this, you can check the progress here: [https://github.com/cyberbotics/webots/issues/2221](https://github.com/cyberbotics/webots/issues/2221)
+
+##### Simon Steinmann [Moderator] 09/09/2020 12:33:22
+`@David Mansolino` how can i implement the hidden positions into the proto? Basically I want to set the init position of a robot.
+
+##### David Mansolino [cyberbotics] 09/09/2020 12:33:59
+I think you can use them like any other regular field.
+
+##### Simon Steinmann [Moderator] 09/09/2020 12:34:16
+ah okay, lemme try
+
+
+where exactly do I place this field in the proto?
+
+##### David Mansolino [cyberbotics] 09/09/2020 12:42:06
+I would say that it should be at the same location than the one in the world file
+
+##### Simon Steinmann [Moderator] 09/09/2020 12:43:53
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/753234223913238568/unknown.png)
+%end
+
+
+it just looks like this
+
+
+I think I rather add a '--init-pos' feature to the converter
+
+##### David Mansolino [cyberbotics] 09/09/2020 12:54:18
+Yes that's probably simpler indeed
 

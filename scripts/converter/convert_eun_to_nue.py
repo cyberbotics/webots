@@ -38,11 +38,19 @@ def convert_to_nue(filename):
 
     for node in world.content['root']:
         if node['name'] == 'WorldInfo':
+            is_nue = False
             for field in node['fields']:
                 if field['name'] == 'northDirection':
                     assert field['value'] == ['0', '0', '1']
                     # remove the 'northDirection 0 0 1'
                     del node['fields'][node['fields'].index(field)]
+                if field['name'] == 'coordinateSystem':
+                    field['value'] = 'NUE'
+                    is_nue = True
+            if not is_nue:
+                node['fields'].append({'name': 'coordinateSystem',
+                                       'value': 'NUE',
+                                       'type': 'SFString'})
         elif node['name'] not in ['Viewpoint', 'TexturedBackground', 'TexturedBackgroundLight']:
             print('Rotating', node['name'])
             rotation_found = False

@@ -136,6 +136,67 @@ To work around this problem, such controllers should be launched as extern contr
 Before launching extern controllers, you should set the `WEBOTS_HOME` environment variable to point to `/snap/webots/current/usr/share/webots` and add `$WEBOTS_HOME/lib` to your `LD_LIBRARY_PATH` environment variable, so that your controllers will find the necessary shared libraries.
 The chapter entitled [running extern robot controllers](running-extern-robot-controllers.md) details how to run extern controllers, including with the snap version of Webots.
 
+#### Installing the Docker Image
+
+A [Docker](https://www.docker.com) image of Webots based on Ubuntu 18.04 is available on [dockerhub](https://hub.docker.com/r/cyberbotics/webots).
+
+This image can be used to run Webots in your continuous integration (CI) workflow without requiring any graphical user interface or to get a clean and sandboxed environment with Webots pre-installed including GPU accelerated graphical user interface.
+
+##### Install Docker
+
+Follow the [Docker installation instructions](https://docs.docker.com/engine/install/#server) to install docker.
+
+##### Run Webots in Docker without GUI
+
+The docker image comes with a X virtual framebuffer (Xvfb) already installed and configured so that you can run Webots in headless mode.
+
+To pull the image and start a docker container with it use the following command:
+```
+docker run -it cyberbotics/webots:latest /bin/bash
+```
+
+> **Note**: If you need a specific version of Webots and not the latest one, replace `latest` with the version you need (e.g. `R2020b-rev1`).
+
+After starting the docker container you can start Webots headlessly using xvfb:
+```
+xvfb-run webots --stdout --stderr --batch --mode=realtime /path/to/your/world/file
+```
+
+> **Note**: Since Webots runs in headless mode, the `--stdout` and `--stderr` arguments are used to redirect these streams from the Webots console to the console in which Webots was started, the `--batch` argument disables any blocking pop-up window and the `--mode=realtime` makes sure that the simulation is not started in pause mode (you may replace `realtime` by `fast`), finally don't forget to specify which simulation you want to run.
+
+##### Run Webots in Docker with GUI 
+
+###### Without GPU Acceleration
+
+To run Webots with a graphical user interface in a docker container, you need to enable connections to the X server before starting the docker container:
+```
+xhost +local:root > /dev/null 2>&1
+```
+
+> **Note**: If you need to disable connections to the X server, you can do it with the following command: `xhost -local:root > /dev/null 2>&1`.
+
+You can then start the container with the following command:
+```
+docker run -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest /bin/bash
+```
+
+Or if you want to directly launch Webots:
+```
+docker run -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest webots
+```
+
+###### With GPU Acceleration
+
+To run GPU accelerated docker containers, the `nvidia-docker2` package needs to be installed.
+Please follow the [official instructions](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) to install it.
+
+> **Note**: GPU accelerated docker containers will work only with recent NVIDIA drivers and Docker versions (see the complete list of requirements [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#pre-requisites)).
+
+Once this package is installed, use the same procedure than without GPU acceleration, but add the `--gpus=all` when starting the docker container:
+```
+docker run --gpus=all -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest /bin/bash
+```
+
 ##### Troubleshooting
 
 On some Linux systems, such as Arch Linux, you may get errors related to `fontconfig` when starting Webots.
