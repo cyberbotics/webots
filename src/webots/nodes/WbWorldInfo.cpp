@@ -52,10 +52,10 @@ void WbWorldInfo::init(const WbVersion *version) {
   mGravity = findSFDouble("gravity");
   mCoordinateSystem = findSFString("coordinateSystem");
   WbField *northDirectionField = findField("northDirection");
+  const WbSFVector3 *const northDirection = findSFVector3("northDirection");
   if (version && *version < WbVersion(2020, 1, 0, true)) {
     mGravity->setValue(WbParser::legacyGravity());
     mCoordinateSystem->setValue("NUE");  // default value for Webots < R2020b
-    const WbSFVector3 *const northDirection = findSFVector3("northDirection");
     if (northDirection->value() == WbVector3(1.0, 0.0, 0.0))
       northDirectionField->reset();
     else if (northDirection->value() == WbVector3(0.0, 0.0, 1.0)) {
