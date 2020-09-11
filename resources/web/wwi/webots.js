@@ -251,7 +251,7 @@ webots.View = class View {
           });
         }
         pendingRequestsCount++;
-        const baseUrl = this.server ? this.server.httpServerUrl : this.url + '/';
+        const baseUrl = this.server ? this.server.httpServerUrl : 'http' + this.url.slice(2) + '/';
         const url = baseUrl + 'robot_windows/' + windowName + '/' + windowName + '.html ';
         $.get(url, (data) => {
           function fixSrc(collection, serverUrl) {
@@ -281,7 +281,7 @@ webots.View = class View {
           }
           let parser = new DOMParser();
           let doc = parser.parseFromString(data, 'text/html');
-          let serverUrl = new URL(this.server.httpServerUrl);
+          let serverUrl = new URL(baseUrl);
           fixSrc(doc.getElementsByTagName('script'), serverUrl);
           fixSrc(doc.getElementsByTagName('img'), serverUrl);
           let links = doc.getElementsByTagName('link');
