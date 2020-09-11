@@ -254,10 +254,26 @@ You can pass this warning and install Webots by clicking on the "More info" link
 
 ### Installation on macOS
 
+#### From the Installation File
+
 1. Download the `webots-{{ webots.version.package }}.dmg` installation file from our [website](https://cyberbotics.com).
 2. Double click on this file.
 This will mount on the desktop a volume named "Webots" containing the "Webots" folder.
 3. Move this folder to your "/Applications" folder or wherever you would like to install Webots.
+
+#### From the Homebrew Package
+
+A [Homebrew package](https://formulae.brew.sh/cask/webots) is available for Webots.
+
+If brew is not already installed on your computer, install it with the following command in a terminal:
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+```
+
+Webots can then be installed with:
+```
+brew cask install webots
+```
 
 ### macOS Security
 
