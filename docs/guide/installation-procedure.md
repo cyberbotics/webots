@@ -146,7 +146,7 @@ This image can be used to run Webots in your continuous integration (CI) workflo
 
 Follow the [Docker installation instructions](https://docs.docker.com/engine/install/#server) to install docker.
 
-##### Run Webots in Docker without GUI
+##### Run Webots in Docker in Headless Mode
 
 The docker image comes with a X virtual framebuffer (Xvfb) already installed and configured so that you can run Webots in headless mode.
 
