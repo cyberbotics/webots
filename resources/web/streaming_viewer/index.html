@@ -11,6 +11,7 @@
     <script src='https://code.jquery.com/ui/1.12.1/jquery-ui.min.js' integrity='sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=' crossorigin='anonymous'></script>
     <script src='https://www.cyberbotics.com/jquery-dialogextend/2.0.4/jquery.dialogextend.min.js'></script>
     <script src='https://cdn.jsdelivr.net/ace/1.2.6/min/ace.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=MML_HTMLorMML"></script>
     <script src='../wwi/dependencies/three.min.js'></script>
     <script src='../wwi/dependencies/loaders/RGBELoader.js'></script>
     <script src='../wwi/dependencies/pmrem/PMREMCubeUVPacker.js'></script>
@@ -58,12 +59,12 @@
         Connect to:
         <input id="IPInput" type="text" value="localhost" />
         :
-        <input id="PortInput" type="text" value="1234" />
-        in mode
-        <select id="mode">
-          <option value="x3d">x3d</option>
-          <option value="mjpeg">mjpeg</option>
+        <input id="PortInput" type="text" value="1234" maxlength="5" size="5"/>
+        mode: <select id="mode">
+          <option value="x3d">X3D</option>
+          <option value="mjpeg">MJPEG</option>
         </select>
+        broadcast: <input id="broadcast" type="checkbox" />
         <input id="ConnectButton" type="button" value="Connect" onclick="connect()" />
       </p>
     </div>
