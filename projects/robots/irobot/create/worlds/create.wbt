@@ -101,20 +101,15 @@ DEF IROBOT_CREATE Create {
 }
 Robot {
   children [
-    Transform {
-      translation 0 0 0
-      children [
-        Shape {
-          appearance Parquetry {
-            textureTransform TextureTransform {
-              scale 7 7
-            }
-          }
-          geometry Plane {
-            size 10 10
-          }
+    Shape {
+      appearance Parquetry {
+        textureTransform TextureTransform {
+          scale 7 7
         }
-      ]
+      }
+      geometry Plane {
+        size 10 10
+      }
     }
     Display {
       translation 0 0.01 0
