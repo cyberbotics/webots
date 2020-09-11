@@ -5,14 +5,15 @@
 # A cap screw with variable radius and length.
 
 PROTO CapScrew [
-  field SFVec3f    translation      0 0 0
-  field SFRotation rotation         0 0 1 0
-  field SFString   name             "cap screw"
-  field SFNode     appearance       OldSteel {}  # Defines the appearance of the screw.
-  field SFFloat    screwRadius      0.006        # Defines the radius of the screw.
-  field SFFloat    screwLength      0.05         # Defines the length of the screw.
-  field SFString   contactMaterial  "default"    # Is `Solid.contactMaterial`.
-  field SFBool     enablePhysics    TRUE         # Defines whether the screw should have physics.
+  field SFVec3f    translation           0 0 0
+  field SFRotation rotation              0 0 1 0
+  field SFString   name                  "cap screw"
+  field SFNode     appearance            OldSteel {}  # Defines the appearance of the screw.
+  field SFFloat    screwRadius           0.006        # Defines the radius of the screw.
+  field SFFloat    screwLength           0.05         # Defines the length of the screw.
+  field SFString   contactMaterial       "default"    # Is `Solid.contactMaterial`.
+  field SFBool     enablePhysics         TRUE         # Defines whether the screw should have physics.
+  field SFBool     enableBoundingObject  TRUE         # Defines whether the fire manhole should have a bounding object.
 ]
 {
   %{
@@ -81,6 +82,7 @@ PROTO CapScrew [
         ]
       }
     ]
+    %{ if fields.enableBoundingObject.value then }%
     boundingObject Group {
       children [
         USE CYLINDER
@@ -96,6 +98,7 @@ PROTO CapScrew [
         }
       ]
     }
+    %{ end }%
     %{ if fields.enablePhysics.value then }%
     physics Physics {
       density 8050

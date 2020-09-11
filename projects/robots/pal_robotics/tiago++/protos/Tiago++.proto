@@ -37,20 +37,12 @@ PROTO Tiago++ [
         cameraSlot IS cameraSlot
         rightArmSlot [
           TiagoRightArm {
-            endEffectorSlot [
-              Transform {
-                children IS endEffectorRightSlot
-              }
-            ]
+            endEffectorSlot IS endEffectorRightSlot
           }
         ]
         leftArmSlot [
           TiagoLeftArm {
-            endEffectorSlot [
-              Transform {
-                children IS endEffectorLeftSlot
-              }
-            ]
+            endEffectorSlot IS endEffectorLeftSlot
           }
         ]
       }
