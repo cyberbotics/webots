@@ -62,7 +62,7 @@ jobs:
           distribution/*.deb
   test-suite:
     needs: build
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || github.event_name == 'schedule' }}
     strategy:
       matrix:
         os: [ubuntu-18.04, ubuntu-20.04]
@@ -90,7 +90,7 @@ jobs:
         xvfb-run --auto-servernum python tests/test_suite.py
   world-update:
     needs: build
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'test world update') }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test world update') || github.event_name == 'schedule' }}
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
