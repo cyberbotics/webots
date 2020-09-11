@@ -4703,3 +4703,443 @@ sorry, want do anything more today :p
 ##### Simon Steinmann [Moderator] 09/01/2020 18:59:24
 okay, tomorrow perhaps 🙂
 
+
+okay, so I got velocity control to work quite nicely as well
+
+
+no accumulated error, only moves if valid (no flipping wrists etc)
+
+
+I think building up a proper demo would be nice
+
+
+keyboard control would be nice
+
+
+Is there a good example for controlling your robot via keyboard?
+
+##### David Mansolino [cyberbotics] 09/02/2020 14:28:33
+You can check for example this one: [https://cyberbotics.com/doc/guide/samples-demos#moon-wbt](https://cyberbotics.com/doc/guide/samples-demos#moon-wbt)
+
+##### Simon Steinmann [Moderator] 09/02/2020 14:50:13
+How much work would it be, to add visual export to the urdf-export?
+
+
+I tried compiling an ikfast solver for  a webots model, using the extracted urdf. But I think openrave doesnt handle multiple collision cylinders and boxes per link that well
+
+
+A visual trimesh could be converted to a convex collision mesh. There is easy to use libraries for that. But for that I need those meshes
+
+##### David Mansolino [cyberbotics] 09/02/2020 14:58:59
+Exporting the full visual part of the model to URDF is complex in the sense that it requires exporting the IndexedFaceSet as separated stl or collada files, but of course this is feasible.
+
+##### Simon Steinmann [Moderator] 09/02/2020 15:00:15
+that's kinda what I thought. urdf files usually link to mesh files anyways
+
+##### David Mansolino [cyberbotics] 09/02/2020 15:00:35
+Exactly.
+
+##### Simon Steinmann [Moderator] 09/02/2020 15:44:46
+Can you link me to the urdf-exporter code?
+
+##### David Mansolino [cyberbotics] 09/02/2020 15:45:58
+This is unfortunately deep inside the core of Webots, but let me find you a pointer
+
+##### Simon Steinmann [Moderator] 09/02/2020 15:46:05
+thx
+
+##### David Mansolino [cyberbotics] 09/02/2020 15:48:18
+Here is how the current visual is exported using the definition of the bounding objects: [https://github.com/cyberbotics/webots/blob/master/src/webots/nodes/WbSolid.cpp#L3012](https://github.com/cyberbotics/webots/blob/master/src/webots/nodes/WbSolid.cpp#L3012)
+
+I would recommend starting by this part.
+
+##### Simon Steinmann [Moderator] 09/02/2020 15:51:17
+thx, i'll have a look
+
+##### David Mansolino [cyberbotics] 09/02/2020 15:51:59
+You're welcome
+
+##### Simon Steinmann [Moderator] 09/02/2020 19:26:46
+is it possible to export a .wrl with just the selected object in it?
+
+##### David Mansolino [cyberbotics] 09/03/2020 05:46:22
+This is unfortunately not possible, but if you are interested, this should be quite simple to implement.
+
+##### Simon Steinmann [Moderator] 09/03/2020 11:39:23
+can you point me to that portion of code?
+
+##### David Mansolino [cyberbotics] 09/03/2020 11:41:11
+Sure, let me look for it
+
+
+Actually, I just found that this is possible 😂 
+
+You have to right click on the node either in the scene-tree either in the 3D view, then change the extension of the filename to save to '.wrl', and that's it 🙂
+
+##### Simon Steinmann [Moderator] 09/03/2020 11:57:36
+haha that actually works 😄
+
+
+can you still link me to the code?
+
+##### Stefania Pedrazzi [cyberbotics] 09/03/2020 13:58:49
+here is the export method:
+
+[https://github.com/cyberbotics/webots/blob/master/src/webots/scene\_tree/WbSceneTree.cpp#L1464-L1497](https://github.com/cyberbotics/webots/blob/master/src/webots/scene_tree/WbSceneTree.cpp#L1464-L1497)
+
+
+`@David Mansolino` is improving it to add the wrl extension support: [https://github.com/cyberbotics/webots/pull/2201](https://github.com/cyberbotics/webots/pull/2201)
+
+##### Simon Steinmann [Moderator] 09/03/2020 13:59:41
+oh boy, at some point I really need to get into c++ properly
+
+
+i'm now writing a python script, which will hopefully extract the shapes from a vrml file, and convert them to collada for example, and create a convex hull for the individual parts
+
+
+with that, it is hopefully possible to compile a ikfast solver
+
+
+or do you guys know of any way to convert a .wrl file into a ORDERED structure of meshes? Everything I found so far (for example blender), does not keep the structure, so all the meshes are on the same level with usually arbitrary names. hard to tell, which shape belongs to which part
+
+##### David Mansolino [cyberbotics] 09/03/2020 14:13:39
+> oh boy, at some point I really need to get into c++ properly
+
+`@Simon Steinmann` for the core of webots, it is indeed better to have some good C++ knowledge 😉
+
+
+> or do you guys know of any way to convert a .wrl file into a ORDERED structure of meshes? Everything I found so far (for example blender), does not keep the structure, so all the meshes are on the same level with usually arbitrary names. hard to tell, which shape belongs to which part
+
+`@Simon Steinmann` I am surprised that blender does not support structure. It may not support joints indeed, but it should at least supper hierarchy.
+
+##### Simon Steinmann [Moderator] 09/03/2020 14:17:04
+I have like 0 blender experience, but this looks like it's all on the same level. Perhaps one of you can point me in the right direction?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/751083346427379762/unknown.png)
+%end
+
+##### David Mansolino [cyberbotics] 09/03/2020 14:17:23
+Indeed, it's all at the same level
+
+##### Simon Steinmann [Moderator] 09/03/2020 14:17:32
+basically I want to export the meshes in groups, corresponding to individual solids
+
+
+or merge them, doesnt matter
+
+##### David Mansolino [cyberbotics] 09/03/2020 14:17:50
+let me check if the problem is at the webots export level or not
+
+##### Simon Steinmann [Moderator] 09/03/2020 14:23:29
+CAD Exchange reads the structure fine, but it's only a 30day trial period 😦
+
+##### David Mansolino [cyberbotics] 09/03/2020 14:26:38
+I think you can use the 'limited' version for unlimited time
+
+##### Simon Steinmann [Moderator] 09/03/2020 14:26:53
+really?
+
+##### David Mansolino [cyberbotics] 09/03/2020 14:26:55
+I am using it for a few months at least
+
+##### Simon Steinmann [Moderator] 09/03/2020 14:26:58
+I love that software
+
+##### David Mansolino [cyberbotics] 09/03/2020 14:27:15
+I am speaking about the online version: [https://cloud.cadexchanger.com/app/files/my](https://cloud.cadexchanger.com/app/files/my)
+
+##### Simon Steinmann [Moderator] 09/03/2020 14:34:46
+oh, i installed one
+
+
+let me check this one out
+
+
+hmm the online version seems to also convert the whole thing, cant export individually
+
+##### David Mansolino [cyberbotics] 09/03/2020 14:44:16
+Argh, that's a shame that the behavior is not the same in the native and online version 😦
+
+##### Simon Steinmann [Moderator] 09/03/2020 23:03:22
+I managed to write a script, that extracts the trimeshes from a webots-export .wrl file, merges all meshes for a Solid together and creates a visual .dae file, and a convexHull   .stl file for collision. I checked with the ur10e, and the converted files are pretty much identical to the ones from Universal Robots
+
+
+I made it... successfully compiled ikfast-solver purely from webots exports (.wrl and .urdf combined)
+
+
+🥳
+
+
+now I really need some sleep xD
+
+
+You guys should really include a dropdown option when selecting 'Export' in webots. I tested it and changing the extension to .urdf already works flawlessly. People just need to know it 🙂
+
+##### David Mansolino [cyberbotics] 09/04/2020 09:52:20
+This is what I did yesterday, will be able in the next version of Webots: [https://github.com/cyberbotics/webots/pull/2201](https://github.com/cyberbotics/webots/pull/2201)
+
+##### Simon Steinmann [Moderator] 09/04/2020 09:52:35
+awesome !
+
+
+can someone test this ikfast-controller implementation? [https://drive.google.com/file/d/1MMFf481v79ypq-vKLCTsC5dEqCU2caum/view?usp=sharing](https://drive.google.com/file/d/1MMFf481v79ypq-vKLCTsC5dEqCU2caum/view?usp=sharing)
+
+
+I want to know if it works without system dependencies
+
+
+just opening the world should be all you have to do. You can move the target sphere around, to have the robot arms follow it
+
+##### David Mansolino [cyberbotics] 09/04/2020 10:16:47
+Works perfectly out of the box for me (and it is indeed way way faster than ikpy), but only on linux and with python 3.7 (which seems to make sense since it contains a pre-compiled library).
+
+##### Simon Steinmann [Moderator] 09/04/2020 10:18:30
+these compiled libraries dont take long. like 20s on my system. They basically add a python wrapper to the ikfast-solver, which takes 10min -1h for every robot
+
+
+but that solver only has to be done once
+
+##### David Mansolino [cyberbotics] 09/04/2020 10:19:09
+looks good
+
+##### Simon Steinmann [Moderator] 09/04/2020 10:20:27
+okay, i'll try to automate the workflow a bit more. Sadly it requires a fairly large docker image I made (2.4 GB or so).  As it requires a very specific ubuntu, ROS and moveIt configuration
+
+
+but maybe i'll be able to automate it to a point, where you jusp export the .wrl and .urdf file and run  1-2 commands
+
+
+While i'm at it, I can very easily add mesh conversions and calculations, such as generation of convex hulls or convex decompositions (such as this [https://github.com/kmammou/v-hacd](https://github.com/kmammou/v-hacd))
+
+
+Is there interest in this?
+
+##### David Mansolino [cyberbotics] 09/04/2020 10:24:42
+Not sure to understand what it is exaclty used for?
+
+##### Simon Steinmann [Moderator] 09/04/2020 10:25:08
+collision detection
+
+
+generally, collision detection only works properly with convex geometries
+
+
+the simples of which is a box, containing the mesh
+
+
+but it can be broken up into multiple convex shapes, representing the actual mesh in a more accurate way
+
+
+while still immensly decreasing the complexity and number of vertices
+
+##### David Mansolino [cyberbotics] 09/04/2020 10:27:59
+Ok, makes sense indeed, in that case that is indeed probably usefull!
+
+##### Simon Steinmann [Moderator] 09/04/2020 10:29:45
+since ODE supports nested collision spaces, this could be a nice way of having multiple levels of collision detail. Which could improve the accuracy of complexer part collisions. I already did some work on that, also with automated box and cylinder bounding box generation
+
+
+it's not too far fetched to be able to automate this. This would allow one to skip the tedious step of manually creating bounding objects
+
+
+But first the IKFast stuff 🙂
+
+
+Found a mistake in the urdf exporter. It takes the endpoint Solid translation for the urdf-joints, NOT the Hingjoint anchors. With P-Rob 3 there is a discrepency for example
+
+##### David Mansolino [cyberbotics] 09/07/2020 05:56:16
+That's interesting, I will check if I can reproduce this.
+
+##### Simon Steinmann [Moderator] 09/07/2020 09:56:02
+After lots of work I managed to write a script, that 1. Converts a proto file into xml format, 2. Turns this xml proto into an urdf, extracting meshes for each link.
+
+
+Once I'm on my computer I'll show you the correct joint origin calculation
+
+
+correct origin of a joint is:
+
+anchor - anchor (previous joint) + translation (previous endpoint)
+
+##### David Mansolino [cyberbotics] 09/07/2020 10:24:05
+Ok thank you, I will try
+
+##### Simon Steinmann [Moderator] 09/07/2020 10:30:24
+This has been created with the webots model exported as proto (Export -> change .wbo to .proto) and then using my tools to convert it to urdf with extracted visual and collisions
+> **Attachment**: [P-Rob3\_ik.mp4](https://cdn.discordapp.com/attachments/565155651395780609/752475856311550012/P-Rob3_ik.mp4)
+
+
+and compiling an ikfast solver of course, which I have automated a lot too
+
+##### David Mansolino [cyberbotics] 09/07/2020 10:32:22
+That looks really really stable!
+
+##### Simon Steinmann [Moderator] 09/07/2020 10:32:24
+The code and documentation is not pretty yet, but I'll share soon. Some tests from you guys would be good to validate
+
+##### David Mansolino [cyberbotics] 09/07/2020 10:32:48
+Yes sure (I might even use it for a personnal project 😉 )
+
+##### Simon Steinmann [Moderator] 09/07/2020 10:32:49
+yeah, IKFast is amazing. it's really fast. it calculates in microseconds
+
+
+once this project is properly running, I'll try to implement OMPL ([https://ompl.kavrakilab.org/](https://ompl.kavrakilab.org/)) with webots. Allowing for motion planning with collision checking and different solvers (also sample based ones, requireing no solver compiling).
+
+##### David Mansolino [cyberbotics] 09/07/2020 12:15:39
+> correct origin of a joint is:
+
+> anchor - anchor (previous joint) + translation (previous endpoint)
+
+`@Simon Steinmann` I can indeed reproduce the issue, we will open an issue and try to fix this soon.
+
+##### Simon Steinmann [Moderator] 09/07/2020 13:12:34
+Alright, can someone test my conversion tool + ikfast generator?
+
+[https://github.com/Simon-Steinmann/webots\_ikfast\_generator](https://github.com/Simon-Steinmann/webots_ikfast_generator)
+
+you simply should have to run the setup.sh, and then the generate\_ikfast\_solver.sh
+
+
+it will download a docker image, which has like 2GB, just as a warning
+
+
+Okay, awesome!! I just compiled the solution for the Puma560, and it literally took 5 minutes, containing about 10 clicks and pressing 'y' a few times
+
+##### David Mansolino [cyberbotics] 09/07/2020 13:28:54
+Sure, as soon as I have finished fixing the bug with urdf joint I will test it, I assume the setup.sh should be run on linux?
+
+##### Simon Steinmann [Moderator] 09/07/2020 13:29:04
+yes
+
+
+perhaps everything could pe put into a docker eventually
+
+
+or the steps are just done manually. But the shell script makes it very convenient
+
+
+first we gotta make sure it works properly though 🙂
+
+
+oh, and atm it's only for 6DOF arms.
+
+
+
+> **Attachment**: [Puma560\_ik.mp4](https://cdn.discordapp.com/attachments/565155651395780609/752524358622249020/Puma560_ik.mp4)
+
+
+is there a simple way to get all the default values of node types?
+
+
+or is it safe to assume, that these wont change due to backwards compatibility?
+
+##### David Mansolino [cyberbotics] 09/07/2020 13:44:31
+You mean the default value of the fields of the basic nodes?
+
+##### Simon Steinmann [Moderator] 09/07/2020 13:44:32
+some of the older official models are quite wonky in their setup and often dont have parameters, when they are default.
+
+
+yeah
+
+
+like anchor, translation etc.
+
+
+that caused quite some headache last night 😄
+
+##### David Mansolino [cyberbotics] 09/07/2020 13:45:26
+Sure, if not specified in the world/PROTO, the default value used are the one defined in the node definition: [https://github.com/cyberbotics/webots/tree/master/resources/nodes](https://github.com/cyberbotics/webots/tree/master/resources/nodes)
+
+##### Simon Steinmann [Moderator] 09/07/2020 13:45:34
+instead of putting tons of exceptions in the urdf creator, I rather do a pass over the proto2xml converter and add default values
+
+
+those values should not change right?
+
+
+so I dont have to dynamically link them
+
+##### David Mansolino [cyberbotics] 09/07/2020 13:46:22
+We try not to change them as this will break compatibility, so it is extremely rare that we change one of them.
+
+##### Simon Steinmann [Moderator] 09/07/2020 13:46:53
+okay good. then I'll bake those values into the script. only concerns a few nodes anyways
+
+
+Solid, Transform and Group can all be used to translate and group other nodes right?
+
+
+or are there more?
+
+
+because some models use them for positioning shapes... makes it much more complicated 🙄
+
+##### David Mansolino [cyberbotics] 09/07/2020 14:07:27
+Basically all the descandant of 'Group' can do this: [https://cyberbotics.com/doc/reference/node-chart](https://cyberbotics.com/doc/reference/node-chart)
+
+##### Simon Steinmann [Moderator] 09/07/2020 14:08:06
+okay, for robot links, only those 3 are important though
+
+##### David Mansolino [cyberbotics] 09/07/2020 14:08:12
+yes
+
+##### Simon Steinmann [Moderator] 09/07/2020 14:09:06
+do you think it makes more sense to turn groups and transforms into links, or to take their translation and rotation into account and changing the origin of the meshes
+
+
+the former is easier, but the latter produces much cleaner urdf files
+
+##### David Mansolino [cyberbotics] 09/07/2020 14:11:45
+The second one is indeed cleaner (in my opinion its always good to go for the cleaner as at the end it will make you save time on the long term)
+
+##### Simon Steinmann [Moderator] 09/07/2020 14:13:13
+yeah, should be possible. this, and converting primitive geometry as well are still on my to-do list. So far it only converts trimeshes, and turns those into a convex and simplified collision mesh. But some models have boxes etc. for their visuals. And those are inside of Transform nodes
+
+
+how can I hook into the renderer of webots? I would like to add a pybullet cloth simulation within webots
+
+##### David Mansolino [cyberbotics] 09/09/2020 05:54:20
+🤔 That's not going to be an easy task (I have to warn you), and this should be intergrated in the core of Webots and therefore in C++
+
+
+Here is the implementation of WREN (Webots-Rendering-ENgine): [https://github.com/cyberbotics/webots/tree/master/src/wren](https://github.com/cyberbotics/webots/tree/master/src/wren)
+
+You should probably first start by understanding how it works.
+
+
+Note that Webots has an experimental 'skin' node that allows to simulation (just for rendering) deformable meshes, you can find an example of this in the 'projects/samples/rendering/worlds/animated\_skin.wbt' simulation ([https://www.cyberbotics.com/doc/guide/samples-rendering#animated\_skin-wbt](https://www.cyberbotics.com/doc/guide/samples-rendering#animated_skin-wbt)).
+
+##### Simon Steinmann [Moderator] 09/09/2020 09:04:35
+thx for the links, I'll check them out
+
+
+orther question: with what precision can proto files be written. I found an issue when converting the JACO2 arm from kinova. the fingertips are tiny, so the inertia matrices are very small 10e-7 and e-8 territory. This gets turned into 0 on conversion
+
+
+which then throws an error
+
+##### David Mansolino [cyberbotics] 09/09/2020 09:06:49
+Our physics engine uses double precision so the values should be able to be extremely small.
+
+
+Maybe it is the python converter that is somehow rounding the value
+
+##### Simon Steinmann [Moderator] 09/09/2020 09:07:26
+the problem is the conversion, writing the proto
+
+
+yeah, i'll investigate more
+
+
+created a new PR for urdf2webots, small but important fix. 
+
+[https://github.com/cyberbotics/urdf2webots/pull/81](https://github.com/cyberbotics/urdf2webots/pull/81)
+
+
+a quick check and integration would be great, I need to implement this in my batch conversion, which I would like to finalize soon 🙂
+
+##### David Mansolino [cyberbotics] 09/09/2020 12:06:57
+Cheking it right now 😉
+

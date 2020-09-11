@@ -151,7 +151,10 @@ class WebotsParser:
         for line in self.file:
             line = line.strip()
             self.line_count += 1
-            if line == '}':
+            if line.startswith('hidden'):
+                print('Removing hidden field: "%s".' % line)
+                continue
+            elif line == '}':
                 break
             node['fields'].append(self._read_field(line))
         return node

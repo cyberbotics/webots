@@ -280,6 +280,9 @@ void WbBaseNode::exportURDFJoint(WbVrmlWriter &writer) const {
       rotationEuler = upperLinkRootTransform->rotationMatrixFrom(upperLinkRoot).toEulerAnglesZYX();
     }
 
+    translation += writer.jointOffset();
+    writer.setJointOffset(WbVector3(0.0, 0.0, 0.0));
+
     writer.increaseIndent();
     writer.indent();
     writer << QString("<joint name=\"%1_%2_joint\" type=\"fixed\">\n").arg(upperLinkRoot->urdfName()).arg(urdfName());

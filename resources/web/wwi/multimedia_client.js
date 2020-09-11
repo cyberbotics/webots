@@ -72,9 +72,9 @@ class MultimediaClient { // eslint-disable-line no-unused-vars
 
   processServerMessage(data) {
     if (data.startsWith('multimedia: ')) {
-      let list = data.split(' ');
-      let httpUrl = this.view.stream.wsServer.replace('ws', 'http');
-      let url = httpUrl + list[1];
+      const list = data.split(' ');
+      const httpUrl = 'http' + this.view.stream.wsServer.slice(2); // replace 'ws' with 'http'
+      const url = httpUrl + '/' + list[1];
       this.view.toolBar.setMode(list[2]);
       this.domElement.src = url;
       this.viewMode = list.length > 4; // client in view mode
