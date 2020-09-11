@@ -25,7 +25,8 @@ WbVrmlWriter::WbVrmlWriter(QIODevice *device, const QString &fileName) :
   mFileName(fileName),
   mIndent(0),
   mRootNode(NULL),
-  mIsWritingToFile(true) {
+  mIsWritingToFile(true),
+  mJointOffset(0.0, 0.0, 0.0) {
   setVrmlType();
 }
 
@@ -34,7 +35,8 @@ WbVrmlWriter::WbVrmlWriter(QString *target, const QString &fileName) :
   mFileName(fileName),
   mIndent(0),
   mRootNode(NULL),
-  mIsWritingToFile(false) {
+  mIsWritingToFile(false),
+  mJointOffset(0.0, 0.0, 0.0) {
   setVrmlType();
 }
 
