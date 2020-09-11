@@ -64,6 +64,9 @@ void WbWorldInfo::init(const WbVersion *version) {
     } else if (!northDirectionField->isDefault())
       parsingWarn(tr("The 'northDirection' field is deprecated, according to the 'coordinateSystem' field, the north is "
                      "aligned along the x-axis."));
+  } else if (northDirection->value() == WbVector3(0.0, 0.0, 1.0) && mCoordinateSystem->value() == "NUE") {
+    northDirectionField->reset();
+    mCoordinateSystem->setValue("EUN");
   } else if (!northDirectionField->isDefault())
     parsingWarn(tr("The 'northDirection' field is deprecated, please use the 'coordinateSystem' field instead."));
 
