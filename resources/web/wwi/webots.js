@@ -292,7 +292,7 @@ webots.View = class View {
                 const name = links[i].attributes[j].name;
                 let value = links[i].attributes[j].value;
                 if (name === 'href' && !value.startsWith('https://') && !value.startsWith('http://')) // local css file
-                  value = this.server.httpServerUrl + 'robot_windows/' + windowName + '/' + value;
+                  value = baseUrl + 'robot_windows/' + windowName + '/' + value;
                 link.setAttribute(name, value);
               }
               document.getElementsByTagName('head')[0].appendChild(link);
