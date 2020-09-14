@@ -12,7 +12,9 @@ The telemetry system will collect information about the system configuration, th
 ### Use of Personal Data
 
 All the collected personal information are only used internally by Cyberbotics to improve the Webots software.
-After being anonymized, the collected personal information are published for on the telemetry page on [https://cyberbotics.com](https://cyberbotics.com).
+After being anonymized, the collected personal information are published on the telemetry page at [https://cyberbotics.com/telemetry](https://cyberbotics.com/telemetry).
+The purpose of this publication is openness and transparency.
+It allows anyone to consider this data to better contribute to the Webots software.
 
 ### Transfer of Personal Data to Third Parties
 
