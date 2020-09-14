@@ -36,7 +36,7 @@ Cyberbotics S.à.r.l retains your personal information only for as long as neces
 
 You have the right, at any time, to request access, rectification and erasure of your personal information.
 In addition, you have the right to withdraw your consent, without this affecting the lawfulness of processing based on consent before its withdrawal.
-To exercise your rights under these provisions, please contact us at the “Communications” details below.
+To exercise your rights under these provisions, please contact us (see “Communications” section below).
 
 ### Security of Personal Data
 
