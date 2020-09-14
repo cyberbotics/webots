@@ -39,7 +39,7 @@ WbAboutBox::WbAboutBox(QWidget *parent) : QDialog(parent) {
   connect(versionInfo, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   QDateTime releaseTimestamp;
   releaseTimestamp.setTime_t(WbApplicationInfo::releaseDate());
-  versionInfo->setText(QString("<p style='font-size: large;'><b>%1</b></p>"
+  versionInfo->setText(QString("<p style='font-size: large;'><b>Webots %1</b></p>"
                                "<p>Date: %2</p><p>Webots is free software<br>Licensed under the <a style='color: #5DADE2;' "
                                "href='https://www.apache.org/licenses/LICENSE-2.0'>Apache License, Version 2.0</a></p>"
                                "<p>© Cyberbotics 1998-%3</p>")
