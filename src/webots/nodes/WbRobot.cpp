@@ -737,7 +737,7 @@ void WbRobot::keyReleased(const QString &text, int key) {
 void WbRobot::writeDeviceConfigure(QList<WbDevice *> devices, QDataStream &stream) const {
   QListIterator<WbDevice *> it(devices);
   while (it.hasNext()) {
-    WbDevice *device = it.next();
+    const WbDevice *device = it.next();
     stream << (short int)device->deviceNodeType();
     QByteArray n(device->deviceName().toUtf8());
     stream.writeRawData(n.constData(), n.size() + 1);
