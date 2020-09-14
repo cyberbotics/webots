@@ -64,7 +64,7 @@ class proto2multi():
         proto.write('# license: Apache License 2.0\n')
         proto.write('# license url: http://www.apache.org/licenses/LICENSE-2.0\n')
         proto.write('# tags: hidden\n')
-        proto.write('# This is a proto file for Webots for the ' + self.robotName + '\n\n')
+        proto.write('# This is the definition of a mesh used by the ' + self.robotName + ' PROTO node for Webots.\n\n')
 
     def createProto(self, string):
         name = self.robotName + '_' + str(self.shapeIndex)
