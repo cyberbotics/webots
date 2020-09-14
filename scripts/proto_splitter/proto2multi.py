@@ -82,8 +82,7 @@ class proto2multi():
 
     def convert(self, inFile, outFile=None):
         path = os.path.dirname(inFile)
-        self.robotName = os.path.basename(inFile)
-        self.robotName = os.path.splitext(self.robotName)[0]
+        self.robotName = os.path.splitext(os.path.basename(inFile))[0]
         print(path, self.robotName)
         if outFile is None:
             newPath = '{}/multifile_{}'.format(path, self.robotName)
