@@ -53,8 +53,7 @@ WbAboutBox::WbAboutBox(QWidget *parent) : QDialog(parent) {
   QLabel *description = new QLabel();
   connect(description, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   description->setWordWrap(true);
-  description->setText("<a style='color: #5DADE2;' href='https://cyberbotics.com'>"
-                       "Website</a>&nbsp;&nbsp;");  // extra spaces for correct alignment
+  description->setText("<a style='color: #5DADE2;' href='https://cyberbotics.com'>Website</a>");
   secondRowLayout->addWidget(description, 1, 0, 1, 1, Qt::AlignBottom | Qt::AlignCenter);
 
   description = new QLabel();
