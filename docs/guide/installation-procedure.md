@@ -152,7 +152,7 @@ The docker image comes with a X virtual framebuffer (Xvfb) already installed and
 
 To pull the image and start a docker container with it use the following command:
 ```
-docker run -it cyberbotics/webots:latest /bin/bash
+docker run -it cyberbotics/webots:latest
 ```
 
 > **Note**: If you need a specific version of Webots or Ubuntu and not the latest ones, replace `latest` with the version you need (e.g. `R2020b-rev1-ubuntu20.04`).
@@ -177,7 +177,7 @@ xhost +local:root > /dev/null 2>&1
 
 You can then start the container with the following command:
 ```
-docker run -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest /bin/bash
+docker run -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest
 ```
 
 Or if you want to directly launch Webots:
@@ -194,7 +194,7 @@ Please follow the [official instructions](https://docs.nvidia.com/datacenter/clo
 
 Once this package is installed, use the same procedure than without GPU acceleration, but add the `--gpus=all` when starting the docker container:
 ```
-docker run --gpus=all -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest /bin/bash
+docker run --gpus=all -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest
 ```
 
 ##### Troubleshooting
