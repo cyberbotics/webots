@@ -261,7 +261,7 @@ private:
   WbNode *clone() const override { return new WbRobot(*this); }
   void init();
   void addDevices(WbNode *node);
-  // reassign tags to devices (when device config changed)
+  // if reset is TRUE reassign tags to devices (when device config changed)
   // if reset is FALSE, only tag of newly added devices will be assigned
   void assignDeviceTags(bool reset);
   void writeDeviceConfigure(QList<WbDevice *> devices, QDataStream &stream) const;
