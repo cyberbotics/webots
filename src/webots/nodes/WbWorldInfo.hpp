@@ -80,8 +80,6 @@ public:
   const WbVector3 &gravityVector() const { return mGravityVector; }
   // returns a unit vector with the direction and orientation of the gravity
   const WbVector3 &gravityUnitVector() const { return mGravityUnitVector; }
-  // returns an orthonormal basis
-  const WbVector3 *gravityBasis() const { return mGravityBasis; }
 
   const WbReceiver *physicsReceiver() const { return mPhysicsReceiver; }
 
@@ -135,7 +133,6 @@ private:
   WbVector3 mUpVector;
   WbVector3 mGravityVector;
   WbVector3 mGravityUnitVector;
-  WbVector3 mGravityBasis[3];  // An orthonormal basis (b[X], b[Y] = -gravity().normalized(), b[Z])
 
   // Apply methods
   void applyLineScaleToWren();

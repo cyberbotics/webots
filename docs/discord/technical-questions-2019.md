@@ -17856,7 +17856,7 @@ HI, I'm using Windows 10 64-bit & have Nvidia gtx 1080 TI with the updated drive
 ##### Stefania Pedrazzi [cyberbotics] 11/13/2019 07:18:08
 `@Anoop` did you check if your GPU is correctly detected by Webots? could you post the content of the Help > OpenGL information message box (or the output of `webots --sysinfo`)?
 
-##### 『DEMÎ』Ghozt (Redsign) 11/13/2019 14:48:31
+##### DEMI Redsign 11/13/2019 14:48:31
 I am used to designing in Catia V5. How could I import my design to webot
 
 ##### Hayden Woodger 11/13/2019 14:49:03
@@ -23315,7 +23315,7 @@ i can't open the Motion Editor. windows = "generic\_window" then reload,
 
 it does not work!!
 
-##### 『DEMÎ』Ghozt (Redsign) 12/24/2019 07:37:54
+##### DEMI Redsign 12/24/2019 07:37:54
 I designed a robot in solidworks. How could i upload it to webot
 
 ##### sugus105 12/24/2019 09:29:10
