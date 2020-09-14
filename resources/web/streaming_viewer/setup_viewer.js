@@ -4,6 +4,9 @@ var view = null;
 var ipInput = null;
 var portInput = null;
 var connectButton = null;
+var modeSelect = null;
+var broadcast = null;
+
 var mobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 if (mobileDevice) {
   let head = document.getElementsByTagName('head')[0];
@@ -23,6 +26,8 @@ function init() {
   ipInput = document.getElementById('IPInput');
   portInput = document.getElementById('PortInput');
   connectButton = document.getElementById('ConnectButton');
+  modeSelect = document.getElementById('mode');
+  broadcast = document.getElementById('broadcast')
 }
 
 function connect() {
@@ -31,9 +36,8 @@ function connect() {
   // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
   let playerDiv = document.getElementById('playerDiv');
   view = new webots.View(playerDiv, mobileDevice);
-  view.broadcast = document.getElementById('broadcast').checked;
+  view.broadcast = broadcast.checked;
   view.setTimeout(-1); // disable timeout that stops the simulation after a given time
-  const modeSelect = document.getElementById('mode');
   const streamingMode = modeSelect.options[modeSelect.selectedIndex].value;
   view.open('ws://' + ipInput.value + ':' + portInput.value, streamingMode);
   view.onquit = disconnect;
@@ -41,6 +45,8 @@ function connect() {
   connectButton.onclick = disconnect;
   ipInput.disabled = true;
   portInput.disabled = true;
+  modeSelect.disabled = true;
+  broadcast.disabled = true;
 }
 
 function disconnect() {
@@ -52,6 +58,8 @@ function disconnect() {
   connectButton.onclick = connect;
   ipInput.disabled = false;
   portInput.disabled = false;
+  modeSelect.disabled = false;
+  broadcast.disabled = false;
 }
 
 window.addEventListener('load', init, false);
