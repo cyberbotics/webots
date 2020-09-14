@@ -20,7 +20,7 @@ def mkdirSafe(directory):
 
 class proto2multi():
     def __init__(self):
-        print('Proto 2 multi-file proto converter by Simon Steinmann')     
+        print('Proto 2 multi-file proto converter by Simon Steinmann')
 
 
     def header(self, proto):
@@ -32,7 +32,7 @@ class proto2multi():
         proto.write('# This is a proto file for Webots for the ' + self.robotName + '\n\n')
 
     def createProto(self, string):
-        name = self.robotName + '_' + str(self.shapeIndex)           
+        name = self.robotName + '_' + str(self.shapeIndex)
         print('Create meshFile: %sMesh.proto' % name)
         filepath = '%s/%sMesh.proto' % (self.meshFilesPath, name)
         meshProtoFile = open(filepath, 'w')
@@ -62,28 +62,28 @@ class proto2multi():
         self.pf = open(outFile, 'w')
         self.shapeIndex = 0
 
-        indent = '  ' 
-        level = 0 
+        indent = '  '
+        level = 0
         while True:
             line = self.f.readline()
-            ln = line.split()  
+            ln = line.split()
             # termination condition:
             eof = 0
             while ln == []:
                 line = self.f.readline()
-                ln = line.split() 
+                ln = line.split()
                 eof += 1
                 if eof > 10:
                     print('done parsing')
                     self.pf.close()
-                    return 
-            if 'IndexedFaceSet' in ln:      
+                    return
+            if 'IndexedFaceSet' in ln:
                 shapeLevel = 1
                 newProtoString = shapeLevel * indent + ' '.join(ln[-2:]) + '\n'
                 defString = ''
                 if 'DEF' in ln:
                     defString = 'DEF ' + ln[ln.index('DEF') + 1]
-                shapeLevel = 2             
+                shapeLevel = 2
                 while shapeLevel > 1:
                     line = self.f.readline()
                     ln = line.split()
@@ -101,7 +101,7 @@ class proto2multi():
                 elif '{' in ln or '[' in ln:
                     level += 1
                 self.pf.write(line)
-                
+
     def convert_all(self, sourcePath):
         outPath = sourcePath + '/multi_file_conversioin'
         mkdirSafe(outPath)
@@ -120,8 +120,8 @@ class proto2multi():
             inFile = sourcePath + proto
             outFile = outPath + proto
             self.convert(inFile, outFile)
-                        
-        
+
+
 
 
 if __name__ == "__main__":
@@ -133,11 +133,10 @@ if __name__ == "__main__":
     inFile = options.inFile
     p2m = proto2multi()
     if options.all:
-        path = askdirectory(title='Select Folder') # shows dialog box and return the path   
+        path = askdirectory(title='Select Folder') # shows dialog box and return the path
         p2m.convert_all(path)
     else:
         if inFile is None:
-            
-            inFile = askopenfilename(title='Select .proto file') # shows dialog box and return the path           
+
+            inFile = askopenfilename(title='Select .proto file') # shows dialog box and return the path
         p2m.convert(inFile)
-    
