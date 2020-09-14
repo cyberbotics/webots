@@ -132,6 +132,5 @@ if __name__ == "__main__":
         p2m.convert_all(path)
     else:
         if inFile is None:
-
             inFile = askopenfilename(title='Select .proto file')  # Shows dialog box and return the path
         p2m.convert(inFile)
