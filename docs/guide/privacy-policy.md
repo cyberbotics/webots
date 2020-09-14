@@ -1,7 +1,7 @@
 ## Privacy Policy
 
 Cyberbotics respects your privacy and it is committed to protecting privacy and personal data.
-This Privacy Policy applies to the personal data of "Webots" software that may be collected through [cyberbotics.com](cyberbotics.com).
+This Privacy Policy applies to the personal data of "Webots" software that may be collected through [https://cyberbotics.com](https://cyberbotics.com).
 By accepting this Privacy Policy and using Webots you acknowledge and agree to the terms and conditions of this Policy.
 
 ### Personal Data Collected
@@ -12,7 +12,7 @@ The telemetry system will collect information about the system configuration, th
 ### Use of Personal Data
 
 All the collected personal information are only used internally by Cyberbotics to improve the Webots software.
-After being anonymized, the collected personal information are published for on the telemetry page on [cyberbotics.com](cyberbotics.com).
+After being anonymized, the collected personal information are published for on the telemetry page on [https://cyberbotics.com](https://cyberbotics.com).
 
 ### Transfer of Personal Data to Third Parties
 
@@ -32,7 +32,7 @@ Cyberbotics S.à.r.l retains your personal information only for as long as neces
 
 ### Rights of the Users
 
-Users have the right, at any time, to request access, rectification and erasure of your personal information
+You have the right, at any time, to request access, rectification and erasure of your personal information.
 In addition, you have the right to withdraw your consent, without this affecting the lawfulness of processing based on consent before its withdrawal.
 To exercise your rights under these provisions, please contact us at the “Communications” details below.
 
@@ -40,7 +40,7 @@ To exercise your rights under these provisions, please contact us at the “Comm
 
 Cyberbotics fully understands the importance of privacy and takes all the necessary steps to ensure that all the collected personal data is processed, stored and deleted in a safe and secure way.
 
-### Changes to this Privacy Policy
+### Changes to This Privacy Policy
 
 Cyberbotics reserves the right to make changes to this privacy policy at any time by given notice to its Users on this page.
 It is strongly recommended to check this page often, referring to the date of the last modification listed at the bottom.
@@ -49,7 +49,6 @@ Unless stated otherwise, the then-current privacy policy applies to all personal
 
 ### Communications
 
-If you have questions regarding this Privacy Policy, please contact us at info@cyberbotics.com.
-
-
-Latest update: September 10, 2020
+If you have questions regarding this Privacy Policy, please contact us at [info@cyberbotics.com](mailto:info@cyberbotics.com).
+<br/>
+Latest update: September 10, 2020.
