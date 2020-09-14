@@ -132,7 +132,7 @@ static void init_remote_control_library() {
   }
 }
 
-static void init_devices(WbRequest *r, int firstTag) {
+static void init_devices_from_tag(WbRequest *r, int firstTag) {
   for (int tag = firstTag; tag < robot.n_device; tag++) {
     robot.device[tag] = malloc(sizeof(WbDevice));
     robot.device[tag]->node = request_read_uint16(r);
@@ -321,7 +321,7 @@ static void robot_configure(WbRequest *r) {
       break;
   }
   // reading device names
-  init_devices(r, 1);
+  init_devices_from_tag(r, 1);
 
   robot.configure = 1;
   robot.basic_time_step = request_read_double(r);
@@ -433,7 +433,7 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
       }
       const int firstTag = robot.n_device;
       robot.n_device += n;
-      init_devices(r, firstTag);
+      init_devices_from_tag(r, firstTag);
     case C_ROBOT_WINDOW_SHOW:
       robot.show_window = true;
       break;
