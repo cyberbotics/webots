@@ -1,12 +1,9 @@
 
-import xml.etree.ElementTree as ET
 import os
 import optparse
-import numpy as np
-import xml.dom.minidom
 import errno
-from tkinter import Tk
 from tkinter.filedialog import askopenfilename, askdirectory
+
 
 def mkdirSafe(directory):
     """Create a dir safely."""
@@ -18,10 +15,10 @@ def mkdirSafe(directory):
         else:
             print('Directory "' + directory + '" already exists!')
 
+
 class proto2multi():
     def __init__(self):
         print('Proto 2 multi-file proto converter by Simon Steinmann')
-
 
     def header(self, proto):
         """Specify VRML file header."""
@@ -122,8 +119,6 @@ class proto2multi():
             self.convert(inFile, outFile)
 
 
-
-
 if __name__ == "__main__":
     optParser = optparse.OptionParser(usage='usage: %prog  [options]')
     optParser.add_option('--file', dest='inFile', default=None, help='Specifies the self.robotName.')
@@ -133,10 +128,10 @@ if __name__ == "__main__":
     inFile = options.inFile
     p2m = proto2multi()
     if options.all:
-        path = askdirectory(title='Select Folder') # shows dialog box and return the path
+        path = askdirectory(title='Select Folder')  # Shows dialog box and return the path
         p2m.convert_all(path)
     else:
         if inFile is None:
 
-            inFile = askopenfilename(title='Select .proto file') # shows dialog box and return the path
+            inFile = askopenfilename(title='Select .proto file')  # Shows dialog box and return the path
         p2m.convert(inFile)
