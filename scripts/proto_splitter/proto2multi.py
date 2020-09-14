@@ -15,6 +15,7 @@
 # limitations under the License.
 #
 # Author Simon Steinmann (https://github.com/Simon-Steinmann)
+#
 
 
 # Automatic PROTO to multi-file PROTO trimesh extractor
@@ -24,23 +25,27 @@
 #
 # 1. if <path> ends in <filename.proto>:
 #   - creates a new folder in the same directory named "multifile_<filename>"
-#   - creates a new <filename.proto> inside this folder with all trimeshes replaced
-#      by proto files, placed in a subfolder
+#   - creates a new <filename.proto> inside this folder with all trimeshes
+#     replaced by proto files, placed in a subfolder.
+#   - the mesh proto files in the subfolder have the same header as the
+#     original file, with the additional 'hidden' tag added.
 #
 # 2. If <path> does not end in ".proto" -> assumes directory
-#   - creates a new folder inside of <path> called <multi_file_conversion>
+#   - creates a backup folder next to our chosen <path>
 #   - searches for every .proto file in <path> recursively and:
-#       - creates a conversion as described in 1.
-#       - places conversion into the <multi_file_conversion> folder, preserving
-#         the same folder structure as in <path>. This allows <path> to be replaced
-#         with <path>/<multi_file_conversion> when validated, as names structures
-#         are preserved
+#       - ignores .proto file with either no header or a 'hidden' tag
+#       - replaces the file with a version, where meshes are extracted and put
+#         into a "<filename>_meshes" folder.
+#       - the mesh proto files in the subfolder have the same header as the
+#         original file, with the additional 'hidden' tag added.
+#
 #
 
 
 import os
 import optparse
 import errno
+import shutil
 
 
 def mkdirSafe(directory):
@@ -51,7 +56,7 @@ def mkdirSafe(directory):
         if e.errno != errno.EEXIST:
             raise
         else:
-            print('Directory "' + directory + '" already exists!')
+            pass
 
 
 class proto2multi():
@@ -60,15 +65,15 @@ class proto2multi():
 
     def header(self, proto):
         """Specify VRML file header."""
-        proto.write('#VRML_SIM R2020b utf8\n')
-        proto.write('# license: Apache License 2.0\n')
-        proto.write('# license url: http://www.apache.org/licenses/LICENSE-2.0\n')
-        proto.write('# tags: hidden\n')
-        proto.write('# This is the definition of a mesh used by the ' + self.robotName + ' PROTO node for Webots.\n\n')
+        proto.write(self.headerString)
+        if 'tags:' not in self.headerString.split():
+            proto.write('# tags: hidden\n')
+        proto.write('# This is a proto file for Webots for the ' +
+                    self.robotName + '\n\n')
 
     def createProto(self, string):
+        """turn mesh to proto file and stores it in the _meshes subfolder"""
         name = self.robotName + '_' + str(self.shapeIndex)
-        print('Create meshFile: %sMesh.proto' % name)
         filepath = '%s/%sMesh.proto' % (self.meshFilesPath, name)
         meshProtoFile = open(filepath, 'w')
         self.header(meshProtoFile)
@@ -83,24 +88,45 @@ class proto2multi():
     def convert(self, inFile, outFile=None):
         path = os.path.dirname(inFile)
         self.robotName = os.path.splitext(os.path.basename(inFile))[0]
-        print(path, self.robotName)
         if outFile is None:
             newPath = '{}/multifile_{}'.format(path, self.robotName)
             outFile = '{}/{}.proto'.format(newPath, self.robotName)
         else:
             newPath = os.path.dirname(outFile)
-        mkdirSafe(newPath)  # make a dir called 'x_meshes'
-        mkdirSafe(outFile.replace('.proto', '') + '_meshes')  # make a dir called 'x_meshes'
+        mkdirSafe(newPath)
+        # make a dir called 'x_meshes'
+        mkdirSafe(outFile.replace('.proto', '') + '_meshes')
         self.meshFilesPath = outFile.replace('.proto', '') + '_meshes'
         self.f = open(inFile)
         self.pf = open(outFile, 'w')
         self.shapeIndex = 0
-
+        self.headerString = ''
         indent = '  '
         level = 0
+        headerExtract = True
         while True:
             line = self.f.readline()
             ln = line.split()
+            if headerExtract:
+                if line[0:1] != '#':
+                    print('skipping - proto file has no header ' + outFile)
+                    self.pf.close()
+                    self.cleanup(inFile, outFile)
+                    return
+                while '[' not in ln:
+                    self.pf.write(line)
+                    if 'hidden' in ln:
+                        print('skipping - has "hidden" tag ' + outFile)
+                        self.pf.close()
+                        self.cleanup(inFile, outFile)
+                        return
+                    if 'tags:' in ln:
+                        ln[ln.index('tags:')] = 'tags: hidden,'
+                        line = ' '.join(ln) + '\n'
+                    self.headerString += line
+                    line = self.f.readline()
+                    ln = line.split()
+                headerExtract = False
             # termination condition:
             eof = 0
             while ln == []:
@@ -108,7 +134,7 @@ class proto2multi():
                 ln = line.split()
                 eof += 1
                 if eof > 10:
-                    print('done parsing')
+                    self.cleanup(inFile)
                     self.pf.close()
                     return
             if 'IndexedFaceSet' in ln:
@@ -127,7 +153,8 @@ class proto2multi():
                     if '{' in ln or '[' in ln:
                         shapeLevel += 1
                 replaceString = self.createProto(newProtoString)
-                self.pf.write(indent * level + defString + 'geometry ' + replaceString)
+                self.pf.write(indent * level + defString +
+                              'geometry ' + replaceString)
                 self.pf.write(indent * level + '}\n')
             else:
                 if '}' in ln or ']' in ln:
@@ -136,10 +163,17 @@ class proto2multi():
                     level += 1
                 self.pf.write(line)
 
+    def cleanup(self, inFile, outFile=None):
+        if inFile[-5:] == '_temp':
+            os.remove(inFile)
+        if outFile is not None:
+            os.remove(outFile)
+
     def convert_all(self, sourcePath):
-        outPath = sourcePath + '/multi_file_conversioin'
+        self.create_backup(sourcePath)
+        outPath = sourcePath
         mkdirSafe(outPath)
-        # Find all the proto files, and create the corresponding proto filePaths
+        # Find all the proto files, and store their filePaths
         os.chdir(sourcePath)
         # Walk the tree.
         proto_files = []  # List of the full filepaths.
@@ -153,7 +187,21 @@ class proto2multi():
         for proto in proto_files:
             inFile = sourcePath + proto
             outFile = outPath + proto
+            print('converting ' + outFile)
+            # make a copy of our inFile, which will be read and later deleted
+            shutil.copy(inFile, inFile + '_temp')
+            inFile = inFile + '_temp'
             self.convert(inFile, outFile)
+
+    def create_backup(self, sourcePath):
+        # Create a backup of the folder we are converting
+        backupName = os.path.basename(sourcePath) + '_backup_0'
+        backupPath = os.path.dirname(sourcePath) + '/' + backupName
+        n = 0
+        while os.path.isdir(backupPath):
+            n += 1
+            backupPath = backupPath[:-1] + str(n)
+        shutil.copytree(sourcePath,  backupPath)
 
 
 if __name__ == "__main__":
