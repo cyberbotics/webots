@@ -732,7 +732,7 @@ void wbu_default_robot_window_update() {
     buffer_append(",\"devices\":{");
     int i;
     int updated_device = 0;
-    for (i = 0; i < n; ++i) {
+    for (i = 0; i < n && i < number_of_update_elements; ++i) {
       WbDeviceTag tag = wb_robot_get_device_by_index(i);
       WbNodeType type = wb_device_get_node_type(tag);
       struct UpdateElement *update_element = update_elements[i];
