@@ -138,8 +138,7 @@ static void init_devices(WbRequest *r, int firstTag) {
     robot.device[tag]->node = request_read_uint16(r);
     robot.device[tag]->name = request_read_string(r);
     robot.device[tag]->model = request_read_string(r);
-    fprintf(stderr, "reading %d %d %s (%d) (%s)\n", tag, robot.n_device, robot.device[tag]->name, robot.device[tag]->node,
-            robot.device[tag]->model);
+    // printf("reading %s (%d) (%s)\n", robot.device[tag]->name, robot.device[tag]->node, robot.device[tag]->model);
     wb_device_init(robot.device[tag]);  // set device specific fields (read_answer and device_data)
   }
 }
