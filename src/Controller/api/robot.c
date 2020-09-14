@@ -132,6 +132,18 @@ static void init_remote_control_library() {
   }
 }
 
+static void init_devices(WbRequest *r, int firstTag) {
+  for (int tag = firstTag; tag < robot.n_device; tag++) {
+    robot.device[tag] = malloc(sizeof(WbDevice));
+    robot.device[tag]->node = request_read_uint16(r);
+    robot.device[tag]->name = request_read_string(r);
+    robot.device[tag]->model = request_read_string(r);
+    fprintf(stderr, "reading %d %d %s (%d) (%s)\n", tag, robot.n_device, robot.device[tag]->name, robot.device[tag]->node,
+            robot.device[tag]->model);
+    wb_device_init(robot.device[tag]);  // set device specific fields (read_answer and device_data)
+  }
+}
+
 static void robot_quit() {  // called when Webots kills a controller
   WbDeviceTag tag;
   for (tag = 0; tag < robot.n_device; tag++)
@@ -310,14 +322,8 @@ static void robot_configure(WbRequest *r) {
       break;
   }
   // reading device names
-  for (tag = 1; tag < robot.n_device; tag++) {
-    robot.device[tag] = malloc(sizeof(WbDevice));
-    robot.device[tag]->node = request_read_uint16(r);
-    robot.device[tag]->name = request_read_string(r);
-    robot.device[tag]->model = request_read_string(r);
-    // printf("reading %s (%d) (%s)\n", robot.device[tag]->name, robot.device[tag]->node, robot.device[tag]->model);
-    wb_device_init(robot.device[tag]);  // set device specific fields (read_answer and device_data)
-  }
+  init_devices(r, 1);
+
   robot.configure = 1;
   robot.basic_time_step = request_read_double(r);
   robot.project_path = request_read_string(r);
@@ -426,14 +432,9 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
         fprintf(stderr, "Error initializing the new device: not enough memory.\n");
         exit(EXIT_FAILURE);
       }
-      for (int i = 0; i < n; i++) {
-        robot.device[robot.n_device] = malloc(sizeof(WbDevice));
-        robot.device[robot.n_device]->node = request_read_uint16(r);
-        robot.device[robot.n_device]->name = request_read_string(r);
-        robot.device[robot.n_device]->model = request_read_string(r);
-        wb_device_init(robot.device[robot.n_device]);  // set device specific fields (read_answer and device_data)
-        robot.n_device++;
-      }
+      const int firstTag = robot.n_device;
+      robot.n_device += n;
+      init_devices(r, firstTag);
     case C_ROBOT_WINDOW_SHOW:
       robot.show_window = true;
       break;
