@@ -5,9 +5,9 @@
  *               has to be different from the inial one.
  */
 
+#include <webots/camera.h>
 #include <webots/robot.h>
 #include <webots/supervisor.h>
-#include <webots/camera.h>
 
 #include "../../../lib/ts_assertion.h"
 #include "../../../lib/ts_utils.h"
@@ -45,16 +45,16 @@ int main(int argc, char **argv) {
   WbNodeRef self_node = wb_supervisor_node_get_self();
   WbFieldRef self_children = wb_supervisor_node_get_field(self_node, "children");
   wb_supervisor_field_import_mf_node_from_string(self_children, 0, "Camera { name \"imported camera\"}");
-  
+
   WbDeviceTag camera = wb_robot_get_device("imported camera");
   ts_assert_int_not_equal(camera, 0, "Camera imported during controller execution not found.");
   wb_camera_enable(camera, TIME_STEP);
-  
+
   wb_robot_step(TIME_STEP);
 
   const unsigned char *image = wb_camera_get_image(camera);
   ts_assert_boolean_not_equal(image == NULL, "Camera image is NULL.");
-  
+
   ts_send_success();
   return EXIT_SUCCESS;
 }
