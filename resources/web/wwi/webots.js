@@ -251,7 +251,7 @@ webots.View = class View {
           });
         }
         pendingRequestsCount++;
-        const baseUrl = this.server ? this.server.httpServerUrl : 'http' + this.url.slice(2) + '/';
+        const baseUrl = (this.server ? this.server.httpServerUrl : 'http' + this.url.slice(2)) + '/';
         const url = baseUrl + 'robot_windows/' + windowName + '/' + windowName + '.html ';
         $.get(url, (data) => {
           function fixSrc(collection, serverUrl) {
