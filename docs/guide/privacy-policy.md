@@ -1,7 +1,7 @@
 ## Privacy Policy
 
 Cyberbotics respects your privacy and it is committed to protecting privacy and personal data.
-This Privacy Policy applies to the personal data of "Webots" software that may be collected through [https://cyberbotics.com](https://cyberbotics.com).
+This Privacy Policy applies to the personal data of the "Webots" software that may be collected through [https://cyberbotics.com](https://cyberbotics.com).
 By accepting this Privacy Policy and using Webots you acknowledge and agree to the terms and conditions of this Policy.
 
 ### Personal Data Collected
