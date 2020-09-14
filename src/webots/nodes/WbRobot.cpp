@@ -1055,6 +1055,7 @@ void WbRobot::dispatchAnswer(QDataStream &stream, bool includeDevices) {
         device->writeConfigure(stream);
       }
     }
+    mNewlyAddedDevices.clear();
   } else {
     writeAnswer(stream);
     if (includeDevices) {
