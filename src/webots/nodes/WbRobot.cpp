@@ -741,7 +741,7 @@ void WbRobot::writeDeviceConfigure(QList<WbDevice *> devices, QDataStream &strea
     stream << (short int)device->deviceNodeType();
     QByteArray n(device->deviceName().toUtf8());
     stream.writeRawData(n.constData(), n.size() + 1);
-    WbSolidDevice *solidDevice = dynamic_cast<WbSolidDevice *>(device);
+    const WbSolidDevice *solidDevice = dynamic_cast<WbSolidDevice *>(device);
     if (solidDevice)
       n = solidDevice->model().toUtf8();
     else
