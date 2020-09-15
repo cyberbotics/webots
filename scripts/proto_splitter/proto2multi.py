@@ -107,7 +107,7 @@ class proto2multi():
             line = self.f.readline()
             ln = line.split()
             if headerExtract:
-                if line[0:1] != '#':
+                if not line.startswith('#'):
                     print('skipping - proto file has no header ' + outFile)
                     self.pf.close()
                     self.cleanup(inFile, outFile)
