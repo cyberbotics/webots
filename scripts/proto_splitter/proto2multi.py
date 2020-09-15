@@ -68,8 +68,7 @@ class proto2multi():
         proto.write(self.headerString)
         if 'tags:' not in self.headerString.split():
             proto.write('# tags: hidden\n')
-        proto.write('# This is a proto file for Webots for the ' +
-                    self.robotName + '\n\n')
+        proto.write('# This is a proto file for Webots for the ' + self.robotName + '\n\n')
 
     def createProto(self, string):
         """turn mesh to proto file and stores it in the _meshes subfolder"""
