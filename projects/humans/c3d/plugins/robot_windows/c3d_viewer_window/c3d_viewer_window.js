@@ -220,7 +220,7 @@ webots.window('c3d_viewer_window').init(function() {
     let reader = new FileReader();
     reader.onload = (function(theFile) {
       return function(e) {
-        const message = 'c3dfile:' + e.target.result.slice(13); // remove the "data:;base64," header
+        const message = 'c3dfile:' + e.target.result.slice(e.target.result.indexOf(';base64,') + 8); // remove the "*;base64," header
         // console.log(message);
         robotWindow.send(message, 'c3d_viewer');
       };
