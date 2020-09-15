@@ -237,7 +237,9 @@ for i, points, analog in reader.read_frames():
 frameCoutner = 0
 totalFrameCoutner = 0
 offsetTime = 0
-inverseY = reader.groups['POINT'].get('X_SCREEN').string_value.strip() == '+X'
+X_SCREEN = reader.groups['POINT'].get('X_SCREEN').string_value.strip()
+Y_SCREEN = reader.groups['POINT'].get('Y_SCREEN').string_value.strip()
+inverseY = (X_SCREEN == '+X' and Y_SCREEN == '+Z') or (X_SCREEN == '-X' and Y_SCREEN == '-Z')
 while supervisor.step(timestep) != -1:
     # check for messages from the robot-window
     message = supervisor.wwiReceiveText()
