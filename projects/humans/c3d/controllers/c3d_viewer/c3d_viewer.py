@@ -275,8 +275,9 @@ while supervisor.step(timestep) != -1:
             offsetTime = supervisor.getTime()
             totalFrameCoutner = 0
         elif action == 'c3dfile':
-            with open('tmp-file.c3d', 'wb') as file:
+            with open('default.c3d', 'wb') as file:
                 file.write(base64.b64decode(value[1]))
+            supervisor.worldReload()
         else:
             print(message)
         message = supervisor.wwiReceiveText()
