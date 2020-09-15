@@ -163,7 +163,7 @@ class proto2multi():
                 self.pf.write(line)
 
     def cleanup(self, inFile, outFile=None):
-        if inFile[-5:] == '_temp':
+        if inFile.endswith('_temp'):
             os.remove(inFile)
         if outFile is not None:
             os.remove(outFile)
