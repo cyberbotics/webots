@@ -195,7 +195,7 @@ class proto2multi():
     def create_backup(self, sourcePath):
         # Create a backup of the folder we are converting
         backupName = os.path.basename(sourcePath) + '_backup_0'
-        backupPath = os.path.dirname(sourcePath) + '/' + backupName
+        backupPath = os.path.join(os.path.dirname(sourcePath), backupName)
         n = 0
         while os.path.isdir(backupPath):
             n += 1
