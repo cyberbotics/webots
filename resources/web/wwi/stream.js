@@ -3,7 +3,7 @@
 
 class Stream { // eslint-disable-line no-unused-vars
   constructor(wsServer, view, onready) {
-    this.wsServer = wsServer;
+    this.wsServer = wsServer + '/';
     this.view = view;
     this.onready = onready;
     this.socket = null;

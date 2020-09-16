@@ -6,5 +6,5 @@ maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
 textFiles: -1
-robotWindow: robot
+robotWindow: c3d_viewer
 consoles: Console:All:All

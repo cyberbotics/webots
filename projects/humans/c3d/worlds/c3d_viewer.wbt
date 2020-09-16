@@ -2,6 +2,7 @@
 WorldInfo {
   title "C3D viewer"
   coordinateSystem "NUE"
+  window "c3d_viewer_window"
 }
 Viewpoint {
   orientation -0.7095662703664664 0.642643640090935 0.2890066777929114 0.7904657261701156

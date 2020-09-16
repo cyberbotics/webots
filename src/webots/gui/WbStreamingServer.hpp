@@ -55,7 +55,7 @@ protected:
   virtual bool prepareWorld();
   virtual void connectNewRobot(const WbRobot *robot);
   virtual void sendWorldToClient(QWebSocket *client);
-  virtual void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) = 0;
+  virtual void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket);
 
   bool isActive() const { return mWebSocketServer != NULL; }
   void destroy();
@@ -100,6 +100,7 @@ private:
 
   QString mCurrentWorldLoadingStatus;
   QString mMessageToClients;
+  bool mClientsReadyToReceiveMessages;
   bool mMonitorActivity;
   bool mDisableTextStreams;
   bool mSsl;
