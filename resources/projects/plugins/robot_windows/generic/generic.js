@@ -2,7 +2,6 @@
 /* global PlotWidget: false */
 /* global RadarWidget: false */
 /* global TimeplotWidget: false */
-/* exported refreshMenu */
 /* exported motorSetPosition */
 /* exported motorUnsetPosition */
 /* exported differentialWheelsSetSpeedTag */
@@ -53,10 +52,6 @@ function closeMenu() {
   document.getElementById('menu-open-button').style.display = 'inline';
   document.getElementById('menu').style.display = 'none';
   document.getElementById('content').style.marginLeft = '0px';
-}
-
-function refreshMenu() {
-  window.robotWindow.send('configure { "imageMaxWidth": -1, "imageMaxHeight": -1 }');
 }
 
 function checkboxCallback(checkbox) {

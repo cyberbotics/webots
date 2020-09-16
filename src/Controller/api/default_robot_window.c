@@ -731,8 +731,12 @@ void wbu_default_robot_window_update() {
     return;  // prevent to mix 2 updates.
 
   const int n = wb_robot_get_number_of_devices();
-  if (update_elements == NULL || n > number_of_update_elements)
+  if (update_elements == NULL || n > number_of_update_elements) {
+    const bool new_devices = update_elements != NULL;
     initialize_update_elements();
+    if (new_devices)
+      wbu_default_robot_window_configure();
+  }
 
   buffer_append("update {");
   const double simulated_time = wb_robot_get_time();
