@@ -190,7 +190,7 @@ webots.View = class View {
           this.server = new Server(this.url, this, finalizeWorld);
           this.server.connect();
         } else { // url expected form: "ws://cyberbotics1.epfl.ch:80"
-          var httpServerUrl = this.url.replace(/ws/, 'http'); // Serve the texture images. SSL prefix is supported.
+          const httpServerUrl = 'http' + this.url.slice(2); // replace 'ws'/'wss' with 'http'/'https'
           this.stream = new Stream(this.url, this, finalizeWorld);
           TextureLoader.setTexturePathPrefix(httpServerUrl + '/');
           this.stream.connect();
@@ -220,7 +220,7 @@ webots.View = class View {
 
       var loadRobotWindow = (windowName, nodeName) => {
         this.robotWindowNames[nodeName] = windowName;
-        var win = new RobotWindow(this.view3D, this.mobileDevice, windowName);
+        let win = new RobotWindow(this.view3D, this.mobileDevice, windowName);
         this.robotWindows[windowName] = win;
         // Initialize robot windows dialogs.
         function closeInfoWindow() {
@@ -251,22 +251,86 @@ webots.View = class View {
           });
         }
         pendingRequestsCount++;
-        $.get('window/' + windowName + '/' + windowName + '.html', (data) => {
-          // Fix the img src relative URLs.
-          var d = data.replace(/ src='/g, ' src=\'window/' + windowName + '/').replace(/ src="/g, ' src="window/' +
-            windowName + '/');
-          win.setContent(d);
+        const baseUrl = (this.server ? this.server.httpServerUrl : 'http' + this.url.slice(2)) + '/';
+        const url = baseUrl + 'robot_windows/' + windowName + '/' + windowName + '.html ';
+        $.get(url, (data) => {
+          function fixSrc(collection, serverUrl) {
+            for (let i = 0; i < collection.length; i++) {
+              if (collection[i].src) {
+                const src = collection[i].getAttribute('src');
+                let url, newSrc;
+                try {
+                  url = new URL(src);
+                  newSrc = serverUrl.href + 'robot_windows/' + windowName + url.pathname;
+                } catch (_) {
+                  url = null;
+                  newSrc = serverUrl.href + 'robot_windows/' + windowName + '/' + src;
+                }
+                if (url === null || url.origin === serverUrl.origin) {
+                  if (collection[i].tagName === 'SCRIPT') {
+                    collection[i].removeAttribute('src');
+                    collection[i].setAttribute('disabled-src', newSrc);
+                  } else // IMG
+                    collection[i].setAttribute('src', newSrc);
+                } else {
+                  collection[i].setAttribute('disabled-src', src);
+                  collection[i].removeAttribute('src');
+                }
+              }
+            }
+          }
+          let parser = new DOMParser();
+          let doc = parser.parseFromString(data, 'text/html');
+          let serverUrl = new URL(baseUrl);
+          fixSrc(doc.getElementsByTagName('script'), serverUrl);
+          fixSrc(doc.getElementsByTagName('img'), serverUrl);
+          let links = doc.getElementsByTagName('link');
+          for (let i = 0; i < links.length; i++) {
+            if (links[i].rel === 'stylesheet' && links[i].type === 'text/css') {
+              let link = document.createElement('link');
+              for (let j = links[i].attributes.length - 1; j >= 0; j--) {
+                const name = links[i].attributes[j].name;
+                let value = links[i].attributes[j].value;
+                if (name === 'href' && !value.startsWith('https://') && !value.startsWith('http://')) // local css file
+                  value = baseUrl + 'robot_windows/' + windowName + '/' + value;
+                link.setAttribute(name, value);
+              }
+              document.getElementsByTagName('head')[0].appendChild(link);
+            }
+          }
+          const body = doc.getElementsByTagName('body')[0];
+          win.setContent(body.innerHTML);
           MathJax.Hub.Queue(['Typeset', MathJax.Hub, win[0]]);
-          $.get('window/' + windowName + '/' + windowName + '.js', (data) => {
-            eval(data);
-            pendingRequestsCount--;
-            if (pendingRequestsCount === 0)
-              loadFinalize();
-          }).fail(() => {
-            pendingRequestsCount--;
-            if (pendingRequestsCount === 0)
-              loadFinalize();
-          });
+
+          function nodeScriptClone(node) { // this forces the execution of the Javascript code
+            let script = document.createElement('script');
+            script.text = node.innerHTML;
+            for (let i = node.attributes.length - 1; i >= 0; i--) {
+              const name = node.attributes[i].name;
+              const value = node.attributes[i].value;
+              if (name === 'disabled-src') {
+                script.setAttribute('src', value);
+                continue;
+              }
+              script.setAttribute(name, value);
+            }
+            return script;
+          }
+
+          function nodeScriptReplace(node) {
+            if (node.tagName === 'SCRIPT')
+              node.parentNode.replaceChild(nodeScriptClone(node), node);
+            else {
+              let i = 0;
+              let children = node.childNodes;
+              while (i < children.length)
+                nodeScriptReplace(children[i++]);
+            }
+          }
+          nodeScriptReplace(win.panel); // execute Javascript code if any script tag
+          pendingRequestsCount--;
+          if (pendingRequestsCount === 0)
+            loadFinalize();
         }).fail(() => {
           if (windowName === infoWindowName)
             this.infoWindow = undefined;
@@ -276,9 +340,9 @@ webots.View = class View {
         });
       };
 
-      var pendingRequestsCount = 1; // start from 1 so that it can be 0 only after the loop is completed and all the nodes are checked
+      let pendingRequestsCount = 1; // start from 1 so that it can be 0 only after the loop is completed and all the nodes are checked
       let windowsDict = [];
-      var infoWindowName;
+      let infoWindowName;
       if (typeof this.x3dScene !== 'undefined') {
         windowsDict = this.x3dScene.getRobotWindows();
         infoWindowName = this.x3dScene.worldInfo.window;
@@ -303,7 +367,7 @@ webots.View = class View {
         loadFinalize();
     };
 
-    var loadFinalize = () => {
+    let loadFinalize = () => {
       $('#webotsProgress').hide();
       if (typeof this.multimediaClient !== 'undefined')
         // finalize multimedia client and set toolbar buttons status
@@ -371,7 +435,7 @@ webots.View = class View {
       this.view3D.appendChild(this.x3dDiv);
       this.x3dScene = new X3dScene(this.x3dDiv);
       this.x3dScene.init(texturePathPrefix);
-      var param = document.createElement('param');
+      let param = document.createElement('param');
       param.name = 'showProgress';
       param.value = false;
       this.x3dScene.domElement.appendChild(param);

@@ -68,8 +68,10 @@ void WbMultimediaStreamingServer::start(int port) {
 }
 
 void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
-  if (requestedUrl != "mjpeg")
+  if (requestedUrl != "mjpeg") {
+    WbStreamingServer::sendTcpRequestReply(requestedUrl, socket);
     return;
+  }
   socket->readAll();
 
   static const QByteArray &contentType = ("HTTP/1.0 200 OK\r\nServer: Webots\r\nConnection: close\r\nMax-Age: 0\r\n"
@@ -343,8 +345,6 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
     const QStringList &resolution = message.mid(7).split("x");
     const int width = resolution[0].toInt();
     const int height = resolution[1].toInt();
-    WbLog::info(
-      tr("Streaming server: New client [%1] (%2 connected client(s)).").arg(clientToId(client)).arg(mWebSocketClients.size()));
     QString args;
     if ((mImageWidth <= 0 && mImageHeight <= 0) || client == mWebSocketClients.first()) {
       cMainWindow->setView3DSize(QSize(width, height));
@@ -358,11 +358,12 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
       WbLog::info(tr("Streaming server: Ignored new client request of resolution: %1x%2.").arg(width).arg(height));
       args = QString("%1 %2").arg(mImageWidth).arg(mImageHeight);
     }
-    client->sendTextMessage(QString("multimedia: /mjpeg %2 %3").arg(simulationStateString(false)).arg(args));
+    client->sendTextMessage(QString("multimedia: mjpeg %2 %3").arg(simulationStateString(false)).arg(args));
     const QString &stateMessage = simulationStateString();
     if (!stateMessage.isEmpty())
       client->sendTextMessage(stateMessage);
     sendWorldToClient(client);
+    sendToClients();  // send possible bufferized messages
   } else if (message.startsWith("resize: ")) {
     if (client == mWebSocketClients.first()) {
       const QStringList &resolution = message.mid(8).split("x");

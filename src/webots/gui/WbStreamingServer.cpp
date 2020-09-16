@@ -16,6 +16,7 @@
 
 #include "WbApplication.hpp"
 #include "WbField.hpp"
+#include "WbHttpReply.hpp"
 #include "WbLanguage.hpp"
 #include "WbMainWindow.hpp"
 #include "WbNodeOperations.hpp"
@@ -44,6 +45,7 @@ WbStreamingServer::WbStreamingServer(bool monitorActivity, bool disableTextStrea
   QObject(),
   mPauseTimeout(-1),
   mWebSocketServer(NULL),
+  mClientsReadyToReceiveMessages(false),
   mMonitorActivity(monitorActivity),
   mDisableTextStreams(disableTextStreams),
   mSsl(ssl),
@@ -175,6 +177,22 @@ void WbStreamingServer::onNewTcpData() {
   }
 }
 
+void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
+  if (!requestedUrl.startsWith("robot_windows/")) {
+    WbLog::warning(tr("Unsupported URL %1").arg(requestedUrl));
+    socket->write(WbHttpReply::forge404Reply());
+    return;
+  }
+  const QString fileName(WbProject::current()->pluginsPath() + requestedUrl);
+  if (WbHttpReply::mimeType(fileName).isEmpty()) {
+    WbLog::warning(tr("Unsupported file type %1").arg(fileName));
+    socket->write(WbHttpReply::forge404Reply());
+    return;
+  }
+  WbLog::info(tr("Received request for %1").arg(fileName));
+  socket->write(WbHttpReply::forgeFileReply(fileName));
+}
+
 void WbStreamingServer::onNewWebSocketConnection() {
   QWebSocket *client = mWebSocketServer->nextPendingConnection();
   if (client) {
@@ -183,7 +201,6 @@ void WbStreamingServer::onNewWebSocketConnection() {
     mWebSocketClients << client;
     WbLog::info(
       tr("Streaming server: New client [%1] (%2 connected client(s)).").arg(clientToId(client)).arg(mWebSocketClients.size()));
-    sendToClients();  // send possible bufferized messages
   }
 }
 
@@ -216,16 +233,16 @@ void WbStreamingServer::processTextMessage(QString message) {
     const QJsonDocument &jsonDocument = QJsonDocument::fromJson(data.toUtf8());
     if (jsonDocument.isNull() || !jsonDocument.isObject()) {
       // backward compatibility
-      const int nameSize = message.indexOf(":");
+      const int nameSize = data.indexOf(":");
       name = data.left(nameSize);
       robotMessage = data.mid(nameSize + 1);
     } else {
       name = jsonDocument.object().value("name").toString();
       robotMessage = jsonDocument.object().value("message").toString();
     }
-    const QByteArray &byteRobotMessage = robotMessage.toUtf8();
     WbLog::info(tr("Streaming server: received robot message for %1: \"%2\".").arg(name).arg(robotMessage));
     const QList<WbRobot *> &robots = WbWorld::instance()->robots();
+    const QByteArray &byteRobotMessage = robotMessage.toUtf8();
     foreach (WbRobot *const robot, robots)
       if (robot->name() == name) {
         robot->receiveFromJavascript(byteRobotMessage);
@@ -454,13 +471,15 @@ void WbStreamingServer::propagateLogToClients(WbLog::Level level, const QString 
 }
 
 void WbStreamingServer::sendToClients(const QString &message) {
-  if (mMessageToClients.isEmpty()) {
-    if (message.isEmpty())
+  if (message.isEmpty()) {
+    mClientsReadyToReceiveMessages = true;
+    if (mMessageToClients.isEmpty())
       return;
+  } else if (mMessageToClients.isEmpty())
     mMessageToClients = message;
-  } else if (!message.isEmpty())
+  else
     mMessageToClients += "\n" + message;
-  if (mWebSocketClients.isEmpty())
+  if (mWebSocketClients.isEmpty() || !mClientsReadyToReceiveMessages)
     return;
   foreach (QWebSocket *client, mWebSocketClients)
     client->sendTextMessage(mMessageToClients);

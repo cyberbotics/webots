@@ -69,21 +69,21 @@ void WbX3dStreamingServer::create(int port) {
 }
 
 void WbX3dStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
-  QByteArray reply;
-  if (mX3dWorldTextures.contains(requestedUrl))
-    reply = WbHttpReply::forgeImageReply(mX3dWorldTextures[requestedUrl]);
+  if (!mX3dWorldTextures.contains(requestedUrl))
+    WbStreamingServer::sendTcpRequestReply(requestedUrl, socket);
   else
-    reply = WbHttpReply::forge404Reply();
-  socket->write(reply);
+    socket->write(WbHttpReply::forgeFileReply(mX3dWorldTextures[requestedUrl]));
 }
 
 void WbX3dStreamingServer::processTextMessage(QString message) {
   if (message.startsWith("x3d")) {
     QWebSocket *client = qobject_cast<QWebSocket *>(sender());
-    WbLog::info(tr("Streaming server: Client set mode to: X3D."));
+    WbLog::info(tr("Streaming server: Client set mode to X3D."));
     mPauseTimeout = message.endsWith(";broadcast") ? -1 : 0;
-    if (!WbWorld::instance()->isLoading())
+    if (!WbWorld::instance()->isLoading()) {
       startX3dStreaming(client);
+      sendToClients();  // send possible bufferized messages
+    }
     // else streaming is started once the world loading is completed
     return;
   } else if (message == "reset") {
@@ -117,8 +117,6 @@ void WbX3dStreamingServer::startX3dStreaming(QWebSocket *client) {
     const QString &stateMessage = simulationStateString();
     if (!stateMessage.isEmpty())
       client->sendTextMessage(stateMessage);
-    WbLog::info(
-      tr("Streaming server: New client [%1] (%2 connected client(s)).").arg(clientToId(client)).arg(mWebSocketClients.size()));
   } catch (const QString &e) {
     WbLog::error(tr("Streaming server: Cannot send world date to client [%1] because: %2.").arg(clientToId(client)).arg(e));
   }
