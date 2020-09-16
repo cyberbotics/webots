@@ -132,6 +132,17 @@ static void init_remote_control_library() {
   }
 }
 
+static void init_devices_from_tag(WbRequest *r, int firstTag) {
+  for (int tag = firstTag; tag < robot.n_device; tag++) {
+    robot.device[tag] = malloc(sizeof(WbDevice));
+    robot.device[tag]->node = request_read_uint16(r);
+    robot.device[tag]->name = request_read_string(r);
+    robot.device[tag]->model = request_read_string(r);
+    // printf("reading %s (%d) (%s)\n", robot.device[tag]->name, robot.device[tag]->node, robot.device[tag]->model);
+    wb_device_init(robot.device[tag]);  // set device specific fields (read_answer and device_data)
+  }
+}
+
 static void robot_quit() {  // called when Webots kills a controller
   WbDeviceTag tag;
   for (tag = 0; tag < robot.n_device; tag++)
@@ -310,14 +321,8 @@ static void robot_configure(WbRequest *r) {
       break;
   }
   // reading device names
-  for (tag = 1; tag < robot.n_device; tag++) {
-    robot.device[tag] = malloc(sizeof(WbDevice));
-    robot.device[tag]->node = request_read_uint16(r);
-    robot.device[tag]->name = request_read_string(r);
-    robot.device[tag]->model = request_read_string(r);
-    // printf("reading %s (%d) (%s)\n", robot.device[tag]->name, robot.device[tag]->node, robot.device[tag]->model);
-    wb_device_init(robot.device[tag]);  // set device specific fields (read_answer and device_data)
-  }
+  init_devices_from_tag(r, 1);
+
   robot.configure = 1;
   robot.basic_time_step = request_read_double(r);
   robot.project_path = request_read_string(r);
@@ -419,6 +424,16 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
       free(robot.model);
       robot.model = request_read_string(r);
       break;
+    case C_ROBOT_NEW_DEVICE:
+      n = request_read_uint16(r);
+      robot.device = realloc(robot.device, sizeof(WbDevice *) * (robot.n_device + n));
+      if (!robot.device) {
+        fprintf(stderr, "Error initializing the new device: not enough memory.\n");
+        exit(EXIT_FAILURE);
+      }
+      const int firstTag = robot.n_device;
+      robot.n_device += n;
+      init_devices_from_tag(r, firstTag);
     case C_ROBOT_WINDOW_SHOW:
       robot.show_window = true;
       break;
