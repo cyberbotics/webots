@@ -2,6 +2,7 @@
 /* global PlotWidget: false */
 /* global RadarWidget: false */
 /* global TimeplotWidget: false */
+/* exported refreshMenu */
 /* exported motorSetPosition */
 /* exported motorUnsetPosition */
 /* exported differentialWheelsSetSpeedTag */
@@ -52,6 +53,10 @@ function closeMenu() {
   document.getElementById('menu-open-button').style.display = 'inline';
   document.getElementById('menu').style.display = 'none';
   document.getElementById('content').style.marginLeft = '0px';
+}
+
+function refreshMenu() {
+  window.robotWindow.send('configure { "imageMaxWidth": -1, "imageMaxHeight": -1 }');
 }
 
 function checkboxCallback(checkbox) {
@@ -109,6 +114,9 @@ function appendNewElement(id, newElement) {
 }
 
 function addDeviceType(type) {
+  if (document.getElementById(type))
+    return; // check if already exists
+
   appendNewElement('content',
     '<div id="' + type + '" class="devices-container animate-left">' +
       '<h1>' + type + '</h1>' +
@@ -121,6 +129,9 @@ function addDeviceType(type) {
 }
 
 function addDevice(device) {
+  if (document.getElementById(device.htmlName))
+    return; // check if already exists
+
   var div = '<div id="' + device.htmlName + '" class="device">';
   div += '<h2>';
   if (device.type !== 'RotationalMotor' && device.type !== 'LinearMotor' && device.type !== 'DifferentialWheels')

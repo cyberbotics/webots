@@ -158,7 +158,8 @@ void wb_robot_window_step(int time_step) {
         assert(0);
         return;
       }
-      wbu_default_robot_window_set_images_max_size(max_image_width, max_image_height);
+      if (max_image_height > 0 && max_image_width > 0)
+        wbu_default_robot_window_set_images_max_size(max_image_width, max_image_height);
       wbu_default_robot_window_configure();
       configured = true;
     } else

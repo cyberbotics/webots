@@ -30,14 +30,27 @@ h2 {
 #menu-open-button:hover {
   background-color: #AAF;
 }
+#menu-buttons {
+  text-align: right;
+}
 #menu-close-button {
   border: none;
   background-color: transparent;
   outline: none;
   color: white;
-  text-align: right;
+  display: inline-block;
 }
 #menu-close-button:hover {
+  color: #AAF;
+}
+#menu-refresh-button {
+  border: none;
+  background-color: transparent;
+  outline: none;
+  color: white;
+  display: inline-block;
+}
+#menu-refresh-button:hover {
   color: #AAF;
 }
 .menu-button {
