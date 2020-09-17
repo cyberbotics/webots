@@ -44,19 +44,7 @@
 
 import os
 import optparse
-import errno
 import shutil
-
-
-def mkdirSafe(directory):
-    """Create a dir safely."""
-    try:
-        os.makedirs(directory)
-    except OSError as e:
-        if e.errno != errno.EEXIST:
-            raise
-        else:
-            pass
 
 
 class proto2multi():
@@ -65,10 +53,9 @@ class proto2multi():
 
     def header(self, proto):
         """Specify VRML file header."""
+        self.headerString += '# tags: hidden\n'
+        self.headerString += '# This is a proto file for Webots for the %s\n\n' % (self.robotName)
         proto.write(self.headerString)
-        if 'tags:' not in self.headerString.split():
-            proto.write('# tags: hidden\n')
-        proto.write('# This is a proto file for Webots for the ' + self.robotName + '\n\n')
 
     def createProto(self, string):
         """turn mesh to proto file and stores it in the _meshes subfolder"""
@@ -92,9 +79,9 @@ class proto2multi():
             outFile = '{}/{}.proto'.format(newPath, self.robotName)
         else:
             newPath = os.path.dirname(outFile)
-        mkdirSafe(newPath)
+        os.makedirs(newPath, exist_ok=True)
         # make a dir called 'x_meshes'
-        mkdirSafe(outFile.replace('.proto', '') + '_meshes')
+        os.makedirs(outFile.replace('.proto', '') + '_meshes', exist_ok=True)
         self.meshFilesPath = outFile.replace('.proto', '') + '_meshes'
         self.f = open(inFile)
         self.pf = open(outFile, 'w')
@@ -103,32 +90,28 @@ class proto2multi():
         indent = '  '
         level = 0
         headerExtract = True
+        n = 1
         while True:
             line = self.f.readline()
             ln = line.split()
             if headerExtract:
-                if not line.startswith('#'):
+                if line[0:1] != '#':
                     print('skipping - proto file has no header ' + outFile)
                     self.pf.close()
                     self.cleanup(inFile, outFile)
                     return
-                while '[' not in ln:
+                while line.startswith('#'):
                     self.pf.write(line)
-                    if 'hidden' in ln:
-                        print('skipping - has "hidden" tag ' + outFile)
-                        self.pf.close()
-                        self.cleanup(inFile, outFile)
-                        return
-                    if 'tags:' in ln:
-                        ln[ln.index('tags:')] = 'tags: hidden,'
-                        line = ' '.join(ln) + '\n'
-                    self.headerString += line
+                    if line[:5] in ['#VRML', '# lic', '# doc']:
+                        self.headerString += line
                     line = self.f.readline()
                     ln = line.split()
+                    n += 1
                 headerExtract = False
             # termination condition:
             eof = 0
             while ln == []:
+                self.pf.write(line)
                 line = self.f.readline()
                 ln = line.split()
                 eof += 1
@@ -163,7 +146,7 @@ class proto2multi():
                 self.pf.write(line)
 
     def cleanup(self, inFile, outFile=None):
-        if inFile.endswith('_temp'):
+        if inFile[-5:] == '_temp':
             os.remove(inFile)
         if outFile is not None:
             os.remove(outFile)
@@ -171,7 +154,7 @@ class proto2multi():
     def convert_all(self, sourcePath):
         self.create_backup(sourcePath)
         outPath = sourcePath
-        mkdirSafe(outPath)
+        os.makedirs(outPath, exist_ok=True)
         # Find all the proto files, and store their filePaths
         os.chdir(sourcePath)
         # Walk the tree.
@@ -195,7 +178,7 @@ class proto2multi():
     def create_backup(self, sourcePath):
         # Create a backup of the folder we are converting
         backupName = os.path.basename(sourcePath) + '_backup_0'
-        backupPath = os.path.join(os.path.dirname(sourcePath), backupName)
+        backupPath = os.path.dirname(sourcePath) + '/' + backupName
         n = 0
         while os.path.isdir(backupPath):
             n += 1
@@ -208,11 +191,17 @@ if __name__ == "__main__":
     optParser.add_option('--input', dest='inPath', default=None,
                          help='Specifies the proto file, or a directory. Converts all .proto files, if it is a directory.')
     options, args = optParser.parse_args()
-
     inPath = options.inPath
-    p2m = proto2multi()
-    if os.path.basename(inPath).split('.')[-1] == 'proto':
-        p2m.convert(inPath)
+    if inPath is not None:
+        p2m = proto2multi()
+        if os.path.splitext(inPath)[1] == '.proto':
+            p2m.convert(inPath)
+            print('Multi-file extraction done')
+        elif os.path.isdir(inPath):
+            inPath = os.path.abspath(inPath)
+            p2m.convert_all(inPath)
+            print('Multi-file extraction done')
+        else:
+            print('ERROR: --input has to be a .proto file or directory!')
     else:
-        inPath = os.path.abspath(inPath)
-        p2m.convert_all(inPath)
+        print('Mandatory argument --input=<path> missing!\nSpecify a .proto file or directory path.')
