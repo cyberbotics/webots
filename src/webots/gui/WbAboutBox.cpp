@@ -44,7 +44,7 @@ WbAboutBox::WbAboutBox(QWidget *parent) : QDialog(parent) {
                                "href='https://www.apache.org/licenses/LICENSE-2.0'>Apache License, Version 2.0</a></p>"
                                "<p>© Cyberbotics 1998-%3</p>")
                          .arg(WbApplicationInfo::version().toString())
-                         .arg(releaseTimestamp.date().toString(Qt::SystemLocaleShortDate))
+                         .arg(releaseTimestamp.date().toString("MMMM dd, yyyy"))
                          .arg(QDate::currentDate().year()));
   firstRowLayout->addWidget(versionInfo, 0, 1, 1, 2, Qt::AlignCenter);
 
