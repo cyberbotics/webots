@@ -63,13 +63,13 @@ cd $WEBOTS_HOME/resources/web
 python3 -m http.server 8080
 ```
 
-Now, you can access the simulation at [http://localhost:8080/streaming_viewer/](http://localhost:8080/streaming_viewer/).
+Now, you can access the simulation at [http://localhost:8080/streaming_viewer/](http://localhost:8080/streaming\_viewer/).
 
-In the user interface, find a `Connect to` field, type for example:
+In the user interface, find a `Connect to` field, and type for example:
 ```
 ws://localhost:1999/session?url=webots://github.com/cyberbotics/webots/branch/develop/projects/languages/python/worlds/example.wbt
 ```
-and click `Connect`.
+Click the `Connect` button to initiate the streaming.
 Webots will clone the `example.wbt` simulation from GitHub and start it.
 
 If you want to stop the session and simulation servers run:
