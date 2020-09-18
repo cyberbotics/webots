@@ -63,7 +63,7 @@ cd $WEBOTS_HOME/resources/web
 python3 -m http.server 8080
 ```
 
-Now, you can access the simulation at [http://localhost:8080/streaming_viewer/](http://localhost:8080/streaming\_viewer/).
+Now, you can access the simulation at [http://localhost:8080/streaming\_viewer/](http://localhost:8080/streaming\_viewer/).
 
 In the user interface, find a `Connect to` field, and type for example:
 ```
