@@ -503,11 +503,10 @@ THREE.X3DLoader = class X3DLoader {
           parseFloat(normalStr[i + 2])));
       }
     }
-
+    let uvs = [];
     if (hasTexCoord) {
       let isDefaultMapping = getNodeAttribute(ifs, 'defaultMapping', 'false').toLowerCase() === 'true';
       let texcoords = texcoordsStr.split(/\s/);
-      let uvs = [];
       for (let i = 0; i < texcoords.length; i += 2) {
         let v = new THREE.Vector2();
         v.x = parseFloat(texcoords[i + 0]);
@@ -524,8 +523,7 @@ THREE.X3DLoader = class X3DLoader {
     }
 
     // Now pull out the face indices.
-    if (hasTexCoord)
-      let texIndices = texcoordIndexStr.split(/\s/);
+    let texIndices = hasTexCoord ? texcoordIndexStr.split(/\s/) : null;
     for (let i = 0; i < indicesStr.length; i++) {
       let faceIndices = [];
       let uvIndices = [];
@@ -572,7 +570,7 @@ THREE.X3DLoader = class X3DLoader {
           faceNormal
         ));
         // Remove the second-to-last vertex.
-        tmp = faceIndices[faceIndices.length - 1];
+        let tmp = faceIndices[faceIndices.length - 1];
         faceIndices.pop();
         faceIndices[faceIndices.length - 1] = tmp;
       }
