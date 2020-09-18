@@ -41,7 +41,7 @@ Note that Webots have to be installed on all the machines where a simulation ser
 
 
 #### Quick Start
-This section gives a simple step by step guide on how to start a streaming server with one session and one simulation server.
+This section gives a simple step-by-step guide on how to start a streaming server with one session and one simulation server.
 We assume you use Ubuntu 18.04 or newer.
 
 First, you need to install dependencies:
