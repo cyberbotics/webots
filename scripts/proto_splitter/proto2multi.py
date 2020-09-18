@@ -59,8 +59,8 @@ class proto2multi():
 
     def createProto(self, string):
         """turn mesh to proto file and stores it in the _meshes subfolder"""
-        name = self.robotName + '_' + str(self.shapeIndex)
-        filepath = '%s/%sMesh.proto' % (self.meshFilesPath, name)
+        name = self.robotName + 'Mesh' + str(self.shapeIndex)
+        filepath = '%s/%s.proto' % (self.meshFilesPath, name)
         meshProtoFile = open(filepath, 'w')
         self.header(meshProtoFile)
         meshProtoFile.write('PROTO %sMesh [\n]\n{\n' % name)
