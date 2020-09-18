@@ -57,14 +57,7 @@ cd $WEBOTS_HOME/resources/web/server
 The session server keeps a track of the available simulation servers and assigns a connection to the most suitable simulation server (similar to a load balancer). 
 A task of the simulation server is to start a Webots instance with the correct world.
 
-To run the user interface you need a web server:
-```bash
-cd $WEBOTS_HOME/resources/web
-python3 -m http.server 8080
-```
-
-Now, you can access the simulation at [http://localhost:8080/streaming\_viewer/](http://localhost:8080/streaming\_viewer/).
-
+To show the user interface simply open the `$WEBOTS_HOME/resources/web/streaming_viewer/index.html` file in your browser.
 In the user interface, find a `Connect to` field, and type for example:
 ```
 ws://localhost:1999/session?url=webots://github.com/cyberbotics/webots/branch/develop/projects/languages/python/worlds/example.wbt
