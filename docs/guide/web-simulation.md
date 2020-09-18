@@ -45,7 +45,7 @@ This section gives a simple step by step guide on how to start streaming server 
 
 First, you need to install dependencies:
 ```bash
-sudo apt install subversion firejail
+sudo apt install subversion firejail python3-tornado python3-pynvml
 ```
 
 Then, start a session and simulation servers:
@@ -53,7 +53,8 @@ Then, start a session and simulation servers:
 cd $WEBOTS_HOME/resources/web/server
 ./server.sh start default
 ```
-The session server keeps a track of the available simulation servers and assigns a connection to the most suitable simulation server (similar to a load balancer). A task of the simulation server is to start a Webots instance with a correct world.
+The session server keeps a track of the available simulation servers and assigns a connection to the most suitable simulation server (similar to a load balancer). 
+A task of the simulation server is to start a Webots instance with a correct world.
 
 To run the user interface you need a web server:
 ```bash
@@ -61,7 +62,7 @@ cd $WEBOTS_HOME/resources/web
 python3 -m http.server 8080
 ```
 
-Now, you can access the simulation at: [http://localhost:8080/](http://localhost:8080/)
+Now, you can access the simulation at [http://localhost:8080/streaming_viewer/](http://localhost:8080/streaming_viewer/).
 
 In `Connect to` field type for example:
 ```
