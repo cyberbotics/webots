@@ -127,7 +127,9 @@ class Stream { // eslint-disable-line no-unused-vars
     } else if (data.startsWith('time: ')) {
       this.view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
       $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(this.view.time));
-    } else {
+    } else if (data === 'delete world')
+      this.view.destroyWorld();
+    else {
       let messagedProcessed = false;
       if (typeof this.view.multimediaClient !== 'undefined')
         messagedProcessed = this.view.multimediaClient.processServerMessage(data);
