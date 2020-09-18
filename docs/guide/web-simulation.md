@@ -41,7 +41,8 @@ Note that Webots have to be installed on all the machines where a simulation ser
 
 
 #### Quick Start
-This section gives a simple step by step guide on how to start streaming server with one session and one simulation server. We assume you use Ubuntu 18.04 or newer.
+This section gives a simple step by step guide on how to start a streaming server with one session and one simulation server.
+We assume you use Ubuntu 18.04 or newer.
 
 First, you need to install dependencies:
 ```bash
@@ -54,7 +55,7 @@ cd $WEBOTS_HOME/resources/web/server
 ./server.sh start default
 ```
 The session server keeps a track of the available simulation servers and assigns a connection to the most suitable simulation server (similar to a load balancer). 
-A task of the simulation server is to start a Webots instance with a correct world.
+A task of the simulation server is to start a Webots instance with the correct world.
 
 To run the user interface you need a web server:
 ```bash
@@ -64,7 +65,7 @@ python3 -m http.server 8080
 
 Now, you can access the simulation at [http://localhost:8080/streaming_viewer/](http://localhost:8080/streaming_viewer/).
 
-In `Connect to` field type for example:
+In the user interface, find a `Connect to` field, type for example:
 ```
 ws://localhost:1999/session?url=webots://github.com/cyberbotics/webots/branch/develop/projects/languages/python/worlds/example.wbt
 ```
@@ -77,8 +78,7 @@ cd $WEBOTS_HOME/resources/web/server
 ./server.sh stop
 ```
 
-Further in the document, you will find more details on how to start multiple simulation servers, how to monitor servers, how to rewrite the ports and more.
-
+Further in the document, you will find more details on how to start multiple simulation servers, how to monitor servers, how to rewrite the ports, and more.
 #### Protocol
 
 When a web client needs to know whether it may start a simulation, it will open a WebSocket connection to the session server to monitor the availability of simulation servers.
