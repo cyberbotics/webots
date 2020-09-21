@@ -214,14 +214,18 @@ function forgeUrl(book, page, tabs, anchor) {
     // Add or replace the book argument.
     if (url.indexOf('book=') > -1)
       url = url.replace(/book=([^&]+)?/, 'book=' + book);
-    else
+    else {
       url += (isFirstArgument ? '?' : '&') + 'book=' + book;
+      isFirstArgument = false;
+    }
 
     // Add or replace the page argument.
     if (url.indexOf('page=') > -1)
       url = url.replace(/page=([\w-]+)?/, 'page=' + page);
-    else
+    else {
       url += (isFirstArgument ? '?' : '&') + 'page=' + page;
+      isFirstArgument = false;
+    }
 
     // Add or replace the tab argument.
     for (tabOption in tabs) {
