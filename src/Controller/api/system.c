@@ -177,6 +177,7 @@ const char *wbu_system_webots_tmp_path() {
       struct dirent *entry;
       char folder_start[32];
       sprintf(folder_start, "webots-%d", webots_pid);
+      webots_pid = 0;
       while ((entry = readdir(dir))) {
         if (strncmp(entry->d_name, folder_start, strlen(folder_start)) == 0) {
           struct stat s;
@@ -185,7 +186,7 @@ const char *wbu_system_webots_tmp_path() {
             continue;
           if (!S_ISDIR(s.st_mode))
             continue;
-          if (strlen(entry->d_name) > 64)
+          if (strlen(entry->d_name) > 70)
             continue;
           sscanf(entry->d_name, "webots-%d%63s", &webots_pid, random_part);
           break;
