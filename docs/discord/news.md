@@ -4,6 +4,28 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2020
 
+##### David Mansolino [cyberbotics] 09/14/2020 12:50:16
+Webots Docker containers are now available on dockerhub: [https://hub.docker.com/r/cyberbotics/webots](https://hub.docker.com/r/cyberbotics/webots)
+
+
+
+These containers support GPU acceleration so that you can use Webots as if it was natively installed.
+
+
+
+Alternatively, if you want to use them in your CI, they support headless mode too!
+
+
+
+Find installation and usage instructions here: [https://cyberbotics.com/doc/guide/installation-procedure#installing-the-docker-image](https://cyberbotics.com/doc/guide/installation-procedure#installing-the-docker-image)
+
+
+
+We are looking forward to receive feedback from you!
+%figure
+![SPOILER_webots_docker.png](https://cdn.discordapp.com/attachments/568354695513374730/755047768887656608/SPOILER_webots_docker.png)
+%end
+
 ##### Soft\_illusion 09/04/2020 17:00:48
 Get it from : [https://youtu.be/xMPyqbtYc\_E](https://youtu.be/xMPyqbtYc_E)
 

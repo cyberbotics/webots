@@ -138,24 +138,24 @@ The chapter entitled [running extern robot controllers](running-extern-robot-con
 
 #### Installing the Docker Image
 
-A [Docker](https://www.docker.com) image of Webots based on Ubuntu 18.04 is available on [dockerhub](https://hub.docker.com/r/cyberbotics/webots).
+[Docker](https://www.docker.com) images of Webots based on Ubuntu 18.04 and 20.04 are available on [dockerhub](https://hub.docker.com/r/cyberbotics/webots).
 
-This image can be used to run Webots in your continuous integration (CI) workflow without requiring any graphical user interface or to get a clean and sandboxed environment with Webots pre-installed including GPU accelerated graphical user interface.
+These images can be used to run Webots in your continuous integration (CI) workflow without requiring any graphical user interface or to get a clean and sandboxed environment with Webots pre-installed including GPU accelerated graphical user interface.
 
 ##### Install Docker
 
 Follow the [Docker installation instructions](https://docs.docker.com/engine/install/#server) to install docker.
 
-##### Run Webots in Docker without GUI
+##### Run Webots in Docker in Headless Mode
 
 The docker image comes with a X virtual framebuffer (Xvfb) already installed and configured so that you can run Webots in headless mode.
 
 To pull the image and start a docker container with it use the following command:
 ```
-docker run -it cyberbotics/webots:latest /bin/bash
+docker run -it cyberbotics/webots:latest
 ```
 
-> **Note**: If you need a specific version of Webots and not the latest one, replace `latest` with the version you need (e.g. `R2020b-rev1`).
+> **Note**: If you need a specific version of Webots or Ubuntu and not the latest ones, replace `latest` with the version you need (e.g. `R2020b-rev1-ubuntu20.04`).
 
 After starting the docker container you can start Webots headlessly using xvfb:
 ```
@@ -177,7 +177,7 @@ xhost +local:root > /dev/null 2>&1
 
 You can then start the container with the following command:
 ```
-docker run -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest /bin/bash
+docker run -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest
 ```
 
 Or if you want to directly launch Webots:
@@ -194,7 +194,7 @@ Please follow the [official instructions](https://docs.nvidia.com/datacenter/clo
 
 Once this package is installed, use the same procedure than without GPU acceleration, but add the `--gpus=all` when starting the docker container:
 ```
-docker run --gpus=all -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest /bin/bash
+docker run --gpus=all -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw cyberbotics/webots:latest
 ```
 
 ##### Troubleshooting
@@ -254,10 +254,26 @@ You can pass this warning and install Webots by clicking on the "More info" link
 
 ### Installation on macOS
 
+#### From the Installation File
+
 1. Download the `webots-{{ webots.version.package }}.dmg` installation file from our [website](https://cyberbotics.com).
 2. Double click on this file.
 This will mount on the desktop a volume named "Webots" containing the "Webots" folder.
 3. Move this folder to your "/Applications" folder or wherever you would like to install Webots.
+
+#### From the Homebrew Package
+
+A [Homebrew package](https://formulae.brew.sh/cask/webots) is available for Webots.
+
+If brew is not already installed on your computer, install it with the following command in a terminal:
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+```
+
+Webots can then be installed with:
+```
+brew cask install webots
+```
 
 ### macOS Security
 
