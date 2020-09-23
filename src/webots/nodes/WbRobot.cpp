@@ -685,18 +685,12 @@ void WbRobot::powerOn(bool e) {
 void WbRobot::keyPressed(const QString &text, int key, int modifiers) {
   int pressedKeys = modifiers;
 
-  if (gSpecialKeys.contains(key))
-    // special key
+  if (gSpecialKeys.contains(key))  // special key
     pressedKeys += gSpecialKeys.value(key);
-  else if (!text.isEmpty())
-    // normal key
-    pressedKeys += key & WB_KEYBOARD_KEY;
-  else
-    // unknown key
-    return;
+  pressedKeys += key & WB_KEYBOARD_KEY;
 
   if (pressedKeys && !mPressedKeys.contains(pressedKeys)) {
-    mPressedKeys.append(pressedKeys);
+    mPressedKeys.prepend(pressedKeys);
     mKeyboardHasChanged = true;
     emit keyboardChanged();
   }
@@ -1138,7 +1132,6 @@ void WbRobot::writeAnswer(QDataStream &stream) {
     stream << (short unsigned int)0;
     stream << (unsigned char)C_ROBOT_KEYBOARD_VALUE;
     stream << (unsigned char)mKeyboardLastValue.size();
-
     foreach (int key, mKeyboardLastValue)
       stream << (int)key;
 
