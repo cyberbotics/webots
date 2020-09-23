@@ -220,10 +220,8 @@ function forgeUrl(book, page, tabs, anchor) {
     // Add or replace the page argument.
     if (url.indexOf('page=') > -1)
       url = url.replace(/page=([\w-]+)?/, 'page=' + page);
-    else {
+    else
       url += '&page=' + page;
-      isFirstArgument = false;
-    }
 
     // Add or replace the tab argument.
     for (tabOption in tabs) {
