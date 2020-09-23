@@ -1184,3 +1184,26 @@ You don't need to put it in the camera as child to do this, you just need to ret
 ##### David Mansolino [cyberbotics] 08/24/2020 10:16:57
 You're welcome
 
+##### Awadhut 09/15/2020 01:30:32
+Hi guys. I have a query about use of sensors in webots. Specifically, I want to poll pointcloud data and publish it on a rostopic, just like one that could be obtained from a stereo camera like the intel realsense.
+
+
+
+I am new to webots and found it hard to find resources to do this. Can somebody point me to some examples for achieving this?
+
+##### David Mansolino [cyberbotics] 09/15/2020 05:07:26
+Hi `@Awadhut`, the device you are looking for is the Range-finder: [https://www.cyberbotics.com/doc/reference/rangefinder](https://www.cyberbotics.com/doc/reference/rangefinder)
+
+
+If you use it together with the default 'ros' controller ([https://cyberbotics.com/doc/guide/using-ros](https://cyberbotics.com/doc/guide/using-ros)), it will publish a depth image: [https://www.cyberbotics.com/doc/reference/rangefinder?tab-language=ros#wb\_range\_finder\_get\_range\_image](https://www.cyberbotics.com/doc/reference/rangefinder?tab-language=ros#wb_range_finder_get_range_image)
+
+
+If you want directly a ROS point cloud, an alternative is the lidar node: [https://www.cyberbotics.com/doc/reference/lidar?tab-language=ros#wb\_lidar\_get\_point\_cloud](https://www.cyberbotics.com/doc/reference/lidar?tab-language=ros#wb_lidar_get_point_cloud)
+
+
+In any case, to get familiar with the Webots-ros interface, you should probably read this:
+
+[http://wiki.ros.org/webots\_ros](http://wiki.ros.org/webots_ros)
+
+[http://wiki.ros.org/webots\_ros/Tutorials/Sample%20Simulations](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations)
+

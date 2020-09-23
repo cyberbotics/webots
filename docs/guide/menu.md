@@ -9,6 +9,7 @@
     - [Webots license agreement](webots-license-agreement.md)
     - [Telemetry](telemetry.md)
     - [Translating Webots to Your Own Language](translating-webots-to-your-own-language.md)
+    - [Privacy Policy](privacy-policy.md)
 - [Building Webots](building-webots.md)
 - [Getting Started with Webots](getting-started-with-webots.md)
     - [Introduction to Webots](introduction-to-webots.md)
