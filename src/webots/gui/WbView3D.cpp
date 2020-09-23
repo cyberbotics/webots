@@ -2174,7 +2174,7 @@ void WbView3D::keyPressEvent(QKeyEvent *event) {
   const int key = event->key();
   if (key != Qt::Key_Control && key != Qt::Key_Meta && key != Qt::Key_Shift && key != Qt::Key_Alt) {
     foreach (WbRobot *robot, robotList)
-      robot->keyPressed(event->text(), key, modifiers);
+      robot->keyPressed(key, modifiers);
   }
   handleModifierKey(event, true);
   QWindow::keyPressEvent(event);
@@ -2193,8 +2193,11 @@ void WbView3D::keyReleaseEvent(QKeyEvent *event) {
     else
       robotList = mWorld->robots();
 
-    foreach (WbRobot *const robot, robotList)
-      robot->keyReleased(event->text(), event->key());
+    const int key = event->key();
+    if (key != Qt::Key_Control && key != Qt::Key_Meta && key != Qt::Key_Shift && key != Qt::Key_Alt) {
+      foreach (WbRobot *const robot, robotList)
+        robot->keyReleased(key);
+    }
   }
   handleModifierKey(event, false);
   QWindow::keyReleaseEvent(event);
