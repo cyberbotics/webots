@@ -38,15 +38,14 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   _onMouseDown(event) {
     this.state.wheelFocus = true;
     this._initMouseMove(event);
-
     switch (event.button) {
-      case THREE.MOUSE.LEFT:
+      case Module.MOUSE.LEFT.value:
         this.state.mouseDown |= 1;
         break;
-      case THREE.MOUSE.MIDDLE:
+      case Module.MOUSE.MIDDLE.value:
         this.state.mouseDown |= 4;
         break;
-      case THREE.MOUSE.RIGHT:
+      case Module.MOUSE.RIGHT.value:
         this.state.mouseDown |= 2;
         break;
     }
