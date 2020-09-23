@@ -223,7 +223,7 @@ function forgeUrl(book, page, tabs, anchor) {
     if (url.indexOf('page=') > -1)
       url = url.replace(/page=([\w-]+)?/, 'page=' + page);
     else {
-      url += (isFirstArgument ? '?' : '&') + 'page=' + page;
+      url += '&page=' + page;
       isFirstArgument = false;
     }
 
@@ -233,7 +233,7 @@ function forgeUrl(book, page, tabs, anchor) {
       if (url.indexOf(tabOption + '=') > -1)
         url = url.replace(new RegExp(tabOption + '=([^&]+)(#[\\w-]+)?'), tabOption + '=' + tabName);
       else if (tabName)
-        url += (isFirstArgument ? '?' : '&') + tabOption + '=' + tabName;
+        url += '&' + tabOption + '=' + tabName;
     }
 
     url += anchorString;
