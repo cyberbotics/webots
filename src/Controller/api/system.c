@@ -177,7 +177,7 @@ const char *wbu_system_webots_tmp_path() {
       struct dirent *entry;
       char folder_start[32];
       sprintf(folder_start, "webots-%d", webots_pid);
-      // reset webots_pid containing the webots script process id before retrieving the webots binary id
+      // reset webots_pid containing the webots script process id to be able to test if the corresponding directory was actually found
       webots_pid = 0;
       while ((entry = readdir(dir))) {
         if (strncmp(entry->d_name, folder_start, strlen(folder_start)) == 0) {
