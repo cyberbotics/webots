@@ -1,4 +1,4 @@
-/* global webots, THREE, SystemInfo */
+/* global webots, SystemInfo */
 'use strict';
 
 class MouseEvents { // eslint-disable-line no-unused-vars
@@ -310,9 +310,9 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       this.moveParams.pickPosition = null;
 
     if (this.intersection == null) {
-      var cameraPosition = new THREE.Vector3();
+      var cameraPosition = new Module.Vector3();
       this.scene.viewpoint.camera.getWorldPosition(cameraPosition);
-      this.moveParams.distanceToPickPosition = cameraPosition.length();
+      this.moveParams.distanceToPickPosition = Module.length(cameraPosition);
     } else
       this.moveParams.distanceToPickPosition = this.intersection.distance;
     if (this.moveParams.distanceToPickPosition < 0.001) // 1 mm
@@ -370,7 +370,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
 MouseEvents.convertMouseEventPositionToScreenPosition = (element, eventX, eventY) => {
   var rect = element.getBoundingClientRect();
-  var pos = new THREE.Vector2();
+  var pos = new Module.Vector2();
   pos.x = ((eventX - rect.left) / (rect.right - rect.left)) * 2 - 1;
   pos.y = -((eventY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
   return pos;
@@ -378,7 +378,7 @@ MouseEvents.convertMouseEventPositionToScreenPosition = (element, eventX, eventY
 
 MouseEvents.convertMouseEventPositionToRelativePosition = (element, eventX, eventY) => {
   var rect = element.getBoundingClientRect();
-  var pos = new THREE.Vector2();
+  var pos = new Module.Vector2();
   pos.x = Math.round(eventX - rect.left);
   pos.y = Math.round(eventY - rect.top);
   return pos;

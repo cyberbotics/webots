@@ -2,7 +2,7 @@
 /* eslint no-extend-native: ["error", { "exceptions": ["String"] }] */
 
 var webots = window.webots || {};
-
+/*
 webots.quaternionToAxisAngle = (quaternion) => {
   var angle, axis;
   var q = quaternion.clone();
@@ -25,6 +25,7 @@ webots.quaternionToAxisAngle = (quaternion) => {
   }
   return { 'axis': axis, 'angle': angle};
 };
+*/
 
 webots.parseMillisecondsIntoReadableTime = (milliseconds) => {
   var hours = (milliseconds + 0.9) / (1000 * 60 * 60);

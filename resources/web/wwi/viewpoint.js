@@ -16,6 +16,9 @@ class Viewpoint { // eslint-disable-line no-unused-vars
     this.viewpointVelocity = null; // Current velocity of the viewpoint.
     this.viewpointLastUpdate = undefined; // Last time we updated the position of the viewpoint.
 
+    //TEMPORARY FIXED CAMERA
+    var gl = document.createElement('canvas').getContext('webgl');
+
     // Initialize default camera.
     this.camera = new THREE.PerspectiveCamera(45, 1, 0.001, 400);
     this.camera.position.x = 10;

@@ -4,7 +4,7 @@
 
 var TextureLoader = {
   createEmptyTexture: function(name) {
-    if (hasHDRExtension(name)) {
+    /*if (hasHDRExtension(name)) {
       var texture = new THREE.DataTexture();
       texture.encoding = THREE.RGBEEncoding;
       texture.minFilter = THREE.NearestFilter;
@@ -12,7 +12,8 @@ var TextureLoader = {
       texture.flipY = true;
       return texture;
     }
-    return new THREE.Texture();
+    return new THREE.Texture();*/
+    return null;
   },
 
   applyTextureTransform: function(texture, transformData) {
@@ -44,9 +45,12 @@ var TextureLoader = {
     context.putImageData(data, 0, 0);
 
     // Create the CubeTexture.
+    /*
     var src = canvas.toDataURL();
     var loader = new THREE.CubeTextureLoader();
     return loader.load([src, src, src, src, src, src]);
+    */
+    return null;
   },
 
   createOrRetrieveTexture: function(filename, textureData) {
@@ -106,7 +110,7 @@ class _TextureLoaderObject {
     this.texturePathPrefix = '';
     this.hasPendingData = false;
   }
-
+  /*
   createOrRetrieveTexture(filename, textureData) {
     let textures = this.textures[filename];
     if (textures) {
@@ -143,7 +147,7 @@ class _TextureLoaderObject {
     newTexture.encoding = THREE.sRGBEncoding;
     return newTexture;
   }
-
+ */
   applyTextureTransform(texture, transformData) {
     if (transformData !== 'undefined') {
       texture.matrixAutoUpdate = false;
@@ -172,6 +176,7 @@ class _TextureLoaderObject {
   }
 
   loadOrRetrieveImage(name, texture, cubeTextureIndex = undefined, onLoad = undefined) {
+    /*
     if (this.texturePathPrefix)
       name = this.texturePathPrefix + name;
     if (this.images[name]) {
@@ -233,10 +238,12 @@ class _TextureLoaderObject {
         // else image could be received later
       }
     );
+    */
     return undefined;
   }
 
   _onImageLoaded(name) {
+    /*
     if (!this.loadingTextures[name])
       return;
 
@@ -284,6 +291,7 @@ class _TextureLoaderObject {
       this.onTextureLoad();
 
     this._evaluatePendingData();
+    */
   }
 
   _setTimeout() {

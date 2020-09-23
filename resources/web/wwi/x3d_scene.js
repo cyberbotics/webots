@@ -27,6 +27,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   init(texturePathPrefix = '') {
+
     this.renderer = new THREE.WebGLRenderer({'antialias': false});
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setClearColor(0xffffff, 1.0);
@@ -36,6 +37,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.renderer.gammaOutput = false;
     this.renderer.physicallyCorrectLights = true;
     this.domElement.appendChild(this.renderer.domElement);
+    
 
     this.scene = new THREE.Scene();
     this.renderAllAtLoad = false;
@@ -64,7 +66,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.composer = new THREE.EffectComposer(this.renderer);
     let renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
     this.composer.addPass(renderPass);
-    this.bloomPass = new THREE.Bloom(new THREE.Vector2(window.innerWidth, window.innerHeight));
+    this.bloomPass = new THREE.Bloom(new Module.Vector2(window.innerWidth, window.innerHeight));
     this.composer.addPass(this.bloomPass);
     this.hdrResolvePass = new THREE.ShaderPass(THREE.HDRResolveShader);
     this.composer.addPass(this.hdrResolvePass);

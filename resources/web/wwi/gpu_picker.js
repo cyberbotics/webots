@@ -5,7 +5,7 @@
 // Inspiration:
 // https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
 // @author https://github.com/brianxu
-
+/*
 THREE.FaceIDShader = {
   vertexShader: [
     'attribute float id;',
@@ -38,7 +38,8 @@ THREE.FaceIDShader = {
     '}'
   ].join('\n')
 };
-
+*/
+/*
 THREE.FaceIDMaterial = class FaceIDMaterial extends THREE.ShaderMaterial {
   constructor() {
     super({
@@ -71,6 +72,7 @@ THREE.FaceIDMaterial = class FaceIDMaterial extends THREE.ShaderMaterial {
     this.uniforms.scale.value = scale;
   }
 };
+*/
 
 THREE.GPUPicker = class GPUPicker {
   constructor(option = {}) {
@@ -288,6 +290,7 @@ THREE.GPUPicker = class GPUPicker {
     return 0;
   };
 };
+
 
 (function(THREE) {
   // add a originalObject to Object3D

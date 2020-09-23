@@ -511,7 +511,7 @@ THREE.X3DLoader = class X3DLoader {
       var texcoords = texcoordsStr.split(/\s/);
       var uvs = [];
       for (let i = 0; i < texcoords.length; i += 2) {
-        v = new THREE.Vector2();
+        v = new Module.Vector2();
         v.x = parseFloat(texcoords[i + 0]);
         v.y = parseFloat(texcoords[i + 1]);
         if (isDefaultMapping) {
@@ -1123,12 +1123,13 @@ function getNodeAttribute(node, attributeName, defaultValue) {
     return node.attributes.getNamedItem(attributeName).value;
   return defaultValue;
 }
-
+/*
 function createDefaultGeometry() {
   var geometry = new THREE.Geometry();
   geometry.userData = { 'x3dType': 'unknown' };
   return geometry;
 };
+*/
 
 function createDefaultMaterial(geometry) {
   var material;
@@ -1141,13 +1142,14 @@ function createDefaultMaterial(geometry) {
 
 function convertStringToVec2(s) {
   s = s.split(/\s/);
-  var v = new THREE.Vector2(parseFloat(s[0]), parseFloat(s[1]));
+  var v = new Module.Vector2(parseFloat(s[0]), parseFloat(s[1]));
   return v;
 }
 
+
 function convertStringToVec3(s) {
   s = s.split(/\s/);
-  var v = new THREE.Vector3(parseFloat(s[0]), parseFloat(s[1]), parseFloat(s[2]));
+  var v = new Module.Vector3(parseFloat(s[0]), parseFloat(s[1]), parseFloat(s[2]));
   return v;
 }
 
@@ -1155,12 +1157,12 @@ function convertStringToQuaternion(s) {
   var pos = s.split(/\s/);
   var q = new THREE.Quaternion();
   q.setFromAxisAngle(
-    new THREE.Vector3(parseFloat(pos[0]), parseFloat(pos[1]), parseFloat(pos[2])),
+    new Module.Vector3(parseFloat(pos[0]), parseFloat(pos[1]), parseFloat(pos[2])),
     parseFloat(pos[3])
   );
   return q;
 }
-
+/*
 function convertStringToColor(s, sRGB = true) {
   var v = convertStringToVec3(s);
   var color = new THREE.Color(v.x, v.y, v.z);
@@ -1168,7 +1170,7 @@ function convertStringToColor(s, sRGB = true) {
     color.convertSRGBToLinear();
   return color;
 }
-
+*/
 function horizontalToVerticalFieldOfView(hFov, aspectRatio) {
   // Units of the angles: radians.
   // reference: WbViewpoint::updateFieldOfViewY()
