@@ -5798,3 +5798,535 @@ you can test this. --input=<.urdf file>
 
 should create a new urdf in the same folder, with collision meshes replaced and everything in absolute paths
 
+
+you can try this version of parserURDF.py, if you want to have the .obj collision as individual convex bounding objects
+> **Attachment**: [parserURDF.py](https://cdn.discordapp.com/attachments/565155651395780609/755796417297252502/parserURDF.py)
+
+
+wups, this was nut updated
+> **Attachment**: [requirements.txt](https://cdn.discordapp.com/attachments/565155651395780609/755797102046740510/requirements.txt)
+
+##### David Mansolino [cyberbotics] 09/16/2020 14:30:09
+Can you please create a PR with this on the urdf2webots repo (we don't have the time to test thi right now)
+
+##### Simon Steinmann [Moderator] 09/16/2020 14:30:44
+it requires pybullet and trimesh though ( the mesh optimization)
+
+
+but the .obj as multiple files I can do a PR
+
+
+[https://github.com/cyberbotics/urdf2webots/pull/83](https://github.com/cyberbotics/urdf2webots/pull/83)
+
+
+would you want the collision mesh optimization also as port of the urdf2webots repository?
+
+
+it's just a single script, but it has dependencies, namely pybullet. Which can be installed via pip easily, but still
+
+##### David Mansolino [cyberbotics] 09/17/2020 05:52:38
+Let's start with the obj improvements first, as it seems already a new feature in itself.
+
+##### Simon Steinmann [Moderator] 09/17/2020 12:35:41
+both PRs should be cleaned up and working
+
+##### David Mansolino [cyberbotics] 09/17/2020 12:36:05
+Just approved the first one, I am testing the second one
+
+##### Simon Steinmann [Moderator] 09/17/2020 12:37:12
+🥳
+
+
+hmmm export as urdf does not work, when trying to export the gripper in the toolslot of a robot. only the whole robot can be exported
+
+##### Darko Lukić [cyberbotics] 09/17/2020 12:46:04
+`@Simon Steinmann` You mean `get_urdf()`?
+
+##### Simon Steinmann [Moderator] 09/17/2020 12:46:26
+right-click -> export -> change extension to .urdf
+
+
+oh most likely only robots can be exported?
+
+
+since it is a Solid
+
+##### David Mansolino [cyberbotics] 09/17/2020 12:48:29
+> oh most likely only robots can be exported?
+
+`@Simon Steinmann` yes
+
+##### Darko Lukić [cyberbotics] 09/17/2020 12:48:46
+You can create Robot node, add the solid inside, and then export it as URDF
+
+##### David Mansolino [cyberbotics] 09/17/2020 12:48:50
+You should get a warning if it is not a solid
+
+##### Simon Steinmann [Moderator] 09/17/2020 12:49:23
+oh, terminal was hidden :p
+
+
+would be nice if it were to work with other types too, but it's not the end of the world
+
+##### David Mansolino [cyberbotics] 09/17/2020 12:50:31
+I am not 100% familiar with urdf, but not sure it supports something else than robot?
+
+##### Simon Steinmann [Moderator] 09/17/2020 12:50:56
+[https://tenor.com/view/elmo-shrug-gif-5094560](https://tenor.com/view/elmo-shrug-gif-5094560)
+
+
+devices are usual defined as robotst in urdf, but in webots they need to be solids
+
+##### David Mansolino [cyberbotics] 09/17/2020 12:51:19
+Since URDF stands for 'Unified **Robot** Description Format', I would expect it to be for robot only.
+
+##### Simon Steinmann [Moderator] 09/17/2020 12:51:41
+would be nice if one could export a gripper directly
+
+##### David Mansolino [cyberbotics] 09/17/2020 12:51:53
+> devices are usual defined as robotst in urdf, but in webots they need to be solids
+
+`@Simon Steinmann` yes you're right, in that case you should probably use the workaround `@Darko Lukić` proposed
+
+##### Simon Steinmann [Moderator] 09/17/2020 12:52:09
+or export only part of a robot
+
+
+let's say we have a mobile robot with arms. would be nice to select the base solid of the arm and export as urdf
+
+##### JMRMEDEV 09/17/2020 23:48:07
+Hi guys, I'm developing a controller in C++.
+
+
+But I get this message when tryng to set motor positions:
+
+
+No symbol file loaded for Controller.dll
+
+
+Thoughts?
+
+##### David Mansolino [cyberbotics] 09/18/2020 06:09:54
+Hi, is it only with the wb\_motor\_set\_position function?
+
+Which version of Webots are you using on and which OS?
+
+Are you using regular controllers or extern controllers?
+
+##### JMRMEDEV 09/18/2020 06:11:54
+Well happened only with set\_position. In an external controller, Windows 10 OS.
+
+
+I just noticed that for external controllers, the main function is the one that has to use the webots namespace and includes.
+
+
+I tried to create a header with the webots namespace, logic and includes.
+
+
+And by using as a header is when I got the error.
+
+
+I re-designed my app to rely on webots as main, but that makes a pain modular programming. But anyway, so far I managed to do what I wanted, even if is not the way I wanted.
+
+
+Thanks for the reply.
+
+##### David Mansolino [cyberbotics] 09/18/2020 06:14:57
+> I re-designed my app to rely on webots as main, but that makes a pain modular programming. But anyway, so far I managed to do what I wanted, even if is not the way I wanted.
+
+`@JMRMEDEV` yes that's indeed not very nice. Normally extern controller should compile and run the same way as normal controller.
+
+Can you reproduce this with one of the sample controllers provided with Webots using the set\_position function?
+
+##### JMRMEDEV 09/18/2020 06:16:05
+Well, there is not a sample directly in C++. Only in C. But if I find the time, I will.
+
+
+I mean, I will "translate" the sample from C to C++ implementing classes the way I tried.
+
+##### David Mansolino [cyberbotics] 09/18/2020 06:16:57
+You can find one C++ sample in projects/languages/cpp
+
+
+I just checked it uses setPosition:
+
+[https://github.com/cyberbotics/webots/blob/master/projects/languages/cpp/controllers/slave/slave.cpp#L65](https://github.com/cyberbotics/webots/blob/master/projects/languages/cpp/controllers/slave/slave.cpp#L65)
+
+##### JMRMEDEV 09/18/2020 06:18:04
+🤔 I asked this before, but just to be sure... All the functions are compatible with all the robots, right?
+
+
+> Well, there is not a sample directly in C++. Only in C. But if I find the time, I will.
+
+`@JMRMEDEV` I mean, I'm writing a controller for URe. That's the robot where there's only a C controller sample.
+
+##### David Mansolino [cyberbotics] 09/18/2020 06:18:37
+Yes (as long as the robot has the device).
+
+##### JMRMEDEV 09/18/2020 06:19:08
+But I'll try one of the samples that you referred.
+
+
+Taking advantage of the topic... I tried to make a Dynamic Library (DLL) making reference to webots. It didn't work. I noticed that I do must build an executable application for it to work.
+
+
+Are any implementations of Webots as a reference in a DLL?
+
+##### David Mansolino [cyberbotics] 09/18/2020 06:23:27
+Yes, this is possible, we are using this for example with the darwin-op robot: [https://github.com/cyberbotics/webots/tree/master/projects/robots/robotis/darwin-op](https://github.com/cyberbotics/webots/tree/master/projects/robots/robotis/darwin-op)
+
+We have created here a library that uses the Webtos API and can then be used directly from the controller: [https://github.com/cyberbotics/webots/tree/master/projects/robots/robotis/darwin-op/libraries/managers](https://github.com/cyberbotics/webots/tree/master/projects/robots/robotis/darwin-op/libraries/managers)
+
+##### JMRMEDEV 09/18/2020 06:24:05
+I'll take a look. Thank you so much!
+
+##### David Mansolino [cyberbotics] 09/18/2020 06:24:27
+You're welcome
+
+##### Simon Steinmann [Moderator] 09/18/2020 11:39:31
+[https://github.com/cyberbotics/webots/pull/2226](https://github.com/cyberbotics/webots/pull/2226) should be finally done now 🙂
+
+##### David Mansolino [cyberbotics] 09/18/2020 12:13:56
+I will have a look in a moment 🙂
+
+##### Simon Steinmann [Moderator] 09/20/2020 18:27:58
+I noticed something: when having a world with <extern> controller and setting the mode to 'run', the process uses 100% of its thread. Even though the simulation is not running. Whichever loop is running in the background, waiting for an extern controller to connect, should have a limited frequency
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 06:59:21
+`@Simon Steinmann` Yes, Webots uses 100% because it tries to run as fast as possible but it is blocked by the missing extern controller.  In this case, the simulation IS running internally. In fact if you click on the pause button, then the process usage immediately decrease. We will check if there is way to improve it. Please open an issue on GitHub ([https://github.com/cyberbotics/webots/issues/new/choose](https://github.com/cyberbotics/webots/issues/new/choose)).
+
+##### XZbot 09/21/2020 07:01:19
+Hi, I am trying to use the latest Webots docker image within Kubernetes. I put 
+
+        image: cyberbotics/webots:lastest
+
+inside the container spec of a yaml file for a job or a pod. However, it shows the pod/job status as ErrImagePull or ImagePullBackOff. Could you please give me some advice on how to debug this error? 
+
+
+
+Besides, I'd like to run Webots in the CI without GUI. Then still inside the yaml file for a pod or job, should I put 
+
+        command: ["/bin/bash", "-c"] 
+
+        args: ["xvfb-run webots --stdout --stderr --batch --mode=fast /path/to/persistentVolumeClaim/worldFile"]
+
+there?
+
+
+
+Many thanks!
+
+
+
+(`@Stefania Pedrazzi`  I have deleted my message in the news channel and reposted here. Sorry about that.)
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 07:02:40
+> Hi, I am trying to use the latest Webots docker image within Kubernetes. I put 
+
+>         image: cyberbotics/webots:lastest
+
+> inside the container spec of a yaml file for a job or a pod. However, it shows the pod/job status as ErrImagePull or ImagePullBackOff. Could you please give me some advice on how to debug this error? 
+
+> 
+
+> Besides, I'd like to run Webots in the CI without GUI. Then still inside the yaml file for a pod or job, should I put 
+
+>         command: ["/bin/bash", "-c"] 
+
+>         args: ["xvfb-run webots --stdout --stderr --batch --mode=fast /path/to/persistentVolumeClaim/worldFile"]
+
+> there?
+
+`@XZbot`  Yes, these are the options to use. There is no other option to completely run Webots without GUI.
+
+
+I will check for the problem with the Docker image
+
+##### XZbot 09/21/2020 07:06:34
+> I will check for the problem with the Docker image
+
+`@Stefania Pedrazzi` Thanks for checking 🙂
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 07:39:55
+I checked and the Docker image works fine for me. We never tested the Webots docker image within Kuberbetes, so we cannot help you very much with this.
+
+But I quickly checked and you can find many threads on the web regarding ErrImagePull or ImagePullBackOff errors. Probably looking at them you should be able to debug and identify what could be the issue.
+
+##### XZbot 09/21/2020 09:51:55
+> I checked and the Docker image works fine for me. We never tested the Webots docker image within Kuberbetes, so we cannot help you very much with this.
+
+> But I quickly checked and you can find many threads on the web regarding ErrImagePull or ImagePullBackOff errors. Probably looking at them you should be able to debug and identify what could be the issue.
+
+`@Stefania Pedrazzi` Using docker to pull and run the Webots image also works for me. Actually there was no issue of pulling your Webots image within Kubernetes two to three weeks ago, before you released the updates. I did not change the way I called the image in the yaml file for a job/pod. The Kubernetes cluster being used is running without any problem. So there is not much I can do from my end. It would be quite important and helpful to confirm that your Webots docker image can work in a CI, since some Webots projects (like ours) do require a lot of computing resources for necessarily complex world environment and for many concurrent simulation runs. For the past few months, we've tried on local desktops with 1 to 2 great GPUs and fast simulations without visualization in Webots, but still quite slow. That's why we are switching to cluster resources. Since the Webots docker image (both R2019b and the latest version) could no longer be pulled by the Kubernetes after your updates but other docker images being used by our group still work well within the same cluster, I think there is highly chance that you could do some slight modifications on your docker image and let it work again within Kubernetes. Thank you for your assistance!
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 10:05:30
+We can look at it and inspect the issue as soon as possible and inspect the issue. But it will probably take some time.
+
+In the meantime, here are the instructions to build your own docker image of Webots:
+
+[https://github.com/cyberbotics/webots/wiki/Docker#create-your-own-image](https://github.com/cyberbotics/webots/wiki/Docker#create-your-own-image)
+
+These are the instructions we used previously to build the docker image and have not been updated since June, so there is a chance that this will work for you.
+
+##### XZbot 09/21/2020 10:06:35
+> We can look at it and inspect the issue as soon as possible and inspect the issue. But it will probably take some time.
+
+> In the meantime, here are the instructions to build your own docker image of Webots:
+
+> [https://github.com/cyberbotics/webots/wiki/Docker#create-your-own-image](https://github.com/cyberbotics/webots/wiki/Docker#create-your-own-image)
+
+> These are the instructions we used previously to build the docker image and have not been updated since June, so there is a chance that this will work for you.
+
+`@Stefania Pedrazzi` Ok. Thanks!
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 10:07:10
+You're welcome
+
+##### XZbot 09/21/2020 10:17:09
+> You're welcome
+
+`@Stefania Pedrazzi` I just clicked on the link and noticed that actually I tried these steps on the same webpage to build my own docker image a month ago. But after starting a Ubuntu 16.04 image in the bash mode and during the process of installing the Webots dependencies, I encountered the following errors. I tried to update the node version but still did not work. Then I quit creating my own Webots image and switched to work on other project stuff. I wonder if you have encountered similar errors during this image creating process. Thanks.
+%figure
+![image.png](https://cdn.discordapp.com/attachments/565155651395780609/757545950951637032/image.png)
+%end
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 11:44:59
+I just checked again the isntructions on Ubuntu 18.04 and it works without any error. We are continuously fixing this kind of issues in the GitHub repo, so it is very likely that it would work now for you as well. Otherwise you could just skip the compilation of `web/wwi` that it is only needed for running Webots on the web
+
+
+I can reproduce the same issue on the Ubuntu 16.04 docker image. If possible it would be better to use Ubuntu 18.04 or 20.04
+
+##### XZbot 09/21/2020 12:27:39
+> I just checked again the isntructions on Ubuntu 18.04 and it works without any error. We are continuously fixing this kind of issues in the GitHub repo, so it is very likely that it would work now for you as well. Otherwise you could just skip the compilation of `web/wwi` that it is only needed for running Webots on the web
+
+`@Stefania Pedrazzi` Great. Thank you. I will try to recreate my own Webots docker image on Ubuntu 18.04 tomorrow. Just now still within the Kubernetes cluster, I created new pods and tested again / for the first time all your Webots image versions available (R2019b-rev1 and all on [https://hub.docker.com/r/cyberbotics/webots/tags](https://hub.docker.com/r/cyberbotics/webots/tags)). Now a pod with the image R2019b-rev1 still generates the ErrImagePull status. But a pod with one of the other five images does work now, including the latest version which did not work a few days ago. Not sure why though... Anyways, I can again use the latest version now 🙂
+%figure
+![images_work_or_not.JPG](https://cdn.discordapp.com/attachments/565155651395780609/757578794335862794/images_work_or_not.JPG)
+%end
+
+##### Stefania Pedrazzi [cyberbotics] 09/21/2020 12:29:54
+Thank you for the update!
+
+##### XZbot 09/21/2020 12:30:23
+No prob. Thank you for the help!
+
+##### Simon Steinmann [Moderator] 09/21/2020 21:37:47
+Reinforcement learning with Webots
+> **Attachment**: [simplescreenrecorder-2020-09-21\_23.31.34.mp4](https://cdn.discordapp.com/attachments/565155651395780609/757717239729225798/simplescreenrecorder-2020-09-21_23.31.34.mp4)
+
+
+
+> **Attachment**: [simplescreenrecorder-2020-09-21\_23.32.36.mp4](https://cdn.discordapp.com/attachments/565155651395780609/757717245324558427/simplescreenrecorder-2020-09-21_23.32.36.mp4)
+
+
+how fast it trains, and speed with realtime factor of 1
+
+
+using DDPG with HER (hindsight experience replay)
+
+
+this was about after 20 minutes of training
+
+##### Veverest 09/22/2020 06:46:39
+Do you have a github repo for this? I'm sure a lot of us would love to take a look
+
+##### Simon Steinmann [Moderator] 09/22/2020 08:00:05
+Not yet, but I'm working on a clean workflow and implementation. Based on stable-baselines and rl-baselines-zoo
+
+
+[https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers#multiple-concurrent-simulations](https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers#multiple-concurrent-simulations)  the webots PID, is that the webots PID, or webots-bin PID?
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/757943039766429776/unknown.png)
+%end
+
+##### Olivier Michel [cyberbotics] 09/22/2020 12:36:38
+I believe it's Webots PID.
+
+##### Simon Steinmann [Moderator] 09/22/2020 12:37:22
+I'll try. I hope it is, because getting the PID of the webot-bin will be much more complicated
+
+
+continuing here, as it's more development...
+
+
+here the huge memory heap of webots really starts to become a problem
+
+
+it's not structured and clean enough for a repo, but will come soon. It uses my ikfast solvers, which is a huge part of the incredible speed
+
+
+yesterday I have played around with valgrind, Massif and all that, but I'm just starting to scratch the surface. Perhaps you can help with that.
+
+##### Olivier Michel [cyberbotics] 09/22/2020 16:08:49
+I am not sure what can we make to reduce the heap used by Webots...
+
+##### Simon Steinmann [Moderator] 09/22/2020 16:08:55
+Ideally, it would be great, if webots could be started in a mode without gui, and only the bare minimums loaded
+
+
+from my understanding, memory heap is not necessarily all used. just allocated
+
+##### Olivier Michel [cyberbotics] 09/22/2020 16:09:56
+I believe the GUI doesn't consume that much of heap... Did you try opening a very simple world file (no textures,  a simple cube object). Does it make a significant heap reduction?
+
+##### Simon Steinmann [Moderator] 09/22/2020 16:10:37
+no matter what I load, the memory usage is at min. 1.1GB
+
+##### Olivier Michel [cyberbotics] 09/22/2020 16:10:49
+If not used, it shouldn't be a problem as it will go the swap...
+
+##### Simon Steinmann [Moderator] 09/22/2020 16:10:54
+which is quite a bit, when wanting to have multiple instances loaded
+
+
+ohhhhh wait... the now compiled version only uses 550MB
+
+##### Olivier Michel [cyberbotics] 09/22/2020 16:12:21
+Did you compile with debug symbols (make debug) or without (make release)?
+
+##### Simon Steinmann [Moderator] 09/22/2020 16:12:40
+debug
+
+
+nope, nvm, back at 1,1GB
+
+##### Olivier Michel [cyberbotics] 09/22/2020 16:13:23
+release should produce a more optimized executable (in terms of speed and memory footprint)
+
+##### Simon Steinmann [Moderator] 09/22/2020 16:13:38
+let me try
+
+
+could you merge that fix to develop branch real quick?
+
+##### Olivier Michel [cyberbotics] 09/22/2020 16:14:09
+I first need to merge it to master and then merge master into develop.
+
+##### Simon Steinmann [Moderator] 09/22/2020 16:14:24
+I'll change it by hand until then
+
+##### Olivier Michel [cyberbotics] 09/22/2020 16:14:30
+And I need a review of my colleagues for each stage.
+
+
+If you approve the PR at [https://github.com/cyberbotics/webots/pull/2260](https://github.com/cyberbotics/webots/pull/2260), it may speed-up a little bit the process.
+
+##### Simon Steinmann [Moderator] 09/22/2020 16:16:37
+done
+
+
+recompiling developer branch with those 2 lines changed. will test that as well
+
+
+is there any good way to see, what exactly takes up the memory space? I tried Massif, but I couldnt make sense of the information
+
+##### Olivier Michel [cyberbotics] 09/22/2020 16:21:39
+I don't know...
+
+
+Note that you have to recompile Webots, e.g., from `cd webots/src/webots ; make -j 8 release`
+
+##### Simon Steinmann [Moderator] 09/22/2020 16:22:22
+just did
+
+
+still a heap of 1.1GB
+
+
+but the pid fix works 🙂
+
+
+are you familiar with pybullet?
+
+##### Olivier Michel [cyberbotics] 09/22/2020 16:24:43
+No.
+
+##### Simon Steinmann [Moderator] 09/22/2020 16:25:40
+it can import and load directly from python. for the Simulation benchmark, we are doing, it takes like 150MB. Doesn't have a full fletched gui, but for RL it is very convenient
+
+
+there must be ways to drastically decrease the memory footprint of webots, when not everything is needed
+
+
+`@Stefania Pedrazzi` I'm getting this error with valgrind. seems to be some issue with multithreating
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/758025109008285706/unknown.png)
+%end
+
+##### Stefania Pedrazzi [cyberbotics] 09/23/2020 06:36:21
+`@Simon Steinmann` I just tested running Webots from the develop branch with valgrind (`valgrind-3.16.1`) and it works correctly for me. Here is command I used:
+
+```
+valgrind --log-file=valgrind.out --smc-check=all bin/webots-bin
+```
+
+##### Simon Steinmann [Moderator] 09/23/2020 07:55:33
+Can you try if running valgrind tool=massif works for you?
+
+##### Stefania Pedrazzi [cyberbotics] 09/23/2020 07:57:23
+This works fine as well
+
+`valgrind --tool=massif --log-file=valgrind.out --smc-check=all bin/webots-bin`
+
+##### Simon Steinmann [Moderator] 09/23/2020 07:57:39
+Is webots actually launching?
+
+##### Stefania Pedrazzi [cyberbotics] 09/23/2020 07:57:48
+yes
+
+##### Simon Steinmann [Moderator] 09/23/2020 07:58:06
+You you post the output file of massif?
+
+##### Stefania Pedrazzi [cyberbotics] 09/23/2020 07:59:03
+Sorry but I have a meeting now, I will do it later
+
+##### Simon Steinmann [Moderator] 09/23/2020 10:20:08
+that would be great. Perhaps you can run this too?
+
+`valgrind --tool=massif --depth=5  --alloc-fn=g_malloc --alloc-fn=g_realloc --alloc-fn=g_try_malloc  --alloc-fn=g_malloc0 --alloc-fn=g_mem_chunk_alloc --smc-check=all bin/webots-bin `
+
+##### Stefania Pedrazzi [cyberbotics] 09/23/2020 10:22:52
+Sorry but I have lot of work and unfortunately I cannot debug it for you.
+
+If valgrind doesn't work on your machine it could be that the environment is not properly set or that you have a different version of valgrind.
+
+##### Simon Steinmann [Moderator] 09/23/2020 10:29:37
+would be nice to just have the output file, should be fairly small and not take long. The one you ran earlier is fine too
+
+##### Stefania Pedrazzi [cyberbotics] 09/23/2020 11:00:11
+
+> **Attachment**: [massif.out.1006](https://cdn.discordapp.com/attachments/565155651395780609/758281559358046229/massif.out.1006)
+
+
+
+> **Attachment**: [massif.out.1049](https://cdn.discordapp.com/attachments/565155651395780609/758281566073651250/massif.out.1049)
+
+
+Here are the massif log files
+
+##### Simon Steinmann [Moderator] 09/23/2020 11:00:27
+thx 🙂
+
+
+just out of curiosity, what does your task manager say about the memory usage of webots-bin, when it is running?
+
+
+and which version of valgrind are you running? I really want to find out, where that huge heap allocation is coming from. 1,1GB for me
+
+##### Stefania Pedrazzi [cyberbotics] 09/23/2020 11:27:36
+valgrind version is `valgrind-3.16.1`
+
+##### Simon Steinmann [Moderator] 09/23/2020 11:28:15
+thx
+
+##### Stefania Pedrazzi [cyberbotics] 09/23/2020 11:31:01
+> just out of curiosity, what does your task manager say about the memory usage of webots-bin, when it is running?
+
+`@Simon Steinmann` currently it is 1.2 GB
+
+##### Simon Steinmann [Moderator] 09/23/2020 11:31:34
+that is about the same as mine. I dont quite understand why massif only sees up to 280MB
+
