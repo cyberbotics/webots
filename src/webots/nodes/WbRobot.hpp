@@ -117,8 +117,8 @@ public:
   double energyUploadSpeed() const;
 
   // handle key events
-  void keyPressed(const QString &text, int key, int modifiers);
-  void keyReleased(const QString &text, int key);
+  void keyPressed(int key, int modifiers);
+  void keyReleased(int key);
 
   // map qt special key to webots special key, return 0 if not found
   static int mapSpecialKey(int qtKey);
