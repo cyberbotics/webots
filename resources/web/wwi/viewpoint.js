@@ -1,6 +1,15 @@
 /* global THREE */
 'use strict';
-
+class Camera {
+  constructor(fov, aspect, near, far){
+    this.position = glm.vec3(1,1,1);
+    this.fov = fov;
+    this.aspect = aspect
+    this.near = near;
+    this.far = far;
+    this.projectionMatrix = glm.Mat4;
+  }
+}
 class Viewpoint { // eslint-disable-line no-unused-vars
   constructor() {
     this.onCameraParametersChanged = null;
@@ -17,20 +26,25 @@ class Viewpoint { // eslint-disable-line no-unused-vars
     this.viewpointLastUpdate = undefined; // Last time we updated the position of the viewpoint.
 
     //TEMPORARY FIXED CAMERA
-    var gl = document.createElement('canvas').getContext('webgl');
+    //var gl = document.createElement('canvas').getContext('webgl');
+    //this.camera = new Camera(45,1,0.01,400);
+
 
     // Initialize default camera.
     this.camera = new THREE.PerspectiveCamera(45, 1, 0.001, 400);
-    this.camera.position.x = 10;
-    this.camera.position.y = 10;
-    this.camera.position.z = 10;
+    this.camera.position.x = 1;
+    this.camera.position.y = 1;
+    this.camera.position.z = 1;
+    
   }
 
   reset(time) {
+    /*
     this.camera.position.copy(this.initialViewpointPosition);
     this.camera.quaternion.copy(this.initialViewpointOrientation);
     this.updateViewpointPosition(true, time);
     this.notifyCameraParametersChanged();
+    */
   }
 
   isFollowedObject(object) {
@@ -43,13 +57,16 @@ class Viewpoint { // eslint-disable-line no-unused-vars
   }
 
   initFollowParameters() {
+    /*
     this.initialViewpointPosition = this.camera.position.clone();
     this.initialViewpointOrientation = this.camera.quaternion.clone();
+
     if (this.camera.userData.followSmoothness != null)
       this.setViewpointMass(this.camera.userData.followSmoothness);
     if (this.camera.userData.followedId != null)
       this.follow(this.camera.userData.followedId);
     else
+    */
       this.follow.followedObjectId = 'none';
   }
 
@@ -180,7 +197,7 @@ class Viewpoint { // eslint-disable-line no-unused-vars
     zRotation.setFromAxisAngle(roll, params.tiltAngle);
     this.camera.quaternion.premultiply(zRotation);
 
-    this.notifyCameraParametersChanged();W
+    this.notifyCameraParametersChanged();
     */
   }
 

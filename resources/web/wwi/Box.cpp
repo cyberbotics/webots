@@ -5,6 +5,7 @@ using namespace emscripten;
 class BoxBufferGeometry {
 public:
   BoxBufferGeometry(float x, float y, float z) {}
+  std::string name = "BoxBufferGeometry";
 
 private:
   float x;
@@ -13,5 +14,5 @@ private:
 };
 
 EMSCRIPTEN_BINDINGS(Box) {
-  class_<BoxBufferGeometry>("BoxBufferGeometry").constructor<float, float, float>();
+  class_<BoxBufferGeometry>("BoxBufferGeometry").constructor<float, float, float>().property("name", &BoxBufferGeometry::name);
 }

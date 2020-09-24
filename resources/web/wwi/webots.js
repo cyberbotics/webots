@@ -440,10 +440,10 @@ webots.View = class View {
       param.value = false;
       this.x3dScene.domElement.appendChild(param);
     }
-
+    /*
     if (typeof this.x3dScene !== 'undefined' && typeof this.mouseEvents === 'undefined')
       this.mouseEvents = new MouseEvents(this.x3dScene, this.contextMenu, this.x3dDiv, this.mobileDevice);
-
+    */
     if (typeof this.console === 'undefined')
       this.console = new Console(this.view3D, this.mobileDevice);
 

@@ -30,11 +30,11 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.renderer = new THREE.WebGLRenderer({'antialias': false});
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setClearColor(0xffffff, 1.0);
-    this.renderer.shadowMap.enabled = true;
+    //this.renderer.shadowMap.enabled = true;
     //this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
-    this.renderer.gammaInput = false;
-    this.renderer.gammaOutput = false;
-    this.renderer.physicallyCorrectLights = true;
+    //this.renderer.gammaInput = false;
+    //this.renderer.gammaOutput = false;
+    //this.renderer.physicallyCorrectLights = true;
     this.domElement.appendChild(this.renderer.domElement);
 
 
@@ -125,7 +125,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     if (this.viewpoint.camera.fovX)
       this.viewpoint.camera.fov = THREE.Math.radToDeg(horizontalToVerticalFieldOfView(this.viewpoint.camera.fovX, this.viewpoint.camera.aspect));
     */
-    this.viewpoint.camera.updateProjectionMatrix();
+    //this.viewpoint.camera.updateProjectionMatrix();
     //this.gpuPicker.resizeTexture(width, height);
     this.renderer.setSize(width, height);
     this.composer.setSize(width, height);
@@ -146,7 +146,17 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.objectsIdCache = {};
     this.useNodeCache = {};
     this.root = undefined;
-    this.scene.background = new THREE.Color(0, 0, 0);
+    /*
+    class couleur {
+      constructor(r, g, b) {
+        this.r = r;
+        this.g = g;
+        this.b = b;
+        this.isColor = true
+      }
+    }
+    */
+    this.scene.background = new Module.Color(0, 0, 0);
 
     /*
     // Code to debug bloom passes.
