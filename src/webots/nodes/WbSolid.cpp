@@ -104,7 +104,7 @@ void WbSolid::init() {
   mUseInertiaMatrix = false;
   mIsPermanentlyKinematic = false;
   mIsKinematic = false;
-  mUpdatedAfterStep = false;
+  mUpdatedInStep = false;
   mKinematicWarningPrinted = false;
   mHasDynamicSolidDescendant = false;
 
@@ -1942,8 +1942,8 @@ void WbSolid::applyToOdeScale() {
   resetJoints();
 }
 
-void WbSolid::updateTransformAfterPhysicsStep() {
-  if (mUpdatedAfterStep)
+void WbSolid::updateTransformForPhysicsStep() {
+  if (mUpdatedInStep)
     return;
 
   applyPhysicsTransform();
@@ -1955,7 +1955,7 @@ void WbSolid::updateTransformAfterPhysicsStep() {
   while (p != NULL && !p->isWorldRoot()) {
     s = dynamic_cast<WbSolid *>(p);
     if (s != NULL) {
-      if (s->mUpdatedAfterStep)
+      if (s->mUpdatedInStep)
         break;  // ancestor nodes already updated
       reversedList.prepend(s);
     }
@@ -1967,7 +1967,7 @@ void WbSolid::updateTransformAfterPhysicsStep() {
   while (it.hasNext()) {
     WbSolid *s = it.next();
     s->applyPhysicsTransform();
-    s->mUpdatedAfterStep = true;
+    s->mUpdatedInStep = true;
   }
 }
 
@@ -2090,7 +2090,7 @@ void WbSolid::prePhysicsStep(double ms) {
   for (i = 0; i < mPropellerChildren.size(); ++i)
     mPropellerChildren.at(i)->prePhysicsStep(ms);
 
-  mUpdatedAfterStep = false;
+  mUpdatedInStep = false;
 }
 
 ////////////

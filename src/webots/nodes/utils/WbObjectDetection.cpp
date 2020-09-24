@@ -77,7 +77,7 @@ void WbObjectDetection::setCollided(double depth) {
 bool WbObjectDetection::recomputeRayDirection(WbSolid *device, const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,
                                               const WbMatrix3 &deviceInverseRotation, const WbAffinePlane *frustumPlanes) {
   assert(mGeom);
-  mObject->updateTransformAfterPhysicsStep();
+  mObject->updateTransformForPhysicsStep();
   // recompute ray properties
   if (!computeObject(devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes))
     return false;
