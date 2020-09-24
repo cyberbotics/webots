@@ -1965,7 +1965,7 @@ void WbSolid::updateTransformForPhysicsStep() {
   // update transform from root to current node as applyPhysicsTransform uses the upper transform matrix
   QListIterator<WbSolid *> it(reversedList);
   while (it.hasNext()) {
-    WbSolid *s = it.next();
+    s = it.next();
     s->applyPhysicsTransform();
     s->mUpdatedInStep = true;
   }
