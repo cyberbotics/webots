@@ -194,6 +194,9 @@ class c3dFile:
         Y_SCREEN = self.reader.groups['POINT'].get('Y_SCREEN').string_value.strip()
         self.inverseY = (X_SCREEN == '+X' and Y_SCREEN == '+Z') or (X_SCREEN == '-X' and Y_SCREEN == '-Z')
 
+    def __del__(self):
+        supervisor.wwiSendText('reset')
+
     def getPointsList(self, name):
         """Get a group of points and extract it's labels as a list of strings."""
         if name not in self.reader.groups['POINT'].params:
