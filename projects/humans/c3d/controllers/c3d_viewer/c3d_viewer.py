@@ -165,22 +165,24 @@ class c3dFile:
         self.pointRepresentations = {}
         j = 0
         for i in range(len(self.labels)):
-            self.pointRepresentations[self.labels[i]] = {}
-            self.pointRepresentations[self.labels[i]]['visible'] = False
-            self.pointRepresentations[self.labels[i]]['node'] = None
-            self.pointRepresentations[self.labels[i]]['solid'] = supervisor.getFromDef(self.labels[i]) if self.labels[i] else None
-            if self.labels[i] in filteredLabel:
-                markerField.importMFNodeFromString(-1, 'C3dMarker { name "%s" }' % self.labels[i])
-                self.pointRepresentations[self.labels[i]]['node'] = markerField.getMFNode(-1)
-                self.pointRepresentations[self.labels[i]]['translation'] = self.pointRepresentations[self.labels[i]]['node'].getField('translation')
-                self.pointRepresentations[self.labels[i]]['transparency'] = self.pointRepresentations[self.labels[i]]['node'].getField('transparency')
-                self.pointRepresentations[self.labels[i]]['radius'] = self.pointRepresentations[self.labels[i]]['node'].getField('radius')
-                self.pointRepresentations[self.labels[i]]['color'] = self.pointRepresentations[self.labels[i]]['node'].getField('color')
-                if self.isVirtualMarker(self.labels[i]):
-                    self.pointRepresentations[self.labels[i]]['transparency'].setSFFloat(1.0)
+            label = self.labels[i]
+            pointRepresentation = {}
+            pointRepresentation['visible'] = False
+            pointRepresentation['node'] = None
+            pointRepresentation['solid'] = supervisor.getFromDef(label) if label else None
+            if label in filteredLabel:
+                markerField.importMFNodeFromString(-1, 'C3dMarker { name "%s" }' % label)
+                pointRepresentation['node'] = markerField.getMFNode(-1)
+                pointRepresentation['translation'] = pointRepresentation['node'].getField('translation')
+                pointRepresentation['transparency'] = pointRepresentation['node'].getField('transparency')
+                pointRepresentation['radius'] = pointRepresentation['node'].getField('radius')
+                pointRepresentation['color'] = pointRepresentation['node'].getField('color')
+                if self.isVirtualMarker(label):
+                    pointRepresentation['transparency'].setSFFloat(1.0)
                 else:
-                    self.pointRepresentations[self.labels[i]]['visible'] = True
+                    pointRepresentation['visible'] = True
                 j += 1
+            self.pointRepresentations[label] = pointRepresentation
 
         # parse the C3D frames
         self.frameAndPoints = []
@@ -336,31 +338,32 @@ while supervisor.step(timestep) != -1:
                 x = points[j][1] * c3dfile.scale
                 z = -points[j][0] * c3dfile.scale
             # update markers visualization
-            if c3dfile.pointRepresentations[c3dfile.labels[j]]['visible'] or c3dfile.pointRepresentations[c3dfile.labels[j]]['solid']:
-                if c3dfile.pointRepresentations[c3dfile.labels[j]]['visible']:
-                    c3dfile.pointRepresentations[c3dfile.labels[j]]['node'].getField('translation').setSFVec3f([x, y, z])
-                if c3dfile.pointRepresentations[c3dfile.labels[j]]['solid']:
-                    c3dfile.pointRepresentations[c3dfile.labels[j]]['solid'].getField('translation').setSFVec3f([x, y, z])
+            label = c3dfile.labels[j]
+            if c3dfile.pointRepresentations[label]['visible'] or c3dfile.pointRepresentations[label]['solid']:
+                if c3dfile.pointRepresentations[label]['visible']:
+                    c3dfile.pointRepresentations[label]['node'].getField('translation').setSFVec3f([x, y, z])
+                if c3dfile.pointRepresentations[label]['solid']:
+                    c3dfile.pointRepresentations[label]['solid'].getField('translation').setSFVec3f([x, y, z])
             # update markers graph
             for categoryName in c3dfile.labelsAndCategory:
-                if c3dfile.labels[j] in c3dfile.labelsAndCategory[categoryName] and categoryName in enableValueGraphs:
+                if label in c3dfile.labelsAndCategory[categoryName] and categoryName in enableValueGraphs:
                     if categoryName in ['markers', 'virtual_markes']:
-                        toSend += c3dfile.labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
+                        toSend += label + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
                     else:
-                        toSend += c3dfile.labels[j] + ':' + str(points[j][0]) + ',' + str(points[j][2]) + ',' + str(points[j][1]) + ':'
+                        toSend += label + ':' + str(points[j][0]) + ',' + str(points[j][2]) + ',' + str(points[j][1]) + ':'
             # update body representation (if any)
-            if c3dfile.labels[j] in c3dfile.bodyRotations and c3dfile.bodyTransparency < 1.0:
+            if label in c3dfile.bodyRotations and c3dfile.bodyTransparency < 1.0:
                 if transforms3dVailable:
-                    rot = transforms3d.euler.euler2axangle(angleSignAndOrder[c3dfile.labels[j]][0][0] * points[j][0] * math.pi / 180.0,
-                                                           angleSignAndOrder[c3dfile.labels[j]][0][1] * points[j][1] * math.pi / 180.0,
-                                                           angleSignAndOrder[c3dfile.labels[j]][0][2] * points[j][2] * math.pi / 180.0,
-                                                           axes=angleSignAndOrder[c3dfile.labels[j]][1])
-                    c3dfile.bodyRotations[c3dfile.labels[j]].setSFRotation([rot[0][0], rot[0][1], rot[0][2], rot[1]])
+                    rot = transforms3d.euler.euler2axangle(angleSignAndOrder[label][0][0] * points[j][0] * math.pi / 180.0,
+                                                           angleSignAndOrder[label][0][1] * points[j][1] * math.pi / 180.0,
+                                                           angleSignAndOrder[label][0][2] * points[j][2] * math.pi / 180.0,
+                                                           axes=angleSignAndOrder[label][1])
+                    c3dfile.bodyRotations[label].setSFRotation([rot[0][0], rot[0][1], rot[0][2], rot[1]])
                 else:
                     sys.stderr.write('Warning: "transforms3d" is required to update body representation.\n')
                     sys.stderr.write('Warning: You can install it with: "pip install transforms3d"\n')
-            if c3dfile.labels[j] in c3dfile.bodyTranslations:
-                c3dfile.bodyTranslations[c3dfile.labels[j]].setSFVec3f([x, y + float(sys.argv[11]), z])
+            if label in c3dfile.bodyTranslations:
+                c3dfile.bodyTranslations[label].setSFVec3f([x, y + float(sys.argv[11]), z])
         # send marker position to the robot window
         if toSend:
             toSend = toSend[:-1]  # remove last ':'
