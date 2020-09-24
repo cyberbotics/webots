@@ -13,12 +13,6 @@
 # limitations under the License.
 
 JS_SOURCES = \
-  shaders/hdr_resolve.js \
-  shaders/bright_pass.js \
-  shaders/blend_bloom.js \
-  shaders/gaussian_blur_13_tap.js \
-  passes/bloom.js \
-  gpu_picker.js \
   util.js \
   system_info.js \
   dialog_window.js \

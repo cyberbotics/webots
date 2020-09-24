@@ -311,7 +311,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
     if (this.intersection == null) {
       var cameraPosition = new Module.Vector3();
-      this.scene.viewpoint.camera.getWorldPosition(cameraPosition);
+      //this.scene.viewpoint.camera.getWorldPosition(cameraPosition);
       this.moveParams.distanceToPickPosition = Module.length(cameraPosition);
     } else
       this.moveParams.distanceToPickPosition = this.intersection.distance;
@@ -319,12 +319,12 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       this.moveParams.distanceToPickPosition = 0.001;
 
     // Webots mFieldOfView corresponds to the horizontal FOV, i.e. viewpoint.fovX.
-    this.moveParams.scaleFactor = this.moveParams.distanceToPickPosition * 2 * Math.tan(0.5 * this.scene.viewpoint.camera.fovX);
+    //this.moveParams.scaleFactor = this.moveParams.distanceToPickPosition * 2 * Math.tan(0.5 * this.scene.viewpoint.camera.fovX);
     var viewHeight = parseFloat($(this.scene.domElement).css('height').slice(0, -2));
     var viewWidth = parseFloat($(this.scene.domElement).css('width').slice(0, -2));
     this.moveParams.scaleFactor /= Math.max(viewHeight, viewWidth);
 
-    this.moveParams.initialCameraPosition = this.scene.viewpoint.camera.position.clone();
+    //this.moveParams.initialCameraPosition = this.scene.viewpoint.camera.position.clone();
   }
 
   _clearMouseMove() {

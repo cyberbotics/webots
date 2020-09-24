@@ -27,25 +27,24 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   init(texturePathPrefix = '') {
-
     this.renderer = new THREE.WebGLRenderer({'antialias': false});
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setClearColor(0xffffff, 1.0);
     this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+    //this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
     this.renderer.gammaInput = false;
     this.renderer.gammaOutput = false;
     this.renderer.physicallyCorrectLights = true;
     this.domElement.appendChild(this.renderer.domElement);
-    
+
 
     this.scene = new THREE.Scene();
     this.renderAllAtLoad = false;
 
     this.viewpoint = new Viewpoint();
     this.viewpoint.onCameraParametersChanged = (updateScene) => {
-      if (this.gpuPicker)
-        this.gpuPicker.needUpdate = true;
+      //if (this.gpuPicker)
+        //this.gpuPicker.needUpdate = true;
       if (updateScene)
         this.render();
     };
@@ -53,6 +52,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.selector = new Selector();
     this.selector.onSelectionChange = () => { this.render(); };
 
+    /*
     this.gpuPicker = new THREE.GPUPicker({renderer: this.renderer, debug: false});
     this.gpuPicker.setFilter((object) => {
       return object.isMesh &&
@@ -61,17 +61,18 @@ class X3dScene { // eslint-disable-line no-unused-vars
     });
     this.gpuPicker.setScene(this.scene);
     this.gpuPicker.setCamera(this.viewpoint.camera);
+    */
 
     // add antialiasing post-processing effects
     this.composer = new THREE.EffectComposer(this.renderer);
     let renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
     this.composer.addPass(renderPass);
-    this.bloomPass = new THREE.Bloom(new Module.Vector2(window.innerWidth, window.innerHeight));
-    this.composer.addPass(this.bloomPass);
-    this.hdrResolvePass = new THREE.ShaderPass(THREE.HDRResolveShader);
-    this.composer.addPass(this.hdrResolvePass);
-    let fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
-    this.composer.addPass(fxaaPass);
+    //this.bloomPass = new THREE.Bloom(new Module.Vector2(window.innerWidth, window.innerHeight));
+    //this.composer.addPass(this.bloomPass);
+    //this.hdrResolvePass = new THREE.ShaderPass(THREE.HDRResolveShader);
+    //this.composer.addPass(this.hdrResolvePass);
+    //let fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
+    //this.composer.addPass(fxaaPass);
 
     this.resize();
 
@@ -101,9 +102,9 @@ class X3dScene { // eslint-disable-line no-unused-vars
     }
 
     // Apply pass uniforms.
-    this.hdrResolvePass.material.uniforms['exposure'].value = 2.0 * this.viewpoint.camera.userData.exposure; // Factor empirically found to match the Webots rendering.
-    this.bloomPass.threshold = this.viewpoint.camera.userData.bloomThreshold;
-    this.bloomPass.enabled = this.bloomPass.threshold >= 0;
+    //this.hdrResolvePass.material.uniforms['exposure'].value = 2.0 * this.viewpoint.camera.userData.exposure; // Factor empirically found to match the Webots rendering.
+    //this.bloomPass.threshold = this.viewpoint.camera.userData.bloomThreshold;
+    //this.bloomPass.enabled = this.bloomPass.threshold >= 0;
 
     if (typeof this.preRender === 'function')
       this.preRender(this.scene, this.viewpoint.camera);
@@ -120,10 +121,12 @@ class X3dScene { // eslint-disable-line no-unused-vars
     let width = this.domElement.clientWidth;
     let height = this.domElement.clientHeight;
     this.viewpoint.camera.aspect = width / height;
+    /*
     if (this.viewpoint.camera.fovX)
       this.viewpoint.camera.fov = THREE.Math.radToDeg(horizontalToVerticalFieldOfView(this.viewpoint.camera.fovX, this.viewpoint.camera.aspect));
+    */
     this.viewpoint.camera.updateProjectionMatrix();
-    this.gpuPicker.resizeTexture(width, height);
+    //this.gpuPicker.resizeTexture(width, height);
     this.renderer.setSize(width, height);
     this.composer.setSize(width, height);
     this.render();
@@ -185,7 +188,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   loadWorldFile(url, onLoad) {
     this.objectsIdCache = {};
-    let loader = new THREE.X3DLoader(this);
+    //let loader = new THREE.X3DLoader(this);
+    let loader = new X3dLoade(this);
     loader.enableHDRReflections = this.enableHDRReflections;
     loader.load(url, (object3d) => {
       if (object3d.length > 0) {
@@ -194,11 +198,12 @@ class X3dScene { // eslint-disable-line no-unused-vars
       }
       this._setupLights(loader.directionalLights);
       this._setupEnvironmentMap();
+      /*
       if (this.gpuPicker) {
         this.gpuPicker.setScene(this.scene);
         this.sceneModified = false;
       }
-
+      */
       // Render all the objects at scene load.
       // The frustumCulled parameter will be set back to TRUE once all the textures are loaded.
       this.scene.traverse((o) => {
@@ -216,7 +221,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
     let parentObject;
     if (parentId && parentId !== 0)
       parentObject = this.getObjectById('n' + parentId);
-    let loader = new THREE.X3DLoader(this);
+    //let loader = new THREE.X3DLoader(this);
+    let loader = new X3dLoade(this);
     loader.enableHDRReflections = this.enableHDRReflections;
     let objects = loader.parse(x3dObject, parentObject);
     if (typeof parentObject !== 'undefined')
@@ -300,6 +306,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   pick(relativePosition, screenPosition) {
+    /*
     if (this.sceneModified) {
       this.gpuPicker.setScene(this.scene);
       this.sceneModified = false;
@@ -308,6 +315,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     let raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(screenPosition, this.viewpoint.camera);
     return this.gpuPicker.pick(relativePosition, raycaster);
+    */
   }
 
   getCamera() {
@@ -509,6 +517,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   // private functions
   _setupLights(directionalLights) {
+    /*
     if (!this.root)
       return;
 
@@ -529,6 +538,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       light.shadow.camera.top = maxSize;
       light.shadow.camera.bottom = -maxSize;
     });
+    */
   }
 
   _setupEnvironmentMap() {

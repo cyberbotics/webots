@@ -55,8 +55,8 @@ class Viewpoint { // eslint-disable-line no-unused-vars
 
   follow(objectId) {
     this.followedObjectId = objectId;
-    this.viewpointForce = new THREE.Vector3(0.0, 0.0, 0.0);
-    this.viewpointVelocity = new THREE.Vector3(0.0, 0.0, 0.0);
+    this.viewpointForce = new Module.Vector3(0.0, 0.0, 0.0);
+    this.viewpointVelocity = new Module.Vector3(0.0, 0.0, 0.0);
   }
 
   setViewpointMass(mass) {
@@ -71,7 +71,7 @@ class Viewpoint { // eslint-disable-line no-unused-vars
   }
 
   setFollowedObjectDeltaPosition(newPosition, previousPosition) {
-    this.followedObjectDeltaPosition = new THREE.Vector3();
+    this.followedObjectDeltaPosition = new Module.Vector3();
     this.followedObjectDeltaPosition.subVectors(newPosition, previousPosition);
   }
 
@@ -83,6 +83,7 @@ class Viewpoint { // eslint-disable-line no-unused-vars
 
     var timeInterval = Math.abs(time - this.viewpointLastUpdate) / 1000;
 
+    /*
     if (timeInterval > 0 && this.camera) {
       this.viewpointLastUpdate = time;
       var viewpointDeltaPosition = null;
@@ -94,7 +95,7 @@ class Viewpoint { // eslint-disable-line no-unused-vars
       // so in this case we simply move the viewpoint to the equilibrium position as well.
       if (forcePosition || this.viewpointMass === 0 || (timeInterval > 0.1 && this.animation == null)) {
         viewpointDeltaPosition = this.viewpointForce.clone();
-        this.viewpointVelocity = new THREE.Vector3(0.0, 0.0, 0.0);
+        this.viewpointVelocity = new Module.Vector3(0.0, 0.0, 0.0);
       } else {
         var acceleration = this.viewpointForce.clone();
         acceleration.multiplyScalar(timeInterval / this.viewpointMass);
@@ -120,15 +121,16 @@ class Viewpoint { // eslint-disable-line no-unused-vars
         viewpointDeltaPosition.multiplyScalar(timeInterval);
       }
       this.viewpointForce.sub(viewpointDeltaPosition);
-      this.camera.position.add(viewpointDeltaPosition);
+      //this.camera.position.add(viewpointDeltaPosition);
       this.followedObjectDeltaPosition = null;
       return true;
-    }
+    }*/
 
     return false;
   }
 
   rotate(params) {
+    /*
     var yawAngle = -0.005 * params.dx;
     var pitchAngle = -0.005 * params.dy;
     if (params.pickPosition == null) {
@@ -136,37 +138,41 @@ class Viewpoint { // eslint-disable-line no-unused-vars
       pitchAngle /= -8;
     }
     var voMatrix = new THREE.Matrix4();
-    var pitch = new THREE.Vector3();
-    var yaw = new THREE.Vector3();
-    voMatrix.makeRotationFromQuaternion(this.camera.quaternion).extractBasis(pitch, yaw, new THREE.Vector3());
+    var pitch = new Module.Vector3();
+    var yaw = new Module.Vector3();
+    voMatrix.makeRotationFromQuaternion(this.camera.quaternion).extractBasis(pitch, yaw, new Module.Vector3());
     var pitchRotation = new THREE.Quaternion();
     pitchRotation.setFromAxisAngle(pitch, pitchAngle * 2);
     var worldYawRotation = new THREE.Quaternion();
-    worldYawRotation.setFromAxisAngle(new THREE.Vector3(0, 1, 0), yawAngle * 2); // axis: world up
+    worldYawRotation.setFromAxisAngle(new Module.Vector3(0, 1, 0), yawAngle * 2); // axis: world up
     var deltaRotation = worldYawRotation.multiply(pitchRotation);
     if (params.pickPosition)
       this.camera.position.sub(params.pickPosition).applyQuaternion(deltaRotation).add(params.pickPosition);
     this.camera.quaternion.premultiply(deltaRotation);
 
     this.notifyCameraParametersChanged();
+    */
   }
 
   translate(params) {
+    /*
     var voMatrix = new THREE.Matrix4();
-    var pitch = new THREE.Vector3();
-    var yaw = new THREE.Vector3();
-    voMatrix.makeRotationFromQuaternion(this.camera.quaternion).extractBasis(pitch, yaw, new THREE.Vector3());
+    var pitch = new Module.Vector3();
+    var yaw = new Module.Vector3();
+    voMatrix.makeRotationFromQuaternion(this.camera.quaternion).extractBasis(pitch, yaw, new Module.Vector3());
     var targetRight = -params.scaleFactor * params.dx;
     var targetUp = params.scaleFactor * params.dy;
     this.camera.position.addVectors(params.initialCameraPosition, pitch.multiplyScalar(targetRight).add(yaw.multiplyScalar(targetUp)));
 
     this.notifyCameraParametersChanged();
+    */
   }
 
   zoomAndTilt(params) {
+    /*
     var voMatrix = new THREE.Matrix4();
-    var roll = new THREE.Vector3();
-    voMatrix.makeRotationFromQuaternion(this.camera.quaternion).extractBasis(new THREE.Vector3(), new THREE.Vector3(), roll);
+    var roll = new Module.Vector3();
+    voMatrix.makeRotationFromQuaternion(this.camera.quaternion).extractBasis(new Module.Vector3(), new Module.Vector3(), roll);
 
     this.camera.position.add(roll.clone().multiplyScalar(params.zoomScale));
 
@@ -174,10 +180,12 @@ class Viewpoint { // eslint-disable-line no-unused-vars
     zRotation.setFromAxisAngle(roll, params.tiltAngle);
     this.camera.quaternion.premultiply(zRotation);
 
-    this.notifyCameraParametersChanged();
+    this.notifyCameraParametersChanged();W
+    */
   }
 
   zoom(distance, deltaY) {
+    /*
     var scaleFactor = 0.02 * distance * ((deltaY < 0) ? -1 : 1);
     var voMatrix = new THREE.Matrix4();
     var roll = new THREE.Vector3();
@@ -185,6 +193,7 @@ class Viewpoint { // eslint-disable-line no-unused-vars
 
     this.camera.position.add(roll.multiplyScalar(scaleFactor));
     this.notifyCameraParametersChanged();
+    */
   }
 
   notifyCameraParametersChanged(updateScene = true) {

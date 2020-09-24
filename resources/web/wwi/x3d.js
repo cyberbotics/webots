@@ -3,7 +3,8 @@
 
 // Inspiration: https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
 
-THREE.X3DLoader = class X3DLoader {
+//THREE.X3DLoader = class X3DLoader {
+X3dLoade = class X3dLoader {
   constructor(scene) {
     this.scene = scene;
     this.parsedObjects = [];
@@ -83,8 +84,9 @@ THREE.X3DLoader = class X3DLoader {
     if (node.tagName === 'Transform') {
       object = this.parseTransform(node);
       hasChildren = true;
-    } else if (node.tagName === 'Shape')
+    } else if (node.tagName === 'Shape'){
       object = this.parseShape(node);
+    }
     else if (node.tagName === 'DirectionalLight')
       object = this.parseDirectionalLight(node);
     else if (node.tagName === 'PointLight')
@@ -92,11 +94,11 @@ THREE.X3DLoader = class X3DLoader {
     else if (node.tagName === 'SpotLight')
       object = this.parseSpotLight(node, helperNodes);
     else if (node.tagName === 'Group') {
-      object = new THREE.Object3D();
+      //object = new THREE.Object3D();
       object.userData.x3dType = 'Group';
       hasChildren = true;
     } else if (node.tagName === 'Switch') {
-      object = new THREE.Object3D();
+      //object = new THREE.Object3D();
       object.visible = getNodeAttribute(node, 'whichChoice', '-1') !== '-1';
       object.userData.x3dType = 'Switch';
       hasChildren = true;
@@ -174,6 +176,7 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseTransform(transform) {
+    /*
     var object = new THREE.Object3D();
     object.userData.x3dType = 'Transform';
     object.userData.solid = getNodeAttribute(transform, 'solid', 'false').toLowerCase() === 'true';
@@ -191,6 +194,7 @@ THREE.X3DLoader = class X3DLoader {
     object.quaternion.copy(quaternion);
 
     return object;
+    */
   }
 
   parseShape(shape) {
@@ -249,19 +253,21 @@ THREE.X3DLoader = class X3DLoader {
       material = createDefaultMaterial(geometry);
 
     var mesh;
+    /*
     if (geometry.userData.x3dType === 'IndexedLineSet')
       mesh = new THREE.LineSegments(geometry, material);
     else if (geometry.userData.x3dType === 'PointSet')
       mesh = new THREE.Points(geometry, material);
     else
-      mesh = new THREE.Mesh(geometry, material);
+    */
+    mesh = new THREE.Mesh(geometry, material);
     mesh.userData.x3dType = 'Shape';
 
     if (!material.transparent && !material.userData.hasTransparentTexture)
-      // Webots transparent object don't cast shadows.
-      mesh.castShadow = getNodeAttribute(shape, 'castShadows', 'false').toLowerCase() === 'true';
-    mesh.receiveShadow = true;
-    mesh.userData.isPickable = getNodeAttribute(shape, 'isPickable', 'true').toLowerCase() === 'true';
+    // Webots transparent object don't cast shadows.
+    //mesh.castShadow = getNodeAttribute(shape, 'castShadows', 'false').toLowerCase() === 'true';
+    //mesh.receiveShadow = true;
+    //mesh.userData.isPickable = getNodeAttribute(shape, 'isPickable', 'true').toLowerCase() === 'true';
     return mesh;
   }
 
@@ -292,6 +298,7 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseAppearance(appearance) {
+    /*
     var mat = new THREE.MeshBasicMaterial({color: 0xffffff});
     mat.userData.x3dType = 'Appearance';
 
@@ -318,6 +325,7 @@ THREE.X3DLoader = class X3DLoader {
           'transparent': getNodeAttribute(appearance, 'sortType', 'auto') === 'transparent'
         };
       }
+
     }
 
     // Check to see if there is a texture.
@@ -341,9 +349,11 @@ THREE.X3DLoader = class X3DLoader {
       this._setCustomId(material, mat);
     this._setCustomId(appearance, mat);
     return mat;
+    */
   }
 
   parsePBRAppearance(pbrAppearance) {
+    /*
     const roughnessFactor = 2.0; // This factor has been empirically found to match the Webots rendering.
 
     var isTransparent = false;
@@ -387,11 +397,11 @@ THREE.X3DLoader = class X3DLoader {
       else if (type === 'emissiveColor') {
         materialSpecifications.emissiveMap = this.parseImageTexture(imageTexture, textureTransform);
         materialSpecifications.emissive = new THREE.Color(0xffffff);
-      }
+      }*/
       /* Ambient occlusion not fully working
       else if (type === 'occlusion')
         materialSpecifications.aoMap = this.parseImageTexture(imageTexture, textureTransform);
-      */
+      *//*
     }
 
     var mat = new THREE.MeshStandardMaterial(materialSpecifications);
@@ -401,6 +411,7 @@ THREE.X3DLoader = class X3DLoader {
     mat.userData.hasTransparentTexture = materialSpecifications.map && materialSpecifications.map.userData.isTransparent;
     this._setCustomId(pbrAppearance, mat);
     return mat;
+    */
   }
 
   parseImageTexture(imageTexture, textureTransform, mat) {
@@ -456,6 +467,7 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseIndexedFaceSet(ifs) {
+    /*
     var coordinate = ifs.getElementsByTagName('Coordinate')[0];
     var textureCoordinate = ifs.getElementsByTagName('TextureCoordinate')[0];
     var normal = ifs.getElementsByTagName('Normal')[0];
@@ -611,9 +623,11 @@ THREE.X3DLoader = class X3DLoader {
       this._setCustomId(textureCoordinate, geometry);
 
     return geometry;
+    */
   }
 
   parseIndexedLineSet(ils) {
+    /*
     var coordinate = ils.getElementsByTagName('Coordinate')[0];
     if (typeof coordinate !== 'undefined' && 'USE' in coordinate.attributes) {
       console.error("X3DLoader:parseIndexedLineSet: USE 'Coordinate' node not supported.");
@@ -650,9 +664,11 @@ THREE.X3DLoader = class X3DLoader {
     this._setCustomId(coordinate, geometry);
 
     return geometry;
+    */
   }
 
   parseElevationGrid(eg) {
+    /*
     var heightStr = getNodeAttribute(eg, 'height', undefined);
     var xDimension = parseInt(getNodeAttribute(eg, 'xDimension', '0'));
     var xSpacing = parseFloat(getNodeAttribute(eg, 'xSpacing', '1'));
@@ -690,16 +706,18 @@ THREE.X3DLoader = class X3DLoader {
     geometry.computeVertexNormals();
 
     return geometry;
+    */
   }
 
   parseBox(box) {
     var size = convertStringToVec3(getNodeAttribute(box, 'size', '2 2 2'));
     var boxGeometry = new THREE.BoxBufferGeometry(size.x, size.y, size.z);
-    boxGeometry.userData = { 'x3dType': 'Box' };
+    //boxGeometry.userData = { 'x3dType': 'Box' };
     return boxGeometry;
   }
 
   parseCone(cone) {
+    /*
     var radius = getNodeAttribute(cone, 'bottomRadius', '1');
     var height = getNodeAttribute(cone, 'height', '2');
     var subdivision = getNodeAttribute(cone, 'subdivision', '32');
@@ -726,9 +744,11 @@ THREE.X3DLoader = class X3DLoader {
     coneGeometry.userData = { 'x3dType': 'Cone' };
     coneGeometry.rotateY(Math.PI / 2);
     return coneGeometry;
+    */
   }
 
   parseCylinder(cylinder) {
+    /*
     var radius = getNodeAttribute(cylinder, 'radius', '1');
     var height = getNodeAttribute(cylinder, 'height', '2');
     var subdivision = getNodeAttribute(cylinder, 'subdivision', '32');
@@ -763,9 +783,11 @@ THREE.X3DLoader = class X3DLoader {
     cylinderGeometry.userData = { 'x3dType': 'Cylinder' };
     cylinderGeometry.rotateY(Math.PI / 2);
     return cylinderGeometry;
+    */
   }
 
   parseSphere(sphere) {
+    /*
     var radius = getNodeAttribute(sphere, 'radius', '1');
     var subdivision = getNodeAttribute(sphere, 'subdivision', '8,8').split(',');
     var ico = getNodeAttribute(sphere, 'ico', 'false').toLowerCase() === 'true';
@@ -777,17 +799,21 @@ THREE.X3DLoader = class X3DLoader {
       sphereGeometry = new THREE.SphereBufferGeometry(radius, subdivision[0], subdivision[1], -Math.PI / 2); // thetaStart: -Math.PI/2
     sphereGeometry.userData = { 'x3dType': 'Sphere' };
     return sphereGeometry;
+    */
   }
 
   parsePlane(plane) {
+    /*
     var size = convertStringToVec2(getNodeAttribute(plane, 'size', '1,1'));
     var planeGeometry = new THREE.PlaneBufferGeometry(size.x, size.y);
     planeGeometry.userData = { 'x3dType': 'Plane' };
     planeGeometry.rotateX(-Math.PI / 2);
     return planeGeometry;
+    */
   }
 
   parsePointSet(pointSet) {
+    /*
     var coordinate = pointSet.getElementsByTagName('Coordinate')[0];
     var geometry = new THREE.BufferGeometry();
     geometry.userData = { 'x3dType': 'PointSet' };
@@ -825,9 +851,11 @@ THREE.X3DLoader = class X3DLoader {
 
     geometry.computeBoundingBox();
     return geometry;
+    */
   }
 
   parseDirectionalLight(light) {
+    /*
     var on = getNodeAttribute(light, 'on', 'true').toLowerCase() === 'true';
     if (!on)
       return;
@@ -854,9 +882,11 @@ THREE.X3DLoader = class X3DLoader {
     // based on the size of the scene so that all the objects are illuminated by this light.
     this.directionalLights.push(lightObject);
     return lightObject;
+    */
   }
 
   parsePointLight(light) {
+    /*
     var on = getNodeAttribute(light, 'on', 'true').toLowerCase() === 'true';
     if (!on)
       return;
@@ -895,9 +925,11 @@ THREE.X3DLoader = class X3DLoader {
     lightObject.position.copy(location);
     lightObject.userData = { 'x3dType': 'PointLight' };
     return lightObject;
+    */
   }
 
   parseSpotLight(light, helperNodes) {
+    /*
     var on = getNodeAttribute(light, 'on', 'true').toLowerCase() === 'true';
     if (!on)
       return;
@@ -946,9 +978,11 @@ THREE.X3DLoader = class X3DLoader {
     helperNodes.push(lightObject.target);
     lightObject.userData = { 'x3dType': 'SpotLight' };
     return lightObject;
+    */
   }
 
   parseBackground(background) {
+    /*
     this.scene.scene.background = convertStringToColor(getNodeAttribute(background, 'skyColor', '0 0 0'));
     this.scene.scene.userData.luminosity = parseFloat(getNodeAttribute(background, 'luminosity', '1.0'));
     this.scene.scene.irradiance = undefined;
@@ -1011,6 +1045,7 @@ THREE.X3DLoader = class X3DLoader {
     this.scene.scene.add(ambientLight);
 
     return undefined;
+    */
   }
 
   parseViewpoint(viewpoint) {
@@ -1023,12 +1058,12 @@ THREE.X3DLoader = class X3DLoader {
     } else {
       console.log('Parse Viewpoint: error camera');
       // Set default aspect ratio to 1. It will be updated on window resize.
-      this.scene.viewpoint.camera = new THREE.PerspectiveCamera(0.785, 1, near, far);
+      //this.scene.viewpoint.camera = new THREE.PerspectiveCamera(0.785, 1, near, far);
     }
 
     // camera.fov should be updated at each window resize.
     this.scene.viewpoint.camera.fovX = fov; // radians
-    this.scene.viewpoint.camera.fov = THREE.Math.radToDeg(horizontalToVerticalFieldOfView(fov, this.scene.viewpoint.camera.aspect)); // degrees
+    //this.scene.viewpoint.camera.fov = THREE.Math.radToDeg(horizontalToVerticalFieldOfView(fov, this.scene.viewpoint.camera.aspect)); // degrees
 
     if ('position' in viewpoint.attributes) {
       var position = getNodeAttribute(viewpoint, 'position', '0 0 10');
@@ -1054,6 +1089,7 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseFog(fog) {
+    /*
     var colorInt = convertStringToColor(getNodeAttribute(fog, 'color', '1 1 1'), false).getHex();
     var visibilityRange = parseFloat(getNodeAttribute(fog, 'visibilityRange', '0'));
 
@@ -1065,6 +1101,7 @@ THREE.X3DLoader = class X3DLoader {
       fogObject = new THREE.FogExp2(colorInt, 1.0 / visibilityRange);
     this.scene.scene.fog = fogObject;
     return undefined;
+    */
   }
 
   _setCustomId(node, object, defNode) {
@@ -1133,9 +1170,9 @@ function createDefaultGeometry() {
 
 function createDefaultMaterial(geometry) {
   var material;
-  if (typeof geometry !== 'undefined' && geometry.userData.x3dType === 'PointSet' && geometry.userData.isColorPerVertex)
-    material = new THREE.PointsMaterial({ size: 4, sizeAttenuation: false, vertexColors: THREE.VertexColors });
-  else
+  //if (typeof geometry !== 'undefined' && geometry.userData.x3dType === 'PointSet' && geometry.userData.isColorPerVertex)
+    //material = new THREE.PointsMaterial({ size: 4, sizeAttenuation: false, vertexColors: THREE.VertexColors });
+  //else
     material = new THREE.MeshBasicMaterial({color: 0xffffff});
   return material;
 };
@@ -1155,11 +1192,16 @@ function convertStringToVec3(s) {
 
 function convertStringToQuaternion(s) {
   var pos = s.split(/\s/);
+  /*
   var q = new THREE.Quaternion();
   q.setFromAxisAngle(
     new Module.Vector3(parseFloat(pos[0]), parseFloat(pos[1]), parseFloat(pos[2])),
     parseFloat(pos[3])
   );
+  */
+  //GLM-JS
+  var q = glm.angleAxis(
+  parseFloat(pos[3]), new glm.vec3(parseFloat(pos[0]), parseFloat(pos[1]), parseFloat(pos[2])));
   return q;
 }
 /*
@@ -1184,4 +1226,4 @@ function horizontalToVerticalFieldOfView(hFov, aspectRatio) {
   return 2.0 * Math.atan(Math.tan(0.5 * hFov) / aspectRatio);
 }
 
-THREE.X3DLoader.textures = {};
+//THREE.X3DLoader.textures = {};

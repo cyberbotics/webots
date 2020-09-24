@@ -12,11 +12,9 @@ EMSCRIPTEN_BINDINGS(enumeration) {
   enum_<MOUSE>("MOUSE").value("LEFT", LEFT).value("MIDDLE", MIDDLE).value("RIGHT", RIGHT);
 }
 
-/*
 glm::mat4 lookAt(glm::vec3 eye, glm::vec3 center, glm::vec3 up) {
   return glm::lookAt(eye, center, up);
 }
-*/
 
 float length(glm::vec3 vec3) {
   return glm::length(vec3);
@@ -35,5 +33,8 @@ EMSCRIPTEN_BINDINGS(glm) {
     .property("x", &glm::vec3::x)
     .property("y", &glm::vec3::y)
     .property("z", &glm::vec3::z);
+
+  class_<glm::mat4>("Mat4").constructor<double>();
   function("length", &length);
+  function("lookAt", &lookAt);
 }
