@@ -1948,17 +1948,27 @@ void WbSolid::updateTransformAfterPhysicsStep() {
 
   applyPhysicsTransform();
 
+  QList<WbSolid *> reversedList;
+  reversedList << this;
   WbSolid *s = NULL;
   WbNode *p = parentNode();
   while (p != NULL && !p->isWorldRoot()) {
     s = dynamic_cast<WbSolid *>(p);
     if (s != NULL) {
-      s->applyPhysicsTransform();
-      s->mUpdatedAfterStep = true;
+      if (s->mUpdatedAfterStep)
+        break;  // ancestor nodes already updated
+      reversedList.prepend(s);
     }
     p = p->parentNode();
   }
-  mUpdatedAfterStep = true;
+
+  // update transform from root to current node as applyPhysicsTransform uses the upper transform matrix
+  QListIterator<WbSolid *> it(reversedList);
+  while (it.hasNext()) {
+    WbSolid *s = it.next();
+    s->applyPhysicsTransform();
+    s->mUpdatedAfterStep = true;
+  }
 }
 
 void WbSolid::applyPhysicsTransform() {
