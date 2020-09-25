@@ -208,7 +208,6 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
       }
     }
   } else if (message === 'reset') {
-    console.log('Got reset message');
     Array.from(document.getElementsByClassName('marker-plot')).forEach(function(element, index, array) {
       element.parentNode.removeChild(element);
     });
