@@ -1939,7 +1939,7 @@ thanks `@Simon Steinmann`, I will follow this
 ##### Simon Steinmann [Moderator] 08/06/2020 11:19:38
 Since I have done quite a few urdf2webots conversions lately, I might as well create a tutorial for it, as the process can be complicated if one has not much experience. Is there any robotic arm that people want to see added to the community projects?
 
-##### željko 08/06/2020 11:23:39
+##### guberina 08/06/2020 11:23:39
 Hey! I'm just in the middle of trying to wrap my head around urf2webots and a tutorial would be of great help to me! The arms I would like to use are KUKA LBR iiwa and Kinova Jaco and I belive that they would be a good addition as they are quite popular. BTW right now reading older messages as I see that you've had similar problems 🙂
 
 ##### Simon Steinmann [Moderator] 08/06/2020 11:24:34
@@ -1948,7 +1948,7 @@ Yesterday I fixed a huge issue in the converter. The joints should not be wonky 
 
 you got a link to the kuka repo?
 
-##### željko 08/06/2020 11:25:49
+##### guberina 08/06/2020 11:25:49
 OK, thanks a lot 😄 You've just saved me countless hours hahah :)
 
 I found a github repo with the kuka arm which I'm trying to get to work
@@ -1956,7 +1956,7 @@ I found a github repo with the kuka arm which I'm trying to get to work
 ##### Simon Steinmann [Moderator] 08/06/2020 11:26:00
 link?
 
-##### željko 08/06/2020 11:26:05
+##### guberina 08/06/2020 11:26:05
 just a sec
 
 
@@ -5142,4 +5142,659 @@ a quick check and integration would be great, I need to implement this in my bat
 
 ##### David Mansolino [cyberbotics] 09/09/2020 12:06:57
 Cheking it right now 😉
+
+##### Simon Steinmann [Moderator] 09/09/2020 14:23:25
+alright, added the init-pos feature
+
+
+even remembered to do the readme 😄
+
+
+[https://github.com/cyberbotics/urdf2webots/pull/82](https://github.com/cyberbotics/urdf2webots/pull/82)
+
+
+also, I would really like to get this through:
+
+[https://github.com/cyberbotics/urdf2webots/pull/74](https://github.com/cyberbotics/urdf2webots/pull/74)
+
+now we are already 2 commits ahead again
+
+##### David Mansolino [cyberbotics] 09/09/2020 14:51:35
+Very nice, will have a look when I have the time
+
+##### Simon Steinmann [Moderator] 09/09/2020 14:52:03
+finding some small bugs, in 15min it should be good
+
+
+should be correct now
+
+
+Did you guys already create a script that turns a old proto into a multifile proto?. Should not be too hard to make and I think all the models should be converted. The user experience is 100x better with multifiles
+
+##### David Mansolino [cyberbotics] 09/10/2020 12:09:03
+Not yet no.
+
+##### Simon Steinmann [Moderator] 09/10/2020 12:09:17
+I'll have a crack at it
+
+
+how does USE and DEF work with multifile?
+
+##### David Mansolino [cyberbotics] 09/10/2020 14:12:04
+You can't USE DEF are local to the file
+
+##### Simon Steinmann [Moderator] 09/10/2020 14:12:31
+urgh, well that makes it much uglier
+
+
+proto inclusion only works on nodes like Shape? Including a geometry node does not work
+
+##### David Mansolino [cyberbotics] 09/10/2020 14:42:55
+No, any PROTO can include any other PROTO as long as it respect the hierarchy rules.
+
+##### Simon Steinmann [Moderator] 09/10/2020 14:44:23
+it throws an error..
+
+##### David Mansolino [cyberbotics] 09/10/2020 14:44:32
+Which one?
+
+##### Simon Steinmann [Moderator] 09/10/2020 14:44:44
+ERROR: '/home/simon/Downloads/my\_first\_simulation/ikFast\_test/textile\_manipulation\_training/protos/UR10e.proto':36:21: error: Skipped unknown 'UR10e\_0Mesh' field in Shape node.
+
+ERROR: '/home/simon/Downloads/my\_first\_simulation/ikFast\_test/textile\_manipulation\_training/protos/UR10e.proto':36:33: error: Expected field name or '}', found '{'.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/753627026820431933/unknown.png)
+%end
+
+##### David Mansolino [cyberbotics] 09/10/2020 14:45:17
+your are missing the 'geometry' keyword before 'UR10e\_0Mesh'.
+
+##### Simon Steinmann [Moderator] 09/10/2020 14:45:40
+okay, and I remove it in the mesh file then right?
+
+
+od do I keep it there
+
+
+geometry IndexedFaceSet {
+
+vs
+
+ IndexedFaceSet {
+
+##### David Mansolino [cyberbotics] 09/10/2020 14:46:29
+> IndexedFaceSet {
+
+👍🏻
+
+##### Simon Steinmann [Moderator] 09/10/2020 14:50:39
+alright, I created the script. It extracts all the indexfaceset geometries.
+
+##### David Mansolino [cyberbotics] 09/10/2020 14:50:56
+Very cool!
+
+##### Simon Steinmann [Moderator] 09/10/2020 14:51:08
+you can just run it, a file select window opens
+> **Attachment**: [proto2multi.py](https://cdn.discordapp.com/attachments/565155651395780609/753628633867747459/proto2multi.py)
+
+##### David Mansolino [cyberbotics] 09/10/2020 14:51:18
+If you want, we have a script folder here where it could fit: [https://github.com/cyberbotics/webots/tree/master/scripts](https://github.com/cyberbotics/webots/tree/master/scripts)
+
+##### Simon Steinmann [Moderator] 09/10/2020 14:51:47
+sure
+
+##### David Mansolino [cyberbotics] 09/10/2020 14:52:05
+Looks good!
+
+##### Simon Steinmann [Moderator] 09/10/2020 14:52:07
+maybe I should add an option to crawl through a folder structure and convert every proto
+
+
+replacing it
+
+##### David Mansolino [cyberbotics] 09/10/2020 14:52:39
+That would be nice yes. But if you prefeer this could be added in a second step
+
+##### Simon Steinmann [Moderator] 09/10/2020 14:52:55
+my batch converter already does it, can reuse the code
+
+
+okay, every robot in the webots project directory converted in like 3 seconds 😄
+
+
+take t for a spin. Start it with '--all' to do a batch conversion. it creates new folder in the selected one, with all conversions inside, same structure and all
+> **Attachment**: [proto2multi.py](https://cdn.discordapp.com/attachments/565155651395780609/753641339677048953/proto2multi.py)
+
+
+On a different note. My ik-fast generator is working really well now, and I created solvers for all kinova, kuka, universal robots + irb + P-Rob3 + puma robot. My generik IK-Fast controller also works really well, automatically picking the correct solver. I think this would be a fantastic tool for people to have, or to be more deeply implemented. The issue is, that it requires a ikfastpy compiled file, which is OS dependant
+
+
+and I have no experience compiling on Mac or windows.
+
+##### David Mansolino [cyberbotics] 09/10/2020 15:54:40
+If I have time I will have a look and try to handle the mac and Windows part but this is unfortunately probably not going to be this week, as I am still very busy with this URDF exportation bug: [https://github.com/cyberbotics/webots/issues/2212](https://github.com/cyberbotics/webots/issues/2212)
+
+##### Simon Steinmann [Moderator] 09/10/2020 15:55:28
+oh I fixed that issue in my own converter 😄
+
+##### David Mansolino [cyberbotics] 09/10/2020 15:56:54
+I know 😉 Bu I am trying to fix it directly in the core of Webots, and this is surprisingly complex, I fixed the 'P-Rob3' case, but then it broke another robot 🙄
+
+##### Simon Steinmann [Moderator] 09/10/2020 15:57:23
+did you try the thing with enpoint-anchor discrepency I told you?
+
+##### David Mansolino [cyberbotics] 09/10/2020 15:58:23
+Yes, that's what I did and it fixed the P-Rob case nicely, and all the joint-link are now correct in all the cases, but in some specific case the position of some visual/collision nodes are broken
+
+##### Simon Steinmann [Moderator] 09/10/2020 15:59:07
+most likely those inside an extra transform node
+
+
+are you setting an additional origin in the urdf for those?
+
+##### David Mansolino [cyberbotics] 09/10/2020 16:00:09
+exactly, the problem seems when the joint anchor does not matches the Solid origin + the bounding object uses an extra transform layer.
+
+##### Simon Steinmann [Moderator] 09/10/2020 16:00:35
+show me to the code good sir
+
+
+in my mesh creation, I implemented that discrepancy too
+
+
+this might be of use. This is my proto to urdf conversion
+> **Attachment**: [xml2urdf.py](https://cdn.discordapp.com/attachments/565155651395780609/753646330173456424/xml2urdf.py)
+
+
+with the proto being in xm format
+
+##### David Mansolino [cyberbotics] 09/10/2020 16:01:54
+Here is my current non-fully-working patch (but it is in C++): [https://github.com/cyberbotics/webots/pull/2214/files](https://github.com/cyberbotics/webots/pull/2214/files)
+
+
+
+and here is the result:
+
+
+😂
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/753646494862802995/unknown.png)
+%end
+
+##### Simon Steinmann [Moderator] 09/10/2020 16:02:18
+you dropped something 😄
+
+##### David Mansolino [cyberbotics] 09/10/2020 16:02:26
+Clearly
+
+
+> this might be of use. This is my proto to urdf conversion
+
+`@Simon Steinmann` thanks will check where is the difference.
+
+
+Is it working fine with both the tiago and p-rob3 robots?
+
+##### Simon Steinmann [Moderator] 09/10/2020 16:03:52
+let me try
+
+
+how do you view the urdf btw?
+
+
+which tiago?
+
+##### David Mansolino [cyberbotics] 09/10/2020 16:05:08
+tiago++
+
+
+> how do you view the urdf btw?
+
+`@Simon Steinmann` the simplest and powerfull solution is to use the `urdf_tutorial` package:
+
+```
+roslaunch urdf_tutorial display.launch model:=./tiago.urdf
+```
+
+You can even move joints with sliders
+
+##### Simon Steinmann [Moderator] 09/10/2020 16:38:00
+man that file is evil
+
+
+full of duplicate names and stuff 😛
+
+##### David Mansolino [cyberbotics] 09/10/2020 16:38:17
+Which one ?
+
+##### Simon Steinmann [Moderator] 09/10/2020 16:38:23
+Tiago
+
+##### David Mansolino [cyberbotics] 09/10/2020 16:38:44
+ah yes indeed, this is why it's my test case, it is a very complex robot!
+
+##### Simon Steinmann [Moderator] 09/10/2020 16:46:56
+oh boy, my script is definitely not yet up to the task :p
+
+##### David Mansolino [cyberbotics] 09/10/2020 16:47:23
+I am kind of re-assured that I am not the only one having issues with this crazy robot 😉
+
+##### Simon Steinmann [Moderator] 09/10/2020 16:50:45
+ohhhh sliderjoints may be an issue for me
+
+##### David Mansolino [cyberbotics] 09/10/2020 16:51:49
+There is indeed a few of them in this robot, they indeed need to be handled, but they are more easy to handle than hingeJoints
+
+##### Simon Steinmann [Moderator] 09/10/2020 16:52:09
+my script turns them into fixed ones atm
+
+##### David Mansolino [cyberbotics] 09/10/2020 16:52:34
+Better than nothing 😉
+
+##### Simon Steinmann [Moderator] 09/10/2020 17:06:25
+this is too much for me atm, but you have to add an <origin> node to the visual (and probably collision) part in the urdf
+
+
+the correct origin is:
+
+origin1 = anchor(parent joint)
+
+origin2 = translation of current solid/link
+
+origin = origin2 -  origin1
+
+
+end result should look something like this
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/753663512378605568/unknown.png)
+%end
+
+##### David Mansolino [cyberbotics] 09/10/2020 17:10:31
+Yes, I have something like this, it is almost working, just have a final issue with the gripper now!
+
+##### Simon Steinmann [Moderator] 09/10/2020 17:11:31
+do you by any chance have pybullet experience?
+
+##### David Mansolino [cyberbotics] 09/10/2020 17:12:35
+Unfortunately no.
+
+##### Simon Steinmann [Moderator] 09/11/2020 18:22:44
+I think I found a way to install ikfast solvers with pip. And it should be possible to have them natively in c++ too. With that I'd need some help though.
+
+##### JMRMEDEV 09/12/2020 05:05:17
+Hi guys! I'm working in a project to program an external controller to the UR5e. I'm still getting familiar with Webots. I already followed simple tutorials. Like how to control NAO with external controller. Does each device uses specific libraries or all come in webots/something?
+
+
+Can anyone help with an existing example or documentation about this matter?
+
+##### Simon Steinmann [Moderator] 09/12/2020 11:12:41
+`@JMRMEDEV` can you elaborate on what exactly you are trying to do?
+
+
+what programming language are you using? Do you need inverse kinematics?
+
+##### JMRMEDEV 09/12/2020 15:21:54
+`@Simon Steinmann` well, I guess I don't need inverse Kinematics. I'm intending to control the UR5 with Kinect. So, I guess the dyanmic would be if I move my right arm, the first motor, if I take my forearm so will do the next section of the UR5 and so. I've programmed the UR5 with inverse Kinematics and Matlab before, but as I said, I'm not sure it would be the need. So, my main goal is to know how to build an external controller for the UR5. I want to do it in C. As far as I understood in the documentation, with an external controller, I have the effects that I want in programming outside Webots. I don't know if this is clear enough.
+
+
+*dynamic
+
+
+I already tried the external controller for the NAO and take a look to the code. And I see there are several includes without an explicit reference to NAO itself, but the Webots API.
+
+##### Simon Steinmann [Moderator] 09/12/2020 15:23:37
+I'm a python guy, so I can't help you much, but follwoing this: [https://www.cyberbotics.com/doc/guide/installation-procedure#extern-controllers](https://www.cyberbotics.com/doc/guide/installation-procedure#extern-controllers) should lead you to success
+
+
+and probably this too:
+
+[https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers](https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers)
+
+##### JMRMEDEV 09/12/2020 15:25:26
+Yup, I already looked at that info.
+
+
+Like a puthon guy....
+
+
+Have you programmed an external controller?
+
+##### Simon Steinmann [Moderator] 09/12/2020 15:26:05
+yes, constantly use them, but only python, and only on linux
+
+
+did you set your environment variables?
+
+
+as described in the second link?
+
+
+that is the key
+
+##### JMRMEDEV 09/12/2020 15:26:47
+I get that. I don't actually know python programming, but I guess you have to use something like includes, using or any other references, right?
+
+##### Simon Steinmann [Moderator] 09/12/2020 15:27:10
+yep, "import <package\_name>"
+
+##### JMRMEDEV 09/12/2020 15:27:13
+Yes, I already set the enviroment variables. And controlled the simulated NAO with the external controller example.
+
+
+So my actual question is related with which dependencies should I use.
+
+
+That I'm not sure if there are specific ones for each robots or are like "universal".
+
+##### Simon Steinmann [Moderator] 09/12/2020 15:28:19
+\#include <webots/robot.h>
+
+
+and if you are using a supervisor robot, then probably
+
+\#include <webots/supervisor.h>
+
+##### JMRMEDEV 09/12/2020 15:29:06
+Okay. So they are indeed universal, right?
+
+##### Simon Steinmann [Moderator] 09/12/2020 15:29:13
+yes
+
+##### JMRMEDEV 09/12/2020 15:29:19
+For example, in the NAO controller, I see these includes:
+
+
+\#include <assert.h>
+
+\#include <stdio.h>
+
+\#include <stdlib.h>
+
+\#include <string.h>
+
+\#include <webots/accelerometer.h>
+
+\#include <webots/camera.h>
+
+\#include <webots/distance\_sensor.h>
+
+\#include <webots/gps.h>
+
+\#include <webots/gyro.h>
+
+\#include <webots/inertial\_unit.h>
+
+\#include <webots/keyboard.h>
+
+\#include <webots/led.h>
+
+\#include <webots/motor.h>
+
+\#include <webots/robot.h>
+
+\#include <webots/touch\_sensor.h>
+
+\#include <webots/utils/motion.h>
+
+##### Simon Steinmann [Moderator] 09/12/2020 15:29:40
+[https://cyberbotics.com/doc/reference/robot](https://cyberbotics.com/doc/reference/robot) this is your friend
+
+##### JMRMEDEV 09/12/2020 15:29:48
+And I see there's nothing like <webots/nao.h>
+
+
+So the specific applications, extends 'robot' as I understood.
+
+
+But well, I guess you already clarified my doubt.
+
+
+Thank you.
+
+##### Simon Steinmann [Moderator] 09/12/2020 15:31:34
+in python you just import the robot. everything else should be pretty much a descendent of that
+
+
+[https://cyberbotics.com/doc/reference/node-chart](https://cyberbotics.com/doc/reference/node-chart)
+
+##### JMRMEDEV 09/12/2020 15:32:07
+Thank you once more.
+
+##### Simon Steinmann [Moderator] 09/12/2020 15:50:09
+np 🙂
+
+
+I think I found a way to install ikfast solvers with pip. And it should be possible to have them natively in c++ too. With that I'd need some help though.
+
+
+can some try to build this. In linux it's 
+
+pip install .
+
+inside of the directory
+> **Attachment**: [ikfast\_pybind.zip](https://cdn.discordapp.com/attachments/565155651395780609/755028033076723742/ikfast_pybind.zip)
+
+
+with this world and controller you should be able to test it
+> **Attachment**: [generik\_ikfast.zip](https://cdn.discordapp.com/attachments/565155651395780609/755028933589860442/generik_ikfast.zip)
+
+
+it should automatically work with all the URe robots, puma, p-rob3, all 6 dof kukas
+
+
+`@Olivier Michel` `@David Mansolino` Having created many protos now from urdf, and handling the already included robots in webots, I noticed a discrepency, which I think should be addressed and made consistent. The toolSlot of severral webots models has the y-axis pointing out, while almost every urdf model and also some webots models, have the z-axis pointing out. It would be great, if that is standardized, and I'm leaning towards the z-axis convention, as it is most common and compatible with most user-urdf conversions
+
+
+also, the current toolSlot implementations in webots, create an issue when extracting the urdf from webots, as they are no solid
+
+
+also the default rotation should be adjusted, so that things are oriented correctly by default (robot spawning upright, not on its side)
+
+##### Olivier Michel [cyberbotics] 09/14/2020 12:53:44
+I agree with your proposal regarding orientation of the toolSlot. It would be good to open an issue about it and list which protos have a toolSlot orientation different from z-axis out. This will allow us to evaluate the amount of work to fix this.
+
+##### Simon Steinmann [Moderator] 09/14/2020 12:54:04
+this is, what my 'ideal' robot arm model looks like. It's basically an automated conversion, but I took your custom  boudning objects
+> **Attachment**: [UR10e.zip](https://cdn.discordapp.com/attachments/565155651395780609/755048724740178001/UR10e.zip)
+
+
+with my scripts I can probably automate a lot of these things.
+
+
+also, I think my kuka conversions are pretty much good enough for official inclusion. The only thing might be the collision boxes, which could be split up. But they are already pretty damn good
+
+
+same with gen3 kinova
+
+##### Olivier Michel [cyberbotics] 09/14/2020 13:19:44
+In that case, feel free to open a PR to add these models to the main distribution of Webots. In addition to what you mention, we would also require some documentation pages and a working demo world.
+
+##### Simon Steinmann [Moderator] 09/14/2020 13:30:28
+what is your opinion on python wrapper for the ik\_solvers. If they are compiled for windows, linux and mac, they should all work right? Considering the amazing performance, it would be very cool, if that could be included
+
+##### David Mansolino [cyberbotics] 09/14/2020 13:32:12
+Yes, but ideally we should not commit compiled binaries on Github, but rather provide the sources + compilation procedure.
+
+##### Simon Steinmann [Moderator] 09/14/2020 13:34:47
+For all those robotic arms, I would like to include these ik-controllers. Would it be possible to include the files and then prompt the user to compile, and that being exectued from within webots?
+
+
+on linux, pip does everything automatically, but I dont know how it is on other OS
+
+##### David Mansolino [cyberbotics] 09/14/2020 13:40:41
+Not sure, the best would be to try, if you want you can open the PR and make sure it works well for linux and we will try for other OS.
+
+##### Simon Steinmann [Moderator] 09/14/2020 13:43:21
+Say we kept the solvers in cpp, could it be possible to use the plugin functionality somehow?
+
+##### David Mansolino [cyberbotics] 09/14/2020 13:45:23
+I am not sure to understand what you mean by plugin exactly?
+
+##### Simon Steinmann [Moderator] 09/14/2020 13:45:39
+physics plugin
+
+##### David Mansolino [cyberbotics] 09/14/2020 13:45:58
+You want to integrate the ik solver in the physics plugin?
+
+##### Simon Steinmann [Moderator] 09/14/2020 13:46:14
+maybe something could be adjusted to create a plugin, that does the ik
+
+##### David Mansolino [cyberbotics] 09/14/2020 13:47:07
+The physics plugin is probably not the best way to go, a simple first step would maybe to create a dynamical library that you can load from any controller.
+
+##### Simon Steinmann [Moderator] 09/14/2020 13:48:32
+you mean like creating a new functionality for the robot node for example?
+
+##### David Mansolino [cyberbotics] 09/14/2020 13:49:23
+yes, somethign like what is done with the driver library that extends the robot API for 4wheeled vehicle: [https://github.com/cyberbotics/webots/tree/master/projects/default/libraries/vehicle](https://github.com/cyberbotics/webots/tree/master/projects/default/libraries/vehicle)
+
+##### Simon Steinmann [Moderator] 09/14/2020 13:49:52
+uh that looks promising
+
+
+how does it work, being able to communicate with c, cpp, java and python?
+
+##### David Mansolino [cyberbotics] 09/14/2020 13:51:11
+The library is written in C, and then we use wrappers from the other languages to call the c one.
+
+##### Simon Steinmann [Moderator] 09/14/2020 13:51:34
+but arent these precompiled?
+
+##### David Mansolino [cyberbotics] 09/14/2020 13:51:47
+Once distributed, but not on Github
+
+##### Simon Steinmann [Moderator] 09/14/2020 13:51:55
+> Yes, but ideally we should not commit compiled binaries on Github, but rather provide the sources + compilation procedure.
+
+`@David Mansolino`  cough cough
+
+
+😄
+
+
+i mean on github of course. but for the version 'normal' people download, stuff like this is precompiled right?
+
+##### David Mansolino [cyberbotics] 09/14/2020 13:54:15
+Yes sure
+
+##### Simon Steinmann [Moderator] 09/14/2020 13:54:26
+sorry, to be annoying, just wanna understand how the stuff works, so I can implement my projects better
+
+
+I'm confused, with the newest nightly build, a robot arm with z pointing up, gets aligned automatically, if the rotation is 0? In the past we had to specify the default rotation field. So now, all my robots are lying down, isntead of standing up. What is the new mechanism?
+
+
+how does it know, what 'up' is for a proto model?
+
+
+I'm guessing this has to do with automatic world coordinate calculations
+
+##### David Mansolino [cyberbotics] 09/14/2020 14:48:27
+Which nightly are you using? R2020b-rev2 or R2021a ?
+
+##### Simon Steinmann [Moderator] 09/14/2020 14:48:48
+b-rev2
+
+##### David Mansolino [cyberbotics] 09/14/2020 14:49:54
+And before you where using the official release right?
+
+##### Simon Steinmann [Moderator] 09/14/2020 14:51:24
+the latest nightly
+
+
+webots-R2020b-rev2-x86-64\_ubuntu-16.04.tar.bz2
+
+
+11-9-2020
+
+##### David Mansolino [cyberbotics] 09/14/2020 14:52:18
+ok and now, which date ?
+
+##### Simon Steinmann [Moderator] 09/14/2020 14:53:16
+11-9-2020
+
+##### David Mansolino [cyberbotics] 09/14/2020 14:53:47
+Ok, but then compared to which version the behavior changed?
+
+##### Simon Steinmann [Moderator] 09/14/2020 14:54:26
+I have the old webots folder, where can I check the version/date?
+
+##### David Mansolino [cyberbotics] 09/14/2020 14:55:13
+can you try 'webots --version' ?
+
+##### Simon Steinmann [Moderator] 09/14/2020 14:55:34
+the webots file has the modified date of:
+
+Mo 03 Aug 2020 23∶58∶00 CEST
+
+##### David Mansolino [cyberbotics] 09/14/2020 14:56:46
+Oh ok, then probably you were using revision 1 ?
+
+##### Simon Steinmann [Moderator] 09/14/2020 14:56:58
+2021a nightly build 3/8/2020
+
+
+oh was using 2021
+
+
+which version is the one I should use for testing and latest features?
+
+##### Olivier Michel [cyberbotics] 09/14/2020 15:01:21
+For the latest features, you should use R2021a nightly.
+
+##### Simon Steinmann [Moderator] 09/14/2020 15:02:40
+alright, downloading
+
+
+question, how important are those modeled screws you guys have on the universal robot models?
+
+##### David Mansolino [cyberbotics] 09/15/2020 05:12:18
+They are not particularly important, just to make the robot look slightly nicer.
+
+##### Simon Steinmann [Moderator] 09/15/2020 14:23:18
+`@David Mansolino` I reworked the multi-file script. Should adress everything now. Read the instructions (they changed). [https://github.com/cyberbotics/webots/pull/2226](https://github.com/cyberbotics/webots/pull/2226)
+
+##### David Mansolino [cyberbotics] 09/15/2020 14:37:38
+Perfect, I will retry it
+
+##### Simon Steinmann [Moderator] 09/15/2020 17:43:22
+is it possible to have a exposed field in a proto hidden? So it can be addressed with a supervisor, but does not show up in the scene tree?
+
+##### David Mansolino [cyberbotics] 09/15/2020 18:23:11
+Yes it is, we are using this mechanism for example for the kinematic vehicles to rotate the wheels, the angular velocity is an open field which is hidden because the user don't care about it, but the supervisor is getting it and changing its vaue: [https://github.com/cyberbotics/webots/blob/master/projects/vehicles/protos/bmw/BmwX5Simple.proto#L21](https://github.com/cyberbotics/webots/blob/master/projects/vehicles/protos/bmw/BmwX5Simple.proto#L21)
+
+##### Simon Steinmann [Moderator] 09/15/2020 18:29:15
+awesome! thank you, exactly what I was looking for
+
+##### David Mansolino [cyberbotics] 09/15/2020 18:49:26
+You're welcome
+
+##### Simon Steinmann [Moderator] 09/15/2020 23:08:23
+Automated convex collision mesh creation. Visual .dae to collision .obj  
+
+Less vertices than the usual .stl files and much more accurate and closer to the model. Based on v-hacd ([https://github.com/kmammou/v-hacd](https://github.com/kmammou/v-hacd))
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/755565709655932928/unknown.png)
+%end
+
+
+added multithreading for the computation too, so it doesnt take very long.
+
+
+TODO:
+
+add feature to urdf2webots updfparser.py, so it does not merge meshes on  .obj import. Should behave more like collada import
+
+
+I also managed to get automatically aligned minimal bounding boxes and cylinders to work (in contrast to axis aligned). Both methods combined could also greatly improve box-collision approximations
+
+##### David Mansolino [cyberbotics] 09/16/2020 05:09:03
+That looks really good, looking forward to test this.
+
+##### Simon Steinmann [Moderator] 09/16/2020 14:16:16
+you can test this. --input=<.urdf file>
+> **Attachment**: [urdf\_v\_hacd\_collision.zip](https://cdn.discordapp.com/attachments/565155651395780609/755794188418940998/urdf_v_hacd_collision.zip)
+
+
+should create a new urdf in the same folder, with collision meshes replaced and everything in absolute paths
 

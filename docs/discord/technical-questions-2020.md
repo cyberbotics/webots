@@ -2070,13 +2070,13 @@ You can built your own, import from URDF or using some other available tools
 
 That are available on Webots github
 
-##### uɐsllǝ 01/29/2020 09:04:00
+##### ellsan 01/29/2020 09:04:00
 hi. i have webots v7.4.0 but i can't register. is there a way to register?
 
 ##### Fabien Rohrer [Moderator] 01/29/2020 09:05:30
 Hi, there is no more regisration for Webots 7, you can simply login Webots 7 using the "webots" password as explained here: [https://cyberbotics.com/doc/guide/general-faq#can-i-still-use-a-webots-version-before-the-r2019a-release](https://cyberbotics.com/doc/guide/general-faq#can-i-still-use-a-webots-version-before-the-r2019a-release)
 
-##### uɐsllǝ 01/29/2020 09:06:35
+##### ellsan 01/29/2020 09:06:35
 thank you very much
 
 ##### Daniil 01/29/2020 13:54:55
@@ -3004,7 +3004,7 @@ ya ty
 Thanks for the info `@David Mansolino` . However, is there a chance this feature might be added in future updates. Where we can control the RGB variables along with the LED's intensity?
 
 ##### Olivier Michel [cyberbotics] 02/10/2020 09:15:14
-`@Heisenberg`: I was wrong, it is indeed possible to configure a LightSensor node so that it filters some color, using the colorFilter field of the LightSensor node, see documentation here: [https://cyberbotics.com/doc/reference/lightsensor](https://cyberbotics.com/doc/reference/lightsensor)
+`@TheWgang`: I was wrong, it is indeed possible to configure a LightSensor node so that it filters some color, using the colorFilter field of the LightSensor node, see documentation here: [https://cyberbotics.com/doc/reference/lightsensor](https://cyberbotics.com/doc/reference/lightsensor)
 
 ##### David Mansolino [cyberbotics] 02/10/2020 09:48:48
 `@sunnyjerai` this is unfortunately not on our short term roadmap. But feel free to implement it yourself and submit a PR, we will be more than happy to review it.
@@ -13115,15 +13115,15 @@ Alright, thank you!
 ##### David Mansolino [cyberbotics] 05/04/2020 10:38:50
 You're welcome!
 
-##### P̸̔͐o̴͑̍i̵͗͝n̸̛̄t̶͌̈́ 05/04/2020 11:52:42
+##### Point 05/04/2020 11:52:42
 is there a way to define materials for wheels? like make them from rubber
 
 ##### Stefania Pedrazzi [cyberbotics] 05/04/2020 11:58:45
-`@P̸̔͐o̴͑̍i̵͗͝n̸̛̄t̶͌̈́` do you want that the wheels looks like rubber or behave like if they are made from rubber?
+`@Point` do you want that the wheels looks like rubber or behave like if they are made from rubber?
 
 If you want that a wheels behaves like if it is made from rubber, then you have to add specific ContactProperties defining the wanted behavior: [https://www.cyberbotics.com/doc/reference/contactproperties](https://www.cyberbotics.com/doc/reference/contactproperties)
 
-##### P̸̔͐o̴͑̍i̵͗͝n̸̛̄t̶͌̈́ 05/04/2020 11:59:54
+##### Point 05/04/2020 11:59:54
 thnx
 
 ##### Simon Steinmann [Moderator] 05/04/2020 12:08:55
@@ -14131,14 +14131,14 @@ Thank you
 
 thanks i got it working
 
-##### P̸̔͐o̴͑̍i̵͗͝n̸̛̄t̶͌̈́ 05/11/2020 11:16:04
+##### Point 05/11/2020 11:16:04
 is there a sensor that can be used as sound sensor?
 
 ##### yash 05/11/2020 11:50:55
 How to specify bounding object for LED when it’s children is a point light source .?
 
 ##### Olivier Michel [cyberbotics] 05/11/2020 12:06:44
-`@P̸̔͐o̴͑̍i̵͗͝n̸̛̄t̶͌̈́`: depending on what you want to achieve, you may use Receiver and Emitter nodes.
+`@Point`: depending on what you want to achieve, you may use Receiver and Emitter nodes.
 
 
 `@yash`: I would recommend you to define it arbitrarily as a small Sphere if needed (but this normally not needed).
@@ -29908,7 +29908,7 @@ Very nice !
 ##### Simon Steinmann [Moderator] 08/06/2020 14:14:50
 [https://github.com/cyberbotics/community-projects/pull/7](https://github.com/cyberbotics/community-projects/pull/7) added PR
 
-##### željko 08/06/2020 14:47:19
+##### guberina 08/06/2020 14:47:19
 hey, i followed the instructions but i got the following result
 %figure
 ![importing_arm_status.png](https://cdn.discordapp.com/attachments/565154703139405824/740944100974526504/importing_arm_status.png)
@@ -29933,9 +29933,9 @@ added info: He also tried the file I converted and that works without issues for
 It looks like the ``KukaLbrIiwa14R820\_meshes``folder was not copied.
 
 
-`@željko` do you have a folder `/home/gospodar/testiranja(wbtsarms/protos/KukaLbrIiwa14R820_meshesfolder` folder?
+`@guberina` do you have a folder `/home/gospodar/testiranja(wbtsarms/protos/KukaLbrIiwa14R820_meshesfolder` folder?
 
-##### željko 08/06/2020 14:53:55
+##### guberina 08/06/2020 14:53:55
 
 %figure
 ![folder_screenshot.png](https://cdn.discordapp.com/attachments/565154703139405824/740945758471061629/folder_screenshot.png)
@@ -29953,13 +29953,13 @@ ok, strange, I will try too in that case
 ##### Simon Steinmann [Moderator] 08/06/2020 14:55:15
 Same files as the new PR in community projects
 
-##### željko 08/06/2020 15:00:57
+##### guberina 08/06/2020 15:00:57
 i have another computer on my hands so i also tried there, also with ubuntu 18.04 and webots 2020b and i've got the same result
 
 ##### David Mansolino [cyberbotics] 08/06/2020 15:01:36
 I can reproduce the issue too, I think I found the cause, I am creating a PR to fix this
 
-##### željko 08/06/2020 15:02:21
+##### guberina 08/06/2020 15:02:21
 nice, thanks 🙂
 
 ##### David Mansolino [cyberbotics] 08/06/2020 15:02:52
@@ -30011,7 +30011,7 @@ Once that is implemented, I can convert it again, so we dont have to manually se
 ##### David Mansolino [cyberbotics] 08/06/2020 15:11:38
 Yes that sounds good!
 
-##### željko 08/06/2020 15:15:16
+##### guberina 08/06/2020 15:15:16
 great! 😄
 
 ##### David Mansolino [cyberbotics] 08/07/2020 07:06:28
@@ -31320,7 +31320,7 @@ you can add and load things from code, so you can definitely do it manually.
 
 `@saditya` There's an option, size in the scene tree, which is set to 1,1,1. You can reduce the size accordingly then.
 
-##### željko 08/15/2020 09:53:38
+##### guberina 08/15/2020 09:53:38
 hey
 
 i'm using kuka lbr iiwa from the community repozitory and i'm having a problem with controlling it.
@@ -31345,12 +31345,12 @@ Is there a good solution for build a cable winch e.g. for a crane?
 And if yes, how it would be realized?
 
 ##### Simon Steinmann [Moderator] 08/15/2020 13:08:20
-`@željko` did you download the newest version? They changes yesterday
+`@guberina` did you download the newest version? They changes yesterday
 
 
 fixed exactly those 2 issues
 
-##### željko 08/15/2020 13:55:38
+##### guberina 08/15/2020 13:55:38
 i did not
 
 great, thanks a lot 😄
@@ -31397,7 +31397,7 @@ Alright, I just clicked at the wrong part, ity perfectly possible to see two rob
 
 Is it possible to control the gripper and the arm from the same controller?
 
-##### željko 08/15/2020 15:58:15
+##### guberina 08/15/2020 15:58:15
 > Is it possible to control the gripper and the arm from the same controller?
 
 `@alxy` If they're a part of the same Robot node  then you just have to instantiate all the motors and other devices properly (you have to use the correct names of the motors and so on). You can find the names of devices in the world info window left of the simulation with the rest of the robot properties. If you don't see them then you're using the PROTO node and not the Robot node. To convert, just right click on the Robot in the world info window and the click conver to Base node(s)
@@ -31423,7 +31423,7 @@ you can address the motors in the same script if you want. You just have to init
 
 I usually have a object for all arm motors, and another for all gripper motors
 
-##### željko 08/15/2020 16:17:31
+##### guberina 08/15/2020 16:17:31
 I want to draw a circle which would denote a trajectory to be followed by my robot. So far I've used the Display node, but I only managed to draw the circle on the plane Shape and that also draws the     rectangular plane. I want only the circle to be visible and not the sorounding rectangle (the Shape plane).
 
   If I change the transparecny of the Display, then both the circle and the plane are transparent which defeats the point
@@ -31680,7 +31680,7 @@ please ,i need help
 
 >   If I change the transparecny of the Display, then both the circle and the plane are transparent which defeats the point
 
-`@željko` did you checked this sample [https://cyberbotics.com/doc/guide/samples-devices#display-wbt](https://cyberbotics.com/doc/guide/samples-devices#display-wbt) ?
+`@guberina` did you checked this sample [https://cyberbotics.com/doc/guide/samples-devices#display-wbt](https://cyberbotics.com/doc/guide/samples-devices#display-wbt) ?
 
 
 > Hello. I have to use opencv in my controller but it is compiling but not linking it say something like "undefined reference to...". (Note that linking error is only occuring during calling one of the opencv functions otherwise no error during building,). Also I use opencv version 4.4. My makefile is
@@ -33441,7 +33441,7 @@ Finally, to interface Webots with your android application, you will need to wri
 ##### Vyshak 08/26/2020 15:23:09
 Thank you `@David Mansolino`  , will refer these .
 
-##### bondolo 08/26/2020 20:52:08
+##### Deleted User 08/26/2020 20:52:08
 I am new to webots and trying to get my first world loading. I am using 2020a-rev1. The world I have was created by someone else. When I try to load the world I get the following error message: "error: Skipped unknown 'MultiSenseS21' node or PROTO."
 
 
@@ -33456,7 +33456,7 @@ you should probably update to 2020b
 
 there have been many important updates
 
-##### bondolo 08/26/2020 20:56:28
+##### Deleted User 08/26/2020 20:56:28
 Unfortuantely i am told i must use 2020a-rev1 for some custom protos that have not been updated.
 
 ##### Simon Steinmann [Moderator] 08/26/2020 20:56:48
@@ -33468,7 +33468,7 @@ you can try to manually copy the proto file into your project
 
 in the protos/ folder
 
-##### bondolo 08/26/2020 20:58:47
+##### Deleted User 08/26/2020 20:58:47
 Figuring out the search path has been one of my questions. 🙂 where would the protos folder be relative to the wbt file?
 
 
@@ -33483,7 +33483,7 @@ you might wanna create a new project
 
 that might be your problem
 
-##### bondolo 08/26/2020 21:07:47
+##### Deleted User 08/26/2020 21:07:47
 OK, if i have an existing directory with those directories, how do i open it as a project?
 
 
@@ -36512,4 +36512,1193 @@ I think I rather add a '--init-pos' feature to the converter
 
 ##### David Mansolino [cyberbotics] 09/09/2020 12:54:18
 Yes that's probably simpler indeed
+
+##### anathema 09/09/2020 13:42:44
+i am using the tractor from vehicle , there is only one sensor slot, is there a  way to add extra sensor slot
+
+##### David Mansolino [cyberbotics] 09/09/2020 13:43:19
+Not without modifying the PROTO, but you can but several sensors in the same slot, and use transform to move them in the slot
+
+##### anathema 09/09/2020 13:47:27
+can you explain me the transform part
+
+##### David Mansolino [cyberbotics] 09/09/2020 13:49:16
+First add a 'Transform' node, and then put your device in the 'children' field of your transform, you can then change the translation and rotation of the 'Transform' node to move all its children. I would recommend following tutorials 1 to 6 here: [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials)
+
+##### anathema 09/09/2020 13:50:12
+thanks
+
+##### Animesh22 09/09/2020 14:42:26
+Hello, I am creating a world of a solar farm in which I will simulate my Solar Panel Cleaning robot. Please can I get help to add some dust over the panels, which can be cleaned by the Robot...
+
+##### Olivier Michel [cyberbotics] 09/09/2020 14:51:03
+Hello, you should take inspiration of the `webots/projects/robots/irobot/create/worlds/create.wbt` demo to implement dust on your solar panels.
+
+
+We can also do it for you if needed. Would you like to receive a quotation for this?
+
+##### Animesh22 09/09/2020 14:53:59
+> Hello, you should take inspiration of the `webots/projects/robots/irobot/create/worlds/create.wbt` demo to implement dust on your solar panels.
+
+`@Olivier Michel` I will try first, Thanks for this information😀
+
+##### Justin Fisher 09/10/2020 01:23:38
+This is either a request for a way to do something, or more likely a feature suggestion for a future version of Webots.  I like how, in PBRAppearances, you can use baseColor as a multiplier with baseColorMap to recolor an image.  Intuitively, it seems like there should be the same relation between emissiveColor and emissiveColorMap, so e.g., you could colorize the emissiveColorMap of something by setting an emissiveColor to multiply with it.  E.g., this would be nice for making a paper-lantern proto whose emissiveColorMap has dark non-emissive parts and glowing tissue paper that it would be nice to be able to colorize to allow an easy choice for color of glow.  Or this would be nice for making a multi-color LED indicator with some dark writing on it.  Unfortunately, it doesn't seem like Webots currently works in this intuitive way, and instead just ignores emissiveColor when you specify an emissiveColorMap.  Is there a straightforward way of doing this sort of thing (short of just creating alternative emissive map textures for all the different colors of glow you might want)?
+
+##### Ostii 09/10/2020 02:27:40
+Anyone got an idea how to create a 2d drawing from webots. Just like one does on from AutoCAD?
+
+##### Justin Fisher 09/10/2020 02:29:36
+Under view you can choose orthographic projection and/or wireframe, but it may not be as pretty as you hope!
+
+##### Ostii 09/10/2020 02:30:29
+Let me check it out... 🙏🙏🙏🙏
+
+##### Bkarso 09/10/2020 03:51:16
+hello，I loaded my model (a wheel The format is stl), but it became very large. After I scaled it down, but I don’t know its actual size. What should I do?
+
+
+How can I make sure that the diameter of my wheel is 75mm?
+
+##### Justin Fisher 09/10/2020 05:26:51
+There may be a better way, but one way that would work is to create a shape>box, set its length to .075 meters and move it beside your wheel, then rescale your wheel til it matches the ruler you made.
+
+##### Bkarso 09/10/2020 06:34:18
+hello ，I load a car frame and two wheels ,but i don't know how to make that the frame with a children include two wheels,help me please.
+
+##### David Mansolino [cyberbotics] 09/10/2020 06:35:41
+> This is either a request for a way to do something, or more likely a feature suggestion for a future version of Webots.  I like how, in PBRAppearances, you can use baseColor as a multiplier with baseColorMap to recolor an image.  Intuitively, it seems like there should be the same relation between emissiveColor and emissiveColorMap, so e.g., you could colorize the emissiveColorMap of something by setting an emissiveColor to multiply with it.  E.g., this would be nice for making a paper-lantern proto whose emissiveColorMap has dark non-emissive parts and glowing tissue paper that it would be nice to be able to colorize to allow an easy choice for color of glow.  Or this would be nice for making a multi-color LED indicator with some dark writing on it.  Unfortunately, it doesn't seem like Webots currently works in this intuitive way, and instead just ignores emissiveColor when you specify an emissiveColorMap.  Is there a straightforward way of doing this sort of thing (short of just creating alternative emissive map textures for all the different colors of glow you might want)?
+
+`@Justin Fisher` this is indeed not possible now, but if you have some knowledge abotu shader, you should be able to achieve this by modifying these shaders (no need to recompile anything): [https://github.com/cyberbotics/webots/tree/master/resources/wren/shaders](https://github.com/cyberbotics/webots/tree/master/resources/wren/shaders)
+
+
+In particular, changing this line:
+
+[https://github.com/cyberbotics/webots/blob/master/resources/wren/shaders/pbr.frag#L385](https://github.com/cyberbotics/webots/blob/master/resources/wren/shaders/pbr.frag#L385)
+
+And this one:
+
+[https://github.com/cyberbotics/webots/blob/master/resources/wren/shaders/pbr\_stencil\_ambient\_emissive.frag#L178](https://github.com/cyberbotics/webots/blob/master/resources/wren/shaders/pbr_stencil_ambient_emissive.frag#L178)
+
+Into:
+
+```
+    emissive = texture(inputTextures[6], texUv).rgb * emissive;
+```
+
+
+> hello ，I load a car frame and two wheels ,but i don't know how to make that the frame with a children include two wheels,help me please.
+
+`@Bkarso` You should use the `Car` PROTO as root node: [https://cyberbotics.com/doc/automobile/car](https://cyberbotics.com/doc/automobile/car)
+
+##### Justin Fisher 09/10/2020 07:56:04
+I'm trying to make a solid A with a complex boundingobject.  A has a child that is a transform B, which itself has a large child shape C that I would like to include in A's boundingobject.  If I just USE shape C in A's bounding object, it ends up in the wrong place, of course, because there's nothing transforming it. Intuitively, it seems like what I want to do is to have A's bounding object somehow USE the transform B.  However, the scene tree won't let me use *that* transform (or any other transform that is a direct child of A), even though it will let me use other transforms in A's bounding object, including more distant descendants of A.  Why can't I use B?  
+
+
+
+I see that an option could be to make a group G that contains B and C, but B also has an insignificant descendant D that I wouldn't want to include in A's bounding object, but I think I'd automatically be stuck including it with this USE-a-group approach.
+
+
+
+I could also make a copy B* of B to put in A's bounding box, rather than "USE"-ing B, but that'll end up being annoying as whenever I change B, I'll need to remember to make duplicate changes to B*.  So what should I do?
+
+##### David Mansolino [cyberbotics] 09/10/2020 07:57:36
+There is a limit in the hierarchy level of transforms you can but in a boundign object, that probably why you can't use this DEF.
+
+##### Justin Fisher 09/10/2020 08:16:09
+Is there a *good* reason for it not to let me USE transform B in A's boundingObject, even though it would let me USE a transform that is a child of B?  Couldn't I just trivially get around that by inserting some other trivial zero transform Z between A and B, thereby making A's boundingObject be able to USE B after all?  How could that possibly be any better than just letting me USE B?
+
+
+
+(It looks like this USE a 3rd-generation-transform approach sticks me with all the descendants of that grandchild transform in the bounding object, which has the same problem for me as the USE-a-group approach: including minor descendants in the boundingObject that it'd be better to leave out.  So I guess it doesn't matter for me right now, but still it seems odd and like it's probably not working the best way...)
+
+##### David Mansolino [cyberbotics] 09/10/2020 08:24:05
+The problem is that (for internal stability reasons) you are not allowed to add a Transform in a Transform in a bounding object (regardless of the fact that it is a USE or not).
+
+##### Justin Fisher 09/10/2020 08:34:13
+Ok, that makes a bit more sense, and you're right that my B itself does have a child that's a transform, which could be what's disqualifying it, rather than its proximity to A.  I opted to put a copy B* into A's boundingobject, and it seems to be working fine, though I'm sure I'll eventually move just B and then wonder why its collisions don't seem right any more...
+
+
+Actually, I'm setting my supervisor controller to move B* to keep up with B, so I won't have to worry about them ever mismatching.  Seems like this should be something that Webots should be able to just take care of itself though, because it's got to be a common issue wanting to get a transformed shape into a bounding box, while also wanting to use that same transform to help position other stuff...
+
+##### David Mansolino [cyberbotics] 09/10/2020 08:49:42
+We are indeed aware of the issue, and it is on our TODO list, but this is not so easy to support and we are currently all very busy with other improvment/bug fix, but if you want to contribute your are welcome: [https://github.com/cyberbotics/webots/blob/master/CONTRIBUTING.md](https://github.com/cyberbotics/webots/blob/master/CONTRIBUTING.md)
+
+##### Justin Fisher 09/10/2020 09:07:00
+I totally understand about long TODO lists, and I can see how this one would be tricky.  My first thought about how to implement this is that you'd probably want a different USE-like functionality, perhaps called SHADOW, where any solid's boundingobject's children can SHADOW any firmly-connected descendant shape of the solid (i.e., no intervening joints), and a boundingobject SHADOWing a DEF is equivalent to adding a transform to the children of that boundingobject which captures the relative position of that DEF with respect to the solid, and then having a child of this transform USE the shadowed shape.  In other words, SHADOW would be like USE-BOTH-DEF-AND-ITS-TRANSFORM, but would be usable only in boundingobjects.  (Since this would always put a copy of a shape in the very same location as the original, you'd almost never want that aside from the case of boundingobjects anyway.)
+
+##### Olivier Michel [cyberbotics] 09/10/2020 09:20:37
+If you want to go ahead with this idea, please open an issue on GitHub, explaining the problem in details and proposing a solution. We will continue the discussion there and once we all agree on the design, you could proceed with the implementation.
+
+##### Ostii 09/10/2020 10:18:09
+how to make PID work with the IMU's Yaw angle?
+
+##### David Mansolino [cyberbotics] 09/10/2020 10:19:14
+PID, is for controlling the speed of the motor according to its position. If you want to control the PID according to any other input, you have to write your own PID controller (which should not be so difficult).
+
+
+Here is a simple sample simulation controlling motors depending on a position sensor input using a PID controller: [https://robotbenchmark.net/benchmark/inverted\_pendulum/simulation.php](https://robotbenchmark.net/benchmark/inverted_pendulum/simulation.php)
+
+##### Ostii 09/10/2020 10:21:19
+alright let me check it out
+
+
+This is the actual robot to code for using C
+%figure
+![webotrobot.png](https://cdn.discordapp.com/attachments/565154703139405824/753562232347951144/webotrobot.png)
+%end
+
+
+robot should start from the green field and go to the table with boxes... from there it must place the boxes on the three separate tables on opposite side
+%figure
+![webotstopview_LI.jpg](https://cdn.discordapp.com/attachments/565154703139405824/753562418155880488/webotstopview_LI.jpg)
+%end
+
+
+
+%figure
+![webotstopview2.png](https://cdn.discordapp.com/attachments/565154703139405824/753562419887997048/webotstopview2.png)
+%end
+
+##### David Mansolino [cyberbotics] 09/10/2020 10:28:33
+That looks like a nice challenge
+
+##### Ostii 09/10/2020 10:29:07
+the robot must be able to travel from the green point and avoid collision with the walls.
+
+
+I actually need help with it
+
+
+setting out the PID and IMU to move around
+
+##### David Mansolino [cyberbotics] 09/10/2020 10:31:27
+I am sorry but this is more a robot-control issue rather than a Webots specific issue. You should probabyl ask this on a robot control forum (such as [https://robotics.stackexchange.com/](https://robotics.stackexchange.com/)). Or if you want Cyberbotics provides professional consulting to help you with this: [https://www.cyberbotics.com/#plans](https://www.cyberbotics.com/#plans)
+
+##### Ostii 09/10/2020 10:32:14
+alright... thank you very much `@David Mansolino`
+
+##### David Mansolino [cyberbotics] 09/10/2020 10:32:25
+You're welcome
+
+##### culurciello 09/10/2020 13:25:41
+Hi, I have added a gripper to the UR5 and wanted to modify the arm chain with the gripper so that IK would work. But I am not sure how to add the new link to the arm chain. Is there a doc that can help me? Thanks a lot
+> **Attachment**: [ur5\_grip.wbt](https://cdn.discordapp.com/attachments/565154703139405824/753607130237370400/ur5_grip.wbt)
+
+##### David Mansolino [cyberbotics] 09/10/2020 13:46:34
+when you say 'modify the arm chain' ? Which IK are you using? Are you refeering the the ikpy chain module?
+
+##### Simon Steinmann [Moderator] 09/10/2020 13:47:06
+`@culurciello` are you runnng linux?
+
+##### culurciello 09/10/2020 13:54:31
+Mac OS X
+
+
+I am using this arm chain and simple controller to test
+> **Attachment**: [ur\_ik\_test.py](https://cdn.discordapp.com/attachments/565154703139405824/753614536774254659/ur_ik_test.py)
+
+
+But I have added a gripper and am not sure how to easily change the armChain
+
+
+yes the ikpy Chain
+
+##### David Mansolino [cyberbotics] 09/10/2020 13:57:48
+In that case, I would recommend checking this example which use ikpy too and compute the armchain dynamically from the robot definition: [https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/controllers/inverse\_kinematics/inverse\_kinematics.py](https://github.com/cyberbotics/webots/blob/master/projects/robots/abb/irb/controllers/inverse_kinematics/inverse_kinematics.py)
+
+##### culurciello 09/10/2020 14:01:28
+Thank you `@David Mansolino` I have looked at taht. Maybe a better question is How can in troduce an offset at the end of the arm chain?
+
+##### David Mansolino [cyberbotics] 09/10/2020 14:05:11
+If you check the doc of the 'from\_urdf\_file' function ([https://ikpy.readthedocs.io/en/latest/chain.html?highlight=from\_urdf\_file#ikpy.chain.Chain.from\_urdf\_file](https://ikpy.readthedocs.io/en/latest/chain.html?highlight=from_urdf_file#ikpy.chain.Chain.from_urdf_file)) you can see that there is a 'last\_link\_vector' argument that is made exactly for this.
+
+##### Simon Steinmann [Moderator] 09/10/2020 14:08:38
+you can use this controller
+> **Attachment**: [generic\_inverse\_kinematic.zip](https://cdn.discordapp.com/attachments/565154703139405824/753617939290390659/generic_inverse_kinematic.zip)
+
+
+I already added the correct last\_link\_vector for the robot. For other robots, you might wanna reset it to 'None'
+
+##### culurciello 09/10/2020 14:46:34
+wow, thank you `@David Mansolino` `@Simon Steinmann` you guys are the best!
+
+##### David Mansolino [cyberbotics] 09/10/2020 14:46:45
+You're welcome 😉
+
+##### Simon Steinmann [Moderator] 09/10/2020 14:47:15
+[https://tenor.com/view/wink-and-point-finger-guns-wink-supernatural-dean-gif-12682706](https://tenor.com/view/wink-and-point-finger-guns-wink-supernatural-dean-gif-12682706)
+
+##### culurciello 09/10/2020 14:48:20
+I have to say I found Webots technical help one of the best: fast response, very precise,  and most responsive
+
+
+`@Simon Steinmann` the automatic IK scipt you made are a life saver
+
+##### Simon Steinmann [Moderator] 09/10/2020 14:53:46
+😄  thx, happy someone can have some use out of it
+
+
+it really took me  a while to understand all that. I know how it can be getting into it
+
+##### Justin Fisher 09/11/2020 00:23:04
+If I use a supervisor controller to move (by changing translation field) a part of a robot, and then hit reset, sometimes that part stays in place (relative to the rest of the robot) and sometimes it doesn't.  I think maybe the difference is that "solids" that are firmly connected (no intervening movable joints) to the main robot revert their position upon reset, whereas shapes that are firmly connected don't?  Does this seem right?  Is there a straightforward way to get firmly connected solids to not revert?  I know I can have the supervisor force things back in place as soon as it starts running, but it's strange to have a paused not-yet-running simulation with the robot having just mangled itself onscreen.
+
+##### David Mansolino [cyberbotics] 09/11/2020 05:47:31
+Hi `@Justin Fisher`, that looks indeed like something not supported by the reset functionality (restoring position of 'fixed' Solids), it would be nice if you can provide a minal example reproducing this and report it here: [https://github.com/cyberbotics/webots/issues/new?template=bug\_report.md](https://github.com/cyberbotics/webots/issues/new?template=bug_report.md)
+
+We will then investigate and fix this.
+
+##### Justin Fisher 09/11/2020 08:28:16
+I guess I'm not sure which is the "correct" functionality and which is "incorrect".  Suppose I have a robot R with two children:  A is a transformation leading to a shape A+ and B is a touch sensor solid also leading to a shape B+.  Have the supervisor modify both A and B's translation fields, so that shapes A+ and B+ both move.  Now hit reset.  Based on my experience with more complex examples, I think the solid B will revert back to its original translation, whereas the translation A will keep the translation the controller gave it.  Which of those is "correct" and which is "incorrect"?
+
+
+
+For my purposes, I like having them keep acquired translations, like A does, since I'm using the supervisor to configure parts without adding a bunch of extra motors and joints that would complexify the simulation, and for my purposes I'm happy having the configurations stick around after I hit reset.  But I could easily imagine other use cases where people would instead prefer to have both A and B revert.
+
+##### David Mansolino [cyberbotics] 09/11/2020 08:30:07
+The expected behavior is indeed that both A and B get reverted.
+
+##### Justin Fisher 09/11/2020 08:34:34
+That was what I originally expected too, and was happily surprised that it didn't work that way with translated shapes.  It also doesn't work that way with supervisor-imposed changes to the spines of extrusion Protos, for whatever that's worth.  For my purposes, I was happy all those things kept the configurations my supervisor gave them, and then it was an unpleasant surprise when a touch sensor kept forgetting where my supervisor told it to be when everything else remembered.  But anyway, it sounds like a lot of stuff doesn't give the behavior you expect.  Not that I really want you to "fix" that... 🙂
+
+##### David Mansolino [cyberbotics] 09/11/2020 08:36:16
+The reset functionality is quite new, and it is indeed possible that not all the use case have been tested yet.
+
+##### Justin Fisher 09/11/2020 08:41:25
+So is the ideal you're aiming for that hitting reset would revert the simulation back to exactly the state it would be in if you had just reloaded?  (Just with less processing than a full reload would require?)  Or are there some things that reset isn't supposed to revert?
+
+##### David Mansolino [cyberbotics] 09/11/2020 08:43:04
+Yes exactly that the ideal case. The only difference is when called from the supervisor API (wb\_supervisor\_simulation\_reset) the controller are not restarted.
+
+
+You can find here the exact list of things the reset is supposed to do: [https://cyberbotics.com/doc/guide/the-user-interface#file-menu](https://cyberbotics.com/doc/guide/the-user-interface#file-menu)
+
+##### Justin Fisher 09/11/2020 09:03:23
+So here's the list of things that I've noticed not reverting, though again I myself am perfectly happy that they don't revert:  (a) transformations altered by supervisor, (b) geometries altered by supervisor like dimensions of box shapes or spines of extrusion protos, (c) appearance properties, like baseColor, altered by supervisor.  If your ideal really is to revert everything, those would need to be reverted too.
+
+
+
+Another bug in this ballpark:  hitting reset also doesn't seem to do what the docs you link say regarding LED's.  Example:  create a RGB LED (gradual = true, no list of color options).  Give it a child shape with a PBR appearance with an emissive color matching the glow you'd like that LED to have as its default at start of simulation, say white (1,1,1).  That color will show up fine.  Save the world, run the simulation, and hit reset.  Now that Emissive Color will have been replaced by black (0,0,0), which is *not* its original value, counter to the docs you linked.
+
+
+I would encourage you consider that maybe your ideal *shouldn't* be to revert absolutely everything.  Instead I'd suggest that the ideal should be to revert everything that happened due to non-supervisor-API controller actions and the Physics engine (so pretty much all the things on the list you linked, like absolute locations, joint angles, velocities, LED/displays, but not much more).  As for things that only *supervisors* can do (like the things I listed above) -- if supervisors made a point of *doing* it, then I'd say leave it up to them to *undo* it if they want, and not if they don't.
+
+
+
+If you decide to view the ideal that way, then a child solid like a touch sensor that is firmly attached (i.e., not by a movable joint) to its parent should *not* have its translation field reverted, since the physics engine treats firmly attached solids as being fully bound together and so changes in this child solid's translation field can arise only by the intentional action of a supervisor, not from ordinary physics.  So I think you should leave it up to the supervisor to revert, if it wants.
+
+##### David Mansolino [cyberbotics] 09/11/2020 09:36:04
+Yes you are right, the goal of the revert is to be able to remove any modification made by the simulation run (both from physics and controllers) and not changes done by the user in the scene-tree, the Supervisor controller is indeed in the middle of these two cases it changes the scene-tree like a user would do manually but is a controller and therefore for now changes made by the supervisor controller are not reset. But I agree this is not perfectly clear from the doc, we will try to improve this.
+
+##### Justin Fisher 09/11/2020 09:47:00
+You're right that lots of changes made by supervisors aren't reset (like colors, geometries, changes to transform fields), but other changes *are *currently reset, like added nodes or changes to translation and rotation fields of bound solids, even though these changes can be brought about only by supervisor-API or the scene tree interface.  So they probably *shouldn't* be reset.
+
+
+
+Incidentally, one of my biggest rip-out-my-own-hair frustrations with Webots is making changes to the scene tree, going to save them, having the warning pop up that the simulation had already been run so I probably shouldn't save the current state, and therefore losing all those changes when I hit reset.  This is probably another case where the current "reset" functionality is overzealous in reverting changes that it would have been better for it not to have reverted, especially nodes added by the user.
+
+
+(or maybe you should pop up the warning right when the user starts making scene tree alterations when the simulation has been run, rather than waiting until they're trying to save all the work they wasted time doing)
+
+##### David Mansolino [cyberbotics] 09/11/2020 09:56:41
+> You're right that lots of changes made by supervisors aren't reset (like colors, geometries, changes to transform fields), but other changes *are *currently reset, like added nodes or changes to translation and rotation fields of bound solids, even though these changes can be brought about only by supervisor-API or the scene tree interface.  So they probably shouldn't be reset.
+
+You're right, however, currently it is difficult to know when resettign if the field have been changed by the supervisor too or by the phsyics only
+
+
+
+About the pop-up window I agree, this window is annoying (it annoys me to belieave me), but it is very important that user know when they saved a run world (it has some serious consequences on the stability of the simulation) and on the other hand adding this pop-up window as soon as the user change the scene-tree is probably over-killed and will annoy the user even more (I am for example often making runtime changes to test something without wanting at all to save later).
+
+##### Justin Fisher 09/11/2020 10:13:37
+I'd suggest having the default be to warn people right when they start altering the scene-tree on an already run simulation, with a check-box preference for whether you want to continue receiving warnings like this.  Then experienced people like you can uncheck this box when they find the warning annoying, whereas newer users won't end up getting nearly so frustrated.
+
+
+
+As for what to revert, I agree that it can be tricky to draw the line.  But it does seem like there are some easy-to-detect cases (like added nodes and changes to  translation/rotation fields in bound solids) that can arise only due to supervisors/scene-tree-interface, but currently are needlessly and sometimes even frustratingly reverted.  Even if you can't get *everything* on the right side of the line, you at least could get *this stuff* on the right side of it.
+
+##### Awith 09/11/2020 21:24:31
+If I have a IndexedFaceSet geometry that is roughly similar to a cube (it's important that it's not a cube), how can I tile a texture to every side of the cube? Using an appearance node or PBRapperance node results in textures on two sides rather than all 6
+
+##### Justin Fisher 09/12/2020 00:08:41
+> If I have a IndexedFaceSet geometry that is roughly similar to a cube (it's important that it's not a cube), how can I tile a texture to every side of the cube? Using an appearance node or PBRapperance node results in textures on two sides rather than all 6
+
+`@Awith` In Webots the triangles that make up polygons are often (always?) one sided, which is why if you drag the camera below the floor you can see up through the floor to the bottom of your robot.  Is there a risk that some of your triangles are facing the wrong direction -- e.g., if you swing your camera around to the other side (and close enough to not have your view blocked by other things, including other faces of your quasi-cube), do they then become visible?  At any rate that has often been the explanation when I formed geometries that seemed to be missing faces.  If that is what's happening, the solution is probably just to reorder some of your vertices, so you consistently go clockwise (or counter-clockwise, depending on how you set the CCW flag) around each face.
+
+
+And I have some questions of my own, involving reading keystrokes.  Webots keyboard docs give instructions for how to detect the user pressing CONTROL+B.  However, CONTROL+B is apparently a Webots keyboard shortcut for toggling whether or not the 3D simulation window is displayed.  It looks like Webots intercepts all such shortcuts for its own interface and doesn't pass them to robot controllers.  Is there a way to override that behavior, e.g., for me to make CONTROL+B get processed by my controller rather than having it hide away the simulation (which is *not* what I want!)?  If not, is there at least a list of all the key-combinations that will get intercepted this way, and what they do?  And I guess the docs should probably be changed to an example that actually works? 
+
+
+
+(Just to be clear, I can successfully detect lots of keypresses, including CONTROL+key combinations that aren't Webots interface shortcuts, so I doubt I'm missing anything obvious.  If I have it print every value that robot.keyboard.getKey() returns, it prints values for other keys and key-combinations, but prints nothing at all when I press interface keyboard shortcuts like CONTROL+B.)
+
+##### Awith 09/12/2020 01:22:43
+> `@Awith`  Is there a risk that some of your triangles are facing the wrong direction 
+
+`@Justin Fisher` 
+
+I'm certain that this is not the issue as the other sides have very long lines instead of textures, thanks for the suggestion though
+
+##### Justin Fisher 09/12/2020 01:39:55
+If it is successfully rendering all the faces, just with undesired textures, then I'd probably start messing with the texCoordIndex to try to be sure to map each vertex to an appropriate part of the texture I was using, and you may need a special texture that surrounds the point that each vertex maps to with appropriately oriented copies of all the images that you want to have appear on the faces surrounding that vertex.  Kind of a headache to do all that manually...
+
+
+Depending on just how much different from a cube you need your quasi-cube to be, you might find that the textured parallelipiped proto can give you the geometry you need, together with more/easier options for how the faces will be textured.  Or perhaps delving into its source-code will give you ideas for how to make your own quasi-cube work.
+
+
+> Webots keyboard docs give instructions for how to detect the user pressing CONTROL+B.  However, CONTROL+B is apparently a Webots keyboard shortcut for toggling whether or not the 3D simulation window is displayed.  It looks like Webots intercepts all such shortcuts for its own interface and doesn't pass them to robot controllers.  [...] And I guess the docs should probably be changed to an example that actually works? 
+
+`@Justin Fisher`
+
+I guess it'd also be good to for the docs to document another oddity with keyboard (or perhaps for you to fix this oddity).  The shifted versions of ordinary letter keys (e.g., shift A) return SHIFT plus the same value they return when unshifted (the ord of the capital letter printed on the key).  In contrast, contrary to the current documentation, shifted versions of ordinary number keys (e.g., shift 1) do NOT return SHIFT + the same thing they return when unshifted (the ord of the numeral printed on the key).  Instead, they return SHIFT+ the ord of the punctuation mark printed on that key: e.g., shift 1 returns SHIFT+ord('!').  I would understand if hitting shift 1 returned SHIFT+ord('1'), and I'd also understand if it returned ord('!'), but it was surprising that it returned SHIFT+ord('!').   It's probably not terrible to have this sort of inconsistency between how letter-keys and number-keys are treated, but it would be good if it was documented, rather than leaving people like me to sort it out on my own.
+
+##### Romi 09/13/2020 08:44:15
+Is it better to start coding Webots in C or C++?
+
+There seems to be more support for C, but I do not have much experience in either language......😬
+
+`@Simon Steinmann`
+
+##### Simon Steinmann [Moderator] 09/13/2020 08:46:08
+Robot may be programmed in C, C++, Python, Java, MATLAB or ROS with a simple API covering all the basic robotics needs.
+
+
+every function is fully covered in any language
+
+
+[https://cyberbotics.com/doc/reference/nodes-and-api-functions](https://cyberbotics.com/doc/reference/nodes-and-api-functions)
+
+
+the documentation is excellent, and for every function, you have the command in every programming language
+
+##### Romi 09/13/2020 08:48:08
+Thank you `@Simon Steinmann` I didn't find this page earlier.😊
+
+##### Simon Steinmann [Moderator] 09/13/2020 08:49:13
+that tab is constantly open for me. Very useful. You can also rightclick in webots on any node, and get a link to the appropriate documentation
+
+##### Justin Fisher 09/13/2020 08:52:24
+Simon, since you're on, do you know what sorts of inputs a controller can have access to while simulation is paused (either by putting it in mode pause, or just refusing to call robot.step with a positive timestep)?  I wrestled a little bit with this, but hadn't gotten it to work the way I wanted yet.  Do the keyboard and mouse functions require simulation time to pass in order for them to capture more user inputs?
+
+##### Simon Steinmann [Moderator] 09/13/2020 08:53:51
+it has access to everything. You dont have to put the robot.step inside of a loop. you can call it specifically and at different places
+
+
+there is no "pause" in webots. You execute simulation steps by explicitly calling the robot.step function.
+
+
+when you dont do that, the simulation is paused basically
+
+##### Justin Fisher 09/13/2020 08:55:31
+There is also a supervisor function that you can use to set the simulation mode to pause, which I think is basically equivalent to hitting the pause button.
+
+
+But when I call that, I then don't seem to be able to get any more keyboard inputs, e.g., the ones I'd hoped to use to unpause it again.
+
+##### Simon Steinmann [Moderator] 09/13/2020 08:56:49
+I never needed to use that function
+
+##### Justin Fisher 09/13/2020 08:58:06
+So why do the keyboard and mouse functions require you to specify a timestep when you initialize them, if they'll capture inputs even when timesteps aren't passing?
+
+##### Simon Steinmann [Moderator] 09/13/2020 08:58:09
+you can have your main loop, calling robot.step regularly. Then you can imbed other functions, that start a new while loop for example. Effectively pausing the simulation until you stop that second loop
+
+
+With keyboard and mouse I don't really have experience. I suggest you carefully read the api documentation. Remaining questions you can ask the devs tomorrow
+
+##### Justin Fisher 09/13/2020 09:06:29
+So if I "pause" a synchronized simulation by never calling robot.step with a positive value, the user won't be able to unpause it by hitting the play button, right?  Instead, it seems like they'll have to use whatever other interface I give them (presuming I can get it to read new inputs at all).  I worry that that will confuse some of my students.  
+
+
+
+It would be nice if supervisors could, in an appropriate circumstance, temporarily freeze the physics of the world, enable the play button to start it going again, but also keep the controller running and responding to inputs, e.g., if you want to let the user click on things in the paused simulation to get the controller to spit out information about them.  But I haven't managed to get that to work.  (I've only tried to detect keystrokes so far, but it seems like detecting mouseclicks will probably be about the same.)
+
+##### Simon Steinmann [Moderator] 09/13/2020 09:08:47
+From my understanding, the 'pause' button freezes the robot.step command. You could manually implement a ''pause' by using this api: [https://cyberbotics.com/doc/reference/keyboard](https://cyberbotics.com/doc/reference/keyboard) and setting it to spacebar for example
+
+##### Justin Fisher 09/13/2020 09:09:33
+Yes, that's exactly what I did, with spacebar as the trigger.  The problem is that, once I set the simulation to mode pause, I can't detect any more keystrokes to unpause it.
+
+##### Simon Steinmann [Moderator] 09/13/2020 09:09:54
+just could toggle a variable between True and False and put a condition before the robot.step
+
+##### Justin Fisher 09/13/2020 09:10:08
+That's also exactly what I did
+
+
+but it never gets any more keystrokes
+
+##### Simon Steinmann [Moderator] 09/13/2020 09:10:38
+dont put the simulation to pause mode
+
+
+that will always pause everything
+
+
+just stop the main loop from executing steps when in your own 'pause mode'
+
+##### Justin Fisher 09/13/2020 09:12:12
+that alternative is what led me to express the worry that my students would get confused if there are two different ways that the simulation can come to look paused (hitting pause versus hitting space) each requiring its own method to restart it (hitting play versus hitting space again)
+
+##### Simon Steinmann [Moderator] 09/13/2020 09:12:46
+teaching moment 😉
+
+##### Justin Fisher 09/13/2020 09:13:25
+maybe the way to avoid confusion is to display a text label on screen for the space pause reminding them what they need to do to resume (and perhaps also of what else they can do while it's paused)
+
+
+but this will be mostly moot if I can't detect inputs during the pause, which it seems like I won't be able to, since you enable keyboard and mouse specifying a timestep for how frequently you'd like to retrieve readings, and if I'm pausing it by refusing to let it advance, that timestep won't have passed
+
+
+(but I haven't really tried it yet without setting it to mode pause, so maybe it'll work, in which case the puzzle would just be why you need to specify a timestep for these in the first place)
+
+##### Simon Steinmann [Moderator] 09/13/2020 09:17:12
+It's just the polling frequency, it should work without the timesteps
+
+
+without the robot.steps*
+
+##### Justin Fisher 09/13/2020 09:18:18
+oh so it's frequency in real time, not in simulated time?  confusing that it looks so much like other references to timestep that clearly mean simulated time
+
+##### Simon Steinmann [Moderator] 09/13/2020 09:20:01
+i'm not 100% sure. Again, I dont have much experience with user input
+
+##### Justin Fisher 09/13/2020 09:22:36
+Or actually maybe that's my bad.  It does say samplingPeriod, rather than timestep, so maybe I shouldn't have assumed it meant simulated time, the way that passing a timestep when initializing robot sensors does.  
+
+I guess the short answer is that I need to experiment more, "pausing" the simulation by merely refusing to call robot.step with a positive value, and just give up on my hope that I could have the play button "unpause" this sort of pause.
+
+##### Simon Steinmann [Moderator] 09/13/2020 09:24:56
+I think that's the right approach 🙂
+
+##### Justin Fisher 09/13/2020 09:34:15
+Well my experimentation uncovered another way to consistently crash webots.... yay?
+
+##### Simon Steinmann [Moderator] 09/13/2020 09:40:20
+you could create a bug report here: [https://github.com/cyberbotics/webots/issues](https://github.com/cyberbotics/webots/issues)
+
+
+I'm not a dev, so  I'd probably be of limited use for this sort of problem
+
+##### Justin Fisher 09/13/2020 09:44:58
+I think my controller's basically entering into an infinite loop because it keeps checking keyboard.getKey() for an escape condition, which its never getting because it seems like that won't register new keys without passage of simulation time.   Unfortunately, it looks like the Webots console won't print things in this loop either (maybe it only prints during robot.step's?)
+
+##### Simon Steinmann [Moderator] 09/13/2020 09:45:37
+what language are you using?
+
+##### Justin Fisher 09/13/2020 09:45:42
+python
+
+##### Simon Steinmann [Moderator] 09/13/2020 09:45:55
+just print the keyfunction every time
+
+
+that should show up
+
+##### Justin Fisher 09/13/2020 09:46:30
+i've been trying to, but nothing appears in console
+
+##### Simon Steinmann [Moderator] 09/13/2020 09:46:59
+can you share your main loop code?
+
+##### Justin Fisher 09/13/2020 09:47:44
+it'll take a moment since i'm on discord on my laptop, and on webots on my desktop
+
+##### Simon Steinmann [Moderator] 09/13/2020 09:48:13
+you can use discord directly in the browser too
+
+##### Justin Fisher 09/13/2020 09:53:13
+wow discord's web interface does not give you any obvious place to log in!
+
+
+Here's the relevant code:
+
+```    key = keyboard.getKey()  #read first new keystroke
+    while key != -1:  # -1 means no more new keystrokes to process
+        if key==ord(" "):  # space key pauses simulation
+            print("Freezing the simulation (not to be confused with pausing)")
+            key = keyboard.getKey()
+            while key != 1:
+               print("Flushing key: ", key)
+               key = keyboard.getKey()
+            print ("now looping to remain frozen, waiting for a keystroke")
+            time_to_exit = False
+            trials = 0
+            while trials < 1000 and not time_to_exit:
+                trials += 1
+                print("Trial #",trials)
+                key = keyboard.getKey()
+                while key != -1 and robot.step(0) != -1:
+                   if key == ord(" "):
+                       print("Saw another space, so unfreezing.")
+                       time_to_exit=True
+                   else:
+                       print("Flushing key: ", key)
+                   key = keyboard.getKey()
+```
+
+
+When I hit space, the console prints nothing, not even the first "Freezing the sim..." line
+
+
+it must be either the first queue-flushing or else robot.step(0) that's locking it up
+
+
+or actually maybe it doesn't have a good exit condition for the outermost loop
+
+##### Simon Steinmann [Moderator] 09/13/2020 10:00:55
+your loop looks very weird tbh. Why dont you start with something simple:
+
+while True:
+
+    print(key)
+
+    robot.step(timestep)
+
+
+then you can probably expand it to 
+
+is\_paused = False
+
+while True:
+
+    print(key)
+
+    if key ==ord(" "):
+
+        is\_paused = not is\_paused
+
+    if not is\_paused:
+
+        robot.step(timestep)
+
+##### Justin Fisher 09/13/2020 10:03:07
+well, the goal here is to get something that's *frozen*.  calling robot.step(timestep) would not be freezing it
+
+##### Simon Steinmann [Moderator] 09/13/2020 10:04:44
+edited my 2nd example in case you didn't see
+
+##### Justin Fisher 09/13/2020 10:07:00
+what you wrote doesn't read new keys in the loop
+
+##### Simon Steinmann [Moderator] 09/13/2020 10:07:27
+you defined
+
+key = keyboard.getKey()
+
+=
+
+
+probably have to add that at the top of the loop
+
+
+having lunch now
+
+##### Justin Fisher 09/13/2020 10:20:12
+With that added, your loop crashes too (or rather the controller enters into an infinite loop, and then Webots crashes when I hit reset).  When i hit space, it sets is\_paused to true, which prevents it from ever calling robot.timestep again, which prevents keyboard.getKey from ever detecting any additional keystrokes.  (Or that's what I think is happening anyway.)
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:02:10
+okay, it seems that the keyboard function is tied to the timestep
+
+
+you could use another python library, that is not tied to webots
+
+
+why do you need that functionality anyways?
+
+##### Justin Fisher 09/13/2020 11:06:33
+Ok, I've fiddled with this a bit more.  It's tricky because no matter how quickly I press the key, getGey returns multiple instances of that key, usually an even number of total instances, so your code usually just toggles pause off/on an even number of times (which you can confirm by having it print something with each toggling).  So one change I ended up making was using *release* of the spacebar as the trigger for toggling is\_paused, so that that would happen just once per keystroke.
+
+If, when paused, you never call robot.step, then you'll never detect any more keys, and if detecting more keys was the only way to break out of your loop, then Webots crashes when you hit reset.
+
+If, when "paused", you keep trying to check the keyboard, but count your trials and every million trials you call robot.step(timestep), then any print commands you issue between the multiples-of-a-million trials will not display until robot.step finally gets called, and any keystrokes you tap during the interim seem not to be registered, but any key you're holding down at the time of the millionth trial will be registered.
+
+If when paused, you keep calling robot.step(0), that seems to actually detect the keypresses and will escape right away when you tap-and-release space.  So that seems to work.  However, whatever messages you printed to console won't appear until you call robot.step with a positive value again (which I had it do after counting to a million, which incidentally is quite slow because robot.step(0) is apparently quite slow).
+
+
+Why do I want it?  I'd been hoping to let my students pause the simulation, use the keyboard or mouse to trigger the controller to display some information for them about the internal state of the controller at that moment while it was paused.  It looks like I won't be able to display that info using print, which would have been the easiest option.
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:08:45
+why do you need this functionality? what do you want to do while paused?
+
+##### Justin Fisher 09/13/2020 11:09:45
+Probably the "right" way to do this is by setting up an html robot window for them to interact with, but I haven't figured out how to do all that stuff yet.
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:09:54
+like what info? You can get so much info already. Or you just print it all the time, when paused, you can see the last entry
+
+
+double clicking on the robot, shows you all sensors, motors and other devices
+
+##### Justin Fisher 09/13/2020 11:10:41
+Much of the info would just be in the controller, not in the scene tree anywhere.
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:10:43
+you can see all values in the scene tree to the left
+
+
+what info?
+
+##### Justin Fisher 09/13/2020 11:11:51
+Info about the neural net that the controller is using to process sensor inputs to determine how fast to run the motors
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:12:15
+[https://stackoverflow.com/questions/26584003/output-to-the-same-line-overwriting-previous/26584483](https://stackoverflow.com/questions/26584003/output-to-the-same-line-overwriting-previous/26584483)
+
+
+that might help
+
+
+what robot are you using if I may ask, and what ML / RL are you using for what purpose?
+
+##### Justin Fisher 09/13/2020 11:15:30
+Why were you thinking that would help?  The problem I was worried about is that if I have them use the mouse/keyboard to request different information about the net, that information won't display in the console until the simulation starts running again.  What you linked seems to be a way to effectively backspace through previous print statements, which isn't really what I need, I think
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:16:51
+then some html stuff is probably the best bet. Or independent python keyboard libraries
+
+##### Justin Fisher 09/13/2020 11:17:00
+The robot is one I built myself.  The class is a cognitive science class where many of the students don't have much computer background, so we're just doing really simple stuff with neural nets, partly just seeing how they work, and a little backprop
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:18:05
+so some ml algorithms on the sensor output?
+
+
+btw, if you need help with inverse kinematics, I made lots of progress in that regard recently
+
+##### Justin Fisher 09/13/2020 11:20:22
+the students won't have to do anything with that, but probably some of the stuff I was wrestling with as I set up the code for customizing their robots might have benefited
+
+
+since many don't have much computer background, I didn't want to throw them in the deep end trying to modify things through the scene tree, but I did want them to have a fair number of options for customizing their robot
+
+
+and i was worried that using a lot of motors and joints for all the custumization options would make the simulation complex, slow, and/or unstable
+
+
+so i wrote a supervisor controller that basically morphs the robot to match the specifications their code requests for it
+
+
+and some inverse kinematics probably could have helped with figuring out how to morph some of the parts
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:23:23
+what do you mean by morphing? and can I see the robot?
+
+##### Justin Fisher 09/13/2020 11:23:49
+noob question:  can i paste images into discord?
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:23:57
+yes
+
+
+just copy paste
+
+
+you can also share files up to 8MB
+
+##### Justin Fisher 09/13/2020 11:25:28
+cool, will post in a moment -- gotta comment out that pause loop I stuck atop a controller
+
+
+alternatively, changing "while True" to "while False" has the same effect and is much easier! 😄   Incidentally, one of the things I miss when I use Webots text editor is a keyboard shortcut to comment out a bunch of lines at once.  Is there one?
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:27:34
+in python use """  lines of code """
+
+
+triple quotation marks
+
+##### Justin Fisher 09/13/2020 11:28:43
+yeah that works, though for whatever reasons I like #'s.  Pycharm lets you hit a key to #-comment a bunch of lines at once, but out of solidarity with my students, I've been doing Webots editing in the Webots built-in editor
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:29:15
+just use extern controllers and use the IDE of your choice
+
+
+webots may have it, I have no idea. I dont use the included editor besides for small changes
+
+##### Justin Fisher 09/13/2020 11:31:51
+Here's a robot.  The "morphing" that can happen involves changing wheelbase, length to the skid roller in back, and  clearance above ground.  And repainting it.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/754665647589556244/unknown.png)
+%end
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:33:03
+so the students adjust parameters like wheelbase? And you then change the model with the controller?
+
+##### Justin Fisher 09/13/2020 11:35:30
+Yes.  Here's another one with narrower wheel base, less length and height, and different colors of course.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/754666564909006878/unknown.png)
+%end
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:36:00
+ahh that's quite cool
+
+
+If you want, you can pm me and share your code, I can experiment a bit and try to implement a information panel
+
+
+sounds like something that I should learn to do, and learning by doing is the best method 😄
+
+##### Justin Fisher 09/13/2020 11:37:30
+before the pandemic, I taught this class with Lego Mindstorms robots, and the students really enjoyed putting personal touches on the robots.  I've been trying to give them similar options here
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:37:46
+what age if I may ask?
+
+##### Justin Fisher 09/13/2020 11:37:58
+college juniors, give or take
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:38:10
+juniors is 2nd year?
+
+##### Justin Fisher 09/13/2020 11:38:14
+3rd year
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:38:30
+ah okay. for bachelors in mechanical engineering?
+
+##### Justin Fisher 09/13/2020 11:39:18
+the students come from a variety of backgrounds, mostly some sort of cognitive science:  psych/neuro/philosophy/computers
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:39:48
+ohh okay. that's interesting
+
+##### Justin Fisher 09/13/2020 11:39:49
+the class is listed as a philosophy of cognitive science class
+
+
+though it's pretty interdisciplinary
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:40:06
+so it's more about the neural networks and how it relates to bioligy?
+
+##### Justin Fisher 09/13/2020 11:40:33
+that's part of it, yes
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:41:59
+that's interesting. If you want we can collaborate a bit. I studied Aerrospace engineering and since last year am pivoting to robotics, Reinforcement learning and connecting simulation with the real world. But I'm always keen to expanding my horizon
+
+##### Justin Fisher 09/13/2020 11:43:35
+in class we've talked about simple neural networks, they've designed some simple ones by hand (e.g., for vertical edge detection), and we've talked about hebbian learning and backpropagation
+
+
+this lab activity uses Braitenburg's vehicles as a launching point, which are easily construed as a very simple neural net
+
+
+for one of their objectives i'm having them show some understanding of backpropagation
+
+
+where the simplest option for them is just to do it manually (and imprecisely, since many don't have enough calculus to get the details quite right) trying the robot in various locations, comparing what it does to what they think it ideally would have done there, and tweaking connection weights so it'd do better.  Repeat.
+
+
+with Lego mindstorms, that was about as much as I could have them do, as their processors aren't capable of handling much more
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:47:07
+That sounds fantastic though.
+
+##### Justin Fisher 09/13/2020 11:47:17
+with Webots, I have a lot more options, though i haven't figured out which is the best way to go
+
+
+but anyway, the longer answer to your earlier question about why i wanted them to be able to get info when they paused is that I'd like them to be able to see activations of the various nodes in their net, so they could think about which direction backprop should tweak their connection weights and why
+
+
+One option I've been considering is just to model a copy of their net in the Webots simulation, perhaps hovering over their robot's head.
+
+
+If I did it that way, then your idea of having them just use the scene tree to gather info could work -- e.g., node activation could correspond to the emissive color field of the nodes in the scene tree
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:50:39
+I wrote you a private message 🙂
+
+##### Justin Fisher 09/13/2020 11:51:10
+but i've been trying to keep them from needing to use the scene tree much since i don't want to overwhelm the ones who are computer-shy
+
+
+so anyway, my most pressing thing for the class is figuring out what sort of sample code I want to give them to help guide them on that neural net activity
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:55:16
+that should be possible. Did you see what I wrote you privately?
+
+##### Justin Fisher 09/13/2020 11:57:21
+heh, just figuring out discord, sadly
+
+##### Simon Steinmann [Moderator] 09/13/2020 11:57:40
+on the top left, you should have a message
+
+
+it shows all private conversations
+
+
+`@soheil` please post in the technical-questions channel for questions 🙂
+
+##### David Mansolino [cyberbotics] 09/14/2020 06:07:38
+> And I have some questions of my own, involving reading keystrokes.  Webots keyboard docs give instructions for how to detect the user pressing CONTROL+B.  However, CONTROL+B is apparently a Webots keyboard shortcut for toggling whether or not the 3D simulation window is displayed.  It looks like Webots intercepts all such shortcuts for its own interface and doesn't pass them to robot controllers.  Is there a way to override that behavior, e.g., for me to make CONTROL+B get processed by my controller rather than having it hide away the simulation (which is *not* what I want!)?  If not, is there at least a list of all the key-combinations that will get intercepted this way, and what they do?  And I guess the docs should probably be changed to an example that actually works? 
+
+> 
+
+> (Just to be clear, I can successfully detect lots of keypresses, including CONTROL+key combinations that aren't Webots interface shortcuts, so I doubt I'm missing anything obvious.  If I have it print every value that robot.keyboard.getKey() returns, it prints values for other keys and key-combinations, but prints nothing at all when I press interface keyboard shortcuts like CONTROL+B.)
+
+`@Justin Fisher` The list of shortcut is indeed unfortunately not documented yet. But you're right, we need to codument it.
+
+
+
+> Is it better to start coding Webots in C or C++?
+
+> There seems to be more support for C, but I do not have much experience in either language......😬
+
+> `@Simon Steinmann`
+
+
+`@Romi` You should use the language you feel more confortable with.
+
+> Simon, since you're on, do you know what sorts of inputs a controller can have access to while simulation is paused (either by putting it in mode pause, or just refusing to call robot.step with a positive timestep)?  I wrestled a little bit with this, but hadn't gotten it to work the way I wanted yet.  Do the keyboard and mouse functions require simulation time to pass in order for them to capture more user inputs?
+
+`@Justin Fisher` maybe you want to use this function: [https://cyberbotics.com/doc/reference/robot#wb\_robot\_wait\_for\_user\_input\_event](https://cyberbotics.com/doc/reference/robot#wb_robot_wait_for_user_input_event)
+
+##### Romi 09/14/2020 07:28:58
+Thank you! `@David Mansolino`
+
+##### David Mansolino [cyberbotics] 09/14/2020 07:41:59
+You're welcome
+
+##### Justin Fisher 09/14/2020 07:44:28
+Awesome, thanks for pointing out wait\_for\_user\_input\_event -- it does indeed sound like just what I was looking for.
+
+
+Relatedly, do you have a recommendation regarding the best way of detecting single keytaps with the keyboard device?  Even when I tap a key as quickly as I can, that key still usually generates multiple instances from keyboard.getKey(), and sometimes these arrive in the same timestep or sometimes they spill over into subsequent timesteps.   This is fine in cases where extra instances are redundant (e.g., a key to turn a light on), but not in cases where additional presses should do extra/different things -- (like make a motor go even faster, or toggle the lights back off).  It seems like this is a problem that must arise quite often, so maybe there's an easier solution than the jerry-rigged ones I've been cobbling together?
+
+##### David Mansolino [cyberbotics] 09/14/2020 07:56:44
+From the same time step, you should not receive twice the same key if I am not wrong, but yes from two consecutive time step it is highly probable (since step are really short it is hard to press and release a key faster than a few ms), the simple solution is to check only difference (i.e. save the state of the previous step and check only for difference)
+
+##### Justin Fisher 09/14/2020 08:09:58
+Maybe I was mistaken about whether the multiples arrived same time step versus different ones.  And yes, checking for differences was one of the jerry-rigged solutions I came up with.  I had worried that this might treat a double-tap as a single long press, but googling a bit, it looks like our fingers move slowly enough that this is very unlikely, at least if you set the sampling period in the ballpark of 16ms.  
+
+
+
+I wonder if it would make sense for you to somehow offer that detection-of-change functionality from the keyboard API?  E.g., you could easily implement keyboard.pressed() and keyboard.released() which return only the keys that changed in the relevant direction this timestep.  I guess for now, I'll probably just write a general implementation of that controller-side so I won't have to keep jerry-rigging something new to handle multiple instances for different keys.
+
+##### Bkarso 09/14/2020 08:35:34
+hello,I import my 3d model to the webots as a chileren in a robot ,but it is huge，so I make the scale(0.001 0.001 0.001),but when I make boundingObject of robot with my model shape,I also huge ,so how can i do ?hep me please.
+
+##### Justin Fisher 09/14/2020 08:36:56
+i would suggest making your boundingObject child be a transform, with the scaling you want, and then have that transform USE your model as its child
+
+##### Bkarso 09/14/2020 08:38:29
+make my model as a tf?
+
+##### Simon Steinmann [Moderator] 09/14/2020 08:38:58
+can't you export your model with meters as units?
+
+##### Bkarso 09/14/2020 08:41:26
+I import a .stl and it is huge , and i export a .wbo,i can not change the units
+
+
+i use catia  to export my model ,you mean i change in catia?
+
+##### Simon Steinmann [Moderator] 09/14/2020 08:45:47
+yes
+
+
+from mm to meter
+
+##### Bkarso 09/14/2020 08:46:21
+ok ,i try it .thank you very muck
+
+##### Justin Fisher 09/14/2020 11:30:25
+> I wonder if it would make sense for you to somehow offer that detection-of-change functionality from the keyboard API?  E.g., you could easily implement keyboard.pressed() and keyboard.released() which return only the keys that changed in the relevant direction this timestep.  I guess for now, I'll probably just write a general implementation of that controller-side...
+
+`@Justin Fisher` 
+
+In case any other Python coders would benefit from it, here's some Python code that stores currentKeys, pressedKeys, and releasedKeys as attributes of a "BetterKeyboard" object, updating them whenever you call keyboard.processKeys().
+
+
+``
+> **Attachment**: [message.txt](https://cdn.discordapp.com/attachments/565154703139405824/755027722530717727/message.txt)
+
+##### Vyshak 09/14/2020 16:06:17
+hi, 
+
+Is there a way where i can send commands from keyboard inorder to move the robot left or right ??
+
+##### Simon Steinmann [Moderator] 09/14/2020 16:06:50
+literally the message.txt file above 😉
+
+
+or you have a look here [https://cyberbotics.com/doc/reference/keyboard?tab-language=c++](https://cyberbotics.com/doc/reference/keyboard?tab-language=c++)
+
+##### Justin Fisher 09/14/2020 20:50:44
+`@Vyshak` A simple example of setting up a remote control is in the 4-wheels robot tutorial.  The message I posted above could help if you're frustrated that each time you tap a key, Webots registers that as multiple instances of you hitting that key.  That's usually not bad for a remote control where you hold down an arrow key to keep the robot turning left, since you probably are happy having it turn left for however many milliseconds the key happens to be down, and not just turn left for a single frame right when they press the key.  So I'd start with the tutorial, and only worry about something fancier if you want to detect individual key-presses (e.g., if you give your robot headlight LEDs and want a single key to toggle whether they're off or on, then you'll need something akin to the code I posted, or else each time you depress the key, the lights will repeatedly flicker between off and on for however many milliseconds your finger happens to hold down the key, with it being unpredictable which state they'll end up in).
+
+##### dimple.bhuta 09/15/2020 06:45:54
+Hello, 
+
+I have a vehicle in simulation, I have its defName. I remember we can use ([https://www.cyberbotics.com/doc/reference/supervisor?tab-language=python#wb\_supervisor\_node\_get\_field](https://www.cyberbotics.com/doc/reference/supervisor?tab-language=python#wb_supervisor_node_get_field)) to get and change position and orientation. However I am not sure about how to access these variables in python. Please let me know if there are any examples available
+
+##### David Mansolino [cyberbotics] 09/15/2020 06:47:48
+Hi, the same way as in c, the difference is that Node and Feld are classes, here is an example available in all the languages: [https://cyberbotics.com/doc/guide/supervisor-programming?tab-language=python](https://cyberbotics.com/doc/guide/supervisor-programming?tab-language=python)
+
+##### dimple.bhuta 09/15/2020 06:52:00
+thank you it worked
+
+##### David Mansolino [cyberbotics] 09/15/2020 06:53:19
+You're welcome
+
+##### dimple.bhuta 09/15/2020 07:07:09
+Hi sorry i cant find in documentation about angle. I can set and get the orientation of the vehicle by getSFRotation and setSFRotation.
+
+
+But how do i get and set the angle.
+
+##### David Mansolino [cyberbotics] 09/15/2020 07:07:42
+Which angle?
+
+##### dimple.bhuta 09/15/2020 07:09:03
+so in case of rotation field there is 3 values of yaw pitch and roll and angle
+
+
+so its rotation type, x, y,z and angle
+
+##### David Mansolino [cyberbotics] 09/15/2020 07:09:54
+In Webots the rotation is expressed in axis-angle representation: [https://en.wikipedia.org/wiki/Axis%E2%80%93angle\_representation](https://en.wikipedia.org/wiki/Axis%E2%80%93angle_representation)
+
+
+So the angle is the last value returned by getSFRotation
+
+##### dimple.bhuta 09/15/2020 07:11:53
+ok sorry i missed printing the last value. Thank you for your help
+
+##### David Mansolino [cyberbotics] 09/15/2020 07:12:04
+No problem, you're welcome
+
+##### Lukulus 09/15/2020 09:15:13
+Hello,
+
+I am trying to display images on a Display on my robot in my simulation. But I can only see the the images on the seperate Window on top left.
+
+Is it possible to see also the images on the Display in the simulation?
+
+##### David Mansolino [cyberbotics] 09/15/2020 09:17:39
+Hello, see this example where what you want to do is done with a display on the ground: [https://cyberbotics.com/doc/guide/samples-devices#display-wbt](https://cyberbotics.com/doc/guide/samples-devices#display-wbt)
+
+##### Lukulus 09/15/2020 09:54:24
+thank you, this helped me
+
+##### David Mansolino [cyberbotics] 09/15/2020 09:56:51
+You're welcome
+
+##### Bkarso 09/16/2020 07:05:08
+hello,If I want to make a device like HokuyoUtm30lx,so how can I do ? there are some manual？
+
+##### Olivier Michel [cyberbotics] 09/16/2020 07:16:47
+You should probably follow the Webots tutorials until tutorial 7 at least to understand how to create a PROTO file.
+
+
+Then, you should take inspiration from the existing Hokuyo proto files to create yours.
+
+
+They are located in `webots/projects/devices/hokuyo/protos/`.
+
+##### Çağrı Kaymak 09/16/2020 11:17:16
+Hey everyone. I placed the FSR sensors on the feet of Robotis Op2 in Webots and real system. In the Webots environment, I can get force and ZMP information both in the console and in the robot window. However, when I upload the controller to the robot, I cannot get any FSR data both in the console and in the robot window. FSRs' IDs on the robot are 111 (right) and 112 (left). What kind of problem could it be, Anyone have any ideas? Thanks in advance.
+
+##### David Mansolino [cyberbotics] 09/16/2020 11:47:23
+HI, unfortuntately, the Webots transfer functionnality for the rootis-op2 does not support the FSR.
+
+##### Simon Steinmann [Moderator] 09/16/2020 11:50:43
+IndexedFaceSet: Cannot create IndexedFaceSet because: "The triangle mesh has no valid quad and no valid triangle.".
+
+
+what does that mean?
+
+##### David Mansolino [cyberbotics] 09/16/2020 11:52:40
+This means that the indexes are not creating valid triangles.
+
+##### Simon Steinmann [Moderator] 09/16/2020 11:54:54
+ohhhh I suspect I know the problem. in the .obj file, vertices indices defined under faces, link to line numbers... should be fixable 🙂
+
+
+am I correct to assume, that coordIndex in webots starts with 0, opposed to .obj, where it starts with 1?
+
+
+hence this:
+
+coordIndex.append(int(indices[0]) - 1)  # vertex coordinates
+
+##### Olivier Michel [cyberbotics] 09/16/2020 12:03:50
+Yes, this is correct, coordIndex starts with 0 in Webots.
+
+##### Çağrı Kaymak 09/16/2020 12:04:32
+Ok, I understood. Many thanks
+
+##### David Mansolino [cyberbotics] 09/16/2020 12:04:47
+> Ok, I understood. Many thanks
+
+`@Çağrı Kaymak` You're wlecome
+
+##### Simon Steinmann [Moderator] 09/16/2020 12:05:18
+is webots throwing out unused vertices when creating a trimesh?
+
+
+say we define 100 vertices (coord points), but the faces only use 50 of them (coordindex).
+
+
+will the unused points get thrown out?
+
+##### Olivier Michel [cyberbotics] 09/16/2020 12:07:06
+What do mean by throwing out? It loads them all on the GPU and the GPU ignore them if they are not indexed.
+
+##### Simon Steinmann [Moderator] 09/16/2020 12:07:22
+when converted to proto
+
+##### Olivier Michel [cyberbotics] 09/16/2020 12:08:10
+When converting to proto, I guess it will keep them all (I don't believe that we check if they are used and drop them if not).
+
+##### Simon Steinmann [Moderator] 09/16/2020 12:08:17
+v-hacd algorithm creates .obj files like this. Multiple geometries, and the faces only use the points defined under that object. But i dont know if that is a general .obj rule
+> **Attachment**: [link\_1.obj](https://cdn.discordapp.com/attachments/565154703139405824/755761981570416730/link_1.obj)
+
+
+theoretically, a second object could use a vertex index of another object if I'm not mistaken
+
+##### Olivier Michel [cyberbotics] 09/16/2020 12:09:16
+I don't know either...
+
+##### Simon Steinmann [Moderator] 09/16/2020 12:09:53
+.obj files are edge cases anyways, I'll write it for the v-hacd structure
+
+##### saditya 09/16/2020 13:56:35
+I have this rotational blade with the following values. I need to rotate this in a circular fashion.
+%figure
+![Selection_076.png](https://cdn.discordapp.com/attachments/565154703139405824/755789233884496062/Selection_076.png)
+%end
+
+
+> I have this rotational blade with the following values. I need to rotate this in a circular fashion.
+
+`@saditya` #include <webots/Robot.hpp>
+
+\#include <webots/Motor.hpp>
+
+
+
+int main(int argc, char **argv) {
+
+  // create the Robot instance.
+
+  Robot *robot = new Robot();
+
+
+
+  // get the time step of the current world.
+
+  int timeStep = (int)robot->getBasicTimeStep();
+
+
+
+
+
+   Motor *motor = robot->getMotor("motor2");
+
+
+
+  while (robot->step(timeStep) != -1) {
+
+
+
+motor->setPosition(INFINITY);
+
+motor->setVelocity(6.28);
+
+
+
+
+
+  // Enter here exit cleanup code.
+
+
+
+  delete robot;
+
+  return 0;
+
+}
+
+
+Wrote a small piece of code to simualate it but the blade doesnt seem to rotate. Could you help me out?
+
+
+That is how it is.
+%figure
+![Selection_079.png](https://cdn.discordapp.com/attachments/565154703139405824/755789750891315363/Selection_079.png)
+%end
+
+##### David Mansolino [cyberbotics] 09/16/2020 13:59:06
+maybe the maxtorque of 10Nm is not enough to make it rotate
+
+##### saditya 09/16/2020 13:59:19
+I added the hinge joint, motor and the end point solid(blade)
+
+
+I
+
+> maybe the maxtorque of 10Nm is not enough to make it rotate
+
+`@David Mansolino` Is there something wrong with my controller or my hinge joint axis?
+
+##### David Mansolino [cyberbotics] 09/16/2020 14:02:58
+In the RotationalMotor node, try increasing the value of the 'maxTorque' field.
+
+##### saditya 09/16/2020 14:06:51
+When i try to change the position for hinge joint this is what happens. Is this normal?
+> **Attachment**: [finale53.mp4](https://cdn.discordapp.com/attachments/565154703139405824/755791816363737088/finale53.mp4)
+
+
+> In the RotationalMotor node, try increasing the value of the  DIid'maxTorque' field.
+
+`@David Mansolino` Did but nothing changes
+
+##### David Mansolino [cyberbotics] 09/16/2020 14:09:05
+this probably indicate that the axis is wrong if the solid is moving along the wrong axis
+
+##### saditya 09/16/2020 14:09:11
+I need it rotate clockwise around the gates
+
+
+to rotate in a circular fashion
+
+
+IT moves in the right axis now
+
+##### David Mansolino [cyberbotics] 09/16/2020 14:11:21
+then change the axis direction
+
+##### saditya 09/16/2020 14:11:48
+But i have to continously make it move that doesnt happen still
+
+##### David Mansolino [cyberbotics] 09/16/2020 14:11:49
+if you need to inverse the direction you can either invert the axis aither invert the target position in the controller
+
+##### saditya 09/16/2020 14:12:46
+> if you need to inverse the direction you can either invert the axis aither invert the target position in the controller
+
+`@David Mansolino` It rotates well now. But i need it be continously moving. Is that not possible?
+
+
+Also set the torque to 30
+
+##### David Mansolino [cyberbotics] 09/16/2020 14:13:29
+that what it is supposed to do, maybe you need to decrease the velocity
+
+##### saditya 09/16/2020 14:14:23
+> that what it is supposed to do, maybe you need to decrease the velocity
+
+`@David Mansolino` It just like a static solid. I need the axe to continoulsy move
+
+##### David Mansolino [cyberbotics] 09/16/2020 14:15:11
+On the video you showed it is moving no?
 
