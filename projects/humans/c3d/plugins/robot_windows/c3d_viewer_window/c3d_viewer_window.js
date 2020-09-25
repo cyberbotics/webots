@@ -132,12 +132,12 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
 
         let widgetTime = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.prototype
           .AutoRangeType.STRETCH, {
-            'min': -1,
-            'max': 1
-          }, {
-            'x': 'Time [s]',
-            'y': '[' + unit + ']'
-          }, null);
+          'min': -1,
+          'max': 1
+        }, {
+          'x': 'Time [s]',
+          'y': '[' + unit + ']'
+        }, null);
         let widgetXY = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {
           'x': 0,
           'y': 1
@@ -207,6 +207,11 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
         });
       }
     }
+  } else if (message === 'reset') {
+    console.log('Got reset message');
+    Array.from(document.getElementsByClassName('marker-plot')).forEach(function(element, index, array) {
+      element.parentNode.removeChild(element);
+    });
   } else
     console.log('Unknown message received: "' + message + '"');
 };

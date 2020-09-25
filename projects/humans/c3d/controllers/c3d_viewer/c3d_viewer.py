@@ -118,12 +118,15 @@ class c3dFile:
         # ground reaction forces (GRF)
         self.grfList = []
         names = ['LGroundReaction', 'RGroundReaction']
+        markerField = supervisor.getSelf().getField('markers')
+
         for i in range(len(names)):
             if names[i] + 'Force' in self.labels and names[i] + 'Moment' in self.labels:
                 self.grfList.append({'name': names[i]})
-                markerField.importMFNodeFromString(-1, 'C3dGroundReactionForce { translation %s %s %s}' % (sys.argv[3 + 3 * i],
-                                                                                                           sys.argv[4 + 3 * i],
-                                                                                                           sys.argv[5 + 3 * i]))
+                markerField.importMFNodeFromString(-1, 'C3dGroundReactionForce { translation %s %s %s}' %
+                                                       (sys.argv[3 + 3 * i],
+                                                        sys.argv[4 + 3 * i],
+                                                        sys.argv[5 + 3 * i]))
                 self.grfList[-1]['node'] = markerField.getMFNode(-1)
                 self.grfList[-1]['rotation'] = self.grfList[-1]['node'].getField('rotation')
                 self.grfList[-1]['cylinderTranslation'] = self.grfList[-1]['node'].getField('cylinderTranslation')
@@ -195,6 +198,7 @@ class c3dFile:
         self.inverseY = (X_SCREEN == '+X' and Y_SCREEN == '+Z') or (X_SCREEN == '-X' and Y_SCREEN == '-Z')
 
     def __del__(self):
+        c3dFile.removeMarkers()
         supervisor.wwiSendText('reset')
 
     def getPointsList(self, name):
@@ -225,6 +229,12 @@ class c3dFile:
             return True
         return False
 
+    @staticmethod
+    def removeMarkers():
+        markerField = supervisor.getSelf().getField('markers')
+        for i in range(markerField.getCount()):
+            markerField.removeMF(-1)
+
 
 supervisor = Supervisor()
 timestep = int(supervisor.getBasicTimeStep())
@@ -240,9 +250,7 @@ playbackSpeed = float(sys.argv[2])
 supervisor.step(timestep)
 
 # remove possible previous marker (at regeneration for example)
-markerField = supervisor.getSelf().getField('markers')
-for i in range(markerField.getCount()):
-    markerField.removeMF(-1)
+c3dFile.removeMarkers()
 
 c3dfile = c3dFile(sys.argv[1])
 
@@ -288,7 +296,8 @@ while supervisor.step(timestep) != -1:
         elif action == 'c3dfile':
             with open('default.c3d', 'wb') as file:
                 file.write(base64.b64decode(value[1]))
-            supervisor.worldReload()
+            del c3dfile
+            c3dfile = c3dFile('default.c3d')
         else:
             print(message)
         message = supervisor.wwiReceiveText()
