@@ -14,8 +14,8 @@ THREE.X3DLoader = class X3DLoader {
 
   load(url, onLoad, onProgress, onError) {
     console.log('X3D: Loading ' + url);
-    let scope = this;
-    let loader = new THREE.FileLoader(scope.manager);
+    var scope = this;
+    var loader = new THREE.FileLoader(scope.manager);
     loader.load(url, (text) => {
       if (typeof onLoad !== 'undefined')
         onLoad(scope.parse(text));
@@ -24,11 +24,13 @@ THREE.X3DLoader = class X3DLoader {
 
   parse(text, parentObject = undefined) {
     this.directionalLights = [];
-    let object;
+    var object;
 
-    let xml = null;
+    console.log('X3D: Parsing');
+
+    var xml = null;
     if (window.DOMParser) {
-      let parser = new DOMParser();
+      var parser = new DOMParser();
       xml = parser.parseFromString(text, 'text/xml');
     } else { // Internet Explorer
       xml = new ActiveXObject('Microsoft.XMLDOM');
@@ -37,7 +39,7 @@ THREE.X3DLoader = class X3DLoader {
     }
 
     // Parse scene.
-    let scene = xml.getElementsByTagName('Scene')[0];
+    var scene = xml.getElementsByTagName('Scene')[0];
     if (typeof scene !== 'undefined') {
       object = new THREE.Group();
       object.userData.x3dType = 'Group';
@@ -48,7 +50,7 @@ THREE.X3DLoader = class X3DLoader {
     }
 
     // Parse objects.
-    let rootObjects = [];
+    var rootObjects = [];
     xml.childNodes.forEach((n) => {
       if (n.tagName === 'nodes')
         n.childNodes.forEach((child) => { rootObjects.push(child); });
@@ -56,7 +58,7 @@ THREE.X3DLoader = class X3DLoader {
         rootObjects.push(n);
     });
     while (rootObjects.length > 0) {
-      let node = rootObjects.shift(); // get and remove first item
+      var node = rootObjects.shift(); // get and remove first item
       if (parentObject)
         object = parentObject;
       else
@@ -68,16 +70,16 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseNode(parentObject, node) {
-    let object = this._getDefNode(node);
+    var object = this._getDefNode(node);
     if (typeof object !== 'undefined') {
-      let useObject = object.clone();
+      var useObject = object.clone();
       this._setCustomId(node, useObject, object);
       parentObject.add(useObject);
       return;
     }
 
-    let hasChildren = false;
-    let helperNodes = [];
+    var hasChildren = false;
+    var helperNodes = [];
     if (node.tagName === 'Transform') {
       object = this.parseTransform(node);
       hasChildren = true;
@@ -165,43 +167,43 @@ THREE.X3DLoader = class X3DLoader {
 
   parseChildren(node, currentObject) {
     for (let i = 0; i < node.childNodes.length; i++) {
-      let child = node.childNodes[i];
+      var child = node.childNodes[i];
       if (typeof child.tagName !== 'undefined')
         this.parseNode(currentObject, child);
     }
   }
 
   parseTransform(transform) {
-    let object = new THREE.Object3D();
+    var object = new THREE.Object3D();
     object.userData.x3dType = 'Transform';
     object.userData.solid = getNodeAttribute(transform, 'solid', 'false').toLowerCase() === 'true';
     object.userData.window = getNodeAttribute(transform, 'window', '');
-    let controller = getNodeAttribute(transform, 'controller', undefined);
+    var controller = getNodeAttribute(transform, 'controller', undefined);
     if (typeof controller !== 'undefined')
       object.userData.controller = controller;
     object.userData.name = getNodeAttribute(transform, 'name', '');
 
-    let position = convertStringToVec3(getNodeAttribute(transform, 'translation', '0 0 0'));
+    var position = convertStringToVec3(getNodeAttribute(transform, 'translation', '0 0 0'));
     object.position.copy(position);
-    let scale = convertStringToVec3(getNodeAttribute(transform, 'scale', '1 1 1'));
+    var scale = convertStringToVec3(getNodeAttribute(transform, 'scale', '1 1 1'));
     object.scale.copy(scale);
-    let quaternion = convertStringToQuaternion(getNodeAttribute(transform, 'rotation', '0 1 0 0'));
+    var quaternion = convertStringToQuaternion(getNodeAttribute(transform, 'rotation', '0 1 0 0'));
     object.quaternion.copy(quaternion);
 
     return object;
   }
 
   parseShape(shape) {
-    let geometry;
-    let material;
+    var geometry;
+    var material;
 
     for (let i = 0; i < shape.childNodes.length; i++) {
-      let child = shape.childNodes[i];
+      var child = shape.childNodes[i];
       if (typeof child.tagName === 'undefined')
         continue;
 
       // Check if USE node and return the DEF node.
-      let defObject = this._getDefNode(child);
+      var defObject = this._getDefNode(child);
       if (typeof defObject !== 'undefined') {
         if (defObject.isGeometry || defObject.isBufferGeometry)
           geometry = defObject;
@@ -214,9 +216,9 @@ THREE.X3DLoader = class X3DLoader {
       if (typeof material === 'undefined') {
         if (child.tagName === 'Appearance') {
           // If a sibling PBRAppearance is detected, prefer it.
-          let pbrAppearanceChild = false;
+          var pbrAppearanceChild = false;
           for (let j = 0; j < shape.childNodes.length; j++) {
-            let child0 = shape.childNodes[j];
+            var child0 = shape.childNodes[j];
             if (child0.tagName === 'PBRAppearance') {
               pbrAppearanceChild = true;
               break;
@@ -246,7 +248,7 @@ THREE.X3DLoader = class X3DLoader {
     if (typeof material === 'undefined')
       material = createDefaultMaterial(geometry);
 
-    let mesh;
+    var mesh;
     if (geometry.userData.x3dType === 'IndexedLineSet')
       mesh = new THREE.LineSegments(geometry, material);
     else if (geometry.userData.x3dType === 'PointSet')
@@ -264,7 +266,7 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseGeometry(node) {
-    let geometry;
+    var geometry;
     if (node.tagName === 'Box')
       geometry = this.parseBox(node);
     else if (node.tagName === 'Cone')
@@ -290,15 +292,15 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseAppearance(appearance) {
-    let mat = new THREE.MeshBasicMaterial({color: 0xffffff});
+    var mat = new THREE.MeshBasicMaterial({color: 0xffffff});
     mat.userData.x3dType = 'Appearance';
 
     // Get the Material tag.
-    let material = appearance.getElementsByTagName('Material')[0];
+    var material = appearance.getElementsByTagName('Material')[0];
 
-    let materialSpecifications = {};
+    var materialSpecifications = {};
     if (typeof material !== 'undefined') {
-      let defMaterial = this._getDefNode(material);
+      var defMaterial = this._getDefNode(material);
       if (typeof defMaterial !== 'undefined') {
         materialSpecifications = {
           'color': defMaterial.color,
@@ -319,8 +321,8 @@ THREE.X3DLoader = class X3DLoader {
     }
 
     // Check to see if there is a texture.
-    let imageTexture = appearance.getElementsByTagName('ImageTexture');
-    let colorMap;
+    var imageTexture = appearance.getElementsByTagName('ImageTexture');
+    var colorMap;
     if (imageTexture.length > 0) {
       colorMap = this.parseImageTexture(imageTexture[0], appearance.getElementsByTagName('TextureTransform'));
       if (typeof colorMap !== 'undefined') {
@@ -344,14 +346,14 @@ THREE.X3DLoader = class X3DLoader {
   parsePBRAppearance(pbrAppearance) {
     const roughnessFactor = 2.0; // This factor has been empirically found to match the Webots rendering.
 
-    let isTransparent = false;
+    var isTransparent = false;
 
-    let baseColor = convertStringToColor(getNodeAttribute(pbrAppearance, 'baseColor', '1 1 1'));
-    let roughness = parseFloat(getNodeAttribute(pbrAppearance, 'roughness', '0')) * roughnessFactor;
-    let metalness = parseFloat(getNodeAttribute(pbrAppearance, 'metalness', '1'));
-    let emissiveColor = convertStringToColor(getNodeAttribute(pbrAppearance, 'emissiveColor', '0 0 0'));
-    let transparency = parseFloat(getNodeAttribute(pbrAppearance, 'transparency', '0'));
-    let materialSpecifications = {
+    var baseColor = convertStringToColor(getNodeAttribute(pbrAppearance, 'baseColor', '1 1 1'));
+    var roughness = parseFloat(getNodeAttribute(pbrAppearance, 'roughness', '0')) * roughnessFactor;
+    var metalness = parseFloat(getNodeAttribute(pbrAppearance, 'metalness', '1'));
+    var emissiveColor = convertStringToColor(getNodeAttribute(pbrAppearance, 'emissiveColor', '0 0 0'));
+    var transparency = parseFloat(getNodeAttribute(pbrAppearance, 'transparency', '0'));
+    var materialSpecifications = {
       color: baseColor,
       roughness: roughness,
       metalness: metalness,
@@ -363,11 +365,11 @@ THREE.X3DLoader = class X3DLoader {
       isTransparent = true;
     }
 
-    let textureTransform = pbrAppearance.getElementsByTagName('TextureTransform');
-    let imageTextures = pbrAppearance.getElementsByTagName('ImageTexture');
+    var textureTransform = pbrAppearance.getElementsByTagName('TextureTransform');
+    var imageTextures = pbrAppearance.getElementsByTagName('ImageTexture');
     for (let t = 0; t < imageTextures.length; t++) {
-      let imageTexture = imageTextures[t];
-      let type = getNodeAttribute(imageTexture, 'type', undefined);
+      var imageTexture = imageTextures[t];
+      var type = getNodeAttribute(imageTexture, 'type', undefined);
       if (type === 'baseColor') {
         materialSpecifications.map = this.parseImageTexture(imageTexture, textureTransform);
         if (typeof materialSpecifications.map !== 'undefined' && materialSpecifications.map.userData.isTransparent) {
@@ -392,7 +394,7 @@ THREE.X3DLoader = class X3DLoader {
       */
     }
 
-    let mat = new THREE.MeshStandardMaterial(materialSpecifications);
+    var mat = new THREE.MeshStandardMaterial(materialSpecifications);
     mat.userData.x3dType = 'PBRAppearance';
     if (isTransparent)
       mat.transparent = true;
@@ -403,18 +405,18 @@ THREE.X3DLoader = class X3DLoader {
 
   parseImageTexture(imageTexture, textureTransform, mat) {
     // Issues with DEF and USE image texture with different image transform.
-    let texture = this._getDefNode(imageTexture);
+    var texture = this._getDefNode(imageTexture);
     if (typeof texture !== 'undefined')
       return texture;
 
-    let filename = getNodeAttribute(imageTexture, 'url', '');
+    var filename = getNodeAttribute(imageTexture, 'url', '');
     filename = filename.split(/['"\s]/).filter((n) => { return n; });
     if (filename[0] == null)
       return undefined;
 
     let transformData;
     if (textureTransform && textureTransform[0]) {
-      let defTexture = this._getDefNode(textureTransform[0]);
+      var defTexture = this._getDefNode(textureTransform[0]);
       if (typeof defTexture !== 'undefined')
         transformData = defTexture.userData.transform;
       else
@@ -442,7 +444,7 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseTextureTransform(textureTransform, textureObject = undefined) {
-    let transformData = {
+    var transformData = {
       'center': convertStringToVec2(getNodeAttribute(textureTransform, 'center', '0 0')),
       'rotation': parseFloat(getNodeAttribute(textureTransform, 'rotation', '0')),
       'scale': convertStringToVec2(getNodeAttribute(textureTransform, 'scale', '1 1')),
@@ -454,9 +456,9 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseIndexedFaceSet(ifs) {
-    let coordinate = ifs.getElementsByTagName('Coordinate')[0];
-    let textureCoordinate = ifs.getElementsByTagName('TextureCoordinate')[0];
-    let normal = ifs.getElementsByTagName('Normal')[0];
+    var coordinate = ifs.getElementsByTagName('Coordinate')[0];
+    var textureCoordinate = ifs.getElementsByTagName('TextureCoordinate')[0];
+    var normal = ifs.getElementsByTagName('Normal')[0];
 
     if (typeof coordinate !== 'undefined' && 'USE' in coordinate.attributes) {
       console.error("X3DLoader:parseIndexedFaceSet: USE 'Coordinate' node not supported.");
@@ -471,29 +473,29 @@ THREE.X3DLoader = class X3DLoader {
       normal = undefined;
     }
 
-    let geometry = new THREE.Geometry();
-    let x3dType = getNodeAttribute(ifs, 'x3dType', undefined);
+    var geometry = new THREE.Geometry();
+    var x3dType = getNodeAttribute(ifs, 'x3dType', undefined);
     geometry.userData = { 'x3dType': (typeof x3dType === 'undefined' ? 'IndexedFaceSet' : x3dType) };
     if (typeof coordinate === 'undefined')
       return geometry;
 
-    let indicesStr = getNodeAttribute(ifs, 'coordIndex', '').split(/\s/);
-    let verticesStr = getNodeAttribute(coordinate, 'point', '').split(/\s/);
-    let hasTexCoord = 'texCoordIndex' in ifs.attributes;
-    let texcoordIndexStr = hasTexCoord ? getNodeAttribute(ifs, 'texCoordIndex', '') : '';
-    let texcoordsStr = hasTexCoord ? getNodeAttribute(textureCoordinate, 'point', '') : '';
+    var indicesStr = getNodeAttribute(ifs, 'coordIndex', '').split(/\s/);
+    var verticesStr = getNodeAttribute(coordinate, 'point', '').split(/\s/);
+    var hasTexCoord = 'texCoordIndex' in ifs.attributes;
+    var texcoordIndexStr = hasTexCoord ? getNodeAttribute(ifs, 'texCoordIndex', '') : '';
+    var texcoordsStr = hasTexCoord ? getNodeAttribute(textureCoordinate, 'point', '') : '';
 
     for (let i = 0; i < verticesStr.length; i += 3) {
-      let v = new THREE.Vector3();
+      var v = new THREE.Vector3();
       v.x = parseFloat(verticesStr[i + 0]);
       v.y = parseFloat(verticesStr[i + 1]);
       v.z = parseFloat(verticesStr[i + 2]);
       geometry.vertices.push(v);
     }
 
-    let normalArray, normalIndicesStr;
+    var normalArray, normalIndicesStr;
     if (typeof normal !== 'undefined') {
-      let normalStr = getNodeAttribute(normal, 'vector', '').split(/[\s,]+/);
+      var normalStr = getNodeAttribute(normal, 'vector', '').split(/[\s,]+/);
       normalIndicesStr = getNodeAttribute(ifs, 'normalIndex', '').split(/\s/);
       normalArray = [];
       for (let i = 0; i < normalStr.length; i += 3) {
@@ -503,12 +505,13 @@ THREE.X3DLoader = class X3DLoader {
           parseFloat(normalStr[i + 2])));
       }
     }
-    let uvs = [];
+
     if (hasTexCoord) {
-      let isDefaultMapping = getNodeAttribute(ifs, 'defaultMapping', 'false').toLowerCase() === 'true';
-      let texcoords = texcoordsStr.split(/\s/);
+      var isDefaultMapping = getNodeAttribute(ifs, 'defaultMapping', 'false').toLowerCase() === 'true';
+      var texcoords = texcoordsStr.split(/\s/);
+      var uvs = [];
       for (let i = 0; i < texcoords.length; i += 2) {
-        let v = new THREE.Vector2();
+        v = new THREE.Vector2();
         v.x = parseFloat(texcoords[i + 0]);
         v.y = parseFloat(texcoords[i + 1]);
         if (isDefaultMapping) {
@@ -523,11 +526,12 @@ THREE.X3DLoader = class X3DLoader {
     }
 
     // Now pull out the face indices.
-    let texIndices = hasTexCoord ? texcoordIndexStr.split(/\s/) : null;
+    if (hasTexCoord)
+      var texIndices = texcoordIndexStr.split(/\s/);
     for (let i = 0; i < indicesStr.length; i++) {
-      let faceIndices = [];
-      let uvIndices = [];
-      let normalIndices = [];
+      var faceIndices = [];
+      var uvIndices = [];
+      var normalIndices = [];
       while (parseFloat(indicesStr[i]) >= 0) {
         faceIndices.push(parseFloat(indicesStr[i]));
         if (hasTexCoord)
@@ -537,7 +541,7 @@ THREE.X3DLoader = class X3DLoader {
         i++;
       }
 
-      let faceNormal;
+      var faceNormal;
       while (faceIndices.length > 3) {
         // Take the last three, make a triangle, and remove the
         // middle one (works for convex & continuously wrapped).
@@ -549,7 +553,7 @@ THREE.X3DLoader = class X3DLoader {
             uvs[parseFloat(uvIndices[uvIndices.length - 1])].clone()
           ]);
           // Remove the second-to-last vertex.
-          let tmp = uvIndices[uvIndices.length - 1];
+          var tmp = uvIndices[uvIndices.length - 1];
           uvIndices.pop();
           uvIndices[uvIndices.length - 1] = tmp;
         }
@@ -570,7 +574,7 @@ THREE.X3DLoader = class X3DLoader {
           faceNormal
         ));
         // Remove the second-to-last vertex.
-        let tmp = faceIndices[faceIndices.length - 1];
+        tmp = faceIndices[faceIndices.length - 1];
         faceIndices.pop();
         faceIndices[faceIndices.length - 1] = tmp;
       }
@@ -610,28 +614,28 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseIndexedLineSet(ils) {
-    let coordinate = ils.getElementsByTagName('Coordinate')[0];
+    var coordinate = ils.getElementsByTagName('Coordinate')[0];
     if (typeof coordinate !== 'undefined' && 'USE' in coordinate.attributes) {
       console.error("X3DLoader:parseIndexedLineSet: USE 'Coordinate' node not supported.");
       coordinate = undefined;
     }
 
-    let geometry = new THREE.BufferGeometry();
+    var geometry = new THREE.BufferGeometry();
     geometry.userData = { 'x3dType': 'IndexedLineSet' };
     if (typeof coordinate === 'undefined')
       return geometry;
 
-    let indicesStr = getNodeAttribute(ils, 'coordIndex', '').trim().split(/\s/);
-    let verticesStr = getNodeAttribute(coordinate, 'point', '').trim().split(/\s/);
+    var indicesStr = getNodeAttribute(ils, 'coordIndex', '').trim().split(/\s/);
+    var verticesStr = getNodeAttribute(coordinate, 'point', '').trim().split(/\s/);
 
-    let positions = new Float32Array(verticesStr.length * 3);
+    var positions = new Float32Array(verticesStr.length * 3);
     for (let i = 0; i < verticesStr.length; i += 3) {
       positions[i] = parseFloat(verticesStr[i + 0]);
       positions[i + 1] = parseFloat(verticesStr[i + 1]);
       positions[i + 2] = parseFloat(verticesStr[i + 2]);
     }
 
-    let indices = [];
+    var indices = [];
     for (let i = 0; i < indicesStr.length; i++) {
       while (parseFloat(indicesStr[i]) >= 0) {
         indices.push(parseFloat(indicesStr[i]));
@@ -649,16 +653,16 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseElevationGrid(eg) {
-    let heightStr = getNodeAttribute(eg, 'height', undefined);
-    let xDimension = parseInt(getNodeAttribute(eg, 'xDimension', '0'));
-    let xSpacing = parseFloat(getNodeAttribute(eg, 'xSpacing', '1'));
-    let zDimension = parseInt(getNodeAttribute(eg, 'zDimension', '0'));
-    let zSpacing = parseFloat(getNodeAttribute(eg, 'zSpacing', '1'));
+    var heightStr = getNodeAttribute(eg, 'height', undefined);
+    var xDimension = parseInt(getNodeAttribute(eg, 'xDimension', '0'));
+    var xSpacing = parseFloat(getNodeAttribute(eg, 'xSpacing', '1'));
+    var zDimension = parseInt(getNodeAttribute(eg, 'zDimension', '0'));
+    var zSpacing = parseFloat(getNodeAttribute(eg, 'zSpacing', '1'));
 
-    let width = (xDimension - 1) * xSpacing;
-    let depth = (zDimension - 1) * zSpacing;
+    var width = (xDimension - 1) * xSpacing;
+    var depth = (zDimension - 1) * zSpacing;
 
-    let geometry = new THREE.PlaneBufferGeometry(width, depth, xDimension - 1, zDimension - 1);
+    var geometry = new THREE.PlaneBufferGeometry(width, depth, xDimension - 1, zDimension - 1);
     geometry.userData = { 'x3dType': 'ElevationGrid' };
     geometry.rotateX(-Math.PI / 2);
     geometry.translate(width / 2, 0, depth / 2); // center located in the corner
@@ -666,15 +670,15 @@ THREE.X3DLoader = class X3DLoader {
       return geometry;
 
     // Set height and adjust uv mappings.
-    let heightArray = heightStr.trim().split(/\s/);
-    let vertices = geometry.getAttribute('position').array;
-    let uv = geometry.getAttribute('uv').array;
-    let maxIndex = heightArray.length;
-    let i = 0;
-    let v = 1;
+    var heightArray = heightStr.trim().split(/\s/);
+    var vertices = geometry.getAttribute('position').array;
+    var uv = geometry.getAttribute('uv').array;
+    var maxIndex = heightArray.length;
+    var i = 0;
+    var v = 1;
     for (let dx = 0; dx < xDimension; dx++) {
       for (let dz = 0; dz < zDimension; dz++) {
-        let index = xDimension * dx + dz;
+        var index = xDimension * dx + dz;
         if (index < maxIndex)
           vertices[i + 1] = parseFloat(heightArray[index]);
         uv[v] = -uv[v];
@@ -689,31 +693,31 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseBox(box) {
-    let size = convertStringToVec3(getNodeAttribute(box, 'size', '2 2 2'));
-    let boxGeometry = new THREE.BoxBufferGeometry(size.x, size.y, size.z);
+    var size = convertStringToVec3(getNodeAttribute(box, 'size', '2 2 2'));
+    var boxGeometry = new THREE.BoxBufferGeometry(size.x, size.y, size.z);
     boxGeometry.userData = { 'x3dType': 'Box' };
     return boxGeometry;
   }
 
   parseCone(cone) {
-    let radius = getNodeAttribute(cone, 'bottomRadius', '1');
-    let height = getNodeAttribute(cone, 'height', '2');
-    let subdivision = getNodeAttribute(cone, 'subdivision', '32');
-    let side = getNodeAttribute(cone, 'side', 'true').toLowerCase() === 'true';
-    let bottom = getNodeAttribute(cone, 'bottom', 'true').toLowerCase() === 'true';
+    var radius = getNodeAttribute(cone, 'bottomRadius', '1');
+    var height = getNodeAttribute(cone, 'height', '2');
+    var subdivision = getNodeAttribute(cone, 'subdivision', '32');
+    var side = getNodeAttribute(cone, 'side', 'true').toLowerCase() === 'true';
+    var bottom = getNodeAttribute(cone, 'bottom', 'true').toLowerCase() === 'true';
     // Note: the three.js Cone is created with thetaStart = Math.PI / 2 to match X3D texture mapping.
-    let coneGeometry;
+    var coneGeometry;
     if (side && bottom)
       coneGeometry = new THREE.ConeBufferGeometry(radius, height, subdivision, 1, false, Math.PI / 2);
     else {
       coneGeometry = new THREE.Geometry();
       if (side) {
-        let sideGeometry = new THREE.ConeGeometry(radius, height, subdivision, 1, true, Math.PI / 2);
+        var sideGeometry = new THREE.ConeGeometry(radius, height, subdivision, 1, true, Math.PI / 2);
         coneGeometry.merge(sideGeometry);
       }
       if (bottom) {
-        let bottomGeometry = new THREE.CircleGeometry(radius, subdivision);
-        let bottomMatrix = new THREE.Matrix4();
+        var bottomGeometry = new THREE.CircleGeometry(radius, subdivision);
+        var bottomMatrix = new THREE.Matrix4();
         bottomMatrix.makeRotationFromEuler(new THREE.Euler(Math.PI / 2, 0, Math.PI / 2));
         bottomMatrix.setPosition(new THREE.Vector3(0, -height / 2, 0));
         coneGeometry.merge(bottomGeometry, bottomMatrix);
@@ -725,32 +729,32 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseCylinder(cylinder) {
-    let radius = getNodeAttribute(cylinder, 'radius', '1');
-    let height = getNodeAttribute(cylinder, 'height', '2');
-    let subdivision = getNodeAttribute(cylinder, 'subdivision', '32');
-    let bottom = getNodeAttribute(cylinder, 'bottom', 'true').toLowerCase() === 'true';
-    let side = getNodeAttribute(cylinder, 'side', 'true').toLowerCase() === 'true';
-    let top = getNodeAttribute(cylinder, 'top', 'true').toLowerCase() === 'true';
+    var radius = getNodeAttribute(cylinder, 'radius', '1');
+    var height = getNodeAttribute(cylinder, 'height', '2');
+    var subdivision = getNodeAttribute(cylinder, 'subdivision', '32');
+    var bottom = getNodeAttribute(cylinder, 'bottom', 'true').toLowerCase() === 'true';
+    var side = getNodeAttribute(cylinder, 'side', 'true').toLowerCase() === 'true';
+    var top = getNodeAttribute(cylinder, 'top', 'true').toLowerCase() === 'true';
     // Note: the three.js Cylinder is created with thetaStart = Math.PI / 2 to match X3D texture mapping.
-    let cylinderGeometry;
+    var cylinderGeometry;
     if (bottom && side && top)
       cylinderGeometry = new THREE.CylinderBufferGeometry(radius, radius, height, subdivision, 1, false, Math.PI / 2);
     else {
       cylinderGeometry = new THREE.Geometry();
       if (side) {
-        let sideGeometry = new THREE.CylinderGeometry(radius, radius, height, subdivision, 1, true, Math.PI / 2);
+        var sideGeometry = new THREE.CylinderGeometry(radius, radius, height, subdivision, 1, true, Math.PI / 2);
         cylinderGeometry.merge(sideGeometry);
       }
       if (top) {
-        let topGeometry = new THREE.CircleGeometry(radius, subdivision);
-        let topMatrix = new THREE.Matrix4();
+        var topGeometry = new THREE.CircleGeometry(radius, subdivision);
+        var topMatrix = new THREE.Matrix4();
         topMatrix.makeRotationFromEuler(new THREE.Euler(-Math.PI / 2, 0, -Math.PI / 2));
         topMatrix.setPosition(new THREE.Vector3(0, height / 2, 0));
         cylinderGeometry.merge(topGeometry, topMatrix);
       }
       if (bottom) {
-        let bottomGeometry = new THREE.CircleGeometry(radius, subdivision);
-        let bottomMatrix = new THREE.Matrix4();
+        var bottomGeometry = new THREE.CircleGeometry(radius, subdivision);
+        var bottomMatrix = new THREE.Matrix4();
         bottomMatrix.makeRotationFromEuler(new THREE.Euler(Math.PI / 2, 0, Math.PI / 2));
         bottomMatrix.setPosition(new THREE.Vector3(0, -height / 2, 0));
         cylinderGeometry.merge(bottomGeometry, bottomMatrix);
@@ -762,10 +766,10 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseSphere(sphere) {
-    let radius = getNodeAttribute(sphere, 'radius', '1');
-    let subdivision = getNodeAttribute(sphere, 'subdivision', '8,8').split(',');
-    let ico = getNodeAttribute(sphere, 'ico', 'false').toLowerCase() === 'true';
-    let sphereGeometry;
+    var radius = getNodeAttribute(sphere, 'radius', '1');
+    var subdivision = getNodeAttribute(sphere, 'subdivision', '8,8').split(',');
+    var ico = getNodeAttribute(sphere, 'ico', 'false').toLowerCase() === 'true';
+    var sphereGeometry;
     if (ico) {
       sphereGeometry = new THREE.IcosahedronBufferGeometry(radius, subdivision[0]);
       sphereGeometry.rotateY(Math.PI / 2);
@@ -776,25 +780,25 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parsePlane(plane) {
-    let size = convertStringToVec2(getNodeAttribute(plane, 'size', '1,1'));
-    let planeGeometry = new THREE.PlaneBufferGeometry(size.x, size.y);
+    var size = convertStringToVec2(getNodeAttribute(plane, 'size', '1,1'));
+    var planeGeometry = new THREE.PlaneBufferGeometry(size.x, size.y);
     planeGeometry.userData = { 'x3dType': 'Plane' };
     planeGeometry.rotateX(-Math.PI / 2);
     return planeGeometry;
   }
 
   parsePointSet(pointSet) {
-    let coordinate = pointSet.getElementsByTagName('Coordinate')[0];
-    let geometry = new THREE.BufferGeometry();
+    var coordinate = pointSet.getElementsByTagName('Coordinate')[0];
+    var geometry = new THREE.BufferGeometry();
     geometry.userData = { 'x3dType': 'PointSet' };
     if (typeof coordinate === 'undefined')
       return geometry;
 
-    let coordStrArray = getNodeAttribute(coordinate, 'point', '').trim().split(/\s/);
-    let color = pointSet.getElementsByTagName('Color')[0];
+    var coordStrArray = getNodeAttribute(coordinate, 'point', '').trim().split(/\s/);
+    var color = pointSet.getElementsByTagName('Color')[0];
 
-    let count = coordStrArray.length;
-    let colorStrArray;
+    var count = coordStrArray.length;
+    var colorStrArray;
     geometry.userData.isColorPerVertex = false;
     if (typeof color !== 'undefined') {
       colorStrArray = getNodeAttribute(color, 'color', '').trim().split(/\s/);
@@ -807,13 +811,13 @@ THREE.X3DLoader = class X3DLoader {
       }
     }
 
-    let positions = new Float32Array(count);
+    var positions = new Float32Array(count);
     for (let i = 0; i < count; i++)
       positions[i] = parseFloat(coordStrArray[i]);
     geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
 
     if (geometry.userData.isColorPerVertex) {
-      let colors = new Float32Array(count);
+      var colors = new Float32Array(count);
       for (let i = 0; i < count; i++)
         colors[i] = parseFloat(colorStrArray[i]);
       geometry.addAttribute('color', new THREE.BufferAttribute(colors, 3));
@@ -824,19 +828,19 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseDirectionalLight(light) {
-    let on = getNodeAttribute(light, 'on', 'true').toLowerCase() === 'true';
+    var on = getNodeAttribute(light, 'on', 'true').toLowerCase() === 'true';
     if (!on)
       return;
 
-    let color = convertStringToColor(getNodeAttribute(light, 'color', '1 1 1'), false);
-    let direction = convertStringToVec3(getNodeAttribute(light, 'direction', '0 0 -1'));
-    let intensity = parseFloat(getNodeAttribute(light, 'intensity', '1'));
-    let castShadows = getNodeAttribute(light, 'castShadows', 'false').toLowerCase() === 'true';
+    var color = convertStringToColor(getNodeAttribute(light, 'color', '1 1 1'), false);
+    var direction = convertStringToVec3(getNodeAttribute(light, 'direction', '0 0 -1'));
+    var intensity = parseFloat(getNodeAttribute(light, 'intensity', '1'));
+    var castShadows = getNodeAttribute(light, 'castShadows', 'false').toLowerCase() === 'true';
 
-    let lightObject = new THREE.DirectionalLight(color.getHex(), intensity);
+    var lightObject = new THREE.DirectionalLight(color.getHex(), intensity);
     if (castShadows) {
       lightObject.castShadow = true;
-      let shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '1024'));
+      var shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '1024'));
       lightObject.shadow.mapSize.width = shadowMapSize;
       lightObject.shadow.mapSize.height = shadowMapSize;
       lightObject.shadow.radius = parseFloat(getNodeAttribute(light, 'shadowsRadius', '1.5'));
@@ -853,18 +857,18 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parsePointLight(light) {
-    let on = getNodeAttribute(light, 'on', 'true').toLowerCase() === 'true';
+    var on = getNodeAttribute(light, 'on', 'true').toLowerCase() === 'true';
     if (!on)
       return;
 
-    let attenuation = convertStringToVec3(getNodeAttribute(light, 'attenuation', '1 0 0'));
-    let color = convertStringToColor(getNodeAttribute(light, 'color', '1 1 1'), false);
-    let intensity = parseFloat(getNodeAttribute(light, 'intensity', '1'));
-    let location = convertStringToVec3(getNodeAttribute(light, 'location', '0 0 0'));
-    let radius = parseFloat(getNodeAttribute(light, 'radius', '100'));
-    let castShadows = getNodeAttribute(light, 'castShadows', 'false').toLowerCase() === 'true';
+    var attenuation = convertStringToVec3(getNodeAttribute(light, 'attenuation', '1 0 0'));
+    var color = convertStringToColor(getNodeAttribute(light, 'color', '1 1 1'), false);
+    var intensity = parseFloat(getNodeAttribute(light, 'intensity', '1'));
+    var location = convertStringToVec3(getNodeAttribute(light, 'location', '0 0 0'));
+    var radius = parseFloat(getNodeAttribute(light, 'radius', '100'));
+    var castShadows = getNodeAttribute(light, 'castShadows', 'false').toLowerCase() === 'true';
 
-    let lightObject = new THREE.PointLight(color.getHex());
+    var lightObject = new THREE.PointLight(color.getHex());
 
     // Tradeoff to let cohabit VRML light attenuation and the three.js light "physically correct mode".
     // - The intensity is attenuated by the total amount of the VRML attenuation.
@@ -880,7 +884,7 @@ THREE.X3DLoader = class X3DLoader {
 
     if (castShadows) {
       lightObject.castShadow = true;
-      let shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '512'));
+      var shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '512'));
       lightObject.shadow.mapSize.width = shadowMapSize;
       lightObject.shadow.mapSize.height = shadowMapSize;
       lightObject.shadow.radius = parseFloat(getNodeAttribute(light, 'shadowsRadius', '1'));
@@ -894,21 +898,21 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseSpotLight(light, helperNodes) {
-    let on = getNodeAttribute(light, 'on', 'true').toLowerCase() === 'true';
+    var on = getNodeAttribute(light, 'on', 'true').toLowerCase() === 'true';
     if (!on)
       return;
 
-    let attenuation = convertStringToVec3(getNodeAttribute(light, 'attenuation', '1 0 0'));
-    let beamWidth = parseFloat(getNodeAttribute(light, 'beamWidth', '0.785'));
-    let color = convertStringToColor(getNodeAttribute(light, 'color', '1 1 1'), false);
-    let cutOffAngle = parseFloat(getNodeAttribute(light, 'cutOffAngle', '0.785'));
-    let direction = convertStringToVec3(getNodeAttribute(light, 'direction', '0 0 -1'));
-    let intensity = parseFloat(getNodeAttribute(light, 'intensity', '1'));
-    let location = convertStringToVec3(getNodeAttribute(light, 'location', '0 0 0'));
-    let radius = parseFloat(getNodeAttribute(light, 'radius', '100'));
-    let castShadows = getNodeAttribute(light, 'castShadows', 'false').toLowerCase() === 'true';
+    var attenuation = convertStringToVec3(getNodeAttribute(light, 'attenuation', '1 0 0'));
+    var beamWidth = parseFloat(getNodeAttribute(light, 'beamWidth', '0.785'));
+    var color = convertStringToColor(getNodeAttribute(light, 'color', '1 1 1'), false);
+    var cutOffAngle = parseFloat(getNodeAttribute(light, 'cutOffAngle', '0.785'));
+    var direction = convertStringToVec3(getNodeAttribute(light, 'direction', '0 0 -1'));
+    var intensity = parseFloat(getNodeAttribute(light, 'intensity', '1'));
+    var location = convertStringToVec3(getNodeAttribute(light, 'location', '0 0 0'));
+    var radius = parseFloat(getNodeAttribute(light, 'radius', '100'));
+    var castShadows = getNodeAttribute(light, 'castShadows', 'false').toLowerCase() === 'true';
 
-    let lightObject = new THREE.SpotLight(color.getHex());
+    var lightObject = new THREE.SpotLight(color.getHex());
 
     lightObject.intensity = intensity / attenuation.manhattanLength();
     if (attenuation.x > 0)
@@ -927,7 +931,7 @@ THREE.X3DLoader = class X3DLoader {
 
     if (castShadows) {
       lightObject.castShadow = true;
-      let shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '512'));
+      var shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '512'));
       lightObject.shadow.mapSize.width = shadowMapSize;
       lightObject.shadow.mapSize.height = shadowMapSize;
       lightObject.shadow.radius = parseFloat(getNodeAttribute(light, 'shadowsRadius', '1'));
@@ -949,14 +953,14 @@ THREE.X3DLoader = class X3DLoader {
     this.scene.scene.userData.luminosity = parseFloat(getNodeAttribute(background, 'luminosity', '1.0'));
     this.scene.scene.irradiance = undefined;
 
-    let backgroundEnabled = false;
-    let irradianceEnabled = false;
+    var backgroundEnabled = false;
+    var irradianceEnabled = false;
 
-    let backgroundFields = ['leftUrl', 'rightUrl', 'topUrl', 'bottomUrl', 'backUrl', 'frontUrl'];
-    let irradianceFields = ['leftIrradianceUrl', 'rightIrradianceUrl', 'topIrradianceUrl', 'bottomIrradianceUrl', 'backIrradianceUrl', 'frontIrradianceUrl'];
+    var backgroundFields = ['leftUrl', 'rightUrl', 'topUrl', 'bottomUrl', 'backUrl', 'frontUrl'];
+    var irradianceFields = ['leftIrradianceUrl', 'rightIrradianceUrl', 'topIrradianceUrl', 'bottomIrradianceUrl', 'backIrradianceUrl', 'frontIrradianceUrl'];
 
-    let backgroundURLs = [];
-    let irradianceURLs = [];
+    var backgroundURLs = [];
+    var irradianceURLs = [];
     for (let i = 0; i < 6; i++) {
       let url = getNodeAttribute(background, backgroundFields[i], undefined);
       if (typeof url !== 'undefined') {
@@ -1003,16 +1007,16 @@ THREE.X3DLoader = class X3DLoader {
     }
 
     // Light offset: empirically found to match the Webots rendering.
-    let ambientLight = new THREE.AmbientLight(0xffffff);
+    var ambientLight = new THREE.AmbientLight(0xffffff);
     this.scene.scene.add(ambientLight);
 
     return undefined;
   }
 
   parseViewpoint(viewpoint) {
-    let fov = parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785'));
-    let near = parseFloat(getNodeAttribute(viewpoint, 'zNear', '0.1'));
-    let far = parseFloat(getNodeAttribute(viewpoint, 'zFar', '2000'));
+    var fov = parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785'));
+    var near = parseFloat(getNodeAttribute(viewpoint, 'zNear', '0.1'));
+    var far = parseFloat(getNodeAttribute(viewpoint, 'zFar', '2000'));
     if (typeof this.scene.viewpoint !== 'undefined') {
       this.scene.viewpoint.camera.near = near;
       this.scene.viewpoint.camera.far = far;
@@ -1027,11 +1031,11 @@ THREE.X3DLoader = class X3DLoader {
     this.scene.viewpoint.camera.fov = THREE.Math.radToDeg(horizontalToVerticalFieldOfView(fov, this.scene.viewpoint.camera.aspect)); // degrees
 
     if ('position' in viewpoint.attributes) {
-      let position = getNodeAttribute(viewpoint, 'position', '0 0 10');
+      var position = getNodeAttribute(viewpoint, 'position', '0 0 10');
       this.scene.viewpoint.camera.position.copy(convertStringToVec3(position));
     }
     if ('orientation' in viewpoint.attributes) {
-      let quaternion = convertStringToQuaternion(getNodeAttribute(viewpoint, 'orientation', '0 1 0 0'));
+      var quaternion = convertStringToQuaternion(getNodeAttribute(viewpoint, 'orientation', '0 1 0 0'));
       this.scene.viewpoint.camera.quaternion.copy(quaternion);
     }
     this.scene.viewpoint.camera.updateProjectionMatrix();
@@ -1050,11 +1054,11 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseFog(fog) {
-    let colorInt = convertStringToColor(getNodeAttribute(fog, 'color', '1 1 1'), false).getHex();
-    let visibilityRange = parseFloat(getNodeAttribute(fog, 'visibilityRange', '0'));
+    var colorInt = convertStringToColor(getNodeAttribute(fog, 'color', '1 1 1'), false).getHex();
+    var visibilityRange = parseFloat(getNodeAttribute(fog, 'visibilityRange', '0'));
 
-    let fogObject = null;
-    let fogType = getNodeAttribute(fog, 'fogType', 'LINEAR');
+    var fogObject = null;
+    var fogType = getNodeAttribute(fog, 'fogType', 'LINEAR');
     if (fogType === 'LINEAR')
       fogObject = new THREE.Fog(colorInt, 0.001, visibilityRange);
     else
@@ -1068,7 +1072,7 @@ THREE.X3DLoader = class X3DLoader {
     // In order to be able to retrieve the node to be updated, we need to assign to the object all the ids of the merged X3D nodes.
     if (!node || !object)
       return;
-    let id = getNodeAttribute(node, 'id', undefined);
+    var id = getNodeAttribute(node, 'id', undefined);
     if (typeof id !== 'undefined') {
       if (object.name !== '')
         object.name = object.name + ';' + String(id);
@@ -1084,12 +1088,12 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   _getDefNode(node) {
-    let useNodeId = getNodeAttribute(node, 'USE', undefined);
+    var useNodeId = getNodeAttribute(node, 'USE', undefined);
     if (typeof useNodeId === 'undefined')
       return undefined;
 
     // Look for node in previously parsed objects
-    let defNode = this.scene.getObjectById(useNodeId, false, this.parsedObjects);
+    var defNode = this.scene.getObjectById(useNodeId, false, this.parsedObjects);
     if (typeof defNode !== 'undefined')
       return defNode;
 
@@ -1105,7 +1109,7 @@ THREE.X3DLoader = class X3DLoader {
       console.error('X3DLoader:parseTextureTransform: invalid parent object.');
       return;
     }
-    let maps = [material.map, material.roughnessMap, material.metalnessMap, material.normalMap, material.emissiveMap, material.aoMap];
+    var maps = [material.map, material.roughnessMap, material.metalnessMap, material.normalMap, material.emissiveMap, material.aoMap];
     maps.forEach((map) => {
       if (map && map.isTexture)
         TextureLoader.applyTextureTransform(map, textureTransform);
@@ -1121,13 +1125,13 @@ function getNodeAttribute(node, attributeName, defaultValue) {
 }
 
 function createDefaultGeometry() {
-  let geometry = new THREE.Geometry();
+  var geometry = new THREE.Geometry();
   geometry.userData = { 'x3dType': 'unknown' };
   return geometry;
 };
 
 function createDefaultMaterial(geometry) {
-  let material;
+  var material;
   if (typeof geometry !== 'undefined' && geometry.userData.x3dType === 'PointSet' && geometry.userData.isColorPerVertex)
     material = new THREE.PointsMaterial({ size: 4, sizeAttenuation: false, vertexColors: THREE.VertexColors });
   else
@@ -1137,19 +1141,19 @@ function createDefaultMaterial(geometry) {
 
 function convertStringToVec2(s) {
   s = s.split(/\s/);
-  let v = new THREE.Vector2(parseFloat(s[0]), parseFloat(s[1]));
+  var v = new THREE.Vector2(parseFloat(s[0]), parseFloat(s[1]));
   return v;
 }
 
 function convertStringToVec3(s) {
   s = s.split(/\s/);
-  let v = new THREE.Vector3(parseFloat(s[0]), parseFloat(s[1]), parseFloat(s[2]));
+  var v = new THREE.Vector3(parseFloat(s[0]), parseFloat(s[1]), parseFloat(s[2]));
   return v;
 }
 
 function convertStringToQuaternion(s) {
-  let pos = s.split(/\s/);
-  let q = new THREE.Quaternion();
+  var pos = s.split(/\s/);
+  var q = new THREE.Quaternion();
   q.setFromAxisAngle(
     new THREE.Vector3(parseFloat(pos[0]), parseFloat(pos[1]), parseFloat(pos[2])),
     parseFloat(pos[3])
@@ -1158,8 +1162,8 @@ function convertStringToQuaternion(s) {
 }
 
 function convertStringToColor(s, sRGB = true) {
-  let v = convertStringToVec3(s);
-  let color = new THREE.Color(v.x, v.y, v.z);
+  var v = convertStringToVec3(s);
+  var color = new THREE.Color(v.x, v.y, v.z);
   if (sRGB)
     color.convertSRGBToLinear();
   return color;
