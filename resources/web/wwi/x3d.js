@@ -41,6 +41,7 @@ X3dLoade = class X3dLoader {
 
     // Parse scene.
     var scene = xml.getElementsByTagName('Scene')[0];
+
     if (typeof scene !== 'undefined') {
       object = new THREE.Group();
       object.userData.x3dType = 'Group';
@@ -84,9 +85,8 @@ X3dLoade = class X3dLoader {
     if (node.tagName === 'Transform') {
       object = this.parseTransform(node);
       hasChildren = true;
-    } else if (node.tagName === 'Shape'){
+    } else if (node.tagName === 'Shape')
       object = this.parseShape(node);
-    }
     else if (node.tagName === 'DirectionalLight')
       object = this.parseDirectionalLight(node);
     else if (node.tagName === 'PointLight')
@@ -176,7 +176,6 @@ X3dLoade = class X3dLoader {
   }
 
   parseTransform(transform) {
-    /*
     var object = new THREE.Object3D();
     object.userData.x3dType = 'Transform';
     object.userData.solid = getNodeAttribute(transform, 'solid', 'false').toLowerCase() === 'true';
@@ -194,7 +193,6 @@ X3dLoade = class X3dLoader {
     object.quaternion.copy(quaternion);
 
     return object;
-    */
   }
 
   parseShape(shape) {
@@ -260,14 +258,14 @@ X3dLoade = class X3dLoader {
       mesh = new THREE.Points(geometry, material);
     else
     */
-    mesh = new THREE.Mesh(geometry, material);
+      mesh = new THREE.Mesh(geometry, material);
     mesh.userData.x3dType = 'Shape';
 
     if (!material.transparent && !material.userData.hasTransparentTexture)
-    // Webots transparent object don't cast shadows.
-    //mesh.castShadow = getNodeAttribute(shape, 'castShadows', 'false').toLowerCase() === 'true';
-    //mesh.receiveShadow = true;
-    //mesh.userData.isPickable = getNodeAttribute(shape, 'isPickable', 'true').toLowerCase() === 'true';
+      // Webots transparent object don't cast shadows.
+      mesh.castShadow = getNodeAttribute(shape, 'castShadows', 'false').toLowerCase() === 'true';
+    mesh.receiveShadow = true;
+    mesh.userData.isPickable = getNodeAttribute(shape, 'isPickable', 'true').toLowerCase() === 'true';
     return mesh;
   }
 
@@ -325,7 +323,6 @@ X3dLoade = class X3dLoader {
           'transparent': getNodeAttribute(appearance, 'sortType', 'auto') === 'transparent'
         };
       }
-
     }
 
     // Check to see if there is a texture.
@@ -401,7 +398,8 @@ X3dLoade = class X3dLoader {
       /* Ambient occlusion not fully working
       else if (type === 'occlusion')
         materialSpecifications.aoMap = this.parseImageTexture(imageTexture, textureTransform);
-      *//*
+      */
+      /*
     }
 
     var mat = new THREE.MeshStandardMaterial(materialSpecifications);
@@ -712,7 +710,7 @@ X3dLoade = class X3dLoader {
   parseBox(box) {
     var size = convertStringToVec3(getNodeAttribute(box, 'size', '2 2 2'));
     var boxGeometry = new THREE.BoxBufferGeometry(size.x, size.y, size.z);
-    //boxGeometry.userData = { 'x3dType': 'Box' };
+    boxGeometry.userData = { 'x3dType': 'Box' };
     return boxGeometry;
   }
 
@@ -1180,14 +1178,14 @@ function createDefaultMaterial(geometry) {
 
 function convertStringToVec2(s) {
   s = s.split(/\s/);
-  var v = new Module.Vector2(parseFloat(s[0]), parseFloat(s[1]));
+  var v = new glm.vec2(parseFloat(s[0]), parseFloat(s[1]));
   return v;
 }
 
 
 function convertStringToVec3(s) {
   s = s.split(/\s/);
-  var v = new Module.Vector3(parseFloat(s[0]), parseFloat(s[1]), parseFloat(s[2]));
+  var v = new glm.vec3(parseFloat(s[0]), parseFloat(s[1]), parseFloat(s[2]));
   return v;
 }
 
@@ -1201,8 +1199,7 @@ function convertStringToQuaternion(s) {
   );
   */
   //GLM-JS
-  var q = glm.angleAxis(
-  parseFloat(pos[3]), new glm.vec3(parseFloat(pos[0]), parseFloat(pos[1]), parseFloat(pos[2])));
+  var q = glm.angleAxis(parseFloat(pos[3]), new glm.vec3(parseFloat(pos[0]), parseFloat(pos[1]), parseFloat(pos[2])));
   return q;
 }
 /*
