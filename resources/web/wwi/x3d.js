@@ -3,6 +3,49 @@
 
 // Inspiration: https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
 
+/*
+class obj3d {
+  constructor(){
+    this.type="";
+    this.userData = {"": ""};
+    this.name="";
+    this.isObject3d = true;
+    this.parent = null;
+    this.children = [];
+  }
+  add(object) {
+    if (object == this) {
+      console.error("Object cannot be added as a child of itself");
+    }
+    if((object && object.isObject3d)) {
+      if (object.parent !== null)
+        object.parent.remove(object);
+      object.parent = this;
+      this.children.push(object);
+      object.dispatchEvent( _addedEvent);
+    } else {
+      console.error( "obj3d add: object not an instance of obj3d.", object );
+    }
+  }
+  remove( object ) {
+  		const index = this.children.indexOf( object );
+  		if ( index !== - 1 ) {
+  			object.parent = null;
+  			this.children.splice( index, 1 );
+  		}
+  		return this;
+  	}
+}
+
+class groupe extends obj3d{
+  constructor (){
+    super();
+    this.type = "Group";
+    this.isGroup = true;
+  }
+}
+*/
+
 //THREE.X3DLoader = class X3DLoader {
 X3dLoade = class X3dLoader {
   constructor(scene) {
@@ -63,8 +106,9 @@ X3dLoade = class X3dLoader {
       var node = rootObjects.shift(); // get and remove first item
       if (parentObject)
         object = parentObject;
-      else
+      else{
         object = new THREE.Group();
+      }
       this.parsedObjects.push(object); // push before parsing
       this.parseNode(object, node);
     }
@@ -176,6 +220,7 @@ X3dLoade = class X3dLoader {
   }
 
   parseTransform(transform) {
+    /*
     var object = new THREE.Object3D();
     object.userData.x3dType = 'Transform';
     object.userData.solid = getNodeAttribute(transform, 'solid', 'false').toLowerCase() === 'true';
@@ -193,6 +238,7 @@ X3dLoade = class X3dLoader {
     object.quaternion.copy(quaternion);
 
     return object;
+    */
   }
 
   parseShape(shape) {
@@ -258,14 +304,14 @@ X3dLoade = class X3dLoader {
       mesh = new THREE.Points(geometry, material);
     else
     */
-      mesh = new THREE.Mesh(geometry, material);
+    mesh = new THREE.Mesh(geometry, material);
     mesh.userData.x3dType = 'Shape';
 
     if (!material.transparent && !material.userData.hasTransparentTexture)
       // Webots transparent object don't cast shadows.
-      mesh.castShadow = getNodeAttribute(shape, 'castShadows', 'false').toLowerCase() === 'true';
-    mesh.receiveShadow = true;
-    mesh.userData.isPickable = getNodeAttribute(shape, 'isPickable', 'true').toLowerCase() === 'true';
+    //mesh.castShadow = getNodeAttribute(shape, 'castShadows', 'false').toLowerCase() === 'true';
+    //mesh.receiveShadow = true;
+    //mesh.userData.isPickable = getNodeAttribute(shape, 'isPickable', 'true').toLowerCase() === 'true';
     return mesh;
   }
 

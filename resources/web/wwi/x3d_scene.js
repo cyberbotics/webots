@@ -146,16 +146,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.objectsIdCache = {};
     this.useNodeCache = {};
     this.root = undefined;
-    /*
-    class couleur {
-      constructor(r, g, b) {
-        this.r = r;
-        this.g = g;
-        this.b = b;
-        this.isColor = true
-      }
-    }
-    */
     this.scene.background = new Module.Color(0, 0, 0);
 
     /*
