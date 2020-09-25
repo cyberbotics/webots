@@ -65,8 +65,9 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
     // add antialiasing post-processing effects
     this.composer = new THREE.EffectComposer(this.renderer);
-    let renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
+    let renderPass = new RenPass(this.scene, this.viewpoint.camera);
     this.composer.addPass(renderPass);
+
     //this.bloomPass = new THREE.Bloom(new Module.Vector2(window.innerWidth, window.innerHeight));
     //this.composer.addPass(this.bloomPass);
     //this.hdrResolvePass = new THREE.ShaderPass(THREE.HDRResolveShader);
@@ -128,7 +129,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     //this.viewpoint.camera.updateProjectionMatrix();
     //this.gpuPicker.resizeTexture(width, height);
     this.renderer.setSize(width, height);
-    this.composer.setSize(width, height);
+    //this.composer.setSize(width, height);
     this.render();
   }
 

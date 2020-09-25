@@ -55,7 +55,7 @@ X3dLoade = class X3dLoader {
 
     this.enableHDRReflections = true;
   };
-
+  /*
   load(url, onLoad, onProgress, onError) {
     console.log('X3D: Loading ' + url);
     var scope = this;
@@ -65,6 +65,7 @@ X3dLoade = class X3dLoader {
         onLoad(scope.parse(text));
     });
   }
+  */
 
   parse(text, parentObject = undefined) {
     this.directionalLights = [];
