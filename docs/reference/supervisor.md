@@ -2795,7 +2795,7 @@ count = wb_supervisor_field_get_count(field)
 The `wb_supervisor_field_get_type` function returns the data type of a field found previously from the `wb_supervisor_node_get_field` function, as a symbolic value.
 If the argument is NULL, the function returns 0.
 Field types are defined in "webots/supervisor.h" and include for example: `WB_SF_FLOAT`, `WB_MF_NODE`, `WB_SF_STRING`, etc.
-The `WB_MF` value doesn't represent a type but it is a *bit mask* value that can be used to check if the type represents a single field (SF) or multiple field (MF).
+The `WB_MF` value doesn't represent a type but it is a *bit mask* value that can be used to check if the type represents a single field (SF) or a multiple field (MF).
 
 The `wb_supervisor_field_get_type_name` function returns a text string corresponding to the data type of a field found previously from the `wb_supervisor_node_get_field` function.
 Field type names are defined in the VRML97 specifications and include for example: `"SFFloat"`, `"MFNode"`, `"SFString"`, etc.
