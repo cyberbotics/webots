@@ -58,8 +58,8 @@ X3dLoade = class X3dLoader {
     var scene = xml.getElementsByTagName('Scene')[0];
 
     if (typeof scene !== 'undefined') {
-      //object = new THREE.Group();
-      object = new groupe();
+      object = new THREE.Group();
+      //object = new Groupe();
       object.userData.x3dType = 'Group';
       object.name = 'n0';
       this.parsedObjects.push(object); // push before parsing to let _getDefNode work correctly
@@ -80,8 +80,8 @@ X3dLoade = class X3dLoader {
       if (parentObject)
         object = parentObject;
       else{
-        //object = new THREE.Group();
-        object = new groupe();
+        object = new THREE.Group();
+        //object = new Groupe();
       }
       this.parsedObjects.push(object); // push before parsing
       this.parseNode(object, node);
@@ -164,12 +164,9 @@ X3dLoade = class X3dLoader {
 
     if (typeof object !== 'undefined') {
       if (object.isObject3D) {
-        console.log("hello");
         let isInvisible = getNodeAttribute(node, 'render', 'true').toLowerCase() === 'false';
         if (isInvisible && object.visible) {
           object.visible = false;
-          console.log("there");
-
         }
         this._setCustomId(node, object);
         parentObject.add(object);
@@ -282,10 +279,10 @@ X3dLoade = class X3dLoader {
       mesh = new THREE.Points(geometry, material);
     else
     */
-    let mesh = new meche(geometry, material);
+    let mesh = new Meche(geometry, material);
     //var mesh = new THREE.Mesh(geometry, material);
     mesh.userData.x3dType = 'Shape';
-
+    //console.log(mesh);
     //if (!material.transparent && !material.userData.hasTransparentTexture)
       // Webots transparent object don't cast shadows.
     //mesh.castShadow = getNodeAttribute(shape, 'castShadows', 'false').toLowerCase() === 'true';

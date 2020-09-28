@@ -27,18 +27,20 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   init(texturePathPrefix = '') {
-    this.renderer = new THREE.WebGLRenderer({'antialias': false});
-    this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setClearColor(0xffffff, 1.0);
+    this.renderer = new THREE.WebGLRenderer();
+    //this.renderer = new WebGL2Renderer();
+    //this.renderer.setPixelRatio(window.devicePixelRatio);
+    //this.renderer.setClearColor(0xffffff, 1.0);
     //this.renderer.shadowMap.enabled = true;
     //this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
     //this.renderer.gammaInput = false;
     //this.renderer.gammaOutput = false;
-    //this.renderer.physicallyCorrectLights = true;
+    //this.renderer.physicallyCorrectLights = true
     this.domElement.appendChild(this.renderer.domElement);
 
 
     this.scene = new THREE.Scene();
+    //this.scene = new Saine();
     this.renderAllAtLoad = false;
 
     this.viewpoint = new Viewpoint();
@@ -80,6 +82,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
     this.destroyWorld();
 
+    /*
     TextureLoader.setTexturePathPrefix(texturePathPrefix);
     TextureLoader.setOnTextureLoad(() => {
       if (this.renderAllAtLoad && !TextureLoader.hasPendingData()) {
@@ -88,6 +91,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       }
       this.render();
     });
+    */
   }
 
   render() {
@@ -206,6 +210,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
         this.sceneModified = false;
       }
       */
+      /*
       // Render all the objects at scene load.
       // The frustumCulled parameter will be set back to TRUE once all the textures are loaded.
       this.scene.traverse((o) => {
@@ -216,6 +221,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       this.onSceneUpdate();
       if (typeof onLoad === 'function')
         onLoad();
+      */
     });
   }
 
@@ -239,9 +245,11 @@ class X3dScene { // eslint-disable-line no-unused-vars
     if (typeof parentObject === 'undefined') {
       // Render all the objects at scene load.
       // The frustumCulled parameter will be set back to TRUE once all the textures are loaded.
+      /*
       this.scene.traverse((o) => {
         o.frustumCulled = false;
       });
+      */
       this.renderAllAtLoad = true;
     }
     this.onSceneUpdate();
@@ -555,11 +563,13 @@ class X3dScene { // eslint-disable-line no-unused-vars
         backgroundMap = this.scene.background;
     }
 
+    /*
     if (typeof this.scene.userData.irradiance !== 'undefined') {
       isHDR = true;
       backgroundMap = this.scene.userData.irradiance;
     }
-
+    */
+    /*
     this.scene.traverse((child) => {
       if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
         let material = child.material;
@@ -569,7 +579,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
           material.envMapIntensity *= this.scene.userData.luminosity;
         material.needsUpdate = true;
       }
-    });
+    });*/
   }
 
   _updateUseNodesIfNeeded(object, id) {

@@ -1,15 +1,5 @@
 /* global THREE */
 'use strict';
-class Camera {
-  constructor(fov, aspect, near, far){
-    this.position = glm.vec3(1,1,1);
-    this.fov = fov;
-    this.aspect = aspect
-    this.near = near;
-    this.far = far;
-    this.projectionMatrix = glm.Mat4;
-  }
-}
 class Viewpoint { // eslint-disable-line no-unused-vars
   constructor() {
     this.onCameraParametersChanged = null;
@@ -32,10 +22,11 @@ class Viewpoint { // eslint-disable-line no-unused-vars
 
     // Initialize default camera.
     this.camera = new THREE.PerspectiveCamera(45, 1, 0.001, 400);
+    //this.camera = new Cam(45,1,0.004,400);
     this.camera.position.x = 1;
     this.camera.position.y = 1;
     this.camera.position.z = 1;
-    
+
   }
 
   reset(time) {

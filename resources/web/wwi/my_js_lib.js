@@ -1,5 +1,5 @@
 
-class obj3d {
+class Obj3d {
   constructor(){
     this.type="";
     this.userData = {"": ""};
@@ -7,6 +7,11 @@ class obj3d {
     this.isObject3D = true;
     this.parent = null;
     this.children = [];
+    this.matrixWorld = new THREE.Matrix4();
+    this.modelViewMatrix = new THREE.Matrix4();
+    this.normalMatrix = new THREE.Matrix3();
+    this.layers = new THREE.Layers();
+    this.drawMode = 0;
   }
   add(object) {
     if (object == this) {
@@ -21,7 +26,7 @@ class obj3d {
       console.error( "obj3d add: object not an instance of obj3d.", object );
     }
   }
-  remove( object ) {
+  remove(object) {
   		const index = this.children.indexOf( object );
   		if ( index !== - 1 ) {
   			object.parent = null;
@@ -29,9 +34,25 @@ class obj3d {
   		}
   		return this;
   	}
+
+  updateMatrixWorld() {
+
+  }
+
+  onBeforeRender() {
+
+  }
+
+  onAfterRender() {
+
+  }
+
+  dispatchEvent(e) {
+
+  }
 }
 
-class groupe extends obj3d {
+class Groupe extends Obj3d {
   constructor (){
     super();
     this.type = 'Group';
@@ -39,13 +60,79 @@ class groupe extends obj3d {
   }
 }
 
-class meche extends obj3d {
+class Meche extends Obj3d {
   constructor (geometry, material) {
     super();
     this.type = 'Mesh';
     this.geometry = geometry;
     this.material = material;
     this.isMesh = true;
+  }
+}
+
+class Saine extends Obj3d {
+  constructor () {
+    super();
+    this.isScene = true;
+    this.type= 'Scene';
+    this.background;
+  }
+}
+
+class Cam extends Obj3d {
+  constructor(fov, aspect, near, far){
+    super();
+    this.position = glm.vec3(1,1,1);
+    this.fov = fov;
+    this.aspect = aspect
+    this.near = near;
+    this.far = far;
+    this.projectionMatrix = glm.Mat4;
+    this.isCamera = true;
+  }
+
+  updateMatrixWorld() {
+
+  }
+}
+
+
+class WebGL2Renderer {
+  constructor() {
+    this.width;
+    this.height;
+    //canvas is normally private
+    this.canvas = document.createElementNS( 'http://www.w3.org/1999/xhtml', 'canvas' );
+    this.domElement = this.canvas;
+    this.pixelRatio = 1;
+    this.viewport = glm.vec4(0, 0, this.width, this.height);
+    this.currentRenderTarget = null;
+  }
+
+  setSize(width, height, updateStyle) {
+    this.width = width;
+    this.height = height;
+    this.canvas.width = Math.floor( width * this.pixelRatio );
+    this.canvas.height = Math.floor( height * this.pixelRatio );
+
+    if ( updateStyle !== false ) {
+      this.canvas.style.width = width + 'px';
+      this.canvas.style.height = height + 'px';
+		}
+    //this.setViewport( 0, 0, width, height ); setViewport est sensé modifier state.viewport. je vais d'abord essayer en me passant de hasTransparentTexture
+    this.viewport = new glm.vec4(0,0, width, height)
+  }
+
+  getDrawingBufferSize (target) {
+    return target.set(Math.floor(this.widtht * this.pixelRatio, this.height * this.pixelRatio));
+  }
+
+  getRenderTarget() {
+    return this.currentRenderTarget;
+  }
+
+  render(scene, camera) {
+
   }
 }
 
