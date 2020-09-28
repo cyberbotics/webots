@@ -64,7 +64,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
     */
 
     // add antialiasing post-processing effects
-    this.composer = new THREE.EffectComposer(this.renderer);
+    //this.composer = new THREE.EffectComposer(this.renderer);
+    this.composer = new EffectCompo(this.renderer);
     let renderPass = new RenPass(this.scene, this.viewpoint.camera);
     this.composer.addPass(renderPass);
 

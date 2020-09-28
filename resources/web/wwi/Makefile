@@ -62,14 +62,9 @@ endif
 # external sources to be downloaded and minified
 THREEJS_EXAMPLE_URL = https://cdn.jsdelivr.net/gh/mrdoob/three.js@r$(THEEEJS_VERSION)/examples/js/
 THREEJS_EXAMPLE_SOURCES = \
-  loaders/RGBELoader.js \
-  pmrem/PMREMCubeUVPacker.js \
-  pmrem/PMREMGenerator.js \
-  shaders/CopyShader.js \
-  shaders/FXAAShader.js \
   postprocessing/EffectComposer.js \
-  postprocessing/RenderPass.js \
-  postprocessing/ShaderPass.js
+  postprocessing/RenderPass.js
+
 LOCAL_THREEJS_EXAMPLE_SOURCES = $(addprefix $(DEPENDENCIES_PATH)/,$(THREEJS_EXAMPLE_SOURCES))
 
 # Token file used to determine when the last successful installation occurred.
