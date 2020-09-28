@@ -480,7 +480,7 @@ bool WbDistanceSensor::refreshSensorIfNeeded() {
 
 void WbDistanceSensor::reset() {
   WbSolidDevice::reset();
-  wr_node_set_visible(WR_NODE(mTransform), false);
+  updateOptionalRendering(WbWrenRenderingContext::VF_DISTANCE_SENSORS_RAYS);
 }
 
 void WbDistanceSensor::computeValue() {
