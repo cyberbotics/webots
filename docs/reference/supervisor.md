@@ -2711,7 +2711,8 @@ namespace webots {
   class Field {
     typedef enum {
       SF_BOOL, SF_INT32, SF_FLOAT, SF_VEC2F, SF_VEC3F, SF_ROTATION, SF_COLOR, SF_STRING,
-      SF_NODE, MF, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F, MF_COLOR, MF_STRING, MF_NODE
+      SF_NODE, MF, MF_BOOL, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F, MF_ROTATION, MF_COLOR,
+      MF_STRING, MF_NODE
     } Type;
 
     Type getType() const;
@@ -2731,7 +2732,8 @@ from controller import Field
 
 class Field:
     SF_BOOL, SF_INT32, SF_FLOAT, SF_VEC2F, SF_VEC3F, SF_ROTATION, SF_COLOR, SF_STRING,
-    SF_NODE, MF, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F, MF_COLOR, MF_STRING, MF_NODE
+    SF_NODE, MF, MF_BOOL, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F, MF_ROTATION, MF_COLOR,
+    MF_STRING, MF_NODE
 
     def getType(self):
     def getTypeName(self):
@@ -2748,8 +2750,8 @@ import com.cyberbotics.webots.controller.Field;
 
 public class Field {
   public final static int SF_BOOL, SF_INT32, SF_FLOAT, SF_VEC2F, SF_VEC3F, SF_ROTATION,
-    SF_COLOR, SF_STRING, SF_NODE, MF, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F, MF_COLOR,
-    MF_STRING, MF_NODE;
+    SF_COLOR, SF_STRING, SF_NODE, MF, MF_BOOL, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F,
+    MF_ROTATION, MF_COLOR, MF_STRING, MF_NODE;
 
   public int getType();
   public String getTypeName();
@@ -2764,8 +2766,8 @@ public class Field {
 
 ```MATLAB
 WB_SF_BOOL, WB_SF_INT32, WB_SF_FLOAT, WB_SF_VEC2F, WB_SF_VEC3F, WB_SF_ROTATION, WB_SF_COLOR,
-WB_SF_STRING, WB_SF_NODE, WB_MF, WB_MF_INT32, WB_MF_FLOAT, B_MF_VEC2F, WB_MF_VEC3F,
-WB_MF_COLOR, WB_MF_STRING, WB_MF_NODE
+WB_SF_STRING, WB_SF_NODE, WB_MF, WB_BOOL, WB_MF_INT32, WB_MF_FLOAT, B_MF_VEC2F, WB_MF_VEC3F,
+WB_ROTATION, WB_MF_COLOR, WB_MF_STRING, WB_MF_NODE
 
 type = wb_supervisor_field_get_type(field)
 name = wb_supervisor_field_get_type_name(field)
