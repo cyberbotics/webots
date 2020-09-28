@@ -17,5 +17,5 @@ RectangleArena {
   wallHeight 0.001
 }
 C3dViewer {
-  c3dFile "EB015PI.c3d"
+  c3dFile "default.c3d"
 }

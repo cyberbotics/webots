@@ -132,12 +132,12 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
 
         let widgetTime = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.prototype
           .AutoRangeType.STRETCH, {
-            'min': -1,
-            'max': 1
-          }, {
-            'x': 'Time [s]',
-            'y': '[' + unit + ']'
-          }, null);
+          'min': -1,
+          'max': 1
+        }, {
+          'x': 'Time [s]',
+          'y': '[' + unit + ']'
+        }, null);
         let widgetXY = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {
           'x': 0,
           'y': 1
@@ -207,12 +207,29 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
         });
       }
     }
+  } else if (message === 'reset') {
+    Array.from(document.getElementsByClassName('marker-plot')).forEach(function(element, index, array) {
+      element.parentNode.removeChild(element);
+    });
   } else
     console.log('Unknown message received: "' + message + '"');
 };
 
 webots.window('c3d_viewer_window').init(function() {
   robotWindow = webots.window('c3d_viewer_window');
+
+  document.getElementById('upload_file').addEventListener('change', function(event) {
+    let files = event.target.files;
+    let f = files[0];
+    let reader = new FileReader();
+    reader.onload = (function(theFile) {
+      return function(e) {
+        const message = 'c3dfile:' + e.target.result.slice(e.target.result.indexOf(';base64,') + 8); // remove the "*;base64," header
+        robotWindow.send(message, 'c3d_viewer');
+      };
+    })(f);
+    reader.readAsDataURL(f); // perform base64 encoding suitable for sending text through the wwi interface
+  });
 
   function enableGraphs(event) {
     let checkbox = event.target;
