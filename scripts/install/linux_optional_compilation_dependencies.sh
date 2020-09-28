@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ $EUID -ne 0 ]]; then
-       echo "This script must be run as root" 
+       echo "This script must be run as root"
        exit 1
 fi
 
@@ -14,7 +14,7 @@ apt install --yes lsb-release python3.5-dev python3.6-dev python3.7-dev python3.
 UBUNTU_VERSION=$(lsb_release -rs)
 if [[ $UBUNTU_VERSION == "16.04" ]]; then
        apt install --yes openjdk-8-jdk
-       curl -sL https://deb.nodesource.com/setup_12.x -o nodesource_setup.sh
+       wget --quiet -O nodesource_setup.sh https://deb.nodesource.com/setup_12.x
        bash nodesource_setup.sh
        apt install --yes nodejs
        rm nodesource_setup.sh
