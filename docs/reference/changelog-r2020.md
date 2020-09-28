@@ -9,6 +9,8 @@ Released on XXX YYY, 2020.
     - Fixed [Lidar](lidar.md) and [RangeFinder](rangefinder.md) memory leak when the robot-window is opened ([#2210](https://github.com/cyberbotics/webots/pull/2210)).
     - Fixed noise generation for [Camera](camera.md), [Lidar](lidar.md) and [RangeFinder](rangefinder.md) producing fixed patterns on some GPUs (like the NVIDIA GeForce RTX series)([#2215](https://github.com/cyberbotics/webots/pull/2215)).
     - Fixed re-initialization of external camera window if recognition is enabled ([#2196](https://github.com/cyberbotics/webots/pull/2196)).
+    - Fixed precision of devices using rays ([Camera](camera.md), [DistanceSensor](distancesensor.md), [Radar](radar.md), and [Receiver](receiver.md)) located on articulated robots' parts ([#2266](https://github.com/cyberbotics/webots/pull/2266)).
+    - Fixed position lags of articulated robots' parts in recorded [animations](../guide/web-animation.md) ([#2266](https://github.com/cyberbotics/webots/pull/2266)).
     - Fixed the `inverse_kinematics` controller ([#2211](https://github.com/cyberbotics/webots/pull/2211)).
     - Fixed exported URDF axis when the [Joint](joint.md) anchor is not equal to the [Solid](solid.md) endpoint translation ([#2212](https://github.com/cyberbotics/webots/pull/2212)).
 
