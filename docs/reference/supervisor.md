@@ -2805,7 +2805,7 @@ The `wb_supervisor_field_get_count` function returns the number of items of a mu
 If a single field (SF) or NULL is passed as an argument to this function, it returns -1.
 Hence, this function can also be used to test if a field is MF (like `WB_MF_INT32`) or SF (like `WB_SF_BOOL`).
 
-> **Note** [C++, Java, Python]: In the oriented-object APIs, the SF_* and MF_* constants are available as static integers of the `Field` class (for example, Field::SF\_BOOL).
+> **Note** [C++, Java, Python]: In the oriented-object APIs, the SF\_* and MF\_* constants are available as static integers of the `Field` class (for example, Field::SF\_BOOL).
 These integers can be directly compared with the output of the `Field::getType` function.
 
 ---
