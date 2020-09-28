@@ -4,44 +4,15 @@
 // Inspiration: https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
 
 /*
-class obj3d {
-  constructor(){
-    this.type="";
-    this.userData = {"": ""};
-    this.name="";
-    this.isObject3d = true;
-    this.parent = null;
-    this.children = [];
-  }
-  add(object) {
-    if (object == this) {
-      console.error("Object cannot be added as a child of itself");
-    }
-    if((object && object.isObject3d)) {
-      if (object.parent !== null)
-        object.parent.remove(object);
-      object.parent = this;
-      this.children.push(object);
-      object.dispatchEvent( _addedEvent);
-    } else {
-      console.error( "obj3d add: object not an instance of obj3d.", object );
-    }
-  }
-  remove( object ) {
-  		const index = this.children.indexOf( object );
-  		if ( index !== - 1 ) {
-  			object.parent = null;
-  			this.children.splice( index, 1 );
-  		}
-  		return this;
-  	}
-}
-
-class groupe extends obj3d{
-  constructor (){
-    super();
-    this.type = "Group";
-    this.isGroup = true;
+class BoxBufferGeo {
+  constructor(x,y,z){
+    this.width = x;
+    this.height = y;
+    this.depth = z;
+    this.userData = {'x3dType': 'Box'};
+    this.type='BoxBufferGeometry';
+    //this.morphAttributes=(new THREE.BoxBufferGeometry()).morphAttributes;
+    this.isBufferGeometry = true;
   }
 }
 */
@@ -87,7 +58,8 @@ X3dLoade = class X3dLoader {
     var scene = xml.getElementsByTagName('Scene')[0];
 
     if (typeof scene !== 'undefined') {
-      object = new THREE.Group();
+      //object = new THREE.Group();
+      object = new groupe();
       object.userData.x3dType = 'Group';
       object.name = 'n0';
       this.parsedObjects.push(object); // push before parsing to let _getDefNode work correctly
@@ -108,7 +80,8 @@ X3dLoade = class X3dLoader {
       if (parentObject)
         object = parentObject;
       else{
-        object = new THREE.Group();
+        //object = new THREE.Group();
+        object = new groupe();
       }
       this.parsedObjects.push(object); // push before parsing
       this.parseNode(object, node);
@@ -191,9 +164,13 @@ X3dLoade = class X3dLoader {
 
     if (typeof object !== 'undefined') {
       if (object.isObject3D) {
+        console.log("hello");
         let isInvisible = getNodeAttribute(node, 'render', 'true').toLowerCase() === 'false';
-        if (isInvisible && object.visible)
+        if (isInvisible && object.visible) {
           object.visible = false;
+          console.log("there");
+
+        }
         this._setCustomId(node, object);
         parentObject.add(object);
       }
@@ -297,7 +274,7 @@ X3dLoade = class X3dLoader {
     if (typeof material === 'undefined')
       material = createDefaultMaterial(geometry);
 
-    var mesh;
+    //var mesh;
     /*
     if (geometry.userData.x3dType === 'IndexedLineSet')
       mesh = new THREE.LineSegments(geometry, material);
@@ -305,10 +282,11 @@ X3dLoade = class X3dLoader {
       mesh = new THREE.Points(geometry, material);
     else
     */
-    mesh = new THREE.Mesh(geometry, material);
+    let mesh = new meche(geometry, material);
+    //var mesh = new THREE.Mesh(geometry, material);
     mesh.userData.x3dType = 'Shape';
 
-    if (!material.transparent && !material.userData.hasTransparentTexture)
+    //if (!material.transparent && !material.userData.hasTransparentTexture)
       // Webots transparent object don't cast shadows.
     //mesh.castShadow = getNodeAttribute(shape, 'castShadows', 'false').toLowerCase() === 'true';
     //mesh.receiveShadow = true;
@@ -756,7 +734,10 @@ X3dLoade = class X3dLoader {
 
   parseBox(box) {
     var size = convertStringToVec3(getNodeAttribute(box, 'size', '2 2 2'));
-    var boxGeometry = new THREE.BoxBufferGeometry(size.x, size.y, size.z);
+    let boxGeometry = new THREE.BoxBufferGeometry(size.x, size.y, size.z);
+    //let boxGeometry = new BoxBufferGeo(size.x, size.y, size.z);
+    //console.log(boxGeometry.morphAttributes);
+
     boxGeometry.userData = { 'x3dType': 'Box' };
     return boxGeometry;
   }

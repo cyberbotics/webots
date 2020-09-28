@@ -13,6 +13,7 @@
 # limitations under the License.
 
 JS_SOURCES = \
+	my_js_lib.js\
   util.js \
   system_info.js \
   dialog_window.js \
@@ -59,13 +60,6 @@ else
  DISABLE_NPM_INSTALL_WARNING=
 endif
 
-# external sources to be downloaded and minified
-THREEJS_EXAMPLE_URL = https://cdn.jsdelivr.net/gh/mrdoob/three.js@r$(THEEEJS_VERSION)/examples/js/
-THREEJS_EXAMPLE_SOURCES = \
-  postprocessing/EffectComposer.js \
-  postprocessing/RenderPass.js
-
-LOCAL_THREEJS_EXAMPLE_SOURCES = $(addprefix $(DEPENDENCIES_PATH)/,$(THREEJS_EXAMPLE_SOURCES))
 
 # Token file used to determine when the last successful installation occurred.
 INSTALL_TOKEN = install.token
@@ -84,33 +78,29 @@ release profile update: webots.min.js webots.lib.js
 debug: webots.debug.js
 endif
 
-webots.min.js: $(JS_SOURCES) $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(THREEJS_SOURCE) $(INSTALL_TOKEN)
+webots.min.js: $(JS_SOURCES) $(THREEJS_SOURCE) $(INSTALL_TOKEN)
 	@echo "# compressing webots.min.js"
-	@node_modules/.bin/babel $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(JS_SOURCES) $(BABEL_JS_SOURCES) -o webots.tmp1.js --presets "@babel/preset-env"
+	@node_modules/.bin/babel $(JS_SOURCES) $(BABEL_JS_SOURCES) -o webots.tmp1.js --presets "@babel/preset-env"
 	@cat $(THREEJS_SOURCE) webots.tmp1.js > webots.tmp2.js
 	@node_modules/.bin/minify webots.tmp2.js -o $@
 	@rm webots.tmp2.js webots.tmp1.js
 
-webots.debug.js: $(JS_SOURCES) $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(THREEJS_SOURCE) $(INSTALL_TOKEN)
+webots.debug.js: $(JS_SOURCES) $(THREEJS_SOURCE) $(INSTALL_TOKEN)
 	@echo "# creating webots.debug.js"
-	@cat $(THREEJS_SOURCE) $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(JS_SOURCES) $(BABEL_JS_SOURCES) > $@
+	@cat $(THREEJS_SOURCE) $(JS_SOURCES) $(BABEL_JS_SOURCES) > $@
 
 # JS module intended to be included in another module.
 # webots.lib.js is not processed with babel or minify and does not include three.js.
-webots.lib.js: $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(JS_SOURCES) $(INSTALL_TOKEN)
+webots.lib.js: $(JS_SOURCES) $(INSTALL_TOKEN)
 	@echo "# compressing webots.lib.js"
-	@cat $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(JS_SOURCES) > $@
+	@cat $(JS_SOURCES) > $@
 
 $(THREEJS_SOURCE):
 	@echo "# downloading $(THREEJS_URL)"
 	@mkdir -p $(DEPENDENCIES_PATH)
 	@$(WGET) $@ $(THREEJS_URL)
 
-$(LOCAL_THREEJS_EXAMPLE_SOURCES):
-	$(eval FILENAME=$(@:$(DEPENDENCIES_PATH)/%=%))
-	@echo "# downloading three.js $@"
-	@mkdir -p $(dir $@)
-	@$(WGET) $@ $(THREEJS_EXAMPLE_URL)$(FILENAME)
+
 
 $(INSTALL_TOKEN): package.json
 	@echo "# installing npm dependencies"
