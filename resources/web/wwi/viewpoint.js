@@ -21,12 +21,11 @@ class Viewpoint { // eslint-disable-line no-unused-vars
 
 
     // Initialize default camera.
-    this.camera = new THREE.PerspectiveCamera(45, 1, 0.001, 400);
-    //this.camera = new Cam(45,1,0.004,400);
+    //this.camera = new THREE.PerspectiveCamera(45, 1, 0.001, 400);
+    this.camera = new Cam(45,1,0.004,400);
     this.camera.position.x = 1;
     this.camera.position.y = 1;
     this.camera.position.z = 1;
-
   }
 
   reset(time) {

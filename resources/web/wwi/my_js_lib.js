@@ -4,15 +4,22 @@ class Obj3d {
     this.type="";
     this.userData = {"": ""};
     this.name="";
+    this.position = new THREE.Vector3(1,1,1);
     this.isObject3D = true;
+    this.matrixAutoUpdate = true;
+    this.matrixWorldNeedsUpdate = false;
     this.parent = null;
     this.children = [];
+    this.matrix = new THREE.Matrix4();
     this.matrixWorld = new THREE.Matrix4();
     this.modelViewMatrix = new THREE.Matrix4();
     this.normalMatrix = new THREE.Matrix3();
     this.layers = new THREE.Layers();
     this.drawMode = 0;
+    this.quaternion = new THREE.Quaternion();
+    this.scale = new THREE.Vector3( 1, 1, 1 );
   }
+
   add(object) {
     if (object == this) {
       console.error("Object cannot be added as a child of itself");
@@ -26,6 +33,7 @@ class Obj3d {
       console.error( "obj3d add: object not an instance of obj3d.", object );
     }
   }
+
   remove(object) {
   		const index = this.children.indexOf( object );
   		if ( index !== - 1 ) {
@@ -35,8 +43,29 @@ class Obj3d {
   		return this;
   	}
 
-  updateMatrixWorld() {
+  updateMatrix() {
+    this.matrix.compose( this.position, this.quaternion, this.scale );
+    this.matrixWorldNeedsUpdate = true;
+  }
 
+  updateMatrixWorld(force) {
+    if ( this.matrixAutoUpdate ) this.updateMatrix();
+
+    if ( this.matrixWorldNeedsUpdate || force ) {
+      if ( this.parent === null ) {
+        this.matrixWorld.copy( this.matrix );
+      } else {
+            this.matrixWorld.multiplyMatrices( this.parent.matrixWorld, this.matrix );
+      }
+      this.matrixWorldNeedsUpdate = false;
+      force = true;
+    }
+
+    const children = this.children;
+
+    for ( let i = 0, l = children.length; i < l; i ++ ) {
+      children[ i ].updateMatrixWorld( force );
+    }
   }
 
   onBeforeRender() {
@@ -51,7 +80,7 @@ class Obj3d {
 
   }
   addEventListener() {
-    
+
   }
 }
 
@@ -85,18 +114,44 @@ class Saine extends Obj3d {
 class Cam extends Obj3d {
   constructor(fov, aspect, near, far){
     super();
-    this.position = glm.vec3(1,1,1);
     this.fov = fov;
     this.aspect = aspect
     this.near = near;
     this.far = far;
-    this.projectionMatrix = glm.Mat4;
+    this.zoom = 1;
+    this.view = null;
+    this.projectionMatrix = new THREE.Matrix4();
+    this.matrixWorldInverse = new THREE.Matrix4();
     this.isCamera = true;
   }
 
-  updateMatrixWorld() {
+  updateProjectionMatrix() {
+    const near = this.near;
+    let top = near * Math.tan( glm.radians(0.5 * this.fov )) / this.zoom;
+    let height = 2 * top;
+    let width = this.aspect * height;
+    let left = - 0.5 * width;
+    const view = this.view;
 
+		if ( this.view !== null && this.view.enabled ) {
+		    const fullWidth = view.fullWidth,
+    		fullHeight = view.fullHeight;
+
+    		left += view.offsetX * width / fullWidth;
+    		top -= view.offsetY * height / fullHeight;
+    		width *= view.width / fullWidth;
+    		height *= view.height / fullHeight;
+		}
+
+		this.projectionMatrix.makePerspective( left, left + width, top, top - height, near, this.far );
+  	//this.projectionMatrixInverse.getInverse( this.projectionMatrix );
   }
+
+  updateMatrixWorld(force) {
+    super.updateMatrixWorld(force);
+    this.matrixWorldInverse.getInverse( this.matrixWorld );
+  }
+
 }
 
 
