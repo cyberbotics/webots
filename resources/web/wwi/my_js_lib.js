@@ -155,6 +155,34 @@ class Cam extends Obj3d {
 }
 
 
+class BoxBufferGeo extends THREE.BufferGeometry {
+  constructor( width = 1, height = 1, depth = 1, widthSegments = 1, heightSegments = 1, depthSegments = 1 ) {
+    super();
+    this.type = 'BoxBufferGeometry';
+  }
+}
+
+class MeshBasicMat {
+  constructor (){
+    this.type = 'MeshBasicMaterial';
+    this.color = new THREE.Color(0xffffff);
+    this.isMeshBasicMaterial = true;
+    this.lights = false;
+	  this.needsUpdate = false
+  	this.colorWrite = true;
+	  this.precision = null; // override the renderer's default precision for this material
+	  this.visible = true;
+	  this.userData = {};
+  }
+
+  onBeforeCompile() {
+
+  }
+  addEventListener(){
+
+  }
+}
+
 class WebGL2Renderer {
   constructor() {
     this.width;

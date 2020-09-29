@@ -3,20 +3,6 @@
 
 // Inspiration: https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
 
-/*
-class BoxBufferGeo {
-  constructor(x,y,z){
-    this.width = x;
-    this.height = y;
-    this.depth = z;
-    this.userData = {'x3dType': 'Box'};
-    this.type='BoxBufferGeometry';
-    //this.morphAttributes=(new THREE.BoxBufferGeometry()).morphAttributes;
-    this.isBufferGeometry = true;
-  }
-}
-*/
-
 //THREE.X3DLoader = class X3DLoader {
 X3dLoade = class X3dLoader {
   constructor(scene) {
@@ -282,7 +268,6 @@ X3dLoade = class X3dLoader {
     let mesh = new Meche(geometry, material);
     //var mesh = new THREE.Mesh(geometry, material);
     mesh.userData.x3dType = 'Shape';
-    //console.log(mesh);
     //if (!material.transparent && !material.userData.hasTransparentTexture)
       // Webots transparent object don't cast shadows.
     //mesh.castShadow = getNodeAttribute(shape, 'castShadows', 'false').toLowerCase() === 'true';
@@ -1197,7 +1182,8 @@ function createDefaultMaterial(geometry) {
   //if (typeof geometry !== 'undefined' && geometry.userData.x3dType === 'PointSet' && geometry.userData.isColorPerVertex)
     //material = new THREE.PointsMaterial({ size: 4, sizeAttenuation: false, vertexColors: THREE.VertexColors });
   //else
-    material = new THREE.MeshBasicMaterial({color: 0xffffff});
+    //material2 = new THREE.MeshBasicMaterial({color: 0xffffff});
+    material = new MeshBasicMat();
   return material;
 };
 
