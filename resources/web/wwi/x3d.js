@@ -716,8 +716,8 @@ X3dLoade = class X3dLoader {
 
   parseBox(box) {
     var size = convertStringToVec3(getNodeAttribute(box, 'size', '2 2 2'));
-    let boxGeometry = new THREE.BoxBufferGeometry(size.x, size.y, size.z);
-    //let boxGeometry = new BoxBufferGeo(size.x, size.y, size.z);
+    //let boxGeometry = new THREE.BoxBufferGeometry(size.x, size.y, size.z);
+    let boxGeometry = new BoxBufferGeo(size.x, size.y, size.z);
     //console.log(boxGeometry.morphAttributes);
 
     boxGeometry.userData = { 'x3dType': 'Box' };
