@@ -58,8 +58,8 @@ X3dLoade = class X3dLoader {
     var scene = xml.getElementsByTagName('Scene')[0];
 
     if (typeof scene !== 'undefined') {
-      object = new THREE.Group();
-      //object = new Groupe();
+      //object = new THREE.Group();
+      object = new Groupe();
       object.userData.x3dType = 'Group';
       object.name = 'n0';
       this.parsedObjects.push(object); // push before parsing to let _getDefNode work correctly
@@ -80,8 +80,8 @@ X3dLoade = class X3dLoader {
       if (parentObject)
         object = parentObject;
       else{
-        object = new THREE.Group();
-        //object = new Groupe();
+        //object = new THREE.Group();
+        object = new Groupe();
       }
       this.parsedObjects.push(object); // push before parsing
       this.parseNode(object, node);

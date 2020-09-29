@@ -50,6 +50,9 @@ class Obj3d {
   dispatchEvent(e) {
 
   }
+  addEventListener() {
+    
+  }
 }
 
 class Groupe extends Obj3d {
