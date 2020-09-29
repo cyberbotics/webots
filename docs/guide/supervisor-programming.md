@@ -39,6 +39,10 @@ int main() {
 
   // do this once only
   WbNodeRef robot_node = wb_supervisor_node_get_from_def("MY_ROBOT");
+  if (robot_node == NULL) {
+    fprintf(stderr, "No DEF MY_ROBOT node found in the current world file\n");
+    exit(1);
+  }
   WbFieldRef trans_field = wb_supervisor_node_get_field(robot_node, "translation");
 
   while (wb_robot_step(TIME_STEP) != -1) {
@@ -66,6 +70,10 @@ int main() {
 
   // do this once only
   Node *robot_node = supervisor->getFromDef("MY_ROBOT");
+  if (node_robot == NULL) {
+    std:cerr << "No DEF MY_ROBOT node found in the current world file" << std::endl;
+    exit(1);
+  }
   Field *trans_field = robot_node->getField("translation");
 
   while (supervisor->step(TIME_STEP) != -1) {
@@ -84,6 +92,7 @@ int main() {
 %tab "Python"
 ```python
 from controller import Supervisor
+import sys
 
 TIME_STEP = 32
 
@@ -91,6 +100,9 @@ supervisor = Supervisor()
 
 # do this once only
 robot_node = supervisor.getFromDef("MY_ROBOT")
+if robot_node == None:
+    sys.stderr.write("No DEF MY_ROBOT node found in the current world file\n")
+    sys.exit(1)
 trans_field = robot_node.getField("translation")
 
 while supervisor.step(TIME_STEP) != -1:
@@ -116,6 +128,10 @@ public class SupervisorController {
 
     // do this once only
     final Node robot_node = supervisor.getFromDef("MY_ROBOT");
+    if (robot_node == null) {
+      System.err.println("No DEF MY_ROBOT node found in the current world file");
+      System.exit(1);
+    }
     final Field trans_field = robot_node.getField("translation");
 
     while (supervisor.step(TIME_STEP) != -1) {
@@ -134,6 +150,10 @@ public class SupervisorController {
 TIME_STEP = 32;
 % do this once only
 robot_node = wb_supervisor_node_get_from_def('MY_ROBOT');
+if robot_node == 0
+  wb_console_print('No DEF MY_ROBOT node found in the current world file', WB_STDERR);
+  quit(1);
+end
 trans_field = wb_supervisor_node_get_field(robot_node, 'translation');
 while wb_robot_step(TIME_STEP) ~= -1
   % this is done repeatedly
