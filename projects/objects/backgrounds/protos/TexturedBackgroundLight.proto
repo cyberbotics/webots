@@ -7,13 +7,10 @@
 # Supported values for the `texture` field:
 #
 # - cinema_lobby
-# - dawn_cloudy_empty
 # - dusk
 # - empty_office
 # - entrance_hall
 # - factory
-# - morning_cloudy_empty
-# - music_hall
 # - mars
 # - noon_building_overcast
 # - noon_cloudy_countryside
@@ -25,6 +22,9 @@
 #
 # - dawn_cloudy_empty
 # - morning_cloudy_empty
+# - music_hall
+# - noon_building_overcast
+# - noon_cloudy_countryside
 # - noon_cloudy_empty
 # - noon_cloudy_mountains
 # - noon_stormy_empty
