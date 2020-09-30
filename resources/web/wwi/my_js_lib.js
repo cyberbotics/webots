@@ -1,4 +1,13 @@
 
+class Layer {
+  constructor() {
+    this.mask = 1 | 0;
+  }
+  test( layer ) {
+		return ( this.mask & layer.mask ) !== 0;
+	}
+}
+
 class Obj3d {
   constructor(){
     this.type="";
@@ -14,7 +23,7 @@ class Obj3d {
     this.matrixWorld = new THREE.Matrix4();
     this.modelViewMatrix = new THREE.Matrix4();
     this.normalMatrix = new THREE.Matrix3();
-    this.layers = new THREE.Layers();
+    this.layers = new Layer();//new THREE.Layers();
     this.drawMode = 0;
     this.quaternion = new THREE.Quaternion();
     this.scale = new THREE.Vector3( 1, 1, 1 );
@@ -153,7 +162,6 @@ class Cam extends Obj3d {
   }
 
 }
-
 
 class BoxBufferGeo {
   constructor( width = 1, height = 1, depth = 1, widthSegments = 1, heightSegments = 1, depthSegments = 1 ) {
@@ -294,31 +302,34 @@ class MeshBasicMat {
   }
 }
 
-class WebGL2Renderer {
+/*
+class WebGL2Renderer extends THREE.WebGLRenderer{
   constructor() {
+    super();
     this.width;
     this.height;
     //canvas is normally private
-    this.canvas = document.createElementNS( 'http://www.w3.org/1999/xhtml', 'canvas' );
-    this.domElement = this.canvas;
+    //this.domElement = this.canvas;
     this.pixelRatio = 1;
     this.viewport = glm.vec4(0, 0, this.width, this.height);
     this.currentRenderTarget = null;
-  }
+    this.currentActiveMipmapLevel = 0;
+    this.setSize = function (width, height, updateStyle) {
+      this.width = width;
+      this.height = height;
+      this.domElement.width = Math.floor( width * this.pixelRatio );
+      this.domElement.height = Math.floor( height * this.pixelRatio );
 
-  setSize(width, height, updateStyle) {
-    this.width = width;
-    this.height = height;
-    this.canvas.width = Math.floor( width * this.pixelRatio );
-    this.canvas.height = Math.floor( height * this.pixelRatio );
+      if ( updateStyle !== false ) {
+        this.domElement.style.width = width + 'px';
+        this.domElement.style.height = height + 'px';
+      }
+      this.setViewport( 0, 0, width, height ); //setViewport est sensé modifier state.viewport. je vais d'abord essayer en me passant de hasTransparentTexture
+      //this.viewport = new THREE.Vector4(0,0, width, height)
+    }
+}
 
-    if ( updateStyle !== false ) {
-      this.canvas.style.width = width + 'px';
-      this.canvas.style.height = height + 'px';
-		}
-    //this.setViewport( 0, 0, width, height ); setViewport est sensé modifier state.viewport. je vais d'abord essayer en me passant de hasTransparentTexture
-    this.viewport = new glm.vec4(0,0, width, height)
-  }
+
 
   getDrawingBufferSize (target) {
     return target.set(Math.floor(this.widtht * this.pixelRatio, this.height * this.pixelRatio));
@@ -327,12 +338,10 @@ class WebGL2Renderer {
   getRenderTarget() {
     return this.currentRenderTarget;
   }
-
-  render(scene, camera) {
-
+  setRenderTarget(){
   }
 }
-
+*/
 Object.assign( glm.vec2.prototype, {
 	set: function(x, y) {
 		return new glm.vec2(x,y);

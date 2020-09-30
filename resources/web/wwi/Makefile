@@ -14,6 +14,7 @@
 
 JS_SOURCES = \
 	my_js_lib.js\
+	my_renderer.js\
   util.js \
   system_info.js \
   dialog_window.js \
