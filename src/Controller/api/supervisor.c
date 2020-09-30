@@ -2249,6 +2249,30 @@ int wb_supervisor_field_get_count(WbFieldRef field) {
   return ((WbFieldStruct *)field)->count;
 }
 
+void wb_supervisor_field_enable_tracking(WbFieldRef field, int sampling_period) {
+  if (sampling_period < 0) {
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
+    return;
+  }
+
+  robot_mutex_lock_step();
+  PositionSensor *p = position_sensor_get_struct(tag);
+  if (p) {
+    p->enable = true;
+    p->sampling_period = sampling_period;
+  } else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock_step();
+}
+
+void wb_supervisor_field_disable_tracking(WbFieldRef field) {
+  PositionSensor *p = position_sensor_get_struct(tag);
+  if (p)
+    wb_position_sensor_enable(tag, 0);
+  else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+}
+
 bool wb_supervisor_field_get_sf_bool(WbFieldRef field) {
   if (!check_field(field, __FUNCTION__, WB_SF_BOOL, true, NULL, false, false))
     return false;

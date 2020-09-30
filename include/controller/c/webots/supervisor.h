@@ -125,6 +125,10 @@ WbFieldType wb_supervisor_field_get_type(WbFieldRef field);
 const char *wb_supervisor_field_get_type_name(WbFieldRef field);
 int wb_supervisor_field_get_count(WbFieldRef field);
 
+// Field.enableTracking feature, implemented by Simon Steinmann
+void wb_supervisor_field_enable_tracking(WbFieldRef field, int sampling_period);
+void wb_supervisor_field_disable_tracking(WbFieldRef field);
+
 bool wb_supervisor_field_get_sf_bool(WbFieldRef field);
 int wb_supervisor_field_get_sf_int32(WbFieldRef field);
 double wb_supervisor_field_get_sf_float(WbFieldRef field);
