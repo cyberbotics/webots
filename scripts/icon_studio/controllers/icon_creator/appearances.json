@@ -260,7 +260,9 @@
     ]
   },
   "ScuffedPlastic": {
-    "fields": "textureTransform TextureTransform { scale 2 1 }"
+    "fields": [
+      "textureTransform TextureTransform { scale 2 1 }"
+    ]
   },
   "ShinyLeather": {
     "fields": [
