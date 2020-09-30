@@ -3000,7 +3000,11 @@ Default values are defined as `0` and `0.0` for integer and double values, `fals
 
 The `wb_supervisor_field_get_mf_*` functions work the same way as the `wb_supervisor_field_get_sf_*` functions but with multiple `field` argument.
 They take an additional `index` argument which refers to the index of the item in the multiple field (MF).
-The type of the field has to match the name of the function used and the index should be comprised between 0 and the total number of item minus one, otherwise the return value is undefined (and a warning message is displayed).
+
+The type of the field has to match with the name of the function.
+The index should be comprised between minus the total number of items and the total number of items minus one.
+Using a negative index starts the count from the last element of the field until the first one.
+Index -1 represents the last item and the first item is represented by index 0 (or minus number of items).
 
 > **Note**: If a `wb_supervisor_field_set_*` function is executed just before a corresponding `wb_supervisor_field_get_*` function, in the same time step, the controller library will not send the query to Webots, but answer directly with the value that has just been set before.
 
@@ -3184,9 +3188,11 @@ The type of the field has to match with the name of the function used, otherwise
 
 The `wb_supervisor_field_set_mf_*` functions work the same way as the `wb_supervisor_field_set_sf_*` functions but with a multiple `field` (MF) argument.
 They take an additional `index` argument which refers to the index of the item in the multiple field.
-The type of the field has to match with the name of the function used and the index should be comprised between minus the total number of items and the total number of items minus one, otherwise the value of the field remains unchanged (and a warning message is displayed).
+
+The type of the field has to match with the name of the function.
+The index should be comprised between minus the total number of items and the total number of items minus one.
 Using a negative index starts the count from the last element of the field until the first one.
-Index -1 represents the last item and the first item is represented by index 0 or minus number of items.
+Index -1 represents the last item and the first item is represented by index 0 (or minus number of items).
 
 The set operations are received by Webots from possibly several supervisors running concurrently.
 In order to ensure reproducible simulation results, they are executed only once all set operations are received, just before advancing the simulation time.
