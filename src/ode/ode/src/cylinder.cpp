@@ -74,6 +74,7 @@ void dxCylinder::computeAABB()
     dReal yrange = dFabs(R[6]*lz*REAL(0.5)) + radius * dSqrt(dMAX(REAL(0.0), dOneMinusR6Square));
     dReal dOneMinusR10Square = (dReal)(REAL(1.0) - R[10]*R[10]);
     dReal zrange = dFabs(R[10]*lz*REAL(0.5)) + radius * dSqrt(dMAX(REAL(0.0), dOneMinusR10Square));
+
     aabb[0] = pos[0] - xrange;
     aabb[1] = pos[0] + xrange;
     aabb[2] = pos[1] - yrange;
@@ -1624,8 +1625,7 @@ int sCylinderCylinderData::performCollisionChecking()
   if (m_nNumberOfContacts >= (m_iFlags & NUMC_MASK) || m_nNumberOfContacts >= 2) {
      dMessage(1,"%d contacts generated : we skip CAG", m_nNumberOfContacts);
      return m_nNumberOfContacts;
-  }  
-
+  }
 
   //          Final case : a cap collides with a generator (CAG)
   //-----------------------------------------------------------------
